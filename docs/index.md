@@ -1,1 +1,4 @@
-# Home
+---
+sidebar: false
+home: true
+---
