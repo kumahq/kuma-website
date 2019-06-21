@@ -1,12 +1,12 @@
 {
   "name": "konvoy-website",
   "description": "The website and docs for Konvoy.",
+  "author": "Kong Inc.",
   "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
   "dependencies": {
-    "@kong/kong-admin-plugin-service-map": "0.1.0-beta.6",
     "@kongponents/kalert": "0.0.1-beta.6",
     "@kongponents/kcard": "0.0.1-beta.6",
     "@kongponents/kclipboardprovider": "0.0.1-beta.1",

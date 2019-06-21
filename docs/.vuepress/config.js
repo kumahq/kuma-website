@@ -1,12 +1,12 @@
 
 module.exports = {
-  title: 'konvoy-website',
+  title: 'Konvoy',
   description: 'The website and documentation for Konvoy.',
   themeConfig: {
-    repo: 'kong/konvoy-website',
+    // repo: 'kong/konvoy-website',
     logo: 'https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2018/08/kong-logomark-color-64px.png',
     docsDir: 'vuepress',
-    editLinks: true,
+    editLinks: false,
     sidebarDepth: 0,
     sidebar: [
       '/',
@@ -36,7 +36,6 @@ module.exports = {
       },
     ],
     nav: [
-      { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/docs' },
       { text: 'Use Cases', link: '/use-cases' },
       { text: 'Enterprise', link: '/enterprise' },
