@@ -8,35 +8,39 @@ module.exports = {
     docsDir: 'vuepress',
     editLinks: false,
     sidebarDepth: 0,
+    algolia: {
+      apiKey: '',
+      indexName: ''
+    },
     sidebar: [
       '/',
       {
         title: 'Getting Started',
-        collapsable: true,
+        collapsable: false,
         children: [
-          '/concepts',
-          '/technology',
-          '/dependencies',
-          '/architectural-diagrams',
-          '/quickstart'
+          '/getting-started/concepts',
+          '/getting-started/technology',
+          '/getting-started/dependencies',
+          '/getting-started/architectural-diagrams',
+          '/getting-started/quickstart'
         ]
       },
       {
         title: 'Documentation',
-        collapsable: true,
+        collapsable: false,
         children: [
-          '/running-in-kubernetes',
-          '/running-on-other-platforms',
-          '/ingress-traffic',
-          '/service-mesh-traffic',
-          '/installation',
-          '/crd-reference',
-          '/api-reference'
+          '/documentation/running-in-kubernetes',
+          '/documentation/running-on-other-platforms',
+          '/documentation/ingress-traffic',
+          '/documentation/service-mesh-traffic',
+          '/documentation/installation',
+          '/documentation/crd-reference',
+          '/documentation/api-reference'
         ]
       },
     ],
     nav: [
-      { text: 'Documentation', link: '/docs' },
+      { text: 'Documentation', link: '/documentation' },
       { text: 'Use Cases', link: '/use-cases' },
       { text: 'Enterprise', link: '/enterprise' },
       { text: 'Install', link: '/install' }
