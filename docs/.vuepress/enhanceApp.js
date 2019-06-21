@@ -1,19 +1,20 @@
 // Get base stylesheet
-import '../../packages/styles/styles.css'
+import '@kongponents/styles'
 
 // Globally import all Kongponents
-import KAlert from '../../packages/KAlert'
-import KButton from '../../packages/KButton'
-import KCard from '../../packages/KCard'
-import KClipboardProvider from '../../packages/KClipboardProvider'
-import KEmptyState from '../../packages/KEmptyState'
-import KIcon from '../../packages/KIcon'
-import KModal from '../../packages/KModal'
-import KPop from '../../packages/KPop'
-import Krumbs from '../../packages/Krumbs'
-import KTable from '../../packages/KTable'
-import KToaster from '../../packages/KToaster'
-import KInput from '../../packages/KInput'
+import KAlert from '@kongponents/kalert'
+import KButton from '@kongponents/kbutton'
+import KCard from '@kongponents/kcard'
+import KClipboardProvider from '@kongponents/kclipboardprovider'
+import KEmptyState from '@kongponents/kemptystate'
+import KIcon from '@kongponents/kicon'
+import KModal from '@kongponents/kmodal'
+import KPop from '@kongponents/kpop'
+import Krumbs from '@kongponents/krumbs'
+import KTable from '@kongponents/ktable'
+import KToaster from '@kongponents/ktoaster'
+import KLabel from '@kongponents/klabel'
+import KInput from '@kongponents/kinput'
 
 export default ({
   Vue,
@@ -32,5 +33,6 @@ export default ({
   Vue.component('KPop', KPop)
   Vue.component('KClipboardProvider', KClipboardProvider)
   Vue.component('Krumbs', Krumbs)
+  Vue.component('KLabel', KLabel)
   Vue.component('KInput', KInput)
 }
