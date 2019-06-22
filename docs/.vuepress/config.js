@@ -16,18 +16,18 @@ module.exports = {
       '/',
       {
         title: 'Getting Started',
-        collapsable: false,
+        collapsable: true,
         children: [
           '/getting-started/concepts',
           '/getting-started/technology',
           '/getting-started/dependencies',
           '/getting-started/architectural-diagrams',
-          '/getting-started/quickstart'
+          '/getting-started/quickstart',
         ]
       },
       {
         title: 'Documentation',
-        collapsable: false,
+        collapsable: true,
         children: [
           '/documentation/running-in-kubernetes',
           '/documentation/running-on-other-platforms',
@@ -35,7 +35,20 @@ module.exports = {
           '/documentation/service-mesh-traffic',
           '/documentation/installation',
           '/documentation/crd-reference',
-          '/documentation/api-reference'
+          '/documentation/api-reference',
+        ]
+      },
+      {
+        title: 'Tutorials',
+        collapsable: true,
+        children: [
+          '/tutorials/multi-tenancy',
+          '/tutorials/observing-traffic',
+          '/tutorials/platform-agnostic-service-mesh',
+          '/tutorials/routing-ingress-traffic',
+          '/tutorials/routing-traffic',
+          '/tutorials/securing-traffic',
+          '/tutorials/segmenting-traffic',
         ]
       },
     ],
