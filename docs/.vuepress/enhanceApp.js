@@ -36,6 +36,8 @@ export default ({
   Vue.component('KLabel', KLabel)
   Vue.component('KInput', KInput)
 
+  // Tailwind CSS is included via `postcss.config.js`
+
   // our custom theme styles
   require('./styles/styles.scss');
 }

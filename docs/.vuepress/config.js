@@ -6,7 +6,7 @@ module.exports = {
   themeConfig: {
     extend: '@vuepress/theme-default',
     repo: 'kong/konvoy',
-    logo: 'https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2018/08/kong-logomark-color-64px.png',
+    logo: 'konvoy-logo.svg',
     docsDir: 'vuepress',
     editLinks: false,
     sidebarDepth: 0,

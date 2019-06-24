@@ -1,28 +1,38 @@
 <template>
   <div class="theme-container theme-container--home">
-    <header>
-      <Content slot-key="header"/>
-    </header>
-    <main>
+    <Navbar/>
+
+    <div class="page-masthead">
+      <header class="page-masthead__header">
+        <Content slot-key="masthead-main-title"/>
+        <Content slot-key="masthead-sub-title"/>
+      </header>
+      <div class="page-masthead__actions">
+        <KButton appearance="primary">Install</KButton>
+        <KButton appearance="secondary">Getting Started</KButton>
+      </div>
+    </div>
+
+    <div class="features">
+      <!-- feature columns here (content drawn from homepage .md file slots) -->
+    </div>
+
+    <main class="page-content">
       <Content/>
     </main>
-    <footer>
-      <Content slot-key="footer"/>
-    </footer>
+
+    <Footer/>
   </div>
 </template>
 
 <script>
+import Navbar from '@vuepress/theme-default/components/Navbar'
+import Footer from './components/Footer'
+
 export default {
-  
+  components: {
+    Navbar,
+    Footer
+  }
 }
 </script>
-
-<style lang="scss">
-// this is temporary for testing (prevents the homepage title from going
-// under the top navbar)
-.theme-container--home {
-  padding-top: 3.6rem;
-}
-</style>
-

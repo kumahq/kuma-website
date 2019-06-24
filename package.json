@@ -25,6 +25,7 @@
     "node-sass": "^4.12.0",
     "raw-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
+    "tailwindcss": "^1.0.4",
     "vuepress-plugin-seo": "^0.1.2",
     "vuepress-plugin-sitemap": "^2.1.2"
   },
