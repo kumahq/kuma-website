@@ -35,4 +35,7 @@ export default ({
   Vue.component('Krumbs', Krumbs)
   Vue.component('KLabel', KLabel)
   Vue.component('KInput', KInput)
+
+  // our custom theme styles
+  require('./styles/styles.scss');
 }
