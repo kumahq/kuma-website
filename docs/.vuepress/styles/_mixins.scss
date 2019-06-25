@@ -13,3 +13,9 @@
   white-space: nowrap !important;
   border: 0 !important;
 }
+
+@mixin img-full {
+  max-width: 100%;
+  width: 100%;
+  height: auto
+}

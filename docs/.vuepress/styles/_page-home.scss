@@ -11,5 +11,17 @@
 }
 
 .features__item {
-  
+  @apply flex-1;
+}
+
+.testimonial {
+  @apply flex;
+}
+
+.testimonial__portrait {
+  max-width: 12rem; // temporary
+
+  img {
+    @include img-full;
+  }
 }

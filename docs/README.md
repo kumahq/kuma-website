@@ -3,6 +3,10 @@ sidebar: false
 home: true
 search: false
 layout: Home
+
+# custom page data
+testimonialPortraitSrc: https://placehold.it/300x300
+testimonialPortraitAlt: Matt Klein
 ---
 
 <!-- page masthead -->
@@ -33,4 +37,14 @@ and observability out of the box. Distributed and decoupled by default.
 ### Platform Agnostic
 Konvoy is enterprise ready and platform agnostic with native Kubernetes support,
 as well as VM and bare-metal, for both greenfield and legacy apps.
+:::
+
+<!-- testimonial -->
+::: slot testimonial-content
+A control plane built for Envoy by Envoy contributors, that brings traffic management
+to the modern era.
+:::
+
+::: slot testimonial-author
+Matt Klein
 :::
