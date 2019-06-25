@@ -14,7 +14,9 @@
     </div>
 
     <div class="features">
-      <!-- feature columns here (content drawn from homepage .md file slots) -->
+      <Content slot-key="feature-block-content-1" class="features__item"/>
+      <Content slot-key="feature-block-content-2" class="features__item"/>
+      <Content slot-key="feature-block-content-3" class="features__item"/>
     </div>
 
     <main class="page-content">
