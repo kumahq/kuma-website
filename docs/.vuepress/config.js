@@ -1,4 +1,3 @@
-
 module.exports = {
   title: 'Konvoy',
   description: 'Connect, Secure and Observe any traffic and Microservices',
@@ -20,37 +19,37 @@ module.exports = {
         title: 'Getting Started',
         collapsable: true,
         children: [
-          '/getting-started/concepts',
-          '/getting-started/technology',
-          '/getting-started/dependencies',
-          '/getting-started/architectural-diagrams',
-          '/getting-started/quickstart',
+          '/master/getting-started/concepts',
+          '/master/getting-started/technology',
+          '/master/getting-started/dependencies',
+          '/master/getting-started/architectural-diagrams',
+          '/master/getting-started/quickstart',
         ]
       },
       {
         title: 'Documentation',
         collapsable: true,
         children: [
-          '/documentation/running-in-kubernetes',
-          '/documentation/running-on-other-platforms',
-          '/documentation/ingress-traffic',
-          '/documentation/service-mesh-traffic',
-          '/documentation/installation',
-          '/documentation/crd-reference',
-          '/documentation/api-reference',
+          '/master/documentation/running-in-kubernetes',
+          '/master/documentation/running-on-other-platforms',
+          '/master/documentation/ingress-traffic',
+          '/master/documentation/service-mesh-traffic',
+          '/master/documentation/installation',
+          '/master/documentation/crd-reference',
+          '/master/documentation/api-reference',
         ]
       },
       {
         title: 'Tutorials',
         collapsable: true,
         children: [
-          '/tutorials/multi-tenancy',
-          '/tutorials/observing-traffic',
-          '/tutorials/platform-agnostic-service-mesh',
-          '/tutorials/routing-ingress-traffic',
-          '/tutorials/routing-traffic',
-          '/tutorials/securing-traffic',
-          '/tutorials/segmenting-traffic',
+          '/master/tutorials/multi-tenancy',
+          '/master/tutorials/observing-traffic',
+          '/master/tutorials/platform-agnostic-service-mesh',
+          '/master/tutorials/routing-ingress-traffic',
+          '/master/tutorials/routing-traffic',
+          '/master/tutorials/securing-traffic',
+          '/master/tutorials/segmenting-traffic',
         ]
       },
     ],
