@@ -1,0 +1,31 @@
+// 
+// Homepage
+// 
+
+.theme-container--home {
+  padding-top: 3.6rem;
+
+  .header-anchor {
+    display: none !important;
+  }
+}
+
+.features {
+  @apply flex;
+}
+
+.features__item {
+  @apply flex-1;
+}
+
+.testimonial {
+  @apply flex;
+}
+
+.testimonial__portrait {
+  max-width: 12rem; // temporary
+
+  img {
+    @include img-full;
+  }
+}

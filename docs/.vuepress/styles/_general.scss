@@ -1,0 +1,9 @@
+// 
+// General styles
+// 
+
+// this is hidden for now unless we make the masthead logo
+// just the icon itself, and then unhide this to use as the title
+.site-name {
+  @include sr-only;
+}
