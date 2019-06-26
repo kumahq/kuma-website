@@ -19,3 +19,8 @@
   width: 100%;
   height: auto
 }
+
+@mixin img-fluid {
+  max-width: 100%;
+  height: auto;
+}

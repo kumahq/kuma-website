@@ -1,17 +1,18 @@
 <template>
-  <div v-if="items" class="install-methods">
-    <div v-for="item in items" class="install-methods__item">
+  <ul v-if="items" class="install-methods">
+    <li v-for="item in items" class="install-methods__item">
       <a :href="item.url">
-        <img :src="item.logo">
+        <img :src="item.logo" class="install-methods__item-logo">
+        <h3 class="install-methods__item-title">{{item.label}}</h3>
       </a>
-    </div>
-  </div>
+    </li>
+  </ul>
 </template>
 
 <script>
 export default {
   props: {
-    items: Array
+    items: []
   }
 };
 </script>

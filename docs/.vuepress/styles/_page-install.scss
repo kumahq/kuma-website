@@ -2,3 +2,26 @@
 // Installation page
 // 
 
+.install-methods {
+  @apply flex flex-wrap;
+  list-style: none;
+}
+
+.install-methods__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  @apply w-1/6;
+}
+
+.install-methods__item-logo {
+  max-width: 150px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.install-methods__item-title {
+
+}
