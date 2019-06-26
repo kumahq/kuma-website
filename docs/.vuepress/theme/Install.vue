@@ -1,10 +1,22 @@
 <template>
-  <h1>Installation Page</h1>
+  <div class="theme-container theme-container--install">
+    <Navbar/>
+    <InstallMethods :items="installMethods"/>
+    <Footer/>
+  </div>
 </template>
 
 <script>
+import Navbar from "@vuepress/theme-default/components/Navbar";
+import Footer from "./components/Footer";
+import InstallMethods from "./components/InstallMethods";
+
 export default {
-  
-}
+  components: {
+    Navbar,
+    Footer,
+    InstallMethods
+  }
+};
 </script>
 

@@ -40,4 +40,15 @@ export default ({
 
   // our custom theme styles
   require('./styles/styles.scss');
+
+  // Mixins
+
+  Vue.mixin({
+    computed: {
+      installMethods() {
+        const { $themeConfig } = this
+        return $themeConfig.installMethods
+      }
+    }
+  })
 }

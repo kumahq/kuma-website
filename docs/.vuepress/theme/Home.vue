@@ -11,39 +11,45 @@
         <KButton appearance="primary">Install</KButton>
         <KButton appearance="secondary">Getting Started</KButton>
       </div>
-    </div> <!-- .page-masthead -->
+    </div>
+    <!-- .page-masthead -->
 
     <div class="features">
       <Content slot-key="feature-block-content-1" class="features__item"/>
       <Content slot-key="feature-block-content-2" class="features__item"/>
       <Content slot-key="feature-block-content-3" class="features__item"/>
-    </div> <!-- .features -->
+    </div>
+    <!-- .features -->
 
     <div class="testimonial">
       <div v-if="$page.frontmatter.testimonialPortraitSrc" class="testimonial__portrait">
-        <img :src="$page.frontmatter.testimonialPortraitSrc" :alt="$page.frontmatter.testimonialPortraitAlt">
+        <img
+          :src="$page.frontmatter.testimonialPortraitSrc"
+          :alt="$page.frontmatter.testimonialPortraitAlt"
+        >
       </div>
       <div class="testimonial__content">
         <Content slot-key="testimonial-content"/>
       </div>
-    </div> <!-- .testimonial -->
+    </div>
+    <!-- .testimonial -->
 
     <!-- <main class="page-content">
       <Content/>
-    </main> -->
+    </main>-->
 
     <Footer/>
   </div>
 </template>
 
 <script>
-import Navbar from '@vuepress/theme-default/components/Navbar'
-import Footer from './components/Footer'
+import Navbar from "@vuepress/theme-default/components/Navbar";
+import Footer from "./components/Footer";
 
 export default {
   components: {
     Navbar,
     Footer
   }
-}
+};
 </script>
