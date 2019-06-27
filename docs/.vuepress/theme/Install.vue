@@ -1,7 +1,7 @@
 <template>
   <div class="theme-container theme-container--install">
     <Navbar/>
-    <InstallMethods :items="installMethods"/>
+    <InstallMethods :items="installMethodItems"/>
     <Footer/>
   </div>
 </template>

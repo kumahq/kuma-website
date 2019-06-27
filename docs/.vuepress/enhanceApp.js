@@ -45,9 +45,9 @@ export default ({
 
   Vue.mixin({
     computed: {
-      installMethods() {
+      installMethodItems() {
         const { $themeConfig } = this
-        return $themeConfig.installMethods
+        return $themeConfig.installMethod
       }
     }
   })
