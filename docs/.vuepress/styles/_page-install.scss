@@ -12,12 +12,14 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 15px;
+  min-height: 160px;
   @apply w-1/6;
 }
 
 .install-methods__item-logo {
-  max-width: 150px;
-  height: auto;
+  max-width: 70%;
+  max-height: 50px;
   display: block;
   margin: 0 auto;
 }

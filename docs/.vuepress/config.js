@@ -1,4 +1,10 @@
+const glob = require('glob')
+const path = require('path')
 const installLogoPath = '/platforms';
+
+// TODO revise this to only get folders structured
+// like `v0.1`, `v1.2`, etc
+const versionDirs = glob.sync('docs/master/**/*.md').map(file => '/' + file)
 
 module.exports = {
   title: 'Konvoy',
@@ -61,6 +67,7 @@ module.exports = {
       { text: 'Enterprise', link: '/enterprise' },
       { text: 'Install', link: '/install' }
     ],
+    versions: versionDirs,
     installMethods: [
       {
         label: 'Docker',
@@ -74,7 +81,7 @@ module.exports = {
       },
       {
         label: 'DC/OS',
-        logo: `${installLogoPath}/logo-mesophere.png`,
+        logo: `${installLogoPath}/logo-mesosphere.png`,
         url: '#'
       },
       {

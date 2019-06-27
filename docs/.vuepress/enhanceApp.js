@@ -47,7 +47,11 @@ export default ({
     computed: {
       installMethodItems() {
         const { $themeConfig } = this
-        return $themeConfig.installMethod
+        return $themeConfig.installMethods
+      },
+      getVersionDirs() {
+        const { $themeConfig } = this
+        return $themeConfig.versions
       }
     }
   })
