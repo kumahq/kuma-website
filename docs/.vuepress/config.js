@@ -4,7 +4,7 @@ const installLogoPath = '/platforms';
 
 // TODO revise this to only get folders structured
 // like `v0.1`, `v1.2`, etc
-const versionDirs = glob.sync('docs/master/**/*.md').map(file => '/' + file)
+const versionDirs = glob.sync('docs/{v,V}{0..9}*/**/*.md').map(file => '/' + file)
 
 module.exports = {
   title: 'Konvoy',

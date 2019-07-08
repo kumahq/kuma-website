@@ -6,12 +6,16 @@
     <!-- TODO version switching mechanism for installation instructions -->
     <InstallMethods :items="installMethodItems"/>
 
-    <!-- <div>
+    <div>
       <h1>Items</h1>
-      <div v-for="item in getVersionDirs">
-        {{item}}
-      </div>
-    </div> -->
+      <ul v-for="item in getVersionDirs">
+        <li>{{item}}</li>
+      </ul>
+    </div>
+
+    <div>
+      {{testVersionRegEx}}
+    </div>
 
     <Footer/>
   </div>

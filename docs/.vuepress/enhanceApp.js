@@ -52,6 +52,10 @@ export default ({
       getVersionDirs() {
         const { $themeConfig } = this
         return $themeConfig.versions
+      },
+      testVersionRegEx() {
+        const { $themeConfig } = this
+        return $themeConfig.versionRegEx
       }
     }
   })
