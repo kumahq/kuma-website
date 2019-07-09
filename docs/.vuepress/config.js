@@ -1,10 +1,14 @@
-const glob = require('glob')
-const path = require('path')
+// const glob = require('glob')
 const installLogoPath = '/platforms';
 
-// TODO revise this to only get folders structured
-// like `v0.1`, `v1.2`, etc
-const versionDirs = glob.sync('docs/{v,V}{0..9}*/**/*.md').map(file => '/' + file)
+// Version Directories:
+// This compiles a list of version folders and
+// constructs a URL list of them.
+// These links are fed into `router-link` accordingly.
+// const versionDirs = glob.sync('docs/{v,V}{0..9}*/**/*.md').map( function(file) {
+//   const navPath = file.replace('docs/','/').replace('.md','.html')
+//   return navPath
+// })
 
 module.exports = {
   title: 'Konvoy',
@@ -12,7 +16,7 @@ module.exports = {
   host: 'localhost',
   themeConfig: {
     repo: 'kong/konvoy',
-    logo: 'konvoy-logo.svg',
+    logo: '/konvoy-logo.svg',
     footer: 'Konvoy by Kong',
     docsDir: 'vuepress',
     editLinks: true,
@@ -67,7 +71,7 @@ module.exports = {
       { text: 'Enterprise', link: '/enterprise' },
       { text: 'Install', link: '/install' }
     ],
-    versions: versionDirs,
+    // versions: versionDirs,
     installMethods: [
       {
         label: 'Docker',

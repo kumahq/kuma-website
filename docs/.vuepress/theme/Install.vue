@@ -6,16 +6,7 @@
     <!-- TODO version switching mechanism for installation instructions -->
     <InstallMethods :items="installMethodItems"/>
 
-    <div>
-      <h1>Items</h1>
-      <ul v-for="item in getVersionDirs">
-        <li>{{item}}</li>
-      </ul>
-    </div>
-
-    <div>
-      {{testVersionRegEx}}
-    </div>
+    <VersionNav/>
 
     <Footer/>
   </div>
@@ -25,12 +16,14 @@
 import Navbar from '@vuepress/theme-default/components/Navbar'
 import Footer from './components/Footer'
 import InstallMethods from './components/InstallMethods'
+import VersionNav from './components/VersionNav'
 
 export default {
   components: {
     Navbar,
     Footer,
-    InstallMethods
+    InstallMethods,
+    VersionNav
   }
 };
 </script>
