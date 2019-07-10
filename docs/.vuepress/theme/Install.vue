@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Navbar from '@vuepress/theme-default/components/Navbar'
+import Navbar from '../default-theme/components/Navbar'
 import Footer from './components/Footer'
 import InstallMethods from './components/InstallMethods'
 import VersionNav from './components/VersionNav'

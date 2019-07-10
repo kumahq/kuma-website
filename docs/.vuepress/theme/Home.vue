@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import Navbar from "@vuepress/theme-default/components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from '../default-theme/components/Navbar';
+import Footer from './components/Footer';
 
 export default {
   components: {
