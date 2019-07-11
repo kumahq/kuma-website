@@ -1,10 +1,18 @@
-// const glob = require('glob')
 const installLogoPath = '/platforms';
 
 module.exports = {
   title: 'Konvoy',
   description: 'Connect, Secure and Observe any traffic and Microservices',
   host: 'localhost',
+  markdown: {
+    lineNumbers: true,
+    extendMarkdown: md => {
+      md.use(require('markdown-it-include'), {
+        root: __dirname,
+        includeRe: /\!{3}\s*include\s*\(\s*(.+?)\s*\)\s*/i
+      })
+    }
+  },
   themeConfig: {
     repo: 'kong/konvoy',
     logo: '/konvoy-logo.svg',
@@ -12,55 +20,58 @@ module.exports = {
     docsDir: 'vuepress',
     editLinks: true,
     sidebarDepth: 0,
+    search: true,
+    searchMaxSuggestions: 10,
     algolia: {
       apiKey: '',
       indexName: ''
     },
-    sidebar: [
-      '/',
-      {
-        title: 'Getting Started',
-        collapsable: true,
-        children: [
-          '/master/getting-started/concepts',
-          '/master/getting-started/technology',
-          '/master/getting-started/dependencies',
-          '/master/getting-started/architectural-diagrams',
-          '/master/getting-started/quickstart'
-        ]
-      },
-      {
-        title: 'Documentation',
-        collapsable: true,
-        children: [
-          '/master/documentation/running-in-kubernetes',
-          '/master/documentation/running-on-other-platforms',
-          '/master/documentation/ingress-traffic',
-          '/master/documentation/service-mesh-traffic',
-          '/master/documentation/installation',
-          '/master/documentation/crd-reference',
-          '/master/documentation/api-reference'
-        ]
-      },
-      {
-        title: 'Tutorials',
-        collapsable: true,
-        children: [
-          '/master/tutorials/multi-tenancy',
-          '/master/tutorials/observing-traffic',
-          '/master/tutorials/platform-agnostic-service-mesh',
-          '/master/tutorials/routing-ingress-traffic',
-          '/master/tutorials/routing-traffic',
-          '/master/tutorials/securing-traffic',
-          '/master/tutorials/segmenting-traffic'
-        ]
-      }
-    ],
+    sidebar: 'auto',
+    // sidebar: [
+    //   '/',
+    //   {
+    //     title: 'Getting Started',
+    //     collapsable: true,
+    //     children: [
+    //       '/master/getting-started/concepts',
+    //       '/master/getting-started/technology',
+    //       '/master/getting-started/dependencies',
+    //       '/master/getting-started/architectural-diagrams',
+    //       '/master/getting-started/quickstart'
+    //     ]
+    //   },
+    //   {
+    //     title: 'Documentation',
+    //     collapsable: true,
+    //     children: [
+    //       '/master/documentation/running-in-kubernetes',
+    //       '/master/documentation/running-on-other-platforms',
+    //       '/master/documentation/ingress-traffic',
+    //       '/master/documentation/service-mesh-traffic',
+    //       '/master/documentation/installation',
+    //       '/master/documentation/crd-reference',
+    //       '/master/documentation/api-reference'
+    //     ]
+    //   },
+    //   {
+    //     title: 'Tutorials',
+    //     collapsable: true,
+    //     children: [
+    //       '/master/tutorials/multi-tenancy',
+    //       '/master/tutorials/observing-traffic',
+    //       '/master/tutorials/platform-agnostic-service-mesh',
+    //       '/master/tutorials/routing-ingress-traffic',
+    //       '/master/tutorials/routing-traffic',
+    //       '/master/tutorials/securing-traffic',
+    //       '/master/tutorials/segmenting-traffic'
+    //     ]
+    //   }
+    // ],
     nav: [
-      { text: 'Documentation', link: '/documentation' },
-      { text: 'Use Cases', link: '/use-cases' },
-      { text: 'Enterprise', link: '/enterprise' },
-      { text: 'Install', link: '/install' }
+      { text: 'Documentation', link: '/master/' },
+      { text: 'Use Cases', link: '/use-cases/' },
+      { text: 'Enterprise', link: '/enterprise/' },
+      { text: 'Install', link: '/install/' }
     ],
     installMethods: [
       {

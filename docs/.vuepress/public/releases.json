@@ -1,10 +1,11 @@
 {
   "tags": [
     {
-      "name": "master"
+      "label": "master",
+      "version": "v0.2"
     },
     {
-      "name": "v1.1"
+      "version": "v0.1"
     }
   ]
 }

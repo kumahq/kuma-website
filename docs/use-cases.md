@@ -1,1 +1,5 @@
+---
+sidebar: false
+---
+
 # Use Cases

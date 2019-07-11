@@ -6,8 +6,6 @@
     <!-- TODO version switching mechanism for installation instructions -->
     <InstallMethods :items="installMethodItems"/>
 
-    <VersionNav/>
-
     <Footer/>
   </div>
 </template>
