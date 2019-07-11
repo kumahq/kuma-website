@@ -1,15 +1,6 @@
 // const glob = require('glob')
 const installLogoPath = '/platforms';
 
-// Version Directories:
-// This compiles a list of version folders and
-// constructs a URL list of them.
-// These links are fed into `router-link` accordingly.
-// const versionDirs = glob.sync('docs/{v,V}{0..9}*/**/*.md').map( function(file) {
-//   const navPath = file.replace('docs/','/').replace('.md','.html')
-//   return navPath
-// })
-
 module.exports = {
   title: 'Konvoy',
   description: 'Connect, Secure and Observe any traffic and Microservices',

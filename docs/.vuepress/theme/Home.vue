@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import Navbar from '../default-theme/components/Navbar';
-import Footer from './components/Footer';
+import Navbar from './components/Navbar';
+import Footer from './components/custom/Footer';
 
 export default {
   components: {

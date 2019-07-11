@@ -4,7 +4,8 @@
   "author": "Kong Inc.",
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "postversion": "./docs/updateVersions.js"
   },
   "dependencies": {
     "@kongponents/kalert": "0.0.1-beta.6",
@@ -23,6 +24,7 @@
     "@kongponents/ktoaster": "0.0.1-beta.4",
     "@kongponents/styles": "0.0.2",
     "glob": "^7.1.4",
+    "ky": "^0.11.1",
     "node-sass": "^4.12.0",
     "path": "^0.12.7",
     "postcss-loader": "^3.0.0",

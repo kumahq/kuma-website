@@ -1,5 +1,6 @@
 <template>
   <aside class="sidebar">
+    <VersionNav/>
     <NavLinks/>
     <slot name="top"/>
     <SidebarLinks :depth="0" :items="items"/>
@@ -8,14 +9,17 @@
 </template>
 
 <script>
-import SidebarLinks from '@theme/components/SidebarLinks.vue'
-import NavLinks from '@theme/components/NavLinks.vue'
+import VersionNav from '../components/custom/VersionNav'
+import SidebarLinks from '../components/SidebarLinks'
+import NavLinks from '../components/NavLinks'
 
 export default {
   name: 'Sidebar',
-
-  components: { SidebarLinks, NavLinks },
-
+  components: {
+    SidebarLinks,
+    NavLinks,
+    VersionNav
+  },
   props: ['items']
 }
 </script>

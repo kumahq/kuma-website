@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import Navbar from '../default-theme/components/Navbar'
-import Footer from './components/Footer'
-import InstallMethods from './components/InstallMethods'
-import VersionNav from './components/VersionNav'
+import Navbar from './components/Navbar'
+import Footer from './components/custom/Footer'
+import InstallMethods from './components/custom/InstallMethods'
+import VersionNav from './components/custom/VersionNav'
 
 export default {
   components: {
