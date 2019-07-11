@@ -62,7 +62,6 @@ module.exports = {
       { text: 'Enterprise', link: '/enterprise' },
       { text: 'Install', link: '/install' }
     ],
-    // versions: versionDirs,
     installMethods: [
       {
         label: 'Docker',

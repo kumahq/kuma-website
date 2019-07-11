@@ -39,7 +39,7 @@ export default ({
   // Tailwind CSS is included via `postcss.config.js`
 
   // our custom theme styles
-  require('./styles/styles.scss');
+  require('./theme/styles/custom/styles.scss');
 
   // Mixins
 
@@ -48,14 +48,6 @@ export default ({
       installMethodItems() {
         const { $themeConfig } = this
         return $themeConfig.installMethods
-      },
-      getVersionDirs() {
-        const { $themeConfig } = this
-        return $themeConfig.versions
-      },
-      testVersionRegEx() {
-        const { $themeConfig } = this
-        return $themeConfig.versionRegEx
       }
     }
   })
