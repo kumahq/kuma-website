@@ -1,2 +1,0 @@
-## Concepts
-Hello there

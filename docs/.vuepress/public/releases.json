@@ -1,6 +1,7 @@
 {
   "tags": [
     {
+      "latest": true,
       "label": "master",
       "version": "v0.2"
     },

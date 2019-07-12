@@ -34,9 +34,9 @@ export default {
         res.json().then( releases => {
           releases.tags.forEach( tag => {
             this.tags.push({
-              text: (tag.label === 'master') ? `Latest (${tag.version})` : tag.version,
+              text: (tag.latest === true) ? `Latest (${tag.version})` : tag.version,
               type: 'link',
-              link: `${window.location.origin}/${(tag.label === 'master') ? tag.label : tag.version}/`
+              link: `${window.location.origin}/${(tag.latest === true) ? tag.label : tag.version}/`
             })
           })
         })

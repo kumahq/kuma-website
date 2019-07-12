@@ -8,8 +8,7 @@ module.exports = {
     lineNumbers: true,
     extendMarkdown: md => {
       md.use(require('markdown-it-include'), {
-        root: __dirname,
-        includeRe: /\!{3}\s*include\s*\(\s*(.+?)\s*\)\s*/i
+        root: __dirname
       })
     }
   },
@@ -27,46 +26,7 @@ module.exports = {
       indexName: ''
     },
     sidebar: 'auto',
-    // sidebar: [
-    //   '/',
-    //   {
-    //     title: 'Getting Started',
-    //     collapsable: true,
-    //     children: [
-    //       '/master/getting-started/concepts',
-    //       '/master/getting-started/technology',
-    //       '/master/getting-started/dependencies',
-    //       '/master/getting-started/architectural-diagrams',
-    //       '/master/getting-started/quickstart'
-    //     ]
-    //   },
-    //   {
-    //     title: 'Documentation',
-    //     collapsable: true,
-    //     children: [
-    //       '/master/documentation/running-in-kubernetes',
-    //       '/master/documentation/running-on-other-platforms',
-    //       '/master/documentation/ingress-traffic',
-    //       '/master/documentation/service-mesh-traffic',
-    //       '/master/documentation/installation',
-    //       '/master/documentation/crd-reference',
-    //       '/master/documentation/api-reference'
-    //     ]
-    //   },
-    //   {
-    //     title: 'Tutorials',
-    //     collapsable: true,
-    //     children: [
-    //       '/master/tutorials/multi-tenancy',
-    //       '/master/tutorials/observing-traffic',
-    //       '/master/tutorials/platform-agnostic-service-mesh',
-    //       '/master/tutorials/routing-ingress-traffic',
-    //       '/master/tutorials/routing-traffic',
-    //       '/master/tutorials/securing-traffic',
-    //       '/master/tutorials/segmenting-traffic'
-    //     ]
-    //   }
-    // ],
+    displayAllHeaders: true,
     nav: [
       { text: 'Documentation', link: '/master/' },
       { text: 'Use Cases', link: '/use-cases/' },
