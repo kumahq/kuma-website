@@ -1,5 +1,3 @@
-const installLogoPath = '/platforms';
-
 module.exports = {
   title: 'Konvoy',
   description: 'Connect, Secure and Observe any traffic and Microservices',
@@ -18,7 +16,6 @@ module.exports = {
     footer: 'Konvoy by Kong',
     docsDir: 'vuepress',
     editLinks: true,
-    sidebarDepth: 0,
     search: true,
     searchMaxSuggestions: 10,
     algolia: {
@@ -26,84 +23,12 @@ module.exports = {
       indexName: ''
     },
     sidebar: 'auto',
-    displayAllHeaders: true,
+    displayAllHeaders: false,
     nav: [
       { text: 'Documentation', link: '/master/' },
       { text: 'Use Cases', link: '/use-cases/' },
       { text: 'Enterprise', link: '/enterprise/' },
       { text: 'Install', link: '/install/' }
-    ],
-    installMethods: [
-      {
-        label: 'Docker',
-        logo: `${installLogoPath}/logo-docker.png`,
-        url: '#'
-      },
-      {
-        label: 'Kubernetes',
-        logo: `${installLogoPath}/logo-kubernetes.png`,
-        url: '#'
-      },
-      {
-        label: 'DC/OS',
-        logo: `${installLogoPath}/logo-mesosphere.png`,
-        url: '#'
-      },
-      {
-        label: 'Amazon Linux',
-        logo: `${installLogoPath}/logo-amazon-linux.png`,
-        url: '#'
-      },
-      {
-        label: 'CentOS',
-        logo: `${installLogoPath}/logo-centos.gif`,
-        url: '#'
-      },
-      {
-        label: 'RedHat',
-        logo: `${installLogoPath}/logo-redhat.jpg`,
-        url: '#'
-      },
-      {
-        label: 'Debian',
-        logo: `${installLogoPath}/logo-debian.jpg`,
-        url: '#'
-      },
-      {
-        label: 'Ubuntu',
-        logo: `${installLogoPath}/logo-ubuntu.png`,
-        url: '#'
-      },
-      {
-        label: 'macOS',
-        logo: `${installLogoPath}/logo-macos.png`,
-        url: '#'
-      },
-      {
-        label: 'AWS Marketplace',
-        logo: `${installLogoPath}/logo-awscart.jpg`,
-        url: '#'
-      },
-      {
-        label: 'AWS Cloud Formation',
-        logo: `${installLogoPath}/logo-awscloudform.png`,
-        url: '#'
-      },
-      {
-        label: 'Google Cloud Platform',
-        logo: `${installLogoPath}/logo-googlecp.png`,
-        url: '#'
-      },
-      {
-        label: 'Vagrant',
-        logo: `${installLogoPath}/logo-vagrant.png`,
-        url: '#'
-      },
-      {
-        label: 'Source',
-        logo: `${installLogoPath}/logo-source.svg`,
-        url: '#'
-      }
     ]
   },
   head: [

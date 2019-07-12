@@ -1,13 +1,8 @@
 ---
-sidebarDepth: 3
+sidebarDepth: 2
 ---
 
 # Documentation
-
-<!--
-## Table of Contents
-[[toc]]
--->
 
 ## Getting Started
 !!!include(../_partials/what-is-konvoy.md)!!!
@@ -22,7 +17,7 @@ sidebarDepth: 3
 !!!include(../_partials/running-on-other-platforms.md)!!!
 !!!include(../_partials/ingress-north-south-traffic.md)!!!
 !!!include(../_partials/service-mesh-east-west-traffic.md)!!!
-!!!include(../_partials/installation.md)!!!
+<!-- !!!include(../_partials/installation.md)!!! -->
 !!!include(../_partials/crd-reference.md)!!!
 !!!include(../_partials/api-reference.md)!!!
 

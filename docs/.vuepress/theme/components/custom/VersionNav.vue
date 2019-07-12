@@ -11,7 +11,6 @@
 <script>
 import ky from 'ky'
 import DropdownLink from '../../components/DropdownLink'
-import { resolveNavLinkItem } from '../../util';
 import NavLink from '../../components/NavLink'
 
 export default {
@@ -32,11 +31,13 @@ export default {
     if (typeof window !== 'undefined' && window !== null) {
       ky.get(`${window.location.origin}/releases.json`).then( res => {
         res.json().then( releases => {
+          // setup the version array
           releases.tags.forEach( tag => {
             this.tags.push({
               text: (tag.latest === true) ? `Latest (${tag.version})` : tag.version,
               type: 'link',
-              link: `${window.location.origin}/${(tag.latest === true) ? tag.label : tag.version}/`
+              link: `${window.location.origin}/${(tag.latest === true) ? tag.label : tag.version}/`,
+              latest: (tag.latest === true) ? true : false
             })
           })
         })
