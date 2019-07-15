@@ -7,12 +7,12 @@
       <div v-if="items.length" class="version-selector-wrapper">
         <form>
           <select name="version-selector" id="version-selector" @change="updateInstallPath($event)">
-            <option v-for="tag in this.tags" :value="tag.version" :key="tag.version">
+            <option v-for="tag in tags" :value="tag.version" :key="tag.version">
               {{tag.text}}
             </option>
           </select>
         </form>
-        <p v-if="helperText">You are viewing installation instructions for <strong>{{pathVersion}}</strong>.</p>
+        <p v-if="pathVersion">You are viewing installation instructions for <strong>{{pathVersion}}</strong>.</p>
       </div>
     </header>
 
@@ -126,7 +126,7 @@ export default {
   },
   methods: {
     updateInstallPath: function(ev) {
-      this.pathVersion = this.helperText = ev.target.value
+      this.pathVersion = ev.target.value
     }
   },
   mounted() {
