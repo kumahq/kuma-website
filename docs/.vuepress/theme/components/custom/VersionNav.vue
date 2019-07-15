@@ -14,9 +14,10 @@ import DropdownLink from '../../components/DropdownLink'
 import NavLink from '../../components/NavLink'
 
 export default {
+  name: 'VersionNav',
   data() {
     return {
-      tags: [],
+      tags: Array,
       location:
         typeof window !== 'undefined' && window !== null
           ? window.location.origin
