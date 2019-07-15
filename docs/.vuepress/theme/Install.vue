@@ -1,10 +1,33 @@
 <template>
-  <h1>Installation Page</h1>
+  <div class="theme-container theme-container--install">
+    <Navbar/>
+
+    <!-- TODO wire the installation methods up with actual URL paths -->
+    <!-- TODO version switching mechanism for installation instructions -->
+    <InstallMethods :items="installMethodItems"/>
+
+    <!-- <div>
+      <h1>Items</h1>
+      <div v-for="item in getVersionDirs">
+        {{item}}
+      </div>
+    </div> -->
+
+    <Footer/>
+  </div>
 </template>
 
 <script>
+import Navbar from '@vuepress/theme-default/components/Navbar'
+import Footer from './components/Footer'
+import InstallMethods from './components/InstallMethods'
+
 export default {
-  
-}
+  components: {
+    Navbar,
+    Footer,
+    InstallMethods
+  }
+};
 </script>
 
