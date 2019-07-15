@@ -16,12 +16,20 @@ import KToaster from '@kongponents/ktoaster'
 import KLabel from '@kongponents/klabel'
 import KInput from '@kongponents/kinput'
 
+// our custom theme styles
+import Styles from './theme/styles/custom/styles.scss'
+
 export default ({
   Vue,
   options,
   router,
   siteData
 }) => {
+
+  // Site styles (Tailwind CSS is included via `postcss.config.js`)
+  Vue.use(Styles),
+
+  // Kongponents
   Vue.component('KAlert', KAlert)
   Vue.component('KModal', KModal)
   Vue.component('KButton', KButton)
@@ -35,11 +43,4 @@ export default ({
   Vue.component('Krumbs', Krumbs)
   Vue.component('KLabel', KLabel)
   Vue.component('KInput', KInput)
-
-  // Tailwind CSS is included via `postcss.config.js`
-
-  // our custom theme styles
-  require('./theme/styles/custom/styles.scss');
-
-  // Mixins go below
 }

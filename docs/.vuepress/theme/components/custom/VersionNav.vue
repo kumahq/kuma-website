@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ky from 'ky'
+import Axios from 'axios'
 import DropdownLink from '../../components/DropdownLink'
 import NavLink from '../../components/NavLink'
 
@@ -17,11 +17,7 @@ export default {
   name: 'VersionNav',
   data() {
     return {
-      tags: Array,
-      location:
-        typeof window !== 'undefined' && window !== null
-          ? window.location.origin
-          : ''
+      tags: Array
     }
   },
   components: {
@@ -29,21 +25,17 @@ export default {
     NavLink
   },
   mounted() {
-    if (typeof window !== 'undefined' && window !== null) {
-      ky.get(`${window.location.origin}/releases.json`).then( res => {
-        res.json().then( releases => {
-          // setup the version array
-          releases.tags.forEach( tag => {
-            this.tags.push({
-              text: (tag.latest === true) ? `Latest (${tag.version})` : tag.version,
-              type: 'link',
-              link: `${window.location.origin}/${(tag.latest === true) ? tag.label : tag.version}/`,
-              latest: (tag.latest === true) ? true : false
-            })
-          })
-        })
+    Axios
+      .get('/releases.json')
+      .then( response => {
+        // setup the version array
+        this.tags = response.data.tags.map( tag => ({
+          text: (tag.latest === true) ? `Latest (${tag.version})` : tag.version,
+          type: 'link',
+          link: `/${(tag.latest === true) ? tag.label : tag.version}/`,
+          latest: (tag.latest === true) ? true : false
+        }))
       })
-    }
   }
 }
 </script>
