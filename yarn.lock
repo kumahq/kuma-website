@@ -667,6 +667,97 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@kongponents/kalert@0.0.1-beta.6":
+  version "0.0.1-beta.6"
+  resolved "https://registry.yarnpkg.com/@kongponents/kalert/-/kalert-0.0.1-beta.6.tgz#b5b34ccadf6bb1fb7944d0c1b5723aba9bdd9eb1"
+  integrity sha512-kUa0koVm4HBXdD5jLp5vQx6T0mep992fEOb3Ungh3GpkZROnW0pKzLmwB6Bontwj6lSVsgWF2scZ1KJpph+RZA==
+
+"@kongponents/kbutton@0.0.1-beta.6":
+  version "0.0.1-beta.6"
+  resolved "https://registry.yarnpkg.com/@kongponents/kbutton/-/kbutton-0.0.1-beta.6.tgz#e9ea652a39a4bc3c65f00a481b0b7fa7cde8a6fd"
+  integrity sha512-oPgjhap+JqAh/NsyZeTqt9T1jB9oYK3pYIJZDi4MLqTDuLL1eVNnjcHNplokYcM97RoR4KQeBaT4xjynNS3c4A==
+
+"@kongponents/kbutton@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@kongponents/kbutton/-/kbutton-0.1.2.tgz#9cc1bb25a01fdc3fb9bb7051ad11083db3a36a39"
+  integrity sha512-BTjTSsvbnvduc+S7SbRzgKOXZHD+b35gKsWlkd6K2y1xOZur9bZitKnQaIdvUm8YGH0EsDbPgkv8+P4e/aDcCA==
+
+"@kongponents/kbutton@^0.1.6":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@kongponents/kbutton/-/kbutton-0.1.8.tgz#f03c959c3952b23f0c1dd57965c698c032e0d1f3"
+  integrity sha512-/PXyARunBaOdoDOp2pnYPjjX7xQex5IjZs4MxAX8qE12T+vu6LB5fSAFXfCYhCKPiGld59mc+BPMdMigX321tA==
+
+"@kongponents/kcard@0.0.1-beta.6":
+  version "0.0.1-beta.6"
+  resolved "https://registry.yarnpkg.com/@kongponents/kcard/-/kcard-0.0.1-beta.6.tgz#3331def287e357b985b77fe3f8db8ca38b5b35c0"
+  integrity sha512-/EkDaG6yGmPgbo1nDnqg8ygnircybeexJHQp6lMV3rJAWZobAyJuF1WGjFrC6e+1m6eZsqM6CYpSKkjM8C6Jng==
+
+"@kongponents/kclipboardprovider@0.0.1-beta.1":
+  version "0.0.1-beta.1"
+  resolved "https://registry.yarnpkg.com/@kongponents/kclipboardprovider/-/kclipboardprovider-0.0.1-beta.1.tgz#bc3b5baaadb82ca80c54c7d53ca1f5324a6a8ab8"
+  integrity sha512-Ic/UeNCpRVLfjXm81on2JFQH7a2kdlLi+a/A6Komq/L5WrMpfQnIACqIicPiTa/0khFgFxFZn+ch6y6ghhR3gQ==
+
+"@kongponents/kemptystate@0.0.1-beta.4":
+  version "0.0.1-beta.4"
+  resolved "https://registry.yarnpkg.com/@kongponents/kemptystate/-/kemptystate-0.0.1-beta.4.tgz#eff4c93be4a1b80f1e331856d2896e43c3229217"
+  integrity sha512-/PgNklktiVcwGNzol+9nFP3jSF50hEfzM9xOTNxaN0iHC1vwj0B15PGK9wEWI8XNcyX1oXfi+YIqbaOKsbVQNw==
+  dependencies:
+    "@kongponents/kbutton" "0.0.1-beta.6"
+
+"@kongponents/kicon@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@kongponents/kicon/-/kicon-0.2.0.tgz#0d982a9ec6c4fe3bd349de1e2450b291585157dc"
+  integrity sha512-QM3w/yJuh8Tx6mqvl5nAkd5dBgcD7vbbE5AcsIJID5R7Ba7Z3KUHpVl82C9cY8mO0Xr4xnmbfxLJ36VJYC+ZWA==
+
+"@kongponents/kinput@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@kongponents/kinput/-/kinput-0.1.3.tgz#cc28bdd3599175918f5945606abf193b1b6204be"
+  integrity sha512-JxxCkKw4dOq0fUhXJAYJpg9MgZ7xxR9IPFecMBGTMvRm2h1V5UkkCN1CYlINi/4cEy4aBluzJzUO8KXhX1fJRA==
+
+"@kongponents/klabel@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@kongponents/klabel/-/klabel-0.2.0.tgz#8ef972df1e1e8eaa92657859903ebad319be0284"
+  integrity sha512-H8r9o+HPxcaFFigPjTCOhrrzbxhvhfyW7GBrpaquumZMwfmKydxgF9C+2O1Ry7tX5Kq5UkBpCChjA1dtdk+RNA==
+
+"@kongponents/kmodal@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@kongponents/kmodal/-/kmodal-0.1.3.tgz#57583ca29cc8ad15b20221ad91570081dc900f85"
+  integrity sha512-o06aMS0l4FIYJevsZXJX4vDIKzz57qyBvykhoDGpupLhJZE9EtLkbl68szqwze/YyACTYkmle6djQPuEDp1rvQ==
+  dependencies:
+    "@kongponents/kbutton" "0.1.2"
+
+"@kongponents/kooltip@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@kongponents/kooltip/-/kooltip-0.2.0.tgz#2ac560d3bcab5dfdd79045e8565bb59c608b97ea"
+  integrity sha512-d8PqU2+M30ZqK9Gj9oOWqt84aHsPkediB2WJTMl9ZiATUwww3luTBhdJ5v67NP5MwxK7meenRd0p6Ou0N70P1w==
+
+"@kongponents/kpop@^0.2.4":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@kongponents/kpop/-/kpop-0.2.5.tgz#0f4a50cdc1ec81f811a09fd33657c561a9d19c44"
+  integrity sha512-/nPqvRM0Qxw1qptUJG24OOMIg9ur13sM2HlGVouTGQMMJ/3hfwhpf4kd12xSKe70H5TIKmEPC5eK2sb3vQwLlA==
+  dependencies:
+    popper.js "^1.15.0"
+
+"@kongponents/krumbs@0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@kongponents/krumbs/-/krumbs-0.0.1.tgz#a1823e54ae2159b03ee2123b26bb9ad865ef0b1c"
+  integrity sha512-3yMFlVR5i1oiIvEcTsVZCqx40kW49lGGouhufADMIQVS3JZYWIupqEt/sV+w5fWlgqds2Ig1JO3pylLBVScmmg==
+
+"@kongponents/ktable@0.0.1-beta.6":
+  version "0.0.1-beta.6"
+  resolved "https://registry.yarnpkg.com/@kongponents/ktable/-/ktable-0.0.1-beta.6.tgz#6f172146673a8156b9e35577d0065cf32a0d0b1c"
+  integrity sha512-7P3+lWZguYzfx9KPBY5/Gdxj3G8LxYW/LAMaYOvXyliND0w0f1zzPJylcO6XVaxDU0n4KD68kIEhPEj9BnzfOg==
+
+"@kongponents/ktoaster@0.0.1-beta.4":
+  version "0.0.1-beta.4"
+  resolved "https://registry.yarnpkg.com/@kongponents/ktoaster/-/ktoaster-0.0.1-beta.4.tgz#8f4bab11bbbef9b1a4ba2d133b9977c5fd158955"
+  integrity sha512-thB37Y9ABtT6/y0wDNQzq3H2BBI0UUhQrvoLB55kF71XeP/nS7PvcP0XB+YxViK3wb7QGggX9Pfx8N9Yzjyb+w==
+
+"@kongponents/styles@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@kongponents/styles/-/styles-0.0.2.tgz#366499de6f6298709fcbca7d0716bcadb9569f89"
+  integrity sha512-UdX374kOqLfQdbI8oFGPht4SXUE9bGMvUfuvEgxKg24eukiQylBLxd58kWGjJ6qmzEvyWJXLHTc52ROXTcEdHw==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -5506,6 +5597,11 @@ pkg-up@^2.0.0:
   integrity sha1-yBmscoBZpGHKscOImivjxJoATX8=
   dependencies:
     find-up "^2.1.0"
+
+popper.js@^1.15.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
+  integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
 
 portfinder@^1.0.13, portfinder@^1.0.20:
   version "1.0.20"
