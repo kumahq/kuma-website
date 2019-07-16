@@ -1,22 +1,22 @@
-// Get base stylesheet
-import '@kongponents/styles'
-
 // Globally import all Kongponents
-import KAlert from '@kongponents/kalert'
-import KButton from '@kongponents/kbutton'
-import KCard from '@kongponents/kcard'
-import KClipboardProvider from '@kongponents/kclipboardprovider'
-import KEmptyState from '@kongponents/kemptystate'
-import KIcon from '@kongponents/kicon'
-import KModal from '@kongponents/kmodal'
-import KPop from '@kongponents/kpop'
-import Krumbs from '@kongponents/krumbs'
-import KTable from '@kongponents/ktable'
-import KToaster from '@kongponents/ktoaster'
-import KLabel from '@kongponents/klabel'
-import KInput from '@kongponents/kinput'
+import KAlert from './theme/components/kongponents/packages/KAlert'
+import KButton from './theme/components/kongponents/packages/kbutton'
+import KCard from './theme/components/kongponents/packages/kcard'
+import KClipboardProvider from './theme/components/kongponents/packages/kclipboardprovider'
+import KEmptyState from './theme/components/kongponents/packages/kemptystate'
+import KIcon from './theme/components/kongponents/packages/kicon'
+import KModal from './theme/components/kongponents/packages/kmodal'
+import KPop from './theme/components/kongponents/packages/kpop'
+import Krumbs from './theme/components/kongponents/packages/krumbs'
+import KTable from './theme/components/kongponents/packages/ktable'
+import KToaster from './theme/components/kongponents/packages/ktoaster'
+import KLabel from './theme/components/kongponents/packages/klabel'
+import KInput from './theme/components/kongponents/packages/kinput'
 
-// our custom theme styles
+// Kongponents styles
+import KStyles from './theme/components/kongponents/packages/styles/styles.scss'
+
+// Custom theme styles
 import Styles from './theme/styles/custom/styles.scss'
 
 export default ({
@@ -28,6 +28,7 @@ export default ({
 
   // Site styles (Tailwind CSS is included via `postcss.config.js`)
   Vue.use(Styles),
+  Vue.use(KStyles),
 
   // Kongponents
   Vue.component('KAlert', KAlert)

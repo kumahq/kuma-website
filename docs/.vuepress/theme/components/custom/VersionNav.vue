@@ -5,7 +5,6 @@
       items: tags,
       type: 'links'
     }"/>
-    <p v-if="label">Viewing docs for {{label}}.</p>
   </div>
 </template>
 

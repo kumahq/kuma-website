@@ -50,7 +50,10 @@ module.exports = {
     ]
   ],
   postcss: {
-    plugins: [require('tailwindcss'), require('autoprefixer')]
+    plugins: [
+      require('tailwindcss'),
+      require('autoprefixer')
+    ]
   },
   chainWebpack: config => {
     const svgRule = config.module.rule('svg');

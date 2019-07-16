@@ -131,7 +131,7 @@ export default {
   },
   mounted() {
     Axios
-      .get(`/releases.json`)
+      .get('/releases.json')
       .then( response => {
         // setup the version array
         this.tags = response.data.tags.map( tag => ({
