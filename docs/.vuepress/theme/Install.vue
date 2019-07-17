@@ -3,7 +3,7 @@
     <Navbar/>
 
     <header class="page-header">
-      <h1>Install Konvoy</h1>
+      <h1>Install {{$site.title}}</h1>
       <div v-if="items.length" class="version-selector-wrapper">
         <form>
           <select name="version-selector" id="version-selector" @change="updateInstallPath($event)">
@@ -12,17 +12,17 @@
             </option>
           </select>
         </form>
-        <p v-if="pathVersion">You are viewing installation instructions for <strong>{{pathVersion}}</strong>.</p>
+        <p>You are viewing installation instructions for <strong>{{pathVersion == 'master' ? 'the latest version' : pathVersion}}</strong>.</p>
       </div>
     </header>
 
     <div v-if="items && items.length" class="install-methods-wrapper">
       <ul class="install-methods">
         <li v-for="item in items" class="install-methods__item">
-          <a :href='`/${pathVersion}/installation-guide.html#${item.slug}`'>
+          <router-link :to='`/${pathVersion}/installation-guide.html#${item.slug}`'>
             <img :src="item.logo" class="install-methods__item-logo">
             <h3 class="install-methods__item-title">{{item.label}}</h3>
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>

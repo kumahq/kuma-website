@@ -1,5 +1,8 @@
+// defined the product title here in case it changes
+const productTitle = 'Konvoy'
+
 module.exports = {
-  title: 'Konvoy',
+  title: productTitle,
   description: 'Connect, Secure and Observe any traffic and Microservices',
   host: 'localhost',
   markdown: {
@@ -13,7 +16,7 @@ module.exports = {
   themeConfig: {
     repo: 'kong/konvoy',
     logo: '/konvoy-logo.svg',
-    footer: 'Konvoy by Kong',
+    footer: `${productTitle} by Kong`,
     docsDir: 'vuepress',
     editLinks: true,
     search: true,

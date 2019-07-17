@@ -1,5 +1,6 @@
-// Get base stylesheet
+// Styles
 import '@kongponents/styles'
+import './theme/styles/custom/styles.scss'
 
 // Globally import all Kongponents
 import KAlert from '@kongponents/kalert'
@@ -16,19 +17,12 @@ import KToaster from '@kongponents/ktoaster'
 import KLabel from '@kongponents/klabel'
 import KInput from '@kongponents/kinput'
 
-// our custom theme styles
-import Styles from './theme/styles/custom/styles.scss'
-
 export default ({
   Vue,
   options,
   router,
   siteData
 }) => {
-
-  // Site styles (Tailwind CSS is included via `postcss.config.js`)
-  Vue.use(Styles),
-
   // Kongponents
   Vue.component('KAlert', KAlert)
   Vue.component('KModal', KModal)
@@ -43,4 +37,12 @@ export default ({
   Vue.component('Krumbs', Krumbs)
   Vue.component('KLabel', KLabel)
   Vue.component('KInput', KInput)
+
+  Vue.mixin({
+    computed: {
+      getSiteData() {
+        return siteData
+      }
+    }
+  })
 }

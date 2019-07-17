@@ -1,3 +1,0 @@
-[submodule "docs/.vuepress/theme/components/kongponents"]
-	path = docs/.vuepress/theme/components/kongponents
-	url = git@github.com:Kong/kongponents.git
