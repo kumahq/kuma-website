@@ -1,7 +1,6 @@
 <template>
-  <div class="theme-container theme-container--home">
-    <Navbar/>
-
+  <div class="theme-container theme-container--home" aria-labelledby="masthead-main-title">
+    
     <div class="page-masthead">
       <header class="page-masthead__header">
         <Content slot-key="masthead-main-title"/>
@@ -33,18 +32,13 @@
       </div>
     </div>
     <!-- .testimonial -->
-
-    <!-- <main class="page-content">
-      <Content/>
-    </main>-->
-
-    <Footer/>
+    
   </div>
 </template>
 
 <script>
-import Navbar from './components/Navbar';
-import Footer from './components/custom/Footer';
+import Navbar from '@theme/components/Navbar';
+import Footer from '@theme/components/custom/Footer';
 
 export default {
   components: {

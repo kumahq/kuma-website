@@ -13,6 +13,9 @@ module.exports = {
       })
     }
   },
+  plugins: [
+    '@vuepress/back-to-top'
+  ],
   themeConfig: {
     repo: 'kong/konvoy',
     logo: '/konvoy-logo.svg',

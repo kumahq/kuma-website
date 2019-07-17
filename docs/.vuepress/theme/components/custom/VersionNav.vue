@@ -10,8 +10,8 @@
 
 <script>
 import Axios from 'axios'
-import DropdownLink from '../../components/DropdownLink'
-import NavLink from '../../components/NavLink'
+import DropdownLink from '@theme/components/DropdownLink'
+import NavLink from '@theme/components/NavLink'
 
 export default {
   name: 'VersionNav',

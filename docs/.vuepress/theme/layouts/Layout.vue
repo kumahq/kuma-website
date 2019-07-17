@@ -29,33 +29,30 @@
       />
     </Sidebar>
 
-    <Home v-if="$page.frontmatter.home"/>
-
-    <Page
-      v-else
+    <component
+      :is="layout"
       :sidebar-items="sidebarItems"
-    >
-      <slot
-        name="page-top"
-        slot="top"
-      />
-      <slot
-        name="page-bottom"
-        slot="bottom"
-      />
-    </Page>
+    />
+
   </div>
 </template>
 
 <script>
-import Home from '@theme/components/Home.vue'
+import Home from '@theme/components/custom/Home.vue'
+import Install from '@theme/components/custom/Install.vue'
 import Navbar from '@theme/components/Navbar.vue'
 import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
 import { resolveSidebarItems } from '../util'
 
 export default {
-  components: { Home, Page, Sidebar, Navbar },
+  components: {
+    Home,
+    Install,
+    Page,
+    Sidebar,
+    Navbar
+  },
 
   data () {
     return {
@@ -64,6 +61,24 @@ export default {
   },
 
   computed: {
+    layout() {
+      const fm = this.$page.frontmatter
+
+      // if homepage, load the Home component
+      if( fm.home ) {
+        return 'Home'
+      }
+
+      // if the layout attribute is set, load the layout component
+      else if( fm.layout ) {
+        return fm.layout
+      }
+      
+      // otherwise load the standard Page component
+      else {
+        return 'Page'
+      }
+    },
     shouldShowNavbar () {
       const { themeConfig } = this.$site
       const { frontmatter } = this.$page

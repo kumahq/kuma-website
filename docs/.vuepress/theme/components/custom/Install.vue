@@ -1,6 +1,5 @@
 <template>
   <div class="theme-container theme-container--install">
-    <Navbar/>
 
     <header class="page-header">
       <h1>Install {{$site.title}}</h1>
@@ -29,15 +28,14 @@
     <div v-else class="install-methods-wrapper">
       <p><strong>No install methods defined!</strong></p>
     </div>
-
-    <Footer/>
+    
   </div>
 </template>
 
 <script>
 import Axios from 'axios'
-import Navbar from './components/Navbar'
-import Footer from './components/custom/Footer'
+import Navbar from '@theme/components/Navbar'
+import Footer from '@theme/components/custom/Footer'
 
 export default {
   data() {
