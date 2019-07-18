@@ -2,7 +2,8 @@
   <!-- 
     Nothing to see here. This template exists to simply pass the user along.
     This layout gets called in your corresponding page's `layout` frontmatter
-    attribute.
+    attribute. If the user navigates to the bare /docs/ directory, they are
+    automatically redirected to the latest documentation.
   -->
 </template>
 
