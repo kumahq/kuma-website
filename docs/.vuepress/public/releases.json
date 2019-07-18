@@ -4,6 +4,8 @@
       "latest": true,
       "version": "v1.1"
     },
-    { "version": "v1.0" }
+    {
+      "version": "v1.0"
+    }
   ]
 }

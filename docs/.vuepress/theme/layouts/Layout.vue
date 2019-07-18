@@ -43,7 +43,7 @@ import Install from '@theme/components/custom/Install.vue'
 import Navbar from '@theme/components/Navbar.vue'
 import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
-import { resolveSidebarItems } from '../util'
+import { resolveSidebarItems, redirectToLatestVersion } from '../util'
 
 export default {
   components: {
@@ -134,6 +134,7 @@ export default {
   mounted () {
     this.$router.afterEach(() => {
       this.isSidebarOpen = false
+      redirectToLatestVersion(this)
     })
   },
 

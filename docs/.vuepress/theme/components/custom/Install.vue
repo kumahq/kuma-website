@@ -11,7 +11,11 @@
             </option>
           </select>
         </form>
-        <p>You are viewing installation instructions for <strong>{{pathVersion == 'master' ? 'the latest version' : pathVersion}}</strong>.</p>
+
+        <div v-if="pathVersion">
+          <p>You are viewing installation instructions for <strong>{{pathVersion}}</strong>.</p>
+        </div>
+
       </div>
     </header>
 
@@ -41,7 +45,7 @@ export default {
   data() {
     return {
       tags: Array,
-      pathVersion: 'master',
+      pathVersion: '',
       pathSegment: '#installation',
       helperText: '',
       items: [
@@ -124,6 +128,8 @@ export default {
   },
   methods: {
     updateInstallPath: function(ev) {
+      // update the version accordingly in the UI when the
+      // user switches to a different version
       this.pathVersion = ev.target.value
     }
   },
@@ -131,12 +137,25 @@ export default {
     Axios
       .get('/releases.json')
       .then( response => {
-        // setup the version array
+        // populate our version array from the releases source
         this.tags = response.data.tags.map( tag => ({
           text: (tag.latest === true) ? `${tag.version} (latest)` : tag.version,
-          version: (tag.latest === true) ? tag.label : tag.version,
+          version: tag.version,
           latest: (tag.latest === true) ? true : false
         }))
+      })
+      .then(() => {
+        // set the path version to the latest so that we can
+        // let the user know which version they are viewing
+        // instructions for
+        for ( let i = 0; i < this.tags.length; i++ ) {
+          if ( this.tags[i].latest === true ) {
+            this.pathVersion = this.tags[i].version
+          }
+        }
+      })
+      .catch( err => {
+        console.log(err)
       })
   }
 };

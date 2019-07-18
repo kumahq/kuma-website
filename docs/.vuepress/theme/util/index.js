@@ -243,3 +243,7 @@ function resolveItem (item, pages, base, groupDepth = 1) {
     }
   }
 }
+
+export function redirectToLatestVersion(path) {
+  console.log(path)
+}

@@ -1,5 +1,4 @@
 ---
-permalink: /test/enterprise
 sidebar: false
 ---
 

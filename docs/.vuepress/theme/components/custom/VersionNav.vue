@@ -32,7 +32,7 @@ export default {
         this.tags = response.data.tags.map( tag => ({
           text: (tag.latest === true) ? `Latest (${tag.version})` : tag.version,
           type: 'link',
-          link: `/${this.$site.themeConfig.docsDir}/${tag.version}/`,
+          link: `/${this.getSiteData.themeConfig.docsDir}/${tag.version}/`,
           latest: (tag.latest === true) ? true : false
         }))
       })
