@@ -131,10 +131,13 @@ export default {
     }
   },
 
+  created () {
+    redirectToLatestVersion(this.$router)
+  },
+
   mounted () {
     this.$router.afterEach(() => {
       this.isSidebarOpen = false
-      redirectToLatestVersion(this)
     })
   },
 

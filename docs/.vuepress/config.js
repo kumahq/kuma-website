@@ -41,6 +41,7 @@ module.exports = {
     [
       'link',
       {
+        // TODO change this to a Konvoy-specific one (or move this locally?)
         rel: 'icon',
         href:
           'https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2018/08/kong-logomark-color-64px.png'
