@@ -62,22 +62,26 @@ export default {
 
   computed: {
     layout() {
+
+      // this function determines which page component
+      // to load. if a markdown file has the `layout`
+      // attribute defined in its frontmatter, this
+      // function will load that template accordingly.
+      // otherwise, it will load the homepage, or
+      // fallback to the default `Page` component.
+
       const fm = this.$page.frontmatter
+      let layoutComponent
 
-      // if homepage, load the Home component
       if( fm.home ) {
-        return 'Home'
+        layoutComponent = 'Home'
+      } else if( fm.layout ) {
+        layoutComponent = fm.layout
+      } else {
+        layoutComponent = 'Page'
       }
 
-      // if the layout attribute is set, load the layout component
-      else if( fm.layout ) {
-        return fm.layout
-      }
-      
-      // otherwise load the standard Page component
-      else {
-        return 'Page'
-      }
+      return layoutComponent
     },
     shouldShowNavbar () {
       const { themeConfig } = this.$site

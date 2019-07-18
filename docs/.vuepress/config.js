@@ -20,7 +20,7 @@ module.exports = {
     repo: 'kong/konvoy',
     logo: '/konvoy-logo.svg',
     footer: `${productTitle} by Kong`,
-    docsDir: 'vuepress',
+    docsDir: 'docs',
     editLinks: true,
     search: true,
     searchMaxSuggestions: 10,
@@ -31,7 +31,7 @@ module.exports = {
     sidebar: 'auto',
     displayAllHeaders: false,
     nav: [
-      { text: 'Documentation', link: '/master/' },
+      { text: 'Documentation', link: '/docs/' },
       { text: 'Use Cases', link: '/use-cases/' },
       { text: 'Enterprise', link: '/enterprise/' },
       { text: 'Install', link: '/install/' }
