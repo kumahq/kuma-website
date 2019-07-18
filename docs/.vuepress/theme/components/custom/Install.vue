@@ -22,7 +22,7 @@
     <div v-if="items && items.length" class="install-methods-wrapper">
       <ul class="install-methods">
         <li v-for="item in items" class="install-methods__item">
-          <router-link :to='`/${pathVersion}/installation-guide.html#${item.slug}`'>
+          <router-link :to='`${getSiteData.themeConfig.docsDir}/${pathVersion}/installation-guide.html#${item.slug}`'>
             <img :src="item.logo" class="install-methods__item-logo">
             <h3 class="install-methods__item-title">{{item.label}}</h3>
           </router-link>
