@@ -6,8 +6,8 @@
       <div v-if="items.length" class="version-selector-wrapper">
         <form>
           <select name="version-selector" id="version-selector" @change="updateInstallPath($event)">
-            <option v-for="tag in tags" :value="tag.version" :key="tag.version">
-              {{tag.text}}
+            <option v-for="tag in tags" :value="tag" :key="tag">
+              {{tag}}
             </option>
           </select>
         </form>
@@ -38,6 +38,8 @@
 
 <script>
 import Axios from 'axios'
+import LatestSemver from 'latest-semver'
+import ToSemver from 'to-semver'
 import Navbar from '@theme/components/Navbar'
 import Footer from '@theme/components/custom/Footer'
 
@@ -138,21 +140,9 @@ export default {
       .get('/releases.json')
       .then( response => {
         // populate our version array from the releases source
-        this.tags = response.data.tags.map( tag => ({
-          text: (tag.latest === true) ? `${tag.version} (latest)` : tag.version,
-          version: tag.version,
-          latest: (tag.latest === true) ? true : false
-        }))
-      })
-      .then(() => {
-        // set the path version to the latest so that we can
-        // let the user know which version they are viewing
-        // instructions for
-        for ( let i = 0; i < this.tags.length; i++ ) {
-          if ( this.tags[i].latest === true ) {
-            this.pathVersion = this.tags[i].version
-          }
-        }
+        this.tags = ToSemver(response.data)
+        // set the path version to the latest release
+        this.pathVersion = LatestSemver(response.data)
       })
       .catch( err => {
         console.log(err)

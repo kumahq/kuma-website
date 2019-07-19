@@ -9,6 +9,7 @@
 
 <script>
 import Axios from 'axios'
+import LatestSemver from 'latest-semver'
 
 export default {
   data() {
@@ -22,19 +23,8 @@ export default {
     Axios
       .get('/releases.json')
       .then( response => {
-        const releases = response.data.tags
-        for ( let i = 0; i < releases.length; i++ ) {
-          if ( releases[i].latest === true ) {
-            this.version = releases[i].version
-          }
-        }
-      })
-      .then(() => {
-        // as long as the version is set via the previous promise,
-        // let's redirect to it.
-        if ( this.version && this.version.length ) {
-          this.$router.push(`${this.$page.path}${this.version}/`)
-        }
+        this.version = LatestSemver(response.data)
+        this.$router.push(`${this.$page.path}${this.version}/`)
       })
       .catch( err => {
         console.log(err)

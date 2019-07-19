@@ -29,11 +29,10 @@ export default {
       .get('/releases.json')
       .then( response => {
         // setup the version array
-        this.tags = response.data.tags.map( tag => ({
-          text: (tag.latest === true) ? `Latest (${tag.version})` : tag.version,
+        this.tags = response.data.map( tag => ({
+          text: tag,
           type: 'link',
-          link: `/${this.getSiteData.themeConfig.docsDir}/${tag.version}/`,
-          latest: (tag.latest === true) ? true : false
+          link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`,
         }))
       })
   }
