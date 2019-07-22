@@ -1,13 +1,17 @@
-<template>
-  <!-- 
-    Nothing to see here. This template exists to simply pass the user along.
-    This layout gets called in your corresponding page's `layout` frontmatter
-    attribute. If the user navigates to the bare /docs/ directory, they are
-    automatically redirected to the latest documentation.
-  -->
-</template>
-
 <script>
+/**
+ * Redirect.vue
+ * 
+ * This is a functional component that simply passes the user
+ * to the latest version whenever they arrive at /docs/
+ * 
+ * Example:
+ * - User navigates to /docs/
+ * - This component checks to see what the latest version is
+ * - The component then redirects them to /docs/1.2.3/
+ *    (or whatever the latest version happens to be)
+ */
+
 import Axios from 'axios'
 import LatestSemver from 'latest-semver'
 

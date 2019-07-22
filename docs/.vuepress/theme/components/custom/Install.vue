@@ -40,8 +40,6 @@
 import Axios from 'axios'
 import LatestSemver from 'latest-semver'
 import ToSemver from 'to-semver'
-import Navbar from '@theme/components/Navbar'
-import Footer from '@theme/components/custom/Footer'
 
 export default {
   data() {
@@ -124,10 +122,7 @@ export default {
       ]
     }
   },
-  components: {
-    Navbar,
-    Footer
-  },
+  components: {},
   methods: {
     updateInstallPath: function(ev) {
       // update the version accordingly in the UI when the

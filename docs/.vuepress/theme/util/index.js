@@ -243,9 +243,3 @@ function resolveItem (item, pages, base, groupDepth = 1) {
     }
   }
 }
-
-export function redirectToLatestVersion(router) {
-  if ( !router ) return
-  const currentPath = router.currentRoute.path
-  console.log(currentPath)
-}
