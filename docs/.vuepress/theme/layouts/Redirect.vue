@@ -23,7 +23,7 @@ export default {
       version: ''
     }
   },
-  mounted () {
+  beforeCreate() {
     // let's fetch the releases data so we can grab
     // the latest version in order to build the redirect
     Axios
@@ -31,6 +31,7 @@ export default {
       .then( response => {
         this.version = LatestSemver(response.data)
         this.$router.push(`${this.$page.path}${this.version}/`)
+        console.log(this.version)
       })
       .catch( err => {
         console.log(err)
