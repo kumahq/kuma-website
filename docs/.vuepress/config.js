@@ -13,9 +13,13 @@ module.exports = {
       })
     }
   },
-  plugins: [
-    '@vuepress/back-to-top'
-  ],
+  plugins: {
+    '@vuepress/back-to-top': {},
+    'clean-urls': {
+      normalSuffix: '/',
+      indexSuffix: '/'
+    }
+  },
   themeConfig: {
     repo: 'kong/konvoy',
     logo: '/konvoy-logo.svg',
