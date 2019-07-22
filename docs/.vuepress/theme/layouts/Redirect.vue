@@ -1,3 +1,5 @@
+<template></template>
+
 <script>
 /**
  * Redirect.vue
