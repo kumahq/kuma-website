@@ -38,6 +38,8 @@ export default ({
   Vue.component('KLabel', KLabel)
   Vue.component('KInput', KInput)
 
+  // Vue.use(Axios)
+
   Vue.mixin({
     computed: {
       getSiteData() {

@@ -31,7 +31,6 @@ export default {
       .then( response => {
         this.version = LatestSemver(response.data)
         this.$router.push(`${this.$page.path}${this.version}/`)
-        console.log(this.version)
       })
       .catch( err => {
         console.log(err)

@@ -30,7 +30,7 @@
     </Sidebar>
 
     <component
-      :is="layout"
+      :is="layoutComponentSelector"
       :sidebar-items="sidebarItems"
     />
 
@@ -61,7 +61,7 @@ export default {
   },
 
   computed: {
-    layout() {
+    layoutComponentSelector() {
 
       // this function determines which page component
       // to load. if a markdown file has the `layout`
@@ -83,6 +83,7 @@ export default {
 
       return layoutComponent
     },
+
     shouldShowNavbar () {
       const { themeConfig } = this.$site
       const { frontmatter } = this.$page
@@ -132,6 +133,7 @@ export default {
   },
 
   mounted () {
+
     this.$router.afterEach(() => {
       this.isSidebarOpen = false
     })

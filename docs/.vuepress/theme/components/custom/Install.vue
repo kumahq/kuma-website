@@ -128,20 +128,33 @@ export default {
       // update the version accordingly in the UI when the
       // user switches to a different version
       this.pathVersion = ev.target.value
+    },
+
+    fetchReleases() {
+      Axios
+        .get('/releases.json')
+        .then( response => {
+          // populate our version array from the releases source
+          this.tags = ToSemver(response.data)
+          // set the path version to the latest release
+          this.pathVersion = LatestSemver(response.data)
+        })
+        .catch( err => {
+          console.log(err)
+        })
+    },
+
+    parseUrlQuery() {
+      // testing something for url handling
+      if( window.location.search ) {
+        const query = window.location.search.replace('?v=', '').toString()
+        console.log(query)
+      }
     }
   },
   mounted() {
-    Axios
-      .get('/releases.json')
-      .then( response => {
-        // populate our version array from the releases source
-        this.tags = ToSemver(response.data)
-        // set the path version to the latest release
-        this.pathVersion = LatestSemver(response.data)
-      })
-      .catch( err => {
-        console.log(err)
-      })
+    this.parseUrlQuery()
+    this.fetchReleases()
   }
 };
 </script>

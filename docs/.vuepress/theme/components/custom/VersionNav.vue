@@ -24,17 +24,22 @@ export default {
     DropdownLink,
     NavLink
   },
+  methods: {
+    fetchReleases() {
+      Axios
+        .get('/releases.json')
+        .then( response => {
+          // setup the version array
+          this.tags = response.data.map( tag => ({
+            text: tag,
+            type: 'link',
+            link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`,
+          }))
+        })
+    }
+  },
   mounted() {
-    Axios
-      .get('/releases.json')
-      .then( response => {
-        // setup the version array
-        this.tags = response.data.map( tag => ({
-          text: tag,
-          type: 'link',
-          link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`,
-        }))
-      })
+    this.fetchReleases()
   }
 }
 </script>
