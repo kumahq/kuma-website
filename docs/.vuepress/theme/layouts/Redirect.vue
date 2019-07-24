@@ -14,7 +14,7 @@
  *    (or whatever the latest version happens to be)
  */
 
-import Axios from 'axios'
+import releases from '../../public/releases.json'
 import LatestSemver from 'latest-semver'
 
 export default {
@@ -23,18 +23,16 @@ export default {
       version: ''
     }
   },
-  beforeCreate() {
-    // let's fetch the releases data so we can grab
-    // the latest version in order to build the redirect
-    Axios
-      .get('/releases.json')
-      .then( response => {
-        this.version = LatestSemver(response.data)
-        this.$router.push(`${this.$page.path}${this.version}/`)
-      })
-      .catch( err => {
-        console.log(err)
-      })
+  created() {
+    this.fetchReleases()
+  },
+  methods: {
+    fetchReleases() {
+      // let's fetch the releases data so we can grab
+      // the latest version in order to build the redirect
+      this.version = LatestSemver(releases)
+      this.$router.push(`${this.$page.path}${this.version}/`)
+    }
   }
 }
 </script>

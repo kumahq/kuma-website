@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import Axios from 'axios'
 import LatestSemver from 'latest-semver'
 import ToSemver from 'to-semver'
+import releases from '../../../public/releases.json'
 
 export default {
   data() {
@@ -131,17 +131,8 @@ export default {
     },
 
     fetchReleases() {
-      Axios
-        .get('/releases.json')
-        .then( response => {
-          // populate our version array from the releases source
-          this.tags = ToSemver(response.data)
-          // set the path version to the latest release
-          this.pathVersion = LatestSemver(response.data)
-        })
-        .catch( err => {
-          console.log(err)
-        })
+      this.tags = ToSemver(releases)
+      this.pathVersion = LatestSemver(releases)
     },
 
     parseUrlQuery() {

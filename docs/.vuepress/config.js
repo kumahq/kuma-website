@@ -1,4 +1,3 @@
-// defined the product title here in case it changes
 const productTitle = 'Konvoy'
 
 module.exports = {
@@ -35,10 +34,10 @@ module.exports = {
     sidebar: 'auto',
     displayAllHeaders: false,
     nav: [
-      { text: 'Documentation', link: '/docs/' },
-      { text: 'Use Cases', link: '/use-cases/' },
-      { text: 'Enterprise', link: '/enterprise/' },
-      { text: 'Install', link: '/install/' }
+      { name: 'documentation', text: 'Documentation', link: '/docs/' },
+      { name: 'usecases', text: 'Use Cases', link: '/use-cases/' },
+      { name: 'enterprise', text: 'Enterprise', link: '/enterprise/' },
+      { name: 'install', text: 'Install', link: '/install/' }
     ]
   },
   head: [

@@ -22,7 +22,6 @@
     "@kongponents/ktable": "0.0.1-beta.6",
     "@kongponents/ktoaster": "0.0.1-beta.4",
     "@kongponents/styles": "0.0.2",
-    "axios": "^0.19.0",
     "latest-semver": "^2.0.0",
     "markdown-it-include": "^1.1.0",
     "node-sass": "^4.12.0",

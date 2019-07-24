@@ -60,6 +60,17 @@ export default {
     }
   },
 
+  watch: {
+    // $route (to, from, next) {
+    //   if ( to.path === '/install/' ) {
+    //     this.$router.push({
+    //       path: '/install/test/',
+    //       component: Home
+    //     })
+    //   }
+    // }
+  },
+
   computed: {
     layoutComponentSelector() {
 
@@ -133,7 +144,6 @@ export default {
   },
 
   mounted () {
-
     this.$router.afterEach(() => {
       this.isSidebarOpen = false
     })

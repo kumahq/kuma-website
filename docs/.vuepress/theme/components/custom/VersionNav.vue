@@ -9,9 +9,8 @@
 </template>
 
 <script>
-import Axios from 'axios'
+import releases from '../../../public/releases.json'
 import DropdownLink from '@theme/components/DropdownLink'
-import NavLink from '@theme/components/NavLink'
 
 export default {
   name: 'VersionNav',
@@ -21,21 +20,15 @@ export default {
     }
   },
   components: {
-    DropdownLink,
-    NavLink
+    DropdownLink
   },
   methods: {
     fetchReleases() {
-      Axios
-        .get('/releases.json')
-        .then( response => {
-          // setup the version array
-          this.tags = response.data.map( tag => ({
-            text: tag,
-            type: 'link',
-            link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`,
-          }))
-        })
+      this.tags = releases.map( tag => ({
+        text: tag,
+        type: 'link',
+        link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`,
+      }))
     }
   },
   mounted() {
