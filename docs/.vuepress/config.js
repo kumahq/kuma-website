@@ -1,4 +1,13 @@
 const productTitle = 'Konvoy'
+const releases = require('./public/releases.json')
+
+function buildReleaseUrls() {
+  this.tags = releases.map( tag => ({
+    text: tag,
+    type: 'link',
+    link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`,
+  }))
+}
 
 module.exports = {
   title: productTitle,
@@ -35,9 +44,14 @@ module.exports = {
     displayAllHeaders: false,
     nav: [
       { name: 'documentation', text: 'Documentation', link: '/docs/' },
+      { name: 'community', text: 'Community', link: '/community/' },
       { name: 'usecases', text: 'Use Cases', link: '/use-cases/' },
-      { name: 'enterprise', text: 'Enterprise', link: '/enterprise/' },
-      { name: 'install', text: 'Install', link: '/install/' }
+      { name: 'requestdemo', text: 'Request Demo', link: '/request-demo/' },
+      {
+        name: 'install',
+        text: 'Install',
+        link: '/install/'
+      }
     ]
   },
   head: [
