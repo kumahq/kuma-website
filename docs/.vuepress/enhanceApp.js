@@ -1,6 +1,13 @@
+// Various libraries
+import LatestSemver from 'latest-semver'
+import ToSemver from 'to-semver'
+
 // Styles
 import '@kongponents/styles'
 import './theme/styles/custom/styles.scss'
+
+// Releases
+import releases from './public/releases.json'
 
 // Globally import all Kongponents
 import KAlert from '@kongponents/kalert'
@@ -38,13 +45,38 @@ export default ({
   Vue.component('KLabel', KLabel)
   Vue.component('KInput', KInput)
 
-  // Vue.use(Axios)
-
   Vue.mixin({
     computed: {
       getSiteData() {
         return siteData
       }
     }
+  })
+
+  /**
+   * Install page route handling
+   */
+  Vue.mixin({
+    beforeRouteEnter (to, from, next){
+      const latest = LatestSemver(releases)
+      const routePath = to.path
+
+      // if the destination route is the install page
+      // modify the url with the latest version
+      // and continue forward
+      // if ( routePath === '/install/' ) {
+      //   next({
+      //     path: `/install/${latest}/`,
+      //     params: {
+      //       test: latest
+      //     }
+      //   })
+      // } else {
+      //   // otherwise continue on as normal
+      //   next()
+      // }
+
+      console.log(to)
+   },
   })
 }

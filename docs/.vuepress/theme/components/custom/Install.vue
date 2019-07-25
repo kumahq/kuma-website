@@ -40,6 +40,7 @@
 import LatestSemver from 'latest-semver'
 import ToSemver from 'to-semver'
 import releases from '../../../public/releases.json'
+import installMethods from '../../../public/install-methods.json'
 
 export default {
   data() {
@@ -48,81 +49,9 @@ export default {
       pathVersion: '',
       pathSegment: '#installation',
       helperText: '',
-      items: [
-        {
-          label: 'Docker',
-          logo: '/platforms/logo-docker.png',
-          slug: 'docker'
-        },
-        {
-          label: 'Kubernetes',
-          logo: '/platforms/logo-kubernetes.png',
-          slug: 'kubernetes'
-        },
-        {
-          label: 'DC/OS',
-          logo: '/platforms/logo-mesosphere.png',
-          slug: 'dc-os'
-        },
-        {
-          label: 'Amazon Linux',
-          logo: '/platforms/logo-amazon-linux.png',
-          slug: 'amazon-linux'
-        },
-        {
-          label: 'CentOS',
-          logo: '/platforms/logo-centos.gif',
-          slug: 'centos'
-        },
-        {
-          label: 'RedHat',
-          logo: '/platforms/logo-redhat.jpg',
-          slug: 'redhat'
-        },
-        {
-          label: 'Debian',
-          logo: '/platforms/logo-debian.jpg',
-          slug: 'debian'
-        },
-        {
-          label: 'Ubuntu',
-          logo: '/platforms/logo-ubuntu.png',
-          slug: 'ubuntu'
-        },
-        {
-          label: 'macOS',
-          logo: '/platforms/logo-macos.png',
-          slug: 'macos'
-        },
-        {
-          label: 'AWS Marketplace',
-          logo: '/platforms/logo-awscart.jpg',
-          slug: 'aws-marketplace'
-        },
-        {
-          label: 'AWS Cloud Formation',
-          logo: '/platforms/logo-awscloudform.png',
-          slug: 'aws-cloud-platform'
-        },
-        {
-          label: 'Google Cloud Platform',
-          logo: '/platforms/logo-googlecp.png',
-          slug: 'google-cloud-platform'
-        },
-        {
-          label: 'Vagrant',
-          logo: '/platforms/logo-vagrant.png',
-          slug: 'vagrant'
-        },
-        {
-          label: 'Source',
-          logo: '/platforms/logo-source.svg',
-          slug: 'source'
-        }
-      ]
+      items: installMethods
     }
   },
-  components: {},
   methods: {
     updateInstallPath: function(ev) {
       // update the version accordingly in the UI when the
@@ -133,18 +62,9 @@ export default {
     fetchReleases() {
       this.tags = ToSemver(releases)
       this.pathVersion = LatestSemver(releases)
-    },
-
-    parseUrlQuery() {
-      // testing something for url handling
-      if( window.location.search ) {
-        const query = window.location.search.replace('?v=', '').toString()
-        console.log(query)
-      }
     }
   },
-  mounted() {
-    this.parseUrlQuery()
+  beforeMount() {
     this.fetchReleases()
   }
 };

@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import PathToRegExp from 'path-to-regexp'
 import Home from '@theme/components/custom/Home.vue'
 import Install from '@theme/components/custom/Install.vue'
 import Navbar from '@theme/components/Navbar.vue'
@@ -58,17 +59,6 @@ export default {
     return {
       isSidebarOpen: false
     }
-  },
-
-  watch: {
-    // $route (to, from, next) {
-    //   if ( to.path === '/install/' ) {
-    //     this.$router.push({
-    //       path: '/install/test/',
-    //       component: Home
-    //     })
-    //   }
-    // }
   },
 
   computed: {
