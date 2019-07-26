@@ -66,9 +66,17 @@ export default {
       if ( this.$route.meta.version ) {
         this.pathVersion = this.$route.meta.version
       }
+    },
+    redirectToLatestVersion() {
+      if ( !this.$route.meta.version ) {
+        this.$router.push({
+          path: `/install/${LatestSemver(releases)}/`
+        })
+      }
     }
   },
   beforeMount() {
+    this.redirectToLatestVersion()
     this.fetchReleases()
     this.fetchVersionMeta()
   }
