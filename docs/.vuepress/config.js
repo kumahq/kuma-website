@@ -1,5 +1,27 @@
 const productTitle = 'Konvoy'
 
+/**
+ * Install page version URL builder
+ */
+function buildInstallReleaseURLs() {
+  const releases = require('./public/releases.json')
+  const releaseArray = []
+  for (let i = 0; i < releases.length; i++) { 
+    releaseArray.push({
+      path: `/install/${releases[i]}/`,
+      meta: {
+        version: releases[i]
+      },
+      frontmatter: {
+         sidebar: false,
+         layout: 'Install'
+      }
+   })
+  }
+
+  return releaseArray
+}
+
 module.exports = {
   title: productTitle,
   description: 'Connect, Secure and Observe any traffic and Microservices',
@@ -13,7 +35,7 @@ module.exports = {
     }
   },
   plugins: {
-    '@vuepress/back-to-top': {},
+    // '@vuepress/back-to-top': {},
     'clean-urls': {
       normalSuffix: '/',
       indexSuffix: '/'
@@ -41,6 +63,7 @@ module.exports = {
       { text: 'Install', link: '/install/' }
     ]
   },
+  additionalPages: [buildInstallReleaseURLs],
   head: [
     [
       'link',

@@ -52,31 +52,4 @@ export default ({
       }
     }
   })
-
-  /**
-   * Install page route handling
-   */
-  Vue.mixin({
-    beforeRouteEnter (to, from, next){
-      const latest = LatestSemver(releases)
-      const routePath = to.path
-
-      // if the destination route is the install page
-      // modify the url with the latest version
-      // and continue forward
-      // if ( routePath === '/install/' ) {
-      //   next({
-      //     path: `/install/${latest}/`,
-      //     params: {
-      //       test: latest
-      //     }
-      //   })
-      // } else {
-      //   // otherwise continue on as normal
-      //   next()
-      // }
-
-      console.log(to)
-   },
-  })
 }

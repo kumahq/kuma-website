@@ -6,7 +6,7 @@
       <div v-if="items.length" class="version-selector-wrapper">
         <form>
           <select name="version-selector" id="version-selector" @change="updateInstallPath($event)">
-            <option v-for="tag in tags" :value="tag" :key="tag">
+            <option v-for="tag in tags" :value="tag" :key="tag" :selected='$route.meta.version === tag'>
               {{tag}}
             </option>
           </select>
@@ -53,19 +53,24 @@ export default {
     }
   },
   methods: {
-    updateInstallPath: function(ev) {
+    updateInstallPath(ev) {
       // update the version accordingly in the UI when the
       // user switches to a different version
       this.pathVersion = ev.target.value
     },
-
     fetchReleases() {
       this.tags = ToSemver(releases)
       this.pathVersion = LatestSemver(releases)
+    },
+    fetchVersionMeta() {
+      if ( this.$route.meta.version ) {
+        this.pathVersion = this.$route.meta.version
+      }
     }
   },
   beforeMount() {
     this.fetchReleases()
+    this.fetchVersionMeta()
   }
 };
 </script>
