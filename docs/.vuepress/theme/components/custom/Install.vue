@@ -22,13 +22,14 @@
     <div v-if="items && items.length" class="install-methods-wrapper">
       <ul class="install-methods">
         <li v-for="item in items" class="install-methods__item">
-          <router-link :to='`/${getSiteData.themeConfig.docsDir}/${pathVersion}/installation-guide.html#${item.slug}`'>
+          <router-link :to='`/${getSiteData.themeConfig.docsDir}/${pathVersion}/installation-guide/#${item.slug}`'>
             <img :src="item.logo" class="install-methods__item-logo">
             <h3 class="install-methods__item-title">{{item.label}}</h3>
           </router-link>
         </li>
       </ul>
     </div>
+
     <div v-else class="install-methods-wrapper">
       <p><strong>No install methods defined!</strong></p>
     </div>
@@ -70,7 +71,10 @@ export default {
     redirectToLatestVersion() {
       if ( !this.$route.meta.version ) {
         this.$router.push({
-          path: `/install/${LatestSemver(releases)}/`
+          path: `/install/${LatestSemver(releases)}/`,
+          meta: {
+            version: LatestSemver(releases)
+          }
         })
       }
     }

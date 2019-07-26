@@ -2,6 +2,10 @@ const productTitle = 'Konvoy'
 
 /**
  * Install page version URL builder
+ * 
+ * This pulls all of the versions from the releases
+ * JSON and builds the routes accordingly.
+ * 
  */
 function buildInstallReleaseURLs() {
   const releases = require('./public/releases.json')
