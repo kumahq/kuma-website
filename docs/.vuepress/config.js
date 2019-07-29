@@ -3,8 +3,15 @@
  * 
  * Change these values as needed
  */
-const productTitle = 'Konvoy'
-const productTwitter = 'konvoy'
+
+const productData = {
+  title: 'Konvoy',
+  twitter: 'konvoy',
+  author: 'Kong',
+  repo: 'kong/konvoy',
+  logo: '/konvoy-logo.svg',
+  hostname: 'localhost'
+}
 
 /**
  * Install page version URL builder
@@ -32,35 +39,19 @@ function buildInstallReleaseURLs() {
   return releaseArray
 }
 
+/**
+ * Site Configuration
+ */
 module.exports = {
-  title: productTitle,
+  title: productData.title,
   description: 'Connect, Secure and Observe any traffic and Microservices',
   host: 'localhost',
-  markdown: {
-    lineNumbers: true,
-    extendMarkdown: md => {
-      md.use(require('markdown-it-include'), {
-        root: __dirname
-      })
-    }
-  },
-  plugins: {
-    'clean-urls': {
-      normalSuffix: '/',
-      indexSuffix: '/'
-    },
-    'autometa': {
-      description_sources: [
-        'frontmatter',
-        'excerpt'
-      ]
-    }
-  },
   themeConfig: {
-    repo: 'kong/konvoy',
-    logo: '/konvoy-logo.svg',
-    twitterHandle: productTwitter,
-    footer: `${productTitle} by Kong`,
+    twitter: productData.twitter,
+    author: productData.author,
+    repo: productData.repo,
+    logo: productData.logo,
+    footer: productData.title,
     docsDir: 'docs',
     editLinks: true,
     search: true,
@@ -78,6 +69,35 @@ module.exports = {
       { text: 'Request Demo', link: '/request-demo/' },
       { text: 'Install', link: '/install/' }
     ]
+  },
+  markdown: {
+    lineNumbers: true,
+    extendMarkdown: md => {
+      md.use(require('markdown-it-include'), {
+        root: __dirname
+      })
+    }
+  },
+  plugins: {
+    'clean-urls': {
+      normalSuffix: '/',
+      indexSuffix: '/'
+    },
+    'seo': {
+      customMeta: (add, context) => {
+        const {
+          $site,
+          $page,
+          siteTitle, title, description, author, tags,
+          twitterCard, type, url, image, publishedAt, modifiedAt,
+        } = context
+
+        add( 'twitter:site', $site.themeConfig.twitter )
+      }
+    },
+    'sitemap': {
+      hostname: productData.hostname
+    }
   },
   additionalPages: [buildInstallReleaseURLs],
   head: [
