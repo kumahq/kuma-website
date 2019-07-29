@@ -6,6 +6,7 @@
 
 const productData = {
   title: 'Konvoy',
+  description: 'Connect, Secure and Observe any traffic and Microservices',
   twitter: 'konvoy',
   author: 'Kong',
   repo: 'kong/konvoy',
@@ -44,7 +45,7 @@ function buildInstallReleaseURLs() {
  */
 module.exports = {
   title: productData.title,
-  description: 'Connect, Secure and Observe any traffic and Microservices',
+  description: productData.description,
   host: 'localhost',
   themeConfig: {
     twitter: productData.twitter,
