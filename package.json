@@ -2,10 +2,14 @@
   "name": "konvoy-website",
   "description": "The website and docs for Konvoy.",
   "author": "Kong Inc.",
+  "private": true,
   "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
+  "workspaces": [
+    "docs/.vuepress/theme/global-components/kongponents/packages/*"
+  ],
   "dependencies": {
     "latest-semver": "^2.0.0",
     "markdown-it-include": "^1.1.0",
