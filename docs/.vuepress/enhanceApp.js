@@ -1,20 +1,21 @@
-// Get base stylesheet
-import '@kongponents/styles'
+// Styles
+import './theme/global-components/kongponents/packages/styles/styles.scss'
+import './theme/styles/custom/styles.scss'
 
-// Globally import all Kongponents
-import KAlert from '@kongponents/kalert'
-import KButton from '@kongponents/kbutton'
-import KCard from '@kongponents/kcard'
-import KClipboardProvider from '@kongponents/kclipboardprovider'
-import KEmptyState from '@kongponents/kemptystate'
-import KIcon from '@kongponents/kicon'
-import KModal from '@kongponents/kmodal'
-import KPop from '@kongponents/kpop'
-import Krumbs from '@kongponents/krumbs'
-import KTable from '@kongponents/ktable'
-import KToaster from '@kongponents/ktoaster'
-import KLabel from '@kongponents/klabel'
-import KInput from '@kongponents/kinput'
+import KAlert from './theme/global-components/kongponents/packages/KAlert'
+import KButton from './theme/global-components/kongponents/packages/KButton'
+import KCard from './theme/global-components/kongponents/packages/KCard'
+import KClipboardProvider from './theme/global-components/kongponents/packages/KClipboardProvider'
+import KEmptyState from './theme/global-components/kongponents/packages/KEmptyState'
+import KIcon from './theme/global-components/kongponents/packages/KIcon'
+import KInput from './theme/global-components/kongponents/packages/KInput'
+import KLabel from './theme/global-components/kongponents/packages/KLabel'
+import KModal from './theme/global-components/kongponents/packages/KModal'
+import KPop from './theme/global-components/kongponents/packages/KPop'
+import KTable from './theme/global-components/kongponents/packages/KTable'
+import Krumbs from './theme/global-components/kongponents/packages/Krumbs'
+import KToaster from './theme/global-components/kongponents/packages/KToaster'
+import KoolTip from './theme/global-components/kongponents/packages/KoolTip'
 
 export default ({
   Vue,
@@ -22,6 +23,7 @@ export default ({
   router,
   siteData
 }) => {
+  // Kongponents
   Vue.component('KAlert', KAlert)
   Vue.component('KModal', KModal)
   Vue.component('KButton', KButton)
@@ -35,23 +37,12 @@ export default ({
   Vue.component('Krumbs', Krumbs)
   Vue.component('KLabel', KLabel)
   Vue.component('KInput', KInput)
-
-  // Tailwind CSS is included via `postcss.config.js`
-
-  // our custom theme styles
-  require('./styles/styles.scss');
-
-  // Mixins
+  Vue.component('KoolTip', KoolTip)
 
   Vue.mixin({
     computed: {
-      installMethodItems() {
-        const { $themeConfig } = this
-        return $themeConfig.installMethods
-      },
-      getVersionDirs() {
-        const { $themeConfig } = this
-        return $themeConfig.versions
+      getSiteData() {
+        return siteData
       }
     }
   })

@@ -683,9 +683,9 @@
   integrity sha512-BTjTSsvbnvduc+S7SbRzgKOXZHD+b35gKsWlkd6K2y1xOZur9bZitKnQaIdvUm8YGH0EsDbPgkv8+P4e/aDcCA==
 
 "@kongponents/kbutton@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@kongponents/kbutton/-/kbutton-0.1.6.tgz#bc49b4f8dceeb24a36c42bbc652b977c2fe5d508"
-  integrity sha512-MvxaEzhS23RDqFxKZWjJGK/UoP+uyjv2SEjaSEL6l0dvPaKVrcptswkJvPE61A3m9xGYq+oJD9bueC9hD1h3aw==
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@kongponents/kbutton/-/kbutton-0.1.8.tgz#f03c959c3952b23f0c1dd57965c698c032e0d1f3"
+  integrity sha512-/PXyARunBaOdoDOp2pnYPjjX7xQex5IjZs4MxAX8qE12T+vu6LB5fSAFXfCYhCKPiGld59mc+BPMdMigX321tA==
 
 "@kongponents/kcard@0.0.1-beta.6":
   version "0.0.1-beta.6"
@@ -732,9 +732,9 @@
   integrity sha512-d8PqU2+M30ZqK9Gj9oOWqt84aHsPkediB2WJTMl9ZiATUwww3luTBhdJ5v67NP5MwxK7meenRd0p6Ou0N70P1w==
 
 "@kongponents/kpop@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@kongponents/kpop/-/kpop-0.2.4.tgz#7790003b789745b1f5283f6bf52b6a1fc84a0bea"
-  integrity sha512-LduAeOw17vRPLx5/osriE3JFfsdp2opzrfi/6a7nSSlpwKKKmqtVPQfBRp+1tAsF3gqLfOQADn+0qH0OBw7ScQ==
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@kongponents/kpop/-/kpop-0.2.5.tgz#0f4a50cdc1ec81f811a09fd33657c561a9d19c44"
+  integrity sha512-/nPqvRM0Qxw1qptUJG24OOMIg9ur13sM2HlGVouTGQMMJ/3hfwhpf4kd12xSKe70H5TIKmEPC5eK2sb3vQwLlA==
   dependencies:
     popper.js "^1.15.0"
 
@@ -969,6 +969,13 @@
   integrity sha512-GqgliWEr+w/8H/+74klF7OhJWrcsEb7wJXwWf7ySW9OOEfkZx0+R5v7MJ+b6SfPGdqGhCRizMdM8hM5JMm7odw==
   dependencies:
     lodash.throttle "^4.1.1"
+
+"@vuepress/plugin-back-to-top@^1.0.0-rc.1":
+  version "1.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-back-to-top/-/plugin-back-to-top-1.0.0-rc.1.tgz#91fb693f3c7d7a9d8019842bb061ad756445e4ca"
+  integrity sha512-6XQfuNDLbfjOyxrVcgD09shPiFjc/YTkhAUMRrnkEfq1Uacaw9idr9BlCt+92Co3auIB15x7hsgyPr0es+PPNQ==
+  dependencies:
+    lodash.debounce "^4.0.8"
 
 "@vuepress/plugin-last-updated@^1.0.1":
   version "1.0.1"
@@ -3098,6 +3105,14 @@ faye-websocket@~0.11.1:
   dependencies:
     websocket-driver ">=0.5.1"
 
+feed@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/feed/-/feed-2.0.4.tgz#14cd71b3bae1e965b81f7e0c5927e8941de996f8"
+  integrity sha512-sWatfulDP6d18qVaWcu34qmq9ml6UeN6nHSBJpNZ2muBqxjPAdT375whPYAHP+gqLfyabtYU5qf2Dv4nqtlp0w==
+  dependencies:
+    luxon "^1.3.3"
+    xml "^1.0.1"
+
 figgy-pudding@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.5.1.tgz#862470112901c727a0e495a80744bd5baa1d6790"
@@ -4330,6 +4345,13 @@ last-call-webpack-plugin@^3.0.0:
     lodash "^4.17.5"
     webpack-sources "^1.1.0"
 
+latest-semver@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/latest-semver/-/latest-semver-2.0.0.tgz#7208731deb29f1e109f269cff580fb61a792bb17"
+  integrity sha512-l8sU7ghgSK6fnaMMsmSkuLz8VWaHFhWFws6Iw6zIJdxTPC9mBsEZ+XW5nNTfNKWZmO4JMbfKIHXtQQjEO9o5Jw==
+  dependencies:
+    to-semver "^2.0.0"
+
 lcid@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/lcid/-/lcid-1.0.0.tgz#308accafa0bc483a3867b4b6f2b9506251d1b835"
@@ -4416,6 +4438,26 @@ lodash.clonedeep@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
   integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
+
+lodash.debounce@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+  integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
+
+lodash.defaultsdeep@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.0.tgz#bec1024f85b1bd96cbea405b23c14ad6443a6f81"
+  integrity sha1-vsECT4WxvZbL6kBbI8FK1kQ6b4E=
+
+lodash.findindex@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.findindex/-/lodash.findindex-4.6.0.tgz#a3245dee61fb9b6e0624b535125624bb69c11106"
+  integrity sha1-oyRd7mH7m24GJLU1ElYku2nBEQY=
+
+lodash.isempty@4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.isempty/-/lodash.isempty-4.4.0.tgz#6f86cbedd8be4ec987be9aaf33c9684db1b31e7e"
+  integrity sha1-b4bL7di+TsmHvpqvM8loTbGzHn4=
 
 lodash.kebabcase@^4.1.1:
   version "4.1.1"
@@ -4507,6 +4549,11 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
+luxon@^1.3.3:
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.17.1.tgz#7261aae6f7a2cc3cf83cbe24c62335cf3a48caad"
+  integrity sha512-+xo7Pj54xwyEzlMdXzDqm60Ewqbn0QqACwfIo6so9M1idUtYQrD7/PHjEFQQmLCBu8wUe2IDC2jrcJJ3Buk4Pw==
+
 make-dir@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-2.1.0.tgz#5f0310e18b8be898cc07009295a30ae41e91e6f5"
@@ -4565,6 +4612,11 @@ markdown-it-emoji@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/markdown-it-emoji/-/markdown-it-emoji-1.4.0.tgz#9bee0e9a990a963ba96df6980c4fddb05dfb4dcc"
   integrity sha1-m+4OmpkKljupbfaYDE/dsF37Tcw=
+
+markdown-it-include@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/markdown-it-include/-/markdown-it-include-1.1.0.tgz#c88fff73a97de4ab678da84c69a51de6105f390d"
+  integrity sha512-OeXvJHfEHrnXWH8+eqMeIX0aFJz4W2ULzfbEVGXBEXab7i3cqLWUxtiHUokZ0/A2uZvLXSaFns/BEVN/mINaCQ==
 
 markdown-it-table-of-contents@^0.4.0:
   version "0.4.4"
@@ -5457,6 +5509,11 @@ path-to-regexp@0.1.7:
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
   integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
 
+path-to-regexp@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-3.0.0.tgz#c981a218f3df543fa28696be2f88e0c58d2e012a"
+  integrity sha512-ZOtfhPttCrqp2M1PBBH4X13XlvnfhIwD7yCLx+GoGoXRPQyxGOTdQMpIzPSPKXAJT/JQrdfFrgdJOyAzvgpQ9A==
+
 path-type@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-1.1.0.tgz#59c44f7ee491da704da415da5a4070ba4f8fe441"
@@ -6284,6 +6341,11 @@ relateurl@0.2.x:
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
 
+remove-markdown@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/remove-markdown/-/remove-markdown-0.3.0.tgz#5e4b667493a93579728f3d52ecc1db9ca505dc98"
+  integrity sha1-XktmdJOpNXlyjz1S7MHbnKUF3Jg=
+
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
@@ -7051,6 +7113,11 @@ strip-json-comments@~2.0.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
 
+striptags@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/striptags/-/striptags-3.1.1.tgz#c8c3e7fdd6fb4bb3a32a3b752e5b5e3e38093ebd"
+  integrity sha1-yMPn/db7S7OjKjt1LltePjgJPr0=
+
 stylehacks@^4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/stylehacks/-/stylehacks-4.0.3.tgz#6718fcaf4d1e07d8a1318690881e8d96726a71d5"
@@ -7275,6 +7342,13 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     extend-shallow "^3.0.2"
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
+
+to-semver@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/to-semver/-/to-semver-2.0.0.tgz#56eba7579694ff656f526b5c9cb4f62e9776fea8"
+  integrity sha512-ZQbSDYCfuF4weayoQBoLOiLPMNiD/v1VTK05DQKelpWTBa2gYEIVQnLvPQLnC+/TzKqasuE90ma6jSoLry9BDA==
+  dependencies:
+    semver "^6.0.0"
 
 toidentifier@1.0.0:
   version "1.0.0"
@@ -7643,7 +7717,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.5.16:
+vue@^2.5.16, vue@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
@@ -7661,12 +7735,39 @@ vuepress-html-webpack-plugin@^3.2.0:
     toposort "^1.0.0"
     util.promisify "1.0.0"
 
+vuepress-plugin-autometa@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-autometa/-/vuepress-plugin-autometa-0.1.10.tgz#8204a3d3381a38fccc90a0fd1df26ff31e3ed3b7"
+  integrity sha512-0o5sOjYf6LiaBU5F5ei9k556kyZjRVub9OpYNq+k97eefcHKPTCI8dr3qF2bOAE65h/SOkPadnjnhgvtcCzOrQ==
+  dependencies:
+    lodash.defaultsdeep "4.6.0"
+    lodash.findindex "4.6.0"
+    lodash.isempty "4.4.0"
+    remove-markdown "0.3.0"
+    striptags "3.1.1"
+
+vuepress-plugin-clean-urls@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-clean-urls/-/vuepress-plugin-clean-urls-1.0.3.tgz#87ef2349d6d1f835dc2519abeb0cb99ccf1698a5"
+  integrity sha512-fdsK2e+cTm8mVRm2S8TcnlijPZTX31v61sqUx+4Xiq+KqB05UQlpKI1lz1gte59L8VeDoOE0JjoGXpDFTFlqcQ==
+
 vuepress-plugin-container@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/vuepress-plugin-container/-/vuepress-plugin-container-2.0.1.tgz#b20ef97dd91f137c8be119460927c5ffd64e0f77"
   integrity sha512-SMlWJl0uZYkqAxD2RUZmIrANZWKgiZdM64K7WmdyHyQPYI+NUj3ugi5D+zDn62BoO9NfQTiskEIa2u619SRweA==
   dependencies:
     markdown-it-container "^2.0.0"
+
+vuepress-plugin-feed@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-feed/-/vuepress-plugin-feed-0.1.6.tgz#d433ee956438a1acdcbbe8c8c9125ee6c4fed478"
+  integrity sha512-1eNtvOC+QxeIpeLbffNkqxXEbGJzTzjmAdduXdL0qJh0FHhF24XnfPtMtth1k5WX/hNcSfTKvf2yGWqNihRgQg==
+  dependencies:
+    feed "2.0.4"
+    lodash.defaultsdeep "4.6.0"
+    lodash.isempty "4.4.0"
+    remove-markdown "0.3.0"
+    striptags "3.1.1"
 
 vuepress-plugin-seo@^0.1.2:
   version "0.1.2"
@@ -7899,6 +8000,11 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
+
+xml@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/xml/-/xml-1.0.1.tgz#78ba72020029c5bc87b8a81a3cfcd74b4a2fc1e5"
+  integrity sha1-eLpyAgApxbyHuKgaPPzXS0ovweU=
 
 xmlbuilder@^10.0.0:
   version "10.1.1"

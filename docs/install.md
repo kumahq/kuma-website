@@ -1,6 +1,5 @@
 ---
 sidebar: false
-search: false
 layout: Install
 ---
 

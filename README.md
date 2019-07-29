@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/28be1f67-3436-4df7-9114-49dce7ca9a4e/deploy-status)](https://app.netlify.com/sites/konvoy/deploys)
+
 # Konvoy Website
 This is the main website and documentation hub for Konvoy. It is built on [VuePress](https://vuepress.vuejs.org/).
 
@@ -17,11 +19,3 @@ You can now navigate to [http://localhost:8080/](http://localhost:8080/).
 yarn docs:build
 ```
 This creates a `dist` folder within `.vuepress`.
-
----
-
-## Writing Documentation
-Documentation files are housed in their respective folders within the `docs/master` directory.
-The `sidebar` feature within `.vuepress/config.js` is where the sidebar navigation is handled.
-I am looking into ways to automatically create that navigation based on documentation folder structure 
-so that it doesn't have to be manually updated.

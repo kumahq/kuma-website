@@ -1,0 +1,15 @@
+// 
+// All styles
+// 
+
+@import './variables';
+@import './mixins';
+@import './overrides';
+@import './general';
+
+// pages
+@import './page-home';
+@import './page-install';
+
+// components
+@import './version-nav';

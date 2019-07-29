@@ -1,8 +1,7 @@
 ---
-sidebar: false
+sidebar: true
 home: true
 search: false
-layout: Home
 
 # custom page data
 testimonialPortraitSrc: https://placehold.it/300x300
