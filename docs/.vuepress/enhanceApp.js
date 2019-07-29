@@ -10,7 +10,8 @@ import KEmptyState from './theme/global-components/kongponents/packages/KEmptySt
 import KIcon from './theme/global-components/kongponents/packages/KIcon'
 import KInput from './theme/global-components/kongponents/packages/KInput'
 import KLabel from './theme/global-components/kongponents/packages/KLabel'
-import KModal from './theme/global-components/kongponents/packages/KModal'
+// KModal is removed for now because it currently relies on a package from a private npm repo
+// import KModal from './theme/global-components/kongponents/packages/KModal'
 import KPop from './theme/global-components/kongponents/packages/KPop'
 import KTable from './theme/global-components/kongponents/packages/KTable'
 import Krumbs from './theme/global-components/kongponents/packages/Krumbs'
