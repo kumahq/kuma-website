@@ -1,4 +1,10 @@
+/**
+ * Product data
+ * 
+ * Change these values as needed
+ */
 const productTitle = 'Konvoy'
+const productTwitter = 'konvoy'
 
 /**
  * Install page version URL builder
@@ -39,15 +45,21 @@ module.exports = {
     }
   },
   plugins: {
-    // '@vuepress/back-to-top': {},
     'clean-urls': {
       normalSuffix: '/',
       indexSuffix: '/'
+    },
+    'autometa': {
+      description_sources: [
+        'frontmatter',
+        'excerpt'
+      ]
     }
   },
   themeConfig: {
     repo: 'kong/konvoy',
     logo: '/konvoy-logo.svg',
+    twitterHandle: productTwitter,
     footer: `${productTitle} by Kong`,
     docsDir: 'docs',
     editLinks: true,

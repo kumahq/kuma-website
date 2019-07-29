@@ -7,8 +7,8 @@
         <Content slot-key="masthead-sub-title"/>
       </header>
       <div class="page-masthead__actions">
-        <KButton appearance="primary">Install</KButton>
-        <KButton appearance="secondary">Getting Started</KButton>
+        <a href="#">Install</a>
+        <a href="#">Getting Started</a>
       </div>
     </div>
     <!-- .page-masthead -->
@@ -27,9 +27,12 @@
           :alt="$page.frontmatter.testimonialPortraitAlt"
         >
       </div>
-      <div class="testimonial__content">
+      <blockquote class="testimonial__content">
         <Content slot-key="testimonial-content"/>
-      </div>
+        <cite>
+          &mdash; <Content slot-key="testimonial-author"/>
+        </cite>
+      </blockquote>
     </div>
     <!-- .testimonial -->
     

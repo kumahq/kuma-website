@@ -1,7 +1,14 @@
 ---
+# page settings
 sidebar: true
 home: true
 search: false
+
+# homepage meta
+autometa:
+  author:
+    name: Kong
+    twitter: konvoy
 
 # custom page data
 testimonialPortraitSrc: https://placehold.it/300x300
