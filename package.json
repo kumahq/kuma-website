@@ -7,9 +7,6 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
-  "workspaces": [
-    "docs/.vuepress/theme/global-components/kongponents/packages/*"
-  ],
   "dependencies": {
     "latest-semver": "^2.0.0",
     "markdown-it-include": "^1.1.0",
