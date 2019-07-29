@@ -7,8 +7,10 @@
         <Content slot-key="masthead-sub-title"/>
       </header>
       <div class="page-masthead__actions">
-        <KButton appearance="primary">Install</KButton>
-        <KButton appearance="secondary">Getting Started</KButton>
+        <a href="#">Install</a>
+        <a href="#">Getting Started</a>
+        <!-- <KButton appearance="primary">Install</KButton>
+        <KButton appearance="secondary">Getting Started</KButton> -->
       </div>
     </div>
     <!-- .page-masthead -->
