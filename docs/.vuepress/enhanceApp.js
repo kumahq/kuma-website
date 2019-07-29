@@ -26,7 +26,7 @@ export default ({
 }) => {
   // Kongponents
   Vue.component('KAlert', KAlert)
-  Vue.component('KModal', KModal)
+  // Vue.component('KModal', KModal)
   Vue.component('KButton', KButton)
   Vue.component('KCard', KCard)
   Vue.component('KEmptyState', KEmptyState)
