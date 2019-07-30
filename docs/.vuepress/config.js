@@ -61,7 +61,10 @@ module.exports = {
       apiKey: '',
       indexName: ''
     },
-    sidebar: 'auto',
+    // sidebar: 'auto',
+    sidebar: [
+      '/docs/0.1.0/community/',
+    ],
     displayAllHeaders: false,
     nav: [
       { text: 'Documentation', link: '/docs/' },

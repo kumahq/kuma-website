@@ -2,44 +2,27 @@
   <div class="version-nav">
     <DropdownLink :item="{
       text: 'Versions',
-      items: tags,
+      items: this.releasesAsRouterLinks,
       type: 'links'
     }"/>
-
-
   </div>
 </template>
 
 <script>
-import releases from '../../../public/releases.json'
+import { mapGetters } from 'vuex'
 import LatestSemver from 'latest-semver'
 import DropdownLink from '@theme/components/DropdownLink'
 import NavLink from '@theme/components/NavLink'
 
 export default {
   name: 'VersionNav',
-  data() {
-    return {
-      tags: Array,
-      latestRelease: LatestSemver(releases)
-    }
-  },
   components: {
     DropdownLink
   },
-  methods: {
-    fetchReleases() {
-      // map the release list to fields that we can use in the
-      // DropdownLink component accordingly
-      this.tags = releases.map( tag => ({
-        text: tag === this.latestRelease ? `${tag} (latest)` : tag,
-        type: 'link',
-        link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`
-      }))
-    }
-  },
-  beforeMount() {
-    this.fetchReleases()
+  computed: {
+    ...mapGetters([
+      'releasesAsRouterLinks'
+    ])
   }
 }
 </script>
