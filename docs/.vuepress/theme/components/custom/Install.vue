@@ -54,6 +54,7 @@ export default {
     }
   },
   methods: {
+
     updateInstallPath(ev) {
       // update the version accordingly in the UI when the
       // user switches to a different version
@@ -64,28 +65,46 @@ export default {
       this.$router.push({
         path: `/install/${fieldValue}`,
         meta: {
-          selectedVersion: fieldValue
+          version: fieldValue
         }
       })
     },
+
     fetchReleases() {
       this.tags = ToSemver(releases)
       this.pathVersion = LatestSemver(releases)
     },
+
     fetchVersionMeta() {
       if ( this.$route.meta.version ) {
         this.pathVersion = this.$route.meta.version
       }
     },
+
     redirectToLatestVersion() {
-      if ( !this.$route.meta.version ) {
+      if ( !this.$route.meta.version || this.$route.path === '/install/' ) {
+        const latest = LatestSemver(releases)
+        // update the selected version data on the page
+        this.pathVersion = latest
+
+        // redirect to the latest release route
         this.$router.push({
-          path: `/install/${LatestSemver(releases)}/`,
+          path: `/install/${latest}/`,
           meta: {
-            version: LatestSemver(releases)
+            version: latest
           }
         })
       }
+    }
+
+  },
+  watch: {
+    // this ensures that the user is always on the latest version
+    // in case they are on the Install page and happen to navigate
+    // to it again via the main nav (which sends them to the bare
+    // path without a version appended)
+    $route (to, from) {
+      this.redirectToLatestVersion()
     }
   },
   beforeMount() {
