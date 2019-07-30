@@ -1,6 +1,5 @@
 ---
 sidebar: false
 layout: Install
+title: Install Konvoy
 ---
-
-# Install Konvoy

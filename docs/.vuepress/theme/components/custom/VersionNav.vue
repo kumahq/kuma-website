@@ -5,6 +5,8 @@
       items: tags,
       type: 'links'
     }"/>
+
+
   </div>
 </template>
 
@@ -12,6 +14,7 @@
 import releases from '../../../public/releases.json'
 import LatestSemver from 'latest-semver'
 import DropdownLink from '@theme/components/DropdownLink'
+import NavLink from '@theme/components/NavLink'
 
 export default {
   name: 'VersionNav',
@@ -31,7 +34,7 @@ export default {
       this.tags = releases.map( tag => ({
         text: tag === this.latestRelease ? `${tag} (latest)` : tag,
         type: 'link',
-        link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`,
+        link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`
       }))
     }
   },

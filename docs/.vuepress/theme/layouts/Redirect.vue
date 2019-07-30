@@ -30,8 +30,11 @@ export default {
     fetchReleases() {
       // let's fetch the releases data so we can grab
       // the latest version in order to build the redirect
-      this.version = LatestSemver(releases)
-      this.$router.push(`${this.$page.path}${this.version}/`)
+      const latestVersion = LatestSemver(releases)
+      this.version = latestVersion
+      this.$router.push({
+        path: `${this.$page.path}${latestVersion}/`
+      })
     }
   }
 }
