@@ -10,13 +10,15 @@
 
 <script>
 import releases from '../../../public/releases.json'
+import LatestSemver from 'latest-semver'
 import DropdownLink from '@theme/components/DropdownLink'
 
 export default {
   name: 'VersionNav',
   data() {
     return {
-      tags: Array
+      tags: Array,
+      latestRelease: LatestSemver(releases)
     }
   },
   components: {
@@ -24,8 +26,10 @@ export default {
   },
   methods: {
     fetchReleases() {
+      // map the release list to fields that we can use in the
+      // DropdownLink component accordingly
       this.tags = releases.map( tag => ({
-        text: tag,
+        text: tag === this.latestRelease ? `${tag} (latest)` : tag,
         type: 'link',
         link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`,
       }))
