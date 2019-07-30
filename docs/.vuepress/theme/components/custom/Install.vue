@@ -57,7 +57,16 @@ export default {
     updateInstallPath(ev) {
       // update the version accordingly in the UI when the
       // user switches to a different version
-      this.pathVersion = ev.target.value
+      const fieldValue = ev.target.value
+      this.pathVersion = fieldValue
+
+      // change the URL to reflect the version change
+      this.$router.push({
+        path: `/install/${fieldValue}`,
+        meta: {
+          selectedVersion: fieldValue
+        }
+      })
     },
     fetchReleases() {
       this.tags = ToSemver(releases)
