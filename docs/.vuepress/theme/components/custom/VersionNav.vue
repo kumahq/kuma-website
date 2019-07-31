@@ -1,26 +1,40 @@
 <template>
-  <div class="version-nav">
-    <DropdownLink :item="{
-      text: 'Versions',
-      items: this.releasesAsRouterLinks,
-      type: 'links'
-    }"/>
-  </div>
+  <form class="version-nav">
+    <select name="doc-version-selector" @change="redirectToSelectedDocVersion($event.target.value)">
+      <option 
+        v-for="item in releasesAsSelectValues" 
+        :value="item.version" 
+        :key="item.version" 
+        :selected='item.version === getSelectedDocVersion'
+      >
+        {{item.text}}
+      </option>
+    </select>
+  </form>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import DropdownLink from '@theme/components/DropdownLink'
-import NavLink from '@theme/components/NavLink'
 
 export default {
   name: 'VersionNav',
-  components: {
-    DropdownLink
+  methods: {
+    redirectToSelectedDocVersion(val) {
+      this.$store.commit('updateSelectedDocVersion', val)
+      this.$router.push({
+        path: `/${this.getSiteData.themeConfig.docsDir}/${val}/`,
+        meta: {
+          version: val
+        }
+      })
+    }
   },
   computed: {
     ...mapGetters([
-      'releasesAsRouterLinks'
+      'releasesAsSelectValues',
+      'getReleaseList',
+      'getSelectedDocVersion'
     ])
   }
 }

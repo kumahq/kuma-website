@@ -20,6 +20,9 @@ const productData = {
  * This pulls all of the versions from the releases
  * JSON and builds the routes accordingly.
  * 
+ * @todo figure out how to get this to work via
+ * `router.addRoutes` instead
+ * 
  */
 function buildInstallReleaseURLs() {
   const releases = require('./public/releases.json')
@@ -61,10 +64,10 @@ module.exports = {
       apiKey: '',
       indexName: ''
     },
-    // sidebar: 'auto',
-    sidebar: [
-      '/docs/0.1.0/community/',
-    ],
+    sidebar: 'auto',
+    // sidebar: [
+    //   '/docs/0.1.0/getting-started',
+    // ],
     displayAllHeaders: false,
     nav: [
       { text: 'Documentation', link: '/docs/' },

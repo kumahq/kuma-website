@@ -3,11 +3,17 @@
 
     <header class="page-header">
       <h1>Install {{$site.title}}</h1>
-      <div v-if="items.length" class="version-selector-wrapper">
+      
+      <div v-if="this.getInstallMethods && this.getInstallMethods.length" class="version-selector-wrapper">
         <form>
-          <select name="version-selector" id="version-selector" @change="updateInstallPath($event)">
-            <option v-for="tag in getReleaseList" :value="tag" :key="tag" :selected='getSelectedInstallVersion === tag'>
-              {{tag}}
+          <select name="install-version-selector" @change="updateInstallPath($event.target.value)">
+            <option 
+              v-for="tag in releasesAsSelectValues" 
+              :value="tag.version" 
+              :key="tag.version" 
+              :selected='getSelectedInstallVersion === tag'
+            >
+              {{tag.text}}
             </option>
           </select>
         </form>
@@ -19,9 +25,9 @@
       </div>
     </header>
 
-    <div v-if="items && items.length" class="install-methods-wrapper">
+    <div v-if="this.getInstallMethods" class="install-methods-wrapper">
       <ul class="install-methods">
-        <li v-for="item in items" class="install-methods__item">
+        <li v-for="(item, index) in getInstallMethods" :key="index" class="install-methods__item">
           <router-link :to='`/${getSiteData.themeConfig.docsDir}/${getSelectedInstallVersion}/installation-guide/#${item.slug}`'>
             <img :src="item.logo" class="install-methods__item-logo">
             <h3 class="install-methods__item-title">{{item.label}}</h3>
@@ -39,14 +45,9 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import installMethods from '../../../public/install-methods.json'
 
 export default {
-  data() {
-    return {
-      items: installMethods
-    }
-  },
+  name: 'Install',
   methods: {
 
     ...mapMutations([
@@ -56,16 +57,15 @@ export default {
     updateInstallPath(ev) {
       // update the version accordingly in the UI when the
       // user switches to a different version
-      const fieldValue = ev.target.value
 
       // set the updated install version in the store
-      this.$store.commit('updateSelectedInstallVersion', fieldValue)
+      this.$store.commit('updateSelectedInstallVersion', ev)
 
       // change the URL to reflect the version change
       this.$router.push({
-        path: `/install/${fieldValue}`,
+        path: `/install/${ev}`,
         meta: {
-          version: fieldValue
+          version: ev
         }
       })
     },
@@ -92,9 +92,11 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getInstallMethods',
       'getReleaseList',
       'getLatestRelease',
-      'getSelectedInstallVersion'
+      'getSelectedInstallVersion',
+      'releasesAsSelectValues'
     ])
   },
   watch: {
