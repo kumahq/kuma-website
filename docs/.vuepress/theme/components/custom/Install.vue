@@ -6,14 +6,14 @@
       <div v-if="items.length" class="version-selector-wrapper">
         <form>
           <select name="version-selector" id="version-selector" @change="updateInstallPath($event)">
-            <option v-for="tag in tags" :value="tag" :key="tag" :selected='$route.meta.version === tag'>
+            <option v-for="tag in getReleaseList" :value="tag" :key="tag" :selected='getSelectedInstallVersion === tag'>
               {{tag}}
             </option>
           </select>
         </form>
 
-        <div v-if="pathVersion">
-          <p>You are viewing installation instructions for <strong>{{pathVersion}}</strong>.</p>
+        <div v-if="getSelectedInstallVersion">
+          <p>You are viewing installation instructions for <strong>{{getSelectedInstallVersion}}</strong>.</p>
         </div>
 
       </div>
@@ -22,7 +22,7 @@
     <div v-if="items && items.length" class="install-methods-wrapper">
       <ul class="install-methods">
         <li v-for="item in items" class="install-methods__item">
-          <router-link :to='`/${getSiteData.themeConfig.docsDir}/${pathVersion}/installation-guide/#${item.slug}`'>
+          <router-link :to='`/${getSiteData.themeConfig.docsDir}/${getSelectedInstallVersion}/installation-guide/#${item.slug}`'>
             <img :src="item.logo" class="install-methods__item-logo">
             <h3 class="install-methods__item-title">{{item.label}}</h3>
           </router-link>
@@ -38,28 +38,29 @@
 </template>
 
 <script>
-import LatestSemver from 'latest-semver'
-import ToSemver from 'to-semver'
-import releases from '../../../public/releases.json'
+import { mapGetters, mapMutations } from 'vuex'
 import installMethods from '../../../public/install-methods.json'
 
 export default {
   data() {
     return {
-      tags: Array,
-      pathVersion: '',
       pathSegment: '#installation',
-      helperText: '',
       items: installMethods
     }
   },
   methods: {
 
+    ...mapMutations([
+      'updateSelectedDocVersion'
+    ]),
+
     updateInstallPath(ev) {
       // update the version accordingly in the UI when the
       // user switches to a different version
       const fieldValue = ev.target.value
-      this.pathVersion = fieldValue
+
+      // set the updated install version in the store
+      this.$store.commit('updateSelectedInstallVersion', fieldValue)
 
       // change the URL to reflect the version change
       this.$router.push({
@@ -70,33 +71,32 @@ export default {
       })
     },
 
-    fetchReleases() {
-      this.tags = ToSemver(releases)
-      this.pathVersion = LatestSemver(releases)
-    },
-
-    fetchVersionMeta() {
-      if ( this.$route.meta.version ) {
-        this.pathVersion = this.$route.meta.version
+    mapVersionMetaToInstallVersion() {
+      const metaValue = this.$route.meta.version
+      if ( metaValue ) {
+        this.$store.commit('updateSelectedInstallVersion', metaValue)
       }
     },
 
     redirectToLatestVersion() {
       if ( !this.$route.meta.version || this.$route.path === '/install/' ) {
-        const latest = LatestSemver(releases)
-        // update the selected version data on the page
-        this.pathVersion = latest
-
         // redirect to the latest release route
         this.$router.push({
-          path: `/install/${latest}/`,
+          path: `/install/${this.getLatestRelease}/`,
           meta: {
-            version: latest
+            version: this.getLatestRelease
           }
         })
       }
     }
 
+  },
+  computed: {
+    ...mapGetters([
+      'getReleaseList',
+      'getLatestRelease',
+      'getSelectedInstallVersion'
+    ])
   },
   watch: {
     // this ensures that the user is always on the latest version
@@ -105,12 +105,12 @@ export default {
     // path without a version appended)
     $route (to, from) {
       this.redirectToLatestVersion()
+      this.mapVersionMetaToInstallVersion()
     }
   },
   beforeMount() {
     this.redirectToLatestVersion()
-    this.fetchReleases()
-    this.fetchVersionMeta()
+    this.mapVersionMetaToInstallVersion()
   }
 };
 </script>

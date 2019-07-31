@@ -10,7 +10,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import LatestSemver from 'latest-semver'
 import DropdownLink from '@theme/components/DropdownLink'
 import NavLink from '@theme/components/NavLink'
 

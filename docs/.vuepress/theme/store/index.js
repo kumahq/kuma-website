@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { install } from 'vuex'
 import ToSemver from 'to-semver'
 import LatestSemver from 'latest-semver'
 import releases from '../../public/releases.json'
