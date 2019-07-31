@@ -44,7 +44,6 @@ import installMethods from '../../../public/install-methods.json'
 export default {
   data() {
     return {
-      pathSegment: '#installation',
       items: installMethods
     }
   },
