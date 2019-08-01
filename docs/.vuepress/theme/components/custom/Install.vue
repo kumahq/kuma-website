@@ -6,12 +6,13 @@
       
       <div v-if="this.getInstallMethods && this.getInstallMethods.length" class="version-selector-wrapper">
         <form>
-          <select name="install-version-selector" @change="updateInstallPath($event.target.value)">
+
+          <select name="version-selector" id="version-selector" @change="updateInstallPath($event.target.value)">
             <option 
               v-for="tag in releasesAsSelectValues" 
               :value="tag.version" 
               :key="tag.version" 
-              :selected='getSelectedInstallVersion === tag'
+              :selected='$route.meta.version === tag.version'
             >
               {{tag.text}}
             </option>
