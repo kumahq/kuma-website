@@ -20,6 +20,26 @@ const productData = {
 }
 
 /**
+ * Sidebar navigation structure
+ */
+const sidebarNav = {
+  '/docs/0.1.0/': [
+    '',
+    'documentation/',
+    'tutorials/',
+    'installation/',
+    'community/'
+  ],
+  '/docs/0.2.0/': [
+    '',
+    'documentation/',
+    'tutorials/',
+    'installation/',
+    'community/'
+  ]
+}
+
+/**
  * Install page version URL builder
  * 
  * This pulls all of the versions from the releases
@@ -31,13 +51,10 @@ const productData = {
  * 
  */
 function buildInstallReleaseURLs() {
-  // do nothing if the releases json is not present
-  if ( !releases ) return
-
   // build the release route array
   const releaseArray = []
 
-  for (let i = 0; i < releases.length; i++) { 
+  for ( let i = 0; i < releases.length; i++ ) { 
     releaseArray.push({
       path: `/install/${releases[i]}/`,
       meta: {
@@ -74,47 +91,8 @@ module.exports = {
       apiKey: '',
       indexName: ''
     },
-    sidebar: {
-      '/docs/0.2.0/': [
-        '',
-        'community/',
-        'documentation/',
-        'getting-started/'
-      ]
-      // {
-      //   type: 'group',
-      //   title: 'Getting Started',
-      //   collapsible: true
-      // },
-      // {
-      //   type: 'group',
-      //   title: 'Documentation',
-      //   collapsible: true
-      // },
-      // {
-      //   type: 'group',
-      //   title: 'Tutorials',
-      //   collapsible: true
-      // },
-      // {
-      //   type: 'group',
-      //   title: 'Installation',
-      //   collapsible: true
-      // },
-      // {
-      //   type: 'group',
-      //   title: 'Community',
-      //   collapsible: true,
-      //   children: [
-      //     {
-
-      //       text: 'Google',
-      //       link: 'https://google.com'
-      //     }
-      //   ]
-      // }
-    },
-    displayAllHeaders: false,
+    sidebar: sidebarNav,
+    displayAllHeaders: true,
     nav: [
       { text: 'Documentation', link: '/docs/' },
       { text: 'Community', link: '/community/' },
