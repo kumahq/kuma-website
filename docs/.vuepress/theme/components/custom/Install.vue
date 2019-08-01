@@ -6,7 +6,6 @@
       
       <div v-if="this.getInstallMethods && this.getInstallMethods.length" class="version-selector-wrapper">
         <form>
-
           <select name="version-selector" id="version-selector" @change="updateInstallPath($event.target.value)">
             <option 
               v-for="tag in releasesAsSelectValues" 
@@ -29,7 +28,7 @@
     <div v-if="this.getInstallMethods" class="install-methods-wrapper">
       <ul class="install-methods">
         <li v-for="(item, index) in getInstallMethods" :key="index" class="install-methods__item">
-          <router-link :to='`/${getSiteData.themeConfig.docsDir}/${getSelectedInstallVersion}/installation-guide/#${item.slug}`'>
+          <router-link :to='`/${getSiteData.themeConfig.docsDir}/${getSelectedInstallVersion}/installation/${item.slug}/`'>
             <img :src="item.logo" class="install-methods__item-logo">
             <h3 class="install-methods__item-title">{{item.label}}</h3>
           </router-link>

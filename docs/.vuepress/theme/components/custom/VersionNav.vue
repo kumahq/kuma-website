@@ -5,7 +5,7 @@
         v-for="item in releasesAsSelectValues" 
         :value="item.version" 
         :key="item.version" 
-        :selected='item.version === getSelectedDocVersion'
+        :selected='$route.meta.version === item.version'
       >
         {{item.text}}
       </option>
@@ -24,7 +24,7 @@ export default {
       this.$store.commit('updateSelectedDocVersion', val)
       this.$router.push({
         path: `/${this.getSiteData.themeConfig.docsDir}/${val}/`,
-        meta: {
+        params: {
           version: val
         }
       })

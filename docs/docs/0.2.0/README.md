@@ -1,8 +1,6 @@
 ---
-sidebarDepth: 2
+sidebarDepth: 1
 ---
-
-# Documentation
 
 ## Getting Started
 !!!include(../.partials/what-is-konvoy.md)!!!

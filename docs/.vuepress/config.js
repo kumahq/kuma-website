@@ -1,4 +1,9 @@
 /**
+ * Release data
+ */
+const releases = require('./public/releases.json')
+
+/**
  * Product data
  * 
  * Change these values as needed
@@ -21,12 +26,17 @@ const productData = {
  * JSON and builds the routes accordingly.
  * 
  * @todo figure out how to get this to work via
- * `router.addRoutes` instead
+ * `router.addRoutes` instead (ran into problems
+ * with it in VuePress)
  * 
  */
 function buildInstallReleaseURLs() {
-  const releases = require('./public/releases.json')
+  // do nothing if the releases json is not present
+  if ( !releases ) return
+
+  // build the release route array
   const releaseArray = []
+
   for (let i = 0; i < releases.length; i++) { 
     releaseArray.push({
       path: `/install/${releases[i]}/`,
@@ -64,10 +74,46 @@ module.exports = {
       apiKey: '',
       indexName: ''
     },
-    sidebar: 'auto',
-    // sidebar: [
-    //   '/docs/0.1.0/getting-started',
-    // ],
+    sidebar: {
+      '/docs/0.2.0/': [
+        '',
+        'community/',
+        'documentation/',
+        'getting-started/'
+      ]
+      // {
+      //   type: 'group',
+      //   title: 'Getting Started',
+      //   collapsible: true
+      // },
+      // {
+      //   type: 'group',
+      //   title: 'Documentation',
+      //   collapsible: true
+      // },
+      // {
+      //   type: 'group',
+      //   title: 'Tutorials',
+      //   collapsible: true
+      // },
+      // {
+      //   type: 'group',
+      //   title: 'Installation',
+      //   collapsible: true
+      // },
+      // {
+      //   type: 'group',
+      //   title: 'Community',
+      //   collapsible: true,
+      //   children: [
+      //     {
+
+      //       text: 'Google',
+      //       link: 'https://google.com'
+      //     }
+      //   ]
+      // }
+    },
     displayAllHeaders: false,
     nav: [
       { text: 'Documentation', link: '/docs/' },
