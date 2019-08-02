@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import store from './theme/store/index'
+import './theme/styles/custom/styles.scss'
 
 export default ({
   Vue,
@@ -9,11 +10,6 @@ export default ({
 }) => {
 
   Vue.use(Vuex)
-
-  /**
-   * Site styles
-   */
-  require('./theme/styles/custom/styles.scss')
   
   /**
    * Global Mixins

@@ -3,14 +3,11 @@
 // 
 
 .version-nav {
+  padding: 25px 25px 0 25px;
 
-  .dropdown-wrapper {
-    position: relative;
-    padding: 25px 25px 0 25px;
-  }
-  
-  .nav-dropdown {
-    right: auto;
-    left: 0;
+  select {
+    display: block;
+    width: 100%;
+    max-width: 100%;
   }
 }

@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.29",
+    "babel-jest": "^24.8.0",
     "jest": "^24.8.0",
     "jest-raw-loader": "^1.0.1",
     "latest-semver": "^2.0.0",
