@@ -7,6 +7,9 @@
     "docs:build": "vuepress build docs"
   },
   "dependencies": {
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
     "latest-semver": "^2.0.0",
     "markdown-it-include": "^1.1.0",
     "node-sass": "^4.12.0",
@@ -16,14 +19,13 @@
     "sass-loader": "^7.1.0",
     "tailwindcss": "^1.0.4",
     "to-semver": "^2.0.0",
-    "vue": "^2.6.10",
     "vuepress-plugin-clean-urls": "^1.0.3",
     "vuepress-plugin-feed": "^0.1.6",
     "vuepress-plugin-seo": "^0.1.2",
     "vuepress-plugin-sitemap": "^2.1.2",
-    "vuex": "^3.1.1"
-  },
-  "devDependencies": {
+    "vuex": "^3.1.1",
+    "jest": "^24.8.0",
+    "vue-jest": "^3.0.4",
     "vuepress": "^1.0.1"
   }
 }
