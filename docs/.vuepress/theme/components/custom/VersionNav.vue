@@ -5,7 +5,7 @@
         v-for="item in releasesAsSelectValues" 
         :value="item.version" 
         :key="item.version" 
-        :selected='$route.meta.version === item.version'
+        :selected='selectedDocVersion === item.version'
       >
         {{item.text}}
       </option>
@@ -19,6 +19,11 @@ import DropdownLink from '@theme/components/DropdownLink'
 
 export default {
   name: 'VersionNav',
+  data() {
+    return {
+      selectedDocVersion: this.$route.path.replace(/\//g,'').replace('docs','')
+    }
+  },
   methods: {
     redirectToSelectedDocVersion(val) {
       this.$store.commit('updateSelectedDocVersion', val)
