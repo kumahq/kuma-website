@@ -15,7 +15,6 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import DropdownLink from '@theme/components/DropdownLink'
 
 export default {
   name: 'VersionNav',
@@ -37,9 +36,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'releasesAsSelectValues',
-      'getReleaseList',
-      'getSelectedDocVersion'
+      'releasesAsSelectValues'
     ])
   }
 }
