@@ -4,7 +4,9 @@
 
 $navbar-vertical-padding: 0.7rem;
 $navbar-horizontal-padding: 1.5rem;
-$navbar-link-border-color: $color-2;
+$navbar-link-border: 2px solid $color-2;
+$navbar-install-bg-color: $color-2;
+$navbar-install-text-color: #fff;
 
 .navbar {
   padding: $navbar-vertical-padding $navbar-horizontal-padding;
@@ -45,6 +47,8 @@ $navbar-link-border-color: $color-2;
     }
   }
 
+  // custom additions to navbar
+
   .logo-wrap {
     display: flex;
     align-items: center;
@@ -52,6 +56,14 @@ $navbar-link-border-color: $color-2;
 
   .repo-button {
     display: inline-block;
+  }
+
+  .nav-item--install > a:not(.external),
+  .nav-item--install > a.router-link-active {
+    border-bottom: $navbar-link-border;
+    background-color: $navbar-install-bg-color;
+    color: $navbar-install-text-color;
+    padding: $navbar-vertical-padding ($navbar-vertical-padding * 3);
   }
 }
 
@@ -76,6 +88,6 @@ $navbar-link-border-color: $color-2;
 @media (min-width: $MQMobile) {
   .nav-item > a:not(.external):hover,
   .nav-item > a:not(.external).router-link-active {
-    border-bottom: 2px solid $navbar-link-border-color;
+    border-bottom: $navbar-link-border;
   }
 }

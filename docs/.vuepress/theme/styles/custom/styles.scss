@@ -1,15 +1,20 @@
 // 
-// All styles
+// Custom styles
 // 
 
-@import './variables';
-@import './mixins';
-@import './general';
+// bootstrap
+@import './config/variables',
+        './config/mixins',
+        './config/general';
 
 // pages
-@import './page-home';
-@import './page-install';
+@import './pages/page',
+        './pages/page-home',
+        './pages/page-install';
 
 // components
-@import './components/version-nav';
-@import './components/navbar';
+@import './components/version-nav',
+        './components/navbar';
+
+// general elements
+@import './forms';
