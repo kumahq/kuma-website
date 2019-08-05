@@ -6,6 +6,7 @@
     <!-- user links -->
     <div
       class="nav-item"
+      :class="'nav-item--' + item.link.replace(/\//g,'')"
       v-for="item in userLinks"
       :key="item.link"
     >
@@ -20,7 +21,7 @@
     </div>
 
     <!-- repo link -->
-    <a
+    <!-- <a
       v-if="repoLink"
       :href="repoLink"
       class="repo-link"
@@ -29,7 +30,7 @@
     >
       {{ repoLabel }}
       <OutboundLink/>
-    </a>
+    </a> -->
   </nav>
 </template>
 
