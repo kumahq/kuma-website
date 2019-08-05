@@ -4,7 +4,6 @@
 
 @import './variables';
 @import './mixins';
-@import './overrides';
 @import './general';
 
 // pages
@@ -12,4 +11,5 @@
 @import './page-install';
 
 // components
-@import './version-nav';
+@import './components/version-nav';
+@import './components/navbar';

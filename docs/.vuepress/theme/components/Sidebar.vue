@@ -1,7 +1,15 @@
 <template>
   <aside class="sidebar">
     <VersionNav/>
+
+    <AlgoliaSearchBox
+      v-if="isAlgoliaSearch"
+      :options="algolia"
+    />
+    <!-- <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/> -->
+
     <NavLinks/>
+
     <slot name="top"/>
     <SidebarLinks :depth="0" :items="items"/>
     <slot name="bottom"/>
@@ -9,6 +17,8 @@
 </template>
 
 <script>
+import AlgoliaSearchBox from '@AlgoliaSearchBox'
+import SearchBox from '@SearchBox'
 import VersionNav from '../components/custom/VersionNav'
 import SidebarLinks from '../components/SidebarLinks'
 import NavLinks from '../components/NavLinks'
@@ -16,6 +26,8 @@ import NavLinks from '../components/NavLinks'
 export default {
   name: 'Sidebar',
   components: {
+    AlgoliaSearchBox,
+    SearchBox,
     SidebarLinks,
     NavLinks,
     VersionNav

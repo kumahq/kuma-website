@@ -2,6 +2,7 @@
 // Variables
 // 
 
+// Branding
 $color-1: #0b2e4c;
 $color-2: #0063b0;
 $color-3: #3fb764;
@@ -9,3 +10,19 @@ $color-4: #1bbecc;
 $color-6: #963a85;
 $color-7: #ee4788;
 $color-8: #ef485d;
+
+// VuePress overrides
+$accentColor: #3eaf7c;
+$textColor: #2c3e50;
+$borderColor: red;
+$codeBgColor: #282c34;
+
+// 
+// Breakpoints
+// 
+// These are modeled after the named variable breakpoints
+// in the default theme
+// 
+
+$MQMobile: 719px;
+$navbarHeight: 3.6rem;
