@@ -14,7 +14,8 @@ const productData = {
   description: 'Connect, Secure and Observe any traffic and Microservices',
   twitter: 'konvoy',
   author: 'Kong',
-  repo: 'kong/konvoy',
+  repo: 'https://github.com/kong/konvoy',
+  repoButtonLabel: 'Star',
   logo: '/konvoy-logo.svg',
   hostname: 'localhost'
 }
@@ -89,6 +90,7 @@ module.exports = {
     twitter: productData.twitter,
     author: productData.author,
     repo: productData.repo,
+    repoButtonLabel: productData.repoButtonLabel,
     logo: productData.logo,
     footer: productData.title,
     docsDir: 'docs',

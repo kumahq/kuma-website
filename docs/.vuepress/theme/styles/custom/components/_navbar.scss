@@ -4,6 +4,7 @@
 
 $navbar-vertical-padding: 0.7rem;
 $navbar-horizontal-padding: 1.5rem;
+$navbar-link-border-color: $color-2;
 
 .navbar {
   padding: $navbar-vertical-padding $navbar-horizontal-padding;
@@ -43,6 +44,19 @@ $navbar-horizontal-padding: 1.5rem;
       vertical-align: top;
     }
   }
+
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+  }
+
+  .repo-button {
+    display: inline-block;
+  }
+}
+
+.nav-item > a {
+  padding: $navbar-vertical-padding 0;
 }
 
 @media (max-width: $MQMobile) {
@@ -62,6 +76,6 @@ $navbar-horizontal-padding: 1.5rem;
 @media (min-width: $MQMobile) {
   .nav-item > a:not(.external):hover,
   .nav-item > a:not(.external).router-link-active {
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid $navbar-link-border-color;
   }
 }

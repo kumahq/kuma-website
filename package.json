@@ -9,7 +9,8 @@
     "test-coverage": "yarn jest --coverage"
   },
   "dependencies": {
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-github-button": "^1.0.8"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.29",
