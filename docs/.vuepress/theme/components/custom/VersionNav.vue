@@ -1,38 +1,46 @@
 <template>
-  <div class="version-nav">
-    <DropdownLink :item="{
-      text: 'Versions',
-      items: tags,
-      type: 'links'
-    }"/>
-  </div>
+  <form class="version-nav">
+    <select name="doc-version-selector" @change="redirectToSelectedDocVersion($event.target.value)">
+      <option 
+        v-for="item in releasesAsSelectValues" 
+        :value="item.version" 
+        :key="item.version" 
+        :selected='selectedDocVersion === item.version'
+      >
+        {{item.text}}
+      </option>
+    </select>
+  </form>
 </template>
 
 <script>
-import releases from '../../../public/releases.json'
+import { mapGetters, mapMutations } from 'vuex'
 import DropdownLink from '@theme/components/DropdownLink'
 
 export default {
   name: 'VersionNav',
   data() {
     return {
-      tags: Array
+      selectedDocVersion: this.$route.path.replace(/\//g,'').replace('docs','')
     }
-  },
-  components: {
-    DropdownLink
   },
   methods: {
-    fetchReleases() {
-      this.tags = releases.map( tag => ({
-        text: tag,
-        type: 'link',
-        link: `/${this.getSiteData.themeConfig.docsDir}/${tag}/`,
-      }))
+    redirectToSelectedDocVersion(val) {
+      this.$store.commit('updateSelectedDocVersion', val)
+      this.$router.push({
+        path: `/${this.getSiteData.themeConfig.docsDir}/${val}/`,
+        params: {
+          version: val
+        }
+      })
     }
   },
-  beforeMount() {
-    this.fetchReleases()
+  computed: {
+    ...mapGetters([
+      'releasesAsSelectValues',
+      'getReleaseList',
+      'getSelectedDocVersion'
+    ])
   }
 }
 </script>

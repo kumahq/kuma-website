@@ -3,26 +3,32 @@
 
     <header class="page-header">
       <h1>Install {{$site.title}}</h1>
-      <div v-if="items.length" class="version-selector-wrapper">
+      
+      <div v-if="this.getInstallMethods && this.getInstallMethods.length" class="version-selector-wrapper">
         <form>
-          <select name="version-selector" id="version-selector" @change="updateInstallPath($event)">
-            <option v-for="tag in tags" :value="tag" :key="tag" :selected='$route.meta.version === tag'>
-              {{tag}}
+          <select name="version-selector" id="version-selector" @change="updateInstallPath($event.target.value)">
+            <option 
+              v-for="tag in releasesAsSelectValues" 
+              :value="tag.version" 
+              :key="tag.version" 
+              :selected='$route.meta.version === tag.version'
+            >
+              {{tag.text}}
             </option>
           </select>
         </form>
 
-        <div v-if="pathVersion">
-          <p>You are viewing installation instructions for <strong>{{pathVersion}}</strong>.</p>
+        <div v-if="getSelectedInstallVersion">
+          <p>You are viewing installation instructions for <strong>{{getSelectedInstallVersion}}</strong>.</p>
         </div>
 
       </div>
     </header>
 
-    <div v-if="items && items.length" class="install-methods-wrapper">
+    <div v-if="this.getInstallMethods" class="install-methods-wrapper">
       <ul class="install-methods">
-        <li v-for="item in items" class="install-methods__item">
-          <router-link :to='`/${getSiteData.themeConfig.docsDir}/${pathVersion}/installation-guide/#${item.slug}`'>
+        <li v-for="(item, index) in getInstallMethods" :key="index" class="install-methods__item">
+          <router-link :to='`/${getSiteData.themeConfig.docsDir}/${getSelectedInstallVersion}/installation/${item.slug}/`'>
             <img :src="item.logo" class="install-methods__item-logo">
             <h3 class="install-methods__item-title">{{item.label}}</h3>
           </router-link>
@@ -38,51 +44,74 @@
 </template>
 
 <script>
-import LatestSemver from 'latest-semver'
-import ToSemver from 'to-semver'
-import releases from '../../../public/releases.json'
-import installMethods from '../../../public/install-methods.json'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
-  data() {
-    return {
-      tags: Array,
-      pathVersion: '',
-      pathSegment: '#installation',
-      helperText: '',
-      items: installMethods
-    }
-  },
+  name: 'Install',
   methods: {
+
+    ...mapMutations([
+      'updateSelectedDocVersion'
+    ]),
+
     updateInstallPath(ev) {
       // update the version accordingly in the UI when the
       // user switches to a different version
-      this.pathVersion = ev.target.value
+
+      // set the updated install version in the store
+      this.$store.commit('updateSelectedInstallVersion', ev)
+
+      // change the URL to reflect the version change
+      this.$router.push({
+        path: `/install/${ev}`,
+        meta: {
+          version: ev
+        }
+      })
     },
-    fetchReleases() {
-      this.tags = ToSemver(releases)
-      this.pathVersion = LatestSemver(releases)
-    },
-    fetchVersionMeta() {
-      if ( this.$route.meta.version ) {
-        this.pathVersion = this.$route.meta.version
+
+    mapVersionMetaToInstallVersion() {
+      const metaValue = this.$route.meta.version
+      if ( metaValue ) {
+        this.$store.commit('updateSelectedInstallVersion', metaValue)
       }
     },
+
     redirectToLatestVersion() {
-      if ( !this.$route.meta.version ) {
+      if ( !this.$route.meta.version || this.$route.path === '/install/' ) {
+        // redirect to the latest release route
         this.$router.push({
-          path: `/install/${LatestSemver(releases)}/`,
+          path: `/install/${this.getLatestRelease}/`,
           meta: {
-            version: LatestSemver(releases)
+            version: this.getLatestRelease
           }
         })
       }
     }
+
+  },
+  computed: {
+    ...mapGetters([
+      'getInstallMethods',
+      'getReleaseList',
+      'getLatestRelease',
+      'getSelectedInstallVersion',
+      'releasesAsSelectValues'
+    ])
+  },
+  watch: {
+    // this ensures that the user is always on the latest version
+    // in case they are on the Install page and happen to navigate
+    // to it again via the main nav (which sends them to the bare
+    // path without a version appended)
+    $route (to, from) {
+      this.redirectToLatestVersion()
+      this.mapVersionMetaToInstallVersion()
+    }
   },
   beforeMount() {
     this.redirectToLatestVersion()
-    this.fetchReleases()
-    this.fetchVersionMeta()
+    this.mapVersionMetaToInstallVersion()
   }
 };
 </script>

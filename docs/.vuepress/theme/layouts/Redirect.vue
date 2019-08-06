@@ -1,11 +1,9 @@
-<template></template>
-
 <script>
 /**
  * Redirect.vue
  * 
  * This is a functional component that simply passes the user
- * to the latest version whenever they arrive at /docs/
+ * to the latest version.
  * 
  * Example:
  * - User navigates to /docs/
@@ -14,24 +12,25 @@
  *    (or whatever the latest version happens to be)
  */
 
-import releases from '../../public/releases.json'
-import LatestSemver from 'latest-semver'
+import { mapGetters } from 'vuex'
 
 export default {
-  data() {
-    return {
-      version: ''
-    }
-  },
+  name: 'Redirect',
   created() {
-    this.fetchReleases()
+    this.redirectToLatestReleaseDocs()
   },
+  render() {},
   methods: {
-    fetchReleases() {
+    ...mapGetters([
+      'getLatestRelease'
+    ]),
+
+    redirectToLatestReleaseDocs() {
       // let's fetch the releases data so we can grab
       // the latest version in order to build the redirect
-      this.version = LatestSemver(releases)
-      this.$router.push(`${this.$page.path}${this.version}/`)
+      this.$router.push({
+        path: `${this.$page.path}${this.getLatestRelease()}/`
+      })
     }
   }
 }

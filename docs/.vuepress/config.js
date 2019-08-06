@@ -1,4 +1,9 @@
 /**
+ * Release data
+ */
+const releases = require('./public/releases.json')
+
+/**
  * Product data
  * 
  * Change these values as needed
@@ -15,16 +20,49 @@ const productData = {
 }
 
 /**
+ * Sidebar navigation structure
+ * 
+ * Always include a trailing slash but
+ * avoid a slash at the front of the
+ * directory.
+ * 
+ * Correct: 'getting-started/'
+ * Incorrect: '/getting-started/'
+ * 
+ */
+const sidebarNav = {
+  '/docs/0.1.0/': [
+    'getting-started/',
+    'documentation/',
+    'tutorials/',
+    'installation/',
+    'community/'
+  ],
+  '/docs/0.2.0/': [
+    'getting-started/',
+    'documentation/',
+    'tutorials/',
+    'installation/',
+    'community/'
+  ]
+}
+
+/**
  * Install page version URL builder
  * 
  * This pulls all of the versions from the releases
  * JSON and builds the routes accordingly.
  * 
+ * @todo figure out how to get this to work via
+ * `router.addRoutes` instead (ran into problems
+ * with it in VuePress)
+ * 
  */
 function buildInstallReleaseURLs() {
-  const releases = require('./public/releases.json')
+  // build the release route array
   const releaseArray = []
-  for (let i = 0; i < releases.length; i++) { 
+
+  for ( let i = 0; i < releases.length; i++ ) { 
     releaseArray.push({
       path: `/install/${releases[i]}/`,
       meta: {
@@ -61,8 +99,8 @@ module.exports = {
       apiKey: '',
       indexName: ''
     },
-    sidebar: 'auto',
-    displayAllHeaders: false,
+    sidebar: sidebarNav,
+    displayAllHeaders: true,
     nav: [
       { text: 'Documentation', link: '/docs/' },
       { text: 'Community', link: '/community/' },
