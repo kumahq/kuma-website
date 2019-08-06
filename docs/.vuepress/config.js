@@ -33,6 +33,7 @@ const productData = {
  */
 const sidebarNav = {
   '/docs/0.1.0/': [
+    '',
     'getting-started/',
     'documentation/',
     'tutorials/',
@@ -40,6 +41,7 @@ const sidebarNav = {
     'community/'
   ],
   '/docs/0.2.0/': [
+    '',
     'getting-started/',
     'documentation/',
     'tutorials/',
