@@ -13,12 +13,16 @@ $color-6: #963a85;
 $color-7: #ee4788;
 $color-8: #ef485d;
 
-// Colors used in the edge bundling diagram
+// Node diagram colors
 $color-9: #00acc1;
 $color-10: #ff4185;
 $color-11: #0dd86d;
 $color-12: #e4f9b2;
 $color-13: #1155CB;
+
+// Misc
+$container-width: 71.25rem; // 1140px
+$gutter: 1.875rem; // 30px
 
 // VuePress overrides
 $accentColor: #3eaf7c;
@@ -26,8 +30,12 @@ $textColor: #2c3e50;
 $borderColor: red;
 $codeBgColor: #282c34;
 
+// 
 // VuePress default theme variables
+// 
 // these are carried over from the 
 // default theme Stylus files
+// 
 $MQMobile: 719px;
+$MQNarrow: 959px;
 $navbarHeight: 3.6rem;

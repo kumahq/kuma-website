@@ -108,11 +108,11 @@ a.sidebar-link
   width: 100%
   box-sizing: border-box
   &:hover
-    color $accentColor
+    // color $accentColor
   &.active
     font-weight 600
-    color $accentColor
-    border-left-color $accentColor
+    // color $accentColor
+    // border-left-color $accentColor
   .sidebar-group &
     padding-left 2rem
   .sidebar-sub-headers &

@@ -4,21 +4,26 @@
 
 .theme-container--home {
 
+  // hide the header anchor links
   .header-anchor {
     display: none !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    border: 0;
   }
 }
 
 .features {
-  @apply flex;
+  
 }
 
 .features__item {
-  @apply flex-1;
+  
 }
 
 .testimonial {
-  @apply flex;
+  
 }
 
 .testimonial__portrait {

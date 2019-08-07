@@ -4,7 +4,7 @@ home: true
 search: false
 
 # custom page data
-testimonialPortraitSrc: https://placehold.it/300x300
+testimonialPortraitSrc: /matt-klein@2x.png
 testimonialPortraitAlt: Matt Klein
 ---
 
@@ -39,6 +39,7 @@ as well as VM and bare-metal, for both greenfield and legacy apps.
 :::
 
 <!-- testimonial -->
+
 ::: slot testimonial-content
 A control plane built for Envoy by Envoy contributors, that brings traffic management
 to the modern era.

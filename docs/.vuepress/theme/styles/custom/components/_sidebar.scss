@@ -1,0 +1,30 @@
+// 
+// Sidebar
+// 
+
+$sidebar-width: 21rem;
+$sidebar-link-active: $color-13;
+$sidebar-link-hover: $color-8;
+$sidebar-link-active-border-color: $color-13;
+
+.sidebar {
+  width: $sidebar-width;
+}
+
+a.sidebar-link {
+
+  &:hover {
+    color: $sidebar-link-hover;
+  }
+
+  &.active {
+    color: $sidebar-link-active;
+    border-left-color: $sidebar-link-active-border-color;
+  }
+}
+
+@media (max-width: $MQNarrow) {
+  .sidebar {
+
+  }
+}

@@ -2,12 +2,33 @@
 // Version navigation
 // 
 
+$version-nav-padding: 1.563rem 1.563rem 0 1.563rem;
+$version-nav-select-color: $color-13;
+$version-nav-select-font: $base-mono-family;
+
 .version-nav {
-  padding: 25px 25px 0 25px;
+  padding: $version-nav-padding;
+
+  label {
+    font-weight: bold;
+  }
 
   select {
-    display: block;
-    width: 100%;
-    max-width: 100%;
+    font-family: $version-nav-select-font;
+  }
+}
+
+@media (min-width: $MQNarrow) {
+  .version-nav {
+    display: flex;
+    align-content: stretch;
+
+    label {
+      margin-right: 0.625rem;
+    }
+
+    select {
+      flex: 1;
+    }
   }
 }

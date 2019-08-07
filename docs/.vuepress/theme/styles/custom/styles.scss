@@ -2,7 +2,10 @@
 // Custom styles
 // 
 
-// bootstrap
+// Tailwind
+@tailwind utilities;
+
+// setup
 @import './config/variables',
         './config/fonts',
         './config/mixins';
@@ -14,7 +17,8 @@
 
 // components
 @import './components/version-nav',
-        './components/navbar';
+        './components/navbar',
+        './components/sidebar';
 
 // base
 @import './base/forms',
