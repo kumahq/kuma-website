@@ -17,7 +17,7 @@ const productData = {
   repo: 'https://github.com/kong/konvoy',
   repoButtonLabel: 'Star',
   logo: '/konvoy-logo.svg',
-  hostname: 'localhost'
+  hostname: 'https://getkonvoy.com'
 }
 
 /**
