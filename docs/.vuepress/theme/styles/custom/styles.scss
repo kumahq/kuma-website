@@ -4,6 +4,7 @@
 
 // bootstrap
 @import './config/variables',
+        './config/fonts',
         './config/mixins';
 
 // pages
@@ -15,5 +16,6 @@
 @import './components/version-nav',
         './components/navbar';
 
-// general elements
-@import './forms';
+// base
+@import './base/forms',
+        './base/typography';

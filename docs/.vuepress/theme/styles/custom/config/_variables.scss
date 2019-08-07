@@ -2,6 +2,8 @@
 // Variables
 // 
 
+$base-font-size: 16px;
+
 // Branding
 $color-1: #0b2e4c;
 $color-2: #0063b0;
@@ -25,5 +27,7 @@ $borderColor: red;
 $codeBgColor: #282c34;
 
 // VuePress default theme variables
+// these are carried over from the 
+// default theme Stylus files
 $MQMobile: 719px;
 $navbarHeight: 3.6rem;

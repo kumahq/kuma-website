@@ -2,6 +2,16 @@
 // General page styles
 // 
 
+html {
+  font-size: 100%;
+}
+
+body {
+  font-size: $base-font-size;
+  font-family: $base-font-family;
+  line-height: 2.4;
+}
+
 // this is hidden for now unless we make the masthead logo
 // just the icon itself, and then unhide this to use as the title
 .site-name {

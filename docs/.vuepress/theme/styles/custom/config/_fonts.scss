@@ -1,0 +1,46 @@
+// 
+// Fonts
+// 
+
+$font-root: '/fonts/';
+
+// Custom fonts slugified
+
+$roboto-mono-regular: 'Roboto Mono Regular';
+$sftextui-regular: 'SF UI Text Regular';
+$sftextui-italic: 'SF UI Text Italic';
+$sftextui-medium: 'SF UI Text Medium';
+$sftextui-medium-italic: 'SF UI Text Medium Italic';
+$sftextui-semibold: 'SF UI Text Semibold';
+$sftextui-semibold-italic: 'SF UI Text Semibold Italic';
+
+// Base fonts and fallbacks
+
+$sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+$base-font-family: $sftextui-regular, $sans-serif;
+$base-heading-font-family: $sftextui-semibold, $sans-serif;
+$base-alt-title-family: $roboto-mono-regular, $monospace;
+
+// Loop for building the @font-face calls
+
+$fonts: (
+  $roboto-mono-regular: 'RobotoMono/robotomono-regular-webfont',
+  $sftextui-regular: 'SFUIText/sfuitext-regular-webfont',
+  $sftextui-italic: 'SFUIText/sfuitext-regularitalic-webfont',
+  $sftextui-medium: 'SFUIText/sfuitext-medium-webfont',
+  $sftextui-medium-italic: 'SFUIText/sfuitext-mediumitalic-webfont',
+  $sftextui-semibold: 'SFUIText/sfuitext-semibold-webfont',
+  $sftextui-semibold-italic: 'SFUIText/sfuitext-semibolditalic-webfont'
+);
+
+@each $name, $path in $fonts {
+  @font-face {
+    font-family: $name;
+    src: url('#{$font-root}#{$path}.woff2') format('woff2'),
+         url('#{$font-root}#{$path}.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }  
+}
