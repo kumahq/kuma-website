@@ -1,6 +1,20 @@
 // 
-// Mixins
+// Mixins + Functions
 // 
+
+// Functions
+
+@function pxToRem($size) {
+  $remSize: $size / $base-font-size;
+  @return #{$remSize}rem;
+}
+
+// Mixins
+
+@mixin fontSize($size) {
+  font-size: $size;
+  font-size: pxToRem($size);
+}
 
 @mixin sr-only {
   position: absolute !important;

@@ -1,0 +1,30 @@
+// 
+// Fonts
+// 
+
+$font-root: '/fonts/';
+
+// Fallbacks
+
+$sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$base-font-family: 'SF UI Text Regular', $sans-serif;
+
+$fonts: (
+  'Roboto Mono Regular': 'RobotoMono/robotomono-regular-webfont',
+  'SF UI Text Regular': 'SFUIText/sfuitext-regular-webfont',
+  'SF UI Text Italic': 'SFUIText/sfuitext-regularitalic-webfont',
+  'SF UI Text Medium Italic': 'SFUIText/sfuitext-mediumitalic-webfont',
+  'SF UI Text Medium': 'SFUIText/sfuitext-medium-webfont',
+  'SF UI Text Semibold': 'SFUIText/sfuitext-semibold-webfont',
+  'SF UI Text Semibold Italic': 'SFUIText/sfuitext-semibolditalic-webfont'
+);
+
+@each $name, $path in $fonts {
+  @font-face {
+    font-family: $name;
+    src: url('#{$font-root}#{$path}.woff2') format('woff2'),
+         url('#{$font-root}#{$path}.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }  
+}
