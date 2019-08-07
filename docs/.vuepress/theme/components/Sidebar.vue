@@ -2,10 +2,10 @@
   <aside class="sidebar">
     <VersionNav/>
 
-    <AlgoliaSearchBox
+    <!-- <AlgoliaSearchBox
       v-if="isAlgoliaSearch"
       :options="algolia"
-    />
+    /> -->
     <!-- <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/> -->
 
     <NavLinks/>

@@ -87,7 +87,7 @@ function buildInstallReleaseURLs() {
 module.exports = {
   title: productData.title,
   description: productData.description,
-  host: productData.hostname,
+  host: 'localhost',
   themeConfig: {
     twitter: productData.twitter,
     author: productData.author,
