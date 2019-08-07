@@ -87,7 +87,7 @@ function buildInstallReleaseURLs() {
 module.exports = {
   title: productData.title,
   description: productData.description,
-  host: 'https://getkonvoy.com',
+  host: productData.hostname,
   themeConfig: {
     twitter: productData.twitter,
     author: productData.author,
