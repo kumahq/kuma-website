@@ -64,15 +64,13 @@
 </template>
 
 <script>
-import Navbar from '@theme/components/Navbar';
-import Footer from '@theme/components/custom/Footer';
-import InlineIcon from '@theme/components/custom/InlineIcon'
+import Navbar from '@theme/components/Navbar'
+import Footer from '@theme/components/custom/Footer'
 
 export default {
   components: {
     Navbar,
-    Footer,
-    InlineIcon
+    Footer
   }
 };
 </script>

@@ -1,12 +1,12 @@
 <template>
-  <span class="inline-icon"></span>
+  <span class="inline-svg"></span>
 </template>
 
 <script>
 let cache = new Map()
 
 export default {
-  name: 'InlineIcon',
+  name: 'InlineSvg',
   props: {
     src: {
       type: String,

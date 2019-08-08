@@ -1,7 +1,6 @@
 import Vuex from 'vuex'
 import store from './theme/store/index'
 import './theme/styles/styles.scss'
-import InlineIcon from './theme/components/custom/InlineIcon.vue'
 
 export default ({
   Vue,
@@ -28,5 +27,5 @@ export default ({
   /**
    * Global components
    */
-  Vue.component('InlineIcon', () => import('./theme/components/custom/InlineIcon.vue'))
+  Vue.component('InlineSvg', () => import('./theme/components/custom/InlineSvg.vue'))
 }
