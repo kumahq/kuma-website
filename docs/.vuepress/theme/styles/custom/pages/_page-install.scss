@@ -4,32 +4,19 @@
 
 .install-methods {
   list-style: none;
-  align-items: center;
-  justify-content: center;
-
-  @apply
-    flex 
-    flex-wrap;
+  margin: 0;
+  padding: 0;
 }
 
 .install-methods__item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   text-align: center;
-  padding: 15px;
-  min-height: 160px;
-
-  @apply 
-    w-1/6 
-    px-2;
+  padding: 0.938rem;
+  min-height: 10rem;
 }
 
 .install-methods__item-logo {
   max-width: 70%;
-  max-height: 50px;
-  display: block;
-  margin: 0 auto;
+  max-height: 4rem;
 }
 
 .install-methods__item-title {

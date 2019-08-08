@@ -10,8 +10,8 @@
             <Content slot-key="masthead-main-title"/>
           </header>
           <div class="page-masthead__actions">
-            <router-link to="/install/">Install</router-link>
-            <router-link to="/docs/">Getting Started</router-link>
+            <router-link to="/install/" class="btn btn--large-text btn--bright">Install</router-link>
+            <router-link to="/docs/" class="btn btn--large-text btn--hollow">Getting Started</router-link>
           </div>
         </div>
       </div>
@@ -27,6 +27,17 @@
     </div>
     <!-- .inner -->
 
+    <div class="steps-wrapper">
+
+      <div class="inner steps-items">
+        <header class="steps-items__header">
+          <Content slot-key="steps-title"/>
+        </header>
+      </div>
+      <!-- .inner -->
+
+    </div>
+
     <div class="inner">
 
       <div class="testimonial">
@@ -39,7 +50,8 @@
         <blockquote class="testimonial__content">
           <Content slot-key="testimonial-content"/>
           <cite>
-            &mdash; <Content slot-key="testimonial-author"/>
+            <Content slot-key="testimonial-author"/><br/>
+            <Content slot-key="testimonial-extra"/>
           </cite>
         </blockquote>
       </div>
@@ -54,11 +66,13 @@
 <script>
 import Navbar from '@theme/components/Navbar';
 import Footer from '@theme/components/custom/Footer';
+import InlineIcon from '@theme/components/custom/InlineIcon'
 
 export default {
   components: {
     Navbar,
-    Footer
+    Footer,
+    InlineIcon
   }
 };
 </script>

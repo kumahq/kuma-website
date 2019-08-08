@@ -26,10 +26,10 @@
     </header>
 
     <div v-if="this.getInstallMethods" class="install-methods-wrapper">
-      <ul class="install-methods">
-        <li v-for="(item, index) in getInstallMethods" :key="index" class="install-methods__item">
+      <ul class="install-methods flex flex-wrap justify-center">
+        <li v-for="(item, index) in getInstallMethods" :key="index" class="install-methods__item w-full sm:w-1/2 lg:w-1/4 xl:w-1/5 px-4">
           <router-link :to='`/${getSiteData.themeConfig.docsDir}/${getSelectedInstallVersion}/installation/${item.slug}/`'>
-            <img :src="item.logo" class="install-methods__item-logo">
+            <img :src="item.logo" class="install-methods__item-logo object-contain w-full">
             <h3 class="install-methods__item-title">{{item.label}}</h3>
           </router-link>
         </li>

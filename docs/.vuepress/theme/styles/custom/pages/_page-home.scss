@@ -9,6 +9,11 @@
     display: none !important;
   }
 
+  // hide the outbound link icon
+  a .icon.outbound {
+    display: none !important;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     border: 0;
   }
