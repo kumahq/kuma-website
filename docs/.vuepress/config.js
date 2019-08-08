@@ -60,6 +60,8 @@ const sidebarNav = {
  * `router.addRoutes` instead (ran into problems
  * with it in VuePress)
  * 
+ * @returns { array }
+ * 
  */
 function buildInstallReleaseURLs() {
   // build the release route array
@@ -96,7 +98,7 @@ module.exports = {
     logo: productData.logo,
     footer: productData.title,
     docsDir: 'docs',
-    editLinks: true,
+    editLinks: false,
     search: true,
     searchMaxSuggestions: 10,
     algolia: {
