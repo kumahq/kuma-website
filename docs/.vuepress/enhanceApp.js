@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import store from './theme/store/index'
-import './theme/styles/custom/styles.scss'
+import './theme/styles/styles.scss'
 
 export default ({
   Vue,
