@@ -9,6 +9,7 @@ $navbar-link-font-size: $base-font-size;
 $navbar-link-font-family: $sftextui-medium, $sans-serif;
 $navbar-install-bg-color: $color-13;
 $navbar-install-text-color: #fff;
+$navbar-logo-height: 2.563rem;
 
 .navbar {
   height: $navbarHeight;
@@ -24,7 +25,7 @@ $navbar-install-text-color: #fff;
   }
 
   .logo {
-    height: 1.563rem;
+    height: $navbar-logo-height;
     margin-right: 0.8rem;
     // vertical-align: top;
   }

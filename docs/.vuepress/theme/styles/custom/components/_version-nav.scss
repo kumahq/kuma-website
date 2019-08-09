@@ -10,15 +10,11 @@ $version-nav-select-font: $base-mono-family;
   padding: $version-nav-padding;
 
   label {
-    font-weight: bold;
+    @include sr-only;
   }
 
   select {
     display: block;
     width: 100%;
   }
-}
-
-@media (min-width: $MQNarrow) {
-  
 }

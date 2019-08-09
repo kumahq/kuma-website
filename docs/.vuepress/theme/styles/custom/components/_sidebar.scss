@@ -7,8 +7,21 @@ $sidebar-link-hover: $color-8;
 $sidebar-link-active-border-color: $color-13;
 
 .sidebar {
+  overflow: visible;
+  background: none;
   font-size: $base-font-size;
   width: $sidebarWidth;
+
+  &:after {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    z-index: -1;
+    display: block;
+    height: 100%;
+    width: 100vw;
+    content: "";
+    background-color: $kong-pink;
+  }
 }
 
 a.sidebar-link {
@@ -25,7 +38,7 @@ a.sidebar-link {
 
 @media (min-width: $MQMobile + 1) {
   .sidebar {
-    position: static;
+    position: relative;
     top: auto; left: auto; bottom: auto;
   }
 }
