@@ -10,6 +10,7 @@ $navbar-link-font-family: $sftextui-medium, $sans-serif;
 $navbar-install-bg-color: $color-13;
 $navbar-install-text-color: #fff;
 $navbar-logo-height: 2.563rem;
+$navbar-install-hover-color: $color-3;
 
 .navbar {
   height: $navbarHeight;
@@ -78,12 +79,18 @@ $navbar-logo-height: 2.563rem;
     border-bottom: $navbar-link-border;
     background-color: $navbar-install-bg-color;
     color: $navbar-install-text-color;
-    padding: pxToRem(9px) pxToRem(36px);
-    transition: background 250ms ease-in-out;
+    padding: .563rem 2.25rem;
+    border-radius: 5px;
+    box-shadow: $base-soft-shadow;
+    transition: 
+      background .2s ease-in-out,
+      border .2s ease-in-out,
+      color .2s ease-in-out;
 
     &:hover {
-      background-color: $color-8;
-      color: $navbar-install-text-color;
+      background-color: $navbar-install-hover-color;
+      border-bottom-color: $navbar-install-hover-color;
+      color: darken($navbar-install-text-color, 70%);
     }
   }
 }
