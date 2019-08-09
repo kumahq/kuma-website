@@ -1,0 +1,28 @@
+// 
+// Structure
+// 
+// The framework of the page containers
+// and everything outside of page-specific
+// styling and elemtns.
+// 
+
+html {
+  font-size: 100%;
+}
+
+body {
+  font-size: $base-font-size;
+  font-family: $base-font-family;
+  line-height: 2.4;
+}
+
+.content-wrapper {
+  max-width: $container-width-compact;
+  margin: 0 auto;
+}
+
+@media (min-width: $MQMobile + 1) {
+  .content-wrapper {
+    display: flex;
+  }
+}

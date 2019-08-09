@@ -1,56 +1,62 @@
 <template>
   <header class="navbar">
-    <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
+    
+    <div class="navbar-inner">
 
-    <div class="logo-wrap">
-      <router-link
-        :to="$localePath"
-        class="home-link"
-      >
-        <img
-          class="logo"
-          v-if="$site.themeConfig.logo"
-          :src="$withBase($site.themeConfig.logo)"
-          :alt="$siteTitle"
+      <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
+
+      <div class="logo-wrap">
+        <router-link
+          :to="$localePath"
+          class="home-link"
         >
-        <span
-          ref="siteName"
-          class="site-name"
-          v-if="$siteTitle"
-          :class="{ 'can-hide': $site.themeConfig.logo }"
-        >{{ $siteTitle }}</span>
-      </router-link>
+          <img
+            class="logo"
+            v-if="$site.themeConfig.logo"
+            :src="$withBase($site.themeConfig.logo)"
+            :alt="$siteTitle"
+          >
+          <span
+            ref="siteName"
+            class="site-name"
+            v-if="$siteTitle"
+            :class="{ 'can-hide': $site.themeConfig.logo }"
+          >{{ $siteTitle }}</span>
+        </router-link>
 
-      <GithubButton
-        v-if="getSiteData.themeConfig.repo"
-        :href="getSiteData.themeConfig.repo"
-        class="repo-button"
-        data-icon="octicon-star"
-        data-size="small"
-        data-show-count="true"
-        aria-label="Star Konvoy on GitHub"
+        <GithubButton
+          v-if="getSiteData.themeConfig.repo"
+          :href="getSiteData.themeConfig.repo"
+          class="repo-button"
+          data-icon="octicon-star"
+          data-size="small"
+          data-show-count="true"
+          aria-label="Star Konvoy on GitHub"
+        >
+          {{
+            getSiteData.themeConfig.repoButtonLabel 
+              ? getSiteData.themeConfig.repoButtonLabel 
+              : 'Star'
+          }}
+        </GithubButton>
+      </div>
+
+      <div
+        class="links"
+        :style="linksWrapMaxWidth ? {
+          'max-width': linksWrapMaxWidth + 'px'
+        } : {}"
       >
-        {{
-          getSiteData.themeConfig.repoButtonLabel 
-            ? getSiteData.themeConfig.repoButtonLabel 
-            : 'Star'
-        }}
-      </GithubButton>
+        <!-- <AlgoliaSearchBox
+          v-if="isAlgoliaSearch"
+          :options="algolia"
+        />
+        <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/> -->
+        <NavLinks class="can-hide"/>
+      </div>
+
     </div>
 
-    <div
-      class="links"
-      :style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
-      } : {}"
-    >
-      <!-- <AlgoliaSearchBox
-        v-if="isAlgoliaSearch"
-        :options="algolia"
-      />
-      <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/> -->
-      <NavLinks class="can-hide"/>
-    </div>
   </header>
 </template>
 

@@ -39,10 +39,11 @@ $navbar-install-text-color: #fff;
     white-space: nowrap;
     font-size: $navbar-link-font-size;
     font-family: $navbar-link-font-family;
-    position: absolute;
-    right: $navbar-horizontal-padding;
-    top: $navbar-vertical-padding;
+    // position: absolute;
+    // right: $navbar-horizontal-padding;
+    // top: $navbar-vertical-padding;
     display: flex;
+    margin-left: auto;
 
     .search-box {
       flex: 0 0 auto;
@@ -68,6 +69,12 @@ $navbar-install-text-color: #fff;
     color: $navbar-install-text-color;
     padding: pxToRem(9px) pxToRem(36px);
   }
+}
+
+.navbar-inner {
+  max-width: $container-width-compact;
+  margin: 0 auto;
+  display: flex;
 }
 
 .nav-item > a {

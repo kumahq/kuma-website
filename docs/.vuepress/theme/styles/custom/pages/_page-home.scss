@@ -19,6 +19,8 @@
   }
 }
 
+// Features
+
 .features {
   
 }
@@ -26,6 +28,8 @@
 .features__item {
   
 }
+
+// Testimonial
 
 .testimonial {
   
@@ -37,4 +41,21 @@
   img {
     @include img-full;
   }
+}
+
+// Steps
+
+.steps-wrapper {
+  background-color: $color-14;
+  color: #fff;
+  padding-top: 4.688rem;
+  padding-bottom: 4.688rem;
+}
+
+.steps-items {
+
+}
+
+.steps-items__header {
+  text-align: center;
 }

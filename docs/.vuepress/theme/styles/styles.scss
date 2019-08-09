@@ -41,6 +41,11 @@
 @import './custom/config/fonts',
         './custom/config/mixins';
 
+// base
+@import './custom/base/structure',
+        './custom/base/forms',
+        './custom/base/typography';
+
 // pages
 @import './custom/pages/page',
         './custom/pages/page-home',
@@ -50,7 +55,3 @@
 @import './custom/components/version-nav',
         './custom/components/navbar',
         './custom/components/sidebar';
-
-// base
-@import './custom/base/forms',
-        './custom/base/typography';

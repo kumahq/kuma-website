@@ -10,3 +10,10 @@ h1, h2, h3, h4, h5, h6 {
 a {
   color: $color-13;
 }
+
+// code blocks
+
+div[class*="language-"].line-numbers-mode pre {
+  // small fix for an invalid style attribute on the core VuePress styles
+  padding-left: 4.5rem;
+}

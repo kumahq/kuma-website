@@ -21,23 +21,22 @@ testimonialPortraitAlt: Matt Klein
 <!-- feature blocks -->
 
 ::: slot feature-block-content-1
+<inline-svg width="50" height="50" src="/icons/icon-universal-control-plane.svg"/>
 ### Universal Control Plane
-<inline-svg src="/icons/icon-universal-control-plane.svg"/>
-
 Built on top of Envoy, Konvoy is a universal cloud native control plane to
 orchestrate L4/L7 traffic, including Microservices and Service Mesh.
 :::
 
 ::: slot feature-block-content-2
+<inline-svg width="50" height="50" src="/icons/icon-api-gateway.svg"/>
 ### Traffic Management
-<inline-svg src="/icons/icon-api-gateway.svg"/>
 Ingress and Service Mesh traffic management for security, tracing, routing,
 and observability out of the box. Distributed and decoupled by default.
 :::
 
 ::: slot feature-block-content-3
+<inline-svg width="50" height="50" src="/icons/icon-platform-agnostic.svg"/>
 ### Platform Agnostic
-<inline-svg src="/icons/icon-platform-agnostic.svg"/>
 Konvoy is enterprise ready and platform agnostic with native Kubernetes support,
 as well as VM and bare-metal, for both greenfield and legacy apps.
 :::

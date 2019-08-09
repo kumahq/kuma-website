@@ -2,13 +2,12 @@
 // Sidebar
 // 
 
-$sidebar-width: 21rem;
 $sidebar-link-active: $color-13;
 $sidebar-link-hover: $color-8;
 $sidebar-link-active-border-color: $color-13;
 
 .sidebar {
-  width: $sidebar-width;
+  width: $sidebarWidth;
 }
 
 a.sidebar-link {
@@ -20,6 +19,13 @@ a.sidebar-link {
   &.active {
     color: $sidebar-link-active;
     border-left-color: $sidebar-link-active-border-color;
+  }
+}
+
+@media (min-width: $MQMobile + 1) {
+  .sidebar {
+    position: static;
+    top: auto; left: auto; bottom: auto;
   }
 }
 

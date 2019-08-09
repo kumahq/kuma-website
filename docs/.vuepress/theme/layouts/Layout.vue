@@ -10,29 +10,34 @@
       @toggle-sidebar="toggleSidebar"
     />
 
-    <div
-      class="sidebar-mask"
-      @click="toggleSidebar(false)"
-    ></div>
+    <div class="content-wrapper">
 
-    <Sidebar
-      :items="sidebarItems"
-      @toggle-sidebar="toggleSidebar"
-    >
-      <slot
-        name="sidebar-top"
-        slot="top"
-      />
-      <slot
-        name="sidebar-bottom"
-        slot="bottom"
-      />
-    </Sidebar>
+      <div
+        class="sidebar-mask"
+        @click="toggleSidebar(false)"
+      ></div>
 
-    <component
-      :is="layoutComponentSelector"
-      :sidebar-items="sidebarItems"
-    />
+      <Sidebar
+        :items="sidebarItems"
+        @toggle-sidebar="toggleSidebar"
+      >
+        <slot
+          name="sidebar-top"
+          slot="top"
+        />
+        <slot
+          name="sidebar-bottom"
+          slot="bottom"
+        />
+      </Sidebar>
+
+      <component
+        :is="layoutComponentSelector"
+        :sidebar-items="sidebarItems"
+      />
+
+    </div>
+    <!-- .content-wrapper -->
 
   </div>
 </template>

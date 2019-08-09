@@ -2,14 +2,8 @@
 // General page styles
 // 
 
-html {
-  font-size: 100%;
-}
-
-body {
-  font-size: $base-font-size;
-  font-family: $base-font-family;
-  line-height: 2.4;
+.page {
+  padding-left: 0;
 }
 
 .inner {
@@ -24,4 +18,10 @@ body {
 
 .theme-container {
   padding-top: $navbarHeight;
+}
+
+@media (min-width: $MQMobile + 1) {
+  .page {
+    flex: 1;
+  }
 }
