@@ -78,7 +78,7 @@ $navbar-install-hover-color: $color-3;
   .nav-item--install > a.router-link-active {
     border-bottom: $navbar-link-border;
     background-color: $navbar-install-bg-color;
-    color: $navbar-install-text-color;
+    color: $navbar-install-text-color !important;
     padding: .563rem 2.25rem;
     border-radius: 5px;
     box-shadow: $base-soft-shadow;
@@ -90,7 +90,7 @@ $navbar-install-hover-color: $color-3;
     &:hover {
       background-color: $navbar-install-hover-color;
       border-bottom-color: $navbar-install-hover-color;
-      color: darken($navbar-install-text-color, 70%);
+      color: darken($navbar-install-text-color, 70%) !important;
     }
   }
 }
