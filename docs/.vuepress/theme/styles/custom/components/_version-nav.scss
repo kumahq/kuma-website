@@ -14,21 +14,11 @@ $version-nav-select-font: $base-mono-family;
   }
 
   select {
-    font-family: $version-nav-select-font;
+    display: block;
+    width: 100%;
   }
 }
 
 @media (min-width: $MQNarrow) {
-  .version-nav {
-    display: flex;
-    align-content: stretch;
-
-    label {
-      margin-right: 0.625rem;
-    }
-
-    select {
-      flex: 1;
-    }
-  }
+  
 }

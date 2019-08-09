@@ -16,7 +16,7 @@ const productData = {
   author: 'Kong',
   repo: 'https://github.com/kong/konvoy',
   repoButtonLabel: 'Star',
-  logo: '/konvoy-logo.svg',
+  logo: '/konvoy-logo-text-only.svg',
   hostname: 'https://getkonvoy.com'
 }
 

@@ -19,6 +19,7 @@ $color-11: #0dd86d;
 $color-12: #e4f9b2;
 $color-13: #1155CB;
 $color-14: #2B303B;
+$color-15: #eaecef;
 
 // Misc
 $container-width-compact: 65rem; // 1040px
@@ -36,12 +37,12 @@ $gutter: 1.875rem; // 30px
 $MQMobile: 719px;
 $MQMobileNarrow: 419px;
 $MQNarrow: 959px;
-$navbarHeight: 3.6rem;
+$navbarHeight: 4.688rem;
 $accentColor: #3eaf7c;
 $textColor: #2c3e50;
 $borderColor: red;
 $codeBgColor: #282c34;
-$sidebarWidth: 20rem;
+$sidebarWidth: 16rem; // VuePress default is 20
 $contentWidth: 740px;
 $wrapper: '.content';
 $contentClass: '.theme-default-content';

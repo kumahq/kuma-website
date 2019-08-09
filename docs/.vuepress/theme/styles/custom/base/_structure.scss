@@ -6,6 +6,10 @@
 // styling and elemtns.
 // 
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 html {
   font-size: $root-font-size;
   @include clear-text;

@@ -3,15 +3,31 @@
 // 
 
 select {
-	background: transparent url('/icons/arrow-down.svg') no-repeat 100% 50%;
+	background: #fff url('/icons/arrow-down.svg') no-repeat 100% 50%;
+	background-repeat: no-repeat, repeat;	
+	background-position: right .7em top 50%, 0 0;	
+	background-size: .65em auto, 100%;
+
+	font-size: $base-font-size;
+	font-family: $monospace;
 	color: $color-13;
-	font-size: inherit;
-	font-family: inherit;
-	border: 0;
-	border-radius: 0;
-	outline: none;
+	letter-spacing: -1px;
+
 	appearance: none;
-	padding: 0 0.625rem;
+	padding: .625rem 1.8rem .625rem .625rem;
+	border: 2px solid $color-15;
+	border-radius: 5px;
+	outline: 0;
+
+	box-shadow: 0 3px 6px 0 rgba($color-15, 18%);
+
+	transition:
+		border 250ms ease-in-out,
+		box-shadow 250ms ease-in-out;
+
+	&:hover {
+		// border-color: $color-13;
+	}
 }
 
 select::-ms-expand {

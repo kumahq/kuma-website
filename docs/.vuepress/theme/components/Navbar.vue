@@ -5,41 +5,39 @@
 
       <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
 
-      <div class="logo-wrap">
-        <router-link
-          :to="$localePath"
-          class="home-link"
+      <router-link
+        :to="$localePath"
+        class="home-link"
+      >
+        <img
+          class="logo"
+          v-if="$site.themeConfig.logo"
+          :src="$withBase($site.themeConfig.logo)"
+          :alt="$siteTitle"
         >
-          <img
-            class="logo"
-            v-if="$site.themeConfig.logo"
-            :src="$withBase($site.themeConfig.logo)"
-            :alt="$siteTitle"
-          >
-          <span
-            ref="siteName"
-            class="site-name"
-            v-if="$siteTitle"
-            :class="{ 'can-hide': $site.themeConfig.logo }"
-          >{{ $siteTitle }}</span>
-        </router-link>
+        <span
+          ref="siteName"
+          class="site-name"
+          v-if="$siteTitle"
+          :class="{ 'can-hide': $site.themeConfig.logo }"
+        >{{ $siteTitle }}</span>
+      </router-link>
 
-        <GithubButton
-          v-if="getSiteData.themeConfig.repo"
-          :href="getSiteData.themeConfig.repo"
-          class="repo-button"
-          data-icon="octicon-star"
-          data-size="small"
-          data-show-count="true"
-          aria-label="Star Konvoy on GitHub"
-        >
-          {{
-            getSiteData.themeConfig.repoButtonLabel 
-              ? getSiteData.themeConfig.repoButtonLabel 
-              : 'Star'
-          }}
-        </GithubButton>
-      </div>
+      <GithubButton
+        v-if="getSiteData.themeConfig.repo"
+        :href="getSiteData.themeConfig.repo"
+        class="repo-button"
+        data-icon="octicon-star"
+        data-size="small"
+        data-show-count="false"
+        aria-label="Star Konvoy on GitHub"
+      >
+        {{
+          getSiteData.themeConfig.repoButtonLabel 
+            ? getSiteData.themeConfig.repoButtonLabel 
+            : 'Star'
+        }}
+      </GithubButton>
 
       <div
         class="links"
