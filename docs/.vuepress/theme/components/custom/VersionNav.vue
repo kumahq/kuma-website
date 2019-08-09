@@ -1,6 +1,6 @@
 <template>
   <form class="version-nav">
-    <label for="doc-version-selector">Version</label>
+    <!-- <label for="doc-version-selector">Version</label> -->
     <select name="doc-version-selector" @change="redirectToSelectedDocVersion($event.target.value)">
       <option 
         v-for="item in releasesAsSelectValues" 
