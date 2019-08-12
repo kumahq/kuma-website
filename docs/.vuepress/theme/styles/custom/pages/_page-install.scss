@@ -2,6 +2,10 @@
 // Installation page
 // 
 
+.page-container--install {
+  
+}
+
 .install-methods {
   list-style: none;
   margin: 0;
@@ -21,4 +25,10 @@
 
 .install-methods__item-title {
 
+}
+
+@media (min-width: $MQMobile + 1) {
+  .page-container--install {
+    padding-top: $navbarHeight * 2;
+  }
 }

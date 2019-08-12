@@ -74,9 +74,6 @@ to the modern era.
 :::
 
 ::: slot testimonial-author
-Matt Klein
-:::
-
-::: slot testimonial-extra
+**Matt Klein**,
 Engineer [@Lyft](https://twitter.com/Lyft). [@envoyproxy](https://twitter.com/envoyproxy) creator.
 :::
