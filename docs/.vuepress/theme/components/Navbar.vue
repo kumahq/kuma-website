@@ -1,38 +1,60 @@
 <template>
   <header class="navbar">
-    <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
+    
+    <div class="navbar-inner">
 
-    <router-link
-      :to="$localePath"
-      class="home-link"
-    >
-      <img
-        class="logo"
-        v-if="$site.themeConfig.logo"
-        :src="$withBase($site.themeConfig.logo)"
-        :alt="$siteTitle"
+      <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
+
+      <router-link
+        :to="$localePath"
+        class="home-link"
       >
-      <span
-        ref="siteName"
-        class="site-name"
-        v-if="$siteTitle"
-        :class="{ 'can-hide': $site.themeConfig.logo }"
-      >{{ $siteTitle }}</span>
-    </router-link>
+        <img
+          class="logo"
+          v-if="$site.themeConfig.logo"
+          :src="$withBase($site.themeConfig.logo)"
+          :alt="$siteTitle"
+        >
+        <span
+          ref="siteName"
+          class="site-name"
+          v-if="$siteTitle"
+          :class="{ 'can-hide': $site.themeConfig.logo }"
+        >{{ $siteTitle }}</span>
+      </router-link>
 
-    <div
-      class="links"
-      :style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
-      } : {}"
-    >
-      <AlgoliaSearchBox
-        v-if="isAlgoliaSearch"
-        :options="algolia"
-      />
-      <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/>
-      <NavLinks class="can-hide"/>
+      <GithubButton
+        v-if="getSiteData.themeConfig.repo"
+        :href="getSiteData.themeConfig.repo"
+        class="repo-button"
+        data-icon="octicon-star"
+        data-size="small"
+        data-show-count="false"
+        aria-label="Star Konvoy on GitHub"
+      >
+        {{
+          getSiteData.themeConfig.repoButtonLabel 
+            ? getSiteData.themeConfig.repoButtonLabel 
+            : 'Star'
+        }}
+      </GithubButton>
+
+      <div
+        class="links"
+        :style="linksWrapMaxWidth ? {
+          'max-width': linksWrapMaxWidth + 'px'
+        } : {}"
+      >
+        <!-- <AlgoliaSearchBox
+          v-if="isAlgoliaSearch"
+          :options="algolia"
+        />
+        <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/> -->
+        <NavLinks class="can-hide"/>
+      </div>
+
     </div>
+
   </header>
 </template>
 
@@ -41,9 +63,10 @@ import AlgoliaSearchBox from '@AlgoliaSearchBox'
 import SearchBox from '@SearchBox'
 import SidebarButton from '@theme/components/SidebarButton.vue'
 import NavLinks from '@theme/components/NavLinks.vue'
+import GithubButton from 'vue-github-button'
 
 export default {
-  components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox },
+  components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox, GithubButton },
 
   data () {
     return {
@@ -84,45 +107,3 @@ function css (el, property) {
   return win.getComputedStyle(el, null)[property]
 }
 </script>
-
-<style lang="stylus">
-$navbar-vertical-padding = 0.7rem
-$navbar-horizontal-padding = 1.5rem
-
-.navbar
-  padding $navbar-vertical-padding $navbar-horizontal-padding
-  line-height $navbarHeight - 1.4rem
-  a, span, img
-    display inline-block
-  .logo
-    height $navbarHeight - 1.4rem
-    min-width $navbarHeight - 1.4rem
-    margin-right 0.8rem
-    vertical-align top
-  .site-name
-    font-size 1.3rem
-    font-weight 600
-    color $textColor
-    position relative
-  .links
-    padding-left 1.5rem
-    box-sizing border-box
-    background-color white
-    white-space nowrap
-    font-size 0.9rem
-    position absolute
-    right $navbar-horizontal-padding
-    top $navbar-vertical-padding
-    display flex
-    .search-box
-      flex: 0 0 auto
-      vertical-align top
-
-@media (max-width: $MQMobile)
-  .navbar
-    padding-left 4rem
-    .can-hide
-      display none
-    .links
-      padding-left 1.5rem
-</style>

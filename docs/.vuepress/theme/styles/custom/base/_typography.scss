@@ -1,0 +1,19 @@
+// 
+// Typography
+// 
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  font-family: $base-heading-font-family;
+}
+
+a {
+  color: $color-13;
+}
+
+// code blocks
+
+div[class*="language-"].line-numbers-mode pre {
+  // small fix for an invalid style attribute on the core VuePress styles
+  padding-left: 4.5rem;
+}

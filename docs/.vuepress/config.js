@@ -14,9 +14,10 @@ const productData = {
   description: 'Connect, Secure and Observe any traffic and Microservices',
   twitter: 'konvoy',
   author: 'Kong',
-  repo: 'kong/konvoy',
+  repo: 'https://github.com/kong/konvoy',
+  repoButtonLabel: 'Star',
   logo: '/konvoy-logo.svg',
-  hostname: 'localhost'
+  hostname: 'https://getkonvoy.com'
 }
 
 /**
@@ -59,6 +60,8 @@ const sidebarNav = {
  * `router.addRoutes` instead (ran into problems
  * with it in VuePress)
  * 
+ * @returns { array }
+ * 
  */
 function buildInstallReleaseURLs() {
   // build the release route array
@@ -91,10 +94,11 @@ module.exports = {
     twitter: productData.twitter,
     author: productData.author,
     repo: productData.repo,
+    repoButtonLabel: productData.repoButtonLabel,
     logo: productData.logo,
     footer: productData.title,
     docsDir: 'docs',
-    editLinks: true,
+    editLinks: false,
     search: true,
     searchMaxSuggestions: 10,
     algolia: {

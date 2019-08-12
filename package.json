@@ -4,9 +4,21 @@
   "author": "Kong Inc.",
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "test": "yarn jest",
+    "test-coverage": "yarn jest --coverage"
   },
   "dependencies": {
+    "vue": "^2.6.10",
+    "vue-github-button": "^1.0.8"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.29",
+    "babel-jest": "^24.8.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "jest": "^24.8.0",
+    "jest-raw-loader": "^1.0.1",
     "latest-semver": "^2.0.0",
     "markdown-it-include": "^1.1.0",
     "node-sass": "^4.12.0",
@@ -16,14 +28,31 @@
     "sass-loader": "^7.1.0",
     "tailwindcss": "^1.0.4",
     "to-semver": "^2.0.0",
-    "vue": "^2.6.10",
+    "vue-jest": "^3.0.4",
+    "vuepress": "^1.0.1",
     "vuepress-plugin-clean-urls": "^1.0.3",
-    "vuepress-plugin-feed": "^0.1.6",
     "vuepress-plugin-seo": "^0.1.2",
     "vuepress-plugin-sitemap": "^2.1.2",
     "vuex": "^3.1.1"
   },
-  "devDependencies": {
-    "vuepress": "^1.0.1"
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue",
+      "svg"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest",
+      ".+\\.svg$": "jest-raw-loader"
+    },
+    "testURL": "http://localhost/",
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules"
+    ]
   }
 }

@@ -1,0 +1,20 @@
+// 
+// Version navigation
+// 
+
+$version-nav-padding: 1.563rem 1.563rem 0 1.563rem;
+$version-nav-select-color: $color-13;
+$version-nav-select-font: $base-mono-family;
+
+.version-nav {
+  padding: $version-nav-padding;
+
+  label {
+    @include sr-only;
+  }
+
+  select {
+    display: block;
+    width: 100%;
+  }
+}

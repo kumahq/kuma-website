@@ -1,0 +1,74 @@
+// 
+// Variables
+// 
+
+$root-font-size: 100%;
+$base-font-size: 15px;
+
+// Branding
+$color-1: #0b2e4c;
+$color-2: #0063b0;
+$color-3: #3fb764;
+$color-4: #1bbecc;
+$color-6: #963a85;
+$color-7: #ee4788;
+$color-8: #ef485d;
+$color-9: #00acc1;
+$color-10: #ff4185;
+$color-11: #0dd86d;
+$color-12: #e4f9b2;
+$color-13: #1155CB;
+$color-14: #2B303B;
+$color-15: #eaecef;
+
+$gray-light: #fdfdfd;
+
+// Misc
+$container-width-compact: 65rem; // 1040px
+// $container-width: 71.25rem; // 1140px
+$container-width: $container-width-compact;
+$gutter: 1.875rem; // 30px
+$base-soft-shadow: 0 3px 6px 0 rgba($color-15, 18%);
+
+// 
+// VuePress default theme variables
+// 
+// these are carried over from the 
+// default theme Stylus files
+// 
+
+$MQMobile: 719px;
+$MQMobileNarrow: 419px;
+$MQNarrow: 959px;
+$navbarHeight: 4.688rem;
+$accentColor: #3eaf7c;
+$textColor: #2c3e50;
+$borderColor: red;
+$codeBgColor: #282c34;
+$sidebarWidth: 16rem; // VuePress default is 20
+$contentWidth: 740px;
+$wrapper: '.content';
+$contentClass: '.theme-default-content';
+$arrowBgColor: #ccc;
+$lineNumbersWrapperWidth: 3.5rem;
+$codeLang: (
+  js,
+  ts,
+  html,
+  md,
+  vue,
+  css,
+  sass,
+  scss,
+  less,
+  stylus,
+  go,
+  java,
+  c,
+  sh,
+  yaml,
+  py,
+  docker,
+  dockerfile,
+  makefile
+);

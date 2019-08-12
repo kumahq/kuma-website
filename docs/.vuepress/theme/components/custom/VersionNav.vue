@@ -1,5 +1,6 @@
 <template>
   <form class="version-nav">
+    <label for="doc-version-selector">Version</label>
     <select name="doc-version-selector" @change="redirectToSelectedDocVersion($event.target.value)">
       <option 
         v-for="item in releasesAsSelectValues" 
@@ -14,8 +15,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import DropdownLink from '@theme/components/DropdownLink'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'VersionNav',
@@ -37,9 +37,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'releasesAsSelectValues',
-      'getReleaseList',
-      'getSelectedDocVersion'
+      'releasesAsSelectValues'
     ])
   }
 }

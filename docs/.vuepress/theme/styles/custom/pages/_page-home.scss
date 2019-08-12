@@ -1,0 +1,61 @@
+// 
+// Homepage
+// 
+
+.theme-container--home {
+
+  // hide the header anchor links
+  .header-anchor {
+    display: none !important;
+  }
+
+  // hide the outbound link icon
+  a .icon.outbound {
+    display: none !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    border: 0;
+  }
+}
+
+// Features
+
+.features {
+  
+}
+
+.features__item {
+  
+}
+
+// Testimonial
+
+.testimonial {
+  
+}
+
+.testimonial__portrait {
+  max-width: 12rem; // temporary
+
+  img {
+    @include img-full;
+  }
+}
+
+// Steps
+
+.steps-wrapper {
+  background-color: $color-14;
+  color: #fff;
+  padding-top: 4.688rem;
+  padding-bottom: 4.688rem;
+}
+
+.steps-items {
+
+}
+
+.steps-items__header {
+  text-align: center;
+}

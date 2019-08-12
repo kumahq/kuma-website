@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import store from './theme/store/index'
+import './theme/styles/styles.scss'
 
 export default ({
   Vue,
@@ -9,11 +10,6 @@ export default ({
 }) => {
 
   Vue.use(Vuex)
-
-  /**
-   * Site styles
-   */
-  require('./theme/styles/custom/styles.scss')
   
   /**
    * Global Mixins
@@ -27,4 +23,9 @@ export default ({
       }
     }
   })
+
+  /**
+   * Global components
+   */
+  Vue.component('InlineSvg', () => import('./theme/components/custom/InlineSvg.vue'))
 }

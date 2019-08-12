@@ -1,0 +1,27 @@
+// 
+// General page styles
+// 
+
+.page {
+  padding-left: 0;
+}
+
+.inner {
+  @include content-container;
+}
+
+// this is hidden for now unless we make the masthead logo
+// just the icon itself, and then unhide this to use as the title
+.site-name {
+  @include sr-only;
+}
+
+.theme-container {
+  padding-top: $navbarHeight;
+}
+
+@media (min-width: $MQMobile + 1) {
+  .page {
+    flex: 1;
+  }
+}

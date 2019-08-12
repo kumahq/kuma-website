@@ -4,7 +4,7 @@ home: true
 search: false
 
 # custom page data
-testimonialPortraitSrc: https://placehold.it/300x300
+testimonialPortraitSrc: /matt-klein@2x.png
 testimonialPortraitAlt: Matt Klein
 ---
 
@@ -21,24 +21,53 @@ testimonialPortraitAlt: Matt Klein
 <!-- feature blocks -->
 
 ::: slot feature-block-content-1
+<inline-svg width="50" height="50" src="/icons/icon-universal-control-plane.svg"/>
 ### Universal Control Plane
 Built on top of Envoy, Konvoy is a universal cloud native control plane to
 orchestrate L4/L7 traffic, including Microservices and Service Mesh.
 :::
 
 ::: slot feature-block-content-2
+<inline-svg width="50" height="50" src="/icons/icon-api-gateway.svg"/>
 ### Traffic Management
 Ingress and Service Mesh traffic management for security, tracing, routing,
 and observability out of the box. Distributed and decoupled by default.
 :::
 
 ::: slot feature-block-content-3
+<inline-svg width="50" height="50" src="/icons/icon-platform-agnostic.svg"/>
 ### Platform Agnostic
 Konvoy is enterprise ready and platform agnostic with native Kubernetes support,
 as well as VM and bare-metal, for both greenfield and legacy apps.
 :::
 
+<!-- steps -->
+
+::: slot steps-title
+## Build your Service Mesh in 3 steps
+:::
+
+::: slot step-1-content
+:::
+
+::: slot step-1-code-block
+:::
+
+::: slot step-2-content
+:::
+
+::: slot step-2-code-block
+:::
+
+::: slot step-3-content
+:::
+
+::: slot step-3-code-block
+:::
+
+
 <!-- testimonial -->
+
 ::: slot testimonial-content
 A control plane built for Envoy by Envoy contributors, that brings traffic management
 to the modern era.
@@ -46,4 +75,8 @@ to the modern era.
 
 ::: slot testimonial-author
 Matt Klein
+:::
+
+::: slot testimonial-extra
+Engineer [@Lyft](https://twitter.com/Lyft). [@envoyproxy](https://twitter.com/envoyproxy) creator.
 :::

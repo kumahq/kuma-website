@@ -1,0 +1,34 @@
+// 
+// Structure
+// 
+// The framework of the page containers
+// and everything outside of page-specific
+// styling and elemtns.
+// 
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: $root-font-size;
+  @include clear-text;
+}
+
+body {
+  font-size: $base-font-size;
+  font-family: $base-font-family;
+  font-style: normal;
+  line-height: 2.4;
+}
+
+.content-wrapper {
+  max-width: $container-width-compact;
+  margin: 0 auto;
+}
+
+@media (min-width: $MQMobile + 1) {
+  .content-wrapper {
+    display: flex;
+  }
+}

@@ -1,7 +1,15 @@
 <template>
   <aside class="sidebar">
     <VersionNav/>
+
+    <!-- <AlgoliaSearchBox
+      v-if="isAlgoliaSearch"
+      :options="algolia"
+    /> -->
+    <!-- <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/> -->
+
     <NavLinks/>
+
     <slot name="top"/>
     <SidebarLinks :depth="0" :items="items"/>
     <slot name="bottom"/>
@@ -9,6 +17,8 @@
 </template>
 
 <script>
+import AlgoliaSearchBox from '@AlgoliaSearchBox'
+import SearchBox from '@SearchBox'
 import VersionNav from '../components/custom/VersionNav'
 import SidebarLinks from '../components/SidebarLinks'
 import NavLinks from '../components/NavLinks'
@@ -16,6 +26,8 @@ import NavLinks from '../components/NavLinks'
 export default {
   name: 'Sidebar',
   components: {
+    AlgoliaSearchBox,
+    SearchBox,
     SidebarLinks,
     NavLinks,
     VersionNav
@@ -23,41 +35,3 @@ export default {
   props: ['items']
 }
 </script>
-
-<style lang="stylus">
-.sidebar
-  ul
-    padding 0
-    margin 0
-    list-style-type none
-  a
-    display inline-block
-  .nav-links
-    display none
-    border-bottom 1px solid $borderColor
-    padding 0.5rem 0 0.75rem 0
-    a
-      font-weight 600
-    .nav-item, .repo-link
-      display block
-      line-height 1.25rem
-      font-size 1.1em
-      padding 0.5rem 0 0.5rem 1.5rem
-  & > .sidebar-links
-    padding 1.5rem 0
-    & > li > a.sidebar-link
-      font-size 1.1em
-      line-height 1.7
-      font-weight bold
-    & > li:not(:first-child)
-      margin-top .75rem
-
-@media (max-width: $MQMobile)
-  .sidebar
-    .nav-links
-      display block
-      .dropdown-wrapper .nav-dropdown .dropdown-item a.router-link-active::after
-        top calc(1rem - 2px)
-    & > .sidebar-links
-      padding 1rem 0
-</style>

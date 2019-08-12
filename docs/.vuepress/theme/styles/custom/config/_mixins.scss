@@ -1,0 +1,54 @@
+// 
+// Mixins + Functions
+// 
+
+// Functions
+
+@function pxToRem($size) {
+  $remSize: $size / $base-font-size;
+  @return #{$remSize}rem;
+}
+
+// Mixins
+
+@mixin fontSize($size) {
+  font-size: $size;
+  font-size: pxToRem($size);
+}
+
+@mixin sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important; // Fix for https://github.com/twbs/bootstrap/issues/25686
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@mixin img-full {
+  max-width: 100%;
+  width: 100%;
+  height: auto
+}
+
+@mixin img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+@mixin content-container {
+  max-width: $container-width - $gutter;
+  padding-left: $gutter / 2;
+  padding-right: $gutter / 2;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin clear-text {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+}
