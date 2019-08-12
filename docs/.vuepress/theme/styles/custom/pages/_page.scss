@@ -20,6 +20,12 @@
   padding-top: $navbarHeight;
 }
 
+.page-container--compact {
+  max-width: $container-width-compact;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media (min-width: $MQMobile + 1) {
   .page {
     flex: 1;

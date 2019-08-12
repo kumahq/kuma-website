@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container page-container--install">
+  <div class="page-container page-container--compact page-container--install">
 
     <header class="page-header">
       <h1>Install {{$site.title}}</h1>
