@@ -22,13 +22,13 @@ body {
   line-height: 2.4;
 }
 
-.content-wrapper {
+.theme-container:not(.no-sidebar) .content-wrapper {
   max-width: $container-width-compact;
   margin: 0 auto;
 }
 
 @media (min-width: $MQMobile + 1) {
-  .content-wrapper {
+  .theme-container:not(.no-sidebar) .content-wrapper {
     display: flex;
   }
 }
