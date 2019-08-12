@@ -17,10 +17,10 @@
       </div>
       <!-- .page-masthead-wrap -->
 
-      <div class="features flex">
-        <Content slot-key="feature-block-content-1" class="features__item px-2"/>
-        <Content slot-key="feature-block-content-2" class="features__item px-2"/>
-        <Content slot-key="feature-block-content-3" class="features__item px-2"/>
+      <div class="features flex flex-wrap -mx-4">
+        <Content slot-key="feature-block-content-1" class="features__item w-full md:w-1/3 px-4"/>
+        <Content slot-key="feature-block-content-2" class="features__item w-full md:w-1/3 px-4"/>
+        <Content slot-key="feature-block-content-3" class="features__item w-full md:w-1/3 px-4"/>
       </div>
       <!-- .features -->
     
@@ -37,10 +37,11 @@
       <!-- .inner -->
 
     </div>
+    <!-- .steps-wrapper -->
 
-    <div class="inner">
+    <div class="testimonial-wrapper">
 
-      <div class="testimonial">
+      <div class="inner testimonial">
         <div v-if="$page.frontmatter.testimonialPortraitSrc" class="testimonial__portrait">
           <img
             :src="$page.frontmatter.testimonialPortraitSrc"
@@ -50,15 +51,14 @@
         <blockquote class="testimonial__content">
           <Content slot-key="testimonial-content"/>
           <cite>
-            <Content slot-key="testimonial-author"/><br/>
-            <Content slot-key="testimonial-extra"/>
+            <Content slot-key="testimonial-author"/>
           </cite>
         </blockquote>
       </div>
-      <!-- .testimonial -->
+      <!-- .inner -->
 
     </div>
-    <!-- .inner -->
+    <!-- .testimonial-wrapper -->
     
   </div>
 </template>

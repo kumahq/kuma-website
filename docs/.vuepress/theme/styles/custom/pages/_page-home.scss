@@ -2,6 +2,9 @@
 // Homepage
 // 
 
+$home-section-spacing: 80px;
+$home-feature-icon-bottom-spacing: 42px;
+
 .page-container--home {
 
   // hide the header anchor links
@@ -17,45 +20,75 @@
   h1, h2, h3, h4, h5, h6 {
     border: 0;
   }
-}
 
-// Features
+  // Content masthead
 
-.features {
-  
-}
+  .page-masthead-wrap {
+    padding: $home-section-spacing 0;
+  }
 
-.features__item {
-  
-}
+  // Features
 
-// Testimonial
+  .features {
+    padding: $home-section-spacing 0;
+  }
 
-.testimonial {
-  
-}
+  .features__item {
+    
+    .inline-svg {
+      margin: 0 auto $home-feature-icon-bottom-spacing auto;
+    }
+  }
 
-.testimonial__portrait {
-  max-width: 12rem; // temporary
+  // Testimonial
 
-  img {
-    @include img-full;
+  .testimonial {
+    
+  }
+
+  .testimonial__content {
+    border: 0;
+    color: inherit;
+
+    cite {
+      font-style: normal;
+    }
+  }
+
+  .testimonial__portrait {
+    max-width: 12rem; // temporary
+
+    img {
+      @include img-full;
+    }
+  }
+
+  // Steps
+
+  .steps-wrapper {
+    background-color: $color-14;
+    color: #fff;
+    padding-top: 4.688rem;
+    padding-bottom: 4.688rem;
+  }
+
+  .steps-items {
+
+  }
+
+  .steps-items__header {
+    text-align: center;
   }
 }
 
-// Steps
+@media (min-width: $MQMobile + 1) {
+  .page-container--home {
 
-.steps-wrapper {
-  background-color: $color-14;
-  color: #fff;
-  padding-top: 4.688rem;
-  padding-bottom: 4.688rem;
-}
-
-.steps-items {
-
-}
-
-.steps-items__header {
-  text-align: center;
+    .features__item {
+    
+      .inline-svg {
+        margin: 0 0 $home-feature-icon-bottom-spacing 0;
+      }
+    }
+  }
 }
