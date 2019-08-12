@@ -1,5 +1,5 @@
 <template>
-  <div class="theme-container theme-container--home" aria-labelledby="masthead-main-title">
+  <div class="page-container page-container--home" aria-labelledby="masthead-main-title">
     
     <div class="inner">
 
