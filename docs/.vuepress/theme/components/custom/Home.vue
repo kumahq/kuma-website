@@ -27,12 +27,12 @@
     </div>
     <!-- .page-masthead-wrap -->
 
-    <div class="features-wrap">
+    <div class="product-features-wrap">
 
-      <div class="inner features flex flex-wrap -mx-4">
-        <Content slot-key="feature-block-content-1" class="features__item w-full md:w-1/3 px-4"/>
-        <Content slot-key="feature-block-content-2" class="features__item w-full md:w-1/3 px-4"/>
-        <Content slot-key="feature-block-content-3" class="features__item w-full md:w-1/3 px-4"/>
+      <div class="inner product-features flex flex-wrap -mx-4">
+        <Content slot-key="feature-block-content-1" class="product-features__item w-full md:w-1/3 px-4"/>
+        <Content slot-key="feature-block-content-2" class="product-features__item w-full md:w-1/3 px-4"/>
+        <Content slot-key="feature-block-content-3" class="product-features__item w-full md:w-1/3 px-4"/>
       </div>
       <!-- .inner -->
 
@@ -50,6 +50,7 @@
             </div> 
             <cite>
               <Content slot-key="testimonial-author"/>
+              <Content slot-key="testimonial-author-info"/>
             </cite>
           </div>
         </blockquote>
@@ -65,6 +66,22 @@
         <header class="steps-items__header text-center">
           <Content slot-key="steps-title"/>
         </header>
+
+        <ol class="steps-items__content">
+          <li class="flex flex-wrap -mx-4">
+            <Content slot-key="step-1-content" class="w-full px-4 lg:w-1/2"/>
+            <Content slot-key="step-1-code-block" class="w-full px-4 lg:w-1/2"/>
+          </li>
+          <li class="flex flex-wrap -mx-4">
+            <Content slot-key="step-2-content" class="w-full px-4 lg:w-1/2"/>
+            <Content slot-key="step-2-code-block" class="w-full px-4 lg:w-1/2"/>
+          </li>
+          <li class="flex flex-wrap -mx-4">
+            <Content slot-key="step-3-content" class="w-full px-4 lg:w-1/2"/>
+            <Content slot-key="step-3-code-block" class="w-full px-4 lg:w-1/2"/>
+          </li>
+        </ol>
+
       </div>
       <!-- .inner -->
 

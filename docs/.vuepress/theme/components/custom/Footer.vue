@@ -10,3 +10,9 @@ export default {
 }
 </script>
 
+<style lang="scss">
+// temporary
+.page-footer {
+  text-align: center;
+}
+</style>

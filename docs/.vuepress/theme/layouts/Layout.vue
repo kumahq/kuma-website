@@ -39,6 +39,8 @@
     </div>
     <!-- .content-wrapper -->
 
+    <Footer />
+
   </div>
 </template>
 
@@ -49,6 +51,7 @@ import Install from '@theme/components/custom/Install.vue'
 import Navbar from '@theme/components/Navbar.vue'
 import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
+import Footer from '@theme/components/custom/Footer.vue'
 import { resolveSidebarItems, redirectToLatestVersion } from '../util'
 
 export default {
@@ -57,7 +60,8 @@ export default {
     Install,
     Page,
     Sidebar,
-    Navbar
+    Navbar,
+    Footer
   },
 
   data () {
