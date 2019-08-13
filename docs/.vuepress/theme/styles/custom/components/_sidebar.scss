@@ -11,6 +11,7 @@ $sidebar-link-active-border-color: $color-13;
   background: none;
   font-size: $base-font-size;
   width: $sidebarWidth;
+  padding-top: $navbarHeight;
 
   &:after {
     position: absolute;

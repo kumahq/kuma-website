@@ -10,14 +10,14 @@ const releases = require('./public/releases.json')
  */
 
 const productData = {
-  title: 'Konvoy',
+  title: 'Karavan',
   description: 'Connect, Secure and Observe any traffic and Microservices',
-  twitter: 'konvoy',
+  twitter: 'karavan',
   author: 'Kong',
-  repo: 'https://github.com/kong/konvoy',
+  repo: 'https://github.com/kong/konvoy', // @todo what will the new repo be?
   repoButtonLabel: 'Star',
-  logo: '/konvoy-logo.svg',
-  hostname: 'https://getkonvoy.com'
+  logo: '/karavan-logo.svg',
+  hostname: 'https://getkonvoy.com' // @todo new URL to match new name
 }
 
 /**
@@ -152,7 +152,7 @@ module.exports = {
         // TODO change this to a Konvoy-specific one (or move this locally?)
         rel: 'icon',
         href:
-          'https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2018/08/kong-logomark-color-64px.png'
+          '/favicon-64px.png'
       }
     ],
     [
