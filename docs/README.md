@@ -41,53 +41,43 @@ infrastructures via a REST API. Karavan is built for every team in the organizat
 <!-- steps -->
 
 ::: slot steps-title
-## Build your Service Mesh in 3 steps
+## Build your Service Mesh in 3 easy steps
 :::
 
 ::: slot step-1-content
-### Add your Service and Route
-After [installing](/install/) and starting Kong, use the Admin API on port 8001 to add a new Service and Route. 
-In this example, Kong will reverse proxy every incoming request with the specified incoming host to the associated 
-upstream URL. You can implement very complex routing mechanisms beyond simple host matching.
+### Download and Install Karavan CP
+To get started you can download Karavan and install it using the Karavan CLI application: `karavanctl`.
 :::
 
 ::: slot step-1-code-block
 ``` bash
-$ curl -i -X POST \
-  --url http://localhost:8001/services/ \
-  --data 'name=example-service' \
-  --data 'url=http://example.com'
-$ curl -i -X POST \
-  --url http://localhost:8001/services/example-service/routes/ \
-  --data 'hosts=[]=example.com' \
+$ karavanctl install control-plane | kubectl apply -f
 ```
 :::
 
 ::: slot step-2-content
-### Add Plugins on the Service
-Then add extra functionality by using Kong Plugins. You can also create your own plugins!
+### Install the sidecar Envoy DP
+Once Karavan is up and running, it's now time to install the Envoy sidecars - that Karavan will 
+later orchestrate - next to any service we want to include into our Service Mesh.
 :::
 
 ::: slot step-2-code-block
 ``` bash
-$ curl -i -X POST \
-  --url http://localhost:8001/services/example-service/plugins/ \
-  --data 'name=rate-limiting' \
-  --data 'config.minute=100'
+$ karavanctl install data-plane | kubectl apply -f
 ```
 :::
 
 ::: slot step-3-content
-### Make a Request
-...and then you can consume the Service on port 8000 by requesting the specified host. In production setup the public 
-host DNS to point to your Kong cluster. Kong supports much more functionality, explore the Hub and the documentation.
+### Apply Policies
+Congratulations, your Service Mesh is up and running. We can now instruct Karavan to enhance our 
+Service Mesh with powerful policies like mTLS.
 :::
 
 ::: slot step-3-code-block
 ``` bash
-$ curl -i -X GET \
-  --url http://localhost:8000/ \
-  --header 'Host: example.com'
+$ karavanctl create policy \
+  --name mtls \
+  --conf topology=hybrid
 ```
 :::
 
