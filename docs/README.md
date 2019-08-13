@@ -4,8 +4,8 @@ home: true
 search: false
 
 # custom page data
-testimonialPortraitSrc: /matt-klein@2x.png
-testimonialPortraitAlt: Matt Klein
+testimonialPortraitSrc: /marco-cropped.jpg
+testimonialPortraitAlt: Marco Palladino
 ---
 
 <!-- page masthead -->
@@ -21,21 +21,18 @@ testimonialPortraitAlt: Matt Klein
 <!-- feature blocks -->
 
 ::: slot feature-block-content-1
-<inline-svg width="50" height="50" src="/icons/icon-universal-control-plane.svg"/>
 ### Universal Control Plane
 Built on top of Envoy, Karavan is a universal cloud-native control plane to
 orchestrate L4/L7 traffic, including Microservices and Service Mesh.
 :::
 
 ::: slot feature-block-content-2
-<inline-svg width="50" height="50" src="/icons/icon-api-gateway.svg"/>
 ### Policy Oriented
 Ingress and Service Mesh management policies for security, tracing, 
 routing, and observability out of the box. Decoupled and extensible.
 :::
 
 ::: slot feature-block-content-3
-<inline-svg width="50" height="50" src="/icons/icon-platform-agnostic.svg"/>
 ### Runs anywhere
 Karavan natively supports Kubernetes via CRDs, Virtual Machines and Bare Metal 
 infrastructures via a REST API. Karavan is built for every team in the organization.
@@ -74,6 +71,6 @@ to the modern era.
 :::
 
 ::: slot testimonial-author
-**Matt Klein**,
-Engineer [@Lyft](https://twitter.com/Lyft). [@envoyproxy](https://twitter.com/envoyproxy) creator.
+**Marco Palladino**,<br>
+CTO, [Kong, Inc.](https://twitter.com/thekonginc).
 :::

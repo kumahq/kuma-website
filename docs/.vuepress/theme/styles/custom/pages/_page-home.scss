@@ -5,6 +5,10 @@
 $home-section-spacing: 80px;
 $home-feature-icon-bottom-spacing: 42px;
 
+@mixin home-section {
+  padding: $home-section-spacing 0;
+}
+
 .page-container--home {
 
   // hide the header anchor links
@@ -21,16 +25,22 @@ $home-feature-icon-bottom-spacing: 42px;
     border: 0;
   }
 
+  // Containers
+
+  .inner {
+    overflow: hidden;
+  }
+
   // Content masthead
 
   .page-masthead-wrap {
-    padding: $home-section-spacing 0;
+    @include home-section;
   }
 
   // Features
 
   .features {
-    padding: $home-section-spacing 0;
+    @include home-section;
   }
 
   .features__item {
@@ -42,34 +52,74 @@ $home-feature-icon-bottom-spacing: 42px;
 
   // Testimonial
 
-  .testimonial {
-    
+  .testimonial-wrap {
+    background-color: $color-16;
+    @include home-section;
+
+    a:not(.btn) {
+      color: $color-17;
+
+      &:hover { 
+        color: #fff;
+        text-decoration: underline;
+      }
+    }
   }
 
-  .testimonial__content {
-    border: 0;
-    color: inherit;
-
-    cite {
+  .testimonial {
+    color: #fff;
+    max-width: 38.75rem;
+    margin: 0 auto;
+    
+    // resets
+    blockquote, cite {
+      padding: 0;
+      margin: 0;
+      border: 0;
       font-style: normal;
+      color: inherit;
+    }
+  }
+
+  .content__testimonial-content {
+    border: 0;
+    font-size: 1.438rem;
+    
+    > p {
+      @include quotify;
+
+      &:before, &:after {
+        display: inline-block;
+      }
     }
   }
 
   .testimonial__portrait {
-    max-width: 12rem; // temporary
+    border-radius: 100%;
+    overflow: hidden;
+    margin-right: 1.25rem;
+    width: 5rem;
+    height: 5rem;
 
     img {
       @include img-full;
+      object-fit: cover;
     }
+  }
+
+  .testimonial__cite {
+    width: 100%;
+    display: flex;
+    align-items: center;
   }
 
   // Steps
 
-  .steps-wrapper {
+  .steps-wrap {
     background-color: $color-14;
     color: #fff;
-    padding-top: 4.688rem;
-    padding-bottom: 4.688rem;
+    padding-top: $home-section-spacing;
+    padding-bottom: $home-section-spacing;
   }
 
   .steps-items {
@@ -77,7 +127,23 @@ $home-feature-icon-bottom-spacing: 42px;
   }
 
   .steps-items__header {
-    text-align: center;
+    
+  }
+
+  // Newsletter form
+
+  .newsletter-form-wrap {
+    @include home-section;
+  }
+
+  .newsletter-form {
+    max-width: 30rem;
+    width: 100%;
+    margin: 0 auto;
+
+    form {
+      width: 100%;
+    }
   }
 }
 

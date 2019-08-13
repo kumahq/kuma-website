@@ -1,76 +1,96 @@
 <template>
   <div class="page-container page-container--home" aria-labelledby="masthead-main-title">
     
-    <div class="inner">
+    <div class="page-masthead-wrap">
 
-      <div class="page-masthead-wrap flex">
+      <div class="inner flex">
+
         <div class="page-masthead w-full lg:w-1/2">
           <header class="page-masthead__header">
-            <Content slot-key="masthead-sub-title"/>
             <Content slot-key="masthead-main-title"/>
+            <Content slot-key="masthead-sub-title"/>
           </header>
-          <div class="page-masthead__actions">
-            <router-link to="/install/" class="btn btn--large-text btn--bright">Install</router-link>
-            <router-link to="/docs/" class="btn btn--large-text btn--hollow">Getting Started</router-link>
+          <div class="page-masthead__actions flex -mx-2">
+            <div class="w-1/2 px-2">
+              <router-link to="/install/" class="btn btn--block btn--large-text btn--bright">Install</router-link>
+            </div>
+            <div class="w-1/2 px-2">
+              <router-link to="/docs/" class="btn btn--block btn--large-text btn--hollow">Getting Started</router-link>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- .page-masthead-wrap -->
+        <!-- .page-masthead -->
 
-      <div class="features flex flex-wrap -mx-4">
+      </div>
+      <!-- .inner -->
+    
+    </div>
+    <!-- .page-masthead-wrap -->
+
+    <div class="features-wrap">
+
+      <div class="inner features flex flex-wrap -mx-4">
         <Content slot-key="feature-block-content-1" class="features__item w-full md:w-1/3 px-4"/>
         <Content slot-key="feature-block-content-2" class="features__item w-full md:w-1/3 px-4"/>
         <Content slot-key="feature-block-content-3" class="features__item w-full md:w-1/3 px-4"/>
       </div>
-      <!-- .features -->
-    
-    </div>
-    <!-- .inner -->
+      <!-- .inner -->
 
-    <div class="steps-wrapper">
+    </div>
+    <!-- .features-wrap -->
+
+    <div class="testimonial-wrap">
+
+      <div class="inner testimonial">
+        <blockquote class="testimonial__content-wrap">
+          <Content slot-key="testimonial-content"/>
+          <div class="testimonial__cite">
+            <div v-if="$page.frontmatter.testimonialPortraitSrc" class="testimonial__portrait">
+              <img :src="$page.frontmatter.testimonialPortraitSrc" :alt="$page.frontmatter.testimonialPortraitAlt">
+            </div> 
+            <cite>
+              <Content slot-key="testimonial-author"/>
+            </cite>
+          </div>
+        </blockquote>
+      </div>
+      <!-- .inner -->
+
+    </div>
+    <!-- .testimonial-wrap -->
+
+    <div class="steps-wrap">
 
       <div class="inner steps-items">
-        <header class="steps-items__header">
+        <header class="steps-items__header text-center">
           <Content slot-key="steps-title"/>
         </header>
       </div>
       <!-- .inner -->
 
     </div>
-    <!-- .steps-wrapper -->
+    <!-- .steps-wrap -->
 
-    <div class="testimonial-wrapper">
+    <div class="newsletter-form-wrap">
 
-      <div class="inner testimonial">
-        <div v-if="$page.frontmatter.testimonialPortraitSrc" class="testimonial__portrait">
-          <img
-            :src="$page.frontmatter.testimonialPortraitSrc"
-            :alt="$page.frontmatter.testimonialPortraitAlt"
-          >
-        </div>
-        <blockquote class="testimonial__content">
-          <Content slot-key="testimonial-content"/>
-          <cite>
-            <Content slot-key="testimonial-author"/>
-          </cite>
-        </blockquote>
+      <div class="inner newsletter-form">
+        <NewsletterForm />
       </div>
-      <!-- .inner -->
 
     </div>
-    <!-- .testimonial-wrapper -->
+    <!-- newsletter-form-wrap -->
     
   </div>
 </template>
 
 <script>
 import Navbar from '@theme/components/Navbar'
-import Footer from '@theme/components/custom/Footer'
+import NewsletterForm from '@theme/components/custom/NewsletterForm'
 
 export default {
   components: {
     Navbar,
-    Footer
+    NewsletterForm
   }
 };
 </script>

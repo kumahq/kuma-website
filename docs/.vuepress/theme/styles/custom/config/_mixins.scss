@@ -54,11 +54,14 @@
 }
 
 @mixin button-base {
+  font-family: $sftextui-medium, $sans-serif;
   background-color: $green-base;
   padding: .563rem 2.25rem;
   border-radius: 3px;
   box-shadow: $base-soft-shadow;
+  text-align: center;
   text-shadow: 0 2px 0 $green-dark;
+  box-sizing: border-box;
   transition: 
     background .2s ease-in-out,
     border .2s ease-in-out,
@@ -70,5 +73,17 @@
 
   &:hover {
     background-color: $green-dark;
+  }
+}
+
+@mixin quotify {
+  quotes: "“" "”" "‘" "’";
+  
+  &:before {
+    content: open-quote;
+  }
+
+  &:after {
+    content: close-quote;
   }
 }
