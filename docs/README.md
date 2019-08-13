@@ -23,7 +23,7 @@ testimonialPortraitAlt: Matt Klein
 ::: slot feature-block-content-1
 <inline-svg width="50" height="50" src="/icons/icon-universal-control-plane.svg"/>
 ### Universal Control Plane
-Built on top of Envoy, Konvoy is a universal cloud-native control plane to
+Built on top of Envoy, Karavan is a universal cloud-native control plane to
 orchestrate L4/L7 traffic, including Microservices and Service Mesh.
 :::
 
@@ -37,8 +37,8 @@ routing, and observability out of the box. Decoupled and extensible.
 ::: slot feature-block-content-3
 <inline-svg width="50" height="50" src="/icons/icon-platform-agnostic.svg"/>
 ### Runs anywhere
-Konvoy natively supports Kubernetes via CRDs, Virtual Machines and Bare Metal 
-infrastructures via a REST API. Konvoy is built for every team in the organization.
+Karavan natively supports Kubernetes via CRDs, Virtual Machines and Bare Metal 
+infrastructures via a REST API. Karavan is built for every team in the organization.
 :::
 
 <!-- steps -->

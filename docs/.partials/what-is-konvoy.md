@@ -1,4 +1,4 @@
-### What is Konvoy?
+### What is Karavan?
 lorem ipsum dolor sit amet...
 
 ::: warning
