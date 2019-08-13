@@ -52,3 +52,23 @@
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@mixin button-base {
+  background-color: $green-base;
+  padding: .563rem 2.25rem;
+  border-radius: 3px;
+  box-shadow: $base-soft-shadow;
+  text-shadow: 0 2px 0 $green-dark;
+  transition: 
+    background .2s ease-in-out,
+    border .2s ease-in-out,
+    color .2s ease-in-out;
+
+  &, &:hover, &:active, &:focus, &:visited {
+    color: #fff !important;
+  }
+
+  &:hover {
+    background-color: $green-dark;
+  }
+}
