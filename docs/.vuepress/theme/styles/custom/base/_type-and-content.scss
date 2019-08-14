@@ -17,3 +17,10 @@ div[class*="language-"].line-numbers-mode pre {
   // small fix for an invalid style attribute on the core VuePress styles
   padding-left: 4.5rem;
 }
+
+// images
+
+img {
+  max-width: 100%;
+  height: auto;
+}

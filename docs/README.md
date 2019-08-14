@@ -19,7 +19,7 @@ testimonialPortraitAlt: Marco Palladino
 :::
 
 ::: slot masthead-diagram
-<img src="/diagrams/diagram-full.png" srcset="/diagrams/diagram-full@2x.png 2x" alt="Karavan service diagram">
+<img src="/diagrams/diagram-main-r1.png" alt="Karavan service diagram">
 :::
 
 <!-- feature blocks -->
