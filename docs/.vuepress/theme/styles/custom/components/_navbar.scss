@@ -71,6 +71,8 @@ $navbar-link-font-family: $sftextui-medium;
     
   }
 
+  // install button
+  
   .nav-item--install > a:not(.external),
   .nav-item--install > a.router-link-active {
     @include button-base;

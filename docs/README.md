@@ -57,7 +57,7 @@ Marco Palladino,
 :::
 
 ::: slot testimonial-author-info
-CTO, [Kong, Inc.](https://twitter.com/thekonginc)
+CTO, [Kong, Inc.](https://konghq.com/)
 :::
 
 <!-- steps -->
