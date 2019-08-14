@@ -28,6 +28,10 @@
   border: 0 !important;
 }
 
+.sr-only {
+  @include sr-only;
+}
+
 @mixin img-full {
   max-width: 100%;
   width: 100%;

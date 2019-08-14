@@ -60,8 +60,66 @@
             <li><a href="#">Sitemap</a></li>
           </ul>
         </div>
-        <div class="w-full md:w-1/2 px-2">
-
+        <div class="social-links w-full md:w-1/2 px-2">
+          <ul>
+            <li>
+              <a href="#">
+                <InlineSvg
+                  src="/social/icon-facebook.svg"
+                  width="16"
+                  height="16"
+                />
+                <span class="sr-only">Facebook</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <InlineSvg
+                  src="/social/icon-twitter.svg"
+                  width="16"
+                  height="16"
+                />
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <InlineSvg
+                  src="/social/icon-meetup.svg"
+                  width="16"
+                  height="16"
+                />
+                <span class="sr-only">Meetup</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <InlineSvg
+                  src="/social/icon-github.svg"
+                  width="16"
+                  height="16"
+                />
+                <span class="sr-only">Github</span>
+              </a>
+            </li>
+            <li>
+              <GithubButton
+                v-if="getSiteData.themeConfig.repo"
+                :href="getSiteData.themeConfig.repo"
+                class="repo-button"
+                data-icon="octicon-star"
+                data-size="small"
+                data-show-count="false"
+                aria-label="Star Konvoy on GitHub"
+              >
+                {{
+                  getSiteData.themeConfig.repoButtonLabel 
+                    ? getSiteData.themeConfig.repoButtonLabel 
+                    : 'Star'
+                }}
+              </GithubButton>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -70,7 +128,11 @@
 </template>
 
 <script>
+import GithubButton from 'vue-github-button'
+
 export default {
-  
+  components: {
+    GithubButton
+  }  
 }
 </script>
