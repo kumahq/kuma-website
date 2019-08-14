@@ -4,6 +4,9 @@
 
 $font-root: '/fonts/';
 
+$sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
 // Custom fonts slugified
 
 $roboto-mono-regular: 'Roboto Mono Regular';
@@ -15,9 +18,6 @@ $sftextui-semibold: 'SF UI Text Semibold';
 $sftextui-semibold-italic: 'SF UI Text Semibold Italic';
 
 // Base fonts and fallbacks
-
-$sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
 $base-font-family: $sftextui-regular, $sans-serif;
 $base-heading-font-family: $sftextui-semibold, $sans-serif;

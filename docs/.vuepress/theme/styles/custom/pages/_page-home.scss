@@ -32,16 +32,66 @@ $home-feature-icon-bottom-spacing: 42px;
   }
 }
 
+// Helpers
+
+.section-header {
+  text-align: center;
+
+  h2, h3, h4, h5, h6 {
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+}
+
+.alt-title {
+  
+  &, > * {
+    color: $navy;
+    font-family: $sftextui-regular;
+    font-weight: normal;
+    font-size: 2rem;
+  }
+}
+
 // Content masthead
 
 .page-masthead-wrap {
   @include home-section;
+  @include gradient-container;
+
+  .inner {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  h1 {
+    font-family: $sftextui-medium;
+    font-size: 1.875rem;
+  }
+
+  h2 {
+    font-family: $sftextui-regular;
+    font-size: 1.188rem;
+    color: $gray-dark;
+  }
+}
+
+.page-masthead__actions {
+  margin-top: 3.75rem;
+  text-align: center;
+}
+
+.page-masthead__diagram {
+  text-align: center;
 }
 
 // Product features
 
 .product-features {
   @include home-section;
+  text-align: center;
 }
 
 .product-features__item {
@@ -54,23 +104,22 @@ $home-feature-icon-bottom-spacing: 42px;
 // Testimonial
 
 .testimonial-wrap {
-  background-color: $color-16;
+  // background-color: $color-16;
   @include home-section;
 
   a:not(.btn) {
-    color: $color-17;
+    color: $color-13;
 
-    &:hover { 
-      color: #fff;
+    &:hover {
       text-decoration: underline;
     }
   }
 }
 
 .testimonial {
-  color: #fff;
   max-width: 38.75rem;
   margin: 0 auto;
+  text-align: center;
   
   // resets
   blockquote, cite {
@@ -112,6 +161,8 @@ $home-feature-icon-bottom-spacing: 42px;
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: left;
 
   p {
     margin: 0;
@@ -120,7 +171,7 @@ $home-feature-icon-bottom-spacing: 42px;
 }
 
 .content__testimonial-author {
-  font-family: $sftextui-medium;
+  font-family: $sftextui-semibold;
 }
 
 .content__testimonial-author-info {
@@ -176,29 +227,44 @@ $home-feature-icon-bottom-spacing: 42px;
 }
 
 .steps-items__content {
+  $i: 45px; // dimensions of the step number
+
+  position: relative;
   counter-reset: steps;
   list-style-type: none;
   margin: 0;
   padding: 0;
+
+  &:after {
+    position: absolute;
+    top: 0;
+    z-index: 0;
+    left: 14px;
+    display: block;
+    width: 1px;
+    height: 75%;
+    content: "";
+    background-color: rgba(#fff, 0.5);
+  }
   
   > li {
+    padding-left: 85px;
     position: relative;
-    // align-items: center;
 
     &:not(:last-of-type) {
       margin-bottom: 4.063rem;
     }
 
     &:before {
-      $i: 50px; // dimensions of the step number
-
       position: absolute;
-      top: -12px;
-      left: -#{$i};
+      top: 0;
+      left: 0;
+      z-index: 1;
+      background-color: $color-14;
       counter-increment: steps;
       content: counters(steps, ".") " ";
       border-radius: 100%;
-      border: 2px solid rgba(#fff, 0.5);
+      border: 1px solid rgba(#fff, 0.5);
       font-family: $sftextui-semibold;
       text-align: center;
       line-height: calc(#{$i} - 4px);
@@ -213,10 +279,27 @@ $home-feature-icon-bottom-spacing: 42px;
   }
 }
 
+// Before and After section
+
+.before-after-wrap {
+  @include home-section;
+  text-align: center;
+
+  h4 {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    color: $color-11;
+    margin-bottom: 2.188rem;
+  }
+}
+
 // Newsletter form
 
 .newsletter-form-wrap {
   @include home-section;
+  text-align: center;
+  background: #fff url('/contributor-bg@2x.jpg') repeat;
+  background-size: 100%;
 }
 
 .newsletter-form {
@@ -230,13 +313,5 @@ $home-feature-icon-bottom-spacing: 42px;
 }
 
 @media (min-width: $MQMobile + 1) {
-  .page-container--home {
-
-    .features__item {
-    
-      .inline-svg {
-        margin: 0 0 $home-feature-icon-bottom-spacing 0;
-      }
-    }
-  }
+  
 }

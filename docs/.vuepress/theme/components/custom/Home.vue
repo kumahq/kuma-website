@@ -3,23 +3,35 @@
     
     <div class="page-masthead-wrap">
 
-      <div class="inner flex">
+      <div class="inner flex flex-wrap -mx-4">
 
-        <div class="page-masthead w-full lg:w-1/2">
+        <div class="page-masthead w-full lg:w-1/2 px-4">
           <header class="page-masthead__header">
             <Content slot-key="masthead-main-title"/>
             <Content slot-key="masthead-sub-title"/>
           </header>
-          <div class="page-masthead__actions flex -mx-2">
-            <div class="w-1/2 px-2">
-              <router-link to="/install/" class="btn btn--block btn--large-text btn--bright">Install</router-link>
+          <div class="page-masthead__actions flex flex-wrap -mx-2">
+            <div class="w-full md:w-1/2 px-2">
+              <router-link
+                to="/install/" 
+                class="btn btn--block btn--large-text btn--bright">
+                Install
+              </router-link>
             </div>
-            <div class="w-1/2 px-2">
-              <router-link to="/docs/" class="btn btn--block btn--large-text btn--hollow">Getting Started</router-link>
+            <div class="w-full md:w-1/2 px-2">
+              <router-link
+                to="/docs/" 
+                class="btn btn--block btn--large-text btn--hollow">
+                Why Karavan?
+              </router-link>
             </div>
           </div>
         </div>
         <!-- .page-masthead -->
+
+        <div class="page-masthead__diagram w-full lg:w-1/2 px-4">
+          <Content slot-key="masthead-diagram"/>
+        </div>
 
       </div>
       <!-- .inner -->
@@ -63,22 +75,22 @@
     <div class="steps-wrap">
 
       <div class="inner steps-items">
-        <header class="steps-items__header text-center">
+        <header class="section-header steps-items__header text-center">
           <Content slot-key="steps-title"/>
         </header>
 
         <ol class="steps-items__content">
-          <li class="flex flex-wrap -mx-4">
-            <Content slot-key="step-1-content" class="w-full px-4 lg:w-1/2"/>
-            <Content slot-key="step-1-code-block" class="w-full px-4 lg:w-1/2"/>
+          <li class="flex flex-wrap -mx-2">
+            <Content slot-key="step-1-content" class="w-full px-2 lg:w-1/2"/>
+            <Content slot-key="step-1-code-block" class="w-full px-2 lg:w-1/2"/>
           </li>
-          <li class="flex flex-wrap -mx-4">
-            <Content slot-key="step-2-content" class="w-full px-4 lg:w-1/2"/>
-            <Content slot-key="step-2-code-block" class="w-full px-4 lg:w-1/2"/>
+          <li class="flex flex-wrap -mx-2">
+            <Content slot-key="step-2-content" class="w-full px-2 lg:w-1/2"/>
+            <Content slot-key="step-2-code-block" class="w-full px-2 lg:w-1/2"/>
           </li>
-          <li class="flex flex-wrap -mx-4">
-            <Content slot-key="step-3-content" class="w-full px-4 lg:w-1/2"/>
-            <Content slot-key="step-3-code-block" class="w-full px-4 lg:w-1/2"/>
+          <li class="flex flex-wrap -mx-2">
+            <Content slot-key="step-3-content" class="w-full px-2 lg:w-1/2"/>
+            <Content slot-key="step-3-code-block" class="w-full px-2 lg:w-1/2"/>
           </li>
         </ol>
 
@@ -88,9 +100,35 @@
     </div>
     <!-- .steps-wrap -->
 
+    <div class="before-after-wrap">
+
+      <div class="inner before-after">
+        <header class="section-header">
+          <Content slot-key="before-after-title" class="alt-title"/>
+        </header>
+        <div class="flex flex-wrap -mx-2">
+          <div class="w-full px-2 md:w-1/2">
+            <h4>Before</h4>
+            <Content slot-key="before-after-diagram-1"/>
+          </div>
+          <div class="w-full px-2 md:w-1/2">
+            <h4>After</h4>
+            <Content slot-key="before-after-diagram-2"/>
+          </div>
+        </div>
+      </div>
+      <!-- .inner -->
+
+    </div>
+    <!-- .before-after-wrap -->
+
     <div class="newsletter-form-wrap">
 
       <div class="inner newsletter-form">
+        <header class="section-header">
+          <Content slot-key="newsletter-title" class="alt-title"/>
+        </header>
+        <Content slot-key="newsletter-content"/>
         <NewsletterForm />
       </div>
 

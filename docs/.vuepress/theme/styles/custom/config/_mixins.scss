@@ -47,6 +47,11 @@
   margin-right: auto;
 }
 
+@mixin gradient-container {
+  background-image: $gradient-1;
+  border-bottom: 1px solid $navy-light;
+}
+
 @mixin clear-text {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -54,7 +59,7 @@
 }
 
 @mixin button-base {
-  font-family: $sftextui-medium, $sans-serif;
+  font-family: $sftextui-medium;
   background-color: $green-base;
   padding: .563rem 2.25rem;
   border-radius: 3px;
