@@ -2,8 +2,9 @@
 // Homepage
 // 
 
-$home-section-spacing: 80px;
-$home-feature-icon-bottom-spacing: 42px;
+$home-section-spacing: 3.5rem;
+// $home-section-spacing: 5rem;
+$home-feature-icon-bottom-spacing: 2.625rem;
 
 @mixin home-section {
   padding: $home-section-spacing 0;
@@ -79,8 +80,13 @@ $home-feature-icon-bottom-spacing: 42px;
 }
 
 .page-masthead__actions {
-  margin-top: 3.75rem;
-  text-align: center;
+  margin-top: 2rem;
+  // margin-top: 3.75rem;
+  // text-align: center;
+
+  .btn:not(:last-of-type) {
+    margin-right: 1rem;
+  }
 }
 
 .page-masthead__diagram {
@@ -106,6 +112,7 @@ $home-feature-icon-bottom-spacing: 42px;
 .testimonial-wrap {
   // background-color: $color-16;
   @include home-section;
+  padding-top: 0;
 
   a:not(.btn) {
     color: $color-13;

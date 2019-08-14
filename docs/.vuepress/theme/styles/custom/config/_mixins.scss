@@ -67,10 +67,6 @@
   text-align: center;
   text-shadow: 0 2px 0 $green-dark;
   box-sizing: border-box;
-  transition: 
-    background .2s ease-in-out,
-    border .2s ease-in-out,
-    color .2s ease-in-out;
 
   &, &:hover, &:active, &:focus, &:visited {
     color: #fff !important;

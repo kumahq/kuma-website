@@ -10,21 +10,17 @@
             <Content slot-key="masthead-main-title"/>
             <Content slot-key="masthead-sub-title"/>
           </header>
-          <div class="page-masthead__actions flex flex-wrap -mx-2">
-            <div class="w-full md:w-1/2 px-2">
-              <router-link
-                to="/install/" 
-                class="btn btn--block btn--large-text btn--bright">
-                Install
-              </router-link>
-            </div>
-            <div class="w-full md:w-1/2 px-2">
-              <router-link
-                to="/docs/" 
-                class="btn btn--block btn--large-text btn--hollow">
-                Why Karavan?
-              </router-link>
-            </div>
+          <div class="page-masthead__actions">
+            <router-link
+              to="/install/" 
+              class="btn btn--bright">
+              Install
+            </router-link>
+            <router-link
+              to="/docs/" 
+              class="btn btn--hollow">
+              Why Karavan?
+            </router-link>
           </div>
         </div>
         <!-- .page-masthead -->
