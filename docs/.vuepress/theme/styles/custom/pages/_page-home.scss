@@ -220,6 +220,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
 
   .line-numbers-mode pre {
     padding: 1rem !important;
+    @include scrollbar-h;
   }
 
   a:not(.btn) {

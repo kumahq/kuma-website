@@ -88,3 +88,43 @@
     content: close-quote;
   }
 }
+
+@mixin scrollbar-v {
+  &::-webkit-scrollbar {
+    width: .4em;
+  }
+  
+  &::-webkit-scrollbar-track {
+    $i: rgba(#000, .35);
+
+    background-color: $i;
+    border: 0;
+    outline: 0;
+    box-shadow: 0 0 0 4px $i;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: .2em;
+  }
+}
+
+@mixin scrollbar-h {
+  &::-webkit-scrollbar {
+    height: .4em;
+  }
+  
+  &::-webkit-scrollbar-track {
+    $i: rgba(#000, .35);
+
+    background-color: $i;
+    border: 0;
+    outline: 0;
+    box-shadow: 0 0 0 4px $i;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: .2em;
+  }
+}
