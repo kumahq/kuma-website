@@ -73,7 +73,7 @@
   }
 
   &:hover {
-    background-color: $green-dark;
+    background-color: lighten($green-base, 3.5);
   }
 }
 
