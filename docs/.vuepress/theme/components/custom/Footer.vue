@@ -132,10 +132,10 @@ export default {
       socialIconPath: '/images/social/',
       socialIconSize: 16, // in px
       socialLinks: [
-        { label: 'Facebook', icon: 'icon-facebook.svg' },
-        { label: 'Twitter', icon: 'icon-twitter.svg' },
-        { label: 'Meetup', icon: 'icon-meetup.svg' },
-        { label: 'Github', icon: 'icon-github.svg' }
+        { label: 'Facebook', icon: 'icon-facebook.svg', url: '#' },
+        { label: 'Twitter', icon: 'icon-twitter.svg', url: '#' },
+        { label: 'Meetup', icon: 'icon-meetup.svg', url: '#' },
+        { label: 'Github', icon: 'icon-github.svg', url: '#' }
       ]
     }
   },
