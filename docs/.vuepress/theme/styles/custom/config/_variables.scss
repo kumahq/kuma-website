@@ -11,8 +11,8 @@ $base-font-size: 15px;
 // $color-1: #0b2e4c;
 // $color-2: #0063b0;
 $color-3: #3fb764;
-// $color-4: #1bbecc;
-// $color-6: #963a85;
+$color-4: #008AEB;
+$color-6: #4D4D4D;
 // $color-7: #ee4788;
 // $color-8: #ef485d;
 // $color-9: #00acc1;
@@ -27,6 +27,7 @@ $color-15: #eaecef;
 $color-18: #FF5D8C;
 
 $gray-light: #fdfdfd;
+$gray-med: #eaecef; // this is referenced in the VuePress default theme
 $gray-dark: lighten(#000, .7);
 $navy-light: lighten(#20242C, 74);
 $navy: #062F4D;
@@ -35,6 +36,7 @@ $green-base: #3FA66A;
 $green-dark: #318153;
 
 // Misc
+$image-path: '/images/';
 $container-width-compact: 65rem; // 1040px
 // $container-width: 71.25rem; // 1140px
 $container-width: $container-width-compact;

@@ -2,6 +2,10 @@
 // Installation page
 // 
 
+$install-tile-bg-color: #fff;
+$install-tile-shadow: $base-soft-shadow;
+$install-tile-radius: 5px;
+
 .page-container--install {
   
 }
@@ -14,8 +18,15 @@
 
 .install-methods__item {
   text-align: center;
+}
+
+.install-methods__item-link {
+  display: block;
+  overflow: hidden;
   padding: 0.938rem;
-  min-height: 10rem;
+  background-color: $install-tile-bg-color;
+  box-shadow: $install-tile-shadow;
+  border-radius: $install-tile-radius;
 }
 
 .install-methods__item-logo {

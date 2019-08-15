@@ -52,7 +52,7 @@
 
     <div class="page-footer__sublinks">
       <div class="inner flex flex-wrap -mx-2">
-        <div class="w-full md:w-1/2 px-2">
+        <div class="w-full md:w-3/4 px-2">
           <ul>
             <li class="copyright">&copy; Kong, Inc. {{new Date().getFullYear()}}</li>
             <li><a href="#">Terms</a></li>
@@ -60,12 +60,12 @@
             <li><a href="#">Sitemap</a></li>
           </ul>
         </div>
-        <div class="social-links w-full md:w-1/2 px-2">
+        <div class="social-links w-full md:w-1/4 px-2">
           <ul>
             <li>
               <a href="#">
                 <InlineSvg
-                  src="/social/icon-facebook.svg"
+                  src="/images/social/icon-facebook.svg"
                   width="16"
                   height="16"
                 />
@@ -75,7 +75,7 @@
             <li>
               <a href="#">
                 <InlineSvg
-                  src="/social/icon-twitter.svg"
+                  src="/images/social/icon-twitter.svg"
                   width="16"
                   height="16"
                 />
@@ -85,7 +85,7 @@
             <li>
               <a href="#">
                 <InlineSvg
-                  src="/social/icon-meetup.svg"
+                  src="/images/social/icon-meetup.svg"
                   width="16"
                   height="16"
                 />
@@ -95,7 +95,7 @@
             <li>
               <a href="#">
                 <InlineSvg
-                  src="/social/icon-github.svg"
+                  src="/images/social/icon-github.svg"
                   width="16"
                   height="16"
                 />

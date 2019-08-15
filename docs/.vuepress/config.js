@@ -16,7 +16,7 @@ const productData = {
   author: 'Kong',
   repo: 'https://github.com/kong/konvoy', // @todo what will the new repo be?
   repoButtonLabel: 'Star',
-  logo: '/konvoy-logo.svg',
+  logo: '/images/konvoy-logo.svg',
   hostname: 'https://getkonvoy.com' // @todo new URL to match new name
 }
 
@@ -152,7 +152,7 @@ module.exports = {
         // TODO change this to a Konvoy-specific one (or move this locally?)
         rel: 'icon',
         href:
-          '/favicon-64px.png'
+          '/images/favicon-64px.png'
       }
     ],
     [
@@ -167,7 +167,9 @@ module.exports = {
   postcss: {
     plugins: [
       require('tailwindcss'),
-      require('autoprefixer')
+      require('autoprefixer')({
+        grid: true
+      })
     ]
   },
   chainWebpack: config => {

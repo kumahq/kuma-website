@@ -42,6 +42,10 @@
   border-bottom: 1px solid $navy-light;
 }
 
+@mixin page-section {
+  padding: 3.5rem 0;
+}
+
 @mixin clear-text {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -49,7 +53,7 @@
 }
 
 @mixin button-base {
-  font-family: $sftextui-medium;
+  font-family: $base-font-family;
   background-color: $green-base;
   padding: .563rem 2.25rem;
   border-radius: 3px;

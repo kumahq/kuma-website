@@ -1,6 +1,6 @@
 # Welcome to Konvoy
 
-![Konvoy Logo](/Konvoy-logo.svg)
+![Konvoy Logo](/images/konvoy-logo.svg)
 
 Konvoy is a modern and easy to use L4/L7 traffic management platform for Service Mesh and Microservices.
 

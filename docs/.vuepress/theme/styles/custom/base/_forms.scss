@@ -15,7 +15,7 @@ textarea, input[type] {
 // select
 
 select {
-	background: #fff url('/icons/arrow-down.svg') no-repeat 100% 50%;
+	background: #fff url('#{$image-path}icons/arrow-down.svg') no-repeat 100% 50%;
 	background-repeat: no-repeat, repeat;	
 	background-position: right .7em top 50%, 0 0;	
 	background-size: .65em auto, 100%;
@@ -32,10 +32,6 @@ select {
 	outline: 0;
 
 	box-shadow: $base-soft-shadow;
-
-	transition:
-		border 250ms ease-in-out,
-		box-shadow 250ms ease-in-out;
 
 	&:hover {
 		// border-color: $color-13;

@@ -1,0 +1,26 @@
+// 
+// Newsletter form
+// 
+
+.newsletter-form-wrap {
+  @include page-section;
+  text-align: center;
+  background: #fff url('#{$image-path}contributor-bg@2x.jpg') repeat;
+  background-size: 100%;
+}
+
+.newsletter-form {
+  max-width: 41.25rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3.75rem;
+  background: rgba(#fff, .7);
+  border-radius: 3px;
+  border: 1px solid $navy-light;
+  font-size: 1.063rem;
+
+  form {
+    margin-top: 2rem;
+    width: 100%;
+  }
+}

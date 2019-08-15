@@ -2,13 +2,7 @@
 // Homepage
 // 
 
-$home-section-spacing: 3.5rem;
-// $home-section-spacing: 5rem;
 $home-feature-icon-bottom-spacing: 2.625rem;
-
-@mixin home-section {
-  padding: $home-section-spacing 0;
-}
 
 .page-container--home {
 
@@ -50,7 +44,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
   
   &, > * {
     color: $navy;
-    font-family: $sftextui-regular;
+    font-family: $base-font-family;
     font-weight: normal;
     font-size: 2rem;
   }
@@ -59,7 +53,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
 // Content masthead
 
 .page-masthead-wrap {
-  @include home-section;
+  @include page-section;
   @include gradient-container;
 
   .inner {
@@ -68,12 +62,10 @@ $home-feature-icon-bottom-spacing: 2.625rem;
   }
 
   h1 {
-    font-family: $sftextui-medium;
     font-size: 1.875rem;
   }
 
   h2 {
-    font-family: $sftextui-regular;
     font-size: 1.188rem;
     color: $gray-dark;
   }
@@ -96,7 +88,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
 // Product features
 
 .product-features {
-  @include home-section;
+  @include page-section;
   text-align: center;
 }
 
@@ -111,7 +103,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
 
 .testimonial-wrap {
   // background-color: $color-16;
-  @include home-section;
+  @include page-section;
   padding-top: 0;
 
   a:not(.btn) {
@@ -178,7 +170,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
 }
 
 .content__testimonial-author {
-  font-family: $sftextui-semibold;
+  font-weight: $fw-medium;
 }
 
 .content__testimonial-author-info {
@@ -199,10 +191,9 @@ $home-feature-icon-bottom-spacing: 2.625rem;
 // Steps
 
 .steps-wrap {
+  @include page-section;
   background-color: $color-14;
   color: #fff;
-  padding-top: $home-section-spacing;
-  padding-bottom: $home-section-spacing;
 }
 
 .steps-items {
@@ -277,7 +268,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
       content: counters(steps, ".") " ";
       border-radius: 100%;
       border: 1px solid rgba(#fff, 0.5);
-      font-family: $sftextui-semibold;
+      font-weight: $fw-medium;
       text-align: center;
       line-height: calc(#{$i} - 4px);
       width: $i;
@@ -294,7 +285,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
 // Before and After section
 
 .before-after-wrap {
-  @include home-section;
+  @include page-section;
   text-align: center;
 
   h4 {
@@ -302,31 +293,6 @@ $home-feature-icon-bottom-spacing: 2.625rem;
     text-transform: uppercase;
     color: $color-11;
     margin-bottom: 2.188rem;
-  }
-}
-
-// Newsletter form
-
-.newsletter-form-wrap {
-  @include home-section;
-  text-align: center;
-  background: #fff url('/contributor-bg@2x.jpg') repeat;
-  background-size: 100%;
-}
-
-.newsletter-form {
-  max-width: 41.25rem;
-  width: 100%;
-  margin: 0 auto;
-  padding: 3.75rem;
-  background: rgba(#fff, .7);
-  border-radius: 3px;
-  border: 1px solid $navy-light;
-  font-size: 1.063rem;
-
-  form {
-    margin-top: 2rem;
-    width: 100%;
   }
 }
 

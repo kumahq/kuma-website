@@ -4,7 +4,7 @@ home: true
 search: false
 
 # custom page data
-testimonialPortraitSrc: /marco-cropped.jpg
+testimonialPortraitSrc: /images/marco-cropped.jpg
 testimonialPortraitAlt: Marco Palladino
 ---
 
@@ -19,28 +19,28 @@ testimonialPortraitAlt: Marco Palladino
 :::
 
 ::: slot masthead-diagram
-<img src="/diagrams/main-diagram.png" srcset="/diagrams/main-diagram@2x.png 2x" alt="Konvoy service diagram">
+<img src="/images/diagrams/main-diagram.png" srcset="/images/diagrams/main-diagram@2x.png 2x" alt="Konvoy service diagram">
 :::
 
 <!-- feature blocks -->
 
 ::: slot feature-block-content-1
 ### Universal Control Plane
-<img src="/diagrams/diagram-universal-cp.jpg" srcset="/diagrams/diagram-universal-cp@2x.jpg 2x" alt="Universal Control Plane diagram">
+<img src="/images/diagrams/diagram-universal-cp.jpg" srcset="/images/diagrams/diagram-universal-cp@2x.jpg 2x" alt="Universal Control Plane diagram">
 
 Built on top of Envoy, Konvoy is a modern control plane to orchestrate L4/L7 traffic, including Microservices and Service Mesh.
 :::
 
 ::: slot feature-block-content-2
 ### Easy to Use
-<img src="/diagrams/diagram-powerful-policies.jpg" srcset="/diagrams/diagram-powerful-policies@2x.jpg 2x" alt="Universal Control Plane diagram">
+<img src="/images/diagrams/diagram-powerful-policies.jpg" srcset="/images/diagrams/diagram-powerful-policies@2x.jpg 2x" alt="Universal Control Plane diagram">
 
 Out of the box Ingress and Service Mesh service management policies for security, observability, routing, and more.
 :::
 
 ::: slot feature-block-content-3
 ### Platform Agnostic
-<img src="/diagrams/diagram-platform-agnostic.jpg" srcset="/diagrams/diagram-platform-agnostic@2x.jpg 2x" alt="Platform Agnostic diagram">
+<img src="/images/diagrams/diagram-platform-agnostic.jpg" srcset="/images/diagrams/diagram-platform-agnostic@2x.jpg 2x" alt="Platform Agnostic diagram">
 
 Enterprise-ready and platform agnostic with native Kubernetes + CRD support, as well as VM and Bare Metal via YAML + REST.
 :::
@@ -110,11 +110,11 @@ $ Konvoyctl create policy \
 :::
 
 ::: slot before-after-diagram-1
-<img src="/diagrams/diagram-before.jpg" srcset="/diagrams/diagram-before@2x.jpg 2x" alt="Before implementing Konvoy">
+<img src="/images/diagrams/diagram-before.jpg" srcset="/images/diagrams/diagram-before@2x.jpg 2x" alt="Before implementing Konvoy">
 :::
 
 ::: slot before-after-diagram-2
-<img src="/diagrams/diagram-after.jpg" srcset="/diagrams/diagram-after@2x.jpg 2x" alt="After implementing Konvoy">
+<img src="/images/diagrams/diagram-after.jpg" srcset="/images/diagrams/diagram-after@2x.jpg 2x" alt="After implementing Konvoy">
 :::
 
 <!-- newsletter -->
