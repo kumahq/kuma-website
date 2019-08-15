@@ -10,7 +10,7 @@ existing sample documentation files to get an idea of how things are structured)
 If you want to include partials into your documentation, you can do this:
 
 ```
-!!!include(../.partials/what-is-Karavan.md)!!!
+!!!include(../.partials/what-is-Konvoy.md)!!!
 ```
 
 This allows you to use the same content across various documentation and saves us from having to repeat content 
@@ -32,5 +32,5 @@ latest release to ensure that our users are always looking at the latest docs at
 ### Caveats
 
 The way VuePress handles the automatic sidebar navigation functionality may require some tweaking to make its output 
-more ideal for our usage. Since we have multiple folders for each versioned release of Karavan, the current automatic 
+more ideal for our usage. Since we have multiple folders for each versioned release of Konvoy, the current automatic 
 navigation generation is not perfect.

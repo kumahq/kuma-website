@@ -1,10 +1,10 @@
-# Welcome to Karavan
+# Welcome to Konvoy
 
-![Karavan Logo](/karavan-logo.svg)
+![Konvoy Logo](/Konvoy-logo.svg)
 
-Karavan is a modern and easy to use L4/L7 traffic management platform for Service Mesh and Microservices.
+Konvoy is a modern and easy to use L4/L7 traffic management platform for Service Mesh and Microservices.
 
-Built on top of Envoy, Karavan ships with a fast Data Plane (DP) and Control Plane (CP) that are meant to be used by the entire organization, and that can run on any platform to build modern cloud-native architectures: run on Kubernetes, VMs and any cloud vendor in a breeze.
+Built on top of Envoy, Konvoy ships with a fast Data Plane (DP) and Control Plane (CP) that are meant to be used by the entire organization, and that can run on any platform to build modern cloud-native architectures: run on Kubernetes, VMs and any cloud vendor in a breeze.
 
 Built by Envoy contributors at Kong 🦍.
 

@@ -10,13 +10,13 @@ const releases = require('./public/releases.json')
  */
 
 const productData = {
-  title: 'Karavan',
+  title: 'Konvoy',
   description: 'Connect, Secure and Observe any traffic and Microservices',
-  twitter: 'karavan',
+  twitter: 'konvoy',
   author: 'Kong',
   repo: 'https://github.com/kong/konvoy', // @todo what will the new repo be?
   repoButtonLabel: 'Star',
-  logo: '/karavan-logo.svg',
+  logo: '/konvoy-logo.svg',
   hostname: 'https://getkonvoy.com' // @todo new URL to match new name
 }
 

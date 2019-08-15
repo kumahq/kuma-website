@@ -19,7 +19,7 @@ testimonialPortraitAlt: Marco Palladino
 :::
 
 ::: slot masthead-diagram
-<img src="/diagrams/main-diagram.png" srcset="/diagrams/main-diagram@2x.png 2x" alt="Karavan service diagram">
+<img src="/diagrams/main-diagram.png" srcset="/diagrams/main-diagram@2x.png 2x" alt="Konvoy service diagram">
 :::
 
 <!-- feature blocks -->
@@ -28,7 +28,7 @@ testimonialPortraitAlt: Marco Palladino
 ### Universal Control Plane
 <img src="/diagrams/diagram-universal-cp.jpg" srcset="/diagrams/diagram-universal-cp@2x.jpg 2x" alt="Universal Control Plane diagram">
 
-Built on top of Envoy, Karavan is a modern control plane to orchestrate L4/L7 traffic, including Microservices and Service Mesh.
+Built on top of Envoy, Konvoy is a modern control plane to orchestrate L4/L7 traffic, including Microservices and Service Mesh.
 :::
 
 ::: slot feature-block-content-2
@@ -67,37 +67,37 @@ CTO, [Kong, Inc.](https://konghq.com/)
 :::
 
 ::: slot step-1-content
-### Download and Install Karavan CP
-To get started you can download Karavan and install it using the Karavan CLI application: `karavanctl`.
+### Download and Install Konvoy CP
+To get started you can download Konvoy and install it using the Konvoy CLI application: `Konvoyctl`.
 :::
 
 ::: slot step-1-code-block
 ```
-$ karavanctl install control-plane | kubectl apply -f
+$ Konvoyctl install control-plane | kubectl apply -f
 ```
 :::
 
 ::: slot step-2-content
 ### Install the sidecar Envoy DP
-Once Karavan is up and running, it's now time to install the Envoy sidecars - that Karavan will 
+Once Konvoy is up and running, it's now time to install the Envoy sidecars - that Konvoy will 
 later orchestrate - next to any service we want to include into our Service Mesh.
 :::
 
 ::: slot step-2-code-block
 ```
-$ karavanctl install data-plane | kubectl apply -f
+$ Konvoyctl install data-plane | kubectl apply -f
 ```
 :::
 
 ::: slot step-3-content
 ### Apply Policies
-Congratulations, your Service Mesh is up and running. We can now instruct Karavan to enhance our 
+Congratulations, your Service Mesh is up and running. We can now instruct Konvoy to enhance our 
 Service Mesh with powerful policies like mTLS.
 :::
 
 ::: slot step-3-code-block
 ```
-$ karavanctl create policy \
+$ Konvoyctl create policy \
   --name mtls \
   --conf topology=hybrid
 ```
@@ -110,11 +110,11 @@ $ karavanctl create policy \
 :::
 
 ::: slot before-after-diagram-1
-<img src="/diagrams/diagram-before.jpg" srcset="/diagrams/diagram-before@2x.jpg 2x" alt="Before implementing Karavan">
+<img src="/diagrams/diagram-before.jpg" srcset="/diagrams/diagram-before@2x.jpg 2x" alt="Before implementing Konvoy">
 :::
 
 ::: slot before-after-diagram-2
-<img src="/diagrams/diagram-after.jpg" srcset="/diagrams/diagram-after@2x.jpg 2x" alt="After implementing Karavan">
+<img src="/diagrams/diagram-after.jpg" srcset="/diagrams/diagram-after@2x.jpg 2x" alt="After implementing Konvoy">
 :::
 
 <!-- newsletter -->

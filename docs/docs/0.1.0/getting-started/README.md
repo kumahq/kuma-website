@@ -1,6 +1,6 @@
 # Getting Started
 
-## What is Karavan?
+## What is Konvoy?
 
 ## Concepts
 
