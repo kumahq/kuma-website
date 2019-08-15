@@ -5,8 +5,14 @@
 .newsletter-form-wrap {
   @include page-section;
   text-align: center;
-  background: #fff url('#{$image-path}contributor-bg@2x.jpg') repeat;
-  background-size: 100%;
+  background-color: #fff;
+  background-repeat: repeat;
+  background-size: contain;
+  background-image: url('#{$image-path}contributor-bg.jpg');
+
+  @include retina-mq {
+    background-image: url('#{$image-path}contributor-bg@2x.jpg');
+  }
 }
 
 .newsletter-form {

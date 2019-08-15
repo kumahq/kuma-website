@@ -122,3 +122,9 @@
     border-radius: .2em;
   }
 }
+
+@mixin retina-mq {
+  @media (-webkit-min-device-pixel-ratio: 2),  (min-resolution: 192dpi) { 
+    @content;
+  }
+}

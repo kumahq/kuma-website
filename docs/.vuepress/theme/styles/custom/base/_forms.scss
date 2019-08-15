@@ -100,12 +100,37 @@ button, .btn {
 }
 
 .form-horizontal {
-	display: flex;
-	align-items: stretch;
-	justify-content: center;
 
 	> input[type] {
-		flex: 1;
-		margin-right: 1rem;
+		
 	}
+}
+
+@media (max-width: $MQMobile) {
+	.form-horizontal {
+		text-align: center;
+	
+		> input[type], .btn {
+			display: block;
+			width: 100%;
+		}
+
+		.btn {
+			margin-top: 1rem;
+		}
+	}
+}
+
+@media (min-width: $MQMobile + 1) {
+	.form-horizontal {
+		display: flex;
+		align-items: stretch;
+		justify-content: center;
+		flex-wrap: wrap;
+	
+		> input[type] {
+			flex: 1;
+			margin-right: 1rem;
+		}
+	}	
 }
