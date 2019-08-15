@@ -3,48 +3,14 @@
     
     <div class="page-footer__links">
       <div class="inner flex flex-wrap -mx-2">
-        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
+        <div v-for="(link, index) in links" :key="index" class="w-full sm:w-1/2 md:w-1/4 px-2">
           <ul>
-            <li><h5>Products</h5></li>
-            <li><a href="#">Kong</a></li>
-            <li><a href="#">Kong Enterprise</a></li>
-            <li><a href="#">Kong Cloud</a></li>
-            <li><a href="#">Subscriptions</a></li>
-          </ul>
-        </div>
-        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
-          <ul>
-            <li><h5>Resources</h5></li>
-            <li><a href="#">Enterprise Support</a></li>
-            <li><a href="#">Documentation</a></li>
-            <li><a href="#">Partners</a></li>
-            <li><a href="#">Webinars</a></li>
-            <li><a href="#">Ebooks</a></li>
-            <li><a href="#">Meetups</a></li>
-          </ul>
-        </div>
-        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
-          <ul>
-            <li><h5>Company</h5></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Investors</a></li>
-            <li><a href="#">News</a></li>
-            <li>
-              <a href="#" class="badge-wrap">
-                Careers <span class="badge">Hiring!</span>
+            <li><h5>{{ link.group }}</h5></li>
+            <li v-for="(item, index) in link.items">
+              <a :href="item.url" :class="{ 'badge-wrap': ( item.badge === true ) }">
+                {{ item.label }} <span v-if="item.badge && item.badgeText" class="badge">{{ item.badgeText }}</span>
               </a>
             </li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </div>
-        <div class="w-full sm:w-1/2 md:w-1/4 px-2">
-          <ul>
-            <li><h5>Open Source</h5></li>
-            <li><a href="#">Mockbin</a></li>
-            <li><a href="#">API Embed</a></li>
-            <li><a href="#">Unirest</a></li>
-            <li><a href="#">Guardian JS</a></li>
-            <li><a href="#">OAuth Bible</a></li>
           </ul>
         </div>
       </div>
@@ -54,52 +20,22 @@
       <div class="inner flex flex-wrap -mx-2">
         <div class="w-full md:w-3/4 px-2">
           <ul>
-            <li class="copyright">&copy; Kong, Inc. {{new Date().getFullYear()}}</li>
-            <li><a href="#">Terms</a></li>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Sitemap</a></li>
+            <li v-if="copyright" class="copyright">&copy; {{ copyright }}</li>
+            <li v-for="(item, index) in subLinks" :key="index">
+              <a :href="item.url">{{ item.label }}</a>
+            </li>
           </ul>
         </div>
         <div class="social-links w-full md:w-1/4 px-2">
           <ul>
-            <li>
-              <a href="#">
+            <li v-for="(item, index) in socialLinks" :key="index">
+              <a :href="item.url">
                 <InlineSvg
-                  src="/images/social/icon-facebook.svg"
-                  width="16"
-                  height="16"
+                  :src="socialIconPath + item.icon"
+                  :width="socialIconSize"
+                  :height="socialIconSize"
                 />
-                <span class="sr-only">Facebook</span>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <InlineSvg
-                  src="/images/social/icon-twitter.svg"
-                  width="16"
-                  height="16"
-                />
-                <span class="sr-only">Twitter</span>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <InlineSvg
-                  src="/images/social/icon-meetup.svg"
-                  width="16"
-                  height="16"
-                />
-                <span class="sr-only">Meetup</span>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <InlineSvg
-                  src="/images/social/icon-github.svg"
-                  width="16"
-                  height="16"
-                />
-                <span class="sr-only">Github</span>
+                <span class="sr-only">{{ item.label }}</span>
               </a>
             </li>
             <li>
@@ -131,6 +67,71 @@
 import GithubButton from 'vue-github-button'
 
 export default {
+  data() {
+    return {
+      copyright: `Kong, Inc. ${new Date().getFullYear()}`,
+      links: [
+        {
+          group: 'Products',
+          items: [
+            { label: 'Kong', url: '#' },
+            { label: 'Kong Enterprise', url: '#' },
+            { label: 'Kong Cloud', url: '#' },
+            { label: 'Subscriptions', url: '#' }
+          ]
+        },
+        {
+          group: 'Resources',
+          items: [
+            { label: 'Enterprise Support', url: '#' },
+            { label: 'Documentation', url: '#' },
+            { label: 'Partners', url: '#' },
+            { label: 'Webinars', url: '#' },
+            { label: 'Ebooks', url: '#' },
+            { label: 'Meetups', url: '#' }
+          ]
+        },
+        {
+          group: 'Company',
+          items: [
+            { label: 'About', url: '#' },
+            { label: 'Investors', url: '#' },
+            { label: 'News', url: '#' },
+            {
+              label: 'Careers',
+              url: '#',
+              badge: true,
+              badgeText: 'Hiring!'
+            },
+            { label: 'Contact', url: '#' }
+          ]
+        },
+        {
+          group: 'Open Source',
+          items: [
+            { label: 'Mockbin', url: '#' },
+            { label: 'API Embed', url: '#' },
+            { label: 'Unirest', url: '#' },
+            { label: 'Guardian JS', url: '#' },
+            { label: 'OAuth Bible', url: '#' }
+          ]
+        }
+      ],
+      subLinks: [
+        { label: 'Terms', url: '#' },
+        { label: 'Privacy', url: '#' },
+        { label: 'Sitemap', url: '#' }
+      ],
+      socialIconPath: '/images/social/',
+      socialIconSize: 16, // in px
+      socialLinks: [
+        { label: 'Facebook', icon: 'icon-facebook.svg' },
+        { label: 'Twitter', icon: 'icon-twitter.svg' },
+        { label: 'Meetup', icon: 'icon-meetup.svg' },
+        { label: 'Github', icon: 'icon-github.svg' }
+      ]
+    }
+  },
   components: {
     GithubButton
   }  
