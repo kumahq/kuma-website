@@ -107,7 +107,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
   padding-top: 0;
 
   a:not(.btn) {
-    color: $color-13;
+    color: $color-5;
 
     &:hover {
       text-decoration: underline;
@@ -180,7 +180,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
   &:before {
     display: block;
     content: "";
-    background-color: $color-18;
+    background-color: $color-8;
     width: 8px;
     height: 8px;
     transform: rotate(45deg);
@@ -192,7 +192,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
 
 .steps-wrap {
   @include page-section;
-  background-color: $color-14;
+  background-color: $color-6;
   color: #fff;
 }
 
@@ -263,7 +263,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
       top: 0;
       left: 0;
       z-index: 1;
-      background-color: $color-14;
+      background-color: $color-6;
       counter-increment: steps;
       content: counters(steps, ".") " ";
       border-radius: 100%;
@@ -291,7 +291,7 @@ $home-feature-icon-bottom-spacing: 2.625rem;
   h4 {
     font-size: 0.875rem;
     text-transform: uppercase;
-    color: $color-11;
+    color: $color-4;
     margin-bottom: 2.188rem;
   }
 }

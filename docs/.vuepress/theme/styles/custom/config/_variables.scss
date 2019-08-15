@@ -5,26 +5,15 @@
 $root-font-size: 100%;
 $base-font-size: 15px;
 
-// @todo refactor and rename the color vars
-
 // Branding
-// $color-1: #0b2e4c;
-// $color-2: #0063b0;
-$color-3: #3fb764;
-$color-4: #008AEB;
-$color-6: #4D4D4D;
-// $color-7: #ee4788;
-// $color-8: #ef485d;
-// $color-9: #00acc1;
-// $color-10: #ff4185;
-$color-11: #17A956;
-// $color-12: #e4f9b2;
-$color-13: #1155CB;
-$color-14: #2B303B;
-$color-15: #eaecef;
-// $color-16: #13151B;
-// $color-17: #C8A977;
-$color-18: #FF5D8C;
+$color-1: #3fb764;
+$color-2: #008AEB;
+$color-3: #4D4D4D;
+$color-4: #17A956;
+$color-5: #1155CB;
+$color-6: #2B303B;
+$color-7: #eaecef;
+$color-8: #FF5D8C;
 
 $gray-light: #fdfdfd;
 $gray-med: #eaecef; // this is referenced in the VuePress default theme
@@ -41,7 +30,7 @@ $container-width-compact: 65rem; // 1040px
 // $container-width: 71.25rem; // 1140px
 $container-width: $container-width-compact;
 $gutter: 1.875rem; // 30px
-$base-soft-shadow: 0 3px 6px 0 rgba($color-15, 18%);
+$base-soft-shadow: 0 3px 6px 0 rgba($color-7, 18%);
 $gradient-1: linear-gradient(0deg, #FBFCFE 0%, #F5F8FC 55%);
 
 // 

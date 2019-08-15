@@ -22,19 +22,19 @@ select {
 
 	font-size: $base-font-size;
 	font-family: $monospace;
-	color: $color-13;
+	color: $color-5;
 	letter-spacing: -1px;
 
 	appearance: none;
 	padding: .625rem 1.8rem .625rem .625rem;
-	border: 2px solid $color-15;
+	border: 2px solid $color-7;
 	border-radius: 3px;
 	outline: 0;
 
 	box-shadow: $base-soft-shadow;
 
 	&:hover {
-		// border-color: $color-13;
+		// border-color: $color-5;
 	}
 }
 
@@ -77,10 +77,10 @@ button, .btn {
 
 .btn--hollow {
 	background: none;
-	box-shadow: inset 0 0 0 2px $color-13;
+	box-shadow: inset 0 0 0 2px $color-5;
 	
 	&, &:focus, &:visited {
-		color: $color-13 !important;
+		color: $color-5 !important;
 	}
 	
 	&:hover, &:active {
@@ -92,7 +92,7 @@ button, .btn {
 
 .btn--bright {
 	color: #fff;
-	background-color: $color-13;
+	background-color: $color-5;
 }
 
 .form-wrapper {
