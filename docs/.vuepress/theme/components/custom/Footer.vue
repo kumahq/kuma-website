@@ -15,10 +15,12 @@
         </div>
       </div>
     </div>
+    <!-- .page-footer__links -->
 
     <div class="page-footer__sublinks">
       <div class="inner flex flex-wrap -mx-2">
-        <div class="w-full md:w-3/4 px-2">
+
+        <div class="copyright-wrap w-full md:w-3/4 px-2">
           <ul>
             <li v-if="copyright" class="copyright">&copy; {{ copyright }}</li>
             <li v-for="(item, index) in subLinks" :key="index">
@@ -26,6 +28,8 @@
             </li>
           </ul>
         </div>
+        <!-- .copyright-wrap -->
+
         <div class="social-links w-full md:w-1/4 px-2">
           <ul>
             <li v-for="(item, index) in socialLinks" :key="index">
@@ -57,8 +61,11 @@
             </li>
           </ul>
         </div>
+        <!-- .social-links -->
+
       </div>
     </div>
+    <!-- .page-footer__sublinks -->
 
   </footer>
 </template>
