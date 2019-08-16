@@ -3,6 +3,7 @@
 // 
 
 $install-tile-bg-color: #fff;
+$install-tile-border: 1px solid $gray-med;
 $install-tile-shadow: $base-soft-shadow;
 $install-tile-radius: 5px;
 
@@ -17,25 +18,63 @@ $install-tile-radius: 5px;
 }
 
 .install-methods__item {
-  text-align: center;
+  
 }
 
 .install-methods__item-link {
-  display: block;
-  overflow: hidden;
-  padding: 0.938rem;
+  padding: 1.3rem;
   background-color: $install-tile-bg-color;
   box-shadow: $install-tile-shadow;
   border-radius: $install-tile-radius;
+  border: $install-tile-border;
 }
 
 .install-methods__item-logo {
-  max-width: 70%;
-  max-height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  img {
+    // max-width: 70%;
+    // max-height: 4rem;
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 .install-methods__item-title {
 
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@media (min-width: $MQMobileMid + 1) {
+  .install-methods__item-logo {
+    border-right: $install-tile-border;
+  }
+}
+
+@media (max-width: $MQMobileMid) {
+  .install-methods {
+    text-align: center;
+  }
+
+  .install-methods__item-logo {
+    border-bottom: $install-tile-border;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  
+    img {
+      max-width: 70%;
+      max-height: 4rem;
+    }
+  }
+
+  .install-methods__item-link {
+    
+  }
 }
 
 @media (min-width: $MQMobile + 1) {

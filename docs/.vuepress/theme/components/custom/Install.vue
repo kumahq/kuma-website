@@ -18,7 +18,7 @@
           </select>
         </form>
 
-        <div v-if="getSelectedInstallVersion">
+        <div v-if="getSelectedInstallVersion" class="version-selector__version-notifier">
           <p>You are viewing installation instructions for <strong>{{getSelectedInstallVersion}}</strong>.</p>
         </div>
 
@@ -27,13 +27,17 @@
 
     <div v-if="this.getInstallMethods" class="install-methods-wrapper">
       <ul class="install-methods flex flex-wrap justify-center -mx-4">
-        <li v-for="(item, index) in getInstallMethods" :key="index" class="install-methods__item w-full sm:w-1/2 lg:w-1/4 px-4 mb-4">
+        <li v-for="(item, index) in getInstallMethods" :key="index" class="install-methods__item w-full sm:w-1/2 lg:w-1/3 px-4 mb-8">
           <router-link
             :to='`/${getSiteData.themeConfig.docsDir}/${getSelectedInstallVersion}/installation/${item.slug}/`'
-            class="install-methods__item-link"
+            class="install-methods__item-link flex flex-wrap justify-center items-center"
           >
-            <img :src="item.logo" class="install-methods__item-logo object-contain w-full">
-            <h3 class="install-methods__item-title">{{item.label}}</h3>
+            <div class="install-methods__item-logo w-full sm:w-1/4 px-3">
+              <img :src="item.logo" class="object-contain w-full">
+            </div>
+            <div class="install-methods__item-title w-full sm:w-3/4 px-3">
+              <h3>{{item.label}}</h3>
+            </div>
           </router-link>
         </li>
       </ul>
