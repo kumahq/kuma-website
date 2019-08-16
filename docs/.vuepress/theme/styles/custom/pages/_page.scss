@@ -20,6 +20,11 @@
   padding-top: $navbarHeight;
 }
 
+.page-header {
+  overflow: hidden;
+  padding: 4.063rem 0;
+}
+
 .page-container--compact {
   max-width: $container-width-compact;
   margin-left: auto;

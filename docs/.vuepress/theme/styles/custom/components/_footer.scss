@@ -14,6 +14,11 @@ $page-footer-border: 1px solid $gray-med;
   }
 }
 
+// footer spacing above the content (homepage and sidebar pages excluded)
+.theme-container.no-sidebar:not(.is-home):not(.home) .page-footer {
+  margin-top: 5rem;
+}
+
 .page-footer__links {
   
   ul {

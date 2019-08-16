@@ -18,7 +18,7 @@ $color-8: #FF5D8C;
 $gray-light: #fdfdfd;
 $gray-med: #eaecef; // this is referenced in the VuePress default theme
 $gray-med-alt: #949494;
-$gray-dark: lighten(#000, .7);
+$gray-dark: #49494B;
 $navy-light: lighten(#20242C, 74);
 $navy: #062F4D;
 
@@ -32,6 +32,10 @@ $container-width: $container-width-compact;
 $gutter: 1.875rem; // 30px
 $base-soft-shadow: 0 3px 6px 0 rgba($color-7, 18%);
 $gradient-1: linear-gradient(0deg, #FBFCFE 0%, #F5F8FC 55%);
+$gradient-2: linear-gradient(0deg, transparent 0%, #FBFCFE 55%);
+
+// Cubic-bezier and easing settings
+$cb-1: cubic-bezier(.47,.37,.36,.92);
 
 // Custom breakpoints
 $MQMobileMid: 639px;

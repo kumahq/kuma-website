@@ -2,6 +2,8 @@
 // Typography
 // 
 
+// Headings
+
 h1, h2, h3, h4, h5, h6 {
   font-family: $base-heading-font-family;
 }
@@ -14,18 +16,45 @@ h5, h6 {
   font-weight: $fw-bold;
 }
 
-a {
-  color: $color-5;
+// Helper classes
+
+.page-sub-title {
+  font-size: 1.188rem;
+  color: $gray-dark;
+  text-align: center;
+  line-height: 1.688rem;
 }
 
-// code blocks
+// Links
+
+a {
+  color: $color-5;
+
+  &:hover {
+
+  }
+
+  &:active {
+
+  }
+
+  &:focus {
+
+  }
+
+  &:visited {
+
+  }
+}
+
+// Code blocks
 
 div[class*="language-"].line-numbers-mode pre {
   // small fix for an invalid style attribute on the core VuePress styles
   padding-left: 4.5rem;
 }
 
-// images
+// Images
 
 img {
   max-width: 100%;

@@ -2,6 +2,7 @@
 sidebar: true
 home: true
 search: false
+pageClass: is-home
 
 # custom page data
 testimonialPortraitSrc: /images/marco-cropped.jpg

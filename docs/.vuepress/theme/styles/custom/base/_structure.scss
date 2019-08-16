@@ -27,6 +27,13 @@ body {
   margin: 0 auto;
 }
 
+// Helpers
+
+.bg-gradient {
+  background-image: $gradient-2;
+  background-size: 100%;
+}
+
 @media (min-width: $MQMobile + 1) {
   .theme-container:not(.no-sidebar) .content-wrapper {
     display: flex;

@@ -4,8 +4,10 @@
 
 $install-tile-bg-color: #fff;
 $install-tile-border: 1px solid $gray-med;
+$install-tile-border-hover: 1px solid $green-base;
 $install-tile-shadow: $base-soft-shadow;
 $install-tile-radius: 5px;
+$install-tile-min-height: 6rem;
 
 .page-container--install {
   
@@ -27,6 +29,27 @@ $install-tile-radius: 5px;
   box-shadow: $install-tile-shadow;
   border-radius: $install-tile-radius;
   border: $install-tile-border;
+  min-height: $install-tile-min-height;
+
+  will-change: transform;
+  transform-origin: center;
+  transform: translateZ(0); // prep
+  transition: 
+    color 200ms $cb-1,
+    border 200ms $cb-1,
+    transform 200ms $cb-1;
+
+  &:hover {
+    transform: scale(1.05);
+    border: $install-tile-border-hover;
+    color: $green-base;
+  }
+
+  @media (min-width: $MQMobileMid + 1) {
+    &:hover .install-methods__item-logo {
+      border-right: $install-tile-border-hover !important;
+    }
+  }
 }
 
 .install-methods__item-logo {
@@ -35,8 +58,6 @@ $install-tile-radius: 5px;
   justify-content: center;
   
   img {
-    // max-width: 70%;
-    // max-height: 4rem;
     max-width: 100%;
     height: auto;
   }
@@ -52,6 +73,8 @@ $install-tile-radius: 5px;
 
 @media (min-width: $MQMobileMid + 1) {
   .install-methods__item-logo {
+    will-change: border;
+    transition: border 200ms $cb-1;
     border-right: $install-tile-border;
   }
 }
@@ -74,11 +97,5 @@ $install-tile-radius: 5px;
 
   .install-methods__item-link {
     
-  }
-}
-
-@media (min-width: $MQMobile + 1) {
-  .page-container--install {
-    padding-top: $navbarHeight * 2;
   }
 }

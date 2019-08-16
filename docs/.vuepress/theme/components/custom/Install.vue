@@ -1,51 +1,63 @@
 <template>
-  <div class="page-container page-container--compact page-container--install">
+  <div class="page-container page-container--install">
 
-    <header class="page-header">
-      <h1>Install {{$site.title}}</h1>
+    <header class="page-header bg-gradient">
       
-      <div v-if="this.getInstallMethods && this.getInstallMethods.length" class="version-selector-wrapper">
-        <form>
-          <select name="version-selector" id="version-selector" @change="updateInstallPath($event.target.value)">
-            <option 
-              v-for="tag in releasesAsSelectValues" 
-              :value="tag.version" 
-              :key="tag.version" 
-              :selected='$route.meta.version === tag.version'
-            >
-              {{tag.text}}
-            </option>
-          </select>
-        </form>
+      <div class="inner">
+        <h1>Install {{$site.title}}</h1>
+      
+        <div v-if="this.getInstallMethods && this.getInstallMethods.length" class="version-selector-wrapper">
+          <form>
+            <select
+              name="version-selector"
+              class="version-selector version-selector--large"
+              id="version-selector"
+              @change="updateInstallPath($event.target.value)">
+              <option 
+                v-for="tag in releasesAsSelectValues" 
+                :value="tag.version" 
+                :key="tag.version" 
+                :selected='$route.meta.version === tag.version'
+              >
+                {{tag.text}}
+              </option>
+            </select>
+          </form>
 
-        <div v-if="getSelectedInstallVersion" class="version-selector__version-notifier">
-          <p>You are viewing installation instructions for <strong>{{getSelectedInstallVersion}}</strong>.</p>
+          <div v-if="getSelectedInstallVersion" class="version-selector__version-notifier">
+            <p class="page-sub-title">You are viewing installation instructions for <strong>{{getSelectedInstallVersion}}</strong>.</p>
+          </div>
         </div>
-
+        <!-- .version-selector-wrapper -->
+        
       </div>
+      <!-- .inner -->
+
     </header>
 
-    <div v-if="this.getInstallMethods" class="install-methods-wrapper">
-      <ul class="install-methods flex flex-wrap justify-center -mx-4">
-        <li v-for="(item, index) in getInstallMethods" :key="index" class="install-methods__item w-full sm:w-1/2 lg:w-1/3 px-4 mb-8">
-          <router-link
-            :to='`/${getSiteData.themeConfig.docsDir}/${getSelectedInstallVersion}/installation/${item.slug}/`'
-            class="install-methods__item-link flex flex-wrap justify-center items-center"
-          >
-            <div class="install-methods__item-logo w-full sm:w-1/4 px-3">
-              <img :src="item.logo" class="object-contain w-full">
-            </div>
-            <div class="install-methods__item-title w-full sm:w-3/4 px-3">
-              <h3>{{item.label}}</h3>
-            </div>
-          </router-link>
-        </li>
-      </ul>
-    </div>
+    <div class="inner">
 
-    <div v-else class="install-methods-wrapper">
-      <p><strong>No install methods defined!</strong></p>
+      <div v-if="this.getInstallMethods" class="install-methods-wrapper">
+        <ul class="install-methods flex flex-wrap justify-center -mx-4">
+          <li v-for="(item, index) in getInstallMethods" :key="index" class="install-methods__item w-full sm:w-1/2 lg:w-1/3 px-4 mb-8">
+            <router-link
+              :to='`/${getSiteData.themeConfig.docsDir}/${getSelectedInstallVersion}/installation/${item.slug}/`'
+              class="install-methods__item-link flex flex-wrap justify-center items-center"
+            >
+              <div class="install-methods__item-logo w-full sm:w-1/4 px-3">
+                <img :src="item.logo" class="object-contain w-full">
+              </div>
+              <div class="install-methods__item-title w-full sm:w-3/4 px-3">
+                <h3>{{item.label}}</h3>
+              </div>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+      <!-- .install-methods-wrapper -->
+
     </div>
+    <!-- .inner -->
     
   </div>
 </template>
