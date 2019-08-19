@@ -15,8 +15,8 @@ export default {
       type: String,
       required: true
     },
-    width: String,
-    height: String
+    width: '',
+    height: ''
   },
   async mounted() {
     if ( !cache.has(this.src) ) {
