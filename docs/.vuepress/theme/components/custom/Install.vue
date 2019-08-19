@@ -1,7 +1,7 @@
 <template>
   <div class="page-container page-container--install">
 
-    <header class="page-header bg-gradient">
+    <header class="page-header text-center bg-gradient">
       
       <div class="inner">
         <h1>Install {{$site.title}}</h1>
@@ -134,9 +134,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.page-header {
-  text-align: center;
-}
-</style>

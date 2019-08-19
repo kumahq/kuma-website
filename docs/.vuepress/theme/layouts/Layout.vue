@@ -46,22 +46,28 @@
 
 <script>
 import PathToRegExp from 'path-to-regexp'
-import Home from '@theme/components/custom/Home.vue'
-import Install from '@theme/components/custom/Install.vue'
 import Navbar from '@theme/components/Navbar.vue'
 import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
 import Footer from '@theme/components/custom/Footer.vue'
 import { resolveSidebarItems, redirectToLatestVersion } from '../util'
 
+// specific page templates
+import Home from '@theme/components/custom/Home.vue'
+import Install from '@theme/components/custom/Install.vue'
+import Community from '@theme/components/custom/Community.vue'
+import RequestADemo from '@theme/components/custom/RequestADemo.vue'
+
 export default {
   components: {
-    Home,
-    Install,
     Page,
     Sidebar,
     Navbar,
-    Footer
+    Footer,
+    Home,
+    Install,
+    Community,
+    RequestADemo
   },
 
   data () {
