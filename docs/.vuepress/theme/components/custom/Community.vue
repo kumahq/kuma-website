@@ -15,8 +15,8 @@
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
           icon="/images/icons/icon-github.svg"
-          iconWidth="48"
-          iconHeight="48"
+          :iconWidth="48"
+          :iconHeight="48"
         >
           <template slot="card-title">
             <h3>Github Issues</h3>
@@ -25,12 +25,13 @@
             make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
         </Card>
       </div>
+      <!-- /card -->
 
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
           icon="/images/icons/icon-slack.svg"
-          iconWidth="48"
-          iconHeight="48"
+          :iconWidth="48"
+          :iconHeight="48"
         >
           <template slot="card-title">
             <h3>Github Issues</h3>
@@ -39,12 +40,13 @@
             make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
         </Card>
       </div>
+      <!-- /card -->
 
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
           icon="/images/icons/icon-community-call.svg"
-          iconWidth="48"
-          iconHeight="37"
+          :iconWidth="48"
+          :iconHeight="37"
         >
           <template slot="card-title">
             <h3>Github Issues</h3>
@@ -53,12 +55,13 @@
             make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
         </Card>
       </div>
+      <!-- /card -->
 
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
           icon="/images/icons/icon-meetup.svg"
-          iconWidth="50"
-          iconHeight="48"
+          :iconWidth="50"
+          :iconHeight="48"
         >
           <template slot="card-title">
             <h3>Github Issues</h3>
@@ -67,6 +70,7 @@
             make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
         </Card>
       </div>
+      <!-- /card -->
 
     </div>
     <!-- .inner -->

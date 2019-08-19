@@ -15,8 +15,14 @@ export default {
       type: String,
       required: true
     },
-    width: '',
-    height: ''
+    width: {
+      type: Number,
+      required: true
+    },
+    height: {
+      type: Number,
+      required: true
+    }
   },
   async mounted() {
     if ( !cache.has(this.src) ) {

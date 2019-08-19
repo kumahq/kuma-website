@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <header class="card__header">
-      <div class="card__icon">
+      <div class="card__icon" v-if="icon">
         <InlineSvg
           :src="icon"
           :width="iconWidth"
@@ -21,11 +21,20 @@
 <script>
 export default {
   name: 'Card',
-  props: [
-    'icon',
-    'iconWidth',
-    'iconHeight'
-  ]
+  props: {
+    icon: {
+      type: String,
+      required: true
+    },
+    iconWidth: {
+      type: Number,
+      required: true
+    },
+    iconHeight: {
+      type: Number,
+      required: true
+    },
+  }
 }
 </script>
 
