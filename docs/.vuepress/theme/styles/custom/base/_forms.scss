@@ -5,11 +5,28 @@
 // text inputs
 
 textarea, input[type] {
-	border: 1px solid rgba(#000, .25);
+	display: block;
+	border: 1px solid $gray-light-alt;
 	padding: 0.875rem 1rem;
 	font-size: inherit;
+	width: 100%;
+	max-width: 100%;
+	background-color: #fff;
+
+	&:focus {
+		// border-color: $green-base;
+		// outline: 0;
+	}
+}
+
+input[type] {
 	height: 44px;
 	line-height: 44px;
+}
+
+textarea {
+	overflow: auto;
+	min-height: 6.25rem;
 }
 
 // select
@@ -58,6 +75,7 @@ select option {
 
 button, .btn {
 	@include button-base;
+
 	display: inline-block;
 	padding: .35rem 2.25rem;
 	border: 0;
@@ -69,6 +87,12 @@ button, .btn {
 
 .btn--block {
 	display: block;
+	width: 100%;
+	max-width: 100%;
+}
+
+.btn--spaced {
+	padding: 1rem 2.25rem;
 }
 
 .btn--large-text {
@@ -105,6 +129,20 @@ button, .btn {
 		
 	}
 }
+
+// labels
+
+label {
+	text-transform: uppercase;
+	font-size: 0.813rem;
+	font-weight: $fw-medium;
+	color: $gray-dark;
+	line-height: 2;
+	padding: 0;
+	margin: 0;
+}
+
+// responsive
 
 @media (max-width: $MQMobile) {
 	.form-horizontal {
