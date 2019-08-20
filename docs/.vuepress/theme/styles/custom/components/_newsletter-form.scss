@@ -4,6 +4,8 @@
 
 .newsletter-form-wrap {
   @include page-section;
+
+  position: relative;
   text-align: center;
   background-color: #fff;
   background-repeat: repeat;
@@ -18,6 +20,24 @@
 
   @include retina-mq {
     background-image: url('#{$image-path}contributor-bg@2x.jpg');
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    content: "";
+    background-image: linear-gradient(180deg, #fff 0%, transparent 100%);
+    background-size: 100%;
   }
 }
 
@@ -37,8 +57,8 @@
   }
 }
 
-@keyframes bg-scroll {
-  100% {
-    background-position: -2880px;
-  }
-}
+// @keyframes bg-scroll {
+//   100% {
+//     background-position: -2880px;
+//   }
+// }
