@@ -2,7 +2,7 @@
 // Footer
 // 
 
-$page-footer-border: 1px solid $color-7;
+$page-footer-border: 1px solid $gray-3;
 
 .page-footer {
   padding: 5rem 0;
@@ -31,6 +31,10 @@ $page-footer-border: 1px solid $color-7;
     color: $color-3;
     margin-top: 0;
     padding-top: 0;
+  }
+
+  a {
+    font-weight: $fw-regular;
   }
 
   a:hover {
