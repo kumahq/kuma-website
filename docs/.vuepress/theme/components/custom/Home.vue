@@ -19,7 +19,7 @@
             <router-link
               to="/docs/" 
               class="btn btn--hollow">
-              Why Karavan?
+              Why {{ getSiteData.title }}?
             </router-link>
           </div>
         </div>

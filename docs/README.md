@@ -49,8 +49,7 @@ Enterprise-ready and platform agnostic with native Kubernetes + CRD support, as 
 <!-- testimonial -->
 
 ::: slot testimonial-content
-A control plane built for Envoy by Envoy contributors, that brings traffic management
-to the modern era.
+Konvoy has been built with lessons learned by 150+ Enterprise organizations running production Meshes
 :::
 
 ::: slot testimonial-author
@@ -64,17 +63,17 @@ CTO, [Kong, Inc.](https://konghq.com/)
 <!-- steps -->
 
 ::: slot steps-title
-## Build your Service Mesh in 3 easy steps
+## Build your Service Mesh in 3 steps
 :::
 
 ::: slot step-1-content
 ### Download and Install Konvoy CP
-To get started you can download Konvoy and install it using the Konvoy CLI application: `Konvoyctl`.
+To get started you can download Konvoy and install it using the Konvoy CLI application: `konvoyctl`.
 :::
 
 ::: slot step-1-code-block
 ```
-$ Konvoyctl install control-plane | kubectl apply -f
+$ konvoyctl install control-plane | kubectl apply -f
 ```
 :::
 
@@ -86,7 +85,7 @@ later orchestrate - next to any service we want to include into our Service Mesh
 
 ::: slot step-2-code-block
 ```
-$ Konvoyctl install data-plane | kubectl apply -f
+$ konvoyctl install data-plane | kubectl apply -f
 ```
 :::
 
@@ -98,7 +97,7 @@ Service Mesh with powerful policies like mTLS.
 
 ::: slot step-3-code-block
 ```
-$ Konvoyctl create policy \
+$ konvoyctl create policy \
   --name mtls \
   --conf topology=hybrid
 ```

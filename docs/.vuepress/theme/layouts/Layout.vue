@@ -182,3 +182,6 @@ export default {
   }
 }
 </script>
+
+// this is required for automatic code highlighting
+<style src="prismjs/themes/prism-tomorrow.css"></style>
