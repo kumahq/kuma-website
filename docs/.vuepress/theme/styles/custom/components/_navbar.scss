@@ -95,24 +95,24 @@ $navbar-link-font-family: $base-font-family;
   padding: $navbar-vertical-padding 0;
 }
 
-@media (max-width: $MQMobile) {
+@media (min-width: $MQMobile) {
+  .nav-item > a:not(.external):hover,
+  .nav-item > a:not(.external).router-link-active {
+    border-bottom: $navbar-link-border;
+    color: $color-5;
+  }
+}
+
+@media (max-width: $MQNarrowMid) {
   .navbar {
     padding-left: 4rem;
 
     .can-hide {
       display: none;
     }
-
-    .links {
-      padding-left: 1.5rem;
-    }
   }
-}   
 
-@media (min-width: $MQMobile) {
-  .nav-item > a:not(.external):hover,
-  .nav-item > a:not(.external).router-link-active {
-    border-bottom: $navbar-link-border;
-    color: $color-5;
+  .links {
+    padding-left: 1.5rem;
   }
 }
