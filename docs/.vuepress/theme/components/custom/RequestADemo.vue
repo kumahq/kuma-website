@@ -1,10 +1,10 @@
 <template>
   <div class="page-container page-container--community">
 
-    <header class="page-header text-center bg-gradient">
+    <header v-if="$page.frontmatter.title" class="page-header text-center bg-gradient">
       <div class="inner">
-        <h1>Transform your Enterprise</h1>
-        <p class="page-sub-title">Learn how {{ getSiteData.title }} can help your business and improve your applications reliability.</p>
+        <h1>{{ $page.frontmatter.title }}</h1>
+        <p v-if="$page.frontmatter.title" class="page-sub-title">{{ $page.frontmatter.subTitle }}</p>
       </div>
       <!-- .inner -->
     </header>

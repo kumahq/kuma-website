@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import PathToRegExp from 'path-to-regexp'
 import Navbar from '@theme/components/Navbar.vue'
 import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
@@ -57,6 +56,7 @@ import Home from '@theme/components/custom/Home.vue'
 import Install from '@theme/components/custom/Install.vue'
 import Community from '@theme/components/custom/Community.vue'
 import RequestADemo from '@theme/components/custom/RequestADemo.vue'
+import UseCases from '@theme/components/custom/UseCases.vue'
 
 export default {
   components: {
@@ -67,7 +67,8 @@ export default {
     Home,
     Install,
     Community,
-    RequestADemo
+    RequestADemo,
+    UseCases
   },
 
   data () {
