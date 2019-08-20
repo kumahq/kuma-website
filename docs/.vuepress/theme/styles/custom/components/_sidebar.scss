@@ -1,14 +1,20 @@
 // 
-// Sidebar
+// Sidebarm, sidebar button
 // 
 
 $sidebar-link-active: $color-5;
 $sidebar-link-hover: $color-1;
 $sidebar-link-active-border-color: $color-5;
 
+$sidebar-button-size: 1.25rem;
+$sidebar-button-left-spacing: 1.5rem;
+
+// Sidebar
+
 .sidebar {
-  overflow: visible;
-  background: none;
+  // overflow: visible;
+  // background: none;
+  background-color: #fff;
   font-size: $base-font-size;
   width: $sidebarWidth;
   padding-top: $navbarHeight;
@@ -23,6 +29,17 @@ $sidebar-link-active-border-color: $color-5;
     content: "";
     background-color: $gray-1;
   }
+
+  .nav-item {
+    
+    > a {
+      padding: .5rem 0;
+    }
+  }
+
+  .nav-link {
+    display: block;
+  }
 }
 
 a.sidebar-link {
@@ -36,6 +53,30 @@ a.sidebar-link {
     border-left-color: $sidebar-link-active-border-color;
   }
 }
+
+// Sidebar button
+
+.sidebar-button {
+  top: calc( (#{$navbarHeight} / 2) - (#{$sidebar-button-size} / 2) );
+  left: $sidebar-button-left-spacing;
+  padding: 0;
+  outline: 0;
+
+  .icon {
+    margin: 0;
+    padding: 0;
+
+    path {
+      transition: fill 250ms $cb-1;
+    }
+  }
+}
+
+.sidebar-open .sidebar-button .icon path {
+  fill: $green-base !important;
+}
+
+// Responsive
 
 @media (min-width: $MQMobile + 1) {
   .sidebar {
