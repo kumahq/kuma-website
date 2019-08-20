@@ -15,19 +15,66 @@
       <div class="w-full sm:w-1/2 px-4">
 
         <div class="flex flex-wrap -mx-2">
+
           <div class="w-full md:w-1/2 px-2">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit veniam ullam, suscipit esse explicabo impedit, quis ad aut, minima veritatis nobis nihil eos rerum reiciendis. Minima nam maxime fuga iusto.</p>
+            
+            <div class="tower">
+              <div class="tower__header">
+                <h3>Community</h3>
+              </div>
+              <div class="tower__content">
+                <ul class="tower__list">
+                  <li class="tower__list-title tower__list-title--muted">
+                    <h4>Basic Features</h4>
+                  </li>
+                  <li>{{ getSiteData.title }} Core</li>
+                  <li>{{ getSiteData.title }} OSS Policies</li>
+                  <li class="tower__list-title tower__list-title--positive tower__footer-item">Free</li>
+                </ul>
+              </div>
+            </div>
+            <!-- .tower -->
+            
           </div>
+
           <div class="w-full md:w-1/2 px-2">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde consequuntur eum impedit aperiam non eaque libero atque molestias doloremque, nesciunt ea rem ratione placeat sint dignissimos vitae dolorem fuga sunt.</p>
+            
+            <div class="tower">
+              <div class="tower__header">
+                <h3>Enterprise</h3>
+              </div>
+              <div class="tower__content">
+                <ul class="tower__list">
+                  <li class="tower__list-title tower__list-title--muted">
+                    <h4>Basic Features</h4>
+                  </li>
+                  <li>{{ getSiteData.title }} Core</li>
+                  <li>{{ getSiteData.title }} OSS Policies</li>
+                  <li class="tower__list-title tower__list-title--focus">
+                    <h4>Enterprise Support</h4>
+                  </li>
+                  <li class="tower__focus-item">Email Support</li>
+                  <li class="tower__focus-item">Phone Support</li>
+                  <li class="tower__focus-item">Initial Setup and Upgrade Path</li>
+                  <li class="tower__focus-item">Org Architectural Review</li>
+                  <li class="tower__focus-item">Hot fixes and emergency patches</li>
+                  <li class="tower__focus-item">Custom Policies</li>
+                  <li class="tower__focus-item">Integration with Kong Enterprise</li>
+                  <li class="tower__list-title tower__list-title--neutral">Fill out form on this page</li>
+                </ul>
+              </div>
+            </div>
+            <!-- .tower -->
+
           </div>
+
         </div>
 
       </div>
 
       <div class="w-full sm:w-1/2 px-4">
         <form action="">
-          <div class="flex flex-wrap -mx-4">
+          <div class="flex flex-wrap -mx-4">   
             <div class="w-full md:w-1/2 px-4">
               <label for="input-firstname">First Name</label>
               <input type="text" name="firstname" id="input-firstname">

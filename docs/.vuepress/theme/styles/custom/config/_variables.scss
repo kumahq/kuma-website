@@ -15,16 +15,21 @@ $color-6: #2B303B;
 $color-7: #eaecef;
 $color-8: #FF5D8C;
 
-$gray-light: #fdfdfd;
-$gray-light-alt: #bfbfbf;
-$gray-med: #eaecef; // this is referenced in the VuePress default theme
-$gray-med-alt : lighten(#949494, 22);
-$gray-dark: #49494B;
+$gray-1: #fdfdfd;
+$gray-2: #bfbfbf;
+$gray-3: lighten(#949494, 22);
+$gray-4: #e1e1e1;
+$gray-5: #49494B;
+$gray-6: #f7f8f9;
+
 $navy-light: lighten(#20242C, 74);
 $navy: #062F4D;
+$sky: #e6edfa;
+$sky-light: #f1f5fc;
 
 $green-base: #3FA66A;
 $green-dark: #318153;
+$green-light: #e7f6ee;
 
 // Misc
 $image-path: '/images/';
@@ -32,7 +37,7 @@ $container-width-compact: 65rem; // 1040px
 $container-width: $container-width-compact;
 $gutter: 1.875rem; // 30px
 $base-soft-shadow: 0 3px 6px 0 rgba($color-7, 18%);
-$base-border-shadow: 0 0 0 1px $gray-med-alt, $base-soft-shadow;
+$base-border-shadow: 0 0 0 1px $gray-3, $base-soft-shadow;
 $gradient-1: linear-gradient(0deg, #FBFCFE 0%, #F5F8FC 55%);
 $gradient-2: linear-gradient(0deg, transparent 0%, #FBFCFE 55%);
 

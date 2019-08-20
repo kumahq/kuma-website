@@ -54,12 +54,13 @@
 
 @mixin button-base {
   font-family: $base-font-family;
+  font-weight: $fw-medium;
   background-color: $green-base;
   padding: .563rem 2.25rem;
   border-radius: 3px;
   box-shadow: $base-soft-shadow;
   text-align: center;
-  text-shadow: 0 2px 0 $green-dark;
+  // text-shadow: 0 2px 0 $green-dark;
   box-sizing: border-box;
 
   &, &:hover, &:active, &:focus, &:visited {
