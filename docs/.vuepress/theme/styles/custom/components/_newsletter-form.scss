@@ -36,7 +36,7 @@
     height: 100%;
     display: block;
     content: "";
-    background-image: linear-gradient(180deg, #fff 0%, transparent 100%);
+    background-image: $gradient-3;
     background-size: 100%;
   }
 }

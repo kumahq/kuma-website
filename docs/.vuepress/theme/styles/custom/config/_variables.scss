@@ -39,7 +39,8 @@ $gutter: 1.875rem; // 30px
 $base-soft-shadow: 0 3px 6px 0 rgba($color-7, 18%);
 $base-border-shadow: 0 0 0 1px $gray-3, $base-soft-shadow;
 $gradient-1: linear-gradient(0deg, #FBFCFE 0%, #F5F8FC 55%);
-$gradient-2: linear-gradient(0deg, transparent 0%, #FBFCFE 55%);
+$gradient-2: linear-gradient(0deg, rgba(#FBFCFE, 0) 0%, #FBFCFE 55%);
+$gradient-3: linear-gradient(180deg, #fff 0%, rgba(#fff, 0) 100%);
 
 // Cubic-bezier and easing settings
 $cb-1: cubic-bezier(.47,.37,.36,.92);
