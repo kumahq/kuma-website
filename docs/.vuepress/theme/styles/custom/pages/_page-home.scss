@@ -300,6 +300,19 @@ $home-feature-icon-bottom-spacing: 2.625rem;
   }
 }
 
+@media (max-width: $MQMobileNarrow) {
+  .page-masthead__actions {
+
+    .btn {
+      display: block;
+
+      &:not(:last-of-type) {
+        margin: 0 0 1rem 0;
+      }
+    }
+  }
+}
+
 @media (max-width: $MQLarge) {
   .page-masthead {
     margin-bottom: 2rem;
