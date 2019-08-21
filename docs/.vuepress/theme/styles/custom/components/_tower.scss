@@ -110,9 +110,20 @@ $tower-list-title-muted-bg-color: $gray-6;
 }
 
 .tower__footer-item {
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
   max-width: 100%;
+}
+
+@media (max-width: $MQLarge) {
+  .tower-wrap:not(:last-of-type) {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (min-width: $MQLarge + 1) {
+  .tower__footer-item {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
 }

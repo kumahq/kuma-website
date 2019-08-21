@@ -16,7 +16,7 @@
 
         <div class="flex flex-wrap -mx-2">
 
-          <div class="w-full md:w-1/2 px-2">
+          <div class="tower-wrap w-full lg:w-1/2 px-2">
             
             <div class="tower">
               <div class="tower__header">
@@ -37,7 +37,7 @@
             
           </div>
 
-          <div class="w-full md:w-1/2 px-2">
+          <div class="tower-wrap w-full lg:w-1/2 px-2">
             
             <div class="tower">
               <div class="tower__header">
