@@ -16,7 +16,8 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Redirect',
-  created() {
+  // created() {
+  beforeMount() {
     this.redirectToLatestReleaseDocs()
   },
   render() {},
@@ -31,9 +32,6 @@ export default {
       this.$router.push({
         path: `${this.$page.path}${this.getLatestRelease()}/`
       })
-
-      // for testing in IE
-      console.log('redirect triggered')
     }
   }
 }

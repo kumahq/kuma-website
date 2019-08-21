@@ -183,7 +183,7 @@ module.exports = {
       .loader('url-loader')
       .options({
         limit: 10000,
-        name: 'public/[name].[hash:7].[ext]'
+        name: 'public/images/[name].[hash:7].[ext]'
       })
       .end()
       .end()
