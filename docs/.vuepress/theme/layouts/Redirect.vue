@@ -31,6 +31,9 @@ export default {
       this.$router.push({
         path: `${this.$page.path}${this.getLatestRelease()}/`
       })
+
+      // for testing in IE
+      console.log('redirect triggered')
     }
   }
 }

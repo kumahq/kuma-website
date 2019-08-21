@@ -81,46 +81,46 @@ export default {
         {
           group: 'Products',
           items: [
-            { label: 'Kong', url: '#' },
-            { label: 'Kong Enterprise', url: '#' },
-            { label: 'Kong Cloud', url: '#' },
-            { label: 'Subscriptions', url: '#' }
+            { label: 'Kong', url: 'https://konghq.com/' },
+            { label: 'Kong Enterprise', url: 'https://konghq.com/kong-enterprise/' },
+            { label: 'Kong Cloud', url: 'https://konghq.com/cloud/' },
+            { label: 'Subscriptions', url: 'https://konghq.com/subscriptions/' }
           ]
         },
         {
           group: 'Resources',
           items: [
             { label: 'Enterprise Support', url: '#' },
-            { label: 'Documentation', url: '#' },
-            { label: 'Partners', url: '#' },
-            { label: 'Webinars', url: '#' },
-            { label: 'Ebooks', url: '#' },
+            { label: 'Documentation', url: '/docs/' },
+            { label: 'Partners', url: 'https://konghq.com/partners/' },
+            { label: 'Webinars', url: 'https://konghq.com/webinars/' },
+            { label: 'Ebooks', url: 'https://konghq.com/ebooks/' },
             { label: 'Meetups', url: '#' }
           ]
         },
         {
           group: 'Company',
           items: [
-            { label: 'About', url: '#' },
-            { label: 'Investors', url: '#' },
-            { label: 'News', url: '#' },
+            { label: 'About', url: 'https://konghq.com/about-kong-inc/' },
+            { label: 'Investors', url: 'https://konghq.com/investors/' },
+            { label: 'News', url: 'https://konghq.com/press-room/' },
             {
               label: 'Careers',
-              url: '#',
+              url: 'https://konghq.com/careers/',
               badge: true,
               badgeText: 'Hiring!'
             },
-            { label: 'Contact', url: '#' }
+            { label: 'Contact', url: 'https://konghq.com/contact/' }
           ]
         },
         {
           group: 'Open Source',
           items: [
-            { label: 'Mockbin', url: '#' },
-            { label: 'API Embed', url: '#' },
-            { label: 'Unirest', url: '#' },
-            { label: 'Guardian JS', url: '#' },
-            { label: 'OAuth Bible', url: '#' }
+            { label: 'Mockbin', url: 'https://mockbin.org/' },
+            { label: 'API Embed', url: 'https://apiembed.com/' },
+            { label: 'Unirest', url: 'http://unirest.io/' },
+            { label: 'Guardian JS', url: 'http://guardianjs.com/' },
+            { label: 'OAuth Bible', url: 'http://oauthbible.com/' }
           ]
         }
       ],
