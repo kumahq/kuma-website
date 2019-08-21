@@ -71,6 +71,10 @@ $home-feature-icon-bottom-spacing: 2.625rem;
   }
 }
 
+.page-masthead {
+
+}
+
 .page-masthead__actions {
   margin-top: 2rem;
   // margin-top: 3.75rem;
@@ -296,6 +300,9 @@ $home-feature-icon-bottom-spacing: 2.625rem;
   }
 }
 
-@media (min-width: $MQMobile + 1) {
-  
+@media (max-width: $MQLarge) {
+  .page-masthead {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
 }
