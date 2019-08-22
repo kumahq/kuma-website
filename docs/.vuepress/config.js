@@ -175,6 +175,7 @@ module.exports = {
       "link",
       {
         rel: "preload",
+        as: "script",
         href:
           "https://polyfill.io/v3/polyfill.min.js?flags=gated&features=es2015"
       }
