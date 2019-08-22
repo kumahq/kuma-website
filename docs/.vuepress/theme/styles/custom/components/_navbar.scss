@@ -25,7 +25,12 @@ $navbar-link-font-family: $base-font-family;
   .logo {
     height: $navbar-logo-height;
     margin-right: 0.8rem;
-    // vertical-align: top;
+    
+    // IE doesn't respect SVG images unless they have explicit dimensions
+    @include target-ie {
+      width: 136px;
+      height: 41px;
+    }
   }
     
   .site-name {

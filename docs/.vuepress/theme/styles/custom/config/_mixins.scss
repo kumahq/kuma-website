@@ -124,8 +124,16 @@
   }
 }
 
+// target Retina screens
 @mixin retina-mq {
   @media (-webkit-min-device-pixel-ratio: 2),  (min-resolution: 192dpi) { 
+    @content;
+  }
+}
+
+// target IE10 and 11
+@mixin target-ie {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     @content;
   }
 }
