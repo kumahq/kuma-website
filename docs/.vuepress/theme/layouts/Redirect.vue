@@ -17,8 +17,9 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Redirect',
   // created() {
-  beforeMount() {
+  mounted() {
     this.redirectToLatestReleaseDocs()
+    console.log('mounted and should redirect')
   },
   render() {},
   methods: {
