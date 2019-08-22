@@ -1,14 +1,16 @@
 {
   "presets": [
     [
-      "@babel/preset-env", {
+      "@babel/preset-env",
+      {
         "modules": false,
-        "useBuiltIns": "entry"
+        "useBuiltIns": "usage",
+        "corejs": "3",
+        "targets": {
+          "esmodules": false,
+          "ie": "11"
+        }
       }
     ]
-  ],
-  "plugins": [
-    "transform-es2015-modules-commonjs",
-  ],
-  "targets": "> 0.25%, not dead"
+  ]
 }
