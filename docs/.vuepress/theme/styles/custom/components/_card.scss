@@ -38,6 +38,11 @@ $card-icon-margin: 1rem;
 
 .card__icon {
   margin-right: $card-icon-margin;
+
+  img {
+    display: block;
+    margin: 0;
+  }
 }
 
 .card__content {

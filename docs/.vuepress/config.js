@@ -65,7 +65,7 @@ const sidebarNav = {
  */
 function buildInstallReleaseURLs() {
   // build the release route array
-  const releaseArray = []
+  const releaseArray = [];
 
   for (let i = 0; i < releases.length; i++) {
     releaseArray.push({
@@ -80,7 +80,7 @@ function buildInstallReleaseURLs() {
     })
   }
 
-  return releaseArray
+  return releaseArray;
 }
 
 /**
@@ -120,7 +120,7 @@ module.exports = {
     extendMarkdown: md => {
       md.use(require("markdown-it-include"), {
         root: __dirname
-      })
+      });
     }
   },
   plugins: {
@@ -182,27 +182,26 @@ module.exports = {
   },
   evergreen: false,
   chainWebpack: (config, isServer) => {
-    config.devtool('source-map');
-
     const jsRule = config.module.rule("js")
     jsRule
-      .test(/\.js$/)
       .use("babel-loader")
       .loader("babel-loader")
       .options({
-        babelrc: true,
         presets: [
           [
-            "@vue/babel-preset-app",
+            "@babel/preset-env",
             {
               useBuiltIns: "usage",
               corejs: 3,
               targets: {
-                ie: 11
-              }
+                ie: 10,
+                browsers: "last 2 versions"
+              },
+              debug: true
             }
           ]
-        ]
+        ],
+        plugins: ["@babel/plugin-syntax-dynamic-import"]
       })
   }
-}
+};

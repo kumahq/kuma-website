@@ -1,20 +1,19 @@
 {
   "presets": [
     [
-      "@vue/babel-preset-app",
+      "@babel/preset-env",
       {
-        "modules": false,
-        "useBuiltIns": "usage",
-        "corejs": "3",
-        "targets": [
-          "> 1%",
-          "last 2 versions"
-        ]
+        "useBuiltIns": "entry",
+        "corejs": {
+          "version": "3",
+          "proposals": true
+        },
+        "targets": {
+          "ie": "11",
+          "browsers": "last 2 versions"
+        },
+        "debug": true
       }
     ]
-  ],
-  "plugins": [
-    "@babel/plugin-proposal-object-rest-spread",
-    "babel-plugin-transform-es2015-arrow-functions"
   ]
 }

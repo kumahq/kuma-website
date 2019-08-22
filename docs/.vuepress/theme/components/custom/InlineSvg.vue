@@ -53,6 +53,7 @@ export default {
 .inline-svg {
   display: block;
   position: relative;
+  overflow: hidden;
 
   > svg {
     width: 100% !important;

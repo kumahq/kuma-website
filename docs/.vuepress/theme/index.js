@@ -20,7 +20,7 @@ module.exports = (options, ctx) => ({
   plugins: [
     ['@vuepress/active-header-links', options.activeHeaderLinks],
     '@vuepress/search',
-    '@vuepress/plugin-nprogress',
+    // '@vuepress/plugin-nprogress',
     ['container', {
       type: 'tip',
       defaultTitle: {
