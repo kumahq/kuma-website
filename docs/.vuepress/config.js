@@ -124,7 +124,6 @@ module.exports = {
     }
   },
   plugins: {
-    "@vuepress/plugin-nprogress": {},
     "clean-urls": {
       normalSuffix: "/",
       indexSuffix: "/"
@@ -183,13 +182,14 @@ module.exports = {
   },
   chainWebpack: (config, isServer) => {
     const jsRule = config.module.rule("js")
+    
     jsRule
       .use("babel-loader")
       .loader("babel-loader")
       .options({
         presets: [
           [
-            "@babel/preset-env",
+            "@vue/babel-preset-app",
             {
               useBuiltIns: "usage",
               corejs: 3,
@@ -198,6 +198,10 @@ module.exports = {
               }
             }
           ]
+        ],
+        plugins: [
+          "@babel/plugin-proposal-object-rest-spread",
+          "babel-plugin-transform-es2015-arrow-functions"
         ]
       })
   }
