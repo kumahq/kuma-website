@@ -170,15 +170,6 @@ module.exports = {
         href:
           "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
       }
-    ],
-    [
-      "link",
-      {
-        rel: "preload",
-        as: "script",
-        href:
-          "https://polyfill.io/v3/polyfill.min.js?flags=gated&features=es2015"
-      }
     ]
   ],
   postcss: {
@@ -189,12 +180,17 @@ module.exports = {
       })
     ]
   },
+  evergreen: false,
   chainWebpack: (config, isServer) => {
+    config.devtool('source-map');
+
     const jsRule = config.module.rule("js")
     jsRule
+      .test(/\.js$/)
       .use("babel-loader")
       .loader("babel-loader")
       .options({
+        babelrc: true,
         presets: [
           [
             "@vue/babel-preset-app",
@@ -202,7 +198,7 @@ module.exports = {
               useBuiltIns: "usage",
               corejs: 3,
               targets: {
-                ie: 10
+                ie: 11
               }
             }
           ]
