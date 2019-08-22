@@ -9,9 +9,9 @@
     "test-coverage": "yarn jest --coverage"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.5.5",
-    "core-js": "2",
+    "@vue/babel-preset-app": "^4.0.0-rc.0",
+    "core-js": "^3.2.1",
     "vue": "^2.6.10",
     "vue-github-button": "^1.0.8"
   },
