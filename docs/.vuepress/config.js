@@ -170,6 +170,14 @@ module.exports = {
         href:
           "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
       }
+    ],
+    [
+      "link",
+      {
+        rel: "preload",
+        href:
+          "https://polyfill.io/v3/polyfill.min.js?flags=gated&features=es2015"
+      }
     ]
   ],
   postcss: {
@@ -182,7 +190,6 @@ module.exports = {
   },
   chainWebpack: (config, isServer) => {
     const jsRule = config.module.rule("js")
-    
     jsRule
       .use("babel-loader")
       .loader("babel-loader")
@@ -194,7 +201,7 @@ module.exports = {
               useBuiltIns: "usage",
               corejs: 3,
               targets: {
-                ie: 11
+                ie: 10
               }
             }
           ]
