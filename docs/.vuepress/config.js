@@ -194,14 +194,13 @@ module.exports = {
               useBuiltIns: "usage",
               corejs: 3,
               targets: {
-                ie: 10,
+                ie: 11,
                 browsers: "last 2 versions"
               },
               debug: true
             }
           ]
-        ],
-        plugins: ["@babel/plugin-syntax-dynamic-import"]
+        ]
       })
   }
 };

@@ -22,6 +22,10 @@ textarea, input[type] {
 input[type] {
 	height: 44px;
 	line-height: 44px;
+
+	@include target-ie {
+		line-height: 1;
+	}
 }
 
 textarea {
