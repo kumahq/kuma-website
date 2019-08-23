@@ -1,0 +1,5 @@
+[[redirects]]
+from = "/docs/"
+to = "/docs/0.2.0/"
+status = 301
+force = false
