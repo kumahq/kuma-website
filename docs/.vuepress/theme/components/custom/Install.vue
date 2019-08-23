@@ -7,22 +7,20 @@
         <h1>Install {{$site.title}}</h1>
       
         <div v-if="this.getInstallMethods && this.getInstallMethods.length" class="version-selector-wrapper">
-          <form>
-            <select
-              name="version-selector"
-              class="version-selector version-selector--large"
-              id="version-selector"
-              @input="updateInstallPath($event.target.value)">
-              <option 
-                v-for="tag in releasesAsSelectValues" 
-                :value="tag.version" 
-                :key="tag.version" 
-                :selected='$route.meta.version === tag.version'
-              >
-                {{tag.text}}
-              </option>
-            </select>
-          </form>
+          <select
+            name="version-selector"
+            class="version-selector version-selector--large"
+            id="version-selector"
+            v-model="defaultSelectedInstallVersion">
+            <option 
+              v-for="tag in releasesAsSelectValues" 
+              :value="tag.version" 
+              :key="tag.version" 
+              :selected='$route.meta.version === tag.version'
+            >
+              {{tag.text}}
+            </option>
+          </select>
 
           <div v-if="getSelectedInstallVersion" class="version-selector__version-notifier">
             <p class="page-sub-title">You are viewing installation instructions for <strong>{{getSelectedInstallVersion}}</strong>.</p>
@@ -87,8 +85,6 @@ export default {
           version: ev
         }
       })
-
-      console.log('input triggered')
     },
 
     mapVersionMetaToInstallVersion() {
@@ -107,6 +103,8 @@ export default {
             version: this.getLatestRelease
           }
         })
+
+        console.log('redirecting')
       }
     }
 
@@ -114,11 +112,20 @@ export default {
   computed: {
     ...mapGetters([
       'getInstallMethods',
-      'getReleaseList',
       'getLatestRelease',
       'getSelectedInstallVersion',
       'releasesAsSelectValues'
-    ])
+    ]),
+
+    // this is used as the model for the version selector
+    defaultSelectedInstallVersion: {
+      get() {
+        return this.getSelectedInstallVersion
+      },
+      set(value) {
+        this.updateInstallPath(value)
+      }
+    }
   },
   watch: {
     // this ensures that the user is always on the latest version
