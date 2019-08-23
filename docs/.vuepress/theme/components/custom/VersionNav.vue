@@ -5,7 +5,7 @@
       name="doc-version-selector"
       class="version-selector"
       id="version-selector"
-      @change="redirectToSelectedDocVersion($event.target.value)">
+      @input="redirectToSelectedDocVersion($event.target.value)">
       <option 
         v-for="item in releasesAsSelectValues" 
         :value="item.version" 

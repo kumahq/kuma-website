@@ -12,7 +12,7 @@
               name="version-selector"
               class="version-selector version-selector--large"
               id="version-selector"
-              @change="updateInstallPath($event.target.value)">
+              @input="updateInstallPath($event.target.value)">
               <option 
                 v-for="tag in releasesAsSelectValues" 
                 :value="tag.version" 
@@ -87,6 +87,8 @@ export default {
           version: ev
         }
       })
+
+      console.log('input triggered')
     },
 
     mapVersionMetaToInstallVersion() {
