@@ -5,7 +5,7 @@
       name="doc-version-selector"
       class="version-selector"
       id="version-selector"
-      @input="redirectToSelectedDocVersion($event.target.value)">
+      v-model="defaultSelectedInstallVersion">
       <option 
         v-for="item in releasesAsSelectValues" 
         :value="item.version" 
@@ -42,7 +42,17 @@ export default {
   computed: {
     ...mapGetters([
       'releasesAsSelectValues'
-    ])
+    ]),
+
+    // this is used as the model for the version selector
+    defaultSelectedInstallVersion: {
+      get() {
+        return this.$route.path.replace(/\//g,'').replace('docs','')
+      },
+      set(value) {
+        this.redirectToSelectedDocVersion(value)
+      }
+    }
   }
 }
 </script>
