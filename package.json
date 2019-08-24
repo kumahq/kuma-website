@@ -4,7 +4,6 @@
   "author": "Kong Inc.",
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs && node setup-redirects",
     "test": "yarn jest",
     "test-coverage": "yarn jest --coverage"
   },
