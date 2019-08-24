@@ -30,5 +30,6 @@ force = false`;
   // write our redirects to the TOML file
   fs.writeFile(tomlFile, template, err => {
     if (err) throw err;
+    console.log("Netlify redirects created successfully!");
   });
 });
