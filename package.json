@@ -4,13 +4,14 @@
   "author": "Kong Inc.",
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
+    "docs:build": "vuepress build docs && node setup-redirects",
     "test": "yarn jest",
     "test-coverage": "yarn jest --coverage"
   },
   "dependencies": {
     "@babel/preset-env": "^7.5.5",
     "core-js": "^3.2.1",
+    "fs": "^0.0.1-security",
     "vue": "^2.6.10",
     "vue-github-button": "^1.0.8"
   },
