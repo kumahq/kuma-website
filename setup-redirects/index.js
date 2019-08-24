@@ -29,7 +29,7 @@ force = false`;
 
   // write our redirects to the TOML file
   // this will write to the end of the file
-  fs.writeFile(tomlFile, template, { flag: "a+" } err => {
+  fs.writeFile(tomlFile, template, { flag: "a+" }, err => {
     if (err) throw err;
     console.log("Netlify redirects created successfully!");
   });
