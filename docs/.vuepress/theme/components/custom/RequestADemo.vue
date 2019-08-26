@@ -1,7 +1,7 @@
 <template>
   <div class="page-container page-container--community">
 
-    <header v-if="$page.frontmatter.title" class="page-header text-center bg-gradient">
+    <header v-if="$page.frontmatter.title" class="page-header text-center bg-gradient" ref="pageHeader">
       <div class="inner">
         <h1>{{ $page.frontmatter.title }}</h1>
         <p v-if="$page.frontmatter.title" class="page-sub-title">{{ $page.frontmatter.subTitle }}</p>
@@ -60,7 +60,10 @@
                   <li class="tower__focus-item">Hot fixes and emergency patches</li>
                   <li class="tower__focus-item">Custom Policies</li>
                   <li class="tower__focus-item">Integration with Kong Enterprise</li>
-                  <li class="tower__list-title tower__list-title--neutral">Fill out form on this page</li>
+                  <li class="tower__list-title tower__list-title--neutral">
+                    <span class="desktop">Fill out form on the right</span>
+                    <span class="mobile">Fill out form below</span>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -72,7 +75,7 @@
 
       </div>
 
-      <div class="w-full sm:w-1/2 px-4">
+      <div class="demo-request-form w-full sm:w-1/2 px-4" ref="demoRequestForm">
         <form action="">
           <div class="flex flex-wrap -mx-4">   
             <div class="w-full md:w-1/2 px-4">
@@ -117,8 +120,32 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce'
+
 export default {
-  
+  methods: {
+    handleScroll(ev) {
+      const el = this.$refs.demoRequestForm
+      const header = this.$refs.pageHeader
+      if (window.pageYOffset > ( header.scrollTop + header.offsetHeight )) {
+        el.classList.add('sticky')
+        el.querySelector('form').style.maxWidth = `${el.offsetWidth}px`
+      }
+      else {
+        el.classList.remove('sticky')
+        el.querySelector('form').style.maxWidth = '100%'
+      }
+    }
+  },
+  created() {
+    const debouncedScroll = debounce( this.handleScroll, 100 )
+    if (window.innerWidth >= 640) {
+      window.addEventListener('scroll', debouncedScroll)
+    }
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.debouncedScroll)
+  }
 }
 </script>
 

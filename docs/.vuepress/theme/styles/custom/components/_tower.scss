@@ -127,3 +127,23 @@ $tower-list-title-muted-bg-color: $gray-6;
     left: 0;
   }
 }
+
+@media (max-width: $MQMobileMid) {
+  .tower__list span.mobile {
+    display: inline-block;
+  }
+
+  .tower__list span.desktop {
+    display: none;
+  }
+}
+
+@media (min-width: $MQMobileMid + 1) {
+  .tower__list span.mobile {
+    display: none;
+  }
+
+  .tower__list span.desktop {
+    display: inline-block;
+  }
+}
