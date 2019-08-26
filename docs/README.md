@@ -33,7 +33,7 @@ Built on top of Envoy, Konvoy is a modern control plane to orchestrate L4/L7 tra
 :::
 
 ::: slot feature-block-content-2
-### Easy to Use
+### Powerful Policies
 <img src="/images/diagrams/diagram-powerful-policies.jpg" srcset="/images/diagrams/diagram-powerful-policies@2x.jpg 2x" alt="Universal Control Plane diagram">
 
 Out of the box Ingress and Service Mesh service management policies for security, observability, routing, and more.
@@ -68,7 +68,7 @@ CTO, [Kong, Inc.](https://konghq.com/)
 
 ::: slot step-1-content
 ### Download and Install Konvoy CP
-To get started you can download Konvoy and install it using the Konvoy CLI application: `konvoyctl`.
+To get started you can download Konvoy and install it using the Konvoy CLI application: &#96;konvoyctl&#96;.
 :::
 
 ::: slot step-1-code-block
@@ -124,5 +124,5 @@ $ konvoyctl create policy \
 :::
 
 ::: slot newsletter-content
-Sign up to our Konvoy community newsletter to get the most recent updates and product announcements
+Sign up for our Konvoy community newsletter to get the most recent updates and product announcements.
 :::

@@ -76,17 +76,17 @@
         </header>
 
         <ol class="steps-items__content">
-          <li class="flex flex-wrap -mx-2">
-            <Content slot-key="step-1-content" class="w-full px-2 lg:w-1/2"/>
-            <Content slot-key="step-1-code-block" class="w-full px-2 lg:w-1/2"/>
+          <li>
+            <Content slot-key="step-1-content"/>
+            <Content slot-key="step-1-code-block"/>
           </li>
-          <li class="flex flex-wrap -mx-2">
-            <Content slot-key="step-2-content" class="w-full px-2 lg:w-1/2"/>
-            <Content slot-key="step-2-code-block" class="w-full px-2 lg:w-1/2"/>
+          <li>
+            <Content slot-key="step-2-content"/>
+            <Content slot-key="step-2-code-block"/>
           </li>
-          <li class="flex flex-wrap -mx-2">
-            <Content slot-key="step-3-content" class="w-full px-2 lg:w-1/2"/>
-            <Content slot-key="step-3-code-block" class="w-full px-2 lg:w-1/2"/>
+          <li>
+            <Content slot-key="step-3-content"/>
+            <Content slot-key="step-3-code-block"/>
           </li>
         </ol>
 

@@ -34,11 +34,7 @@
           <ul>
             <li v-for="(item, index) in socialLinks" :key="index">
               <a :href="item.url">
-                <InlineSvg
-                  :src="socialIconPath + item.icon"
-                  :width="socialIconSize"
-                  :height="socialIconSize"
-                />
+                <img :src="socialIconPath + item.icon" :alt="item.label">
                 <span class="sr-only">{{ item.label }}</span>
               </a>
             </li>

@@ -82,6 +82,12 @@ $page-footer-border: 1px solid $color-7;
   }
 
   .social-links {
+
+    img {
+      display: block;
+      margin: 0;
+      max-width: 48px;
+    }
     
     ul {
       display: flex;
