@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="14px" height="7px" viewBox="0 0 14 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
-    <title>Path</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Docs" transform="translate(-298.000000, -113.000000)" fill="#000000" fill-rule="nonzero">
-            <g id="Value-props" transform="translate(38.000000, 101.000000)">
-                <g id="01">
-                    <polygon id="Path" points="260.730469 12.210938 273.269531 12.210938 267 18.480469"></polygon>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="14" height="7" xmlns="http://www.w3.org/2000/svg"><path d="M.73.21h12.54L7 6.48z" fill="#000" fill-rule="nonzero"/></svg>
