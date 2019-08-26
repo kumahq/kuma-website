@@ -137,7 +137,7 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     const debouncedScroll = debounce( this.handleScroll, 100 )
     if (window.innerWidth >= 640) {
       window.addEventListener('scroll', debouncedScroll)
