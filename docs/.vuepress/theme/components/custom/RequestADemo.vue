@@ -16,7 +16,7 @@
 
         <div class="flex flex-wrap -mx-2">
 
-          <div class="tower-wrap w-full lg:w-1/2 px-2">
+          <div class="tower-wrap w-full lg:w-1/2 px-2" ref="featuresColumn">
             
             <div class="tower">
               <div class="tower__header">
@@ -125,25 +125,28 @@ import debounce from 'lodash/debounce'
 export default {
   methods: {
     handleScroll(ev) {
-      const el = this.$refs.demoRequestForm
+      const requestForm = this.$refs.demoRequestForm
       const header = this.$refs.pageHeader
+      const featuresCol = this.$refs.featuresColumn
+
       if (window.pageYOffset > ( header.scrollTop + header.offsetHeight )) {
-        el.classList.add('sticky')
-        el.querySelector('form').style.maxWidth = `${el.offsetWidth}px`
+        requestForm.classList.add('sticky')
+        requestForm.querySelector('form').style.maxWidth = `${requestForm.offsetWidth}px`
       }
       else {
-        el.classList.remove('sticky')
-        el.querySelector('form').style.maxWidth = '100%'
+        requestForm.classList.remove('sticky')
+        requestForm.querySelector('form').style.maxWidth = null
       }
     }
   },
   mounted() {
-    const debouncedScroll = debounce( this.handleScroll, 100 )
+    const debouncedScroll = debounce( this.handleScroll, 0 )
     if (window.innerWidth >= 640) {
       window.addEventListener('scroll', debouncedScroll)
     }
   },
   beforeDestroy() {
+    // remove the event listener before navigating to another page
     window.removeEventListener('scroll', this.debouncedScroll)
   }
 }

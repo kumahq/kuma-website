@@ -62,6 +62,7 @@
   text-align: center;
   // text-shadow: 0 2px 0 $green-dark;
   box-sizing: border-box;
+  cursor: pointer;
 
   &, &:hover, &:active, &:focus, &:visited {
     color: #fff !important;
