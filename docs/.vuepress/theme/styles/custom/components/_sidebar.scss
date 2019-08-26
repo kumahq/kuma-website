@@ -31,13 +31,23 @@ $sidebar-button-left-spacing: 1.5rem;
   }
 
   .nav-item {
+    margin: 0;
     
     > a {
-      padding: .5rem 0;
+      padding: 1rem;
     }
   }
 
+  .nav-links .nav-item,
+  .nav-links .repo-link {
+    padding: 0;
+  }
+
   .nav-link {
+    display: block;
+  }
+
+  .nav-links {
     display: block;
   }
 }
