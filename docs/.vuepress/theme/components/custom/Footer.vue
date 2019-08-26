@@ -91,7 +91,7 @@ export default {
             { label: 'Partners', url: 'https://konghq.com/partners/' },
             { label: 'Webinars', url: 'https://konghq.com/webinars/' },
             { label: 'Ebooks', url: 'https://konghq.com/ebooks/' },
-            { label: 'Meetups', url: '#' }
+            { label: 'Meetups', url: 'https://www.meetup.com/members/121234612/' }
           ]
         },
         {
