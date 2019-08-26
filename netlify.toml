@@ -1,3 +1,4 @@
+# Build command that Netlify looks for
 [build]
   command = "node setup-redirects && vuepress build docs"
 
