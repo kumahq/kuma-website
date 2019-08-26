@@ -223,14 +223,14 @@ th, td {
 }
 
 
-@media (min-width: $MQMobile + 1px) {
-  .theme-container.no-sidebar {
-    .sidebar {
-      display: none;
-    }
+// @media (min-width: $MQMobile + 1px) {
+//   .theme-container.no-sidebar {
+//     .sidebar {
+//       display: none;
+//     }
 
-    .page {
-      padding-left: 0;
-    }
-  }
-}
+//     .page {
+//       padding-left: 0;
+//     }
+//   }
+// }

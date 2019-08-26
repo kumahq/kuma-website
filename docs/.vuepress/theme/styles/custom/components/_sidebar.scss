@@ -84,6 +84,14 @@ a.sidebar-link {
     position: relative;
     top: auto; left: auto; bottom: auto;
   }
+
+  .theme-container.no-sidebar .sidebar {
+    display: none;
+  }
+
+  .sidebar .nav-links {
+    display: none;
+  }
 }
 
 @media (max-width: $MQNarrowMid) {
