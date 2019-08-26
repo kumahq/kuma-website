@@ -1,7 +1,7 @@
 /**
  * Release data
  */
-const releases = require("./public/releases.json")
+const releases = require("./public/releases.json");
 
 /**
  * Product data
@@ -18,7 +18,7 @@ const productData = {
   repoButtonLabel: "Star",
   logo: "/images/konvoy-logo.svg",
   hostname: "https://getkonvoy.com" // @todo new URL to match new name
-}
+};
 
 /**
  * Sidebar navigation structure
@@ -48,7 +48,7 @@ const sidebarNav = {
     "installation/",
     "community/"
   ]
-}
+};
 
 /**
  * Install page version URL builder
@@ -77,7 +77,7 @@ function buildInstallReleaseURLs() {
         sidebar: false,
         layout: "Install"
       }
-    })
+    });
   }
 
   return releaseArray;
@@ -144,9 +144,9 @@ module.exports = {
           image,
           publishedAt,
           modifiedAt
-        } = context
+        } = context;
 
-        add("twitter:site", $site.themeConfig.twitter)
+        add("twitter:site", $site.themeConfig.twitter);
       }
     },
     sitemap: {
@@ -182,7 +182,7 @@ module.exports = {
   },
   evergreen: false,
   chainWebpack: (config, isServer) => {
-    const jsRule = config.module.rule("js")
+    const jsRule = config.module.rule("js");
     jsRule
       .use("babel-loader")
       .loader("babel-loader")
@@ -196,11 +196,10 @@ module.exports = {
               targets: {
                 ie: 11,
                 browsers: "last 2 versions"
-              },
-              debug: true
+              }
             }
           ]
         ]
-      })
+      });
   }
 };
