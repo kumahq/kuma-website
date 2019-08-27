@@ -3,16 +3,18 @@
 # Konvoy Website
 This is the main website and documentation hub for Konvoy. It is built on [VuePress](https://vuepress.vuejs.org/).
 
-### Install
+### 1. Install the required packages
 ```bash
 yarn install
 ```
 
-### Running
+### 2. Run the local dev environment
 ```bash
 yarn docs:dev
 ```
 You can now navigate to [http://localhost:8080/](http://localhost:8080/).
+
+---
 
 ## Building
 
@@ -35,5 +37,3 @@ file.
 redirects in [Netlify format](https://www.netlify.com/blog/2019/01/16/redirect-rules-for-all-how-to-configure-redirects-for-your-static-site/) 
 to the end of the `netlify.toml` file
 2. Runs the build script that exists under the `[build]` heading at the top of the `netlify.toml` file
-
-At this point the site should be successfully deployed, and the redirects created.
