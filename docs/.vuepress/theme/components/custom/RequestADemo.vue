@@ -120,35 +120,8 @@
 </template>
 
 <script>
-import debounce from 'lodash/debounce'
-
 export default {
-  methods: {
-    handleScroll(ev) {
-      const requestForm = this.$refs.demoRequestForm
-      const header = this.$refs.pageHeader
-      const featuresCol = this.$refs.featuresColumn
 
-      if (window.pageYOffset > ( header.scrollTop + header.offsetHeight )) {
-        requestForm.classList.add('sticky')
-        requestForm.querySelector('form').style.maxWidth = `${requestForm.offsetWidth}px`
-      }
-      else {
-        requestForm.classList.remove('sticky')
-        requestForm.querySelector('form').style.maxWidth = null
-      }
-    }
-  },
-  mounted() {
-    const debouncedScroll = debounce( this.handleScroll, 0 )
-    if (window.innerWidth >= 640) {
-      window.addEventListener('scroll', debouncedScroll)
-    }
-  },
-  beforeDestroy() {
-    // remove the event listener before navigating to another page
-    window.removeEventListener('scroll', this.debouncedScroll)
-  }
 }
 </script>
 

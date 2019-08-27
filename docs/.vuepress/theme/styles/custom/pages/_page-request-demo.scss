@@ -4,13 +4,12 @@
 
 @media (min-width: $MQMobileMid) {
   // sticky form
-  .demo-request-form.sticky {
+  .demo-request-form {
     position: relative;
 
     > form {
-      position: sticky;
       position: -webkit-sticky;
-      position: fixed;
+      position: sticky;
       top: $navbarHeight;
       padding-right: 2rem;
       background-color: #fff;

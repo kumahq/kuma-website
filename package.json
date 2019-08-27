@@ -12,7 +12,6 @@
     "@babel/preset-env": "^7.5.5",
     "core-js": "^3.2.1",
     "fs": "^0.0.1-security",
-    "lodash": "^4.17.15",
     "vue": "^2.6.10",
     "vue-github-button": "^1.0.8"
   },
