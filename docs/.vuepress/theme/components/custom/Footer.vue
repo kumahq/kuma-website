@@ -130,7 +130,7 @@ export default {
       socialLinks: [
         { label: 'Facebook', icon: 'icon-facebook.svg', url: '#' },
         { label: 'Twitter', icon: 'icon-twitter.svg', url: '#' },
-        { label: 'Meetup', icon: 'icon-meetup.svg', url: '#' },
+        { label: 'Meetup', icon: 'icon-meetup.svg', url: 'https://www.meetup.com/members/121234612/' },
         { label: 'Github', icon: 'icon-github.svg', url: '#' }
       ]
     }
