@@ -12,7 +12,7 @@ testimonialPortraitAlt: Marco Palladino
 <!-- page masthead -->
 
 ::: slot masthead-main-title
-# Build, Secure and Observe your modern L4/L7 Service Mesh
+# Build, Secure and Observe your modern Service Mesh
 :::
 
 ::: slot masthead-sub-title
