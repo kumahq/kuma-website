@@ -75,8 +75,8 @@
 
       </div>
 
-      <div class="demo-request-form sticky w-full sm:w-1/2 px-4">
-        <form action="">
+      <div class="demo-request-form w-full sm:w-1/2 px-4">
+        <form action="" class="sticky">
           <div class="flex flex-wrap -mx-4">   
             <div class="w-full md:w-1/2 px-4">
               <label for="input-firstname">First Name</label>
