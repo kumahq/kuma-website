@@ -31,9 +31,12 @@ the latest version. Because of the order in which Netlify deployment and build f
 are run, the full deployment build script is handled within the [netlify.toml](netlify.toml) 
 file.
 
-**What it does:**
+### Netlify, `netlify.toml` and `[build]`
+At the top of our [`netlify.toml`](netlify.toml) file, there is a build script under `[build]`.
 
-1. Runs the [`setup-redirects`](/setup-redirects/) Node script, which writes the appropriate 
+**It will:**
+
+1. Run the [`setup-redirects`](/setup-redirects/) Node script, which writes the appropriate 
 redirects in [Netlify format](https://www.netlify.com/blog/2019/01/16/redirect-rules-for-all-how-to-configure-redirects-for-your-static-site/) 
 to the end of the `netlify.toml` file
-2. Runs the build script that exists under the `[build]` heading at the top of the `netlify.toml` file
+2. Runs `vuepress build docs` which will build the site accordingly
