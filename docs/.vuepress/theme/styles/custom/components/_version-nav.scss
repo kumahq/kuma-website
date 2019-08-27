@@ -29,6 +29,8 @@ $version-nav-select-font: $base-mono-family;
   padding-left: 1.25rem;
 }
 
+// hide the version selector outside of the docs pages
+// @todo find a more reliable way to handle this
 .theme-container.no-sidebar .version-nav {
   display: none;
 }

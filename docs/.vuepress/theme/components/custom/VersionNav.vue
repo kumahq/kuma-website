@@ -41,13 +41,26 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'releasesAsSelectValues'
+      'releasesAsSelectValues',
+      'getLatestRelease'
     ]),
 
     // this is used as the model for the version selector
     defaultSelectedInstallVersion: {
       get() {
-        return this.$route.path.replace(/\//g,'').replace('docs','')
+        const routePath = this.$route.path
+        const test = '/docs/'
+        
+        if (routePath.startsWith(test)) {
+          // if we're on a docs page, check the router path to get the version
+          // our user is currently viewing and set the version selector value to it
+          return this.$route.path.replace(/\//g,'').replace('docs','')
+        }
+        else {
+          // if we're on a page outside of the docs, grab the latest release
+          // from our Vuex Store and set the version selector value to that instead
+          return this.getLatestRelease
+        }
       },
       set(value) {
         this.redirectToSelectedDocVersion(value)
