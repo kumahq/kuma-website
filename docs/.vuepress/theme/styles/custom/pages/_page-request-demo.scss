@@ -2,17 +2,3 @@
 // Request A Demo page
 // 
 
-@media (min-width: $MQMobileMid) {
-  // sticky form
-  .demo-request-form {
-    position: relative;
-
-    > form {
-      position: -webkit-sticky;
-      position: sticky;
-      top: $navbarHeight;
-      padding-right: 2rem;
-      background-color: #fff;
-    }
-  }
-}

@@ -138,3 +138,18 @@
     @content;
   }
 }
+
+// sticky
+@mixin sticky {
+  display: -webkit-sticky;
+  display: sticky;
+
+  &:before, &:after {
+    content: "";
+    display: table;
+  }
+}
+
+.sticky {
+  @include sticky;
+}

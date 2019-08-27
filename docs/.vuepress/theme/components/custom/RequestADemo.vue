@@ -1,7 +1,7 @@
 <template>
   <div class="page-container page-container--community">
 
-    <header v-if="$page.frontmatter.title" class="page-header text-center bg-gradient" ref="pageHeader">
+    <header v-if="$page.frontmatter.title" class="page-header text-center bg-gradient">
       <div class="inner">
         <h1>{{ $page.frontmatter.title }}</h1>
         <p v-if="$page.frontmatter.title" class="page-sub-title">{{ $page.frontmatter.subTitle }}</p>
@@ -16,7 +16,7 @@
 
         <div class="flex flex-wrap -mx-2">
 
-          <div class="tower-wrap w-full lg:w-1/2 px-2" ref="featuresColumn">
+          <div class="tower-wrap w-full lg:w-1/2 px-2">
             
             <div class="tower">
               <div class="tower__header">
@@ -75,7 +75,7 @@
 
       </div>
 
-      <div class="demo-request-form w-full sm:w-1/2 px-4" ref="demoRequestForm">
+      <div class="demo-request-form sticky w-full sm:w-1/2 px-4">
         <form action="">
           <div class="flex flex-wrap -mx-4">   
             <div class="w-full md:w-1/2 px-4">
@@ -121,7 +121,7 @@
 
 <script>
 export default {
-
+  
 }
 </script>
 
