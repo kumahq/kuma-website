@@ -9,9 +9,7 @@
       <option 
         v-for="item in releasesAsSelectValues" 
         :value="item.version" 
-        :key="item.version" 
-        :selected='selectedDocVersion === item.version'
-      >
+        :key="item.version">
         {{item.text}}
       </option>
     </select>
@@ -23,11 +21,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'VersionNav',
-  data() {
-    return {
-      selectedDocVersion: this.$route.path.replace(/\//g,'').replace('docs','')
-    }
-  },
   methods: {
     redirectToSelectedDocVersion(val) {
       this.$store.commit('updateSelectedDocVersion', val)
