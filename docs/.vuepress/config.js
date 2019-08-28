@@ -154,7 +154,9 @@ module.exports = {
       hostname: productData.hostname
     }
   ],
-  additionalPages: [buildInstallReleaseURLs],
+  additionalPages: {
+    buildInstallReleaseURLs
+  },
   head: [
     [
       "link",
