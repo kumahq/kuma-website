@@ -113,7 +113,8 @@ module.exports = {
       { text: "Use Cases", link: "/use-cases/" },
       { text: "Request Demo", link: "/request-demo/" },
       { text: "Install", link: "/install/" }
-    ]
+    ],
+    lastUpdated: 'Last Updated'
   },
   markdown: {
     lineNumbers: true,

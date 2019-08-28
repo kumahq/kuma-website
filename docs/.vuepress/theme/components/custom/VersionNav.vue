@@ -44,10 +44,11 @@ export default {
         const routePath = this.$route.path
         const test = '/docs/'
         
+        // first, check to see that we're on a docs page:
         if (routePath.startsWith(test)) {
-          // if we're on a docs page, check the router path to get the version
-          // our user is currently viewing and set the version selector value to it
-          return this.$route.path.replace(/\//g,'').replace('docs','')
+          // 1. if we're on a docs page, check the router path and extract the version
+          // 2. set the version selector to the extracted version
+          return this.$route.path.split('/')[2]
         }
         else {
           // if we're on a page outside of the docs, grab the latest release

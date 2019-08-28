@@ -137,6 +137,6 @@ export default {
   },
   components: {
     GithubButton
-  }  
+  }
 }
 </script>
