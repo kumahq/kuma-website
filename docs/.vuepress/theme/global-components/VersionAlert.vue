@@ -1,6 +1,6 @@
 <template>
-  <div v-if="showAlert">
-    <div class="version-alert">
+  <div>
+    <div v-if="showAlert" class="version-alert">
       <div class="warning custom-block">
         <p class="custom-block-title">Careful!</p>
         <p>You are browsing documentation for an outdated version of {{getSiteData.title}}.</p>
@@ -56,7 +56,7 @@ export default {
       }
     }
   },
-  beforeMount() {
+  mounted() {
     this.checkIfOldVersion()
   },
   watch: {
