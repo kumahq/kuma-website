@@ -1,10 +1,12 @@
 <template>
-  <div v-if="showAlert" class="version-alert">
-    <div class="warning custom-block">
-      <p class="custom-block-title">Careful!</p>
-      <p>You are browsing documentation for an outdated version of {{getSiteData.title}}.</p>
-      <p><router-link :to="{ path: `/docs/${getLatestRelease}/` }">Go here</router-link> 
-      to browse the documentation for the latest version.</p>
+  <div v-if="showAlert">
+    <div class="version-alert">
+      <div class="warning custom-block">
+        <p class="custom-block-title">Careful!</p>
+        <p>You are browsing documentation for an outdated version of {{getSiteData.title}}.</p>
+        <p><router-link :to="{ path: `/docs/${getLatestRelease}/` }">Go here</router-link> 
+        to browse the documentation for the latest version.</p>
+      </div>
     </div>
   </div>
 </template>
@@ -13,6 +15,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  name: 'VersionAlert',
   data () {
     return {
       showAlert: false

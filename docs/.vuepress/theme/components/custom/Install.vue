@@ -103,8 +103,6 @@ export default {
             version: this.getLatestRelease
           }
         })
-
-        console.log('redirecting')
       }
     }
 

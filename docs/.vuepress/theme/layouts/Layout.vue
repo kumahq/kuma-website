@@ -48,7 +48,6 @@
 import Navbar from '@theme/components/Navbar.vue'
 import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
-import Footer from '@theme/components/custom/Footer.vue'
 import { resolveSidebarItems, redirectToLatestVersion } from '../util'
 
 // specific page templates
@@ -63,7 +62,6 @@ export default {
     Page,
     Sidebar,
     Navbar,
-    Footer,
     Home,
     Install,
     Community,

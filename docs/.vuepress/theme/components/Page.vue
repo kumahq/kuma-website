@@ -65,14 +65,9 @@
 
 <script>
 import { resolvePage, outboundRE, endingSlashRE } from '../util'
-import VersionAlert from '@theme/components/custom/VersionAlert'
 
 export default {
   props: ['sidebarItems'],
-
-  components: {
-    VersionAlert
-  },
 
   computed: {
     lastUpdated () {

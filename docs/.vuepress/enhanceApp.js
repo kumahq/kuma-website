@@ -23,9 +23,4 @@ export default ({
       }
     }
   })
-
-  /**
-   * Global components
-   */
-  Vue.component('InlineSvg', () => import('./theme/components/custom/InlineSvg.vue'))
 }

@@ -136,12 +136,10 @@
 
 <script>
 import Navbar from '@theme/components/Navbar'
-import NewsletterForm from '@theme/components/custom/NewsletterForm'
 
 export default {
   components: {
-    Navbar,
-    NewsletterForm
+    Navbar
   }
 };
 </script>

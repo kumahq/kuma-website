@@ -124,12 +124,12 @@ module.exports = {
       });
     }
   },
-  plugins: {
-    "clean-urls": {
+  plugins: [
+    "clean-urls", {
       normalSuffix: "/",
       indexSuffix: "/"
     },
-    seo: {
+    "seo", {
       customMeta: (add, context) => {
         const {
           $site,
@@ -150,10 +150,10 @@ module.exports = {
         add("twitter:site", $site.themeConfig.twitter);
       }
     },
-    sitemap: {
+    "sitemap", {
       hostname: productData.hostname
     }
-  },
+  ],
   additionalPages: [buildInstallReleaseURLs],
   head: [
     [

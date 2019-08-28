@@ -19,9 +19,9 @@
 <script>
 import AlgoliaSearchBox from '@AlgoliaSearchBox'
 import SearchBox from '@SearchBox'
-import VersionNav from '../components/custom/VersionNav'
-import SidebarLinks from '../components/SidebarLinks'
-import NavLinks from '../components/NavLinks'
+import VersionNav from '@theme/global-components/VersionNav'
+import SidebarLinks from '@theme/components/SidebarLinks'
+import NavLinks from '@theme/components/NavLinks'
 
 export default {
   name: 'Sidebar',
