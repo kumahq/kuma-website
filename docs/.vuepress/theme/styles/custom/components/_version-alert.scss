@@ -14,6 +14,7 @@ $version-alert-title-margin: 0;
 $version-alert-text-margin: 0;
 $version-alert-inner-padding: 1.5rem;
 $version-alert-inner-margin: 0;
+$version-alert-link-color: $color-5;
 
 .version-alert {
   margin: $version-alert-margin;
@@ -23,6 +24,12 @@ $version-alert-inner-margin: 0;
   .custom-block {
     padding: $version-alert-inner-padding;
     margin: $version-alert-inner-margin;
+
+    a {
+      text-decoration: underline;
+      font-weight: $fw-bold;
+      color: $version-alert-link-color;
+    }
   }
 
   .custom-block-title {
