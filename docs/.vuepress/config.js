@@ -113,8 +113,7 @@ module.exports = {
       { text: "Use Cases", link: "/use-cases/" },
       { text: "Request Demo", link: "/request-demo/" },
       { text: "Install", link: "/install/" }
-    ],
-    lastUpdated: 'Last Updated'
+    ]
   },
   markdown: {
     lineNumbers: true,
@@ -124,12 +123,12 @@ module.exports = {
       });
     }
   },
-  plugins: [
-    "clean-urls", {
+  plugins: {
+    "clean-urls": {
       normalSuffix: "/",
       indexSuffix: "/"
     },
-    "seo", {
+    seo: {
       customMeta: (add, context) => {
         const {
           $site,
@@ -150,13 +149,11 @@ module.exports = {
         add("twitter:site", $site.themeConfig.twitter);
       }
     },
-    "sitemap", {
+    sitemap: {
       hostname: productData.hostname
     }
-  ],
-  additionalPages: {
-    buildInstallReleaseURLs
   },
+  additionalPages: [buildInstallReleaseURLs],
   head: [
     [
       "link",
