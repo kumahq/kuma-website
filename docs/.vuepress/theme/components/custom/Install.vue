@@ -7,6 +7,7 @@
         <h1>Install {{$site.title}}</h1>
       
         <div v-if="this.getInstallMethods && this.getInstallMethods.length" class="version-selector-wrapper">
+
           <select
             name="version-selector"
             class="version-selector version-selector--large"
@@ -21,10 +22,23 @@
               {{tag.text}}
             </option>
           </select>
+          <!-- .version-selector -->
 
           <div v-if="getSelectedInstallVersion" class="version-selector__version-notifier">
             <p class="page-sub-title">You are viewing installation instructions for <strong>{{getSelectedInstallVersion}}</strong>.</p>
           </div>
+          <!-- .version-selector__version-notifier -->
+
+          <div v-if="getSelectedInstallVersion !== getLatestRelease" class="version-alert">
+            <div class="warning custom-block">
+              <p class="custom-block-title">Careful!</p>
+              <p>You are viewing installation instructions for an outdated version of {{getSiteData.title}}.</p>
+              <p><router-link :to="{ path: `/install/${getLatestRelease}/` }">Go here</router-link> 
+              to view installation instructions for the latest version.</p>
+            </div>
+          </div>
+          <!-- .version-alert -->
+
         </div>
         <!-- .version-selector-wrapper -->
         
@@ -35,7 +49,7 @@
 
     <div class="inner">
 
-      <div v-if="this.getInstallMethods" class="install-methods-wrapper">
+      <div v-if="getInstallMethods" class="install-methods-wrapper">
         <ul class="install-methods flex flex-wrap justify-center -mx-4">
           <li v-for="(item, index) in getInstallMethods" :key="index" class="install-methods__item w-full sm:w-1/2 lg:w-1/3 px-4 mb-8">
             <router-link

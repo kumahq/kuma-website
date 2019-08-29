@@ -2,7 +2,7 @@
 hello world
 
 #### Docker
-How to install Konvoy on Docker.
+How to install Kuma on Docker.
 
 #### Kubernetes
 
