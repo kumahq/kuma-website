@@ -1,54 +1,18 @@
 /**
  * Release data
  */
-const releases = require("./public/releases.json");
+const releases = require("./public/releases.json")
 
 /**
  * Product data
- *
- * Change these values as needed
  */
+const productData = require("./site-config/product-info")
 
-const productData = {
-  title: "Konvoy",
-  description: "Connect, Secure and Observe any traffic and Microservices",
-  twitter: "konvoy",
-  author: "Kong",
-  repo: "https://github.com/kong/konvoy", // @todo what will the new repo be?
-  repoButtonLabel: "Star",
-  logo: "/images/konvoy-logo.svg",
-  hostname: "https://getkonvoy.com" // @todo new URL to match new name
-};
 
 /**
  * Sidebar navigation structure
- *
- * Always include a trailing slash but
- * avoid a slash at the front of the
- * directory.
- *
- * Correct: 'getting-started/'
- * Incorrect: '/getting-started/'
- *
  */
-const sidebarNav = {
-  "/docs/0.1.0/": [
-    "",
-    "getting-started/",
-    "documentation/",
-    "tutorials/",
-    "installation/",
-    "community/"
-  ],
-  "/docs/0.2.0/": [
-    "",
-    "getting-started/",
-    "documentation/",
-    "tutorials/",
-    "installation/",
-    "community/"
-  ]
-};
+const sidebarNav = require("./site-config/sidebar-nav")
 
 /**
  * Install page version URL builder
@@ -118,9 +82,7 @@ module.exports = {
   markdown: {
     lineNumbers: true,
     extendMarkdown: md => {
-      md.use(require("markdown-it-include"), {
-        root: __dirname
-      });
+      md.use(require("markdown-it-include"), "./docs/.partials/");
     }
   },
   plugins: {
@@ -130,21 +92,7 @@ module.exports = {
     },
     seo: {
       customMeta: (add, context) => {
-        const {
-          $site,
-          $page,
-          siteTitle,
-          title,
-          description,
-          author,
-          tags,
-          twitterCard,
-          type,
-          url,
-          image,
-          publishedAt,
-          modifiedAt
-        } = context;
+        const { $site, $page } = context;
 
         add("twitter:site", $site.themeConfig.twitter);
       }
@@ -153,7 +101,9 @@ module.exports = {
       hostname: productData.hostname
     }
   },
-  additionalPages: [buildInstallReleaseURLs],
+  additionalPages: [
+    buildInstallReleaseURLs
+  ],
   head: [
     [
       "link",
@@ -180,6 +130,13 @@ module.exports = {
       })
     ]
   },
+  extraWatchFiles: [
+    "/docs/.partials/*",
+    "/site-config/product-info.js",
+    "/site-config/sidebar-nav.js",
+    "/public/install-methods.json",
+    "/public/releases.json"
+  ],
   evergreen: false,
   chainWebpack: (config, isServer) => {
     const jsRule = config.module.rule("js");

@@ -19,3 +19,7 @@ $ curl -i -X POST \
   --url http://localhost:8001/services/example-service/routes/
   --data 'hosts=[]=example.com' \
 ```
+
+## Include example 
+
+!!!include(api-reference.md)!!!
