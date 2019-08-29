@@ -68,12 +68,12 @@ CTO, [Kong, Inc.](https://konghq.com/)
 
 ::: slot step-1-content
 ### Download and Install Kuma CP
-To get started you can download Kuma and install it using the Kuma CLI application: &#96;Kumactl&#96;.
+To get started you can download Kuma and install it using the Kuma CLI application: &#96;kumactl&#96;.
 :::
 
 ::: slot step-1-code-block
 ```
-$ Kumactl install control-plane | kubectl apply -f
+$ kumactl install control-plane | kubectl apply -f
 ```
 :::
 
@@ -85,7 +85,7 @@ later orchestrate - next to any service we want to include into our Service Mesh
 
 ::: slot step-2-code-block
 ```
-$ Kumactl install data-plane | kubectl apply -f
+$ kumactl install data-plane | kubectl apply -f
 ```
 :::
 
@@ -97,7 +97,7 @@ Service Mesh with powerful policies like mTLS.
 
 ::: slot step-3-code-block
 ```
-$ Kumactl create policy \
+$ kumactl create policy \
   --name mtls \
   --conf topology=hybrid
 ```

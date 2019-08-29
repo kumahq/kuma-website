@@ -6,7 +6,7 @@
       <div class="inner">
         <h1>Install {{$site.title}}</h1>
       
-        <div v-if="this.getInstallMethods && this.getInstallMethods.length" class="version-selector-wrapper">
+        <div v-if="getInstallMethods && getInstallMethods.length" class="version-selector-wrapper">
 
           <select
             name="version-selector"

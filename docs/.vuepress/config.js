@@ -59,6 +59,7 @@ module.exports = {
     author: productData.author,
     repo: productData.repo,
     repoButtonLabel: productData.repoButtonLabel,
+    cliNamespace: productData.cliNamespace,
     logo: productData.logo,
     footer: productData.title,
     docsDir: "docs",
