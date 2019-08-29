@@ -22,10 +22,11 @@ latest release to ensure that our users are always looking at the latest docs at
 ## 2. Setting up the initial sidebar for new versions
 
 Because the automatic sidebar functionality of VuePress is not quite perfect, we are using a combination of its 
-automatic features, and some manual control. Within the [VuePress `config.js`](config.js) file, you'll see this:
+automatic features, and some manual control. Within the [`sidebar-nav.js`](/docs/.vuepress/site-config/sidebar-nav.js) file, you'll see this:
 
 ``` js
-const sidebarNav = {
+// /docs/.vuepress/site-config/sidebar-nav.js
+module.exports = {
   "/docs/0.1.0/": [
     "",
     "getting-started/",
@@ -42,7 +43,7 @@ const sidebarNav = {
     "installation/",
     "community/"
   ]
-};
+}
 ```
 This is the primary template for each version's sidebar navigation on the documentation pages.
 

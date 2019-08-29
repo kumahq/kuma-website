@@ -1,9 +1,4 @@
 /**
- * Release data
- */
-const releases = require("./public/releases.json")
-
-/**
  * Product data
  */
 const productData = require("./site-config/product-info")
@@ -15,37 +10,9 @@ const productData = require("./site-config/product-info")
 const sidebarNav = require("./site-config/sidebar-nav")
 
 /**
- * Install page version URL builder
- *
- * This pulls all of the versions from the releases
- * JSON and builds the routes accordingly.
- *
- * @todo figure out how to get this to work via
- * `router.addRoutes` instead (ran into problems
- * with it in VuePress)
- *
- * @returns { array }
- *
+ * Install methods route builder
  */
-function buildInstallReleaseURLs() {
-  // build the release route array
-  const releaseArray = [];
-
-  for (let i = 0; i < releases.length; i++) {
-    releaseArray.push({
-      path: `/install/${releases[i]}/`,
-      meta: {
-        version: releases[i]
-      },
-      frontmatter: {
-        sidebar: false,
-        layout: "Install"
-      }
-    });
-  }
-
-  return releaseArray;
-}
+const releaseArray = require("./site-config/install-route-builder")
 
 /**
  * Site Configuration
@@ -103,7 +70,7 @@ module.exports = {
     }
   },
   additionalPages: [
-    buildInstallReleaseURLs
+    releaseArray
   ],
   head: [
     [
