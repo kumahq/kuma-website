@@ -69,7 +69,7 @@ You can read more about VuePress' sidebar handling [in the official VuePress doc
 If you want to include partials into your documentation:
 
 ```
-!!!include(../.partials/what-is-Konvoy.md)!!!
+!!!include(../.partials/what-is-Kuma.md)!!!
 ```
 
 ### Out-of-box features

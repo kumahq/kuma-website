@@ -11,6 +11,15 @@ $install-tile-min-height: 6rem;
 
 .page-container--install {
   
+  .version-alert {
+    margin: 0 auto;
+    padding: 0;
+    text-align: left;
+
+    .custom-block-title {
+      font-size: inherit;
+    }
+  }
 }
 
 .install-methods {

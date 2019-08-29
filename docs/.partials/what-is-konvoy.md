@@ -1,4 +1,4 @@
-### What is Konvoy?
+### What is Kuma?
 lorem ipsum dolor sit amet...
 
 ::: warning

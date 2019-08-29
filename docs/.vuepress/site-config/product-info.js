@@ -6,12 +6,12 @@
  */
 
 module.exports = {
-  title: "Konvoy",
+  title: "Kuma",
   description: "Connect, Secure and Observe any traffic and Microservices",
-  twitter: "konvoy",
+  twitter: "kuma", // @todo update to finalized Twitter handle
   author: "Kong",
-  repo: "https://github.com/kong/konvoy", // @todo what will the new repo be?
+  repo: "https://github.com/kong/kuma", // @todo update with the finalize repo
   repoButtonLabel: "Star",
   logo: "/images/konvoy-logo.svg",
-  hostname: "https://getkonvoy.com" // @todo new URL to match new name
+  hostname: "https://kuma.io/"
 }

@@ -20,7 +20,7 @@ testimonialPortraitAlt: Marco Palladino
 :::
 
 ::: slot masthead-diagram
-<img src="/images/diagrams/main-diagram.png" srcset="/images/diagrams/main-diagram@2x.png 2x" alt="Konvoy service diagram">
+<img src="/images/diagrams/main-diagram.png" srcset="/images/diagrams/main-diagram@2x.png 2x" alt="Kuma service diagram">
 :::
 
 <!-- feature blocks -->
@@ -29,7 +29,7 @@ testimonialPortraitAlt: Marco Palladino
 ### Universal Control Plane
 <img src="/images/diagrams/diagram-universal-cp.jpg" srcset="/images/diagrams/diagram-universal-cp@2x.jpg 2x" alt="Universal Control Plane diagram">
 
-Built on top of Envoy, Konvoy is a modern control plane to orchestrate L4/L7 traffic, including Microservices and Service Mesh.
+Built on top of Envoy, Kuma is a modern control plane to orchestrate L4/L7 traffic, including Microservices and Service Mesh.
 :::
 
 ::: slot feature-block-content-2
@@ -49,7 +49,7 @@ Enterprise-ready and platform agnostic with native Kubernetes + CRD support, as 
 <!-- testimonial -->
 
 ::: slot testimonial-content
-Konvoy has been built with lessons learned by 150+ Enterprise organizations running production Meshes
+Kuma has been built with lessons learned by 150+ Enterprise organizations running production Meshes
 :::
 
 ::: slot testimonial-author
@@ -67,37 +67,37 @@ CTO, [Kong, Inc.](https://konghq.com/)
 :::
 
 ::: slot step-1-content
-### Download and Install Konvoy CP
-To get started you can download Konvoy and install it using the Konvoy CLI application: &#96;konvoyctl&#96;.
+### Download and Install Kuma CP
+To get started you can download Kuma and install it using the Kuma CLI application: &#96;Kumactl&#96;.
 :::
 
 ::: slot step-1-code-block
 ```
-$ konvoyctl install control-plane | kubectl apply -f
+$ Kumactl install control-plane | kubectl apply -f
 ```
 :::
 
 ::: slot step-2-content
 ### Install the sidecar Envoy DP
-Once Konvoy is up and running, it's now time to install the Envoy sidecars - that Konvoy will 
+Once Kuma is up and running, it's now time to install the Envoy sidecars - that Kuma will 
 later orchestrate - next to any service we want to include into our Service Mesh.
 :::
 
 ::: slot step-2-code-block
 ```
-$ konvoyctl install data-plane | kubectl apply -f
+$ Kumactl install data-plane | kubectl apply -f
 ```
 :::
 
 ::: slot step-3-content
 ### Apply Policies
-Congratulations, your Service Mesh is up and running. We can now instruct Konvoy to enhance our 
+Congratulations, your Service Mesh is up and running. We can now instruct Kuma to enhance our 
 Service Mesh with powerful policies like mTLS.
 :::
 
 ::: slot step-3-code-block
 ```
-$ konvoyctl create policy \
+$ Kumactl create policy \
   --name mtls \
   --conf topology=hybrid
 ```
@@ -110,11 +110,11 @@ $ konvoyctl create policy \
 :::
 
 ::: slot before-after-diagram-1
-<img src="/images/diagrams/diagram-before.jpg" srcset="/images/diagrams/diagram-before@2x.jpg 2x" alt="Before implementing Konvoy">
+<img src="/images/diagrams/diagram-before.jpg" srcset="/images/diagrams/diagram-before@2x.jpg 2x" alt="Before implementing Kuma">
 :::
 
 ::: slot before-after-diagram-2
-<img src="/images/diagrams/diagram-after.jpg" srcset="/images/diagrams/diagram-after@2x.jpg 2x" alt="After implementing Konvoy">
+<img src="/images/diagrams/diagram-after.jpg" srcset="/images/diagrams/diagram-after@2x.jpg 2x" alt="After implementing Kuma">
 :::
 
 <!-- newsletter -->
@@ -124,5 +124,5 @@ $ konvoyctl create policy \
 :::
 
 ::: slot newsletter-content
-Sign up for our Konvoy community newsletter to get the most recent updates and product announcements.
+Sign up for our Kuma community newsletter to get the most recent updates and product announcements.
 :::

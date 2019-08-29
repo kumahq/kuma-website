@@ -1,5 +1,5 @@
 ---
 sidebar: false
 layout: Install
-title: Install Konvoy
+title: Install Kuma
 ---

@@ -1,7 +1,7 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/28be1f67-3436-4df7-9114-49dce7ca9a4e/deploy-status)](https://app.netlify.com/sites/Konvoy/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/28be1f67-3436-4df7-9114-49dce7ca9a4e/deploy-status)](https://app.netlify.com/sites/Kuma/deploys)
 
-# Konvoy Website
-This is the main website and documentation hub for Konvoy. It is built on [VuePress](https://vuepress.vuejs.org/).
+# Kuma Website
+This is the main website and documentation hub for Kuma. It is built on [VuePress](https://vuepress.vuejs.org/).
 
 ### 1. Install the required packages
 ```bash

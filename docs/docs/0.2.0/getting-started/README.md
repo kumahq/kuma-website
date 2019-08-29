@@ -1,6 +1,6 @@
 # Getting Started
 
-## What is Konvoy?
+## What is Kuma?
 
 ## Concepts
 
