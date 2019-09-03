@@ -12,7 +12,7 @@ module.exports = {
   author: "Kong",
   repo: "https://github.com/kong/kuma", // @todo update with the finalize repo
   repoButtonLabel: "Star",
-  logo: "/images/konvoy-logo.svg",
+  logo: "/images/brand/kuma-logo.svg",
   hostname: "https://kuma.io/",
   cliNamespace: "kumactl"
 }

@@ -2,7 +2,7 @@
 // Homepage
 // 
 
-$home-feature-icon-bottom-spacing: 2.625rem;
+$home-feature-icon-bottom-spacing: 2rem;
 
 .page-container--home {
 
@@ -98,8 +98,36 @@ $home-feature-icon-bottom-spacing: 2.625rem;
 
 .product-features__item {
   
-  .inline-svg {
+  img {
     margin: 0 auto $home-feature-icon-bottom-spacing auto;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  // individual content blocks
+
+  &.content__feature-block-content-1 {
+
+    img {
+      max-width: 13.875rem;
+    }
+  }
+
+  &.content__feature-block-content-2 {
+
+    img {
+      max-width: 14rem;
+    }
+  }
+
+  &.content__feature-block-content-3 {
+
+    img {
+      max-width: 14.625rem;
+    }
   }
 }
 
@@ -311,6 +339,34 @@ $home-feature-icon-bottom-spacing: 2.625rem;
     text-transform: uppercase;
     color: $color-4;
     margin-bottom: 2.188rem;
+  }
+
+  // individual diagram images
+
+  // @todo 
+  // these may become one large image so that
+  // they can be shared easily as one encompassing diagram
+
+  [class*=".content__before-after-diagram"] {
+
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+
+  .content__before-after-diagram-1 {
+
+    img {
+      max-width: 28.313rem;
+    }
+  }
+
+  .content__before-after-diagram-2 {
+
+    img {
+      max-width: 19.438rem;
+    }
   }
 }
 
