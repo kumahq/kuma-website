@@ -18,13 +18,5 @@ module.exports = {
     "tutorials/",
     "installation/",
     "community/"
-  ],
-  "/docs/0.2.0/": [
-    "",
-    "getting-started/",
-    "documentation/",
-    "tutorials/",
-    "installation/",
-    "community/"
   ]
 }

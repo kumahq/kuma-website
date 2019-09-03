@@ -14,67 +14,63 @@
 
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
-          icon="/images/icons/icon-github.svg"
-          iconAlt="Github logo icon"
+          :icon="$page.frontmatter.card1Icon"
+          :iconAlt="$page.frontmatter.card1IconAlt"
           :iconWidth="48"
           :iconHeight="48"
         >
           <template slot="card-title">
-            <h3>Github Issues</h3>
+            <Content slot-key="card-1-title"/>
           </template>
-          <p>If you've come across what you think is a bug, or just want to 
-            make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
+          <Content slot-key="card-1-content"/>
         </Card>
       </div>
-      <!-- /card -->
+      <!-- /card 1 -->
 
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
-          icon="/images/icons/icon-slack.svg"
-          iconAlt="Slack logo icon"
+          :icon="$page.frontmatter.card2Icon"
+          :iconAlt="$page.frontmatter.card2IconAlt"
           :iconWidth="48"
           :iconHeight="48"
         >
           <template slot="card-title">
-            <h3>Slack</h3>
+            <Content slot-key="card-2-title"/>
           </template>
-          <p>If you've come across what you think is a bug, or just want to 
-            make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
+          <Content slot-key="card-2-content"/>
         </Card>
       </div>
-      <!-- /card -->
+      <!-- /card 2 -->
 
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
-          icon="/images/icons/icon-community-call.svg"
-          iconAlt="Community call icon"
+          :icon="$page.frontmatter.card3Icon"
+          :iconAlt="$page.frontmatter.card3IconAlt"
           :iconWidth="48"
-          :iconHeight="37"
-        >
-          <template slot="card-title">
-            <h3>Community call</h3>
-          </template>
-          <p>If you've come across what you think is a bug, or just want to 
-            make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
-        </Card>
-      </div>
-      <!-- /card -->
-
-      <div class="w-full sm:w-1/2 mb-8 px-4">
-        <Card
-          icon="/images/icons/icon-meetup.svg"
-          iconAlt="Meetup logo icon"
-          :iconWidth="50"
           :iconHeight="48"
         >
           <template slot="card-title">
-            <h3>Meetups</h3>
+            <Content slot-key="card-3-title"/>
           </template>
-          <p>If you've come across what you think is a bug, or just want to 
-            make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
+          <Content slot-key="card-3-content"/>
         </Card>
       </div>
-      <!-- /card -->
+      <!-- /card 3 -->
+
+      <div class="w-full sm:w-1/2 mb-8 px-4">
+        <Card
+          :icon="$page.frontmatter.card4Icon"
+          :iconAlt="$page.frontmatter.card4IconAlt"
+          :iconWidth="48"
+          :iconHeight="48"
+        >
+          <template slot="card-title">
+            <Content slot-key="card-4-title"/>
+          </template>
+          <Content slot-key="card-4-content"/>
+        </Card>
+      </div>
+      <!-- /card 4 -->
 
     </div>
     <!-- .inner -->
