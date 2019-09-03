@@ -1,5 +1,0 @@
-# Community
-
-## Github
-
-## Slack
