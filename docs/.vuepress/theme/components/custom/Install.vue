@@ -10,7 +10,7 @@
 
           <select
             name="version-selector"
-            class="version-selector version-selector--large"
+            class="version-selector"
             id="version-selector"
             v-model="defaultSelectedInstallVersion">
             <option 
