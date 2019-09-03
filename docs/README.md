@@ -12,7 +12,7 @@ testimonialPortraitAlt: Marco Palladino
 <!-- page masthead -->
 
 ::: slot masthead-main-title
-# Build, Secure and Observe your modern Service Mesh
+# Build, Secure and Observe<br> your modern Service Mesh
 :::
 
 ::: slot masthead-sub-title
@@ -20,28 +20,28 @@ testimonialPortraitAlt: Marco Palladino
 :::
 
 ::: slot masthead-diagram
-<img src="/images/diagrams/main-diagram.png" srcset="/images/diagrams/main-diagram@2x.png 2x" alt="Kuma service diagram">
+![Kuma service diagram](/images/diagrams/main-diagram@2x.png)
 :::
 
 <!-- feature blocks -->
 
 ::: slot feature-block-content-1
 ### Universal Control Plane
-<img src="/images/diagrams/diagram-universal-cp.jpg" srcset="/images/diagrams/diagram-universal-cp@2x.jpg 2x" alt="Universal Control Plane diagram">
+![Universal Control Plane diagram](/images/diagrams/diagram-universal-cp@2x.jpg)
 
 Built on top of Envoy, Kuma is a modern control plane to orchestrate L4/L7 traffic, including Microservices and Service Mesh.
 :::
 
 ::: slot feature-block-content-2
 ### Powerful Policies
-<img src="/images/diagrams/diagram-powerful-policies.jpg" srcset="/images/diagrams/diagram-powerful-policies@2x.jpg 2x" alt="Universal Control Plane diagram">
+![Universal Control Plane diagram](/images/diagrams/diagram-powerful-policies@2x.jpg)
 
 Out of the box Ingress and Service Mesh service management policies for security, observability, routing, and more.
 :::
 
 ::: slot feature-block-content-3
 ### Platform Agnostic
-<img src="/images/diagrams/diagram-platform-agnostic.jpg" srcset="/images/diagrams/diagram-platform-agnostic@2x.jpg 2x" alt="Platform Agnostic diagram">
+![Platform Agnostic diagram](/images/diagrams/diagram-platform-agnostic@2x.jpg)
 
 Enterprise-ready and platform agnostic with native Kubernetes + CRD support, as well as VM and Bare Metal via YAML + REST.
 :::
@@ -110,11 +110,11 @@ $ kumactl create policy \
 :::
 
 ::: slot before-after-diagram-1
-<img src="/images/diagrams/diagram-before.jpg" srcset="/images/diagrams/diagram-before@2x.jpg 2x" alt="Before implementing Kuma">
+![Before implementing Kuma](/images/diagrams/diagram-before@2x.jpg)
 :::
 
 ::: slot before-after-diagram-2
-<img src="/images/diagrams/diagram-after.jpg" srcset="/images/diagrams/diagram-after@2x.jpg 2x" alt="After implementing Kuma">
+![After implementing Kuma](/images/diagrams/diagram-after@2x.jpg)
 :::
 
 <!-- newsletter -->

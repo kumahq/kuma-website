@@ -14,66 +14,63 @@
 
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
-          icon="/images/icons/icon-github.svg"
-          iconAlt="Github logo icon"
+          :icon="$page.frontmatter.card1Icon"
+          :iconAlt="$page.frontmatter.card1IconAlt"
           :iconWidth="48"
           :iconHeight="48"
         >
           <template slot="card-title">
-            <h3>Github</h3>
+            <Content slot-key="card-1-title"/>
           </template>
-          <p>Contribute and explore Kuma at the <a href="https://github.com/Kong/kuma">official GitHub repository</a>. Here is where all the coding happens. Feel free to ask questions, submit PRs and open issues.</p>
+          <Content slot-key="card-1-content"/>
         </Card>
       </div>
-      <!-- /card -->
+      <!-- /card 1 -->
 
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
-          icon="/images/icons/icon-slack.svg"
-          iconAlt="Slack logo icon"
+          :icon="$page.frontmatter.card2Icon"
+          :iconAlt="$page.frontmatter.card2IconAlt"
           :iconWidth="48"
           :iconHeight="48"
         >
           <template slot="card-title">
-            <h3>Slack</h3>
+            <Content slot-key="card-2-title"/>
           </template>
-          <p><a href="https://chat.kuma.io">Join </a> the official community Slack chat where the community
-             can discuss and ask questions in real-time. If you have already joined, go directly to the <a href="https://kuma-mesh.slack.com">Kuma Workspace</a>.</p>
+          <Content slot-key="card-2-content"/>
         </Card>
       </div>
-      <!-- /card -->
+      <!-- /card 2 -->
 
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
-          icon="/images/icons/icon-community-call.svg"
-          iconAlt="Community call icon"
+          :icon="$page.frontmatter.card3Icon"
+          :iconAlt="$page.frontmatter.card3IconAlt"
           :iconWidth="48"
-          :iconHeight="37"
-        >
-          <template slot="card-title">
-            <h3>Community Call</h3>
-          </template>
-          <p>Kuma hosts official monthly community calls where users and contributors can
-             discuss about any topic and demonstrate use-cases. <a href="#">Join the next call</a>.</p>
-        </Card>
-      </div>
-      <!-- /card -->
-
-      <div class="w-full sm:w-1/2 mb-8 px-4">
-        <Card
-          icon="/images/icons/icon-meetup.svg"
-          iconAlt="Meetup logo icon"
-          :iconWidth="50"
           :iconHeight="48"
         >
           <template slot="card-title">
-            <h3>Meetups</h3>
+            <Content slot-key="card-3-title"/>
           </template>
-          <p>Join Kuma meetups all around the world where the community can
-             meet in person, practice together and learn from each other. <a href="#">Explore meetups</a>.</p>
+          <Content slot-key="card-3-content"/>
         </Card>
       </div>
-      <!-- /card -->
+      <!-- /card 3 -->
+
+      <div class="w-full sm:w-1/2 mb-8 px-4">
+        <Card
+          :icon="$page.frontmatter.card4Icon"
+          :iconAlt="$page.frontmatter.card4IconAlt"
+          :iconWidth="48"
+          :iconHeight="48"
+        >
+          <template slot="card-title">
+            <Content slot-key="card-4-title"/>
+          </template>
+          <Content slot-key="card-4-content"/>
+        </Card>
+      </div>
+      <!-- /card 4 -->
 
     </div>
     <!-- .inner -->

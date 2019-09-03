@@ -28,6 +28,8 @@ module.exports = {
     repoButtonLabel: productData.repoButtonLabel,
     cliNamespace: productData.cliNamespace,
     logo: productData.logo,
+    slackInvite: productData.slackInviteURL,
+    slackChannel: productData.slackChannelURL,
     footer: productData.title,
     docsDir: "docs",
     editLinks: false,
@@ -42,7 +44,7 @@ module.exports = {
     nav: [
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
-      { text: "Use Cases", link: "/use-cases/" },
+      // { text: "Use Cases", link: "/use-cases/" },
       { text: "Request Demo", link: "/request-demo/" },
       { text: "Install", link: "/install/" }
     ]
