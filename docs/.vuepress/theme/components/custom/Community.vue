@@ -20,10 +20,10 @@
           :iconHeight="48"
         >
           <template slot="card-title">
-            <h3>Github Issues</h3>
+            <h3>Github</h3>
           </template>
-          <p>If you've come across what you think is a bug, or just want to 
-            make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
+          <p>If you've come across what you think is a bug, or you want to 
+            contribute to Kuma you can explore the <a href="https://github.com/Kong/kuma">official repository</a>.</p>
         </Card>
       </div>
       <!-- /card -->
