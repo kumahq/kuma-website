@@ -28,6 +28,8 @@ module.exports = {
     repoButtonLabel: productData.repoButtonLabel,
     cliNamespace: productData.cliNamespace,
     logo: productData.logo,
+    slackInvite: productData.slackInviteURL,
+    slackChannel: productData.slackChannelURL,
     footer: productData.title,
     docsDir: "docs",
     editLinks: false,

@@ -14,5 +14,7 @@ module.exports = {
   repoButtonLabel: "Star",
   logo: "/images/brand/kuma-logo.svg",
   hostname: "https://kuma.io/",
-  cliNamespace: "kumactl"
+  cliNamespace: "kumactl",
+  slackInviteURL: "https://chat.kuma.io",
+  slackChannelURL: "https://kuma-mesh.slack.com"
 }
