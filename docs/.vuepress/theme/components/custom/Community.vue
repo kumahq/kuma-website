@@ -22,8 +22,7 @@
           <template slot="card-title">
             <h3>Github</h3>
           </template>
-          <p>If you've come across what you think is a bug, or you want to 
-            contribute to Kuma you can explore the <a href="https://github.com/Kong/kuma">official repository</a>.</p>
+          <p>Contribute and explore Kuma at the <a href="https://github.com/Kong/kuma">official GitHub repository</a>. Here is where all the coding happens. Feel free to ask questions, submit PRs and open issues.</p>
         </Card>
       </div>
       <!-- /card -->
@@ -38,8 +37,8 @@
           <template slot="card-title">
             <h3>Slack</h3>
           </template>
-          <p>If you've come across what you think is a bug, or just want to 
-            make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
+          <p><a href="https://chat.kuma.io">Join </a> the official community Slack chat where the community
+             can discuss and ask questions in real-time. If you have already joined, go directly to the <a href="https://kuma-mesh.slack.com">Kuma Workspace</a>.</p>
         </Card>
       </div>
       <!-- /card -->
@@ -52,10 +51,10 @@
           :iconHeight="37"
         >
           <template slot="card-title">
-            <h3>Community call</h3>
+            <h3>Community Call</h3>
           </template>
-          <p>If you've come across what you think is a bug, or just want to 
-            make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
+          <p>Kuma hosts official monthly community calls where users and contributors can
+             discuss about any topic and demonstrate use-cases. <a href="#">Join the next call</a>.</p>
         </Card>
       </div>
       <!-- /card -->
@@ -70,8 +69,8 @@
           <template slot="card-title">
             <h3>Meetups</h3>
           </template>
-          <p>If you've come across what you think is a bug, or just want to 
-            make a feature request open a ticket in the <a href="#">issue queue</a>.</p>
+          <p>Join Kuma meetups all around the world where the community can
+             meet in person, practice together and learn from each other. <a href="#">Explore meetups</a>.</p>
         </Card>
       </div>
       <!-- /card -->
