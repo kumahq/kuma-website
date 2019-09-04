@@ -63,17 +63,11 @@ export default {
   methods: {
     submitForm(ev) {
       // console.log(this.formData)
-      axios({
-        method: 'POST',
-        url: 'https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8',
+      axios.post( 'https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8', {
         crossDomain: true,
-        data: this.formData,
-        config: {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
+        data: JSON.stringify(this.formData),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
         }
       })
       .then(res => {
