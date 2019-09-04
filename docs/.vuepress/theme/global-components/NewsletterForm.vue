@@ -64,8 +64,9 @@ export default {
     submitForm(ev) {
       // console.log(this.formData)
       axios({
-        method: 'POST', 
+        method: 'POST',
         url: 'https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8',
+        crossDomain: true,
         data: this.formData,
         config: {
           headers: {
