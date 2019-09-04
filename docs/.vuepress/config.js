@@ -78,7 +78,6 @@ module.exports = {
     [
       "link",
       {
-        // TODO change this to a Konvoy-specific one (or move this locally?)
         rel: "icon",
         href: "/images/favicon-64px.png"
       }
@@ -92,6 +91,7 @@ module.exports = {
       }
     ]
   ],
+  serviceWorker: true,
   postcss: {
     plugins: [
       require("tailwindcss"),
