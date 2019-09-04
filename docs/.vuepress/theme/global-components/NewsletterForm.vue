@@ -70,6 +70,8 @@ export default {
         data: this.formData,
         config: {
           headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
             'Content-Type': 'application/x-www-form-urlencoded'
           }
         }
