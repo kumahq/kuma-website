@@ -30,7 +30,6 @@ module.exports = {
     logo: productData.logo,
     slackInvite: productData.slackInviteURL,
     slackChannel: productData.slackChannelURL,
-    footer: productData.title,
     docsDir: "docs",
     editLinks: false,
     search: true,
@@ -52,7 +51,7 @@ module.exports = {
   markdown: {
     lineNumbers: true,
     extendMarkdown: md => {
-      md.use(require("markdown-it-include"), "./docs/.partials/");
+      md.use(require("markdown-it-include"), "./docs/.partials/")
     }
   },
   plugins: {
@@ -60,36 +59,38 @@ module.exports = {
       normalSuffix: "/",
       indexSuffix: "/"
     },
-    seo: {
-      customMeta: (add, context) => {
-        const { $site, $page } = context;
-
-        add("twitter:site", $site.themeConfig.twitter);
-      }
-    },
     sitemap: {
       hostname: productData.hostname
+    },
+    "@vuepress/google-analytics": {
+      ga: productData.gaCode
     }
   },
   additionalPages: [
     releaseArray
   ],
   head: [
+    // favicons
     [
-      "link",
-      {
+      "link", {
         rel: "icon",
         href: "/images/favicon-64px.png"
       }
     ],
+    // web fonts
     [
-      "link",
-      {
+      "link", {
         rel: "stylesheet",
-        href:
-          "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
+        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
       }
-    ]
+    ],
+    // Twitter
+    [ "meta", { name: "twitter:card", content: "summary_large_image" } ],
+    [ "meta", { name: "twitter:site", content: `@${productData.twitter}` } ],
+    [ "meta", { name: "twitter:creator", content: `@${productData.twitter}` } ],
+    [ "meta", { name: "twitter:title", content: `${productData.title} | ${productData.description}` } ],
+    [ "meta", { name: "twitter:description", content: productData.description } ],
+    [ "meta", { name: "twitter:image", content: '' } ], // @todo create an image for this
   ],
   serviceWorker: true,
   postcss: {
@@ -109,7 +110,7 @@ module.exports = {
   ],
   evergreen: false,
   chainWebpack: (config, isServer) => {
-    const jsRule = config.module.rule("js");
+    const jsRule = config.module.rule("js")
     jsRule
       .use("babel-loader")
       .loader("babel-loader")
@@ -127,6 +128,6 @@ module.exports = {
             }
           ]
         ]
-      });
+      })
   }
 };

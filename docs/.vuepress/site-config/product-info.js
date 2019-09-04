@@ -16,5 +16,6 @@ module.exports = {
   hostname: "https://kuma.io/",
   cliNamespace: "kumactl",
   slackInviteURL: "https://chat.kuma.io",
-  slackChannelURL: "https://kuma-mesh.slack.com"
+  slackChannelURL: "https://kuma-mesh.slack.com",
+  gaCode: "UA-8499472-30"
 }
