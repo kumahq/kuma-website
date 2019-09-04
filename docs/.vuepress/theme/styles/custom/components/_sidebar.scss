@@ -2,23 +2,22 @@
 // Sidebarm, sidebar button
 // 
 
-$sidebar-width: $sidebarWidth; // this is derived from a default theme value
 $sidebar-link-active: $color-5;
 $sidebar-link-hover: $color-1;
 $sidebar-link-active-border-color: $color-5;
+
 $sidebar-button-size: 1.25rem;
 $sidebar-button-left-spacing: 1.5rem;
-$sidebar-page-spacing: $sidebar-width;
 
 // Sidebar
 
 .sidebar {
-  overflow-y: auto;
+  // overflow: visible;
   // background: none;
   background-color: #fff;
   font-size: $base-font-size;
-  width: $sidebar-width;
-  top: $navbarHeight;
+  width: $sidebarWidth;
+  padding-top: $navbarHeight;
 
   &:after {
     position: absolute;
@@ -92,10 +91,8 @@ a.sidebar-link {
 
 @media (min-width: $MQNarrowMid + 1) {
   .sidebar {
-    // position: relative;
-    // top: auto; left: auto; bottom: auto;
-    left: auto;
-    // bottom: auto;
+    position: relative;
+    top: auto; left: auto; bottom: auto;
   }
 
   .theme-container.no-sidebar .sidebar {
@@ -104,10 +101,6 @@ a.sidebar-link {
 
   .sidebar .nav-links {
     display: none;
-  }
-
-  .page {
-    padding-left: $sidebar-page-spacing;
   }
 }
 
@@ -120,7 +113,7 @@ a.sidebar-link {
   }
 
   .page {
-    // padding-left: 0;
+    padding-left: 0;
   }
 
   .theme-container {
