@@ -21,6 +21,21 @@ module.exports = {
   title: productData.title,
   description: productData.description,
   host: "localhost",
+  head: [
+    // favicons, touch icons
+    // @todo create some touch icons
+    [ "link", { rel: "icon", href: "/images/favicon-64px.png" } ],
+    [ "link", { rel: "apple-touch-icon", href: "/images/favicon-64px.png", sizes: "180x180" } ],
+    [ "link", { rel: "apple-touch-icon", href: "/images/favicon-64px.png", sizes: "152x152" } ],
+    [ "link", { rel: "apple-touch-icon", href: "/images/favicon-64px.png", sizes: "167x167" } ],
+    // web fonts
+    [
+      "link", {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
+      }
+    ]
+  ],
   themeConfig: {
     twitter: productData.twitter,
     author: productData.author,
@@ -40,6 +55,7 @@ module.exports = {
     },
     sidebar: sidebarNav,
     displayAllHeaders: true,
+    // main navigation
     nav: [
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
@@ -48,6 +64,10 @@ module.exports = {
       { text: "Install", link: "/install/" }
     ]
   },
+  // version release navigation
+  additionalPages: [
+    releaseArray
+  ],
   markdown: {
     lineNumbers: true,
     extendMarkdown: md => {
@@ -64,35 +84,16 @@ module.exports = {
     },
     "@vuepress/google-analytics": {
       ga: productData.gaCode
+    },
+    seo: {
+      customMeta: (add, context) => {
+        const { $site, $page } = context
+
+        add("twitter:image", productData.ogImage)
+        add("og:image", productData.ogImage)
+      }
     }
   },
-  additionalPages: [
-    releaseArray
-  ],
-  head: [
-    // favicons
-    [
-      "link", {
-        rel: "icon",
-        href: "/images/favicon-64px.png"
-      }
-    ],
-    // web fonts
-    [
-      "link", {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
-      }
-    ],
-    // Twitter
-    [ "meta", { name: "twitter:card", content: "summary_large_image" } ],
-    [ "meta", { name: "twitter:site", content: `@${productData.twitter}` } ],
-    [ "meta", { name: "twitter:creator", content: `@${productData.twitter}` } ],
-    [ "meta", { name: "twitter:title", content: `${productData.title} | ${productData.description}` } ],
-    [ "meta", { name: "twitter:description", content: productData.description } ],
-    [ "meta", { name: "twitter:image", content: '' } ], // @todo create an image for this
-  ],
-  serviceWorker: true,
   postcss: {
     plugins: [
       require("tailwindcss"),

@@ -17,5 +17,6 @@ module.exports = {
   cliNamespace: "kumactl",
   slackInviteURL: "https://chat.kuma.io",
   slackChannelURL: "https://kuma-mesh.slack.com",
-  gaCode: "UA-8499472-30"
+  gaCode: "UA-8499472-30",
+  ogImage: "/images/social/og-image.jpg"
 }
