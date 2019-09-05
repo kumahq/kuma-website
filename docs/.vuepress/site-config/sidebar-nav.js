@@ -13,10 +13,8 @@
 module.exports = {
   "/docs/0.1.0/": [
     "",
-    "getting-started/",
     "documentation/",
-    "tutorials/",
-    "installation/",
-    "community/"
+    "policies/",
+    "other/"
   ]
 }
