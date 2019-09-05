@@ -47,10 +47,12 @@ Usually at this point developers take one of the following actions to remedy the
 * **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. By using this approach developers don't worry about connectivity and only focus on delivering business value from their services.
 
 ::: tip
-**Sidecar Proxy**: It's called *sidecar* proxy because it's another process running alongside our service on the same host, like a motorcycle sidecar. There is going to be one sidecar proxy for each running instance of our services.
+**Sidecar Proxy**: It's called *sidecar* proxy because it's another process running alongside our service process on the same host, like a motorcycle sidecar. There is going to be one instance of a sidecar proxy for each running instance of our services, and because all the incoming and outgoing requests - and their data - always go through the sidecar proxy, it is also called a data-plane (DP).
 :::
 
 The sidecar proxy model **requires** a control plane that allows to configure the behavior of the data-planes and keep track of the state of our services. Teams that adopt the sidecar proxy model they usually either build a control plane from scratch, or they use existing general purpose control planes available on the market, Kuma being one of them. [Compare Kuma with other CPs](#kuma-vs-xyz).
+
+Unlike a data-plane (DP), the control-plane (CP) is never on the execution path of the requests that the services exchange with each other, and it's being used to configure the data-planes and retrieve data from them (like observability information).
 
 <center>
 <img src="/images/docs/0.1.0/diagram-03.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
