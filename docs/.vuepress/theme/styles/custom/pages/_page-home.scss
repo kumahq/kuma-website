@@ -330,7 +330,6 @@ $home-feature-icon-bottom-spacing: 1rem;
     img {
       display: block;
       margin: 0 auto;
-      width: 100%;
     }
   }
 
@@ -338,6 +337,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 
     img {
       max-width: 28.313rem;
+      width: 100%;
     }
   }
 
@@ -345,6 +345,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 
     img {
       max-width: 19.438rem;
+      width: 100%;
     }
   }
 }
