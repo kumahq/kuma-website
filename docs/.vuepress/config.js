@@ -23,11 +23,11 @@ module.exports = {
   host: "localhost",
   head: [
     // favicons, touch icons
-    // @todo create some touch icons
     [ "link", { rel: "icon", href: "/images/favicon-64px.png" } ],
-    [ "link", { rel: "apple-touch-icon", href: "/images/favicon-64px.png", sizes: "180x180" } ],
-    [ "link", { rel: "apple-touch-icon", href: "/images/favicon-64px.png", sizes: "152x152" } ],
-    [ "link", { rel: "apple-touch-icon", href: "/images/favicon-64px.png", sizes: "167x167" } ],
+    [ "link", { rel: "apple-touch-icon", "sizes": "180x180", href: "/images/apple-touch-icon.png" } ],
+    [ "link", { rel: "manifest", href: "/site.webmanifest" } ],
+    [ "meta", { name: "msapplication-TileColor", content: "#ffffff" } ],
+    [ "meta", { name: "theme-color", content: "#ffffff" } ],
     // web fonts
     [
       "link", {
