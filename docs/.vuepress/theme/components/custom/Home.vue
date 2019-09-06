@@ -102,12 +102,12 @@
         <header class="section-header">
           <Content slot-key="before-after-title" class="alt-title"/>
         </header>
-        <div class="flex flex-wrap -mx-2">
-          <div class="w-full px-2 md:w-1/2">
+        <div class="flex flex-wrap -mx-12">
+          <div class="w-full px-12 md:w-1/2">
             <h4>Before</h4>
             <Content slot-key="before-after-diagram-1"/>
           </div>
-          <div class="w-full px-2 md:w-1/2">
+          <div class="w-full px-12 md:w-1/2">
             <h4>After</h4>
             <Content slot-key="before-after-diagram-2"/>
           </div>

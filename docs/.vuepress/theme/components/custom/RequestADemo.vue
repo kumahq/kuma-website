@@ -76,41 +76,54 @@
       </div>
 
       <div class="demo-request-form w-full sm:w-1/2 px-4">
-        <form action="" class="sticky">
-          <div class="flex flex-wrap -mx-4">   
+
+        <form class="sticky" @submit.prevent="submitForm">
+          <div class="flex flex-wrap -mx-4">
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="input-firstname">First Name</label>
-              <input type="text" name="firstname" id="input-firstname">
+              <label for="input_first_name">First Name</label>
+              <input v-model="formData.input_first_name" id="input_first_name" name="input_first_name" type="text" />
             </div>
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="input-lastname">Last Name</label>
-              <input type="text" name="lastname" id="input-lastname">
+              <label for="input_last_name">Last Name</label>
+              <input v-model="formData.input_last_name" id="input_last_name" name="input_last_name" type="text" />
             </div>
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="input-workemail">Work Email</label>
-              <input type="text" name="workemail" id="input-workemail">
+              <label for="input_email">Email</label>
+              <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />
             </div>
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="input-phone">Phone</label>
-              <input type="text" name="phone" id="input-phone">
+              <label for="input_company">Company</label>
+              <input v-model="formData.input_company" id="input_company" name="input_company" type="text" />
             </div>
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="input-jobtitle">Job Title</label>
-              <input type="text" name="jobtitle" id="input-jobtitle">
+              <label for="input_phone">Phone</label>
+              <input v-model="formData.input_phone" id="input_phone" name="input_phone" type="tel" />
             </div>
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="input-companyname">Company Name</label>
-              <input type="text" name="companyname" id="input-companyname">
+              <label for="input_title">Title</label>
+              <input v-model="formData.input_title" id="input_title" name="input_title" type="text" />
             </div>
+
             <div class="w-full px-4">
-              <label for="input-comments">How can we help you?</label>
-              <textarea name="comments" id="input-comments"></textarea>
+              <label for="input_message">How can we help you?</label>
+              <textarea v-model="formData.input_message" id="input_message" name="input_message"></textarea>
             </div>
+
             <div class="w-full px-4 mt-4">
-              <button class="btn btn--bright btn--spaced btn--block">Request Demo</button>
+              <button name="submit" class="btn btn--bright btn--spaced btn--block">
+                Request Demo
+              </button>
             </div>
+
           </div>
         </form>
+
       </div>
 
     </div>
@@ -120,8 +133,48 @@
 </template>
 
 <script>
+import axios from 'axios'
+// import superagent from 'superagent'
+// import Vuelidate from 'vuelidate'
+// import { required, email } from 'vuelidate/lib/validators'
+
 export default {
-  
+  data() {
+    return {
+      formData: {
+        input_first_name: 'nope',
+        input_last_name: 'nope',
+        input_email: 'nope@nope.com',
+        input_company: 'nope',
+        input_phone: 'nope',
+        input_title: 'nope',
+        input_message: 'nope'
+      }
+    }
+  },
+  methods: {
+    submitForm() {
+      const url = 'https://script.google.com/macros/s/AKfycbwiFfaiSK6JqdNqZLAt5PRayPV43x7qw1ZAM_-sFSDg6IT44d4/exec'
+      const payload = this.formData
+
+      axios({
+        method: 'post',
+        url: url,
+        data: payload,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+      })
+      .then(res => JSON.stringify(res))
+      .then(res => {
+        console.info(res)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    }
+  }
 }
 </script>
 

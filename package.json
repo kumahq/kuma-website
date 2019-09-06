@@ -10,14 +10,18 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.5.5",
+    "axios": "^0.19.0",
     "core-js": "^3.2.1",
     "fs": "^0.0.1-security",
     "vue": "^2.6.10",
-    "vue-github-button": "^1.0.8"
+    "vue-github-button": "^1.0.8",
+    "vuelidate": "^0.7.4"
   },
   "devDependencies": {
     "@babel/plugin-transform-object-assign": "^7.2.0",
     "@vue/test-utils": "^1.0.0-beta.29",
+    "@vuepress/plugin-google-analytics": "^1.0.0-rc.1",
+    "@vuepress/plugin-pwa": "^1.0.0-rc.1",
     "babel-jest": "^24.8.0",
     "jest": "^24.8.0",
     "jest-raw-loader": "^1.0.1",

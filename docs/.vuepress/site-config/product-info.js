@@ -7,8 +7,8 @@
 
 module.exports = {
   title: "Kuma",
-  description: "Connect, Secure and Observe any traffic and Microservices",
-  twitter: "kuma", // @todo update to finalized Twitter handle
+  description: "Build, Secure and Observe your modern Service Mesh",
+  twitter: "KumaMesh", // @todo update to finalized Twitter handle
   author: "Kong",
   repo: "https://github.com/kong/kuma", // @todo update with the finalize repo
   repoButtonLabel: "Star",
@@ -16,5 +16,7 @@ module.exports = {
   hostname: "https://kuma.io/",
   cliNamespace: "kumactl",
   slackInviteURL: "https://chat.kuma.io",
-  slackChannelURL: "https://kuma-mesh.slack.com"
+  slackChannelURL: "https://kuma-mesh.slack.com",
+  gaCode: "UA-8499472-30",
+  ogImage: "/images/social/og-image.jpg"
 }

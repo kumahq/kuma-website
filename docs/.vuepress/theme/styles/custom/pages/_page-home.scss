@@ -2,7 +2,7 @@
 // Homepage
 // 
 
-$home-feature-icon-bottom-spacing: 2rem;
+$home-feature-icon-bottom-spacing: 1rem;
 
 .page-container--home {
 
@@ -100,6 +100,12 @@ $home-feature-icon-bottom-spacing: 2rem;
   
   img {
     margin: 0 auto $home-feature-icon-bottom-spacing auto;
+    max-width: 18rem;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
   }
 
   p {
@@ -350,22 +356,11 @@ $home-feature-icon-bottom-spacing: 2rem;
   [class*=".content__before-after-diagram"] {
 
     img {
+      width: 100%;
+      max-width: 29.563rem;
+      height: auto;
       display: block;
       margin: 0 auto;
-    }
-  }
-
-  .content__before-after-diagram-1 {
-
-    img {
-      max-width: 28.313rem;
-    }
-  }
-
-  .content__before-after-diagram-2 {
-
-    img {
-      max-width: 19.438rem;
     }
   }
 }

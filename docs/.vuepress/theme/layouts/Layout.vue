@@ -12,10 +12,10 @@
 
     <div class="content-wrapper">
 
-      <div
+      <!-- <div
         class="sidebar-mask"
         @click="toggleSidebar(false)"
-      ></div>
+      ></div> -->
 
       <Sidebar
         :items="sidebarItems"
