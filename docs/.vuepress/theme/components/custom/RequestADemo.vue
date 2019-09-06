@@ -142,13 +142,13 @@ export default {
   data() {
     return {
       formData: {
-        input_first_name: 'nope',
-        input_last_name: 'nope',
-        input_email: 'nope@nope.com',
-        input_company: 'nope',
-        input_phone: 'nope',
-        input_title: 'nope',
-        input_message: 'nope'
+        input_first_name: '',
+        input_last_name: '',
+        input_email: '',
+        input_company: '',
+        input_phone: '',
+        input_title: '',
+        input_message: ''
       }
     }
   },
