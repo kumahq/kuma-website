@@ -2,7 +2,11 @@
 // Homepage
 // 
 
+<<<<<<< HEAD
 $home-feature-icon-bottom-spacing: 1rem;
+=======
+$home-feature-icon-bottom-spacing: 2rem;
+>>>>>>> docs/0.1.0
 
 .page-container--home {
 
@@ -106,6 +110,34 @@ $home-feature-icon-bottom-spacing: 1rem;
   p {
     margin: 0;
     padding: 0;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  // individual content blocks
+
+  &.content__feature-block-content-1 {
+
+    img {
+      max-width: 13.875rem;
+    }
+  }
+
+  &.content__feature-block-content-2 {
+
+    img {
+      max-width: 14rem;
+    }
+  }
+
+  &.content__feature-block-content-3 {
+
+    img {
+      max-width: 14.625rem;
+    }
   }
 }
 

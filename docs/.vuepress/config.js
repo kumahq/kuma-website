@@ -46,6 +46,10 @@ module.exports = {
     logo: productData.logo,
     slackInvite: productData.slackInviteURL,
     slackChannel: productData.slackChannelURL,
+<<<<<<< HEAD
+=======
+    footer: productData.title,
+>>>>>>> docs/0.1.0
     docsDir: "docs",
     editLinks: false,
     search: true,

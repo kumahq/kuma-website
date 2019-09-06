@@ -14,7 +14,13 @@ module.exports = {
   "/docs/0.1.0/": [
     "",
     "documentation/",
+<<<<<<< HEAD
     "policies/",
     "other/"
+=======
+    "tutorials/",
+    "installation/",
+    "community/"
+>>>>>>> docs/0.1.0
   ]
 }
