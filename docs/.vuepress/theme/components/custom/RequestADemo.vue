@@ -86,7 +86,7 @@
                 <label for="input_first_name">First Name</label>
                 <validation-provider rules="required" v-slot="{ errors }">
                   <input v-model="formData.input_first_name" id="input_first_name" name="input_first_name" type="text" />
-                  <div class="note note--error">{{ errors[0] }}</div>
+                  <span class="note note--error">{{ errors[0] }}</span>
                 </validation-provider>
               </div>
 
@@ -94,7 +94,7 @@
                 <label for="input_last_name">Last Name</label>
                 <validation-provider rules="required" v-slot="{ errors }">
                   <input v-model="formData.input_last_name" id="input_last_name" name="input_last_name" type="text" />
-                  <div class="note note--error">{{ errors[0] }}</div>
+                  <span class="note note--error">{{ errors[0] }}</span>
                 </validation-provider>
               </div>
 
@@ -102,7 +102,7 @@
                 <label for="input_email">Email</label>
                 <validation-provider rules="required|email" v-slot="{ errors }">
                   <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />
-                  <div class="note note--error">{{ errors[0] }}</div>
+                  <span class="note note--error">{{ errors[0] }}</span>
                 </validation-provider>
               </div>
 
@@ -110,7 +110,7 @@
                 <label for="input_company">Company</label>
                 <validation-provider rules="required" v-slot="{ errors }">
                   <input v-model="formData.input_company" id="input_company" name="input_company" type="text" />
-                  <div class="note note--error">{{ errors[0] }}</div>
+                  <span class="note note--error">{{ errors[0] }}</span>
                 </validation-provider>
               </div>
 
@@ -118,7 +118,7 @@
                 <label for="input_phone">Phone</label>
                 <validation-provider rules="required" v-slot="{ errors }">
                   <input v-model="formData.input_phone" id="input_phone" name="input_phone" type="tel" />
-                  <div class="note note--error">{{ errors[0] }}</div>
+                  <span class="note note--error">{{ errors[0] }}</span>
                 </validation-provider>
               </div>
 
@@ -126,7 +126,7 @@
                 <label for="input_title">Title</label>
                 <validation-provider rules="required" v-slot="{ errors }">
                   <input v-model="formData.input_title" id="input_title" name="input_title" type="text" />
-                  <div class="note note--error">{{ errors[0] }}</div>
+                  <span class="note note--error">{{ errors[0] }}</span>
                 </validation-provider>
               </div>
 
@@ -134,7 +134,7 @@
                 <label for="input_message">How can we help you?</label>
                 <validation-provider rules="required" v-slot="{ errors }">
                   <textarea v-model="formData.input_message" id="input_message" name="input_message"></textarea>
-                  <div class="note note--error">{{ errors[0] }}</div>
+                  <span class="note note--error">{{ errors[0] }}</span>
                 </validation-provider>
               </div>
 
