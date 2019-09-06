@@ -76,69 +76,54 @@
       </div>
 
       <div class="demo-request-form w-full sm:w-1/2 px-4">
-        <!-- 
-          This form uses Web-To-Lead by Salesforce,
-          which is a bit dated.
-          
-          @todo Find a solution that allows us to use
-          modern form handlers and axios or fetch.
-          The endpoint is currently not setup for
-          this approach and will not pass data
-          properly.
-        -->
-        <form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST" class="sticky">
-          <input type="hidden" name="oid" value="00D41000000WdaQ">
-          <input type="hidden" name="retURL" value="http://go.konghq.com/l/392112/2019-09-03/bjz6ys">
-          <input type="hidden" name="Lead_Source_Detail" id="Lead_Source_Detail__c" value="Kuma Request a Demo">
-          <input type="hidden" name="lead_source" id="lead_source" value="Web">
-          <input type="hidden" name="Lead_Record_Type" id="RecordType" value="0121K000001QQgX">
-          <input type="hidden" name="utm_source" id="utm_source__c" value="">
-          <input type="hidden" name="utm_ad_group" id="utm_ad_group__c" value="">
-          <input type="hidden" name="utm_campaign" id="utm_campaign__c" value="">
-          <input type="hidden" name="utm_content" id="utm_content__c" value="">
-          <input type="hidden" name="utm_medium" id="utm_medium__c" value="">
-          <input type="hidden" name="utm_term" id="utm_term__c" value="">
 
-          <!-- debugging only -->
-          <input type="hidden" name="debug" value="1">
-          <input type="hidden" name="debugEmail" value="maria@konghq.com">
+        <form class="sticky" @submit.prevent="submitForm">
+          <div class="flex flex-wrap -mx-4">
 
-          <div class="flex flex-wrap -mx-4">   
             <div class="w-full md:w-1/2 px-4">
-              <label for="first_name">First Name</label>
-              <input  id="first_name" maxlength="40" name="first_name" size="20" type="text" />
+              <label for="input_first_name">First Name</label>
+              <input v-model="form['input_first_name']" id="input_first_name" name="input_first_name" type="text" />
             </div>
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="last_name">Last Name</label>
-              <input  id="last_name" maxlength="80" name="last_name" size="20" type="text" />
+              <label for="input_last_name">Last Name</label>
+              <input v-model="form['input_last_name']" id="input_last_name" name="input_last_name" type="text" />
             </div>
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="email">Email</label>
-              <input id="email" maxlength="80" name="email" size="20" type="email" />
+              <label for="input_email">Email</label>
+              <input v-model="form['input_email']" id="input_email" name="input_email" type="email" />
             </div>
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="company">Company</label>
-              <input id="company" maxlength="40" name="company" size="20" type="text" />
+              <label for="input_company">Company</label>
+              <input v-model="form['input_company']" id="input_company" name="input_company" type="text" />
             </div>
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="phone">Phone</label>
-              <input id="phone" maxlength="40" name="phone" size="20" type="text" />
+              <label for="input_phone">Phone</label>
+              <input v-model="form['input_phone']" id="input_phone" name="input_phone" type="tel" />
             </div>
+
             <div class="w-full md:w-1/2 px-4">
-              <label for="title">Title</label>
-              <input id="title" maxlength="40" name="title" size="20" type="text" />
+              <label for="input_title">Title</label>
+              <input v-model="form['input_title']" id="input_title" name="input_title" type="text" />
             </div>
+
             <div class="w-full px-4">
-              <label for="00N4100000PN0Nm">How can we help you?</label>
-              <textarea id="00N4100000PN0Nm" name="00N4100000PN0Nm" rows="3" type="text" wrap="soft"></textarea>
+              <label for="input_message">How can we help you?</label>
+              <textarea v-model="form['input_message']" id="input_message" name="input_message"></textarea>
             </div>
+
             <div class="w-full px-4 mt-4">
-              <button type="submit" name="submit" class="btn btn--bright btn--spaced btn--block">
+              <button name="submit" class="btn btn--bright btn--spaced btn--block">
                 Request Demo
               </button>
             </div>
+
           </div>
         </form>
+
       </div>
 
     </div>
@@ -148,8 +133,32 @@
 </template>
 
 <script>
+import superagent from 'superagent'
+
 export default {
-  
+  data() {
+    return {
+      form: {}
+    }
+  },
+  components: {
+    
+  },
+  methods: {
+    async submitForm() {
+      const url = 'https://script.google.com/macros/s/AKfycbwiFfaiSK6JqdNqZLAt5PRayPV43x7qw1ZAM_-sFSDg6IT44d4/exec'
+      const payload = this.form
+
+      superagent
+        .post(url)
+        .set('Content-Type', 'application/x-www-form-urlencoded')
+        .set('Accept', 'json')
+        .send(payload)
+        .end((err, res) => {
+          console.log(err, res)
+        })
+    }
+  }
 }
 </script>
 
