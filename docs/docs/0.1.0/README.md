@@ -4,9 +4,11 @@
 **Protip**: Use `#kumamesh` on Twitter to chat about Kuma.
 :::
 
-Welcome to the official documentation for Kuma!
+Welcome to the official documentation for Kuma, the **Universal Control Plane**. 
 
-Here you will find all you need to know about the product. While Kuma is ideal for Service Mesh and Microservices, you will soon realize that it can be used to modernize any architecture. That's why we call it *Universal Control Plane*.
+Here you will find all you need to know about the product. While Kuma is ideal for Service Mesh and Microservices, you will soon realize that it can be used to modernize any architecture.
+
+The word "Kuma" means "bear" in Japanese くま.
 
 ## What is Kuma?
 
@@ -101,6 +103,10 @@ Kuma exists today to provide a pragmatic journey to implementing Service Mesh fo
 Until now Service Mesh has been considered to be the last step of architecture modernization after transitioning to containers and perhaps to Kubernetes. This approach is completely backwards, since it makes the adoption and the business value of service mesh available only after implementing other massive transformations that - in the meanwhile - can go wrong.
 
 In reality, we want service mesh to be available *before* we implement other transitions so that we can keep the network both secure and observable in the process. With Kuma, service mesh is indeed the **first step** towards modernization.
+
+<center>
+<img src="/images/docs/0.1.0/diagram-05.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
+</center>
 
 Unlike other control planes, Kuma natively runs across any platform and it's not limited in scope (ie, Kubernetes only). Kuma works on both existing brownfield applications (those apps that deliver business value today), as well as new modern greenfield applications that will be the future of our journey.
 
