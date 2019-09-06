@@ -48,8 +48,8 @@ Enterprise-ready and platform agnostic with native Kubernetes + CRD support, as 
 
 <!-- testimonial -->
 
-::: slot testimonial-content
-Kuma has been built with lessons learned by 150+ Enterprise organizations running production Meshes
+::: slot testimonial-content 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
 :::
 
 ::: slot testimonial-author
