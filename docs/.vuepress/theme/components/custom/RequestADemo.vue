@@ -82,37 +82,37 @@
 
             <div class="w-full md:w-1/2 px-4">
               <label for="input_first_name">First Name</label>
-              <input v-model="form['input_first_name']" id="input_first_name" name="input_first_name" type="text" />
+              <input v-model="formData.input_first_name" id="input_first_name" name="input_first_name" type="text" />
             </div>
 
             <div class="w-full md:w-1/2 px-4">
               <label for="input_last_name">Last Name</label>
-              <input v-model="form['input_last_name']" id="input_last_name" name="input_last_name" type="text" />
+              <input v-model="formData.input_last_name" id="input_last_name" name="input_last_name" type="text" />
             </div>
 
             <div class="w-full md:w-1/2 px-4">
               <label for="input_email">Email</label>
-              <input v-model="form['input_email']" id="input_email" name="input_email" type="email" />
+              <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />
             </div>
 
             <div class="w-full md:w-1/2 px-4">
               <label for="input_company">Company</label>
-              <input v-model="form['input_company']" id="input_company" name="input_company" type="text" />
+              <input v-model="formData.input_company" id="input_company" name="input_company" type="text" />
             </div>
 
             <div class="w-full md:w-1/2 px-4">
               <label for="input_phone">Phone</label>
-              <input v-model="form['input_phone']" id="input_phone" name="input_phone" type="tel" />
+              <input v-model="formData.input_phone" id="input_phone" name="input_phone" type="tel" />
             </div>
 
             <div class="w-full md:w-1/2 px-4">
               <label for="input_title">Title</label>
-              <input v-model="form['input_title']" id="input_title" name="input_title" type="text" />
+              <input v-model="formData.input_title" id="input_title" name="input_title" type="text" />
             </div>
 
             <div class="w-full px-4">
               <label for="input_message">How can we help you?</label>
-              <textarea v-model="form['input_message']" id="input_message" name="input_message"></textarea>
+              <textarea v-model="formData.input_message" id="input_message" name="input_message"></textarea>
             </div>
 
             <div class="w-full px-4 mt-4">
@@ -133,32 +133,45 @@
 </template>
 
 <script>
-import superagent from 'superagent'
-import Vuelidate from 'vuelidate'
-import { required, email } from 'vuelidate/lib/validators'
+import axios from 'axios'
+// import superagent from 'superagent'
+// import Vuelidate from 'vuelidate'
+// import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   data() {
     return {
-      form: {}
+      formData: {
+        input_first_name: 'nope',
+        input_last_name: 'nope',
+        input_email: 'nope@nope.com',
+        input_company: 'nope',
+        input_phone: 'nope',
+        input_title: 'nope',
+        input_message: 'nope'
+      }
     }
   },
-  components: {
-    Vuelidate
-  },
   methods: {
-    async submitForm() {
+    submitForm() {
       const url = 'https://script.google.com/macros/s/AKfycbwiFfaiSK6JqdNqZLAt5PRayPV43x7qw1ZAM_-sFSDg6IT44d4/exec'
-      const payload = this.form
+      const payload = this.formData
 
-      superagent
-        .post(url)
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .set('Accept', 'json')
-        .send(payload)
-        .end((err, res) => {
-          console.log(err, res)
-        })
+      axios({
+        method: 'post',
+        url: url,
+        data: payload,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+      })
+      .then(res => {
+        console.info(res)
+      })
+      .catch(err => {
+        console.error(err)
+      })
     }
   }
 }
