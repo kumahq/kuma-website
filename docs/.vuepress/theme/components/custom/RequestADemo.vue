@@ -160,15 +160,14 @@ export default {
       axios({
         method: 'post',
         url: url,
-        data: payload,
+        params: payload,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/json'
         },
       })
-      .then(res => JSON.stringify(res))
       .then(res => {
-        console.info(res)
+        console.info(res.data)
       })
       .catch(err => {
         console.error(err)
