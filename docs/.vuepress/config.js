@@ -21,6 +21,22 @@ module.exports = {
   title: productData.title,
   description: productData.description,
   host: "localhost",
+  head: [
+    // favicons, touch icons, web app stuff
+    [ "link", { rel: "icon", href: "/images/favicon-64px.png" } ],
+    [ "link", { rel: "apple-touch-icon", "sizes": "180x180", href: "/images/apple-touch-icon.png" } ],
+    [ "link", { rel: "manifest", href: "/site.webmanifest" } ],
+    [ "meta", { name: "msapplication-TileColor", content: "#ffffff" } ],
+    [ "meta", { name: "theme-color", content: "#ffffff" } ],
+    // web fonts
+    [
+      "link", {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
+      }
+    ]
+  ],
+  // theme configuration
   themeConfig: {
     twitter: productData.twitter,
     author: productData.author,
@@ -30,7 +46,6 @@ module.exports = {
     logo: productData.logo,
     slackInvite: productData.slackInviteURL,
     slackChannel: productData.slackChannelURL,
-    footer: productData.title,
     docsDir: "docs",
     editLinks: false,
     search: true,
@@ -41,6 +56,7 @@ module.exports = {
     },
     sidebar: sidebarNav,
     displayAllHeaders: true,
+    // main navigation
     nav: [
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
@@ -49,10 +65,15 @@ module.exports = {
       { text: "Install", link: "/install/" }
     ]
   },
+  // version release navigation
+  additionalPages: [
+    releaseArray
+  ],
+  // plugin settings, build process, etc.
   markdown: {
     lineNumbers: true,
     extendMarkdown: md => {
-      md.use(require("markdown-it-include"), "./docs/.partials/");
+      md.use(require("markdown-it-include"), "./docs/.partials/")
     }
   },
   plugins: {
@@ -60,38 +81,21 @@ module.exports = {
       normalSuffix: "/",
       indexSuffix: "/"
     },
-    seo: {
-      customMeta: (add, context) => {
-        const { $site, $page } = context;
-
-        add("twitter:site", $site.themeConfig.twitter);
-      }
-    },
     sitemap: {
       hostname: productData.hostname
+    },
+    "@vuepress/google-analytics": {
+      ga: productData.gaCode
+    },
+    seo: {
+      customMeta: (add, context) => {
+        const { $site, $page } = context
+
+        add("twitter:image", productData.ogImage)
+        add("og:image", productData.ogImage)
+      }
     }
   },
-  additionalPages: [
-    releaseArray
-  ],
-  head: [
-    [
-      "link",
-      {
-        // TODO change this to a Konvoy-specific one (or move this locally?)
-        rel: "icon",
-        href: "/images/favicon-64px.png"
-      }
-    ],
-    [
-      "link",
-      {
-        rel: "stylesheet",
-        href:
-          "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
-      }
-    ]
-  ],
   postcss: {
     plugins: [
       require("tailwindcss"),
@@ -100,6 +104,9 @@ module.exports = {
       })
     ]
   },
+  // this is covered in the VuePress documentation
+  // but it doesn't seem to work. Left here in case
+  // that changes.
   extraWatchFiles: [
     "/docs/.partials/*",
     "/site-config/product-info.js",
@@ -109,7 +116,7 @@ module.exports = {
   ],
   evergreen: false,
   chainWebpack: (config, isServer) => {
-    const jsRule = config.module.rule("js");
+    const jsRule = config.module.rule("js")
     jsRule
       .use("babel-loader")
       .loader("babel-loader")
@@ -127,6 +134,6 @@ module.exports = {
             }
           ]
         ]
-      });
+      })
   }
 };

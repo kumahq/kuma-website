@@ -2,11 +2,6 @@
   <div class="card">
     <header class="card__header">
       <div class="card__icon" v-if="icon">
-        <!-- <InlineSvg
-          :src="icon"
-          :width="iconWidth"
-          :height="iconHeight"
-        /> -->
         <img
           :src="icon"
           :alt="iconAlt"
