@@ -134,9 +134,6 @@
 
 <script>
 import axios from 'axios'
-// import superagent from 'superagent'
-// import Vuelidate from 'vuelidate'
-// import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   data() {
