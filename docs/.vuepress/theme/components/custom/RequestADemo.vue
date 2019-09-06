@@ -166,6 +166,7 @@ export default {
           'Accept': 'application/json'
         },
       })
+      .then(res => JSON.stringify(res))
       .then(res => {
         console.info(res)
       })
