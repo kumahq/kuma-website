@@ -16,7 +16,8 @@ export default new Vuex.Store({
     latestRelease: latestRelease,
     selectedDocVersion: latestRelease,
     selectedInstallVersion: latestRelease,
-    installMethods: installMethods
+    installMethods: installMethods,
+    requestADemoEndpoint: 'https://script.google.com/macros/s/AKfycbwiFfaiSK6JqdNqZLAt5PRayPV43x7qw1ZAM_-sFSDg6IT44d4/exec'
   },
 
   getters: {
@@ -25,6 +26,7 @@ export default new Vuex.Store({
     getLatestRelease: (state) => state.latestRelease,
     getSelectedDocVersion: (state) => state.selectedDocVersion,
     getSelectedInstallVersion: (state) => state.selectedInstallVersion,
+    getRequestADemoEndpoint: (state) => state.requestADemoEndpoint,
     releasesAsRouterLinks: (state) => {
       return state.releases.map( tag => ({
         text: tag === state.latestRelease ? `${tag} (latest)` : tag,
