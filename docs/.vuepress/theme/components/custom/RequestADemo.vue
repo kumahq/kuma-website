@@ -134,6 +134,8 @@
 
 <script>
 import superagent from 'superagent'
+import Vuelidate from 'vuelidate'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   data() {
@@ -142,7 +144,7 @@ export default {
     }
   },
   components: {
-    
+    Vuelidate
   },
   methods: {
     async submitForm() {
