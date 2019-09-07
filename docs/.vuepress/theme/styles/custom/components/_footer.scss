@@ -134,16 +134,16 @@ $page-footer-desktop-height: 29.688rem;
   // not overlap the sidebar at any point on
   // larger screens.
   .page-footer {
-    height: $page-footer-desktop-height;
+    // height: $page-footer-desktop-height;
 
-    // this puts the footer above the bottom part
-    // of the fixed sidebar on larger screens
-    position: relative;
-    z-index: 10;
+    // // this puts the footer above the bottom part
+    // // of the fixed sidebar on larger screens
+    // position: relative;
+    // z-index: 10;
   }
 
   .content-wrapper {
-    min-height: calc(100vh - #{$page-footer-desktop-height});
+    // min-height: calc(100vh - #{$page-footer-desktop-height});
   }
 
   .page-footer__sublinks {

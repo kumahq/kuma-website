@@ -1,19 +1,21 @@
 <template>
-  <aside class="sidebar">
-    <VersionNav/>
+  <div class="sidebar-wrapper">
+    <aside class="sidebar">
+      <VersionNav/>
 
-    <!-- <AlgoliaSearchBox
-      v-if="isAlgoliaSearch"
-      :options="algolia"
-    /> -->
-    <!-- <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/> -->
+      <!-- <AlgoliaSearchBox
+        v-if="isAlgoliaSearch"
+        :options="algolia"
+      /> -->
+      <!-- <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/> -->
 
-    <NavLinks/>
+      <NavLinks/>
 
-    <slot name="top"/>
-    <SidebarLinks :depth="0" :items="items"/>
-    <slot name="bottom"/>
-  </aside>
+      <slot name="top"/>
+      <SidebarLinks :depth="0" :items="items"/>
+      <slot name="bottom"/>
+    </aside>
+  </div>
 </template>
 
 <script>
