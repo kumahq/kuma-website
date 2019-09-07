@@ -54,9 +54,13 @@ When running on **Kubernetes**, Kuma will store all of its state and configurati
 
 TODO: IMAGE
 
-Once the `kuma-cp` process is started, it waits for data-planes to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](#policies).
+::: tip
+**Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](#policies) with Kuma's CRDs applied via `kubectl`.
+:::
 
 ### Last but not least
+
+Once the `kuma-cp` process is started, it waits for data-planes to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](#policies).
 
 When we look at a typical Kuma installation, at a higher level it works like this:
 
@@ -70,56 +74,100 @@ When we unpack the underlying behavior, it looks like this:
 <img src="/images/docs/0.1.0/diagram-07.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-## Quickstart
+## Backends
 
-## CLI
+As explained in the [Overview](#overview), when Kuma (`kuma-cp`) is up and running it needs to store data somewhere. The data will include the state, the policies configured, the data-planes status, and so on.
 
-## Backend Storage
+Kuma supports a few different backends that we can use when running `kuma-cp`. You can configure the backend storage by setting the `KUMA_STORE_TYPE` environment variable when running the control plane.
 
-## Ports
+::: tip
+This information has been documented for clarity, but when following the [installation instructions](/install) these settings will be automatically configured.
+:::
 
-## 
+The backends are:
 
-* Talk about the CLI and how to start everything and CLI elements
+* `memory`: Kuma stores all the state in-memory. This means that restarting Kuma will delete all the data. Only reccomend when playing with Kuma locally. For example:
 
-* Talk about supported backends for storage
-	* memory
-	* postgres
-	* kubernetes
+```sh
+$ KUMA_STORE_TYPE=memory kuma-cp run
+```
 
-* Talk about the ports that are opened by kuma-cp and what services are associated with (link to API reference for the HTTP API)
+* `postgres`: Kuma stores all the state in a PostgreSQL database. Used when running in Universal mode. You can also use a remote PostgreSQL database offered by any cloud vendor. For example:
 
-* Talk about a;
+```sh
+$ KUMA_STORE_POSTGRES_HOST=localhost \
+  KUMA_STORE_POSTGRES_PORT=5432 \
+  KUMA_STORE_POSTGRES_USER=kuma-user \
+  KUMA_STORE_POSTGRES_PASSWORD=kuma-password \
+  KUMA_STORE_POSTGRES_DB_NAME=kuma \
+  kuma-cp run
+```
 
+* `kubernetes`: Kuma stores all the state in the underlying Kubernetes cluster. User when running in Kubernetes mode. For example:
 
-
-### Running locally
-
-
-### Running on Linux
-
-### Running on Kubernetes
-
-
-
-Getting up and running with Kuma is very simple. The following tutorial demonstrates the steps that have to be executed in order to run a Kuma cluster.
-
-The first step is downloading the software
-
-## Concepts
+```sh
+$ KUMA_STORE_TYPE=kubernetes kuma-cp run
+```
 
 ## Dependencies
 
 Kuma is one single executable that can be installed anywhere, hence why it's both universal and simple to deploy. 
 
-* Running on **Kubernetes**: No dependencies required, since it leverages the underlying K8s API server to store its configuration.
+* Running on **Kubernetes**: No external dependencies required, since it leverages the underlying K8s API server to store its configuration. A `kuma-injector` service will also start in order to automatically inject sidecar data-plane proxies without human intervention.
 
-* Running on **Linux**: Kuma requires a PostgreSQL database as a dependency in order to store its configuration. PostgreSQL is a very popular and easy database. You can run Kuma with any managed PostgreSQL offering as well, like AWS RDS or Aurora. Out of sight, out of mind!
+* Running on **Universal**: Kuma requires a PostgreSQL database as a dependency in order to store its configuration. PostgreSQL is a very popular and easy database. You can run Kuma with any managed PostgreSQL offering as well, like AWS RDS or Aurora. Out of sight, out of mind!
 
-Out of the box, Kuma ships with a bundled Envoy data-plane ready to use for our services, so that you don't have to worry about putting all the pieces together.
+Out of the box, Kuma ships with a bundled [Envoy](https://www.envoyproxy.io/) data-plane ready to use for our services, so that you don't have to worry about putting all the pieces together.
+
+::: tip
+Kuma ships with an executable `kuma-dp` that will execute the bundled `envoy` executable in order to execute the data-plane proxy. The behavior of the data-plane executable is being explained in the [Overview](#overview).
+:::
 
 [Install Kuma](/install) and follow the instructions to get up and running in a few steps.
 
+## Data-planes
+
+When Kuma (`kuma-cp`) runs, it will be waiting for the data-planes to connect and register themselves. In Kubernetes the data-planes are automatically injected via the `kuma-injector` executable as long as the K8s services include the following label:
+
+TODO
+
+In Universal mode we must manually instruct `kuma-dp` to connect to `kuma-cp` CP. But even before attemping the connection, we must configure `kuma-dp` in such a way that it knows:
+
+* The location of `kuma-cp`
+* The configuration settings to configure the underlying `envoy` process.
+
+TODO
+
+## CLI
+
+Kuma ships in a bundle that includes a few executables:
+
+* `kuma-cp`: this is the main Kuma executable that runs the control plane (CP).
+* `kuma-dp`: this is the Kuma data-plane executable that - under the hood - invokes `envoy`.
+* `envoy`: this is the Envoy executable that we bundle for convenience into the archive.
+* `kumactl`: this is the the user CLI to interact with Kuma (`kuma-cp`) and its data.
+* `kuma-injector`: only for Kubernetes, this is a process that listens to events propagated by Kubernetes, and that automatically injects a `kuma-dp` sidecar container to our services.
+
+In Kubernetes mode some of these executables will never be executed directly. You can check the usage of the executables by running the `-h` flag, like:
+
+```sh
+$ kuma-cp -h
+```
+
+## Ports
+
+When `kuma-cp` starts up, it listens on a few ports:
+
+TODO
+
 ## Policies
 
+TODO
+
 ## Roadmap
+
+TODO
+
+## Quickstart
+
+TODO
