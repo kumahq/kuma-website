@@ -52,7 +52,9 @@ spec:
   name: default
 ```
 
-Because of a limitation of Kuma 0.1, you will have to type the `name` of the Mesh also in a `mesh` field. The redundant `mesh` field will be removed from Kuma starting from version 0.2.
+::: warning
+In Kuma 0.1.0 you will have to type the `name` of the Mesh also in a `mesh` field. The redundant `mesh` field will be removed from Kuma starting from the next release.
+:::
 
 ## Mutual TLS
 
@@ -91,11 +93,52 @@ Currently Kuma supports self-signed certificates for every data-plane in the Mes
 
 ## Traffic Permissions
 
-TODO: Document YAML object
+Traffic Permissions allow you to determine security rules for services that consume other services via their [Tags](/docs/0.1.0/documentation/#tags). It is a very useful policy to increase security in the Mesh and compliance in the organization.
+
+You can determine what source services are **allowed** to consume specific destination services. The `service` field is mandatory in both `sources` and `destinations`.
+
+::: warning
+In Kuma 0.1.0 the `sources` field only allows for `service` and only `service` will be enforced. This limitation will disappear in the next version of Kuma.
+:::
+
+In the example below, the `destinations` includes not only the `service` property, but also an additional `version` tag. You can include any arbitrary tags to any [`Dataplane`](/docs/0.1.0/documentation/dataplane-specification)
+
+On Universal:
+
+```yaml
+type: TrafficPermission
+name: permission-1
+mesh: default
+rules:
+  - sources:
+    - match:
+        service: backend
+    destinations:
+    - match:
+        service: redis
+        version: "5.0"
+```
+
+On Kubernetes:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficPermission
+name: permission-1
+spec:
+  rules:
+    - sources:
+      - match:
+          service: backend
+      destinations:
+      - match:
+          service: redis
+          version: "5.0"
+```
 
 ## Traffic Route
 
-Join us on [Slack](/community) to get access to an early preview of Routing.
+We are in the process of release routing soon. Join us on [Slack](/community) to share your requirements and get access to the feature.
 
 ## Traffic Tracing
 
