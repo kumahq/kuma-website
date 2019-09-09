@@ -104,6 +104,7 @@ module.exports = {
         const ogImagePath = `${productData.hostname}${productData.ogImage}`
 
         add("twitter:image", ogImagePath)
+        add("twitter:description", productData.description)
         add("og:image", ogImagePath)
         add("og:image:width", 800)
         add("og:image:height", 533)
