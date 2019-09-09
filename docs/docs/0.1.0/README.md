@@ -45,7 +45,7 @@ Every time our services interconnect via a network request, we put the end-user 
 
 Usually, at this point, developers take one of the following actions to remedy the situation:
 
-* **Write more code**: developers build a *smart* client that every service will have to utilize in the form of a library. Usually, this approach introduces a few problems: 
+* **Write more code**: The developers build a *smart* client that every service will have to utilize in the form of a library. Usually, this approach introduces a few problems: 
   - it creates more technical debt
   - it is tpyically language-specific; therefore, it prevents innovation 
   - multiple implementations of the library exist, which creates fragmentation in the long run.
