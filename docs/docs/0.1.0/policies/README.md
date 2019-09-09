@@ -4,7 +4,32 @@
 **Need help?** Installing and using Kuma should be as easy as possible. [Contact and chat](/community) with the community in real-time if you get stuck or need clarifications. We are here to help.
 :::
 
-Once installing Kuma
+Once installed, Kuma can be configured via its policies. You can apply policies with `kumactl` on Universal, and with `kubectl` on Kubernetes. Regardless of what environment you use, you can always read the latest Kuma state with `kumactl` on both environments.
+
+::: tip
+We follow the best practices. You should always change your Kubernetes state with CRDs, that's why Kuma disables `kumactl apply` when running on K8s environments.
+:::
+
+These policies can be applied either by file via the `kumactl -f [path]` or `kubectl -f [path]` syntax, or by using the following command:
+
+```sh
+echo "
+  type: ..
+  spec: ..
+" | kumactl -f -
+```
+
+or - on Kubernetes - by using the equivalent:
+
+```sh
+echo "
+  apiVersion: kuma.io/v1alpha1
+  kind: ..
+  spec: ..
+" | kubectl -f -
+```
+
+Below you can find the policies that Kuma supports. In addition to `kumactl`, you can also retrive the state via the Kuma HTTP API as well.
 
 ## Mesh
 
@@ -45,6 +70,8 @@ mtls:
     builtin: {}
 ```
 
+You can apply with `kumactl -f [file-path]`.
+
 On Kubernetes:
 
 ```yaml
@@ -58,6 +85,8 @@ spec:
       builtin: {}
 ```
 
+You can apply with `kubectl -f [file-path]`.
+
 Currently Kuma supports self-signed certificates for every data-plane in the Mesh (`builtin`). In the future we plan to add support for third-party Certificate Authorities.
 
 ## Traffic Permissions
@@ -66,7 +95,7 @@ TODO: Document YAML object
 
 ## Traffic Route
 
-TODO: Document YAML object
+Join us on [Slack](/community) to get access to an early preview of Routing.
 
 ## Traffic Tracing
 

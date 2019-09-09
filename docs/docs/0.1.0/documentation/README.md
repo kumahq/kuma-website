@@ -6,27 +6,27 @@
 
 It's time to start using Kuma and build your Service Mesh. In this section you will find the technical material to get up and running 🚀. 
 
-If you haven't read the first [Welcome to Kuma](/docs) section, we strongly suggest to start from here.
+If you haven't read the first [Welcome to Kuma](/docs/0.1.0) section, we strongly suggest to start from here.
 
 ## Overview
 
-As we have [already learned](/docs), Kuma is a universal control plane that can run across both modern environments like Kubernetes and more traditional VM-based ones.
+As we have [already learned](/docs/0.1.0), Kuma is a universal control plane that can run across both modern environments like Kubernetes and more traditional VM-based ones.
 
-The first step is obviously to [download and install Kuma](/install) on the platform of your choice. Different distributions will present different installation instructions that follow the best practices for the platform you have selected.
+The first step is obviously to [download and install Kuma](/install/0.1.0) on the platform of your choice. Different distributions will present different installation instructions that follow the best practices for the platform you have selected.
 
 Regardless of what platform you decide to use, the fundamental behavior of Kuma at runtime will not change across different distributions. These fundamentals are important to explore in order to understand what Kuma is and how it works.
 
 ::: tip
-Installing Kuma on Kubernetes is fully automated, while installing Kuma on Linux requires the user to run the Kuma executables. Both ways are very simple, and can be explored from the [installation page](/install).
+Installing Kuma on Kubernetes is fully automated, while installing Kuma on Linux requires the user to run the Kuma executables. Both ways are very simple, and can be explored from the [installation page](/install/0.1.0).
 :::
 
 There are two main components of Kuma that are very important to understand:
 
-* **Control-Plane**: Kuma is first and foremost a control-plane that will accept user input (you are the user) in order to create and configure [Policies](#policies) like Service Meshes, and in order to add services and configure their behavior within the Meshes you have created.
+* **Control-Plane**: Kuma is first and foremost a control-plane that will accept user input (you are the user) in order to create and configure [Policies](/docs/0.1.0/policies) like [Service Meshes](/docs/0.1.0/policies/#mesh), and in order to add services and configure their behavior within the Meshes you have created.
 * **Data-Plane**: Kuma also bundles a data-plane implementation based on top of [Envoy](https://www.envoyproxy.io/) for convenience, in order to get up and running quickly. An instance of the data-plane will run alongside every instance of our services, and it will process both incoming and outgoing requests for the service.
 
 ::: tip
-**Multi-Mesh**: Kuma ships with multi-tenancy support since day one. This means you can create and configure multiple isolated Service Meshes from **one** control-plane. By doing so we lower the complexity and the operational cost of supporting multiple meshes. [Explore Kuma's Policies](#policies).
+**Multi-Mesh**: Kuma ships with multi-tenancy support since day one. This means you can create and configure multiple isolated Service Meshes from **one** control-plane. By doing so we lower the complexity and the operational cost of supporting multiple meshes. [Explore Kuma's Policies](/docs/0.1.0/policies).
 :::
 
 Since Kuma bundles a data-plane in addition to the control-plane, we decided to call the executables `kuma-cp` and `kuma-dp` to differentiate them. Let's take a look at all the executables that ship with Kuma:
@@ -67,12 +67,12 @@ When following the installation instructions, `kuma-injector` will be automatica
 </center>
 
 ::: tip
-**Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](#policies) with Kuma's CRDs applied via `kubectl`.
+**Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](/docs/0.1.0/policies) with Kuma's CRDs applied via `kubectl`.
 :::
 
 ### Last but not least
 
-Once the `kuma-cp` process is started, it waits for data-planes to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](#policies).
+Once the `kuma-cp` process is started, it waits for [data-planes](#dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](/docs/0.1.0/policies).
 
 When we look at a typical Kuma installation, at a higher level it works like this:
 
@@ -97,7 +97,7 @@ As explained in the [Overview](#overview), when Kuma (`kuma-cp`) is up and runni
 Kuma supports a few different backends that we can use when running `kuma-cp`. You can configure the backend storage by setting the `KUMA_STORE_TYPE` environment variable when running the control plane.
 
 ::: tip
-This information has been documented for clarity, but when following the [installation instructions](/install) these settings will be automatically configured.
+This information has been documented for clarity, but when following the [installation instructions](/install/0.1.0) these settings will be automatically configured.
 :::
 
 The backends are:
@@ -130,7 +130,7 @@ $ KUMA_STORE_TYPE=kubernetes kuma-cp run
 
 ## Dependencies
 
-Kuma (`kuma-cp`) is one single executable that can be installed anywhere, hence why it's both universal and simple to deploy. 
+Kuma (`kuma-cp`) is one single executable written in GoLang that can be installed anywhere, hence why it's both universal and simple to deploy. 
 
 * Running on **Kubernetes**: No external dependencies required, since it leverages the underlying K8s API server to store its configuration. A `kuma-injector` service will also start in order to automatically inject sidecar data-plane proxies without human intervention.
 
@@ -142,19 +142,19 @@ Out of the box, Kuma ships with a bundled [Envoy](https://www.envoyproxy.io/) da
 Kuma ships with an executable `kuma-dp` that will execute the bundled `envoy` executable in order to execute the data-plane proxy. The behavior of the data-plane executable is being explained in the [Overview](#overview).
 :::
 
-[Install Kuma](/install) and follow the instructions to get up and running in a few steps.
+[Install Kuma](/install/0.1.0) and follow the instructions to get up and running in a few steps.
 
 ## DPs and Data Model
 
 When Kuma (`kuma-cp`) runs, it will be waiting for the data-planes to connect and register themselves. In order for a data-plane to successfully run, two things have to happen before being executed:
 
-* There must exist at least one `Mesh` in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
-* There must exist a `Dataplane` entity in Kuma **before** the actual data-plane tries to connect to it via `kuma-dp`.
+* There must exist at least one [`Mesh`](/docs/0.1.0/policies/#mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
+* There must exist a [`Dataplane`](#dataplane-entity) entity in Kuma **before** the actual data-plane tries to connect to it via `kuma-dp`.
 
 TODO: IMAGE DATA-MODEL
 
 ::: tip
-On Universal the `Dataplane` entity must be **manually** created before starting `kuma-dp`, on Kubernetes it is **automatically** created.
+On Universal the [`Dataplane`](#dataplane-entity) entity must be **manually** created before starting `kuma-dp`, on Kubernetes it is **automatically** created.
 :::
 
 ### Dataplane Entity
@@ -210,25 +210,52 @@ kuma-dp run
 
 In the example above, any external client who wants to consume Redis will have to make a request to the DP on port `9000`, which internally will be redirected to the Redis service listening on port `6379`.
 
+Now let's assume that we have another service called "Backend" that internally listens on port `80`, and that makes outgoing requests to the `redis` service:
+
+```sh
+echo "type: Dataplane
+mesh: default
+name: backend-1
+networking:
+  inbound:
+  - interface: 127.0.0.1:8000:80
+    tags:
+      service: backend
+  outbound:
+  - interface: :10000
+    service: redis" | kumactl apply -f -
+
+KUMA_CONTROL_PLANE_BOOTSTRAP_SERVER_URL=http://control-plane:5682 \
+KUMA_DATAPLANE_MESH=default \
+KUMA_DATAPLANE_NAME=redis-1 \
+kuma-dp run
+```
+
+In order for the `backend` service to successfully consume `redis`, we specify an `outbound` networking section in the `Dataplane` configuration instructing the DP to listen on a new port `10000` and to proxy any outgoing request on port `10000` to the `redis` service. For this to work, we must update our application to consume `redis` on `127.0.0.1:10000`.
+
+::: tip
+As mentioned before, this is only required in Universal. In Kubernetes no change to our applications are required thanks to automated transparent proxying.
+:::
+
 ### Envoy
 
-Since `kuma-dp` is built on top of Envoy, once the data-plane is running you can also access the [Envoy HTTP API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) by consuming port `9901`.
+Since `kuma-dp` is built on top of Envoy, once the data-plane is running you can also access the [Envoy HTTP API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) by consuming port `9901`. This can be very useful for debugging purposes.
 
 ### Tags
 
-A data-plane can have many labels that define its role within your architecture. It is obviously associated to a service, but can also have some other properties that we might want to define. For example, if it runs in a specific world region, or a specific cloud vendor. In Kuma these labels are called `tags` and they are being set in the `Dataplane` entity.
+A data-plane can have many labels that define its role within your architecture. It is obviously associated to a service, but can also have some other properties that we might want to define. For example, if it runs in a specific world region, or a specific cloud vendor. In Kuma these labels are called `tags` and they are being set in the [`Dataplane`](#dataplane-entity) entity.
 
 ::: tip
 There is one special tag, the `service` tag, that must always be set.
 :::
 
-Tags are important because can be used later on by any [Policy](/policies) that Kuma supports now and in the future. For example, it will be possible to route requests from one region to another assuming there is a `region` tag associated to the data-planes.
+Tags are important because can be used later on by any [Policy](/docs/0.1.0/policies) that Kuma supports now and in the future. For example, it will be possible to route requests from one region to another assuming there is a `region` tag associated to the data-planes.
 
 ### Dataplane Specification
 
-The `Dataplane` entity includes the networking and naming configuration that a data-plane proxy (`kuma-dp`) must have attempting to connect to the control-plane (`kuma-cp`).
+The [`Dataplane`](#dataplane-entity) entity includes the networking and naming configuration that a data-plane proxy (`kuma-dp`) must have attempting to connect to the control-plane (`kuma-cp`).
 
-In Universal mode we must manually create the `Dataplane` entity before running `kuma-dp`. A `Dataplane` entity can be created with `kumactl` or by using the HTTP API. When using `kumactl`, the entity definition will look like:
+In Universal mode we must manually create the [`Dataplane`](#dataplane-entity) entity before running `kuma-dp`. A [`Dataplane`](#dataplane-entity) entity can be created with [`kumactl`](#kumactl) or by using the [HTTP API](#http-api). When using [`kumactl`](#kumactl), the entity definition will look like:
 
 ```yaml
 type: Dataplane
@@ -258,7 +285,7 @@ The `Dataplane` entity includes a few sections:
     * `service`: the name of the service associated with the interface.
 
 ::: tip
-On Kubernetes this whole process is automated via transparent proxying and without changing your application's code. On Universal Kuma doesn't support transparent proxying yet, and the outbound service dependencies have to be manually specified in the `Dataplane` entity. This also means that in Universal **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
+On Kubernetes this whole process is automated via transparent proxying and without changing your application's code. On Universal Kuma doesn't support transparent proxying yet, and the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity. This also means that in Universal **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
 :::
 
 ### Kubernetes 
@@ -269,7 +296,7 @@ On Kubernetes the data-planes are automatically injected via the `kuma-injector`
 kuma.io/sidecar-injection: enabled
 ```
 
-On Kubernetes the `Dataplane` entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
+On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
 ## CLI
 
@@ -281,7 +308,7 @@ Kuma ships in a bundle that includes a few executables:
 * `kumactl`: this is the the user CLI to interact with Kuma (`kuma-cp`) and its data.
 * `kuma-injector`: only for Kubernetes, this is a process that listens to events propagated by Kubernetes, and that automatically injects a `kuma-dp` sidecar container to our services.
 
-According to the [installation instructions](/install), some of these executables are automatically executed as part of the installation workflow, while some other times you will have to execute them directly.
+According to the [installation instructions](/install/0.1.0), some of these executables are automatically executed as part of the installation workflow, while some other times you will have to execute them directly.
 
 You can check the usage of the executables by running the `-h` flag, like:
 
@@ -299,7 +326,7 @@ $ kuma-cp version --detailed
 
 The `kumactl` executable is a very important component in your journey with Kuma. It allows to:
 
-* Retrieve the state of Kuma and the configured policies in every environment.
+* Retrieve the state of Kuma and the configured [policies](/docs/0.1.0/policies) in every environment.
 * On **Universal** environments, it allows to change the state of Kuma by applying new policies with the `kumactl apply [..]` command.
 * On **Kubernetes** it is **read-only**, because you are supposed to change the state of Kuma by leveraging Kuma's CRDs.
 * It provides helpers to install Kuma on Kubernetes, and to configure the PostgreSQL schema on Universal (`kumactl install [..]`).
@@ -308,19 +335,15 @@ The `kumactl` executable is a very important component in your journey with Kuma
 The `kumactl` application is a CLI client for the underlying [HTTP API](#http-api) of Kuma. Therefore, you can access the state of Kuma by leveraging with the API directly. On Universal you will be able to also make changes via the HTTP API, while on Kubernetes the HTTP API is read-only.
 :::
 
-### kumactl install ..
+Available commands on `kumactl` are:
 
-### kumactl config ..
-
-### kumactl apply ..
-
-### kumactl get ..
-
-### kumactl inspect ..
-
-### kumactl help ..
-
-### kumactl version ..
+* `kumactl install [..]`: provides helpers to install Kuma in Kubernetes, or to configure the PostgreSQL database on Universal.
+* `kumactl config [..]`: configures the local or remote control-planes that `kumactl` should talk to. You can have more than one enabled, and the configuration will be stored in `~/.kumactl/config`.
+* `kumactl apply [..]`: used to change the state of Kuma. Only available on Universal.
+* `kumactl get [..]`: used to retrieve the raw state of entities Kuma.
+* `kumactl inspect [..]`: used to retrieve an augmented state of entities in Kuma.
+* `kumactl help [..]`: help dialog that explains the commands available.
+* `kumactl version [--detailed]`: shows the version of the program.
 
 ## HTTP API
 
@@ -353,14 +376,8 @@ When `kuma-cp` starts up, by default it listens on a few ports:
 * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when runnning in `universal` - that you can use to apply new policies.
 * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
 
-## Policies
-
-TODO
-
-## Roadmap
-
-TODO
-
 ## Quickstart
 
-TODO
+The getting started for Kuma can be found in the [installation page](/install/0.1.0) where you can follow the instructions to get up and running with Kuma.
+
+If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.
