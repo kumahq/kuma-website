@@ -66,7 +66,7 @@ The sidecar proxy model **requires** a control plane that allows a team to confi
 **Service Mesh**: An architecture made of sidecar proxies deployed next to our services (the data-planes, or DPs), and a control plane (CP) controlling those DPs, is called Service Mesh. Usually, Service Mesh appears in the context of Kubernetes, but anybody can build Service Meshes on any platform (including VMs and Bare Metal).
 :::
 
-With Kuma we have the main goal of reducing the code that has to be written and maintained in order to build reliable architectures, therefore Kuma embraces the sidecar proxy model by leveraging Envoy as its sidecar data-plane technology.
+With Kuma, our main goal is to reduce the code that has to be written and maintained to build reliable architectures. Therefore, Kuma embraces the sidecar proxy model by leveraging Envoy as its sidecar data-plane technology.
 
 By outsourcing all the connectivity, security and routing concerns to a sidecar proxy we can now build applications faster, focus on the core functionality of our services in order to drive more business, and build a more secure and standardized architecture by reducing fragmentation.
 
