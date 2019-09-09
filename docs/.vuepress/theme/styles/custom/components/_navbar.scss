@@ -73,7 +73,8 @@ $navbar-link-font-family: $base-font-family;
   }
 
   .repo-button {
-    
+    // visually-centers the repo button next to the logo
+    margin-top: 11px;
   }
 
   // install button
