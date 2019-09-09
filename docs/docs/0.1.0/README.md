@@ -45,7 +45,10 @@ Every time our services interconnect via a network request, we put the end-user 
 
 Usually, at this point, developers take one of the following actions to remedy the situation:
 
-* **Write more code**: A *smart* client is being built that every service will have to utilize in the form of a library. Usually this approach introduces a few problems: it creates more technical debt, it is usually language-specific therefore it prevents innovation, or multiple implementations of the library exist which creates fragmentation in the long run.
+* **Write more code**: developers build a *smart* client that every service will have to utilize in the form of a library. Usually, this approach introduces a few problems: 
+  - it creates more technical debt
+  - it is tpyically language-specific; therefore, it prevents innovation 
+  - multiple implementations of the library exist, which creates fragmentation in the long run.
 
 * **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. By using this approach developers don't worry about connectivity and only focus on delivering business value from their services.
 
