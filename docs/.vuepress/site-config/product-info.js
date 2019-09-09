@@ -13,7 +13,7 @@ module.exports = {
   repo: "https://github.com/kong/kuma", // @todo update with the finalize repo
   repoButtonLabel: "Star",
   logo: "/images/brand/kuma-logo.svg",
-  hostname: "https://kuma.io/",
+  hostname: "https://kuma.io",
   cliNamespace: "kumactl",
   slackInviteURL: "https://chat.kuma.io",
   slackChannelURL: "https://kuma-mesh.slack.com",

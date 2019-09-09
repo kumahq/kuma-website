@@ -44,6 +44,7 @@ module.exports = {
   ],
   // theme configuration
   themeConfig: {
+    domain: productData.hostname,
     latestVer: LatestSemver(releases),
     twitter: productData.twitter,
     author: productData.author,
@@ -99,8 +100,8 @@ module.exports = {
       customMeta: (add, context) => {
         const { $site, $page } = context
 
-        add("twitter:image", productData.ogImage)
-        add("og:image", productData.ogImage)
+        add("twitter:image", `${productData.hostname}${productData.ogImage}`)
+        add("og:image", `${productData.hostname}${productData.ogImage}`)
         add("og:image:width", 800)
         add("og:image:height", 533)
       }
