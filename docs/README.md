@@ -4,9 +4,15 @@ home: true
 search: false
 pageClass: is-home
 
+# page meta
+meta:
+  - name: keywords
+    content: service mesh microservices open-source
+
 # custom page data
-testimonialPortraitSrc: /images/marco-cropped.jpg
-testimonialPortraitAlt: Marco Palladino
+testimonialPortraitSrc: /images/matt-klein-cropped@2x.jpg
+testimonialPortraitAlt: Matt Klein
+hideTestimonial: false # change this to `true` if you want to display the testimonial
 ---
 
 <!-- page masthead -->
@@ -49,15 +55,16 @@ Enterprise-ready and platform agnostic with native Kubernetes + CRD support, as 
 <!-- testimonial -->
 
 ::: slot testimonial-content 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+Kuma brings Kong's proven enterprise developer focus to an Envoy based service mesh, which will make it faster and easier 
+for companies to create and manage cloud-native applications.
 :::
 
 ::: slot testimonial-author
-Marco Palladino,
+Matt Klein,
 :::
 
 ::: slot testimonial-author-info
-CTO, [Kong, Inc.](https://konghq.com/)
+Envoy Proxy Creator, Engineer at Lyft
 :::
 
 <!-- steps -->

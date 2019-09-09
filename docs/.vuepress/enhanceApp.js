@@ -23,4 +23,16 @@ export default ({
       }
     }
   })
+
+  /**
+   * Get the latest version
+   * Good for use in pages, etc.
+   */
+  Vue.mixin({
+    computed: {
+      latestVer() {
+        return siteData.themeConfig.latestVer
+      }
+    }
+  })
 }

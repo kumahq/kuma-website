@@ -1,3 +1,7 @@
+---
+title: Documentation
+---
+
 # Welcome to Kuma
 
 ::: tip

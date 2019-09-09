@@ -19,7 +19,7 @@ $sidebar-button-left-spacing: 1.5rem;
   position: fixed;
   top: 0;
   left: auto;
-  // overflow: visible;
+  overflow-y: auto !important;
   // background: none;
   background-color: #fff;
   font-size: $base-font-size;

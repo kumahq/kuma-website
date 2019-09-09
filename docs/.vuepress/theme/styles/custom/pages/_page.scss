@@ -31,6 +31,15 @@
   margin-right: auto;
 }
 
+// general use page styles
+main.page {
+
+  .theme-default-content {
+    padding-top: 4.063rem;
+    padding-bottom: 4.063rem;
+  }
+}
+
 @media (min-width: $MQMobile + 1) {
   .page {
     flex: 1;

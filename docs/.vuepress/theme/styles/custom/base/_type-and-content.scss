@@ -54,6 +54,21 @@ div[class*="language-"].line-numbers-mode pre {
   padding-left: 4.5rem;
 }
 
+div[class*="language-"] {
+  background-color: $codeBgColor !important;
+}
+
+#{$contentClass} {
+  .theme-default-content pre,
+  .theme-default-content div[class*="language-"] {
+    background-color: $codeBgColor !important;
+
+    code {
+      color: #333;
+    }
+  }
+}
+
 // Images
 
 img {

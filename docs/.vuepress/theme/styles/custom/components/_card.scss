@@ -17,6 +17,11 @@ $card-icon-margin: 1rem;
   background-color: $card-bg-color;
   border-radius: $card-radius;
   box-shadow: $card-shadow;
+
+  // we don't need anchor headers in this component
+  .header-anchor {
+    display: none !important;
+  }
 }
 
 .card__header {

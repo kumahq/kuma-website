@@ -1,4 +1,10 @@
 /**
+ * Releases
+ */
+const LatestSemver = require('latest-semver')
+const releases = require('./public/releases.json')
+
+/**
  * Product data
  */
 const productData = require("./site-config/product-info")
@@ -38,6 +44,7 @@ module.exports = {
   ],
   // theme configuration
   themeConfig: {
+    latestVer: LatestSemver(releases),
     twitter: productData.twitter,
     author: productData.author,
     repo: productData.repo,
@@ -55,6 +62,7 @@ module.exports = {
       indexName: ""
     },
     sidebar: sidebarNav,
+    sidebarDepth: 2,
     displayAllHeaders: true,
     // main navigation
     nav: [
@@ -93,6 +101,8 @@ module.exports = {
 
         add("twitter:image", productData.ogImage)
         add("og:image", productData.ogImage)
+        add("og:image:width", 800)
+        add("og:image:height", 533)
       }
     }
   },

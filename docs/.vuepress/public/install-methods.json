@@ -10,8 +10,28 @@
     "slug": "kubernetes"
   },
   {
-    "label": "Linux",
-    "logo": "/images/platforms/logo-linux.svg",
-    "slug": "linux"
+    "label": "CentOS",
+    "logo": "/images/platforms/logo-centos.gif",
+    "slug": "centos"
+  },
+  {
+    "label": "RedHat",
+    "logo": "/images/platforms/logo-redhat.jpg",
+    "slug": "redhat"
+  },
+  {
+    "label": "Debian",
+    "logo": "/images/platforms/logo-debian.jpg",
+    "slug": "debian"
+  },
+  {
+    "label": "Ubuntu",
+    "logo": "/images/platforms/logo-ubuntu.png",
+    "slug": "ubuntu"
+  },
+  {
+    "label": "macOS",
+    "logo": "/images/platforms/logo-macos.png",
+    "slug": "macos"
   }
 ]

@@ -86,7 +86,7 @@ export default {
         {
           group: 'Resources',
           items: [
-            { label: 'Enterprise Support', url: '#' },
+            // { label: 'Enterprise Support', url: '#' },
             { label: 'Documentation', url: '/docs/' },
             { label: 'Partners', url: 'https://konghq.com/partners/' },
             { label: 'Webinars', url: 'https://konghq.com/webinars/' },
@@ -123,15 +123,15 @@ export default {
       subLinks: [
         { label: 'Terms', url: '#' },
         { label: 'Privacy', url: '#' },
-        { label: 'Sitemap', url: '#' }
+        // { label: 'Sitemap', url: '#' }
       ],
       socialIconPath: '/images/social/',
       socialIconSize: 16, // in px
       socialLinks: [
-        { label: 'Facebook', icon: 'icon-facebook.svg', url: '#' },
-        { label: 'Twitter', icon: 'icon-twitter.svg', url: '#' },
+        // { label: 'Facebook', icon: 'icon-facebook.svg', url: '#' },
+        { label: 'Twitter', icon: 'icon-twitter.svg', url: 'https://twitter.com/KumaMesh' },
         { label: 'Meetup', icon: 'icon-meetup.svg', url: 'https://www.meetup.com/members/121234612/' },
-        { label: 'Github', icon: 'icon-github.svg', url: '#' }
+        { label: 'Github', icon: 'icon-github.svg', url: 'https://github.com/kong/kuma' }
       ]
     }
   },

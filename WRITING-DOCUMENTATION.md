@@ -70,8 +70,11 @@ You can read more about VuePress' sidebar handling [in the official VuePress doc
 If you want to include partials into your documentation:
 
 ```
-!!!include(../.partials/what-is-Kuma.md)!!!
+!!!include(your-partial.md)!!!
 ```
+
+The includes path is located in `/docs/.partials/`. VuePress will automatically look for your includes
+in this directory.
 
 ### Out-of-box features
 If you want to see the full set of markdown features VuePress offers, please refer to [the official VuePress
