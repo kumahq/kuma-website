@@ -107,7 +107,7 @@ Kuma exists today to provide a pragmatic journey to implementing Service Mesh fo
 
 Until now, Service Mesh has been considered to be the last step of architecture modernization after transitioning to containers and perhaps to Kubernetes. This approach is entirely backwards. It makes the adoption and the business value of Service Mesh available only after implementing other massive transformations that—in the meanwhile—can go wrong.
 
-In reality, we want service mesh to be available *before* we implement other transitions so that we can keep the network both secure and observable in the process. With Kuma, service mesh is indeed the **first step** towards modernization.
+In reality, we want Service Mesh to be available *before* we implement other transitions so that we can keep the network both secure and observable in the process. With Kuma, Service Mesh is indeed the **first step** towards modernization.
 
 Unlike other control planes, Kuma natively runs across any platform and it's not limited in scope (ie, Kubernetes only). Kuma works on both existing brownfield applications (those apps that deliver business value today), as well as new modern greenfield applications that will be the future of our journey.
 
