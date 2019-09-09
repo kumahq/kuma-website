@@ -2,6 +2,9 @@
 // Site styles
 // 
 
+// VuePress default theme config
+@import './vuepress-core/config';
+
 // All of our project SCSS variables
 @import './custom/config/variables';
 
@@ -13,8 +16,7 @@
 // default VuePress theme.
 // 
 
-@import './vuepress-core/config',
-        './vuepress-core/wrapper',
+@import './vuepress-core/wrapper',
         './vuepress-core/index',
         './vuepress-core/algolia-search',
         './vuepress-core/arrow',
