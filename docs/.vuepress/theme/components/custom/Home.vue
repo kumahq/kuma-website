@@ -47,7 +47,7 @@
     </div>
     <!-- .features-wrap -->
 
-    <div class="testimonial-wrap">
+    <div v-if="$page.frontmatter.hideTestimonial" class="testimonial-wrap">
 
       <div class="inner testimonial">
         <blockquote class="testimonial__content-wrap">
