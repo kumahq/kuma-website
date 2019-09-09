@@ -43,7 +43,7 @@ For example, think of any application that communicates with a database to store
 
 Every time our services interconnect via a network request, we put the end-user experience at risk. As we all know the connectivity between different services can be slow and unpredictable. It can be insecure,  hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments).
 
-Usually at this point developers take one of the following actions to remedy the situation:
+Usually, at this point, developers take one of the following actions to remedy the situation:
 
 * **Write more code**: A *smart* client is being built that every service will have to utilize in the form of a library. Usually this approach introduces a few problems: it creates more technical debt, it is usually language-specific therefore it prevents innovation, or multiple implementations of the library exist which creates fragmentation in the long run.
 
