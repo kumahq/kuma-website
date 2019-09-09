@@ -4,6 +4,11 @@ home: true
 search: false
 pageClass: is-home
 
+# page meta
+meta:
+  - name: keywords
+    content: service mesh microservices open-source
+
 # custom page data
 testimonialPortraitSrc: /images/matt-klein-cropped@2x.jpg
 testimonialPortraitAlt: Matt Klein
