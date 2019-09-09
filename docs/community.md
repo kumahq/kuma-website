@@ -48,7 +48,7 @@ can discuss and ask questions in real-time. If you have already joined, go direc
 
 ::: slot card-3-content
 Kuma hosts official monthly community calls where users and contributors can
-discuss about any topic and demonstrate use-cases. [Join the next call](#).
+discuss about any topic and demonstrate use-cases. [Join the next call](https://docs.google.com/document/d/1heIynPTVcHn13BXMJO0KiOr8bTmbhzVxJe5yajp4Xz4/).
 :::
 
 <!-- card 4 -->
