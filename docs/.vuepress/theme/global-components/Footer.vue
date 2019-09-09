@@ -121,8 +121,8 @@ export default {
         }
       ],
       subLinks: [
-        { label: 'Terms', url: '#' },
-        { label: 'Privacy', url: '#' },
+        { label: 'Terms', url: '/terms-of-service/' },
+        { label: 'Privacy', url: '/privacy-policy/' },
         // { label: 'Sitemap', url: '#' }
       ],
       socialIconPath: '/images/social/',
