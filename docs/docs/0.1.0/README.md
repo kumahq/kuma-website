@@ -109,7 +109,7 @@ Until now, Service Mesh has been considered to be the last step of architecture 
 
 In reality, we want Service Mesh to be available *before* we implement other transitions so that we can keep the network both secure and observable in the process. With Kuma, Service Mesh is indeed the **first step** towards modernization.
 
-Unlike other control planes, Kuma natively runs across any platform, and it's not limited in scope (i.e., Kubernetes only). Kuma works on both existing brownfield applications (those apps that deliver business value today), as well as new modern greenfield applications that will be the future of our journey.
+Unlike other control planes, Kuma natively runs across any platform, and it's not limited in scope (i.e., Kubernetes only). Kuma works on both existing brownfield applications (those apps that deliver business value today), as well as new and modern greenfield applications that will be the future of our journey.
 
 Unlike other control planes, Kuma is easy to use. Anybody - from any team - can implement Kuma in three simple steps across both traditional monolithic applications and modern microservices.
 
