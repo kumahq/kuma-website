@@ -56,7 +56,7 @@ Usually, at this point, developers take one of the following actions to remedy t
 **Sidecar Proxy**: It's called *sidecar* proxy because it's another process running alongside our service on the same host, like a motorcycle sidecar. There is going to be one sidecar proxy for each running instance of our services.
 :::
 
-The sidecar proxy model **requires** a control plane that allows to configure the behavior of the data-planes and keep track of the state of our services. Teams that adopt the sidecar proxy model they usually either build a control plane from scratch, or they use existing general purpose control planes available on the market, Kuma being one of them. [Compare Kuma with other CPs](#kuma-vs-xyz).
+The sidecar proxy model **requires** a control plane that allows a team to configure the behavior of the data-planes and to keep track of the state of its services. Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as Kuma. [Compare Kuma with other CPs](#kuma-vs-xyz).
 
 <center>
 <img src="/images/docs/0.1.0/diagram-03.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
