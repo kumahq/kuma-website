@@ -24,24 +24,6 @@ const releaseArray = require("./site-config/install-route-builder")
  * Site Configuration
  */
 module.exports = {
-  title: productData.title,
-  description: productData.description,
-  host: "localhost",
-  head: [
-    // favicons, touch icons, web app stuff
-    [ "link", { rel: "icon", href: "/images/favicon-64px.png" } ],
-    [ "link", { rel: "apple-touch-icon", "sizes": "180x180", href: "/images/apple-touch-icon.png" } ],
-    [ "link", { rel: "manifest", href: "/site.webmanifest" } ],
-    [ "meta", { name: "msapplication-TileColor", content: "#ffffff" } ],
-    [ "meta", { name: "theme-color", content: "#ffffff" } ],
-    // web fonts
-    [
-      "link", {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
-      }
-    ]
-  ],
   // theme configuration
   themeConfig: {
     domain: productData.hostname,
@@ -74,6 +56,24 @@ module.exports = {
       { text: "Install", link: "/install/" }
     ]
   },
+  title: productData.title,
+  description: productData.description,
+  host: "localhost",
+  head: [
+    // favicons, touch icons, web app stuff
+    [ "link", { rel: "icon", href: `${productData.hostname}/images/favicon-64px.png` } ],
+    [ "link", { rel: "apple-touch-icon", "sizes": "180x180", href: `${productData.hostname}/images/apple-touch-icon.png` } ],
+    [ "link", { rel: "manifest", href: `${productData.hostname}/site.webmanifest` } ],
+    [ "meta", { name: "msapplication-TileColor", content: "#ffffff" } ],
+    [ "meta", { name: "theme-color", content: "#ffffff" } ],
+    // web fonts
+    [
+      "link", {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
+      }
+    ]
+  ],
   // version release navigation
   additionalPages: [
     releaseArray
@@ -100,8 +100,11 @@ module.exports = {
       customMeta: (add, context) => {
         const { $site, $page } = context
 
-        add("twitter:image", `${productData.hostname}${productData.ogImage}`)
-        add("og:image", `${productData.hostname}${productData.ogImage}`)
+        // the full absolute URL for the OpenGraph image
+        const ogImagePath = `${productData.hostname}${productData.ogImage}`
+
+        add("twitter:image", ogImagePath)
+        add("og:image", ogImagePath)
         add("og:image:width", 800)
         add("og:image:height", 533)
       }
