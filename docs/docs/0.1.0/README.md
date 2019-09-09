@@ -73,7 +73,7 @@ By outsourcing all the connectivity, security, and routing concerns to a sidecar
 - focus on the core functionality of our services to drive more business
 - build a more secure and standardized architecture by reducing fragmentation
 
-In addition to this, by reducing the overall code that our teams have to create and maintain over time, we can also modernize our applications over time piece by piece without having to bite more than we can chew.
+By reducing the code that our teams create and maintain, we can modernize our applications piece by piece without ever needing to bite more than we can chew.
 
 <center>
 <img src="/images/docs/0.1.0/diagram-04.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
