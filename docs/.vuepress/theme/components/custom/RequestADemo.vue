@@ -76,69 +76,90 @@
       </div>
 
       <div class="demo-request-form w-full sm:w-1/2 px-4">
-        <!-- 
-          This form uses Web-To-Lead by Salesforce,
-          which is a bit dated.
-          
-          @todo Find a solution that allows us to use
-          modern form handlers and axios or fetch.
-          The endpoint is currently not setup for
-          this approach and will not pass data
-          properly.
-        -->
-        <form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST" class="sticky">
-          <input type="hidden" name="oid" value="00D41000000WdaQ">
-          <input type="hidden" name="retURL" value="http://go.konghq.com/l/392112/2019-09-03/bjz6ys">
-          <input type="hidden" name="Lead_Source_Detail" id="Lead_Source_Detail__c" value="Kuma Request a Demo">
-          <input type="hidden" name="lead_source" id="lead_source" value="Web">
-          <input type="hidden" name="Lead_Record_Type" id="RecordType" value="0121K000001QQgX">
-          <input type="hidden" name="utm_source" id="utm_source__c" value="">
-          <input type="hidden" name="utm_ad_group" id="utm_ad_group__c" value="">
-          <input type="hidden" name="utm_campaign" id="utm_campaign__c" value="">
-          <input type="hidden" name="utm_content" id="utm_content__c" value="">
-          <input type="hidden" name="utm_medium" id="utm_medium__c" value="">
-          <input type="hidden" name="utm_term" id="utm_term__c" value="">
 
-          <!-- debugging only -->
-          <input type="hidden" name="debug" value="1">
-          <input type="hidden" name="debugEmail" value="maria@konghq.com">
+        <validation-observer v-slot="{ invalid, passes }">
 
-          <div class="flex flex-wrap -mx-4">   
-            <div class="w-full md:w-1/2 px-4">
-              <label for="first_name">First Name</label>
-              <input  id="first_name" maxlength="40" name="first_name" size="20" type="text" />
+          <form class="sticky" @submit.prevent="passes(submitForm)">
+            <div class="flex flex-wrap -mx-4">
+
+              <div class="w-full md:w-1/2 px-4">
+                <label for="input_first_name">First Name</label>
+                <validation-provider rules="required" v-slot="{ errors }">
+                  <input v-model="formData.input_first_name" id="input_first_name" name="input_first_name" type="text" />
+                  <span class="note note--error">{{ errors[0] }}</span>
+                </validation-provider>
+              </div>
+
+              <div class="w-full md:w-1/2 px-4">
+                <label for="input_last_name">Last Name</label>
+                <validation-provider rules="required" v-slot="{ errors }">
+                  <input v-model="formData.input_last_name" id="input_last_name" name="input_last_name" type="text" />
+                  <span class="note note--error">{{ errors[0] }}</span>
+                </validation-provider>
+              </div>
+
+              <div class="w-full md:w-1/2 px-4">
+                <label for="input_email">Email</label>
+                <validation-provider rules="required|email" v-slot="{ errors }">
+                  <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />
+                  <span class="note note--error">{{ errors[0] }}</span>
+                </validation-provider>
+              </div>
+
+              <div class="w-full md:w-1/2 px-4">
+                <label for="input_company">Company</label>
+                <validation-provider rules="required" v-slot="{ errors }">
+                  <input v-model="formData.input_company" id="input_company" name="input_company" type="text" />
+                  <span class="note note--error">{{ errors[0] }}</span>
+                </validation-provider>
+              </div>
+
+              <div class="w-full md:w-1/2 px-4">
+                <label for="input_phone">Phone</label>
+                <validation-provider rules="required" v-slot="{ errors }">
+                  <input v-model="formData.input_phone" id="input_phone" name="input_phone" type="tel" />
+                  <span class="note note--error">{{ errors[0] }}</span>
+                </validation-provider>
+              </div>
+
+              <div class="w-full md:w-1/2 px-4">
+                <label for="input_title">Title</label>
+                <validation-provider rules="required" v-slot="{ errors }">
+                  <input v-model="formData.input_title" id="input_title" name="input_title" type="text" />
+                  <span class="note note--error">{{ errors[0] }}</span>
+                </validation-provider>
+              </div>
+
+              <div class="w-full px-4">
+                <label for="input_message">How can we help you?</label>
+                <validation-provider rules="required" v-slot="{ errors }">
+                  <textarea v-model="formData.input_message" id="input_message" name="input_message"></textarea>
+                  <span class="note note--error">{{ errors[0] }}</span>
+                </validation-provider>
+              </div>
+
+              <div class="w-full px-4 mt-4">
+                <button :disabled="invalid" name="submit" class="btn btn--bright btn--spaced btn--block">
+                  Request Demo
+                </button>
+              </div>
+
             </div>
-            <div class="w-full md:w-1/2 px-4">
-              <label for="last_name">Last Name</label>
-              <input  id="last_name" maxlength="80" name="last_name" size="20" type="text" />
+
+            <div v-if="submitted" class="tip custom-block">
+              <p class="custom-block-title">Thank you!</p>
+              <p>Your submission has been received.</p>
             </div>
-            <div class="w-full md:w-1/2 px-4">
-              <label for="email">Email</label>
-              <input id="email" maxlength="80" name="email" size="20" type="email" />
+
+            <div v-if="error" class="danger custom-block">
+              <p class="custom-block-title">Whoops!</p>
+              <p>Something went wrong! Please try again later.</p>
             </div>
-            <div class="w-full md:w-1/2 px-4">
-              <label for="company">Company</label>
-              <input id="company" maxlength="40" name="company" size="20" type="text" />
-            </div>
-            <div class="w-full md:w-1/2 px-4">
-              <label for="phone">Phone</label>
-              <input id="phone" maxlength="40" name="phone" size="20" type="text" />
-            </div>
-            <div class="w-full md:w-1/2 px-4">
-              <label for="title">Title</label>
-              <input id="title" maxlength="40" name="title" size="20" type="text" />
-            </div>
-            <div class="w-full px-4">
-              <label for="00N4100000PN0Nm">How can we help you?</label>
-              <textarea id="00N4100000PN0Nm" name="00N4100000PN0Nm" rows="3" type="text" wrap="soft"></textarea>
-            </div>
-            <div class="w-full px-4 mt-4">
-              <button type="submit" name="submit" class="btn btn--bright btn--spaced btn--block">
-                Request Demo
-              </button>
-            </div>
-          </div>
-        </form>
+
+          </form>
+
+        </validation-observer>
+
       </div>
 
     </div>
@@ -148,8 +169,72 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import axios from 'axios'
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
+import { required, email } from 'vee-validate/dist/rules'
+
+// required validation
+extend('required', {
+  ...required,
+  message: 'This field is required.'
+})
+
+// email validation
+extend('email', {
+  ...email,
+  message: 'This must be a valid email'
+})
+
 export default {
-  
+  data() {
+    return {
+      formData: {
+        input_first_name: '',
+        input_last_name: '',
+        input_email: '',
+        input_company: '',
+        input_phone: '',
+        input_title: '',
+        input_message: ''
+      },
+      submitted: false,
+      error: false
+    }
+  },
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
+  computed: {
+    ...mapGetters([
+      'getRequestADemoEndpoint'
+    ]),
+  },
+  methods: {
+    submitForm() {
+      const url = this.getRequestADemoEndpoint
+      const payload = this.formData
+
+      // tell the app we have submitted successfully
+      this.submitted = true
+
+      // send the form data
+      axios({
+        method: 'post',
+        url: url,
+        params: payload,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+      })
+      .catch(err => {
+        // let the app know if an error has occurred
+        this.error = true
+      })
+    }
+  }
 }
 </script>
 

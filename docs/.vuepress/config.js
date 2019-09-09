@@ -22,7 +22,7 @@ module.exports = {
   description: productData.description,
   host: "localhost",
   head: [
-    // favicons, touch icons
+    // favicons, touch icons, web app stuff
     [ "link", { rel: "icon", href: "/images/favicon-64px.png" } ],
     [ "link", { rel: "apple-touch-icon", "sizes": "180x180", href: "/images/apple-touch-icon.png" } ],
     [ "link", { rel: "manifest", href: "/site.webmanifest" } ],
@@ -36,6 +36,7 @@ module.exports = {
       }
     ]
   ],
+  // theme configuration
   themeConfig: {
     twitter: productData.twitter,
     author: productData.author,
@@ -68,6 +69,7 @@ module.exports = {
   additionalPages: [
     releaseArray
   ],
+  // plugin settings, build process, etc.
   markdown: {
     lineNumbers: true,
     extendMarkdown: md => {
@@ -102,6 +104,9 @@ module.exports = {
       })
     ]
   },
+  // this is covered in the VuePress documentation
+  // but it doesn't seem to work. Left here in case
+  // that changes.
   extraWatchFiles: [
     "/docs/.partials/*",
     "/site-config/product-info.js",

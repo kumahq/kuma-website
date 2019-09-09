@@ -1,5 +1,7 @@
 # Other
 
+Here you will find other content related to Kuma. Feel free to [get in touch](/community) with the community if you wish more content or examples to be added to the official documentation.
+
 ## Enterprise
 
 Kuma has been created at [Kong](https://konghq.com) from the experience and feedback of 150+ enterprise organizations implementing Service Mesh and Microservices within both new and existing architectures.
