@@ -128,7 +128,7 @@ export default {
       socialIconPath: '/images/social/',
       socialIconSize: 16, // in px
       socialLinks: [
-        { label: 'Facebook', icon: 'icon-facebook.svg', url: '#' },
+        // { label: 'Facebook', icon: 'icon-facebook.svg', url: '#' },
         { label: 'Twitter', icon: 'icon-twitter.svg', url: 'https://twitter.com/KumaMesh' },
         { label: 'Meetup', icon: 'icon-meetup.svg', url: 'https://www.meetup.com/members/121234612/' },
         { label: 'Github', icon: 'icon-github.svg', url: 'https://github.com/kong/kuma' }
