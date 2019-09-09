@@ -20,7 +20,10 @@ While being simple to use for most use-cases, Kuma also provides policies to con
 <img src="/images/docs/0.1.0/diagram-01.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Built by Kong with feedback from 150+ enterprise organizations running Service Mesh in production, Kuma implements a pragmatic approach that is very different from the 1st generation control planes: it runs with low operational overhead across all the organization, it supports every platform, and it's easy to use while relying on a solid networking foundation delivered by Envoy.
+Kong built Kuma with feedback from 150+ enterprise organizations running Service Mesh in production. Kuma implements a pragmatic approach that is very different from the first-generation control planes:  
+- it runs with low operational overhead across all the organization
+- it supports every platform 
+- it's easy to use while relying on a solid networking foundation delivered by Envoy.
 
 Built by Envoy contributors at Kong 🦍.
 
