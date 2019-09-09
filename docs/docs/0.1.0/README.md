@@ -68,7 +68,7 @@ The sidecar proxy model **requires** a control plane that allows a team to confi
 
 With Kuma, our main goal is to reduce the code that has to be written and maintained to build reliable architectures. Therefore, Kuma embraces the sidecar proxy model by leveraging Envoy as its sidecar data-plane technology.
 
-By outsourcing all the connectivity, security and routing concerns to a sidecar proxy we can now build applications faster, focus on the core functionality of our services in order to drive more business, and build a more secure and standardized architecture by reducing fragmentation.
+By outsourcing all the connectivity, security, and routing concerns to a sidecar proxy, we can now build applications faster, focus on the core functionality of our services to drive more business, and build a more secure and standardized architecture by reducing fragmentation.
 
 In addition to this, by reducing the overall code that our teams have to create and maintain over time, we can also modernize our applications over time piece by piece without having to bite more than we can chew.
 
