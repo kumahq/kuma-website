@@ -41,7 +41,7 @@ For example, think of any application that communicates with a database to store
 <img src="/images/docs/0.1.0/diagram-02.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Every time our services connect to each other via a network request we put the end-user experience at risk. As we all know the connectivity between different services can be slow and unpredictable, it can be unsecure, and it can be hard to trace, among the other problems (routing, versioning, canary deployments, and so on).
+Every time our services interconnect via a network request, we put the end-user experience at risk. As we all know the connectivity between different services can be slow and unpredictable; it can be insecure,  hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments).
 
 Usually at this point developers take one of the following actions to remedy the situation:
 
