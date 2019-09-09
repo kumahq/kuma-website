@@ -101,6 +101,8 @@ module.exports = {
 
         add("twitter:image", productData.ogImage)
         add("og:image", productData.ogImage)
+        add("og:image:width", 800)
+        add("og:image:height", 533)
       }
     }
   },
