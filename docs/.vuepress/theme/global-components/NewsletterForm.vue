@@ -1,46 +1,92 @@
 <template>
   <div class="form-wrapper">
 
-    <!-- 
-      This form uses Web-To-Lead by Salesforce,
-      which is a bit dated.
-      
-      @todo Find a solution that allows us to use
-      modern form handlers and axios or fetch.
-      The endpoint is currently not setup for
-      this approach and will not pass data
-      properly.
-     -->
+    <validation-observer v-slot="{ invalid, passes }">
+      <form class="form-horizontal" @submit.prevent="passes(submitForm)">
+        <label for="input_email" class="sr-only">Email</label>
+        <validation-provider rules="required|email" v-slot="{ errors }">
+          <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />
+          <span class="note note--error">{{ errors[0] }}</span>
+        </validation-provider>
+        <button :disabled="invalid" type="submit" name="submit" class="btn btn--bright">
+          Join Newsletter
+        </button>
+      </form>
+    </validation-observer>
 
-    <form class="form-horizontal" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST">
-      <input type="hidden" name="oid" value="00D41000000WdaQ">
-      <input type="hidden" name="retURL" value="http://go.konghq.com/l/392112/2019-09-03/bjz6yv">
-      <input type="hidden" name="Lead_Source_Detail" id="Lead_Source_Detail__c" value="Kuma Email List Signup">
-      <input type="hidden" name="lead_source" id="lead_source" value="Web">
-      <input type="hidden" name="Lead_Record_Type" id="RecordType" value="0121K000001QQgX">
-      <input type="hidden" name="utm_source" id="utm_source__c" value="">
-      <input type="hidden" name="utm_ad_group" id="utm_ad_group__c" value="">
-      <input type="hidden" name="utm_campaign" id="utm_campaign__c" value="">
-      <input type="hidden" name="utm_content" id="utm_content__c" value="">
-      <input type="hidden" name="utm_medium" id="utm_medium__c" value="">
-      <input type="hidden" name="utm_term" id="utm_term__c" value="">
+    <div v-if="submitted" class="tip custom-block">
+      <p class="custom-block-title">Thank you!</p>
+      <p>Your submission has been received.</p>
+    </div>
 
-      <!-- debugging only - hide for production -->
-      <input type="hidden" name="debug" value="1">
-      <input type="hidden" name="debugEmail" value="maria@konghq.com">
-
-      <!-- user fields -->
-      <label for="email" class="sr-only">Email</label>
-      <input  id="email" maxlength="80" name="email" size="20" type="text" />
-
-      <button type="submit" name="submit" class="btn btn--bright">
-        Join Newsletter
-      </button>
-    </form>
+    <div v-if="error" class="danger custom-block">
+      <p class="custom-block-title">Whoops!</p>
+      <p>Something went wrong! Please try again later.</p>
+    </div>
 
   </div>
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+import axios from 'axios'
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
+import { required, email } from 'vee-validate/dist/rules'
+
+// required validation
+extend('required', {
+  ...required,
+  message: 'This field is required.'
+})
+
+// email validation
+extend('email', {
+  ...email,
+  message: 'This must be a valid email'
+})
+
+export default {
+  data() {
+    return {
+      formData: {
+        input_email: ''
+      },
+      submitted: false,
+      error: false
+    }
+  },
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
+  computed: {
+    ...mapGetters([
+      'getNewsletterSignupEndpoint'
+    ])
+  },
+  methods: {
+    submitForm() {
+      const url = this.getNewsletterSignupEndpoint
+      const payload = this.formData
+
+      // tell the app we have submitted successfully
+      this.submitted = true
+
+      // send the form data
+      axios({
+        method: 'post',
+        url: url,
+        params: payload,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+      })
+      .catch(err => {
+        // let the app know if an error has occurred
+        this.error = true
+      })
+    }
+  }
+}
 </script>

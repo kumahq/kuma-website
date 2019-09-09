@@ -4,15 +4,17 @@
 **Protip**: Use `#kumamesh` on Twitter to chat about Kuma.
 :::
 
-Welcome to the official documentation for Kuma!
+Welcome to the official documentation for Kuma, the **Universal Control Plane**. 
 
-Here you will find all you need to know about the product. While Kuma is ideal for Service Mesh and Microservices, you will soon realize that it can be used to modernize any architecture. That's why we call it *Universal Control Plane*.
+Here you will find all you need to know about the product. While Kuma is ideal for Service Mesh and Microservices, you will soon realize that it can be used to modernize any architecture.
+
+The word "Kuma" means "bear" in Japanese くま.
 
 ## What is Kuma?
 
 Kuma is a universal open-source control plane for Service Mesh and Microservices. It can run and be operated natively across both Kubernetes and VM environments, making it easy to adopt by every team in the organization.
 
-Built on top of Envoy, Kuma can instrument any L4/L7 traffic to secure, observe, route, and enhance connectivity between any service or database. It can be used natively in Kubernetes via CRDs or a RESTful API across other environments. Either way, usage does not require a change to our application's code.
+Built on top of [Envoy](https://envoyproxy.io/), Kuma can instrument any L4/L7 traffic to secure, observe, route and enhance connectivity between any service or database. It can be used natively in Kubernetes via CRDs or via a RESTful API across other environments, and it doesn't require to change our application's code in order to be used.
 
 While being simple to use for most use-cases, Kuma also provides policies to configure the underlying Envoy data-planes in a more fine-grained manner. The result caters to both first-time users of Service Mesh, as well as the most experienced ones.
 
@@ -53,10 +55,12 @@ Usually, at this point, developers take one of the following actions to remedy t
 * **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. By using this approach, developers don't worry about connectivity and only focus on delivering business value from their services.
 
 ::: tip
-**Sidecar Proxy**: It's called *sidecar* proxy because it's another process running alongside our service on the same host, like a motorcycle sidecar. There is going to be one sidecar proxy for each running instance of our services.
+**Sidecar Proxy**: It's called *sidecar* proxy because it's another process running alongside our service process on the same host, like a motorcycle sidecar. There is going to be one instance of a sidecar proxy for each running instance of our services, and because all the incoming and outgoing requests - and their data - always go through the sidecar proxy, it is also called a data-plane (DP).
 :::
 
 The sidecar proxy model **requires** a control plane that allows a team to configure the behavior of the data-planes and to keep track of the state of its services. Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as Kuma. [Compare Kuma with other CPs](#kuma-vs-xyz).
+
+Unlike a data-plane (DP), the control-plane (CP) is never on the execution path of the requests that the services exchange with each other, and it's being used to configure the data-planes and retrieve data from them (like observability information).
 
 <center>
 <img src="/images/docs/0.1.0/diagram-03.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -85,7 +89,7 @@ By reducing the code that our teams create and maintain, we can modernize our ap
 
 When Service Mesh first became mainstream around 2017, a few control planes were released by small and large organizations in other to support the first implementations of this new architectural pattern.
 
-These control planes captured a lot of enthusiasm in the early days, but they all lacked pragmatism into creating a viable journey to Service Mesh adoption within existing organizations.
+These control planes captured a lot of enthusiasm in the early days, but they all lacked pragmatism into creating a viable journey to Service Mesh adoption within existing organizations. These 1st generation solutions are:
 
 * **Greenfield-only**: Hyper-focused on new greenfield applications, without providing a journey to modernize existing workloads running on VM and Bare Metal platforms where the current business runs today, in addition to Kubernetes.
 * **Complicated to use**: Service Mesh doesn't have to be complicated, but early implementations were hard to use; they had poor documentation and no clear upgrade path to mitigate breaking changes.
@@ -109,8 +113,12 @@ Until now, Service Mesh has been considered to be the last step of architecture 
 
 In reality, we want Service Mesh to be available *before* we implement other transitions so that we can keep the network both secure and observable in the process. With Kuma, Service Mesh is indeed the **first step** towards modernization.
 
+<center>
+<img src="/images/docs/0.1.0/diagram-05.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
 Unlike other control planes, Kuma natively runs across any platform, and it's not limited in scope (i.e., Kubernetes only). Kuma works on both existing brownfield applications (those apps that deliver business value today), as well as new and modern greenfield applications that will be the future of our journey.
 
-Unlike other control planes, Kuma is easy to use. Anybody - from any team - can implement Kuma in three simple steps across both traditional monolithic applications and modern microservices.
+Unlike other control planes, Kuma is easy to use. Anybody - from any team - can implement Kuma in [three simple steps](/install/0.1.0) across both traditional monolithic applications and modern microservices.
 
 Finally, by leveraging out-of-the-box policies and Kuma's powerful tagging selectors, we can implement a variety of behaviors in a variety of topologies, similar to multi-cloud and multi-region architectures.
