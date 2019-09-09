@@ -113,4 +113,4 @@ Unlike other control planes, Kuma natively runs across any platform, and it's no
 
 Unlike other control planes, Kuma is easy to use. Anybody - from any team - can implement Kuma in three simple steps across both traditional monolithic applications and modern microservices.
 
-Finally, by leveraging out of the box policies and Kuma's powerful tagging selectors, we can implement all sort of behaviors when it comes to both simple and complex topologies, like multi-cloud and multi-region architectures.
+Finally, by leveraging out-of-the-box policies and Kuma's powerful tagging selectors, we can implement a variety of behaviors in a variety of topologies, similar to multi-cloud and multi-region architectures.
