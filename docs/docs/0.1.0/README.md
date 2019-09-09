@@ -50,7 +50,7 @@ Usually, at this point, developers take one of the following actions to remedy t
   - it is tpyically language-specific; therefore, it prevents innovation 
   - multiple implementations of the library exist, which creates fragmentation in the long run.
 
-* **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. By using this approach developers don't worry about connectivity and only focus on delivering business value from their services.
+* **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. By using this approach, developers don't worry about connectivity and only focus on delivering business value from their services.
 
 ::: tip
 **Sidecar Proxy**: It's called *sidecar* proxy because it's another process running alongside our service on the same host, like a motorcycle sidecar. There is going to be one sidecar proxy for each running instance of our services.
