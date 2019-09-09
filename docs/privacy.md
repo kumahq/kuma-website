@@ -1,9 +1,9 @@
 ---
 sidebar: false
-title: Privacy Policy
+title: Privacy
 ---
 
-# Privacy Policy
+# Privacy
 
 Kong Inc. (“Kong Inc.,” “we,” “us” or “our”) provides this Privacy Policy (“Policy”) to inform you of our policies and procedures regarding the collection, use and disclosure of information about you including when you use our websites, including, but not limited to, konghq.com, getkong.org, mashape.com, gelato.io, and getgalileo.io (each, a “Site” and collectively, the “Sites”), and other products and services (collectively, “Services”) as well as when you interact with us.
 
