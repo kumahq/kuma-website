@@ -64,7 +64,6 @@ Now you can start applying [policies](/docs/0.1.0/policies) to your `default` Se
 
 ```sh
 echo "type: Mesh
-mesh: default
 name: default
 mtls:
   enabled: true 

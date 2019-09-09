@@ -151,7 +151,9 @@ When Kuma (`kuma-cp`) runs, it will be waiting for the data-planes to connect an
 * There must exist at least one [`Mesh`](/docs/0.1.0/policies/#mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
 * There must exist a [`Dataplane`](#dataplane-entity) entity in Kuma **before** the actual data-plane tries to connect to it via `kuma-dp`.
 
-TODO: IMAGE DATA-MODEL
+<center>
+<img src="/images/docs/0.1.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
 
 ::: tip
 On Universal the [`Dataplane`](#dataplane-entity) entity must be **manually** created before starting `kuma-dp`, on Kubernetes it is **automatically** created.
@@ -165,7 +167,9 @@ To understand why the `Dataplane` entity is required, we must take a step back. 
 
 For example, if we have 6 replicas of a "Redis" service, then we must have one instances of `kuma-dp` running alongside each replica of the service, therefore 6 replicas of `kuma-dp` as well.
 
-TODO: IMAGE REDIS
+<center>
+<img src="/images/docs/0.1.0/diagram-11.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
 
 ::: tip
 **Many DPs!** The number of data-planes that we have running can quickly add up, since we have one replica of `kuma-dp` for every replica of every service. That's why it's important for the DP process to be lightweight and consume a few resources, otherwise we would quickly run out of memory, especially on platforms like Kubernetes where multiple services are running on the same underlying host machine. And that's one of the reasons why Kuma leverages Envoy for this task.

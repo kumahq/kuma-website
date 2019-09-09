@@ -4,10 +4,14 @@
 **Need help?** Installing and using Kuma should be as easy as possible. [Contact and chat](/community) with the community in real-time if you get stuck or need clarifications. We are here to help.
 :::
 
-Once installed, Kuma can be configured via its policies. You can apply policies with `kumactl` on Universal, and with `kubectl` on Kubernetes. Regardless of what environment you use, you can always read the latest Kuma state with `kumactl` on both environments.
+Here you can find the list of Policies that Kuma supports, that will allow you to build a modern and reliable Service Mesh.
+
+## Applying Policies
+
+Once installed, Kuma can be configured via its policies. You can apply policies with [`kumactl`](/docs/0.1.0/documentation/#kumactl) on Universal, and with `kubectl` on Kubernetes. Regardless of what environment you use, you can always read the latest Kuma state with [`kumactl`](/docs/0.1.0/documentation/#kumactl) on both environments.
 
 ::: tip
-We follow the best practices. You should always change your Kubernetes state with CRDs, that's why Kuma disables `kumactl apply` when running on K8s environments.
+We follow the best practices. You should always change your Kubernetes state with CRDs, that's why Kuma disables `kumactl apply [..]` when running in K8s environments.
 :::
 
 These policies can be applied either by file via the `kumactl -f [path]` or `kubectl -f [path]` syntax, or by using the following command:
@@ -29,7 +33,7 @@ echo "
 " | kubectl -f -
 ```
 
-Below you can find the policies that Kuma supports. In addition to `kumactl`, you can also retrive the state via the Kuma HTTP API as well.
+Below you can find the policies that Kuma supports. In addition to [`kumactl`](/docs/0.1.0/documentation/#kumactl), you can also retrive the state via the Kuma [HTTP API](/docs/0.1.0/documentation/#http-api) as well.
 
 ## Mesh
 
@@ -39,7 +43,6 @@ On Universal:
 
 ```yaml
 type: Mesh
-mesh: default
 name: default
 ```
 
@@ -48,13 +51,10 @@ On Kuberentes:
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
-spec:
+metadata:
+  namespace: kuma-system
   name: default
 ```
-
-::: warning
-In Kuma 0.1.0 you will have to type the `name` of the Mesh also in a `mesh` field. The redundant `mesh` field will be removed from Kuma starting from the next release.
-:::
 
 ## Mutual TLS
 
@@ -64,7 +64,6 @@ On Universal:
 
 ```yaml
 type: Mesh
-mesh: default
 name: default
 mtls:
   enabled: true 
@@ -79,10 +78,12 @@ On Kubernetes:
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
-spec:
+metadata:
+  namespace: kuma-system
   name: default
+spec:
   mtls:
-    enabled: true 
+    enabled: true
     ca:
       builtin: {}
 ```
@@ -124,7 +125,10 @@ On Kubernetes:
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
-name: permission-1
+mesh: default
+metadata:
+  namespace: default
+  name: permission-1
 spec:
   rules:
     - sources:
@@ -136,18 +140,201 @@ spec:
           version: "5.0"
 ```
 
+::: tip
+**Match-All**: You can match any value of a tag by using `*`, like `version: *`.
+:::
+
 ## Traffic Route
 
-We are in the process of release routing soon. Join us on [Slack](/community) to share your requirements and get access to the feature.
+::: warning
+This is a proposed policy not in GA yet. You can setup routing manually by leveraging the [`ProxyTemplate`](#proxy-template) policy and the low-level Envoy configuration. Join us on [Slack](/community) to share your routing requirements.
+:::
+
+The proposed policy will enable a new `TrafficRoute` policy that can be used to configure both simple and more sophisticated routing rules on the traffic, like blue/green deployments and canary releases.
+
+On Universal:
+
+```yaml
+type: TrafficRoute
+name: route-1
+mesh: default
+rules:
+  - sources:
+      - match:
+          service: backend
+    destinations:
+      - match:
+          service: redis
+    conf:
+      - weight: 90
+        destination:
+          - service: backend
+            version: "1.0"
+      - weight: 10
+        destination:
+          - service: backend
+            version: "2.0"
+```
+
+On Kubernetes:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficRoute
+mesh: default
+metadata:
+  namespace: default
+  name: route-1
+spec:
+  rules:
+    - sources:
+      - match:
+          service: backend
+    destinations:
+      - match:
+          service: redis
+    conf:
+      - weight: 90
+        destination:
+          - service: backend
+            version: "1.0"
+      - weight: 10
+        destination:
+          - service: backend
+            version: "2.0"
+```
 
 ## Traffic Tracing
 
-TODO: Document YAML object
+::: warning
+This is a proposed policy not in GA yet. You can setup tracing manually by leveraging the [`ProxyTemplate`](#proxy-template) policy and the low-level Envoy configuration. Join us on [Slack](/community) to share your tracing requirements.
+:::
+
+The proposed policy will enable `tracing` on the [`Mesh`](#mesh) level by adding a `tracing` field.
+
+On Universal:
+
+```yaml
+type: Mesh
+name: default
+tracing:
+  enabled: true
+  type: zipkin
+  address: zipkin.srv:9000
+```
+
+On Kubernetes:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  namespace: kuma-system
+  name: default
+spec:
+  tracing:
+    enabled: true
+    type: zipkin
+    address: zipkin.srv:9000
+```
 
 ## Traffic Logging
 
 TODO: Document YAML object
 
-## Proxy Configuration
+## Proxy Template
 
-TODO: Document YAML object
+With the `ProxyTemplate` policy you can configure the low-level Envoy resources directly. The policy requires two elements in its configuration:
+
+* `imports`: this field lets you import canned `ProxyTemplate`s provided by Kuma.
+  * In the current release, the only available canned `ProxyTemplate` is `default-proxy`
+  * In future releases, more of these will be available and it will also be possible for the user to define them to re-use across their infrastructure
+* `resources`: the custom resources that will be applied to every [`Dataplane`]() that matches the `selectors`.
+
+On Universal:
+
+```yaml
+type: ProxyTemplate
+mesh: default
+name: template-1
+selectors:
+  - match:
+      service: backend
+conf:
+  imports:
+    - default-proxy
+  resources:
+    - ..
+    - ..
+```
+
+On Kubernetes:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ProxyTemplate
+mesh: default
+metadata:
+  namespace: default
+  name: template-1
+selectors:
+  - match:
+      service: backend
+conf:
+  imports:
+    - default-proxy
+  resources:
+    - ..
+    - ..
+```
+
+Below you can find an example of what a `ProxyTemplate` configuration could look like:
+
+```yaml
+imports:
+    - default-proxy
+  resources:
+    - name: localhost:9901
+      version: v1
+      resource: |
+        '@type': type.googleapis.com/envoy.api.v2.Cluster
+        connectTimeout: 5s
+        name: localhost:9901
+        loadAssignment:
+          clusterName: localhost:9901
+          endpoints:
+          - lbEndpoints:
+            - endpoint:
+                address:
+                  socketAddress:
+                    address: 127.0.0.1
+                    portValue: 9901
+        type: STATIC
+    - name: inbound:0.0.0.0:4040
+      version: v1
+      resource: |
+        '@type': type.googleapis.com/envoy.api.v2.Listener
+        name: inbound:0.0.0.0:4040
+        address:
+          socket_address:
+            address: 0.0.0.0
+            port_value: 4040
+        filter_chains:
+        - filters:
+          - name: envoy.http_connection_manager
+            config:
+              route_config:
+                virtual_hosts:
+                - routes:
+                  - match:
+                      prefix: "/stats/prometheus"
+                    route:
+                      cluster: localhost:9901
+                  domains:
+                  - "*"
+                  name: envoy_admin
+              codec_type: AUTO
+              http_filters:
+                name: envoy.router
+              stat_prefix: stats
+```
