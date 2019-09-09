@@ -88,7 +88,7 @@ When Service Mesh first became mainstream around 2017, a few control planes were
 These control planes captured a lot of enthusiasm in the early days, but they all lacked pragmatism into creating a viable journey to Service Mesh adoption within existing organizations.
 
 * **Greenfield-only**: Hyper-focused on new greenfield applications, without providing a journey to modernize existing workloads running on VM and Bare Metal platforms where the current business runs today, in addition to Kubernetes.
-* **Complicated to use**: Service Mesh doesn't have to be complicated, but early implementations were hard to use, offered poor documentation and not a clear upgrade path to mitigate breaking changes.
+* **Complicated to use**: Service Mesh doesn't have to be complicated, but early implementations were hard to use; they had poor documentation and no clear upgrade path to mitigate breaking changes.
 * **Hard to deploy**: Many moving parts that have to be running well at the same time, while making it harder to run and scale a Service Mesh with the side-effect of higher operational costs.
 * **For hobbists, not organizations**: Lack of understanding of the challenges enterprise organizations face today, with poor support and implementation models.
 
