@@ -3,7 +3,7 @@ sidebar: false
 title: Cookie Policy
 ---
 
-Effective: May 24, 2018
+**Effective: September 10, 2019**
 
 Our [Privacy Policy](/privacy/) explains how we collect and use information from and about you when you visit our website, create an account with us, visit our retail locations, or otherwise interact with us. This policy explains more about how we use cookies and your choices concerning cookies.
 
