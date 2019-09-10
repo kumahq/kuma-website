@@ -17,7 +17,7 @@
               Install
             </router-link>
             <router-link
-              to="/docs/" 
+              to="#why-kuma" 
               class="btn btn--hollow">
               Why {{ getSiteData.title }}?
             </router-link>
@@ -140,6 +140,10 @@
         </ol>
       </div> -->
       <!-- .steps-items -->
+
+      <div id="why-kuma">
+        <!-- Why Kuma anchor -->
+      </div>
 
     </div>
     <!-- .steps-wrap -->
