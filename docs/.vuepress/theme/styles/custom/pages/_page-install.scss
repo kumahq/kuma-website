@@ -2,6 +2,9 @@
 // Installation page
 // 
 
+$install-masthead-bg-image: url('#{$image-path}bg-lines.svg');
+$install-masthead-bg-position: 50% 0, 0 0;
+
 $install-tile-bg-color: #fff;
 $install-tile-border: 1px solid $color-7;
 $install-tile-border-hover: 1px solid $green-base;
@@ -9,15 +12,38 @@ $install-tile-shadow: $base-soft-shadow;
 $install-tile-radius: 5px;
 $install-tile-min-height: 6rem;
 
+$install-page-header-padding: 1rem;
+$install-page-header-max-width: 36rem;
+$install-page-header-bg-color: rgba(#fff, .9);
+$install-page-header-radius: 3px;
+$install-page-header-shadow: $base-border-shadow;
+
 .page-container--install {
+  background-image: $install-masthead-bg-image;
+  background-position: $install-masthead-bg-position;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
   
   .version-alert {
-    margin: 0 auto;
+    margin: 1rem auto 0 auto;
     padding: 0;
     text-align: left;
 
     .custom-block-title {
       font-size: inherit;
+    }
+  }
+
+  .page-header {
+    background: none;
+
+    .inner {
+      max-width: $install-page-header-max-width;
+      background-color: $install-page-header-bg-color;
+      border-radius: $install-page-header-radius;
+      box-shadow: $install-page-header-shadow;
+      padding: $install-page-header-padding;
     }
   }
 }
@@ -81,6 +107,10 @@ $install-tile-min-height: 6rem;
 }
 
 @media (min-width: $MQMobileMid + 1) {
+  .page-container--install {
+    background-size: 100% auto;
+  }
+
   .install-methods__item-logo {
     will-change: border;
     transition: border 200ms $cb-1;
