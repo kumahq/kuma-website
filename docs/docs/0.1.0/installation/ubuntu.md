@@ -8,16 +8,16 @@ To install and run Kuma on Ubuntu execute the following steps:
 
 ## 1. Download and run Kuma
 
-You can download Kuma from [here]() or by running:
+You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.1.0-ubuntu.tar.gz) or by running:
 
 ```sh
-$ wget downloads.kuma.io/0.1.0/kuma-linux.amd64.tar.gz
+$ wget downloads.kuma.io/0.1.0/kuma-0.1.0-ubuntu.tar.gz
 ```
 
 You can extract the archive and check the contents of the `bin` folder by running:
 
 ```sh
-$ tar xvzf kuma-linux.amd64.tar.gz
+$ tar xvzf kuma-0.1.0-ubuntu.tar.gz
 $ cd bin/ && ls
 envoy   kuma-cp   kuma-dp   kuma-tcp-echo kumactl
 ```
@@ -92,6 +92,14 @@ mtls:
 ```
 
 ## 4. Done!
+
+::: tip
+You can configure `kumactl` to point to any remote `kuma-cp` instance by running:
+
+```sh
+$ kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:5681
+```
+:::
 
 If you consume the service again on port `10000`, you will now notice that the communication requires now a TLS connection.
 

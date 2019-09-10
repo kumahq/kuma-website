@@ -1,10 +1,5 @@
 [
   {
-    "label": "Docker",
-    "logo": "/images/platforms/logo-docker.png",
-    "slug": "docker"
-  },
-  {
     "label": "Kubernetes",
     "logo": "/images/platforms/logo-kubernetes.png",
     "slug": "kubernetes"

@@ -78,7 +78,7 @@ Kubernetes
 
 ::: slot tab-1-content-step-1
 ### Start the Control Plane
-After [downloading and installing Kuma](/install), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/policies/#mesh):
+After [downloading and installing Kuma](/install/0.1.0), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/0.1.0/policies/#mesh):
 :::
 
 ::: slot tab-1-code-block-step-1
@@ -94,13 +94,13 @@ You can now deploy your services, which will be automatically injected with a Ku
 
 ::: slot tab-1-code-block-step-2
 ```sh
-kubectl apply -f https://kuma.io/sample-service.yaml
+kubectl apply -f https://raw.githubusercontent.com/Kong/kuma/master/examples/kubernetes/sample-service.yaml
 ```
 :::
 
 ::: slot tab-1-content-step-3
 ### Apply Policies
-You can now apply [Policies]() like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
+You can now apply [Policies](/docs/0.1.0/policies) like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
 :::
 
 ::: slot tab-1-code-block-step-3
@@ -124,7 +124,7 @@ Universal
 
 ::: slot tab-2-content-step-1
 ### Start the Control Plane
-After [downloading and installing Kuma](/install), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/policies/#mesh):
+After [downloading and installing Kuma](/install/0.1.0), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/0.1.0/policies/#mesh):
 :::
 
 ::: slot tab-2-code-block-step-1
@@ -135,7 +135,7 @@ $ kuma-cp run &
 
 ::: slot tab-2-content-step-2
 ### Start your Services and start the data-plane
-For each Service that belongs to the Service Mesh, you must start a [`Dataplane Entity`](/docs/documentation/#dataplane-entity). After configuring the networking, you can start the data-plane process:
+For each Service that belongs to the Service Mesh, you must start a [`Dataplane Entity`](/docs/0.1.0/documentation/#dataplane-entity). After configuring the networking, you can start the data-plane process:
 :::
 
 ::: slot tab-2-code-block-step-2
@@ -160,7 +160,7 @@ $ KUMA_CONTROL_PLANE_BOOTSTRAP_SERVER_URL=http://127.0.0.1:5682 \
 
 ::: slot tab-2-content-step-3
 ### Apply Policies
-You can now apply [Policies]() like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
+You can now apply [Policies](/docs/0.1.0/policies) like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
 :::
 
 ::: slot tab-2-code-block-step-3
