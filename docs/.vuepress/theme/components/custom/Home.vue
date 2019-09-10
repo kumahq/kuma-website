@@ -68,7 +68,7 @@
     </div>
     <!-- .testimonial-wrap -->
 
-    <div class="steps-wrap">
+    <div class="steps-wrap steps-wrap--slim">
 
       <div class="inner tabs-wrap">
         <header class="section-header steps-items__header text-center">
@@ -184,7 +184,7 @@
 
 <script>
 import Navbar from '@theme/components/Navbar'
-import TinyTabs from 'vue-tiny-tabs'
+import TinyTabs from '@theme/components/custom/TinyTabs/VueTinyTabs'
 
 export default {
   components: {
