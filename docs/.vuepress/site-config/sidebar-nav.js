@@ -16,5 +16,11 @@ module.exports = {
     "documentation/",
     "policies/",
     "other/"
+  ],
+  "/docs/0.1.1/": [
+    "",
+    "documentation/",
+    "policies/",
+    "other/"
   ]
 }
