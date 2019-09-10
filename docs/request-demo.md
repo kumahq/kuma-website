@@ -1,7 +1,10 @@
 ---
 sidebar: false
 layout: RequestADemo
-title: Transform your Enterprise
+title: Request A Demo
+
+# page content
+pageTitle: Transform your Enterprise
 subTitle: Learn how Kuma can help your business and improve your applications reliability.
 ---
 
