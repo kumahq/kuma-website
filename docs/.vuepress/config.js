@@ -1,8 +1,13 @@
 /**
+ * Required plugins
+ */
+const path = require("path")
+
+/**
  * Releases
  */
-const LatestSemver = require('latest-semver')
-const releases = require('./public/releases.json')
+const LatestSemver = require("latest-semver")
+const releases = require("./public/releases.json")
 
 /**
  * Product data
@@ -111,6 +116,7 @@ module.exports = {
       }
     }
   },
+  clientRootMixin: path.resolve(__dirname, "theme/util/sidebarHashLinkFix.js"),
   postcss: {
     plugins: [
       require("tailwindcss"),
