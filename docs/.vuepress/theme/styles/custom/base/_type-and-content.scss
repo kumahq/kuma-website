@@ -55,13 +55,13 @@ div[class*="language-"].line-numbers-mode pre {
 }
 
 div[class*="language-"] {
-  background-color: $codeBgColor !important;
+  background-color: $codeBgColor;
 }
 
 #{$contentClass} {
   .theme-default-content pre,
   .theme-default-content div[class*="language-"] {
-    background-color: $codeBgColor !important;
+    background-color: $codeBgColor;
 
     code {
       color: #333;

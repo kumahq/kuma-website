@@ -15,7 +15,8 @@
     "fs": "^0.0.1-security",
     "vee-validate": "^3.0.4",
     "vue": "^2.6.10",
-    "vue-github-button": "^1.0.8"
+    "vue-github-button": "^1.0.8",
+    "vue-tiny-tabs": "^1.0.2"
   },
   "devDependencies": {
     "@babel/plugin-transform-object-assign": "^7.2.0",

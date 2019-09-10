@@ -244,8 +244,10 @@ $home-feature-icon-bottom-spacing: 1rem;
   }
 
   // code blocks
-  div[class*="language"] {
-    background-color: darken($color-6, 8);
+  div[class*="language"], 
+  div[class*="language-"] {
+    // background-color: darken($color-6, 8);
+    background-color: rgba(#000, .4) !important;
   }
 
   // hide the line numbers on code blocks
@@ -401,6 +403,16 @@ $home-feature-icon-bottom-spacing: 1rem;
 
       > *:last-of-type {
         flex: auto;
+      }
+    }
+  }
+
+  .steps-items__content {
+
+    > li {
+
+      > *:first-of-type {
+        flex: 0 0 36%;
       }
     }
   }
