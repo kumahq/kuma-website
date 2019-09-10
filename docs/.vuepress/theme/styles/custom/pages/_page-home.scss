@@ -244,8 +244,10 @@ $home-feature-icon-bottom-spacing: 1rem;
   }
 
   // code blocks
-  div[class*="language"] {
-    background-color: darken($color-6, 8);
+  div[class*="language"], 
+  div[class*="language-"] {
+    // background-color: darken($color-6, 8);
+    background-color: rgba(#000, .4) !important;
   }
 
   // hide the line numbers on code blocks
@@ -279,7 +281,10 @@ $home-feature-icon-bottom-spacing: 1rem;
 
 .steps-items__content {
   $i: 45px; // dimensions of the step number
-  $x: 4.063rem; // the bottom padding on the main list items
+
+  // the bottom padding on the main list items
+  // $x: 4.063rem;
+  $x: 1rem;
 
   counter-reset: steps;
   list-style-type: none;
@@ -287,7 +292,8 @@ $home-feature-icon-bottom-spacing: 1rem;
   padding: 0;
   
   > li {
-    padding-left: 85px;
+    // padding-left: 85px;
+    padding-left: 65px;
     position: relative;
 
     &:not(:last-of-type) {
@@ -395,8 +401,10 @@ $home-feature-icon-bottom-spacing: 1rem;
       align-items: center;
 
       > *:first-of-type {
-        flex: 0 0 42%;
-        padding-right: 2rem;
+        // flex: 0 0 42%;
+        flex: 0 0 38%;
+        // padding-right: 2rem;
+        padding-right: 1rem;
       }
 
       > *:last-of-type {

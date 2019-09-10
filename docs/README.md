@@ -67,6 +67,114 @@ Matt Klein,
 Envoy Proxy Creator, Engineer at Lyft
 :::
 
+<!-- tabs -->
+<!-- tabs -->
+::: slot tabs-section-title
+## Getting Started
+:::
+
+::: slot tab-1-title
+Universal
+:::
+
+::: slot tab-1-content-step-1
+### Start the Control Plane
+After [downloading and installing Kuma](/install), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/policies/#mesh):
+:::
+
+::: slot tab-1-code-block-step-1
+```sh
+$ kuma-cp run &
+```
+:::
+
+::: slot tab-1-content-step-2
+### Start your Services and start the data-plane
+For each Service that belongs to the Service Mesh, you must start a [`Dataplane Entity`](/docs/documentation/#dataplane-entity). After configuring the networking, you can start the data-plane process:
+:::
+
+::: slot tab-1-code-block-step-2
+```sh
+$ kuma-tcp-echo --port 9000 # This is a sample service
+
+$ echo "type: Dataplane
+mesh: default
+name: dp-echo-1
+networking:
+  inbound:
+  - interface: 127.0.0.1:10000:9000
+    tags:
+      service: echo" | kumactl apply -f -
+
+$ KUMA_CONTROL_PLANE_BOOTSTRAP_SERVER_URL=http://127.0.0.1:5682 \
+  KUMA_DATAPLANE_MESH=default \
+  KUMA_DATAPLANE_NAME=dp-echo-1 \
+  kuma-dp run
+```
+:::
+
+::: slot tab-1-content-step-3
+### Apply Policies
+You can now apply [Policies]() like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
+:::
+
+::: slot tab-1-code-block-step-3
+```sh
+$ echo "type: Mesh
+name: default
+mtls:
+  enabled: true 
+  ca:
+    builtin: {}" | kumactl apply -f -
+```
+:::
+
+::: slot tab-2-title
+Kubernetes
+:::
+
+::: slot tab-2-content-step-1
+### Start the Control Plane
+After [downloading and installing Kuma](/install), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/policies/#mesh):
+:::
+
+::: slot tab-2-code-block-step-1
+```sh
+$ kumactl install control-plane | kubectl apply -f -
+```
+:::
+
+::: slot tab-2-content-step-2
+### Deploy your Services
+You can now deploy your services, which will be automatically injected with a Kuma sidecar data-plane:
+:::
+
+::: slot tab-2-code-block-step-2
+```sh
+kubectl apply -f https://kuma.io/sample-service.yaml
+```
+:::
+
+::: slot tab-2-content-step-3
+### Apply Policies
+You can now apply [Policies]() like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
+:::
+
+::: slot tab-2-code-block-step-3
+```sh
+$ echo "apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  namespace: kuma-system
+  name: default
+spec:
+  mtls:
+    enabled: true
+    ca:
+      builtin: {}" | kubectl apply -f -
+```
+:::
+
 <!-- steps -->
 
 ::: slot steps-title
@@ -113,7 +221,7 @@ $ kumactl create policy \
 <!-- before and after -->
 
 ::: slot before-after-title
-## Unparalleled Productivity
+## Run Services, Not Networks
 :::
 
 ::: slot before-after-diagram-1
