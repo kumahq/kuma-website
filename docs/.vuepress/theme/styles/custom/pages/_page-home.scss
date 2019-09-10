@@ -154,7 +154,8 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 .testimonial {
-  max-width: 38.75rem;
+  // max-width: 38.75rem;
+  max-width: 60rem;
   margin: 0 auto;
   text-align: center;
   
@@ -170,7 +171,8 @@ $home-feature-icon-bottom-spacing: 1rem;
 
 .content__testimonial-content {
   border: 0;
-  font-size: 1.438rem;
+  // font-size: 1.438rem;
+  font-size: 1.2rem;
   
   > p {
     @include quotify;
