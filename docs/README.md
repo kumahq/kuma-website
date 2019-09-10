@@ -136,7 +136,7 @@ $ kuma-cp run &
 
 ::: slot tab-2-content-step-2
 ### Start your Services and start the data-plane
-For each Service that belongs to the Service Mesh, you must start a [`Dataplane Entity`](/docs/documentation/#dataplane-entity). After configuring the networking, you can start the data-plane process:
+For each Service that belongs to the Service Mesh, you must start a [`Dataplane Entity`](/docs/0.1.0/documentation/#dataplane-entity). After configuring the networking, you can start the data-plane process:
 :::
 
 ::: slot tab-2-code-block-step-2
