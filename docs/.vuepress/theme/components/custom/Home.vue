@@ -70,7 +70,56 @@
 
     <div class="steps-wrap">
 
-      <div class="inner steps-items">
+      <div class="inner tabs-wrap">
+        <header class="section-header steps-items__header text-center">
+          <Content slot-key="tabs-section-title"/>
+        </header>
+
+        <TinyTabs
+          id="get-started-steps-tabs"
+          :anchor="false"
+          :closable="false"
+          :hideTitle="true"
+        >
+          <div class="section" id="tab-1">
+            <Content slot-key="tab-1-title" class="title"/>
+            <ol class="steps-items__content steps-items__content--narrow">
+              <li>
+                <Content slot-key="tab-1-content-step-1"/>
+                <Content slot-key="tab-1-code-block-step-1"/>
+              </li>
+              <li>
+                <Content slot-key="tab-1-content-step-2"/>
+                <Content slot-key="tab-1-code-block-step-2"/>
+              </li>
+              <li>
+                <Content slot-key="tab-1-content-step-3"/>
+                <Content slot-key="tab-1-code-block-step-3"/>
+              </li>
+            </ol>
+          </div>
+          <div class="section" id="tab-2">
+            <Content slot-key="tab-2-title" class="title"/>
+            <ol class="steps-items__content steps-items__content--narrow">
+              <li>
+                <Content slot-key="tab-2-content-step-1"/>
+                <Content slot-key="tab-2-code-block-step-1"/>
+              </li>
+              <li>
+                <Content slot-key="tab-2-content-step-2"/>
+                <Content slot-key="tab-2-code-block-step-2"/>
+              </li>
+              <li>
+                <Content slot-key="tab-2-content-step-3"/>
+                <Content slot-key="tab-2-code-block-step-3"/>
+              </li>
+            </ol>
+          </div>
+        </TinyTabs>
+      </div>
+      <!-- .tabs -->
+
+      <!-- <div class="inner steps-items">
         <header class="section-header steps-items__header text-center">
           <Content slot-key="steps-title"/>
         </header>
@@ -89,9 +138,8 @@
             <Content slot-key="step-3-code-block"/>
           </li>
         </ol>
-
-      </div>
-      <!-- .inner -->
+      </div> -->
+      <!-- .steps-items -->
 
     </div>
     <!-- .steps-wrap -->
@@ -136,10 +184,12 @@
 
 <script>
 import Navbar from '@theme/components/Navbar'
+import TinyTabs from 'vue-tiny-tabs'
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    TinyTabs
   }
 };
 </script>

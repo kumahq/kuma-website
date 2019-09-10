@@ -802,6 +802,11 @@
   dependencies:
     "@hapi/hoek" "8.x.x"
 
+"@htoniv/tiny-tabs@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@htoniv/tiny-tabs/-/tiny-tabs-1.0.1.tgz#19d265ac4983726a771c1c2a47e9bce7da6e366c"
+  integrity sha512-1qRYVeZl3enN5INs8mNhZ4BbnJjbQ6TrpAaID+7p52FypsS5hOWj9eOnVU7khB/w2Wxa0+BvYCYhc+YRNAH9uA==
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -9384,6 +9389,13 @@ vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
+
+vue-tiny-tabs@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/vue-tiny-tabs/-/vue-tiny-tabs-1.0.2.tgz#c030c842a14853c5324bf2a874545556daa182c3"
+  integrity sha512-pR56MVLIH0KOkfRucRwcYnu8sN+vVDdXukTkCo+bLDuohrnZnbPQ32NeupVy0a+7bWB8pZ4sdMwOobsdWnpe4w==
+  dependencies:
+    "@htoniv/tiny-tabs" "^1.0.1"
 
 vue@^2.5.16, vue@^2.6.10:
   version "2.6.10"
