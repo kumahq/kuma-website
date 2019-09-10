@@ -221,7 +221,7 @@ $ kumactl create policy \
 <!-- before and after -->
 
 ::: slot before-after-title
-## Build Services Instead of Pipes
+## Run Services, Not Networks
 :::
 
 ::: slot before-after-diagram-1
