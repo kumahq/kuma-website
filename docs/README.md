@@ -69,7 +69,7 @@ Envoy Proxy Creator, Engineer at Lyft
 
 <!-- tabs -->
 ::: slot tabs-section-title
-## Getting Started
+## Get Started In 1 Minute
 :::
 
 ::: slot tab-1-title
