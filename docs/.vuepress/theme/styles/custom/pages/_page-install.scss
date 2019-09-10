@@ -21,7 +21,7 @@ $install-page-header-shadow: $base-border-shadow;
 .page-container--install {
   background-image: $install-masthead-bg-image;
   background-position: $install-masthead-bg-position;
-  background-attachment: fixed;
+  // background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
   
