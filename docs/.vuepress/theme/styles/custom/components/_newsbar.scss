@@ -1,0 +1,61 @@
+// 
+// Newsbar
+// 
+
+$newsbar-max-width: 41.25rem;
+$newsbar-radius: 3px;
+$newsbar-padding: 1rem;
+$newsbar-bg: lighten($color-5, 54);
+
+$newsbar-tag-bg: lighten($color-2, 45);
+$newsbar-tag-text-color: $color-2;
+$newsbar-tag-font-size: 0.75rem;
+$newsbar-tag-line-height: 2;
+$newsbar-tag-padding: 0 0.5rem;
+$newsbar-tag-margin: 0 1rem 0 0;
+
+$newsbar-link-color: $color-5;
+
+.newsbar-wrap {
+  margin: 1rem auto;
+  max-width: $newsbar-max-width;
+}
+
+.newsbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $newsbar-radius;
+  padding: $newsbar-padding;
+  background-color: $newsbar-bg;
+
+  a {
+    display: block;
+    color: $newsbar-link-color;
+    white-space: wrap;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  p {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.newsbar__tag {
+  background-color: $newsbar-tag-bg;
+  color: $newsbar-tag-text-color;
+  border-radius: $newsbar-radius;
+  text-transform: uppercase;
+  font-size: $newsbar-tag-font-size;
+  line-height: $newsbar-tag-line-height;
+  padding: $newsbar-tag-padding;
+  margin: $newsbar-tag-margin;
+}
+
+.newsbar__arrow {
+  
+}
