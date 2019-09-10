@@ -37,11 +37,11 @@
 
     <div class="product-features-wrap">
 
-      <div class="inner newsbar-wrap">
+      <div v-if="$page.frontmatter.newsLink && $page.frontmatter.newsTagline" class="inner newsbar-wrap">
         <div class="newsbar">
           <span class="newsbar__tag">News</span>
           <p>
-            <a href="https://konghq.com/kong-summit">Announcing Kong Summit 2019: Building the next Era of Software &rarr;</a>
+            <a :href="$page.frontmatter.newsLink"> {{$page.frontmatter.newsTagline}} <span class="newsbar__arrow">&rarr;</span></a>
           </p>
         </div>
       </div>
