@@ -234,6 +234,11 @@ $home-feature-icon-bottom-spacing: 1rem;
   @include page-section;
   background-color: $color-6;
   color: #fff;
+  
+}
+
+.steps-wrap--slim {
+  padding: 1.8rem 0;
 }
 
 .steps-items {
