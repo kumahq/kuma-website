@@ -69,6 +69,10 @@ $tinytabs-tab-section-radius: 3px;
       // text-decoration: underline;
     }
 
+    .steps-items__content > li:not(:last-of-type) {
+      margin-bottom: 1rem;
+    }
+
     // code blocks
     div[class*="language"] {
       background-color: darken($color-6, 8);
@@ -88,8 +92,16 @@ $tinytabs-tab-section-radius: 3px;
       // @include scrollbar-h;
     }
 
-    .steps-items__content > li {
-      align-items: flex-start;
+    .steps-items__content {
+
+      > li {
+        align-items: flex-start;
+
+        > div > *:first-of-type {
+          margin-top: 0;
+          padding-top: 0;
+        }
+      }
     }
   }
 }

@@ -281,7 +281,10 @@ $home-feature-icon-bottom-spacing: 1rem;
 
 .steps-items__content {
   $i: 45px; // dimensions of the step number
-  $x: 4.063rem; // the bottom padding on the main list items
+
+  // the bottom padding on the main list items
+  // $x: 4.063rem;
+  $x: 1rem;
 
   counter-reset: steps;
   list-style-type: none;

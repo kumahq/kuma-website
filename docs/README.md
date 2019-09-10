@@ -134,6 +134,7 @@ Kubernetes
 :::
 
 ::: slot tab-2-content-step-1
+### Start the Control Plane
 After [downloading and installing Kuma](/install), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/policies/#mesh):
 :::
 
@@ -144,6 +145,7 @@ $ kumactl install control-plane | kubectl apply -f -
 :::
 
 ::: slot tab-2-content-step-2
+### Deploy your Services
 You can now deploy your services, which will be automatically injected with a Kuma sidecar data-plane:
 :::
 
@@ -154,6 +156,7 @@ kubectl apply -f https://kuma.io/sample-service.yaml
 :::
 
 ::: slot tab-2-content-step-3
+### Apply Policies
 You can now apply [Policies]() like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
 :::
 
