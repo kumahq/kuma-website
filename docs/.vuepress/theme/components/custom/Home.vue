@@ -37,6 +37,15 @@
 
     <div class="product-features-wrap">
 
+      <div class="inner newsbar-wrap">
+        <div class="newsbar">
+          <span class="newsbar__tag">News</span>
+          <p>
+            <a href="https://konghq.com/kong-summit">Announcing Kong Summit 2019: Building the next Era of Software &rarr;</a>
+          </p>
+        </div>
+      </div>
+
       <div class="inner product-features flex flex-wrap -mx-4">
         <Content slot-key="feature-block-content-1" class="product-features__item w-full md:w-1/3 px-4"/>
         <Content slot-key="feature-block-content-2" class="product-features__item w-full md:w-1/3 px-4"/>
