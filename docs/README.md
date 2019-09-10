@@ -218,7 +218,7 @@ $ kumactl create policy \
 <!-- before and after -->
 
 ::: slot before-after-title
-## Unparalleled Productivity
+## Build Services Instead of Pipes
 :::
 
 ::: slot before-after-diagram-1
