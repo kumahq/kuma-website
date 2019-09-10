@@ -292,7 +292,8 @@ $home-feature-icon-bottom-spacing: 1rem;
   padding: 0;
   
   > li {
-    padding-left: 85px;
+    // padding-left: 85px;
+    padding-left: 65px;
     position: relative;
 
     &:not(:last-of-type) {
@@ -400,22 +401,14 @@ $home-feature-icon-bottom-spacing: 1rem;
       align-items: center;
 
       > *:first-of-type {
-        flex: 0 0 42%;
-        padding-right: 2rem;
+        // flex: 0 0 42%;
+        flex: 0 0 38%;
+        // padding-right: 2rem;
+        padding-right: 1rem;
       }
 
       > *:last-of-type {
         flex: auto;
-      }
-    }
-  }
-
-  .steps-items__content {
-
-    > li {
-
-      > *:first-of-type {
-        flex: 0 0 36%;
       }
     }
   }
