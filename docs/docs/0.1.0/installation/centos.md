@@ -18,7 +18,7 @@ You can extract the archive and check the contents of the `bin` folder by runnin
 
 ```sh
 $ tar xvzf kuma-linux.amd64.tar.gz
-$ ls bin/
+$ cd bin/ && ls
 envoy   kuma-cp   kuma-dp   kuma-tcp-echo kumactl
 ```
 
@@ -37,14 +37,14 @@ By default this will run Kuma with a `memory` [backend](/docs/0.1.0/documentatio
 ## 2. Start the Data-Plane
 
 ::: tip
-The data-plane is a sidecar proxy of a service that should be already running. If you don't have a service running, you can use the `kuma-tcp-echo` sample to start a simple echo server, like:
+Before starting the sidecar proxy data-plane, the service should **already** be running. For demo purposes, we can start a sample TCP server that echoes back the requests we are sending to it:e:
 
 ```sh
 $ kuma-tcp-echo -port 9000
 ```
 :::
 
-We have our control-plane and services running. For each service we can now provision a [`Dataplane Entity`](/docs/0.1.0/documentation/#dataplane-entity) that configures the inbound and outbound networking configuration:
+We now have our control-plane and services running. For each service we can now provision a [`Dataplane Entity`](/docs/0.1.0/documentation/#dataplane-entity) that configures the inbound and outbound networking configuration:
 
 ```bash
 $ echo "type: Dataplane
@@ -62,11 +62,19 @@ And run the actual data-plane process with:
 ```sh
 $ KUMA_CONTROL_PLANE_BOOTSTRAP_SERVER_URL=http://127.0.0.1:5682 \
   KUMA_DATAPLANE_MESH=default \
-  KUMA_DATAPLANE_NAME=example-1 \
+  KUMA_DATAPLANE_NAME=dp-echo-1 \
   kuma-dp run
 ```
 
-You can now consume the service on port `10000`, which will be internally redirected to port `9000`.
+You can now consume the service on port `10000`, which will be internally redirected to the service on port `9000`:
+
+```sh
+$ curl http://127.0.0.1:10000
+GET / HTTP/1.1
+Host: 127.0.0.1:10000
+User-Agent: curl/7.54.0
+Accept: */*
+```
 
 ## 3. Apply Policies
 
@@ -82,6 +90,8 @@ mtls:
 ```
 
 ## 4. Done!
+
+If you consume the service again on port `10000`, you will now notice that the communication requires now a TLS connection.
 
 You can now review the entities created by Kuma by using the [`kumactl`](/docs/0.1.0/documentation/#kumactl) CLI. For example you can list the Meshes:
 
@@ -102,8 +112,3 @@ $ kumactl inspect dataplanes
 MESH      NAME        TAGS              STATUS   LAST CONNECTED AGO   LAST UPDATED AGO   TOTAL UPDATES   TOTAL ERRORS
 default   dp-echo-1   service=echo      Online   19s                  18s                2               0
 ```
-
-
-
-
-
