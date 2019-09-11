@@ -8,17 +8,18 @@
 export default {
   watch: {
     $page(newPage, oldPage) {
-      if (newPage.key !== oldPage.key) {
-        requestAnimationFrame(() => {
-          if (this.$route.hash) {
-            const element = document.getElementById(this.$route.hash.slice(1))
+      console.log(newPage.key, oldPage.key)
+      // if (newPage.key !== oldPage.key) {
+      //   requestAnimationFrame(() => {
+      //     if (this.$route.hash) {
+      //       const element = document.getElementById(this.$route.hash.slice(1))
 
-            if (element && element.scrollIntoView) {
-              element.scrollIntoView()
-            }
-          }
-        })
-      }
+      //       if (element && element.scrollIntoView) {
+      //         element.scrollIntoView()
+      //       }
+      //     }
+      //   })
+      // }
     }
   }
 }

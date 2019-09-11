@@ -10,6 +10,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  width: 100%;
+}
+
 html {
   font-size: $root-font-size;
   @include clear-text;
@@ -20,6 +24,7 @@ body {
   font-family: $base-font-family;
   font-style: normal;
   line-height: 2.4;
+  min-height: 100vh;
 }
 
 .theme-container:not(.no-sidebar) .content-wrapper {
