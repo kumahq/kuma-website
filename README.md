@@ -5,7 +5,7 @@
 # Kuma Website
 This is repository is the source code for [Kuma](http://kuma.io/docs)'s documentation website. Kuma is a universal open source control-plane for Service Mesh and Microservices that can run and be operated natively across both Kubernetes and VM environments, in order to be easily adopted by every team in the organization. If you are looking for the source code instead, please check out [Kuma's main repository](https://github.com/Kong/kuma). 
 
-This website built on [VuePress](https://vuepress.vuejs.org/) and is open-source for the community to contribute to. Feel free to [submit an issue](https://github.com/Kong/kuma/issues/new) to propose changes or submit a patch if you want to write some code! 
+This website is built on [VuePress](https://vuepress.vuejs.org/) and is open-source for the community to contribute to. Feel free to [submit an issue](https://github.com/Kong/kuma/issues/new) to propose changes or submit a patch if you want to write some code! 
 
 [Contact and chat](https://kuma.io/community) with the community in real-time if you get stuck or need clarifications. We are here to help.
 
@@ -43,7 +43,7 @@ to test the compiled site locally with something like [http-server](https://www.
 
 ### Netlify Build Flow
 The Docs and Install pages have 301 redirects that ensure their bare URLs always go to 
-the latest version. Because of the order in which Netlify deployment and build functions 
+the latest version of Kuma. Because of the order in which Netlify deployment and build functions 
 are run, the full deployment build script is handled within the [netlify.toml](netlify.toml) 
 file.
 
