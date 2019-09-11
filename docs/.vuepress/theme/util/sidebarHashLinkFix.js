@@ -11,7 +11,7 @@ export default {
       if (newPage.key !== oldPage.key) {
         requestAnimationFrame(() => {
           if (this.$route.hash) {
-            const element = document.getElementById(this.$route.hash.slice(1));
+            const element = document.getElementById(this.$route.hash.slice(1))
 
             if (element && element.scrollIntoView) {
               element.scrollIntoView()
@@ -21,4 +21,4 @@ export default {
       }
     }
   }
-};
+}
