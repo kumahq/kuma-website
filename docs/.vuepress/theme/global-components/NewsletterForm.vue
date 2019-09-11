@@ -2,7 +2,7 @@
   <div class="form-wrapper">
 
     <validation-observer v-slot="{ invalid, passes }">
-      <form class="form-horizontal" @submit.prevent="passes(submitForm)">
+      <form v-if="!submitted" class="form-horizontal" @submit.prevent="passes(submitForm)">
         <label for="input_email" class="sr-only">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }">
           <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />

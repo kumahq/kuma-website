@@ -78,8 +78,7 @@
       <div class="demo-request-form w-full sm:w-1/2 px-4">
 
         <validation-observer v-slot="{ invalid, passes }">
-
-          <form class="sticky" @submit.prevent="passes(submitForm)">
+          <form v-if="!submitted" class="sticky" @submit.prevent="passes(submitForm)">
             <div class="flex flex-wrap -mx-4">
 
               <div class="w-full md:w-1/2 px-4">
@@ -145,20 +144,18 @@
               </div>
 
             </div>
-
-            <div v-if="submitted" class="tip custom-block">
-              <p class="custom-block-title">Thank you!</p>
-              <p>Your submission has been received.</p>
-            </div>
-
-            <div v-if="error" class="danger custom-block">
-              <p class="custom-block-title">Whoops!</p>
-              <p>Something went wrong! Please try again later.</p>
-            </div>
-
           </form>
-
         </validation-observer>
+
+        <div v-if="submitted" class="tip custom-block">
+          <p class="custom-block-title">Thank you!</p>
+          <p>Your submission has been received.</p>
+        </div>
+
+        <div v-if="error" class="danger custom-block">
+          <p class="custom-block-title">Whoops!</p>
+          <p>Something went wrong! Please try again later.</p>
+        </div>
 
       </div>
 
