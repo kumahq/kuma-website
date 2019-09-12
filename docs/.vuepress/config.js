@@ -1,13 +1,9 @@
 /**
- * Required plugins
- */
-const path = require("path")
-
-/**
  * Releases
  */
-const LatestSemver = require("latest-semver")
-const releases = require("./public/releases.json")
+const LatestSemver = require('latest-semver')
+const releases = require('./public/releases.json')
+const latestVersion = LatestSemver(releases)
 
 /**
  * Product data
@@ -32,7 +28,7 @@ module.exports = {
   // theme configuration
   themeConfig: {
     domain: productData.hostname,
-    latestVer: LatestSemver(releases),
+    latestVer: latestVersion,
     twitter: productData.twitter,
     author: productData.author,
     repo: productData.repo,
@@ -42,7 +38,7 @@ module.exports = {
     slackInvite: productData.slackInviteURL,
     slackChannel: productData.slackChannelURL,
     docsDir: "docs",
-    editLinks: false,
+    editLinks: true,
     search: true,
     searchMaxSuggestions: 10,
     algolia: {
@@ -69,6 +65,8 @@ module.exports = {
     [ "link", { rel: "icon", href: `${productData.hostname}/images/favicon-64px.png` } ],
     [ "link", { rel: "apple-touch-icon", "sizes": "180x180", href: `${productData.hostname}/images/apple-touch-icon.png` } ],
     [ "link", { rel: "manifest", href: `${productData.hostname}/site.webmanifest` } ],
+    [ 'meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
+    [ "meta", { name: "msapplication-TileImage", content: `${productData.hostname}/icons/ms-icon-144x144.png` } ],
     [ "meta", { name: "msapplication-TileColor", content: "#ffffff" } ],
     [ "meta", { name: "theme-color", content: "#ffffff" } ],
     // web fonts
@@ -87,7 +85,17 @@ module.exports = {
   markdown: {
     lineNumbers: true,
     extendMarkdown: md => {
+      // include files in markdown
       md.use(require("markdown-it-include"), "./docs/.partials/")
+
+      const mifi = require("markdown-it-for-inline")
+
+      // this replaces %%v%% with the latest version on strings but 
+      // not within links. using the token within a link
+      // causes RouterLink to throw a 'malformed URI' error
+      md.use(mifi, "version_replace", "text", (tokens, idx) => {
+        tokens[idx].content = tokens[idx].content.replace(/%%v%%/g, latestVersion)
+      })
     }
   },
   plugins: {
@@ -97,9 +105,6 @@ module.exports = {
     },
     sitemap: {
       hostname: productData.hostname
-    },
-    "@vuepress/google-analytics": {
-      ga: productData.gaCode
     },
     seo: {
       customMeta: (add, context) => {
@@ -114,6 +119,13 @@ module.exports = {
         add("og:image:width", 800)
         add("og:image:height", 533)
       }
+    },
+    "@vuepress/google-analytics": {
+      ga: productData.gaCode
+    },
+    "@vuepress/pwa": {
+      serviceWorker: true,
+      updatePopup: true
     }
   },
   postcss: {

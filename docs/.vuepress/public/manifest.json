@@ -1,5 +1,8 @@
 {
-  "name": "App",
+  "name": "Kuma.io",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": ".",
   "icons": [
     {
       "src": "/images/android-icon-36x36.png",
