@@ -116,7 +116,6 @@ module.exports = {
       }
     }
   },
-  clientRootMixin: path.resolve(__dirname, "theme/util/sidebarHashLinkFix.js"),
   postcss: {
     plugins: [
       require("tailwindcss"),
