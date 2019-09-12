@@ -93,9 +93,9 @@ module.exports = {
       // this replaces %%v%% with the latest version on strings but 
       // not within links. using the token within a link
       // causes RouterLink to throw a 'malformed URI' error
-      md.use(mifi, "version_replace", "text", (tokens, idx) => {
-        tokens[idx].content = tokens[idx].content.replace(/%%v%%/g, latestVersion)
-      })
+      // md.use(mifi, "version_replace", "text", (tokens, idx) => {
+      //   tokens[idx].content = tokens[idx].content.replace(/%%v%%/g, latestVersion)
+      // })
     }
   },
   plugins: {
