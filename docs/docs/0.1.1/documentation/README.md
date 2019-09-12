@@ -247,7 +247,7 @@ As mentioned before, this is only required in Universal. In Kubernetes no change
 
 ### Envoy
 
-Since `kuma-dp` is built on top of Envoy, once the data-plane is running you can also access the [Envoy HTTP API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) by consuming port `9901`. This can be very useful for debugging purposes.
+Since `kuma-dp` is built on top of Envoy, you can enable the [Envoy HTTP API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) by starting `kuma-dp` with an additional `KUMA_DATAPLANE_ADMIN_PORT=9901` environment variable (or by setting the `--admin-port=9901` argument). This can be very useful for debugging purposes.
 
 ### Tags
 
