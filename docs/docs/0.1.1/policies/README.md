@@ -20,7 +20,7 @@ These policies can be applied either by file via the `kumactl -f [path]` or `kub
 echo "
   type: ..
   spec: ..
-" | kumactl -f -
+" | kumactl apply -f -
 ```
 
 or - on Kubernetes - by using the equivalent:
@@ -30,7 +30,7 @@ echo "
   apiVersion: kuma.io/v1alpha1
   kind: ..
   spec: ..
-" | kubectl -f -
+" | kubectl apply -f -
 ```
 
 Below you can find the policies that Kuma supports. In addition to [`kumactl`](/docs/0.1.1/documentation/#kumactl), you can also retrive the state via the Kuma [HTTP API](/docs/0.1.1/documentation/#http-api) as well.
