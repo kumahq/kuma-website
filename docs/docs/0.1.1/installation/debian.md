@@ -8,7 +8,7 @@ To install and run Kuma on Debian execute the following steps:
 
 ## 1. Download and run Kuma
 
-You can download Kuma from [here](https://kong.bintray.com/kuma/:kuma-0.1.1-debian.tar.gz) or by running:
+You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.1.1-debian.tar.gz) or by running:
 
 ```sh
 $ wget https://kong.bintray.com/kuma/kuma-0.1.1-debian.tar.gz
