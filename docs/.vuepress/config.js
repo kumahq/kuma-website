@@ -1,4 +1,9 @@
 /**
+ * Tools
+ */
+const path = require("path")
+
+/**
  * Releases
  */
 const LatestSemver = require('latest-semver')
@@ -31,6 +36,7 @@ module.exports = {
     latestVer: latestVersion,
     twitter: productData.twitter,
     author: productData.author,
+    websiteRepo: productData.websiteRepo,
     repo: productData.repo,
     repoButtonLabel: productData.repoButtonLabel,
     cliNamespace: productData.cliNamespace,
@@ -69,6 +75,7 @@ module.exports = {
     [ "meta", { name: "msapplication-TileImage", content: `${productData.hostname}/icons/ms-icon-144x144.png` } ],
     [ "meta", { name: "msapplication-TileColor", content: "#ffffff" } ],
     [ "meta", { name: "theme-color", content: "#ffffff" } ],
+
     // web fonts
     [
       "link", {
@@ -93,14 +100,19 @@ module.exports = {
       // this replaces %%v%% with the latest version on strings but 
       // not within links. using the token within a link
       // causes RouterLink to throw a 'malformed URI' error
+
       // md.use(mifi, "version_replace", "text", (tokens, idx) => {
       //   tokens[idx].content = tokens[idx].content.replace(/%%v%%/g, latestVersion)
+      // })
+
+      // md.use(mifi, "lazyload_img_replace", "image", (tokens, idx) => {
+      //   tokens[idx].tag = tokens[idx].tag.replace(/img/g, "pimg")
       // })
     }
   },
   plugins: {
     "clean-urls": {
-      normalSuffix: "/",
+      normalSuffix: "",
       indexSuffix: "/"
     },
     sitemap: {
@@ -126,7 +138,8 @@ module.exports = {
     "@vuepress/pwa": {
       serviceWorker: true,
       updatePopup: true
-    }
+    },
+    "@vuepress/nprogress": {}
   },
   postcss: {
     plugins: [
