@@ -123,10 +123,10 @@ module.exports = {
     "@vuepress/google-analytics": {
       ga: productData.gaCode
     },
-    "@vuepress/pwa": {
-      serviceWorker: true,
-      updatePopup: true
-    }
+    // "@vuepress/pwa": {
+    //   serviceWorker: true,
+    //   updatePopup: true
+    // }
   },
   postcss: {
     plugins: [
