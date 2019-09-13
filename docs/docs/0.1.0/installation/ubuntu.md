@@ -11,7 +11,7 @@ To install and run Kuma on Ubuntu execute the following steps:
 You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.1.0-ubuntu.tar.gz) or by running:
 
 ```sh
-$ wget downloads.kuma.io/0.1.0/kuma-0.1.0-ubuntu.tar.gz
+$ wget kong.bintray.com/kuma/kuma-0.1.0-ubuntu.tar.gz
 ```
 
 You can extract the archive and check the contents of the `bin` folder by running:
