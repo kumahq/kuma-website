@@ -77,7 +77,7 @@ mtls:
     builtin: {}
 ```
 
-You can apply with `kumactl -f [file-path]`.
+You can apply this configuration with `kumactl apply -f [file-path]`.
 
 On Kubernetes:
 
@@ -94,9 +94,9 @@ spec:
       builtin: {}
 ```
 
-You can apply with `kubectl -f [file-path]`.
+You can apply this configuration with `kubectl apply -f [file-path]`.
 
-Currently Kuma supports self-signed certificates for every data-plane in the Mesh (`builtin`). In the future we plan to add support for third-party Certificate Authorities.
+Currently Kuma only support self-signed certificates (`builtin`). In the future we plan to add support for third-party Certificate Authorities.
 
 ## Traffic Permissions
 
