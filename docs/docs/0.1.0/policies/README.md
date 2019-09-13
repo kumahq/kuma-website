@@ -14,7 +14,7 @@ Once installed, Kuma can be configured via its policies. You can apply policies 
 We follow the best practices. You should always change your Kubernetes state with CRDs, that's why Kuma disables `kumactl apply [..]` when running in K8s environments.
 :::
 
-These policies can be applied either by file via the `kumactl -f [path]` or `kubectl -f [path]` syntax, or by using the following command:
+These policies can be applied either by file via the `kumactl apply -f [path]` or `kubectl apply -f [path]` syntax, or by using the following command:
 
 ```sh
 echo "
