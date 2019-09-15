@@ -35,18 +35,4 @@ export default ({
       }
     }
   })
-
-  // router.beforeEach((to, from, next) => {
-    
-  //   const toPath = to.path
-  //   const toMeta = to.meta
-  //   const isDocs = toPath.startsWith('/docs/')
-  //   const ver = toPath.split('/')[2]
-
-  //   if (isDocs) {
-  //     console.log(siteData)
-  //   }
-
-  //   next()
-  // })
 }
