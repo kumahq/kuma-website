@@ -112,7 +112,7 @@ module.exports = {
   },
   plugins: {
     "clean-urls": {
-      normalSuffix: "",
+      normalSuffix: "/",
       indexSuffix: "/"
     },
     sitemap: {
