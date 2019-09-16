@@ -39,7 +39,9 @@ function preloadPublicAssets() {
           image.src = src;
 
           // 4. append the images to a hidden container for caching
-          preloadContainer.appendChild(image);
+          image.onload = function() {
+            preloadContainer.appendChild(image);
+          }
         });
       })
     }
