@@ -25,6 +25,13 @@ force = false
 from = "/install/"
 to = "/install/${latest}/"
 status = 301
+force = false
+
+# Latest redirect
+[[redirects]]
+from = "/docs/latest/*"
+to = "/docs/${latest}/:splat"
+status = 301
 force = false`;
 
   // write our redirects to the TOML file
