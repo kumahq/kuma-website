@@ -88,7 +88,7 @@ module.exports = {
       "script", {
         charset: "utf8",
         src: "/preloadPublicAssets.js",
-        defer: true
+        defer: "defer"
       }
     ]
   ],
