@@ -174,11 +174,11 @@ rules:
     conf:
       - weight: 90
         destination:
-          - service: backend
+          - service: redis
             version: "1.0"
       - weight: 10
         destination:
-          - service: backend
+          - service: redis
             version: "2.0"
 ```
 
@@ -202,11 +202,11 @@ spec:
     conf:
       - weight: 90
         destination:
-          - service: backend
+          - service: redis
             version: "1.0"
       - weight: 10
         destination:
-          - service: backend
+          - service: redis
             version: "2.0"
 ```
 
