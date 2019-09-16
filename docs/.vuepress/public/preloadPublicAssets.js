@@ -14,6 +14,7 @@ function preloadPublicAssets() {
   var preloadContainer = document.createElement("div");
   preloadContainer.setAttribute("id", "preloadedImages");
   preloadContainer.style.display = "none";
+  document.body.appendChild(preloadContainer);
 
   // set the response type and open the connection
   xhr.responseType = "json";
