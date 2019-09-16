@@ -1,4 +1,4 @@
-# RedHat
+# RedHat (x86\_64)
 
 ::: tip
 **Don't forget!** The [Official Documentation](/docs/0.1.2/) of Kuma is a great place to learn about both basic and more advanced topics.
