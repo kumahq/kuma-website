@@ -148,18 +148,6 @@ export default {
     }
   },
 
-  beforeMount() {
-    this.$router.beforeEach((to, from, next) => {
-      const path = to.path
-      // only preload the documentation page assets
-      if (path.startsWith('/docs/')) {
-        this.preloadPubAssets()
-      }
-      // regardless of what happens, always trigger next()
-      next()
-    })
-  },
-
   mounted () {
     this.$router.afterEach(() => {
       this.isSidebarOpen = false
@@ -189,48 +177,6 @@ export default {
           this.toggleSidebar(false)
         }
       }
-    },
-
-    /**
-     * Documentation public asset preloader
-     * 
-     * This is a bit of a hacky workaround to force the
-     * public asset folder to preload images. Because
-     * the images used in the documentation pages are
-     * not fed through the webpack pipeline, they load
-     * staticly and thus slower than the webpack chunks.
-     * 
-     * This forces them to preload into the browser so
-     * that the hash anchor links in the documentation
-     * page sidebar don't go to the incorrect location
-     * due to public assets loading slightly slower
-     * (e.g. after the user is already at the anchor
-     * section they navigated to).
-     * 
-     */
-    preloadPubAssets () {
-      axios({
-        method: 'get',
-        url: '/images/docs/manifest.json',
-        headers: {
-          'Accept': 'application/json'
-        },
-      })
-      .then(res => {
-        const items = res.data.children
-        items.forEach((item, i) => {
-          item.children.forEach((item, i) => {
-            const imgPath = item.path.replace('docs/.vuepress/public', '')
-            let image = new Image()
-            image.src = imgPath
-            image.onload = console.log('loaded')
-          })
-        })
-      })
-      .catch(err => {
-        // let the app know if an error has occurred
-        this.error = true
-      })
     }
   }
 }

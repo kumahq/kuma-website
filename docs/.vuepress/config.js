@@ -82,6 +82,14 @@ module.exports = {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
       }
+    ],
+
+    [
+      "script", {
+        charset: "utf8",
+        src: "/preloadPublicAssets.js",
+        defer: true
+      }
     ]
   ],
   // version release navigation
