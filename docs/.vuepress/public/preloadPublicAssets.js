@@ -36,7 +36,7 @@ function preloadPublicAssets() {
 
           // 3. assign a src value to each created image
           image.src = src;
-          
+
           // 4. append the images to a hidden container for caching
           preloadContainer.appendChild(image);
         });
@@ -46,6 +46,9 @@ function preloadPublicAssets() {
       console.log("There was an error preloading public assets.");
     }
   };
+
+  // for debugging only
+  console.log(preloadContainer);
 
   xhr.send();
 }
