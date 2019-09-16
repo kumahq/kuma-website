@@ -235,7 +235,7 @@ networking:
 
 KUMA_CONTROL_PLANE_BOOTSTRAP_SERVER_URL=http://control-plane:5682 \
 KUMA_DATAPLANE_MESH=default \
-KUMA_DATAPLANE_NAME=redis-1 \
+KUMA_DATAPLANE_NAME=backend-1 \
 kuma-dp run
 ```
 
