@@ -27,10 +27,17 @@ to = "/install/${latest}/"
 status = 301
 force = false
 
-# Latest redirect
+# Docs: Latest redirect
 [[redirects]]
 from = "/docs/latest/*"
 to = "/docs/${latest}/:splat"
+status = 301
+force = false
+
+# Install: Latest redirect
+[[redirects]]
+from = "/install/latest/*"
+to = "/install/${latest}/:splat"
 status = 301
 force = false`;
 
