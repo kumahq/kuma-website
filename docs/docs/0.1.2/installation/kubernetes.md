@@ -66,15 +66,24 @@ spec:
       builtin: {}" | kubectl apply -f -
 ```
 
-## 4. Done!
+## 4. Configure
 
-::: tip
-You can configure `kumactl` to point to any remote `kuma-cp` instance by running:
+After you apply your policy for mTLS, let's utalize `kumactl` to review your entities. `kuma-cp` does not come configured with an external IP, so you will have to use port-forward to configure `kumactl` to point to this remote `kuma-cp` instance. 
+
+***Please note that this is only for demo purposes. In a production deployment, the `kuma-cp` would be available outside the cluster and be easily accessible. You should not be using port-forward for regular operations in a production system.***
 
 ```sh
-$ kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:5681
+$ kubectl -n kuma-system port-forward $(kubectl -n kuma-system get pod -l app=kuma-control-plane -o jsonpath='{.items[0].metadata.name}') 5681:5681
 ```
+You can now configure `kumactl` to point to this remote `kuma-cp` instance by running:
+
+```sh
+$ kumactl config control-planes add --name=first-kuma --address=http://localhost:5681
+```
+::: tip You can also configure kumactl to point to any other remote kuma-cp instance
 :::
+
+## 5. Done!
 
 You can now review the entities created by Kuma by using the [`kumactl`](/docs/0.1.2/documentation/#kumactl) CLI. For example you can list the Meshes:
 
