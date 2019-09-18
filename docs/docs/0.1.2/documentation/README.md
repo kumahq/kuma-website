@@ -210,10 +210,10 @@ networking:
     tags:
       service: redis" | kumactl apply -f -
 
-KUMA_CONTROL_PLANE_BOOTSTRAP_SERVER_URL=http://control-plane:5682 \
-KUMA_DATAPLANE_MESH=default \
-KUMA_DATAPLANE_NAME=redis-1 \
-kuma-dp run
+kuma-dp run \
+    --name=redis-1 \
+    --mesh=default \
+    --cp-address=http://127.0.0.1:5682
 ```
 
 In the example above, any external client who wants to consume Redis will have to make a request to the DP on port `9000`, which internally will be redirected to the Redis service listening on port `6379`.
@@ -233,10 +233,10 @@ networking:
   - interface: :10000
     service: redis" | kumactl apply -f -
 
-KUMA_CONTROL_PLANE_BOOTSTRAP_SERVER_URL=http://control-plane:5682 \
-KUMA_DATAPLANE_MESH=default \
-KUMA_DATAPLANE_NAME=backend-1 \
-kuma-dp run
+kuma-dp run \
+    --name=backend-1 \
+    --mesh=default \
+    --cp-address=http://127.0.0.1:5682
 ```
 
 In order for the `backend` service to successfully consume `redis`, we specify an `outbound` networking section in the `Dataplane` configuration instructing the DP to listen on a new port `10000` and to proxy any outgoing request on port `10000` to the `redis` service. For this to work, we must update our application to consume `redis` on `127.0.0.1:10000`.
@@ -247,7 +247,7 @@ As mentioned before, this is only required in Universal. In Kubernetes no change
 
 ### Envoy
 
-Since `kuma-dp` is built on top of Envoy, you can enable the [Envoy HTTP API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) by starting `kuma-dp` with an additional `KUMA_DATAPLANE_ADMIN_PORT=9901` environment variable (or by setting the `--admin-port=9901` argument). This can be very useful for debugging purposes.
+Since `kuma-dp` is built on top of Envoy, you can enable the [Envoy HTTP API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) by starting `kuma-dp` by setting the `--admin-port=9901` argument. This can be very useful for debugging purposes.
 
 ### Tags
 

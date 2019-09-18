@@ -154,10 +154,10 @@ networking:
     tags:
       service: echo" | kumactl apply -f -
 
-$ KUMA_CONTROL_PLANE_BOOTSTRAP_SERVER_URL=http://127.0.0.1:5682 \
-  KUMA_DATAPLANE_MESH=default \
-  KUMA_DATAPLANE_NAME=dp-echo-1 \
-  kuma-dp run
+$ kuma-dp run \
+    --name=dp-echo-1 \
+    --mesh=default \
+    --cp-address=http://127.0.0.1:5682
 ```
 :::
 
