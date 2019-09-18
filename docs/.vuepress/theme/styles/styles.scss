@@ -65,3 +65,7 @@
         './custom/components/tower',
         './custom/components/tiny-tabs',
         './custom/components/newsbar';
+
+// PrismJS theme override
+// @import './prismjs/prism-ghcolors';
+@import './prismjs/prism-vs';

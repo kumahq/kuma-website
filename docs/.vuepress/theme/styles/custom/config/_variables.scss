@@ -46,6 +46,9 @@ $gradient-4: linear-gradient(0deg, #fff 0%, #F5F8FC 55%);
 // Cubic-bezier and easing settings
 $cb-1: cubic-bezier(.47,.37,.36,.92);
 
+// code block text color
+$code-text-color: #333;
+
 // Custom breakpoints
 $MQMobileMid: 639px;
 $MQNarrowMid: 840px;
@@ -66,8 +69,8 @@ $navbarHeight: 4.688rem;
 $accentColor: #3eaf7c;
 $textColor: #2c3e50;
 $borderColor: #eaecef;
-// $codeBgColor: #eee;
-$codeBgColor: #282c34;
+$codeBgColor: rgb(251, 251, 251);
+// $codeBgColor: #282c34;
 $sidebarWidth: 16rem; // VuePress default is 20
 $contentWidth: 740px;
 $wrapper: '.content';
