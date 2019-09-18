@@ -18,5 +18,6 @@ module.exports = {
   slackInviteURL: "https://chat.kuma.io",
   slackChannelURL: "https://kuma-mesh.slack.com",
   gaCode: "UA-8499472-30",
-  ogImage: "/images/social/og-image.jpg"
+  ogImage: "/images/social/og-image.jpg",
+  fbAppId: "682375632267551"
 }

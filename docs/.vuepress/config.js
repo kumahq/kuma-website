@@ -157,6 +157,8 @@ module.exports = {
 
         add("twitter:image", ogImagePath)
         add("twitter:description", productData.description)
+        add("fb:app_id", productData.fbAppId)
+        add("og:description", productData.description)
         add("og:image", ogImagePath)
         add("og:image:width", 800)
         add("og:image:height", 533)
