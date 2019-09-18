@@ -94,8 +94,14 @@ div[class*="language-"] {
   }
 }
 
+// shell label
 div[class~="language-sh"]:before {
   content: "sh";
+}
+
+// yaml label
+div[class~="language-yaml"]:before {
+  content: "yaml";
 }
 
 // Images
