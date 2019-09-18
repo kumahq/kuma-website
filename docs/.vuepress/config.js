@@ -38,7 +38,7 @@ module.exports = {
     slackInvite: productData.slackInviteURL,
     slackChannel: productData.slackChannelURL,
     docsDir: "docs",
-    editLinks: true,
+    editLinks: false,
     search: true,
     searchMaxSuggestions: 10,
     algolia: {
