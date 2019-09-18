@@ -69,6 +69,7 @@ module.exports = {
     [ "meta", { name: "msapplication-TileImage", content: `${productData.hostname}/icons/ms-icon-144x144.png` } ],
     [ "meta", { name: "msapplication-TileColor", content: "#ffffff" } ],
     [ "meta", { name: "theme-color", content: "#ffffff" } ],
+    [ "meta", { property: "fb:app_id", content: productData.fbAppId } ],
     // web fonts
     [
       "link", {
@@ -157,6 +158,7 @@ module.exports = {
 
         add("twitter:image", ogImagePath)
         add("twitter:description", productData.description)
+        add("og:description", productData.description)
         add("og:image", ogImagePath)
         add("og:image:width", 800)
         add("og:image:height", 533)
