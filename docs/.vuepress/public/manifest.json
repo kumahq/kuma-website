@@ -1,8 +1,11 @@
 {
-  "name": "Kuma.io",
-  "background_color": "#ffffff",
-  "display": "standalone",
+  "name": "Kuma",
+  "short_name": "Kuma",
   "start_url": ".",
+  "display": "standalone",
+  "description": "The Universal Service Mesh",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "/images/android-icon-36x36.png",

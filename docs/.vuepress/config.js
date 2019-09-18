@@ -64,7 +64,7 @@ module.exports = {
     // favicons, touch icons, web app stuff
     [ "link", { rel: "icon", href: `${productData.hostname}/images/favicon-64px.png` } ],
     [ "link", { rel: "apple-touch-icon", "sizes": "180x180", href: `${productData.hostname}/images/apple-touch-icon.png` } ],
-    [ "link", { rel: "manifest", href: `${productData.hostname}/site.webmanifest` } ],
+    [ "link", { rel: "manifest", href: `${productData.hostname}/manifest.json` } ],
     [ 'meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     [ "meta", { name: "msapplication-TileImage", content: `${productData.hostname}/icons/ms-icon-144x144.png` } ],
     [ "meta", { name: "msapplication-TileColor", content: "#ffffff" } ],
