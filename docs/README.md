@@ -14,7 +14,7 @@ testimonialPortraitSrc: /images/matt-klein-cropped@2x.jpg
 testimonialPortraitAlt: Matt Klein
 hideTestimonial: false # change this to `true` if you want to display the testimonial
 
-newsTagline: Join our Community Call on September 17th at 9am PST for a live demo of Kuma
+newsTagline: Join our Community Call on Sept. 17th at 9am PST for a live demo of Kuma
 newsLink: http://bit.ly/2m0wKhc
 ---
 
