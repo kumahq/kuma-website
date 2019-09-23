@@ -56,17 +56,52 @@ div[class*="language-"].line-numbers-mode pre {
 
 div[class*="language-"] {
   background-color: $codeBgColor;
+  color: #333;
+
+  &::before {
+    position: absolute;
+    z-index: 3;
+    top: .35em;
+    right: .8em;
+    font-size: 0.75rem;
+    color: #888;
+  }
+
+  &.line-numbers-mode .line-numbers-wrapper {
+    color: #333;
+  }
+
+  &.line-numbers-mode:after {
+    background-color: transparent;
+    border: 1px solid #ddd;
+  }
+}
+
+#{$contentClass} code {
+  font-size: inherit;
 }
 
 #{$contentClass} {
-  .theme-default-content pre,
-  .theme-default-content div[class*="language-"] {
+  pre,
+  div[class*="language-"] {
     background-color: $codeBgColor;
 
     code {
+      font-size: .9rem;
+      line-height: 1.5;
       color: #333;
     }
   }
+}
+
+// shell label
+div[class~="language-sh"]:before {
+  content: "sh";
+}
+
+// yaml label
+div[class~="language-yaml"]:before {
+  content: "yaml";
 }
 
 // Images
