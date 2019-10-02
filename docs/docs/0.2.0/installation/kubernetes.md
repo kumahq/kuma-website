@@ -10,11 +10,11 @@ To install and run Kuma on Kubernetes execute the following steps:
 
 To run Kuma on Kubernetes, you need to download a compatible version of Kuma for the machine where you will be executing the commands.
 
-* [CentOS](https://kong.bintray.com/kuma/kuma-0.2.0-centos.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma-0.2.0-rhel.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma-0.2.0-debian.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma-0.2.0-ubuntu.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma-0.2.0-darwin.tar.gz)
+* [CentOS](https://kong.bintray.com/kuma/kuma-0.2.0-centos-amd64.tar.gz)
+* [RedHat](https://kong.bintray.com/kuma/kuma-0.2.0-rhel-amd64.tar.gz)
+* [Debian](https://kong.bintray.com/kuma/kuma-0.2.0-debian-amd64.tar.gz)
+* [Ubuntu](https://kong.bintray.com/kuma/kuma-0.2.0-ubuntu-amd64.tar.gz)
+* [macOS](https://kong.bintray.com/kuma/kuma-0.2.0-darwin-amd64.tar.gz)
 
 Once downloaded, we can extract the content of the archive with:
 
