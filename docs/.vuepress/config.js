@@ -119,6 +119,32 @@ module.exports = {
     [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-09.jpg", as: "image" } ],
     [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-10.jpg", as: "image" } ],
     [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-11.jpg", as: "image" } ],
+
+    // v0.1.2
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-01.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-02.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-03.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-04.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-05.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-06.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-07.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-08.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-09.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-10.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-11.jpg", as: "image" } ],
+
+    // v0.2.0
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-01.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-02.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-03.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-04.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-05.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-06.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-07.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-08.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-09.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-10.jpg", as: "image" } ],
+    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-11.jpg", as: "image" } ],
   ],
   // version release navigation
   additionalPages: [
