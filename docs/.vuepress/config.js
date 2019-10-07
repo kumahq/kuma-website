@@ -162,7 +162,7 @@ module.exports = {
     "@vuepress/google-analytics": {
       ga: productData.gaCode
     },
-    "@vuepress/pwa": {
+    "@vuepress/plugin-pwa": {
       serviceWorker: true,
       updatePopup: true,
       generateSWConfig: {
