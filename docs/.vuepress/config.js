@@ -1,30 +1,29 @@
 /**
  * Tools
  */
-const path = require("path")
+const path = require("path");
 
 /**
  * Releases
  */
-const LatestSemver = require('latest-semver')
-const releases = require('./public/releases.json')
-const latestVersion = LatestSemver(releases)
+const LatestSemver = require("latest-semver");
+const releases = require("./public/releases.json");
+const latestVersion = LatestSemver(releases);
 
 /**
  * Product data
  */
-const productData = require("./site-config/product-info")
-
+const productData = require("./site-config/product-info");
 
 /**
  * Sidebar navigation structure
  */
-const sidebarNav = require("./site-config/sidebar-nav")
+const sidebarNav = require("./site-config/sidebar-nav");
 
 /**
  * Install methods route builder
  */
-const releaseArray = require("./site-config/install-route-builder")
+const releaseArray = require("./site-config/install-route-builder");
 
 /**
  * Site Configuration
@@ -68,23 +67,45 @@ module.exports = {
   host: "localhost",
   head: [
     // favicons, touch icons, web app stuff
-    [ "link", { rel: "icon", href: `${productData.hostname}/images/favicon-64px.png` } ],
-    [ "link", { rel: "apple-touch-icon", "sizes": "180x180", href: `${productData.hostname}/images/apple-touch-icon.png` } ],
-    [ "link", { rel: "manifest", href: `${productData.hostname}/manifest.json` } ],
-    [ 'meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
-    [ "meta", { name: "msapplication-TileImage", content: `${productData.hostname}/icons/ms-icon-144x144.png` } ],
-    [ "meta", { name: "msapplication-TileColor", content: "#ffffff" } ],
-    [ "meta", { name: "theme-color", content: "#ffffff" } ],
-    [ "meta", { property: "fb:app_id", content: productData.fbAppId } ],
-    // web fonts
     [
-      "link", {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
+      "link",
+      { rel: "icon", href: `${productData.hostname}/images/favicon-64px.png` }
+    ],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: `${productData.hostname}/images/apple-touch-icon.png`
       }
     ],
     [
-      "script", {
+      "link",
+      { rel: "manifest", href: `${productData.hostname}/manifest.json` }
+    ],
+    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+    [
+      "meta",
+      {
+        name: "msapplication-TileImage",
+        content: `${productData.hostname}/icons/ms-icon-144x144.png`
+      }
+    ],
+    ["meta", { name: "msapplication-TileColor", content: "#ffffff" }],
+    ["meta", { name: "theme-color", content: "#ffffff" }],
+    ["meta", { property: "fb:app_id", content: productData.fbAppId }],
+    // web fonts
+    [
+      "link",
+      {
+        rel: "stylesheet",
+        href:
+          "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
+      }
+    ],
+    [
+      "script",
+      {
         charset: "utf8",
         src: "/preloadPublicAssets.js",
         defer: "defer"
@@ -92,19 +113,17 @@ module.exports = {
     ]
   ],
   // version release navigation
-  additionalPages: [
-    releaseArray
-  ],
+  additionalPages: [releaseArray],
   // plugin settings, build process, etc.
   markdown: {
     lineNumbers: true,
     extendMarkdown: md => {
       // include files in markdown
-      md.use(require("markdown-it-include"), "./docs/.partials/")
+      md.use(require("markdown-it-include"), "./docs/.partials/");
 
-      const mifi = require("markdown-it-for-inline")
+      const mifi = require("markdown-it-for-inline");
 
-      // this replaces %%v%% with the latest version on strings but 
+      // this replaces %%v%% with the latest version on strings but
       // not within links. using the token within a link
       // causes RouterLink to throw a 'malformed URI' error
 
@@ -127,17 +146,17 @@ module.exports = {
     },
     seo: {
       customMeta: (add, context) => {
-        const { $site, $page } = context
+        const { $site, $page } = context;
 
         // the full absolute URL for the OpenGraph image
-        const ogImagePath = `${productData.hostname}${productData.ogImage}`
+        const ogImagePath = `${productData.hostname}${productData.ogImage}`;
 
-        add("twitter:image", ogImagePath)
-        add("twitter:description", productData.description)
-        add("og:description", productData.description)
-        add("og:image", ogImagePath)
-        add("og:image:width", 800)
-        add("og:image:height", 533)
+        add("twitter:image", ogImagePath);
+        add("twitter:description", productData.description);
+        add("og:description", productData.description);
+        add("og:image", ogImagePath);
+        add("og:image:width", 800);
+        add("og:image:height", 533);
       }
     },
     "@vuepress/google-analytics": {
@@ -146,12 +165,8 @@ module.exports = {
     // "@vuepress/pwa": {
     //   serviceWorker: true,
     //   updatePopup: true
-<<<<<<< HEAD
-    // }
-=======
     // },
     "@vuepress/nprogress": {}
->>>>>>> fix/sidebar-anchor-links
   },
   postcss: {
     plugins: [
@@ -173,7 +188,7 @@ module.exports = {
   ],
   evergreen: false,
   chainWebpack: (config, isServer) => {
-    const jsRule = config.module.rule("js")
+    const jsRule = config.module.rule("js");
     jsRule
       .use("babel-loader")
       .loader("babel-loader")
@@ -191,6 +206,6 @@ module.exports = {
             }
           ]
         ]
-      })
+      });
   }
 };
