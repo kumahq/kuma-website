@@ -22,6 +22,8 @@ newsLink: https://konghq.com/kong-summit
 
 ::: slot masthead-main-title
 # Build, Secure and Observe<br> your modern Service Mesh
+
+TESTING THE SERVICE WORKER
 :::
 
 ::: slot masthead-sub-title
