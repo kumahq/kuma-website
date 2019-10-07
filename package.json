@@ -3,7 +3,7 @@
   "description": "The website and docs for Konvoy.",
   "author": "Kong Inc.",
   "scripts": {
-    "docs:dev": "vuepress dev docs",
+    "docs:dev": "node build-pub-manifest && vuepress dev docs",
     "docs:build": "vuepress build docs",
     "test": "yarn jest",
     "test-coverage": "yarn jest --coverage"
@@ -12,18 +12,19 @@
     "@babel/preset-env": "^7.5.5",
     "axios": "^0.19.0",
     "core-js": "^3.2.1",
-    "fs": "^0.0.1-security",
     "vee-validate": "^3.0.4",
     "vue": "^2.6.10",
-    "vue-github-button": "^1.0.8",
-    "vue-tiny-tabs": "^1.0.2"
+    "vue-github-button": "^1.0.8"
   },
   "devDependencies": {
     "@babel/plugin-transform-object-assign": "^7.2.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "@vuepress/plugin-google-analytics": "^1.0.0-rc.1",
+    "@vuepress/plugin-medium-zoom": "^1.0.0-rc.1",
     "@vuepress/plugin-pwa": "^1.0.0-rc.1",
     "babel-jest": "^24.8.0",
+    "directory-tree": "^2.2.4",
+    "fs": "^0.0.1-security",
     "jest": "^24.8.0",
     "jest-raw-loader": "^1.0.1",
     "latest-semver": "^2.0.0",

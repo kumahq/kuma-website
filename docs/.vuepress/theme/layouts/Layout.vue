@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Navbar from '@theme/components/Navbar.vue'
 import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'

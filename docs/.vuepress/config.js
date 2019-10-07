@@ -1,4 +1,9 @@
 /**
+ * Tools
+ */
+const path = require("path")
+
+/**
  * Releases
  */
 const LatestSemver = require('latest-semver')
@@ -31,6 +36,7 @@ module.exports = {
     latestVer: latestVersion,
     twitter: productData.twitter,
     author: productData.author,
+    websiteRepo: productData.websiteRepo,
     repo: productData.repo,
     repoButtonLabel: productData.repoButtonLabel,
     cliNamespace: productData.cliNamespace,
@@ -77,74 +83,13 @@ module.exports = {
         href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
       }
     ],
-
-    // public image preloading hotfix
-    // this is in place until the automated version works properly
-
-    // v0.1.0
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-01.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-02.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-03.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-04.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-05.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-06.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-07.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-08.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-09.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-10.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.0/diagram-11.jpg", as: "image" } ],
-
-    // v0.1.1
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-01.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-02.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-03.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-04.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-05.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-06.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-07.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-08.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-09.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-10.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.1/diagram-11.jpg", as: "image" } ],
-
-    // v0.1.2
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-01.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-02.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-03.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-04.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-05.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-06.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-07.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-08.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-09.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-10.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-11.jpg", as: "image" } ],
-
-    // v0.1.2
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-01.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-02.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-03.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-04.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-05.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-06.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-07.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-08.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-09.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-10.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.1.2/diagram-11.jpg", as: "image" } ],
-
-    // v0.2.0
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-01.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-02.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-03.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-04.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-05.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-06.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-07.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-08.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-09.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-10.jpg", as: "image" } ],
-    [ "link", { rel: "preload", href: "/images/docs/0.2.0/diagram-11.jpg", as: "image" } ],
+    [
+      "script", {
+        charset: "utf8",
+        src: "/preloadPublicAssets.js",
+        defer: "defer"
+      }
+    ]
   ],
   // version release navigation
   additionalPages: [
@@ -162,8 +107,13 @@ module.exports = {
       // this replaces %%v%% with the latest version on strings but 
       // not within links. using the token within a link
       // causes RouterLink to throw a 'malformed URI' error
+
       // md.use(mifi, "version_replace", "text", (tokens, idx) => {
       //   tokens[idx].content = tokens[idx].content.replace(/%%v%%/g, latestVersion)
+      // })
+
+      // md.use(mifi, "lazyload_img_replace", "image", (tokens, idx) => {
+      //   tokens[idx].tag = tokens[idx].tag.replace(/img/g, "pimg")
       // })
     }
   },
@@ -196,7 +146,12 @@ module.exports = {
     // "@vuepress/pwa": {
     //   serviceWorker: true,
     //   updatePopup: true
+<<<<<<< HEAD
     // }
+=======
+    // },
+    "@vuepress/nprogress": {}
+>>>>>>> fix/sidebar-anchor-links
   },
   postcss: {
     plugins: [
