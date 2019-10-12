@@ -40,5 +40,11 @@ module.exports = {
     "documentation/",
     "policies/",
     "other/"
-  ]
-}
+  ],
+  "/docs/0.2.2/": [
+    "",
+    "documentation/",
+    "policies/",
+    "other/"
+  ],
+};
