@@ -58,12 +58,12 @@ metadata:
 
 ## Mutual TLS
 
-This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](#mesh). 
+This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](#mesh).
 
 Kuma ships with a `builtin` CA (Certificate Authority) which is initialized with an auto-generated root certificate. The root certificate is unique for every [`Mesh`](#mesh) and it used to sign identity certificates for every data-plane.
 
 The mTLS feature is used for AuthN/Z as well: each data-plane is being assigned with a workload identity certificate, which is SPIFFE compatible. This certificate has a SAN set to `spiffe://<mesh name>/<service name>`. When Kuma enforces policies that require an identity, like [`TrafficPermission`](#traffic-permission), it will extract the SAN from the client certificate and use it for every identity matching operation.
-  
+
 By default, mTLS is **not** enabled. You can enable Mutual TLS by updating the [`Mesh`](#mesh) policy with the `mtls` setting.
 
 On Universal:
@@ -72,7 +72,7 @@ On Universal:
 type: Mesh
 name: default
 mtls:
-  enabled: true 
+  enabled: true
   ca:
     builtin: {}
 ```
@@ -96,7 +96,7 @@ spec:
 
 You can apply this configuration with `kubectl apply -f [file-path]`.
 
-Currently Kuma only support self-signed certificates (`builtin`). In the future we plan to add support for third-party Certificate Authorities.
+Currently, Kuma only supports self-signed certificates (`builtin`). In the future, we plan to add support for third-party Certificate Authorities.
 
 ::: tip
 With mTLS enabled, traffic is restricted by default. Remember to apply a `TrafficPermission` policy to permit connections
@@ -123,12 +123,12 @@ name: permission-1
 mesh: default
 rules:
   - sources:
-    - match:
-        service: backend
+      - match:
+          service: backend
     destinations:
-    - match:
-        service: redis
-        version: "5.0"
+      - match:
+          service: redis
+          version: "5.0"
 ```
 
 On Kubernetes:
@@ -143,12 +143,12 @@ metadata:
 spec:
   rules:
     - sources:
-      - match:
-          service: backend
+        - match:
+            service: backend
       destinations:
-      - match:
-          service: redis
-          version: "5.0"
+        - match:
+            service: redis
+            version: "5.0"
 ```
 
 ::: tip
@@ -266,21 +266,21 @@ mtls:
 logging:
   defaultBackend: file
   backends:
-  - name: logstash
-    format: |
-      {
-          "destination": "%UPSTREAM_CLUSTER%",
-          "destinationAddress": "%UPSTREAM_LOCAL_ADDRESS%",
-          "source": "%KUMA_DOWNSTREAM_CLUSTER%",
-          "sourceAddress": "%DOWNSTREAM_REMOTE_ADDRESS%",
-          "bytesReceived": "%BYTES_RECEIVED%",
-          "bytesSent": "%BYTES_SENT%"
-      }
-    tcp:
-      address: 127.0.0.1:5000
-  - name: file
-    file:
-      path: /tmp/access.log
+    - name: logstash
+      format: |
+        {
+            "destination": "%UPSTREAM_CLUSTER%",
+            "destinationAddress": "%UPSTREAM_LOCAL_ADDRESS%",
+            "source": "%KUMA_DOWNSTREAM_CLUSTER%",
+            "sourceAddress": "%DOWNSTREAM_REMOTE_ADDRESS%",
+            "bytesReceived": "%BYTES_RECEIVED%",
+            "bytesSent": "%BYTES_SENT%"
+        }
+      tcp:
+        address: 127.0.0.1:5000
+    - name: file
+      file:
+        path: /tmp/access.log
 ```
 
 ```yaml
@@ -320,21 +320,21 @@ spec:
   logging:
     defaultBackend: file
     backends:
-    - name: logstash
-      format: |
-        {
-            "destination": "%UPSTREAM_CLUSTER%",
-            "destinationAddress": "%UPSTREAM_LOCAL_ADDRESS%",
-            "source": "%KUMA_DOWNSTREAM_CLUSTER%",
-            "sourceAddress": "%DOWNSTREAM_REMOTE_ADDRESS%",
-            "bytesReceived": "%BYTES_RECEIVED%",
-            "bytesSent": "%BYTES_SENT%"
-        }
-      tcp:
-        address: 127.0.0.1:5000
-    - name: file
-      file:
-        path: /tmp/access.log
+      - name: logstash
+        format: |
+          {
+              "destination": "%UPSTREAM_CLUSTER%",
+              "destinationAddress": "%UPSTREAM_LOCAL_ADDRESS%",
+              "source": "%KUMA_DOWNSTREAM_CLUSTER%",
+              "sourceAddress": "%DOWNSTREAM_REMOTE_ADDRESS%",
+              "bytesReceived": "%BYTES_RECEIVED%",
+              "bytesSent": "%BYTES_SENT%"
+          }
+        tcp:
+          address: 127.0.0.1:5000
+      - name: file
+        file:
+          path: /tmp/access.log
 ```
 
 ```yaml
@@ -366,18 +366,19 @@ If a backend in `TrafficLog` is not explicitly specified, the `defaultBackend` f
 :::
 
 In the `format` field, you can use [standard Envoy placeholders](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log) for TCP as well as a few additional placeholders:
-* `%KUMA_SOURCE_ADDRESS%` - source address of the Dataplane
-* `%KUMA_SOURCE_SERVICE%` - source service from which traffic is sent
-* `%KUMA_DESTINATION_SERVICE%` - destination service to which traffic is sent  
+
+- `%KUMA_SOURCE_ADDRESS%` - source address of the Dataplane
+- `%KUMA_SOURCE_SERVICE%` - source service from which traffic is sent
+- `%KUMA_DESTINATION_SERVICE%` - destination service to which traffic is sent
 
 ## Proxy Template
 
 With the `ProxyTemplate` policy you can configure the low-level Envoy resources directly. The policy requires two elements in its configuration:
 
-* `imports`: this field lets you import canned `ProxyTemplate`s provided by Kuma.
-  * In the current release, the only available canned `ProxyTemplate` is `default-proxy`
-  * In future releases, more of these will be available and it will also be possible for the user to define them to re-use across their infrastructure
-* `resources`: the custom resources that will be applied to every [`Dataplane`]() that matches the `selectors`.
+- `imports`: this field lets you import canned `ProxyTemplate`s provided by Kuma.
+  - In the current release, the only available canned `ProxyTemplate` is `default-proxy`
+  - In future releases, more of these will be available and it will also be possible for the user to define them to re-use across their infrastructure
+- `resources`: the custom resources that will be applied to every [`Dataplane`]() that matches the `selectors`.
 
 On Universal:
 
