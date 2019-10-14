@@ -98,6 +98,11 @@ You can apply this configuration with `kubectl apply -f [file-path]`.
 
 Currently Kuma only support self-signed certificates (`builtin`). In the future we plan to add support for third-party Certificate Authorities.
 
+::: tip
+With mTLS enabled, traffic is restricted by default. Remember to apply a `TrafficPermission` policy to permit connections
+between Dataplanes.
+:::
+
 ## Traffic Permissions
 
 Traffic Permissions allow you to determine security rules for services that consume other services via their [Tags](/docs/0.2.2/documentation/#tags). It is a very useful policy to increase security in the Mesh and compliance in the organization.
