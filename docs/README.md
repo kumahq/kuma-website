@@ -89,7 +89,8 @@ Envoy Proxy Creator, Engineer at Lyft
 :::
 
 ::: slot tab-1-title
-<img src="/images/tab-icons/tab-icon-k8s.svg" alt="Kubernetes Logo Tab Icon">
+<img class="tab-icon" src="/images/tab-icons/tab-icon-k8s.png" alt="Kubernetes Logo Tab Icon">
+<img class="tab-icon tab-icon__active" src="/images/tab-icons/tab-icon-k8s-active.png" alt="Kubernetes Logo Active Tab Icon">
 
 ### Kubernetes
 
@@ -150,7 +151,8 @@ spec:
 :::
 
 ::: slot tab-2-title
-<img src="/images/tab-icons/tab-icon-uni.svg" alt="Universal Logo Tab Icon">
+<img class="tab-icon" src="/images/tab-icons/tab-icon-uni.png" alt="Universal Logo Tab Icon">
+<img class="tab-icon tab-icon__active" src="/images/tab-icons/tab-icon-uni-active.png" alt="Universal Logo Active Tab Icon">
 
 ### Universal
 

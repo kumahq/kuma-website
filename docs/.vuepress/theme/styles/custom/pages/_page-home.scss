@@ -256,6 +256,10 @@ $home-feature-icon-bottom-spacing: 1rem;
     .tab {
       position: relative;
       min-width: 9.25rem;
+      height: 8.5rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
       background: none;
       border-radius: 5px 5px 0 0;
       text-align: center;
@@ -264,59 +268,57 @@ $home-feature-icon-bottom-spacing: 1rem;
       padding: 1.4rem 1.625rem;
       transition: background 150ms ease-in-out;
 
-      > * {
+      > h2,
+      > h3,
+      > h4,
+      > h5,
+      > h6 {
         position: relative;
-        z-index: 1;
-      }
-
-      &:after {
-        position: absolute;
-        z-index: 0;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: block;
-        content: "";
-        background: linear-gradient(
-          to top,
-          $color-6 12%,
-          rgba($color-6, 0) 55%
-        );
-        opacity: 0;
-        transition: opacity 150ms ease-in-out;
       }
 
       img {
+        position: absolute;
+        top: 42%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         display: block;
         width: 60px;
         height: auto;
-        margin: 0 auto 0.5rem auto;
-        filter: grayscale(100%);
-        // transform: scaleZ(1);
-        // transition: filter 150ms ease-in-out, transform 150ms ease-in-out;
-        transition: filter 150ms ease-in-out;
+        transition: opacity 150ms ease-in-out;
       }
 
+      // active tab state
       &.sel {
         background-color: $color-6;
 
-        img {
-          filter: grayscale(0);
+        img.tab-icon:not(.tab-icon__active) {
+          opacity: 0;
         }
-      }
 
-      &.sel,
-      &:hover {
-        &:after {
+        img.tab-icon__active {
           opacity: 1;
         }
       }
 
-      &:not(.sel):hover {
-        img {
-          // transform: scale(1.15);
-          filter: grayscale(0);
+      // inactive tab state
+      &:not(.sel) {
+        img.tab-icon:not(.tab-icon__active) {
+          opacity: 1;
+        }
+
+        img.tab-icon__active {
+          opacity: 0;
+        }
+      }
+
+      // hover tab state
+      &:hover:not(.sel) {
+        img.tab-icon:not(.tab-icon__active) {
+          opacity: 0;
+        }
+
+        img.tab-icon__active {
+          opacity: 1;
         }
       }
     }
