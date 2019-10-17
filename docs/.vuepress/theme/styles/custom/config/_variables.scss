@@ -1,50 +1,51 @@
-// 
+//
 // Variables
-// 
+//
 
 $root-font-size: 100%;
 $base-font-size: 15px;
 
 // Branding
 $color-1: #3fb764;
-$color-2: #008AEB;
-$color-3: #4D4D4D;
-$color-4: #17A956;
-$color-5: #1155CB;
-$color-6: #2B303B;
+$color-2: #008aeb;
+$color-3: #4d4d4d;
+$color-4: #17a956;
+$color-5: #1155cb;
+$color-6: #2b303b;
 $color-7: #eaecef;
-$color-8: #FF5D8C;
+$color-8: #ff5d8c;
 
 $gray-1: #fdfdfd;
 $gray-2: #bfbfbf;
 $gray-3: lighten(#949494, 22);
 $gray-4: #e1e1e1;
-$gray-5: #49494B;
+$gray-5: #49494b;
 $gray-6: #f7f8f9;
+$gray-7: #4b4f59;
 
-$navy-light: lighten(#20242C, 74);
-$navy: #062F4D;
+$navy-light: lighten(#20242c, 74);
+$navy: #062f4d;
 $sky: #e6edfa;
 $sky-light: #f1f5fc;
 
-$green-base: #3FA66A;
+$green-base: #3fa66a;
 $green-dark: #318153;
 $green-light: #e7f6ee;
 
 // Misc
-$image-path: '/images/';
+$image-path: "/images/";
 $container-width-compact: 65rem; // 1040px
 $container-width: $container-width-compact;
 $gutter: 1.875rem; // 30px
 $base-soft-shadow: 0 3px 6px 0 rgba($color-7, 18%);
 $base-border-shadow: 0 0 0 1px $gray-3, $base-soft-shadow;
-$gradient-1: linear-gradient(0deg, #FBFCFE 0%, #F5F8FC 55%);
-$gradient-2: linear-gradient(0deg, rgba(#FBFCFE, 0) 0%, #FBFCFE 55%);
+$gradient-1: linear-gradient(0deg, #fbfcfe 0%, #f5f8fc 55%);
+$gradient-2: linear-gradient(0deg, rgba(#fbfcfe, 0) 0%, #fbfcfe 55%);
 $gradient-3: linear-gradient(180deg, #fff 0%, rgba(#fff, 0) 100%);
-$gradient-4: linear-gradient(0deg, #fff 0%, #F5F8FC 55%);
+$gradient-4: linear-gradient(0deg, #fff 0%, #f5f8fc 55%);
 
 // Cubic-bezier and easing settings
-$cb-1: cubic-bezier(.47,.37,.36,.92);
+$cb-1: cubic-bezier(0.47, 0.37, 0.36, 0.92);
 
 // code block text color
 $code-text-color: #333;
@@ -55,12 +56,12 @@ $MQNarrowMid: 840px;
 $MQLargeMid: 767px;
 $MQLarge: 1023px;
 
-// 
+//
 // VuePress default theme variables
-// 
-// these are carried over from the 
+//
+// these are carried over from the
 // default theme Stylus files
-// 
+//
 
 $MQMobile: 719px;
 $MQMobileNarrow: 419px;
@@ -73,8 +74,8 @@ $codeBgColor: rgb(251, 251, 251);
 // $codeBgColor: #282c34;
 $sidebarWidth: 16rem; // VuePress default is 20
 $contentWidth: 740px;
-$wrapper: '.content';
-$contentClass: '.theme-default-content';
+$wrapper: ".content";
+$contentClass: ".theme-default-content";
 $arrowBgColor: #ccc;
 $lineNumbersWrapperWidth: 3.5rem;
 $codeLang: (

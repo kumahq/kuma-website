@@ -1,11 +1,10 @@
-// 
+//
 // Homepage
-// 
+//
 
 $home-feature-icon-bottom-spacing: 1rem;
 
 .page-container--home {
-
   // hide the header anchor links
   .header-anchor {
     display: none !important;
@@ -16,7 +15,12 @@ $home-feature-icon-bottom-spacing: 1rem;
     display: none !important;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     border: 0;
   }
 
@@ -32,8 +36,11 @@ $home-feature-icon-bottom-spacing: 1rem;
 .section-header {
   text-align: center;
 
-  h2, h3, h4, h5, h6 {
-
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     &:first-of-type {
       margin-top: 0;
     }
@@ -41,8 +48,8 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 .alt-title {
-  
-  &, > * {
+  &,
+  > * {
     color: $navy;
     font-family: $base-font-family;
     font-weight: normal;
@@ -72,7 +79,6 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 .page-masthead {
-
 }
 
 .page-masthead__actions {
@@ -97,7 +103,6 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 .product-features__item {
-  
   img {
     margin: 0 auto $home-feature-icon-bottom-spacing auto;
     max-width: 18rem;
@@ -116,21 +121,18 @@ $home-feature-icon-bottom-spacing: 1rem;
   // individual content blocks
 
   &.content__feature-block-content-1 {
-
     img {
       max-width: 13.875rem;
     }
   }
 
   &.content__feature-block-content-2 {
-
     img {
       max-width: 14rem;
     }
   }
 
   &.content__feature-block-content-3 {
-
     img {
       max-width: 14.625rem;
     }
@@ -158,9 +160,10 @@ $home-feature-icon-bottom-spacing: 1rem;
   max-width: 60rem;
   margin: 0 auto;
   text-align: center;
-  
+
   // resets
-  blockquote, cite {
+  blockquote,
+  cite {
     padding: 0;
     margin: 0;
     border: 0;
@@ -173,11 +176,12 @@ $home-feature-icon-bottom-spacing: 1rem;
   border: 0;
   // font-size: 1.438rem;
   font-size: 1.2rem;
-  
+
   > p {
     @include quotify;
 
-    &:before, &:after {
+    &:before,
+    &:after {
       display: inline-block;
     }
   }
@@ -232,13 +236,65 @@ $home-feature-icon-bottom-spacing: 1rem;
 
 .steps-wrap {
   @include page-section;
-  background-color: $color-6;
   color: #fff;
-  
+  background-color: $gray-7;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  // the tabs themselves
+  div[id*="tab-"].section {
+    background-color: $color-6;
+    padding: 1.8rem 0;
+  }
+
+  // Tinytabs overrides
+  .tinytabs {
+
+    .tabs {
+      margin-bottom: 0;
+    }
+
+    .tab {
+      min-width: 9.25rem;
+      background: none;
+      border-radius: 5px 5px 0 0;
+      text-align: center;
+      font-size: 1.188rem;
+      line-height: 1;
+      padding: 1.4rem 1.625rem;
+
+      img {
+        display: block;
+        margin: 0 auto .5rem auto;
+        filter: grayscale(100%);
+        transition: filter 150ms ease-in-out;
+      }
+
+      &.sel {
+        background-color: $color-6;
+
+        img {
+          filter: grayscale(0);
+        }
+      }
+    }
+  }
+}
+
+.steps-wrap-pre-header {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  text-align: center;
+  color: #fff;
+  background-color: $gray-7;
+
+  .content__tabs-section-title h2 {
+    margin: 0;
+  }
 }
 
 .steps-wrap--slim {
-  padding: 1.8rem 0;
+  // padding: 1.8rem 0;
 }
 
 .steps-items {
@@ -249,10 +305,10 @@ $home-feature-icon-bottom-spacing: 1rem;
   }
 
   // code blocks
-  div[class*="language"], 
+  div[class*="language"],
   div[class*="language-"] {
     // background-color: darken($color-6, 8);
-    background-color: rgba(#000, .4) !important;
+    background-color: rgba(#000, 0.4) !important;
   }
 
   // hide the line numbers on code blocks
@@ -272,16 +328,14 @@ $home-feature-icon-bottom-spacing: 1rem;
   a:not(.btn) {
     color: $green-base;
 
-    &:hover { 
+    &:hover {
       color: #fff;
       text-decoration: underline;
     }
   }
-    
 }
 
 .steps-items__header {
-  
 }
 
 .steps-items__content {
@@ -295,7 +349,7 @@ $home-feature-icon-bottom-spacing: 1rem;
   list-style-type: none;
   margin: 0;
   padding: 0;
-  
+
   > li {
     // padding-left: 85px;
     padding-left: 65px;
@@ -325,7 +379,6 @@ $home-feature-icon-bottom-spacing: 1rem;
     }
 
     &:not(:last-of-type) {
-
       // the vertical line that connects the step numbers
       &:after {
         position: absolute;
@@ -362,12 +415,11 @@ $home-feature-icon-bottom-spacing: 1rem;
 
   // individual diagram images
 
-  // @todo 
+  // @todo
   // these may become one large image so that
   // they can be shared easily as one encompassing diagram
 
   [class*=".content__before-after-diagram"] {
-
     img {
       width: 100%;
       max-width: 29.563rem;
@@ -380,7 +432,6 @@ $home-feature-icon-bottom-spacing: 1rem;
 
 @media (max-width: $MQMobileNarrow) {
   .page-masthead__actions {
-
     .btn {
       display: block;
 
@@ -400,7 +451,6 @@ $home-feature-icon-bottom-spacing: 1rem;
 
 @media (min-width: $MQLarge) {
   .steps-items__content {
-
     > li {
       display: flex;
       align-items: center;
