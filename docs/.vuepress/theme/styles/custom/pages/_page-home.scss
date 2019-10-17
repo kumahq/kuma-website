@@ -265,6 +265,8 @@ $home-feature-icon-bottom-spacing: 1rem;
 
       img {
         display: block;
+        width: 60px;
+        height: auto;
         margin: 0 auto .5rem auto;
         filter: grayscale(100%);
         transition: filter 150ms ease-in-out;
