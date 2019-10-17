@@ -249,12 +249,12 @@ $home-feature-icon-bottom-spacing: 1rem;
 
   // Tinytabs overrides
   .tinytabs {
-
     .tabs {
       margin-bottom: 0;
     }
 
     .tab {
+      position: relative;
       min-width: 9.25rem;
       background: none;
       border-radius: 5px 5px 0 0;
@@ -262,13 +262,39 @@ $home-feature-icon-bottom-spacing: 1rem;
       font-size: 1.188rem;
       line-height: 1;
       padding: 1.4rem 1.625rem;
+      transition: background 150ms ease-in-out;
+
+      > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      &:after {
+        position: absolute;
+        z-index: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        content: "";
+        background: linear-gradient(
+          to top,
+          $color-6 12%,
+          rgba($color-6, 0) 55%
+        );
+        opacity: 0;
+        transition: opacity 150ms ease-in-out;
+      }
 
       img {
         display: block;
         width: 60px;
         height: auto;
-        margin: 0 auto .5rem auto;
+        margin: 0 auto 0.5rem auto;
         filter: grayscale(100%);
+        // transform: scaleZ(1);
+        // transition: filter 150ms ease-in-out, transform 150ms ease-in-out;
         transition: filter 150ms ease-in-out;
       }
 
@@ -276,6 +302,20 @@ $home-feature-icon-bottom-spacing: 1rem;
         background-color: $color-6;
 
         img {
+          filter: grayscale(0);
+        }
+      }
+
+      &.sel,
+      &:hover {
+        &:after {
+          opacity: 1;
+        }
+      }
+
+      &:not(.sel):hover {
+        img {
+          // transform: scale(1.15);
           filter: grayscale(0);
         }
       }
