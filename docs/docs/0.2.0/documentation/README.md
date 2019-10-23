@@ -349,6 +349,7 @@ Available commands on `kumactl` are:
 * `kumactl config [..]`: configures the local or remote control-planes that `kumactl` should talk to. You can have more than one enabled, and the configuration will be stored in `~/.kumactl/config`.
 * `kumactl apply [..]`: used to change the state of Kuma. Only available on Universal.
 * `kumactl get [..]`: used to retrieve the raw state of entities Kuma.
+* `kumactl delete [..]`: used to delete an entity in Kuma.
 * `kumactl inspect [..]`: used to retrieve an augmented state of entities in Kuma.
 * `kumactl help [..]`: help dialog that explains the commands available.
 * `kumactl version [--detailed]`: shows the version of the program.
