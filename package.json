@@ -3,8 +3,8 @@
   "description": "The website and docs for Konvoy.",
   "author": "Kong Inc.",
   "scripts": {
-    "docs:dev": "node build-pub-manifest && vuepress dev docs",
-    "docs:build": "node build-pub-manifest && vuepress build docs",
+    "docs:dev": "node bin/build-pub-manifest && vuepress dev docs",
+    "docs:build": "node bin/build-pub-manifest && vuepress build docs",
     "test": "yarn jest",
     "test-coverage": "yarn jest --coverage"
   },
