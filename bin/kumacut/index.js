@@ -23,7 +23,6 @@ const sidebarNav = path.resolve(
 );
 const latest = LatestSemver(require(releases));
 const sourcVersionDir = path.resolve(__dirname, "../../docs/docs/draft");
-const sourceExclusions = ["**/*.md", `${sourcVersionDir}/installation`];
 
 // this is the token we replace in the documentation
 // markdown files when cutting a new release
