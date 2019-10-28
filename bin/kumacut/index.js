@@ -22,11 +22,12 @@ const sidebarNav = path.resolve(
   "../../docs/.vuepress/site-config/sidebar-nav.js"
 );
 const latest = LatestSemver(require(releases));
-const sourcVersionDir = path.resolve(__dirname, "../../docs/docs/draft");
+const sourcVersionDir = path.resolve(__dirname, "../../docs/docs/DRAFT");
 
 // this is the token we replace in the documentation
 // markdown files when cutting a new release
-const verToken = "%%VER%%";
+// const verToken = "%%VER%%"; // this causes Vue router build errors
+const verToken = new RegExp(/\b(DRAFT)\b/g);
 
 /**
  * @function replaceVerToken
@@ -37,7 +38,7 @@ const verToken = "%%VER%%";
 replaceVerToken = (token, ver, dest) => {
   const options = {
     files: dest,
-    from: new RegExp(token, "g"),
+    from: token,
     to: ver
   };
 

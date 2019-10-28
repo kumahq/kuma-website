@@ -1,7 +1,7 @@
 # Kubernetes
 
 ::: tip
-**Don't forget!** The [Official Documentation](/docs/%%VER%%/) of Kuma is a great place to learn about both basic and more advanced topics.
+**Don't forget!** The [Official Documentation](/docs/DRAFT/) of Kuma is a great place to learn about both basic and more advanced topics.
 :::
 
 To install and run Kuma on Kubernetes execute the following steps:
@@ -10,11 +10,11 @@ To install and run Kuma on Kubernetes execute the following steps:
 
 To run Kuma on Kubernetes, you need to download a compatible version of Kuma for the machine where you will be executing the commands.
 
-* [CentOS](https://kong.bintray.com/kuma/kuma-%%VER%%-centos-amd64.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma-%%VER%%-rhel-amd64.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma-%%VER%%-debian-amd64.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma-%%VER%%-ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma-%%VER%%-darwin-amd64.tar.gz)
+* [CentOS](https://kong.bintray.com/kuma/kuma-DRAFT-centos-amd64.tar.gz)
+* [RedHat](https://kong.bintray.com/kuma/kuma-DRAFT-rhel-amd64.tar.gz)
+* [Debian](https://kong.bintray.com/kuma/kuma-DRAFT-debian-amd64.tar.gz)
+* [Ubuntu](https://kong.bintray.com/kuma/kuma-DRAFT-ubuntu-amd64.tar.gz)
+* [macOS](https://kong.bintray.com/kuma/kuma-DRAFT-darwin-amd64.tar.gz)
 
 Once downloaded, we can extract the content of the archive with:
 
@@ -47,11 +47,11 @@ kubectl apply -f https://raw.githubusercontent.com/Kong/kuma/master/examples/kub
 Note that two things are happening in the YAML file:
 
 * We are including a `kuma.io/sidecar-injection: enabled` label in the `Namespace` to automatically inject Kuma sidecars into every Pod belonging to the namespace.
-* We are adding a `kuma.io/mesh: default` annotation to determine on what [`Mesh`](/docs/%%VER%%/policies/#mesh) the service belongs.
+* We are adding a `kuma.io/mesh: default` annotation to determine on what [`Mesh`](/docs/DRAFT/policies/#mesh) the service belongs.
 
 ## 3. Apply Policies
 
-Now you can start applying [Policies](/docs/%%VER%%/policies) to your `default` Service Mesh, like Mutual TLS:
+Now you can start applying [Policies](/docs/DRAFT/policies) to your `default` Service Mesh, like Mutual TLS:
 
 ```sh
 $ echo "apiVersion: kuma.io/v1alpha1
@@ -76,7 +76,7 @@ $ kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:
 ```
 :::
 
-You can now review the entities created by Kuma by using the [`kumactl`](/docs/%%VER%%/documentation/#kumactl) CLI. For example you can list the Meshes:
+You can now review the entities created by Kuma by using the [`kumactl`](/docs/DRAFT/documentation/#kumactl) CLI. For example you can list the Meshes:
 
 ```sh
 $ kumactl get meshes

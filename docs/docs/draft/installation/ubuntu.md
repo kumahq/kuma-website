@@ -1,23 +1,23 @@
 # Ubuntu
 
 ::: tip
-**Don't forget!** The [Official Documentation](/docs/%%VER%%/) of Kuma is a great place to learn about both basic and more advanced topics.
+**Don't forget!** The [Official Documentation](/docs/DRAFT/) of Kuma is a great place to learn about both basic and more advanced topics.
 :::
 
 To install and run Kuma on Ubuntu execute the following steps:
 
 ## 1. Download and run Kuma
 
-You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-%%VER%%-ubuntu-amd64.tar.gz) or by running:
+You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-DRAFT-ubuntu-amd64.tar.gz) or by running:
 
 ```sh
-$ wget https://kong.bintray.com/kuma/kuma-%%VER%%-ubuntu-amd64.tar.gz
+$ wget https://kong.bintray.com/kuma/kuma-DRAFT-ubuntu-amd64.tar.gz
 ```
 
 You can extract the archive and check the contents of the `bin` folder by running:
 
 ```sh
-$ tar xvzf kuma-%%VER%%-ubuntu-amd64.tar.gz
+$ tar xvzf kuma-DRAFT-ubuntu-amd64.tar.gz
 $ cd bin/ && ls
 envoy   kuma-cp   kuma-dp   kuma-tcp-echo kumactl
 ```
@@ -30,9 +30,9 @@ To run Kuma execute:
 $ kuma-cp run
 ```
 
-Kuma automatically creates a [`Mesh`](/docs/%%VER%%/policies/#mesh) entity with name `default`. 
+Kuma automatically creates a [`Mesh`](/docs/DRAFT/policies/#mesh) entity with name `default`. 
 
-By default this will run Kuma with a `memory` [backend](/docs/%%VER%%/documentation/#backends), but you can change this to use PostgreSQL by updating the `conf/kuma-cp.conf` file.
+By default this will run Kuma with a `memory` [backend](/docs/DRAFT/documentation/#backends), but you can change this to use PostgreSQL by updating the `conf/kuma-cp.conf` file.
 
 ## 2. Start the Data-Plane
 
@@ -46,7 +46,7 @@ $ kuma-tcp-echo -port 9000
 You can then consume the service by making requests to `127.0.0.1:9000`, like: `curl http://127.0.0.1:9000/` or `nc 127.0.0.1 9000`
 :::
 
-We now have our control-plane and services running. For each service we can now provision a [`Dataplane Entity`](/docs/%%VER%%/documentation/#dataplane-entity) that configures the inbound and outbound networking configuration:
+We now have our control-plane and services running. For each service we can now provision a [`Dataplane Entity`](/docs/DRAFT/documentation/#dataplane-entity) that configures the inbound and outbound networking configuration:
 
 ```bash
 $ echo "type: Dataplane
@@ -80,7 +80,7 @@ Accept: */*
 
 ## 3. Apply Policies
 
-Now you can start applying [Policies](/docs/%%VER%%/policies) to your `default` Service Mesh, like Mutual TLS:
+Now you can start applying [Policies](/docs/DRAFT/policies) to your `default` Service Mesh, like Mutual TLS:
 
 ```sh
 $ echo "type: Mesh
@@ -103,7 +103,7 @@ $ kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:
 
 If you consume the service again on port `10000`, you will now notice that the communication requires now a TLS connection.
 
-You can now review the entities created by Kuma by using the [`kumactl`](/docs/%%VER%%/documentation/#kumactl) CLI. For example you can list the Meshes:
+You can now review the entities created by Kuma by using the [`kumactl`](/docs/DRAFT/documentation/#kumactl) CLI. For example you can list the Meshes:
 
 ```sh
 $ kumactl get meshes

@@ -6,27 +6,27 @@
 
 It's time to start using Kuma and build your Service Mesh. In this section you will find the technical material to get up and running 🚀. 
 
-If you haven't read the first [Welcome to Kuma](/docs/%%VER%%) section, we strongly suggest to start from here.
+If you haven't read the first [Welcome to Kuma](/docs/DRAFT) section, we strongly suggest to start from here.
 
 ## Overview
 
-As we have [already learned](/docs/%%VER%%), Kuma is a universal control plane that can run across both modern environments like Kubernetes and more traditional VM-based ones.
+As we have [already learned](/docs/DRAFT), Kuma is a universal control plane that can run across both modern environments like Kubernetes and more traditional VM-based ones.
 
-The first step is obviously to [download and install Kuma](/install/%%VER%%) on the platform of your choice. Different distributions will present different installation instructions that follow the best practices for the platform you have selected.
+The first step is obviously to [download and install Kuma](/install/DRAFT) on the platform of your choice. Different distributions will present different installation instructions that follow the best practices for the platform you have selected.
 
 Regardless of what platform you decide to use, the fundamental behavior of Kuma at runtime will not change across different distributions. These fundamentals are important to explore in order to understand what Kuma is and how it works.
 
 ::: tip
-Installing Kuma on Kubernetes is fully automated, while installing Kuma on Linux requires the user to run the Kuma executables. Both ways are very simple, and can be explored from the [installation page](/install/%%VER%%).
+Installing Kuma on Kubernetes is fully automated, while installing Kuma on Linux requires the user to run the Kuma executables. Both ways are very simple, and can be explored from the [installation page](/install/DRAFT).
 :::
 
 There are two main components of Kuma that are very important to understand:
 
-* **Control-Plane**: Kuma is first and foremost a control-plane that will accept user input (you are the user) in order to create and configure [Policies](/docs/%%VER%%/policies) like [Service Meshes](/docs/%%VER%%/policies/#mesh), and in order to add services and configure their behavior within the Meshes you have created.
+* **Control-Plane**: Kuma is first and foremost a control-plane that will accept user input (you are the user) in order to create and configure [Policies](/docs/DRAFT/policies) like [Service Meshes](/docs/DRAFT/policies/#mesh), and in order to add services and configure their behavior within the Meshes you have created.
 * **Data-Plane**: Kuma also bundles a data-plane implementation based on top of [Envoy](https://www.envoyproxy.io/) for convenience, in order to get up and running quickly. An instance of the data-plane will run alongside every instance of our services, and it will process both incoming and outgoing requests for the service.
 
 ::: tip
-**Multi-Mesh**: Kuma ships with multi-tenancy support since day one. This means you can create and configure multiple isolated Service Meshes from **one** control-plane. By doing so we lower the complexity and the operational cost of supporting multiple meshes. [Explore Kuma's Policies](/docs/%%VER%%/policies).
+**Multi-Mesh**: Kuma ships with multi-tenancy support since day one. This means you can create and configure multiple isolated Service Meshes from **one** control-plane. By doing so we lower the complexity and the operational cost of supporting multiple meshes. [Explore Kuma's Policies](/docs/DRAFT/policies).
 :::
 
 Since Kuma bundles a data-plane in addition to the control-plane, we decided to call the executables `kuma-cp` and `kuma-dp` to differentiate them. Let's take a look at all the executables that ship with Kuma:
@@ -71,12 +71,12 @@ When following the installation instructions, `kuma-injector` will be automatica
 </center>
 
 ::: tip
-**Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](/docs/%%VER%%/policies) with Kuma's CRDs applied via `kubectl`.
+**Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](/docs/DRAFT/policies) with Kuma's CRDs applied via `kubectl`.
 :::
 
 ### Last but not least
 
-Once the `kuma-cp` process is started, it waits for [data-planes](#dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](/docs/%%VER%%/policies).
+Once the `kuma-cp` process is started, it waits for [data-planes](#dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](/docs/DRAFT/policies).
 
 When we look at a typical Kuma installation, at a higher level it works like this:
 
@@ -101,7 +101,7 @@ As explained in the [Overview](#overview), when Kuma (`kuma-cp`) is up and runni
 Kuma supports a few different backends that we can use when running `kuma-cp`. You can configure the backend storage by setting the `KUMA_STORE_TYPE` environment variable when running the control plane.
 
 ::: tip
-This information has been documented for clarity, but when following the [installation instructions](/install/%%VER%%) these settings will be automatically configured.
+This information has been documented for clarity, but when following the [installation instructions](/install/DRAFT) these settings will be automatically configured.
 :::
 
 The backends are:
@@ -146,13 +146,13 @@ Out of the box, Kuma ships with a bundled [Envoy](https://www.envoyproxy.io/) da
 Kuma ships with an executable `kuma-dp` that will execute the bundled `envoy` executable in order to execute the data-plane proxy. The behavior of the data-plane executable is being explained in the [Overview](#overview).
 :::
 
-[Install Kuma](/install/%%VER%%) and follow the instructions to get up and running in a few steps.
+[Install Kuma](/install/DRAFT) and follow the instructions to get up and running in a few steps.
 
 ## DPs and Data Model
 
 When Kuma (`kuma-cp`) runs, it will be waiting for the data-planes to connect and register themselves. In order for a data-plane to successfully run, two things have to happen before being executed:
 
-* There must exist at least one [`Mesh`](/docs/%%VER%%/policies/#mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
+* There must exist at least one [`Mesh`](/docs/DRAFT/policies/#mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
 * There must exist a [`Dataplane`](#dataplane-entity) entity in Kuma **before** the actual data-plane tries to connect to it via `kuma-dp`.
 
 <center>
@@ -257,7 +257,7 @@ A data-plane can have many labels that define its role within your architecture.
 There is one special tag, the `service` tag, that must always be set.
 :::
 
-Tags are important because can be used later on by any [Policy](/docs/%%VER%%/policies) that Kuma supports now and in the future. For example, it will be possible to route requests from one region to another assuming there is a `region` tag associated to the data-planes.
+Tags are important because can be used later on by any [Policy](/docs/DRAFT/policies) that Kuma supports now and in the future. For example, it will be possible to route requests from one region to another assuming there is a `region` tag associated to the data-planes.
 
 ### Dataplane Specification
 
@@ -316,7 +316,7 @@ Kuma ships in a bundle that includes a few executables:
 * `kumactl`: this is the the user CLI to interact with Kuma (`kuma-cp`) and its data.
 * `kuma-tcp-echo`: this is a sample application that echos back the requests we are making, used for demo purposes.
 
-According to the [installation instructions](/install/%%VER%%), some of these executables are automatically executed as part of the installation workflow, while some other times you will have to execute them directly.
+According to the [installation instructions](/install/DRAFT), some of these executables are automatically executed as part of the installation workflow, while some other times you will have to execute them directly.
 
 You can check the usage of the executables by running the `-h` flag, like:
 
@@ -334,7 +334,7 @@ $ kuma-cp version --detailed
 
 The `kumactl` executable is a very important component in your journey with Kuma. It allows to:
 
-* Retrieve the state of Kuma and the configured [policies](/docs/%%VER%%/policies) in every environment.
+* Retrieve the state of Kuma and the configured [policies](/docs/DRAFT/policies) in every environment.
 * On **Universal** environments, it allows to change the state of Kuma by applying new policies with the `kumactl apply [..]` command.
 * On **Kubernetes** it is **read-only**, because you are supposed to change the state of Kuma by leveraging Kuma's CRDs.
 * It provides helpers to install Kuma on Kubernetes, and to configure the PostgreSQL schema on Universal (`kumactl install [..]`).
@@ -386,6 +386,6 @@ When `kuma-cp` starts up, by default it listens on a few ports:
 
 ## Quickstart
 
-The getting started for Kuma can be found in the [installation page](/install/%%VER%%) where you can follow the instructions to get up and running with Kuma.
+The getting started for Kuma can be found in the [installation page](/install/DRAFT) where you can follow the instructions to get up and running with Kuma.
 
 If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.

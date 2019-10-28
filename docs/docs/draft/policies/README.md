@@ -8,7 +8,7 @@ Here you can find the list of Policies that Kuma supports, that will allow you t
 
 ## Applying Policies
 
-Once installed, Kuma can be configured via its policies. You can apply policies with [`kumactl`](/docs/%%VER%%/documentation/#kumactl) on Universal, and with `kubectl` on Kubernetes. Regardless of what environment you use, you can always read the latest Kuma state with [`kumactl`](/docs/%%VER%%/documentation/#kumactl) on both environments.
+Once installed, Kuma can be configured via its policies. You can apply policies with [`kumactl`](/docs/DRAFT/documentation/#kumactl) on Universal, and with `kubectl` on Kubernetes. Regardless of what environment you use, you can always read the latest Kuma state with [`kumactl`](/docs/DRAFT/documentation/#kumactl) on both environments.
 
 ::: tip
 We follow the best practices. You should always change your Kubernetes state with CRDs, that's why Kuma disables `kumactl apply [..]` when running in K8s environments.
@@ -33,7 +33,7 @@ echo "
 " | kubectl apply -f -
 ```
 
-Below you can find the policies that Kuma supports. In addition to [`kumactl`](/docs/%%VER%%/documentation/#kumactl), you can also retrive the state via the Kuma [HTTP API](/docs/%%VER%%/documentation/#http-api) as well.
+Below you can find the policies that Kuma supports. In addition to [`kumactl`](/docs/DRAFT/documentation/#kumactl), you can also retrive the state via the Kuma [HTTP API](/docs/DRAFT/documentation/#http-api) as well.
 
 ## Mesh
 
@@ -105,15 +105,15 @@ between Dataplanes.
 
 ## Traffic Permissions
 
-Traffic Permissions allow you to determine security rules for services that consume other services via their [Tags](/docs/%%VER%%/documentation/#tags). It is a very useful policy to increase security in the Mesh and compliance in the organization.
+Traffic Permissions allow you to determine security rules for services that consume other services via their [Tags](/docs/DRAFT/documentation/#tags). It is a very useful policy to increase security in the Mesh and compliance in the organization.
 
 You can determine what source services are **allowed** to consume specific destination services. The `service` field is mandatory in both `sources` and `destinations`.
 
 ::: warning
-In Kuma %%VER%% the `sources` field only allows for `service` and only `service` will be enforced. This limitation will disappear in the next version of Kuma.
+In Kuma DRAFT the `sources` field only allows for `service` and only `service` will be enforced. This limitation will disappear in the next version of Kuma.
 :::
 
-In the example below, the `destinations` includes not only the `service` property, but also an additional `version` tag. You can include any arbitrary tags to any [`Dataplane`](/docs/%%VER%%/documentation/dataplane-specification)
+In the example below, the `destinations` includes not only the `service` property, but also an additional `version` tag. You can include any arbitrary tags to any [`Dataplane`](/docs/DRAFT/documentation/dataplane-specification)
 
 On Universal:
 
