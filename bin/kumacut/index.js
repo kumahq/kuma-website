@@ -22,7 +22,7 @@ const sidebarNav = path.resolve(
   "../../docs/.vuepress/site-config/sidebar-nav.js"
 );
 const latest = LatestSemver(require(releases));
-const sourcVersionDir = path.resolve(__dirname, "../../docs/docs/DRAFT");
+const sourcVersionDir = path.resolve(__dirname, "../../docs/docs/draft");
 
 // this is the token we replace in the documentation
 // markdown files when cutting a new release

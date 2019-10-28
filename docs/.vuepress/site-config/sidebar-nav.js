@@ -1,5 +1,5 @@
 module.exports = {
-  "/docs/DRAFT/": ["", "documentation/", "policies/", "other/"],
+  "/docs/draft/": ["", "documentation/", "policies/", "other/"],
   "/docs/0.1.0/": ["", "documentation/", "policies/", "other/"],
   "/docs/0.1.1/": ["", "documentation/", "policies/", "other/"],
   "/docs/0.1.2/": ["", "documentation/", "policies/", "other/"],
