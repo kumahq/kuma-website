@@ -43,7 +43,7 @@ export default {
         // 2. compare the current page version to the latest
         // and show or hide the alert based on the result
         if (
-          versionOnPage !== "DRAFT" &&
+          versionOnPage !== "draft" &&
           versionOnPage !== this.getLatestRelease
         ) {
           this.showAlert = true;
