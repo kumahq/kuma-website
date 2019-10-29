@@ -120,20 +120,6 @@ module.exports = {
     extendMarkdown: md => {
       // include files in markdown
       md.use(require("markdown-it-include"), "./docs/.partials/");
-
-      const mifi = require("markdown-it-for-inline");
-
-      // this replaces %%v%% with the latest version on strings but
-      // not within links. using the token within a link
-      // causes RouterLink to throw a 'malformed URI' error
-
-      // md.use(mifi, "version_replace", "text", (tokens, idx) => {
-      //   tokens[idx].content = tokens[idx].content.replace(/%%v%%/g, latestVersion)
-      // })
-
-      // md.use(mifi, "lazyload_img_replace", "image", (tokens, idx) => {
-      //   tokens[idx].tag = tokens[idx].tag.replace(/img/g, "pimg")
-      // })
     }
   },
   plugins: {
