@@ -15,7 +15,7 @@ This website is built on [VuePress](https://vuepress.vuejs.org/) and is open-sou
 - [🚀 Installation](#installation)
 - [🛠 Build](#build)
 - [🧪 Test](#test)
-- [✂️ Cutting a new release](#cutting-a-new-release)
+- [✂️ Cutting a new release](#-cutting-a-new-release)
 
 ## Installation
 
