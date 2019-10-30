@@ -19,7 +19,17 @@
 
 module.exports = function() {
   const releases = require("../public/releases.json")
-  const releaseArray = []
+  const releaseArray = [{
+    path: "/install/draft/",
+      meta: {
+        version: "draft"
+      },
+      frontmatter: {
+        sidebar: false,
+        layout: "Install"
+      }
+    }
+  ]
 
   for (let i = 0; i < releases.length; i++) {
     releaseArray.push({

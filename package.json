@@ -1,12 +1,16 @@
 {
-  "name": "konvoy-website",
+  "name": "kuma-website",
   "description": "The website and docs for Konvoy.",
   "author": "Kong Inc.",
   "scripts": {
-    "docs:dev": "node build-pub-manifest && vuepress dev docs",
-    "docs:build": "node build-pub-manifest && vuepress build docs",
+    "docs:dev": "node ./bin/build-pub-manifest && vuepress dev docs",
+    "docs:build": "node ./bin/build-pub-manifest && vuepress build docs",
     "test": "yarn jest",
-    "test-coverage": "yarn jest --coverage"
+    "test-coverage": "yarn jest --coverage",
+    "postinstall": "cd bin/kumacut && npm i"
+  },
+  "bin": {
+    "kumacut": "./bin/kumacut/index.js"
   },
   "dependencies": {
     "@babel/preset-env": "^7.5.5",
