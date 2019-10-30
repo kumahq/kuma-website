@@ -12,9 +12,10 @@ This website is built on [VuePress](https://vuepress.vuejs.org/) and is open-sou
 
 ## Summary
 
-- [Installation](#installation)
-- [Build](#build)
-- [Test](#test)
+- [🚀 Installation](#installation)
+- [🛠 Build](#build)
+- [🧪 Test](#test)
+- [✂️ Cutting a new release](#cutting-a-new-release)
 
 ## Installation
 
@@ -69,6 +70,46 @@ yarn test
 
 Before submitting a [pull request](https://github.com/Kong/kuma-website/pulls), make sure all tests are passing. 
 
-
 [kuma-url]: https://kuma.io/
 [kuma-logo]: https://kuma-public-assets.s3.amazonaws.com/kuma-logo.png
+
+---
+
+# ✂️ Cutting a new release
+
+This is a Node script for making the creation of new release documentation easy and painless!
+
+## What does the script do?
+* It will clone the `draft` directory located in [/docs/docs/draft/](/docs/docs/draft/) to a new directory 
+that is named by the version specified (we'll go into detail on this further down)
+* After cloning the directory, it will automatically find and replace all instances of `DRAFT` in the documentation
+markdown files, with the new version.
+  * A Regular Expression string is used that only looks for `DRAFT` by itself and in all caps
+* It will add the new sidebar navigation structure for the new version to the [`sidebar-nav.js`](/docs/.vuepress/site-config/sidebar-nav.js) file. This file controls the documentation sidebar navigation in VuePress via the [`additionalPages`](https://vuepress.vuejs.org/plugin/option-api.html#additionalpages) API option
+  * This function will base the page structure on the previous version's page structure. This was the easiest way to ensure they stay uniform since they rarely change. If this page structure changes, we recommend editing the `sidebar-nav.js` configuration by hand for your version. In the future, your new structure will be grabbed and used going forward since the script will always grab the latest version's page structure as a base. So you wouldn't have to make this revision each time
+* It will append the new version to the [`releases.json`](/docs/.vuepress/public/releases.json) file. This file is used by the website for handling versioning in the documentation and install pages
+
+## How do I use the script?
+
+First and foremost, run `yarn` to install any new modules. Once you've done this, run `npm link`. This will link the `kumacut` command
+to your bin so you can run it globally.
+
+### Command breakdown
+
+```
+Usage: kumacut [options] [command]
+
+Options:
+  -v, --version     Output the current version of this script.
+  -h, --help        output usage information
+
+Commands:
+  latest            display the latest version of Kuma
+  bump              this will simply cut a new patch and bump the patch number up by 1
+  new <type> [ver]  options: major, minor, custom <version>
+```
+
+* `kumacut latest` - This will display the latest version from `releases.json`. Good as a reference if needed
+* `kumacut bump` - A quick command to increment the patch in the latest version by `1`
+* `kumacut new major|minor` - This command offers more control. You can increment the latest version by `1` for a major or minor release
+* `kumacut new custom <version>` - If you want to specify the version number yourself, you can replace `<version>` with something like `2.3.4` (don't worry if you happen to write `v2.3.4` - the script is smart enough to strip this out)
