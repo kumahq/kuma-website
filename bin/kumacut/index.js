@@ -224,7 +224,7 @@ program
 program
   .command("new <type> [ver]")
   .description(
-    "options: major, minor, custom <version>, or it defaults to patch"
+    "options: major, minor, custom <version>"
   )
   .action((type, ver) => {
     if (ver && type === "custom") {
