@@ -28,7 +28,7 @@ newsLink: https://konghq.com/kong-summit
 
 ::: slot masthead-sub-title
 
-## The open-source control plane for your Service Mesh, delivering high performance and reliability.
+## The open-source control plane to build your Mesh, delivering high performance and reliability.
 
 :::
 
@@ -44,16 +44,17 @@ newsLink: https://konghq.com/kong-summit
 
 ![Universal Control Plane diagram](/images/diagrams/diagram-universal-cp@2x.jpg)
 
-Built on top of Envoy, Kuma is a modern control plane to orchestrate L4/L7 traffic, including Microservices and Service Mesh.
+Built on top of Envoy, Kuma is a modern control plane for Microservices and Service Mesh. Universal for both VMs and Kubernetes.
+
 :::
 
 ::: slot feature-block-content-2
 
-### Powerful Policies
+### Intuitive Policies
 
 ![Universal Control Plane diagram](/images/diagrams/diagram-powerful-policies@2x.jpg)
 
-Out of the box Ingress and Service Mesh service management policies for security, observability, routing, and more.
+Easy to use Service Mesh policies for security, observability, routing, and more. Low operational overhead with multi-tenancy since day one.
 :::
 
 ::: slot feature-block-content-3
@@ -62,7 +63,7 @@ Out of the box Ingress and Service Mesh service management policies for security
 
 ![Platform Agnostic diagram](/images/diagrams/diagram-platform-agnostic@2x.jpg)
 
-Enterprise-ready and platform agnostic with native Kubernetes + CRD support, as well as VM and Bare Metal via YAML + REST.
+Runs on both Virtual Machines and Kubernetes in order to deliver value to both existing and modern workloads.
 :::
 
 <!-- testimonial -->
