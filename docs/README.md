@@ -201,7 +201,7 @@ $ kuma-dp run \
   --name=dp-echo-1 \
   --mesh=default \
   --cp-address=http://127.0.0.1:5682 \
-  --dataplane-token=/tmp/kuma-dp-echo-1 \
+  --dataplane-token-file=/tmp/kuma-dp-echo-1
 ```
 
 :::
