@@ -1356,17 +1356,26 @@ $ kuma-dp run \
   --name=dp-echo-1 \
   --mesh=default \
   --cp-address=http://127.0.0.1:5682 \
-  --dataplane-token=/tmp/kuma-dp-echo-1-token
+  --dataplane-token-file=/tmp/kuma-dp-echo-1-token
 ```
 
 ##### Accessing Dataplane Token Server from a different machine
 
 By default, the Dataplane Token Server is exposed only on localhost. If you want to generate tokens from a different machine than control plane you have to secure the connection:
-1) Generate certificate for the HTTPS Dataplane Token Server and set via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_TLS_CERT_FILE` and `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_TLS_KEY_FILE` config environment variable.
-2) Pick a public interface on which HTTPS server will be exposed and set it via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_INTERFACE`.
+1) Enable public server by setting `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_ENABLED` to `true`. Make sure to specify hostname which can be used to access Kuma from other machine via `KUMA_GENERAL_ADVERTISED_HOSTNAME`.
+2) Generate certificate for the HTTPS Dataplane Token Server and set via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_TLS_CERT_FILE` and `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_TLS_KEY_FILE` config environment variable.
+   For generating self signed certificate you can use `kumactl`
+```bash
+$ kumactl generate certificate --cert=/path/to/cert --key/path/to/key --type=server 
+```
+3) Pick a public interface on which HTTPS server will be exposed and set it via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_INTERFACE`.
    Optionally pick the port via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_PORT`. By default, it will be the same as the port for the HTTP server exposed on localhost.
-3) Generate one or more certificates for the clients of this server. Pass the path to certificates via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_CLIENT_CERT_FILES`.
-4) Configure `kumactl` with client certificate.
+4) Generate one or more certificates for the clients of this server. Pass the path to the directory with client certificates via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_CLIENT_CERTS_DIR`.
+   For generating self signed client certificates you can use `kumactl`
+```bash
+$ kumactl generate certificate --cert=/path/to/cert --key/path/to/key --type=client
+```
+5) Configure `kumactl` with client certificate.
 ```bash
 $ kumactl config control-planes add \
   --name <NAME> --address http://<KUMA_CP_DNS_NAME>:5681 \
