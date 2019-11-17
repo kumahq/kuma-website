@@ -99,7 +99,7 @@ You can configure `kumactl` to point to any remote `kuma-cp` instance by running
 ```sh
 $ kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:5681
 ```
-:::w
+:::
 
 If you consume the service again on port `10000`, you will now notice that the communication requires now a TLS connection.
 
