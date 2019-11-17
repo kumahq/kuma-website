@@ -155,11 +155,7 @@ spec:
 
 ## Traffic Route
 
-::: warning
-This is a proposed policy not in GA yet. You can setup routing manually by leveraging the [`ProxyTemplate`](#proxy-template) policy and the low-level Envoy configuration. Join us on [Slack](/community) to share your routing requirements.
-:::
-
-The proposed policy will enable a new `TrafficRoute` policy that can be used to configure both simple and more sophisticated routing rules on the traffic, like blue/green deployments and canary releases.
+`TrafficRoute` policy allows you to configure routing rules for L4 traffic, i.e. blue/green deployments and canary releases.
 
 On Universal:
 
