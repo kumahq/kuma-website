@@ -147,7 +147,7 @@ spec:
 ```
 
 ::: tip
-**Match-All**: You can match any value of a tag by using `*`, like `version: *`.
+**Match-All**: You can match any value of a tag by using `*`, like `version: '*'`.
 :::
 
 ## Traffic Route
@@ -174,12 +174,12 @@ rules:
     conf:
       - weight: 90
         destination:
-          - service: redis
-            version: "1.0"
+          service: redis
+          version: '1.0'
       - weight: 10
         destination:
-          - service: redis
-            version: "2.0"
+          service: redis
+          version: '2.0'
 ```
 
 On Kubernetes:
@@ -202,12 +202,12 @@ spec:
     conf:
       - weight: 90
         destination:
-          - service: redis
-            version: "1.0"
+          service: redis
+          version: '1.0'
       - weight: 10
         destination:
-          - service: redis
-            version: "2.0"
+          service: redis
+          version: '2.0'
 ```
 
 ## Traffic Tracing
@@ -293,10 +293,10 @@ rules:
       backend: logstash
   - sources:
     - match:
-        service: *
+        service: '*'
     destinations:
     - match:
-        service: *
+        service: '*'
 ```
 
 On Kubernetes:
@@ -350,10 +350,10 @@ spec:
         backend: logstash
     - sources:
       - match:
-          service: *
+          service: '*'
       destinations:
       - match:
-          service: *
+          service: '*'
 ```
 
 ::: tip
@@ -383,12 +383,11 @@ name: template-1
 selectors:
   - match:
       service: backend
-conf:
-  imports:
-    - default-proxy
-  resources:
-    - ..
-    - ..
+imports:
+  - default-proxy
+resources:
+  - ..
+  - ..
 ```
 
 On Kubernetes:
@@ -400,10 +399,10 @@ mesh: default
 metadata:
   namespace: default
   name: template-1
-selectors:
-  - match:
-      service: backend
-conf:
+spec:
+  selectors:
+    - match:
+        service: backend
   imports:
     - default-proxy
   resources:
@@ -414,7 +413,7 @@ conf:
 Below you can find an example of what a `ProxyTemplate` configuration could look like:
 
 ```yaml
-imports:
+  imports:
     - default-proxy
   resources:
     - name: localhost:9901
@@ -450,11 +449,11 @@ imports:
                 virtual_hosts:
                 - routes:
                   - match:
-                      prefix: "/stats/prometheus"
+                      prefix: /stats/prometheus
                     route:
                       cluster: localhost:9901
                   domains:
-                  - "*"
+                  - '*'
                   name: envoy_admin
               codec_type: AUTO
               http_filters:

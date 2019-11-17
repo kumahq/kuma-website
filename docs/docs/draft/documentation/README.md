@@ -790,26 +790,28 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates/pt-1
 ```
 ```json
 {
-  "type": "ProxyTemplate",
-  "name": "pt-1",
-  "mesh": "mesh-1",
-  "selectors": [
-    {
-      "match": {
-          "app": "backend"
-      }
-    }
-  ],
+ "conf": {
   "imports": [
-    "default-proxy"
+   "default-proxy"
   ],
   "resources": [
-    {
-      "name": "raw-name",
-      "version": "raw-version",
-      "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
-    }
+   {
+    "name": "raw-name",
+    "version": "raw-version",
+    "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
+   }
   ]
+ },
+ "mesh": "mesh-1",
+ "name": "pt-1",
+ "selectors": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "type": "ProxyTemplate"
 }
 ```
 
@@ -830,20 +832,22 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/proxytemplates/pt-1 --data @proxy
   "selectors": [
     {
       "match": {
-          "app": "backend"
+          "service": "backend"
       }
     }
   ],
-  "imports": [
-    "default-proxy"
-  ],
-  "resources": [
-    {
-      "name": "raw-name",
-      "version": "raw-version",
-      "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
-    }
-  ]
+  "conf": {
+    "imports": [
+      "default-proxy"
+    ],
+    "resources": [
+      {
+        "name": "raw-name",
+        "version": "raw-version",
+        "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
+      }
+    ]
+  }
 }
 ```
 
@@ -858,30 +862,32 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates
 ```
 ```json
 {
-  "items": [
+ "items": [
+  {
+   "conf": {
+    "imports": [
+     "default-proxy"
+    ],
+    "resources": [
+     {
+      "name": "raw-name",
+      "version": "raw-version",
+      "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
+     }
+    ]
+   },
+   "mesh": "mesh-1",
+   "name": "pt-1",
+   "selectors": [
     {
-      "type": "ProxyTemplate",
-      "name": "pt-1",
-      "mesh": "mesh-1",
-      "selectors": [
-        {
-          "match": {
-              "app": "backend"
-          }
-        }
-      ],
-      "imports": [
-        "default-proxy"
-      ],
-      "resources": [
-        {
-          "name": "raw-name",
-          "version": "raw-version",
-          "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
-        }
-      ]
+     "match": {
+      "service": "backend"
+     }
     }
-  ]
+   ],
+   "type": "ProxyTemplate"
+  }
+ ]
 }
 ```
 
@@ -908,63 +914,23 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions/tp-1
 ```
 ```json
 {
-  "type": "TrafficPermission",
-  "name": "tp-1",
-  "mesh": "mesh-1",
-  "rules": [
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "web"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "backend"
-          }
-        }
-      ]
-    },
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "backend",
-            "version": "1"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis",
-            "version": "1"
-          }
-        }
-      ]
-    },
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "backend",
-            "version": "2"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis",
-            "version": "2"
-          }
-        }
-      ]
-    }
-  ]
+ "destinations": [
+  {
+   "match": {
+    "service": "redis"
+   }
+  }
+ ],
+ "mesh": "mesh-1",
+ "name": "tp-1",
+ "sources": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "type": "TrafficPermission"
 }
 ```
 
@@ -982,58 +948,18 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-permissions/tp-1 --data @
   "type": "TrafficPermission",
   "name": "tp-1",
   "mesh": "mesh-1",
-  "rules": [
+  "sources": [
     {
-      "sources": [
-        {
-          "match": {
-            "service": "web"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "backend"
-          }
-        }
-      ]
-    },
+      "match": {
+        "service": "backend"
+      }
+    }
+  ],
+  "destinations": [
     {
-      "sources": [
-        {
-          "match": {
-            "service": "backend",
-            "version": "1"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis",
-            "version": "1"
-          }
-        }
-      ]
-    },
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "backend",
-            "version": "2"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis",
-            "version": "2"
-          }
-        }
-      ]
+      "match": {
+        "service": "redis"
+      }
     }
   ]
 }
@@ -1050,67 +976,27 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions
 ```
 ```json
 {
-  "items": [
+ "items": [
+  {
+   "destinations": [
     {
-      "type": "TrafficPermission",
-      "name": "tp-1",
-      "mesh": "mesh-1",
-      "rules": [
-        {
-          "sources": [
-            {
-              "match": {
-                "service": "web"
-              }
-            }
-          ],
-          "destinations": [
-            {
-              "match": {
-                "service": "backend"
-              }
-            }
-          ]
-        },
-        {
-          "sources": [
-            {
-              "match": {
-                "service": "backend",
-                "version": "1"
-              }
-            }
-          ],
-          "destinations": [
-            {
-              "match": {
-                "service": "redis",
-                "version": "1"
-              }
-            }
-          ]
-        },
-        {
-          "sources": [
-            {
-              "match": {
-                "service": "backend",
-                "version": "2"
-              }
-            }
-          ],
-          "destinations": [
-            {
-              "match": {
-                "service": "redis",
-                "version": "2"
-              }
-            }
-          ]
-        }
-      ]
+     "match": {
+      "service": "redis"
+     }
     }
-  ]
+   ],
+   "mesh": "mesh-1",
+   "name": "tp-1",
+   "sources": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
+   "type": "TrafficPermission"
+  }
+ ]
 }
 ```
 
@@ -1137,48 +1023,27 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1
 ```
 ```json
 {
-  "type": "TrafficLog",
-  "mesh": "mesh-1",
-  "name": "tl-1",
-  "rules": [
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "web",
-            "version": "1.0"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "env": "dev",
-            "service": "backend"
-          }
-        }
-      ],
-      "conf": {
-        "backend": "file"
-      }
-    },
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "backend"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis"
-          }
-        }
-      ]
-    }
-  ]
+ "conf": {
+  "backend": "file"
+ },
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "mesh": "mesh-1",
+ "name": "tl-1",
+ "sources": [
+  {
+   "match": {
+    "service": "web",
+    "version": "1.0"
+   }
+  }
+ ],
+ "type": "TrafficLog"
 }
 ```
 
@@ -1196,45 +1061,24 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1 --data @traffic
   "type": "TrafficLog",
   "mesh": "mesh-1",
   "name": "tl-1",
-  "rules": [
+  "sources": [
     {
-      "sources": [
-        {
-          "match": {
-            "service": "web",
-            "version": "1.0"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "env": "dev",
-            "service": "backend"
-          }
-        }
-      ],
-      "conf": {
-        "backend": "file"
+      "match": {
+        "service": "web",
+        "version": "1.0"
       }
-    },
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "backend"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis"
-          }
-        }
-      ]
     }
-  ]
+  ],
+  "destinations": [
+    {
+      "match": {
+        "service": "backend"
+      }
+    }
+  ],
+  "conf": {
+    "backend": "file"
+  }
 }
 ```
 
@@ -1249,52 +1093,31 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs
 ```
 ```json
 {
-  "items": [
+ "items": [
+  {
+   "conf": {
+    "backend": "file"
+   },
+   "destinations": [
     {
-      "type": "TrafficLog",
-      "mesh": "mesh-1",
-      "name": "tl-1",
-      "rules": [
-        {
-          "sources": [
-            {
-              "match": {
-                "service": "web",
-                "version": "1.0"
-              }
-            }
-          ],
-          "destinations": [
-            {
-              "match": {
-                "env": "dev",
-                "service": "backend"
-              }
-            }
-          ],
-          "conf": {
-            "backend": "file"
-          }
-        },
-        {
-          "sources": [
-            {
-              "match": {
-                "service": "backend"
-              }
-            }
-          ],
-          "destinations": [
-            {
-              "match": {
-                "service": "redis"
-              }
-            }
-          ]
-        }
-      ]
+     "match": {
+      "service": "backend"
+     }
     }
-  ]
+   ],
+   "mesh": "mesh-1",
+   "name": "tl-1",
+   "sources": [
+    {
+     "match": {
+      "service": "web",
+      "version": "1.0"
+     }
+    }
+   ],
+   "type": "TrafficLog"
+  }
+ ]
 }
 ```
 
