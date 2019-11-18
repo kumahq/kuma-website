@@ -121,14 +121,13 @@ On Universal:
 type: TrafficPermission
 name: permission-1
 mesh: default
-rules:
-  - sources:
-      - match:
-          service: backend
-    destinations:
-      - match:
-          service: redis
-          version: "5.0"
+sources:
+  - match:
+      service: backend
+destinations:
+  - match:
+      service: redis
+      version: '5.0'
 ```
 
 On Kubernetes:
@@ -141,27 +140,22 @@ metadata:
   namespace: default
   name: permission-1
 spec:
-  rules:
-    - sources:
-        - match:
-            service: backend
-      destinations:
-        - match:
-            service: redis
-            version: "5.0"
+  sources:
+    - match:
+        service: backend
+  destinations:
+    - match:
+        service: redis
+        version: '5.0'
 ```
 
 ::: tip
-**Match-All**: You can match any value of a tag by using `*`, like `version: *`.
+**Match-All**: You can match any value of a tag by using `*`, like `version: '*'`.
 :::
 
 ## Traffic Route
 
-::: warning
-This is a proposed policy not in GA yet. You can setup routing manually by leveraging the [`ProxyTemplate`](#proxy-template) policy and the low-level Envoy configuration. Join us on [Slack](/community) to share your routing requirements.
-:::
-
-The proposed policy will enable a new `TrafficRoute` policy that can be used to configure both simple and more sophisticated routing rules on the traffic, like blue/green deployments and canary releases.
+`TrafficRoute` policy allows you to configure routing rules for L4 traffic, i.e. blue/green deployments and canary releases.
 
 On Universal:
 
@@ -169,22 +163,21 @@ On Universal:
 type: TrafficRoute
 name: route-1
 mesh: default
-rules:
-  - sources:
-      - match:
-          service: backend
-    destinations:
-      - match:
-          service: redis
-    conf:
-      - weight: 90
-        destination:
-          - service: redis
-            version: "1.0"
-      - weight: 10
-        destination:
-          - service: redis
-            version: "2.0"
+sources:
+  - match:
+      service: backend
+destinations:
+  - match:
+      service: redis
+conf:
+  - weight: 90
+    destination:
+      service: redis
+      version: '1.0'
+  - weight: 10
+    destination:
+      service: redis
+      version: '2.0'
 ```
 
 On Kubernetes:
@@ -197,22 +190,21 @@ metadata:
   namespace: default
   name: route-1
 spec:
-  rules:
-    - sources:
-      - match:
-          service: backend
-    destinations:
-      - match:
-          service: redis
-    conf:
-      - weight: 90
-        destination:
-          - service: redis
-            version: "1.0"
-      - weight: 10
-        destination:
-          - service: redis
-            version: "2.0"
+  sources:
+  - match:
+      service: backend
+  destinations:
+  - match:
+      service: redis
+  conf:
+    - weight: 90
+      destination:
+        service: redis
+        version: '1.0'
+    - weight: 10
+      destination:
+        service: redis
+        version: '2.0'
 ```
 
 ## Traffic Tracing
@@ -257,8 +249,8 @@ The first step is to configure backends for the `Mesh`. A backend can be either 
 On Universal:
 
 ```yaml
-name: default
 type: Mesh
+name: default
 mtls:
   ca:
     builtin: {}
@@ -284,24 +276,30 @@ logging:
 ```
 
 ```yaml
-name: log-rule
-mesh: default
 type: TrafficLog
-rules:
-  - sources:
-    - match:
-        service: backend
-    destinations:
-    - match:
-        service: database
-    conf:
-      backend: logstash
-  - sources:
-    - match:
-        service: *
-    destinations:
-    - match:
-        service: *
+name: all-traffic
+mesh: default
+sources:
+- match:
+    service: '*'
+destinations:
+- match:
+    service: '*'
+# if omitted, the default logging backend of that mesh will be used
+```
+
+```yaml
+type: TrafficLog
+name: backend-to-database-traffic
+mesh: default
+sources:
+- match:
+    service: backend
+destinations:
+- match:
+    service: database
+conf:
+  backend: logstash
 ```
 
 On Kubernetes:
@@ -342,23 +340,32 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficLog
 metadata:
   namespace: kuma-system
-  name: log-rule
+  name: all-traffic
 spec:
-  rules:
-    - sources:
-      - match:
-          service: backend
-      destinations:
-      - match:
-          service: database
-      conf:
-        backend: logstash
-    - sources:
-      - match:
-          service: *
-      destinations:
-      - match:
-          service: *
+  sources:
+  - match:
+      service: '*'
+  destinations:
+  - match:
+      service: '*'
+  # if omitted, the default logging backend of that mesh will be used
+```
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficLog
+metadata:
+  namespace: kuma-system
+  name: backend-to-database-traffic
+spec:
+  sources:
+  - match:
+      service: backend
+  destinations:
+  - match:
+      service: database
+  conf:
+    backend: logstash
 ```
 
 ::: tip
@@ -406,21 +413,22 @@ mesh: default
 metadata:
   namespace: default
   name: template-1
-selectors:
-  - match:
-      service: backend
-conf:
-  imports:
-    - default-proxy
-  resources:
-    - ..
-    - ..
+spec:
+  selectors:
+    - match:
+        service: backend
+  conf:
+    imports:
+      - default-proxy
+    resources:
+      - ..
+      - ..
 ```
 
 Below you can find an example of what a `ProxyTemplate` configuration could look like:
 
 ```yaml
-imports:
+  imports:
     - default-proxy
   resources:
     - name: localhost:9901
@@ -456,11 +464,11 @@ imports:
                 virtual_hosts:
                 - routes:
                   - match:
-                      prefix: "/stats/prometheus"
+                      prefix: /stats/prometheus
                     route:
                       cluster: localhost:9901
                   domains:
-                  - "*"
+                  - '*'
                   name: envoy_admin
               codec_type: AUTO
               http_filters:
