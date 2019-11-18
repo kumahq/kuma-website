@@ -350,6 +350,8 @@ Available commands on `kumactl` are:
 * `kumactl apply [..]`: used to change the state of Kuma. Only available on Universal.
 * `kumactl get [..]`: used to retrieve the raw state of entities Kuma.
 * `kumactl inspect [..]`: used to retrieve an augmented state of entities in Kuma.
+* `kumactl generate dataplane-token`: used to generate [Dataplane Token](#dataplane-token).
+* `kumactl generate tls-certificate`: used to generate a TLS certificate for client or server.
 * `kumactl help [..]`: help dialog that explains the commands available.
 * `kumactl version [--detailed]`: shows the version of the program.
 
