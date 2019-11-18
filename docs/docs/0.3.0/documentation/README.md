@@ -210,10 +210,11 @@ networking:
     tags:
       service: redis" | kumactl apply -f -
 
-KUMA_CONTROL_PLANE_BOOTSTRAP_SERVER_URL=http://control-plane:5682 \
-KUMA_DATAPLANE_MESH=default \
-KUMA_DATAPLANE_NAME=redis-1 \
-kuma-dp run
+kuma-dp run \
+  --name=redis-1 \
+  --mesh=default \
+  --cp-address=http://127.0.0.1:5681 \
+  --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
 
 In the example above, any external client who wants to consume Redis will have to make a request to the DP on port `9000`, which internally will be redirected to the Redis service listening on port `6379`.
@@ -233,10 +234,11 @@ networking:
   - interface: :10000
     service: redis" | kumactl apply -f -
 
-KUMA_CONTROL_PLANE_BOOTSTRAP_SERVER_URL=http://control-plane:5682 \
-KUMA_DATAPLANE_MESH=default \
-KUMA_DATAPLANE_NAME=backend-1 \
-kuma-dp run
+kuma-dp run \
+  --name=backend-1 \
+  --mesh=default \
+  --cp-address=http://127.0.0.1:5681 \
+  --dataplane-token-file=/tmp/kuma-dp-backend-1-token
 ```
 
 In order for the `backend` service to successfully consume `redis`, we specify an `outbound` networking section in the `Dataplane` configuration instructing the DP to listen on a new port `10000` and to proxy any outgoing request on port `10000` to the `redis` service. For this to work, we must update our application to consume `redis` on `127.0.0.1:10000`.
@@ -347,10 +349,11 @@ Available commands on `kumactl` are:
 
 * `kumactl install [..]`: provides helpers to install Kuma in Kubernetes, or to configure the PostgreSQL database on Universal.
 * `kumactl config [..]`: configures the local or remote control-planes that `kumactl` should talk to. You can have more than one enabled, and the configuration will be stored in `~/.kumactl/config`.
-* `kumactl delete [..]`: used to delete an entity in Kuma.
 * `kumactl apply [..]`: used to change the state of Kuma. Only available on Universal.
 * `kumactl get [..]`: used to retrieve the raw state of entities Kuma.
 * `kumactl inspect [..]`: used to retrieve an augmented state of entities in Kuma.
+* `kumactl generate dataplane-token`: used to generate [Dataplane Token](#dataplane-token).
+* `kumactl generate tls-certificate`: used to generate a TLS certificate for client or server.
 * `kumactl help [..]`: help dialog that explains the commands available.
 * `kumactl version [--detailed]`: shows the version of the program.
 
@@ -791,26 +794,28 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates/pt-1
 ```
 ```json
 {
-  "type": "ProxyTemplate",
-  "name": "pt-1",
-  "mesh": "mesh-1",
-  "selectors": [
-    {
-      "match": {
-          "app": "backend"
-      }
-    }
-  ],
+ "conf": {
   "imports": [
-    "default-proxy"
+   "default-proxy"
   ],
   "resources": [
-    {
-      "name": "raw-name",
-      "version": "raw-version",
-      "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
-    }
+   {
+    "name": "raw-name",
+    "version": "raw-version",
+    "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
+   }
   ]
+ },
+ "mesh": "mesh-1",
+ "name": "pt-1",
+ "selectors": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "type": "ProxyTemplate"
 }
 ```
 
@@ -831,20 +836,22 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/proxytemplates/pt-1 --data @proxy
   "selectors": [
     {
       "match": {
-          "app": "backend"
+          "service": "backend"
       }
     }
   ],
-  "imports": [
-    "default-proxy"
-  ],
-  "resources": [
-    {
-      "name": "raw-name",
-      "version": "raw-version",
-      "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
-    }
-  ]
+  "conf": {
+    "imports": [
+      "default-proxy"
+    ],
+    "resources": [
+      {
+        "name": "raw-name",
+        "version": "raw-version",
+        "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
+      }
+    ]
+  }
 }
 ```
 
@@ -859,30 +866,32 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates
 ```
 ```json
 {
-  "items": [
+ "items": [
+  {
+   "conf": {
+    "imports": [
+     "default-proxy"
+    ],
+    "resources": [
+     {
+      "name": "raw-name",
+      "version": "raw-version",
+      "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
+     }
+    ]
+   },
+   "mesh": "mesh-1",
+   "name": "pt-1",
+   "selectors": [
     {
-      "type": "ProxyTemplate",
-      "name": "pt-1",
-      "mesh": "mesh-1",
-      "selectors": [
-        {
-          "match": {
-              "app": "backend"
-          }
-        }
-      ],
-      "imports": [
-        "default-proxy"
-      ],
-      "resources": [
-        {
-          "name": "raw-name",
-          "version": "raw-version",
-          "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
-        }
-      ]
+     "match": {
+      "service": "backend"
+     }
     }
-  ]
+   ],
+   "type": "ProxyTemplate"
+  }
+ ]
 }
 ```
 
@@ -909,63 +918,23 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions/tp-1
 ```
 ```json
 {
-  "type": "TrafficPermission",
-  "name": "tp-1",
-  "mesh": "mesh-1",
-  "rules": [
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "web"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "backend"
-          }
-        }
-      ]
-    },
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "backend",
-            "version": "1"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis",
-            "version": "1"
-          }
-        }
-      ]
-    },
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "backend",
-            "version": "2"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis",
-            "version": "2"
-          }
-        }
-      ]
-    }
-  ]
+ "destinations": [
+  {
+   "match": {
+    "service": "redis"
+   }
+  }
+ ],
+ "mesh": "mesh-1",
+ "name": "tp-1",
+ "sources": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "type": "TrafficPermission"
 }
 ```
 
@@ -983,58 +952,18 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-permissions/tp-1 --data @
   "type": "TrafficPermission",
   "name": "tp-1",
   "mesh": "mesh-1",
-  "rules": [
+  "sources": [
     {
-      "sources": [
-        {
-          "match": {
-            "service": "web"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "backend"
-          }
-        }
-      ]
-    },
+      "match": {
+        "service": "backend"
+      }
+    }
+  ],
+  "destinations": [
     {
-      "sources": [
-        {
-          "match": {
-            "service": "backend",
-            "version": "1"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis",
-            "version": "1"
-          }
-        }
-      ]
-    },
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "backend",
-            "version": "2"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis",
-            "version": "2"
-          }
-        }
-      ]
+      "match": {
+        "service": "redis"
+      }
     }
   ]
 }
@@ -1051,67 +980,27 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions
 ```
 ```json
 {
-  "items": [
+ "items": [
+  {
+   "destinations": [
     {
-      "type": "TrafficPermission",
-      "name": "tp-1",
-      "mesh": "mesh-1",
-      "rules": [
-        {
-          "sources": [
-            {
-              "match": {
-                "service": "web"
-              }
-            }
-          ],
-          "destinations": [
-            {
-              "match": {
-                "service": "backend"
-              }
-            }
-          ]
-        },
-        {
-          "sources": [
-            {
-              "match": {
-                "service": "backend",
-                "version": "1"
-              }
-            }
-          ],
-          "destinations": [
-            {
-              "match": {
-                "service": "redis",
-                "version": "1"
-              }
-            }
-          ]
-        },
-        {
-          "sources": [
-            {
-              "match": {
-                "service": "backend",
-                "version": "2"
-              }
-            }
-          ],
-          "destinations": [
-            {
-              "match": {
-                "service": "redis",
-                "version": "2"
-              }
-            }
-          ]
-        }
-      ]
+     "match": {
+      "service": "redis"
+     }
     }
-  ]
+   ],
+   "mesh": "mesh-1",
+   "name": "tp-1",
+   "sources": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
+   "type": "TrafficPermission"
+  }
+ ]
 }
 ```
 
@@ -1138,48 +1027,27 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1
 ```
 ```json
 {
-  "type": "TrafficLog",
-  "mesh": "mesh-1",
-  "name": "tl-1",
-  "rules": [
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "web",
-            "version": "1.0"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "env": "dev",
-            "service": "backend"
-          }
-        }
-      ],
-      "conf": {
-        "backend": "file"
-      }
-    },
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "backend"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis"
-          }
-        }
-      ]
-    }
-  ]
+ "conf": {
+  "backend": "file"
+ },
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "mesh": "mesh-1",
+ "name": "tl-1",
+ "sources": [
+  {
+   "match": {
+    "service": "web",
+    "version": "1.0"
+   }
+  }
+ ],
+ "type": "TrafficLog"
 }
 ```
 
@@ -1197,45 +1065,24 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1 --data @traffic
   "type": "TrafficLog",
   "mesh": "mesh-1",
   "name": "tl-1",
-  "rules": [
+  "sources": [
     {
-      "sources": [
-        {
-          "match": {
-            "service": "web",
-            "version": "1.0"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "env": "dev",
-            "service": "backend"
-          }
-        }
-      ],
-      "conf": {
-        "backend": "file"
+      "match": {
+        "service": "web",
+        "version": "1.0"
       }
-    },
-    {
-      "sources": [
-        {
-          "match": {
-            "service": "backend"
-          }
-        }
-      ],
-      "destinations": [
-        {
-          "match": {
-            "service": "redis"
-          }
-        }
-      ]
     }
-  ]
+  ],
+  "destinations": [
+    {
+      "match": {
+        "service": "backend"
+      }
+    }
+  ],
+  "conf": {
+    "backend": "file"
+  }
 }
 ```
 
@@ -1250,52 +1097,31 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs
 ```
 ```json
 {
-  "items": [
+ "items": [
+  {
+   "conf": {
+    "backend": "file"
+   },
+   "destinations": [
     {
-      "type": "TrafficLog",
-      "mesh": "mesh-1",
-      "name": "tl-1",
-      "rules": [
-        {
-          "sources": [
-            {
-              "match": {
-                "service": "web",
-                "version": "1.0"
-              }
-            }
-          ],
-          "destinations": [
-            {
-              "match": {
-                "env": "dev",
-                "service": "backend"
-              }
-            }
-          ],
-          "conf": {
-            "backend": "file"
-          }
-        },
-        {
-          "sources": [
-            {
-              "match": {
-                "service": "backend"
-              }
-            }
-          ],
-          "destinations": [
-            {
-              "match": {
-                "service": "redis"
-              }
-            }
-          ]
-        }
-      ]
+     "match": {
+      "service": "backend"
+     }
     }
-  ]
+   ],
+   "mesh": "mesh-1",
+   "name": "tl-1",
+   "sources": [
+    {
+     "match": {
+      "service": "web",
+      "version": "1.0"
+     }
+    }
+   ],
+   "type": "TrafficLog"
+  }
+ ]
 }
 ```
 
@@ -1309,9 +1135,258 @@ Example:
 curl -XDELETE http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1
 ```
 
+### Traffic Route
+
+#### Get Traffic Route
+Request: `GET /meshes/{mesh}/traffic-routes/{name}`
+
+Response: `200 OK` with Traffic Route entity
+
+Example:
+```bash
+curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
+```
+```json
+{
+ "conf": [
+  {
+   "weight": 90,
+   "destination": {
+    "region": "us-east-1",
+    "service": "backend",
+    "version": "v2"
+   }
+  },
+  {
+   "weight": 10,
+   "destination": {
+    "service": "backend",
+    "version": "v3"
+   }
+  }
+ ],
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "mesh": "mesh-1",
+ "name": "web-to-backend",
+ "sources": [
+  {
+   "match": {
+    "region": "us-east-1",
+    "service": "web",
+    "version": "v10"
+   }
+  }
+ ],
+ "type": "TrafficRoute"
+}
+```
+
+#### Create/Update Traffic Route
+Request: `PUT /meshes/{mesh}/traffic-routes/{name}` with Traffic Route entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend --data @trafficroute.json -H'content-type: application/json'
+```
+```json
+{
+ "type": "TrafficRoute",
+ "name": "web-to-backend",
+ "mesh": "mesh-1",
+ "sources": [
+  {
+   "match": {
+    "region": "us-east-1",
+    "service": "web",
+    "version": "v10"
+   }
+  }
+ ],
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "conf": [
+  {
+   "weight": 90,
+   "destination": {
+    "region": "us-east-1",
+    "service": "backend",
+    "version": "v2"
+   }
+  },
+  {
+   "weight": 10,
+   "destination": {
+    "service": "backend",
+    "version": "v3"
+   }
+  }
+ ]
+}
+```
+
+#### List Traffic Routes
+Request: `GET /meshes/{mesh}/traffic-routes`
+
+Response: `200 OK` with body of Traffic Route entities
+
+Example:
+```bash
+curl http://localhost:5681/meshes/mesh-1/traffic-routes
+```
+```json
+{
+ "items": [
+  {
+   "conf": [
+    {
+     "weight": 90,
+     "destination": {
+      "region": "us-east-1",
+      "service": "backend",
+      "version": "v2"
+     }
+    },
+    {
+     "weight": 10,
+     "destination": {
+      "service": "backend",
+      "version": "v3"
+     }
+    }
+   ],
+   "destinations": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
+   "mesh": "mesh-1",
+   "name": "web-to-backend",
+   "sources": [
+    {
+     "match": {
+      "region": "us-east-1",
+      "service": "web",
+      "version": "v10"
+     }
+    }
+   ],
+   "type": "TrafficRoute"
+  }
+ ]
+}
+```
+
+#### Delete Traffic Route
+Request: `DELETE /meshes/{mesh}/traffic-routes/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
+```
+
 ::: tip
 The [`kumactl`](/kumactl) CLI under the hood makes HTTP requests to this API.
 :::
+
+## Security
+
+Kuma helps you secure your existing infrastructure with mTLS. The following sections cover details of how it works.
+
+### Certificates
+
+Kuma uses a built-in CA (Certificate Authority) to issue certificates for dataplanes. The root CA certificate is unique for each mesh
+in the system. On Kubernetes, the root CA certificate is stored as a [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/).
+On Universal, we leverage the same storage (Postgres) that is used for storing policies.
+Certificates for dataplanes are ephemeral, re-created on dataplane restart and never persisted on disk.
+
+Dataplane certificates generated by Kuma are X.509 certificates that are [SPIFFE](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md) compliant. The SAN of certificate is set to `spiffe://<mesh name>/<service name>`
+
+At the moment, Kuma's builtin CA only supports auto-generated self-signed root CA certificates.
+
+### Dataplane Token
+
+In order to obtain an mTLS certificate from the server ([SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) built-in in the control plane), a dataplane must prove it's identity.
+
+#### Kubernetes
+On Kubernetes, a dataplane proves its identity by leveraging [ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
+
+#### Universal
+
+On Universal, a dataplane must be explicitly configured with a unique security token (Dataplane Token) that will be used to prove its identity.
+Dataplane Token is a signed [JWT token](https://jwt.io) that the carries dataplane name and name of the mesh it's allowed to join to.
+It is signed by an RSA key auto-generated by the control plane on first run. Tokens are not stored in the control plane,
+the only thing that is stored is a signing key that is used to verify if a token is valid. 
+
+You can generate token either by REST API
+```bash
+curl -XPOST http://localhost:5679/tokens --data '{"name:" "dp-echo-1", "mesh": "default"}'
+```
+
+or by using `kumactl`
+```bash
+kumactl generate dataplane-token --name=dp-echo-1 --mesh=default > /tmp/kuma-dp-echo1-token
+``` 
+
+The token should be stored in a file and then used when starting `kuma-dp`
+```bash
+$ kuma-dp run \
+  --name=dp-echo-1 \
+  --mesh=default \
+  --cp-address=http://127.0.0.1:5681 \
+  --dataplane-token-file=/tmp/kuma-dp-echo-1-token
+```
+
+##### Accessing Dataplane Token Server from a different machine
+
+By default, the Dataplane Token Server is exposed only on localhost. If you want to generate tokens from a different machine than control plane you have to secure the connection:
+1) Enable public server by setting `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_ENABLED` to `true`. Make sure to specify hostname which can be used to access Kuma from other machine via `KUMA_GENERAL_ADVERTISED_HOSTNAME`.
+2) Generate certificate for the HTTPS Dataplane Token Server and set via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_TLS_CERT_FILE` and `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_TLS_KEY_FILE` config environment variable.
+   For generating self signed certificate you can use `kumactl`
+```bash
+$ kumactl generate tls-certificate --cert-file=/path/to/cert --key-file=/path/to/key --type=server --cp-hostname=<name from KUMA_GENERAL_ADVERTISED_HOSTNAME>
+```
+3) Pick a public interface on which HTTPS server will be exposed and set it via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_INTERFACE`.
+   Optionally pick the port via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_PORT`. By default, it will be the same as the port for the HTTP server exposed on localhost.
+4) Generate one or more certificates for the clients of this server. Pass the path to the directory with client certificates (without keys) via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_CLIENT_CERTS_DIR`.
+   For generating self signed client certificates you can use `kumactl`
+```bash
+$ kumactl generate tls-certificate --cert-file=/path/to/cert --key-file=/path/to/key --type=client
+```
+5) Configure `kumactl` with client certificate.
+```bash
+$ kumactl config control-planes add \
+  --name <NAME> --address http://<KUMA_CP_DNS_NAME>:5681 \
+  --dataplane-token-client-cert <CERT.PEM> \
+  --dataplane-token-client-key <KEY.PEM>
+```
+
+### mTLS
+
+Once a dataplane has proved its identity, it will be allowed to fetch its own identity certificate and a root CA certificate of the mesh.
+When establishing a connection between two dataplanes each side validates each other dataplane certificate confirming the identity using the root CA of the mesh.
+
+mTLS is _not_ enabled by default. To enable it, apply proper settings in [Mesh](/docs/0.3.0/policies/#mesh) policy.
+Additionaly, when running on Universal you have to ensure that every dataplane in the mesh has been configured with a Dataplane Token.
+
+#### TrafficPermission
+When mTLS is enabled, every connection between dataplanes is denied by default, so you have to explicitly allow it using [TrafficPermission](/docs/0.3.0/policies/#traffic-permissions).
 
 ## Ports
 
@@ -1319,9 +1394,11 @@ When `kuma-cp` starts up, by default it listens on a few ports:
 
 * `5677`: the SDS server being used for propagating mTLS certificates across the data-planes.
 * `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
+* `5679`: the Dataplane Token Server that serves Dataplane Tokens
 * `5680`: the HTTP server that returns the health status of the control-plane.
 * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when runnning in `universal` - that you can use to apply new policies.
 * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
+* `5683`: the HTTP server that exposes Kuma UI.
 
 ## Quickstart
 
