@@ -1131,6 +1131,172 @@ Example:
 curl -XDELETE http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1
 ```
 
+### Traffic Route
+
+#### Get Traffic Route
+Request: `GET /meshes/{mesh}/traffic-routes/{name}`
+
+Response: `200 OK` with Traffic Route entity
+
+Example:
+```bash
+curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
+```
+```json
+{
+ "conf": [
+  {
+   "weight": 90,
+   "destination": {
+    "region": "us-east-1",
+    "service": "backend",
+    "version": "v2"
+   }
+  },
+  {
+   "weight": 10,
+   "destination": {
+    "service": "backend",
+    "version": "v3"
+   }
+  }
+ ],
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "mesh": "mesh-1",
+ "name": "web-to-backend",
+ "sources": [
+  {
+   "match": {
+    "region": "us-east-1",
+    "service": "web",
+    "version": "v10"
+   }
+  }
+ ],
+ "type": "TrafficRoute"
+}
+```
+
+#### Create/Update Traffic Route
+Request: `PUT /meshes/{mesh}/traffic-routes/{name}` with Traffic Route entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend --data @trafficroute.json -H'content-type: application/json'
+```
+```json
+{
+ "type": "TrafficRoute",
+ "name": "web-to-backend",
+ "mesh": "mesh-1",
+ "sources": [
+  {
+   "match": {
+    "region": "us-east-1",
+    "service": "web",
+    "version": "v10"
+   }
+  }
+ ],
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "conf": [
+  {
+   "weight": 90,
+   "destination": {
+    "region": "us-east-1",
+    "service": "backend",
+    "version": "v2"
+   }
+  },
+  {
+   "weight": 10,
+   "destination": {
+    "service": "backend",
+    "version": "v3"
+   }
+  }
+ ]
+}
+```
+
+#### List Traffic Routes
+Request: `GET /meshes/{mesh}/traffic-routes`
+
+Response: `200 OK` with body of Traffic Route entities
+
+Example:
+```bash
+curl http://localhost:5681/meshes/mesh-1/traffic-routes
+```
+```json
+{
+ "items": [
+  {
+   "conf": [
+    {
+     "weight": 90,
+     "destination": {
+      "region": "us-east-1",
+      "service": "backend",
+      "version": "v2"
+     }
+    },
+    {
+     "weight": 10,
+     "destination": {
+      "service": "backend",
+      "version": "v3"
+     }
+    }
+   ],
+   "destinations": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
+   "mesh": "mesh-1",
+   "name": "web-to-backend",
+   "sources": [
+    {
+     "match": {
+      "region": "us-east-1",
+      "service": "web",
+      "version": "v10"
+     }
+    }
+   ],
+   "type": "TrafficRoute"
+  }
+ ]
+}
+```
+
+#### Delete Traffic Route
+Request: `DELETE /meshes/{mesh}/traffic-routes/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
+```
+
 ::: tip
 The [`kumactl`](/kumactl) CLI under the hood makes HTTP requests to this API.
 :::
