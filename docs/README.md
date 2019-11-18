@@ -200,7 +200,7 @@ $ kumactl generate dataplane-token --dataplane=dp-echo-1 > /tmp/kuma-dp-echo-1
 $ kuma-dp run \
   --name=dp-echo-1 \
   --mesh=default \
-  --cp-address=http://127.0.0.1:5682 \
+  --cp-address=http://127.0.0.1:5681 \
   --dataplane-token-file=/tmp/kuma-dp-echo-1
 ```
 
