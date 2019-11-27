@@ -155,7 +155,10 @@ spec:
 
 ## Traffic Route
 
-`TrafficRoute` policy allows you to configure routing rules for L4 traffic, i.e. blue/green deployments and canary releases.
+`TrafficRoute` policy allows you to configure routing rules for L4 traffic, i.e. blue/green deployments and canary releases. 
+
+
+In the example below, we assign a positive weight of 90 to the v1 redis service and a positive weight of 10 to the v2 redis service. Kuma utilizes positive weights in the traffic routing policy, and not percentages. Therefore, Kuma does not check if it adds up to 100.
 
 On Universal:
 
@@ -206,6 +209,14 @@ spec:
         service: redis
         version: '2.0'
 ```
+You also need to add labels to your services and use that label as a matching tag. Above, you  see that we utilize the `version` tag to help with canary deployment. Another common use-case is to add a `env` tag as you separate testing, staging, and production environments' services.
+
+#### Resolving Collision in Traffic Routes
+In the event where two traffic route many have colliding configurations, these are the expected behaviors:
+* Identical Selectors: the policy will be prioritized alphabetically by name
+* More tags: The policy with more matching tags will be prioritized first
+* Specific tags: The policy that match by exact value will be prioritized over ones matched by `'*'` 
+
 
 ## Traffic Tracing
 
