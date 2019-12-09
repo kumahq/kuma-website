@@ -155,10 +155,9 @@ spec:
 
 ## Traffic Route
 
-`TrafficRoute` policy allows you to configure routing rules for L4 traffic, i.e. blue/green deployments and canary releases. 
+`TrafficRoute` policy allows us to configure routing rules for L4 traffic, i.e. blue/green deployments and canary releases. 
 
-
-In the example below, we assign a positive weight of 90 to the v1 redis service and a positive weight of 10 to the v2 redis service. Kuma utilizes positive weights in the traffic routing policy, and not percentages. Therefore, Kuma does not check if it adds up to 100.
+To route traffic, Kuma uses match specific tags we designate, tags that we can designate to `Dataplane` resources. Below, you  see that we utilize the `version` tag to help with canary deployment. Another common use-case is to add a `env` tag as you separate testing, staging, and production environments' services. For the redis service, the `TrafficRoute` policy assigns a positive weight of 90 to the v1 redis service and a positive weight of 10 to the v2 redis service. Kuma utilizes positive weights in the traffic routing policy, and not percentages. Therefore, Kuma does not check if it adds up to 100.
 
 On Universal:
 
@@ -209,13 +208,143 @@ spec:
         service: redis
         version: '2.0'
 ```
-You also need to add labels to your services and use that label as a matching tag. Above, you  see that we utilize the `version` tag to help with canary deployment. Another common use-case is to add a `env` tag as you separate testing, staging, and production environments' services.
 
-#### Resolving Collision in Traffic Routes
-In the event where two traffic route many have colliding configurations, these are the expected behaviors:
-* Identical Selectors: the policy will be prioritized alphabetically by name
-* More tags: The policy with more matching tags will be prioritized first
-* Specific tags: The policy that match by exact value will be prioritized over ones matched by `'*'` 
+The expected outcome is that 1 out of roughly 10 request will be routed to the new version 2. 
+
+### Resolving Collision in Traffic Routes
+#### Identical Selectors:
+In the two `TrafficRoute` policies below, we observe a collision. Both `route-1` and `route-2` have matching source and destination tags. The only differential is which version of redis they route to.
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficRoute
+mesh: default
+metadata:
+  namespace: default
+  name: route-1
+spec:
+  sources:
+  - match:
+      service: backend
+  destinations:
+  - match:
+      service: redis
+  conf:
+    - weight: 100
+      destination:
+        service: redis
+        version: '1.0'
+```
+and
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficRoute
+mesh: default
+metadata:
+  namespace: default
+  name: route-2
+spec:
+  sources:
+  - match:
+      service: backend
+  destinations:
+  - match:
+      service: redis
+  conf:
+    - weight: 100
+      destination:
+        service: redis
+        version: '2.0'
+```
+In the event where two traffic route many have identical tags, the policy will be prioritized alphabetically by name. Therefore, Kuma will enforce `route-1` and all traffic will hit our v1 redis service.
+#### More Tags:
+What if one policy has more matching tags? In the updated example below, `route-1` has an additional tag: `env`.
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficRoute
+mesh: default
+metadata:
+  namespace: default
+  name: route-1
+spec:
+  sources:
+  - match:
+      service: backend
+      env: prod
+  destinations:
+  - match:
+      service: redis
+  conf:
+    - weight: 100
+      destination:
+        service: redis
+        version: '1.0'
+```
+and
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficRoute
+mesh: default
+metadata:
+  namespace: default
+  name: route-2
+spec:
+  sources:
+  - match:
+      service: backend
+  destinations:
+  - match:
+      service: redis
+  conf:
+    - weight: 100
+      destination:
+        service: redis
+        version: '2.0'
+```
+In the event where one policy has more matching tags, the policy with more matching tags will be prioritized first. Once again, Kuma will enforce `route-1` and all traffic will hit our v1 redis service.
+#### Exact Value Tags:
+To observe one more collision resolution behavior, let's explore an updated `route-1` and `route-2` policies. This time, `route-1` is matching the source service to `'*'`, aka. anything.  
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficRoute
+mesh: default
+metadata:
+  namespace: default
+  name: route-1
+spec:
+  sources:
+  - match:
+      service: '*'
+  destinations:
+  - match:
+      service: redis
+  conf:
+    - weight: 100
+      destination:
+        service: redis
+        version: '1.0'
+```
+and
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficRoute
+mesh: default
+metadata:
+  namespace: default
+  name: route-2
+spec:
+  sources:
+  - match:
+      service: backend
+  destinations:
+  - match:
+      service: redis
+  conf:
+    - weight: 100
+      destination:
+        service: redis
+        version: '2.0'
+```
+In this scenario, the policy that matches by exact value have a higher priority. Therefore, `route-2` will take precedent and traffic will be routed to the v2 redis service.
 
 
 ## Traffic Tracing
