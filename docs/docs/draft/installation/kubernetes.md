@@ -57,7 +57,6 @@ Now you can start applying [Policies](/docs/DRAFT/policies) to your `default` Se
 $ echo "apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
-  namespace: kuma-system
   name: default
 spec:
   mtls:
