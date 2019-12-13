@@ -367,12 +367,132 @@ Kuma ships with a RESTful HTTP interface that you can use to retrieve the state 
 
 By default the HTTP API is listening on port `5681`. The endpoints available are:
 
+* `/config`
 * `/meshes`
 * `/meshes/{name}`
 * `/meshes/{name}/dataplanes`
 * `/meshes/{name}/dataplanes/{name}`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
+
+### Control Plane configuration
+
+#### Get effective configuration of the Control Plane
+
+Request: `GET /config`
+
+Response: `200 OK` with the effective configuration of the Control Plane (notice that secrets, such as database passwords, will never appear in the response)
+
+Example:
+```bash
+curl http://localhost:5681/config
+```
+```json
+{
+  "adminServer": {
+    "apis": {
+      "dataplaneToken": {
+        "enabled": true
+      }
+    },
+    "local": {
+      "port": 5679
+    },
+    "public": {
+      "clientCertsDir": "/etc/kuma.io/kuma-cp/admin-api/tls/allowed-client-certs.d",
+      "enabled": true,
+      "interface": "0.0.0.0",
+      "port": 5684,
+      "tlsCertFile": "/etc/kuma.io/kuma-cp/admin-api/tls/server.cert",
+      "tlsKeyFile": "/etc/kuma.io/kuma-cp/admin-api/tls/server.key"
+    }
+  },
+  "apiServer": {
+    "corsAllowedDomains": [
+      ".*"
+    ],
+    "port": 5681,
+    "readOnly": false
+  },
+  "bootstrapServer": {
+    "params": {
+      "adminAccessLogPath": "/dev/null",
+      "adminAddress": "127.0.0.1",
+      "adminPort": 0,
+      "xdsConnectTimeout": "1s",
+      "xdsHost": "kuma-control-plane.internal",
+      "xdsPort": 5678
+    },
+    "port": 5682
+  },
+  "dataplaneTokenServer": {
+    "enabled": true,
+    "local": {
+      "port": 5679
+    },
+    "public": {
+      "clientCertsDir": "/etc/kuma.io/kuma-cp/admin-api/tls/allowed-client-certs.d",
+      "enabled": true,
+      "interface": "0.0.0.0",
+      "port": 5684,
+      "tlsCertFile": "/etc/kuma.io/kuma-cp/admin-api/tls/server.cert",
+      "tlsKeyFile": "/etc/kuma.io/kuma-cp/admin-api/tls/server.key"
+    }
+  },
+  "defaults": {
+    "mesh": "type: Mesh\nname: default\nmtls:\n  ca: {}\n  enabled: false\n"
+  },
+  "discovery": {
+    "universal": {
+      "pollingInterval": "1s"
+    }
+  },
+  "environment": "universal",
+  "general": {
+    "advertisedHostname": "kuma-control-plane.internal"
+  },
+  "guiServer": {
+    "port": 5683
+  },
+  "reports": {
+    "enabled": true
+  },
+  "runtime": {
+    "kubernetes": {
+      "admissionServer": {
+        "address": "",
+        "certDir": "",
+        "port": 5443
+      }
+    }
+  },
+  "sdsServer": {
+    "grpcPort": 5677,
+    "tlsCertFile": "/tmp/117637813.crt",
+    "tlsKeyFile": "/tmp/240596112.key"
+  },
+  "store": {
+    "kubernetes": {
+      "systemNamespace": "kuma-system"
+    },
+    "postgres": {
+      "connectionTimeout": 5,
+      "dbName": "kuma",
+      "host": "127.0.0.1",
+      "password": "*****",
+      "port": 15432,
+      "user": "kuma"
+    },
+    "type": "memory"
+  },
+  "xdsServer": {
+    "dataplaneConfigurationRefreshInterval": "1s",
+    "dataplaneStatusFlushInterval": "1s",
+    "diagnosticsPort": 5680,
+    "grpcPort": 5678
+  }
+}
+```
 
 ### Meshes
 
