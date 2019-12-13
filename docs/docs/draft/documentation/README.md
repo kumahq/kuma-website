@@ -371,6 +371,18 @@ By default the HTTP API is listening on port `5681`. The endpoints available are
 * `/meshes/{name}`
 * `/meshes/{name}/dataplanes`
 * `/meshes/{name}/dataplanes/{name}`
+* `/meshes/{name}/dataplanes+insights`
+* `/meshes/{name}/dataplanes+insights/{name}`
+* `/meshes/{name}/health-checks`
+* `/meshes/{name}/health-checks/{name}`
+* `/meshes/{name}/proxytemplates`
+* `/meshes/{name}/proxytemplates/{name}`
+* `/meshes/{name}/traffic-logs`
+* `/meshes/{name}/traffic-logs/{name}`
+* `/meshes/{name}/traffic-permissions`
+* `/meshes/{name}/traffic-permissions/{name}`
+* `/meshes/{name}/traffic-routes`
+* `/meshes/{name}/traffic-routes/{name}`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -779,6 +791,139 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
     }
   ]
 }
+```
+
+### Health Check
+
+#### Get Health Check
+Request: `GET /meshes/{mesh}/health-checks/{name}`
+
+Response: `200 OK` with Health Check entity
+
+Example:
+```bash
+curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
+```
+```json
+{
+ "conf": {
+  "activeChecks": {
+   "interval": "10s",
+   "timeout": "2s",
+   "unhealthyThreshold": 3,
+   "healthyThreshold": 1
+  }
+ },
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "mesh": "mesh-1",
+ "name": "web-to-backend",
+ "sources": [
+  {
+   "match": {
+    "service": "web"
+   }
+  }
+ ],
+ "type": "HealthCheck"
+}
+```
+
+#### Create/Update Health Check
+Request: `PUT /meshes/{mesh}/health-checks/{name}` with Health Check entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend --data @healthcheck.json -H'content-type: application/json'
+```
+```json
+{
+ "type": "HealthCheck",
+ "mesh": "mesh-1",
+ "name": "web-to-backend",
+ "sources": [
+  {
+   "match": {
+    "service": "web"
+   }
+  }
+ ],
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "conf": {
+  "activeChecks": {
+   "interval": "10s",
+   "timeout": "2s",
+   "unhealthyThreshold": 3,
+   "healthyThreshold": 1
+  }
+ }
+}
+```
+
+#### List Health Checks
+Request: `GET /meshes/{mesh}/health-checks`
+
+Response: `200 OK` with body of Health Check entities
+
+Example:
+```bash
+curl http://localhost:5681/meshes/mesh-1/health-checks
+```
+```json
+{
+ "items": [
+  {
+   "conf": {
+    "activeChecks": {
+     "interval": "10s",
+     "timeout": "2s",
+     "unhealthyThreshold": 3,
+     "healthyThreshold": 1
+    }
+   },
+   "destinations": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
+   "mesh": "mesh-1",
+   "name": "web-to-backend",
+   "sources": [
+    {
+     "match": {
+      "service": "web"
+     }
+    }
+   ],
+   "type": "HealthCheck"
+  }
+ ]
+}
+```
+
+#### Delete Health Check
+Request: `DELETE /meshes/{mesh}/health-checks/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
 ```
 
 ### Proxy Template
