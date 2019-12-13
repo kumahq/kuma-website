@@ -52,7 +52,6 @@ On Kuberentes:
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
-  namespace: kuma-system
   name: default
 ```
 
@@ -85,7 +84,6 @@ On Kubernetes:
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
-  namespace: kuma-system
   name: default
 spec:
   mtls:
@@ -232,7 +230,6 @@ On Kubernetes:
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
-  namespace: kuma-system
   name: default
 spec:
   tracing:
@@ -308,7 +305,6 @@ On Kubernetes:
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
-  namespace: kuma-system
   name: default
 spec:
   mtls:
