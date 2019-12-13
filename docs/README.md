@@ -140,7 +140,6 @@ You can now apply [Policies](/docs/latest/policies) like Mutual TLS to encrypt t
 $ echo "apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
-  namespace: kuma-system
   name: default
 spec:
   mtls:
