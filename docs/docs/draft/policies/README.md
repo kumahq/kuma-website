@@ -406,12 +406,15 @@ By applying a Health Check policy you effectively instruct a dataplane to keep t
 Dataplane will never send a request to an endpoint that is considered "unhealthy".
 
 Since pro-active health checking might result in a tangible extra load on your applications,
-Kuma also provides a zero-overhead alternative - "passive" health checking.
+Kuma also provides a zero-overhead alternative - ["passive" health checking](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier).
 In the latter case, a dataplane will be making decisions whether target endpoints are healthy based on "real" requests
 initiated by your application rather than auxiliary requests initiated by the dataplanes itself.
 
 As usual, `sources` and `destinations` selectors allow you to fine-tune to which `Dataplanes` the policy applies (`sources`)
 and what endpoints require health checking (`destinations`).
+
+At the moment, `HealthCheck` policy is implemented at L4 level. In practice, it means that a dataplane is looking at success of TCP connections
+rather than individual HTTP requests.
 
 On Universal:
 
