@@ -1651,18 +1651,18 @@ $ kuma-dp run \
   --dataplane-token-file=/tmp/kuma-dp-echo-1-token
 ```
 
-##### Accessing Dataplane Token Server from a different machine
+##### Accessing Admin Server from a different machine
 
-By default, the Dataplane Token Server is exposed only on localhost. If you want to generate tokens from a different machine than control plane you have to secure the connection:
-1) Enable public server by setting `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_ENABLED` to `true`. Make sure to specify hostname which can be used to access Kuma from other machine via `KUMA_GENERAL_ADVERTISED_HOSTNAME`.
-2) Generate certificate for the HTTPS Dataplane Token Server and set via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_TLS_CERT_FILE` and `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_TLS_KEY_FILE` config environment variable.
+By default, the Admin Server that is serving Dataplane Tokens is exposed only on localhost. If you want to generate tokens from a different machine than control plane you have to secure the connection:
+1) Enable public server by setting `KUMA_ADMIN_SERVER_PUBLIC_ENABLED` to `true`. Make sure to specify hostname which can be used to access Kuma from other machine via `KUMA_GENERAL_ADVERTISED_HOSTNAME`.
+2) Generate certificate for the HTTPS Admin Server and set via `KUMA_ADMIN_SERVER_PUBLIC_TLS_CERT_FILE` and `KUMA_ADMIN_SERVER_PUBLIC_TLS_KEY_FILE` config environment variable.
    For generating self signed certificate you can use `kumactl`
 ```bash
 $ kumactl generate tls-certificate --cert-file=/path/to/cert --key-file=/path/to/key --type=server --cp-hostname=<name from KUMA_GENERAL_ADVERTISED_HOSTNAME>
 ```
-3) Pick a public interface on which HTTPS server will be exposed and set it via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_INTERFACE`.
-   Optionally pick the port via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_PORT`. By default, it will be the same as the port for the HTTP server exposed on localhost.
-4) Generate one or more certificates for the clients of this server. Pass the path to the directory with client certificates (without keys) via `KUMA_DATAPLANE_TOKEN_SERVER_PUBLIC_CLIENT_CERTS_DIR`.
+3) Pick a public interface on which HTTPS server will be exposed and set it via `KUMA_ADMIN_SERVER_PUBLIC_INTERFACE`.
+   Optionally pick the port via `KUMA_ADMIN_SERVER_PUBLIC_PORT`. By default, it will be the same as the port for the HTTP server exposed on localhost.
+4) Generate one or more certificates for the clients of this server. Pass the path to the directory with client certificates (without keys) via `KUMA_ADMIN_SERVER_PUBLIC_CLIENT_CERTS_DIR`.
    For generating self signed client certificates you can use `kumactl`
 ```bash
 $ kumactl generate tls-certificate --cert-file=/path/to/cert --key-file=/path/to/key --type=client
@@ -1671,8 +1671,8 @@ $ kumactl generate tls-certificate --cert-file=/path/to/cert --key-file=/path/to
 ```bash
 $ kumactl config control-planes add \
   --name <NAME> --address http://<KUMA_CP_DNS_NAME>:5681 \
-  --dataplane-token-client-cert <CERT.PEM> \
-  --dataplane-token-client-key <KEY.PEM>
+  --admin-client-cert <CERT.PEM> \
+  --admin-client-key <KEY.PEM>
 ```
 
 ### mTLS
@@ -1692,7 +1692,7 @@ When `kuma-cp` starts up, by default it listens on a few ports:
 
 * `5677`: the SDS server being used for propagating mTLS certificates across the data-planes.
 * `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
-* `5679`: the Dataplane Token Server that serves Dataplane Tokens
+* `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
 * `5680`: the HTTP server that returns the health status of the control-plane.
 * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when runnning in `universal` - that you can use to apply new policies.
 * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
