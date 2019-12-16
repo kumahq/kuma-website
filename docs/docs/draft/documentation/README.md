@@ -1688,9 +1688,9 @@ When mTLS is enabled, every connection between dataplanes is denied by default, 
 
 ### Postgres
 
-Since on Universal the secrets are stored in Postgres, a connection between Postgres and Kuma CP should be secured.
+Since on Universal, the secrets such as "provided" CA's private key, are stored in Postgres, a connection between Postgres and Kuma CP should be secured with TLS.
 To secure the connection, first pick the security mode using `KUMA_STORE_POSTGRES_TLS_MODE`. There are several modes:
-* `disable` - the connection is not secured.
+* `disable` - is not secured with TLS (secrets will be transmitted over network in plain text).
 * `verifyNone` - the connection is secured but neither hostname, nor by which CA the certificate is signed is checked.
 * `verifyCa` - the connection is secured and the certificate presented by the server is verified using the provided CA.
 * `verifyFull` - the connection is secured, certificate presented by the server is verified using the provided CA and server hostname must match the one in the certificate.
