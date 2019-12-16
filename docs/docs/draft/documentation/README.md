@@ -1686,6 +1686,27 @@ Additionaly, when running on Universal you have to ensure that every dataplane i
 #### TrafficPermission
 When mTLS is enabled, every connection between dataplanes is denied by default, so you have to explicitly allow it using [TrafficPermission](/docs/DRAFT/policies/#traffic-permissions).
 
+### Postgres
+
+Since on Universal the secrets are stored in Postgres, a connection between Postgres and Kuma CP should be secured.
+To secure the connection, first pick the security mode using `KUMA_STORE_POSTGRES_TLS_MODE`. There are several modes:
+* `disable` - the connection is not secured.
+* `verifyNone` - the connection is secured but neither hostname, nor by which CA the certificate is signed is checked.
+* `verifyCa` - the connection is secured and the certificate presented by the server is verified using the provided CA.
+* `verifyFull` - the connection is secured, certificate presented by the server is verified using the provided CA and server hostname must match the one in the certificate.
+
+The CA for verification server's certificate can be set using `KUMA_STORE_POSTGRES_TLS_CA_PATH`.
+
+Once secured connections are configured in Kuma CP, you have to configure Postgres' [`pg_hba.conf`](https://www.postgresql.org/docs/9.1/auth-pg-hba-conf.html) file to restrict unsecured connections.
+Here is an example configuration that will allow only TLS connections and will require username and password:
+```
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+hostssl all             all             0.0.0.0/0               password
+```
+ 
+You can also provide client key and certificate for mTLS using `KUMA_STORE_POSTGRES_TLS_CERT_PATH` and `KUMA_STORE_POSTGRES_TLS_KEY_PATH`.
+This pair can be used for auth-method `cert` described [here](https://www.postgresql.org/docs/9.1/auth-pg-hba-conf.html).
+
 ## Ports
 
 When `kuma-cp` starts up, by default it listens on a few ports:
