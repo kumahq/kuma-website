@@ -2,7 +2,8 @@
 // Newsbar
 // 
 
-$newsbar-max-width: 41.25rem;
+// $newsbar-max-width: 41.25rem;
+$newsbar-max-width: 66.875rem;
 $newsbar-radius: 3px;
 $newsbar-padding: 1rem;
 $newsbar-bg: lighten($color-5, 54);
@@ -17,25 +18,33 @@ $newsbar-tag-margin: 0 1rem 0 0;
 $newsbar-link-color: $color-5;
 
 .newsbar-wrap {
-  margin: 1rem auto;
-  max-width: $newsbar-max-width;
+  // margin: 1rem auto;
+  // max-width: $newsbar-max-width;
+  padding: $newsbar-padding;
+  background-color: $newsbar-bg;
+  text-align: center;
 }
 
 .newsbar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: $newsbar-radius;
-  padding: $newsbar-padding;
-  background-color: $newsbar-bg;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // border-radius: $newsbar-radius;
+  max-width: $newsbar-max-width;
+  margin: 0 auto;
+  // margin: 1rem auto;
+  // padding: $newsbar-padding;
+  // background-color: $newsbar-bg;
+  // text-align: center;
 
   a {
-    display: block;
+    display: inline-block;
     color: $newsbar-link-color;
     white-space: wrap;
+    text-decoration: underline;
 
     &:hover {
-      text-decoration: underline;
+      
     }
   }
 
