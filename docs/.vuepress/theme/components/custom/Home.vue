@@ -23,14 +23,15 @@
     <!-- .page-masthead-wrap -->
 
     <div class="product-features-wrap">
-      <!-- <div v-if="$page.frontmatter.newsLink && $page.frontmatter.newsTagline" class="inner newsbar-wrap">
-        <div class="newsbar">
-          <span class="newsbar__tag">News</span>
-          <p>
-            <a :href="$page.frontmatter.newsLink"> {{$page.frontmatter.newsTagline}} <span class="newsbar__arrow">&rarr;</span></a>
-          </p>
-        </div>
-      </div>-->
+      <div
+        v-if="!$page.frontmatter.hideNews"
+        class="newsbar-wrap"
+      >
+        <Content
+          slot-key="news"
+          class="newsbar"
+        />
+      </div>
 
       <div class="inner product-features flex flex-wrap -mx-4">
         <Content

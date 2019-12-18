@@ -13,10 +13,14 @@ meta:
 testimonialPortraitSrc: /images/matt-klein-cropped@2x.jpg
 testimonialPortraitAlt: Matt Klein
 hideTestimonial: false # change this to `true` if you want to display the testimonial
-
-newsTagline: Come learn and explore Kuma at Kong Summit 2019
-newsLink: https://konghq.com/kong-summit
+hideNews: false # change this to `true` if you want to display the news bar
 ---
+
+::: slot news
+
+Kuma 0.3.1 Released with Third-Party CA Support, Health Checks, and a GUI. [Install Now!](/install)
+
+:::
 
 <!-- page masthead -->
 
