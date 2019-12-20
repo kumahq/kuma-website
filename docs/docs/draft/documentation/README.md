@@ -323,6 +323,42 @@ kuma.io/sidecar-injection: enabled
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
+### Gateway
+
+The `Dataplane` can operate in Gateway mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
+In Gateway mode, ingress traffic won't be intercepted and Envoy won't expose inbound listeners.
+
+#### Universal
+
+On Universal, you can define such Dataplane like this:
+
+```yaml
+type: Dataplane
+mesh: default
+name: kong-01
+networking:
+  gateway:
+    tags:
+      service: kong
+  outbound:
+  - interface: :33033
+    service: backend
+```
+
+When configuring your API Gateway to pass traffic to _backend_ set the url to `http://localhost:33033` 
+
+#### Kubernetes
+
+On Kubernetes, `Dataplane` entities are automatically generated. To inject gateway Dataplane, mark your API Gateway's Pod with following annotation:
+```
+kuma.io/gateway: enabled
+```
+
+::: tip
+When integrating [Kong Ingress Controller](https://github.com/Kong/kubernetes-ingress-controller) with Kuma you have to annotate every `Service` that you want to pass traffic to with [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream) annotation.
+Otherwise Kong will do the load balancing which unables Kuma to do the load balancing and apply policies. 
+:::
+
 ## CLI
 
 Kuma ships in a bundle that includes a few executables:
