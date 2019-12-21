@@ -1,5 +1,5 @@
 ---
-title: Documentation
+title: Overview
 ---
 
 # Welcome to Kuma
