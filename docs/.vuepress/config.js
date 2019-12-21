@@ -58,7 +58,7 @@ module.exports = {
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
       // { text: "Use Cases", link: "/use-cases/" },
-      { text: "Request Demo", link: "/request-demo/" },
+      { text: "Enterprise", link: "/enterprise/" },
       { text: "Install", link: "/install/" }
     ]
   },
