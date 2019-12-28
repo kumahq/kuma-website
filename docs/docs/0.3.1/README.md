@@ -20,16 +20,17 @@ Kuma is a universal open-source control plane for Service Mesh and Microservices
 
 Built on top of [Envoy](https://envoyproxy.io/), Kuma can instrument any L4/L7 traffic to secure, observe, route and enhance connectivity between any service or database. It can be used natively in Kubernetes via CRDs or via a RESTful API across other environments, and it doesn't require a change to your application's code in order to be used.
 
-While being simple to use for most use-cases, Kuma also provides policies to configure the underlying Envoy data-planes in a more fine-grained manner. The result caters to both first-time users of Service Mesh, as well as the most experienced ones.
+While being simple to use for most use-cases, Kuma also provides policies to configure the underlying Envoy data-planes in a more fine-grained manner. By doing so, Kuma can be used by both first-time users of Service Mesh, as well as the most experienced ones.
 
 <center>
 <img src="/images/docs/0.2.0/diagram-01.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 Kong built Kuma with feedback from 150+ enterprise organizations running Service Mesh in production. Kuma implements a pragmatic approach that is very different from the first-generation control planes:  
-- it runs with low operational overhead across all the organization
-- it supports every platform 
-- it's easy to use while relying on a solid networking foundation delivered by Envoy.
+
+- **Universal**: Kuma runs on every platform, including Kubernetes and VMs.
+- **Simple**: Kuma provides easy to use policies to get up and running in minutes.
+- **Envoy-based**: Kuma is built on top of Envoy, the most adopted proxy for Service Mesh.
 
 Built by Envoy contributors at Kong 🦍.
 
@@ -47,14 +48,14 @@ For example, think of any application that communicates with a database to store
 <img src="/images/docs/0.2.0/diagram-02.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Every time our services interconnect via a network request, we put the end-user experience at risk. As we all know the connectivity between different services can be slow and unpredictable. It can be insecure,  hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments).
+Every time our services communicate over the network, we put the end-user experience at risk. As we all know the network between different services can be slow and unpredictable. It can be insecure, hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments).
 
 Usually, at this point, developers take one of the following actions to remedy the situation:
 
 * **Write more code**: The developers build a *smart* client that every service will have to utilize in the form of a library. Usually, this approach introduces a few problems: 
-  - it creates more technical debt
-  - it is typically language-specific; therefore, it prevents innovation 
-  - multiple implementations of the library exist, which creates fragmentation in the long run.
+  - It creates more technical debt
+  - It is typically language-specific; therefore, it prevents innovation 
+  - Multiple implementations of the library exist, which creates fragmentation in the long run.
 
 * **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. By using this approach, developers don't worry about connectivity and only focus on delivering business value from their services.
 

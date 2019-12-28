@@ -5,7 +5,7 @@
         <p class="custom-block-title">Careful!</p>
         <p>You are browsing documentation for an outdated version of {{getSiteData.title}}.</p>
         <p>
-          <router-link :to="{ path: `/docs/${getLatestRelease}/` }">Go here</router-link>to browse the documentation for the latest version.
+          <router-link :to="{ path: `/docs/${getLatestRelease}/` }">Go here</router-link> to browse the documentation for the latest version.
         </p>
       </div>
     </div>
