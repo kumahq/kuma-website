@@ -32,7 +32,7 @@ Kuma 0.3.1 Released with Third-Party CA Support, Health Checks, and a GUI. [Inst
 
 ::: slot masthead-sub-title
 
-## The open-source control plane to build your Mesh, delivering high performance and reliability.
+## The open-source control plane for modern connectivity, delivering high performance and reliability with Envoy.
 
 :::
 
@@ -44,21 +44,21 @@ Kuma 0.3.1 Released with Third-Party CA Support, Health Checks, and a GUI. [Inst
 
 ::: slot feature-block-content-1
 
-### Universal Control Plane
+### CRD + RESTful Interface
 
 ![Universal Control Plane diagram](/images/diagrams/diagram-universal-cp@2x.jpg)
 
-Built on top of Envoy, Kuma is a modern control plane for Microservices and Service Mesh. Universal for both VMs and Kubernetes.
+Built on top of Envoy, Kuma can be fully operated via simple CRDs on Kubernetes or with a RESTful API on other platforms. GUI included.
 
 :::
 
 ::: slot feature-block-content-2
 
-### Intuitive Policies
+### L4 + L7 Policies
 
 ![Universal Control Plane diagram](/images/diagrams/diagram-powerful-policies@2x.jpg)
 
-Easy to use Service Mesh policies for security, observability, routing, and more. Low operational overhead with multi-tenancy since day one.
+Connect your Microservices with Kuma, and apply intuitive policies for security, observability, routing, and more in one command.
 :::
 
 ::: slot feature-block-content-3
@@ -67,7 +67,7 @@ Easy to use Service Mesh policies for security, observability, routing, and more
 
 ![Platform Agnostic diagram](/images/diagrams/diagram-platform-agnostic@2x.jpg)
 
-Runs on both Virtual Machines and Kubernetes in order to deliver value to both existing and modern workloads.
+Kuma can run anywhere, on Kubernetes and VMs, in the cloud or on-premise, in single or multi-datacenter setups.
 :::
 
 <!-- testimonial -->
