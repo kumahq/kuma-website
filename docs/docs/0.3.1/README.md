@@ -20,16 +20,17 @@ Kuma is a universal open-source control plane for Service Mesh and Microservices
 
 Built on top of [Envoy](https://envoyproxy.io/), Kuma can instrument any L4/L7 traffic to secure, observe, route and enhance connectivity between any service or database. It can be used natively in Kubernetes via CRDs or via a RESTful API across other environments, and it doesn't require a change to your application's code in order to be used.
 
-While being simple to use for most use-cases, Kuma also provides policies to configure the underlying Envoy data-planes in a more fine-grained manner. The result caters to both first-time users of Service Mesh, as well as the most experienced ones.
+While being simple to use for most use-cases, Kuma also provides policies to configure the underlying Envoy data-planes in a more fine-grained manner. By doing so, Kuma can be used by both first-time users of Service Mesh, as well as the most experienced ones.
 
 <center>
 <img src="/images/docs/0.2.0/diagram-01.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 Kong built Kuma with feedback from 150+ enterprise organizations running Service Mesh in production. Kuma implements a pragmatic approach that is very different from the first-generation control planes:  
-- it runs with low operational overhead across all the organization
-- it supports every platform 
-- it's easy to use while relying on a solid networking foundation delivered by Envoy.
+
+- **Universal**: Kuma runs on every platform, including Kubernetes and VMs.
+- **Simple**: Kuma provides easy to use policies to get up and running in minutes.
+- **Envoy-based**: Kuma is built on top of Envoy, the most adopted proxy for Service Mesh.
 
 Built by Envoy contributors at Kong 🦍.
 
@@ -47,14 +48,14 @@ For example, think of any application that communicates with a database to store
 <img src="/images/docs/0.2.0/diagram-02.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Every time our services interconnect via a network request, we put the end-user experience at risk. As we all know the connectivity between different services can be slow and unpredictable. It can be insecure,  hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments).
+Every time our services communicate over the network, we put the end-user experience at risk. As we all know the network between different services can be slow and unpredictable. It can be insecure, hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments).
 
 Usually, at this point, developers take one of the following actions to remedy the situation:
 
 * **Write more code**: The developers build a *smart* client that every service will have to utilize in the form of a library. Usually, this approach introduces a few problems: 
-  - it creates more technical debt
-  - it is typically language-specific; therefore, it prevents innovation 
-  - multiple implementations of the library exist, which creates fragmentation in the long run.
+  - It creates more technical debt
+  - It is typically language-specific; therefore, it prevents innovation 
+  - Multiple implementations of the library exist, which creates fragmentation in the long run.
 
 * **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. By using this approach, developers don't worry about connectivity and only focus on delivering business value from their services.
 
@@ -111,9 +112,11 @@ Kuma exists today to provide a pragmatic journey to implementing Service Mesh fo
 **Real-Time Support**: The Kuma community provides channels for real-time communication and support that you can explore in our [Community](/community) page. It also provides dedicated [Enterprise Support](/request-demo) delivered by [Kong](https://konghq.com).
 :::
 
-## Enabling Modernization
+## VM and K8s support
 
-Until now, Service Mesh has been considered to be the last step of architecture modernization after transitioning to containers and perhaps to Kubernetes. This approach is entirely backwards. It makes the adoption and the business value of Service Mesh available only after implementing other massive transformations that—in the meanwhile—can go wrong.
+The platform agnosticity of Kuma enables Service Mesh to the entire organization - and not just Kubernetes - making it a more viable solution for the entire organization.
+
+Until now, Service Mesh has been considered to be the last step of architecture modernization after transitioning to containers and perhaps to Kubernetes. This approach is entirely backwards. It makes the adoption and the business value of Service Mesh available only after implementing other massive transformations that - in the meanwhile - can go wrong.
 
 In reality, we want Service Mesh to be available *before* we implement other transitions so that we can keep the network both secure and observable in the process. With Kuma, Service Mesh is indeed the **first step** towards modernization.
 
@@ -121,7 +124,7 @@ In reality, we want Service Mesh to be available *before* we implement other tra
 <img src="/images/docs/0.2.0/diagram-05.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Unlike other control planes, Kuma natively runs across any platform, and it's not limited in scope (i.e., Kubernetes only). Kuma works on both existing brownfield applications (those apps that deliver business value today), as well as new and modern greenfield applications that will be the future of our journey.
+Unlike other control planes, Kuma natively runs across every platform - Kubernetes, VMs and Bare Metal - and it's not limited in scope (like many other control planes that only work on Kubernetes only). Kuma can run on both existing brownfield applications (that are most likely running on VMs), as well as new and modern greenfield applications that may be running on containers and Kubernetes.
 
 Unlike other control planes, Kuma is easy to use. Anybody - from any team - can implement Kuma in [three simple steps](/install/0.3.1) across both traditional monolithic applications and modern microservices.
 
