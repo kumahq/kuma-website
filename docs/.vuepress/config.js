@@ -156,8 +156,8 @@ module.exports = {
       ga: productData.gaCode
     },
     "@vuepress/plugin-pwa": {
-      serviceWorker: true,
-      updatePopup: true,
+      serviceWorker: false,
+      updatePopup: false,
       generateSWConfig: {
         skipWaiting: true
       }
