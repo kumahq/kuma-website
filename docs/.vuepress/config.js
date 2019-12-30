@@ -110,6 +110,13 @@ module.exports = {
         src: "/preloadPublicAssets.js",
         defer: "defer"
       }
+    ],
+    [
+      "script",
+      {
+        charset: "utf8",
+        src: "/unregisterServiceWorkers.js"
+      }
     ]
   ],
   // version release navigation
