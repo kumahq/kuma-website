@@ -46,7 +46,7 @@ Kuma 0.3.1 Released with Third-Party CA Support, Health Checks, and a GUI. [Inst
 
 ### CRD + RESTful Interface
 
-![Universal Control Plane diagram](/images/diagrams/diagram-universal-cp@2x.jpg)
+![Universal Control Plane diagram](/images/diagrams/diagram-universal-cp-rev1@2x.jpg)
 
 Built on top of Envoy, Kuma can be fully operated via simple CRDs on Kubernetes or with a RESTful API on other platforms. GUI included.
 
@@ -56,7 +56,7 @@ Built on top of Envoy, Kuma can be fully operated via simple CRDs on Kubernetes 
 
 ### L4 + L7 Policies
 
-![Universal Control Plane diagram](/images/diagrams/diagram-powerful-policies@2x.jpg)
+![Universal Control Plane diagram](/images/diagrams/diagram-powerful-policies-rev1@2x.jpg)
 
 Connect your Microservices with Kuma, and apply intuitive policies for security, observability, routing, and more in one command.
 :::
@@ -65,7 +65,7 @@ Connect your Microservices with Kuma, and apply intuitive policies for security,
 
 ### Platform Agnostic
 
-![Platform Agnostic diagram](/images/diagrams/diagram-platform-agnostic@2x.jpg)
+![Platform Agnostic diagram](/images/diagrams/diagram-platform-agnostic-rev1@2x.jpg)
 
 Kuma can run anywhere, on Kubernetes and VMs, in the cloud or on-premise, in single or multi-datacenter setups.
 :::
