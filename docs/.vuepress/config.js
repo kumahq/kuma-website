@@ -110,6 +110,13 @@ module.exports = {
         src: "/preloadPublicAssets.js",
         defer: "defer"
       }
+    ],
+    [
+      "script",
+      {
+        charset: "utf8",
+        src: "/unregisterServiceWorkers.js"
+      }
     ]
   ],
   // version release navigation
@@ -149,8 +156,8 @@ module.exports = {
       ga: productData.gaCode
     },
     "@vuepress/plugin-pwa": {
-      serviceWorker: true,
-      updatePopup: true,
+      serviceWorker: false,
+      updatePopup: false,
       generateSWConfig: {
         skipWaiting: true
       }
