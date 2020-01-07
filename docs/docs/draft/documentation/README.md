@@ -326,7 +326,13 @@ On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically 
 ### Gateway
 
 The `Dataplane` can operate in Gateway mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
-In Gateway mode, ingress traffic won't be intercepted and Envoy won't expose inbound listeners.
+
+When you use a Dataplane with a service, both inbound traffic to a service and outbound traffic from the service flows through the Dataplane.
+API Gateway should be deployed as any other service withing the mesh. However, in this case we want inbound traffic to go directly to API Gateway,
+otherwise clients would have to be provided with certificates that are generated dynamically for communication between services within the mesh.
+Security for an entrance to the mesh should be handled by API Gateway itself.
+
+Gateway mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic.
 
 #### Universal
 
@@ -349,13 +355,28 @@ When configuring your API Gateway to pass traffic to _backend_ set the url to `h
 
 #### Kubernetes
 
-On Kubernetes, `Dataplane` entities are automatically generated. To inject gateway Dataplane, mark your API Gateway's Pod with following annotation:
+On Kubernetes, `Dataplane` entities are automatically generated. To inject gateway Dataplane, mark your API Gateway's Pod with `kuma.io/gateway: enabled` annotation. Here is example with Kong for Kubernetes:
 ```
-kuma.io/gateway: enabled
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ingress-kong
+  name: ingress-kong
+  namespace: kong
+spec:
+  template:
+    metadata:
+      annotations:
+        kuma.io/gateway: enabled
+    spec:
+      containers:
+        image: kong:1.3
+      ...
 ```
 
 ::: tip
-When integrating [Kong Ingress Controller](https://github.com/Kong/kubernetes-ingress-controller) with Kuma you have to annotate every `Service` that you want to pass traffic to with [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream) annotation.
+When integrating [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma you have to annotate every `Service` that you want to pass traffic to with [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream) annotation.
 Otherwise Kong will do the load balancing which unables Kuma to do the load balancing and apply policies. 
 :::
 
