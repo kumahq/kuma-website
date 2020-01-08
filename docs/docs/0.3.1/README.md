@@ -109,7 +109,7 @@ Kuma exists today to provide a pragmatic journey to implementing Service Mesh fo
 * **Enterprise-Ready**: Pragmatic platform for the Enterprise that delivers business value today.
 
 ::: tip
-**Real-Time Support**: The Kuma community provides channels for real-time communication and support that you can explore in our [Community](/community) page. It also provides dedicated [Enterprise Support](/request-demo) delivered by [Kong](https://konghq.com).
+**Real-Time Support**: The Kuma community provides channels for real-time communication and support that you can explore in our [Community](/community) page. It also provides dedicated [Enterprise Support](/enterprise) delivered by [Kong](https://konghq.com).
 :::
 
 ## VM and K8s support

@@ -10,7 +10,7 @@ Kong is and always has been a proud contributor of open-source software. That kn
 
 We also understand how critical and how important it is to have a dedicated relationship for support SLAs, implementation and customization, therefore we offer an Enterprise package that can be explored for mission-critical deployments. This package integrates with the Kong Service Control Platform to provide a full-cycle API and Microservices management platform for the entire organization.
 
-You can explore the Enterprise offering by [requesting a demo](/request-demo).
+You can explore the Enterprise offering by [requesting a demo](/enterprise).
 
 ## License
 
