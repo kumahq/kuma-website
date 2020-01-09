@@ -86,11 +86,11 @@ export default {
         {
           group: 'Resources',
           items: [
-            // { label: 'Enterprise Support', url: '#' },
             { label: 'Documentation', url: '/docs/' },
-            { label: 'Partners', url: 'https://konghq.com/partners/' },
-            { label: 'Webinars', url: 'https://konghq.com/webinars/' },
             { label: 'Ebooks', url: 'https://konghq.com/ebooks/' },
+            { label: 'Briefs', url: 'https://konghq.com/briefs/' },
+            { label: 'Webinars', url: 'https://konghq.com/webinars/' },
+            { label: 'Blog', url: 'https://konghq.com/blog/' },
             { label: 'Meetups', url: 'https://www.meetup.com/members/121234612/' }
           ]
         },
@@ -98,25 +98,28 @@ export default {
           group: 'Company',
           items: [
             { label: 'About', url: 'https://konghq.com/about-kong-inc/' },
+            { label: 'Customers', url: 'https://konghq.com/customers/' },
             { label: 'Investors', url: 'https://konghq.com/investors/' },
-            { label: 'News', url: 'https://konghq.com/press-room/' },
             {
               label: 'Careers',
               url: 'https://konghq.com/careers/',
               badge: true,
               badgeText: 'Hiring!'
             },
-            { label: 'Contact', url: 'https://konghq.com/contact/' }
+            { label: 'Partners', url: 'https://konghq.com/partners/' },
+            { label: 'Press', url: 'https://konghq.com/press-room/' },
+            { label: 'Contact', url: 'https://konghq.com/contact/' },
+            { label: 'Kong Summit', url: 'https://konghq.com/kong-summit/' }
           ]
         },
         {
           group: 'Open Source',
           items: [
-            { label: 'Mockbin', url: 'https://mockbin.org/' },
-            { label: 'API Embed', url: 'https://apiembed.com/' },
-            { label: 'Unirest', url: 'http://unirest.io/' },
-            { label: 'Guardian JS', url: 'http://guardianjs.com/' },
-            { label: 'OAuth Bible', url: 'http://oauthbible.com/' }
+            { label: 'Install Kong Gateway', url: 'https://konghq.com/install/' },
+            { label: 'Kong Community', url: 'https://konghq.com/community/' },
+            { label: 'Kubernetes Ingress', url: 'https://github.com/Kong/kubernetes-ingress-controller' },
+            { label: 'Kuma', url: '/' },
+            { label: 'Insomnia', url: 'https://insomnia.rest/' }
           ]
         }
       ],
