@@ -1,8 +1,33 @@
 <template>
   <div class="form-wrapper">
 
-    <validation-observer v-slot="{ invalid, passes }">
+    <!-- <validation-observer v-slot="{ invalid, passes }">
       <form v-if="!submitted" class="form-horizontal" @submit.prevent="passes(submitForm)">
+        <label for="input_email" class="sr-only">Email</label>
+        <validation-provider rules="required|email" v-slot="{ errors }">
+          <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />
+          <span class="note note--error">{{ errors[0] }}</span>
+        </validation-provider>
+        <button :disabled="invalid" type="submit" name="submit" class="btn btn--bright">
+          Join Newsletter
+        </button>
+      </form>
+    </validation-observer> -->
+
+    <validation-observer
+      v-slot="{ invalid, passes }"
+    >
+      <form
+        v-if="!submitted"
+        class="form-horizontal"
+        @submit.prevent="passes(submitForm)"
+      >
+        <input
+          v-for="(input, index) in utmFields"
+          type="hidden"
+          :name="input"
+          :value="urlQuery[index].value.toString()"
+        />
         <label for="input_email" class="sr-only">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }">
           <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />
@@ -51,6 +76,15 @@ export default {
       formData: {
         input_email: ''
       },
+      utmFields: [
+        'utm_content',
+        'utm_medium',
+        'utm_source',
+        'utm_campaign',
+        'utm_term',
+        'utm_ad_group'
+      ],
+      urlQuery: [],
       submitted: false,
       error: false
     }
@@ -61,12 +95,28 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getNewsletterSignupEndpoint'
+      'getNewsletterSignupEndpoint',
+      'getNewsletterPardotEndpoint'
     ])
   },
+  beforeMount () {
+    this.compileUrlQueries()
+  },
   methods: {
+    compileUrlQueries () {
+      const query = this.$route.query
+
+      this.utmFields.forEach(i => {
+        const item = query[i]
+        this.urlQuery.push({
+          name: i,
+          value: item ? item : ''
+        })
+      })
+    },
     submitForm() {
-      const url = this.getNewsletterSignupEndpoint
+      // const url = this.getNewsletterSignupEndpoint
+      const url = this.getNewsletterPardotEndpoint
       const payload = this.formData
 
       // tell the app we have submitted successfully
