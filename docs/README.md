@@ -18,7 +18,7 @@ hideNews: false # change this to `true` if you want to display the news bar
 
 ::: slot news
 
-Kuma 0.3.1 Released with Third-Party CA Support, Health Checks, and a GUI. [Install Now!](/install)
+Kuma 0.3.2 Released with Prometheus Integration, new Gateway Mode, and much more. [Install Now!](/install)
 
 :::
 
