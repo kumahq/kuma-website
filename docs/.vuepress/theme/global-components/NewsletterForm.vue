@@ -24,10 +24,15 @@
       >
         <input
           v-for="(input, index) in utmFields"
+          v-if="urlQuery[index]"
           type="hidden"
           :name="input"
-          :value="urlQuery[index].value.toString()"
+          :value="urlQuery[index].value"
         />
+        <!-- Pardot debugging -->
+        <input type="hidden" name="debug" value="1">
+        <input type="hidden" name="debugEmail" value="daryn.st.pierre@konghq.com">
+
         <label for="input_email" class="sr-only">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }">
           <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />
@@ -108,6 +113,7 @@ export default {
 
       this.utmFields.forEach(i => {
         const item = query[i]
+
         this.urlQuery.push({
           name: i,
           value: item ? item : ''
@@ -135,6 +141,7 @@ export default {
       .catch(err => {
         // let the app know if an error has occurred
         this.error = true
+        this.submitted = false
       })
     }
   }
