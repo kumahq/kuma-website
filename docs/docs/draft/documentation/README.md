@@ -280,7 +280,7 @@ Tags are important because can be used later on by any [Policy](/docs/DRAFT/poli
 
 The [`Dataplane`](#dataplane-entity) entity includes the networking and naming configuration that a data-plane proxy (`kuma-dp`) must have attempting to connect to the control-plane (`kuma-cp`).
 
-In Universal mode we must manually create the [`Dataplane`](#dataplane-entity) entity before running `kuma-dp`. A [`Dataplane`](#dataplane-entity) entity can be created with [`kumactl`](#kumactl) or by using the [HTTP API](#http-api). When using [`kumactl`](#kumactl), the entity definition will look like:
+In Universal mode we must manually create the [`Dataplane`](#dataplane-entity) entity before running `kuma-dp`. A [`Dataplane`](#dataplane-entity) entity can be created with [`kumactl`](#kumactl) or by using the [HTTP API](#http-api). When using [`kumactl`](#kumactl), the normal entity definition will look like:
 
 ```yaml
 type: Dataplane
@@ -295,6 +295,19 @@ networking:
     - interface: :33033
       service: redis
 ```
+And the [`Gateway mode`](#gateway)'s entity definition will look like:
+```yaml
+type: Dataplane
+mesh: default
+name: kong-01
+networking:
+  gateway:
+    tags:
+      service: kong
+  outbound:
+  - interface: :33033
+    service: backend
+```
 
 The `Dataplane` entity includes a few sections:
 
@@ -305,7 +318,7 @@ The `Dataplane` entity includes a few sections:
   - `inbound`: an array of `interface` objects that determines what services are being exposed via the data-plane. Each `interface` object only supports one port at a time, and you can specify more than one `interface` in case the service opens up more than one port.
     - `interface`: determines the routing logic for incoming requests in the format of `{address}:{dataplane-port}:{service-port}`.
     - `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
-  - `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service:
+  - `outbound`: every outgoing request made by the service must also go through the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service:
     - `interface`: the address inclusive of the port that the service needs to consume locally to make a request to the external service
     - `service`: the name of the service associated with the interface.
 
