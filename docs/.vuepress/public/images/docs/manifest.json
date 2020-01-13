@@ -373,12 +373,19 @@
           "size": 402078,
           "extension": ".png",
           "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/prometheus-targets.png",
+          "name": "prometheus-targets.png",
+          "size": 230094,
+          "extension": ".png",
+          "type": "file"
         }
       ],
-      "size": 1127091,
+      "size": 1357185,
       "type": "directory"
     }
   ],
-  "size": 3396011,
+  "size": 3626105,
   "type": "directory"
 }
