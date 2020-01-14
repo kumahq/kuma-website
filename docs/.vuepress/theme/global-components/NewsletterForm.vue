@@ -29,13 +29,13 @@
           :name="input"
           :value="urlQuery[index].value"
         />
-        <!-- Pardot debugging -->
-        <input type="hidden" name="debug" value="1">
-        <input type="hidden" name="debugEmail" value="daryn.st.pierre@konghq.com">
-
+        <!-- LIVE -->
+        <!-- <input type="hidden" name="pardot-link" value="https://go.pardot.com/l/392112/2019-09-03/bjz6yv"> -->
+        <!-- DEV -->
+        <input type="hidden" name="pardot-link" value="https://go.pardot.com/l/392112/2020-01-14/bkwzrx">
         <label for="input_email" class="sr-only">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }">
-          <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />
+          <input v-model="formData.input_email" id="email" name="email" type="email" />
           <span class="note note--error">{{ errors[0] }}</span>
         </validation-provider>
         <button :disabled="invalid" type="submit" name="submit" class="btn btn--bright">
@@ -100,8 +100,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getNewsletterSignupEndpoint',
-      'getNewsletterPardotEndpoint'
+      'getNewsletterPardotEndpoint',
+      'getNewsletterPardotEndpointDev'
     ])
   },
   beforeMount () {
@@ -122,14 +122,12 @@ export default {
     },
     submitForm() {
       // const url = this.getNewsletterSignupEndpoint
-      const url = this.getNewsletterPardotEndpoint
+      // const url = this.getNewsletterPardotEndpoint
+      const url = this.getNewsletterPardotEndpointDev
       const payload = this.formData
 
-      // tell the app we have submitted successfully
-      this.submitted = true
-
       // send the form data
-      axios({
+      const submitter = axios({
         method: 'post',
         url: url,
         params: payload,
@@ -138,11 +136,26 @@ export default {
           'Accept': 'application/json'
         },
       })
-      .catch(err => {
-        // let the app know if an error has occurred
-        this.error = true
-        this.submitted = false
-      })
+
+      // axios.interceptors.response.use( function (response) {
+      //     return response
+      //   }, function (error) {
+      //     return Promise.reject(error)
+      //   }
+      // )
+
+      submitter
+        .then(res => {
+          console.log(res)
+          // if everything is good, tell the app we have submitted successfully
+          // TODO this needs to be revised so that it does a proper check for success
+          this.submitted = true
+        })
+        .catch(err => {
+          // let the app know if an error has occurred
+          this.error = true
+          console.log(err)
+        })
     }
   }
 }
