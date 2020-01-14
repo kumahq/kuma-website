@@ -341,8 +341,44 @@
       ],
       "size": 567230,
       "type": "directory"
+    },
+    {
+      "path": "docs/.vuepress/public/images/docs/0.3.2",
+      "name": "0.3.2",
+      "children": [
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/gui-dataplanes-table.png",
+          "name": "gui-dataplanes-table.png",
+          "size": 181416,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/gui-mesh-overview.png",
+          "name": "gui-mesh-overview.png",
+          "size": 296468,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/gui-wizard-step-1.png",
+          "name": "gui-wizard-step-1.png",
+          "size": 247129,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/gui-yaml-to-clipboard.png",
+          "name": "gui-yaml-to-clipboard.png",
+          "size": 402078,
+          "extension": ".png",
+          "type": "file"
+        }
+      ],
+      "size": 1127091,
+      "type": "directory"
     }
   ],
-  "size": 2268920,
+  "size": 3396011,
   "type": "directory"
 }
