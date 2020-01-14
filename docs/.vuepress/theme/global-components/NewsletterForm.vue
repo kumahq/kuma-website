@@ -114,10 +114,14 @@ export default {
       this.utmFields.forEach(i => {
         const item = query[i]
 
-        this.urlQuery.push({
-          name: i,
-          value: item ? item : ''
-        })
+        if (item && item.length > 0) {
+          this.urlQuery.push({
+            name: i,
+            value: item
+          })
+        } else {
+          console.log(`${i} is empty`)
+        }
       })
     },
     submitForm() {
