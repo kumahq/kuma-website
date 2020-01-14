@@ -103,9 +103,8 @@ export default {
   },
   methods: {
     submitForm() {
-      // const url = this.getNewsletterSignupEndpoint
-      const url = this.getNewsletterPardotEndpoint
-      // const url = this.getNewsletterPardotEndpointDev
+      // const url = this.getNewsletterPardotEndpoint
+      const url = this.getNewsletterPardotEndpointDev
       const payload = this.formData
 
       // send the form data
@@ -125,7 +124,7 @@ export default {
           // if everything is good, tell the app we have submitted successfully
           // we handle validation with vee-validate
           console.log(res)
-          
+
           if (res && res.statusText === 'OK') {
             this.submitted = true
           } else {
