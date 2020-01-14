@@ -240,13 +240,13 @@ A user can enable traffic metrics by editing a `Mesh` resource and providing the
 
 Out-of-the-box, `Kuma` provides full integration with `Prometheus`:
 * if enabled, every dataplane will expose its metrics in `Prometheus` format
-* furthemore, `Kuma` will make sure that `Prometheus` can find every dataplane in the mesh
+* furthemore, `Kuma` will make sure that `Prometheus` can automatically find every dataplane in the mesh
 
 #### On Universal
 
 ##### Enable Prometheus metrics per Mesh
 
-To enable every dataplane in the mesh to expose its metrics in `Prometheus` format, configure a `Mesh` resource as follows:
+To enable `Prometheus` metrics on every dataplane in the mesh, configure a `Mesh` resource as follows:
 
 ```yaml
 type: Mesh
@@ -266,7 +266,7 @@ metrics:
     path: /metrics
 ```
 
-Both snippets above instruct `Kuma` to configure every dataplane in the mesh `default` to expose an HTTP endpoint with `Prometheus` metrics on port `5670` and URI path `/metrics`.
+Both snippets from above instruct `Kuma` to configure every dataplane in the mesh `default` to expose an HTTP endpoint with `Prometheus` metrics on port `5670` and URI path `/metrics`.
 
 ##### Override Prometheus settings per Dataplane
 
@@ -338,7 +338,7 @@ Now, if you check `Targets` page on `Prometheus` UI, you should see a list of da
 
 ##### Enable Prometheus metrics per Mesh
 
-To enable every dataplane in the mesh to expose its metrics in `Prometheus` format, configure a `Mesh` resource as follows:
+To enable `Prometheus` metrics on every dataplane in the mesh, configure a `Mesh` resource as follows:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -364,7 +364,7 @@ spec:
       path: /metrics
 ```
 
-Both snippets above instruct `Kuma` to configure every dataplane in the mesh `default` to expose an HTTP endpoint with `Prometheus` metrics on port `5670` and URI path `/metrics`.
+Both snippets from above instruct `Kuma` to configure every dataplane in the mesh `default` to expose an HTTP endpoint with `Prometheus` metrics on port `5670` and URI path `/metrics`.
 
 ##### Override Prometheus settings per Dataplane
 
