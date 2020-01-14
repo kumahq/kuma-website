@@ -113,16 +113,19 @@ export default {
         method: 'post',
         url: url,
         params: payload,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json'
-        },
+        withCredentials: true
+        // headers: {
+        //   'Content-Type': 'application/x-www-form-urlencoded',
+        //   'Accept': 'application/json'
+        // }
       })
 
       submitter
         .then(res => {
           // if everything is good, tell the app we have submitted successfully
           // we handle validation with vee-validate
+          console.log(res)
+          
           if (res && res.statusText === 'OK') {
             this.submitted = true
           } else {
