@@ -280,7 +280,7 @@ Tags are important because can be used later on by any [Policy](/docs/0.3.2/poli
 
 The [`Dataplane`](#dataplane-entity) entity includes the networking and naming configuration that a data-plane proxy (`kuma-dp`) must have attempting to connect to the control-plane (`kuma-cp`).
 
-In Universal mode we must manually create the [`Dataplane`](#dataplane-entity) entity before running `kuma-dp`. A [`Dataplane`](#dataplane-entity) entity can be created with [`kumactl`](#kumactl) or by using the [HTTP API](#http-api). When using [`kumactl`](#kumactl), the entity definition will look like:
+In Universal mode we must manually create the [`Dataplane`](#dataplane-entity) entity before running `kuma-dp`. A [`Dataplane`](#dataplane-entity) entity can be created with [`kumactl`](#kumactl) or by using the [HTTP API](#http-api). When using [`kumactl`](#kumactl), the regular entity definition will look like:
 
 ```yaml
 type: Dataplane
@@ -288,12 +288,25 @@ mesh: default
 name: web-01
 networking:
   inbound:
-  - interface: 127.0.0.1:11011:11012
+    - interface: 127.0.0.1:11011:11012
+      tags:
+        service: backend
+  outbound:
+    - interface: :33033
+      service: redis
+```
+And the [`Gateway mode`](#gateway)'s entity definition will look like:
+```yaml
+type: Dataplane
+mesh: default
+name: kong-01
+networking:
+  gateway:
     tags:
-      service: backend
+      service: kong
   outbound:
   - interface: :33033
-    service: redis
+    service: backend
 ```
 
 The `Dataplane` entity includes a few sections:
@@ -305,6 +318,8 @@ The `Dataplane` entity includes a few sections:
   * `inbound`: an array of `interface` objects that determines what services are being exposed via the data-plane. Each `interface` object only supports one port at a time, and you can specify more than one `interface` in case the service opens up more than one port.
     * `interface`: determines the routing logic for incoming requests in the format of `{address}:{dataplane-port}:{service-port}`.
     * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
+  * `gateway`: determines if the data-plane will operate in Gateway mode. It replaces the `inbound` object and enables Kuma to integrate with existing API gateways like [Kong](https://github.com/Kong/kong). 
+    * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
   * `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
     * `interface`: the address inclusive of the port that the service needs to consume locally to make a request to the external service
     * `service`: the name of the service associated with the interface.
@@ -313,7 +328,7 @@ The `Dataplane` entity includes a few sections:
 On Kubernetes this whole process is automated via transparent proxying and without changing your application's code. On Universal Kuma doesn't support transparent proxying yet, and the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity. This also means that in Universal **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
 :::
 
-### Kubernetes 
+### Kubernetes
 
 On Kubernetes the data-planes are automatically injected via the `kuma-injector` executable as long as the K8s Namespace includes the following label:
 
@@ -322,6 +337,63 @@ kuma.io/sidecar-injection: enabled
 ```
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
+
+### Gateway
+
+The `Dataplane` can operate in Gateway mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
+
+When you use a Dataplane with a service, both inbound traffic to a service and outbound traffic from the service flows through the Dataplane.
+API Gateway should be deployed as any other service withing the mesh. However, in this case we want inbound traffic to go directly to API Gateway,
+otherwise clients would have to be provided with certificates that are generated dynamically for communication between services within the mesh.
+Security for an entrance to the mesh should be handled by API Gateway itself.
+
+Gateway mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic.
+
+#### Universal
+
+On Universal, you can define such Dataplane like this:
+
+```yaml
+type: Dataplane
+mesh: default
+name: kong-01
+networking:
+  gateway:
+    tags:
+      service: kong
+  outbound:
+  - interface: :33033
+    service: backend
+```
+
+When configuring your API Gateway to pass traffic to _backend_ set the url to `http://localhost:33033` 
+
+#### Kubernetes
+
+On Kubernetes, `Dataplane` entities are automatically generated. To inject gateway Dataplane, mark your API Gateway's Pod with `kuma.io/gateway: enabled` annotation. Here is example with Kong for Kubernetes:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ingress-kong
+  name: ingress-kong
+  namespace: kong
+spec:
+  template:
+    metadata:
+      annotations:
+        kuma.io/gateway: enabled
+    spec:
+      containers:
+        image: kong:1.3
+      ...
+```
+
+::: tip
+When integrating [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma you have to annotate every `Service` that you want to pass traffic to with [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream) annotation.
+Otherwise Kong will do the load balancing which unables Kuma to do the load balancing and apply policies. 
+:::
 
 ## CLI
 
