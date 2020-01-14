@@ -35,6 +35,7 @@ Since Kuma bundles a data-plane in addition to the control-plane, we decided to 
 * `kuma-dp`: this is the Kuma data-plane executable that - under the hood - invokes `envoy`.
 * `envoy`: this is the Envoy executable that we bundle for convenience into the archive.
 * `kumactl`: this is the the user CLI to interact with Kuma (`kuma-cp`) and its data.
+* `kuma-prometheus-sd`: this is a helper tool that enables native integration between `Kuma` and `Prometheus`. Thanks to it, `Prometheus` will be able to automatically find all dataplanes in your Mesh and scrape metrics out of them.
 * `kuma-tcp-echo`: this is a sample application that echos back the requests we are making, used for demo purposes.
 
 In addition to these binaries, there is another binary that will be executed when running on Kubernetes:
@@ -249,7 +250,21 @@ As mentioned before, this is only required in Universal. In Kubernetes no change
 
 ### Envoy
 
-Since `kuma-dp` is built on top of Envoy, you can enable the [Envoy HTTP API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) by starting `kuma-dp` with an additional `KUMA_DATAPLANE_ADMIN_PORT=9901` environment variable (or by setting the `--admin-port=9901` argument). This can be very useful for debugging purposes.
+`kuma-dp` is built on top of `Envoy`, which has a powerful [Admin API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) that enables monitoring and troubleshooting of a running dataplane.
+
+By default, `kuma-dp` starts `Envoy Admin API` on the loopback interface (that is only accessible from the local host) and the first available port from the range `30001-65535`.
+
+If you need to override that behaviour, you can use `--admin-port` command-line option or `KUMA_DATAPLANE_ADMIN_PORT` environment variable.
+
+E.g.,
+
+* you can change the default port range by using `--admin-port=10000-20000`
+* you can narrow it down to a single port by using `--admin-port=9901`
+* you can turn `Envoy Admin API` off by using `--admin-port=`
+
+::: warning
+If you choose to turn `Envoy Admin API` off, you will not be able to leverage some of `Kuma` features, such as enabling `Prometheus` metrics on that dataplane.
+:::
 
 ### Tags
 
@@ -316,6 +331,7 @@ Kuma ships in a bundle that includes a few executables:
 * `kuma-dp`: this is the Kuma data-plane executable that - under the hood - invokes `envoy`.
 * `envoy`: this is the Envoy executable that we bundle for convenience into the archive.
 * `kumactl`: this is the the user CLI to interact with Kuma (`kuma-cp`) and its data.
+* `kuma-prometheus-sd`: this is a helper tool that enables native integration between `Kuma` and `Prometheus`. Thanks to it, `Prometheus` will be able to automatically find all dataplanes in your Mesh and scrape metrics out of them.
 * `kuma-tcp-echo`: this is a sample application that echos back the requests we are making, used for demo purposes.
 
 According to the [installation instructions](/install/0.3.2), some of these executables are automatically executed as part of the installation workflow, while some other times you will have to execute them directly.
@@ -518,6 +534,10 @@ curl http://localhost:5681/config
   },
   "guiServer": {
     "port": 5683
+  },
+  "monitoringAssignmentServer": {
+    "assignmentRefreshInterval": "1s",
+    "grpcPort": 5676
   },
   "reports": {
     "enabled": true
@@ -1740,6 +1760,7 @@ This pair can be used for auth-method `cert` described [here](https://www.postgr
 
 When `kuma-cp` starts up, by default it listens on a few ports:
 
+* `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
 * `5677`: the SDS server being used for propagating mTLS certificates across the data-planes.
 * `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
 * `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
