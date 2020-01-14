@@ -19,8 +19,8 @@ export default new Vuex.Store({
     installMethods: installMethods,
     requestADemoEndpoint: 'https://script.google.com/macros/s/AKfycbwiFfaiSK6JqdNqZLAt5PRayPV43x7qw1ZAM_-sFSDg6IT44d4/exec',
     newsletterSignupEndpoint: 'https://script.google.com/macros/s/AKfycbx9xikTdHNrrnHiqxNX3ecVkTJYzPmKemrz2OMr6SaOXT7FYaiM/exec',
-    newsletterPardotEndpoint: 'http://go.konghq.com/l/392112/2020-01-14/bjz6yv',
-    newsletterPardotEndpointDev: 'http://go.konghq.com/l/392112/2020-01-14/bkwzrx'
+    newsletterPardotEndpoint: 'https://go.konghq.com/l/392112/2020-01-14/bjz6yv',
+    newsletterPardotEndpointDev: 'https://go.konghq.com/l/392112/2020-01-14/bkwzrx'
   },
 
   getters: {
