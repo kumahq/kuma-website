@@ -109,20 +109,20 @@ export default {
   },
   methods: {
     compileUrlQueries () {
-      const query = this.$route.query
+      const query = this.$route.query || null
 
-      this.utmFields.forEach(i => {
-        const item = query[i]
+      if (query && query.length > 0) {
+        this.utmFields.forEach(i => {
+          const item = query[i]
 
-        if (item && item.length > 0) {
-          this.urlQuery.push({
-            name: i,
-            value: item
-          })
-        } else {
-          console.log(`${i} is empty`)
-        }
-      })
+          if (item && item.length > 0) {
+            this.urlQuery.push({
+              name: i,
+              value: item
+            })
+          }
+        })
+      }
     },
     submitForm() {
       // const url = this.getNewsletterSignupEndpoint
@@ -141,18 +141,11 @@ export default {
         },
       })
 
-      // axios.interceptors.response.use( function (response) {
-      //     return response
-      //   }, function (error) {
-      //     return Promise.reject(error)
-      //   }
-      // )
-
       submitter
         .then(res => {
           console.log(res)
           // if everything is good, tell the app we have submitted successfully
-          // TODO this needs to be revised so that it does a proper check for success
+          // we handle validation with vee-validate
           this.submitted = true
         })
         .catch(err => {
