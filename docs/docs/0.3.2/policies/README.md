@@ -291,13 +291,13 @@ Although dataplane metrics are now exposed, `Prometheus` doesn't know anything a
 To help `Prometheus` to automatically discover dataplanes, `Kuma` provides a helper tool - `kuma-prometheus-sd`.
 
 ::: tip
-`kuma-prometheus-sd` tool is meant to be run next to `Prometheus`.
+`kuma-prometheus-sd` is meant to run alongside `Prometheus` instance.
 
 It knows where `Kuma` Control Plane is, it knows how to talk to it, it knows how to fetch an up-to-date list of dataplanes from it.
 
 It then transforms that information into a format that `Prometheus` can understand, and saves it into a file on disk.
 
-`Prometheus` periodically reads from that file and updates its scraping configuration accordingly.
+`Prometheus` watches for changes to that file and updates its scraping configuration accordingly.
 :::
 
 First, you need to run `kuma-prometheus-sd`, e.g. by using the following command:
@@ -317,8 +317,7 @@ scrape_configs:
 - job_name: 'kuma-dataplanes'
   scrape_interval: 15s
   file_sd_configs:
-  - refresh_interval: 1s
-    files:
+  - files:
     - /var/run/kuma-prometheus-sd/kuma.file_sd.json
 ```
 
