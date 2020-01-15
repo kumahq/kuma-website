@@ -155,14 +155,41 @@ module.exports = {
     "@vuepress/google-analytics": {
       ga: productData.gaCode
     },
-    "@vuepress/plugin-pwa": {
-      serviceWorker: false,
-      updatePopup: false,
-      generateSWConfig: {
-        skipWaiting: true
-      }
-    },
-    "@vuepress/nprogress": {}
+    // "@vuepress/plugin-pwa": {
+    //   serviceWorker: false,
+    //   updatePopup: false,
+    //   generateSWConfig: {
+    //     skipWaiting: true
+    //   }
+    // },
+    "@vuepress/nprogress": {},
+    "@vuepress/plugin-blog": {
+      sitemap: {
+        hostname: productData.hostname
+      },
+      directories: [
+        {
+          id: 'post',
+          dirname: '_posts',
+          path: '/post/',
+          itemPermalink: '/post/:year/:slug',
+          layout: 'Post',
+          pagination: {
+            lengthPerPage: 5
+          }
+        },
+        {
+          id: 'webinar',
+          dirname: '_webinars',
+          path: '/webinar/',
+          itemPermalink: '/post/:year/:slug',
+          layout: 'Webinar',
+          pagination: {
+            lengthPerPage: 5
+          }
+        }
+      ]
+    }
   },
   postcss: {
     plugins: [

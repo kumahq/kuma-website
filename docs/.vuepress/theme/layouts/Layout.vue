@@ -1,17 +1,12 @@
 <template>
-  <div
-    class="theme-container"
+  <Shell
     :class="pageClasses"
+    showNavbar="shouldShowNavbar"
     @touchstart="onTouchStart"
     @touchend="onTouchEnd"
+    @toggle-sidebar="toggleSidebar"
   >
-    <Navbar
-      v-if="shouldShowNavbar"
-      @toggle-sidebar="toggleSidebar"
-    />
-
-    <div class="content-wrapper">
-
+    <template slot="page-content">
       <!-- <div
         class="sidebar-mask"
         @click="toggleSidebar(false)"
@@ -35,18 +30,13 @@
         :is="layoutComponentSelector"
         :sidebar-items="sidebarItems"
       />
-
-    </div>
-    <!-- .content-wrapper -->
-
-    <Footer />
-
-  </div>
+    </template>
+  </Shell>
 </template>
 
 <script>
 import axios from 'axios'
-import Navbar from '@theme/components/Navbar.vue'
+import Shell from '@theme/global-components/Shell.vue'
 import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
 import { resolveSidebarItems, redirectToLatestVersion } from '../util'
@@ -62,7 +52,6 @@ export default {
   components: {
     Page,
     Sidebar,
-    Navbar,
     Home,
     Install,
     Community,
