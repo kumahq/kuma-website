@@ -176,7 +176,7 @@ module.exports = {
           layout: 'PostIndex',
           itemLayout: 'Post',
           pagination: {
-            lengthPerPage: 5
+            lengthPerPage: 1
           }
         },
         {
@@ -187,7 +187,7 @@ module.exports = {
           layout: 'WebinarIndex',
           itemLayout: 'Webinar',
           pagination: {
-            lengthPerPage: 5
+            lengthPerPage: 10
           }
         }
       ]

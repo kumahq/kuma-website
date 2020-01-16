@@ -1,6 +1,6 @@
 <template>
   <Shell
-    class="blog-page blog-page--post-index"
+    class="blog-page blog-page--pagination"
   >
     <template slot="page-content">
       <main class="page">
