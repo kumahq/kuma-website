@@ -1,5 +1,5 @@
 <template>
-  <Shell :sidebarItems="sidebarItems">
+  <Shell :sidebar-items="sidebarItems">
     <template slot="page-content">
       <component
         :is="layoutComponentSelector"

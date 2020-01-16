@@ -53,7 +53,9 @@ export default {
 
   props: {
     sidebarItems: {
-      type: Array
+      type: Array,
+      required: false,
+      default: () => { return [] }
     }
   },
 
