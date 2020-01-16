@@ -171,9 +171,10 @@ module.exports = {
         {
           id: 'post',
           dirname: '_posts',
-          path: '/post/',
-          itemPermalink: '/post/:year/:slug',
-          layout: 'Post',
+          path: '/posts/',
+          itemPermalink: '/posts/:year/:slug',
+          layout: 'PostIndex',
+          itemLayout: 'Post',
           pagination: {
             lengthPerPage: 5
           }
@@ -181,9 +182,10 @@ module.exports = {
         {
           id: 'webinar',
           dirname: '_webinars',
-          path: '/webinar/',
-          itemPermalink: '/post/:year/:slug',
-          layout: 'Webinar',
+          path: '/webinars/',
+          itemPermalink: '/webinars/:year/:slug',
+          layout: 'WebinarIndex',
+          itemLayout: 'Webinar',
           pagination: {
             lengthPerPage: 5
           }

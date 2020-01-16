@@ -55,7 +55,7 @@ export default {
     sidebarItems: {
       type: Array,
       required: false,
-      default: () => { return [] }
+      default: () => []
     }
   },
 

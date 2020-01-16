@@ -1,12 +1,24 @@
 <template>
-  <div>
-    <Content />
-  </div>
+  <Shell
+    class="blog-page blog-page--webinars"
+  >
+    <template slot="page-content">
+      <main class="page">
+        <div class="theme-default-content content__default">
+          <Content/>
+        </div>
+      </main>
+    </template>
+  </Shell>
 </template>
 
 <script>
-export default {
+import Shell from '@theme/global-components/Shell.vue'
 
+export default {
+  components: {
+    Shell
+  }
 }
 </script>
 

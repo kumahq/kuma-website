@@ -1,6 +1,6 @@
 <template>
   <Shell
-    class="post-page"
+    class="blog-page blog-page--posts"
   >
     <template slot="page-content">
       <main class="page">
