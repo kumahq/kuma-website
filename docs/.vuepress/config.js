@@ -169,6 +169,7 @@ module.exports = {
       },
       directories: [
         {
+          title: 'Posts',
           id: 'post',
           dirname: '_posts',
           path: '/posts/',
@@ -180,6 +181,7 @@ module.exports = {
           }
         },
         {
+          title: 'Webinars',
           id: 'webinar',
           dirname: '_webinars',
           path: '/webinars/',
@@ -187,7 +189,7 @@ module.exports = {
           layout: 'WebinarIndex',
           itemLayout: 'Webinar',
           pagination: {
-            lengthPerPage: 10
+            lengthPerPage: 1
           }
         }
       ]

@@ -1,29 +1,17 @@
 <template>
-  <Shell
-    class="blog-page blog-page--post-index"
-  >
-    <template slot="page-content">
-      <main class="page">
-        <div class="theme-default-content content__default">
-          <ul id="default-layout">
-            <li v-for="page in $pagination.pages">
-              <router-link class="page-link" :to="page.path">{{ page.title }}</router-link>
-            </li>
-          </ul>
-          <div id="pagination">
-            <router-link v-if="$pagination.hasPrev" :to="$pagination.prevLink">Prev</router-link>
-            <router-link v-if="$pagination.hasNext" :to="$pagination.nextLink">Next</router-link>
-          </div>
-        </div>
-      </main>
-    </template>
-  </Shell>
+  <BlogIndex
+    page-sub-title="These are some webinars."
+    page-wrapper-class-slug="webinars"
+  />
 </template>
 
-
 <script>
-export default {
+import BlogIndex from '@theme/layouts/BlogIndex'
 
+export default {
+  components: {
+    BlogIndex
+  }
 }
 </script>
 
