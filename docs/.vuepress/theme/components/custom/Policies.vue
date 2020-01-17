@@ -26,8 +26,8 @@
               v-for="(item, index) in item.items"
               class="policy-section__tile w-full sm:w-1/2 md:w-1/3 mb-4 px-4"
             >
-              <router-link
-                :to="item.url"
+              <a
+                :href="item.url"
                 class="policy-section__link"
               >
                 <div class="policy-section__link-content">
@@ -40,7 +40,7 @@
                   >
                   <h4>{{ item.title }}</h4>
                 </div>
-              </router-link>
+              </a>
             </li>
           </ul>
         </div>
