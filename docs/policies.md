@@ -11,35 +11,35 @@ policies:
     sectionSubTitle: Identity, Encryption and Compliance
     items:
       - title: mTLS
-        url: /docs/
+        url: /docs/latest/documentation/#mtls
       - title: Traffic Permissions
-        url: /docs/
+        url: /docs/latest/policies/#traffic-permissions
       - title: DP/CP Security
-        url: /docs/
+        url: /docs/latest/documentation/#dataplane-token
   - section: traffic-control
     sectionTitle: Traffic Control
     sectionSubTitle: Routing, Versioning, Deployments
     items:
       - title: Traffic Route
-        url: /docs/
+        url: /docs/latest/policies/#traffic-route
   - section: observability
     sectionTitle: Observability
     sectionSubTitle: Metrics, Logs and Traces
     items:
       - title: Traffic Log
-        url: /docs/
+        url: /docs/latest/policies/#traffic-log
       - title: Dataplane Metric
-        url: /docs/
+        url: /docs/latest/policies/#traffic-metrics
       - title: Traffic Trace
-        url: /docs/
+        url: /docs/latest/policies/#traffic-tracing
   - section: advanced
     sectionTitle: Advanced
     sectionSubTitle: Envoy configuration and Miscellaneous
     items:
       - title: Mesh/Multi-tenancy
-        url: /docs/
+        url: /docs/latest/policies/#mesh
       - title: Proxy Template
-        url: /docs/
+        url: /docs/latest/policies/#proxy-template
       - title: Healthcheck
-        url: /docs/
+        url: /docs/latest/policies/#health-check
 ---

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container page-container--community">
+  <div class="page-container page-container--policies">
 
     <PageHeader
       :title="$page.frontmatter.title"
@@ -13,6 +13,7 @@
         v-for="(item, index) in policies"
         class="policy-section"
         :class="`policy-section--${item.section}`"
+        :id="`policies-${item.section}`"
       >
         <header class="policy-section__header">
           <h2>{{ item.sectionTitle }}</h2>
@@ -20,23 +21,25 @@
         </header>
 
         <div class="policy-section__item-wrapper">
-          <ul class="policy-section__items">
+          <ul class="policy-section__items flex flex-wrap -mx-4">
             <li
               v-for="(item, index) in item.items"
-              class="policy-section__tile"
+              class="policy-section__tile w-full sm:w-1/2 md:w-1/3 mb-4 px-4"
             >
               <router-link
                 :to="item.url"
                 class="policy-section__link"
               >
-                <img
-                  class="policy-section__icon"
-                  srcset="/images/icons/icon-script.png, 
-                  /images/icons/icon-script@2x.png 2x"
-                  src="/images/icons/icon-script@2x.png"
-                  alt="Script Icon"
-                >
-                <h4>{{ item.title }}</h4>
+                <div class="policy-section__link-content">
+                  <img
+                    class="policy-section__icon"
+                    srcset="/images/icons/icon-script.png, 
+                    /images/icons/icon-script@2x.png 2x"
+                    src="/images/icons/icon-script@2x.png"
+                    alt="Script Icon"
+                  >
+                  <h4>{{ item.title }}</h4>
+                </div>
               </router-link>
             </li>
           </ul>
@@ -75,15 +78,87 @@ export default {
 
 <style lang="scss">
 .policy-section {
+  max-width: 33.75rem;
+  margin-left: auto;
+  margin-right: auto;
 
   h1, h2, h3, h4, h5, h6 {
     border: 0;
   }
 }
 
+.policy-section__header {
+
+  h2, h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  h2 {
+    font-size: 1.1875rem;
+    color: rgba(#000, 0.85);
+    margin-bottom: 0.8rem;
+  }
+
+  h3 {
+    font-size: 0.9375rem;
+    color: rgba(#000, 0.70);
+  }
+}
+
 .policy-section__items {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 1.25rem;
+  margin-bottom: 3.125rem;
+}
+
+.policy-section__tile {
+  text-align: center;
+}
+
+.policy-section__link {
+  $hover-color: #3fa66a;
+  $cubic-bezier: cubic-bezier(0.47, 0.37, 0.36, 0.92);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 8rem;
+  background-color: #fff;
+  border: 1px solid #c6cfd7;
+  border-radius: 5px;
+  padding: 1.4375rem 0.5rem;
+  will-change: transform;
+  transform-origin: center;
+  transform: translateZ(0);
+  transition: 
+    color 200ms $cubic-bezier, 
+    border 200ms $cubic-bezier, 
+    transform 200ms $cubic-bezier;
+
+  &:hover, &:active {
+    transform: scale(1.05);
+    border: 1px solid $hover-color;
+    color: $hover-color;
+
+    h4 {
+      color: $hover-color;
+    }
+  }
+
+  h4 {
+    padding: 0;
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 200;
+    color: rgba(#000, 0.70);
+    line-height: 1.5rem;
+    transition: color 200ms $cubic-bezier;
+  }
+}
+
+.policy-section__icon {
+  margin: 0 auto 0.8rem auto;
 }
 </style>
