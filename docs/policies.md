@@ -11,7 +11,7 @@ policies:
     sectionSubTitle: Identity, Encryption and Compliance
     items:
       - title: mTLS
-        url: /docs/latest/documentation/#mtls
+        url: /docs/latest/policies/#mutual-tls
       - title: Traffic Permissions
         url: /docs/latest/policies/#traffic-permissions
       - title: DP/CP Security

@@ -33,9 +33,7 @@
                 <div class="policy-section__link-content">
                   <img
                     class="policy-section__icon"
-                    srcset="/images/icons/icon-script.png, 
-                    /images/icons/icon-script@2x.png 2x"
-                    src="/images/icons/icon-script@2x.png"
+                    :src="item.icon ? item.icon : '/images/icons/icon-script@2x.png'"
                     alt="Script Icon"
                   >
                   <h4>{{ item.title }}</h4>
@@ -48,7 +46,7 @@
       </section>
       <section
         v-else
-        class="policy-section"
+        class="policy-section policy-section--no-items"
       >
         <h2>There are no Policies present.</h2>
       </section>
@@ -87,6 +85,10 @@ export default {
   }
 }
 
+.policy-section--no-items {
+  text-align: center;
+}
+
 .policy-section__header {
 
   h2, h3 {
@@ -110,7 +112,7 @@ export default {
   list-style: none;
   padding: 0;
   margin-top: 1.25rem;
-  margin-bottom: 3.125rem;
+  margin-bottom: 1.25rem;
 }
 
 .policy-section__tile {
@@ -159,6 +161,8 @@ export default {
 }
 
 .policy-section__icon {
+  max-width: 2.0625rem;
+  height: auto;
   margin: 0 auto 0.8rem auto;
 }
 </style>
