@@ -49,13 +49,13 @@
                   <li class="tower__list-title tower__list-title--focus">
                     <h4>Enterprise Support</h4>
                   </li>
+                  <li class="tower__focus-item">24/7/365 Support SLAs</li>
                   <li class="tower__focus-item">Email Support</li>
                   <li class="tower__focus-item">Phone Support</li>
-                  <li class="tower__focus-item">Initial Setup and Upgrade Path</li>
-                  <li class="tower__focus-item">Org Architectural Review</li>
-                  <li class="tower__focus-item">Hot fixes and emergency patches</li>
+                  <li class="tower__focus-item">Deployment and Setup</li>
+                  <li class="tower__focus-item">Hot Fixes and Emergency Patches</li>
                   <li class="tower__focus-item">Custom Policies</li>
-                  <li class="tower__focus-item">Integration with Kong Enterprise</li>
+                  <li class="tower__focus-item">Envoy Expertise</li>
                   <li class="tower__list-title tower__list-title--neutral">
                     <span class="desktop">Fill out form on the right</span>
                     <span class="mobile">Fill out form below</span>
