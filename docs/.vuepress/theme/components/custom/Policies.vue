@@ -34,9 +34,14 @@
                   <img
                     class="policy-section__icon"
                     :src="item.icon ? item.icon : '/images/icons/icon-script@2x.png'"
-                    alt="Script Icon"
+                    :alt="`Policy icon for ${item.title}`"
                   >
-                  <h4>{{ item.title }}</h4>
+                  <h4 v-if="item.title">
+                    {{ item.title }}
+                  </h4>
+                  <h4 v-else>
+                    <strong>Please add a title for this policy.</strong>
+                  </h4>
                 </div>
               </a>
             </li>
@@ -59,12 +64,10 @@
 
 <script>
 import PageHeader from '@theme/global-components/PageHeader'
-import Card from '@theme/components/custom/Card'
 
 export default {
   components: {
-    PageHeader,
-    Card
+    PageHeader
   },
   computed: {
     policies () {
