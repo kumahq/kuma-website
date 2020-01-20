@@ -12,6 +12,9 @@
   "bin": {
     "kumacut": "./bin/kumacut/index.js"
   },
+  "resolutions": {
+    "serialize-javascript": "^2.1.1"
+  },
   "dependencies": {
     "@babel/preset-env": "^7.5.5",
     "@vuepress/plugin-pwa": "^1.2.0",
@@ -34,7 +37,7 @@
     "latest-semver": "^2.0.0",
     "markdown-it-for-inline": "^0.1.1",
     "markdown-it-include": "^1.1.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "path": "^0.12.7",
     "postcss-loader": "^3.0.0",
     "raw-loader": "^3.0.0",
