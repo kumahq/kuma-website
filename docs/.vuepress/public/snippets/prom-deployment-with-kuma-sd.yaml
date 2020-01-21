@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2020-01-17T16:52:53Z"
+  generation: 1
+  labels:
+    app: prometheus
+    chart: prometheus-9.7.2
+    component: server
+    heritage: Helm
+    release: my-release
+  name: my-release-prometheus-server
+  namespace: default
+  resourceVersion: "3210"
+  selfLink: /apis/apps/v1/namespaces/default/deployments/my-release-prometheus-server
+  uid: 36f41d0e-7d44-4056-8913-f10a0d733afc
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: prometheus
+      component: server
+      release: my-release
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: prometheus
+        chart: prometheus-9.7.2
+        component: server
+        heritage: Helm
+        release: my-release
+    spec:
+      containers:
+      - name: kuma-prometheus-sd
+        image: kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:0.3.2
+        imagePullPolicy: Always
+        args:
+          - run
+          - --name=kuma-prometheus-sd
+          - --cp-address=http://kuma-control-plane.kuma-system:5681
+          - --output-file=/var/run/kuma.io/prometheus-sd/kuma.file_sd.json
+        volumeMounts:
+          - mountPath: "/var/run/kuma.io/prometheus-sd"
+            name: kuma-prometheus-sd-volume
+      - args:
+        - --volume-dir=/etc/config
+        - --webhook-url=http://127.0.0.1:9090/-/reload
+        image: jimmidyson/configmap-reload:v0.2.2
+        imagePullPolicy: IfNotPresent
+        name: prometheus-server-configmap-reload
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/config
+          name: config-volume
+          readOnly: true
+      - args:
+        - --storage.tsdb.retention.time=15d
+        - --config.file=/etc/config/prometheus.yml
+        - --storage.tsdb.path=/data
+        - --web.console.libraries=/etc/prometheus/console_libraries
+        - --web.console.templates=/etc/prometheus/consoles
+        - --web.enable-lifecycle
+        image: prom/prometheus:v2.13.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /-/healthy
+            port: 9090
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 30
+        name: prometheus-server
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /-/ready
+            port: 9090
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 30
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/config
+          name: config-volume
+        - mountPath: /data
+          name: storage-volume
+        - mountPath: "/var/run/kuma.io/prometheus-sd"
+          name: kuma-prometheus-sd-volume
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 65534
+        runAsGroup: 65534
+        runAsNonRoot: true
+        runAsUser: 65534
+      serviceAccount: my-release-prometheus-server
+      serviceAccountName: my-release-prometheus-server
+      terminationGracePeriodSeconds: 300
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: my-release-prometheus-server
+        name: config-volume
+      - name: storage-volume
+        persistentVolumeClaim:
+          claimName: my-release-prometheus-server
+      - name: kuma-prometheus-sd-volume
+        emptyDir: {}
