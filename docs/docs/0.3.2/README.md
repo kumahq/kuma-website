@@ -5,20 +5,22 @@ title: Overview
 # Welcome to Kuma
 
 ::: tip
-**Protip**: Use `#kumamesh` on Twitter to chat about Kuma.
+**Protip**: Use `#kumamesh` on Twitter to chat about Kuma, and join the official [Kuma Slack](/community)!
 :::
 
-Welcome to the official documentation for Kuma, the **Universal Control Plane**. 
+Welcome to the official documentation for Kuma, a modern **Control Plane** with bundled Envoy integration. 
 
-Here you will find all you need to know about the product. While Kuma is ideal for Service Mesh and Microservices, you will soon realize that it can be used to modernize any architecture.
+Here you will find all you need to know about the product. While Kuma is ideal for Service Mesh and Microservices, you will soon realize that it can be used to implement modern service connectivity across any architecture.
+
+The core maintainer of Kuma is **Kong**, the maker of the popular open-source Kong Gateway 🦍.
 
 The word "Kuma" means "bear" in Japanese (クマ).
 
 ## What is Kuma?
 
-Kuma is a universal open-source control plane for Service Mesh and Microservices. It can run and be operated natively across both Kubernetes and VM environments, making it easy to adopt by every team in the organization.
+Kuma is a platform agnostic open-source control plane for Service Mesh and Microservices. It can run and be operated natively across both Kubernetes and VM environments, making it easy to adopt by every team in the organization.
 
-Built on top of [Envoy](https://envoyproxy.io/), Kuma can instrument any L4/L7 traffic to secure, observe, route and enhance connectivity between any service or database. It can be used natively in Kubernetes via CRDs or via a RESTful API across other environments, and it doesn't require a change to your application's code in order to be used.
+Bundling [Envoy](https://envoyproxy.io/) as a data-plane, Kuma can instrument any L4/L7 traffic to secure, observe, route and enhance connectivity between any service or database. It can be used natively in Kubernetes via CRDs or via a RESTful API across other environments like VMs and Bare Metal.
 
 While being simple to use for most use-cases, Kuma also provides policies to configure the underlying Envoy data-planes in a more fine-grained manner. By doing so, Kuma can be used by both first-time users of Service Mesh, as well as the most experienced ones.
 
@@ -26,21 +28,38 @@ While being simple to use for most use-cases, Kuma also provides policies to con
 <img src="/images/docs/0.2.0/diagram-01.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Kong built Kuma with feedback from 150+ enterprise organizations running Service Mesh in production. Kuma implements a pragmatic approach that is very different from the first-generation control planes:  
+Kong built Kuma with feedback from 100+ enterprise organizations running Service Mesh in production. As such, Kuma implements a pragmatic approach that is very different from other control plane implementations:  
 
 - **Universal**: Kuma runs on every platform, including Kubernetes and VMs.
-- **Simple**: Kuma provides easy to use policies to get up and running in minutes.
+- **Simple**: To deploy and to use, Kuma provides easy to use policies for various use-cases.
 - **Envoy-based**: Kuma is built on top of Envoy, the most adopted proxy for Service Mesh.
-
-Built by Envoy contributors at Kong 🦍.
 
 ::: tip
 **Need help?** Don't forget to check the [Community](/community) section! 
 :::
 
+## What is Service Mesh?
+
+Service Mesh is a technology pattern that implements a better way to implement modern networking and connectivity among the different services that make up an application. While it is commonly used in the context of microservices, it can be used to improve connectivity among every architecture and on every platform like VMs and containers.
+
+::: tip
+**Reliable service connectivity** is a pre-requisite for every modern digital application. Transitioning to microservices - and to the Cloud - can be disastrous if network connectivity is not taken care of, and this is exactly why Kuma was built.
+:::
+
+When a service wants to communicate to another service over the network - like a monolith talking to a database or a microservices talking to another microservice - by default the connectivity among them is unreliable: the network can be slow, it is unsecure by default, and by default of those network requests are not being logged anywhere in case we need to debug an error.
+
+In order to implement some of these functionalities, we have two options:
+
+* We extend our applications ourselves in order to address these concerns. Over time this creates technical debt, and yet more code to maintain in addition to the business logic that our application is delivering to the end-user. It also creates fragmentation and security issues as more teams try to address the same concerns on different technology stacks.
+* We delegate the network management to something else that does it for us. Like - for instance - an out-of-process proxy that runs on the same underlying host. Sure, we have to deal with a slightly increased latency between our services and the local proxy, but the benefits are so high that it quickly becomes irrelevant. This proxy - as we will learn later - is called *sidecar proxy* and sits on the data plane of our requests.
+
+Service Mesh does not introduce new concerns or use-cases: it addresses a concern that we are already taking care of (usually by writing more code, if we are doing anything at all): dealing with the connectivity in our network. 
+
+As we will learn, Kuma takes care of these concerns so that we don't have to worry about the network, and in turn making our applications more reliable.
+
 ## Why Kuma?
 
-When building any software architecture, we will inevitably introduce services that will communicate with each other by making requests on the network. 
+When building any modern digital application, we will inevitably introduce services that will communicate with each other by making requests on the network. 
 
 For example, think of any application that communicates with a database to store or retrieve data, or think of a more complex microservice-oriented application that makes many requests across different services to execute its operations:
 
@@ -48,24 +67,26 @@ For example, think of any application that communicates with a database to store
 <img src="/images/docs/0.2.0/diagram-02.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Every time our services communicate over the network, we put the end-user experience at risk. As we all know the network between different services can be slow and unpredictable. It can be insecure, hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments).
+Every time our services communicate over the network, we put the end-user experience at risk. As we all know the network between different services can be slow and unpredictable. It can be insecure, hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments). In one sentence, our applications are one step away from being unreliable.
 
 Usually, at this point, developers take one of the following actions to remedy the situation:
 
-* **Write more code**: The developers build a *smart* client that every service will have to utilize in the form of a library. Usually, this approach introduces a few problems: 
+* **Write more code**: Developers write code - sometimes in the form of a *smart* client - that every service will have to utilize when making requests to another service. Usually, this approach introduces a few problems: 
   - It creates more technical debt
   - It is typically language-specific; therefore, it prevents innovation 
   - Multiple implementations of the library exist, which creates fragmentation in the long run.
 
-* **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. By using this approach, developers don't worry about connectivity and only focus on delivering business value from their services.
+* **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. And of course it will execute traffic policies at runtime, like routing or logging. By using this approach, developers don't have to worry about connectivity and focus entirely on their services and applications.
 
 ::: tip
-**Sidecar Proxy**: It's called *sidecar* proxy because it's another process running alongside our service process on the same host, like a motorcycle sidecar. There is going to be one instance of a sidecar proxy for each running instance of our services, and because all the incoming and outgoing requests - and their data - always go through the sidecar proxy, it is also called a data-plane (DP).
+**Sidecar Proxy**: It's called *sidecar* proxy because the proxy it's another process running alongside our service process on the same underlying host. There is going to be one instance of a sidecar proxy for each running instance of our services, and because all the incoming and outgoing requests - and their data - always go through the sidecar proxy, it is also called a data-plane (DP) since it sits on the data path.
 :::
 
-The sidecar proxy model **requires** a control plane that allows a team to configure the behavior of the data-planes and to keep track of the state of its services. Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as Kuma. [Compare Kuma with other CPs](#kuma-vs-xyz).
+Since we are going to be having many instances for our services, we are also going to be having an equal number of sidecar proxies: that's a lot of proxies! Therefore the sidecar proxy model **requires** a control plane that allows a team to configure the behavior of the proxies dynamically without having to manually configure them. The data planes will initiate a connection with the control plane in order to receive new configuration, while the control plane will - at runtime - provide them with the most updated configuration.
 
-Unlike a data-plane (DP), the control-plane (CP) is never on the execution path of the requests that the services exchange with each other, and it's being used to configure the data-planes and retrieve data from them (like observability information).
+Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as Kuma. [Compare Kuma with other CPs](#kuma-vs-xyz).
+
+Unlike a data-plane proxy (DP), the control-plane (CP) is never on the execution path of the requests that the services exchange with each other, and it's being used as a source of truth to dynamically configure the underlying data-plane proxies that in the meanwhile ha.
 
 <center>
 <img src="/images/docs/0.2.0/diagram-03.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
