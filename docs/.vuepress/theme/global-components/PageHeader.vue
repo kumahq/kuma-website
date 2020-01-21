@@ -1,5 +1,9 @@
 <template>
-  <header v-if="title" class="page-header text-center bg-gradient">
+  <header
+    class="page-header text-center bg-gradient"
+    :class="{ 'page-header--has-divider': hasDivider }"
+    :style="`border-bottom-color: ${dividerColor}`"
+  >
     <div class="inner">
       <h1>{{ title }}</h1>
       <p v-if="subTitle" class="page-sub-title">
@@ -18,6 +22,15 @@ export default {
       required: true
     },
     subTitle: {
+      type: String,
+      required: false
+    },
+    hasDivider: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    dividerColor: {
       type: String,
       required: false
     }

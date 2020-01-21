@@ -23,8 +23,9 @@ $gray-5: #49494b;
 $gray-6: #f7f8f9;
 $gray-7: #4b4f59;
 
-$navy-light: lighten(#20242c, 74);
 $navy: #062f4d;
+$navy-alt: #20242C;
+$navy-light: lighten($navy-alt, 74);
 $sky: #e6edfa;
 $sky-light: #f1f5fc;
 

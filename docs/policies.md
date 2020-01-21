@@ -26,12 +26,12 @@ policies:
     sectionTitle: Observability
     sectionSubTitle: Metrics, Logs and Traces
     items:
-      - title: Traffic Log
-        url: /docs/latest/policies/#traffic-log
-      - title: Dataplane Metric
+      - title: Traffic Metrics
         url: /docs/latest/policies/#traffic-metrics
       - title: Traffic Trace
         url: /docs/latest/policies/#traffic-tracing
+      - title: Traffic Log
+        url: /docs/latest/policies/#traffic-log
   - section: advanced
     sectionTitle: Advanced
     sectionSubTitle: Envoy configuration and Miscellaneous
