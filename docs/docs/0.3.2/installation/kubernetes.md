@@ -31,7 +31,7 @@ envoy   kuma-cp   kuma-dp   kuma-tcp-echo kumactl
 To install and run Kuma execute:
 
 ```sh
-$ kumactl install control-plane | kubectl apply -f -
+$ ./kumactl install control-plane | kubectl apply -f -
 ```
 
 By executing this operation, a new `kuma-system` namespace will be created.
@@ -41,7 +41,7 @@ By executing this operation, a new `kuma-system` namespace will be created.
 On Kubernetes, we can start a simple service by executing the following command:
 
 ```sh
-kubectl apply -f https://raw.githubusercontent.com/Kong/kuma/master/examples/kubernetes/sample-service.yaml
+./kubectl apply -f https://raw.githubusercontent.com/Kong/kuma/master/examples/kubernetes/sample-service.yaml
 ```
 
 Note that two things are happening in the YAML file:
@@ -62,7 +62,7 @@ spec:
   mtls:
     enabled: true
     ca:
-      builtin: {}" | kubectl apply -f -
+      builtin: {}" | ./kubectl apply -f -
 ```
 
 ## 4. Done!
@@ -71,14 +71,14 @@ spec:
 You can configure `kumactl` to point to any remote `kuma-cp` instance by running:
 
 ```sh
-$ kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:5681
+$ ./kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:5681
 ```
 :::
 
 You can now review the entities created by Kuma by using the [`kumactl`](/docs/0.3.2/documentation/#kumactl) CLI. For example you can list the Meshes:
 
 ```sh
-$ kumactl get meshes
+$ ./kumactl get meshes
 NAME
 default
 ```
@@ -86,11 +86,11 @@ default
 and you can list the data-planes that have been registered, and their status:
 
 ```sh
-$ kumactl get dataplanes
+$ ./kumactl get dataplanes
 MESH      NAME        TAGS
 default   dp-echo-1   service=echo
 
-$ kumactl inspect dataplanes
+$ ./kumactl inspect dataplanes
 MESH      NAME        TAGS              STATUS   LAST CONNECTED AGO   LAST UPDATED AGO   TOTAL UPDATES   TOTAL ERRORS
 default   dp-echo-1   service=echo      Online   19s                  18s                2               0
 ```
