@@ -21,6 +21,7 @@ status = 301
 force = false
 
 # Forms queries
+[[redirects]]
 from = "/"
 query = {form_success = ":value1"}
 to = "/?form_success=:value1"
