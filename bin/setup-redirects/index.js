@@ -20,6 +20,12 @@ to = "/docs/${latest}/"
 status = 301
 force = false
 
+# Forms queries
+from = "/?form_success=:query"
+to = "/?form_success=:query"
+status = 301
+force = false
+
 # Install redirect
 [[redirects]]
 from = "/install/"
