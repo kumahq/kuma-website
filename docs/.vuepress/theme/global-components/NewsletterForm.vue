@@ -24,7 +24,7 @@
       > -->
       <form
         class="form-horizontal"
-        :action="getNewsletterPardotEndpointDev"
+        :action="getNewsletterPardotEndpoint"
       >
         <input
           v-for="(key, value) in formData"
