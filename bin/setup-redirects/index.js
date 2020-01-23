@@ -21,8 +21,9 @@ status = 301
 force = false
 
 # Forms queries
-from = "/?form_success=:query"
-to = "/?form_success=:query"
+from = "/"
+query = {form_success = ":query"}
+to = "/form_success=:query"
 status = 301
 force = false
 
