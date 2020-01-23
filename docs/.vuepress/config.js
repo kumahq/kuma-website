@@ -155,13 +155,6 @@ module.exports = {
     "@vuepress/google-analytics": {
       ga: productData.gaCode
     },
-    // "@vuepress/plugin-pwa": {
-    //   serviceWorker: false,
-    //   updatePopup: false,
-    //   generateSWConfig: {
-    //     skipWaiting: true
-    //   }
-    // },
     "@vuepress/nprogress": {}
   },
   postcss: {

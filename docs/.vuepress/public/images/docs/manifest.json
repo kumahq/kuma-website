@@ -341,8 +341,51 @@
       ],
       "size": 567230,
       "type": "directory"
+    },
+    {
+      "path": "docs/.vuepress/public/images/docs/0.3.2",
+      "name": "0.3.2",
+      "children": [
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/gui-dataplanes-table.png",
+          "name": "gui-dataplanes-table.png",
+          "size": 181416,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/gui-mesh-overview.png",
+          "name": "gui-mesh-overview.png",
+          "size": 296468,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/gui-wizard-step-1.png",
+          "name": "gui-wizard-step-1.png",
+          "size": 247129,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/gui-yaml-to-clipboard.png",
+          "name": "gui-yaml-to-clipboard.png",
+          "size": 402078,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/prometheus-targets.png",
+          "name": "prometheus-targets.png",
+          "size": 230094,
+          "extension": ".png",
+          "type": "file"
+        }
+      ],
+      "size": 1357185,
+      "type": "directory"
     }
   ],
-  "size": 2268920,
+  "size": 3626105,
   "type": "directory"
 }

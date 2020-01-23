@@ -35,6 +35,7 @@ Since Kuma bundles a data-plane in addition to the control-plane, we decided to 
 * `kuma-dp`: this is the Kuma data-plane executable that - under the hood - invokes `envoy`.
 * `envoy`: this is the Envoy executable that we bundle for convenience into the archive.
 * `kumactl`: this is the the user CLI to interact with Kuma (`kuma-cp`) and its data.
+* `kuma-prometheus-sd`: this is a helper tool that enables native integration between `Kuma` and `Prometheus`. Thanks to it, `Prometheus` will be able to automatically find all dataplanes in your Mesh and scrape metrics out of them.
 * `kuma-tcp-echo`: this is a sample application that echos back the requests we are making, used for demo purposes.
 
 In addition to these binaries, there is another binary that will be executed when running on Kubernetes:
@@ -249,7 +250,21 @@ As mentioned before, this is only required in Universal. In Kubernetes no change
 
 ### Envoy
 
-Since `kuma-dp` is built on top of Envoy, you can enable the [Envoy HTTP API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) by starting `kuma-dp` with an additional `KUMA_DATAPLANE_ADMIN_PORT=9901` environment variable (or by setting the `--admin-port=9901` argument). This can be very useful for debugging purposes.
+`kuma-dp` is built on top of `Envoy`, which has a powerful [Admin API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) that enables monitoring and troubleshooting of a running dataplane.
+
+By default, `kuma-dp` starts `Envoy Admin API` on the loopback interface (that is only accessible from the local host) and the first available port from the range `30001-65535`.
+
+If you need to override that behaviour, you can use `--admin-port` command-line option or `KUMA_DATAPLANE_ADMIN_PORT` environment variable.
+
+E.g.,
+
+* you can change the default port range by using `--admin-port=10000-20000`
+* you can narrow it down to a single port by using `--admin-port=9901`
+* you can turn `Envoy Admin API` off by using `--admin-port=`
+
+::: warning
+If you choose to turn `Envoy Admin API` off, you will not be able to leverage some of `Kuma` features, such as enabling `Prometheus` metrics on that dataplane.
+:::
 
 ### Tags
 
@@ -265,7 +280,7 @@ Tags are important because can be used later on by any [Policy](/docs/0.3.2/poli
 
 The [`Dataplane`](#dataplane-entity) entity includes the networking and naming configuration that a data-plane proxy (`kuma-dp`) must have attempting to connect to the control-plane (`kuma-cp`).
 
-In Universal mode we must manually create the [`Dataplane`](#dataplane-entity) entity before running `kuma-dp`. A [`Dataplane`](#dataplane-entity) entity can be created with [`kumactl`](#kumactl) or by using the [HTTP API](#http-api). When using [`kumactl`](#kumactl), the entity definition will look like:
+In Universal mode we must manually create the [`Dataplane`](#dataplane-entity) entity before running `kuma-dp`. A [`Dataplane`](#dataplane-entity) entity can be created with [`kumactl`](#kumactl) or by using the [HTTP API](#http-api). When using [`kumactl`](#kumactl), the regular entity definition will look like:
 
 ```yaml
 type: Dataplane
@@ -273,12 +288,25 @@ mesh: default
 name: web-01
 networking:
   inbound:
-  - interface: 127.0.0.1:11011:11012
+    - interface: 127.0.0.1:11011:11012
+      tags:
+        service: backend
+  outbound:
+    - interface: :33033
+      service: redis
+```
+And the [`Gateway mode`](#gateway)'s entity definition will look like:
+```yaml
+type: Dataplane
+mesh: default
+name: kong-01
+networking:
+  gateway:
     tags:
-      service: backend
+      service: kong
   outbound:
   - interface: :33033
-    service: redis
+    service: backend
 ```
 
 The `Dataplane` entity includes a few sections:
@@ -290,6 +318,8 @@ The `Dataplane` entity includes a few sections:
   * `inbound`: an array of `interface` objects that determines what services are being exposed via the data-plane. Each `interface` object only supports one port at a time, and you can specify more than one `interface` in case the service opens up more than one port.
     * `interface`: determines the routing logic for incoming requests in the format of `{address}:{dataplane-port}:{service-port}`.
     * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
+  * `gateway`: determines if the data-plane will operate in Gateway mode. It replaces the `inbound` object and enables Kuma to integrate with existing API gateways like [Kong](https://github.com/Kong/kong). 
+    * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
   * `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
     * `interface`: the address inclusive of the port that the service needs to consume locally to make a request to the external service
     * `service`: the name of the service associated with the interface.
@@ -298,7 +328,7 @@ The `Dataplane` entity includes a few sections:
 On Kubernetes this whole process is automated via transparent proxying and without changing your application's code. On Universal Kuma doesn't support transparent proxying yet, and the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity. This also means that in Universal **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
 :::
 
-### Kubernetes 
+### Kubernetes
 
 On Kubernetes the data-planes are automatically injected via the `kuma-injector` executable as long as the K8s Namespace includes the following label:
 
@@ -308,6 +338,63 @@ kuma.io/sidecar-injection: enabled
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
+### Gateway
+
+The `Dataplane` can operate in Gateway mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
+
+When you use a Dataplane with a service, both inbound traffic to a service and outbound traffic from the service flows through the Dataplane.
+API Gateway should be deployed as any other service withing the mesh. However, in this case we want inbound traffic to go directly to API Gateway,
+otherwise clients would have to be provided with certificates that are generated dynamically for communication between services within the mesh.
+Security for an entrance to the mesh should be handled by API Gateway itself.
+
+Gateway mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic.
+
+#### Universal
+
+On Universal, you can define such Dataplane like this:
+
+```yaml
+type: Dataplane
+mesh: default
+name: kong-01
+networking:
+  gateway:
+    tags:
+      service: kong
+  outbound:
+  - interface: :33033
+    service: backend
+```
+
+When configuring your API Gateway to pass traffic to _backend_ set the url to `http://localhost:33033` 
+
+#### Kubernetes
+
+On Kubernetes, `Dataplane` entities are automatically generated. To inject gateway Dataplane, mark your API Gateway's Pod with `kuma.io/gateway: enabled` annotation. Here is example with Kong for Kubernetes:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ingress-kong
+  name: ingress-kong
+  namespace: kong
+spec:
+  template:
+    metadata:
+      annotations:
+        kuma.io/gateway: enabled
+    spec:
+      containers:
+        image: kong:1.3
+      ...
+```
+
+::: tip
+When integrating [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma you have to annotate every `Service` that you want to pass traffic to with [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream) annotation.
+Otherwise Kong will do the load balancing which unables Kuma to do the load balancing and apply policies. 
+:::
+
 ## CLI
 
 Kuma ships in a bundle that includes a few executables:
@@ -316,6 +403,7 @@ Kuma ships in a bundle that includes a few executables:
 * `kuma-dp`: this is the Kuma data-plane executable that - under the hood - invokes `envoy`.
 * `envoy`: this is the Envoy executable that we bundle for convenience into the archive.
 * `kumactl`: this is the the user CLI to interact with Kuma (`kuma-cp`) and its data.
+* `kuma-prometheus-sd`: this is a helper tool that enables native integration between `Kuma` and `Prometheus`. Thanks to it, `Prometheus` will be able to automatically find all dataplanes in your Mesh and scrape metrics out of them.
 * `kuma-tcp-echo`: this is a sample application that echos back the requests we are making, used for demo purposes.
 
 According to the [installation instructions](/install/0.3.2), some of these executables are automatically executed as part of the installation workflow, while some other times you will have to execute them directly.
@@ -362,21 +450,50 @@ Available commands on `kumactl` are:
 
 Kuma now ships with a basic web-based GUI that will serve as a visual overview of your dataplanes, meshes, and various traffic policies.
 
+::: tip
 The GUI pairs with the HTTP API — Read more about the HTTP API [here](#http-api)
+:::
 
 When launching Kuma, the GUI will start by default on port `:5683`. You can access it in your web browser by going to `http://localhost:5683/`.
 
 ### Getting Started
-When you run the GUI for the first time, you’ll be presented with a simple walkthrough. This will:
-1. Confirm that Kuma is running in either Universal or Kubernetes mode
-2. Provide instructions on how to add dataplanes (if none have yet been added)
-3. Provide a short list of dataplanes found, in order to confirm that things are working accordingly and the app can display information
+When you run the GUI for the first time, you’ll be presented with the Wizard:
 
-### Global Overview
-Once you’ve completed the setup process, you’ll be sent to the Global Overview. This is a general overview of all of the meshes found. You can then view each entity and see how many dataplanes and traffic permissions, routes, and logs are associated with that mesh.
+<center>
+<img src="/images/docs/0.3.2/gui-wizard-step-1.png" alt="A screenshot of the first step of the Kuma GUI Wizard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
 
-### Mesh Overviews
+#### This tool will:
+1. Confirm that Kuma is running
+2. Determine if your environment is either Universal or Kubernetes
+3. Provide instructions on how to add dataplanes (if none have yet been added). The instructions provided will be based on your Kuma environment -- Universal or Kubernetes
+4. Provide a short list of dataplanes found and their status (online or offline), in order to confirm that things are working accordingly and the app can display information
+
+### Mesh Overview
+Once you’ve completed the setup process, you’ll be sent to the Mesh Overview. This is a general overview of all of the meshes found. You can then view each entity and see how many dataplanes and traffic permissions, routes, and logs are associated with that mesh.
+
+<center>
+<img src="/images/docs/0.3.2/gui-mesh-overview.png" alt="A screenshot of the Mesh Overview of the Kuma GUI" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+### Mesh Details
 If you want to view information regarding a specific mesh, you can select the desired mesh from the pulldown at the top of the sidebar. You can then click on any of the overviews in the sidebar to view the entities and policies associated with that mesh.
+
+::: tip
+If you haven't yet created any meshes, this will default to the `default` mesh.
+:::
+
+Each of these views will provide you with a table that displays helpful at-a-glance information. The Dataplanes table will display helpful information, including whether or not a dataplane is online, when it was last connected, how many connections it has, etc. This view also provides a control for refreshing your data on the fly without having to do a full page reload each time you've made changes:
+
+<center>
+<img src="/images/docs/0.3.2/gui-dataplanes-table.png" alt="A screenshot of the Dataplanes information table" style="padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+We also provide an easy way to view your entity in YAML format, as well as an control to copy it to your clipboard:
+
+<center>
+<img src="/images/docs/0.3.2/gui-yaml-to-clipboard.png" alt="A screenshot of the YAML to clipboard feature in the Kuma GUI" style="padding-top: 20px; padding-bottom: 10px;"/>
+</center>
 
 ### What’s to come
 The GUI will eventually serve as a hub to view various metrics, such as latency and number of requests (total and per entity). We will also have charts and other visual tools for measuring and monitoring performance.
@@ -489,6 +606,10 @@ curl http://localhost:5681/config
   },
   "guiServer": {
     "port": 5683
+  },
+  "monitoringAssignmentServer": {
+    "assignmentRefreshInterval": "1s",
+    "grpcPort": 5676
   },
   "reports": {
     "enabled": true
@@ -1711,6 +1832,7 @@ This pair can be used for auth-method `cert` described [here](https://www.postgr
 
 When `kuma-cp` starts up, by default it listens on a few ports:
 
+* `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
 * `5677`: the SDS server being used for propagating mTLS certificates across the data-planes.
 * `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
 * `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
