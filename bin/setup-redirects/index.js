@@ -20,19 +20,11 @@ to = "/docs/${latest}/"
 status = 301
 force = false
 
-# Newsletter Pardot Form: SUCCESSFUL submission
+# Newsletter Pardot form queries
 [[redirects]]
-from = "/"
-query = {form_success = "true"}
-to = "/?form_success=true"
-status = 301
-force = false
-
-# Newsletter Pardot Form: UNSUCCESSFUL submission
-[[redirects]]
-from = "/"
-query = {form_success = "false"}
-to = "/?form_success=false"
+from = "/*"
+query = {form_success = ":value"}
+to = "/?form_success=:value"
 status = 301
 force = false
 
