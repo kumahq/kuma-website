@@ -34,9 +34,9 @@
           type="hidden"
         />
         <!-- LIVE -->
-        <!-- <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpoint"> -->
+        <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpoint">
         <!-- DEV -->
-        <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpointDev"/>
+        <!-- <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpointDev"/> -->
         <label for="input_email" class="sr-only">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }">
           <input v-model="formData.email" id="email" name="email" type="email" />
