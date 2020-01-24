@@ -20,6 +20,21 @@ to = "/index.html"
 status = 200
 force = false
 
+# Form redirects
+[[redirects]]
+from = "/"
+query = {:form_success = "true"}
+to = "/form-success.html"
+status = 301
+force = true
+
+[[redirects]]
+from = "/"
+query = {:form_success = "false"}
+to = "/form-error.html"
+status = 301
+force = true
+
 # Docs redirect
 [[redirects]]
 from = "/docs/"
