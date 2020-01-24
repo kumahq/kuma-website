@@ -24,6 +24,7 @@
       > -->
       <form
         class="form-horizontal"
+        method="post"
         :action="getNewsletterPardotEndpoint"
       >
         <input
