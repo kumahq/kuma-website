@@ -49,12 +49,16 @@
   background: rgba(#fff, .7);
   border-radius: 3px;
   border: 1px solid $navy-light;
-  font-size: 1.063rem;
+  // font-size: 1.063rem;
 
   form {
     margin-top: 2rem;
     width: 100%;
   }
+}
+
+.content__newsletter-content {
+  font-size: 1.1875rem;
 }
 
 // @keyframes bg-scroll {
