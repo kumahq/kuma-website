@@ -13,18 +13,17 @@ fs.readFile(releases, "utf8", (err, data) => {
   const latest = latestSemver(JSON.parse(data));
 
   // setup the content template
-  const template = `# Docs redirect
+  const template = `# Proper Vue routing
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+force = false
+
+# Docs redirect
 [[redirects]]
 from = "/docs/"
 to = "/docs/${latest}/"
-status = 301
-force = false
-
-# Newsletter Pardot form queries
-[[redirects]]
-from = "/*"
-query = {form_success = ":value"}
-to = "/?form_success=:value"
 status = 301
 force = false
 
