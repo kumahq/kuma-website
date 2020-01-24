@@ -14,12 +14,6 @@ fs.readFile(releases, "utf8", (err, data) => {
 
   // setup the content template
   const template = `# Proper Vue routing
-[[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
-force = false
-
 # Docs redirect
 [[redirects]]
 from = "/docs/"
