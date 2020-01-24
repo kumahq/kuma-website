@@ -23,15 +23,15 @@ force = false
 # Form redirects
 [[redirects]]
 from = "/"
-query = {:form_success = "true"}
-to = "/form-success.html"
+query = {form_success = "true"}
+to = "/newsletter/thank-you/"
 status = 301
 force = true
 
 [[redirects]]
 from = "/"
-query = {:form_success = "false"}
-to = "/form-error.html"
+query = {form_success = "false"}
+to = "/newsletter/error/"
 status = 301
 force = true
 
