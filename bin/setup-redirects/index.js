@@ -20,6 +20,19 @@ to = "/index.html"
 status = 200
 force = false
 
+# Form redirect test
+[[redirects]]
+from = "/form-success"
+to = "/?form_success=true"
+status = 301
+force = false
+
+[[redirects]]
+from = "/form-failure"
+to = "/?form_success=false"
+status = 301
+force = false
+
 # Docs redirect
 [[redirects]]
 from = "/docs/"
