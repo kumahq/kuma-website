@@ -24,6 +24,7 @@
       > -->
       <form
         class="form-horizontal"
+        method="post"
         :action="getNewsletterPardotEndpoint"
       >
         <input
@@ -65,7 +66,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import axios from 'axios'
+// import axios from 'axios'
+import jsonp from 'jsonp'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
 
