@@ -191,8 +191,8 @@ $home-feature-icon-bottom-spacing: 1rem;
   border-radius: 100%;
   overflow: hidden;
   margin-right: 1.25rem;
-  width: 5rem;
-  height: 5rem;
+  width: 64px;
+  height: 64px;
 
   img {
     @include img-full;
@@ -221,15 +221,15 @@ $home-feature-icon-bottom-spacing: 1rem;
   display: flex;
   align-items: center;
 
-  &:before {
-    display: block;
-    content: "";
-    background-color: $color-8;
-    width: 8px;
-    height: 8px;
-    transform: rotate(45deg);
-    margin-right: 10px;
-  }
+  // &:before {
+  //   display: block;
+  //   content: "";
+  //   background-color: $color-8;
+  //   width: 8px;
+  //   height: 8px;
+  //   transform: rotate(45deg);
+  //   margin-right: 10px;
+  // }
 }
 
 // Steps

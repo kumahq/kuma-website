@@ -77,7 +77,7 @@ Kuma reduces complexity and accelerates service reliability with an Envoy-based 
 :::
 
 ::: slot testimonial-author
-Luca Maraschi,
+Luca Maraschi
 :::
 
 ::: slot testimonial-author-info
