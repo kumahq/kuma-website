@@ -20,21 +20,6 @@ to = "/index.html"
 status = 200
 force = false
 
-# Form redirects
-[[redirects]]
-from = "/"
-query = {form_success = "true"}
-to = "/newsletter/thank-you/"
-status = 301
-force = true
-
-[[redirects]]
-from = "/"
-query = {form_success = "false"}
-to = "/newsletter/error/"
-status = 301
-force = true
-
 # Docs redirect
 [[redirects]]
 from = "/docs/"
