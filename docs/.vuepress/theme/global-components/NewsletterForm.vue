@@ -66,8 +66,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import axios from 'axios'
-import jsonp from 'jsonp'
+import axios from 'axios'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
 
