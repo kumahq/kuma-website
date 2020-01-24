@@ -20,6 +20,14 @@ to = "/docs/${latest}/"
 status = 301
 force = false
 
+# Newsletter Pardot form queries
+[[redirects]]
+from = "/*"
+query = {form_success = ":value"}
+to = "/?form_success=:value"
+status = 301
+force = false
+
 # Install redirect
 [[redirects]]
 from = "/install/"

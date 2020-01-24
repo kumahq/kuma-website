@@ -4,7 +4,7 @@
     <header v-if="$page.frontmatter.title" class="page-header text-center bg-gradient">
       <div class="inner">
         <h1>{{ $page.frontmatter.title }}</h1>
-        <p v-if="$page.frontmatter.title" class="page-sub-title">{{ $page.frontmatter.subTitle }}</p>
+        <p v-if="$page.frontmatter.subTitle" class="page-sub-title">{{ $page.frontmatter.subTitle }}</p>
       </div>
       <!-- .inner -->
     </header>
