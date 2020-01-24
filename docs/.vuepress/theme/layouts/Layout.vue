@@ -51,6 +51,9 @@ import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
 import { resolveSidebarItems, redirectToLatestVersion } from '../util'
 
+// reusable page template
+import Shell from '@theme/components/custom/Shell.vue'
+
 // specific page templates
 import Home from '@theme/components/custom/Home.vue'
 import Install from '@theme/components/custom/Install.vue'
@@ -63,6 +66,7 @@ export default {
     Page,
     Sidebar,
     Navbar,
+    Shell,
     Home,
     Install,
     Community,
