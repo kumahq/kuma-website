@@ -24,7 +24,7 @@
 
     <div class="product-features-wrap">
       <div
-        v-if="!$page.frontmatter.hideNews"
+        v-if="$page.frontmatter.showNews"
         class="newsbar-wrap"
       >
         <Content
@@ -51,7 +51,7 @@
     </div>
     <!-- .features-wrap -->
 
-    <div v-if="$page.frontmatter.hideTestimonial" class="testimonial-wrap">
+    <div v-if="$page.frontmatter.showTestimonial" class="testimonial-wrap">
       <div class="inner testimonial">
         <blockquote class="testimonial__content-wrap">
           <Content slot-key="testimonial-content" />
