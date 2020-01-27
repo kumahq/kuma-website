@@ -1828,7 +1828,13 @@ hostssl all             all             0.0.0.0/0               password
 You can also provide client key and certificate for mTLS using `KUMA_STORE_POSTGRES_TLS_CERT_PATH` and `KUMA_STORE_POSTGRES_TLS_KEY_PATH`.
 This pair can be used for auth-method `cert` described [here](https://www.postgresql.org/docs/9.1/auth-pg-hba-conf.html).
 
-## Ports
+## Networking
+
+Kuma - being an application that wants to improve the underlying connectivity between your services and make the network agnostic to the developers - also comes with some networking requirements itself.
+
+### kuma-cp ports
+
+First and foremost, the `kuma-cp` application is a server that offers a number of services - some meant for internal consumption by `kuma-dp` data-planes, some meant for external consumption by a client.
 
 When `kuma-cp` starts up, by default it listens on a few ports:
 
@@ -1841,8 +1847,40 @@ When `kuma-cp` starts up, by default it listens on a few ports:
 * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
 * `5683`: the HTTP server that exposes Kuma UI.
 
-## Quickstart
+### kuma-dp ports
 
-The getting started for Kuma can be found in the [installation page](/install/0.3.2) where you can follow the instructions to get up and running with Kuma.
+When we start a data-plane via `kuma-dp` we expect all the inbound and outbound service traffic to go through it. The inbound and outbound ports are defined in the [dataplane specification](#dataplane-specification) when running in universal mode, while on Kubernetes the service traffic always runs on port `15001`.
 
-If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.
+In addition to the service traffic ports, the data-plane automatically also opens the `envoy` [administration interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) service on the following ports:
+
+* On Kubernetes, by default on port `9901`.
+* On Universal, by default on the first available port greater or equal than `30001`.
+
+The Envoy administration interface can also be manually configured to listen on any arbitraty port by specifying the `--admin-port` argument when running `kuma-dp`.
+
+### Service Discovery
+
+Here we are going to be exploring the communication between `kuma-dp` and `kuma-cp`, and the communication between multiple `kuma-dp` to handle our service traffic.
+
+Every time a data-plane (served by `kuma-dp`) registers itself to Kuma, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest configuration and share data to the control-plane. 
+
+::: tip
+The connection between the data-planes and the control-plane is not on the execution path of the service requests, which means that if the data-plane temporarily loses connection to the control-plane the service traffic won't be affected.
+:::
+
+While doing so, the data-planes also advertise the IP address of each service. The IP address is retrieved:
+
+* On Kubernetes by looking at the address of the `Pod`.
+* On Universal by looking at the inbound listeners that have been configured in the [`inbound` property](#dataplane-specification) of the data-plane specification.
+
+The IP address that's being advertised by every data-plane to the control-plane is also being used to route service traffic from one `kuma-dp` to another `kuma-dp`. This means that Kuma knows at any given time what are all the IP addresses associated to every replica of every service.
+
+Because Kuma by design already knows the address to every data-plane - and therefore to every service - it is not required to use Kuma with a third-party service discovery tool or dns resolver, because such tools would not give Kuma any additional information than the one it already knows.
+
+In order for connectivity to work among the `kuma-dp` instances, Kuma also assumes a flat network topology: this means that every data-plane must be able to consume another data-plane by directly sending requests to its IP address. This is true also in the case of multi-region or multi-datacenter setups.
+
+<center>
+<img src="/images/docs/0.3.2/diagram-16.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+As illustrated in the picture above, every `kuma-dp` must be able to consume every other `kuma-dp` on the specific ports that govern service traffic, as described in the `kuma-dp` [ports section](#kuma-dp-ports).

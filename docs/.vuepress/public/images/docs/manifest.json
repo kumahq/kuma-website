@@ -347,6 +347,20 @@
       "name": "0.3.2",
       "children": [
         {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/diagram-14.jpg",
+          "name": "diagram-14.jpg",
+          "size": 144304,
+          "extension": ".jpg",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.3.2/diagram-16.jpg",
+          "name": "diagram-16.jpg",
+          "size": 163359,
+          "extension": ".jpg",
+          "type": "file"
+        },
+        {
           "path": "docs/.vuepress/public/images/docs/0.3.2/gui-dataplanes-table.png",
           "name": "gui-dataplanes-table.png",
           "size": 181416,
@@ -382,10 +396,10 @@
           "type": "file"
         }
       ],
-      "size": 1357185,
+      "size": 1664848,
       "type": "directory"
     }
   ],
-  "size": 3626105,
+  "size": 3933768,
   "type": "directory"
 }

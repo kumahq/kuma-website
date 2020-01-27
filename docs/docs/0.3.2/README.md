@@ -57,6 +57,10 @@ In the latter scenario - when delegating network management to another process -
 
 While having data planes deployed alongside our services helps with the network concerns we have described earlier, it introduces a new problem: managing so many data planes becomes challenging, and when we want to update our network policies we certainly don't want to manually reconfigure each one of them. In short, we need a source of truth that can collect all of our configuration - segmented by service or other properties - and then push the configuration to the individual data planes whenever required. This component is called the control plane: it controls the data planes and - unlike the data planes - it doesn't sit on the execution path of the service traffic.
 
+<center>
+<img src="/images/docs/0.3.2/diagram-14.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
 We are going to be having many data planes connected to the control plane in order to always propagate the latest configuration, while simultaneously processing the service-to-service traffic among our infrastructure. Kuma is a control plane (and it is being shipped in a `kuma-cp` binary) while Envoy is a data plane proxy (shipped as an `envoy` binary). When using Kuma we don't have to worry about learning to use Envoy, because Kuma abstracts away that complexity by bundling Envoy into another binary called `kuma-dp` (`kuma-dp` under the hood will invoke the `envoy` binary but that complexity is hidden from you, the end user of Kuma).
 
 Service Mesh does not introduce new concerns or use-cases: it addresses a concern that we are already taking care of (usually by writing more code, if we are doing anything at all): dealing with the connectivity in our network. 
@@ -156,3 +160,9 @@ Unlike other control planes, Kuma natively runs across every platform - Kubernet
 Unlike other control planes, Kuma is easy to use. Anybody - from any team - can implement Kuma in [three simple steps](/install/0.3.2) across both traditional monolithic applications and modern microservices.
 
 Finally, by leveraging out-of-the-box policies and Kuma's powerful tagging selectors, we can implement a variety of behaviors in a variety of topologies, similar to multi-cloud and multi-region architectures.
+
+## Quickstart
+
+The getting started for Kuma can be found in the [installation page](/install/0.3.2) where you can follow the instructions to get up and running with Kuma.
+
+If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.
