@@ -10,10 +10,10 @@ meta:
     content: service mesh microservices open-source
 
 # custom page data
-testimonialPortraitSrc: /images/matt-klein-cropped@2x.jpg
-testimonialPortraitAlt: Matt Klein
-hideTestimonial: false # change this to `true` if you want to display the testimonial
-hideNews: false # change this to `true` if you want to display the news bar
+testimonialPortraitSrc: /images/luca-maraschi-cropped@2x.png
+testimonialPortraitAlt: Portrait photo of Luca Maraschi
+showTestimonial: true # change this to `true` if you want to display the testimonial
+showNews: true # change this to `true` if you want to display the news bar
 ---
 
 ::: slot news
@@ -73,16 +73,15 @@ Kuma can run anywhere, on Kubernetes and VMs, in the cloud or on-premise, in sin
 <!-- testimonial -->
 
 ::: slot testimonial-content
-Kuma brings Kong's proven enterprise developer focus to an Envoy based service mesh, which will make it faster and easier
-for companies to create and manage cloud-native applications.
+Kuma reduces complexity and accelerates service reliability with an Envoy-based Service Mesh
 :::
 
 ::: slot testimonial-author
-Matt Klein,
+Luca Maraschi
 :::
 
 ::: slot testimonial-author-info
-Envoy Proxy Creator, Engineer at Lyft
+Chief Architect at Telus Digital
 :::
 
 <!-- tabs -->

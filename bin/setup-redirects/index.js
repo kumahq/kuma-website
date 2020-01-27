@@ -13,7 +13,8 @@ fs.readFile(releases, "utf8", (err, data) => {
   const latest = latestSemver(JSON.parse(data));
 
   // setup the content template
-  const template = `# Docs redirect
+  const template = `# Proper Vue routing
+# Docs redirect
 [[redirects]]
 from = "/docs/"
 to = "/docs/${latest}/"

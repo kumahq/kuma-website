@@ -52,8 +52,9 @@ $home-feature-icon-bottom-spacing: 1rem;
   > * {
     color: $navy;
     font-family: $base-font-family;
-    font-weight: normal;
-    font-size: 2rem;
+    // font-weight: normal;
+    // font-size: 2rem;
+    font-size: 1.875rem;
   }
 }
 
@@ -113,9 +114,8 @@ $home-feature-icon-bottom-spacing: 1rem;
     padding: 0;
   }
 
-  p {
-    margin: 0;
-    padding: 0;
+  h3 {
+    font-size: 1.1875rem;
   }
 
   // individual content blocks
@@ -175,7 +175,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 .content__testimonial-content {
   border: 0;
   // font-size: 1.438rem;
-  font-size: 1.2rem;
+  font-size: 1.1875rem;
 
   > p {
     @include quotify;
@@ -191,8 +191,8 @@ $home-feature-icon-bottom-spacing: 1rem;
   border-radius: 100%;
   overflow: hidden;
   margin-right: 1.25rem;
-  width: 5rem;
-  height: 5rem;
+  width: 64px;
+  height: 64px;
 
   img {
     @include img-full;
@@ -221,15 +221,15 @@ $home-feature-icon-bottom-spacing: 1rem;
   display: flex;
   align-items: center;
 
-  &:before {
-    display: block;
-    content: "";
-    background-color: $color-8;
-    width: 8px;
-    height: 8px;
-    transform: rotate(45deg);
-    margin-right: 10px;
-  }
+  // &:before {
+  //   display: block;
+  //   content: "";
+  //   background-color: $color-8;
+  //   width: 8px;
+  //   height: 8px;
+  //   transform: rotate(45deg);
+  //   margin-right: 10px;
+  // }
 }
 
 // Steps
@@ -371,6 +371,8 @@ $home-feature-icon-bottom-spacing: 1rem;
 
   .content__tabs-section-title h2 {
     margin: 0;
+    font-size: 1.875rem;
+    font-weight: 500;
   }
 }
 
@@ -450,9 +452,10 @@ $home-feature-icon-bottom-spacing: 1rem;
   text-align: center;
 
   h4 {
-    font-size: 0.875rem;
     text-transform: uppercase;
     color: $color-4;
+    // font-size: 0.875rem;
+    font-size: 1.1875rem;
     margin-bottom: 2.188rem;
   }
 
