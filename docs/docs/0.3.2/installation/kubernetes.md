@@ -65,6 +65,24 @@ spec:
       builtin: {}" | ./kubectl apply -f -
 ```
 
+With mTLS enabled, all traffic is restricted by default unless we specify a [Traffic Permission](/docs/0.3.2/policies/#traffic-permissions) policy that enables it again. For example, we can apply the following permissive policy to enable all traffic across every data-plane again:
+
+```sh
+$ echo "apiVersion: kuma.io/v1alpha1
+kind: TrafficPermission
+mesh: default
+metadata:
+  namespace: default
+  name: enable-all-traffic
+spec:
+  sources:
+    - match:
+        service: '*'
+  destinations:
+    - match:
+        service: '*'" | ./kubectl apply -f -
+```
+
 ## 4. Done!
 
 ::: tip
@@ -75,12 +93,17 @@ $ ./kumactl config control-planes add --name=XYZ --address=http://address.to.kum
 ```
 :::
 
-You can now review the entities created by Kuma by using the [`kumactl`](/docs/0.3.2/documentation/#kumactl) CLI. For example you can list the Meshes:
+You can now review the entities created by Kuma by using the [`kumactl`](/docs/0.3.2/documentation/#kumactl) CLI. For example you can list the Meshes and the Traffic Permissions:
 
 ```sh
 $ ./kumactl get meshes
 NAME
 default
+
+
+$ ./kumactl get traffic-permissions
+MESH      NAME
+default   enable-all-traffic
 ```
 
 and you can list the data-planes that have been registered, and their status:
