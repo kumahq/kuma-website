@@ -1830,7 +1830,7 @@ This pair can be used for auth-method `cert` described [here](https://www.postgr
 
 ## Networking
 
-Kuma - being an application that wants to improve the underlying connectivity between your services and make the network agnostic to the developers - also comes with some networking requirements itself.
+Kuma - being an application that wants to improve the underlying connectivity between your services by making the underlying network more reliable - also comes with some networking requirements itself.
 
 ### kuma-cp ports
 
