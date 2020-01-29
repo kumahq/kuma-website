@@ -1862,7 +1862,7 @@ The Envoy administration interface can also be [manually configured](#envoy) to 
 
 Here we are going to be exploring the communication between `kuma-dp` and `kuma-cp`, and the communication between multiple `kuma-dp` to handle our service traffic.
 
-Every time a data-plane (served by `kuma-dp`) connects to the control-plane Kuma, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policiy configuration, and send diagnostic information to the control-plane.
+Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policiy configuration, and send diagnostic information to the control-plane.
 
 ::: tip
 The connection between the data-planes and the control-plane is not on the execution path of the service requests, which means that if the data-plane temporarily loses connection to the control-plane the service traffic won't be affected.
@@ -1875,7 +1875,7 @@ While doing so, the data-planes also advertise the IP address of each service. T
 
 The IP address that's being advertised by every data-plane to the control-plane is also being used to route service traffic from one `kuma-dp` to another `kuma-dp`. This means that Kuma knows at any given time what are all the IP addresses associated to every replica of every service. Another use-case where the IP address of the data-planes is being used is for metrics scraping by Prometheus.
 
-Because Kuma by design already knows the address to every data-plane - and therefore to every service - it is not required to use Kuma with a third-party service discovery tool or dns resolver, because such tools would not give Kuma any additional information than the one it already knows.
+Because Kuma by design already knows the address to every data-plane - and therefore to every service in the mesh - it is not required to use Kuma with a third-party service discovery tool or dns resolver, because such tools would not give Kuma any additional information than the one it already knows.
 
 In order for connectivity to work among the `kuma-dp` instances, Kuma also assumes a flat network topology: this means that every data-plane must be able to consume another data-plane by directly sending requests to its IP address. This is true also in the case of multi-region or multi-datacenter setups.
 
