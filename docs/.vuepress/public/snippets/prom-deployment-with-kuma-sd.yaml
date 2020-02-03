@@ -41,7 +41,7 @@ spec:
         release: my-release
     spec:
       containers:
-      - name: kuma-prometheus-sd
+      - name: kuma-prometheus-sd # <--- Kuma part
         image: kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:0.3.2
         imagePullPolicy: Always
         args:
@@ -106,7 +106,7 @@ spec:
           name: config-volume
         - mountPath: /data
           name: storage-volume
-        - mountPath: "/var/run/kuma.io/prometheus-sd"
+        - mountPath: "/var/run/kuma.io/prometheus-sd" # <--- Kuma part
           name: kuma-prometheus-sd-volume
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -127,5 +127,5 @@ spec:
       - name: storage-volume
         persistentVolumeClaim:
           claimName: my-release-prometheus-server
-      - name: kuma-prometheus-sd-volume
+      - name: kuma-prometheus-sd-volume # <--- Kuma part
         emptyDir: {}

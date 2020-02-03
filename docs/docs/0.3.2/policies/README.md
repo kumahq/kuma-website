@@ -474,8 +474,7 @@ Finally, modify your Prometheus config to use generated file
 - job_name: 'kuma-dataplanes'
   scrape_interval: "5s"
   file_sd_configs:
-  - refresh_interval: 1s
-    files:
+  - files:
     - /var/run/kuma.io/prometheus-sd/kuma.file_sd.json
 ```
 
