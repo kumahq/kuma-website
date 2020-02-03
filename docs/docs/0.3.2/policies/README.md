@@ -396,7 +396,11 @@ As a result, dataplane for this particular `Pod` will expose an HTTP endpoint wi
 
 ##### Configure dataplane discovery by Prometheus
 
-On `kubernetes`, `Kuma` will automatically annotate your `Pod` to be discovered by `Prometheus`, e.g.
+On `kubernetes`, there are two ways of configuring dataplane discovery.
+
+##### Annotations
+
+`Kuma` will automatically annotate your `Pod` to be discovered by `Prometheus`, e.g.
 
 ```yaml
 apiVersion: v1
@@ -424,6 +428,59 @@ In particular, `prometheus.io/*` annotations are part of configuration used by `
 
 If you're using a different way to install `Prometheus` on `kubernetes`, those annotations might not have the desired effect.
 :::
+
+Although it's easy and works without any extra configuration, those annotations supports only one address to scrape.
+If you also have an application next to Kuma DP which exposes metrics through `prometheus.io/*` annotations,
+you have to use the other way to expose metrics for both the application and Kuma DP.
+
+##### Kuma Prometheus SD
+
+You can deploy `kuma-prometheus-sd` container next to you Prometheus instance just like in Universal setup.
+
+First, add a volume to your Prometheus deployment to which `kuma-prometheus-sd` will write a file with the list of the dataplanes and from which `Prometheus` will read the list.
+
+```yaml
+volumes:
+- name: kuma-prometheus-sd-volume
+  emptyDir: {}
+```
+
+Then add a new container with `kuma-prometheus-sd`. It will connect to the control plane at given address and produce file to `/var/run/kuma.io/prometheus-sd/kuma.file_sd.json` in created volume.
+
+```yaml
+  containers:
+- name: kuma-prometheus-sd
+  image: kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:0.3.2
+  imagePullPolicy: Always
+  args:
+    - run
+    - --name=kuma-prometheus-sd
+    - --cp-address=http://kuma-control-plane.kuma-system:5681
+    - --output-file=/var/run/kuma.io/prometheus-sd/kuma.file_sd.json
+  volumeMounts:
+    - mountPath: "/var/run/kuma.io/prometheus-sd"
+      name: kuma-prometheus-sd-volume
+```
+
+Next step is to mount the volume to the Prometheus container
+```yaml
+volumeMounts:
+- mountPath: "/var/run/kuma.io/prometheus-sd"
+  name: kuma-prometheus-sd-volume
+```
+
+Finally, modify your Prometheus config to use generated file
+```yaml
+- job_name: 'kuma-dataplanes'
+  scrape_interval: "5s"
+  file_sd_configs:
+  - files:
+    - /var/run/kuma.io/prometheus-sd/kuma.file_sd.json
+```
+
+Refer to full example of the [deployment](/snippets/prom-deployment-with-kuma-sd.yaml) and the [configuration](/snippets/prom-configmap.yaml).
+
+In this way of integrating Kuma with Prometheus, you can still use `prometheus.io/*` for your applications.
 
 ## Traffic Tracing
 
