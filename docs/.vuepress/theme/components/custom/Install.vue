@@ -4,7 +4,7 @@
     <header class="page-header text-center bg-gradient">
       
       <div class="inner">
-        <h1>Install {{$site.title}}</h1>
+        <h1>Install {{ $site.title }}</h1>
       
         <div v-if="getInstallMethods && getInstallMethods.length" class="version-selector-wrapper">
 

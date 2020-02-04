@@ -1,14 +1,10 @@
 <template>
   <div class="page-container page-container--community">
 
-    <header v-if="$page.frontmatter.pageTitle" class="page-header text-center bg-gradient">
-      <div class="inner">
-        <h1>{{ $page.frontmatter.pageTitle }}</h1>
-        <p v-if="$page.frontmatter.subTitle" class="page-sub-title">{{ $page.frontmatter.subTitle }}</p>
-      </div>
-      <!-- .inner -->
-    </header>
-    <!-- .page-header -->
+    <PageHeader
+      :title="$page.frontmatter.pageTitle"
+      :subTitle="$page.frontmatter.subTitle"
+    />
 
     <div class="inner flex flex-wrap -mx-4">
 
@@ -170,6 +166,7 @@ import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
+import PageHeader from '@theme/global-components/PageHeader'
 
 // required validation
 extend('required', {
@@ -201,7 +198,8 @@ export default {
   },
   components: {
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    PageHeader
   },
   computed: {
     ...mapGetters([

@@ -60,6 +60,7 @@ import Install from '@theme/components/custom/Install.vue'
 import Community from '@theme/components/custom/Community.vue'
 import RequestADemo from '@theme/components/custom/RequestADemo.vue'
 import UseCases from '@theme/components/custom/UseCases.vue'
+import Policies from '@theme/components/custom/Policies.vue'
 
 export default {
   components: {
@@ -71,7 +72,8 @@ export default {
     Install,
     Community,
     RequestADemo,
-    UseCases
+    UseCases,
+    Policies
   },
 
   data () {
