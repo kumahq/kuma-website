@@ -26,6 +26,9 @@ policies:
       - title: Traffic Route
         url: /docs/latest/policies/#traffic-route
         icon: /images/icons/policies/icon-traffic-route@2x.png
+      - title: Kong Gateway
+        url: /docs/latest/documentation/#gateway
+        icon: /images/icons/policies/icon-kong-logo.png
   - section: observability
     sectionTitle: Observability
     sectionSubTitle: Metrics, Logs and Traces
