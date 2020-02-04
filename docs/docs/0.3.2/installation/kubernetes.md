@@ -100,7 +100,6 @@ $ ./kumactl get meshes
 NAME
 default
 
-
 $ ./kumactl get traffic-permissions
 MESH      NAME
 default   enable-all-traffic
