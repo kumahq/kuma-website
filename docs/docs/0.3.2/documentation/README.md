@@ -1733,11 +1733,13 @@ Kuma also supports external CA. By changing the `ca` in the mesh resource to `pr
 type: Mesh
 name: default
 mtls:
-  enabled: true
+  enabled: true  # enable mTLS
   ca:
-    provided: {}
+    provided: {} # use Provided CA (an existing Root CA certificate must be provided by a user)
 ```
 To manage external CAs after you update the mesh resource, `kumactl` now supports a new command: `kumactl manage ca`. With this new command, you can do add and delete certificates.
+
+For further details refer to [Mutual TLS](/docs/0.3.2/policies/#mutual-tls) policy.
 
 ### Dataplane Token
 
