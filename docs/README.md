@@ -125,7 +125,7 @@ You can now deploy your services, which will be automatically injected with a Ku
 ::: slot tab-1-code-block-step-2
 
 ```sh
-$ kubectl apply -f https://raw.githubusercontent.com/Kong/kuma/master/examples/kubernetes/sample-service.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/Kong/kuma-demo/master/kubernetes/kuma-demo-aio.yaml
 ```
 
 :::
