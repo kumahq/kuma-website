@@ -18,7 +18,7 @@ showNews: true # change this to `true` if you want to display the news bar
 
 ::: slot news
 
-Kuma 0.3.2 Released with Prometheus Integration, new Gateway Mode, and much more. [Install Now!](/install)
+Join us on Zoom February 12 at 9AM PST for our first ever Kuma Online Meetup! [Register Now!](https://zoom.us/meeting/register/v5YucOispjgqM1FmEbFjXN3GnlioGbCsFg)
 
 :::
 
