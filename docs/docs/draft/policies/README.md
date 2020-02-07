@@ -476,15 +476,7 @@ logging:
   defaultBackend: file
   backends:
     - name: logstash
-      format: |
-        {
-            "destination": "%UPSTREAM_CLUSTER%",
-            "destinationAddress": "%UPSTREAM_LOCAL_ADDRESS%",
-            "source": "%KUMA_DOWNSTREAM_CLUSTER%",
-            "sourceAddress": "%DOWNSTREAM_REMOTE_ADDRESS%",
-            "bytesReceived": "%BYTES_RECEIVED%",
-            "bytesSent": "%BYTES_SENT%"
-        }
+      format: '{"destination": "%UPSTREAM_CLUSTER%", "destinationAddress": "%UPSTREAM_LOCAL_ADDRESS%", "source": "%KUMA_DOWNSTREAM_CLUSTER%", "sourceAddress": "%DOWNSTREAM_REMOTE_ADDRESS%", "bytesReceived": "%BYTES_RECEIVED%", "bytesSent": "%BYTES_SENT%"}'
       tcp:
         address: 127.0.0.1:5000
     - name: file
@@ -535,15 +527,7 @@ spec:
     defaultBackend: file
     backends:
       - name: logstash
-        format: |
-          {
-              "destination": "%UPSTREAM_CLUSTER%",
-              "destinationAddress": "%UPSTREAM_LOCAL_ADDRESS%",
-              "source": "%KUMA_DOWNSTREAM_CLUSTER%",
-              "sourceAddress": "%DOWNSTREAM_REMOTE_ADDRESS%",
-              "bytesReceived": "%BYTES_RECEIVED%",
-              "bytesSent": "%BYTES_SENT%"
-          }
+        format: '{"destination": "%UPSTREAM_CLUSTER%", "destinationAddress": "%UPSTREAM_LOCAL_ADDRESS%", "source": "%KUMA_DOWNSTREAM_CLUSTER%", "sourceAddress": "%DOWNSTREAM_REMOTE_ADDRESS%", "bytesReceived": "%BYTES_RECEIVED%", "bytesSent": "%BYTES_SENT%"}'
         tcp:
           address: 127.0.0.1:5000
       - name: file
