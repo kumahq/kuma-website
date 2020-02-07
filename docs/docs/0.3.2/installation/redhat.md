@@ -4,7 +4,7 @@
 **Don't forget!** The [Official Documentation](/docs/0.3.2/) of Kuma is a great place to learn about both basic and more advanced topics.
 :::
 
-To install and run Kuma on RedHat execute the following steps:
+To install and run Kuma on RedHat (**x86_64**) execute the following steps:
 
 ## 1. Download and run Kuma
 
