@@ -37,7 +37,7 @@ A minimal Kuma deployment involves one or more instances of the control-plane (`
 * `universal`: when it's being installed on a Linux compatible machine like MacOS, Virtual Machine or Bare Metal. This also includes those instances where Kuma is being installed on a Linux base machine (ie, a Docker image).
 * `kubernetes`: when it's being deployed - well - on Kubernetes.
 
-### Universal mode
+## Universal mode
 
 When running in **Universal** mode, Kuma will require a PostgreSQL database to store its state. The PostgreSQL database and schema will have to be initialized accordingly to the installation instructions.
 
@@ -47,7 +47,7 @@ Unlike `kubernetes` mode, Kuma won't require the `kuma-injector` executable to r
 <img src="/images/docs/0.2.0/diagram-09.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-### Kubernetes mode
+## Kubernetes mode
 
 When running on **Kubernetes**, Kuma will store all of its state and configuration on the underlying Kubernetes API Server, therefore requiring no dependency to store the data. But it requires the `kuma-injector` executable to run in a Pod (only one instance per Kubernetes cluster) so that it can automatically inject `kuma-dp` on any Pod that belongs to a Namespace that includes the following label:
 
@@ -65,7 +65,7 @@ When following the installation instructions, `kuma-injector` will be automatica
 **Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](/docs/0.3.2/policies) with Kuma's CRDs applied via `kubectl`.
 :::
 
-### Last but not least
+## Last but not least
 
 Once the `kuma-cp` process is started, it waits for [data-planes](#dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](/docs/0.3.2/policies).
 

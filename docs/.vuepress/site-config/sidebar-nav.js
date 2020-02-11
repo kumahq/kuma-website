@@ -65,6 +65,7 @@ module.exports = {
         "overview/why-kuma",
         "overview/kuma-vs-xyz",
         "overview/vm-and-k8s-support",
+        "overview/quickstart"
       ]
     },
     {
@@ -74,6 +75,7 @@ module.exports = {
       path: "",
       children: [
         "documentation/introduction",
+        "documentation/overview",
         "documentation/backends",
         "documentation/dependencies",
         "documentation/dps-and-data-model",
