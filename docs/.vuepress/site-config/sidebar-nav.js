@@ -68,7 +68,26 @@ module.exports = {
         "overview/vm-and-k8s-support",
       ]
     },
-    "documentation/",
+    {
+      title: "Documentation",
+      collapsable: true,
+      sidebarDepth: 3,
+      path: "",
+      children: [
+        "",
+        "documentation/backends",
+        "documentation/dependencies",
+        "documentation/dps-and-data-model",
+        "documentation/cli",
+        "documentation/kumactl",
+        "documentation/gui",
+        "documentation/http-api",
+        "documentation/security",
+        "documentation/networking",
+        "documentation/fine-tuning"
+      ]
+    },
+    // "documentation/",
     "policies/",
     "other/"
   ]
