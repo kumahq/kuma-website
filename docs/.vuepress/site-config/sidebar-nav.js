@@ -57,10 +57,9 @@ module.exports = {
     {
       title: "Overview",
       collapsable: true,
-      sidebarDepth: 3,
+      sidebarDepth: 2,
       path: "",
       children: [
-        "", // root page (overview/README.md)
         "overview/what-is-kuma",
         "overview/what-is-a-service-mesh",
         "overview/why-kuma",
@@ -71,10 +70,10 @@ module.exports = {
     {
       title: "Documentation",
       collapsable: true,
-      sidebarDepth: 3,
+      sidebarDepth: 2,
       path: "",
       children: [
-        "", // root page (documentation/README.md)
+        "documentation/introduction",
         "documentation/backends",
         "documentation/dependencies",
         "documentation/dps-and-data-model",
@@ -90,10 +89,10 @@ module.exports = {
     {
       title: "Policies",
       collapsable: true,
-      sidebarDepth: 3,
+      sidebarDepth: 2,
       path: "",
       children: [
-        "", // root page (policies/README.md)
+        "policies/introduction",
         "policies/applying-policies",
         "policies/mesh",
         "policies/mutual-tls",
@@ -111,10 +110,10 @@ module.exports = {
     {
       title: "Other",
       collapsable: true,
-      sidebarDepth: 3,
+      sidebarDepth: 2,
       path: "",
       children: [
-        "", // root page (other/README.md)
+        "other/introduction",
         "other/enterprise",
         "other/license"
       ]
