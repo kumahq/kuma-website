@@ -2,6 +2,8 @@
 title: Why Kuma?
 ---
 
+# Why Kuma?
+
 When building any modern digital application, we will inevitably introduce services that will communicate with each other by making requests on the network. 
 
 For example, think of any application that communicates with a database to store or retrieve data, or think of a more complex microservice-oriented application that makes many requests across different services to execute its operations:

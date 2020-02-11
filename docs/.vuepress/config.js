@@ -2,6 +2,7 @@
  * Tools
  */
 const path = require("path");
+const getSidebarChildren = require("./theme/util/getSidebarChildren");
 
 /**
  * Releases

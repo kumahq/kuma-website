@@ -2,6 +2,8 @@
 title: VM and K8s support
 ---
 
+# VM and K8s support
+
 The platform agnosticity of Kuma enables Service Mesh to the entire organization - and not just Kubernetes - making it a more viable solution for the entire organization.
 
 Until now, Service Mesh has been considered to be the last step of architecture modernization after transitioning to containers and perhaps to Kubernetes. This approach is entirely backwards. It makes the adoption and the business value of Service Mesh available only after implementing other massive transformations that - in the meanwhile - can go wrong.

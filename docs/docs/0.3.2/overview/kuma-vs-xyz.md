@@ -2,6 +2,8 @@
 title: Kuma vs XYZ
 ---
 
+# Kuma vs XYZ
+
 When Service Mesh first became mainstream around 2017, a few control planes were released by small and large organizations in other to support the first implementations of this new architectural pattern.
 
 These control planes captured a lot of enthusiasm in the early days, but they all lacked pragmatism into creating a viable journey to Service Mesh adoption within existing organizations. These 1st generation solutions are:

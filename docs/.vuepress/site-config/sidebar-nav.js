@@ -54,7 +54,20 @@ module.exports = {
     "other/"
   ],
   "/docs/0.3.2/": [
-    "",
+    {
+      title: "Overview",
+      collapsable: true,
+      sidebarDepth: 3,
+      path: "",
+      children: [
+        "",
+        "overview/what-is-kuma",
+        "overview/what-is-a-service-mesh",
+        "overview/why-kuma",
+        "overview/kuma-vs-xyz",
+        "overview/vm-and-k8s-support",
+      ]
+    },
     "documentation/",
     "policies/",
     "other/"
