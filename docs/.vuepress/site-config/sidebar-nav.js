@@ -60,7 +60,7 @@ module.exports = {
       sidebarDepth: 3,
       path: "",
       children: [
-        "",
+        "", // root page (overview/README.md)
         "overview/what-is-kuma",
         "overview/what-is-a-service-mesh",
         "overview/why-kuma",
@@ -74,7 +74,7 @@ module.exports = {
       sidebarDepth: 3,
       path: "",
       children: [
-        "",
+        "", // root page (documentation/README.md)
         "documentation/backends",
         "documentation/dependencies",
         "documentation/dps-and-data-model",
@@ -87,8 +87,37 @@ module.exports = {
         "documentation/fine-tuning"
       ]
     },
-    // "documentation/",
-    "policies/",
-    "other/"
+    {
+      title: "Policies",
+      collapsable: true,
+      sidebarDepth: 3,
+      path: "",
+      children: [
+        "", // root page (policies/README.md)
+        "policies/applying-policies",
+        "policies/mesh",
+        "policies/mutual-tls",
+        "policies/traffic-permissions",
+        "policies/traffic-route",
+        "policies/traffic-metrics",
+        "policies/traffic-tracing",
+        "policies/traffic-log",
+        "policies/health-check",
+        "policies/proxy-template",
+        "policies/general-notes-about-kuma-policies",
+        "policies/how-kuma-chooses-the-right-policy-to-apply",
+      ]
+    },
+    {
+      title: "Other",
+      collapsable: true,
+      sidebarDepth: 3,
+      path: "",
+      children: [
+        "", // root page (other/README.md)
+        "other/enterprise",
+        "other/license"
+      ]
+    },
   ]
 }
