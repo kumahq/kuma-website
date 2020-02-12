@@ -72,8 +72,14 @@ format to use or the appropriate code style.
 Once you have read them, and you are ready to submit your Pull Request, be sure
 to verify a few things:
 
-- Your work was based on the appropriate branch (`master` vs. `feature/latest`), 
+- Your work was based on the appropriate branch (`master` or `next` vs. `feature/latest`),
   and you are opening your Pull Request against the appropriate one
+- Updates that affect the current website and current version of the Kuma documentation 
+  should be opened against `master`. Updates that are only going to be effective from the 
+  next version of Kuma should be opened against `next` on the same folder as the current
+  Kuma version. Prior to any new release we will merge all the PRs against `next` into
+  `next`, copy the latest documentation folder into the new release folder, and merge
+  against `master`.
 - Your commit history is clean: changes are atomic and the git message format
   was respected
 - Rebase your work on top of the base branch (seek help online on how to use
