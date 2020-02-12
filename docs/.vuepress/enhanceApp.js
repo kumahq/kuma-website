@@ -38,18 +38,24 @@ export default ({
   })
 
   /**
-   * Created an aliased route to 'latest'
-   * for the Install page
+   * Creates an aliased route to 'latest'
+   * for the Install page. This is not done
+   * within `install-route-builder.js` because
+   * we need to be able to have an alias on the route
+   * and the `additionalPages` feature of VuePress
+   * does not allow `alias` on routes.
    */
+
   router.addRoutes([
     {
       path: '/install/latest/',
       alias: `/install/${siteData.themeConfig.latestVer}/`,
-      component: Layout,
-      meta: {
-        version: siteData.themeConfig.latestVer,
-        layout: 'Install'
-      }
+      name: 'InstallLatest'
+    },
+    {
+      path: '/docs/latest/',
+      alias: `/docs/${siteData.themeConfig.latestVer}/`,
+      name: 'DocsLatest'
     }
   ])
 }

@@ -113,7 +113,6 @@ export default {
         // redirect to the latest release route
         this.$router.push({
           path: '/install/latest/',
-          alias: `/install/${this.getLatestRelease}/`,
           meta: {
             version: this.getLatestRelease
           }

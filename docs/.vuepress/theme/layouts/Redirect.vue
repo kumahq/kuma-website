@@ -30,6 +30,7 @@ export default {
       // the latest version in order to build the redirect
       this.$router.push({
         path: `${this.$page.path}${this.getLatestRelease()}/`
+        // path: `${this.$page.path}${this.getLatestRelease()}/`
       })
     }
   }

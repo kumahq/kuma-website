@@ -112,12 +112,6 @@ export default {
       } else if( fm.layout ) {
         layoutComponent = fm.layout
       /**
-       * or look for a layout defined in
-       * the route meta
-       */
-      } else if( this.$route.meta.layout ) {
-        layoutComponent = this.$route.meta.layout
-      /**
        * otherwise fallback to the Page component
        */
       } else {
