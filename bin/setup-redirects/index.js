@@ -18,28 +18,28 @@ fs.readFile(releases, "utf8", (err, data) => {
 [[redirects]]
 from = "/docs/"
 to = "/docs/${latest}/"
-status = 301
+status = 200
 force = false
 
 # Install redirect
 [[redirects]]
 from = "/install/"
 to = "/install/${latest}/"
-status = 301
+status = 200
 force = false
 
 # Docs: Latest redirect
 [[redirects]]
 from = "/docs/latest/*"
 to = "/docs/${latest}/:splat"
-status = 301
+status = 200
 force = false
 
 # Install: Latest redirect
 [[redirects]]
 from = "/install/latest/*"
 to = "/install/${latest}/:splat"
-status = 301
+status = 200
 force = false`;
 
   // write our redirects to the TOML file
