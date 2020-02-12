@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import store from './theme/store/index'
+import Layout from './theme/layouts/Layout'
 import './theme/styles/styles.scss'
 
 export default ({
@@ -35,4 +36,20 @@ export default ({
       }
     }
   })
+
+  /**
+   * Created an aliased route to 'latest'
+   * for the Install page
+   */
+  router.addRoutes([
+    {
+      path: '/install/latest/',
+      alias: `/install/${siteData.themeConfig.latestVer}/`,
+      component: Layout,
+      meta: {
+        version: siteData.themeConfig.latestVer,
+        layout: 'Install'
+      }
+    }
+  ])
 }
