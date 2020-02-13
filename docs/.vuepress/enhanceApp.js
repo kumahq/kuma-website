@@ -51,11 +51,6 @@ export default ({
       path: '/install/latest/',
       alias: `/install/${siteData.themeConfig.latestVer}/`,
       name: 'InstallLatest'
-    },
-    {
-      path: '/docs/latest/',
-      alias: `/docs/${siteData.themeConfig.latestVer}/`,
-      name: 'DocsLatest'
     }
   ])
 }

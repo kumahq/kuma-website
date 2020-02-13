@@ -16,7 +16,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Redirect',
-  beforeMount() {
+  mounted() {
     this.redirectToLatestReleaseDocs()
   },
   render() {},
@@ -28,10 +28,15 @@ export default {
     redirectToLatestReleaseDocs() {
       // let's fetch the releases data so we can grab
       // the latest version in order to build the redirect
-      this.$router.push({
-        path: `${this.$page.path}${this.getLatestRelease()}/`
-        // path: `${this.$page.path}${this.getLatestRelease()}/`
-      })
+      if(process.env.NODE_ENV !== 'development' && this.$page.path === '/docs/') {
+        this.$router.push({
+          path: `${this.$page.path}/latest/`
+        })
+      } else {
+        this.$router.push({
+          path: `${this.$page.path}${this.getLatestRelease()}/`
+        })
+      }
     }
   }
 }
