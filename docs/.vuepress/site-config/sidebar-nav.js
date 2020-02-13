@@ -1,3 +1,5 @@
+const sidebarDepth = 1
+
 module.exports = {
   "/docs/draft/": [
     "",
@@ -57,7 +59,7 @@ module.exports = {
     {
       title: "Overview",
       collapsable: true,
-      sidebarDepth: 2,
+      sidebarDepth: sidebarDepth,
       path: "",
       children: [
         "overview/what-is-kuma",
@@ -71,7 +73,7 @@ module.exports = {
     {
       title: "Documentation",
       collapsable: true,
-      sidebarDepth: 2,
+      sidebarDepth: sidebarDepth,
       path: "",
       children: [
         "documentation/introduction",
@@ -91,7 +93,7 @@ module.exports = {
     {
       title: "Policies",
       collapsable: true,
-      sidebarDepth: 2,
+      sidebarDepth: sidebarDepth,
       path: "",
       children: [
         "policies/introduction",
@@ -112,7 +114,7 @@ module.exports = {
     {
       title: "Other",
       collapsable: true,
-      sidebarDepth: 2,
+      sidebarDepth: sidebarDepth,
       path: "",
       children: [
         "other/introduction",
