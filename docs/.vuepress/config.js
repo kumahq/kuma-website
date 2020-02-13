@@ -56,7 +56,7 @@ module.exports = {
     // main navigation
     nav: [
       { text: "Policies", link: "/policies/" },
-      { text: "Documentation", link: "/docs/" },
+      { text: "Documentation", link: "/docs/latest/" },
       { text: "Community", link: "/community/" },
       // { text: "Use Cases", link: "/use-cases/" },
       { text: "Enterprise", link: "/enterprise/" },
