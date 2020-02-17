@@ -2,7 +2,7 @@
 
 When Kuma (`kuma-cp`) runs, it will be waiting for the data-planes to connect and register themselves. In order for a data-plane to successfully run, two things have to happen before being executed:
 
-* There must exist at least one [`Mesh`](/docs/0.3.2/policies/#mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
+* There must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
 * There must exist a [`Dataplane`](#dataplane-entity) entity in Kuma **before** the actual data-plane tries to connect to it via `kuma-dp`.
 
 <center>
@@ -123,7 +123,7 @@ A data-plane can have many labels that define its role within your architecture.
 There is one special tag, the `service` tag, that must always be set.
 :::
 
-Tags are important because can be used later on by any [Policy](/docs/0.3.2/policies) that Kuma supports now and in the future. For example, it will be possible to route requests from one region to another assuming there is a `region` tag associated to the data-planes.
+Tags are important because can be used later on by any [Policy](../../policies/introduction) that Kuma supports now and in the future. For example, it will be possible to route requests from one region to another assuming there is a `region` tag associated to the data-planes.
 
 ## Dataplane Specification
 

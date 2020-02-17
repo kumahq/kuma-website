@@ -1212,5 +1212,5 @@ curl -XDELETE http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
 ```
 
 ::: tip
-The [`kumactl`](/kumactl) CLI under the hood makes HTTP requests to this API.
+The [`kumactl`](../kumactl) CLI under the hood makes HTTP requests to this API.
 :::

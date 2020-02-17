@@ -22,7 +22,7 @@ mtls:
 ```
 To manage external CAs after you update the mesh resource, `kumactl` now supports a new command: `kumactl manage ca`. With this new command, you can do add and delete certificates.
 
-For further details refer to [Mutual TLS](/docs/0.3.2/policies/#mutual-tls) policy.
+For further details refer to [Mutual TLS](../../policies/mutual-tls) policy.
 
 ## Dataplane Token
 
@@ -86,11 +86,11 @@ $ kumactl config control-planes add \
 Once a dataplane has proved its identity, it will be allowed to fetch its own identity certificate and a root CA certificate of the mesh.
 When establishing a connection between two dataplanes each side validates each other dataplane certificate confirming the identity using the root CA of the mesh.
 
-mTLS is _not_ enabled by default. To enable it, apply proper settings in [Mesh](/docs/0.3.2/policies/#mesh) policy.
+mTLS is _not_ enabled by default. To enable it, apply proper settings in [Mesh](../../policies/mesh) policy.
 Additionaly, when running on Universal you have to ensure that every dataplane in the mesh has been configured with a Dataplane Token.
 
 ### TrafficPermission
-When mTLS is enabled, every connection between dataplanes is denied by default, so you have to explicitly allow it using [TrafficPermission](/docs/0.3.2/policies/#traffic-permissions).
+When mTLS is enabled, every connection between dataplanes is denied by default, so you have to explicitly allow it using [TrafficPermission](../../policies/traffic-permissions).
 
 ## Postgres
 
