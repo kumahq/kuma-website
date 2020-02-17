@@ -6,7 +6,7 @@
 
 To install and run Kuma on macOS execute the following steps:
 
-## 1. Download and run Kuma
+### 1. Download and run Kuma
 
 You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.3.1-darwin-amd64.tar.gz) or by running:
 
@@ -34,7 +34,7 @@ Kuma automatically creates a [`Mesh`](/docs/0.3.1/policies/#mesh) entity with na
 
 By default this will run Kuma with a `memory` [backend](/docs/0.3.1/documentation/#backends), but you can change this to use PostgreSQL by updating the `conf/kuma-cp.conf` file.
 
-## 2. Start the Data-Plane
+### 2. Start the Data-Plane
 
 ::: tip
 Before starting the sidecar proxy data-plane, the service should **already** be running. For demo purposes, we can start a sample TCP server that comes bundled with Kuma and that echoes back the requests we are sending to it:
@@ -84,7 +84,7 @@ User-Agent: curl/7.54.0
 Accept: */*
 ```
 
-## 3. Apply Policies
+### 3. Apply Policies
 
 Now you can start applying [Policies](/docs/0.3.1/policies) to your `default` Service Mesh, like Mutual TLS:
 
@@ -97,7 +97,7 @@ mtls:
     builtin: {}" | kumactl apply -f -
 ```
 
-## 4. Done!
+### 4. Done!
 
 ::: tip
 You can configure `kumactl` to point to any remote `kuma-cp` instance by running:

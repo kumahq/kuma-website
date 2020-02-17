@@ -6,7 +6,7 @@
 
 To install and run Kuma on Kubernetes execute the following steps:
 
-## 1. Download and run Kuma
+### 1. Download and run Kuma
 
 To run Kuma on Kubernetes, you need to download a compatible version of Kuma for the machine where you will be executing the commands.
 
@@ -36,7 +36,7 @@ $ kumactl install control-plane | kubectl apply -f -
 
 By executing this operation, a new `kuma-system` namespace will be created.
 
-## 2. Start services
+### 2. Start services
 
 On Kubernetes, we can start a simple service by executing the following command:
 
@@ -49,7 +49,7 @@ Note that two things are happening in the YAML file:
 * We are including a `kuma.io/sidecar-injection: enabled` label in the `Namespace` to automatically inject Kuma sidecars into every Pod belonging to the namespace.
 * We are adding a `kuma.io/mesh: default` annotation to determine on what [`Mesh`](/docs/0.3.1/policies/#mesh) the service belongs.
 
-## 3. Apply Policies
+### 3. Apply Policies
 
 Now you can start applying [Policies](/docs/0.3.1/policies) to your `default` Service Mesh, like Mutual TLS:
 
@@ -65,7 +65,7 @@ spec:
       builtin: {}" | kubectl apply -f -
 ```
 
-## 4. Done!
+### 4. Done!
 
 ::: tip
 You can configure `kumactl` to point to any remote `kuma-cp` instance by running:
