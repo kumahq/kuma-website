@@ -112,6 +112,20 @@ module.exports = {
       ]
     },
     {
+      title: "Install",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "installation/centos",
+        "installation/debian",
+        "installation/kubernetes",
+        "installation/macos",
+        "installation/redhat",
+        "installation/ubuntu",
+      ]
+    },
+    {
       title: "Other",
       collapsable: true,
       sidebarDepth: sidebarDepth,
