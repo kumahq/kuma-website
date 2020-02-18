@@ -100,7 +100,7 @@ Currently Kuma only support self-signed certificates (`builtin`). In the future 
 
 ## Traffic Permissions
 
-Traffic Permissions allow you to determine security rules for services that consume other services via their [Tags](/docs/0.1.2/documentation/#tags). It is a very useful policy to increase security in the Mesh and compliance in the organization.
+Traffic Permissions allow you to determine security rules for services that consume other services via their [Tags](../documentation/dps-and-data-model/#tags). It is a very useful policy to increase security in the Mesh and compliance in the organization.
 
 You can determine what source services are **allowed** to consume specific destination services. The `service` field is mandatory in both `sources` and `destinations`.
 
@@ -108,7 +108,7 @@ You can determine what source services are **allowed** to consume specific desti
 In Kuma 0.1.2 the `sources` field only allows for `service` and only `service` will be enforced. This limitation will disappear in the next version of Kuma.
 :::
 
-In the example below, the `destinations` includes not only the `service` property, but also an additional `version` tag. You can include any arbitrary tags to any [`Dataplane`](/docs/0.1.2/documentation/dataplane-specification)
+In the example below, the `destinations` includes not only the `service` property, but also an additional `version` tag. You can include any arbitrary tags to any [`Dataplane`](../documentation/dps-and-data-model/#dataplane-specification)
 
 On Universal:
 
