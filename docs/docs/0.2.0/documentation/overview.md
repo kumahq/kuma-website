@@ -1,6 +1,6 @@
 # Overview
 
-As we have [already learned](/docs/0.2.0), Kuma is a universal control plane that can run across both modern environments like Kubernetes and more traditional VM-based ones.
+As we have [already learned](../), Kuma is a universal control plane that can run across both modern environments like Kubernetes and more traditional VM-based ones.
 
 The first step is obviously to [download and install Kuma](/install/0.2.0) on the platform of your choice. Different distributions will present different installation instructions that follow the best practices for the platform you have selected.
 
@@ -12,11 +12,11 @@ Installing Kuma on Kubernetes is fully automated, while installing Kuma on Linux
 
 There are two main components of Kuma that are very important to understand:
 
-* **Control-Plane**: Kuma is first and foremost a control-plane that will accept user input (you are the user) in order to create and configure [Policies](/docs/0.2.0/policies) like [Service Meshes](/docs/0.2.0/policies/#mesh), and in order to add services and configure their behavior within the Meshes you have created.
+* **Control-Plane**: Kuma is first and foremost a control-plane that will accept user input (you are the user) in order to create and configure [Policies](../../policies/introduction) like [Service Meshes](../../policies/mesh), and in order to add services and configure their behavior within the Meshes you have created.
 * **Data-Plane**: Kuma also bundles a data-plane implementation based on top of [Envoy](https://www.envoyproxy.io/) for convenience, in order to get up and running quickly. An instance of the data-plane will run alongside every instance of our services, and it will process both incoming and outgoing requests for the service.
 
 ::: tip
-**Multi-Mesh**: Kuma ships with multi-tenancy support since day one. This means you can create and configure multiple isolated Service Meshes from **one** control-plane. By doing so we lower the complexity and the operational cost of supporting multiple meshes. [Explore Kuma's Policies](/docs/0.2.0/policies).
+**Multi-Mesh**: Kuma ships with multi-tenancy support since day one. This means you can create and configure multiple isolated Service Meshes from **one** control-plane. By doing so we lower the complexity and the operational cost of supporting multiple meshes. [Explore Kuma's Policies](../../policies/introduction).
 :::
 
 Since Kuma bundles a data-plane in addition to the control-plane, we decided to call the executables `kuma-cp` and `kuma-dp` to differentiate them. Let's take a look at all the executables that ship with Kuma:
@@ -61,12 +61,12 @@ When following the installation instructions, `kuma-injector` will be automatica
 </center>
 
 ::: tip
-**Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](/docs/0.2.0/policies) with Kuma's CRDs applied via `kubectl`.
+**Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](../../policies/introduction) with Kuma's CRDs applied via `kubectl`.
 :::
 
 ### Last but not least
 
-Once the `kuma-cp` process is started, it waits for [data-planes](../../documentation/dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](/docs/0.2.0/policies).
+Once the `kuma-cp` process is started, it waits for [data-planes](../../documentation/dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](../../policies/introduction).
 
 When we look at a typical Kuma installation, at a higher level it works like this:
 

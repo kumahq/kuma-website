@@ -6,4 +6,4 @@
 
 It's time to start using Kuma and build your Service Mesh. In this section you will find the technical material to get up and running 🚀. 
 
-If you haven't read the first [Welcome to Kuma](/docs/0.2.0) section, we strongly suggest to start from here.
+If you haven't read the first [Welcome to Kuma](../) section, we strongly suggest to start from here.
