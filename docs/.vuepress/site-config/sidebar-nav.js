@@ -26,10 +26,76 @@ module.exports = {
     "other/"
   ],
   "/docs/0.2.0/": [
-    "",
-    "documentation/",
-    "policies/",
-    "other/"
+    {
+      title: "Overview",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "overview/what-is-kuma",
+        "overview/why-kuma",
+        "overview/kuma-vs-xyz",
+        "overview/enabling-modernization",
+        "overview/quickstart"
+      ]
+    },
+    {
+      title: "Documentation",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "documentation/overview",
+        "documentation/backends",
+        "documentation/dependencies",
+        "documentation/dps-and-data-model",
+        "documentation/cli",
+        "documentation/kumactl",
+        "documentation/http-api",
+        "documentation/ports"
+      ]
+    },
+    {
+      title: "Policies",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "policies/applying-policies",
+        "policies/mesh",
+        "policies/mutual-tls",
+        "policies/traffic-permissions",
+        "policies/traffic-route",
+        "policies/traffic-tracing",
+        "policies/traffic-log",
+        "policies/proxy-template"
+      ]
+    },
+    {
+      title: "Install",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "installation/centos",
+        "installation/debian",
+        "installation/kubernetes",
+        "installation/macos",
+        "installation/redhat",
+        "installation/ubuntu",
+      ]
+    },
+    {
+      title: "Other",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "other/introduction",
+        "other/enterprise",
+        "other/license"
+      ]
+    },
   ],
   "/docs/0.2.1/": [
     {
