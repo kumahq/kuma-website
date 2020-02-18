@@ -77,7 +77,7 @@ When following the installation instructions, `kuma-injector` will be automatica
 
 ### Last but not least
 
-Once the `kuma-cp` process is started, it waits for [data-planes](#dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](/docs/DRAFT/policies).
+Once the `kuma-cp` process is started, it waits for [data-planes](../../documentation/dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](/docs/DRAFT/policies).
 
 When we look at a typical Kuma installation, at a higher level it works like this:
 
