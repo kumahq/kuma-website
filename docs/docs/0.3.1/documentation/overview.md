@@ -16,7 +16,7 @@ There are two main components of Kuma that are very important to understand:
 * **Data-Plane**: Kuma also bundles a data-plane implementation based on top of [Envoy](https://www.envoyproxy.io/) for convenience, in order to get up and running quickly. An instance of the data-plane will run alongside every instance of our services, and it will process both incoming and outgoing requests for the service.
 
 ::: tip
-**Multi-Tenancy**: Kuma ships with multi-tenancy support since day one. This means you can create and configure multiple isolated Service Meshes from **one** control-plane. By doing so we lower the complexity and the operational cost of supporting multiple meshes. [Explore Kuma's Policies](../../policies).
+**Multi-Tenancy**: Kuma ships with multi-tenancy support since day one. This means you can create and configure multiple isolated Service Meshes from **one** control-plane. By doing so we lower the complexity and the operational cost of supporting multiple meshes. [Explore Kuma's Policies](../../policies/introduction).
 :::
 
 Since Kuma bundles a data-plane in addition to the control-plane, we decided to call the executables `kuma-cp` and `kuma-dp` to differentiate them. Let's take a look at all the executables that ship with Kuma:
@@ -61,12 +61,12 @@ When following the installation instructions, `kuma-injector` will be automatica
 </center>
 
 ::: tip
-**Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](../../policies) with Kuma's CRDs applied via `kubectl`.
+**Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](../../policies/introduction) with Kuma's CRDs applied via `kubectl`.
 :::
 
 ### Last but not least
 
-Once the `kuma-cp` process is started, it waits for [data-planes](../dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](../../policies).
+Once the `kuma-cp` process is started, it waits for [data-planes](../dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](../../policies/introduction).
 
 When we look at a typical Kuma installation, at a higher level it works like this:
 
