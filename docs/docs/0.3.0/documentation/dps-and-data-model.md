@@ -2,7 +2,7 @@
 
 When Kuma (`kuma-cp`) runs, it will be waiting for the data-planes to connect and register themselves. In order for a data-plane to successfully run, two things have to happen before being executed:
 
-* There must exist at least one [`Mesh`](/docs/0.3.0/policies/#mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
+* There must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
 * There must exist a [`Dataplane`](#dataplane-entity) entity in Kuma **before** the actual data-plane tries to connect to it via `kuma-dp`.
 
 <center>
@@ -13,7 +13,7 @@ When Kuma (`kuma-cp`) runs, it will be waiting for the data-planes to connect an
 On Universal the [`Dataplane`](#dataplane-entity) entity must be **manually** created before starting `kuma-dp`, on Kubernetes it is **automatically** created.
 :::
 
-### Dataplane Entity
+## Dataplane Entity
 
 A `Dataplane` entity must be created on the CP `kuma-cp` before a `kuma-dp` instance attempts to connect to the control-plane. On Kubernetes, this operation is fully **automated**. On Universal, it must be executed **manually**.
 
@@ -97,11 +97,11 @@ In order for the `backend` service to successfully consume `redis`, we specify a
 As mentioned before, this is only required in Universal. In Kubernetes no change to our applications are required thanks to automated transparent proxying.
 :::
 
-### Envoy
+## Envoy
 
 Since `kuma-dp` is built on top of Envoy, you can enable the [Envoy HTTP API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) by starting `kuma-dp` with an additional `KUMA_DATAPLANE_ADMIN_PORT=9901` environment variable (or by setting the `--admin-port=9901` argument). This can be very useful for debugging purposes.
 
-### Tags
+## Tags
 
 A data-plane can have many labels that define its role within your architecture. It is obviously associated to a service, but can also have some other properties that we might want to define. For example, if it runs in a specific world region, or a specific cloud vendor. In Kuma these labels are called `tags` and they are being set in the [`Dataplane`](#dataplane-entity) entity.
 
@@ -109,9 +109,9 @@ A data-plane can have many labels that define its role within your architecture.
 There is one special tag, the `service` tag, that must always be set.
 :::
 
-Tags are important because can be used later on by any [Policy](/docs/0.3.0/policies) that Kuma supports now and in the future. For example, it will be possible to route requests from one region to another assuming there is a `region` tag associated to the data-planes.
+Tags are important because can be used later on by any [Policy](../../policies/introduction) that Kuma supports now and in the future. For example, it will be possible to route requests from one region to another assuming there is a `region` tag associated to the data-planes.
 
-### Dataplane Specification
+## Dataplane Specification
 
 The [`Dataplane`](#dataplane-entity) entity includes the networking and naming configuration that a data-plane proxy (`kuma-dp`) must have attempting to connect to the control-plane (`kuma-cp`).
 
@@ -148,7 +148,7 @@ The `Dataplane` entity includes a few sections:
 On Kubernetes this whole process is automated via transparent proxying and without changing your application's code. On Universal Kuma doesn't support transparent proxying yet, and the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity. This also means that in Universal **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
 :::
 
-### Kubernetes 
+## Kubernetes 
 
 On Kubernetes the data-planes are automatically injected via the `kuma-injector` executable as long as the K8s Namespace includes the following label:
 
