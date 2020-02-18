@@ -1,7 +1,7 @@
 # Kubernetes
 
 ::: tip
-**Don't forget!** The [Official Documentation](/docs/0.3.2/) of Kuma is a great place to learn about both basic and more advanced topics.
+**Don't forget!** The [Official Documentation](../) of Kuma is a great place to learn about both basic and more advanced topics.
 :::
 
 To install and run Kuma on Kubernetes execute the following steps:
@@ -47,11 +47,11 @@ On Kubernetes, we can start a simple service by executing the following command:
 Note that two things are happening in the YAML file:
 
 * We are including a `kuma.io/sidecar-injection: enabled` label in the `Namespace` to automatically inject Kuma sidecars into every Pod belonging to the namespace.
-* We are adding a `kuma.io/mesh: default` annotation to determine on what [`Mesh`](/docs/0.3.2/policies/#mesh) the service belongs.
+* We are adding a `kuma.io/mesh: default` annotation to determine on what [`Mesh`](../../policies/mesh) the service belongs.
 
 ### 3. Apply Policies
 
-Now you can start applying [Policies](/docs/0.3.2/policies) to your `default` Service Mesh, like Mutual TLS:
+Now you can start applying [Policies](../../policies/introduction) to your `default` Service Mesh, like Mutual TLS:
 
 ```sh
 $ echo "apiVersion: kuma.io/v1alpha1
@@ -65,7 +65,7 @@ spec:
       builtin: {}" | ./kubectl apply -f -
 ```
 
-With mTLS enabled, all traffic is restricted by default unless we specify a [Traffic Permission](/docs/0.3.2/policies/#traffic-permissions) policy that enables it again. For example, we can apply the following permissive policy to enable all traffic across every data-plane again:
+With mTLS enabled, all traffic is restricted by default unless we specify a [Traffic Permission](../../policies/traffic-permissions) policy that enables it again. For example, we can apply the following permissive policy to enable all traffic across every data-plane again:
 
 ```sh
 $ echo "apiVersion: kuma.io/v1alpha1
@@ -93,7 +93,7 @@ $ ./kumactl config control-planes add --name=XYZ --address=http://address.to.kum
 ```
 :::
 
-You can now review the entities created by Kuma by using the [`kumactl`](/docs/0.3.2/documentation/#kumactl) CLI. For example you can list the Meshes and the Traffic Permissions:
+You can now review the entities created by Kuma by using the [`kumactl`](../../documentation/kumactl) CLI. For example you can list the Meshes and the Traffic Permissions:
 
 ```sh
 $ ./kumactl get meshes
