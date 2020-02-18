@@ -7,9 +7,3 @@ When `kuma-cp` starts up, by default it listens on a few ports:
 * `5680`: the HTTP server that returns the health status of the control-plane.
 * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when runnning in `universal` - that you can use to apply new policies.
 * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
-
-## Quickstart
-
-The getting started for Kuma can be found in the [installation page](/install/0.2.0) where you can follow the instructions to get up and running with Kuma.
-
-If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.
