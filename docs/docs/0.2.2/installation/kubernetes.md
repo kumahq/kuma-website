@@ -1,7 +1,7 @@
 # Kubernetes
 
 ::: tip
-**Don't forget!** The [Official Documentation](/docs/0.2.2/) of Kuma is a great place to learn about both basic and more advanced topics.
+**Don't forget!** The [Official Documentation](../) of Kuma is a great place to learn about both basic and more advanced topics.
 :::
 
 To install and run Kuma on Kubernetes execute the following steps:
@@ -47,11 +47,11 @@ kubectl apply -f https://raw.githubusercontent.com/Kong/kuma-demo/master/kuberne
 Note that two things are happening in the YAML file:
 
 * We are including a `kuma.io/sidecar-injection: enabled` label in the `Namespace` to automatically inject Kuma sidecars into every Pod belonging to the namespace.
-* We are adding a `kuma.io/mesh: default` annotation to determine on what [`Mesh`](/docs/0.2.2/policies/#mesh) the service belongs.
+* We are adding a `kuma.io/mesh: default` annotation to determine on what [`Mesh`](../../policies/mesh) the service belongs.
 
 ## 3. Apply Policies
 
-Now you can start applying [Policies](/docs/0.2.2/policies) to your `default` Service Mesh, like Mutual TLS:
+Now you can start applying [Policies](../../policies/introduction) to your `default` Service Mesh, like Mutual TLS:
 
 ```sh
 $ echo "apiVersion: kuma.io/v1alpha1
@@ -76,7 +76,7 @@ $ kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:
 ```
 :::
 
-You can now review the entities created by Kuma by using the [`kumactl`](/docs/0.2.2/documentation/#kumactl) CLI. For example you can list the Meshes:
+You can now review the entities created by Kuma by using the [`kumactl`](../../documentation/kumactl) CLI. For example you can list the Meshes:
 
 ```sh
 $ kumactl get meshes
