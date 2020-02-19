@@ -11,6 +11,7 @@ fs.readFile(releases, "utf8", (err, data) => {
 
   // find the latest version in the releases JSON file
   const latest = latestSemver(JSON.parse(data));
+  const docRedirectType = 301;
 
   // setup the content template
   const template = `# Proper Vue routing
@@ -18,7 +19,7 @@ fs.readFile(releases, "utf8", (err, data) => {
 [[redirects]]
 from = "/docs/"
 to = "/docs/${latest}/"
-status = 200
+status = ${docRedirectType}
 force = false
 
 # Install redirect
@@ -32,7 +33,7 @@ force = false
 [[redirects]]
 from = "/docs/latest/*"
 to = "/docs/${latest}/:splat"
-status = 200
+status = ${docRedirectType}
 force = false
 
 # Install: Latest redirect
