@@ -3,7 +3,7 @@
 //
 
 $root-font-size: 100%;
-$base-font-size: 15px;
+$base-font-size: 16px;
 
 // Branding
 $color-1: #3fb764;
@@ -75,7 +75,8 @@ $borderColor: #eaecef;
 $codeBgColor: rgb(251, 251, 251);
 // $codeBgColor: #282c34;
 $sidebarWidth: 16rem; // VuePress default is 20
-$contentWidth: 740px;
+// $contentWidth: 740px;
+$contentWidth: 920px;
 $wrapper: ".content";
 $contentClass: ".theme-default-content";
 $arrowBgColor: #ccc;

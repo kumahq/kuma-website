@@ -2,6 +2,7 @@
 // NavBar.vue
 // 
 
+$navbar-width: $container-width;
 $navbar-logo-height: 2.563rem;
 $navbar-vertical-padding: 1.5rem;
 $navbar-horizontal-padding: 1.5rem;
@@ -90,7 +91,7 @@ $navbar-link-font-family: $base-font-family;
 }
 
 .navbar-inner {
-  max-width: $container-width-compact;
+  max-width: $navbar-width;
   width: 100%;
   margin: 0 auto;
   display: flex;
