@@ -18,7 +18,7 @@ showNews: true # change this to `true` if you want to display the news bar
 
 ::: slot news
 
-Join us on Zoom February 12 at 9AM PST for our first ever Kuma Online Meetup! [Register Now!](https://zoom.us/meeting/register/v5YucOispjgqM1FmEbFjXN3GnlioGbCsFg)
+Join us on Zoom February 25 at 5PM PST for our next Kuma Online Meetup! [Register Now!](https://zoom.us/meeting/register/uJUrc-ygqTgsdRJzMWnV4LVb7-RkEFRnlg)
 
 :::
 
