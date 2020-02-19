@@ -9,6 +9,7 @@ $navbar-horizontal-padding: 1.5rem;
 $navbar-link-border: 2px solid $color-5;
 $navbar-link-font-size: $base-font-size;
 $navbar-link-font-family: $base-font-family;
+$navbar-link-margin: 3rem; // the spacing between navbar links
 
 .navbar {
   height: $navbarHeight;
@@ -41,7 +42,8 @@ $navbar-link-font-family: $base-font-family;
     // position: relative;
     display: none;
   }
-    
+  
+  // container for links in the navbar
   .links {
     padding-left: 1.5rem;
     box-sizing: border-box;
@@ -76,6 +78,12 @@ $navbar-link-font-family: $base-font-family;
   .repo-button {
     // visually-centers the repo button next to the logo
     margin-top: 11px;
+  }
+
+  // nav item links
+
+  .nav-item {
+    margin-left: $navbar-link-margin;
   }
 
   // install button

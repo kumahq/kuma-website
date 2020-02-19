@@ -8,8 +8,8 @@
             <Content slot-key="masthead-sub-title" />
           </header>
           <div class="page-masthead__actions">
-            <router-link to="/install/" class="btn btn--bright">Install</router-link>
-            <router-link to="#why-kuma" class="btn btn--hollow">Why {{ getSiteData.title }}?</router-link>
+            <router-link to="/install/" class="btn btn--bright btn--large">Install</router-link>
+            <router-link to="#why-kuma" class="btn btn--hollow btn--large">Why {{ getSiteData.title }}?</router-link>
           </div>
         </div>
         <!-- .page-masthead -->
