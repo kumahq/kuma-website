@@ -46,7 +46,7 @@ Join us on Zoom February 25 at 5PM PST for our next Kuma Online Meetup! [Registe
 
 ### CRD + RESTful Interface
 
-![Universal Control Plane diagram](/images/diagrams/diagram-universal-cp-rev1@2x.jpg)
+![CRD + RESTful Interface diagram](/images/diagrams/v2/diagram-crd-rest@2x.png)
 
 Built on top of Envoy, Kuma can be fully operated via simple CRDs on Kubernetes or with a RESTful API on other platforms. GUI included.
 
@@ -56,7 +56,7 @@ Built on top of Envoy, Kuma can be fully operated via simple CRDs on Kubernetes 
 
 ### L4 + L7 Policies
 
-![Universal Control Plane diagram](/images/diagrams/diagram-powerful-policies-rev1@2x.jpg)
+![L4 and L7 Policies chart](/images/diagrams/v2/diagram-l4-l7-policies@2x.png)
 
 Connect your Microservices with Kuma, and apply intuitive policies for security, observability, routing, and more in one command.
 :::
@@ -65,7 +65,7 @@ Connect your Microservices with Kuma, and apply intuitive policies for security,
 
 ### Platform Agnostic
 
-![Platform Agnostic diagram](/images/diagrams/diagram-platform-agnostic-rev1@2x.jpg)
+![Platform Agnostic diagram](/images/diagrams/v2/diagram-platform-agnostic@2x.png)
 
 Kuma can run anywhere, on Kubernetes and VMs, in the cloud or on-premise, in single or multi-datacenter setups.
 :::

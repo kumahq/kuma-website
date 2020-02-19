@@ -112,7 +112,7 @@ button, .btn {
 	$border-color-dark: rgba($navy, 0.3);
 	$hover-color: lighten($color-5, 10);
 
-	box-shadow: $base-soft-shadow, inset 0 0 0 1px $border-color;
+	box-shadow: $base-soft-shadow, inset 0 0 0 1.5px $border-color;
 	
 	&, &:focus, &:visited {
 		color: #000 !important;
@@ -124,7 +124,7 @@ button, .btn {
 	
 	&:hover, &:active {
 		color: $hover-color !important;
-		box-shadow: $base-soft-shadow, inset 0 0 0 1px $hover-color;
+		box-shadow: $base-soft-shadow, inset 0 0 0 1.5px $hover-color;
 	}
 }
 

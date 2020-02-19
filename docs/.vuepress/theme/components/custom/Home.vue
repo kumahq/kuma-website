@@ -8,17 +8,20 @@
             <Content slot-key="masthead-sub-title" />
           </header>
           <div class="page-masthead__actions">
-            <router-link to="/install/" class="btn btn--bright btn--large">Install</router-link>
+            <router-link to="/install/" class="btn btn--bright btn--large">Start Now</router-link>
             <router-link to="#why-kuma" class="btn btn--hollow btn--large">Why {{ getSiteData.title }}?</router-link>
           </div>
         </div>
         <!-- .page-masthead -->
 
-        <div class="page-masthead__diagram w-full lg:w-1/2 px-4">
+        <!-- <div class="page-masthead__diagram w-full lg:w-1/2 px-4">
           <Content slot-key="masthead-diagram" />
-        </div>
+        </div> -->
       </div>
       <!-- .inner -->
+
+      <!-- TODO work on proper placement -->
+      <!-- <MastheadWaves id="page-masthead-waves" /> -->
     </div>
     <!-- .page-masthead-wrap -->
 
@@ -192,11 +195,13 @@
 <script>
 import Navbar from "@theme/components/Navbar";
 import TinyTabs from "@theme/components/custom/TinyTabs/VueTinyTabs";
+import MastheadWaves from "@theme/components/custom/PageMastheadWaves";
 
 export default {
   components: {
     Navbar,
-    TinyTabs
+    TinyTabs,
+    MastheadWaves
   }
 };
 </script>

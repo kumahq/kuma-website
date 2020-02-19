@@ -42,6 +42,10 @@
   border-bottom: 1px solid $navy-light;
 }
 
+@mixin gradient-container-alt {
+  background-image: $gradient-5;
+}
+
 @mixin page-section {
   padding: 3.5rem 0;
 }

@@ -32,6 +32,8 @@ $sky-light: #f1f5fc;
 $green-base: #3fa66a;
 $green-dark: #318153;
 $green-light: #e7f6ee;
+$pale-blue: #f5f8fc;
+$pale-blue-2: #668295;
 
 // Misc
 $image-path: "/images/";
@@ -41,10 +43,11 @@ $container-width: $container-width-wide;
 $gutter: 1.875rem; // 30px
 $base-soft-shadow: 0 3px 6px 0 rgba($color-7, 18%);
 $base-border-shadow: 0 0 0 1px $gray-3, $base-soft-shadow;
-$gradient-1: linear-gradient(0deg, #fbfcfe 0%, #f5f8fc 55%);
+$gradient-1: linear-gradient(0deg, #fbfcfe 0%, $pale-blue 55%);
 $gradient-2: linear-gradient(0deg, rgba(#fbfcfe, 0) 0%, #fbfcfe 55%);
 $gradient-3: linear-gradient(180deg, #fff 0%, rgba(#fff, 0) 100%);
-$gradient-4: linear-gradient(0deg, #fff 0%, #f5f8fc 55%);
+$gradient-4: linear-gradient(0deg, #fff 0%, $pale-blue 55%);
+$gradient-5: linear-gradient(to top, #fff 0%, $pale-blue 50%);
 
 $btn-height-base: 40px;
 $btn-radius: $btn-height-base / 2;
