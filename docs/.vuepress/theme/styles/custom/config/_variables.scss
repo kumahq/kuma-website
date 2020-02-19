@@ -36,7 +36,8 @@ $green-light: #e7f6ee;
 // Misc
 $image-path: "/images/";
 $container-width-compact: 65rem; // 1040px
-$container-width: $container-width-compact;
+$container-width-wide: 76rem; // 1216px
+$container-width: $container-width-wide;
 $gutter: 1.875rem; // 30px
 $base-soft-shadow: 0 3px 6px 0 rgba($color-7, 18%);
 $base-border-shadow: 0 0 0 1px $gray-3, $base-soft-shadow;
