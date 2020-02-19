@@ -1,7 +1,7 @@
 # RedHat (x86\_64)
 
 ::: tip
-**Don't forget!** The [Official Documentation](/docs/0.1.2/) of Kuma is a great place to learn about both basic and more advanced topics.
+**Don't forget!** The [Official Documentation](../) of Kuma is a great place to learn about both basic and more advanced topics.
 :::
 
 To install and run Kuma on RedHat execute the following steps:
@@ -30,9 +30,9 @@ To run Kuma execute:
 $ kuma-cp run
 ```
 
-Kuma automatically creates a [`Mesh`](/docs/0.1.2/policies/#mesh) entity with name `default`. 
+Kuma automatically creates a [`Mesh`](../../policies/mesh) entity with name `default`. 
 
-By default this will run Kuma with a `memory` [backend](/docs/0.1.2/documentation/#backends), but you can change this to use PostgreSQL by updating the `conf/kuma-cp.conf` file.
+By default this will run Kuma with a `memory` [backend](../../documentation/backends), but you can change this to use PostgreSQL by updating the `conf/kuma-cp.conf` file.
 
 ## 2. Start the Data-Plane
 
@@ -46,7 +46,7 @@ $ kuma-tcp-echo -port 9000
 You can then consume the service by making requests to `127.0.0.1:9000`, like: `curl http://127.0.0.1:9000/` or `nc 127.0.0.1 9000`
 :::
 
-We now have our control-plane and services running. For each service we can now provision a [`Dataplane Entity`](/docs/0.1.2/documentation/#dataplane-entity) that configures the inbound and outbound networking configuration:
+We now have our control-plane and services running. For each service we can now provision a [`Dataplane Entity`](../documentation/dps-and-data-model/#dataplane-entity) that configures the inbound and outbound networking configuration:
 
 ```bash
 $ echo "type: Dataplane
@@ -80,7 +80,7 @@ Accept: */*
 
 ## 3. Apply Policies
 
-Now you can start applying [Policies](/docs/0.1.2/policies) to your `default` Service Mesh, like Mutual TLS:
+Now you can start applying [Policies](../../policies/introduction) to your `default` Service Mesh, like Mutual TLS:
 
 ```sh
 $ echo "type: Mesh
@@ -103,7 +103,7 @@ $ kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:
 
 If you consume the service again on port `10000`, you will now notice that the communication requires now a TLS connection.
 
-You can now review the entities created by Kuma by using the [`kumactl`](/docs/0.1.2/documentation/#kumactl) CLI. For example you can list the Meshes:
+You can now review the entities created by Kuma by using the [`kumactl`](../../documentation/kumactl) CLI. For example you can list the Meshes:
 
 ```sh
 $ kumactl get meshes

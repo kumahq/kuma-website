@@ -1,18 +1,8 @@
 [
   {
-    "label": "Kubernetes",
-    "logo": "/images/platforms/logo-kubernetes.png",
-    "slug": "kubernetes"
-  },
-  {
     "label": "CentOS",
     "logo": "/images/platforms/logo-centos.gif",
     "slug": "centos"
-  },
-  {
-    "label": "RedHat",
-    "logo": "/images/platforms/logo-redhat.jpg",
-    "slug": "redhat"
   },
   {
     "label": "Debian",
@@ -20,13 +10,23 @@
     "slug": "debian"
   },
   {
-    "label": "Ubuntu",
-    "logo": "/images/platforms/logo-ubuntu.png",
-    "slug": "ubuntu"
+    "label": "Kubernetes",
+    "logo": "/images/platforms/logo-kubernetes.png",
+    "slug": "kubernetes"
   },
   {
     "label": "macOS",
     "logo": "/images/platforms/logo-macos.png",
     "slug": "macos"
+  },
+  {
+    "label": "RedHat",
+    "logo": "/images/platforms/logo-redhat.jpg",
+    "slug": "redhat"
+  },
+  {
+    "label": "Ubuntu",
+    "logo": "/images/platforms/logo-ubuntu.png",
+    "slug": "ubuntu"
   }
 ]

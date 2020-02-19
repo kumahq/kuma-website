@@ -51,7 +51,6 @@ module.exports = {
       indexName: ""
     },
     sidebar: sidebarNav,
-    sidebarDepth: 2,
     displayAllHeaders: true,
     // main navigation
     nav: [
