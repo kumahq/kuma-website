@@ -17,8 +17,11 @@
  *
  */
 
+const LatestSemver = require("latest-semver");
+const releases = require("../public/releases.json")
+const latestVersion = LatestSemver(releases);
+
 module.exports = function() {
-  const releases = require("../public/releases.json")
   const releaseArray = [{
     path: "/install/draft/",
       meta: {
@@ -31,18 +34,26 @@ module.exports = function() {
     }
   ]
 
-  for (let i = 0; i < releases.length; i++) {
-    releaseArray.push({
-      path: `/install/${releases[i]}/`,
-      meta: {
-        version: releases[i]
-      },
-      frontmatter: {
-        sidebar: false,
-        layout: "Install"
-      }
-    });
-  }
+  /**
+   * This builds the URLs for the installation
+   * page. The `latest` route is handled as a raw Vue
+   * route in `enhanceApp.js` so that we can give it 
+   * an `alias`, among other parameters.
+   */
+
+  releases
+    .forEach(item => {
+      releaseArray.push({
+        path: `/install/${item}/`,
+        meta: {
+          version: item
+        },
+        frontmatter: {
+          sidebar: false,
+          layout: "Install"
+        }
+      });
+    })
 
   return releaseArray
 }

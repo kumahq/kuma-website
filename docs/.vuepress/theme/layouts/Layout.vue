@@ -85,20 +85,35 @@ export default {
   computed: {
     layoutComponentSelector() {
 
-      // this function determines which page component
-      // to load. if a markdown file has the `layout`
-      // attribute defined in its frontmatter, this
-      // function will load that template accordingly.
-      // otherwise, it will load the homepage, or
-      // fallback to the default `Page` component.
+      /**
+       * this function determines which page component
+       * to load based on various parameters:
+       * 
+       * 1. is `home` set to true in the frontmatter?
+       * 2. is a custom layout defined in the frontmatter?
+       * 3. does the route have `layout` meta defined?
+       * 4. if none of the above apply, fallback to the Page component
+       * 
+       */
 
       const fm = this.$page.frontmatter
       let layoutComponent
 
+      /**
+       * default to home if `home` is 
+       * set to true in the frontmatter
+       */
       if( fm.home ) {
         layoutComponent = 'Home'
+      /**
+       * or look for the layout defined in
+       * the frontmatter
+       */
       } else if( fm.layout ) {
         layoutComponent = fm.layout
+      /**
+       * otherwise fallback to the Page component
+       */
       } else {
         layoutComponent = 'Page'
       }
