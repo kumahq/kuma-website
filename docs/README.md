@@ -26,7 +26,7 @@ Join us on Zoom February 25 at 5PM PST for our next Kuma Online Meetup! [Registe
 
 ::: slot masthead-main-title
 
-# Build, Secure and Observe<br> your modern Service Mesh
+# The modern control plane<br> for reliable service connectivity
 
 :::
 

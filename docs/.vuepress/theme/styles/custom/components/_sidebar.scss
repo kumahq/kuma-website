@@ -2,6 +2,8 @@
 // Sidebarm, sidebar button
 // 
 
+$sidebar-width: $sidebarWidth; // comes from VuePress core styles
+$sidebar-top-spacing: $navbar-height-large;
 $sidebar-link-active: $color-5;
 $sidebar-link-hover: $color-1;
 $sidebar-link-active-border-color: $color-5;
@@ -34,9 +36,9 @@ $sidebar-button-left-spacing: 1.5rem;
   background: none;
   // background-color: #fff;
   font-size: $base-font-size;
-  width: $sidebarWidth;
+  width: $sidebar-width;
   height: 100vh;
-  padding-top: $navbarHeight;
+  padding-top: $sidebar-top-spacing;
 
   .nav-item {
     margin: 0;

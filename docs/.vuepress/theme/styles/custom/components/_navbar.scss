@@ -20,6 +20,14 @@ $navbar-link-margin: 3rem; // the spacing between navbar links
   display: flex;
   align-items: center;
 
+  // these styles override ones found 
+  // in `vuepress-core/index.scss`
+  height: $navbar-height-large;
+  border-bottom: 0;
+  background: transparent linear-gradient(
+    to bottom, #fff 80%, rgba(#fff, 0)
+  );
+
   a, span, img {
     display: inline-block;
   }
