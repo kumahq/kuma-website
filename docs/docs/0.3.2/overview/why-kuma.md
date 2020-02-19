@@ -29,7 +29,7 @@ Usually, at this point, developers take one of the following actions to remedy t
 
 Since we are going to be having many instances for our services, we are also going to be having an equal number of sidecar proxies: that's a lot of proxies! Therefore the sidecar proxy model **requires** a control plane that allows a team to configure the behavior of the proxies dynamically without having to manually configure them. The data planes will initiate a connection with the control plane in order to receive new configuration, while the control plane will - at runtime - provide them with the most updated configuration.
 
-Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as Kuma. [Compare Kuma with other CPs](#kuma-vs-xyz).
+Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as Kuma. [Compare Kuma with other CPs](../kuma-vs-xyz).
 
 Unlike a data-plane proxy (DP), the control-plane (CP) is never on the execution path of the requests that the services exchange with each other, and it's being used as a source of truth to dynamically configure the underlying data-plane proxies that in the meanwhile ha.
 
@@ -54,4 +54,4 @@ By reducing the code that our teams create and maintain, we can modernize our ap
 <img src="/images/docs/0.2.0/diagram-04.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-[Learn more](#enabling-modernization) about how Kuma enables modernization within our existing architectures.
+[Learn more](../enabling-modernization) about how Kuma enables modernization within our existing architectures.

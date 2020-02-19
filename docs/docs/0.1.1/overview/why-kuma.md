@@ -5,17 +5,17 @@ When building any software architecture, we will inevitably introduce services t
 For example, think of any application that communicates with a database to store or retrieve data, or think of a more complex microservice-oriented application that makes many requests across different services to execute its operations:
 
 <center>
-<img src="/images/docs/0.2.0/diagram-02.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.1.1/diagram-02.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Every time our services communicate over the network, we put the end-user experience at risk. As we all know the network between different services can be slow and unpredictable. It can be insecure, hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments).
+Every time our services interconnect via a network request, we put the end-user experience at risk. As we all know the connectivity between different services can be slow and unpredictable. It can be insecure,  hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments).
 
 Usually, at this point, developers take one of the following actions to remedy the situation:
 
 * **Write more code**: The developers build a *smart* client that every service will have to utilize in the form of a library. Usually, this approach introduces a few problems: 
-  - It creates more technical debt
-  - It is typically language-specific; therefore, it prevents innovation 
-  - Multiple implementations of the library exist, which creates fragmentation in the long run.
+  - it creates more technical debt
+  - it is typically language-specific; therefore, it prevents innovation 
+  - multiple implementations of the library exist, which creates fragmentation in the long run.
 
 * **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. By using this approach, developers don't worry about connectivity and only focus on delivering business value from their services.
 
@@ -28,7 +28,7 @@ The sidecar proxy model **requires** a control plane that allows a team to confi
 Unlike a data-plane (DP), the control-plane (CP) is never on the execution path of the requests that the services exchange with each other, and it's being used to configure the data-planes and retrieve data from them (like observability information).
 
 <center>
-<img src="/images/docs/0.2.0/diagram-03.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.1.1/diagram-03.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ::: tip
@@ -45,7 +45,7 @@ By outsourcing all the connectivity, security, and routing concerns to a sidecar
 By reducing the code that our teams create and maintain, we can modernize our applications piece by piece without ever needing to bite more than we can chew.
 
 <center>
-<img src="/images/docs/0.2.0/diagram-04.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.1.1/diagram-04.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 [Learn more](../enabling-modernization) about how Kuma enables modernization within our existing architectures.

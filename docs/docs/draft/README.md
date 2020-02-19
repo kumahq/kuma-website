@@ -62,7 +62,7 @@ Usually, at this point, developers take one of the following actions to remedy t
 **Sidecar Proxy**: It's called *sidecar* proxy because it's another process running alongside our service process on the same host, like a motorcycle sidecar. There is going to be one instance of a sidecar proxy for each running instance of our services, and because all the incoming and outgoing requests - and their data - always go through the sidecar proxy, it is also called a data-plane (DP).
 :::
 
-The sidecar proxy model **requires** a control plane that allows a team to configure the behavior of the data-planes and to keep track of the state of its services. Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as Kuma. [Compare Kuma with other CPs](#kuma-vs-xyz).
+The sidecar proxy model **requires** a control plane that allows a team to configure the behavior of the data-planes and to keep track of the state of its services. Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as Kuma. [Compare Kuma with other CPs](../kuma-vs-xyz).
 
 Unlike a data-plane (DP), the control-plane (CP) is never on the execution path of the requests that the services exchange with each other, and it's being used to configure the data-planes and retrieve data from them (like observability information).
 
@@ -87,7 +87,7 @@ By reducing the code that our teams create and maintain, we can modernize our ap
 <img src="/images/docs/0.2.0/diagram-04.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-[Learn more](#enabling-modernization) about how Kuma enables modernization within our existing architectures.
+[Learn more](../enabling-modernization) about how Kuma enables modernization within our existing architectures.
 
 ## Kuma vs XYZ
 
