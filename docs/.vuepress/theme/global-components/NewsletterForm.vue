@@ -40,10 +40,10 @@
         <!-- <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpointDev"/> -->
         <label for="input_email" class="sr-only">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }">
-          <input v-model="formData.email" id="email" name="email" type="email" />
+          <input v-model="formData.email" id="email" name="email" type="email" placeholder="Work Email" />
           <span class="note note--error">{{ errors[0] }}</span>
         </validation-provider>
-        <button :disabled="invalid" type="submit" name="submit" class="btn btn--bright">
+        <button :disabled="invalid" type="submit" name="submit" class="btn btn--dark">
           Join Newsletter
         </button>
       </form>

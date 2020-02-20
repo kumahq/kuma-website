@@ -48,15 +48,9 @@
 
       <div class="inner product-features flex flex-wrap -mx-4">
         <Content
-          slot-key="feature-block-content-1"
-          class="product-features__item w-full md:w-1/3 px-4"
-        />
-        <Content
-          slot-key="feature-block-content-2"
-          class="product-features__item w-full md:w-1/3 px-4"
-        />
-        <Content
-          slot-key="feature-block-content-3"
+          v-for="i in 3"
+          :slot-key="`feature-block-content-${i}`"
+          :class="`product-features__item--${i}`"
           class="product-features__item w-full md:w-1/3 px-4"
         />
       </div>
@@ -117,6 +111,7 @@
         <Content slot-key="newsletter-content" />
         <NewsletterForm />
       </div>
+      <NewsletterWaves />
     </div>
     <!-- newsletter-form-wrap -->
 
@@ -124,15 +119,17 @@
 </template>
 
 <script>
-import Navbar from "@theme/components/Navbar";
-import TinyTabs from "@theme/components/custom/TinyTabs/VueTinyTabs";
-import MastheadWaves from "@theme/components/custom/PageMastheadWaves";
+import Navbar from "@theme/components/Navbar"
+import TinyTabs from "@theme/components/custom/TinyTabs/VueTinyTabs"
+import MastheadWaves from "@theme/components/custom/PageMastheadWaves"
+import NewsletterWaves from "@theme/components/custom/NewsletterWaves"
 
 export default {
   components: {
     Navbar,
     TinyTabs,
-    MastheadWaves
+    MastheadWaves,
+    NewsletterWaves
   }
 };
 </script>

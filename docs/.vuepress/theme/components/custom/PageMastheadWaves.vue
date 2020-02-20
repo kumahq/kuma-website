@@ -1,6 +1,6 @@
 <template>
   <div class="waves waves--type-1">
-    <svg height="756" viewBox="0 0 2105 756" width="2105" xmlns="http://www.w3.org/2000/svg">
+    <svg height="756" width="2105" viewBox="0 0 2105 756" xmlns="http://www.w3.org/2000/svg">
       <g fill="none" fill-rule="evenodd" stroke-width="2" transform="matrix(.98768834 .15643447 -.15643447 .98768834 128.91453 -127.380529)">
         <path d="m246.67314 6.02684915c-432.943327 987.23478385-137.097887 1145.40734085 1469.97734-5.82491022" stroke="#ab468c"/>
         <path d="m247.823122 6.02684915c-436.143277 998.13461085-126.973043 1139.48244085 1503.976818-5.52491484" stroke="#a45893"/>

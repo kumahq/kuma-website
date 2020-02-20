@@ -42,7 +42,7 @@ $home-feature-icon-bottom-spacing: 1rem;
   max-width: 1138px;
   z-index: 0;
   transform:
-    translateX(33%)
+    translateX(15vw)
     translateY(-200px);
 }
 
@@ -308,8 +308,30 @@ $home-feature-icon-bottom-spacing: 1rem;
     }
   }
 
-  ul {
+  p {
+    margin: 0;
+    margin-bottom: 2rem;
+  }
 
+  ul {
+    list-style: none;
+    margin: 0 0 0 1rem;
+    padding: 0;
+
+    li {
+      position: relative;
+
+      &:not(:last-of-type) {
+        margin-bottom: 1rem;
+      }
+    }
+    
+    li:before {
+      content: "■ ";
+      color: $color-4;
+      margin: 0 .5rem 0 0;
+      line-height: 0;
+    }
   }
 }
 

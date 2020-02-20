@@ -29,12 +29,16 @@
   height: auto;
 }
 
-@mixin content-container {
+@mixin content-container($bordered: false) {
   max-width: $container-width + $gutter;
   padding-left: $gutter / 2;
   padding-right: $gutter / 2;
   margin-left: auto;
   margin-right: auto;
+
+  @if $bordered {
+    border-top: 2px solid $gray-8;
+  }
 }
 
 @mixin gradient-container {

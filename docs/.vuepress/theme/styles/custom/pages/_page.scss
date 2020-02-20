@@ -11,8 +11,7 @@
 }
 
 .inner--bordered {
-  @include content-container;
-  border-top: 2px solid $gray-8;
+  @include content-container($bordered: true);
 }
 
 // this is hidden for now unless we make the masthead logo

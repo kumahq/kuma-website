@@ -7,6 +7,7 @@ $newsbar-max-width: 66.875rem;
 $newsbar-radius: 3px;
 $newsbar-padding: 1rem;
 $newsbar-bg: lighten($color-5, 54);
+$newsbar-border: 1px solid $gray-8;
 
 $newsbar-tag-bg: lighten($color-2, 45);
 $newsbar-tag-text-color: $color-2;
@@ -18,24 +19,17 @@ $newsbar-tag-margin: 0 1rem 0 0;
 $newsbar-link-color: $color-5;
 
 .newsbar-wrap {
-  // margin: 1rem auto;
-  // max-width: $newsbar-max-width;
   padding: $newsbar-padding;
-  background-color: $newsbar-bg;
+  // background-color: $newsbar-bg;
   text-align: center;
 }
 
 .newsbar {
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
-  // border-radius: $newsbar-radius;
   max-width: $newsbar-max-width;
   margin: 0 auto;
-  // margin: 1rem auto;
-  // padding: $newsbar-padding;
-  // background-color: $newsbar-bg;
-  // text-align: center;
+  padding: 1rem 0;
+  border-top: $newsbar-border;
+  border-bottom: $newsbar-border;
 
   a {
     display: inline-block;

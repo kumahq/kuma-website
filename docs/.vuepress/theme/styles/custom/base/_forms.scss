@@ -2,6 +2,8 @@
 // Forms
 // 
 
+$input-height: 44px;
+
 // text inputs
 
 textarea, input[type] {
@@ -20,8 +22,8 @@ textarea, input[type] {
 }
 
 input[type] {
-	height: 44px;
-	line-height: 44px;
+	height: $input-height;
+	line-height: $input-height;
 
 	@include target-ie {
 		line-height: 1;
@@ -137,6 +139,11 @@ button, .btn {
 	}
 }
 
+.btn--dark {
+	background-color: #000;
+	color: #fff;
+}
+
 .btn--large {
 	border-radius: $btn-radius-large;
 	height: $btn-height-base-large;
@@ -153,6 +160,10 @@ button, .btn {
 	> input[type] {
 		
 	}
+}
+
+.form-horizontal__field-wrap {
+	
 }
 
 // labels
@@ -216,7 +227,7 @@ label {
 		justify-content: center;
 		flex-wrap: wrap;
 	
-		> span {
+		> span, .form-horizontal__field-wrap {
 			flex: 1;
 			margin-right: 1rem;
 		}
