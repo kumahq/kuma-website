@@ -171,7 +171,8 @@ $home-feature-icon-bottom-spacing: 1rem;
 .testimonial-wrap {
   // background-color: $color-16;
   @include page-section;
-  padding-top: 0;
+  // padding-top: 0;
+  margin-bottom: 2.9063rem;
 
   a:not(.btn) {
     color: $color-5;
@@ -270,6 +271,53 @@ $home-feature-icon-bottom-spacing: 1rem;
   
   > .inner {
     padding: 4rem 0;
+  }
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.feature-focus__content {
+
+  h1, h2, h3, h4, h5, h6 {
+    color: $navy;
+
+    &:first-of-type {
+      font-size: 1.625rem;
+      margin-top: 0;
+      padding-top: 0;
+    }
+  }
+
+  ul {
+
+  }
+}
+
+.feature-focus__diagram {
+
+}
+
+.feature-focus-1-wrap {
+
+  img {
+    max-width: 28.375rem;
+  }
+}
+
+.feature-focus-2-wrap {
+
+  img {
+    max-width: 27.3125rem;
+  }
+}
+
+.feature-focus-3-wrap {
+
+  img {
+    max-width: 18.75rem;
   }
 }
 

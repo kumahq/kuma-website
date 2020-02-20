@@ -92,19 +92,33 @@
         class="feature-focus"
         :class="`feature-focus-${i}-wrap`"
       >
-        <div class="inner inner--bordered flex flex-wrap -mx-12">
+        <div
+          :class="{ 'md:flex-row-reverse': (i % 2 === 0) }"
+          class="inner inner--bordered flex flex-wrap -mx-12"
+        >
           <Content
             :slot-key="`feature-focus-${i}-diagram`"
-            class="w-full md:w-1/2 px-12"
+            class="feature-focus__diagram w-full md:self-center md:w-1/2 px-12"
           />
           <Content
             :slot-key="`feature-focus-${i}-content`"
-            class="w-full md:w-1/2 px-12"
+            class="feature-focus__content w-full md:self-center md:w-1/2 px-12"
           />
         </div>
       </div>
     </div>
     <!-- .feature-focus-wrap -->
+
+    <div class="newsletter-form-wrap">
+      <div class="inner newsletter-form">
+        <header class="section-header">
+          <Content slot-key="newsletter-title" class="alt-title" />
+        </header>
+        <Content slot-key="newsletter-content" />
+        <NewsletterForm />
+      </div>
+    </div>
+    <!-- newsletter-form-wrap -->
 
   </div>
 </template>
