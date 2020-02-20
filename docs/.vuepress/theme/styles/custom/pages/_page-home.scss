@@ -41,7 +41,9 @@ $home-feature-icon-bottom-spacing: 1rem;
   width: 100%;
   max-width: 1138px;
   z-index: 0;
-  transform: translateX(30%);
+  transform:
+    translateX(33%)
+    translateY(-200px);
 }
 
 // Helpers
@@ -80,7 +82,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 
   // this places the waves properly
   position: relative;
-  padding-bottom: 15rem;
+  padding-bottom: 18rem;
 
   .inner {
     position: relative;
@@ -100,6 +102,21 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 .page-masthead {
+  $i: $pale-blue;
+  position: relative;
+  background-color: $i;
+  box-shadow: 0 0 80px 85px $i;
+  border-radius: 20px;
+
+  &:before {
+    position: absolute;
+    width: 100%;
+    height: 200px;
+    display: block;
+    content: "";
+    background-color: inherit;
+    transform: translateY(-200px);
+  }
 }
 
 .page-masthead__actions {
@@ -117,10 +134,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 .page-masthead__header {
-  $i: $pale-blue;
-  background-color: $i;
-  box-shadow: 0 0 50px 55px $i;
-  border-radius: 20px;
+  
 }
 
 // Product features

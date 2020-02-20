@@ -31,7 +31,7 @@
       <!-- .inner -->
 
       <!-- TODO work on proper placement -->
-      <!-- <MastheadWaves id="page-masthead-waves" /> -->
+      <MastheadWaves id="page-masthead-waves" />
     </div>
     <!-- .page-masthead-wrap -->
 
