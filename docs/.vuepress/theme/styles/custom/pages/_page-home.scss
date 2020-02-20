@@ -79,6 +79,7 @@ $home-feature-icon-bottom-spacing: 1rem;
   @include page-section;
   // @include gradient-container;
   @include gradient-container-alt;
+  overflow: hidden;
 
   // this places the waves properly
   position: relative;
