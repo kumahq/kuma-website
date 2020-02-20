@@ -264,6 +264,15 @@ $home-feature-icon-bottom-spacing: 1rem;
   // }
 }
 
+// Feature focuses
+
+.feature-focus {
+  
+  > .inner {
+    padding: 4rem 0;
+  }
+}
+
 // Steps
 
 .steps-wrap {
