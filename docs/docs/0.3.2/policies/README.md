@@ -563,13 +563,14 @@ Refer to full example of the [deployment](/snippets/prom-deployment-with-kuma-sd
 
 In this way of integrating Kuma with Prometheus, you can still use `prometheus.io/*` for your applications.
 
-## Traffic Tracing
+## Traffic Trace
 
-::: warning
-This is a proposed policy not in GA yet. You can setup tracing manually by leveraging the [`ProxyTemplate`](#proxy-template) policy and the low-level Envoy configuration. Join us on [Slack](/community) to share your tracing requirements.
-:::
+With the `TrafficTrace` policy you can configure tracing on every Kuma DP that belongs to the `Mesh`.
+Note that tracing operates on L7 HTTP traffic, so make sure that selected dataplanes are configured with HTTP Protocol (TODO: link to docs about http)
 
-The proposed policy will enable `tracing` on the [`Mesh`](#mesh) level by adding a `tracing` field.
+You can configure tracing in 3 steps:
+
+1) Configure tracing backend
 
 On Universal:
 
@@ -577,9 +578,12 @@ On Universal:
 type: Mesh
 name: default
 tracing:
-  enabled: true
-  type: zipkin
-  address: zipkin.srv:9000
+  defaultBackend: my-zipkin
+  backend:
+  - name: my-zipkin
+    sampling: 100.0 
+    zipkin:
+      url: http://zipkin.local:9411/api/v1/spans
 ```
 
 On Kubernetes:
@@ -591,10 +595,62 @@ metadata:
   name: default
 spec:
   tracing:
-    enabled: true
-    type: zipkin
-    address: zipkin.srv:9000
+    defaultBackend: my-zipkin
+    backend:
+    - name: my-zipkin
+      sampling: 100.0 
+      zipkin:
+        url: http://zipkin.local:9411/api/v1/spans
 ```
+
+2) Select the dataplanes that should send traces for given backend
+
+On Universal:
+
+```yaml
+type: TrafficTrace
+name: all
+selectors:
+- match:
+    service: '*'
+conf:
+  backend: my-zipkin
+```
+
+On Kubernetes:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficTrace
+metadata:
+  namespace: kuma-demo
+  name: default
+spec:
+  selectors:
+  - match:
+      service: '*'
+  conf:
+    backend: my-zipkin
+```
+
+::: tip
+If a backend in `TrafficTrace` is not explicitly specified, the `defaultBackend` from `Mesh` will be used.
+:::
+
+3) Instrument your service so the trace chain is preserved between services. You can either use a library for the language of your choice or manually pass following headers:
+* `x-request-id`
+* `x-b3-traceid`
+* `x-b3-parentspanid`
+* `x-b3-spanid`
+* `x-b3-sampled`
+* `x-b3-flags`
+
+
+Envoy's Zipkin tracer is also [compatible with Jaeger through Zipkin V1 HTTP API.](https://www.jaegertracing.io/docs/1.13/features/#backwards-compatibility-with-zipkin).
+
+::: warning
+You need to restart Kuma DP for tracing configuration to be applied. This limitation will be solved in the next versions of Kuma. 
+:::
 
 ## Traffic Log
 

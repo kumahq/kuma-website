@@ -1711,6 +1711,103 @@ Example:
 curl -XDELETE http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
 ```
 
+### Traffic Trace
+
+#### Get Traffic Trace
+Request: `GET /meshes/{mesh}/traffic-traces/{name}`
+
+Response: `200 OK` with Traffic Trace entity
+
+Example:
+```bash
+curl http://localhost:5681/meshes/mesh-1/traffic-traces/tt-1
+```
+```json
+{
+ "conf": {
+  "backend": "my-zipkin"
+ },
+ "mesh": "mesh-1",
+ "name": "tt-1",
+ "selectors": [
+  {
+   "match": {
+    "service": "*"
+   }
+  }
+ ],
+ "type": "TrafficTrace"
+}
+```
+
+#### Create/Update Traffic Trace
+Request: `PUT /meshes/{mesh}/traffic-traces/{name}` with Traffic Trace entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-traces/tt-1 --data @traffictrace.json -H'content-type: application/json'
+```
+```json
+{
+ "conf": {
+  "backend": "my-zipkin"
+ },
+ "mesh": "mesh-1",
+ "name": "tt-1",
+ "selectors": [
+  {
+   "match": {
+    "service": "*"
+   }
+  }
+ ],
+ "type": "TrafficTrace"
+}
+```
+
+#### List Traffic Traces
+Request: `GET /meshes/{mesh}/traffic-traces`
+
+Response: `200 OK` with body of Traffic Trace entities
+
+Example:
+```bash
+curl http://localhost:5681/meshes/mesh-1/traffic-traces
+```
+```json
+{
+ "items": [
+  {
+   "conf": {
+    "backend": "my-zipkin"
+   },
+   "mesh": "mesh-1",
+   "name": "tt-1",
+   "selectors": [
+    {
+     "match": {
+      "service": "*"
+     }
+    }
+   ],
+   "type": "TrafficTrace"
+  }
+ ]
+}
+```
+
+#### Delete Traffic Trace
+Request: `DELETE /meshes/{mesh}/traffic-traces/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/meshes/mesh-1/traffic-traces/tt-1
+```
+
 ::: tip
 The [`kumactl`](/kumactl) CLI under the hood makes HTTP requests to this API.
 :::

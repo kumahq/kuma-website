@@ -36,8 +36,8 @@ policies:
       - title: Traffic Metrics
         url: /docs/latest/policies/#traffic-metrics
         icon: /images/icons/policies/icon-dataplane-metrics@2x.png
-      - title: Traffic Tracing
-        url: /docs/latest/policies/#traffic-tracing
+      - title: Traffic Trace
+        url: /docs/latest/policies/#traffic-trace
         icon: /images/icons/policies/icon-traffic-trace@2x.png
       - title: Traffic Log
         url: /docs/latest/policies/#traffic-log
