@@ -71,6 +71,32 @@ When following the installation instructions, `kuma-injector` will be automatica
 <img src="/images/docs/0.2.0/diagram-08.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
+#### Matching Labels in `Deployment` and `Service`
+
+When deploying an application in Kubernetes to run alongside Kuma, you must ensure that for each `Deployment` there is at least one matching `Service`. For example, in [Kuma's demo application](https://github.com/Kong/kuma-demo/blob/master/kubernetes/), the [`Deployment` for the Redis service]((https://github.com/Kong/kuma-demo/blob/master/kubernetes/kuma-demo-aio.yaml#L104))  has the following matchLabels:
+
+```yaml
+...
+spec:
+  selector:
+    matchLabels:
+      app: redis
+      role: master
+      tier: backend
+...
+```
+At least one of these labels must match the labels we define in our `Service`. The correct way to define the [corresponding Redis `Service`](https://github.com/Kong/kuma-demo/blob/master/kubernetes/kuma-demo-aio.yaml#L133) would be as follows:
+```yaml
+kind: Service
+metadata:
+  name: redis
+  namespace: kuma-demo
+  labels:
+    app: redis
+    role: master
+    tier: backend
+```
+
 ::: tip
 **Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](/docs/0.3.2/policies) with Kuma's CRDs applied via `kubectl`.
 :::
