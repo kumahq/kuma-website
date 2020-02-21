@@ -21,7 +21,7 @@ Once downloaded, we can extract the content of the archive with:
 ```sh
 $ tar xvzf [FILE]
 $ cd bin && ls
-envoy   kuma-cp   kuma-dp   kuma-tcp-echo kumactl
+envoy   kuma-dp   kuma-tcp-echo   kuma-cp   kuma-prometheus-sd   kumactl
 ```
 
 ::: tip
@@ -97,8 +97,8 @@ You can now review the entities created by Kuma by using the [`kumactl`](/docs/0
 
 ```sh
 $ ./kumactl get meshes
-NAME
-default
+NAME      mTLS   CA        METRICS
+default   on     builtin   off
 
 $ ./kumactl get traffic-permissions
 MESH      NAME

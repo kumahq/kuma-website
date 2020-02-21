@@ -19,7 +19,7 @@ You can extract the archive and check the contents of the `bin` folder by runnin
 ```sh
 $ tar xvzf kuma-0.3.2-darwin-amd64.tar.gz
 $ cd bin/ && ls
-envoy   kuma-cp   kuma-dp   kuma-tcp-echo kumactl
+envoy   kuma-dp   kuma-tcp-echo   kuma-cp   kuma-prometheus-sd   kumactl
 ```
 
 As you can see Kuma already ships with an [envoy](http://envoyproxy.io) executable ready to use.
@@ -127,8 +127,8 @@ You can now review the entities created by Kuma by using the [`kumactl`](/docs/0
 
 ```sh
 $ ./kumactl get meshes
-NAME
-default
+NAME      mTLS   CA        METRICS
+default   on     builtin   off
 
 $ ./kumactl get traffic-permissions
 MESH      NAME
