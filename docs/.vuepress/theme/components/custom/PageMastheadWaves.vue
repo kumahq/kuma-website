@@ -47,7 +47,7 @@ export default {
   methods: {
     animate() {
       const targetEl = '.waves--type-1 svg path'
-      const easing = 'cubicBezier(.66,.3,0,.94)'
+      const easing = 'easeInOutSine'
       const delayAmt = 100
       const duration = 800
 
@@ -62,7 +62,7 @@ export default {
           targets: '.waves-group-1 path',
           strokeDashoffset: [animejs.setDashoffset, 0],
           delay: (el, i) => i * delayAmt
-        }, '-=300')
+        }, '+=850')
         .add({
           targets: '.waves-group-2 path',
           strokeDashoffset: [animejs.setDashoffset, 0],
@@ -72,7 +72,7 @@ export default {
           targets: '.waves-group-3 path',
           strokeDashoffset: [animejs.setDashoffset, 0],
           delay: (el, i) => i * delayAmt
-        }, '-=800')
+        }, '-=600')
     }
   },
   mounted() {
