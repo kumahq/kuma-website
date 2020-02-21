@@ -103,21 +103,21 @@ module.exports = {
           "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
       }
     ],
-    [
-      "script",
-      {
-        charset: "utf8",
-        src: "/preloadPublicAssets.js",
-        defer: "defer"
-      }
-    ],
-    [
-      "script",
-      {
-        charset: "utf8",
-        src: "/unregisterServiceWorkers.js"
-      }
-    ]
+    // [
+    //   "script",
+    //   {
+    //     charset: "utf8",
+    //     src: "/preloadPublicAssets.js",
+    //     defer: "defer"
+    //   }
+    // ],
+    // [
+    //   "script",
+    //   {
+    //     charset: "utf8",
+    //     src: "/unregisterServiceWorkers.js"
+    //   }
+    // ]
   ],
   // version release navigation
   additionalPages: [releaseArray],
