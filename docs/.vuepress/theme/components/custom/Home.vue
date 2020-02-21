@@ -14,12 +14,12 @@
             >
               Start Now
             </router-link>
-            <router-link
-              to="/docs/latest/overview/why-kuma/"
+            <a
+              href="/docs/latest/overview/why-kuma/"
               class="btn btn--hollow btn--large"
             >
               Why {{ getSiteData.title }}?
-            </router-link>
+            </a>
           </div>
         </div>
         <!-- .page-masthead -->
