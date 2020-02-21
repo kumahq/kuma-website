@@ -1,5 +1,5 @@
 <template>
-  <div class="waves waves--type-2">
+  <div class="waves waves--type-2" ref="wavesCenterOut">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -64,8 +64,15 @@
 import animejs from "animejs"
 
 export default {
+  data() {
+    return {
+      hasAnimated: false
+    }
+  },
   methods: {
     animate() {
+      const container = this.$refs.wavesCenterOut
+
       // path groups
       const rightGroup = '.wave-group--1 path, .wave-group--2 path, .wave-group--5 path'
       const leftGroup = '.wave-group--3 path, .wave-group--4 path, .wave-group--6 path'
@@ -73,40 +80,65 @@ export default {
       // settings
       const easing = 'cubicBezier(.66,.3,0,.94)'
       const delayAmt = 100
-      const duration = 1000
-      const direction = 'alternate'
-      // const direction = 'reverse'
-      const shouldLoop = true
-      const strokeOffset = animejs.setDashoffset
-
-      // animations 
-      animejs({
-        targets: rightGroup,
-        strokeDashoffset: strokeOffset,
+      const duration = 800
+      const direction = 'normal'
+      const strokeOffset = [animejs.setDashoffset, 0]
+      
+      const tl = animejs.timeline({
         easing: easing,
         duration: duration,
-        delay: (el, i) => i * delayAmt,
-        direction: direction,
-        loop: shouldLoop
+        direction: direction
       })
 
-      animejs({
-        targets: leftGroup,
-        strokeDashoffset: strokeOffset,
-        easing: easing,
-        duration: duration,
-        delay: (el, i) => i * delayAmt,
-        direction: direction,
-        loop: shouldLoop
-      })
+      // simple function for detecting when element is in viewport
+      const inView = (element) => {
+        const elementHeight = element.clientHeight
+        const windowHeight = window.innerHeight
+        const scrollY = window.scrollY || window.pageYOffset
+        const scrollPosition = scrollY + windowHeight
+        const elementPosition = element.getBoundingClientRect().top + scrollY + elementHeight
+
+        return scrollPosition > elementPosition ? true : false
+      }
+      
+      if (window.innerWidth >= 820) {
+        if ( inView(this.$refs.wavesCenterOut) && !this.hasAnimated ) {
+          this.hasAnimated = true
+
+          // right line group
+          tl
+            .add({
+              targets: container,
+              opacity: 1
+            })
+            .add({
+              targets: rightGroup,
+              strokeDashoffset: strokeOffset,
+              delay: (el, i) => i * delayAmt
+            }, '-=800')
+            .add({
+              targets: leftGroup,
+              strokeDashoffset: strokeOffset,
+              delay: (el, i) => i * delayAmt
+            }, '-=1200')
+
+          // console.log('running animation...')
+        }
+      }
     }
   },
   mounted() {
+    window.addEventListener('scroll', this.animate)
     this.animate()
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.animate)
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.waves--type-2 {
+  opacity: 0;
+}
 </style>

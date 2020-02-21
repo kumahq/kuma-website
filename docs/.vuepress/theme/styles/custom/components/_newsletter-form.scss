@@ -42,17 +42,7 @@
   // }
 
   .waves--type-2 {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 0;
-
-    svg {
-      height: 100%;
-      overflow: visible;
-    }
+    display: none;
   }
 }
 
@@ -102,6 +92,26 @@
 // }
 
 @media (min-width: $MQMobile + 1) {
+  .newsletter-form-wrap {
+
+    .waves--type-2 {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      z-index: 0;
+      transform: translateX(-50%);
+  
+      svg {
+        position: relative;
+        left: 50%;
+        height: 100%;
+        overflow: visible;
+        transform: translateX(-50%);
+      }
+    }
+  }
+
   .form-wrapper {
     background-color: $pale-blue;
     border-radius: 0 20px 20px 0;
