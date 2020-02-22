@@ -6,6 +6,10 @@ title: Why Kuma?
 
 When building any modern digital application, we will inevitably introduce services that will communicate with each other by making requests on the network. 
 
+<center>
+<img src="/images/docs/diagram-before-after-full.png" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
 For example, think of any application that communicates with a database to store or retrieve data, or think of a more complex microservice-oriented application that makes many requests across different services to execute its operations:
 
 <center>
