@@ -32,7 +32,7 @@ Join us on Zoom February 25 at 5PM PST for our next Kuma Online Meetup! [Registe
 
 ::: slot masthead-sub-title
 
-## The open-source control plane for modern connectivity, delivering high performance and reliability with Envoy.
+## The open-source control plane for modern connectivity, <br>delivering high performance and reliability with Envoy.
 
 :::
 
@@ -87,11 +87,13 @@ Chief Architect at Telus Digital
 ::: slot feature-focus-1-content
 ### Start in minutes, not in days
 
-Getting up and running with Kuma only requires three easy steps. Bundled with Envoy proxy, Kuma Delivers zero-configuration policies that can secure, observe, connect, route, log and enhance your service connectivity for the entire application, databases included.
+Getting up and running with Kuma only requires three easy steps. Bundled with Envoy proxy, 
+Kuma delivers out of the box policies that can secure, observe, connect, route, log and 
+enhance your service connectivity for the entire application, databases included.
 
-* Bundled with Envoy Proxy
-* 10+ Policies ready to use
-* For every L4/L7 traffic
+* Fast, lightweight, highly available
+* 10+ bundled policies for L4/L7 traffic
+* Bundled with Envoy (no prior expertise required)
 :::
 
 ::: slot feature-focus-1-diagram
@@ -99,13 +101,15 @@ Getting up and running with Kuma only requires three easy steps. Bundled with En
 :::
 
 ::: slot feature-focus-2-content
-### Connectivity with no boundaries
+### Kubernetes and universal mode
 
-With Kuma you can build service connectivity and Service Meshes across a large variety of platforms  and clouds. Platform agnostic by nature, Kuma supports modern Kubernetes environments and Virtual Machine workloads in the same cluster, with no effort.
+With Kuma you can build service connectivity and Service Meshes across a large variety 
+of platforms and clouds. Platform agnostic by nature, Kuma supports modern Kubernetes 
+environments and Universal VM workloads in the same cluster, with no effort.
 
-* K8s + VM native
-* Ingress and esh
-* HA, Distributed, Multicloud
+* Kubernetes, VMs and Bare Metal
+* Multi K8s-Namespace and Multi-Cloud support
+* For both North-South and East-West traffic
 :::
 
 ::: slot feature-focus-2-diagram
@@ -115,7 +119,9 @@ With Kuma you can build service connectivity and Service Meshes across a large v
 ::: slot feature-focus-3-content
 ### One cluster for the entire organization
 
-Getting up and running with Kuma only requires three easy steps. Bundled with Envoy proxy, Kuma Delivers zero-configuration policies that can secure, observe, connect, route, log and enhance your service connectivity for the entire application, databases included.
+Multi-tenant since day one, with Kuma you can create as many independent Service Meshes
+as you need with one control plane. This reduces the operational costs of supporting
+the entire organization in a significant way.
 
 * Multi-Tenant
 * Ops complexity is 0(1), not 0(n)
