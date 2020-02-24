@@ -46,31 +46,29 @@ import animejs from "animejs"
 export default {
   methods: {
     animate() {
-      const targetEl = '.waves--type-1 svg path'
-      const easing = 'easeInOutSine'
+      const strokeOffset = [animejs.setDashoffset, 0]
       const delayAmt = 100
-      const duration = 800
 
       const tl = animejs.timeline({
-        easing: easing,
-        duration: duration,
+        easing: 'easeInOutSine',
+        duration: 800,
         direction: 'normal'
       })
 
       tl
         .add({
           targets: '.waves-group-1 path',
-          strokeDashoffset: [animejs.setDashoffset, 0],
+          strokeDashoffset: strokeOffset,
           delay: (el, i) => i * delayAmt
         }, '+=850')
         .add({
           targets: '.waves-group-2 path',
-          strokeDashoffset: [animejs.setDashoffset, 0],
+          strokeDashoffset: strokeOffset,
           delay: (el, i) => i * delayAmt
         }, '-=600')
         .add({
           targets: '.waves-group-3 path',
-          strokeDashoffset: [animejs.setDashoffset, 0],
+          strokeDashoffset: strokeOffset,
           delay: (el, i) => i * delayAmt
         }, '-=600')
     }
@@ -82,7 +80,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-svg {
+.waves--type-1 {
   
 }
 </style>
