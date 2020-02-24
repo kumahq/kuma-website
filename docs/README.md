@@ -85,7 +85,7 @@ Chief Architect at Telus Digital
 :::
 
 ::: slot feature-focus-1-content
-### Start in minutes, not in days
+### Focused on simplicity
 
 Getting up and running with Kuma only requires three easy steps. Bundled with Envoy proxy, 
 Kuma delivers out of the box policies that can secure, observe, connect, route, log and 
@@ -101,7 +101,7 @@ enhance your service connectivity for the entire application, databases included
 :::
 
 ::: slot feature-focus-2-content
-### Kubernetes and universal mode
+### Kubernetes and Universal mode
 
 With Kuma you can build service connectivity and Service Meshes across a large variety 
 of platforms and clouds. Platform agnostic by nature, Kuma supports modern Kubernetes 
@@ -123,8 +123,8 @@ Multi-tenant since day one, with Kuma you can create as many independent Service
 as you need with one control plane. This reduces the operational costs of supporting
 the entire organization in a significant way.
 
-* Multi-Tenant
-* Ops complexity is 0(1), not 0(n)
+* Multi-Tenancy for multiple Meshes
+* Ops complexity is O(1), not O(n)
 * One Runtime, scalable horizontally
 :::
 
