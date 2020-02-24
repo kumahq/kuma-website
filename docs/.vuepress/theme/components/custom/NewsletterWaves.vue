@@ -62,6 +62,7 @@
 
 <script>
 import animejs from "animejs"
+import { inView } from "../../util"
 
 export default {
   data() {
@@ -71,38 +72,21 @@ export default {
   },
   methods: {
     animate() {
+      // settings
       const container = this.$refs.wavesCenterOut
-
-      // path groups
       const rightGroup = '.wave-group--1 path, .wave-group--2 path, .wave-group--5 path'
       const leftGroup = '.wave-group--3 path, .wave-group--4 path, .wave-group--6 path'
-
-      // settings
-      const easing = 'cubicBezier(.66,.3,0,.94)'
       const delayAmt = 100
-      const duration = 800
-      const direction = 'normal'
       const strokeOffset = [animejs.setDashoffset, 0]
       
       const tl = animejs.timeline({
-        easing: easing,
-        duration: duration,
-        direction: direction
+        easing: 'cubicBezier(.66,.3,0,.94)',
+        duration: 800,
+        direction: 'normal'
       })
-
-      // simple function for detecting when element is in viewport
-      const inView = (element) => {
-        const elementHeight = element.clientHeight
-        const windowHeight = window.innerHeight
-        const scrollY = window.scrollY || window.pageYOffset
-        const scrollPosition = scrollY + windowHeight
-        const elementPosition = element.getBoundingClientRect().top + scrollY + elementHeight
-
-        return scrollPosition > elementPosition ? true : false
-      }
       
       if (window.innerWidth >= 820) {
-        if ( inView(this.$refs.wavesCenterOut) && !this.hasAnimated ) {
+        if ( inView(container) && !this.hasAnimated ) {
           this.hasAnimated = true
 
           // right line group
@@ -121,13 +105,12 @@ export default {
               strokeDashoffset: strokeOffset,
               delay: (el, i) => i * delayAmt
             }, '-=1200')
-
-          // console.log('running animation...')
         }
       }
     }
   },
   mounted() {
+    // TODO debounce this
     window.addEventListener('scroll', this.animate)
     this.animate()
   },

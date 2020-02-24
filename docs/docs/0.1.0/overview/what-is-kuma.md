@@ -1,9 +1,5 @@
 # What is Kuma?
 
-<center>
-<img src="/images/docs/main-diagram.png" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
-
 Kuma is a universal open-source control plane for Service Mesh and Microservices. It can run and be operated natively across both Kubernetes and VM environments, making it easy to adopt by every team in the organization.
 
 Built on top of [Envoy](https://envoyproxy.io/), Kuma can instrument any L4/L7 traffic to secure, observe, route and enhance connectivity between any service or database. It can be used natively in Kubernetes via CRDs or via a RESTful API across other environments, and it doesn't require a change to your application's code in order to be used.
