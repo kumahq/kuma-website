@@ -93,7 +93,7 @@ export default {
       this.$store.commit('updateSelectedInstallVersion', ev)
 
       // change the URL to reflect the version change
-      this.$router.push({
+      this.$router.replace({
         path: `/install/${ev}`,
         meta: {
           version: ev
@@ -111,7 +111,7 @@ export default {
     redirectToLatestVersion() {
       if ( !this.$route.meta.version || this.$route.path === '/install/' ) {
         // redirect to the latest release route
-        this.$router.push({
+        this.$router.replace({
           path: '/install/latest/',
           meta: {
             version: this.getLatestRelease

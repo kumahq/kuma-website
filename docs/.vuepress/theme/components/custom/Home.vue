@@ -9,10 +9,11 @@
           </header>
           <div class="page-masthead__actions">
             <router-link
-              to="/install/"
+              v-if="$page.frontmatter.startText"
+              :to="$page.frontmatter.startUrl"
               class="btn btn--bright btn--large"
             >
-              Start Now
+              {{ $page.frontmatter.startText }}
             </router-link>
             <a
               href="/docs/latest/overview/why-kuma/"
