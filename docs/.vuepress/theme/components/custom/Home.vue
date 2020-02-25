@@ -16,10 +16,11 @@
               {{ $page.frontmatter.startText }}
             </router-link>
             <a
-              href="/docs/latest/overview/why-kuma/"
+              v-if="$page.frontmatter.whyUrl"
+              :href="$page.frontmatter.whyUrl"
               class="btn btn--hollow btn--large"
             >
-              Why {{ getSiteData.title }}?
+              {{ $page.frontmatter.whyText }}
             </a>
           </div>
         </div>

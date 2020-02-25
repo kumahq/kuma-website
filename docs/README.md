@@ -16,6 +16,8 @@ showTestimonial: true # change this to `true` if you want to display the testimo
 showNews: true # change this to `true` if you want to display the news bar
 startText: Get Started
 startUrl: /install/
+whyText: Why Kuma?
+whyUrl: /docs/latest/overview/why-kuma/
 ---
 
 ::: slot news
