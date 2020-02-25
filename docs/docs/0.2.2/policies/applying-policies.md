@@ -1,6 +1,6 @@
 # Applying Policies
 
-Once installed, Kuma can be configured via its policies. You can apply policies with [`kumactl`](/docs/0.2.2/documentation/#kumactl) on Universal, and with `kubectl` on Kubernetes. Regardless of what environment you use, you can always read the latest Kuma state with [`kumactl`](/docs/0.2.2/documentation/#kumactl) on both environments.
+Once installed, Kuma can be configured via its policies. You can apply policies with [`kumactl`](/docs/0.2.2/documentation/kumactl) on Universal, and with `kubectl` on Kubernetes. Regardless of what environment you use, you can always read the latest Kuma state with [`kumactl`](/docs/0.2.2/documentation/kumactl) on both environments.
 
 ::: tip
 We follow the best practices. You should always change your Kubernetes state with CRDs, that's why Kuma disables `kumactl apply [..]` when running in K8s environments.
@@ -25,4 +25,4 @@ echo "
 " | kubectl apply -f -
 ```
 
-Below you can find the policies that Kuma supports. In addition to [`kumactl`](/docs/0.2.2/documentation/#kumactl), you can also retrive the state via the Kuma [HTTP API](/docs/0.2.2/documentation/#http-api) as well.
+Below you can find the policies that Kuma supports. In addition to [`kumactl`](/docs/0.2.2/documentation/kumactl), you can also retrive the state via the Kuma [HTTP API](/docs/0.2.2/documentation/#http-api) as well.
