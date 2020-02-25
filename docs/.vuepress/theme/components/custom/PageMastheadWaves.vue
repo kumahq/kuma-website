@@ -60,7 +60,7 @@ export default {
           targets: '.waves-group-1 path',
           strokeDashoffset: strokeOffset,
           delay: (el, i) => i * delayAmt
-        }, '+=850')
+        }, '+=300')
         .add({
           targets: '.waves-group-2 path',
           strokeDashoffset: strokeOffset,
