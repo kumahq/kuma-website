@@ -8,7 +8,7 @@ Technically, it means that you can provide definitions of
 [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster.proto#cluster),
 [ClusterLoadAssignments](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint.proto#clusterloadassignment)
 and [RouteConfigurations](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route.proto#routeconfiguration)
-that will either complement or override those resources that `Kuma` generates automatically.
+that will either complement or replace those resources that `Kuma` generates automatically.
 
 Internally, `Kuma` assumes that configuration of every dataplane (Envoy) is defined by one of `ProxyTemplate` policies.
 
@@ -68,7 +68,7 @@ conf:
     - default-proxy
 
   # `resources` define a list of raw Envoy resources
-  # that will either complement or override auto-generated ones
+  # that will either complement or replace auto-generated ones
   resources:
     - name: localhost:9901
       version: v1
@@ -85,7 +85,7 @@ Notice that:
 
 1. `selectors` allow you to limit the scope of [Dataplanes](../documentation/dps-and-data-model/#dataplane-entity) this `ProxyTemplate` should apply to
 2. `imports` allow you to reuse configuration that Kuma can generate automatically and add a few tweaks on top of it
-3. `resources` allow you to provide raw Envoy resources that will either complement or override auto-generated ones
+3. `resources` allow you to provide raw Envoy resources that will either complement or replace auto-generated ones
 
 ::: tip
 In the current release, the only available canned configuration that can be used inside `imports` section is called `default-proxy`.
@@ -99,7 +99,15 @@ At runtime, whenever the `Kuma Control Plane` needs to generate configuration fo
 * Next, every matching `ProxyTemplate` will be [ranked](./how-kuma-chooses-the-right-policy-to-apply/)
 * Then, `ProxyTemplate` with the highest rank will be used to generate configuration for that dataplane (Envoy)
 * If a `ProxyTemplate` defines `imports`, their resources will be generated first
-* If a `ProxyTemplate` defines `resources`, they will be copied "as is" and override auto-generated resources of the same name
+* If a `ProxyTemplate` defines `resources`, they will be copied "as is" and replace auto-generated resources of the same name
+
+::: tip
+By defining `resources` in a `ProxyTemplate` you can:
+* *add new* resources in addition to those auto-generated from `imports`
+* *replace* resources auto-generated from `imports` by giving yours the same names
+
+At the moment, it's not possible to *patch* or *delete* resources auto-generated from `imports`.
+:::
 
 On Universal:
 
@@ -174,7 +182,7 @@ conf:
   imports:
     - default-proxy
   # `resources` define a list of raw Envoy resources
-  # that will either complement or override auto-generated ones
+  # that will either complement or replace auto-generated ones
   resources:
     - name: localhost:9901
       version: v1
