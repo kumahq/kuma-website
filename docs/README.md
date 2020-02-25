@@ -104,7 +104,7 @@ Chief Architect at Telus Digital
 
 ### Start the Control Plane
 
-After [downloading and installing Kuma](/install/latest), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/latest/policies/#mesh):
+After [downloading and installing Kuma](/install/latest), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/latest/policies/mesh):
 :::
 
 ::: slot tab-1-code-block-step-1
@@ -134,7 +134,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/Kong/kuma-demo/master/kuber
 
 ### Apply Policies
 
-You can now apply [Policies](/docs/latest/policies) like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
+You can now apply [Policies](/docs/latest/policies/introduction) like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
 :::
 
 ::: slot tab-1-code-block-step-3
@@ -165,7 +165,7 @@ spec:
 
 ### Start the Control Plane
 
-After [downloading and installing Kuma](/install/latest), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/latest/policies/#mesh):
+After [downloading and installing Kuma](/install/latest), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/latest/policies/mesh):
 :::
 
 ::: slot tab-2-code-block-step-1
@@ -180,7 +180,7 @@ $ kuma-cp run &
 
 ### Start your Services and start the data-plane
 
-For each Service that belongs to the Service Mesh, you must start a [`Dataplane Entity`](/docs/latest/documentation/#dataplane-entity). After configuring the networking, you can start the data-plane process:
+For each Service that belongs to the Service Mesh, you must start a [`Dataplane Entity`](/docs/latest/documentation/dps-and-data-model/#dataplane-entity). After configuring the networking, you can start the data-plane process:
 :::
 
 ::: slot tab-2-code-block-step-2
@@ -212,7 +212,7 @@ $ kuma-dp run
 
 ### Apply Policies
 
-You can now apply [Policies](/docs/latest/policies) like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
+You can now apply [Policies](/docs/latest/policies/introduction) like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
 :::
 
 ::: slot tab-2-code-block-step-3

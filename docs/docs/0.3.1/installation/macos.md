@@ -30,7 +30,7 @@ To run Kuma execute:
 $ kuma-cp run
 ```
 
-Kuma automatically creates a [`Mesh`](../../policies/#mesh) entity with name `default`. 
+Kuma automatically creates a [`Mesh`](../../policies/mesh) entity with name `default`.
 
 By default this will run Kuma with a `memory` [backend](../../documentation/backends), but you can change this to use PostgreSQL by updating the `conf/kuma-cp.conf` file.
 
