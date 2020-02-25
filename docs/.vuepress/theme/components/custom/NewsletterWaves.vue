@@ -78,6 +78,7 @@ export default {
       const leftGroup = '.wave-group--3 path, .wave-group--4 path, .wave-group--6 path'
       const delayAmt = 100
       const strokeOffset = [animejs.setDashoffset, 0]
+      const targetWidth = 820
       
       const tl = animejs.timeline({
         easing: 'cubicBezier(.66,.3,0,.94)',
@@ -85,7 +86,10 @@ export default {
         direction: 'normal'
       })
       
-      if (window.innerWidth >= 820) {
+      // only run this function at certain widths...
+      if (window.innerWidth >= targetWidth) {
+
+        // and only run if the element is in view, and hasn't already animated
         if ( inView(container) && !this.hasAnimated ) {
           this.hasAnimated = true
 
