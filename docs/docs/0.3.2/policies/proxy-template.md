@@ -90,7 +90,7 @@ Notice that:
 ::: tip
 In the current release, the only available canned configuration that can be used inside `imports` section is called `default-proxy`.
 
-In future releases, more of these will be available and it will also be possible for a user to define them to re-use across their infrastructure.
+In future releases, more of these will be available and you will be able to define profiles to re-use them across the infrastructure.
 :::
 
 At runtime, whenever the `Kuma Control Plane` needs to generate configuration for a given [Dataplane](../documentation/dps-and-data-model/#dataplane-entity), it will proceed as follows:
