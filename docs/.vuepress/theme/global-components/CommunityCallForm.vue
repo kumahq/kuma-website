@@ -169,4 +169,12 @@ export default {
 .note {
   margin-top: 10px !important;
 }
+
+.form-wrapper .tip {
+  background-color: #fff;
+  border: 0;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 0 1px #cccccc, 0 3px 6px 0 #eaecef;
+}
 </style>
