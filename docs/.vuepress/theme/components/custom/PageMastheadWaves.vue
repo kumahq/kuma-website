@@ -55,17 +55,25 @@ export default {
         direction: 'normal'
       })
 
+      // this is a FOUC prevention technique.
+      // on load, set the `display` to `block` instead of `none`.
+      this.$el.style.display = 'block'
+
+      // trigger the timeline animations
       tl
+        // animate path group 1
         .add({
           targets: '.waves-group-1 path',
           strokeDashoffset: strokeOffset,
           delay: (el, i) => i * delayAmt
         }, '+=300')
+        // animate path group 2
         .add({
           targets: '.waves-group-2 path',
           strokeDashoffset: strokeOffset,
           delay: (el, i) => i * delayAmt
         }, '-=600')
+        // animate path group 3
         .add({
           targets: '.waves-group-3 path',
           strokeDashoffset: strokeOffset,
@@ -81,6 +89,6 @@ export default {
 
 <style lang="scss" scoped>
 .waves--type-1 {
-  
+  display: none; // prevents FOUC
 }
 </style>
