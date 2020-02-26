@@ -103,7 +103,7 @@ $ kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:
 
 If you consume the service again on port `10000`, you will now notice that the communication requires now a TLS connection.
 
-You can now review the entities created by Kuma by using the [`kumactl`](/docs/0.2.2/documentation/kumactl) CLI. For example you can list the Meshes:
+You can now review the entities created by Kuma by using the [`kumactl`](../../documentation/kumactl) CLI. For example you can list the Meshes:
 
 ```sh
 $ kumactl get meshes
