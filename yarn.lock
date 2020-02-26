@@ -988,6 +988,11 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@kongponents/kicon@^0.3.8":
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@kongponents/kicon/-/kicon-0.3.8.tgz#b93e45b783a130579bf8a7d682a071c90c228f85"
+  integrity sha512-8FXi7rbeXRnSgzHCaNKam5hkoJSv8G2aMBVXnsBmnxb1FP8cnpzeUb/ZeKhisyb1Yn61MorqkP8YM2LEvt8EFg==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
