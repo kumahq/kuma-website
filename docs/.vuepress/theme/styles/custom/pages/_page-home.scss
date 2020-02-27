@@ -42,8 +42,12 @@ $home-feature-icon-bottom-spacing: 1rem;
   max-width: 1138px;
   z-index: 0;
   transform:
-    translateX(15vw)
+    translateX(5vw)
     translateY(-200px);
+}
+
+#page-masthead-waves-wrap {
+  
 }
 
 // Helpers
@@ -148,6 +152,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 .product-features__item {
   img {
     margin: 0 auto $home-feature-icon-bottom-spacing auto;
+    width: 100%;
     max-width: 18rem;
   }
 
@@ -614,6 +619,10 @@ $home-feature-icon-bottom-spacing: 1rem;
       }
     }
   }
+
+  #page-masthead-waves-wrap {
+    display: none;
+  }
 }
 
 @media (max-width: $MQLarge) {
@@ -624,6 +633,12 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 @media (min-width: $MQLarge) {
+  #page-masthead-waves {
+    transform:
+      translateX(15vw)
+      translateY(-200px);
+  }
+
   .steps-items__content {
     > li {
       display: flex;

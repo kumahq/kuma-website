@@ -32,8 +32,9 @@
       </div>
       <!-- .inner -->
 
-      <!-- TODO work on proper placement -->
-      <MastheadWaves id="page-masthead-waves" />
+      <div id="page-masthead-waves-wrap">
+        <MastheadWaves id="page-masthead-waves" />
+      </div>
     </div>
     <!-- .page-masthead-wrap -->
 

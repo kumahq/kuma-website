@@ -13,7 +13,7 @@ meta:
 testimonialPortraitSrc: /images/luca-maraschi-cropped@2x.png
 testimonialPortraitAlt: Portrait photo of Luca Maraschi
 showTestimonial: true # change this to `true` if you want to display the testimonial
-showNews: true # change this to `true` if you want to display the news bar
+showNews: false # change this to `true` if you want to display the news bar
 startText: Get Started
 startUrl: /install/
 whyText: Why Kuma?
