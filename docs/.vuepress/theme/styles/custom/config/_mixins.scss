@@ -85,6 +85,15 @@
   }
 }
 
+@mixin button-state-overrides {
+  &:disabled:hover,
+	&:disabled:active,
+  &:disabled:focus,
+  &:disabled:visited {
+    @content;
+	}
+}
+
 @mixin quotify {
   quotes: "“" "”" "‘" "’";
   

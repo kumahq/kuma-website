@@ -33,7 +33,7 @@
           <span v-if="invalid === false && formSending === true">
             <Spinner />
           </span>
-          <span v-else>
+          <span :class="{ 'is-hidden': (invalid === false && formSending === true) }">
             Register Now
           </span>
         </button>
@@ -147,10 +147,18 @@ export default {
 
 button.is-sending {
   position: relative;
+  background-color: #000 !important;
+  cursor: not-allowed;
 
-  span {
+  span:not(.is-hidden) {
+    display: block;
     position: absolute;
-    top: 25%; left: 36%;
+    left: calc(50% - 12px);
   }
+}
+
+.is-hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 </style>

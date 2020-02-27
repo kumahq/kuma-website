@@ -128,6 +128,10 @@ button, .btn {
 		color: $hover-color !important;
 		box-shadow: $base-soft-shadow, inset 0 0 0 1.5px $hover-color;
 	}
+	
+	@include button-state-overrides {
+		background-color: #fff;
+	}
 }
 
 .btn--bright {
@@ -137,11 +141,17 @@ button, .btn {
 	&:hover, &:active {
 		background-color: lighten($color-5, 10);
 	}
+
+	@include button-state-overrides
 }
 
 .btn--dark {
 	background-color: #000;
 	color: #fff;
+
+	@include button-state-overrides {
+		background-color: #000;
+	}
 }
 
 .btn--large {
