@@ -34,7 +34,7 @@
           @click="formIsSubmitting()"
         >
           <span v-if="invalid === false && formSending === true">
-            <KIcon icon="spinner" size="32" />
+            <Spinner />
           </span>
           <span v-else>
             Join Newsletter
@@ -63,7 +63,9 @@ import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
-import KIcon from '@kongponents/kicon'
+
+// I am doing this because of an error that occurred when using KIcon
+import Spinner from '@theme/global-components/IconSpinner'
 
 // required validation
 extend('required', {
@@ -96,7 +98,7 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
-    KIcon
+    Spinner
   },
   computed: {
     ...mapGetters([
