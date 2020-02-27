@@ -7,7 +7,7 @@
       <form
         class="form-horizontal"
         method="post"
-        :action="getNewsletterPardotEndpoint"
+        :action="getCommunityCallSignupEndpoint"
       >
         <input
           v-for="(key, value) in formData"
@@ -16,10 +16,7 @@
           :value="key"
           type="hidden"
         />
-        <!-- LIVE -->
-        <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpoint">
-        <!-- DEV -->
-        <!-- <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpointDev"/> -->
+        <input type="hidden" name="pardot-link" :value="getCommunityCallSignupEndpoint">
         <label for="input_email" class="sr-only">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }">
           <input v-model="formData.email" id="email" name="email" type="email" placeholder="Email" />
@@ -100,8 +97,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getNewsletterPardotEndpoint',
-      'getNewsletterPardotEndpointDev'
+      'getCommunityCallSignupEndpoint'
     ]),
     formDistanceFromTop () {
       const marker = this.$refs['formMessageMarker']

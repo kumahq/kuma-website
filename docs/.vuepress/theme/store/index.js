@@ -20,7 +20,8 @@ export default new Vuex.Store({
     requestADemoEndpoint: 'https://script.google.com/macros/s/AKfycbwiFfaiSK6JqdNqZLAt5PRayPV43x7qw1ZAM_-sFSDg6IT44d4/exec',
     newsletterSignupEndpoint: 'https://script.google.com/macros/s/AKfycbx9xikTdHNrrnHiqxNX3ecVkTJYzPmKemrz2OMr6SaOXT7FYaiM/exec',
     newsletterPardotEndpoint: 'https://go.pardot.com/l/392112/2019-09-03/bjz6yv',
-    newsletterPardotEndpointDev: 'https://go.pardot.com/l/392112/2020-01-14/bkwzrx'
+    newsletterPardotEndpointDev: 'https://go.pardot.com/l/392112/2020-01-14/bkwzrx',
+    communityCallEndpoint: 'https://go.pardot.com/l/392112/2020-02-27/bl6zwy'
   },
 
   getters: {
@@ -33,6 +34,7 @@ export default new Vuex.Store({
     getNewsletterSignupEndpoint: (state) => state.newsletterSignupEndpoint,
     getNewsletterPardotEndpoint: (state) => state.newsletterPardotEndpoint,
     getNewsletterPardotEndpointDev: (state) => state.newsletterPardotEndpointDev,
+    getCommunityCallSignupEndpoint: (state) => state.communityCallEndpoint,
     releasesAsRouterLinks: (state) => {
       return state.releases.map( tag => ({
         text: tag === state.latestRelease ? `${tag} (latest)` : tag,
