@@ -1,6 +1,6 @@
 # Traffic Log
 
-With the `TrafficLog` policy you can configure access logging on every Envoy data-plane belonging to the [`Mesh`](#mesh). These logs can then be collected by any agent to be inserted into systems like Splunk, ELK and Datadog.
+With the `TrafficLog` policy you can configure access logging on every Envoy data-plane belonging to the [`Mesh`](../mesh). These logs can then be collected by any agent to be inserted into systems like Splunk, ELK and Datadog.
 The first step is to configure backends for the `Mesh`. A backend can be either a file or a TCP service (like Logstash). Second step is to create a `TrafficLog` entity to select connections to log.
 
 On Universal:
