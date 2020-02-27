@@ -138,17 +138,11 @@ export default {
 
 <style lang="scss" scoped>
 button.is-sending {
-  text-align: center;
+  position: relative;
 
   span {
-    height: 40px;
-    display: block;
-    margin: 0 auto;
-  }
-
-  svg {
-    position: relative;
-    top: calc(50% - 14px); left: calc(50% - 12px);
+    position: absolute;
+    top: 25%; left: 36%;
   }
 }
 </style>

@@ -146,12 +146,11 @@ export default {
 }
 
 button.is-sending {
-  text-align: center;
+  position: relative;
 
   span {
-    height: 40px;
-    display: block;
-    margin: 0 auto;
+    position: absolute;
+    top: 25%; left: 36%;
   }
 }
 </style>
