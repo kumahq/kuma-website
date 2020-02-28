@@ -164,4 +164,12 @@ button.is-sending {
   opacity: 0;
   visibility: hidden;
 }
+
+.form-wrapper {
+    
+    form {
+      border-radius: 0;
+      overflow: visible;
+    }
+  }
 </style>
