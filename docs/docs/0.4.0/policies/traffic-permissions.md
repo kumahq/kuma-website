@@ -5,7 +5,7 @@ Traffic Permissions allow you to determine security rules for services that cons
 You can determine what source services are **allowed** to consume specific destination services. The `service` field is mandatory in both `sources` and `destinations`.
 
 ::: warning
-In Kuma 0.3.2 the `sources` field only allows for `service` and only `service` will be enforced. This limitation will disappear in the next version of Kuma.
+In Kuma 0.4.0 the `sources` field only allows for `service` and only `service` will be enforced. This limitation will disappear in the next version of Kuma.
 :::
 
 In the example below, the `destinations` includes not only the `service` property, but also an additional `version` tag. You can include any arbitrary tags to any [`Dataplane`](../documentation/dps-and-data-model/#dataplane-specification)

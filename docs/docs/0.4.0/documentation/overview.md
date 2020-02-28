@@ -2,12 +2,12 @@
 
 As we have [already learned](../introduction), Kuma is a universal control plane that can run across both modern environments like Kubernetes and more traditional VM-based ones.
 
-The first step is obviously to [download and install Kuma](/install/0.3.2) on the platform of your choice. Different distributions will present different installation instructions that follow the best practices for the platform you have selected.
+The first step is obviously to [download and install Kuma](/install/0.4.0) on the platform of your choice. Different distributions will present different installation instructions that follow the best practices for the platform you have selected.
 
 Regardless of what platform you decide to use, the fundamental behavior of Kuma at runtime will not change across different distributions. These fundamentals are important to explore in order to understand what Kuma is and how it works.
 
 ::: tip
-Installing Kuma on Kubernetes is fully automated, while installing Kuma on Linux requires the user to run the Kuma executables. Both ways are very simple, and can be explored from the [installation page](/install/0.3.2).
+Installing Kuma on Kubernetes is fully automated, while installing Kuma on Linux requires the user to run the Kuma executables. Both ways are very simple, and can be explored from the [installation page](/install/0.4.0).
 :::
 
 There are two main components of Kuma that are very important to understand:

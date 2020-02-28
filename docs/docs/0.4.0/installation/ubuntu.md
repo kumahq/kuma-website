@@ -8,16 +8,16 @@ To install and run Kuma on Ubuntu (**amd64**) execute the following steps:
 
 ### 1. Download and run Kuma
 
-You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.3.2-ubuntu-amd64.tar.gz) or by running:
+You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.4.0-ubuntu-amd64.tar.gz) or by running:
 
 ```sh
-$ wget https://kong.bintray.com/kuma/kuma-0.3.2-ubuntu-amd64.tar.gz
+$ wget https://kong.bintray.com/kuma/kuma-0.4.0-ubuntu-amd64.tar.gz
 ```
 
 You can extract the archive and check the contents of the `bin` folder by running:
 
 ```sh
-$ tar xvzf kuma-0.3.2-ubuntu-amd64.tar.gz
+$ tar xvzf kuma-0.4.0-ubuntu-amd64.tar.gz
 $ cd bin/ && ls
 envoy   kuma-dp   kuma-tcp-echo   kuma-cp   kuma-prometheus-sd   kumactl
 ```
