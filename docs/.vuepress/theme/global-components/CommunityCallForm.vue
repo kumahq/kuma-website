@@ -5,6 +5,7 @@
       v-slot="{ invalid, passes }"
     >
       <form
+        v-if="formStatus === null || formStatus === false"
         class="form-horizontal"
         method="post"
         :action="getCommunityCallSignupEndpoint"
