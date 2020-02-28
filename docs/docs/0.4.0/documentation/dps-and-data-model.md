@@ -43,8 +43,9 @@ These steps are being executed in **two separate** commands:
 **Remember**: this is all automated if you are running Kuma on Kubernetes!
 :::
 
-The registration of the `Dataplane` includes two main sections that are described below in the [Dataplane Specification](#dataplane-specification):
+The registration of the `Dataplane` includes three main sections that are described below in the [Dataplane Specification](#dataplane-specification):
 
+* `address` IP at which this dataplane will be accessible to other dataplanes
 * `inbound` networking configuration, to configure on what port the DP will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
 * `outbound` networking configuration, to enable the local service to consume other services.
 
@@ -55,8 +56,10 @@ echo "type: Dataplane
 mesh: default
 name: redis-1
 networking:
+  address: 192.168.0.1
   inbound:
-  - interface: 127.0.0.1:9000:6379
+  - port: 9000
+    servicePort: 6379
     tags:
       service: redis" | kumactl apply -f -
 
@@ -67,7 +70,7 @@ kuma-dp run \
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
 
-In the example above, any external client who wants to consume Redis will have to make a request to the DP on port `9000`, which internally will be redirected to the Redis service listening on port `6379`.
+In the example above, any external client who wants to consume Redis will have to make a request to the DP on address `192.168.0.1` and port `9000`, which internally will be redirected to the Redis service listening on address `127.0.0.1` and port `6379`.
 
 Now let's assume that we have another service called "Backend" that internally listens on port `80`, and that makes outgoing requests to the `redis` service:
 
@@ -76,12 +79,15 @@ echo "type: Dataplane
 mesh: default
 name: backend-1
 networking:
+  address: 192.168.0.2
   inbound:
-  - interface: 127.0.0.1:8000:80
+  - port: 8000
+    servicePort: 80
     tags:
       service: backend
+      protocol: http
   outbound:
-  - interface: :10000
+  - port: 10000
     service: redis" | kumactl apply -f -
 
 kuma-dp run \
@@ -136,12 +142,15 @@ type: Dataplane
 mesh: default
 name: web-01
 networking:
+  address: 127.0.0.1
   inbound:
-    - interface: 127.0.0.1:11011:11012
+    - port: 11011
+      servicePort: 11012
       tags:
         service: backend
+        protocol: http
   outbound:
-    - interface: :33033
+    - port: 33033
       service: redis
 ```
 And the [`Gateway mode`](#gateway)'s entity definition will look like:
@@ -154,7 +163,7 @@ networking:
     tags:
       service: kong
   outbound:
-  - interface: :33033
+  - port: 33033
     service: backend
 ```
 
@@ -164,14 +173,18 @@ The `Dataplane` entity includes a few sections:
 * `mesh`: the `Mesh` name we want to associate the data-plane with.
 * `name`: this is the name of the data-plane instance, and it must be **unique** for any given `Mesh`. We might have multiple instances of a Service, and therefore multiple instances of the sidecar data-plane proxy. Each one of those sidecar proxy instances must have a unique `name`.
 * `networking`: this is the meaty part of the configuration. It determines the behavior of the data-plane on incoming (`inbound`) and outgoing (`outbound`) requests.
-  * `inbound`: an array of `interface` objects that determines what services are being exposed via the data-plane. Each `interface` object only supports one port at a time, and you can specify more than one `interface` in case the service opens up more than one port.
-    * `interface`: determines the routing logic for incoming requests in the format of `{address}:{dataplane-port}:{service-port}`.
+  * `address` IP at which this dataplane will be accessible to other dataplanes
+  * `inbound`: an array of objects that determines what services are being exposed via the data-plane. Each object only supports one port at a time, and you can specify more than one objects in case the service opens up more than one port.
+    * `port`: determines the port at which other dataplanes will consume the service
+    * `servicePort`: determines the port of the service deployed next to the dataplane. This can be omitted if service is exposed on the same port as dataplane, but only listening on `127.0.0.1` and `networking.address` is other than `127.0.0.1`. 
+    * `address`: IP at which inbound listener will be exposed. By default it is inherited from `networking.address`
     * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
   * `gateway`: determines if the data-plane will operate in Gateway mode. It replaces the `inbound` object and enables Kuma to integrate with existing API gateways like [Kong](https://github.com/Kong/kong). 
     * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
   * `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
-    * `interface`: the address inclusive of the port that the service needs to consume locally to make a request to the external service
-    * `service`: the name of the service associated with the interface.
+    * `port`: the port that the service needs to consume locally to make a request to the external service
+    * `address`: the IP at which outbound listener is exposed. By default it is `127.0.0.1` since it should only be consumed by the app deployed next to the dataplane.
+    * `service`: the name of the service associated with the `port` and `address`.
 
 ::: tip
 On Kubernetes this whole process is automated via transparent proxying and without changing your application's code. On Universal Kuma doesn't support transparent proxying yet, and the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity. This also means that in Universal **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
@@ -179,10 +192,40 @@ On Kubernetes this whole process is automated via transparent proxying and witho
 
 ## Kubernetes
 
-On Kubernetes the data-planes are automatically injected via the `kuma-injector` executable as long as the K8s Namespace includes the following label:
+On Kubernetes the data-planes are automatically injected by the `kuma-injector` executable as long as K8s Namespace is **labeled** with
+`kuma.io/sidecar-injection = enabled`, e.g.
 
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kuma-example
+  labels:
+    # inject Kuma sidecar into every Pod in that Namespace,
+    # unless a user explicitly opts out on per-Pod basis
+    kuma.io/sidecar-injection: enabled
 ```
-kuma.io/sidecar-injection: enabled
+
+To opt out of data-plane injection into a particular `Pod`, you need to **annotate** it
+with `kuma.io/sidecar-injection = disabled`, e.g.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        # indicate to Kuma that this Pod doesn't need a sidecar
+        kuma.io/sidecar-injection: disabled
+    spec:
+      containers:
+        ...
 ```
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
@@ -211,7 +254,7 @@ networking:
     tags:
       service: kong
   outbound:
-  - interface: :33033
+  - port: 33033
     service: backend
 ```
 

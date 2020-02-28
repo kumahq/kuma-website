@@ -12,4 +12,4 @@ Out of the box, Kuma ships with a bundled [Envoy](https://www.envoyproxy.io/) da
 Kuma ships with an executable `kuma-dp` that will execute the bundled `envoy` executable in order to execute the data-plane proxy. The behavior of the data-plane executable is being explained in the [Overview](../overview).
 :::
 
-[Install Kuma](/install/0.3.2) and follow the instructions to get up and running in a few steps.
+[Install Kuma](/install/0.4.0) and follow the instructions to get up and running in a few steps.

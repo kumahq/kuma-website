@@ -8,9 +8,9 @@ Out-of-the-box, `Kuma` provides full integration with `Prometheus`:
 * if enabled, every dataplane will expose its metrics in `Prometheus` format
 * furthemore, `Kuma` will make sure that `Prometheus` can automatically find every dataplane in the mesh
 
-## On Universal
+### On Universal
 
-### Enable Prometheus metrics per Mesh
+#### Enable Prometheus metrics per Mesh
 
 To enable `Prometheus` metrics on every dataplane in the mesh, configure a `Mesh` resource as follows:
 
@@ -34,7 +34,7 @@ metrics:
 
 Both snippets from above instruct `Kuma` to configure every dataplane in the mesh `default` to expose an HTTP endpoint with `Prometheus` metrics on port `5670` and URI path `/metrics`.
 
-### Override Prometheus settings per Dataplane
+#### Override Prometheus settings per Dataplane
 
 To override `Mesh`-wide defaults on a particular machine, configure `Dataplane` resource as follows:
 
@@ -50,7 +50,7 @@ metrics:
 
 As a result, this particular dataplane will expose an HTTP endpoint with `Prometheus` metrics on port `1234` and URI path `/non-standard-path`.
 
-### Configure dataplane discovery by Prometheus
+#### Configure dataplane discovery by Prometheus
 
 Although dataplane metrics are now exposed, `Prometheus` doesn't know anything about it just yet.
 
@@ -99,9 +99,9 @@ Now, if you check `Targets` page on `Prometheus` UI, you should see a list of da
 <img src="/images/docs/0.3.2/prometheus-targets.png" alt="A screenshot of Targets page on Prometheus UI" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-## On Kubernetes
+### On Kubernetes
 
-### Enable Prometheus metrics per Mesh
+#### Enable Prometheus metrics per Mesh
 
 To enable `Prometheus` metrics on every dataplane in the mesh, configure a `Mesh` resource as follows:
 
@@ -131,7 +131,7 @@ spec:
 
 Both snippets from above instruct `Kuma` to configure every dataplane in the mesh `default` to expose an HTTP endpoint with `Prometheus` metrics on port `5670` and URI path `/metrics`.
 
-### Override Prometheus settings per Dataplane
+#### Override Prometheus settings per Dataplane
 
 To override `Mesh`-wide defaults for a particular `Pod`, use `Kuma`-specific annotations:
 * `prometheus.metrics.kuma.io/port` - to override `Mesh`-wide default port
@@ -160,11 +160,11 @@ spec:
 
 As a result, dataplane for this particular `Pod` will expose an HTTP endpoint with `Prometheus` metrics on port `1234` and URI path `/non-standard-path`.
 
-### Configure dataplane discovery by Prometheus
+#### Configure dataplane discovery by Prometheus
 
 On `kubernetes`, there are two ways of configuring dataplane discovery.
 
-### Annotations
+#### Annotations
 
 `Kuma` will automatically annotate your `Pod` to be discovered by `Prometheus`, e.g.
 
@@ -199,7 +199,7 @@ Although it's easy and works without any extra configuration, those annotations 
 If you also have an application next to Kuma DP which exposes metrics through `prometheus.io/*` annotations,
 you have to use the other way to expose metrics for both the application and Kuma DP.
 
-### Kuma Prometheus SD
+#### Kuma Prometheus SD
 
 You can deploy `kuma-prometheus-sd` container next to you Prometheus instance just like in Universal setup.
 
@@ -216,7 +216,7 @@ Then add a new container with `kuma-prometheus-sd`. It will connect to the contr
 ```yaml
   containers:
 - name: kuma-prometheus-sd
-  image: kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:0.3.2
+  image: kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:0.4.0
   imagePullPolicy: Always
   args:
     - run

@@ -10,18 +10,18 @@ To install and run Kuma on Kubernetes execute the following steps:
 
 To run Kuma on Kubernetes, you need to download a compatible version of Kuma for the machine where you will be executing the commands.
 
-* [CentOS](https://kong.bintray.com/kuma/kuma-0.3.2-centos-amd64.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma-0.3.2-rhel-amd64.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma-0.3.2-debian-amd64.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma-0.3.2-ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma-0.3.2-darwin-amd64.tar.gz)
+* [CentOS](https://kong.bintray.com/kuma/kuma-0.4.0-centos-amd64.tar.gz)
+* [RedHat](https://kong.bintray.com/kuma/kuma-0.4.0-rhel-amd64.tar.gz)
+* [Debian](https://kong.bintray.com/kuma/kuma-0.4.0-debian-amd64.tar.gz)
+* [Ubuntu](https://kong.bintray.com/kuma/kuma-0.4.0-ubuntu-amd64.tar.gz)
+* [macOS](https://kong.bintray.com/kuma/kuma-0.4.0-darwin-amd64.tar.gz)
 
 Once downloaded, we can extract the content of the archive with:
 
 ```sh
 $ tar xvzf [FILE]
 $ cd bin && ls
-envoy   kuma-cp   kuma-dp   kuma-tcp-echo kumactl
+envoy   kuma-dp   kuma-tcp-echo   kuma-cp   kuma-prometheus-sd   kumactl
 ```
 
 ::: tip
@@ -97,8 +97,8 @@ You can now review the entities created by Kuma by using the [`kumactl`](../../d
 
 ```sh
 $ ./kumactl get meshes
-NAME
-default
+NAME      mTLS   CA        METRICS
+default   on     builtin   off
 
 $ ./kumactl get traffic-permissions
 MESH      NAME

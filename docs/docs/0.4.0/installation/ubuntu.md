@@ -1,25 +1,25 @@
-# macOS
+# Ubuntu
 
 ::: tip
 **Don't forget!** The [Official Documentation](../) of Kuma is a great place to learn about both basic and more advanced topics.
 :::
 
-To install and run Kuma on macOS execute the following steps:
+To install and run Kuma on Ubuntu (**amd64**) execute the following steps:
 
 ### 1. Download and run Kuma
 
-You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.3.2-darwin-amd64.tar.gz) or by running:
+You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.4.0-ubuntu-amd64.tar.gz) or by running:
 
 ```sh
-$ wget https://kong.bintray.com/kuma/kuma-0.3.2-darwin-amd64.tar.gz
+$ wget https://kong.bintray.com/kuma/kuma-0.4.0-ubuntu-amd64.tar.gz
 ```
 
 You can extract the archive and check the contents of the `bin` folder by running:
 
 ```sh
-$ tar xvzf kuma-0.3.2-darwin-amd64.tar.gz
+$ tar xvzf kuma-0.4.0-ubuntu-amd64.tar.gz
 $ cd bin/ && ls
-envoy   kuma-cp   kuma-dp   kuma-tcp-echo kumactl
+envoy   kuma-dp   kuma-tcp-echo   kuma-cp   kuma-prometheus-sd   kumactl
 ```
 
 As you can see Kuma already ships with an [envoy](http://envoyproxy.io) executable ready to use.
@@ -53,8 +53,10 @@ $ echo "type: Dataplane
 mesh: default
 name: dp-echo-1
 networking:
+  address: 127.0.0.1
   inbound:
-  - interface: 127.0.0.1:10000:9000
+  - port: 10000
+    servicePort: 9000
     tags:
       service: echo" | ./kumactl apply -f -
 ```
@@ -127,8 +129,8 @@ You can now review the entities created by Kuma by using the [`kumactl`](../../d
 
 ```sh
 $ ./kumactl get meshes
-NAME
-default
+NAME      mTLS   CA        METRICS
+default   on     builtin   off
 
 $ ./kumactl get traffic-permissions
 MESH      NAME
