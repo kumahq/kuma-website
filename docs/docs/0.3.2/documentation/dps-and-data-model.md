@@ -190,10 +190,40 @@ On Kubernetes this whole process is automated via transparent proxying and witho
 
 ## Kubernetes
 
-On Kubernetes the data-planes are automatically injected via the `kuma-injector` executable as long as the K8s Namespace includes the following label:
+On Kubernetes the data-planes are automatically injected by the `kuma-injector` executable as long as K8s Namespace is **labeled** with
+`kuma.io/sidecar-injection = enabled`, e.g.
 
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kuma-example
+  labels:
+    # inject Kuma sidecar into every Pod in that Namespace,
+    # unless a user explicitly opts out on per-Pod basis
+    kuma.io/sidecar-injection: enabled
 ```
-kuma.io/sidecar-injection: enabled
+
+To opt out of data-plane injection into a particular `Pod`, you need to **annotate** it
+with `kuma.io/sidecar-injection = disabled`, e.g.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        # indicate to Kuma that this Pod doesn't need a sidecar
+        kuma.io/sidecar-injection: disabled
+    spec:
+      containers:
+        ...
 ```
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
