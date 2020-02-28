@@ -304,9 +304,11 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes/backend-1
   "name": "backend-1",
   "mesh": "mesh-1",
   "networking": {
+    "address": "127.0.0.1",
     "inbound": [
       {
-        "interface": "127.0.0.1:11011:11012",
+        "port": 11011,
+        "servicePort": 11012,
         "tags": {
           "service": "backend",
           "version": "2.0",
@@ -316,11 +318,11 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes/backend-1
     ],
     "outbound": [
       {
-        "interface": ":33033",
+        "port": 33033,
         "service": "database"
       },
       {
-        "interface": ":44044",
+        "port": 44044,
         "service": "user"
       }
     ]
@@ -343,9 +345,11 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/dataplanes/backend-1 --data @data
   "name": "backend-1",
   "mesh": "mesh-1",
   "networking": {
+    "address": "127.0.0.1",
     "inbound": [
       {
-        "interface": "127.0.0.1:11011:11012",
+        "port": 11011,
+        "servicePort": 11012,
         "tags": {
           "service": "backend",
           "version": "2.0",
@@ -355,11 +359,11 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/dataplanes/backend-1 --data @data
     ],
     "outbound": [
       {
-        "interface": ":33033",
+        "port": 33033,
         "service": "database"
       },
       {
-        "interface": ":44044",
+        "port": 44044,
         "service": "user"
       }
     ]
@@ -384,9 +388,11 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes
       "name": "backend-1",
       "mesh": "mesh-1",
       "networking": {
+        "address": "127.0.0.1",
         "inbound": [
           {
-            "interface": "127.0.0.1:11011:11012",
+            "port": 11011,
+            "servicePort": 11012,
             "tags": {
               "service": "backend",
               "version": "2.0",
@@ -396,11 +402,11 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes
         ],
         "outbound": [
           {
-            "interface": ":33033",
+            "port": 33033,
             "service": "database"
           },
           {
-            "interface": ":44044",
+            "port": 44044,
             "service": "user"
           }
         ]
@@ -438,9 +444,11 @@ curl http://localhost:5681/meshes/default/dataplanes+insights/example
  "name": "example",
  "dataplane": {
   "networking": {
+   "address": "127.0.0.1",
    "inbound": [
     {
-     "interface": "127.0.0.1:11011:11012",
+     "port": 11011,
+     "servicePort": 11012,
      "tags": {
       "env": "production",
       "service": "backend",
@@ -450,7 +458,7 @@ curl http://localhost:5681/meshes/default/dataplanes+insights/example
    ],
    "outbound": [
     {
-     "interface": ":33033",
+     "port": 33033,
      "service": "database"
     }
    ]
@@ -506,9 +514,11 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
      "name": "example",
      "dataplane": {
       "networking": {
+       "address": "127.0.0.1",
        "inbound": [
         {
-         "interface": "127.0.0.1:11011:11012",
+         "port": 11011,
+         "servicePort": 11012,
          "tags": {
           "env": "production",
           "service": "backend",
@@ -518,7 +528,7 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
        ],
        "outbound": [
         {
-         "interface": ":33033",
+         "port": 33033,
          "service": "database"
         }
        ]

@@ -53,8 +53,10 @@ $ echo "type: Dataplane
 mesh: default
 name: dp-echo-1
 networking:
+  address: 127.0.0.1
   inbound:
-  - interface: 127.0.0.1:10000:9000
+  - port: 10000
+    servicePort: 9000
     tags:
       service: echo" | ./kumactl apply -f -
 ```
