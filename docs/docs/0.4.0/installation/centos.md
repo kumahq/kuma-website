@@ -1,23 +1,23 @@
-# Ubuntu
+# CentOS
 
 ::: tip
 **Don't forget!** The [Official Documentation](../) of Kuma is a great place to learn about both basic and more advanced topics.
 :::
 
-To install and run Kuma on Ubuntu (**amd64**) execute the following steps:
+To install and run Kuma on CentOS (**x86_64**) execute the following steps:
 
 ### 1. Download and run Kuma
 
-You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.3.2-ubuntu-amd64.tar.gz) or by running:
+You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.3.2-centos-amd64.tar.gz) or by running:
 
 ```sh
-$ wget https://kong.bintray.com/kuma/kuma-0.3.2-ubuntu-amd64.tar.gz
+$ wget https://kong.bintray.com/kuma/kuma-0.3.2-centos-amd64.tar.gz
 ```
 
 You can extract the archive and check the contents of the `bin` folder by running:
 
 ```sh
-$ tar xvzf kuma-0.3.2-ubuntu-amd64.tar.gz
+$ tar xvzf kuma-0.3.2-centos-amd64.tar.gz
 $ cd bin/ && ls
 envoy   kuma-dp   kuma-tcp-echo   kuma-cp   kuma-prometheus-sd   kumactl
 ```
@@ -53,8 +53,10 @@ $ echo "type: Dataplane
 mesh: default
 name: dp-echo-1
 networking:
+  address: 127.0.0.1
   inbound:
-  - interface: 127.0.0.1:10000:9000
+  - port: 10000
+    servicePort: 9000
     tags:
       service: echo" | ./kumactl apply -f -
 ```
@@ -86,7 +88,7 @@ Accept: */*
 
 ### 3. Apply Policies
 
-Now you can start applying [Policies](../../policies/introduction) to your `default` Service Mesh, like Mutual TLS:
+Now you can start applying [Policies](../../policies/introduction) to your `default` Service Mesh, like [Mutual TLS](../../policies/mutual-tls):
 
 ```sh
 $ echo "type: Mesh
@@ -117,7 +119,7 @@ destinations:
 You can configure `kumactl` to point to any remote `kuma-cp` instance by running:
 
 ```sh
-$ ./kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:5681
+$ kumactl config control-planes add --name=XYZ --address=http://address.to.kuma:5681
 ```
 :::
 

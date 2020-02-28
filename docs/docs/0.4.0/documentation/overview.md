@@ -57,6 +57,8 @@ kuma.io/sidecar-injection: enabled
 
 When following the installation instructions, `kuma-injector` will be automatically started.
 
+You can learn more about sidecar injection in the section on [Dataplanes](./dps-and-data-model/#kubernetes).
+
 <center>
 <img src="/images/docs/0.2.0/diagram-08.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>

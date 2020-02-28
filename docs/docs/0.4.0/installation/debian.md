@@ -1,23 +1,23 @@
-# Ubuntu
+# Debian
 
 ::: tip
 **Don't forget!** The [Official Documentation](../) of Kuma is a great place to learn about both basic and more advanced topics.
 :::
 
-To install and run Kuma on Ubuntu (**amd64**) execute the following steps:
+To install and run Kuma on Debian (**amd64**) execute the following steps:
 
 ### 1. Download and run Kuma
 
-You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.3.2-ubuntu-amd64.tar.gz) or by running:
+You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.3.2-debian-amd64.tar.gz) or by running:
 
 ```sh
-$ wget https://kong.bintray.com/kuma/kuma-0.3.2-ubuntu-amd64.tar.gz
+$ wget https://kong.bintray.com/kuma/kuma-0.3.2-debian-amd64.tar.gz
 ```
 
 You can extract the archive and check the contents of the `bin` folder by running:
 
 ```sh
-$ tar xvzf kuma-0.3.2-ubuntu-amd64.tar.gz
+$ tar xvzf kuma-0.3.2-debian-amd64.tar.gz
 $ cd bin/ && ls
 envoy   kuma-dp   kuma-tcp-echo   kuma-cp   kuma-prometheus-sd   kumactl
 ```
@@ -53,8 +53,10 @@ $ echo "type: Dataplane
 mesh: default
 name: dp-echo-1
 networking:
+  address: 127.0.0.1
   inbound:
-  - interface: 127.0.0.1:10000:9000
+  - port: 10000
+    servicePort: 9000
     tags:
       service: echo" | ./kumactl apply -f -
 ```
@@ -89,12 +91,12 @@ Accept: */*
 Now you can start applying [Policies](../../policies/introduction) to your `default` Service Mesh, like Mutual TLS:
 
 ```sh
-$ echo "type: Mesh
+$ ./echo "type: Mesh
 name: default
 mtls:
   enabled: true 
   ca:
-    builtin: {}" | ./kumactl apply -f -
+    builtin: {}" | kumactl apply -f -
 ```
 
 With mTLS enabled, all traffic is restricted by default unless we specify a [Traffic Permission](../../policies/traffic-permissions) policy that enables it again. For example, we can apply the following permissive policy to enable all traffic across every data-plane again:
