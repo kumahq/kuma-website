@@ -22,7 +22,7 @@
         <!-- DEV -->
         <!-- <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpointDev"/> -->
         <label for="input_email" class="sr-only">Email</label>
-        <validation-provider rules="required|email" v-slot="{ errors }">
+        <validation-provider rules="required|email" v-slot="{ errors }" class="form-note-wrapper">
           <input v-model="formData.email" id="email" name="email" type="email" placeholder="Work Email" />
           <span class="note note--error">{{ errors[0] }}</span>
         </validation-provider>
@@ -139,6 +139,18 @@ export default {
 
 <style lang="scss" scoped>
 @import '../styles/custom/config/variables';
+
+.form-note-wrapper {
+  position: relative;
+
+  .note {
+    position: absolute;
+    top: 100%; left: 0;
+    z-index: 1;
+    width: 100%;
+  }
+}
+
 
 button.is-sending {
   position: relative;
