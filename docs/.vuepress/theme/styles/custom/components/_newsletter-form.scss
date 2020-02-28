@@ -113,11 +113,11 @@
   }
 
   .form-wrapper {
-    // background-color: $pale-blue;
-    // border-radius: 0 20px 20px 0;
-
+    
     form {
       background-color: $pale-blue;
+      border-radius: 20px;
+      overflow: hidden;
     }
   }
 }
