@@ -47,7 +47,7 @@
 
     <div v-if="formStatus === true" class="tip custom-block">
       <p class="custom-block-title">Thank you!</p>
-      <p>Your submission has been received.</p>
+      <p>You're now signed up for the {{ getSiteData.title }} newsletter.</p>
     </div>
 
     <div v-if="formStatus === false" class="danger custom-block">
@@ -154,5 +154,25 @@ button.is-sending {
 .is-hidden {
   opacity: 0;
   visibility: hidden;
+}
+
+.tip {
+  background-color: #fff;
+  box-shadow: 0 0 0 1px #cccccc, 0 3px 6px 0 #eaecef;
+  padding: 20px;
+  text-align: left;
+
+  p {
+
+    &:first-of-type {
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
 }
 </style>
