@@ -156,11 +156,21 @@ button.is-sending {
   visibility: hidden;
 }
 
-.tip {
-  background-color: #fff;
+.form-wrapper .custom-block {
   box-shadow: 0 0 0 1px #cccccc, 0 3px 6px 0 #eaecef;
   padding: 20px;
   text-align: left;
+  // border-left: 0;
+
+  // success
+  &.tip {
+    background-color: #fff;
+  }
+
+  // error
+  &.danger {
+
+  }
 
   p {
 
