@@ -85,6 +85,7 @@ networking:
     servicePort: 80
     tags:
       service: backend
+      protocol: http
   outbound:
   - port: 10000
     service: redis" | kumactl apply -f -
@@ -147,6 +148,7 @@ networking:
       servicePort: 11012
       tags:
         service: backend
+        protocol: http
   outbound:
     - port: 33033
       service: redis
