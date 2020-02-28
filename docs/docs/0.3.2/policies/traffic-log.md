@@ -14,7 +14,7 @@ Configuring access logs in `Kuma` is a 2-step process:
 
 2. Second, you need to create a `TrafficLog` policy to select a subset of traffic and forward its access logs into one of the _logging backends_ configured for that `Mesh`.
 
-## On Universal
+### On Universal
 
 ```yaml
 type: Mesh
@@ -80,7 +80,7 @@ conf:
   backend: logstash
 ```
 
-## On Kubernetes
+### On Kubernetes
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -159,7 +159,7 @@ spec:
 When `backend ` field of a `TrafficLog` policy is omitted, the logs will be forwarded into the `defaultBackend` of that `Mesh`.
 :::
 
-## Access Log Format
+### Access Log Format
 
 `Kuma` gives you full control over the format of access logs.
 
@@ -186,7 +186,7 @@ The latter include:
 | `%KUMA_DESTINATION_SERVICE%`         | name of a `service` that is the `destination` of traffic   |
 | `%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%` | address of a `Dataplane` that is the `source` of traffic |
 
-## Access Logs for TCP and HTTP traffic
+### Access Logs for TCP and HTTP traffic
 
 All access log _command operators_ are valid to use with both `TCP` and `HTTP` traffic.
 
@@ -206,7 +206,7 @@ The default format string for `HTTP` traffic is:
 [%START_TIME%] "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%KUMA_SOURCE_SERVICE%" "%KUMA_DESTINATION_SERVICE%" "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%" "%UPSTREAM_HOST%"
 ```
 
-## Access Logs in JSON format
+### Access Logs in JSON format
 
 If you need an access log with entries in `JSON` format, you have to provide a template string that is a valid `JSON` object, e.g.
 
