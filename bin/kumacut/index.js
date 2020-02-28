@@ -22,12 +22,11 @@ const sidebarNav = path.resolve(
   "../../docs/.vuepress/site-config/sidebar-nav.js"
 );
 const latest = LatestSemver(require(releases));
-const sourcVersionDir = path.resolve(__dirname, "../../docs/docs/draft");
+const sourcVersionDir = path.resolve(__dirname, `../../docs/docs/${latest}`);
 
 // this is the token we replace in the documentation
 // markdown files when cutting a new release
-// const verToken = "%%VER%%"; // this causes Vue router build errors
-const verToken = new RegExp(/\b(DRAFT)\b/g);
+const verToken = new RegExp(latest, "gm");
 
 /**
  * @function replaceVerToken
@@ -49,6 +48,7 @@ replaceVerToken = (token, ver, dest) => {
         ver
       )} in all Markdown files!`
     );
+    console.log(`${chalk.green.bold("✔")} ${chalk.black.bgYellow('Please make sure to update "sidebar-nav.js" accordingly!')}`);
   } catch (err) {
     console.log(chalk.red.bold(err));
   }
@@ -69,10 +69,13 @@ cloneDirAndReplace = (source, dest, ver) => {
     .then(() => {
       // replace the version token in the documentation markdown files accordingly
       replaceVerToken(verToken, ver, `${dest}/**/*.md`);
+      console.log(dest);
     })
     .catch(err => {
       console.log(chalk.red.bold(err));
     });
+
+    // console.log(latest)
 };
 
 /**
@@ -148,6 +151,11 @@ bumpVersion = (type, val) => {
   // update the release list
   updateReleaseList(releases, version);
 
+  /**
+   * DEPRECATED: this function is disabled for now because of how complex
+   * the sidebar has become. a new approach is needed to automating its
+   * construction.
+   */
   // update the sidebar configuration
   // updateSidebarConfig(sidebarNav, version);
 };
