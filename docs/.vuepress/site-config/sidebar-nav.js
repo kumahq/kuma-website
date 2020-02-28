@@ -715,7 +715,7 @@ module.exports = {
         "policies/traffic-permissions",
         "policies/traffic-route",
         "policies/traffic-metrics",
-        "policies/traffic-tracing",
+        "policies/traffic-trace",
         "policies/traffic-log",
         "policies/health-check",
         "policies/proxy-template",
