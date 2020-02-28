@@ -12,7 +12,7 @@ By doing this,
 * you will get reacher logs with [`Traffic Log`](../traffic-log) policy
 * you will be able to use [`Traffic Trace`](../traffic-trace) policy
 
-## On Universal
+### On Universal
 
 On `Universal`, to give `Kuma` a hint that your `service` supports `HTTP` protocol, you need to add a `protocol` tag to the `inbound` interface of your `Dataplane`.
 
@@ -32,7 +32,7 @@ networking:
       protocol: http # let Kuma know that your service supports HTTP protocol
 ```
 
-## On Kubernetes
+### On Kubernetes
 
 On `Kubernetes`, to give `Kuma` a hint that your `service` supports `HTTP` protocol, you need to add a `<port>.service.kuma.io/protocol` annotation to the `k8s` `Service` object.
 
