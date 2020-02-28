@@ -29,7 +29,7 @@
           :disabled="invalid"
           type="submit"
           name="submit"
-          class="btn btn--dark"
+          class="btn"
           :class="{ 'is-sending': (invalid === false && formSending === true) }"
           @click="formIsSubmitting()"
         >
@@ -137,9 +137,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/custom/config/variables';
+
 button.is-sending {
   position: relative;
-  background-color: #000 !important;
+  background-color: $green-base !important;
   cursor: not-allowed;
 
   span:not(.is-hidden) {

@@ -26,7 +26,7 @@
           :disabled="invalid"
           type="submit"
           name="submit"
-          class="btn btn--dark"
+          class="btn"
           :class="{ 'is-sending': (invalid === false && formSending === true) }"
           @click="formIsSubmitting()"
         >
@@ -44,7 +44,10 @@
 
     <div v-if="formStatus === true" class="tip custom-block">
       <p class="custom-block-title">Thank you!</p>
-      <p>We've received your request to register for the upcoming Community Call.</p>
+      <p>
+        We've received your request to register for the upcoming Community Call.
+        Thank you for your interest in {{ getSiteData.title }}!
+      </p>
     </div>
 
     <div v-if="formStatus === false" class="danger custom-block">
@@ -133,21 +136,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/custom/config/variables';
+
 .note {
   margin-top: 10px !important;
 }
 
 .form-wrapper .tip {
   background-color: #fff;
-  border: 0;
-  border-radius: 5px;
-  padding: 20px;
   box-shadow: 0 0 0 1px #cccccc, 0 3px 6px 0 #eaecef;
+  padding: 20px;
 }
 
 button.is-sending {
   position: relative;
-  background-color: #000 !important;
+  background-color: $green-base !important;
   cursor: not-allowed;
 
   span:not(.is-hidden) {
