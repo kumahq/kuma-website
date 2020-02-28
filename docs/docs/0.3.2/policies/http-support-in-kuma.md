@@ -1,4 +1,4 @@
-# General notes about HTTP support in Kuma
+# HTTP support in Kuma
 
 At its core, `Kuma` distinguishes between 2 major categories of traffic: `HTTP` traffic and opaque `TCP` traffic.
 

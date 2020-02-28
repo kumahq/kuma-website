@@ -55,7 +55,7 @@ module.exports = {
         "policies/proxy-template",
         "policies/general-notes-about-kuma-policies",
         "policies/how-kuma-chooses-the-right-policy-to-apply",
-        "policies/general-notes-about-http-support-in-kuma",
+        "policies/http-support-in-kuma",
       ]
     },
     {
