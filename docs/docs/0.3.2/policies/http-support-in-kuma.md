@@ -9,7 +9,7 @@ So, as a user of `Kuma`, you're _highly encouraged_ to give it a hint whether yo
 By doing this,
 
 * you will get reacher metrics with [`Traffic Metrics`](../traffic-metrics) policy
-* you will get reacher logs with [`Traffic Log`](../traffic-metrics) policy
+* you will get reacher logs with [`Traffic Log`](../traffic-log) policy
 * you will be able to use [`Traffic Trace`](../traffic-trace) policy
 
 ## On Universal
