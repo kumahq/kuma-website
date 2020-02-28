@@ -12,7 +12,7 @@ Configuring access logs in `Kuma` is a 2-step process:
 
    In the current release of `Kuma`, a _logging backend_ can be either a _file_ or a _TCP log collector_, such as Logstash.
 
-2. Second, you need to create a `TrafficLog` policy to select a subset of traffic and steer its access logs into one of the _logging backends_ configured for that `Mesh`.
+2. Second, you need to create a `TrafficLog` policy to select a subset of traffic and forward its access logs into one of the _logging backends_ configured for that `Mesh`.
 
 ## On Universal
 
@@ -21,7 +21,7 @@ type: Mesh
 name: default
 logging:
   # TrafficLog policies may leave the `backend` field undefined.
-  # In that case the logs will be steered into the `defaultBackend` of that Mesh.
+  # In that case the logs will be forwarded into the `defaultBackend` of that Mesh.
   defaultBackend: file
   # List of logging backends that can be referred to by name
   # from TrafficLog policies of that Mesh.
@@ -61,7 +61,7 @@ sources:
 destinations:
   - match:
       service: '*'
-# When `backend ` field is omitted, the logs will be steered into the `defaultBackend` of that Mesh.
+# When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that Mesh.
 ```
 
 ```yaml
@@ -76,7 +76,7 @@ destinations:
   - match:
       service: database
 conf:
-  # Steer the logs into the logging backend named `logstash`.
+  # Forward the logs into the logging backend named `logstash`.
   backend: logstash
 ```
 
@@ -90,7 +90,7 @@ metadata:
 spec:
   logging:
     # TrafficLog policies may leave the `backend` field undefined.
-    # In that case the logs will be steered into the `defaultBackend` of that Mesh.
+    # In that case the logs will be forwarded into the `defaultBackend` of that Mesh.
     defaultBackend: file
     # List of logging backends that can be referred to by name
     # from TrafficLog policies of that Mesh.
@@ -133,7 +133,7 @@ spec:
   destinations:
     - match:
         service: '*'
-  # When `backend ` field is omitted, the logs will be steered into the `defaultBackend` of that Mesh.
+  # When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that Mesh.
 ```
 
 ```yaml
@@ -151,12 +151,12 @@ spec:
     - match:
         service: database.kuma-example.svc:5432
   conf:
-    # Steer the logs into the logging backend named `logstash`.
+    # Forward the logs into the logging backend named `logstash`.
     backend: logstash
 ```
 
 ::: tip
-When `backend ` field of a `TrafficLog` policy is omitted, the logs will be steered into the `defaultBackend` of that `Mesh`.
+When `backend ` field of a `TrafficLog` policy is omitted, the logs will be forwarded into the `defaultBackend` of that `Mesh`.
 :::
 
 ## Access Log Format
