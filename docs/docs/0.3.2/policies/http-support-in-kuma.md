@@ -10,7 +10,7 @@ By doing this,
 
 * you will get reacher metrics with [`Traffic Metrics`](../traffic-metrics) policy
 * you will get reacher logs with [`Traffic Log`](../traffic-metrics) policy
-* you will be able to use [`Traffic Trace`](../traffic-tracing) policy 
+* you will be able to use [`Traffic Trace`](../traffic-trace) policy
 
 ## On Universal
 
