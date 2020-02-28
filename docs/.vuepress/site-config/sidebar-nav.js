@@ -49,7 +49,7 @@ module.exports = {
         "policies/traffic-permissions",
         "policies/traffic-route",
         "policies/traffic-metrics",
-        "policies/traffic-trace",
+        "policies/traffic-tracing",
         "policies/traffic-log",
         "policies/health-check",
         "policies/proxy-template",
@@ -124,7 +124,7 @@ module.exports = {
         "policies/mutual-tls",
         "policies/traffic-permissions",
         "policies/traffic-route",
-        "policies/traffic-trace",
+        "policies/traffic-tracing",
         "policies/traffic-log",
         "policies/proxy-template"
       ]
@@ -196,7 +196,7 @@ module.exports = {
         "policies/mutual-tls",
         "policies/traffic-permissions",
         "policies/traffic-route",
-        "policies/traffic-trace",
+        "policies/traffic-tracing",
         "policies/traffic-log",
         "policies/proxy-template"
       ]
@@ -268,7 +268,7 @@ module.exports = {
         "policies/mutual-tls",
         "policies/traffic-permissions",
         "policies/traffic-route",
-        "policies/traffic-trace",
+        "policies/traffic-tracing",
         "policies/traffic-log",
         "policies/proxy-template"
       ]
@@ -340,7 +340,7 @@ module.exports = {
         "policies/mutual-tls",
         "policies/traffic-permissions",
         "policies/traffic-route",
-        "policies/traffic-trace",
+        "policies/traffic-tracing",
         "policies/traffic-log",
         "policies/proxy-template"
       ]
@@ -412,7 +412,7 @@ module.exports = {
         "policies/mutual-tls",
         "policies/traffic-permissions",
         "policies/traffic-route",
-        "policies/traffic-trace",
+        "policies/traffic-tracing",
         "policies/traffic-log",
         "policies/proxy-template"
       ]
@@ -484,7 +484,7 @@ module.exports = {
         "policies/mutual-tls",
         "policies/traffic-permissions",
         "policies/traffic-route",
-        "policies/traffic-trace",
+        "policies/traffic-tracing",
         "policies/traffic-log",
         "policies/proxy-template"
       ]
@@ -557,7 +557,7 @@ module.exports = {
         "policies/mutual-tls",
         "policies/traffic-permissions",
         "policies/traffic-route",
-        "policies/traffic-trace",
+        "policies/traffic-tracing",
         "policies/traffic-log",
         "policies/proxy-template"
       ]
@@ -632,7 +632,7 @@ module.exports = {
         "policies/mutual-tls",
         "policies/traffic-permissions",
         "policies/traffic-route",
-        "policies/traffic-trace",
+        "policies/traffic-tracing",
         "policies/traffic-log",
         "policies/health-check",
         "policies/proxy-template",
