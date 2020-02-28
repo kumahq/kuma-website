@@ -14,7 +14,7 @@ With mTLS enabled, all traffic is denied by default.
 Remember to apply a `TrafficPermission` policy to explictly allow legitimate traffic between certain Dataplanes.
 :::
 
-## Builtin CA
+### Builtin CA
 
 On Universal:
 
@@ -45,7 +45,7 @@ spec:
 
 You can apply this configuration with `kubectl apply -f [file-path]`.
 
-## Provided CA
+### Provided CA
 
 In some cases users might need to opt out of auto-generated Root CA certificates, e.g. to stay compliant with internal company policies.
 
