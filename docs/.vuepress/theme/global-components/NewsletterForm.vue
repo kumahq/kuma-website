@@ -1,28 +1,11 @@
 <template>
   <div class="form-wrapper">
 
-    <!-- <validation-observer v-slot="{ invalid, passes }">
-      <form v-if="!submitted" class="form-horizontal" @submit.prevent="passes(submitForm)">
-        <label for="input_email" class="sr-only">Email</label>
-        <validation-provider rules="required|email" v-slot="{ errors }">
-          <input v-model="formData.input_email" id="input_email" name="input_email" type="email" />
-          <span class="note note--error">{{ errors[0] }}</span>
-        </validation-provider>
-        <button :disabled="invalid" type="submit" name="submit" class="btn btn--bright">
-          Join Newsletter
-        </button>
-      </form>
-    </validation-observer> -->
-
     <validation-observer
       v-slot="{ invalid, passes }"
     >
-      <!-- <form
-        v-if="!submitted"
-        class="form-horizontal"
-        @submit.prevent="passes(submitForm)"
-      > -->
       <form
+        v-if="formStatus === null || formStatus === false"
         class="form-horizontal"
         method="post"
         :action="getNewsletterPardotEndpoint"
@@ -39,12 +22,24 @@
         <!-- DEV -->
         <!-- <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpointDev"/> -->
         <label for="input_email" class="sr-only">Email</label>
-        <validation-provider rules="required|email" v-slot="{ errors }">
-          <input v-model="formData.email" id="email" name="email" type="email" />
+        <validation-provider rules="required|email" v-slot="{ errors }" class="form-note-wrapper">
+          <input v-model="formData.email" id="email" name="email" type="email" placeholder="Work Email" />
           <span class="note note--error">{{ errors[0] }}</span>
         </validation-provider>
-        <button :disabled="invalid" type="submit" name="submit" class="btn btn--bright">
-          Join Newsletter
+        <button 
+          :disabled="invalid"
+          type="submit"
+          name="submit"
+          class="btn"
+          :class="{ 'is-sending': (invalid === false && formSending === true) }"
+          @click="formIsSubmitting()"
+        >
+          <span v-if="invalid === false && formSending === true">
+            <Spinner />
+          </span>
+          <span :class="{ 'is-hidden': (invalid === false && formSending === true) }">
+            Join Newsletter
+          </span>
         </button>
       </form>
     </validation-observer>
@@ -53,7 +48,7 @@
 
     <div v-if="formStatus === true" class="tip custom-block">
       <p class="custom-block-title">Thank you!</p>
-      <p>Your submission has been received.</p>
+      <p>You're now signed up for the {{ getSiteData.title }} newsletter.</p>
     </div>
 
     <div v-if="formStatus === false" class="danger custom-block">
@@ -69,6 +64,9 @@ import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
+
+// I am doing this because of an error that occurred when using KIcon
+import Spinner from '@theme/global-components/IconSpinner'
 
 // required validation
 extend('required', {
@@ -94,12 +92,14 @@ export default {
         utm_term: this.$route.query.utm_term || null,
         utm_ad_group: this.$route.query.utm_ad_group || null
       },
-      formStatus: null
+      formStatus: null,
+      formSending: false
     }
   },
   components: {
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    Spinner
   },
   computed: {
     ...mapGetters([
@@ -128,39 +128,74 @@ export default {
           behavior: 'auto'
         })
       }
-    }
-    // submitForm() {
-    //   // const url = this.getNewsletterPardotEndpoint
-    //   const url = this.getNewsletterPardotEndpointDev
-    //   const payload = this.formData
+    },
 
-    //   // send the form data
-    //   axios({
-    //     method: 'post',
-    //     url: url,
-    //     params: payload,
-    //     crossDomain: true,
-    //     responseType: 'json',
-    //     withCredentials: true,
-    //     headers: {
-    //       'content-type': 'application/x-www-form-urlencoded'
-    //     }
-    //   })
-    //   .then(res => {
-    //     // if everything is good, tell the app we have submitted successfully
-    //     // we handle inline validation with vee-validate
-    //     if (res && res.statusText === 'OK') {
-    //       this.submitted = true
-    //     } else {
-    //       this.error = true
-    //     }
-    //   })
-    //   .catch(err => {
-    //     // let the app know if an error has occurred
-    //     this.error = true
-    //     console.log(err)
-    //   })
-    // }
+    formIsSubmitting() {
+      this.formSending = true
+    },
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '../styles/custom/config/variables';
+
+.form-note-wrapper {
+  position: relative;
+
+  .note {
+    position: absolute;
+    top: 100%; left: 0;
+    z-index: 1;
+    width: 100%;
+  }
+}
+
+
+button.is-sending {
+  position: relative;
+  background-color: $green-base !important;
+  cursor: not-allowed;
+
+  span:not(.is-hidden) {
+    display: block;
+    position: absolute;
+    left: calc(50% - 12px);
+  }
+}
+
+.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.form-wrapper .custom-block {
+  box-shadow: 0 0 0 1px #cccccc, 0 3px 6px 0 #eaecef;
+  padding: 20px;
+  text-align: left;
+  // border-left: 0;
+
+  // success
+  &.tip {
+    background-color: #fff;
+  }
+
+  // error
+  &.danger {
+
+  }
+
+  p {
+
+    &:first-of-type {
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+}
+</style>

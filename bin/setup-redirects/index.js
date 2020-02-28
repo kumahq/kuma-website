@@ -14,8 +14,7 @@ fs.readFile(releases, "utf8", (err, data) => {
   const docRedirectType = 301;
 
   // setup the content template
-  const template = `# Proper Vue routing
-# Docs redirect
+  const template = `# Docs redirect
 [[redirects]]
 from = "/docs/"
 to = "/docs/${latest}/"

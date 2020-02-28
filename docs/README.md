@@ -13,7 +13,11 @@ meta:
 testimonialPortraitSrc: /images/luca-maraschi-cropped@2x.png
 testimonialPortraitAlt: Portrait photo of Luca Maraschi
 showTestimonial: true # change this to `true` if you want to display the testimonial
-showNews: true # change this to `true` if you want to display the news bar
+showNews: false # change this to `true` if you want to display the news bar
+startText: Get Started
+startUrl: /install/
+whyText: Why Kuma?
+whyUrl: /docs/latest/overview/why-kuma/
 ---
 
 ::: slot news
@@ -26,13 +30,13 @@ Join us on Zoom February 25 at 5PM PST for our next Kuma Online Meetup! [Registe
 
 ::: slot masthead-main-title
 
-# Build, Secure and Observe<br> your modern Service Mesh
+# The modern control plane<br> for reliable service connectivity
 
 :::
 
 ::: slot masthead-sub-title
 
-## The open-source control plane for modern connectivity, delivering high performance and reliability with Envoy.
+## The open-source control plane for modern connectivity, <br>delivering high performance and reliability with Envoy.
 
 :::
 
@@ -46,7 +50,7 @@ Join us on Zoom February 25 at 5PM PST for our next Kuma Online Meetup! [Registe
 
 ### CRD + RESTful Interface
 
-![Universal Control Plane diagram](/images/diagrams/diagram-universal-cp-rev1@2x.jpg)
+![CRD + RESTful Interface diagram](/images/diagrams/v2/diagram-crd-rest@2x.png)
 
 Built on top of Envoy, Kuma can be fully operated via simple CRDs on Kubernetes or with a RESTful API on other platforms. GUI included.
 
@@ -56,7 +60,7 @@ Built on top of Envoy, Kuma can be fully operated via simple CRDs on Kubernetes 
 
 ### L4 + L7 Policies
 
-![Universal Control Plane diagram](/images/diagrams/diagram-powerful-policies-rev1@2x.jpg)
+![L4 and L7 Policies chart](/images/diagrams/v2/diagram-l4-l7-policies@2x.png)
 
 Connect your Microservices with Kuma, and apply intuitive policies for security, observability, routing, and more in one command.
 :::
@@ -65,7 +69,7 @@ Connect your Microservices with Kuma, and apply intuitive policies for security,
 
 ### Platform Agnostic
 
-![Platform Agnostic diagram](/images/diagrams/diagram-platform-agnostic-rev1@2x.jpg)
+![Platform Agnostic diagram](/images/diagrams/v2/diagram-platform-agnostic@2x.png)
 
 Kuma can run anywhere, on Kubernetes and VMs, in the cloud or on-premise, in single or multi-datacenter setups.
 :::
@@ -84,223 +88,52 @@ Luca Maraschi
 Chief Architect at Telus Digital
 :::
 
-<!-- tabs -->
+::: slot feature-focus-1-content
+### Focused on simplicity
 
-::: slot tabs-section-title
+Getting up and running with Kuma only requires three easy steps. Bundled with Envoy proxy, 
+Kuma delivers out of the box policies that can secure, observe, connect, route, log and 
+enhance your service connectivity for the entire application, databases included.
 
-## Get Started In 1 Minute
-
+* Fast, lightweight, highly available
+* 10+ bundled policies for L4/L7 traffic
+* Bundled with Envoy (no prior expertise required)
 :::
 
-::: slot tab-1-title
-<img class="tab-icon" src="/images/tab-icons/tab-icon-k8s.png" alt="Kubernetes Logo Tab Icon">
-<img class="tab-icon tab-icon__active" src="/images/tab-icons/tab-icon-k8s-active.png" alt="Kubernetes Logo Active Tab Icon">
-
-### Kubernetes
-
+::: slot feature-focus-1-diagram
+![Connectivity with no boundaries diagram](/images/diagrams/v2/diagram-speed-chart@2x.png)
 :::
 
-::: slot tab-1-content-step-1
+::: slot feature-focus-2-content
+### Kubernetes and Universal mode
 
-### Start the Control Plane
+With Kuma you can build service connectivity and Service Meshes across a large variety 
+of platforms and clouds. Platform agnostic by nature, Kuma supports modern Kubernetes 
+environments and Universal VM workloads in the same cluster, with no effort.
 
-After [downloading and installing Kuma](/install/latest), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/latest/policies/mesh):
+* Kubernetes, VMs and Bare Metal
+* Multi K8s-Namespace and Multi-Cloud support
+* For both North-South and East-West traffic
 :::
 
-::: slot tab-1-code-block-step-1
-
-```sh
-$ kumactl install control-plane | kubectl apply -f -
-```
-
+::: slot feature-focus-2-diagram
+![Diagram outlining connectivity with no boundaries](/images/diagrams/v2/diagram-connectivity@2x.png)
 :::
 
-::: slot tab-1-content-step-2
+::: slot feature-focus-3-content
+### One cluster for the entire organization
 
-### Deploy your Services
+Multi-tenant since day one, with Kuma you can create as many independent Service Meshes
+as you need with one control plane. This reduces the operational costs of supporting
+the entire organization in a significant way.
 
-You can now deploy your services, which will be automatically injected with a Kuma sidecar data-plane:
+* Multi-Tenancy for multiple Meshes
+* Ops complexity is O(1), not O(n)
+* One Runtime, scalable horizontally
 :::
 
-::: slot tab-1-code-block-step-2
-
-```sh
-$ kubectl apply -f https://raw.githubusercontent.com/Kong/kuma-demo/master/kubernetes/kuma-demo-aio.yaml
-```
-
-:::
-
-::: slot tab-1-content-step-3
-
-### Apply Policies
-
-You can now apply [Policies](/docs/latest/policies/introduction) like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
-:::
-
-::: slot tab-1-code-block-step-3
-
-```sh
-$ echo "apiVersion: kuma.io/v1alpha1
-kind: Mesh
-metadata:
-  name: default
-spec:
-  mtls:
-    enabled: true
-    ca:
-      builtin: {}" | kubectl apply -f -
-```
-
-:::
-
-::: slot tab-2-title
-<img class="tab-icon" src="/images/tab-icons/tab-icon-uni.png" alt="Universal Logo Tab Icon">
-<img class="tab-icon tab-icon__active" src="/images/tab-icons/tab-icon-uni-active.png" alt="Universal Logo Active Tab Icon">
-
-### Universal
-
-:::
-
-::: slot tab-2-content-step-1
-
-### Start the Control Plane
-
-After [downloading and installing Kuma](/install/latest), you can start the control plane. Kuma automatically creates a `default` [Mesh](/docs/latest/policies/mesh):
-:::
-
-::: slot tab-2-code-block-step-1
-
-```sh
-$ kuma-cp run &
-```
-
-:::
-
-::: slot tab-2-content-step-2
-
-### Start your Services and start the data-plane
-
-For each Service that belongs to the Service Mesh, you must start a [`Dataplane Entity`](/docs/latest/documentation/dps-and-data-model/#dataplane-entity). After configuring the networking, you can start the data-plane process:
-:::
-
-::: slot tab-2-code-block-step-2
-
-```sh
-$ kuma-tcp-echo --port 9000 # This is a sample service
-
-$ echo "type: Dataplane
-mesh: default
-name: dp-echo-1
-networking:
-  address: 127.0.0.1
-  inbound:
-  - port: 10000
-    servicePort: 9000
-    tags:
-      service: echo" | kumactl apply -f -
-
-$ kumactl generate dataplane-token --dataplane=dp-echo-1 > /tmp/kuma-dp-echo-1
-
-$ kuma-dp run
-  --name=dp-echo-1 \
-  --mesh=default \
-  --cp-address=http://127.0.0.1:5681 \
-  --dataplane-token-file=/tmp/kuma-dp-echo-1
-```
-
-:::
-
-::: slot tab-2-content-step-3
-
-### Apply Policies
-
-You can now apply [Policies](/docs/latest/policies/introduction) like Mutual TLS to encrypt the communication within the Mesh. Congratulations! You have secured your Service Mesh!
-:::
-
-::: slot tab-2-code-block-step-3
-
-```sh
-$ echo "type: Mesh
-name: default
-mtls:
-  enabled: true
-  ca:
-    builtin: {}" | kumactl apply -f -
-```
-
-:::
-
-<!-- steps -->
-
-::: slot steps-title
-
-## Build your Service Mesh in 3 steps
-
-:::
-
-::: slot step-1-content
-
-### Download and Install Kuma CP
-
-To get started you can download Kuma and install it using the Kuma CLI application: &#96;kumactl&#96;.
-:::
-
-::: slot step-1-code-block
-
-```
-$ kumactl install control-plane | kubectl apply -f
-```
-
-:::
-
-::: slot step-2-content
-
-### Install the sidecar Envoy DP
-
-Once Kuma is up and running, it's now time to install the Envoy sidecars - that Kuma will
-later orchestrate - next to any service we want to include into our Service Mesh.
-:::
-
-::: slot step-2-code-block
-
-```
-$ kumactl install data-plane | kubectl apply -f
-```
-
-:::
-
-::: slot step-3-content
-
-### Apply Policies
-
-Congratulations, your Service Mesh is up and running. We can now instruct Kuma to enhance our
-Service Mesh with powerful policies like mTLS.
-:::
-
-::: slot step-3-code-block
-
-```
-$ kumactl create policy \
-  --name mtls \
-  --conf topology=hybrid
-```
-
-:::
-
-<!-- before and after -->
-
-::: slot before-after-title
-
-## Run Services, Not Networks
-
-:::
-
-::: slot before-after-diagram-1
-![Before implementing Kuma](/images/diagrams/diagram-before@2x.jpg)
-:::
-
-::: slot before-after-diagram-2
-![After implementing Kuma](/images/diagrams/diagram-after@2x.jpg)
+::: slot feature-focus-3-diagram
+![Diagram outlining one cluster for the entire organization](/images/diagrams/v2/diagram-org-cluster@2x.png)
 :::
 
 <!-- newsletter -->

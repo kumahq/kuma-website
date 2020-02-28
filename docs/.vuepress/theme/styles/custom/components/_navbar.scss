@@ -2,12 +2,14 @@
 // NavBar.vue
 // 
 
+$navbar-width: $container-width;
 $navbar-logo-height: 2.563rem;
 $navbar-vertical-padding: 1.5rem;
 $navbar-horizontal-padding: 1.5rem;
 $navbar-link-border: 2px solid $color-5;
 $navbar-link-font-size: $base-font-size;
 $navbar-link-font-family: $base-font-family;
+$navbar-link-margin: 3rem; // the spacing between navbar links
 
 .navbar {
   height: $navbarHeight;
@@ -17,6 +19,14 @@ $navbar-link-font-family: $base-font-family;
   // line-height: $navbarHeight - 1.4rem;
   display: flex;
   align-items: center;
+
+  // these styles override ones found 
+  // in `vuepress-core/index.scss`
+  height: $navbar-height-large;
+  border-bottom: 0;
+  background: transparent linear-gradient(
+    to bottom, #f5f8fc 80%, rgba(#f5f8fc, 0)
+  );
 
   a, span, img {
     display: inline-block;
@@ -40,7 +50,8 @@ $navbar-link-font-family: $base-font-family;
     // position: relative;
     display: none;
   }
-    
+  
+  // container for links in the navbar
   .links {
     padding-left: 1.5rem;
     box-sizing: border-box;
@@ -77,6 +88,12 @@ $navbar-link-font-family: $base-font-family;
     margin-top: 11px;
   }
 
+  // nav item links
+
+  .nav-item {
+    margin-left: $navbar-link-margin;
+  }
+
   // install button
   
   .nav-item--install > a:not(.external),
@@ -90,7 +107,7 @@ $navbar-link-font-family: $base-font-family;
 }
 
 .navbar-inner {
-  max-width: $container-width-compact;
+  max-width: $navbar-width;
   width: 100%;
   margin: 0 auto;
   display: flex;

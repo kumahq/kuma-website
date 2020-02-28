@@ -134,7 +134,7 @@
               </div>
 
               <div class="w-full px-4 mt-4">
-                <button :disabled="invalid" name="submit" class="btn btn--bright btn--spaced btn--block">
+                <button :disabled="invalid" name="submit" class="btn btn--bright btn--block">
                   Request Demo
                 </button>
               </div>

@@ -1,6 +1,6 @@
 ---
 sidebar: false
 title: Thank you!
-subTitle: Your newsletter subscription has been received. Thank you for your interest in Kuma!
+subTitle: You're now signed up for our newsletter. Thank you for your interest in Kuma!
 layout: Shell
 ---

@@ -26,7 +26,8 @@ card4IconAlt: Meetup logo icon
 :::
 
 ::: slot card-1-content
-Contribute and explore Kuma at the [official GitHub repository](https://github.com/Kong/kuma). Here is where all the coding happens. Feel free to ask questions, submit PRs and open issues.
+Contribute and explore Kuma at the [official GitHub repository](https://github.com/Kong/kuma). 
+Here is where all the coding happens. Feel free to ask questions, submit PRs and open issues.
 :::
 
 <!-- card 2 -->
@@ -48,7 +49,7 @@ can discuss and ask questions in real-time. If you have already joined, go direc
 
 ::: slot card-3-content
 Kuma hosts official monthly community calls where users and contributors can
-discuss about any topic and demonstrate use-cases. [Join the next call](https://docs.google.com/document/d/16TMKTZkAGjboQnIsbvrwcRc_90xhG_DwAgOfbHtim58/edit?usp=sharing).
+discuss about any topic and demonstrate use-cases. Interested? You can register below for the next Community Call.
 :::
 
 <!-- card 4 -->
