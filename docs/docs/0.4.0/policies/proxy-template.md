@@ -87,6 +87,41 @@ Notice that:
 2. `imports` allow you to reuse configuration that Kuma can generate automatically and add a few tweaks on top of it
 3. `resources` allow you to provide raw Envoy resources that will either complement or replace auto-generated ones
 
+To clarify, the above `ProxyTemplate` will match either of the following 2 `Dataplanes`.
+
+* A regular `Dataplane` (one with an `inbound` interface):
+
+  ```yaml
+  type: Dataplane
+  mesh: default
+  name: backend-01
+  networking:
+    address: 192.168.0.1
+    inbound:
+    - port: 80
+      servicePort: 8080
+      tags:
+        service:  backend    # Notice that both tags from the ProxyTemplate selector - `service` and `role` - must match
+        role:     api
+        version:  v1.2.3
+        protocol: http
+  ```
+
+* A gateway `Dataplane` (one with a `gateway` interface):
+
+  ```yaml
+  type: Dataplane
+  mesh: default
+  name: gateway
+  networking:
+    address: 10.0.0.1
+    gateway:
+      tags:
+        service:  backend    # Notice that both tags from the ProxyTemplate selector - `service` and `role` - must match
+        role:     api
+        env:      production
+  ```
+
 ::: tip
 In the current release, the only available canned configuration that can be used inside `imports` section is called `default-proxy`.
 
