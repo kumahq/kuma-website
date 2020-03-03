@@ -159,6 +159,7 @@ type: Dataplane
 mesh: default
 name: kong-01
 networking:
+  address: 10.0.0.1
   gateway:
     tags:
       service: kong
@@ -250,6 +251,7 @@ type: Dataplane
 mesh: default
 name: kong-01
 networking:
+  address: 10.0.0.1
   gateway:
     tags:
       service: kong
