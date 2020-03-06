@@ -15,3 +15,7 @@ Here you will find all you need to know about the product. While Kuma is ideal f
 The core maintainer of Kuma is **Kong**, the maker of the popular open-source Kong Gateway 🦍.
 
 The word "Kuma" means "bear" in Japanese (クマ).
+
+<center>
+<img src="/images/diagrams/main-diagram@2x.png" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
+</center>
