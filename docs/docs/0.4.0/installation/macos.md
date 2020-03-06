@@ -1,9 +1,5 @@
 # macOS
 
-::: tip
-**Don't forget!** The [Official Documentation](../) of Kuma is a great place to learn about both basic and more advanced topics.
-:::
-
 To install and run Kuma on macOS execute the following steps:
 
 ### 1. Download and run Kuma
