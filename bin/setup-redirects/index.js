@@ -40,6 +40,12 @@ force = false
 from = "/install/latest/*"
 to = "/install/${latest}/:splat"
 status = 200
+force = false
+
+# Test redirect for old docs root pages
+from = "/docs/:version/policies/"
+to = "/docs/:version/policies/introduction/"
+status = 301
 force = false`;
 
   // write our redirects to the TOML file
