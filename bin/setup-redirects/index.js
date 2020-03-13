@@ -47,30 +47,35 @@ force = false
 #
 
 # Policies
+[[redirects]]
 from = "/docs/:version/policies/"
 to = "/docs/:version/policies/introduction/"
 status = 301
 force = false
 
 # Documentation
+[[redirects]]
 from = "/docs/:version/documentation/"
 to = "/docs/:version/documentation/introduction/"
 status = 301
 force = false
 
 # Overview
+[[redirects]]
 from = "/docs/:version/overview/"
 to = "/docs/:version/overview/what-is-kuma/"
 status = 301
 force = false
 
 # Installation
+[[redirects]]
 from = "/docs/:version/installation/"
 to = "/docs/:version/installation/centos/"
 status = 301
 force = false
 
 # Other
+[[redirects]]
 from = "/docs/:version/other/"
 to = "/docs/:version/other/introduction/"
 status = 301
