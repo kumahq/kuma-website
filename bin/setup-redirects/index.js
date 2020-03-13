@@ -42,9 +42,37 @@ to = "/install/${latest}/:splat"
 status = 200
 force = false
 
-# Test redirect for old docs root pages
+#
+# Redirects for old docs root pages
+#
+
+# Policies
 from = "/docs/:version/policies/"
 to = "/docs/:version/policies/introduction/"
+status = 301
+force = false
+
+# Documentation
+from = "/docs/:version/documentation/"
+to = "/docs/:version/documentation/introduction/"
+status = 301
+force = false
+
+# Overview
+from = "/docs/:version/overview/"
+to = "/docs/:version/overview/what-is-kuma/"
+status = 301
+force = false
+
+# Installation
+from = "/docs/:version/installation/"
+to = "/docs/:version/installation/centos/"
+status = 301
+force = false
+
+# Other
+from = "/docs/:version/other/"
+to = "/docs/:version/other/introduction/"
 status = 301
 force = false`;
 
