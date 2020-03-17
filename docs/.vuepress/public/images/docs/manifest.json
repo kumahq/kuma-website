@@ -409,9 +409,37 @@
           "size": 89155,
           "extension": ".png",
           "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.4.0/kuma_dp2.png",
+          "name": "kuma_dp2.png",
+          "size": 419634,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.4.0/kuma_dp3.png",
+          "name": "kuma_dp3.png",
+          "size": 199032,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.4.0/kuma_mesh.png",
+          "name": "kuma_mesh.png",
+          "size": 484434,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.4.0/kuma_service_to_service.png",
+          "name": "kuma_service_to_service.png",
+          "size": 172321,
+          "extension": ".png",
+          "type": "file"
         }
       ],
-      "size": 89155,
+      "size": 1364576,
       "type": "directory"
     },
     {
@@ -429,6 +457,6 @@
       "type": "file"
     }
   ],
-  "size": 5186067,
+  "size": 6461488,
   "type": "directory"
 }

@@ -13,7 +13,7 @@ The `kumactl` application is a CLI client for the underlying [HTTP API](../http-
 
 Available commands on `kumactl` are:
 
-* `kumactl install [..]`: provides helpers to install Kuma in Kubernetes, or to configure the PostgreSQL database on Universal.
+* `kumactl install [..]`: provides helpers to install Kuma components in Kubernetes.
 * `kumactl config [..]`: configures the local or remote control-planes that `kumactl` should talk to. You can have more than one enabled, and the configuration will be stored in `~/.kumactl/config`.
 * `kumactl apply [..]`: used to change the state of Kuma. Only available on Universal.
 * `kumactl get [..]`: used to retrieve the raw state of entities Kuma.
