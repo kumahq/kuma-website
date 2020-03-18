@@ -400,6 +400,21 @@
       "type": "directory"
     },
     {
+      "path": "docs/.vuepress/public/images/docs/0.4.0",
+      "name": "0.4.0",
+      "children": [
+        {
+          "path": "docs/.vuepress/public/images/docs/0.4.0/gui-dataplanes-table.png",
+          "name": "gui-dataplanes-table.png",
+          "size": 89155,
+          "extension": ".png",
+          "type": "file"
+        }
+      ],
+      "size": 89155,
+      "type": "directory"
+    },
+    {
       "path": "docs/.vuepress/public/images/docs/diagram-before-after-full.png",
       "name": "diagram-before-after-full.png",
       "size": 1089351,
@@ -414,6 +429,6 @@
       "type": "file"
     }
   ],
-  "size": 5096912,
+  "size": 5186067,
   "type": "directory"
 }
