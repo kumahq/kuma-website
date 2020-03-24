@@ -14,11 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# You can customize the version of Kuma to download by setting the
+# KUMA_VERSION environment variable, and you can change the default 64bit
+# architecture by setting the KUMA_ARCH variable.
+
 : "${KUMA_VERSION:=0.4.0}"
 : "${KUMA_ARCH:=amd64}"
 
 DISTRO=""
 
+printf "\n"
 printf "INFO\tWelcome to the Kuma automated download!\n"
 printf "INFO\tKuma version: %s\n" "$KUMA_VERSION"
 printf "INFO\tKuma architecture: %s\n" "$KUMA_ARCH"
