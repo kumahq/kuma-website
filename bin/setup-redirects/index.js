@@ -19,14 +19,14 @@ fs.readFile(releases, "utf8", (err, data) => {
 from = "/docs/"
 to = "/docs/${latest}/"
 status = ${docRedirectType}
-force = false
+force = true
 
 # Install redirect
 [[redirects]]
 from = "/install/"
 to = "/install/${latest}/"
 status = 200
-force = false
+force = true
 
 # Docs: Latest redirect
 [[redirects]]
