@@ -89,7 +89,7 @@ status = 301
 force = true
 
 [[headers]]
-  for = "/latest_version.html"
+  for = "/latest_version"
   [headers.values]
     Content-Type = "text/plain"`;
 
