@@ -79,7 +79,19 @@ force = false
 from = "/docs/:version/other/"
 to = "/docs/:version/other/introduction/"
 status = 301
-force = false`;
+force = false
+
+# Latest version (for use with cURL, etc)
+[[redirects]]
+from = "/latest_version.html"
+to = "/latest_version"
+status = 301
+force = true
+
+[[headers]]
+  for = "/latest_version"
+  [headers.values]
+    Content-Type = "text/plain"`;
 
   // write our redirects to the TOML file
   // this will write to the end of the file
