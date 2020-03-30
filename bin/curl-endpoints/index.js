@@ -5,7 +5,7 @@ const latestSemver = require("latest-semver");
 const releases = "./docs/.vuepress/public/releases.json";
 
 // the target file we are writing to
-const targetFile = './docs/latest_version.html';
+const targetFile = './docs/.vuepress/public/latest_version.html';
 
 // read the releases file so we can parse the data
 fs.readFile(releases, "utf8", (err, data) => {

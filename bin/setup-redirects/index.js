@@ -79,7 +79,13 @@ force = false
 from = "/docs/:version/other/"
 to = "/docs/:version/other/introduction/"
 status = 301
-force = false`;
+force = false
+
+[[redirects]]
+from = "/latest_version.html"
+to = "/latest_version"
+status = 301
+force = true`;
 
   // write our redirects to the TOML file
   // this will write to the end of the file
