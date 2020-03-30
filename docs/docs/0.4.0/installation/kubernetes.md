@@ -6,25 +6,28 @@ To install and run Kuma on Kubernetes execute the following steps:
 
 To run Kuma on Kubernetes, you need to download a compatible version of Kuma for the machine where you will be executing the commands.
 
-* [CentOS](https://kong.bintray.com/kuma/kuma-0.4.0-centos-amd64.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma-0.4.0-rhel-amd64.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma-0.4.0-debian-amd64.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma-0.4.0-ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma-0.4.0-darwin-amd64.tar.gz)
+```sh
+curl -L https://kuma.io/installer.sh | sh -
+```
 
-Once downloaded, we can extract the content of the archive with:
+Once downloaded, we can see the Kuma files by entering in the `kuma-0.4.0` directory. To enter the `bin` folder and start using `kumactl`, we can execute:
 
 ```sh
-$ tar xvzf [FILE]
-$ cd bin && ls
-envoy   kuma-dp   kuma-tcp-echo   kuma-cp   kuma-prometheus-sd   kumactl
+cd kuma-0.4.0/bin
+```
+
+From within the `bin` folder, we can also permanently add the Kuma binaries to our `PATH` by executing:
+
+```sh
+printf "\n#Kuma Binaries\nexport PATH=\$PATH:%s\n" "`pwd`" >> ~/.profile && \
+source ~/.profile
 ```
 
 ::: tip
 **Note**: On Kubernetes - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
 :::
 
-To install and run Kuma execute:
+To install and run Kuma first connect to the appropriate Kubernetes cluster with `kubectl`, then execute:
 
 ```sh
 $ ./kumactl install control-plane | kubectl apply -f -

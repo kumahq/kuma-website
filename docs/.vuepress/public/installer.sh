@@ -18,15 +18,13 @@
 # KUMA_VERSION environment variable, and you can change the default 64bit
 # architecture by setting the KUMA_ARCH variable.
 
-: "${KUMA_VERSION:=0.4.0}"
+: "${KUMA_VERSION:=}"
 : "${KUMA_ARCH:=amd64}"
 
 DISTRO=""
 
 printf "\n"
 printf "INFO\tWelcome to the Kuma automated download!\n"
-printf "INFO\tKuma version: %s\n" "$KUMA_VERSION"
-printf "INFO\tKuma architecture: %s\n" "$KUMA_ARCH"
 
 if ! type "grep" > /dev/null 2>&1; then
   printf "ERROR\tgrep cannot be found\n"
@@ -56,6 +54,22 @@ if [ -z "$DISTRO" ]; then
   exit 1
 fi
 
+if [ -z "$KUMA_VERSION" ]; then
+  # Fetching latest Kuma version
+  printf "INFO\tFetching latest Kuma version..\n"
+  KUMA_VERSION=`curl -s https://kuma.io/latest_version`
+  if [ $? -ne 0 ]; then
+    printf "ERROR\tUnable to fetch latest Kuma version.\n"
+    exit 1
+  fi
+  if [ -z "$KUMA_VERSION" ]; then
+    printf "ERROR\tUnable to fetch latest Kuma version because of a problem with Kuma.\n"
+    exit 1
+  fi
+fi
+
+printf "INFO\tKuma version: %s\n" "$KUMA_VERSION"
+printf "INFO\tKuma architecture: %s\n" "$KUMA_ARCH"
 printf "INFO\tOperating system: %s\n" "$DISTRO"
 
 URL="https://kong.bintray.com/kuma/kuma-$KUMA_VERSION-$DISTRO-$KUMA_ARCH.tar.gz"
@@ -71,6 +85,7 @@ printf "\n\n"
 if curl -L "$URL" | tar xz; then
   printf "\n"
   printf "INFO\tKuma %s has been downloaded!\n" "$KUMA_VERSION"
+  # TODO: Add quickstart instructions
 else
   printf "\n"
   printf "ERROR\tUnable to download Kuma\n"
