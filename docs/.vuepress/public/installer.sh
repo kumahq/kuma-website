@@ -18,6 +18,10 @@
 # KUMA_VERSION environment variable, and you can change the default 64bit
 # architecture by setting the KUMA_ARCH variable.
 
+printf "INFO\tKuma %s has been downloaded!\n" "$KUMA_VERSION"
+
+exit 1
+
 : "${KUMA_VERSION:=}"
 : "${KUMA_ARCH:=amd64}"
 
