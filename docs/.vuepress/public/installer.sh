@@ -87,16 +87,6 @@ printf "\n\n"
 if curl -L "$URL" | tar xz; then
   printf "\n"
   printf "INFO\tKuma %s has been downloaded!\n" "$KUMA_VERSION"
-  
-  #while true; do
-  #  read -p "Do you wish to install \"kumactl\" in /usr/local/bin? (y/n)" yn
-  #  case $yn in
-  #      [Yy]* ) cp $DIR/bin/kumactl /usr/local/bin/kumactl; break;;
-  #      [Nn]* ) break;;
-  #      * ) echo "Please answer yes (y) or no (n).";;
-  #  esac
-  #done
-
   printf "\n"
   printf "%s" "$(<$DIR/README)"
   printf "\n"
