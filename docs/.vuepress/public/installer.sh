@@ -18,6 +18,8 @@
 # KUMA_VERSION environment variable, and you can change the default 64bit
 # architecture by setting the KUMA_ARCH variable.
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 : "${KUMA_VERSION:=}"
 : "${KUMA_ARCH:=amd64}"
 
@@ -86,42 +88,19 @@ if curl -L "$URL" | tar xz; then
   printf "\n"
   printf "INFO\tKuma %s has been downloaded!\n" "$KUMA_VERSION"
   
-  printf "%s\n" \
-"========================================================" \
-"Welcome to Kuma! To get started with Kuma you can take a" \
-"look at the official documentation:" \
-"" \
-"* Documentation: https://kuma.io/docs" \
-"* Slack Chat: https://kuma.io/community" \
-"" \
-"KUBERNETES:" \
-"" \
-"If you are installing Kuma on Kubernetes, run the" \
-"following command:" \
-"" \
-"$ kumactl install control-plane | kubectl apply -f -" \
-"" \
-"UNIVERSAL:" \
-"" \
-"If you are installing Kuma on other platforms, just run:" \
-"" \
-"$ kuma-cp run" \
-"" \
-"In Universal Kuma runs with the in-memory backend by" \
-"default. To use Postgres instead please read the docs:" \
-"" \
-"* https://kuma.io/docs/latest/documentation/backends/" \
-"" \
-"NEXT STEPS:" \
-"" \
-"You can now explore the Kuma GUI on port 5683!" \
-"" \
-"Finally, you can start using Kuma by apply traffic " \
-"policies to any service running in your system:" \
-"" \
-"* https://kuma.io/policies/" \
-"========================================================"
-  
+  #while true; do
+  #  read -p "Do you wish to install \"kumactl\" in /usr/local/bin? (y/n)" yn
+  #  case $yn in
+  #      [Yy]* ) cp $DIR/bin/kumactl /usr/local/bin/kumactl; break;;
+  #      [Nn]* ) break;;
+  #      * ) echo "Please answer yes (y) or no (n).";;
+  #  esac
+  #done
+
+  printf "\n"
+  printf "%s" "$(<$DIR/README)"
+  printf "\n"
+
 else
   printf "\n"
   printf "ERROR\tUnable to download Kuma\n"
