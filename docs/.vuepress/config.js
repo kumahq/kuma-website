@@ -155,7 +155,8 @@ module.exports = {
     "@vuepress/google-analytics": {
       ga: productData.gaCode
     },
-    "@vuepress/nprogress": {}
+    "@vuepress/nprogress": {},
+    "tabs": {}
   },
   postcss: {
     plugins: [
