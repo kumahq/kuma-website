@@ -125,8 +125,8 @@ You can now review the entities created by Kuma by using the [`kumactl`](../../d
 
 ```sh
 $ ./kumactl get meshes
-NAME      mTLS   CA        METRICS
-default   on     builtin   off
+NAME      mTLS      METRICS
+default   builtin   off
 
 $ ./kumactl get traffic-permissions
 MESH      NAME
