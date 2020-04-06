@@ -1353,7 +1353,7 @@ curl http://localhost:5681/meshes/default/fault-injections/fi1
  ],
  "conf": {
   "delay": {
-   "percentage": 50,
+   "percentage": 50.5,
    "value": "5s"
   },
   "abort": {
@@ -1398,13 +1398,13 @@ curl -XPUT http://localhost:5681/meshes/default/fault-injections/fi1 --data @fau
     }
   ],
   "conf": {
+    "delay": {
+      "percentage": 50.5,
+      "value": "5s"
+    },
     "abort": {
       "httpStatus": 500,
       "percentage": 50
-    },
-    "delay": {
-      "percentage": 50,
-      "value": "5s"
     },
     "responseBandwidth": {
       "limit": "50 mbps",
@@ -1429,7 +1429,7 @@ curl http://localhost:5681/meshes/default/fault-injections
   {
    "type": "FaultInjection",
    "mesh": "default",
-   "name": "fi1.default",
+   "name": "fi1",
    "sources": [
     {
      "match": {
@@ -1449,7 +1449,7 @@ curl http://localhost:5681/meshes/default/fault-injections
    ],
    "conf": {
     "delay": {
-     "percentage": 50,
+     "percentage": 50.5,
      "value": "5s"
     },
     "abort": {
