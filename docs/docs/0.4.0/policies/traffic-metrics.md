@@ -101,6 +101,8 @@ Now, if you check `Targets` page on `Prometheus` UI, you should see a list of da
 
 ### On Kubernetes
 
+If you are starting from scratch, consider using `kumactl install metrics | kubectl apply -f -` to deploy configured Prometheus with Grafana.
+
 #### Enable Prometheus metrics per Mesh
 
 To enable `Prometheus` metrics on every dataplane in the mesh, configure a `Mesh` resource as follows:
@@ -206,10 +208,6 @@ Finally, modify your Prometheus config to use generated file
 ```
 
 Refer to full example of the [deployment](/snippets/prom-deployment-with-kuma-sd.yaml) and the [configuration](/snippets/prom-configmap.yaml).
-
-::: tip
-If you are starting from scratch, consider using `kumactl install metrics | kubectl apply -f -` to deploy configured Prometheus with Grafana.
-:::
 
 ## Grafana Dashboards
 
