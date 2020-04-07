@@ -1339,7 +1339,7 @@ curl http://localhost:5681/meshes/default/fault-injections/fi1
    "match": {
     "protocol": "http",
     "service": "frontend",
-    "version": "0.1",
+    "version": "0.1"
    }
   }
  ],
@@ -1387,7 +1387,7 @@ curl -XPUT http://localhost:5681/meshes/default/fault-injections/fi1 --data @fau
       "match": {
         "service": "frontend",
         "version": "0.1",
-        "protocol": "http",
+        "protocol": "http"
       }
     }
   ],
@@ -1395,7 +1395,7 @@ curl -XPUT http://localhost:5681/meshes/default/fault-injections/fi1 --data @fau
     {
       "match": {
         "service": "backend",
-        "protocol": "http",
+        "protocol": "http"
       }
     }
   ],
