@@ -13,9 +13,11 @@ sources:
     - match:
         service: frontend
         version: "0.1"
+        protocol: http
 destinations:
     - match:
         service: backend
+        protocol: http
 conf:        
     abort:
         httpStatus: 500
