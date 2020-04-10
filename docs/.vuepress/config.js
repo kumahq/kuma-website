@@ -58,7 +58,7 @@ module.exports = {
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
       // { text: "Use Cases", link: "/use-cases/" },
-      { text: "Enterprise", link: "/enterprise/" },
+      // { text: "Enterprise", link: "/enterprise/" },
       { text: "Install", link: "/install/" }
     ]
   },
@@ -155,7 +155,8 @@ module.exports = {
     "@vuepress/google-analytics": {
       ga: productData.gaCode
     },
-    "@vuepress/nprogress": {}
+    "@vuepress/nprogress": {},
+    "tabs": {}
   },
   postcss: {
     plugins: [
