@@ -54,18 +54,7 @@ ln -s ./kumactl /usr/local/bin/kumactl
 ```
 :::
 
-### 3. Visualize the Kuma GUI
-
-Kuma (`kuma-cp`) will be installed in the newly created `kuma-system` namespace! Now that Kuma has been installed, you can access the control-plane by port-forwarding its GUI:
-
-```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5683:5683
-```
-
-And then you can navigate to [`127.0.0.1:5683`](http://127.0.0.1:5683) to see the GUI.
-
 ::: tip
-
 It may take a while for Kubernetes to start the Kuma resources, you can check the status by executing:
 
 ```sh
@@ -73,6 +62,100 @@ $ kubectl get pod -n kuma-system
 ```
 :::
 
+### 3. Use Kuma
+
+Kuma (`kuma-cp`) will be installed in the newly created `kuma-system` namespace! Now that Kuma has been installed, you can access the control-plane via either using the GUI, the read-only HTTP API, or the CLI:
+
+:::: tabs :options="{ useUrlFragment: true }"
+::: tab "GUI"
+
+Kuma ships with a **read-only** GUI that you can use to retrieve the Kuma state. By default the GUI listens on port `5683`. 
+
+To access Kuma we need to first port-forward the GUI service with:
+
+```sh
+$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5683:5683
+```
+
+And then you can navigate to [`127.0.0.1:5683`](http://127.0.0.1:5683) to see the GUI.
+
+:::
+::: tab "HTTP API"
+
+Kuma ships with a **read-only** HTTP API that you can use to retrieve the Kuma state. 
+
+By default the HTTP API listens on port `5681`. To access Kuma we need to first port-forward the API service with:
+
+```sh
+$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+```
+
+And then you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see the HTTP API.
+
+:::
+::: tab "CLI"
+
+Finally, you can use Kuma with `kubectl` to read and write the Kuma state, or alternatively use the `kumactl` CLI to perform read-only operations as well.
+
+You can use `kubectl` to retrieve Kuma entities (for example `Meshes`) with:
+
+```sh
+$ kubectl get meshes
+NAME          AGE
+default       5h20m
+```
+
+or you can use `kumactl` by first exposing the Kuma HTTP API with:
+
+```sh
+$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+```
+
+and then running:
+
+```sh
+$ kumactl get meshes
+NAME          mTLS      METRICS      LOGGING   TRACING
+default       off       off          off       off
+```
+
+:::
+::::
+
+#### GUI
+
+
+
+#### HTTP API
+
+
+
+#### CLI
+
+Finally, you can use Kuma with `kubectl` to read and write the Kuma state, or alternatively use the `kumactl` CLI to perform read-only operations as well.
+
+You can use `kubectl` to retrieve Kuma entities (for example `Meshes`) with:
+
+```sh
+$ kubectl get meshes
+NAME          AGE
+default       5h20m
+```
+
+or you can use `kumactl` by first exposing the Kuma HTTP API with:
+
+```sh
+$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+```
+
+and then running:
+
+```sh
+$ kumactl get meshes
+NAME          mTLS      METRICS      LOGGING   TRACING
+default       off       off          off       off
+```
+
 ### 4. Quickstart
 
-Congratulations! You have successfully installed Kuma on Kubernetes. In order to start using Kuma, it's time to check out the Quickstart Guide.
+Congratulations! You have successfully installed Kuma on Kubernetes. In order to start using Kuma, it's time to check out the Kubernetes quickstart guide.

@@ -2,33 +2,52 @@
 
 To install and run Kuma on CentOS (**x86_64**) execute the following steps:
 
-### 1. Download and run Kuma
+### 1. Download Kuma
 
-You can download Kuma from [here](https://kong.bintray.com/kuma/kuma-0.4.0-centos-amd64.tar.gz) or by running:
-
-```sh
-$ wget https://kong.bintray.com/kuma/kuma-0.4.0-centos-amd64.tar.gz
-```
-
-You can extract the archive and check the contents of the `bin` folder by running:
+Run the following script to automatically detect the operating system and download Kuma:
 
 ```sh
-$ tar xvzf kuma-0.4.0-centos-amd64.tar.gz
-$ cd bin/ && ls
-envoy   kuma-dp   kuma-tcp-echo   kuma-cp   kuma-prometheus-sd   kumactl
+$ curl -L https://kuma.io/installer.sh | sh -
 ```
 
-As you can see Kuma already ships with an [envoy](http://envoyproxy.io) executable ready to use.
+or you can download the distribution manually:
 
-To run Kuma execute:
+* [CentOS](https://kong.bintray.com/kuma/kuma-0.4.0-centos-amd64.tar.gz)
+
+and extract the archive with:
 
 ```sh
-$ ./kuma-cp run
+$ tar xvzf [FILE]
 ```
 
-Kuma automatically creates a [`Mesh`](../../policies/mesh) entity with name `default`. 
+### 2. Run Kuma
 
-By default this will run Kuma with a `memory` [backend](../../documentation/backends), but you can change this to use PostgreSQL by updating the `conf/kuma-cp.conf` file.
+Once downloaded, you will find the contents of Kuma in the `kuma-0.4.0` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/0.4.0/documentation/kumactl/).
+
+So we enter the `bin` folder by executing:
+
+```sh
+$ cd kuma-0.4.0/bin
+```
+
+And we can then proceed to run Kuma with:
+
+```sh
+$ $ ./kuma-cp run
+```
+
+::: tip
+**Note**: By default this will run Kuma with a `memory` [backend](../../documentation/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
+:::
+
+
+::: tip
+We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
+
+```sh
+ln -s ./kumactl /usr/local/bin/kumactl
+```
+:::
 
 ### 2. Start the Data-Plane
 
