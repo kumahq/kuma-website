@@ -68,7 +68,7 @@ $ kubectl get pod -n kuma-system
 
 ### 3. Use Kuma
 
-Kuma (`kuma-cp`) will be installed in the newly created `kuma-system` namespace! Now that Kuma has been installed, you can access the control-plane via either the GUI, the HTTP API, or the CLI:
+Kuma (`kuma-cp`) will be installed in the newly created `kuma-system` namespace! Now that Kuma has been installed, you can access the control-plane via either the GUI, `kubectl`, the HTTP API, or the CLI:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "GUI (Read-Only)"
