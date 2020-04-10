@@ -5,6 +5,11 @@
     "slug": "kubernetes"
   },
   {
+    "label": "Docker",
+    "logo": "/images/platforms/logo-docker.png",
+    "slug": "docker"
+  },
+  {
     "label": "CentOS",
     "logo": "/images/platforms/logo-centos.gif",
     "slug": "centos"

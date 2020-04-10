@@ -729,9 +729,10 @@ module.exports = {
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
+        "installation/kubernetes",
+        "installation/docker",
         "installation/centos",
         "installation/debian",
-        "installation/kubernetes",
         "installation/macos",
         "installation/redhat",
         "installation/ubuntu",
