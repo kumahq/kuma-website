@@ -105,6 +105,7 @@ kind: TrafficLog
 metadata:
   namespace: kuma-example
   name: all-traffic
+mesh: default
 spec:
   # This TrafficLog policy applies all traffic in that Mesh.
   sources:
