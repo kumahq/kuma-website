@@ -5,6 +5,11 @@
     "slug": "kubernetes"
   },
   {
+    "label": "OpenShift",
+    "logo": "/images/platforms/logo-openshift.png",
+    "slug": "openshift"
+  },
+  {
     "label": "Docker",
     "logo": "/images/platforms/logo-docker.png",
     "slug": "docker"
