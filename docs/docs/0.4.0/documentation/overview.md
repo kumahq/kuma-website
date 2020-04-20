@@ -63,7 +63,7 @@ You can learn more about sidecar injection in the section on [Dataplanes](./dps-
 <img src="/images/docs/0.2.0/diagram-08.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-### Specify Mesh for Pods or Dataplanes
+### Specify Mesh for Pods
 
 When deploying services in Kubernetes, you can determine which Mesh you want the service to be be in by using the `kuma.io/mesh: $MESH_NAME` annotation. This annotation would be applied to a deployment like so:
 
@@ -73,10 +73,17 @@ kind: Deployment
 metadata:
   name: example-app
   namespace: kuma-example
-  labels: 
-    kuma.io/mesh: default
 spec:
   ...
+  template:
+    metadata:
+      ...
+      annotations:
+        # indicate to Kuma that this Pod will be in a mesh called 'new-mesh'
+        kuma.io/mesh: new-mesh
+    spec:
+      containers:
+        ...
 ```
 
 ### Matching Labels in `Pod` and `Service` 
