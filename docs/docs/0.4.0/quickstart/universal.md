@@ -1,4 +1,16 @@
-# Universal Quickstart
+# Quickstart in Universal Mode
+
+Congratulations! Now that you have [installed](/install) Kuma, you can get up and running with a few easy steps.
+
+:::tip
+Kuma can run in both **Kubernetes** (Containers) and **Universal** mode (for VMs and Bare Metal). You are now looking at the quickstart for Universal mode, but you can also check out the [Kubernetes one](/docs/0.4.0/quickstart/kubernetes).
+:::
+
+In order to simulate a real-world scenario, we have built a simple demo application that resembles a marketplace. In this tutorial we will:
+
+* [1. Run the Marketplace demo](#_1-download-kuma)
+* [2. Install Mutual TLS and Traffic Permissions](#_2-run-kuma)
+* [3. Install Traffic Metrics](#_3-use-kuma)
 
 To deploy the sample marketplace application with Kuma, execute the following steps:
 
