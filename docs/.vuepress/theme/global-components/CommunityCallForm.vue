@@ -51,10 +51,14 @@
       </p>
       <ul class="inline-list">
         <li>
-          <a :href="agenda" target="_blank">Agenda</a>
+          <a :href="agenda" target="_blank">
+            <span class="icon">📝</span>  Agenda
+          </a>
         </li>
         <li>
-          <a :href="invite">Add to Your Calendar</a>
+          <a :href="invite">
+            <span class="icon">📅</span> Add to Your Calendar
+          </a>
         </li>
       </ul>
     </div>
@@ -212,7 +216,12 @@ button.is-sending {
   }
 
   a {
-    text-decoration: underline;
+    display: block;
+  }
+
+  .icon {
+    display: inline-block;
+    margin: 0 5px 0 0;
   }
 }
 </style>
