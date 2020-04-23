@@ -21,7 +21,9 @@ export default new Vuex.Store({
     newsletterSignupEndpoint: 'https://script.google.com/macros/s/AKfycbx9xikTdHNrrnHiqxNX3ecVkTJYzPmKemrz2OMr6SaOXT7FYaiM/exec',
     newsletterPardotEndpoint: 'https://go.pardot.com/l/392112/2019-09-03/bjz6yv',
     newsletterPardotEndpointDev: 'https://go.pardot.com/l/392112/2020-01-14/bkwzrx',
-    communityCallEndpoint: 'https://go.pardot.com/l/392112/2020-02-28/bl766m'
+    communityCallEndpoint: 'https://go.pardot.com/l/392112/2020-02-28/bl766m',
+    communityCallAgendaUrl: 'https://tny.sh/NXs6EVO',
+    communityCallInvite: '/community-call-invite.ics'
   },
 
   getters: {
@@ -35,6 +37,8 @@ export default new Vuex.Store({
     getNewsletterPardotEndpoint: (state) => state.newsletterPardotEndpoint,
     getNewsletterPardotEndpointDev: (state) => state.newsletterPardotEndpointDev,
     getCommunityCallSignupEndpoint: (state) => state.communityCallEndpoint,
+    getCommunityCallAgendaUrl: (state) => state.communityCallAgendaUrl,
+    getCommunityCallInvite: (state) => state.communityCallInvite,
     releasesAsRouterLinks: (state) => {
       return state.releases.map( tag => ({
         text: tag === state.latestRelease ? `${tag} (latest)` : tag,
