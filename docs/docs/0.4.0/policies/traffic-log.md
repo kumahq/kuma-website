@@ -37,7 +37,7 @@ logging:
       # Use `file` field to configure a file-based logging backend.
       file:
         path: /tmp/access.log
-      # When `format` field is ommitted, the default access log format will be used.
+      # When `format` field is omitted, the default access log format will be used.
 ```
 
 ```yaml
@@ -96,7 +96,7 @@ spec:
         # Use `file` field to configure a file-based logging backend.
         file:
           path: /tmp/access.log
-        # When `format` field is ommitted, the default access log format will be used.
+        # When `format` field is omitted, the default access log format will be used.
 ```
 
 ```yaml
