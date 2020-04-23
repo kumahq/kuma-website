@@ -7,7 +7,7 @@ To install and run Kuma on Docker execute the following steps:
 * [3. Use Kuma](#_3-use-kuma)
 
 ::: tip
-The official Docker images are used by default in the [Kubernetes](/docs/0.4.0/installation/kubernetes/) distribution.
+The official Docker images are used by default in the [Kubernetes](/docs/0.4.0/installation/kubernetes/) and [OpenShift](/docs/0.4.0/installation/openshift/) distributions.
 :::
 
 ### 1. Download Kuma
