@@ -57,6 +57,7 @@ module.exports = {
       { text: "Policies", link: "/policies/" },
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
+      { text: "Blog", link: "/blog/" },
       // { text: "Use Cases", link: "/use-cases/" },
       // { text: "Enterprise", link: "/enterprise/" },
       { text: "Install", link: "/install/" }

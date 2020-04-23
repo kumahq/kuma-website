@@ -1,8 +1,7 @@
 ---
 title: Hello World
 description: Hello World test blog post
-date: '2020-01-15'
-layout: Post
+date: 2020-01-15
 ---
 
 # Hello World Post

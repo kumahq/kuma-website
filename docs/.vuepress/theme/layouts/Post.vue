@@ -13,6 +13,9 @@
             <h1 v-else>
               {{ $page.title }}
             </h1>
+            <div v-if="$page.frontmatter.date" class="entry-date">
+              {{ $page.frontmatter.date }}
+            </div>
             <p v-if="$page.frontmatter.description" class="page-sub-title">
               {{ $page.frontmatter.description }}
             </p>
