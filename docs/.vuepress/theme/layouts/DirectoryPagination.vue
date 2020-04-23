@@ -1,7 +1,7 @@
 <template>
   <BlogIndex
-    page-sub-title="These are some posts."
-    page-wrapper-class-slug="posts"
+    page-sub-title="Keep up on the latest Kuma news."
+    page-wrapper-class-slug="blog"
   />
 </template>
 

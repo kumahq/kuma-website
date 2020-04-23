@@ -169,27 +169,15 @@ module.exports = {
       },
       directories: [
         {
-          title: 'Posts',
-          id: 'post',
-          dirname: '_posts',
-          path: '/posts/',
-          itemPermalink: '/posts/:year/:slug',
+          title: 'Blog',
+          id: 'blog',
+          dirname: '_blog',
+          path: '/blog/',
+          itemPermalink: '/blog/:year/:slug',
           layout: 'PostIndex',
           itemLayout: 'Post',
           pagination: {
-            lengthPerPage: 1
-          }
-        },
-        {
-          title: 'Webinars',
-          id: 'webinar',
-          dirname: '_webinars',
-          path: '/webinars/',
-          itemPermalink: '/webinars/:year/:slug',
-          layout: 'WebinarIndex',
-          itemLayout: 'Webinar',
-          pagination: {
-            lengthPerPage: 1
+            lengthPerPage: 5
           }
         }
       ]
