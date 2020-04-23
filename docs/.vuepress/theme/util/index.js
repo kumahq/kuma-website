@@ -208,6 +208,24 @@ export function resolveMatchingConfig (regularPath, config) {
   return {}
 }
 
+/**
+ * Detects when an element is in view.
+ * Used for triggering a function or other action
+ * when the user scrolls the target element into view.
+ * 
+ * @param { El } el 
+ * @returns { Boolean }
+ */
+export function inView(el) {
+  const elementHeight = el.clientHeight
+  const windowHeight = window.innerHeight
+  const scrollY = window.scrollY || window.pageYOffset
+  const scrollPosition = scrollY + windowHeight
+  const elementPosition = el.getBoundingClientRect().top + scrollY + elementHeight
+
+  return scrollPosition > elementPosition ? true : false
+}
+
 function ensureEndingSlash (path) {
   return /(\.html|\/)$/.test(path)
     ? path

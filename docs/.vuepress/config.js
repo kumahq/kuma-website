@@ -51,14 +51,14 @@ module.exports = {
       indexName: ""
     },
     sidebar: sidebarNav,
-    sidebarDepth: 2,
     displayAllHeaders: true,
     // main navigation
     nav: [
+      { text: "Policies", link: "/policies/" },
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
       // { text: "Use Cases", link: "/use-cases/" },
-      { text: "Enterprise", link: "/enterprise/" },
+      // { text: "Enterprise", link: "/enterprise/" },
       { text: "Install", link: "/install/" }
     ]
   },
@@ -103,21 +103,21 @@ module.exports = {
           "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
       }
     ],
-    [
-      "script",
-      {
-        charset: "utf8",
-        src: "/preloadPublicAssets.js",
-        defer: "defer"
-      }
-    ],
-    [
-      "script",
-      {
-        charset: "utf8",
-        src: "/unregisterServiceWorkers.js"
-      }
-    ]
+    // [
+    //   "script",
+    //   {
+    //     charset: "utf8",
+    //     src: "/preloadPublicAssets.js",
+    //     defer: "defer"
+    //   }
+    // ],
+    // [
+    //   "script",
+    //   {
+    //     charset: "utf8",
+    //     src: "/unregisterServiceWorkers.js"
+    //   }
+    // ]
   ],
   // version release navigation
   additionalPages: [releaseArray],

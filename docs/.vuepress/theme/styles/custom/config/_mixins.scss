@@ -29,17 +29,25 @@
   height: auto;
 }
 
-@mixin content-container {
+@mixin content-container($bordered: false) {
   max-width: $container-width + $gutter;
   padding-left: $gutter / 2;
   padding-right: $gutter / 2;
   margin-left: auto;
   margin-right: auto;
+
+  @if $bordered {
+    border-top: 2px solid $gray-8;
+  }
 }
 
 @mixin gradient-container {
   background-image: $gradient-1;
   border-bottom: 1px solid $navy-light;
+}
+
+@mixin gradient-container-alt {
+  background-image: $gradient-5;
 }
 
 @mixin page-section {
@@ -64,6 +72,10 @@
   box-sizing: border-box;
   cursor: pointer;
 
+  // rounded buttons
+  height: $btn-height-base;
+  border-radius: $btn-radius;
+
   &, &:hover, &:active, &:focus, &:visited {
     color: #fff !important;
   }
@@ -71,6 +83,15 @@
   &:hover {
     background-color: lighten($green-base, 3.5);
   }
+}
+
+@mixin button-state-overrides {
+  &:disabled:hover,
+	&:disabled:active,
+  &:disabled:focus,
+  &:disabled:visited {
+    @content;
+	}
 }
 
 @mixin quotify {

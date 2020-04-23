@@ -149,7 +149,7 @@ bumpVersion = (type, val) => {
   updateReleaseList(releases, version);
 
   // update the sidebar configuration
-  updateSidebarConfig(sidebarNav, version);
+  // updateSidebarConfig(sidebarNav, version);
 };
 
 /**

@@ -4,7 +4,7 @@
     <header class="page-header text-center bg-gradient">
       
       <div class="inner">
-        <h1>Install {{$site.title}}</h1>
+        <h1>Install {{ $site.title }}</h1>
       
         <div v-if="getInstallMethods && getInstallMethods.length" class="version-selector-wrapper">
 
@@ -93,7 +93,7 @@ export default {
       this.$store.commit('updateSelectedInstallVersion', ev)
 
       // change the URL to reflect the version change
-      this.$router.push({
+      this.$router.replace({
         path: `/install/${ev}`,
         meta: {
           version: ev
@@ -111,8 +111,8 @@ export default {
     redirectToLatestVersion() {
       if ( !this.$route.meta.version || this.$route.path === '/install/' ) {
         // redirect to the latest release route
-        this.$router.push({
-          path: `/install/${this.getLatestRelease}/`,
+        this.$router.replace({
+          path: '/install/latest/',
           meta: {
             version: this.getLatestRelease
           }

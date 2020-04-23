@@ -8,23 +8,39 @@
             <Content slot-key="masthead-sub-title" />
           </header>
           <div class="page-masthead__actions">
-            <router-link to="/install/" class="btn btn--bright">Install</router-link>
-            <router-link to="#why-kuma" class="btn btn--hollow">Why {{ getSiteData.title }}?</router-link>
+            <router-link
+              v-if="$page.frontmatter.startText"
+              :to="$page.frontmatter.startUrl"
+              class="btn btn--bright btn--large"
+            >
+              {{ $page.frontmatter.startText }}
+            </router-link>
+            <a
+              v-if="$page.frontmatter.whyUrl"
+              :href="$page.frontmatter.whyUrl"
+              class="btn btn--hollow btn--large"
+            >
+              {{ $page.frontmatter.whyText }}
+            </a>
           </div>
         </div>
         <!-- .page-masthead -->
 
-        <div class="page-masthead__diagram w-full lg:w-1/2 px-4">
+        <!-- <div class="page-masthead__diagram w-full lg:w-1/2 px-4">
           <Content slot-key="masthead-diagram" />
-        </div>
+        </div> -->
       </div>
       <!-- .inner -->
+
+      <div id="page-masthead-waves-wrap">
+        <MastheadWaves id="page-masthead-waves" />
+      </div>
     </div>
     <!-- .page-masthead-wrap -->
 
     <div class="product-features-wrap">
       <div
-        v-if="!$page.frontmatter.hideNews"
+        v-if="$page.frontmatter.showNews"
         class="newsbar-wrap"
       >
         <Content
@@ -35,15 +51,9 @@
 
       <div class="inner product-features flex flex-wrap -mx-4">
         <Content
-          slot-key="feature-block-content-1"
-          class="product-features__item w-full md:w-1/3 px-4"
-        />
-        <Content
-          slot-key="feature-block-content-2"
-          class="product-features__item w-full md:w-1/3 px-4"
-        />
-        <Content
-          slot-key="feature-block-content-3"
+          v-for="i in 3"
+          :slot-key="`feature-block-content-${i}`"
+          :class="`product-features__item--${i}`"
           class="product-features__item w-full md:w-1/3 px-4"
         />
       </div>
@@ -51,7 +61,7 @@
     </div>
     <!-- .features-wrap -->
 
-    <div v-if="$page.frontmatter.hideTestimonial" class="testimonial-wrap">
+    <div v-if="$page.frontmatter.showTestimonial" class="testimonial-wrap">
       <div class="inner testimonial">
         <blockquote class="testimonial__content-wrap">
           <Content slot-key="testimonial-content" />
@@ -73,108 +83,28 @@
     </div>
     <!-- .testimonial-wrap -->
 
-    <div class="steps-wrap-pre-header">
-      <div class="inner">
-        <Content slot-key="tabs-section-title" />
-      </div>
-    </div>
-
-    <div class="steps-wrap steps-wrap--slim">
-      <div class="tabs-wrap">
-        <!-- <header class="section-header steps-items__header text-center">
-          <Content slot-key="tabs-section-title" />
-        </header>-->
-
-        <TinyTabs id="get-started-steps-tabs" :anchor="false" :closable="false" :hideTitle="true">
-          <div class="section" id="tab-1">
-            <div class="inner">
-              <Content slot-key="tab-1-title" class="title" />
-              <ol class="steps-items__content steps-items__content--narrow">
-                <li>
-                  <Content slot-key="tab-1-content-step-1" />
-                  <Content slot-key="tab-1-code-block-step-1" />
-                </li>
-                <li>
-                  <Content slot-key="tab-1-content-step-2" />
-                  <Content slot-key="tab-1-code-block-step-2" />
-                </li>
-                <li>
-                  <Content slot-key="tab-1-content-step-3" />
-                  <Content slot-key="tab-1-code-block-step-3" />
-                </li>
-              </ol>
-            </div>
-          </div>
-          <div class="section" id="tab-2">
-            <div class="inner">
-              <Content slot-key="tab-2-title" class="title" />
-              <ol class="steps-items__content steps-items__content--narrow">
-                <li>
-                  <Content slot-key="tab-2-content-step-1" />
-                  <Content slot-key="tab-2-code-block-step-1" />
-                </li>
-                <li>
-                  <Content slot-key="tab-2-content-step-2" />
-                  <Content slot-key="tab-2-code-block-step-2" />
-                </li>
-                <li>
-                  <Content slot-key="tab-2-content-step-3" />
-                  <Content slot-key="tab-2-code-block-step-3" />
-                </li>
-              </ol>
-            </div>
-          </div>
-        </TinyTabs>
-      </div>
-      <!-- .tabs -->
-
-      <!-- <div class="inner steps-items">
-        <header class="section-header steps-items__header text-center">
-          <Content slot-key="steps-title"/>
-        </header>
-
-        <ol class="steps-items__content">
-          <li>
-            <Content slot-key="step-1-content"/>
-            <Content slot-key="step-1-code-block"/>
-          </li>
-          <li>
-            <Content slot-key="step-2-content"/>
-            <Content slot-key="step-2-code-block"/>
-          </li>
-          <li>
-            <Content slot-key="step-3-content"/>
-            <Content slot-key="step-3-code-block"/>
-          </li>
-        </ol>
-      </div>-->
-      <!-- .steps-items -->
-
-      <div id="why-kuma">
-        <!-- Why Kuma anchor -->
-      </div>
-    </div>
-    <!-- .steps-wrap -->
-
-    <div class="before-after-wrap">
-      <div class="inner before-after">
-        <header class="section-header">
-          <Content slot-key="before-after-title" class="alt-title" />
-        </header>
-        <div class="flex flex-wrap -mx-12">
-          <div class="w-full px-12 md:w-1/2">
-            <h4>Before</h4>
-            <Content slot-key="before-after-diagram-1" />
-          </div>
-          <div class="w-full px-12 md:w-1/2">
-            <h4>After</h4>
-            <Content slot-key="before-after-diagram-2" />
-          </div>
+    <div class="feature-focus-wrap">
+      <div
+        v-for="i in 3"
+        class="feature-focus"
+        :class="`feature-focus-${i}-wrap`"
+      >
+        <div
+          :class="{ 'md:flex-row-reverse': (i % 2 === 0) }"
+          class="inner inner--bordered flex flex-wrap -mx-12"
+        >
+          <Content
+            :slot-key="`feature-focus-${i}-diagram`"
+            class="feature-focus__diagram w-full md:self-center md:w-1/2 px-12"
+          />
+          <Content
+            :slot-key="`feature-focus-${i}-content`"
+            class="feature-focus__content w-full md:self-center md:w-1/2 px-12"
+          />
         </div>
       </div>
-      <!-- .inner -->
     </div>
-    <!-- .before-after-wrap -->
+    <!-- .feature-focus-wrap -->
 
     <div class="newsletter-form-wrap">
       <div class="inner newsletter-form">
@@ -184,19 +114,25 @@
         <Content slot-key="newsletter-content" />
         <NewsletterForm />
       </div>
+      <NewsletterWaves />
     </div>
     <!-- newsletter-form-wrap -->
+
   </div>
 </template>
 
 <script>
-import Navbar from "@theme/components/Navbar";
-import TinyTabs from "@theme/components/custom/TinyTabs/VueTinyTabs";
+import Navbar from "@theme/components/Navbar"
+import TinyTabs from "@theme/components/custom/TinyTabs/VueTinyTabs"
+import MastheadWaves from "@theme/components/custom/PageMastheadWaves"
+import NewsletterWaves from "@theme/components/custom/NewsletterWaves"
 
 export default {
   components: {
     Navbar,
-    TinyTabs
+    TinyTabs,
+    MastheadWaves,
+    NewsletterWaves
   }
 };
 </script>

@@ -3,7 +3,7 @@
 //
 
 $root-font-size: 100%;
-$base-font-size: 15px;
+$base-font-size: 16px;
 
 // Branding
 $color-1: #3fb764;
@@ -22,27 +22,41 @@ $gray-4: #e1e1e1;
 $gray-5: #49494b;
 $gray-6: #f7f8f9;
 $gray-7: #4b4f59;
+$gray-8: #e5eaed;
 
-$navy-light: lighten(#20242c, 74);
 $navy: #062f4d;
+$navy-alt: #20242C;
+$navy-light: lighten($navy-alt, 74);
 $sky: #e6edfa;
 $sky-light: #f1f5fc;
 
 $green-base: #3fa66a;
 $green-dark: #318153;
 $green-light: #e7f6ee;
+$pale-blue: #f5f8fc;
+$pale-blue-2: #668295;
 
 // Misc
 $image-path: "/images/";
 $container-width-compact: 65rem; // 1040px
-$container-width: $container-width-compact;
+$container-width-wide: 76rem; // 1216px
+$container-width: $container-width-wide;
 $gutter: 1.875rem; // 30px
 $base-soft-shadow: 0 3px 6px 0 rgba($color-7, 18%);
 $base-border-shadow: 0 0 0 1px $gray-3, $base-soft-shadow;
-$gradient-1: linear-gradient(0deg, #fbfcfe 0%, #f5f8fc 55%);
+$gradient-1: linear-gradient(0deg, #fbfcfe 0%, $pale-blue 55%);
 $gradient-2: linear-gradient(0deg, rgba(#fbfcfe, 0) 0%, #fbfcfe 55%);
 $gradient-3: linear-gradient(180deg, #fff 0%, rgba(#fff, 0) 100%);
-$gradient-4: linear-gradient(0deg, #fff 0%, #f5f8fc 55%);
+$gradient-4: linear-gradient(0deg, #fff 0%, $pale-blue 55%);
+$gradient-5: linear-gradient(to top, #fff 0%, $pale-blue 50%);
+
+$btn-height-base: 40px;
+$btn-radius: $btn-height-base / 2;
+$btn-height-base-large: 50px;
+$btn-radius-large: $btn-height-base-large / 2;
+$btn-font-size-large: 18px;
+
+$navbar-height-large: 5.5rem;
 
 // Cubic-bezier and easing settings
 $cb-1: cubic-bezier(0.47, 0.37, 0.36, 0.92);
@@ -73,7 +87,8 @@ $borderColor: #eaecef;
 $codeBgColor: rgb(251, 251, 251);
 // $codeBgColor: #282c34;
 $sidebarWidth: 16rem; // VuePress default is 20
-$contentWidth: 740px;
+// $contentWidth: 740px;
+$contentWidth: 920px;
 $wrapper: ".content";
 $contentClass: ".theme-default-content";
 $arrowBgColor: #ccc;

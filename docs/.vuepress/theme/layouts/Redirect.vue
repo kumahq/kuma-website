@@ -16,7 +16,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Redirect',
-  beforeMount() {
+  created () {
     this.redirectToLatestReleaseDocs()
   },
   render() {},
@@ -28,7 +28,7 @@ export default {
     redirectToLatestReleaseDocs() {
       // let's fetch the releases data so we can grab
       // the latest version in order to build the redirect
-      this.$router.push({
+      this.$router.replace({
         path: `${this.$page.path}${this.getLatestRelease()}/`
       })
     }

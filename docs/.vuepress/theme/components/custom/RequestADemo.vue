@@ -1,14 +1,10 @@
 <template>
   <div class="page-container page-container--community">
 
-    <header v-if="$page.frontmatter.pageTitle" class="page-header text-center bg-gradient">
-      <div class="inner">
-        <h1>{{ $page.frontmatter.pageTitle }}</h1>
-        <p v-if="$page.frontmatter.pageTitle" class="page-sub-title">{{ $page.frontmatter.subTitle }}</p>
-      </div>
-      <!-- .inner -->
-    </header>
-    <!-- .page-header -->
+    <PageHeader
+      :title="$page.frontmatter.pageTitle"
+      :subTitle="$page.frontmatter.subTitle"
+    />
 
     <div class="inner flex flex-wrap -mx-4">
 
@@ -53,13 +49,13 @@
                   <li class="tower__list-title tower__list-title--focus">
                     <h4>Enterprise Support</h4>
                   </li>
+                  <li class="tower__focus-item">24/7/365 Support SLAs</li>
                   <li class="tower__focus-item">Email Support</li>
                   <li class="tower__focus-item">Phone Support</li>
-                  <li class="tower__focus-item">Initial Setup and Upgrade Path</li>
-                  <li class="tower__focus-item">Org Architectural Review</li>
-                  <li class="tower__focus-item">Hot fixes and emergency patches</li>
+                  <li class="tower__focus-item">Deployment and Setup</li>
+                  <li class="tower__focus-item">Hot Fixes and Emergency Patches</li>
                   <li class="tower__focus-item">Custom Policies</li>
-                  <li class="tower__focus-item">Integration with Kong Enterprise</li>
+                  <li class="tower__focus-item">Envoy Expertise</li>
                   <li class="tower__list-title tower__list-title--neutral">
                     <span class="desktop">Fill out form on the right</span>
                     <span class="mobile">Fill out form below</span>
@@ -138,7 +134,7 @@
               </div>
 
               <div class="w-full px-4 mt-4">
-                <button :disabled="invalid" name="submit" class="btn btn--bright btn--spaced btn--block">
+                <button :disabled="invalid" name="submit" class="btn btn--bright btn--block">
                   Request Demo
                 </button>
               </div>
@@ -170,6 +166,7 @@ import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
+import PageHeader from '@theme/global-components/PageHeader'
 
 // required validation
 extend('required', {
@@ -201,7 +198,8 @@ export default {
   },
   components: {
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    PageHeader
   },
   computed: {
     ...mapGetters([

@@ -1,16 +1,12 @@
 <template>
   <div class="page-container page-container--community">
 
-    <header v-if="$page.frontmatter.title" class="page-header text-center bg-gradient">
-      <div class="inner">
-        <h1>{{ $page.frontmatter.title }}</h1>
-        <p v-if="$page.frontmatter.title" class="page-sub-title">{{ $page.frontmatter.subTitle }}</p>
-      </div>
-      <!-- .inner -->
-    </header>
-    <!-- .page-header -->
+    <PageHeader
+      :title="$page.frontmatter.title"
+      :subTitle="$page.frontmatter.subTitle"
+    />
 
-    <div class="inner flex flex-wrap -mx-4">
+    <div class="inner flex flex-wrap items-stretch -mx-4">
 
       <div class="w-full sm:w-1/2 mb-8 px-4">
         <Card
@@ -53,6 +49,9 @@
             <Content slot-key="card-3-title"/>
           </template>
           <Content slot-key="card-3-content"/>
+          <div class="community-form">
+            <CommunityCallForm />
+          </div>
         </Card>
       </div>
       <!-- /card 3 -->
@@ -79,15 +78,23 @@
 </template>
 
 <script>
+import PageHeader from '@theme/global-components/PageHeader'
 import Card from '@theme/components/custom/Card'
+import CommunityCallForm from '@theme/global-components/CommunityCallForm'
 
 export default {
   components: {
-    Card
+    PageHeader,
+    Card,
+    CommunityCallForm
   }
 }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.community-form {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
+}
 </style>

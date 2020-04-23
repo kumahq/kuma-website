@@ -11,35 +11,87 @@ fs.readFile(releases, "utf8", (err, data) => {
 
   // find the latest version in the releases JSON file
   const latest = latestSemver(JSON.parse(data));
+  const docRedirectType = 301;
 
   // setup the content template
   const template = `# Docs redirect
 [[redirects]]
 from = "/docs/"
 to = "/docs/${latest}/"
-status = 301
-force = false
+status = ${docRedirectType}
+force = true
 
 # Install redirect
 [[redirects]]
 from = "/install/"
 to = "/install/${latest}/"
-status = 301
-force = false
+status = 200
+force = true
 
 # Docs: Latest redirect
 [[redirects]]
 from = "/docs/latest/*"
 to = "/docs/${latest}/:splat"
-status = 301
+status = ${docRedirectType}
 force = false
 
 # Install: Latest redirect
 [[redirects]]
 from = "/install/latest/*"
 to = "/install/${latest}/:splat"
+status = 200
+force = false
+
+#
+# Redirects for old docs root pages
+#
+
+# Policies
+[[redirects]]
+from = "/docs/:version/policies/"
+to = "/docs/:version/policies/introduction/"
 status = 301
-force = false`;
+force = false
+
+# Documentation
+[[redirects]]
+from = "/docs/:version/documentation/"
+to = "/docs/:version/documentation/introduction/"
+status = 301
+force = false
+
+# Overview
+[[redirects]]
+from = "/docs/:version/overview/"
+to = "/docs/:version/overview/what-is-kuma/"
+status = 301
+force = false
+
+# Installation
+[[redirects]]
+from = "/docs/:version/installation/"
+to = "/docs/:version/installation/centos/"
+status = 301
+force = false
+
+# Other
+[[redirects]]
+from = "/docs/:version/other/"
+to = "/docs/:version/other/introduction/"
+status = 301
+force = false
+
+# Latest version (for use with cURL, etc)
+[[redirects]]
+from = "/latest_version.html"
+to = "/latest_version"
+status = 301
+force = true
+
+[[headers]]
+  for = "/latest_version"
+  [headers.values]
+    Content-Type = "text/plain"`;
 
   // write our redirects to the TOML file
   // this will write to the end of the file

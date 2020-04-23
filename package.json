@@ -12,14 +12,19 @@
   "bin": {
     "kumacut": "./bin/kumacut/index.js"
   },
+  "resolutions": {
+    "serialize-javascript": "^2.1.1"
+  },
   "dependencies": {
     "@babel/preset-env": "^7.5.5",
-    "@vuepress/plugin-pwa": "^1.2.0",
+    "animejs": "^3.1.0",
     "axios": "^0.19.0",
     "core-js": "^3.2.1",
     "vee-validate": "^3.0.4",
-    "vue": "^2.6.10",
-    "vue-github-button": "^1.0.8"
+    "vue": "^2.6.11",
+    "vue-github-button": "^1.0.8",
+    "vue-tabs-component": "^1.5.0",
+    "vuepress-plugin-tabs": "^0.3.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-object-assign": "^7.2.0",
@@ -29,13 +34,14 @@
     "@vuepress/plugin-medium-zoom": "^1.0.0-rc.1",
     "babel-jest": "^24.8.0",
     "directory-tree": "^2.2.4",
-    "fs": "^0.0.1-security",
     "jest": "^24.8.0",
     "jest-raw-loader": "^1.0.1",
     "latest-semver": "^2.0.0",
+    "markdown-it": "^10.0.0",
     "markdown-it-for-inline": "^0.1.1",
     "markdown-it-include": "^1.1.0",
-    "node-sass": "^4.12.0",
+    "markdown-it-meta": "^0.0.1",
+    "node-sass": "^4.13.1",
     "path": "^0.12.7",
     "postcss-loader": "^3.0.0",
     "raw-loader": "^3.0.0",

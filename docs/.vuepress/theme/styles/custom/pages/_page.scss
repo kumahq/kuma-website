@@ -10,6 +10,10 @@
   @include content-container;
 }
 
+.inner--bordered {
+  @include content-container($bordered: true);
+}
+
 // this is hidden for now unless we make the masthead logo
 // just the icon itself, and then unhide this to use as the title
 .site-name {
@@ -22,7 +26,13 @@
 
 .page-header {
   overflow: hidden;
-  padding: 4.063rem 0;
+  padding: 2rem 0;
+  // padding: 4.063rem 0;
+}
+
+.page-header--has-divider {
+  border-bottom: 1px solid $navy-alt;
+  margin-bottom: 2rem;
 }
 
 .page-container--compact {
