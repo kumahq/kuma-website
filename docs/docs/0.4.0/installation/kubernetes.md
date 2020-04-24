@@ -111,7 +111,7 @@ spec:
 :::
 ::: tab "HTTP API (Read-Only)"
 
-Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resources. 
+Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resources.
 
 By default the HTTP API listens on port `5681`. To access Kuma we need to first port-forward the API service with:
 
@@ -150,4 +150,6 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 ### 4. Quickstart
 
-Congratulations! You have successfully installed Kuma on Kubernetes. In order to start using Kuma, it's time to check out the  quickstart guide for Kubernetes deployments.
+Congratulations! You have successfully installed Kuma on Kubernetes 🚀. 
+
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/0.4.0/quickstart/kubernetes/) deployments.
