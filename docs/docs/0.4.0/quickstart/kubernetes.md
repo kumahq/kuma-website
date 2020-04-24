@@ -8,9 +8,9 @@ Kuma can run in both **Kubernetes** (Containers) and **Universal** mode (for VMs
 
 In order to simulate a real-world scenario, we have built a simple demo application that resembles a marketplace. In this tutorial we will:
 
-* [1. Run the Marketplace application](#)
-* [2. Enable Mutual TLS and Traffic Permissions](#)
-* [3. Visualize Traffic Metrics](#)
+* [1. Run the Marketplace application](#_1-run-the-marketplace-application)
+* [2. Enable Mutual TLS and Traffic Permissions](#_2-enable-mutual-tls-and-traffic-permissions)
+* [3. Visualize Traffic Metrics](#_3-visualize-traffic-metrics)
 
 You can also access the Kuma marketplace demo repository [on Github](https://github.com/Kong/kuma-demo) to try more features and policies in addition to the ones described in this quickstart.
 
@@ -183,12 +183,12 @@ spec:
     prometheus: {}" | kubectl apply -f -
 ```
 
-This will enable the `prometheus` metrics backend on the `default` Mesh and automatically collect metrics for all of our traffic.
+This will enable the `prometheus` metrics backend on the `default` [Mesh]((/docs/0.4.0/policies/mesh/) and automatically collect metrics for all of our traffic.
 
 Now go ahead and generate some traffic that we can later visualize!
 
 :::tip
-You can generate some artifical traffic with the following command to save some clicks:
+You can generate some artificial traffic with the following command to save some clicks:
 
 ```sh
 while [ true ]; do curl http://127.0.0.1:8081/items?q=; curl http://127.0.0.1:8081/items/1/reviews; done
@@ -201,18 +201,22 @@ To visualize the traffic we can now expose the Grafana dashboard with:
 $ kubectl port-forward svc/grafana -n kuma-metrics 3000:80
 ```
 
-and then access the Grafana dashboard at [127.0.0.1:3000](http://127.0.0.1:3000) with default credential `admin` for both the username and the password.
+and then access the Grafana dashboard at [127.0.0.1:3000](http://127.0.0.1:3000) with default credentials for both the username (`admin`) and the password (`admin`).
 
 Kuma automatically installs three dashboard that are ready to use:
 
 * `Kuma Mesh`: to visualize the status of the overall Mesh.
 * `Kuma Dataplane`: to visualize metrics for a single individual dataplane.
-* `Kuma Service to Service`: to visualize metrics for connectivity among services.
+* `Kuma Service to Service`: to visualize traffic metrics for our services.
 
 # Next steps
 
 Congratulations! You have completed the quickstart for Kubernetes, but there is so much more that you can do with Kuma:
 
-* Explore the [Policies](/policies) available to orchestrate your service traffic
-* Read the [full documentation](/docs) to learn about all the capabilities
-* Chat with us at the official [Kuma Slack](/community) for questions or feedback
+* Explore the [Policies](/policies) available to govern and orchestrate your service traffic.
+* Read the [full documentation](/docs) to learn about all the capabilities of Kuma.
+* Chat with us at the official [Kuma Slack](/community) for questions or feedback.
+
+::: tip
+**Protip**: Use `#kumamesh` on Twitter to chat about Kuma.
+:::
