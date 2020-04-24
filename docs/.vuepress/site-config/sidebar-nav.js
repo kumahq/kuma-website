@@ -716,6 +716,7 @@ module.exports = {
         "policies/traffic-metrics",
         "policies/traffic-trace",
         "policies/traffic-log",
+        "policies/fault-injection",
         "policies/health-check",
         "policies/proxy-template",
         "policies/general-notes-about-kuma-policies",
@@ -748,5 +749,5 @@ module.exports = {
         "other/license"
       ]
     },
-  ]
+  ],
 }

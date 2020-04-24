@@ -1318,6 +1318,166 @@ Example:
 curl -XDELETE http://localhost:5681/meshes/mesh-1/traffic-traces/tt-1
 ```
 
+## Fault Injection
+
+### Get Fault Injection
+Request: `GET /meshes/{mesh}/fault-injections/{name}`
+
+Response: `200 OK` with Fault Injection entity
+
+Example:
+```bash
+curl http://localhost:5681/meshes/default/fault-injections/fi1
+```
+```json
+{
+ "type": "FaultInjection",
+ "mesh": "default",
+ "name": "fi1",
+ "sources": [
+  {
+   "match": {
+    "protocol": "http",
+    "service": "frontend",
+    "version": "0.1"
+   }
+  }
+ ],
+ "destinations": [
+  {
+   "match": {
+    "protocol": "http",
+    "service": "backend"
+   }
+  }
+ ],
+ "conf": {
+  "delay": {
+   "percentage": 50.5,
+   "value": "5s"
+  },
+  "abort": {
+   "percentage": 50,
+   "httpStatus": 500
+  },
+  "responseBandwidth": {
+   "percentage": 50,
+   "limit": "50 mbps"
+  }
+ }
+}
+```
+
+### Create/Update Fault Injection
+Request: `PUT /meshes/{mesh}/fault-injections/{name}` with Fault Injection entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/meshes/default/fault-injections/fi1 --data @faultinjection.json -H'content-type: application/json'
+```
+```json
+{
+  "type": "FaultInjection",
+  "mesh": "default",
+  "name": "fi1",
+  "sources": [
+    {
+      "match": {
+        "service": "frontend",
+        "version": "0.1",
+        "protocol": "http"
+      }
+    }
+  ],
+  "destinations": [
+    {
+      "match": {
+        "service": "backend",
+        "protocol": "http"
+      }
+    }
+  ],
+  "conf": {
+    "delay": {
+      "percentage": 50.5,
+      "value": "5s"
+    },
+    "abort": {
+      "httpStatus": 500,
+      "percentage": 50
+    },
+    "responseBandwidth": {
+      "limit": "50 mbps",
+      "percentage": 50
+    }
+  }
+}
+```
+
+### List Fault Injections
+Request: `GET /meshes/{mesh}/fault-injections`
+
+Response: `200 OK` with body of Fault Injection entities
+
+Example:
+```bash
+curl http://localhost:5681/meshes/default/fault-injections
+```
+```json
+{
+ "items": [
+  {
+   "type": "FaultInjection",
+   "mesh": "default",
+   "name": "fi1",
+   "sources": [
+    {
+     "match": {
+      "protocol": "http",
+      "service": "frontend",
+      "version": "0.1"
+     }
+    }
+   ],
+   "destinations": [
+    {
+     "match": {
+      "protocol": "http",
+      "service": "backend"
+     }
+    }
+   ],
+   "conf": {
+    "delay": {
+     "percentage": 50.5,
+     "value": "5s"
+    },
+    "abort": {
+     "percentage": 50,
+     "httpStatus": 500
+    },
+    "responseBandwidth": {
+     "percentage": 50,
+     "limit": "50 mbps"
+    }
+   }
+  }
+ ]
+}
+```
+
+### Delete Fault Injection
+Request: `DELETE /meshes/{mesh}/fault-injections/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/meshes/default/fault-injections/fi1
+```
+
 ::: tip
 The [`kumactl`](../kumactl) CLI under the hood makes HTTP requests to this API.
 :::
