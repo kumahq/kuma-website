@@ -41,7 +41,7 @@ And navigate to [127.0.0.1:8080](http://127.0.0.1:8080).
 
 #### See the connected dataplanes
 
-Since the demo application already comes with the following label associated to the `kuma-demo` namespace, Kuma already knows that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/0.4.0/policies/mesh/) resource:
+Since the demo application already comes with the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace, Kuma [already knows](/docs/0.4.0/documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/0.4.0/policies/mesh/) resource:
 
 ```yaml
 apiVersion: v1
@@ -111,7 +111,7 @@ $ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma
 
 ### 2. Enable Mutual TLS and Traffic Permissions
 
-By default our network is not secure and it is not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/0.4.0/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/0.4.0/policies/mesh/) resource that will automatically assign TLS certificates to our services.
+By default the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/0.4.0/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/0.4.0/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
@@ -128,6 +128,10 @@ spec:
 ```
 
 Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly create a [Traffic Permission](/docs/0.4.0/policies/traffic-permissions/) policy that describes what services can be consumed by other services. You can try to make requests to the demo application at [`127.0.0.1:8080/`](http://127.0.0.1:8080/) and you will notice that they will **not** work.
+
+:::tip
+In a live environment we suggest to setup the Traffic Permission policies prior to enabling Mutual TLS in order to avoid unexpected interruptions of the service-to-service traffic.
+:::
 
 We can setup a very permissive policy that allows all traffic to flow in our application in an encrypted way with the following command:
 
@@ -183,12 +187,12 @@ spec:
     prometheus: {}" | kubectl apply -f -
 ```
 
-This will enable the `prometheus` metrics backend on the `default` [Mesh]((/docs/0.4.0/policies/mesh/) and automatically collect metrics for all of our traffic.
+This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/0.4.0/policies/mesh/) and automatically collect metrics for all of our traffic.
 
-Now go ahead and generate some traffic that we can later visualize!
+Now let's go ahead and generate some traffic - to populate our charts - by using the demo application!
 
 :::tip
-You can generate some artificial traffic with the following command to save some clicks:
+You can also generate some artificial traffic with the following command to save some clicks:
 
 ```sh
 while [ true ]; do curl http://127.0.0.1:8081/items?q=; curl http://127.0.0.1:8081/items/1/reviews; done
@@ -209,7 +213,13 @@ Kuma automatically installs three dashboard that are ready to use:
 * `Kuma Dataplane`: to visualize metrics for a single individual dataplane.
 * `Kuma Service to Service`: to visualize traffic metrics for our services.
 
+You can now explore the dashboards and see the metrics being populated over time.
+
 # Next steps
+
+::: tip
+**Protip**: Use `#kumamesh` on Twitter to chat about Kuma.
+:::
 
 Congratulations! You have completed the quickstart for Kubernetes, but there is so much more that you can do with Kuma:
 
@@ -217,6 +227,3 @@ Congratulations! You have completed the quickstart for Kubernetes, but there is 
 * Read the [full documentation](/docs) to learn about all the capabilities of Kuma.
 * Chat with us at the official [Kuma Slack](/community) for questions or feedback.
 
-::: tip
-**Protip**: Use `#kumamesh` on Twitter to chat about Kuma.
-:::
