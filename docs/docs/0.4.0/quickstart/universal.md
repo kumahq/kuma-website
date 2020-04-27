@@ -22,21 +22,21 @@ To deploy the sample marketplace application with Kuma, execute the following st
 
 ### 1. Run the Marketplace application
 
-First, Vagrant must be installed on your machine.
+First, [Vagrant](https://www.vagrantup.com/docs/installation/) must be installed on your machine.
 
-You then need to clone the demo repository which contains all necessary files to deploy the application onto Vagrant:
+You then need to clone the demo repository which contains all necessary files to deploy the application with Vagrant:
 
 ```sh
 $ git clone https://github.com/Kong/kuma-demo.git
 ```
 
-Once cloned, you will find the contents of universal demo in the `kuma-demo/vagrant` folder. So we enter the `vagrant` folder by executing:
+Once cloned, you will find the contents of universal demo in the `kuma-demo/vagrant` folder. Enter the `vagrant` folder by running:
 
 ```sh
 $ cd kuma-demo/vagrant
 ```
 
-To install the marketplace demo application you can run:
+Next, to install the marketplace demo application you can run:
 
 ```sh
 $ vagrant up
@@ -58,37 +58,23 @@ You can visualize the sidecars proxies that have connected to Kuma by running:
 
 Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on port `5683`.
 
-To access Kuma we need to first port-forward the GUI service with:
-
-```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5683:5683
-```
-
-And then you can navigate to [`127.0.0.1:5683/#/default/dataplanes`](http://127.0.0.1:5683/#/default/dataplanes) to see the connected dataplanes.
+You can navigate to [`192.168.33.10:5683/#/default/dataplanes`](http://192.168.33.10:5683/#/default/dataplanes) to see the connected dataplanes.
 
 :::
 ::: tab "HTTP API (Read/Write)"
 
 Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resources. 
 
-By default the HTTP API listens on port `5681`. To access Kuma we need to first port-forward the API service with:
+By default the HTTP API listens on port `5681`. 
 
-```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
-```
-
-And then you can navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/meshes/default/dataplanes) to see the connected dataplanes.
+Navigate to [`192.168.33.10:5681/meshes/default/dataplanes`](http://192.168.33.10:5681/meshes/default/dataplanes) to see the connected dataplanes.
 
 :::
 ::: tab "kumactl (Read/Write)"
 
 You can use the `kumactl` CLI to perform **read-only** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API, you will need to first port-forward the API service with:
 
-```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
-```
-
-and then run `kumactl`, for example:
+Run `kumactl`, for example:
 
 ```sh
 $ kumactl get dataplanes
