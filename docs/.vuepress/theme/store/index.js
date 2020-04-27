@@ -23,7 +23,7 @@ export default new Vuex.Store({
     newsletterPardotEndpointDev: 'https://go.pardot.com/l/392112/2020-01-14/bkwzrx',
     communityCallEndpoint: 'https://go.pardot.com/l/392112/2020-02-28/bl766m',
     communityCallAgendaUrl: 'https://tny.sh/NXs6EVO',
-    communityCallInvite: '/community-call-invite.ics'
+    communityCallInvite: 'https://calendar.google.com/calendar?cid=a29uZ2hxLmNvbV8xbWE5NnNzZGdnZmg5ZnJyY3M5N2VwdTM4b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t'
   },
 
   getters: {

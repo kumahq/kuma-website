@@ -56,7 +56,7 @@
           </a>
         </li>
         <li>
-          <a :href="invite">
+          <a :href="invite" target="_blank">
             <span class="icon">📅</span> Add to Your Calendar
           </a>
         </li>
