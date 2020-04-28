@@ -14,7 +14,7 @@ type: Mesh
 name: default
 tracing:
   defaultBackend: my-zipkin
-  backend:
+  backends:
   - name: my-zipkin
     sampling: 100.0 
     zipkin:
@@ -31,7 +31,7 @@ metadata:
 spec:
   tracing:
     defaultBackend: my-zipkin
-    backend:
+    backends:
     - name: my-zipkin
       sampling: 100.0 
       zipkin:
