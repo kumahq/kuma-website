@@ -177,6 +177,12 @@ $ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma
 
 You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) entity with name `default`.
 
+::: warning
+Kuma explicitly specifies UID for `kuma-dp` to avoid capturing traffic from `kuma-dp` itself. For that reason, special privilege has to be granted to application namespace:
+```sh
+$ oc adm policy add-scc-to-user anyuid -z APPLICATION_SERVICE_ACCOUNT -n APPLICATION_NAMESPACE
+```
+:::
 ### 4. Quickstart
 
 Congratulations! You have successfully installed Kuma on OpenShift. In order to start using Kuma, it's time to check out the  quickstart guide for Kubernetes deployments.
