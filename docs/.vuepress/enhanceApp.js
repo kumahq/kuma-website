@@ -1,6 +1,8 @@
 import Vuex from 'vuex'
 import store from './theme/store/index'
-import Layout from './theme/layouts/Layout'
+// import Layout from './theme/layouts/Layout'
+
+import '@kongponents/styles'
 import 'vuepress-plugin-tabs/dist/themes/default.styl'
 import './theme/styles/styles.scss'
 

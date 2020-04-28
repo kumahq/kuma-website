@@ -20,21 +20,39 @@
         <div class="inner">
           
           <slot name="pagination-content">
-            <ul>
-              <li v-for="(page, index) in $pagination.pages">
-                <router-link
-                  class="pagination__link"
-                  :class="`pagination__link--${index}`"
-                  :to="page.path"
+            <div class="blog-index-list">
+              <article v-for="(page, index) in $pagination.pages" class="blog-article">
+                <header class="blog-index__post-header">
+                  <h2 class="blog-index__post-title">
+                    <router-link :to="page.path">
+                      {{ page.title }}
+                    </router-link>
+                  </h2>
+                  <PostDate :date="page.frontmatter.date" />
+                </header>
+                <div
+                  v-if="page.frontmatter.description"
+                  class="blog-index__post-summary"
                 >
-                  {{ page.title }}
-                </router-link>
-              </li>
-            </ul>
+                  <PostSummary
+                    :content="page.frontmatter.description"
+                    :max-words="20"
+                  />
+                </div>
+                <footer class="blog-index__post-footer">
+                  <router-link :to="page.path">
+                    Continue Reading &rarr;
+                  </router-link>
+                </footer>
+              </article>
+            </div>
           </slot>
 
-          <div class="pagination-wrapper">
-            <Pagination/>
+          <div 
+            v-if="$pagination.hasPrev || $pagination.hasNext"
+            class="pagination-wrapper"
+          >
+            <Pagination />
             <router-link v-if="$pagination.hasPrev" :to="$pagination.prevLink">Prev</router-link>
             <router-link v-if="$pagination.hasNext" :to="$pagination.nextLink">Next</router-link>
           </div>
@@ -50,11 +68,15 @@
 </template>
 
 <script>
+import PostDate from '../global-components/PostDate'
+import PostSummary from '../global-components/PostSummary'
 import { Pagination } from '@vuepress/plugin-blog/lib/client/components'
 
 export default {
   name: 'BlogIndex',
   components: {
+    PostDate,
+    PostSummary,
     Pagination
   },
   props: {
