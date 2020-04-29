@@ -31,6 +31,12 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.post-summary {
 
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
 </style>

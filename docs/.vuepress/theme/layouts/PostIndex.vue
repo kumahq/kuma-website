@@ -1,6 +1,6 @@
 <template>
   <BlogIndex
-    page-sub-title="These are some posts."
+    :page-sub-title="`Stay up to date on the latest ${getSiteData.title} news.`"
   />
 </template>
 

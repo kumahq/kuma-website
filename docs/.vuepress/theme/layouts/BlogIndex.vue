@@ -22,28 +22,48 @@
           <slot name="pagination-content">
             <div class="blog-index-list">
               <article v-for="(page, index) in $pagination.pages" class="blog-article">
-                <header class="blog-index__post-header">
-                  <h2 class="blog-index__post-title">
-                    <router-link :to="page.path">
-                      {{ page.title }}
-                    </router-link>
-                  </h2>
-                  <PostDate :date="page.frontmatter.date" />
-                </header>
                 <div
-                  v-if="page.frontmatter.description"
-                  class="blog-index__post-summary"
+                  :class="{ 'has-image': page.frontmatter.headerImage }"
+                  class="blog-article__content-wrapper"
                 >
-                  <PostSummary
-                    :content="page.frontmatter.description"
-                    :max-words="20"
-                  />
+                  <div
+                    v-if="page.frontmatter.headerImage"
+                    class="blog-post__header-image"
+                    :style="`background-image: url('${page.frontmatter.headerImage}');`"
+                  >
+                    <img
+                      :src="page.frontmatter.headerImage"
+                      :alt="`Featured image for a blog article titled ${page.title}.`"
+                      class="sr-only"
+                    >
+                  </div>
+                  <div class="blog-article__post-inner">
+                    <header class="blog-index__post-header">
+                      <div class="blog-index__post-header__content">
+                        <PostDate :date="page.frontmatter.date" />
+                        <h2 class="blog-index__post-title">
+                          <router-link :to="page.path">
+                            {{ page.title }}
+                          </router-link>
+                        </h2>
+                      </div>
+                    </header>
+                    <div
+                      v-if="page.frontmatter.description"
+                      class="blog-index__post-summary"
+                    >
+                      <PostSummary
+                        :content="page.frontmatter.description"
+                        :max-words="maxWords"
+                      />
+                    </div>
+                    <footer class="blog-index__post-footer">
+                      <router-link :to="page.path">
+                        Continue Reading &rarr;
+                      </router-link>
+                    </footer>
+                  </div>
                 </div>
-                <footer class="blog-index__post-footer">
-                  <router-link :to="page.path">
-                    Continue Reading &rarr;
-                  </router-link>
-                </footer>
               </article>
             </div>
           </slot>
@@ -53,8 +73,8 @@
             class="pagination-wrapper"
           >
             <Pagination />
-            <router-link v-if="$pagination.hasPrev" :to="$pagination.prevLink">Prev</router-link>
-            <router-link v-if="$pagination.hasNext" :to="$pagination.nextLink">Next</router-link>
+            <!-- <router-link v-if="$pagination.hasPrev" :to="$pagination.prevLink">Prev</router-link>
+            <router-link v-if="$pagination.hasNext" :to="$pagination.nextLink">Next</router-link> -->
           </div>
           <!-- .pagination-wrapper -->
 
@@ -88,6 +108,11 @@ export default {
       type: String,
       required: false,
       default: 'blog'
+    },
+    maxWords: {
+      type: Number,
+      required: false,
+      default: 20
     }
   },
   computed: {
