@@ -7,12 +7,12 @@
         :class="{ 'has-image': $page.frontmatter.headerImage }"
         class="page-container"
       >
-        <div class="blog-nav inner">
-          <router-link :to="{ path: '/blog/' }">
-            &larr; Back to Blog
-          </router-link>
-        </div>
         <header class="page-header text-center bg-gradient">
+          <div class="blog-nav inner">
+            <router-link :to="{ path: '/blog/' }">
+              &larr; Back to Blog
+            </router-link>
+          </div>
           <div class="inner">
             <h1 v-if="$page.frontmatter.title">
               {{ $page.frontmatter.title }}
@@ -20,7 +20,15 @@
             <h1 v-else>
               {{ $page.title }}
             </h1>
-            <PostDate :date="$page.frontmatter.date" />
+            <div class="blog-post__info">
+              <span class="date">
+                <PostDate :date="$page.frontmatter.date" />
+              </span>
+              <span class="separator">/</span>
+              <span class="reading-time">
+                {{ $page.readingTime.text }}
+              </span>
+            </div>
           </div>
           <!-- .inner -->
         </header>

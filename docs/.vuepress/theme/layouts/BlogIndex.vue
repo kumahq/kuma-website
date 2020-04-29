@@ -40,7 +40,15 @@
                   <div class="blog-article__post-inner">
                     <header class="blog-index__post-header">
                       <div class="blog-index__post-header__content">
-                        <PostDate :date="page.frontmatter.date" />
+                        <div class="blog-post__info">
+                          <span class="date">
+                            <PostDate :date="page.frontmatter.date" />
+                          </span>
+                          <span class="separator">/</span>
+                          <span class="reading-time">
+                            {{ page.readingTime.text }}
+                          </span>
+                        </div>
                         <h2 class="blog-index__post-title">
                           <router-link :to="page.path">
                             {{ page.title }}

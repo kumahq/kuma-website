@@ -182,6 +182,16 @@ module.exports = {
           }
         }
       ]
+    },
+    "vuepress-plugin-reading-time": {
+      excludes: [
+        "/policies",
+        "/docs/.*",
+        "/community",
+        "/install",
+        "/privacy",
+        "/terms"
+      ]
     }
   },
   postcss: {

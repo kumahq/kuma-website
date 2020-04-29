@@ -131,20 +131,22 @@ export default {
   justify-content: center;
   min-height: 8rem;
   background-color: #fff;
-  border: 1px solid #c6cfd7;
+  // border: 1px solid #c6cfd7;
+  box-shadow: 0 0 1px 1px #c6cfd7;
   border-radius: 5px;
   padding: 1.4375rem 0.5rem;
-  will-change: transform;
-  transform-origin: center;
-  transform: translateZ(0);
+  // will-change: transform;
+  // transform-origin: center;
+  // transform: translateZ(0);
   transition: 
     color 200ms $cubic-bezier, 
-    border 200ms $cubic-bezier, 
+    box-shadow 200ms $cubic-bezier, 
     transform 200ms $cubic-bezier;
 
   &:hover, &:active {
     transform: scale(1.05);
-    border: 1px solid $hover-color;
+    // border-color: $hover-color;
+    box-shadow: 0 0 1px 1px $hover-color;
     color: $hover-color;
 
     h4 {

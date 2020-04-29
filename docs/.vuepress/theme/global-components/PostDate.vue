@@ -1,9 +1,7 @@
 <template>
-  <div class="post-date">
-    <time :datetime="date">
-      {{ niceDate }}
-    </time>
-  </div>
+  <time class="post-date" :datetime="date">
+    {{ niceDate }}
+  </time>
 </template>
 
 <script>
@@ -30,10 +28,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.post-date {
-  font-size: var(--type-sm);
-  color: var(--tblack-70);
-}
-</style>
