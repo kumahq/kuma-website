@@ -56,9 +56,10 @@ metadata:
   name: default
 spec:
   mtls:
-    enabled: true
-    ca:
-      builtin: {}" | ./kubectl apply -f -
+    enabledBackend: ca-1
+    backends:
+    - name: ca-1
+      type: builtin" | ./kubectl apply -f -
 ```
 
 With mTLS enabled, all traffic is restricted by default unless we specify a [Traffic Permission](../../policies/traffic-permissions) policy that enables it again. For example, we can apply the following permissive policy to enable all traffic across every data-plane again:

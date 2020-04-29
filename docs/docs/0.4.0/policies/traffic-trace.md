@@ -16,8 +16,9 @@ tracing:
   defaultBackend: my-zipkin
   backends:
   - name: my-zipkin
-    sampling: 100.0 
-    zipkin:
+    sampling: 100.0
+    type: zipkin 
+    config:
       url: http://zipkin.local:9411/api/v1/spans
 ```
 
@@ -33,8 +34,9 @@ spec:
     defaultBackend: my-zipkin
     backends:
     - name: my-zipkin
-      sampling: 100.0 
-      zipkin:
+      sampling: 100.0
+      type: zipkin 
+      config:
         url: http://zipkin.local:9411/api/v1/spans
 ```
 

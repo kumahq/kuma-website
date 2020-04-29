@@ -18,7 +18,10 @@ To enable `Prometheus` metrics on every dataplane in the mesh, configure a `Mesh
 type: Mesh
 name: default
 metrics:
-  prometheus: {}
+  enabledBackend: prometheus-1
+  backends:
+  - name: prometheus-1
+    type: prometheus
 ```
 
 which is a convenient shortcut for
@@ -27,9 +30,13 @@ which is a convenient shortcut for
 type: Mesh
 name: default
 metrics:
-  prometheus:
-    port: 5670
-    path: /metrics
+  enabledBackend: prometheus-1
+  backends:
+  - name: prometheus-1
+    type: prometheus
+    config:
+      port: 5670
+      path: /metrics
 ```
 
 Both snippets from above instruct `Kuma` to configure every dataplane in the mesh `default` to expose an HTTP endpoint with `Prometheus` metrics on port `5670` and URI path `/metrics`.
@@ -43,9 +50,13 @@ type: Dataplane
 mesh: default
 name: example
 metrics:
-  prometheus:
-    port: 1234
-    path: /non-standard-path
+  enabledBackend: prometheus-1
+  backends:
+  - name: prometheus-1
+    type: prometheus
+    config:
+      port: 1234
+      path: /non-standard-path
 ```
 
 As a result, this particular dataplane will expose an HTTP endpoint with `Prometheus` metrics on port `1234` and URI path `/non-standard-path`.
@@ -114,7 +125,10 @@ metadata:
   name: default
 spec:
   metrics:
-    prometheus: {}
+    enabledBackend: prometheus-1
+    backends:
+    - name: prometheus-1
+      type: prometheus
 ```
 
 which is a convenient shortcut for
@@ -126,9 +140,10 @@ metadata:
   name: default
 spec:
   metrics:
-    prometheus:
-      port: 5670
-      path: /metrics
+    enabledBackend: prometheus-1
+    backends:
+    - name: prometheus-1
+      type: prometheus
 ```
 
 Both snippets from above instruct `Kuma` to configure every dataplane in the mesh `default` to expose an HTTP endpoint with `Prometheus` metrics on port `5670` and URI path `/metrics`.

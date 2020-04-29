@@ -118,7 +118,7 @@ curl http://localhost:5681/config
     }
   },
   "defaults": {
-    "mesh": "type: Mesh\nname: default\nmtls:\n  ca: {}\n  enabled: false\n"
+    "mesh": "type: Mesh\nname: default"
   },
   "discovery": {
     "universal": {
@@ -192,27 +192,68 @@ curl http://localhost:5681/meshes/mesh-1
   "name": "mesh-1",
   "type": "Mesh",
   "mtls": {
-    "ca": {
-      "builtin": {}
-    },
-    "enabled": true
+    "backends": [
+      {
+        "name": "ca-1",
+        "type": "builtin"
+      },
+      {
+        "name": "ca-2",
+        "type": "provided",
+        "config": {
+          "cert": {
+            "secret": "provided-cert"
+          },
+          "key": {
+            "secret": "provided-cert"
+          }
+        }
+      }
+    ],
+    "enabledBackend": "ca-1"
   },
-  "tracing": {},
+  "tracing": {
+    "defaultBackend": "zipkin-1",
+    "backends": [
+      {
+        "name": "zipkin-1",
+        "type": "zipkin",
+        "config": {
+          "url": "http://zipkin.local:9411/api/v1/spans"
+        }
+      }
+    ]
+  },
   "logging": {
     "backends": [
       {
         "name": "file-tmp",
         "format": "{ \"destination\": \"%KUMA_DESTINATION_SERVICE%\", \"destinationAddress\": \"%UPSTREAM_LOCAL_ADDRESS%\", \"source\": \"%KUMA_SOURCE_SERVICE%\", \"sourceAddress\": \"%KUMA_SOURCE_ADDRESS%\", \"bytesReceived\": \"%BYTES_RECEIVED%\", \"bytesSent\": \"%BYTES_SENT%\"}",
-        "file": {
+        "type": "file",
+        "config": {
           "path": "/tmp/access.log"
         }
       },
       {
         "name": "logstash",
-        "tcp": {
+        "type": "tcp",
+        "config": {
           "address": "logstash.internal:9000"
         }
       }
+    ]
+  },
+  "metrics": {
+    "enabledBackend": "prometheus-1",
+    "backends": [
+      {
+        "name": "prometheus-1",
+        "type": "prometheus",
+        "config": {
+          "port": 1234,
+          "path": "/metrics"
+        }
+      } 
     ]
   }
 }
@@ -232,27 +273,68 @@ curl -XPUT http://localhost:5681/meshes/mesh-1 --data @mesh.json -H'content-type
   "name": "mesh-1",
   "type": "Mesh",
   "mtls": {
-    "ca": {
-      "builtin": {}
-    },
-    "enabled": true
+    "backends": [
+      {
+        "name": "ca-1",
+        "type": "builtin"
+      },
+      {
+        "name": "ca-2",
+        "type": "provided",
+        "config": {
+          "cert": {
+            "secret": "provided-cert"
+          },
+          "key": {
+            "secret": "provided-cert"
+          }
+        }
+      }
+    ],
+    "enabledBackend": "ca-1"
   },
-  "tracing": {},
+  "tracing": {
+    "defaultBackend": "zipkin-1",
+    "backends": [
+      {
+        "name": "zipkin-1",
+        "type": "zipkin",
+        "config": {
+          "url": "http://zipkin.local:9411/api/v1/spans"
+        }
+      }
+    ]
+  },
   "logging": {
     "backends": [
       {
         "name": "file-tmp",
         "format": "{ \"destination\": \"%KUMA_DESTINATION_SERVICE%\", \"destinationAddress\": \"%UPSTREAM_LOCAL_ADDRESS%\", \"source\": \"%KUMA_SOURCE_SERVICE%\", \"sourceAddress\": \"%KUMA_SOURCE_ADDRESS%\", \"bytesReceived\": \"%BYTES_RECEIVED%\", \"bytesSent\": \"%BYTES_SENT%\"}",
-        "file": {
+        "type": "file",
+        "config": {
           "path": "/tmp/access.log"
         }
       },
       {
         "name": "logstash",
-        "tcp": {
+        "type": "tcp",
+        "config": {
           "address": "logstash.internal:9000"
         }
       }
+    ]
+  },
+  "metrics": {
+    "enabledBackend": "prometheus-1",
+    "backends": [
+      {
+        "name": "prometheus-1",
+        "type": "prometheus",
+        "config": {
+          "port": 1234,
+          "path": "/metrics"
+        }
+      } 
     ]
   }
 }
@@ -271,30 +353,71 @@ curl http://localhost:5681/meshes
 {
   "items": [
     {
-      "type": "Mesh",
       "name": "mesh-1",
+      "type": "Mesh",
       "mtls": {
-        "ca": {
-          "builtin": {}
-        },
-        "enabled": true
+        "backends": [
+          {
+            "name": "ca-1",
+            "type": "builtin"
+          },
+          {
+            "name": "ca-2",
+            "type": "provided",
+            "config": {
+              "cert": {
+                "secret": "provided-cert"
+              },
+              "key": {
+                "secret": "provided-cert"
+              }
+            }
+          }
+        ],
+        "enabledBackend": "ca-1"
       },
-      "tracing": {},
+      "tracing": {
+        "defaultBackend": "zipkin-1",
+        "backends": [
+          {
+            "name": "zipkin-1",
+            "type": "zipkin",
+            "config": {
+              "url": "http://zipkin.local:9411/api/v1/spans"
+            }
+          }
+        ]
+      },
       "logging": {
         "backends": [
           {
             "name": "file-tmp",
             "format": "{ \"destination\": \"%KUMA_DESTINATION_SERVICE%\", \"destinationAddress\": \"%UPSTREAM_LOCAL_ADDRESS%\", \"source\": \"%KUMA_SOURCE_SERVICE%\", \"sourceAddress\": \"%KUMA_SOURCE_ADDRESS%\", \"bytesReceived\": \"%BYTES_RECEIVED%\", \"bytesSent\": \"%BYTES_SENT%\"}",
-            "file": {
+            "type": "file",
+            "config": {
               "path": "/tmp/access.log"
             }
           },
           {
             "name": "logstash",
-            "tcp": {
+            "type": "tcp",
+            "config": {
               "address": "logstash.internal:9000"
             }
           }
+        ]
+      },
+      "metrics": {
+        "enabledBackend": "prometheus-1",
+        "backends": [
+          {
+            "name": "prometheus-1",
+            "type": "prometheus",
+            "config": {
+              "port": 1234,
+              "path": "/metrics"
+            }
+          } 
         ]
       }
     }
