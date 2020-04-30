@@ -110,4 +110,6 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 ### 4. Quickstart
 
-Congratulations! You have successfully installed Kuma on Docker. In order to start using Kuma, it's time to check out the  quickstart guide for Universal deployments.
+Congratulations! You have successfully installed Kuma on Docker 🚀. 
+
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/0.4.0/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/0.4.0/quickstart/kubernetes/) as well.

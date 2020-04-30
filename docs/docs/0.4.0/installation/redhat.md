@@ -102,4 +102,6 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 ### 4. Quickstart
 
-Congratulations! You have successfully installed Kuma on Redhat. In order to start using Kuma, it's time to check out the  quickstart guide for Universal deployments.
+Congratulations! You have successfully installed Kuma on RedHat 🚀. 
+
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/0.4.0/quickstart/universal/) deployments.
