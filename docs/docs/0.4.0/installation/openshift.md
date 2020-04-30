@@ -1,6 +1,6 @@
-# Kubernetes
+# OpenShift
 
-To install and run Kuma on Kubernetes execute the following steps:
+To install and run Kuma on OpenShift execute the following steps:
 
 * [1. Download Kuma](#_1-download-kuma)
 * [2. Run Kuma](#_2-run-kuma)
@@ -10,7 +10,7 @@ Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and
 
 ### 1. Download Kuma
 
-To run Kuma on Kubernetes, you need to download a compatible version of Kuma for the machine where you will be executing the commands.
+To run Kuma on OpenShift, you need to download a compatible version of Kuma for the machine where you will be executing the commands.
 
 You can run the following script to automatically detect the operating system and download Kuma:
 
@@ -37,7 +37,7 @@ $ tar xvzf kuma-0.4.0*.tar.gz
 Once downloaded, you will find the contents of Kuma in the `kuma-0.4.0` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/0.4.0/documentation/kumactl/).
 
 ::: tip
-**Note**: On Kubernetes - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
+**Note**: On OpenShift - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
 :::
 
 So we enter the `bin` folder by executing:
@@ -46,29 +46,58 @@ So we enter the `bin` folder by executing:
 $ cd kuma-0.4.0/bin
 ```
 
-And we can then proceed to install Kuma on Kubernetes with:
-
-```sh
-$ ./kumactl install control-plane | kubectl apply -f -
-```
-
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
 ```sh
 ln -s ./kumactl /usr/local/bin/kumactl
 ```
 
+And we can then proceed to install Kuma on OpenShift with:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "OpenShift 4.x"
+```sh
+$ ./kumactl install control-plane --cni-enabled | oc apply -f -
+```
+Starting from version 4.1 OpenShift utilizes `nftables` instead of `iptables`. So using init container for redirecting traffic to the proxy is no longer works. Instead, we use `kuma-cni` which could be installed with `--cni-enabled` flag.
+:::
+
+::: tab "OpenShift 3.11"
+By default `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` are disabled on OpenShift 3.11.
+In order to make it work add the following `pluginConfig` into `/etc/origin/master/master-config.yaml` on the master node:
+```yaml
+admissionConfig:
+  pluginConfig:
+    MutatingAdmissionWebhook:
+      configuration:
+        apiVersion: apiserver.config.k8s.io/v1alpha1
+        kubeConfigFile: /dev/null
+        kind: WebhookAdmission
+    ValidatingAdmissionWebhook:
+      configuration:
+        apiVersion: apiserver.config.k8s.io/v1alpha1
+        kubeConfigFile: /dev/null
+        kind: WebhookAdmission
+```
+After updating `master-config.yaml` restart the cluster and install `control-plane`:
+```sh
+$ ./kumactl install control-plane | oc apply -f -
+```
+
+:::
+::::
+
 ::: tip
-It may take a while for Kubernetes to start the Kuma resources, you can check the status by executing:
+It may take a while for OpenShift to start the Kuma resources, you can check the status by executing:
 
 ```sh
-$ kubectl get pod -n kuma-system
+$ oc get pod -n kuma-system
 ```
 :::
 
 ### 3. Use Kuma
 
-Kuma (`kuma-cp`) will be installed in the newly created `kuma-system` namespace! Now that Kuma has been installed, you can access the control-plane via either the GUI, `kubectl`, the HTTP API, or the CLI:
+Kuma (`kuma-cp`) will be installed in the newly created `kuma-system` namespace! Now that Kuma has been installed, you can access the control-plane via either the GUI, `oc`, the HTTP API, or the CLI:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "GUI (Read-Only)"
@@ -78,18 +107,18 @@ Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources.
 To access Kuma we need to first port-forward the GUI service with:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5683:5683
+$ oc port-forward svc/kuma-control-plane -n kuma-system 5683:5683
 ```
 
 And then you can navigate to [`127.0.0.1:5683`](http://127.0.0.1:5683) to see the GUI.
 
 :::
-::: tab "kubectl (Read & Write)"
+::: tab "oc (Read & Write)"
 
-You can use Kuma with `kubectl` to perform **read and write** operations on Kuma resources. For example:
+You can use Kuma with `oc` to perform **read and write** operations on Kuma resources. For example:
 
 ```sh
-$ kubectl get meshes
+$ oc get meshes
 NAME          AGE
 default       1m
 ```
@@ -105,18 +134,18 @@ spec:
   mtls:
     enabled: true
     ca:
-      builtin: {}" | kubectl apply -f -
+      builtin: {}" | oc apply -f -
 ```
 
 :::
 ::: tab "HTTP API (Read-Only)"
 
-Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resources.
+Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resources. 
 
 By default the HTTP API listens on port `5681`. To access Kuma we need to first port-forward the API service with:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+$ oc port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 ```
 
 And then you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see the HTTP API.
@@ -127,7 +156,7 @@ And then you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see th
 You can use the `kumactl` CLI to perform **read-only** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API, you will need to first port-forward the API service with:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+$ oc port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 ```
 
 and then run `kumactl`, for example:
@@ -148,8 +177,15 @@ $ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma
 
 You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) entity with name `default`.
 
+::: warning
+Kuma explicitly specifies UID for `kuma-dp` to avoid capturing traffic from `kuma-dp` itself. For that reason, special privilege has to be granted to application namespace:
+```sh
+$ oc adm policy add-scc-to-user anyuid -z APPLICATION_SERVICE_ACCOUNT -n APPLICATION_NAMESPACE
+```
+:::
+
 ### 4. Quickstart
 
-Congratulations! You have successfully installed Kuma on Kubernetes 🚀. 
+Congratulations! You have successfully installed Kuma on OpenShift 🚀. 
 
 In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/0.4.0/quickstart/kubernetes/) deployments.

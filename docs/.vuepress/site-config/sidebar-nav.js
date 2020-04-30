@@ -125,9 +125,11 @@ module.exports = {
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
+        "installation/kubernetes",
+        "installation/openshift",
+        "installation/docker",
         "installation/centos",
         "installation/debian",
-        "installation/kubernetes",
         "installation/macos",
         "installation/redhat",
         "installation/ubuntu",
@@ -677,8 +679,17 @@ module.exports = {
         "overview/what-is-a-service-mesh",
         "overview/why-kuma",
         "overview/kuma-vs-xyz",
-        "overview/vm-and-k8s-support",
-        "overview/quickstart"
+        "overview/vm-and-k8s-support"
+      ]
+    },
+    {
+      title: "Quickstart",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "quickstart/kubernetes",
+        "quickstart/universal"
       ]
     },
     {
@@ -730,9 +741,10 @@ module.exports = {
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
+        "installation/kubernetes",
+        "installation/docker",
         "installation/centos",
         "installation/debian",
-        "installation/kubernetes",
         "installation/macos",
         "installation/redhat",
         "installation/ubuntu",
@@ -744,7 +756,6 @@ module.exports = {
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "other/introduction",
         "other/enterprise",
         "other/license"
       ]
