@@ -8,17 +8,11 @@ Kuma can run in both **Kubernetes** (Containers) and **Universal** mode (for VMs
 
 In order to simulate a real-world scenario, we have built a simple demo application that resembles a marketplace. In this tutorial we will:
 
-* [1. Run the Marketplace demo](#_1-download-kuma)
-* [2. Install Mutual TLS and Traffic Permissions](#_2-run-kuma)
-* [3. Install Traffic Metrics](#_3-use-kuma)
+* [1. Run the Marketplace application](#_1-run-the-marketplace-application)
+* [2. Enable Mutual TLS and Traffic Permissions](#_2-enable-mutual-tls-and-traffic-permissions)
+* [3. Visualize Traffic Metrics](#_3-visualize-traffic-metrics)
 
-To deploy the sample marketplace application with Kuma, execute the following steps:
-
-- [Quickstart in Universal Mode](#quickstart-in-universal-mode)
-    - [1. Run the Marketplace application](#1-run-the-marketplace-application)
-    - [2. Enable Mutual TLS and Traffic Permissions](#2-enable-mutual-tls-and-traffic-permissions)
-    - [3. Visualize Traffic Metrics](#3-visualize-traffic-metrics)
-- [Next steps](#next-steps)
+You can also access the Kuma marketplace demo repository [on Github](https://github.com/Kong/kuma-demo) to try more features and policies in addition to the ones described in this quickstart.
 
 ### 1. Run the Marketplace application
 
