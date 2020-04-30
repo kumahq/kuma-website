@@ -13,7 +13,7 @@ module.exports = {
   websiteRepo: "https://github.com/Kong/kuma-website",
   repo: "https://github.com/Kong/kuma",
   repoButtonLabel: "Star",
-  logo: "/images/brand/kuma-logo.svg",
+  logo: "/images/brand/kuma-logo-new.svg",
   hostname: "https://kuma.io",
   cliNamespace: "kumactl",
   slackInviteURL: "https://chat.kuma.io",
