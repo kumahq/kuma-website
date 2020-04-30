@@ -9,7 +9,7 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.1.0/diagram-01.jpg",
           "name": "diagram-01.jpg",
-          "size": 62682,
+          "size": 160261,
           "extension": ".jpg",
           "type": "file"
         },
@@ -30,14 +30,14 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.1.0/diagram-04.jpg",
           "name": "diagram-04.jpg",
-          "size": 112585,
+          "size": 301549,
           "extension": ".jpg",
           "type": "file"
         },
         {
           "path": "docs/.vuepress/public/images/docs/0.1.0/diagram-05.jpg",
           "name": "diagram-05.jpg",
-          "size": 82221,
+          "size": 216345,
           "extension": ".jpg",
           "type": "file"
         },
@@ -58,14 +58,14 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.1.0/diagram-08.jpg",
           "name": "diagram-08.jpg",
-          "size": 34257,
+          "size": 87063,
           "extension": ".jpg",
           "type": "file"
         },
         {
           "path": "docs/.vuepress/public/images/docs/0.1.0/diagram-09.jpg",
           "name": "diagram-09.jpg",
-          "size": 34017,
+          "size": 86404,
           "extension": ".jpg",
           "type": "file"
         },
@@ -84,7 +84,7 @@
           "type": "file"
         }
       ],
-      "size": 567230,
+      "size": 1093090,
       "type": "directory"
     },
     {
@@ -94,7 +94,7 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.1.1/diagram-01.jpg",
           "name": "diagram-01.jpg",
-          "size": 62682,
+          "size": 160261,
           "extension": ".jpg",
           "type": "file"
         },
@@ -115,14 +115,14 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.1.1/diagram-04.jpg",
           "name": "diagram-04.jpg",
-          "size": 112585,
+          "size": 301549,
           "extension": ".jpg",
           "type": "file"
         },
         {
           "path": "docs/.vuepress/public/images/docs/0.1.1/diagram-05.jpg",
           "name": "diagram-05.jpg",
-          "size": 82221,
+          "size": 216345,
           "extension": ".jpg",
           "type": "file"
         },
@@ -143,14 +143,14 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.1.1/diagram-08.jpg",
           "name": "diagram-08.jpg",
-          "size": 34257,
+          "size": 87063,
           "extension": ".jpg",
           "type": "file"
         },
         {
           "path": "docs/.vuepress/public/images/docs/0.1.1/diagram-09.jpg",
           "name": "diagram-09.jpg",
-          "size": 34017,
+          "size": 86404,
           "extension": ".jpg",
           "type": "file"
         },
@@ -169,7 +169,7 @@
           "type": "file"
         }
       ],
-      "size": 567230,
+      "size": 1093090,
       "type": "directory"
     },
     {
@@ -179,7 +179,7 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.1.2/diagram-01.jpg",
           "name": "diagram-01.jpg",
-          "size": 62682,
+          "size": 160261,
           "extension": ".jpg",
           "type": "file"
         },
@@ -200,14 +200,14 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.1.2/diagram-04.jpg",
           "name": "diagram-04.jpg",
-          "size": 112585,
+          "size": 301549,
           "extension": ".jpg",
           "type": "file"
         },
         {
           "path": "docs/.vuepress/public/images/docs/0.1.2/diagram-05.jpg",
           "name": "diagram-05.jpg",
-          "size": 82221,
+          "size": 216345,
           "extension": ".jpg",
           "type": "file"
         },
@@ -228,14 +228,14 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.1.2/diagram-08.jpg",
           "name": "diagram-08.jpg",
-          "size": 34257,
+          "size": 87063,
           "extension": ".jpg",
           "type": "file"
         },
         {
           "path": "docs/.vuepress/public/images/docs/0.1.2/diagram-09.jpg",
           "name": "diagram-09.jpg",
-          "size": 34017,
+          "size": 86404,
           "extension": ".jpg",
           "type": "file"
         },
@@ -254,7 +254,7 @@
           "type": "file"
         }
       ],
-      "size": 567230,
+      "size": 1093090,
       "type": "directory"
     },
     {
@@ -264,7 +264,7 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.2.0/diagram-01.jpg",
           "name": "diagram-01.jpg",
-          "size": 62682,
+          "size": 160261,
           "extension": ".jpg",
           "type": "file"
         },
@@ -285,14 +285,14 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.2.0/diagram-04.jpg",
           "name": "diagram-04.jpg",
-          "size": 112585,
+          "size": 301549,
           "extension": ".jpg",
           "type": "file"
         },
         {
           "path": "docs/.vuepress/public/images/docs/0.2.0/diagram-05.jpg",
           "name": "diagram-05.jpg",
-          "size": 82221,
+          "size": 216345,
           "extension": ".jpg",
           "type": "file"
         },
@@ -313,14 +313,14 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.2.0/diagram-08.jpg",
           "name": "diagram-08.jpg",
-          "size": 34257,
+          "size": 87063,
           "extension": ".jpg",
           "type": "file"
         },
         {
           "path": "docs/.vuepress/public/images/docs/0.2.0/diagram-09.jpg",
           "name": "diagram-09.jpg",
-          "size": 34017,
+          "size": 86404,
           "extension": ".jpg",
           "type": "file"
         },
@@ -339,7 +339,7 @@
           "type": "file"
         }
       ],
-      "size": 567230,
+      "size": 1093090,
       "type": "directory"
     },
     {
@@ -445,18 +445,18 @@
     {
       "path": "docs/.vuepress/public/images/docs/diagram-before-after-full.png",
       "name": "diagram-before-after-full.png",
-      "size": 1089351,
+      "size": 249378,
       "extension": ".png",
       "type": "file"
     },
     {
       "path": "docs/.vuepress/public/images/docs/main-diagram.png",
       "name": "main-diagram.png",
-      "size": 73793,
+      "size": 70717,
       "extension": ".png",
       "type": "file"
     }
   ],
-  "size": 6461488,
+  "size": 7721879,
   "type": "directory"
 }
