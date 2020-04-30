@@ -10,19 +10,41 @@ Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and
 
 ### 1. Download Kuma
 
+To run Kuma on macOS you can choose among different installation methods:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Script"
+
 Run the following script to automatically detect the operating system and download Kuma:
 
 ```sh
 $ curl -L https://kuma.io/installer.sh | sh -
 ```
 
-or you can [download](https://kong.bintray.com/kuma/kuma-0.4.0-darwin-amd64.tar.gz) the distribution manually.
+:::
+::: tab "Manually"
+
+You can also download the distribution manually:
+
+* [Download Kuma](https://kong.bintray.com/kuma/kuma-0.4.0-darwin-amd64.tar.gz)
 
 Then extract the archive with:
 
 ```sh
 $ tar xvzf kuma-0.4.0*.tar.gz
 ```
+
+:::
+::: tab "Homebrew (kumactl only)"
+
+If you only need the Kuma CLI `kumactl`, then you can also execute:
+
+```sh
+$ brew install kumactl
+```
+
+:::
+::::
 
 ### 2. Run Kuma
 
