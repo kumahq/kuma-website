@@ -10,7 +10,10 @@ Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and
 
 ### 1. Download Kuma
 
-To run Kuma on OpenShift, you need to download a compatible version of Kuma for the machine where you will be executing the commands.
+To run Kuma on OpenShift, you need to download a compatible version of Kuma for the machine from which you will be executing the commands.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Script"
 
 You can run the following script to automatically detect the operating system and download Kuma:
 
@@ -18,7 +21,10 @@ You can run the following script to automatically detect the operating system an
 $ curl -L https://kuma.io/installer.sh | sh -
 ```
 
-or you can download the distribution manually:
+:::
+::: tab "Manually"
+
+You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access OpenShift:
 
 * [CentOS](https://kong.bintray.com/kuma/kuma-0.4.0-centos-amd64.tar.gz)
 * [RedHat](https://kong.bintray.com/kuma/kuma-0.4.0-rhel-amd64.tar.gz)
@@ -31,6 +37,9 @@ and extract the archive with:
 ```sh
 $ tar xvzf kuma-0.4.0*.tar.gz
 ```
+
+:::
+::::
 
 ### 2. Run Kuma
 

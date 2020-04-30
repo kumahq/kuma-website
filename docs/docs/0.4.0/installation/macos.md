@@ -102,6 +102,6 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 ### 4. Quickstart
 
-Congratulations! You have successfully installed Kuma on MacOS 🚀. 
+Congratulations! You have successfully installed Kuma on macOS 🚀. 
 
 In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/0.4.0/quickstart/universal/) deployments.

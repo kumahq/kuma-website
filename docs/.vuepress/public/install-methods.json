@@ -20,14 +20,14 @@
     "slug": "centos"
   },
   {
-    "label": "Debian",
-    "logo": "/images/platforms/logo-debian.jpg",
-    "slug": "debian"
-  },
-  {
     "label": "RedHat",
     "logo": "/images/platforms/logo-redhat.jpg",
     "slug": "redhat"
+  },
+  {
+    "label": "Debian",
+    "logo": "/images/platforms/logo-debian.jpg",
+    "slug": "debian"
   },
   {
     "label": "Ubuntu",
