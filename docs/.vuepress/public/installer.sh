@@ -90,7 +90,6 @@ if curl -L "$URL" | tar xz; then
   printf "\n"
   printf "%s" "$(<$DIR/README)"
   printf "\n"
-
 else
   printf "\n"
   printf "ERROR\tUnable to download Kuma\n"

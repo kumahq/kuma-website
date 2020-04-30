@@ -10,6 +10,14 @@ By default the HTTP API is listening on port `5681`. The endpoints available are
 
 * `/config`
 * `/meshes`
+* `/dataplanes`
+* `/dataplanes+insights`
+* `/health-checks`
+* `/proxytemplates`
+* `/traffic-logs`
+* `/traffic-permissions`
+* `/traffic-routes`
+* `/fault-injections`
 * `/meshes/{name}`
 * `/meshes/{name}/dataplanes`
 * `/meshes/{name}/dataplanes/{name}`
@@ -25,8 +33,25 @@ By default the HTTP API is listening on port `5681`. The endpoints available are
 * `/meshes/{name}/traffic-permissions/{name}`
 * `/meshes/{name}/traffic-routes`
 * `/meshes/{name}/traffic-routes/{name}`
+* `/meshes/{name}/fault-injections`
+* `/meshes/{name}/fault-injections/{name}`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
+
+## Pagination
+
+Every resource list in Kuma is paginated. To use pagination, you can use following query parameters:
+* `size` - size of the page (default - 1000, maximum value - 10000).
+* `offset` - offset from which the page will be listed. The offset is a `string`, it does not have to be a number (it depends on the environment).
+
+A response with a pagination contains `next` field with URL to fetch the next page. Example:
+```json
+{
+  "items": [...],
+  "next": "http://localhost:5681/meshes/default/dataplanes?offset=10"
+}
+```
+If next field is `null` there is no more pages to fetch.
 
 ## Control Plane configuration
 
@@ -273,7 +298,8 @@ curl http://localhost:5681/meshes
         ]
       }
     }
-  ]
+  ],
+  "next": "http://localhost:5681/meshes?offset=1"
 }
 ```
 
@@ -412,7 +438,8 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes
         ]
       }
     }
-  ]
+  ],
+  "next": "http://localhost:5681/meshes/mesh-1/dataplanes?offset=1"
 }
 ```
 
@@ -564,7 +591,8 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
       ]
      }
     }
-  ]
+  ],
+  "next": "http://localhost:5681/meshes/default/dataplanes+insights?offset=1"
 }
 ```
 
@@ -687,7 +715,8 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
    ],
    "type": "HealthCheck"
   }
- ]
+ ],
+ "next": "http://localhost:5681/meshes/mesh-1/health-checks?offset=1"
 }
 ```
 
@@ -811,7 +840,8 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates
    ],
    "type": "ProxyTemplate"
   }
- ]
+ ],
+ "next": "http://localhost:5681/meshes/mesh-1/proxytemplates?offset=1"
 }
 ```
 
@@ -920,7 +950,8 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions
    ],
    "type": "TrafficPermission"
   }
- ]
+ ],
+ "next": "http://localhost:5681/meshes/mesh-1/traffic-permissions?offset=1"
 }
 ```
 
@@ -1041,7 +1072,8 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs
    ],
    "type": "TrafficLog"
   }
- ]
+ ],
+ "next": "http://localhost:5681/meshes/mesh-1/traffic-logs?offset=1"
 }
 ```
 
@@ -1207,7 +1239,8 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes
    ],
    "type": "TrafficRoute"
   }
- ]
+ ],
+ "next": "http://localhost:5681/meshes/mesh-1/traffic-routes?offset=1"
 }
 ```
 
@@ -1304,7 +1337,8 @@ curl http://localhost:5681/meshes/mesh-1/traffic-traces
     }
    ]
   }
- ]
+ ],
+ "next": "http://localhost:5681/meshes/mesh-1/traffic-traces?offset=1"
 }
 ```
 
@@ -1316,6 +1350,167 @@ Response: `200 OK`
 Example:
 ```bash
 curl -XDELETE http://localhost:5681/meshes/mesh-1/traffic-traces/tt-1
+```
+
+## Fault Injection
+
+### Get Fault Injection
+Request: `GET /meshes/{mesh}/fault-injections/{name}`
+
+Response: `200 OK` with Fault Injection entity
+
+Example:
+```bash
+curl http://localhost:5681/meshes/default/fault-injections/fi1
+```
+```json
+{
+ "type": "FaultInjection",
+ "mesh": "default",
+ "name": "fi1",
+ "sources": [
+  {
+   "match": {
+    "protocol": "http",
+    "service": "frontend",
+    "version": "0.1"
+   }
+  }
+ ],
+ "destinations": [
+  {
+   "match": {
+    "protocol": "http",
+    "service": "backend"
+   }
+  }
+ ],
+ "conf": {
+  "delay": {
+   "percentage": 50.5,
+   "value": "5s"
+  },
+  "abort": {
+   "percentage": 50,
+   "httpStatus": 500
+  },
+  "responseBandwidth": {
+   "percentage": 50,
+   "limit": "50 mbps"
+  }
+ }
+}
+```
+
+### Create/Update Fault Injection
+Request: `PUT /meshes/{mesh}/fault-injections/{name}` with Fault Injection entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/meshes/default/fault-injections/fi1 --data @faultinjection.json -H'content-type: application/json'
+```
+```json
+{
+  "type": "FaultInjection",
+  "mesh": "default",
+  "name": "fi1",
+  "sources": [
+    {
+      "match": {
+        "service": "frontend",
+        "version": "0.1",
+        "protocol": "http"
+      }
+    }
+  ],
+  "destinations": [
+    {
+      "match": {
+        "service": "backend",
+        "protocol": "http"
+      }
+    }
+  ],
+  "conf": {
+    "delay": {
+      "percentage": 50.5,
+      "value": "5s"
+    },
+    "abort": {
+      "httpStatus": 500,
+      "percentage": 50
+    },
+    "responseBandwidth": {
+      "limit": "50 mbps",
+      "percentage": 50
+    }
+  }
+}
+```
+
+### List Fault Injections
+Request: `GET /meshes/{mesh}/fault-injections`
+
+Response: `200 OK` with body of Fault Injection entities
+
+Example:
+```bash
+curl http://localhost:5681/meshes/default/fault-injections
+```
+```json
+{
+ "items": [
+  {
+   "type": "FaultInjection",
+   "mesh": "default",
+   "name": "fi1",
+   "sources": [
+    {
+     "match": {
+      "protocol": "http",
+      "service": "frontend",
+      "version": "0.1"
+     }
+    }
+   ],
+   "destinations": [
+    {
+     "match": {
+      "protocol": "http",
+      "service": "backend"
+     }
+    }
+   ],
+   "conf": {
+    "delay": {
+     "percentage": 50.5,
+     "value": "5s"
+    },
+    "abort": {
+     "percentage": 50,
+     "httpStatus": 500
+    },
+    "responseBandwidth": {
+     "percentage": 50,
+     "limit": "50 mbps"
+    }
+   }
+  }
+ ],
+ "next": "http://localhost:5681/meshes/default/fault-injections?offset=1"
+}
+```
+
+### Delete Fault Injection
+Request: `DELETE /meshes/{mesh}/fault-injections/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/meshes/default/fault-injections/fi1
 ```
 
 ::: tip

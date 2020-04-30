@@ -38,6 +38,10 @@ spec:
         url: http://zipkin.local:9411/api/v1/spans
 ```
 
+::: tip
+If you are starting from scratch, consider using `kumactl install tracing | kubectl apply -f -` to deploy configured Prometheus with Grafana.
+:::
+
 2) Select the dataplanes that should send traces for given backend
 
 On Universal:
