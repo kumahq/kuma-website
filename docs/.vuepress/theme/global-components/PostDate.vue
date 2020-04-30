@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
+import dayjs from 'dayjs'
 
 export default {
   props: {
@@ -16,14 +16,16 @@ export default {
     format: {
       type: String,
       required: false,
-      default: 'PPP' // January 1st, 2020
+      default: 'MMM DD, YYYY'
     }
   },
   computed: {
     niceDate () {
-      const dateFormat = this.format
-      const newDate = new Date(this.date)
-      return format( newDate, dateFormat )
+      const rawDate = new Date(this.date)
+      const fixedDate = new Date(rawDate.getTime() + rawDate.getTimezoneOffset() * 60000)
+      const newDate = dayjs(fixedDate).format(this.format)
+
+      return newDate
     }
   }
 }

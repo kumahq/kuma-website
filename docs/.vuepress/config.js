@@ -57,7 +57,7 @@ module.exports = {
       { text: "Policies", link: "/policies/" },
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
-      { text: "Blog", link: "/blog/" },
+      { text: "News", link: "/news/" },
       // { text: "Use Cases", link: "/use-cases/" },
       // { text: "Enterprise", link: "/enterprise/" },
       { text: "Install", link: "/install/" }
@@ -170,11 +170,11 @@ module.exports = {
       },
       directories: [
         {
-          title: 'Blog',
-          id: 'blog',
-          dirname: '_blog',
-          path: '/blog/',
-          itemPermalink: '/blog/:year/:slug',
+          title: 'News',
+          id: 'news',
+          dirname: '_news',
+          path: '/news/',
+          itemPermalink: '/news/:year/:slug',
           layout: 'PostIndex',
           itemLayout: 'Post',
           pagination: {

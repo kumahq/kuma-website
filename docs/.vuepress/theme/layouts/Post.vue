@@ -9,8 +9,8 @@
       >
         <header class="page-header text-center bg-gradient">
           <div class="blog-nav inner">
-            <router-link :to="{ path: '/blog/' }">
-              &larr; Back to Blog
+            <router-link :to="{ path: '/news/' }">
+              &larr; Back to News
             </router-link>
           </div>
           <div class="inner">
@@ -51,7 +51,6 @@
           </div>
         </div>
         <!-- .inner -->
-
       </div>
       <!-- .page-container -->
     </template>
