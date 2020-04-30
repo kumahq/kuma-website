@@ -679,8 +679,17 @@ module.exports = {
         "overview/what-is-a-service-mesh",
         "overview/why-kuma",
         "overview/kuma-vs-xyz",
-        "overview/vm-and-k8s-support",
-        "overview/quickstart"
+        "overview/vm-and-k8s-support"
+      ]
+    },
+    {
+      title: "Quickstart",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "quickstart/kubernetes",
+        "quickstart/universal"
       ]
     },
     {
@@ -746,7 +755,6 @@ module.exports = {
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "other/introduction",
         "other/enterprise",
         "other/license"
       ]

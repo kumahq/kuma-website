@@ -1,6 +1,10 @@
+---
+title: Universal Quickstart
+---
+
 # Quickstart in Universal Mode
 
-Congratulations! Now that you have [installed](/install) Kuma, you can get up and running with a few easy steps.
+Congratulations! After [installing](/install) Kuma, you can get up and running with a few easy steps.
 
 :::tip
 Kuma can run in both **Kubernetes** (Containers) and **Universal** mode (for VMs and Bare Metal). You are now looking at the quickstart for Universal mode, but you can also check out the [Kubernetes one](/docs/0.4.0/quickstart/kubernetes).
@@ -13,6 +17,10 @@ In order to simulate a real-world scenario, we have built a simple demo applicat
 * [3. Visualize Traffic Metrics](#_3-visualize-traffic-metrics)
 
 You can also access the Kuma marketplace demo repository [on Github](https://github.com/Kong/kuma-demo) to try more features and policies in addition to the ones described in this quickstart.
+
+:::tip
+**Community Chat**: If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.
+:::
 
 ### 1. Run the Marketplace application
 

@@ -183,6 +183,9 @@ Kuma explicitly specifies UID for `kuma-dp` to avoid capturing traffic from `kum
 $ oc adm policy add-scc-to-user anyuid -z APPLICATION_SERVICE_ACCOUNT -n APPLICATION_NAMESPACE
 ```
 :::
+
 ### 4. Quickstart
 
-Congratulations! You have successfully installed Kuma on OpenShift. In order to start using Kuma, it's time to check out the  quickstart guide for Kubernetes deployments.
+Congratulations! You have successfully installed Kuma on OpenShift 🚀. 
+
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/0.4.0/quickstart/kubernetes/) deployments.
