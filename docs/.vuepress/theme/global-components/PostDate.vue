@@ -1,5 +1,5 @@
 <template>
-  <time class="post-date" :datetime="date">
+  <time class="post-date" :datetime="fixedDate">
     {{ niceDate }}
   </time>
 </template>
@@ -20,10 +20,18 @@ export default {
     }
   },
   computed: {
-    niceDate () {
+    fixedDate () {
       const rawDate = new Date(this.date)
-      const fixedDate = new Date(rawDate.getTime() + rawDate.getTimezoneOffset() * 60000)
-      const newDate = dayjs(fixedDate).format(this.format)
+      const fixedDate = new Date(
+        rawDate.getTime() 
+        + rawDate.getTimezoneOffset() 
+        * 60000
+      ).toISOString()
+
+      return fixedDate
+    },
+    niceDate () {
+      const newDate = dayjs(this.fixedDate).format(this.format)
 
       return newDate
     }
