@@ -20,5 +20,6 @@ module.exports = {
   slackChannelURL: "https://kuma-mesh.slack.com",
   gaCode: "UA-8499472-30",
   ogImage: "/images/social/og-image.jpg",
-  fbAppId: "682375632267551"
+  fbAppId: "682375632267551",
+  cacheBuster: 'v=2'
 }
