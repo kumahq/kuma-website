@@ -697,7 +697,7 @@ module.exports = {
         "documentation/gui",
         "documentation/http-api",
         "documentation/security",
-        "documentation/secret-management",
+        "documentation/secrets",
         "documentation/networking",
         "documentation/fine-tuning"
       ]
