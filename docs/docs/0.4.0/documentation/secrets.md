@@ -28,9 +28,9 @@ name: sample-secret
 data: dGVzdAo=" | kumactl apply -f -
 ```
 
-### Access to the Secret API
+### Access to the Secret HTTP API
 
-This API is exposed on Admin Server which means that by default it is only available on the same machine as the Control Plane.
+This API is exposed on the Admin Server which means that by default it is only available on the same machine as the Control Plane.
 Consult [Accessing Admin Server from a different machine](security/#accessing-admin-server-from-a-different-machine) how to configure remote access.
 
 ## Kubernetes
