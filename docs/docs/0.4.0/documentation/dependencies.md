@@ -2,7 +2,7 @@
 
 Kuma (`kuma-cp`) is one single executable written in GoLang that can be installed anywhere, hence why it's both universal and simple to deploy. 
 
-* Running on **Kubernetes**: No external dependencies required, since it leverages the underlying K8s API server to store its configuration. A `kuma-injector` service will also start in order to automatically inject sidecar data-plane proxies without human intervention.
+* Running on **Kubernetes**: No external dependencies required, since it leverages the underlying K8s API server to store its configuration. Kuma will automatically inject the sidecar data-plane proxies without human intervention.
 
 * Running on **Universal**: Kuma requires a PostgreSQL database as a dependency in order to store its configuration. PostgreSQL is a very popular and easy database. You can run Kuma with any managed PostgreSQL offering as well, like AWS RDS or Aurora. Out of sight, out of mind!
 

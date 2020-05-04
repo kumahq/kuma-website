@@ -28,10 +28,6 @@ Since Kuma bundles a data-plane in addition to the control-plane, we decided to 
 * `kuma-prometheus-sd`: this is a helper tool that enables native integration between `Kuma` and `Prometheus`. Thanks to it, `Prometheus` will be able to automatically find all dataplanes in your Mesh and scrape metrics out of them.
 * `kuma-tcp-echo`: this is a sample application that echos back the requests we are making, used for demo purposes.
 
-In addition to these binaries, there is another binary that will be executed when running on Kubernetes:
-
-* `kuma-injector`: only for Kubernetes, this is a process that listens to events propagated by Kubernetes, and that automatically injects a `kuma-dp` sidecar container to our services.
-
 A minimal Kuma deployment involves one or more instances of the control-plane (`kuma-cp`), and one or more instances of the data-planes (`kuma-dp`) which will connect to the control-plane as soon as they startup. Kuma supports two modes:
 
 * `universal`: when it's being installed on a Linux compatible machine like MacOS, Virtual Machine or Bare Metal. This also includes those instances where Kuma is being installed on a Linux base machine (ie, a Docker image).
@@ -39,9 +35,7 @@ A minimal Kuma deployment involves one or more instances of the control-plane (`
 
 ## Universal mode
 
-When running in **Universal** mode, Kuma will require a PostgreSQL database to store its state. The PostgreSQL database and schema will have to be initialized accordingly to the installation instructions.
-
-Unlike `kubernetes` mode, Kuma won't require the `kuma-injector` executable to run:
+When running in **Universal** mode, Kuma will require a PostgreSQL database to store its state. The PostgreSQL database and schema will have to be initialized accordingly to the installation instructions:
 
 <center>
 <img src="/images/docs/0.2.0/diagram-09.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -49,18 +43,16 @@ Unlike `kubernetes` mode, Kuma won't require the `kuma-injector` executable to r
 
 ## Kubernetes mode
 
-When running on **Kubernetes**, Kuma will store all of its state and configuration on the underlying Kubernetes API Server, therefore requiring no dependency to store the data. But it requires the `kuma-injector` executable to run in a Pod (only one instance per Kubernetes cluster) so that it can automatically inject `kuma-dp` on any Pod that belongs to a Namespace that includes the following label:
+When running on **Kubernetes**, Kuma will store all of its state and configuration on the underlying Kubernetes API Server, therefore requiring no dependency to store the data. Kuma will automatically inject the dataplane proxy `kuma-dp` on any Pod that belongs to a Namespace that includes the following label:
 
 ```
 kuma.io/sidecar-injection: enabled
 ```
 
-When following the installation instructions, `kuma-injector` will be automatically started.
-
 You can learn more about sidecar injection in the section on [Dataplanes](./dps-and-data-model/#kubernetes).
 
 <center>
-<img src="/images/docs/0.2.0/diagram-08.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-08.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ### Matching Labels in `Pod` and `Service` 
