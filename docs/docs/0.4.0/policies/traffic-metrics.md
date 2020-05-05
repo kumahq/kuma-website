@@ -96,7 +96,7 @@ prometheus --config.file=prometheus.yml
 Now, if you check `Targets` page on `Prometheus` UI, you should see a list of dataplanes from your mesh, e.g.
 
 <center>
-<img src="/images/docs/0.3.2/prometheus-targets.png" alt="A screenshot of Targets page on Prometheus UI" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.4.0/prometheus-targets.png" alt="A screenshot of Targets page on Prometheus UI" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ### On Kubernetes

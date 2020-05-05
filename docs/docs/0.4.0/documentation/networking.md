@@ -50,7 +50,7 @@ Because Kuma by design already knows the address to every data-plane - and there
 In order for connectivity to work among the `kuma-dp` instances, Kuma also assumes a flat network topology: this means that every data-plane must be able to consume another data-plane by directly sending requests to its IP address. This is true also in the case of multi-region or multi-datacenter setups.
 
 <center>
-<img src="/images/docs/0.3.2/diagram-16.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.4.0/diagram-16.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 As illustrated in the picture above, every `kuma-dp` must be able to send requests to every other `kuma-dp` on the specific ports that govern service traffic, as described in the `kuma-dp` [ports section](#kuma-dp-ports).
