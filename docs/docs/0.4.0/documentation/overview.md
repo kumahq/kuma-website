@@ -44,7 +44,7 @@ When running in **Universal** mode, Kuma will require a PostgreSQL database to s
 Unlike `kubernetes` mode, Kuma won't require the `kuma-injector` executable to run:
 
 <center>
-<img src="/images/docs/0.2.0/diagram-09.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.4.0/diagram-09.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ## Kubernetes mode
@@ -60,7 +60,7 @@ When following the installation instructions, `kuma-injector` will be automatica
 You can learn more about sidecar injection in the section on [Dataplanes](./dps-and-data-model/#kubernetes).
 
 <center>
-<img src="/images/docs/0.2.0/diagram-08.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.4.0/diagram-08.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ### Specify Mesh for Pods
@@ -125,13 +125,13 @@ Once the `kuma-cp` process is started, it waits for [data-planes](../dps-and-dat
 When we look at a typical Kuma installation, at a higher level it works like this:
 
 <center>
-<img src="/images/docs/0.2.0/diagram-06.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.4.0/diagram-06.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 When we unpack the underlying behavior, it looks like this:
 
 <center>
-<img src="/images/docs/0.2.0/diagram-07.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.4.0/diagram-07.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ::: tip
