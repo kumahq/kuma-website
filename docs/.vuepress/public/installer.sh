@@ -40,10 +40,17 @@ if ! type "tar" > /dev/null 2>&1; then
   printf "ERROR\ttar cannot be found\n"
   exit 1;
 fi
+if ! type "gzip" > /dev/null 2>&1; then
+  printf "ERROR\tgzip cannot be found\n"
+  exit 1;
+fi
 
 OS=`uname -s`
 if [ "$OS" = "Linux" ]; then
   DISTRO=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+  if [ "$DISTRO" = "amzn" ]; then
+    DISTRO="centos"
+  fi
 elif [ "$OS" = "Darwin" ]; then
   DISTRO="darwin"
 else
@@ -88,7 +95,7 @@ if curl -L "$URL" | tar xz; then
   printf "\n"
   printf "INFO\tKuma %s has been downloaded!\n" "$KUMA_VERSION"
   printf "\n"
-  printf "%s" "$(<$DIR/README)"
+  printf "%s" "$(<$DIR/kuma-$KUMA_VERSION/README)"
   printf "\n"
 else
   printf "\n"

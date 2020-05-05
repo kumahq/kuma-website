@@ -25,6 +25,11 @@
     "slug": "redhat"
   },
   {
+    "label": "Amazon Linux",
+    "logo": "/images/platforms/logo-amazon-linux.png",
+    "slug": "amazonlinux"
+  },
+  {
     "label": "Debian",
     "logo": "/images/platforms/logo-debian.jpg",
     "slug": "debian"

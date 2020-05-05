@@ -746,6 +746,7 @@ module.exports = {
         "installation/docker",
         "installation/redhat",
         "installation/centos",
+        "installation/amazonlinux",
         "installation/debian",
         "installation/ubuntu",
         "installation/macos",
