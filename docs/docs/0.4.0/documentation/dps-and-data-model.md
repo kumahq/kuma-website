@@ -193,7 +193,7 @@ On Kubernetes this whole process is automated via transparent proxying and witho
 
 ## Kubernetes
 
-On Kubernetes the data-planes are automatically injected by the `kuma-injector` executable as long as K8s Namespace is **labeled** with
+On Kubernetes the data-planes are automatically injected by Kuma as long as the K8s Namespace is **labeled** with
 `kuma.io/sidecar-injection = enabled`, e.g.
 
 ```yaml
