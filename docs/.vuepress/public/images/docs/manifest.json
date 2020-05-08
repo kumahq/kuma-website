@@ -562,6 +562,49 @@
       "type": "directory"
     },
     {
+      "path": "docs/.vuepress/public/images/docs/0.5.0",
+      "name": "0.5.0",
+      "children": [
+        {
+          "path": "docs/.vuepress/public/images/docs/0.5.0/diagram-01.jpg",
+          "name": "diagram-01.jpg",
+          "size": 160261,
+          "extension": ".jpg",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.5.0/diagram-04.jpg",
+          "name": "diagram-04.jpg",
+          "size": 301549,
+          "extension": ".jpg",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.5.0/diagram-05.jpg",
+          "name": "diagram-05.jpg",
+          "size": 216345,
+          "extension": ".jpg",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.5.0/diagram-08.jpg",
+          "name": "diagram-08.jpg",
+          "size": 87063,
+          "extension": ".jpg",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.5.0/diagram-09.jpg",
+          "name": "diagram-09.jpg",
+          "size": 86404,
+          "extension": ".jpg",
+          "type": "file"
+        }
+      ],
+      "size": 851622,
+      "type": "directory"
+    },
+    {
       "path": "docs/.vuepress/public/images/docs/diagram-before-after-full.png",
       "name": "diagram-before-after-full.png",
       "size": 249378,
@@ -576,6 +619,6 @@
       "type": "file"
     }
   ],
-  "size": 8194961,
+  "size": 9046583,
   "type": "directory"
 }

@@ -5,6 +5,9 @@
  * SEO, meta, deployment, sitemap building, etc.
  */
 
+// generate a random string for cache busting
+const randStr = Math.random().toString(36).substring(2, 8)
+
 module.exports = {
   title: "Kuma",
   description: "Build, Secure and Observe your modern Service Mesh",
@@ -21,5 +24,5 @@ module.exports = {
   gaCode: "UA-8499472-30",
   ogImage: "/images/social/og-image.jpg",
   fbAppId: "682375632267551",
-  cacheBuster: 'v=2'
+  cacheBuster: `cb=${randStr}`
 }
