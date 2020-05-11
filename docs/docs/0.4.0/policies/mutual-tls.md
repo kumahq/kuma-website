@@ -16,8 +16,8 @@ Remember to apply a `TrafficPermission` policy to explictly allow legitimate tra
 
 ## Builtin CA
 
-On Universal:
-
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Universal"
 ```yaml
 type: Mesh
 name: default
@@ -26,11 +26,15 @@ mtls:
   backends:
   - name: ca-1
     type: builtin # use Builtin CA (a unique Root CA certificate will be generated automatically)
+    conf:
+      caCert:
+        RSAbits: 2048
+        expiration: 87600h # 10 years
 ```
 
 You can apply this configuration with `kumactl apply -f [file-path]`.
-
-On Kubernetes:
+:::
+::: tab "Kubernetes"
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -43,9 +47,15 @@ spec:
     backends:
     - name: ca-1
       type: builtin # use Builtin CA (a unique Root CA certificate will be generated automatically)
+      conf:
+        caCert:
+          RSAbits: 2048
+          expiration: 87600h # 10 years
 ```
 
 You can apply this configuration with `kubectl apply -f [file-path]`.
+:::
+::::
 
 ### Access builtin CA
 
@@ -57,22 +67,28 @@ Cert => $MESH_NAME.ca-builtin-cert-$NAME_OF_CA
 
 Example for Mesh: default and CA name of ca-1
 
-Universal:
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Universal"
 ```sh
 $ kumactl get secrets
 MESH      NAME
 default   default.ca-builtin-cert-ca-1
 default   default.ca-builtin-key-ca-1
 ```
-
-Kubernetes:
+:::
+::: tab "Kubernetes"
 ```sh
 $ kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/secret'
 NAME                           TYPE                    DATA   AGE
 default.ca-builtin-cert-ca-1   system.kuma.io/secret   1      3m12s
 default.ca-builtin-key-ca-1    system.kuma.io/secret   1      3m12s
 ```
+:::
+::::
 
+::: tip
+The default value for RSAbits is 2048 and for expiration is 10 years. If you want to use the default values you can omit `conf:` section. 
+:::
 
 ## Provided CA
 
@@ -84,9 +100,10 @@ Like the name implies, a user will have to provide a custom Root CA certificate 
 
 To use Provided CA complete following steps
 
-### Universal
-
 1. Provide key and certificate using [Secret Management](../documentation/secret-management.md)
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Universal"
 
 ```sh
 $ cat secret-ca-cert.yaml
@@ -110,30 +127,8 @@ MESH      NAME
 default   ca-cert
 default   ca-key
 ```
-
-2. Enable Provided CA on Mesh
-
-```shell
-echo "
-type: Mesh
-name: default
-mtls:
-enabledBackend: ca-1
-backends:
-- name: ca-1
-  type: provided
-  config:
-    cert:
-      secret: ca-cert
-    key:
-      secret: ca-key
-" | kumactl apply -f -
-```
-
-### Kubernetes
-
-1. Provide key and certificate using [Secret Management](../documentation/secret-management.md)
-
+:::
+::: tab "Kubernetes"
 ```sh
 $ cat secret-ca-cert.yaml
 apiVersion: v1
@@ -163,9 +158,32 @@ type: system.kuma.io/secret
 
 $ kubectl apply -f secret-ca-key.yaml
 ```
+:::
+::::
+
 
 2. Enable Provided CA on Mesh
 
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Universal"
+```sh
+echo "
+type: Mesh
+name: default
+mtls:
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: provided
+    config:
+      cert:
+        secret: ca-cert
+      key:
+        secret: ca-key
+  " | kumactl apply -f -
+```
+:::
+::: tab "Kubernetes"
 ```sh
 echo "
 apiVersion: kuma.io/v1alpha1
@@ -174,6 +192,7 @@ metadata:
   name: default
 spec:
   mtls:
+    enabledBackend: ca-1
     backends:
     - name: ca-1
       type: provided
@@ -184,6 +203,8 @@ spec:
           secret: ca-key
 " | kumactl apply -f -
 ```
+:::
+::::
 
 ::: warning
 Root CA certificate provided by a user must meet certain constraints:
@@ -201,25 +222,24 @@ If a provided certificate doesn't meet those constraints, applying Mesh with ena
 
 Depending on your use case you may want to provide CA in a file or just in the configuration (during testing). You can do this in the following way
 
-#### Universal
-
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Universal"
 ```yaml
 type: Mesh
 name: default
 mtls:
-enabledBackend: ca-1
-backends:
-- name: ca-1
-  type: provided
-  config:
-    cert:
-      inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
-    key:
-      file: /opt/cert.key
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: provided
+    config:
+      cert:
+        inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
+      key:
+        file: /opt/cert.key
 ```
-
-#### Kubernetes
-
+:::
+::: tab "Kubernetes"
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -227,6 +247,7 @@ metadata:
   name: default
 spec:
   mtls:
+    enabledBackend: ca-1
     backends:
     - name: ca-1
       type: provided
@@ -236,9 +257,66 @@ spec:
         key:
           file: /opt/cert.key
 ```
+:::
+::::
 
 If you decide to use Provided CA from file make sure it is consistent across all the instances of the Control Plane.
 
 ### CA change
 
 To change CA from one to another, you have to first disable mTLS (by removing `enabledBackend` property) and then re-enable it with other CA. In the future Kuma will support CA rotation.
+
+## Certificate rotation
+
+Certificate Authority is used to generate certificate for Dataplanes, but unlike CA those certificates are not stored in the underling Kuma storage (Postgres/K8S Secrets).
+Dataplane certificates are designed to be short-lived and often rotated. By default, the expiration time of a dataplane certificate is 30 days.
+Kuma rotates dataplane certificates automatically after 4/5 of the certificate validity time (for the default 30 days expiration, it is 24 days).
+ 
+You can modify the expiration time for any CA backend in the following way
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Universal"
+```yaml
+type: Mesh
+name: default
+mtls:
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: builtin
+    caCert:
+      rotation:
+        expiration: 48h
+```
+:::
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  mtls:
+    enabledBackend: ca-1
+    backends:
+    - name: ca-1
+      type: builtin
+      caCert:
+        rotation:
+          expiration: 48h
+```
+:::
+::::
+
+You can check the statistics about the dataplane certificates using `kumactl inspect dataplanes`
+
+```bash
+$ kumactl inspect dataplanes
+MESH      NAME     TAGS          STATUS   LAST CONNECTED AGO   LAST UPDATED AGO   TOTAL UPDATES   TOTAL ERRORS   CERT REGENERATED AGO   CERT EXPIRATION       CERT REGENERATIONS
+default   web-01   service=web   Online   5s                   3s                 4               0              3s                     2020-05-11 16:01:34   2
+```
+
+Since certificates are not stored anywhere, any of the following action will cause new certificate generation.
+* Restart of the control plane instance that the dataplane is connected to
+* Restart of the dataplane
+* Switch of the control plane instance that dataplane is connected to
