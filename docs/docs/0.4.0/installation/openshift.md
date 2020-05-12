@@ -30,7 +30,7 @@ You can also download the distribution manually. Download a distribution for the
 * [RedHat](https://kong.bintray.com/kuma/kuma-0.4.0-rhel-amd64.tar.gz)
 * [Debian](https://kong.bintray.com/kuma/kuma-0.4.0-debian-amd64.tar.gz)
 * [Ubuntu](https://kong.bintray.com/kuma/kuma-0.4.0-ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma-0.4.0-darwin-amd64.tar.gz)
+* [macOS](https://kong.bintray.com/kuma/kuma-0.4.0-darwin-amd64.tar.gz) or `brew install kumactl`
 
 and extract the archive with:
 
