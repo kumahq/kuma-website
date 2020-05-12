@@ -13,7 +13,7 @@ When `kuma-cp` starts up, by default it listens on a few ports:
 * `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
 * `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
 * `5680`: the HTTP server that returns the health status of the control-plane.
-* `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when runnning in `universal` - that you can use to apply new policies.
+* `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies.
 * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
 * `5683`: the HTTP server that exposes Kuma UI.
 
@@ -50,7 +50,7 @@ Because Kuma by design already knows the address to every data-plane - and there
 In order for connectivity to work among the `kuma-dp` instances, Kuma also assumes a flat network topology: this means that every data-plane must be able to consume another data-plane by directly sending requests to its IP address. This is true also in the case of multi-region or multi-datacenter setups.
 
 <center>
-<img src="/images/docs/0.3.2/diagram-16.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-16.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 As illustrated in the picture above, every `kuma-dp` must be able to send requests to every other `kuma-dp` on the specific ports that govern service traffic, as described in the `kuma-dp` [ports section](#kuma-dp-ports).

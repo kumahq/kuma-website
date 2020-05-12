@@ -29,15 +29,16 @@ logging:
     - name: logstash
       # Use `format` field to adjust the access log format to your use case.
       format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
-      # Use `tcp` field to co configure a TCP logging backend.
-      tcp:
+      type: tcp
+      config: # Use `config` field to co configure a TCP logging backend.
         # Address of a log collector.
         address: 127.0.0.1:5000
     - name: file
-      # Use `file` field to configure a file-based logging backend.
-      file:
+      type: file
+      # Use `config` field to configure a file-based logging backend.
+      config:
         path: /tmp/access.log
-      # When `format` field is ommitted, the default access log format will be used.
+      # When `format` field is omitted, the default access log format will be used.
 ```
 
 ```yaml
@@ -88,15 +89,17 @@ spec:
       - name: logstash
         # Use `format` field to adjust the access log format to your use case.
         format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
-        # Use `tcp` field to co configure a TCP logging backend.
-        tcp:
+        type: tcp
+        # Use `config` field to co configure a TCP logging backend.
+        config:
           # Address of a log collector.
           address: 127.0.0.1:5000
       - name: file
+        type: file
         # Use `file` field to configure a file-based logging backend.
-        file:
+        config:
           path: /tmp/access.log
-        # When `format` field is ommitted, the default access log format will be used.
+        # When `format` field is omitted, the default access log format will be used.
 ```
 
 ```yaml
@@ -105,6 +108,7 @@ kind: TrafficLog
 metadata:
   namespace: kuma-example
   name: all-traffic
+mesh: default
 spec:
   # This TrafficLog policy applies all traffic in that Mesh.
   sources:

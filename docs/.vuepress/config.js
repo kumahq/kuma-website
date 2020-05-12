@@ -69,38 +69,87 @@ module.exports = {
     // favicons, touch icons, web app stuff
     [
       "link",
-      { rel: "icon", href: `${productData.hostname}/images/favicon-64px.png` }
-    ],
-    [
-      "link",
       {
         rel: "apple-touch-icon",
         sizes: "180x180",
-        href: `${productData.hostname}/images/apple-touch-icon.png`
+        href: `/images/apple-touch-icon.png?${productData.cacheBuster}`
       }
     ],
     [
       "link",
-      { rel: "manifest", href: `${productData.hostname}/manifest.json` }
+      {
+        rel: "icon",
+        href: `/images/favicon-32x32.png?${productData.cacheBuster}`
+      }
     ],
-    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+    [
+      "link",
+      {
+        rel: "icon",
+        href: `/images/favicon-16x16.png?${productData.cacheBuster}`
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "manifest", href: `/images/site.webmanifest?${productData.cacheBuster}`
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "mask-icon", href: `/images/safari-pinned-tab.svg?${productData.cacheBuster}`,
+        color: "#290b53"
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "shortcut icon", href: `/images/favicon.ico?${productData.cacheBuster}`
+      }
+    ],
     [
       "meta",
       {
-        name: "msapplication-TileImage",
-        content: `${productData.hostname}/icons/ms-icon-144x144.png`
+        name: "apple-mobile-web-app-title", content: productData.title
       }
     ],
-    ["meta", { name: "msapplication-TileColor", content: "#ffffff" }],
-    ["meta", { name: "theme-color", content: "#ffffff" }],
-    ["meta", { property: "fb:app_id", content: productData.fbAppId }],
+    [
+      "meta",
+      {
+        name: "application-name", content: productData.title
+      }
+    ],
+    [
+      "meta",
+      {
+        name: "msapplication-TileColor", content: "#2b5797"
+      }
+    ],
+    [
+      "meta",
+      {
+        name: "msapplication-config", content: `/images/browserconfig.xml?${productData.cacheBuster}`
+      }
+    ],
+    [
+      "meta",
+      {
+        name: "theme-color", content: "#290b53"
+      }
+    ],
+    [
+      "meta",
+      {
+        property: "fb:app_id", content: productData.fbAppId
+      }
+    ],
     // web fonts
     [
       "link",
       {
         rel: "stylesheet",
-        href:
-          "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
+        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
       }
     ],
     // [
@@ -142,7 +191,7 @@ module.exports = {
         const { $site, $page } = context;
 
         // the full absolute URL for the OpenGraph image
-        const ogImagePath = `${productData.hostname}${productData.ogImage}`;
+        const ogImagePath = `${productData.ogImage}?${productData.cacheBuster}`;
 
         add("twitter:image", ogImagePath);
         add("twitter:description", productData.description);

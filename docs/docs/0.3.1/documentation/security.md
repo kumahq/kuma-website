@@ -85,7 +85,7 @@ Once a dataplane has proved its identity, it will be allowed to fetch its own id
 When establishing a connection between two dataplanes each side validates each other dataplane certificate confirming the identity using the root CA of the mesh.
 
 mTLS is _not_ enabled by default. To enable it, apply proper settings in [Mesh](../../policies/mesh) policy.
-Additionaly, when running on Universal you have to ensure that every dataplane in the mesh has been configured with a Dataplane Token.
+Additionally, when running on Universal you have to ensure that every dataplane in the mesh has been configured with a Dataplane Token.
 
 ### TrafficPermission
 When mTLS is enabled, every connection between dataplanes is denied by default, so you have to explicitly allow it using [TrafficPermission](../../policies/traffic-permissions).

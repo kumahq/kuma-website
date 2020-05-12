@@ -8,7 +8,7 @@
         v-if="formStatus === null || formStatus === false"
         class="form-horizontal"
         method="post"
-        :action="getCommunityCallSignupEndpoint"
+        :action="formEndpoint"
       >
         <input
           v-for="(key, value) in formData"
@@ -17,7 +17,7 @@
           :value="key"
           type="hidden"
         />
-        <input type="hidden" name="pardot-link" :value="getCommunityCallSignupEndpoint">
+        <input type="hidden" name="pardot-link" :value="formEndpoint">
         <label for="input_email" class="sr-only">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }">
           <input v-model="formData.email" id="email" name="email" type="email" placeholder="Email" />
@@ -49,6 +49,18 @@
         We've received your request to register for the upcoming Community Call.
         Thank you for your interest in {{ getSiteData.title }}!
       </p>
+      <ul class="inline-list">
+        <li>
+          <a :href="agenda" target="_blank">
+            <span class="icon">📝</span>  Agenda
+          </a>
+        </li>
+        <li>
+          <a :href="invite" target="_blank">
+            <span class="icon">📅</span> Add to Your Calendar
+          </a>
+        </li>
+      </ul>
     </div>
 
     <div v-if="formStatus === false" class="danger custom-block">
@@ -102,9 +114,11 @@ export default {
     Spinner
   },
   computed: {
-    ...mapGetters([
-      'getCommunityCallSignupEndpoint'
-    ]),
+    ...mapGetters({
+      formEndpoint: 'getCommunityCallSignupEndpoint',
+      agenda: 'getCommunityCallAgendaUrl',
+      invite: 'getCommunityCallInvite'
+    }),
     formDistanceFromTop () {
       const marker = this.$refs['formMessageMarker']
 
@@ -178,9 +192,36 @@ button.is-sending {
 
 .form-wrapper {
     
-    form {
-      border-radius: 0;
-      overflow: visible;
+  form {
+    border-radius: 0;
+    overflow: visible;
+  }
+}
+
+.inline-list {
+  display: block;
+  overflow: hidden;
+  list-style: none;
+  margin: 10px 0 0 0 !important;
+  padding: 0;
+
+  li {
+    display: inline-block;
+
+    &:not(:last-of-type) {
+      border-right: 1px solid #ccc;
+      margin-right: 8px;
+      padding-right: 10px;
     }
   }
+
+  a {
+    display: block;
+  }
+
+  .icon {
+    display: inline-block;
+    margin: 0 5px 0 0;
+  }
+}
 </style>

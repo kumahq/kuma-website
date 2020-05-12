@@ -38,7 +38,7 @@ A minimal Kuma deployment involves one or more instances of the control-plane (`
 When running in **Universal** mode, Kuma will require a PostgreSQL database to store its state. The PostgreSQL database and schema will have to be initialized accordingly to the installation instructions:
 
 <center>
-<img src="/images/docs/0.2.0/diagram-09.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-09.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ## Kubernetes mode
@@ -55,9 +55,32 @@ You can learn more about sidecar injection in the section on [Dataplanes](./dps-
 <img src="/images/docs/0.5.0/diagram-08.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
+### Specify Mesh for Pods
+
+When deploying services in Kubernetes, you can determine which Mesh you want the service to be be in by using the `kuma.io/mesh: $MESH_NAME` annotation. This annotation would be applied to a deployment like so:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        # indicate to Kuma that this Pod will be in a mesh called 'new-mesh'
+        kuma.io/mesh: new-mesh
+    spec:
+      containers:
+        ...
+```
+
 ### Matching Labels in `Pod` and `Service` 
 
-When deploying Kuma on Kubernetes, you must ensure that every `Pod` is part of at least one matching `Service`. For example, in [Kuma's demo application](https://github.com/Kong/kuma-demo/blob/master/kubernetes/), the [`Pod` for the Redis service]((https://github.com/Kong/kuma-demo/blob/master/kubernetes/kuma-demo-aio.yaml#L104))  has the following matchLabels:
+When deploying Kuma on Kubernetes, you must ensure that every `Pod` is part of at least one matching `Service`. For example, in [Kuma's demo application](https://github.com/Kong/kuma-demo/blob/master/kubernetes/), the [`Pod` for the Redis service](https://github.com/Kong/kuma-demo/blob/master/kubernetes/kuma-demo-aio.yaml#L104)  has the following matchLabels:
 
 ```yaml
 ...
@@ -94,13 +117,13 @@ Once the `kuma-cp` process is started, it waits for [data-planes](../dps-and-dat
 When we look at a typical Kuma installation, at a higher level it works like this:
 
 <center>
-<img src="/images/docs/0.2.0/diagram-06.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-06.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 When we unpack the underlying behavior, it looks like this:
 
 <center>
-<img src="/images/docs/0.2.0/diagram-07.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-07.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ::: tip
