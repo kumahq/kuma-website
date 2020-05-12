@@ -209,3 +209,8 @@ If you need an access log with entries in `JSON` format, you have to provide a t
 ```
 
 To use it with Logstash, use `json_lines` codec and make sure your JSON is formatted into one line.
+
+### Logging external services
+
+When running Kuma on Kubernetes you can also log the traffic to external services. To do it, the matched `TrafficPermission` destination section has to have wildcard `*` value.
+In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.  
