@@ -11,7 +11,7 @@ Until now, Service Mesh has been considered to be the last step of architecture 
 In reality, we want Service Mesh to be available *before* we implement other transitions so that we can keep the network both secure and observable in the process. With Kuma, Service Mesh is indeed the **first step** towards modernization.
 
 <center>
-<img src="/images/docs/0.4.0/diagram-05.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-05.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 Unlike other control planes, Kuma natively runs across every platform - Kubernetes, VMs and Bare Metal - and it's not limited in scope (like many other control planes that only work on Kubernetes only). Kuma can run on both existing brownfield applications (that are most likely running on VMs), as well as new and modern greenfield applications that may be running on containers and Kubernetes.
