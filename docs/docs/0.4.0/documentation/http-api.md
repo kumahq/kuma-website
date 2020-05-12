@@ -191,6 +191,8 @@ curl http://localhost:5681/meshes/mesh-1
 {
   "name": "mesh-1",
   "type": "Mesh",
+  "creationTime": "2020-05-12T12:31:45.606217+02:00",
+  "modificationTime": "2020-05-12T12:31:45.606217+02:00",
   "mtls": {
     "backends": [
       {
@@ -355,6 +357,8 @@ curl http://localhost:5681/meshes
     {
       "name": "mesh-1",
       "type": "Mesh",
+      "creationTime": "2020-05-12T12:31:45.606217+02:00",
+      "modificationTime": "2020-05-12T12:31:45.606217+02:00",
       "mtls": {
         "backends": [
           {
@@ -452,6 +456,8 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes/backend-1
   "type": "Dataplane",
   "name": "backend-1",
   "mesh": "mesh-1",
+  "creationTime": "2020-05-12T12:31:45.606217+02:00",
+  "modificationTime": "2020-05-12T12:31:45.606217+02:00",
   "networking": {
     "address": "127.0.0.1",
     "inbound": [
@@ -536,6 +542,8 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes
       "type": "Dataplane",
       "name": "backend-1",
       "mesh": "mesh-1",
+      "creationTime": "2020-05-12T12:31:45.606217+02:00",
+      "modificationTime": "2020-05-12T12:31:45.606217+02:00",
       "networking": {
         "address": "127.0.0.1",
         "inbound": [
@@ -592,6 +600,8 @@ curl http://localhost:5681/meshes/default/dataplanes+insights/example
  "type": "DataplaneOverview",
  "mesh": "default",
  "name": "example",
+ "creationTime": "2020-05-12T12:31:45.606217+02:00",
+ "modificationTime": "2020-05-12T12:31:45.606217+02:00",
  "dataplane": {
   "networking": {
    "address": "127.0.0.1",
@@ -662,6 +672,8 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
      "type": "DataplaneOverview",
      "mesh": "default",
      "name": "example",
+     "creationTime": "2020-05-12T12:31:45.606217+02:00",
+     "modificationTime": "2020-05-12T12:31:45.606217+02:00",
      "dataplane": {
       "networking": {
        "address": "127.0.0.1",
@@ -732,23 +744,11 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
 ```
 ```json
 {
- "conf": {
-  "activeChecks": {
-   "interval": "10s",
-   "timeout": "2s",
-   "unhealthyThreshold": 3,
-   "healthyThreshold": 1
-  }
- },
- "destinations": [
-  {
-   "match": {
-    "service": "backend"
-   }
-  }
- ],
+ "type": "HealthCheck",
  "mesh": "mesh-1",
  "name": "web-to-backend",
+ "creationTime": "2020-05-12T12:31:45.606217+02:00",
+ "modificationTime": "2020-05-12T12:31:45.606217+02:00",
  "sources": [
   {
    "match": {
@@ -756,7 +756,21 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
    }
   }
  ],
- "type": "HealthCheck"
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "conf": {
+  "activeChecks": {
+   "interval": "10s",
+   "timeout": "2s",
+   "unhealthyThreshold": 3,
+   "healthyThreshold": 1
+  }
+ }
 }
 ```
 
@@ -812,23 +826,11 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
 {
  "items": [
   {
-   "conf": {
-    "activeChecks": {
-     "interval": "10s",
-     "timeout": "2s",
-     "unhealthyThreshold": 3,
-     "healthyThreshold": 1
-    }
-   },
-   "destinations": [
-    {
-     "match": {
-      "service": "backend"
-     }
-    }
-   ],
+   "type": "HealthCheck",
    "mesh": "mesh-1",
    "name": "web-to-backend",
+   "creationTime": "2020-05-12T12:31:45.606217+02:00",
+   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
    "sources": [
     {
      "match": {
@@ -836,7 +838,21 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
      }
     }
    ],
-   "type": "HealthCheck"
+   "destinations": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
+   "conf": {
+    "activeChecks": {
+     "interval": "10s",
+     "timeout": "2s",
+     "unhealthyThreshold": 3,
+     "healthyThreshold": 1
+    }
+   }
   }
  ],
  "next": "http://localhost:5681/meshes/mesh-1/health-checks?offset=1"
@@ -866,6 +882,18 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates/pt-1
 ```
 ```json
 {
+ "type": "ProxyTemplate",
+ "mesh": "mesh-1",
+ "name": "pt-1",
+ "creationTime": "2020-05-12T12:31:45.606217+02:00",
+ "modificationTime": "2020-05-12T12:31:45.606217+02:00",
+ "selectors": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
  "conf": {
   "imports": [
    "default-proxy"
@@ -877,17 +905,7 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates/pt-1
     "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
    }
   ]
- },
- "mesh": "mesh-1",
- "name": "pt-1",
- "selectors": [
-  {
-   "match": {
-    "service": "backend"
-   }
-  }
- ],
- "type": "ProxyTemplate"
+ }
 }
 ```
 
@@ -940,6 +958,18 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates
 {
  "items": [
   {
+   "type": "ProxyTemplate",
+   "mesh": "mesh-1",
+   "name": "pt-1",
+   "creationTime": "2020-05-12T12:31:45.606217+02:00",
+   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
+   "selectors": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
    "conf": {
     "imports": [
      "default-proxy"
@@ -951,17 +981,7 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates
       "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
      }
     ]
-   },
-   "mesh": "mesh-1",
-   "name": "pt-1",
-   "selectors": [
-    {
-     "match": {
-      "service": "backend"
-     }
-    }
-   ],
-   "type": "ProxyTemplate"
+   }
   }
  ],
  "next": "http://localhost:5681/meshes/mesh-1/proxytemplates?offset=1"
@@ -991,15 +1011,11 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions/tp-1
 ```
 ```json
 {
- "destinations": [
-  {
-   "match": {
-    "service": "redis"
-   }
-  }
- ],
+ "type": "TrafficPermission",
  "mesh": "mesh-1",
  "name": "tp-1",
+ "creationTime": "2020-05-12T12:31:45.606217+02:00",
+ "modificationTime": "2020-05-12T12:31:45.606217+02:00",
  "sources": [
   {
    "match": {
@@ -1007,7 +1023,13 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions/tp-1
    }
   }
  ],
- "type": "TrafficPermission"
+ "destinations": [
+  {
+   "match": {
+    "service": "redis"
+   }
+  }
+ ]
 }
 ```
 
@@ -1055,15 +1077,11 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions
 {
  "items": [
   {
-   "destinations": [
-    {
-     "match": {
-      "service": "redis"
-     }
-    }
-   ],
+   "type": "TrafficPermission",
    "mesh": "mesh-1",
    "name": "tp-1",
+   "creationTime": "2020-05-12T12:31:45.606217+02:00",
+   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
    "sources": [
     {
      "match": {
@@ -1071,7 +1089,13 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions
      }
     }
    ],
-   "type": "TrafficPermission"
+   "destinations": [
+    {
+     "match": {
+      "service": "redis"
+     }
+    }
+   ]
   }
  ],
  "next": "http://localhost:5681/meshes/mesh-1/traffic-permissions?offset=1"
@@ -1101,18 +1125,11 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1
 ```
 ```json
 {
- "conf": {
-  "backend": "file"
- },
- "destinations": [
-  {
-   "match": {
-    "service": "backend"
-   }
-  }
- ],
+ "type": "TrafficLog",
  "mesh": "mesh-1",
  "name": "tl-1",
+ "creationTime": "2020-05-12T12:31:45.606217+02:00",
+ "modificationTime": "2020-05-12T12:31:45.606217+02:00",
  "sources": [
   {
    "match": {
@@ -1121,7 +1138,16 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1
    }
   }
  ],
- "type": "TrafficLog"
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "conf": {
+  "backend": "file"
+ }
 }
 ```
 
@@ -1173,18 +1199,11 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs
 {
  "items": [
   {
-   "conf": {
-    "backend": "file"
-   },
-   "destinations": [
-    {
-     "match": {
-      "service": "backend"
-     }
-    }
-   ],
+   "type": "TrafficLog",
    "mesh": "mesh-1",
    "name": "tl-1",
+   "creationTime": "2020-05-12T12:31:45.606217+02:00",
+   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
    "sources": [
     {
      "match": {
@@ -1193,7 +1212,16 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs
      }
     }
    ],
-   "type": "TrafficLog"
+   "destinations": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
+   "conf": {
+    "backend": "file"
+   }
   }
  ],
  "next": "http://localhost:5681/meshes/mesh-1/traffic-logs?offset=1"
@@ -1223,6 +1251,27 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
 ```
 ```json
 {
+ "type": "TrafficRoute",
+ "mesh": "mesh-1",
+ "name": "web-to-backend",
+ "creationTime": "2020-05-12T12:31:45.606217+02:00",
+ "modificationTime": "2020-05-12T12:31:45.606217+02:00",
+ "sources": [
+  {
+   "match": {
+    "region": "us-east-1",
+    "service": "web",
+    "version": "v10"
+   }
+  }
+ ],
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
  "conf": [
   {
    "weight": 90,
@@ -1239,26 +1288,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
     "version": "v3"
    }
   }
- ],
- "destinations": [
-  {
-   "match": {
-    "service": "backend"
-   }
-  }
- ],
- "mesh": "mesh-1",
- "name": "web-to-backend",
- "sources": [
-  {
-   "match": {
-    "region": "us-east-1",
-    "service": "web",
-    "version": "v10"
-   }
-  }
- ],
- "type": "TrafficRoute"
+ ]
 }
 ```
 
@@ -1325,6 +1355,27 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes
 {
  "items": [
   {
+   "type": "TrafficRoute",
+   "mesh": "mesh-1",
+   "name": "web-to-backend",
+   "creationTime": "2020-05-12T12:31:45.606217+02:00",
+   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
+   "sources": [
+    {
+     "match": {
+      "region": "us-east-1",
+      "service": "web",
+      "version": "v10"
+     }
+    }
+   ],
+   "destinations": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
    "conf": [
     {
      "weight": 90,
@@ -1341,26 +1392,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes
       "version": "v3"
      }
     }
-   ],
-   "destinations": [
-    {
-     "match": {
-      "service": "backend"
-     }
-    }
-   ],
-   "mesh": "mesh-1",
-   "name": "web-to-backend",
-   "sources": [
-    {
-     "match": {
-      "region": "us-east-1",
-      "service": "web",
-      "version": "v10"
-     }
-    }
-   ],
-   "type": "TrafficRoute"
+   ]
   }
  ],
  "next": "http://localhost:5681/meshes/mesh-1/traffic-routes?offset=1"
@@ -1393,6 +1425,8 @@ curl http://localhost:5681/meshes/mesh-1/traffic-traces/tt-1
  "type": "TrafficTrace",
  "mesh": "mesh-1",
  "name": "tt-1",
+ "creationTime": "2020-05-12T12:31:45.606217+02:00",
+ "modificationTime": "2020-05-12T12:31:45.606217+02:00",
  "conf": {
   "backend": "my-zipkin"
  },
@@ -1449,16 +1483,18 @@ curl http://localhost:5681/meshes/mesh-1/traffic-traces
    "type": "TrafficTrace",
    "mesh": "mesh-1",
    "name": "tt-1",
-   "conf": {
-    "backend": "my-zipkin"
-   },
+   "creationTime": "2020-05-12T12:31:45.606217+02:00",
+   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
    "selectors": [
     {
      "match": {
       "service": "*"
      }
     }
-   ]
+   ],
+   "conf": {
+    "backend": "my-zipkin"
+   }
   }
  ],
  "next": "http://localhost:5681/meshes/mesh-1/traffic-traces?offset=1"
@@ -1491,6 +1527,8 @@ curl http://localhost:5681/meshes/default/fault-injections/fi1
  "type": "FaultInjection",
  "mesh": "default",
  "name": "fi1",
+ "creationTime": "2020-05-12T12:31:45.606217+02:00",
+ "modificationTime": "2020-05-12T12:31:45.606217+02:00",
  "sources": [
   {
    "match": {
@@ -1589,6 +1627,8 @@ curl http://localhost:5681/meshes/default/fault-injections
    "type": "FaultInjection",
    "mesh": "default",
    "name": "fi1",
+   "creationTime": "2020-05-12T12:31:45.606217+02:00",
+   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
    "sources": [
     {
      "match": {
