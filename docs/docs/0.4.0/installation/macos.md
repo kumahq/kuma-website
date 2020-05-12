@@ -107,9 +107,10 @@ or you can enable mTLS on the `default` Mesh with:
 echo "type: Mesh
 name: default
 mtls:
-  enabled: true
-  ca:
-    builtin: {}" | kumactl apply -f -
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: builtin" | kumactl apply -f -
 ```
 
 You can configure `kumactl` to point to any remote `kuma-cp` instance by running:
