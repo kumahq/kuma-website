@@ -11,7 +11,7 @@ By default, mTLS is **not** enabled. You can enable Mutual TLS by updating the [
 ::: tip
 With mTLS enabled, all traffic is denied by default.
 
-Remember to apply a `TrafficPermission` policy to explictly allow legitimate traffic between certain Dataplanes.
+Remember to apply a `TrafficPermission` policy to explicitly allow legitimate traffic between certain Dataplanes.
 :::
 
 ## Builtin CA
@@ -53,7 +53,7 @@ To that end, Kuma supports another type of CA - `provided` CA.
 
 Like the name implies, a user will have to provide a custom Root CA certificate and take a responsibility for managing its lifecycle.
 
-A complete workflow of chaning CA type from `builtin` to `provided` looks the following way:
+A complete workflow of changing CA type from `builtin` to `provided` looks the following way:
 
 1. A user must first upload a custom Root CA certificate using `kumactl manage ca provided` command, e.g.
 

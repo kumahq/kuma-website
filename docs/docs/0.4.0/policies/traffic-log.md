@@ -38,7 +38,7 @@ logging:
       # Use `config` field to configure a file-based logging backend.
       config:
         path: /tmp/access.log
-      # When `format` field is ommitted, the default access log format will be used.
+      # When `format` field is omitted, the default access log format will be used.
 ```
 
 ```yaml
@@ -99,7 +99,7 @@ spec:
         # Use `file` field to configure a file-based logging backend.
         config:
           path: /tmp/access.log
-        # When `format` field is ommitted, the default access log format will be used.
+        # When `format` field is omitted, the default access log format will be used.
 ```
 
 ```yaml
@@ -108,6 +108,7 @@ kind: TrafficLog
 metadata:
   namespace: kuma-example
   name: all-traffic
+mesh: default
 spec:
   # This TrafficLog policy applies all traffic in that Mesh.
   sources:

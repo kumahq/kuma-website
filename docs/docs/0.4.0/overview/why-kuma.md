@@ -13,7 +13,7 @@ When building any modern digital application, we will inevitably introduce servi
 For example, think of any application that communicates with a database to store or retrieve data, or think of a more complex microservice-oriented application that makes many requests across different services to execute its operations:
 
 <center>
-<img src="/images/docs/0.2.0/diagram-02.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-02.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 Every time our services communicate over the network, we put the end-user experience at risk. As we all know the network between different services can be slow and unpredictable. It can be insecure, hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments). In one sentence, our applications are one step away from being unreliable.
@@ -38,7 +38,7 @@ Teams that adopt the sidecar proxy model will either build a control plane from 
 Unlike a data-plane proxy (DP), the control-plane (CP) is never on the execution path of the requests that the services exchange with each other, and it's being used as a source of truth to dynamically configure the underlying data-plane proxies that in the meanwhile ha.
 
 <center>
-<img src="/images/docs/0.2.0/diagram-03.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-03.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ::: tip
@@ -55,7 +55,7 @@ By outsourcing all the connectivity, security, and routing concerns to a sidecar
 By reducing the code that our teams create and maintain, we can modernize our applications piece by piece without ever needing to bite more than we can chew.
 
 <center>
-<img src="/images/docs/0.2.0/diagram-04.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-04.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 [Learn more](../enabling-modernization) about how Kuma enables modernization within our existing architectures.

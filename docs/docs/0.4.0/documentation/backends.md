@@ -12,7 +12,7 @@ Following backends are available
 
 ## Memory
 
-Kuma stores all the state in-memory. This means that restarting Kuma will delete all the data. Only reccomend when playing with Kuma locally. For example:
+Kuma stores all the state in-memory. This means that restarting Kuma will delete all the data. Only recommend when playing with Kuma locally. For example:
 
 ```sh
 $ KUMA_STORE_TYPE=memory kuma-cp run

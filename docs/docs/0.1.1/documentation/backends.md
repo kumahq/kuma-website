@@ -10,7 +10,7 @@ This information has been documented for clarity, but when following the [instal
 
 The backends are:
 
-* `memory` (**default**): Kuma stores all the state in-memory. This means that restarting Kuma will delete all the data. Only reccomend when playing with Kuma locally. For example:
+* `memory` (**default**): Kuma stores all the state in-memory. This means that restarting Kuma will delete all the data. Only recommend when playing with Kuma locally. For example:
 
 ```sh
 $ KUMA_STORE_TYPE=memory kuma-cp run

@@ -6,7 +6,7 @@ When Kuma (`kuma-cp`) runs, it will be waiting for the data-planes to connect an
 * There must exist a [`Dataplane`](#dataplane-entity) entity in Kuma **before** the actual data-plane tries to connect to it via `kuma-dp`.
 
 <center>
-<img src="/images/docs/0.2.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ::: tip
@@ -22,7 +22,7 @@ To understand why the `Dataplane` entity is required, we must take a step back. 
 For example, if we have 6 replicas of a "Redis" service, then we must have one instances of `kuma-dp` running alongside each replica of the service, therefore 6 replicas of `kuma-dp` as well.
 
 <center>
-<img src="/images/docs/0.2.0/diagram-11.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.5.0/diagram-11.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ::: tip
@@ -193,7 +193,7 @@ On Kubernetes this whole process is automated via transparent proxying and witho
 
 ## Kubernetes
 
-On Kubernetes the data-planes are automatically injected by the `kuma-injector` executable as long as K8s Namespace is **labeled** with
+On Kubernetes the data-planes are automatically injected by Kuma as long as the K8s Namespace is **labeled** with
 `kuma.io/sidecar-injection = enabled`, e.g.
 
 ```yaml
@@ -236,7 +236,7 @@ On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically 
 The `Dataplane` can operate in Gateway mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
 
 When you use a Dataplane with a service, both inbound traffic to a service and outbound traffic from the service flows through the Dataplane.
-API Gateway should be deployed as any other service withing the mesh. However, in this case we want inbound traffic to go directly to API Gateway,
+API Gateway should be deployed as any other service within the mesh. However, in this case we want inbound traffic to go directly to API Gateway,
 otherwise clients would have to be provided with certificates that are generated dynamically for communication between services within the mesh.
 Security for an entrance to the mesh should be handled by API Gateway itself.
 
