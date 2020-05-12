@@ -28,7 +28,7 @@ logging:
   backends:
     - name: logstash
       # Use `format` field to adjust the access log format to your use case.
-      format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
+      format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": %DURATION%, "bytes_received": %BYTES_RECEIVED%, "bytes_sent": %BYTES_SENT%}'
       # Use `tcp` field to co configure a TCP logging backend.
       tcp:
         # Address of a log collector.
@@ -87,7 +87,7 @@ spec:
     backends:
       - name: logstash
         # Use `format` field to adjust the access log format to your use case.
-        format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
+        format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": %DURATION%, "bytes_received": %BYTES_RECEIVED%, "bytes_sent": %BYTES_SENT%}'
         # Use `tcp` field to co configure a TCP logging backend.
         tcp:
           # Address of a log collector.
@@ -203,9 +203,9 @@ If you need an access log with entries in `JSON` format, you have to provide a t
   "destination":         "%KUMA_DESTINATION_SERVICE%",
   "source_address":      "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%",
   "destination_address": "%UPSTREAM_HOST%",
-  "duration_millis":     "%DURATION%",
-  "bytes_received":      "%BYTES_RECEIVED%",
-  "bytes_sent":          "%BYTES_SENT%"
+  "duration_millis":     %DURATION%,
+  "bytes_received":      %BYTES_RECEIVED%,
+  "bytes_sent":          %BYTES_SENT%
 }
 ```
 
