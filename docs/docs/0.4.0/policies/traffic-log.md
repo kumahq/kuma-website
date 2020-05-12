@@ -28,15 +28,14 @@ logging:
   backends:
     - name: logstash
       # Use `format` field to adjust the access log format to your use case.
-      format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
-      type: tcp
-      config: # Use `config` field to co configure a TCP logging backend.
+      format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": %DURATION%, "bytes_received": %BYTES_RECEIVED%, "bytes_sent": %BYTES_SENT%}'
+      # Use `tcp` field to co configure a TCP logging backend.
+      tcp:
         # Address of a log collector.
         address: 127.0.0.1:5000
     - name: file
-      type: file
-      # Use `config` field to configure a file-based logging backend.
-      config:
+      # Use `file` field to configure a file-based logging backend.
+      file:
         path: /tmp/access.log
       # When `format` field is omitted, the default access log format will be used.
 ```
@@ -88,16 +87,14 @@ spec:
     backends:
       - name: logstash
         # Use `format` field to adjust the access log format to your use case.
-        format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
-        type: tcp
-        # Use `config` field to co configure a TCP logging backend.
-        config:
+        format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": %DURATION%, "bytes_received": %BYTES_RECEIVED%, "bytes_sent": %BYTES_SENT%}'
+        # Use `tcp` field to co configure a TCP logging backend.
+        tcp:
           # Address of a log collector.
           address: 127.0.0.1:5000
       - name: file
-        type: file
         # Use `file` field to configure a file-based logging backend.
-        config:
+        file:
           path: /tmp/access.log
         # When `format` field is omitted, the default access log format will be used.
 ```
@@ -206,15 +203,10 @@ If you need an access log with entries in `JSON` format, you have to provide a t
   "destination":         "%KUMA_DESTINATION_SERVICE%",
   "source_address":      "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%",
   "destination_address": "%UPSTREAM_HOST%",
-  "duration_millis":     "%DURATION%",
-  "bytes_received":      "%BYTES_RECEIVED%",
-  "bytes_sent":          "%BYTES_SENT%"
+  "duration_millis":     %DURATION%,
+  "bytes_received":      %BYTES_RECEIVED%,
+  "bytes_sent":          %BYTES_SENT%
 }
 ```
 
 To use it with Logstash, use `json_lines` codec and make sure your JSON is formatted into one line.
-
-### Logging external services
-
-When running Kuma on Kubernetes you can also log the traffic to external services. To do it, the matched `TrafficPermission` destination section has to have wildcard `*` value.
-In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.  

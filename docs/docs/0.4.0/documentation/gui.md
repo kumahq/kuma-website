@@ -12,7 +12,7 @@ When launching Kuma, the GUI will start by default on port `:5683`. You can acce
 When you run the GUI for the first time, you’ll be presented with the Wizard:
 
 <center>
-<img src="/images/docs/0.4.0/gui-wizard-step-1.png" alt="A screenshot of the first step of the Kuma GUI Wizard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.3.2/gui-wizard-step-1.png" alt="A screenshot of the first step of the Kuma GUI Wizard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ### This tool will:
@@ -25,7 +25,7 @@ When you run the GUI for the first time, you’ll be presented with the Wizard:
 Once you’ve completed the setup process, you’ll be sent to the Mesh Overview. This is a general overview of all of the meshes found. You can then view each entity and see how many dataplanes and traffic permissions, routes, and logs are associated with that mesh.
 
 <center>
-<img src="/images/docs/0.4.0/gui-mesh-overview.png" alt="A screenshot of the Mesh Overview of the Kuma GUI" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.3.2/gui-mesh-overview.png" alt="A screenshot of the Mesh Overview of the Kuma GUI" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ## Mesh Details
@@ -48,7 +48,7 @@ For v0.4.0, we've improved the tag styles to be easier to read, cleaner, and qui
 We also provide an easy way to view your entity in YAML format, as well as an control to copy it to your clipboard:
 
 <center>
-<img src="/images/docs/0.4.0/gui-yaml-to-clipboard.png" alt="A screenshot of the YAML to clipboard feature in the Kuma GUI" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.3.2/gui-yaml-to-clipboard.png" alt="A screenshot of the YAML to clipboard feature in the Kuma GUI" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ## What’s to come

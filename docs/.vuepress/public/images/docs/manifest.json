@@ -589,7 +589,7 @@
         {
           "path": "docs/.vuepress/public/images/docs/0.5.0/diagram-08.jpg",
           "name": "diagram-08.jpg",
-          "size": 87063,
+          "size": 88906,
           "extension": ".jpg",
           "type": "file"
         },
@@ -601,22 +601,7 @@
           "type": "file"
         }
       ],
-      "size": 851622,
-      "type": "directory"
-    },
-    {
-      "path": "docs/.vuepress/public/images/docs/0.5.0",
-      "name": "0.5.0",
-      "children": [
-        {
-          "path": "docs/.vuepress/public/images/docs/0.5.0/diagram-08.jpg",
-          "name": "diagram-08.jpg",
-          "size": 88906,
-          "extension": ".jpg",
-          "type": "file"
-        }
-      ],
-      "size": 88906,
+      "size": 853465,
       "type": "directory"
     },
     {
@@ -634,6 +619,6 @@
       "type": "file"
     }
   ],
-  "size": 9046583,
+  "size": 9048426,
   "type": "directory"
 }

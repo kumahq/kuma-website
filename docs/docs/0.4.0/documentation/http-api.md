@@ -10,14 +10,6 @@ By default the HTTP API is listening on port `5681`. The endpoints available are
 
 * `/config`
 * `/meshes`
-* `/dataplanes`
-* `/dataplanes+insights`
-* `/health-checks`
-* `/proxytemplates`
-* `/traffic-logs`
-* `/traffic-permissions`
-* `/traffic-routes`
-* `/fault-injections`
 * `/meshes/{name}`
 * `/meshes/{name}/dataplanes`
 * `/meshes/{name}/dataplanes/{name}`
@@ -33,25 +25,8 @@ By default the HTTP API is listening on port `5681`. The endpoints available are
 * `/meshes/{name}/traffic-permissions/{name}`
 * `/meshes/{name}/traffic-routes`
 * `/meshes/{name}/traffic-routes/{name}`
-* `/meshes/{name}/fault-injections`
-* `/meshes/{name}/fault-injections/{name}`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
-
-## Pagination
-
-Every resource list in Kuma is paginated. To use pagination, you can use following query parameters:
-* `size` - size of the page (default - 1000, maximum value - 10000).
-* `offset` - offset from which the page will be listed. The offset is a `string`, it does not have to be a number (it depends on the environment).
-
-A response with a pagination contains `next` field with URL to fetch the next page. Example:
-```json
-{
-  "items": [...],
-  "next": "http://localhost:5681/meshes/default/dataplanes?offset=10"
-}
-```
-If next field is `null` there is no more pages to fetch.
 
 ## Control Plane configuration
 
@@ -118,7 +93,7 @@ curl http://localhost:5681/config
     }
   },
   "defaults": {
-    "mesh": "type: Mesh\nname: default"
+    "mesh": "type: Mesh\nname: default\nmtls:\n  ca: {}\n  enabled: false\n"
   },
   "discovery": {
     "universal": {
@@ -191,71 +166,28 @@ curl http://localhost:5681/meshes/mesh-1
 {
   "name": "mesh-1",
   "type": "Mesh",
-  "creationTime": "2020-05-12T12:31:45.606217+02:00",
-  "modificationTime": "2020-05-12T12:31:45.606217+02:00",
   "mtls": {
-    "backends": [
-      {
-        "name": "ca-1",
-        "type": "builtin"
-      },
-      {
-        "name": "ca-2",
-        "type": "provided",
-        "config": {
-          "cert": {
-            "secret": "provided-cert"
-          },
-          "key": {
-            "secret": "provided-cert"
-          }
-        }
-      }
-    ],
-    "enabledBackend": "ca-1"
+    "ca": {
+      "builtin": {}
+    },
+    "enabled": true
   },
-  "tracing": {
-    "defaultBackend": "zipkin-1",
-    "backends": [
-      {
-        "name": "zipkin-1",
-        "type": "zipkin",
-        "config": {
-          "url": "http://zipkin.local:9411/api/v1/spans"
-        }
-      }
-    ]
-  },
+  "tracing": {},
   "logging": {
     "backends": [
       {
         "name": "file-tmp",
         "format": "{ \"destination\": \"%KUMA_DESTINATION_SERVICE%\", \"destinationAddress\": \"%UPSTREAM_LOCAL_ADDRESS%\", \"source\": \"%KUMA_SOURCE_SERVICE%\", \"sourceAddress\": \"%KUMA_SOURCE_ADDRESS%\", \"bytesReceived\": \"%BYTES_RECEIVED%\", \"bytesSent\": \"%BYTES_SENT%\"}",
-        "type": "file",
-        "config": {
+        "file": {
           "path": "/tmp/access.log"
         }
       },
       {
         "name": "logstash",
-        "type": "tcp",
-        "config": {
+        "tcp": {
           "address": "logstash.internal:9000"
         }
       }
-    ]
-  },
-  "metrics": {
-    "enabledBackend": "prometheus-1",
-    "backends": [
-      {
-        "name": "prometheus-1",
-        "type": "prometheus",
-        "config": {
-          "port": 1234,
-          "path": "/metrics"
-        }
-      } 
     ]
   }
 }
@@ -275,68 +207,27 @@ curl -XPUT http://localhost:5681/meshes/mesh-1 --data @mesh.json -H'content-type
   "name": "mesh-1",
   "type": "Mesh",
   "mtls": {
-    "backends": [
-      {
-        "name": "ca-1",
-        "type": "builtin"
-      },
-      {
-        "name": "ca-2",
-        "type": "provided",
-        "config": {
-          "cert": {
-            "secret": "provided-cert"
-          },
-          "key": {
-            "secret": "provided-cert"
-          }
-        }
-      }
-    ],
-    "enabledBackend": "ca-1"
+    "ca": {
+      "builtin": {}
+    },
+    "enabled": true
   },
-  "tracing": {
-    "defaultBackend": "zipkin-1",
-    "backends": [
-      {
-        "name": "zipkin-1",
-        "type": "zipkin",
-        "config": {
-          "url": "http://zipkin.local:9411/api/v1/spans"
-        }
-      }
-    ]
-  },
+  "tracing": {},
   "logging": {
     "backends": [
       {
         "name": "file-tmp",
         "format": "{ \"destination\": \"%KUMA_DESTINATION_SERVICE%\", \"destinationAddress\": \"%UPSTREAM_LOCAL_ADDRESS%\", \"source\": \"%KUMA_SOURCE_SERVICE%\", \"sourceAddress\": \"%KUMA_SOURCE_ADDRESS%\", \"bytesReceived\": \"%BYTES_RECEIVED%\", \"bytesSent\": \"%BYTES_SENT%\"}",
-        "type": "file",
-        "config": {
+        "file": {
           "path": "/tmp/access.log"
         }
       },
       {
         "name": "logstash",
-        "type": "tcp",
-        "config": {
+        "tcp": {
           "address": "logstash.internal:9000"
         }
       }
-    ]
-  },
-  "metrics": {
-    "enabledBackend": "prometheus-1",
-    "backends": [
-      {
-        "name": "prometheus-1",
-        "type": "prometheus",
-        "config": {
-          "port": 1234,
-          "path": "/metrics"
-        }
-      } 
     ]
   }
 }
@@ -355,78 +246,34 @@ curl http://localhost:5681/meshes
 {
   "items": [
     {
-      "name": "mesh-1",
       "type": "Mesh",
-      "creationTime": "2020-05-12T12:31:45.606217+02:00",
-      "modificationTime": "2020-05-12T12:31:45.606217+02:00",
+      "name": "mesh-1",
       "mtls": {
-        "backends": [
-          {
-            "name": "ca-1",
-            "type": "builtin"
-          },
-          {
-            "name": "ca-2",
-            "type": "provided",
-            "config": {
-              "cert": {
-                "secret": "provided-cert"
-              },
-              "key": {
-                "secret": "provided-cert"
-              }
-            }
-          }
-        ],
-        "enabledBackend": "ca-1"
+        "ca": {
+          "builtin": {}
+        },
+        "enabled": true
       },
-      "tracing": {
-        "defaultBackend": "zipkin-1",
-        "backends": [
-          {
-            "name": "zipkin-1",
-            "type": "zipkin",
-            "config": {
-              "url": "http://zipkin.local:9411/api/v1/spans"
-            }
-          }
-        ]
-      },
+      "tracing": {},
       "logging": {
         "backends": [
           {
             "name": "file-tmp",
             "format": "{ \"destination\": \"%KUMA_DESTINATION_SERVICE%\", \"destinationAddress\": \"%UPSTREAM_LOCAL_ADDRESS%\", \"source\": \"%KUMA_SOURCE_SERVICE%\", \"sourceAddress\": \"%KUMA_SOURCE_ADDRESS%\", \"bytesReceived\": \"%BYTES_RECEIVED%\", \"bytesSent\": \"%BYTES_SENT%\"}",
-            "type": "file",
-            "config": {
+            "file": {
               "path": "/tmp/access.log"
             }
           },
           {
             "name": "logstash",
-            "type": "tcp",
-            "config": {
+            "tcp": {
               "address": "logstash.internal:9000"
             }
           }
         ]
-      },
-      "metrics": {
-        "enabledBackend": "prometheus-1",
-        "backends": [
-          {
-            "name": "prometheus-1",
-            "type": "prometheus",
-            "config": {
-              "port": 1234,
-              "path": "/metrics"
-            }
-          } 
-        ]
       }
     }
-  ],
-  "next": "http://localhost:5681/meshes?offset=1"
+  ]
 }
 ```
 
@@ -456,8 +303,6 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes/backend-1
   "type": "Dataplane",
   "name": "backend-1",
   "mesh": "mesh-1",
-  "creationTime": "2020-05-12T12:31:45.606217+02:00",
-  "modificationTime": "2020-05-12T12:31:45.606217+02:00",
   "networking": {
     "address": "127.0.0.1",
     "inbound": [
@@ -542,8 +387,6 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes
       "type": "Dataplane",
       "name": "backend-1",
       "mesh": "mesh-1",
-      "creationTime": "2020-05-12T12:31:45.606217+02:00",
-      "modificationTime": "2020-05-12T12:31:45.606217+02:00",
       "networking": {
         "address": "127.0.0.1",
         "inbound": [
@@ -569,8 +412,7 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes
         ]
       }
     }
-  ],
-  "next": "http://localhost:5681/meshes/mesh-1/dataplanes?offset=1"
+  ]
 }
 ```
 
@@ -600,8 +442,6 @@ curl http://localhost:5681/meshes/default/dataplanes+insights/example
  "type": "DataplaneOverview",
  "mesh": "default",
  "name": "example",
- "creationTime": "2020-05-12T12:31:45.606217+02:00",
- "modificationTime": "2020-05-12T12:31:45.606217+02:00",
  "dataplane": {
   "networking": {
    "address": "127.0.0.1",
@@ -672,8 +512,6 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
      "type": "DataplaneOverview",
      "mesh": "default",
      "name": "example",
-     "creationTime": "2020-05-12T12:31:45.606217+02:00",
-     "modificationTime": "2020-05-12T12:31:45.606217+02:00",
      "dataplane": {
       "networking": {
        "address": "127.0.0.1",
@@ -726,8 +564,7 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
       ]
      }
     }
-  ],
-  "next": "http://localhost:5681/meshes/default/dataplanes+insights?offset=1"
+  ]
 }
 ```
 
@@ -744,25 +581,6 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
 ```
 ```json
 {
- "type": "HealthCheck",
- "mesh": "mesh-1",
- "name": "web-to-backend",
- "creationTime": "2020-05-12T12:31:45.606217+02:00",
- "modificationTime": "2020-05-12T12:31:45.606217+02:00",
- "sources": [
-  {
-   "match": {
-    "service": "web"
-   }
-  }
- ],
- "destinations": [
-  {
-   "match": {
-    "service": "backend"
-   }
-  }
- ],
  "conf": {
   "activeChecks": {
    "interval": "10s",
@@ -770,7 +588,24 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
    "unhealthyThreshold": 3,
    "healthyThreshold": 1
   }
- }
+ },
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "mesh": "mesh-1",
+ "name": "web-to-backend",
+ "sources": [
+  {
+   "match": {
+    "service": "web"
+   }
+  }
+ ],
+ "type": "HealthCheck"
 }
 ```
 
@@ -826,25 +661,6 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
 {
  "items": [
   {
-   "type": "HealthCheck",
-   "mesh": "mesh-1",
-   "name": "web-to-backend",
-   "creationTime": "2020-05-12T12:31:45.606217+02:00",
-   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
-   "sources": [
-    {
-     "match": {
-      "service": "web"
-     }
-    }
-   ],
-   "destinations": [
-    {
-     "match": {
-      "service": "backend"
-     }
-    }
-   ],
    "conf": {
     "activeChecks": {
      "interval": "10s",
@@ -852,10 +668,26 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
      "unhealthyThreshold": 3,
      "healthyThreshold": 1
     }
-   }
+   },
+   "destinations": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
+   "mesh": "mesh-1",
+   "name": "web-to-backend",
+   "sources": [
+    {
+     "match": {
+      "service": "web"
+     }
+    }
+   ],
+   "type": "HealthCheck"
   }
- ],
- "next": "http://localhost:5681/meshes/mesh-1/health-checks?offset=1"
+ ]
 }
 ```
 
@@ -882,18 +714,6 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates/pt-1
 ```
 ```json
 {
- "type": "ProxyTemplate",
- "mesh": "mesh-1",
- "name": "pt-1",
- "creationTime": "2020-05-12T12:31:45.606217+02:00",
- "modificationTime": "2020-05-12T12:31:45.606217+02:00",
- "selectors": [
-  {
-   "match": {
-    "service": "backend"
-   }
-  }
- ],
  "conf": {
   "imports": [
    "default-proxy"
@@ -905,7 +725,17 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates/pt-1
     "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
    }
   ]
- }
+ },
+ "mesh": "mesh-1",
+ "name": "pt-1",
+ "selectors": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "type": "ProxyTemplate"
 }
 ```
 
@@ -958,18 +788,6 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates
 {
  "items": [
   {
-   "type": "ProxyTemplate",
-   "mesh": "mesh-1",
-   "name": "pt-1",
-   "creationTime": "2020-05-12T12:31:45.606217+02:00",
-   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
-   "selectors": [
-    {
-     "match": {
-      "service": "backend"
-     }
-    }
-   ],
    "conf": {
     "imports": [
      "default-proxy"
@@ -981,10 +799,19 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates
       "resource": "'@type': type.googleapis.com/envoy.api.v2.Cluster\nconnectTimeout: 5s\nloadAssignment:\n  clusterName: localhost:8443\n  endpoints:\n    - lbEndpoints:\n        - endpoint:\n            address:\n              socketAddress:\n                address: 127.0.0.1\n                portValue: 8443\nname: localhost:8443\ntype: STATIC\n"
      }
     ]
-   }
+   },
+   "mesh": "mesh-1",
+   "name": "pt-1",
+   "selectors": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
+   "type": "ProxyTemplate"
   }
- ],
- "next": "http://localhost:5681/meshes/mesh-1/proxytemplates?offset=1"
+ ]
 }
 ```
 
@@ -1011,11 +838,15 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions/tp-1
 ```
 ```json
 {
- "type": "TrafficPermission",
+ "destinations": [
+  {
+   "match": {
+    "service": "redis"
+   }
+  }
+ ],
  "mesh": "mesh-1",
  "name": "tp-1",
- "creationTime": "2020-05-12T12:31:45.606217+02:00",
- "modificationTime": "2020-05-12T12:31:45.606217+02:00",
  "sources": [
   {
    "match": {
@@ -1023,13 +854,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions/tp-1
    }
   }
  ],
- "destinations": [
-  {
-   "match": {
-    "service": "redis"
-   }
-  }
- ]
+ "type": "TrafficPermission"
 }
 ```
 
@@ -1077,11 +902,15 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions
 {
  "items": [
   {
-   "type": "TrafficPermission",
+   "destinations": [
+    {
+     "match": {
+      "service": "redis"
+     }
+    }
+   ],
    "mesh": "mesh-1",
    "name": "tp-1",
-   "creationTime": "2020-05-12T12:31:45.606217+02:00",
-   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
    "sources": [
     {
      "match": {
@@ -1089,16 +918,9 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions
      }
     }
    ],
-   "destinations": [
-    {
-     "match": {
-      "service": "redis"
-     }
-    }
-   ]
+   "type": "TrafficPermission"
   }
- ],
- "next": "http://localhost:5681/meshes/mesh-1/traffic-permissions?offset=1"
+ ]
 }
 ```
 
@@ -1125,11 +947,18 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1
 ```
 ```json
 {
- "type": "TrafficLog",
+ "conf": {
+  "backend": "file"
+ },
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
  "mesh": "mesh-1",
  "name": "tl-1",
- "creationTime": "2020-05-12T12:31:45.606217+02:00",
- "modificationTime": "2020-05-12T12:31:45.606217+02:00",
  "sources": [
   {
    "match": {
@@ -1138,16 +967,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1
    }
   }
  ],
- "destinations": [
-  {
-   "match": {
-    "service": "backend"
-   }
-  }
- ],
- "conf": {
-  "backend": "file"
- }
+ "type": "TrafficLog"
 }
 ```
 
@@ -1199,11 +1019,18 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs
 {
  "items": [
   {
-   "type": "TrafficLog",
+   "conf": {
+    "backend": "file"
+   },
+   "destinations": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
    "mesh": "mesh-1",
    "name": "tl-1",
-   "creationTime": "2020-05-12T12:31:45.606217+02:00",
-   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
    "sources": [
     {
      "match": {
@@ -1212,19 +1039,9 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs
      }
     }
    ],
-   "destinations": [
-    {
-     "match": {
-      "service": "backend"
-     }
-    }
-   ],
-   "conf": {
-    "backend": "file"
-   }
+   "type": "TrafficLog"
   }
- ],
- "next": "http://localhost:5681/meshes/mesh-1/traffic-logs?offset=1"
+ ]
 }
 ```
 
@@ -1251,27 +1068,6 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
 ```
 ```json
 {
- "type": "TrafficRoute",
- "mesh": "mesh-1",
- "name": "web-to-backend",
- "creationTime": "2020-05-12T12:31:45.606217+02:00",
- "modificationTime": "2020-05-12T12:31:45.606217+02:00",
- "sources": [
-  {
-   "match": {
-    "region": "us-east-1",
-    "service": "web",
-    "version": "v10"
-   }
-  }
- ],
- "destinations": [
-  {
-   "match": {
-    "service": "backend"
-   }
-  }
- ],
  "conf": [
   {
    "weight": 90,
@@ -1288,7 +1084,26 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
     "version": "v3"
    }
   }
- ]
+ ],
+ "destinations": [
+  {
+   "match": {
+    "service": "backend"
+   }
+  }
+ ],
+ "mesh": "mesh-1",
+ "name": "web-to-backend",
+ "sources": [
+  {
+   "match": {
+    "region": "us-east-1",
+    "service": "web",
+    "version": "v10"
+   }
+  }
+ ],
+ "type": "TrafficRoute"
 }
 ```
 
@@ -1355,27 +1170,6 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes
 {
  "items": [
   {
-   "type": "TrafficRoute",
-   "mesh": "mesh-1",
-   "name": "web-to-backend",
-   "creationTime": "2020-05-12T12:31:45.606217+02:00",
-   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
-   "sources": [
-    {
-     "match": {
-      "region": "us-east-1",
-      "service": "web",
-      "version": "v10"
-     }
-    }
-   ],
-   "destinations": [
-    {
-     "match": {
-      "service": "backend"
-     }
-    }
-   ],
    "conf": [
     {
      "weight": 90,
@@ -1392,10 +1186,28 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes
       "version": "v3"
      }
     }
-   ]
+   ],
+   "destinations": [
+    {
+     "match": {
+      "service": "backend"
+     }
+    }
+   ],
+   "mesh": "mesh-1",
+   "name": "web-to-backend",
+   "sources": [
+    {
+     "match": {
+      "region": "us-east-1",
+      "service": "web",
+      "version": "v10"
+     }
+    }
+   ],
+   "type": "TrafficRoute"
   }
- ],
- "next": "http://localhost:5681/meshes/mesh-1/traffic-routes?offset=1"
+ ]
 }
 ```
 
@@ -1425,8 +1237,6 @@ curl http://localhost:5681/meshes/mesh-1/traffic-traces/tt-1
  "type": "TrafficTrace",
  "mesh": "mesh-1",
  "name": "tt-1",
- "creationTime": "2020-05-12T12:31:45.606217+02:00",
- "modificationTime": "2020-05-12T12:31:45.606217+02:00",
  "conf": {
   "backend": "my-zipkin"
  },
@@ -1483,21 +1293,18 @@ curl http://localhost:5681/meshes/mesh-1/traffic-traces
    "type": "TrafficTrace",
    "mesh": "mesh-1",
    "name": "tt-1",
-   "creationTime": "2020-05-12T12:31:45.606217+02:00",
-   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
+   "conf": {
+    "backend": "my-zipkin"
+   },
    "selectors": [
     {
      "match": {
       "service": "*"
      }
     }
-   ],
-   "conf": {
-    "backend": "my-zipkin"
-   }
+   ]
   }
- ],
- "next": "http://localhost:5681/meshes/mesh-1/traffic-traces?offset=1"
+ ]
 }
 ```
 
@@ -1509,171 +1316,6 @@ Response: `200 OK`
 Example:
 ```bash
 curl -XDELETE http://localhost:5681/meshes/mesh-1/traffic-traces/tt-1
-```
-
-## Fault Injection
-
-### Get Fault Injection
-Request: `GET /meshes/{mesh}/fault-injections/{name}`
-
-Response: `200 OK` with Fault Injection entity
-
-Example:
-```bash
-curl http://localhost:5681/meshes/default/fault-injections/fi1
-```
-```json
-{
- "type": "FaultInjection",
- "mesh": "default",
- "name": "fi1",
- "creationTime": "2020-05-12T12:31:45.606217+02:00",
- "modificationTime": "2020-05-12T12:31:45.606217+02:00",
- "sources": [
-  {
-   "match": {
-    "protocol": "http",
-    "service": "frontend",
-    "version": "0.1"
-   }
-  }
- ],
- "destinations": [
-  {
-   "match": {
-    "protocol": "http",
-    "service": "backend"
-   }
-  }
- ],
- "conf": {
-  "delay": {
-   "percentage": 50.5,
-   "value": "5s"
-  },
-  "abort": {
-   "percentage": 50,
-   "httpStatus": 500
-  },
-  "responseBandwidth": {
-   "percentage": 50,
-   "limit": "50 mbps"
-  }
- }
-}
-```
-
-### Create/Update Fault Injection
-Request: `PUT /meshes/{mesh}/fault-injections/{name}` with Fault Injection entity in body
-
-Response: `201 Created` when the resource is created and `200 OK` when it is updated
-
-Example:
-```bash
-curl -XPUT http://localhost:5681/meshes/default/fault-injections/fi1 --data @faultinjection.json -H'content-type: application/json'
-```
-```json
-{
-  "type": "FaultInjection",
-  "mesh": "default",
-  "name": "fi1",
-  "sources": [
-    {
-      "match": {
-        "service": "frontend",
-        "version": "0.1",
-        "protocol": "http"
-      }
-    }
-  ],
-  "destinations": [
-    {
-      "match": {
-        "service": "backend",
-        "protocol": "http"
-      }
-    }
-  ],
-  "conf": {
-    "delay": {
-      "percentage": 50.5,
-      "value": "5s"
-    },
-    "abort": {
-      "httpStatus": 500,
-      "percentage": 50
-    },
-    "responseBandwidth": {
-      "limit": "50 mbps",
-      "percentage": 50
-    }
-  }
-}
-```
-
-### List Fault Injections
-Request: `GET /meshes/{mesh}/fault-injections`
-
-Response: `200 OK` with body of Fault Injection entities
-
-Example:
-```bash
-curl http://localhost:5681/meshes/default/fault-injections
-```
-```json
-{
- "items": [
-  {
-   "type": "FaultInjection",
-   "mesh": "default",
-   "name": "fi1",
-   "creationTime": "2020-05-12T12:31:45.606217+02:00",
-   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
-   "sources": [
-    {
-     "match": {
-      "protocol": "http",
-      "service": "frontend",
-      "version": "0.1"
-     }
-    }
-   ],
-   "destinations": [
-    {
-     "match": {
-      "protocol": "http",
-      "service": "backend"
-     }
-    }
-   ],
-   "conf": {
-    "delay": {
-     "percentage": 50.5,
-     "value": "5s"
-    },
-    "abort": {
-     "percentage": 50,
-     "httpStatus": 500
-    },
-    "responseBandwidth": {
-     "percentage": 50,
-     "limit": "50 mbps"
-    }
-   }
-  }
- ],
- "next": "http://localhost:5681/meshes/default/fault-injections?offset=1"
-}
-```
-
-### Delete Fault Injection
-Request: `DELETE /meshes/{mesh}/fault-injections/{name}`
-
-Response: `200 OK`
-
-Example:
-```bash
-curl -XDELETE http://localhost:5681/meshes/default/fault-injections/fi1
 ```
 
 ::: tip
