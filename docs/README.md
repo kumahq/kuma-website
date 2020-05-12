@@ -71,7 +71,7 @@ Connect your Microservices with Kuma, and apply intuitive policies for security,
 
 ![Platform Agnostic diagram](/images/diagrams/v2/diagram-platform-agnostic@2x.png)
 
-Kuma can run anywhere, on Kubernetes and VMs, in the cloud or on-premise, in single or multi-datacenter setups.
+Kuma can run anywhere, on Kubernetes and VMs, in the cloud or on-premise. Meshes can run across different K8s namespaces and clusters.
 :::
 
 <!-- testimonial -->

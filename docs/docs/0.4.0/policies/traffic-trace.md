@@ -16,9 +16,8 @@ tracing:
   defaultBackend: my-zipkin
   backends:
   - name: my-zipkin
-    sampling: 100.0
-    type: zipkin 
-    config:
+    sampling: 100.0 
+    zipkin:
       url: http://zipkin.local:9411/api/v1/spans
 ```
 
@@ -34,15 +33,10 @@ spec:
     defaultBackend: my-zipkin
     backends:
     - name: my-zipkin
-      sampling: 100.0
-      type: zipkin 
-      config:
+      sampling: 100.0 
+      zipkin:
         url: http://zipkin.local:9411/api/v1/spans
 ```
-
-::: tip
-If you are starting from scratch, consider using `kumactl install tracing | kubectl apply -f -` to deploy configured Prometheus with Grafana.
-:::
 
 2) Select the dataplanes that should send traces for given backend
 

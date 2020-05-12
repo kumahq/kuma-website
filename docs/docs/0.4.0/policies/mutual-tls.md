@@ -22,10 +22,9 @@ On Universal:
 type: Mesh
 name: default
 mtls:
-  enabledBackend: ca-1 # enable mTLS 
-  backends:
-  - name: ca-1
-    type: builtin # use Builtin CA (a unique Root CA certificate will be generated automatically)
+  enabled: true # enable mTLS
+  ca:
+    builtin: {} # use Builtin CA (a unique Root CA certificate will be generated automatically)
 ```
 
 You can apply this configuration with `kumactl apply -f [file-path]`.
@@ -39,10 +38,9 @@ metadata:
   name: default
 spec:
   mtls:
-    enabledBackend: ca-1 # enable mTLS 
-    backends:
-    - name: ca-1
-      type: builtin # use Builtin CA (a unique Root CA certificate will be generated automatically)
+    enabled: true # enable mTLS
+    ca:
+      builtin: {} # use Builtin CA (a unique Root CA certificate will be generated automatically)
 ```
 
 You can apply this configuration with `kubectl apply -f [file-path]`.
@@ -78,10 +76,9 @@ A complete workflow of changing CA type from `builtin` to `provided` looks the f
    type: Mesh
    name: demo
    mtls:
-    # there is no enabledBackend property which means mTLS is enabled
-    backends:
-    - name: ca-1
-      type: builtin # use Builtin CA (a unique Root CA certificate will be generated automatically)
+     enabled: false # disable mTLS
+     ca:
+       builtin: {}  # every Mesh has `builtin` CA by default
    " | kumactl apply -f -
    ```
 
@@ -95,10 +92,9 @@ A complete workflow of changing CA type from `builtin` to `provided` looks the f
      name: default
    spec:
      mtls:
-      # there is no enabledBackend property which means mTLS is enabled
-      backends:
-      - name: ca-1
-        type: builtin # use Builtin CA (a unique Root CA certificate will be generated automatically)
+       enabled: false # disable mTLS
+       ca:
+         builtin: {}  # every Mesh has `builtin` CA by default
    " | kubectl apply -f -
    ```
 
@@ -111,15 +107,9 @@ A complete workflow of changing CA type from `builtin` to `provided` looks the f
    type: Mesh
    name: demo
    mtls:
-    enabledBackend: ca-1
-    backends:
-    - name: ca-1
-      type: provided
-      config:
-        cert:
-          secret: path-to-secret
-        key:
-          secret: path-to-secret
+     enabled: true  # enable mTLS
+     ca:
+       provided: {} # use Provided CA (an existing Root CA certificate must have already been provided by a user)
    " | kumactl apply -f -
    ```
 
@@ -133,15 +123,9 @@ A complete workflow of changing CA type from `builtin` to `provided` looks the f
      name: default
    spec:
      mtls:
-       enabledBackend: ca-1
-       backends:
-       - name: ca-1
-         type: provided
-         config:
-           cert:
-             secret: path-to-secret
-           key:
-             secret: path-to-secret
+       enabled: true  # enable mTLS
+       ca:
+         provided: {} # use Provided CA (an existing Root CA certificate must have already been provided by a user)
    " | kubectl apply -f -
    ```
 

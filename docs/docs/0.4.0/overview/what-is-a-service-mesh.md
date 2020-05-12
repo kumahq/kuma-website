@@ -22,7 +22,7 @@ In the latter scenario - when delegating network management to another process -
 While having data planes deployed alongside our services helps with the network concerns we have described earlier, it introduces a new problem: managing so many data planes becomes challenging, and when we want to update our network policies we certainly don't want to manually reconfigure each one of them. In short, we need a source of truth that can collect all of our configuration - segmented by service or other properties - and then push the configuration to the individual data planes whenever required. This component is called the control plane: it controls the data planes and - unlike the data planes - it doesn't sit on the execution path of the service traffic.
 
 <center>
-<img src="/images/docs/0.5.0/diagram-14.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.3.2/diagram-14.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 We are going to be having many data planes connected to the control plane in order to always propagate the latest configuration, while simultaneously processing the service-to-service traffic among our infrastructure. Kuma is a control plane (and it is being shipped in a `kuma-cp` binary) while Envoy is a data plane proxy (shipped as an `envoy` binary). When using Kuma we don't have to worry about learning to use Envoy, because Kuma abstracts away that complexity by bundling Envoy into another binary called `kuma-dp` (`kuma-dp` under the hood will invoke the `envoy` binary but that complexity is hidden from you, the end user of Kuma).

@@ -16,15 +16,9 @@ Kuma also supports external CA. By changing the `ca` in the mesh resource to `pr
 type: Mesh
 name: default
 mtls:
-  enabledBackend: ca-1
-  backends:
-  - name: ca-1
-    type: provided
-    config:
-      cert:
-        secret: path-to-secret
-      key:
-        secret: path-to-secret
+  enabled: true  # enable mTLS
+  ca:
+    provided: {} # use Provided CA (an existing Root CA certificate must be provided by a user)
 ```
 To manage external CAs after you update the mesh resource, `kumactl` now supports a new command: `kumactl manage ca`. With this new command, you can do add and delete certificates.
 
