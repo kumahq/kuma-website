@@ -62,7 +62,7 @@ When following the installation instructions, `kuma-injector` will be automatica
 
 ### Matching Labels in `Pod` and `Service` 
 
-When deploying Kuma on Kubernetes, you must ensure that every `Pod` is part of at least one matching `Service`. For example, in [Kuma's demo application](https://github.com/Kong/kuma-demo/blob/master/kubernetes/), the [`Pod` for the Redis service]((https://github.com/Kong/kuma-demo/blob/master/kubernetes/kuma-demo-aio.yaml#L104))  has the following matchLabels:
+When deploying Kuma on Kubernetes, you must ensure that every `Pod` is part of at least one matching `Service`. For example, in [Kuma's demo application](https://github.com/Kong/kuma-demo/blob/master/kubernetes/), the [`Pod` for the Redis service](https://github.com/Kong/kuma-demo/blob/master/kubernetes/kuma-demo-aio.yaml#L104)  has the following matchLabels:
 
 ```yaml
 ...

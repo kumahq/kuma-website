@@ -192,7 +192,7 @@ On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically 
 The `Dataplane` can operate in Gateway mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
 
 When you use a Dataplane with a service, both inbound traffic to a service and outbound traffic from the service flows through the Dataplane.
-API Gateway should be deployed as any other service withing the mesh. However, in this case we want inbound traffic to go directly to API Gateway,
+API Gateway should be deployed as any other service within the mesh. However, in this case we want inbound traffic to go directly to API Gateway,
 otherwise clients would have to be provided with certificates that are generated dynamically for communication between services within the mesh.
 Security for an entrance to the mesh should be handled by API Gateway itself.
 

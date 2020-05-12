@@ -25,4 +25,4 @@ echo "
 " | kubectl apply -f -
 ```
 
-Below you can find the policies that Kuma supports. In addition to [`kumactl`](../../documentation/kumactl), you can also retrive the state via the Kuma [HTTP API](../../documentation/http-api) as well.
+Below you can find the policies that Kuma supports. In addition to [`kumactl`](../../documentation/kumactl), you can also retrieve the state via the Kuma [HTTP API](../../documentation/http-api) as well.
