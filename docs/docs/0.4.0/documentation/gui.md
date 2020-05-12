@@ -38,8 +38,12 @@ If you haven't yet created any meshes, this will default to the `default` mesh.
 Each of these views will provide you with a table that displays helpful at-a-glance information. The Dataplanes table will display helpful information, including whether or not a dataplane is online, when it was last connected, how many connections it has, etc. This view also provides a control for refreshing your data on the fly without having to do a full page reload each time you've made changes:
 
 <center>
-<img src="/images/docs/0.3.2/gui-dataplanes-table.png" alt="A screenshot of the Dataplanes information table" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.4.0/gui-dataplanes-table.png" alt="A screenshot of the Dataplanes information table with the new tag styles for Kuma release 0.4.0" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
+
+::: tip
+For v0.4.0, we've improved the tag styles to be easier to read, cleaner, and quicker to scan at a glance!
+:::
 
 We also provide an easy way to view your entity in YAML format, as well as an control to copy it to your clipboard:
 

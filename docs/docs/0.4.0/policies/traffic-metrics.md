@@ -54,12 +54,12 @@ As a result, this particular dataplane will expose an HTTP endpoint with `Promet
 
 Although dataplane metrics are now exposed, `Prometheus` doesn't know anything about it just yet.
 
-To help `Prometheus` to automatically discover dataplanes, `Kuma` provides a helper tool - `kuma-prometheus-sd`.
+To help `Prometheus` to automatically discover dataplanes, `Kuma` provides a tool - `kuma-prometheus-sd`.
 
 ::: tip
 `kuma-prometheus-sd` is meant to run alongside `Prometheus` instance.
 
-It knows where `Kuma` Control Plane is, it knows how to talk to it, it knows how to fetch an up-to-date list of dataplanes from it.
+It knows where `Kuma` Control Plane is, how to talk to it and how to fetch an up-to-date list of dataplanes from it.
 
 It then transforms that information into a format that `Prometheus` can understand, and saves it into a file on disk.
 
@@ -162,46 +162,7 @@ As a result, dataplane for this particular `Pod` will expose an HTTP endpoint wi
 
 #### Configure dataplane discovery by Prometheus
 
-On `kubernetes`, there are two ways of configuring dataplane discovery.
-
-#### Annotations
-
-`Kuma` will automatically annotate your `Pod` to be discovered by `Prometheus`, e.g.
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  namespace: kuma-example
-  name: kuma-tcp-echo
-  annotations:
-    prometheus.io/scrape: "true"   # will be automatically added by Kuma
-    prometheus.io/port: "5670"     # will be automatically added by Kuma
-    prometheus.io/path: "/metrics" # will be automatically added by Kuma
-spec:
-  containers:
-  ...
-```
-
-Notice usage of `prometheus.io/*` annotations to indicate where `Prometheus` should scrape metrics from.
-
-::: warning
-Beware that `Prometheus` itself doesn't have any knowledge about `prometheus.io/*` annotations.
-
-Instead, they're a part of configuration, which might differ from one `Prometheus` installation to another.
-
-In particular, `prometheus.io/*` annotations are part of configuration used by `Prometheus` [Helm chart](https://github.com/helm/charts/tree/master/stable/prometheus).
-
-If you're using a different way to install `Prometheus` on `kubernetes`, those annotations might not have the desired effect.
-:::
-
-Although it's easy and works without any extra configuration, those annotations supports only one address to scrape.
-If you also have an application next to Kuma DP which exposes metrics through `prometheus.io/*` annotations,
-you have to use the other way to expose metrics for both the application and Kuma DP.
-
-#### Kuma Prometheus SD
-
-You can deploy `kuma-prometheus-sd` container next to you Prometheus instance just like in Universal setup.
+To configure dataplane discovery by Prometheus you have to deploy `kuma-prometheus-sd` container next to you Prometheus instance just like in Universal setup.
 
 First, add a volume to your Prometheus deployment to which `kuma-prometheus-sd` will write a file with the list of the dataplanes and from which `Prometheus` will read the list.
 
@@ -246,4 +207,36 @@ Finally, modify your Prometheus config to use generated file
 
 Refer to full example of the [deployment](/snippets/prom-deployment-with-kuma-sd.yaml) and the [configuration](/snippets/prom-configmap.yaml).
 
-In this way of integrating Kuma with Prometheus, you can still use `prometheus.io/*` for your applications.
+::: tip
+If you are starting from scratch, consider using `kumactl install metrics | kubectl apply -f -` to deploy configured Prometheus with Grafana.
+:::
+
+## Grafana Dashboards
+
+Kuma ships with 3 default dashboards that are available to import from [Grafana Labs repository](https://grafana.com/orgs/konghq).
+
+### Kuma Dataplane
+
+This dashboards lets you investigate the status of a single dataplane in the mesh.
+
+<center>
+<img src="/images/docs/0.4.0/kuma_dp1.jpeg" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.4.0/kuma_dp2.png" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.4.0/kuma_dp3.png" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+### Kuma Mesh
+
+This dashboard lets you investigate the aggregated statistics of a single mesh.
+
+<center>
+<img src="/images/docs/0.4.0/kuma_mesh.png" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+### Kuma Service to Service
+
+This dashboard lets you investigate aggregated statistics from dataplanes of given source service to dataplanes of given destination service.
+
+<center>
+<img src="/images/docs/0.4.0/kuma_service_to_service.png" alt="Kuma Service to Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>

@@ -28,17 +28,7 @@ logging:
   backends:
     - name: logstash
       # Use `format` field to adjust the access log format to your use case.
-      format: |
-        {
-            "start_time":          "%START_TIME%",
-            "source":              "%KUMA_SOURCE_SERVICE%",
-            "destination":         "%KUMA_DESTINATION_SERVICE%",
-            "source_address":      "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%",
-            "destination_address": "%UPSTREAM_HOST%",
-            "duration_millis":     %DURATION%,
-            "bytes_received":      %BYTES_RECEIVED%,
-            "bytes_sent":          %BYTES_SENT%
-        }
+      format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": %DURATION%, "bytes_received": %BYTES_RECEIVED%, "bytes_sent": %BYTES_SENT%}'
       # Use `tcp` field to co configure a TCP logging backend.
       tcp:
         # Address of a log collector.
@@ -47,7 +37,7 @@ logging:
       # Use `file` field to configure a file-based logging backend.
       file:
         path: /tmp/access.log
-      # When `format` field is ommitted, the default access log format will be used.
+      # When `format` field is omitted, the default access log format will be used.
 ```
 
 ```yaml
@@ -97,17 +87,7 @@ spec:
     backends:
       - name: logstash
         # Use `format` field to adjust the access log format to your use case.
-        format: |
-          {
-              "start_time":          "%START_TIME%",
-              "source":              "%KUMA_SOURCE_SERVICE%",
-              "destination":         "%KUMA_DESTINATION_SERVICE%",
-              "source_address":      "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%",
-              "destination_address": "%UPSTREAM_HOST%",
-              "duration_millis":     %DURATION%,
-              "bytes_received":      %BYTES_RECEIVED%,
-              "bytes_sent":          %BYTES_SENT%
-          }
+        format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": %DURATION%, "bytes_received": %BYTES_RECEIVED%, "bytes_sent": %BYTES_SENT%}'
         # Use `tcp` field to co configure a TCP logging backend.
         tcp:
           # Address of a log collector.
@@ -116,7 +96,7 @@ spec:
         # Use `file` field to configure a file-based logging backend.
         file:
           path: /tmp/access.log
-        # When `format` field is ommitted, the default access log format will be used.
+        # When `format` field is omitted, the default access log format will be used.
 ```
 
 ```yaml
@@ -125,6 +105,7 @@ kind: TrafficLog
 metadata:
   namespace: kuma-example
   name: all-traffic
+mesh: default
 spec:
   # This TrafficLog policy applies all traffic in that Mesh.
   sources:
@@ -180,11 +161,12 @@ A complete set of supported _command operators_ consists of:
 
 The latter include:
 
-| Command Operator                     | Description                                            |
-| ------------------------------------ | ------------------------------------------------------ |
+| Command Operator                     | Description                                                |
+| ------------------------------------ | ---------------------------------------------------------- |
+| `%KUMA_MESH%`                        | name of the mesh in which traffic is flowing               |
 | `%KUMA_SOURCE_SERVICE%`              | name of a `service` that is the `source` of traffic        |
 | `%KUMA_DESTINATION_SERVICE%`         | name of a `service` that is the `destination` of traffic   |
-| `%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%` | address of a `Dataplane` that is the `source` of traffic |
+| `%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%` | address of a `Dataplane` that is the `source` of traffic   |
 
 ### Access Logs for TCP and HTTP traffic
 
@@ -197,14 +179,18 @@ Internally, `Kuma` [determines traffic protocol](../http-support-in-kuma) based 
 The default format string for `TCP` traffic is:
 
 ```
-[%START_TIME%] %KUMA_SOURCE_ADDRESS_WITHOUT_PORT%(%KUMA_SOURCE_SERVICE%)->%UPSTREAM_HOST%(%KUMA_DESTINATION_SERVICE%) took %DURATION%ms, sent %BYTES_SENT% bytes, received: %BYTES_RECEIVED% bytes
+[%START_TIME%] %RESPONSE_FLAGS% %KUMA_MESH% %KUMA_SOURCE_ADDRESS_WITHOUT_PORT%(%KUMA_SOURCE_SERVICE%)->%UPSTREAM_HOST%(%KUMA_DESTINATION_SERVICE%) took %DURATION%ms, sent %BYTES_SENT% bytes, received: %BYTES_RECEIVED% bytes
 ```
 
 The default format string for `HTTP` traffic is:
 
 ```
-[%START_TIME%] "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%KUMA_SOURCE_SERVICE%" "%KUMA_DESTINATION_SERVICE%" "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%" "%UPSTREAM_HOST%"
+[%START_TIME%] %KUMA_MESH% "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%KUMA_SOURCE_SERVICE%" "%KUMA_DESTINATION_SERVICE%" "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%" "%UPSTREAM_HOST%"
 ```
+
+::: tip
+To provide different format for TCP and HTTP logging you can define two separate logging backends with the same address and different format. Then define two TrafficLog entity, one for TCP and one for HTTP with `protocol: http` selector.
+:::
 
 ### Access Logs in JSON format
 
@@ -222,3 +208,5 @@ If you need an access log with entries in `JSON` format, you have to provide a t
   "bytes_sent":          %BYTES_SENT%
 }
 ```
+
+To use it with Logstash, use `json_lines` codec and make sure your JSON is formatted into one line.

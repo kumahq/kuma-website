@@ -19,14 +19,14 @@ fs.readFile(releases, "utf8", (err, data) => {
 from = "/docs/"
 to = "/docs/${latest}/"
 status = ${docRedirectType}
-force = false
+force = true
 
 # Install redirect
 [[redirects]]
 from = "/install/"
 to = "/install/${latest}/"
 status = 200
-force = false
+force = true
 
 # Docs: Latest redirect
 [[redirects]]
@@ -40,7 +40,58 @@ force = false
 from = "/install/latest/*"
 to = "/install/${latest}/:splat"
 status = 200
-force = false`;
+force = false
+
+#
+# Redirects for old docs root pages
+#
+
+# Policies
+[[redirects]]
+from = "/docs/:version/policies/"
+to = "/docs/:version/policies/introduction/"
+status = 301
+force = false
+
+# Documentation
+[[redirects]]
+from = "/docs/:version/documentation/"
+to = "/docs/:version/documentation/introduction/"
+status = 301
+force = false
+
+# Overview
+[[redirects]]
+from = "/docs/:version/overview/"
+to = "/docs/:version/overview/what-is-kuma/"
+status = 301
+force = false
+
+# Installation
+[[redirects]]
+from = "/docs/:version/installation/"
+to = "/docs/:version/installation/centos/"
+status = 301
+force = false
+
+# Other
+[[redirects]]
+from = "/docs/:version/other/"
+to = "/docs/:version/other/introduction/"
+status = 301
+force = false
+
+# Latest version (for use with cURL, etc)
+[[redirects]]
+from = "/latest_version.html"
+to = "/latest_version"
+status = 301
+force = true
+
+[[headers]]
+  for = "/latest_version"
+  [headers.values]
+    Content-Type = "text/plain"`;
 
   // write our redirects to the TOML file
   // this will write to the end of the file

@@ -400,6 +400,49 @@
       "type": "directory"
     },
     {
+      "path": "docs/.vuepress/public/images/docs/0.4.0",
+      "name": "0.4.0",
+      "children": [
+        {
+          "path": "docs/.vuepress/public/images/docs/0.4.0/gui-dataplanes-table.png",
+          "name": "gui-dataplanes-table.png",
+          "size": 89155,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.4.0/kuma_dp2.png",
+          "name": "kuma_dp2.png",
+          "size": 419634,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.4.0/kuma_dp3.png",
+          "name": "kuma_dp3.png",
+          "size": 199032,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.4.0/kuma_mesh.png",
+          "name": "kuma_mesh.png",
+          "size": 484434,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.4.0/kuma_service_to_service.png",
+          "name": "kuma_service_to_service.png",
+          "size": 172321,
+          "extension": ".png",
+          "type": "file"
+        }
+      ],
+      "size": 1364576,
+      "type": "directory"
+    },
+    {
       "path": "docs/.vuepress/public/images/docs/diagram-before-after-full.png",
       "name": "diagram-before-after-full.png",
       "size": 1089351,
@@ -414,6 +457,6 @@
       "type": "file"
     }
   ],
-  "size": 5096912,
+  "size": 6461488,
   "type": "directory"
 }

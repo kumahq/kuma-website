@@ -8,9 +8,11 @@ Kuma supports a few different backends that we can use when running `kuma-cp`. Y
 This information has been documented for clarity, but when following the [installation instructions](/install/0.4.0) these settings will be automatically configured.
 :::
 
-The backends are:
+Following backends are available
 
-* `memory` (**default**): Kuma stores all the state in-memory. This means that restarting Kuma will delete all the data. Only reccomend when playing with Kuma locally. For example:
+## Memory
+
+Kuma stores all the state in-memory. This means that restarting Kuma will delete all the data. Only recommend when playing with Kuma locally. For example:
 
 ```sh
 $ KUMA_STORE_TYPE=memory kuma-cp run
@@ -18,7 +20,17 @@ $ KUMA_STORE_TYPE=memory kuma-cp run
 
 This is the **default** memory store if `KUMA_STORE_TYPE` is not being specified.
 
-* `postgres`: Kuma stores all the state in a PostgreSQL database. Used when running in Universal mode. You can also use a remote PostgreSQL database offered by any cloud vendor. For example:
+## Kubernetes
+
+Kuma stores all the state in the underlying Kubernetes cluster. Used when running in Kubernetes mode. For example:
+
+```sh
+$ KUMA_STORE_TYPE=kubernetes kuma-cp run
+```
+
+## Postgres
+
+Kuma stores all the state in a PostgreSQL database. Used when running in Universal mode. You can also use a remote PostgreSQL database offered by any cloud vendor. For example:
 
 ```sh
 $ KUMA_STORE_TYPE=postgres \
@@ -30,8 +42,20 @@ $ KUMA_STORE_TYPE=postgres \
   kuma-cp run
 ```
 
-* `kubernetes`: Kuma stores all the state in the underlying Kubernetes cluster. User when running in Kubernetes mode. For example:
+### Migrations
 
+To provide easy upgrades between Kuma versions there is a migration system of Postgres DB schema.
+
+When upgrading to new version of Kuma, run `kuma-cp migrate up` so the new schema is applied.
 ```sh
-$ KUMA_STORE_TYPE=kubernetes kuma-cp run
+$ KUMA_STORE_TYPE=postgres \
+  KUMA_STORE_POSTGRES_HOST=localhost \
+  KUMA_STORE_POSTGRES_PORT=5432 \
+  KUMA_STORE_POSTGRES_USER=kuma-user \
+  KUMA_STORE_POSTGRES_PASSWORD=kuma-password \
+  KUMA_STORE_POSTGRES_DB_NAME=kuma \
+  kuma-cp migrate up
 ```
+
+Kuma CP at start will check if the current DB schema is compatible with the version of Kuma you are trying to run.
+Information about current newest migration is stored in `schema_migration` table.
