@@ -31,7 +31,7 @@ With a `builtin` CA backend type, Kuma will dynamically generate its own CA root
 
 We can specify more than one `builtin` backend with different names, and each one of them will be automatically provisioned with a unique pair of certificate + key (they are not shared).
 
-To enable a `builtin` mTLS for the entire Mesh you can apply the following configuration:
+To enable a `builtin` mTLS for the entire Mesh we can apply the following configuration:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -52,10 +52,10 @@ spec:
         conf:
           caCert:
             RSAbits: 2048
-            expiration: 10y
+            expiration: 87600h
 ```
 
-You will apply the configuration with `kubectl apply -f [..]`.
+We will apply the configuration with `kubectl apply -f [..]`.
 :::
 
 ::: tab "Universal"
@@ -73,10 +73,10 @@ mtls:
       conf:
         caCert:
           RSAbits: 2048
-          expiration: 10y
+          expiration: 87600h
 ```
 
-You will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
 :::
 ::::
 
@@ -94,7 +94,7 @@ When using a `builtin` backend Kuma automatically generates a root CA certificat
 
 On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [backend](/docs/0.5.0/documentation/backends) configured in `kuma-cp`.
 
-You can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or via `kubectl` on Kubernetes only:
+We can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or via `kubectl` on Kubernetes only:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "kumactl"
@@ -131,7 +131,7 @@ We are responsible for providing the CA root certificate + key and also to manag
 
 First we need to upload our CA root certificate and key as [Kuma Secrets](/docs/0.5.0/documentation/secrets) so that we can later reference them.
 
-Once the secrets have been created, to enable a `provided` mTLS for the entire Mesh you can apply the following configuration:
+Once the secrets have been created, to enable a `provided` mTLS for the entire Mesh we can apply the following configuration:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -156,7 +156,7 @@ spec:
             secret: name-of-secret
 ```
 
-You will apply the configuration with `kubectl apply -f [..]`.
+We will apply the configuration with `kubectl apply -f [..]`.
 :::
 
 ::: tab "Universal"
@@ -178,7 +178,7 @@ mtls:
           secret: name-of-secret
 ```
 
-You will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
 :::
 ::::
 
@@ -202,7 +202,7 @@ When using an arbitrary certificate and key for a `provided` backend, we must ma
 Do not use the following example in production, instead generate valid and compliant certificates. This example is intended for usage in a development environment.
 :::
 
-Below you can find an example to generate a sample CA certificate + key:
+Below we can find an example to generate a sample CA certificate + key:
 
 ::::tabs :options="{ useUrlFragment: false }"
 ::: tab "openssl"
@@ -223,7 +223,7 @@ openssl req -config <(echo "$SAMPLE_CA_CONFIG") -new -newkey rsa:2048 -nodes \
   -subj "/CN=Hello" -x509 -extensions ext -keyout key.pem -out crt.pem
 ```
 
-The command will generate a certificate at `crt.pem` and the key at `key.pem`. You can generate the Kuma Secret resources by following the [Secret reference](/docs/0.5.0/documentation/secrets).
+The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the Kuma Secret resources by following the [Secret reference](/docs/0.5.0/documentation/secrets).
 
 :::
 ::::
