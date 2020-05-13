@@ -130,9 +130,10 @@ metadata:
   name: default
 spec:
   mtls:
-    enabled: true
-    ca:
-      builtin: {} | kubectl apply -f -"
+    enabledBackend: ca-1
+    backends:
+    - name: ca-1
+      type: builtin" | kubectl apply -f -
 ```
 
 Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly create a [Traffic Permission](/docs/0.5.0/policies/traffic-permissions/) policy that describes what services can be consumed by other services. You can try to make requests to the demo application at [`127.0.0.1:8080/`](http://127.0.0.1:8080/) and you will notice that they will **not** work.
@@ -188,11 +189,15 @@ metadata:
   name: default
 spec:
   mtls:
-    enabled: true
-    ca:
-      builtin: {} 
+    enabledBackend: ca-1
+    backends:
+    - name: ca-1
+      type: builtin
   metrics:
-    prometheus: {}" | kubectl apply -f -
+    enabledBackend: prometheus-1
+    backends:
+    - name: prometheus-1
+      type: prometheus" | kubectl apply -f -
 ```
 
 This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/0.5.0/policies/mesh/) and automatically collect metrics for all of our traffic.

@@ -73,9 +73,10 @@ or you can enable mTLS on the `default` Mesh with:
 echo "type: Mesh
 name: default
 mtls:
-  enabled: true
-  ca:
-    builtin: {}" | docker run -i --net="host" \
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: builtin" | docker run -i --net="host" \
   kong-docker-kuma-docker.bintray.io/kumactl:0.5.0 kumactl apply -f -
 ```
 
