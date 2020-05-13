@@ -113,7 +113,9 @@ default   default.ca-builtin-key-ca-1    1m
 The following command can be executed only on Kubernetes:
 
 ```sh
-$ kubectl get secrets -n kuma-system
+$ kubectl get secrets \
+    -n kuma-system \
+    --field-selector='type=system.kuma.io/secret'
 NAME                             TYPE                                  DATA   AGE
 default.ca-builtin-cert-ca-1     system.kuma.io/secret                 1      1m
 default.ca-builtin-key-ca-1      system.kuma.io/secret                 1      1m
@@ -227,3 +229,111 @@ The command will generate a certificate at `crt.pem` and the key at `key.pem`. W
 
 :::
 ::::
+
+### Development Mode
+
+In development mode we may want to provide the `cert` and `key` properties of the `provided` backend without necessarily having to create a Secret resource, but by using either a file or an inline value.
+
+:::warning
+Using the `file` and `inline` modes in production presents a security risk since it makes the values of our CA root certificate and key more easily accessible from a malicious actor. We highly recommend using `file` and `inline` only in development mode.
+:::
+
+Kuma offers an alternative way to specify the CA root certificate and key:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+
+Please note the `file` and `inline` properties that are being used instead of `secret`:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  mtls:
+    enabledBackend: ca-1
+    backends:
+    - name: ca-1
+      type: provided
+      config:
+        cert:
+          inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
+        key:
+          file: /opt/cert.key
+```
+
+:::
+
+::: tab "Universal"
+
+Please note the `file` and `inline` properties that are being used instead of `secret`:
+
+```yaml
+type: Mesh
+name: default
+mtls:
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: provided
+    config:
+      cert:
+        inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
+      key:
+        file: /opt/cert.key
+```
+:::
+::::
+
+## Certificate Rotation
+
+Once a CA backend has been configured, Kuma will utilize the CA root certificate and key to automatically provision a certificate for every data plane proxy that it connects to `kuma-cp`.
+
+Unlike the CA certificate, the data plane proxy certificates are not permanently stored anywhere but they only reside in memory. Data plane certificates are designed to be short-lived and rotated often by Kuma.
+
+By default, the expiration time of a data plane certificate is `30` days. Kuma rotates data plane certificates automatically after 4/5 of the certificate validity time (ie: for the default `30` days expiration, that would be every `24` days).
+
+We can update the duration of the data plane certificates by updating the `dpCert` property - as documented in this page - on every mTLS backend available.
+
+Finally, we can inspect the certificate rotation statistics by executing the following command (supported on both Kubernetes and Universal):
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "kumactl"
+
+We can use the Kuma CLI:
+
+```sh
+$ kumactl inspect dataplanes
+MESH      NAME     TAGS          STATUS   LAST CONNECTED AGO   LAST UPDATED AGO   TOTAL UPDATES   TOTAL ERRORS   CERT REGENERATED AGO   CERT EXPIRATION       CERT REGENERATIONS
+default   web-01   service=web   Online   5s                   3s                 4               0              3s                     2020-05-11 16:01:34   2
+```
+
+Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` columns.
+
+:::
+::: tab "HTTP API"
+
+We can use the Kuma HTTP API by retrieving the [Dataplane Insight](/docs/0.5.0/documentation/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
+
+```json
+...
+dataplaneInsight": {
+  ...
+  "mTLS": {
+    "certificateExpirationTime": "2020-05-14T20:15:23Z",
+    "lastCertificateRegeneration": "2020-05-13T20:15:23.994549539Z",
+    "certificateRegenerations": 1
+  }
+}
+...
+```
+
+:::
+::::
+
+A new data plane certificate will be automatically (re)generated when:
+
+* A data plane proxy is being restarted.
+* The control plane is being restarted.
+* The data plane proxy connects to a new control plane.
