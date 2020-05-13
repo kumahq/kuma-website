@@ -141,9 +141,10 @@ metadata:
   name: default
 spec:
   mtls:
-    enabled: true
-    ca:
-      builtin: {}" | oc apply -f -
+    enabledBackend: ca-1
+    backends:
+    - name: ca-1
+      type: builtin" | oc apply -f -
 ```
 
 :::

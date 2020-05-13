@@ -106,9 +106,10 @@ $ cat <<EOF | kumactl apply -f -
 type: Mesh
 name: default
 mtls:
-  enabled: true
-  ca:
-    builtin: {}
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: builtin
 EOF
 ```
 
@@ -151,11 +152,15 @@ $ cat <<EOF | kumactl apply -f -
 type: Mesh
 name: default
 mtls:
-  enabled: true
-  ca:
-    builtin: {}
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: builtin
 metrics:
-  prometheus: {}
+  enabledBackend: prometheus-1
+  backends:
+  - name: prometheus-1
+    type: prometheus
 EOF
 ```
 
