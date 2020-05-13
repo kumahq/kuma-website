@@ -70,9 +70,6 @@ yarn test
 
 Before submitting a [pull request](https://github.com/Kong/kuma-website/pulls), make sure all tests are passing. 
 
-[kuma-url]: https://kuma.io/
-[kuma-logo]: https://kuma-public-assets.s3.amazonaws.com/kuma-logo.png
-
 ---
 
 # Cutting a new release
@@ -113,3 +110,6 @@ Commands:
 * `kumacut bump` - A quick command to increment the patch in the latest version by `1`
 * `kumacut new major|minor` - This command offers more control. You can increment the latest version by `1` for a major or minor release
 * `kumacut new custom <version>` - If you want to specify the version number yourself, you can replace `<version>` with something like `2.3.4` (don't worry if you happen to write `v2.3.4` - the script is smart enough to strip this out)
+
+[kuma-url]: https://kuma.io/
+[kuma-logo]: https://kuma-public-assets.s3.amazonaws.com/kuma-logo-v2.png
