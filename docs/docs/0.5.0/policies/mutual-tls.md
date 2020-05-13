@@ -1,36 +1,249 @@
 # Mutual TLS
 
-This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](../mesh).
+This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](../mesh), as well as assigning an identity to every data plane proxy. Kuma supports different types of CA backends as well as automatic certificate rotation.
 
-Kuma ships with a `builtin` CA (Certificate Authority) which is initialized with an auto-generated root certificate. The root certificate is unique for every [`Mesh`](../mesh) and it used to sign identity certificates for every data-plane. Kuma also supports third-party CA.
+Kuma ships with the following CA (Certificate Authority) supported backends:
 
-The mTLS feature is used for AuthN/Z as well: each data-plane is being assigned with a workload identity certificate, which is SPIFFE compatible. This certificate has a SAN set to `spiffe://<mesh name>/<service name>`. When Kuma enforces policies that require an identity, like [`TrafficPermission`](../traffic-permissions), it will extract the SAN from the client certificate and use it for every identity matching operation.
+* [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](/docs/0.5.0/documentation/secrets).
+* [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a [Secret](/docs/0.5.0/documentation/secrets).
 
-By default, mTLS is **not** enabled. You can enable Mutual TLS by updating the [`Mesh`](../mesh) policy with the `mtls` setting.
+Once a CA backend has been specified, Kuma will then automatically generate a certificate for every data plane proxy in the [`Mesh`](../mesh). The data plane certificates that Kuma generates are SPIFFE compatible and they are being used for AuthN/Z use-cases in order to identify every workload in our system. 
 
-::: tip
-With mTLS enabled, all traffic is denied by default.
-
-Remember to apply a `TrafficPermission` policy to explicitly allow legitimate traffic between certain Dataplanes.
+:::tip
+The certificates that Kuma generates have a SAN set to `spiffe://<mesh name>/<service name>`. When Kuma enforces policies that require an identity like [`TrafficPermission`](../traffic-permissions) it will extract the SAN from the client certificate and use it to match the service identity.
 :::
 
-### Builtin CA
+Remember that by default mTLS **is not** enabled and needs to be explicitly enabled as described below. Also remember that by default when mTLS is enabled all traffic is denied **unless** a [`TrafficPermission`](../traffic-permissions) policy is being configured to explicitly allow traffic across our data planes.
 
-On Universal:
+:::tip
+Always create a [`TrafficPermission`](../traffic-permissions) resource before enabling mTLS in a Mesh in order to avoid unexpected traffic interruptions caused by a lack of authorization among the data planes.
+:::
 
+To enable mTLS we need to configure the `mtls` property in a [`Mesh`](../mesh) resource. We can have as many `backends` as we want, but only one at a time can be enabled via the `enabledBackend` property. 
+
+If `enabledBackend` is missing then mTLS is disabled.
+
+## Usage of "builtin" CA
+
+This is the fastest and simplest way to enable mTLS in Kuma.
+
+With a `builtin` CA backend type, Kuma will dynamically generate its own CA root certificate and key that it will use to automatically provision (and rotate) data plane certificates for every replica of every service.
+
+We can specify more than one `builtin` backend with different names, and each one of them will be automatically provisioned with a unique pair of certificate + key (they are not shared).
+
+To enable a `builtin` mTLS for the entire Mesh we can apply the following configuration:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  mtls:
+    enabledBackend: ca-1
+    backends:
+      - name: ca-1
+        type: builtin
+        dpCert:
+          rotation:
+            expiration: 24h
+        conf:
+          caCert:
+            RSAbits: 2048
+            expiration: 87600h
+```
+
+We will apply the configuration with `kubectl apply -f [..]`.
+:::
+
+::: tab "Universal"
 ```yaml
 type: Mesh
 name: default
 mtls:
-  enabledBackend: ca-1 # enable mTLS 
+  enabledBackend: ca-1
   backends:
-  - name: ca-1
-    type: builtin # use Builtin CA (a unique Root CA certificate will be generated automatically)
+    - name: ca-1
+      type: builtin
+      dpCert:
+        rotation:
+          expiration: 24h
+      conf:
+        caCert:
+          RSAbits: 2048
+          expiration: 87600h
 ```
 
-You can apply this configuration with `kumactl apply -f [file-path]`.
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
+:::
+::::
 
-On Kubernetes:
+A few considerations:
+
+* The `dpCert` configuration determines how often Kuma should automatically rotate the certificates assigned to every data plane proxy.
+* The `caCert` configuration determines a few properties that Kuma will use when auto-generating the CA root certificate.
+
+### Storage of Secrets
+
+When using a `builtin` backend Kuma automatically generates a root CA certificate and key that are being stored as a Kuma [Secret resource](/docs/0.5.0/documentation/secrets) with the following name:
+
+* `{mesh name}.ca-builtin-cert-{backend name}` for the certificate
+* `{mesh name}.ca-builtin-key-{backend name}` for the key
+
+On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [backend](/docs/0.5.0/documentation/backends) configured in `kuma-cp`.
+
+We can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or via `kubectl` on Kubernetes only:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "kumactl"
+
+The following command can be executed on any Kuma backend:
+
+```sh
+$ kumactl get secrets [-m MESH]
+MESH      NAME                           AGE
+default   default.ca-builtin-cert-ca-1   1m
+default   default.ca-builtin-key-ca-1    1m
+```
+:::
+::: tab "kubectl"
+
+The following command can be executed only on Kubernetes:
+
+```sh
+$ kubectl get secrets \
+    -n kuma-system \
+    --field-selector='type=system.kuma.io/secret'
+NAME                             TYPE                                  DATA   AGE
+default.ca-builtin-cert-ca-1     system.kuma.io/secret                 1      1m
+default.ca-builtin-key-ca-1      system.kuma.io/secret                 1      1m
+```
+:::
+::::
+
+## Usage of "provided" CA
+
+Whenever we want to provide our own CA root certificate and key, we can use the `provided` backend. 
+
+Unlike the `builtin` backend, with `provided` we need to first upload the certificate and key that Kuma will use as [Secret resources](/docs/0.5.0/documentation/secrets), and then reference the Secrets to the mTLS configuration.
+
+We are responsible for providing the CA root certificate + key and also to manage their lifecycle. Kuma will then use our CA root certificate + Key to automatically provision (and rotate) data plane certificates for every replica of every service.
+
+First we need to upload our CA root certificate and key as [Kuma Secrets](/docs/0.5.0/documentation/secrets) so that we can later reference them.
+
+Once the secrets have been created, to enable a `provided` mTLS for the entire Mesh we can apply the following configuration:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  mtls:
+    enabledBackend: ca-1
+    backends:
+      - name: ca-1
+        type: provided
+        dpCert:
+          rotation:
+            expiration: 24h
+        conf:
+          cert:
+            secret: name-of-secret
+          key:
+            secret: name-of-secret
+```
+
+We will apply the configuration with `kubectl apply -f [..]`.
+:::
+
+::: tab "Universal"
+```yaml
+type: Mesh
+name: default
+mtls:
+  enabledBackend: ca-1
+  backends:
+    - name: ca-1
+      type: provided
+      dpCert:
+        rotation:
+          expiration: 24h
+      conf:
+        cert:
+          secret: name-of-secret
+        key:
+          secret: name-of-secret
+```
+
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
+:::
+::::
+
+A few considerations:
+
+* The `dpCert` configuration determines how often Kuma should automatically rotate the certificates assigned to every data plane proxy.
+* The Secrets must exist before referencing them in a `provided` backend.
+
+### CA requirements
+
+When using an arbitrary certificate and key for a `provided` backend, we must make sure that we comply with the following requirements:
+
+1. It MUST be a self-signed Root CA certificate (Intermediate CA certificates are not allowed)
+2. It MUST have basic constraint `CA` set to `true` (see [X509-SVID: 4.1. Basic Constraints](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#41-basic-constraints))
+3. It MUST have key usage extension `keyCertSign` set (see [X509-SVID: 4.3. Key Usage](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#43-key-usage))
+4. It MUST NOT have key usage extension 'digitalSignature' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
+5. It MUST NOT have key usage extension 'keyAgreement' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
+6. It MUST NOT have key usage extension 'keyEncipherment' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
+
+:::warning
+Do not use the following example in production, instead generate valid and compliant certificates. This example is intended for usage in a development environment.
+:::
+
+Below we can find an example to generate a sample CA certificate + key:
+
+::::tabs :options="{ useUrlFragment: false }"
+::: tab "openssl"
+
+The following command will generate a CA root certificate and key that can be uploaded to Kuma as a Secret and then used in a `provided` mTLS backend:
+
+```sh
+SAMPLE_CA_CONFIG="
+[req]
+distinguished_name=dn
+[ dn ]
+[ ext ]
+basicConstraints=CA:TRUE,pathlen:0
+keyUsage=keyCertSign
+"
+
+openssl req -config <(echo "$SAMPLE_CA_CONFIG") -new -newkey rsa:2048 -nodes \
+  -subj "/CN=Hello" -x509 -extensions ext -keyout key.pem -out crt.pem
+```
+
+The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the Kuma Secret resources by following the [Secret reference](/docs/0.5.0/documentation/secrets).
+
+:::
+::::
+
+### Development Mode
+
+In development mode we may want to provide the `cert` and `key` properties of the `provided` backend without necessarily having to create a Secret resource, but by using either a file or an inline value.
+
+:::warning
+Using the `file` and `inline` modes in production presents a security risk since it makes the values of our CA root certificate and key more easily accessible from a malicious actor. We highly recommend using `file` and `inline` only in development mode.
+:::
+
+Kuma offers an alternative way to specify the CA root certificate and key:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+
+Please note the `file` and `inline` properties that are being used instead of `secret`:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -39,129 +252,88 @@ metadata:
   name: default
 spec:
   mtls:
-    enabledBackend: ca-1 # enable mTLS 
-    backends:
-    - name: ca-1
-      type: builtin # use Builtin CA (a unique Root CA certificate will be generated automatically)
-```
-
-You can apply this configuration with `kubectl apply -f [file-path]`.
-
-### Provided CA
-
-In some cases users might need to opt out of auto-generated Root CA certificates, e.g. to stay compliant with internal company policies.
-
-To that end, Kuma supports another type of CA - `provided` CA.
-
-Like the name implies, a user will have to provide a custom Root CA certificate and take a responsibility for managing its lifecycle.
-
-A complete workflow of changing CA type from `builtin` to `provided` looks the following way:
-
-1. A user must first upload a custom Root CA certificate using `kumactl manage ca provided` command, e.g.
-
-   ```shell
-   kumactl manage ca provided certificates add --mesh demo --cert-file demo.root_ca.crt --key-file demo.root_ca.key
-   ```
-
-   ::: warning
-   This is a security-sensitive opreation, which implies very restrictive default settings.
-
-   If you are just Getting Started with Kuma, run `kumactl manage ca provided` commands on the same machine where `kuma-cp` is running.
-   :::
-
-2. Next, a user must **disable** mTLS on a `Mesh` before he will be allowed to change CA type from `builtin` to `provided`, e.g.
-
-   On Universal:
-
-   ```shell
-   echo "
-   type: Mesh
-   name: demo
-   mtls:
-    # there is no enabledBackend property which means mTLS is enabled
-    backends:
-    - name: ca-1
-      type: builtin # use Builtin CA (a unique Root CA certificate will be generated automatically)
-   " | kumactl apply -f -
-   ```
-
-   On Kubernetes:
-
-   ```shell
-   echo "
-   apiVersion: kuma.io/v1alpha1
-   kind: Mesh
-   metadata:
-     name: default
-   spec:
-     mtls:
-      # there is no enabledBackend property which means mTLS is enabled
-      backends:
-      - name: ca-1
-        type: builtin # use Builtin CA (a unique Root CA certificate will be generated automatically)
-   " | kubectl apply -f -
-   ```
-
-3. A user can now change CA type to `provided` and **enable** mTLS back after that
-
-   On Universal:
-
-   ```shell
-   echo "
-   type: Mesh
-   name: demo
-   mtls:
     enabledBackend: ca-1
     backends:
     - name: ca-1
       type: provided
       config:
         cert:
-          secret: path-to-secret
+          inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
         key:
-          secret: path-to-secret
-   " | kumactl apply -f -
-   ```
-
-   On Kubernetes:
-
-   ```shell
-   echo "
-   apiVersion: kuma.io/v1alpha1
-   kind: Mesh
-   metadata:
-     name: default
-   spec:
-     mtls:
-       enabledBackend: ca-1
-       backends:
-       - name: ca-1
-         type: provided
-         config:
-           cert:
-             secret: path-to-secret
-           key:
-             secret: path-to-secret
-   " | kubectl apply -f -
-   ```
-
-::: warning
-Root CA certificate provided by a user must meet certain constraints:
-1. It MUST be a self-signed Root CA certificate (Intermediate CA certificates are not allowed)
-2. It MUST have basic constraint `CA` set to `true` (see [X509-SVID: 4.1. Basic Constraints](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#41-basic-constraints))
-3. It MUST have key usage extension `keyCertSign` set (see [X509-SVID: 4.3. Key Usage](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#43-key-usage))
-4. It MUST NOT have key usage extension 'digitalSignature' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
-5. It MUST NOT have key usage extension 'keyAgreement' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
-6. It MUST NOT have key usage extension 'keyEncipherment' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
-
-If a provided certificate doesn't meet those constraints, `kumactl manage ca provided certificates add` command will fail with a respective error message, e.g.
-
-```shell
-kumactl manage ca provided certificates add --mesh demo --cert-file demo.root_ca.crt --key-file demo.root_ca.key
-
-Error: Could not add signing cert (Resource is not valid)
-* cert: certificate must be self-signed (intermediate CAs are not allowed)
+          file: /opt/cert.key
 ```
 
-The error message in the above example indicates that a user is trying to upload an Intermediate CA certificate while only Root CA certificates are allowed.
 :::
+
+::: tab "Universal"
+
+Please note the `file` and `inline` properties that are being used instead of `secret`:
+
+```yaml
+type: Mesh
+name: default
+mtls:
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: provided
+    config:
+      cert:
+        inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
+      key:
+        file: /opt/cert.key
+```
+:::
+::::
+
+## Certificate Rotation
+
+Once a CA backend has been configured, Kuma will utilize the CA root certificate and key to automatically provision a certificate for every data plane proxy that it connects to `kuma-cp`.
+
+Unlike the CA certificate, the data plane proxy certificates are not permanently stored anywhere but they only reside in memory. Data plane certificates are designed to be short-lived and rotated often by Kuma.
+
+By default, the expiration time of a data plane certificate is `30` days. Kuma rotates data plane certificates automatically after 4/5 of the certificate validity time (ie: for the default `30` days expiration, that would be every `24` days).
+
+We can update the duration of the data plane certificates by updating the `dpCert` property - as documented in this page - on every mTLS backend available.
+
+Finally, we can inspect the certificate rotation statistics by executing the following command (supported on both Kubernetes and Universal):
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "kumactl"
+
+We can use the Kuma CLI:
+
+```sh
+$ kumactl inspect dataplanes
+MESH      NAME     TAGS          STATUS   LAST CONNECTED AGO   LAST UPDATED AGO   TOTAL UPDATES   TOTAL ERRORS   CERT REGENERATED AGO   CERT EXPIRATION       CERT REGENERATIONS
+default   web-01   service=web   Online   5s                   3s                 4               0              3s                     2020-05-11 16:01:34   2
+```
+
+Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` columns.
+
+:::
+::: tab "HTTP API"
+
+We can use the Kuma HTTP API by retrieving the [Dataplane Insight](/docs/0.5.0/documentation/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
+
+```json
+...
+dataplaneInsight": {
+  ...
+  "mTLS": {
+    "certificateExpirationTime": "2020-05-14T20:15:23Z",
+    "lastCertificateRegeneration": "2020-05-13T20:15:23.994549539Z",
+    "certificateRegenerations": 1
+  }
+}
+...
+```
+
+:::
+::::
+
+A new data plane certificate will be automatically (re)generated when:
+
+* A data plane proxy is being restarted.
+* The control plane is being restarted.
+* The data plane proxy connects to a new control plane.
