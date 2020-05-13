@@ -30,7 +30,7 @@ policies:
         url: /docs/latest/documentation/dps-and-data-model/#gateway
         icon: /images/icons/policies/icon-kong-logo.png
       - title: Fault Injection
-        url: /docs/latest/documentation/policies/fault-injection
+        url: /docs/latest/policies/fault-injection
         icon: /images/icons/policies/icon-fault-injection@2x.png
   - section: observability
     sectionTitle: Observability
