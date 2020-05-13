@@ -18,7 +18,7 @@ tracing:
   - name: my-zipkin
     sampling: 100.0
     type: zipkin 
-    config:
+    conf:
       url: http://zipkin.local:9411/api/v1/spans
 ```
 
@@ -36,7 +36,7 @@ spec:
     - name: my-zipkin
       sampling: 100.0
       type: zipkin 
-      config:
+      conf:
         url: http://zipkin.local:9411/api/v1/spans
 ```
 

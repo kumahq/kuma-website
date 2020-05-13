@@ -202,7 +202,7 @@ curl http://localhost:5681/meshes/mesh-1
       {
         "name": "ca-2",
         "type": "provided",
-        "config": {
+        "conf": {
           "cert": {
             "secret": "provided-cert"
           },
@@ -220,7 +220,7 @@ curl http://localhost:5681/meshes/mesh-1
       {
         "name": "zipkin-1",
         "type": "zipkin",
-        "config": {
+        "conf": {
           "url": "http://zipkin.local:9411/api/v1/spans"
         }
       }
@@ -232,14 +232,14 @@ curl http://localhost:5681/meshes/mesh-1
         "name": "file-tmp",
         "format": "{ \"destination\": \"%KUMA_DESTINATION_SERVICE%\", \"destinationAddress\": \"%UPSTREAM_LOCAL_ADDRESS%\", \"source\": \"%KUMA_SOURCE_SERVICE%\", \"sourceAddress\": \"%KUMA_SOURCE_ADDRESS%\", \"bytesReceived\": \"%BYTES_RECEIVED%\", \"bytesSent\": \"%BYTES_SENT%\"}",
         "type": "file",
-        "config": {
+        "conf": {
           "path": "/tmp/access.log"
         }
       },
       {
         "name": "logstash",
         "type": "tcp",
-        "config": {
+        "conf": {
           "address": "logstash.internal:9000"
         }
       }
@@ -251,7 +251,7 @@ curl http://localhost:5681/meshes/mesh-1
       {
         "name": "prometheus-1",
         "type": "prometheus",
-        "config": {
+        "conf": {
           "port": 1234,
           "path": "/metrics"
         }
@@ -283,7 +283,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1 --data @mesh.json -H'content-type
       {
         "name": "ca-2",
         "type": "provided",
-        "config": {
+        "conf": {
           "cert": {
             "secret": "provided-cert"
           },
@@ -301,7 +301,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1 --data @mesh.json -H'content-type
       {
         "name": "zipkin-1",
         "type": "zipkin",
-        "config": {
+        "conf": {
           "url": "http://zipkin.local:9411/api/v1/spans"
         }
       }
@@ -313,14 +313,14 @@ curl -XPUT http://localhost:5681/meshes/mesh-1 --data @mesh.json -H'content-type
         "name": "file-tmp",
         "format": "{ \"destination\": \"%KUMA_DESTINATION_SERVICE%\", \"destinationAddress\": \"%UPSTREAM_LOCAL_ADDRESS%\", \"source\": \"%KUMA_SOURCE_SERVICE%\", \"sourceAddress\": \"%KUMA_SOURCE_ADDRESS%\", \"bytesReceived\": \"%BYTES_RECEIVED%\", \"bytesSent\": \"%BYTES_SENT%\"}",
         "type": "file",
-        "config": {
+        "conf": {
           "path": "/tmp/access.log"
         }
       },
       {
         "name": "logstash",
         "type": "tcp",
-        "config": {
+        "conf": {
           "address": "logstash.internal:9000"
         }
       }
@@ -332,7 +332,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1 --data @mesh.json -H'content-type
       {
         "name": "prometheus-1",
         "type": "prometheus",
-        "config": {
+        "conf": {
           "port": 1234,
           "path": "/metrics"
         }
@@ -368,7 +368,7 @@ curl http://localhost:5681/meshes
           {
             "name": "ca-2",
             "type": "provided",
-            "config": {
+            "conf": {
               "cert": {
                 "secret": "provided-cert"
               },
@@ -386,7 +386,7 @@ curl http://localhost:5681/meshes
           {
             "name": "zipkin-1",
             "type": "zipkin",
-            "config": {
+            "conf": {
               "url": "http://zipkin.local:9411/api/v1/spans"
             }
           }
@@ -398,14 +398,14 @@ curl http://localhost:5681/meshes
             "name": "file-tmp",
             "format": "{ \"destination\": \"%KUMA_DESTINATION_SERVICE%\", \"destinationAddress\": \"%UPSTREAM_LOCAL_ADDRESS%\", \"source\": \"%KUMA_SOURCE_SERVICE%\", \"sourceAddress\": \"%KUMA_SOURCE_ADDRESS%\", \"bytesReceived\": \"%BYTES_RECEIVED%\", \"bytesSent\": \"%BYTES_SENT%\"}",
             "type": "file",
-            "config": {
+            "conf": {
               "path": "/tmp/access.log"
             }
           },
           {
             "name": "logstash",
             "type": "tcp",
-            "config": {
+            "conf": {
               "address": "logstash.internal:9000"
             }
           }
@@ -417,7 +417,7 @@ curl http://localhost:5681/meshes
           {
             "name": "prometheus-1",
             "type": "prometheus",
-            "config": {
+            "conf": {
               "port": 1234,
               "path": "/metrics"
             }

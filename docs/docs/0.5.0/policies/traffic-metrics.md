@@ -34,7 +34,7 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
-    config:
+    conf:
       port: 5670
       path: /metrics
 ```
@@ -50,13 +50,10 @@ type: Dataplane
 mesh: default
 name: example
 metrics:
-  enabledBackend: prometheus-1
-  backends:
-  - name: prometheus-1
-    type: prometheus
-    config:
-      port: 1234
-      path: /non-standard-path
+  type: prometheus
+  conf:
+    port: 1234
+    path: /non-standard-path
 ```
 
 As a result, this particular dataplane will expose an HTTP endpoint with `Prometheus` metrics on port `1234` and URI path `/non-standard-path`.

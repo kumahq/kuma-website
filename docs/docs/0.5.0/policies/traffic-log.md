@@ -30,13 +30,13 @@ logging:
       # Use `format` field to adjust the access log format to your use case.
       format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
       type: tcp
-      config: # Use `config` field to co configure a TCP logging backend.
+      conf: # Use `config` field to co configure a TCP logging backend.
         # Address of a log collector.
         address: 127.0.0.1:5000
     - name: file
       type: file
       # Use `config` field to configure a file-based logging backend.
-      config:
+      conf:
         path: /tmp/access.log
       # When `format` field is omitted, the default access log format will be used.
 ```
@@ -91,13 +91,13 @@ spec:
         format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
         type: tcp
         # Use `config` field to co configure a TCP logging backend.
-        config:
+        conf:
           # Address of a log collector.
           address: 127.0.0.1:5000
       - name: file
         type: file
         # Use `file` field to configure a file-based logging backend.
-        config:
+        conf:
           path: /tmp/access.log
         # When `format` field is omitted, the default access log format will be used.
 ```
