@@ -208,7 +208,7 @@ Now let's go ahead and generate some traffic - to populate our charts - by using
 You can also generate some artificial traffic with the following command to save some clicks:
 
 ```sh
-while [ true ]; do curl http://127.0.0.1:8081/items?q=; curl http://127.0.0.1:8081/items/1/reviews; done
+while [ true ]; do curl http://127.0.0.1:8080/items?q=; curl http://127.0.0.1:8080/items/1/reviews; done
 ```
 :::
 
