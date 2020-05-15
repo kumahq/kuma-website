@@ -143,7 +143,8 @@ export default {
     transform 200ms $cubic-bezier;
 
   &:hover, &:active {
-    transform: scale(1.05);
+    // no more scale on hover because Chrome on Retina does not play nice with it
+    // transform: scale(1.05);
     border: 1px solid $hover-color;
     color: $hover-color;
 

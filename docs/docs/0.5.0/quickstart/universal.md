@@ -106,9 +106,10 @@ $ cat <<EOF | kumactl apply -f -
 type: Mesh
 name: default
 mtls:
-  enabled: true
-  ca:
-    builtin: {}
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: builtin
 EOF
 ```
 
@@ -151,11 +152,15 @@ $ cat <<EOF | kumactl apply -f -
 type: Mesh
 name: default
 mtls:
-  enabled: true
-  ca:
-    builtin: {}
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: builtin
 metrics:
-  prometheus: {}
+  enabledBackend: prometheus-1
+  backends:
+  - name: prometheus-1
+    type: prometheus
 EOF
 ```
 
@@ -192,4 +197,3 @@ Congratulations! You have completed the quickstart for Kubernetes, but there is 
 * Explore the [Policies](/policies) available to govern and orchestrate your service traffic.
 * Read the [full documentation](/docs) to learn about all the capabilities of Kuma.
 * Chat with us at the official [Kuma Slack](/community) for questions or feedback.
-

@@ -34,7 +34,7 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
-    config:
+    conf:
       port: 5670
       path: /metrics
 ```

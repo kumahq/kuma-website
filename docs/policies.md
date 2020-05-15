@@ -29,8 +29,13 @@ policies:
       - title: Kong Gateway
         url: /docs/latest/documentation/dps-and-data-model/#gateway
         icon: /images/icons/policies/icon-kong-logo.png
+<<<<<<< HEAD
       - title: Fault Injections
         url: /docs/latest/documentation/policies/fault-injections
+=======
+      - title: Fault Injection
+        url: /docs/latest/policies/fault-injection
+>>>>>>> master
         icon: /images/icons/policies/icon-fault-injection@2x.png
   - section: observability
     sectionTitle: Observability
