@@ -36,11 +36,11 @@ spec:
   tracing:
     defaultBackend: zipkin-backend
     backends:
-    - name: zipkin-backend
+    - name: jaeger-collector
       type: zipkin
       sampling: 100.0
       conf:
-        url: http://zipkin.local:9411/api/v1/spans
+        url: http://jaeger-collector.kuma-tracing:9411/api/v1/spans
 ```
 
 We will apply the configuration with `kubectl apply -f [..]`.
@@ -53,11 +53,11 @@ name: default
 tracing:
   defaultBackend: zipkin-backend
   backends:
-  - name: zipkin-backend
+  - name: jaeger-collector
     type: zipkin
     sampling: 100.0
     conf:
-      url: http://zipkin.local:9411/api/v1/spans
+      url: http://jaeger-collector.kuma-tracing:9411/api/v1/spans
 ```
 
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
@@ -83,7 +83,7 @@ spec:
   - match:
       service: '*'
   conf:
-    backend: zipkin-backend
+    backend: jaeger-collector
 ```
 
 We will apply the configuration with `kubectl apply -f [..]`.
@@ -98,7 +98,7 @@ selectors:
 - match:
     service: '*'
 conf:
-  backend: zipkin-backend
+  backend: jager-collector
 ```
 
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
