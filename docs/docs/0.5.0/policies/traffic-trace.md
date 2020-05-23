@@ -34,7 +34,7 @@ metadata:
   name: default
 spec:
   tracing:
-    defaultBackend: zipkin-backend
+    defaultBackend: jaeger-collector
     backends:
     - name: jaeger-collector
       type: zipkin
@@ -51,7 +51,7 @@ We will apply the configuration with `kubectl apply -f [..]`.
 type: Mesh
 name: default
 tracing:
-  defaultBackend: zipkin-backend
+  defaultBackend: jaeger-collector
   backends:
   - name: jaeger-collector
     type: zipkin
