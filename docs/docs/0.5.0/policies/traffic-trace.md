@@ -31,6 +31,7 @@ To add a new tracing backend we must create a new `tracing` property in a `Mesh`
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
+  namespace: default
   name: default
 spec:
   tracing:
@@ -77,7 +78,7 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficTrace
 mesh: default
 metadata:
-  name: default
+  name: trace-all-traffic
 spec:
   selectors:
   - match:
@@ -92,8 +93,8 @@ We will apply the configuration with `kubectl apply -f [..]`.
 ::: tab "Universal"
 ```yaml
 type: TrafficTrace
+name: trace-all-traffic
 mesh: default
-name: all
 selectors:
 - match:
     service: '*'
