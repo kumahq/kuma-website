@@ -1,29 +1,32 @@
 # Traffic Trace
 
-With the `TrafficTrace` policy you can configure tracing on every Kuma DP that belongs to the `Mesh`.
-Note that tracing operates on L7 HTTP traffic, so make sure that selected dataplanes are configured with HTTP Protocol.
+This policy enables tracing logging to a third party tracing solution. Tracing is supported on any HTTP traffic in a [`Mesh`](../mesh), and will only work with data planes and services that have the Kuma `protocol: http` tag defined.
 
-You can configure tracing in 3 steps:
+In order to enable tracing there are two steps that have to be taken:
 
-1) Configure tracing backend
+* [1. Add a tracing backend](#add-a-tracking-backend)
+* [2. Add a TrafficTrace resource](#add-a-traffictrace-resource)
 
-On Universal:
+::: tip
+On Kubernetes we can run `kumactl install tracing | kubectl apply -f -` to deploy Jaeger automatically in a `kuma-tracing` namespace.
+:::
 
-```yaml
-type: Mesh
-name: default
-tracing:
-  defaultBackend: my-zipkin
-  backends:
-  - name: my-zipkin
-    sampling: 100.0
-    type: zipkin 
-    conf:
-      url: http://zipkin.local:9411/api/v1/spans
-```
+## Add a tracking backend
 
-On Kubernetes:
+A tracing backend must be first specified in a [`Mesh`](../mesh) resource. Once added, the tracing backend will be available for use in the `TrafficTrace` resource.
 
+::: tip
+While most commonly we want all the traces to be sent to the same tracing backend, we can optionally create multiple tracing backends in a `Mesh` resource and store traces for different paths of our service traffic in different backends (by leveraging Kuma Tags). This is especially useful when we want traces to never leave a world region, or a cloud, among other examples.
+:::
+
+The types supported are:
+
+* `zipkin`. You can also use this with [Jaeger](https://www.jaegertracing.io/) since it supports Zipkin compatible traces.
+
+To add a new tracing backend we must create a new `tracing` property in a `Mesh` resource:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -31,23 +34,62 @@ metadata:
   name: default
 spec:
   tracing:
-    defaultBackend: my-zipkin
+    defaultBackend: zipkin-backend
     backends:
-    - name: my-zipkin
+    - name: zipkin-backend
+      type: zipkin
       sampling: 100.0
-      type: zipkin 
       conf:
         url: http://zipkin.local:9411/api/v1/spans
 ```
 
-::: tip
-If you are starting from scratch, consider using `kumactl install tracing | kubectl apply -f -` to deploy configured Prometheus with Grafana.
+We will apply the configuration with `kubectl apply -f [..]`.
 :::
 
-2) Select the dataplanes that should send traces for given backend
+::: tab "Universal"
+```yaml
+type: Mesh
+name: default
+tracing:
+  defaultBackend: zipkin-backend
+  backends:
+  - name: zipkin-backend
+    type: zipkin
+    sampling: 100.0
+    conf:
+      url: http://zipkin.local:9411/api/v1/spans
+```
 
-On Universal:
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
+:::
+::::
 
+We can also specify a `defaultBackend` property that will be used if any `TrafficTrace` resource doesn't explictly specify a tracing backend.
+
+## Add a TrafficTrace resource
+
+Once we have added a tracing backend, we can now create `TrafficTrace` resources that will determine how we are going to collecting traces, and what backend we should be using to store them.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficTrace
+mesh: default
+metadata:
+  name: default
+spec:
+  selectors:
+  - match:
+      service: '*'
+  conf:
+    backend: zipkin-backend
+```
+
+We will apply the configuration with `kubectl apply -f [..]`.
+:::
+
+::: tab "Universal"
 ```yaml
 type: TrafficTrace
 mesh: default
@@ -56,31 +98,19 @@ selectors:
 - match:
     service: '*'
 conf:
-  backend: my-zipkin
+  backend: zipkin-backend
 ```
 
-On Kubernetes:
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: TrafficTrace
-mesh: default
-metadata:
-  namespace: kuma-demo
-  name: default
-spec:
-  selectors:
-  - match:
-      service: '*'
-  conf:
-    backend: my-zipkin
-```
-
-::: tip
-If a backend in `TrafficTrace` is not explicitly specified, the `defaultBackend` from `Mesh` will be used.
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
 :::
+::::
 
-3) Instrument your service so the trace chain is preserved between services. You can either use a library for the language of your choice or manually pass following headers:
+
+
+We can use Kuma Tags to apply the `TrafficTrace` resource in a more target way to a subset of data plane proxies as opposed to all of them (like we do in the example by using the `service: '*'` selector),
+
+It is important that we instrument our services to preserve the trace chain between requests that are made across different services. We can either use a library in the language of our choice, or we can manually pass the following headers:
+
 * `x-request-id`
 * `x-b3-traceid`
 * `x-b3-parentspanid`
@@ -88,9 +118,10 @@ If a backend in `TrafficTrace` is not explicitly specified, the `defaultBackend`
 * `x-b3-sampled`
 * `x-b3-flags`
 
-
-Envoy's Zipkin tracer is also [compatible with Jaeger through Zipkin V1 HTTP API.](https://www.jaegertracing.io/docs/1.13/features/#backwards-compatibility-with-zipkin).
+As noted before, Envoy's Zipkin tracer is also [compatible with Jaeger through Zipkin V1 HTTP API.](https://www.jaegertracing.io/docs/1.13/features/#backwards-compatibility-with-zipkin).
 
 ::: warning
-You need to restart Kuma DP for tracing configuration to be applied. This limitation will be solved in the next versions of Kuma. 
+On the current version of Kuma, because of a limitation of Envoy, every time we create, update or delete a `TrafficTrace` resource we need to restart the data plane proxies in order to successfully apply the tracing configuration.
+
+A fix has already been merged in Envoy and we are waiting for its new release (most likely v1.15) before we can update Kuma to remove this limitation.
 :::
