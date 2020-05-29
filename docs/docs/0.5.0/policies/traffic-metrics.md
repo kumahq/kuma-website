@@ -1,12 +1,14 @@
 # Traffic Metrics
 
-`Kuma` facilitates consistent traffic metrics across all dataplanes in your mesh.
+This policy enables metrics collection from both the Kuma control plane and the data plane proxies. Kuma natively integrates with Prometheus, and bundles [Grafana dashboards](#grafana-dashboards) that we can use immediately.
 
-A user can enable traffic metrics by editing a `Mesh` resource and providing the desired `Mesh`-wide configuration. If necessary, metrics configuration can be customized for each `Dataplane` individually, e.g. to override the default metrics port that might be already in use on that particular machine.
+::: tip
+On Kubernetes we can run `kumactl install metrics | kubectl apply -f -` to deploy Prometheus and Grafana automatically in a `kuma-metrics` namespace. This command also installs the bundled Grafana dashboards for Kuma.
+:::
 
-Out-of-the-box, `Kuma` provides full integration with `Prometheus`:
-* if enabled, every dataplane will expose its metrics in `Prometheus` format
-* furthemore, `Kuma` will make sure that `Prometheus` can automatically find every dataplane in the mesh
+## Usage
+
+A metrics backend must be first specified in a [`Mesh`](../mesh) resource. Once added, the metrics backend will be available for use in the `TrafficTrace` resource.
 
 ### On Universal
 
