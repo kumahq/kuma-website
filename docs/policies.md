@@ -55,7 +55,10 @@ policies:
       - title: Proxy Template
         url: /docs/latest/policies/proxy-template/
         icon: /images/icons/policies/icon-proxy-template@2x.png
-      - title: Healthcheck
+      - title: Health Check
         url: /docs/latest/policies/health-check/
+        icon: /images/icons/policies/icon-healthcheck@2x.png
+      - title: Circuit Breaker
+        url: /docs/latest/policies/circuit-breaker/
         icon: /images/icons/policies/icon-healthcheck@2x.png
 ---
