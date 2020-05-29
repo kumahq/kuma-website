@@ -1,51 +1,31 @@
 # Health Check
 
-The goal of Health Checks is to minimize the number of failed requests due to temporary unavailability of a target endpoint.
-By applying a Health Check policy you effectively instruct a dataplane to keep track of health statuses for target endpoints.
-Dataplane will never send a request to an endpoint that is considered "unhealthy".
+This policy enables Kuma to keep track of the health of every data plane proxy, with the goal of minimizing the number of failed requests in case a data plane proxy is temporarily unhealthy.
 
-Since pro-active health checking might result in a tangible extra load on your applications,
-Kuma also provides a zero-overhead alternative - ["passive" health checking](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier).
-In the latter case, a dataplane will be making decisions whether target endpoints are healthy based on "real" requests
-initiated by your application rather than auxiliary requests initiated by the dataplanes itself.
+By creating an `HealthCheck` resource we can instruct a data plane proxy to keep track of the health status for any other data plane proxy. When health-checks are properly configured, a data plane proxy will never send a request to another data plane proxy that is considered unhealthy. When an unhealthy data plane returns to a healthy state, Kuma will resume sending requests to it again.
 
-As usual, `sources` and `destinations` selectors allow you to fine-tune to which `Dataplanes` the policy applies (`sources`)
-and what endpoints require health checking (`destinations`).
+This policy provides the following types of checks:
 
-At the moment, `HealthCheck` policy is implemented at L4 level. In practice, it means that a dataplane is looking at success of TCP connections
-rather than individual HTTP requests.
+* **Active**: The data plane proxy will explicitly send requests to other data plane proxies (as described in the policy configuration) to determine if a target data plane is healthy or not. This mode will generate extra traffic to other data plane proxies and services.
+* **Passive**: Kuma will determine the health of a target endpoint by analyzing real traffic being exchanges by the services rather than using auxiliary requests initiated by the data plane proxy itself like would happen in active mode.
 
-On Universal:
+## Usage
 
-```yaml
-type: HealthCheck
-name: web-to-backend
-mesh: default
-sources:
-- match:
-    service: web
-destinations:
-- match:
-    service: backend
-conf:
-  activeChecks:
-    interval: 10s
-    timeout: 2s
-    unhealthyThreshold: 3
-    healthyThreshold: 1
-  passiveChecks:
-    unhealthyThreshold: 3
-    penaltyInterval: 5s
-```
+As usual, we can apply `sources` and `destinations` selectors to determine how health-checks will be performed across our data plane proxies.
 
-On Kubernetes:
+At the moment, the `HealthCheck` policy supports L4 checks that validate the health status of the underlying TCP connections.
 
+Below an example:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: HealthCheck
+mesh: default
 metadata:
-  namespace: kuma-example
-  name: web-to-backend
+  namespace: default
+  name: web-to-backend-check
 mesh: default
 spec:
   sources:
@@ -64,3 +44,31 @@ spec:
       unhealthyThreshold: 3
       penaltyInterval: 5s
 ```
+We will apply the configuration with `kubectl apply -f [..]`.
+:::
+
+::: tab "Universal"
+```yaml
+type: HealthCheck
+name: web-to-backend-check
+mesh: default
+sources:
+- match:
+    service: web
+destinations:
+- match:
+    service: backend
+conf:
+  activeChecks:
+    interval: 10s
+    timeout: 2s
+    unhealthyThreshold: 3
+    healthyThreshold: 1
+  passiveChecks:
+    unhealthyThreshold: 3
+    penaltyInterval: 5s
+```
+
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
+:::
+::::
