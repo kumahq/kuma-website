@@ -2,7 +2,7 @@
 sidebar: false
 layout: Policies
 title: Policies
-subTitle: Bundled policies for your services and network.
+subTitle: Bundled policies for your service traffic and network configuration.
 
 # the data that is used to build this page
 policies:
