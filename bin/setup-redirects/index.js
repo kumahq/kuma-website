@@ -91,7 +91,8 @@ force = true
 [[headers]]
   for = "/latest_version"
   [headers.values]
-    Content-Type = "text/plain"`;
+    Content-Type = "text/plain"
+    Access-Control-Allow-Origin = "*"`;
 
   // write our redirects to the TOML file
   // this will write to the end of the file
