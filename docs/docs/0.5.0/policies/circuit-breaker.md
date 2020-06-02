@@ -1,6 +1,6 @@
 # Circuit Breaker
 
-This policy will look for errors in the live traffic being exchanged between our data plane proxies and it will mark a data proxy as an unhealthy if certain conditions are met and - by doing so - making sure that no additional traffic can reach the unhealthy data plane proxy until it is healthy again.
+This policy will look for errors in the live traffic being exchanged between our data plane proxies and it will mark a data proxy as an unhealthy if certain conditions are met and - by doing so - making sure that no additional traffic can reach an unhealthy data plane proxy until it is healthy again.
 
 Circuit breakers - unlike active [Health Checks](/docs/0.5.0/policies/health-check/) - do not send additional traffic to our data plane proxies but they rather inspect the existing service traffic. They are also commonly used to prevent cascading failures in our services.
 
@@ -17,7 +17,7 @@ Available detectors:
 - [Gateway Errors](#gateway-errors)
 - [Local Errors](#local-errors)
 - [Standard Deviation](#standard-deviation)
-- [Failures](#failures) 
+- [Failures](#failures)
 
 ### Usage
 
@@ -155,13 +155,23 @@ In the current version of Kuma `destinations` only supports the `service` tag.
 Time interval between ejection analysis sweeps. Defaults to 10s.
 
 #### baseEjectionTime
-The base time that a host is ejected for. The real time is equal to the base time multiplied by the number of times the host has been ejected. Defaults to 30s.
+The base time that a data plane proxy is ejected for. The real time is equal to the base time multiplied by the number of times the data plane proxy has been ejected. Defaults to 30s.
 
 #### maxEjectionPercent
-The maximum percent of an upstream cluster that can be ejected due to outlier detection. Defaults to 10% but will eject at least one host regardless of the value.
+The maximum percent of an upstream Envoy cluster that can be ejected due to outlier detection. Defaults to 10% but will eject at least one data plane proxy regardless of the value.
 
 #### splitExternalAndLocalErrors
-Allows to activate Splite Mode. In that mode Envoy will distinguish the origin of the errors. There are 2 places where error might occure - external service or locally originated. External errors is the ones that returned by service like 5xx status code. Local errors generate by Envoy, examples of locally originated errors are timeout, TCP reset, inability to connect to a specified port, etc.  All detectors counts errors according to the state of that parameter. 
+
+Activates Split Mode.
+
+:::tip
+**Split Mode:** There are two types of errors that might occur in a circuit breaker:
+
+* Locally originated: errors triggered locally when estabilishing a connection at the TCP layer (ie: connection refused, connection reset).
+* Externally originated: errors triggered remotely like a 5xx error in the response.
+
+If Split Mode is off, Kuma won't distinguish errors by their origin and they will be counted together. If Split Mode is on, different parameters can be used to fine tune the detectors. All detectors counts errors according to the state of this parameter. 
+:::
 
 ### Detectors
 
@@ -187,16 +197,16 @@ Taken into account only in Split Mode, number of locally originated errors.
 
 #### Standard Deviation
 
-Detection based on success rate, aggregated from every host in the cluster.
+Detection based on success rate, aggregated from every data plane proxy in the Envoy cluster.
 
-- `requestVolume` - ignore hosts with a number of requests less than `requestVolume`. Defaults to `100`.
-- `minimumHosts` - ignore counting the success rate for a cluster if the number of hosts with required `requestVolume` is less than `minimumHosts`. Defaults to `5`.
+- `requestVolume` - ignore data plane proxies with a number of requests less than `requestVolume`. Defaults to `100`.
+- `minimumHosts` - ignore counting the success rate for an Envoy cluster if the number of data plane proxies with required `requestVolume` is less than `minimumHosts`. Defaults to `5`.
 - `factor` - resulting threshold equals to `mean - (stdev * factor)`. Defaults to `1.9`.
 
 #### Failures
 
 Detection based on success rate with an explicit threshold (unlike [standardDeviation](#standard-deviation)).
 
-- `requestVolume` - ignore hosts with a number of requests less than `requestVolume`. Defaults to `50`.
-- `minimumHosts` - ignore counting the success rate for a cluster if the number of hosts with required `requestVolume` is less than `minimumHosts`. Defaults to `5`.
-- `threshold` - eject the host if its percentage of failures is greater than - or equal to - this value. Defaults to `85`.
+- `requestVolume` - ignore data plane proxies with a number of requests less than `requestVolume`. Defaults to `50`.
+- `minimumHosts` - ignore counting the success rate for an Envoy cluster if the number of data plane proxies with required `requestVolume` is less than `minimumHosts`. Defaults to `5`.
+- `threshold` - eject the data plane proxy if its percentage of failures is greater than - or equal to - this value. Defaults to `85`.
