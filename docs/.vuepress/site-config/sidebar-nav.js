@@ -813,6 +813,7 @@ module.exports = {
         "policies/traffic-log",
         "policies/fault-injection",
         "policies/health-check",
+        "policies/circuit-breaker",
         "policies/proxy-template",
         "policies/general-notes-about-kuma-policies",
         "policies/how-kuma-chooses-the-right-policy-to-apply",

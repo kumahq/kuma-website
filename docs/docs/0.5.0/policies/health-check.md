@@ -7,7 +7,7 @@ By creating an `HealthCheck` resource we can instruct a data plane proxy to keep
 This policy provides the following types of checks:
 
 * **Active**: The data plane proxy will explicitly send requests to other data plane proxies (as described in the policy configuration) to determine if a target data plane is healthy or not. This mode will generate extra traffic to other data plane proxies and services.
-* **Passive**: Kuma will determine the health of a target endpoint by analyzing real traffic being exchanges by the services rather than using auxiliary requests initiated by the data plane proxy itself like would happen in active mode.
+* **Passive**: Kuma will determine the health of a target data plane proxy by analyzing real traffic being exchanges by the services rather than using auxiliary requests initiated by the data plane proxy itself like would happen in active mode.
 
 ## Usage
 
