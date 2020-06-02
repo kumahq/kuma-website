@@ -21,7 +21,7 @@ Always create a [`TrafficPermission`](../traffic-permissions) resource before en
 
 To enable mTLS we need to configure the `mtls` property in a [`Mesh`](../mesh) resource. We can have as many `backends` as we want, but only one at a time can be enabled via the `enabledBackend` property. 
 
-If `enabledBackend` is missing then mTLS is disabled.
+If `enabledBackend` is missing or empty, then mTLS will be disabled for the entire Mesh.
 
 ## Usage of "builtin" CA
 
