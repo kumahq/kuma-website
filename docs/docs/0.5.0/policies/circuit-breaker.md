@@ -35,32 +35,32 @@ metadata:
   namespace: default
   name: circuit-breaker-example
 spec:
-    sources:
-    - match:
-        service: web
-    destinations:
-    - match:
-        service: backend
-    conf:
-      interval: 5s
-      baseEjectionTime: 30s
-      maxEjectionPercent: 20
-      splitExternalAndLocalErrors: false 
-      detectors:
-        totalErrors: 
-          consecutive: 20
-        gatewayErrors: 
-          consecutive: 10
-        localErrors: 
-          consecutive: 7
-        standardDeviation:
-          requestVolume: 10
-          minimumHosts: 5
-          factor: 1.9
-        failure:
-          requestVolume: 10
-          minimumHosts: 5
-          threshold: 85
+  sources:
+  - match:
+      service: web
+  destinations:
+  - match:
+      service: backend
+  conf:
+    interval: 5s
+    baseEjectionTime: 30s
+    maxEjectionPercent: 20
+    splitExternalAndLocalErrors: false 
+    detectors:
+      totalErrors: 
+        consecutive: 20
+      gatewayErrors: 
+        consecutive: 10
+      localErrors: 
+        consecutive: 7
+      standardDeviation:
+        requestVolume: 10
+        minimumHosts: 5
+        factor: 1.9
+      failure:
+        requestVolume: 10
+        minimumHosts: 5
+        threshold: 85
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 :::
@@ -81,20 +81,20 @@ conf:
   maxEjectionPercent: 20
   splitExternalAndLocalErrors: false 
   detectors:
-  totalErrors: 
-    consecutive: 20
-  gatewayErrors: 
-    consecutive: 10
-  localErrors: 
-    consecutive: 7
-  standardDeviation:
-    requestVolume: 10
-    minimumHosts: 5
-    factor: 1.9
-  failure:
-    requestVolume: 10
-    minimumHosts: 5
-    threshold: 85
+    totalErrors: 
+      consecutive: 20
+    gatewayErrors: 
+      consecutive: 10
+    localErrors: 
+      consecutive: 7
+    standardDeviation:
+      requestVolume: 10
+      minimumHosts: 5
+      factor: 1.9
+    failure:
+      requestVolume: 10
+      minimumHosts: 5
+      threshold: 85
 ```
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
 :::
@@ -112,16 +112,16 @@ metadata:
   namespace: default
   name: circuit-breaker-example
 spec:
-    sources:
-    - match:
-        service: web
-    destinations:
-    - match:
-        service: backend
-    conf:
-      detectors:
-        totalErrors: {}
-        standardDeviation: {}
+  sources:
+  - match:
+      service: web
+  destinations:
+  - match:
+      service: backend
+  conf:
+    detectors:
+      totalErrors: {}
+      standardDeviation: {}
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 :::
