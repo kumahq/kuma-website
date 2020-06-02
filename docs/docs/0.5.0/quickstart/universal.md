@@ -197,4 +197,3 @@ Congratulations! You have completed the quickstart for Kubernetes, but there is 
 * Explore the [Policies](/policies) available to govern and orchestrate your service traffic.
 * Read the [full documentation](/docs) to learn about all the capabilities of Kuma.
 * Chat with us at the official [Kuma Slack](/community) for questions or feedback.
-
