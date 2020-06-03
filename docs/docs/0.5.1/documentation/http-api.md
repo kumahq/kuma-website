@@ -333,6 +333,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1 --data @mesh.json -H'content-type
         "name": "prometheus-1",
         "type": "prometheus",
         "conf": {
+
           "port": 1234,
           "path": "/metrics"
         }
