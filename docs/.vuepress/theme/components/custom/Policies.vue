@@ -55,7 +55,11 @@
       >
         <h2>There are no Policies present.</h2>
       </section>
-
+      <div>
+        <center>
+        Would you like to submit or request a new policy? Please open an issue at the <a href="https://github.com/Kong/kuma-website">kuma-website</a> repository. 
+        </center>
+      </div>
     </div>
     <!-- .inner -->
   

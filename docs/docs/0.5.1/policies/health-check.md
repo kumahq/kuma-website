@@ -69,6 +69,6 @@ conf:
     penaltyInterval: 5s
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.1/documentation/http-api).
 :::
 ::::

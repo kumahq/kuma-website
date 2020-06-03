@@ -194,7 +194,7 @@ Then add a new container with `kuma-prometheus-sd`. It will connect to the contr
 ```yaml
   containers:
 - name: kuma-prometheus-sd
-  image: kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:0.5.0
+  image: kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:0.5.1
   imagePullPolicy: Always
   args:
     - run
