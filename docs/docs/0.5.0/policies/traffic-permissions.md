@@ -37,6 +37,7 @@ spec:
     - match:
         service: '*'
 ```
+We will apply the configuration with `kubectl apply -f [..]`.
 :::
 ::: tab "Universal"
 ```yaml
@@ -50,6 +51,7 @@ destinations:
   - match:
       service: '*'
 ```
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
 :::
 ::::
 
