@@ -48,11 +48,11 @@ spec:
         type: builtin
         dpCert:
           rotation:
-            expiration: 24h
+            expiration: 1d
         conf:
           caCert:
             RSAbits: 2048
-            expiration: 87600h
+            expiration: 10y
 ```
 
 We will apply the configuration with `kubectl apply -f [..]`.
@@ -69,11 +69,11 @@ mtls:
       type: builtin
       dpCert:
         rotation:
-          expiration: 24h
+          expiration: 1d
       conf:
         caCert:
           RSAbits: 2048
-          expiration: 87600h
+          expiration: 10y
 ```
 
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
@@ -150,7 +150,7 @@ spec:
         type: provided
         dpCert:
           rotation:
-            expiration: 24h
+            expiration: 1d
         conf:
           cert:
             secret: name-of-secret
@@ -172,7 +172,7 @@ mtls:
       type: provided
       dpCert:
         rotation:
-          expiration: 24h
+          expiration: 1d
       conf:
         cert:
           secret: name-of-secret
