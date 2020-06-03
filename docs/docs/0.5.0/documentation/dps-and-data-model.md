@@ -287,3 +287,34 @@ spec:
 The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime. When integrating [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma you have to annotate every `Service` that you want to pass traffic to with [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream) annotation. Otherwise Kong will do the load balancing which unables Kuma to do the load balancing and apply policies. 
 
 For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller), please follow this [demo application guide](https://github.com/Kong/kuma-demo/tree/master/kubernetes).
+
+## Direct Access to mesh services
+
+On Kubernetes, transparent proxy mechanism utilise `ClusterIP` from `Service` objects.
+There are cases that require consuming services directly by the destination IP (ex. Prometheus that scrapes metrics from every instance)
+without letting Envoy do the load balancing.
+To do that, annotate your deployment with `kuma.io/direct-access-services` and specify multiple services separated by a comma.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        kuma.io/direct-access-services: "backend.example.svc:1234,backend.example.svc:1235"
+    spec:
+      containers:
+        ...
+```
+
+You can also use `*` to indicate direct access to all services in the mesh.
+
+::: warning
+Using `*` is resource intensive, use it only if there is no other choice to approach the problem.
+:::
