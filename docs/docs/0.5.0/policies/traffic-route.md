@@ -1,14 +1,45 @@
 # Traffic Route
 
-`TrafficRoute` policy allows you to configure routing rules for L4 traffic, i.e. blue/green deployments and canary releases. 
+This policy allows us to configure routing rules for L4 traffic running in our [Mesh](../mesh). This policy provides support for wheighted routing and can be used to implement versioning across our services as well as deployment strategies like blue/green and canary.
 
-To route traffic, Kuma matches via tags that we can designate to `Dataplane` resources. In the example below, the redis destination services have been assigned the `version` tag to help with canary deployment. Another common use-case is to add a `env` tag as you separate testing, staging, and production environments' services. For the redis service, this `TrafficRoute` policy assigns a positive weight of 90 to the v1 redis service and a positive weight of 10 to the v2 redis service. Kuma utilizes positive weights in the traffic routing policy, and not percentages. Therefore, Kuma does not check if it adds up to 100. If you want to stop sending traffic to a destination service, change the weight for that service to 0.
+### Usage
 
-On Universal:
+By default when a service makes a request to another service, Kuma will round robin the request across every data plane proxy belogning to the destination service. It is possible to change this behavior by using this policy, for example:
 
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficRoute
+mesh: default
+metadata:
+  namespace: default
+  name: route-example
+spec:
+  sources:
+    - match:
+        service: backend.default.svc:80
+  destinations:
+    - match:
+        service: redis.default.svc:6379
+  conf:
+    - weight: 90
+      destination:
+        service: redis.default.svc:6379
+        version: '1.0'
+    - weight: 10
+      destination:
+        service: redis.default.svc:6379
+        version: '2.0'
+```
+
+We will apply the configuration with `kubectl apply -f [..]`.
+:::
+
+::: tab "Universal"
 ```yaml
 type: TrafficRoute
-name: route-1
+name: route-example
 mesh: default
 sources:
   - match:
@@ -27,29 +58,14 @@ conf:
       version: '2.0'
 ```
 
-On Kubernetes:
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).
+:::
+::::
 
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: TrafficRoute
-mesh: default
-metadata:
-  namespace: default
-  name: route-1
-spec:
-  sources:
-    - match:
-        service: backend
-  destinations:
-    - match:
-        service: redis
-  conf:
-    - weight: 90
-      destination:
-        service: redis
-        version: '1.0'
-    - weight: 10
-      destination:
-        service: redis
-        version: '2.0'
-```
+In this example the `TrafficRoute` policy assigns a positive weight of `90` to the version `1.0` of the `redis` service and a positive weight of `10` to the version `2.0` of the `redis` service. 
+
+:::tip
+Note that routing can be applied not just on the automatically provisioned `service` Kuma tag, but on any other tag that we may want to add to our data plane proxies (like `version` in the example above).
+:::
+
+Kuma utilizes positive weights in the `TrafficRoute` policy and not percentages, therefore Kuma does not check if the total adds up to 100. If we want to stop sending traffic to a destination service we change the `weight` for that service to 0.
