@@ -18,7 +18,7 @@ tracing:
   - name: my-zipkin
     sampling: 100.0 
     zipkin:
-      url: http://zipkin.local:9411/api/v1/spans
+      url: http://zipkin.local:9411/api/v2/spans
 ```
 
 On Kubernetes:
@@ -35,7 +35,7 @@ spec:
     - name: my-zipkin
       sampling: 100.0 
       zipkin:
-        url: http://zipkin.local:9411/api/v1/spans
+        url: http://zipkin.local:9411/api/v2/spans
 ```
 
 2) Select the dataplanes that should send traces for given backend
