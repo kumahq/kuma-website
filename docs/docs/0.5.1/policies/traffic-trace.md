@@ -106,8 +106,6 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 :::
 ::::
 
-
-
 We can use Kuma Tags to apply the `TrafficTrace` resource in a more target way to a subset of data plane proxies as opposed to all of them (like we do in the example by using the `service: '*'` selector),
 
 It is important that we instrument our services to preserve the trace chain between requests that are made across different services. We can either use a library in the language of our choice, or we can manually pass the following headers:
