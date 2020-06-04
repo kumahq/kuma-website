@@ -4,14 +4,14 @@ This policy enables tracing logging to a third party tracing solution. Tracing i
 
 In order to enable tracing there are two steps that have to be taken:
 
-* [1. Add a tracing backend](#add-a-tracking-backend)
+* [1. Add a tracing backend](#add-a-tracing-backend)
 * [2. Add a TrafficTrace resource](#add-a-traffictrace-resource)
 
 ::: tip
 On Kubernetes we can run `kumactl install tracing | kubectl apply -f -` to deploy Jaeger automatically in a `kuma-tracing` namespace.
 :::
 
-## Add a tracking backend
+## Add a tracing backend
 
 A tracing backend must be first specified in a [`Mesh`](../mesh) resource. Once added, the tracing backend will be available for use in the `TrafficTrace` resource.
 
@@ -41,7 +41,7 @@ spec:
       type: zipkin
       sampling: 100.0
       conf:
-        url: http://jaeger-collector.kuma-tracing:9411/api/v1/spans
+        url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
 We will apply the configuration with `kubectl apply -f [..]`.
@@ -58,7 +58,7 @@ tracing:
     type: zipkin
     sampling: 100.0
     conf:
-      url: http://jaeger-collector.kuma-tracing:9411/api/v1/spans
+      url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.1/documentation/http-api).
@@ -105,8 +105,6 @@ conf:
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.1/documentation/http-api).
 :::
 ::::
-
-
 
 We can use Kuma Tags to apply the `TrafficTrace` resource in a more target way to a subset of data plane proxies as opposed to all of them (like we do in the example by using the `service: '*'` selector),
 
