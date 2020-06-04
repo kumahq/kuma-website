@@ -4,8 +4,9 @@ This policy enables tracing logging to a third party tracing solution. Tracing i
 
 In order to enable tracing there are two steps that have to be taken:
 
-* [1. Add a tracing backend](#add-a-tracking-backend)
-* [2. Add a TrafficTrace resource](#add-a-traffictrace-resource)
+- [Traffic Trace](#traffic-trace)
+  - [Add a tracking backend](#add-a-tracking-backend)
+  - [Add a TrafficTrace resource](#add-a-traffictrace-resource)
 
 ::: tip
 On Kubernetes we can run `kumactl install tracing | kubectl apply -f -` to deploy Jaeger automatically in a `kuma-tracing` namespace.
@@ -41,7 +42,7 @@ spec:
       type: zipkin
       sampling: 100.0
       conf:
-        url: http://jaeger-collector.kuma-tracing:9411/api/v1/spans
+        url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
 We will apply the configuration with `kubectl apply -f [..]`.
@@ -58,7 +59,7 @@ tracing:
     type: zipkin
     sampling: 100.0
     conf:
-      url: http://jaeger-collector.kuma-tracing:9411/api/v1/spans
+      url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.0/documentation/http-api).

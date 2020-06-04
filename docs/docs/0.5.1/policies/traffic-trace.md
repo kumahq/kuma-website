@@ -41,7 +41,7 @@ spec:
       type: zipkin
       sampling: 100.0
       conf:
-        url: http://jaeger-collector.kuma-tracing:9411/api/v1/spans
+        url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
 We will apply the configuration with `kubectl apply -f [..]`.
@@ -58,7 +58,7 @@ tracing:
     type: zipkin
     sampling: 100.0
     conf:
-      url: http://jaeger-collector.kuma-tracing:9411/api/v1/spans
+      url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.5.1/documentation/http-api).
