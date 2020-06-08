@@ -136,10 +136,10 @@ button, .btn {
 
 .btn--bright {
 	color: #fff;
-	background-color: $color-5;
+	background-color: $color-13;
 
 	&:hover, &:active {
-		background-color: lighten($color-5, 10);
+		background-color: lighten($color-13, 10);
 	}
 
 	@include button-state-overrides

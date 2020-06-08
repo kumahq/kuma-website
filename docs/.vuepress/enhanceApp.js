@@ -1,12 +1,13 @@
 import Vuex from 'vuex'
 import store from './theme/store/index'
-import Layout from './theme/layouts/Layout'
 import 'vuepress-plugin-tabs/dist/themes/default.styl'
 import './theme/styles/styles.scss'
 
+import '@kongponents/styles'
+import '@kongponents/ktabs'
+
 export default ({
   Vue,
-  options,
   router,
   siteData
 }) => {
