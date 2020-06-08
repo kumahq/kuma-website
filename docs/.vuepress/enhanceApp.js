@@ -4,7 +4,6 @@ import 'vuepress-plugin-tabs/dist/themes/default.styl'
 import './theme/styles/styles.scss'
 
 import '@kongponents/styles'
-import '@kongponents/ktabs'
 
 export default ({
   Vue,
@@ -20,19 +19,16 @@ export default ({
   Vue.mixin({
     store: store,
     computed: {
-      // Creates an easy way to access site data globally
+      /**
+       * Creates an easy way to access site data globally
+       */
       getSiteData() {
         return siteData
-      }
-    }
-  })
-
-  /**
-   * Get the latest version
-   * Good for use in pages, etc.
-   */
-  Vue.mixin({
-    computed: {
+      },
+      /**
+       * Get the latest version
+       * Good for use in pages, etc.
+       */
       latestVer() {
         return siteData.themeConfig.latestVer
       }

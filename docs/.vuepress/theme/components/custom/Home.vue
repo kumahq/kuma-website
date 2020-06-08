@@ -87,11 +87,13 @@
       <div class="feature-focus feature-focus__tabs" v-if="tabs">
         <div class="inner inner--bordered flex flex-wrap -mx-12">
           <div class="w-full lg:w-1/2 px-12">
-            <KTabs :tabs="tabs">
-              <template v-for="tab in tabs" :slot="tab.hash.replace('#','')">
-                <Content :slot-key="`tab-${tab.hash.replace('#','')}`" />
-              </template>
-            </KTabs>
+            <ClientOnly>
+              <KTabs :tabs="tabs">
+                <template v-for="tab in tabs" :slot="tab.hash.replace('#','')">
+                  <Content :slot-key="`tab-${tab.hash.replace('#','')}`" />
+                </template>
+              </KTabs>
+            </ClientOnly>
           </div>
           <div class="feature-focus__content w-full lg:w-1/2 px-12">
             <Content slot-key="tabs-right-col-content" />
@@ -135,17 +137,17 @@
 </template>
 
 <script>
-import Navbar from "@theme/components/Navbar"
-import MastheadWaves from "@theme/components/custom/PageMastheadWaves"
-import NewsletterWaves from "@theme/components/custom/NewsletterWaves"
-import KTabs from "@kongponents/ktabs"
+import Navbar from '@theme/components/Navbar'
+import MastheadWaves from '@theme/components/custom/PageMastheadWaves'
+import NewsletterWaves from '@theme/components/custom/NewsletterWaves'
+import KTabs from '../../../../../node_modules/@kongponents/ktabs/KTabs'
 
 export default {
   components: {
     Navbar,
     MastheadWaves,
     NewsletterWaves,
-    KTabs,
+    KTabs
   },
   computed: {
     tabs () {
