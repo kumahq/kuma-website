@@ -118,13 +118,27 @@ $ kubectl port-forward svc/kuma-control-plane \
 
 ::: slot tab-openshift
 
-### OpenShift steps
+Install Kuma via an available distribution
 
+``` sh
+$ kumactl install control-plane --cni-enabled | oc apply -f -
+```
+
+Visualize the GUI to see your cluster
+``` sh
+$ oc port-forward svc/kuma-control-plane \
+  -n kuma-system 5683:5683
+# Navigate on 127.0.0.1:5683 to see the GUI
+```
 :::
 
 ::: slot tab-universal
 
-### Universal (VMs) steps
+Install Kuma via an available distribution
+
+```sh
+$ kuma-cp run
+```
 
 :::
 
@@ -137,7 +151,7 @@ Getting up and running with Kuma only requires three easy steps. Bundled with En
 - Bundled with Envoy Proxy
 - 10+ Policies ready to use
 - For every L4/L7 traffic
-  :::
+:::
 
 <!-- content blocks -->
 
