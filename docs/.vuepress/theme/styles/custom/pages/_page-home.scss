@@ -410,8 +410,9 @@ $home-feature-icon-bottom-spacing: 1rem;
         height: 16px;
         padding: 0 1.1875rem;
         line-height: 1;
-        font-size: 1.0625rem;
+        font-size: 0.9rem;
         color: $color-11;
+        text-align: center;
       }
     }
 
@@ -446,6 +447,24 @@ $home-feature-icon-bottom-spacing: 1rem;
 
       .token:not(.comment) {
         color: #fff;
+      }
+    }
+
+    @media screen and (min-width: 1220px) {
+      .tab-link.tab-link {
+        font-size: 1.0625rem !important;
+      }
+    }
+
+    @media screen and (max-width: 1023px) {
+      ul {
+        justify-content: center;
+      }
+    }
+
+    @media screen and (max-width: 580px) {
+      ul {
+        display: block !important;
       }
     }
   }

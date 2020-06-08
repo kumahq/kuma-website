@@ -86,14 +86,14 @@
     <div class="feature-focus-wrap">
       <div class="feature-focus feature-focus__tabs" v-if="tabs">
         <div class="inner inner--bordered flex flex-wrap -mx-12">
-          <div class="w-full md:w-1/2 px-12">
+          <div class="w-full lg:w-1/2 px-12">
             <KTabs :tabs="tabs">
               <template v-for="tab in tabs" :slot="tab.hash.replace('#','')">
                 <Content :slot-key="`tab-${tab.hash.replace('#','')}`" />
               </template>
             </KTabs>
           </div>
-          <div class="feature-focus__content w-full md:self-center md:w-1/2 px-12">
+          <div class="feature-focus__content w-full lg:self-center lg:w-1/2 px-12">
             <Content slot-key="tabs-right-col-content" />
           </div>
         </div>
