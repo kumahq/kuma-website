@@ -31,7 +31,7 @@ tabs:
 
 ::: slot news
 
-Kuma v0.5.1 is out now! We've improved CA rotation, added Circuit Breakers, and more! &mdash; [Get Started](/install/)
+**Kuma v0.5.1 is out now!** We've improved CA rotation, added Circuit Breakers, improved the GUI, and more! &mdash; [Get Started](/install/)
 
 :::
 
@@ -100,45 +100,53 @@ Chief Architect at Telus Digital
 
 ::: slot tab-kubernetes
 
-Install Kuma via an available distribution
+Install Kuma via an available distribution:
 
 ``` sh
-$ kumactl install control-plane | kubectl apply -f-
+$ kumactl install control-plane \
+  | kubectl apply -f-
 ```
 
-Visualize the GUI to see your cluster
+Visualize the GUI to see your cluster:
 
 ``` sh
 $ kubectl port-forward svc/kuma-control-plane \
   -n kuma-system 5683:5683
-# Navigate on 127.0.0.1:5683 to see the GUI
 ```
+
+Navigate to [127.0.0.1:5683](http://127.0.0.1:5683) to see the GUI.
 
 :::
 
 ::: slot tab-openshift
 
-Install Kuma via an available distribution
+Install Kuma via an available distribution:
 
 ``` sh
-$ kumactl install control-plane --cni-enabled | oc apply -f -
+$ kumactl install control-plane \
+  --cni-enabled | oc apply -f -
 ```
 
-Visualize the GUI to see your cluster
+Visualize the GUI to see your cluster:
+
 ``` sh
 $ oc port-forward svc/kuma-control-plane \
   -n kuma-system 5683:5683
-# Navigate on 127.0.0.1:5683 to see the GUI
 ```
+
+Navigate to [127.0.0.1:5683](http://127.0.0.1:5683) to see the GUI.
+
 :::
 
 ::: slot tab-universal
 
-Install Kuma via an available distribution
+Install Kuma via an available distribution:
 
 ```sh
 $ kuma-cp run
 ```
+
+Navigate to [127.0.0.1:5683](http://127.0.0.1:5683) to see the GUI.
 
 :::
 

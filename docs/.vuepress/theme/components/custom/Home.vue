@@ -93,7 +93,7 @@
               </template>
             </KTabs>
           </div>
-          <div class="feature-focus__content w-full lg:self-center lg:w-1/2 px-12">
+          <div class="feature-focus__content w-full lg:w-1/2 px-12">
             <Content slot-key="tabs-right-col-content" />
           </div>
         </div>

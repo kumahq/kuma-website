@@ -418,6 +418,10 @@ $home-feature-icon-bottom-spacing: 1rem;
 
     .tab-container {
 
+      a {
+        text-decoration: underline;
+      }
+
       div[class*="language"] {
         background-color: $color-9;
         border: 0;
