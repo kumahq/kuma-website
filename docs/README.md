@@ -100,7 +100,7 @@ Chief Architect at Telus Digital
 
 ::: slot tab-kubernetes
 
-Install Kuma via an available distribution:
+[Install Kuma](/install/) via an available distribution:
 
 ``` sh
 $ kumactl install control-plane \
@@ -120,7 +120,7 @@ Navigate to [127.0.0.1:5683](http://127.0.0.1:5683) to see the GUI.
 
 ::: slot tab-openshift
 
-Install Kuma via an available distribution:
+[Install Kuma](/install/) via an available distribution:
 
 ``` sh
 $ kumactl install control-plane \
@@ -140,7 +140,7 @@ Navigate to [127.0.0.1:5683](http://127.0.0.1:5683) to see the GUI.
 
 ::: slot tab-universal
 
-Install Kuma via an available distribution:
+[Install Kuma](/install/) via an available distribution:
 
 ```sh
 $ kuma-cp run

@@ -417,6 +417,7 @@ $home-feature-icon-bottom-spacing: 1rem;
     }
 
     .tab-container {
+      outline: 0 !important;
 
       a {
         text-decoration: underline;
