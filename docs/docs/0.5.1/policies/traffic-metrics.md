@@ -48,6 +48,8 @@ spec:
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
           service: dataplane-metrics
 ```
+
+When mTLS is enabled on the Mesh, Prometheus endpoints from Kuma DP require mTLS. Remember to create proper Traffic Permission described in [Secure Dataplane metrics](#secure-dataplane-metrics).  
 :::
 ::: tab "Universal"
 ```yaml
@@ -58,6 +60,8 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
+    conf:
+      skipMTLS: true # by default mTLS metrics are also protected by mTLS. Scraping metrics with mTLS without transparent proxy is not supported for now.
 ```
 
 which is a convenient shortcut for
@@ -73,9 +77,10 @@ metrics:
     conf:
       port: 5670
       path: /metrics
+      skipMTLS: true
       tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
         service: dataplane-metrics
-```
+```  
 :::
 ::::
 
@@ -190,11 +195,11 @@ Now, if you check `Targets` page on `Prometheus` UI, you should see a list of da
 
 ## Secure Dataplane metrics
 
-Kuma lets you expose Dataplane metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the Mesh for this feature to work.
+Kuma lets you expose Dataplane metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the Mesh for this feature to work, which is the default deployment model when `kumactl install metrics` is used.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-Make sure that mTLS is enabled in the Mesh and `skipMTLS` flag is set to `false` 
+Make sure that mTLS is enabled in the Mesh.
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -212,14 +217,11 @@ spec:
     - name: prometheus-1
       type: prometheus
       conf:
-        port: 5670
-        path: /metrics
-        skipMTLS: false
         tags: # tags that can be referred in Traffic Permission  
           service: dataplane-metrics
 ```
 
-Allow the traffic from Prometheus to Dataplane metrics
+Allow the traffic from Grafana to Prometheus Server and from Prometheus Server to Dataplane metrics and for other Prometheus components
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
@@ -234,6 +236,28 @@ spec:
   destinations:
     - match:
         service: dataplane-metrics
+    - match:
+       service: "prometheus-alertmanager.kuma-metrics.svc:80"
+    - match:
+       service: "prometheus-kube-state-metrics.kuma-metrics.svc:80"
+    - match:
+       service: "prometheus-kube-state-metrics.kuma-metrics.svc:81"
+    - match:
+       service: "prometheus-pushgateway.kuma-metrics.svc:9091"
+---
+apiVersion: kuma.io/v1alpha1
+kind: TrafficPermission
+mesh: default
+metadata:
+  namespace: default
+  name: grafana-to-prometheus
+spec:
+   sources:
+   - match:
+      service: "grafana.kuma-metrics.svc:80"
+   destinations:
+   - match:
+      service: "prometheus-server.kuma-metrics.svc:80"
 ```
 
 :::
