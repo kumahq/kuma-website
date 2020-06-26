@@ -27,6 +27,7 @@ spec:
     backends:
     - name: prometheus-1
       type: prometheus
+      skipMTLS: false
 ```
 
 which is a convenient shortcut for
@@ -42,6 +43,7 @@ spec:
     backends:
     - name: prometheus-1
       type: prometheus
+      skipMTLS: false
       conf:
         port: 5670
         path: /metrics
@@ -58,6 +60,7 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
+    skipMTLS: false
 ```
 
 which is a convenient shortcut for
@@ -70,6 +73,7 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
+    skipMTLS: false
     conf:
       port: 5670
       path: /metrics
@@ -125,6 +129,7 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
+    skipMTLS: false
     config:
       port: 1234
       path: /non-standard-path
@@ -211,6 +216,7 @@ spec:
     backends:
     - name: prometheus-1
       type: prometheus
+      skipMTLS: false
       conf:
         port: 5670
         path: /metrics
