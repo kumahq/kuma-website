@@ -1,5 +1,8 @@
 <template>
-  <div class="page-container page-container--home" aria-labelledby="masthead-main-title">
+  <div
+    class="page-container page-container--home"
+    aria-labelledby="masthead-main-title"
+  >
     <div class="page-masthead-wrap">
       <div class="inner flex flex-wrap -mx-4">
         <div class="page-masthead w-full lg:w-1/2 px-4">
@@ -39,14 +42,8 @@
     <!-- .page-masthead-wrap -->
 
     <div class="product-features-wrap">
-      <div
-        v-if="$page.frontmatter.showNews"
-        class="newsbar-wrap"
-      >
-        <Content
-          slot-key="news"
-          class="newsbar"
-        />
+      <div v-if="$page.frontmatter.showNews" class="newsbar-wrap">
+        <Content slot-key="news" class="newsbar" />
       </div>
 
       <div class="inner product-features flex flex-wrap -mx-4">
@@ -66,7 +63,10 @@
         <blockquote class="testimonial__content-wrap">
           <Content slot-key="testimonial-content" />
           <div class="testimonial__cite">
-            <div v-if="$page.frontmatter.testimonialPortraitSrc" class="testimonial__portrait">
+            <div
+              v-if="$page.frontmatter.testimonialPortraitSrc"
+              class="testimonial__portrait"
+            >
               <img
                 :src="$page.frontmatter.testimonialPortraitSrc"
                 :alt="$page.frontmatter.testimonialPortraitAlt"
@@ -84,13 +84,29 @@
     <!-- .testimonial-wrap -->
 
     <div class="feature-focus-wrap">
+      <div class="feature-focus feature-focus__tabs" v-if="tabs">
+        <div class="inner inner--bordered flex flex-wrap -mx-12">
+          <div class="w-full lg:w-1/2 px-12">
+            <ClientOnly>
+              <KTabs :tabs="tabs">
+                <template v-for="tab in tabs" :slot="tab.hash.replace('#','')">
+                  <Content :slot-key="`tab-${tab.hash.replace('#','')}`" />
+                </template>
+              </KTabs>
+            </ClientOnly>
+          </div>
+          <div class="feature-focus__content w-full lg:w-1/2 px-12">
+            <Content slot-key="tabs-right-col-content" />
+          </div>
+        </div>
+      </div>
       <div
-        v-for="i in 3"
+        v-for="i in 2"
         class="feature-focus"
         :class="`feature-focus-${i}-wrap`"
       >
         <div
-          :class="{ 'md:flex-row-reverse': (i % 2 === 0) }"
+          :class="{ 'md:flex-row-reverse': i % 2 !== 0 }"
           class="inner inner--bordered flex flex-wrap -mx-12"
         >
           <Content
@@ -117,22 +133,26 @@
       <NewsletterWaves />
     </div>
     <!-- newsletter-form-wrap -->
-
   </div>
 </template>
 
 <script>
-import Navbar from "@theme/components/Navbar"
-import TinyTabs from "@theme/components/custom/TinyTabs/VueTinyTabs"
-import MastheadWaves from "@theme/components/custom/PageMastheadWaves"
-import NewsletterWaves from "@theme/components/custom/NewsletterWaves"
+import Navbar from '@theme/components/Navbar'
+import MastheadWaves from '@theme/components/custom/PageMastheadWaves'
+import NewsletterWaves from '@theme/components/custom/NewsletterWaves'
+import KTabs from '../../../../../node_modules/@kongponents/ktabs/KTabs'
 
 export default {
   components: {
     Navbar,
-    TinyTabs,
     MastheadWaves,
-    NewsletterWaves
-  }
-};
+    NewsletterWaves,
+    KTabs
+  },
+  computed: {
+    tabs () {
+      return this.$page.frontmatter.tabs || null
+    },
+  },
+}
 </script>

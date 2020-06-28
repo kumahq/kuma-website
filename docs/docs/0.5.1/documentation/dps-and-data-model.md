@@ -287,3 +287,45 @@ spec:
 The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime. When integrating [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma you have to annotate every `Service` that you want to pass traffic to with [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream) annotation. Otherwise Kong will do the load balancing which unables Kuma to do the load balancing and apply policies. 
 
 For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller), please follow this [demo application guide](https://github.com/Kong/kuma-demo/tree/master/kubernetes).
+
+## Direct access to services
+
+By default on Kubernetes data plane proxies communicate with each other by leveraging the `ClusterIP` address of the `Service` resources. Also by default, any request made to another service is automatically load balanced client-side by the data plane proxy that originates the request (they are load balanced by the local Envoy proxy sidecar proxy).
+
+There are situations where we may want to bypass the client-side load balancing and directly access services by using their IP address (ie: in the case of Prometheus wanting to scrape metrics from services by their individual IP address).
+
+When an originating service wants to directly consume other services by their IP address, the originating service's `Deployment` resource must include the following annotation:
+
+```yaml
+kuma.io/direct-access-services: Service1, Service2, ServiceN
+```
+
+Where the value is a comma separated list of Kuma services that will be consumed directly. For example:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        kuma.io/direct-access-services: "backend.example.svc:1234,backend.example.svc:1235"
+    spec:
+      containers:
+        ...
+```
+
+We can also use `*` to indicate direct access to every service in the Mesh:
+
+```yaml
+kuma.io/direct-access-services: *
+```
+
+::: warning
+Using `*` to directly access every service is a resource intensive operation, so we must use it carefully.
+:::

@@ -1,12 +1,12 @@
 import Vuex from 'vuex'
 import store from './theme/store/index'
-import Layout from './theme/layouts/Layout'
 import 'vuepress-plugin-tabs/dist/themes/default.styl'
 import './theme/styles/styles.scss'
 
+import '@kongponents/styles'
+
 export default ({
   Vue,
-  options,
   router,
   siteData
 }) => {
@@ -19,19 +19,16 @@ export default ({
   Vue.mixin({
     store: store,
     computed: {
-      // Creates an easy way to access site data globally
+      /**
+       * Creates an easy way to access site data globally
+       */
       getSiteData() {
         return siteData
-      }
-    }
-  })
-
-  /**
-   * Get the latest version
-   * Good for use in pages, etc.
-   */
-  Vue.mixin({
-    computed: {
+      },
+      /**
+       * Get the latest version
+       * Good for use in pages, etc.
+       */
       latestVer() {
         return siteData.themeConfig.latestVer
       }
