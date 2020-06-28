@@ -27,7 +27,8 @@ spec:
     backends:
     - name: prometheus-1
       type: prometheus
-      skipMTLS: false
+      conf:
+        skipMTLS: false
 ```
 
 which is a convenient shortcut for
@@ -43,8 +44,8 @@ spec:
     backends:
     - name: prometheus-1
       type: prometheus
-      skipMTLS: false
       conf:
+        skipMTLS: false
         port: 5670
         path: /metrics
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
@@ -60,7 +61,8 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
-    skipMTLS: false
+    conf:
+      skipMTLS: false
 ```
 
 which is a convenient shortcut for
@@ -73,8 +75,8 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
-    skipMTLS: false
     conf:
+      skipMTLS: false
       port: 5670
       path: /metrics
       tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
@@ -129,8 +131,8 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
-    skipMTLS: false
     config:
+      skipMTLS: false
       port: 1234
       path: /non-standard-path
 ```
@@ -216,8 +218,8 @@ spec:
     backends:
     - name: prometheus-1
       type: prometheus
-      skipMTLS: false
       conf:
+        skipMTLS: false
         port: 5670
         path: /metrics
         skipMTLS: false
