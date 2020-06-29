@@ -4,6 +4,10 @@ title: What is Kuma?
 
 # What is Kuma?
 
+::: tip
+**Need help?** Don't forget to check the [Community](/community) section! 
+:::
+
 Kuma is a platform agnostic open-source control plane for Service Mesh and Microservices. It can run and be operated natively across both Kubernetes and VM environments, making it easy to adopt by every team in the organization.
 
 <center>
@@ -14,16 +18,24 @@ Bundling [Envoy](https://envoyproxy.io/) as a data-plane, Kuma can instrument an
 
 While being simple to use for most use-cases, Kuma also provides policies to configure the underlying Envoy data-planes in a more fine-grained manner. By doing so, Kuma can be used by both first-time users of Service Mesh, as well as the most experienced ones.
 
-<center>
-<img src="/images/docs/0.5.0/diagram-01.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
-
 Kong built Kuma with feedback from 100+ enterprise organizations running Service Mesh in production. As such, Kuma implements a pragmatic approach that is very different from other control plane implementations:  
 
-- **Universal**: Kuma runs on every platform, including Kubernetes and VMs.
+- **Universal**: Kuma runs on every platform, including Kubernetes and VMs and a hybrid of both.
 - **Simple**: To deploy and to use, Kuma provides easy to use policies for various use-cases.
+- **Scalable**: Kuma supports multi-tenancy, attribute based policies and scalable multi-cluster support.
 - **Envoy-based**: Kuma is built on top of Envoy, the most adopted proxy for Service Mesh.
 
-::: tip
-**Need help?** Don't forget to check the [Community](/community) section! 
-:::
+## Deployment Models
+
+Kuma supports different deployment models:
+
+* [Flat Deployment](#) with one control plane being in charge of multiple data plane proxies.
+* [Distributed Deployment](#) with a global control plane and remote control planes for each underlying cluster.
+
+Below an example of a distributed deployment, which also enables Kuma to setup a Service Mesh that runs simoultaneously on multiple Kubernetes clusters, or on a hybrid Kubernetes/VM cluster:
+
+<center>
+<img src="/images/docs/0.6.0/distributed-deployment.png" alt="" style="width: 700px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+In both deployment modes service-to-service connectivity is abstracted away via Kuma Ingress resources and DNS Service Discovery that makes service-to-service connectivity completely automated. Supporting complex deployments while still making the Service Mesh easy to use has been a main driver in the adoption of Kuma.

@@ -605,6 +605,21 @@
       "type": "directory"
     },
     {
+      "path": "docs/.vuepress/public/images/docs/0.6.0",
+      "name": "0.6.0",
+      "children": [
+        {
+          "path": "docs/.vuepress/public/images/docs/0.6.0/distributed-deployment.png",
+          "name": "distributed-deployment.png",
+          "size": 559246,
+          "extension": ".png",
+          "type": "file"
+        }
+      ],
+      "size": 559246,
+      "type": "directory"
+    },
+    {
       "path": "docs/.vuepress/public/images/docs/diagram-before-after-full.png",
       "name": "diagram-before-after-full.png",
       "size": 249378,
@@ -619,6 +634,6 @@
       "type": "file"
     }
   ],
-  "size": 9048426,
+  "size": 9607672,
   "type": "directory"
 }

@@ -8,7 +8,9 @@ title: Overview
 **Protip**: Use `#kumamesh` on Twitter to chat about Kuma, and join the official [Kuma Slack](/community)!
 :::
 
-Welcome to the official documentation for Kuma, a modern **Control Plane** with a bundled Envoy Proxy integration.
+Welcome to the official documentation for Kuma, a modern distributed **Control Plane** with a bundled Envoy Proxy integration.
+
+The word "Kuma" means "bear" in Japanese (クマ).
 
 <center>
 <img src="/images/diagrams/main-diagram@2x.png" alt="" style="width: 450px; padding-top: 10px"/>
@@ -18,4 +20,4 @@ Here you will find all you need to know about the product. While Kuma is ideal f
 
 The core maintainer of Kuma is **Kong**, the maker of the popular open-source Kong Gateway 🦍.
 
-The word "Kuma" means "bear" in Japanese (クマ).
+As a next step, [learn what is Kuma](/docs/0.5.1/overview/what-is-kuma/).

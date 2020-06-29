@@ -881,6 +881,7 @@ module.exports = {
         "documentation/overview",
         "documentation/backends",
         "documentation/dependencies",
+        "documentation/deployments",
         "documentation/dps-and-data-model",
         "documentation/cli",
         "documentation/kumactl",
