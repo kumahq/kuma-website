@@ -119,6 +119,8 @@ $ kumactl install ingress | kubectl apply -f -
 $ kumactl install dns | kubectl apply -f -
 ```
 
+Finally, the list of remote control planes and ingresses have to be added to the Kuma configuration file that belongs to the `global` control plane, in the `mode` section.
+
 :::
 ::: tab "Universal"
 
@@ -134,6 +136,7 @@ Then we must start a `remote` control plane in every zone, alongside with an `in
 $ kuma-cp run --mode=remote
 ```
 
+Finally, the list of remote control planes and ingresses have to be added to the Kuma configuration file that belongs to the `global` control plane, in the `mode` section.
+
 :::
 ::::
-
