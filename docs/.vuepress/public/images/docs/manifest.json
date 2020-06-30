@@ -605,6 +605,35 @@
       "type": "directory"
     },
     {
+      "path": "docs/.vuepress/public/images/docs/0.6.0",
+      "name": "0.6.0",
+      "children": [
+        {
+          "path": "docs/.vuepress/public/images/docs/0.6.0/distributed-deployment.jpg",
+          "name": "distributed-deployment.jpg",
+          "size": 434926,
+          "extension": ".jpg",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.6.0/distributed-diagram.jpg",
+          "name": "distributed-diagram.jpg",
+          "size": 173756,
+          "extension": ".jpg",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.6.0/flat-diagram.png",
+          "name": "flat-diagram.png",
+          "size": 131583,
+          "extension": ".png",
+          "type": "file"
+        }
+      ],
+      "size": 740265,
+      "type": "directory"
+    },
+    {
       "path": "docs/.vuepress/public/images/docs/diagram-before-after-full.png",
       "name": "diagram-before-after-full.png",
       "size": 249378,
@@ -619,6 +648,6 @@
       "type": "file"
     }
   ],
-  "size": 9048426,
+  "size": 9788691,
   "type": "directory"
 }
