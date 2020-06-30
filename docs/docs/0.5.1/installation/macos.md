@@ -62,6 +62,8 @@ And we can then proceed to run Kuma with:
 $ ./kuma-cp run
 ```
 
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/0.5.1/documentation/deployments/).
+
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
 ```sh

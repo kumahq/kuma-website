@@ -23,7 +23,9 @@ This is the simplest deployment mode for Kuma, and the default one.
 
 This mode implies that we can deploy Kuma and its data plane proxies in a flat networking topology mode so that the service connectivity from every data plane proxy can be estabilished directly to every other data plane proxy.
 
-TODO: IMAGE
+<center>
+<img src="/images/docs/0.6.0/flat-diagram.png" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
 
 Although flat mode can support complex multi-cluster or hybrid deployments (Kubernetes + VMs) as long as the networking requirements are satisfied, typically in most use cases our connectivity cannot be flattened out across multiple clusters. Therefore flat mode is usually a great choice within the context of one cluster (ie: within one Kubernetes cluster or one AWS VPC).
 
@@ -33,9 +35,20 @@ For those situations where the flat deployment mode doesn't satistfy our archite
 
 In order to deploy Kuma in a flat deployment, the `kuma-cp` control plane must be started in `standalone` mode:
 
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+This is the standard installation method as described in the [installation page](/install).
+```sh
+$ kumactl install control-plane | kubectl apply -f -
+```
+:::
+::: tab "Universal"
+This is the standard installation method as described in the [installation page](/install).
 ```sh
 $ kuma-cp run --mode=standalone
 ```
+:::
+::::
 
 Once Kuma is up and running, data plane proxies can now [connect](/docs/0.5.1/documentation/dps-and-data-model) directly to it. 
 
@@ -64,7 +77,9 @@ In this deployment, a Kuma cluster is made of one global control plane and as ma
 
 * **Zone**: A zone identifies a Kubernetes cluster, a VPC, or any other cluster that we want to include in a Kuma service mesh.
 
-TODO: IMAGE
+<center>
+<img src="/images/docs/0.6.0/distributed-diagram.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
 
 In a distributed deployment mode, services will be running on multiple platforms, clouds or Kubernetes clusters (which are identifies as `zones` in Kuma). While all of them will be part of a Kuma mesh by connecting their data plane proxies to the local `remote` control plane in the same zone, implementing service to service connectivity would be tricky since a source service may not know where a destination service is being hosted at (for instance, in another zone).
 
@@ -85,11 +100,73 @@ The global control plane and the remote control planes communicate with each oth
 
 ### Usage
 
+In order to deploy Kuma in a distributed deployment, we must start two `kuma-cp` control planes, one `global` and as many `remote` ones as the number of zones that we want to support.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+
+First we must start a `global` control plane
+
+This is the standard installation method as described in the [installation page](/install).
+```sh
+$ kumactl install control-plane --mode=remote | kubectl apply -f -
+$ kumactl install ingress | kubectl apply -f -
+$ kumactl install dns | kubectl apply -f -
+```
+:::
+::: tab "Universal"
+This is the standard installation method as described in the [installation page](/install).
+```sh
+$ kuma-cp run --mode=standalone
+```
+:::
+::::
+
+Once Kuma is up and running, data plane proxies can now [connect](/docs/0.5.1/documentation/dps-and-data-model) directly to it. 
+
+:::tip
+When the mode is not specified, Kuma will always start in `standalone` mode by default.
+:::
+
+
+
+
+
+
+
+
+
+
+
 First and foremost we must start our `global` control plane:
 
 ```sh
 $ kuma-cp run --mode=global
 ```
 
+kumactl install control-plane --mode=remote | kubectl apply -f -
+kumactl install ingress | kubectl apply -f -
+kumactl install dns | kubectl apply -f -
+
+{service}.mesh:80
+
 TODO: Add examples to talk to remote control planes
 TODO: Add examples to start remote control planes
+
+services will resolve the DNS with the `remote` control plane
+
+zone is a new special tag for kuma
+in universal the DNS is only required for Kubernetes for transparent proxying, but not universal yet because there is no transparent proxying in universal.
+
+
+
+
+
+
+
+
+
+
+
+
+

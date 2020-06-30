@@ -25,7 +25,7 @@ Kong built Kuma with feedback from 100+ enterprise organizations running Service
 - **Scalable**: Kuma supports multi-tenancy, attribute based policies and scalable multi-cluster support.
 - **Envoy-based**: Kuma is built on top of Envoy, the most adopted proxy for Service Mesh.
 
-## Deployment Models
+## Flat and Distributed deployments
 
 Kuma supports different deployment models:
 
@@ -35,7 +35,7 @@ Kuma supports different deployment models:
 Below an example of a distributed deployment, which also enables Kuma to setup a Service Mesh that runs simoultaneously on multiple Kubernetes clusters, or on a hybrid Kubernetes/VM cluster:
 
 <center>
-<img src="/images/docs/0.6.0/distributed-deployment.png" alt="" style="width: 700px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.6.0/distributed-deployment.jpg" alt="" style="width: 700px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 In both deployment modes service-to-service connectivity is abstracted away via Kuma Ingress resources and DNS Service Discovery that makes service-to-service connectivity completely automated. Supporting complex deployments while still making the Service Mesh easy to use has been a main driver in the adoption of Kuma.

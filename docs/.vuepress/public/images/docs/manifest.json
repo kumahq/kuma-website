@@ -609,14 +609,14 @@
       "name": "0.6.0",
       "children": [
         {
-          "path": "docs/.vuepress/public/images/docs/0.6.0/distributed-deployment.png",
-          "name": "distributed-deployment.png",
-          "size": 559246,
-          "extension": ".png",
+          "path": "docs/.vuepress/public/images/docs/0.6.0/distributed-deployment.jpg",
+          "name": "distributed-deployment.jpg",
+          "size": 434926,
+          "extension": ".jpg",
           "type": "file"
         }
       ],
-      "size": 559246,
+      "size": 434926,
       "type": "directory"
     },
     {
@@ -634,6 +634,6 @@
       "type": "file"
     }
   ],
-  "size": 9607672,
+  "size": 9483352,
   "type": "directory"
 }
