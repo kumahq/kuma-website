@@ -32,8 +32,6 @@ $ docker run \
     kong-docker-kuma-docker.bintray.io/kuma-cp:0.5.1 run
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/0.5.1/documentation/deployments/).
-
 ::: tip
 **Note**: By default this will run Kuma with a `memory` [backend](../../documentation/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 :::
