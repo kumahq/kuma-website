@@ -1,5 +1,4 @@
 # Build command that Netlify looks for
 [build]
-  # command = "node ./bin/setup-redirects && node ./bin/build-pub-manifest && vuepress build docs"
-  command = "node ./bin/setup-redirects && node ./bin/curl-endpoints && vuepress build docs"
+  command = "node --max-old-space-size=8192 ./bin/setup-redirects && node ./bin/curl-endpoints && vuepress build docs"
 
