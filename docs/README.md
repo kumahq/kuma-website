@@ -170,7 +170,7 @@ Getting up and running with Kuma only requires three easy steps. Bundled with En
 With Kuma you can build service connectivity and Service Meshes across a large variety of platforms  and clouds. Platform agnostic by nature, Kuma supports modern Kubernetes environments and Virtual Machine workloads in the same cluster, with no effort. 
 
 - K8s + VM native
-- Ingress and esh
+- Ingress and Mesh
 - HA, Distributed, Multicloud
 :::
 

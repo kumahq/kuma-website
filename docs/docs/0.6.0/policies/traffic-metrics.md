@@ -222,6 +222,7 @@ spec:
         skipMTLS: false
         port: 5670
         path: /metrics
+        skipMTLS: false
         tags: # tags that can be referred in Traffic Permission  
           service: dataplane-metrics
 ```
