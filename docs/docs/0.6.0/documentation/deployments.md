@@ -301,4 +301,3 @@ The Kuma DNS service format (e.g. `echo-server_kuma-test_svc_1010.mesh`) is a co
 Namespace (`kuma-test`), a fixed string (`svc`), the service port (`1010`). The service is resolvable in the DNS zone `.mesh` where
 the Kuma DNS service is hooked.
 :::
-

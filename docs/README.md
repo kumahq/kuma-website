@@ -31,7 +31,7 @@ tabs:
 
 ::: slot news
 
-**Kuma v0.5.1 is out now!** We've improved CA rotation, added Circuit Breakers, improved the GUI, and more! &mdash; [Get Started](/install/)
+**Kuma v0.6.0 is out now!** Hybrid Universal support, Global/Remote CP, Ingress and Automatic DNS Discovery &mdash; [Get Started](/install/)
 
 :::
 
