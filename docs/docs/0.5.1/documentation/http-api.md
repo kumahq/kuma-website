@@ -765,12 +765,10 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
   }
  ],
  "conf": {
-  "activeChecks": {
    "interval": "10s",
    "timeout": "2s",
    "unhealthyThreshold": 3,
    "healthyThreshold": 1
-  }
  }
 }
 ```
@@ -804,12 +802,10 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend --da
   }
  ],
  "conf": {
-  "activeChecks": {
    "interval": "10s",
    "timeout": "2s",
    "unhealthyThreshold": 3,
    "healthyThreshold": 1
-  }
  }
 }
 ```
@@ -847,12 +843,10 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
     }
    ],
    "conf": {
-    "activeChecks": {
      "interval": "10s",
      "timeout": "2s",
      "unhealthyThreshold": 3,
      "healthyThreshold": 1
-    }
    }
   }
  ],
