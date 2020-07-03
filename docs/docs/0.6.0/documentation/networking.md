@@ -6,16 +6,50 @@ Kuma - being an application that wants to improve the underlying connectivity be
 
 First and foremost, the `kuma-cp` application is a server that offers a number of services - some meant for internal consumption by `kuma-dp` data-planes, some meant for external consumption by [kumactl](../kumactl) CLI, by the [HTTP API](../http-api) or by the [GUI](../gui).
 
-When `kuma-cp` starts up, by default it listens on a few ports:
+The number and type of exposed ports depends on the mode in which the control plane is run
 
-* `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
-* `5677`: the SDS server being used for propagating mTLS certificates across the data-planes.
-* `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
-* `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
-* `5680`: the HTTP server that returns the health status of the control-plane.
-* `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies.
-* `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
-* `5683`: the HTTP server that exposes Kuma UI.
+### Standalone Control Plane
+
+This is the default, single zone mode, in which all of the following ports are enabled in `kuma-cp`
+
+* TCP
+    * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
+    * `5677`: the SDS server being used for propagating mTLS certificates across the data-planes.
+    * `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
+    * `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
+    * `5680`: the HTTP server that returns the health status of the control-plane.
+    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies.
+    * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
+    * `5683`: the HTTP server that exposes Kuma UI.
+    * `5685`: the Kuma Discovery Service port, leveraged in Distributed control plane mode
+* UDP
+    * `5653`: the Kuma DNS server
+
+### Global Control Plane
+
+
+When Kuma is run as a distributed service mesh, the Global control plane exposes the following ports:
+
+* TCP
+    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
+    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies. Manipulating the dataplane resources is not possible.
+    * `5683`: the HTTP server that exposes Kuma UI.
+
+### Remote Control Plane
+
+When Kuma is run as a distributed service mesh, the Remote control plane exposes the following ports:
+
+* TCP
+    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
+    * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
+    * `5677`: the SDS server being used for propagating mTLS certificates across the data-planes.
+    * `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
+    * `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
+    * `5680`: the HTTP server that returns the health status of the control-plane.
+    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - you can only manage the dataplane resources.
+    * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
+* UDP
+    * `5653`: the Kuma DNS server
 
 ## kuma-dp ports
 
