@@ -35,6 +35,7 @@ By default the HTTP API is listening on port `5681`. The endpoints available are
 * `/meshes/{name}/traffic-routes/{name}`
 * `/meshes/{name}/fault-injections`
 * `/meshes/{name}/fault-injections/{name}`
+* `/status/clusters`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -1680,3 +1681,32 @@ curl -XDELETE http://localhost:5681/meshes/default/fault-injections/fi1
 ::: tip
 The [`kumactl`](../kumactl) CLI under the hood makes HTTP requests to this API.
 :::
+
+## Multicluster
+
+These APIs are available on the `Global` control plane, when running in a distributed multicluster mode.
+
+### Zones status
+Request: `GET /status/config`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XGET http://localhost:5681/status/clusters
+```
+
+```json
+[
+ {
+  "name": "zone-1",
+  "url": "grpcs://1.1.1.1:5685",
+  "active": true
+ },
+ {
+  "name": "`zone-2`",
+  "url": "grpcs://2.2.2.2:5685",
+  "active": false
+ }
+]
+```
