@@ -46,7 +46,7 @@ the only thing that is stored is a signing key that is used to verify if a token
 
 You can generate token either by REST API
 ```bash
-curl -XPOST http://localhost:5679/tokens --data '{"name:" "dp-echo-1", "mesh": "default"}'
+curl -XPOST -H "Content-Type: application/json" --data '{"name": "dp-echo-1", "mesh": "default"}' http://localhost:5679/tokens
 ```
 
 or by using `kumactl`
