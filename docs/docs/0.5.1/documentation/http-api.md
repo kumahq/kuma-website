@@ -475,11 +475,15 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes/backend-1
     "outbound": [
       {
         "port": 33033,
-        "service": "database"
+        "tags": {
+          "service": "database"
+        }
       },
       {
         "port": 44044,
-        "service": "user"
+        "tags": {
+          "service": "user"
+        }
       }
     ]
   }
@@ -516,11 +520,15 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/dataplanes/backend-1 --data @data
     "outbound": [
       {
         "port": 33033,
-        "service": "database"
+        "tags": {
+          "service": "database"
+        }
       },
       {
         "port": 44044,
-        "service": "user"
+        "tags": {
+          "service": "user"
+        }
       }
     ]
   }
@@ -561,11 +569,15 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes
         "outbound": [
           {
             "port": 33033,
-            "service": "database"
+            "tags": {
+              "service": "database"
+            }
           },
           {
             "port": 44044,
-            "service": "user"
+            "tags": {
+              "service": "user"
+            }
           }
         ]
       }
@@ -620,7 +632,9 @@ curl http://localhost:5681/meshes/default/dataplanes+insights/example
    "outbound": [
     {
      "port": 33033,
-     "service": "database"
+     "tags": {
+      "service": "database"
+     }      
     }
    ]
   }
@@ -692,7 +706,9 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
        "outbound": [
         {
          "port": 33033,
-         "service": "database"
+         "tags": {
+          "service": "database"
+         }
         }
        ]
       }
@@ -765,12 +781,10 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
   }
  ],
  "conf": {
-  "activeChecks": {
    "interval": "10s",
    "timeout": "2s",
    "unhealthyThreshold": 3,
    "healthyThreshold": 1
-  }
  }
 }
 ```
@@ -804,12 +818,10 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend --da
   }
  ],
  "conf": {
-  "activeChecks": {
    "interval": "10s",
    "timeout": "2s",
    "unhealthyThreshold": 3,
    "healthyThreshold": 1
-  }
  }
 }
 ```
@@ -847,12 +859,10 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
     }
    ],
    "conf": {
-    "activeChecks": {
      "interval": "10s",
      "timeout": "2s",
      "unhealthyThreshold": 3,
      "healthyThreshold": 1
-    }
    }
   }
  ],
