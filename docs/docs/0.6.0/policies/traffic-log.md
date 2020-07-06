@@ -2,77 +2,22 @@
 
 With `TrafficLog` policy you can easily set up access logs on every data-plane in a [`Mesh`](../mesh).
 
-The logs can be then forwarded to a collector that can further transmit them into systems like Splunk, ELK and Datadog.
+[//]: # (The logs can be then forwarded to a collector that can further transmit them into systems like Splunk, ELK and Datadog.)
 
-Configuring access logs in `Kuma` is a 2-step process:
+Configuring access logs in `Kuma` is a 3-step process:
 
-1. First, you need to configure _logging backends_ that will be available for use in a given `Mesh`.
+* [1. Add a logging backend](#add-a-logging-backend)
+* [2. Add a TrafficLog resource](#add-a-trafficlog-resource)
+* [3. Log aggregation and visualisation](#log-aggregation-and-visualisation) (kubernetes only)
 
-   A _logging backend_ is essentially a sink for access logs.
+## Add a logging backend
 
-   In the current release of `Kuma`, a _logging backend_ can be either a _file_ or a _TCP log collector_, such as Logstash.
+A _logging backend_ is essentially a sink for access logs.
 
-2. Second, you need to create a `TrafficLog` policy to select a subset of traffic and forward its access logs into one of the _logging backends_ configured for that `Mesh`.
+In the current release of `Kuma`, a _logging backend_ can be either a _file_ or a _TCP log collector_, such as Logstash.
 
-### On Universal
-
-```yaml
-type: Mesh
-name: default
-logging:
-  # TrafficLog policies may leave the `backend` field undefined.
-  # In that case the logs will be forwarded into the `defaultBackend` of that Mesh.
-  defaultBackend: file
-  # List of logging backends that can be referred to by name
-  # from TrafficLog policies of that Mesh.
-  backends:
-    - name: logstash
-      # Use `format` field to adjust the access log format to your use case.
-      format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
-      type: tcp
-      conf: # Use `config` field to co configure a TCP logging backend.
-        # Address of a log collector.
-        address: 127.0.0.1:5000
-    - name: file
-      type: file
-      # Use `config` field to configure a file-based logging backend.
-      conf:
-        path: /tmp/access.log
-      # When `format` field is omitted, the default access log format will be used.
-```
-
-```yaml
-type: TrafficLog
-name: all-traffic
-mesh: default
-# This TrafficLog policy applies to all traffic in the Mesh.
-sources:
-  - match:
-      service: '*'
-destinations:
-  - match:
-      service: '*'
-# When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that Mesh.
-```
-
-```yaml
-type: TrafficLog
-name: backend-to-database-traffic
-mesh: default
-# this TrafficLog policy applies only to traffic from service `backend` to service `database`.
-sources:
-  - match:
-      service: backend
-destinations:
-  - match:
-      service: database
-conf:
-  # Forward the logs into the logging backend named `logstash`.
-  backend: logstash
-```
-
-### On Kubernetes
-
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -102,6 +47,41 @@ spec:
         # When `format` field is omitted, the default access log format will be used.
 ```
 
+:::
+::: tab "Universal"
+```yaml
+type: Mesh
+name: default
+logging:
+  # TrafficLog policies may leave the `backend` field undefined.
+  # In that case the logs will be forwarded into the `defaultBackend` of that Mesh.
+  defaultBackend: file
+  # List of logging backends that can be referred to by name
+  # from TrafficLog policies of that Mesh.
+  backends:
+    - name: logstash
+      # Use `format` field to adjust the access log format to your use case.
+      format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
+      type: tcp
+      conf: # Use `config` field to co configure a TCP logging backend.
+        # Address of a log collector.
+        address: 127.0.0.1:5000
+    - name: file
+      type: file
+      # Use `config` field to configure a file-based logging backend.
+      conf:
+        path: /tmp/access.log
+      # When `format` field is omitted, the default access log format will be used.
+```
+:::
+::::
+
+## Add a TrafficLog resource
+
+You need to create a `TrafficLog` policy to select a subset of traffic and forward its access logs into one of the _logging backends_ configured for that `Mesh`.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficLog
@@ -138,10 +118,147 @@ spec:
     # Forward the logs into the logging backend named `logstash`.
     backend: logstash
 ```
+:::
+::: tab "Universal"
+```yaml
+type: TrafficLog
+name: all-traffic
+mesh: default
+# This TrafficLog policy applies to all traffic in the Mesh.
+sources:
+  - match:
+      service: '*'
+destinations:
+  - match:
+      service: '*'
+# When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that Mesh.
+```
+
+```yaml
+type: TrafficLog
+name: backend-to-database-traffic
+mesh: default
+# this TrafficLog policy applies only to traffic from service `backend` to service `database`.
+sources:
+  - match:
+      service: backend
+destinations:
+  - match:
+      service: database
+conf:
+  # Forward the logs into the logging backend named `logstash`.
+  backend: logstash
+```
+:::
+::::
 
 ::: tip
 When `backend ` field of a `TrafficLog` policy is omitted, the logs will be forwarded into the `defaultBackend` of that `Mesh`.
 :::
+
+## Log aggregation and visualisation
+
+`Kuma` is presenting a simple solution to aggregate the **logs of your containers** and the **access logs of your data-planes**.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+
+**1. Install Loki**
+
+To install Loki use `kumactl install logging | kubectl apply -f -`. This will deploy Loki automatically in a `kuma-logging` namespace.
+
+**2. Update the mesh**
+
+The logging backend needs to be configured to send the access logs of your data-planes to `stdout`. 
+Loki will directly retrieve the logs from `stdout` of your containers.
+
+```yaml
+type: Mesh
+metadata:
+  name: default
+spec:
+    logging:
+      defaultBackend: loki
+      backends:
+        - name: loki
+          type: file
+          conf:
+            path: /dev/stdout
+```
+    
+**3. Configure Grafana to visualize the logs**
+
+If the [Traffic Metrics](traffic-metrics.md) policy is installed on your `kubernetes` node, you can configure a new 
+datasource in Grafana to visualise your **containers' logs** and your **access logs**.
+
+Use the `kubectl port-forward` command to access Grafana.
+
+<center>
+<img src="../images/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki 
+datasource in the explore section.
+:::
+::: tab "Universal"
+
+**1. Install Loki**
+
+To install Loki use the instructions on the official [Loki Github repository](https://github.com/grafana/loki/blob/v1.5.0/docs/installation/README.md).
+
+**2. Update the mesh**
+
+The logging backend needs to be configured to send the access logs of your data-planes to `stdout`. 
+Loki will directly retrieve the logs from `stdout` of your containers.
+
+```yaml
+type: Mesh
+name: default
+logging:
+  defaultBackend: loki
+  backends:
+    - name: loki
+      type: file
+      conf:
+        path: /dev/stdout
+```
+    
+**3. Configure Grafana to visualize the logs**
+
+To visualise your **containers' logs** and your **access logs** you need to have a Grafana up and running. 
+If you don't have Grafana you can install it by following the informations of the [official page](https://grafana.com/docs/grafana/latest/installation/)
+
+With Granana installed you can configure a new datasource so Grafana will be able to retrieve the logs from Loki.
+
+<center>
+<img src="../images/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki 
+datasource in the explore section.
+
+:::
+::::
+
+::: tip
+**Nice to have**
+
+If you are also using the [Traffic Trace](traffic-trace.md) policy you can configure a new datasource for Jaeger to visualise your traces directly into Grafana.
+
+<center>
+<img src="../images/jaeger_grafana_config.png" alt="Jaeger Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+Having your Logs and Traces in the same visualisation tool can come really handy. By adding the traceId in your app logs you can visualize your logs and the related Jaeger traces. 
+To learn more about it go read this [article](https://grafana.com/blog/2020/05/22/new-in-grafana-7.0-trace-viewer-and-integrations-with-jaeger-and-zipkin/) 
+
+<center>
+<img src="../images/jaeger_loki_correlation.png" alt="Logs and Traces visualisation in Grafana" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+:::
+
+You can also forward the access logs to a collector (such as logstash) that can further transmit them into systems like Splunk,
+ ELK and Datadog.
 
 ### Access Log Format
 
