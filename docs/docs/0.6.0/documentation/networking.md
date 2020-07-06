@@ -88,3 +88,100 @@ In order for connectivity to work among the `kuma-dp` instances, Kuma also assum
 </center>
 
 As illustrated in the picture above, every `kuma-dp` must be able to send requests to every other `kuma-dp` on the specific ports that govern service traffic, as described in the `kuma-dp` [ports section](#kuma-dp-ports).
+
+## Kuma DNS
+
+The Kuma cotrol plane deploys its own Domain Name Service resolver, which is availabe in `standalone` and `remote` mode on UDP port 5653 (resembling the stadart port 53). Its purpose is to allow for decoupling the service name resolving from the underlying infrastructure and thus make Kuma more flexible. When Kuma is deployed as a distributed control plane, the Kuma DNS enables cross-cluster service discovery.
+
+### Deployment
+
+When the Kuma control plane starts in either `standalone` or `remote` mode, it starts a listener on UDP port `5653`, which will respond for the mesh enabled services.
+
+To enable the redirection of the DNS requests for the `.mesh` DNS zone (the default), within a Kubernetes use `kumactl install dns | kubectl apply -f -`. This invocation of `kumactl` expects to find the environment variable `KUBECONFIG` set, so it can fetch the active Kubernete DNS server configuration. Once this is done, `kumactl install dns` will output a patched resource ready to be applied through `kubectl apply`. Since this is a modificaion to system resources, it is strongly recommnede that you first inspect the resulting configuration.
+
+`kumactl install dns` is recognizing and supports the major flavors of CoreDNS as well as Kube DNS resources.
+
+::: tip
+The typical environment where Kuma DNS will be used is Kubernetes. It leverages the trasparent proxy by default, which is a strict requirement for utilizing the Kuma DNS virtual IPs (VIP). In the future, Kuma will provide DNS support in Universal mode too.
+:::
+
+### Configuration
+
+Kuma DNS can be configured by the configuration file, or by the respective environment variables as follows:
+
+```yaml
+# DNS Server configuration
+dnsServer:
+  # The domain that the server will resolve the services for
+  domain: "mesh" # ENV: KUMA_DNS_SERVER_DOMAIN
+  # Port on which the server is exposed
+  port: 5653 # ENV: KUMA_DNS_SERVER_PORT
+  # The CIDR range used to allocate
+  CIDR: "240.0.0.0/4" # ENV: KUMA_DNS_SERVER_CIDR
+```
+
+The `domain` field can change the default `.mesh` DNS zone that Kuma DNS will resolve for. If this is changed, please check the output of `kumactl install dns` and change the zone accordingly, so that your Kube DNS or Core DNS server will redirect all the relevant DNS requests.
+
+The `port` can set the port on which the Kuma DNS is accepting requests. Changing this value on Kubernetes shall be reflected in the respective port setting in the `kuma-control-plane` service. 
+
+The `CIDR` field sets the IP range of virtual IPs. The default `240.0.0.0/4` is reserved for future use IPv4 range and is guaranteed to be non-routable. We strongly recommend to not change this, unless it is really needed.
+
+### Operation 
+
+The basic operation of Kuma DNS includes a couple of main components: DNS server, VIPs allocator, cross-replica persistence.
+
+The DNS server listens on port `5653` and reponds for type `A` DNS requests and answers with `A` record, e.g. `<service>.mesh.	60	IN	A	240.0.0.100`. The default TTL is set to 60 seconds, to ensure client will synchronize with Kuma DNS and account for any changes happening meanwhile.
+
+Kuma DNS allocates the virtual IPs from the configured CIDR, by constantly scanning the services available in all Kuma meshes. When a service is removed its VIP is freed too and Kuma DNS will not respond for it with `A` DNS record.
+
+Kuma DNS is optimized to work in a multi-replica setup, where a number of Kuma control planes are running in parallel. It leverages the internal leader election so that VIP allocation happens only on the leader, and uses an internal storage resource to ensure all other replicas are in sync with the available service/VIP mappings allocated by the leader.
+
+### Usage
+
+Consuming a service handled by Kuma DNS from inside a Kubernetes container looks like this:
+```bash
+<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
+<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
+```
+
+Since the default VIP created listenere will default to port `80`, it can be omitted when using a standard HTTP client.
+
+Effectively the result of the Kuma DNS operation is creating a virtual IP listener by patching the dataplane resource before it gets translated to Envoy xDS configuration. However, by inspecting `curl localhost:9901/config_dump`, we can see sections similar to this one:
+
+```json
+    {
+     "name": "outbound:240.0.0.1:80",
+     "active_state": {
+      "version_info": "51adf4e6-287e-491a-9ae2-e6eeaec4e982",
+      "listener": {
+       "@type": "type.googleapis.com/envoy.api.v2.Listener",
+       "name": "outbound:240.0.0.1:80",
+       "address": {
+        "socket_address": {
+         "address": "240.0.0.1",
+         "port_value": 80
+        }
+       },
+       "filter_chains": [
+        {
+         "filters": [
+          {
+           "name": "envoy.tcp_proxy",
+           "typed_config": {
+            "@type": "type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy",
+            "stat_prefix": "echo-server_kuma-test_svc_80",
+            "cluster": "echo-server_kuma-test_svc_80"
+           }
+          }
+         ]
+        }
+       ],
+       "deprecated_v1": {
+        "bind_to_port": false
+       },
+       "traffic_direction": "OUTBOUND"
+      },
+      "last_updated": "2020-07-06T14:32:59.732Z"
+     }
+    },
+```
