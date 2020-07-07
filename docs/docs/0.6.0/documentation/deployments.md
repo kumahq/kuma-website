@@ -182,11 +182,11 @@ $ cat <<EOF | kubectl apply -f -
           lbaddress: grpcs://<gobal_cp_ip>:5685
           zones:
             - remote:
-                address: grpc://<zone-1_ip>:5685
+                address: grpcs://<zone-1_ip>:5685
               ingress:
                 address: <zone-1_ip>:8080
             - remote:
-                address: grpc://<zone-2_ip>:5685
+                address: grpcs://<zone-2_ip>:5685
               ingress:
                 address: <zone-2_ip>:8080
   kind: ConfigMap
@@ -211,11 +211,11 @@ mode:
     lbaddress: grpcs://<gobal_cp_ip>:5685
     zones:
       - remote:
-          address: grpc://<zone-1_ip>:5685
+          address: grpcs://<zone-1_ip>:5685
         ingress:
           address: <zone-1_ip>:8080
       - remote:
-          address: grpc://<zone-2_ip>:5685
+          address: grpcs://<zone-2_ip>:5685
         ingress:
           address: <zone-2_ip>:8080
 ```
