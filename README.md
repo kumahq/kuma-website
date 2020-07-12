@@ -3,7 +3,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/28be1f67-3436-4df7-9114-49dce7ca9a4e/deploy-status)](https://app.netlify.com/sites/kuma/deploys)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/kumahq/kuma/blob/master/LICENSE)
 [![Slack](https://chat.kuma.io/badge.svg)](https://chat.kuma.io/)
-[![Twitter](https://img.shields.io/twitter/follow/kumamesh.svg?style=social&label=Follow)](https://twitter.com/intent/follow?screen_name=kumamesh)
+[![Twitter](https://img.shields.io/twitter/follow/KumaMesh.svg?style=social&label=Follow)](https://twitter.com/intent/follow?screen_name=KumaMesh)
 
 # Kuma Website
 This is repository is the source code for [Kuma](http://kuma.io/docs)'s documentation website. Kuma is a universal open source control-plane for Service Mesh and Microservices that can run and be operated natively across both Kubernetes and VM environments, in order to be easily adopted by every team in the organization. If you are looking for the source code instead, please check out [Kuma's main repository](https://github.com/kumahq/kuma). 
