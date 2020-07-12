@@ -113,5 +113,23 @@ Commands:
 * `kumacut new major|minor` - This command offers more control. You can increment the latest version by `1` for a major or minor release
 * `kumacut new custom <version>` - If you want to specify the version number yourself, you can replace `<version>` with something like `2.3.4` (don't worry if you happen to write `v2.3.4` - the script is smart enough to strip this out)
 
+## License
+
+```
+Copyright 2020 the Kuma Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
 [kuma-url]: https://kuma.io/
 [kuma-logo]: https://kuma-public-assets.s3.amazonaws.com/kuma-logo-v2.png
