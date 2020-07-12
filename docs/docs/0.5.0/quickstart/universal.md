@@ -16,7 +16,7 @@ In order to simulate a real-world scenario, we have built a simple demo applicat
 * [2. Enable Mutual TLS and Traffic Permissions](#_2-enable-mutual-tls-and-traffic-permissions)
 * [3. Visualize Traffic Metrics](#_3-visualize-traffic-metrics)
 
-You can also access the Kuma marketplace demo repository [on Github](https://github.com/Kong/kuma-demo) to try more features and policies in addition to the ones described in this quickstart.
+You can also access the Kuma marketplace demo repository [on Github](https://github.com/kumahq/kuma-demo) to try more features and policies in addition to the ones described in this quickstart.
 
 :::tip
 **Community Chat**: If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.
@@ -29,7 +29,7 @@ First, [Vagrant](https://www.vagrantup.com/docs/installation/) must be installed
 You then need to clone the demo repository which contains all necessary files to deploy the application with Vagrant:
 
 ```sh
-$ git clone https://github.com/Kong/kuma-demo.git
+$ git clone https://github.com/kumahq/kuma-demo.git
 ```
 
 Once cloned, you will find the contents of universal demo in the `kuma-demo/vagrant` folder. Enter the `vagrant` folder by running:
