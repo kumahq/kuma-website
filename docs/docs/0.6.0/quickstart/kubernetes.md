@@ -12,9 +12,12 @@ Kuma can run in both **Kubernetes** (Containers) and **Universal** mode (for VMs
 
 In order to simulate a real-world scenario, we have built a simple demo application that resembles a marketplace. In this tutorial we will:
 
-* [1. Run the Marketplace application](#_1-run-the-marketplace-application)
-* [2. Enable Mutual TLS and Traffic Permissions](#_2-enable-mutual-tls-and-traffic-permissions)
-* [3. Visualize Traffic Metrics](#_3-visualize-traffic-metrics)
+- [Quickstart in Kubernetes Mode](#quickstart-in-kubernetes-mode)
+    - [1. Run the Marketplace application](#1-run-the-marketplace-application)
+      - [See the connected dataplanes](#see-the-connected-dataplanes)
+    - [2. Enable Mutual TLS and Traffic Permissions](#2-enable-mutual-tls-and-traffic-permissions)
+    - [3. Visualize Traffic Metrics](#3-visualize-traffic-metrics)
+- [Next steps](#next-steps)
 
 You can also access the Kuma marketplace demo repository [on Github](https://github.com/kumahq/kuma-demo) to try more features and policies in addition to the ones described in this quickstart.
 
@@ -103,10 +106,10 @@ and then run `kumactl`, for example:
 ```sh
 $ kumactl get dataplanes
 MESH      NAME                                              TAGS
-default   postgres-master-78d9c9c8c9-n8zjk.kuma-demo        app=postgres pod-template-hash=78d9c9c8c9 protocol=tcp service=postgres.kuma-demo.svc:5432
-default   kuma-demo-backend-v0-6fdb79ddfd-dkrp4.kuma-demo   app=kuma-demo-backend env=prod pod-template-hash=6fdb79ddfd protocol=http service=backend.kuma-demo.svc:3001 version=v0
-default   kuma-demo-app-68758d8d5d-dddvg.kuma-demo          app=kuma-demo-frontend env=prod pod-template-hash=68758d8d5d protocol=http service=frontend.kuma-demo.svc:8080 version=v8
-default   redis-master-657c58c859-5wkb4.kuma-demo           app=redis pod-template-hash=657c58c859 protocol=tcp role=master service=redis.kuma-demo.svc:6379 tier=backend
+default   postgres-master-78d9c9c8c9-n8zjk.kuma-demo        app=postgres pod-template-hash=78d9c9c8c9 protocol=tcp service=postgres_kuma-demo_svc_5432
+default   kuma-demo-backend-v0-6fdb79ddfd-dkrp4.kuma-demo   app=kuma-demo-backend env=prod pod-template-hash=6fdb79ddfd protocol=http service=backend_kuma-demo_svc_3001 version=v0
+default   kuma-demo-app-68758d8d5d-dddvg.kuma-demo          app=kuma-demo-frontend env=prod pod-template-hash=68758d8d5d protocol=http service=frontend_kuma-demo_svc_8080 version=v8
+default   redis-master-657c58c859-5wkb4.kuma-demo           app=redis pod-template-hash=657c58c859 protocol=tcp role=master service=redis_kuma-demo_svc_6379 tier=backend
 ```
 
 You can configure `kumactl` to point to any remote `kuma-cp` instance by running:

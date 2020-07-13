@@ -18,18 +18,18 @@ metadata:
 spec:
   sources:
     - match:
-        service: backend.default.svc:80
+        service: backend_default_svc_80
   destinations:
     - match:
-        service: redis.default.svc:6379
+        service: redis_default_svc_6379
   conf:
     - weight: 90
       destination:
-        service: redis.default.svc:6379
+        service: redis_default_svc_6379
         version: '1.0'
     - weight: 10
       destination:
-        service: redis.default.svc:6379
+        service: redis_default_svc_6379
         version: '2.0'
 ```
 
