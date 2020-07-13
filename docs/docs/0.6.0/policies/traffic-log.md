@@ -130,10 +130,10 @@ spec:
   # This TrafficLog policy applies only to traffic from service `backend` to service `database`.
   sources:
     - match:
-        service: backend.kuma-example.svc:8080
+        service: backend_kuma-example_svc_8080
   destinations:
     - match:
-        service: database.kuma-example.svc:5432
+        service: database_kuma-example_svc_5432
   conf:
     # Forward the logs into the logging backend named `logstash`.
     backend: logstash

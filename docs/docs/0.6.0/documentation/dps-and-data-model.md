@@ -314,7 +314,7 @@ spec:
     metadata:
       ...
       annotations:
-        kuma.io/direct-access-services: "backend.example.svc:1234,backend.example.svc:1235"
+        kuma.io/direct-access-services: "backend_example_svc_1234,backend_example_svc_1235"
     spec:
       containers:
         ...
