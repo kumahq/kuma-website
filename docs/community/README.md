@@ -26,7 +26,7 @@ card4IconAlt: Meetup logo icon
 :::
 
 ::: slot card-1-content
-Contribute and explore Kuma at the [official GitHub repository](https://github.com/Kong/kuma). 
+Contribute and explore Kuma at the [official GitHub repository](https://github.com/kumahq/kuma). 
 Here is where all the coding happens. Feel free to ask questions, submit PRs and open issues.
 :::
 

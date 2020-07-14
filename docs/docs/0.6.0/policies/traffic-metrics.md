@@ -239,18 +239,18 @@ metadata:
 spec:
   sources:
     - match:
-        service: prometheus-server.kuma-metrics.svc:80
+        service: prometheus-server_kuma-metrics_svc_80
   destinations:
     - match:
         service: dataplane-metrics
     - match:
-       service: "prometheus-alertmanager.kuma-metrics.svc:80"
+       service: "prometheus-alertmanager_kuma-metrics_svc_80"
     - match:
-       service: "prometheus-kube-state-metrics.kuma-metrics.svc:80"
+       service: "prometheus-kube-state-metrics_kuma-metrics_svc_80"
     - match:
-       service: "prometheus-kube-state-metrics.kuma-metrics.svc:81"
+       service: "prometheus-kube-state-metrics_kuma-metrics_svc_81"
     - match:
-       service: "prometheus-pushgateway.kuma-metrics.svc:9091"
+       service: "prometheus-pushgateway_kuma-metrics_svc_9091"
 ---
 apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
@@ -261,10 +261,10 @@ metadata:
 spec:
    sources:
    - match:
-      service: "grafana.kuma-metrics.svc:80"
+      service: "grafana_kuma-metrics_svc_80"
    destinations:
    - match:
-      service: "prometheus-server.kuma-metrics.svc:80"
+      service: "prometheus-server_kuma-metrics_svc_80"
 ```
 
 :::
