@@ -61,7 +61,7 @@ networking:
   - port: 9000
     servicePort: 6379
     tags:
-      service: redis" | kumactl apply -f -
+      kuma.io/service: redis" | kumactl apply -f -
 
 kuma-dp run \
   --name=redis-1 \
@@ -84,8 +84,8 @@ networking:
   - port: 8000
     servicePort: 80
     tags:
-      service: backend
-      protocol: http
+      kuma.io/service: backend
+      kuma.io/protocol: http
   outbound:
   - port: 10000
     service: redis" | kumactl apply -f -
@@ -147,8 +147,8 @@ networking:
     - port: 11011
       servicePort: 11012
       tags:
-        service: backend
-        protocol: http
+        kuma.io/service: backend
+        kuma.io/protocol: http
   outbound:
     - port: 33033
       service: redis
@@ -162,7 +162,7 @@ networking:
   address: 10.0.0.1
   gateway:
     tags:
-      service: kong
+      kuma.io/service: kong
   outbound:
   - port: 33033
     service: backend
@@ -255,7 +255,7 @@ networking:
   address: 10.0.0.1
   gateway:
     tags:
-      service: kong
+      kuma.io/service: kong
   outbound:
   - port: 33033
     service: backend

@@ -18,18 +18,18 @@ metadata:
 spec:
   sources:
     - match:
-        service: backend_default_svc_80
+        kuma.io/service: backend_default_svc_80
   destinations:
     - match:
-        service: redis_default_svc_6379
+        kuma.io/service: redis_default_svc_6379
   conf:
     - weight: 90
       destination:
-        service: redis_default_svc_6379
+        kuma.io/service: redis_default_svc_6379
         version: '1.0'
     - weight: 10
       destination:
-        service: redis_default_svc_6379
+        kuma.io/service: redis_default_svc_6379
         version: '2.0'
 ```
 
@@ -43,18 +43,18 @@ name: route-example
 mesh: default
 sources:
   - match:
-      service: backend
+      kuma.io/service: backend
 destinations:
   - match:
-      service: redis
+      kuma.io/service: redis
 conf:
   - weight: 90
     destination:
-      service: redis
+      kuma.io/service: redis
       version: '1.0'
   - weight: 10
     destination:
-      service: redis
+      kuma.io/service: redis
       version: '2.0'
 ```
 

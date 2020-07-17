@@ -48,10 +48,10 @@ mesh: default
 # This TrafficLog policy applies to all traffic in the Mesh.
 sources:
   - match:
-      service: '*'
+      kuma.io/service: '*'
 destinations:
   - match:
-      service: '*'
+      kuma.io/service: '*'
 # When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that Mesh.
 ```
 
@@ -62,10 +62,10 @@ mesh: default
 # this TrafficLog policy applies only to traffic from service `backend` to service `database`.
 sources:
   - match:
-      service: backend
+      kuma.io/service: backend
 destinations:
   - match:
-      service: database
+      kuma.io/service: database
 conf:
   # Forward the logs into the logging backend named `logstash`.
   backend: logstash
@@ -113,10 +113,10 @@ spec:
   # This TrafficLog policy applies all traffic in that Mesh.
   sources:
     - match:
-        service: '*'
+        kuma.io/service: '*'
   destinations:
     - match:
-        service: '*'
+        kuma.io/service: '*'
   # When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that Mesh.
 ```
 
@@ -130,10 +130,10 @@ spec:
   # This TrafficLog policy applies only to traffic from service `backend` to service `database`.
   sources:
     - match:
-        service: backend_kuma-example_svc_8080
+        kuma.io/service: backend_kuma-example_svc_8080
   destinations:
     - match:
-        service: database_kuma-example_svc_5432
+        kuma.io/service: database_kuma-example_svc_5432
   conf:
     # Forward the logs into the logging backend named `logstash`.
     backend: logstash
@@ -192,7 +192,7 @@ The default format string for `HTTP` traffic is:
 ```
 
 ::: tip
-To provide different format for TCP and HTTP logging you can define two separate logging backends with the same address and different format. Then define two TrafficLog entity, one for TCP and one for HTTP with `protocol: http` selector.
+To provide different format for TCP and HTTP logging you can define two separate logging backends with the same address and different format. Then define two TrafficLog entity, one for TCP and one for HTTP with `kuma.io/protocol: http` selector.
 :::
 
 ### Access Logs in JSON format
