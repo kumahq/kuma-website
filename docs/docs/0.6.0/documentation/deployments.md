@@ -147,7 +147,7 @@ networking:
   inbound:
   - port: 10000
     tags:
-      service: ingress" | kumactl appy -f -
+      kuma.io/service: ingress" | kumactl appy -f -
 
 $ kumactl generate dataplane-token --dataplane=ingress-01 > /tmp/cluster1-ingress-token
 $ kuma-dp run --name=ingress-01 --cp-address=http://localhost:15681 --dataplane-token-file=/tmp/cluster1-ingress-token --log-level=debug
@@ -269,7 +269,7 @@ networking:
   - port: 2010
     servicePort: 1010
     tags:
-      service: echo-server_echo-example_svc_1010
+      kuma.io/service: echo-server_echo-example_svc_1010
       version: "2"
 ```
 
@@ -286,7 +286,7 @@ networking:
   outbound:
   - port: 20012
     tags:
-      service: echo-server_echo-example_svc_1010
+      kuma.io/service: echo-server_echo-example_svc_1010
       version: "2"
 ```
 

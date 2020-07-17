@@ -154,10 +154,10 @@ metadata:
 spec:
   sources:
     - match:
-        service: '*'
+        kuma.io/service: '*'
   destinations:
     - match:
-        service: '*'" | kubectl apply -f -
+        kuma.io/service: '*'" | kubectl apply -f -
 ```
 
 By doing so every request we now make on our demo application at [`127.0.0.1:8080/`](http://127.0.0.1:8080/) is not only working again, but it is automatically encrypted and secure.
