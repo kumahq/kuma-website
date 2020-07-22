@@ -138,8 +138,7 @@ $ KUMA_MODE_MODE=remote KUMA_MODE_REMOTE_ZONE=<zone name> kuma-cp run
 
 Add an `ingress` dataplane, so `kuma-cp` can expose its services for cross-cluster communication.
 ```bash
-$ cat << EOF | kumactl apply -f - 
-type: Dataplane
+$ echo "type: Dataplane
 mesh: default
 name: ingress-01
 networking:
@@ -148,8 +147,8 @@ networking:
   inbound:
   - port: 10000
     tags:
-      service: ingress
-EOF
+      service: ingress" | kumactl appy -f -
+
 $ kumactl generate dataplane-token --dataplane=ingress-01 > /tmp/cluster1-ingress-token
 $ kuma-dp run --name=ingress-01 --cp-address=http://localhost:15681 --dataplane-token-file=/tmp/cluster1-ingress-token --log-level=debug
 ```
@@ -173,27 +172,25 @@ $ kumactl install control-plane --mode=global | kubectl apply -f -
 Modify the configuration with the `remote` control plane details
 
 ```bash
-$ cat <<EOF | kubectl apply -f - 
-  apiVersion: v1
-  data:
-    config.yaml: |
-      mode:
-        global:
-          lbaddress: grpcs://<gobal_cp_ip>:5685
-          zones:
-            - remote:
-                address: grpcs://<zone-1_ip>:5685
-              ingress:
-                address: <zone-1_ip>:8080
-            - remote:
-                address: grpcs://<zone-2_ip>:5685
-              ingress:
-                address: <zone-2_ip>:8080
-  kind: ConfigMap
-  metadata:
-    name: kuma-control-plane-config
-    namespace: kuma-system
-  EOF
+$ echo "apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kuma-control-plane-config
+  namespace: kuma-system
+data:
+  config.yaml: |
+    mode:
+      global:
+        lbaddress: grpcs://<gobal_cp_ip>:5685
+        zones:
+          - remote:
+              address: grpcs://<zone-1_ip>:5685
+            ingress:
+              address: <zone-1_ip>:8080
+          - remote:
+              address: grpcs://<zone-2_ip>:5685
+            ingress:
+              address: <zone-2_ip>:8080" | kubectl apply -f - 
 ```
 
 Restart the `global` control plane to make it connect ot all the new `remote` control planes.
