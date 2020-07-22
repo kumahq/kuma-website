@@ -181,7 +181,7 @@ data:
   config.yaml: |
     mode:
       global:
-        lbaddress: grpcs://<gobal_cp_ip>:5685
+        lbaddress: grpcs://<global_cp_ip>:5685
         zones:
           - remote:
               address: grpcs://<zone-1_ip>:5685
@@ -205,7 +205,7 @@ Make sure your config file contains a section that describes the `remote` contro
 ```yaml
 mode:
   global:
-    lbaddress: grpcs://<gobal_cp_ip>:5685
+    lbaddress: grpcs://<global_cp_ip>:5685
     zones:
       - remote:
           address: grpcs://<zone-1_ip>:5685
