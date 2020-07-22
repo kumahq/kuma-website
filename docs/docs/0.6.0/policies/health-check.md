@@ -26,7 +26,6 @@ mesh: default
 metadata:
   namespace: default
   name: web-to-backend-check
-mesh: default
 spec:
   sources:
   - match:
@@ -35,6 +34,10 @@ spec:
   - match:
       service: backend
   conf:
+    interval: 10s
+    timeout: 2s
+    unhealthyThreshold: 3
+    healthyThreshold: 1
     activeChecks:
       interval: 10s
       timeout: 2s
@@ -59,6 +62,10 @@ destinations:
 - match:
     service: backend
 conf:
+  interval: 10s
+  timeout: 2s
+  unhealthyThreshold: 3
+  healthyThreshold: 1
   activeChecks:
     interval: 10s
     timeout: 2s
