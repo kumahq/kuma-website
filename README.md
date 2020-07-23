@@ -1,14 +1,14 @@
 [![][kuma-logo]][kuma-url]
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/28be1f67-3436-4df7-9114-49dce7ca9a4e/deploy-status)](https://app.netlify.com/sites/kuma/deploys)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/Kong/kuma/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/kumahq/kuma/blob/master/LICENSE)
 [![Slack](https://chat.kuma.io/badge.svg)](https://chat.kuma.io/)
-[![Twitter](https://img.shields.io/twitter/follow/kumamesh.svg?style=social&label=Follow)](https://twitter.com/intent/follow?screen_name=kumamesh)
+[![Twitter](https://img.shields.io/twitter/follow/KumaMesh.svg?style=social&label=Follow)](https://twitter.com/intent/follow?screen_name=KumaMesh)
 
 # Kuma Website
-This is repository is the source code for [Kuma](http://kuma.io/docs)'s documentation website. Kuma is a universal open source control-plane for Service Mesh and Microservices that can run and be operated natively across both Kubernetes and VM environments, in order to be easily adopted by every team in the organization. If you are looking for the source code instead, please check out [Kuma's main repository](https://github.com/Kong/kuma). 
+This is repository is the source code for [Kuma](http://kuma.io/docs)'s documentation website. Kuma is a universal open source control-plane for Service Mesh and Microservices that can run and be operated natively across both Kubernetes and VM environments, in order to be easily adopted by every team in the organization. If you are looking for the source code instead, please check out [Kuma's main repository](https://github.com/kumahq/kuma). 
 
-This website is built on [VuePress](https://vuepress.vuejs.org/) and is open-source for the community to contribute to. Feel free to [submit an issue](https://github.com/Kong/kuma/issues/new) to propose changes or submit a patch if you want to write some code! 
+This website is built on [VuePress](https://vuepress.vuejs.org/) and is open-source for the community to contribute to. Feel free to [submit an issue](https://github.com/kumahq/kuma/issues/new) to propose changes or submit a patch if you want to write some code! 
 
 [Contact and chat](https://kuma.io/community) with the community in real-time if you get stuck or need clarifications. We are here to help.
 
@@ -70,7 +70,7 @@ After you make changes to the code, run the following command to run any existin
 yarn test
 ```
 
-Before submitting a [pull request](https://github.com/Kong/kuma-website/pulls), make sure all tests are passing. 
+Before submitting a [pull request](https://github.com/kumahq/kuma-website/pulls), make sure all tests are passing. 
 
 ---
 
@@ -112,6 +112,24 @@ Commands:
 * `kumacut bump` - A quick command to increment the patch in the latest version by `1`
 * `kumacut new major|minor` - This command offers more control. You can increment the latest version by `1` for a major or minor release
 * `kumacut new custom <version>` - If you want to specify the version number yourself, you can replace `<version>` with something like `2.3.4` (don't worry if you happen to write `v2.3.4` - the script is smart enough to strip this out)
+
+## License
+
+```
+Copyright 2020 the Kuma Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
 
 [kuma-url]: https://kuma.io/
 [kuma-logo]: https://kuma-public-assets.s3.amazonaws.com/kuma-logo-v2.png

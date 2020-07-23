@@ -45,7 +45,7 @@ $ kumactl install control-plane | kubectl apply -f -
 ::: tab "Universal"
 This is the standard installation method as described in the [installation page](/install).
 ```sh
-$ kuma-cp run --mode=standalone
+$ kuma-cp run
 ```
 :::
 ::::
@@ -62,7 +62,7 @@ This is a more advanced deployment mode for Kuma that allow us to support servic
 
 * **Control plane**: There is one `global` control plane, and many `remote` control planes. A global control plane only accepts connections from remote control planes.
 * **Data planes**: The data planes connect to the closest `remote` control plane in the same zone. Additionally, we need to start an `ingress` data plane on every zone.
-* **Service Connectivity**: Automatically resolved via the built-in DNS resolver that ships with Kuma. When a service wants to consume another service, it will resolve the DNS address of the desired service with Kuma, and Kuma will either respond with the address of a data plane proxy that is local to the source service (aka, in the same zone), or with the address of the `ingress` data plane for cross-zone communication.
+* **Service Connectivity**: Automatically resolved via the built-in DNS resolver that ships with Kuma. When a service wants to consume another service, it will resolve the DNS address of the desired service with Kuma, and Kuma will respond with a Virtual IP address, that corresponds to that service in the Kuma service domain.
 
 :::tip
 We can support multiple isolated service meshes thanks to Kuma's multi-tenancy support, and workloads from both Kubernetes or any other supported Universal environment can participate in the Service Mesh across different regions, clouds and datacenters while not compromizing the ease of use and still allowing for end-to-end service connectivity.
@@ -71,7 +71,7 @@ We can support multiple isolated service meshes thanks to Kuma's multi-tenancy s
 When running in distributed mode, we introduce the notion of a `global` and `remote` control planes for Kuma:
 
 * **Global**: this control plane will be used to configure the global Service Mesh [policies](/policies) that we want to apply to our data plane proxies. Data plane proxies **cannot** connect direclty to a global control plane, but can connect to `remote` control planes that are being deployed on each underlying zone that we want to include as part of the Service Mesh (can be a Kubernetes cluster, or a VM based cluster). Only one deployment of the global control plane is required, and it can be scaled horizontally.
-* **Remote**: we are going to have as many remote control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/latest/policies/mesh/). Remote control planes will accept connections from data planes that are being started in the same underlying zone, and they will themselves connect to the `global` control plane in order to fetch the service mesh policies that have been configured. Remote control planes are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally.
+* **Remote**: we are going to have as many remote control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/latest/policies/mesh/). Remote control planes will accept connections from data planes that are being started in the same underlying zone, and they will themselves connect to the `global` control plane in order to fetch the service mesh policies that have been configured. Remote control plane policy APIs are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally within their zone.
 
 In this deployment, a Kuma cluster is made of one global control plane and as many remote control planes as the number of zones that we want to support:
 
@@ -100,43 +100,201 @@ The global control plane and the remote control planes communicate with each oth
 
 ### Usage
 
-In order to deploy Kuma in a distributed deployment, we must start two `kuma-cp` control planes, one `global` and as many `remote` ones as the number of zones that we want to support.
+In order to deploy Kuma in a distributed deployment, we must start a `global` and as many `remote` control planes as the number of zones that we want to support.
+
+It is recommended that we start the `remote` control planes in each zone we want to connect.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-
-First we must start a `global` control plane:
-
 ```sh
-$ kumactl install control-plane --mode=global | kubectl apply -f -
-```
-
-Then we must start a `remote` control plane in every zone, alongside with an `ingress` data plane proxy and a new `dns` resolver:
-
-```sh
-$ kumactl install control-plane --mode=remote | kubectl apply -f -
+$ kumactl install control-plane --mode=remote --zone=<zone name> | kubectl apply -f -
 $ kumactl install ingress | kubectl apply -f -
 $ kumactl install dns | kubectl apply -f -
 ```
 
-Finally, the list of remote control planes and ingresses have to be added to the Kuma configuration file that belongs to the `global` control plane, in the `mode` section.
+Get the address of the Kuma syncronization service by listing all the
+
+```bash
+$ kubectl get services -n kuma-system
+NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
+kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+kuma-system   kuma-ingress           LoadBalancer   10.105.10.20    34.68.185.18     10001:30991/TCP                                                          29s
+```
+
+In this example these would be `global-remote-sync` at `35.226.196.103:5685` and `kuma-ingress` at `34.68.185.18:10001`.
+
+:::tip
+Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend to check the configuration of the Kubernetes cluster after deploying Kuma remote control plane. 
 
 :::
 ::: tab "Universal"
 
-First we must start a `global` control plane:
+Run the `kuma-cp` in `remote` mode.
 
 ```sh
-$ kuma-cp run --mode=global
+$ KUMA_MODE_MODE=remote KUMA_MODE_REMOTE_ZONE=<zone name> kuma-cp run 
 ```
 
-Then we must start a `remote` control plane in every zone, alongside with an `ingress` data plane proxy and a new `dns` resolver:
+Add an `ingress` dataplane, so `kuma-cp` can expose its services for cross-cluster communication.
+```bash
+$ echo "type: Dataplane
+mesh: default
+name: ingress-01
+networking:
+  address: 127.0.0.1
+  ingress: {}
+  inbound:
+  - port: 10000
+    tags:
+      service: ingress" | kumactl appy -f -
 
+$ kumactl generate dataplane-token --dataplane=ingress-01 > /tmp/cluster1-ingress-token
+$ kuma-dp run --name=ingress-01 --cp-address=http://localhost:15681 --dataplane-token-file=/tmp/cluster1-ingress-token --log-level=debug
+```
+
+Adding more dataplanes can be done locally by following the Use Kuma section in the [installation page](/install).
+:::
+::::
+
+
+The next step is to start the `global` control plane and configure the `remote` control planes connectivity.
+
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+
+Install the `global` control plane.
+```bash
+$ kumactl install control-plane --mode=global | kubectl apply -f -
+```
+
+Modify the configuration with the `remote` control plane details
+
+```bash
+$ echo "apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kuma-control-plane-config
+  namespace: kuma-system
+data:
+  config.yaml: |
+    mode:
+      global:
+        lbaddress: grpcs://<global_cp_ip>:5685
+        zones:
+          - remote:
+              address: grpcs://<zone-1_ip>:5685
+            ingress:
+              address: <zone-1_ip>:8080
+          - remote:
+              address: grpcs://<zone-2_ip>:5685
+            ingress:
+              address: <zone-2_ip>:8080" | kubectl apply -f - 
+```
+
+Restart the `global` control plane to make it connect ot all the new `remote` control planes.
+```bash
+$ kubectl delete -n kuma-system pod --all
+```
+
+:::
+::: tab "Universal"
+
+Make sure your config file contains a section that describes the `remote` control planes connectivity. 
+```yaml
+mode:
+  global:
+    lbaddress: grpcs://<global_cp_ip>:5685
+    zones:
+      - remote:
+          address: grpcs://<zone-1_ip>:5685
+        ingress:
+          address: <zone-1_ip>:8080
+      - remote:
+          address: grpcs://<zone-2_ip>:5685
+        ingress:
+          address: <zone-2_ip>:8080
+```
+
+Then run it like this:
 ```sh
-$ kuma-cp run --mode=remote
+$ KUMA_MODE_MODE=global kuma-cp run --config-file=global.yaml
+```
+:::
+::::
+
+Where `<global_cp_ip>` is the IP address of the Load Balancer that expose the `global` control plane synchronisation service.
+`<zone-1_ip>` is the IP address of the Load Balancer of the `remote` control plane. The latter can be used for both the sync service `remote:`
+and the `ingress:`.
+
+
+To utilize the distributed Kuma deployment follow the steps below
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+
+To figure out the service names that we can use in the applications for cross-cluster communication, we can look at the 
+service tag in the deployed dataplanes: 
+
+```bash
+$ kubectl get dataplanes -n echo-example -o yaml | grep service
+           service: echo-server_echo-example_svc_1010
 ```
 
-Finally, the list of remote control planes and ingresses have to be added to the Kuma configuration file that belongs to the `global` control plane, in the `mode` section.
+On Kubernetes, Kuma uses transparent proxy. In this mode, `kuma-dp` is listening on port 80 for all the virtual IPs that 
+Kuma DNS assigns to services in the `.mesh` DNS zone. Therefore, we have three ways to consume a service from within the mesh:
+
+```bash
+<kuma-enabled-pod>$ curl http://echo-server:1010
+<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
+<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
+```
+The first method still works, but is limited to endpoints implemented within the same Kuma zone (i.e. the same Kubernetes cluster).
+The second option allows to consume a service that is distributed cross the distributed Kuma cluster (bound by the same `global` control plane). For
+example the there can be an endpoint running in another Kuma zone in a different data-center.
+
+Since most HTTP clients (such as `curl`) will default to port 80, the port can be omitted, like in the third option above.
+:::
+::: tab "Universal"
+
+In hybrid (Kubernetes and Universal) deployments, the service tag should be the same in both environments (e.g `echo-server_echo-example_svc_1010`)
+
+```yaml
+type: Dataplane
+mesh: default
+name: backend-02 
+networking:
+  address: 127.0.0.1
+  inbound:
+  - port: 2010
+    servicePort: 1010
+    tags:
+      service: echo-server_echo-example_svc_1010
+      version: "2"
+```
+
+If a distributed Universal control plane is used, the service tag has no such limitation.
+
+And to consume the distributed service from Universal deployment, where the application will use `http://localhost:20012`.
+
+```yaml
+type: Dataplane
+mesh: default
+name: backend-02 
+networking:
+  address: 127.0.0.1
+  outbound:
+  - port: 20012
+    tags:
+      service: echo-server_echo-example_svc_1010
+      version: "2"
+```
 
 :::
 ::::
+
+::: tip
+The Kuma DNS service format (e.g. `echo-server_kuma-test_svc_1010.mesh`) is a composition of Kubernetes Service Name (`echo-server`),
+Namespace (`kuma-test`), a fixed string (`svc`), the service port (`1010`). The service is resolvable in the DNS zone `.mesh` where
+the Kuma DNS service is hooked.
+:::

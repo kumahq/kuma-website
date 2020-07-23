@@ -34,7 +34,7 @@ more than willing to assist you on Slack!
 
 ## Where to report bugs?
 
-Feel free to [submit an issue](https://github.com/Kong/kuma-website/issues/new) on
+Feel free to [submit an issue](https://github.com/kumahq/kuma-website/issues/new) on
 the GitHub repository, we would be grateful to hear about it! Please be provide a direct link to the webpage that contains the issue.
 
 If you wish, you are more than welcome to propose a patch to fix the issue!
@@ -107,7 +107,7 @@ suite.
 
 ### Contributor T-shirt
 
-If your Pull Request to [Kong/kuma](https://github.com/Kong/kuma) was
+If your Pull Request to [Kong/kuma](https://github.com/kumahq/kuma) was
 accepted, and it fixes a bug, adds functionality, or makes it significantly
 easier to use or understand Kuma, congratulations! You are eligible to
 receive the very special Contributor T-shirt! Go ahead and fill out the
