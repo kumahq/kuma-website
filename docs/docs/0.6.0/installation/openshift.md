@@ -114,15 +114,15 @@ Kuma (`kuma-cp`) will be installed in the newly created `kuma-system` namespace!
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "GUI (Read-Only)"
 
-Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on port `5683`. 
+Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on the API port and defaults to `:5681/gui`. 
 
-To access Kuma we need to first port-forward the GUI service with:
+To access Kuma we need to first port-forward the API service with:
 
 ```sh
-$ oc port-forward svc/kuma-control-plane -n kuma-system 5683:5683
+$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 ```
 
-And then you can navigate to [`127.0.0.1:5683`](http://127.0.0.1:5683) to see the GUI.
+And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
 
 :::
 ::: tab "oc (Read & Write)"
