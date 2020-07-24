@@ -146,6 +146,17 @@ Consuming a service handled by Kuma DNS from inside a Kubernetes container is ba
 
 Since the default VIP created listeners will default to port `80`, it can be omitted when using a standard HTTP client.
  
+::: warning
+Omitting the `.mesh` DNS zone, is possible when the service is guaranteed to also exist in the zone that consumes it. E.g. in a two zone setup, if the `echo-server` is deployed in both zones, one can consume it like this: 
+```bash
+<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010:80
+<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010
+```
+However, if a third zone is added that does not have `echo-server` installed, any service runnin in this third zone will not be able to use this syntax. 
+
+Therefore, it is strongly recommended using the `.mesh` service suffix, as a more robust, future proof way to consume services, independent of their placement and availability in a distributed Kuma setup.
+:::
+ 
 Kuma DNS allocates a VIP for every Service withing a mesh. Then, it creates outbound virtual listener for every VIP. However, by inspecting `curl localhost:9901/config_dump`, we can see sections similar to this one:
 
 ```json
