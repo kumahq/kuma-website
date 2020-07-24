@@ -49,7 +49,7 @@ And navigate to [127.0.0.1:8080](http://127.0.0.1:8080).
 
 #### See the connected dataplanes
 
-Since the demo application already comes with the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace, Kuma [already knows](/docs/0.6.0/documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/0.6.0/policies/mesh/) resource:
+Since the demo application already comes with the `kuma.io/sidecar-injection` annotation enabled on the `kuma-demo` namespace, Kuma [already knows](/docs/0.6.0/documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/0.6.0/policies/mesh/) resource:
 
 ```yaml
 apiVersion: v1
@@ -57,7 +57,7 @@ kind: Namespace
 metadata:
   name: kuma-demo
   namespace: kuma-demo
-  labels:
+  annotations:
     kuma.io/sidecar-injection: enabled
 ```
 
