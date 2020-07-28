@@ -8,7 +8,7 @@
         v-if="formStatus === null || formStatus === false"
         class="form-horizontal"
         method="post"
-        :action="getNewsletterPardotEndpoint"
+        :action="getNewsletterFormEndpoint"
       >
         <input
           v-for="(key, value) in formData"
@@ -17,10 +17,7 @@
           :value="key"
           type="hidden"
         />
-        <!-- LIVE -->
-        <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpoint">
-        <!-- DEV -->
-        <!-- <input type="hidden" name="pardot-link" :value="getNewsletterPardotEndpointDev"/> -->
+        <input type="hidden" name="pardot-link" :value="getNewsletterFormEndpoint">
         <label for="input_email" class="sr-only">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }" class="form-note-wrapper">
           <input v-model="formData.email" id="email" name="email" type="email" placeholder="Work Email" />
@@ -87,7 +84,7 @@ export default {
         email: '',
         utm_content: this.$route.query.utm_content || null,
         utm_medium: this.$route.query.utm_medium || null,
-        utm_source: this.$route.query.utm_source || null,
+        utm_source: 'kuma-homepage',
         utm_campaign: this.$route.query.utm_campaign || null,
         utm_term: this.$route.query.utm_term || null,
         utm_ad_group: this.$route.query.utm_ad_group || null
@@ -103,8 +100,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getNewsletterPardotEndpoint',
-      'getNewsletterPardotEndpointDev'
+      'getNewsletterFormEndpoint'
     ]),
     formDistanceFromTop () {
       const marker = this.$refs['formMessageMarker']

@@ -2,6 +2,8 @@
  * Tools
  */
 const path = require("path");
+require("dotenv").config();
+const webpack = require("webpack");
 
 /**
  * Releases
@@ -226,6 +228,13 @@ module.exports = {
     "/public/releases.json"
   ],
   evergreen: false,
+  configureWebpack: (config) => {
+    return {
+      plugins: [
+        new webpack.EnvironmentPlugin({ ...process.env })
+      ]
+    }
+  },
   chainWebpack: (config, isServer) => {
     const jsRule = config.module.rule("js");
     jsRule
