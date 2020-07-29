@@ -117,10 +117,4 @@ It is important that we instrument our services to preserve the trace chain betw
 * `x-b3-sampled`
 * `x-b3-flags`
 
-As noted before, Envoy's Zipkin tracer is also [compatible with Jaeger through Zipkin V1 HTTP API.](https://www.jaegertracing.io/docs/1.13/features/#backwards-compatibility-with-zipkin).
-
-::: warning
-On the current version of Kuma, because of a limitation of Envoy, every time we create, update or delete a `TrafficTrace` resource we need to restart the data plane proxies in order to successfully apply the tracing configuration.
-
-A fix has already been merged in Envoy and we are waiting for its new release (most likely v1.15) before we can update Kuma to remove this limitation.
-:::
+As noted before, Envoy's Zipkin tracer is also [compatible with Jaeger through Zipkin V2 HTTP API.](https://www.jaegertracing.io/docs/1.13/features/#backwards-compatibility-with-zipkin).
