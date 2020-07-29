@@ -1682,6 +1682,296 @@ curl -XDELETE http://localhost:5681/meshes/default/fault-injections/fi1
 The [`kumactl`](../kumactl) CLI under the hood makes HTTP requests to this API.
 :::
 
+## Zones
+
+### Get Zone
+Request: `GET /zones/{name}`
+
+Response: `200 OK` with Zone entity
+
+Example:
+```bash
+curl http://localhost:5681/zones/cluster-1
+```
+```json
+{
+ "type": "Zone",
+ "name": "cluster1",
+ "creationTime": "2020-07-28T13:14:48Z",
+ "modificationTime": "2020-07-28T13:14:48Z",
+ "ingress": {
+  "address": "192.168.64.17:31172"
+ }
+}
+```
+
+### Create/Update Zone
+
+Request: `PUT /zones/{name}` with Zone entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/zones/cluster-1 --data @zone.json -H'content-type: application/json'
+```
+```json
+{
+ "type": "Zone",
+ "name": "cluster1",
+ "ingress": {
+  "address": "192.168.64.17:31172"
+ }
+}
+```
+
+### List Zones
+
+Request: `GET /zones`
+
+Response: `200 OK` with body of Zone entities
+
+Example:
+```bash
+curl http://localhost:5681/zones
+```
+```json
+{
+ "total": 2,
+ "items": [
+  {
+   "type": "Zone",
+   "name": "cluster1",
+   "creationTime": "2020-07-28T13:14:48Z",
+   "modificationTime": "2020-07-28T13:14:48Z",
+   "ingress": {
+    "address": "192.168.64.17:31172"
+   }
+  },
+  {
+   "type": "Zone",
+   "name": "cluster2",
+   "creationTime": "2020-07-28T13:14:50Z",
+   "modificationTime": "2020-07-28T13:14:50Z",
+   "ingress": {
+    "address": "192.168.64.18:32089"
+   }
+  }
+ ],
+ "next": null
+}
+```
+
+### Delete Zone
+Request: `DELETE /zones/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/zones/cluster1
+```
+
+## Zone Overview
+
+#### Get Zone Overview
+
+Request: `GET /zones+insights/{name}`
+
+Response: `200 OK` with Zone entity including insight
+
+Example:
+```bash
+curl http://localhost:5681/zones+insights/cluster-1
+```
+```json
+{
+ "type": "ZoneOverview",
+ "mesh": "default",
+ "name": "cluster-1",
+ "creationTime": "2020-07-28T23:08:22.317322+07:00",
+ "modificationTime": "2020-07-28T23:08:22.317322+07:00",
+ "zone": {
+  "ingress": {
+   "address": "127.0.0.1:10000"
+  }
+ },
+ "zoneInsight": {
+  "subscriptions": [
+   {
+    "id": "466aa63b-70e8-4435-8bee-a7146e2cdf11",
+    "globalInstanceId": "66309679-ee95-4ea8-b17f-c715ca03bb38",
+    "connectTime": "2020-07-28T16:08:09.743141Z",
+    "disconnectTime": "2020-07-28T16:08:09.743194Z",
+    "status": {
+     "total": {}
+    }
+   },
+   {
+    "id": "f586f89c-2c4e-4f93-9a56-f0ea2ff010b7",
+    "globalInstanceId": "66309679-ee95-4ea8-b17f-c715ca03bb38",
+    "connectTime": "2020-07-28T16:08:24.760801Z",
+    "status": {
+     "lastUpdateTime": "2020-07-28T16:08:25.770774Z",
+     "total": {
+      "responsesSent": "11",
+      "responsesAcknowledged": "11"
+     },
+     "stat": {
+      "CircuitBreaker": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      },
+      "Dataplane": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      },
+      "FaultInjection": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      },
+      "HealthCheck": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      },
+      "Mesh": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      },
+      "ProxyTemplate": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      },
+      "Secret": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      },
+      "TrafficLog": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      },
+      "TrafficPermission": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      },
+      "TrafficRoute": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      },
+      "TrafficTrace": {
+       "responsesSent": "1",
+       "responsesAcknowledged": "1"
+      }
+     }
+    }
+   }
+  ]
+ }
+}
+```
+
+#### List Zone Overview
+
+Request: `GET /zones+insights`
+
+Response: `200 OK` with Zone entities including insight
+
+Example:
+```bash
+curl http://localhost:5681/zones
+```
+```json
+{
+  "total": 1,
+  "items": [
+  {
+   "type": "ZoneOverview",
+   "mesh": "default",
+   "name": "cluster-1",
+   "creationTime": "2020-07-28T23:08:22.317322+07:00",
+   "modificationTime": "2020-07-28T23:08:22.317322+07:00",
+   "zone": {
+    "ingress": {
+     "address": "127.0.0.1:10000"
+    }
+   },
+   "zoneInsight": {
+    "subscriptions": [
+     {
+      "id": "466aa63b-70e8-4435-8bee-a7146e2cdf11",
+      "globalInstanceId": "66309679-ee95-4ea8-b17f-c715ca03bb38",
+      "connectTime": "2020-07-28T16:08:09.743141Z",
+      "disconnectTime": "2020-07-28T16:08:09.743194Z",
+      "status": {
+       "total": {}
+      }
+     },
+     {
+      "id": "f586f89c-2c4e-4f93-9a56-f0ea2ff010b7",
+      "globalInstanceId": "66309679-ee95-4ea8-b17f-c715ca03bb38",
+      "connectTime": "2020-07-28T16:08:24.760801Z",
+      "status": {
+       "lastUpdateTime": "2020-07-28T16:08:25.770774Z",
+       "total": {
+        "responsesSent": "11",
+        "responsesAcknowledged": "11"
+       },
+       "stat": {
+        "CircuitBreaker": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        },
+        "Dataplane": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        },
+        "FaultInjection": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        },
+        "HealthCheck": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        },
+        "Mesh": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        },
+        "ProxyTemplate": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        },
+        "Secret": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        },
+        "TrafficLog": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        },
+        "TrafficPermission": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        },
+        "TrafficRoute": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        },
+        "TrafficTrace": {
+         "responsesSent": "1",
+         "responsesAcknowledged": "1"
+        }
+       }
+      }
+     }
+    ]
+   }
+  }
+  ],
+ "next": null
+}
+```
+
 ## Multicluster
 
 These APIs are available on the `Global` control plane, when running in a distributed multicluster mode.
@@ -1710,3 +2000,4 @@ curl -XGET http://localhost:5681/status/clusters
  }
 ]
 ```
+
