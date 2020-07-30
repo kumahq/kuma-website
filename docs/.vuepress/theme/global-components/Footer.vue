@@ -1,10 +1,10 @@
 <template>
   <footer class="page-footer">
 
-    <div class="cncf-banner">
+    <!-- <div class="cncf-banner">
       <h4>{{ getSiteData.title }} is a CNCF incubating project</h4>
       <img src="/images/CNCF_Alternate_Pantone.png" alt="Cloud Native Computing Foundation Logo">
-    </div>
+    </div> -->
     
     <div class="page-footer__links">
       <div class="inner flex flex-wrap -mx-2">
