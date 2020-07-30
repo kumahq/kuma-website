@@ -5,12 +5,12 @@ You may have already noticed that most `Kuma` policies have very similar structu
 ```yaml
 sources:
 - match:
-    kuma.io/service: ... # unique name OR '*'
+    service: ... # unique name OR '*'
     ... # (optionally) other tags
 
 destinations:
 - match:
-    kuma.io/service: ... # unique name OR '*'
+    service: ... # unique name OR '*'
     ... # (optionally) other tags
 
 conf:
@@ -34,11 +34,11 @@ E.g., the following policy will apply to network traffic between all `Dataplane`
 ```yaml
 sources:
 - match:
-    kuma.io/service: '*'
+    service: '*'
 
 destinations:
 - match:
-    kuma.io/service: '*'
+    service: '*'
 
 conf:
   ...
@@ -49,11 +49,11 @@ In contrast, the next policy will apply only to network traffic between  `Datapl
 ```yaml
 sources:
 - match:
-    kuma.io/service: web
+    service: web
 
 destinations:
 - match:
-    kuma.io/service: backend
+    service: backend
 
 conf:
   ...
@@ -64,13 +64,13 @@ Finally, you can further limit the scope of a policy by including additional tag
 ```yaml
 sources:
 - match:
-    kuma.io/service: web
+    service: web
     cloud:   aws
     region:  us
 
 destinations:
 - match:
-    kuma.io/service: backend
+    service: backend
     version: v2      # notice that not all policies support arbitrary tags in `destinations` selectors
 
 conf:

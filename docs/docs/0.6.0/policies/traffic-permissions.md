@@ -32,10 +32,10 @@ metadata:
 spec:
   sources:
     - match:
-        kuma.io/service: '*'
+        service: '*'
   destinations:
     - match:
-        kuma.io/service: '*'
+        service: '*'
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 :::
@@ -46,10 +46,10 @@ name: allow-all-traffic
 mesh: default
 sources:
   - match:
-      kuma.io/service: '*'
+      service: '*'
 destinations:
   - match:
-      kuma.io/service: '*'
+      service: '*'
 ```
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.6.0/documentation/http-api).
 :::

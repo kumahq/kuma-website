@@ -24,6 +24,7 @@ logging:
   # In that case the logs will be forwarded into the `defaultBackend` of that Mesh.
   defaultBackend: file
   # List of logging backends that can be referred to by name
+
   # from TrafficLog policies of that Mesh.
   backends:
     - name: logstash
@@ -147,7 +148,7 @@ When `backend ` field of a `TrafficLog` policy is omitted, the logs will be forw
 
 `Kuma` gives you full control over the format of access logs.
 
-The shape of a single log record is defined by a template string that uses [command operators](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#command-operators) to extract and format data about a `TCP` connection or an `HTTP` request.
+The shape of a single log record is defined by a template string that uses [command operators](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators) to extract and format data about a `TCP` connection or an `HTTP` request.
 
 E.g.,
 
@@ -159,7 +160,7 @@ where `%START_TIME%` and `%KUMA_SOURCE_SERVICE%` are examples of available _comm
 
 A complete set of supported _command operators_ consists of:
 
-1. All _command operators_ [supported by Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#command-operators)
+1. All _command operators_ [supported by Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators)
 2. _Command operators_ unique to `Kuma`
 
 The latter include:

@@ -61,7 +61,7 @@ networking:
   - port: 9000
     servicePort: 6379
     tags:
-      kuma.io/service: redis" | kumactl apply -f -
+      service: redis" | kumactl apply -f -
 
 kuma-dp run \
   --name=redis-1 \
@@ -84,8 +84,8 @@ networking:
   - port: 8000
     servicePort: 80
     tags:
-      kuma.io/service: backend
-      kuma.io/protocol: http
+      service: backend
+      protocol: http
   outbound:
   - port: 10000
     service: redis" | kumactl apply -f -
@@ -147,8 +147,8 @@ networking:
     - port: 11011
       servicePort: 11012
       tags:
-        kuma.io/service: backend
-        kuma.io/protocol: http
+        service: backend
+        protocol: http
   outbound:
     - port: 33033
       service: redis
@@ -162,7 +162,7 @@ networking:
   address: 10.0.0.1
   gateway:
     tags:
-      kuma.io/service: kong
+      service: kong
   outbound:
   - port: 33033
     service: backend
@@ -194,7 +194,7 @@ On Kubernetes this whole process is automated via transparent proxying and witho
 
 ## Kubernetes
 
-On Kubernetes the data-planes are automatically injected by Kuma as long as the K8s Namespace or Pod are **annotated** with
+On Kubernetes the data-planes are automatically injected by Kuma as long as the K8s Namespace is **labeled** with
 `kuma.io/sidecar-injection = enabled`, e.g.
 
 ```yaml
@@ -202,7 +202,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: kuma-example
-  annotations:
+  labels:
     # inject Kuma sidecar into every Pod in that Namespace,
     # unless a user explicitly opts out on per-Pod basis
     kuma.io/sidecar-injection: enabled
@@ -255,7 +255,7 @@ networking:
   address: 10.0.0.1
   gateway:
     tags:
-      kuma.io/service: kong
+      service: kong
   outbound:
   - port: 33033
     service: backend

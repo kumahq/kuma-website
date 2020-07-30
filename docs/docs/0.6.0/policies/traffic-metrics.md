@@ -49,7 +49,7 @@ spec:
         port: 5670
         path: /metrics
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
-          kuma.io/service: dataplane-metrics
+          service: dataplane-metrics
 ```
 :::
 ::: tab "Universal"
@@ -80,7 +80,7 @@ metrics:
       port: 5670
       path: /metrics
       tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
-        kuma.io/service: dataplane-metrics
+        service: dataplane-metrics
 ```
 :::
 ::::
@@ -224,7 +224,7 @@ spec:
         path: /metrics
         skipMTLS: false
         tags: # tags that can be referred in Traffic Permission  
-          kuma.io/service: dataplane-metrics
+          service: dataplane-metrics
 ```
 
 Allow the traffic from Grafana to Prometheus Server and from Prometheus Server to Dataplane metrics and for other Prometheus components:
@@ -239,18 +239,18 @@ metadata:
 spec:
   sources:
     - match:
-        kuma.io/service: prometheus-server_kuma-metrics_svc_80
+        service: prometheus-server_kuma-metrics_svc_80
   destinations:
     - match:
-        kuma.io/service: dataplane-metrics
+        service: dataplane-metrics
     - match:
-       kuma.io/service: "prometheus-alertmanager_kuma-metrics_svc_80"
+       service: "prometheus-alertmanager_kuma-metrics_svc_80"
     - match:
-       kuma.io/service: "prometheus-kube-state-metrics_kuma-metrics_svc_80"
+       service: "prometheus-kube-state-metrics_kuma-metrics_svc_80"
     - match:
-       kuma.io/service: "prometheus-kube-state-metrics_kuma-metrics_svc_81"
+       service: "prometheus-kube-state-metrics_kuma-metrics_svc_81"
     - match:
-       kuma.io/service: "prometheus-pushgateway_kuma-metrics_svc_9091"
+       service: "prometheus-pushgateway_kuma-metrics_svc_9091"
 ---
 apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
@@ -261,10 +261,10 @@ metadata:
 spec:
    sources:
    - match:
-      kuma.io/service: "grafana_kuma-metrics_svc_80"
+      service: "grafana_kuma-metrics_svc_80"
    destinations:
    - match:
-      kuma.io/service: "prometheus-server_kuma-metrics_svc_80"
+      service: "prometheus-server_kuma-metrics_svc_80"
 ```
 
 :::
