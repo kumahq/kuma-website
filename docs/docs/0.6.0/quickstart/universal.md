@@ -58,9 +58,9 @@ You can visualize the sidecars proxies that have connected to Kuma by running:
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "GUI (Read-Only)"
 
-Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on the API port and defaults to `:5681/gui`. 
+Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on port `5683`.
 
-You can navigate to [`192.168.33.10:5681/gui#/default/dataplanes`](http://192.168.33.10:5681/gui#/default/dataplanes) to see the connected dataplanes.
+You can navigate to [`192.168.33.10:5683/#/default/dataplanes`](http://192.168.33.10:5683/#/default/dataplanes) to see the connected dataplanes.
 
 :::
 ::: tab "HTTP API (Read/Write)"
@@ -128,10 +128,10 @@ name: permission-all
 mesh: default
 sources:
   - match:
-      kuma.io/service: '*'
+      service: '*'
 destinations:
   - match:
-      kuma.io/service: '*'
+      service: '*'
 EOF
 ```
 

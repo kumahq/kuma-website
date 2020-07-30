@@ -37,10 +37,10 @@ metadata:
 spec:
   sources:
   - match:
-      kuma.io/service: web
+      service: web
   destinations:
   - match:
-      kuma.io/service: backend
+      service: backend
   conf:
     interval: 5s
     baseEjectionTime: 30s
@@ -71,10 +71,10 @@ mesh: default
 name: circuit-breaker-example
 sources:
 - match:
-    kuma.io/service: web
+    service: web
 destinations:
 - match:
-    kuma.io/service: backend
+    service: backend
 conf:
   interval: 1s
   baseEjectionTime: 30s
@@ -114,10 +114,10 @@ metadata:
 spec:
   sources:
   - match:
-      kuma.io/service: web
+      service: web
   destinations:
   - match:
-      kuma.io/service: backend
+      service: backend
   conf:
     detectors:
       totalErrors: {}
@@ -132,10 +132,10 @@ mesh: default
 name: circuit-breaker-example
 sources:
 - match:
-    kuma.io/service: web
+    service: web
 destinations:
 - match:
-    kuma.io/service: backend
+    service: backend
 conf:
   detectors:
     totalErrors: {}

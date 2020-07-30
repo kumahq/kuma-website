@@ -11,13 +11,13 @@ mesh: default
 name: fi1
 sources:
     - match:
-        kuma.io/service: frontend
+        service: frontend
         version: "0.1"
-        kuma.io/protocol: http
+        protocol: http
 destinations:
     - match:
-        kuma.io/service: backend
-        kuma.io/protocol: http
+        service: backend
+        protocol: http
 conf:        
     abort:
         httpStatus: 500
@@ -42,13 +42,13 @@ metadata:
 spec:
     sources:
         - match:
-            kuma.io/service: frontend
+            service: frontend
             version: "0.1"
-            kuma.io/protocol: http
+            protocol: http
     destinations:
         - match:
-            kuma.io/service: backend
-            kuma.io/protocol: http
+            service: backend
+            protocol: http
     conf:        
         abort:
             httpStatus: 500
@@ -65,7 +65,7 @@ spec:
 `FaultInjection` is a policy, which is applied to the connection between dataplanes. As most of the policies, `FaultInjection` supports the powerful mechanism of matching, which allows you to precisely match source and destination dataplanes.
 
 ::: warning
-`FaultInjection` policy available only for L7 HTTP traffic, `kuma.io/protocol: http` is mandatory tag both for source and destination selector.
+`FaultInjection` policy available only for L7 HTTP traffic, `protocol: http` is mandatory tag both for source and destination selector.
 :::
 
 ### HTTP Faults
