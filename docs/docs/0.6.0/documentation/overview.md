@@ -43,7 +43,7 @@ When running in **Universal** mode, Kuma will require a PostgreSQL database to s
 
 ## Kubernetes mode
 
-When running on **Kubernetes**, Kuma will store all of its state and configuration on the underlying Kubernetes API Server, therefore requiring no dependency to store the data. Kuma will automatically inject the dataplane proxy `kuma-dp` on any Pod that belongs to a Namespace that includes the following label:
+When running on **Kubernetes**, Kuma will store all of its state and configuration on the underlying Kubernetes API Server, therefore requiring no dependency to store the data. Kuma will automatically inject the dataplane proxy `kuma-dp` on any Pod that belongs to a Namespace that includes the following annotation:
 
 ```
 kuma.io/sidecar-injection: enabled
@@ -57,7 +57,7 @@ You can learn more about sidecar injection in the section on [Dataplanes](./dps-
 
 ### Specify Mesh for Pods
 
-When deploying services in Kubernetes, you can determine which Mesh you want the service to be be in by using the `kuma.io/mesh: $MESH_NAME` annotation. This annotation would be applied to a deployment like so:
+When deploying services in Kubernetes, you can determine which Mesh you want the service to be in by using the `kuma.io/mesh: $MESH_NAME` annotation. This annotation would be applied to a deployment like so:
 
 ```yaml
 apiVersion: apps/v1
@@ -78,6 +78,8 @@ spec:
         ...
 ```
 
+This `kuma.io/mesh` annotation also could be set in Namespace. In this case all Pods from the Namespace will belong to specified mesh.
+ 
 ### Matching Labels in `Pod` and `Service` 
 
 When deploying Kuma on Kubernetes, you must ensure that every `Pod` is part of at least one matching `Service`. For example, in [Kuma's demo application](https://github.com/kumahq/kuma-demo/blob/master/kubernetes/), the [`Pod` for the Redis service](https://github.com/kumahq/kuma-demo/blob/master/kubernetes/kuma-demo-aio.yaml#L104)  has the following matchLabels:

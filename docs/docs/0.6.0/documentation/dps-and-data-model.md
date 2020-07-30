@@ -194,7 +194,7 @@ On Kubernetes this whole process is automated via transparent proxying and witho
 
 ## Kubernetes
 
-On Kubernetes the data-planes are automatically injected by Kuma as long as the K8s Namespace is **labeled** with
+On Kubernetes the data-planes are automatically injected by Kuma as long as the K8s Namespace or Pod are **annotated** with
 `kuma.io/sidecar-injection = enabled`, e.g.
 
 ```yaml
@@ -202,7 +202,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: kuma-example
-  labels:
+  annotations:
     # inject Kuma sidecar into every Pod in that Namespace,
     # unless a user explicitly opts out on per-Pod basis
     kuma.io/sidecar-injection: enabled
