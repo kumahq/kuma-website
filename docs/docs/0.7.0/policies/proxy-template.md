@@ -3,7 +3,7 @@
 This policy allows to configure [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api) directly in those situations where Kuma-native policies do not expose the Envoy functionality we are looking for.
 
 ::: tip
-Please [open a new issue on GitHub](https://github.com/Kong/kuma/issues/new) describing what missing functionality couldn't be found as a Kuma-native policy and we will make sure to prioritize it in the roadmap for future versions of Kuma.
+Please [open a new issue on GitHub](https://github.com/kumahq/kuma/issues/new) describing what missing functionality couldn't be found as a Kuma-native policy and we will make sure to prioritize it in the roadmap for future versions of Kuma.
 :::
 
 Specifically by using the `ProxyTemplate` policy we can provide custom definitions of:
