@@ -115,7 +115,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      formEndpoint: 'getCommunityCallSignupEndpoint',
+      formEndpoint: 'getCommunityCallFormEndpoint',
       agenda: 'getCommunityCallAgendaUrl',
       invite: 'getCommunityCallInvite'
     }),
