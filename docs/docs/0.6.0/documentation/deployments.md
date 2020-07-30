@@ -102,39 +102,75 @@ The global control plane and the remote control planes communicate with each oth
 
 In order to deploy Kuma in a distributed deployment, we must start a `global` and as many `remote` control planes as the number of zones that we want to support.
 
-It is recommended that we start the `remote` control planes in each zone we want to connect.
+### Global control plane
+
+First we start the `global` control plane and configure the `remote` control planes connectivity.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-```sh
-$ kumactl install control-plane --mode=remote --zone=<zone name> | kubectl apply -f -
-$ kumactl install ingress | kubectl apply -f -
-$ kumactl install dns | kubectl apply -f -
+
+Install the `global` control plane using 
+```bash
+$ kumactl install control-plane --mode=global | kubectl apply -f -
 ```
 
-Get the address of the Kuma syncronization service by listing all the
+Find the external IP and port of the `global-remote-sync` service in `kuma-system` namespace:
 
 ```bash
 $ kubectl get services -n kuma-system
 NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
 kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
 kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+```
+
+In this example it is `35.226.196.103:5685`.
+:::
+::: tab "Universal"
+
+Running the Global Control Plane setting up the relevant environment variale
+```sh
+$ KUMA_MODE=global kuma-cp run
+```
+:::
+::::
+
+### Remote control plane
+
+Start the `remote` control planes in each zone that will be part of the distributed Kuma deployment.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```sh
+$ kumactl install control-plane --mode=remote --zone=<zone name> --kds-global-address grpc://<global ip> | kubectl apply -f -
+$ kumactl install ingress | kubectl apply -f -
+$ kumactl install dns | kubectl apply -f -
+```
+
+Get the Remote Kuma Ingress Address:
+
+```bash
+$ kubectl get services -n kuma-system
+NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
+kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 kuma-system   kuma-ingress           LoadBalancer   10.105.10.20    34.68.185.18     10001:30991/TCP                                                          29s
 ```
 
-In this example these would be `global-remote-sync` at `35.226.196.103:5685` and `kuma-ingress` at `34.68.185.18:10001`.
+In this example this would be `kuma-ingress` at `34.68.185.18:10001`.
 
-:::tip
-Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend to check the configuration of the Kubernetes cluster after deploying Kuma remote control plane. 
-
+::: tip
+Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend checking the configuration of the Kubernetes cluster after deploying Kuma remote control plane to ensure evrything is as expected. 
 :::
 ::: tab "Universal"
 
 Run the `kuma-cp` in `remote` mode.
 
 ```sh
-$ KUMA_MODE_MODE=remote KUMA_MODE_REMOTE_ZONE=<zone name> kuma-cp run 
+$ KUMA_MODE=remote \
+KUMA_MULTICLUSTER_REMOTE_ZONE=<zone-name> \
+KUMA_MULTICLUSTER_REMOTE_GLOBAL_ADDRESS=grpcs://<global-remote-sync-address> ./kuma-cp run
 ```
+
+Where `<zone-name>` is the name of the zone mathcing one of the Zone resources to be created at the Global CP. `<global-remote-sync-address>` is the public address as obtained during the Global CP deployment step.
 
 Add an `ingress` dataplane, so `kuma-cp` can expose its services for cross-cluster communication.
 ```bash
@@ -147,7 +183,7 @@ networking:
   inbound:
   - port: 10000
     tags:
-      service: ingress" | kumactl appy -f -
+      kuma.io/service: ingress" | kumactl appy -f -
 
 $ kumactl generate dataplane-token --dataplane=ingress-01 > /tmp/cluster1-ingress-token
 $ kuma-dp run --name=ingress-01 --cp-address=http://localhost:15681 --dataplane-token-file=/tmp/cluster1-ingress-token --log-level=debug
@@ -158,76 +194,37 @@ Adding more dataplanes can be done locally by following the Use Kuma section in 
 ::::
 
 
-The next step is to start the `global` control plane and configure the `remote` control planes connectivity.
-
+### Create the Zone resources
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-Install the `global` control plane.
-```bash
-$ kumactl install control-plane --mode=global | kubectl apply -f -
-```
-
-Modify the configuration with the `remote` control plane details
-
-```bash
-$ echo "apiVersion: v1
-kind: ConfigMap
+We can now create a Zone resource for each Zone we will add. These can be added at any point in time, before or after the Remote CP is deployed. The format of the resource is as follows: 
+```yaml
+echo "apiVersion: kuma.io/v1alpha1
+kind: Zone
+mesh: default
 metadata:
-  name: kuma-control-plane-config
-  namespace: kuma-system
-data:
-  config.yaml: |
-    mode:
-      global:
-        lbaddress: grpcs://<global_cp_ip>:5685
-        zones:
-          - remote:
-              address: grpcs://<zone-1_ip>:5685
-            ingress:
-              address: <zone-1_ip>:8080
-          - remote:
-              address: grpcs://<zone-2_ip>:5685
-            ingress:
-              address: <zone-2_ip>:8080" | kubectl apply -f - 
-```
-
-Restart the `global` control plane to make it connect ot all the new `remote` control planes.
-```bash
-$ kubectl delete -n kuma-system pod --all
+  name: zone-1
+spec:
+  ingress:
+    address: <zone-ingress-public-address>" | kubectl apply -f -
 ```
 
 :::
 ::: tab "Universal"
 
-Make sure your config file contains a section that describes the `remote` control planes connectivity. 
+We can now create a Zone resource for each Zone we will add. These can be added at any point in time, before or after the Remote CP is deployed. The format of the resource is as follows: 
 ```yaml
-mode:
-  global:
-    lbaddress: grpcs://<global_cp_ip>:5685
-    zones:
-      - remote:
-          address: grpcs://<zone-1_ip>:5685
-        ingress:
-          address: <zone-1_ip>:8080
-      - remote:
-          address: grpcs://<zone-2_ip>:5685
-        ingress:
-          address: <zone-2_ip>:8080
+echo "type: Zone
+name: zone-1
+ingress:
+  address: <zone-ingress-public-ip>:10001" | kumactl apply -f -
 ```
 
-Then run it like this:
-```sh
-$ KUMA_MODE_MODE=global kuma-cp run --config-file=global.yaml
-```
-:::
 ::::
 
-Where `<global_cp_ip>` is the IP address of the Load Balancer that expose the `global` control plane synchronisation service.
-`<zone-1_ip>` is the IP address of the Load Balancer of the `remote` control plane. The latter can be used for both the sync service `remote:`
-and the `ingress:`.
-
+### Using the distributed deployment
 
 To utilize the distributed Kuma deployment follow the steps below
 :::: tabs :options="{ useUrlFragment: false }"
@@ -269,7 +266,7 @@ networking:
   - port: 2010
     servicePort: 1010
     tags:
-      service: echo-server_echo-example_svc_1010
+      kuma.io/service: echo-server_echo-example_svc_1010
       version: "2"
 ```
 
@@ -286,7 +283,7 @@ networking:
   outbound:
   - port: 20012
     tags:
-      service: echo-server_echo-example_svc_1010
+      kuma.io/service: echo-server_echo-example_svc_1010
       version: "2"
 ```
 

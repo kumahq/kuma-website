@@ -29,10 +29,10 @@ metadata:
 spec:
   sources:
   - match:
-      service: web
+      kuma.io/service: web
   destinations:
   - match:
-      service: backend
+      kuma.io/service: backend
   conf:
     interval: 10s
     timeout: 2s
@@ -57,10 +57,10 @@ name: web-to-backend-check
 mesh: default
 sources:
 - match:
-    service: web
+    kuma.io/service: web
 destinations:
 - match:
-    service: backend
+    kuma.io/service: backend
 conf:
   interval: 10s
   timeout: 2s

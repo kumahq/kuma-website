@@ -10,10 +10,10 @@ mesh: default
 name: catch-all-policy
 sources:
   - match:
-      service: '*'
+      kuma.io/service: '*'
 destinations:
   - match:
-      service: '*'
+      kuma.io/service: '*'
 conf:
   backend: logstash
 ```
@@ -26,12 +26,12 @@ mesh: default
 name: web-to-backend-policy
 sources:
   - match:
-      service: web
+      kuma.io/service: web
       cloud:   aws
       region:  us
 destinations:
   - match:
-      service: backend
+      kuma.io/service: backend
 conf:
   backend: splunk
 ```
@@ -54,7 +54,7 @@ Going back to 2 `TrafficLog` policies described above:
    E.g., `web-to-backend-policy` policy matches a connection between 2 `Dataplane`s by 4 tags (3 tags on `sources` and 1 tag on `destinations`), while `catch-all-policy` matches only by 2 tags (1 tag on `sources` and 1 tag on `destinations`)
 2. a policy that matches by the exact tag value is more specific than policy that matches by a `'*'` (wildcard) tag value
 
-   E.g., `web-to-backend-policy` policy matches `sources` by `service: web`, while `catch-all-policy` matches by `service: *`
+   E.g., `web-to-backend-policy` policy matches `sources` by `kuma.io/service: web`, while `catch-all-policy` matches by `kuma.io/service: *`
 
 3. if 2 policies match a connection between 2 `Dataplane`s by the same number of tags, then the one with a greater total number of matches by the exact tag value is "more specific" than the other
 
@@ -67,12 +67,12 @@ E.g.,
    ```yaml
    sources:
      - match:
-         service: '*'
+         kuma.io/service: '*'
          cloud:   aws
          region:  us
    destinations:
      - match:
-         service: '*'
+         kuma.io/service: '*'
    ```
 
    is "more specific" than
@@ -80,10 +80,10 @@ E.g.,
    ```yaml
    sources:
      - match:
-         service: '*'
+         kuma.io/service: '*'
    destinations:
      - match:
-         service: '*'
+         kuma.io/service: '*'
    ```
 
 2. match by the exact tag value
@@ -91,10 +91,10 @@ E.g.,
    ```yaml
    sources:
      - match:
-         service: web
+         kuma.io/service: web
    destinations:
      - match:
-         service: backend
+         kuma.io/service: backend
    ```
 
    is "more specific" than a match by a `'*'` (wildcard)
@@ -102,10 +102,10 @@ E.g.,
    ```yaml
    sources:
      - match:
-         service: '*'
+         kuma.io/service: '*'
    destinations:
      - match:
-         service: '*'
+         kuma.io/service: '*'
    ```
 
 3. match with a greater total number of matches by the exact tag value

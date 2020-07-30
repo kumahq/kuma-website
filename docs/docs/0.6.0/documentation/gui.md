@@ -6,7 +6,7 @@ Kuma now ships with a basic web-based GUI that will serve as a visual overview o
 The GUI pairs with the HTTP API — Read more about the HTTP API [here](../http-api)
 :::
 
-When launching Kuma, the GUI will start by default on port `:5683`. You can access it in your web browser by going to `http://localhost:5683/`.
+When launching Kuma, the GUI will start by default on the API port, and defaults to `:5681/gui`. You can access it in your web browser by going to `http://localhost:5681/gui`.
 
 ## Getting Started
 When you run the GUI for the first time, you’ll be presented with the Wizard:

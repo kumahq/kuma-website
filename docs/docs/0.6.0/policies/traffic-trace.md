@@ -1,6 +1,6 @@
 # Traffic Trace
 
-This policy enables tracing logging to a third party tracing solution. Tracing is supported on any HTTP traffic in a [`Mesh`](../mesh), and will only work with data planes and services that have the Kuma `protocol: http` tag defined.
+This policy enables tracing logging to a third party tracing solution. Tracing is supported on any HTTP traffic in a [`Mesh`](../mesh), and will only work with data planes and services that have the Kuma `kuma.io/protocol: http` tag defined.
 
 In order to enable tracing there are two steps that have to be taken:
 
@@ -82,7 +82,7 @@ metadata:
 spec:
   selectors:
   - match:
-      service: '*'
+      kuma.io/service: '*'
   conf:
     backend: jaeger-collector
 ```
@@ -97,7 +97,7 @@ name: trace-all-traffic
 mesh: default
 selectors:
 - match:
-    service: '*'
+    kuma.io/service: '*'
 conf:
   backend: jager-collector
 ```
@@ -106,7 +106,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 :::
 ::::
 
-We can use Kuma Tags to apply the `TrafficTrace` resource in a more target way to a subset of data plane proxies as opposed to all of them (like we do in the example by using the `service: '*'` selector),
+We can use Kuma Tags to apply the `TrafficTrace` resource in a more target way to a subset of data plane proxies as opposed to all of them (like we do in the example by using the `kuma.io/service: '*'` selector),
 
 It is important that we instrument our services to preserve the trace chain between requests that are made across different services. We can either use a library in the language of our choice, or we can manually pass the following headers:
 

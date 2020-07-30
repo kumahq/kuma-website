@@ -49,7 +49,7 @@ And navigate to [127.0.0.1:8080](http://127.0.0.1:8080).
 
 #### See the connected dataplanes
 
-Since the demo application already comes with the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace, Kuma [already knows](/docs/0.6.0/documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/0.6.0/policies/mesh/) resource:
+Since the demo application already comes with the `kuma.io/sidecar-injection` annotation enabled on the `kuma-demo` namespace, Kuma [already knows](/docs/0.6.0/documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/0.6.0/policies/mesh/) resource:
 
 ```yaml
 apiVersion: v1
@@ -57,7 +57,7 @@ kind: Namespace
 metadata:
   name: kuma-demo
   namespace: kuma-demo
-  labels:
+  annotations:
     kuma.io/sidecar-injection: enabled
 ```
 
@@ -66,15 +66,15 @@ You can visualize the sidecars proxies that have connected to Kuma by running:
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "GUI (Read-Only)"
 
-Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on port `5683`.
+Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on the API port and defaults to `:5681/gui`. 
 
-To access Kuma we need to first port-forward the GUI service with:
+To access Kuma we need to first port-forward the API service with:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5683:5683
+$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 ```
 
-And then you can navigate to [`127.0.0.1:5683/#/default/dataplanes`](http://127.0.0.1:5683/#/default/dataplanes) to see the connected dataplanes.
+And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
 
 :::
 ::: tab "HTTP API (Read-Only)"
@@ -154,10 +154,10 @@ metadata:
 spec:
   sources:
     - match:
-        service: '*'
+        kuma.io/service: '*'
   destinations:
     - match:
-        service: '*'" | kubectl apply -f -
+        kuma.io/service: '*'" | kubectl apply -f -
 ```
 
 By doing so every request we now make on our demo application at [`127.0.0.1:8080/`](http://127.0.0.1:8080/) is not only working again, but it is automatically encrypted and secure.

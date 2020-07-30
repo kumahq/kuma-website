@@ -131,7 +131,6 @@ curl http://localhost:5681/config
     "advertisedHostname": "kuma-control-plane.internal"
   },
   "guiServer": {
-    "port": 5683
   },
   "monitoringAssignmentServer": {
     "assignmentRefreshInterval": "1s",
