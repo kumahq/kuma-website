@@ -81,9 +81,9 @@ Kuma (`kuma-cp`) is now running! Now that Kuma has been installed you can access
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "GUI (Read-Only)"
 
-Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on port `5683`. 
+Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on the API port and defaults to `:5681/gui`. 
 
-To access Kuma you can navigate to [`127.0.0.1:5683`](http://127.0.0.1:5683) to see the GUI.
+To access Kuma you can navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
 
 :::
 ::: tab "HTTP API (Read & Write)"
