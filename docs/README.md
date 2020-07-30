@@ -31,7 +31,7 @@ tabs:
 
 ::: slot news
 
-**Kuma v0.6.0 is out now!** Hybrid Universal support, Global/Remote CP, Ingress and Automatic DNS Discovery &mdash; [Get Started](/install/)
+**Kuma 0.7 has been released!** Improved multi-zone deployments, ProxyTemplate policy v2.0, StatefulSet support and more! &mdash; [Get Started](/install/)
 
 :::
 
