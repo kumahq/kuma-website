@@ -18,8 +18,9 @@ This is the default, single zone mode, in which all of the following ports are e
     * `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
     * `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
     * `5680`: the HTTP server that returns the health status of the control-plane.
-    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies. It also exposes the Kuma GUI at `/gui`
+    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies.
     * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
+    * `5683`: the HTTP server that exposes Kuma UI.
     * `5685`: the Kuma Discovery Service port, leveraged in Distributed control plane mode
 * UDP
     * `5653`: the Kuma DNS server
@@ -31,7 +32,8 @@ When Kuma is run as a distributed service mesh, the Global control plane exposes
 
 * TCP
     * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
-    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies. Manipulating the dataplane resources is not possible. It also exposes the Kuma GUI at `/gui`
+    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies. Manipulating the dataplane resources is not possible.
+    * `5683`: the HTTP server that exposes Kuma UI.
 
 ### Remote Control Plane
 
@@ -143,6 +145,16 @@ Consuming a service handled by Kuma DNS from inside a Kubernetes container is ba
 ```
 
 Since the default VIP created listeners will default to port `80`, it can be omitted when using a standard HTTP client.
+ 
+::: warning
+Omitting the `.mesh` DNS zone, is possible when the service is guaranteed to also exist in the zone that consumes it. E.g. in a two zone setup, if the `echo-server` is deployed in both zones, one can consume it like this: 
+```bash
+<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc:1010
+```
+However, if a third zone is added that does not have `echo-server` installed, any service running in this third zone will not be able to use this syntax. 
+
+Therefore, it is strongly recommended using the `.mesh` service suffix, as a more robust, future proof way to consume services, independent of their placement and availability in a distributed Kuma setup.
+:::
  
 Kuma DNS allocates a VIP for every Service withing a mesh. Then, it creates outbound virtual listener for every VIP. However, by inspecting `curl localhost:9901/config_dump`, we can see sections similar to this one:
 
