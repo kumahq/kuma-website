@@ -128,10 +128,10 @@ name: permission-all
 mesh: default
 sources:
   - match:
-      service: '*'
+      kuma.io/service: '*'
 destinations:
   - match:
-      service: '*'
+      kuma.io/service: '*'
 EOF
 ```
 

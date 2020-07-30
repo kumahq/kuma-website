@@ -28,8 +28,8 @@ networking:
   - port: 80
     servicePort: 8080
     tags:
-      service: web
-      protocol: http # let Kuma know that your service supports HTTP protocol
+      kuma.io/service: web
+      kuma.io/protocol: http # let Kuma know that your service supports HTTP protocol
 ```
 
 ### On Kubernetes

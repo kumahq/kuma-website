@@ -33,7 +33,7 @@ metadata:
 spec:
   selectors:
     - match:
-        service: '*'
+        kuma.io/service: '*'
   conf:
     # `imports` allows us to reuse the dataplane configuration that Kuma
     # generates automatically and add more customizations on top of it
@@ -51,7 +51,7 @@ mesh: default
 name: custom-template-1
 selectors:
   - match:
-      service: '*'
+      kuma.io/service: '*'
 conf:
   # `imports` allows us to reuse the dataplane configuration that Kuma
   # generates automatically and add more customizations on top of it
@@ -77,7 +77,7 @@ metadata:
 spec:
   selectors:
     - match:
-        service: backend
+        kuma.io/service: backend
   conf:
     # `imports` allows us to reuse the dataplane configuration that Kuma
     # generates automatically and add more customizations on top of it
@@ -110,7 +110,7 @@ mesh: default
 name: custom-template-1
 selectors:
   - match:
-      service: backend
+      kuma.io/service: backend
 conf:
   # `imports` allows us to reuse the data plane configuration that Kuma
   # generates automatically and add more customizations on top of it
@@ -179,7 +179,7 @@ metadata:
 spec:
   selectors:
     - match:
-        service: backend
+        kuma.io/service: backend
   conf:
     imports:
       - default-proxy
@@ -204,7 +204,7 @@ mesh: default
 name: custom-template-1
 selectors:
   - match:
-      service: backend   
+      kuma.io/service: backend   
 conf:
   imports:
     - default-proxy
@@ -240,7 +240,7 @@ metadata:
 spec:
   selectors:
     - match:
-        service: backend
+        kuma.io/service: backend
   conf:
     imports:
       - default-proxy
@@ -304,7 +304,7 @@ mesh: default
 name: custom-template-1
 selectors:
   - match:
-      service: backend 
+      kuma.io/service: backend 
 conf:
   imports:
     - default-proxy
