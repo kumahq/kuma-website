@@ -174,7 +174,7 @@ All access log _command operators_ are valid to use with both `TCP` and `HTTP` t
 
 If a _command operator_ is specific to `HTTP` traffic, such as `%REQ(X?Y):Z%` or `%RESP(X?Y):Z%`, it will be replaced by a symbol "`-`" in case of `TCP` traffic.
 
-Internally, `Kuma` [determines traffic protocol](../http-support-in-kuma) based on the value of `protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
+Internally, `Kuma` [determines traffic protocol](../supported-protocols) based on the value of `protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
 
 The default format string for `TCP` traffic is:
 
