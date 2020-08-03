@@ -123,7 +123,7 @@ kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.1
 kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 ```
 
-In this example it is `35.226.196.103:5685`.
+In this example it is `35.226.196.103:5685`. This will be used as `<global-kds-address>` further.
 :::
 ::: tab "Universal"
 
@@ -141,7 +141,7 @@ Start the `remote` control planes in each zone that will be part of the distribu
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 ```sh
-$ kumactl install control-plane --mode=remote --zone=<zone name> --kds-global-address grpc://<global ip> | kubectl apply -f -
+$ kumactl install control-plane --mode=remote --zone=<zone name> --kds-global-address grpcs://`<global-kds-address>` | kubectl apply -f -
 $ kumactl install ingress | kubectl apply -f -
 $ kumactl install dns | kubectl apply -f -
 ```
@@ -155,7 +155,7 @@ kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>      
 kuma-system   kuma-ingress           LoadBalancer   10.105.10.20    34.68.185.18     10001:30991/TCP                                                          29s
 ```
 
-In this example this would be `kuma-ingress` at `34.68.185.18:10001`.
+In this example this would be `kuma-ingress` at `34.68.185.18:10001`. This will be used as `<zone-ingress-address>` below.
 
 ::: tip
 Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend checking the configuration of the Kubernetes cluster after deploying Kuma remote control plane to ensure evrything is as expected. 
@@ -167,7 +167,7 @@ Run the `kuma-cp` in `remote` mode.
 ```sh
 $ KUMA_MODE=remote \
 KUMA_MULTICLUSTER_REMOTE_ZONE=<zone-name> \
-KUMA_MULTICLUSTER_REMOTE_GLOBAL_ADDRESS=grpcs://<global-remote-sync-address> ./kuma-cp run
+KUMA_MULTICLUSTER_REMOTE_GLOBAL_ADDRESS=grpcs://<global-kds-address> ./kuma-cp run
 ```
 
 Where `<zone-name>` is the name of the zone mathcing one of the Zone resources to be created at the Global CP. `<global-remote-sync-address>` is the public address as obtained during the Global CP deployment step.
@@ -208,7 +208,7 @@ metadata:
   name: zone-1
 spec:
   ingress:
-    address: <zone-ingress-public-address>" | kubectl apply -f -
+    address: <zone-ingress-address>" | kubectl apply -f -
 ```
 
 :::
@@ -219,7 +219,7 @@ We can now create a Zone resource for each Zone we will add. These can be added 
 echo "type: Zone
 name: zone-1
 ingress:
-  address: <zone-ingress-public-ip>:10001" | kumactl apply -f -
+  address: <zone-ingress-address>" | kumactl apply -f -
 ```
 
 ::::
