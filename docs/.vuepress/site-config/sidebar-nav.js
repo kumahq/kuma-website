@@ -1119,6 +1119,7 @@ module.exports = {
       path: "",
       children: [
         "installation/kubernetes",
+        "installation/helm",
         "installation/openshift",
         "installation/docker",
         "installation/redhat",
