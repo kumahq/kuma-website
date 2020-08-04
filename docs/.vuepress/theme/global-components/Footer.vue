@@ -94,7 +94,7 @@ export default {
         }
       ],
       subLinks: [
-        { label: 'Code Of Conduct', url: '/terms/' }
+        { label: 'Code Of Conduct', url: 'https://github.com/kumahq/kuma/blob/master/CODE_OF_CONDUCT.md' }
       ],
       socialIconPath: '/images/social/',
       socialIconSize: 16, // in px
