@@ -8,23 +8,6 @@
       <p>Kuma was originally created by <a href="https://konghq.com/">Kong, Inc.</a> and made successful by its open <a href="/community">community</a>.</p>
     </div>
     
-    <!--
-    <div class="page-footer__links">
-      <div class="inner flex flex-wrap -mx-2">
-        <div v-for="(link, index) in links" :key="index" class="w-full sm:w-1/2 md:w-1/4 px-2">
-          <ul>
-            <li><h5>{{ link.group }}</h5></li>
-            <li v-for="(item, index) in link.items">
-              <a :href="item.url" :class="{ 'badge-wrap': ( item.badge === true ) }">
-                {{ item.label }} <span v-if="item.badge && item.badgeText" class="badge">{{ item.badgeText }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    -->
-    
     <!-- .page-footer__links -->
 
     <div class="page-footer__sublinks">
