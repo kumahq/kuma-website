@@ -6,14 +6,14 @@ There are two deployment models that can be adopted with Kuma in order to addres
 
 The two deployments modes are:
 
-* [**Flat**](#flat-mode): Kuma's default deployment model with one control plane (that can be scaled horizontally) and many data planes connecting directly to it.
-* [**Distributed**](#distributed-mode): Kuma's advanced deployment model to support multiple Kubernetes or VM-based clusters, or hybrid Service Meshes running on both Kubernetes and VMs combined.
+* [**Standalone**](#standalone-mode): Kuma's default deployment model with one control plane (that can be scaled horizontally) and many data planes connecting directly to it.
+* [**Multi-Zone**](#multi-zone-mode): Kuma's advanced deployment model to support multiple Kubernetes or VM-based clusters, or hybrid Service Meshes running on both Kubernetes and VMs combined.
 
 :::tip
-**Automatic Connectivity**: Running a Service Mesh should be easy and connectivity should be abstracted away, so that when a service wants to consume another service all it needs is the name of the destination service. Kuma achieves this out of the box in both deployment modes with a built-in service discovery and - in the case of the distributed mode - with an Ingress resource and Remote CPs.
+**Automatic Connectivity**: Running a Service Mesh should be easy and connectivity should be abstracted away, so that when a service wants to consume another service all it needs is the name of the destination service. Kuma achieves this out of the box in both deployment modes with a built-in service discovery and - in the case of the multi-zone mode - with an Ingress resource and Remote CPs.
 :::
 
-## Flat Mode
+## Standalone Mode
 
 This is the simplest deployment mode for Kuma, and the default one.
 
@@ -21,19 +21,19 @@ This is the simplest deployment mode for Kuma, and the default one.
 * **Data planes**: The data planes connect to the control plane regardless of where they are being deployed.
 * **Service Connectivity**: Every data plane proxy must be able to connect to every other data plane proxy regardless of where they are being deployed.
 
-This mode implies that we can deploy Kuma and its data plane proxies in a flat networking topology mode so that the service connectivity from every data plane proxy can be estabilished directly to every other data plane proxy.
+This mode implies that we can deploy Kuma and its data plane proxies in a standalone networking topology mode so that the service connectivity from every data plane proxy can be estabilished directly to every other data plane proxy.
 
 <center>
 <img src="/images/docs/0.6.0/flat-diagram.png" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Although flat mode can support complex multi-cluster or hybrid deployments (Kubernetes + VMs) as long as the networking requirements are satisfied, typically in most use cases our connectivity cannot be flattened out across multiple clusters. Therefore flat mode is usually a great choice within the context of one cluster (ie: within one Kubernetes cluster or one AWS VPC).
+Although standalone mode can support complex multi-cluster or hybrid deployments (Kubernetes + VMs) as long as the networking requirements are satisfied, typically in most use cases our connectivity cannot be flattened out across multiple clusters. Therefore standalone mode is usually a great choice within the context of one cluster (ie: within one Kubernetes cluster or one AWS VPC).
 
-For those situations where the flat deployment mode doesn't satistfy our architecture, Kuma provides a [distributed mode](#distributed-mode) which is more powerful and provides a greater degree of flexibility in more complex environments.
+For those situations where the standalone deployment mode doesn't satistfy our architecture, Kuma provides a [multi-zone mode](#multi-zone-mode) which is more powerful and provides a greater degree of flexibility in more complex environments.
 
 ### Usage
 
-In order to deploy Kuma in a flat deployment, the `kuma-cp` control plane must be started in `standalone` mode:
+In order to deploy Kuma in a standalone deployment, the `kuma-cp` control plane must be started in `standalone` mode:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -56,7 +56,7 @@ Once Kuma is up and running, data plane proxies can now [connect](/docs/0.7.0/do
 When the mode is not specified, Kuma will always start in `standalone` mode by default.
 :::
 
-## Distributed Mode
+## Multi-Zone Mode
 
 This is a more advanced deployment mode for Kuma that allow us to support service meshes that are running on many clusters, including hybrid deployments on both Kubernetes and VMs.
 
@@ -68,7 +68,7 @@ This is a more advanced deployment mode for Kuma that allow us to support servic
 We can support multiple isolated service meshes thanks to Kuma's multi-tenancy support, and workloads from both Kubernetes or any other supported Universal environment can participate in the Service Mesh across different regions, clouds and datacenters while not compromizing the ease of use and still allowing for end-to-end service connectivity.
 :::
 
-When running in distributed mode, we introduce the notion of a `global` and `remote` control planes for Kuma:
+When running in multi-zone mode, we introduce the notion of a `global` and `remote` control planes for Kuma:
 
 * **Global**: this control plane will be used to configure the global Service Mesh [policies](/policies) that we want to apply to our data plane proxies. Data plane proxies **cannot** connect direclty to a global control plane, but can connect to `remote` control planes that are being deployed on each underlying zone that we want to include as part of the Service Mesh (can be a Kubernetes cluster, or a VM based cluster). Only one deployment of the global control plane is required, and it can be scaled horizontally.
 * **Remote**: we are going to have as many remote control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/latest/policies/mesh/). Remote control planes will accept connections from data planes that are being started in the same underlying zone, and they will themselves connect to the `global` control plane in order to fetch the service mesh policies that have been configured. Remote control plane policy APIs are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally within their zone.
@@ -81,7 +81,7 @@ In this deployment, a Kuma cluster is made of one global control plane and as ma
 <img src="/images/docs/0.6.0/distributed-diagram.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-In a distributed deployment mode, services will be running on multiple platforms, clouds or Kubernetes clusters (which are identifies as `zones` in Kuma). While all of them will be part of a Kuma mesh by connecting their data plane proxies to the local `remote` control plane in the same zone, implementing service to service connectivity would be tricky since a source service may not know where a destination service is being hosted at (for instance, in another zone).
+In a multi-zone deployment mode, services will be running on multiple platforms, clouds or Kubernetes clusters (which are identifies as `zones` in Kuma). While all of them will be part of a Kuma mesh by connecting their data plane proxies to the local `remote` control plane in the same zone, implementing service to service connectivity would be tricky since a source service may not know where a destination service is being hosted at (for instance, in another zone).
 
 To implement easy service connectivity, Kuma ships with:
 
@@ -100,7 +100,7 @@ The global control plane and the remote control planes communicate with each oth
 
 ### Usage
 
-In order to deploy Kuma in a distributed deployment, we must start a `global` and as many `remote` control planes as the number of zones that we want to support.
+In order to deploy Kuma in a multi-zone deployment, we must start a `global` and as many `remote` control planes as the number of zones that we want to support.
 
 ### Global control plane
 
@@ -136,7 +136,7 @@ $ KUMA_MODE=global kuma-cp run
 
 ### Remote control plane
 
-Start the `remote` control planes in each zone that will be part of the distributed Kuma deployment.
+Start the `remote` control planes in each zone that will be part of the multi-zone Kuma deployment.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -224,9 +224,9 @@ ingress:
 
 ::::
 
-### Using the distributed deployment
+### Using the multi-zone deployment
 
-To utilize the distributed Kuma deployment follow the steps below
+To utilize the multi-zonse Kuma deployment follow the steps below
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
@@ -247,7 +247,7 @@ Kuma DNS assigns to services in the `.mesh` DNS zone. Therefore, we have three w
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
 ```
 The first method still works, but is limited to endpoints implemented within the same Kuma zone (i.e. the same Kubernetes cluster).
-The second option allows to consume a service that is distributed cross the distributed Kuma cluster (bound by the same `global` control plane). For
+The second option allows to consume a service that is distributed across the Kuma cluster (bound by the same `global` control plane). For
 example the there can be an endpoint running in another Kuma zone in a different data-center.
 
 Since most HTTP clients (such as `curl`) will default to port 80, the port can be omitted, like in the third option above.
@@ -270,9 +270,9 @@ networking:
       version: "2"
 ```
 
-If a distributed Universal control plane is used, the service tag has no such limitation.
+If a multi-zone Universal control plane is used, the service tag has no such limitation.
 
-And to consume the distributed service from Universal deployment, where the application will use `http://localhost:20012`.
+And to consume the distributed service from a Universal deployment, where the application will use `http://localhost:20012`.
 
 ```yaml
 type: Dataplane
