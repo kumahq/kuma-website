@@ -5,6 +5,11 @@
     "slug": "kubernetes"
   },
   {
+    "label": "Helm",
+    "logo": "/images/platforms/logo-helm.svg",
+    "slug": "helm"
+  },
+  {
     "label": "OpenShift",
     "logo": "/images/platforms/logo-openshift.png",
     "slug": "openshift"
