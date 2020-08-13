@@ -1,37 +1,86 @@
-# Helm
+# Kubernetes
 
-To install and run Kuma on Kubernetes with Helm charts execute the following steps:
+To install and run Kuma on Kubernetes execute the following steps:
 
-* [1. Add the Kuma charts repository](#_1-add-the-kuma-charts-repository)
+* [1. Download Kuma](#_1-download-kuma)
 * [2. Run Kuma](#_2-run-kuma)
 * [3. Use Kuma](#_3-use-kuma)
 
 Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and continue your Kuma journey.
 
 ::: tip
-Kuma also provides an alternative [Kubernetes distribution](/docs/0.7.0/installation/kubernetes/) that we can use instead of Helm charts.
+Kuma also provides [Helm charts](/docs/0.7.1/installation/helm/) that we can use instead of this distribution.
 :::
 
-### 1. Add the Kuma charts repository
+### 1. Download Kuma
 
-To start using Kuma with Helm charts, we first need to add the [Kuma charts repository](https://kumahq.github.io/charts) to our local Helm deployment: 
+To run Kuma on Kubernetes, you need to download a compatible version of Kuma for the machine from which you will be executing the commands.
 
-```sh
-$ helm repo add kuma https://kumahq.github.io/charts
-```
 
-Once the repo is added, all following updates can be fetched with `helm repo update`.
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Script"
 
-### Run Kuma
-
-At this point we can install and run Kuma using the following commands. We could use any Kubernetes namespace to install Kuma, by default we suggest using `kuma-system`:
+You can run the following script to automatically detect the operating system and download Kuma:
 
 ```sh
-$ kubectl create namespace kuma-system
-$ helm install --namespace kuma-system kuma kuma/kuma
+$ curl -L https://kuma.io/installer.sh | sh -
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/0.7.0/documentation/deployments/) like "multi-zone".
+:::
+::: tab "Manually"
+
+You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access Kubernetes:
+
+* [CentOS](https://kong.bintray.com/kuma/kuma-0.7.1-centos-amd64.tar.gz)
+* [RedHat](https://kong.bintray.com/kuma/kuma-0.7.1-rhel-amd64.tar.gz)
+* [Debian](https://kong.bintray.com/kuma/kuma-0.7.1-debian-amd64.tar.gz)
+* [Ubuntu](https://kong.bintray.com/kuma/kuma-0.7.1-ubuntu-amd64.tar.gz)
+* [macOS](https://kong.bintray.com/kuma/kuma-0.7.1-darwin-amd64.tar.gz) or run `brew install kumactl`
+
+and extract the archive with:
+
+```sh
+$ tar xvzf kuma-0.7.1*.tar.gz
+```
+
+:::
+::::
+
+### 2. Run Kuma
+
+Once downloaded, you will find the contents of Kuma in the `kuma-0.7.1` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/0.7.1/documentation/kumactl/).
+
+::: tip
+**Note**: On Kubernetes - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
+:::
+
+So we enter the `bin` folder by executing:
+
+```sh
+$ cd kuma-0.7.1/bin
+```
+
+And we can then proceed to install Kuma on Kubernetes with:
+
+```sh
+$ ./kumactl install control-plane | kubectl apply -f -
+```
+
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/0.7.1/documentation/deployments/) like "multi-zone".
+
+We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
+
+```sh
+ln -s ./kumactl /usr/local/bin/kumactl
+```
+
+::: tip
+It may take a while for Kubernetes to start the Kuma resources, you can check the status by executing:
+
+```sh
+$ kubectl get pod -n kuma-system
+```
+:::
 
 ### 3. Use Kuma
 
@@ -120,4 +169,4 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 Congratulations! You have successfully installed Kuma on Kubernetes 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/0.7.0/quickstart/kubernetes/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/0.7.1/quickstart/kubernetes/) deployments.

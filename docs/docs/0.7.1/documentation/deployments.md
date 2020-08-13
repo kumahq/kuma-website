@@ -109,7 +109,7 @@ First we start the `global` control plane and configure the `remote` control pla
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-Install the `global` control plane using 
+Install the `global` control plane using:
 ```bash
 $ kumactl install control-plane --mode=global | kubectl apply -f -
 ```
@@ -124,6 +124,13 @@ kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>      
 ```
 
 In this example it is `35.226.196.103:5685`. This will be used as `<global-kds-address>` further.
+:::
+::: tab "Helm"
+Install the `global` control plane by setting the `controlPlane.mode` value to `global` when installing the chart. This can be done on the command line, or in a provided file:
+
+```sh
+$ helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
+```
 :::
 ::: tab "Universal"
 
@@ -160,6 +167,13 @@ In this example this would be `kuma-ingress` at `34.68.185.18:10001`. This will 
 ::: tip
 Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend checking the configuration of the Kubernetes cluster after deploying Kuma remote control plane to ensure evrything is as expected. 
 :::
+::: tab "Helm"
+To install the Remote Control plane we need to provide the following parameters `controlPlane.mode=remote`,`controlPlane.zone=<zone-name>`, `ingress.enabled=true` and `controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>`:
+
+```bash
+$ helm install kuma --namespace kuma-system --set controlPlane.mode=remote,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
+```
+:::
 ::: tab "Universal"
 
 Run the `kuma-cp` in `remote` mode.
@@ -173,6 +187,7 @@ KUMA_MULTICLUSTER_REMOTE_GLOBAL_ADDRESS=grpcs://<global-kds-address> ./kuma-cp r
 Where `<zone-name>` is the name of the zone mathcing one of the Zone resources to be created at the Global CP. `<global-remote-sync-address>` is the public address as obtained during the Global CP deployment step.
 
 Add an `ingress` dataplane, so `kuma-cp` can expose its services for cross-cluster communication.
+
 ```bash
 $ echo "type: Dataplane
 mesh: default
@@ -201,7 +216,7 @@ Adding more dataplanes can be done locally by following the Use Kuma section in 
 
 We can now create a Zone resource for each Zone we will add. These can be added at any point in time, before or after the Remote CP is deployed. The format of the resource is as follows: 
 ```yaml
-echo "apiVersion: kuma.io/v1alpha1
+$ echo "apiVersion: kuma.io/v1alpha1
 kind: Zone
 mesh: default
 metadata:
@@ -216,7 +231,7 @@ spec:
 
 We can now create a Zone resource for each Zone we will add. These can be added at any point in time, before or after the Remote CP is deployed. The format of the resource is as follows: 
 ```yaml
-echo "type: Zone
+$ echo "type: Zone
 name: zone-1
 ingress:
   address: <zone-ingress-address>" | kumactl apply -f -
