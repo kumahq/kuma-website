@@ -31,7 +31,7 @@ tabs:
 
 ::: slot news
 
-**Kuma 0.7 has been released!** Improved multi-zone deployments, ProxyTemplate policy v2.0, StatefulSet support and more! &mdash; [Get Started](/install/)
+**Kuma 0.7.1 has been released!** Improvements to the 0.7.x release branch which shipped with multi-zone deployment support, improved ProxyTemplate, StatefulSet support and more! &mdash; [Get Started](/install/)
 
 :::
 
