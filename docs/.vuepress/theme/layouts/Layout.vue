@@ -58,7 +58,7 @@ import Shell from '@theme/components/custom/Shell.vue'
 import Home from '@theme/components/custom/Home.vue'
 import Install from '@theme/components/custom/Install.vue'
 import Community from '@theme/components/custom/Community.vue'
-import RequestADemo from '@theme/components/custom/RequestADemo.vue'
+import Enterprise from '@theme/components/custom/Enterprise.vue'
 import UseCases from '@theme/components/custom/UseCases.vue'
 import Policies from '@theme/components/custom/Policies.vue'
 
@@ -71,7 +71,7 @@ export default {
     Home,
     Install,
     Community,
-    RequestADemo,
+    Enterprise,
     UseCases,
     Policies
   },
