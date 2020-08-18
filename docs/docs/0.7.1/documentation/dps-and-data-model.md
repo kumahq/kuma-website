@@ -88,7 +88,8 @@ networking:
       kuma.io/protocol: http
   outbound:
   - port: 10000
-    kuma.io/service: redis" | kumactl apply -f -
+    tags:
+      kuma.io/service: redis" | kumactl apply -f -
 
 kuma-dp run \
   --name=backend-1 \
@@ -151,7 +152,8 @@ networking:
         kuma.io/protocol: http
   outbound:
     - port: 33033
-      kuma.io/service: redis
+      tags:
+        kuma.io/service: redis
 ```
 And the [`Gateway mode`](#gateway)'s entity definition will look like:
 ```yaml
@@ -165,7 +167,8 @@ networking:
       kuma.io/service: kong
   outbound:
   - port: 33033
-    kuma.io/service: backend
+    tags:
+      kuma.io/service: backend
 ```
 
 The `Dataplane` entity includes a few sections:
@@ -258,7 +261,8 @@ networking:
       kuma.io/service: kong
   outbound:
   - port: 33033
-    kuma.io/service: backend
+    tags:
+      kuma.io/service: backend
 ```
 
 When configuring your API Gateway to pass traffic to _backend_ set the url to `http://localhost:33033` 
