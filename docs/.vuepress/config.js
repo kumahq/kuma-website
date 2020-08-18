@@ -56,7 +56,7 @@ module.exports = {
     displayAllHeaders: true,
     // main navigation
     nav: [
-      { text: "Policies", link: "/policies/" },
+      { text: "Explore Policies", link: "/policies/" },
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
       // { text: "Use Cases", link: "/use-cases/" },
