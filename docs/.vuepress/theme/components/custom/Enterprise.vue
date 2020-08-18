@@ -29,10 +29,10 @@
 
     <div v-if="$page.frontmatter.pullRequestUrl" class="pull-request-cta mt-12 pt-12">
       <div class="inner text-center">
-        <h3>Are you offering Kuma support? Add your company!</h3>
+        <h3>Are you offering a Kuma enterprise package?</h3>
         <p>
           <a :href="$page.frontmatter.pullRequestUrl" class="btn" target="_blank">
-            Created a Pull Request
+            Create a Pull Request
           </a>
         </p>
       </div>

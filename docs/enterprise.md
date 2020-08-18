@@ -4,16 +4,16 @@ layout: Enterprise
 title: Enterprise
 
 # page content
-pageTitle: Enterprise
-subTitle: Companies offering enterprise features and commercial support for Kuma
+pageTitle: Kuma Enterprise
+subTitle: Companies providing enterprise packages for Kuma
 pullRequestUrl: https://github.com/kumahq/kuma-website/pulls
 
 # company list
 companies:
   - name: Kong Mesh
     url: https://konghq.com/request-demo-kong-mesh?utm_source=kuma
-    summary: Universal service mesh for enterprise organizations focused on simplicity, security and scalability with Kuma and Envoy
+    summary: The enterprise service mesh built on top of Kuma and Envoy that natively integrates with Kong Enterprise and more.
     image: /images/enterprise/kong-mesh-cropped.png
 ---
 
-<!-- the rest of this page is handled in the RequestADemo.vue component due to its complexity -->
+<!-- the rest of this page is handled in the Enterprise.vue component due to its complexity -->
