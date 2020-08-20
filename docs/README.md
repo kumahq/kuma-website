@@ -59,7 +59,7 @@ tabs:
 
 ### CRD + RESTful Interface
 
-![CRD + RESTful Interface diagram](/images/diagrams/v2/diagram-crd-rest@2x.png)
+![CRD + RESTful Interface diagram](/images/diagrams/v3/diagram-crd-rest@2x.png)
 
 Built on top of Envoy, Kuma is a modern control plane to orchestrate L4 / L7 traffic, including Microservices and Service Mesh.
 :::
@@ -68,7 +68,7 @@ Built on top of Envoy, Kuma is a modern control plane to orchestrate L4 / L7 tra
 
 ### L4 + L7 Policies
 
-![L4 and L7 Policies chart](/images/diagrams/v2/diagram-l4-l7-policies@2x.png)
+![L4 and L7 Policies chart](/images/diagrams/v3/diagram-l4-l7-policies@2x.png)
 
 Out of the box Ingress and Service Mesh service management policies for security, observability, routing, and more.
 :::
@@ -77,7 +77,7 @@ Out of the box Ingress and Service Mesh service management policies for security
 
 ### Platform Agnostic
 
-![Platform Agnostic diagram](/images/diagrams/v2/diagram-platform-agnostic@2x.png)
+![Platform Agnostic diagram](/images/diagrams/v3/diagram-platform-agnostic@2x.png)
 
 Enterprise-ready and platform agnostic with native Kubernetes + CRD support, as well as VM and Bare Metal via YAML + REST.
 :::
@@ -102,14 +102,14 @@ Chief Architect at Telus Digital
 
 [Install Kuma](/install/) via an available distribution:
 
-``` sh
+```sh
 $ kumactl install control-plane \
   | kubectl apply -f-
 ```
 
 Visualize the GUI to see your cluster:
 
-``` sh
+```sh
 $ kubectl port-forward svc/kuma-control-plane \
   -n kuma-system 5681:5681
 ```
@@ -122,14 +122,14 @@ Navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the GUI.
 
 [Install Kuma](/install/) via an available distribution:
 
-``` sh
+```sh
 $ kumactl install control-plane \
   --cni-enabled | oc apply -f -
 ```
 
 Visualize the GUI to see your cluster:
 
-``` sh
+```sh
 $ oc port-forward svc/kuma-control-plane \
   -n kuma-system 5681:5681
 ```
@@ -159,7 +159,7 @@ Getting up and running with Kuma only requires three easy steps. Bundled with En
 - Bundled with Envoy Proxy
 - 10+ Policies ready to use
 - For every L4/L7 traffic
-:::
+  :::
 
 <!-- content blocks -->
 
@@ -167,12 +167,12 @@ Getting up and running with Kuma only requires three easy steps. Bundled with En
 
 ### Connectivity with no boundaries
 
-With Kuma you can build service connectivity and Service Meshes across a large variety of platforms  and clouds. Platform agnostic by nature, Kuma supports modern Kubernetes environments and Virtual Machine workloads in the same cluster, with no effort. 
+With Kuma you can build service connectivity and Service Meshes across a large variety of platforms and clouds. Platform agnostic by nature, Kuma supports modern Kubernetes environments and Virtual Machine workloads in the same cluster, with no effort.
 
 - K8s + VM native
 - Ingress and Mesh
 - HA, Distributed, Multicloud
-:::
+  :::
 
 ::: slot feature-focus-1-diagram
 ![Diagram outlining connectivity with no boundaries](/images/diagrams/v2/diagram-connectivity@2x.png)
@@ -187,7 +187,7 @@ Getting up and running with Kuma only requires three easy steps. Bundled with En
 - Multi-Tenant
 - Ops complexity is O(1), not O(n)
 - One Runtime, scalable horizontally
-:::
+  :::
 
 ::: slot feature-focus-2-diagram
 ![Diagram outlining one cluster for the entire organization](/images/diagrams/v2/diagram-org-cluster@2x.png)
