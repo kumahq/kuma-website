@@ -39,13 +39,13 @@ tabs:
 
 ::: slot masthead-main-title
 
-# The modern control plane<br> for reliable service connectivity
+# The universal Envoy service mesh<br> for distributed service connectivity
 
 :::
 
 ::: slot masthead-sub-title
 
-## The open-source control plane for modern connectivity, <br>delivering high performance and reliability with Envoy.
+## The open-source control plane for service mesh, <br>delivering high performance and reliability with Envoy
 
 :::
 
@@ -57,11 +57,11 @@ tabs:
 
 ::: slot feature-block-content-1
 
-### Universal & Multi-Mesh
+### Kubernetes, VMs & Multi-Mesh
 
 ![CRD + RESTful Interface diagram](/images/diagrams/v3/diagram-crd-rest@2x.png)
 
-Built on top of Envoy, Kuma is a modern control plane for Microservices & Service Mesh for both K8s and VMs, that supports multiple meshes in one cluster.
+Built on top of Envoy, Kuma is a modern control plane for Microservices & Service Mesh for both K8s and VMs, with support for multiple meshes in one cluster.
 :::
 
 ::: slot feature-block-content-2
