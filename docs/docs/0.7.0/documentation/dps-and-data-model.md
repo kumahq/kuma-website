@@ -289,6 +289,34 @@ The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kube
 
 For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller), please follow this [demo application guide](https://github.com/kumahq/kuma-demo/tree/master/kubernetes).
 
+## Ingress
+
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/0.7.0/documentation/deployments/) mode, the `Dataplane` model introduces the `Ingress` mode. Such dataplane is not attached to any particular workload, but instead it is bound to that particular zone.
+The specifics of the `Ingress` dataplane are described in the `networking.ingress` dictionary in the YAML resource. For the time being this one is empty, instead it denotes the `Ingress` mode of the dataplane.
+
+### Universal
+
+In Universal mode the dataplane resource should be deployed as follows:
+
+```yaml
+type: Dataplane
+mesh: default
+name: dp-ingress
+networking:
+  address: 10.0.0.1
+  ingress: {}
+  inbound:
+  - port: 10001
+    tags:
+      kuma.io/service: ingress
+```
+
+The `networking.address` is and externally accessible IP or one behind a LoadBalancer. The `inbound` port shall be accessible from the other Zones that are about to communicate with the zone that deploys that particular `Ingress` dataplane.
+
+### Kubernetes
+
+The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/0.7.0/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
+
 ## Direct access to services
 
 By default on Kubernetes data plane proxies communicate with each other by leveraging the `ClusterIP` address of the `Service` resources. Also by default, any request made to another service is automatically load balanced client-side by the data plane proxy that originates the request (they are load balanced by the local Envoy proxy sidecar proxy).
