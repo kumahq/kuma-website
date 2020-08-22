@@ -50,7 +50,7 @@ $ kuma-cp run
 :::
 ::::
 
-Once Kuma is up and running, data plane proxies can now [connect](/docs/0.7.0/documentation/dps-and-data-model) directly to it. 
+Once Kuma is up and running, data plane proxies can now [connect](/docs/0.7.1/documentation/dps-and-data-model) directly to it. 
 
 :::tip
 When the mode is not specified, Kuma will always start in `standalone` mode by default.
@@ -89,7 +89,7 @@ To implement easy service connectivity, Kuma ships with:
 * **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. 
 
 :::tip
-An `ingress` data plane is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/0.7.0/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data planes.
+An `ingress` data plane is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/0.7.1/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data planes.
 :::
 
 The global control plane and the remote control planes communicate with each other via xDS in order to synchronize the resources that are being created to configure Kuma, like policies.
