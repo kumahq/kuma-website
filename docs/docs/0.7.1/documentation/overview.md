@@ -129,5 +129,5 @@ When we unpack the underlying behavior, it looks like this:
 </center>
 
 ::: tip
-**xDS APIs**: Kuma implements the [xDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/v2_overview) APIs of Envoy in the `kuma-cp` application so that the Envoy DPs can connect to it and retrieve their configuration.
+**xDS APIs**: Kuma implements the [xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) APIs of Envoy in the `kuma-cp` application so that the Envoy DPs can connect to it and retrieve their configuration.
 :::
