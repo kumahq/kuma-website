@@ -175,7 +175,7 @@ Build modern service and application connectivity across every platform, cloud a
   :::
 
 ::: slot feature-focus-1-diagram
-![Diagram outlining connectivity with no boundaries](/images/diagrams/v2/diagram-connectivity@2x.png)
+![Diagram outlining connectivity with no boundaries](/images/diagrams/v3/diagram-connectivity-new@2x.png)
 :::
 
 ::: slot feature-focus-2-content
@@ -190,7 +190,7 @@ Designed for the enterprise architect, Kuma ships with a native multi-mesh suppo
   :::
 
 ::: slot feature-focus-2-diagram
-![Diagram outlining one cluster for the entire organization](/images/diagrams/v2/diagram-org-cluster@2x.png)
+![Diagram outlining one cluster for the entire organization](/images/diagrams/v3/diagram-one-cluster-new@2x.png)
 :::
 
 <!-- newsletter -->
