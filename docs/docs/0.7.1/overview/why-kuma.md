@@ -4,10 +4,10 @@ title: Why Kuma?
 
 # Why Kuma?
 
-When building any modern digital application, we will inevitably introduce services that will communicate with each other by making requests on the network. 
+When building any modern digital application, we will inevitably introduce services that will communicate with each other by making requests on the network.
 
 <center>
-<img src="/images/docs/diagram-before-after-full.png" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/diagram-before-after-full-r1.png" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 For example, think of any application that communicates with a database to store or retrieve data, or think of a more complex microservice-oriented application that makes many requests across different services to execute its operations:
@@ -20,15 +20,16 @@ Every time our services communicate over the network, we put the end-user experi
 
 Usually, at this point, developers take one of the following actions to remedy the situation:
 
-* **Write more code**: Developers write code - sometimes in the form of a *smart* client - that every service will have to utilize when making requests to another service. Usually, this approach introduces a few problems: 
+- **Write more code**: Developers write code - sometimes in the form of a _smart_ client - that every service will have to utilize when making requests to another service. Usually, this approach introduces a few problems:
+
   - It creates more technical debt
-  - It is typically language-specific; therefore, it prevents innovation 
+  - It is typically language-specific; therefore, it prevents innovation
   - Multiple implementations of the library exist, which creates fragmentation in the long run.
 
-* **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. And of course it will execute traffic policies at runtime, like routing or logging. By using this approach, developers don't have to worry about connectivity and focus entirely on their services and applications.
+- **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. And of course it will execute traffic policies at runtime, like routing or logging. By using this approach, developers don't have to worry about connectivity and focus entirely on their services and applications.
 
 ::: tip
-**Sidecar Proxy**: It's called *sidecar* proxy because the proxy it's another process running alongside our service process on the same underlying host. There is going to be one instance of a sidecar proxy for each running instance of our services, and because all the incoming and outgoing requests - and their data - always go through the sidecar proxy, it is also called a data-plane (DP) since it sits on the data path.
+**Sidecar Proxy**: It's called _sidecar_ proxy because the proxy it's another process running alongside our service process on the same underlying host. There is going to be one instance of a sidecar proxy for each running instance of our services, and because all the incoming and outgoing requests - and their data - always go through the sidecar proxy, it is also called a data-plane (DP) since it sits on the data path.
 :::
 
 Since we are going to be having many instances for our services, we are also going to be having an equal number of sidecar proxies: that's a lot of proxies! Therefore the sidecar proxy model **requires** a control plane that allows a team to configure the behavior of the proxies dynamically without having to manually configure them. The data planes will initiate a connection with the control plane in order to receive new configuration, while the control plane will - at runtime - provide them with the most updated configuration.
@@ -47,7 +48,8 @@ Unlike a data plane proxy (DP), the control plane (CP) is never on the execution
 
 With Kuma, our main goal is to reduce the code that has to be written and maintained to build reliable architectures. Therefore, Kuma embraces the sidecar proxy model by leveraging Envoy as its sidecar data-plane technology.
 
-By outsourcing all the connectivity, security, and routing concerns to a sidecar proxy, we benefit from our enhanced ability to: 
+By outsourcing all the connectivity, security, and routing concerns to a sidecar proxy, we benefit from our enhanced ability to:
+
 - build applications faster
 - focus on the core functionality of our services to drive more business
 - build a more secure and standardized architecture by reducing fragmentation
