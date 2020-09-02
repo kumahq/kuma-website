@@ -26,6 +26,7 @@
 
           <div v-if="getSelectedInstallVersion" class="version-selector__version-notifier">
             <p class="page-sub-title">You are viewing installation instructions for <strong>{{getSelectedInstallVersion}}</strong>.</p>
+            <p><a href="https://github.com/kumahq/kuma/blob/master/CHANGELOG.md">Changelog</a> • <a href="https://github.com/kumahq/kuma/blob/master/UPGRADE.md">Upgrade Path</a> • <a href="/community">Slack Support</a></p>
           </div>
           <!-- .version-selector__version-notifier -->
 
