@@ -14,19 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# You can customize the version of Kuma to download by setting the
-# KUMA_VERSION environment variable, and you can change the default 64bit
-# architecture by setting the KUMA_ARCH variable.
+# You can customize the version of Kuma (or Kuma-based products) to 
+# download by setting the VERSION environment variable, and you can change 
+# the default 64bit architecture by setting the ARCH variable.
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-: "${KUMA_VERSION:=}"
-: "${KUMA_ARCH:=amd64}"
+: "${VERSION:=}"
+: "${ARCH:=amd64}"
 
-DISTRO=""
+PRODUCT_NAME=Kuma
+LATEST_VERSION=https://kuma.io/latest_version
+REPO_PREFIX=kuma
 
 printf "\n"
-printf "INFO\tWelcome to the Kuma automated download!\n"
+printf "INFO\tWelcome to the $PRODUCT_NAME automated download!\n"
 
 if ! type "grep" > /dev/null 2>&1; then
   printf "ERROR\tgrep cannot be found\n"
@@ -45,6 +47,7 @@ if ! type "gzip" > /dev/null 2>&1; then
   exit 1;
 fi
 
+DISTRO=""
 OS=`uname -s`
 if [ "$OS" = "Linux" ]; then
   DISTRO=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
@@ -54,7 +57,7 @@ if [ "$OS" = "Linux" ]; then
 elif [ "$OS" = "Darwin" ]; then
   DISTRO="darwin"
 else
-  printf "ERROR\tOperating system %s not supported by Kuma\n" "$OS"
+  printf "ERROR\tOperating system %s not supported by $PRODUCT_NAME\n" "$OS"
   exit 1
 fi
 
@@ -63,42 +66,42 @@ if [ -z "$DISTRO" ]; then
   exit 1
 fi
 
-if [ -z "$KUMA_VERSION" ]; then
-  # Fetching latest Kuma version
-  printf "INFO\tFetching latest Kuma version..\n"
-  KUMA_VERSION=`curl -s https://kuma.io/latest_version`
+if [ -z "$VERSION" ]; then
+  # Fetching latest version
+  printf "INFO\tFetching latest $PRODUCT_NAME version..\n"
+  VERSION=`curl -s $LATEST_VERSION`
   if [ $? -ne 0 ]; then
-    printf "ERROR\tUnable to fetch latest Kuma version.\n"
+    printf "ERROR\tUnable to fetch latest $PRODUCT_NAME version.\n"
     exit 1
   fi
-  if [ -z "$KUMA_VERSION" ]; then
-    printf "ERROR\tUnable to fetch latest Kuma version because of a problem with Kuma.\n"
+  if [ -z "$VERSION" ]; then
+    printf "ERROR\tUnable to fetch latest $PRODUCT_NAME version because of a problem with $PRODUCT_NAME.\n"
     exit 1
   fi
 fi
 
-printf "INFO\tKuma version: %s\n" "$KUMA_VERSION"
-printf "INFO\tKuma architecture: %s\n" "$KUMA_ARCH"
+printf "INFO\t$PRODUCT_NAME version: %s\n" "$VERSION"
+printf "INFO\t$PRODUCT_NAME architecture: %s\n" "$ARCH"
 printf "INFO\tOperating system: %s\n" "$DISTRO"
 
-URL="https://kong.bintray.com/kuma/kuma-$KUMA_VERSION-$DISTRO-$KUMA_ARCH.tar.gz"
+URL="https://kong.bintray.com/$REPO_PREFIX/$REPO_PREFIX-$VERSION-$DISTRO-$ARCH.tar.gz"
 
 if ! curl -s --head $URL | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null; then
-  printf "ERROR\tUnable to download Kuma at the following URL: %s\n" "$URL"
+  printf "ERROR\tUnable to download $PRODUCT_NAME at the following URL: %s\n" "$URL"
   exit 1
 fi
 
-printf "INFO\tDownloading Kuma from: %s" "$URL"
+printf "INFO\tDownloading $PRODUCT_NAME from: %s" "$URL"
 printf "\n\n"
 
 if curl -L "$URL" | tar xz; then
   printf "\n"
-  printf "INFO\tKuma %s has been downloaded!\n" "$KUMA_VERSION"
+  printf "INFO\t$PRODUCT_NAME %s has been downloaded!\n" "$VERSION"
   printf "\n"
-  printf "%s" "$(<$DIR/kuma-$KUMA_VERSION/README)"
+  printf "%s" "$(<$DIR/$REPO_PREFIX-$VERSION/README)"
   printf "\n"
 else
   printf "\n"
-  printf "ERROR\tUnable to download Kuma\n"
+  printf "ERROR\tUnable to download $PRODUCT_NAME\n"
   exit 1
 fi

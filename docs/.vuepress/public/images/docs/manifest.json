@@ -634,6 +634,13 @@
       "type": "directory"
     },
     {
+      "path": "docs/.vuepress/public/images/docs/diagram-before-after-full-r1.png",
+      "name": "diagram-before-after-full-r1.png",
+      "size": 371997,
+      "extension": ".png",
+      "type": "file"
+    },
+    {
       "path": "docs/.vuepress/public/images/docs/diagram-before-after-full.png",
       "name": "diagram-before-after-full.png",
       "size": 249378,
@@ -648,6 +655,6 @@
       "type": "file"
     }
   ],
-  "size": 9788691,
+  "size": 10160688,
   "type": "directory"
 }

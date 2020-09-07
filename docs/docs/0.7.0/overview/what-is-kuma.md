@@ -10,6 +10,10 @@ title: What is Kuma?
 
 Kuma is a platform agnostic open-source control plane for Service Mesh and Microservices. It can run and be operated natively across both Kubernetes and VM environments, making it easy to adopt by every team in the organization.
 
+::: tip
+Kuma is a CNCF Sandbox project, open source and vendor neutral.
+:::
+
 <center>
 <img src="/images/diagrams/main-diagram@2x.png" alt="" style="width: 550px; padding-top: 10px"/>
 </center>
