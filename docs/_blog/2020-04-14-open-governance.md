@@ -6,8 +6,6 @@ tags:
   - Community
 ---
 
-### Kuma Open Governance and Community Calls
-
 We are very proud to announce some very important community updates for Kuma, with the goal of making Kuma more open and more inclusive to the broader open source ecosystem:
 
 * An open governance policy
