@@ -443,6 +443,13 @@
       "type": "directory"
     },
     {
+      "path": "docs/.vuepress/public/images/docs/0.6.0",
+      "name": "0.6.0",
+      "children": [],
+      "size": 0,
+      "type": "directory"
+    },
+    {
       "path": "docs/.vuepress/public/images/docs/diagram-before-after-full.png",
       "name": "diagram-before-after-full.png",
       "size": 1089351,
