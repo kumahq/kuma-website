@@ -634,6 +634,35 @@
       "type": "directory"
     },
     {
+      "path": "docs/.vuepress/public/images/docs/0.7.1",
+      "name": "0.7.1",
+      "children": [
+        {
+          "path": "docs/.vuepress/public/images/docs/0.7.1/grafana-dashboard-kuma-cp1.png",
+          "name": "grafana-dashboard-kuma-cp1.png",
+          "size": 245505,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.7.1/grafana-dashboard-kuma-cp2.png",
+          "name": "grafana-dashboard-kuma-cp2.png",
+          "size": 159429,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/0.7.1/grafana-dashboard-kuma-cp3.png",
+          "name": "grafana-dashboard-kuma-cp3.png",
+          "size": 207756,
+          "extension": ".png",
+          "type": "file"
+        }
+      ],
+      "size": 612690,
+      "type": "directory"
+    },
+    {
       "path": "docs/.vuepress/public/images/docs/diagram-before-after-full-r1.png",
       "name": "diagram-before-after-full-r1.png",
       "size": 371997,
@@ -655,6 +684,6 @@
       "type": "file"
     }
   ],
-  "size": 10160688,
+  "size": 10773378,
   "type": "directory"
 }
