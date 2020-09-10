@@ -59,6 +59,7 @@ module.exports = {
       { text: "Explore Policies", link: "/policies/" },
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
+      { text: "News", link: "/news/" },
       // { text: "Use Cases", link: "/use-cases/" },
       { text: "Enterprise", link: "/enterprise/" },
       { text: "Install", link: "/install/" }
@@ -206,8 +207,43 @@ module.exports = {
     "@vuepress/google-analytics": {
       ga: productData.gaCode
     },
+    // "@vuepress/plugin-pwa": {
+    //   serviceWorker: false,
+    //   updatePopup: false,
+    //   generateSWConfig: {
+    //     skipWaiting: true
+    //   }
+    // },
     "@vuepress/nprogress": {},
-    "tabs": {}
+    "@vuepress/plugin-blog": {
+      sitemap: {
+        hostname: productData.hostname
+      },
+      directories: [
+        {
+          title: 'News',
+          id: 'news',
+          dirname: '_news',
+          path: '/news/',
+          itemPermalink: '/news/:year/:slug',
+          layout: 'PostIndex',
+          itemLayout: 'Post',
+          pagination: {
+            lengthPerPage: 5
+          }
+        }
+      ]
+    },
+    "vuepress-plugin-reading-time": {
+      excludes: [
+        "/policies",
+        "/docs/.*",
+        "/community",
+        "/install",
+        "/privacy",
+        "/terms"
+      ]
+    }
   },
   postcss: {
     plugins: [
