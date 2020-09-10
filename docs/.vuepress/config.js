@@ -215,6 +215,9 @@ module.exports = {
     //   }
     // },
     "@vuepress/nprogress": {},
+    "tabs": {
+      dedupeIds: true
+    },
     "@vuepress/plugin-blog": {
       sitemap: {
         hostname: productData.hostname
