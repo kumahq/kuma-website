@@ -193,15 +193,20 @@ module.exports = {
       customMeta: (add, context) => {
         const { $site, $page } = context;
 
-        // the full absolute URL for the OpenGraph image
-        const ogImagePath = `${productData.ogImage}?${productData.cacheBuster}`;
+        // Twitter and OpenGraph image URL string
+        const ogImage = `${productData.hostname}${productData.ogImage}?cb=`
 
-        add("twitter:image", ogImagePath);
+        // Twitter
+        add("twitter:image", `${ogImage}${Math.random().toString(36).substring(2, 8)}`);
+        add("twitter:image:alt", productData.description);
         add("twitter:description", productData.description);
+        add("twitter:creator", `@${productData.twitter}`);
+
+        // OpenGraph
         add("og:description", productData.description);
-        add("og:image", ogImagePath);
-        add("og:image:width", 800);
-        add("og:image:height", 533);
+        add("og:image", `${ogImage}${Math.random().toString(36).substring(2, 8)}`);
+        add("og:image:width", 1200);
+        add("og:image:height", 630);
       }
     },
     "@vuepress/google-analytics": {
