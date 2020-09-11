@@ -200,6 +200,7 @@ module.exports = {
         add("twitter:image", `${ogImage}${Math.random().toString(36).substring(2, 8)}`);
         add("twitter:image:alt", productData.description);
         add("twitter:description", productData.description);
+        add("twitter:creator", `@${productData.twitter}`);
 
         // OpenGraph
         add("og:description", productData.description);
