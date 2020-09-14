@@ -45,3 +45,18 @@ Additionally, to avoid overloading the underlying storage there is a cache that 
 * `KUMA_STORE_CACHE_EXPIRATION_TIME` : expiration time for elements in cache (1s by defualt).
 
 You can also change the expiration time, but it should not exceed `KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL`, otherwise CP will be wasting time building Envoy config with the same data.
+
+## Profiling
+
+Kuma Control Plane ships with [pprof](https://golang.org/pkg/net/http/pprof/) endpoints so you can profile and debug the performance of the Control Plane.
+To enable debug endpoints, set `KUMA_DIAGNOSTICS_DEBUG_ENDPOINTS` to true and either use go tool pprof like this
+```
+go tool pprof http://<IP of the CP>:5680/debug/pprof/profile?seconds=30
+```
+or scrape profile using curl
+```
+curl http://<IP of the CP>:5680/debug/pprof/profile?seconds=30 --output prof.out
+```
+and analyse it using tool like [Speedscope](https://www.speedscope.app/).
+
+After successful debugging, turn off debug endpoints since anybody can execute heap dumps potentially exposing sensitive data.
