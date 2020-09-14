@@ -31,7 +31,6 @@ To add a new tracing backend we must create a new `tracing` property in a `Mesh`
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
-  namespace: default
   name: default
 spec:
   tracing:
