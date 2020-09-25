@@ -70,7 +70,7 @@ Built on top of Envoy, Kuma is a modern control plane for Microservices & Servic
 
 ![L4 and L7 Policies chart](/images/diagrams/v3/diagram-l4-l7-policies@2x.png)
 
-Out of the box L4 + L7 policy architecture to enable zero trust security, observabilty, discovery, routing and traffic reliability in one click. Easy, yet powerful.
+Out of the box L4 + L7 policy architecture to enable zero trust security, observability, discovery, routing and traffic reliability in one click. Easy, yet powerful.
 :::
 
 ::: slot feature-block-content-3
