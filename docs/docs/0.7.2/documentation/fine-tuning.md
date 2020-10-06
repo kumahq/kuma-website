@@ -45,3 +45,35 @@ Additionally, to avoid overloading the underlying storage there is a cache that 
 * `KUMA_STORE_CACHE_EXPIRATION_TIME` : expiration time for elements in cache (1s by defualt).
 
 You can also change the expiration time, but it should not exceed `KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL`, otherwise CP will be wasting time building Envoy config with the same data.
+
+## Profiling
+
+Kuma's control plane ships with [pprof](https://golang.org/pkg/net/http/pprof/) endpoints so you can profile and debug the performance of the `kuma-cp` process.
+
+To enable the debugging endpoints, you can set the `KUMA_DIAGNOSTICS_DEBUG_ENDPOINTS` environment variable to `true` before starting `kuma-cp` and use one of the following methods to retrieve the profiling information:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "pprof"
+
+You can retrieve the profiling information with Golang's `pprof` tool, for example:
+
+```sh
+go tool pprof http://<IP of the CP>:5680/debug/pprof/profile?seconds=30
+```
+
+:::
+::: tab "curl"
+
+You can retrieve the profiling information with `curl`, for example:
+
+```sh
+curl http://<IP of the CP>:5680/debug/pprof/profile?seconds=30 --output prof.out
+```
+:::
+::::
+
+Then, you can analyze the retrieved profiling data using an application like [Speedscope](https://www.speedscope.app/).
+
+:::warning
+After a successful debugging session, please remember to turn off the debugging endpoints since anybody could execute heap dumps on them potentially exposing sensitive data.
+:::

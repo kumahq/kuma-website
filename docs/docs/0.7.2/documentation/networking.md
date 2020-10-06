@@ -66,9 +66,9 @@ Here we are going to be exploring the communication between `kuma-dp` and `kuma-
 
 Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policiy configuration, and send diagnostic information to the control-plane.
 
-In [standalone mode](/docs/0.7.1/documentation/deployments/#standalone-mode) the `kuma-dp` process will connect directly to the `kuma-cp` instances.
+In [standalone mode](/docs/0.7.2/documentation/deployments/#standalone-mode) the `kuma-dp` process will connect directly to the `kuma-cp` instances.
 
-In a [multi-zone deployment](/docs/0.7.1/documentation/deployments/#multi-zone-mode) the `kuma-dp` processes will connect to the remote control plane, while the remote control planes will connect to the global control plane over an extension of the xDS API that we have built called "KDS" (Kuma Discovery Service). In multi-zone mode, the data plane proxies never connect to the global control plane but only to the remote ones.
+In a [multi-zone deployment](/docs/0.7.2/documentation/deployments/#multi-zone-mode) the `kuma-dp` processes will connect to the remote control plane, while the remote control planes will connect to the global control plane over an extension of the xDS API that we have built called "KDS" (Kuma Discovery Service). In multi-zone mode, the data plane proxies never connect to the global control plane but only to the remote ones.
 
 ::: tip
 The connection between the data-planes and the control-plane is not on the execution path of the service requests, which means that if the data-plane temporarily loses connection to the control-plane the service traffic won't be affected.
@@ -81,15 +81,15 @@ While doing so, the data-planes also advertise the IP address of each service. T
 
 The IP address that's being advertised by every data-plane to the control-plane is also being used to route service traffic from one `kuma-dp` to another `kuma-dp`. This means that Kuma knows at any given time what are all the IP addresses associated to every replica of every service. Another use-case where the IP address of the data-planes is being used is for metrics scraping by Prometheus.
 
-Kuma already ships with its own [DNS service discovery](/docs/0.7.1/documentation/networking/#kuma-dns) on both standalone and multi-zone modes. 
+Kuma already ships with its own [DNS service discovery](/docs/0.7.2/documentation/networking/#kuma-dns) on both standalone and multi-zone modes. 
 
 Connectivity among the `kuma-dp` instances can happen in two ways:
 
-* In [standalone mode](/docs/0.7.1/documentation/deployments/#standalone-mode) `kuma-dp` processes communicate with each other in a flat networking topology. This means that every data-plane must be able to consume another data-plane by directly sending requests to its IP address. In this mode, every `kuma-dp` must be able to send requests to every other `kuma-dp` on the specific ports that govern service traffic, as described in the `kuma-dp` [ports section](#kuma-dp-ports).
-* In [multi-zone mode](/docs/0.7.1/documentation/deployments/#multi-zone-mode) connectivity is being automatically resolved by Kuma to either a data-plane running in the same zone, or through the address of a [Kuma ingress](/docs/0.7.1/documentation/dps-and-data-model/#ingress) in another zone for cross-zone connectivity. This means that multi-zone connectivity can be used to connect services running in different clusters, platforms or clouds in an automated way. Kuma also creates a `.mesh` zone via its [native DNS resolver](/docs/0.7.1/documentation/networking/#kuma-dns). The automatically created `kuma.io/zone` tag can be used with Kuma policies in order to determine how traffic flow across a multi-zone setup.
+* In [standalone mode](/docs/0.7.2/documentation/deployments/#standalone-mode) `kuma-dp` processes communicate with each other in a flat networking topology. This means that every data-plane must be able to consume another data-plane by directly sending requests to its IP address. In this mode, every `kuma-dp` must be able to send requests to every other `kuma-dp` on the specific ports that govern service traffic, as described in the `kuma-dp` [ports section](#kuma-dp-ports).
+* In [multi-zone mode](/docs/0.7.2/documentation/deployments/#multi-zone-mode) connectivity is being automatically resolved by Kuma to either a data-plane running in the same zone, or through the address of a [Kuma ingress](/docs/0.7.2/documentation/dps-and-data-model/#ingress) in another zone for cross-zone connectivity. This means that multi-zone connectivity can be used to connect services running in different clusters, platforms or clouds in an automated way. Kuma also creates a `.mesh` zone via its [native DNS resolver](/docs/0.7.2/documentation/networking/#kuma-dns). The automatically created `kuma.io/zone` tag can be used with Kuma policies in order to determine how traffic flow across a multi-zone setup.
 
 ::: tip
-By default cross-zone connectivity requires [mTLS](/docs/0.7.1/policies/mutual-tls/) to be enabled on the [Mesh](/docs/0.7.1/policies/mesh/) with the appropriate [Traffic Permission](/docs/0.7.1/policies/traffic-permissions/) to enable the flow of traffic. Otherwise, unsecured traffic won't be permitted outside of each zone.
+By default cross-zone connectivity requires [mTLS](/docs/0.7.2/policies/mutual-tls/) to be enabled on the [Mesh](/docs/0.7.2/policies/mesh/) with the appropriate [Traffic Permission](/docs/0.7.2/policies/traffic-permissions/) to enable the flow of traffic. Otherwise, unsecured traffic won't be permitted outside of each zone.
 :::
 
 ## Kuma DNS
@@ -188,3 +188,80 @@ Kuma DNS allocates a VIP for every Service withing a mesh. Then, it creates outb
      }
     },
 ```
+
+## Transparent Proxying
+
+There are two ways of how the service can interact with its sidecar to connect to other services.
+One is explicitly defining outbounds in the Dataplane:
+```yaml
+type: Dataplane
+...
+networking:
+  ...
+  outbound:
+  - port: 10000
+    tags:
+      kuma.io/service: backend
+```
+This approach is simple, but it has the disadvantage that you need to reconfigure the service to use `http://localhost:10000` when it wants to connect with service `backend`.
+This strategy is used on Universal deployments.
+
+The alternative approach is Transparent Proxying. With Transparent Proxying before we start a service, we apply [`iptables`](https://linux.die.net/man/8/iptables) that intercept all the traffic on VM/Pod and redirect it to Envoy.
+The main advantage of this mode is when you integrate with the current hostname resolving mechanism, you can deploy Service Mesh _transparently_ on the platform without reconfiguring applications.
+
+Kuma provides support for Transparent Proxying on Kubernetes.
+
+### Configure intercepted traffic
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+Kuma deploys `iptables` rules either with `kuma-init` Init Container or with `cni` when deployed with CNI mode.
+
+By default, all the traffic is intercepted by Envoy. You can exclude which ports are intercepted by Envoy with the following annotations placed on the Pod
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        # all incomming connections on ports 1234 won't be intercepted by Envoy
+        traffic.kuma.io/exclude-inbound-ports: "1234"
+        # all outgoing connections on ports 5678, 8900 won't be intercepted by Envoy
+        traffic.kuma.io/exclude-outbound-ports: "5678,8900"
+    spec:
+      containers:
+        ...
+```  
+:::
+
+You can also control this value on whole Kuma deployment with the following Kuma CP configuration
+```sh
+KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
+KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
+``` 
+
+Global settings can be always overridden with annotations on the individual Pods. 
+
+::: tip
+When deploying Kuma with `kumactl install control-plane` you can set those settings with
+```sh
+kumactl install control-plane \
+  --env-var KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
+  --env-var KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
+```
+
+When deploying Kuma with HELM, use `controlPlane.envVar` value
+```yaml
+envVar:
+  KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS: "1234"
+  KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
+```
+:::
+::::
+ 

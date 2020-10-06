@@ -177,7 +177,7 @@ The `Dataplane` entity includes a few sections:
 * `mesh`: the `Mesh` name we want to associate the data-plane with.
 * `name`: this is the name of the data-plane instance, and it must be **unique** for any given `Mesh`. We might have multiple instances of a Service, and therefore multiple instances of the sidecar data-plane proxy. Each one of those sidecar proxy instances must have a unique `name`.
 * `networking`: this is the meaty part of the configuration. It determines the behavior of the data-plane on incoming (`inbound`) and outgoing (`outbound`) requests.
-  * `address` IP at which this dataplane will be accessible to other dataplanes
+  * `address` IP address or domain name at which this dataplane will be accessible to other dataplanes. Domain name will be resolved to IP in the control plane.
   * `inbound`: an array of objects that determines what services are being exposed via the data-plane. Each object only supports one port at a time, and you can specify more than one objects in case the service opens up more than one port.
     * `port`: determines the port at which other dataplanes will consume the service
     * `serviceAddress`: IP at which the service is listening. Defaults to `127.0.0.1`. Typical usecase is Universal mode, where `kuma-dp` runs ina  separate netns, container or host than the service. 
@@ -295,7 +295,7 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/0.7.1/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. Such dataplane is not attached to any particular workload, but instead it is bound to that particular zone.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/0.7.2/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. Such dataplane is not attached to any particular workload, but instead it is bound to that particular zone.
 The specifics of the `Ingress` dataplane are described in the `networking.ingress` dictionary in the YAML resource. For the time being this one is empty, instead it denotes the `Ingress` mode of the dataplane.
 
 ### Universal
@@ -319,7 +319,7 @@ The `networking.address` is and externally accessible IP or one behind a LoadBal
 
 ### Kubernetes
 
-The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/0.7.1/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
+The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/0.7.2/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
 
 ## Direct access to services
 
