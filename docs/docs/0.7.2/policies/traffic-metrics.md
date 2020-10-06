@@ -304,7 +304,7 @@ Remember that in order to consume paths protected by mTLS, you need Traffic Perm
 
 ## Grafana Dashboards
 
-Kuma ships with 3 default dashboards that are available to import from [Grafana Labs repository](https://grafana.com/orgs/konghq).
+Kuma ships with 4 default dashboards that are available to import from [Grafana Labs repository](https://grafana.com/orgs/konghq).
 
 ### Kuma Dataplane
 
@@ -330,4 +330,14 @@ This dashboard lets you investigate aggregated statistics from dataplanes of giv
 
 <center>
 <img src="/images/docs/0.4.0/kuma_service_to_service.png" alt="Kuma Service to Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+### Kuma CP
+
+This dashboard lets you investigate statistics of the control plane.
+
+<center>
+<img src="/images/docs/0.7.1/grafana-dashboard-kuma-cp1.png" alt="Kuma CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.7.1/grafana-dashboard-kuma-cp2.png" alt="Kuma CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/0.7.1/grafana-dashboard-kuma-cp3.png" alt="Kuma CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
