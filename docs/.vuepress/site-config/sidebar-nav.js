@@ -1178,7 +1178,6 @@ module.exports = {
         "documentation/deployments",
         "documentation/dps-and-data-model",
         "documentation/cli",
-        "documentation/kumactl",
         "documentation/gui",
         "documentation/http-api",
         "documentation/security",

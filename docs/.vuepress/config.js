@@ -59,6 +59,7 @@ module.exports = {
       { text: "Explore Policies", link: "/policies/" },
       { text: "Documentation", link: "/docs/" },
       { text: "Community", link: "/community/" },
+      { text: "Blog", link: "/blog/" },
       // { text: "Use Cases", link: "/use-cases/" },
       { text: "Enterprise", link: "/enterprise/" },
       { text: "Install", link: "/install/" }
@@ -192,22 +193,65 @@ module.exports = {
       customMeta: (add, context) => {
         const { $site, $page } = context;
 
-        // the full absolute URL for the OpenGraph image
-        const ogImagePath = `${productData.ogImage}?${productData.cacheBuster}`;
+        // Twitter and OpenGraph image URL string
+        const ogImage = `${productData.hostname}${productData.ogImage}?cb=`
 
-        add("twitter:image", ogImagePath);
+        // Twitter
+        add("twitter:image", `${ogImage}${Math.random().toString(36).substring(2, 8)}`);
+        add("twitter:image:alt", productData.description);
         add("twitter:description", productData.description);
+        add("twitter:creator", `@${productData.twitter}`);
+
+        // OpenGraph
         add("og:description", productData.description);
-        add("og:image", ogImagePath);
-        add("og:image:width", 800);
-        add("og:image:height", 533);
+        add("og:image", `${ogImage}${Math.random().toString(36).substring(2, 8)}`);
+        add("og:image:width", 1200);
+        add("og:image:height", 630);
       }
     },
     "@vuepress/google-analytics": {
       ga: productData.gaCode
     },
+    // "@vuepress/plugin-pwa": {
+    //   serviceWorker: false,
+    //   updatePopup: false,
+    //   generateSWConfig: {
+    //     skipWaiting: true
+    //   }
+    // },
     "@vuepress/nprogress": {},
-    "tabs": {}
+    "tabs": {
+      dedupeIds: true
+    },
+    "@vuepress/plugin-blog": {
+      sitemap: {
+        hostname: productData.hostname
+      },
+      directories: [
+        {
+          title: 'Blog',
+          id: 'blog',
+          dirname: '_blog',
+          path: '/blog/',
+          itemPermalink: '/blog/:year/:slug',
+          layout: 'PostIndex',
+          itemLayout: 'Post',
+          pagination: {
+            lengthPerPage: 5
+          }
+        }
+      ]
+    },
+    "vuepress-plugin-reading-time": {
+      excludes: [
+        "/policies",
+        "/docs/.*",
+        "/community",
+        "/install",
+        "/privacy",
+        "/terms"
+      ]
+    }
   },
   postcss: {
     plugins: [
