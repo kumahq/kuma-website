@@ -41,13 +41,10 @@ $home-feature-icon-bottom-spacing: 1rem;
   width: 100%;
   max-width: 1138px;
   z-index: 0;
-  transform:
-    translateX(5vw)
-    translateY(-200px);
+  transform: translateX(5vw) translateY(-200px);
 }
 
 #page-masthead-waves-wrap {
-  
 }
 
 // Helpers
@@ -139,7 +136,6 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 .page-masthead__header {
-  
 }
 
 // Product features
@@ -239,7 +235,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 .testimonial__portrait {
-  $i: 82px; 
+  $i: 82px;
   border-radius: 100%;
   overflow: hidden;
   margin-right: 1.25rem;
@@ -288,7 +284,6 @@ $home-feature-icon-bottom-spacing: 1rem;
 // Feature focuses
 
 .feature-focus {
-  
   > .inner {
     padding: 4rem 0;
   }
@@ -302,8 +297,12 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 .feature-focus__content {
-
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: $navy;
 
     &:first-of-type {
@@ -330,48 +329,42 @@ $home-feature-icon-bottom-spacing: 1rem;
         margin-bottom: 1rem;
       }
     }
-    
+
     li:before {
       content: "■ ";
       color: $color-4;
-      margin: 0 .5rem 0 0;
+      margin: 0 0.5rem 0 0;
       line-height: 0;
     }
   }
 }
 
 .feature-focus__diagram {
-
 }
 
 .feature-focus-1-wrap {
-
   img {
     max-width: 28.375rem;
   }
 }
 
 .feature-focus-2-wrap {
-
   img {
-    max-width: 18.75rem;
+    // max-width: 18.75rem;
     // max-width: 27.3125rem;
   }
 }
 
 .feature-focus-3-wrap {
-
   img {
-    max-width: 18.75rem;
+    // max-width: 18.75rem;
   }
 }
 
 // Steps -- new, uses Kongponents KTabs
 
 .feature-focus__tabs {
-  
   .k-tabs {
-
     ul {
       border-bottom: 0 !important;
       margin-bottom: 2rem !important;
@@ -390,8 +383,8 @@ $home-feature-icon-bottom-spacing: 1rem;
           // outline: 1px solid #eee;
         }
 
-        &:hover, &:active {
-          
+        &:hover,
+        &:active {
           .tab-link {
             color: $color-9 !important;
           }
@@ -476,7 +469,6 @@ $home-feature-icon-bottom-spacing: 1rem;
 }
 
 .feature-focus__tabs {
-
   .feature-focus__content ul li:before {
     color: $color-13;
   }
@@ -751,9 +743,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 
 @media (min-width: $MQLarge) {
   #page-masthead-waves {
-    transform:
-      translateX(15vw)
-      translateY(-200px);
+    transform: translateX(15vw) translateY(-200px);
   }
 
   .steps-items__content {
