@@ -210,7 +210,7 @@ Congratulations! You have successfully installed Kuma on OpenShift 🚀.
 In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/0.7.2/quickstart/kubernetes/) deployments.
 
 ::: tip
-Before running Kuma Demo in the Quickstart, remember to run following command
+Before running Kuma Demo in the Quickstart, remember to run the following command
 ```sh
 $ oc adm policy add-scc-to-group anyuid system:serviceaccounts:kuma-demo
 ```
