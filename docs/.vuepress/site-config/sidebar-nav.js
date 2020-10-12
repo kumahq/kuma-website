@@ -1305,7 +1305,8 @@ module.exports = {
         "policies/fault-injection",
         "policies/health-check",
         "policies/circuit-breaker",
-        "policies/proxy-template"
+        "policies/proxy-template",
+        "policies/external-services",
       ]
     },
     {
