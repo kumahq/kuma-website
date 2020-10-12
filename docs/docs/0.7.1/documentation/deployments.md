@@ -21,7 +21,7 @@ This is the simplest deployment mode for Kuma, and the default one.
 * **Data planes**: The data planes connect to the control plane regardless of where they are being deployed.
 * **Service Connectivity**: Every data plane proxy must be able to connect to every other data plane proxy regardless of where they are being deployed.
 
-This mode implies that we can deploy Kuma and its data plane proxies in a standalone networking topology mode so that the service connectivity from every data plane proxy can be estabilished directly to every other data plane proxy.
+This mode implies that we can deploy Kuma and its data plane proxies in a standalone networking topology mode so that the service connectivity from every data plane proxy can be established directly to every other data plane proxy.
 
 <center>
 <img src="/images/docs/0.6.0/flat-diagram.png" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -29,7 +29,7 @@ This mode implies that we can deploy Kuma and its data plane proxies in a standa
 
 Although standalone mode can support complex multi-cluster or hybrid deployments (Kubernetes + VMs) as long as the networking requirements are satisfied, typically in most use cases our connectivity cannot be flattened out across multiple clusters. Therefore standalone mode is usually a great choice within the context of one cluster (ie: within one Kubernetes cluster or one AWS VPC).
 
-For those situations where the standalone deployment mode doesn't satistfy our architecture, Kuma provides a [multi-zone mode](#multi-zone-mode) which is more powerful and provides a greater degree of flexibility in more complex environments.
+For those situations where the standalone deployment mode doesn't satisfy our architecture, Kuma provides a [multi-zone mode](#multi-zone-mode) which is more powerful and provides a greater degree of flexibility in more complex environments.
 
 ### Usage
 
@@ -65,7 +65,7 @@ This is a more advanced deployment mode for Kuma that allow us to support servic
 * **Service Connectivity**: Automatically resolved via the built-in DNS resolver that ships with Kuma. When a service wants to consume another service, it will resolve the DNS address of the desired service with Kuma, and Kuma will respond with a Virtual IP address, that corresponds to that service in the Kuma service domain.
 
 :::tip
-We can support multiple isolated service meshes thanks to Kuma's multi-tenancy support, and workloads from both Kubernetes or any other supported Universal environment can participate in the Service Mesh across different regions, clouds and datacenters while not compromizing the ease of use and still allowing for end-to-end service connectivity.
+We can support multiple isolated service meshes thanks to Kuma's multi-tenancy support, and workloads from both Kubernetes or any other supported Universal environment can participate in the Service Mesh across different regions, clouds and datacenters while not compromising the ease of use and still allowing for end-to-end service connectivity.
 :::
 
 When running in multi-zone mode, we introduce the notion of a `global` and `remote` control planes for Kuma:
@@ -85,7 +85,7 @@ In a multi-zone deployment mode, services will be running on multiple platforms,
 
 To implement easy service connectivity, Kuma ships with:
 
-* **DNS Resolver**: Kuma provides an out of the box DNS server on every `remote` control plane that will be used to resolve service addresses when estabilishing any service-to-service communication. It scales horizontally as we scale the `remote` control plane.
+* **DNS Resolver**: Kuma provides an out of the box DNS server on every `remote` control plane that will be used to resolve service addresses when establishing any service-to-service communication. It scales horizontally as we scale the `remote` control plane.
 * **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. 
 
 :::tip
@@ -134,7 +134,7 @@ $ helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/
 :::
 ::: tab "Universal"
 
-Running the Global Control Plane setting up the relevant environment variale
+Running the Global Control Plane setting up the relevant environment variable
 ```sh
 $ KUMA_MODE=global kuma-cp run
 ```
@@ -165,7 +165,7 @@ kuma-system   kuma-ingress           LoadBalancer   10.105.10.20    34.68.185.18
 In this example this would be `kuma-ingress` at `34.68.185.18:10001`. This will be used as `<zone-ingress-address>` below.
 
 ::: tip
-Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend checking the configuration of the Kubernetes cluster after deploying Kuma remote control plane to ensure evrything is as expected. 
+Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend checking the configuration of the Kubernetes cluster after deploying Kuma remote control plane to ensure everything is as expected. 
 :::
 ::: tab "Helm"
 To install the Remote Control plane we need to provide the following parameters `controlPlane.mode=remote`,`controlPlane.zone=<zone-name>`, `ingress.enabled=true` and `controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>`:
@@ -184,7 +184,7 @@ KUMA_MULTICLUSTER_REMOTE_ZONE=<zone-name> \
 KUMA_MULTICLUSTER_REMOTE_GLOBAL_ADDRESS=grpcs://<global-kds-address> ./kuma-cp run
 ```
 
-Where `<zone-name>` is the name of the zone mathcing one of the Zone resources to be created at the Global CP. `<global-remote-sync-address>` is the public address as obtained during the Global CP deployment step.
+Where `<zone-name>` is the name of the zone matching one of the Zone resources to be created at the Global CP. `<global-remote-sync-address>` is the public address as obtained during the Global CP deployment step.
 
 Add an `ingress` dataplane, so `kuma-cp` can expose its services for cross-cluster communication.
 
@@ -241,7 +241,7 @@ ingress:
 
 ### Using the multi-zone deployment
 
-To utilize the multi-zonse Kuma deployment follow the steps below
+To utilize the multi-zone Kuma deployment follow the steps below
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 

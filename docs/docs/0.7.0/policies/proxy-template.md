@@ -44,7 +44,7 @@ spec:
       - default-proxy
 ```
 :::
-::: tab "Univesal"
+::: tab "Universal"
 
 ```yaml
 type: ProxyTemplate
