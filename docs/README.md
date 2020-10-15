@@ -16,8 +16,8 @@ showTestimonial: true # change this to `true` if you want to display the testimo
 showNews: true # change this to `true` if you want to display the news bar
 startText: Get Started
 startUrl: /install/
-whyText: Why Kuma?
-whyUrl: /docs/latest/overview/why-kuma/
+whyText: Explore Policies
+whyUrl: /policies/
 
 # tabs
 tabs:
@@ -165,7 +165,7 @@ Getting up and running with Kuma only requires three easy steps. Natively embedd
 
 ::: slot feature-focus-1-content
 
-### Connectivity with no boundaries
+### Single and Multi-Zone Connectivity
 
 Build modern service and application connectivity across every platform, cloud and architecture. Kuma supports modern Kubernetes environments and Virtual Machine workloads in the same cluster, with native multi-cloud and multi-cluster connectivity to support the entire organization.
 
