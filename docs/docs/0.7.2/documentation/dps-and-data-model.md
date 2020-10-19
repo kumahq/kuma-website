@@ -66,7 +66,7 @@ networking:
 kuma-dp run \
   --name=redis-1 \
   --mesh=default \
-  --cp-address=http://127.0.0.1:5681 \
+  --cp-address=https://127.0.0.1:5678 \
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
 
@@ -94,7 +94,7 @@ networking:
 kuma-dp run \
   --name=backend-1 \
   --mesh=default \
-  --cp-address=http://127.0.0.1:5681 \
+  --cp-address=https://127.0.0.1:5678 \
   --dataplane-token-file=/tmp/kuma-dp-backend-1-token
 ```
 
