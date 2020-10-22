@@ -1,9 +1,9 @@
 # DPs and Data Model
 
-When Kuma (`kuma-cp`) runs, it will be waiting for the data-planes to connect and register themselves. In order for a data-plane to successfully run, two things have to happen before being executed:
+When Kuma (`kuma-cp`) runs, it will be waiting for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, two things have to happen before being executed:
 
 * There must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
-* There must exist a [`Dataplane`](#dataplane-entity) entity in Kuma **before** the actual data-plane tries to connect to it via `kuma-dp`.
+* There must exist a [`Dataplane`](#dataplane-entity) proxy entity in Kuma **before** the actual data plane proxy tries to connect to it via `kuma-dp`.
 
 <center>
 <img src="/images/docs/0.5.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -17,7 +17,7 @@ On Universal the [`Dataplane`](#dataplane-entity) entity must be **manually** cr
 
 A `Dataplane` entity must be created on the CP `kuma-cp` before a `kuma-dp` instance attempts to connect to the control-plane. On Kubernetes, this operation is fully **automated**. On Universal, it must be executed **manually**.
 
-To understand why the `Dataplane` entity is required, we must take a step back. As we have explained already, Kuma follow a sidecar proxy model for the data-planes, where we have an instance of a data-plane for every instance of our services. Each Service and DP will communicate with each other on the same machine, therefore on `127.0.0.1`.
+To understand why the `Dataplane` entity is required, we must take a step back. As we have explained already, Kuma follow a sidecar proxy model for the data plane proxies, where we have an instance of a data plane proxy for every instance of our services. Each Service and DP will communicate with each other on the same machine, therefore on `127.0.0.1`.
 
 For example, if we have 6 replicas of a "Redis" service, then we must have one instances of `kuma-dp` running alongside each replica of the service, therefore 6 replicas of `kuma-dp` as well.
 
@@ -26,13 +26,13 @@ For example, if we have 6 replicas of a "Redis" service, then we must have one i
 </center>
 
 ::: tip
-**Many DPs!** The number of data-planes that we have running can quickly add up, since we have one replica of `kuma-dp` for every replica of every service. That's why it's important for the DP process to be lightweight and consume a few resources, otherwise we would quickly run out of memory, especially on platforms like Kubernetes where multiple services are running on the same underlying host machine. And that's one of the reasons why Kuma leverages Envoy for this task.
+**Many DPs!** The number of data plane proxies that we have running can quickly add up, since we have one replica of `kuma-dp` for every replica of every service. That's why it's important for the DP process to be lightweight and consume a few resources, otherwise we would quickly run out of memory, especially on platforms like Kubernetes where multiple services are running on the same underlying host machine. And that's one of the reasons why Kuma leverages Envoy for this task.
 :::
 
-When we start a new data-plane in Kuma, **two things** have to happen:
+When we start a new data plane proxy in Kuma, **two things** have to happen:
 
-1. The data-plane needs to advertise what service it is responsible for. This is what the `Dataplane` entity does.
-2. The data-plane process needs to start accepting incoming and outgoing requests.
+1. The data plane proxy needs to advertise what service it is responsible for. This is what the `Dataplane` entity does.
+2. The data plane proxy process needs to start accepting incoming and outgoing requests.
 
 These steps are being executed in **two separate** commands:
 
@@ -124,13 +124,17 @@ If you choose to turn `Envoy Admin API` off, you will not be able to leverage so
 
 ## Tags
 
-A data-plane can have many labels that define its role within your architecture. It is obviously associated to a service, but can also have some other properties that we might want to define. For example, if it runs in a specific world region, or a specific cloud vendor. In Kuma these labels are called `tags` and they are being set in the [`Dataplane`](#dataplane-entity) entity.
+Each Kuma data plane proxy is associated with tags - or attributes - that can be used to both identify the service that the data plane proxy is representing, and they can also be used when configuring the service mesh [policies](/policies) to determine their behavior in a more flexible way.
+
+A tag attributes a qualifier to the data plane proxy, and the tags that are reserved to Kuma are prefixed with `kuma.io` like:
+
+* `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/0.7.2/documentation/deployments/). This tag is automatically created and cannot be overwritten.
+* `kuma.io/protocol`: Identifies the protocol that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2` and `grpc.`
 
 ::: tip
-There is one special tag, the `kuma.io/service` tag, that must always be set.
+The `kuma.io/service` tag must always exist.
 :::
-
-Tags are important because they can be used later on by any [Policy](../../policies/introduction) that Kuma supports now and in the future. For example, it will be possible to route requests from one region to another assuming there is a `region` tag associated to the data-planes.
 
 ## Dataplane Specification
 
