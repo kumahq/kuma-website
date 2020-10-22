@@ -31,7 +31,7 @@ tabs:
 
 ::: slot news
 
-**Kuma 0.7.2 and 1.0 RC1 have been released!** Improvements to the last stable 0.7.x release branch and a preview of the new major version of Kuma - v1.0 - with performance improvements driven by production usage over the past 1+ years! &mdash; [Get Started](/install/)
+**Kuma 0.7.3 and 1.0 RC1 have been released!** Improvements to the last stable 0.7.x release branch and a preview of the new major version of Kuma - v1.0 - with performance improvements driven by production usage over the past 1+ years! &mdash; [Get Started](/install/)
 
 :::
 
