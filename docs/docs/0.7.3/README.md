@@ -20,4 +20,4 @@ Here you will find all you need to know about the product. While Kuma is ideal f
 
 The core maintainer of Kuma is **Kong**, the maker of the popular open-source Kong Gateway 🦍.
 
-As a next step, [learn what is Kuma](/docs/0.7.2/overview/what-is-kuma/).
+As a next step, [learn what is Kuma](/docs/0.7.3/overview/what-is-kuma/).
