@@ -148,8 +148,7 @@ Start the `remote` control planes in each zone that will be part of the multi-zo
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 ```sh
-$ kumactl install control-plane --mode=remote --zone=<zone name> --kds-global-address grpcs://`<global-kds-address>` | kubectl apply -f -
-$ kumactl install ingress | kubectl apply -f -
+$ kumactl install control-plane --mode=remote --ingress-enabled --zone=<zone name> --kds-global-address grpcs://`<global-kds-address>` | kubectl apply -f -
 $ kumactl install dns | kubectl apply -f -
 ```
 
