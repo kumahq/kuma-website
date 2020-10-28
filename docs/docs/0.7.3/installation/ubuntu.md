@@ -16,22 +16,22 @@ Run the following script to automatically detect the operating system and downlo
 $ curl -L https://kuma.io/installer.sh | sh -
 ```
 
-or you can [download](https://kong.bintray.com/kuma/kuma-0.7.2-ubuntu-amd64.tar.gz) the distribution manually.
+or you can [download](https://kong.bintray.com/kuma/kuma-0.7.3-ubuntu-amd64.tar.gz) the distribution manually.
 
 Then extract the archive with:
 
 ```sh
-$ tar xvzf kuma-0.7.2*.tar.gz
+$ tar xvzf kuma-0.7.3*.tar.gz
 ```
 
 ### 2. Run Kuma
 
-Once downloaded, you will find the contents of Kuma in the `kuma-0.7.2` folder. In this folder, you will find - among other files - the `bin` directory that stores all the executables for Kuma. 
+Once downloaded, you will find the contents of Kuma in the `kuma-0.7.3` folder. In this folder, you will find - among other files - the `bin` directory that stores all the executables for Kuma. 
 
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-0.7.2/bin
+$ cd kuma-0.7.3/bin
 ```
 
 And we can then proceed to run Kuma with:
@@ -40,7 +40,7 @@ And we can then proceed to run Kuma with:
 $ ./kuma-cp run
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/0.7.2/documentation/deployments/) like "multi-zone".
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/0.7.3/documentation/deployments/) like "multi-zone".
 
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
@@ -107,4 +107,4 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 Congratulations! You have successfully installed Kuma on Ubuntu 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/0.7.2/quickstart/universal/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/0.7.3/quickstart/universal/) deployments.

@@ -4,8 +4,8 @@ This policy enables automatic encrypted mTLS traffic for all the services in a [
 
 Kuma ships with the following CA (Certificate Authority) supported backends:
 
-* [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](/docs/0.7.2/documentation/secrets).
-* [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a [Secret](/docs/0.7.2/documentation/secrets).
+* [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](/docs/0.7.3/documentation/secrets).
+* [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a [Secret](/docs/0.7.3/documentation/secrets).
 
 Once a CA backend has been specified, Kuma will then automatically generate a certificate for every data plane proxy in the [`Mesh`](../mesh). The data plane certificates that Kuma generates are SPIFFE compatible and they are being used for AuthN/Z use-cases in order to identify every workload in our system. 
 
@@ -76,7 +76,7 @@ mtls:
           expiration: 10y
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.7.2/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.7.3/documentation/http-api).
 :::
 ::::
 
@@ -87,12 +87,12 @@ A few considerations:
 
 ### Storage of Secrets
 
-When using a `builtin` backend Kuma automatically generates a root CA certificate and key that are being stored as a Kuma [Secret resource](/docs/0.7.2/documentation/secrets) with the following name:
+When using a `builtin` backend Kuma automatically generates a root CA certificate and key that are being stored as a Kuma [Secret resource](/docs/0.7.3/documentation/secrets) with the following name:
 
 * `{mesh name}.ca-builtin-cert-{backend name}` for the certificate
 * `{mesh name}.ca-builtin-key-{backend name}` for the key
 
-On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [backend](/docs/0.7.2/documentation/backends) configured in `kuma-cp`.
+On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [backend](/docs/0.7.3/documentation/backends) configured in `kuma-cp`.
 
 We can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or via `kubectl` on Kubernetes only:
 
@@ -127,11 +127,11 @@ default.ca-builtin-key-ca-1      system.kuma.io/secret                 1      1m
 
 Whenever we want to provide our own CA root certificate and key, we can use the `provided` backend. 
 
-Unlike the `builtin` backend, with `provided` we need to first upload the certificate and key that Kuma will use as [Secret resources](/docs/0.7.2/documentation/secrets), and then reference the Secrets to the mTLS configuration.
+Unlike the `builtin` backend, with `provided` we need to first upload the certificate and key that Kuma will use as [Secret resources](/docs/0.7.3/documentation/secrets), and then reference the Secrets to the mTLS configuration.
 
 We are responsible for providing the CA root certificate + key and also to manage their lifecycle. Kuma will then use our CA root certificate + Key to automatically provision (and rotate) data plane certificates for every replica of every service.
 
-First we need to upload our CA root certificate and key as [Kuma Secrets](/docs/0.7.2/documentation/secrets) so that we can later reference them.
+First we need to upload our CA root certificate and key as [Kuma Secrets](/docs/0.7.3/documentation/secrets) so that we can later reference them.
 
 Once the secrets have been created, to enable a `provided` mTLS for the entire Mesh we can apply the following configuration:
 
@@ -180,7 +180,7 @@ mtls:
           secret: name-of-secret
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.7.2/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.7.3/documentation/http-api).
 :::
 ::::
 
@@ -225,7 +225,7 @@ openssl req -config <(echo "$SAMPLE_CA_CONFIG") -new -newkey rsa:2048 -nodes \
   -subj "/CN=Hello" -x509 -extensions ext -keyout key.pem -out crt.pem
 ```
 
-The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the Kuma Secret resources by following the [Secret reference](/docs/0.7.2/documentation/secrets).
+The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the Kuma Secret resources by following the [Secret reference](/docs/0.7.3/documentation/secrets).
 
 :::
 ::::
@@ -314,7 +314,7 @@ Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` 
 :::
 ::: tab "HTTP API"
 
-We can use the Kuma HTTP API by retrieving the [Dataplane Insight](/docs/0.7.2/documentation/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
+We can use the Kuma HTTP API by retrieving the [Dataplane Insight](/docs/0.7.3/documentation/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
 
 ```json
 ...
