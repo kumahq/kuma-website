@@ -1302,6 +1302,7 @@ module.exports = {
         "policies/traffic-metrics",
         "policies/traffic-trace",
         "policies/traffic-log",
+        "policies/locality-aware",
         "policies/fault-injection",
         "policies/health-check",
         "policies/circuit-breaker",
