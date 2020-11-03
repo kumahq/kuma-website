@@ -21,7 +21,7 @@ This is the simplest deployment mode for Kuma, and the default one.
 * **Data planes**: The data planes connect to the control plane regardless of where they are being deployed.
 * **Service Connectivity**: Every data plane proxy must be able to connect to every other data plane proxy regardless of where they are being deployed.
 
-This mode implies that we can deploy Kuma and its data plane proxies in a flat networking topology mode so that the service connectivity from every data plane proxy can be estabilished directly to every other data plane proxy.
+This mode implies that we can deploy Kuma and its data plane proxies in a flat networking topology mode so that the service connectivity from every data plane proxy can be established directly to every other data plane proxy.
 
 <center>
 <img src="/images/docs/0.6.0/flat-diagram.png" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -29,7 +29,7 @@ This mode implies that we can deploy Kuma and its data plane proxies in a flat n
 
 Although flat mode can support complex multi-cluster or hybrid deployments (Kubernetes + VMs) as long as the networking requirements are satisfied, typically in most use cases our connectivity cannot be flattened out across multiple clusters. Therefore flat mode is usually a great choice within the context of one cluster (ie: within one Kubernetes cluster or one AWS VPC).
 
-For those situations where the flat deployment mode doesn't satistfy our architecture, Kuma provides a [distributed mode](#distributed-mode) which is more powerful and provides a greater degree of flexibility in more complex environments.
+For those situations where the flat deployment mode doesn't satisfy our architecture, Kuma provides a [distributed mode](#distributed-mode) which is more powerful and provides a greater degree of flexibility in more complex environments.
 
 ### Usage
 
@@ -65,7 +65,7 @@ This is a more advanced deployment mode for Kuma that allow us to support servic
 * **Service Connectivity**: Automatically resolved via the built-in DNS resolver that ships with Kuma. When a service wants to consume another service, it will resolve the DNS address of the desired service with Kuma, and Kuma will respond with a Virtual IP address, that corresponds to that service in the Kuma service domain.
 
 :::tip
-We can support multiple isolated service meshes thanks to Kuma's multi-tenancy support, and workloads from both Kubernetes or any other supported Universal environment can participate in the Service Mesh across different regions, clouds and datacenters while not compromizing the ease of use and still allowing for end-to-end service connectivity.
+We can support multiple isolated service meshes thanks to Kuma's multi-tenancy support, and workloads from both Kubernetes or any other supported Universal environment can participate in the Service Mesh across different regions, clouds and datacenters while not compromising the ease of use and still allowing for end-to-end service connectivity.
 :::
 
 When running in distributed mode, we introduce the notion of a `global` and `remote` control planes for Kuma:
@@ -85,7 +85,7 @@ In a distributed deployment mode, services will be running on multiple platforms
 
 To implement easy service connectivity, Kuma ships with:
 
-* **DNS Resolver**: Kuma provides an out of the box DNS server on every `remote` control plane that will be used to resolve service addresses when estabilishing any service-to-service communication. It scales horizontally as we scale the `remote` control plane.
+* **DNS Resolver**: Kuma provides an out of the box DNS server on every `remote` control plane that will be used to resolve service addresses when establishing any service-to-service communication. It scales horizontally as we scale the `remote` control plane.
 * **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. 
 
 :::tip
@@ -112,7 +112,7 @@ $ kumactl install ingress | kubectl apply -f -
 $ kumactl install dns | kubectl apply -f -
 ```
 
-Get the address of the Kuma syncronization service by listing all the
+Get the address of the Kuma synchronization service by listing all the
 
 ```bash
 $ kubectl get services -n kuma-system

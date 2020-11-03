@@ -49,7 +49,7 @@ The registration of the `Dataplane` includes three main sections that are descri
 * `inbound` networking configuration, to configure on what port the DP will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
 * `outbound` networking configuration, to enable the local service to consume other services.
 
-For example, this is how we register a `Dataplane` for an hypotetical Redis service and then start the `kuma-dp` process:
+For example, this is how we register a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:
 
 ```sh
 echo "type: Dataplane
@@ -189,7 +189,7 @@ The `Dataplane` entity includes a few sections:
 * `mesh`: the `Mesh` name we want to associate the data-plane with.
 * `name`: this is the name of the data-plane instance, and it must be **unique** for any given `Mesh`. We might have multiple instances of a Service, and therefore multiple instances of the sidecar data-plane proxy. Each one of those sidecar proxy instances must have a unique `name`.
 * `networking`: this is the meaty part of the configuration. It determines the behavior of the data-plane on incoming (`inbound`) and outgoing (`outbound`) requests.
-  * `address` IP address or domain name at which this dataplane will be accessible to other dataplanes. Domain name will be resolved to IP in the control plane.
+  * `address` IP at which this dataplane will be accessible to other dataplanes
   * `inbound`: an array of objects that determines what services are being exposed via the data-plane. Each object only supports one port at a time, and you can specify more than one objects in case the service opens up more than one port.
     * `port`: determines the port at which other dataplanes will consume the service
     * `serviceAddress`: IP at which the service is listening. Defaults to `127.0.0.1`. Typical usecase is Universal mode, where `kuma-dp` runs ina  separate netns, container or host than the service. 
@@ -198,7 +198,7 @@ The `Dataplane` entity includes a few sections:
     * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `kuma.io/service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
   * `gateway`: determines if the data-plane will operate in Gateway mode. It replaces the `inbound` object and enables Kuma to integrate with existing API gateways like [Kong](https://github.com/Kong/kong). 
     * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `kuma.io/service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
-  * `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
+  * `outbound`: every outgoing request made by the service must also go through the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
     * `port`: the port that the service needs to consume locally to make a request to the external service
     * `address`: the IP at which outbound listener is exposed. By default it is `127.0.0.1` since it should only be consumed by the app deployed next to the dataplane.
     * `kuma.io/service`: the name of the service associated with the `port` and `address`.
@@ -377,7 +377,7 @@ networking:
       kuma.io/service: ingress
 ```
 
-The `networking.address` is and externally accessible IP or one behind a LoadBalancer. The `inbound` port shall be accessible from the other Zones that are about to communicate with the zone that deploys that particular `Ingress` dataplane.
+The `networking.address` is an externally accessible IP or one behind a LoadBalancer. The `inbound` port shall be accessible from the other Zones that are about to communicate with the zone that deploys that particular `Ingress` dataplane.
 
 ### Kubernetes
 

@@ -107,7 +107,7 @@ suite.
 
 ### Contributor T-shirt
 
-If your Pull Request to [Kong/kuma](https://github.com/kumahq/kuma) was
+If your Pull Request to [kumahq/kuma](https://github.com/kumahq/kuma) was
 accepted, and it fixes a bug, adds functionality, or makes it significantly
 easier to use or understand Kuma, congratulations! You are eligible to
 receive the very special Contributor T-shirt! Go ahead and fill out the

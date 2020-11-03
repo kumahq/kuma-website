@@ -1,10 +1,10 @@
 # Traffic Route
 
-This policy allows us to configure routing rules for L4 traffic running in our [Mesh](../mesh). This policy provides support for wheighted routing and can be used to implement versioning across our services as well as deployment strategies like blue/green and canary.
+This policy allows us to configure routing rules for L4 traffic running in our [Mesh](../mesh). This policy provides support for weighted routing and can be used to implement versioning across our services as well as deployment strategies like blue/green and canary.
 
 ### Usage
 
-By default when a service makes a request to another service, Kuma will round robin the request across every data plane proxy belogning to the destination service. It is possible to change this behavior by using this policy, for example:
+By default when a service makes a request to another service, Kuma will round robin the request across every data plane proxy belonging to the destination service. It is possible to change this behavior by using this policy, for example:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
