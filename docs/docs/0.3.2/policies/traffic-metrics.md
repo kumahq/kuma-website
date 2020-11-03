@@ -6,7 +6,7 @@ A user can enable traffic metrics by editing a `Mesh` resource and providing the
 
 Out-of-the-box, `Kuma` provides full integration with `Prometheus`:
 * if enabled, every dataplane will expose its metrics in `Prometheus` format
-* furthemore, `Kuma` will make sure that `Prometheus` can automatically find every dataplane in the mesh
+* furthermore, `Kuma` will make sure that `Prometheus` can automatically find every dataplane in the mesh
 
 ## On Universal
 

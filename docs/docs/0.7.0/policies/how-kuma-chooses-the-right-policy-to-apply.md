@@ -58,7 +58,7 @@ Going back to 2 `TrafficLog` policies described above:
 
 3. if 2 policies match a connection between 2 `Dataplane`s by the same number of tags, then the one with a greater total number of matches by the exact tag value is "more specific" than the other
 
-4. if 2 policies match a connection between 2 `Dataplane`s by the same number of tags, and the total number of matches by the exact tag value is the same for both policies, and the total number of matches by a `'*'` (wildcard) tag value is the same for both policies, then a "more specific" policy is the one whoose name comes first when ordered alphabetically
+4. if 2 policies match a connection between 2 `Dataplane`s by the same number of tags, and the total number of matches by the exact tag value is the same for both policies, and the total number of matches by a `'*'` (wildcard) tag value is the same for both policies, then a "more specific" policy is the one whose name comes first when ordered alphabetically
 
 E.g.,
 
