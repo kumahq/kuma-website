@@ -35,7 +35,11 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{name}/traffic-routes/{name}`
 * `/meshes/{name}/fault-injections`
 * `/meshes/{name}/fault-injections/{name}`
-* `/status/clusters`
+* `/meshes/{name}/zones`
+* `/meshes/{name}/zones/{name}`
+* `/meshes/{name}/zones+insights`
+* `/meshes/{name}/zones+insights/{name}`
+* `/status/zones`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -1695,7 +1699,7 @@ curl http://localhost:5681/zones/cluster-1
 ```json
 {
  "type": "Zone",
- "name": "cluster1",
+ "name": "cluster-1",
  "creationTime": "2020-07-28T13:14:48Z",
  "modificationTime": "2020-07-28T13:14:48Z",
  "ingress": {
@@ -1717,7 +1721,7 @@ curl -XPUT http://localhost:5681/zones/cluster-1 --data @zone.json -H'content-ty
 ```json
 {
  "type": "Zone",
- "name": "cluster1",
+ "name": "cluster-1",
  "ingress": {
   "address": "192.168.64.17:31172"
  }
@@ -1740,7 +1744,7 @@ curl http://localhost:5681/zones
  "items": [
   {
    "type": "Zone",
-   "name": "cluster1",
+   "name": "cluster-1",
    "creationTime": "2020-07-28T13:14:48Z",
    "modificationTime": "2020-07-28T13:14:48Z",
    "ingress": {
@@ -1749,7 +1753,7 @@ curl http://localhost:5681/zones
   },
   {
    "type": "Zone",
-   "name": "cluster2",
+   "name": "cluster-2",
    "creationTime": "2020-07-28T13:14:50Z",
    "modificationTime": "2020-07-28T13:14:50Z",
    "ingress": {
@@ -1768,7 +1772,7 @@ Response: `200 OK`
 
 Example:
 ```bash
-curl -XDELETE http://localhost:5681/zones/cluster1
+curl -XDELETE http://localhost:5681/zones/cluster-1
 ```
 
 ## Zone Overview
@@ -1976,13 +1980,13 @@ curl http://localhost:5681/zones
 These APIs are available on the `Global` control plane, when running in a distributed multicluster mode.
 
 ### Zones status
-Request: `GET /status/config`
+Request: `GET /status/zones`
 
 Response: `200 OK`
 
 Example:
 ```bash
-curl -XGET http://localhost:5681/status/clusters
+curl -XGET http://localhost:5681/status/zones
 ```
 
 ```json
