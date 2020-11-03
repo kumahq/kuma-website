@@ -48,7 +48,7 @@ The registration of the `Dataplane` includes two main sections that are describe
 * `inbound` networking configuration, to configure on what port the DP will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
 * `outbound` networking configuration, to enable the local service to consume other services.
 
-For example, this is how we register a `Dataplane` for an hypotetical Redis service and then start the `kuma-dp` process:
+For example, this is how we register a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:
 
 ```sh
 echo "type: Dataplane
@@ -138,7 +138,7 @@ The `Dataplane` entity includes a few sections:
   * `inbound`: an array of `interface` objects that determines what services are being exposed via the data-plane. Each `interface` object only supports one port at a time, and you can specify more than one `interface` in case the service opens up more than one port.
     * `interface`: determines the routing logic for incoming requests in the format of `{address}:{dataplane-port}:{service-port}`.
     * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
-  * `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
+  * `outbound`: every outgoing request made by the service must also go through the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
     * `interface`: the address inclusive of the port that the service needs to consume locally to make a request to the external service
     * `service`: the name of the service associated with the interface.
 

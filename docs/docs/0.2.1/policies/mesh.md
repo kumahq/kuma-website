@@ -9,7 +9,7 @@ type: Mesh
 name: default
 ```
 
-On Kuberentes:
+On Kubernetes:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
