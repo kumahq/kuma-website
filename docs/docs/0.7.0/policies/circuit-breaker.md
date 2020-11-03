@@ -167,7 +167,7 @@ Activates Split Mode.
 :::tip
 **Split Mode:** There are two types of errors that might occur in a circuit breaker:
 
-* Locally originated: errors triggered locally when estabilishing a connection at the TCP layer (ie: connection refused, connection reset).
+* Locally originated: errors triggered locally when establishing a connection at the TCP layer (ie: connection refused, connection reset).
 * Externally originated: errors triggered remotely like a 5xx error in the response.
 
 If Split Mode is off, Kuma won't distinguish errors by their origin and they will be counted together. If Split Mode is on, different parameters can be used to fine tune the detectors. All detectors counts errors according to the state of this parameter. 

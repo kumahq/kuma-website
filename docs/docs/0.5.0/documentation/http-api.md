@@ -221,7 +221,7 @@ curl http://localhost:5681/meshes/mesh-1
         "name": "zipkin-1",
         "type": "zipkin",
         "conf": {
-          "url": "http://zipkin.local:9411/api/v1/spans"
+          "url": "http://zipkin.local:9411/api/v2/spans"
         }
       }
     ]
@@ -302,7 +302,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1 --data @mesh.json -H'content-type
         "name": "zipkin-1",
         "type": "zipkin",
         "conf": {
-          "url": "http://zipkin.local:9411/api/v1/spans"
+          "url": "http://zipkin.local:9411/api/v2/spans"
         }
       }
     ]
@@ -387,7 +387,7 @@ curl http://localhost:5681/meshes
             "name": "zipkin-1",
             "type": "zipkin",
             "conf": {
-              "url": "http://zipkin.local:9411/api/v1/spans"
+              "url": "http://zipkin.local:9411/api/v2/spans"
             }
           }
         ]

@@ -161,6 +161,8 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
+    conf:
+      skipMTLS: true
 EOF
 ```
 

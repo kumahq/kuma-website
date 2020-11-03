@@ -26,13 +26,13 @@ In addition to the service traffic ports, the data-plane automatically also open
 * On Kubernetes, by default at `127.0.0.1:9901`.
 * On Universal, by default on the first available port greater or equal than `30001`, like `127.0.01:30001`.
 
-The Envoy administration interface can also be [manually configured](./dps-and-data-model/#envoy) to listen on any arbitraty port by specifying the `--admin-port` argument when running `kuma-dp`.
+The Envoy administration interface can also be [manually configured](./dps-and-data-model/#envoy) to listen on any arbitrary port by specifying the `--admin-port` argument when running `kuma-dp`.
 
 ## Service Discovery
 
 Here we are going to be exploring the communication between `kuma-dp` and `kuma-cp`, and the communication between multiple `kuma-dp` to handle our service traffic.
 
-Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policiy configuration, and send diagnostic information to the control-plane.
+Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policy configuration, and send diagnostic information to the control-plane.
 
 ::: tip
 The connection between the data-planes and the control-plane is not on the execution path of the service requests, which means that if the data-plane temporarily loses connection to the control-plane the service traffic won't be affected.

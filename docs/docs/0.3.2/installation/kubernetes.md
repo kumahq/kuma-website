@@ -41,7 +41,7 @@ By executing this operation, a new `kuma-system` namespace will be created.
 On Kubernetes, we can start a simple service by executing the following command:
 
 ```sh
-./kubectl apply -f https://raw.githubusercontent.com/Kong/kuma-demo/master/kubernetes/kuma-demo-aio.yaml
+./kubectl apply -f https://raw.githubusercontent.com/kumahq/kuma-demo/master/kubernetes/kuma-demo-aio.yaml
 ```
 
 Note that two things are happening in the YAML file:

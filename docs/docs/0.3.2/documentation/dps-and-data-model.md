@@ -48,7 +48,7 @@ The registration of the `Dataplane` includes two main sections that are describe
 * `inbound` networking configuration, to configure on what port the DP will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
 * `outbound` networking configuration, to enable the local service to consume other services.
 
-For example, this is how we register a `Dataplane` for an hypotetical Redis service and then start the `kuma-dp` process:
+For example, this is how we register a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:
 
 ```sh
 echo "type: Dataplane
@@ -169,7 +169,7 @@ The `Dataplane` entity includes a few sections:
     * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
   * `gateway`: determines if the data-plane will operate in Gateway mode. It replaces the `inbound` object and enables Kuma to integrate with existing API gateways like [Kong](https://github.com/Kong/kong). 
     * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
-  * `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
+  * `outbound`: every outgoing request made by the service must also go through the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
     * `interface`: the address inclusive of the port that the service needs to consume locally to make a request to the external service
     * `service`: the name of the service associated with the interface.
 
