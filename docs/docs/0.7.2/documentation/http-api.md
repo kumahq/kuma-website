@@ -39,8 +39,6 @@ By default the HTTP API is listening on port `5681`. The endpoints available are
 * `/meshes/{name}/zones/{name}`
 * `/meshes/{name}/zones+insights`
 * `/meshes/{name}/zones+insights/{name}`
-* `/meshes/{name}/external-services`
-* `/meshes/{name}/external-services/{name}`
 * `/status/zones`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
@@ -1975,122 +1973,6 @@ curl http://localhost:5681/zones
   ],
  "next": null
 }
-```
-
-## External Services
-
-### Get External Service
-Request: `GET /meshes/{mesh}/external-services/{name}`
-
-Response: `200 OK` with External Service entity
-
-Example:
-```bash
-curl localhost:5681/meshes/default/external-services/httpbin
-```
-```json
-{
- "type": "ExternalService",
- "mesh": "default",
- "name": "httpbin",
- "creationTime": "2020-10-12T09:40:27.224648+03:00",
- "modificationTime": "2020-10-12T09:40:27.224648+03:00",
- "networking": {
-  "address": "httpbin.org:80",
-  "tls": {}
- },
- "tags": {
-  "kuma.io/protocol": "http",
-  "kuma.io/service": "httpbin"
- }
-}
-```
-
-### Create/Update External Service
-
-Request: `PUT /meshes/{mesh}/external-services/{name}` with External Service entity in body
-
-Response: `201 Created` when the resource is created and `200 OK` when it is updated
-
-Example:
-```bash
-curl -XPUT http://localhost:5681/meshes/default/external-services/es --data @es.json -H'content-type: application/json'
-```
-```json
-{
- "type": "ExternalService",
- "mesh": "default",
- "name": "es",
- "networking": {
-  "address": "httpbin.org:80",
-  "tls": {}
- },
- "tags": {
-  "kuma.io/protocol": "http",
-  "kuma.io/service": "es"
- }
-}
-```
-
-### List External Services
-
-Request: `GET /external-services`
-
-Response: `200 OK` with body of Zone entities
-
-Example:
-```bash
-curl http://localhost:5681/external-services
-```
-```json
-{
- "total": 2,
- "items": [
-  {
-   "type": "ExternalService",
-   "mesh": "default",
-   "name": "httpbin",
-   "creationTime": "2020-10-12T09:40:27.224648+03:00",
-   "modificationTime": "2020-10-12T09:40:27.224648+03:00",
-   "networking": {
-    "address": "httpbin.org:80",
-    "tls": {}
-   },
-   "tags": {
-    "kuma.io/protocol": "http",
-    "kuma.io/service": "httpbin"
-   }
-  },
-  {
-   "type": "ExternalService",
-   "mesh": "default",
-   "name": "httpsbin",
-   "creationTime": "2020-10-12T09:41:07.275867+03:00",
-   "modificationTime": "2020-10-12T09:41:07.275867+03:00",
-   "networking": {
-    "address": "httpbin.org:443",
-    "tls": {
-     "enabled": true
-    }
-   },
-   "tags": {
-    "kuma.io/protocol": "http",
-    "kuma.io/service": "httpsbin"
-   }
-  }
- ],
- "next": null
-}
-```
-
-### Delete External Services
-Request: `DELETE /meshes/{mesh}/external-services/{name}`
-
-Response: `200 OK`
-
-Example:
-```bash
-curl -XDELETE http://localhost:5681/meshes/default/external-services/es
 ```
 
 ## Multicluster
