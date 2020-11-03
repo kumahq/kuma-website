@@ -299,10 +299,30 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/0.7.3/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. Such dataplane is not attached to any particular workload, but instead it is bound to that particular zone.
-The specifics of the `Ingress` dataplane are described in the `networking.ingress` dictionary in the YAML resource. For the time being this one is empty, instead it denotes the `Ingress` mode of the dataplane.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/0.7.3/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. Such data plane is not attached to any particular workload, but instead, it is bound to that particular zone.
+All the requests that are sent from one zone to another will be directed to the proper instance by the Ingress.
+The specifics of the `Ingress` data plane are described in the `networking.ingress` dictionary in the YAML resource.
+Ingress has a regular address and one inbound just like a regular data plane, this address is routable within the local Ingress zone. It also has the following public coordinates:
+* `networking.ingress.publicAddress` - an IP address or hostname which will be used by data plane proxies from other zones
+* `networking.ingress.publicPort` - a port which will be used by data plane proxies from other zones
 
-### Universal
+Ingress that don't have this information is not taken into account when generating Envoy configuration, because they cannot be accessed by data plane proxies from other zones.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/0.7.3/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
+
+Kuma will try to resolve `networking.ingress.publicAddress` and `networking.ingress.publicPort` automatically by checking the Service associated with this Ingress.
+
+If the Service type is Load Balancer, Kuma will wait for public IP to be resolved. It may take a couple of minutes to receive public IP depending on the LB implementation of your Kubernetes provider. 
+
+If the Service type is Node Port, Kuma will take an External IP of the first Node in the cluster and combine it with Node Port.
+
+You can provide your own public address and port using the following annotations on the Ingress deployment
+* `kuma.io/ingress-public-address`
+* `kuma.io/ingress-public-port`
+:::
+::: tab "Universal"
 
 In Universal mode the dataplane resource should be deployed as follows:
 
@@ -311,19 +331,18 @@ type: Dataplane
 mesh: default
 name: dp-ingress
 networking:
-  address: 10.0.0.1
-  ingress: {}
+  address: 192.168.0.1
+  ingress:
+    publicAddress: 10.0.0.1
+    publicPort: 10000 
   inbound:
   - port: 10001
     tags:
       kuma.io/service: ingress
 ```
+::::
 
-The `networking.address` is and externally accessible IP or one behind a LoadBalancer. The `inbound` port shall be accessible from the other Zones that are about to communicate with the zone that deploys that particular `Ingress` dataplane.
-
-### Kubernetes
-
-The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/0.7.3/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
+Ingress deployment can be scaled horizontally. Many instances can have the same public address and port because they can be put behind one load balancer.
 
 ## Direct access to services
 
