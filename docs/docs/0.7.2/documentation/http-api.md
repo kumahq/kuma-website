@@ -6,7 +6,7 @@ Kuma ships with a RESTful HTTP interface that you can use to retrieve the state 
 **CI/CD**: The HTTP API can be used for infrastructure automation to either retrieve data, or to make changes when running in Universal mode. The [`kumactl`](../kumactl) CLI is built on top of the HTTP API, which you can also access with any other HTTP client like `curl`.
 :::
 
-By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTPS). The endpoints available are:
+By default the HTTP API is listening on port `5681`. The endpoints available are:
 
 * `/config`
 * `/meshes`
