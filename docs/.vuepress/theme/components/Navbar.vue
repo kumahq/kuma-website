@@ -3,7 +3,9 @@
     
     <div class="navbar-inner">
 
-      <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
+      <SidebarButton
+        @toggle-sidebar="$emit('toggle-sidebar')"
+      />
 
       <div class="logo-wrap">
         <router-link

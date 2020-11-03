@@ -16,8 +16,8 @@ showTestimonial: true # change this to `true` if you want to display the testimo
 showNews: true # change this to `true` if you want to display the news bar
 startText: Get Started
 startUrl: /install/
-whyText: Why Kuma?
-whyUrl: /docs/latest/overview/why-kuma/
+whyText: Explore Policies
+whyUrl: /policies/
 
 # tabs
 tabs:
@@ -31,7 +31,7 @@ tabs:
 
 ::: slot news
 
-**Kuma 0.7.1 has been released!** Improvements to the 0.7.x release branch which shipped with multi-zone deployment support, improved ProxyTemplate, StatefulSet support and more! &mdash; [Get Started](/install/)
+**Kuma 0.7.3 and 1.0 RC1 have been released!** Improvements to the last stable 0.7.x release branch and a preview of the new major version of Kuma - v1.0 - with performance improvements driven by production usage over the past 1+ years! &mdash; [Get Started](/install/)
 
 :::
 
@@ -70,7 +70,7 @@ Built on top of Envoy, Kuma is a modern control plane for Microservices & Servic
 
 ![L4 and L7 Policies chart](/images/diagrams/v3/diagram-l4-l7-policies@2x.png)
 
-Out of the box L4 + L7 policy architecture to enable zero trust security, observabilty, discovery, routing and traffic reliability in one click. Easy, yet powerful.
+Out of the box L4 + L7 policy architecture to enable zero trust security, observability, discovery, routing and traffic reliability in one click. Easy, yet powerful.
 :::
 
 ::: slot feature-block-content-3
@@ -165,7 +165,7 @@ Getting up and running with Kuma only requires three easy steps. Natively embedd
 
 ::: slot feature-focus-1-content
 
-### Connectivity with no boundaries
+### Single and Multi-Zone Connectivity
 
 Build modern service and application connectivity across every platform, cloud and architecture. Kuma supports modern Kubernetes environments and Virtual Machine workloads in the same cluster, with native multi-cloud and multi-cluster connectivity to support the entire organization.
 

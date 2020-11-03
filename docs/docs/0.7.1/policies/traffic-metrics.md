@@ -6,7 +6,7 @@ A user can enable traffic metrics by editing a `Mesh` resource and providing the
 
 Out-of-the-box, `Kuma` provides full integration with `Prometheus`:
 * if enabled, every dataplane will expose its metrics in `Prometheus` format
-* furthemore, `Kuma` will make sure that `Prometheus` can automatically find every dataplane in the mesh
+* furthermore, `Kuma` will make sure that `Prometheus` can automatically find every dataplane in the mesh
 
 To collect metrics from Kuma, you need to first expose metrics from Dataplanes and then configure Prometheus to collect them.
 
@@ -27,8 +27,6 @@ spec:
     backends:
     - name: prometheus-1
       type: prometheus
-      conf:
-        skipMTLS: false
 ```
 
 which is a convenient shortcut for
@@ -216,7 +214,6 @@ spec:
     - name: prometheus-1
       type: prometheus
       conf:
-        skipMTLS: false
         port: 5670
         path: /metrics
         skipMTLS: false
@@ -236,10 +233,10 @@ metadata:
 spec:
   sources:
     - match:
-        kuma.io/service: prometheus-server_kuma-metrics_svc_80
+       kuma.io/service: prometheus-server_kuma-metrics_svc_80
   destinations:
     - match:
-        kuma.io/service: dataplane-metrics
+       kuma.io/service: dataplane-metrics
     - match:
        kuma.io/service: "prometheus-alertmanager_kuma-metrics_svc_80"
     - match:

@@ -1,4 +1,29 @@
-# kumactl
+# CLI
+
+Kuma ships in a bundle that includes a few executables:
+
+* `kuma-cp`: this is the main Kuma executable that runs the control plane (CP).
+* `kuma-dp`: this is the Kuma data plane proxy executable that - under the hood - invokes `envoy`.
+* `envoy`: this is the Envoy executable that we bundle for convenience into the archive.
+* `kumactl`: this is the the user CLI to interact with Kuma (`kuma-cp`) and its data.
+* `kuma-prometheus-sd`: this is a helper tool that enables native integration between `Kuma` and `Prometheus`. Thanks to it, `Prometheus` will be able to automatically find all dataplanes in your Mesh and scrape metrics out of them.
+* `kuma-tcp-echo`: this is a sample application that echos back the requests we are making, used for demo purposes.
+
+According to the [installation instructions](/install/0.7.3), some of these executables are automatically executed as part of the installation workflow, while some other times you will have to execute them directly.
+
+You can check the usage of the executables by running the `-h` flag, like:
+
+```sh
+$ kuma-cp -h
+```
+
+and you can check their version by running the `version [--detailed]` command like:
+
+```sh
+$ kuma-cp version --detailed
+```
+
+## kumactl
 
 The `kumactl` executable is a very important component in your journey with Kuma. It allows to:
 
@@ -14,9 +39,9 @@ The `kumactl` application is a CLI client for the underlying [HTTP API](../http-
 Available commands on `kumactl` are:
 
 * `kumactl install [..]`: provides helpers to install Kuma components in Kubernetes.
-	* `kumactl install control-plane`: Installs Kuma in Kubernetes in a `kuma-system` namespace.
-	* `kumactl install metrics`: Installs Prometheus + Grafana in Kubernetes in a `kuma-metrics` namespace.
-	* `kumactl install tracing`: Installs Jaeger with Zipkin compatibility in Kubernetes in a `kuma-tracing` namespace.
+  * `kumactl install control-plane`: Installs Kuma in Kubernetes in a `kuma-system` namespace.
+  * `kumactl install metrics`: Installs Prometheus + Grafana in Kubernetes in a `kuma-metrics` namespace.
+  * `kumactl install tracing`: Installs Jaeger with Zipkin compatibility in Kubernetes in a `kuma-tracing` namespace.
 * `kumactl config [..]`: configures the local or remote control-planes that `kumactl` should talk to. You can have more than one enabled, and the configuration will be stored in `~/.kumactl/config`.
 * `kumactl apply [..]`: used to change the state of Kuma. Only available on Universal.
 * `kumactl get [..]`: used to retrieve the raw state of entities Kuma.
