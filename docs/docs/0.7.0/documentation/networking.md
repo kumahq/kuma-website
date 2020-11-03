@@ -58,13 +58,13 @@ In addition to the service traffic ports, the data-plane automatically also open
 * On Kubernetes, by default at `127.0.0.1:9901`.
 * On Universal, by default on the first available port greater or equal than `30001`, like `127.0.01:30001`.
 
-The Envoy administration interface can also be [manually configured](./dps-and-data-model/#envoy) to listen on any arbitraty port by specifying the `--admin-port` argument when running `kuma-dp`.
+The Envoy administration interface can also be [manually configured](./dps-and-data-model/#envoy) to listen on any arbitrary port by specifying the `--admin-port` argument when running `kuma-dp`.
 
 ## Service Discovery
 
 Here we are going to be exploring the communication between `kuma-dp` and `kuma-cp`, and the communication between multiple `kuma-dp` to handle our service traffic.
 
-Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policiy configuration, and send diagnostic information to the control-plane.
+Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policy configuration, and send diagnostic information to the control-plane.
 
 ::: tip
 The connection between the data-planes and the control-plane is not on the execution path of the service requests, which means that if the data-plane temporarily loses connection to the control-plane the service traffic won't be affected.
@@ -126,7 +126,7 @@ The `CIDR` field sets the IP range of virtual IPs. The default `240.0.0.0/4` is 
 
 The basic operation of Kuma DNS includes a couple of main components: DNS server, VIPs allocator, cross-replica persistence.
 
-The DNS server listens on port `5653` and reponds for type `A` DNS requests and answers with `A` record, e.g. ```<service>.mesh. 60 IN A  240.0.0.100```. The default TTL is set to 60 seconds, to ensure the client will synchronize with Kuma DNS and account for any changes happening meanwhile.
+The DNS server listens on port `5653` and responds for type `A` DNS requests and answers with `A` record, e.g. ```<service>.mesh. 60 IN A  240.0.0.100```. The default TTL is set to 60 seconds, to ensure the client will synchronize with Kuma DNS and account for any changes happening meanwhile.
 
 Kuma DNS allocates the virtual IPs from the configured CIDR, by constantly scanning the services available in all Kuma meshes. When a service is removed its VIP is freed too and Kuma DNS will not respond for it with `A` DNS record.
 
@@ -144,7 +144,7 @@ Consuming a service handled by Kuma DNS from inside a Kubernetes container is ba
 
 Since the default VIP created listeners will default to port `80`, it can be omitted when using a standard HTTP client.
  
-Kuma DNS allocates a VIP for every Service withing a mesh. Then, it creates outbound virtual listener for every VIP. However, by inspecting `curl localhost:9901/config_dump`, we can see sections similar to this one:
+Kuma DNS allocates a VIP for every Service within a mesh. Then, it creates outbound virtual listener for every VIP. However, by inspecting `curl localhost:9901/config_dump`, we can see sections similar to this one:
 
 ```json
     {

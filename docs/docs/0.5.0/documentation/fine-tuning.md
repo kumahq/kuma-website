@@ -32,7 +32,7 @@ The main task of the control plane is to provide config for dataplanes. When a d
 This goroutine runs the reconciliation process with given interval (1s by default). During this process, all dataplanes and policies are fetched for matching.
 When matching is done, the Envoy config (including policies and available endpoints of services) for given dataplane is generated and sent only if there is an actual change.
 
-* `KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL` : interval for re-genarting configuration for Dataplanes connected to the Control Plane (default: 1s)
+* `KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL` : interval for re-generating configuration for Dataplanes connected to the Control Plane (default: 1s)
 
 This process can be CPU intensive with high number of dataplanes therefore you can control the interval time for a single dataplane.
 You can lower the interval scarifying the latency of the new config propagation to avoid overloading the CP. For example,
@@ -42,6 +42,6 @@ For systems with high traffic, keeping old endpoints for such a long time (5s) m
 
 Additionally, to avoid overloading the underlying storage there is a cache that shares fetch results between concurrent reconciliation processes for multiple dataplanes.
 
-* `KUMA_STORE_CACHE_EXPIRATION_TIME` : expiration time for elements in cache (1s by defualt).
+* `KUMA_STORE_CACHE_EXPIRATION_TIME` : expiration time for elements in cache (1s by default).
 
 You can also change the expiration time, but it should not exceed `KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL`, otherwise CP will be wasting time building Envoy config with the same data.
