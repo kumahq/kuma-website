@@ -34,7 +34,7 @@ You can generate token either by REST API
 ```bash
 curl -XPOST \ 
   -H "Content-Type: application/json" \
-  --data '{"name": "dp-echo-1", "mesh": "default", "type": "dataplane", tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
+  --data '{"name": "dp-echo-1", "mesh": "default", "tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
   http://localhost:5679/tokens
 ```
 
@@ -43,7 +43,6 @@ or by using `kumactl`
 kumactl generate dataplane-token \
   --name dp-echo-1 \
   --mesh default \
-  --type dataplane \
   --tag kuma.io/service=backend,backend-admin > /tmp/kuma-dp-echo1-token
 ``` 
 
@@ -65,7 +64,6 @@ As you can see in the example above, you can generate a token by passing name, m
 * `mesh` + `tag` (ex. `kuma.io/service`). This way you can use one token across all instances of given service.
   Keep in mind that you have to specify all the values. If you have a Dataplane with 2 inbounds, one with `kuma.io/service: backend` and one with `kuma.io/service: backend-admin`, you need to specify both values (`--tag kuma.io/service=backend,backend-admin`).
 * `mesh` + `name` + `tag` (ex. `kuma.io/service`). This way you can use one token for one instance of given service.
-* `type`. The type can be either `dataplane` (default if not specified) or `ingress`. Ingress Dataplane for multicluster communication requires Ingress token.
 
 
 #### Turn off authentication

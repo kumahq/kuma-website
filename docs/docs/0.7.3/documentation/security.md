@@ -46,12 +46,19 @@ the only thing that is stored is a signing key that is used to verify if a token
 
 You can generate token either by REST API
 ```bash
-curl -XPOST -H "Content-Type: application/json" --data '{"name": "dp-echo-1", "mesh": "default"}' http://localhost:5679/tokens
+curl -XPOST \ 
+  -H "Content-Type: application/json" \
+  --data '{"name": "dp-echo-1", "mesh": "default", "type": "dataplane", tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
+  http://localhost:5679/tokens
 ```
 
 or by using `kumactl`
 ```bash
-kumactl generate dataplane-token --name=dp-echo-1 --mesh=default > /tmp/kuma-dp-echo1-token
+kumactl generate dataplane-token \
+  --name dp-echo-1 \
+  --mesh default \
+  --type dataplane \
+  --tag kuma.io/service=backend,backend-admin > /tmp/kuma-dp-echo1-token
 ``` 
 
 The token should be stored in a file and then used when starting `kuma-dp`
@@ -63,6 +70,26 @@ $ kuma-dp run \
   --dataplane-token-file=/tmp/kuma-dp-echo-1-token
 ```
 
+You can also pass Dataplane Token as `KUMA_DATAPLANE_RUNTIME_TOKEN` Environment Variable. 
+
+#### Dataplane Token boundary
+
+As you can see in the example above, you can generate a token by passing name, mesh, and tags. Control Plane will verify Dataplane against data available in the Token. This means you can generate a token by specifying:
+* only `mesh`. This way you can reuse the token for all dataplanes in a given mesh.
+* `mesh` + `tag` (ex. `kuma.io/service`). This way you can use one token across all instances of given service.
+  Keep in mind that you have to specify all the values. If you have a Dataplane with 2 inbounds, one with `kuma.io/service: backend` and one with `kuma.io/service: backend-admin`, you need to specify both values (`--tag kuma.io/service=backend,backend-admin`).
+* `mesh` + `name` + `tag` (ex. `kuma.io/service`). This way you can use one token for one instance of given service.
+* `type`. The type can be either `dataplane` (default if not specified) or `ingress`. Ingress Dataplane for multicluster communication requires Ingress token.
+
+
+#### Turn off authentication
+
+You can turn off authentication for testing proposes. Set `KUMA_ADMIN_SERVER_APIS_DATAPLANE_TOKEN_ENABLED` to `false`.
+
+::: warning
+If you turn off authentication, any dataplane can request certificate for any service, therefore this should not be used in a production setup.
+:::
+::::
 #### Accessing Admin Server from a different machine
 
 By default, the Admin Server that is serving Dataplane Tokens is exposed only on localhost. If you want to generate tokens from a different machine than control plane you have to secure the connection:
