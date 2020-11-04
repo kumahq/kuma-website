@@ -183,8 +183,8 @@ Run the `kuma-cp` in `remote` mode.
 
 ```sh
 $ KUMA_MODE=remote \
-  KUMA_MULTICLUSTER_REMOTE_ZONE=<zone-name> \
-  KUMA_MULTICLUSTER_REMOTE_GLOBAL_ADDRESS=grpcs://<global-kds-address> \
+  KUMA_MULTIZONE_REMOTE_ZONE=<zone-name> \
+  KUMA_MULTIZONE_REMOTE_GLOBAL_ADDRESS=grpcs://<global-kds-address> \
   ./kuma-cp run
 ```
 
