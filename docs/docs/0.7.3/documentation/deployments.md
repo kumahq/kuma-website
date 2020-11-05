@@ -216,7 +216,6 @@ Adding more data plane proxies can be done locally by following the Use Kuma sec
 :::
 ::::
 
-
 ### Verify control plane connectivity
 
 When a remote control plane connects to the global control plane, the `Zone` resource is created automatically in the global control plane.
@@ -225,6 +224,11 @@ You can verify if a remote control plane is connected to the global control plan
 Additionally, if you deployed remote control plane with Ingress, it should be visible in the Ingress tab of the GUI.
 Cross-zone communication between services is only available if Ingress has a public address and public port.
 Note that on Kubernetes, Kuma automatically tries to pick up the public address and port. Depending on the LB implementation of your Kubernetes provider, you may need to wait a couple of minutes to receive the address. 
+
+### Enable mTLS
+
+Cross-zone communication between services is only possible when mTLS is enabled, because Ingress is routing connections using SNI.
+Make sure you [enable mTLS](../policies/mutual-tls.md) and apply [Traffic Permission](../policies/traffic-permissions.md). 
 
 ### Using the multi-zone deployment
 
