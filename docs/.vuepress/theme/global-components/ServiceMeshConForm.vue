@@ -113,7 +113,7 @@
 
     <div v-if="formStatus === true" class="tip custom-block">
       <p class="custom-block-title">Thank you!</p>
-      <p>Thank you! Please check your inbox for your exclusive ServiceMeshCon offers.</p>
+      <p>Please check your inbox for your exclusive ServiceMeshCon offers.</p>
     </div>
 
     <div v-if="formStatus === false" class="danger custom-block">
