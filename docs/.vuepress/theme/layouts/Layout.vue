@@ -62,6 +62,9 @@ import Enterprise from '@theme/components/custom/Enterprise.vue'
 import UseCases from '@theme/components/custom/UseCases.vue'
 import Policies from '@theme/components/custom/Policies.vue'
 
+// one-off pages
+import ServiceMeshCon from '@theme/components/custom/ServiceMeshCon.vue'
+
 export default {
   components: {
     Page,
@@ -73,7 +76,8 @@ export default {
     Community,
     Enterprise,
     UseCases,
-    Policies
+    Policies,
+    ServiceMeshCon
   },
 
   data () {
