@@ -62,7 +62,7 @@
           <div class="form-stack w-full lg:w-1/2 m-2">
             <label for="company" class="sr-only">Company</label>
             <input
-              v-model="formData.email"
+              v-model="formData.company"
               id="company"
               name="company"
               type="company"
