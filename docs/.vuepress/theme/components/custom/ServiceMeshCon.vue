@@ -146,12 +146,12 @@ $smc-gradient: linear-gradient(90deg, #ee751e 0%, #990066 100%);
     }
   }
 
-  .content-block-2 {
+  .content-block-2,
+  .content-block-3 {
     background-color: $pale-blue;
   }
 
   .content-block-3 {
-    background-color: $pale-blue;
   }
 
   .content-block-4 {
