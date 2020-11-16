@@ -121,32 +121,3 @@ mesh: default # indicate to Kuma what is the Mesh that the resource belongs to
 :::
 ::::
 
-### Controlling the passthrough mode
-
-The passtrhough mode is enabled by default on all the dataplanes in transparent proxy mode in a Mesh. This behavior can be changed by setting the `networking.outbound.passtrhough` in the Mesh resource. Example:
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: Mesh
-metadata:
-  name: default
-spec:
-  networking:
-    outbound:
-      passthrough: false
-```
-:::
-::: tab "Universal"
-```yaml
-type: Mesh
-name: default
-networking:
-  outbound:
-    passthrough: false
-```
-:::
-::::
-
-When `networking.outbound.passtrhough` is `false`, no traffic to any non-meh resource can leave the Mesh.
