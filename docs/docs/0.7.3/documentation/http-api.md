@@ -2070,7 +2070,10 @@ curl http://localhost:5681/external-services
    "networking": {
     "address": "httpbin.org:443",
     "tls": {
-     "enabled": true
+     "enabled": true,
+     "caCert": {
+      "inline": "LS0tLS1=="
+     }
     }
    },
    "tags": {

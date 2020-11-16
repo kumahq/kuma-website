@@ -51,4 +51,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
    * `address` is the address where the external service can be reached.
    * `tls` is the section to configure the TLS originator when consuming the external service
      * `enabled` turns on and off the TLS origination. Defaults to `true`
+     * `caCert` the CA certificate for the external service TLS verification
+     * `clientCert` the client certificate for mTLS
+     * `clientKey` the client key for mTLS
  
