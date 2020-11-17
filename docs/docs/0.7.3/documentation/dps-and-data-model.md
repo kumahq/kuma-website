@@ -239,6 +239,61 @@ spec:
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
+## Kubernetes Probes
+
+Kuma natively supports the `httpGet` Kubernetes probes. By default, Kuma overrides the specified probe with a virtual one. For example, if we specify the following probe:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /metrics
+    port: 3001
+  initialDelaySeconds: 3
+  periodSeconds: 3
+```
+
+Kuma will replace it with:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /3001/metrics
+    port: 9000
+  initialDelaySeconds: 3
+  periodSeconds: 3
+```
+
+Where `9000` is a default virtual probe port, which can be configured in `kuma-cp.config`:
+
+```yaml
+runtime:
+  kubernetes:
+    injector:
+      virtualProbesPort: 19001
+```
+And can also be overwritten in the Pod's annotations:
+
+```yaml
+annotations:
+  kuma.io/virtual-probes-port: 19001
+```
+
+To disable Kuma's probe virtualziation, we can either set it in Kuma's configuration gile `kuma-cp.config`:
+
+```yaml
+runtime:
+  kubernetes:
+    injector:
+      virtualProbesEnabled: true
+```
+
+or in the Pod's annotations:
+
+```yaml
+annotations:
+  kuma.io/virtual-probes: enabled
+```
+
 ## Gateway
 
 The `Dataplane` can operate in Gateway mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
