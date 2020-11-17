@@ -1305,7 +1305,7 @@ module.exports = {
         "policies/fault-injection",
         "policies/health-check",
         "policies/circuit-breaker",
-        "policies/proxy-template"
+        "policies/proxy-template",
       ]
     },
     {
@@ -1401,10 +1401,11 @@ module.exports = {
         "policies/traffic-trace",
         "policies/traffic-log",
         "policies/locality-aware",
-	"policies/fault-injection",
+	    "policies/fault-injection",
         "policies/health-check",
         "policies/circuit-breaker",
-        "policies/proxy-template"
+        "policies/proxy-template",
+        "policies/external-services",
       ]
     },
     {
