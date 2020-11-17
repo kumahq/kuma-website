@@ -59,7 +59,7 @@ networking:
       kuma.io/service: redis
 
 $ kuma-dp run \
-  --cp-address=http://127.0.0.1:5681 \
+  --cp-address=https://127.0.0.1:5678 \
   --dataplane-file=dp.yaml
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
@@ -87,7 +87,7 @@ networking:
       kuma.io/service: redis
 
 kuma-dp run \
-  --cp-address=http://127.0.0.1:5681 \
+  --cp-address=https://127.0.0.1:5678 \
   --dataplane-file=dp.yaml \
   --dataplane-var name=`hostname -s` \
   --dataplane-var address=192.168.0.2 \
