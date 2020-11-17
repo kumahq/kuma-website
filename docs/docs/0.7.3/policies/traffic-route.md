@@ -13,7 +13,6 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
 mesh: default
 metadata:
-  namespace: default
   name: route-example
 spec:
   sources:

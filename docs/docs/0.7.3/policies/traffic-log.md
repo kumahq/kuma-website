@@ -86,7 +86,6 @@ You need to create a `TrafficLog` policy to select a subset of traffic and forwa
 apiVersion: kuma.io/v1alpha1
 kind: TrafficLog
 metadata:
-  namespace: kuma-example
   name: all-traffic
 mesh: default
 spec:
@@ -104,7 +103,6 @@ spec:
 apiVersion: kuma.io/v1alpha1
 kind: TrafficLog
 metadata:
-  namespace: kuma-example
   name: backend-to-database-traffic
 spec:
   # This TrafficLog policy applies only to traffic from service `backend` to service `database`.
