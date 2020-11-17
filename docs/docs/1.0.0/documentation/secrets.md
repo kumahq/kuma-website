@@ -2,7 +2,7 @@
 
 Kuma provides a built-in interface to store sensitive information such as TLS keys and tokens that can be used later on by any policy at runtime. This functionality is being implemented by introducing a `Secret` resource.
 
-Secrets belong to a specific [`Mesh`](/docs/0.7.3/policies/mesh) resource, and cannot be shared across different `Meshes`.
+Secrets belong to a specific [`Mesh`](/docs/1.0.0/policies/mesh) resource, and cannot be shared across different `Meshes`.
 
 :::tip
 Kuma will also leverage `Secret` resources internally for certain operations, for example when storing auto-generated certificates and keys when Mutual TLS is enabled.
@@ -75,7 +75,7 @@ sample-secret   system.kuma.io/secret   1      3m12s
 Like any other Kuma resources, if `kuma.io/mesh` is not specified then the `Secret` will automatically belong to the `default` Mesh. 
 :::
 
-Kubernetes Secrets always belongs to a specific [`Mesh`](/docs/0.7.3/policies/mesh) resource and they are internally they are identified with the `name + namespace` format, therefore **it is not possible** to have a `Secret` with the same name in multiple meshes (since multiple `Meshes` always belong to one Kuma CP that always runs in one Namespace).
+Kubernetes Secrets always belongs to a specific [`Mesh`](/docs/1.0.0/policies/mesh) resource and they are internally they are identified with the `name + namespace` format, therefore **it is not possible** to have a `Secret` with the same name in multiple meshes (since multiple `Meshes` always belong to one Kuma CP that always runs in one Namespace).
 
 In order to reassign a `Secret` to another `Mesh` you need to delete the `Secret` resource and apply it again.
 
@@ -93,7 +93,7 @@ $ echo "value" | base64
 
 ## Usage
 
-Here is example of how you can use a Kuma `Secret` with a `provided` [Mutual TLS](/docs/0.7.3/policies/mutual-tls) backend.
+Here is example of how you can use a Kuma `Secret` with a `provided` [Mutual TLS](/docs/1.0.0/policies/mutual-tls) backend.
 
 The examples below assume that the `Secret` object has already been created before-hand.
 

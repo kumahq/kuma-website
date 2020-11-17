@@ -5,7 +5,7 @@ As explained in the [Overview](../overview), when Kuma (`kuma-cp`) is up and run
 Kuma supports a few different backends that we can use when running `kuma-cp`. You can configure the backend storage by setting the `KUMA_STORE_TYPE` environment variable when running the control plane.
 
 ::: tip
-This information has been documented for clarity, but when following the [installation instructions](/install/0.7.3) these settings will be automatically configured.
+This information has been documented for clarity, but when following the [installation instructions](/install/1.0.0) these settings will be automatically configured.
 :::
 
 Following backends are available

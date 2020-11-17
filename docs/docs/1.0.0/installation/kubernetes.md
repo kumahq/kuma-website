@@ -9,7 +9,7 @@ To install and run Kuma on Kubernetes execute the following steps:
 Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and continue your Kuma journey.
 
 ::: tip
-Kuma also provides [Helm charts](/docs/0.7.3/installation/helm/) that we can use instead of this distribution.
+Kuma also provides [Helm charts](/docs/1.0.0/installation/helm/) that we can use instead of this distribution.
 :::
 
 ### 1. Download Kuma
@@ -31,16 +31,16 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access Kubernetes:
 
-* [CentOS](https://kong.bintray.com/kuma/kuma-0.7.3-centos-amd64.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma-0.7.3-rhel-amd64.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma-0.7.3-debian-amd64.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma-0.7.3-ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma-0.7.3-darwin-amd64.tar.gz) or run `brew install kumactl`
+* [CentOS](https://kong.bintray.com/kuma/kuma-1.0.0-centos-amd64.tar.gz)
+* [RedHat](https://kong.bintray.com/kuma/kuma-1.0.0-rhel-amd64.tar.gz)
+* [Debian](https://kong.bintray.com/kuma/kuma-1.0.0-debian-amd64.tar.gz)
+* [Ubuntu](https://kong.bintray.com/kuma/kuma-1.0.0-ubuntu-amd64.tar.gz)
+* [macOS](https://kong.bintray.com/kuma/kuma-1.0.0-darwin-amd64.tar.gz) or run `brew install kumactl`
 
 and extract the archive with:
 
 ```sh
-$ tar xvzf kuma-0.7.3*.tar.gz
+$ tar xvzf kuma-1.0.0*.tar.gz
 ```
 
 :::
@@ -48,7 +48,7 @@ $ tar xvzf kuma-0.7.3*.tar.gz
 
 ### 2. Run Kuma
 
-Once downloaded, you will find the contents of Kuma in the `kuma-0.7.3` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/0.7.3/documentation/kumactl/).
+Once downloaded, you will find the contents of Kuma in the `kuma-1.0.0` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/1.0.0/documentation/kumactl/).
 
 ::: tip
 **Note**: On Kubernetes - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
@@ -57,7 +57,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-0.7.3` folder. 
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-0.7.3/bin
+$ cd kuma-1.0.0/bin
 ```
 
 And we can then proceed to install Kuma on Kubernetes with:
@@ -66,7 +66,7 @@ And we can then proceed to install Kuma on Kubernetes with:
 $ ./kumactl install control-plane | kubectl apply -f -
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/0.7.3/documentation/deployments/) like "multi-zone".
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/1.0.0/documentation/deployments/) like "multi-zone".
 
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
@@ -169,4 +169,4 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 Congratulations! You have successfully installed Kuma on Kubernetes 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/0.7.3/quickstart/kubernetes/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/1.0.0/quickstart/kubernetes/) deployments.

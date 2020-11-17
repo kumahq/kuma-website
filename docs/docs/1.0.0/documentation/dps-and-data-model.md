@@ -129,7 +129,7 @@ Each Kuma data plane proxy is associated with tags - or attributes - that can be
 A tag attributes a qualifier to the data plane proxy, and the tags that are reserved to Kuma are prefixed with `kuma.io` like:
 
 * `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
-* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/0.7.3/documentation/deployments/). This tag is automatically created and cannot be overwritten.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/1.0.0/documentation/deployments/). This tag is automatically created and cannot be overwritten.
 * `kuma.io/protocol`: Identifies the protocol that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 ::: tip
@@ -354,7 +354,7 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/0.7.3/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. Such data plane is not attached to any particular workload, but instead, it is bound to that particular zone.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.0.0/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. Such data plane is not attached to any particular workload, but instead, it is bound to that particular zone.
 All the requests that are sent from one zone to another will be directed to the proper instance by the Ingress.
 The specifics of the `Ingress` data plane are described in the `networking.ingress` dictionary in the YAML resource.
 Ingress has a regular address and one inbound just like a regular data plane, this address is routable within the local Ingress zone. It also has the following public coordinates:
@@ -365,7 +365,7 @@ Ingress that don't have this information is not taken into account when generati
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/0.7.3/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
+The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/1.0.0/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
 
 Kuma will try to resolve `networking.ingress.publicAddress` and `networking.ingress.publicPort` automatically by checking the Service associated with this Ingress.
 
