@@ -158,12 +158,6 @@ networking:
     - port: 33033
       tags:
         kuma.io/service: redis
-probes: # optional
-  port: 9000
-  endpoints:
-    - inboundPort: 8080
-      inboundPath: /health
-      path: /8080/health
 ```
 And the [`Gateway mode`](#gateway)'s entity definition will look like:
 ```yaml
@@ -179,12 +173,6 @@ networking:
   - port: 33033
     tags:
       kuma.io/service: backend
-probes: # optional
-  port: 9000
-  endpoints:
-    - inboundPort: 8080
-      inboundPath: /health
-      path: /8080/health
 ```
 
 The `Dataplane` entity includes a few sections:
@@ -257,7 +245,10 @@ spec:
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
-Kuma Control Plane also takes care of HttpGet probes. By default, webhook will override probe with a virtual one. So for the given probe:
+## Kubernetes Probes
+
+Kuma natively supports the `httpGet` Kubernetes probes. By default, Kuma overrides the specified probe with a virtual one. For example, if we specify the following probe:
+
 ```yaml
 livenessProbe:
   httpGet:
@@ -266,7 +257,9 @@ livenessProbe:
   initialDelaySeconds: 3
   periodSeconds: 3
 ```
-at the end you will receive:
+
+Kuma will replace it with:
+
 ```yaml
 livenessProbe:
   httpGet:
@@ -275,27 +268,33 @@ livenessProbe:
   initialDelaySeconds: 3
   periodSeconds: 3
 ```
-Where `9000` is a default virtual probe port, it can be set in `kuma-cp.config`:
+
+Where `9000` is a default virtual probe port, which can be configured in `kuma-cp.config`:
+
 ```yaml
 runtime:
   kubernetes:
     injector:
       virtualProbesPort: 19001
 ```
-Also it can be overriden by Pod's annotation:
+And can also be overwritten in the Pod's annotations:
+
 ```yaml
 annotations:
   kuma.io/virtual-probes-port: 19001
 ```
 
-If you'd like to disable probes virtualization at all, you can do so in `kuma-cp.config` as well:
+To disable Kuma's probe virtualziation, we can either set it in Kuma's configuration gile `kuma-cp.config`:
+
 ```yaml
 runtime:
   kubernetes:
     injector:
       virtualProbesEnabled: true
 ```
-or using Pod's annotation:
+
+or in the Pod's annotations:
+
 ```yaml
 annotations:
   kuma.io/virtual-probes: enabled
