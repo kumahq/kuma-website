@@ -23,14 +23,15 @@ spec:
     - match:
         kuma.io/service: redis_default_svc_6379
   conf:
-    - weight: 90
-      destination:
-        kuma.io/service: redis_default_svc_6379
-        version: '1.0'
-    - weight: 10
-      destination:
-        kuma.io/service: redis_default_svc_6379
-        version: '2.0'
+    split:
+      - weight: 90
+        destination:
+          kuma.io/service: redis_default_svc_6379
+          version: '1.0'
+      - weight: 10
+        destination:
+          kuma.io/service: redis_default_svc_6379
+          version: '2.0'
 ```
 
 We will apply the configuration with `kubectl apply -f [..]`.
@@ -48,14 +49,15 @@ destinations:
   - match:
       kuma.io/service: redis
 conf:
-  - weight: 90
-    destination:
-      kuma.io/service: redis
-      version: '1.0'
-  - weight: 10
-    destination:
-      kuma.io/service: redis
-      version: '2.0'
+  split:
+    - weight: 90
+      destination:
+        kuma.io/service: redis
+        version: '1.0'
+    - weight: 10
+      destination:
+        kuma.io/service: redis
+        version: '2.0'
 ```
 
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.7.3/documentation/http-api).

@@ -1277,23 +1277,25 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
    }
   }
  ],
- "conf": [
-  {
-   "weight": 90,
-   "destination": {
-    "region": "us-east-1",
-    "service": "backend",
-    "version": "v2"
-   }
-  },
-  {
-   "weight": 10,
-   "destination": {
-    "service": "backend",
-    "version": "v3"
-   }
-  }
- ]
+ "conf": {
+  "split": [
+    {
+     "weight": 90,
+     "destination": {
+      "region": "us-east-1",
+      "service": "backend",
+      "version": "v2"
+     }
+    },
+    {
+     "weight": 10,
+     "destination": {
+      "service": "backend",
+      "version": "v3"
+     }
+    }
+   ]
+ }
 }
 ```
 
@@ -1327,23 +1329,25 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend --d
    }
   }
  ],
- "conf": [
-  {
-   "weight": 90,
-   "destination": {
-    "region": "us-east-1",
-    "service": "backend",
-    "version": "v2"
-   }
-  },
-  {
-   "weight": 10,
-   "destination": {
-    "service": "backend",
-    "version": "v3"
-   }
-  }
- ]
+ "conf": {
+    "split": [
+    {
+     "weight": 90,
+     "destination": {
+      "region": "us-east-1",
+      "service": "backend",
+      "version": "v2"
+     }
+    },
+    {
+     "weight": 10,
+     "destination": {
+      "service": "backend",
+      "version": "v3"
+     }
+    }
+   ]
+ }
 }
 ```
 
@@ -1381,23 +1385,25 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes
      }
     }
    ],
-   "conf": [
-    {
-     "weight": 90,
-     "destination": {
-      "region": "us-east-1",
-      "service": "backend",
-      "version": "v2"
-     }
-    },
-    {
-     "weight": 10,
-     "destination": {
-      "service": "backend",
-      "version": "v3"
-     }
-    }
-   ]
+   "conf": {
+    "split": [
+       {
+        "weight": 90,
+        "destination": {
+         "region": "us-east-1",
+         "service": "backend",
+         "version": "v2"
+        }
+       },
+       {
+        "weight": 10,
+        "destination": {
+         "service": "backend",
+         "version": "v3"
+        }
+       }
+    ]
+   }
   }
  ],
  "next": "http://localhost:5681/meshes/mesh-1/traffic-routes?offset=1"
