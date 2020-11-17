@@ -130,7 +130,7 @@ A tag attributes a qualifier to the data plane proxy, and the tags that are rese
 
 * `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
 * `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/0.7.3/documentation/deployments/). This tag is automatically created and cannot be overwritten.
-* `kuma.io/protocol`: Identifies the protocol that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2` and `grpc.`
+* `kuma.io/protocol`: Identifies the protocol that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 ::: tip
 The `kuma.io/service` tag must always exist.
