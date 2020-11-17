@@ -1,25 +1,22 @@
 # DPs and Data Model
 
-When Kuma (`kuma-cp`) runs, it will be waiting for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, two things have to happen before being executed:
-
-* There must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
-* There must exist a [`Dataplane`](#dataplane-entity) proxy entity in Kuma **before** the actual data plane proxy tries to connect to it via `kuma-dp`.
+When Kuma (`kuma-cp`) runs, it will be waiting for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
 
 <center>
 <img src="/images/docs/0.5.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ::: tip
-On Universal the [`Dataplane`](#dataplane-entity) entity must be **manually** created before starting `kuma-dp`, on Kubernetes it is **automatically** created.
+On Universal the [`Dataplane`](#dataplane-entity) entity must be **manually** created and passed to `kuma-dp`, on Kubernetes it is **automatically** created.
 :::
 
 ## Dataplane Entity
 
-A `Dataplane` entity must be created on the CP `kuma-cp` before a `kuma-dp` instance attempts to connect to the control-plane. On Kubernetes, this operation is fully **automated**. On Universal, it must be executed **manually**.
+A `Dataplane` entity must be passed to `kuma-dp` when instance attempts to connect to the control-plane. On Kubernetes, this operation is fully **automated**. On Universal, it must be executed **manually**.
 
 To understand why the `Dataplane` entity is required, we must take a step back. As we have explained already, Kuma follow a sidecar proxy model for the data plane proxies, where we have an instance of a data plane proxy for every instance of our services. Each Service and DP will communicate with each other on the same machine, therefore on `127.0.0.1`.
 
-For example, if we have 6 replicas of a "Redis" service, then we must have one instances of `kuma-dp` running alongside each replica of the service, therefore 6 replicas of `kuma-dp` as well.
+For example, if we have 6 replicas of a "Redis" service, then we must have one instances of `kuma-dp` running alongside each replica of the service, therefore 6 replicas of `kuma-dp` and 6 `Dataplane` entities as well.
 
 <center>
 <img src="/images/docs/0.5.0/diagram-11.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -34,10 +31,7 @@ When we start a new data plane proxy in Kuma, **two things** have to happen:
 1. The data plane proxy needs to advertise what service it is responsible for. This is what the `Dataplane` entity does.
 2. The data plane proxy process needs to start accepting incoming and outgoing requests.
 
-These steps are being executed in **two separate** commands:
-
-1. We register the `Dataplane` object via the `kumactl` or HTTP API.
-2. Once we have registered the DP, we can start it by running `kuma-dp run`.
+To do this, we have to create a file with a `Dataplane` definition and pass it to `kuma-dp run`. This way, data-plane will be registered in the Control Plane and Envoy will start accepting requests.
 
 ::: tip
 **Remember**: this is all automated if you are running Kuma on Kubernetes!
@@ -49,10 +43,11 @@ The registration of the `Dataplane` includes three main sections that are descri
 * `inbound` networking configuration, to configure on what port the DP will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
 * `outbound` networking configuration, to enable the local service to consume other services.
 
-For example, this is how we register a `Dataplane` for an hypotetical Redis service and then start the `kuma-dp` process:
+For example, this is how we start a `Dataplane` for an hypotetical Redis service and then start the `kuma-dp` process:
 
 ```sh
-echo "type: Dataplane
+$ cat dp.yaml
+type: Dataplane
 mesh: default
 name: redis-1
 networking:
@@ -61,12 +56,11 @@ networking:
   - port: 9000
     servicePort: 6379
     tags:
-      kuma.io/service: redis" | kumactl apply -f -
+      kuma.io/service: redis
 
-kuma-dp run \
-  --name=redis-1 \
-  --mesh=default \
+$ kuma-dp run \
   --cp-address=http://127.0.0.1:5681 \
+  --dataplane-file=dp.yaml
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
 
@@ -75,11 +69,12 @@ In the example above, any external client who wants to consume Redis will have t
 Now let's assume that we have another service called "Backend" that internally listens on port `80`, and that makes outgoing requests to the `redis` service:
 
 ```sh
-echo "type: Dataplane
+$ cat dp.yaml
+type: Dataplane
 mesh: default
-name: backend-1
+name: {{ name }}
 networking:
-  address: 192.168.0.2
+  address: {{ address }}
   inbound:
   - port: 8000
     servicePort: 80
@@ -89,16 +84,21 @@ networking:
   outbound:
   - port: 10000
     tags:
-      kuma.io/service: redis" | kumactl apply -f -
+      kuma.io/service: redis
 
 kuma-dp run \
-  --name=backend-1 \
-  --mesh=default \
   --cp-address=http://127.0.0.1:5681 \
+  --dataplane-file=dp.yaml \
+  --dataplane-var name=`hostname -s` \
+  --dataplane-var address=192.168.0.2 \
   --dataplane-token-file=/tmp/kuma-dp-backend-1-token
 ```
 
 In order for the `backend` service to successfully consume `redis`, we specify an `outbound` networking section in the `Dataplane` configuration instructing the DP to listen on a new port `10000` and to proxy any outgoing request on port `10000` to the `redis` service. For this to work, we must update our application to consume `redis` on `127.0.0.1:10000`.
+
+::: tip
+You can parametrize your `Dataplane` definition, so you can reuse the same file for many `kuma-dp` instances or even services.
+:::
 
 ::: tip
 As mentioned before, this is only required in Universal. In Kubernetes no change to our applications are required thanks to automated transparent proxying.
@@ -193,7 +193,7 @@ The `Dataplane` entity includes a few sections:
   * `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
     * `port`: the port that the service needs to consume locally to make a request to the external service
     * `address`: the IP at which outbound listener is exposed. By default it is `127.0.0.1` since it should only be consumed by the app deployed next to the dataplane.
-    * `kuma.io/service`: the name of the service associated with the `port` and `address`.
+    * `tags`: traffic on `port:address` will be sent to each data-plane that matches those tags. You can put many tags here. However, it is recommended to keep the list short and then use [`TrafficRoute`](../policies/traffic-route.md) for dynamic management of the traffic.
 
 ::: tip
 On Kubernetes this whole process is automated via transparent proxying and without changing your application's code. On Universal Kuma doesn't support transparent proxying yet, and the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity. This also means that in Universal **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
