@@ -279,12 +279,13 @@ A complete set of supported _command operators_ consists of:
 
 The latter include:
 
-| Command Operator                     | Description                                                |
-| ------------------------------------ | ---------------------------------------------------------- |
-| `%KUMA_MESH%`                        | name of the mesh in which traffic is flowing               |
-| `%KUMA_SOURCE_SERVICE%`              | name of a `service` that is the `source` of traffic        |
-| `%KUMA_DESTINATION_SERVICE%`         | name of a `service` that is the `destination` of traffic   |
-| `%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%` | address of a `Dataplane` that is the `source` of traffic   |
+| Command Operator                     | Description                                                      |
+| ------------------------------------ | ---------------------------------------------------------------- |
+| `%KUMA_MESH%`                        | name of the mesh in which traffic is flowing                     |
+| `%KUMA_SOURCE_SERVICE%`              | name of a `service` that is the `source` of traffic              |
+| `%KUMA_DESTINATION_SERVICE%`         | name of a `service` that is the `destination` of traffic         |
+| `%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%` | address of a `Dataplane` that is the `source` of traffic         |
+| `%KUMA_TRAFFIC_DIRECTION%`           | direction of the traffic, `INBOUND`, `OUTBOUND` or `UNSPECIFIED` |
 
 ### Access Logs for TCP and HTTP traffic
 
