@@ -10,6 +10,8 @@ By default the HTTP API is listening on port `5681`. The endpoints available are
 
 * `/config`
 * `/meshes`
+* `/mesh-insights`
+* `/mesh-insights/{name}`
 * `/dataplanes`
 * `/dataplanes+insights`
 * `/health-checks`
@@ -443,6 +445,104 @@ Response: `200 OK`
 Example:
 ```bash
 curl -XDELETE http://localhost:5681/meshes/mesh-1
+```
+
+## Mesh Insights
+
+### Get Mesh Insights
+Request: `GET /mesh-insights/{name}`
+
+Response: `200 OK` with MeshInsight entity
+
+Example:
+```bash
+curl http://localhost:5681/mesh-insights/default
+```
+```json
+{
+ "type": "MeshInsight",
+ "name": "default",
+ "creationTime": "2020-11-17T08:10:24.886346Z",
+ "modificationTime": "2020-11-17T19:21:39.912878Z",
+ "lastSync": "2020-11-17T12:21:39.912877Z",
+ "dataplanes": {
+  "total": 1,
+  "offline": 1
+ },
+ "policies": {
+  "Secret": {
+   "total": 1
+  },
+  "TrafficPermission": {
+   "total": 1
+  },
+  "TrafficRoute": {
+   "total": 1
+  }
+ }
+}
+```
+
+### List Mesh Insights
+Request: `GET /mesh-insights`
+
+Response: `200 OK` with body of Mesh Insight entities
+
+Example:
+```bash
+curl http://localhost:5681/mesh-insights
+```
+```json
+{
+ "total": 2,
+ "items": [
+  {
+   "type": "MeshInsight",
+   "name": "default",
+   "creationTime": "0001-01-01T00:00:00Z",
+   "modificationTime": "0001-01-01T00:00:00Z",
+   "lastSync": "2020-11-17T12:24:11.905350Z",
+   "dataplanes": {
+    "total": 1,
+    "offline": 1
+   },
+   "policies": {
+    "Secret": {
+     "total": 1
+    },
+    "TrafficPermission": {
+     "total": 1
+    },
+    "TrafficRoute": {
+     "total": 1
+    }
+   }
+  },
+  {
+   "type": "MeshInsight",
+   "name": "mymesh1",
+   "creationTime": "0001-01-01T00:00:00Z",
+   "modificationTime": "0001-01-01T00:00:00Z",
+   "lastSync": "2020-11-17T12:24:11.941534Z",
+   "dataplanes": {
+    "total": 1,
+    "offline": 1
+   },
+   "policies": {
+    "Secret": {
+     "total": 1
+    },
+    "TrafficPermission": {
+     "total": 1
+    },
+    "TrafficRoute": {
+     "total": 1
+    }
+   }
+  }
+ ],
+ "next": null
+}
 ```
 
 ## Dataplanes
