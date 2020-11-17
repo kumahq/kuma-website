@@ -8,8 +8,7 @@
         :action="getServiceMeshConFormEndpoint"
       >
         <input
-          v-for="(key, value) in formData"
-          v-if="value !== 'email'"
+          v-for="(key, value) in formHiddenFields"
           :name="value"
           :value="key"
           type="hidden"
@@ -27,10 +26,6 @@
                 id="first_name"
                 name="first_name"
                 type="text"
-                autocomplete="off"
-                autocorrect="off"
-                autocapitalize="on"
-                spellcheck="false"
                 placeholder="First Name"
               />
               <span class="note note--error">{{ errors[0] }}</span>
@@ -46,10 +41,6 @@
                 id="last_name"
                 name="last_name"
                 type="text"
-                autocomplete="off"
-                autocorrect="off"
-                autocapitalize="on"
-                spellcheck="false"
                 placeholder="Last Name"
               />
               <span class="note note--error">{{ errors[0] }}</span>
@@ -60,11 +51,11 @@
         <div class="field-group lg:flex lg:-mx-2">
           <!-- company -->
           <div class="form-stack w-full lg:w-1/2 m-2">
-            <label for="company" class="sr-only">Company</label>
+            <label for="Company" class="sr-only">Company</label>
             <input
-              v-model="formData.company"
+              v-model="formData.Company"
               id="Company"
-              name="company"
+              name="Company"
               type="text"
               placeholder="Company"
             />
@@ -151,7 +142,9 @@ export default {
         email: '',
         first_name: '',
         last_name: '',
-        Company: '', // must be capitalized to match Pardot form handler
+        Company: '' // must be capitalized to match Pardot form handler
+      },
+      formHiddenFields: {
         utm_content: this.$route.query.utm_content || null,
         utm_medium: this.$route.query.utm_medium || null,
         utm_source: 'kuma-ServiceMeshCon-landing-page',
