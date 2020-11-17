@@ -86,6 +86,7 @@ You need to create a `TrafficLog` policy to select a subset of traffic and forwa
 apiVersion: kuma.io/v1alpha1
 kind: TrafficLog
 metadata:
+  namespace: kuma-example
   name: all-traffic
 mesh: default
 spec:
@@ -103,6 +104,7 @@ spec:
 apiVersion: kuma.io/v1alpha1
 kind: TrafficLog
 metadata:
+  namespace: kuma-example
   name: backend-to-database-traffic
 spec:
   # This TrafficLog policy applies only to traffic from service `backend` to service `database`.
@@ -279,13 +281,12 @@ A complete set of supported _command operators_ consists of:
 
 The latter include:
 
-| Command Operator                     | Description                                                      |
-| ------------------------------------ | ---------------------------------------------------------------- |
-| `%KUMA_MESH%`                        | name of the mesh in which traffic is flowing                     |
-| `%KUMA_SOURCE_SERVICE%`              | name of a `service` that is the `source` of traffic              |
-| `%KUMA_DESTINATION_SERVICE%`         | name of a `service` that is the `destination` of traffic         |
-| `%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%` | address of a `Dataplane` that is the `source` of traffic         |
-| `%KUMA_TRAFFIC_DIRECTION%`           | direction of the traffic, `INBOUND`, `OUTBOUND` or `UNSPECIFIED` |
+| Command Operator                     | Description                                                |
+| ------------------------------------ | ---------------------------------------------------------- |
+| `%KUMA_MESH%`                        | name of the mesh in which traffic is flowing               |
+| `%KUMA_SOURCE_SERVICE%`              | name of a `service` that is the `source` of traffic        |
+| `%KUMA_DESTINATION_SERVICE%`         | name of a `service` that is the `destination` of traffic   |
+| `%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%` | address of a `Dataplane` that is the `source` of traffic   |
 
 ### Access Logs for TCP and HTTP traffic
 

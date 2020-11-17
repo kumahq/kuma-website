@@ -31,7 +31,7 @@ tabs:
 
 ::: slot news
 
-**Kuma 0.7.3 and 1.0 RC2 have been released!** Improvements to the last stable 0.7.x release branch and the second preview of the new major version of Kuma - v1.0 - with performance improvements driven by production usage over the past 1+ years! &mdash; [Get Started](/install/)
+**Kuma 1.0 GA has been released!** With over 70+ new features and improvements we are excited to announce this new major version of Kuma to deploy production-grade service meshes across every application! &mdash; [Get Started](/install/)
 
 :::
 

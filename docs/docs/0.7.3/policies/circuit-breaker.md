@@ -32,6 +32,7 @@ apiVersion: kuma.io/v1alpha1
 kind: CircuitBreaker
 mesh: default
 metadata:
+  namespace: default
   name: circuit-breaker-example
 spec:
   sources:
@@ -108,6 +109,7 @@ apiVersion: kuma.io/v1alpha1
 kind: CircuitBreaker
 mesh: default
 metadata:
+  namespace: default
   name: circuit-breaker-example
 spec:
   sources:

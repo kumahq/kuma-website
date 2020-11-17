@@ -12,8 +12,6 @@ The reason why this policy only works when [Mutual TLS](../mutual-tls) is enable
 On the other end when Mutual TLS is disabled, Kuma cannot extract the service identity from the request and therefore cannot perform any validation.
 :::
 
-Kuma creates a default `TrafficPermission` policy that allows all the communication between all the services when a new `Mesh` is created.
-
 ## Usage
 
 You can determine what source services are allowed to consume specific destination services. The service field is mandatory in both sources and destinations.
@@ -29,6 +27,7 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
 mesh: default
 metadata:
+  namespace: default
   name: allow-all-traffic
 spec:
   sources:

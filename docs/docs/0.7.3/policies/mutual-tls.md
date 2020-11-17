@@ -16,7 +16,7 @@ The certificates that Kuma generates have a SAN set to `spiffe://<mesh name>/<se
 Remember that by default mTLS **is not** enabled and needs to be explicitly enabled as described below. Also remember that by default when mTLS is enabled all traffic is denied **unless** a [`TrafficPermission`](../traffic-permissions) policy is being configured to explicitly allow traffic across our data planes.
 
 :::tip
-Always make sure that a [`TrafficPermission`](../traffic-permissions) resource is present before enabling mTLS in a Mesh in order to avoid unexpected traffic interruptions caused by a lack of authorization among the data planes.
+Always create a [`TrafficPermission`](../traffic-permissions) resource before enabling mTLS in a Mesh in order to avoid unexpected traffic interruptions caused by a lack of authorization among the data planes.
 :::
 
 To enable mTLS we need to configure the `mtls` property in a [`Mesh`](../mesh) resource. We can have as many `backends` as we want, but only one at a time can be enabled via the `enabledBackend` property. 

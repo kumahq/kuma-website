@@ -1,22 +1,25 @@
 # DPs and Data Model
 
-When Kuma (`kuma-cp`) runs, it will be waiting for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
+When Kuma (`kuma-cp`) runs, it will be waiting for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, two things have to happen before being executed:
+
+* There must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
+* There must exist a [`Dataplane`](#dataplane-entity) proxy entity in Kuma **before** the actual data plane proxy tries to connect to it via `kuma-dp`.
 
 <center>
 <img src="/images/docs/0.5.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ::: tip
-On Universal the [`Dataplane`](#dataplane-entity) entity must be **manually** created and passed to `kuma-dp`, on Kubernetes it is **automatically** created.
+On Universal the [`Dataplane`](#dataplane-entity) entity must be **manually** created before starting `kuma-dp`, on Kubernetes it is **automatically** created.
 :::
 
 ## Dataplane Entity
 
-A `Dataplane` entity must be passed to `kuma-dp` when instance attempts to connect to the control-plane. On Kubernetes, this operation is fully **automated**. On Universal, it must be executed **manually**.
+A `Dataplane` entity must be created on the CP `kuma-cp` before a `kuma-dp` instance attempts to connect to the control-plane. On Kubernetes, this operation is fully **automated**. On Universal, it must be executed **manually**.
 
 To understand why the `Dataplane` entity is required, we must take a step back. As we have explained already, Kuma follow a sidecar proxy model for the data plane proxies, where we have an instance of a data plane proxy for every instance of our services. Each Service and DP will communicate with each other on the same machine, therefore on `127.0.0.1`.
 
-For example, if we have 6 replicas of a "Redis" service, then we must have one instances of `kuma-dp` running alongside each replica of the service, therefore 6 replicas of `kuma-dp` and 6 `Dataplane` entities as well.
+For example, if we have 6 replicas of a "Redis" service, then we must have one instances of `kuma-dp` running alongside each replica of the service, therefore 6 replicas of `kuma-dp` as well.
 
 <center>
 <img src="/images/docs/0.5.0/diagram-11.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -31,7 +34,10 @@ When we start a new data plane proxy in Kuma, **two things** have to happen:
 1. The data plane proxy needs to advertise what service it is responsible for. This is what the `Dataplane` entity does.
 2. The data plane proxy process needs to start accepting incoming and outgoing requests.
 
-To do this, we have to create a file with a `Dataplane` definition and pass it to `kuma-dp run`. This way, data-plane will be registered in the Control Plane and Envoy will start accepting requests.
+These steps are being executed in **two separate** commands:
+
+1. We register the `Dataplane` object via the `kumactl` or HTTP API.
+2. Once we have registered the DP, we can start it by running `kuma-dp run`.
 
 ::: tip
 **Remember**: this is all automated if you are running Kuma on Kubernetes!
@@ -43,11 +49,10 @@ The registration of the `Dataplane` includes three main sections that are descri
 * `inbound` networking configuration, to configure on what port the DP will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
 * `outbound` networking configuration, to enable the local service to consume other services.
 
-For example, this is how we start a `Dataplane` for an hypotetical Redis service and then start the `kuma-dp` process:
+For example, this is how we register a `Dataplane` for an hypotetical Redis service and then start the `kuma-dp` process:
 
 ```sh
-$ cat dp.yaml
-type: Dataplane
+echo "type: Dataplane
 mesh: default
 name: redis-1
 networking:
@@ -56,11 +61,12 @@ networking:
   - port: 9000
     servicePort: 6379
     tags:
-      kuma.io/service: redis
+      kuma.io/service: redis" | kumactl apply -f -
 
-$ kuma-dp run \
-  --cp-address=https://127.0.0.1:5678 \
-  --dataplane-file=dp.yaml
+kuma-dp run \
+  --name=redis-1 \
+  --mesh=default \
+  --cp-address=http://127.0.0.1:5681 \
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
 
@@ -69,12 +75,11 @@ In the example above, any external client who wants to consume Redis will have t
 Now let's assume that we have another service called "Backend" that internally listens on port `80`, and that makes outgoing requests to the `redis` service:
 
 ```sh
-$ cat dp.yaml
-type: Dataplane
+echo "type: Dataplane
 mesh: default
-name: {{ name }}
+name: backend-1
 networking:
-  address: {{ address }}
+  address: 192.168.0.2
   inbound:
   - port: 8000
     servicePort: 80
@@ -84,21 +89,16 @@ networking:
   outbound:
   - port: 10000
     tags:
-      kuma.io/service: redis
+      kuma.io/service: redis" | kumactl apply -f -
 
 kuma-dp run \
-  --cp-address=https://127.0.0.1:5678 \
-  --dataplane-file=dp.yaml \
-  --dataplane-var name=`hostname -s` \
-  --dataplane-var address=192.168.0.2 \
+  --name=backend-1 \
+  --mesh=default \
+  --cp-address=http://127.0.0.1:5681 \
   --dataplane-token-file=/tmp/kuma-dp-backend-1-token
 ```
 
 In order for the `backend` service to successfully consume `redis`, we specify an `outbound` networking section in the `Dataplane` configuration instructing the DP to listen on a new port `10000` and to proxy any outgoing request on port `10000` to the `redis` service. For this to work, we must update our application to consume `redis` on `127.0.0.1:10000`.
-
-::: tip
-You can parametrize your `Dataplane` definition, so you can reuse the same file for many `kuma-dp` instances or even services.
-:::
 
 ::: tip
 As mentioned before, this is only required in Universal. In Kubernetes no change to our applications are required thanks to automated transparent proxying.
@@ -130,7 +130,7 @@ A tag attributes a qualifier to the data plane proxy, and the tags that are rese
 
 * `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
 * `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/0.7.3/documentation/deployments/). This tag is automatically created and cannot be overwritten.
-* `kuma.io/protocol`: Identifies the protocol that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
+* `kuma.io/protocol`: Identifies the protocol that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2` and `grpc.`
 
 ::: tip
 The `kuma.io/service` tag must always exist.
@@ -193,7 +193,7 @@ The `Dataplane` entity includes a few sections:
   * `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
     * `port`: the port that the service needs to consume locally to make a request to the external service
     * `address`: the IP at which outbound listener is exposed. By default it is `127.0.0.1` since it should only be consumed by the app deployed next to the dataplane.
-    * `tags`: traffic on `port:address` will be sent to each data-plane that matches those tags. You can put many tags here. However, it is recommended to keep the list short and then use [`TrafficRoute`](../policies/traffic-route.md) for dynamic management of the traffic.
+    * `kuma.io/service`: the name of the service associated with the `port` and `address`.
 
 ::: tip
 On Kubernetes this whole process is automated via transparent proxying and without changing your application's code. On Universal Kuma doesn't support transparent proxying yet, and the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity. This also means that in Universal **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
@@ -238,61 +238,6 @@ spec:
 ```
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
-
-## Kubernetes Probes
-
-Kuma natively supports the `httpGet` Kubernetes probes. By default, Kuma overrides the specified probe with a virtual one. For example, if we specify the following probe:
-
-```yaml
-livenessProbe:
-  httpGet:
-    path: /metrics
-    port: 3001
-  initialDelaySeconds: 3
-  periodSeconds: 3
-```
-
-Kuma will replace it with:
-
-```yaml
-livenessProbe:
-  httpGet:
-    path: /3001/metrics
-    port: 9000
-  initialDelaySeconds: 3
-  periodSeconds: 3
-```
-
-Where `9000` is a default virtual probe port, which can be configured in `kuma-cp.config`:
-
-```yaml
-runtime:
-  kubernetes:
-    injector:
-      virtualProbesPort: 19001
-```
-And can also be overwritten in the Pod's annotations:
-
-```yaml
-annotations:
-  kuma.io/virtual-probes-port: 19001
-```
-
-To disable Kuma's probe virtualziation, we can either set it in Kuma's configuration gile `kuma-cp.config`:
-
-```yaml
-runtime:
-  kubernetes:
-    injector:
-      virtualProbesEnabled: true
-```
-
-or in the Pod's annotations:
-
-```yaml
-annotations:
-  kuma.io/virtual-probes: enabled
-```
 
 ## Gateway
 
@@ -354,30 +299,10 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/0.7.3/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. Such data plane is not attached to any particular workload, but instead, it is bound to that particular zone.
-All the requests that are sent from one zone to another will be directed to the proper instance by the Ingress.
-The specifics of the `Ingress` data plane are described in the `networking.ingress` dictionary in the YAML resource.
-Ingress has a regular address and one inbound just like a regular data plane, this address is routable within the local Ingress zone. It also has the following public coordinates:
-* `networking.ingress.publicAddress` - an IP address or hostname which will be used by data plane proxies from other zones
-* `networking.ingress.publicPort` - a port which will be used by data plane proxies from other zones
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/0.7.3/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. Such dataplane is not attached to any particular workload, but instead it is bound to that particular zone.
+The specifics of the `Ingress` dataplane are described in the `networking.ingress` dictionary in the YAML resource. For the time being this one is empty, instead it denotes the `Ingress` mode of the dataplane.
 
-Ingress that don't have this information is not taken into account when generating Envoy configuration, because they cannot be accessed by data plane proxies from other zones.
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/0.7.3/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
-
-Kuma will try to resolve `networking.ingress.publicAddress` and `networking.ingress.publicPort` automatically by checking the Service associated with this Ingress.
-
-If the Service type is Load Balancer, Kuma will wait for public IP to be resolved. It may take a couple of minutes to receive public IP depending on the LB implementation of your Kubernetes provider. 
-
-If the Service type is Node Port, Kuma will take an External IP of the first Node in the cluster and combine it with Node Port.
-
-You can provide your own public address and port using the following annotations on the Ingress deployment
-* `kuma.io/ingress-public-address`
-* `kuma.io/ingress-public-port`
-:::
-::: tab "Universal"
+### Universal
 
 In Universal mode the dataplane resource should be deployed as follows:
 
@@ -386,18 +311,19 @@ type: Dataplane
 mesh: default
 name: dp-ingress
 networking:
-  address: 192.168.0.1
-  ingress:
-    publicAddress: 10.0.0.1
-    publicPort: 10000 
+  address: 10.0.0.1
+  ingress: {}
   inbound:
   - port: 10001
     tags:
       kuma.io/service: ingress
 ```
-::::
 
-Ingress deployment can be scaled horizontally. Many instances can have the same public address and port because they can be put behind one load balancer.
+The `networking.address` is and externally accessible IP or one behind a LoadBalancer. The `inbound` port shall be accessible from the other Zones that are about to communicate with the zone that deploys that particular `Ingress` dataplane.
+
+### Kubernetes
+
+The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/0.7.3/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
 
 ## Direct access to services
 
