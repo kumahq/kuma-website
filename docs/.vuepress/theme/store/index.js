@@ -21,8 +21,7 @@ export default new Vuex.Store({
       'https://script.google.com/macros/s/AKfycbwiFfaiSK6JqdNqZLAt5PRayPV43x7qw1ZAM_-sFSDg6IT44d4/exec' /** not currently in use */,
     communityCallAgendaUrl: 'https://tny.sh/NXs6EVO',
     communityCallInvite:
-      'https://calendar.google.com/calendar?cid=a29uZ2hxLmNvbV8xbWE5NnNzZGdnZmg5ZnJyY3M5N2VwdTM4b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t',
-    serviceMeshConEndpoint: '#'
+      'https://calendar.google.com/calendar?cid=a29uZ2hxLmNvbV8xbWE5NnNzZGdnZmg5ZnJyY3M5N2VwdTM4b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t'
   },
 
   getters: {
@@ -51,7 +50,7 @@ export default new Vuex.Store({
     },
 
     getServiceMeshConFormEndpoint: () => {
-      return '#'
+      return 'https://go.konghq.com/l/392112/2020-11-16/bnlpqv'
     },
 
     /** community call */

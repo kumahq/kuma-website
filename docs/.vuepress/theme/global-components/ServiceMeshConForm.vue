@@ -20,12 +20,12 @@
         <div class="field-group lg:flex lg:-mx-2">
           <!-- first name -->
           <div class="form-stack w-full lg:w-1/2 m-2">
-            <label for="firstName" class="sr-only">First Name</label>
+            <label for="first_name" class="sr-only">First Name</label>
             <validation-provider rules="required" v-slot="{ errors }" class="form-note-wrapper">
               <input
-                v-model="formData.firstName"
-                id="firstName"
-                name="firstName"
+                v-model="formData.first_name"
+                id="first_name"
+                name="first_name"
                 type="text"
                 autocomplete="off"
                 autocorrect="off"
@@ -39,12 +39,12 @@
 
           <!-- last name -->
           <div class="form-stack w-full lg:w-1/2 m-2">
-            <label for="lastName" class="sr-only">Last Name</label>
+            <label for="last_name" class="sr-only">Last Name</label>
             <validation-provider rules="required" v-slot="{ errors }" class="form-note-wrapper">
               <input
-                v-model="formData.lastName"
-                id="lastName"
-                name="lastName"
+                v-model="formData.last_name"
+                id="last_name"
+                name="last_name"
                 type="text"
                 autocomplete="off"
                 autocorrect="off"
@@ -63,9 +63,9 @@
             <label for="company" class="sr-only">Company</label>
             <input
               v-model="formData.company"
-              id="company"
+              id="Company"
               name="company"
-              type="company"
+              type="text"
               placeholder="Company"
             />
           </div>
@@ -149,9 +149,9 @@ export default {
     return {
       formData: {
         email: '',
-        firstName: '',
-        lastName: '',
-        company: '',
+        first_name: '',
+        last_name: '',
+        Company: '', // must be capitalized to match Pardot form handler
         utm_content: this.$route.query.utm_content || null,
         utm_medium: this.$route.query.utm_medium || null,
         utm_source: 'kuma-ServiceMeshCon-landing-page',
