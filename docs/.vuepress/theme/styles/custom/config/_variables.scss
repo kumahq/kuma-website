@@ -30,7 +30,7 @@ $gray-7: #4b4f59;
 $gray-8: #e5eaed;
 
 $navy: #062f4d;
-$navy-alt: #20242C;
+$navy-alt: #20242c;
 $navy-light: lighten($navy-alt, 74);
 $sky: #e6edfa;
 $sky-light: #f1f5fc;
@@ -42,7 +42,7 @@ $pale-blue: #f5f8fc;
 $pale-blue-2: #668295;
 
 // Misc
-$image-path: "/images/";
+$image-path: '/images/';
 $container-width-compact: 65rem; // 1040px
 $container-width-wide: 76rem; // 1216px
 $container-width: $container-width-wide;
@@ -94,8 +94,8 @@ $codeBgColor: rgb(251, 251, 251);
 $sidebarWidth: 16rem; // VuePress default is 20
 // $contentWidth: 740px;
 $contentWidth: 920px;
-$wrapper: ".content";
-$contentClass: ".theme-default-content";
+$wrapper: '.content';
+$contentClass: '.theme-default-content';
 $arrowBgColor: #ccc;
 $lineNumbersWrapperWidth: 3.5rem;
 $codeLang: (

@@ -17,9 +17,11 @@ export default new Vuex.Store({
     selectedDocVersion: latestRelease,
     selectedInstallVersion: latestRelease,
     installMethods: installMethods,
-    requestADemoEndpoint: 'https://script.google.com/macros/s/AKfycbwiFfaiSK6JqdNqZLAt5PRayPV43x7qw1ZAM_-sFSDg6IT44d4/exec', /** not currently in use */
+    requestADemoEndpoint:
+      'https://script.google.com/macros/s/AKfycbwiFfaiSK6JqdNqZLAt5PRayPV43x7qw1ZAM_-sFSDg6IT44d4/exec' /** not currently in use */,
     communityCallAgendaUrl: 'https://tny.sh/NXs6EVO',
-    communityCallInvite: 'https://calendar.google.com/calendar?cid=a29uZ2hxLmNvbV8xbWE5NnNzZGdnZmg5ZnJyY3M5N2VwdTM4b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t'
+    communityCallInvite:
+      'https://calendar.google.com/calendar?cid=a29uZ2hxLmNvbV8xbWE5NnNzZGdnZmg5ZnJyY3M5N2VwdTM4b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t'
   },
 
   getters: {
@@ -47,13 +49,17 @@ export default new Vuex.Store({
       }
     },
 
+    getServiceMeshConFormEndpoint: () => {
+      return 'https://go.konghq.com/l/392112/2020-11-16/bnlpqv'
+    },
+
     /** community call */
     getCommunityCallAgendaUrl: (state) => state.communityCallAgendaUrl,
     getCommunityCallInvite: (state) => state.communityCallInvite,
 
     /** version releases as vue-router links */
     releasesAsRouterLinks: (state) => {
-      return state.releases.map( tag => ({
+      return state.releases.map((tag) => ({
         text: tag === state.latestRelease ? `${tag} (latest)` : tag,
         type: 'link',
         link: `/docs/${tag}/`
@@ -62,7 +68,7 @@ export default new Vuex.Store({
 
     /** version releases as <select> menu values/options */
     releasesAsSelectValues: (state) => {
-      return state.releases.map( tag => ({
+      return state.releases.map((tag) => ({
         version: tag,
         text: tag === state.latestRelease ? `${tag} (latest)` : tag
       }))
@@ -72,7 +78,7 @@ export default new Vuex.Store({
   actions: {},
 
   mutations: {
-    updateSelectedDocVersion: (state, payload) => state.selectedDocVersion = payload,
-    updateSelectedInstallVersion: (state, payload) => state.selectedInstallVersion = payload
+    updateSelectedDocVersion: (state, payload) => (state.selectedDocVersion = payload),
+    updateSelectedInstallVersion: (state, payload) => (state.selectedInstallVersion = payload)
   }
 })
