@@ -26,9 +26,6 @@
 
           <div v-if="getSelectedInstallVersion" class="version-selector__version-notifier">
             <p class="page-sub-title">You are viewing installation instructions for <strong>{{getSelectedInstallVersion}}</strong>.</p>
-            <div style="border: solid 2px #efefef; padding: 5px;">
-            <p>If you want to try Kuma <b>1.0.0 RC2</b> replace the "<code>{{getSelectedInstallVersion}}</code>" version in the download links with "<code>1.0.0-rc2</code>" instead.</p>
-            </div>
             <p><a href="https://github.com/kumahq/kuma/blob/master/CHANGELOG.md">Changelog</a> • <a href="https://github.com/kumahq/kuma/blob/master/UPGRADE.md">Upgrade Path</a> • <a href="/community">Slack Support</a></p>
           </div>
           <!-- .version-selector__version-notifier -->

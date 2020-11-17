@@ -13,12 +13,14 @@ The number and type of exposed ports depends on the mode in which the control pl
 This is the default, single zone mode, in which all of the following ports are enabled in `kuma-cp`
 
 * TCP
-    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
     * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
-    * `5678`: the server for the control-plane to data-planes communication (bootstrap configuration, xDS to retrieve their configuration, SDS to retrieve mTLS certificates).
-    * `5679`: the Admin Server that serves Dataplane Tokens and manages Secrets.
-    * `5680`: the HTTP server that returns the health status and metrics of the control-plane.
+    * `5677`: the SDS server being used for propagating mTLS certificates across the data-planes.
+    * `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
+    * `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
+    * `5680`: the HTTP server that returns the health status of the control-plane.
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies. It also exposes the Kuma GUI at `/gui`
+    * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
+    * `5685`: the Kuma Discovery Service port, leveraged in Distributed control plane mode
 * UDP
     * `5653`: the Kuma DNS server
 
@@ -29,10 +31,7 @@ When Kuma is run as a distributed service mesh, the Global control plane exposes
 
 * TCP
     * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
-    * `5679`: the Admin Server that serves Dataplane Tokens and manages Secrets.
-    * `5680`: the HTTP server that returns the health status of the control-plane.
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies. Manipulating the dataplane resources is not possible. It also exposes the Kuma GUI at `/gui`
-    * `5685`: the Kuma Discovery Service port, leveraged in Distributed control plane mode
 
 ### Remote Control Plane
 
@@ -41,10 +40,12 @@ When Kuma is run as a distributed service mesh, the Remote control plane exposes
 * TCP
     * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
     * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
-    * `5678`: the server for the control-plane to data-planes communication (bootstrap configuration, xDS to retrieve their configuration, SDS to retrieve mTLS certificates).
+    * `5677`: the SDS server being used for propagating mTLS certificates across the data-planes.
+    * `5678`: the xDS gRPC server implementation that the data-planes will use to retrieve their configuration.
     * `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
     * `5680`: the HTTP server that returns the health status of the control-plane.
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - you can only manage the dataplane resources.
+    * `5682`: the HTTP server that provides the Envoy bootstrap configuration when the data-plane starts up.
 * UDP
     * `5653`: the Kuma DNS server
 
@@ -65,9 +66,9 @@ Here we are going to be exploring the communication between `kuma-dp` and `kuma-
 
 Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policiy configuration, and send diagnostic information to the control-plane.
 
-In [standalone mode](/docs/0.7.2/documentation/deployments/#standalone-mode) the `kuma-dp` process will connect directly to the `kuma-cp` instances.
+In [standalone mode](/docs/1.0.0/documentation/deployments/#standalone-mode) the `kuma-dp` process will connect directly to the `kuma-cp` instances.
 
-In a [multi-zone deployment](/docs/0.7.2/documentation/deployments/#multi-zone-mode) the `kuma-dp` processes will connect to the remote control plane, while the remote control planes will connect to the global control plane over an extension of the xDS API that we have built called "KDS" (Kuma Discovery Service). In multi-zone mode, the data plane proxies never connect to the global control plane but only to the remote ones.
+In a [multi-zone deployment](/docs/1.0.0/documentation/deployments/#multi-zone-mode) the `kuma-dp` processes will connect to the remote control plane, while the remote control planes will connect to the global control plane over an extension of the xDS API that we have built called "KDS" (Kuma Discovery Service). In multi-zone mode, the data plane proxies never connect to the global control plane but only to the remote ones.
 
 ::: tip
 The connection between the data-planes and the control-plane is not on the execution path of the service requests, which means that if the data-plane temporarily loses connection to the control-plane the service traffic won't be affected.
@@ -80,15 +81,15 @@ While doing so, the data-planes also advertise the IP address of each service. T
 
 The IP address that's being advertised by every data-plane to the control-plane is also being used to route service traffic from one `kuma-dp` to another `kuma-dp`. This means that Kuma knows at any given time what are all the IP addresses associated to every replica of every service. Another use-case where the IP address of the data-planes is being used is for metrics scraping by Prometheus.
 
-Kuma already ships with its own [DNS service discovery](/docs/0.7.2/documentation/networking/#kuma-dns) on both standalone and multi-zone modes. 
+Kuma already ships with its own [DNS service discovery](/docs/1.0.0/documentation/networking/#kuma-dns) on both standalone and multi-zone modes. 
 
 Connectivity among the `kuma-dp` instances can happen in two ways:
 
-* In [standalone mode](/docs/0.7.2/documentation/deployments/#standalone-mode) `kuma-dp` processes communicate with each other in a flat networking topology. This means that every data-plane must be able to consume another data-plane by directly sending requests to its IP address. In this mode, every `kuma-dp` must be able to send requests to every other `kuma-dp` on the specific ports that govern service traffic, as described in the `kuma-dp` [ports section](#kuma-dp-ports).
-* In [multi-zone mode](/docs/0.7.2/documentation/deployments/#multi-zone-mode) connectivity is being automatically resolved by Kuma to either a data-plane running in the same zone, or through the address of a [Kuma ingress](/docs/0.7.2/documentation/dps-and-data-model/#ingress) in another zone for cross-zone connectivity. This means that multi-zone connectivity can be used to connect services running in different clusters, platforms or clouds in an automated way. Kuma also creates a `.mesh` zone via its [native DNS resolver](/docs/0.7.2/documentation/networking/#kuma-dns). The automatically created `kuma.io/zone` tag can be used with Kuma policies in order to determine how traffic flow across a multi-zone setup.
+* In [standalone mode](/docs/1.0.0/documentation/deployments/#standalone-mode) `kuma-dp` processes communicate with each other in a flat networking topology. This means that every data-plane must be able to consume another data-plane by directly sending requests to its IP address. In this mode, every `kuma-dp` must be able to send requests to every other `kuma-dp` on the specific ports that govern service traffic, as described in the `kuma-dp` [ports section](#kuma-dp-ports).
+* In [multi-zone mode](/docs/1.0.0/documentation/deployments/#multi-zone-mode) connectivity is being automatically resolved by Kuma to either a data-plane running in the same zone, or through the address of a [Kuma ingress](/docs/1.0.0/documentation/dps-and-data-model/#ingress) in another zone for cross-zone connectivity. This means that multi-zone connectivity can be used to connect services running in different clusters, platforms or clouds in an automated way. Kuma also creates a `.mesh` zone via its [native DNS resolver](/docs/1.0.0/documentation/networking/#kuma-dns). The automatically created `kuma.io/zone` tag can be used with Kuma policies in order to determine how traffic flow across a multi-zone setup.
 
 ::: tip
-By default cross-zone connectivity requires [mTLS](/docs/0.7.2/policies/mutual-tls/) to be enabled on the [Mesh](/docs/0.7.2/policies/mesh/) with the appropriate [Traffic Permission](/docs/0.7.2/policies/traffic-permissions/) to enable the flow of traffic. Otherwise, unsecured traffic won't be permitted outside of each zone.
+By default cross-zone connectivity requires [mTLS](/docs/1.0.0/policies/mutual-tls/) to be enabled on the [Mesh](/docs/1.0.0/policies/mesh/) with the appropriate [Traffic Permission](/docs/1.0.0/policies/traffic-permissions/) to enable the flow of traffic. Otherwise, unsecured traffic won't be permitted outside of each zone.
 :::
 
 ## Kuma DNS
