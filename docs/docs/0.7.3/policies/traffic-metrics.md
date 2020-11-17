@@ -228,7 +228,6 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
 mesh: default
 metadata:
-  namespace: default
   name: metrics-permissions
 spec:
   sources:
@@ -250,7 +249,6 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
 mesh: default
 metadata:
-  namespace: default
   name: grafana-to-prometheus
 spec:
    sources:

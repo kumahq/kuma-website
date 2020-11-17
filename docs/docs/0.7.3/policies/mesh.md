@@ -104,7 +104,6 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
 mesh: default # indicate to Kuma what is the Mesh that the resource belongs to
 metadata:
-  namespace: default
   name: route-1
 spec:
   ...
