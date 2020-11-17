@@ -194,12 +194,6 @@ The `Dataplane` entity includes a few sections:
     * `port`: the port that the service needs to consume locally to make a request to the external service
     * `address`: the IP at which outbound listener is exposed. By default it is `127.0.0.1` since it should only be consumed by the app deployed next to the dataplane.
     * `kuma.io/service`: the name of the service associated with the `port` and `address`.
-* `probes`: this is an optional part of the configuration, needed mostly for Kubernetes environment and generated automatically on Kubernetes. 
-  * `port`: even if mTLS is on, this port will be insecure. That allows Kubernetes to run HttpGet probes requests.
-  * `endpoints`: an array of mappings between real probe's path and virtual path, every request directed to `:<port>/<path>` will be forwarded to `:<inboundPort/inboundPath>`
-    * `inboundPort`: port where real probe server is listening
-    * `inboundPath`: path of real probe's server
-    * `path`: virtual path, on Kubernetes has the following format `/<inboundPort>/<inboundPath>`
 
 ::: tip
 On Kubernetes this whole process is automated via transparent proxying and without changing your application's code. On Universal Kuma doesn't support transparent proxying yet, and the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity. This also means that in Universal **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
