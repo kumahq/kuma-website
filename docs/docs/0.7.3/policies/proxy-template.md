@@ -29,6 +29,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
 mesh: default
 metadata:
+  namespace: default
   name: custom-template-1
 spec:
   selectors:
@@ -114,6 +115,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
 mesh: default
 metadata:
+  namespace: default
   name: custom-template-1
 spec:
   selectors:
@@ -198,6 +200,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
 mesh: default
 metadata:
+  namespace: default
   name: custom-template-1
 spec:
   selectors:
@@ -291,6 +294,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
 mesh: default
 metadata:
+  namespace: default
   name: custom-template-1
 spec:
   selectors:
@@ -478,6 +482,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
 mesh: default
 metadata:
+  namespace: default
   name: custom-template-1
 spec:
   selectors:
@@ -645,6 +650,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
 mesh: default
 metadata:
+  namespace: default
   name: custom-template-1
 spec:
   selectors:
@@ -750,6 +756,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
 mesh: default
 metadata:
+  namespace: default
   name: backend-timeouts
 spec:
   selectors:
@@ -824,6 +831,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
 mesh: default
 metadata:
+  namespace: default
   name: backend-lua-filter
 spec:
   selectors:
@@ -888,6 +896,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
 mesh: default
 metadata:
+  namespace: default
   name: retries
 spec:
   selectors:

@@ -6,12 +6,10 @@ Kuma ships with a RESTful HTTP interface that you can use to retrieve the state 
 **CI/CD**: The HTTP API can be used for infrastructure automation to either retrieve data, or to make changes when running in Universal mode. The [`kumactl`](../kumactl) CLI is built on top of the HTTP API, which you can also access with any other HTTP client like `curl`.
 :::
 
-By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTPS). The endpoints available are:
+By default the HTTP API is listening on port `5681`. The endpoints available are:
 
 * `/config`
 * `/meshes`
-* `/mesh-insights`
-* `/mesh-insights/{name}`
 * `/dataplanes`
 * `/dataplanes+insights`
 * `/health-checks`
@@ -41,8 +39,6 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{name}/zones/{name}`
 * `/meshes/{name}/zones+insights`
 * `/meshes/{name}/zones+insights/{name}`
-* `/meshes/{name}/external-services`
-* `/meshes/{name}/external-services/{name}`
 * `/status/zones`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
@@ -447,104 +443,6 @@ Response: `200 OK`
 Example:
 ```bash
 curl -XDELETE http://localhost:5681/meshes/mesh-1
-```
-
-## Mesh Insights
-
-### Get Mesh Insights
-Request: `GET /mesh-insights/{name}`
-
-Response: `200 OK` with MeshInsight entity
-
-Example:
-```bash
-curl http://localhost:5681/mesh-insights/default
-```
-```json
-{
- "type": "MeshInsight",
- "name": "default",
- "creationTime": "2020-11-17T08:10:24.886346Z",
- "modificationTime": "2020-11-17T19:21:39.912878Z",
- "lastSync": "2020-11-17T12:21:39.912877Z",
- "dataplanes": {
-  "total": 1,
-  "offline": 1
- },
- "policies": {
-  "Secret": {
-   "total": 1
-  },
-  "TrafficPermission": {
-   "total": 1
-  },
-  "TrafficRoute": {
-   "total": 1
-  }
- }
-}
-```
-
-### List Mesh Insights
-Request: `GET /mesh-insights`
-
-Response: `200 OK` with body of Mesh Insight entities
-
-Example:
-```bash
-curl http://localhost:5681/mesh-insights
-```
-```json
-{
- "total": 2,
- "items": [
-  {
-   "type": "MeshInsight",
-   "name": "default",
-   "creationTime": "0001-01-01T00:00:00Z",
-   "modificationTime": "0001-01-01T00:00:00Z",
-   "lastSync": "2020-11-17T12:24:11.905350Z",
-   "dataplanes": {
-    "total": 1,
-    "offline": 1
-   },
-   "policies": {
-    "Secret": {
-     "total": 1
-    },
-    "TrafficPermission": {
-     "total": 1
-    },
-    "TrafficRoute": {
-     "total": 1
-    }
-   }
-  },
-  {
-   "type": "MeshInsight",
-   "name": "mymesh1",
-   "creationTime": "0001-01-01T00:00:00Z",
-   "modificationTime": "0001-01-01T00:00:00Z",
-   "lastSync": "2020-11-17T12:24:11.941534Z",
-   "dataplanes": {
-    "total": 1,
-    "offline": 1
-   },
-   "policies": {
-    "Secret": {
-     "total": 1
-    },
-    "TrafficPermission": {
-     "total": 1
-    },
-    "TrafficRoute": {
-     "total": 1
-    }
-   }
-  }
- ],
- "next": null
-}
 ```
 
 ## Dataplanes
@@ -1379,25 +1277,23 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
    }
   }
  ],
- "conf": {
-  "split": [
-    {
-     "weight": 90,
-     "destination": {
-      "region": "us-east-1",
-      "service": "backend",
-      "version": "v2"
-     }
-    },
-    {
-     "weight": 10,
-     "destination": {
-      "service": "backend",
-      "version": "v3"
-     }
-    }
-   ]
- }
+ "conf": [
+  {
+   "weight": 90,
+   "destination": {
+    "region": "us-east-1",
+    "service": "backend",
+    "version": "v2"
+   }
+  },
+  {
+   "weight": 10,
+   "destination": {
+    "service": "backend",
+    "version": "v3"
+   }
+  }
+ ]
 }
 ```
 
@@ -1431,25 +1327,23 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend --d
    }
   }
  ],
- "conf": {
-    "split": [
-    {
-     "weight": 90,
-     "destination": {
-      "region": "us-east-1",
-      "service": "backend",
-      "version": "v2"
-     }
-    },
-    {
-     "weight": 10,
-     "destination": {
-      "service": "backend",
-      "version": "v3"
-     }
-    }
-   ]
- }
+ "conf": [
+  {
+   "weight": 90,
+   "destination": {
+    "region": "us-east-1",
+    "service": "backend",
+    "version": "v2"
+   }
+  },
+  {
+   "weight": 10,
+   "destination": {
+    "service": "backend",
+    "version": "v3"
+   }
+  }
+ ]
 }
 ```
 
@@ -1487,25 +1381,23 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes
      }
     }
    ],
-   "conf": {
-    "split": [
-       {
-        "weight": 90,
-        "destination": {
-         "region": "us-east-1",
-         "service": "backend",
-         "version": "v2"
-        }
-       },
-       {
-        "weight": 10,
-        "destination": {
-         "service": "backend",
-         "version": "v3"
-        }
-       }
-    ]
-   }
+   "conf": [
+    {
+     "weight": 90,
+     "destination": {
+      "region": "us-east-1",
+      "service": "backend",
+      "version": "v2"
+     }
+    },
+    {
+     "weight": 10,
+     "destination": {
+      "service": "backend",
+      "version": "v3"
+     }
+    }
+   ]
   }
  ],
  "next": "http://localhost:5681/meshes/mesh-1/traffic-routes?offset=1"
@@ -2081,125 +1973,6 @@ curl http://localhost:5681/zones
   ],
  "next": null
 }
-```
-
-## External Services
-
-### Get External Service
-Request: `GET /meshes/{mesh}/external-services/{name}`
-
-Response: `200 OK` with External Service entity
-
-Example:
-```bash
-curl localhost:5681/meshes/default/external-services/httpbin
-```
-```json
-{
- "type": "ExternalService",
- "mesh": "default",
- "name": "httpbin",
- "creationTime": "2020-10-12T09:40:27.224648+03:00",
- "modificationTime": "2020-10-12T09:40:27.224648+03:00",
- "networking": {
-  "address": "httpbin.org:80",
-  "tls": {}
- },
- "tags": {
-  "kuma.io/protocol": "http",
-  "kuma.io/service": "httpbin"
- }
-}
-```
-
-### Create/Update External Service
-
-Request: `PUT /meshes/{mesh}/external-services/{name}` with External Service entity in body
-
-Response: `201 Created` when the resource is created and `200 OK` when it is updated
-
-Example:
-```bash
-curl -XPUT http://localhost:5681/meshes/default/external-services/es --data @es.json -H'content-type: application/json'
-```
-```json
-{
- "type": "ExternalService",
- "mesh": "default",
- "name": "es",
- "networking": {
-  "address": "httpbin.org:80",
-  "tls": {}
- },
- "tags": {
-  "kuma.io/protocol": "http",
-  "kuma.io/service": "es"
- }
-}
-```
-
-### List External Services
-
-Request: `GET /external-services`
-
-Response: `200 OK` with body of Zone entities
-
-Example:
-```bash
-curl http://localhost:5681/external-services
-```
-```json
-{
- "total": 2,
- "items": [
-  {
-   "type": "ExternalService",
-   "mesh": "default",
-   "name": "httpbin",
-   "creationTime": "2020-10-12T09:40:27.224648+03:00",
-   "modificationTime": "2020-10-12T09:40:27.224648+03:00",
-   "networking": {
-    "address": "httpbin.org:80",
-    "tls": {}
-   },
-   "tags": {
-    "kuma.io/protocol": "http",
-    "kuma.io/service": "httpbin"
-   }
-  },
-  {
-   "type": "ExternalService",
-   "mesh": "default",
-   "name": "httpsbin",
-   "creationTime": "2020-10-12T09:41:07.275867+03:00",
-   "modificationTime": "2020-10-12T09:41:07.275867+03:00",
-   "networking": {
-    "address": "httpbin.org:443",
-    "tls": {
-     "enabled": true,
-     "caCert": {
-      "inline": "LS0tLS1=="
-     }
-    }
-   },
-   "tags": {
-    "kuma.io/protocol": "http",
-    "kuma.io/service": "httpsbin"
-   }
-  }
- ],
- "next": null
-}
-```
-
-### Delete External Services
-Request: `DELETE /meshes/{mesh}/external-services/{name}`
-
-Response: `200 OK`
-
-Example:
-```bash
-curl -XDELETE http://localhost:5681/meshes/default/external-services/es
 ```
 
 ## Multicluster

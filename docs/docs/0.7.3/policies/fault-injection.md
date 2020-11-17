@@ -37,6 +37,7 @@ apiVersion: kuma.io/v1alpha1
 kind: FaultInjection
 mesh: default
 metadata:
+  namespace: default
   name: fi1
 spec:
     sources:

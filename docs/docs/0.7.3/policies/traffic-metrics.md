@@ -158,11 +158,11 @@ First, you need to run `kuma-prometheus-sd`, e.g. by using the following command
 
 ```shell
 kuma-prometheus-sd run \
-  --cp-address=http://kuma-control-plane.internal:5676 \
+  --cp-address=http://kuma-control-plane.internal:5681 \
   --output-file=/var/run/kuma-prometheus-sd/kuma.file_sd.json
 ```
 
-The above configuration tells `kuma-prometheus-sd` to talk to `Kuma` Control Plane at [http://kuma-control-plane.internal:5676](http://kuma-control-plane.internal:5676) and save the list of dataplanes to `/var/run/kuma-prometheus-sd/kuma.file_sd.json`.
+The above configuration tells `kuma-prometheus-sd` to talk to `Kuma` Control Plane at [http://kuma-control-plane.internal:5681](http://kuma-control-plane.internal:5681) and save the list of dataplanes to `/var/run/kuma-prometheus-sd/kuma.file_sd.json`.
 
 Then, you need to set up `Prometheus` to read from that file, e.g. by using `prometheus.yml` config with the following contents:
 
@@ -228,6 +228,7 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
 mesh: default
 metadata:
+  namespace: default
   name: metrics-permissions
 spec:
   sources:
@@ -249,6 +250,7 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
 mesh: default
 metadata:
+  namespace: default
   name: grafana-to-prometheus
 spec:
    sources:
