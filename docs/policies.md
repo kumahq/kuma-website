@@ -38,6 +38,9 @@ policies:
       - title: Kong Gateway
         url: /docs/latest/documentation/dps-and-data-model/#gateway
         icon: /images/icons/policies/icon-kong-logo.png
+      - title: External Services
+        url: /docs/latest/policies/external-services/
+        icon: /images/icons/policies/icon-traffic-route@2x.png
   - section: observability
     sectionTitle: Observability
     sectionSubTitle: Metrics, Logs and Traces
