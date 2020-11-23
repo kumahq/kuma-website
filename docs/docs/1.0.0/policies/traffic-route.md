@@ -1,6 +1,55 @@
 # Traffic Route
 
-This policy allows us to configure routing rules for L4 traffic running in our [Mesh](../mesh). This policy provides support for wheighted routing and can be used to implement versioning across our services as well as deployment strategies like blue/green and canary.
+This policy allows us to configure routing rules for L4 traffic running in our [Mesh](../mesh). This policy provides support for weighted routing and can be used to implement versioning across our services as well as deployment strategies like blue/green and canary.
+
+`TrafficRoute` must select the data plane proxies to route the connection between them.
+
+### Default TrafficRoute
+
+The control plane creates a default `TrafficRoute` every time the new `Mesh` is created. The default `TrafficRoute` enables the traffic between all the services in the mesh. 
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficRoute
+mesh: default
+metadata:
+  name: route-all-default
+spec:
+  sources:
+    - match:
+        kuma.io/service: '*'
+  destinations:
+    - match:
+        kuma.io/service: '*'
+  conf:
+    split:
+      - weight: 100
+        destination:
+          kuma.io/service: '*'
+```
+:::
+
+::: tab "Universal"
+```yaml
+type: TrafficRoute
+name: route-all-default
+mesh: default
+sources:
+  - match:
+      kuma.io/service: '*'
+destinations:
+  - match:
+      kuma.io/service: '*'
+conf:
+  split:
+    - weight: 100
+      destination:
+        kuma.io/service: '*'
+```
+:::
+::::
 
 ### Usage
 
