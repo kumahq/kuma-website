@@ -16,7 +16,6 @@ This is the default, single zone mode, in which all of the following ports are e
     * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
     * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
     * `5678`: the server for the control-plane to data-planes communication (bootstrap configuration, xDS to retrieve their configuration, SDS to retrieve mTLS certificates).
-    * `5679`: the Admin Server that serves Dataplane Tokens and manages Secrets.
     * `5680`: the HTTP server that returns the health status and metrics of the control-plane.
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies. It also exposes the Kuma GUI at `/gui`
     * `5682`: HTTPS version of the services available under `5681`
@@ -30,11 +29,10 @@ When Kuma is run as a distributed service mesh, the Global control plane exposes
 
 * TCP
     * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
-    * `5679`: the Admin Server that serves Dataplane Tokens and manages Secrets.
     * `5680`: the HTTP server that returns the health status of the control-plane.
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies. Manipulating the dataplane resources is not possible. It also exposes the Kuma GUI at `/gui`
     * `5682`: HTTPS version of the services available under `5681`
-    * `5685`: the Kuma Discovery Service port, leveraged in Distributed control plane mode
+    * `5685`: the Kuma Discovery Service port, leveraged in multi-zone deployment
 
 ### Remote Control Plane
 
@@ -44,7 +42,6 @@ When Kuma is run as a distributed service mesh, the Remote control plane exposes
     * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
     * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
     * `5678`: the server for the control-plane to data-planes communication (bootstrap configuration, xDS to retrieve their configuration, SDS to retrieve mTLS certificates).
-    * `5679`: the Admin Server that serves Dataplane Tokens and manages Provided Certificate Authority
     * `5680`: the HTTP server that returns the health status of the control-plane.
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - you can only manage the dataplane resources.
     * `5682`: HTTPS version of the services available under `5681`
