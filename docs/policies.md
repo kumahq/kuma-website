@@ -40,7 +40,7 @@ policies:
         icon: /images/icons/policies/icon-kong-logo.png
       - title: External Services
         url: /docs/latest/policies/external-services/
-        icon: /images/icons/policies/icon-traffic-route@2x.png
+        icon: /images/icons/policies/icon-external-services.png
   - section: observability
     sectionTitle: Observability
     sectionSubTitle: Metrics, Logs and Traces
