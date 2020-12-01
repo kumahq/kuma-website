@@ -2196,7 +2196,7 @@ Example:
 curl -XDELETE http://localhost:5681/meshes/default/external-services/es
 ```
 
-## Multicluster
+## Multizone
 
 These APIs are available on the `Global` control plane, when running in a distributed multicluster mode.
 
