@@ -4,6 +4,8 @@ This policy allows us to configure routing rules for L4 traffic running in our [
 
 `TrafficRoute` must select the data plane proxies to route the connection between them.
 
+Kuma also supports [locality aware load balancing](../locality-aware).
+
 ### Default TrafficRoute
 
 The control plane creates a default `TrafficRoute` every time the new `Mesh` is created. The default `TrafficRoute` enables the traffic between all the services in the mesh. 
