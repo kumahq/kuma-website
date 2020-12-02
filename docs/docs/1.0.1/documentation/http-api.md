@@ -2262,9 +2262,9 @@ curl http://localhost:5681/service-insights
 }
 ```
 
-## Multicluster
+## Multi-zone
 
-These APIs are available on the `Global` control plane, when running in a distributed multicluster mode.
+These APIs are available on the `Global` control plane, when running in a distributed [multi-zone mode](/docs/1.0.1/documentation/deployments/).
 
 ### Zones status
 Request: `GET /status/zones`
@@ -2290,4 +2290,3 @@ curl -XGET http://localhost:5681/status/zones
  }
 ]
 ```
-
