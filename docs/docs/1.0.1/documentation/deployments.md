@@ -2,12 +2,12 @@
 
 The deployment modes that Kuma provides are quite unique in the Service Mesh landscape and have been developed thanks to the guidance of our enterprise users, especially when it comes to the distributed one.
 
-There are two deployment models that can be adopted with Kuma in order to address any Service Mesh use-case, from the simple one running in one cluster to the more complex one where multiple Kubernetes or VM clusters are involved, or even hybrid universal ones where Kuma runs simultaneously on Kubernetes and VMs.
+There are two deployment models that can be adopted with Kuma in order to address any Service Mesh use-case, from the simple one running in one zone to the more complex one where multiple Kubernetes or VM zones are involved, or even hybrid universal ones where Kuma runs simultaneously on Kubernetes and VMs.
 
 The two deployments modes are:
 
 * [**Standalone**](#standalone-mode): Kuma's default deployment model with one control plane (that can be scaled horizontally) and many data planes connecting directly to it.
-* [**Multi-Zone**](#multi-zone-mode): Kuma's advanced deployment model to support multiple Kubernetes or VM-based clusters, or hybrid Service Meshes running on both Kubernetes and VMs combined.
+* [**Multi-Zone**](#multi-zone-mode): Kuma's advanced deployment model to support multiple Kubernetes or VM-based zones, or hybrid Service Meshes running on both Kubernetes and VMs combined.
 
 :::tip
 **Automatic Connectivity**: Running a Service Mesh should be easy and connectivity should be abstracted away, so that when a service wants to consume another service all it needs is the name of the destination service. Kuma achieves this out of the box in both deployment modes with a built-in service discovery and - in the case of the multi-zone mode - with an Ingress resource and Remote CPs.
@@ -27,7 +27,7 @@ This mode implies that we can deploy Kuma and its data plane proxies in a standa
 <img src="/images/docs/0.6.0/flat-diagram.png" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Although standalone mode can support complex multi-cluster or hybrid deployments (Kubernetes + VMs) as long as the networking requirements are satisfied, typically in most use cases our connectivity cannot be flattened out across multiple clusters. Therefore standalone mode is usually a great choice within the context of one cluster (ie: within one Kubernetes cluster or one AWS VPC).
+Although standalone mode can support complex multi-zone or hybrid deployments (Kubernetes + VMs) as long as the networking requirements are satisfied, typically in most use cases our connectivity cannot be flattened out across multiple zones. Therefore standalone mode is usually a great choice within the context of one zone (ie: within one Kubernetes cluster or one AWS VPC).
 
 For those situations where the standalone deployment mode doesn't satisfy our architecture, Kuma provides a [multi-zone mode](#multi-zone-mode) which is more powerful and provides a greater degree of flexibility in more complex environments.
 
@@ -58,7 +58,7 @@ When the mode is not specified, Kuma will always start in `standalone` mode by d
 
 ## Multi-Zone Mode
 
-This is a more advanced deployment mode for Kuma that allow us to support service meshes that are running on many clusters, including hybrid deployments on both Kubernetes and VMs.
+This is a more advanced deployment mode for Kuma that allow us to support service meshes that are running on many zones, including hybrid deployments on both Kubernetes and VMs.
 
 * **Control plane**: There is one `global` control plane, and many `remote` control planes. A global control plane only accepts connections from remote control planes.
 * **Data planes**: The data planes connect to the closest `remote` control plane in the same zone. Additionally, we need to start an `ingress` data plane on every zone to have cross-zone communication between data planes in different zones.
@@ -70,7 +70,7 @@ We can support multiple isolated service meshes thanks to Kuma's multi-tenancy s
 
 When running in multi-zone mode, we introduce the notion of a `global` and `remote` control planes for Kuma:
 
-* **Global**: this control plane will be used to configure the global Service Mesh [policies](/policies) that we want to apply to our data plane proxies. Data plane proxies **cannot** connect directly to a global control plane, but can connect to `remote` control planes that are being deployed on each underlying zone that we want to include as part of the Service Mesh (can be a Kubernetes cluster, or a VM based cluster). Only one deployment of the global control plane is required, and it can be scaled horizontally.
+* **Global**: this control plane will be used to configure the global Service Mesh [policies](/policies) that we want to apply to our data plane proxies. Data plane proxies **cannot** connect directly to a global control plane, but can connect to `remote` control planes that are being deployed on each underlying zone that we want to include as part of the Service Mesh (can be a Kubernetes cluster, or VM based). Only one deployment of the global control plane is required, and it can be scaled horizontally.
 * **Remote**: we are going to have as many remote control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/latest/policies/mesh/). Remote control planes will accept connections from data planes that are being started in the same underlying zone, and they will themselves connect to the `global` control plane in order to fetch the service mesh policies that have been configured. Remote control plane policy APIs are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally within their zone.
 
 In this deployment, a Kuma cluster is made of one global control plane and as many remote control planes as the number of zones that we want to support:
@@ -190,24 +190,24 @@ $ KUMA_MODE=remote \
 
 Where `<zone-name>` is the name of the zone matching one of the Zone resources to be created at the Global CP. `<global-remote-sync-address>` is the public address as obtained during the Global CP deployment step.
 
-Add an `ingress` data plane proxy, so `kuma-cp` can expose its services for cross-zone communication.
+Add an `ingress` data plane proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that data plane proxy would run on a dedicated host, so we will need the Remote CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the data plane token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
 
 ```bash
 $ echo "type: Dataplane
 mesh: default
 name: ingress-01
 networking:
-  address: 127.0.0.1 # address that is routable within the cluster
+  address: 127.0.0.1 # address that is routable within the zone
   ingress:
-    publicAddress: 10.0.0.1 # an address which other clusters can use to consume this ingress
-    publicPort: 10000 # a port which other clusters can use to consume this ingress
+    publicAddress: 10.0.0.1 # an address which other zones can use to consume this ingress
+    publicPort: 10000 # a port which other zones can use to consume this ingress
   inbound:
   - port: 10000
     tags:
       kuma.io/service: ingress" > ingress-dp.yaml
 $ kumactl generate dataplane-token --type=ingress > /tmp/ingress-token
 $ kuma-dp run \
-  --cp-address=https://localhost:5678 \
+  --cp-address=https://<kuma-cp-address>:5678 \
   --dataplane-token-file=/tmp/ingress-token \
   --dataplane-file=ingress-dp.yaml 
 ```
