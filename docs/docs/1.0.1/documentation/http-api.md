@@ -20,29 +20,32 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/traffic-permissions`
 * `/traffic-routes`
 * `/fault-injections`
+* `/service-insights`
 * `/meshes/{name}`
-* `/meshes/{name}/dataplanes`
-* `/meshes/{name}/dataplanes/{name}`
-* `/meshes/{name}/dataplanes+insights`
-* `/meshes/{name}/dataplanes+insights/{name}`
-* `/meshes/{name}/health-checks`
-* `/meshes/{name}/health-checks/{name}`
-* `/meshes/{name}/proxytemplates`
-* `/meshes/{name}/proxytemplates/{name}`
-* `/meshes/{name}/traffic-logs`
-* `/meshes/{name}/traffic-logs/{name}`
-* `/meshes/{name}/traffic-permissions`
-* `/meshes/{name}/traffic-permissions/{name}`
-* `/meshes/{name}/traffic-routes`
-* `/meshes/{name}/traffic-routes/{name}`
-* `/meshes/{name}/fault-injections`
-* `/meshes/{name}/fault-injections/{name}`
-* `/meshes/{name}/zones`
-* `/meshes/{name}/zones/{name}`
-* `/meshes/{name}/zones+insights`
-* `/meshes/{name}/zones+insights/{name}`
-* `/meshes/{name}/external-services`
-* `/meshes/{name}/external-services/{name}`
+* `/meshes/{mesh}/dataplanes`
+* `/meshes/{mesh}/dataplanes/{name}`
+* `/meshes/{mesh}/dataplanes+insights`
+* `/meshes/{mesh}/dataplanes+insights/{name}`
+* `/meshes/{mesh}/health-checks`
+* `/meshes/{mesh}/health-checks/{name}`
+* `/meshes/{mesh}/proxytemplates`
+* `/meshes/{mesh}/proxytemplates/{name}`
+* `/meshes/{mesh}/traffic-logs`
+* `/meshes/{mesh}/traffic-logs/{name}`
+* `/meshes/{mesh}/traffic-permissions`
+* `/meshes/{mesh}/traffic-permissions/{name}`
+* `/meshes/{mesh}/traffic-routes`
+* `/meshes/{mesh}/traffic-routes/{name}`
+* `/meshes/{mesh}/fault-injections`
+* `/meshes/{mesh}/fault-injections/{name}`
+* `/meshes/{mesh}/zones`
+* `/meshes/{mesh}/zones/{name}`
+* `/meshes/{mesh}/zones+insights`
+* `/meshes/{mesh}/zones+insights/{name}`
+* `/meshes/{mesh}/external-services`
+* `/meshes/{mesh}/external-services/{name}`
+* `/meshes/{mesh}/service-insights`
+* `/meshes/{mesh}/service-insights/{name}`
 * `/status/zones`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
@@ -2194,6 +2197,69 @@ Response: `200 OK`
 Example:
 ```bash
 curl -XDELETE http://localhost:5681/meshes/default/external-services/es
+```
+
+## Service Insights
+
+### Get Service Insight
+Request: `GET /meshes/{mesh}/service-insights/{name}`
+
+Response: `200 OK` with Service Insight entity
+
+Example:
+```bash
+curl localhost:5681/meshes/default/service-insights/backend
+```
+```json
+{
+ "type": "ServiceInsight",
+ "mesh": "default",
+ "name": "backend",
+ "creationTime": "2020-10-12T09:40:27.224648+03:00",
+ "modificationTime": "2020-10-12T09:40:27.224648+03:00",
+ "online": 1,
+ "offline": 1,
+ "total": 2
+}
+```
+
+### List Service Insights
+
+Request: `GET /service-insights`
+
+Response: `200 OK` with body of Service Insights entities
+
+Example:
+```bash
+curl http://localhost:5681/service-insights
+```
+```json
+{
+ "total": 2,
+ "items": [
+  {
+   "type": "ServiceInsight",
+   "mesh": "default",
+   "name": "backend",
+   "creationTime": "2020-10-12T09:40:27.224648+03:00",
+   "modificationTime": "2020-10-12T09:40:27.224648+03:00",
+   "online": 1,
+   "offline": 1,
+   "total": 2
+  },
+  {
+   "type": "ServiceInsight",
+   "mesh": "default",
+   "name": "backend-api",
+   "creationTime": "2020-10-12T09:40:27.224648+03:00",
+   "modificationTime": "2020-10-12T09:40:27.224648+03:00",
+   "online": 1,
+   "offline": 1,
+   "total": 2
+  }
+ ],
+ "next": null
+}
 ```
 
 ## Multicluster
