@@ -327,7 +327,7 @@ spec:
       - networkFilter:
           operation: addBefore
           match:
-            name: envoy.tcp_proxy # a new filter (Local RateLimit) will be added before existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
+            name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added before existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
@@ -340,7 +340,7 @@ spec:
       - networkFilter:
           operation: addAfter
           match:
-            name: envoy.tcp_proxy # a new filter (Local RateLimit) will be added after existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
+            name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added after existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
@@ -353,18 +353,18 @@ spec:
       - networkFilter:
           operation: patch
           match:
-            name: envoy.tcp_proxy 
+            name: envoy.filters.network.tcp_proxy 
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
             origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
           value: | # you can specify only part of filter definition that will be merged into existing filter
-            name: envoy.tcp_proxy
+            name: envoy.filters.network.tcp_proxy
             typedConfig:
               '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
               idleTimeout: 10s
       - networkFilter:
           operation: remove
           match: # optional: if absent, all filters from all listeners will be removed
-            name: envoy.tcp_proxy # optional: if absent, all filters regardless of name will be removed
+            name: envoy.filters.network.tcp_proxy # optional: if absent, all filters regardless of name will be removed
             listenerName: inbound:127.0.0.0:80 # optional: if absent, all filters regardless of the listener name will be removed
             origin: inbound # optional: if absent, all filters regardless of its origin will be removed
 ```
@@ -409,7 +409,7 @@ conf:
     - networkFilter:
         operation: addBefore
         match:
-          name: envoy.tcp_proxy # a new filter (Local RateLimit) will be added before existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
+          name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added before existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
@@ -422,7 +422,7 @@ conf:
     - networkFilter:
         operation: addAfter
         match:
-          name: envoy.tcp_proxy # a new filter (Local RateLimit) will be added after existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
+          name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added after existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
@@ -435,18 +435,18 @@ conf:
     - networkFilter:
         operation: patch
         match:
-          name: envoy.tcp_proxy 
+          name: envoy.filters.network.tcp_proxy 
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
           origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
         value: | # you can specify only part of filter definition that will be merged into existing filter
-          name: envoy.tcp_proxy
+          name: envoy.filters.network.tcp_proxy
           typedConfig:
             '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
             idleTimeout: 10s
     - networkFilter:
         operation: remove
         match: # optional: if absent, all filters from all listeners will be removed
-          name: envoy.tcp_proxy # optional: if absent, all filters regardless of name will be removed
+          name: envoy.filters.network.tcp_proxy # optional: if absent, all filters regardless of name will be removed
           listenerName: inbound:127.0.0.0:80 # optional: if absent, all filters regardless of the listener name will be removed
           origin: inbound # optional: if absent, all filters regardless of its origin will be removed
 ```
@@ -510,7 +510,7 @@ spec:
       - httpFilter:
           operation: addBefore
           match:
-            name: envoy.router # a new filter (Gzip) will be added before existing (Router). If there is no Router filter, Gzip won't be added.
+            name: envoy.filters.http.router # a new filter (Gzip) will be added before existing (Router). If there is no Router filter, Gzip won't be added.
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
@@ -521,7 +521,7 @@ spec:
       - httpFilter:
           operation: addAfter
           match:
-            name: envoy.router # a new filter (Gzip) will be added after existing (Router). If there is no Router filter, Gzip won't be added.
+            name: envoy.filters.http.router # a new filter (Gzip) will be added after existing (Router). If there is no Router filter, Gzip won't be added.
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
@@ -584,7 +584,7 @@ conf:
     - httpFilter:
         operation: addBefore
         match:
-          name: envoy.router # a new filter (Gzip) will be added before existing (Router). If there is no Router filter, Gzip won't be added.
+          name: envoy.filters.http.router # a new filter (Gzip) will be added before existing (Router). If there is no Router filter, Gzip won't be added.
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
@@ -595,7 +595,7 @@ conf:
     - httpFilter:
         operation: addAfter
         match:
-          name: envoy.router # a new filter (Gzip) will be added after existing (Router). If there is no Router filter, Gzip won't be added.
+          name: envoy.filters.http.router # a new filter (Gzip) will be added after existing (Router). If there is no Router filter, Gzip won't be added.
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
@@ -768,10 +768,10 @@ spec:
       - networkFilter:
           operation: patch
           match:
-            name: envoy.http_connection_manager
+            name: envoy.filters.network.http_connection_manager
             origin: outbound
           value: |
-            name: envoy.http_connection_manager
+            name: envoy.filters.network.http_connection_manager
             typedConfig:
               '@type': type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
               streamIdleTimeout: 5s
@@ -800,10 +800,10 @@ conf:
     - networkFilter:
         operation: patch
         match:
-          name: envoy.http_connection_manager
+          name: envoy.filters.network.http_connection_manager
           origin: outbound
         value: |
-          name: envoy.http_connection_manager
+          name: envoy.filters.network.http_connection_manager
           typedConfig:
             '@type': type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
             streamIdleTimeout: 5s
@@ -836,7 +836,7 @@ spec:
       - httpFilter:
           operation: addBefore
           match:
-            name: envoy.router
+            name: envoy.filters.http.router
             origin: outbound
           value: |
             name: envoy.filters.http.lua
@@ -863,7 +863,7 @@ conf:
     - httpFilter:
         operation: addBefore
         match:
-          name: envoy.router
+          name: envoy.filters.http.router
           origin: outbound
         value: |
           name: envoy.filters.http.lua
@@ -908,10 +908,10 @@ spec:
       - networkFilter:
           operation: patch
           match:
-            name: envoy.tcp_proxy
+            name: envoy.filters.network.tcp_proxy
             origin: outbound
           value: |
-            name: envoy.tcp_proxy
+            name: envoy.filters.network.tcp_proxy
             typedConfig:
               '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
               maxConnectAttempts: 3
@@ -940,10 +940,10 @@ conf:
     - networkFilter:
         operation: patch
         match:
-          name: envoy.tcp_proxy
+          name: envoy.filters.network.tcp_proxy
           origin: outbound
         value: |
-          name: envoy.tcp_proxy
+          name: envoy.filters.network.tcp_proxy
           typedConfig:
             '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
             maxConnectAttempts: 3

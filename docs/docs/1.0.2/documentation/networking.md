@@ -168,7 +168,7 @@ Kuma DNS allocates a VIP for every Service withing a mesh. Then, it creates outb
         {
          "filters": [
           {
-           "name": "envoy.tcp_proxy",
+           "name": "envoy.filters.network.tcp_proxy",
            "typed_config": {
             "@type": "type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy",
             "stat_prefix": "echo-server_kuma-test_svc_80",
