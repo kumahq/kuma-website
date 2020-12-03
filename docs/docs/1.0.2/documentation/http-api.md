@@ -877,7 +877,11 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
   "interval": "10s",
   "timeout": "2s",
   "unhealthyThreshold": 3,
-  "healthyThreshold": 1
+  "healthyThreshold": 1,
+  "tcp": {
+   "send": "Zm9v",
+   "receive": ["YmFy", "YmF6"]
+  }
  }
 }
 ```
@@ -914,7 +918,11 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend --da
   "interval": "10s",
   "timeout": "2s",
   "unhealthyThreshold": 3,
-  "healthyThreshold": 1
+  "healthyThreshold": 1,
+  "tcp": {
+   "send": "Zm9v",
+   "receive": ["YmFy", "YmF6"]
+  }
  }
 }
 ```
@@ -955,7 +963,11 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
     "interval": "10s",
     "timeout": "2s",
     "unhealthyThreshold": 3,
-    "healthyThreshold": 1
+    "healthyThreshold": 1,
+    "tcp": {
+     "send": "Zm9v",
+     "receive": ["YmFy", "YmF6"]
+    }
    }
   }
  ],

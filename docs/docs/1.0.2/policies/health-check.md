@@ -14,6 +14,15 @@ As usual, we can apply `sources` and `destinations` selectors to determine how h
 
 At the moment, the `HealthCheck` policy supports L4 checks that validate the health status of the underlying TCP connections.
 
+By providing `tcp` section you can specify Base64 encoded text which
+will be sent during the health checks and list of (also Base64 encoded)
+blocks which should be considered as a health response (when checking
+the response, “fuzzy” matching is performed such that each block must be
+found, and in the order specified, but not necessarily contiguous). If
+`receive` section won't be provided or will be empty, health checks will
+be performed as "connect only" and will be marked as successful when TCP
+connection will be successfully established.
+
 Below an example:
 
 :::: tabs :options="{ useUrlFragment: false }"
@@ -36,6 +45,11 @@ spec:
     timeout: 2s
     unhealthyThreshold: 3
     healthyThreshold: 1
+    tcp:
+      send: Zm9v
+      receive:
+      - YmFy
+      - YmF6
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 :::
@@ -56,6 +70,11 @@ conf:
   timeout: 2s
   unhealthyThreshold: 3
   healthyThreshold: 1
+  tcp:
+    send: Zm9v
+    receive:
+    - YmFy
+    - YmF6
 ```
 
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.2/documentation/http-api).
