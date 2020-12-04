@@ -110,7 +110,7 @@ conf:
         version: '2.0'
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs//documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.2/documentation/http-api).
 :::
 ::::
 

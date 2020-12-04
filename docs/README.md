@@ -31,7 +31,7 @@ tabs:
 
 ::: slot news
 
-**Kuma 1.0.1 GA has been released!** With over 70+ new features and improvements we are excited to announce this new major version of Kuma to deploy production-grade service meshes across every application &mdash; [Get Started](/install/)
+**Kuma 1.0.3 GA has been released!** With over 70+ new features and improvements we are excited to announce this new major version of Kuma to deploy production-grade service meshes across every application &mdash; [Get Started](/install/)
 
 :::
 

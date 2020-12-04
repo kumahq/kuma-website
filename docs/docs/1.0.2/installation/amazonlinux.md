@@ -1,7 +1,7 @@
 # Amazon Linux
 
 :::tip
-If you wish to use Kuma on Amazon EKS please follow the [Kubernetes instructions](/docs//installation/kubernetes/) instead.
+If you wish to use Kuma on Amazon EKS please follow the [Kubernetes instructions](/docs/1.0.2/installation/kubernetes/) instead.
 :::
 
 To install and run Kuma on Amazon Linux (**x86_64**) execute the following steps:
@@ -45,7 +45,7 @@ And we can then proceed to run Kuma with:
 $ ./kuma-cp run
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs//documentation/deployments/) like "multi-zone".
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/1.0.2/documentation/deployments/) like "multi-zone".
 
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
@@ -112,4 +112,4 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 Congratulations! You have successfully installed Kuma on Amazon Linux 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs//quickstart/universal/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/1.0.2/quickstart/universal/) deployments.

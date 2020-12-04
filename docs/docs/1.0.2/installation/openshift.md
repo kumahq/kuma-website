@@ -43,7 +43,7 @@ $ tar xvzf kuma-*.tar.gz
 
 ### 2. Run Kuma
 
-Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs//documentation/kumactl/).
+Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/1.0.2/documentation/kumactl/).
 
 ::: tip
 **Note**: On OpenShift - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
@@ -97,7 +97,7 @@ $ ./kumactl install control-plane | oc apply -f -
 :::
 ::::
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs//documentation/deployments/) like "multi-zone".
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/1.0.2/documentation/deployments/) like "multi-zone".
 
 ::: tip
 It may take a while for OpenShift to start the Kuma resources, you can check the status by executing:
@@ -207,7 +207,7 @@ If namespace is not configured properly, we will see following error on the `Dep
 
 Congratulations! You have successfully installed Kuma on OpenShift 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs//quickstart/kubernetes/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/1.0.2/quickstart/kubernetes/) deployments.
 
 ::: tip
 Before running Kuma Demo in the Quickstart, remember to run the following command
