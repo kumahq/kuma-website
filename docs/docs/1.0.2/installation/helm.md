@@ -9,7 +9,7 @@ To install and run Kuma on Kubernetes with Helm charts execute the following ste
 Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and continue your Kuma journey.
 
 ::: tip
-Kuma also provides an alternative [Kubernetes distribution](/docs//installation/kubernetes/) that we can use instead of Helm charts.
+Kuma also provides an alternative [Kubernetes distribution](/docs/1.0.2/installation/kubernetes/) that we can use instead of Helm charts.
 :::
 
 ### 1. Add the Kuma charts repository
@@ -31,7 +31,7 @@ $ kubectl create namespace kuma-system
 $ helm install --namespace kuma-system kuma kuma/kuma
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs//documentation/deployments/) like "multi-zone".
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/1.0.2/documentation/deployments/) like "multi-zone".
 
 ### 3. Use Kuma
 
@@ -120,4 +120,4 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 Congratulations! You have successfully installed Kuma on Kubernetes 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs//quickstart/kubernetes/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/1.0.2/quickstart/kubernetes/) deployments.

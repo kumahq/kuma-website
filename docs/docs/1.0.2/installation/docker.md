@@ -7,7 +7,7 @@ To install and run Kuma on Docker execute the following steps:
 * [3. Use Kuma](#_3-use-kuma)
 
 ::: tip
-The official Docker images are used by default in the [Kubernetes](/docs//installation/kubernetes/) and [OpenShift](/docs//installation/openshift/) distributions.
+The official Docker images are used by default in the [Kubernetes](/docs/1.0.2/installation/kubernetes/) and [OpenShift](/docs/1.0.2/installation/openshift/) distributions.
 :::
 
 ### 1. Download Kuma
@@ -31,7 +31,7 @@ $ docker run \
     kong-docker-kuma-docker.bintray.io/kuma-cp: run
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs//documentation/deployments/) like "multi-zone".
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/1.0.2/documentation/deployments/) like "multi-zone".
 
 ::: tip
 **Note**: By default this will run Kuma with a `memory` [backend](../../documentation/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
@@ -114,4 +114,4 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 Congratulations! You have successfully installed Kuma on Docker 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs//quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs//quickstart/kubernetes/) as well.
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/1.0.2/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/1.0.2/quickstart/kubernetes/) as well.

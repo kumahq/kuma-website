@@ -52,11 +52,11 @@ destinations:
   - match:
       kuma.io/service: '*'
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs//documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.2/documentation/http-api).
 :::
 ::::
 
-You can use any [Tag](/docs//documentation/dps-and-data-model/#tags) in the `destinations` selector, which makes `TrafficPermissions` quite powerful when it comes to creating a secure environment for our services.
+You can use any [Tag](/docs/1.0.2/documentation/dps-and-data-model/#tags) in the `destinations` selector, which makes `TrafficPermissions` quite powerful when it comes to creating a secure environment for our services.
 
 ::: warning
 For the time being the `sources` field only allows the `service` tag. This limitation will be removed in the future.

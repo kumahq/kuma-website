@@ -60,7 +60,7 @@ tracing:
       url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs//documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.2/documentation/http-api).
 :::
 ::::
 
@@ -101,7 +101,7 @@ conf:
   backend: jager-collector
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs//documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.2/documentation/http-api).
 :::
 ::::
 

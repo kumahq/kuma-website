@@ -33,8 +33,8 @@ Kong built Kuma with feedback from 100+ enterprise organizations running Service
 
 Kuma supports different deployment models:
 
-* [Standalone Deployment](/docs//documentation/deployments/#standalone-mode) with one control plane being in charge of multiple data plane proxies.
-* [Multi-Zone Deployment](/docs//documentation/deployments/#multi-zone-mode) with a global control plane and remote control planes for each underlying cluster.
+* [Standalone Deployment](/docs/1.0.2/documentation/deployments/#standalone-mode) with one control plane being in charge of multiple data plane proxies.
+* [Multi-Zone Deployment](/docs/1.0.2/documentation/deployments/#multi-zone-mode) with a global control plane and remote control planes for each underlying cluster.
 
 Below an example of a multi-zone deployment, which also enables Kuma to setup a Service Mesh that runs simoultaneously on multiple Kubernetes clusters, or on a hybrid Kubernetes/VM cluster:
 
