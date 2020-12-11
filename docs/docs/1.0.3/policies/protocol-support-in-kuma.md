@@ -8,8 +8,8 @@ So, as a user of Kuma, you're _highly encouraged_ to give it a hint whether your
 
 By doing this,
 
-* you will get reacher metrics with [`Traffic Metrics`](../traffic-metrics) policy
-* you will get reacher logs with [`Traffic Log`](../traffic-log) policy
+* you will get richer metrics with [`Traffic Metrics`](../traffic-metrics) policy
+* you will get richer logs with [`Traffic Log`](../traffic-log) policy
 * you will be able to use [`Traffic Trace`](../traffic-trace) policy
 
 :::: tabs :options="{ useUrlFragment: false }"
@@ -58,3 +58,10 @@ networking:
 ## HTTP/2 support
 
 Kuma by default upgrades connection between Dataplanes to HTTP/2. If you want to enable HTTP/2 on connections between a dataplane and an application, use `kuma.io/protocol: http2` tag.
+
+
+## TLS support
+
+Kuma can handle any pre-existing TLS traffic such as `https` and `grpcs`. It will do so no matter if the mesh that the traffic is being generated is mTLS enabled or not. Such a scenario will work as long as the service generating this traffic is tagged with `kuma.io/protocol: tcp`.
+
+Note that in this case no advanced HTTP or GRPC statistics or logging are available. As a best practice, it is recommended that the security is handled by Kuma by turning on mTLS in the mesh, and disabling TLS on the service level.
