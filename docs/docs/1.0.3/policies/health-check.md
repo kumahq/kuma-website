@@ -12,23 +12,15 @@ proxy will explicitly send requests to other data plane proxies (as described in
 
 As usual, we can apply `sources` and `destinations` selectors to determine how health-checks will be performed across our data plane proxies.
 
-`HealthCheck` policy supports L4/TCP (default) and L7/HTTP checks.
+`HealthCheck` policy supports L4/TCP (default) and L7/HTTP checks
 
 ### Examples
 
-#### TCP
-
-By providing an optional `tcp` section you can specify Base64 encoded text which
-should be sent during health checks, and a list of (also Base64 encoded)
-blocks which should be considered as health responses (when checking
-the response, “fuzzy” matching is performed such that each block must be
-found, and in the order specified, but not necessarily contiguous). If
-`receive` section won't be provided or will be empty, checks will
-be performed as "connect only" and will be marked as successful when TCP
-connection will be successfully established.
-
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
+
+**TCP**
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: HealthCheck
@@ -53,55 +45,9 @@ spec:
       - YmFy
       - YmF6
 ```
-We will apply the configuration with `kubectl apply -f [..]`.
-:::
 
-::: tab "Universal"
-```yaml
-type: HealthCheck
-name: web-to-backend-check
-mesh: default
-sources:
-- match:
-    kuma.io/service: web
-destinations:
-- match:
-    kuma.io/service: backend
-conf:
-  interval: 10s
-  timeout: 2s
-  unhealthyThreshold: 3
-  healthyThreshold: 1
-  tcp:
-    send: Zm9v
-    receive:
-    - YmFy
-    - YmF6
-```
+**HTTP**
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.3/documentation/http-api).
-:::
-::::
-
-#### HTTP
-
-To set up HTTP health checks you have to provide `http`. Constraints:
-- field `path` is required and cannot be empty;
-- by default every health check request will be attempted using HTTP 2 protocol,
-  to change this and use HTTP 1 instead, you have to set value of `useHttp1` property
-  to `true`;
-- by default the only status code considered as healthy is `200`, if you want to
-  change this behaviour and accept other statuses, you can provide the list of valid
-  status codes by configuring `expectedStatuses` property (only statuses in the range
-  `[100, 600)` are allowed);
-- the default behaviour when providing custom HTTP headers which should be added
-  to every health check request is that they will be appended to already existing ones,
-  to change this behabiour you can add to the header you want to fully replace
-  a property `append` set to `true`
-
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: HealthCheck
@@ -131,12 +77,38 @@ spec:
           key: Accept
           value: application/json
       expectedStatuses: [200, 201]
-      useHttp1: true
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 :::
 
 ::: tab "Universal"
+
+**TCP**
+
+```yaml
+type: HealthCheck
+name: web-to-backend-check
+mesh: default
+sources:
+- match:
+    kuma.io/service: web
+destinations:
+- match:
+    kuma.io/service: backend
+conf:
+  interval: 10s
+  timeout: 2s
+  unhealthyThreshold: 3
+  healthyThreshold: 1
+  tcp:
+    send: Zm9v
+    receive:
+    - YmFy
+    - YmF6
+```
+
+**HTTP**
+
 ```yaml
 type: HealthCheck
 name: web-to-backend-check
@@ -163,9 +135,39 @@ conf:
         key: Accept
         value: application/json
     expectedStatuses: [200, 201]
-    useHttp1: true
 ```
 
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.3/documentation/http-api).
 :::
 ::::
+
+### HTTP
+
+HTTP health checks are executed using HTTP 2
+
+- **`path`** - HTTP path which will be requested during the health checks
+- **`expectedStatuses`** (optional) - list of status codes which should be
+  considered as a healthy during the checks
+  - only statuses in the range `[100, 600)` are allowed
+  - by default, when this property is not provided only responses with
+    status code `200` are being considered healthy
+- **`requestHeadersToAdd`** (optional) - list of headers which should be
+  added to every health check request:
+  - **`append`** (default, optional) - should the value of the provided
+    header be appended to already existing headers (if present)
+  - **`header`**:
+    - **`key`** - the name of the header
+    - **`value`** (optional) - the value of the header
+
+### TCP
+
+- **`send`** - Base64 encoded content of the message which should be
+  sent during the health checks
+- **`receive`** list of Base64 encoded blocks of strings which should be
+  found in the returning message which should be considered as healthy
+  - when checking the response, “fuzzy” matching is performed such that
+    each block must be found, and in the order specified, but not
+    necessarily contiguous;
+  - if **`receive`** section won't be provided or will be empty, checks
+    will be performed as "connect only" and will be marked as successful
+    when TCP connection will be successfully established.
