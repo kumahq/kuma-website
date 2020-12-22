@@ -1806,6 +1806,7 @@ module.exports = {
         "policies/circuit-breaker",
         "policies/proxy-template",
         "policies/external-services",
+        "policies/retry",
       ]
     },
     {

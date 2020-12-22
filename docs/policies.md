@@ -41,6 +41,9 @@ policies:
       - title: External Services
         url: /docs/latest/policies/external-services/
         icon: /images/icons/policies/icon-external-services.png
+      - title: Retries
+        url: /docs/latest/policies/retry/
+        icon: /images/icons/policies/retry@2x.png
   - section: observability
     sectionTitle: Observability
     sectionSubTitle: Metrics, Logs and Traces
