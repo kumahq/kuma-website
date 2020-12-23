@@ -191,7 +191,9 @@ Kuma DNS allocates a VIP for every Service withing a mesh. Then, it creates outb
 ## Transparent Proxying
 
 There are two ways of how the service can interact with its sidecar to connect to other services.
+
 One is explicitly defining outbounds in the Dataplane:
+
 ```yaml
 type: Dataplane
 ...
@@ -202,13 +204,14 @@ networking:
     tags:
       kuma.io/service: backend
 ```
+
 This approach is simple, but it has the disadvantage that you need to reconfigure the service to use `http://localhost:10000` when it wants to connect with service `backend`.
 This strategy is used on Universal deployments.
 
 The alternative approach is Transparent Proxying. With Transparent Proxying before we start a service, we apply [`iptables`](https://linux.die.net/man/8/iptables) that intercept all the traffic on VM/Pod and redirect it to Envoy.
 The main advantage of this mode is when you integrate with the current hostname resolving mechanism, you can deploy Service Mesh _transparently_ on the platform without reconfiguring applications.
 
-Kuma provides support for Transparent Proxying on Kubernetes.
+Kuma provides support for transparent proxying [on both Universal and Kubernetes](../transparent-proxying).
 
 ### Configure intercepted traffic
 

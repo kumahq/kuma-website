@@ -1773,7 +1773,7 @@ module.exports = {
         "documentation/dependencies",
         "documentation/deployments",
         "documentation/dps-and-data-model",
-        "documentation/transparent-proxy-universal",
+        "documentation/transparent-proxying",
         "documentation/cli",
         "documentation/gui",
         "documentation/http-api",
