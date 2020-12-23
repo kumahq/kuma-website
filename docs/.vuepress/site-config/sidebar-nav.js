@@ -1805,8 +1805,7 @@ module.exports = {
         "policies/health-check",
         "policies/circuit-breaker",
         "policies/proxy-template",
-        "policies/external-services",
-        "policies/retry",
+        "policies/external-services"
       ]
     },
     {
