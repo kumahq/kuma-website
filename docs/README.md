@@ -31,7 +31,7 @@ tabs:
 
 ::: slot news
 
-**Kuma 1.0.3 GA has been released!** With over 70+ new features and improvements we are excited to announce this new major version of Kuma to deploy production-grade service meshes across every application &mdash; [Get Started](/install/)
+**Kuma 1.0.4 has been released!** With one-click transparent proxying support for VMs in universal mode, a new Retry policy and many other improvements! &mdash; [Get Started](/install/)
 
 :::
 
