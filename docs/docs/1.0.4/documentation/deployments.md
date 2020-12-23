@@ -304,3 +304,28 @@ The Kuma DNS service format (e.g. `echo-server_kuma-test_svc_1010.mesh`) is a co
 Namespace (`kuma-test`), a fixed string (`svc`), the service port (`1010`). The service is resolvable in the DNS zone `.mesh` where
 the Kuma DNS service is hooked.
 :::
+
+### Deleting zone
+
+In order to delete Zone first of all it's needed to shut down the corresponding Kuma CP Remote. While Kuma CP Remote is connected
+Zone deletion is prohibited, Kuma will return validation error:  
+
+```
+zone: unable to delete Zone, Remote CP is still connected, please shut it down first
+```
+
+As soon as Kuma CP Remote disconnected Zone can be deleted. All corresponding resources (like Dataplane and DataplaneInsight) will be deleted automatically.
+
+### Disabling zone
+
+There are might be situations when the user doesn't have access to Kuma CP Remote but there is a need to stop routing traffic to some specific zone. Since `Kuma 1.0.4`
+Zone has field `enabled`:
+```yaml
+type: Zone
+name: zone-1
+spec:
+  enabled: true
+```
+
+Changing to `enabled: false` will allow the user to exclude the zone's ingress from all other zones, so traffic won't be directed to the disabled zone. 
+The disabled zone is considered as `Offline`.
