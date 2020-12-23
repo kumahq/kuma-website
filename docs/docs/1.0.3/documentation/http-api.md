@@ -21,6 +21,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/traffic-routes`
 * `/fault-injections`
 * `/service-insights`
+* `/retries`
 * `/meshes/{name}`
 * `/meshes/{mesh}/dataplanes`
 * `/meshes/{mesh}/dataplanes/{name}`
@@ -46,6 +47,8 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/external-services/{name}`
 * `/meshes/{mesh}/service-insights`
 * `/meshes/{mesh}/service-insights/{name}`
+* `/meshes/{mesh}/retries`
+* `/meshes/{mesh}/retries/{name}`
 * `/status/zones`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
@@ -1784,6 +1787,220 @@ Response: `200 OK`
 Example:
 ```bash
 curl -XDELETE http://localhost:5681/meshes/default/fault-injections/fi1
+```
+
+::: tip
+The [`kumactl`](../kumactl) CLI under the hood makes HTTP requests to this API.
+:::
+
+## Retry
+
+### Get Retry
+Request: `GET /meshes/{mesh}/retries/{name}`
+
+Response: `200 OK` with Retry entity
+
+Example:
+```bash
+curl http://localhost:5681/meshes/default/retries/r1
+```
+```json
+{
+ "type": "Retry",
+ "mesh": "default",
+ "name": "r1",
+ "creationTime": "2020-05-12T12:31:45.606217+02:00",
+ "modificationTime": "2020-05-12T12:31:45.606217+02:00",
+ "sources": [
+  {
+   "match": {
+    "protocol": "http",
+    "service": "frontend",
+    "version": "0.1"
+   }
+  }
+ ],
+ "destinations": [
+  {
+   "match": {
+    "protocol": "http",
+    "service": "backend"
+   }
+  }
+ ],
+ "conf": {
+  "http": {
+   "numRetries": 5,
+   "perTryTimeout": "0.2s",
+   "backOff": {
+    "baseInterval": "0.02s",
+    "maxInterval": "1s"
+   },
+   "retriableStatusCodes": [500, 504]
+  },
+  "grpc": {
+   "numRetries": 5,
+   "perTryTimeout": "0.3s",
+   "backOff": {
+    "baseInterval": "0.03s",
+    "maxInterval": "1.2s"
+   },
+   "retryOn": [
+    "cancelled",
+    "deadline_exceeded",
+    "internal",
+    "resource_exhausted",
+    "unavailable"
+   ]
+  },
+  "tcp": {
+   "maxConnectAttempts": 4
+  }
+ }
+}
+```
+
+### Create/Update Retry
+Request: `PUT /meshes/{mesh}/retries/{name}` with Retry entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/meshes/default/retries/fi1 --data @retry.json -H'content-type: application/json'
+```
+```json
+{
+  "type": "Retry",
+  "mesh": "default",
+  "name": "r1",
+  "sources": [
+    {
+      "match": {
+        "service": "frontend",
+        "version": "0.1",
+        "protocol": "http"
+      }
+    }
+  ],
+  "destinations": [
+    {
+      "match": {
+        "service": "backend",
+        "protocol": "http"
+      }
+    }
+  ],
+  "conf": {
+    "http": {
+     "numRetries": 5,
+     "perTryTimeout": "0.2s",
+     "backOff": {
+      "baseInterval": "0.02s",
+      "maxInterval": "1s"
+     },
+     "retriableStatusCodes": [500, 504]
+    },
+    "grpc": {
+     "numRetries": 5,
+     "perTryTimeout": "0.3s",
+     "backOff": {
+      "baseInterval": "0.03s",
+      "maxInterval": "1.2s"
+     },
+     "retryOn": [
+      "cancelled",
+      "deadline_exceeded",
+      "internal",
+      "resource_exhausted",
+      "unavailable"
+     ]
+    },
+    "tcp": {
+     "maxConnectAttempts": 4
+    }
+  }
+}
+```
+
+### List Retries
+Request: `GET /meshes/{mesh}/retries`
+
+Response: `200 OK` with body of Retry entities
+
+Example:
+```bash
+curl http://localhost:5681/meshes/default/retries
+```
+```json
+{
+ "items": [
+  {
+   "type": "Retry",
+   "mesh": "default",
+   "name": "r1",
+   "creationTime": "2020-05-12T12:31:45.606217+02:00",
+   "modificationTime": "2020-05-12T12:31:45.606217+02:00",
+   "sources": [
+    {
+     "match": {
+      "protocol": "http",
+      "service": "frontend",
+      "version": "0.1"
+     }
+    }
+   ],
+   "destinations": [
+    {
+     "match": {
+      "protocol": "http",
+      "service": "backend"
+     }
+    }
+   ],
+   "conf": {
+    "http": {
+     "numRetries": 5,
+     "perTryTimeout": "0.2s",
+     "backOff": {
+      "baseInterval": "0.02s",
+      "maxInterval": "1s"
+     },
+     "retriableStatusCodes": [500, 504]
+    },
+    "grpc": {
+     "numRetries": 5,
+     "perTryTimeout": "0.3s",
+     "backOff": {
+      "baseInterval": "0.03s",
+      "maxInterval": "1.2s"
+     },
+     "retryOn": [
+      "cancelled",
+      "deadline_exceeded",
+      "internal",
+      "resource_exhausted",
+      "unavailable"
+     ]
+    },
+    "tcp": {
+     "maxConnectAttempts": 4
+    }
+   }
+  }
+ ],
+ "next": "http://localhost:5681/meshes/default/retries?offset=1"
+}
+```
+
+### Delete Retry
+Request: `DELETE /meshes/{mesh}/retries/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/meshes/default/retries/r1
 ```
 
 ::: tip
