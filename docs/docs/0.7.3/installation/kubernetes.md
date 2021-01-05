@@ -48,7 +48,7 @@ $ tar xvzf kuma-0.7.3*.tar.gz
 
 ### 2. Run Kuma
 
-Once downloaded, you will find the contents of Kuma in the `kuma-0.7.3` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/0.7.3/documentation/kumactl/).
+Once downloaded, you will find the contents of Kuma in the `kuma-0.7.3` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/0.7.3/documentation/cli/#kumactl).
 
 ::: tip
 **Note**: On Kubernetes - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.

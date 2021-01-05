@@ -43,7 +43,7 @@ $ tar xvzf kuma-1.0.1*.tar.gz
 
 ### 2. Run Kuma
 
-Once downloaded, you will find the contents of Kuma in the `kuma-1.0.1` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/1.0.1/documentation/kumactl/).
+Once downloaded, you will find the contents of Kuma in the `kuma-1.0.1` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/1.0.1/documentation/cli/#kumactl).
 
 ::: tip
 **Note**: On OpenShift - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
