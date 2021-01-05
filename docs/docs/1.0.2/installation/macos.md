@@ -26,7 +26,7 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 You can also download the distribution manually:
 
-* [Download Kuma](https://kong.bintray.com/kuma/kuma--darwin-amd64.tar.gz)
+* [Download Kuma](https://kong.bintray.com/kuma/kuma-1.0.2-darwin-amd64.tar.gz)
 
 Then extract the archive with:
 
@@ -53,7 +53,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In th
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-/bin
+$ cd kuma-1.0.2/bin
 ```
 
 And we can then proceed to run Kuma with:

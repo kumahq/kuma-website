@@ -16,7 +16,7 @@ Run the following script to automatically detect the operating system and downlo
 $ curl -L https://kuma.io/installer.sh | sh -
 ```
 
-or you can [download](https://kong.bintray.com/kuma/kuma--centos-amd64.tar.gz) the distribution manually.
+or you can [download](https://kong.bintray.com/kuma/kuma-1.0.4-centos-amd64.tar.gz) the distribution manually.
 
 Then extract the archive with:
 
@@ -31,7 +31,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In th
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-/bin
+$ cd kuma-1.0.4/bin
 ```
 
 And we can then proceed to run Kuma with:

@@ -14,10 +14,10 @@ The official Docker images are used by default in the [Kubernetes](/docs/1.0.2/i
 
 Kuma provides the following Docker images for all of its executables:
 
-* **kuma-cp**: at `kong-docker-kuma-docker.bintray.io/kuma-cp:`
-* **kuma-dp**: at `kong-docker-kuma-docker.bintray.io/kuma-dp:`
-* **kumactl**: at `kong-docker-kuma-docker.bintray.io/kumactl:`
-* **kuma-prometheus-sd**: at `kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:`
+* **kuma-cp**: at `kong-docker-kuma-docker.bintray.io/kuma-cp:1.0.2`
+* **kuma-dp**: at `kong-docker-kuma-docker.bintray.io/kuma-dp:1.0.2`
+* **kumactl**: at `kong-docker-kuma-docker.bintray.io/kumactl:1.0.2`
+* **kuma-prometheus-sd**: at `kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:1.0.2`
 
 You can freely `docker pull` these images to start using Kuma, as we will demonstrate in the following steps.
 
@@ -91,11 +91,11 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 or you can download the distribution manually:
 
-* [CentOS](https://kong.bintray.com/kuma/kuma--centos-amd64.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma--rhel-amd64.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma--debian-amd64.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma--ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma--darwin-amd64.tar.gz)
+* [CentOS](https://kong.bintray.com/kuma/kuma-1.0.2-centos-amd64.tar.gz)
+* [RedHat](https://kong.bintray.com/kuma/kuma-1.0.2-rhel-amd64.tar.gz)
+* [Debian](https://kong.bintray.com/kuma/kuma-1.0.2-debian-amd64.tar.gz)
+* [Ubuntu](https://kong.bintray.com/kuma/kuma-1.0.2-ubuntu-amd64.tar.gz)
+* [macOS](https://kong.bintray.com/kuma/kuma-1.0.2-darwin-amd64.tar.gz)
 
 and extract the archive with:
 
@@ -103,7 +103,7 @@ and extract the archive with:
 $ tar xvzf kuma-*.tar.gz
 ```
 
-You will then find the `kumactl` executable in the `kuma-/bin` folder.
+You will then find the `kumactl` executable in the `kuma-1.0.2/bin` folder.
 
 :::
 ::::

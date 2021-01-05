@@ -26,11 +26,11 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access OpenShift:
 
-* [CentOS](https://kong.bintray.com/kuma/kuma--centos-amd64.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma--rhel-amd64.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma--debian-amd64.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma--ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma--darwin-amd64.tar.gz) or `brew install kumactl`
+* [CentOS](https://kong.bintray.com/kuma/kuma-1.0.2-centos-amd64.tar.gz)
+* [RedHat](https://kong.bintray.com/kuma/kuma-1.0.2-rhel-amd64.tar.gz)
+* [Debian](https://kong.bintray.com/kuma/kuma-1.0.2-debian-amd64.tar.gz)
+* [Ubuntu](https://kong.bintray.com/kuma/kuma-1.0.2-ubuntu-amd64.tar.gz)
+* [macOS](https://kong.bintray.com/kuma/kuma-1.0.2-darwin-amd64.tar.gz) or `brew install kumactl`
 
 and extract the archive with:
 
@@ -52,7 +52,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In th
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-/bin
+$ cd kuma-1.0.2/bin
 ```
 
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:

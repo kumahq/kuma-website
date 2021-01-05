@@ -14,10 +14,10 @@ The official Docker images are used by default in the [Kubernetes](/docs/1.0.3/i
 
 Kuma provides the following Docker images for all of its executables:
 
-* **kuma-cp**: at `kong-docker-kuma-docker.bintray.io/kuma-cp:`
-* **kuma-dp**: at `kong-docker-kuma-docker.bintray.io/kuma-dp:`
-* **kumactl**: at `kong-docker-kuma-docker.bintray.io/kumactl:`
-* **kuma-prometheus-sd**: at `kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:`
+* **kuma-cp**: at `kong-docker-kuma-docker.bintray.io/kuma-cp:1.0.3`
+* **kuma-dp**: at `kong-docker-kuma-docker.bintray.io/kuma-dp:1.0.3`
+* **kumactl**: at `kong-docker-kuma-docker.bintray.io/kumactl:1.0.3`
+* **kuma-prometheus-sd**: at `kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:1.0.3`
 
 You can freely `docker pull` these images to start using Kuma, as we will demonstrate in the following steps.
 
@@ -28,7 +28,7 @@ We can proceed to run Kuma with:
 ```sh
 $ docker run \
     -p 5681:5681 \
-    kong-docker-kuma-docker.bintray.io/kuma-cp: run
+    kong-docker-kuma-docker.bintray.io/kuma-cp:1.0.3 run
 ```
 
 This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/1.0.3/documentation/deployments/) like "multi-zone".
@@ -91,11 +91,11 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 or you can download the distribution manually:
 
-* [CentOS](https://kong.bintray.com/kuma/kuma--centos-amd64.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma--rhel-amd64.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma--debian-amd64.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma--ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma--darwin-amd64.tar.gz)
+* [CentOS](https://kong.bintray.com/kuma/kuma-1.0.3-centos-amd64.tar.gz)
+* [RedHat](https://kong.bintray.com/kuma/kuma-1.0.3-rhel-amd64.tar.gz)
+* [Debian](https://kong.bintray.com/kuma/kuma-1.0.3-debian-amd64.tar.gz)
+* [Ubuntu](https://kong.bintray.com/kuma/kuma-1.0.3-ubuntu-amd64.tar.gz)
+* [macOS](https://kong.bintray.com/kuma/kuma-1.0.3-darwin-amd64.tar.gz)
 
 and extract the archive with:
 
@@ -103,7 +103,7 @@ and extract the archive with:
 $ tar xvzf kuma-*.tar.gz
 ```
 
-You will then find the `kumactl` executable in the `kuma-/bin` folder.
+You will then find the `kumactl` executable in the `kuma-1.0.3/bin` folder.
 
 :::
 ::::
