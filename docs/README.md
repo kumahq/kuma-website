@@ -31,7 +31,7 @@ tabs:
 
 ::: slot news
 
-**Kuma 1.0.4 has been released!** With one-click transparent proxying support for VMs in universal mode, a new Retry policy and many other improvements! &mdash; [Get Started](/install/)
+**Kuma 1.0.5 has been released!** With one-click transparent proxying support for VMs in universal mode, a new Retry policy and performance improvements! &mdash; [Get Started](/install/)
 
 :::
 
