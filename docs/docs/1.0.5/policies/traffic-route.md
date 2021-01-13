@@ -26,6 +26,8 @@ spec:
     - match:
         kuma.io/service: '*'
   conf:
+    loadBalancer:
+      roundRobin: {}
     split:
       - weight: 100
         destination:
@@ -45,6 +47,8 @@ destinations:
   - match:
       kuma.io/service: '*'
 conf:
+  loadBalancer:
+    roundRobin: {}
   split:
     - weight: 100
       destination:
@@ -53,6 +57,53 @@ conf:
 :::
 ::::
 
+### Load balancer types
+
+The default TrafficRoute is setting the Load balancer type to round robin. The full list of the available values of the `loadBalancer` field follows:
+ * `roundRobin` is a simple policy in which each available upstream host is selected in round robin order.
+   
+   Example: 
+   ```yaml
+   loadBalancer:
+     roundRobin: {}
+   ```
+ * `leastRequest` uses different algorithms depending on whether hosts have the same or different weights. It has a single configuration field 
+   `choiceCount`, which denotes the number of random healthy hosts from which the host with the fewest active requests will be chosen.
+   
+   Example: 
+   ```yaml
+   loadBalancer:
+     leastRequest:
+       choiceCount: 8
+   ```
+ * `ringHash` implements consistent hashing to upstream hosts. It has the following fields:
+    * `hashFunction` the hash function used to hash hosts onto the ketama ring. Can be `XX_HASH` or `MURMUR_HASH_2`
+    * `minRingSize` minimum hash ring size
+    * `maxRingSize` maximum hash ring size
+     
+   Example:
+   ```yaml
+   loadBalancer:
+     ringHash:
+       hashFunction: "MURMUR_HASH_2"
+       minRingSize: 64
+       maxRingSize: 1024
+   ```
+ * `random` selects a random available host
+   
+   Example:
+   ```yaml
+   loadBalancer:
+     random: {}
+   ```
+
+* `maglev` implements consistent hashing to upstream hosts
+
+  Example:
+  ```yaml
+  loadBalancer:
+    maglev: {}
+  ```
 ### Usage
 
 By default when a service makes a request to another service, Kuma will round robin the request across every data plane proxy belogning to the destination service. It is possible to change this behavior by using this policy, for example:
@@ -73,6 +124,8 @@ spec:
     - match:
         kuma.io/service: redis_default_svc_6379
   conf:
+    loadBalancer:
+      roundRobin: {}
     split:
       - weight: 90
         destination:
@@ -99,6 +152,8 @@ destinations:
   - match:
       kuma.io/service: redis
 conf:
+  loadBalancer:
+    roundRobin: {}
   split:
     - weight: 90
       destination:
