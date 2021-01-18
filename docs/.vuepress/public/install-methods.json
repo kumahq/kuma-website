@@ -35,6 +35,11 @@
     "slug": "amazonlinux"
   },
   {
+    "label": "Amazon ECS",
+    "logo": "/images/platforms/logo-ecs.jpg",
+    "slug": "ecs"
+  },
+  {
     "label": "Debian",
     "logo": "/images/platforms/logo-debian.jpg",
     "slug": "debian"
