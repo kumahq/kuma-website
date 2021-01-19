@@ -2025,6 +2025,7 @@ module.exports = {
         "installation/redhat",
         "installation/centos",
         "installation/amazonlinux",
+        "installation/ecs",
         "installation/debian",
         "installation/ubuntu",
         "installation/macos",

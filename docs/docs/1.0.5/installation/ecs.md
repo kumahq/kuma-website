@@ -8,9 +8,9 @@ as parametrised and exploring these parameters is highly recommended before cons
 Also, please check the security notes throughout this document
 :::
 
-## Preparation
+### Preparation
 
-### Download the example Cloudformation scripts
+#### Download the example Cloudformation scripts
 
 The example [Cloudformation](https://aws.amazon.com/cloudformation/) scripts are hosted in the main [github repo](https://github.com/kumahq/kuma/tree/1.0.5/examples/ecs). As a preparatory step we'll download these locally:
 
@@ -26,7 +26,7 @@ This snippet, will create a folder named `ecs` and populate it with the contents
 Before continuing with the next steps, make sure to have AWS CLI [installed](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) and [configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
 :::
 
-### Installing the VPC
+#### Installing the VPC
 
 The first step is to install the `kuma` VPC.
 
@@ -37,9 +37,9 @@ aws cloudformation deploy \
     --template-file kuma-vpc.yaml
 ```
 
-## Installing the `kuma-cp`
+### Installing the `kuma-cp`
 
-### Control plane
+#### Control plane
 Depending on the desired setup, we can choose from Standalone or Multizone (Global plus Remote) control plane setup.
 
 :::: tabs :options="{ useUrlFragment: false }"
@@ -79,23 +79,34 @@ aws cloudformation deploy \
     --parameter-overrides AllowedCidr=0.0.0.0/0
 ```
 
-This will also deploy the Kuma Ingress which is needed for the cross-zone communication.
+This tempalte will also deploy the Kuma Ingress which is needed for the cross-zone communication.
 
 :::
 ::::
 
 
 ::: tip
-The example deployment above will allow access to the kuma-cp exposed services to all IPs, in production we should change `--parameter-overrides AllowedCidr=0.0.0.0/0` to point to a more restricted subnet that will be used to administer 
+The example deployment above will allow access to the kuma-cp exposed services to all IPs, in production we should change `--parameter-overrides AllowedCidr=0.0.0.0/0` to point to a more restricted subnet that will be used to administer the Kuma control plane. 
 :::
 
-To remove the `kuma-cp` stack use:
+::: tip
+
+✋ SECURITY NOTE:
+
+Explore `kuma-cp.yaml` and `kuma-cp-remote.yaml` for the `ServerCert` and `ServerKey` parameters. The example includes pre-generated ones that will work in the simplest demo use-case. For production use we do recommend overriding these values with properly generated certificates with the DNS name in place.
+:::
+
+#### Removing the 
+
+To remove the `kuma-cp` stack use (similarly for `kuma-cp-global` and `kuma-cp-remote`):
 ```shell
 aws cloudformation delete-stack --stack-name kuma-cp
 ```
 
+Before moving forward, please write down the `kuma-cp` IP address accordingly as it will be used in the next steps.
 
-### Kuma DNS
+
+#### Kuma DNS
 
 The services within the Kuma mesh are exposed through their names (as defined in the `kuma.io/service` tag) in the `.mesh` DNS zone. In the default workload example that would be `httpbin.mesh`.
 Run the following command to create the necessary Forwarding rules in Route 53 and leverage the integrated DNS server in `kuma-cp`.
@@ -111,16 +122,15 @@ aws cloudformation deploy \
 
 The `<kuma-cp-ip>`, shall be taken from the AWS ECS web console, it maybe both the public and the private IP. In case of a multizone deployment, we should use Remote CP IP.
 
-Note: We strongly recommend exposing the Kuma-CP instances behind a load balancer, and use that IP as the `DNSServer` parameter. This will ensure a more robust operation during upgrades, restarts and re-configurations. 
+::: tip
+We strongly recommend exposing the Kuma-CP instances behind a load balancer, and use that IP as the `DNSServer` parameter. This will ensure a more robust operation during upgrades, restarts and re-configurations. 
+:::
 
+### Workload setup
 
-## Workload setup
+The provided example `workload.yaml` is a Cloudformation template showcasing how `kuma-dp` can be run as a sidecar container alongside an arbitrary, single port service container in ECS.
 
-The provided example Cloudformation script will run a sample httpbin application on port 80, with `kuma-dp` sidecar attached to it.
-
-### Generate the token
-
-The `workload` template provides a basic example how `kuma-dp` can be run as a sidecar container alongside an arbitrary, single port service container.
+#### Generate the token
 In order to run `kuma-dp` container, we have to issue an access token. The latter can be generated using the Admin API of the Kuma CP.
 
 In this example we'll show the simplest form to generate it by executing this command alongside the `kuma-cp`. For this we need to have `<kuma-cp-ip>` as it shows in AWS ECS console:
@@ -143,9 +153,9 @@ on port `5682` as well as client ceritificate setup for authentication. The full
 [User to control plane communication](https://kuma.io/docs/1.0.5/documentation/security/#user-to-control-plane-communication)
 :::
 
-### Deploy the workload and the sidecar
+#### Deploy the workload and the sidecar
 
-Prepare the token generated in the previous step and supply it as `<token>` in the examples
+Prepare the token generated in the previous step and supply it as `<token>` in the example:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Standalone"
@@ -179,5 +189,4 @@ The `CPAddress` value is the default in the supplied remote CP example, however 
 :::
 ::::
 
-
-The `workload` template has a lot of parameters, so it can be customized for many scenarios, with different workload images, service name and port etc. Find more information in the template itself.
+This will deploy 2 instances of the `httpbin` container with a `kuma-dp` sidecar alongside it. The example can work very well for an arbitrary single-port service.  The `workload` template has a lot of parameters, so it can be customized for many scenarios, with different workload images, service name and port etc. Find more information in the template itself.
