@@ -8,7 +8,7 @@
         v-if="formStatus === null || formStatus === false"
         class="form-horizontal"
         method="post"
-        :action="getNewsletterFormEndpoint"
+        :action="getFormHandler"
       >
         <input
           v-for="(key, value) in formData"
@@ -17,7 +17,7 @@
           :value="key"
           type="hidden"
         />
-        <input type="hidden" name="pardot-link" :value="getNewsletterFormEndpoint">
+        <input type="hidden" name="pardot-link" :value="getFormHandler">
         <label for="input_email" class="sr-only">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }" class="form-note-wrapper">
           <input v-model="formData.email" id="email" name="email" type="email" placeholder="Work Email" />
@@ -98,10 +98,19 @@ export default {
     ValidationObserver,
     Spinner
   },
+  props: {
+    formHandler: {
+      type: String,
+      default: () => 'getNewsletterFormEndpoint'
+    }
+  },
   computed: {
-    ...mapGetters([
-      'getNewsletterFormEndpoint'
-    ]),
+    // ...mapGetters([
+    //   getFormHandler
+    // ]),
+    getFormHandler () {
+      return this.$store.getters[this.$props.formHandler]
+    },
     formDistanceFromTop () {
       const marker = this.$refs['formMessageMarker']
 
