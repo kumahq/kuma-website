@@ -1,5 +1,7 @@
 <template>
   <div class="page-container page-container--install">
+    
+    <Content />
 
     <header class="page-header text-center bg-gradient">
       
@@ -68,18 +70,38 @@
         </ul>
       </div>
       <!-- .install-methods-wrapper -->
-
     </div>
     <!-- .inner -->
+    
+    <div class="newsletter-form-wrap">
+      <div class="inner newsletter-form">
+        <div class="alt-title content__newsletter-title">
+          <h2 id="get-community-updates">Get Community Updates</h2>
+        </div>
+        <div class="content__newsletter-content">
+          <p>Sign up for our Kuma community newsletter to get the most recent updates and product announcements.</p>
+        </div>
+        <NewsletterForm />
+      </div>
+      <NewsletterWaves />
+    </div>
+    <!-- newsletter-form-wrap -->
     
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import NewsletterWaves from '@theme/components/custom/NewsletterWaves'
 
 export default {
   name: 'Install',
+  components: {
+    NewsletterWaves
+  },
+  mounted () {
+    console.log(this)
+  },
   methods: {
 
     ...mapMutations([
@@ -156,3 +178,17 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+  .content__newsletter-title h2 {
+    border: 0;
+  }
+  
+  .theme-container.no-sidebar:not(.is-home):not(.home) .page-footer {
+    margin-top: 0;
+  }
+  
+  .newsletter-form-wrap {
+    margin-top: 3rem;
+  }
+</style>
