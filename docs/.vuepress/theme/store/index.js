@@ -41,6 +41,9 @@ export default new Vuex.Store({
         return 'https://go.pardot.com/l/392112/2020-01-14/bkwzrx'
       }
     },
+    getInstallPageNewsletterFormEndpoint: () => {
+      return 'https://go.pardot.com/l/392112/2021-01-21/bp22j3'
+    },
     getCommunityCallFormEndpoint: () => {
       if (process.env.NODE_ENV === 'production') {
         return 'https://go.pardot.com/l/392112/2020-02-28/bl766m'

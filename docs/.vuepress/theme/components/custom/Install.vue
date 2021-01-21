@@ -81,7 +81,7 @@
         <div class="content__newsletter-content">
           <p>Sign up for our Kuma community newsletter to get the most recent updates and product announcements.</p>
         </div>
-        <NewsletterForm />
+        <NewsletterForm formHandler='getInstallPageNewsletterFormEndpoint' />
       </div>
       <NewsletterWaves />
     </div>
@@ -98,9 +98,6 @@ export default {
   name: 'Install',
   components: {
     NewsletterWaves
-  },
-  mounted () {
-    console.log(this)
   },
   methods: {
 
@@ -136,6 +133,7 @@ export default {
         // redirect to the latest release route
         this.$router.replace({
           path: '/install/latest/',
+          query: this.$route.query || null,
           meta: {
             version: this.getLatestRelease
           }
