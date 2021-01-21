@@ -40,7 +40,7 @@ aws cloudformation deploy \
 ### Installing the `kuma-cp`
 
 #### Control plane
-Depending on the desired setup, we can choose from Standalone or Multizone (Global plus Remote) control plane setup.
+Depending on the desired setup, we can choose from Standalone or multi-zone (Global plus Remote) control plane setup.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Standalone"
@@ -69,7 +69,7 @@ aws cloudformation deploy \
 
 :::
 ::: tab "Remote"
-Setting up a remote `kuma-cp` is a two step process. First, deploy the kuma-cp itself:
+Setting up a remote `kuma-cp` is a two-step process. First, deploy the `kuma-cp` itself:
 
 ```shell
 aws cloudformation deploy \
@@ -79,7 +79,22 @@ aws cloudformation deploy \
     --parameter-overrides AllowedCidr=0.0.0.0/0
 ```
 
-This tempalte will also deploy the Kuma Ingress which is needed for the cross-zone communication.
+Kuma Ingress DP is needed for the cross-zone communication. As every dataplane it needs a dataplane [token generated](/docs/1.0.5/installation/ecs/#generate-the-token)
+
+```shell
+ssh root@<kuma-cp-remote-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\", \"type\": \"ingress\"}' -qO- http://localhost:5681/tokens"
+```
+
+Then simply deploy the ingress itself:
+
+```shell
+aws cloudformation deploy \
+    --capabilities CAPABILITY_IAM \
+    --stack-name ingress \
+    --template-file remote-ingress.yaml \
+    --parameter-overrides \
+      DPToken="<token>"
+``````
 
 :::
 ::::
@@ -96,7 +111,7 @@ The example deployment above will allow access to the kuma-cp exposed services t
 Explore `kuma-cp.yaml` and `kuma-cp-remote.yaml` for the `ServerCert` and `ServerKey` parameters. The example includes pre-generated ones that will work in the simplest demo use-case. For production use we do recommend overriding these values with properly generated certificates with the DNS name in place.
 :::
 
-#### Removing the 
+#### Removing the Kuma control plane
 
 To remove the `kuma-cp` stack use (similarly for `kuma-cp-global` and `kuma-cp-remote`):
 ```shell
@@ -120,7 +135,7 @@ aws cloudformation deploy \
       DNSServer=<kuma-cp-ip>
 ```
 
-The `<kuma-cp-ip>`, shall be taken from the AWS ECS web console, it maybe both the public and the private IP. In case of a multizone deployment, we should use Remote CP IP.
+The `<kuma-cp-ip>`, shall be taken from the AWS ECS web console, it maybe both the public and the private IP. In case of a multi-zone deployment, we should use Remote CP IP.
 
 ::: tip
 We strongly recommend exposing the Kuma-CP instances behind a load balancer, and use that IP as the `DNSServer` parameter. This will ensure a more robust operation during upgrades, restarts and re-configurations. 
