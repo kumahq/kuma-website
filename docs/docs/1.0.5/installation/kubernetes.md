@@ -27,7 +27,7 @@ $ curl -L https://kuma.io/installer.sh | sh -
 ```
 
 :::
-::: tab "Manually"
+::: tab "Direct Link"
 
 You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access Kubernetes:
 
@@ -60,13 +60,31 @@ So we enter the `bin` folder by executing:
 $ cd kuma-1.0.5/bin
 ```
 
-And we can then proceed to install Kuma on Kubernetes with:
+Finally we can install and run Kuma in either **standalone** or **multi-zone** mode:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Standalone"
+
+Standalone mode is perfect when running Kuma in a single cluster across one environment:
 
 ```sh
 $ ./kumactl install control-plane | kubectl apply -f -
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/1.0.5/documentation/deployments/) like "multi-zone".
+To learn more, read about the [deployment modes available](/docs/1.0.5/documentation/deployments/).
+
+:::
+::: tab "Multi-Zone"
+
+Multi-zone mode is perfect when running one deployment of Kuma that spans across multiple Kubernetes clusters, clouds and VM environments under the same Kuma deployment. 
+
+This mode also supports hybrid Kubernetes + VMs deployments.
+
+To learn more, read the [multi-zone installation instructions](/docs/1.0.5/documentation/deployments/).
+
+:::
+::::
+
 
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 

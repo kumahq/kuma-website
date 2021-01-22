@@ -23,7 +23,12 @@ You can freely `docker pull` these images to start using Kuma, as we will demons
 
 ### 2. Run Kuma
 
-We can proceed to run Kuma with:
+Finally we can run Kuma in either **standalone** or **multi-zone** mode:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Standalone"
+
+Standalone mode is perfect when running Kuma in a single cluster across one environment:
 
 ```sh
 $ docker run \
@@ -31,7 +36,19 @@ $ docker run \
     kong-docker-kuma-docker.bintray.io/kuma-cp:1.0.5 run
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/1.0.5/documentation/deployments/) like "multi-zone".
+To learn more, read about the [deployment modes available](/docs/1.0.5/documentation/deployments/).
+
+:::
+::: tab "Multi-Zone"
+
+Multi-zone mode is perfect when running one deployment of Kuma that spans across multiple Kubernetes clusters, clouds and VM environments under the same Kuma deployment. 
+
+This mode also supports hybrid Kubernetes + VMs deployments.
+
+To learn more, read the [multi-zone installation instructions](/docs/1.0.5/documentation/deployments/).
+
+:::
+::::
 
 ::: tip
 **Note**: By default this will run Kuma with a `memory` [backend](../../documentation/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
