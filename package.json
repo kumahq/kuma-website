@@ -20,7 +20,7 @@
     "@kongponents/ktabs": "^0.1.2",
     "@kongponents/styles": "^0.2.0",
     "animejs": "^3.1.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "core-js": "^3.2.1",
     "dayjs": "^1.8.26",
     "dotenv": "^8.2.0",
