@@ -12,7 +12,7 @@ proxy will explicitly send requests to other data plane proxies (as described in
 
 As usual, we can apply `sources` and `destinations` selectors to determine how health-checks will be performed across our data plane proxies.
 
-`HealthCheck` policy supports L4/TCP (default) and L7/HTTP checks
+The `HealthCheck` policy supports both L4/TCP (default) and L7/HTTP checks.
 
 ### Examples
 
