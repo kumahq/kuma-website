@@ -57,7 +57,7 @@ conf:
 :::
 ::::
 
-### Usage
+## Usage
 
 By default when a service makes a request to another service, Kuma will round robin the request across every data plane proxy belogning to the destination service. It is possible to change this behavior by using this policy, for example:
 
@@ -126,7 +126,7 @@ Note that routing can be applied not just on the automatically provisioned `serv
 
 Kuma utilizes positive weights in the `TrafficRoute` policy and not percentages, therefore Kuma does not check if the total adds up to 100. If we want to stop sending traffic to a destination service we change the `weight` for that service to 0.
 
-### Load balancer types
+## Load balancer types
 
 There are different load balancing algorithms that can be used to determine how traffic is routed to the destinations. By default `TrafficRoute` uses the `roundRobin` load balancer, but more options are available:
 
@@ -136,7 +136,7 @@ There are different load balancing algorithms that can be used to determine how 
 
   ```yaml
   loadBalancer:
-   roundRobin: {}
+    roundRobin: {}
   ```
 
 * `leastRequest` uses different algorithms depending on whether the hosts have the same or different weights. It has a single configuration field `choiceCount`, which denotes the number of random healthy hosts from which the host with the fewer active requests will be chosen.

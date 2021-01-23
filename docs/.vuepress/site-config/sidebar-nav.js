@@ -2040,5 +2040,107 @@ module.exports = {
         "other/license"
       ]
     }
+  ],
+  "/docs/1.0.6/": [
+    {
+      title: "Overview",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "overview/what-is-kuma",
+        "overview/what-is-a-service-mesh",
+        "overview/why-kuma",
+        "overview/kuma-vs-xyz",
+        "overview/vm-and-k8s-support"
+      ]
+    },
+    {
+      title: "Quickstart",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "quickstart/kubernetes",
+        "quickstart/universal"
+      ]
+    },
+    {
+      title: "Documentation",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "documentation/introduction",
+        "documentation/overview",
+        "documentation/backends",
+        "documentation/dependencies",
+        "documentation/deployments",
+        "documentation/dps-and-data-model",
+        "documentation/transparent-proxying",
+        "documentation/cli",
+        "documentation/gui",
+        "documentation/http-api",
+        "documentation/security",
+        "documentation/secrets",
+        "documentation/networking",
+        "documentation/fine-tuning"
+      ]
+    },
+    {
+      title: "Policies",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "policies/introduction",
+        "policies/general-notes-about-kuma-policies",
+        "policies/applying-policies",
+        "policies/how-kuma-chooses-the-right-policy-to-apply",
+        "policies/protocol-support-in-kuma",
+        "policies/mesh",
+        "policies/mutual-tls",
+        "policies/traffic-permissions",
+        "policies/traffic-route",
+        "policies/traffic-metrics",
+        "policies/traffic-trace",
+        "policies/traffic-log",
+        "policies/locality-aware",
+        "policies/fault-injection",
+        "policies/health-check",
+        "policies/circuit-breaker",
+        "policies/proxy-template",
+        "policies/external-services",
+        "policies/retry",
+      ]
+    },
+    {
+      title: "Install",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "installation/kubernetes",
+        "installation/helm",
+        "installation/openshift",
+        "installation/docker",
+        "installation/redhat",
+        "installation/centos",
+        "installation/amazonlinux",
+        "installation/debian",
+        "installation/ubuntu",
+        "installation/macos",
+      ]
+    },
+    {
+      title: "Other",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "other/enterprise",
+        "other/license"
+      ]
+    }
   ]
 }

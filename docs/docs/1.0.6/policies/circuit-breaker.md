@@ -19,7 +19,7 @@ Available detectors:
 - [Standard Deviation](#standard-deviation)
 - [Failures](#failures)
 
-### Usage
+## Usage
 
 As usual, we can apply `sources` and `destinations` selectors to determine how circuit breakers will be applied across our data plane proxies.
 
@@ -149,16 +149,16 @@ In this example when we get five errors in a row of any type (`5` is default Env
 In the current version of Kuma `destinations` only supports the `service` tag.
 :::
 
-#### interval
+### interval
 Time interval between ejection analysis sweeps. Defaults to 10s.
 
-#### baseEjectionTime
+### baseEjectionTime
 The base time that a data plane proxy is ejected for. The real time is equal to the base time multiplied by the number of times the data plane proxy has been ejected. Defaults to 30s.
 
-#### maxEjectionPercent
+### maxEjectionPercent
 The maximum percent of an upstream Envoy cluster that can be ejected due to outlier detection. Defaults to 10% but will eject at least one data plane proxy regardless of the value.
 
-#### splitExternalAndLocalErrors
+### splitExternalAndLocalErrors
 
 Activates Split Mode.
 
@@ -171,29 +171,29 @@ Activates Split Mode.
 If Split Mode is off, Kuma won't distinguish errors by their origin and they will be counted together. If Split Mode is on, different parameters can be used to fine tune the detectors. All detectors counts errors according to the state of this parameter. 
 :::
 
-### Detectors
+## Detectors
 
 Below is a list of available detectors that can be configured in Kuma.
 
-#### Total Errors
+### Total Errors
 
 Errors with status code 5xx and locally originated errors, in Split Mode just errors with status code 5xx. 
 
 - `consecutive` - how many consecutive errors in a row will trigger the detector. Defaults to `5`.
 
-#### Gateway Errors
+### Gateway Errors
 
 Subset of [totalErrors](#total-errors) related to gateway errors (502, 503 or 504 status code).
 
 - `consecutive` - how many consecutive errors in a row will trigger the detector. Defaults to `5`.
 
-#### Local Errors
+### Local Errors
 
 Taken into account only in Split Mode, number of locally originated errors.
 
 - `consecutive` - how many consecutive errors in a row will trigger the detector. Defaults to `5`.
 
-#### Standard Deviation
+### Standard Deviation
 
 Detection based on success rate, aggregated from every data plane proxy in the Envoy cluster.
 
@@ -201,7 +201,7 @@ Detection based on success rate, aggregated from every data plane proxy in the E
 - `minimumHosts` - ignore counting the success rate for an Envoy cluster if the number of data plane proxies with required `requestVolume` is less than `minimumHosts`. Defaults to `5`.
 - `factor` - resulting threshold equals to `mean - (stdev * factor)`. Defaults to `1.9`.
 
-#### Failures
+### Failures
 
 Detection based on success rate with an explicit threshold (unlike [standardDeviation](#standard-deviation)).
 

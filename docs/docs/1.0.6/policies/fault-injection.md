@@ -3,6 +3,8 @@
 `FaultInjection` policy helps you to test your microservices against resiliency. Kuma provides 3 different types of failures that could be imitated in your environment. 
 These faults are [Delay](#delay), [Abort](#abort) and [ResponseBandwidth](#responsebandwidth-limit) limit.
 
+## Usage
+
 On Universal:
 
 ```yaml

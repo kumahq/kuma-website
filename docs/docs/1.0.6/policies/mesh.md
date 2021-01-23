@@ -23,7 +23,7 @@ Besides the ability of being able to create virtual service mesh, a `Mesh` resou
 
 When [Mutual TLS](/docs/1.0.6/policies/mutual-tls/) is enabled in `builtin` mode, each `Mesh` will provision its own CA root certificate and key unless we explicitly decide to use the same CA by sharing the same certificate and key across multiple meshes. When the CAs of our Meshes are different, data plane proxies from one `Mesh` will not be able to consume data plane proxies belonging to another `Mesh` and an intermediate API Gateway must be used in order to enable cross-mesh communication. Kuma supports a [gateway mode](/docs/1.0.6/documentation/dps-and-data-model/#gateway) to make this happen.
 
-### Usage
+## Usage
 
 The easiest way to create a `Mesh` is to specify its `name`. The name of a Mesh must be unique.
 
