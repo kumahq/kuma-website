@@ -1,6 +1,6 @@
 # External Service
 
-This policy enables consuming services that are not part of the mesh from services running inside it. The default [passthrough](/docs/1.0.5/policies/mesh/#controlling-the-passthrough-mode) cluster will allow for accessing any non-mesh host by its domain name or IP address. As the name of the feature suggests, this pattern leaves the mesh administrator with no tools to aply any policies for such traffic. Therefore, ExternalService resource allows for declaring the desired external resource as a named service within the mesh and enabling the observability, security and traffic manipulation similar to any other service in the mesh.
+This policy enables consuming services that are not part of the mesh from services running inside it. The default [passthrough](/docs/1.0.6/policies/mesh/#controlling-the-passthrough-mode) cluster will allow for accessing any non-mesh host by its domain name or IP address. As the name of the feature suggests, this pattern leaves the mesh administrator with no tools to aply any policies for such traffic. Therefore, ExternalService resource allows for declaring the desired external resource as a named service within the mesh and enabling the observability, security and traffic manipulation similar to any other service in the mesh.
 
 ## The ExternalService resource
 

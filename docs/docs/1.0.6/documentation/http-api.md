@@ -2481,7 +2481,7 @@ curl http://localhost:5681/service-insights
 
 ## Multi-zone
 
-These APIs are available on the `Global` control plane, when running in a distributed [multi-zone mode](/docs/1.0.5/documentation/deployments/).
+These APIs are available on the `Global` control plane, when running in a distributed [multi-zone mode](/docs/1.0.6/documentation/deployments/).
 
 ### Zones status
 Request: `GET /status/zones`

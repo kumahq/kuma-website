@@ -90,7 +90,7 @@ conf:
     maxConnectAttempts: 3
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.5/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.6/documentation/http-api).
 :::
 ::::
 
