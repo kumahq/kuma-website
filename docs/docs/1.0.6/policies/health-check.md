@@ -12,12 +12,15 @@ proxy will explicitly send requests to other data plane proxies (as described in
 
 As usual, we can apply `sources` and `destinations` selectors to determine how health-checks will be performed across our data plane proxies.
 
-At the moment, the `HealthCheck` policy supports L4 checks that validate the health status of the underlying TCP connections.
+The `HealthCheck` policy supports both L4/TCP (default) and L7/HTTP checks.
 
-Below an example:
+### Examples
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
+
+**TCP**
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: HealthCheck
@@ -36,11 +39,52 @@ spec:
     timeout: 2s
     unhealthyThreshold: 3
     healthyThreshold: 1
+    tcp:
+      send: Zm9v
+      receive:
+      - YmFy
+      - YmF6
+```
+
+**HTTP**
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: HealthCheck
+mesh: default
+metadata:
+  name: web-to-backend-check
+spec:
+  sources:
+  - match:
+      kuma.io/service: web
+  destinations:
+  - match:
+      kuma.io/service: backend
+  conf:
+    interval: 10s
+    timeout: 2s
+    unhealthyThreshold: 3
+    healthyThreshold: 1
+    http:
+      path: /health
+      requestHeadersToAdd:
+      - append: false
+        header:
+          key: Content-Type
+          value: application/json
+      - header:
+          key: Accept
+          value: application/json
+      expectedStatuses: [200, 201]
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 :::
 
 ::: tab "Universal"
+
+**TCP**
+
 ```yaml
 type: HealthCheck
 name: web-to-backend-check
@@ -56,8 +100,74 @@ conf:
   timeout: 2s
   unhealthyThreshold: 3
   healthyThreshold: 1
+  tcp:
+    send: Zm9v
+    receive:
+    - YmFy
+    - YmF6
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.6/documentation/http-api).
+**HTTP**
+
+```yaml
+type: HealthCheck
+name: web-to-backend-check
+mesh: default
+sources:
+- match:
+    kuma.io/service: web
+destinations:
+- match:
+    kuma.io/service: backend
+conf:
+  interval: 10s
+  timeout: 2s
+  unhealthyThreshold: 3
+  healthyThreshold: 1
+  http:
+    path: /health
+    requestHeadersToAdd:
+    - append: false
+      header:
+        key: Content-Type
+        value: application/json
+    - header:
+        key: Accept
+        value: application/json
+    expectedStatuses: [200, 201]
+```
+
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.3/documentation/http-api).
 :::
 ::::
+
+### HTTP
+
+HTTP health checks are executed using HTTP 2
+
+- **`path`** - HTTP path which will be requested during the health checks
+- **`expectedStatuses`** (optional) - list of status codes which should be
+  considered as a healthy during the checks
+  - only statuses in the range `[100, 600)` are allowed
+  - by default, when this property is not provided only responses with
+    status code `200` are being considered healthy
+- **`requestHeadersToAdd`** (optional) - list of headers which should be
+  added to every health check request:
+  - **`append`** (default, optional) - should the value of the provided
+    header be appended to already existing headers (if present)
+  - **`header`**:
+    - **`key`** - the name of the header
+    - **`value`** (optional) - the value of the header
+
+### TCP
+
+- **`send`** - Base64 encoded content of the message which should be
+  sent during the health checks
+- **`receive`** list of Base64 encoded blocks of strings which should be
+  found in the returning message which should be considered as healthy
+  - when checking the response, “fuzzy” matching is performed such that
+    each block must be found, and in the order specified, but not
+    necessarily contiguous;
+  - if **`receive`** section won't be provided or will be empty, checks
+    will be performed as "connect only" and will be marked as successful
+    when TCP connection will be successfully established.

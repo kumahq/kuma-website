@@ -932,7 +932,30 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
   "interval": "10s",
   "timeout": "2s",
   "unhealthyThreshold": 3,
-  "healthyThreshold": 1
+  "healthyThreshold": 1,
+  "http": {
+   "path": "/health",
+   "requestHeadersToAdd": [
+    {
+     "append": false,
+     "header": {
+      "key": "Content-Type",
+      "value": "application/json"
+     }
+    },
+    {
+     "header": {
+      "key": "Accept",
+      "value": "application/json"
+     }
+    }
+   ],
+   "expectedStatuses": [
+    200,
+    201
+   ],
+   "useHttp1": true
+  }
  }
 }
 ```
@@ -969,7 +992,30 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend --da
   "interval": "10s",
   "timeout": "2s",
   "unhealthyThreshold": 3,
-  "healthyThreshold": 1
+  "healthyThreshold": 1,
+  "http": {
+   "path": "/health",
+   "requestHeadersToAdd": [
+    {
+     "append": false,
+     "header": {
+      "key": "Content-Type",
+      "value": "application/json"
+     }
+    },
+    {
+     "header": {
+      "key": "Accept",
+      "value": "application/json"
+     }
+    }
+   ],
+   "expectedStatuses": [
+    200,
+    201
+   ],
+   "useHttp1": true
+  }
  }
 }
 ```
@@ -1010,7 +1056,30 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
     "interval": "10s",
     "timeout": "2s",
     "unhealthyThreshold": 3,
-    "healthyThreshold": 1
+    "healthyThreshold": 1,
+    "http": {
+     "path": "/health",
+     "requestHeadersToAdd": [
+      {
+       "append": false,
+       "header": {
+        "key": "Content-Type",
+        "value": "application/json"
+       }
+      },
+      {
+       "header": {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      }
+     ],
+     "expectedStatuses": [
+      200,
+      201
+     ],
+     "useHttp1": true
+    }
    }
   }
  ],
