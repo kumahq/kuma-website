@@ -1,18 +1,27 @@
-// 
+//
 // Typography
-// 
+//
 
 // Headings
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: $base-heading-font-family;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: $fw-medium;
 }
 
-h5, h6 {
+h5,
+h6 {
   font-weight: $fw-bold;
 }
 
@@ -31,38 +40,34 @@ a {
   color: $color-5;
 
   &:hover {
-
   }
 
   &:active {
-
   }
 
   &:focus {
-
   }
 
   &:visited {
-
   }
 }
 
 // Code blocks
 
-div[class*="language-"].line-numbers-mode pre {
+div[class*='language-'].line-numbers-mode pre {
   // small fix for an invalid style attribute on the core VuePress styles
   padding-left: 4.5rem;
 }
 
-div[class*="language-"] {
+div[class*='language-'] {
   background-color: $codeBgColor;
   color: #333;
 
   &::before {
     position: absolute;
     z-index: 3;
-    top: .35em;
-    right: .8em;
+    top: 0.35em;
+    right: 0.8em;
     font-size: 0.75rem;
     color: #888;
   }
@@ -80,17 +85,19 @@ div[class*="language-"] {
   }
 }
 
-#{$contentClass} code {
-  font-size: inherit;
-}
+#{$contentClass},
+#{$blogIndexContentClass},
+#{$blogDetailContentClass} {
+  code {
+    font-size: inherit;
+  }
 
-#{$contentClass} {
   pre,
-  div[class*="language-"] {
+  div[class*='language-'] {
     background-color: $codeBgColor;
 
     code {
-      font-size: .9rem;
+      font-size: 0.9rem;
       line-height: 1.5;
       color: #333;
     }
@@ -98,13 +105,13 @@ div[class*="language-"] {
 }
 
 // shell label
-div[class~="language-sh"]:before {
-  content: "sh";
+div[class~='language-sh']:before {
+  content: 'sh';
 }
 
 // yaml label
-div[class~="language-yaml"]:before {
-  content: "yaml";
+div[class~='language-yaml']:before {
+  content: 'yaml';
 }
 
 // Images
