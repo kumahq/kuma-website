@@ -239,6 +239,11 @@ spec:
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
+::: tip
+NOTE: During the creation of the [`Dataplane`](#dataplane-entity) entity, the Kuma control plane will generate a dataplane tag `kuma.io/service: <name>_<namespace>_svc_<port>` fetching `<name>`, `<namespace>` and `<port>` from the Kubernetes service that is associated with the particular pod.
+However, when a pod is spawned without exposing a particular service, it may not be associated with any Kubernetes Service resource. In that case, Kuma control plane will generate a dataplane tag `kuma.io/service: <name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the Pod resource itself omitting the port.   
+:::
+
 ## Kubernetes Probes
 
 Kuma natively supports the `httpGet` Kubernetes probes. By default, Kuma overrides the specified probe with a virtual one. For example, if we specify the following probe:
