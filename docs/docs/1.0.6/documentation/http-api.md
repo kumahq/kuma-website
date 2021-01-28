@@ -487,6 +487,32 @@ curl http://localhost:5681/mesh-insights/default
   "TrafficRoute": {
    "total": 1
   }
+ },
+ "dpVersions": {
+  "kumaDp": {
+   "1.0.0-rc2-119-g50e35395": {
+    "total": 1,
+    "online": 1
+   },
+   "1.0.4": {
+    "total": 1,
+    "online": 1
+   },
+   "unknown": {
+    "total": 1,
+    "online": 1
+   }
+  },
+  "envoy": {
+   "1.15.0": {
+    "total": 2,
+    "online": 2
+   },
+   "unknown": {
+    "total": 1,
+    "online": 1
+   }
+  }
  }
 }
 ```
