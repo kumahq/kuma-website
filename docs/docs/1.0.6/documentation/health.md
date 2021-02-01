@@ -1,9 +1,9 @@
 # Health checks
 
 Health is an extremely important part of the microservice architecture, load balancers rely on the 
-health status of the application while picking endpoint from load balancer set. Also, users want the application state to be 
-observable through the GUI or CLI. Orchestrators like Kubernetes also want to know the application status to manage 
-lifecycle of the application. 
+health status of the service while picking endpoint from load balancer set. Also, users want the service state to be 
+observable through the GUI or CLI. Orchestrators like Kubernetes also want to know the service status to manage 
+lifecycle of the containers. 
 
 Kuma supports several aspects of the health checking. There are two policies which allows configuring active and passive
 health checks:
@@ -31,7 +31,7 @@ networking:
         kuma.io/protocol: http
 ```
 
-This `health.ready` status is intended to show the status of the application itself. It is set differently depending on 
+This `health.ready` status is intended to show the status of the service itself. It is set differently depending on 
 the environment ([Kubernetes](#kubernetes-probes) or [Universal](#universal-probes)), but it's treated the same way 
 regardless of the environment:
 
@@ -118,10 +118,10 @@ The same behaviour could be configured using environment variables:
 
 ## Universal probes
 
-On Universal there is no single standard for probing the application. For health checking of the application status on
+On Universal there is no single standard for probing the service. For health checking of the service status on
 Universal Kuma is using Envoy's Health Discovery Service (HDS). Envoy does health checks and reports the status back to Kuma Control Plane.
 
-In order to configure health checking of your application you have to update `inbound` config with `serviceProbe`:
+In order to configure health checking of your service you have to update `inbound` config with `serviceProbe`:
 
 ```yaml
 type: Dataplane
