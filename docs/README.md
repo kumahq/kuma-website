@@ -21,11 +21,11 @@ whyUrl: /policies/
 
 # tabs
 tabs:
-  - hash: "#kubernetes"
+  - hash: '#kubernetes'
     title: Kubernetes
-  - hash: "#openshift"
+  - hash: '#openshift'
     title: OpenShift
-  - hash: "#universal"
+  - hash: '#universal'
     title: Universal (VMs)
 ---
 
@@ -191,6 +191,20 @@ Designed for the enterprise architect, Kuma ships with a native multi-mesh suppo
 
 ::: slot feature-focus-2-diagram
 ![Diagram outlining one cluster for the entire organization](/images/diagrams/v3/diagram-one-cluster-new@2x.png)
+:::
+
+<!-- case studies -->
+
+::: slot case-studies-logo-1
+![MS3 logo](/images/ms3-logo.png)
+:::
+
+::: slot case-studies-content-1
+We chose Kong Mesh in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two.
+:::
+
+::: slot case-studies-cite-1
+Aaron Weikle, CEO of MS3
 :::
 
 <!-- newsletter -->

@@ -121,6 +121,26 @@
       </div>
     </div>
     <!-- .feature-focus-wrap -->
+    
+    <div class="case-studies">
+      <div class="inner">
+        <blockquote class="lg:grid lg:grid-rows-2 lg:grid-flow-col lg:gap-4 lg:col-gap-4 lg:row-gap-4 px-8 lg:px-0">
+          <Content
+            slot-key="case-studies-logo-1"
+            class="case-studies__logo lg:row-span-3 mx-auto text-center"
+          />
+          <Content
+            slot-key="case-studies-content-1"
+            class="case-studies__content lg:col-span-3"
+          />
+          <Content
+            slot-key="case-studies-cite-1"
+            class="case-studies__author lg:row-span-2 lg:col-span-3 mt-4 lg:mt-0"
+          />
+        </blockquote>
+      </div>
+    </div>
+    <!-- .case-studies -->
 
     <div class="newsletter-form-wrap">
       <div class="inner newsletter-form">
