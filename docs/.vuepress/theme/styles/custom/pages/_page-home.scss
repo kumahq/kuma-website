@@ -84,7 +84,8 @@ $home-feature-icon-bottom-spacing: 1rem;
 
   // this places the waves properly
   position: relative;
-  padding-bottom: 18rem;
+  // padding-bottom: 18rem;
+  padding-bottom: 8rem;
 
   .inner {
     position: relative;
@@ -789,7 +790,8 @@ $home-feature-icon-bottom-spacing: 1rem;
 
 @media (min-width: $MQLarge) {
   #page-masthead-waves {
-    transform: translateX(15vw) translateY(-200px);
+    transform: translateX(15vw) translateY(-315px);
+    // transform: translateX(15vw) translateY(-200px);
   }
 
   .steps-items__content {
