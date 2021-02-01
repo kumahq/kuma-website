@@ -1,15 +1,17 @@
 # Health checks
 
-Health is an extremely important part of the microservice architecture for various reasons. Load balancers rely on the 
-health status of the application while picking endpoint from load balancer set. Users want the application state to be 
+Health is an extremely important part of the microservice architecture, load balancers rely on the 
+health status of the application while picking endpoint from load balancer set. Also, users want the application state to be 
 observable through the GUI or CLI. Orchestrators like Kubernetes also want to know the application status to manage 
 lifecycle of the application. 
 
-Kuma supports several aspects of the health checking. There are two policies which allows configuring active and passive:
+Kuma supports several aspects of the health checking. There are two policies which allows configuring active and passive
+health checks:
 [Health Check](../policies/health-check.md) and [Circuit Breaker](../policies/circuit-breaker.md).
 
 Kuma is able to track the status of the Envoy proxy. If grpc stream with Envoy is disconnected then Kuma considers this 
-proxy as offline. 
+proxy as offline, but we still send the traffic regardless of that, because this status is designed to track the connection
+between `kuma-cp` and `kuma-dp`. 
 
 Also, every `inbound` in the Dataplane model has `health` section:
 
@@ -33,6 +35,12 @@ This `health.ready` status is intended to show the status of the application its
 the environment ([Kubernetes](#kubernetes-probes) or [Universal](#universal-probes)), but it's treated the same way 
 regardless of the environment:
 
+- if `health.ready` is true or `health` section is missing - Kuma considers the inbound as healthy and includes it 
+  into load balancing set.
+- if `health.ready` is false -  Kuma doesn't include the inbound into load balancing set.
+
+Also, `health.ready` is used to compute the status of the Dataplanes and Service. You can see these statuses both in Kuma GUI and Kuma CLI:
+
 - if proxy status is `Offline`, then Dataplane is `Offline`:
 - if proxy status is `Online`:
   - if all inbounds are ready then Dataplane is `Online`
@@ -45,7 +53,11 @@ regardless of the environment:
 
 ## Kubernetes probes
 
-Kuma natively supports the `httpGet` Kubernetes probes. By default, Kuma overrides the specified probe with a virtual one. For example, if we specify the following probe:
+Even if Kubernetes probes are disabled, Kuma takes `pod.status.containerStatuses.ready` in order to fill `dataplane.inbound.health` section.
+
+If you specify `httpGet` probe for the Pod, Kuma will generate a special non-MTLs listener and overrides the probe itself in 
+the Pod resource. This feature is called Virtual probes, and it allows `kubelet` probing the pod status even if MTLS is enabled on the mesh. 
+For example, if we specify the following probe:
 
 ```yaml
 livenessProbe:
@@ -82,25 +94,27 @@ annotations:
   kuma.io/virtual-probes-port: 19001
 ```
 
-To disable Kuma's probe virtualziation, we can either set it in Kuma's configuration gile `kuma-cp.config`:
+To disable Kuma's probe virtualziation, we can either set it in Kuma's configuration file `kuma-cp.config`:
 
 ```yaml
 runtime:
   kubernetes:
     injector:
-      virtualProbesEnabled: true
+      virtualProbesEnabled: false
 ```
 
 or in the Pod's annotations:
 
 ```yaml
 annotations:
-  kuma.io/virtual-probes: enabled
+  kuma.io/virtual-probes: disabled
 ```
 
-:::tip
-Even if virtual probes are disabled Kuma takes `pod.status.containerStatuses.ready` in order to fill `dataplane.inbound.health` section.
-:::
+The same behaviour could be configured using environment variables: 
+
+- `KUMA_RUNTIME_KUBERNETES_VIRTUAL_PROBES_ENABLED=false`
+- `KUMA_RUNTIME_KUBERNETES_VIRTUAL_PROBES_ENABLED=19001`
+
 
 ## Universal probes
 
@@ -119,42 +133,24 @@ networking:
     - port: 11011
       servicePort: 11012
       serviceProbe:
-        timeout: 2s
-        interval: 1s
-        healthyThreshold: 1
-        unhealthThreshold: 1
+        timeout: 2s # optional (default value is taken from KUMA_DP_SERVER_HDS_CHECK_TIMEOUT)
+        interval: 1s # optional (default value is taken from KUMA_DP_SERVER_HDS_CHECK_INTERVAL)
+        healthyThreshold: 1 # optional (default value is taken from KUMA_DP_SERVER_HDS_CHECK_HEALTHY_THRESHOLD)
+        unhealthThreshold: 1 # optional (default value is taken from KUMA_DP_SERVER_HDS_CHECK_UNHEALTHY_THRESHOLD)
         tcp: {}
       tags:
         kuma.io/service: backend
         kuma.io/protocol: http
 ```
 
-`Timeout`, `Interval`, `HealthyThreshold` and `UnhealthyThreshold` are optional. Default values for them are configured in kuma-cp config:
+If there is a `serviceProbe` configured for the inbound, Kuma will automatically fill the `health` section and update it 
+with interval equal to `KUMA_DP_SERVER_HDS_REFRESH_INTERVAL`. Alternatively, it's possible to omit a `serviceProbe` section and develop custom
+automation that periodically updates the `health` of the inbound.
 
-```yaml
-# Dataplane Server configuration that servers API like Bootstrap/XDS/SDS for the Dataplane.
-dpServer:
-  ...
-  hds:
-    # Enabled if true then Envoy will actively check application's ports, but only on Universal.
-    # On Kubernetes this feature disabled for now regardless the flag value
-    enabled: true # ENV: KUMA_DP_SERVER_HDS_ENABLED
-    # Interval for Envoy to send statuses for HealthChecks
-    interval: 5s # ENV: KUMA_DP_SERVER_HDS_INTERVAL
-    # RefreshInterval is an interval for re-genarting configuration for Dataplanes connected to the Control Plane
-    refreshInterval: 10s # ENV: KUMA_DP_SERVER_HDS_REFRESH_INTERVAL
-    # Check defines a HealthCheck configuration
-    checkDefaults:
-      # Timeout is a time to wait for a health check response. If the timeout is reached the
-      # health check attempt will be considered a failure
-      timeout: 2s # ENV: KUMA_DP_SERVER_HDS_CHECK_TIMEOUT
-      # Interval between health checks
-      interval: 1s # ENV: KUMA_DP_SERVER_HDS_CHECK_INTERVAL
-      # NoTrafficInterval is a special health check interval that is used when a cluster has
-      #	never had traffic routed to it
-      noTrafficInterval: 1s # ENV: KUMA_DP_SERVER_HDS_CHECK_NO_TRAFFIC_INTERVAL
-      # HealthyThreshold is a number of healthy health checks required before a host is marked healthy
-      healthyThreshold: 1 # ENV: KUMA_DP_SERVER_HDS_CHECK_HEALTHY_THRESHOLD
-      # UnhealthyThreshold is a number of unhealthy health checks required before a host is marked unhealthy
-      unhealthyThreshold: 1 # ENV: KUMA_DP_SERVER_HDS_CHECK_UNHEALTHY_THRESHOLD
-```
+Comparing to `HealthCheck` policy `serviceProbes` have some advantages:
+- knowledge about health is propagated back to `kuma-cp` and could be seen both in Kuma GUI and Kuma CLI
+- scalable with thousands of Dataplanes
+
+but at the same time unlike `HealthCheck` policy `serviceProbes`:
+- works only when `kuma-cp` is up and running
+- can't check TLS between Envoys
