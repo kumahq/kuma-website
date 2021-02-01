@@ -194,7 +194,7 @@ You can now explore the dashboards and see the metrics being populated over time
 **Protip**: Use `#kumamesh` on Twitter to chat about Kuma.
 :::
 
-Congratulations! You have completed the quickstart for Kubernetes, but there is so much more that you can do with Kuma:
+Congratulations! You have completed the quickstart for Universal mode, but there is so much more that you can do with Kuma:
 
 * Explore the [Policies](/policies) available to govern and orchestrate your service traffic.
 * Read the [full documentation](/docs) to learn about all the capabilities of Kuma.
