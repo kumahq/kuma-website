@@ -29,9 +29,9 @@
         </div>
         <!-- .page-masthead -->
 
-        <!-- <div class="page-masthead__diagram w-full lg:w-1/2 px-4">
+        <div class="page-masthead__diagram w-full lg:w-1/2 px-4">
           <Content slot-key="masthead-diagram" />
-        </div> -->
+        </div>
       </div>
       <!-- .inner -->
 
@@ -57,31 +57,42 @@
       <!-- .inner -->
     </div>
     <!-- .features-wrap -->
-
-    <div v-if="$page.frontmatter.showTestimonial" class="testimonial-wrap">
-      <div class="inner testimonial">
-        <blockquote class="testimonial__content-wrap">
-          <Content slot-key="testimonial-content" />
-          <div class="testimonial__cite">
-            <div
-              v-if="$page.frontmatter.testimonialPortraitSrc"
-              class="testimonial__portrait"
-            >
-              <img
-                :src="$page.frontmatter.testimonialPortraitSrc"
-                :alt="$page.frontmatter.testimonialPortraitAlt"
-              />
-            </div>
-            <cite>
-              <Content slot-key="testimonial-author" />
-              <Content slot-key="testimonial-author-info" />
-            </cite>
-          </div>
-        </blockquote>
+    
+    <div v-if="$page.frontmatter.showTestimonial && testimonials.length" class="testimonials-carousel-wrap">
+      <div class="inner">
+        <ClientOnly>
+          <carousel
+            :loop="$page.frontmatter.testimonialCarouselLoop || false"
+            :perPage="1"
+            :autoplay="$page.frontmatter.testimonialCarouselAutoplay || false"
+            :autoplayTimeout="$page.frontmatter.testimonialCarouselTiming || 3000"
+            :autoPlayHoverPause="true"
+            :navigationEnabled="true"
+            navigationNextLabel="→"
+            navigationPrevLabel="←"
+          >
+            <slide v-for="item in testimonials" class="testimonial">
+              <blockquote class="lg:grid lg:grid-flow-col lg:gap-4 lg:col-gap-4 lg:row-gap-2 px-8 lg:px-0">
+                <div class="testimonial__image lg:row-span-2 lg:row-start-1 mx-auto text-center">
+                  <img
+                    :src="item.image"
+                    :alt="item.alt"
+                  />
+                </div>
+                <div class="testimonial__content lg:col-span-2">
+                  <p>{{ item.content }}</p>
+                </div>
+                <cite class="testimonial__author lg:row-span-1 lg:col-span-2 mt-4 lg:mt-0">
+                  {{ item.author }}, {{ item.title }}
+                </cite>
+              </blockquote>
+            </slide>
+          </carousel>
+        </ClientOnly>
       </div>
-      <!-- .inner -->
+      <!-- /.inner -->
     </div>
-    <!-- .testimonial-wrap -->
+    <!-- /.testimonials-carousel-wrap -->
 
     <div class="feature-focus-wrap">
       <div class="feature-focus feature-focus__tabs" v-if="tabs">
@@ -121,26 +132,6 @@
       </div>
     </div>
     <!-- .feature-focus-wrap -->
-    
-    <div class="case-studies">
-      <div class="inner">
-        <blockquote class="lg:grid lg:grid-rows-2 lg:grid-flow-col lg:gap-4 lg:col-gap-4 lg:row-gap-4 px-8 lg:px-0">
-          <Content
-            slot-key="case-studies-logo-1"
-            class="case-studies__logo lg:row-span-3 mx-auto text-center"
-          />
-          <Content
-            slot-key="case-studies-content-1"
-            class="case-studies__content lg:col-span-3"
-          />
-          <Content
-            slot-key="case-studies-cite-1"
-            class="case-studies__author lg:row-span-2 lg:col-span-3 mt-4 lg:mt-0"
-          />
-        </blockquote>
-      </div>
-    </div>
-    <!-- .case-studies -->
 
     <div class="newsletter-form-wrap">
       <div class="inner newsletter-form">
@@ -161,17 +152,23 @@ import Navbar from '@theme/components/Navbar'
 import MastheadWaves from '@theme/components/custom/PageMastheadWaves'
 import NewsletterWaves from '@theme/components/custom/NewsletterWaves'
 import KTabs from '../../../../../node_modules/@kongponents/ktabs/KTabs'
+import { Carousel, Slide } from 'vue-carousel'
 
 export default {
   components: {
     Navbar,
     MastheadWaves,
     NewsletterWaves,
-    KTabs
+    KTabs,
+    Carousel,
+    Slide
   },
   computed: {
     tabs () {
       return this.$page.frontmatter.tabs || null
+    },
+    testimonials () {
+      return this.$page.frontmatter.testimonials || null
     },
   },
 }

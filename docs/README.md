@@ -10,8 +10,6 @@ meta:
     content: service mesh microservices open-source
 
 # custom page data
-testimonialPortraitSrc: /images/luca-maraschi-cropped@2x.png
-testimonialPortraitAlt: Portrait photo of Luca Maraschi
 showTestimonial: true # change this to `true` if you want to display the testimonial
 showNews: true # change this to `true` if you want to display the news bar
 startText: Get Started
@@ -27,6 +25,22 @@ tabs:
     title: OpenShift
   - hash: '#universal'
     title: Universal (VMs)
+
+# testimonials
+testimonialCarouselTiming: 5000
+testimonialCarouselLoop: false
+testimonialCarouselAutoplay: false
+testimonials:
+  - content: 'Kuma reduces complexity and accelerates service reliability with an Envoy-based Service Mesh'
+    author: 'Luca Maraschi'
+    title: 'Chief Architect at Telus Digital'
+    image: '/images/luca-maraschi-cropped@2x.png'
+    alt: 'Portrait photo of Luca Maraschi'
+  - content: 'We chose Kong Mesh in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two.'
+    author: 'Aaron Weikle'
+    title: 'CEO of MS3'
+    image: '/images/ms3-logo.png'
+    alt: 'Logo for MS3'
 ---
 
 ::: slot news
@@ -80,20 +94,6 @@ Out of the box L4 + L7 policy architecture to enable zero trust security, observ
 ![Platform Agnostic diagram](/images/diagrams/v3/diagram-platform-agnostic@2x.png)
 
 Built for the enterprise, Kuma ships with the most scalable multi-zone connectivity across multiple clouds & clusters on Kubernetes, VMs or hybrid.
-:::
-
-<!-- testimonial -->
-
-::: slot testimonial-content
-Kuma reduces complexity and accelerates service reliability with an Envoy-based Service Mesh
-:::
-
-::: slot testimonial-author
-Luca Maraschi
-:::
-
-::: slot testimonial-author-info
-Chief Architect at Telus Digital
 :::
 
 <!-- tabs -->
@@ -191,20 +191,6 @@ Designed for the enterprise architect, Kuma ships with a native multi-mesh suppo
 
 ::: slot feature-focus-2-diagram
 ![Diagram outlining one cluster for the entire organization](/images/diagrams/v3/diagram-one-cluster-new@2x.png)
-:::
-
-<!-- case studies -->
-
-::: slot case-studies-logo-1
-![MS3 logo](/images/ms3-logo.png)
-:::
-
-::: slot case-studies-content-1
-We chose Kong Mesh in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two.
-:::
-
-::: slot case-studies-cite-1
-Aaron Weikle, CEO of MS3
 :::
 
 <!-- newsletter -->
