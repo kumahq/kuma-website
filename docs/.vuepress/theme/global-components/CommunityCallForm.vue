@@ -144,7 +144,13 @@ export default {
     },
 
     formIsSubmitting() {
+      // change the sending status
       this.formSending = true
+      
+      // push an event to Google Analytics
+      if (process.env.NODE_ENV === 'production') {
+        window.ga('send', 'event', 'Newsletter Form Submission')
+      }
     },
   }
 }
