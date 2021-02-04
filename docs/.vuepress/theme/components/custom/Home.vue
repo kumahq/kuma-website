@@ -70,7 +70,7 @@
         >
           <div v-for="item in testimonials" class="testimonial">
             <blockquote class="lg:grid lg:grid-flow-col lg:gap-4 lg:col-gap-4 lg:row-gap-2 px-8 lg:px-0">
-              <div class="testimonial__image lg:row-span-1 lg:row-start-1 mx-auto text-center">
+              <div class="testimonial__image lg:row-span-1 lg:row-start-1 lg:mb-0 mb-4 mx-auto text-center">
                 <img
                   :src="item.image"
                   :alt="item.alt"
