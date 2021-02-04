@@ -12,14 +12,17 @@ import { Carousel, Slide } from 'vue-carousel'
 
 export default ({
   Vue,
+  isServer,
   router,
   siteData
 }) => {
 
   Vue.use(Vuex)
   
-  Vue.component('Carousel', Carousel)
-  Vue.component('Slide', Slide)
+  if (!isServer) {
+    Vue.component('Carousel', Carousel)
+    Vue.component('Slide', Slide)
+  }
   
   /**
    * Global Mixins
