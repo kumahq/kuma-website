@@ -8,6 +8,8 @@ import './theme/styles/styles.scss'
 
 import '@kongponents/styles'
 
+import { Carousel, Slide } from 'vue-carousel'
+
 export default ({
   Vue,
   router,
@@ -15,6 +17,9 @@ export default ({
 }) => {
 
   Vue.use(Vuex)
+  
+  Vue.component('Carousel', Carousel)
+  Vue.component('Slide', Slide)
   
   /**
    * Global Mixins

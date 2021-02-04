@@ -31,16 +31,16 @@ testimonialCarouselTiming: 5000
 testimonialCarouselLoop: false
 testimonialCarouselAutoplay: false
 testimonials:
+  - content: 'Kuma reduces complexity and accelerates service reliability with an Envoy-based Service Mesh.'
+    author: 'Luca Maraschi'
+    title: 'Chief Architect, Telus Digital'
+    image: '/images/telus-logo.svg'
+    alt: 'Logo for Telus Digital'
   - content: 'We chose Kong Mesh in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two.'
     author: 'Aaron Weikle'
     title: 'CEO of MS3'
     image: '/images/ms3-logo.png'
     alt: 'Logo for MS3'
-  - content: 'Kuma reduces complexity and accelerates service reliability with an Envoy-based Service Mesh'
-    author: 'Luca Maraschi'
-    title: 'Chief Architect at Telus Digital'
-    image: '/images/luca-maraschi-cropped@2x.png'
-    alt: 'Portrait photo of Luca Maraschi'
 ---
 
 ::: slot news

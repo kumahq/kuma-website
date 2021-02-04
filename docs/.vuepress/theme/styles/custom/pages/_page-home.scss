@@ -816,7 +816,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 .testimonial__content {
   font-size: 1rem;
 
-  > p {
+  > div > p {
     @include quotify;
 
     &:before,
