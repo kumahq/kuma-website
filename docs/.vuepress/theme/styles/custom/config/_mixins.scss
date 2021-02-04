@@ -180,3 +180,9 @@
 .sticky {
   @include sticky;
 }
+
+@mixin section-aura($shadow: 0 0 80px 85px, $color: $pale-blue) {
+  background-color: $color;
+  box-shadow: $shadow $color;
+  border-radius: 20px;
+}
