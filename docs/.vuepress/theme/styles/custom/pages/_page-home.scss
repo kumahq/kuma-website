@@ -749,38 +749,40 @@ $home-feature-icon-bottom-spacing: 1rem;
   }
 
   // carousel overrides
-  .VueCarousel-dot {
-    margin-top: 0 !important;
-    box-shadow: none !important;
+  .slick-dots {
+    button {
+      box-shadow: none;
+
+      &:before {
+        color: $gray-2;
+      }
+    }
+
+    .slick-active {
+      button {
+        &:before {
+          color: $color-2;
+        }
+      }
+    }
   }
 
-  .VueCarousel-dot-container {
-    margin-top: 0 !important;
-  }
-
-  .VueCarousel-pagination {
-    margin-top: 10px !important;
-  }
-
-  .VueCarousel-dot--active {
-    background-color: $color-2 !important;
-  }
-
-  .VueCarousel-navigation-button {
-    color: $color-2 !important;
-    font-size: 18px;
+  .slick-next,
+  .slick-prev {
     box-shadow: none;
-    border-radius: 0;
-    padding: 0;
-    margin: 0;
+
+    &:before {
+      color: $color-2 !important;
+      font-family: inherit !important;
+    }
   }
 
-  .VueCarousel-navigation-prev {
-    margin-left: -12px;
+  .slick-prev {
+    left: -10px;
   }
 
-  .VueCarousel-navigation-next {
-    margin-right: -12px;
+  .slick-next {
+    right: -10px;
   }
 }
 
@@ -810,6 +812,8 @@ $home-feature-icon-bottom-spacing: 1rem;
 .testimonial__image {
   img {
     max-height: 100px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 

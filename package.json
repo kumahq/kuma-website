@@ -26,8 +26,8 @@
     "dotenv": "^8.2.0",
     "vee-validate": "^3.0.4",
     "vue": "^2.6.11",
-    "vue-carousel": "^0.18.0",
     "vue-github-button": "^1.0.8",
+    "vue-slick-carousel": "^1.0.6",
     "vue-tabs-component": "^1.5.0",
     "vuepress-plugin-tabs": "^0.3.0"
   },

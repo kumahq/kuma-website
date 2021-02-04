@@ -64,37 +64,29 @@
     
     <div v-if="$page.frontmatter.showTestimonial && testimonials.length" class="testimonials-carousel-wrap">
       <div class="inner">
-        <ClientOnly>
-          <carousel
-            :loop="$page.frontmatter.testimonialCarouselLoop || false"
-            :perPage="1"
-            :autoplay="$page.frontmatter.testimonialCarouselAutoplay || false"
-            :autoplayTimeout="$page.frontmatter.testimonialCarouselTiming || 3000"
-            :autoPlayHoverPause="true"
-            :navigationEnabled="true"
-            navigationNextLabel="→"
-            navigationPrevLabel="←"
-          >
-            <slide v-for="item in testimonials" class="testimonial">
-              <blockquote class="lg:grid lg:grid-flow-col lg:gap-4 lg:col-gap-4 lg:row-gap-2 px-8 lg:px-0">
-                <div class="testimonial__image lg:row-span-1 lg:row-start-1 mx-auto text-center">
-                  <img
-                    :src="item.image"
-                    :alt="item.alt"
-                  />
+        <VueSlickCarousel
+          :arrow="true"
+          :dots="true"
+        >
+          <div v-for="item in testimonials" class="testimonial">
+            <blockquote class="lg:grid lg:grid-flow-col lg:gap-4 lg:col-gap-4 lg:row-gap-2 px-8 lg:px-0">
+              <div class="testimonial__image lg:row-span-1 lg:row-start-1 mx-auto text-center">
+                <img
+                  :src="item.image"
+                  :alt="item.alt"
+                />
+              </div>
+              <div class="testimonial__content lg:col-span-2 text-center lg:text-left">
+                <div>
+                  <p>{{ item.content }}</p>
                 </div>
-                <div class="testimonial__content lg:col-span-2">
-                  <div>
-                    <p>{{ item.content }}</p>
-                  </div>
-                  <cite class="testimonial__author lg:row-span-1 lg:col-span-2 mt-4 lg:mt-0">
-                    {{ item.author }}, {{ item.title }}
-                  </cite>
-                </div>
-              </blockquote>
-            </slide>
-          </carousel>
-        </ClientOnly>
+                <cite class="testimonial__author lg:row-span-1 lg:col-span-2 mt-4 lg:mt-0 text-center lg:text-left">
+                  {{ item.author }}, {{ item.title }}
+                </cite>
+              </div>
+            </blockquote>
+          </div>
+        </VueSlickCarousel>
       </div>
       <!-- /.inner -->
     </div>
@@ -176,12 +168,17 @@ import MastheadWaves from '@theme/components/custom/PageMastheadWaves'
 import NewsletterWaves from '@theme/components/custom/NewsletterWaves'
 import KTabs from '../../../../../node_modules/@kongponents/ktabs/KTabs'
 
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+
 export default {
   components: {
     Navbar,
     MastheadWaves,
     NewsletterWaves,
-    KTabs
+    KTabs,
+    VueSlickCarousel
   },
   computed: {
     tabs () {

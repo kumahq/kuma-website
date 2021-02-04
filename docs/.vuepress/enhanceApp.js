@@ -8,8 +8,6 @@ import './theme/styles/styles.scss'
 
 import '@kongponents/styles'
 
-import { Carousel, Slide } from 'vue-carousel'
-
 export default ({
   Vue,
   isServer,
@@ -18,11 +16,6 @@ export default ({
 }) => {
 
   Vue.use(Vuex)
-  
-  if (!isServer) {
-    Vue.component('Carousel', Carousel)
-    Vue.component('Slide', Slide)
-  }
   
   /**
    * Global Mixins
