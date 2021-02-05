@@ -1,5 +1,8 @@
 <template>
-  <div class="form-wrapper">
+  <div
+    class="form-wrapper"
+    :class="{ 'form-wrapper--compact': (simple === true) }"
+  >
 
     <validation-observer
       v-slot="{ invalid, passes }"
@@ -35,7 +38,7 @@
             <Spinner />
           </span>
           <span :class="{ 'is-hidden': (invalid === false && formSending === true) }">
-            Join Newsletter
+            {{ getFormSubmitText }}
           </span>
         </button>
       </form>
@@ -44,13 +47,17 @@
     <div ref="formMessageMarker"></div>
 
     <div v-if="formStatus === true" class="tip custom-block">
-      <p class="custom-block-title">Thank you!</p>
-      <p>You're now signed up for the {{ getSiteData.title }} newsletter.</p>
+      <slot name="success">
+        <p class="custom-block-title">Thank you!</p>
+        <p>You're now signed up for the {{ getSiteData.title }} newsletter.</p>
+      </slot>
     </div>
 
     <div v-if="formStatus === false" class="danger custom-block">
-      <p class="custom-block-title">Whoops!</p>
-      <p>Something went wrong! Please try again later.</p>
+      <slot name="error">
+        <p class="custom-block-title">Whoops!</p>
+        <p>Something went wrong! Please try again later.</p>
+      </slot>
     </div>
 
   </div>
@@ -102,6 +109,18 @@ export default {
     formHandler: {
       type: String,
       default: () => 'getNewsletterFormEndpoint'
+    },
+    simple: {
+      type: Boolean,
+      default: false
+    },
+    formSubmitText: {
+      type: String,
+      default: () => null
+    },
+    scrollOffset: {
+      type: Number,
+      default: () => 0
     }
   },
   computed: {
@@ -113,8 +132,14 @@ export default {
     },
     formDistanceFromTop () {
       const marker = this.$refs['formMessageMarker']
+      const distance = (window.pageYOffset - this.scrollOffset ) + marker.getBoundingClientRect().top
+      
+      console.log(distance, this.scrollOffset)
 
-      return window.pageYOffset + marker.getBoundingClientRect().top
+      return distance
+    },
+    getFormSubmitText () {
+      return this.$props.formSubmitText || 'Join Newsletter'
     }
   },
   mounted () {
@@ -130,13 +155,18 @@ export default {
       if (status === false || status === true) {
         window.scrollTo({
           top: this.formDistanceFromTop,
-          behavior: 'auto'
+          behavior: 'smooth'
         })
       }
     },
 
     formIsSubmitting() {
       this.formSending = true
+      
+      // push a Google Analytics event for form submission
+      if (process.env.NODE_ENV === 'production') {
+        window.ga('send', 'event', 'Newsletter Form Submission')
+      }
     },
   }
 }

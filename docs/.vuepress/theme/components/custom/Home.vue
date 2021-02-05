@@ -91,6 +91,31 @@
       <!-- /.inner -->
     </div>
     <!-- /.testimonials-carousel-wrap -->
+    
+    <div class="newsletter-form-wrap newsletter-form-wrap--simple">
+      <div class="inner newsletter-form">
+        <!-- <header class="section-header">
+          <Content slot-key="newsletter-title" class="alt-title" />
+        </header> -->
+        <Content slot-key="newsletter-content" />
+        <NewsletterForm
+          formSubmitText="Register Now"
+          :simple="true"
+          :scroll-offset="400"
+        >
+          <template v-slot:success>
+            <p class="custom-block-title">Thank you!</p>
+            <p>Please check your inbox for more info on our {{ getSiteData.title }} onboarding guide.</p>
+          </template>
+        </NewsletterForm>
+      </div>
+      <NewsletterWaves
+        :duration="1500"
+        :starting-opacity="0.2"
+        :delay="100"
+      />
+    </div>
+    <!-- newsletter-form-wrap -->
 
     <div class="product-features-wrap">
       <!-- <div v-if="$page.frontmatter.showNews" class="newsbar-wrap">
@@ -147,18 +172,6 @@
       </div>
     </div>
     <!-- .feature-focus-wrap -->
-
-    <div class="newsletter-form-wrap">
-      <div class="inner newsletter-form">
-        <header class="section-header">
-          <Content slot-key="newsletter-title" class="alt-title" />
-        </header>
-        <Content slot-key="newsletter-content" />
-        <NewsletterForm />
-      </div>
-      <NewsletterWaves />
-    </div>
-    <!-- newsletter-form-wrap -->
   </div>
 </template>
 

@@ -70,19 +70,32 @@ export default {
       hasAnimated: false
     }
   },
+  props: {
+    duration: {
+      type: Number,
+      default: 800
+    },
+    startingOpacity: {
+      type: Number,
+      default: 1
+    },
+    delay: {
+      type: Number,
+      default: 100
+    }
+  },
   methods: {
     animate() {
       // settings
       const container = this.$refs.wavesCenterOut
       const rightGroup = '.wave-group--1 path, .wave-group--2 path, .wave-group--5 path'
       const leftGroup = '.wave-group--3 path, .wave-group--4 path, .wave-group--6 path'
-      const delayAmt = 100
       const strokeOffset = [animejs.setDashoffset, 0]
       const targetWidth = 820
       
       const tl = animejs.timeline({
         easing: 'cubicBezier(.66,.3,0,.94)',
-        duration: 800,
+        duration: this.$props.duration,
         direction: 'normal'
       })
       
@@ -97,17 +110,17 @@ export default {
           tl
             .add({
               targets: container,
-              opacity: 1
+              opacity: this.$props.startingOpacity
             })
             .add({
               targets: rightGroup,
               strokeDashoffset: strokeOffset,
-              delay: (el, i) => i * delayAmt
+              delay: (el, i) => i * this.$props.delay
             }, '-=800')
             .add({
               targets: leftGroup,
               strokeDashoffset: strokeOffset,
-              delay: (el, i) => i * delayAmt
+              delay: (el, i) => i * this.$props.delay
             }, '-=1200')
         }
       }

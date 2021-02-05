@@ -1,6 +1,6 @@
-// 
+//
 // Newsletter form
-// 
+//
 
 .newsletter-form-wrap {
   @include page-section;
@@ -68,13 +68,12 @@
     opacity: 1 !important;
   }
 
-  input[type="email"] {
+  input[type='email'] {
     border: 0;
     background-color: $pale-blue;
   }
 
   .form-wrapper {
-    
     span {
       margin-right: 0;
     }
@@ -91,9 +90,53 @@
 //   }
 // }
 
+.newsletter-form-wrap--simple {
+  padding: 2rem;
+  // background: none;
+
+  .waves--type-2 {
+    @media (min-width: $MQMobile + 1) {
+      // top: 50% !important;
+      bottom: 0 !important;
+      top: auto !important;
+      transform: translateX(-50%) !important;
+    }
+  }
+
+  .content__newsletter-content {
+    font-size: 1rem;
+    margin: 1rem auto;
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .newsletter-form {
+    padding: 1rem;
+    max-width: 40rem;
+    box-shadow: $base-soft-shadow;
+    border-radius: 5px;
+
+    form {
+      margin: 0;
+    }
+
+    .content__newsletter-content {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .form-wrapper--compact {
+    max-width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
 @media (min-width: $MQMobile + 1) {
   .newsletter-form-wrap {
-
     .waves--type-2 {
       display: block;
       position: absolute;
@@ -101,7 +144,7 @@
       left: 50%;
       z-index: 0;
       transform: translateX(-50%);
-  
+
       svg {
         position: relative;
         left: 50%;
@@ -113,7 +156,6 @@
   }
 
   .form-wrapper {
-    
     form {
       background-color: $pale-blue;
       border-radius: 20px;
@@ -121,8 +163,7 @@
   }
 
   .newsletter-form {
-
-    input[type="email"] {
+    input[type='email'] {
       border-radius: 20px 0 0 20px;
     }
   }

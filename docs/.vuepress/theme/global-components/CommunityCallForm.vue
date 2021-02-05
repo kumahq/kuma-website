@@ -145,6 +145,11 @@ export default {
 
     formIsSubmitting() {
       this.formSending = true
+      
+      // push a Google Analytics event for form submission
+      if (process.env.NODE_ENV === 'production') {
+        window.ga('send', 'event', 'Community Call Form Submission')
+      }
     },
   }
 }
