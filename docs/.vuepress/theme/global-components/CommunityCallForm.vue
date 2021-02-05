@@ -77,6 +77,8 @@ import axios from 'axios'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
 
+import { event } from 'vue-analytics'
+
 // I am doing this because of an error that occurred when using KIcon
 import Spinner from '@theme/global-components/IconSpinner'
 
@@ -148,7 +150,7 @@ export default {
       
       // push a Google Analytics event for form submission
       if (process.env.NODE_ENV === 'production') {
-        window.ga('send', 'event', 'Community Call Form Submission')
+        event('Form Submission - Community Call', 'Success')
       }
     },
   }

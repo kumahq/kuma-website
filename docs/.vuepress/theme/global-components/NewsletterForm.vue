@@ -69,6 +69,8 @@ import axios from 'axios'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
 
+import { event } from 'vue-analytics'
+
 // I am doing this because of an error that occurred when using KIcon
 import Spinner from '@theme/global-components/IconSpinner'
 
@@ -133,8 +135,6 @@ export default {
     formDistanceFromTop () {
       const marker = this.$refs['formMessageMarker']
       const distance = (window.pageYOffset - this.scrollOffset ) + marker.getBoundingClientRect().top
-      
-      console.log(distance, this.scrollOffset)
 
       return distance
     },
@@ -165,7 +165,7 @@ export default {
       
       // push a Google Analytics event for form submission
       if (process.env.NODE_ENV === 'production') {
-        window.ga('send', 'event', 'Newsletter Form Submission')
+        event('Form Submission - Newsletter', 'Success')
       }
     },
   }

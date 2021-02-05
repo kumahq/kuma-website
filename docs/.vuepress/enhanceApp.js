@@ -8,6 +8,8 @@ import './theme/styles/styles.scss'
 
 import '@kongponents/styles'
 
+import VueAnalytics from 'vue-analytics'
+
 export default ({
   Vue,
   isServer,
@@ -16,6 +18,10 @@ export default ({
 }) => {
 
   Vue.use(Vuex)
+  
+  Vue.use(VueAnalytics, {
+    id: 'UA-8499472-30'
+  })
   
   /**
    * Global Mixins
