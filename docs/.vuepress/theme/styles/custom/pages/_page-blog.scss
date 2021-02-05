@@ -1,9 +1,9 @@
-// 
+//
 // Blog
-// 
+//
 
 :root {
-  --blog-width: 920px;
+  --blog-width: 75rem;
   --blog-width-narrow: 800px;
   --blog-wrapper-margin: 2rem 0 0 0;
   --blog-title-margin: 0 0 var(--spacing-xxs) 0;
@@ -33,12 +33,11 @@
   // box-shadow: 0 -15px 18px 0 rgba(#000, 0.07);
 }
 
-// 
+//
 // Blog page general
-// 
+//
 
 .blog-page {
-
 }
 
 .page-container--blog {
@@ -50,9 +49,8 @@
   margin: var(--blog-wrapper-margin);
   text-align: center;
   border-top: var(--blog-article-border);
-  
+
   .pagination {
-    
   }
 }
 
@@ -73,24 +71,34 @@
   }
 
   .reading-time {
-    
   }
 }
 
-// 
+//
+// Blog sidebar
+//
+
+.blog-sidebar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 100px;
+}
+
+//
 // Blog page index
-// 
+//
 
 .blog-article {
   padding: var(--blog-article-padding);
-  
+
   &:not(:last-of-type) {
     margin: var(--blog-article-margin);
   }
 
   a {
-
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       text-decoration: underline;
     }
   }
@@ -102,7 +110,6 @@
 }
 
 .blog-index__post-header {
-  
   .blog-post__info {
     justify-content: start;
 
@@ -114,15 +121,12 @@
 }
 
 .blog-index__post-footer {
-
 }
 
 .blog-index__post-summary {
-
 }
 
 .blog-index__post-header__content {
-  
 }
 
 .blog-article__post-inner {
@@ -131,7 +135,6 @@
 
 // when a blog index item has a featured image
 .has-image {
-
 }
 
 .blog-post__header-image {
@@ -144,24 +147,24 @@
   // box-shadow: 0 10px 0 0 $color-5;
 }
 
-// 
+//
 // Blog detail pages
-// 
+//
 
 .blog-detail__content {
-
 }
 
 .blog-post__detail-content {
   @include narrow-blog-content;
 
-  ul, ol {
+  ul,
+  ol {
     margin: var(--spacing-xl) 0;
-    
+
     li {
       position: relative;
       margin-left: 20px;
-      
+
       &:before {
         position: absolute;
         left: -20px;
@@ -174,9 +177,8 @@
     list-style: none;
 
     li {
-
       &:before {
-        content: "• ";
+        content: '• ';
         color: $color-4;
         font-size: 18px;
         font-weight: 700;
@@ -193,7 +195,7 @@
       counter-increment: list-counter;
 
       &:before {
-        content: counter(list-counter) ". ";
+        content: counter(list-counter) '. ';
         color: $color-4;
         font-weight: 700;
       }
@@ -203,12 +205,11 @@
 
 // when a blog detail page has a featured image
 .has-image {
- 
 }
 
-// 
+//
 // Blog nav
-// 
+//
 
 .blog-nav {
   text-align: left;
@@ -219,8 +220,9 @@
   border-bottom: var(--blog-article-border);
 
   a {
-
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       text-decoration: underline;
     }
   }
@@ -228,7 +230,6 @@
 
 @media (min-width: 920px) {
   .has-image {
-
     .blog-post__detail-content,
     .blog-article__post-inner {
       @include featured-image-content;

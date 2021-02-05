@@ -24,6 +24,7 @@
     "core-js": "^3.2.1",
     "dayjs": "^1.8.26",
     "dotenv": "^8.2.0",
+    "jquery": "^3.5.1",
     "vee-validate": "^3.0.4",
     "vue": "^2.6.11",
     "vue-analytics": "^5.22.1",
