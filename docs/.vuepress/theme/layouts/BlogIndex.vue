@@ -79,20 +79,23 @@
               </slot>
             </div>
             <div class="blog-sidebar lg:w-1/3">
-              <Card
-                icon="/images/icons/icon-community-call.svg"
-                iconAlt="Community call icon"
-                :iconWidth="48"
-                :iconHeight="48"
-              >
+              <Card>
                 <template slot="card-title">
-                  <h3>Community Call</h3>
+                  <h3>Ready to get started?</h3>
                 </template>
                 <div class="mb-4">
-                  <p>Kuma hosts official monthly community calls where users and contributors can discuss about any topic and demonstrate use-cases. Interested? You can register below for the next Community Call.</p>
+                  <p>Receive a step-by-step onboarding guide delivered directly to your inbox</p>
                 </div>
-                <div class="community-form">
-                  <CommunityCallForm :stacked="true" />
+                <div class="newsletter-form">
+                  <NewsletterForm
+                    formSubmitText="Register Now"
+                    :stacked="true"
+                  >
+                    <template v-slot:success>
+                      <p class="custom-block-title">Thank you!</p>
+                      <p>Please check your inbox for more info on our {{ getSiteData.title }} onboarding guide.</p>
+                    </template>
+                  </NewsletterForm>
                 </div>
               </Card>
             </div>
@@ -122,7 +125,7 @@ import PostDate from '../global-components/PostDate'
 import PostSummary from '../global-components/PostSummary'
 import { Pagination } from '@vuepress/plugin-blog/lib/client/components'
 import Card from '@theme/components/custom/Card'
-import CommunityCallForm from '@theme/global-components/CommunityCallForm'
+import NewsletterForm from '@theme/global-components/NewsletterForm'
 
 export default {
   name: 'BlogIndex',
@@ -131,7 +134,7 @@ export default {
     PostSummary,
     Pagination,
     Card,
-    CommunityCallForm
+    NewsletterForm
   },
   props: {
     pageSubTitle: {

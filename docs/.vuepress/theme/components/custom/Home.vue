@@ -94,14 +94,13 @@
     
     <div class="newsletter-form-wrap newsletter-form-wrap--simple">
       <div class="inner newsletter-form">
-        <!-- <header class="section-header">
+        <header class="section-header">
           <Content slot-key="newsletter-title" class="alt-title" />
-        </header> -->
+        </header>
         <Content slot-key="newsletter-content" />
         <NewsletterForm
           formSubmitText="Register Now"
           :simple="true"
-          :scroll-offset="400"
         >
           <template v-slot:success>
             <p class="custom-block-title">Thank you!</p>
@@ -180,6 +179,7 @@ import Navbar from '@theme/components/Navbar'
 import MastheadWaves from '@theme/components/custom/PageMastheadWaves'
 import NewsletterWaves from '@theme/components/custom/NewsletterWaves'
 import KTabs from '../../../../../node_modules/@kongponents/ktabs/KTabs'
+import NewsletterForm from '@theme/global-components/NewsletterForm'
 
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
@@ -190,6 +190,7 @@ export default {
     Navbar,
     MastheadWaves,
     NewsletterWaves,
+    NewsletterForm,
     KTabs,
     VueSlickCarousel
   },

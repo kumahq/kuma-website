@@ -74,6 +74,11 @@
   }
 }
 
+.blog-page__main-title-wrapper {
+  max-width: 64rem;
+  margin-top: 2rem;
+}
+
 //
 // Blog sidebar
 //
@@ -82,6 +87,22 @@
   position: -webkit-sticky;
   position: sticky;
   top: 100px;
+
+  .newsletter-form {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+
+    input[type='email'] {
+      background-color: #fff;
+      border-radius: 0;
+    }
+
+    form {
+      background: none;
+      border-radius: 0;
+    }
+  }
 }
 
 //

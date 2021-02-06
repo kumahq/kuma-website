@@ -22,20 +22,16 @@ export default {
   name: 'Card',
   props: {
     icon: {
-      type: String,
-      required: true
+      type: String
     },
     iconWidth: {
-      type: Number,
-      required: true
+      type: Number
     },
     iconHeight: {
-      type: Number,
-      required: true
+      type: Number
     },
     iconAlt: {
-      type: String,
-      required: false
+      type: String
     }
   }
 }

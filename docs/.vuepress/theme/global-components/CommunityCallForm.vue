@@ -145,7 +145,6 @@ export default {
         complete: () => {
           this.formSending = false
           this.formStatus = true
-          this.formData.email = ''
         }
       })
       

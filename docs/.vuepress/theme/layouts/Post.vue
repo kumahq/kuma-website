@@ -13,7 +13,7 @@
               &larr; Back to Blog
             </router-link>
           </div>
-          <div class="inner">
+          <div class="inner blog-page__main-title-wrapper">
             <h1 v-if="$page.frontmatter.title">
               {{ $page.frontmatter.title }}
             </h1>
@@ -33,24 +33,46 @@
           <!-- .inner -->
         </header>
         <!-- .page-header -->
-
-        <div class="inner blog-detail__content">
-          <div
-            v-if="$page.frontmatter.headerImage"
-            class="blog-post__header-image"
-            :style="`background-image: url('${$page.frontmatter.headerImage}');`"
-          >
-            <img
-              :src="$page.frontmatter.headerImage"
-              :alt="`Featured image for a blog article titled ${$page.frontmatter.title || $page.title}.`"
-              class="sr-only"
+        
+        <div class="inner lg:flex lg:space-x-8 lg:items-start">
+          <div class="blog-detail__content lg:w-2/3">
+            <div
+              v-if="$page.frontmatter.headerImage"
+              class="blog-post__header-image"
+              :style="`background-image: url('${$page.frontmatter.headerImage}');`"
             >
+              <img
+                :src="$page.frontmatter.headerImage"
+                :alt="`Featured image for a blog article titled ${$page.frontmatter.title || $page.title}.`"
+                class="sr-only"
+              >
+            </div>
+            <div class="blog-post__detail-content">
+              <Content />
+            </div>
           </div>
-          <div class="blog-post__detail-content">
-            <Content />
+          <div class="blog-sidebar lg:w-1/3">
+            <Card>
+              <template slot="card-title">
+                <h3>Ready to get started?</h3>
+              </template>
+              <div class="mb-4">
+                <p>Receive a step-by-step onboarding guide delivered directly to your inbox</p>
+              </div>
+              <div class="newsletter-form">
+                <NewsletterForm
+                  formSubmitText="Register Now"
+                  :stacked="true"
+                >
+                  <template v-slot:success>
+                    <p class="custom-block-title">Thank you!</p>
+                    <p>Please check your inbox for more info on our {{ getSiteData.title }} onboarding guide.</p>
+                  </template>
+                </NewsletterForm>
+              </div>
+            </Card>
           </div>
         </div>
-        <!-- .inner -->
       </div>
       <!-- .page-container -->
     </template>
@@ -60,11 +82,15 @@
 <script>
 import Shell from '@theme/global-components/Shell.vue'
 import PostDate from '../global-components/PostDate'
+import Card from '@theme/components/custom/Card'
+import NewsletterForm from '@theme/global-components/NewsletterForm'
 
 export default {
   components: {
     Shell,
-    PostDate
+    PostDate,
+    Card,
+    NewsletterForm
   }
 }
 </script>

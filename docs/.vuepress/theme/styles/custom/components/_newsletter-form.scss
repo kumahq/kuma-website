@@ -49,15 +49,13 @@
 .newsletter-form {
   position: relative;
   z-index: 1;
-  max-width: 41.25rem;
+  max-width: 46rem;
   width: 100%;
   margin: 0 auto;
-  padding: 3.75rem;
-  // background: rgba(#fff, .7);
+  padding: 2rem;
   background: #fff;
   border-radius: 3px;
-  // border: 1px solid $navy-light;
-  // font-size: 1.063rem;
+  box-shadow: $base-soft-shadow;
 
   form {
     margin-top: 2rem;
@@ -77,6 +75,23 @@
     span {
       margin-right: 0;
     }
+  }
+}
+
+.content__newsletter-title {
+  > * {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
   }
 }
 
@@ -114,7 +129,7 @@
   }
 
   .newsletter-form {
-    padding: 1rem;
+    padding: 1.5rem 1rem;
     max-width: 40rem;
     box-shadow: $base-soft-shadow;
     border-radius: 5px;

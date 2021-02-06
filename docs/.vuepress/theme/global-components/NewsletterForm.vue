@@ -1,7 +1,7 @@
 <template>
   <div
     class="form-wrapper"
-    :class="{ 'form-wrapper--compact': (simple === true) }"
+    :class="{ 'form-wrapper--compact': (simple === true), 'form-wrapper--stacked': (stacked === true) }"
   >
 
     <validation-observer
@@ -115,13 +115,13 @@ export default {
       type: Boolean,
       default: false
     },
+    stacked: {
+      type: Boolean,
+      default: false
+    },
     formSubmitText: {
       type: String,
       default: () => null
-    },
-    scrollOffset: {
-      type: Number,
-      default: () => 0
     }
   },
   computed: {
@@ -176,7 +176,6 @@ export default {
   }
 }
 
-
 button.is-sending {
   position: relative;
   background-color: $green-base !important;
@@ -221,6 +220,34 @@ button.is-sending {
       margin-bottom: 0;
       padding-bottom: 0;
     }
+  }
+}
+
+.form-wrapper--stacked {
+  
+  .form-horizontal {
+    position: relative;
+    display: block !important;
+    
+    > span {
+      
+    }
+    
+    input[type='email'] {
+      border: 1px solid $gray-2;
+    }
+  }
+  
+  .form-note-wrapper {
+    position: static !important;
+    
+    .note {
+      top: auto !important;
+    }
+  }
+  
+  .btn {
+    margin-top: 0.8rem;
   }
 }
 </style>

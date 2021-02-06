@@ -192,6 +192,12 @@ Designed for the enterprise architect, Kuma ships with a native multi-mesh suppo
 
 <!-- newsletter -->
 
+::: slot newsletter-title
+
+### Ready to get started?
+
+:::
+
 ::: slot newsletter-content
 Receive a step-by-step onboarding guide delivered directly to your inbox
 :::
