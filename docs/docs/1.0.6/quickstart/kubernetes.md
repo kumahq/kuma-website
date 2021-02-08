@@ -2,52 +2,46 @@
 title: Kubernetes Quickstart
 ---
 
-# Quickstart in Kubernetes Mode
+# Quickstart guide for Kubernetes
 
-Congratulations! After [installing](/install) Kuma, you can get up and running with a few easy steps.
+The quickstart gets you up and running with a demo marketplace application. Here's what you'll do:
 
-:::tip
-Kuma can run in both **Kubernetes** (Containers) and **Universal** mode (for VMs and Bare Metal). You are now looking at the quickstart for Kubernetes mode, but you can also check out the [Universal one](/docs/1.0.6/quickstart/universal).
-:::
+* Install and run the marketplace application
+* Enable mutual TLS and traffic permissions
+* Explore visualized traffic metrics
 
-In order to simulate a real-world scenario, we have built a simple demo application that resembles a marketplace. In this tutorial we will:
-
-* [1. Run the Marketplace application](#_1-run-the-marketplace-application)
-* [2. Enable Mutual TLS and Traffic Permissions](#_2-enable-mutual-tls-and-traffic-permissions)
-* [3. Visualize Traffic Metrics](#_3-visualize-traffic-metrics)
-
-You can also access the Kuma marketplace demo repository [on Github](https://github.com/kumahq/kuma-demo) to try more features and policies in addition to the ones described in this quickstart.
+The demo repository [on Github](https://github.com/kumahq/kuma-demo) includes more features and policies.
 
 :::tip
 **Community Chat**: If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.
 :::
 
-### 1. Run the Marketplace application
+## Install
 
-First, Kuma must be [installed and running](/docs/latest/installation/kubernetes) in your Kubernetes cluster.
+1.  [Install and start Kuma](/docs/1.0.6/installation/kubernetes) on your Kubernetes cluster.
 
-To install the marketplace demo application you can run:
+1.  Install the demo application:
 
-```sh
-$ kubectl apply -f https://bit.ly/demokuma
-```
+    ```sh
+    $ kubectl apply -f https://bit.ly/demokuma
+    ```
 
-This will provision a new `kuma-demo` namespace with all the services required to run the application, in this case:
+    The demo provisions a new `kuma-demo` namespace with the following services:
 
-* `frontend`: the entry-point service that serves the web application.
-* `backend`: the underlying backend component that powers the `frontend` service.
-* `postgres`: the database that stores the marketplace items.
-* `redis`: the backend storage for items reviews.
+    * `frontend`: the entry-point service that serves the web application.
+    * `backend`: the underlying backend component that powers the `frontend` service.
+    * `postgres`: the database that stores the marketplace items.
+    * `redis`: the backend storage for item reviews.
 
-You can then access the application by executing:
+1.  Access the demo application:
 
 ```sh
 $ kubectl port-forward svc/frontend -n kuma-demo 8080:8080
 ```
 
-And navigate to [127.0.0.1:8080](http://127.0.0.1:8080). 
+And navigate to [127.0.0.1:8080](http://127.0.0.1:8080).
 
-#### See the connected dataplanes
+## Connected dataplanes
 
 Since the demo application already comes with the `kuma.io/sidecar-injection` annotation enabled on the `kuma-demo` namespace, Kuma [already knows](/docs/1.0.6/documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/1.0.6/policies/mesh/) resource:
 
@@ -117,7 +111,7 @@ $ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma
 :::
 ::::
 
-### 2. Enable Mutual TLS and Traffic Permissions
+## mTLS and traffic permissions
 
 By default the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/1.0.6/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/1.0.6/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
 
@@ -166,11 +160,11 @@ By doing so every request we now make on our demo application at [`127.0.0.1:808
 As usual, you can visualize the Mutual TLS configuration and the Traffic Permission policies we have just applied via the GUI, the HTTP API or `kumactl`.
 :::
 
-### 3. Visualize Traffic Metrics
+## Traffic metrics dashboards
 
 Among the [many policies](/policies) that Kuma provides out of the box, one of the most important ones is [Traffic Metrics](/docs/1.0.6/policies/traffic-metrics/).
 
-With Traffic Metrics we can leverage Prometheus and Grafana to visualize powerful dashboards that show the overall traffic activity of our application and the status of the Service Mesh.
+With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that show the overall traffic activity of our application and the status of the Service Mesh.
 
 To enable traffic metrics we need to first install Prometheus and Grafana:
 

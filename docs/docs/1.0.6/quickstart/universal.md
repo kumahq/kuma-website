@@ -2,47 +2,41 @@
 title: Universal Quickstart
 ---
 
-# Quickstart in Universal Mode
+# Quickstart guide for universal mode
 
-Congratulations! After [installing](/install) Kuma, you can get up and running with a few easy steps.
+The quickstart gets you up and running with a demo marketplace application. Here's what you'll do:
 
-:::tip
-Kuma can run in both **Kubernetes** (Containers) and **Universal** mode (for VMs and Bare Metal). You are now looking at the quickstart for Universal mode, but you can also check out the [Kubernetes one](/docs/1.0.6/quickstart/kubernetes).
-:::
+* Install and run the marketplace application
+* Enable mutual TLS and traffic permissions
+* Explore traffic metrics
 
-In order to simulate a real-world scenario, we have built a simple demo application that resembles a marketplace. In this tutorial we will:
-
-* [1. Run the Marketplace application](#_1-run-the-marketplace-application)
-* [2. Enable Mutual TLS and Traffic Permissions](#_2-enable-mutual-tls-and-traffic-permissions)
-* [3. Visualize Traffic Metrics](#_3-visualize-traffic-metrics)
-
-You can also access the Kuma marketplace demo repository [on Github](https://github.com/kumahq/kuma-demo) to try more features and policies in addition to the ones described in this quickstart.
+The demo repository [on Github](https://github.com/kumahq/kuma-demo) includes more features and policies.
 
 :::tip
 **Community Chat**: If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.
 :::
 
-### 1. Run the Marketplace application
+## Install
 
-First, [Vagrant](https://www.vagrantup.com/docs/installation/) must be installed on your machine.
+1.  [Install and start Kuma on your platform](/install/latest/).
 
-You then need to clone the demo repository which contains all necessary files to deploy the application with Vagrant:
+1.  If it's not already installed, [install Vagrant](https://www.vagrantup.com/downloads).
 
-```sh
-$ git clone https://github.com/kumahq/kuma-demo.git
-```
+1.  Clone the demo repository and move to the universal demo directory:
 
-Once cloned, you will find the contents of universal demo in the `kuma-demo/vagrant` folder. Enter the `vagrant` folder by running:
+    ```sh
+    $ git clone https://github.com/kumahq/kuma-demo.git
+    ```
 
-```sh
-$ cd kuma-demo/vagrant
-```
+    ```sh
+    $ cd kuma-demo/vagrant
+    ```
 
-Next, to install the marketplace demo application you can run:
+1.  And start the demo app by running:
 
-```sh
-$ vagrant up
-```
+    ```sh
+    $ vagrant up
+    ```
 
 This will create virtual machines for each services required to run the application, in this case:
 

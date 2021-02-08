@@ -6,7 +6,7 @@ To install and run Kuma on Kubernetes execute the following steps:
 * [2. Run Kuma](#_2-run-kuma)
 * [3. Use Kuma](#_3-use-kuma)
 
-Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and continue your Kuma journey.
+Finally you can follow the [Quickstart](/docs/1.0.6/quickstart/kubernetes) to take it from here and continue your Kuma journey.
 
 ::: tip
 Kuma also provides [Helm charts](/docs/1.0.6/installation/helm/) that we can use instead of this distribution.
@@ -183,8 +183,3 @@ $ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma
 
 You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) entity with name `default`.
 
-### 4. Quickstart
-
-Congratulations! You have successfully installed Kuma on Kubernetes 🚀. 
-
-In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/1.0.6/quickstart/kubernetes/) deployments.
