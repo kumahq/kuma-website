@@ -81,19 +81,19 @@
             <div class="blog-sidebar lg:w-1/3">
               <Card>
                 <template slot="card-title">
-                  <h3>Ready to get started?</h3>
+                  <h3>Get Community Updates</h3>
                 </template>
                 <div class="mb-4">
-                  <p>Receive a step-by-step onboarding guide delivered directly to your inbox</p>
+                  <p>Sign up for our Kuma community newsletter to get the most recent updates and product announcements.</p>
                 </div>
                 <div class="newsletter-form">
                   <NewsletterForm
-                    formSubmitText="Register Now"
+                    formSubmitText="Join Newsletter"
                     :stacked="true"
                   >
                     <template v-slot:success>
                       <p class="custom-block-title">Thank you!</p>
-                      <p>Please check your inbox for more info on our {{ getSiteData.title }} onboarding guide.</p>
+                      <p>You're now signed up for the {{ getSiteData.title }} newsletter.</p>
                     </template>
                   </NewsletterForm>
                 </div>
