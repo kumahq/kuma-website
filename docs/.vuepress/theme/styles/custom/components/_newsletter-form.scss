@@ -106,8 +106,10 @@
 // }
 
 .newsletter-form-wrap--simple {
-  padding: 2rem;
-  // background: none;
+  padding: 1rem;
+  margin-top: 0 !important;
+  // padding: 2rem;
+  background: none;
 
   .waves--type-2 {
     @media (min-width: $MQMobile + 1) {
@@ -131,7 +133,8 @@
   .newsletter-form {
     padding: 1.5rem 1rem;
     max-width: 40rem;
-    box-shadow: $base-soft-shadow;
+    box-shadow: none;
+    // box-shadow: $base-soft-shadow;
     border-radius: 5px;
 
     form {
