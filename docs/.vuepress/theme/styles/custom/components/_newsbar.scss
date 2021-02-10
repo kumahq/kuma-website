@@ -38,17 +38,6 @@ $newsbar-link-color: $color-5;
   border: 1.5px solid var(--green-light);
   border-radius: 5px;
   background-color: var(--green-lighter);
-
-  .newsbar-wrap__title {
-    display: grid;
-    place-items: center;
-
-    h3 {
-      margin: 0;
-      padding: 0;
-      color: var(--green-dark);
-    }
-  }
 }
 
 .newsbar {
@@ -99,15 +88,18 @@ $newsbar-link-color: $color-5;
 }
 
 .newsbar-wrap__title {
+  display: grid;
+  place-items: center;
   margin-right: 1rem;
   padding-right: 1rem;
   border-right: 1px solid var(--green-light);
 
   h3 {
     font-size: 0.8rem;
+    font-weight: 700;
     text-transform: uppercase;
-    color: $color-1;
-    margin: 5px 0 0 0;
+    color: $green-base;
+    margin: 0;
     padding: 0;
   }
 }

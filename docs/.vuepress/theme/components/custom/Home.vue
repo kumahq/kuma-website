@@ -38,7 +38,7 @@
           <!-- masthead diagram: mobile -->
           
           <!-- .page-masthead__actions -->
-          <div v-if="$page.frontmatter.showNews" class="newsbar-wrap newsbar-wrap--left-text newsbar-wrap--capsule">
+          <div v-if="$page.frontmatter.showNews" class="newsbar-wrap newsbar-wrap--left-text">
             <div class="newsbar__inner">
               <div class="newsbar-wrap__title">
                 <h3>News</h3>
