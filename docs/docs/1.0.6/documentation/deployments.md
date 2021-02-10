@@ -245,18 +245,21 @@ $ kubectl get dataplanes -n echo-example -o yaml | grep service
 ```
 
 On Kubernetes, Kuma uses transparent proxy. In this mode, `kuma-dp` is listening on port 80 for all the virtual IPs that 
-Kuma DNS assigns to services in the `.mesh` DNS zone. Therefore, we have three ways to consume a service from within the mesh:
+Kuma DNS assigns to services in the `.mesh` DNS zone. It also provides an RFC compatible DNS name where the underscores in the
+service are replaced by dots. Therefore, we have the following ways to consume a service from within the mesh:
 
 ```bash
 <kuma-enabled-pod>$ curl http://echo-server:1010
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
+<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
+<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
 ```
 The first method still works, but is limited to endpoints implemented within the same Kuma zone (i.e. the same Kubernetes cluster).
-The second option allows to consume a service that is distributed across the Kuma cluster (bound by the same `global` control plane). For
+The second and third options allow to consume a service that is distributed across the Kuma cluster (bound by the same `global` control plane). For
 example there can be an endpoint running in another Kuma zone in a different data-center.
 
-Since most HTTP clients (such as `curl`) will default to port 80, the port can be omitted, like in the third option above.
+Since most HTTP clients (such as `curl`) will default to port 80, the port can be omitted, like in the fourth and fifth options above.
 :::
 ::: tab "Universal"
 
