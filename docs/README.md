@@ -45,7 +45,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.0.6 has been released!** With deep status checks, four new load balancers, support for Envoy xDS v3 and more! &mdash; [Get Started](/install/)
+**Kuma 1.0.7 has been released!** With support for Kubernetes Jobs and Service-less pods, more charts in the GUI, improved performance and more! &mdash; [Get Started](/install/)
 
 :::
 

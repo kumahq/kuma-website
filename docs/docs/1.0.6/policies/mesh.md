@@ -70,7 +70,7 @@ spec:
     metadata:
       ...
       annotations:
-        # indicate to Kuma what is the Mesh that the data plane proxy belongs to
+        # indicate to Kuma what is the Mesh that the data plane belongs to
         kuma.io/mesh: default
     spec:
       containers:

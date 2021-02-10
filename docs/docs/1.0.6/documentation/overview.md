@@ -13,7 +13,7 @@ Installing Kuma on Kubernetes is fully automated, while installing Kuma on Linux
 There are two main components of Kuma that are very important to understand:
 
 * **Control Plane**: Kuma is first and foremost a control-plane that will accept user input (you are the user) in order to create and configure [Policies](../../policies/introduction) like [Service Meshes](../../policies/mesh), and in order to add services and configure their behavior within the Meshes you have created.
-* **Data Plane Proxy**: Kuma also bundles a data plane proxy implementation based on top of [Envoy](https://www.envoyproxy.io/). An instance of the data plane proxy runs alongside every instance of our services (or on every Kubernetes Pod as a sidecar container). This instance processes both incoming and outgoing requests for the service.
+* **Data Plane Proxy**: Kuma also bundles a data plane proxy implementation based on top of [Envoy](https://www.envoyproxy.io/). An instance of the data plane proxy will must run alongside every instance of our services (or on every Kubernetes Pod as a sidecar container) and it will process both incoming and outgoing requests for the service.
 
 ::: tip
 **Multi-Mesh**: Kuma ships with multi-tenancy support since day one. This means you can create and configure multiple isolated Service Meshes from **one** control-plane. By doing so we lower the complexity and the operational cost of supporting multiple meshes. [Explore Kuma's Policies](/policies).
@@ -82,7 +82,7 @@ This `kuma.io/mesh` annotation also could be set in Namespace. In this case all 
  
 ### Matching Labels in `Pod` and `Service` 
 
-In a typical Kubernetes deployment scenario, every `Pod` is part of at least one matching `Service`. For example, in [Kuma's demo application](https://github.com/kumahq/kuma-demo/blob/master/kubernetes/), the [`Pod` for the Redis service](https://github.com/kumahq/kuma-demo/blob/master/kubernetes/kuma-demo-aio.yaml#L104)  has the following matchLabels:
+When deploying Kuma on Kubernetes, you must ensure that every `Pod` is part of at least one matching `Service`. For example, in [Kuma's demo application](https://github.com/kumahq/kuma-demo/blob/master/kubernetes/), the [`Pod` for the Redis service](https://github.com/kumahq/kuma-demo/blob/master/kubernetes/kuma-demo-aio.yaml#L104)  has the following matchLabels:
 
 ```yaml
 ...
@@ -111,88 +111,6 @@ metadata:
 ::: tip
 **Full CRD support**: When using Kuma in Kubernetes mode you can create [Policies](../../policies/introduction) with Kuma's CRDs applied via `kubectl`.
 :::
-
-### Service pods and service-less pods
-
-In some cases, there might be a need to have Pods which are part of the mesh, yet they do not expose any services themselves. These are typically various containerised utilities, Kubernets jobs etc.
-Such Pods are not bound to a Kubernetes Service as they woudl not have any ports exposed.
-
-#### Pods with a Service
-
-For all Pods associated with a Kubernetes Service resource, Kuma control plane will automatically generate an annotation `kuma.io/service: <name>_<namespace>_svc_<port>` fetching `<name>`, `<namespace>` and `<port>` from the that service. For example, the following resources will generate a dataplane tag
-`kuma.io/service: echo-server_kuma-test_svc_80`:
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: echo-server
-  namespace: kuma-test
-  annotations:
-    80.service.kuma.io/protocol: http
-spec:
-  ports:
-    - port: 80
-      name: http
-  selector:
-    app: echo-server
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: echo-server
-  namespace: kuma-test
-  labels:
-    app: echo-server
-spec:
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
-  selector:
-    matchLabels:
-      app: echo-server
-  template:
-    metadata:
-      labels:
-        app: echo-server
-    spec:
-      containers:
-        - name: echo-server
-          image: nginx
-          ports:
-            - containerPort: 80
-```
-
-#### Pods without a Service
-
-When a pod is spawned without exposing a particular service, it may not be associated with any Kubernetes Service resource. In that case, Kuma control plane will generate `kuma.io/service: <name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the Pod resource itself omitting the port. The following resource will generate a dataplane tag 
-`kuma.io/service: example-client_kuma-example_svc`:
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: echo-client
-  labels:
-    app: echo-client
-spec:
-  selector:
-    matchLabels:
-      app: echo-client
-  template:
-    metadata:
-      labels:
-        app: echo-client
-    spec:
-      containers:
-        - name: alpine
-          image: "alpine"
-          imagePullPolicy: IfNotPresent
-          command: ["sh", "-c", "tail -f /dev/null"]
-```
-
-In both cases these tags will be see in the CLI and GUI tools when inspecting the particular Pod dataplane.
 
 ## Last but not least
 
