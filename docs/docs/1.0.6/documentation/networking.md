@@ -146,13 +146,6 @@ Consuming a service handled by Kuma DNS from inside a Kubernetes container is ba
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
 ```
 
-Alternatively, a DNS standards compliant name is available, where the underscores in the service name are replaced with dots.
-The above example can be rewritten as follows:
-```bash
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
-```
-
 Since the default VIP created listeners will default to port `80`, it can be omitted when using a standard HTTP client.
  
 Kuma DNS allocates a VIP for every Service withing a mesh. Then, it creates outbound virtual listener for every VIP. However, by inspecting `curl localhost:9901/config_dump`, we can see sections similar to this one:

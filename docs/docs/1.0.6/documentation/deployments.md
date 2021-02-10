@@ -18,7 +18,7 @@ The two deployments modes are:
 This is the simplest deployment mode for Kuma, and the default one.
 
 * **Control plane**: There is one deployment of the control plane that can be scaled horizontally.
-* **Data plane proxies**: The data plane proxies connect to the control plane regardless of where they are deployed.
+* **Data planes**: The data planes connect to the control plane regardless of where they are being deployed.
 * **Service Connectivity**: Every data plane proxy must be able to connect to every other data plane proxy regardless of where they are being deployed.
 
 This mode implies that we can deploy Kuma and its data plane proxies in a standalone networking topology mode so that the service connectivity from every data plane proxy can be established directly to every other data plane proxy.
@@ -61,7 +61,7 @@ When the mode is not specified, Kuma will always start in `standalone` mode by d
 This is a more advanced deployment mode for Kuma that allow us to support service meshes that are running on many zones, including hybrid deployments on both Kubernetes and VMs.
 
 * **Control plane**: There is one `global` control plane, and many `remote` control planes. A global control plane only accepts connections from remote control planes.
-* **Data plane proxies**: The data plane proxies connect to the closest `remote` control plane in the same zone. Additionally, we need to start an `ingress` data plane proxy on every zone to have cross-zone communication between data plane proxies in different zones.
+* **Data planes**: The data planes connect to the closest `remote` control plane in the same zone. Additionally, we need to start an `ingress` data plane on every zone to have cross-zone communication between data planes in different zones.
 * **Service Connectivity**: Automatically resolved via the built-in DNS resolver that ships with Kuma. When a service wants to consume another service, it will resolve the DNS address of the desired service with Kuma, and Kuma will respond with a Virtual IP address, that corresponds to that service in the Kuma service domain.
 
 :::tip
@@ -71,7 +71,7 @@ We can support multiple isolated service meshes thanks to Kuma's multi-tenancy s
 When running in multi-zone mode, we introduce the notion of a `global` and `remote` control planes for Kuma:
 
 * **Global**: this control plane will be used to configure the global Service Mesh [policies](/policies) that we want to apply to our data plane proxies. Data plane proxies **cannot** connect directly to a global control plane, but can connect to `remote` control planes that are being deployed on each underlying zone that we want to include as part of the Service Mesh (can be a Kubernetes cluster, or VM based). Only one deployment of the global control plane is required, and it can be scaled horizontally.
-* **Remote**: we are going to have as many remote control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/latest/policies/mesh/). Remote control planes accept connections from data plane proxies that are started in the same underlying zone, and they connect to the `global` control plane to fetch their service mesh policies. Remote control plane policy APIs are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally within their zone.
+* **Remote**: we are going to have as many remote control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/latest/policies/mesh/). Remote control planes will accept connections from data planes that are being started in the same underlying zone, and they will themselves connect to the `global` control plane in order to fetch the service mesh policies that have been configured. Remote control plane policy APIs are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally within their zone.
 
 In this deployment, a Kuma cluster is made of one global control plane and as many remote control planes as the number of zones that we want to support:
 
@@ -86,10 +86,10 @@ In a multi-zone deployment mode, services will be running on multiple platforms,
 To implement easy service connectivity, Kuma ships with:
 
 * **DNS Resolver**: Kuma provides an out of the box DNS server on every `remote` control plane that will be used to resolve service addresses when estabilishing any service-to-service communication. It scales horizontally as we scale the `remote` control plane.
-* **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. 
+* **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. 
 
 :::tip
-An `ingress` data plane proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.0.6/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data plane proxies.
+An `ingress` data plane is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.0.6/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data planes.
 :::
 
 The global control plane and the remote control planes communicate with each other via xDS in order to synchronize the resources that are being created to configure Kuma, like policies.
@@ -190,7 +190,7 @@ $ KUMA_MODE=remote \
 
 Where `<zone-name>` is the name of the zone matching one of the Zone resources to be created at the Global CP. `<global-remote-sync-address>` is the public address as obtained during the Global CP deployment step.
 
-Add an `ingress` data plane proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that data plane proxy would run on a dedicated host, so we will need the Remote CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the data plane proxy token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
+Add an `ingress` data plane proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that data plane proxy would run on a dedicated host, so we will need the Remote CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the data plane token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
 
 ```bash
 $ echo "type: Dataplane
@@ -245,21 +245,18 @@ $ kubectl get dataplanes -n echo-example -o yaml | grep service
 ```
 
 On Kubernetes, Kuma uses transparent proxy. In this mode, `kuma-dp` is listening on port 80 for all the virtual IPs that 
-Kuma DNS assigns to services in the `.mesh` DNS zone. It also provides an RFC compatible DNS name where the underscores in the
-service are replaced by dots. Therefore, we have the following ways to consume a service from within the mesh:
+Kuma DNS assigns to services in the `.mesh` DNS zone. Therefore, we have three ways to consume a service from within the mesh:
 
 ```bash
 <kuma-enabled-pod>$ curl http://echo-server:1010
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
 ```
 The first method still works, but is limited to endpoints implemented within the same Kuma zone (i.e. the same Kubernetes cluster).
-The second and third options allow to consume a service that is distributed across the Kuma cluster (bound by the same `global` control plane). For
+The second option allows to consume a service that is distributed across the Kuma cluster (bound by the same `global` control plane). For
 example there can be an endpoint running in another Kuma zone in a different data-center.
 
-Since most HTTP clients (such as `curl`) will default to port 80, the port can be omitted, like in the fourth and fifth options above.
+Since most HTTP clients (such as `curl`) will default to port 80, the port can be omitted, like in the third option above.
 :::
 ::: tab "Universal"
 

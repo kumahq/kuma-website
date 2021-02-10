@@ -45,7 +45,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.0.6 has been released!** With deep status checks, four new load balancers, support for Envoy xDS v3 and more! &mdash; [Get Started](/install/)
+**Kuma 1.0.7 has been released!** With more advanced charts in the GUI, service-less support, higher performance and more! &mdash; [Get Started](/install/)
 
 :::
 

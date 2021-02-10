@@ -1,6 +1,6 @@
 # DPs and Data Model
 
-When Kuma (`kuma-cp`) runs, it waits for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system generates a `default` Mesh when the control-plane is run for the first time.
+When Kuma (`kuma-cp`) runs, it will be waiting for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
 
 <center>
 <img src="/images/docs/0.5.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -23,7 +23,7 @@ For example, if we have 6 replicas of a "Redis" service, then we must have one i
 </center>
 
 ::: tip
-**Many DPs!** The number of data plane proxies that we have running can quickly add up, since we have one replica of `kuma-dp` for every replica of every service. That's why it's important for the `kuma-dp` process to be lightweight and consume few resources, otherwise we would quickly run out of memory, especially on platforms like Kubernetes where multiple services are running on the same underlying host machine. And that's one of the reasons Kumea leverages Envoy for this task.
+**Many DPs!** The number of data plane proxies that we have running can quickly add up, since we have one replica of `kuma-dp` for every replica of every service. That's why it's important for the DP process to be lightweight and consume a few resources, otherwise we would quickly run out of memory, especially on platforms like Kubernetes where multiple services are running on the same underlying host machine. And that's one of the reasons why Kuma leverages Envoy for this task.
 :::
 
 When we start a new data plane proxy in Kuma, **two things** have to happen:
@@ -239,16 +239,66 @@ spec:
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
-::: tip
-NOTE: During the creation of the [`Dataplane`](#dataplane-entity) entity, the Kuma control plane will generate a dataplane tag `kuma.io/service: <name>_<namespace>_svc_<port>` fetching `<name>`, `<namespace>` and `<port>` from the Kubernetes service that is associated with the particular pod.
-However, when a pod is spawned without exposing a particular service, it may not be associated with any Kubernetes Service resource. In that case, Kuma control plane will generate a dataplane tag `kuma.io/service: <name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the Pod resource itself omitting the port.   
-:::
+## Kubernetes Probes
+
+Kuma natively supports the `httpGet` Kubernetes probes. By default, Kuma overrides the specified probe with a virtual one. For example, if we specify the following probe:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /metrics
+    port: 3001
+  initialDelaySeconds: 3
+  periodSeconds: 3
+```
+
+Kuma will replace it with:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /3001/metrics
+    port: 9000
+  initialDelaySeconds: 3
+  periodSeconds: 3
+```
+
+Where `9000` is a default virtual probe port, which can be configured in `kuma-cp.config`:
+
+```yaml
+runtime:
+  kubernetes:
+    injector:
+      virtualProbesPort: 19001
+```
+And can also be overwritten in the Pod's annotations:
+
+```yaml
+annotations:
+  kuma.io/virtual-probes-port: 19001
+```
+
+To disable Kuma's probe virtualziation, we can either set it in Kuma's configuration gile `kuma-cp.config`:
+
+```yaml
+runtime:
+  kubernetes:
+    injector:
+      virtualProbesEnabled: true
+```
+
+or in the Pod's annotations:
+
+```yaml
+annotations:
+  kuma.io/virtual-probes: enabled
+```
 
 ## Gateway
 
-The `Dataplane` entity can operate in `gateway` mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
+The `Dataplane` can operate in Gateway mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
 
-When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy.
+When you use a Dataplane with a service, both inbound traffic to a service and outbound traffic from the service flows through the Dataplane.
 API Gateway should be deployed as any other service within the mesh. However, in this case we want inbound traffic to go directly to API Gateway,
 otherwise clients would have to be provided with certificates that are generated dynamically for communication between services within the mesh.
 Security for an entrance to the mesh should be handled by API Gateway itself.
@@ -257,7 +307,7 @@ Gateway mode lets you skip exposing inbound listeners so it won't be interceptin
 
 ### Universal
 
-On Universal, you can define the `Dataplane` entity like this:
+On Universal, you can define such Dataplane like this:
 
 ```yaml
 type: Dataplane
@@ -298,65 +348,16 @@ spec:
       ...
 ```
 
-The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime. When integrating [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma you have to annotate every `Service` that you want to pass traffic to with [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream) annotation.
-
-:::warning
-Failure to apply the `ingress.kubernetes.io/service-upstream=true` annotation will prevent Kuma from taking over the load balancing of the requests and applying policies, therefore it is a required annotation when exposing a Kuma service via a `gateway` data plane proxy.
-:::
-
-Services can be exposed to an API Gateway in one specific zone, or in multi-zone. For the latter, we need to expose a dedicated Kubernetes `Service` object with type `ExternalName`, which sets the `externalName` to the `.mesh` DNS record for the particular service that we want to expose, that will be resolved by Kuma's internal [service discovery](/docs/1.0.6/documentation/networking/#kuma-dns).
-
-#### Example Gateway in Multi-Zone
-
-In this Kubernetes example, we will be exposing a service named `frontend-api` (that is running on port `8080`) and deployed in the `kuma-demo` namespace. In order to do so, the following `Service` needs to be created manually:
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend
-  namespace: kuma-demo
-  annotations:
-    ingress.kubernetes.io/service-upstream: "true"
-spec:
-  type: ExternalName
-  externalName: frontend-api.kuma-demo.svc.8080.mesh
-```
-
-Finally, we need to create the corresponding Kubernetes `Ingress` resource:
-
-```yaml
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: frontend
-  namespace: kuma-demo
-  annotations:
-    kubernetes.io/ingress.class: kong
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        backend:
-          serviceName: frontend
-          servicePort: 80
-```
-
-Note that since we are addressing the service by its domain name `frontend-api.kuma-demo.svc.8080.mesh`, we should always refer to port `80` (this port is only a placeholder and will be automatically replaced with the actual port of the service).
-
-:::tip
-If we want to expose a `Service` in one zone only (as opposed to multi-zone), we can just use the service name in the `Ingress` definition without having to create an `externalName` entry.
-:::
+The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime. When integrating [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma you have to annotate every `Service` that you want to pass traffic to with [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream) annotation. Otherwise Kong will do the load balancing which unables Kuma to do the load balancing and apply policies. 
 
 For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller), please follow this [demo application guide](https://github.com/kumahq/kuma-demo/tree/master/kubernetes).
 
 ## Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.0.6/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. These data plan proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
-All requests that are sent from one zone to another will be directed to the proper instance by the Ingress.
-The specifics of the `Ingress` data plane proxy are described in the `networking.ingress` dictionary in the YAML resource.
-Ingress has a regular address and one inbound just like a regular data plane proxy. This address is routable within the local Ingress zone. It also has the following public coordinates:
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.0.6/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. Such data plane is not attached to any particular workload, but instead, it is bound to that particular zone.
+All the requests that are sent from one zone to another will be directed to the proper instance by the Ingress.
+The specifics of the `Ingress` data plane are described in the `networking.ingress` dictionary in the YAML resource.
+Ingress has a regular address and one inbound just like a regular data plane, this address is routable within the local Ingress zone. It also has the following public coordinates:
 * `networking.ingress.publicAddress` - an IP address or hostname which will be used by data plane proxies from other zones
 * `networking.ingress.publicPort` - a port which will be used by data plane proxies from other zones
 

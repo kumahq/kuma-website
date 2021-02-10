@@ -74,7 +74,7 @@ networking:
 
 The ports illustrated above are the default ones that `kumactl install transparent-proxy` will set. These can be changed using the relevant flags to that command.
 
-### Invoking the Kuma data plane proxy
+### Invoking the Kuma data plane
 
 It is important that the `kuma-dp` process runs with the same system user that was passed to `kumactl install transparent-proxy --kuma-dp-user`.
 
