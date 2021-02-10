@@ -25,8 +25,6 @@ $newsbar-link-color: $color-5;
   margin-top: 3rem;
   padding: 1rem;
   // padding: 1rem 0;
-  border-top: $newsbar-border;
-  border-bottom: $newsbar-border;
 
   @include section-aura($shadow: 0 0 60px 60px, $color: #fff);
   border-radius: 0;
@@ -34,6 +32,12 @@ $newsbar-link-color: $color-5;
 
 .newsbar-wrap--left-text {
   text-align: left;
+}
+
+.newsbar-wrap--capsule {
+  border: 1.5px solid var(--green-light);
+  border-radius: 5px;
+  background-color: var(--green-lighter);
 }
 
 .newsbar {
@@ -59,6 +63,16 @@ $newsbar-link-color: $color-5;
   }
 }
 
+.newsbar__inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.newsbar-wrap__content {
+  flex: 1;
+}
+
 .newsbar__tag {
   background-color: $newsbar-tag-bg;
   color: $newsbar-tag-text-color;
@@ -74,11 +88,18 @@ $newsbar-link-color: $color-5;
 }
 
 .newsbar-wrap__title {
+  display: grid;
+  place-items: center;
+  margin-right: 1rem;
+  padding-right: 1rem;
+  border-right: 1px solid var(--green-light);
+
   h3 {
     font-size: 0.8rem;
+    font-weight: 700;
     text-transform: uppercase;
-    color: $color-1;
-    margin: 5px 0 0 0;
+    color: $green-base;
+    margin: 0;
     padding: 0;
   }
 }
