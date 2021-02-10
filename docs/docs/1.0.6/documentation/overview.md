@@ -13,7 +13,7 @@ Installing Kuma on Kubernetes is fully automated, while installing Kuma on Linux
 There are two main components of Kuma that are very important to understand:
 
 * **Control Plane**: Kuma is first and foremost a control-plane that will accept user input (you are the user) in order to create and configure [Policies](../../policies/introduction) like [Service Meshes](../../policies/mesh), and in order to add services and configure their behavior within the Meshes you have created.
-* **Data Plane Proxy**: Kuma also bundles a data plane proxy implementation based on top of [Envoy](https://www.envoyproxy.io/). An instance of the data plane proxy will must run alongside every instance of our services (or on every Kubernetes Pod as a sidecar container) and it will process both incoming and outgoing requests for the service.
+* **Data Plane Proxy**: Kuma also bundles a data plane proxy implementation based on top of [Envoy](https://www.envoyproxy.io/). An instance of the data plane proxy runs alongside every instance of our services (or on every Kubernetes Pod as a sidecar container). This instance processes both incoming and outgoing requests for the service.
 
 ::: tip
 **Multi-Mesh**: Kuma ships with multi-tenancy support since day one. This means you can create and configure multiple isolated Service Meshes from **one** control-plane. By doing so we lower the complexity and the operational cost of supporting multiple meshes. [Explore Kuma's Policies](/policies).
