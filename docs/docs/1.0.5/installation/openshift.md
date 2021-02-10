@@ -22,7 +22,7 @@ $ curl -L https://kuma.io/installer.sh | sh -
 ```
 
 :::
-::: tab "Manually"
+::: tab "Direct Link"
 
 You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access OpenShift:
 
@@ -61,10 +61,13 @@ We suggest adding the `kumactl` executable to your `PATH` so that it's always av
 ln -s ./kumactl /usr/local/bin/kumactl
 ```
 
-And we can then proceed to install Kuma on OpenShift with:
+Finally we can install and run Kuma in either **standalone** or **multi-zone** mode:
 
 :::: tabs :options="{ useUrlFragment: false }"
-::: tab "OpenShift 4.x"
+::: tab "OpenShift 4.x (Standalone)"
+
+Standalone mode is perfect when running Kuma in a single cluster across one environment:
+
 ```sh
 $ ./kumactl install control-plane --cni-enabled | oc apply -f -
 ```
@@ -72,9 +75,13 @@ $ ./kumactl install control-plane --cni-enabled | oc apply -f -
 Starting from version 4.1 OpenShift utilizes `nftables` instead of `iptables`. So using init container for redirecting traffic to the proxy is no longer works. Instead, we use `kuma-cni` which could be installed with `--cni-enabled` flag.
 :::
 
-::: tab "OpenShift 3.11"
+::: tab "OpenShift 3.11 (Standalone)"
+
+Standalone mode is perfect when running Kuma in a single cluster across one environment.
+
 By default `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` are disabled on OpenShift 3.11.
 In order to make it work add the following `pluginConfig` into `/etc/origin/master/master-config.yaml` on the master node:
+
 ```yaml
 admissionConfig:
   pluginConfig:
@@ -95,9 +102,17 @@ $ ./kumactl install control-plane | oc apply -f -
 ```
 
 :::
-::::
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/1.0.5/documentation/deployments/) like "multi-zone".
+::: tab "Multi-Zone"
+
+Multi-zone mode is perfect when running one deployment of Kuma that spans across multiple Kubernetes clusters, clouds and VM environments under the same Kuma deployment. 
+
+This mode also supports hybrid Kubernetes + VMs deployments.
+
+To learn more, read the [multi-zone installation instructions](/docs/1.0.5/documentation/deployments/).
+
+:::
+::::
 
 ::: tip
 It may take a while for OpenShift to start the Kuma resources, you can check the status by executing:

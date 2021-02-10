@@ -1,6 +1,6 @@
-// 
+//
 // Mixins + Functions
-// 
+//
 
 @mixin sr-only {
   position: absolute !important;
@@ -21,7 +21,7 @@
 @mixin img-full {
   max-width: 100%;
   width: 100%;
-  height: auto
+  height: auto;
 }
 
 @mixin img-fluid {
@@ -50,8 +50,8 @@
   background-image: $gradient-5;
 }
 
-@mixin page-section {
-  padding: 3.5rem 0;
+@mixin page-section($spacing: 3.5rem 0) {
+  padding: $spacing;
 }
 
 @mixin clear-text {
@@ -64,7 +64,7 @@
   font-family: $base-font-family;
   font-weight: $fw-medium;
   background-color: $green-base;
-  padding: .563rem 2.25rem;
+  padding: 0.563rem 2.25rem;
   border-radius: 3px;
   box-shadow: $base-soft-shadow;
   text-align: center;
@@ -76,7 +76,11 @@
   height: $btn-height-base;
   border-radius: $btn-radius;
 
-  &, &:hover, &:active, &:focus, &:visited {
+  &,
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
     color: #fff !important;
   }
 
@@ -87,16 +91,16 @@
 
 @mixin button-state-overrides {
   &:disabled:hover,
-	&:disabled:active,
+  &:disabled:active,
   &:disabled:focus,
   &:disabled:visited {
     @content;
-	}
+  }
 }
 
 @mixin quotify {
-  quotes: "“" "”" "‘" "’";
-  
+  quotes: '“' '”' '‘' '’';
+
   &:before {
     content: open-quote;
   }
@@ -108,47 +112,47 @@
 
 @mixin scrollbar-v {
   &::-webkit-scrollbar {
-    width: .4em;
+    width: 0.4em;
   }
-  
+
   &::-webkit-scrollbar-track {
-    $i: rgba(#000, .35);
+    $i: rgba(#000, 0.35);
 
     background-color: $i;
     border: 0;
     outline: 0;
     box-shadow: 0 0 0 4px $i;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background-color: #555;
-    border-radius: .2em;
+    border-radius: 0.2em;
   }
 }
 
 @mixin scrollbar-h {
   &::-webkit-scrollbar {
-    height: .4em;
+    height: 0.4em;
   }
-  
+
   &::-webkit-scrollbar-track {
-    $i: rgba(#000, .35);
+    $i: rgba(#000, 0.35);
 
     background-color: $i;
     border: 0;
     outline: 0;
     box-shadow: 0 0 0 4px $i;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background-color: #555;
-    border-radius: .2em;
+    border-radius: 0.2em;
   }
 }
 
 // target Retina screens
 @mixin retina-mq {
-  @media (-webkit-min-device-pixel-ratio: 2),  (min-resolution: 192dpi) { 
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     @content;
   }
 }
@@ -166,12 +170,19 @@
   position: sticky;
   top: 0;
 
-  &:before, &:after {
-    content: "";
+  &:before,
+  &:after {
+    content: '';
     display: table;
   }
 }
 
 .sticky {
   @include sticky;
+}
+
+@mixin section-aura($shadow: 0 0 80px 85px, $color: $pale-blue) {
+  background-color: $color;
+  box-shadow: $shadow $color;
+  border-radius: 20px;
 }

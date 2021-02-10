@@ -10,6 +10,7 @@ import '@kongponents/styles'
 
 export default ({
   Vue,
+  isServer,
   router,
   siteData
 }) => {

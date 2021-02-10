@@ -26,7 +26,7 @@ $ tar xvzf kuma-*.tar.gz
 
 ### 2. Run Kuma
 
-Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In this folder, you will find - among other files - the `bin` directory that stores all the executables for Kuma. 
+Once downloaded, you will find the contents of Kuma in the `kuma-1.0.5` folder. In this folder, you will find - among other files - the `bin` directory that stores all the executables for Kuma. 
 
 So we enter the `bin` folder by executing:
 
@@ -34,13 +34,30 @@ So we enter the `bin` folder by executing:
 $ cd kuma-1.0.5/bin
 ```
 
-And we can then proceed to run Kuma with:
+Finally we can run Kuma in either **standalone** or **multi-zone** mode:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Standalone"
+
+Standalone mode is perfect when running Kuma in a single cluster across one environment:
 
 ```sh
 $ ./kuma-cp run
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/1.0.5/documentation/deployments/) like "multi-zone".
+To learn more, read about the [deployment modes available](/docs/1.0.5/documentation/deployments/).
+
+:::
+::: tab "Multi-Zone"
+
+Multi-zone mode is perfect when running one deployment of Kuma that spans across multiple Kubernetes clusters, clouds and VM environments under the same Kuma deployment. 
+
+This mode also supports hybrid Kubernetes + VMs deployments.
+
+To learn more, read the [multi-zone installation instructions](/docs/1.0.5/documentation/deployments/).
+
+:::
+::::
 
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 

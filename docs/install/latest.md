@@ -9,3 +9,15 @@ sidebar: false
 layout: Install
 title: Install Kuma
 ---
+
+<!-- newsletter -->
+
+::: slot newsletter-title
+
+## Get Community Updates
+
+:::
+
+::: slot newsletter-content
+Sign up for our Kuma community newsletter to get the most recent updates and product announcements.
+:::

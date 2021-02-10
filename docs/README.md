@@ -10,8 +10,6 @@ meta:
     content: service mesh microservices open-source
 
 # custom page data
-testimonialPortraitSrc: /images/luca-maraschi-cropped@2x.png
-testimonialPortraitAlt: Portrait photo of Luca Maraschi
 showTestimonial: true # change this to `true` if you want to display the testimonial
 showNews: true # change this to `true` if you want to display the news bar
 startText: Get Started
@@ -21,17 +19,33 @@ whyUrl: /policies/
 
 # tabs
 tabs:
-  - hash: "#kubernetes"
+  - hash: '#kubernetes'
     title: Kubernetes
-  - hash: "#openshift"
+  - hash: '#openshift'
     title: OpenShift
-  - hash: "#universal"
+  - hash: '#universal'
     title: Universal (VMs)
+
+# testimonials
+testimonialCarouselTiming: 5000
+testimonialCarouselLoop: false
+testimonialCarouselAutoplay: false
+testimonials:
+  - content: 'Kuma reduces complexity and accelerates service reliability with an Envoy-based Service Mesh.'
+    author: 'Luca Maraschi'
+    title: 'Chief Architect, Telus Digital'
+    image: '/images/telus-logo.svg'
+    alt: 'Logo for Telus Digital'
+  - content: 'We chose Kuma in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two.'
+    author: 'Aaron Weikle'
+    title: 'CEO of MS3'
+    image: '/images/ms3-logo.png'
+    alt: 'Logo for MS3'
 ---
 
 ::: slot news
 
-**Kuma 1.0.5 has been released!** With one-click transparent proxying support for VMs in universal mode, a new Retry policy and performance improvements! &mdash; [Get Started](/install/)
+**Kuma 1.0.6 has been released!** With deep status checks, four new load balancers, support for Envoy xDS v3 and more! &mdash; [Get Started](/install/)
 
 :::
 
@@ -50,7 +64,7 @@ tabs:
 :::
 
 ::: slot masthead-diagram
-![Kuma service diagram](/images/diagrams/main-diagram@2x.png)
+![Screenshot of the Kuma GUI with charts](/images/gui-screenshot-with-charts.jpg)
 :::
 
 <!-- feature blocks -->
@@ -80,20 +94,6 @@ Out of the box L4 + L7 policy architecture to enable zero trust security, observ
 ![Platform Agnostic diagram](/images/diagrams/v3/diagram-platform-agnostic@2x.png)
 
 Built for the enterprise, Kuma ships with the most scalable multi-zone connectivity across multiple clouds & clusters on Kubernetes, VMs or hybrid.
-:::
-
-<!-- testimonial -->
-
-::: slot testimonial-content
-Kuma reduces complexity and accelerates service reliability with an Envoy-based Service Mesh
-:::
-
-::: slot testimonial-author
-Luca Maraschi
-:::
-
-::: slot testimonial-author-info
-Chief Architect at Telus Digital
 :::
 
 <!-- tabs -->

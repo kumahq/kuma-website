@@ -43,7 +43,7 @@ export default {
     }
   },
 
-  created () {
+  mounted () {
     this.refreshIndex()
   },
 
