@@ -1,6 +1,6 @@
 # DPs and Data Model
 
-When Kuma (`kuma-cp`) runs, it will be waiting for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system auto-generates a `default` Mesh when the control-plane is run for the first time.
+When Kuma (`kuma-cp`) runs, it waits for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](../../policies/mesh) in Kuma. By default the system generates a `default` Mesh when the control-plane is run for the first time.
 
 <center>
 <img src="/images/docs/0.5.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -23,7 +23,7 @@ For example, if we have 6 replicas of a "Redis" service, then we must have one i
 </center>
 
 ::: tip
-**Many DPs!** The number of data plane proxies that we have running can quickly add up, since we have one replica of `kuma-dp` for every replica of every service. That's why it's important for the DP process to be lightweight and consume a few resources, otherwise we would quickly run out of memory, especially on platforms like Kubernetes where multiple services are running on the same underlying host machine. And that's one of the reasons why Kuma leverages Envoy for this task.
+**Many DPs!** The number of data plane proxies that we have running can quickly add up, since we have one replica of `kuma-dp` for every replica of every service. That's why it's important for the `kuma-dp` process to be lightweight and consume few resources, otherwise we would quickly run out of memory, especially on platforms like Kubernetes where multiple services are running on the same underlying host machine. And that's one of the reasons Kumea leverages Envoy for this task.
 :::
 
 When we start a new data plane proxy in Kuma, **two things** have to happen:
@@ -296,9 +296,9 @@ annotations:
 
 ## Gateway
 
-The `Dataplane` can operate in Gateway mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
+The `Dataplane` entity can operate in Gateway mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
 
-When you use a Dataplane with a service, both inbound traffic to a service and outbound traffic from the service flows through the Dataplane.
+When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy.
 API Gateway should be deployed as any other service within the mesh. However, in this case we want inbound traffic to go directly to API Gateway,
 otherwise clients would have to be provided with certificates that are generated dynamically for communication between services within the mesh.
 Security for an entrance to the mesh should be handled by API Gateway itself.
@@ -307,7 +307,7 @@ Gateway mode lets you skip exposing inbound listeners so it won't be interceptin
 
 ### Universal
 
-On Universal, you can define such Dataplane like this:
+On Universal, you can define the `Dataplane` entity like this:
 
 ```yaml
 type: Dataplane
@@ -393,10 +393,10 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.0.6/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. Such data plane is not attached to any particular workload, but instead, it is bound to that particular zone.
-All the requests that are sent from one zone to another will be directed to the proper instance by the Ingress.
-The specifics of the `Ingress` data plane are described in the `networking.ingress` dictionary in the YAML resource.
-Ingress has a regular address and one inbound just like a regular data plane, this address is routable within the local Ingress zone. It also has the following public coordinates:
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.0.6/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. These data plan proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
+All requests that are sent from one zone to another will be directed to the proper instance by the Ingress.
+The specifics of the `Ingress` data plane proxy are described in the `networking.ingress` dictionary in the YAML resource.
+Ingress has a regular address and one inbound just like a regular data plane proxy. This address is routable within the local Ingress zone. It also has the following public coordinates:
 * `networking.ingress.publicAddress` - an IP address or hostname which will be used by data plane proxies from other zones
 * `networking.ingress.publicPort` - a port which will be used by data plane proxies from other zones
 
