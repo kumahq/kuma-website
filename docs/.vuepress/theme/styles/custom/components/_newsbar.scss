@@ -1,6 +1,6 @@
-// 
+//
 // Newsbar
-// 
+//
 
 // $newsbar-max-width: 41.25rem;
 $newsbar-max-width: 66.875rem;
@@ -22,14 +22,30 @@ $newsbar-link-color: $color-5;
   padding: $newsbar-padding;
   // background-color: $newsbar-bg;
   text-align: center;
+  margin-top: 3rem;
+  padding: 1rem;
+  // padding: 1rem 0;
+
+  @include section-aura($shadow: 0 0 60px 60px, $color: #fff);
+  border-radius: 0;
+}
+
+.newsbar-wrap--left-text {
+  text-align: left;
+}
+
+.newsbar-wrap--capsule {
+  border: 1.5px solid var(--green-light);
+  border-radius: 5px;
+  background-color: var(--green-lighter);
 }
 
 .newsbar {
   max-width: $newsbar-max-width;
   margin: 0 auto;
-  padding: 1rem 0;
-  border-top: $newsbar-border;
-  border-bottom: $newsbar-border;
+  // padding: 1rem 0;
+  // border-top: $newsbar-border;
+  // border-bottom: $newsbar-border;
 
   a {
     display: inline-block;
@@ -38,7 +54,6 @@ $newsbar-link-color: $color-5;
     text-decoration: underline;
 
     &:hover {
-      
     }
   }
 
@@ -46,6 +61,16 @@ $newsbar-link-color: $color-5;
     padding: 0;
     margin: 0;
   }
+}
+
+.newsbar__inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.newsbar-wrap__content {
+  flex: 1;
 }
 
 .newsbar__tag {
@@ -60,5 +85,21 @@ $newsbar-link-color: $color-5;
 }
 
 .newsbar__arrow {
-  
+}
+
+.newsbar-wrap__title {
+  display: grid;
+  place-items: center;
+  margin-right: 1rem;
+  padding-right: 1rem;
+  border-right: 1px solid var(--green-light);
+
+  h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $green-base;
+    margin: 0;
+    padding: 0;
+  }
 }

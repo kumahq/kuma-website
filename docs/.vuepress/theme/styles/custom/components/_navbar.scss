@@ -1,6 +1,6 @@
-// 
+//
 // NavBar.vue
-// 
+//
 
 $navbar-width: $container-width;
 $navbar-logo-height: 2.563rem;
@@ -20,29 +20,29 @@ $navbar-link-margin: 3rem; // the spacing between navbar links
   display: flex;
   align-items: center;
 
-  // these styles override ones found 
+  // these styles override ones found
   // in `vuepress-core/index.scss`
   height: $navbar-height-large;
   border-bottom: 0;
-  background: transparent linear-gradient(
-    to bottom, #f5f8fc 80%, rgba(#f5f8fc, 0)
-  );
+  background: transparent linear-gradient(to bottom, #f5f8fc 80%, rgba(#f5f8fc, 0));
 
-  a, span, img {
+  a,
+  span,
+  img {
     display: inline-block;
   }
 
   .logo {
-    height: $navbar-logo-height;
+    max-height: $navbar-logo-height;
     margin-right: 0.8rem;
-    
+
     // IE doesn't respect SVG images unless they have explicit dimensions
     @include target-ie {
       width: 136px;
       height: 41px;
     }
   }
-    
+
   .site-name {
     // font-size: 1.3rem;
     // font-weight: 600;
@@ -50,7 +50,7 @@ $navbar-link-margin: 3rem; // the spacing between navbar links
     // position: relative;
     display: none;
   }
-  
+
   // container for links in the navbar
   .links {
     padding-left: 1.5rem;
@@ -81,6 +81,11 @@ $navbar-link-margin: 3rem; // the spacing between navbar links
   .logo-wrap {
     display: flex;
     align-items: center;
+
+    @media (max-width: 1072px) and (min-width: 841px) {
+      flex-direction: column;
+      flex-wrap: wrap;
+    }
   }
 
   .repo-button {
@@ -95,12 +100,13 @@ $navbar-link-margin: 3rem; // the spacing between navbar links
   }
 
   // install button
-  
+
   .nav-item--install > a:not(.external),
   .nav-item--install > a.router-link-active {
     @include button-base;
-    
-    &, &:hover {
+
+    &,
+    &:hover {
       border: 0 !important;
     }
   }
@@ -137,5 +143,17 @@ $navbar-link-margin: 3rem; // the spacing between navbar links
 
   .links {
     padding-left: 1.5rem;
+  }
+}
+
+@media (max-width: 1072px) and (min-width: 841px) {
+  .navbar {
+    .links {
+      padding-left: 0;
+    }
+
+    .nav-item {
+      margin-left: 1.5rem;
+    }
   }
 }
