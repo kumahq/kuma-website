@@ -174,6 +174,8 @@
       </div>
     </div>
     <!-- .feature-focus-wrap -->
+    
+    <FormPopup />
   </div>
 </template>
 
@@ -183,6 +185,8 @@ import MastheadWaves from '@theme/components/custom/PageMastheadWaves'
 import NewsletterWaves from '@theme/components/custom/NewsletterWaves'
 import KTabs from '../../../../../node_modules/@kongponents/ktabs/KTabs'
 import NewsletterForm from '@theme/global-components/NewsletterForm'
+
+import FormPopup from '@theme/global-components/FormPopup'
 
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
@@ -195,6 +199,7 @@ export default {
     NewsletterWaves,
     NewsletterForm,
     KTabs,
+    FormPopup,
     VueSlickCarousel
   },
   computed: {

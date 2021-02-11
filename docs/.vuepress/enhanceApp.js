@@ -5,7 +5,6 @@ import store from './theme/store/index'
 import '@kongponents/styles'
 import 'vuepress-plugin-tabs/dist/themes/default.styl'
 import './theme/styles/styles.scss'
-
 import '@kongponents/styles'
 
 import VueAnalytics from 'vue-analytics'
@@ -17,10 +16,12 @@ export default ({
   siteData
 }) => {
 
+  // setup Vuex
   Vue.use(Vuex)
   
+  // setup VueAnalytics for creating GA events and other things
   Vue.use(VueAnalytics, {
-    id: 'UA-8499472-30'
+    id: siteData.themeConfig.gaCode
   })
   
   /**

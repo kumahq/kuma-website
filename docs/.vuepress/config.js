@@ -34,6 +34,7 @@ module.exports = {
   // theme configuration
   themeConfig: {
     domain: productData.hostname,
+    gaCode: productData.gaCode,
     latestVer: latestVersion,
     twitter: productData.twitter,
     author: productData.author,
