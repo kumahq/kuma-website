@@ -14,7 +14,7 @@ By doing this,
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-On `Kubernetes`, to give Kuma a hint that your service supports `HTTP` protocol, you need to add a `<port>.service.kuma.io/protocol` annotation to the `k8s` `Service` object.
+On `Kubernetes`, to give Kuma a hint that your service supports `HTTP` protocol, you need to add a `<port>.service.kuma.io/protocol` annotation to the `k8s` `Service` object or use `appProtocol` of the `k8s` `Service` object.
 
 E.g.,
 
@@ -31,6 +31,8 @@ spec:
     app: web
   ports:
   - port: 8080
+  - port: 8090
+    appProtocol: http
 ```
 
 :::
