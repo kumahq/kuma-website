@@ -2077,7 +2077,6 @@ module.exports = {
         "documentation/dependencies",
         "documentation/deployments",
         "documentation/dps-and-data-model",
-        "documentation/health",
         "documentation/transparent-proxying",
         "documentation/cli",
         "documentation/gui",
