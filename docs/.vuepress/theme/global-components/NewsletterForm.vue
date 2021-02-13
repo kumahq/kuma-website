@@ -92,7 +92,7 @@ export default {
         email: '',
         utm_content: this.$route.query.utm_content || null,
         utm_medium: this.$route.query.utm_medium || null,
-        utm_source: 'kuma-homepage',
+        utm_source: this.$route.query.utm_source || 'kuma-website',
         utm_campaign: this.$route.query.utm_campaign || null,
         utm_term: this.$route.query.utm_term || null,
         utm_ad_group: this.$route.query.utm_ad_group || null

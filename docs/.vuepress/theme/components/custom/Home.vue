@@ -95,6 +95,7 @@
     </div>
     <!-- .page-masthead-wrap -->
     
+    <!--
     <div class="newsletter-form-wrap newsletter-form-wrap--simple">
       <div class="inner newsletter-form">
         <header class="section-header">
@@ -111,13 +112,8 @@
           </template>
         </NewsletterForm>
       </div>
-      <!-- <NewsletterWaves
-        :duration="1500"
-        :starting-opacity="0.2"
-        :delay="100"
-      /> -->
     </div>
-    <!-- newsletter-form-wrap -->
+    -->
 
     <div class="product-features-wrap">
       <!-- <div v-if="$page.frontmatter.showNews" class="newsbar-wrap">
@@ -175,6 +171,17 @@
     </div>
     <!-- .feature-focus-wrap -->
     
+    <div class="newsletter-form-wrap newsletter-form-wrap--mobile-only">
+      <div class="inner newsletter-form">
+        <header class="section-header">
+          <Content slot-key="newsletter-title" class="alt-title" />
+        </header>
+        <Content slot-key="newsletter-content" />
+        <NewsletterForm />
+      </div>
+    </div>
+    <!-- newsletter-form-wrap -->
+    
     <FormPopup />
   </div>
 </template>
@@ -182,7 +189,6 @@
 <script>
 import Navbar from '@theme/components/Navbar'
 import MastheadWaves from '@theme/components/custom/PageMastheadWaves'
-import NewsletterWaves from '@theme/components/custom/NewsletterWaves'
 import KTabs from '../../../../../node_modules/@kongponents/ktabs/KTabs'
 import NewsletterForm from '@theme/global-components/NewsletterForm'
 
@@ -196,7 +202,6 @@ export default {
   components: {
     Navbar,
     MastheadWaves,
-    NewsletterWaves,
     NewsletterForm,
     KTabs,
     FormPopup,
@@ -212,3 +217,13 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.newsletter-form-wrap--mobile-only {
+  display: none;
+  
+  @media (max-width: 766px) {
+    display: block;
+  }
+}
+</style>
