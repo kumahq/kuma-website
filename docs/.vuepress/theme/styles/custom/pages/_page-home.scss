@@ -79,8 +79,10 @@ $home-feature-icon-bottom-spacing: 1rem;
 .page-masthead-wrap {
   @include page-section;
   // @include gradient-container;
-  @include gradient-container-alt;
+  // @include gradient-container-alt;
   overflow: hidden;
+
+  background-color: #f5f8fc;
 
   // this places the waves properly
   position: relative;
@@ -147,6 +149,7 @@ $home-feature-icon-bottom-spacing: 1rem;
     object-fit: contain;
     border-radius: 5px;
     border: 1px solid #eee;
+    box-shadow: 0px 2px 12px #ccc;
   }
 }
 
@@ -645,8 +648,8 @@ $home-feature-icon-bottom-spacing: 1rem;
   > .inner {
     max-width: 70rem;
     // max-width: 50rem;
-    padding-top: 2rem;
-    border-top: 2px solid $gray-8;
+    // padding-top: 2rem;
+    // border-top: 2px solid $gray-8;
   }
 
   // carousel overrides
@@ -674,6 +677,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 
     &:before {
       color: $color-2 !important;
+      font-size: 32px !important;
       font-family: inherit !important;
     }
   }
