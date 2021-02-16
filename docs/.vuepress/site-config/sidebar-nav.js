@@ -2152,13 +2152,30 @@ module.exports = {
       children: [
         "overview/what-is-kuma",
         "overview/what-is-a-service-mesh",
-        "overview/why-kuma",
-        "overview/kuma-vs-xyz",
-        "overview/vm-and-k8s-support"
+        "overview/why-kuma"
       ]
     },
     {
-      title: "Quickstart",
+      title: "Install",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "installation/kubernetes",
+        "installation/helm",
+        "installation/openshift",
+        "installation/docker",
+        "installation/amazonlinux",
+        "installation/ecs",
+        "installation/redhat",
+        "installation/centos",
+        "installation/debian",
+        "installation/ubuntu",
+        "installation/macos",
+      ]
+    },
+    {
+      title: "Get started",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
@@ -2168,26 +2185,35 @@ module.exports = {
       ]
     },
     {
-      title: "Documentation",
+      title: "Core components",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "documentation/introduction",
         "documentation/overview",
         "documentation/backends",
         "documentation/dependencies",
         "documentation/deployments",
         "documentation/dps-and-data-model",
         "documentation/health",
-        "documentation/transparent-proxying",
         "documentation/cli",
         "documentation/gui",
         "documentation/http-api",
         "documentation/security",
         "documentation/secrets",
-        "documentation/networking",
         "documentation/fine-tuning"
+      ]
+    },
+    {
+      title: "Networking",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "networking/networking",
+        "networking/service-discovery",
+        "networking/dns",
+        "networking/transparent-proxying"
       ]
     },
     {
@@ -2215,25 +2241,6 @@ module.exports = {
         "policies/proxy-template",
         "policies/external-services",
         "policies/retry",
-      ]
-    },
-    {
-      title: "Install",
-      collapsable: true,
-      sidebarDepth: sidebarDepth,
-      path: "",
-      children: [
-        "installation/kubernetes",
-        "installation/helm",
-        "installation/openshift",
-        "installation/docker",
-        "installation/amazonlinux",
-        "installation/ecs",
-        "installation/redhat",
-        "installation/centos",
-        "installation/debian",
-        "installation/ubuntu",
-        "installation/macos",
       ]
     },
     {
