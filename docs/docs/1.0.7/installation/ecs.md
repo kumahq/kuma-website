@@ -1,94 +1,93 @@
 # ECS
 
-::: tip
-NOTE:
+To install and run Kuma on AWS CloudFormation execute the following steps:
 
-All instruction here are for illustrating Kuma capabilities in a non-production deployments. The demo Cloudformation scripts
-as parametrised and exploring these parameters is highly recommended before considering Kuma in production.
-Also, please check the security notes throughout this document
+* [1. Setup the environment](#_1-setup-the-environment)
+* [2. Run Kuma CP](#_2-run-kuma-cp)
+* [3. Run Kuma DP](#_3-run-kuma-dp)
+* [4. Use Kuma](#_4-use-kuma)
+
+Before continuing with the next steps, make sure to have [AWS CLI installed](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) and [configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
+
+::: tip
+The AWS CloudFormation scripts described in this page are parametrized, and we suggest to take a deeper look at those parameters before deploying Kuma.
 :::
 
-### Preparation
+### 1. Setup the environment
 
-#### Download the example Cloudformation scripts
+First we need to download the scripts that will setup our environment. The scripts are stored in the main GitHub repository of Kuma in the [examples folders](https://github.com/kumahq/kuma/tree/1.0.7/examples/ecs).
 
-The example [Cloudformation](https://aws.amazon.com/cloudformation/) scripts are hosted in the main [github repo](https://github.com/kumahq/kuma/tree/1.0.5/examples/ecs). As a preparatory step we'll download these locally:
+To download the scripts locally:
 
 ```shell
-export KUMA_VERSION=1.0.5
-mkdir ecs && cd ecs
-curl --location --output - https://github.com/kumahq/kuma/archive/${KUMA_VERSION}.tar.gz | tar -z --strip 3 --extract --file=- "./kuma-${KUMA_VERSION}/examples/ecs/*yaml"
+$ curl --location --output - https://github.com/kumahq/kuma/archive/1.0.7.tar.gz | tar -z --strip 3 --extract --file=- "./kuma-1.0.7/examples/ecs/*yaml"
 ```
 
-This snippet, will create a folder named `ecs` and populate it with the contents of the relevant ECS examples folder from the git repo.
-
-::: tip
-Before continuing with the next steps, make sure to have AWS CLI [installed](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) and [configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
-:::
-
-#### Installing the VPC
-
-The first step is to install the `kuma` VPC.
+Then we can proceed to install a `kuma` VPC:
 
 ```shell
-aws cloudformation deploy \
+$ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-vpc \
     --template-file kuma-vpc.yaml
 ```
 
-### Installing the `kuma-cp`
+### 2. Run Kuma CP
 
-#### Control plane
-Depending on the desired setup, we can choose from Standalone or multi-zone (Global plus Remote) control plane setup.
+We can run Kuma in either **standalone** or **multi-zone** mode:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Standalone"
-The command to deploy the `kuma-cp` stack in the standalone mode is as follows
+
+To deploy the `kuma-cp` stack in standalone mode we can execute:
 
 ```shell
-aws cloudformation deploy \
+$ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-cp \
     --template-file kuma-cp-standalone.yaml \
     --parameter-overrides AllowedCidr=0.0.0.0/0
 ```
 
-:::
-::: tab "Global"
+To learn more, read about the [deployment modes available](/docs/1.0.7/documentation/deployments/).
 
-Deploying a global control plane is simple as it does not have many setting to tune.
+:::
+::: tab "Multi-Zone"
+
+Multi-zone mode is perfect when running one deployment of Kuma that spans across multiple Kubernetes clusters, clouds and VM environments under the same Kuma deployment. This mode also supports hybrid Kubernetes + VMs deployments.
+
+To run Kuma in multi-zone mode, we must install our **global** control plane first:
 
 ```shell
-aws cloudformation deploy \
+$ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-cp-global \
     --template-file kuma-cp-global.yaml \
     --parameter-overrides AllowedCidr=0.0.0.0/0
 ```
 
-:::
-::: tab "Remote"
-Setting up a remote `kuma-cp` is a two-step process. First, deploy the `kuma-cp` itself:
+And as many **remote** control planes as the number of zones we want to support:
 
 ```shell
-aws cloudformation deploy \
+$ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-cp \
     --template-file kuma-cp-remote.yaml \
     --parameter-overrides AllowedCidr=0.0.0.0/0
 ```
 
-Kuma Ingress DP is needed for the cross-zone communication. As every dataplane it needs a dataplane [token generated](/docs/1.0.5/installation/ecs/#generate-the-token)
+A Kuma [`ingress` data plane proxy](/docs/1.0.7/documentation/dps-and-data-model/#ingress) is needed in each zone to enable cross-zone communication. Like every other data plane proxy type, it also needs a [data plane proxy token](/docs/1.0.7/installation/ecs/#generate-the-dp-token) if the data plane proxy and control plane communication is secured. Learn more about [DP and CP security](/docs/1.0.7/documentation/security/#data-plane-proxy-to-control-plane-communication).
+
+We can provision a token with the following command:
 
 ```shell
-ssh root@<kuma-cp-remote-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\", \"type\": \"ingress\"}' -qO- http://localhost:5681/tokens"
+$ ssh root@<kuma-cp-remote-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\", \"type\": \"ingress\"}' -qO- http://localhost:5681/tokens"
 ```
 
-Then simply deploy the ingress itself:
+And finally deploy the ingress data plane proxy:
 
 ```shell
-aws cloudformation deploy \
+$ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name ingress \
     --template-file remote-ingress.yaml \
@@ -96,38 +95,37 @@ aws cloudformation deploy \
       DPToken="<token>"
 ``````
 
+To learn more, read the [multi-zone installation instructions](/docs/1.0.7/documentation/deployments/).
+
 :::
 ::::
 
-
-::: tip
-The example deployment above will allow access to the kuma-cp exposed services to all IPs, in production we should change `--parameter-overrides AllowedCidr=0.0.0.0/0` to point to a more restricted subnet that will be used to administer the Kuma control plane. 
+::: warning
+The examples described above will allow access to the `kuma-cp` to all IPs. In production we should change `--parameter-overrides AllowedCidr=0.0.0.0/0` to point to a more restricted subnet that will be used to administer the Kuma control plane.
 :::
 
-::: tip
+#### Security Note
 
-✋ SECURITY NOTE:
-
-Explore `kuma-cp.yaml` and `kuma-cp-remote.yaml` for the `ServerCert` and `ServerKey` parameters. The example includes pre-generated ones that will work in the simplest demo use-case. For production use we do recommend overriding these values with properly generated certificates with the DNS name in place.
-:::
+Explore `kuma-cp.yaml` and `kuma-cp-remote.yaml` to set the appropriate `ServerCert` and `ServerKey` parameters. The examples above include pre-generated server certificate and key that are not suitable for production usage, therefore we recommend overriding these values with properly generated certificates with the DNS name in place.
 
 #### Removing the Kuma control plane
 
-To remove the `kuma-cp` stack use (similarly for `kuma-cp-global` and `kuma-cp-remote`):
+To remove the `kuma-cp` stack use (similarly for `kuma-cp-global` and `kuma-cp-remote`) we can execute:
+
 ```shell
-aws cloudformation delete-stack --stack-name kuma-cp
+$ aws cloudformation delete-stack --stack-name kuma-cp
 ```
 
-Before moving forward, please write down the `kuma-cp` IP address accordingly as it will be used in the next steps.
-
+Before moving forward with the next steps, please write down the `kuma-cp` IP address accordingly as we will need its value to continue with the installation.
 
 #### Kuma DNS
 
-The services within the Kuma mesh are exposed through their names (as defined in the `kuma.io/service` tag) in the `.mesh` DNS zone. In the default workload example that would be `httpbin.mesh`.
-Run the following command to create the necessary Forwarding rules in Route 53 and leverage the integrated DNS server in `kuma-cp`.
+The services within the Kuma mesh are exposed through their names (as defined in the `kuma.io/service` tag) in the [`.mesh` DNS zone](/docs/1.0.7/documentation/networking/#kuma-dns). In the default workload example presented in these instructions, our services will be available on `httpbin.mesh`. 
+
+Run the following command to create the necessary forwarding rules in AWS Route53 and to leverage the integrated service discovery in `kuma-cp`:
 
 ```shell
-aws cloudformation deploy \
+$ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-dns \
     --template-file kuma-dns.yaml \
@@ -135,48 +133,43 @@ aws cloudformation deploy \
       DNSServer=<kuma-cp-ip>
 ```
 
-The `<kuma-cp-ip>`, shall be taken from the AWS ECS web console, it maybe both the public and the private IP. In case of a multi-zone deployment, we should use Remote CP IP.
+The `<kuma-cp-ip>` value (retrieved from the AWS ECS web console or CLI) can be either the public or the private IP of `kuma-cp`. In multi-zone deployments, we will use the remote control plane IP address.
 
 ::: tip
-We strongly recommend exposing the Kuma-CP instances behind a load balancer, and use that IP as the `DNSServer` parameter. This will ensure a more robust operation during upgrades, restarts and re-configurations. 
+We strongly recommend exposing the `kuma-cp` instances behind a load balancer, and use the IP of the load balancer as the `DNSServer` parameter value. This will ensure a more robust operation during upgrades, restarts and re-configurations.
 :::
 
-### Workload setup
+### 3. Run Kuma DP
 
-The provided example `workload.yaml` is a Cloudformation template showcasing how `kuma-dp` can be run as a sidecar container alongside an arbitrary, single port service container in ECS.
+While we have installed the Kuma control plane successfully, we still need to start `kuma-dp` alongside our workloads. The `workload.yaml` file provided in the examples is an AWS CloudFormation template that showcases how we can `kuma-dp` as a sidecar container alongside an arbitrary, single port, service container in AWS ECS.
 
-#### Generate the token
-In order to run `kuma-dp` container, we have to issue an access token. The latter can be generated using the Admin API of the Kuma CP.
+#### Generate the DP token
 
-In this example we'll show the simplest form to generate it by executing this command alongside the `kuma-cp`. For this we need to have `<kuma-cp-ip>` as it shows in AWS ECS console:
+In order to run the `kuma-dp` container, we have to issue an access token. The latter can be generated using the Admin API of the Kuma CP. Learn more about [DP and CP security](/docs/1.0.7/documentation/security/#data-plane-proxy-to-control-plane-communication).
+
+In this example we'll show the simplest way to generate a new data plane proxy token by executing the following command on the same machine where `kuma-cp` is running (although this is only one of many ways to generate the data plane proxy token):
+
 ```shell
-ssh root@<kuma-cp-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\"}' -qO- http://localhost:5681/tokens"
+$ ssh root@<kuma-cp-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\"}' -qO- http://localhost:5681/tokens"
 ```
 
-When asked, supply the default password `root`.
+Where `<kuma-cp-ip>` is the IP address of `kuma-cp` as it shows in AWS ECS. When asked, supply the default password `root`.
 
-The generated token is valid for all Dataplanes in the `default` mesh. Kuma also [allows](https://kuma.io/docs/1.0.5/documentation/security/#data-plane-proxy-authentication) to generate tokens based
-on Dataplane's Name and Tags.
+The generated token is valid for all data plane proxies in the `default` mesh. Kuma also allows to generate data plane proxy token in a more restrictive way and [bound to its name or tags](https://kuma.io/docs/1.0.7/documentation/security/#data-plane-proxy-authentication).
 
-::: tip
-
-✋ SECURITY NOTE:
-
-Kuma allows much more advanced and secure way to expose the `/tokens` endpoint. For this it needs to have `HTTPS` endpoint configured
-on port `5682` as well as client ceritificate setup for authentication. The full procedure is available in Kuma Security documentation
-[Data plane proxy authentication](https://kuma.io/docs/1.0.5/documentation/security/#data-plane-proxy-to-control-plane-communication),
-[User to control plane communication](https://kuma.io/docs/1.0.5/documentation/security/#user-to-control-plane-communication)
+:::tip
+Kuma allows much more advanced and secure ways to expose the `/tokens` endpoint. The full procedure is described in the following security documentation: [data plane proxy authentication](https://kuma.io/docs/1.0.5/documentation/security/#data-plane-proxy-to-control-plane-communication), [user to control plane communication](https://kuma.io/docs/1.0.5/documentation/security/#user-to-control-plane-communication).
 :::
 
-#### Deploy the workload and the sidecar
+### 4. Use Kuma
 
-Prepare the token generated in the previous step and supply it as `<token>` in the example:
+Finally, retrieve the data plane proxy token generated in the previous step and use it in the following `<token>` placeholder:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Standalone"
 
 ```shell
-aws cloudformation deploy \
+$ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name workload \
     --template-file workload.yaml \
@@ -186,22 +179,30 @@ aws cloudformation deploy \
 ```
 
 :::
-::: tab "Multizone Remote"
+::: tab "Multi-zone"
 
 ```shell
-aws cloudformation deploy \
---capabilities CAPABILITY_IAM \
---stack-name workload \
---template-file workload.yaml \
---parameter-overrides \
-DesiredCount=2 \
-DPToken="<token>" \
-CPAddress="https://zone-1-controlplane.kuma.io:5678"
+$ aws cloudformation deploy \
+    --capabilities CAPABILITY_IAM \
+    --stack-name workload \
+    --template-file workload.yaml \
+    --parameter-overrides \
+    DesiredCount=2 \
+    DPToken="<token>" \
+    CPAddress="https://zone-1-controlplane.kuma.io:5678"
 ```
 
-The `CPAddress` value is the default in the supplied remote CP example, however this should be changed to whatever matches the concrete example.
+The `CPAddress` value is the default value provided in the examples, however this should be changed to whatever matches your deployment.
 
 :::
 ::::
 
-This will deploy 2 instances of the `httpbin` container with a `kuma-dp` sidecar alongside it. The example can work very well for an arbitrary single-port service.  The `workload` template has a lot of parameters, so it can be customized for many scenarios, with different workload images, service name and port etc. Find more information in the template itself.
+By doing so, we are deploying two instances of the `httpbin` container with a `kuma-dp` sidecar running alongside each one of them.
+
+The `workload` template has many parameters so that it can be customized with different workload images, service name and port, and more. You can find more information by looking at the template itself.
+
+### 4. Quickstart
+
+Congratulations! You have successfully installed Kuma on AWS ECS 🚀. 
+
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/1.0.7/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/1.0.7/quickstart/kubernetes/) as well.
