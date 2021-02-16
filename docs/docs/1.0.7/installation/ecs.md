@@ -158,7 +158,7 @@ Where `<kuma-cp-ip>` is the IP address of `kuma-cp` as it shows in AWS ECS. When
 The generated token is valid for all data plane proxies in the `default` mesh. Kuma also allows to generate data plane proxy token in a more restrictive way and [bound to its name or tags](https://kuma.io/docs/1.0.7/documentation/security/#data-plane-proxy-authentication).
 
 :::tip
-Kuma allows much more advanced and secure ways to expose the `/tokens` endpoint. The full procedure is described in the following security documentation: [data plane proxy authentication](https://kuma.io/docs/1.0.5/documentation/security/#data-plane-proxy-to-control-plane-communication), [user to control plane communication](https://kuma.io/docs/1.0.5/documentation/security/#user-to-control-plane-communication).
+Kuma allows much more advanced and secure ways to expose the `/tokens` endpoint. The full procedure is described in the following security documentation: [data plane proxy authentication](https://kuma.io/docs/1.0.7/documentation/security/#data-plane-proxy-to-control-plane-communication), [user to control plane communication](https://kuma.io/docs/1.0.7/documentation/security/#user-to-control-plane-communication).
 :::
 
 ### 4. Use Kuma
