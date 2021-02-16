@@ -2203,7 +2203,7 @@ Response: `201 Created` when the resource is created and `200 OK` when it is upd
 
 Example:
 ```bash
-curl -XPUT http://localhost:5681/meshes/default/timeouts/fi1 --data @retry.json -H'content-type: application/json'
+curl -XPUT http://localhost:5681/meshes/default/timeouts/fi1 --data @timeout.json -H'content-type: application/json'
 ```
 ```json
 {
