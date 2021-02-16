@@ -51,8 +51,9 @@ module.exports = {
     search: true,
     searchMaxSuggestions: 10,
     algolia: {
-      apiKey: "",
-      indexName: ""
+      apiKey: "d144e0c16842f65d973658344fce12d0",
+      indexName: "kuma",
+    searchPlaceholder: 'Search...'
     },
     sidebar: sidebarNav,
     // displayAllHeaders: true,

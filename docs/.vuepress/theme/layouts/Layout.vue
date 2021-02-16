@@ -51,6 +51,9 @@ import Page from '@theme/components/Page.vue'
 import Sidebar from '@theme/components/Sidebar.vue'
 import { resolveSidebarItems, redirectToLatestVersion } from '../util'
 
+// enable search, we have implemented Algolia
+import AlgoliaSearchBox from '@theme/components/AlgoliaSearchBox.vue'
+
 // reusable page template
 import Shell from '@theme/components/custom/Shell.vue'
 
@@ -77,7 +80,8 @@ export default {
     Enterprise,
     UseCases,
     Policies,
-    ServiceMeshCon
+    ServiceMeshCon,
+    AlgoliaSearchBox
   },
 
   data () {
