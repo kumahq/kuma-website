@@ -7,7 +7,7 @@ This policy enables Kuma to set timeouts on the outbound connections depending o
 As usual, we can apply `sources` and `destinations` selectors to determine what proxy we want to configure (`sources` selector)
 and what outbounds connection of the proxy will be used for this policy (`destinations` selector).
 
-The policy let you configure retry behaviour for `HTTP`, `GRPC` and `TCP` protocols.
+The policy let you configure timeouts for `HTTP`, `GRPC` and `TCP` protocols.
 
 ## Example
 
