@@ -59,7 +59,7 @@ testimonials:
 
 ::: slot masthead-sub-title
 
-## The open-source control plane for service mesh, <br>delivering high performance and reliability with Envoy
+## The open-source control plane for service mesh, <br>delivering security, observability, routing and more
 
 :::
 
@@ -80,7 +80,7 @@ Built on top of Envoy, Kuma is a modern control plane for Microservices & Servic
 
 ::: slot feature-block-content-2
 
-### Easy To Use
+### Easy To Use & Upgrade
 
 ![L4 and L7 Policies chart](/images/diagrams/v3/diagram-l4-l7-policies@2x.png)
 
