@@ -20,16 +20,6 @@
     "slug": "docker"
   },
   {
-    "label": "CentOS",
-    "logo": "/images/platforms/logo-centos.gif",
-    "slug": "centos"
-  },
-  {
-    "label": "RedHat",
-    "logo": "/images/platforms/logo-redhat.jpg",
-    "slug": "redhat"
-  },
-  {
     "label": "Amazon Linux",
     "logo": "/images/platforms/logo-amazon-linux.png",
     "slug": "amazonlinux"
@@ -38,6 +28,16 @@
     "label": "Amazon ECS",
     "logo": "/images/platforms/logo-ecs.jpg",
     "slug": "ecs"
+  },
+  {
+    "label": "CentOS",
+    "logo": "/images/platforms/logo-centos.gif",
+    "slug": "centos"
+  },
+  {
+    "label": "RedHat",
+    "logo": "/images/platforms/logo-redhat.jpg",
+    "slug": "redhat"
   },
   {
     "label": "Debian",
