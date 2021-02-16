@@ -2154,6 +2154,181 @@ curl -XDELETE http://localhost:5681/meshes/default/retries/r1
 The [`kumactl`](../kumactl) CLI under the hood makes HTTP requests to this API.
 :::
 
+## Timeout
+
+### Get Timeout
+Request: `GET /meshes/{mesh}/timeouts/{name}`
+
+Response: `200 OK` with Timeout entity
+
+Example:
+```bash
+curl http://localhost:5681/meshes/default/timeouts/default-timeouts-web
+```
+```json
+{
+  "type": "Timeout",
+  "mesh": "default",
+  "name": "default-timeouts-web",
+  "creationTime": "2021-02-16T18:41:26.016089+07:00",
+  "modificationTime": "2021-02-16T18:41:26.016089+07:00",
+  "sources": [
+    {
+      "match": {
+        "kuma.io/service": "*"
+      }
+    }
+  ],
+  "destinations": [
+    {
+      "match": {
+        "kuma.io/service": "web"
+      }
+    }
+  ],
+  "conf": {
+    "connectTimeout": "10s",
+    "grpc": {
+      "streamIdleTimeout": "4s",
+      "maxStreamDuration": "15s"
+    }
+  }
+}
+```
+
+### Create/Update Timeout
+Request: `PUT /meshes/{mesh}/timeouts/{name}` with Timeout entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/meshes/default/timeouts/fi1 --data @retry.json -H'content-type: application/json'
+```
+```json
+{
+  "type": "Timeout",
+  "mesh": "default",
+  "name": "default-timeouts-web",
+  "sources": [
+    {
+      "match": {
+        "kuma.io/service": "*"
+      }
+    }
+  ],
+  "destinations": [
+    {
+      "match": {
+        "kuma.io/service": "web"
+      }
+    }
+  ],
+  "conf": {
+    "connectTimeout": "10s",
+    "grpc": {
+      "streamIdleTimeout": "4s",
+      "maxStreamDuration": "15s"
+    }
+  }
+}
+```
+
+### List Timeouts
+Request: `GET /meshes/{mesh}/retries`
+
+Response: `200 OK` with body of Timeout entities
+
+Example:
+```bash
+curl http://localhost:5681/meshes/default/timeouts
+```
+```json
+{
+  "total": 2,
+  "items": [
+    {
+      "type": "Timeout",
+      "mesh": "default",
+      "name": "default-timeouts-web",
+      "creationTime": "2021-02-16T18:41:26.016089+07:00",
+      "modificationTime": "2021-02-16T18:41:26.016089+07:00",
+      "sources": [
+        {
+          "match": {
+            "kuma.io/service": "*"
+          }
+        }
+      ],
+      "destinations": [
+        {
+          "match": {
+            "kuma.io/service": "web"
+          }
+        }
+      ],
+      "conf": {
+        "connectTimeout": "10s",
+        "grpc": {
+          "streamIdleTimeout": "4s",
+          "maxStreamDuration": "15s"
+        }
+      }
+    },
+    {
+      "type": "Timeout",
+      "mesh": "default",
+      "name": "timeout-all-default",
+      "creationTime": "2021-02-16T14:01:53.532599+07:00",
+      "modificationTime": "2021-02-16T14:01:53.532599+07:00",
+      "sources": [
+        {
+          "match": {
+            "kuma.io/service": "*"
+          }
+        }
+      ],
+      "destinations": [
+        {
+          "match": {
+            "kuma.io/service": "*"
+          }
+        }
+      ],
+      "conf": {
+        "connectTimeout": "5s",
+        "tcp": {
+          "idleTimeout": "3600s"
+        },
+        "http": {
+          "requestTimeout": "15s",
+          "idleTimeout": "3600s"
+        },
+        "grpc": {
+          "streamIdleTimeout": "300s"
+        }
+      }
+    }
+  ],
+  "next": null
+}
+```
+
+### Delete Timeout
+Request: `DELETE /meshes/{mesh}/timeouts/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/meshes/default/timeouts/t1
+```
+
+::: tip
+The [`kumactl`](../kumactl) CLI under the hood makes HTTP requests to this API.
+:::
+
+
 ## Zones
 
 ### Get Zone
