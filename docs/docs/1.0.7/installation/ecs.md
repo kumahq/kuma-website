@@ -1,4 +1,4 @@
-# ECS
+# AWS ECS
 
 To install and run Kuma on AWS CloudFormation execute the following steps:
 
@@ -11,6 +11,8 @@ Before continuing with the next steps, make sure to have [AWS CLI installed](htt
 
 ::: tip
 The AWS CloudFormation scripts described in this page are parametrized, and we suggest to take a deeper look at those parameters before deploying Kuma.
+
+Also, the scripts are leveraging **AWS Fargate** on top of AWS ECS.
 :::
 
 ### 1. Setup the environment
