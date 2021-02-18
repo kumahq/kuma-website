@@ -1,4 +1,4 @@
-# Set up a standalone deplayment
+# Set up a standalone deployment
 
 This is the simplest deployment mode for Kuma, and the default one.
 
@@ -13,8 +13,6 @@ This mode implies that we can deploy Kuma and its data plane proxies in a standa
 </center>
 
 Although standalone mode can support complex multi-zone or hybrid deployments (Kubernetes + VMs) as long as the networking requirements are satisfied, typically in most use cases our connectivity cannot be flattened out across multiple zones. Therefore standalone mode is usually a great choice within the context of one zone (ie: within one Kubernetes cluster or one AWS VPC).
-
-For those situations where the standalone deployment mode doesn't satisfy our architecture, Kuma provides a [multi-zone mode](#multi-zone-mode) which is more powerful and provides a greater degree of flexibility in more complex environments.
 
 ### Usage
 

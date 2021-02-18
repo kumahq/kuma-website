@@ -4,7 +4,7 @@ Kuma - being an application that wants to improve the underlying connectivity be
 
 ## kuma-cp ports
 
-First and foremost, the `kuma-cp` application is a server that offers a number of services - some meant for internal consumption by `kuma-dp` data-planes, some meant for external consumption by [kumactl](../kumactl) CLI, by the [HTTP API](../http-api) or by the [GUI](../gui).
+First and foremost, the `kuma-cp` application is a server that offers a number of services - some meant for internal consumption by `kuma-dp` data-planes, some meant for external consumption by the kumactl CLI, by the HTTP API, or by the GUI.
 
 The number and type of exposed ports depends on the mode in which the control plane is run
 
@@ -50,14 +50,14 @@ When Kuma is run as a distributed service mesh, the Remote control plane exposes
 
 ## kuma-dp ports
 
-When we start a data-plane via `kuma-dp` we expect all the inbound and outbound service traffic to go through it. The inbound and outbound ports are defined in the [dataplane specification](./dps-and-data-model/#dataplane-specification) when running in universal mode, while on Kubernetes the service-to-service traffic always runs on port `15001`.
+When we start a data-plane via `kuma-dp` we expect all the inbound and outbound service traffic to go through it. The inbound and outbound ports are defined in the dataplane specification when running in universal mode, while on Kubernetes the service-to-service traffic always runs on port `15001`.
 
 In addition to the service traffic ports, the data-plane automatically also opens the `envoy` [administration interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) listener on the following addresses:
 
 * On Kubernetes, by default at `127.0.0.1:9901`.
 * On Universal, by default on the first available port greater or equal than `30001`, like `127.0.01:30001`.
 
-The Envoy administration interface can also be [manually configured](./dps-and-data-model/#envoy) to listen on any arbitraty port by specifying the `--admin-port` argument when running `kuma-dp`.
+The Envoy administration interface can also be manually configured to listen on any arbitraty port by specifying the `--admin-port` argument when running `kuma-dp`.
 
 
 
