@@ -1,4 +1,4 @@
-# Security
+# The PKI certificates your mesh needs
 
 This section addresses the certificate generation in Kuma across the following use-cases:
 

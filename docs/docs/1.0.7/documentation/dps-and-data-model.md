@@ -6,10 +6,6 @@ When Kuma (`kuma-cp`) runs, it waits for the data plane proxies to connect and r
 <img src="/images/docs/0.5.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-::: tip
-On Universal the [`Dataplane`](#dataplane-entity) entity must be **manually** created and passed to `kuma-dp`, on Kubernetes it is **automatically** created.
-:::
-
 ## Dataplane Entity
 
 A `Dataplane` entity must be passed to `kuma-dp` when instance attempts to connect to the control-plane. On Kubernetes, this operation is fully **automated**. On Universal, it must be executed **manually**.

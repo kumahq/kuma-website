@@ -2145,14 +2145,17 @@ module.exports = {
   ],
   "/docs/1.0.7/": [
     {
-      title: "Overview",
+      title: "Introduction",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
         "overview/what-is-kuma",
         "overview/what-is-a-service-mesh",
-        "overview/why-kuma"
+        "overview/why-kuma",
+        "documentation/deployments",
+        "other/enterprise",
+        "other/license",
       ]
     },
     {
@@ -2175,33 +2178,28 @@ module.exports = {
       ]
     },
     {
-      title: "Get started",
+      title: "Deploy",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
         "quickstart/kubernetes",
-        "quickstart/universal"
+        "quickstart/universal",
+        "deployments/stand-alone",
+        "deployments/multi-zone",
       ]
     },
     {
-      title: "Core components",
+      title: "Explore",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
         "documentation/overview",
         "documentation/backends",
-        "documentation/dependencies",
-        "documentation/deployments",
         "documentation/dps-and-data-model",
-        "documentation/health",
         "documentation/cli",
         "documentation/gui",
-        "documentation/http-api",
-        "documentation/security",
-        "documentation/secrets",
-        "documentation/fine-tuning"
       ]
     },
     {
@@ -2213,7 +2211,27 @@ module.exports = {
         "networking/networking",
         "networking/service-discovery",
         "networking/dns",
-        "networking/transparent-proxying"
+        "networking/transparent-proxying",
+      ]
+    },
+    {
+      title: "Security",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "security/certificates",
+        "security/secrets",
+      ]
+    },
+    {
+      title: "Monitor & manage",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "documentation/health",
+        "documentation/fine-tuning",
       ]
     },
     {
@@ -2242,15 +2260,14 @@ module.exports = {
         "policies/external-services",
         "policies/retry",
       ]
-    },
+    },    
     {
-      title: "Other",
+      title: "HTTP API Reference",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "other/enterprise",
-        "other/license"
+        "documentation/http-api"
       ]
     }
   ]
