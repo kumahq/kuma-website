@@ -45,7 +45,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.0.7 has been released!** With support for Kubernetes Jobs and Service-less pods, more charts in the GUI, improved performance and more! &mdash; [Get Started](/install/)
+**Kuma 1.0.8 has been released!** With improved health checking, GUI charts and more! &mdash; [Get Started](/install/)
 
 :::
 
