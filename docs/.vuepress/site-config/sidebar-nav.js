@@ -2145,7 +2145,7 @@ module.exports = {
   ],
   "/docs/1.0.7/": [
     {
-      title: "Overview",
+      title: "Introduction",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
@@ -2153,41 +2153,85 @@ module.exports = {
         "overview/what-is-kuma",
         "overview/what-is-a-service-mesh",
         "overview/why-kuma",
-        "overview/kuma-vs-xyz",
-        "overview/vm-and-k8s-support"
+        "documentation/deployments",
+        "other/enterprise",
+        "other/license",
       ]
     },
     {
-      title: "Quickstart",
+      title: "Install",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "installation/kubernetes",
+        "installation/helm",
+        "installation/openshift",
+        "installation/docker",
+        "installation/amazonlinux",
+        "installation/ecs",
+        "installation/redhat",
+        "installation/centos",
+        "installation/debian",
+        "installation/ubuntu",
+        "installation/macos",
+      ]
+    },
+    {
+      title: "Deploy",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
         "quickstart/kubernetes",
-        "quickstart/universal"
+        "quickstart/universal",
+        "deployments/stand-alone",
+        "deployments/multi-zone",
       ]
     },
     {
-      title: "Documentation",
+      title: "Explore",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "documentation/introduction",
         "documentation/overview",
         "documentation/backends",
-        "documentation/dependencies",
-        "documentation/deployments",
         "documentation/dps-and-data-model",
-        "documentation/health",
-        "documentation/transparent-proxying",
         "documentation/cli",
         "documentation/gui",
-        "documentation/http-api",
-        "documentation/security",
-        "documentation/secrets",
-        "documentation/networking",
-        "documentation/fine-tuning"
+      ]
+    },
+    {
+      title: "Networking",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "networking/networking",
+        "networking/service-discovery",
+        "networking/dns",
+        "networking/transparent-proxying",
+      ]
+    },
+    {
+      title: "Security",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "security/certificates",
+        "security/secrets",
+      ]
+    },
+    {
+      title: "Monitor & manage",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "documentation/health",
+        "documentation/fine-tuning",
       ]
     },
     {
@@ -2216,34 +2260,14 @@ module.exports = {
         "policies/external-services",
         "policies/retry",
       ]
-    },
+    },    
     {
-      title: "Install",
+      title: "HTTP API Reference",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "installation/kubernetes",
-        "installation/helm",
-        "installation/openshift",
-        "installation/docker",
-        "installation/amazonlinux",
-        "installation/ecs",
-        "installation/redhat",
-        "installation/centos",
-        "installation/debian",
-        "installation/ubuntu",
-        "installation/macos",
-      ]
-    },
-    {
-      title: "Other",
-      collapsable: true,
-      sidebarDepth: sidebarDepth,
-      path: "",
-      children: [
-        "other/enterprise",
-        "other/license"
+        "documentation/http-api"
       ]
     }
   ]
