@@ -64,7 +64,7 @@ testimonials:
 :::
 
 ::: slot masthead-diagram
-![Screenshot of the Kuma GUI with charts](/images/gui-screenshot-with-charts.jpg)
+![Screenshot of the Kuma GUI with charts](/images/gui-screenshot-with-charts.png)
 :::
 
 <!-- feature blocks -->
