@@ -12,12 +12,14 @@ By doing this,
 * you will get richer logs with [`Traffic Log`](../traffic-log) policy
 * you will be able to use [`Traffic Trace`](../traffic-trace) policy
 
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-On `Kubernetes`, to give Kuma a hint that your service supports `HTTP` protocol, you need to add a `<port>.service.kuma.io/protocol` annotation to the `k8s` `Service` object or use `appProtocol` of the `k8s` `Service` object.
+::::::: tabs :options="{ useUrlFragment: false }"
+:::::: tab "Kubernetes"
+On `Kubernetes`, to give Kuma a hint that your service supports `HTTP` protocol, you need to add a `<port>.service.kuma.io/protocol` annotation to the K8s `Service` object or use `appProtocol` of the K8s `Service` object based on kubernetes version.
 
 E.g.,
 
+::::: tabs :options="{ useUrlFragment: false }"
+:::: tab "Kubernetes < 1.18"
 ```yaml
 apiVersion: v1
 kind: Service
@@ -31,12 +33,27 @@ spec:
     app: web
   ports:
   - port: 8080
-  - port: 8090
+```
+::::
+:::: tab "Kubernetes 1.18+"
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: kuma-example
+spec:
+  selector:
+    app: web
+  ports:
+  - port: 8080
     appProtocol: http
 ```
+::::
+:::::
 
-:::
-::: tab "Universal"
+::::::
+:::::: tab "Universal"
 On `Universal`, to give Kuma a hint that your service supports the `http` protocol, you need to add a `kuma.io/protocol` tag to the `inbound` interface of your `Dataplane`.
 
 E.g.,
@@ -54,8 +71,8 @@ networking:
       kuma.io/service: web
       kuma.io/protocol: http # let Kuma know that your service supports HTTP protocol
 ```
-:::
-::::
+::::::
+:::::::
 
 ## HTTP/2 support
 
