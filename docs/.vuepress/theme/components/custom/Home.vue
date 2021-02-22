@@ -38,12 +38,14 @@
           <!-- masthead diagram: mobile -->
           
           <!-- .page-masthead__actions -->
-          <div v-if="$page.frontmatter.showNews" class="newsbar-wrap newsbar-wrap--left-text flex">
-            <div class="newsbar-wrap__title mr-4">
-              <h3>News</h3>
-            </div>
-            <div class="flex-1">
-              <Content slot-key="news" class="newsbar" />
+          <div v-if="$page.frontmatter.showNews" class="newsbar-wrap newsbar-wrap--left-text">
+            <div class="newsbar__inner">
+              <div class="newsbar-wrap__title">
+                <h3>News</h3>
+              </div>
+              <div class="newsbar-wrap__content">
+                <Content slot-key="news" class="newsbar" />
+              </div>
             </div>
           </div>
           <!-- masthead diagram: desktop -->
@@ -55,42 +57,63 @@
         </div>
       </div>
       <!-- .inner -->
+      
+      <div v-if="$page.frontmatter.showTestimonial && testimonials.length" class="testimonials-carousel-wrap">
+        <div class="inner">
+          <VueSlickCarousel
+            :arrow="true"
+            :dots="true"
+          >
+            <div v-for="item in testimonials" class="testimonial">
+              <blockquote class="lg:grid lg:grid-flow-col lg:gap-4 lg:col-gap-4 lg:row-gap-2 px-8 lg:px-0">
+                <div class="testimonial__image lg:row-span-1 lg:row-start-1 lg:mb-0 mb-4 mx-auto text-center">
+                  <img
+                    :src="item.image"
+                    :alt="item.alt"
+                  />
+                </div>
+                <div class="testimonial__content lg:col-span-2 text-center lg:text-left">
+                  <div>
+                    <p>{{ item.content }}</p>
+                  </div>
+                  <cite class="testimonial__author lg:row-span-1 lg:col-span-2 mt-4 lg:mt-0 text-center lg:text-left">
+                    {{ item.author }}, {{ item.title }}
+                  </cite>
+                </div>
+              </blockquote>
+            </div>
+          </VueSlickCarousel>
+        </div>
+        <!-- /.inner -->
+      </div>
+      <!-- /.testimonials-carousel-wrap -->
 
       <div id="page-masthead-waves-wrap">
         <MastheadWaves id="page-masthead-waves" />
       </div>
+      <!-- #page-masthead-waves-wrap -->
     </div>
     <!-- .page-masthead-wrap -->
     
-    <div v-if="$page.frontmatter.showTestimonial && testimonials.length" class="testimonials-carousel-wrap">
-      <div class="inner">
-        <VueSlickCarousel
-          :arrow="true"
-          :dots="true"
+    <!--
+    <div class="newsletter-form-wrap newsletter-form-wrap--simple">
+      <div class="inner newsletter-form">
+        <header class="section-header">
+          <Content slot-key="newsletter-title" class="alt-title" />
+        </header>
+        <Content slot-key="newsletter-content" />
+        <NewsletterForm
+          formSubmitText="Register Now"
+          :simple="true"
         >
-          <div v-for="item in testimonials" class="testimonial">
-            <blockquote class="lg:grid lg:grid-flow-col lg:gap-4 lg:col-gap-4 lg:row-gap-2 px-8 lg:px-0">
-              <div class="testimonial__image lg:row-span-1 lg:row-start-1 lg:mb-0 mb-4 mx-auto text-center">
-                <img
-                  :src="item.image"
-                  :alt="item.alt"
-                />
-              </div>
-              <div class="testimonial__content lg:col-span-2 text-center lg:text-left">
-                <div>
-                  <p>{{ item.content }}</p>
-                </div>
-                <cite class="testimonial__author lg:row-span-1 lg:col-span-2 mt-4 lg:mt-0 text-center lg:text-left">
-                  {{ item.author }}, {{ item.title }}
-                </cite>
-              </div>
-            </blockquote>
-          </div>
-        </VueSlickCarousel>
+          <template v-slot:success>
+            <p class="custom-block-title">Thank you!</p>
+            <p>Please check your inbox for more info on our {{ getSiteData.title }} onboarding guide.</p>
+          </template>
+        </NewsletterForm>
       </div>
-      <!-- /.inner -->
     </div>
-    <!-- /.testimonials-carousel-wrap -->
+    -->
 
     <div class="product-features-wrap">
       <!-- <div v-if="$page.frontmatter.showNews" class="newsbar-wrap">
@@ -147,8 +170,8 @@
       </div>
     </div>
     <!-- .feature-focus-wrap -->
-
-    <div class="newsletter-form-wrap">
+    
+    <div class="newsletter-form-wrap newsletter-form-wrap--mobile-only">
       <div class="inner newsletter-form">
         <header class="section-header">
           <Content slot-key="newsletter-title" class="alt-title" />
@@ -156,17 +179,20 @@
         <Content slot-key="newsletter-content" />
         <NewsletterForm />
       </div>
-      <NewsletterWaves />
     </div>
     <!-- newsletter-form-wrap -->
+    
+    <FormPopup />
   </div>
 </template>
 
 <script>
 import Navbar from '@theme/components/Navbar'
 import MastheadWaves from '@theme/components/custom/PageMastheadWaves'
-import NewsletterWaves from '@theme/components/custom/NewsletterWaves'
 import KTabs from '../../../../../node_modules/@kongponents/ktabs/KTabs'
+import NewsletterForm from '@theme/global-components/NewsletterForm'
+
+import FormPopup from '@theme/global-components/FormPopup'
 
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
@@ -176,8 +202,9 @@ export default {
   components: {
     Navbar,
     MastheadWaves,
-    NewsletterWaves,
+    NewsletterForm,
     KTabs,
+    FormPopup,
     VueSlickCarousel
   },
   computed: {
@@ -190,3 +217,13 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.newsletter-form-wrap--mobile-only {
+  display: none;
+  
+  @media (max-width: 766px) {
+    display: block;
+  }
+}
+</style>

@@ -34,6 +34,7 @@ module.exports = {
   // theme configuration
   themeConfig: {
     domain: productData.hostname,
+    gaCode: productData.gaCode,
     latestVer: latestVersion,
     twitter: productData.twitter,
     author: productData.author,
@@ -58,7 +59,7 @@ module.exports = {
     // main navigation
     nav: [
       { text: "Explore Policies", link: "/policies/" },
-      { text: "Documentation", link: "/docs/" },
+      { text: "Docs", link: "/docs/" },
       { text: "Community", link: "/community/" },
       { text: "Blog", link: "/blog/" },
       // { text: "Use Cases", link: "/use-cases/" },
