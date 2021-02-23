@@ -647,6 +647,7 @@ $home-feature-icon-bottom-spacing: 1rem;
 
   > .inner {
     max-width: 70rem;
+    @include section-aura($shadow: 0 0 60px 60px, $color: #fff);
     // max-width: 50rem;
     // padding-top: 2rem;
     // border-top: 2px solid $gray-8;
