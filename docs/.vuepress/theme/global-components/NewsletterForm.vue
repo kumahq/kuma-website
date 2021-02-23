@@ -1,5 +1,8 @@
 <template>
-  <div class="form-wrapper">
+  <div
+    class="form-wrapper"
+    :class="{ 'form-wrapper--compact': (simple === true), 'form-wrapper--stacked': (stacked === true) }"
+  >
 
     <validation-observer
       v-slot="{ invalid, passes }"
@@ -7,8 +10,8 @@
       <form
         v-if="formStatus === null || formStatus === false"
         class="form-horizontal"
-        method="post"
-        :action="getFormHandler"
+        ref="newsletterForm"
+        @submit="formIsSubmitting"
       >
         <input
           v-for="(key, value) in formData"
@@ -18,7 +21,7 @@
           type="hidden"
         />
         <input type="hidden" name="pardot-link" :value="getFormHandler">
-        <label for="input_email" class="sr-only">Email</label>
+        <label for="input_email" class="sr-only" v-model="formData.email">Email</label>
         <validation-provider rules="required|email" v-slot="{ errors }" class="form-note-wrapper">
           <input v-model="formData.email" id="email" name="email" type="email" placeholder="Work Email" />
           <span class="note note--error">{{ errors[0] }}</span>
@@ -29,13 +32,12 @@
           name="submit"
           class="btn"
           :class="{ 'is-sending': (invalid === false && formSending === true) }"
-          @click="formIsSubmitting()"
         >
           <span v-if="invalid === false && formSending === true">
             <Spinner />
           </span>
           <span :class="{ 'is-hidden': (invalid === false && formSending === true) }">
-            Join Newsletter
+            {{ getFormSubmitText }}
           </span>
         </button>
       </form>
@@ -44,13 +46,17 @@
     <div ref="formMessageMarker"></div>
 
     <div v-if="formStatus === true" class="tip custom-block">
-      <p class="custom-block-title">Thank you!</p>
-      <p>You're now signed up for the {{ getSiteData.title }} newsletter.</p>
+      <slot name="success">
+        <p class="custom-block-title">Thank you!</p>
+        <p>You're now signed up for the {{ getSiteData.title }} newsletter.</p>
+      </slot>
     </div>
 
     <div v-if="formStatus === false" class="danger custom-block">
-      <p class="custom-block-title">Whoops!</p>
-      <p>Something went wrong! Please try again later.</p>
+      <slot name="error">
+        <p class="custom-block-title">Whoops!</p>
+        <p>Something went wrong! Please try again later.</p>
+      </slot>
     </div>
 
   </div>
@@ -61,6 +67,8 @@ import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
+import { event } from 'vue-analytics'
+import { ajax } from 'jquery'
 
 // I am doing this because of an error that occurred when using KIcon
 import Spinner from '@theme/global-components/IconSpinner'
@@ -84,7 +92,7 @@ export default {
         email: '',
         utm_content: this.$route.query.utm_content || null,
         utm_medium: this.$route.query.utm_medium || null,
-        utm_source: 'kuma-homepage',
+        utm_source: this.$route.query.utm_source || 'kuma-website',
         utm_campaign: this.$route.query.utm_campaign || null,
         utm_term: this.$route.query.utm_term || null,
         utm_ad_group: this.$route.query.utm_ad_group || null
@@ -102,41 +110,53 @@ export default {
     formHandler: {
       type: String,
       default: () => 'getNewsletterFormEndpoint'
+    },
+    simple: {
+      type: Boolean,
+      default: false
+    },
+    stacked: {
+      type: Boolean,
+      default: false
+    },
+    formSubmitText: {
+      type: String,
+      default: () => null
     }
   },
   computed: {
-    // ...mapGetters([
-    //   getFormHandler
-    // ]),
     getFormHandler () {
       return this.$store.getters[this.$props.formHandler]
     },
-    formDistanceFromTop () {
-      const marker = this.$refs['formMessageMarker']
-
-      return window.pageYOffset + marker.getBoundingClientRect().top
+    getFormSubmitText () {
+      return this.$props.formSubmitText || 'Join Newsletter'
     }
   },
-  mounted () {
-    this.formBehaviorHandler()
-  },
   methods: {
-    formBehaviorHandler () {
-      const query = this.$route.query.form_success
-      const status = query ? JSON.parse(query) : null
-
-      this.formStatus = status
-
-      if (status === false || status === true) {
-        window.scrollTo({
-          top: this.formDistanceFromTop,
-          behavior: 'auto'
-        })
-      }
-    },
-
-    formIsSubmitting() {
+    formIsSubmitting(ev) {
       this.formSending = true
+      
+      ev.preventDefault()
+      
+      ajax({
+        url: this.getFormHandler,
+        type: 'GET',
+        dataType: 'jsonp',
+        crossDomain: true,
+        data: this.formData,
+        xhrFields: {
+          withCredentials: true
+        },
+        complete: () => {
+          this.formSending = false
+          this.formStatus = true
+        }
+      })
+      
+      // push a Google Analytics event for form submission
+      if (process.env.NODE_ENV === 'production') {
+        event('Form Submission - Newsletter', 'Success')
+      }
     },
   }
 }
@@ -155,7 +175,6 @@ export default {
     width: 100%;
   }
 }
-
 
 button.is-sending {
   position: relative;
@@ -201,6 +220,34 @@ button.is-sending {
       margin-bottom: 0;
       padding-bottom: 0;
     }
+  }
+}
+
+.form-wrapper--stacked {
+  
+  .form-horizontal {
+    position: relative;
+    display: block !important;
+    
+    > span {
+      
+    }
+    
+    input[type='email'] {
+      border: 1px solid $gray-2;
+    }
+  }
+  
+  .form-note-wrapper {
+    position: static !important;
+    
+    .note {
+      top: auto !important;
+    }
+  }
+  
+  .btn {
+    margin-top: 0.8rem;
   }
 }
 </style>

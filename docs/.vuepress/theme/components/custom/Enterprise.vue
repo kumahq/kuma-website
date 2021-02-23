@@ -9,7 +9,7 @@
     <div class="company-list-wrapper">
       <div class="inner">
         <ul class="company-list md:flex md:flex-wrap -mx-2">
-          <li v-for="(company, index) in $page.frontmatter.companies" :key="index" class="px-2 mx-auto md:w-1/2">
+          <li v-for="(company, index) in $page.frontmatter.companies" :key="index" class="px-2 mx-auto md:w-1/2 mb-4 md:mb-0">
             <a :href="company.url" class="company-list__link block md:flex">
               <div v-if="company.image" class="w-full md:w-1/5 md:mx-0 md:mr-6 text-center">
                 <img :src="company.image" :alt="`Logo image for ${company.name}`" class="w-24 mx-auto md:w-full">
@@ -27,7 +27,7 @@
       <!-- .inner -->
     </div>
 
-    <div v-if="$page.frontmatter.pullRequestUrl" class="pull-request-cta mt-12 pt-12">
+    <div v-if="$page.frontmatter.pullRequestUrl" class="pull-request-cta mt-8 mb-4 py-8">
       <div class="inner text-center">
         <h3>Are you offering a Kuma enterprise package?</h3>
         <p>
@@ -43,74 +43,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import axios from 'axios'
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
-import { required, email } from 'vee-validate/dist/rules'
 import PageHeader from '@theme/global-components/PageHeader'
 
-// required validation
-extend('required', {
-  ...required,
-  message: 'This field is required.'
-})
-
-// email validation
-extend('email', {
-  ...email,
-  message: 'This must be a valid email'
-})
-
 export default {
-  data() {
-    return {
-      formData: {
-        input_first_name: '',
-        input_last_name: '',
-        input_email: '',
-        input_company: '',
-        input_phone: '',
-        input_title: '',
-        input_message: ''
-      },
-      submitted: false,
-      error: false
-    }
-  },
   components: {
-    ValidationProvider,
-    ValidationObserver,
     PageHeader
   },
-  computed: {
-    ...mapGetters([
-      'getRequestADemoEndpoint'
-    ]),
-  },
-  methods: {
-    submitForm() {
-      const url = this.getRequestADemoEndpoint
-      const payload = this.formData
-
-      // tell the app we have submitted successfully
-      this.submitted = true
-
-      // send the form data
-      axios({
-        method: 'post',
-        url: url,
-        params: payload,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json'
-        },
-      })
-      .catch(err => {
-        // let the app know if an error has occurred
-        this.error = true
-      })
-    }
-  }
 }
 </script>
 

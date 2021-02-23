@@ -27,9 +27,6 @@ tabs:
     title: Universal (VMs)
 
 # testimonials
-testimonialCarouselTiming: 5000
-testimonialCarouselLoop: false
-testimonialCarouselAutoplay: false
 testimonials:
   - content: 'Kuma reduces complexity and accelerates service reliability with an Envoy-based Service Mesh.'
     author: 'Luca Maraschi'
@@ -197,10 +194,10 @@ Designed for the enterprise architect, Kuma ships with a native multi-mesh suppo
 
 ::: slot newsletter-title
 
-## Get Community Updates
+### Ready to get started?
 
 :::
 
 ::: slot newsletter-content
-Sign up for our Kuma community newsletter to get the most recent updates and product announcements.
+Receive a step-by-step onboarding guide delivered directly to your inbox
 :::
