@@ -193,7 +193,7 @@ curl http://localhost:5681/config
 
 ## Supported Envoy versions
 
-### Get supported by Kuma DP versions of Envoy
+### List supported Envoy versions
 
 Request: `GET /versions`
 
