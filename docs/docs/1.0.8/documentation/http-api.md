@@ -9,6 +9,7 @@ Kuma ships with a RESTful HTTP interface that you can use to retrieve the state 
 By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTPS). The endpoints available are:
 
 * `/config`
+* `/versions`
 * `/meshes`
 * `/mesh-insights`
 * `/mesh-insights/{name}`
@@ -186,6 +187,52 @@ curl http://localhost:5681/config
     "dataplaneStatusFlushInterval": "1s",
     "diagnosticsPort": 5680,
     "grpcPort": 5678
+  }
+}
+```
+
+## Supported Envoy versions
+
+### Get supported by Kuma DP versions of Envoy
+
+Request: `GET /versions`
+
+Response: `200 OK` with versions of Envoy supported by Kuma DPs
+
+Example:
+```bash
+curl http://localhost:5681/versions
+```
+```json
+{
+  "kumaDp": {
+    "1.0.0": {
+      "envoy": "1.16.0"
+    },
+    "1.0.1": {
+      "envoy": "1.16.0"
+    },
+    "1.0.2": {
+      "envoy": "1.16.1"
+    },
+    "1.0.3": {
+      "envoy": "1.16.1"
+    },
+    "1.0.4": {
+      "envoy": "1.16.1"
+    },
+    "1.0.5": {
+      "envoy": "1.16.2"
+    },
+    "1.0.6": {
+      "envoy": "1.16.2"
+    },
+    "1.0.7": {
+      "envoy": "1.16.2"
+    },
+    "1.0.8": {
+      "envoy": "1.16.2"
+    }
   }
 }
 ```
