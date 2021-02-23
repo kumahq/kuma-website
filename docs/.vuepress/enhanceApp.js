@@ -5,7 +5,6 @@ import store from './theme/store/index'
 import '@kongponents/styles'
 import 'vuepress-plugin-tabs/dist/themes/default.styl'
 import './theme/styles/styles.scss'
-import '@kongponents/styles'
 
 import VueAnalytics from 'vue-analytics'
 
