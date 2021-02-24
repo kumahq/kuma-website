@@ -22,6 +22,9 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/fault-injections`
 * `/service-insights`
 * `/retries`
+* `/secrets`
+* `/global-secrets`
+* `/global-secrets/{name}`
 * `/meshes/{name}`
 * `/meshes/{mesh}/dataplanes`
 * `/meshes/{mesh}/dataplanes/{name}`
@@ -49,6 +52,8 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/service-insights/{name}`
 * `/meshes/{mesh}/retries`
 * `/meshes/{mesh}/retries/{name}`
+* `/meshes/{mesh}/secrets`
+* `/meshes/{mesh}/secrets/{name}`
 * `/status/zones`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
@@ -2625,6 +2630,160 @@ curl http://localhost:5681/service-insights
  "next": null
 }
 ```
+
+## Secrets
+
+### Get Secret
+Request: `GET /meshes/{mesh}/secrets/{name}`
+
+Response: `200 OK` with Secret entity
+
+Example:
+```bash
+curl localhost:5681/meshes/default/secrets/sample-secret
+```
+```json
+{
+  "type": "Secret",
+  "mesh": "default",
+  "name": "sample-secret",
+  "creationTime": "2021-02-18T18:46:42.195647+01:00",
+  "modificationTime": "2021-02-18T18:46:42.195647+01:00",
+  "data": "dGVzdAo="
+}
+```
+
+### Create/Update Secret
+
+Request: `PUT /meshes/{mesh}/secrets/{name}` with Secret entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/meshes/default/secrets/sample-secret --data @secret.json -H'content-type: application/json'
+```
+```json
+{
+  "type": "Secret",
+  "mesh": "default",
+  "name": "sample-secret",
+  "data": "dGVzdAo="
+}
+```
+
+### List Secrets
+
+Request: `GET /meshes/{mesh}/secrets`
+
+Response: `200 OK` with body of Secret entities
+
+Example:
+```bash
+curl http://localhost:5681/meshes/default/secrets
+```
+```json
+{
+  "total": 1,
+  "items": [
+    {
+      "type": "Secret",
+      "name": "sample-secret",
+      "mesh": "default",
+      "creationTime": "2021-02-18T18:46:42.195647+01:00",
+      "modificationTime": "2021-02-18T18:46:42.195647+01:00",
+      "data": "dGVzdAo="
+    }
+  ],
+  "next": null
+}
+```
+
+### Delete Secret
+Request: `DELETE /meshes/{mesh}/secrets/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/meshes/default/secrets/sample-secret
+```
+
+## Global Secrets
+
+### Get Global Secret
+Request: `GET /global-secrets/{name}`
+
+Response: `200 OK` with Global Secret entity
+
+Example:
+```bash
+curl localhost:5681/sample-global-secret
+```
+```json
+{
+  "type": "Secret",
+  "name": "sample-global-secret",
+  "creationTime": "2021-02-18T18:46:42.195647+01:00",
+  "modificationTime": "2021-02-18T18:46:42.195647+01:00",
+  "data": "dGVzdAo="
+}
+```
+
+### Create/Update Global Secret
+
+Request: `PUT /global-secrets/{name}` with Global Secret entity in body
+
+Response: `201 Created` when the resource is created and `200 OK` when it is updated
+
+Example:
+```bash
+curl -XPUT http://localhost:5681/global-secrets/sample-global-secret --data @secret.json -H'content-type: application/json'
+```
+```json
+{
+  "type": "Secret",
+  "name": "sample-global-secret",
+  "data": "dGVzdAo="
+}
+```
+
+### List Global Secrets
+
+Request: `GET /global-secrets`
+
+Response: `200 OK` with body of Global Secret entities
+
+Example:
+```bash
+curl http://localhost:5681/global-secrets
+```
+```json
+{
+  "total": 1,
+  "items": [
+    {
+      "type": "Secret",
+      "name": "sample-global-secret",
+      "creationTime": "2021-02-18T18:46:42.195647+01:00",
+      "modificationTime": "2021-02-18T18:46:42.195647+01:00",
+      "data": "dGVzdAo="
+    }
+  ],
+  "next": null
+}
+```
+
+### Delete Global Secret
+Request: `DELETE /global-secrets/{name}`
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XDELETE http://localhost:5681/global-secrets/sample-global-secret
+```
+
 
 ## Multi-zone
 
