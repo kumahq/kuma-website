@@ -90,7 +90,7 @@ $ echo "value" | base64
 
 ### Access to the Secret HTTP API
 
-This API requires authentication. Consult [Accessing Admin Server from a different machine](security/#user-to-control-plane-communication) how to configure remote access.
+This API requires authentication. Consult [Accessing Admin Server from a different machine](/docs/1.0.8/security/certificates/#user-to-control-plane-communication) how to configure remote access.
 
 ## Scope of the Secret
 
@@ -157,7 +157,7 @@ data: dGVzdAo=
 
 ## Usage
 
-Here is example of how you can use a Kuma `Secret` with a `provided` [Mutual TLS](/docs/1.0.7/policies/mutual-tls) backend.
+Here is example of how you can use a Kuma `Secret` with a `provided` [Mutual TLS](/docs/1.0.8/policies/mutual-tls) backend.
 
 The examples below assume that the `Secret` object has already been created before-hand.
 
