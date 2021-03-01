@@ -28,11 +28,6 @@ tabs:
 
 # testimonials
 testimonials:
-  - content: 'Kuma reduces complexity and accelerates service reliability with an Envoy-based Service Mesh.'
-    author: 'Luca Maraschi'
-    title: 'Chief Architect, Telus Digital'
-    image: '/images/telus-logo.svg'
-    alt: 'Logo for Telus Digital'
   - content: 'We chose Kuma in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two.'
     author: 'Aaron Weikle'
     title: 'CEO of MS3'
