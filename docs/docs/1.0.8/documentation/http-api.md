@@ -51,6 +51,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/retries`
 * `/meshes/{mesh}/retries/{name}`
 * `/status/zones`
+* `/tokens`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -2722,9 +2723,39 @@ curl -XGET http://localhost:5681/status/zones
   "active": true
  },
  {
-  "name": "`zone-2`",
+  "name": "zone-2",
   "url": "grpcs://2.2.2.2:5685",
   "active": false
  }
 ]
+```
+
+## Dataplane Proxy Tokens
+
+Generate Dataplane Proxy Tokens that are used for data plane proxy authentication.
+This API requires [authentication to the control plane by the user](/docs/1.0.8/security/certificates/#authentication).
+
+Consult [Data plane proxy authentication](/docs/1.0.8/security/certificates/#data-plane-proxy-authentication) for more details.
+
+### Generate Dataplane Proxy Token
+
+Request: `PUT /tokens` with following body
+```json
+{
+  "name": "dp-echo-1",
+  "mesh": "default",
+  "tags": {
+    "kuma.io/service": ["backend", "backend-admin"]
+  }
+}
+```
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XPOST \ 
+  -H "Content-Type: application/json" \
+  --data '{"name": "dp-echo-1", "mesh": "default", "tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
+  http://localhost:5681/tokens
 ```
