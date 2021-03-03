@@ -1082,7 +1082,6 @@ module.exports = {
         "policies/proxy-template",
         "policies/external-services",
         "policies/retry",
-        "policies/timeout",
       ]
     },
     {
