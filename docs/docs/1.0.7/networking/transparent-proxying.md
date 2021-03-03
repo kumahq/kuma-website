@@ -8,7 +8,7 @@ In order to interecept traffic from and to a service through a `kuma-dp` data pl
 There are several advantages for using transparent proxying in universal mode:
 
  * Simpler [Dataplane resource](/docs/1.0.7/documentation/dps-and-data-model/#dataplane-specification), as the `outbound` section becomes obsolete and can be skipped.
- * Uiversal service naming using `.mesh` [DNS domain](/docs/1.0.7/documentation/networking/#kuma-dns).
+ * Uiversal service naming using `.mesh` [DNS domain](/docs/1.0.7/networking/dns/).
  * Better service manageability (security, tracing).
 
 ### Preparing the Kuma Control plane
@@ -74,7 +74,7 @@ networking:
 
 The ports illustrated above are the default ones that `kumactl install transparent-proxy` will set. These can be changed using the relevant flags to that command.
 
-### Invoking the Kuma data plane proxy
+### Invoking the Kuma data plane
 
 It is important that the `kuma-dp` process runs with the same system user that was passed to `kumactl install transparent-proxy --kuma-dp-user`.
 
@@ -93,3 +93,83 @@ $ runuser -u kuma-dp -- \
     --dataplane-var port=80  \
     --binary-path /usr/local/bin/envoy
 ```
+
+## Transparent Proxying
+
+There are two ways of how the service can interact with its sidecar to connect to other services.
+
+One is explicitly defining outbounds in the Dataplane:
+
+```yaml
+type: Dataplane
+...
+networking:
+  ...
+  outbound:
+  - port: 10000
+    tags:
+      kuma.io/service: backend
+```
+
+This approach is simple, but it has the disadvantage that you need to reconfigure the service to use `http://localhost:10000` when it wants to connect with service `backend`.
+This strategy is used on Universal deployments.
+
+The alternative approach is Transparent Proxying. With Transparent Proxying before we start a service, we apply [`iptables`](https://linux.die.net/man/8/iptables) that intercept all the traffic on VM/Pod and redirect it to Envoy.
+The main advantage of this mode is when you integrate with the current hostname resolving mechanism, you can deploy Service Mesh _transparently_ on the platform without reconfiguring applications.
+
+Kuma provides support for transparent proxying on both Universal and Kubernetes.
+
+### Configure intercepted traffic
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+Kuma deploys `iptables` rules either with `kuma-init` Init Container or with `cni` when deployed with CNI mode.
+
+By default, all the traffic is intercepted by Envoy. You can exclude which ports are intercepted by Envoy with the following annotations placed on the Pod
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        # all incomming connections on ports 1234 won't be intercepted by Envoy
+        traffic.kuma.io/exclude-inbound-ports: "1234"
+        # all outgoing connections on ports 5678, 8900 won't be intercepted by Envoy
+        traffic.kuma.io/exclude-outbound-ports: "5678,8900"
+    spec:
+      containers:
+        ...
+```  
+:::
+
+You can also control this value on whole Kuma deployment with the following Kuma CP configuration
+```sh
+KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
+KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
+``` 
+
+Global settings can be always overridden with annotations on the individual Pods. 
+
+::: tip
+When deploying Kuma with `kumactl install control-plane` you can set those settings with
+```sh
+kumactl install control-plane \
+  --env-var KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
+  --env-var KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
+```
+
+When deploying Kuma with HELM, use `controlPlane.envVar` value
+```yaml
+envVar:
+  KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS: "1234"
+  KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
+```
+:::
+::::
+

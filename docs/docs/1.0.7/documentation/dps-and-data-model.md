@@ -6,10 +6,6 @@ When Kuma (`kuma-cp`) runs, it waits for the data plane proxies to connect and r
 <img src="/images/docs/0.5.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-::: tip
-On Universal the [`Dataplane`](#dataplane-entity) entity must be **manually** created and passed to `kuma-dp`, on Kubernetes it is **automatically** created.
-:::
-
 ## Dataplane Entity
 
 A `Dataplane` entity must be passed to `kuma-dp` when instance attempts to connect to the control-plane. On Kubernetes, this operation is fully **automated**. On Universal, it must be executed **manually**.
@@ -140,7 +136,7 @@ The `kuma.io/service` tag must always exist.
 
 The [`Dataplane`](#dataplane-entity) entity includes the networking and naming configuration that a data-plane proxy (`kuma-dp`) must have attempting to connect to the control-plane (`kuma-cp`).
 
-In Universal mode we must manually create the [`Dataplane`](#dataplane-entity) entity before running `kuma-dp`. A [`Dataplane`](#dataplane-entity) entity can be created with [`kumactl`](#kumactl) or by using the [HTTP API](#http-api). When using [`kumactl`](#kumactl), the regular entity definition will look like:
+In Universal mode we must manually create the [`Dataplane`](#dataplane-entity) entity before running `kuma-dp`. A [`Dataplane`](#dataplane-entity) entity can be created with [`kumactl`](#kumactl) or the HTTP API. When using [`kumactl`](#kumactl), the regular entity definition will look like:
 
 ```yaml
 type: Dataplane
@@ -304,7 +300,7 @@ The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kube
 Failure to apply the `ingress.kubernetes.io/service-upstream=true` annotation will prevent Kuma from taking over the load balancing of the requests and applying policies, therefore it is a required annotation when exposing a Kuma service via a `gateway` data plane proxy.
 :::
 
-Services can be exposed to an API Gateway in one specific zone, or in multi-zone. For the latter, we need to expose a dedicated Kubernetes `Service` object with type `ExternalName`, which sets the `externalName` to the `.mesh` DNS record for the particular service that we want to expose, that will be resolved by Kuma's internal [service discovery](/docs/1.0.7/documentation/networking/#kuma-dns).
+Services can be exposed to an API Gateway in one specific zone, or in multi-zone. For the latter, we need to expose a dedicated Kubernetes `Service` object with type `ExternalName`, which sets the `externalName` to the `.mesh` DNS record for the particular service that we want to expose, that will be resolved by Kuma's internal [service discovery](/docs/1.0.7/networking/dns).
 
 #### Example Gateway in Multi-Zone
 

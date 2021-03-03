@@ -24,7 +24,7 @@ You can also access the Kuma marketplace demo repository [on Github](https://git
 
 ### 1. Run the Marketplace application
 
-First, Kuma must be [installed and running](/docs/latest/installation/kubernetes) in your Kubernetes cluster.
+First, Kuma must be [installed and running](/docs/1.0.7/installation/kubernetes) in your Kubernetes cluster.
 
 To install the marketplace demo application you can run:
 

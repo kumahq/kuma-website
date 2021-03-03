@@ -46,6 +46,7 @@ module.exports = {
     slackChannel: productData.slackChannelURL,
     docsDir: "docs",
     editLinks: false,
+    sidebarDepth: 0,
     search: true,
     searchMaxSuggestions: 10,
     algolia: {
@@ -53,7 +54,7 @@ module.exports = {
       indexName: ""
     },
     sidebar: sidebarNav,
-    displayAllHeaders: true,
+    // displayAllHeaders: true,
     // main navigation
     nav: [
       { text: "Explore Policies", link: "/policies/" },
