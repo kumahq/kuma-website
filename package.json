@@ -9,9 +9,6 @@
     "test-coverage": "yarn jest --coverage",
     "postinstall": "cd bin/kumacut && npm i"
   },
-  "bin": {
-    "kumacut": "./bin/kumacut/index.js"
-  },
   "resolutions": {
     "serialize-javascript": "^2.1.1"
   },
