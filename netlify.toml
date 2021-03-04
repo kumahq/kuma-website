@@ -3,3 +3,160 @@
   # command = "node ./bin/setup-redirects && node ./bin/curl-endpoints && vuepress build docs"
   # 4096 or 8192 for memory
   command = "node ./bin/setup-redirects && node ./bin/curl-endpoints && node --max_old_space_size=8192 ./node_modules/vuepress/cli.js build docs"
+# Docs redirect
+[[redirects]]
+from = "/docs/"
+to = "/docs/1.0.8/"
+status = 301
+force = true
+
+# Install redirect
+[[redirects]]
+from = "/install/"
+to = "/install/1.0.8/"
+status = 200
+force = true
+
+# Docs: Latest redirect
+[[redirects]]
+from = "/docs/latest/*"
+to = "/docs/1.0.8/:splat"
+status = 301
+force = false
+
+# Install: Latest redirect
+[[redirects]]
+from = "/install/latest/*"
+to = "/install/1.0.8/:splat"
+status = 200
+force = false
+
+#
+# Redirects for old docs root pages
+#
+
+# Policies
+[[redirects]]
+from = "/docs/:version/policies/"
+to = "/docs/:version/policies/introduction/"
+status = 301
+force = false
+
+# Documentation
+[[redirects]]
+from = "/docs/:version/documentation/"
+to = "/docs/:version/documentation/introduction/"
+status = 301
+force = false
+
+# Overview
+[[redirects]]
+from = "/docs/:version/overview/"
+to = "/docs/:version/overview/what-is-kuma/"
+status = 301
+force = false
+
+# Installation
+[[redirects]]
+from = "/docs/:version/installation/"
+to = "/docs/:version/installation/centos/"
+status = 301
+force = false
+
+# Other
+[[redirects]]
+from = "/docs/:version/other/"
+to = "/docs/:version/other/introduction/"
+status = 301
+force = false
+
+# Latest version (for use with cURL, etc)
+[[redirects]]
+from = "/latest_version.html"
+to = "/latest_version"
+status = 301
+force = true
+
+[[headers]]
+  for = "/latest_version"
+  [headers.values]
+    Content-Type = "text/plain"
+    Access-Control-Allow-Origin = "*"# Docs redirect
+[[redirects]]
+from = "/docs/"
+to = "/docs/1.0.8/"
+status = 301
+force = true
+
+# Install redirect
+[[redirects]]
+from = "/install/"
+to = "/install/1.0.8/"
+status = 200
+force = true
+
+# Docs: Latest redirect
+[[redirects]]
+from = "/docs/latest/*"
+to = "/docs/1.0.8/:splat"
+status = 301
+force = false
+
+# Install: Latest redirect
+[[redirects]]
+from = "/install/latest/*"
+to = "/install/1.0.8/:splat"
+status = 200
+force = false
+
+#
+# Redirects for old docs root pages
+#
+
+# Policies
+[[redirects]]
+from = "/docs/:version/policies/"
+to = "/docs/:version/policies/introduction/"
+status = 301
+force = false
+
+# Documentation
+[[redirects]]
+from = "/docs/:version/documentation/"
+to = "/docs/:version/documentation/introduction/"
+status = 301
+force = false
+
+# Overview
+[[redirects]]
+from = "/docs/:version/overview/"
+to = "/docs/:version/overview/what-is-kuma/"
+status = 301
+force = false
+
+# Installation
+[[redirects]]
+from = "/docs/:version/installation/"
+to = "/docs/:version/installation/centos/"
+status = 301
+force = false
+
+# Other
+[[redirects]]
+from = "/docs/:version/other/"
+to = "/docs/:version/other/introduction/"
+status = 301
+force = false
+
+# Latest version (for use with cURL, etc)
+[[redirects]]
+from = "/latest_version.html"
+to = "/latest_version"
+status = 301
+force = true
+
+[[headers]]
+  for = "/latest_version"
+  [headers.values]
+    Content-Type = "text/plain"
+    Access-Control-Allow-Origin = "*"
