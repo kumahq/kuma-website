@@ -30,6 +30,11 @@
     "slug": "ecs"
   },
   {
+    "label": "Amazon EKS",
+    "logo": "/images/platforms/logo-eks.png",
+    "slug": "eks"
+  },
+  {
     "label": "CentOS",
     "logo": "/images/platforms/logo-centos.gif",
     "slug": "centos"
