@@ -19,6 +19,12 @@ mesh: default
 metadata:
   name: timeouts-backend
 spec:
+  sources:
+    - match:
+        kuma.io/service: '*'
+  destinations:
+    - match:
+        kuma.io/service: 'backend'
   conf:
     # connectTimeout defines time to establish connection, 'connect_timeout' on Cluster, default 10s
     connectTimeout: 10s
