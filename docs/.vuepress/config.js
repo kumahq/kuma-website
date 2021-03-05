@@ -281,6 +281,7 @@ module.exports = {
       ]
     }
   },
+  shouldPrefetch: false,
   chainWebpack: (config, isServer) => {
     const jsRule = config.module.rule("js");
     jsRule
