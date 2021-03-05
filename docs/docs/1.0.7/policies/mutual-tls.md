@@ -4,7 +4,7 @@ This policy enables automatic encrypted mTLS traffic for all the services in a [
 
 Kuma ships with the following CA (Certificate Authority) supported backends:
 
-* [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](/docs/1.0.7/documentation/secrets).
+* [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](/docs/1.0.7/security/secrets/).
 * [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a [Secret](/docs/1.0.7/documentation/secrets).
 
 Once a CA backend has been specified, Kuma will then automatically generate a certificate for every data plane proxy in the [`Mesh`](../mesh). The certificates that Kuma generates are SPIFFE compatible and are used for AuthN/Z use-cases in order to identify every workload in our system. 

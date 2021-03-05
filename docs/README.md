@@ -27,15 +27,7 @@ tabs:
     title: Universal (VMs)
 
 # testimonials
-testimonialCarouselTiming: 5000
-testimonialCarouselLoop: false
-testimonialCarouselAutoplay: false
 testimonials:
-  - content: 'Kuma reduces complexity and accelerates service reliability with an Envoy-based Service Mesh.'
-    author: 'Luca Maraschi'
-    title: 'Chief Architect, Telus Digital'
-    image: '/images/telus-logo.svg'
-    alt: 'Logo for Telus Digital'
   - content: 'We chose Kuma in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two.'
     author: 'Aaron Weikle'
     title: 'CEO of MS3'
@@ -45,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.0.7 has been released!** With support for Kubernetes Jobs and Service-less pods, more charts in the GUI, improved performance and more! &mdash; [Get Started](/install/)
+**Kuma 1.0.8 has been released!** With improved health checking, GUI charts and more! &mdash; [Get Started](/install/)
 
 :::
 
@@ -59,12 +51,12 @@ testimonials:
 
 ::: slot masthead-sub-title
 
-## The open-source control plane for service mesh, <br>delivering high performance and reliability with Envoy
+## The open-source control plane for service mesh, <br>delivering security, observability, routing and more
 
 :::
 
 ::: slot masthead-diagram
-![Screenshot of the Kuma GUI with charts](/images/gui-screenshot-with-charts.jpg)
+![Screenshot of the Kuma GUI with charts](/images/gui-screenshot-with-charts.png)
 :::
 
 <!-- feature blocks -->
@@ -80,7 +72,7 @@ Built on top of Envoy, Kuma is a modern control plane for Microservices & Servic
 
 ::: slot feature-block-content-2
 
-### Easy To Use
+### Easy To Use & Upgrade
 
 ![L4 and L7 Policies chart](/images/diagrams/v3/diagram-l4-l7-policies@2x.png)
 
@@ -197,10 +189,10 @@ Designed for the enterprise architect, Kuma ships with a native multi-mesh suppo
 
 ::: slot newsletter-title
 
-## Get Community Updates
+### Ready to get started?
 
 :::
 
 ::: slot newsletter-content
-Sign up for our Kuma community newsletter to get the most recent updates and product announcements.
+Receive a step-by-step onboarding guide delivered directly to your inbox
 :::

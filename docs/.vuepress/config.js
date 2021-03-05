@@ -34,6 +34,7 @@ module.exports = {
   // theme configuration
   themeConfig: {
     domain: productData.hostname,
+    gaCode: productData.gaCode,
     latestVer: latestVersion,
     twitter: productData.twitter,
     author: productData.author,
@@ -46,6 +47,7 @@ module.exports = {
     slackChannel: productData.slackChannelURL,
     docsDir: "docs",
     editLinks: false,
+    sidebarDepth: 0,
     search: true,
     searchMaxSuggestions: 10,
     algolia: {
@@ -53,11 +55,11 @@ module.exports = {
       indexName: ""
     },
     sidebar: sidebarNav,
-    displayAllHeaders: true,
+    // displayAllHeaders: true,
     // main navigation
     nav: [
       { text: "Explore Policies", link: "/policies/" },
-      { text: "Documentation", link: "/docs/" },
+      { text: "Docs", link: "/docs/" },
       { text: "Community", link: "/community/" },
       { text: "Blog", link: "/blog/" },
       // { text: "Use Cases", link: "/use-cases/" },
