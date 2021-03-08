@@ -2260,7 +2260,7 @@ module.exports = {
         "policies/external-services",
         "policies/retry",
       ]
-    },    
+    },
     {
       title: "HTTP API Reference",
       collapsable: true,
@@ -2387,8 +2387,9 @@ module.exports = {
         "policies/proxy-template",
         "policies/external-services",
         "policies/retry",
+        "policies/timeout",
       ]
-    },    
+    },
     {
       title: "HTTP API Reference",
       collapsable: true,
