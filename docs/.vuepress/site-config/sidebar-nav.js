@@ -824,7 +824,7 @@ module.exports = {
         "policies/external-services",
         "policies/retry",
       ]
-    },    
+    },
     {
       title: "HTTP API Reference",
       collapsable: true,
@@ -903,6 +903,7 @@ module.exports = {
         "networking/networking",
         "networking/service-discovery",
         "networking/dns",
+        "networking/cni",
         "networking/transparent-proxying",
       ]
     },
@@ -952,7 +953,7 @@ module.exports = {
         "policies/external-services",
         "policies/retry",
       ]
-    },    
+    },
     {
       title: "HTTP API Reference",
       collapsable: true,
