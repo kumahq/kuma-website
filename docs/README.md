@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.1.0 has been released!** With improved health checking, GUI charts and more! &mdash; [Get Started](/install/)
+**Kuma 1.1.0 has been released!** With new security features, usability improvements, and more!! &mdash; [Get Started](/install/)
 
 :::
 
