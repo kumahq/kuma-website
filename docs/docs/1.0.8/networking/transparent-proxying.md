@@ -35,7 +35,7 @@ $ useradd -U kuma-dp
 
 # use kumactl
 $ kumactl install transparent-proxy \
-          --kuma-dp-user kuma-dp-user \
+          --kuma-dp-user kuma-dp \
           --kuma-cp-ip <kuma-cp IP>
 ```
 
