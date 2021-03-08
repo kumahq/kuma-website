@@ -40,6 +40,11 @@ spec:
     initialJitter: 5s # optional
     intervalJitter: 6s # optional
     intervalJitterPercent: 10 # optional
+    healthyPanicThreshold: 60 # optional, by default 50
+    failTrafficOnPanic: true # optional, by default false
+    noTrafficInterval: 10s # optional, by default 60s
+    eventLogPath: "/tmp/health-check.log" # optional
+    alwaysLogHealthCheckFailures: true # optional, by default false
     tcp:
       send: Zm9v
       receive:
@@ -70,6 +75,11 @@ spec:
     initialJitter: 5s # optional
     intervalJitter: 6s # optional
     intervalJitterPercent: 10 # optional
+    healthyPanicThreshold: 60 # optional, by default 50
+    failTrafficOnPanic: true # optional, by default false
+    noTrafficInterval: 10s # optional, by default 60s
+    eventLogPath: "/tmp/health-check.log" # optional
+    alwaysLogHealthCheckFailures: true # optional, by default false
     http:
       path: /health
       requestHeadersToAdd:
@@ -107,6 +117,11 @@ conf:
   initialJitter: 5s # optional
   intervalJitter: 6s # optional
   intervalJitterPercent: 10 # optional
+  healthyPanicThreshold: 60 # optional, by default 50
+  failTrafficOnPanic: true # optional, by default false
+  noTrafficInterval: 10s # optional, by default 60s
+  eventLogPath: "/tmp/health-check.log" # optional
+  alwaysLogHealthCheckFailures: true # optional, by default false
   tcp:
     send: Zm9v
     receive:
@@ -134,6 +149,11 @@ conf:
   initialJitter: 5s # optional
   intervalJitter: 6s # optional
   intervalJitterPercent: 10 # optional
+  healthyPanicThreshold: 60 # optional, by default 50
+  failTrafficOnPanic: true # optional, by default false
+  noTrafficInterval: 10s # optional, by default 60s
+  eventLogPath: "/tmp/health-check.log" # optional
+  alwaysLogHealthCheckFailures: true # optional, by default false
   http:
     path: /health
     requestHeadersToAdd:
