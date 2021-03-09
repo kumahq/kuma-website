@@ -6,8 +6,8 @@ There are two deployment models that can be adopted with Kuma in order to addres
 
 The two deployments modes are:
 
-* [**Standalone**](/docs/1.0.8/deployments/stand-alone): Kuma's default deployment model with one control plane (that can be scaled horizontally) and many data planes connecting directly to it.
-* [**Multi-Zone**](/docs/1.0.8/deployments/multi-zone): Kuma's advanced deployment model to support multiple Kubernetes or VM-based zones, or hybrid Service Meshes running on both Kubernetes and VMs combined.
+* [**Standalone**](/docs/1.1.0/deployments/stand-alone): Kuma's default deployment model with one control plane (that can be scaled horizontally) and many data planes connecting directly to it.
+* [**Multi-Zone**](/docs/1.1.0/deployments/multi-zone): Kuma's advanced deployment model to support multiple Kubernetes or VM-based zones, or hybrid Service Meshes running on both Kubernetes and VMs combined.
 
 :::tip
 **Automatic Connectivity**: Running a Service Mesh should be easy and connectivity should be abstracted away, so that when a service wants to consume another service all it needs is the name of the destination service. Kuma achieves this out of the box in both deployment modes with a built-in service discovery and - in the case of the multi-zone mode - with an Ingress resource and Remote CPs.

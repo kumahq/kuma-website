@@ -15,7 +15,7 @@ We can support multiple isolated service meshes thanks to Kuma's multi-tenancy s
 When running in multi-zone mode, we introduce the notion of a `global` and `remote` control planes for Kuma:
 
 * **Global**: this control plane will be used to configure the global Service Mesh [policies](/policies) that we want to apply to our data plane proxies. Data plane proxies **cannot** connect directly to a global control plane, but can connect to `remote` control planes that are being deployed on each underlying zone that we want to include as part of the Service Mesh (can be a Kubernetes cluster, or VM based). Only one deployment of the global control plane is required, and it can be scaled horizontally.
-* **Remote**: we are going to have as many remote control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/1.0.8/policies/mesh/). Remote control planes accept connections from data plane proxies that are started in the same underlying zone, and they connect to the `global` control plane to fetch their service mesh policies. Remote control plane policy APIs are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally within their zone.
+* **Remote**: we are going to have as many remote control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/1.1.0/policies/mesh/). Remote control planes accept connections from data plane proxies that are started in the same underlying zone, and they connect to the `global` control plane to fetch their service mesh policies. Remote control plane policy APIs are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally within their zone.
 
 In this deployment, a Kuma cluster is made of one global control plane and as many remote control planes as the number of zones that we want to support:
 
@@ -33,7 +33,7 @@ To implement easy service connectivity, Kuma ships with:
 * **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. 
 
 :::tip
-An `ingress` data plane proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.0.8/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data plane proxies.
+An `ingress` data plane proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.1.0/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data plane proxies.
 :::
 
 The global control plane and the remote control planes communicate with each other via xDS in order to synchronize the resources that are being created to configure Kuma, like policies.
