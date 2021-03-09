@@ -2,6 +2,73 @@
 
 This policy enables Kuma to know how to behave if there is a failed scenario (i.e. HTTP request) which could be retried.
 
+## Default Retry
+
+The control plane creates a default `Retry` every time the new `Mesh` is created.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Retry
+mesh: default
+metadata: 
+  name: retry-all-default
+spec: 
+  sources: 
+    - match: 
+        kuma.io/service: '*'
+  destinations: 
+    - match: 
+        kuma.io/service: '*'
+  conf: 
+    http: 
+      numRetries: 5
+      perTryTimeout: 1s
+      backOff: 
+        baseInterval: 0.025s
+        maxInterval: 0.250s
+    tcp: 
+      maxConnectAttempts: 5
+    grpc: 
+      numRetries: 5
+      perTryTimeout: 1s
+      backOff: 
+        baseInterval: 0.025s
+        maxInterval: 0.250s
+```
+:::
+
+::: tab "Universal"
+```yaml
+type: Retry
+name: retry-all-default
+mesh: default
+sources:
+  - match:
+      kuma.io/service: '*'
+destinations:
+  - match:
+      kuma.io/service: '*'
+conf:
+  http: 
+    numRetries: 5
+    perTryTimeout: 1s
+    backOff: 
+      baseInterval: 0.025s
+      maxInterval: 0.250s
+  tcp: 
+    maxConnectAttempts: 5
+  grpc: 
+    numRetries: 5
+    perTryTimeout: 1s
+    backOff: 
+      baseInterval: 0.025s
+      maxInterval: 0.250s
+```
+:::
+::::
+
 ## Usage
 
 As usual, we can apply `sources` and `destinations` selectors to determine how retries will be performed across our data plane proxies.
