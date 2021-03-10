@@ -44,6 +44,9 @@ policies:
       - title: Retries
         url: /docs/latest/policies/retry/
         icon: /images/icons/policies/retry@2x.png
+      - title: Timeouts
+        url: /docs/latest/policies/timeout/
+        icon: /images/icons/policies/icon-timeout@2x-80.jpg
   - section: observability
     sectionTitle: Observability
     sectionSubTitle: Metrics, Logs and Traces
