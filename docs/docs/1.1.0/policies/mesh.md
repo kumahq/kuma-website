@@ -123,7 +123,7 @@ mesh: default # indicate to Kuma what is the Mesh that the resource belongs to
 ### Controlling the passthrough mode
 
 In its default setup, Kuma allows any non-mesh traffic to pass Envoy without applying any policy. For instance if a service needs to send a request to `http://example.com`, all requests won't be logged even if a traffic logging is enabled in the mesh where the service is deployed.
-The passthrough mode is enabled by default on all the dataplane proxies in transparent mode in a Mesh. This behavior can be changed by setting the `networking.outbound.passtrhough` in the Mesh resource. Example:
+The passthrough mode is enabled by default on all the dataplane proxies in transparent mode in a Mesh. This behavior can be changed by setting the `networking.outbound.passthrough` in the Mesh resource. Example:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -149,7 +149,7 @@ networking:
 :::
 ::::
 
-When `networking.outbound.passtrhough` is `false`, no traffic to any non-meh resource can leave the Mesh.
+When `networking.outbound.passthrough` is `false`, no traffic to any non-mesh resource can leave the Mesh.
 
 :::tip
 Before turning this feature on, double-check Envoy stats that no traffic is flowing through `pass_through` cluster. Otherwise, you will block the traffic which may cause the instability of the system.
