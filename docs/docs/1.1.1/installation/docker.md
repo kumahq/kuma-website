@@ -7,17 +7,17 @@ To install and run Kuma on Docker execute the following steps:
 * [3. Use Kuma](#_3-use-kuma)
 
 ::: tip
-The official Docker images are used by default in the [Kubernetes](/docs/1.1.0/installation/kubernetes/) and [OpenShift](/docs/1.1.0/installation/openshift/) distributions.
+The official Docker images are used by default in the [Kubernetes](/docs/1.1.1/installation/kubernetes/) and [OpenShift](/docs/1.1.1/installation/openshift/) distributions.
 :::
 
 ### 1. Download Kuma
 
 Kuma provides the following Docker images for all of its executables:
 
-* **kuma-cp**: at `kong-docker-kuma-docker.bintray.io/kuma-cp:1.1.0`
-* **kuma-dp**: at `kong-docker-kuma-docker.bintray.io/kuma-dp:1.1.0`
-* **kumactl**: at `kong-docker-kuma-docker.bintray.io/kumactl:1.1.0`
-* **kuma-prometheus-sd**: at `kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:1.1.0`
+* **kuma-cp**: at `kong-docker-kuma-docker.bintray.io/kuma-cp:1.1.1`
+* **kuma-dp**: at `kong-docker-kuma-docker.bintray.io/kuma-dp:1.1.1`
+* **kumactl**: at `kong-docker-kuma-docker.bintray.io/kumactl:1.1.1`
+* **kuma-prometheus-sd**: at `kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:1.1.1`
 
 You can freely `docker pull` these images to start using Kuma, as we will demonstrate in the following steps.
 
@@ -33,10 +33,10 @@ Standalone mode is perfect when running Kuma in a single cluster across one envi
 ```sh
 $ docker run \
     -p 5681:5681 \
-    kong-docker-kuma-docker.bintray.io/kuma-cp:1.1.0 run
+    kong-docker-kuma-docker.bintray.io/kuma-cp:1.1.1 run
 ```
 
-To learn more, read about the [deployment modes available](/docs/1.1.0/documentation/deployments/).
+To learn more, read about the [deployment modes available](/docs/1.1.1/documentation/deployments/).
 
 :::
 ::: tab "Multi-Zone"
@@ -45,7 +45,7 @@ Multi-zone mode is perfect when running one deployment of Kuma that spans across
 
 This mode also supports hybrid Kubernetes + VMs deployments.
 
-To learn more, read the [multi-zone installation instructions](/docs/1.1.0/documentation/deployments/).
+To learn more, read the [multi-zone installation instructions](/docs/1.1.1/documentation/deployments/).
 
 :::
 ::::
@@ -108,11 +108,11 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 or you can download the distribution manually:
 
-* [CentOS](https://kong.bintray.com/kuma/kuma-1.1.0-centos-amd64.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma-1.1.0-rhel-amd64.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma-1.1.0-debian-amd64.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma-1.1.0-ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma-1.1.0-darwin-amd64.tar.gz)
+* [CentOS](https://kong.bintray.com/kuma/kuma-1.1.1-centos-amd64.tar.gz)
+* [RedHat](https://kong.bintray.com/kuma/kuma-1.1.1-rhel-amd64.tar.gz)
+* [Debian](https://kong.bintray.com/kuma/kuma-1.1.1-debian-amd64.tar.gz)
+* [Ubuntu](https://kong.bintray.com/kuma/kuma-1.1.1-ubuntu-amd64.tar.gz)
+* [macOS](https://kong.bintray.com/kuma/kuma-1.1.1-darwin-amd64.tar.gz)
 
 and extract the archive with:
 
@@ -120,7 +120,7 @@ and extract the archive with:
 $ tar xvzf kuma-*.tar.gz
 ```
 
-You will then find the `kumactl` executable in the `kuma-1.1.0/bin` folder.
+You will then find the `kumactl` executable in the `kuma-1.1.1/bin` folder.
 
 :::
 ::::
@@ -131,4 +131,4 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 Congratulations! You have successfully installed Kuma on Docker 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/1.1.0/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/1.1.0/quickstart/kubernetes/) as well.
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/1.1.1/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/1.1.1/quickstart/kubernetes/) as well.

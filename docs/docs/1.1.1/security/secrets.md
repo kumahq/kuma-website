@@ -2,7 +2,7 @@
 
 Kuma provides a built-in interface to store sensitive information such as TLS keys and tokens that can be used later on by any policy at runtime. This functionality is being implemented by introducing a `Secret` resource.
 
-Secrets belong to a specific [`Mesh`](/docs/1.1.0/policies/mesh) resource, and cannot be shared across different `Meshes`.
+Secrets belong to a specific [`Mesh`](/docs/1.1.1/policies/mesh) resource, and cannot be shared across different `Meshes`.
 
 :::tip
 Kuma will also leverage `Secret` resources internally for certain operations, for example when storing auto-generated certificates and keys when Mutual TLS is enabled.
@@ -90,7 +90,7 @@ $ echo "value" | base64
 
 ### Access to the Secret HTTP API
 
-This API requires authentication. Consult [Accessing Admin Server from a different machine](/docs/1.1.0/security/certificates/#user-to-control-plane-communication) how to configure remote access.
+This API requires authentication. Consult [Accessing Admin Server from a different machine](/docs/1.1.1/security/certificates/#user-to-control-plane-communication) how to configure remote access.
 
 ## Scope of the Secret
 
@@ -157,7 +157,7 @@ data: dGVzdAo=
 
 ## Usage
 
-Here is example of how you can use a Kuma `Secret` with a `provided` [Mutual TLS](/docs/1.1.0/policies/mutual-tls) backend.
+Here is example of how you can use a Kuma `Secret` with a `provided` [Mutual TLS](/docs/1.1.1/policies/mutual-tls) backend.
 
 The examples below assume that the `Secret` object has already been created before-hand.
 
