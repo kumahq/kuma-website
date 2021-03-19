@@ -45,6 +45,11 @@ spec:
     baseEjectionTime: 30s
     maxEjectionPercent: 20
     splitExternalAndLocalErrors: false 
+    thresholds:
+      maxConnections: 2
+      maxPendingRequests: 2
+      maxRequests: 2
+      maxRetries: 2
     detectors:
       totalErrors: 
         consecutive: 20
@@ -208,3 +213,12 @@ Detection based on success rate with an explicit threshold (unlike [standardDevi
 - `requestVolume` - ignore data plane proxies with a number of requests less than `requestVolume`. Defaults to `50`.
 - `minimumHosts` - ignore counting the success rate for an Envoy cluster if the number of data plane proxies with required `requestVolume` is less than `minimumHosts`. Defaults to `5`.
 - `threshold` - eject the data plane proxy if its percentage of failures is greater than - or equal to - this value. Defaults to `85`.
+
+## Thresholds
+
+Alongside the detectors, CircuitBreaker allows configuring thresholds:
+
+- `maxConnections` - the maximum number of connections that Envoy will make to the upstream cluster. If not specified, the default is 1024.
+- `maxPendingRequests` - the maximum number of pending requests that Envoy will allow to the upstream cluster. If not specified, the default is 1024.
+- `maxRequests` - the maximum number of parallel requests that Envoy will make to the upstream cluster. If not specified, the default is 1024.
+- `maxRetries` - the maximum number of parallel retries that Envoy will allow to the upstream cluster. If not specified, the default is 3.
