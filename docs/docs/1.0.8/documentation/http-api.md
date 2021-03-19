@@ -3067,13 +3067,14 @@ curl -XGET http://localhost:5681/status/zones
 ## Dataplane Proxy Tokens
 
 Generate the data plane proxy tokens required for data plane proxy authentication.
+
 Requires [authentication to the control plane by the user](/docs/1.0.8/security/certificates/#authentication).
 
 For details, see [data plane proxy authentication](/docs/1.0.8/security/certificates/#data-plane-proxy-authentication).
 
 ### Generate dataplane proxy token
 
-Request: `PUT /tokens` with following body:
+Request: `PUT /tokens` with the following body:
 ```json
 {
   "name": "dp-echo-1",

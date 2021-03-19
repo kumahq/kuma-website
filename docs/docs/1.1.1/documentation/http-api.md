@@ -56,6 +56,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/secrets`
 * `/meshes/{mesh}/secrets/{name}`
 * `/status/zones`
+* `/tokens`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -235,7 +236,7 @@ curl http://localhost:5681/versions
     "1.0.7": {
       "envoy": "1.16.2"
     },
-    "1.1.1": {
+    "1.0.8": {
       "envoy": "1.16.2"
     }
   }
@@ -3036,7 +3037,7 @@ curl -XDELETE http://localhost:5681/global-secrets/sample-global-secret
 
 ## Multi-zone
 
-These APIs are available on the `Global` control plane, when running in a distributed [multi-zone mode](/docs/1.1.1/documentation/deployments/).
+These APIs are available on the `Global` control plane, when running in a distributed [multi-zone mode](/docs/1.0.8/documentation/deployments/).
 
 ### Zones status
 Request: `GET /status/zones`
@@ -3056,9 +3057,40 @@ curl -XGET http://localhost:5681/status/zones
   "active": true
  },
  {
-  "name": "`zone-2`",
+  "name": "zone-2",
   "url": "grpcs://2.2.2.2:5685",
   "active": false
  }
 ]
+```
+
+## Dataplane Proxy Tokens
+
+Generate the data plane proxy tokens required for data plane proxy authentication.
+
+Requires [authentication to the control plane by the user](/docs/1.0.8/security/certificates/#authentication).
+
+For details, see [data plane proxy authentication](/docs/1.0.8/security/certificates/#data-plane-proxy-authentication).
+
+### Generate dataplane proxy token
+
+Request: `PUT /tokens` with the following body:
+```json
+{
+  "name": "dp-echo-1",
+  "mesh": "default",
+  "tags": {
+    "kuma.io/service": ["backend", "backend-admin"]
+  }
+}
+```
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XPOST \ 
+  -H "Content-Type: application/json" \
+  --data '{"name": "dp-echo-1", "mesh": "default", "tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
+  http://localhost:5681/tokens
 ```
