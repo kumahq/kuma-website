@@ -1,11 +1,10 @@
 # Set up a multi-zone deployment
 
-For a description of how multi-zone deployments work in Kuma, see [about multi-zone deployments](/how-multi-zone-works). This page explains how to configure and deploy Kuma in a multi-zone environment:
+For a description of how multi-zone deployments work in Kuma, see [about multi-zone deployments](../how-multi-zone-works). This page explains how to configure and deploy Kuma in a multi-zone environment:
 
 - Set up the global control plane
 - Set up the remote control planes
 - Verify control plane connectivity
-- Enable mTLS and apply the appropriate Traffic Permission policy
 - Set up cross-zone communication between data plane proxies
 
 Before you start you should determine the zone names to use. You must assign the same `zone` value to every remote control plane you want to run in the same zone. This value is an arbitrary string.
@@ -135,7 +134,7 @@ You must install DNS with `kumactl` because it reads the state of the control pl
     $ kumactl generate dataplane-token --type=ingress > /tmp/ingress-token
     ```
 
-    You can also generate the token [with the REST API](/security/certificates/#data-plane-proxy-to-control-plane-communication). 
+    You can also generate the token [with the REST API](../security/certificates/#data-plane-proxy-to-control-plane-communication). 
 
 1.  Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication: 
 
@@ -167,51 +166,68 @@ You must install DNS with `kumactl` because it reads the state of the control pl
 
 ## Verify control plane connectivity
 
+You can run `kumactl get zones`, or check the list of zones in the web UI for the global control plane, to verify remote control plane connections.
+
 When a remote control plane connects to the global control plane, the `Zone` resource is created automatically in the global control plane.
-You can verify if a remote control plane is connected to the global control plane by inspecting the list of zones in the global control plane GUI (`:5681/gui/#/zones`) or by using `kumactl get zones`. 
 
-Additionally, if you deployed remote control plane with Ingress, it should be visible in the Ingress tab of the GUI.
-Cross-zone communication between services is only available if Ingress has a public address and public port.
-Note that on Kubernetes, Kuma automatically tries to pick up the public address and port. Depending on the LB implementation of your Kubernetes provider, you may need to wait a couple of minutes to receive the address. 
-
-## Enable mTLS
-
-Cross-zone communication between services is only possible when mTLS is enabled, because Ingress is routing connections using SNI.
-Make sure you [enable mTLS](../policies/mutual-tls.md) and apply [Traffic Permission](../policies/traffic-permissions.md). 
+The Ingress tab of the web UI also lists remote control planes that you deployed with Ingress. 
 
 ## Set up cross-zone communication
+
+### Enable mTLS
+
+You must [enable mTLS](../policies/mutual-tls.md) for cross-zone communication between services.
+
+Cross-zone communication between services rqeuires mTLS because Ingress routes connections with SNI.
+
+### Apply TrafficPermission policy
+
+You must also apply a [TrafficPermission policy](../policies/traffic-permissions.md). Traffic permissions also require enabling mTLS. Kuma creates a default `TrafficPermission` policy that allows all the communication between all the services when a new `Mesh` is created. You should take care to create appropriate policies to restrict traffic between services. 
+
+### Ingress requirements
+
+Cross-zone communication between services is available only if Ingress has a public address and public port.
+
+On Kubernetes, Kuma automatically tries to pick up the public address and port. Depending your load balancing implementation, you might need to wait a couple of minutes for Kuma to get the address. 
+
+### Cross-communication details
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-To figure out the service names that we can use in the applications for cross-zone communication, we can look at the 
-service tag in the deployed data plane proxies: 
+To view the list of service names available for cross-zone communication, run:
 
 ```bash
 $ kubectl get dataplanes -n echo-example -o yaml | grep service
            service: echo-server_echo-example_svc_1010
 ```
 
-On Kubernetes, Kuma uses transparent proxy. In this mode, `kuma-dp` is listening on port 80 for all the virtual IPs that 
-Kuma DNS assigns to services in the `.mesh` DNS zone. It also provides an RFC compatible DNS name where the underscores in the
-service are replaced by dots. Therefore, we have the following ways to consume a service from within the mesh:
+To consume the example service only within the same Kuma zone, you can run:
 
 ```bash
 <kuma-enabled-pod>$ curl http://echo-server:1010
+```
+
+To consume the example service across all zones in your Kuma deployment (that is, from endpoints ultimately connecting to the same global control plane), you can run either of:
+
+```bash
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
 <kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
+```
+
+And if your HTTP clients take the standard default port 80, you can skip that value and run either of:
+
+```bash
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
 <kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
 ```
-The first method still works, but is limited to endpoints implemented within the same Kuma zone (i.e. the same Kubernetes cluster).
-The second and third options allow to consume a service that is distributed across the Kuma cluster (bound by the same `global` control plane). For
-example there can be an endpoint running in another Kuma zone in a different data-center.
 
-Since most HTTP clients (such as `curl`) will default to port 80, the port can be omitted, like in the fourth and fifth options above.
+Because Kuma on Kubernetes relies on transparent proxy, `kuma-dp` listens on port 80 for all virtual IPs thet are assigned to services in the `.mesh` DNS zone. The DNS names are rendered RFC compatible by replacing underscores with dots.
+
 :::
 ::: tab "Universal"
 
-In hybrid (Kubernetes and Universal) deployments, the service tag should be the same in both environments (e.g `echo-server_echo-example_svc_1010`)
+With a hybrid deployment, running in both Kubernetes and Universal mode, the service tag should be the same in both environments (e.g `echo-server_echo-example_svc_1010`):
 
 ```yaml
 type: Dataplane
@@ -226,9 +242,11 @@ networking:
       kuma.io/service: echo-server_echo-example_svc_1010
 ```
 
-If a multi-zone Universal control plane is used, the service tag has no such limitation.
+With a Universal control plane, the service tag has no such limitation.
 
-And to consume the distributed service from a Universal deployment, where the application will use `http://localhost:20012`.
+REVIEWER: DOES THIS ^ APPLY TO A HYBRID ENVIRONMENT WHERE THE CONTROL PLANE RUNS IN UNIVERSAL MODE? DOES THIS REFER TO THE GLOBAL CONTROL PLANE? CAN WE CLARIFY THE DISTINCTION BETWEEN THESE TWO CASES (THAT IS, THE HYBRID AND THIS SECOND CASE WHICH MIGHT OR MIGHT NOT BE RELEVANT TO THE FIRST ONE)?
+
+To consume a distributed service in a Universal deployment, where the application address is `http://localhost:20012`:
 
 ```yaml
 type: Dataplane
@@ -250,15 +268,15 @@ networking:
 :::
 ::::
 
-::: tip
 The Kuma DNS service format (e.g. `echo-server_kuma-test_svc_1010.mesh`) is a composition of Kubernetes Service Name (`echo-server`),
 Namespace (`kuma-test`), a fixed string (`svc`), the service port (`1010`). The service is resolvable in the DNS zone `.mesh` where
 the Kuma DNS service is hooked.
-:::
 
 ### Deleting a Zone
 
-To delete a `Zone` we must first shut down the corresponding Kuma Remote CP instances. As long as the Remote CP is running this will not be possible, and Kuma will return a validation error like:
+REVIEWER: CANNOT TELL WHAT THE COMMANDS ARE THAT YOU RUN, AND IN WHAT ORDER. THIS SECTION NEEDS MUCH HELP, PLEASE!
+
+To delete a `Zone` we must first shut down the corresponding Kuma remote control plane instances. As long as the Remote CP is running this will not be possible, and Kuma returns a validation error like:
 
 ```
 zone: unable to delete Zone, Remote CP is still connected, please shut it down first

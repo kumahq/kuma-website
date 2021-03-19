@@ -1,6 +1,6 @@
 # About multi-zone deployments
 
-Kuma supports the use case where you have multiple services meshes running in different zones. This use case includes hybrid deployments where you run your services on Kubernetes and in Universal mode, on VMs or elsewhere. Your mesh environment can include multiple isolated service meshes (multi-tenancy), and workloads running in different regions, on different clouds, or in different datacenters. A zone can be a Kubernetes cluster, a VPC, or any other cluster you need to include in the same distributed mesh environment.
+Kuma supports the use case where you have multiple services meshes running in different zones. This use case includes hybrid deployments where you run your services on Kubernetes and in Universal mode, on VMs or elsewhere. Your mesh environment can include multiple isolated service meshes (multi-tenancy), and workloads running in different regions, on different clouds, or in different datacenters. A zone can be a Kubernetes cluster, a VPC, or any other deployment you need to include in the same distributed mesh environment.
 
 ## Components of a multi-zone deployment
 
@@ -16,7 +16,7 @@ A multi-zone deployment includes different roles for different components of you
 The hard part of a complex service mesh deployment is service connectivity -- establishing and maintaining connections across zones in the mesh. Kuma accomplishes this with:
 
 * **DNS Resolver**: Kuma provides an out of the box DNS server on every `remote` control plane that will be used to resolve service addresses when estabilishing any service-to-service communication. It scales horizontally as we scale the `remote` control plane.
-* **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. 
+* **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. This happens automatically with Kubernetes, although if you choose a Helm installation you need to add the ingress separately. With a Universal deployment, adding ingress is a separate step.
 
 <<<<<<< HEAD
 =======
