@@ -28,10 +28,8 @@ When running in multi-zone mode, we introduce the notion of a `global` and `remo
 
 While all of them will be part of a Kuma mesh by connecting their data plane proxies to the local `remote` control plane in the same zone, implementing service to service connectivity would be tricky since a source service may not know where a destination service is being hosted at (for instance, in another zone).
 
-
-
 :::tip
 An `ingress` data plane proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.1.0/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data plane proxies.
 :::
 
-The global control plane and the remote control planes communicate with each other via xDS in order to synchronize the resources that are being created to configure Kuma, like policies.
+The global control plane and the remote control planes communicate with each other via xDS to synchronize the resources that are being created to configure Kuma, like policies.
