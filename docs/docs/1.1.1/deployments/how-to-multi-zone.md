@@ -8,6 +8,8 @@ For a description of how multi-zone deployments work in Kuma, see [about multi-z
 - Enable mTLS and apply the appropriate Traffic Permission policy
 - Set up cross-zone communication between data plane proxies
 
+Before you start you should determine the zone names to use. You must assign the same `zone` value to every remote control plane you want to run in the same zone. This value is an arbitrary string.
+
 ## Set up the global control plane
 
 :::: tabs :options="{ useUrlFragment: false }"
@@ -30,10 +32,11 @@ kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.1
 kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 ```
 
-In this example it is `35.226.196.103:5685`. You pass this as the value of `global-kds-address` when you set up the remote control planes.
+In this example the value is `35.226.196.103:5685`. You pass this as the value of `global-kds-address` when you set up the remote control planes.
 
 :::
 ::: tab "Helm"
+
 Set the `controlPlane.mode` value to `global` in the chart, then install. On the command line, run:
 
 ```sh
@@ -42,88 +45,123 @@ $ helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/
 
 Or you can edit the chart and pass the file to the `helm install kuma` command.
 
+REVIEWER: IS THIS CLEARER? OR HAVE I GOTTEN THINGS WRONG/MORE OBSCURE?
+
 :::
 ::: tab "Universal"
 
-Running the Global Control Plane setting up the relevant environment variable
+Set up the global control plane, and add the `global` environment variable:
+
 ```sh
 $ KUMA_MODE=global kuma-cp run
 ```
+
 :::
 ::::
 
 ## Set up the remote control planes
 
-Start the `remote` control planes in each zone that will be part of the multi-zone Kuma deployment.
-To install `remote` control plane, you need to assign the zone name for each of them and point it to the Global CP.
+You need the following values to pass to each remote control plane setup:
+
+- `zone` -- the zone name. An arbitrary string. This value registers the remote control plane with the global control plane.
+- `kds-global-address` -- the external IP and port of the global control plane.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
+
+On each remote control plane, run:
+
 ```sh
 $ kumactl install control-plane \
   --mode=remote \
   --zone=<zone name> \
   --ingress-enabled \
   --kds-global-address grpcs://`<global-kds-address>` | kubectl apply -f -
+```
+
+where `zone` is the same value for all remote control planes in the same zone.
+
+Then install Kuma DNS:
+
+```sh
 $ kumactl install dns | kubectl apply -f -
 ```
 
-::: tip
-Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend checking the configuration of the Kubernetes cluster after deploying Kuma remote control plane to ensure everything is as expected. 
+Kuma supports CoreDNS and kube-dns. Make sure to check your cluster configuration for expected behavior after you deploy the remote control plane.
+
 :::
 ::: tab "Helm"
-To install the Remote Control plane we need to provide the following parameters:
- * `controlPlane.mode=remote`
- * `controlPlane.zone=<zone-name>`
- * `ingress.enabled=true`
- * `controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>`:
+
+On each remote control plane, run:
 
 ```bash
-$ helm install kuma --namespace kuma-system --set controlPlane.mode=remote,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
+$ helm install kuma \
+  --namespace kuma-system \
+  --set controlPlane.mode=remote \
+  controlPlane.zone=<zone-name> \
+  ingress.enabled=true \
+  controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
+```
+
+where `controlPlane.zone` is the same value for all remote control planes in the same zone.
+
+Then install Kuma DNS:
+
+```sh
 $ kumactl install dns | kubectl apply -f -
 ```
 
-::: tip
-Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend checking the configuration of the Kubernetes cluster after deploying Kuma remote control plane to ensure evrything is as expected.
+Kuma supports CoreDNS and kube-dns. Make sure to check your cluster configuration for expected behavior after you deploy the remote control plane.
 
-To install DNS we need to use `kumactl`. It reads the state of the control plane therefore it could not be put into HELM.  You can track the issue to put this into HELM [here](https://github.com/kumahq/kuma/issues/1124).
+You must install DNS with `kumactl` because it reads the state of the control plane, which Helm does not support. You can [check out the issue to include it](https://github.com/kumahq/kuma/issues/1124).
+
 :::
 ::: tab "Universal"
 
-Run the `kuma-cp` in `remote` mode.
+1.  On each remote control plane, run:
 
-```sh
-$ KUMA_MODE=remote \
-  KUMA_MULTIZONE_REMOTE_ZONE=<zone-name> \
-  KUMA_MULTIZONE_REMOTE_GLOBAL_ADDRESS=grpcs://<global-kds-address> \
-  ./kuma-cp run
-```
+    ```sh
+    $ KUMA_MODE=remote \
+      KUMA_MULTIZONE_REMOTE_ZONE=<zone-name> \
+      KUMA_MULTIZONE_REMOTE_GLOBAL_ADDRESS=grpcs://<global-kds-address> \
+      ./kuma-cp run
+    ```
 
-Where `<zone-name>` is the name of the zone matching one of the Zone resources to be created at the Global CP. `<global-remote-sync-address>` is the public address as obtained during the Global CP deployment step.
+    where `KUMA_MULTIZONE_REMOTE_ZONE` is the same value for all remote control planes in the same zone.
 
-Add an `ingress` data plane proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that data plane proxy would run on a dedicated host, so we will need the Remote CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the data plane proxy token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
+1.  Generate the data plane proxy token:
 
-```bash
-$ echo "type: Dataplane
-mesh: default
-name: ingress-01
-networking:
-  address: 127.0.0.1 # address that is routable within the zone
-  ingress:
-    publicAddress: 10.0.0.1 # an address which other zones can use to consume this ingress
-    publicPort: 10000 # a port which other zones can use to consume this ingress
-  inbound:
-  - port: 10000
-    tags:
-      kuma.io/service: ingress" > ingress-dp.yaml
-$ kumactl generate dataplane-token --type=ingress > /tmp/ingress-token
-$ kuma-dp run \
-  --cp-address=https://<kuma-cp-address>:5678 \
-  --dataplane-token-file=/tmp/ingress-token \
-  --dataplane-file=ingress-dp.yaml 
-```
+    ```sh
+    $ kumactl generate dataplane-token --type=ingress > /tmp/ingress-token
+    ```
 
-Adding more data plane proxies can be done locally by following the Use Kuma section in the [installation page](/install).
+    You can also generate the token [with the REST API](/security/certificates/#data-plane-proxy-to-control-plane-communication). 
+
+1.  Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication: 
+
+    ```bash
+    $ echo "type: Dataplane
+    mesh: default
+    name: ingress-01
+    networking:
+      address: 127.0.0.1 # address that is routable within the zone
+      ingress:
+        publicAddress: 10.0.0.1 # an address which other zones can use to consume this ingress
+        publicPort: 10000 # a port which other zones can use to consume this ingress
+      inbound:
+      - port: 10000
+        tags:
+          kuma.io/service: ingress" > ingress-dp.yaml
+    ```
+
+1.  And run the following to apply the ingress config, passing the IP address of the remote control plane to `cp-address`:
+
+    ```
+    $ kuma-dp run \
+      --cp-address=https://<kuma-cp-address>:5678 \
+      --dataplane-token-file=/tmp/ingress-token \
+      --dataplane-file=ingress-dp.yaml 
+    ```
 :::
 ::::
 
