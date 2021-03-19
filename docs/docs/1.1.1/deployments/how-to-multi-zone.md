@@ -1,64 +1,27 @@
 # Set up a multi-zone deployment
 
-## Multi-Zone Mode
+For a description of how multi-zone deployments work in Kuma, see [about multi-zone deployments](/how-multi-zone-works). This page explains how to configure and deploy Kuma in a multi-zone environment:
 
-This is a more advanced deployment mode for Kuma that allow us to support service meshes that are running on many zones, including hybrid deployments on both Kubernetes and VMs.
+- Set up the global control plane
+- Set up the remote control planes
+- Verify control plane connectivity
+- Enable mTLS and apply the appropriate Traffic Permission policy
+- Set up cross-zone communication between data plane proxies
 
-* **Control plane**: There is one `global` control plane, and many `remote` control planes. A global control plane only accepts connections from remote control planes.
-* **Data plane proxies**: The data plane proxies connect to the closest `remote` control plane in the same zone. Additionally, we need to start an `ingress` data plane proxy on every zone to have cross-zone communication between data plane proxies in different zones.
-* **Service Connectivity**: Automatically resolved via the built-in DNS resolver that ships with Kuma. When a service wants to consume another service, it will resolve the DNS address of the desired service with Kuma, and Kuma will respond with a Virtual IP address, that corresponds to that service in the Kuma service domain.
-
-:::tip
-We can support multiple isolated service meshes thanks to Kuma's multi-tenancy support, and workloads from both Kubernetes or any other supported Universal environment can participate in the Service Mesh across different regions, clouds, and datacenters while not compromizing the ease of use and still allowing for end-to-end service connectivity.
-:::
-
-When running in multi-zone mode, we introduce the notion of a `global` and `remote` control planes for Kuma:
-
-* **Global**: this control plane will be used to configure the global Service Mesh [policies](/policies) that we want to apply to our data plane proxies. Data plane proxies **cannot** connect directly to a global control plane, but can connect to `remote` control planes that are being deployed on each underlying zone that we want to include as part of the Service Mesh (can be a Kubernetes cluster, or VM based). Only one deployment of the global control plane is required, and it can be scaled horizontally.
-* **Remote**: we are going to have as many remote control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/1.1.1/policies/mesh/). Remote control planes accept connections from data plane proxies that are started in the same underlying zone, and they connect to the `global` control plane to fetch their service mesh policies. Remote control plane policy APIs are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally within their zone.
-
-In this deployment, a Kuma cluster is made of one global control plane and as many remote control planes as the number of zones that we want to support:
-
-* **Zone**: A zone identifies a Kubernetes cluster, a VPC, or any other cluster that we want to include in a Kuma service mesh.
-
-<center>
-<img src="/images/docs/0.6.0/distributed-diagram.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
-
-In a multi-zone deployment mode, services will be running on multiple platforms, clouds, or Kubernetes clusters (which are identifies as `zones` in Kuma). While all of them will be part of a Kuma mesh by connecting their data plane proxies to the local `remote` control plane in the same zone, implementing service to service connectivity would be tricky since a source service may not know where a destination service is being hosted at (for instance, in another zone).
-
-To implement easy service connectivity, Kuma ships with:
-
-* **DNS Resolver**: Kuma provides an out of the box DNS server on every `remote` control plane that will be used to resolve service addresses when estabilishing any service-to-service communication. It scales horizontally as we scale the `remote` control plane.
-* **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. 
-
-:::tip
-An `ingress` data plane proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.1.1/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data plane proxies.
-:::
-
-The global control plane and the remote control planes communicate with each other via xDS in order to synchronize the resources that are being created to configure Kuma, like policies.
-
-:::warning
-**For Kubernetes**: The global control plane on Kubernetes must reside on its own Kubernetes cluster, in order to keep the CRDs separate from the ones that the remote control planes will create during the synchronization process.
-:::
-
-### Usage
-
-In order to deploy Kuma in a multi-zone deployment, we must start a `global` and as many `remote` control planes as the number of zones that we want to support.
-
-### Global control plane
-
-First we start the `global` control plane and configure the `remote` control planes connectivity.
+## Set up the global control plane
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-Install the `global` control plane using:
+The global control plane on Kubernetes must reside on its own Kubernetes cluster, to keep its CRDs separate from the CRDs the remote control planes create during synchronization.
+
+Run:
+
 ```bash
 $ kumactl install control-plane --mode=global | kubectl apply -f -
 ```
 
-Find the external IP and port of the `global-remote-sync` service in `kuma-system` namespace:
+Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
 
 ```bash
 $ kubectl get services -n kuma-system
@@ -67,14 +30,18 @@ kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.1
 kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 ```
 
-In this example it is `35.226.196.103:5685`. This will be used as `<global-kds-address>` further.
+In this example it is `35.226.196.103:5685`. You pass this as the value of `global-kds-address` when you set up the remote control planes.
+
 :::
 ::: tab "Helm"
-Install the `global` control plane by setting the `controlPlane.mode` value to `global` when installing the chart. This can be done on the command line, or in a provided file:
+Set the `controlPlane.mode` value to `global` in the chart, then install. On the command line, run:
 
 ```sh
 $ helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
 ```
+
+Or you can edit the chart and pass the file to the `helm install kuma` command.
+
 :::
 ::: tab "Universal"
 
@@ -85,7 +52,7 @@ $ KUMA_MODE=global kuma-cp run
 :::
 ::::
 
-### Remote control plane
+## Set up the remote control planes
 
 Start the `remote` control planes in each zone that will be part of the multi-zone Kuma deployment.
 To install `remote` control plane, you need to assign the zone name for each of them and point it to the Global CP.
@@ -160,7 +127,7 @@ Adding more data plane proxies can be done locally by following the Use Kuma sec
 :::
 ::::
 
-### Verify control plane connectivity
+## Verify control plane connectivity
 
 When a remote control plane connects to the global control plane, the `Zone` resource is created automatically in the global control plane.
 You can verify if a remote control plane is connected to the global control plane by inspecting the list of zones in the global control plane GUI (`:5681/gui/#/zones`) or by using `kumactl get zones`. 
@@ -169,14 +136,13 @@ Additionally, if you deployed remote control plane with Ingress, it should be vi
 Cross-zone communication between services is only available if Ingress has a public address and public port.
 Note that on Kubernetes, Kuma automatically tries to pick up the public address and port. Depending on the LB implementation of your Kubernetes provider, you may need to wait a couple of minutes to receive the address. 
 
-### Enable mTLS
+## Enable mTLS
 
 Cross-zone communication between services is only possible when mTLS is enabled, because Ingress is routing connections using SNI.
 Make sure you [enable mTLS](../policies/mutual-tls.md) and apply [Traffic Permission](../policies/traffic-permissions.md). 
 
-### Using the multi-zone deployment
+## Set up cross-zone communication
 
-To utilize the multi-zone Kuma deployment follow the steps below
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 

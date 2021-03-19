@@ -1138,7 +1138,8 @@ module.exports = {
         "quickstart/kubernetes",
         "quickstart/universal",
         "deployments/stand-alone",
-        "deployments/multi-zone",
+        "deployments/how-multi-zone-works",
+        "deployments/how-to-multi-zone",
       ]
     },
     {
