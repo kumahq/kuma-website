@@ -18,10 +18,6 @@ The hard part of a complex service mesh deployment is service connectivity -- es
 * **DNS Resolver**: Kuma provides an out of the box DNS server on every `remote` control plane that will be used to resolve service addresses when estabilishing any service-to-service communication. It scales horizontally as we scale the `remote` control plane.
 * **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. This happens automatically with Kubernetes, although if you choose a Helm installation you need to add the ingress separately. With a Universal deployment, adding ingress is a separate step.
 
-<<<<<<< HEAD
-=======
-
->>>>>>> fe3dfbf (start cleanup for multizone deployment guide)
 * **Service Connectivity**: Automatically resolved via the built-in DNS resolver that ships with Kuma. When a service wants to consume another service, it will resolve the DNS address of the desired service with Kuma, and Kuma will respond with a Virtual IP address, that corresponds to that service in the Kuma service domain.
 
 When running in multi-zone mode, we introduce the notion of a `global` and `remote` control planes for Kuma:
@@ -35,17 +31,8 @@ When running in multi-zone mode, we introduce the notion of a `global` and `remo
 
 While all of them will be part of a Kuma mesh by connecting their data plane proxies to the local `remote` control plane in the same zone, implementing service to service connectivity would be tricky since a source service may not know where a destination service is being hosted at (for instance, in another zone).
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> fe3dfbf (start cleanup for multizone deployment guide)
 :::tip
 An `ingress` data plane proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.1.1/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data plane proxies.
 :::
 
-<<<<<<< HEAD
 The global control plane and the remote control planes communicate with each other via xDS to synchronize the resources that are being created to configure Kuma, like policies.
-=======
-The global control plane and the remote control planes communicate with each other via xDS in order to synchronize the resources that are being created to configure Kuma, like policies.
->>>>>>> fe3dfbf (start cleanup for multizone deployment guide)
