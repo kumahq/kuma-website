@@ -7,44 +7,56 @@ For a description of how multi-zone deployments work in Kuma, see [about multi-z
 - Verify control plane connectivity
 - Set up cross-zone communication between data plane proxies
 
-Before you start you should determine the zone names to use. You must assign the same `zone` value to every remote control plane you want to run in the same zone. This value is an arbitrary string.
-
 ## Set up the global control plane
+
+The global control plane must run on a dedicated cluster, and cannot be assigned to a zone.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
 The global control plane on Kubernetes must reside on its own Kubernetes cluster, to keep its CRDs separate from the CRDs the remote control planes create during synchronization.
 
-Run:
+1.  Run:
 
-```bash
-$ kumactl install control-plane --mode=global | kubectl apply -f -
-```
+    ```bash
+    $ kumactl install control-plane --mode=global | kubectl apply -f -
+    ```
 
-Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
+1.  Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
 
-```bash
-$ kubectl get services -n kuma-system
-NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
-```
+    ```bash
+    $ kubectl get services -n kuma-system
+    NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
+    kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+    ```
 
-In this example the value is `35.226.196.103:5685`. You pass this as the value of `global-kds-address` when you set up the remote control planes.
+    In this example the value is `35.226.196.103:5685`. You pass this as the value of `global-kds-address` when you set up the remote control planes.
 
 :::
 ::: tab "Helm"
 
-Set the `controlPlane.mode` value to `global` in the chart, then install. On the command line, run:
+1.  Set the `controlPlane.mode` value to `global` in the chart (`values.yaml`), then install. On the command line, run:
 
-```sh
-$ helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
-```
+    ```sh
+    $ helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
+    ```
 
-Or you can edit the chart and pass the file to the `helm install kuma` command.
+    Or you can edit the chart and pass the file to the `helm install kuma` command. To get the default values, run:
 
-REVIEWER: IS THIS CLEARER? OR HAVE I GOTTEN THINGS WRONG/MORE OBSCURE?
+    ```
+    $ helm show values kuma/kuma
+    ```
+1.  Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
+
+    ```bash
+    $ kubectl get services -n kuma-system
+    NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
+    kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+    ```
+
+    In this example the value is `35.226.196.103:5685`. You pass this as the value of `global-kds-address` when you set up the remote control planes.
 
 :::
 ::: tab "Universal"
@@ -215,7 +227,7 @@ To consume the example service across all zones in your Kuma deployment (that is
 <kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
 ```
 
-And if your HTTP clients take the standard default port 80, you can skip that value and run either of:
+And if your HTTP clients take the standard default port 80, you can the port value and run either of:
 
 ```bash
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
@@ -272,7 +284,7 @@ The Kuma DNS service format (e.g. `echo-server_kuma-test_svc_1010.mesh`) is a co
 Namespace (`kuma-test`), a fixed string (`svc`), the service port (`1010`). The service is resolvable in the DNS zone `.mesh` where
 the Kuma DNS service is hooked.
 
-### Deleting a Zone
+### Delete a zone
 
 REVIEWER: CANNOT TELL WHAT THE COMMANDS ARE THAT YOU RUN, AND IN WHAT ORDER. THIS SECTION NEEDS MUCH HELP, PLEASE!
 
@@ -284,19 +296,16 @@ zone: unable to delete Zone, Remote CP is still connected, please shut it down f
 
 When the Remote CP is fully disconnected and shut down, then the `Zone` can be deleted. All corresponding resources (like `Dataplane` and `DataplaneInsight`) will be deleted automatically as well.
 
-### Disabling zone
+### Disable a zpme
 
-In order to disable routing traffic to a specific `Zone`, we can disable the `Zone` via the `enabled` field:
+Change the `enabled` property value to `false`:
 
 ```yaml
 type: Zone
 name: zone-1
 spec:
-  enabled: true
+  enabled: false
 ```
 
-Changing this value to `enabled: false` will allow the user to exclude the zone's `Ingress` from all other zones - and by doing so - preventing traffic from being able to enter the `zone`. 
+This excludes the zone's ingress from communication with all other zones. The zone displays as **Offline** in the GUI and CLI.
 
-:::tip
-A `Zone` that has been disabled will show up as "Offline" in the GUI and CLI
-:::
