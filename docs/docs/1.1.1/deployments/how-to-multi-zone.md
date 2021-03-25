@@ -61,11 +61,11 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 :::
 ::: tab "Universal"
 
-Set up the global control plane, and add the `global` environment variable:
+1.  Set up the global control plane, and add the `global` environment variable:
 
-```sh
-$ KUMA_MODE=global kuma-cp run
-```
+    ```sh
+    $ KUMA_MODE=global kuma-cp run
+    ```
 
 :::
 ::::
@@ -80,51 +80,51 @@ You need the following values to pass to each remote control plane setup:
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-On each remote control plane, run:
+1.  On each remote control plane, run:
 
-```sh
-$ kumactl install control-plane \
-  --mode=remote \
-  --zone=<zone name> \
-  --ingress-enabled \
-  --kds-global-address grpcs://`<global-kds-address>` | kubectl apply -f -
-```
+    ```sh
+    $ kumactl install control-plane \
+      --mode=remote \
+      --zone=<zone name> \
+      --ingress-enabled \
+      --kds-global-address grpcs://`<global-kds-address>` | kubectl apply -f -
+    ```
 
-where `zone` is the same value for all remote control planes in the same zone.
+    where `zone` is the same value for all remote control planes in the same zone.
 
-Then install Kuma DNS:
+1.  Install Kuma DNS:
 
-```sh
-$ kumactl install dns | kubectl apply -f -
-```
+    ```sh
+    $ kumactl install dns | kubectl apply -f -
+    ```
 
-Kuma supports CoreDNS and kube-dns. Make sure to check your cluster configuration for expected behavior after you deploy the remote control plane.
+    Kuma supports CoreDNS and kube-dns. Make sure to check your cluster configuration for expected behavior after you deploy the remote control plane.
 
 :::
 ::: tab "Helm"
 
-On each remote control plane, run:
+1.  On each remote control plane, run:
 
-```bash
-$ helm install kuma \
-  --namespace kuma-system \
-  --set controlPlane.mode=remote \
-  controlPlane.zone=<zone-name> \
-  ingress.enabled=true \
-  controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
-```
+    ```bash
+    $ helm install kuma \
+      --namespace kuma-system \
+      --set controlPlane.mode=remote \
+      controlPlane.zone=<zone-name> \
+      ingress.enabled=true \
+      controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
+    ```
 
-where `controlPlane.zone` is the same value for all remote control planes in the same zone.
+    where `controlPlane.zone` is the same value for all remote control planes in the same zone.
 
-Then install Kuma DNS:
+1.  Install Kuma DNS:
 
-```sh
-$ kumactl install dns | kubectl apply -f -
-```
+    ```sh
+    $ kumactl install dns | kubectl apply -f -
+    ```
 
-Kuma supports CoreDNS and kube-dns. Make sure to check your cluster configuration for expected behavior after you deploy the remote control plane.
+    Kuma supports CoreDNS and kube-dns. Make sure to check your cluster configuration for expected behavior after you deploy the remote control plane.
 
-You must install DNS with `kumactl` because it reads the state of the control plane, which Helm does not support. You can [check out the issue to include it](https://github.com/kumahq/kuma/issues/1124).
+    You must install DNS with `kumactl` because it reads the state of the control plane, which Helm does not support. You can [check out the issue to include it](https://github.com/kumahq/kuma/issues/1124).
 
 :::
 ::: tab "Universal"
@@ -165,7 +165,7 @@ You must install DNS with `kumactl` because it reads the state of the control pl
           kuma.io/service: ingress" > ingress-dp.yaml
     ```
 
-1.  And run the following to apply the ingress config, passing the IP address of the remote control plane to `cp-address`:
+1.  Apply the ingress config, passing the IP address of the remote control plane to `cp-address`:
 
     ```
     $ kuma-dp run \
@@ -200,7 +200,7 @@ You must also apply a [TrafficPermission policy](../policies/traffic-permissions
 
 Cross-zone communication between services is available only if Ingress has a public address and public port.
 
-On Kubernetes, Kuma automatically tries to pick up the public address and port. Depending your load balancing implementation, you might need to wait a couple of minutes for Kuma to get the address. 
+On Kubernetes, Kuma automatically tries to pick up the public address and port. Depending your load balancing implementation, you might need to wait a few minutes for Kuma to get the address. 
 
 ### Cross-communication details
 
@@ -234,7 +234,7 @@ And if your HTTP clients take the standard default port 80, you can the port val
 <kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
 ```
 
-Because Kuma on Kubernetes relies on transparent proxy, `kuma-dp` listens on port 80 for all virtual IPs thet are assigned to services in the `.mesh` DNS zone. The DNS names are rendered RFC compatible by replacing underscores with dots.
+Because Kuma on Kubernetes relies on transparent proxy, `kuma-dp` listens on port 80 for all virtual IPs that are assigned to services in the `.mesh` DNS zone. The DNS names are rendered RFC compatible by replacing underscores with dots.
 
 :::
 ::: tab "Universal"

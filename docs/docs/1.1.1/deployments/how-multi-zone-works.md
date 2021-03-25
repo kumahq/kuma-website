@@ -27,6 +27,6 @@ The global control plane and the remote control planes communicate to synchroniz
 </center>
 
 :::tip
-An ingress data plane proxy is not an API gateway. Instead, it is specific to internal communication within the mesh. API gateways are supported with Kuma's [gateway mode](/docs/1.1.1/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data plane proxies.
+An ingress data plane proxy is not an API gateway. Instead, it is specific to internal communication within the mesh. API gateways are supported in Kuma [gateway mode](/docs/1.1.1/documentation/dps-and-data-model/#gateway) which can be deployed in addition to `ingress` data plane proxies.
 :::
 
