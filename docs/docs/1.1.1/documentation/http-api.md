@@ -3068,7 +3068,9 @@ curl -XGET http://localhost:5681/status/zones
 
 Generate the data plane proxy tokens required for data plane proxy authentication.
 
+::: warning
 Requires [authentication to the control plane by the user](/docs/1.0.8/security/certificates/#authentication).
+:::
 
 For details, see [data plane proxy authentication](/docs/1.0.8/security/certificates/#data-plane-proxy-authentication).
 
