@@ -53,6 +53,10 @@ The default settings will exclude the SSH port `22` from the redirection, thus a
 
 The changes will persist over restarts, so this command is needed only once. Reverting back to the original state of the host can be done by issuing `kumactl uninstall transparent-proxy`.
 
+#### firewalld support
+
+On hosts where `firewalld` is used as a firewall manament and `iptables` wrapper, `kumactl install transparent-proxy` provides a dedicated flag `--store-firewalld` which will make the relevant rules persist across host restarts. The changes are being stored in `/etc/firewalld/direct.xml`, and there is no `uninstall` counterpart of the installation procedure.
+
 ### Data plane proxy resource
 
 In transparent proxying mode, the `Dataplane` resource that will be should ommit the `networking.outbound` section and use `networking.transparentProxying`section instead.
