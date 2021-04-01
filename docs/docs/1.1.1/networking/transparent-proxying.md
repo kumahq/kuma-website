@@ -8,7 +8,7 @@ In order to interecept traffic from and to a service through a `kuma-dp` data pl
 There are several advantages for using transparent proxying in universal mode:
 
  * Simpler [Dataplane resource](/docs/1.1.1/documentation/dps-and-data-model/#dataplane-specification), as the `outbound` section becomes obsolete and can be skipped.
- * Uiversal service naming using `.mesh` [DNS domain](/docs/1.1.1/networking/dns/).
+ * Universal service naming with `.mesh` [DNS domain](/docs/1.1.1/networking/dns/).
  * Better service manageability (security, tracing).
 
 ### Preparing the Kuma Control plane
@@ -52,6 +52,10 @@ The default settings will exclude the SSH port `22` from the redirection, thus a
 :::
 
 The changes will persist over restarts, so this command is needed only once. Reverting back to the original state of the host can be done by issuing `kumactl uninstall transparent-proxy`.
+
+#### firewalld support
+
+If you run `firewalld` to manage firewalls and wrap iptables, add the `--store-firewalld` flag to `kumactl install transparent-proxy`. This persists the relevant rules across host restarts. The changes are stored in `/etc/firewalld/direct.xml`. There is no uninstall command for this feature.
 
 ### Data plane proxy resource
 
