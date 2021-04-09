@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.1.2 has been released!** With support for IPv6, more fine-grained control over circuit breaker policies, bug fixes, and more! &mdash; [Get Started](/install/)
+**Kuma 1.1.2 has been released!** With 19 new observability charts, IPv6 support improvements, performance tuning and more! &mdash; [Get Started](/install/)
 
 :::
 
