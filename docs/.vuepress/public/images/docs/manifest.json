@@ -679,9 +679,23 @@
           "size": 77798,
           "extension": ".jpg",
           "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/1.1.2/kuma_dp4.png",
+          "name": "kuma_dp4.png",
+          "size": 133047,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/1.1.2/kuma_service_to_service_http.png",
+          "name": "kuma_service_to_service_http.png",
+          "size": 95784,
+          "extension": ".png",
+          "type": "file"
         }
       ],
-      "size": 151465,
+      "size": 380296,
       "type": "directory"
     },
     {
@@ -706,6 +720,6 @@
       "type": "file"
     }
   ],
-  "size": 10924843,
+  "size": 11153674,
   "type": "directory"
 }
