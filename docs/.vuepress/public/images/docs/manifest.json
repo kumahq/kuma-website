@@ -663,6 +663,42 @@
       "type": "directory"
     },
     {
+      "path": "docs/.vuepress/public/images/docs/1.1.2",
+      "name": "1.1.2",
+      "children": [
+        {
+          "path": "docs/.vuepress/public/images/docs/1.1.2/grafana-dashboard-kuma-mesh.jpg",
+          "name": "grafana-dashboard-kuma-mesh.jpg",
+          "size": 73667,
+          "extension": ".jpg",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/1.1.2/grafana-dashboard-kuma-service.jpg",
+          "name": "grafana-dashboard-kuma-service.jpg",
+          "size": 77798,
+          "extension": ".jpg",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/1.1.2/kuma_dp4.png",
+          "name": "kuma_dp4.png",
+          "size": 133047,
+          "extension": ".png",
+          "type": "file"
+        },
+        {
+          "path": "docs/.vuepress/public/images/docs/1.1.2/kuma_service_to_service_http.png",
+          "name": "kuma_service_to_service_http.png",
+          "size": 95784,
+          "extension": ".png",
+          "type": "file"
+        }
+      ],
+      "size": 380296,
+      "type": "directory"
+    },
+    {
       "path": "docs/.vuepress/public/images/docs/diagram-before-after-full-r1.png",
       "name": "diagram-before-after-full-r1.png",
       "size": 371997,
@@ -684,6 +720,6 @@
       "type": "file"
     }
   ],
-  "size": 10773378,
+  "size": 11153674,
   "type": "directory"
 }
