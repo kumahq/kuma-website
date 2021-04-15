@@ -1295,6 +1295,7 @@ module.exports = {
         "networking/dns",
         "networking/cni",
         "networking/transparent-proxying",
+        "networking/ipv6",
       ]
     },
     {
