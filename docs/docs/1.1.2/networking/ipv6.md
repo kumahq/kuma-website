@@ -6,10 +6,8 @@ scenarios are continuously verified - standalone Kubernetes and Universal, multi
 
 For the most part any IPv6 setup will work out of the box, but there are some specifics that need to be taken into account:
  
- * when the dataplane proxies are run in IPv6 only environment (i.e. no IPv4), the DNS shall be set to generate relevant
-   IPv6 addresses. Using the standard 240.0.0.0/4 will render the system not able to communicate in the `.mesh` domain. The
-   setup can be done by setting `KUMA_DNS_SERVER_CIDR` to a valid IPv6 CIDR. Please verify there is no overal with a pre-existing
-   network in your environment. An example would be `KUMA_DNS_SERVER_CIDR=fd00:fd00::/64`
+ * when the dataplane proxies are run in IPv6 only environment (i.e. no IPv4 address), the DNS shall be set to generate relevant
+   IPv6 addresses using `KUMA_DNS_SERVER_CIDR`. Please make sure there is no overlap with a pre-existing network in your environment.
 
  * On Universal, when the dataplane resource is generated, specify `networking.transparentProxying.redirectPortInboundV6`.
    The default value for that port is `15010`.
