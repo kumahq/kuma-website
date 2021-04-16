@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.1.2 has been released!** With 19 new observability charts, IPv6 support improvements, performance tuning and more! &mdash; [Read More](/blog/2021/kuma-1-1-2/)
+**Kuma 1.1.3 has been released!**  &mdash; With built-in DNS support for specifying external services by hostname and port, and more! [Read More](/blog/2021/kuma-1-1-3/)
 
 :::
 
