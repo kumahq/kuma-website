@@ -1,10 +1,12 @@
 # External Service
 
-This policy enables consuming services that are not part of the mesh from services running inside it. The default [passthrough](/docs/1.1.2/policies/mesh/#controlling-the-passthrough-mode) cluster will allow for accessing any non-mesh host by its domain name or IP address. As the name of the feature suggests, this pattern leaves the mesh administrator with no tools to aply any policies for such traffic. Therefore, ExternalService resource allows for declaring the desired external resource as a named service within the mesh and enabling the observability, security and traffic manipulation similar to any other service in the mesh.
+This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](/docs/1.1.3/policies/mesh/#controlling-the-passthrough-mode). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
+
+When you enable this policy, you should also [disable passthrough mode](mesh/#controlling-the-passthrough-mode) for the mesh and enable the [data plane proxy builtin DNS](../networking/dns/#data-plane-proxy-built-in-dns) name resolution.
 
 ## Usage
 
-A simple HTTP service can be defined as follows
+A simple HTTPS external service can be defined:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -20,14 +22,13 @@ spec:
     kuma.io/service: httpbin
     kuma.io/protocol: http
   networking:
-    address: httpbin.org:80
+    address: httpbin.org:443
     tls:
-      enabled: false
+      enabled: true
 ```
 
-We will apply the configuration with `kubectl apply -f [..]`.
+Then apply the configuration with `kubectl apply -f [..]`.
 
-Consuming an external service in from within the mesh can be done using the standard `.mesh` name resolving, for example `httpbin.mesh`. 
 :::
 
 ::: tab "Universal"
@@ -39,14 +40,14 @@ tags:
   kuma.io/service: httpbin
   kuma.io/protocol: http
 networking:
-  address: httpbin.org:80
+  address: httpbin.org:443
   tls:
-    enabled: false
+    enabled: true
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/0.7.2/documentation/http-api).
+Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.1.2/documentation/http-api).
 
-Consuming an external service in from within the mesh can be done by filling the proper `outbound` section of the relevant dataplane resource:
+Universal mode is best combined with [transparent proxy](../networking/transparent-proxying/). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
 
 ```yaml
 type: Dataplane
@@ -64,12 +65,24 @@ networking:
       kuma.io/service: httpbin
 ```
 
-Then `httpbin.org` will be accessible at `127.0.0.1:10000`.
+Then `httpbin.org` is accessible at `127.0.0.1:10000`.
 
 :::
 :::: 
 
- * `tags` the external service can include an arbitrary number of tags, where `kuma.io/service` is a mandatory one. The special `kuma.io/protocol` tag is also taken into account and supports the standard Kuma protocol values. It designates the specific protocol being used by that service.
+### Accessing the External Service
+
+Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming [transparent proxy](../networking/transparent-proxying/)) can be done:
+
+ * With the `.mesh` naming of the service `curl httpbin.mesh`. With this approach, specify port 80.
+ * With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](../networking/dns/#data-plane-proxy-built-in-dns) name resolution.
+
+Although the external service is HTTPS, it's consumed as plain HTTP. This is possible because of `networking.tls.enbaled=true`.
+To access the service over TLS, set the service protocol to `kuma.io/protocol: tcp` and `networking.tls.enbaled=false`, or else omit it entirely.
+
+### Available policy fields
+
+ * `tags` the external service can include an arbitrary number of tags, where `kuma.io/service` is mandatory. The special `kuma.io/protocol` tag is also taken into account and supports the standard Kuma protocol values. It designates the specific protocol for the service.
  * ` networking` describes the networking configuration of the external service 
    * `address` is the address where the external service can be reached.
    * `tls` is the section to configure the TLS originator when consuming the external service
@@ -78,7 +91,4 @@ Then `httpbin.org` will be accessible at `127.0.0.1:10000`.
      * `clientCert` the client certificate for mTLS
      * `clientKey` the client key for mTLS
  
-::: tip
-As with other services, avoid overlapping of service names under `kuma.io/service` with already existing ones. A good practice would be to derive the tag value from the domain name or IP of the actual external service.
-:::
-
+As with other services, avoid duplicating service names under `kuma.io/service` with already existing ones. A good practice is to derive the tag value from the domain name or IP of the actual external service.
