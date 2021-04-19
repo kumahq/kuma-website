@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.1.3 has been released!**  &mdash; With built-in DNS support for specifying external services by hostname and port, and more! [Read More](/blog/2021/kuma-1-1-3/)
+**Kuma 1.1.4 has been released!**  &mdash; With important bug fixes! [Read More](/blog/2021/kuma-1-1-4/)
 
 :::
 
