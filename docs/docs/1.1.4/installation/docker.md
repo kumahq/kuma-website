@@ -14,10 +14,10 @@ The official Docker images are used by default in the [Kubernetes](/docs/1.1.2/i
 
 Kuma provides the following Docker images for all of its executables:
 
-* **kuma-cp**: at `kong-docker-kuma-docker.bintray.io/kuma-cp:1.1.2`
-* **kuma-dp**: at `kong-docker-kuma-docker.bintray.io/kuma-dp:1.1.2`
-* **kumactl**: at `kong-docker-kuma-docker.bintray.io/kumactl:1.1.2`
-* **kuma-prometheus-sd**: at `kong-docker-kuma-docker.bintray.io/kuma-prometheus-sd:1.1.2`
+* **kuma-cp**: at `docker.io/kumahq/kuma-cp:1.1.2`
+* **kuma-dp**: at `docker.io/kumahq/kuma-dp:1.1.2`
+* **kumactl**: at `docker.io/kumahq/kumactl:1.1.2`
+* **kuma-prometheus-sd**: at `docker.io/kumahq/kuma-prometheus-sd:1.1.2`
 
 You can freely `docker pull` these images to start using Kuma, as we will demonstrate in the following steps.
 
@@ -33,7 +33,7 @@ Standalone mode is perfect when running Kuma in a single cluster across one envi
 ```sh
 $ docker run \
     -p 5681:5681 \
-    kong-docker-kuma-docker.bintray.io/kuma-cp:1.1.2 run
+    docker.io/kumahq/kuma-cp:1.1.2 run
 ```
 
 To learn more, read about the [deployment modes available](/docs/1.1.2/documentation/deployments/).
@@ -80,7 +80,7 @@ You can use the `kumactl` CLI to perform **read and write** operations on Kuma r
 ```sh
 $ docker run \
     --net="host" \
-    kong-docker-kuma-docker.bintray.io/kumactl: kumactl get meshes
+    docker.io/kumahq/kumactl: kumactl get meshes
 NAME          mTLS      METRICS      LOGGING   TRACING
 default       off       off          off       off
 ```
@@ -95,7 +95,7 @@ mtls:
   backends:
   - name: ca-1
     type: builtin" | docker run -i --net="host" \
-  kong-docker-kuma-docker.bintray.io/kumactl: kumactl apply -f -
+  docker.io/kumahq/kumactl: kumactl apply -f -
 ```
 
 **Note**: we are running `kumactl` from the Docker container on the same network as the `host`, but most likely you want to download a compatible version of Kuma for the machine where you will be executing the commands.
@@ -108,11 +108,11 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 or you can download the distribution manually:
 
-* [CentOS](https://kong.bintray.com/kuma/kuma-1.1.2-centos-amd64.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma-1.1.2-rhel-amd64.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma-1.1.2-debian-amd64.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma-1.1.2-ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma-1.1.2-darwin-amd64.tar.gz)
+* [CentOS](https://download.konghq.com/mesh-alpine/kuma-1.1.4-centos-amd64.tar.gz)
+* [RedHat](https://download.konghq.com/mesh-alpine/kuma-1.1.4-rhel-amd64.tar.gz)
+* [Debian](https://download.konghq.com/mesh-alpine/kuma-1.1.4-debian-amd64.tar.gz)
+* [Ubuntu](https://download.konghq.com/mesh-alpine/kuma-1.1.4-ubuntu-amd64.tar.gz)
+* [macOS](https://download.konghq.com/mesh-alpine/kuma-1.1.4-darwin-amd64.tar.gz)
 
 and extract the archive with:
 
