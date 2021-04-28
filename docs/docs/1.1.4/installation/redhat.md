@@ -16,7 +16,7 @@ Run the following script to automatically detect the operating system and downlo
 $ curl -L https://kuma.io/installer.sh | sh -
 ```
 
-or you can [download](https://kong.bintray.com/kuma/kuma-1.1.2-rhel-amd64.tar.gz) the distribution manually.
+or you can [download](https://download.konghq.com/mesh-alpine/kuma-1.1.4-rhel-amd64.tar.gz) the distribution manually.
 
 Then extract the archive with:
 

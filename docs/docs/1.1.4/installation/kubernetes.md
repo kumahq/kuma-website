@@ -31,11 +31,11 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access Kubernetes:
 
-* [CentOS](https://kong.bintray.com/kuma/kuma-1.1.2-centos-amd64.tar.gz)
-* [RedHat](https://kong.bintray.com/kuma/kuma-1.1.2-rhel-amd64.tar.gz)
-* [Debian](https://kong.bintray.com/kuma/kuma-1.1.2-debian-amd64.tar.gz)
-* [Ubuntu](https://kong.bintray.com/kuma/kuma-1.1.2-ubuntu-amd64.tar.gz)
-* [macOS](https://kong.bintray.com/kuma/kuma-1.1.2-darwin-amd64.tar.gz) or run `brew install kumactl`
+* [CentOS](https://download.konghq.com/mesh-alpine/kuma-1.1.4-centos-amd64.tar.gz)
+* [RedHat](https://download.konghq.com/mesh-alpine/kuma-1.1.4-rhel-amd64.tar.gz)
+* [Debian](https://download.konghq.com/mesh-alpine/kuma-1.1.4-debian-amd64.tar.gz)
+* [Ubuntu](https://download.konghq.com/mesh-alpine/kuma-1.1.4-ubuntu-amd64.tar.gz)
+* [macOS](https://download.konghq.com/mesh-alpine/kuma-1.1.4-darwin-amd64.tar.gz) or run `brew install kumactl`
 
 and extract the archive with:
 
