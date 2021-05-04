@@ -4,6 +4,8 @@ title: Introduction to Kuma
 
 # Overview
 
+TODO @bradamant3 in consultation: rewrite initial paragraph at a higher level of abstraction. (assume reader does not know what is service mesh?)
+
 Kuma is a platform agnostic open-source control plane for service mesh and microservices management, with support for Kubernetes, VM, and bare metal environments.
 
 <center>
