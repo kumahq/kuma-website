@@ -1,5 +1,7 @@
 # Protocol support in Kuma
 
+TODO: consider trimming and including in overview/introduction
+
 At its core, `Kuma` distinguishes between the following major categories of traffic: `http`, `grpc`, `kafka` and opaque `tcp` traffic.
 
 For `http`, `grpc` and `kafka` traffic Kuma provides deep insights down to application-level transactions, in the latter `tcp` case the observability is limited to connection-level statistics.

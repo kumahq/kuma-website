@@ -1521,8 +1521,9 @@ module.exports = {
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "quickstart/kubernetes",
-        "quickstart/universal",
+        "getting-started/quickstart",
+        "getting-started/kubernetes",
+        "getting-started/universal",
       ]
     },
     {
@@ -1557,6 +1558,16 @@ module.exports = {
       ]
     },
     {
+      title: "Storage",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "storage/backends",
+        "storage/dps-and-data-model",
+      ]
+    },
+    {
       title: "Networking",
       collapsable: true,
       sidebarDepth: sidebarDepth,
@@ -1586,26 +1597,24 @@ module.exports = {
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "policies/introduction",
-        "policies/general-notes-about-kuma-policies",
-        "policies/applying-policies",
+        "policies/overview",
         "policies/how-kuma-chooses-the-right-policy-to-apply",
         "policies/protocol-support-in-kuma",
+        "policies/circuit-breaker",
+        "policies/external-services",
+        "policies/fault-injection",
+        "policies/health-check",
+        "policies/locality-aware",
         "policies/mesh",
         "policies/mutual-tls",
+        "policies/proxy-template",
+        "policies/retry",
+        "policies/timeout",
         "policies/traffic-permissions",
         "policies/traffic-route",
         "policies/traffic-metrics",
         "policies/traffic-trace",
         "policies/traffic-log",
-        "policies/locality-aware",
-        "policies/fault-injection",
-        "policies/health-check",
-        "policies/circuit-breaker",
-        "policies/proxy-template",
-        "policies/external-services",
-        "policies/retry",
-        "policies/timeout",
       ]
     },
     {
@@ -1614,7 +1623,7 @@ module.exports = {
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "documentation/http-api"
+        "HTTP-API/http-api"
       ]
     }
   ],

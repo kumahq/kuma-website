@@ -1,5 +1,7 @@
 # How Kuma chooses the right policy to apply
 
+TODO: consider trimming this page drastically and including in the introduction/overview.
+
 At any single moment, there might be multiple policies (of the same type) that match a connection between `sources` and `destinations` `Dataplane`s.
 
 E.g., there might be a catch-all policy that sets the baseline for your organization
