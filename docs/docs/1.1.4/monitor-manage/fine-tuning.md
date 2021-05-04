@@ -1,5 +1,7 @@
 # Fine-tuning
 
+TODO: break this file up. Add postgres content to page about db/storage, make separate page for snapshot generation
+
 ## Postgres
 
 If you choose `Postgres` as a configuration store for `Kuma` on Universal,

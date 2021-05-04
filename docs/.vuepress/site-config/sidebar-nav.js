@@ -1492,12 +1492,8 @@ module.exports = {
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "overview/what-is-kuma",
-        "overview/what-is-a-service-mesh",
-        "overview/why-kuma",
-        "documentation/deployments",
-        "other/enterprise",
-        "other/license",
+        "introduction/what-is-kuma",
+        "introduction/why-kuma",
       ]
     },
     {
@@ -1520,28 +1516,44 @@ module.exports = {
       ]
     },
     {
-      title: "Deploy",
+      title: "Get started",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
         "quickstart/kubernetes",
         "quickstart/universal",
+      ]
+    },
+    {
+      title: "Deploy",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
         "deployments/stand-alone",
         "deployments/multi-zone",
       ]
     },
     {
-      title: "Explore",
+      title: "Monitor & manage",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "documentation/overview",
-        "documentation/backends",
-        "documentation/dps-and-data-model",
-        "documentation/cli",
-        "documentation/gui",
+        "monitor-manage/cli",
+        "monitor-manage/gui",
+        "monitor-manage/health",
+        "monitor-manage/fine-tuning",
+      ]
+    },
+    {
+      title: "Tutorials",
+      collapsable: true,
+      sidebarDepth: sidebarDepth,
+      path: "",
+      children: [
+        "tutorials/use-case-name",
       ]
     },
     {
@@ -1566,16 +1578,6 @@ module.exports = {
       children: [
         "security/certificates",
         "security/secrets",
-      ]
-    },
-    {
-      title: "Monitor & manage",
-      collapsable: true,
-      sidebarDepth: sidebarDepth,
-      path: "",
-      children: [
-        "documentation/health",
-        "documentation/fine-tuning",
       ]
     },
     {

@@ -1,5 +1,7 @@
 # CLI
 
+TODO: THINK ABOUT WHERE THIS PAGE BELONGS. "need-to-name/components"? Or "monitor and manage"?
+
 Kuma ships in a bundle that includes a few executables:
 
 * `kuma-cp`: this is the main Kuma executable that runs the control plane (CP).

@@ -1,5 +1,7 @@
 # Secure access across services
 
+TODO: this page is about a lot more than certificates. Break up, reorganize. WILL NEED TO REDO LINKS TO SECTIONS
+
 This page explains how secure access is provided across a Kuma deployment:
 
 - Security between our services, via the [mTLS policy](/docs/1.1.2/policies/mutual-tls/).

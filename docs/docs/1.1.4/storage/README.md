@@ -7,4 +7,4 @@ TODO:
 - rename directory appropriately
 - include appropriate files only
 - remove this file (the current file)
-- directory name possibility: "Components"?
+- directory name possibility: "Components"? hrm, have deleted and moved a lot of files since that suggestion. "Storage"?
