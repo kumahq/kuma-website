@@ -1610,11 +1610,11 @@ module.exports = {
         "policies/proxy-template",
         "policies/retry",
         "policies/timeout",
+        "policies/traffic-log",
+        "policies/traffic-metrics",
         "policies/traffic-permissions",
         "policies/traffic-route",
-        "policies/traffic-metrics",
         "policies/traffic-trace",
-        "policies/traffic-log",
       ]
     },
     {
