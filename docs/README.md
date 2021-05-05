@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.1.4 has been released!**  &mdash; With important bug fixes! [Read More](/blog/2021/kuma-1-1-4/)
+**Kuma 1.1.5 has been released!**  &mdash; Installation scripts are moved to a new location, and transparent proxying and the GUI are improved! [Read More](/blog/2021/kuma-1-1-5/)
 
 :::
 
