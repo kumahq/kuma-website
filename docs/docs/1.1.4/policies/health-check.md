@@ -12,7 +12,7 @@ As usual, we can apply `sources` and `destinations` selectors to determine how h
 
 The `HealthCheck` policy supports both L4/TCP (default) and L7/HTTP checks.
 
-### Examples
+## Examples
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"

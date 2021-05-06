@@ -1533,7 +1533,9 @@ module.exports = {
       path: "",
       children: [
         "deployments/stand-alone",
-        "deployments/multi-zone",
+        "deployments/how-multi-zone-works",
+        "deployments/how-to-multi-zone",
+        "deployments/locality-aware",
       ]
     },
     {
@@ -1546,15 +1548,6 @@ module.exports = {
         "monitor-manage/gui",
         "monitor-manage/health",
         "monitor-manage/fine-tuning",
-      ]
-    },
-    {
-      title: "Tutorials",
-      collapsable: true,
-      sidebarDepth: sidebarDepth,
-      path: "",
-      children: [
-        "tutorials/use-case-name",
       ]
     },
     {
@@ -1574,6 +1567,7 @@ module.exports = {
       path: "",
       children: [
         "networking/networking",
+        "networking/protocol-support-in-kuma",
         "networking/service-discovery",
         "networking/dns",
         "networking/cni",
@@ -1598,13 +1592,10 @@ module.exports = {
       path: "",
       children: [
         "policies/overview",
-        "policies/how-kuma-chooses-the-right-policy-to-apply",
-        "policies/protocol-support-in-kuma",
         "policies/circuit-breaker",
         "policies/external-services",
         "policies/fault-injection",
         "policies/health-check",
-        "policies/locality-aware",
         "policies/mesh",
         "policies/mutual-tls",
         "policies/proxy-template",

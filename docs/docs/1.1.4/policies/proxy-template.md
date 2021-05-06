@@ -1,26 +1,20 @@
 # Proxy Template
 
-This policy allows to configure [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api) directly in those situations where Kuma-native policies do not expose the Envoy functionality we are looking for.
+If Kuma doesn't provide the exact policy you need, you can configure a proxy template policy to directly expose [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api). If you choose this option, consider opening a GitHub issue [against the Kuma repository](https://github.com/kumahq/kuma/issues/new) to develop the appropriate native Kuma policy.
 
-::: tip
-Please [open a new issue on GitHub](https://github.com/kumahq/kuma/issues/new) describing what missing functionality couldn't be found as a Kuma-native policy and we will make sure to prioritize it in the roadmap for future versions of Kuma.
-:::
+You can configure custom definitions to complement or complete Kuma resources for:
 
-Specifically by using the `ProxyTemplate` policy we can provide custom definitions of:
+TODO: UPDATE SOME OF THESE LINKS AND POSSIBLY LINK TEXT. ENVOY API HAS CHANGED IN V3 AND V2 IS NO LONGER SUPPORTED. https://github.com/kumahq/kuma/pull/1819/files relevant?
 
-* [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener.proto#listener)
-* [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster.proto#cluster)
+* [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/listeners/listeners)
+* [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/clusters/clusters)
 * [Network Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/network)
 * [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/http)
 * [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route_components.proto#envoy-api-msg-route-virtualhost)
 
-The custom definitions will either complement or replace the resources that Kuma generates automatically.
+## How it works
 
-## Usage
-
-By default Kuma uses the following default `ProxyTemplate` resource for every data plane proxy (`kuma-dp`, which embeds Envoy) that is being added to a [`Mesh`](../mesh). With a custom `ProxyTemplate` resource it is possible to extend or replace the default Envoy configuration that Kuma provides to every data plane proxy.
-
-The default `ProxyTemplate` resource that by default Kuma applies to every data plane proxy looks like:
+Kuma works with a default `ProxyTemplate` resource for every data plane proxy in the service mesh: 
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -33,6 +27,8 @@ metadata:
 spec:
   selectors:
     - match:
+        # specify the data plane proxies to apply this proxy template to
+        # takes (an array of?) Kuma tags, or wildcard to apply to all
         kuma.io/service: '*'
   conf:
     # `imports` allows us to reuse the dataplane configuration that Kuma
@@ -63,18 +59,7 @@ conf:
 :::
 ::::
 
-In the examples described above, please note that:
-
-1. The `selectors` object allows us to determine what [data plane proxies](../documentation/dps-and-data-model/#dataplane-entity) will be targeted by the `ProxyTemplate` resource (accordingly to the Kuma Tags specified).
-2. The `imports` object allows us to reuse the configuration that Kuma generates automatically so that it can be extended by our own custom configuration.
-
-::: tip
-The only available builtin configuration that can be used inside the `imports` section are:
-* `default-proxy` - default configuration for regular dataplanes.
-* `ingress` - default configuration for Ingress dataplanes.
-:::
-
-### Modifications
+### Customize the template
 
 In order to customize the configuration of a particular [data plane proxy](../documentation/dps-and-data-model/#dataplane-entity) (or a group of [data plane proxies](../documentation/dps-and-data-model/#dataplane-entity)), we can apply modifications.
 You can combine many modifications of any type within one ProxyTemplate. Each modification consists of the following sections:
@@ -725,9 +710,11 @@ conf:
 :::
 ::::
 
-## How is ProxyTemplate processed by Kuma
+## How proxy template policies are applied
 
-At runtime, whenever `kuma-cp` generates the configuration for a given [data plane proxy](../documentation/dps-and-data-model/#dataplane-entity), it will proceed as follows:
+TODO: seems like items 1 and 2 can be summarized briefly. But order in which policies are applied thereafter isn't clear. (Check link about ranking, also whether there's anything special about proxy templates. 4 and 5 don't seem to add value.)
+
+At runtime, `kuma-cp` generates the configuration for a given [data plane proxy](../documentation/dps-and-data-model/#dataplane-entity), it will proceed as follows:
 
 1. Kuma will search for all the `ProxyTemplates` resources that have been defined in the specified [`Mesh`](../mesh).
 2. Then, it will load in memory those `ProxyTemplates` resources whose `selectors` [match](./how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any [data plane proxy](../documentation/dps-and-data-model/#dataplane-entity) accordingly to the Kuma Tags selected.
@@ -741,6 +728,7 @@ Here we will show a more complete examples of `ProxyTemplate`.
 
 ### Set timeouts
 
+TODO: CHECK, DON'T WE NOW HAVE A TIMEOUT POLICY? ISN'T THIS THAT? ALSO RETRY?
 In the future, Kuma will provide native timeouts settings. For now, you can patch Envoy resources to set them.
 
 :::: tabs :options="{ useUrlFragment: false }"
