@@ -1030,6 +1030,14 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
   "timeout": "2s",
   "unhealthyThreshold": 3,
   "healthyThreshold": 1,
+  "reuseConnection": false,
+  "tcp": {
+   "send": "Zm9v",
+   "receive": [
+    "YmFy",
+    "YmF6"
+   ]
+  },
   "http": {
    "path": "/health",
    "requestHeadersToAdd": [
@@ -1090,6 +1098,14 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend --da
   "timeout": "2s",
   "unhealthyThreshold": 3,
   "healthyThreshold": 1,
+  "reuseConnection": false,
+  "tcp": {
+   "send": "Zm9v",
+   "receive": [
+    "YmFy",
+    "YmF6"
+   ]
+  },
   "http": {
    "path": "/health",
    "requestHeadersToAdd": [
@@ -1154,6 +1170,14 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
     "timeout": "2s",
     "unhealthyThreshold": 3,
     "healthyThreshold": 1,
+    "reuseConnection": false,
+    "tcp": {
+     "send": "Zm9v",
+     "receive": [
+      "YmFy",
+      "YmF6"
+     ]
+    },
     "http": {
      "path": "/health",
      "requestHeadersToAdd": [
