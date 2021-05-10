@@ -1,12 +1,15 @@
 # Set up a multi-zone deployment
 
-## Multi-Zone Mode
+Kuma in multi-zone mode lets you set up a service mesh across multiple zones. This includes hybrid deployments on Kubernetes, VMs, and other environments.
 
-This is a more advanced deployment mode for Kuma that allow us to support service meshes that are running on many zones, including hybrid deployments on both Kubernetes and VMs.
+## Overview
 
-* **Control plane**: There is one `global` control plane, and many `remote` control planes. A global control plane only accepts connections from remote control planes.
-* **Data plane proxies**: The data plane proxies connect to the closest `remote` control plane in the same zone. Additionally, we need to start an `ingress` data plane proxy on every zone to have cross-zone communication between data plane proxies in different zones.
-* **Service Connectivity**: Automatically resolved via the built-in DNS resolver that ships with Kuma. When a service wants to consume another service, it will resolve the DNS address of the desired service with Kuma, and Kuma will respond with a Virtual IP address, that corresponds to that service in the Kuma service domain.
+The basic structure of a multi-zone deployment looks like this:
+
+* **Control plane**: There is one `global` control plane with many `remote` control planes. A global control plane accepts connections only from remote control planes -- not from data plane proxies.
+* **Data plane proxies**: The data plane proxies connect to the closest `remote` control plane in the same zone. There's also an `ingress` data plane proxy on every zone to provide cross-zone communication between data plane proxies.
+
+Connections between services are automatically resolved by Kuma's DNS resolver. When a service consumes another service, it resolves the DNS address of the desired service with Kuma. Kuma then responds with a virtual IP address that corresponds to the requested service in the Kuma service domain.
 
 :::tip
 We can support multiple isolated service meshes thanks to Kuma's multi-tenancy support, and workloads from both Kubernetes or any other supported Universal environment can participate in the Service Mesh across different regions, clouds, and datacenters while not compromizing the ease of use and still allowing for end-to-end service connectivity.
