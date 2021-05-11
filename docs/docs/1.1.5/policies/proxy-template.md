@@ -1,6 +1,6 @@
 # Proxy Template
 
-This policy allows to configure [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api) directly in those situations where Kuma-native policies do not expose the Envoy functionality we are looking for.
+This policy allows to configure [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v3/api) directly in those situations where Kuma-native policies do not expose the Envoy functionality we are looking for.
 
 ::: tip
 Please [open a new issue on GitHub](https://github.com/kumahq/kuma/issues/new) describing what missing functionality couldn't be found as a Kuma-native policy and we will make sure to prioritize it in the roadmap for future versions of Kuma.
@@ -8,11 +8,11 @@ Please [open a new issue on GitHub](https://github.com/kumahq/kuma/issues/new) d
 
 Specifically by using the `ProxyTemplate` policy we can provide custom definitions of:
 
-* [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener.proto#listener)
-* [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster.proto#cluster)
-* [Network Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/network)
-* [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/http)
-* [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route_components.proto#envoy-api-msg-route-virtualhost)
+* [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener)
+* [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#config-cluster-v3-cluster)
+* [Network Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/network/network)
+* [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/http/http)
+* [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-virtualhost)
 
 The custom definitions will either complement or replace the resources that Kuma generates automatically.
 
@@ -96,7 +96,7 @@ Available origins:
 
 #### Cluster
 
-Modifications that are applied on [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster.proto#cluster) resources.
+Modifications that are applied on [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#config-cluster-v3-cluster) resources.
 
 Available operations:
 * `add` - add a new cluster or replace existing if the name is the same.
@@ -180,7 +180,7 @@ conf:
 
 #### Listener
 
-Modifications that are applied on [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener.proto#listener) resources.
+Modifications that are applied on [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resources.
 
 Available operations:
 * `add` - add a new listener or replace existing if the name is the same.
@@ -268,8 +268,8 @@ conf:
 
 #### Network Filter
 
-Modifications that are applied on [Network Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/network) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener.proto#listener) resource.
-Modifications are applied on all [Filter Chains](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener_components.proto#envoy-api-msg-listener-filterchain) in the Listener.
+Modifications that are applied on [Network Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/network/network) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resource.
+Modifications are applied on all [Filter Chains](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener_components.proto#config-listener-v3-filter) in the Listener.
 
 Available operations:
 * `addFirst` - add a new filter as a first filter in Filter Chain.
@@ -308,7 +308,7 @@ spec:
           value: |
             name: envoy.filters.network.local_ratelimit
             typedConfig:
-              '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
               statPrefix: rateLimit
               tokenBucket:
                 fillInterval: 1s
@@ -320,7 +320,7 @@ spec:
           value: |
             name: envoy.filters.network.local_ratelimit
             typedConfig:
-              '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
               statPrefix: rateLimit
               tokenBucket:
                 fillInterval: 1s
@@ -333,7 +333,7 @@ spec:
           value: |
             name: envoy.filters.network.local_ratelimit
             typedConfig:
-              '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
               statPrefix: rateLimit
               tokenBucket:
                 fillInterval: 1s
@@ -346,7 +346,7 @@ spec:
           value: |
             name: envoy.filters.network.local_ratelimit
             typedConfig:
-              '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
               statPrefix: rateLimit
               tokenBucket:
                 fillInterval: 1s
@@ -359,7 +359,7 @@ spec:
           value: | # you can specify only part of filter definition that will be merged into existing filter
             name: envoy.filters.network.tcp_proxy
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
+              '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
               idleTimeout: 10s
       - networkFilter:
           operation: remove
@@ -390,7 +390,7 @@ conf:
         value: |
           name: envoy.filters.network.local_ratelimit
           typedConfig:
-            '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+            '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             statPrefix: rateLimit
             tokenBucket:
               fillInterval: 1s
@@ -402,7 +402,7 @@ conf:
         value: |
           name: envoy.filters.network.local_ratelimit
           typedConfig:
-            '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+            '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             statPrefix: rateLimit
             tokenBucket:
               fillInterval: 1s
@@ -415,7 +415,7 @@ conf:
         value: |
           name: envoy.filters.network.local_ratelimit
           typedConfig:
-            '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+            '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             statPrefix: rateLimit
             tokenBucket:
               fillInterval: 1s
@@ -428,7 +428,7 @@ conf:
         value: |
           name: envoy.filters.network.local_ratelimit
           typedConfig:
-            '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+            '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             statPrefix: rateLimit
             tokenBucket:
               fillInterval: 1s
@@ -441,7 +441,7 @@ conf:
         value: | # you can specify only part of filter definition that will be merged into existing filter
           name: envoy.filters.network.tcp_proxy
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
+            '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
             idleTimeout: 10s
     - networkFilter:
         operation: remove
@@ -455,8 +455,8 @@ conf:
 
 #### HTTP Filter
 
-Modifications that are applied on [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/http) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener.proto#listener) resource.
-Modifications are applied on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto) in the Listener.
+Modifications that are applied on [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/http/http) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resource.
+Modifications are applied on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#http-connection-manager) in the Listener.
 
 Available operations:
 * `addFirst` - add a new filter as a first filter in HTTP Connection Manager.
@@ -495,7 +495,7 @@ spec:
           value: |
             name: envoy.filters.http.gzip
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
               memoryLevel: 9
       - httpFilter:
           operation: addLast
@@ -505,7 +505,7 @@ spec:
           value: |
             name: envoy.filters.http.gzip
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
               memoryLevel: 9
       - httpFilter:
           operation: addBefore
@@ -516,7 +516,7 @@ spec:
           value: |
             name: envoy.filters.http.gzip
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
               memoryLevel: 9
       - httpFilter:
           operation: addAfter
@@ -527,7 +527,7 @@ spec:
           value: |
             name: envoy.filters.http.gzip
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
               memoryLevel: 9
       - httpFilter:
           operation: patch
@@ -538,7 +538,7 @@ spec:
           value: | # you can specify only part of filter definition that will be merged into existing filter
             name: envoy.filters.http.router 
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.router.v2.Router
+              '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
               dynamicStats: false
       - httpFilter:
           operation: remove
@@ -569,7 +569,7 @@ conf:
         value: |
           name: envoy.filters.http.gzip
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+            '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
             memoryLevel: 9
     - httpFilter:
         operation: addLast
@@ -579,7 +579,7 @@ conf:
         value: |
           name: envoy.filters.http.gzip
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+            '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
             memoryLevel: 9
     - httpFilter:
         operation: addBefore
@@ -590,7 +590,7 @@ conf:
         value: |
           name: envoy.filters.http.gzip
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+            '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
             memoryLevel: 9
     - httpFilter:
         operation: addAfter
@@ -601,7 +601,7 @@ conf:
         value: |
           name: envoy.filters.http.gzip
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+            '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
             memoryLevel: 9
     - httpFilter:
         operation: patch
@@ -612,7 +612,7 @@ conf:
         value: | # you can specify only part of filter definition that will be merged into existing filter
           name: envoy.filters.http.router 
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.router.v2.Router
+            '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
             dynamicStats: false
     - httpFilter:
         operation: remove
@@ -626,7 +626,7 @@ conf:
 
 #### VirtualHost
 
-Modifications that are applied on [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route_components.proto#envoy-api-msg-route-virtualhost) resources.
+Modifications that are applied on [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-virtualhost) resources.
 
 Available operations:
 * `add` - add a new VirtualHost.
@@ -636,7 +636,7 @@ Available operations:
 Available matchers:
 * `name` - name of the VirtualHost.
 * `origin` - origin of the VirtualHost.
-* `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route.proto#envoy-api-msg-routeconfiguration).
+* `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration).
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -773,7 +773,7 @@ spec:
           value: |
             name: envoy.filters.network.http_connection_manager
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
+              '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
               streamIdleTimeout: 5s
               requestTimeout: 2s
               drainTimeout: 10s
@@ -805,7 +805,7 @@ conf:
         value: |
           name: envoy.filters.network.http_connection_manager
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
+            '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
             streamIdleTimeout: 5s
             requestTimeout: 2s
             drainTimeout: 10s
@@ -841,7 +841,7 @@ spec:
           value: |
             name: envoy.filters.http.lua
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.lua.v2.Lua
+              '@type': type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
               inline_code: |
                 function envoy_on_request(request_handle)
                   request_handle:headers():add("x-header", "test")
@@ -868,7 +868,7 @@ conf:
         value: |
           name: envoy.filters.http.lua
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.lua.v2.Lua
+            '@type': type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
             inline_code: |
               function envoy_on_request(request_handle)
                 request_handle:headers():add("x-header", "test")
@@ -913,7 +913,7 @@ spec:
           value: |
             name: envoy.filters.network.tcp_proxy
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
+              '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
               maxConnectAttempts: 3
 ```
 :::
@@ -945,7 +945,7 @@ conf:
         value: |
           name: envoy.filters.network.tcp_proxy
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
+            '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
             maxConnectAttempts: 3
 ```
 :::
