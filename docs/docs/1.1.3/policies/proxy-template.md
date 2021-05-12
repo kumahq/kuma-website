@@ -1,26 +1,22 @@
 # Proxy Template
 
-This policy allows to configure [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api) directly in those situations where Kuma-native policies do not expose the Envoy functionality we are looking for.
+The proxy template provides configuration options for [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v3/api) that Kuma policies do not directly expose.
 
-::: tip
-Please [open a new issue on GitHub](https://github.com/kumahq/kuma/issues/new) describing what missing functionality couldn't be found as a Kuma-native policy and we will make sure to prioritize it in the roadmap for future versions of Kuma.
-:::
+If you need features that aren't available as a Kuma policy, [open a new issue on GitHub](https://github.com/kumahq/kuma/issues/new) so they can be added to the Kuma roadmap.
 
-Specifically by using the `ProxyTemplate` policy we can provide custom definitions of:
+A `ProxyTemplate` policy can provide custom definitions of:
 
-* [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener.proto#listener)
-* [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster.proto#cluster)
-* [Network Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/network)
-* [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/http)
-* [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route_components.proto#envoy-api-msg-route-virtualhost)
+* [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener)
+* [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#config-cluster-v3-cluster)
+* [Network Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/network/network)
+* [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/http/http)
+* [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-virtualhost)
 
-The custom definitions will either complement or replace the resources that Kuma generates automatically.
+The custom definitions either complement or replace the resources that Kuma generates automatically.
 
 ## Usage
 
-By default Kuma uses the following default `ProxyTemplate` resource for every data plane proxy (`kuma-dp`, which embeds Envoy) that is being added to a [`Mesh`](../mesh). With a custom `ProxyTemplate` resource it is possible to extend or replace the default Envoy configuration that Kuma provides to every data plane proxy.
-
-The default `ProxyTemplate` resource that by default Kuma applies to every data plane proxy looks like:
+Kuma uses the following default `ProxyTemplate` resource for every data plane proxy (`kuma-dp`) that is added to a [`Mesh`](../mesh). This resource looks like:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -43,7 +39,7 @@ spec:
       - default-proxy
 ```
 :::
-::: tab "Univesal"
+::: tab "Universal"
 
 ```yaml
 type: ProxyTemplate
@@ -63,28 +59,24 @@ conf:
 :::
 ::::
 
-In the examples described above, please note that:
+In these examples, note:
 
-1. The `selectors` object allows us to determine what [data plane proxies](../documentation/dps-and-data-model/#dataplane-entity) will be targeted by the `ProxyTemplate` resource (accordingly to the Kuma Tags specified).
-2. The `imports` object allows us to reuse the configuration that Kuma generates automatically so that it can be extended by our own custom configuration.
+* The `selectors` object specifies the [data plane proxies](../documentation/dps-and-data-model/#dataplane-entity) that are targeted by the `ProxyTemplate` resource. Values are provided as Kuma tags.
+* The `imports` object specifies the reusable configuration that Kuma generates automatically. Kuma then extends the imports object with the custom configuration you specify. The value must be one or both of `default-proxy` -- the default configuration for non-ingress data planes -- or `ingress` -- the default configuration for ingress data planes.
 
-::: tip
-The only available builtin configuration that can be used inside the `imports` section are:
-* `default-proxy` - default configuration for regular dataplanes.
-* `ingress` - default configuration for Ingress dataplanes.
-:::
 
 ### Modifications
 
-In order to customize the configuration of a particular [data plane proxy](../documentation/dps-and-data-model/#dataplane-entity) (or a group of [data plane proxies](../documentation/dps-and-data-model/#dataplane-entity)), we can apply modifications.
-You can combine many modifications of any type within one ProxyTemplate. Each modification consists of the following sections:
-* `operation` - operation that will be applied on generated config (e.g. `add`, `remove`, `patch`).
-* `match` - some operation can be applied on matched resources (e.g. remove only resource of given name, patch all outbound resources). 
+To customize the configuration of [data plane proxies](../documentation/dps-and-data-model/#dataplane-entity), 
+you can combine modifications of any type in one ProxyTemplate. Each modification consists of the following sections:
+
+* `operation` - operation applied to the generated config (e.g. `add`, `remove`, `patch`).
+* `match` - some operations can be applied on matched resources (e.g. remove only resource of given name, patch all outbound resources). 
 * `value ` - raw Envoy xDS configuration. Can be partial if operation is `patch`.
 
 #### Origin
 
-All resources generated by Kuma are marked with `origin` value, so you can match resources by it. Examples: add new filters but only on inbound listeners, set timeouts on outbound clusters etc.
+All resources generated by Kuma are marked with the `origin` value, so you can match resources. Examples: add new filters but only on inbound listeners, set timeouts on outbound clusters.
 
 Available origins:
 * `inbound` - resources generated for incoming traffic.
@@ -96,7 +88,7 @@ Available origins:
 
 #### Cluster
 
-Modifications that are applied on [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster.proto#cluster) resources.
+Modifications that are applied on [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#config-cluster-v3-cluster) resources.
 
 Available operations:
 * `add` - add a new cluster or replace existing if the name is the same.
@@ -180,7 +172,7 @@ conf:
 
 #### Listener
 
-Modifications that are applied on [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener.proto#listener) resources.
+Modifications that are applied on [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resources.
 
 Available operations:
 * `add` - add a new listener or replace existing if the name is the same.
@@ -268,8 +260,8 @@ conf:
 
 #### Network Filter
 
-Modifications that are applied on [Network Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/network) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener.proto#listener) resource.
-Modifications are applied on all [Filter Chains](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener_components.proto#envoy-api-msg-listener-filterchain) in the Listener.
+Modifications that are applied on [Network Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/network/network) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resource.
+Modifications are applied on all [Filter Chains](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener_components.proto#config-listener-v3-filter) in the Listener.
 
 Available operations:
 * `addFirst` - add a new filter as a first filter in Filter Chain.
@@ -308,7 +300,7 @@ spec:
           value: |
             name: envoy.filters.network.local_ratelimit
             typedConfig:
-              '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
               statPrefix: rateLimit
               tokenBucket:
                 fillInterval: 1s
@@ -320,7 +312,7 @@ spec:
           value: |
             name: envoy.filters.network.local_ratelimit
             typedConfig:
-              '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
               statPrefix: rateLimit
               tokenBucket:
                 fillInterval: 1s
@@ -333,7 +325,7 @@ spec:
           value: |
             name: envoy.filters.network.local_ratelimit
             typedConfig:
-              '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
               statPrefix: rateLimit
               tokenBucket:
                 fillInterval: 1s
@@ -346,7 +338,7 @@ spec:
           value: |
             name: envoy.filters.network.local_ratelimit
             typedConfig:
-              '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
               statPrefix: rateLimit
               tokenBucket:
                 fillInterval: 1s
@@ -359,7 +351,7 @@ spec:
           value: | # you can specify only part of filter definition that will be merged into existing filter
             name: envoy.filters.network.tcp_proxy
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
+              '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
               idleTimeout: 10s
       - networkFilter:
           operation: remove
@@ -390,7 +382,7 @@ conf:
         value: |
           name: envoy.filters.network.local_ratelimit
           typedConfig:
-            '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+            '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             statPrefix: rateLimit
             tokenBucket:
               fillInterval: 1s
@@ -402,7 +394,7 @@ conf:
         value: |
           name: envoy.filters.network.local_ratelimit
           typedConfig:
-            '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+            '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             statPrefix: rateLimit
             tokenBucket:
               fillInterval: 1s
@@ -415,7 +407,7 @@ conf:
         value: |
           name: envoy.filters.network.local_ratelimit
           typedConfig:
-            '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+            '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             statPrefix: rateLimit
             tokenBucket:
               fillInterval: 1s
@@ -428,7 +420,7 @@ conf:
         value: |
           name: envoy.filters.network.local_ratelimit
           typedConfig:
-            '@type': type.googleapis.com/config.filter.network.local_rate_limit.v2alpha.LocalRateLimit
+            '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
             statPrefix: rateLimit
             tokenBucket:
               fillInterval: 1s
@@ -441,7 +433,7 @@ conf:
         value: | # you can specify only part of filter definition that will be merged into existing filter
           name: envoy.filters.network.tcp_proxy
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
+            '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
             idleTimeout: 10s
     - networkFilter:
         operation: remove
@@ -455,8 +447,8 @@ conf:
 
 #### HTTP Filter
 
-Modifications that are applied on [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/http) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener.proto#listener) resource.
-Modifications are applied on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto) in the Listener.
+Modifications that are applied on [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/http/http) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resource.
+Modifications are applied on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#http-connection-manager) in the Listener.
 
 Available operations:
 * `addFirst` - add a new filter as a first filter in HTTP Connection Manager.
@@ -495,7 +487,7 @@ spec:
           value: |
             name: envoy.filters.http.gzip
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
               memoryLevel: 9
       - httpFilter:
           operation: addLast
@@ -505,7 +497,7 @@ spec:
           value: |
             name: envoy.filters.http.gzip
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
               memoryLevel: 9
       - httpFilter:
           operation: addBefore
@@ -516,7 +508,7 @@ spec:
           value: |
             name: envoy.filters.http.gzip
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
               memoryLevel: 9
       - httpFilter:
           operation: addAfter
@@ -527,7 +519,7 @@ spec:
           value: |
             name: envoy.filters.http.gzip
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
               memoryLevel: 9
       - httpFilter:
           operation: patch
@@ -538,7 +530,7 @@ spec:
           value: | # you can specify only part of filter definition that will be merged into existing filter
             name: envoy.filters.http.router 
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.router.v2.Router
+              '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
               dynamicStats: false
       - httpFilter:
           operation: remove
@@ -569,7 +561,7 @@ conf:
         value: |
           name: envoy.filters.http.gzip
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+            '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
             memoryLevel: 9
     - httpFilter:
         operation: addLast
@@ -579,7 +571,7 @@ conf:
         value: |
           name: envoy.filters.http.gzip
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+            '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
             memoryLevel: 9
     - httpFilter:
         operation: addBefore
@@ -590,7 +582,7 @@ conf:
         value: |
           name: envoy.filters.http.gzip
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+            '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
             memoryLevel: 9
     - httpFilter:
         operation: addAfter
@@ -601,7 +593,7 @@ conf:
         value: |
           name: envoy.filters.http.gzip
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.gzip.v2.Gzip
+            '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
             memoryLevel: 9
     - httpFilter:
         operation: patch
@@ -612,7 +604,7 @@ conf:
         value: | # you can specify only part of filter definition that will be merged into existing filter
           name: envoy.filters.http.router 
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.router.v2.Router
+            '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
             dynamicStats: false
     - httpFilter:
         operation: remove
@@ -626,7 +618,7 @@ conf:
 
 #### VirtualHost
 
-Modifications that are applied on [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route_components.proto#envoy-api-msg-route-virtualhost) resources.
+Modifications that are applied on [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-virtualhost) resources.
 
 Available operations:
 * `add` - add a new VirtualHost.
@@ -636,7 +628,7 @@ Available operations:
 Available matchers:
 * `name` - name of the VirtualHost.
 * `origin` - origin of the VirtualHost.
-* `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route.proto#envoy-api-msg-routeconfiguration).
+* `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration).
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -725,97 +717,19 @@ conf:
 :::
 ::::
 
-## How is ProxyTemplate processed by Kuma
+## How Kuma handles the proxy template
 
 At runtime, whenever `kuma-cp` generates the configuration for a given [data plane proxy](../documentation/dps-and-data-model/#dataplane-entity), it will proceed as follows:
 
-1. Kuma will search for all the `ProxyTemplates` resources that have been defined in the specified [`Mesh`](../mesh).
-2. Then, it will load in memory those `ProxyTemplates` resources whose `selectors` [match](./how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any [data plane proxy](../documentation/dps-and-data-model/#dataplane-entity) accordingly to the Kuma Tags selected.
-3. Every matching `ProxyTemplate` will be then [ranked](./how-kuma-chooses-the-right-policy-to-apply/). The `ProxyTemplate` resource with the highest ranking will be used to generate the configuration for that specific data plane proxy (or proxies).
-4. If the `ProxyTemplate` resource specifies an `imports` object, these resources will be generated first.
-5. If a `ProxyTemplate` defines a `modification` object, all modifications will be applied, one by one in order defined in `modification` section.
+1. Kuma searches for all the `ProxyTemplates` resources that have been defined in the specified [`Mesh`](../mesh).
+2. It loads in memory the `ProxyTemplates` resources whose `selectors` [match](./how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any [data plane proxy](../documentation/dps-and-data-model/#dataplane-entity) accordingly to the Kuma Tags selected.
+3. Every matching `ProxyTemplate` is [ranked](./how-kuma-chooses-the-right-policy-to-apply/). The `ProxyTemplate` resource with the highest ranking is used to generate the configuration for the specified data plane proxy (or proxies).
+4. If the `ProxyTemplate` resource specifies an `imports` object, these resources are generated first.
+5. If a `ProxyTemplate` defines a `modification` object, all modifications are applied, one by one in the order defined in `modification` section.
 
-## Examples
+## Lua filter example
 
-Here we will show a more complete examples of `ProxyTemplate`.
-
-### Set timeouts
-
-In the future, Kuma will provide native timeouts settings. For now, you can patch Envoy resources to set them.
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: ProxyTemplate
-mesh: default
-metadata:
-  name: backend-timeouts
-spec:
-  selectors:
-    - match:
-        kuma.io/service: backend
-  conf:
-    imports:
-      - default-proxy # apply modifications on top of resources generated by Kuma
-    modifications:
-      - cluster:
-          operation: patch
-          match:
-            origin: outbound
-          value: |
-            connectTimeout: 5s
-      - networkFilter:
-          operation: patch
-          match:
-            name: envoy.filters.network.http_connection_manager
-            origin: outbound
-          value: |
-            name: envoy.filters.network.http_connection_manager
-            typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
-              streamIdleTimeout: 5s
-              requestTimeout: 2s
-              drainTimeout: 10s
-```
-:::
-::: tab "Universal"
-```yaml
-type: ProxyTemplate
-mesh: default
-name: backend-timeouts
-selectors:
-  - match:
-      kuma.io/service: backend
-conf:
-  imports:
-    - default-proxy # apply modifications on top of resources generated by Kuma
-  modifications:
-    - cluster:
-        operation: patch
-        match:
-          origin: outbound
-        value: |
-          connectTimeout: 5s
-    - networkFilter:
-        operation: patch
-        match:
-          name: envoy.filters.network.http_connection_manager
-          origin: outbound
-        value: |
-          name: envoy.filters.network.http_connection_manager
-          typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
-            streamIdleTimeout: 5s
-            requestTimeout: 2s
-            drainTimeout: 10s
-```
-:::
-::::
-
-### Lua filter
-
-Example of Lua filter that adds new header `x-header: test` on all outgoing HTTP requests. 
+For a more complete example, explore this Lua filter that adds the new `x-header: test` header to all outgoing HTTP requests. 
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -841,7 +755,7 @@ spec:
           value: |
             name: envoy.filters.http.lua
             typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.http.lua.v2.Lua
+              '@type': type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
               inline_code: |
                 function envoy_on_request(request_handle)
                   request_handle:headers():add("x-header", "test")
@@ -868,85 +782,11 @@ conf:
         value: |
           name: envoy.filters.http.lua
           typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.http.lua.v2.Lua
+            '@type': type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
             inline_code: |
               function envoy_on_request(request_handle)
                 request_handle:headers():add("x-header", "test")
               end
-```
-:::
-::::
-
-### Retries
-
-In the future, Kuma will provide native retries settings. For now, you can patch Envoy resources to set them.
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: ProxyTemplate
-mesh: default
-metadata:
-  name: retries
-spec:
-  selectors:
-    - match:
-        kuma.io/service: backend
-  conf:
-    imports:
-      - default-proxy # apply modifications on top of resources generated by Kuma
-    modifications:
-      - virtualHost:
-          operation: patch
-          match:
-            origin: outbound
-          value: |
-            retryPolicy:
-              retryOn: 5xx
-              numRetries: 3
-      - networkFilter:
-          operation: patch
-          match:
-            name: envoy.filters.network.tcp_proxy
-            origin: outbound
-          value: |
-            name: envoy.filters.network.tcp_proxy
-            typedConfig:
-              '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
-              maxConnectAttempts: 3
-```
-:::
-::: tab "Universal"
-```yaml
-type: ProxyTemplate
-mesh: default
-name: retries
-selectors:
-  - match:
-      kuma.io/service: backend
-conf:
-  imports:
-    - default-proxy # apply modifications on top of resources generated by Kuma
-  modifications:
-    - virtualHost:
-        operation: patch
-        match:
-          origin: outbound
-        value: |
-          retryPolicy:
-            retryOn: 5xx
-            numRetries: 3
-    - networkFilter:
-        operation: patch
-        match:
-          name: envoy.filters.network.tcp_proxy
-          origin: outbound
-        value: |
-          name: envoy.filters.network.tcp_proxy
-          typedConfig:
-            '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
-            maxConnectAttempts: 3
 ```
 :::
 ::::
