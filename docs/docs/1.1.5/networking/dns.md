@@ -6,6 +6,8 @@ In version 1.1.3, Kuma offers an advanced method to resolve service and domain n
 and operation of the DNS resolution. Check the [section](#data-plane-proxy-built-in-dns) at the end of this page to
 learn more about it.
 
+This DNS configuration is critical for multi-zone deployments as multi-zone requires .mesh addresses to be used to resolve services across the zones in a service mesh. Workloads that are connected as an ExternalService do not require this .mesh resolution. Take special note of your deployment topology as Universal mode and Kubernetes mode have difference configuration steps, both of which are covered within this page.
+
 ## Deployment
 
 To enable the redirection of the DNS requests for the `.mesh` DNS zone (the default), within a Kubernetes, use `kumactl install dns | kubectl apply -f -`. This invocation of `kumactl` expects to find the environment variable `KUBECONFIG` set, so it can fetch the active Kubernetes DNS server configuration. Once this is done, `kumactl install dns` will output a patched resource ready to be applied through `kubectl apply`. Since this is a modification to system resources, it is strongly recommended that you first inspect the resulting configuration.
@@ -13,7 +15,7 @@ To enable the redirection of the DNS requests for the `.mesh` DNS zone (the defa
 `kumactl install dns` is recognizing and supports the major flavors of CoreDNS as well as Kube DNS resources.
 
 ::: tip
-The typical environment where Kuma DNS will be used is Kubernetes. It leverages the transparent proxy by default, which is a strict requirement for utilizing the Kuma DNS virtual IPs (VIP). In the future, Kuma will provide DNS support in Universal mode too.
+In a **Kubernetes** environment, this command creates a configmap object that will update DNS to send .mesh requests to the correct DNS resolution. In **Universal** deployments, this functionality is enabled through a combination of the `kumactl install transparent-proxy` command as well as the `kuma-dp run` command this is covered more in the [section](#universal) section.
 :::
 
 ## Configuration
@@ -142,9 +144,11 @@ helm install --namespace kuma-system \
 
 ### Universal
 
-Prerequisite: All three binaries -- `kuma-dp`, `envoy` and `coredns` -- must run in the worker node.
+In Universal mode, the `kumactl install transparent-proxy` and `kuma-dp` processes enable DNS resolution to .mesh addresses.
+
+Prerequisite: All three binaries -- `kuma-dp`, `envoy` and `coredns` -- must run in the worker node (i.e. the node that is running your service mesh workload).
 `core-dns` must also be in the PATH so that `kuma-dp` can access it. Or you can specify the location
-with the `--dns-coredns-path` flag.
+with the `--dns-coredns-path` flag. You should also create a user to run the `kuma-dp` process. On Ubuntu for example this can be done with the following command: `useradd -U kuma-dp`. You will need to run the `kuma-dp` process from a DIFFERENT user than the user you wish to test with in order for resolution to work correctly.
 
 1.  Specify the two additional flags `--skip-resolv-conf` and `--redirect-dns` to the [transparent proxy](transparent-proxying/) iptables rules:
 
@@ -156,7 +160,7 @@ with the `--dns-coredns-path` flag.
               --redirect-dns
     ```
 
-1.  Specify `--dns-enabled` when you start [the kuma-dp](dps-and-data-model/#dataplane-entity)
+2.  Specify `--dns-enabled` when you start [the kuma-dp](dps-and-data-model/#dataplane-entity)
 
     ```shell
     $ kuma-dp run \
@@ -165,6 +169,8 @@ with the `--dns-coredns-path` flag.
       --dataplane-token-file=/tmp/kuma-dp-redis-1-token \
       --dns-enabled
     ```
+
+When this command is run with `--dns-enabled`, the `kuma-dp` process will also spawn coredns and allow resolution of .mesh addresses.
 
 ### Special considerations
 
