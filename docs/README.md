@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.1.5 has been released!**  &mdash; Installation scripts are moved to a new location, and transparent proxying and the GUI are improved! [Read More](/blog/2021/kuma-1-1-5/)
+**Kuma 1.1.6 has been released!**  &mdash; All tags are now supported for Traffic Permission policies, you can specify TCP and HTTP health checks together, and much more! [Read More](/blog/2021/kuma-1-1-6/)
 
 :::
 
