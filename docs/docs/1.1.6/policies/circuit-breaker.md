@@ -2,7 +2,7 @@
 
 This policy will look for errors in the live traffic being exchanged between our data plane proxies and it will mark a data proxy as an unhealthy if certain conditions are met and - by doing so - making sure that no additional traffic can reach an unhealthy data plane proxy until it is healthy again.
 
-Circuit breakers - unlike active [Health Checks](/docs/1.1.5/policies/health-check/) - do not send additional traffic to our data plane proxies but they rather inspect the existing service traffic. They are also commonly used to prevent cascading failures in our services.
+Circuit breakers - unlike active [Health Checks](/docs/1.1.6/policies/health-check/) - do not send additional traffic to our data plane proxies but they rather inspect the existing service traffic. They are also commonly used to prevent cascading failures in our services.
 
 :::tip
 Like a real-world circuit breaker when the circuit is **closed** then traffic between a source and destination data plane proxy is allowed to freely flow through it, and when it is **open** then the traffic is interrupted.
@@ -100,7 +100,7 @@ conf:
       minimumHosts: 5
       threshold: 85
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.1.5/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.1.6/documentation/http-api).
 :::
 ::::
 
@@ -144,7 +144,7 @@ conf:
     totalErrors: {}
     standardDeviation: {}
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.1.5/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.1.6/documentation/http-api).
 :::
 ::::
 
