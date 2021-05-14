@@ -56,4 +56,4 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 :::
 ::::
 
-You can use any [Tag](/docs/1.1.5/documentation/dps-and-data-model/#tags) in both `sources` and `destinations` selector, which makes `TrafficPermissions` quite powerful when it comes to creating a secure environment for our services.
+You can use any [Tag](/docs/1.1.6/documentation/dps-and-data-model/#tags) in both `sources` and `destinations` selector, which makes `TrafficPermissions` quite powerful when it comes to creating a secure environment for our services.
