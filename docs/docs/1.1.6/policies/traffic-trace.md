@@ -122,3 +122,7 @@ It is important that we instrument our services to preserve the trace chain betw
 * `x-b3-flags`
 
 As noted before, Envoy's Zipkin tracer is also [compatible with Jaeger through Zipkin V2 HTTP API.](https://www.jaegertracing.io/docs/1.13/features/#backwards-compatibility-with-zipkin).
+
+## Matching
+
+`TrafficTrace` is a [Dataplane policy](how-kuma-chooses-the-right-policy-to-apply.md#dataplane-policy). You can use all the tags in the `selectors` section.

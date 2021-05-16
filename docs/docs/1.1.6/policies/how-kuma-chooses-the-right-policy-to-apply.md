@@ -27,8 +27,8 @@ name: web-to-backend-policy
 sources:
   - match:
       kuma.io/service: web
-      cloud:   aws
-      region:  us
+      cloud: aws
+      region: us
 destinations:
   - match:
       kuma.io/service: backend
@@ -36,124 +36,229 @@ conf:
   backend: splunk
 ```
 
-What does `Kuma` do when it encounters multiple matching policies ?
+What does `Kuma` do when it encounters multiple matching policies?
 
-The answer depends on policy type:
+## General rules
 
-* since `TrafficPermission` represents a grant of access given to a particular client `service`, `Kuma` conceptually "aggregates" all such grants by applying ALL `TrafficPermission` policies that match a connection between `sources` and `destinations` `Dataplane`s
-* for other policy types - `TrafficRoute`, `TrafficLog`, `HealthCheck` - conceptual "aggregation" would be too complex for users to always keep in mind; that is why `Kuma` chooses and applies only "the most specific" matching policy in that case
+Kuma always picks the most specific policy
 
-Going back to 2 `TrafficLog` policies described above:
-* for connections between `web` and `backend` `Dataplanes` `Kuma` will choose and apply `web-to-backend-policy` policy as "the most specific" in that case
-* for connections between all other dataplanes `Kuma` will choose and apply `catch-all-policy` policy as "the most specific" in that case
-
-"The most specific" policy is defined according to the following rules:
-
-1. a policy that matches a connection between 2 `Dataplane`s by a greater number of tags is "more specific"
-
-   E.g., `web-to-backend-policy` policy matches a connection between 2 `Dataplane`s by 4 tags (3 tags on `sources` and 1 tag on `destinations`), while `catch-all-policy` matches only by 2 tags (1 tag on `sources` and 1 tag on `destinations`)
-2. a policy that matches by the exact tag value is more specific than policy that matches by a `'*'` (wildcard) tag value
-
-   E.g., `web-to-backend-policy` policy matches `sources` by `kuma.io/service: web`, while `catch-all-policy` matches by `kuma.io/service: *`
-
-3. if 2 policies match a connection between 2 `Dataplane`s by the same number of tags, then the one with a greater total number of matches by the exact tag value is "more specific" than the other
-
-4. if 2 policies match a connection between 2 `Dataplane`s by the same number of tags, and the total number of matches by the exact tag value is the same for both policies, and the total number of matches by a `'*'` (wildcard) tag value is the same for both policies, then a "more specific" policy is the one whoose name comes first when ordered alphabetically
-
-E.g.,
-
-1. match by a greater number of tags
+1. A policy that matches by a **greater number of tags**
 
    ```yaml
-   sources:
-     - match:
-         kuma.io/service: '*'
-         cloud:   aws
-         region:  us
-   destinations:
-     - match:
-         kuma.io/service: '*'
+   - match:
+       kuma.io/service: '*'
+       cloud:   aws
+       region:  us
    ```
 
-   is "more specific" than
+   is "more specific" than the one with the less number of tags
 
    ```yaml
-   sources:
-     - match:
-         kuma.io/service: '*'
-   destinations:
-     - match:
-         kuma.io/service: '*'
+   - match:
+       kuma.io/service: '*'
    ```
 
-2. match by the exact tag value
+2. A policy that matches by the **exact tag value**
+
 
    ```yaml
-   sources:
-     - match:
+   - match:
+       kuma.io/service: web
+   ```
+
+   is "more specific" than the one that matches by a `'*'` (wildcard)
+
+   ```yaml
+   - match:
+       kuma.io/service: '*'
+   ```
+
+3. If 2 policies match by the same number of tags, then the one with a **greater total number of matches by the exact tag value**
+
+   ```yaml
+   - match:
+       kuma.io/service: web
+       version: v1
+   ```
+
+   is "more specific" than the other
+
+   ```yaml
+   - match:
+       kuma.io/service: web
+       version: '*'
+   ```
+
+4. If 2 policies are equal (match by the same number of tags, and the total number of matches by the exact tag value is the same for both policies, and the total number of matches by a `'*'` tag value is the same for both policies) then **the latest one** 
+
+   ```yaml
+   modificationTime: "2020-01-01T20:00:00.0000Z"
+   ...
+   - match:
+       kuma.io/service: web
+       version: v1
+   ```
+
+   is "more specific" policy than the older one 
+
+   ```yaml
+   modificationTime: "2019-01-01T20:00:00.0000Z"
+   ...
+   - match:
+       kuma.io/service: web
+       cloud: aws
+   ```
+
+## Dataplane Policy
+
+Dataplane policy is a policy that matches group of data plane proxies, not a connection between multiple proxies.
+
+Assuming we have the following data plane proxy
+
+```yaml
+type: Dataplane
+mesh: default
+name: web-1
+networking:
+  address: 192.168.0.1
+  inbound:
+     - port: 9000
+       servicePort: 6379
+       tags:
          kuma.io/service: web
-   destinations:
-     - match:
-         kuma.io/service: backend
-   ```
+```
 
-   is "more specific" than a match by a `'*'` (wildcard)
+and a `ProxyTemplate` which is an example of a Dataplane Policy
 
-   ```yaml
-   sources:
-     - match:
-         kuma.io/service: '*'
-   destinations:
-     - match:
-         kuma.io/service: '*'
-   ```
+```yaml
+type: ProxyTemplate
+mesh: default
+name: custom-template-1
+selectors:
+  - match:
+      kuma.io/service: web
+conf:
+  imports:
+    - default-proxy
+```
 
-3. match with a greater total number of matches by the exact tag value
+then the policy is appplied on the `web-1` data plane proxy.
 
-   ```yaml
-   sources:
-     - match:
+## Connection policies
+
+The policy can be applied either on inbound connections that a data plane proxy receives or outbound connections that data plane proxy creates,
+therefore there are two types of connection policies. 
+
+## Outbound Connection Policy
+
+This kind of policy is enforced on the outbound connections initiated by the data plane proxy defined in `sources` section
+and then is applied only if the target data plane proxy matches tags defined in `destination`.
+
+Assuming we have the following data plane proxies:
+
+```yaml
+type: Dataplane
+mesh: default
+name: web-1
+networking:
+  address: 192.168.0.1
+  inbound:
+     - port: 9000
+       servicePort: 6379
+       tags:
          kuma.io/service: web
-         version: v1
-   destinations:
-     - match:
-         kuma.io/service: backend
-   ```
+  outbound:
+     - port: 1234
+       tags:
+          kuma.io/service: backend
+     - port: 1234
+       tags:
+          kuma.io/service: admin
+```
+```yaml
+type: Dataplane
+mesh: default
+name: backend-1
+networking:
+   address: 192.168.0.2
+   inbound:
+      - port: 9000
+        servicePort: 6379
+        tags:
+           kuma.io/service: backend
+```
 
-   is "more specific" than
+and a `HealthCheck` which is an example of Outbound Connection Policy
 
-   ```yaml
-   sources:
-     - match:
+```yaml
+type: HealthCheck
+mesh: default
+name: catch-all-policy
+sources:
+  - match:
+      kuma.io/service: web
+destinations:
+  - match:
+      kuma.io/service: backend
+```
+
+then the health checking is applied only on the first outbound listener of the `web-1` data plane proxy.
+The configuration of `backend-1` data plane proxy is not changed in any way.
+
+## Inbound Connection Policy
+
+This kind of policy is enforced on the inbound connections received by the data plane proxy defined in `destination` section
+and then is applied only if the data plane proxy that initiated this connection matches tags defined in `sources`.
+
+Assuming we have the following data plane proxies:
+
+```yaml
+type: Dataplane
+mesh: default
+name: web-1
+networking:
+  address: 192.168.0.1
+  inbound:
+     - port: 9000
+       servicePort: 6379
+       tags:
          kuma.io/service: web
-         version: '*'
-   destinations:
-     - match:
-         kuma.io/service: backend
-   ```
+  outbound:
+     - port: 1234
+       tags:
+          kuma.io/service: backend
+```
+```yaml
+type: Dataplane
+mesh: default
+name: backend-1
+networking:
+   address: 192.168.0.2
+   inbound:
+      - port: 9000
+        servicePort: 6379
+        tags:
+           kuma.io/service: backend
+      - port: 9000
+        servicePort: 6379
+        tags:
+           kuma.io/service: backend-api
+```
 
-4. when 2 matches are otherwise "equally specific"
+and a `TrafficPermission` which is an example of Inbound Connection Policy
 
-   ```yaml
-   name: policy-1
-   sources:
-     - match:
-         kuma.io/service: web
-         version: v1
-   destinations:
-     - match:
-         kuma.io/service: backend
-   ```
+```yaml
+type: TrafficPermission
+mesh: default
+name: catch-all-policy
+sources:
+  - match:
+      kuma.io/service: web
+destinations:
+  - match:
+      kuma.io/service: backend
+```
 
-   `policy-1` is considered "more specific" only due to the alphabetical order of names `"policy-1"` and `"policy-2"`
+then the `TrafficPermission` is enforced only on the first inbound listener of the `backend-1` data plane proxy.
+The configuration of `web-1` data plane proxy is not changed in any way.
 
-   ```yaml
-   name: policy-2
-   sources:
-     - match:
-         kuma.io/service: web
-   destinations:
-     - match:
-         kuma.io/service: backend
-         cloud:   aws
-   ```

@@ -334,3 +334,8 @@ To use it with Logstash, use `json_lines` codec and make sure your JSON is forma
 
 When running Kuma on Kubernetes you can also log the traffic to external services. To do it, the matched `TrafficPermission` destination section has to have wildcard `*` value.
 In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.  
+
+## Matching
+
+`TrafficLog` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
+You can only use `kuma.io/service` in the `destinations` section.

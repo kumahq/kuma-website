@@ -175,3 +175,8 @@ You can configure your GRPC Retry policy in similar fashion as the HTTP one with
   :::tip
   This policy will make attempt to retry the TCP connection which fail to be established and will be applied in the scenario when both, the dataplane, and the TCP service matched as a destination will be down.
   :::
+
+## Matching
+
+`Retry` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
+You can only use `kuma.io/service` in the `destinations` section.

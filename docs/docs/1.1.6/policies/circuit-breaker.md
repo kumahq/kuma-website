@@ -222,3 +222,8 @@ Alongside the detectors, CircuitBreaker allows configuring thresholds:
 - `maxPendingRequests` - the maximum number of pending requests that Envoy will allow to the upstream cluster. If not specified, the default is 1024.
 - `maxRequests` - the maximum number of parallel requests that Envoy will make to the upstream cluster. If not specified, the default is 1024.
 - `maxRetries` - the maximum number of parallel retries that Envoy will allow to the upstream cluster. If not specified, the default is 3.
+
+## Matching
+
+`CircuitBreaker` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
+You can only use `kuma.io/service` in the `destinations` section.

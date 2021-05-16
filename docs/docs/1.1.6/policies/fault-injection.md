@@ -12,23 +12,23 @@ type: FaultInjection
 mesh: default
 name: fi1
 sources:
-    - match:
-        kuma.io/service: frontend
-        version: "0.1"
+  - match:
+      kuma.io/service: frontend
+      version: "0.1"
 destinations:
-    - match:
-        kuma.io/service: backend
-        kuma.io/protocol: http
+  - match:
+      kuma.io/service: backend
+      kuma.io/protocol: http
 conf:        
-    abort:
-        httpStatus: 500
-        percentage: 50
-    delay:
-        percentage: 50.5
-        value: 5s
-    responseBandwidth:
-        limit: 50 mbps
-        percentage: 50    
+  abort:
+    httpStatus: 500
+    percentage: 50
+  delay:
+    percentage: 50.5
+    value: 5s
+  responseBandwidth:
+    limit: 50 mbps
+    percentage: 50    
 ```
 
 On Kubernetes:
@@ -40,32 +40,32 @@ mesh: default
 metadata:
   name: fi1
 spec:
-    sources:
-        - match:
-            kuma.io/service: frontend
-            version: "0.1"
-            kuma.io/protocol: http
-    destinations:
-        - match:
-            kuma.io/service: backend
-            kuma.io/protocol: http
-    conf:        
-        abort:
-            httpStatus: 500
-            percentage: 50
-        delay:
-            percentage: 50.5
-            value: 5s
-        responseBandwidth:
-            limit: 50 mbps
-            percentage: 50 
+  sources:
+    - match:
+        kuma.io/service: frontend
+        version: "0.1"
+        kuma.io/protocol: http
+  destinations:
+    - match:
+        kuma.io/service: backend
+        kuma.io/protocol: http
+  conf:        
+    abort:
+      httpStatus: 500
+      percentage: 50
+    delay:
+      percentage: 50.5
+      value: 5s
+    responseBandwidth:
+      limit: 50 mbps
+      percentage: 50 
 ```
 
 ### Sources & Destinations
 `FaultInjection` is a policy, which is applied to the connection between dataplanes. As most of the policies, `FaultInjection` supports the powerful mechanism of matching, which allows you to precisely match source and destination dataplanes.
 
 ::: warning
-`FaultInjection` policy available only for L7 HTTP traffic, `kuma.io/protocol: http` is mandatory tag both for the destination selector.
+`FaultInjection` policy available only for L7 HTTP traffic, `kuma.io/protocol: http` is mandatory tag for the destination selector.
 :::
 
 ### HTTP Faults
@@ -92,3 +92,8 @@ ResponseBandwidth defines a configuration to limit the speed of responding to th
 
 - `limit` - represented by value measure in gbps, mbps, kbps or bps, e.g. 10kbps
 - `percentage` - percentage of requests on which response bandwidth limit will be injected, has to be in [0.0 - 100.0] range
+
+## Matching
+
+`FaultInjection` is an [Inbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#inbound-connection-policy).
+You can use all the tags in both `sources` and `destinations` sections.
