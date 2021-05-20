@@ -338,4 +338,4 @@ In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTR
 ## Matching
 
 `TrafficLog` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
-You can only use `kuma.io/service` in the `destinations` section.
+The only supported value for `destinations.match` is `kuma.io/service`.

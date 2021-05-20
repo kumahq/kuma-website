@@ -79,4 +79,4 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 ## Matching
 
 `Retry` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
-You can only use `kuma.io/service` in the `destinations` section.
+The only supported value for `destinations.match` is `kuma.io/service`.

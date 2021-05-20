@@ -179,4 +179,4 @@ You can configure your GRPC Retry policy in similar fashion as the HTTP one with
 ## Matching
 
 `Retry` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
-You can only use `kuma.io/service` in the `destinations` section.
+The only supported value for `destinations.match` is `kuma.io/service`.

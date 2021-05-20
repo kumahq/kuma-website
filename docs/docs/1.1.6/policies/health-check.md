@@ -147,4 +147,4 @@ HTTP health checks are executed using HTTP 2
 ## Matching
 
 `HealthCheck` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
-You can only use `kuma.io/service` in the `destination` section.
+The only supported value for `destinations.match` is `kuma.io/service`.
