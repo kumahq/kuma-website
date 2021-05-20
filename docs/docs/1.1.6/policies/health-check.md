@@ -143,3 +143,8 @@ HTTP health checks are executed using HTTP 2
   - if **`receive`** section won't be provided or will be empty, checks
     will be performed as "connect only" and will be marked as successful
     when TCP connection will be successfully established.
+
+## Matching
+
+`HealthCheck` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
+The only supported value for `destinations.match` is `kuma.io/service`.

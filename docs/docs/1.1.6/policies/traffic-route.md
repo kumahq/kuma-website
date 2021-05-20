@@ -181,3 +181,8 @@ There are different load balancing algorithms that can be used to determine how 
   loadBalancer:
     maglev: {}
   ```
+
+## Matching
+
+`TrafficRoute` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
+You can only use `kuma.io/service` in the `destinations` section. However, you can use all the tags in `conf.split.destination`.

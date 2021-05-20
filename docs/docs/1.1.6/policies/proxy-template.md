@@ -790,3 +790,7 @@ conf:
 ```
 :::
 ::::
+
+## Matching
+
+`ProxyTemplate` is a [Dataplane policy](how-kuma-chooses-the-right-policy-to-apply.md#dataplane-policy). You can use all the tags in the `selectors` section.
