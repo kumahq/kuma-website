@@ -8,9 +8,14 @@ Please see [GOVERNANCE.md](GOVERNANCE.md) for governance guidelines and responsi
 
 # Maintainers
 
-* Kevin Chen ([jakubdyszkiewicz](https://github.com/devadvocado)) (kevin.chen@konghq.com)
-* Jakub Dyszkiewicz ([jakubdyszkiewicz](https://github.com/jakubdyszkiewicz)) (jakub.dyszkiewicz@konghq.com)
-* Daryn St. Pierre ([bloqhead](https://github.com/bloqhead)) (daryn.st.pierre@konghq.com)
+In alphabetical order:
+
+* Austin Cawley-Edwards([austince](https://github.com/austince)) (austin.cawley@gmail.com)
+* Bart Smykla ([bartsmykla](https://github.com/bartsmykla)) (bartek@smykla.com)
+* Charly Molter ([lahabana](https://github.com/lahabana)) (charly@molter.io)
 * Ilya Lobkov ([lobkovilya](https://github.com/lobkovilya)) (ilya.lobkov@konghq.com)
-* Nikolay Nikolaev ([nickolaev](https://github.com/nickolaev)) (nikolay.nikolaev@konghq.com)
+* Jakub Dyszkiewicz ([jakubdyszkiewicz](https://github.com/jakubdyszkiewicz)) (jakub.dyszkiewicz@konghq.com)
+* Jennifer Rondeau ([Bradamant3](https://github.com/Bradamant3)) (jennifer.rondeau@konghq.com)
 * Marco Palladino ([subnetmarco](https://github.com/subnetmarco)) (marco@konghq.com)
+* Nikolay Nikolaev ([nickolaev](https://github.com/nickolaev)) (nikolay.nikolaev@konghq.com)
+* Paul Parkanzky ([parkanzky](https://github.com/parkanzky)) (paul.parkanzky@konghq.com)
