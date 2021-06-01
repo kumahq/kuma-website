@@ -1,6 +1,6 @@
 # Traffic Route
 
-This policy allows us to configure routing rules for the traffic running in our [Mesh](../mesh). This policy provides support for weighted routing and can be used to implement versioning across our services as well as deployment strategies like blue/green and canary.
+This policy allows us to configure routing rules for L4 traffic running in our [Mesh](../mesh). This policy provides support for weighted routing and can be used to implement versioning across our services as well as deployment strategies like blue/green and canary.
 
 `TrafficRoute` must select the data plane proxies to route the connection between them.
 
@@ -8,7 +8,7 @@ Kuma also supports [locality aware load balancing](../locality-aware).
 
 ### Default TrafficRoute
 
-The control plane creates a default `TrafficRoute` every time a new `Mesh` is created. The default `TrafficRoute` enables the traffic between all the services in the mesh. 
+The control plane creates a default `TrafficRoute` every time the new `Mesh` is created. The default `TrafficRoute` enables the traffic between all the services in the mesh. 
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -28,8 +28,10 @@ spec:
   conf:
     loadBalancer:
       roundRobin: {}
-    destination:
-      kuma.io/service: '*'
+    split:
+      - weight: 100
+        destination:
+          kuma.io/service: '*'
 ```
 :::
 
@@ -47,15 +49,17 @@ destinations:
 conf:
   loadBalancer:
     roundRobin: {}
-  destination:
-    kuma.io/service: '*'
+  split:
+    - weight: 100
+      destination:
+        kuma.io/service: '*'
 ```
 :::
 ::::
 
 ## Usage
 
-Here is a full example of `TrafficRoute` policy
+By default when a service makes a request to another service, Kuma will round robin the request across every data plane proxy belogning to the destination service. It is possible to change this behavior by using this policy, for example:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -64,174 +68,7 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
 mesh: default
 metadata:
-  name: full-example
-spec:
-  sources:
-    - match:
-        kuma.io/service: backend_default_svc_80
-  destinations:
-    - match:
-        kuma.io/service: redis_default_svc_6379
-  conf:
-    http:
-    - match:
-        method: # one of either "prefix", "exact" or "regex" is allowed
-          exact: GET
-          regex: "^POST|PUT$"
-        path: # one of either "prefix", "exact" or "regex" is allowed
-          prefix: /users
-          exact: /users/user-1
-          regex: "^users$"
-        headers:
-          some-header: # one of either "prefix", "exact" or "regex" will be allowed
-            exact: some-value
-            prefix: some-
-            regex: "^users$"
-      modify: # optional section
-        path: # one of "rewritePrefix" or "regex" is allowed
-          rewritePrefix: /not-users # rewrites previously matched prefix
-          regex: # (example to change the path from "/service/foo/v1/api" to "/v1/api/instance/foo")
-            pattern: "^/service/([^/]+)(/.*)$"
-            substitution: "\2/instance/\1"
-        host: # one of "value" or "fromPath" is allowed
-          value: "XYZ"
-          fromPath: # (example to extract "envoyproxy.io" host header from "/envoyproxy.io/some/path" path)
-            pattern: "^/(.+)/.+$"
-            substitution: "\1"
-        requestHeaders:
-          add:
-            - name: x-custom-header
-              value: xyz
-              append: true # if true then if there is x-custom-header already, it will append xyz to the value 
-          remove:
-            - name: x-something
-        responseHeaders:
-          add:
-            - name: x-custom-header
-              value: xyz
-              append: true
-          remove:
-            - name: x-something
-      destination: # one of "destination", "split" is allowed
-        kuma.io/service: redis_default_svc_6379
-      split:
-        - weight: 100
-          destination:
-            kuma.io/service: redis_default_svc_6379
-    destination: # one of "destination", "split" is allowed
-      kuma.io/service: redis_default_svc_6379
-    split:
-      - weight: 100
-        destination:
-          kuma.io/service: redis_default_svc_6379
-    loadBalancer: # one of "roundRobin", "leastRequest", "ringHash", "random", "maglev" is allowed    
-      roundRobin: {}
-      leastRequest:
-        choiceCount: 8
-      ringHash:
-        hashFunction: "MURMUR_HASH_2"
-        minRingSize: 64
-        maxRingSize: 1024
-      random: {}
-      maglev: {}
-```
-:::
-
-::: tab "Universal"
-```yaml
-type: TrafficRoute
-name: full-example
-mesh: default
-sources:
-  - match:
-      kuma.io/service: backend_default_svc_80
-destinations:
-  - match:
-      kuma.io/service: redis_default_svc_6379
-conf:
-  http:
-    - match:
-        method: # one of either "prefix", "exact" or "regex" is allowed
-          exact: GET
-          regex: "^POST|PUT$"
-        path: # one of either "prefix", "exact" or "regex" is allowed
-          prefix: /users
-          exact: /users/user-1
-          regex: "^users$"
-        headers:
-          some-header: # one of either "prefix", "exact" or "regex" will be allowed
-            exact: some-value
-            prefix: some-
-            regex: "^users$"
-      modify: # optional section
-        path: # one of "rewritePrefix" or "regex" is allowed
-          rewritePrefix: /not-users # rewrites previously matched prefix
-          regex: # (example to change the path from "/service/foo/v1/api" to "/v1/api/instance/foo")
-            pattern: "^/service/([^/]+)(/.*)$"
-            substitution: "\2/instance/\1"
-        host: # one of "value" or "fromPath" is allowed
-          value: "XYZ"
-          fromPath: # (example to extract "envoyproxy.io" host header from "/envoyproxy.io/some/path" path)
-            pattern: "^/(.+)/.+$"
-            substitution: "\1"
-        requestHeaders:
-          add:
-            - name: x-custom-header
-              value: xyz
-              append: true # if true then if there is x-custom-header already, it will append xyz to the value 
-          remove:
-            - name: x-something
-        responseHeaders:
-          add:
-            - name: x-custom-header
-              value: xyz
-              append: true
-          remove:
-            - name: x-something
-      destination: # one of "destination", "split" is allowed
-        kuma.io/service: redis_default_svc_6379
-      split:
-        - weight: 100
-          destination:
-            kuma.io/service: redis_default_svc_6379
-  destination: # one of "destination", "split" is allowed
-    kuma.io/service: redis_default_svc_6379
-  split:
-    - weight: 100
-      destination:
-        kuma.io/service: redis_default_svc_6379
-  loadBalancer: # one of "roundRobin", "leastRequest", "ringHash", "random", "maglev" is allowed    
-    roundRobin: {}
-    leastRequest:
-      choiceCount: 8
-    ringHash:
-      hashFunction: "MURMUR_HASH_2"
-      minRingSize: 64
-      maxRingSize: 1024
-    random: {}
-    maglev: {}
-```
-:::
-::::
-
-Kuma utilizes positive weights in the `TrafficRoute` policy and not percentages, therefore Kuma does not check if the total adds up to 100. If we want to stop sending traffic to a destination service we change the `weight` for that service to 0.
-
-### L4 Traffic Split
-
-We can use `TrafficRoute` to split a TCP traffic between services with different tags implementing A/B testing or canary deployments.
-
-Here is an example of a `TrafficRoute` that splits the traffic over the two different versions of the application.
-90% of the connections from `backend_default_svc_80` service will be initiated to `redis_default_svc_6379` with tag `version: 1.0`
-and 10% of the connections will be initiated to `version: 2.0`  
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: TrafficRoute
-mesh: default
-metadata:
-  name: split-traffic
+  name: route-example
 spec:
   sources:
     - match:
@@ -250,288 +87,46 @@ spec:
           kuma.io/service: redis_default_svc_6379
           version: '2.0'
 ```
+
+We will apply the configuration with `kubectl apply -f [..]`.
 :::
 
 ::: tab "Universal"
 ```yaml
 type: TrafficRoute
-name: split-traffic
+name: route-example
 mesh: default
 sources:
   - match:
-      kuma.io/service: backend_default_svc_80
+      kuma.io/service: backend
 destinations:
   - match:
-      kuma.io/service: redis_default_svc_6379
+      kuma.io/service: redis
 conf:
   split:
     - weight: 90
       destination:
-        kuma.io/service: redis_default_svc_6379
+        kuma.io/service: redis
         version: '1.0'
     - weight: 10
       destination:
-        kuma.io/service: redis_default_svc_6379
+        kuma.io/service: redis
         version: '2.0'
 ```
+
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.1.6/documentation/http-api).
 :::
 ::::
 
-### L4 Traffic Rerouting
+In this example the `TrafficRoute` policy assigns a positive weight of `90` to the version `1.0` of the `redis` service and a positive weight of `10` to the version `2.0` of the `redis` service. 
 
-We can use `TrafficRoute` to fully reroute a TCP traffic to different version of a service or even completely different service.
-
-Here is an example of a `TrafficRoute` that redirects the traffic to `another-redis_default_svc_6379` when `backend_default_svc_80` is trying to consume `redis_default_svc_6379`.  
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: TrafficRoute
-mesh: default
-metadata:
-  name: reroute-traffic
-spec:
-  sources:
-    - match:
-        kuma.io/service: backend_default_svc_80
-  destinations:
-    - match:
-        kuma.io/service: redis_default_svc_6379
-  conf:
-    destination:
-      kuma.io/service: another-redis_default_svc_6379
-```
+:::tip
+Note that routing can be applied not just on the automatically provisioned `service` Kuma tag, but on any other tag that we may want to add to our data plane proxies (like `version` in the example above).
 :::
 
-::: tab "Universal"
-```yaml
-type: TrafficRoute
-name: reroute-traffic
-mesh: default
-sources:
-  - match:
-      kuma.io/service: backend_default_svc_80
-destinations:
-  - match:
-      kuma.io/service: redis_default_svc_6379
-conf:
-  destination:
-    kuma.io/service: another-redis_default_svc_6379
-```
-:::
-::::
+Kuma utilizes positive weights in the `TrafficRoute` policy and not percentages, therefore Kuma does not check if the total adds up to 100. If we want to stop sending traffic to a destination service we change the `weight` for that service to 0.
 
-### L7 Traffic Split
-
-We can use `TrafficRoute` to split an HTTP traffic between services with different tags implementing A/B testing or canary deployments.
-
-Here is an example of a `TrafficRoute` that split's the traffic from `frontend_default_svc_80` to `backend_default_svc_80` between versions
-but only on endpoints that starts with `/api`. All other endpoints will go to `version: 1.0` 
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: TrafficRoute
-mesh: default
-metadata:
-  name: api-split
-spec:
-  sources:
-    - match:
-        kuma.io/service: frontend_default_svc_80
-  destinations:
-    - match:
-        kuma.io/service: backend_default_svc_80
-  conf:
-    http:
-    - match:
-        path:
-          prefix: "/api"
-      split:
-      - weight: 90
-        destination:
-          kuma.io/service: backend_default_svc_80
-          version: '1.0'
-      - weight: 10
-        destination:
-          kuma.io/service: backend_default_svc_80
-          version: '2.0'
-    destination: # default rule is applied when endpoint does not match any rules in http section
-      kuma.io/service: backend_default_svc_80
-      version: '1.0'
-```
-:::
-
-::: tab "Universal"
-```yaml
-type: TrafficRoute
-name: api-split
-mesh: default
-sources:
-  - match:
-      kuma.io/service: frontend_default_svc_80
-destinations:
-  - match:
-      kuma.io/service: backend_default_svc_80
-conf:
-  http:
-    - match:
-        path:
-          prefix: "/api"
-      split:
-        - weight: 90
-          destination:
-            kuma.io/service: backend_default_svc_80
-            version: '1.0'
-        - weight: 10
-          destination:
-            kuma.io/service: backend_default_svc_80
-            version: '2.0'
-  destination: # default rule is applied when endpoint does not match any rules in http section
-    kuma.io/service: backend_default_svc_80
-    version: '1.0'
-```
-:::
-::::
-
-::: tip
-In order to use L7 Traffic Split, we need to [mark the destination service with `kuma.io/protocol: http`](./protocol-support-in-kuma.md).
-:::
-
-### L7 Traffic Modification
-
-We can use `TrafficRoute` to modify outgoing requests, by setting new path or changing request and response headers.
-
-Here is an example of a `TrafficRoute` that adds `x-custom-header` with value `xyz` when `frontend_default_svc_80` tries to consume `backend_default_svc_80`.
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: TrafficRoute
-mesh: default
-metadata:
-  name: add-header
-spec:
-  sources:
-    - match:
-        kuma.io/service: frontend_default_svc_80
-  destinations:
-    - match:
-        kuma.io/service: backend_default_svc_80
-  conf:
-    http:
-    - match:
-        path:
-          prefix: "/"
-      modify:
-        requestHeader:
-          add:
-            - name: x-custom-header
-              value: xyz
-      destination:
-        kuma.io/service: backend_default_svc_80
-    destination:
-      kuma.io/service: backend_default_svc_80
-```
-:::
-
-::: tab "Universal"
-```yaml
-type: TrafficRoute
-name: add-header
-mesh: default
-sources:
-  - match:
-      kuma.io/service: frontend_default_svc_80
-destinations:
-  - match:
-      kuma.io/service: backend_default_svc_80
-conf:
-  http:
-    - match:
-        path:
-          prefix: "/"
-      modify:
-        requestHeader:
-          add:
-            - name: x-custom-header
-              value: xyz
-      destination:
-        kuma.io/service: backend_default_svc_80
-  destination:
-    kuma.io/service: backend_default_svc_80
-```
-:::
-::::
-
-::: tip
-In order to use L7 Traffic Modification, we need to [mark the destination service with `kuma.io/protocol: http`](./protocol-support-in-kuma.md).
-:::
-
-### L7 Traffic Rerouting
-
-We can use `TrafficRoute` to modify outgoing requests, by setting new path or changing request and response headers.
-
-Here is an example of a `TrafficRoute` that redirect traffic to `offers_default_svc_80` when `frontend_default_svc_80` is trying to consume `backend_default_svc_80` on `/offers` endpoint.
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: TrafficRoute
-mesh: default
-metadata:
-  name: http-reroute
-spec:
-  sources:
-    - match:
-        kuma.io/service: frontend_default_svc_80
-  destinations:
-    - match:
-        kuma.io/service: backend_default_svc_80
-  conf:
-    http:
-    - match:
-        path:
-          prefix: "/offers"
-      destination:
-        kuma.io/service: offers_default_svc_80
-    destination:
-      kuma.io/service: backend_default_svc_80
-```
-:::
-
-::: tab "Universal"
-```yaml
-type: TrafficRoute
-name: http-reroute
-mesh: default
-sources:
-  - match:
-      kuma.io/service: frontend_default_svc_80
-destinations:
-  - match:
-      kuma.io/service: backend_default_svc_80
-conf:
-  http:
-    - match:
-        path:
-          prefix: "/offers"
-      destination:
-        kuma.io/service: offers_default_svc_80
-  destination:
-    kuma.io/service: backend_default_svc_80
-```
-:::
-::::
-
-::: tip
-In order to use L7 Traffic Rerouting, we need to [mark the destination service with `kuma.io/protocol: http`](./protocol-support-in-kuma.md).
-:::
-
-### Load balancer types
+## Load balancer types
 
 There are different load balancing algorithms that can be used to determine how traffic is routed to the destinations. By default `TrafficRoute` uses the `roundRobin` load balancer, but more options are available:
 
@@ -590,4 +185,4 @@ There are different load balancing algorithms that can be used to determine how 
 ## Matching
 
 `TrafficRoute` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
-You can only use `kuma.io/service` in the `destinations` section. However, you can use all the tags in `conf` subsections.
+You can only use `kuma.io/service` in the `destinations` section. However, you can use all the tags in `conf.split.destination`.
