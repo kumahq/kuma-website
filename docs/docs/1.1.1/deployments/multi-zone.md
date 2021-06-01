@@ -9,7 +9,7 @@ This is a more advanced deployment mode for Kuma that allow us to support servic
 * **Service Connectivity**: Automatically resolved via the built-in DNS resolver that ships with Kuma. When a service wants to consume another service, it will resolve the DNS address of the desired service with Kuma, and Kuma will respond with a Virtual IP address, that corresponds to that service in the Kuma service domain.
 
 :::tip
-We can support multiple isolated service meshes thanks to Kuma's multi-tenancy support, and workloads from both Kubernetes or any other supported Universal environment can participate in the Service Mesh across different regions, clouds, and datacenters while not compromizing the ease of use and still allowing for end-to-end service connectivity.
+We can support multiple isolated service meshes thanks to Kuma's multi-tenancy support, and workloads from both Kubernetes or any other supported Universal environment can participate in the Service Mesh across different regions, clouds, and datacenters while not compromising the ease of use and still allowing for end-to-end service connectivity.
 :::
 
 When running in multi-zone mode, we introduce the notion of a `global` and `remote` control planes for Kuma:

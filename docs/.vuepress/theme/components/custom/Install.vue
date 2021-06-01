@@ -38,6 +38,7 @@
               <p>You are viewing installation instructions for an outdated version of {{getSiteData.title}}.</p>
               <p><router-link :to="{ path: `/install/${getLatestRelease}/` }">Go here</router-link> 
               to view installation instructions for the latest version.</p>
+              <p>Looking for even older versions? <router-link :to="{ path: `/blog/2021/_2021-website-reorg/` }">Learn more</router-link>.</p>
             </div>
           </div>
           <!-- .version-alert -->
