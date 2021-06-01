@@ -38,6 +38,7 @@
               <p>You are viewing installation instructions for an outdated version of {{getSiteData.title}}.</p>
               <p><router-link :to="{ path: `/install/${getLatestRelease}/` }">Go here</router-link> 
               to view installation instructions for the latest version.</p>
+              <p>Looking for even older versions? <router-link :to="{ path: `/blog/2021/_2021-website-reorg/` }">Learn more</router-link>.</p>
             </div>
           </div>
           <!-- .version-alert -->
@@ -76,12 +77,20 @@
     <div class="newsletter-form-wrap">
       <div class="inner newsletter-form">
         <div class="alt-title content__newsletter-title">
-          <h2 id="get-community-updates">Get Community Updates</h2>
+          <h2 id="get-community-updates">Ready to get started?</h2>
         </div>
         <div class="content__newsletter-content">
-          <p>Sign up for our Kuma community newsletter to get the most recent updates and product announcements.</p>
+          <p>Receive a step-by-step onboarding guide delivered directly to your inbox</p>
         </div>
-        <NewsletterForm formHandler='getInstallPageNewsletterFormEndpoint' />
+        <NewsletterForm
+          formSubmitText="Register Now"
+          :simple="true"
+        >
+          <template v-slot:success>
+            <p class="custom-block-title">Thank you!</p>
+            <p>Please check your inbox for more info on our {{ getSiteData.title }} onboarding guide.</p>
+          </template>
+        </NewsletterForm>
       </div>
       <NewsletterWaves />
     </div>

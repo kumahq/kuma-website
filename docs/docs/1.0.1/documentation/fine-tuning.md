@@ -42,7 +42,7 @@ For systems with high traffic, keeping old endpoints for such a long time (5s) m
 
 Additionally, to avoid overloading the underlying storage there is a cache that shares fetch results between concurrent reconciliation processes for multiple dataplanes.
 
-* `KUMA_STORE_CACHE_EXPIRATION_TIME` : expiration time for elements in cache (1s by defualt).
+* `KUMA_STORE_CACHE_EXPIRATION_TIME` : expiration time for elements in cache (1s by default).
 
 You can also change the expiration time, but it should not exceed `KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL`, otherwise CP will be wasting time building Envoy config with the same data.
 

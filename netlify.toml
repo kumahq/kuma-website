@@ -1,5 +1,3 @@
 # Build command that Netlify looks for
 [build]
-  # command = "node ./bin/setup-redirects && node ./bin/curl-endpoints && vuepress build docs"
-  # 4096 or 8192 for memory
-  command = "node ./bin/setup-redirects && node ./bin/curl-endpoints && node --max_old_space_size=8192 ./node_modules/vuepress/cli.js build docs"
+  command = "node ./bin/setup-redirects && node ./bin/curl-endpoints && node --max_old_space_size=4096 ./node_modules/vuepress/cli.js build docs"

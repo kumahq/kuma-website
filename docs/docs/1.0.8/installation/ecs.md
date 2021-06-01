@@ -1,6 +1,6 @@
 # AWS ECS
 
-To install and run Kuma on AWS CloudFormation execute the following steps:
+To install and run Kuma on AWS ECS execute the following steps:
 
 * [1. Setup the environment](#_1-setup-the-environment)
 * [2. Run Kuma CP](#_2-run-kuma-cp)

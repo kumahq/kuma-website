@@ -22,7 +22,7 @@ card4IconAlt: Meetup logo icon
 <!-- card 1 -->
 
 ::: slot card-1-title
-### Github
+### GitHub
 :::
 
 ::: slot card-1-content

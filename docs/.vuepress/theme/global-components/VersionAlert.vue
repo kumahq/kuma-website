@@ -7,6 +7,7 @@
         <p>
           <router-link :to="{ path: `/docs/${getLatestRelease}/` }">Go here</router-link> to browse the documentation for the latest version.
         </p>
+        <p>Looking for even older versions? <router-link :to="{ path: `/blog/2021/_2021-website-reorg/` }">Learn more</router-link>.</p>
       </div>
     </div>
   </div>

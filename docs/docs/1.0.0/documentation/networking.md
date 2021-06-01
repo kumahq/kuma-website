@@ -149,7 +149,7 @@ Consuming a service handled by Kuma DNS from inside a Kubernetes container is ba
 
 Since the default VIP created listeners will default to port `80`, it can be omitted when using a standard HTTP client.
  
-Kuma DNS allocates a VIP for every Service withing a mesh. Then, it creates outbound virtual listener for every VIP. However, by inspecting `curl localhost:9901/config_dump`, we can see sections similar to this one:
+Kuma DNS allocates a VIP for every Service within a mesh. Then, it creates outbound virtual listener for every VIP. However, by inspecting `curl localhost:9901/config_dump`, we can see sections similar to this one:
 
 ```json
     {

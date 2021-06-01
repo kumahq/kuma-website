@@ -9,6 +9,7 @@ Kuma ships with a RESTful HTTP interface that you can use to retrieve the state 
 By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTPS). The endpoints available are:
 
 * `/config`
+* `/versions`
 * `/meshes`
 * `/mesh-insights`
 * `/mesh-insights/{name}`
@@ -191,6 +192,52 @@ curl http://localhost:5681/config
     "dataplaneStatusFlushInterval": "1s",
     "diagnosticsPort": 5680,
     "grpcPort": 5678
+  }
+}
+```
+
+## Supported Envoy versions
+
+### List supported Envoy versions
+
+Request: `GET /versions`
+
+Response: `200 OK` with versions of Envoy supported by Kuma DPs
+
+Example:
+```bash
+curl http://localhost:5681/versions
+```
+```json
+{
+  "kumaDp": {
+    "1.0.0": {
+      "envoy": "1.16.0"
+    },
+    "1.0.1": {
+      "envoy": "1.16.0"
+    },
+    "1.0.2": {
+      "envoy": "1.16.1"
+    },
+    "1.0.3": {
+      "envoy": "1.16.1"
+    },
+    "1.0.4": {
+      "envoy": "1.16.1"
+    },
+    "1.0.5": {
+      "envoy": "1.16.2"
+    },
+    "1.0.6": {
+      "envoy": "1.16.2"
+    },
+    "1.0.7": {
+      "envoy": "1.16.2"
+    },
+    "1.0.8": {
+      "envoy": "1.16.2"
+    }
   }
 }
 ```
@@ -480,7 +527,8 @@ curl http://localhost:5681/mesh-insights/default
  "lastSync": "2020-11-17T12:21:39.912877Z",
  "dataplanes": {
   "total": 1,
-  "offline": 1
+  "offline": 1,
+  "partiallyDegraded": 1
  },
  "policies": {
   "Secret": {
@@ -497,25 +545,30 @@ curl http://localhost:5681/mesh-insights/default
   "kumaDp": {
    "1.0.0-rc2-119-g50e35395": {
     "total": 1,
-    "online": 1
+    "online": 1,
+    "partiallyDegraded": 1
    },
    "1.0.4": {
     "total": 1,
-    "online": 1
+    "online": 1,
+    "partiallyDegraded": 1
    },
    "unknown": {
     "total": 1,
-    "online": 1
+    "online": 1,
+    "partiallyDegraded": 1
    }
   },
   "envoy": {
    "1.15.0": {
     "total": 2,
-    "online": 2
+    "online": 2,
+    "partiallyDegraded": 1
    },
    "unknown": {
     "total": 1,
-    "online": 1
+    "online": 1,
+    "partiallyDegraded": 1
    }
   }
  }
@@ -543,7 +596,8 @@ curl http://localhost:5681/mesh-insights
    "lastSync": "2020-11-17T12:24:11.905350Z",
    "dataplanes": {
     "total": 1,
-    "offline": 1
+    "offline": 1,
+    "partiallyDegraded": 1
    },
    "policies": {
     "Secret": {
@@ -560,25 +614,30 @@ curl http://localhost:5681/mesh-insights
     "kumaDp": {
      "1.0.0-rc2-119-g50e35395": {
       "total": 1,
-      "online": 1
+      "online": 1,
+      "partiallyDegraded": 1
      },
      "1.0.4": {
       "total": 1,
-      "online": 1
+      "online": 1,
+      "partiallyDegraded": 1
      },
      "unknown": {
       "total": 1,
-      "online": 1
+      "online": 1,
+      "partiallyDegraded": 1
      }
     },
     "envoy": {
      "1.15.0": {
       "total": 2,
-      "online": 2
+      "online": 2,
+      "partiallyDegraded": 1
      },
      "unknown": {
       "total": 1,
-      "online": 1
+      "online": 1,
+      "partiallyDegraded": 1
      }
     }
    }
@@ -591,7 +650,8 @@ curl http://localhost:5681/mesh-insights
    "lastSync": "2020-11-17T12:24:11.941534Z",
    "dataplanes": {
     "total": 1,
-    "offline": 1
+    "offline": 1,
+    "partiallyDegraded": 1
    },
    "policies": {
     "Secret": {
@@ -608,25 +668,30 @@ curl http://localhost:5681/mesh-insights
     "kumaDp": {
      "1.0.0-rc2-119-g50e35395": {
       "total": 1,
-      "online": 1
+      "online": 1,
+      "partiallyDegraded": 1
      },
      "1.0.4": {
       "total": 1,
-      "online": 1
+      "online": 1,
+      "partiallyDegraded": 1
      },
      "unknown": {
       "total": 1,
-      "online": 1
+      "online": 1,
+      "partiallyDegraded": 1
      }
     },
     "envoy": {
      "1.15.0": {
       "total": 2,
-      "online": 2
+      "online": 2,
+      "partiallyDegraded": 1
      },
      "unknown": {
       "total": 1,
-      "online": 1
+      "online": 1,
+      "partiallyDegraded": 1
      }
     }
    }
@@ -2761,9 +2826,12 @@ curl localhost:5681/meshes/default/service-insights/backend
  "name": "backend",
  "creationTime": "2020-10-12T09:40:27.224648+03:00",
  "modificationTime": "2020-10-12T09:40:27.224648+03:00",
- "online": 1,
- "offline": 1,
- "total": 2
+ "status": "partially_degraded",
+ "dataplanes": {
+   "online": 1,
+   "offline": 1,
+   "total": 2
+ }
 }
 ```
 
@@ -2787,9 +2855,12 @@ curl http://localhost:5681/service-insights
    "name": "backend",
    "creationTime": "2020-10-12T09:40:27.224648+03:00",
    "modificationTime": "2020-10-12T09:40:27.224648+03:00",
-   "online": 1,
-   "offline": 1,
-   "total": 2
+   "status": "partially_degraded",
+   "dataplanes": {
+     "online": 1,
+     "offline": 1,
+     "total": 2
+   }
   },
   {
    "type": "ServiceInsight",
@@ -2797,9 +2868,12 @@ curl http://localhost:5681/service-insights
    "name": "backend-api",
    "creationTime": "2020-10-12T09:40:27.224648+03:00",
    "modificationTime": "2020-10-12T09:40:27.224648+03:00",
-   "online": 1,
-   "offline": 1,
-   "total": 2
+   "status": "partially_degraded", 
+   "dataplanes": {
+     "online": 1,
+     "offline": 1,
+     "total": 2
+   }
   }
  ],
  "next": null
