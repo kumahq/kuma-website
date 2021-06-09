@@ -173,7 +173,7 @@ NAME          mTLS      METRICS      LOGGING   TRACING
 default       off       off          off       off
 ```
 
-You can configure `kumactl` to point to any remote `kuma-cp` instance by running:
+You can configure `kumactl` to point to any zone `kuma-cp` instance by running:
 
 ```sh
 $ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
