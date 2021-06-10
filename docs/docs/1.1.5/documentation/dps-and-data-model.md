@@ -343,7 +343,7 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.1.5/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. These data plan proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.1.5/documentation/deployments/#multi-zone-mode) mode, the `Dataplane` model introduces the `Ingress` mode. These dataplane proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
 All requests that are sent from one zone to another will be directed to the proper instance by the Ingress.
 The specifics of the `Ingress` data plane proxy are described in the `networking.ingress` dictionary in the YAML resource.
 Ingress has a regular address and one inbound just like a regular data plane proxy. This address is routable within the local Ingress zone. It also has the following public coordinates:
