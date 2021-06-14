@@ -1,18 +1,12 @@
 # Traffic Permissions
 
-This policy provides access control rules that determine the service traffic that's allowed across the [Mesh](../mesh).
+This policy provides access control rules to define the traffic that is allowed within the [Mesh](../mesh). To allow traffic from the mesh to an external service, you configure a [TrafficRoute policy](../traffic-route).
 
-Traffic permissions require you to enable [Mutual TLS](../mutual-tls) on the [`Mesh`](../mesh). If mTLS is not enabled, all service traffic is allowed. 
+Traffic permissions requires [Mutual TLS](../mutual-tls) enabled on the [`Mesh`](../mesh). 
 
-When Mutual TLS is disabled, Kuma **will not** enforce any `TrafficPermission` and by default it will allow all service traffic to work. Even if [Mutual TLS](../mutual-tls) is disabled, we can still create and edit `TrafficPermission` resources that will go into effect once Mutual TLS is enabled on the Mesh.
+If Mutual TLS is disabled, Kuma allows all service traffic. Mutual TLS is required for Kume to validate the service identity with data plane proxy certificates.
 
-:::tip
-The reason why this policy only works when [Mutual TLS](../mutual-tls) is enabled in the Mesh is because only in this scenario Kuma can validate the identity of the service traffic via the usage of data plane proxy certificates. 
-
-On the other end when Mutual TLS is disabled, Kuma cannot extract the service identity from the request and therefore cannot perform any validation.
-:::
-
-Kuma creates a default `TrafficPermission` policy that allows all the communication between all the services when a new `Mesh` is created.
+Kuma creates a default `TrafficPermission` policy that allows all communication between all services in a new `Mesh`.
 
 ## Usage
 
@@ -38,7 +32,7 @@ spec:
     - match:
         kuma.io/service: '*'
 ```
-We will apply the configuration with `kubectl apply -f [..]`.
+Apply the configuration with `kubectl apply -f [..]`.
 :::
 ::: tab "Universal"
 ```yaml
@@ -52,26 +46,26 @@ destinations:
   - match:
       kuma.io/service: '*'
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.1.6/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.1.6/documentation/http-api).
 :::
 ::::
 
-You can use any [Tag](/docs/1.1.6/documentation/dps-and-data-model/#tags) in both `sources` and `destinations` selector, which makes `TrafficPermissions` quite powerful when it comes to creating a secure environment for our services.
+You can use any [Tag](/docs/1.1.6/documentation/dps-and-data-model/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
 
 ## Traffic Permission with External Services
 
-`TrafficPermission` policy can also be used to restrict the traffic to [services outside the mesh](external-services.md).
+The `TrafficPermission` policy can also be used to restrict traffic to [services outside the mesh](external-services).
 
 ### Prerequisites
 
-In this case, we cannot rely on mTLS, because there is no data plane proxy on the destination side.
+* Kuma deployed with [transparent proxying](../networking/transparent-proxying)
+* `Mesh` configured to [disable passthrough mode](docs/1.2.0/policies/mesh/#usage)
 
-The prerequisite to use `TrafficPermission` with `ExternalService` is to first lock the traffic in the mesh, so a request to an unknown destination is not allowed.
-To lock the traffic, Kuma must be deployed with [Transparent Proxy](../networking/transparent-proxying.md) (it's the default setting on Kubernetes). Additionally, `Mesh` has to be configured to [disable the passthrough mode](http://localhost:8080/docs/1.1.6/policies/mesh/#usage).
+These settings lock down traffic to and from the mesh, so requests to any unknown destination are not allowed. The mesh can't rely on mTLS, because there is no data plane proxy on the destination side.
 
 ### Usage
 
-First, we define the `ExternalService` to a service which is not in the mesh.
+First, define the `ExternalService` for a service that is not in the mesh.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -107,9 +101,9 @@ networking:
 :::
 ::::
 
-We can then apply the `TrafficPermission` policy. In the destination section, we can use all the tags defined in `ExternalService`.
+Then apply the `TrafficPermission` policy. In the destination section, specify all the tags defined in `ExternalService`.
 
-For example, to enable the traffic from the data plane proxies of service `web` or `backend` to our new `ExternalService`, we can apply the following policy
+For example, to enable the traffic from the data plane proxies of service `web` or `backend` to the new `ExternalService`, apply:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -147,6 +141,5 @@ destinations:
 :::
 ::::
 
-Keep in mind that the `ExternalService` has [the same rules](how-kuma-chooses-the-right-policy-to-apply.md) for matching policies as any other service in the mesh.
-Kuma will pick the most specific `TrafficPermission` for every `ExternalService`.
+Remember, the `ExternalService` follows [the same rules](how-kuma-chooses-the-right-policy-to-apply.md) for matching policies as any other service in the mesh -- Kuma selects the most specific `TrafficPermission` for every `ExternalService`.
 
