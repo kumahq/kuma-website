@@ -5,7 +5,7 @@
 This is a more advanced deployment mode for Kuma that allow us to support service meshes that are running on many zones, including hybrid deployments on both Kubernetes and VMs.
 
 * **Control plane**: There is one `global` control plane, and many `remote` control planes. A global control plane only accepts connections from remote control planes.
-* **Data plane proxies**: The data plane proxies connect to the closest `remote` control plane in the same zone. Additionally, we need to start an `ingress` data plane proxy on every zone to have cross-zone communication between data plane proxies in different zones.
+* **Data plane proxies**: The data plane proxies connect to the closest `remote` control plane in the same zone. Additionally, we need to start a `zone-ingress` proxy on every zone to have cross-zone communication between data plane proxies in different zones.
 * **Service Connectivity**: Automatically resolved via the built-in DNS resolver that ships with Kuma. When a service wants to consume another service, it will resolve the DNS address of the desired service with Kuma, and Kuma will respond with a Virtual IP address, that corresponds to that service in the Kuma service domain.
 
 :::tip
@@ -30,10 +30,10 @@ In a multi-zone deployment mode, services will be running on multiple platforms,
 To implement easy service connectivity, Kuma ships with:
 
 * **DNS Resolver**: Kuma provides an out of the box DNS server on every `remote` control plane that will be used to resolve service addresses when estabilishing any service-to-service communication. It scales horizontally as we scale the `remote` control plane.
-* **Ingress Data Plane**: Kuma provides an out of the box `ingress` data plane proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `ingress` data plane deployed. 
+* **Zone Ingress Proxy**: Kuma provides an out of the box `zone-ingress` proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `zone-ingress` proxy deployed. 
 
 :::tip
-An `ingress` data plane proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.1.6/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `ingress` data plane proxies.
+A `zone-ingress` data plane proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.1.6/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `zone-ingress` proxies.
 :::
 
 The global control plane and the remote control planes communicate with each other via xDS in order to synchronize the resources that are being created to configure Kuma, like policies.
@@ -134,22 +134,17 @@ $ KUMA_MODE=remote \
 
 Where `<zone-name>` is the name of the zone matching one of the Zone resources to be created at the Global CP. `<global-remote-sync-address>` is the public address as obtained during the Global CP deployment step.
 
-Add an `ingress` data plane proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that data plane proxy would run on a dedicated host, so we will need the Remote CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the data plane proxy token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
+Add a `zone-ingress` proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that proxy would run on a dedicated host, so we will need the Remote CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the data plane proxy token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
 
 ```bash
-$ echo "type: Dataplane
-mesh: default
+$ echo "type: ZoneIngress
 name: ingress-01
 networking:
   address: 127.0.0.1 # address that is routable within the zone
-  ingress:
-    publicAddress: 10.0.0.1 # an address which other zones can use to consume this ingress
-    publicPort: 10000 # a port which other zones can use to consume this ingress
-  inbound:
-  - port: 10000
-    tags:
-      kuma.io/service: ingress" > ingress-dp.yaml
-$ kumactl generate dataplane-token --type=ingress > /tmp/ingress-token
+  port: 10000
+  advertisedAddress: 10.0.0.1 # an address which other zones can use to consume this zone-ingress
+  advertisedPort: 10000 # a port which other zones can use to consume this zone-ingress" > ingress-dp.yaml
+$ kumactl generate dataplane-token --proxy-type=ingress > /tmp/ingress-token
 $ kuma-dp run \
   --cp-address=https://<kuma-cp-address>:5678 \
   --dataplane-token-file=/tmp/ingress-token \
@@ -165,13 +160,13 @@ Adding more data plane proxies can be done locally by following the Use Kuma sec
 When a remote control plane connects to the global control plane, the `Zone` resource is created automatically in the global control plane.
 You can verify if a remote control plane is connected to the global control plane by inspecting the list of zones in the global control plane GUI (`:5681/gui/#/zones`) or by using `kumactl get zones`. 
 
-Additionally, if you deployed remote control plane with Ingress, it should be visible in the Ingress tab of the GUI.
-Cross-zone communication between services is only available if Ingress has a public address and public port.
+Additionally, if you deployed remote control plane with Zone Ingress, it should be visible in the Zone Ingresses tab of the GUI.
+Cross-zone communication between services is only available if Zone Ingress has a public address and public port.
 Note that on Kubernetes, Kuma automatically tries to pick up the public address and port. Depending on the LB implementation of your Kubernetes provider, you may need to wait a couple of minutes to receive the address. 
 
 ### Enable mTLS
 
-Cross-zone communication between services is only possible when mTLS is enabled, because Ingress is routing connections using SNI.
+Cross-zone communication between services is only possible when mTLS is enabled, because Zone Ingress is routing connections using SNI.
 Make sure you [enable mTLS](../policies/mutual-tls.md) and apply [Traffic Permission](../policies/traffic-permissions.md). 
 
 ### Using the multi-zone deployment
@@ -273,7 +268,7 @@ spec:
   enabled: true
 ```
 
-Changing this value to `enabled: false` will allow the user to exclude the zone's `Ingress` from all other zones - and by doing so - preventing traffic from being able to enter the `zone`. 
+Changing this value to `enabled: false` will allow the user to exclude the zone's `Zone Ingress` from all other zones - and by doing so - preventing traffic from being able to enter the `zone`. 
 
 :::tip
 A `Zone` that has been disabled will show up as "Offline" in the GUI and CLI
