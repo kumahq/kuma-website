@@ -10,10 +10,10 @@ As of version 1.2.0, traffic permissions support the `ExternalService` resource.
 
 ## Usage
 
-You can determine what source services are allowed to consume specific destination services. The service field is mandatory in both sources and destinations.
+To specify which source services can consume which destination services, provide the appropriate values for `kuma.io/service`. This value is required for sources and destinations.
 
 ::: tip
-**Match-All**: You can match any value of a tag by using `*`, like `version: '*'`.
+**Match all**: You can match any value of a tag by using `*` -- for example, like `version: '*'`.
 :::
 
 :::: tabs :options="{ useUrlFragment: false }"
@@ -52,7 +52,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 You can use any [Tag](/docs/1.1.6/documentation/dps-and-data-model/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
 
-## Traffic Permission with External Services
+## Access to External Services
 
 The `TrafficPermission` policy can also be used to restrict traffic to [services outside the mesh](/docs/1.2.0/policies/external-services).
 
