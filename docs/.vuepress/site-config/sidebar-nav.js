@@ -2126,6 +2126,7 @@ module.exports = {
         "policies/external-services",
         "policies/retry",
         "policies/timeout",
+        "policies/rate-limit",
       ]
     },
     {
