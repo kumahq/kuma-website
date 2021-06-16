@@ -1,4 +1,51 @@
-# Kuma DNS
+# DNS
+
+## Data plane proxy built in DNS
+
+In this mode, instead of using the control plane based DNS server, all the name lookups are handled locally by each data plane proxy.
+This allows for more robust handling of name resolution.
+
+### Kubernetes
+
+As Data plane proxy built in DNS is the default mode, you don't have to do anything to enable it on Kubernetes
+
+### Universal
+
+In Universal mode, the `kumactl install transparent-proxy` and `kuma-dp` processes enable DNS resolution to .mesh addresses.
+
+Prerequisite: All three binaries -- `kuma-dp`, `envoy` and `coredns` -- must run in the worker node (i.e. the node that is running your service mesh workload).
+`core-dns` must also be in the PATH so that `kuma-dp` can access it. Or you can specify the location
+with the `--dns-coredns-path` flag. You should also create a user to run the `kuma-dp` process. On Ubuntu for example this can be done with the following command: `useradd -U kuma-dp`. You will need to run the `kuma-dp` process from a DIFFERENT user than the user you wish to test with in order for resolution to work correctly.
+
+1.  Specify the two additional flags `--skip-resolv-conf` and `--redirect-dns` to the [transparent proxy](transparent-proxying/) iptables rules:
+
+    ```shell
+    $ kumactl install transparent-proxy \
+              --kuma-dp-user kuma-dp \
+              --kuma-cp-ip <kuma-cp IP> \
+              --skip-resolv-conf \
+              --redirect-dns
+    ```
+
+2.  Start [the kuma-dp](dps-and-data-model/#dataplane-entity)
+
+    ```shell
+    $ kuma-dp run \
+      --cp-address=https://127.0.0.1:5678 \
+      --dataplane-file=dp.yaml \
+      --dataplane-token-file=/tmp/kuma-dp-redis-1-token
+    ```
+
+When this command is run, the `kuma-dp` process will also spawn coredns and allow resolution of .mesh addresses.
+
+### Special considerations
+
+This mode implements advanced networking techniques, so take special care for the following cases:
+
+ * The mode can safely be used with the [Kuma CNI plugin](cni/).
+ * In mixed IPv4 and IPv6 environments, it's recommended that you specify an [IPv6 virtual IP CIDR](ipv6/).
+
+## Kuma Control Plane DNS
 
 The Kuma control plane deploys its Domain Name Service resolver on UDP port `5653` (resembling the standard port `53`). Its purpose is to allow for decoupling the service name resolving from the underlying infrastructure and thus make Kuma more flexible. When Kuma is deployed as a distributed control plane, the Kuma DNS enables cross-cluster service discovery.
 
@@ -8,15 +55,54 @@ learn more about it.
 
 This DNS configuration is critical for multi-zone deployments as multi-zone requires .mesh addresses to be used to resolve services across the zones in a service mesh. Workloads that are connected as an ExternalService do not require this .mesh resolution. Take special note of your deployment topology as Universal mode and Kubernetes mode have difference configuration steps, both of which are covered within this page.
 
-## Deployment
+### Kubernetes
 
-To enable the redirection of the DNS requests for the `.mesh` DNS zone (the default), within a Kubernetes, use `kumactl install dns | kubectl apply -f -`. This invocation of `kumactl` expects to find the environment variable `KUBECONFIG` set, so it can fetch the active Kubernetes DNS server configuration. Once this is done, `kumactl install dns` will output a patched resource ready to be applied through `kubectl apply`. Since this is a modification to system resources, it is strongly recommended that you first inspect the resulting configuration.
+Set the following environment variable to disable the Dataplane proxy built in DNS when installing the control plane:
+`KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false`.
 
-`kumactl install dns` is recognizing and supports the major flavors of CoreDNS as well as Kube DNS resources.
+:::: tabs
+::: tab "kumactl"
 
-::: tip
-In a **Kubernetes** environment, this command creates a configmap object that will update DNS to send .mesh requests to the correct DNS resolution. In **Universal** deployments, this functionality is enabled through a combination of the `kumactl install transparent-proxy` command as well as the `kuma-dp run` command this is covered more in the [section](#universal) section.
+Supply the following argument to `kumactl`
+
+```shell
+kumactl install control-plane \
+  --env-var KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false
+```
+
 :::
+::: tab "Helm"
+
+With [Helm](/docs/1.1.3/installation/helm), the command invocation looks like:
+
+```shell
+helm install --namespace kuma-system \
+  --set controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false \
+   kuma kuma/kuma
+```
+
+:::
+::::
+
+### Universal
+
+1.  Use `kumactl` to configure [the transparent proxy](transparent-proxying/) iptables rules:
+
+    ```shell
+    $ kumactl install transparent-proxy \
+              --kuma-dp-user kuma-dp \
+              --kuma-cp-ip <kuma-cp IP>
+    ```
+
+2.  Start [the kuma-dp](dps-and-data-model/#dataplane-entity) with flag `--dns-enabled` set to `false`
+
+    ```shell
+    $ kuma-dp run \
+      --cp-address=https://127.0.0.1:5678 \
+      --dataplane-file=dp.yaml \
+      --dataplane-token-file=/tmp/kuma-dp-redis-1-token \
+      --dns-enabled=false
+    ```
 
 ## Configuration
 
@@ -107,74 +193,3 @@ Kuma DNS allocates a VIP for every Service within a mesh. Then, it creates outbo
      }
     },
 ```
-
-## Data plane proxy built in DNS
-
-In this mode, instead of using the control plane based DNS server, all the name lookups are handled locally by each data plane proxy.
-This allows for more robust handling of name resolution.
-
-### Kubernetes
-
-Set the following environment variable when starting the control plane:
-`KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=true`.
-
-:::: tabs
-::: tab "kumactl"
-
-Supply the following argument to `kumactl`
-
-```shell
-kumactl install control-plane \
-  --env-var KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=true
-```
-
-:::
-::: tab "Helm"
-
-With [Helm](/docs/1.1.3/installation/helm), the command invocation looks like:
-
-```shell
-helm install --namespace kuma-system \
-  --set controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=true \
-   kuma kuma/kuma
-```
-
-:::
-::::
-
-### Universal
-
-In Universal mode, the `kumactl install transparent-proxy` and `kuma-dp` processes enable DNS resolution to .mesh addresses.
-
-Prerequisite: All three binaries -- `kuma-dp`, `envoy` and `coredns` -- must run in the worker node (i.e. the node that is running your service mesh workload).
-`core-dns` must also be in the PATH so that `kuma-dp` can access it. Or you can specify the location
-with the `--dns-coredns-path` flag. You should also create a user to run the `kuma-dp` process. On Ubuntu for example this can be done with the following command: `useradd -U kuma-dp`. You will need to run the `kuma-dp` process from a DIFFERENT user than the user you wish to test with in order for resolution to work correctly.
-
-1.  Specify the two additional flags `--skip-resolv-conf` and `--redirect-dns` to the [transparent proxy](transparent-proxying/) iptables rules:
-
-    ```shell
-    $ kumactl install transparent-proxy \
-              --kuma-dp-user kuma-dp \
-              --kuma-cp-ip <kuma-cp IP> \
-              --skip-resolv-conf \
-              --redirect-dns
-    ```
-
-2.  Specify `--dns-enabled` when you start [the kuma-dp](dps-and-data-model/#dataplane-entity)
-
-    ```shell
-    $ kuma-dp run \
-      --cp-address=https://127.0.0.1:5678 \
-      --dataplane-file=dp.yaml \
-      --dataplane-token-file=/tmp/kuma-dp-redis-1-token \
-      --dns-enabled
-    ```
-
-When this command is run with `--dns-enabled`, the `kuma-dp` process will also spawn coredns and allow resolution of .mesh addresses.
-
-### Special considerations
-
-This mode implements advanced networking techniques, so take special care for the following cases:
-
- * The mode can safely be used with the [Kuma CNI plugin](cni/).
- * In mixed IPv4 and IPv6 environments, it's recommended that you specify an [IPv6 virtual IP CIDR](ipv6/).
