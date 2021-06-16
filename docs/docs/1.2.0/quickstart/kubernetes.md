@@ -109,7 +109,7 @@ default   kuma-demo-app-68758d8d5d-dddvg.kuma-demo          app=kuma-demo-fronte
 default   redis-master-657c58c859-5wkb4.kuma-demo           app=redis pod-template-hash=657c58c859 protocol=tcp role=master service=redis_kuma-demo_svc_6379 tier=backend
 ```
 
-You can configure `kumactl` to point to any remote `kuma-cp` instance by running:
+You can configure `kumactl` to point to any zone `kuma-cp` instance by running:
 
 ```sh
 $ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681

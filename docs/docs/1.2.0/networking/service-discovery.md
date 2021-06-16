@@ -6,7 +6,7 @@ Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it 
 
 In [standalone mode](/docs/1.1.6/deployments/stand-alone/) the `kuma-dp` process will connect directly to the `kuma-cp` instances.
 
-In a [multi-zone deployment](/docs/1.1.6/deployments/multi-zone/) the `kuma-dp` processes will connect to the remote control plane, while the remote control planes will connect to the global control plane over an extension of the xDS API that we have built called "KDS" (Kuma Discovery Service). In multi-zone mode, the data plane proxies never connect to the global control plane but only to the remote ones.
+In a [multi-zone deployment](/docs/1.1.6/deployments/multi-zone/) the `kuma-dp` processes will connect to the zone control plane, while the zone control planes will connect to the global control plane over an extension of the xDS API that we have built called "KDS" (Kuma Discovery Service). In multi-zone mode, the data plane proxies never connect to the global control plane but only to the zone ones.
 
 ::: tip
 The connection between the data-planes and the control-plane is not on the execution path of the service requests, which means that if the data-plane temporarily loses connection to the control-plane the service traffic won't be affected.

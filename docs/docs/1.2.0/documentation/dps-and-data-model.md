@@ -354,7 +354,7 @@ Ingress that don't have this information is not taken into account when generati
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/1.1.6/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
+The recommended way to deploy an `Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/1.1.6/documentation/deployments/#zone-control-plane). It works as a separate deployment of a single-container pod.
 
 Kuma will try to resolve `networking.ingress.publicAddress` and `networking.ingress.publicPort` automatically by checking the Service associated with this Ingress.
 
