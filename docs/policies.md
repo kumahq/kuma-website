@@ -45,7 +45,7 @@ policies:
         url: /docs/latest/policies/retry/
         icon: /images/icons/policies/retry@2x.png
       - title: Timeouts
-        url: /docs/latest/policies/timeout/
+        url: /docs/latest/policies/timeouts/
         icon: /images/icons/policies/icon-timeout@2x-80.jpg
       - title: Rate limits
         url: /docs/latest/policies/rate-limit/
