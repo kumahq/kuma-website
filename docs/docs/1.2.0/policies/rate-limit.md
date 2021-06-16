@@ -147,7 +147,7 @@ spec:
       interval: 10s
 ```
 
-The service `backend` will get a configuration that has the following hierarchy of applying the rate limiting
+The service `backend` is configured with the following rate limiting hierarchy:
  - `rate-limit-frontend-zone-eu`
  - `rate-limit-frontend`
  - `rate-limit-all-to-backend`
