@@ -41,7 +41,7 @@ spec:
             append: true
 ```
 
-We will apply the configuration with `kubectl apply -f [..]`.
+Apply the configuration with `kubectl apply -f [..]`.
 :::
 
 ::: tab "Universal"
