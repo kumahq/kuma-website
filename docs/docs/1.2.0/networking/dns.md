@@ -55,15 +55,54 @@ learn more about it.
 
 This DNS configuration is critical for multi-zone deployments as multi-zone requires .mesh addresses to be used to resolve services across the zones in a service mesh. Workloads that are connected as an ExternalService do not require this .mesh resolution. Take special note of your deployment topology as Universal mode and Kubernetes mode have difference configuration steps, both of which are covered within this page.
 
-## Deployment
+### Kubernetes
 
-To enable the redirection of the DNS requests for the `.mesh` DNS zone (the default), within a Kubernetes, use `kumactl install dns | kubectl apply -f -`. This invocation of `kumactl` expects to find the environment variable `KUBECONFIG` set, so it can fetch the active Kubernetes DNS server configuration. Once this is done, `kumactl install dns` will output a patched resource ready to be applied through `kubectl apply`. Since this is a modification to system resources, it is strongly recommended that you first inspect the resulting configuration.
+Set the following environment variable to disable the Dataplane proxy built in DNS when installing the control plane:
+`KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false`.
 
-`kumactl install dns` is recognizing and supports the major flavors of CoreDNS as well as Kube DNS resources.
+:::: tabs
+::: tab "kumactl"
 
-::: tip
-In a **Kubernetes** environment, this command creates a configmap object that will update DNS to send .mesh requests to the correct DNS resolution. In **Universal** deployments, this functionality is enabled through a combination of the `kumactl install transparent-proxy` command as well as the `kuma-dp run` command this is covered more in the [section](#universal) section.
+Supply the following argument to `kumactl`
+
+```shell
+kumactl install control-plane \
+  --env-var KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false
+```
+
 :::
+::: tab "Helm"
+
+With [Helm](/docs/1.1.3/installation/helm), the command invocation looks like:
+
+```shell
+helm install --namespace kuma-system \
+  --set controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false \
+   kuma kuma/kuma
+```
+
+:::
+::::
+
+### Universal
+
+1.  Use `kumactl` to configure [the transparent proxy](transparent-proxying/) iptables rules:
+
+    ```shell
+    $ kumactl install transparent-proxy \
+              --kuma-dp-user kuma-dp \
+              --kuma-cp-ip <kuma-cp IP>
+    ```
+
+2.  Start [the kuma-dp](dps-and-data-model/#dataplane-entity) with flag `--dns-enabled` set to `false`
+
+    ```shell
+    $ kuma-dp run \
+      --cp-address=https://127.0.0.1:5678 \
+      --dataplane-file=dp.yaml \
+      --dataplane-token-file=/tmp/kuma-dp-redis-1-token \
+      --dns-enabled=false
+    ```
 
 ## Configuration
 
