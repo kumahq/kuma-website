@@ -2,7 +2,7 @@
 
 The `RateLimit` policy leverages
 Envoy's [local rate limiting](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter)
-to allow for per-instance service request limiting. In its current form, it will work for all HTTP/HTTP2 based requests.
+to allow for per-instance service request limiting. All HTTP/HTTP2 based requests are supported.
 
 You can configure how many requests are allowed in a specified time period, and how the service responds when the limit is reached.
 
