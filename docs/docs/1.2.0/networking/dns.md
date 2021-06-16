@@ -1,23 +1,26 @@
 # DNS
 
-## Data plane proxy built in DNS
+In Kuma version 1.2.0, DNS on the data plane proxy is enabled by default on Kubernetes. You can also continue to deploy with [DNS on the control plane](#control-plane-dns).
 
-In this mode, instead of using the control plane based DNS server, all the name lookups are handled locally by each data plane proxy.
-This allows for more robust handling of name resolution.
+## Data plane proxy DNS
 
-### Kubernetes
+In this mode, all name lookups are handled locally by the data plane proxy. This approach allows for more robust handling of name resolution.
 
-As Data plane proxy built in DNS is the default mode, you don't have to do anything to enable it on Kubernetes
+On Kubernetes, this is the default. You must enable it manually on universal deployments.
 
 ### Universal
 
 In Universal mode, the `kumactl install transparent-proxy` and `kuma-dp` processes enable DNS resolution to .mesh addresses.
 
-Prerequisite: All three binaries -- `kuma-dp`, `envoy` and `coredns` -- must run in the worker node (i.e. the node that is running your service mesh workload).
-`core-dns` must also be in the PATH so that `kuma-dp` can access it. Or you can specify the location
-with the `--dns-coredns-path` flag. You should also create a user to run the `kuma-dp` process. On Ubuntu for example this can be done with the following command: `useradd -U kuma-dp`. You will need to run the `kuma-dp` process from a DIFFERENT user than the user you wish to test with in order for resolution to work correctly.
+Prerequisites:
 
-1.  Specify the two additional flags `--skip-resolv-conf` and `--redirect-dns` to the [transparent proxy](transparent-proxying/) iptables rules:
+- `kuma-dp`, `envoy`, and `coredns` must run on the worker node -- that is, the node that runs your service mesh workload.
+- `core-dns` must be in the PATH so that `kuma-dp` can access it. 
+  - You can also the location with the `--dns-coredns-path` flag. 
+- User created to run the `kuma-dp` process. You must run the `kuma-dp` process with a different user than the user you test with. Otherwise, name resolution might not work.
+  - On Ubuntu, for example, you can run: `useradd -U kuma-dp`.
+
+1.  Specify the flags `--skip-resolv-conf` and `--redirect-dns` in the [transparent proxy](transparent-proxying/) iptables rules:
 
     ```shell
     $ kumactl install transparent-proxy \
@@ -27,7 +30,7 @@ with the `--dns-coredns-path` flag. You should also create a user to run the `ku
               --redirect-dns
     ```
 
-2.  Start [the kuma-dp](dps-and-data-model/#dataplane-entity)
+1.  Start [the kuma-dp](dps-and-data-model/#dataplane-entity)
 
     ```shell
     $ kuma-dp run \
@@ -36,7 +39,7 @@ with the `--dns-coredns-path` flag. You should also create a user to run the `ku
       --dataplane-token-file=/tmp/kuma-dp-redis-1-token
     ```
 
-When this command is run, the `kuma-dp` process will also spawn coredns and allow resolution of .mesh addresses.
+    The `kuma-dp` process also spawns coredns and allows resolution of .mesh addresses.
 
 ### Special considerations
 
@@ -45,7 +48,7 @@ This mode implements advanced networking techniques, so take special care for th
  * The mode can safely be used with the [Kuma CNI plugin](cni/).
  * In mixed IPv4 and IPv6 environments, it's recommended that you specify an [IPv6 virtual IP CIDR](ipv6/).
 
-## Kuma Control Plane DNS
+## Control Plane DNS
 
 The Kuma control plane deploys its Domain Name Service resolver on UDP port `5653` (resembling the standard port `53`). Its purpose is to allow for decoupling the service name resolving from the underlying infrastructure and thus make Kuma more flexible. When Kuma is deployed as a distributed control plane, the Kuma DNS enables cross-cluster service discovery.
 
