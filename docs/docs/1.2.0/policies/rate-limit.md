@@ -7,10 +7,7 @@ to allow for per-instance service request limiting. In its current form, it will
 The policy allows for configuring the number of allowed requests per given period of time, and optionally the response
 behavior in case of rate limiting.
 
-:::tip
-This policy is applied per service instance, i.e. if the service `backend` has `3` instances which are rate limited to `100`
-requests per `1s`, the overall service will be rate limited to `300` requests per `1s`.
-:::
+The policy is applied per service instance. This means that if a service `backend` has 3 instances rate limited to 100 requests per second, the overall service is rate limited to 300 requests per second.
 ## Usage
 
 :::: tabs :options="{ useUrlFragment: false }"
