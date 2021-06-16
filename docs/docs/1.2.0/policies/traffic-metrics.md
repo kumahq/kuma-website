@@ -85,6 +85,10 @@ metrics:
 
 Both snippets from above instruct `Kuma` to configure every dataplane in the mesh `default` to expose an HTTP endpoint with `Prometheus` metrics on port `5670` and URI path `/metrics`.
 
+The metrics endpoint is forwarded to the standard Envoy [Prometheus metrics endpoint](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?format=prometheus) and supports the same query parameters.
+You can pass the `filter` query parameter to limit the results to metrics whose names match a given regular expression.
+By default all available metrics are returned.
+
 #### Override Prometheus settings per Dataplane
 
 :::: tabs :options="{ useUrlFragment: false }"
