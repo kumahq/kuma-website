@@ -68,7 +68,7 @@ conf:
           append: true
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.2.0/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.2.0/documentation/http-api).
 :::
 ::::
 
