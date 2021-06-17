@@ -78,7 +78,7 @@ $ aws cloudformation deploy \
     --parameter-overrides AllowedCidr=0.0.0.0/0
 ```
 
-A Kuma [`ingress` data plane proxy](/docs/1.1.6/documentation/dps-and-data-model/#ingress) is needed in each zone to enable cross-zone communication. Like every other data plane proxy type, it also needs a [data plane proxy token](/docs/1.1.6/installation/ecs/#generate-the-dp-token) if the data plane proxy and control plane communication is secured. Learn more about [DP and CP security](/docs/1.1.6/documentation/security/#data-plane-proxy-to-control-plane-communication).
+A Kuma [zone-ingress proxy](/docs/1.2.0/documentation/dps-and-data-model/#zone-ingress) is needed in each zone to enable cross-zone communication. Like every other data plane proxy type, it also needs a [data plane proxy token](/docs/1.1.6/installation/ecs/#generate-the-dp-token) if the data plane proxy and control plane communication is secured. Learn more about [DP and CP security](/docs/1.1.6/documentation/security/#data-plane-proxy-to-control-plane-communication).
 
 We can provision a token with the following command:
 
@@ -86,7 +86,7 @@ We can provision a token with the following command:
 $ ssh root@<kuma-cp-zone-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\", \"type\": \"ingress\"}' -qO- http://localhost:5681/tokens"
 ```
 
-And finally deploy the ingress data plane proxy:
+And finally deploy the zone-ingress proxy:
 
 ```shell
 $ aws cloudformation deploy \
