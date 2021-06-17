@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.1.6 has been released!**  &mdash; All tags are now supported for Traffic Permission policies, you can specify TCP and HTTP health checks together, and much more! [Read More](/blog/2021/kuma-1-1-6/)
+**Kuma 1.2.0 has been released!**  &mdash; L7 traffic routing, new rate limiting policy, "remote" control plane renamed to "zone" control plane, a total of 20 new features, and much more! [Read More](/blog/2021/kuma-1-2-0/)
 
 :::
 

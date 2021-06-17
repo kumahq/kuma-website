@@ -12,13 +12,13 @@ As usual, we can apply `sources` and `destinations` selectors to determine how h
 
 The `HealthCheck` policy supports both L4/TCP (default) and L7/HTTP checks.
 
+If you want to add two health checks - one `TCP` and other `HTTP` you can specify both in one manifest.
+
 ### Examples
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-**TCP**
-
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: HealthCheck
@@ -45,41 +45,12 @@ spec:
     noTrafficInterval: 10s # optional, by default 60s
     eventLogPath: "/tmp/health-check.log" # optional
     alwaysLogHealthCheckFailures: true # optional, by default false
+    reuseConnection: false # optional, by default true
     tcp:
       send: Zm9v
       receive:
       - YmFy
       - YmF6
-```
-
-**HTTP**
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: HealthCheck
-mesh: default
-metadata:
-  name: web-to-backend-check
-spec:
-  sources:
-  - match:
-      kuma.io/service: web
-  destinations:
-  - match:
-      kuma.io/service: backend
-  conf:
-    interval: 10s
-    timeout: 2s
-    unhealthyThreshold: 3
-    healthyThreshold: 1
-    initialJitter: 5s # optional
-    intervalJitter: 6s # optional
-    intervalJitterPercent: 10 # optional
-    healthyPanicThreshold: 60 # optional, by default 50
-    failTrafficOnPanic: true # optional, by default false
-    noTrafficInterval: 10s # optional, by default 60s
-    eventLogPath: "/tmp/health-check.log" # optional
-    alwaysLogHealthCheckFailures: true # optional, by default false
     http:
       path: /health
       requestHeadersToAdd:
@@ -97,8 +68,6 @@ We will apply the configuration with `kubectl apply -f [..]`.
 
 ::: tab "Universal"
 
-**TCP**
-
 ```yaml
 type: HealthCheck
 name: web-to-backend-check
@@ -122,38 +91,12 @@ conf:
   noTrafficInterval: 10s # optional, by default 60s
   eventLogPath: "/tmp/health-check.log" # optional
   alwaysLogHealthCheckFailures: true # optional, by default false
+  reuseConnection: false # optional, by default true
   tcp:
     send: Zm9v
     receive:
     - YmFy
     - YmF6
-```
-
-**HTTP**
-
-```yaml
-type: HealthCheck
-name: web-to-backend-check
-mesh: default
-sources:
-- match:
-    kuma.io/service: web
-destinations:
-- match:
-    kuma.io/service: backend
-conf:
-  interval: 10s
-  timeout: 2s
-  unhealthyThreshold: 3
-  healthyThreshold: 1
-  initialJitter: 5s # optional
-  intervalJitter: 6s # optional
-  intervalJitterPercent: 10 # optional
-  healthyPanicThreshold: 60 # optional, by default 50
-  failTrafficOnPanic: true # optional, by default false
-  noTrafficInterval: 10s # optional, by default 60s
-  eventLogPath: "/tmp/health-check.log" # optional
-  alwaysLogHealthCheckFailures: true # optional, by default false
   http:
     path: /health
     requestHeadersToAdd:
@@ -166,8 +109,7 @@ conf:
         value: application/json
     expectedStatuses: [200, 201]
 ```
-
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.0.3/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.1.6/documentation/http-api).
 :::
 ::::
 
@@ -201,3 +143,8 @@ HTTP health checks are executed using HTTP 2
   - if **`receive`** section won't be provided or will be empty, checks
     will be performed as "connect only" and will be marked as successful
     when TCP connection will be successfully established.
+
+## Matching
+
+`HealthCheck` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
+The only supported value for `destinations.match` is `kuma.io/service`.

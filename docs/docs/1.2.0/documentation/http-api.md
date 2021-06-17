@@ -56,6 +56,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/secrets`
 * `/meshes/{mesh}/secrets/{name}`
 * `/status/zones`
+* `/tokens`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -1029,6 +1030,14 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
   "timeout": "2s",
   "unhealthyThreshold": 3,
   "healthyThreshold": 1,
+  "reuseConnection": false,
+  "tcp": {
+   "send": "Zm9v",
+   "receive": [
+    "YmFy",
+    "YmF6"
+   ]
+  },
   "http": {
    "path": "/health",
    "requestHeadersToAdd": [
@@ -1089,6 +1098,14 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend --da
   "timeout": "2s",
   "unhealthyThreshold": 3,
   "healthyThreshold": 1,
+  "reuseConnection": false,
+  "tcp": {
+   "send": "Zm9v",
+   "receive": [
+    "YmFy",
+    "YmF6"
+   ]
+  },
   "http": {
    "path": "/health",
    "requestHeadersToAdd": [
@@ -1153,6 +1170,14 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
     "timeout": "2s",
     "unhealthyThreshold": 3,
     "healthyThreshold": 1,
+    "reuseConnection": false,
+    "tcp": {
+     "send": "Zm9v",
+     "receive": [
+      "YmFy",
+      "YmF6"
+     ]
+    },
     "http": {
      "path": "/health",
      "requestHeadersToAdd": [
@@ -2515,7 +2540,7 @@ curl http://localhost:5681/zones+insights/cluster-1
  },
  "zoneInsight": {
   "subscriptions": [
-   {
+   {docs/docs/1.2.0/deployments/multi-zone.md
     "id": "466aa63b-70e8-4435-8bee-a7146e2cdf11",
     "globalInstanceId": "66309679-ee95-4ea8-b17f-c715ca03bb38",
     "connectTime": "2020-07-28T16:08:09.743141Z",
@@ -3056,9 +3081,42 @@ curl -XGET http://localhost:5681/status/zones
   "active": true
  },
  {
-  "name": "`zone-2`",
+  "name": "zone-2",
   "url": "grpcs://2.2.2.2:5685",
   "active": false
  }
 ]
+```
+
+## Dataplane Proxy Tokens
+
+Generate the data plane proxy tokens required for data plane proxy authentication.
+
+::: warning
+Requires [authentication to the control plane by the user](/docs/1.0.8/security/certificates/#authentication).
+:::
+
+For details, see [data plane proxy authentication](/docs/1.0.8/security/certificates/#data-plane-proxy-authentication).
+
+### Generate dataplane proxy token
+
+Request: `PUT /tokens` with the following body:
+```json
+{
+  "name": "dp-echo-1",
+  "mesh": "default",
+  "tags": {
+    "kuma.io/service": ["backend", "backend-admin"]
+  }
+}
+```
+
+Response: `200 OK`
+
+Example:
+```bash
+curl -XPOST \ 
+  -H "Content-Type: application/json" \
+  --data '{"name": "dp-echo-1", "mesh": "default", "tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
+  http://localhost:5681/tokens
 ```
