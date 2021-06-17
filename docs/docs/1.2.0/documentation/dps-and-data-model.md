@@ -362,9 +362,9 @@ The `Zone Ingress` entity includes a few sections:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-The recommended way to deploy an `Zone Ingress` dataplane in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/1.1.6/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
+The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/1.1.6/documentation/deployments/#remote-control-plane). It works as a separate deployment of a single-container pod.
 
-Kuma will try to resolve `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this `Zone Ingress`.
+Kuma will try to resolve `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this `ZoneIngress`.
 
 If the Service type is Load Balancer, Kuma will wait for public IP to be resolved. It may take a couple of minutes to receive public IP depending on the LB implementation of your Kubernetes provider. 
 
@@ -389,7 +389,7 @@ networking:
 ```
 ::::
 
-`Zone Ingress` deployment can be scaled horizontally. Many instances can have the same advertised address and advertised port because they can be put behind one load balancer.
+A `ZoneIngress` deployment can be scaled horizontally. Many instances can have the same advertised address and advertised port because they can be put behind one load balancer.
 
 ## Direct access to services
 
