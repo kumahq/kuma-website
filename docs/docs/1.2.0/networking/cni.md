@@ -1,13 +1,13 @@
 # Kuma CNI
 
 The operation of the Kuma data plane proxy, precludes that all the relevant inbound and outbound traffic on the host (or container) that runs the service is diverted
-to pass through the proxy itself. This is done through [transparent proxying](/docs/1.1.6/networking/transparent-proxying), which is set up automatically on Kubernetes. Installing it requires certain privileges, which are delegated to pre-sidecar initialisation steps.
+to pass through the proxy itself. This is done through [transparent proxying](/docs/1.2.0/networking/transparent-proxying), which is set up automatically on Kubernetes. Installing it requires certain privileges, which are delegated to pre-sidecar initialisation steps.
 There are two options to do this with Kuma:
 
 * use the standard `kuma-init`, which is the default
 * use the Kuma CNI
 
-Kuma CNI can be leveraged in the two installation methods for Kubernetes: using [`kumactl`](/docs/1.1.6/installation/kubernetes) and with [Helm](/docs/1.1.6/installation/helm). The default settings are tuned for OpenShift with Multus, therefore to use it in other environments we need to set the relevant configuration parameters.
+Kuma CNI can be leveraged in the two installation methods for Kubernetes: using [`kumactl`](/docs/1.2.0/installation/kubernetes) and with [Helm](/docs/1.2.0/installation/helm). The default settings are tuned for OpenShift with Multus, therefore to use it in other environments we need to set the relevant configuration parameters.
 
 Below are the etails of how to set-up each of the options, considering and example where a plain Kubernetes cluster deployed with `kubeadm` and the default Calico CNI is used.
 
@@ -28,7 +28,7 @@ kumactl install control-plane \
 :::
 ::: tab "Helm"
 
-When using [Helm](/docs/1.1.6/installation/helm), we should use the values in the `cni` section to set the relevant parameters.
+When using [Helm](/docs/1.2.0/installation/helm), we should use the values in the `cni` section to set the relevant parameters.
 
 ```shell
 helm install --namespace kuma-system \

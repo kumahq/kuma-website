@@ -9,7 +9,7 @@ To install and run Kuma on Kubernetes execute the following steps:
 Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and continue your Kuma journey.
 
 ::: tip
-Kuma also provides [Helm charts](/docs/1.1.6/installation/helm/) that we can use instead of this distribution.
+Kuma also provides [Helm charts](/docs/1.2.0/installation/helm/) that we can use instead of this distribution.
 :::
 
 ### 1. Download Kuma
@@ -31,11 +31,11 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access Kubernetes:
 
-* [CentOS](https://download.konghq.com/mesh-alpine/kuma-1.1.6-centos-amd64.tar.gz)
-* [RedHat](https://download.konghq.com/mesh-alpine/kuma-1.1.6-rhel-amd64.tar.gz)
-* [Debian](https://download.konghq.com/mesh-alpine/kuma-1.1.6-debian-amd64.tar.gz)
-* [Ubuntu](https://download.konghq.com/mesh-alpine/kuma-1.1.6-ubuntu-amd64.tar.gz)
-* [macOS](https://download.konghq.com/mesh-alpine/kuma-1.1.6-darwin-amd64.tar.gz) or run `brew install kumactl`
+* [CentOS](https://download.konghq.com/mesh-alpine/kuma-1.2.0-centos-amd64.tar.gz)
+* [RedHat](https://download.konghq.com/mesh-alpine/kuma-1.2.0-rhel-amd64.tar.gz)
+* [Debian](https://download.konghq.com/mesh-alpine/kuma-1.2.0-debian-amd64.tar.gz)
+* [Ubuntu](https://download.konghq.com/mesh-alpine/kuma-1.2.0-ubuntu-amd64.tar.gz)
+* [macOS](https://download.konghq.com/mesh-alpine/kuma-1.2.0-darwin-amd64.tar.gz) or run `brew install kumactl`
 
 and extract the archive with:
 
@@ -48,7 +48,7 @@ $ tar xvzf kuma-*.tar.gz
 
 ### 2. Run Kuma
 
-Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/1.1.6/documentation/cli/#kumactl).
+Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/1.2.0/documentation/cli/#kumactl).
 
 ::: tip
 **Note**: On Kubernetes - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
@@ -57,7 +57,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In th
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-1.1.6/bin
+$ cd kuma-1.2.0/bin
 ```
 
 Finally we can install and run Kuma in either **standalone** or **multi-zone** mode:
@@ -71,7 +71,7 @@ Standalone mode is perfect when running Kuma in a single cluster across one envi
 $ ./kumactl install control-plane | kubectl apply -f -
 ```
 
-To learn more, read about the [deployment modes available](/docs/1.1.6/documentation/deployments/).
+To learn more, read about the [deployment modes available](/docs/1.2.0/documentation/deployments/).
 
 :::
 ::: tab "Multi-Zone"
@@ -80,7 +80,7 @@ Multi-zone mode is perfect when running one deployment of Kuma that spans across
 
 This mode also supports hybrid Kubernetes + VMs deployments.
 
-To learn more, read the [multi-zone installation instructions](/docs/1.1.6/documentation/deployments/).
+To learn more, read the [multi-zone installation instructions](/docs/1.2.0/documentation/deployments/).
 
 :::
 ::::
@@ -187,4 +187,4 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 Congratulations! You have successfully installed Kuma on Kubernetes 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/1.1.6/quickstart/kubernetes/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/1.2.0/quickstart/kubernetes/) deployments.
