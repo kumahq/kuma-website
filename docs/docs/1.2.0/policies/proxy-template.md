@@ -62,7 +62,7 @@ conf:
 In these examples, note:
 
 * The `selectors` object specifies the [data plane proxies](../documentation/dps-and-data-model/#dataplane-entity) that are targeted by the `ProxyTemplate` resource. Values are provided as Kuma tags.
-* The `imports` object specifies the reusable configuration that Kuma generates automatically. Kuma then extends the imports object with the custom configuration you specify. The value must be one or both of `default-proxy` -- the default configuration for non-ingress data planes -- or `ingress` -- the default configuration for ingress data planes.
+* The `imports` object specifies the reusable configuration that Kuma generates automatically. Kuma then extends the imports object with the custom configuration you specify. The value must be one or both of `default-proxy` -- the default configuration for non-ingress data planes -- or `ingress` -- the default configuration for zone-ingress proxy.
 
 
 ### Modifications
@@ -84,7 +84,7 @@ Available origins:
 * `transparent` - resources generated for transparent proxy functionality.
 * `prometheus` - resources generated when Prometheus metrics are enabled.
 * `direct-access` - resources generated for Direct Access functionality.
-* `ingress` - resources generated for Ingress Dataplane.
+* `ingress` - resources generated for Zone Ingress.
 
 #### Cluster
 
