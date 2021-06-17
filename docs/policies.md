@@ -47,7 +47,7 @@ policies:
       - title: Timeouts
         url: /docs/latest/policies/timeout/
         icon: /images/icons/policies/icon-timeout@2x-80.jpg
-      - title: Rate limits
+      - title: Rate Limit
         url: /docs/latest/policies/rate-limit/
         icon: /images/icons/policies/icon-rate-limits.png
   - section: observability
