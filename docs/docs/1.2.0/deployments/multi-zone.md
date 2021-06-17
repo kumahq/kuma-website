@@ -33,7 +33,7 @@ To implement easy service connectivity, Kuma ships with:
 * **Zone Ingress Proxy**: Kuma provides an out of the box `zone-ingress` proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have an `zone-ingress` proxy deployed. 
 
 :::tip
-A `zone-ingress` data plane proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.1.6/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `zone-ingress` proxies.
+A `zone-ingress` proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.1.6/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `zone-ingress` proxies.
 :::
 
 The global control plane and the remote control planes communicate with each other via xDS in order to synchronize the resources that are being created to configure Kuma, like policies.
@@ -134,7 +134,7 @@ $ KUMA_MODE=remote \
 
 Where `<zone-name>` is the name of the zone matching one of the Zone resources to be created at the Global CP. `<global-remote-sync-address>` is the public address as obtained during the Global CP deployment step.
 
-Add a `zone-ingress` proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that proxy would run on a dedicated host, so we will need the Remote CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the data plane proxy token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
+Add a `zone-ingress` proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that proxy would run on a dedicated host, so we will need the Remote CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the proxy token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
 
 ```bash
 $ echo "type: ZoneIngress
@@ -268,7 +268,7 @@ spec:
   enabled: true
 ```
 
-Changing this value to `enabled: false` will allow the user to exclude the zone's `Zone Ingress` from all other zones - and by doing so - preventing traffic from being able to enter the `zone`. 
+Changing this value to `enabled: false` will allow the user to exclude the `Zone Ingress` from all other zones - and by doing so - preventing traffic from being able to enter the `zone`. 
 
 :::tip
 A `Zone` that has been disabled will show up as "Offline" in the GUI and CLI

@@ -343,22 +343,22 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Zone Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.1.6/documentation/deployments/#multi-zone-mode) mode, there is a new proxy type `Zone Ingress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.1.6/documentation/deployments/#multi-zone-mode) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
 All requests that are sent from one zone to another will be directed to the proper instance by the `Zone Ingress`.
 
-The `Zone Ingress` entity includes a few sections:
+The `ZoneIngress` entity includes a few sections:
 
 * `type`: must be `ZoneIngress`.
-* `name`: this is the name of the zone-ingress instance, and it must be **unique** for any given `Zone`.
+* `name`: this is the name of the zone-ingress instance, and it must be **unique** for any given `zone`.
 * `networking`: contains networking parameters of the `ZoneIngress`
-  * `address`: is an address which is routable withing the local `Zone Ingress` zone, zone-ingress instance is listening on that address
-  * `port`: is a port that `Zone Ingress` is listening on
+  * `address`: is an address which is routable withing the local `ZoneIngress` zone, zone-ingress instance is listening on that address
+  * `port`: is a port that `ZoneIngress` is listening on
   * `advertisedAddress`: an IP address or hostname which will be used by data plane proxies from other zones
   * `advertisedPort`: a port which will be used by data plane proxies from other zones
-* `availableServices` **[auto-generated on Kuma CP]** : the list of services that could be consumed through the `Zone Ingress`
-* `zone` **[auto-generated on Kuma CP]** : zone where `Zone Ingress` belongs to
+* `availableServices` **[auto-generated on Kuma CP]** : the list of services that could be consumed through the `ZoneIngress`
+* `zone` **[auto-generated on Kuma CP]** : zone where `ZoneIngress` belongs to
 
-`Zone Ingress` that don't have `advertisedAddress` and `advertisedPort` is not taken into account when generating Envoy configuration, because they cannot be accessed by data plane proxies from other zones.
+`Zone Ingress` without `advertisedAddress` and `advertisedPort` is not taken into account when generating Envoy configuration, because they cannot be accessed by data plane proxies from other zones.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
