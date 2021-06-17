@@ -34,9 +34,9 @@ When Kuma is run as a distributed service mesh, the Global control plane exposes
     * `5682`: HTTPS version of the services available under `5681`
     * `5685`: the Kuma Discovery Service port, leveraged in multi-zone deployment
 
-### Remote Control Plane
+### Zone Control Plane
 
-When Kuma is run as a distributed service mesh, the Remote control plane exposes the following ports:
+When Kuma is run as a distributed service mesh, the Zone control plane exposes the following ports:
 
 * TCP
     * `5443`: The port for the admission webhook, only enabled in `Kubernetes`

@@ -68,13 +68,13 @@ $ aws cloudformation deploy \
     --parameter-overrides AllowedCidr=0.0.0.0/0
 ```
 
-And as many **remote** control planes as the number of zones we want to support:
+And as many **zone** control planes as the number of zones we want to support:
 
 ```shell
 $ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-cp \
-    --template-file kuma-cp-remote.yaml \
+    --template-file kuma-cp-zone.yaml \
     --parameter-overrides AllowedCidr=0.0.0.0/0
 ```
 
@@ -83,7 +83,7 @@ A Kuma [zone-ingress proxy](/docs/1.2.0/documentation/dps-and-data-model/#zone-i
 We can provision a token with the following command:
 
 ```shell
-$ ssh root@<kuma-cp-remote-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\", \"type\": \"ingress\"}' -qO- http://localhost:5681/tokens"
+$ ssh root@<kuma-cp-zone-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\", \"type\": \"ingress\"}' -qO- http://localhost:5681/tokens"
 ```
 
 And finally deploy the zone-ingress proxy:
@@ -92,7 +92,7 @@ And finally deploy the zone-ingress proxy:
 $ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name ingress \
-    --template-file remote-ingress.yaml \
+    --template-file zone-ingress.yaml \
     --parameter-overrides \
       DPToken="<token>"
 ``````
@@ -108,11 +108,11 @@ The examples described above will allow access to the `kuma-cp` to all IPs. In p
 
 #### Security Note
 
-Explore `kuma-cp.yaml` and `kuma-cp-remote.yaml` to set the appropriate `ServerCert` and `ServerKey` parameters. The examples above include pre-generated server certificate and key that are not suitable for production usage, therefore we recommend overriding these values with properly generated certificates with the DNS name in place.
+Explore `kuma-cp.yaml` and `kuma-cp-zone.yaml` to set the appropriate `ServerCert` and `ServerKey` parameters. The examples above include pre-generated server certificate and key that are not suitable for production usage, therefore we recommend overriding these values with properly generated certificates with the DNS name in place.
 
 #### Removing the Kuma control plane
 
-To remove the `kuma-cp` stack use (similarly for `kuma-cp-global` and `kuma-cp-remote`) we can execute:
+To remove the `kuma-cp` stack use (similarly for `kuma-cp-global` and `kuma-cp-zone`) we can execute:
 
 ```shell
 $ aws cloudformation delete-stack --stack-name kuma-cp
@@ -135,7 +135,7 @@ $ aws cloudformation deploy \
       DNSServer=<kuma-cp-ip>
 ```
 
-The `<kuma-cp-ip>` value (retrieved from the AWS ECS web console or CLI) can be either the public or the private IP of `kuma-cp`. In multi-zone deployments, we will use the remote control plane IP address.
+The `<kuma-cp-ip>` value (retrieved from the AWS ECS web console or CLI) can be either the public or the private IP of `kuma-cp`. In multi-zone deployments, we will use the zone control plane IP address.
 
 ::: tip
 We strongly recommend exposing the `kuma-cp` instances behind a load balancer, and use the IP of the load balancer as the `DNSServer` parameter value. This will ensure a more robust operation during upgrades, restarts and re-configurations.
