@@ -98,7 +98,6 @@ $ kumactl install control-plane \
   --zone=<zone name> \
   --ingress-enabled \
   --kds-global-address grpcs://`<global-kds-address>` | kubectl apply -f -
-$ kumactl install dns | kubectl apply -f -
 ```
 
 ::: tip
@@ -113,7 +112,6 @@ To install the Zone Control plane we need to provide the following parameters:
 
 ```bash
 $ helm install kuma --namespace kuma-system --set controlPlane.mode=zone,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
-$ kumactl install dns | kubectl apply -f -
 ```
 
 ::: tip
