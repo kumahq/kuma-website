@@ -142,7 +142,7 @@ networking:
   port: 10000
   advertisedAddress: 10.0.0.1 # an address which other zones can use to consume this zone-ingress
   advertisedPort: 10000 # a port which other zones can use to consume this zone-ingress" > ingress-dp.yaml
-$ kumactl generate dataplane-token --proxy-type=ingress > /tmp/ingress-token
+$ kumactl generate zone-ingress-token --zone=<zone-name> > /tmp/ingress-token
 $ kuma-dp run \
   --proxy-type=ingress \
   --cp-address=https://<kuma-cp-address>:5678 \
