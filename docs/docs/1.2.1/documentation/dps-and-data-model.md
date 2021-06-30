@@ -125,7 +125,7 @@ Each Kuma data plane proxy is associated with tags - or attributes - that can be
 A tag attributes a qualifier to the data plane proxy, and the tags that are reserved to Kuma are prefixed with `kuma.io` like:
 
 * `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
-* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/1.2.0/documentation/deployments/). This tag is automatically created and cannot be overwritten.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/1.2.1/documentation/deployments/). This tag is automatically created and cannot be overwritten.
 * `kuma.io/protocol`: Identifies the protocol that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 ::: tip
@@ -296,7 +296,7 @@ spec:
 
 The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime. Using [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma requires an annotation on every `Service` that you want to pass traffic to [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream). This is automatically injected by Kuma for every Kubernetes service that is in a namespace part of the mesh i.e. has `kuma.io/sidecar-injection: enabled`
 
-Services can be exposed to an API Gateway in one specific zone, or in multi-zone. For the latter, we need to expose a dedicated Kubernetes `Service` object with type `ExternalName`, which sets the `externalName` to the `.mesh` DNS record for the particular service that we want to expose, that will be resolved by Kuma's internal [service discovery](/docs/1.2.0/networking/dns).
+Services can be exposed to an API Gateway in one specific zone, or in multi-zone. For the latter, we need to expose a dedicated Kubernetes `Service` object with type `ExternalName`, which sets the `externalName` to the `.mesh` DNS record for the particular service that we want to expose, that will be resolved by Kuma's internal [service discovery](/docs/1.2.1/networking/dns).
 
 #### Example Gateway in Multi-Zone
 
@@ -343,7 +343,7 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Zone Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.2.0/documentation/deployments/#multi-zone-mode) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.2.1/documentation/deployments/#multi-zone-mode) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
 All requests that are sent from one zone to another will be directed to the proper instance by the `Zone Ingress`.
 
 The `ZoneIngress` entity includes a few sections:
@@ -362,7 +362,7 @@ The `ZoneIngress` entity includes a few sections:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/1.2.0/documentation/deployments/#zone-control-plane). It works as a separate deployment of a single-container pod.
+The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/1.2.1/documentation/deployments/#zone-control-plane). It works as a separate deployment of a single-container pod.
 
 Kuma will try to resolve `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this `ZoneIngress`.
 

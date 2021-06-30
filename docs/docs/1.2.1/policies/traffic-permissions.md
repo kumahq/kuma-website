@@ -6,7 +6,7 @@ Traffic permissions requires [Mutual TLS](../mutual-tls) enabled on the [`Mesh`]
 
 The default `TrafficPermission` policy that Kuma creates when you install allows all communication between all services in the new `Mesh`. Make sure to configure your policies to allow appropriate access to each of the services in your mesh.
 
-As of version 1.2.0, traffic permissions support the `ExternalService` resource. This lets you configure access control for traffic to services outside the mesh.
+As of version 1.2.1, traffic permissions support the `ExternalService` resource. This lets you configure access control for traffic to services outside the mesh.
 
 ## Usage
 
@@ -46,20 +46,20 @@ destinations:
   - match:
       kuma.io/service: '*'
 ```
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.2.0/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.2.1/documentation/http-api).
 :::
 ::::
 
-You can use any [Tag](/docs/1.2.0/documentation/dps-and-data-model/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
+You can use any [Tag](/docs/1.2.1/documentation/dps-and-data-model/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
 
 ## Access to External Services
 
-The `TrafficPermission` policy can also be used to restrict traffic to [services outside the mesh](/docs/1.2.0/policies/external-services).
+The `TrafficPermission` policy can also be used to restrict traffic to [services outside the mesh](/docs/1.2.1/policies/external-services).
 
 ### Prerequisites
 
 * Kuma deployed with [transparent proxying](../networking/transparent-proxying)
-* `Mesh` configured to [disable passthrough mode](docs/1.2.0/policies/mesh/#usage)
+* `Mesh` configured to [disable passthrough mode](docs/1.2.1/policies/mesh/#usage)
 
 These settings lock down traffic to and from the mesh, which means that requests to any unknown destination are not allowed. The mesh can't rely on mTLS, because there is no data plane proxy on the destination side.
 
