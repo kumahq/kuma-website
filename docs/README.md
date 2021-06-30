@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.2.1 has been released!**  &mdash; L7 traffic routing, new rate limiting policy, "remote" control plane renamed to "zone" control plane, a total of 20 new features, and much more! [Read More](/blog/2021/kuma-1-2-1/)
+**Kuma 1.2.1 has been released!**  &mdash; Adverised address for data plane proxy, SNI header added with TLS, and more! [Read More](/blog/2021/kuma-1-2-1/)
 
 :::
 
