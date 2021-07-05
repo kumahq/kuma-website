@@ -56,7 +56,7 @@ networking:
 
 $ kuma-dp run \
   --cp-address=https://127.0.0.1:5678 \
-  --dataplane-file=dp.yaml
+  --dataplane-file=dp.yaml \
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
 
