@@ -132,6 +132,11 @@ $ KUMA_MODE=zone \
 
 Where `<zone-name>` is the name of the zone matching one of the Zone resources to be created at the Global CP. `<global-zone-sync-address>` is the public address as obtained during the Global CP deployment step.
 
+::: warning
+In the example above Zone CP is running with in-memory type of store. It's not possible to scale Zone CP while using in-memory store.
+Please consider using Postgres.
+:::
+
 Add a `zone-ingress` proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that data plane proxy would run on a dedicated host, so we will need the Zone CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the data plane proxy token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
 
 ```bash
