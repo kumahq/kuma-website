@@ -194,6 +194,269 @@ spec:
 
 In both cases these tags will be see in the CLI and GUI tools when inspecting the particular Pod dataplane.
 
+### Annotations that can be used by in Kubernetes mode
+
+#### `kuma.io/mesh`
+
+By using this Pod annotation you associate a given Pod with a particular Mesh. Annotation value must be the name of a Mesh resource.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: backend
+ annotations:
+   kuma.io/mesh: default
+[...]
+```
+
+#### `kuma.io/sidecar-injection`
+
+Sidecar Injection annotation defines a Pod/Namespace annotation that gives users an ability to enable or disable sidecar-injection
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: default
+ annotations:
+   kuma.io/sidecar-injection: enabled
+[...]
+```
+
+#### `kuma.io/gateway`
+
+Gateway annotation allows to mark Gateway pod, inbound listeners won't be generated in that case
+
+**Example**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+spec:
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+      annotations:
+        kuma.io/gateway: enabled
+[...]
+```
+
+#### `kuma.io/ingress`
+
+When a pod is marked with this annotation it will inform Kuma to treat it as the Zone Ingress which is crucial for Multizone communication as all traffic from other zones will be passing through it.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: zone-ingress
+ annotations:
+   kuma.io/ingress: enabled
+[...]
+```
+
+#### `kuma.io/ingress-public-address`
+
+Ingress public address annotation allows you to pick public address for Ingress. If not defined, Kuma will try to pick this address from the Ingress Service
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: zone-ingress
+ annotations:
+   kuma.io/ingress: enabled
+   kuma.io/ingress-public-address: custom-address.com
+[...]
+```
+
+#### `kuma.io/ingress-public-port`
+
+Ingress public port annotation allows to pick public port for Ingress. If not defined, Kuma will try to pick this address from the Ingress Service
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: zone-ingress
+ annotations:
+   kuma.io/ingress: enabled
+   kuma.io/ingress-public-port: "1234"
+[...]
+```
+
+#### `kuma.io/direct-access-services`
+
+Direct access defines a comma-separated list of Services that will be accessed directly
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/direct-access-services: test-app_playground_svc_80,test-app_playground_svc_443
+    kuma.io/transparent-proxying: enabled
+    kuma.io/transparent-proxying-inbound-port: [...]
+    kuma.io/transparent-proxying-outbound-port: [...]
+```
+
+::: tip
+Transparent Proxy mechanism is based on having 1 IP for cluster (ex. ClusterIP of Kubernetes Service), so consuming apps by their IP addresses is unknown destination from Envoy perspective. Therefore, such request will go through `pass_trough` cluster and won't be encrypted by mTLS.
+
+When annotating a pod with `kuma.io/direct-access-services` annotation Kuma will generate a listener for every IP address and will redirect traffic trough `direct_access` cluster which is configured to encrypt connections.
+:::
+
+::: warning
+**WARNING**: Generating listeners for every endpoint will cause XDS snapshot to be large therefore it should be used only if really needed.
+:::
+
+#### `kuma.io/virtual-probes`
+
+Virtual probes annotation enables automatic converting HttpGet probes to virtual. Virtual probe serves on sub-path of insecure port defined in `kuma.io/virtual-probes-port`, i.e `:8080/health/readiness` -> `:9000/8080/health/readiness` where `9000` is a value of `kuma.io/virtual-probes-port` annotation
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/virtual-probes: enabled
+    kuma.io/virtual-probes-port: "9000"
+[...]
+```
+
+#### `kuma.io/virtual-probes-port`
+
+Virtual probes port annotation is an insecure port for listening virtual probes
+
+#### `kuma.io/sidecar-env-vars`
+
+Sidecar env vars annotation is a `;` separated list of env vars that will be applied on Kuma Sidecar
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/sidecar-env-vars: TEST1=1;TEST2=2 
+```
+
+#### `prometheus.metrics.kuma.io/port`
+
+By using this annotation, you can override `Mesh`-wide default port where prometheus should scrape metrics from
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    prometheus.metrics.kuma.io/port: "1234"
+```
+
+#### `prometheus.metrics.kuma.io/path`
+
+Metrics prometheus path to override `Mesh`-wide default path where prometheus should scrape metrics from
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    prometheus.metrics.kuma.io/path: "/custom-metrics"
+```
+
+#### `kuma.io/builtindns`
+
+Instruct sidecar to use its builtin DNS server
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/builtindns: enabled
+```
+
+#### `kuma.io/builtindnsport`
+
+Port where builtin DNS server should listen for DNS queries
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/builtindns: enabled
+    kuma.io/builtindnsport: "15053"
+```
+
+#### `traffic.kuma.io/exclude-inbound-ports`
+
+List of inbound ports that will be excluded from traffic interception by Kuma sidecar
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    traffic.kuma.io/exclude-inbound-ports: "1234,1235"
+```
+
+#### `traffic.kuma.io/exclude-outbound-ports`
+
+List of outbound ports that will be excluded from traffic interception by Kuma sidecar
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    traffic.kuma.io/exclude-outbound-ports: "1234,1235"
+```
+
 ## Last but not least
 
 Once the `kuma-cp` process is started, it waits for [data-planes](../dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](../../policies/introduction).
