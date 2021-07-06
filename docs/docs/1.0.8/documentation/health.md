@@ -55,7 +55,7 @@ Also, `health.ready` is used to compute the status of the Dataplanes and Service
 
 Even if Kubernetes probes are disabled, Kuma takes `pod.status.containerStatuses.ready` in order to fill `dataplane.inbound.health` section.
 
-If you specify `httpGet` probe for the Pod, Kuma will generate a special non-MTLs listener and overrides the probe itself in 
+If you specify `httpGet` probe for the Pod, Kuma will generate a special non-MTLS listener and overrides the probe itself in 
 the Pod resource. This feature is called Virtual probes, and it allows `kubelet` probing the pod status even if MTLS is enabled on the mesh. 
 For example, if we specify the following probe:
 
@@ -94,7 +94,7 @@ annotations:
   kuma.io/virtual-probes-port: 19001
 ```
 
-To disable Kuma's probe virtualziation, we can either set it in Kuma's configuration file `kuma-cp.config`:
+To disable Kuma's probe virtualization, we can either set it in Kuma's configuration file `kuma-cp.config`:
 
 ```yaml
 runtime:
