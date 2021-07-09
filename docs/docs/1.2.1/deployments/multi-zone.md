@@ -33,10 +33,10 @@ To implement easy service connectivity, Kuma ships with:
 * **Zone Ingress Proxy**: Kuma provides an out of the box `zone-ingress` proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have a `zone-ingress` proxy deployed. 
 
 :::tip
-A `zone-ingress` proxy is specific to internal communication within a mesh and it is not to be considered an API gateway. API gateways are supported via Kuma's [gateway mode](/docs/1.2.1/documentation/dps-and-data-model/#gateway) which can be deployed **in addition** to `zone-ingress` proxies.
+A `zone-ingress` proxy is specific to internal communication within a mesh and is not to be considered an API gateway. API gateways are supported in Kuma's [gateway mode](/docs/1.2.1/documentation/dps-and-data-model/#gateway), which can be deployed in addition to `zone-ingress` proxies.
 :::
 
-The global control plane and the zone control planes communicate with each other via xDS in order to synchronize the resources that are being created to configure Kuma, like policies.
+The global control plane and the zone control planes communicate with each other over xDS to synchronize the resources that are created to configure Kuma, such as policies.
 
 :::warning
 **For Kubernetes**: The global control plane on Kubernetes must reside on its own Kubernetes cluster, in order to keep the CRDs separate from the ones that the zone control planes will create during the synchronization process.
@@ -101,7 +101,7 @@ $ kumactl install control-plane \
 ```
 
 ::: tip
-Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend checking the configuration of the Kubernetes cluster after deploying Kuma zone control plane to ensure everything is as expected.
+Kuma DNS installation supports several flavors of CoreDNS and kube-dns. We recommend checking the configuration of the Kubernetes cluster after deploying the Kuma zone control plane to ensure everything is as expected.
 :::
 ::: tab "Helm"
 To install the Zone Control plane we need to provide the following parameters:
@@ -115,7 +115,7 @@ $ helm install kuma --namespace kuma-system --set controlPlane.mode=zone,control
 ```
 
 ::: tip
-Kuma DNS installation supports several flavors of Core DNS and Kube DNS. We recommend checking the configuration of the Kubernetes cluster after deploying Kuma zone control plane to ensure evrything is as expected.
+Kuma DNS installation supports several flavors of CoreDNS and kube-dns. We recommend checking the configuration of the Kubernetes cluster after deploying Kuma zone control plane to ensure evrything is as expected.
 
 To install DNS we need to use `kumactl`. It reads the state of the control plane therefore it could not be put into HELM.  You can track the issue to put this into HELM [here](https://github.com/kumahq/kuma/issues/1124).
 :::
@@ -132,7 +132,7 @@ $ KUMA_MODE=zone \
 
 Where `<zone-name>` is the name of the zone matching one of the Zone resources to be created at the Global CP. `<global-zone-sync-address>` is the public address as obtained during the Global CP deployment step.
 
-Note that this example runs the zone control plane with an in-memory datastore. This approach is not recommended for product because it does not scale. Consider running with Postgres instead.
+Note that this example runs the zone control plane with an in-memory datastore. This approach is not recommended for production because it does not scale. Consider running with Postgres instead.
 
 Add a `zone-ingress` proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that data plane proxy would run on a dedicated host, so we will need the Zone CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the data plane proxy token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
 
@@ -152,7 +152,7 @@ $ kuma-dp run \
   --dataplane-file=ingress-dp.yaml 
 ```
 
-Adding more data plane proxies can be done locally by following the Use Kuma section in the [installation page](/install).
+Adding more data plane proxies can be done locally by following the Use Kuma section on the [installation page](/install).
 :::
 ::::
 
