@@ -27,6 +27,7 @@ While most commonly we want all the traces to be sent to the same tracing backen
 The types supported are:
 
 * `zipkin`. You can also use this with [Jaeger](https://www.jaegertracing.io/) since it supports Zipkin compatible traces.
+* `datadog`. Follow the instructions at [Datadog](https://docs.datadoghq.com/tracing/) to set up the agent, either on bare metal or within Kubernetes. Specify the endpoint as `address:` in either `IP:Port` format or `unix:/var/run/datadog/apm.socket` if connecting via Unix Domain Socket.
 
 To add a new tracing backend we must create a new `tracing` property in a `Mesh` resource:
 
