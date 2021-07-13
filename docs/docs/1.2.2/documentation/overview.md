@@ -78,7 +78,9 @@ spec:
         ...
 ```
 
-This `kuma.io/mesh` annotation also could be set in Namespace. In this case all Pods from the Namespace will belong to specified mesh.
+This `kuma.io/mesh` annotation also could be set on the namespace. In this case all Pods in the namespace belong to specified mesh.
+
+See also [a complete list of the annotations you can specify in Kubernetes mode](./kubernetes-annotations/).
  
 ### Matching Labels in `Pod` and `Service` 
 

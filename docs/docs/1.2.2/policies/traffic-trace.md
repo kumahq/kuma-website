@@ -3,7 +3,7 @@
 This policy enables tracing logging to a third party tracing solution. 
 
 ::: tip
-Tracing is supported on any HTTP traffic in a [`Mesh`](../mesh), and will only work with data plane proxies and services that have the Kuma `kuma.io/protocol: http` tag defined.
+Tracing is supported on any HTTP, HTTP2 and gRPC traffic in a [`Mesh`](../mesh), and will only work with data plane proxies and services that have the Kuma `kuma.io/protocol` tag with values of `http`, `http2` or `grpc`.
 Check the [protocol support](./protocol-support-in-kuma/) for more details on how to set the protocol tag in the different environments.
 :::
 
