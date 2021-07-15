@@ -2,37 +2,31 @@
 
 This policy enables tracing logging to a third party tracing solution. 
 
-::: tip
-Tracing is supported on any HTTP, HTTP2 and gRPC traffic in a [`Mesh`](../mesh), and will only work with data plane proxies and services that have the Kuma `kuma.io/protocol` tag with values of `http`, `http2` or `grpc`.
-Check the [protocol support](./protocol-support-in-kuma/) for more details on how to set the protocol tag in the different environments.
-:::
+Tracing is supported over HTTP, HTTP2, and gRPC protocols in a [`Mesh`](../mesh). You must [explicitly specify the protocol](./protocol-support-in-kuma/) for each service and data plane proxy you want to enable tracing for.
 
-In order to enable tracing there are two steps that have to be taken:
+You must also:
 
-* [1. Add a tracing backend](#add-a-tracing-backend)
-* [2. Add a TrafficTrace resource](#add-a-traffictrace-resource)
+1. [Add a tracing backend](#add-a-tracing-backend). You specify a tracing backend as a [`Mesh`](../mesh) resource property.
+1. [Add a TrafficTrace resource](#add-a-traffictrace-resource). YOu pass the backend to the `TrafficTrace` resource.
 
-::: tip
-On Kubernetes we can run `kumactl install tracing | kubectl apply -f -` to deploy Jaeger automatically in a `kuma-tracing` namespace.
-:::
+Kuma currently supports the following backends:
 
-## Add a tracing backend
-
-A tracing backend must be first specified in a [`Mesh`](../mesh) resource. Once added, the tracing backend will be available for use in the `TrafficTrace` resource.
+* `zipkin`
+  * [Jaeger](https://www.jaegertracing.io/) as the Zipkin collector. The Zipkin examples specify Jaeger, but you can modify for a Zipkin-only deployment.
+* `datadog`
 
 ::: tip
-While most commonly we want all the traces to be sent to the same tracing backend, we can optionally create multiple tracing backends in a `Mesh` resource and store traces for different paths of our service traffic in different backends (by leveraging Kuma Tags). This is especially useful when we want traces to never leave a world region, or a cloud, among other examples.
+While most commonly we want all the traces to be sent to the same tracing backend, we can optionally create multiple tracing backends in a `Mesh` resource and store traces for different paths of our service traffic in different backends by leveraging Kuma tags. This is especially useful when we want traces to never leave a world region, or a cloud, for example.
 :::
 
-The types supported are:
-
-* `zipkin`. You can also use this with [Jaeger](https://www.jaegertracing.io/) since it supports Zipkin compatible traces.
-* `datadog`. Follow the instructions at [Datadog](https://docs.datadoghq.com/tracing/) to set up the agent, either on bare metal or within Kubernetes. Specify the endpoint as `address:` in either `IP:Port` format or `unix:/var/run/datadog/apm.socket` if connecting via Unix Domain Socket.
-
-To add a new tracing backend we must create a new `tracing` property in a `Mesh` resource:
+## Add Jaeger backend
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
+
+::: tip
+On Kubernetes you can deploy Jaeger automatically in a `kuma-tracing` namespace with `kumactl install tracing | kubectl apply -f -`.
+:::
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -49,7 +43,7 @@ spec:
         url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
-We will apply the configuration with `kubectl apply -f [..]`.
+Apply the configuration with `kubectl apply -f [..]`.
 :::
 
 ::: tab "Universal"
@@ -66,11 +60,57 @@ tracing:
       url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.2.1/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.2.2/documentation/http-api).
 :::
 ::::
 
-We can also specify a `defaultBackend` property that will be used if any `TrafficTrace` resource doesn't explicitly specify a tracing backend.
+## Add Datadog backend
+
+Follow the instructions at [Datadog](https://docs.datadoghq.com/tracing/) to set up the agent, either on bare metal or within Kubernetes. Specify the endpoint as `address:` in either `IP:Port` format or `unix:/var/run/datadog/apm.socket` if connecting via Unix Domain Socket.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  tracing:
+    defaultBackend: datadog-collector
+    backends:
+    - name: datadog-collector
+      type: datadog
+      sampling: 100.0
+      conf:
+        address: trace-svc.datadog.svc.cluster.local
+        port: 8126
+```
+
+Apply the configuration with `kubectl apply -f [..]`.
+:::
+
+::: tab "Universal"
+```yaml
+type: Mesh
+name: default
+tracing:
+  defaultBackend: datadog-collector
+  backends:
+  - name: datadog-collector
+    type: datadog
+    sampling: 100.0
+    conf:
+      address: 127.0.0.1
+      port: 8126
+```
+
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.2.2/documentation/http-api).
+:::
+::::
+
+The `defaultBackend` property specifies the tracing backend to use if it's not explicitly specified in the `TrafficTrace` resource.
 
 ## Add a TrafficTrace resource
 
@@ -89,10 +129,10 @@ spec:
   - match:
       kuma.io/service: '*'
   conf:
-    backend: jaeger-collector
+    backend: jaeger-collector # or the name of any backend defined for the mesh 
 ```
 
-We will apply the configuration with `kubectl apply -f [..]`.
+Apply the configuration with `kubectl apply -f [..]`.
 :::
 
 ::: tab "Universal"
@@ -104,10 +144,10 @@ selectors:
 - match:
     kuma.io/service: '*'
 conf:
-  backend: jager-collector
+  backend: jaeger-collector # or the name of any backend defined for the mesh
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.2.1/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.2.2/documentation/http-api).
 :::
 ::::
 

@@ -2395,12 +2395,13 @@ module.exports = {
       ]
     },
     {
-      title: "HTTP API Reference",
+      title: "Reference docs",
       collapsable: true,
       sidebarDepth: sidebarDepth,
       path: "",
       children: [
-        "documentation/http-api"
+        "documentation/http-api",
+        "documentation/kubernetes-annotations",
       ]
     }
   ],

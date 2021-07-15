@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.2.1 has been released!**  &mdash; Advertised address for data plane proxy, SNI header added with TLS, and more! [Read More](/blog/2021/kuma-1-2-1/)
+**Kuma 1.2.2 has been released!**  &mdash; Datadog integration for traffic tracing, TODO ADD MORE! [Read More](/blog/2021/kuma-1-2-1/)
 
 :::
 

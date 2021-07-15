@@ -2540,7 +2540,7 @@ curl http://localhost:5681/zones+insights/cluster-1
  },
  "zoneInsight": {
   "subscriptions": [
-   {docs/docs/1.2.1/deployments/multi-zone.md
+   {docs/docs/1.2.2/deployments/multi-zone.md
     "id": "466aa63b-70e8-4435-8bee-a7146e2cdf11",
     "globalInstanceId": "66309679-ee95-4ea8-b17f-c715ca03bb38",
     "connectTime": "2020-07-28T16:08:09.743141Z",
