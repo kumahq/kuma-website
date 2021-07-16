@@ -194,7 +194,7 @@ spec:
           command: ["sh", "-c", "tail -f /dev/null"]
 ```
 
-In both cases these tags can be viewed with the CLI and GUI tools when inspecting the particular Pod dataplane.
+In both cases these tags will be see in the CLI and GUI tools when inspecting the particular Pod dataplane.
 
 ## Last but not least
 
@@ -215,4 +215,3 @@ When we unpack the underlying behavior, it looks like this:
 ::: tip
 **xDS APIs**: Kuma implements the [xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) APIs of Envoy in the `kuma-cp` application so that the Envoy DPs can connect to it and retrieve their configuration.
 :::
-
