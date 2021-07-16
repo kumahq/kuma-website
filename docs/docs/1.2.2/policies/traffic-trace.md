@@ -66,7 +66,13 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 ## Add Datadog backend
 
-Follow the instructions at [Datadog](https://docs.datadoghq.com/tracing/) to set up the agent, either on bare metal or within Kubernetes. Specify the endpoint as `address:` in either `IP:Port` format or `unix:/var/run/datadog/apm.socket` if connecting via Unix Domain Socket.
+### Prerequisites
+
+1. Set up the [Datadog](https://docs.datadoghq.com/tracing/) agent.
+1. Set up [APM](https://docs.datadoghq.com/tracing/).
+   - For Kubernetes, see [the datadog documentation for setting up Kubernetes](https://docs.datadoghq.com/agent/kubernetes/apm/).
+
+### Set up in Kuma
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -87,6 +93,8 @@ spec:
         address: trace-svc.datadog.svc.cluster.local
         port: 8126
 ```
+
+where `trace-svc` is the name of the Kubernetes Service you specified when you configured the Datadog APM agent.
 
 Apply the configuration with `kubectl apply -f [..]`.
 :::
@@ -112,9 +120,9 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 The `defaultBackend` property specifies the tracing backend to use if it's not explicitly specified in the `TrafficTrace` resource.
 
-## Add a TrafficTrace resource
+## Add TrafficTrace resource
 
-Once we have added a tracing backend, we can now create `TrafficTrace` resources that will determine how we are going to collecting traces, and what backend we should be using to store them.
+Next, create `TrafficTrace` resources that specify how to collect traces, and which backend to store them in.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -151,9 +159,9 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 :::
 ::::
 
-We can use Kuma Tags to apply the `TrafficTrace` resource in a more target way to a subset of data plane proxies as opposed to all of them (like we do in the example by using the `kuma.io/service: '*'` selector),
+You can also add tags to apply the `TrafficTrace` resource only a subset of data plane proxies. `TrafficTrace` is a [Dataplane policy](how-kuma-chooses-the-right-policy-to-apply.md#dataplane-policy), so you can specify any of the `selectors` tags.
 
-It is important that we instrument our services to preserve the trace chain between requests that are made across different services. We can either use a library in the language of our choice, or we can manually pass the following headers:
+Services should also be instrumented to preserve the trace chain across requests made across different services. You can instrument with a language library of your choice, or you can manually pass the following headers:
 
 * `x-request-id`
 * `x-b3-traceid`
@@ -161,9 +169,3 @@ It is important that we instrument our services to preserve the trace chain betw
 * `x-b3-spanid`
 * `x-b3-sampled`
 * `x-b3-flags`
-
-As noted before, Envoy's Zipkin tracer is also [compatible with Jaeger through Zipkin V2 HTTP API.](https://www.jaegertracing.io/docs/1.13/features/#backwards-compatibility-with-zipkin).
-
-## Matching
-
-`TrafficTrace` is a [Dataplane policy](how-kuma-chooses-the-right-policy-to-apply.md#dataplane-policy). You can use all the tags in the `selectors` section.
