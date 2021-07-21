@@ -278,7 +278,7 @@ annotations:
   kuma.io/virtual-probes-port: 19001
 ```
 
-To disable Kuma's probe virtualziation, we can either set it in Kuma's configuration gile `kuma-cp.config`:
+To disable Kuma's probe virtualization, we can either set it in Kuma's configuration file `kuma-cp.config`:
 
 ```yaml
 runtime:
