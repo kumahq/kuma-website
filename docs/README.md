@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.2.2 has been released!**  &mdash; Datadog integration for traffic tracing, improvements to discovery service, and more! [Read More](/blog/2021/kuma-1-2-2/)
+**Kuma 1.2.3 has been released!**  &mdash; Datadog integration for traffic tracing, improvements to discovery service, and more! [Read More](/blog/2021/kuma-1-2-3/)
 
 :::
 
