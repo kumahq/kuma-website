@@ -3077,12 +3077,10 @@ curl -XGET http://localhost:5681/status/zones
 [
  {
   "name": "zone-1",
-  "url": "grpcs://1.1.1.1:5685",
   "active": true
  },
  {
   "name": "zone-2",
-  "url": "grpcs://2.2.2.2:5685",
   "active": false
  }
 ]
