@@ -72,6 +72,27 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 1. Set up [APM](https://docs.datadoghq.com/tracing/).
    - For Kubernetes, see [the datadog documentation for setting up Kubernetes](https://docs.datadoghq.com/agent/kubernetes/apm/).
 
+If Datadog is running within Kubernetes, you can expose the APM agent port to Kuma via Kubernetes service.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: trace-svc
+spec:
+  selector:
+    app: datadog
+  ports:
+    - protocol: TCP
+      port: 8126
+      targetPort: 8126
+```
+Apply the configuration with `kubectl apply -f [..]`.
+:::
+::::
+
 ### Set up in Kuma
 
 :::: tabs :options="{ useUrlFragment: false }"
