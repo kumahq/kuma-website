@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.2.3 has been released!**  &mdash; Client-server version mismatch always warns, plus more fixes and improvements! [Read More](/blog/2021/kuma-1-2-3/)
+**Kuma 1.2.3 has been released!**  &mdash; Client-server version mismatch now always produces a warning, plus more fixes and improvements! [Read More](/blog/2021/kuma-1-2-3/)
 
 :::
 

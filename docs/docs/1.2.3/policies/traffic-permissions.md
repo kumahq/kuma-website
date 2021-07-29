@@ -46,20 +46,20 @@ destinations:
   - match:
       kuma.io/service: '*'
 ```
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs//documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.2.3/documentation/http-api).
 :::
 ::::
 
-You can use any [Tag](/docs//documentation/dps-and-data-model/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
+You can use any [Tag](/docs/1.2.3/documentation/dps-and-data-model/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
 
 ## Access to External Services
 
-The `TrafficPermission` policy can also be used to restrict traffic to [services outside the mesh](/docs//policies/external-services).
+The `TrafficPermission` policy can also be used to restrict traffic to [services outside the mesh](/docs/1.2.3/policies/external-services).
 
 ### Prerequisites
 
 * Kuma deployed with [transparent proxying](../networking/transparent-proxying)
-* `Mesh` configured to [disable passthrough mode](docs//policies/mesh/#usage)
+* `Mesh` configured to [disable passthrough mode](docs/1.2.3/policies/mesh/#usage)
 
 These settings lock down traffic to and from the mesh, which means that requests to any unknown destination are not allowed. The mesh can't rely on mTLS, because there is no data plane proxy on the destination side.
 

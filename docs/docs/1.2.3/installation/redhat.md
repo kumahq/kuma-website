@@ -45,7 +45,7 @@ Standalone mode is perfect when running Kuma in a single cluster across one envi
 $ ./kuma-cp run
 ```
 
-To learn more, read about the [deployment modes available](/docs//documentation/deployments/).
+To learn more, read about the [deployment modes available](/docs/1.2.3/documentation/deployments/).
 
 :::
 ::: tab "Multi-Zone"
@@ -54,7 +54,7 @@ Multi-zone mode is perfect when running one deployment of Kuma that spans across
 
 This mode also supports hybrid Kubernetes + VMs deployments.
 
-To learn more, read the [multi-zone installation instructions](/docs//documentation/deployments/).
+To learn more, read the [multi-zone installation instructions](/docs/1.2.3/documentation/deployments/).
 
 :::
 ::::
@@ -124,4 +124,4 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 Congratulations! You have successfully installed Kuma on RedHat 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs//quickstart/universal/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/1.2.3/quickstart/universal/) deployments.
