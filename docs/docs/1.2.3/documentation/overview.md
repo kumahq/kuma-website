@@ -116,7 +116,7 @@ metadata:
 
 ### Service pods and service-less pods
 
-In some cases, there might be a need to have Pods which are part of the mesh, yet they do not expose any services themselves. These are typically various containerised utilities, Kubernets jobs etc.
+In some cases, there might be a need to have Pods which are part of the mesh, yet they do not expose any services themselves. These are typically various containerised utilities, Kubernetes jobs etc.
 Such Pods are not bound to a Kubernetes Service as they would not have any ports exposed.
 
 #### Pods with a Service

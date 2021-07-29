@@ -60,7 +60,7 @@ tracing:
       url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.2.2/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs//documentation/http-api).
 :::
 ::::
 
@@ -71,6 +71,27 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 1. Set up the [Datadog](https://docs.datadoghq.com/tracing/) agent.
 1. Set up [APM](https://docs.datadoghq.com/tracing/).
    - For Kubernetes, see [the datadog documentation for setting up Kubernetes](https://docs.datadoghq.com/agent/kubernetes/apm/).
+
+If Datadog is running within Kubernetes, you can expose the APM agent port to Kuma via Kubernetes service.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: trace-svc
+spec:
+  selector:
+    app: datadog
+  ports:
+    - protocol: TCP
+      port: 8126
+      targetPort: 8126
+```
+Apply the configuration with `kubectl apply -f [..]`.
+:::
+::::
 
 ### Set up in Kuma
 
@@ -114,7 +135,7 @@ tracing:
       port: 8126
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.2.2/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs//documentation/http-api).
 :::
 ::::
 
@@ -155,7 +176,7 @@ conf:
   backend: jaeger-collector # or the name of any backend defined for the mesh
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.2.2/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs//documentation/http-api).
 :::
 ::::
 

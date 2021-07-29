@@ -125,7 +125,7 @@ Each Kuma data plane proxy is associated with tags - or attributes - that can be
 A tag attributes a qualifier to the data plane proxy, and the tags that are reserved to Kuma are prefixed with `kuma.io` like:
 
 * `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
-* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/1.2.2/documentation/deployments/). This tag is automatically created and cannot be overwritten.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs//documentation/deployments/). This tag is automatically created and cannot be overwritten.
 * `kuma.io/protocol`: Identifies the protocol that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 ::: tip
@@ -296,7 +296,7 @@ spec:
 
 The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime. Using [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma requires an annotation on every `Service` that you want to pass traffic to [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream). This is automatically injected by Kuma for every Kubernetes service that is in a namespace part of the mesh i.e. has `kuma.io/sidecar-injection: enabled`
 
-Services can be exposed to an API Gateway in one specific zone, or in multi-zone. For the latter, we need to expose a dedicated Kubernetes `Service` object with type `ExternalName`, which sets the `externalName` to the `.mesh` DNS record for the particular service that we want to expose, that will be resolved by Kuma's internal [service discovery](/docs/1.2.2/networking/dns).
+Services can be exposed to an API Gateway in one specific zone, or in multi-zone. For the latter, we need to expose a dedicated Kubernetes `Service` object with type `ExternalName`, which sets the `externalName` to the `.mesh` DNS record for the particular service that we want to expose, that will be resolved by Kuma's internal [service discovery](/docs//networking/dns).
 
 #### Example Gateway in Multi-Zone
 
@@ -343,28 +343,32 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Zone Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/1.2.2/documentation/deployments/#multi-zone-mode) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
-All requests that are sent from one zone to another will be directed to the proper instance by the `Zone Ingress`.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs//documentation/deployments/#multi-zone-mode) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
+All requests that are sent from one zone to another will be directed to the proper instance by the Zone Ingress.
 
 The `ZoneIngress` entity includes a few sections:
 
 * `type`: must be `ZoneIngress`.
-* `name`: this is the name of the zone-ingress instance, and it must be **unique** for any given `zone`.
-* `networking`: contains networking parameters of the `ZoneIngress`
-  * `address`: is an address which is routable withing the local `ZoneIngress` zone, zone-ingress instance is listening on that address
-  * `port`: is a port that `ZoneIngress` is listening on
-  * `advertisedAddress`: an IP address or hostname which will be used by data plane proxies from other zones
-  * `advertisedPort`: a port which will be used by data plane proxies from other zones
-* `availableServices` **[auto-generated on Kuma CP]** : the list of services that could be consumed through the `ZoneIngress`
-* `zone` **[auto-generated on Kuma CP]** : zone where `ZoneIngress` belongs to
+* `name`: this is the name of the Zone Ingress instance, and it must be **unique** for any given `zone`.
+* `networking`: contains networking parameters of the Zone Ingress
+  * `address`: the address of the network interface Zone Ingress is listening on. Could be the address of either
+    public or private network interface, but the latter must be used with a load balancer.
+  * `port`: is a port that Zone Ingress is listening on
+  * `advertisedAddress`: an IP address or hostname which will be used to communicate with the Zone Ingress. Zone Ingress
+    doesn't listen on this address. If Zone Ingress is exposed using a load balancer, then the address of the load balancer
+    should be used here. If Zone Ingress is listening on the public network interface, then the address of the public network
+    interface should be used here.
+  * `advertisedPort`: a port which will be used to communicate with the Zone Ingress. Zone Ingress doesn't listen on this port.
+* `availableServices` **[auto-generated on Kuma CP]** : the list of services that could be consumed through the Zone Ingress
+* `zone` **[auto-generated on Kuma CP]** : zone where Zone Ingress belongs to
 
-`Zone Ingress` without `advertisedAddress` and `advertisedPort` is not taken into account when generating Envoy configuration, because they cannot be accessed by data plane proxies from other zones.
+Zone Ingress without `advertisedAddress` and `advertisedPort` is not taken into account when generating Envoy configuration, because they cannot be accessed by data plane proxies from other zones.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/1.2.2/documentation/deployments/#zone-control-plane). It works as a separate deployment of a single-container pod.
+The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs//documentation/deployments/#zone-control-plane). It works as a separate deployment of a single-container pod.
 
-Kuma will try to resolve `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this `ZoneIngress`.
+Kuma will try to resolve `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this Zone Ingress.
 
 If the Service type is Load Balancer, Kuma will wait for public IP to be resolved. It may take a couple of minutes to receive public IP depending on the LB implementation of your Kubernetes provider. 
 

@@ -26,7 +26,7 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 You can also download the distribution manually:
 
-* [Download Kuma](https://download.konghq.com/mesh-alpine/kuma-1.2.2-darwin-amd64.tar.gz)
+* [Download Kuma](https://download.konghq.com/mesh-alpine/kuma--darwin-amd64.tar.gz)
 
 Then extract the archive with:
 
@@ -48,12 +48,12 @@ $ brew install kumactl
 
 ### 2. Run Kuma
 
-Once downloaded, you will find the contents of Kuma in the `kuma-1.2.2` folder. In this folder, you will find - among other files - the `bin` directory that stores all the executables for Kuma. 
+Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In this folder, you will find - among other files - the `bin` directory that stores all the executables for Kuma. 
 
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-1.2.2/bin
+$ cd kuma-/bin
 ```
 
 Finally we can run Kuma in either **standalone** or **multi-zone** mode:
@@ -67,7 +67,7 @@ Standalone mode is perfect when running Kuma in a single cluster across one envi
 $ ./kuma-cp run
 ```
 
-To learn more, read about the [deployment modes available](/docs/1.2.2/documentation/deployments/).
+To learn more, read about the [deployment modes available](/docs//documentation/deployments/).
 
 :::
 ::: tab "Multi-Zone"
@@ -76,7 +76,7 @@ Multi-zone mode is perfect when running one deployment of Kuma that spans across
 
 This mode also supports hybrid Kubernetes + VMs deployments.
 
-To learn more, read the [multi-zone installation instructions](/docs/1.2.2/documentation/deployments/).
+To learn more, read the [multi-zone installation instructions](/docs//documentation/deployments/).
 
 :::
 ::::
@@ -146,4 +146,4 @@ You will notice that Kuma automatically creates a [`Mesh`](../../policies/mesh) 
 
 Congratulations! You have successfully installed Kuma on macOS 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/1.2.2/quickstart/universal/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs//quickstart/universal/) deployments.
