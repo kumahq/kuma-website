@@ -26,7 +26,7 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 You can also download the distribution manually:
 
-* [Download Kuma](https://download.konghq.com/mesh-alpine/kuma--darwin-amd64.tar.gz)
+* [Download Kuma](https://download.konghq.com/mesh-alpine/kuma-1.2.3-darwin-amd64.tar.gz)
 
 Then extract the archive with:
 

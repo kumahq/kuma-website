@@ -26,11 +26,11 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access OpenShift:
 
-* [CentOS](https://download.konghq.com/mesh-alpine/kuma--centos-amd64.tar.gz)
-* [RedHat](https://download.konghq.com/mesh-alpine/kuma--rhel-amd64.tar.gz)
-* [Debian](https://download.konghq.com/mesh-alpine/kuma--debian-amd64.tar.gz)
-* [Ubuntu](https://download.konghq.com/mesh-alpine/kuma--ubuntu-amd64.tar.gz)
-* [macOS](https://download.konghq.com/mesh-alpine/kuma--darwin-amd64.tar.gz) or `brew install kumactl`
+* [CentOS](https://download.konghq.com/mesh-alpine/kuma-1.2.3-centos-amd64.tar.gz)
+* [RedHat](https://download.konghq.com/mesh-alpine/kuma-1.2.3-rhel-amd64.tar.gz)
+* [Debian](https://download.konghq.com/mesh-alpine/kuma-1.2.3-debian-amd64.tar.gz)
+* [Ubuntu](https://download.konghq.com/mesh-alpine/kuma-1.2.3-ubuntu-amd64.tar.gz)
+* [macOS](https://download.konghq.com/mesh-alpine/kuma-1.2.3-darwin-amd64.tar.gz) or `brew install kumactl`
 
 and extract the archive with:
 

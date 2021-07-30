@@ -108,11 +108,11 @@ $ curl -L https://kuma.io/installer.sh | sh -
 
 or you can download the distribution manually:
 
-* [CentOS](https://download.konghq.com/mesh-alpine/kuma--centos-amd64.tar.gz)
-* [RedHat](https://download.konghq.com/mesh-alpine/kuma--rhel-amd64.tar.gz)
-* [Debian](https://download.konghq.com/mesh-alpine/kuma--debian-amd64.tar.gz)
-* [Ubuntu](https://download.konghq.com/mesh-alpine/kuma--ubuntu-amd64.tar.gz)
-* [macOS](https://download.konghq.com/mesh-alpine/kuma--darwin-amd64.tar.gz)
+* [CentOS](https://download.konghq.com/mesh-alpine/kuma-1.2.3-centos-amd64.tar.gz)
+* [RedHat](https://download.konghq.com/mesh-alpine/kuma-1.2.3-rhel-amd64.tar.gz)
+* [Debian](https://download.konghq.com/mesh-alpine/kuma-1.2.3-debian-amd64.tar.gz)
+* [Ubuntu](https://download.konghq.com/mesh-alpine/kuma-1.2.3-ubuntu-amd64.tar.gz)
+* [macOS](https://download.konghq.com/mesh-alpine/kuma-1.2.3-darwin-amd64.tar.gz)
 
 and extract the archive with:
 
