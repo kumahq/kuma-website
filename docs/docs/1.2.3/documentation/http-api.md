@@ -989,6 +989,7 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
      }
     }
   ],
+  "total": 2,
   "next": "http://localhost:5681/meshes/default/dataplanes+insights?offset=1"
 }
 ```
