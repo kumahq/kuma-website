@@ -27,6 +27,7 @@ While most commonly we want all the traces to be sent to the same tracing backen
 ::: tip
 On Kubernetes you can deploy Jaeger automatically in a `kuma-tracing` namespace with `kumactl install tracing | kubectl apply -f -`.
 :::
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
