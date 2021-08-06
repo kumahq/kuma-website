@@ -191,3 +191,14 @@ Services should also be instrumented to preserve the trace chain across requests
 * `x-b3-spanid`
 * `x-b3-sampled`
 * `x-b3-flags`
+
+## Configure Grafana to visualize the logs
+
+To visualise your **traces** you need to have a Grafana up and running.
+You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](traffic-metrics.md).
+
+With Grafana installed you can configure a new datasource with url:`http://jaeger-query.kuma-tracing/` so Grafana will be able to retrieve the traces from Jaeger.
+
+<center>
+<img src="../images/jaeger_grafana_config.png" alt="Jaeger Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>

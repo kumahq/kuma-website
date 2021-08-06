@@ -183,20 +183,19 @@ spec:
           conf:
             path: /dev/stdout
 ```
-    
+
 **3. Configure Grafana to visualize the logs**
 
-If the [Traffic Metrics](traffic-metrics.md) policy is installed on your `kubernetes` node, you can configure a new 
-datasource in Grafana to visualise your **containers' logs** and your **access logs**.
+To visualise your **containers' logs** and your **access logs** you need to have a Grafana up and running.
+You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](traffic-metrics.md).
 
-Use the `kubectl port-forward` command to access Grafana.
+With Grafana installed you can configure a new datasource with url:`http://loki.kuma-logging:3100` so Grafana will be able to retrieve the logs from Loki.
 
 <center>
 <img src="../images/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki 
-datasource in the explore section.
+At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the explore section.
 :::
 ::: tab "Universal"
 
@@ -224,39 +223,28 @@ logging:
 **3. Configure Grafana to visualize the logs**
 
 To visualise your **containers' logs** and your **access logs** you need to have a Grafana up and running. 
-If you don't have Grafana you can install it by following the informations of the [official page](https://grafana.com/docs/grafana/latest/installation/)
+You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](traffic-metrics.md).
 
-With Granana installed you can configure a new datasource so Grafana will be able to retrieve the logs from Loki.
+With Grafana installed you can configure a new datasource with url:`http://loki.kuma-logging:3100` so Grafana will be able to retrieve the logs from Loki.
 
 <center>
 <img src="../images/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki 
-datasource in the explore section.
-
+At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the explore section.
 :::
 ::::
 
 ::: tip
 **Nice to have**
 
-If you are also using the [Traffic Trace](traffic-trace.md) policy you can configure a new datasource for Jaeger to visualise your traces directly into Grafana.
-
-<center>
-<img src="../images/jaeger_grafana_config.png" alt="Jaeger Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
-
 Having your Logs and Traces in the same visualisation tool can come really handy. By adding the traceId in your app logs you can visualize your logs and the related Jaeger traces. 
-To learn more about it go read this [article](https://grafana.com/blog/2020/05/22/new-in-grafana-7.0-trace-viewer-and-integrations-with-jaeger-and-zipkin/) 
+To learn more about it go read this [article](https://grafana.com/blog/2020/05/22/new-in-grafana-7.0-trace-viewer-and-integrations-with-jaeger-and-zipkin/).
 
-<center>
-<img src="../images/jaeger_loki_correlation.png" alt="Logs and Traces visualisation in Grafana" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
+To set up tracing see the [traffic-trace policy](traffic-trace.md).
 :::
 
-You can also forward the access logs to a collector (such as logstash) that can further transmit them into systems like Splunk,
- ELK and Datadog.
+You can also forward the access logs to a collector (such as logstash) that can further transmit them into systems like Splunk, ELK and Datadog.
 
 ### Access Log Format
 
