@@ -27,7 +27,6 @@ Once the repo is added, all following updates can be fetched with `helm repo upd
 At this point we can install and run Kuma using the following commands. We could use any Kubernetes namespace to install Kuma, by default we suggest using `kuma-system`:
 
 ```sh
-$ kubectl create namespace kuma-system
 $ helm install --namespace kuma-system kuma kuma/kuma
 ```
 
