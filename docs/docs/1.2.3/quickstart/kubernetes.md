@@ -1,55 +1,47 @@
 ---
-title: Kubernetes Quickstart
+title: Explore Kuma with the Kubernetes demo app
 ---
 
-# Quickstart in Kubernetes Mode
 
-Congratulations! After [installing](/install) Kuma, you can get up and running with a few easy steps.
+To start learning how Kuma works, you can download and run a simple demo application that consists of two services:
 
-:::tip
-Kuma can run in both **Kubernetes** (Containers) and **Universal** mode (for VMs and Bare Metal). You are now looking at the quickstart for Kubernetes mode, but you can also check out the [Universal one](/docs/1.2.3/quickstart/universal).
-:::
+- `demo-app`: a web application that lets you increment a numeric counter
+- `redis`: to store the counter
 
-In order to simulate a real-world scenario, we have built a simple demo application that resembles a marketplace. In this tutorial we will:
+The `demo-app` service listens on port 5000. When it starts, it expects to find a zone key in Redis that specifies the name of the datacenter (or cluster) where the Redis instance is running. This name is displayed in the browser.
 
-* [1. Run the Marketplace application](#_1-run-the-marketplace-application)
-* [2. Enable Mutual TLS and Traffic Permissions](#_2-enable-mutual-tls-and-traffic-permissions)
-* [3. Visualize Traffic Metrics](#_3-visualize-traffic-metrics)
+The zone key is purely static and arbitrary. Different zone values for different Redis instances let you keep track of which Redis instance stores the counter if you manage routes across different zones, clusters, and clouds.
 
-You can also access the Kuma marketplace demo repository [on Github](https://github.com/kumahq/kuma-demo) to try more features and policies in addition to the ones described in this quickstart.
+## Prerequisites
 
-:::tip
-**Community Chat**: If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.
-:::
+- Redis installed
+- [Kuma installed](/install)
+- [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 
-### 1. Run the Marketplace application
+  ```sh
+  $ git clone https://github.com/kumahq/kuma-counter-demo.git
+  ```
 
-First, Kuma must be [installed and running](/docs/1.2.3/installation/kubernetes) in your Kubernetes cluster.
+## Set up and run
 
-To install the marketplace demo application you can run:
+1.  Run `redis` on the default port 6379 and set a default zone name:
 
-```sh
-$ kubectl apply -f https://bit.ly/demokuma
-```
+    ```sh
+    $ redis-server --port 26379
+    $ redis-cli -p 26379 set zone local
+    ```
 
-This will provision a new `kuma-demo` namespace with all the services required to run the application, in this case:
+1.  Install and start `demo-app` on the default port 5000:
 
-* `frontend`: the entry-point service that serves the web application.
-* `backend`: the underlying backend component that powers the `frontend` service.
-* `postgres`: the database that stores the marketplace items.
-* `redis`: the backend storage for items reviews.
+    ```sh
+    $ npm install --prefix=app/
+    $ npm start --prefix=app/
+    ```
+1.  In a browser, go to `127.0.0.1:5000` and increment the counter.
 
-You can then access the application by executing:
+## Explore the mesh
 
-```sh
-$ kubectl port-forward svc/frontend -n kuma-demo 8080:8080
-```
-
-And navigate to [127.0.0.1:8080](http://127.0.0.1:8080). 
-
-#### See the connected dataplanes
-
-Since the demo application already comes with the `kuma.io/sidecar-injection` annotation enabled on the `kuma-demo` namespace, Kuma [already knows](/docs/1.2.3/documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/1.2.3/policies/mesh/) resource:
+The demo app includes the `kuma.io/sidecar-injection` annotation enabled on the `kuma-demo` namespace. This means that Kuma [already knows](/docs/1.2.3/documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/1.2.3/policies/mesh/) resource:
 
 ```yaml
 apiVersion: v1
@@ -61,7 +53,7 @@ metadata:
     kuma.io/sidecar-injection: enabled
 ```
 
-You can visualize the sidecars proxies that have connected to Kuma by running:
+You can view the sidecar proxies that are connected to the Kuma control plane:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "GUI (Read-Only)"
@@ -117,7 +109,7 @@ $ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma
 :::
 ::::
 
-### 2. Enable Mutual TLS and Traffic Permissions
+## Enable Mutual TLS and Traffic Permissions
 
 By default the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/1.2.3/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/1.2.3/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
 
@@ -166,9 +158,9 @@ By doing so every request we now make on our demo application at [`127.0.0.1:808
 As usual, you can visualize the Mutual TLS configuration and the Traffic Permission policies we have just applied via the GUI, the HTTP API or `kumactl`.
 :::
 
-### 3. Visualize Traffic Metrics
+## Explore Traffic Metrics
 
-Among the [many policies](/policies) that Kuma provides out of the box, one of the most important ones is [Traffic Metrics](/docs/1.2.3/policies/traffic-metrics/).
+One of the most important [policies](/policies) that Kuma provides out of the box is [Traffic Metrics](/docs/1.2.3/policies/traffic-metrics/).
 
 With Traffic Metrics we can leverage Prometheus and Grafana to visualize powerful dashboards that show the overall traffic activity of our application and the status of the Service Mesh.
 
@@ -228,13 +220,7 @@ Kuma automatically installs three dashboard that are ready to use:
 
 You can now explore the dashboards and see the metrics being populated over time.
 
-# Next steps
-
-::: tip
-**Protip**: Use `#kumamesh` on Twitter to chat about Kuma.
-:::
-
-Congratulations! You have completed the quickstart for Kubernetes, but there is so much more that you can do with Kuma:
+## Next steps
 
 * Explore the [Policies](/policies) available to govern and orchestrate your service traffic.
 * Read the [full documentation](/docs) to learn about all the capabilities of Kuma.
