@@ -57,6 +57,35 @@ metadata:
     kuma.io/sidecar-injection: enabled
 ```
 
+Run:
+
+```sh
+$ kubectl get namespace kuma-demo -oyaml
+```
+
+to see what the full namespace looks like:
+
+```sh
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{"kuma.io/sidecar-injection":"enabled"},"name":"kuma-demo"}}
+    kuma.io/sidecar-injection: enabled
+  creationTimestamp: "2021-08-13T09:17:48Z"
+  labels:
+    kubernetes.io/metadata.name: kuma-demo
+  name: kuma-demo
+  resourceVersion: "749"
+  uid: 66b1279e-e49c-427d-af01-3adc91e505c1
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active
+```
+
 You can view the sidecar proxies that are connected to the Kuma control plane:
 
 :::: tabs :options="{ useUrlFragment: false }"

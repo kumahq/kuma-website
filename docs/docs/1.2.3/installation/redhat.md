@@ -31,7 +31,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In th
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-/bin
+$ cd kuma-1.2.3/bin
 ```
 
 Finally we can run Kuma in either **standalone** or **multi-zone** mode:

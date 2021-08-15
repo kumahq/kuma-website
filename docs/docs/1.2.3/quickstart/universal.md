@@ -15,7 +15,7 @@ The zone key is purely static and arbitrary. Different zone values for different
 
 ## Prerequisites
 
-- Redis installed
+- [Redis installed](https://redis.io/download#installation)
 - [Kuma installed](/install)
 - [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 
@@ -25,10 +25,10 @@ The zone key is purely static and arbitrary. Different zone values for different
 
 ## Set up
 
-1.  Run `redis` on port 26379 and set a default zone name:
+1.  Run `redis` as a daemon on port 26379 and set a default zone name:
 
     ```sh
-    $ redis-server --port 26379
+    $ redis-server --port 26379 --daemonize yes
     $ redis-cli -p 26379 set zone local
     ```
 
@@ -56,19 +56,20 @@ For Redis:
 $ kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
-  --dataplane="type: Dataplane
-            mesh: default
-            name: redis
-            networking: 
-            address: 0.0.0.0
-            inbound: 
-                - port: 16379
-                servicePort: 26379
-                serviceAddress: 127.0.0.1
-                tags: 
-                    kuma.io/service: redis
-                    kuma.io/protocol: tcp" \
-  --dataplane-token-file=kuma-token-redis
+  --dataplane-token-file=kuma-token-redis \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: redis
+  networking: 
+    address: 0.0.0.0
+    inbound: 
+      - port: 16379
+      servicePort: 26379
+      serviceAddress: 127.0.0.1
+      tags: 
+        kuma.io/service: redis
+        kuma.io/protocol: tcp"
 ```
 
 And for the demo app:
@@ -77,23 +78,24 @@ And for the demo app:
 $ kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
-  --dataplane="type: Dataplane
-            mesh: default
-            name: app
-            networking: 
-            address: 0.0.0.0
-            outbound:
-                - port: 6379
-                tags:
-                    kuma.io/service: redis
-            inbound: 
-                - port: 15000
-                servicePort: 5000
-                serviceAddress: 127.0.0.1
-                tags: 
-                    kuma.io/service: app
-                    kuma.io/protocol: http" \
-  --dataplane-token-file=kuma-token-app
+  --dataplane-token-file=kuma-token-app \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: app
+  networking: 
+    address: 0.0.0.0
+    outbound:
+      - port: 6379
+        tags:
+          kuma.io/service: redis
+    inbound: 
+      - port: 15000
+        servicePort: 5000
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: app
+          kuma.io/protocol: http"
 ```
 
 ## Run
@@ -109,7 +111,7 @@ You can view the sidecar proxies that are connected to the Kuma control plane:
 
 Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on the API port and defaults to `:5681/gui`. 
 
-You can navigate to [`192.168.33.10:5681/gui#/default/dataplanes`](http://192.168.33.10:5681/gui#/default/dataplanes) to see the connected dataplanes.
+You can navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/meshes/default/dataplanes) to see the connected dataplanes.
 
 :::
 ::: tab "HTTP API (Read/Write)"
@@ -118,7 +120,7 @@ Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resou
 
 By default the HTTP API listens on port `5681`. 
 
-Navigate to [`192.168.33.10:5681/meshes/default/dataplanes`](http://192.168.33.10:5681/meshes/default/dataplanes) to see the connected dataplanes.
+Navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/meshes/default/dataplanes) to see the connected dataplanes.
 
 :::
 ::: tab "kumactl (Read/Write)"
@@ -215,13 +217,7 @@ EOF
 
 This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/1.2.3/policies/mesh/) and automatically collect metrics for all of our traffic.
 
-Increment the counter to generate traffic. Then you can expose the Grafana dashboard:
-
-```sh
-$ kubectl port-forward svc/grafana -n kuma-metrics 3000:80
-```
-
-and access the dashboard at [127.0.0.1:3000](http://127.0.0.1:3000) with default credentials for both the username (`admin`) and the password (`admin`).
+Increment the counter to generate traffic, and access the dashboard at [127.0.0.1:3000](http://127.0.0.1:3000) with default credentials for both the username (`admin`) and the password (`admin`).
 
 Kuma automatically installs three dashboard that are ready to use:
 

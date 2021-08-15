@@ -57,7 +57,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In th
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-/bin
+$ cd kuma-1.2.3/bin
 ```
 
 Finally we can install and run Kuma in either **standalone** or **multi-zone** mode:
@@ -89,16 +89,20 @@ To learn more, read the [multi-zone installation instructions](/docs/1.2.3/docum
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
 ```sh
-ln -s ./kumactl /usr/local/bin/kumactl
+ln -s {YOUR_PASSWORD}/kumactl /usr/local/bin/kumactl
 ```
 
-::: tip
-It may take a while for Kubernetes to start the Kuma resources, you can check the status by executing:
+It may take a while for Kubernetes to start the Kuma resources. You can run:
+
+```sh
+kubectl wait -n kuma-system --timeout=5s --for condition=Ready --all pods
+```
+
+and then to check final pod status:
 
 ```sh
 $ kubectl get pod -n kuma-system
 ```
-:::
 
 ### 3. Use Kuma
 
