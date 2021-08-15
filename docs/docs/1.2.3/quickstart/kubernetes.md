@@ -9,6 +9,8 @@ To start learning how Kuma works, you can download and run a simple demo applica
 - `demo-app`: web application that lets you increment a numeric counter
 - `redis`: data store for the counter
 
+This guide also introduces some of the tools Kuma provides to help you control and monitor traffic, track resource status, and more.
+
 The `demo-app` service listens on port 5000. When it starts, it expects to find a zone key in Redis that specifies the name of the datacenter (or cluster) where the Redis instance is running. This name is displayed in the browser.
 
 The zone key is purely static and arbitrary. Different zone values for different Redis instances let you keep track of which Redis instance stores the counter if you manage routes across different zones, clusters, and clouds.
@@ -193,7 +195,7 @@ As usual, you can visualize the Mutual TLS configuration and the Traffic Permiss
 
 One of the most important [policies](/policies) that Kuma provides out of the box is [Traffic Metrics](/docs/1.2.3/policies/traffic-metrics/).
 
-With Traffic Metrics we can leverage Prometheus and Grafana to visualize powerful dashboards that show the overall traffic activity of our application and the status of the Service Mesh.
+With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that visualize the overall traffic activity of our application and the status of the service mesh.
 
 To enable traffic metrics we need to first install Prometheus and Grafana:
 
