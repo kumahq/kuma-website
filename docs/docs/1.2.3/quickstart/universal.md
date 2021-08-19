@@ -25,6 +25,8 @@ The zone key is purely static and arbitrary. Different zone values for different
   $ git clone https://github.com/kumahq/kuma-counter-demo.git
   ```
 
+To explore traffic metrics with the demo app, you also need to set up Prometheus. See the [traffic metrics policy documentation]((../../policies/traffic-metrics)).
+
 ## Set up
 
 1.  Run `redis` as a daemon on port 26379 and set a default zone name:

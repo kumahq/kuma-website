@@ -168,7 +168,7 @@ kuma-prometheus-sd run \
 
 The above configuration tells `kuma-prometheus-sd` to talk to `Kuma` Control Plane at [grpcs://kuma-control-plane.internal:5676](grpcs://kuma-control-plane.internal:5676) and save the list of dataplanes to `/var/run/kuma-prometheus-sd/kuma.file_sd.json`.
 
-Then, you need to set up `Prometheus` to read from that file, e.g. by using `prometheus.yml` config with the following contents:
+Then, configure `Prometheus` to read from that file, e.g. by using `prometheus.yml` config with the following contents:
 
 ```yaml
 scrape_configs:
@@ -184,6 +184,14 @@ and running
 ```shell
 prometheus --config.file=prometheus.yml
 ```
+
+Or, if you run Prometheus 2.29 or later, you instead add only the following to `prometheus.yml`:
+
+```sh
+kuma_sd_configs:
+ - server: http://kuma-control-plane.kuma-system.svc:5676
+```
+
 :::
 ::::
 
