@@ -8,7 +8,7 @@ Out-of-the-box, `Kuma` provides full integration with `Prometheus`:
 * if enabled, every dataplane will expose its metrics in `Prometheus` format
 * furthemore, `Kuma` will make sure that `Prometheus` can automatically find every dataplane in the mesh
 
-To collect metrics from Kuma, you need to first expose metrics from Dataplanes and then configure Prometheus to collect them.
+To collect metrics from Kuma, you need to first expose metrics from dataplanes and then configure Prometheus to collect them.
 
 ### Expose metrics from Dataplanes
 
@@ -144,11 +144,13 @@ As a result, this particular dataplane will expose an HTTP endpoint with `Promet
 
 Although dataplane metrics are now exposed, `Prometheus` doesn't know anything about it just yet.
 
-To help `Prometheus` to automatically discover dataplanes, `Kuma` provides a tool - `kuma-prometheus-sd`.
+To help `Prometheus` automatically discover dataplanes, Kuma provides the tool - `kuma-prometheus-sd`.
 `kuma-prometheus-sd` is meant to run alongside `Prometheus` instance.
 It knows location of `Kuma` Control Plane is and can fetch an up-to-date list of dataplanes from it.
 It then transforms that information into a format that `Prometheus` can understand, and saves it into a file on disk.
 `Prometheus` watches for changes to that file and updates its scraping configuration accordingly.
+
+In Prometheus version 2.29 and later, you can work with a simplified command on Prometheus, instead of passing the Kuma configuration to Prometheus.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
