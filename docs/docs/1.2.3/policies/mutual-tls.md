@@ -187,6 +187,48 @@ A few considerations:
 * The `dpCert` configuration determines how often Kuma should automatically rotate the certificates assigned to every data plane proxy.
 * The Secrets must exist before referencing them in a `provided` backend.
 
+## Permissive mTLS
+
+Kuma provides a convenient way to migrate existing workloads to the mTLS mesh with zero downtime. In order to do so 
+`PERMISSIVE` mode has to be enabled. 
+
+:::: tabs :options="{ useUrlFragment: false }"
+
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  mtls:
+    enabledBackend: ca-1
+    backends:
+      - name: ca-1
+        type: builtin
+        mode: PERMISSIVE # supported values: STRICT, PERMISSIVE
+```
+:::
+
+::: tab "Universal"
+```yaml
+type: Mesh
+name: default
+mtls:
+  enabledBackend: ca-1
+  backends:
+    - name: ca-1
+      type: builtin
+      mode: PERMISSIVE # supported values: STRICT, PERMISSIVE
+```
+:::
+
+::::
+
+Permissive mTLS mode encrypts outbound connections the same way as strict mTLS mode, but inbound connections on the server-side
+accept both TLS and plaintext. This allows migrating servers to the mTLS mesh while clients are still don't belong to the mesh.
+The case when the client and server already had TLS is supported as well.
+
 ### CA requirements
 
 When using an arbitrary certificate and key for a `provided` backend, we must make sure that we comply with the following requirements:
