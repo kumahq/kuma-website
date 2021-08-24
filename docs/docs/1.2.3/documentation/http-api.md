@@ -572,11 +572,20 @@ curl http://localhost:5681/mesh-insights/default
     "partiallyDegraded": 1
    }
   },
-  "mTLSBackends": {
-    "ca-1": {
-      "total": 1,
-      "online": 1,
-      "partiallyDegraded": 1
+  "mTLS": {
+    "issuedBackends": {
+      "ca-1": {
+        "total": 1,
+        "online": 1,
+        "partiallyDegraded": 1
+      }
+    },
+    "supportedBackends": {
+      "ca-1": {
+        "total": 1,
+        "online": 1,
+        "partiallyDegraded": 1
+      }
     }
   }
  }
@@ -648,11 +657,20 @@ curl http://localhost:5681/mesh-insights
       "partiallyDegraded": 1
      }
     },
-    "mTLSBackends": {
-      "ca-1": {
-        "total": 1,
-        "online": 1,
-        "partiallyDegraded": 1
+    "mTLS": {
+      "issuedBackends": {
+        "ca-1": {
+          "total": 1,
+          "online": 1,
+          "partiallyDegraded": 1
+        }
+      },
+      "supportedBackends": {
+        "ca-1": {
+          "total": 1,
+          "online": 1,
+          "partiallyDegraded": 1
+        }
       }
     }
    }
@@ -709,11 +727,20 @@ curl http://localhost:5681/mesh-insights
       "partiallyDegraded": 1
      }
     },
-    "mTLSBackends": {
-      "ca-1": {
-        "total": 1,
-        "online": 1,
-        "partiallyDegraded": 1
+    "mTLS": {
+      "issuedBackends": {
+        "ca-1": {
+          "total": 1,
+          "online": 1,
+          "partiallyDegraded": 1
+        }
+      },
+      "supportedBackends": {
+        "ca-1": {
+          "total": 1,
+          "online": 1,
+          "partiallyDegraded": 1
+        }
       }
     }
    }
@@ -912,7 +939,8 @@ curl http://localhost:5681/meshes/default/dataplanes+insights/example
     "certificateExpirationTime": "2019-10-24T14:04:57.832482Z", 
     "lastCertificateRegeneration": "2019-10-24T12:04:57.832482Z",
     "certificateRegenerations": 3,
-    "backend": "ca-1"
+    "issuedBackend": "ca-1",
+    "supportedBackends": ["ca-1"]
   },
   "subscriptions": [
    {
@@ -990,7 +1018,8 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
         "certificateExpirationTime": "2019-10-24T14:04:57.832482Z",
         "lastCertificateRegeneration": "2019-10-24T12:04:57.832482Z",
         "certificateRegenerations": 3,
-        "backend": "ca-1"
+        "issuedBackend": "ca-1",
+        "supportedBackends": ["ca-1"]
       },
       "subscriptions": [
        {
