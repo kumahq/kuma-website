@@ -9,10 +9,14 @@ Possible use cases are:
 3) Providing specific routes, for example to reach a specific pod in a service with StatefulSets on Kubernetes, or to add a URL to reach a specific version of a service.
 4) Expose multiple inbounds on different ports.
 
-Note that complex virtual outbounds do not work for cross-zone traffic. This is because only service tags are propagated across zones. 
-## Usage
+Limitations:
+
+- Complex virtual outbounds do not work for cross-zone traffic. This is because only service tags are propagated across zones.
+- When duplicate `(hostname, port)` combinations are detected, the virtual outbound with the highest priority takes over. For more information, see [the documentation on ow Kuma chooses the right poliy](../../1.2.3/policies/how-kuma-chooses-the-right-policy-to-apply.md). All duplicate instances are logged.
 
 `conf.host` and `conf.port` are processed as [go text templates](https://pkg.go.dev/text/template) with a key-value pair derived from `conf.parameters`.
+
+`conf.selectors` are used to specify which dataplanes this policy applies to.
 
 For example a dataplane with this definition:
 
@@ -65,20 +69,13 @@ Additional requirements:
 The default value of `tagKey` is the value of `name`.
 
 For each virtual outbound the Kuma control plane processes all dataplanes that match the selector.
-It then applies the templates for `conf.host` and `conf.port` and assigns a virtual IP address for each unique set defined by all `tagKeys` values.
-This means that different hostnames can resolve to the same virtual IP because they map to the same tag set.
+It then applies the templates for `conf.host` and `conf.port` and assigns a virtual IP address for each hostname.
 
-### Collisions
-
-We rely on user defined templates it is thus possible to have hostname collisions.
-
-When duplicate hostnames are detected, the virtual outbound with the highest priority takes over. For more information, see [the documentation on ow Kuma chooses the right poliy](../../1.2.2/policies/how-kuma-chooses-the-right-policy-to-apply.md). All duplicate instances are logged. 
-
-## Usage
+## Examples
 
 The following examples show how to use virtual outbounds for different use cases.
 
-#### Same as the default DNS
+### Same as the default DNS
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
