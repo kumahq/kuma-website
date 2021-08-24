@@ -50,10 +50,10 @@ policies:
       - title: Rate Limit
         url: /docs/latest/policies/rate-limit/
         icon: /images/icons/policies/icon-rate-limits.png
-    - title: VirtualOut bound 
-      url: /docs/latest/policies/virtual-outbound/
-      icon: /images/icons/policies/icon-external-services.png
-- section: observability
+      - title: Virtual Outbound
+        url: /docs/latest/policies/virtual-outbound/
+        icon: /images/icons/policies/icon-external-services.png
+  - section: observability
     sectionTitle: Observability
     sectionSubTitle: Metrics, Logs and Traces
     items:
