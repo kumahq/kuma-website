@@ -1563,6 +1563,7 @@ module.exports = {
         "policies/retry",
         "policies/timeout",
         "policies/rate-limit",
+        "policies/virtual-outbound"
       ]
     },
     {
