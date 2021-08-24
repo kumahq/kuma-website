@@ -1,17 +1,18 @@
 # Virtual Outbounds
 
-This policy enables users to create ways to reach a specific set of dataplanes with a `hostname:port` generated from the dataplanes tags.
+This policy lets you customize hostnames and ports for communicating with dataplanes.
 
 Possible use cases are:
 
-1) Preserving hostnames when migrating to service mesh (This enables migration without modifying app configuration).
-2) Providing multiple hostnames for reaching the same service (when renaming or for usability).
-3) Providing specific routes (reach a specific pod in a service when using StatefulSets, add an url to reach a specific version of a service).
+1) Preserving hostnames when migrating to service mesh.
+2) Providing multiple hostnames for reaching the same service, for example when renaming or for usability.
+3) Providing specific routes, for example to reach a specific pod in a service with StatefulSets on Kubernetes, or to add a URL to reach a specific version of a service.
 4) Expose multiple inbounds on different ports.
 
+Note that complex virtual outbounds do not work for cross-zone traffic. This is because only service tags are propagated across zones. 
 ## Usage
 
-`conf.host` and `conf.port` are processed as [go text templates](https://pkg.go.dev/text/template) with a map of key, value constituted from `conf.parameters`.
+`conf.host` and `conf.port` are processed as [go text templates](https://pkg.go.dev/text/template) with a key-value pair derived from `conf.parameters`.
 
 For example a dataplane with this definition:
 
@@ -30,7 +31,7 @@ inbound:
       port: 1800
 ```
 
-A virtual outbound with definition:
+and a virtual outbound with this definition:
 
 ```yaml
 type: VirtualOutbound
@@ -51,32 +52,31 @@ conf:
       tagKey: version
 ```
 
-Will create a hostname: `v1.backend.mesh` and port: `1800`.
+produce the hostname: `v1.backend.mesh` with port: `1800`.
 
-Virtual Outbounds have some constraints/limitations:
+Additional requirements:
 
-- It only works when using transparent proxy.
-- When not using the [data plane proxy DNS](/docs/1.2.3/networking/dns.md#data-plane-proxy-dns), all generated hostnames must end with the value of the configuration `dns_server.domain` (whose default is `.mesh`).
-- If a `tagKey` is absent it uses `name` as `tagKey`.
-- `name` must be alphanumeric as it's used as a go template key.
-- for a virtual-outbound set of parameters all `name` must be unique.
-- `kuma.io/service` must be in the parameters even if it's unused in the template (this prevents defining hostnames that spans services).
+- [Transparent proxy](/docs/1.2.3/networking/transparent-proxying).
+- Either [data plane proxy DNS](/docs/1.2.3/networking/dns.md#data-plane-proxy-dns), or else the value of `conf.host` must end with the value of `dns_server.domain` (default value `.mesh`).
+- `name` must be alphanumeric. (Used as a go template key).
+- Each value of `name` must be unique.
+- `kuma.io/service` must be specified even if it's unused in the template. (Prevents defining hostnames that spans services).
 
-For each virtual outbound the Kuma control plane will process all dataplanes matching the selector.
-It will then apply the templates for `conf.host` and `conf.port` and assign a virtual ip for each unique set defined by all the `tagKeys` value in the parameters.
-This means that different hostnames may resolve to the same vip because they map to the same tag set.
+The default value of `tagKey` is the value of `name`.
+
+For each virtual outbound the Kuma control plane processes all dataplanes that match the selector.
+It then applies the templates for `conf.host` and `conf.port` and assigns a virtual IP address for each unique set defined by all `tagKeys` values.
+This means that different hostnames can resolve to the same virtual IP because they map to the same tag set.
 
 ### Collisions
 
 We rely on user defined templates it is thus possible to have hostname collisions.
 
-We apply these rules to avoid them:
+When duplicate hostnames are detected, the virtual outbound with the highest priority takes over. For more information, see [the documentation on ow Kuma chooses the right poliy](../../1.2.2/policies/how-kuma-chooses-the-right-policy-to-apply.md). All duplicate instances are logged. 
 
-1) For collisions between virtual outbounds, the virtual outbound with the highest priority takes over as [explained in the policy doc](../../1.2.2/policies/how-kuma-chooses-the-right-policy-to-apply.md).
-2) For all collisions log messages will be emitted. 
-3) Because only service tags are propagated across zones complex virtual outbounds will not work for cross-zone traffic. 
+## Usage
 
-### Examples
+The following examples show how to use virtual outbounds for different use cases.
 
 #### Same as the default DNS
 
@@ -117,7 +117,7 @@ conf:
 :::
 ::::
 
-#### One hostname per version
+### One hostname per version
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -160,7 +160,7 @@ conf:
 :::
 ::::
 
-#### Custom tag to define the hostname and port
+### Custom tag to define the hostname and port
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -204,10 +204,10 @@ conf:
 :::
 ::::
 
-#### One hostname per instance
+### One hostname per instance
 
 This enables reaching specific dataplanes in a service.
-This is especially useful for running distributed databases like Kafka, Zookeeper...
+This is especially useful for running distributed databases such as Kafka or Zookeeper.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
