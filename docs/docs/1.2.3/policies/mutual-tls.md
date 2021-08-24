@@ -193,9 +193,8 @@ When using an arbitrary certificate and key for a `provided` backend, we must ma
 
 1. It MUST have basic constraint `CA` set to `true` (see [X509-SVID: 4.1. Basic Constraints](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#41-basic-constraints))
 2. It MUST have key usage extension `keyCertSign` set (see [X509-SVID: 4.3. Key Usage](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#43-key-usage))
-3. It MUST NOT have key usage extension 'digitalSignature' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
-4. It MUST NOT have key usage extension 'keyAgreement' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
-5. It MUST NOT have key usage extension 'keyEncipherment' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
+3. It MUST NOT have key usage extension 'keyAgreement' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
+4. It SHOULD NOT set key usage extension 'digitalSignature' and 'keyEncipherment' to be SPIFFE compliant (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
 
 :::warning
 Do not use the following example in production, instead generate valid and compliant certificates. This example is intended for usage in a development environment.
