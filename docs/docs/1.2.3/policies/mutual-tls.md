@@ -226,8 +226,7 @@ mtls:
 ::::
 
 Permissive mTLS mode encrypts outbound connections the same way as strict mTLS mode, but inbound connections on the server-side
-accept both TLS and plaintext. This allows migrating servers to the mTLS mesh while clients are still don't belong to the mesh.
-The case when the client and server already had TLS is supported as well.
+accept both TLS and plaintext. This lets you migrate servers to an mTLS mesh before their clients. It also supports the case where the client and server already implement TLS.
 
 ### CA requirements
 
