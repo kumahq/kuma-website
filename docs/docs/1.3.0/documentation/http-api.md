@@ -2610,6 +2610,14 @@ curl http://localhost:5681/zones+insights/cluster-1
     "disconnectTime": "2020-07-28T16:08:09.743194Z",
     "status": {
      "total": {}
+    },
+    "version": {
+      "kumaCp": {
+       "version": "1.2.0-rc2-211-g823fe8ce",
+       "gitTag": "1.0.0-rc2-211-g823fe8ce",
+       "gitCommit": "823fe8cef6430a8f75e72a7224eb5a8ab571ec42",
+       "buildDate": "2021-02-18T13:22:30Z"
+     }
     }
    },
    {
@@ -2683,7 +2691,7 @@ Response: `200 OK` with Zone entities including insight
 
 Example:
 ```bash
-curl http://localhost:5681/zones
+curl http://localhost:5681/zones+insights
 ```
 ```json
 {
@@ -2709,6 +2717,14 @@ curl http://localhost:5681/zones
       "disconnectTime": "2020-07-28T16:08:09.743194Z",
       "status": {
        "total": {}
+      },
+      "version": {
+       "kumaCp": {
+         "version": "1.2.0-rc2-211-g823fe8ce",
+         "gitTag": "1.0.0-rc2-211-g823fe8ce",
+         "gitCommit": "823fe8cef6430a8f75e72a7224eb5a8ab571ec42",
+         "buildDate": "2021-02-18T13:22:30Z"
+        }
       }
      },
      {
@@ -2767,6 +2783,14 @@ curl http://localhost:5681/zones
          "responsesAcknowledged": "1"
         }
        }
+      },
+      "version": {
+       "kumaCp": {
+         "version": "1.2.0-rc2-211-g823fe8ce",
+         "gitTag": "1.0.0-rc2-211-g823fe8ce",
+         "gitCommit": "823fe8cef6430a8f75e72a7224eb5a8ab571ec42",
+         "buildDate": "2021-02-18T13:22:30Z"
+        }
       }
      }
     ]
