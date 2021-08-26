@@ -81,16 +81,16 @@ The following examples show how to use virtual outbounds for different use cases
 ::: tab "Kubernetes"
 ```yaml
 apiVersion: kuma.io/v1alpha1
-kind: Mesh
-type: VirtualOutbound
+kind: VirtualOutbound
 mesh: default
-name: default
+metadata:
+    name: default
 selectors:
   - match:
       kuma.io/service: "*"
 conf:
   host: "{{.service}}.mesh"
-  port: 80
+  port: "80"
   parameters:
     - name: service
       tagKey: "kuma.io/service"
@@ -106,7 +106,7 @@ selectors:
       kuma.io/service: "*"
 conf:
   host: "{{.service}}.mesh"
-  port: 80
+  port: "80"
   parameters:
     - name: service
       tagKey: "kuma.io/service"
@@ -120,16 +120,16 @@ conf:
 ::: tab "Kubernetes"
 ```yaml
 apiVersion: kuma.io/v1alpha1
-kind: Mesh
-type: VirtualOutbound
+kind: VirtualOutbound
 mesh: default
-name: default
+metadata:
+  name: versioned
 selectors:
   - match:
       kuma.io/service: "*"
 conf:
   host: "{{.service}}.{{.version}}.mesh"
-  port: 80
+  port: "80"
   parameters:
     - name: service
       tagKey: "kuma.io/service"
@@ -141,13 +141,13 @@ conf:
 ```yaml
 type: VirtualOutbound
 mesh: default
-name: default
+name: versioned
 selectors:
   - match:
       kuma.io/service: "*"
 conf:
   host: "{{.service}}.{{.version}}.mesh"
-  port: 80
+  port: "80"
   parameters:
     - name: service
       tagKey: "kuma.io/service"
@@ -163,10 +163,10 @@ conf:
 ::: tab "Kubernetes"
 ```yaml
 apiVersion: kuma.io/v1alpha1
-kind: Mesh
-type: VirtualOutbound
+kind: VirtualOutbound
 mesh: default
-name: default
+metadata:
+  name: host-port
 selectors:
   - match:
       kuma.io/service: "*"
@@ -184,7 +184,7 @@ conf:
 ```yaml
 type: VirtualOutbound
 mesh: default
-name: default
+name: host-port
 selectors:
   - match:
       kuma.io/service: "*"
@@ -240,7 +240,7 @@ selectors:
       kuma.io/instance: "*"
 conf:
   host: "inst-{{.instance}}.{{.service}}.mesh"
-  port: 80
+  port: "8080"
   parameters:
     - name: service
       tagKey: "kuma.io/service"
