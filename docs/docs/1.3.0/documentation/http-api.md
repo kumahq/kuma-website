@@ -571,6 +571,22 @@ curl http://localhost:5681/mesh-insights/default
     "online": 1,
     "partiallyDegraded": 1
    }
+  },
+  "mTLS": {
+    "issuedBackends": {
+      "ca-1": {
+        "total": 1,
+        "online": 1,
+        "partiallyDegraded": 1
+      }
+    },
+    "supportedBackends": {
+      "ca-1": {
+        "total": 1,
+        "online": 1,
+        "partiallyDegraded": 1
+      }
+    }
   }
  }
 }
@@ -640,6 +656,22 @@ curl http://localhost:5681/mesh-insights
       "online": 1,
       "partiallyDegraded": 1
      }
+    },
+    "mTLS": {
+      "issuedBackends": {
+        "ca-1": {
+          "total": 1,
+          "online": 1,
+          "partiallyDegraded": 1
+        }
+      },
+      "supportedBackends": {
+        "ca-1": {
+          "total": 1,
+          "online": 1,
+          "partiallyDegraded": 1
+        }
+      }
     }
    }
   },
@@ -694,6 +726,22 @@ curl http://localhost:5681/mesh-insights
       "online": 1,
       "partiallyDegraded": 1
      }
+    },
+    "mTLS": {
+      "issuedBackends": {
+        "ca-1": {
+          "total": 1,
+          "online": 1,
+          "partiallyDegraded": 1
+        }
+      },
+      "supportedBackends": {
+        "ca-1": {
+          "total": 1,
+          "online": 1,
+          "partiallyDegraded": 1
+        }
+      }
     }
    }
   }
@@ -887,6 +935,13 @@ curl http://localhost:5681/meshes/default/dataplanes+insights/example
   }
  },
  "dataplaneInsight": {
+  "mTLS": {
+    "certificateExpirationTime": "2019-10-24T14:04:57.832482Z", 
+    "lastCertificateRegeneration": "2019-10-24T12:04:57.832482Z",
+    "certificateRegenerations": 3,
+    "issuedBackend": "ca-1",
+    "supportedBackends": ["ca-1"]
+  },
   "subscriptions": [
    {
     "id": "426fe0d8-f667-11e9-b081-acde48001122",
@@ -959,6 +1014,13 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
       }
      },
      "dataplaneInsight": {
+      "mTLS": {
+        "certificateExpirationTime": "2019-10-24T14:04:57.832482Z",
+        "lastCertificateRegeneration": "2019-10-24T12:04:57.832482Z",
+        "certificateRegenerations": 3,
+        "issuedBackend": "ca-1",
+        "supportedBackends": ["ca-1"]
+      },
       "subscriptions": [
        {
         "id": "426fe0d8-f667-11e9-b081-acde48001122",
