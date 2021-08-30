@@ -1,18 +1,18 @@
 # Traffic Metrics
 
-`Kuma` facilitates consistent traffic metrics across all dataplanes in your mesh.
+Kuma facilitates consistent traffic metrics across all data plane proxies in your mesh.
 
-A user can enable traffic metrics by editing a `Mesh` resource and providing the desired `Mesh`-wide configuration. If necessary, metrics configuration can be customized for each `Dataplane` individually, e.g. to override the default metrics port that might be already in use on that particular machine.
+You add metrics to a mesh configuration, or to an individual Dataplane configuration if you need, for example, to override the default metrics port that's already in use on the specified machine.
 
-Out-of-the-box, `Kuma` provides full integration with `Prometheus`:
-* if enabled, every dataplane will expose its metrics in `Prometheus` format
-* furthemore, `Kuma` will make sure that `Prometheus` can automatically find every dataplane in the mesh
+Kuma provides full integration with Prometheus:
+* Each proxy can expose its metrics in `Prometheus` format.
+* Because metrics are part of the mesh configuration, Prometheus can automatically find every proxy in the mesh.
 
-To collect metrics from Kuma, you need to first expose metrics from dataplanes and then configure Prometheus to collect them.
+To collect metrics from Kuma, you need to first expose metrics from proxies and then configure Prometheus to collect them.
 
-### Expose metrics from Dataplanes
+### Expose metrics from data plane proxies
 
-To expose `Prometheus` metrics from every dataplane in the mesh, configure a `Mesh` resource as follows:
+To expose metrics from every proxy in the mesh, configure the `Mesh` resource:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -83,13 +83,13 @@ metrics:
 :::
 ::::
 
-Both snippets from above instruct `Kuma` to configure every dataplane in the mesh `default` to expose an HTTP endpoint with `Prometheus` metrics on port `5670` and URI path `/metrics`.
+This tells Kuma to configure every proxy in the `default` mesh to expose an HTTP endpoint with Prometheus metrics on port `5670` and URI path `/metrics`.
 
 The metrics endpoint is forwarded to the standard Envoy [Prometheus metrics endpoint](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?format=prometheus) and supports the same query parameters.
 You can pass the `filter` query parameter to limit the results to metrics whose names match a given regular expression.
 By default all available metrics are returned.
 
-#### Override Prometheus settings per Dataplane
+#### Override Prometheus settings per data plane proxy
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -97,7 +97,7 @@ To override `Mesh`-wide defaults for a particular `Pod`, use `Kuma`-specific ann
 * `prometheus.metrics.kuma.io/port` - to override `Mesh`-wide default port
 * `prometheus.metrics.kuma.io/path` - to override `Mesh`-wide default path
 
-E.g.,
+For example:
 
 ```yaml
 apiVersion: apps/v1
@@ -118,11 +118,11 @@ spec:
       ...
 ```
 
-As a result, dataplane for this particular `Pod` will expose an HTTP endpoint with `Prometheus` metrics on port `1234` and URI path `/non-standard-path`.
+Proxies for this Pod expose an HTTP endpoint with Prometheus metrics on port `1234` and URI path `/non-standard-path`.
 :::
 ::: tab "Universal"
 
-To override `Mesh`-wide defaults on a particular machine, configure `Dataplane` resource as follows:
+To override `Mesh`-wide defaults on a particular machine, configure the `Dataplane` resource:
 
 ```yaml
 type: Dataplane
@@ -136,81 +136,75 @@ metrics:
     path: /non-standard-path
 ```
 
-As a result, this particular dataplane will expose an HTTP endpoint with `Prometheus` metrics on port `1234` and URI path `/non-standard-path`.
+This proxy exposes an HTTP endpoint with Prometheus metrics on port `1234` and URI path `/non-standard-path`.
 :::
 ::::
 
 ### Configure Prometheus
 
-Although dataplane metrics are now exposed, `Prometheus` doesn't know anything about it just yet.
+Although proxy metrics are now exposed, you still need to let Prometheus discover them.
 
-To help `Prometheus` automatically discover dataplanes, Kuma provides the tool - `kuma-prometheus-sd`.
-`kuma-prometheus-sd` is meant to run alongside `Prometheus` instance.
-It knows location of `Kuma` Control Plane is and can fetch an up-to-date list of dataplanes from it.
-It then transforms that information into a format that `Prometheus` can understand, and saves it into a file on disk.
-`Prometheus` watches for changes to that file and updates its scraping configuration accordingly.
-
-In Prometheus version 2.29 and later, you can work with a simplified command on Prometheus, instead of passing the Kuma configuration to Prometheus.
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-Use `kumactl install metrics | kubectl apply -f -` to deploy configured Prometheus with Grafana.
-
-::: tip
-If you've got Prometheus deployment already, you can use [Prometheus federation](https://prometheus.io/docs/prometheus/latest/federation/) to bring Kuma metrics to your main Prometheus cluster.
-:::
-::: tab "Universal"
-First, you need to run `kuma-prometheus-sd`, e.g. by using the following command:
-
-```shell
-kuma-prometheus-sd run \
-  --cp-address=grpcs://kuma-control-plane.internal:5676 \
-  --output-file=/var/run/kuma-prometheus-sd/kuma.file_sd.json
-```
-
-The above configuration tells `kuma-prometheus-sd` to talk to `Kuma` Control Plane at [grpcs://kuma-control-plane.internal:5676](grpcs://kuma-control-plane.internal:5676) and save the list of dataplanes to `/var/run/kuma-prometheus-sd/kuma.file_sd.json`.
-
-Then, configure `Prometheus` to read from that file, e.g. by using `prometheus.yml` config with the following contents:
-
-```yaml
-scrape_configs:
-- job_name: 'kuma-dataplanes'
-  scrape_interval: 15s
-  file_sd_configs:
-  - files:
-    - /var/run/kuma-prometheus-sd/kuma.file_sd.json
-```
-
-and running
-
-```shell
-prometheus --config.file=prometheus.yml
-```
-
-Or, if you run Prometheus 2.29 or later, you instead add only the following to `prometheus.yml`:
+In Prometheus version 2.29 and later, you can add Kuma metrics to your `prometheus.yml`:
 
 ```sh
 kuma_sd_configs:
  - server: http://kuma-control-plane.kuma-system.svc:5676
 ```
 
+For earlier versions of Prometheus, Kuma provides the `kuma-prometheus-sd` tool, which runs alongside your Prometheus instance.
+This tool fetches a list of current data plane proxies from the Kuma control plane and saves the list in Prometheus-compatible format 
+to a file on disk. Prometheus wathces for changes to the file and updates its scraping configuration accordingly.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+
+You can run `kumactl install metrics | kubectl apply -f -` to deploy configured Prometheus with Grafana.
+
+Or, if you've already deployed Prometheus, you can use [Prometheus federation](https://prometheus.io/docs/prometheus/latest/federation/) to bring Kuma metrics to your main Prometheus cluster.
+:::
+::: tab "Universal"
+1.  Run `kuma-prometheus-sd`, for example:
+
+    ```shell
+    kuma-prometheus-sd run \
+      --cp-address=grpcs://kuma-control-plane.internal:5676 \
+      --output-file=/var/run/kuma-prometheus-sd/kuma.file_sd.json
+    ```
+
+1.  Configure Prometheus to read from the file you just saved. For example, add the following snippet to `prometheus.yml`:
+
+    ```yaml
+    scrape_configs:
+    - job_name: 'kuma-dataplanes'
+      scrape_interval: 15s
+      file_sd_configs:
+      - files:
+        - /var/run/kuma-prometheus-sd/kuma.file_sd.json
+    ```
+
+    then run:
+
+    ```shell
+    prometheus --config.file=prometheus.yml
+    ```
+
 :::
 ::::
 
 
-Now, if you check `Targets` page on `Prometheus` UI, you should see a list of dataplanes from your mesh, e.g.
+Check the Targets page in the Prometheus dashboard. You should see a list of data plane proxies from your mesh. For example:
 
 <center>
 <img src="/images/docs/0.4.0/prometheus-targets.png" alt="A screenshot of Targets page on Prometheus UI" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-## Secure Dataplane metrics
+## Secure data plane proxy metrics
 
-Kuma lets you expose Dataplane metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the Mesh for this feature to work, which is the default deployment model when `kumactl install metrics` is used on Kubernetes.
+Kuma lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment model when `kumactl install metrics` is used on Kubernetes.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-Make sure that mTLS is enabled in the Mesh.
+Make sure that mTLS is enabled in the mesh.
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -235,7 +229,7 @@ spec:
           kuma.io/service: dataplane-metrics
 ```
 
-Allow the traffic from Grafana to Prometheus Server and from Prometheus Server to Dataplane metrics and for other Prometheus components:
+Allow the traffic from Grafana to Prometheus Server and from Prometheus Server to data plane proxy metrics and for other Prometheus components:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -275,17 +269,17 @@ spec:
 
 :::
 ::: tab "Universal"
-This feature requires transparent proxy, therefore for now it's not available in Universal for now.
+This feature requires transparent proxy, so it's currently not available for Universal deployments.
 :::
 ::::
 
 ## Expose metrics from applications
 
-In addition to exposing metrics from Dataplane, you may want to expose metrics from application next to Kuma DP.
+In addition to exposing metrics from the data plane proxies, you might want to expose metrics from applications running next to the proxies.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-Use standard `prometheus.io` annotations either on `Pod` or `Service`
+Use standard `prometheus.io` annotations on `Pod` or `Service`:
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -307,16 +301,16 @@ spec:
 ```
 :::
 ::: tab "Universal"
-Use Discovery Service of [your choice](https://prometheus.io/docs/prometheus/latest/configuration/configuration/).
+Use the Discovery Service of [your choice](https://prometheus.io/docs/prometheus/latest/configuration/configuration/).
 In the future Kuma will help to expose metrics in more native way.
 :::
 ::::
 
-Remember that in order to consume paths protected by mTLS, you need Traffic Permission that lets Prometheus consume applications.
+To consume paths protected by mTLS, you need Traffic Permission that lets Prometheus consume applications.
 
 ## Grafana Dashboards
 
-Kuma ships with 4 default dashboards that are available to import from [Grafana Labs repository](https://grafana.com/orgs/konghq).
+Kuma ships with four default dashboards that are available to import from [the Grafana Labs repository](https://grafana.com/orgs/konghq).
 
 ### Kuma Dataplane
 
