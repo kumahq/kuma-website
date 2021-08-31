@@ -154,6 +154,8 @@ scrape_configs:
       - server: "http://kuma-control-plane.kuma-system.svc:5676"
 ```
 
+For more information, see [the Prometheus documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
+
 For earlier versions of Prometheus, Kuma provides the `kuma-prometheus-sd` tool, which runs alongside your Prometheus instance.
 This tool fetches a list of current data plane proxies from the Kuma control plane and saves the list in Prometheus-compatible format 
 to a file on disk. Prometheus watches for changes to the file and updates its scraping configuration accordingly.
