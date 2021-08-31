@@ -147,20 +147,23 @@ Although proxy metrics are now exposed, you still need to let Prometheus discove
 In Prometheus version 2.29 and later, you can add Kuma metrics to your `prometheus.yml`:
 
 ```sh
-kuma_sd_configs:
- - server: http://kuma-control-plane.kuma-system.svc:5676
+scrape_configs:
+    - job_name: 'kuma-dataplanes'
+      scrape_interval: "5s"
+      kuma_sd_configs:
+      - server: "http://kuma-control-plane.kuma-system.svc:5676"
 ```
 
 For earlier versions of Prometheus, Kuma provides the `kuma-prometheus-sd` tool, which runs alongside your Prometheus instance.
 This tool fetches a list of current data plane proxies from the Kuma control plane and saves the list in Prometheus-compatible format 
-to a file on disk. Prometheus wathces for changes to the file and updates its scraping configuration accordingly.
+to a file on disk. Prometheus watches for changes to the file and updates its scraping configuration accordingly.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
 You can run `kumactl install metrics | kubectl apply -f -` to deploy configured Prometheus with Grafana.
 
-Or, if you've already deployed Prometheus, you can use [Prometheus federation](https://prometheus.io/docs/prometheus/latest/federation/) to bring Kuma metrics to your main Prometheus cluster.
+If you've already deployed Prometheus, you can use [Prometheus federation](https://prometheus.io/docs/prometheus/latest/federation/) to bring Kuma metrics to your main Prometheus cluster.
 :::
 ::: tab "Universal"
 1.  Run `kuma-prometheus-sd`, for example:
