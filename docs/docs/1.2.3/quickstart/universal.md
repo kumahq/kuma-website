@@ -25,7 +25,7 @@ The zone key is purely static and arbitrary. Different zone values for different
   $ git clone https://github.com/kumahq/kuma-counter-demo.git
   ```
 
-To explore traffic metrics with the demo app, you also need to set up Prometheus. See the [traffic metrics policy documentation](../../policies/traffic-metrics).
+To explore traffic metrics with the demo app, you also need to [set up Prometheus]((https://prometheus.io/docs/prometheus/latest/getting_started/)). See the [traffic metrics policy documentation](../../policies/traffic-metrics).
 
 ## Set up
 
