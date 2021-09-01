@@ -189,8 +189,57 @@ A few considerations:
 
 ### Intermediate CA
 
-You can also work with an Intermediate CA with a `provided` backend. As with the root CA, upload the certificate and key as secrets, then reference 
-the Secrets in the mTLS configuration. In the `cert` section, specify the certificate from an Intermediate CA first, and then the certificate from the Root CA. Separate the items by an empty line.
+You can also work with an Intermediate CA with a `provided` backend. Generate the certificate and place it before the certificate from the root CA, in the same file with an empty line separating the items. Then create the secret to specify in the `cert` section of the config. The secret for the `key` should contain only the private key of the certificate from the intermediate CA.
+
+You can chain certificates from multiple intermediate CAs the same way. Place the certificate from the closest CA at the top of the cert file, followed by certificates in order up the certificate chain, then generate the secret to hold the contents of the file.
+
+Sample certificate file for a single intermediate CA:
+
+```
+-----BEGIN CERTIFICATE FROM INTERMEDIATE CA-----
+MIIDdjCCAl6gAwIBAgICEAEwDQYJKoZIhvcNAQELBQAwRDELMAkGA1UEBhMCR0Ix
+EDAOBgNVBAgMB0VuZ2xhbmQxEjAQBgNVBAoMCUFsaWNlIEx0ZDEPMA0GA1UEAwwG
+S3VtYUNBMB4XDTIxMDUxMjEzMzU1MVoXDTMxMDUxMDEzMzU1MVowUDELMAkGA1UE
+BhMCR0IxEDAOBgNVBAgMB0VuZ2xhbmQxEjAQBgNVBAoMCUFsaWNlIEx0ZDEbMBkG
+A1UEAwwSS3VtYUludGVybWVkaWF0ZUNBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A
+MIIBCgKCAQEA1VzY9vOr8+SINzqA8Rwk4bpeex32Zn9BGAUTweRgomQC7Yfzrm6/
+Vk74/T/46n3FydpdEZTdoFKCF8EsA0eqAEfWi6tu7D41GOUFUYpdRJBJEq+HE17Q
+N8SFMquy8NhCtK8th8ytSu2ThvCOq1MHT5WjtQUmRGSJMlcfWA5TsCIK0Sb3cSf3
+jadjEqcmcvJN6Xa0Y0VivcPg5eB+We7BNnp4ogqmZw0veoPjc14HVZpqxrra9Yez
+DRai6rnHqDjnkMMhe9MmSkCKD9Ldwduq0ZfuOQFIBOaX+4MKUyDN4tTMCcRRl/Nl
+A4JgrNNWCFfUQV0VmQ0Tc8+cn/+gokHAZwIDAQABo2YwZDAdBgNVHQ4EFgQUGNjz
+Te727HX4AqZDMn1L9XzkTaYwHwYDVR0jBBgwFoAUSu2E4Ue5aPzdWQCCNp36Pf3i
+YbcwEgYDVR0TAQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAQYwDQYJKoZIhvcN
+AQELBQADggEBACuOczJlf4wcT9rfAIrZHuI5aCzYTKOxJllhN5e/eEhMYpsox6Zb
+4CZXS3wdJ3fVugddLWDzIAjrNE1DrOpugUPurNIpHsT6u+SHFXkRsXyHFfMA+CZJ
+0tOYEtP1r3BnqsY/nh0GJqHJxaJolEaqFaKgKTQPTinOxTKFxsHa1OHlsvkdxvot
+d2BQhPQYWes3LMPxtGhS5kwKaXaB3gzTnzjGvgGNeJ+l0AiWqXkivixpox3/6mMa
+90mwssl4sRQQLR1kLFU4hwghNm52Pk7o7HSTEXsnB+ZhHB9skpetY6R4uKWh8xap
+Xmj4PDrAA5OKZzSO7Yhdt0vXPOIrjShMxvA=
+-----END CERTIFICATE-----
+
+-----BEGIN CERTIFICATE FROM ROOT CA-----
+MIIDbjCCAlagAwIBAgIJALDMMa9rXKLPMA0GCSqGSIb3DQEBCwUAMEQxCzAJBgNV
+BAYTAkdCMRAwDgYDVQQIDAdFbmdsYW5kMRIwEAYDVQQKDAlBbGljZSBMdGQxDzAN
+BgNVBAMMBkt1bWFDQTAeFw0yMTA1MTIxMzE2MjFaFw00MTA1MDcxMzE2MjFaMEQx
+CzAJBgNVBAYTAkdCMRAwDgYDVQQIDAdFbmdsYW5kMRIwEAYDVQQKDAlBbGljZSBM
+dGQxDzANBgNVBAMMBkt1bWFDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
+ggEBANCJqVJjYOWFUZcdhrfBxgoCZNE+LFq9sieP2yRGrYzJsCdwphH6L7GsWds8
+VjlobfIP4nA23TJiMWlsx126r7pSRbVEq8/JoNa0vMspEmtjHZhSweIXWXX7o8V+
+FRKbCW5NyqGiHF0ScE4VpNc3uWCA2zcaU80G9SAKI83cUjnp2JzLPMqppQ+pj6Hs
+G+8322FPA2L11fsCAqdCW+gwJWpKzlfBPyeNTUOMpcP8n+Yjcah4tqcCY2PZ7nH7
+cZN1vHGhT5/Pn3VRaNHUq4y1Zn/wJnjlOcD4DbVFXYpYIlPx+yAs56FXd3a7Imfg
+56HzOLOZcDY/+Sxy7J2Pq8cipTcCAwEAAaNjMGEwHQYDVR0OBBYEFErthOFHuWj8
+3VkAgjad+j394mG3MB8GA1UdIwQYMBaAFErthOFHuWj83VkAgjad+j394mG3MA8G
+A1UdEwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgEGMA0GCSqGSIb3DQEBCwUAA4IB
+AQCBqj9F+OJZXifyUGq9bAiybpP9RYnKd0JCiByvO/S95v6Bz9RnwrvgN75mzpPd
+OM51MYKyBLFKJpvrmyQ+njcsVMnv//MH7cHE8h6WkwP9IggNg0K21J1zkS8ApfTw
+7buUemZn6NFqHgysAUnWq8WM8YxfEErubbTCm6wslTLzLdblBGLjh7qOzDGh8n0e
+BjqWgCYjbEsB4tDxjfSjLjSyldvnIMTyWrA8a/1iCNDXj0wMtHoBji307dsI5drp
+VokELweu6SS7M4ODE8/Ci3QLS/mmx++9s2kCCqq49dyA2/ZabLb2nBF96wo/RDp9
+3kIzfNvzMkC3VRwESV+SUG0x
+-----END CERTIFICATE-----
+```
 
 ### CA requirements
 
