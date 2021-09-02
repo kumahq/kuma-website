@@ -1,66 +1,121 @@
 ---
-title: Universal Quickstart
+title: Explore Kuma with the Universal demo app
 ---
 
-# Quickstart in Universal Mode
+# Set up and explore the Universal demo app
 
-Congratulations! After [installing](/install) Kuma, you can get up and running with a few easy steps.
+To start learning how Kuma works, you can download and run a simple demo application that consists of two services:
 
-:::tip
-Kuma can run in both **Kubernetes** (Containers) and **Universal** mode (for VMs and Bare Metal). You are now looking at the quickstart for Universal mode, but you can also check out the [Kubernetes one](/docs/1.3.0/quickstart/kubernetes).
-:::
+- `demo-app`: web application that lets you increment a numeric counter
+- `redis`: data store for the counter
 
-In order to simulate a real-world scenario, we have built a simple demo application that resembles a marketplace. In this tutorial we will:
+This guide also introduces some of the tools Kuma provides to help you control and monitor traffic, track resource status, and more.
 
-* [1. Run the Marketplace application](#_1-run-the-marketplace-application)
-* [2. Enable Mutual TLS and Traffic Permissions](#_2-enable-mutual-tls-and-traffic-permissions)
-* [3. Visualize Traffic Metrics](#_3-visualize-traffic-metrics)
+The `demo-app` service listens on port 5000. When it starts, it expects to find a zone key in Redis that specifies the name of the datacenter (or cluster) where the Redis instance is running. This name is displayed in the browser.
 
-You can also access the Kuma marketplace demo repository [on Github](https://github.com/kumahq/kuma-demo) to try more features and policies in addition to the ones described in this quickstart.
+The zone key is purely static and arbitrary. Different zone values for different Redis instances let you keep track of which Redis instance stores the counter if you manage routes across different zones, clusters, and clouds.
 
-:::tip
-**Community Chat**: If you need help, you can chat with the [Community](/community) where you can ask questions, contribute back to Kuma and send feedback.
-:::
+## Prerequisites
 
-### 1. Run the Marketplace application
+- [Redis installed](https://redis.io/download#installation)
+- [Kuma installed](/install)
+- [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 
-First, [Vagrant](https://www.vagrantup.com/docs/installation/) must be installed on your machine.
+  ```sh
+  $ git clone https://github.com/kumahq/kuma-counter-demo.git
+  ```
 
-You then need to clone the demo repository which contains all necessary files to deploy the application with Vagrant:
+To explore traffic metrics with the demo app, you also need to [set up Prometheus]((https://prometheus.io/docs/prometheus/latest/getting_started/)). See the [traffic metrics policy documentation](../../policies/traffic-metrics).
+
+## Set up
+
+1.  Run `redis` as a daemon on port 26379 and set a default zone name:
+
+    ```sh
+    $ redis-server --port 26379 --daemonize yes
+    $ redis-cli -p 26379 set zone local
+    ```
+
+1.  Install and start `demo-app` on the default port 5000:
+
+    ```sh
+    $ npm install --prefix=app/
+    $ npm start --prefix=app/
+    ```
+
+## Generate tokens
+
+Create a token for Redis and a token for the app:
 
 ```sh
-$ git clone https://github.com/kumahq/kuma-demo.git
+$ kumactl generate dataplane-token --name=redis > kuma-token-redis
+$ kumactl generate dataplane-token --name=app > kuma-token-app
 ```
 
-Once cloned, you will find the contents of universal demo in the `kuma-demo/vagrant` folder. Enter the `vagrant` folder by running:
+## Create a data plane proxy for each service
+
+For Redis:
 
 ```sh
-$ cd kuma-demo/vagrant
+$ kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=kuma-token-redis \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: redis
+  networking: 
+    address: 0.0.0.0
+    inbound: 
+      - port: 16379
+      servicePort: 26379
+      serviceAddress: 127.0.0.1
+      tags: 
+        kuma.io/service: redis
+        kuma.io/protocol: tcp"
 ```
 
-Next, to install the marketplace demo application you can run:
+And for the demo app:
 
 ```sh
-$ vagrant up
+$ kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=kuma-token-app \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: app
+  networking: 
+    address: 0.0.0.0
+    outbound:
+      - port: 6379
+        tags:
+          kuma.io/service: redis
+    inbound: 
+      - port: 15000
+        servicePort: 5000
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: app
+          kuma.io/protocol: http"
 ```
 
-This will create virtual machines for each services required to run the application, in this case:
+## Run
 
-* `frontend`: the entry-point service that serves the web application.
-* `backend`: the underlying backend component that powers the `frontend` service.
-* `postgres`: the database that stores the marketplace items.
-* `redis`: the backend storage for items reviews.
+Navigate to 127.0.0.1:5000 and increment the counter.
 
-You can then access the application by navigating to [192.168.33.70:8000](http://192.168.33.70:8000). 
+## Explore the mesh
 
-You can visualize the sidecars proxies that have connected to Kuma by running:
+You can view the sidecar proxies that are connected to the Kuma control plane:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "GUI (Read-Only)"
 
 Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on the API port and defaults to `:5681/gui`. 
 
-You can navigate to [`192.168.33.10:5681/gui#/default/dataplanes`](http://192.168.33.10:5681/gui#/default/dataplanes) to see the connected dataplanes.
+You can navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/meshes/default/dataplanes) to see the connected dataplanes.
 
 :::
 ::: tab "HTTP API (Read/Write)"
@@ -69,7 +124,7 @@ Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resou
 
 By default the HTTP API listens on port `5681`. 
 
-Navigate to [`192.168.33.10:5681/meshes/default/dataplanes`](http://192.168.33.10:5681/meshes/default/dataplanes) to see the connected dataplanes.
+Navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/meshes/default/dataplanes) to see the connected dataplanes.
 
 :::
 ::: tab "kumactl (Read/Write)"
@@ -81,9 +136,7 @@ Run `kumactl`, for example:
 ```sh
 $ kumactl get dataplanes
 MESH      NAME                                              TAGS
-default   postgres-master-78d9c9c8c9-n8zjk.kuma-demo        app=postgres pod-template-hash=78d9c9c8c9 protocol=tcp service=postgres_kuma-demo_svc_5432
-default   kuma-demo-backend-v0-6fdb79ddfd-dkrp4.kuma-demo   app=kuma-demo-backend env=prod pod-template-hash=6fdb79ddfd protocol=http service=backend_kuma-demo_svc_3001 version=v0
-default   kuma-demo-app-68758d8d5d-dddvg.kuma-demo          app=kuma-demo-frontend env=prod pod-template-hash=68758d8d5d protocol=http service=frontend_kuma-demo_svc_8080 version=v8
+default   kuma-demo-app-68758d8d5d-dddvg.kuma-demo          app=kuma-demo-demo-app env=prod pod-template-hash=68758d8d5d protocol=http service=demo-app_kuma-demo_svc_5000 version=v8
 default   redis-master-657c58c859-5wkb4.kuma-demo           app=redis pod-template-hash=657c58c859 protocol=tcp role=master service=redis_kuma-demo_svc_6379 tier=backend
 ```
 
@@ -95,9 +148,9 @@ $ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma
 :::
 ::::
 
-### 2. Enable Mutual TLS and Traffic Permissions
+## Enable Mutual TLS and Traffic Permissions
 
-By default the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/1.3.0/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/1.3.0/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
+By default the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/1.2.3/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/1.2.3/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
@@ -113,7 +166,7 @@ mtls:
 EOF
 ```
 
-Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly create a [Traffic Permission](/docs/1.3.0/policies/traffic-permissions/) policy that describes what services can be consumed by other services. You can try to make requests to the demo application at [`192.168.33.70:8000/`](http://192.168.33.70:8000) and you will notice that they will **not** work.
+Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly create a [Traffic Permission](/docs/1.2.3/policies/traffic-permissions/) policy that describes what services can be consumed by other services. You can try to make requests to the demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) and you will notice that they will **not** work.
 
 :::tip
 In a live environment we suggest to setup the Traffic Permission policies prior to enabling Mutual TLS in order to avoid unexpected interruptions of the service-to-service traffic.
@@ -135,17 +188,17 @@ destinations:
 EOF
 ```
 
-By doing so every request we now make on our demo application at [`192.168.33.70:8000/`](http://192.168.33.70:8000/) is not only working again, but it is automatically encrypted and secure.
+By doing so every request we now make on our demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) is not only working again, but it is automatically encrypted and secure.
 
 :::tip
 As usual, you can visualize the Mutual TLS configuration and the Traffic Permission policies we have just applied via the GUI, the HTTP API or `kumactl`.
 :::
 
-### 3. Visualize Traffic Metrics
+## Explore Traffic Metrics
 
-Among the [many policies](/policies) that Kuma provides out of the box, one of the most important ones is [Traffic Metrics](/docs/1.3.0/policies/traffic-metrics/).
+One of the most important [policies](/policies) that Kuma provides out of the box is [Traffic Metrics](/docs/1.2.3/policies/traffic-metrics/).
 
-With Traffic Metrics we can leverage Prometheus and Grafana to visualize powerful dashboards that show the overall traffic activity of our application and the status of the Service Mesh.
+With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that visualize the overall traffic activity of our application and the status of the service mesh.
 
 ```sh
 $ cat <<EOF | kumactl apply -f -
@@ -166,19 +219,9 @@ metrics:
 EOF
 ```
 
-This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/1.3.0/policies/mesh/) and automatically collect metrics for all of our traffic.
+This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/1.2.3/policies/mesh/) and automatically collect metrics for all of our traffic.
 
-Now let's go ahead and generate some traffic - to populate our charts - by using the demo application!
-
-:::tip
-You can also generate some artificial traffic with the following command to save some clicks:
-
-```sh
-while [ true ]; do curl http://192.168.33.70:8000/items?q=; curl http://192.168.33.70:8000/items/1/reviews; done
-```
-:::
-
-And then access the Grafana dashboard at [192.168.33.80:3000](http://192.168.33.80:3000/) with default credentials for both the username (`admin`) and the password (`admin`).
+Increment the counter to generate traffic, and access the dashboard at [127.0.0.1:3000](http://127.0.0.1:3000) with default credentials for both the username (`admin`) and the password (`admin`).
 
 Kuma automatically installs three dashboard that are ready to use:
 
@@ -188,13 +231,7 @@ Kuma automatically installs three dashboard that are ready to use:
 
 You can now explore the dashboards and see the metrics being populated over time.
 
-# Next steps
-
-::: tip
-**Protip**: Use `#kumamesh` on Twitter to chat about Kuma.
-:::
-
-Congratulations! You have completed the quickstart for Universal mode, but there is so much more that you can do with Kuma:
+## Next steps
 
 * Explore the [Policies](/policies) available to govern and orchestrate your service traffic.
 * Read the [full documentation](/docs) to learn about all the capabilities of Kuma.
