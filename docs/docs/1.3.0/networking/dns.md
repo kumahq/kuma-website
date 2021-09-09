@@ -1,6 +1,6 @@
 # DNS
 
-In Kuma version , DNS on the data plane proxy is enabled by default on Kubernetes. You can also continue to deploy with [DNS on the control plane](#control-plane-dns).
+In Kuma version 1.3.0, DNS on the data plane proxy is enabled by default on Kubernetes. You can also continue to deploy with [DNS on the control plane](#control-plane-dns).
 
 ## Data plane proxy DNS
 
@@ -47,6 +47,23 @@ This mode implements advanced networking techniques, so take special care for th
 
  * The mode can safely be used with the [Kuma CNI plugin](cni/).
  * In mixed IPv4 and IPv6 environments, it's recommended that you specify an [IPv6 virtual IP CIDR](ipv6/).
+
+### How it works
+
+The data plane proxy DNS consists of 3 elements:
+
+- an Envoy DNS filter that will provide response for DNS records from the mesh
+- a CoreDNS instance launched by `kuma-cp` that will dispatch requests between the envoy filter and the usual DNS used by the host
+- iptable rules that will redirect the original DNS traffic to the local coreDNS instance
+
+As the Envoy DNS filter is contacted first, any DNS name that exists in both the mesh and outside will always resolve to the mesh address. 
+
+### Overriding the coreDNS configuration
+
+In some cases it might be useful for you to configure the default coreDNS.
+To do so you can use `--dns-coredns-config-template-path` as an argument to `kuma-dp`.
+This file is a [coreDNS configuration](https://coredns.io/manual/toc/) that is processed as a go-template.
+If you edit this configuration you should base yourself on the default existing configuration.
 
 ## Control Plane DNS
 

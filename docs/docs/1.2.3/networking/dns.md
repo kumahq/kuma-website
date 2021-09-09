@@ -1,6 +1,6 @@
 # DNS
 
-In Kuma version , DNS on the data plane proxy is enabled by default on Kubernetes. You can also continue to deploy with [DNS on the control plane](#control-plane-dns).
+In Kuma version 1.2.3, DNS on the data plane proxy is enabled by default on Kubernetes. You can also continue to deploy with [DNS on the control plane](#control-plane-dns).
 
 ## Data plane proxy DNS
 
