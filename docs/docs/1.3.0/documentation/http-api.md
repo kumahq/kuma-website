@@ -43,10 +43,6 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/traffic-routes/{name}`
 * `/meshes/{mesh}/fault-injections`
 * `/meshes/{mesh}/fault-injections/{name}`
-* `/meshes/{mesh}/zones`
-* `/meshes/{mesh}/zones/{name}`
-* `/meshes/{mesh}/zones+insights`
-* `/meshes/{mesh}/zones+insights/{name}`
 * `/meshes/{mesh}/external-services`
 * `/meshes/{mesh}/external-services/{name}`
 * `/meshes/{mesh}/service-insights`
@@ -57,6 +53,10 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/secrets/{name}`
 * `/status/zones`
 * `/tokens`
+* `/zones`
+* `/zones/{name}`
+* `/zones+insights`
+* `/zones+insights/{name}`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -2604,6 +2604,7 @@ curl http://localhost:5681/zones+insights/cluster-1
  "zoneInsight": {
   "subscriptions": [
    {
+    "config": "\"whole /config from zone\"",
     "id": "466aa63b-70e8-4435-8bee-a7146e2cdf11",
     "globalInstanceId": "66309679-ee95-4ea8-b17f-c715ca03bb38",
     "connectTime": "2020-07-28T16:08:09.743141Z",
@@ -2621,6 +2622,7 @@ curl http://localhost:5681/zones+insights/cluster-1
     }
    },
    {
+    "config": "\"whole /config from zone\"",
     "id": "f586f89c-2c4e-4f93-9a56-f0ea2ff010b7",
     "globalInstanceId": "66309679-ee95-4ea8-b17f-c715ca03bb38",
     "connectTime": "2020-07-28T16:08:24.760801Z",
@@ -2711,6 +2713,7 @@ curl http://localhost:5681/zones+insights
    "zoneInsight": {
     "subscriptions": [
      {
+      "config": "\"whole /config from zone\"",
       "id": "466aa63b-70e8-4435-8bee-a7146e2cdf11",
       "globalInstanceId": "66309679-ee95-4ea8-b17f-c715ca03bb38",
       "connectTime": "2020-07-28T16:08:09.743141Z",
@@ -2728,6 +2731,7 @@ curl http://localhost:5681/zones+insights
       }
      },
      {
+      "config": "\"whole /config from zone\"",
       "id": "f586f89c-2c4e-4f93-9a56-f0ea2ff010b7",
       "globalInstanceId": "66309679-ee95-4ea8-b17f-c715ca03bb38",
       "connectTime": "2020-07-28T16:08:24.760801Z",
