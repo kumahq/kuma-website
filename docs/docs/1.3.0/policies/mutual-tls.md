@@ -189,14 +189,14 @@ A few considerations:
 
 ### Intermediate CA
 
-You can also work with an Intermediate CA with a `provided` backend. Generate the certificate and place it before the certificate from the root CA, in the same file with an empty line separating the items. Then create the secret to specify in the `cert` section of the config. The secret for the `key` should contain only the private key of the certificate from the intermediate CA.
+You can also work with an Intermediate CA with a `provided` backend. Generate the certificate and place it first in certificate file, before the certificate from the root CA. The certificate from the root CA should start on a new line. Then create the secret to specify in the `cert` section of the config. The secret for the `key` should contain only the private key of the certificate from the intermediate CA.
 
 You can chain certificates from multiple intermediate CAs the same way. Place the certificate from the closest CA at the top of the cert file, followed by certificates in order up the certificate chain, then generate the secret to hold the contents of the file.
 
 Sample certificate file for a single intermediate CA:
 
 ```
------BEGIN CERTIFICATE FROM INTERMEDIATE CA-----
+-----BEGIN CERTIFICATE-----
 MIIDdjCCAl6gAwIBAgICEAEwDQYJKoZIhvcNAQELBQAwRDELMAkGA1UEBhMCR0Ix
 EDAOBgNVBAgMB0VuZ2xhbmQxEjAQBgNVBAoMCUFsaWNlIEx0ZDEPMA0GA1UEAwwG
 S3VtYUNBMB4XDTIxMDUxMjEzMzU1MVoXDTMxMDUxMDEzMzU1MVowUDELMAkGA1UE
@@ -217,8 +217,7 @@ d2BQhPQYWes3LMPxtGhS5kwKaXaB3gzTnzjGvgGNeJ+l0AiWqXkivixpox3/6mMa
 90mwssl4sRQQLR1kLFU4hwghNm52Pk7o7HSTEXsnB+ZhHB9skpetY6R4uKWh8xap
 Xmj4PDrAA5OKZzSO7Yhdt0vXPOIrjShMxvA=
 -----END CERTIFICATE-----
-
------BEGIN CERTIFICATE FROM ROOT CA-----
+-----BEGIN CERTIFICATE-----
 MIIDbjCCAlagAwIBAgIJALDMMa9rXKLPMA0GCSqGSIb3DQEBCwUAMEQxCzAJBgNV
 BAYTAkdCMRAwDgYDVQQIDAdFbmdsYW5kMRIwEAYDVQQKDAlBbGljZSBMdGQxDzAN
 BgNVBAMMBkt1bWFDQTAeFw0yMTA1MTIxMzE2MjFaFw00MTA1MDcxMzE2MjFaMEQx
