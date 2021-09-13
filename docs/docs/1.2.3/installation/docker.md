@@ -120,7 +120,7 @@ and extract the archive with:
 $ tar xvzf kuma-*.tar.gz
 ```
 
-You will then find the `kumactl` executable in the `kuma-/bin` folder.
+You will then find the `kumactl` executable in the `kuma-1.2.3/bin` folder.
 
 :::
 ::::
