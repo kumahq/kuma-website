@@ -9,7 +9,7 @@ There are two options to do this with Kuma:
 
 Kuma CNI can be leveraged in the two installation methods for Kubernetes: using [`kumactl`](/docs/1.2.3/installation/kubernetes) and with [Helm](/docs/1.2.3/installation/helm). The default settings are tuned for OpenShift with Multus, therefore to use it in other environments we need to set the relevant configuration parameters.
 
-Below are the etails of how to set-up each of the options, considering and example where a plain Kubernetes cluster deployed with `kubeadm` and the default Calico CNI is used.
+Below are the details of how to set-up each of the options, considering and example where a plain Kubernetes cluster deployed with `kubeadm` and the default Calico CNI is used.
 
 :::: tabs
 ::: tab "kumactl"
