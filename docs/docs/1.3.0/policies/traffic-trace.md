@@ -7,7 +7,7 @@ Tracing is supported over HTTP, HTTP2, and gRPC protocols in a [`Mesh`](../mesh)
 You must also:
 
 1. [Add a tracing backend](#add-a-tracing-backend). You specify a tracing backend as a [`Mesh`](../mesh) resource property.
-1. [Add a TrafficTrace resource](#add-a-traffictrace-resource). YOu pass the backend to the `TrafficTrace` resource.
+1. [Add a TrafficTrace resource](#add-a-traffictrace-resource). You pass the backend to the `TrafficTrace` resource.
 
 Kuma currently supports the following backends:
 
