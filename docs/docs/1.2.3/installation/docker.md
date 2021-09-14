@@ -14,10 +14,10 @@ The official Docker images are used by default in the [Kubernetes](/docs/1.2.3/i
 
 Kuma provides the following Docker images for all of its executables:
 
-* **kuma-cp**: at `docker.io/kumahq/kuma-cp:`
-* **kuma-dp**: at `docker.io/kumahq/kuma-dp:`
-* **kumactl**: at `docker.io/kumahq/kumactl:`
-* **kuma-prometheus-sd**: at `docker.io/kumahq/kuma-prometheus-sd:`
+* **kuma-cp**: at `docker.io/kumahq/kuma-cp:1.2.3`
+* **kuma-dp**: at `docker.io/kumahq/kuma-dp:1.2.3`
+* **kumactl**: at `docker.io/kumahq/kumactl:1.2.3`
+* **kuma-prometheus-sd**: at `docker.io/kumahq/kuma-prometheus-sd:1.2.3`
 
 You can freely `docker pull` these images to start using Kuma, as we will demonstrate in the following steps.
 
@@ -33,7 +33,7 @@ Standalone mode is perfect when running Kuma in a single cluster across one envi
 ```sh
 $ docker run \
     -p 5681:5681 \
-    docker.io/kumahq/kuma-cp: run
+    docker.io/kumahq/kuma-cp:1.2.3 run
 ```
 
 To learn more, read about the [deployment modes available](/docs/1.2.3/documentation/deployments/).
