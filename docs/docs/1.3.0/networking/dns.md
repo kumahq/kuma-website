@@ -50,13 +50,14 @@ This mode implements advanced networking techniques, so take special care for th
 
 ### How it works
 
-The data plane proxy DNS consists of 3 elements:
+The data plane proxy DNS consists of:
 
-- an Envoy DNS filter that will provide response for DNS records from the mesh
-- a CoreDNS instance launched by `kuma-cp` that will dispatch requests between the envoy filter and the usual DNS used by the host
-- iptable rules that will redirect the original DNS traffic to the local coreDNS instance
+- an Envoy DNS filter provides responses from the mesh for DNS records
+- a CoreDNS instance launched by `kuma-cp` that sends requests between the envoy filter and the host DNS 
+- iptable rules that will redirect the original DNS traffic to the local CoreDNS instance
 
-As the Envoy DNS filter is contacted first, any DNS name that exists in both the mesh and outside will always resolve to the mesh address. 
+As the DNS requests are sent to the Envoy DNS filter first, any DNS name that exists inside the mesh will always resolve to the mesh address. 
+This in practice means that DNS name present in the mesh will "shadow" equivalent names that exist outside the mesh.
 
 ### Overriding the coreDNS configuration
 
