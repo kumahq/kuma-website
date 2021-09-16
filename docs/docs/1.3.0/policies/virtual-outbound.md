@@ -85,15 +85,16 @@ kind: VirtualOutbound
 mesh: default
 metadata:
     name: default
-selectors:
-  - match:
-      kuma.io/service: "*"
-conf:
-  host: "{{.service}}.mesh"
-  port: "80"
-  parameters:
-    - name: service
-      tagKey: "kuma.io/service"
+spec:
+    selectors:
+      - match:
+          kuma.io/service: "*"
+    conf:
+      host: "{{.service}}.mesh"
+      port: "80"
+      parameters:
+        - name: service
+          tagKey: "kuma.io/service"
 ```
 :::
 ::: tab "Universal"
@@ -124,17 +125,18 @@ kind: VirtualOutbound
 mesh: default
 metadata:
   name: versioned
-selectors:
-  - match:
-      kuma.io/service: "*"
-conf:
-  host: "{{.service}}.{{.version}}.mesh"
-  port: "80"
-  parameters:
-    - name: service
-      tagKey: "kuma.io/service"
-    - name: version
-      tagKey: "kuma.io/version"
+spec:
+    selectors:
+      - match:
+          kuma.io/service: "*"
+    conf:
+      host: "{{.service}}.{{.version}}.mesh"
+      port: "80"
+      parameters:
+        - name: service
+          tagKey: "kuma.io/service"
+        - name: version
+          tagKey: "kuma.io/version"
 ```
 :::
 ::: tab "Universal"
@@ -142,17 +144,18 @@ conf:
 type: VirtualOutbound
 mesh: default
 name: versioned
-selectors:
-  - match:
-      kuma.io/service: "*"
-conf:
-  host: "{{.service}}.{{.version}}.mesh"
-  port: "80"
-  parameters:
-    - name: service
-      tagKey: "kuma.io/service"
-    - name: version
-      tagKey: "kuma.io/version"
+spec:
+    selectors:
+      - match:
+          kuma.io/service: "*"
+    conf:
+      host: "{{.service}}.{{.version}}.mesh"
+      port: "80"
+      parameters:
+        - name: service
+          tagKey: "kuma.io/service"
+        - name: version
+          tagKey: "kuma.io/version"
 ```
 :::
 ::::
@@ -167,17 +170,18 @@ kind: VirtualOutbound
 mesh: default
 metadata:
   name: host-port
-selectors:
-  - match:
-      kuma.io/service: "*"
-conf:
-  host: "{{.hostname}}"
-  port: "{{.port}}"
-  parameters:
-    - name: hostname
-      tagKey: "my.mesh/hostname"
-    - name: port
-      tagKey: "my.mesh/port"
+spec:
+    selectors:
+      - match:
+          kuma.io/service: "*"
+    conf:
+      host: "{{.hostname}}"
+      port: "{{.port}}"
+      parameters:
+        - name: hostname
+          tagKey: "my.mesh/hostname"
+        - name: port
+          tagKey: "my.mesh/port"
 ```
 :::
 ::: tab "Universal"
