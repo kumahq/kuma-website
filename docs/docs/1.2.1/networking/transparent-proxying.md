@@ -1,6 +1,6 @@
 # Transparent Proxying
 
-In order to interecept traffic from and to a service through a `kuma-dp` data plane proxy instance, Kuma utilizes a variety of patterns.
+In order to intercept traffic from and to a service through a `kuma-dp` data plane proxy instance, Kuma utilizes a variety of patterns.
 
 * On **Kubernetes** `kuma-dp` leverages transparent proxying automatically via `iptables` or CNI, for all incoming and outgoing traffic that is automatically intercepted by `kuma-dp` without having to change the application code.
 * On **Universal** `kuma-dp` leverages the [data plane proxy specification](/docs/1.2.1/documentation/dps-and-data-model/) associated to it for receiving incoming requests on a pre-defined port, while it can leverage both transparent proxying and explicit `outbound` entries in the same data plane proxy specification for all outgoing traffic.
