@@ -1589,6 +1589,7 @@ module.exports = {
         "documentation/deployments",
         "other/enterprise",
         "other/license",
+        "other/compatibility",
       ]
     },
     {
