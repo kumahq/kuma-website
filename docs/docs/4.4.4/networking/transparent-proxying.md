@@ -1,6 +1,10 @@
 # Transparent Proxying
 
-In order to interecept traffic from and to a service through a `kuma-dp` data plane proxy instance, Kuma utilizes a variety of patterns.
+::: warning
+**Warning**: Transparent Proxying is currently not supported for **Windows** deployments
+:::
+
+In order to intercept traffic from and to a service through a `kuma-dp` data plane proxy instance, Kuma utilizes a variety of patterns.
 
 * On **Kubernetes** `kuma-dp` leverages transparent proxying automatically via `iptables` or CNI, for all incoming and outgoing traffic that is automatically intercepted by `kuma-dp` without having to change the application code.
 * On **Universal** `kuma-dp` leverages the [data plane proxy specification](/docs/1.3.0/documentation/dps-and-data-model/) associated to it for receiving incoming requests on a pre-defined port, while it can leverage both transparent proxying and explicit `outbound` entries in the same data plane proxy specification for all outgoing traffic.
@@ -13,7 +17,7 @@ There are several advantages for using transparent proxying in universal mode:
 
 ### Preparing the Kuma Control plane
 
-The Kuma control plane exposes a DNS service which handles the name resolution in the `.mesh` DNS zone. By default it listens on port `UDP/5653`. For this setup we need it to listen on port `UDP/53`, therefore make sure that this environment variable is set before running `kuma-cp`: `KUMA_DNS_SERVER_PORT=53`.
+The Kuma control plane exposes a DNS service which handles the name resolution in the `.mesh` DNS zone. By default, it listens on port `UDP/5653`. For this setup we need it to listen on port `UDP/53`, therefore make sure that this environment variable is set before running `kuma-cp`: `KUMA_DNS_SERVER_PORT=53`.
 
 :::tip
 The IP address of the host that runs Kuma Control plane will be used in the next section. Make sure to have it once, `kuma-cp` is started.
@@ -27,7 +31,7 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
  2. Redirect all the relevant inbound and outbound traffic to the Kuma data plane proxy.
  3. Point the DNS resolving for `.mesh` to the `kuma-cp` embedded DNS server.
 
-Kuma comes with [`kumactl` executable](/docs/1.3.0/documentation/cli/#kumactl) which can help us preparing the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment. However, the common steps would be to execute the following commands as `root`:
+Kuma comes with [`kumactl` executable](/docs/1.3.0/documentation/cli/#kumactl) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment. However, the common steps would be to execute the following commands as `root`:
 
 ```sh
 # create a dedicated user called kuma-dp-user
@@ -42,7 +46,7 @@ $ kumactl install transparent-proxy \
 Where `kuma-dp-user` is the name of the dedicated user that will be used to run the `kuma-dp` process and `<kuma-cp IP>` is the IP address of the Kuma control plane (`kuma-cp`). 
 
 :::warning
-Please note that this command **will change** both the host `iptables` rules as well as modify `/etc/resolv.conf`, while keeping a backup copy of the original file.
+Please note that this command **will change** both the host `iptables` rules and modify `/etc/resolv.conf`, while keeping a backup copy of the original file.
 :::
 
 The command has several other options which allow to change the default inbound and outbound redirect ports, add ports for exclusion and also disable the iptables or `resolve.conf` modification steps. The command's help has enumerated and documented the available options.

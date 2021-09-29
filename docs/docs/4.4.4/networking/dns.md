@@ -2,6 +2,18 @@
 
 As of Kuma version 1.2.0, DNS on the data plane proxy is enabled by default on Kubernetes. You can also continue to deploy with [DNS on the control plane](#control-plane-dns).
 
+::: warning
+**Warning**: Dataplane proxy DNS server is currently not supported for **Windows** deployments, which means you have to manually disable it when starting `kuma-dp` process
+
+```powershell
+& kuma-dp run `
+      --cp-address=[...] `
+      --dataplane-file=[...] `
+      --dataplane-token-file=[...] `
+      --dns-enabled=false
+```
+:::
+
 ## Data plane proxy DNS
 
 In this mode, all name lookups are handled locally by the data plane proxy. This approach allows for more robust handling of name resolution.

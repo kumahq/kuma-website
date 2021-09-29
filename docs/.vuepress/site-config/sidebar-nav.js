@@ -1742,6 +1742,7 @@ module.exports = {
         "installation/debian",
         "installation/ubuntu",
         "installation/macos",
+        "installation/windows",
       ]
     },
     {

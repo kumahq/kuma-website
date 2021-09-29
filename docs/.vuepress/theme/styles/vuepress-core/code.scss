@@ -170,10 +170,15 @@ div[class~='language-python']:before {
   content: 'py';
 }
 
-div[class~='language-bash']:before {
+div[class~='language-bash']:before,
+div[class~='language-shell']:before {
   content: 'sh';
 }
 
 div[class~='language-php']:before {
   content: 'php';
+}
+
+div[class~='language-powershell']:before {
+  content: 'PowerShell';
 }
