@@ -6,11 +6,11 @@
   "author": "Kong, Inc.",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^2.4.2",
-    "commander": "^3.0.2",
-    "fs-extra": "^8.1.0",
-    "latest-semver": "^2.0.0",
+    "chalk": "^4.1.2",
+    "commander": "^8.2.0",
+    "fs-extra": "^10.0.0",
+    "latest-semver": "^3.0.0",
     "path": "^0.12.7",
-    "replace-in-file": "^4.2.0"
+    "replace-in-file": "^6.2.0"
   }
 }

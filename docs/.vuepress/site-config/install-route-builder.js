@@ -17,9 +17,9 @@
  *
  */
 
-const LatestSemver = require("latest-semver");
+const latestSemver = require("latest-semver");
 const releases = require("../public/releases.json")
-const latestVersion = LatestSemver(releases);
+const latestVersion = latestSemver(releases);
 
 module.exports = function() {
   const releaseArray = [{

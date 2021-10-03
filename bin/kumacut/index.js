@@ -6,7 +6,7 @@ const path = require("path");
 const replace = require("replace-in-file");
 const program = require("commander");
 const chalk = require("chalk");
-const LatestSemver = require("latest-semver");
+const latestSemver = require("latest-semver");
 
 // script meta
 const namespace = "Kuma";
@@ -21,7 +21,7 @@ const sidebarNav = path.resolve(
   __dirname,
   "../../docs/.vuepress/site-config/sidebar-nav.js"
 );
-const latest = LatestSemver(require(releases));
+const latest = latestSemver(require(releases));
 const sourcVersionDir = path.resolve(__dirname, "../../docs/docs/draft");
 
 // this is the token we replace in the documentation

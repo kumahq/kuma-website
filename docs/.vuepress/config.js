@@ -8,9 +8,9 @@ const webpack = require("webpack");
 /**
  * Releases
  */
-const LatestSemver = require("latest-semver");
+const latestSemver = require("latest-semver");
 const releases = require("./public/releases.json");
-const latestVersion = LatestSemver(releases);
+const latestVersion = latestSemver(releases);
 
 /**
  * Product data
