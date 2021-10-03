@@ -24,8 +24,10 @@
     "vue": "^2.6.10",
     "vue-analytics": "^5.22.1",
     "vue-github-button": "^1.0.8",
+    "vue-server-renderer": "^2.6.10",
     "vue-slick-carousel": "^1.0.6",
     "vue-tabs-component": "^1.5.0",
+    "vue-template-compiler": "^2.6.10",
     "vuepress-plugin-tabs": "^0.3.0"
   },
   "devDependencies": {
