@@ -150,6 +150,21 @@ In Prometheus version 2.29 and later, you can add Kuma metrics to your `promethe
 scrape_configs:
     - job_name: 'kuma-dataplanes'
       scrape_interval: "5s"
+      relabel_configs:
+      - source_labels:
+        - __meta_kuma_mesh
+        regex: "(.*)"
+        target_label: mesh
+      - source_labels:
+        - __meta_kuma_dataplane
+        regex: "(.*)"
+        target_label: dataplane
+      - source_labels:
+        - __meta_kuma_service
+        regex: "(.*)"
+        target_label: service
+      - action: labelmap
+        regex: __meta_kuma_label_(.+)
       kuma_sd_configs:
       - server: "http://kuma-control-plane.kuma-system.svc:5676"
 ```
