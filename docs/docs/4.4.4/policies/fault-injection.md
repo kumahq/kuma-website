@@ -5,34 +5,9 @@ These faults are [Delay](#delay), [Abort](#abort) and [ResponseBandwidth](#respo
 
 ## Usage
 
-On Universal:
+:::: tabs :options="{ useUrlFragment: false }"
 
-```yaml
-type: FaultInjection
-mesh: default
-name: fi1
-sources:
-  - match:
-      kuma.io/service: frontend
-      version: "0.1"
-destinations:
-  - match:
-      kuma.io/service: backend
-      kuma.io/protocol: http
-conf:        
-  abort:
-    httpStatus: 500
-    percentage: 50
-  delay:
-    percentage: 50.5
-    value: 5s
-  responseBandwidth:
-    limit: 50 mbps
-    percentage: 50    
-```
-
-On Kubernetes:
-
+::: tab "Kubernetes"
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: FaultInjection
@@ -60,6 +35,35 @@ spec:
       limit: 50 mbps
       percentage: 50 
 ```
+:::
+
+::: tab "Universal"
+```yaml
+type: FaultInjection
+mesh: default
+name: fi1
+sources:
+  - match:
+      kuma.io/service: frontend
+      version: "0.1"
+destinations:
+  - match:
+      kuma.io/service: backend
+      kuma.io/protocol: http
+conf:        
+  abort:
+    httpStatus: 500
+    percentage: 50
+  delay:
+    percentage: 50.5
+    value: 5s
+  responseBandwidth:
+    limit: 50 mbps
+    percentage: 50    
+```
+:::
+
+::::
 
 ### Sources & Destinations
 `FaultInjection` is a policy, which is applied to the connection between dataplanes. As most of the policies, `FaultInjection` supports the powerful mechanism of matching, which allows you to precisely match source and destination dataplanes.
