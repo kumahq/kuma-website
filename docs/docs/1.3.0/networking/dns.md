@@ -48,6 +48,24 @@ This mode implements advanced networking techniques, so take special care for th
  * The mode can safely be used with the [Kuma CNI plugin](cni/).
  * In mixed IPv4 and IPv6 environments, it's recommended that you specify an [IPv6 virtual IP CIDR](ipv6/).
 
+### How it works
+
+The data plane proxy DNS consists of:
+
+- an Envoy DNS filter provides responses from the mesh for DNS records
+- a CoreDNS instance launched by `kuma-cp` that sends requests between the envoy filter and the host DNS 
+- iptable rules that will redirect the original DNS traffic to the local CoreDNS instance
+
+As the DNS requests are sent to the Envoy DNS filter first, any DNS name that exists inside the mesh will always resolve to the mesh address. 
+This in practice means that DNS name present in the mesh will "shadow" equivalent names that exist outside the mesh.
+
+### Overriding the coreDNS configuration
+
+In some cases it might be useful for you to configure the default coreDNS.
+To do so you can use `--dns-coredns-config-template-path` as an argument to `kuma-dp`.
+This file is a [coreDNS configuration](https://coredns.io/manual/toc/) that is processed as a go-template.
+If you edit this configuration you should base yourself on the default existing configuration.
+
 ## Control Plane DNS
 
 The Kuma control plane deploys its DNS resolver on UDP port `5653`. It allows decoupling the service name resolution from the underlying infrastructure and thus makes Kuma more flexible. When Kuma is deployed as a distributed control plane, Kuma DNS enables cross-cluster service discovery.
