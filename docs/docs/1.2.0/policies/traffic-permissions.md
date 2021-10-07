@@ -2,7 +2,7 @@
 
 This policy provides access control rules to define the traffic that is allowed within the [Mesh](../mesh). 
 
-Traffic permissions requires [Mutual TLS](../mutual-tls) enabled on the [`Mesh`](../mesh). Mutual TLS is required for Kume to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, Kuma allows all service traffic. 
+Traffic permissions requires [Mutual TLS](../mutual-tls) enabled on the [`Mesh`](../mesh). Mutual TLS is required for Kuma to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, Kuma allows all service traffic. 
 
 The default `TrafficPermission` policy that Kuma creates when you install allows all communication between all services in the new `Mesh`. Make sure to configure your policies to allow appropriate access to each of the services in your mesh.
 

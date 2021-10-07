@@ -136,12 +136,6 @@ To obtain an mTLS certificate from the server ([SDS](https://www.envoyproxy.io/d
 
 ::: tab "Kubernetes (Service Account Token)"
 A data plane proxy proves its identity by leveraging [Service Account Token](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
-
-Keep in mind that if you don't explicitly specify `serviceAccountTokenName` in Deployment, Pod is run with the `default` Service Account Token in the Namespace.
-This means that authentication scope is bound to a Namespace, so any Pod in the Namespace can authenticate as any other Pod in a Namespace.
-
-To have a strict security bound to a Deployment, every Deployment should use unique Service Account Token.
-On top of that, users should not be able to modify `serviceAccountTokenName` in `Deployment`. This can be achieved for example with [OPA Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/docs/).
 :::
 
 ::: tab "Universal (Data plane proxy token)"
