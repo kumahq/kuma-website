@@ -1791,6 +1791,7 @@ module.exports = {
       children: [
         "security/certificates",
         "security/secrets",
+        "security/api-server-auth",
       ]
     },
     {
