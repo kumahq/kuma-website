@@ -61,6 +61,8 @@ $ kumactl install control-plane \
 ```
 
 The data plane proxy Injector in the control plane automatically provides the CA to the Kuma DP sidecar so Kuma DP can confirm the control plane identity.
+
+When configured using the `--tls-general-secret` and `--tls-general-ca-bundle` flags, Kuma will use the specified CA and certificate to protect data plane proxy to control plane traffic. Additionally, if not configured otherwise using additional options described below, Kuma will also use the specified CA and certificate to protect user to control plane traffic and control plane to control plane traffic when in multizone configurations.
 :::
 ::: tab "Kubernetes (HELM)"
 1) Prepare certificates
@@ -91,6 +93,8 @@ $ kubectl create secret generic general-tls-certs -n kuma-system \
 Set `controlPlane.tls.general.secretName` to `general-tls-certs` and `controlPlane.tls.general.caBundle` to `<BASE64 content of ca.crt>`
 
 The data plane proxy Injector in the control plane automatically provides the CA to the Kuma DP sidecar so Kuma DP can confirm the control plane identity.
+
+When configured using the `controlPlane.tls.general.secretName` and `controlPlane.general.caBundle` values in Helm, Kuma will use the specified CA and certificate to protect data plane proxy to control plane traffic. Additionally, if not configured otherwise using options described below, Kuma will also use the specified CA and certificate to protect user to control plane traffic and control plane to control plane traffic when in multizone configurations.
 :::
 ::: tab "Universal"
 1) Prepare certificates
