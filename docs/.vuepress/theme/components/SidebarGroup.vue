@@ -27,11 +27,12 @@
       </span>
     </router-link>
 
-    <p
+    <button
       v-else
       class="sidebar-heading"
       :class="{ open }"
       @click="$emit('toggle')"
+      :aria-expanded="open"
     >
       <span>{{ item.title }}</span>
       <span
@@ -39,7 +40,7 @@
         v-if="collapsable"
         :class="open ? 'down' : 'right'">
       </span>
-    </p>
+    </button>
 
     <DropdownTransition>
       <SidebarLinks
