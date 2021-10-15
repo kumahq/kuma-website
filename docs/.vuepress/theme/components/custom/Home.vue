@@ -31,9 +31,21 @@
             </div>
           </div>
           <!-- /.page-masthead__upper -->
-          
-          <div class="page-masthead__diagram max-w-2xl mx-auto mt-4 w-full lg:w-1/2 block lg:hidden px-4">
-            <Content slot-key="masthead-diagram" />
+
+          <div class="page-masthead__diagram max-w-2xl mx-auto mt-4 w-full lg:w-1/2 block lg:hidden px-6 pb-6">
+            <VueSlickCarousel
+              :arrow="true"
+              :dots="true"
+              v-if="carousel.length"
+            >
+              <div v-for="item in carousel" class="item-wrapper">
+                <img
+                  :src="item.src"
+                  :alt="item.alt"
+                />
+              </div>
+            </VueSlickCarousel>
+
           </div>
           <!-- masthead diagram: mobile -->
           
@@ -52,8 +64,19 @@
         </div>
         <!-- .page-masthead -->
 
-        <div class="page-masthead__diagram w-full lg:w-1/2 hidden lg:block px-4">
-          <Content slot-key="masthead-diagram" />
+        <div class="page-masthead__diagram w-full lg:w-1/2 hidden lg:block px-6 pb-6">
+          <VueSlickCarousel
+            :arrow="true"
+            :dots="true"
+            v-if="carousel.length"
+          >
+          <div v-for="item in carousel" class="item-wrapper">
+            <img
+              :src="item.src"
+              :alt="item.alt"
+            />
+          </div>
+          </VueSlickCarousel>
         </div>
       </div>
       <!-- .inner -->
@@ -214,6 +237,9 @@ export default {
     testimonials () {
       return this.$page.frontmatter.testimonials || null
     },
+    carousel() {
+      return this.$page.frontmatter.carousel || [];
+    }
   },
 }
 </script>

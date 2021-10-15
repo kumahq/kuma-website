@@ -33,6 +33,13 @@ testimonials:
     title: 'CEO of MS3'
     image: '/images/ms3-logo.png'
     alt: 'Logo for MS3'
+    
+# carousel
+carousel:
+  - alt: Screenshot of the Kuma GUI with charts
+    src: /images/gui-screenshot-with-charts.png
+  - alt: Screenshot of the Kuma Service Map
+    src: /images/kuma_1_3_0_service_map.png
 ---
 
 ::: slot news
@@ -53,10 +60,6 @@ testimonials:
 
 ## The open-source control plane for service mesh, <br>delivering security, observability, routing and more
 
-:::
-
-::: slot masthead-diagram
-![Screenshot of the Kuma GUI with charts](/images/gui-screenshot-with-charts.png)
 :::
 
 <!-- feature blocks -->
