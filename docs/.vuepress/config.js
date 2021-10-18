@@ -184,6 +184,10 @@ module.exports = {
     }
   },
   plugins: {
+    'vuepress-plugin-code-copy': {
+      color: "#4e1999",
+      backgroundColor: '#4e1999'
+    },
     "clean-urls": {
       normalSuffix: "/",
       indexSuffix: "/"
