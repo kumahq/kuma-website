@@ -82,7 +82,10 @@ fi
 
 printf "INFO\t$PRODUCT_NAME version: %s\n" "$VERSION"
 printf "INFO\t$PRODUCT_NAME architecture: %s\n" "$ARCH"
-printf "INFO\tOperating system: %s\n" "$DISTRO"
+printf "INFO\tOperating system: %s\n" "$OS"
+if [ "$OS" = "Linux" ]; then
+    printf "INFO\tDistribution: %s\n" "$DISTRO"
+fi
 
 URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$VERSION-$DISTRO-$ARCH.tar.gz"
 
