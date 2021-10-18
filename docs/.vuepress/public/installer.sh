@@ -87,6 +87,9 @@ printf "INFO\tOperating system: %s\n" "$DISTRO"
 URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$VERSION-$DISTRO-$ARCH.tar.gz"
 
 if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
+  if [ "$OS" = "Linux" ]; then
+      printf "WARNING\tYou may be using an unsupported distribution!\n"
+  fi
   printf "ERROR\tUnable to download $PRODUCT_NAME at the following URL: %s\n" "$URL"
   exit 1
 fi
