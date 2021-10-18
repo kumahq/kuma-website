@@ -103,9 +103,9 @@ The following command can be executed on any Kuma backend:
 
 ```sh
 kumactl get secrets [-m MESH]
-MESH      NAME                           AGE
-default   default.ca-builtin-cert-ca-1   1m
-default   default.ca-builtin-key-ca-1    1m
+# MESH      NAME                           AGE
+# default   default.ca-builtin-cert-ca-1   1m
+# default   default.ca-builtin-key-ca-1    1m
 ```
 :::
 ::: tab "kubectl"
@@ -399,8 +399,8 @@ We can use the Kuma CLI:
 
 ```sh
 kumactl inspect dataplanes
-MESH      NAME     TAGS          STATUS   LAST CONNECTED AGO   LAST UPDATED AGO   TOTAL UPDATES   TOTAL ERRORS   CERT REGENERATED AGO   CERT EXPIRATION       CERT REGENERATIONS
-default   web-01   service=web   Online   5s                   3s                 4               0              3s                     2020-05-11 16:01:34   2
+# MESH      NAME     TAGS          STATUS   LAST CONNECTED AGO   LAST UPDATED AGO   TOTAL UPDATES   TOTAL ERRORS   CERT REGENERATED AGO   CERT EXPIRATION       CERT REGENERATIONS
+# default   web-01   service=web   Online   5s                   3s                 4               0              3s                     2020-05-11 16:01:34   2
 ```
 
 Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` columns.

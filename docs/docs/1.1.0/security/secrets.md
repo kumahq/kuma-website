@@ -44,8 +44,8 @@ data:
 type: system.kuma.io/secret" | kubectl apply -f -
 
 kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/secret'
-NAME            TYPE                    DATA   AGE
-sample-secret   system.kuma.io/secret   1      3m12s
+# NAME            TYPE                    DATA   AGE
+# sample-secret   system.kuma.io/secret   1      3m12s
 ```
 
 Kubernetes Secrets are identified with the `name + namespace` format, therefore **it is not possible** to have a `Secret` with the same name in multiple meshes (since multiple `Meshes` always belong to one Kuma CP that always runs in one Namespace).

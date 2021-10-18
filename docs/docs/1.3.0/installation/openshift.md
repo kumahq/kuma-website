@@ -146,8 +146,8 @@ You can use Kuma with `oc` to perform **read and write** operations on Kuma reso
 
 ```sh
 oc get meshes
-NAME          AGE
-default       1m
+# NAME          AGE
+# default       1m
 ```
 
 or you can enable mTLS on the `default` Mesh with:
@@ -191,8 +191,8 @@ and then run `kumactl`, for example:
 
 ```sh
 kumactl get meshes
-NAME          mTLS      METRICS      LOGGING   TRACING
-default       off       off          off       off
+# NAME          mTLS      METRICS      LOGGING   TRACING
+# default       off       off          off       off
 ```
 
 You can configure `kumactl` to point to any zone `kuma-cp` instance by running:

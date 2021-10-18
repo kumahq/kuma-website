@@ -81,8 +81,8 @@ You can use the `kumactl` CLI to perform **read and write** operations on Kuma r
 docker run \
     --net="host" \
     docker.io/kumahq/kumactl: kumactl get meshes
-NAME          mTLS      METRICS      LOGGING   TRACING
-default       off       off          off       off
+# NAME          mTLS      METRICS      LOGGING   TRACING
+# default       off       off          off       off
 ```
 
 or you can enable mTLS on the `default` Mesh with:
