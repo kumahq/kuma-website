@@ -116,9 +116,9 @@ The following command can be executed only on Kubernetes:
 kubectl get secrets \
     -n kuma-system \
     --field-selector='type=system.kuma.io/secret'
-NAME                             TYPE                                  DATA   AGE
-default.ca-builtin-cert-ca-1     system.kuma.io/secret                 1      1m
-default.ca-builtin-key-ca-1      system.kuma.io/secret                 1      1m
+# NAME                             TYPE                                  DATA   AGE
+# default.ca-builtin-cert-ca-1     system.kuma.io/secret                 1      1m
+# default.ca-builtin-key-ca-1      system.kuma.io/secret                 1      1m
 ```
 :::
 ::::
