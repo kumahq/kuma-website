@@ -14,13 +14,13 @@ According to the [installation instructions](/install/), some of these executabl
 You can check the usage of the executables by running the `-h` flag, like:
 
 ```sh
-$ kuma-cp -h
+kuma-cp -h
 ```
 
 and you can check their version by running the `version [--detailed]` command like:
 
 ```sh
-$ kuma-cp version --detailed
+kuma-cp version --detailed
 ```
 
 ## kumactl

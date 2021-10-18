@@ -42,7 +42,7 @@ The registration of the `Dataplane` includes three main sections that are descri
 For example, this is how we start a `Dataplane` for an hypotetical Redis service and then start the `kuma-dp` process:
 
 ```sh
-$ cat dp.yaml
+cat dp.yaml
 type: Dataplane
 mesh: default
 name: redis-1
@@ -54,7 +54,7 @@ networking:
     tags:
       kuma.io/service: redis
 
-$ kuma-dp run \
+kuma-dp run \
   --cp-address=https://127.0.0.1:5678 \
   --dataplane-file=dp.yaml
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
@@ -65,7 +65,7 @@ In the example above, any external client who wants to consume Redis will have t
 Now let's assume that we have another service called "Backend" that internally listens on port `80`, and that makes outgoing requests to the `redis` service:
 
 ```sh
-$ cat dp.yaml
+cat dp.yaml
 type: Dataplane
 mesh: default
 name: {{ name }}

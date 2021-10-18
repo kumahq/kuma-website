@@ -95,14 +95,14 @@ Built for the enterprise, Kuma ships with the most scalable multi-zone connectiv
 [Install Kuma](/install/) via an available distribution:
 
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   | kubectl apply -f-
 ```
 
 Visualize the GUI to see your cluster:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane \
+kubectl port-forward svc/kuma-control-plane \
   -n kuma-system 5681:5681
 ```
 
@@ -115,14 +115,14 @@ Navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the GUI.
 [Install Kuma](/install/) via an available distribution:
 
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   --cni-enabled | oc apply -f -
 ```
 
 Visualize the GUI to see your cluster:
 
 ```sh
-$ oc port-forward svc/kuma-control-plane \
+oc port-forward svc/kuma-control-plane \
   -n kuma-system 5681:5681
 ```
 
@@ -135,7 +135,7 @@ Navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the GUI.
 [Install Kuma](/install/) via an available distribution:
 
 ```sh
-$ kuma-cp run
+kuma-cp run
 ```
 
 Navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the GUI.

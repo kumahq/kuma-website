@@ -22,7 +22,7 @@ The zone key is purely static and arbitrary. Different zone values for different
 - [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 
   ```sh
-  $ git clone https://github.com/kumahq/kuma-counter-demo.git
+  git clone https://github.com/kumahq/kuma-counter-demo.git
   ```
 
 To explore traffic metrics with the demo app, you also need to [set up Prometheus]((https://prometheus.io/docs/prometheus/latest/getting_started/)). See the [traffic metrics policy documentation](../../policies/traffic-metrics).
@@ -32,15 +32,15 @@ To explore traffic metrics with the demo app, you also need to [set up Prometheu
 1.  Run `redis` as a daemon on port 26379 and set a default zone name:
 
     ```sh
-    $ redis-server --port 26379 --daemonize yes
-    $ redis-cli -p 26379 set zone local
+    redis-server --port 26379 --daemonize yes
+    redis-cli -p 26379 set zone local
     ```
 
 1.  Install and start `demo-app` on the default port 5000:
 
     ```sh
-    $ npm install --prefix=app/
-    $ npm start --prefix=app/
+    npm install --prefix=app/
+    npm start --prefix=app/
     ```
 
 ## Generate tokens
@@ -48,8 +48,8 @@ To explore traffic metrics with the demo app, you also need to [set up Prometheu
 Create a token for Redis and a token for the app:
 
 ```sh
-$ kumactl generate dataplane-token --name=redis > kuma-token-redis
-$ kumactl generate dataplane-token --name=app > kuma-token-app
+kumactl generate dataplane-token --name=redis > kuma-token-redis
+kumactl generate dataplane-token --name=app > kuma-token-app
 ```
 
 ## Create a data plane proxy for each service
@@ -57,7 +57,7 @@ $ kumactl generate dataplane-token --name=app > kuma-token-app
 For Redis:
 
 ```sh
-$ kuma-dp run \
+kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=kuma-token-redis \
@@ -79,7 +79,7 @@ $ kuma-dp run \
 And for the demo app:
 
 ```sh
-$ kuma-dp run \
+kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=kuma-token-app \
@@ -134,7 +134,7 @@ You can use the `kumactl` CLI to perform **read-only** operations on Kuma resour
 Run `kumactl`, for example:
 
 ```sh
-$ kumactl get dataplanes
+kumactl get dataplanes
 MESH      NAME                                              TAGS
 default   kuma-demo-app-68758d8d5d-dddvg.kuma-demo          app=kuma-demo-demo-app env=prod pod-template-hash=68758d8d5d protocol=http service=demo-app_kuma-demo_svc_5000 version=v8
 default   redis-master-657c58c859-5wkb4.kuma-demo           app=redis pod-template-hash=657c58c859 protocol=tcp role=master service=redis_kuma-demo_svc_6379 tier=backend
@@ -143,7 +143,7 @@ default   redis-master-657c58c859-5wkb4.kuma-demo           app=redis pod-templa
 You can configure `kumactl` to point to any zone `kuma-cp` instance by running:
 
 ```sh
-$ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
+kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
 ```
 :::
 ::::
@@ -155,7 +155,7 @@ By default the network is unsecure and not encrypted. We can change this with Ku
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
 ```sh
-$ cat <<EOF | kumactl apply -f -
+cat <<EOF | kumactl apply -f -
 type: Mesh
 name: default
 mtls:
@@ -175,7 +175,7 @@ In a live environment we suggest to setup the Traffic Permission policies prior 
 We can setup a very permissive policy that allows all traffic to flow in our application in an encrypted way with the following command:
 
 ```sh
-$ cat <<EOF | kumactl apply -f -
+cat <<EOF | kumactl apply -f -
 type: TrafficPermission
 name: permission-all
 mesh: default
@@ -201,7 +201,7 @@ One of the most important [policies](/policies) that Kuma provides out of the bo
 With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that visualize the overall traffic activity of our application and the status of the service mesh.
 
 ```sh
-$ cat <<EOF | kumactl apply -f -
+cat <<EOF | kumactl apply -f -
 type: Mesh
 name: default
 mtls:

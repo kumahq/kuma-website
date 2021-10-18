@@ -15,7 +15,7 @@ Following backends are available
 Kuma stores all the state in-memory. This means that restarting Kuma will delete all the data. Only recommend when playing with Kuma locally. For example:
 
 ```sh
-$ KUMA_STORE_TYPE=memory kuma-cp run
+KUMA_STORE_TYPE=memory kuma-cp run
 ```
 
 This is the **default** memory store if `KUMA_STORE_TYPE` is not being specified.
@@ -25,7 +25,7 @@ This is the **default** memory store if `KUMA_STORE_TYPE` is not being specified
 Kuma stores all the state in the underlying Kubernetes cluster. Used when running in Kubernetes mode. For example:
 
 ```sh
-$ KUMA_STORE_TYPE=kubernetes kuma-cp run
+KUMA_STORE_TYPE=kubernetes kuma-cp run
 ```
 
 ## Postgres
@@ -33,7 +33,7 @@ $ KUMA_STORE_TYPE=kubernetes kuma-cp run
 Kuma stores all the state in a PostgreSQL database. Used when running in Universal mode. You can also use a remote PostgreSQL database offered by any cloud vendor. For example:
 
 ```sh
-$ KUMA_STORE_TYPE=postgres \
+KUMA_STORE_TYPE=postgres \
   KUMA_STORE_POSTGRES_HOST=localhost \
   KUMA_STORE_POSTGRES_PORT=5432 \
   KUMA_STORE_POSTGRES_USER=kuma-user \
@@ -48,7 +48,7 @@ To provide easy upgrades between Kuma versions there is a migration system of Po
 
 When upgrading to new version of Kuma, run `kuma-cp migrate up` so the new schema is applied.
 ```sh
-$ KUMA_STORE_TYPE=postgres \
+KUMA_STORE_TYPE=postgres \
   KUMA_STORE_POSTGRES_HOST=localhost \
   KUMA_STORE_POSTGRES_PORT=5432 \
   KUMA_STORE_POSTGRES_USER=kuma-user \

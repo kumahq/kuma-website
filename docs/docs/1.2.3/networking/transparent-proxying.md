@@ -31,10 +31,10 @@ Kuma comes with [`kumactl` executable](/docs/1.2.3/documentation/cli/#kumactl) w
 
 ```sh
 # create a dedicated user called kuma-dp-user
-$ useradd -U kuma-dp
+useradd -U kuma-dp
 
 # use kumactl
-$ kumactl install transparent-proxy \
+kumactl install transparent-proxy \
           --kuma-dp-user kuma-dp \
           --kuma-cp-ip <kuma-cp IP>
 ```
@@ -92,7 +92,7 @@ When systemd is used, this can be done with an entry `User=kuma-dp` in the `[Ser
 When starting `kuma-dp` with a script or some other automation instead, we can use `runuser` with the aforementioned yaml resource as follows:
 
 ```sh
-$ runuser -u kuma-dp -- \
+runuser -u kuma-dp -- \
   /usr/bin/kuma-dp run \
     --cp-address=https://172.19.0.2:5678 \
     --dataplane-token-file=/kuma/token-demo \

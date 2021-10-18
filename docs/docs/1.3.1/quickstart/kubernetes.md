@@ -21,7 +21,7 @@ The zone key is purely static and arbitrary. Different zone values for different
 - [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 
   ```sh
-  $ git clone https://github.com/kumahq/kuma-counter-demo.git
+  git clone https://github.com/kumahq/kuma-counter-demo.git
   ```
 
 ## Set up and run
@@ -34,13 +34,13 @@ Two different YAML files are available:
 1.  Install resources in a `kuma-demo` namespace:
 
     ```sh
-    $ kubectl apply -f demo.yaml
+    kubectl apply -f demo.yaml
     ```
 
 1.  Port forward the service to the namespace on port 5000:
 
     ```sh
-    $ kubectl port-forward svc/demo-app -n kuma-demo 5000:5000
+    kubectl port-forward svc/demo-app -n kuma-demo 5000:5000
     ```
 
 1.  In a browser, go to `127.0.0.1:5000` and increment the counter.
@@ -62,7 +62,7 @@ metadata:
 Run:
 
 ```sh
-$ kubectl get namespace kuma-demo -oyaml
+kubectl get namespace kuma-demo -oyaml
 ```
 
 to see what the full namespace looks like:
@@ -98,7 +98,7 @@ Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources.
 To access Kuma we need to first port-forward the API service with:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 ```
 
 And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
@@ -111,7 +111,7 @@ Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resou
 By default the HTTP API listens on port `5681`. To access Kuma we need to first port-forward the API service with:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 ```
 
 And then you can navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/meshes/default/dataplanes) to see the connected dataplanes.
@@ -122,13 +122,13 @@ And then you can navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http:/
 You can use the `kumactl` CLI to perform **read-only** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API, you will need to first port-forward the API service with:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 ```
 
 and then run `kumactl`, for example:
 
 ```sh
-$ kumactl get dataplanes
+kumactl get dataplanes
 MESH      NAME                                              TAGS
 default   kuma-demo-app-68758d8d5d-dddvg.kuma-demo          app=kuma-demo-demo-app env=prod pod-template-hash=68758d8d5d protocol=http service=demo-app_kuma-demo_svc_5000 version=v8
 default   redis-master-657c58c859-5wkb4.kuma-demo           app=redis pod-template-hash=657c58c859 protocol=tcp role=master service=redis_kuma-demo_svc_6379 tier=backend
@@ -137,7 +137,7 @@ default   redis-master-657c58c859-5wkb4.kuma-demo           app=redis pod-templa
 You can configure `kumactl` to point to any zone `kuma-cp` instance by running:
 
 ```sh
-$ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
+kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
 ```
 :::
 ::::
@@ -149,7 +149,7 @@ By default the network is unsecure and not encrypted. We can change this with Ku
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
 ```sh
-$ echo "apiVersion: kuma.io/v1alpha1
+echo "apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
   name: default
@@ -170,7 +170,7 @@ In a live environment we suggest to setup the Traffic Permission policies prior 
 We can setup a very permissive policy that allows all traffic to flow in our application in an encrypted way with the following command:
 
 ```sh
-$ echo "apiVersion: kuma.io/v1alpha1
+echo "apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
 mesh: default
 metadata:
@@ -200,7 +200,7 @@ With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful 
 To enable traffic metrics we need to first install Prometheus and Grafana:
 
 ```sh
-$ kumactl install metrics | kubectl apply -f -
+kumactl install metrics | kubectl apply -f -
 ```
 
 This will provision a new `kuma-metrics` namespace with all the services required to run our metric collection and visualization. Please note that this operation can take a while as Kubernetes downloads all the required containers.
@@ -208,7 +208,7 @@ This will provision a new `kuma-metrics` namespace with all the services require
 Once we have installed the required dependencies, we can now go ahead and enable metrics on our [Mesh]() object by executing:
 
 ```sh
-$ echo "apiVersion: kuma.io/v1alpha1
+echo "apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
   name: default
@@ -230,7 +230,7 @@ This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/
 Increment the counter to generate traffic. Then you can expose the Grafana dashboard:
 
 ```sh
-$ kubectl port-forward svc/grafana -n kuma-metrics 3000:80
+kubectl port-forward svc/grafana -n kuma-metrics 3000:80
 ```
 
 and access the dashboard at [127.0.0.1:3000](http://127.0.0.1:3000) with default credentials for both the username (`admin`) and the password (`admin`).

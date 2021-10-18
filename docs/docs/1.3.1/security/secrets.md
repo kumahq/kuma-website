@@ -32,7 +32,7 @@ type: system.kuma.io/secret # Kuma will only manage secrets of this type
 Use `kubectl` to manage secrets like any other Kubernetes resource.
 
 ```sh
-$ echo "apiVersion: v1
+echo "apiVersion: v1
 kind: Secret
 metadata:
   name: sample-secret
@@ -43,7 +43,7 @@ data:
   value: dGVzdAo=
 type: system.kuma.io/secret" | kubectl apply -f -
 
-$ kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/secret'
+kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/secret'
 NAME            TYPE                    DATA   AGE
 sample-secret   system.kuma.io/secret   1      3m12s
 ```
@@ -68,7 +68,7 @@ data: dGVzdAo= # bytes encoded in Base64
 You can use `kumactl` to manage any `Secret` like you would do for other resources:
 
 ```sh
-$ echo "type: Secret
+echo "type: Secret
 mesh: default
 name: sample-secret
 data: dGVzdAo=" | kumactl apply -f -
@@ -81,10 +81,10 @@ The `data` field of a Kuma `Secret` should always be a Base64 encoded value. You
 
 ```sh
 # Base64 encode a file
-$ cat cert.pem | base64
+cat cert.pem | base64
 
 # or Base64 encode a string
-$ echo "value" | base64
+echo "value" | base64
 ```
 :::
 

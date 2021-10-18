@@ -18,7 +18,7 @@ To run Kuma on macOS you can choose among different installation methods:
 Run the following script to automatically detect the operating system and download Kuma:
 
 ```sh
-$ curl -L https://kuma.io/installer.sh | sh -
+curl -L https://kuma.io/installer.sh | sh -
 ```
 
 :::
@@ -31,7 +31,7 @@ You can also download the distribution manually:
 Then extract the archive with:
 
 ```sh
-$ tar xvzf kuma-*.tar.gz
+tar xvzf kuma-*.tar.gz
 ```
 
 :::
@@ -40,7 +40,7 @@ $ tar xvzf kuma-*.tar.gz
 If you only need the Kuma CLI `kumactl`, then you can also execute:
 
 ```sh
-$ brew install kumactl
+brew install kumactl
 ```
 
 :::
@@ -53,7 +53,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-1.2.0` folder. 
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-1.2.0/bin
+cd kuma-1.2.0/bin
 ```
 
 Finally we can run Kuma in either **standalone** or **multi-zone** mode:
@@ -64,7 +64,7 @@ Finally we can run Kuma in either **standalone** or **multi-zone** mode:
 Standalone mode is perfect when running Kuma in a single cluster across one environment:
 
 ```sh
-$ ./kuma-cp run
+./kuma-cp run
 ```
 
 To learn more, read about the [deployment modes available](/docs/1.2.0/documentation/deployments/).
@@ -115,7 +115,7 @@ To access Kuma you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to 
 You can use the `kumactl` CLI to perform **read and write** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API. For example:
 
 ```sh
-$ kumactl get meshes
+kumactl get meshes
 NAME          mTLS      METRICS      LOGGING   TRACING
 default       off       off          off       off
 ```
@@ -135,7 +135,7 @@ mtls:
 You can configure `kumactl` to point to any zone `kuma-cp` instance by running:
 
 ```sh
-$ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
+kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
 ```
 :::
 ::::
