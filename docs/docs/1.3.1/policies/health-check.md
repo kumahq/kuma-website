@@ -12,8 +12,6 @@ As usual, we can apply `sources` and `destinations` selectors to determine how h
 
 The `HealthCheck` policy supports both L4/TCP (default) and L7/HTTP checks.
 
-If you want to add two health checks - one `TCP` and other `HTTP` you can specify both in one manifest.
-
 ### Examples
 
 :::: tabs :options="{ useUrlFragment: false }"
@@ -46,7 +44,7 @@ spec:
     eventLogPath: "/tmp/health-check.log" # optional
     alwaysLogHealthCheckFailures: true # optional, by default false
     reuseConnection: false # optional, by default true
-    tcp:
+    tcp: # only one of tcp or http can be defined
       send: Zm9v
       receive:
       - YmFy
@@ -92,7 +90,7 @@ conf:
   eventLogPath: "/tmp/health-check.log" # optional
   alwaysLogHealthCheckFailures: true # optional, by default false
   reuseConnection: false # optional, by default true
-  tcp:
+  tcp: # only one of tcp or http can be defined
     send: Zm9v
     receive:
     - YmFy
