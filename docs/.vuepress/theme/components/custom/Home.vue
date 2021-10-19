@@ -36,6 +36,7 @@
             <VueSlickCarousel
               :arrow="true"
               :dots="true"
+              :autoplay="true"
               v-if="carousel.length"
             >
               <div v-for="item in carousel" class="item-wrapper">
@@ -68,6 +69,7 @@
           <VueSlickCarousel
             :arrow="true"
             :dots="true"
+            :autoplay="true"
             v-if="carousel.length"
           >
           <div v-for="item in carousel" class="item-wrapper">
