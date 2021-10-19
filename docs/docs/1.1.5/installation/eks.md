@@ -23,7 +23,7 @@ To run Kuma on AWS EKS, you need to download a compatible version of Kuma for th
 You can run the following script to automatically detect the operating system and download Kuma:
 
 ```sh
-$ curl -L https://kuma.io/installer.sh | sh -
+curl -L https://kuma.io/installer.sh | sh -
 ```
 
 :::
@@ -40,7 +40,7 @@ You can also download the distribution manually. Download a distribution for the
 and extract the archive with:
 
 ```sh
-$ tar xvzf kuma-*.tar.gz
+tar xvzf kuma-*.tar.gz
 ```
 
 :::
@@ -57,7 +57,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-` folder. In th
 So we enter the `bin` folder by executing:
 
 ```sh
-$ cd kuma-1.1.5/bin
+cd kuma-1.1.5/bin
 ```
 
 Finally we can install and run Kuma in either **standalone** or **multi-zone** mode:
@@ -68,7 +68,7 @@ Finally we can install and run Kuma in either **standalone** or **multi-zone** m
 Standalone mode is perfect when running Kuma in a single cluster across one environment:
 
 ```sh
-$ ./kumactl install control-plane | kubectl apply -f -
+./kumactl install control-plane | kubectl apply -f -
 ```
 
 To learn more, read about the [deployment modes available](/docs/1.1.5/documentation/deployments/).
@@ -96,7 +96,7 @@ ln -s ./kumactl /usr/local/bin/kumactl
 It may take a while for Kubernetes to start the Kuma resources, you can check the status by executing:
 
 ```sh
-$ kubectl get pod -n kuma-system
+kubectl get pod -n kuma-system
 ```
 :::
 
@@ -112,7 +112,7 @@ Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources.
 To access Kuma we need to first port-forward the API service with:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 ```
 
 And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
@@ -123,9 +123,9 @@ And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see th
 You can use Kuma with `kubectl` to perform **read and write** operations on Kuma resources. For example:
 
 ```sh
-$ kubectl get meshes
-NAME          AGE
-default       1m
+kubectl get meshes
+# NAME          AGE
+# default       1m
 ```
 
 or you can enable mTLS on the `default` Mesh with:
@@ -151,7 +151,7 @@ Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resou
 By default the HTTP API listens on port `5681`. To access Kuma we need to first port-forward the API service with:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 ```
 
 And then you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see the HTTP API.
@@ -162,21 +162,21 @@ And then you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see th
 You can use the `kumactl` CLI to perform **read-only** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API, you will need to first port-forward the API service with:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 ```
 
 and then run `kumactl`, for example:
 
 ```sh
-$ kumactl get meshes
-NAME          mTLS      METRICS      LOGGING   TRACING
-default       off       off          off       off
+kumactl get meshes
+# NAME          mTLS      METRICS      LOGGING   TRACING
+# default       off       off          off       off
 ```
 
 You can configure `kumactl` to point to any remote `kuma-cp` instance by running:
 
 ```sh
-$ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
+kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
 ```
 :::
 ::::

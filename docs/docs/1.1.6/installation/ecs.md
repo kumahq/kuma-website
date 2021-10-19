@@ -22,13 +22,13 @@ First we need to download the scripts that will setup our environment. The scrip
 To download the scripts locally:
 
 ```shell
-$ curl --location --output - https://github.com/kumahq/kuma/archive/1.1.6.tar.gz | tar -z --strip 3 --extract --file=- "./kuma-1.1.6/examples/ecs/*yaml"
+curl --location --output - https://github.com/kumahq/kuma/archive/1.1.6.tar.gz | tar -z --strip 3 --extract --file=- "./kuma-1.1.6/examples/ecs/*yaml"
 ```
 
 Then we can proceed to install a `kuma` VPC:
 
 ```shell
-$ aws cloudformation deploy \
+aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-vpc \
     --template-file kuma-vpc.yaml
@@ -44,7 +44,7 @@ We can run Kuma in either **standalone** or **multi-zone** mode:
 To deploy the `kuma-cp` stack in standalone mode we can execute:
 
 ```shell
-$ aws cloudformation deploy \
+aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-cp \
     --template-file kuma-cp-standalone.yaml \
@@ -61,7 +61,7 @@ Multi-zone mode is perfect when running one deployment of Kuma that spans across
 To run Kuma in multi-zone mode, we must install our **global** control plane first:
 
 ```shell
-$ aws cloudformation deploy \
+aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-cp-global \
     --template-file kuma-cp-global.yaml \
@@ -71,7 +71,7 @@ $ aws cloudformation deploy \
 And as many **remote** control planes as the number of zones we want to support:
 
 ```shell
-$ aws cloudformation deploy \
+aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-cp \
     --template-file kuma-cp-remote.yaml \
@@ -83,13 +83,13 @@ A Kuma [`ingress` data plane proxy](/docs/1.1.6/documentation/dps-and-data-model
 We can provision a token with the following command:
 
 ```shell
-$ ssh root@<kuma-cp-remote-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\", \"type\": \"ingress\"}' -qO- http://localhost:5681/tokens"
+ssh root@<kuma-cp-remote-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\", \"type\": \"ingress\"}' -qO- http://localhost:5681/tokens"
 ```
 
 And finally deploy the ingress data plane proxy:
 
 ```shell
-$ aws cloudformation deploy \
+aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name ingress \
     --template-file remote-ingress.yaml \
@@ -115,7 +115,7 @@ Explore `kuma-cp.yaml` and `kuma-cp-remote.yaml` to set the appropriate `ServerC
 To remove the `kuma-cp` stack use (similarly for `kuma-cp-global` and `kuma-cp-remote`) we can execute:
 
 ```shell
-$ aws cloudformation delete-stack --stack-name kuma-cp
+aws cloudformation delete-stack --stack-name kuma-cp
 ```
 
 Before moving forward with the next steps, please write down the `kuma-cp` IP address accordingly as we will need its value to continue with the installation.
@@ -127,7 +127,7 @@ The services within the Kuma mesh are exposed through their names (as defined in
 Run the following command to create the necessary forwarding rules in AWS Route53 and to leverage the integrated service discovery in `kuma-cp`:
 
 ```shell
-$ aws cloudformation deploy \
+aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name kuma-dns \
     --template-file kuma-dns.yaml \
@@ -152,7 +152,7 @@ In order to run the `kuma-dp` container, we have to issue an access token. The l
 In this example we'll show the simplest way to generate a new data plane proxy token by executing the following command on the same machine where `kuma-cp` is running (although this is only one of many ways to generate the data plane proxy token):
 
 ```shell
-$ ssh root@<kuma-cp-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\"}' -qO- http://localhost:5681/tokens"
+ssh root@<kuma-cp-ip> "wget --header='Content-Type: application/json' --post-data='{\"mesh\": \"default\"}' -qO- http://localhost:5681/tokens"
 ```
 
 Where `<kuma-cp-ip>` is the IP address of `kuma-cp` as it shows in AWS ECS. When asked, supply the default password `root`.
@@ -171,7 +171,7 @@ Finally, retrieve the data plane proxy token generated in the previous step and 
 ::: tab "Standalone"
 
 ```shell
-$ aws cloudformation deploy \
+aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name workload \
     --template-file workload.yaml \
@@ -184,7 +184,7 @@ $ aws cloudformation deploy \
 ::: tab "Multi-zone"
 
 ```shell
-$ aws cloudformation deploy \
+aws cloudformation deploy \
     --capabilities CAPABILITY_IAM \
     --stack-name workload \
     --template-file workload.yaml \
