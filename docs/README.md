@@ -37,11 +37,11 @@ testimonials:
 # carousel
 carousel:
   - alt: Screenshot of the Kuma GUI with charts
-    src: /images/gui-screenshot-with-charts.png
+    src: /images/kuma_gui.png
   - alt: Screenshot of the Kuma Graphana Metrics
     src: /images/kuma_metrics.png
-  - alt: Screenshot of the Kuma Service Map
-    src: /images/kuma_service_map.png
+  - alt: Screenshot of the Kuma Observability
+    src: /images/kuma_observability.png
 ---
 
 ::: slot news
