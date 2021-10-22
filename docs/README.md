@@ -19,25 +19,34 @@ whyUrl: /policies/
 
 # tabs
 tabs:
-  - hash: '#kubernetes'
+  - hash: "#kubernetes"
     title: Kubernetes
-  - hash: '#openshift'
+  - hash: "#openshift"
     title: OpenShift
-  - hash: '#universal'
+  - hash: "#universal"
     title: Universal (VMs)
 
 # testimonials
 testimonials:
-  - content: 'We chose Kuma in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two.'
-    author: 'Aaron Weikle'
-    title: 'CEO of MS3'
-    image: '/images/ms3-logo.png'
-    alt: 'Logo for MS3'
+  - content: "We chose Kuma in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two."
+    author: "Aaron Weikle"
+    title: "CEO of MS3"
+    image: "/images/ms3-logo.png"
+    alt: "Logo for MS3"
+
+# carousel
+carousel:
+  - alt: Screenshot of the Kuma GUI with charts
+    src: /images/kuma_gui.png
+  - alt: Screenshot of the Kuma Graphana Metrics
+    src: /images/kuma_metrics.png
+  - alt: Screenshot of the Kuma Observability
+    src: /images/kuma_observability.png
 ---
 
 ::: slot news
 
-**Kuma 1.3.1 has been released!**  &mdash; Zones can now be disabled, dashboards let you select specific zones, performance improvements, and more! [Read More](/blog/2021/kuma-1-3-1/)
+**Kuma 1.3.1 has been released!** &mdash; Zones can now be disabled, dashboards let you select specific zones, performance improvements, and more! [Read More](/blog/2021/kuma-1-3-1/)
 
 :::
 
@@ -53,10 +62,6 @@ testimonials:
 
 ## The open-source control plane for service mesh, <br>delivering security, observability, routing and more
 
-:::
-
-::: slot masthead-diagram
-![Screenshot of the Kuma GUI with charts](/images/gui-screenshot-with-charts.png)
 :::
 
 <!-- feature blocks -->
