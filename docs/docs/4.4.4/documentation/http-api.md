@@ -583,23 +583,28 @@ curl http://localhost:5681/mesh-insights/default
     "online": 1,
     "partiallyDegraded": 1
    }
-  },
-  "mTLS": {
-    "issuedBackends": {
-      "ca-1": {
-        "total": 1,
-        "online": 1,
-        "partiallyDegraded": 1
-      }
-    },
-    "supportedBackends": {
-      "ca-1": {
-        "total": 1,
-        "online": 1,
-        "partiallyDegraded": 1
-      }
-    }
   }
+ },
+ "mTLS": {
+   "issuedBackends": {
+     "ca-1": {
+       "total": 1,
+       "online": 1,
+       "partiallyDegraded": 1
+     }
+   },
+   "supportedBackends": {
+     "ca-1": {
+       "total": 1,
+       "online": 1,
+       "partiallyDegraded": 1
+     }
+   }
+ },
+ "services": {
+  "total": 3,
+  "internal": 2,
+  "external": 1
  }
 }
 ```
@@ -680,23 +685,28 @@ curl http://localhost:5681/mesh-insights
       "online": 1,
       "partiallyDegraded": 1
      }
-    },
-    "mTLS": {
-      "issuedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      },
-      "supportedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      }
     }
+   },
+   "mTLS": {
+     "issuedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     },
+     "supportedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     }
+   }, 
+   "services": {
+    "total": 3,
+    "internal": 2,
+    "external": 1
    }
   },
   {
@@ -762,23 +772,28 @@ curl http://localhost:5681/mesh-insights
       "online": 1,
       "partiallyDegraded": 1
      }
-    },
-    "mTLS": {
-      "issuedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      },
-      "supportedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      }
     }
+   },
+   "mTLS": {
+     "issuedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     },
+     "supportedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     }
+   },
+   "services": {
+    "total": 3,
+    "internal": 2,
+    "external": 1
    }
   }
  ],
