@@ -39,6 +39,7 @@
               :autoplay="true"
               :pause-on-dots-hover="true"
               :pause-on-focus="true"
+              :autoplay-speed="2500"
               v-if="carousel.length"
             >
               <div v-for="item in carousel" class="item-wrapper">
@@ -74,6 +75,7 @@
             :autoplay="true"
             :pause-on-dots-hover="true"
             :pause-on-focus="true"
+            :autoplay-speed="2500"
             v-if="carousel.length"
           >
           <div v-for="item in carousel" class="item-wrapper">
