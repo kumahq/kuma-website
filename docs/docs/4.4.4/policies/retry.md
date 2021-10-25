@@ -143,7 +143,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
   :::
 - **`retriableMethods`** (optional)
 
-  A list of request methods which allow to retry. the default behaviour of the policy is allow any request method to retry.
+  A list of HTTP methods in which a request's method must be contained before that request can be retried. The default behavior is that all methods are retriable.
 
 
 ### GRPC
