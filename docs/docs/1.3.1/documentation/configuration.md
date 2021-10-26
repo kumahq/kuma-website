@@ -14,7 +14,7 @@ The Kuma package includes a reference configuration, at `conf/kuma-cp.conf.yml`.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes (kumactl)"
-When installing control plane via `kumactl`, you can override configuration with `--env-var` flag. For example
+If you install the control plane with `kumactl`, you can override the configuration with the `--env-var` flag. For example, to configure the refresh interval for configuration of the data plane proxy, specify:
 ```sh
 $ kumactl install control-plane \
   --env-var KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
@@ -22,7 +22,7 @@ $ kumactl install control-plane \
 ```
 :::
 ::: tab "Kubernetes (HELM)"
-When installing control plane via kumactl, you can override configuration with `envVars` key. For example
+If you install the control plane with HELM, you can override the configuration with the `envVars` field. For example, to configure the refresh interval for configuration with the data plane proxy, specify:
 ```sh
 $ helm install \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
@@ -83,11 +83,10 @@ In a multizone deployment, the zone control plane sends its config to the global
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 In Kubernetes, `kuma-dp` is automatically configured and injected by Kubernetes.
-To override the settings of injected `kuma-dp` sidecars, you need to configure `kuma-cp`.
-For all the available settings, inspect the `runtime.kubernetes.injector.sidecarContainer` branch of `kuma-cp` configuration.
+The data plane proxy configuration is determined by the control plane. You can review the config details in the `runtime.kubernetes.injector.sidecarContainer` section of the `kuma-cp` config.
 :::
 ::: tab "Universal"
-`kuma-dp` is configured via command line arguments. Run `kuma-dp run -h` to inspect all available settings.
+`kuma-dp` is configured with command line arguments. Run `kuma-dp run -h` to inspect all available settings.
 :::
 ::::
 
