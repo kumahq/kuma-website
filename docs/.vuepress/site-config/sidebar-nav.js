@@ -1820,6 +1820,7 @@ module.exports = {
       children: [
         "documentation/health",
         "documentation/fine-tuning",
+        "documentation/configuration",
       ]
     },
     {
