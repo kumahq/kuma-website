@@ -1,16 +1,16 @@
 # Configuration
 
-Kuma has several parts that are configured separately.
+You configure the control plane, data plane, and CLI (kumactl) for Kuma separately. Here's what to do.
 
-## kuma-cp
+## Control plane
 
-The control plane can be configured in two ways
-1) By environment variables
-2) By YAML configuration file
+You can configure the control plane:
+- With environment variables
+- With a YAML configuration file
 
 Environment variables take precedence over a YAML configuration file.
 
-You can find a reference configuration in the `conf/kuma-cp.conf.yml` file distributed with the Kuma package.
+The Kuma package includes a reference configuration, at `conf/kuma-cp.conf.yml`.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes (kumactl)"
@@ -30,7 +30,7 @@ $ helm install \
   kuma kuma/kuma
 ```
 
-or with `Values.yaml` file
+Or you can edit the `Values.yaml` file:
 ```yaml
 $ cat Values.yaml 
 controlPlane:
@@ -41,7 +41,7 @@ $ helm install -f Values.yaml kuma kuma/kuma
 ```
 :::
 ::: tab "Universal"
-Before running `kuma-cp` provide a config file
+First, specify your overrides in the appropriate config file, then run `kuma-cp`:
 
 ```sh
 $ cat kuma-cp.conf.overrides.yml
@@ -51,7 +51,7 @@ xdsServer:
 $ kuma-cp run -c kuma-cp.conf.overrides.yml
 ```
 
-or provide environment variables
+Or you can specify environment variables:
 
 ```sh
 $ KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
@@ -70,15 +70,15 @@ Otherwise, upgrading Kuma might be harder, because you need to keep track of you
 
 Configuration of `kuma-cp` is logged when `kuma-cp` runs.
 
-Additionally, you can fetch the configuration using Kuma API Server
+You can also get the configuration with a call to the Kuma API server:
 ```sh
 $ curl http://<CP_ADDRESS>:5681/config
 ```
-The configuration is also visible in the Diagnostic tab in the bottom left corner of the GUI.
+And it's displayed on the Diagnostic tab in the GUI, in the lower left corner.
 
-In multizone deployment, Zone CP sends its config to Global CP so you can inspect all configurations using either `kumactl inspect zones -oyaml` or Zone tab in the GUI.
+In a multizone deployment, the zone control plane sends its config to the global control plane. This lets you inspect all configurations with `kumactl inspect zones -oyaml`. You can also find them on the Zone tab in the GUI.
 
-## kuma-dp
+## Data plane proxy
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -97,9 +97,9 @@ Configuration of `kuma-dp` is logged when `kuma-dp` runs.
 
 ## kumactl
 
-The configuration is stored in `$HOME/.kumactl/config`, which is created on the first run of `kumactl`. 
-When you add a new control plane with `kumactl config control-planes add`, the file mentioned above is updated.
-If you wish to change the path of the configuration file, run `kumactl` with `--config-file /new-path/config`.
+The configuration is stored in `$HOME/.kumactl/config`, which is created when you run `kumactl` for the first time. 
+When you add a new control plane with `kumactl config control-planes add`, the config file is updated.
+To change the path of the config file, run `kumactl` with `--config-file /new-path/config`.
 
 ### Inspecting the configuration
 
