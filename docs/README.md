@@ -19,25 +19,34 @@ whyUrl: /policies/
 
 # tabs
 tabs:
-  - hash: '#kubernetes'
+  - hash: "#kubernetes"
     title: Kubernetes
-  - hash: '#openshift'
+  - hash: "#openshift"
     title: OpenShift
-  - hash: '#universal'
+  - hash: "#universal"
     title: Universal (VMs)
 
 # testimonials
 testimonials:
-  - content: 'We chose Kuma in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two.'
-    author: 'Aaron Weikle'
-    title: 'CEO of MS3'
-    image: '/images/ms3-logo.png'
-    alt: 'Logo for MS3'
+  - content: "We chose Kuma in large part because we needed a solution that would allow our customers to support both Kubernetes and virtual machines, while providing an easier path to migrating between the two."
+    author: "Aaron Weikle"
+    title: "CEO of MS3"
+    image: "/images/ms3-logo.png"
+    alt: "Logo for MS3"
+
+# carousel
+carousel:
+  - alt: Screenshot of the Kuma GUI with charts
+    src: /images/kuma_gui.png
+  - alt: Screenshot of the Kuma Graphana Metrics
+    src: /images/kuma_metrics.png
+  - alt: Screenshot of the Kuma Observability
+    src: /images/kuma_observability.png
 ---
 
 ::: slot news
 
-**Kuma 1.3.0 has been released!**  &mdash; Service map topology GUI, mTLS permissive mode, and 10+ more features! [Read More](/blog/2021/kuma-1-3-0/)
+**Kuma 1.3.1 has been released!** &mdash; Zones can now be disabled, dashboards let you select specific zones, performance improvements, and more! [Read More](/blog/2021/kuma-1-3-1/)
 
 :::
 
@@ -53,10 +62,6 @@ testimonials:
 
 ## The open-source control plane for service mesh, <br>delivering security, observability, routing and more
 
-:::
-
-::: slot masthead-diagram
-![Screenshot of the Kuma GUI with charts](/images/gui-screenshot-with-charts.png)
 :::
 
 <!-- feature blocks -->
@@ -95,14 +100,14 @@ Built for the enterprise, Kuma ships with the most scalable multi-zone connectiv
 [Install Kuma](/install/) via an available distribution:
 
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   | kubectl apply -f-
 ```
 
 Visualize the GUI to see your cluster:
 
 ```sh
-$ kubectl port-forward svc/kuma-control-plane \
+kubectl port-forward svc/kuma-control-plane \
   -n kuma-system 5681:5681
 ```
 
@@ -115,14 +120,14 @@ Navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the GUI.
 [Install Kuma](/install/) via an available distribution:
 
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   --cni-enabled | oc apply -f -
 ```
 
 Visualize the GUI to see your cluster:
 
 ```sh
-$ oc port-forward svc/kuma-control-plane \
+oc port-forward svc/kuma-control-plane \
   -n kuma-system 5681:5681
 ```
 
@@ -135,7 +140,7 @@ Navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the GUI.
 [Install Kuma](/install/) via an available distribution:
 
 ```sh
-$ kuma-cp run
+kuma-cp run
 ```
 
 Navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the GUI.

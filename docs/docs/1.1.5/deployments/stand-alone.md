@@ -22,13 +22,13 @@ In order to deploy Kuma in a standalone deployment, the `kuma-cp` control plane 
 ::: tab "Kubernetes"
 This is the standard installation method as described in the [installation page](/install).
 ```sh
-$ kumactl install control-plane | kubectl apply -f -
+kumactl install control-plane | kubectl apply -f -
 ```
 :::
 ::: tab "Universal"
 This is the standard installation method as described in the [installation page](/install).
 ```sh
-$ kuma-cp run
+kuma-cp run
 ```
 :::
 ::::
