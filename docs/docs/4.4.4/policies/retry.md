@@ -35,6 +35,8 @@ spec:
       retriableStatusCodes:
       - 500
       - 504
+      retriableMethods:
+      - GET
     grpc:
       numRetries: 5
       perTryTimeout: 200ms
@@ -74,6 +76,9 @@ conf:
     retriableStatusCodes:
     - 500
     - 504
+    retriableMethods:
+    - GET
+    - DELETE
   grpc:
     numRetries: 5
     perTryTimeout: 200ms
@@ -136,6 +141,10 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
   - when server won't respond at all (disconnect/reset/read timeout),
   - when server resets the stream with a `REFUSED_STREAM` error code.
   :::
+- **`retriableMethods`** (optional)
+
+  A list of HTTP methods in which a request's method must be contained before that request can be retried. The default behavior is that all methods are retriable.
+
 
 ### GRPC
 
