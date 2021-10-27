@@ -31,7 +31,7 @@ Finally we can run Kuma in either **standalone** or **multi-zone** mode:
 Standalone mode is perfect when running Kuma in a single cluster across one environment:
 
 ```sh
-$ docker run \
+docker run \
     -p 5681:5681 \
     docker.io/kumahq/kuma-cp:1.3.1 run
 ```
@@ -78,11 +78,11 @@ To access Kuma you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to 
 You can use the `kumactl` CLI to perform **read and write** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API. For example:
 
 ```sh
-$ docker run \
+docker run \
     --net="host" \
     docker.io/kumahq/kumactl: kumactl get meshes
-NAME          mTLS      METRICS      LOGGING   TRACING
-default       off       off          off       off
+# NAME          mTLS      METRICS      LOGGING   TRACING
+# default       off       off          off       off
 ```
 
 or you can enable mTLS on the `default` Mesh with:
@@ -103,7 +103,7 @@ mtls:
 You can run the following script to automatically detect the operating system and download Kuma:
 
 ```sh
-$ curl -L https://kuma.io/installer.sh | sh -
+curl -L https://kuma.io/installer.sh | sh -
 ```
 
 or you can download the distribution manually:
@@ -117,7 +117,7 @@ or you can download the distribution manually:
 and extract the archive with:
 
 ```sh
-$ tar xvzf kuma-*.tar.gz
+tar xvzf kuma-*.tar.gz
 ```
 
 You will then find the `kumactl` executable in the `kuma-1.3.1/bin` folder.

@@ -36,18 +36,18 @@ Generate TLS pair with a PKI of your choice and store it in PEM-encoded format i
 
 We can also use `kumactl` to generate self-signed certs. 
 ```sh
-$ kumactl generate tls-certificate \
+kumactl generate tls-certificate \
   --type=server \
   --cp-hostname=kuma-control-plane.kuma-system \ # adjust the name if you are installing Kuma to other namespace
   --cp-hostname=kuma-control-plane.kuma-system.svc # adjust the name if you are installing Kuma to other namespace
   --cert-file=/tmp/tls.crt \
   --key-file=/tmp/tls.key
-$ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
+cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
 ```
 
 2) Create a secret in the namespace where the control plane is installed
 ```sh
-$ kubectl create secret generic general-tls-certs -n kuma-system \
+kubectl create secret generic general-tls-certs -n kuma-system \
   --from-file=tls.crt=/tmp/tls.crt \
   --from-file=tls.key=/tmp/tls.key \
   --from-file=ca.crt=/tmp/ca.crt
@@ -55,12 +55,14 @@ $ kubectl create secret generic general-tls-certs -n kuma-system \
 
 3) Point to this secret when installing Kuma
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   --tls-general-secret=general-tls-certs
   --tls-general-ca-bundle=$(cat /tmp/ca.crt | base64)
 ```
 
 The data plane proxy Injector in the control plane automatically provides the CA to the Kuma DP sidecar so Kuma DP can confirm the control plane identity.
+
+When configured using the `--tls-general-secret` and `--tls-general-ca-bundle` flags, Kuma will use the specified CA and certificate to protect data plane proxy to control plane traffic. Additionally, if not configured otherwise using additional options described below, Kuma will also use the specified CA and certificate to protect user to control plane traffic and control plane to control plane traffic when in multizone configurations.
 :::
 ::: tab "Kubernetes (HELM)"
 1) Prepare certificates
@@ -69,18 +71,18 @@ Generate TLS pair with a PKI of your choice and store it in PEM-encoded format i
 
 We can also use `kumactl` to generate self-signed certs.
 ```sh
-$ kumactl generate tls-certificate \
+kumactl generate tls-certificate \
   --type=server \
   --cp-hostname=kuma-control-plane.kuma-system \ # adjust the name if you are installing Kuma to other namespace
   --cp-hostname=kuma-control-plane.kuma-system.svc # adjust the name if you are installing Kuma to other namespace
   --cert-file=/tmp/tls.crt \
   --key-file=/tmp/tls.key
-$ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
+cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
 ```
 
 2) Create a secret in the namespace where the control plane is installed
 ```sh
-$ kubectl create secret generic general-tls-certs -n kuma-system \
+kubectl create secret generic general-tls-certs -n kuma-system \
   --from-file=tls.crt=/tmp/tls.crt \
   --from-file=tls.key=/tmp/tls.key \
   --from-file=ca.crt=/tmp/ca.crt
@@ -91,6 +93,8 @@ $ kubectl create secret generic general-tls-certs -n kuma-system \
 Set `controlPlane.tls.general.secretName` to `general-tls-certs` and `controlPlane.tls.general.caBundle` to `<BASE64 content of ca.crt>`
 
 The data plane proxy Injector in the control plane automatically provides the CA to the Kuma DP sidecar so Kuma DP can confirm the control plane identity.
+
+When configured using the `controlPlane.tls.general.secretName` and `controlPlane.general.caBundle` values in Helm, Kuma will use the specified CA and certificate to protect data plane proxy to control plane traffic. Additionally, if not configured otherwise using options described below, Kuma will also use the specified CA and certificate to protect user to control plane traffic and control plane to control plane traffic when in multizone configurations.
 :::
 ::: tab "Universal"
 1) Prepare certificates
@@ -98,18 +102,18 @@ Generate TLS pair with a PKI of your choice and store it in PEM-encoded format i
 
 We can also use `kumactl` to generate self-signed certs.
 ```sh
-$ kumactl generate tls-certificate \
+kumactl generate tls-certificate \
   --type=server \
   --cp-hostname=<KUMA_CP_DNS_NAME> \ # set the hostname to a name which will be used by Kuma DP to connect to Kuma CP 
   --cert-file=/tmp/tls.crt \
   --key-file=/tmp/tls.key
-$ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
+cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
 ```
 
 2) Configure the control plane with generated certificates
 
 ```sh
-$ KUMA_DP_SERVER_TLS_CERT_FILE=/tmp/tls.crt \
+KUMA_DP_SERVER_TLS_CERT_FILE=/tmp/tls.crt \
   KUMA_DP_SERVER_TLS_KEY_FILE=/tmp/tls.key
   kuma-cp run
 ```
@@ -117,7 +121,7 @@ $ KUMA_DP_SERVER_TLS_CERT_FILE=/tmp/tls.crt \
 3) Configure the data plane proxy with CA
 
 ```sh
-$ kuma-dp run \
+kuma-dp run \
   --cp-address=https://<KUMA_CP_DNS_NAME>:5678 \ # make sure the address matches the hostname in the certificate
   --ca-cert-file=/tmp/ca.crt # provide a file with CA
   --dataplane-file=dp.yaml
@@ -153,7 +157,7 @@ the only thing that is stored is a signing key that is used to verify if a token
 
 You can generate token either by REST API
 ```bash
-$ curl -XPOST \ 
+curl -XPOST \ 
   -H "Content-Type: application/json" \
   --data '{"name": "dp-echo-1", "mesh": "default", "tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
   http://localhost:5681/tokens/dataplane
@@ -161,7 +165,7 @@ $ curl -XPOST \
 
 or by using `kumactl`
 ```bash
-$ kumactl generate dataplane-token \
+kumactl generate dataplane-token \
   --name dp-echo-1 \
   --mesh default \
   --tag kuma.io/service=backend,backend-admin > /tmp/kuma-dp-echo1-token
@@ -169,7 +173,7 @@ $ kumactl generate dataplane-token \
 
 The token should be stored in a file and then used when starting `kuma-dp`
 ```bash
-$ kuma-dp run \
+kuma-dp run \
   --name=dp-echo-1 \
   --mesh=default \
   --cp-address=https://127.0.0.1:5678 \
@@ -215,7 +219,7 @@ It is signed by an RSA key that is generated by the control plane on first start
 
 Generate the token with the REST API:
 ```bash
-$ curl -XPOST \ 
+curl -XPOST \ 
   -H "Content-Type: application/json" \
   --data '{"zone": "us-east"}' \
   http://localhost:5681/tokens/zone-ingress
@@ -223,13 +227,13 @@ $ curl -XPOST \
 
 or with `kumactl`:
 ```bash
-$ kumactl generate zone-ingress-token \
+kumactl generate zone-ingress-token \
   --zone us-east  > /tmp/kuma-dp-echo1-token
 ``` 
 
 The token should be stored in a file and then passed when you start `kuma-dp`:
 ```bash
-$ kuma-dp run \
+kuma-dp run \
   --proxy-type=ingress \
   --name=dp-ingress \
   --cp-address=https://127.0.0.1:5678 \
@@ -301,12 +305,12 @@ Generate TLS pair with a PKI of your choice and store it in PEM-encoded format i
 
 We can also use `kumactl` to generate self-signed certs.
 ```sh
-$ kumactl generate tls-certificate \
+kumactl generate tls-certificate \
   --type=server \
   --cp-hostname=<KUMA_CP_DNS_NAME> \ # pick a name that will be used by kumactl or other client to connect to the control plane
   --cert-file=/tmp/tls.crt \
   --key-file=/tmp/tls.key
-$ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
+cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
 ```
 
 2) Configure the control plane with generated certificates
@@ -314,21 +318,21 @@ $ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also
 ::: tab "Kubernetes (kumactl)"
 Create a secret in the namespace in which the control plane is installed
 ```sh
-$ kubectl create secret tls api-server-tls -n kuma-system \
+kubectl create secret tls api-server-tls -n kuma-system \
   --cert=/tmp/tls.crt \
   --key=/tmp/tls.key
 ```
 
 Point to this secret when installing Kuma
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   --tls-api-server-secret=api-server-tls
 ```
 :::
 ::: tab "Kubernetes (HELM)"
 Create a secret in the namespace in which the control plane is installed
 ```sh
-$ kubectl create secret tls api-server-tls -n kuma-system \
+kubectl create secret tls api-server-tls -n kuma-system \
   --cert=/tmp/tls.crt \
   --key=/tmp/tls.key
 ```
@@ -338,7 +342,7 @@ Set `controlPlane.tls.apiServer.secretName` to `api-server-tls`
 ::: tab "Universal"
 Point to the certificate and the key.
 ```sh
-$ KUMA_API_SERVER_HTTPS_TLS_CERT_FILE=/tmp/tls.crt \
+KUMA_API_SERVER_HTTPS_TLS_CERT_FILE=/tmp/tls.crt \
   KUMA_API_SERVER_HTTPS_TLS_KEY_FILE=/tmp/tls.key
   kuma-cp run
 ```
@@ -374,7 +378,7 @@ When accessing admin endpoints from a different machine we need to use client ce
 
 1) Generate client certificates by using kumactl
 ```sh
-$ kumactl generate tls-certificate --type=client \
+kumactl generate tls-certificate --type=client \
   --cert-file=/tmp/tls.crt \
   --key-file=/tmp/tls.key
 ```
@@ -383,21 +387,21 @@ $ kumactl generate tls-certificate --type=client \
 ::: tab "Kubernetes (kumactl)"
 Create a secret in the namespace in which control plane is installed
 ```sh
-$ kubectl create secret generic api-server-client-certs -n kuma-system \
+kubectl create secret generic api-server-client-certs -n kuma-system \
   --from-file=client1.pem=/tmp/tls.crt \
 ```
 We can provide as many client certificates as we want. Remember to only provide certificates without keys.
 
 Point to this secret when installing Kuma
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   --tls-api-server-client-certs-secret=api-server-client-certs
 ```
 :::
 ::: tab "Kubernetes (HELM)"
 Create a secret in the namespace in which control plane is installed
 ```sh
-$ kubectl create secret generic api-server-client-certs -n kuma-system \
+kubectl create secret generic api-server-client-certs -n kuma-system \
   --from-file=client1.pem=/tmp/tls.crt \
 ```
 We can provide as many client certificates as we want. Remember to only provide certificates without keys.
@@ -407,14 +411,14 @@ Set `controlPlane.tls.apiServer.clientCertsSecretName` to `api-server-client-cer
 ::: tab "Universal"
 Put all the certificates in one directory
 ```sh
-$ mkdir /opt/client-certs
-$ cp /tmp/tls.crt /opt/client-certs/client1.pem 
+mkdir /opt/client-certs
+cp /tmp/tls.crt /opt/client-certs/client1.pem 
 ```
 All client certificates **MUST** end with `.pem` extension. Remember to only put provide certificates without keys.
 
 Configure control plane by pointing to this directory
 ```sh
-$ KUMA_API_SERVER_AUTH_CLIENT_CERTS_DIR=/opt/client-certs \
+KUMA_API_SERVER_AUTH_CLIENT_CERTS_DIR=/opt/client-certs \
   kuma-cp run
 ```
 :::
@@ -422,7 +426,7 @@ $ KUMA_API_SERVER_AUTH_CLIENT_CERTS_DIR=/opt/client-certs \
 
 3) Configure `kumactl` with valid client certificates
 ```sh
-$ kumactl config control-planes add \
+kumactl config control-planes add \
   --name=<NAME>
   --address=https://<KUMA_CP_DNS_NAME>:5682 \
   --client-cert-file=/tmp/tls.crt \
@@ -449,12 +453,12 @@ Generate TLS pair with a PKI of your choice and store it in PEM-encoded format i
 
 We can also use `kumactl` to generate self-signed certs.
 ```sh
-$ kumactl generate tls-certificate \
+kumactl generate tls-certificate \
   --type=server \
   --cp-hostname=<CROSS_ZONE_KUMA_CP_DNS_NAME> \
   --cert-file=/tmp/tls.crt \
   --key-file=/tmp/tls.key
-$ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
+cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
 ```
 
 2) Configure global control plane
@@ -462,14 +466,14 @@ $ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also
 ::: tab "Kubernetes (kumactl)"
 Create a secret in the namespace where the global control plane is installed
 ```sh
-$ kubectl create secret tls kds-server-tls -n kuma-system \
+kubectl create secret tls kds-server-tls -n kuma-system \
   --cert=/tmp/tls.crt \
   --key=/tmp/tls.key
 ```
 
 Point to this secret when installing the global control plane
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   --mode=global
   --tls-kds-global-server-secret=general-tls-certs
 ```
@@ -477,7 +481,7 @@ $ kumactl install control-plane \
 ::: tab "Kubernetes (HELM)"
 Create a secret in the namespace where the global control plane is installed
 ```sh
-$ kubectl create secret tls kds-server-tls -n kuma-system \
+kubectl create secret tls kds-server-tls -n kuma-system \
   --cert=/tmp/tls.crt \
   --key=/tmp/tls.key
 ```
@@ -487,7 +491,7 @@ Set `controlPlane.tls.kdsGlobalServer.secretName` to `kds-server-tls`.
 ::: tab "Universal"
 Point to the certificate and the key. 
 ```sh
-$ KUMA_MULTIZONE_GLOBAL_KDS_TLS_CERT_FILE=/tmp/tls.crt \
+KUMA_MULTIZONE_GLOBAL_KDS_TLS_CERT_FILE=/tmp/tls.crt \
   KUMA_MULTIZONE_GLOBAL_KDS_TLS_KEY_FILE=/tmp/tls.key \
   KUMA_MODE=global \
   kuma-cp run
@@ -501,13 +505,13 @@ $ KUMA_MULTIZONE_GLOBAL_KDS_TLS_CERT_FILE=/tmp/tls.crt \
 ::: tab "Kubernetes (kumactl)"
 Create a secret in the namespace where the zone control plane is installed
 ```sh
-$ kubectl create secret generic kds-ca-certs -n kuma-system \
+kubectl create secret generic kds-ca-certs -n kuma-system \
   --from-file=ca.crt.pem=/tmp/ca.crt
 ```
 
 Point to this secret when installing the zone control plane
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   --mode=zone
   --tls-kds-zone-client-secret=kds-ca-certs
 ```
@@ -515,7 +519,7 @@ $ kumactl install control-plane \
 ::: tab "Kubernetes (HELM)"
 Create a secret in the namespace where the zone control plane is installed
 ```sh
-$ kubectl create secret generic kds-ca-certs -n kuma-system \
+kubectl create secret generic kds-ca-certs -n kuma-system \
   --from-file=ca.crt.pem=/tmp/ca.crt
 ```
 
@@ -524,7 +528,7 @@ Set `controlPlane.tls.kdsZoneClient.secretName` to `kds-ca-certs`.
 ::: tab "Universal"
 Point to the certificate and the key.
 ```sh
-$ KUMA_MULTIZONE_ZONE_KDS_ROOT_CA_FILE=/tmp/ca.crt \
+KUMA_MULTIZONE_ZONE_KDS_ROOT_CA_FILE=/tmp/ca.crt \
   KUMA_MODE=zone \
   KUMA_MULTIZONE_ZONE_GLOBAL_ADDRESS=grpcs://<CROSS_ZONE_KUMA_CP_DNS_NAME>:5685 \
   kuma-cp run

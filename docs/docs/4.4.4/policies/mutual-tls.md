@@ -102,10 +102,10 @@ We can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or v
 The following command can be executed on any Kuma backend:
 
 ```sh
-$ kumactl get secrets [-m MESH]
-MESH      NAME                           AGE
-default   default.ca-builtin-cert-ca-1   1m
-default   default.ca-builtin-key-ca-1    1m
+kumactl get secrets [-m MESH]
+# MESH      NAME                           AGE
+# default   default.ca-builtin-cert-ca-1   1m
+# default   default.ca-builtin-key-ca-1    1m
 ```
 :::
 ::: tab "kubectl"
@@ -113,12 +113,12 @@ default   default.ca-builtin-key-ca-1    1m
 The following command can be executed only on Kubernetes:
 
 ```sh
-$ kubectl get secrets \
+kubectl get secrets \
     -n kuma-system \
     --field-selector='type=system.kuma.io/secret'
-NAME                             TYPE                                  DATA   AGE
-default.ca-builtin-cert-ca-1     system.kuma.io/secret                 1      1m
-default.ca-builtin-key-ca-1      system.kuma.io/secret                 1      1m
+# NAME                             TYPE                                  DATA   AGE
+# default.ca-builtin-cert-ca-1     system.kuma.io/secret                 1      1m
+# default.ca-builtin-key-ca-1      system.kuma.io/secret                 1      1m
 ```
 :::
 ::::
@@ -398,9 +398,9 @@ You can inspect the certificate rotation statistics by executing the following c
 We can use the Kuma CLI:
 
 ```sh
-$ kumactl inspect dataplanes
-MESH      NAME     TAGS          STATUS   LAST CONNECTED AGO   LAST UPDATED AGO   TOTAL UPDATES   TOTAL ERRORS   CERT REGENERATED AGO   CERT EXPIRATION       CERT REGENERATIONS
-default   web-01   service=web   Online   5s                   3s                 4               0              3s                     2020-05-11 16:01:34   2
+kumactl inspect dataplanes
+# MESH      NAME     TAGS          STATUS   LAST CONNECTED AGO   LAST UPDATED AGO   TOTAL UPDATES   TOTAL ERRORS   CERT REGENERATED AGO   CERT EXPIRATION       CERT REGENERATIONS
+# default   web-01   service=web   Online   5s                   3s                 4               0              3s                     2020-05-11 16:01:34   2
 ```
 
 Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` columns.
