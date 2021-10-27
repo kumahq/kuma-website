@@ -57,6 +57,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/zones/{name}`
 * `/zones+insights`
 * `/zones+insights/{name}`
+* `/global-insights`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -3210,4 +3211,32 @@ curl -XPOST \
   -H "Content-Type: application/json" \
   --data '{"name": "dp-echo-1", "mesh": "default", "tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
   http://localhost:5681/tokens
+```
+
+## Global Insights
+
+### Get Global Insights
+
+Request: `GET /global-insights`
+
+Response: `200 OK` with Global Insights entity
+
+Example:
+```bash
+curl localhost:5681/global-insights
+```
+```json
+{
+  "type": "GlobalInsights",
+  "creationTime": "2018-07-17T16:05:36.995Z",
+  "meshes": {
+    "total": 3
+  },
+  "zones": {
+    "total": 2
+  },
+  "zoneIngresses": {
+    "total": 1
+  }
+}
 ```
