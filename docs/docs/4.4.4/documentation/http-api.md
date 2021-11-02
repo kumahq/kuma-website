@@ -527,9 +527,21 @@ curl http://localhost:5681/mesh-insights/default
  "modificationTime": "2020-11-17T19:21:39.912878Z",
  "lastSync": "2020-11-17T12:21:39.912877Z",
  "dataplanes": {
-  "total": 1,
-  "offline": 1,
-  "partiallyDegraded": 1
+  "total": 4,
+  "offline": 2,
+  "partiallyDegraded": 2
+ },
+ "dataplanesByType": {
+  "standard": {
+   "total": 2,
+   "offline": 1,
+   "partiallyDegraded": 1
+  },
+  "gateway": {
+   "total": 2,
+   "offline": 1,
+   "partiallyDegraded": 1
+  }
  },
  "policies": {
   "Secret": {
@@ -571,23 +583,28 @@ curl http://localhost:5681/mesh-insights/default
     "online": 1,
     "partiallyDegraded": 1
    }
-  },
-  "mTLS": {
-    "issuedBackends": {
-      "ca-1": {
-        "total": 1,
-        "online": 1,
-        "partiallyDegraded": 1
-      }
-    },
-    "supportedBackends": {
-      "ca-1": {
-        "total": 1,
-        "online": 1,
-        "partiallyDegraded": 1
-      }
-    }
   }
+ },
+ "mTLS": {
+   "issuedBackends": {
+     "ca-1": {
+       "total": 1,
+       "online": 1,
+       "partiallyDegraded": 1
+     }
+   },
+   "supportedBackends": {
+     "ca-1": {
+       "total": 1,
+       "online": 1,
+       "partiallyDegraded": 1
+     }
+   }
+ },
+ "services": {
+  "total": 3,
+  "internal": 2,
+  "external": 1
  }
 }
 ```
@@ -612,9 +629,21 @@ curl http://localhost:5681/mesh-insights
    "modificationTime": "0001-01-01T00:00:00Z",
    "lastSync": "2020-11-17T12:24:11.905350Z",
    "dataplanes": {
-    "total": 1,
-    "offline": 1,
-    "partiallyDegraded": 1
+    "total": 4,
+    "offline": 2,
+    "partiallyDegraded": 2
+   },
+   "dataplanesByType": {
+    "standard": {
+     "total": 2,
+     "offline": 1,
+     "partiallyDegraded": 1
+    },
+    "gateway": {
+     "total": 2,
+     "offline": 1,
+     "partiallyDegraded": 1
+    }
    },
    "policies": {
     "Secret": {
@@ -656,23 +685,28 @@ curl http://localhost:5681/mesh-insights
       "online": 1,
       "partiallyDegraded": 1
      }
-    },
-    "mTLS": {
-      "issuedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      },
-      "supportedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      }
     }
+   },
+   "mTLS": {
+     "issuedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     },
+     "supportedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     }
+   }, 
+   "services": {
+    "total": 3,
+    "internal": 2,
+    "external": 1
    }
   },
   {
@@ -682,9 +716,21 @@ curl http://localhost:5681/mesh-insights
    "modificationTime": "0001-01-01T00:00:00Z",
    "lastSync": "2020-11-17T12:24:11.941534Z",
    "dataplanes": {
-    "total": 1,
-    "offline": 1,
-    "partiallyDegraded": 1
+    "total": 4,
+    "offline": 2,
+    "partiallyDegraded": 2
+   },
+   "dataplanesByType": {
+    "standard": {
+     "total": 2,
+     "offline": 1,
+     "partiallyDegraded": 1
+    },
+    "gateway": {
+     "total": 2,
+     "offline": 1,
+     "partiallyDegraded": 1
+    }
    },
    "policies": {
     "Secret": {
@@ -726,23 +772,28 @@ curl http://localhost:5681/mesh-insights
       "online": 1,
       "partiallyDegraded": 1
      }
-    },
-    "mTLS": {
-      "issuedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      },
-      "supportedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      }
     }
+   },
+   "mTLS": {
+     "issuedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     },
+     "supportedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     }
+   },
+   "services": {
+    "total": 3,
+    "internal": 2,
+    "external": 1
    }
   }
  ],
