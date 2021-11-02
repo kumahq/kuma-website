@@ -2,7 +2,7 @@
 
 Here we are going to be exploring the communication between `kuma-dp` and `kuma-cp`, and the communication between multiple `kuma-dp` to handle our service traffic.
 
-Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policiy configuration, and send diagnostic information to the control-plane.
+Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policy configuration, and send diagnostic information to the control-plane.
 
 In [standalone mode](/docs/1.3.1/deployments/stand-alone/) the `kuma-dp` process will connect directly to the `kuma-cp` instances.
 
