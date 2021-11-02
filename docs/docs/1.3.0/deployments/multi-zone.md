@@ -73,7 +73,7 @@ In this example it is `35.226.196.103:5685`. This will be used as `<global-kds-a
 Install the `global` control plane by setting the `controlPlane.mode` value to `global` when installing the chart. This can be done on the command line, or in a provided file:
 
 ```sh
-helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
+helm install --version 0.7.0 kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
 ```
 :::
 ::: tab "Universal"
@@ -111,7 +111,7 @@ To install the Zone Control plane we need to provide the following parameters:
  * `controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>`:
 
 ```bash
-helm install kuma --namespace kuma-system --set controlPlane.mode=zone,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
+helm install --version 0.7.0 kuma --namespace kuma-system --set controlPlane.mode=zone,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
 ```
 
 ::: tip
