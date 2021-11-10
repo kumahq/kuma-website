@@ -1,4 +1,5 @@
 # Mutual TLS
+# Mutual TLS
 
 This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](../mesh), as well as assigning an identity to every data plane proxy. Kuma supports different types of CA backends as well as automatic certificate rotation.
 
@@ -254,7 +255,7 @@ spec:
     backends:
     - name: ca-1
       type: provided
-      config:
+      conf:
         cert:
           inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
         key:
@@ -275,7 +276,7 @@ mtls:
   backends:
   - name: ca-1
     type: provided
-    config:
+    conf:
       cert:
         inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
       key:
