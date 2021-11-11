@@ -1737,6 +1737,7 @@ module.exports = {
       path: "",
       children: [
         "overview/what-is-kuma",
+        "community/data-collection",
         "overview/what-is-a-service-mesh",
         "overview/why-kuma",
         "documentation/deployments",
@@ -1861,6 +1862,24 @@ module.exports = {
       children: [
         "documentation/http-api",
         "documentation/kubernetes-annotations",
+        {
+          title: "Policy reference docs",
+          children: [
+            "generated/circuit-breaker",
+            "generated/external-service",
+            "generated/fault-injection",
+            "generated/health-check",
+            "generated/proxy-template",
+            "generated/rate-limit",
+            "generated/retry",
+            "generated/timeout",
+            "generated/traffic-log",
+            "generated/traffic-permissions",
+            "generated/traffic-route",
+            "generated/traffic-trace",
+            "generated/virtual-outbound",
+          ],
+        }
       ]
     }
   ],
