@@ -22,7 +22,7 @@ In this deployment, a Kuma cluster is made of one global control plane and as ma
 * **Zone**: A zone identifies a Kubernetes cluster, a VPC, or any other cluster that we want to include in a Kuma service mesh.
 
 <center>
-<img src="/images/docs/0.6.0/distributed-diagram.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/distributed-diagram@2x.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 In a multi-zone deployment mode, services will be running on multiple platforms, clouds, or Kubernetes clusters (which are identifies as `zones` in Kuma). While all of them will be part of a Kuma mesh by connecting their data plane proxies to the local `zone` control plane in the same zone, implementing service to service connectivity would be tricky since a source service may not know where a destination service is being hosted at (for instance, in another zone).
@@ -73,7 +73,7 @@ In this example it is `35.226.196.103:5685`. This will be used as `<global-kds-a
 Install the `global` control plane by setting the `controlPlane.mode` value to `global` when installing the chart. This can be done on the command line, or in a provided file:
 
 ```sh
-helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
+helm install --version 0.6.1 kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
 ```
 :::
 ::: tab "Universal"
@@ -111,7 +111,7 @@ To install the Zone Control plane we need to provide the following parameters:
  * `controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>`:
 
 ```bash
-helm install kuma --namespace kuma-system --set controlPlane.mode=zone,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
+helm install --version 0.6.1 kuma --namespace kuma-system --set controlPlane.mode=zone,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
 ```
 
 ::: tip
