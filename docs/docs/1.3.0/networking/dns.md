@@ -92,7 +92,7 @@ kumactl install control-plane \
 Set the environment variable:
 
 ```shell
-helm install --namespace kuma-system \
+helm install --version 0.7.0 --namespace kuma-system \
   --set controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false \
    kuma kuma/kuma
 ```

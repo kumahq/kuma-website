@@ -132,7 +132,7 @@ kumactl install control-plane \
 With [Helm](/docs/1.1.3/installation/helm), the command invocation looks like:
 
 ```shell
-helm install --namespace kuma-system \
+helm install --version 0.5.5 --namespace kuma-system \
   --set controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=true \
    kuma kuma/kuma
 ```
