@@ -713,6 +713,20 @@
       "type": "file"
     },
     {
+      "path": "docs/.vuepress/public/images/docs/distributed-deployment@2x.jpg",
+      "name": "distributed-deployment@2x.jpg",
+      "size": 431130,
+      "extension": ".jpg",
+      "type": "file"
+    },
+    {
+      "path": "docs/.vuepress/public/images/docs/distributed-diagram@2x.jpg",
+      "name": "distributed-diagram@2x.jpg",
+      "size": 172382,
+      "extension": ".jpg",
+      "type": "file"
+    },
+    {
       "path": "docs/.vuepress/public/images/docs/main-diagram.png",
       "name": "main-diagram.png",
       "size": 70717,
@@ -720,6 +734,6 @@
       "type": "file"
     }
   ],
-  "size": 11153674,
+  "size": 11757186,
   "type": "directory"
 }

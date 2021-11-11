@@ -27,7 +27,7 @@ Bundling [Envoy](https://envoyproxy.io/) as the data plane, Kuma can instrument 
 Example of a multi-zone deployment for multiple Kubernetes clusters, or a hybrid Kubernetes/VM cluster:
 
 <center>
-<img src="/images/docs/0.6.0/distributed-deployment.jpg" alt="" style="width: 700px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/distributed-diagram@2x.jpg" alt="" style="width: 700px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 The core maintainer of Kuma is **Kong**, the maker of the popular open-source Kong Gateway 🦍.
