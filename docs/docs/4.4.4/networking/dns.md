@@ -133,6 +133,8 @@ dnsServer:
   port: 5653 # ENV: KUMA_DNS_SERVER_PORT
   # The CIDR range used to allocate
   CIDR: "240.0.0.0/4" # ENV: KUMA_DNS_SERVER_CIDR
+  # Will create a service "<kuma.io/service>.mesh" dns entry for every service.
+  serviceVipEnabled: true # ENV: KUMA_DNS_SERVER_SERVICE_VIP_ENABLED
 ```
 
 The `domain` field specifies the default `.mesh` DNS zone that Kuma DNS provides resolution for. If you change this value, make sure to change the zone value for `kumactl install dns` to match. These values must be the same for kube-dns or CoreDNS server to redirect relevant DNS requests.
@@ -140,6 +142,8 @@ The `domain` field specifies the default `.mesh` DNS zone that Kuma DNS provides
 The `port` field specifies the port where Kuma DNS accepts requests. Make sure this value matches the port setting for the `kuma-control-plane` service. 
 
 The `CIDR` field sets the IP range of virtual IPs. The default `240.0.0.0/4` is reserved for future IPv4 use IPv4 and is guaranteed to be non-routable. We strongly recommend to not change this value unless you have a specific need for a different IP range.
+
+The `serviceVipEnabled` field defines if there should be a vip generated for each `kuma.io/service`. This can be disabled for performance reason and [virtual-outbound](../policies/virtual-outbound.md) provides a more flexible way to do this.
 
 ## How Kuma DNS works 
 
@@ -156,6 +160,13 @@ The virtual IPs are allocated from the configured CIDR, by constantly scanning t
 Kuma DNS is not a service discovery mechanism. Instead, it returns a single VIP that is assigned to the relevant service in the mesh. This makes for a unified view of all services within a single zone or across multiple zones.
 
 ## Usage
+
+::: tip
+The following setup will only work when `serviceVipEnabled=true` which will default to false and then fully removed in future versions of Kuma.
+
+The preferred way to define hostnames is using [virtual-outbounds](../policies/virtual-outbound.md).
+Virtual-outbounds also makes it possible to define dynamic hostnames using specific tags or to expose services on a different port.
+:::
 
 Consuming a service handled by Kuma DNS from inside a Kubernetes container is based on the automatically generated `kuma.io/service` tag. The resulting domain name has the format `{service tag}.mesh`. For example:
 
@@ -212,5 +223,3 @@ Kuma DNS allocates a VIP for every service within a mesh. Then, it creates an ou
      }
     },
 ```
-
-To define dynamic hostnames using specific tags or expose on a different port you should use [virtual-outbounds](../policies/virtual-outbound.md).
