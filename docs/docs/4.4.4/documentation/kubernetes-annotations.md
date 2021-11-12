@@ -244,7 +244,7 @@ kind: Service
 metadata:
   name: example
   annotations:
-    traffic.kuma.io/ignore: "true"
+    kuma.io/ignore: "true"
 ```
 
 
