@@ -57,6 +57,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/zones/{name}`
 * `/zones+insights`
 * `/zones+insights/{name}`
+* `/global-insights`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -527,9 +528,21 @@ curl http://localhost:5681/mesh-insights/default
  "modificationTime": "2020-11-17T19:21:39.912878Z",
  "lastSync": "2020-11-17T12:21:39.912877Z",
  "dataplanes": {
-  "total": 1,
-  "offline": 1,
-  "partiallyDegraded": 1
+  "total": 4,
+  "offline": 2,
+  "partiallyDegraded": 2
+ },
+ "dataplanesByType": {
+  "standard": {
+   "total": 2,
+   "offline": 1,
+   "partiallyDegraded": 1
+  },
+  "gateway": {
+   "total": 2,
+   "offline": 1,
+   "partiallyDegraded": 1
+  }
  },
  "policies": {
   "Secret": {
@@ -571,23 +584,28 @@ curl http://localhost:5681/mesh-insights/default
     "online": 1,
     "partiallyDegraded": 1
    }
-  },
-  "mTLS": {
-    "issuedBackends": {
-      "ca-1": {
-        "total": 1,
-        "online": 1,
-        "partiallyDegraded": 1
-      }
-    },
-    "supportedBackends": {
-      "ca-1": {
-        "total": 1,
-        "online": 1,
-        "partiallyDegraded": 1
-      }
-    }
   }
+ },
+ "mTLS": {
+   "issuedBackends": {
+     "ca-1": {
+       "total": 1,
+       "online": 1,
+       "partiallyDegraded": 1
+     }
+   },
+   "supportedBackends": {
+     "ca-1": {
+       "total": 1,
+       "online": 1,
+       "partiallyDegraded": 1
+     }
+   }
+ },
+ "services": {
+  "total": 3,
+  "internal": 2,
+  "external": 1
  }
 }
 ```
@@ -612,9 +630,21 @@ curl http://localhost:5681/mesh-insights
    "modificationTime": "0001-01-01T00:00:00Z",
    "lastSync": "2020-11-17T12:24:11.905350Z",
    "dataplanes": {
-    "total": 1,
-    "offline": 1,
-    "partiallyDegraded": 1
+    "total": 4,
+    "offline": 2,
+    "partiallyDegraded": 2
+   },
+   "dataplanesByType": {
+    "standard": {
+     "total": 2,
+     "offline": 1,
+     "partiallyDegraded": 1
+    },
+    "gateway": {
+     "total": 2,
+     "offline": 1,
+     "partiallyDegraded": 1
+    }
    },
    "policies": {
     "Secret": {
@@ -656,23 +686,28 @@ curl http://localhost:5681/mesh-insights
       "online": 1,
       "partiallyDegraded": 1
      }
-    },
-    "mTLS": {
-      "issuedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      },
-      "supportedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      }
     }
+   },
+   "mTLS": {
+     "issuedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     },
+     "supportedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     }
+   }, 
+   "services": {
+    "total": 3,
+    "internal": 2,
+    "external": 1
    }
   },
   {
@@ -682,9 +717,21 @@ curl http://localhost:5681/mesh-insights
    "modificationTime": "0001-01-01T00:00:00Z",
    "lastSync": "2020-11-17T12:24:11.941534Z",
    "dataplanes": {
-    "total": 1,
-    "offline": 1,
-    "partiallyDegraded": 1
+    "total": 4,
+    "offline": 2,
+    "partiallyDegraded": 2
+   },
+   "dataplanesByType": {
+    "standard": {
+     "total": 2,
+     "offline": 1,
+     "partiallyDegraded": 1
+    },
+    "gateway": {
+     "total": 2,
+     "offline": 1,
+     "partiallyDegraded": 1
+    }
    },
    "policies": {
     "Secret": {
@@ -726,23 +773,28 @@ curl http://localhost:5681/mesh-insights
       "online": 1,
       "partiallyDegraded": 1
      }
-    },
-    "mTLS": {
-      "issuedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      },
-      "supportedBackends": {
-        "ca-1": {
-          "total": 1,
-          "online": 1,
-          "partiallyDegraded": 1
-        }
-      }
     }
+   },
+   "mTLS": {
+     "issuedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     },
+     "supportedBackends": {
+       "ca-1": {
+         "total": 1,
+         "online": 1,
+         "partiallyDegraded": 1
+       }
+     }
+   },
+   "services": {
+    "total": 3,
+    "internal": 2,
+    "external": 1
    }
   }
  ],
@@ -3210,4 +3262,32 @@ curl -XPOST \
   -H "Content-Type: application/json" \
   --data '{"name": "dp-echo-1", "mesh": "default", "tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
   http://localhost:5681/tokens
+```
+
+## Global Insights
+
+### Get Global Insights
+
+Request: `GET /global-insights`
+
+Response: `200 OK` with Global Insights entity
+
+Example:
+```bash
+curl localhost:5681/global-insights
+```
+```json
+{
+  "type": "GlobalInsights",
+  "creationTime": "2018-07-17T16:05:36.995Z",
+  "meshes": {
+    "total": 3
+  },
+  "zones": {
+    "total": 2
+  },
+  "zoneIngresses": {
+    "total": 1
+  }
+}
 ```

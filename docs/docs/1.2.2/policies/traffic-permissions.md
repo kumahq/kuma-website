@@ -59,7 +59,7 @@ The `TrafficPermission` policy can also be used to restrict traffic to [services
 ### Prerequisites
 
 * Kuma deployed with [transparent proxying](../networking/transparent-proxying)
-* `Mesh` configured to [disable passthrough mode](docs/1.2.2/policies/mesh/#usage)
+* `Mesh` configured to [disable passthrough mode](/docs/1.2.2/policies/mesh/#usage)
 
 These settings lock down traffic to and from the mesh, which means that requests to any unknown destination are not allowed. The mesh can't rely on mTLS, because there is no data plane proxy on the destination side.
 

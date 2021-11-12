@@ -61,7 +61,7 @@ networking:
       secret: clientKey
 ```
 
-Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.3.0/documentation/http-api).
+Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/1.3.1/documentation/http-api).
 
 Universal mode is best combined with [transparent proxy](../networking/transparent-proxying/). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
 
@@ -114,3 +114,36 @@ The first approach has an advantage that we can apply HTTP based policies, becau
         * `clientKey` the client key for mTLS
 
 As with other services, avoid duplicating service names under `kuma.io/service` with already existing ones. A good practice is to derive the tag value from the domain name or IP of the actual external service.
+
+### External Services and Locality Aware Load Balancing
+
+There are might be scenarios when a particular external service should be accessible only from the particular zone. 
+In order to make it work we should use `kuma.io/zone` tag for external service. When this tag is set and [locality aware load balancing](../locality-aware) is enabled
+then the traffic from the zone will be redirected only to external services associated with the zone using `kuma.io/zone` tag.
+
+Example:
+
+```yaml
+type: ExternalService
+mesh: default
+name: httpbin-for-zone-1
+tags:
+  kuma.io/service: httpbin
+  kuma.io/protocol: http
+  kuma.io/zone: zone-1
+networking:
+  address: zone-1.httpbin.org:80
+---
+type: ExternalService
+mesh: default
+name: httpbin-for-zone-2
+tags:
+  kuma.io/service: httpbin
+  kuma.io/protocol: http
+  kuma.io/zone: zone-2
+networking:
+  address: zone-2.httpbin.org:80
+```
+
+In this example, when [locality aware load balancing](../locality-aware) is enabled, if the service in zone-1 is trying to set connection with
+`httpbin.mesh` it will be redirected to `zone-1.httpbin.org:80`. Whereas the same request from zone-2 will be redirected to `zone-2.httpbin.org:80`.

@@ -37,7 +37,7 @@ testimonials:
 
 ::: slot news
 
-**Kuma 1.3.0 has been released!**  &mdash; Service map topology GUI, mTLS permissive mode, and 10+ more features! [Read More](/blog/2021/kuma-1-3-0/)
+**Kuma 1.3.1 has been released!**  &mdash; Zones can now be disabled, dashboards let you select specific zones, performance improvements, and more! [Read More](/blog/2021/kuma-1-3-1/)
 
 :::
 
