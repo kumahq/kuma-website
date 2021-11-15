@@ -231,6 +231,23 @@ metadata:
     kuma.io/builtindnsport: "15053"
 ```
 
+### `kuma.io/ignore`
+
+A boolean to mark a resource as ignored by Kuma.
+It currently only works for services.
+This is useful when transitioning to Kuma or to temporarily ignore some entities.
+
+** Example**
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: example
+  annotations:
+    kuma.io/ignore: "true"
+```
+
+
 ### `traffic.kuma.io/exclude-inbound-ports`
 
 List of inbound ports to exclude from traffic interception by the Kuma sidecar.
