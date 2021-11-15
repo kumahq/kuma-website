@@ -1737,10 +1737,10 @@ module.exports = {
       path: "",
       children: [
         "overview/what-is-kuma",
-        "community/data-collection",
         "overview/what-is-a-service-mesh",
         "overview/why-kuma",
         "documentation/deployments",
+        "community/data-collection",
         "other/enterprise",
         "other/license",
       ]
