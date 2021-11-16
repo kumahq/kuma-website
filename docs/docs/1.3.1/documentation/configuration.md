@@ -24,7 +24,7 @@ $ kumactl install control-plane \
 ::: tab "Kubernetes (HELM)"
 If you install the control plane with HELM, you can override the configuration with the `envVars` field. For example, to configure the refresh interval for configuration with the data plane proxy, specify:
 ```sh
-$ helm install \
+$ helm install --version 0.7.1 \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s \
   kuma kuma/kuma
@@ -37,7 +37,11 @@ controlPlane:
   envVars:
     KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL: 5s
     KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL: 5s
+<<<<<<< HEAD
 $ helm install -f Values.yaml kuma kuma/kuma
+=======
+$ helm install --version 0.7.1 -f Values.yaml kuma kuma/kuma
+>>>>>>> 75126a51803fc8df6058f16a7d78cdd27bb9b4a5
 ```
 :::
 ::: tab "Universal"

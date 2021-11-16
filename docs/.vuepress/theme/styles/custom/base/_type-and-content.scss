@@ -120,3 +120,21 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+// As originally the plugin increase height of code-snippet
+// and there is no reason to do so
+pre div.code-copy {
+  height: 0;
+}
+
+div[class~='language-sh'], 
+div[class~='language-shell'], 
+div[class~='language-bash'] {
+  > pre > code:before {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    content: '$';
+    margin-right: 6px;
+    font-size: 0.9rem;
+    color: #333;
+  }
+}

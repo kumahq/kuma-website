@@ -22,7 +22,7 @@ In this deployment, a Kuma cluster is made of one global control plane and as ma
 * **Zone**: A zone identifies a Kubernetes cluster, a VPC, or any other cluster that we want to include in a Kuma service mesh.
 
 <center>
-<img src="/images/docs/0.6.0/distributed-diagram.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/distributed-diagram@2x.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 In a multi-zone deployment mode, services will be running on multiple platforms, clouds, or Kubernetes clusters (which are identifies as `zones` in Kuma). While all of them will be part of a Kuma mesh by connecting their data plane proxies to the local `zone` control plane in the same zone, implementing service to service connectivity would be tricky since a source service may not know where a destination service is being hosted at (for instance, in another zone).
@@ -55,16 +55,16 @@ First we start the `global` control plane and configure the `zone` control plane
 
 Install the `global` control plane using:
 ```bash
-$ kumactl install control-plane --mode=global | kubectl apply -f -
+kumactl install control-plane --mode=global | kubectl apply -f -
 ```
 
 Find the external IP and port of the `global-zone-sync` service in `kuma-system` namespace:
 
 ```bash
-$ kubectl get services -n kuma-system
-NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-kuma-system   global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+kubectl get services -n kuma-system
+# NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
+# kuma-system   global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+# kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 ```
 
 In this example it is `35.226.196.103:5685`. This will be used as `<global-kds-address>` further.
@@ -73,14 +73,14 @@ In this example it is `35.226.196.103:5685`. This will be used as `<global-kds-a
 Install the `global` control plane by setting the `controlPlane.mode` value to `global` when installing the chart. This can be done on the command line, or in a provided file:
 
 ```sh
-$ helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
+helm install --version 0.6.3 kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
 ```
 :::
 ::: tab "Universal"
 
 Running the Global Control Plane setting up the relevant environment variable
 ```sh
-$ KUMA_MODE=global kuma-cp run
+KUMA_MODE=global kuma-cp run
 ```
 :::
 ::::
@@ -93,7 +93,7 @@ To install `zone` control plane, you need to assign the zone name for each of th
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   --mode=zone \
   --zone=<zone name> \
   --ingress-enabled \
@@ -111,7 +111,7 @@ To install the Zone Control plane we need to provide the following parameters:
  * `controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>`:
 
 ```bash
-$ helm install kuma --namespace kuma-system --set controlPlane.mode=zone,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
+helm install --version 0.6.3 kuma --namespace kuma-system --set controlPlane.mode=zone,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
 ```
 
 ::: tip
@@ -124,7 +124,7 @@ To install DNS we need to use `kumactl`. It reads the state of the control plane
 Run the `kuma-cp` in `zone` mode.
 
 ```sh
-$ KUMA_MODE=zone \
+KUMA_MODE=zone \
   KUMA_MULTIZONE_ZONE_NAME=<zone-name> \
   KUMA_MULTIZONE_ZONE_GLOBAL_ADDRESS=grpcs://<global-kds-address> \
   ./kuma-cp run
@@ -137,15 +137,15 @@ Note that this example runs the zone control plane with an in-memory datastore. 
 Add a `zone-ingress` proxy, so `kuma-cp` can expose its services for cross-zone communication. Typically, that data plane proxy would run on a dedicated host, so we will need the Zone CP address `<kuma-cp-address>` and pass it as `--cp-address`, when `kuma-dp` is started. Another important thing is to generate the data plane proxy token using the REST API or `kumactl` as [described](security/#data-plane-proxy-authentication).
 
 ```bash
-$ echo "type: ZoneIngress
+echo "type: ZoneIngress
 name: ingress-01
 networking:
   address: 127.0.0.1 # address that is routable within the zone
   port: 10000
   advertisedAddress: 10.0.0.1 # an address which other zones can use to consume this zone-ingress
   advertisedPort: 10000 # a port which other zones can use to consume this zone-ingress" > ingress-dp.yaml
-$ kumactl generate zone-ingress-token --zone=<zone-name> > /tmp/ingress-token
-$ kuma-dp run \
+kumactl generate zone-ingress-token --zone=<zone-name> > /tmp/ingress-token
+kuma-dp run \
   --proxy-type=ingress \
   --cp-address=https://<kuma-cp-address>:5678 \
   --dataplane-token-file=/tmp/ingress-token \
@@ -180,7 +180,7 @@ To figure out the service names that we can use in the applications for cross-zo
 service tag in the deployed data plane proxies: 
 
 ```bash
-$ kubectl get dataplanes -n echo-example -o yaml | grep service
+kubectl get dataplanes -n echo-example -o yaml | grep service
            service: echo-server_echo-example_svc_1010
 ```
 
@@ -189,11 +189,11 @@ Kuma DNS assigns to services in the `.mesh` DNS zone. It also provides an RFC co
 service are replaced by dots. Therefore, we have the following ways to consume a service from within the mesh:
 
 ```bash
-<kuma-enabled-pod>$ curl http://echo-server:1010
-<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
-<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
+<kuma-enabled-pod>curl http://echo-server:1010
+<kuma-enabled-pod>curl http://echo-server_echo-example_svc_1010.mesh:80
+<kuma-enabled-pod>curl http://echo-server.echo-example.svc.1010.mesh:80
+<kuma-enabled-pod>curl http://echo-server_echo-example_svc_1010.mesh
+<kuma-enabled-pod>curl http://echo-server.echo-example.svc.1010.mesh
 ```
 The first method still works, but is limited to endpoints implemented within the same Kuma zone (i.e. the same Kubernetes cluster).
 The second and third options allow to consume a service that is distributed across the Kuma cluster (bound by the same `global` control plane). For

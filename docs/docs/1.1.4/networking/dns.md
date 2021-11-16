@@ -53,15 +53,15 @@ Kuma DNS is not a service discovery mechanism, instead it returns a single VIP, 
 
 Consuming a service handled by Kuma DNS from inside a Kubernetes container is based on the automatically generated `kuma.io/service` tag. The resulting domain name has the format `{service tag}.mesh`, for example:
 ```bash
-<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
-<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
+<kuma-enabled-pod>curl http://echo-server_echo-example_svc_1010.mesh:80
+<kuma-enabled-pod>curl http://echo-server_echo-example_svc_1010.mesh
 ```
 
 Alternatively, a DNS standards compliant name is available, where the underscores in the service name are replaced with dots.
 The above example can be rewritten as follows:
 ```bash
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
+<kuma-enabled-pod>curl http://echo-server.echo-example.svc.1010.mesh:80
+<kuma-enabled-pod>curl http://echo-server.echo-example.svc.1010.mesh
 ```
 
 Since the default VIP created listeners will default to port `80`, it can be omitted when using a standard HTTP client.
@@ -132,7 +132,7 @@ kumactl install control-plane \
 With [Helm](/docs/1.1.3/installation/helm), the command invocation looks like:
 
 ```shell
-helm install --namespace kuma-system \
+helm install --version 0.5.5 --namespace kuma-system \
   --set controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=true \
    kuma kuma/kuma
 ```
@@ -149,7 +149,7 @@ with the `--dns-coredns-path` flag.
 1.  Specify the two additional flags `--skip-resolv-conf` and `--redirect-dns` to the [transparent proxy](transparent-proxying/) iptables rules:
 
     ```shell
-    $ kumactl install transparent-proxy \
+    kumactl install transparent-proxy \
               --kuma-dp-user kuma-dp \
               --kuma-cp-ip <kuma-cp IP> \
               --skip-resolv-conf \
@@ -159,7 +159,7 @@ with the `--dns-coredns-path` flag.
 1.  Specify `--dns-enabled` when you start [the kuma-dp](dps-and-data-model/#dataplane-entity)
 
     ```shell
-    $ kuma-dp run \
+    kuma-dp run \
       --cp-address=https://127.0.0.1:5678 \
       --dataplane-file=dp.yaml \
       --dataplane-token-file=/tmp/kuma-dp-redis-1-token \

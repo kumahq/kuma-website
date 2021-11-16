@@ -31,7 +31,7 @@ kumactl install control-plane \
 When using [Helm](/docs/1.2.0/installation/helm), we should use the values in the `cni` section to set the relevant parameters.
 
 ```shell
-helm install --namespace kuma-system \
+helm install --version 0.6.0 --namespace kuma-system \
   --set cni.enabled=true,cni.chained=true,cni.netDir="/etc/cni/net.d",cni.binDir=/opt/cni/bin,cni.confName=10-calico.conflist \
    kuma kuma/kuma
 ```

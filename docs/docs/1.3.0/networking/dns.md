@@ -23,7 +23,7 @@ Prerequisites:
 1.  Specify the flags `--skip-resolv-conf` and `--redirect-dns` in the [transparent proxy](transparent-proxying/) iptables rules:
 
     ```shell
-    $ kumactl install transparent-proxy \
+    kumactl install transparent-proxy \
               --kuma-dp-user kuma-dp \
               --kuma-cp-ip <kuma-cp IP> \
               --skip-resolv-conf \
@@ -33,7 +33,7 @@ Prerequisites:
 1.  Start [the kuma-dp](dps-and-data-model/#dataplane-entity)
 
     ```shell
-    $ kuma-dp run \
+    kuma-dp run \
       --cp-address=https://127.0.0.1:5678 \
       --dataplane-file=dp.yaml \
       --dataplane-token-file=/tmp/kuma-dp-redis-1-token
@@ -92,7 +92,7 @@ kumactl install control-plane \
 Set the environment variable:
 
 ```shell
-helm install --namespace kuma-system \
+helm install --version 0.7.0 --namespace kuma-system \
   --set controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false \
    kuma kuma/kuma
 ```
@@ -105,7 +105,7 @@ helm install --namespace kuma-system \
 1.  Configure [the transparent proxy](transparent-proxying/) iptables rules:
 
     ```shell
-    $ kumactl install transparent-proxy \
+    kumactl install transparent-proxy \
               --kuma-dp-user kuma-dp \
               --kuma-cp-ip <KUMA_CP_IP_ADDRESS>
     ```
@@ -113,7 +113,7 @@ helm install --namespace kuma-system \
 1.  Start [the kuma-dp](dps-and-data-model/#dataplane-entity) with flag `--dns-enabled` set to `false`:
 
     ```shell
-    $ kuma-dp run \
+    kuma-dp run \
       --cp-address=https://127.0.0.1:5678 \
       --dataplane-file=dp.yaml \
       --dataplane-token-file=/tmp/<KUMA_DP_REDIS_1_TOKEN> \
@@ -160,15 +160,15 @@ Kuma DNS is not a service discovery mechanism. Instead, it returns a single VIP 
 Consuming a service handled by Kuma DNS from inside a Kubernetes container is based on the automatically generated `kuma.io/service` tag. The resulting domain name has the format `{service tag}.mesh`. For example:
 
 ```bash
-<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
-<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
+<kuma-enabled-pod>curl http://echo-server_echo-example_svc_1010.mesh:80
+<kuma-enabled-pod>curl http://echo-server_echo-example_svc_1010.mesh
 ```
 
 A DNS standards compliant name is also available, where the underscores in the service name are replaced with dots. For example:
 
 ```bash
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
+<kuma-enabled-pod>curl http://echo-server.echo-example.svc.1010.mesh:80
+<kuma-enabled-pod>curl http://echo-server.echo-example.svc.1010.mesh
 ```
 
 The default listeners created on the VIP default to port `80`, so the port can be omitted with a standard HTTP client.
@@ -212,3 +212,5 @@ Kuma DNS allocates a VIP for every service within a mesh. Then, it creates an ou
      }
     },
 ```
+
+To define dynamic hostnames using specific tags or expose on a different port you should use [virtual-outbounds](../policies/virtual-outbound.md).
