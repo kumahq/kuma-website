@@ -1883,7 +1883,7 @@ module.exports = {
       ]
     }
   ],
-  "/docs/4.4.4/": [
+  "/docs/1.4.0/": [
     {
       title: "Introduction",
       collapsable: true,
@@ -1894,6 +1894,7 @@ module.exports = {
         "overview/what-is-a-service-mesh",
         "overview/why-kuma",
         "documentation/deployments",
+        "community/data-collection",
         "other/enterprise",
         "other/license",
       ]
@@ -1975,6 +1976,7 @@ module.exports = {
       children: [
         "documentation/health",
         "documentation/fine-tuning",
+        "documentation/configuration",
       ]
     },
     {

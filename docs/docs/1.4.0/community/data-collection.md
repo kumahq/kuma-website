@@ -10,7 +10,7 @@ Kuma can collect some data about your deployment if enabled. Data collection (te
     KUMA_REPORTS_ENABLED=false
     ```
 
-1.  Specify the environment variable when you install the control plane. See the [configuration docs](/docs/1.3.1/documentation/configuration/) for details.
+1.  Specify the environment variable when you install the control plane. See the [configuration docs](/docs/1.4.0/documentation/configuration/) for details.
 
 Or you can set the `reports.enabled` field to `true` in the config YAML file.
 
