@@ -3278,16 +3278,21 @@ curl localhost:5681/global-insights
 ```
 ```json
 {
-  "type": "GlobalInsights",
-  "creationTime": "2018-07-17T16:05:36.995Z",
-  "meshes": {
-    "total": 3
+ "type": "GlobalInsights",
+ "creationTime": "2021-11-05T08:11:37.880477+01:00",
+ "resources": {
+  "GlobalSecret": {
+   "total": 3
   },
-  "zones": {
-    "total": 2
+  "Mesh": {
+   "total": 1
   },
-  "zoneIngresses": {
-    "total": 1
+  "Zone": {
+   "total": 0
+  },
+  "ZoneIngress": {
+   "total": 0
   }
+ }
 }
 ```
