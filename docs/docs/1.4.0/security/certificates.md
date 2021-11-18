@@ -362,9 +362,9 @@ We can also hide the HTTP version of API Server by binding it to localhost `KUMA
 
 ### Authentication
 
-Check [API Server authentication](./api-server-auth.md).
+See [API Server authentication](./api-server-auth.md).
 
-## Control plane to Control plane (Multizone)
+## Control plane to control plane (Multizone)
 
 A zone control plane connects to a global control plane for policies configuration.
 
