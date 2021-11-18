@@ -362,77 +362,7 @@ We can also hide the HTTP version of API Server by binding it to localhost `KUMA
 
 ### Authentication
 
-Some endpoints like managing Secrets or generating data plane proxy token require authentication. There are two ways to access those endpoints.
-
-#### Request originating from localhost
-
-For the simplicity of use, requests that are originating from the same machine as CP are authenticated. We can disable this behavior by setting `KUMA_API_SERVER_AUTH_ALLOW_FROM_LOCALHOST` to `false`
-
-::: tip
-On Kubernetes, we can port-forward 5681 port and access the admin endpoints.
-:::
-
-#### Client certificates
-
-When accessing admin endpoints from a different machine we need to use client certificates.
-
-1) Generate client certificates by using kumactl
-```sh
-kumactl generate tls-certificate --type=client \
-  --cert-file=/tmp/tls.crt \
-  --key-file=/tmp/tls.key
-```
-2) Configure the control plane with client certificates
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes (kumactl)"
-Create a secret in the namespace in which control plane is installed
-```sh
-kubectl create secret generic api-server-client-certs -n kuma-system \
-  --from-file=client1.pem=/tmp/tls.crt \
-```
-We can provide as many client certificates as we want. Remember to only provide certificates without keys.
-
-Point to this secret when installing Kuma
-```sh
-kumactl install control-plane \
-  --tls-api-server-client-certs-secret=api-server-client-certs
-```
-:::
-::: tab "Kubernetes (HELM)"
-Create a secret in the namespace in which control plane is installed
-```sh
-kubectl create secret generic api-server-client-certs -n kuma-system \
-  --from-file=client1.pem=/tmp/tls.crt \
-```
-We can provide as many client certificates as we want. Remember to only provide certificates without keys.
-
-Set `controlPlane.tls.apiServer.clientCertsSecretName` to `api-server-client-certs` via HELM
-:::
-::: tab "Universal"
-Put all the certificates in one directory
-```sh
-mkdir /opt/client-certs
-cp /tmp/tls.crt /opt/client-certs/client1.pem 
-```
-All client certificates **MUST** end with `.pem` extension. Remember to only put provide certificates without keys.
-
-Configure control plane by pointing to this directory
-```sh
-KUMA_API_SERVER_AUTH_CLIENT_CERTS_DIR=/opt/client-certs \
-  kuma-cp run
-```
-:::
-::::
-
-3) Configure `kumactl` with valid client certificates
-```sh
-kumactl config control-planes add \
-  --name=<NAME> \
-  --address=https://<KUMA_CP_DNS_NAME>:5682 \
-  --client-cert-file=/tmp/tls.crt \
-  --client-key-file=/tmp/tls.key \
-  --ca-cert-file=/tmp/ca.crt # CA cert used in "Encrypted communication" section
-```
+Check [API Server authentication](./api-server-auth.md).
 
 ## Control plane to Control plane (Multizone)
 

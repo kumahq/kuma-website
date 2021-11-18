@@ -1965,7 +1965,7 @@ module.exports = {
       children: [
         "security/certificates",
         "security/secrets",
-        "security/api-access-control",
+        "security/api-server-auth",
       ]
     },
     {
