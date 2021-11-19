@@ -46,7 +46,7 @@ carousel:
 
 ::: slot news
 
-**Kuma 1.4.0 has been released!** &mdash; Zones can now be disabled, dashboards let you select specific zones, performance improvements, and more! [Read More](/blog/2021/kuma-1-4-0/)
+**Kuma 1.4.0 has been released!** &mdash; User tokens replace client certificates for API authentication, locality-aware load balancing is now available for external services, we've renewed our commitment to ongoing performance improvements, and more! [Read More](/blog/2021/kuma-1-4-0/)
 
 :::
 
