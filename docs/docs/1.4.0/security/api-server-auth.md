@@ -203,7 +203,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    kind: Secret
    metadata:
      name: user-token-signing-key-2
-     namespace: kong-mesh-system
+     namespace: kuma-system
    type: system.kuma.io/global-secret
    " | kubectl apply -f - 
    ```
@@ -236,7 +236,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    :::: tabs :options="{ useUrlFragment: false }"
    ::: tab "Kubernetes"
    ```sh
-   kubectl delete secret user-token-signing-key-1 -n kong-mesh-system
+   kubectl delete secret user-token-signing-key-1 -n kuma-system
    ```
    :::
    ::: tab "Universal"
