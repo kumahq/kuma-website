@@ -61,7 +61,7 @@
         </li>
         <li>
           <a :href="recording" target="_blank">
-            <span class="icon"></span>See Past Recordings
+            <span class="icon">🎥</span>See Past Recordings
           </a>
         </li>
       </ul>
