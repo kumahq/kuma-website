@@ -14,8 +14,6 @@ The word "Kuma" means "bear" in Japanese (クマ).
 
 The core maintainer of Kuma is **Kong**, the maker of the popular open-source Kong Gateway 🦍.
 
-There's a new docs page that explains how your Kuma deployment collects data: what data is collected, and how to turn off data collection. See [data collection](/docs/1.3.1/community/data-collection).
-
 ## Get started
 
 [Read about service mesh](/docs/1.3.1/overview/what-is-a-service-mesh/)

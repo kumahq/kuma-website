@@ -1,10 +1,10 @@
 # Service Discovery
 
-Here we are going to be exploring the communication between `kuma-dp` and `kuma-cp`, and the communication between multiple `kuma-dp` to handle our service traffic.
+This page explains how communication between the components of Kuma handles service traffic. Communication is handled between the data plane proxy (`kuma-dp`) and the control plane (`kuma-cp`), and between multiple instances of the data plane proxy.
 
-Every time a data-plane (served by `kuma-dp`) connects to the control-plane, it initiates a gRPC streaming connection to Kuma (served by `kuma-cp`) in order to retrieve the latest policy configuration, and send diagnostic information to the control-plane.
+When a data plane proxy connects to the control-plane, it initiates a gRPC streaming connection to the control plane. It retrieves the latest policy configuration from the control plane and sends diagnostic information to the control plane.
 
-In [standalone mode](/docs/1.3.1/deployments/stand-alone/) the `kuma-dp` process will connect directly to the `kuma-cp` instances.
+In [standalone mode](/docs/1.3.1/deployments/stand-alone/) the `kuma-dp` process connects directly to the `kuma-cp` instances.
 
 In a [multi-zone deployment](/docs/1.3.1/deployments/multi-zone/) the `kuma-dp` processes will connect to the zone control plane, while the zone control planes will connect to the global control plane over an extension of the xDS API that we have built called "KDS" (Kuma Discovery Service). In multi-zone mode, the data plane proxies never connect to the global control plane but only to the zone ones.
 

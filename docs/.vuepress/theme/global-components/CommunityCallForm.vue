@@ -59,6 +59,11 @@
             <span class="icon">📅</span> Add to Your Calendar
           </a>
         </li>
+        <li>
+          <a :href="recording" target="_blank">
+            <span class="icon">🎥</span> Past Recordings
+          </a>
+        </li>
       </ul>
     </div>
 
