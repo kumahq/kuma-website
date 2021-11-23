@@ -49,7 +49,7 @@ can discuss and ask questions in real-time. If you have already joined, go direc
 
 ::: slot card-3-content
 Kuma hosts official monthly community calls where users and contributors can
-discuss about any topic and demonstrate use-cases. Interested? You can register below for the next Community Call.
+discuss topics and demonstrate use-cases. Interested? You can register below for the next Community Call.
 :::
 
 <!-- card 4 -->
