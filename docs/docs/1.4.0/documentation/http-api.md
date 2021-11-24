@@ -2556,9 +2556,7 @@ curl http://localhost:5681/zones/cluster-1
  "name": "cluster-1",
  "creationTime": "2020-07-28T13:14:48Z",
  "modificationTime": "2020-07-28T13:14:48Z",
- "ingress": {
-  "address": "192.168.64.17:31172"
- }
+ "enabled": true
 }
 ```
 
@@ -2576,9 +2574,7 @@ curl -XPUT http://localhost:5681/zones/cluster-1 --data @zone.json -H'content-ty
 {
  "type": "Zone",
  "name": "cluster-1",
- "ingress": {
-  "address": "192.168.64.17:31172"
- }
+ "enabled": true
 }
 ```
 
@@ -2601,18 +2597,14 @@ curl http://localhost:5681/zones
    "name": "cluster-1",
    "creationTime": "2020-07-28T13:14:48Z",
    "modificationTime": "2020-07-28T13:14:48Z",
-   "ingress": {
-    "address": "192.168.64.17:31172"
-   }
+   "enabled": true
   },
   {
    "type": "Zone",
    "name": "cluster-2",
    "creationTime": "2020-07-28T13:14:50Z",
    "modificationTime": "2020-07-28T13:14:50Z",
-   "ingress": {
-    "address": "192.168.64.18:32089"
-   }
+   "enabled": false
   }
  ],
  "next": null
@@ -2649,9 +2641,7 @@ curl http://localhost:5681/zones+insights/cluster-1
  "creationTime": "2020-07-28T23:08:22.317322+07:00",
  "modificationTime": "2020-07-28T23:08:22.317322+07:00",
  "zone": {
-  "ingress": {
-   "address": "127.0.0.1:10000"
-  }
+   "enabled": true
  },
  "zoneInsight": {
   "subscriptions": [
@@ -2758,9 +2748,7 @@ curl http://localhost:5681/zones+insights
    "creationTime": "2020-07-28T23:08:22.317322+07:00",
    "modificationTime": "2020-07-28T23:08:22.317322+07:00",
    "zone": {
-    "ingress": {
-     "address": "127.0.0.1:10000"
-    }
+     "enabled": true
    },
    "zoneInsight": {
     "subscriptions": [
