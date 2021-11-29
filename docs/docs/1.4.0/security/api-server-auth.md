@@ -228,8 +228,9 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    ::::
 
 2. Regenerate user tokens
-   Create new user tokens. These tokens are automatically created with the signing key that’s assigned the highest serial number, so they’re created with the new signing key.
-   At this point, tokens signed by either new or old signing key are valid.
+   Create new tokens for users. These tokens are automatically created with the signing key that’s assigned the highest serial number, so they’re created with the new signing key.
+
+   Make sure the new signing key is available; otherwise old and new tokens are created with the same signing key and can both provide authentication.
 
 3. Remove the old signing key
    :::: tabs :options="{ useUrlFragment: false }"
