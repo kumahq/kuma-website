@@ -52,7 +52,7 @@ policies:
         icon: /images/icons/policies/icon-rate-limits.png
       - title: Virtual Outbound
         url: /docs/latest/policies/virtual-outbound/
-        icon: /images/icons/policies/icon-external-services.png
+        icon: /images/icons/policies/virtual-outbound@2x.png
   - section: observability
     sectionTitle: Observability
     sectionSubTitle: Metrics, Logs and Traces
