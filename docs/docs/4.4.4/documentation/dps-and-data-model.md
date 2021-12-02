@@ -197,7 +197,7 @@ On Kubernetes this whole process is automated via transparent proxying and witho
 
 ## Kubernetes
 
-On Kubernetes the data-planes are automatically injected by Kuma as long as the K8s Namespace or Pod are **annotated** with
+On Kubernetes the data-planes are automatically injected by Kuma as long as the K8s Namespace or Pod are **labeled** with
 `kuma.io/sidecar-injection = enabled`, e.g.
 
 ```yaml
@@ -205,13 +205,13 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: kuma-example
-  annotations:
+  labels:
     # inject Kuma sidecar into every Pod in that Namespace,
     # unless a user explicitly opts out on per-Pod basis
     kuma.io/sidecar-injection: enabled
 ```
 
-To opt out of data-plane injection into a particular `Pod`, you need to **annotate** it
+To opt out of data-plane injection into a particular `Pod`, you need to **label** it
 with `kuma.io/sidecar-injection = disabled`, e.g.
 
 ```yaml
@@ -234,6 +234,9 @@ spec:
 ```
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
+
+While you can still use annotations instead of labels, we strongly recommend using labels.
+It's the only way to guarantee that application can only be started with sidecar.
 
 ::: tip
 NOTE: During the creation of the [`Dataplane`](#dataplane-entity) entity, the Kuma control plane will generate a dataplane tag `kuma.io/service: <name>_<namespace>_svc_<port>` fetching `<name>`, `<namespace>` and `<port>` from the Kubernetes service that is associated with the particular pod.
@@ -294,7 +297,7 @@ spec:
       ...
 ```
 
-The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime. Using [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma requires an annotation on every `Service` that you want to pass traffic to [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream). This is automatically injected by Kuma for every Kubernetes service that is in a namespace part of the mesh i.e. has `kuma.io/sidecar-injection: enabled`
+The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime. Using [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma requires an annotation on every `Service` that you want to pass traffic to [`ingress.kubernetes.io/service-upstream=true`](https://github.com/Kong/kubernetes-ingress-controller/blob/master/docs/references/annotations.md#ingresskubernetesioservice-upstream). This is automatically injected by Kuma for every Kubernetes service that is in a namespace part of the mesh i.e. has `kuma.io/sidecar-injection: enabled` label.
 
 Services can be exposed to an API Gateway in one specific zone, or in multi-zone. For the latter, we need to expose a dedicated Kubernetes `Service` object with type `ExternalName`, which sets the `externalName` to the `.mesh` DNS record for the particular service that we want to expose, that will be resolved by Kuma's internal [service discovery](/docs/4.4.4/networking/dns).
 
