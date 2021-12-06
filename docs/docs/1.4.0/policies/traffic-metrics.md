@@ -330,7 +330,7 @@ To consume paths protected by mTLS, you need Traffic Permission that lets Promet
 
 ## Grafana Dashboards
 
-Kuma ships with four default dashboards that are available to import from [the Grafana Labs repository](https://grafana.com/orgs/konghq).
+Kuma ships with six default dashboards that are available to import from [the Grafana Labs repository](https://grafana.com/orgs/konghq).
 
 ### Kuma Dataplane
 
@@ -376,6 +376,14 @@ This dashboard lets you investigate aggregated statistics for each service.
 
 <center>
 <img src="/images/docs/1.1.2/grafana-dashboard-kuma-service.jpg" alt="Kuma Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+### Service Map
+
+This dashboard provides a topology view of your service traffice dependencies. It includes information such as number of requests and error rates.
+
+<center>
+<img src="/images/blog/kuma_1_3_0_service_map.png" alt="Kuma Service Map" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ## Grafana Datasource
