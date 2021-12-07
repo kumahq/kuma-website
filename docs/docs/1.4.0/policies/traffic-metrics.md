@@ -2,13 +2,14 @@
 
 Kuma facilitates consistent traffic metrics across all data plane proxies in your mesh.
 
-You add metrics to a mesh configuration, or to an individual Dataplane configuration if you need, for example, to override the default metrics port that's already in use on the specified machine.
+You can add metrics to a mesh configuration, or to an individual data plane proxy configuration. For example, you might need metrics for individual data plane proxies to override the default metrics port if it's already in use on the specified machine.
 
 Kuma provides full integration with Prometheus:
+
 * Each proxy can expose its metrics in `Prometheus` format.
 * Because metrics are part of the mesh configuration, Prometheus can automatically find every proxy in the mesh.
 
-To collect metrics from Kuma, you need to first expose metrics from proxies and then configure Prometheus to collect them.
+To collect metrics from Kuma, you first expose metrics from proxies and then configure Prometheus to collect them.
 
 ### Expose metrics from data plane proxies
 
@@ -16,6 +17,7 @@ To expose metrics from every proxy in the mesh, configure the `Mesh` resource:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -29,7 +31,7 @@ spec:
       type: prometheus
 ```
 
-which is a convenient shortcut for
+which is a shortcut for:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -51,6 +53,7 @@ spec:
 ```
 :::
 ::: tab "Universal"
+
 ```yaml
 type: Mesh
 name: default
@@ -63,7 +66,7 @@ metrics:
       skipMTLS: true # by default mTLS metrics are also protected by mTLS. Scraping metrics with mTLS without transparent proxy is not supported at the moment.
 ```
 
-which is a convenient shortcut for
+which is a shortcut for:
 
 ```yaml
 type: Mesh
@@ -321,8 +324,9 @@ spec:
 ```
 :::
 ::: tab "Universal"
+
 Use the Discovery Service of [your choice](https://prometheus.io/docs/prometheus/latest/configuration/configuration/).
-In the future Kuma will help to expose metrics in more native way.
+
 :::
 ::::
 
@@ -330,11 +334,11 @@ To consume paths protected by mTLS, you need Traffic Permission that lets Promet
 
 ## Grafana Dashboards
 
-Kuma ships with six default dashboards that are available to import from [the Grafana Labs repository](https://grafana.com/orgs/konghq).
+Kuma ships with default dashboards that are available to import from [the Grafana Labs repository](https://grafana.com/orgs/konghq).
 
 ### Kuma Dataplane
 
-This dashboards lets you investigate the status of a single dataplane in the mesh.
+This dashboard lets you investigate the status of a single dataplane in the mesh.
 
 <center>
 <img src="/images/docs/0.4.0/kuma_dp1.jpeg" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -353,7 +357,7 @@ This dashboard lets you investigate the aggregated statistics of a single mesh.
 
 ### Kuma Service to Service
 
-This dashboard lets you investigate aggregated statistics from dataplanes of given source service to dataplanes of given destination service.
+This dashboard lets you investigate aggregated statistics from dataplanes of specified source services to dataplanes of specified destination service.
 
 <center>
 <img src="/images/docs/0.4.0/kuma_service_to_service.png" alt="Kuma Service to Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -362,7 +366,7 @@ This dashboard lets you investigate aggregated statistics from dataplanes of giv
 
 ### Kuma CP
 
-This dashboard lets you investigate statistics of the control plane.
+This dashboard lets you investigate control plane statistics.
 
 <center>
 <img src="/images/docs/0.7.1/grafana-dashboard-kuma-cp1.png" alt="Kuma CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -380,7 +384,7 @@ This dashboard lets you investigate aggregated statistics for each service.
 
 ### Service Map
 
-This dashboard provides a topology view of your service traffice dependencies. It includes information such as number of requests and error rates.
+This dashboard provides a topology view of your service traffic dependencies. It includes information such as number of requests and error rates.
 
 <center>
 <img src="/images/blog/kuma_1_3_0_service_map.png" alt="Kuma Service Map" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
