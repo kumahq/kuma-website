@@ -2123,6 +2123,8 @@ module.exports = {
         "security/secrets",
         "security/api-access-control",
         "security/api-server-auth",
+        "security/dp-auth",
+        "security/zone-ingress-auth",
       ]
     },
     {
