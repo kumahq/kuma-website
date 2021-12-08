@@ -126,11 +126,24 @@ A tag attributes a qualifier to the data plane proxy, and the tags that are rese
 
 * `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
 * `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/4.4.4/documentation/deployments/). This tag is automatically created and cannot be overwritten.
-* `kuma.io/protocol`: Identifies the protocol that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
+* `kuma.io/protocol`: Identifies [the protocol](/docs/4.4.4/policies/protocol-support-in-kuma) that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 ::: tip
 The `kuma.io/service` tag must always exist.
 :::
+
+### Kubernetes
+
+When Dataplane entity is automatically created, all labels from Pod are converted into Dataplane tags.
+Labels with keys that contains `kuma.io/` are not converted because they are reserved to Kuma.
+The following tags are added automatically and cannot be overridden using Pod labels. 
+
+* `kuma.io/service`: Identifies the service name based on a Service that selects a Pod. Example: `demo-app_kuma-demo_svc_80`.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/4.4.4/documentation/deployments/).
+* `kuma.io/protocol`: Identifies [the protocol](/docs/4.4.4/policies/protocol-support-in-kuma) that was defined on the Service that selects a Pod.
+* `k8s.kuma.io/namespace`: Identifies the Pod's namespace. Example: `kuma-demo`.
+* `k8s.kuma.io/service-name`: Identifies the name of Kubernetes Service that selects a Pod. Example: `demo-app`.
+* `k8s.kuma.io/service-port`: Identifies the port of Kubernetes Service that selects a Pod. Example: `80`.
 
 ## Dataplane Specification
 
