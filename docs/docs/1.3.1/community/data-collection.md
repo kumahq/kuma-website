@@ -1,6 +1,6 @@
 # Kuma data collection
 
-Kuma can collect some data about your deployment if enabled. Data collection (telemetry) is disabled by default. The collected data is sent to Kong servers for storage and aggregation. You can enable data collection when you install the control plane.
+Kuma collects some data about your deployment by default. The collected data is sent to Kong servers for storage and aggregation. You can disable data collection when you install the control plane.
 
 ## Disable data collection on Kubernetes
 
