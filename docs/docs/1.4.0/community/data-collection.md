@@ -2,12 +2,12 @@
 
 Kuma can collect some data about your deployment if enabled. Data collection (telemetry) is disabled by default. The collected data is sent to Kong servers for storage and aggregation. You can enable data collection when you install the control plane.
 
-## Disable data collection on Kubernetes
+## Enable data collection on Kubernetes
 
 1.  Set the following environment variable:
 
     ```
-    KUMA_REPORTS_ENABLED=false
+    KUMA_REPORTS_ENABLED=true
     ```
 
 1.  Specify the environment variable when you install the control plane. See the [configuration docs](/docs/1.4.0/documentation/configuration/) for details.
