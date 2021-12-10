@@ -377,3 +377,18 @@ This dashboard lets you investigate aggregated statistics for each service.
 <center>
 <img src="/images/docs/1.1.2/grafana-dashboard-kuma-service.jpg" alt="Kuma Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
+
+## Grafana Datasource
+
+The Grafana Datasource is a datasource specifically built to relate information from the control-plane with prometheus metrics.
+
+Current features include:
+
+- Display the graph of your services with the MeshGraph using [grafana nodeGraph panel](https://grafana.com/docs/grafana/latest/visualizations/node-graph/).
+- List meshes.
+- List zones.
+- List services.
+
+To use the plugin you'll need to add the binary to your grafana instance by following the [installation instructions](https://github.com/kumahq/kuma-grafana-datasource#how-to-install).
+
+To make things simpler the datasource is installed and configured when using `kumactl install metrics`.

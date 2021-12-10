@@ -1,6 +1,6 @@
 # Kuma data collection
 
-By default, Kuma collects some data about your deployment. This data is sent to Kong servers for storage and aggregation. You can disable data collection when you install the control plane.
+Kuma collects some data about your deployment by default. The collected data is sent to Kong servers for storage and aggregation. You can disable data collection when you install the control plane.
 
 ## Disable data collection on Kubernetes
 
@@ -12,7 +12,7 @@ By default, Kuma collects some data about your deployment. This data is sent to 
 
 1.  Specify the environment variable when you install the control plane. See the [configuration docs](/docs/1.3.1/documentation/configuration/) for details.
 
-Or you can set the `reports.enabled` field to `false` in the config YAML file.
+Or you can set the `reports.enabled` field to `true` in the config YAML file.
 
 ## What data is collected
 
