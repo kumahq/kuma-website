@@ -43,7 +43,7 @@ When running in **Universal** mode, Kuma will require a PostgreSQL database to s
 
 ## Kubernetes mode
 
-When running on **Kubernetes**, Kuma will store all of its state and configuration on the underlying Kubernetes API Server, therefore requiring no dependency to store the data. Kuma will automatically inject the dataplane proxy `kuma-dp` on any Pod that belongs to a Namespace that includes the following annotation:
+When running on **Kubernetes**, Kuma will store all of its state and configuration on the underlying Kubernetes API Server, therefore requiring no dependency to store the data. Kuma will automatically inject the dataplane proxy `kuma-dp` on any Pod that belongs to a Namespace that includes the following labels:
 
 ```
 kuma.io/sidecar-injection: enabled
