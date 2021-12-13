@@ -1,6 +1,26 @@
-# Annotations in Kubernetes mode
+# Annotations and labels in Kubernetes mode
 
 This page provide a complete list of all the annotations you can specify when you run Kuma in Kubernetes mode.
+
+## Labels
+
+### `kuma.io/sidecar-injection`
+
+Lets you enable or disable sidecar injection.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: default
+ labels:
+   kuma.io/sidecar-injection: enabled
+[...]
+```
+
+## Annotations
 
 ### `kuma.io/mesh`
 
@@ -33,6 +53,9 @@ metadata:
    kuma.io/sidecar-injection: enabled
 [...]
 ```
+
+While you can still use annotation to inject sidecar, we strongly recommend using labels.
+It's the only way to guarantee that application can only be started with sidecar.
 
 ### `kuma.io/gateway`
 
