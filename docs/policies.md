@@ -52,7 +52,7 @@ policies:
         icon: /images/icons/policies/icon-rate-limits.png
       - title: Virtual Outbound
         url: /docs/latest/policies/virtual-outbound/
-        icon: /images/icons/policies/icon-external-services.png
+        icon: /images/icons/policies/virtual-outbound@2x.png
   - section: observability
     sectionTitle: Observability
     sectionSubTitle: Metrics, Logs and Traces
@@ -60,6 +60,9 @@ policies:
       - title: Traffic Metrics
         url: /docs/latest/policies/traffic-metrics/
         icon: /images/icons/policies/icon-dataplane-metrics@2x.png
+      - title: Service Map
+        url: /docs/latest/policies/traffic-metrics/
+        icon: /images/icons/policies/service-map@2x.png
       - title: Traffic Trace
         url: /docs/latest/policies/traffic-trace/
         icon: /images/icons/policies/icon-traffic-trace@2x.png
