@@ -69,11 +69,11 @@ kuma-dp run \
     address: 0.0.0.0
     inbound: 
       - port: 16379
-      servicePort: 26379
-      serviceAddress: 127.0.0.1
-      tags: 
-        kuma.io/service: redis
-        kuma.io/protocol: tcp"
+        servicePort: 26379
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: redis
+          kuma.io/protocol: tcp"
 ```
 
 And for the demo app:
