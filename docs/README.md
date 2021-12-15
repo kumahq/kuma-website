@@ -46,7 +46,7 @@ carousel:
 
 ::: slot news
 
-**Kuma 1.4.1 has been released!** &mdash; With continued performance improvements, better security for token management, and more! [Read More](/blog/2021/kuma-1-4-1/)
+**Kuma 1.4.1 has been released!** &mdash; With continued performance improvements, better UX for token management, and more! [Read More](/blog/2021/kuma-1-4-1/)
 
 :::
 
