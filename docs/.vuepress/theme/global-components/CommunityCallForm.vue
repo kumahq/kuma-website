@@ -60,7 +60,7 @@
           </a>
         </li>
         <li>
-          <a :href="recording" target="_blank">
+          <a href="https://www.youtube.com/playlist?list=PLg_AhYkg50viOMrea6Nm3t9JCempVyLcj" target="_blank">
             <span class="icon">🎥</span> Past Recordings
           </a>
         </li>
