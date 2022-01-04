@@ -144,7 +144,7 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 
 ## Enable Mutual TLS and Traffic Permissions
 
-By default the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/1.2.3/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/1.2.3/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
+By default, the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/1.2.3/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/1.2.3/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
@@ -161,21 +161,25 @@ spec:
       type: builtin" | kubectl apply -f -
 ```
 
-Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly create a [Traffic Permission](/docs/1.2.3/policies/traffic-permissions/) policy that describes what services can be consumed by other services. You can try to make requests to the demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) and you will notice that they will **not** work.
+Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly have a [Traffic Permission](/docs/1.2.3/policies/traffic-permissions/) policy that describes what services can be consumed by other services.
+By default, a very permissive traffic permission is created.
 
-:::tip
-In a live environment we suggest to setup the Traffic Permission policies prior to enabling Mutual TLS in order to avoid unexpected interruptions of the service-to-service traffic.
-:::
+For the sake of this demo we will delete it:
 
-We can setup a very permissive policy that allows all traffic to flow in our application in an encrypted way with the following command:
+```sh
+kubectl delete traffic-permission allow-all-default
+```
 
+You can try to make requests to the demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) and you will notice that they will **not** work.
+
+Now let's add back the default traffic permission:
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
 mesh: default
 metadata:
   namespace: default
-  name: all-traffic-allowed
+  name: allow-all-default
 spec:
   sources:
     - match:
@@ -248,4 +252,3 @@ You can now explore the dashboards and see the metrics being populated over time
 * Explore the [Policies](/policies) available to govern and orchestrate your service traffic.
 * Read the [full documentation](/docs) to learn about all the capabilities of Kuma.
 * Chat with us at the official [Kuma Slack](/community) for questions or feedback.
-
