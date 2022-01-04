@@ -66,7 +66,7 @@ kuma-dp run \
   mesh: default
   name: redis
   networking: 
-    address: 0.0.0.0
+    address: 127.0.0.1
     inbound: 
       - port: 16379
         servicePort: 26379
@@ -88,7 +88,7 @@ kuma-dp run \
   mesh: default
   name: app
   networking: 
-    address: 0.0.0.0
+    address: 127.0.0.1
     outbound:
       - port: 6379
         tags:
@@ -166,18 +166,22 @@ mtls:
 EOF
 ```
 
-Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly create a [Traffic Permission](/docs/1.2.3/policies/traffic-permissions/) policy that describes what services can be consumed by other services. You can try to make requests to the demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) and you will notice that they will **not** work.
+Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly have a [Traffic Permission](/docs/1.2.3/policies/traffic-permissions/) policy that describes what services can be consumed by other services.
+By default, a very permissive traffic permission is created.
 
-:::tip
-In a live environment we suggest to setup the Traffic Permission policies prior to enabling Mutual TLS in order to avoid unexpected interruptions of the service-to-service traffic.
-:::
+For the sake of this demo we will delete it:
 
-We can setup a very permissive policy that allows all traffic to flow in our application in an encrypted way with the following command:
+```sh
+kumactl delete traffic-permission allow-all-default
+```
 
+You can try to make requests to the demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) and you will notice that they will **not** work.
+
+Now let's add back the default traffic permission:
 ```sh
 cat <<EOF | kumactl apply -f -
 type: TrafficPermission
-name: permission-all
+name: allow-all-default
 mesh: default
 sources:
   - match:
