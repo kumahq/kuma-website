@@ -2050,7 +2050,6 @@ module.exports = {
         "overview/what-is-a-service-mesh",
         "overview/why-kuma",
         "documentation/deployments",
-        "community/data-collection",
         "other/enterprise",
         "other/license",
       ]
@@ -2193,7 +2192,8 @@ module.exports = {
             "generated/traffic-trace",
             "generated/virtual-outbound",
           ],
-        }
+        },
+        "community/data-collection",
       ]
     }
   ],

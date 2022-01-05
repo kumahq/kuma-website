@@ -1,8 +1,10 @@
 # Kuma data collection
 
-Kuma can collect some data about your deployment if enabled. Data collection (telemetry) is disabled by default. The collected data is sent to Kong servers for storage and aggregation. You can enable data collection when you install the control plane.
+Kuma can collect information about your deployment to continuously improve the product and gather anonymous feedback. The collected data is sent to Kong servers securely for storage and aggregation. 
 
-## Enable data collection on Kubernetes
+You can enable data collection when installing the control plane in Kubernetes, of before running `kuma-cp` in Universal mode.
+
+## Enabling data collection
 
 1.  Set the following environment variable:
 
@@ -10,7 +12,7 @@ Kuma can collect some data about your deployment if enabled. Data collection (te
     KUMA_REPORTS_ENABLED=true
     ```
 
-1.  Specify the environment variable when you install the control plane. See the [configuration docs](/docs/1.4.0/documentation/configuration/) for details.
+1.  Specify the environment variable when you install the control plane. See the [configuration docs](/docs/1.3.1/documentation/configuration/) for details.
 
 Or you can set the `reports.enabled` field to `true` in the config YAML file.
 
