@@ -17,12 +17,12 @@ Also, the scripts are leveraging **AWS Fargate** on top of AWS ECS.
 
 ### 1. Setup the environment
 
-First we need to download the scripts that will setup our environment. The scripts are stored in the main GitHub repository of Kuma in the [examples folders](https://github.com/kumahq/kuma/tree//examples/ecs).
+First we need to download the scripts that will setup our environment. The scripts are stored in the main GitHub repository of Kuma in the [examples folders](https://github.com/kumahq/kuma/tree/1.4.1/examples/ecs).
 
 To download the scripts locally:
 
 ```shell
-curl --location --output - https://github.com/kumahq/kuma/archive/.tar.gz | tar -z --strip 3 --extract --file=- "./kuma-/examples/ecs/*yaml"
+curl --location --output - https://github.com/kumahq/kuma/archive/1.4.1.tar.gz | tar -z --strip 3 --extract --file=- "./kuma-/examples/ecs/*yaml"
 ```
 
 Then we can proceed to install a `kuma` VPC:
@@ -122,7 +122,7 @@ Before moving forward with the next steps, please write down the `kuma-cp` IP ad
 
 #### Kuma DNS
 
-The services within the Kuma mesh are exposed through their names (as defined in the `kuma.io/service` tag) in the [`.mesh` DNS zone](/docs/1.4.1/documentation/networking/#kuma-dns). In the default workload example presented in these instructions, our services will be available on `httpbin.mesh`. 
+The services within the Kuma mesh are exposed through their names (as defined in the `kuma.io/service` tag) in the [`.mesh` DNS zone](/docs/1.4.1/networking/dns/#data-plane-proxy-dns). In the default workload example presented in these instructions, our services will be available on `httpbin.mesh`.
 
 Run the following command to create the necessary forwarding rules in AWS Route53 and to leverage the integrated service discovery in `kuma-cp`:
 
@@ -147,7 +147,7 @@ While we have installed the Kuma control plane successfully, we still need to st
 
 #### Generate the DP token
 
-In order to run the `kuma-dp` container, we have to issue an access token. The latter can be generated using the Admin API of the Kuma CP. Learn more about [DP and CP security](/docs/1.4.1/documentation/security/#data-plane-proxy-to-control-plane-communication).
+In order to run the `kuma-dp` container, we have to issue an access token. The latter can be generated using the Admin API of the Kuma CP. Learn more about [DP and CP security](/docs/1.4.1/security/certificates/#data-plane-proxy-to-control-plane-communication).
 
 In this example we'll show the simplest way to generate a new data plane proxy token by executing the following command on the same machine where `kuma-cp` is running (although this is only one of many ways to generate the data plane proxy token):
 
@@ -157,10 +157,10 @@ ssh root@<kuma-cp-ip> "wget --header='Content-Type: application/json' --post-dat
 
 Where `<kuma-cp-ip>` is the IP address of `kuma-cp` as it shows in AWS ECS. When asked, supply the default password `root`.
 
-The generated token is valid for all data plane proxies in the `default` mesh. Kuma also allows to generate data plane proxy token in a more restrictive way and [bound to its name or tags](https://kuma.io/docs/1.4.1/documentation/security/#data-plane-proxy-authentication).
+The generated token is valid for all data plane proxies in the `default` mesh. Kuma also allows to generate data plane proxy token in a more restrictive way and [bound to its name or tags](/docs/1.4.1/security/dp-auth/#data-plane-proxy-token-boundary).
 
 :::tip
-Kuma allows much more advanced and secure ways to expose the `/tokens` endpoint. The full procedure is described in the following security documentation: [data plane proxy authentication](https://kuma.io/docs/1.4.1/documentation/security/#data-plane-proxy-to-control-plane-communication), [user to control plane communication](https://kuma.io/docs/1.4.1/documentation/security/#user-to-control-plane-communication).
+Kuma allows much more advanced and secure ways to expose the `/tokens` endpoint. The full procedure is described in the following security documentation: [data plane proxy authentication](/docs/1.4.1/security/certificates/#data-plane-proxy-to-control-plane-communication), [user to control plane communication](/docs/1.4.1/security/certificates/#user-to-control-plane-communication).
 :::
 
 ### 4. Use Kuma
@@ -205,6 +205,6 @@ The `workload` template has many parameters so that it can be customized with di
 
 ### 4. Quickstart
 
-Congratulations! You have successfully installed Kuma on AWS ECS 🚀. 
+Congratulations! You have successfully installed Kuma on AWS ECS 🚀.
 
 In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/1.4.1/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/1.4.1/quickstart/kubernetes/) as well.
