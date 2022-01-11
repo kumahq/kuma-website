@@ -21,10 +21,10 @@ metadata:
 spec:
   sources:
   - match:
-      kuma.io/service: web
+      kuma.io/service: web_default_svc_80
   destinations:
   - match:
-      kuma.io/service: backend
+      kuma.io/service: backend_default_svc_80
   conf:
     http:
       numRetries: 5

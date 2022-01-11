@@ -116,9 +116,9 @@ metadata:
 spec:
   sources:
     - match:
-        kuma.io/service: web
+        kuma.io/service: web_default_svc_80
     - match:
-        kuma.io/service: backend
+        kuma.io/service: backend_default_svc_80
   destinations:
     - match:
         kuma.io/service: httpbin
@@ -142,4 +142,3 @@ destinations:
 ::::
 
 Remember, the `ExternalService` follows [the same rules](how-kuma-chooses-the-right-policy-to-apply.md) for matching policies as any other service in the mesh -- Kuma selects the most specific `TrafficPermission` for every `ExternalService`.
-
