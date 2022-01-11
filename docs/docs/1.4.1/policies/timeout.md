@@ -73,7 +73,7 @@ conf:
     # 'max_stream_duration' on Cluster, disabled by default
     maxStreamDuration: 30m
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.4.1/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../documentation/http-api).
 :::
 
 ## Matching

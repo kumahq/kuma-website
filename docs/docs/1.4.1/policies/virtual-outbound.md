@@ -12,7 +12,7 @@ Possible use cases are:
 Limitations:
 
 - Complex virtual outbounds do not work for cross-zone traffic. This is because only service tags are propagated across zones.
-- When duplicate `(hostname, port)` combinations are detected, the virtual outbound with the highest priority takes over. For more information, see [the documentation on how Kuma chooses the right policy](../../1.4.1/policies/how-kuma-chooses-the-right-policy-to-apply.md). All duplicate instances are logged.
+- When duplicate `(hostname, port)` combinations are detected, the virtual outbound with the highest priority takes over. For more information, see [the documentation on how Kuma chooses the right policy](../policies/how-kuma-chooses-the-right-policy-to-apply.md). All duplicate instances are logged.
 
 `conf.host` and `conf.port` are processed as [go text templates](https://pkg.go.dev/text/template) with a key-value pair derived from `conf.parameters`.
 
@@ -60,8 +60,8 @@ produce the hostname: `v1.backend.mesh` with port: `1800`.
 
 Additional requirements:
 
-- [Transparent proxy](/docs/1.4.1/networking/transparent-proxying).
-- Either [data plane proxy DNS](/docs/1.4.1/networking/dns.md#data-plane-proxy-dns), or else the value of `conf.host` must end with the value of `dns_server.domain` (default value `.mesh`).
+- [Transparent proxy](../../networking/transparent-proxying).
+- Either [data plane proxy DNS](../../networking/dns#data-plane-proxy-dns), or else the value of `conf.host` must end with the value of `dns_server.domain` (default value `.mesh`).
 - `name` must be alphanumeric. (Used as a go template key).
 - Each value of `name` must be unique.
 - `kuma.io/service` must be specified even if it's unused in the template. (Prevents defining hostnames that spans services).

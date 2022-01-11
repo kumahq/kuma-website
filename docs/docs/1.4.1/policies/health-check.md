@@ -107,7 +107,7 @@ conf:
         value: application/json
     expectedStatuses: [200, 201]
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/1.4.1/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../documentation/http-api).
 :::
 ::::
 
