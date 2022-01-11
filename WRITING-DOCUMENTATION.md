@@ -6,11 +6,10 @@ as you write your documentation.
 ## 1. Creating a new version
 
 1. Copy the most recent release folder and rename it accordingly by its version -- each version folder is located in 
-[`/docs/docs/](/docs/docs/) (please see the [latest-semver documentation](https://github.com/sindresorhus/latest-semver) 
+[`/docs/docs/](/docs/docs/)
 for structuring version folders properly)
-2. Make your edits in the new release folder you've created -- you can run `yarn docs:dev` to view your changes locally
-3. Add your new release number to the `releases.json` file located in `.vuepress/public` -- don't worry too much about ordering version numbers here because the app will always automatically grab the latest version 
-via [latest-semver](https://github.com/sindresorhus/latest-semver)
+1. Make your edits in the new release folder you've created -- you can run `yarn docs:dev` to view your changes locally
+2. Add your new release number to the `releases.json` file located in `.vuepress/public` -- please follow the number order and put the latest at the end.
 
 The website will automatically build the release list from the `releases.json` file. This is what is used for things 
 like the Install page and the version selector that appears at the top of the sidebar on the Documentation page. 

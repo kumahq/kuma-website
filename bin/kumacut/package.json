@@ -9,7 +9,6 @@
     "chalk": "^2.4.2",
     "commander": "^3.0.2",
     "fs-extra": "^8.1.0",
-    "latest-semver": "^2.0.0",
     "path": "^0.12.7",
     "replace-in-file": "^4.2.0"
   }

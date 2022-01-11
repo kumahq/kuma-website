@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const fs = require("fs");
-const latestSemver = require("latest-semver");
 const releases = "./docs/.vuepress/public/releases.json";
 const tomlFile = "./netlify.toml";
 
@@ -10,7 +9,8 @@ fs.readFile(releases, "utf8", (err, data) => {
   if (err) throw err;
 
   // find the latest version in the releases JSON file
-  const latest = latestSemver(JSON.parse(data));
+  const arrayOfReleases = JSON.parse(data);
+  const latest = arrayOfReleases[arrayOfReleases.length - 1];
   const docRedirectType = 301;
 
   // setup the content template
