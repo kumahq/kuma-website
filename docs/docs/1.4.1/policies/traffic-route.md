@@ -149,10 +149,10 @@ name: full-example
 mesh: default
 sources:
   - match:
-      kuma.io/service: backend_default_svc_80
+      kuma.io/service: backend
 destinations:
   - match:
-      kuma.io/service: redis_default_svc_6379
+      kuma.io/service: redis
 conf:
   http:
     - match:
@@ -194,17 +194,17 @@ conf:
           remove:
             - name: x-something
       destination: # one of "destination", "split" is allowed
-        kuma.io/service: redis_default_svc_6379
+        kuma.io/service: redis
       split:
         - weight: 100
           destination:
-            kuma.io/service: redis_default_svc_6379
+            kuma.io/service: redis
   destination: # one of "destination", "split" is allowed
-    kuma.io/service: redis_default_svc_6379
+    kuma.io/service: redis
   split:
     - weight: 100
       destination:
-        kuma.io/service: redis_default_svc_6379
+        kuma.io/service: redis
   loadBalancer: # one of "roundRobin", "leastRequest", "ringHash", "random", "maglev" is allowed    
     roundRobin: {}
     leastRequest:
@@ -264,19 +264,19 @@ name: split-traffic
 mesh: default
 sources:
   - match:
-      kuma.io/service: backend_default_svc_80
+      kuma.io/service: backend
 destinations:
   - match:
-      kuma.io/service: redis_default_svc_6379
+      kuma.io/service: redis
 conf:
   split:
     - weight: 90
       destination:
-        kuma.io/service: redis_default_svc_6379
+        kuma.io/service: redis
         version: '1.0'
     - weight: 10
       destination:
-        kuma.io/service: redis_default_svc_6379
+        kuma.io/service: redis
         version: '2.0'
 ```
 :::
@@ -591,5 +591,3 @@ There are different load balancing algorithms that can be used to determine how 
   loadBalancer:
     maglev: {}
   ```
-
-
