@@ -24,7 +24,7 @@ spec:
         kuma.io/service: '*'
   destinations:
     - match:
-        kuma.io/service: 'backend'
+        kuma.io/service: 'backend_default_svc_80'
   conf:
     # connectTimeout defines time to establish connection, 'connect_timeout' on Cluster, default 10s
     connectTimeout: 10s

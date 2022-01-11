@@ -17,12 +17,12 @@ metadata:
 spec:
   sources:
     - match:
-        kuma.io/service: frontend
+        kuma.io/service: frontend_default_svc_80
         version: "0.1"
         kuma.io/protocol: http
   destinations:
     - match:
-        kuma.io/service: backend
+        kuma.io/service: backend_default_svc_80
         kuma.io/protocol: http
   conf:        
     abort:

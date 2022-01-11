@@ -26,7 +26,7 @@ spec:
         kuma.io/service: "*"
   destinations:
     - match:
-        kuma.io/service: backend
+        kuma.io/service: backend_default_svc_80
   conf:
     http:
       requests: 5
@@ -103,7 +103,7 @@ spec:
         kuma.io/service: "*"
   destinations:
     - match:
-        kuma.io/service: backend
+        kuma.io/service: backend_default_svc_80
   conf:
     http:
       requests: 5
@@ -117,10 +117,10 @@ metadata:
 spec:
   sources:
     - match:
-        kuma.io/service: "frontend"
+        kuma.io/service: "frontend_default_svc_80"
   destinations:
     - match:
-        kuma.io/service: backend
+        kuma.io/service: backend_default_svc_80
   conf:
     http:
       requests: 10
@@ -134,11 +134,11 @@ metadata:
 spec:
   sources:
     - match:
-        kuma.io/service: "frontend"
+        kuma.io/service: "frontend_default_svc_80"
         kuma.io/zone:    "eu"
   destinations:
     - match:
-        kuma.io/service: backend
+        kuma.io/service: backend_default_svc_80
   conf:
     http:
       requests: 20
