@@ -1,18 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import ToSemver from 'to-semver'
-import LatestSemver from 'latest-semver'
 import releases from '../../public/releases.json'
 import installMethods from '../../public/install-methods.json'
 
 Vue.use(Vuex)
 
 // storing the latest version since we use it often
-let latestRelease = LatestSemver(releases)
+let latestRelease = releases[releases.length - 1];
 
 export default new Vuex.Store({
   state: {
-    releases: ToSemver(releases),
+    releases,
     latestRelease: latestRelease,
     selectedDocVersion: latestRelease,
     selectedInstallVersion: latestRelease,

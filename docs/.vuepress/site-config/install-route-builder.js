@@ -3,10 +3,10 @@
  *
  * This pulls all of the versions from the releases
  * JSON and builds the routes accordingly.
- * 
+ *
  * This method leverages the `additionalPages`
  * feature of VuePress:
- * 
+ *
  * https://v1.vuepress.vuejs.org/plugin/option-api.html#additionalpages
  *
  * @todo figure out how to get this to work via
@@ -17,9 +17,7 @@
  *
  */
 
-const LatestSemver = require("latest-semver");
-const releases = require("../public/releases.json")
-const latestVersion = LatestSemver(releases);
+const releases = require("../public/releases.json");
 
 module.exports = function() {
   const releaseArray = [{
