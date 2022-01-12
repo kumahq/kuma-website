@@ -2050,7 +2050,6 @@ module.exports = {
         "overview/what-is-a-service-mesh",
         "overview/why-kuma",
         "documentation/deployments",
-        "community/data-collection",
         "other/enterprise",
         "other/license",
       ]
@@ -2176,6 +2175,7 @@ module.exports = {
       children: [
         "documentation/http-api",
         "documentation/kubernetes-annotations",
+        "community/data-collection",
         {
           title: "Policy reference docs",
           children: [
