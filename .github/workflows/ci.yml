@@ -1,0 +1,30 @@
+name: Check links
+on: pull_request
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    env:
+      URL: https://deploy-preview-${{github.event.number}}--kuma.netlify.app
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/setup-node@v1
+      - name: Wait for Pages changed to be neutral
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: waitForCheck
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: "Pages changed - kuma"
+          timeoutSeconds: 1200
+      - name: Wait for Netlify site to be ready
+        if: steps.waitForCheck.outputs.conclusion == 'neutral'
+        uses: jakepartusch/wait-for-netlify-action@v1.2
+        id: waitForNetlify
+        with:
+          site_name: "kuma"
+          max_timeout: 1200
+      - name: link checker
+        run: |
+          npm install broken-link-checker -g
+          # Exclude old versions for the moment
+          blc $URL -rof --exclude 127.0.0.1 --exclude 192.168 --exclude redis.io --exclude https://deploy-preview-649--kuma.netlify.app/docs/1.1 --exclude https://deploy-preview-649--kuma.netlify.app/docs/1.2 --exclude https://deploy-preview-649--kuma.netlify.app/docs/1.3 --exclude https://deploy-preview-649--kuma.netlify.app/docs/1.4.0

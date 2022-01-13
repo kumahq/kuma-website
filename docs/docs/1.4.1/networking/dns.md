@@ -30,7 +30,7 @@ Prerequisites:
               --redirect-dns
     ```
 
-1.  Start [the kuma-dp](dps-and-data-model/#dataplane-entity)
+1.  Start [the kuma-dp](../documentation/dps-and-data-model/#dataplane-entity)
 
     ```shell
     kuma-dp run \
@@ -110,7 +110,7 @@ helm install --namespace kuma-system \
               --kuma-cp-ip <KUMA_CP_IP_ADDRESS>
     ```
 
-1.  Start [the kuma-dp](dps-and-data-model/#dataplane-entity) with flag `--dns-enabled` set to `false`:
+1.  Start [the kuma-dp](../documentation/dps-and-data-model/#dataplane-entity) with flag `--dns-enabled` set to `false`:
 
     ```shell
     kuma-dp run \
