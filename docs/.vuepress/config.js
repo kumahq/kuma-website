@@ -73,7 +73,7 @@ module.exports = {
       indexName: ""
     },
     sidebar: allVersions.reduce((acc, v) => {
-      acc[path.join("/docs/", v)] = require(path.join("../docs/", v, "sidebar.json"));
+      acc[`/docs/${v}/`] = require(`../docs/${v}/sidebar.json`);
       return acc
     }, {}),
     // displayAllHeaders: true,
