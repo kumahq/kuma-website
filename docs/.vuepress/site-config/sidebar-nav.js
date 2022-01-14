@@ -2039,7 +2039,7 @@ module.exports = {
       ]
     }
   ],
-  "/docs/1.4.1/": [
+  "/docs/1.4.x/": [
     {
       title: "Introduction",
       collapsable: true,
