@@ -1,2 +1,0 @@
-### Dependencies
-Information about dependencies.

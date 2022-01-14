@@ -1,16 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import releases from '../../public/releases.json'
-import installMethods from '../../public/install-methods.json'
-
 Vue.use(Vuex)
 
-// storing the latest version since we use it often
-let latestRelease = releases[releases.length - 1];
-
-export default new Vuex.Store({
+export default (releases, latestRelease, installMethods) => new Vuex.Store({
   state: {
-    releases,
+    releases: releases,
     latestRelease: latestRelease,
     selectedDocVersion: latestRelease,
     selectedInstallVersion: latestRelease,
