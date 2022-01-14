@@ -1,2 +1,0 @@
-### Technology
-Information about technology.

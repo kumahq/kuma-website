@@ -27,7 +27,7 @@ export default ({
    * Global Mixins
    */
   Vue.mixin({
-    store: store,
+    store: store(siteData.themeConfig.versions, siteData.themeConfig.latestVersion, siteData.themeConfig.installMethods),
     computed: {
       /**
        * Creates an easy way to access site data globally
@@ -39,8 +39,8 @@ export default ({
        * Get the latest version
        * Good for use in pages, etc.
        */
-      latestVer() {
-        return siteData.themeConfig.latestVer
+      latestVersion() {
+        return siteData.themeConfig.latestVersion
       }
     }
   })
@@ -57,12 +57,12 @@ export default ({
   router.addRoutes([
     {
       path: '/install/latest/',
-      alias: `/install/${siteData.themeConfig.latestVer}/`,
+      alias: `/install/${siteData.themeConfig.latestVersion}/`,
       name: 'InstallLatest'
     },
     // {
     //   path: '/docs/latest/',
-    //   alias: `/docs/${siteData.themeConfig.latestVer}/`,
+    //   alias: `/docs/${siteData.themeConfig.latestVersion}/`,
     //   name: 'DocsLatest'
     // }
   ])

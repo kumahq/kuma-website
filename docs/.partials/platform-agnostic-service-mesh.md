@@ -1,1 +1,0 @@
-### Platform-Agnostic Service Mesh
