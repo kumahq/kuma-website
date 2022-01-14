@@ -258,7 +258,7 @@ module.exports = {
           fs.writeFileSync(path.resolve(ctx.outDir, "_redirects"), redirects.join("\n"));
           fs.writeFileSync(path.resolve(ctx.outDir, "_headers"), `\
 /latest_version
-    Content-Type: "text/plain"
+    Content-Type: text/plain
     Access-Control-Allow-Origin: "*"
           `);
         }
