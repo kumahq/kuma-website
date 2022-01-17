@@ -259,7 +259,7 @@ module.exports = {
           fs.writeFileSync(path.resolve(ctx.outDir, "_headers"), `\
 /latest_version
     Content-Type: text/plain
-    Access-Control-Allow-Origin: "*"
+    Access-Control-Allow-Origin: *
           `);
         }
 
