@@ -3,11 +3,12 @@
     <div v-if="showAlert" class="version-alert">
       <div class="warning custom-block">
         <p class="custom-block-title">Careful!</p>
-        <p>You are browsing documentation for an outdated version of {{getSiteData.title}}.</p>
+        <p v-if="isDev">You are browsing documentation for the next version of {{getSiteData.title}}. Use this version at your own risks.</p>
+        <p v-else>You are browsing documentation for a version of {{getSiteData.title}} that is not the latest release.</p>
         <p>
           <router-link :to="{ path: `/docs/${getLatestRelease}/` }">Go here</router-link> to browse the documentation for the latest version.
         </p>
-        <p>Looking for even older versions? <router-link :to="{ path: `/blog/2021/_2021-website-reorg/` }">Learn more</router-link>.</p>
+        <p v-if="!isDev">Looking for even older versions? <router-link :to="{ path: `/blog/2021/_2021-website-reorg/` }">Learn more</router-link>.</p>
       </div>
     </div>
   </div>
@@ -20,7 +21,8 @@ export default {
   name: "VersionAlert",
   data() {
     return {
-      showAlert: false
+      showAlert: false,
+      isDev: false
     };
   },
   computed: {
@@ -40,17 +42,11 @@ export default {
         // 1. extract the version from the docs route path
         // so that we can compare it
         const versionOnPage = routePath.split("/")[2];
+        this.isDev = versionOnPage === "dev";
 
         // 2. compare the current page version to the latest
         // and show or hide the alert based on the result
-        if (
-          versionOnPage !== "draft" &&
-          versionOnPage !== this.getLatestRelease
-        ) {
-          this.showAlert = true;
-        } else {
-          this.showAlert = false;
-        }
+        this.showAlert = versionOnPage !== this.getLatestRelease;
       }
       // this is just a failsafe
       else {
