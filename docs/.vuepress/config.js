@@ -247,14 +247,25 @@ module.exports = {
             `/install /install/${latestVersion} 200`,
             `/docs/latest/* /docs/${latestVersion}/:splat 301`,
             `/install/latest/* /install/${latestVersion}/:splat 301`,
-            `/docs/:version/policies/ /docs/:version/policies/introduction/ 301`,
-            `/docs/:version/documentation/ /docs/:version/documentation/introduction/ 301`,
-            `/docs/:version/overview/ /docs/:version/overview/what-is-kuma/ 301`,
-            `/docs/:version/other/ /docs/:version/other/introduction 301`,
-            `/docs/:version/installation/ /docs/:version/installation/centos/ 301`,
+            `/docs/:version/policies/ /docs/:version/policies/introduction 301`,
+            `/docs/:version/overview/ /docs/:version/overview/what-is-kuma 301`,
+            `/docs/:version/other/ /docs/:version/other/enterprise 301`,
+            `/docs/:version/installation/ /docs/:version/installation/kubernetes 301`,
+            `/docs/:version/api/ /docs/:version/documentation/http-api 301`,
             `/latest_version.html /latest_version 301`,
-
           ];
+          // Add redirects for x.y.{0..5} to x.y.x
+          allVersions.forEach((v) => {
+            if (/[0-9]+\.[0-9]+\.x/.test(v)) {
+              for (let i = 0; i < 5; i++) {
+                const actualVersion = v.replace(".x", `.${i}`);
+                redirects.push(
+                  `/docs/${actualVersion}/* /docs/${v}/:splat 301`,
+                  `/install/${actualVersion}/* /install/${v}/:splat 301`,
+                )
+              }
+            }
+          });
           fs.writeFileSync(path.resolve(ctx.outDir, "_redirects"), redirects.join("\n"));
           fs.writeFileSync(path.resolve(ctx.outDir, "_headers"), `\
 /latest_version

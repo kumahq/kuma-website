@@ -35,7 +35,7 @@
           <div v-if="getSelectedInstallVersion !== getLatestRelease" class="version-alert">
             <div class="warning custom-block">
               <p class="custom-block-title">Careful!</p>
-              <p>You are viewing installation instructions for an outdated version of {{getSiteData.title}}.</p>
+              <p>You are viewing installation instructions for a version of {{getSiteData.title}} that is not the latest release.</p>
               <p><router-link :to="{ path: `/install/${getLatestRelease}/` }">Go here</router-link> 
               to view installation instructions for the latest version.</p>
               <p>Looking for even older versions? <router-link :to="{ path: `/blog/2021/_2021-website-reorg/` }">Learn more</router-link>.</p>
