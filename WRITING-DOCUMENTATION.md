@@ -8,19 +8,19 @@ as you write your documentation.
 We do trunk based development (master is the `trunk` branch).
 
 There's a folder in [docs/docs](docs/docs) for each minor version of Kuma. 
-There is a special folder for the future version of Kuma which is called [next](docs/docs/next).
+There is a special folder for the future non patch version of Kuma which is called [dev](docs/docs/dev).
 
 ## Writing docs for a new feature
 
-If you are writing docs for a new feature you'll want to add it in the [next](docs/docs/next) folder.
+If you are writing docs for a new feature you'll want to add it in the [dev](docs/docs/dev) folder.
 
 ## Cutting a new release
 
-To cut the next release copy paste the `next` folder and rename it to the correct version:
+To cut the dev release copy paste the `dev` folder and rename it to the correct version:
 
 ```shell
 # Create a 1.6.x release
-cp docs/docs/next docs/docs/1.6.x
+cp docs/docs/dev docs/docs/1.6.x
 ```
 
 Once the release is ready to be live make sure to move the `.latest` pointed file:
@@ -37,7 +37,7 @@ If that's the case you can use our backporting script to easily apply a patch to
 
 - Fix the highest version
 - Identify the list of versions which benefit from this patch
-- Use `./backport.sh <versionWithChange> <versionToBackport1> <versionToBackport2>` (.e.g: `./backport.sh next 1.4.x 1.3.x` will apply the changes in next to 1.4.x and 1.3.x).
+- Use `./backport.sh <versionWithChange> <versionToBackport1> <versionToBackport2>` (.e.g: `./backport.sh dev 1.4.x 1.3.x` will apply the changes in dev to 1.4.x and 1.3.x).
 - Commit your change
 
 ## Set up local builds with yarn
