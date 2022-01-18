@@ -97,7 +97,7 @@ spec:
           value: "XYZ"
           fromPath: # (example to extract "envoyproxy.io" host header from "/envoyproxy.io/some/path" path)
             pattern: "^/(.+)/.+$"
-            substitution: "\1"
+            substitution: '\1'
         requestHeaders:
           add:
             - name: x-custom-header
@@ -173,7 +173,7 @@ conf:
           value: "XYZ"
           fromPath: # (example to extract "envoyproxy.io" host header from "/envoyproxy.io/some/path" path)
             pattern: "^/(.+)/.+$"
-            substitution: "\1"
+            substitution: '\1'
         requestHeaders:
           add:
             - name: x-custom-header
