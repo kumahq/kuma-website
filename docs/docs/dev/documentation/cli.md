@@ -51,3 +51,42 @@ Available commands on `kumactl` are:
 * `kumactl manage ca [..]`: used to manage certificate authorities.
 * `kumactl help [..]`: help dialog that explains the commands available.
 * `kumactl version [--detailed]`: shows the version of the program.
+
+### Using variables
+
+When using `kumactl apply` you can specify variables to use your yaml as a template.
+This is useful for parametrizing policies and specifying values at runtime.
+
+For example with a yaml like:
+
+```yaml
+type: Mesh
+name: default
+mtls:
+  backends:
+  - name: vault-1
+    type: {{ caType }}
+    dpCert:
+      rotation:
+        expiration: 10h
+```
+
+You can then set the `caType` when applying it:
+
+```sh
+kumactl apply -f ~/res/mesh.yaml -v caType=builtin
+```
+
+This will create this mesh:
+
+```yaml
+type: Mesh
+name: default
+mtls:
+  backends:
+    - name: vault-1
+      type: builtin
+      dpCert:
+        rotation:
+          expiration: 10h
+```
