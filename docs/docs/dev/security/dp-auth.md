@@ -12,6 +12,8 @@ This means that authentication scope is bound to a Namespace, so any Pod in the 
 To have a strict security bound to a Deployment, every Deployment should use unique Service Account Token.
 On top of that, users should not be able to modify `serviceAccountTokenName` in `Deployment`. This can be achieved for example with [OPA Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/docs/).
 
+Service Account Token is not bound to a mesh, see [data plane proxy membership](./dp-membership.md) how to restrict which Pods can join a mesh.
+
 ## Data plane proxy token
 
 On Universal, a data plane proxy must be explicitly configured with a unique security token (data plane proxy token) that will be used to prove its identity.
