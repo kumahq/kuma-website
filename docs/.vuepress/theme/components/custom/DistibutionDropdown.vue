@@ -9,13 +9,16 @@
 
     <span class="ml-2">
       <svg
+        :class="['distibution-icon', {
+        rotated: isListOpen
+      }]"
         width="18"
         height="14"
         xmlns="http://www.w3.org/2000/svg"
         version="1.1"
       >
         <polyline
-          points="4,6 10,12 16,6"
+          points="4,1 10,7 4,13"
           stroke="#fff"
           stroke-width="2"
           stroke-linecap="butt"
@@ -153,11 +156,11 @@ export default {
 
 .options-list {
   position: absolute;
-  border: 1px solid #000;
+  border: 1px solid #777;
   box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.29);
   border-top: 0;
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   width: 75%;
   top: 100%;
   left: 0;
@@ -170,6 +173,7 @@ export default {
 
   li {
     a {
+      text-align: right;
       background: white;
       display: block;
       padding: 10px 8px;
@@ -180,6 +184,10 @@ export default {
         background-color: $color-7;
       }
     }
+    svg {
+      position: relative;
+      top: 2px;
+    }
   }
 
   &.shake {
@@ -187,6 +195,16 @@ export default {
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
+  }
+}
+
+.distibution-icon {
+  transition: all 200ms;
+  position: relative;
+  top: 2px;
+
+  &.rotated {
+    transform: rotate(90deg);
   }
 }
 </style>
