@@ -13,7 +13,8 @@ meta:
 showTestimonial: true # change this to `true` if you want to display the testimonial
 showNews: true # change this to `true` if you want to display the news bar
 startText: Get Started
-startUrl: /install/
+OOSUrl: /install/
+enterpriseUrl: /enterprise/
 whyText: Explore Policies
 whyUrl: /policies/
 
