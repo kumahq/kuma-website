@@ -176,8 +176,7 @@ export default {
       text-align: right;
       background: white;
       display: block;
-      padding: 10px 8px;
-      margin: 0 4px;
+      padding: 10px 12px;
       font-size: 16px;
       color: #000;
       &:hover {
