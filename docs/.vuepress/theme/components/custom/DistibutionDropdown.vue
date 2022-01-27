@@ -153,8 +153,11 @@ export default {
 
 .options-list {
   position: absolute;
-  border: 2px solid #000;
+  border: 1px solid #000;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.29);
   border-top: 0;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
   width: 75%;
   top: 100%;
   left: 0;
