@@ -14,13 +14,7 @@
             </header>
             <!-- .page-masthead__header -->
             <div class="page-masthead__actions">
-              <router-link
-                v-if="$page.frontmatter.startText"
-                :to="$page.frontmatter.startUrl"
-                class="btn btn--bright btn--large"
-              >
-                {{ $page.frontmatter.startText }}
-              </router-link>
+              <DistibutionDropdown />
               <a
                 v-if="$page.frontmatter.whyUrl"
                 :href="$page.frontmatter.whyUrl"
@@ -222,6 +216,7 @@ import Navbar from '@theme/components/Navbar'
 import MastheadWaves from '@theme/components/custom/PageMastheadWaves'
 import KTabs from '../../../../../node_modules/@kongponents/ktabs/KTabs'
 import NewsletterForm from '@theme/global-components/NewsletterForm'
+import DistibutionDropdown from './DistibutionDropdown'
 
 import FormPopup from '@theme/global-components/FormPopup'
 
@@ -236,7 +231,8 @@ export default {
     NewsletterForm,
     KTabs,
     FormPopup,
-    VueSlickCarousel
+    VueSlickCarousel,
+    DistibutionDropdown
   },
   computed: {
     tabs () {
