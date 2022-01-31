@@ -117,8 +117,8 @@ bootstrapServer:
     adminPort: 9901 # ENV: KUMA_BOOTSTRAP_SERVER_PARAMS_ADMIN_PORT
 ```
 
-On Kubernetes there is no way for user to modify data plane proxy resource, that's why overriding of admin port value
-could be done using Pod's annotation `kuma.io/envoy-admin-port`.
+It is not possible to override the data plane proxy resource directly in Kubernetes.
+If you still want to override it, use the pod annotation `kuma.io/envoy-admin-port`.
 
 ## Tags
 
