@@ -16,7 +16,7 @@ The Kuma package includes a reference configuration, at `conf/kuma-cp.conf.yml`.
 ::: tab "Kubernetes (kumactl)"
 If you install the control plane with `kumactl`, you can override the configuration with the `--env-var` flag. For example, to configure the refresh interval for configuration of the data plane proxy, specify:
 ```sh
-$ kumactl install control-plane \
+kumactl install control-plane \
   --env-var KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
   --env-var KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s | kubactl apply -f -
 ```
@@ -24,37 +24,44 @@ $ kumactl install control-plane \
 ::: tab "Kubernetes (HELM)"
 If you install the control plane with HELM, you can override the configuration with the `envVars` field. For example, to configure the refresh interval for configuration with the data plane proxy, specify:
 ```sh
-$ helm install --version 0.7.1 \
+helm install --version 0.7.1 \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s \
   kuma kuma/kuma
 ```
 
-Or you can edit the `Values.yaml` file:
+Or you can create a `values.yaml` file with:
 ```yaml
-$ cat Values.yaml 
 controlPlane:
   envVars:
     KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL: 5s
     KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL: 5s
-$ helm install --version 0.7.1 -f Values.yaml kuma kuma/kuma
+```
+and then specify it in the helm install command:
+
+```sh
+$ helm install --version 0.7.1 -f values.yaml kuma kuma/kuma
 ```
 :::
 ::: tab "Universal"
 First, specify your overrides in the appropriate config file, then run `kuma-cp`:
 
-```sh
-$ cat kuma-cp.conf.overrides.yml
+For example create a `kuma-cp.conf.overrides.yml` file with:
+```yaml
 xdsServer:
   dataplaneConfigurationRefreshInterval: 5s
   dataplaneStatusFlushInterval: 5s
-$ kuma-cp run -c kuma-cp.conf.overrides.yml
+```
+
+Use this configuration file in the arguments:
+```sh
+kuma-cp run -c kuma-cp.conf.overrides.yml
 ```
 
 Or you can specify environment variables:
 
 ```sh
-$ KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
+KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
   KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s \
   kuma-cp run
 ```
@@ -72,7 +79,7 @@ Configuration of `kuma-cp` is logged when `kuma-cp` runs.
 
 You can also get the configuration with a call to the Kuma API server:
 ```sh
-$ curl http://<CP_ADDRESS>:5681/config
+curl http://<CP_ADDRESS>:5681/config
 ```
 And it's displayed on the Diagnostic tab in the GUI, in the lower left corner.
 
