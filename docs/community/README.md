@@ -50,6 +50,7 @@ can discuss and ask questions in real-time. If you have already joined, go direc
 ::: slot card-3-content
 Kuma hosts official monthly community calls where users and contributors can
 discuss topics and demonstrate use-cases. Interested? You can register below for the next Community Call.
+All recordings are available [Kuma Community Calls](https://www.youtube.com/playlist?list=PLg_AhYkg50viOMrea6Nm3t9JCempVyLcj).
 :::
 
 <!-- card 4 -->
