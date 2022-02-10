@@ -47,7 +47,7 @@
     "markdown-it": "^12.3.2",
     "markdown-it-for-inline": "^0.1.1",
     "markdown-it-meta": "^0.0.1",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "path": "^0.12.7",
     "postcss-loader": "^3.0.0",
     "raw-loader": "3.1.0",
