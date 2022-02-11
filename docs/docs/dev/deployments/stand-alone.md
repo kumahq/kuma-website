@@ -1,4 +1,6 @@
-# Set up a standalone deployment
+# Standalone deployment
+
+## About
 
 This is the simplest deployment mode for Kuma, and the default one.
 
@@ -12,9 +14,32 @@ This mode implies that we can deploy Kuma and its data plane proxies in a standa
 <img src="/images/docs/0.6.0/flat-diagram.png" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Although standalone mode can support complex multi-zone or hybrid deployments (Kubernetes + VMs) as long as the networking requirements are satisfied, typically in most use cases our connectivity cannot be flattened out across multiple zones. Therefore standalone mode is usually a great choice within the context of one zone (ie: within one Kubernetes cluster or one AWS VPC).
+Standalone mode is usually a great choice within the context of one zone (ie: within one Kubernetes cluster or one AWS VPC).
 
-### Usage
+## Limitations
+
+* All dataplane-proxies need to be able to communicate with every other dataplane proxy.
+* A standalone deployment cannot mix Universal and Kubernetes workloads.
+* A deployment can connect to only one Kubernetes cluster at once.
+
+If these limitations are problematic you should look at [Multi-zone deployments](../multi-zone).
+
+## Failure modes
+
+#### Control plane offline
+
+* New data-planes won't be able to join the mesh.
+* data-plane proxy configuration will not be updated.
+* Communication between data-planes will still work.
+* Cross zone communication will still work.
+* Other zones are unaffected.
+
+::: tip
+You can think of this failure case as *"Freezing"* the zone mesh configuration.
+Communication will still work but changes will not be reflected on existing data plane proxies.
+:::
+
+## Usage
 
 In order to deploy Kuma in a standalone deployment, the `kuma-cp` control plane must be started in `standalone` mode:
 

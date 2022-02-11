@@ -1,4 +1,118 @@
-# Set up a multi-zone deployment
+# Multi-zone deployment
+
+## About
+
+Kuma supports running your service mesh in multiple zones. It is even possible to run with a mix of Kubernetes and Universal zones. Your mesh environment can include multiple isolated service meshes (multi-tenancy), and workloads running in different regions, on different clouds, or in different datacenters. A zone can be a Kubernetes cluster, a VPC, or any other deployment you need to include in the same distributed mesh environment.
+
+<center>
+<img src="/images/docs/0.6.0/distributed-diagram.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+### Components of a multi-zone deployment
+
+A multi-zone deployment includes:
+
+* The **global control plane**:
+  * Accept connections only from zone control planes.
+  * Accept create and changes to [policies](/policies) that will be applied to the data plane proxies.
+  * Send policies down to remote dataplanes.
+  * Send zone ingresses down to remote control-plane.
+  * Keep an inventory of all dataplanes running in all zones (this is only done for observability but is not required for operations).
+  * Reject connections from data plane proxies.
+* The **zone control planes**: 
+  * Accept connections from data plane proxies started within zone.
+  * Receive policy updates from the global control plane.
+  * Send dataplane and zone ingress changes to the global control plane.
+  * Compute and send configurations using XDS to the local data plane proxies.
+  * Update list of services who exist in the zone in the zone ingress.
+  * Reject policy changes that do not come from global.
+* The **data plane proxies**:
+  * Connect to the local zone control plane.
+  * Receive configurations using XDS from the local zone control plane.
+  * Connect to other local data plane proxies.
+  * Connect to other remote zone ingresses for sending cross zone traffic.
+  * Receive traffic from local data plane proxies.
+* The **zone ingress**:
+  * Receive XDS configuration from the local zone control plane.
+  * Proxy traffic from remote data plane proxies to local data plane proxies.
+
+### How it works
+
+Kuma manages service connectivity -- establishing and maintaining connections across zones in the mesh -- with the zone ingress and with a DNS resolver.
+
+The DNS resolver is embedded in each data plane proxy. It resolves each service address to a virtual IP address for all service-to-service communication.
+
+The global control plane and the zone control planes communicate to synchronize resources such as Kuma policy configurations over Kuma Discovery Service (KDS), which is a protocol based on xDS.
+
+:::tip
+A zone ingress is not an API gateway. Instead, it is specific to internal cross-zone communication within the mesh. API gateways are supported in Kuma [gateway mode](../documentation/dps-and-data-model.md) which can be deployed in addition to zone ingresses.
+:::
+
+## Limitations
+
+It is not possible to route cross-zone traffic on a subset of dataplanes with the same `kuma.io/service`.
+
+This means that complex [Traffic-routes](../policies/traffic-route) or [Virtual-outbound](../policies/virtual-outbound) will not route any traffic across zones.
+
+## Failure modes
+
+### Global control-plane offline
+
+* Policy updates will be impossible 
+* Change in service list between zones will not propagate:
+  * New services will not be discoverable cross zones
+  * Services removed from a zone will still appear available in other zones
+* You won't be able to disable or delete a zone
+
+::: tip
+Note that both local and cross-zone application traffic is not impacted by this failure case.
+:::
+
+### Zone control-plane offline
+
+* New data-planes won't be able to join the mesh.
+* Data-plane proxy configuration will not be updated.
+* Communication between data-planes will still work.
+* Cross zone communication will still work.
+* Other zones are unaffected.
+
+::: tip
+You can think of this failure case as *"Freezing"* the zone mesh configuration.
+Communication will still work but changes will not be reflected on existing data plane proxies.
+:::
+
+### Communication between Global and Zone control-plane failing
+
+This can happen with mis-configuration or network connectivity issues between control-planes.
+
+* Operations inside the zone will happen correctly (dataplane proxies can join and leave and all configuration will be updated and sent correctly).
+* Policy changes will not be propagated to the zone control-plane.
+* Zone ingress and dataplane changes will not be propagated to the global control-plane.
+  * The global inventory view of the data-planes will be outdated (this only impacts observability).
+  * Remote zones will not see new services registered inside this zone 
+  * Remote zones will not see services no longer running inside this zone
+  * Remote zones will not see changes in number of instances of each service running in the local zone.
+* Global control-plane will not send changes to other zone-ingress to the zone
+  * Local data-plane proxies will not see new services registered in other zones
+  * Local data-plane proxies will not see services no longer running in other zones
+  * Local data-plane proxies will not see changes in number of instances of each service running in other zones.
+    
+::: tip
+Note that both local and cross-zone application traffic is not impacted by this failure case.
+:::
+
+### Communication between 2 zones failing
+
+This can happen if there are network connectivity issues between control-plane and zone ingresses or all zone ingresses of a zone are down.
+
+* Communication and operation within each zone is unaffected
+* Communication across each zone will fail
+
+::: tip
+With the right resiliency setup ([Retries](../policies/retry), [Probes](../policies/health-check), [Locality Aware LoadBalancing](../policies/locality-aware), [Circuit Breakers](../policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
+:::
+
+## Usage
 
 For a description of how multi-zone deployments work in Kuma, see [about multi-zone deployments](../how-multi-zone-works). This page explains how to configure and deploy Kuma in a multi-zone environment:
 
@@ -7,7 +121,7 @@ For a description of how multi-zone deployments work in Kuma, see [about multi-z
 - Verify control plane connectivity
 - Set up cross-zone communication between data plane proxies
 
-## Set up the global control plane
+### Set up the global control plane
 
 The global control plane must run on a dedicated cluster, and cannot be assigned to a zone.
 
@@ -70,7 +184,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 :::
 ::::
 
-## Set up the remote control planes
+### Set up the remote control planes
 
 You need the following values to pass to each remote control plane setup:
 
@@ -156,7 +270,7 @@ You need the following values to pass to each remote control plane setup:
 :::
 ::::
 
-## Verify control plane connectivity
+### Verify control plane connectivity
 
 You can run `kumactl get zones`, or check the list of zones in the web UI for the global control plane, to verify remote control plane connections.
 
@@ -164,21 +278,52 @@ When a remote control plane connects to the global control plane, the `Zone` res
 
 The Ingress tab of the web UI also lists remote control planes that you deployed with Ingress.
 
-## Set up cross-zone communication
+### Set up cross-zone communication
 
-### Enable mTLS
+#### Enable mTLS
 
 You must [enable mTLS](../policies/mutual-tls.md) for cross-zone communication between services.
 
 Kuma uses the Server Name Indication field, part of the TLS protocol, as a way to pass routing information cross zones. Thus, the mTLS is mandatory to enable cross-zone service communication.
 
-### Zone Ingress requirements
+#### Ensure Zone Ingress has an external advertised address and port
 
-Cross-zone communication between services is available only if Zone Ingress has a public address and public port.
+Cross-zone communication between services is available only if Zone Ingress has an external advertised address and port.
 
-On Kubernetes, Kuma automatically tries to pick up the public address and port. Depending on your load balancing implementation, you might need to wait a few minutes for Kuma to get the address.
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
 
-### Cross-communication details
+If a service of type NodePort or LoadBalancer is attached to the dataplane, Kuma will automatically retrieve the external address and port.
+
+A service of type LoadBalancer is automatically created when installing Kuma with `kumactl install control-plane` or helm.
+
+::: tip
+Depending on your load balanced implementation, you might need to wait a few minutes for Kuma to get the address.
+:::
+
+You can also set this address and port by using the annotations: [`kuma.io/ingress-public-address` and `kuma.io/ingress-public-port`](../documentation/kubernetes-annotations/#kuma-io-ingress-public-port)
+
+::: tab "Universal"
+Set the advertisedAddress and advertisedPort field in the ZoneIngress definition
+```yaml
+type: ZoneIngress
+name: ingress-01
+networking:
+  address: 127.0.0.1 # address that is routable within the zone
+  port: 10000
+  advertisedAddress: 10.0.0.1 # an address which other zones can use to consume this zone-ingress
+  advertisedPort: 10000 # a port which other zones can use to consume this zone-ingress
+```
+:::
+::::
+
+
+:::tip
+This address doesn't need to be public to the internet.
+It only needs to be reachable from all dataplane proxies in other zones.
+:::
+
+### Cross-zone communication details
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -277,7 +422,7 @@ When the Remote CP is fully disconnected and shut down, then the `Zone` can be d
 kubectl delete zone zone-1
 ```
 :::
-::: tab "Unviersal"
+::: tab "Universal"
 ```sh
 kumactl delete zone zone-1
 ```
@@ -286,7 +431,7 @@ kumactl delete zone zone-1
 
 ### Disable a zone
 
-Change the `enabled` property value to `false`:
+Change the `enabled` property value to `false` in the global control-plane:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -309,4 +454,6 @@ spec:
 :::
 ::::
 
-This global control plane to exchange configuration with this zone, the zone's ingress from zone-1 will be deleted from other zone. As a result, the traffic won't be routed to this zone. The zone displays as **Offline** in the GUI and CLI.
+With this setting, the global control plane will stop exchanging configuration with this zone.
+As a result, the zone's ingress from zone-1 will be deleted from other zone and traffic won't be routed to it anymore.
+The zone will show as **Offline** in the GUI and CLI.
