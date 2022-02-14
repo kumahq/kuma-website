@@ -8,39 +8,11 @@ Kuma supports running your service mesh in multiple zones. It is even possible t
 <img src="/images/docs/0.6.0/distributed-diagram.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-### Components of a multi-zone deployment
-
-A multi-zone deployment includes:
-
-* The **global control plane**:
-  * Accept connections only from zone control planes.
-  * Accept create and changes to [policies](/policies) that will be applied to the data plane proxies.
-  * Send policies down to remote dataplanes.
-  * Send zone ingresses down to remote control-plane.
-  * Keep an inventory of all dataplanes running in all zones (this is only done for observability but is not required for operations).
-  * Reject connections from data plane proxies.
-* The **zone control planes**: 
-  * Accept connections from data plane proxies started within zone.
-  * Receive policy updates from the global control plane.
-  * Send dataplane and zone ingress changes to the global control plane.
-  * Compute and send configurations using XDS to the local data plane proxies.
-  * Update list of services who exist in the zone in the zone ingress.
-  * Reject policy changes that do not come from global.
-* The **data plane proxies**:
-  * Connect to the local zone control plane.
-  * Receive configurations using XDS from the local zone control plane.
-  * Connect to other local data plane proxies.
-  * Connect to other remote zone ingresses for sending cross zone traffic.
-  * Receive traffic from local data plane proxies.
-* The **zone ingress**:
-  * Receive XDS configuration from the local zone control plane.
-  * Proxy traffic from remote data plane proxies to local data plane proxies.
-
 ### How it works
 
 Kuma manages service connectivity -- establishing and maintaining connections across zones in the mesh -- with the zone ingress and with a DNS resolver.
 
-The DNS resolver is embedded in each data plane proxy. It resolves each service address to a virtual IP address for all service-to-service communication.
+The DNS resolver is embedded in each data-plane proxy and configured through XDS. It resolves each service address to a virtual IP address for all service-to-service communication.
 
 The global control plane and the zone control planes communicate to synchronize resources such as Kuma policy configurations over Kuma Discovery Service (KDS), which is a protocol based on xDS.
 
@@ -48,11 +20,39 @@ The global control plane and the zone control planes communicate to synchronize 
 A zone ingress is not an API gateway. Instead, it is specific to internal cross-zone communication within the mesh. API gateways are supported in Kuma [gateway mode](../documentation/dps-and-data-model.md) which can be deployed in addition to zone ingresses.
 :::
 
+### Components of a multi-zone deployment
+
+A multi-zone deployment includes:
+
+* The **global control plane**:
+  * Accept connections only from zone control planes.
+  * Accept creation and changes to [policies](/policies) that will be applied to the data plane proxies.
+  * Send policies down to remote control-planes.
+  * Send zone ingresses down to remote control-plane.
+  * Keep an inventory of all dataplanes running in all zones (this is only done for observability but is not required for operations).
+  * Reject connections from data-plane proxies.
+* The **zone control planes**: 
+  * Accept connections from data plane proxies started within this zone.
+  * Receive policy updates from the global control plane.
+  * Send data-plane and zone ingress changes to the global control plane.
+  * Compute and send configurations using XDS to the local data-plane proxies.
+  * Update list of services who exist in the zone in the zone ingress.
+  * Reject policy changes that do not come from global.
+* The **data-plane proxies**:
+  * Connect to the local zone control plane.
+  * Receive configurations using XDS from the local zone control plane.
+  * Connect to other local data plane proxies.
+  * Connect to remote zone ingresses for sending cross zone traffic.
+  * Receive traffic from local data-plane proxies.
+* The **zone ingress**:
+  * Receive XDS configuration from the local zone control plane.
+  * Proxy traffic from remote data plane proxies to local data plane proxies.
+
 ## Limitations
 
 It is not possible to route cross-zone traffic on a subset of dataplanes with the same `kuma.io/service`.
 
-This means that complex [Traffic-routes](../policies/traffic-route) or [Virtual-outbound](../policies/virtual-outbound) will not route any traffic across zones.
+This means that complex [Traffic-routes](../policies/traffic-route.md) or [Virtual-outbound](../policies/virtual-outbound.md) will not route any traffic across zones.
 
 ## Failure modes
 
@@ -60,7 +60,7 @@ This means that complex [Traffic-routes](../policies/traffic-route) or [Virtual-
 
 * Policy updates will be impossible 
 * Change in service list between zones will not propagate:
-  * New services will not be discoverable cross zones
+  * New services will not be discoverable in other zones
   * Services removed from a zone will still appear available in other zones
 * You won't be able to disable or delete a zone
 
@@ -109,12 +109,12 @@ This can happen if there are network connectivity issues between control-plane a
 * Communication across each zone will fail
 
 ::: tip
-With the right resiliency setup ([Retries](../policies/retry), [Probes](../policies/health-check), [Locality Aware LoadBalancing](../policies/locality-aware), [Circuit Breakers](../policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
+With the right resiliency setup ([Retries](../../policies/retry), [Probes](../../policies/health-check), [Locality Aware LoadBalancing](../../policies/locality-aware), [Circuit Breakers](../../policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
 :::
 
 ## Usage
 
-For a description of how multi-zone deployments work in Kuma, see [about multi-zone deployments](../how-multi-zone-works). This page explains how to configure and deploy Kuma in a multi-zone environment:
+To set up a multi-zone deployment we will need to:
 
 - Set up the global control plane
 - Set up the zone control planes
@@ -282,9 +282,9 @@ The Ingress tab of the web UI also lists remote control planes that you deployed
 
 #### Enable mTLS
 
-You must [enable mTLS](../policies/mutual-tls.md) for cross-zone communication between services.
+You must [enable mTLS](../policies/mutual-tls.md) for cross-zone communication.
 
-Kuma uses the Server Name Indication field, part of the TLS protocol, as a way to pass routing information cross zones. Thus, the mTLS is mandatory to enable cross-zone service communication.
+Kuma uses the Server Name Indication field, part of the TLS protocol, as a way to pass routing information cross zones. Thus, mTLS is mandatory to enable cross-zone service communication.
 
 #### Ensure Zone Ingress has an external advertised address and port
 
@@ -297,9 +297,7 @@ If a service of type NodePort or LoadBalancer is attached to the dataplane, Kuma
 
 A service of type LoadBalancer is automatically created when installing Kuma with `kumactl install control-plane` or helm.
 
-::: tip
-Depending on your load balanced implementation, you might need to wait a few minutes for Kuma to get the address.
-:::
+Depending on your load balancer implementation, you might need to wait a few minutes for Kuma to get the address.
 
 You can also set this address and port by using the annotations: [`kuma.io/ingress-public-address` and `kuma.io/ingress-public-port`](../documentation/kubernetes-annotations/#kuma-io-ingress-public-port)
 

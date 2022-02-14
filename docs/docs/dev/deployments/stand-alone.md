@@ -29,7 +29,7 @@ If these limitations are problematic you should look at [Multi-zone deployments]
 #### Control plane offline
 
 * New data-planes won't be able to join the mesh.
-* data-plane proxy configuration will not be updated.
+* Data-plane proxy configuration will not be updated.
 * Communication between data-planes will still work.
 * Cross zone communication will still work.
 * Other zones are unaffected.
