@@ -24,7 +24,6 @@
       "installation/openshift",
       "installation/docker",
       "installation/amazonlinux",
-      "installation/ecs",
       "installation/redhat",
       "installation/centos",
       "installation/debian",

@@ -25,11 +25,6 @@
     "slug": "amazonlinux"
   },
   {
-    "label": "Amazon ECS",
-    "logo": "/images/platforms/logo-ecs.jpg",
-    "slug": "ecs"
-  },
-  {
     "label": "Amazon EKS",
     "logo": "/images/platforms/logo-eks.png",
     "slug": "eks"
