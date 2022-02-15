@@ -125,7 +125,7 @@ Each Kuma data plane proxy is associated with tags - or attributes - that can be
 A tag attributes a qualifier to the data plane proxy, and the tags that are reserved to Kuma are prefixed with `kuma.io` like:
 
 * `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
-* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](../../deployments/how-multi-zone-works). This tag is automatically created and cannot be overwritten.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](../deployments/multi-zone.md). This tag is automatically created and cannot be overwritten.
 * `kuma.io/protocol`: Identifies [the protocol](../../policies/protocol-support-in-kuma) that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 ::: tip
@@ -139,7 +139,7 @@ Labels with keys that contains `kuma.io/` are not converted because they are res
 The following tags are added automatically and cannot be overridden using Pod labels. 
 
 * `kuma.io/service`: Identifies the service name based on a Service that selects a Pod. Example: `demo-app_kuma-demo_svc_80`.
-* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](../../deployments/how-multi-zone-works).
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](../deployments/multi-zone.md).
 * `kuma.io/protocol`: Identifies [the protocol](../../policies/protocol-support-in-kuma) that was defined on the Service that selects a Pod.
 * `k8s.kuma.io/namespace`: Identifies the Pod's namespace. Example: `kuma-demo`.
 * `k8s.kuma.io/service-name`: Identifies the name of Kubernetes Service that selects a Pod. Example: `demo-app`.
@@ -361,7 +361,7 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Zone Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](../../deployments/how-multi-zone-works) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](../deployments/multi-zone.md) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
 All requests that are sent from one zone to another will be directed to the proper instance by the Zone Ingress.
 
 The `ZoneIngress` entity includes a few sections:
@@ -384,7 +384,7 @@ Zone Ingress without `advertisedAddress` and `advertisedPort` is not taken into 
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](../../deployments/how-multi-zone-works). It works as a separate deployment of a single-container pod.
+The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](../deployments/multi-zone.md). It works as a separate deployment of a single-container pod.
 
 Kuma will try to resolve `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this Zone Ingress.
 
