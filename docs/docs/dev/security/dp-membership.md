@@ -2,7 +2,7 @@
 
 Data plane proxy membership constraints let us define a set of rules that are executed when a data plane proxy is joining a mesh.
 
-Constraints contains two list:
+Constraints contains two lists:
 
 * Requirements - a data plane proxy has to fulfill _at least one_ requirement to join a mesh.
 * Restrictions - a data plane proxy cannot fulfill _any_ restriction to join a mesh.
