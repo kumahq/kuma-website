@@ -27,8 +27,8 @@ A multi-zone deployment includes:
 * The **global control plane**:
   * Accept connections only from zone control planes.
   * Accept creation and changes to [policies](/policies) that will be applied to the data plane proxies.
-  * Send policies down to remote control-planes.
-  * Send zone ingresses down to remote control-plane.
+  * Send policies down to zone control-planes.
+  * Send zone ingresses down to zone control-plane.
   * Keep an inventory of all dataplanes running in all zones (this is only done for observability but is not required for operations).
   * Reject connections from data plane proxies.
 * The **zone control planes**: 
@@ -71,7 +71,7 @@ The global control plane must run on a dedicated cluster, and cannot be assigned
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-The global control plane on Kubernetes must reside on its own Kubernetes cluster, to keep its resources separate from the resources the remote control planes create during synchronization.
+The global control plane on Kubernetes must reside on its own Kubernetes cluster, to keep its resources separate from the resources the zone control planes create during synchronization.
 
 1.  Run:
 
@@ -88,7 +88,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
-    In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the remote control planes.
+    In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 :::
 ::: tab "Helm"
@@ -113,7 +113,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
-    By default, it's exposed on [port 5685](../networking/networking.md). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the remote control planes.
+    By default, it's exposed on [port 5685](../networking/networking.md). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 :::
 ::: tab "Universal"
@@ -127,17 +127,17 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 :::
 ::::
 
-### Set up the remote control planes
+### Set up the zone control planes
 
-You need the following values to pass to each remote control plane setup:
+You need the following values to pass to each zone control plane setup:
 
-- `zone` -- the zone name. An arbitrary string. This value registers the remote control plane with the global control plane.
+- `zone` -- the zone name. An arbitrary string. This value registers the zone control plane with the global control plane.
 - `kds-global-address` -- the external IP and port of the global control plane.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-1.  On each remote control plane, run:
+1.  On each zone control plane, run:
 
     ```sh
     kumactl install control-plane \
@@ -147,12 +147,12 @@ You need the following values to pass to each remote control plane setup:
     --kds-global-address grpcs://`<global-kds-address>` | kubectl apply -f -
     ```
 
-    where `zone` is the same value for all remote control planes in the same zone.
+    where `zone` is the same value for all zone control planes in the same zone.
 
 :::
 ::: tab "Helm"
 
-1.  On each remote control plane, run:
+1.  On each zone control plane, run:
 
     ```bash
     helm install kuma \
@@ -163,12 +163,12 @@ You need the following values to pass to each remote control plane setup:
     --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
     ```
 
-    where `controlPlane.zone` is the same value for all remote control planes in the same zone.
+    where `controlPlane.zone` is the same value for all zone control planes in the same zone.
 
 :::
 ::: tab "Universal"
 
-1. On each remote control plane, run:
+1. On each zone control plane, run:
 
     ```sh
     KUMA_MODE=remote \
@@ -177,11 +177,11 @@ You need the following values to pass to each remote control plane setup:
     ./kuma-cp run
     ```
 
-   where `KUMA_MULTIZONE_REMOTE_ZONE` is the same value for all remote control planes in the same zone.
+   where `KUMA_MULTIZONE_REMOTE_ZONE` is the same value for all zone control planes in the same zone.
 
 2. Generate the zone ingress token:
 
-   To register the zone ingress with the remote control plane, we need to generate a zone ingress token first
+   To register the zone ingress with the zone control plane, we need to generate a zone ingress token first
 
     ```sh
     kumactl generate zone-ingress-token --zone=<zone-name> > /tmp/ingress-token
@@ -201,7 +201,7 @@ You need the following values to pass to each remote control plane setup:
       advertisedPort: 10000 # a port which other zones can use to consume this zone-ingress" > ingress-dp.yaml
     ```
 
-4. Apply the ingress config, passing the IP address of the remote control plane to `cp-address`:
+4. Apply the ingress config, passing the IP address of the zone control plane to `cp-address`:
 
     ```
     kuma-dp run \
@@ -215,11 +215,11 @@ You need the following values to pass to each remote control plane setup:
 
 ### Verify control plane connectivity
 
-You can run `kumactl get zones`, or check the list of zones in the web UI for the global control plane, to verify remote control plane connections.
+You can run `kumactl get zones`, or check the list of zones in the web UI for the global control plane, to verify zone control plane connections.
 
-When a remote control plane connects to the global control plane, the `Zone` resource is created automatically in the global control plane.
+When a zone control plane connects to the global control plane, the `Zone` resource is created automatically in the global control plane.
 
-The Ingress tab of the web UI also lists remote control planes that you deployed with Ingress.
+The Ingress tab of the web UI also lists zone control planes that you deployed with Ingress.
 
 ### Set up cross-zone communication
 
@@ -348,7 +348,7 @@ the Kuma DNS service is hooked.
 
 ### Delete a zone
 
-To delete a `Zone` we must first shut down the corresponding Kuma remote control plane instances. As long as the Remote CP is running this will not be possible, and Kuma returns a validation error like:
+To delete a `Zone` we must first shut down the corresponding Kuma zone control plane instances. As long as the Remote CP is running this will not be possible, and Kuma returns a validation error like:
 
 ```
 zone: unable to delete Zone, Remote CP is still connected, please shut it down first
