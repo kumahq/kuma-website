@@ -51,8 +51,10 @@
     "path": "",
     "children": [
       "documentation/overview",
-      "documentation/backends",
       "documentation/dps-and-data-model",
+      "documentation/gateway",
+      "documentation/zone-ingress",
+      "documentation/backends",
       "documentation/cli",
       "documentation/gui"
     ]
