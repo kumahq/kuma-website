@@ -36,11 +36,11 @@ const {latestVersion, allVersions} = (() => {
       return file.isDirectory()
     })
     .map(f => f.name);
-  const versions = allVersions.filter((f) => fs.readdirSync(path.resolve(__dirname, "../../docs/docs", f)).find((f) => f === ".latest"));
-  if (versions.length !== 1) {
-    throw Error(`Not exactly 1 doc folder marked with a '.latest' file got:'${versions}'`);
+  const latestVersion = fs.readFileSync(path.resolve(__dirname, "../../docs/docs/.latest")).toString().trim();
+  if (!/^[0-9]+\.[0-9]+\.[0-9]+$/.test(latestVersion)) {
+    throw Error(`.latest pointer doesn't contain a semver version got:'${latestVersion}'`)
   }
-  return {latestVersion: versions[0], allVersions};
+  return {latestVersion: latestVersion, allVersions};
 })();
 
 /**
@@ -51,7 +51,7 @@ module.exports = {
   themeConfig: {
     domain: productData.hostname,
     gaCode: productData.gaCode,
-    latestVersion: latestVersion,
+    latestVersion: latestVersion.replace(/[0-9]+$/, "x"),
     versions: allVersions,
     installMethods: require("./public/install-methods.json"),
     twitter: productData.twitter,
@@ -242,6 +242,7 @@ module.exports = {
       return {
         name: "netlify-configs",
         generated() {
+
           const redirects = [
             `/docs /docs/${latestVersion} 301`,
             `/install /install/${latestVersion} 200`,

@@ -24,7 +24,6 @@
       "installation/openshift",
       "installation/docker",
       "installation/amazonlinux",
-      "installation/ecs",
       "installation/redhat",
       "installation/centos",
       "installation/debian",
@@ -66,6 +65,7 @@
       "networking/networking",
       "networking/service-discovery",
       "networking/dns",
+      "networking/dns-cp",
       "networking/cni",
       "networking/transparent-proxying",
       "networking/ipv6"

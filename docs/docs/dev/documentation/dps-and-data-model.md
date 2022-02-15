@@ -238,7 +238,7 @@ spec:
   template:
     metadata:
       ...
-      annotations:
+      labels:
         # indicate to Kuma that this Pod doesn't need a sidecar
         kuma.io/sidecar-injection: disabled
     spec:
@@ -248,8 +248,10 @@ spec:
 
 On Kubernetes the [`Dataplane`](#dataplane-entity) entity is also automatically created for you, and because transparent proxying is being used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
+::: warning
 While you can still use annotations instead of labels, we strongly recommend using labels.
-It's the only way to guarantee that application can only be started with sidecar.
+It's the only way to guarantee that applications can only be started with sidecar.
+:::
 
 ::: tip
 NOTE: During the creation of the [`Dataplane`](#dataplane-entity) entity, the Kuma control plane will generate a dataplane tag `kuma.io/service: <name>_<namespace>_svc_<port>` fetching `<name>`, `<namespace>` and `<port>` from the Kubernetes service that is associated with the particular pod.
