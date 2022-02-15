@@ -7,14 +7,17 @@ to manage container lifecycles. Also, users want the service state to be observa
 Kuma supports several health checking methods:
 
 * [Health Check](../../policies/health-check) Policy
-  An active Kuma policy which configures a dataplane proxy to send extra traffic
+
+  An **active** Kuma policy which configures a dataplane proxy to send extra traffic
   to other dataplane proxies in order to evaluate their health.
 
 * [Circuit Breaker](../../policies/circuit-breaker) Policy
-  A passive Kuma policy which configures a dataplane proxy to monitor its existing
+
+  A **passive** Kuma policy which configures a dataplane proxy to monitor its existing
   mesh traffic in order to evaluate dataplane health.
 
 * [Kubernetes](#kubernetes-probes) and [Universal](#universal-probes) Service Probes
+
   Configuration of centralized health probing of services, either directly by Kuma Control Plane,
   or by the underlying platform, such as Kubernetes.
 
