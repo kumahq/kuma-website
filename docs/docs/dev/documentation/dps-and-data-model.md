@@ -27,12 +27,12 @@ For example, if we have 6 replicas of a "Redis" service, then we must have one i
 When we start a new data plane proxy in Kuma, it needs to communicate a few things to the control-plane: 
 
 - What types they are: "standard", "zone-ingress" or "gateway".
-- How they can be reached by other dataplanes (This is an address/port combination).
+- How they can be reached by other data plane proxies (This is an address/port combination).
 - What services they expose (This will be called inbounds).
 - How the application will use the sidecar to reach other services (either with transparent proxy or by explicitly listing services it will connect to).
 
 ::: tip
-There exists special types of dataplanes:
+There exists special types of data planes proxies:
 
 - [Zone-ingress](./zone-ingress.md) which will enable inbound cross-zone traffic.
 - [Gateway](./gateway.md) which will traffic external to the mesh to enter it.
@@ -48,7 +48,7 @@ To do this, we have to create a file with a `Dataplane` definition and pass it t
 
 The registration of the `Dataplane` includes three main sections that are described below in the [Dataplane Specification](#dataplane-specification):
 
-* `address` IP at which this dataplane will be accessible to other dataplanes
+* `address` IP at which this dataplane will be accessible to other data plane proxies
 * `inbound` networking configuration, to configure on what port the DP will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
 * `outbound` networking configuration, to enable the local service to consume other services.
 
@@ -137,7 +137,7 @@ This is the only way to guarantee that applications can only be started with sid
 
 ### Tag generation 
 
-When Dataplane entities are automatically created, all labels from Pod are converted into Dataplane tags.
+On Kubernetes, because Dataplane entities are automatically created, all labels from Pod are converted into Dataplane tags.
 Labels with keys that contains `kuma.io/` are not converted because they are reserved to Kuma.
 The following tags are added automatically and cannot be overridden using Pod labels.
 
@@ -269,9 +269,9 @@ The `Dataplane` entity includes a few sections:
 * `mesh`: the `Mesh` name we want to associate the data-plane with.
 * `name`: this is the name of the data-plane instance, and it must be **unique** for any given `Mesh`. We might have multiple instances of a Service, and therefore multiple instances of the sidecar data-plane proxy. Each one of those sidecar proxy instances must have a unique `name`.
 * `networking`: this is the meaty part of the configuration. It determines the behavior of the data-plane on incoming (`inbound`) and outgoing (`outbound`) requests.
-  * `address` IP address or domain name at which this dataplane will be accessible to other dataplanes. Domain name will be resolved to IP in the control plane.
+  * `address` IP address or domain name at which this dataplane will be accessible to other data plane proxies. Domain name will be resolved to IP in the control plane.
   * `inbound`: an array of objects that determines what services are being exposed via the data-plane. Each object only supports one port at a time, and you can specify more than one objects in case the service opens up more than one port.
-    * `port`: determines the port at which other dataplanes will consume the service
+    * `port`: determines the port at which other data plane proxies will consume the service
     * `serviceAddress`: IP at which the service is listening. Defaults to `127.0.0.1`. Typical usecase is Universal mode, where `kuma-dp` runs ina  separate netns, container or host than the service.
     * `servicePort`: determines the port of the service deployed next to the dataplane. This can be omitted if service is exposed on the same port as the dataplane, but only listening on `serviceAddress` or `127.0.0.1` and differs from `networking.address`.
     * `address`: IP at which inbound listener will be exposed. By default it is inherited from `networking.address`
