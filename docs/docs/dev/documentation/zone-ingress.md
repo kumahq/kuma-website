@@ -1,6 +1,6 @@
 # Zone Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](../../deployments/how-multi-zone-works) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](../deployments/multi-zone.md) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
 All requests that are sent from one zone to another will be directed to the proper instance by the Zone Ingress.
 
 The `ZoneIngress` entity includes a few sections:
@@ -23,7 +23,7 @@ Zone Ingress without `advertisedAddress` and `advertisedPort` is not taken into 
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](../../deployments/how-multi-zone-works). It works as a separate deployment of a single-container pod.
+The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](../deployments/multi-zone.md). It works as a separate deployment of a single-container pod.
 
 Kuma will try to resolve `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this Zone Ingress.
 
