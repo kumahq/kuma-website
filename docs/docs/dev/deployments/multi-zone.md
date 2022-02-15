@@ -48,13 +48,6 @@ A multi-zone deployment includes:
   * Receive XDS configuration from the local zone control plane.
   * Proxy traffic from remote data plane proxies to local data plane proxies.
 
-## Limitations
-
-It is not possible to route cross-zone traffic on a subset of dataplanes with the same `kuma.io/service`.
-
-This means that complex [Virtual-outbound](../policies/virtual-outbound.md) will not route any traffic across zones.
-
-
 ## Usage
 
 To set up a multi-zone deployment we will need to:
