@@ -19,7 +19,7 @@ While doing so, the data-planes also advertise the IP address of each service. T
 
 The IP address that's being advertised by every data-plane to the control-plane is also being used to route service traffic from one `kuma-dp` to another `kuma-dp`. This means that Kuma knows at any given time what are all the IP addresses associated to every replica of every service. Another use-case where the IP address of the data-planes is being used is for metrics scraping by Prometheus.
 
-Kuma already ships with its own [DNS service discovery](../networking/dns/) on both standalone and multi-zone modes. 
+Kuma already ships with its own [DNS](../networking/dns/) on both standalone and multi-zone modes. 
 
 Connectivity among the `kuma-dp` instances can happen in two ways:
 
