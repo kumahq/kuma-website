@@ -80,3 +80,11 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 `Timeout` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
 The only supported value for `destinations.match` is `kuma.io/service`.
+
+## Builtin Gateway support
+
+Timeouts are connection policies and are supported by configuring the timeout parameters on the target Envoy cluster.
+Request timeouts are configured on the Envoy routes and may select a different Timeout policy when a route backend forwards to more than one distinct service.
+
+Mesh configures an idle timeout on the HTTPConnectionManager, but doesn’t consistently use the Timeout policy values for this, so the semantica are ambiguous.
+There’s no policy that configures the idle timeout for downstream connections to the Gateway.

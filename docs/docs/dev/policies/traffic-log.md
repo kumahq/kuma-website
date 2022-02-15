@@ -104,6 +104,7 @@ apiVersion: kuma.io/v1alpha1
 kind: TrafficLog
 metadata:
   name: backend-to-database-traffic
+mesh: default
 spec:
   # This TrafficLog policy applies only to traffic from service `backend` to service `database`.
   sources:
@@ -327,3 +328,8 @@ In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTR
 
 `TrafficLog` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
 The only supported value for `destinations.match` is `kuma.io/service`.
+
+## Builtin Gateway support
+
+Traffic Log is a Kuma outbound connection policy, so Kuma chooses a Traffic Log policy by matching the service tag of the Dataplane’s outbounds.
+Since a builtin gateway Dataplane does not have outbounds, Kuma always uses the builtin service name “pass_through” to match the Traffic Log policy for Gateways.

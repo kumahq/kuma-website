@@ -126,7 +126,9 @@
       "policies/retry",
       "policies/timeout",
       "policies/rate-limit",
-      "policies/virtual-outbound"
+      "policies/virtual-outbound",
+      "policies/mesh-gateway",
+      "policies/mesh-gateway-route"
     ]
   },
   {

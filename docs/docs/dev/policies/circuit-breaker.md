@@ -176,29 +176,29 @@ Activates Split Mode.
 If Split Mode is off, Kuma won't distinguish errors by their origin and they will be counted together. If Split Mode is on, different parameters can be used to fine tune the detectors. All detectors counts errors according to the state of this parameter. 
 :::
 
-## Detectors
+### Detectors
 
 Below is a list of available detectors that can be configured in Kuma.
 
-### Total Errors
+#### Total Errors
 
 Errors with status code 5xx and locally originated errors, in Split Mode just errors with status code 5xx. 
 
 - `consecutive` - how many consecutive errors in a row will trigger the detector. Defaults to `5`.
 
-### Gateway Errors
+#### Gateway Errors
 
 Subset of [totalErrors](#total-errors) related to gateway errors (502, 503 or 504 status code).
 
 - `consecutive` - how many consecutive errors in a row will trigger the detector. Defaults to `5`.
 
-### Local Errors
+#### Local Errors
 
 Taken into account only in Split Mode, number of locally originated errors.
 
 - `consecutive` - how many consecutive errors in a row will trigger the detector. Defaults to `5`.
 
-### Standard Deviation
+#### Standard Deviation
 
 Detection based on success rate, aggregated from every data plane proxy in the Envoy cluster.
 
@@ -206,7 +206,7 @@ Detection based on success rate, aggregated from every data plane proxy in the E
 - `minimumHosts` - ignore counting the success rate for an Envoy cluster if the number of data plane proxies with required `requestVolume` is less than `minimumHosts`. Defaults to `5`.
 - `factor` - resulting threshold equals to `mean - (stdev * factor)`. Defaults to `1.9`.
 
-### Failures
+#### Failures
 
 Detection based on success rate with an explicit threshold (unlike [standardDeviation](#standard-deviation)).
 
@@ -214,7 +214,7 @@ Detection based on success rate with an explicit threshold (unlike [standardDevi
 - `minimumHosts` - ignore counting the success rate for an Envoy cluster if the number of data plane proxies with required `requestVolume` is less than `minimumHosts`. Defaults to `5`.
 - `threshold` - eject the data plane proxy if its percentage of failures is greater than - or equal to - this value. Defaults to `85`.
 
-## Thresholds
+### Thresholds
 
 Alongside the detectors, CircuitBreaker allows configuring thresholds:
 
@@ -227,3 +227,7 @@ Alongside the detectors, CircuitBreaker allows configuring thresholds:
 
 `CircuitBreaker` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
 The only supported value for `destinations.match` is `kuma.io/service`.
+
+## Builtin Gateway support
+
+Circuit Breaker policies are supported on the builtin gateway like any other dataplane.

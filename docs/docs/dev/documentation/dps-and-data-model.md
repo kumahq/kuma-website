@@ -138,7 +138,7 @@ This is the only way to guarantee that applications can only be started with sid
 
 ### Tag generation 
 
-On Kubernetes, because Dataplane entities are automatically created, all labels from Pod are converted into Dataplane tags.
+When Dataplane entities are automatically created, all labels from Pod are converted into Dataplane tags.
 Labels with keys that contains `kuma.io/` are not converted because they are reserved to Kuma.
 The following tags are added automatically and cannot be overridden using Pod labels.
 
