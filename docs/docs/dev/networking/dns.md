@@ -93,14 +93,14 @@ You can configure Kuma DNS in `kuma-cp`:
 
 ```yaml
 dnsServer:
-  domain: "mesh" # ENV: KUMA_DNS_SERVER_DOMAIN
   CIDR: "240.0.0.0/4" # ENV: KUMA_DNS_SERVER_CIDR
+  domain: "mesh" # ENV: KUMA_DNS_SERVER_DOMAIN
   serviceVipEnabled: true # ENV: KUMA_DNS_SERVER_SERVICE_VIP_ENABLED
 ```
 
-The `domain` field specifies the default `.mesh` DNS zone that Kuma DNS provides resolution for. It's only relevant when `serviceVipEnabled` is set to `true`. 
+The `CIDR` field sets the IP range of virtual IPs. The default `240.0.0.0/4` is reserved for future IPv4 use and is guaranteed to be non-routable. We strongly recommend to not change this value unless you have a specific need for a different IP range.
 
-The `CIDR` field sets the IP range of virtual IPs. The default `240.0.0.0/4` is reserved for future IPv4 use IPv4 and is guaranteed to be non-routable. We strongly recommend to not change this value unless you have a specific need for a different IP range.
+The `domain` field specifies the default `.mesh` DNS zone that Kuma DNS provides resolution for. It's only relevant when `serviceVipEnabled` is set to `true`.
 
 The `serviceVipEnabled` field defines if there should be a vip generated for each `kuma.io/service`. This can be disabled for performance reason and [virtual-outbound](../policies/virtual-outbound) provides a more flexible way to do this.
 

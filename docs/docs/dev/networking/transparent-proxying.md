@@ -152,7 +152,7 @@ Execute `kumactl install transparent-proxy --help` to see available options.
 ### Reachable Services
 
 By default, every data plane proxy in the mesh follows every other data plane proxy.
-This may lead to a performance problems in larger deployments of the mesh.
+This may lead to performance problems in larger deployments of the mesh.
 It is highly recommended to define a list of services that your service connects to.
 
 :::: tabs :options="{ useUrlFragment: false }"
