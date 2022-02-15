@@ -1,8 +1,8 @@
 # Data plane proxy membership
 
-Data plane proxy membership lets us put a set of rules that are executed when a data plane proxy is joining a mesh.
+Data plane proxy membership constraints let us define a set of rules that are executed when a data plane proxy is joining a mesh.
 
-Membership contains two list
+Constraints contains two lists:
 
 * Requirements - a data plane proxy has to fulfill _at least one_ requirement to join a mesh.
 * Restrictions - a data plane proxy cannot fulfill _any_ restriction to join a mesh.
@@ -20,26 +20,28 @@ kind: Mesh
 metadata:
   name: default
 spec:
-  dataplaneProxyMembership:
-    requirements:
-    - tags: # set of required tags. You can specify '*' in value to require non-empty value of tag
-        kuma.io/zone: east
-    restrictions:
-    - tags: # set of restricted tags. You can specify '*' in value to restrict tag with any value
-        kuma.io/service: backend
+  constraints:
+    dataplaneProxy:
+      requirements:
+      - tags: # set of required tags. You can specify '*' in value to require non-empty value of tag
+          kuma.io/zone: east
+      restrictions:
+      - tags: # set of restricted tags. You can specify '*' in value to restrict tag with any value
+          kuma.io/service: backend
 ```
 :::
 ::: tab "Universal"
 ```yaml
 type: Mesh
 name: default
-dataplaneProxyMembership:
-  requirements:
-    - tags: # set of required tags. You can specify '*' in value to require non-empty value of tag
-        kuma.io/zone: east
-  restrictions:
-    - tags: # set of restricted tags. You can specify '*' in value to restrict tag with any value
-        kuma.io/service: backend
+constraints:
+  dataplaneProxy:
+    requirements:
+      - tags: # set of required tags. You can specify '*' in value to require non-empty value of tag
+          kuma.io/zone: east
+    restrictions:
+      - tags: # set of restricted tags. You can specify '*' in value to restrict tag with any value
+          kuma.io/service: backend
 ```
 :::
 ::::
@@ -56,24 +58,26 @@ kind: Mesh
 metadata:
   name: default
 spec:
-  dataplaneProxyMembership:
-    requirements:
-    - tags: 
-        kuma.io/namespace: ns-1
-    - tags:
-        kuma.io/namespace: ns-2
+  constraints:
+    dataplaneProxy:
+      requirements:
+      - tags:
+          kuma.io/namespace: ns-1
+      - tags:
+          kuma.io/namespace: ns-2
 ```
 :::
 ::: tab "Universal"
 ```yaml
 type: Mesh
 name: default
-dataplaneProxyMembership:
-  requirements:
-    - tags:
-        kuma.io/namespace: ns-1
-    - tags:
-        kuma.io/namespace: ns-2
+constraints:
+  dataplaneProxy:
+    requirements:
+      - tags:
+          kuma.io/namespace: ns-1
+      - tags:
+          kuma.io/namespace: ns-2
 ```
 :::
 ::::
@@ -93,33 +97,35 @@ kind: Mesh
 metadata:
   name: default
 spec:
-  dataplaneProxyMembership:
-    requirements:
-    - tags: 
-        team: '*'
-        cloud: '*'
-    restrictions:
-    - tags:
-        legacy: '*'
+  constraints:
+    dataplaneProxy:
+      requirements:
+      - tags:
+          team: '*'
+          cloud: '*'
+      restrictions:
+      - tags:
+          legacy: '*'
 ```
 :::
 ::: tab "Universal"
 ```yaml
 type: Mesh
 name: default
-dataplaneProxyMembership:
-  requirements:
-    - tags:
-        team: '*'
-        cloud: '*'
-  restrictions:
-    - tags:
-        legacy: '*'
+constraints:
+  dataplaneProxy:
+    requirements:
+      - tags:
+          team: '*'
+          cloud: '*'
+    restrictions:
+      - tags:
+          legacy: '*'
 ```
 :::
 ::::
 
-By using membership, we can enforce consistency of tags in Kuma deployment.
+By using these constraints, we can enforce consistency of tags in Kuma deployment.
 With the example above, every data plane proxy must have non-empty `team` and `cloud` tags and cannot have `legacy` tag.
 
 ### Multizone mesh segmentation
@@ -132,37 +138,41 @@ kind: Mesh
 metadata:
   name: default
 spec:
-  dataplaneProxyMembership:
-    requirements:
-    - tags: 
-        kuma.io/zone: east
+  constraints:
+    dataplaneProxy:
+      requirements:
+      - tags:
+          kuma.io/zone: east
 ---
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
   name: demo
 spec:
-  dataplaneProxyMembership:
-    requirements:
-      - tags:
-          kuma.io/zone: west
+  constraints:
+    dataplaneProxy:
+      requirements:
+        - tags:
+            kuma.io/zone: west
 ```
 :::
 ::: tab "Universal"
 ```yaml
 type: Mesh
 name: default
-dataplaneProxyMembership:
-  requirements:
-  - tags:
-      kuma.io/zone: east
+constraints:
+  dataplaneProxy:
+    requirements:
+    - tags:
+        kuma.io/zone: east
 ---
 type: Mesh
 name: demo
-dataplaneProxyMembership:
-  requirements:
-    - tags:
-        kuma.io/zone: west
+constraints:
+  dataplaneProxy:
+    requirements:
+      - tags:
+          kuma.io/zone: west
 ```
 :::
 ::::
