@@ -18,26 +18,11 @@ Standalone mode is usually a great choice within the context of one zone (ie: wi
 
 ## Limitations
 
-* All dataplane-proxies need to be able to communicate with every other dataplane proxy.
+* All data plane proxies need to be able to communicate with every other dataplane proxy.
 * A standalone deployment cannot mix Universal and Kubernetes workloads.
 * A deployment can connect to only one Kubernetes cluster at once.
 
 If these limitations are problematic you should look at [Multi-zone deployments](../multi-zone).
-
-## Failure modes
-
-#### Control plane offline
-
-* New data-planes won't be able to join the mesh.
-* Data-plane proxy configuration will not be updated.
-* Communication between data-planes will still work.
-* Cross zone communication will still work.
-* Other zones are unaffected.
-
-::: tip
-You can think of this failure case as *"Freezing"* the zone mesh configuration.
-Communication will still work but changes will not be reflected on existing data plane proxies.
-:::
 
 ## Usage
 
@@ -62,4 +47,17 @@ Once Kuma is up and running, data plane proxies can now [connect](../../document
 
 :::tip
 When the mode is not specified, Kuma will always start in `standalone` mode by default.
+:::
+
+## Failure modes
+
+#### Control plane offline
+
+* New data planes proxis won't be able to join the mesh.
+* Data-plane proxy configuration will not be updated.
+* Communication between data planes proxies will still work.
+
+::: tip
+You can think of this failure case as *"Freezing"* the zone mesh configuration.
+Communication will still work but changes will not be reflected on existing data plane proxies.
 :::

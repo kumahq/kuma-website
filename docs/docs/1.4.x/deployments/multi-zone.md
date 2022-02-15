@@ -12,7 +12,7 @@ Kuma supports running your service mesh in multiple zones. It is even possible t
 
 Kuma manages service connectivity -- establishing and maintaining connections across zones in the mesh -- with the zone ingress and with a DNS resolver.
 
-The DNS resolver is embedded in each data-plane proxy and configured through XDS. It resolves each service address to a virtual IP address for all service-to-service communication.
+The DNS resolver is embedded in each data plane proxy and configured through XDS. It resolves each service address to a virtual IP address for all service-to-service communication.
 
 The global control plane and the zone control planes communicate to synchronize resources such as Kuma policy configurations over Kuma Discovery Service (KDS), which is a protocol based on xDS.
 
@@ -30,20 +30,20 @@ A multi-zone deployment includes:
   * Send policies down to remote control-planes.
   * Send zone ingresses down to remote control-plane.
   * Keep an inventory of all dataplanes running in all zones (this is only done for observability but is not required for operations).
-  * Reject connections from data-plane proxies.
+  * Reject connections from data plane proxies.
 * The **zone control planes**: 
   * Accept connections from data plane proxies started within this zone.
   * Receive policy updates from the global control plane.
-  * Send data-plane and zone ingress changes to the global control plane.
-  * Compute and send configurations using XDS to the local data-plane proxies.
-  * Update list of services who exist in the zone in the zone ingress.
+  * Send data plane proxies and zone ingress changes to the global control plane.
+  * Compute and send configurations using XDS to the local data plane proxies.
+  * Update list of services which exist in the zone in the zone ingress.
   * Reject policy changes that do not come from global.
-* The **data-plane proxies**:
+* The **data plane proxies**:
   * Connect to the local zone control plane.
   * Receive configurations using XDS from the local zone control plane.
   * Connect to other local data plane proxies.
   * Connect to remote zone ingresses for sending cross zone traffic.
-  * Receive traffic from local data-plane proxies.
+  * Receive traffic from local data plane proxies and local zone ingresses.
 * The **zone ingress**:
   * Receive XDS configuration from the local zone control plane.
   * Proxy traffic from remote data plane proxies to local data plane proxies.
@@ -52,65 +52,8 @@ A multi-zone deployment includes:
 
 It is not possible to route cross-zone traffic on a subset of dataplanes with the same `kuma.io/service`.
 
-This means that complex [Traffic-routes](../policies/traffic-route.md) or [Virtual-outbound](../policies/virtual-outbound.md) will not route any traffic across zones.
+This means that complex [Virtual-outbound](../policies/virtual-outbound.md) will not route any traffic across zones.
 
-## Failure modes
-
-### Global control-plane offline
-
-* Policy updates will be impossible 
-* Change in service list between zones will not propagate:
-  * New services will not be discoverable in other zones
-  * Services removed from a zone will still appear available in other zones
-* You won't be able to disable or delete a zone
-
-::: tip
-Note that both local and cross-zone application traffic is not impacted by this failure case.
-:::
-
-### Zone control-plane offline
-
-* New data-planes won't be able to join the mesh.
-* Data-plane proxy configuration will not be updated.
-* Communication between data-planes will still work.
-* Cross zone communication will still work.
-* Other zones are unaffected.
-
-::: tip
-You can think of this failure case as *"Freezing"* the zone mesh configuration.
-Communication will still work but changes will not be reflected on existing data plane proxies.
-:::
-
-### Communication between Global and Zone control-plane failing
-
-This can happen with mis-configuration or network connectivity issues between control-planes.
-
-* Operations inside the zone will happen correctly (dataplane proxies can join and leave and all configuration will be updated and sent correctly).
-* Policy changes will not be propagated to the zone control-plane.
-* Zone ingress and dataplane changes will not be propagated to the global control-plane.
-  * The global inventory view of the data-planes will be outdated (this only impacts observability).
-  * Remote zones will not see new services registered inside this zone 
-  * Remote zones will not see services no longer running inside this zone
-  * Remote zones will not see changes in number of instances of each service running in the local zone.
-* Global control-plane will not send changes to other zone-ingress to the zone
-  * Local data-plane proxies will not see new services registered in other zones
-  * Local data-plane proxies will not see services no longer running in other zones
-  * Local data-plane proxies will not see changes in number of instances of each service running in other zones.
-    
-::: tip
-Note that both local and cross-zone application traffic is not impacted by this failure case.
-:::
-
-### Communication between 2 zones failing
-
-This can happen if there are network connectivity issues between control-plane and zone ingresses or all zone ingresses of a zone are down.
-
-* Communication and operation within each zone is unaffected
-* Communication across each zone will fail
-
-::: tip
-With the right resiliency setup ([Retries](../../policies/retry), [Probes](../../policies/health-check), [Locality Aware LoadBalancing](../../policies/locality-aware), [Circuit Breakers](../../policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
-:::
 
 ## Usage
 
@@ -315,7 +258,6 @@ networking:
 :::
 ::::
 
-
 :::tip
 This address doesn't need to be public to the internet.
 It only needs to be reachable from all dataplane proxies in other zones.
@@ -455,3 +397,62 @@ spec:
 With this setting, the global control plane will stop exchanging configuration with this zone.
 As a result, the zone's ingress from zone-1 will be deleted from other zone and traffic won't be routed to it anymore.
 The zone will show as **Offline** in the GUI and CLI.
+
+## Failure modes
+
+### Global control-plane offline
+
+* Policy updates will be impossible
+* Change in service list between zones will not propagate:
+    * New services will not be discoverable in other zones
+    * Services removed from a zone will still appear available in other zones
+* You won't be able to disable or delete a zone
+
+::: tip
+Note that both local and cross-zone application traffic is not impacted by this failure case.
+Data plane proxy changes will be propagated within their zones.
+:::
+
+### Zone control-plane offline
+
+* New data plane proxies won't be able to join the mesh.
+* Data-plane proxy configuration will not be updated.
+* Communication between data plane proxies will still work.
+* Cross zone communication will still work.
+* Other zones are unaffected.
+
+::: tip
+You can think of this failure case as *"Freezing"* the zone mesh configuration.
+Communication will still work but changes will not be reflected on existing data plane proxies.
+:::
+
+### Communication between Global and Zone control-plane failing
+
+This can happen with mis-configuration or network connectivity issues between control-planes.
+
+* Operations inside the zone will happen correctly (dataplane proxies can join and leave and all configuration will be updated and sent correctly).
+* Policy changes will not be propagated to the zone control-plane.
+* Zone ingress and dataplane changes will not be propagated to the global control-plane.
+    * The global inventory view of the data plane proxies will be outdated (this only impacts observability).
+    * Remote zones will not see new services registered inside this zone
+    * Remote zones will not see services no longer running inside this zone
+    * Remote zones will not see changes in number of instances of each service running in the local zone.
+* Global control-plane will not send changes to other zone-ingress to the zone
+    * Local data plane proxies will not see new services registered in other zones
+    * Local data plane proxies will not see services no longer running in other zones
+    * Local data plane proxies will not see changes in number of instances of each service running in other zones.
+
+::: tip
+Note that both local and cross-zone application traffic is not impacted by this failure case.
+:::
+
+### Communication between 2 zones failing
+
+This can happen if there are network connectivity issues between control-plane and zone ingresses or all zone ingresses of a zone are down.
+
+* Communication and operation within each zone is unaffected
+* Communication across each zone will fail
+
+::: tip
+With the right resiliency setup ([Retries](../../policies/retry), [Probes](../../policies/health-check), [Locality Aware LoadBalancing](../../policies/locality-aware), [Circuit Breakers](../../policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
+:::
