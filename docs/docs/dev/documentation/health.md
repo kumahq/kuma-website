@@ -1,13 +1,22 @@
 # Health checks
 
-Health is an extremely important part of the microservice architecture, load balancers rely on the 
-health status of the service while picking endpoint from load balancer set. Also, users want the service state to be 
-observable through the GUI or CLI. Orchestrators like Kubernetes also want to know the service status to manage 
-lifecycle of the containers. 
+Health is an important aspect of a microservice architecture. Load balancers use the health status
+of a service to select an endpoint. Orchestrators, such as Kubernetes, use service status
+to manage container lifecycles. Also, users want the service state to be observable through the GUI or CLI.
 
-Kuma supports several aspects of the health checking. There are two policies which allows configuring active and passive
-health checks:
-[Health Check](../../policies/health-check) and [Circuit Breaker](../../policies/circuit-breaker).
+Kuma supports several health checking methods:
+
+* [Health Check](../../policies/health-check) Policy
+  An active Kuma policy which configures a dataplane proxy to send extra traffic
+  to other dataplane proxies in order to evaluate their health.
+
+* [Circuit Breaker](../../policies/circuit-breaker) Policy
+  A passive Kuma policy which configures a dataplane proxy to monitor its existing
+  mesh traffic in order to evaluate dataplane health.
+
+* [Kubernetes](#kubernetes-probes) and [Universal](#universal-probes) Service Probes
+  Configuration of centralized health probing of services, either directly by Kuma Control Plane,
+  or by the underlying platform, such as Kubernetes.
 
 Kuma is able to track the status of the Envoy proxy. If grpc stream with Envoy is disconnected then Kuma considers this 
 proxy as offline, but we still send the traffic regardless of that, because this status is designed to track the connection
