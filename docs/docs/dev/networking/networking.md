@@ -52,14 +52,6 @@ When Kuma is run as a distributed service mesh, the Zone control plane exposes t
 
 When we start a data-plane via `kuma-dp` we expect all the inbound and outbound service traffic to go through it. The inbound and outbound ports are defined in the dataplane specification when running in universal mode, while on Kubernetes the service-to-service traffic always runs on port `15001`.
 
-In addition to the service traffic ports, the data-plane automatically also opens the `envoy` [administration interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) listener on the following addresses:
+In addition to the service traffic ports, the data-plane automatically also opens the `envoy` [administration interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) listener on the `127.0.0.1:9901`.
 
-* On Kubernetes, by default at `127.0.0.1:9901`.
-* On Universal, by default on the first available port greater or equal than `30001`, like `127.0.01:30001`.
-
-The Envoy administration interface can also be manually configured to listen on any arbitraty port by specifying the `--admin-port` argument when running `kuma-dp`.
-
-
-
-
-
+Check the [dpp documentation](../documentation/dps-and-data-model/#envoy) for more on Envoy Admin port.

@@ -336,3 +336,18 @@ metadata:
   annotations:
     traffic.kuma.io/exclude-outbound-ports: "1234,1235"
 ```
+
+### `kuma.io/envoy-admin-port`
+
+Specifies the port for Envoy Admin API. If not set, default admin port 9901 will be used. 
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/envoy-admin-port: "8801"
+```

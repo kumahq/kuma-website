@@ -16,6 +16,8 @@ The `ZoneIngress` entity includes a few sections:
       should be used here. If Zone Ingress is listening on the public network interface, then the address of the public network
       interface should be used here.
     * `advertisedPort`: a port which will be used to communicate with the Zone Ingress. Zone Ingress doesn't listen on this port.
+    * `admin`: determines parameters related to Envoy Admin API
+      * `port`: the port that Envoy Admin API will listen to
 * `availableServices` **[auto-generated on Kuma CP]** : the list of services that could be consumed through the Zone Ingress
 * `zone` **[auto-generated on Kuma CP]** : zone where Zone Ingress belongs to
 

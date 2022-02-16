@@ -61,19 +61,20 @@ By default the system generates a `default` Mesh when the control-plane is run f
 
 `kuma-dp` is built on top of `Envoy`, which has a powerful [Admin API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) that enables monitoring and troubleshooting of a running dataplane.
 
-By default, `kuma-dp` starts `Envoy Admin API` on the loopback interface (that is only accessible from the local host) and the first available port from the range `30001-65535`.
+By default, `kuma-dp` starts `Envoy Admin API` on the loopback interface (that is only accessible from the local host)
+and port is taken from the data plane resource field `networking.admin.port`. If the `admin` section is empty or port
+is equal to zero then the default value for port will be taken from the Kuma Control Plane configuration:
 
-If you need to override that behaviour, you can use `--admin-port` command-line option or `KUMA_DATAPLANE_ADMIN_PORT` environment variable.
+```yaml
+# Configuration of Bootstrap Server, which provides bootstrap config to Dataplanes
+bootstrapServer:
+  # Parameters of bootstrap configuration
+  params:
+    # Port of Envoy Admin
+    adminPort: 9901 # ENV: KUMA_BOOTSTRAP_SERVER_PARAMS_ADMIN_PORT
+```
 
-E.g.,
-
-* you can change the default port range by using `--admin-port=10000-20000`
-* you can narrow it down to a single port by using `--admin-port=9901`
-* you can turn `Envoy Admin API` off by using `--admin-port=`
-
-::: warning
-If you choose to turn `Envoy Admin API` off, you will not be able to leverage some of `Kuma` features, such as enabling `Prometheus` metrics on that dataplane.
-:::
+It is not possible to override the data plane proxy resource directly in Kubernetes. If you still want to override it, use the pod annotation `kuma.io/envoy-admin-port`.
 
 ## Tags
 
@@ -282,6 +283,8 @@ The `Dataplane` entity includes a few sections:
     * `port`: the port that the service needs to consume locally to make a request to the external service
     * `address`: the IP at which outbound listener is exposed. By default it is `127.0.0.1` since it should only be consumed by the app deployed next to the dataplane.
     * `tags`: traffic on `port:address` will be sent to each data-plane that matches those tags. You can put many tags here. However, it is recommended to keep the list short and then use [`TrafficRoute`](../../policies/traffic-route) for dynamic management of the traffic.
+  * `admin`: determines parameters related to Envoy Admin API
+    * `port`: the port that Envoy Admin API will listen to
 
 For example:
 
