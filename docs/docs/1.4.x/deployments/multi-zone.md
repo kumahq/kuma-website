@@ -42,11 +42,11 @@ A multi-zone deployment includes:
   * Connect to the local zone control plane.
   * Receive configurations using XDS from the local zone control plane.
   * Connect to other local data plane proxies.
-  * Connect to remote zone ingresses for sending cross zone traffic.
+  * Connect to zone ingresses for sending cross zone traffic.
   * Receive traffic from local data plane proxies and local zone ingresses.
 * The **zone ingress**:
   * Receive XDS configuration from the local zone control plane.
-  * Proxy traffic from remote data plane proxies to local data plane proxies.
+  * Proxy traffic from other zone data plane proxies to local data plane proxies.
 
 ## Limitations
 
@@ -141,7 +141,7 @@ You need the following values to pass to each zone control plane setup:
 
     ```sh
     kumactl install control-plane \
-    --mode=remote \
+    --mode=zone \
     --zone=<zone name> \
     --ingress-enabled \
     --kds-global-address grpcs://`<global-kds-address>` | kubectl apply -f -
@@ -157,7 +157,7 @@ You need the following values to pass to each zone control plane setup:
     ```bash
     helm install kuma \
     --namespace kuma-system \
-    --set controlPlane.mode=remote \
+    --set controlPlane.mode=zone \
     --set controlPlane.zone=<zone-name> \
     --set ingress.enabled=true \
     --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
@@ -171,7 +171,7 @@ You need the following values to pass to each zone control plane setup:
 1. On each zone control plane, run:
 
     ```sh
-    KUMA_MODE=remote \
+    KUMA_MODE=zone \
     KUMA_MULTIZONE_REMOTE_ZONE=<zone-name> \
     KUMA_MULTIZONE_REMOTE_GLOBAL_ADDRESS=grpcs://<global-kds-address> \
     ./kuma-cp run
