@@ -29,6 +29,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{name}`
 * `/meshes/{mesh}/dataplanes`
 * `/meshes/{mesh}/dataplanes/{name}`
+* `/meshes/{mesh}/dataplanes/{name}/policies`
 * `/meshes/{mesh}/dataplanes+insights`
 * `/meshes/{mesh}/dataplanes+insights/{name}`
 * `/meshes/{mesh}/health-checks`
@@ -43,6 +44,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/traffic-routes/{name}`
 * `/meshes/{mesh}/fault-injections`
 * `/meshes/{mesh}/fault-injections/{name}`
+* `/meshes/{mesh}/{policy-type}/{policy-name}/dataplanes`  
 * `/meshes/{mesh}/external-services`
 * `/meshes/{mesh}/external-services/{name}`
 * `/meshes/{mesh}/service-insights`
@@ -3282,5 +3284,109 @@ curl localhost:5681/global-insights
    "total": 0
   }
  }
+}
+```
+
+## Inspect API
+
+### Get policies matched for the data plane proxy
+
+Request: `GET /meshes/{mesh}/dataplanes/{dataplane}/policies`
+
+Example:
+```bash
+curl localhost:5681/meshes/default/dataplanes/backend-1/policies
+```
+```json
+{
+ "total": 3,
+ "items": [
+  {
+   "type": "inbound",
+   "name": "127.0.0.1:10010:10011",
+   "matchedPolicies": {
+    "TrafficPermission": [
+     {
+      "type": "TrafficPermission",
+      "mesh": "default",
+      "name": "allow-all-default",
+      ...  
+     }
+    ]
+   }
+  },
+  {
+   "type": "outbound",
+   "name": "127.0.0.1:10006",
+   "matchedPolicies": {
+    "Timeout": [
+     {
+      "type": "Timeout",
+      "mesh": "default",
+      "name": "timeout-all-default",
+      ...
+     }
+    ]
+   }
+  },
+  {
+   "type": "service",
+   "name": "gateway",
+   "matchedPolicies": {
+    "CircuitBreaker": [
+     {
+      "type": "CircuitBreaker",
+      "mesh": "default",
+      "name": "circuit-breaker-all-default",
+      ...
+     }
+    ],
+    "HealthCheck": [
+     {
+      "type": "HealthCheck",
+      "mesh": "default",
+      "name": "gateway-to-backend",
+      ...
+     }
+    ],
+    "Retry": [
+     {
+      "type": "Retry",
+      "mesh": "default",
+      "name": "retry-all-default",
+      ...
+     }
+    ]
+   }
+  }
+ ]
+}
+```
+
+### Get data plane proxies affected by policy
+
+Request: `GET /meshes/{mesh}/{policy-type}/{policy}/dataplanes`
+
+Example:
+```bash
+curl localhost:5681/meshes/default/health-checks/gateway-to-backend/policies
+```
+```json
+{
+ "total": 1,
+ "items": [
+  {
+   "dataplane": {
+    "mesh": "default",
+    "name": "backend-1"
+   },
+   "attachments": [
+    {
+     "type": "service",
+     "name": "gateway"
+    }
+   ]
+  }
+ ]
 }
 ```

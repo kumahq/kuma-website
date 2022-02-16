@@ -450,6 +450,8 @@ conf:
 Modifications that are applied on [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/http/http) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resource.
 Modifications are applied on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#http-connection-manager) in the Listener.
 
+HTTP Filter modifications can only be applied on services [configured as HTTP](../protocol-support-in-kuma).
+
 Available operations:
 * `addFirst` - add a new filter as a first filter in HTTP Connection Manager.
 * `addLast` - add a new filter as a last filter in HTTP Connection Manager.
@@ -619,6 +621,8 @@ conf:
 #### VirtualHost
 
 Modifications that are applied on [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-virtualhost) resources.
+
+VirtualHost modifications can only be applied on services [configured as HTTP](../protocol-support-in-kuma).
 
 Available operations:
 * `add` - add a new VirtualHost.

@@ -24,7 +24,6 @@
       "installation/openshift",
       "installation/docker",
       "installation/amazonlinux",
-      "installation/ecs",
       "installation/redhat",
       "installation/centos",
       "installation/debian",
@@ -41,8 +40,7 @@
       "quickstart/kubernetes",
       "quickstart/universal",
       "deployments/stand-alone",
-      "deployments/how-multi-zone-works",
-      "deployments/how-to-multi-zone"
+      "deployments/multi-zone"
     ]
   },
   {
@@ -52,8 +50,10 @@
     "path": "",
     "children": [
       "documentation/overview",
-      "documentation/backends",
       "documentation/dps-and-data-model",
+      "documentation/gateway",
+      "documentation/zone-ingress",
+      "documentation/backends",
       "documentation/cli",
       "documentation/gui"
     ]
@@ -67,6 +67,7 @@
       "networking/networking",
       "networking/service-discovery",
       "networking/dns",
+      "networking/dns-cp",
       "networking/cni",
       "networking/transparent-proxying",
       "networking/ipv6"

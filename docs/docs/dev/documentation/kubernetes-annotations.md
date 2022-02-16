@@ -6,9 +6,11 @@ This page provide a complete list of all the annotations you can specify when yo
 
 ### `kuma.io/sidecar-injection`
 
-Lets you enable or disable sidecar injection.
+Enable or disable sidecar injection.
 
 **Example**
+
+Used on the namespace it will inject the sidecar in all pods created in the namespace:
 
 ```yaml
 apiVersion: v1
@@ -20,14 +22,44 @@ metadata:
 [...]
 ```
 
+Used on a deployment using pod template it will inject the sidecar in all pods managed by this deployment:
+
+```yaml
+apiVersion: v1
+king: Deployment
+metadata:
+  name: my-deployment
+spec:
+  template:
+    metadata:
+      labels:
+        kuma.io/sidecar-injection: enabled
+[...]
+```
+
+Labeling pods or deployments will take precedence on the namespace annotation.
+
 ## Annotations
 
 ### `kuma.io/mesh`
 
-Associates a given Pod with a particular Mesh. Annotation value must be the name of a Mesh resource.
+Associate Pods with a particular Mesh. Annotation value must be the name of a Mesh resource.
 
 **Example**
 
+It can be used on an entire namespace:
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: default
+ labels:
+   kuma.io/mesh: default
+[...]
+```
+
+It can be used on a pod:
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -38,9 +70,11 @@ metadata:
 [...]
 ```
 
+Annotating pods or deployments will take precedence on the namespace annotation.
+
 ### `kuma.io/sidecar-injection`
 
-Lets you enable or disable sidecar injection.
+Similar to the prefered [label](#kuma-io-sidecar-injection).
 
 **Example**
 
@@ -54,8 +88,10 @@ metadata:
 [...]
 ```
 
-While you can still use annotation to inject sidecar, we strongly recommend using labels.
+:::warning
+While you can still use annotations to inject sidecar, we strongly recommend using labels.
 It's the only way to guarantee that application can only be started with sidecar.
+:::
 
 ### `kuma.io/gateway`
 

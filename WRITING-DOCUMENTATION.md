@@ -23,11 +23,11 @@ To cut the dev release copy paste the `dev` folder and rename it to the correct 
 cp docs/docs/dev docs/docs/1.6.x
 ```
 
-Once the release is ready to be live make sure to move the `.latest` pointed file:
+Once the release is ready make sure to update the `.latest` file:
 
 ```shell
-# Update the latest release from 1.5.x to 1.6.x
-mv docs/docs/1.5.x/.latest docs/docs/1.6.x/
+# Update the latest release to 1.6.1
+echo 1.6.1 > docs/docs/.latest
 ```
 
 ## Fixing typos

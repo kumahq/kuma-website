@@ -18,3 +18,8 @@ Admin resources are `Secret` and `GlobalSecret`.
 
 * `KUMA_ACCESS_STATIC_GENERATE_USER_TOKEN_USERS` allows users to generate user token. Default `mesh-system:admin`.
 * `KUMA_ACCESS_STATIC_GENERATE_USER_TOKEN_GROUPS` allows groups to generate user token. Default `mesh-system:admin`.
+
+## Generate zone token
+
+* `KUMA_ACCESS_STATIC_GENERATE_ZONE_TOKEN_USERS` allows users to generate zone token. Default `mesh-system:admin`.
+* `KUMA_ACCESS_STATIC_GENERATE_ZONE_TOKEN_GROUPS` allows groups to generate zone token. Default `mesh-system:admin`.

@@ -44,7 +44,7 @@
     "esm": "^3.0.0",
     "jest": "^24.8.0",
     "jest-raw-loader": "^1.0.1",
-    "markdown-it": "^10.0.0",
+    "markdown-it": "^12.3.2",
     "markdown-it-for-inline": "^0.1.1",
     "markdown-it-meta": "^0.0.1",
     "node-sass": "^6.0.1",
