@@ -54,7 +54,9 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/secrets`
 * `/meshes/{mesh}/secrets/{name}`
 * `/status/zones`
-* `/tokens`
+* `/tokens/dataplane`
+* `/tokens/zone-ingress`
+* `/tokens/zone`
 * `/zones`
 * `/zones/{name}`
 * `/zones+insights`
@@ -3233,7 +3235,7 @@ For details, see [data plane proxy authentication](../security/certificates/#dat
 
 ### Generate dataplane proxy token
 
-Request: `PUT /tokens` with the following body:
+Request: `PUT /tokens/dataplane` with the following body:
 ```json
 {
   "name": "dp-echo-1",
