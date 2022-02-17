@@ -9,6 +9,11 @@ Typically we would want to create a `Mesh` per line of business, per team, per a
 * [Data plane proxies](../documentation/dps-and-data-model/)
 * [Policies](/policies)
 
+:::tip
+In Kubernetes mode, a `Mesh` may span multiple namespaces. Any resource in any namespace which
+identifies a particular `Mesh` will be part of that `Mesh`.
+:::
+
 In order to use Kuma at least one `Mesh` must exist, and there is no limit to the number of Meshes that can be created. When a data plane proxy connects to the control plane (`kuma-cp`) it specifies to what `Mesh` resource it belongs: a data plane proxy can only belong to one `Mesh` at a time.
 
 :::tip
@@ -93,7 +98,7 @@ kuma-dp run \
 
 #### Policies
 
-When creating new [Policies](/policies) we also must specify to what `Mesh` they belong, this can be done in the following way:
+When creating new [Policies](/policies) we also must specify to what `Mesh` they belong. This can be done in the following way:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -108,6 +113,8 @@ metadata:
 spec:
   ...
 ```
+
+Kuma consumes all [Policies](/policies) on all namespaces and joins each to an individual `Mesh`, identified by this property.
 :::
 ::: tab "Universal"
 By using the `mesh` property, like:
