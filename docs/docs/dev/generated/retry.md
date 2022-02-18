@@ -44,6 +44,32 @@
         - `retriableStatusCodes` (optional, repeated)
         
             +optional    
+        
+        - `retriableMethods` (optional, repeated)
+        
+            +optional
+        
+            Supported values:
+        
+            - `NONE`
+        
+            - `CONNECT`
+        
+            - `DELETE`
+        
+            - `GET`
+        
+            - `HEAD`
+        
+            - `OPTIONS`
+        
+            - `PATCH`
+        
+            - `POST`
+        
+            - `PUT`
+        
+            - `TRACE`    
     
     - `tcp` (optional)
     
