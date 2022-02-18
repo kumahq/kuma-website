@@ -56,7 +56,6 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/status/zones`
 * `/tokens/dataplane`
 * `/tokens/zone-ingress`
-* `/tokens/zone`
 * `/zones`
 * `/zones/{name}`
 * `/zones+insights`
