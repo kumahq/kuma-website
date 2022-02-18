@@ -3255,6 +3255,26 @@ curl -XPOST \
   http://localhost:5681/tokens/dataplane
 ```
 
+## Zone Ingress Tokens
+
+Generate token which zone ingress can use to authenticate itself.
+
+::: warning
+Requires [authentication to the control plane by the user](../security/certificates/#authentication).
+:::
+
+For details, see [zone ingress authentication](../security/zone-ingress-auth/#zone-ingress-token).
+
+### Generate Zone Ingress Token
+
+Example:
+```bash
+curl -XPOST \
+  -H "Content-Type: application/json" \
+  --data '{"zone": "us-east", "validFor": "720h"}' \
+  http://localhost:5681/tokens/zone-ingress
+```
+
 ## Global Insights
 
 ### Get Global Insights
