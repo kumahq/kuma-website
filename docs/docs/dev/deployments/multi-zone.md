@@ -521,11 +521,11 @@ Note that both local and cross-zone application traffic is not impacted by this 
 ### Communication between 2 zones failing
 
 This can happen if there are network connectivity issues:
-* between control plane and zone ingress from other zones;
-* between control plane and zone egress (when present);
-* between zone egress (when present) and zone ingress from other zone;
-* zone egress (when present) is down;
-* all zone ingresses of a zone are down.
+* Between control plane and zone ingress from other zone.
+* Between control plane and zone egress (when present).
+* Between zone egress (when present) and zone ingress from other zone.
+* Zone egress (when present) is down.
+* All zone ingresses of a zone are down.
 
 When it happens:
 * Communication and operation within each zone is unaffected.
