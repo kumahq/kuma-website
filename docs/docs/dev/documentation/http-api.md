@@ -30,6 +30,9 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/dataplanes`
 * `/meshes/{mesh}/dataplanes/{name}`
 * `/meshes/{mesh}/dataplanes/{name}/policies`
+* `/meshes/{mesh}/dataplanes/{name}/xds`
+* `/zoneingresses/{name}/xds`
+* `/zoneegresses/{name}/xds`
 * `/meshes/{mesh}/dataplanes+insights`
 * `/meshes/{mesh}/dataplanes+insights/{name}`
 * `/meshes/{mesh}/health-checks`
@@ -3389,4 +3392,70 @@ curl localhost:5681/meshes/default/health-checks/gateway-to-backend/policies
   }
  ]
 }
+```
+
+### Get envoy config dump for data plane proxy
+
+Request: `GET /meshes/{mesh}/dataplanes/{dataplane}/xds`
+
+Example:
+```bash
+curl localhost:5681/meshes/default/dataplane/backend-1/xds
+```
+```json
+{
+ "configs": [
+  {
+   "@type": "type.googleapis.com/envoy.admin.v3.BootstrapConfigDump",
+   "bootstrap": {
+    "node": {
+     "id": "default.backend-1",
+     "cluster": "backend",
+     "metadata": {
+       "dataplane.admin.port": "6606",
+...
+```
+
+### Get envoy config dump for ZoneIngress
+
+Request: `GET /zoneingresses/{name}/xds`
+
+Example:
+```bash
+curl localhost:5681/zoneingresses/zi-1/xds
+```
+```json
+{
+ "configs": [
+  {
+   "@type": "type.googleapis.com/envoy.admin.v3.BootstrapConfigDump",
+   "bootstrap": {
+    "node": {
+     "id": "default.zi-1",
+     "cluster": "zi",
+     "metadata": {
+       "dataplane.admin.port": "6606",
+...
+```
+
+### Get envoy config dump for ZoneEgress
+
+Request: `GET /zoneegresses/{name}/xds`
+
+Example:
+```bash
+curl localhost:5681/zoneegresses/ze-1/xds
+```
+```json
+{
+ "configs": [
+  {
+   "@type": "type.googleapis.com/envoy.admin.v3.BootstrapConfigDump",
+   "bootstrap": {
+    "node": {
+     "id": "default.ze-1",
+     "cluster": "ze",
+     "metadata": {
+       "dataplane.admin.port": "6606",
+...
 ```
