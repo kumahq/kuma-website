@@ -3253,7 +3253,7 @@ Example:
 curl -XPOST \ 
   -H "Content-Type: application/json" \
   --data '{"name": "dp-echo-1", "mesh": "default", "tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
-  http://localhost:5681/tokens
+  http://localhost:5681/tokens/dataplane
 ```
 
 ## Global Insights
