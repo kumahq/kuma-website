@@ -34,7 +34,7 @@
     >
       <li>
         <router-link :to="$page.frontmatter.enterpriseUrl">
-          Enterprise
+          Schedule a demo
           <span class="ml-2">
             <svg
               width="18"
@@ -121,6 +121,7 @@ export default {
 @import "../../../theme/styles/custom/config/_variables.scss";
 
 .dropdown {
+  min-width: 230px;
   margin-right: 16px;
   position: relative;
   z-index: 5;
@@ -161,7 +162,7 @@ export default {
   border-top: 0;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  width: 75%;
+  width: 82%;
   top: 100%;
   left: 0;
   right: 0;
