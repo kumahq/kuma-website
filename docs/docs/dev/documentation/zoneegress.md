@@ -19,7 +19,7 @@ When Zone Egress is present in the zone:
 The `ZoneEgress` entity includes a few sections:
 
 * `type`: must be `ZoneEgress`.
-* `name`: this is the name of the Zone Egress instance, and it must be **unique**
+* `name`: this is the name of the `ZoneEgress` instance, and it must be **unique**
    for any given `zone`.
 * `networking`: contains networking parameters of the Zone Egress
     * `address`: the address of the network interface Zone Egress is listening on.

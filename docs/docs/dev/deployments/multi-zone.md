@@ -29,7 +29,7 @@ A multi-zone deployment includes:
   * Accept creation and changes to [policies](/policies) that will be applied to the data plane proxies.
   * Send policies down to zone control planes.
   * Send zone ingresses down to zone control plane.
-  * Keep an inventory of all data planes running in all zones (this is only done for observability but is not required for operations).
+  * Keep an inventory of all data plane proxies running in all zones (this is only done for observability but is not required for operations).
   * Reject connections from data plane proxies.
 * The **zone control planes**: 
   * Accept connections from data plane proxies started within this zone.
@@ -259,7 +259,7 @@ You need the following values to pass to each zone control plane setup:
 
    You can also generate the token [with the REST API](../security/zoneegress-auth.md).
 
-6. Create an `egress` data plane proxy configuration to allow `kuma-cp` services
+6. Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services
    to be configured to proxy traffic to other zones or external services through
    zone egress:
 
@@ -290,7 +290,7 @@ You can run `kumactl get zones`, or check the list of zones in the web UI for th
 When a zone control plane connects to the global control plane, the `Zone` resource is created automatically in the global control plane.
 
 The Zone Ingress tab of the web UI also lists zone control planes that you
-deployed with Zone Ingress.
+deployed with zone ingress.
 
 ### Set up cross-zone communication
 
@@ -503,7 +503,7 @@ This can happen with misconfiguration or network connectivity issues between con
 
 * Operations inside the zone will happen correctly (data plane proxies can join, leave and all configuration will be updated and sent correctly).
 * Policy changes will not be propagated to the zone control plane.
-* Zone ingress, zone egress and data plane changes will not be propagated to the global control plane:
+* `ZoneIngress`, `ZoneEgress` and `Dataplane` changes will not be propagated to the global control plane:
     * The global inventory view of the data plane proxies will be outdated (this only impacts observability).
     * Other zones will not see new services registered inside this zone.
     * Other zones will not see services no longer running inside this zone.
@@ -521,7 +521,7 @@ Note that both local and cross-zone application traffic is not impacted by this 
 ### Communication between 2 zones failing
 
 This can happen if there are network connectivity issues:
-* between control plane and zone ingress from other zone;
+* between control plane and zone ingress from other zones;
 * between control plane and zone egress (when present);
 * between zone egress (when present) and zone ingress from other zone;
 * zone egress (when present) is down;

@@ -52,7 +52,7 @@ To do this, we have to create a file with a `Dataplane` definition and pass it t
 The registration of the `Dataplane` includes three main sections that are described below in the [Dataplane Specification](#dataplane-specification):
 
 * `address` IP at which this dataplane will be accessible to other data plane proxies
-* `inbound` networking configuration, to configure on what port the Dataplane will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
+* `inbound` networking configuration, to configure on what port the data plane proxy will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
 * `outbound` networking configuration, to enable the local service to consume other services.
 
 ::: tip
