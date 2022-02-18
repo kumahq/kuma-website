@@ -1,5 +1,18 @@
 # Fine-tuning
 
+## Reachable services
+
+By default, when transparent proxying is used, every data plane proxy follows every other data plane proxy in the mesh.
+With large meshes, usually, a data plane proxy connects to just a couple of services in the mesh.
+By defining the list of such services, we can dramatically improve the performance of Kuma.
+
+The result is that:
+* The control plane has to generate a much smaller XDS configuration (just a couple of Clusters/Listeners etc.) saving CPU and memory
+* Smaller config is sent over a wire saving a lot of network bandwidth
+* Envoy only has to keep a couple of Clusters/Listeners which means much fewer statistics and lower memory usage.
+
+Follow the [transparent proxying](../networking/transparent-proxying.md) docs on how to configure it.
+
 ## Postgres
 
 If you choose `Postgres` as a configuration store for `Kuma` on Universal,
