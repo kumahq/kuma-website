@@ -1,7 +1,7 @@
 # Inspect API
 
 Starting the version 1.5.0 Kuma implements several HTTP endpoints that improve debugging experience. These endpoints form Inspect API. Inspect API
-is fully supported by `kumactl`, but also could be queried directly, see [HTTP API](./http-api/#inspect-api).
+is fully supported by `kumactl`, but can be used directly, using the [HTTP API](./http-api/#inspect-api).
 
 ## Matched policies
 
