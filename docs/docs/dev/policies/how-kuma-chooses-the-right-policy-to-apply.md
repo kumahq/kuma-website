@@ -109,7 +109,7 @@ Kuma always picks the most specific policy
        cloud: aws
    ```
 
-If you want to see what policies were matched for the specific data plane proxy, starting Kuma 1.5.0 you can use 
+To see what policies were matched for the specific data plane proxy you can use [Inspect API](../../documentation/inspect-api). 
 [Inspect API](../../documentation/inspect-api). 
 
 ## Dataplane Policy
