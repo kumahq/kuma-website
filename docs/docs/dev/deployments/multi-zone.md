@@ -50,7 +50,7 @@ A multi-zone deployment includes:
 * (optional) The **zone egress**:
     * Receive XDS configuration from the local zone control plane.
     * Proxy traffic from local data plane proxies:
-      * to data plane proxies from other zones;
+      * to zone ingress proxies from other zones;
       * to external services from local zone;
 
 ## Usage
