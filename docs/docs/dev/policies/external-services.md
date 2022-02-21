@@ -153,4 +153,4 @@ In this example, when [locality aware load balancing](../locality-aware) is enab
 Kuma Gateway fully supports external services.
 Note that mesh Dataplanes can be configured with the same `kuma.io/service` tag as an external service resource.
 In this scenario, Kuma Gateway will prefer the ExternalService and not route any traffic to the Dataplanes.
-The rationale for this is that the ExternalService configuration is more specific than the Dataplane configuration.
+Note that before gateway becomes generally available this behaviour will change to be the same as for any other dataplanes.

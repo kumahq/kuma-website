@@ -159,5 +159,5 @@ When applied to an [ExternalService](../policies/external-services.md), `RateLim
 
 ## Builtin Gateway support
 
-Kuma Gateway supports the Rate Limit connection policy.
+Kuma Gateway supports the `RateLimit` connection policy.
 Rate limits are configured on each Envoy route by selecting the best Rate Limit policy that matches the source and destination.

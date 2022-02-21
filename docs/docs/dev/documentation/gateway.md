@@ -1,24 +1,24 @@
 # Gateway
 
 Kuma Gateway is a Kuma component that routes network traffic from outside a Kuma mesh to services inside the mesh.
-The gateway can be thought of as having 1 foot outside the mesh to receive traffic and one foot inside the mesh to route this external traffic to services inside the mesh.
+The gateway can be thought of as having one foot outside the mesh to receive traffic and one foot inside the mesh to route this external traffic to services inside the mesh.
 
 When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy.
-Gateway should be deployed as any other service within the mesh. However, in this case we want inbound traffic to go directly to the Gateway,
+Gateway should be deployed as any other service within the mesh. However, in this case we want inbound traffic to go directly to the gateway,
 otherwise clients would have to be provided with certificates that are generated dynamically for communication between services within the mesh.
 Security for an entrance to the mesh should be handled by Gateway itself.
 
 Kuma Gateway is deployed as a Kuma Dataplane, i.e. an instance of the `kuma-dp` process.
-Like all Kuma Dataplanes, the Kuma Gateway Dataplane manages a co-located Envoy proxy process that does the actual network traffic proxying.
+Like all Kuma Dataplanes, the Kuma Gateway Dataplane manages an Envoy proxy process that does the actual network traffic proxying.
 
-There exists 2 types of gateways:
+There exists two types of gateways:
 
 - Delegated: Which enables users to use any existing gateway like [Kong](https://github.com/Kong/kong).
-- Builtin: Which will configure the data plane proxy to expose external listeners to drive traffic inside the mesh.
+- Builtin: configures the data plane proxy to expose external listeners to drive traffic inside the mesh.
 
 ::: warning
 Gateways exist within a mesh.
-If you have multiple meshes you will want to add one gateway by mesh.
+If you have multiple meshes, each mesh will need its own gateway.
 :::
 
 ## Delegated
@@ -56,7 +56,7 @@ When configuring your API Gateway to pass traffic to _backend_ set the url to `h
 
 While most ingress controllers are supported in Kuma, the recommended gateway in Kubernetes is [Kong](https://docs.konghq.com/gateway).
 You can use [Kong ingress controller for Kubernetes](https://docs.konghq.com/kubernetes-ingress-controller/) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime.
-Most ingress controllers to work with Kuma require an annotation on every Kubernetes `Service` that you want to pass traffic to [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/references/annotations/#ingresskubernetesioservice-upstream).
+To work with Kuma, most ingress controllers require an annotation on every Kubernetes `Service` that you want to pass traffic to [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/references/annotations/#ingresskubernetesioservice-upstream).
 Kuma automatically injects this annotation for every Service that is in a namespace part of the mesh i.e. has `kuma.io/sidecar-injection: enabled` label.
 
 Like for regular dataplanes the `Dataplane` entities are automatically generated.
@@ -185,7 +185,8 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 The builtin gateway is currently experimental and is enabled with the kuma-cp flag `--experimental-meshgateway` or the environment variable `KUMA_EXPERIMENTAL_MESHGATEWAY`
 :::
 
-The builtin type of gateway is integrated into the core Kuma control plane. You can therefore configure gateway listeners and routes to service directly using Kuma policies.
+The builtin type of gateway is integrated into the core Kuma control plane.
+You can therefore configure gateway listeners and routes to service directly using Kuma policies.
 
 As with provided gateway, the builtin gateway is configured with a dataplane:
 
@@ -203,7 +204,7 @@ networking:
 
 A builtin gateway Dataplane does not have either inbound or outbound configuration.
 
-To configure your gateway Kuma has these policies:
+To configure your gateway Kuma has these resources:
 
 - [MeshGateway](../policies/mesh-gateway.md) is used to configure listeners exposed by the gateway
 - [MeshGatewayRoute](../policies/mesh-gateway-route.md) is used to configure route to route traffic from listeners to other services.

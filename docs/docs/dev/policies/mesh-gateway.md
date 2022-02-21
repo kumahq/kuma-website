@@ -3,12 +3,12 @@
 `MeshGateway` is a policy used to configure [Kuma's builtin gateway](../documentation/gateway.md#builtin).
 It is used in combination with [`MeshGatewayRoute`](./mesh-gateway-route.md).
 
-A builtin gateway Dataplane with no additional configuration does nothing.
+A builtin gateway `Dataplane` with no additional configuration does nothing.
 It is simply an unconfigured unit of proxying capacity.
 To make use of it, we need to place a `MeshGateway` resource on it.
 The `MeshGateway` resource specifies what network ports the gateway should listen on and how network traffic should be accepted.
 A builtin gateway Dataplane can have exactly one `MeshGateway` resource bound to it.
-This binding uses standard Kuma matching semantics for dataplane policies.
+This binding uses standard Kuma matching semantics.
 
 The most important field in the `MeshGateway` resource is the listener field.
 A `MeshGateway` can have any number of listeners, where each listener represents an endpoint that can accept network traffic.
@@ -124,7 +124,7 @@ Kuma generates a set of tags for each listener by overlaying the tags from the l
 This set of listener tags is what Kuma will match policies against.
 
 
-| Dataplane tags                            | Listener tags                                      | Final Tags                                          |
+| `Dataplane` tags                            | Listener tags                                      | Final Tags                                          |
 | ----------------------------------------- | -------------------------------------------------- | --------------------------------------------------- |
 | kuma.io/service=edge-gateway              | vhost=foo.example.com                              | kuma.io/service=edge-gateway,vhost=foo.example.com  |
 | kuma.io/service=edge-gateway              | kuma.io/service=example,domain=example.com         | kuma.io/service=example,domain=example.com          |
