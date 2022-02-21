@@ -110,7 +110,6 @@ Kuma always picks the most specific policy
    ```
 
 To see what policies were matched for the specific data plane proxy you can use [Inspect API](../../documentation/inspect-api). 
-[Inspect API](../../documentation/inspect-api). 
 
 ## Dataplane Policy
 
