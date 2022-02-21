@@ -1,13 +1,28 @@
-# Locality Aware Load Balancing
+# Locality-aware Load Balancing
 
-A [multi-zone deployment](../documentation/deployments/) can enable locality aware load balancing in a particular [Mesh](../policies/mesh/) to ensure optimal service backend routing. This feature relies on the `kuma.io/zone` service tag to select the destination service endpoint.
+In a [multi-zone deployment](../documentation/deployments/), locality-aware load balancing
+instructs data plane proxies to try to keep requests within one zone. The amount
+of traffic that remains in one zone depends on the health of the service endpoints in that
+zone.
 
-## Enabling the Locality Aware Load Balancing
+By way of example, consider a request from a service in Kuma zone `east` to another
+service `backend`. If all of the endpoints for `backend` in zone `east` are healthy,
+the request will be sent to one of those endpoints rather than to another zone.
 
-A particular `Mesh` that spans several regions, zones or subzones, may choose to enable locality aware load balancing as follows:
+As more `backend` endpoints in zone `east` become unhealthy, some traffic begins to flow
+to `backend` instances in other zones.
+Locality-aware load balancing is currently implemented using Envoy priorites, see
+[the Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority)
+for more details.
+
+## Enabling locality-aware load balancing
+
+Locality-aware load balancing is configured at the `Mesh` level.
+It can be enabled as follows:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -18,10 +33,11 @@ spec:
     localityAwareLoadBalancing: true
 ```
 
-We will apply the configuration with `kubectl apply -f [..]`.
+The configuration can be applied with `kubectl apply -f [..]`.
 :::
 
 ::: tab "Universal"
+
 ```yaml
 type: Mesh
 name: default
@@ -29,6 +45,6 @@ routing:
   localityAwareLoadBalancing: true
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../documentation/http-api).
+The configuration can be applied with `kumactl apply -f [..]` or via the [HTTP API](../../documentation/http-api).
 :::
 ::::
