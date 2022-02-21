@@ -3412,8 +3412,13 @@ curl localhost:5681/meshes/default/dataplane/backend-1/xds
      "id": "default.backend-1",
      "cluster": "backend",
      "metadata": {
-       "dataplane.admin.port": "6606",
-...
+       "dataplane.admin.port": "6606"
+     }
+    }
+   }
+  }
+ ]
+}
 ```
 
 ### Get envoy config dump for ZoneIngress
@@ -3434,8 +3439,13 @@ curl localhost:5681/zoneingresses/zi-1/xds
      "id": "default.zi-1",
      "cluster": "zi",
      "metadata": {
-       "dataplane.admin.port": "6606",
-...
+       "dataplane.admin.port": "6606"
+     }
+    }
+   }
+  }
+ ]
+}
 ```
 
 ### Get envoy config dump for ZoneEgress
@@ -3456,6 +3466,11 @@ curl localhost:5681/zoneegresses/ze-1/xds
      "id": "default.ze-1",
      "cluster": "ze",
      "metadata": {
-       "dataplane.admin.port": "6606",
-...
+       "dataplane.admin.port": "6606"
+     }
+    }
+   }
+  }
+ ]
+}
 ```

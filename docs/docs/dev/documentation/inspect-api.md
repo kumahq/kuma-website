@@ -92,5 +92,5 @@ kumactl inspect zoneegress ze-1 --config-dump
 
 ::: warning
 In order to get config dump in Multizone deployment `kumactl` should be pointed to Zone CP, today Global CP doesn't have access 
-to envoy config dumps. This is a limitation, and we're going to resolve it in the next releases. 
+to envoy config dumps. This is a limitation, and we're going to resolve it in the next releases, [issue](https://github.com/kumahq/kuma/issues/3789). 
 :::
