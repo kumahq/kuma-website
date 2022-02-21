@@ -216,6 +216,9 @@ module.exports = {
   plugins: [
     (config = {}, ctx) => {
       // Plugin that will generate static assets from configuration
+      let sp = latestVersion.split(".");
+      let latestMinor = `${sp[0]}.${sp[1]}.x`;
+      let oldVersions = allVersions.filter((v) => v !== latestMinor);
       const files = {
         "latest_version.html": latestVersion,
         "releases.json": allVersions,
@@ -223,6 +226,14 @@ module.exports = {
           extensions: /\.(jpg|png|gif)$/,
           normalizePath: true
         }),
+        "robots.txt": `\
+User-agent: *
+Disallow: /latest_version
+Disallow: /latest_version.html
+${oldVersions.map((v) => `Disallow: /docs/${v}`).join("\n")}
+
+Sitemap: https://kuma.io/sitemap.xml
+`
       };
       return {
         name: "static-files",

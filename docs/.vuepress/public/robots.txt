@@ -1,7 +1,0 @@
-User-agent: *
-Disallow: /latest_version
-Disallow: /latest_version.html
-Disallow: /docs/1.0*
-Disallow: /docs/1.1*
-
-Sitemap: https://kuma.io/sitemap.xml
