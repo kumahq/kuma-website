@@ -1,6 +1,6 @@
 # Zone Egress
 
-In the situation, when Kuma is deployed in a [multi-zone](../deployments/multi-zone.md),
+When Kuma is deployed in [multi-zone](../deployments/multi-zone.md),
 and you want to achieve isolation of outgoing traffic (to services in other 
 zones or [external services](../policies/external-services.md) in the local zone),
 you can use `ZoneEgress` proxy.

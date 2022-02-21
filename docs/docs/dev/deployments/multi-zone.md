@@ -268,7 +268,7 @@ You need the following values to pass to each zone control plane setup:
     name: zoneegress-01
     networking:
       address: 127.0.0.1 # address that is routable within the zone
-      port: 10002 > zoneegress-dataplane.yaml
+      port: 10002" > zoneegress-dataplane.yaml
     ```
 
 7. Apply the egress config, passing the IP address of the zone control plane to `cp-address`:
@@ -524,8 +524,8 @@ This can happen if there are network connectivity issues:
 * Between control plane and zone ingress from other zone.
 * Between control plane and zone egress (when present).
 * Between zone egress (when present) and zone ingress from other zone.
-* Zone egress (when present) is down.
-* All zone ingresses of a zone are down.
+* All Zone egress instances of a zone (when present) are down.
+* All zone ingress instances of a zone are down.
 
 When it happens:
 * Communication and operation within each zone is unaffected.
