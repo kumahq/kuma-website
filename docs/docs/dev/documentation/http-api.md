@@ -54,7 +54,8 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/secrets`
 * `/meshes/{mesh}/secrets/{name}`
 * `/status/zones`
-* `/tokens`
+* `/tokens/dataplane`
+* `/tokens/zone-ingress`
 * `/zones`
 * `/zones/{name}`
 * `/zones+insights`
@@ -3233,7 +3234,7 @@ For details, see [data plane proxy authentication](../security/certificates/#dat
 
 ### Generate dataplane proxy token
 
-Request: `PUT /tokens` with the following body:
+Request: `PUT /tokens/dataplane` with the following body:
 ```json
 {
   "name": "dp-echo-1",
@@ -3251,7 +3252,27 @@ Example:
 curl -XPOST \ 
   -H "Content-Type: application/json" \
   --data '{"name": "dp-echo-1", "mesh": "default", "tags": {"kuma.io/service": ["backend", "backend-admin"]}}' \
-  http://localhost:5681/tokens
+  http://localhost:5681/tokens/dataplane
+```
+
+## Zone Ingress Tokens
+
+Generate token which zone ingress can use to authenticate itself.
+
+::: warning
+Requires [authentication to the control plane by the user](../security/certificates/#authentication).
+:::
+
+For details, see [zone ingress authentication](../security/zone-ingress-auth/#zone-ingress-token).
+
+### Generate Zone Ingress Token
+
+Example:
+```bash
+curl -XPOST \
+  -H "Content-Type: application/json" \
+  --data '{"zone": "us-east", "validFor": "720h"}' \
+  http://localhost:5681/tokens/zone-ingress
 ```
 
 ## Global Insights
