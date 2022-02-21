@@ -7,7 +7,7 @@ is fully supported by `kumactl`, but can be used directly, using the [HTTP API](
 
 There is a list of rules Kuma uses to match policies with data plane proxies, more on it in 
 [How Kuma chooses the right policy to apply](../../policies/how-kuma-chooses-the-right-policy-to-apply). If deployment
-has many policies with many tags it could be cumbersome to find what policies were selected for each specific data plane 
+With many policies it's hard to understand which policy is selected for a specific data plane proxy.
 proxy. That's where Inspect API may help:
 
 ```shell
