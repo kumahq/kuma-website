@@ -72,7 +72,7 @@ This command works for all types of policies.
 
 ## Envoy proxy configuration
 
-Kuma has 3 components that built on top of envoy – kuma-dp, zone-ingress and zone-egress. During debugging, it could be
+Kuma has 3 components that built on top of envoy – kuma-dp, zone-ingress and zone-egress. During debugging, you can access envoy config dump.
 crucial to have access to envoy config dump. Inspect API gives access to config dumps of all envoy-based components:
 
 Get config dump for data plane proxy:
