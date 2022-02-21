@@ -44,7 +44,7 @@ Each data plane proxy has 4 places where policy could be attached:
 - Inbound – effectively means policy is applied to envoy inbound listener
 - Outbound – policy is applied to envoy outbound listener
 - Service – policy is applied to envoy outbound cluster (upstream cluster)
-- Dataplane – the area where policy applied is not specified, could affect inbound/outbound listeners and clusters
+- Dataplane – the area where policy applied is not specific, could affect inbound/outbound listeners and clusters
 
 The command in the example above shows what policies were matched for every type of attachment. 
 
