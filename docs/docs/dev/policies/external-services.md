@@ -15,7 +15,6 @@ apiVersion: kuma.io/v1alpha1
 kind: ExternalService
 mesh: default
 metadata:
-  namespace: default
   name: httpbin
 spec:
   tags:
