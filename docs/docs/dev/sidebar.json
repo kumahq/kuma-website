@@ -55,7 +55,8 @@
       "documentation/zone-ingress",
       "documentation/backends",
       "documentation/cli",
-      "documentation/gui"
+      "documentation/gui",
+      "documentation/inspect-api"
     ]
   },
   {

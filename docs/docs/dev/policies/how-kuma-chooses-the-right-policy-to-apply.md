@@ -109,6 +109,8 @@ Kuma always picks the most specific policy
        cloud: aws
    ```
 
+To see what policies were matched for the specific data plane proxy you can use [Inspect API](../../documentation/inspect-api). 
+
 ## Dataplane Policy
 
 Dataplane policy is a policy that matches group of data plane proxies, not a connection between multiple proxies.
