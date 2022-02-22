@@ -40,7 +40,7 @@ What does `Kuma` do when it encounters multiple matching policies?
 
 ## General rules
 
-Kuma always picks the most specific policy
+Kuma always picks the single most specific policy.
 
 1. A policy that matches by a **greater number of tags**
 
@@ -109,7 +109,67 @@ Kuma always picks the most specific policy
        cloud: aws
    ```
 
-To see what policies were matched for the specific data plane proxy you can use [Inspect API](../../documentation/inspect-api). 
+Only one policy of a given type is matched to a particular inbound. If multiple
+matches are desired, they must be combined into a single policy.
+
+To see which policies were matched for the specific data plane proxy you can use [Inspect API](../../documentation/inspect-api).
+
+## Combine Policies to Avoid Overriding
+
+If the following two policies are applied, the most recent one will override the other:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficPermission
+mesh: default
+metadata:
+  name: allow-b-to-a
+spec:
+  sources:
+    - match:
+        kuma.io/service: b
+  destinations:
+    - match:
+        kuma.io/service: a
+```
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficPermission
+mesh: default
+metadata:
+  name: allow-c-to-a
+spec:
+  sources:
+    - match:
+        kuma.io/service: c
+  destinations:
+    - match:
+        kuma.io/service: a
+```
+
+This is because both destinations match the same inbound with the same specificity,
+and Kuma selects exactly one policy of a given type.
+
+If it is desired that both policies be applied, they must be combined:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: TrafficPermission
+mesh: default
+metadata:
+  name: allow-b-c-to-a
+spec:
+  sources:
+    - match:
+        kuma.io/service: b
+    - match:
+        kuma.io/service: c
+  destinations:
+    - match:
+        kuma.io/service: a
+```
+
 
 ## Dataplane Policy
 
