@@ -73,8 +73,19 @@ module.exports = {
       indexName: ""
     },
     sidebar: allVersions.reduce((acc, v) => {
-      acc[`/docs/${v}/`] = require(`../docs/${v}/sidebar.json`);
-      return acc
+      acc[`/docs/${v}/`] = require(`../docs/${v}/sidebar.json`).map(sb => {
+        // Add policy reference docs
+        if (sb.title === "Reference docs") {
+          const genPath = path.resolve(__dirname, `../docs/${v}/generated/policies`);
+          if (fs.existsSync(genPath)) {
+            const policies = fs.readdirSync(genPath, {withFileTypes: true})
+              .map(f => "generated/policies/" + f.name.replace(".md", ""));
+            sb.children.push({"title": "Policies", "children": policies});
+          }
+        }
+        return sb;
+      });
+      return acc;
     }, {}),
     // displayAllHeaders: true,
     // main navigation
