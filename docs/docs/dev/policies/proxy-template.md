@@ -798,3 +798,9 @@ conf:
 ## Matching
 
 `ProxyTemplate` is a [Dataplane policy](how-kuma-chooses-the-right-policy-to-apply.md#dataplane-policy). You can use all the tags in the `selectors` section.
+
+## Builtin Gateway support
+
+The Proxy Template policy supports a new `gateway-proxy` configuration name that can be imported.
+This generates the Envoy resources for a Kuma Gateway proxy.
+The origin name for matching template modifications is `gateway`.

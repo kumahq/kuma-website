@@ -147,3 +147,10 @@ networking:
 
 In this example, when [locality aware load balancing](../locality-aware) is enabled, if the service in zone-1 is trying to set connection with
 `httpbin.mesh` it will be redirected to `zone-1.httpbin.org:80`. Whereas the same request from zone-2 will be redirected to `zone-2.httpbin.org:80`.
+
+## Builtin Gateway support
+
+Kuma Gateway fully supports external services.
+Note that mesh Dataplanes can be configured with the same `kuma.io/service` tag as an external service resource.
+In this scenario, Kuma Gateway will prefer the ExternalService and not route any traffic to the Dataplanes.
+Note that before gateway becomes generally available this behaviour will change to be the same as for any other dataplanes.
