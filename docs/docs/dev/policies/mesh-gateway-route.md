@@ -60,7 +60,7 @@ spec:
 
 When Kuma binds a `MeshGatewayRoute` to a `MeshGateway`, careful specification of tags lets you control whether the `MeshGatewayRoute` will bind to one or more of the listeners declared on the `MeshGateway`.
 Each listener stanza on a `MeshGateway` has a set of tags; Kuma creates the listener tags by combining these tags with the tags from the underlying builtin gateway `Dataplane`.
-A Gateway selector that matches only on the Gateway’s `kuma.io/service` tag will bind to all listeners on the `MeshGateway`, but a selector that includes listener tags will only bind to matching listeners.
+A selector that matches only on the `kuma.io/service` tag will bind to all listeners on the `MeshGateway`, but a selector that includes listener tags will only bind to matching listeners.
 One application of this mechanism is to inject standard routes into all virtual hosts, without the need to modify `MeshGatewayRoutes` that configure specific applications.
 
 `MeshGatewayRoute` allows HTTP requests to be matched by various criteria (e.g. URI path, HTTP headers).
