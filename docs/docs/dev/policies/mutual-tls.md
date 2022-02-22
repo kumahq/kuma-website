@@ -281,10 +281,10 @@ The command will generate a certificate at `crt.pem` and the key at `key.pem`. W
 
 ### Development Mode
 
-In development mode we may want to provide the `cert` and `key` properties of the `provided` backend without necessarily having to create a Secret resource, but by using either a file or an inline value.
+In development mode we may want to provide the `cert` and `key` properties of the `provided` backend without necessarily having to create a Secret resource, but by using an inline value.
 
 :::warning
-Using the `file` and `inline` modes in production presents a security risk since it makes the values of our CA root certificate and key more easily accessible from a malicious actor. We highly recommend using `file` and `inline` only in development mode.
+Using the `inline` modes in production presents a security risk since it makes the values of our CA root certificate and key more easily accessible from a malicious actor. We highly recommend using `inline` only in development mode.
 :::
 
 Kuma offers an alternative way to specify the CA root certificate and key:
@@ -292,7 +292,7 @@ Kuma offers an alternative way to specify the CA root certificate and key:
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-Please note the `file` and `inline` properties that are being used instead of `secret`:
+Please note the `inline` properties that are being used instead of `secret`:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -309,14 +309,14 @@ spec:
         cert:
           inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
         key:
-          file: /opt/cert.key
+          inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # key in Base64
 ```
 
 :::
 
 ::: tab "Universal"
 
-Please note the `file` and `inline` properties that are being used instead of `secret`:
+Please note the `inline` properties that are being used instead of `secret`:
 
 ```yaml
 type: Mesh
@@ -330,7 +330,7 @@ mtls:
       cert:
         inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
       key:
-        file: /opt/cert.key
+        inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
 ```
 :::
 :::: 
