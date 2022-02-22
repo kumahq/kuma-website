@@ -53,6 +53,7 @@
       "documentation/dps-and-data-model",
       "documentation/gateway",
       "documentation/zone-ingress",
+      "documentation/zoneegress",
       "documentation/backends",
       "documentation/cli",
       "documentation/gui",
@@ -86,6 +87,7 @@
       "security/api-server-auth",
       "security/dp-auth",
       "security/zone-ingress-auth",
+      "security/zoneegress-auth",
       "security/dp-membership"
     ]
   },

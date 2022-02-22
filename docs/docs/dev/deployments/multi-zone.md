@@ -27,9 +27,9 @@ A multi-zone deployment includes:
 * The **global control plane**:
   * Accept connections only from zone control planes.
   * Accept creation and changes to [policies](/policies) that will be applied to the data plane proxies.
-  * Send policies down to zone control-planes.
-  * Send zone ingresses down to zone control-plane.
-  * Keep an inventory of all dataplanes running in all zones (this is only done for observability but is not required for operations).
+  * Send policies down to zone control planes.
+  * Send zone ingresses down to zone control plane.
+  * Keep an inventory of all data plane proxies running in all zones (this is only done for observability but is not required for operations).
   * Reject connections from data plane proxies.
 * The **zone control planes**: 
   * Accept connections from data plane proxies started within this zone.
@@ -47,6 +47,11 @@ A multi-zone deployment includes:
 * The **zone ingress**:
   * Receive XDS configuration from the local zone control plane.
   * Proxy traffic from other zone data plane proxies to local data plane proxies.
+* (optional) The **zone egress**:
+    * Receive XDS configuration from the local zone control plane.
+    * Proxy traffic from local data plane proxies:
+      * to zone ingress proxies from other zones;
+      * to external services from local zone;
 
 ## Usage
 
@@ -68,13 +73,13 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 
 1.  Run:
 
-    ```bash
+    ```sh
     kumactl install control-plane --mode=global | kubectl apply -f -
     ```
 
 1.  Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
 
-    ```bash
+    ```sh
     kubectl get services -n kuma-system
     NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
     kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
@@ -99,7 +104,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     ```
 1.  Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
 
-    ```bash
+    ```sh
     kubectl get services -n kuma-system
     NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
     kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
@@ -127,8 +132,11 @@ You need the following values to pass to each zone control plane setup:
 - `zone` -- the zone name. An arbitrary string. This value registers the zone control plane with the global control plane.
 - `kds-global-address` -- the external IP and port of the global control plane.
 
+
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
+
+**Without zone egress**:
 
 1.  On each zone control plane, run:
 
@@ -137,23 +145,57 @@ You need the following values to pass to each zone control plane setup:
     --mode=zone \
     --zone=<zone name> \
     --ingress-enabled \
-    --kds-global-address grpcs://`<global-kds-address>` | kubectl apply -f -
+    --kds-global-address grpcs://<global-kds-address>:5685 | kubectl apply -f -
     ```
 
     where `zone` is the same value for all zone control planes in the same zone.
 
-:::
-::: tab "Helm"
+**With zone egress**:
 
 1.  On each zone control plane, run:
 
-    ```bash
+    ```sh
+    kumactl install control-plane \
+    --mode=zone \
+    --zone=<zone-name> \
+    --ingress-enabled \
+    --egress-enabled \
+    --kds-global-address grpcs://<global-kds-address>:5685 | kubectl apply -f -
+    ```
+
+    where `zone` is the same value for all zone control planes in the same zone.
+
+
+:::
+::: tab "Helm"
+
+**Without zone egress**:
+
+1.  On each zone control plane, run:
+
+    ```sh
     helm install kuma \
     --namespace kuma-system \
     --set controlPlane.mode=zone \
     --set controlPlane.zone=<zone-name> \
     --set ingress.enabled=true \
-    --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
+    --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 kuma/kuma
+    ```
+
+    where `controlPlane.zone` is the same value for all zone control planes in the same zone.
+
+**With zone egress**:
+
+1.  On each zone control plane, run:
+
+    ```sh
+    helm install kuma \
+    --namespace kuma-system \
+    --set controlPlane.mode=zone \
+    --set controlPlane.zone=<zone-name> \
+    --set ingress.enabled=true \
+    --set egress.enabled=true \
+    --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 kuma/kuma
     ```
 
     where `controlPlane.zone` is the same value for all zone control planes in the same zone.
@@ -165,12 +207,12 @@ You need the following values to pass to each zone control plane setup:
 
     ```sh
     KUMA_MODE=zone \
-    KUMA_MULTIZONE_REMOTE_ZONE=<zone-name> \
-    KUMA_MULTIZONE_REMOTE_GLOBAL_ADDRESS=grpcs://<global-kds-address> \
+    KUMA_MULTIZONE_ZONE_NAME=<zone-name> \
+    KUMA_MULTIZONE_ZONE_GLOBAL_ADDRESS=grpcs://<global-kds-address>:5685 \
     ./kuma-cp run
     ```
 
-   where `KUMA_MULTIZONE_REMOTE_ZONE` is the same value for all zone control planes in the same zone.
+   where `KUMA_MULTIZONE_ZONE_NAME` is the same value for all zone control planes in the same zone.
 
 2. Generate the zone ingress token:
 
@@ -184,7 +226,7 @@ You need the following values to pass to each zone control plane setup:
 
 3. Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication:
 
-    ```bash
+    ```sh
     echo "type: ZoneIngress
     name: ingress-01
     networking:
@@ -196,12 +238,47 @@ You need the following values to pass to each zone control plane setup:
 
 4. Apply the ingress config, passing the IP address of the zone control plane to `cp-address`:
 
-    ```
+    ```sh
     kuma-dp run \
     --proxy-type=ingress \
     --cp-address=https://<kuma-cp-address>:5678 \
     --dataplane-token-file=/tmp/ingress-token \
     --dataplane-file=ingress-dp.yaml
+    ```
+
+(Optional) If you want to deploy zone egress:
+
+5. Generate the zone token with `egress` in scope:
+
+   To register the zone egress with the zone control plane, we need to generate
+   a zone token first with appropriate scope first:
+
+    ```sh
+    kumactl generate zone-token --zone=<zone-name> --scope egress > /tmp/zoneegress-token
+    ```
+
+   You can also generate the token [with the REST API](../security/zoneegress-auth.md).
+
+6. Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services
+   to be configured to proxy traffic to other zones or external services through
+   zone egress:
+
+    ```sh
+    echo "type: ZoneEgress
+    name: zoneegress-01
+    networking:
+      address: 127.0.0.1 # address that is routable within the zone
+      port: 10002" > zoneegress-dataplane.yaml
+    ```
+
+7. Apply the egress config, passing the IP address of the zone control plane to `cp-address`:
+
+    ```sh
+    kuma-dp run \
+    --proxy-type=egress \
+    --cp-address=https://<kuma-cp-address>:5678 \
+    --dataplane-token-file=/tmp/zoneegress-token \
+    --dataplane-file=zoneegress-dataplane.yaml
     ```
 :::
 ::::
@@ -212,7 +289,8 @@ You can run `kumactl get zones`, or check the list of zones in the web UI for th
 
 When a zone control plane connects to the global control plane, the `Zone` resource is created automatically in the global control plane.
 
-The Ingress tab of the web UI also lists zone control planes that you deployed with Ingress.
+The Zone Ingress tab of the web UI also lists zone control planes that you
+deployed with zone ingress.
 
 ### Set up cross-zone communication
 
@@ -229,16 +307,16 @@ Cross-zone communication between services is available only if Zone Ingress has 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-If a service of type NodePort or LoadBalancer is attached to the dataplane, Kuma will automatically retrieve the external address and port.
+If a service of type `NodePort` or `LoadBalancer` is attached to the data plane, Kuma will automatically retrieve the external address and port.
 
-A service of type LoadBalancer is automatically created when installing Kuma with `kumactl install control-plane` or helm.
+A service of type `LoadBalancer` is automatically created when installing Kuma with `kumactl install control-plane` or helm.
 
 Depending on your load balancer implementation, you might need to wait a few minutes for Kuma to get the address.
 
 You can also set this address and port by using the annotations: [`kuma.io/ingress-public-address` and `kuma.io/ingress-public-port`](../documentation/kubernetes-annotations/#kuma-io-ingress-public-port)
 
 ::: tab "Universal"
-Set the advertisedAddress and advertisedPort field in the ZoneIngress definition
+Set the advertisedAddress and advertisedPort field in the `ZoneIngress` definition
 ```yaml
 type: ZoneIngress
 name: ingress-01
@@ -253,7 +331,7 @@ networking:
 
 :::tip
 This address doesn't need to be public to the internet.
-It only needs to be reachable from all dataplane proxies in other zones.
+It only needs to be reachable from all data plane proxies in other zones.
 :::
 
 ### Cross-zone communication details
@@ -263,27 +341,27 @@ It only needs to be reachable from all dataplane proxies in other zones.
 
 To view the list of service names available for cross-zone communication, run:
 
-```bash
+```sh
 kubectl get dataplanes -n echo-example -o yaml | grep kuma.io/service
            kuma.io/service: echo-server_echo-example_svc_1010
 ```
 
 To consume the example service only within the same Kuma zone, you can run:
 
-```
+```sh
 <kuma-enabled-pod>$ curl http://echo-server:1010
 ```
 
 To consume the example service across all zones in your Kuma deployment (that is, from endpoints ultimately connecting to the same global control plane), you can run either of:
 
-```
+```sh
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
 <kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
 ```
 
 And if your HTTP clients take the standard default port 80, you can the port value and run either of:
 
-```
+```sh
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
 <kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
 ```
@@ -364,7 +442,7 @@ kumactl delete zone zone-1
 
 ### Disable a zone
 
-Change the `enabled` property value to `false` in the global control-plane:
+Change the `enabled` property value to `false` in the global control plane:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -393,23 +471,23 @@ The zone will show as **Offline** in the GUI and CLI.
 
 ## Failure modes
 
-### Global control-plane offline
+### Global control plane offline
 
 * Policy updates will be impossible
 * Change in service list between zones will not propagate:
-    * New services will not be discoverable in other zones
-    * Services removed from a zone will still appear available in other zones
-* You won't be able to disable or delete a zone
+    * New services will not be discoverable in other zones.
+    * Services removed from a zone will still appear available in other zones.
+* You won't be able to disable or delete a zone.
 
 ::: tip
 Note that both local and cross-zone application traffic is not impacted by this failure case.
 Data plane proxy changes will be propagated within their zones.
 :::
 
-### Zone control-plane offline
+### Zone control plane offline
 
 * New data plane proxies won't be able to join the mesh.
-* Data-plane proxy configuration will not be updated.
+* Data plane proxy configuration will not be updated.
 * Communication between data plane proxies will still work.
 * Cross zone communication will still work.
 * Other zones are unaffected.
@@ -419,21 +497,22 @@ You can think of this failure case as *"Freezing"* the zone mesh configuration.
 Communication will still work but changes will not be reflected on existing data plane proxies.
 :::
 
-### Communication between Global and Zone control-plane failing
+### Communication between Global and Zone control plane failing
 
-This can happen with mis-configuration or network connectivity issues between control-planes.
+This can happen with misconfiguration or network connectivity issues between control planes.
 
-* Operations inside the zone will happen correctly (dataplane proxies can join and leave and all configuration will be updated and sent correctly).
-* Policy changes will not be propagated to the zone control-plane.
-* Zone ingress and dataplane changes will not be propagated to the global control-plane.
+* Operations inside the zone will happen correctly (data plane proxies can join, leave and all configuration will be updated and sent correctly).
+* Policy changes will not be propagated to the zone control plane.
+* `ZoneIngress`, `ZoneEgress` and `Dataplane` changes will not be propagated to the global control plane:
     * The global inventory view of the data plane proxies will be outdated (this only impacts observability).
-    * Remote zones will not see new services registered inside this zone
-    * Remote zones will not see services no longer running inside this zone
-    * Remote zones will not see changes in number of instances of each service running in the local zone.
-* Global control-plane will not send changes to other zone-ingress to the zone
-    * Local data plane proxies will not see new services registered in other zones
-    * Local data plane proxies will not see services no longer running in other zones
+    * Other zones will not see new services registered inside this zone.
+    * Other zones will not see services no longer running inside this zone.
+    * Other zones will not see changes in number of instances of each service running in the local zone.
+* Global control plane will not send changes from other zone ingress to the zone:
+    * Local data plane proxies will not see new services registered in other zones.
+    * Local data plane proxies will not see services no longer running in other zones.
     * Local data plane proxies will not see changes in number of instances of each service running in other zones.
+* Global control plane will not send changes from other zone ingress to the zone.
 
 ::: tip
 Note that both local and cross-zone application traffic is not impacted by this failure case.
@@ -441,10 +520,16 @@ Note that both local and cross-zone application traffic is not impacted by this 
 
 ### Communication between 2 zones failing
 
-This can happen if there are network connectivity issues between control-plane and zone ingresses or all zone ingresses of a zone are down.
+This can happen if there are network connectivity issues:
+* Between control plane and zone ingress from other zone.
+* Between control plane and zone egress (when present).
+* Between zone egress (when present) and zone ingress from other zone.
+* All Zone egress instances of a zone (when present) are down.
+* All zone ingress instances of a zone are down.
 
-* Communication and operation within each zone is unaffected
-* Communication across each zone will fail
+When it happens:
+* Communication and operation within each zone is unaffected.
+* Communication across each zone will fail.
 
 ::: tip
 With the right resiliency setup ([Retries](../../policies/retry), [Probes](../../policies/health-check), [Locality Aware LoadBalancing](../../policies/locality-aware), [Circuit Breakers](../../policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.

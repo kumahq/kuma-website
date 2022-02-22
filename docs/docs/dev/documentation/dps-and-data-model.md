@@ -8,7 +8,7 @@ When Kuma (`kuma-cp`) runs, it waits for the data plane proxies to connect and r
 
 ## Dataplane Entity
 
-A `Dataplane` entity must be passed to `kuma-dp` when instances attempt to connect to the control-plane.
+A `Dataplane` entity must be passed to `kuma-dp` when instances attempt to connect to the control plane.
 On Kubernetes, this operation is [fully **automated**](#kubernetes).
 On Universal, it must be executed [**manually**](#universal).
 
@@ -26,7 +26,7 @@ For example, if we have 6 replicas of a "Redis" service, then we must have one i
 
 When we start a new data plane proxy in Kuma, it needs to communicate a few things to the control-plane: 
 
-- What types they are: "standard", "zone-ingress" or "gateway".
+- What types they are: "standard", "zone-ingress", "zoneegress" or "gateway".
 - How they can be reached by other data plane proxies (This is an address/port combination).
 - What services they expose (This will be called inbounds).
 - How the application will use the sidecar to reach other services (either with transparent proxy or by explicitly listing services it will connect to).
@@ -34,7 +34,10 @@ When we start a new data plane proxy in Kuma, it needs to communicate a few thin
 ::: tip
 There exists special types of data planes proxies:
 
-- [Zone-ingress](./zone-ingress.md) which will enable inbound cross-zone traffic.
+- [ZoneIngress](./zone-ingress.md) which will enable inbound cross-zone traffic.
+- [ZoneEgress](./zoneegress.md) which allows isolating outgoing cross-zone
+  traffic as well as any traffic going to external services available in local
+  zone
 - [Gateway](./gateway.md) which will traffic external to the mesh to enter it.
 
 Because these dataplane types are specific and complex we will discuss them separately to "standard" dataplane proxies.
@@ -49,12 +52,12 @@ To do this, we have to create a file with a `Dataplane` definition and pass it t
 The registration of the `Dataplane` includes three main sections that are described below in the [Dataplane Specification](#dataplane-specification):
 
 * `address` IP at which this dataplane will be accessible to other data plane proxies
-* `inbound` networking configuration, to configure on what port the DP will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
+* `inbound` networking configuration, to configure on what port the data plane proxy will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
 * `outbound` networking configuration, to enable the local service to consume other services.
 
 ::: tip
 In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](../../policies/mesh) in Kuma.
-By default the system generates a `default` Mesh when the control-plane is run for the first time.
+By default, the system generates a `default` Mesh when the control-plane is run for the first time.
 :::
 
 ## Envoy

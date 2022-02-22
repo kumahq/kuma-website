@@ -63,6 +63,10 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/zones/{name}`
 * `/zones+insights`
 * `/zones+insights/{name}`
+* [`/zonesegresses`](#list-zone-egresses)
+* [`/zonesegresses/{name}`](#get-zone-egress)
+* [`/zonesegressoverviews`](#list-zone-egress-overviews)
+* [`/zonesegressoverviews/{name}`](#get-zone-egress-overview)
 * `/global-insights`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
@@ -2848,6 +2852,271 @@ curl http://localhost:5681/zones+insights
   }
   ],
  "next": null
+}
+```
+
+## Zone Egresses
+
+#### List Zone Egresses
+
+Request: `GET /zonesegresses`
+
+Response: `200 OK` with ZoneEgress entities
+
+Example:
+```bash
+curl http://localhost:5681/zonesegresses
+```
+```json
+{
+ "total": 2,
+ "items": [
+  {
+   "type": "ZoneEgress",
+   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.kuma-system",
+   "creationTime": "2022-02-18T13:39:39Z",
+   "modificationTime": "2022-02-18T13:39:39Z",
+   "zone": "kuma-1-zone",
+   "networking": {
+    "address": "10.42.0.6",
+    "port": 10002
+   }
+  },
+  {
+   "type": "ZoneEgress",
+   "name": "kuma-3.egress",
+   "creationTime": "2022-02-18T13:40:30.086380212Z",
+   "modificationTime": "2022-02-18T13:40:30.086380212Z",
+   "zone": "kuma-3",
+   "networking": {
+    "address": "172.21.0.11",
+    "port": 30685
+   }
+  }
+ ],
+ "next": null
+}
+```
+
+#### Get Zone Egress
+
+Request: `GET /zonesegresses/{name}`
+
+Response: `200 OK` with ZoneEgress entity 
+
+Example:
+```bash
+curl http://localhost:5681/zonesegresses/ze-1
+```
+```json
+{
+ "type": "ZoneEgress",
+ "name": "ze-1",
+ "creationTime": "2022-02-18T13:40:30.086380212Z",
+ "modificationTime": "2022-02-18T13:40:30.086380212Z",
+ "zone": "zone-1",
+ "networking": {
+  "address": "172.21.0.11",
+  "port": 30685
+ }
+}
+```
+
+## Zone Egress Overviews
+
+#### List Zone Egress Overviews
+
+Request: `GET /zoneegressoverviews`
+
+Response: `200 OK` with `ZoneEgressOverview` entities (which are combination of
+`ZoneEgress` and `ZoneEgressInsight` entities)
+
+Example:
+```bash
+curl http://localhost:5681/zoneegressoverviews
+```
+```json
+{
+ "total": 2,
+ "items": [
+  {
+   "type": "ZoneEgressOverview",
+   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.kuma-system",
+   "creationTime": "2022-02-18T13:39:39Z",
+   "modificationTime": "2022-02-18T13:39:39Z",
+   "zoneEgress": {
+    "zone": "kuma-1-zone",
+    "networking": {
+     "address": "10.42.0.6",
+     "port": 10002
+    }
+   },
+   "zoneEgressInsight": {
+    "subscriptions": [
+     {
+      "id": "bb56359c-5b1c-4a9e-af3f-0982e1f37b74",
+      "controlPlaneInstanceId": "kuma-control-plane-b799fb878-w2d9l-97fb",
+      "connectTime": "2022-02-18T13:39:48.312313103Z",
+      "status": {
+       "lastUpdateTime": "2022-02-18T13:40:41.338203595Z",
+       "total": {
+        "responsesSent": "11",
+        "responsesAcknowledged": "13"
+       },
+       "cds": {
+        "responsesSent": "4",
+        "responsesAcknowledged": "4"
+       },
+       "eds": {
+        "responsesSent": "3",
+        "responsesAcknowledged": "5"
+       },
+       "lds": {
+        "responsesSent": "4",
+        "responsesAcknowledged": "4"
+       },
+       "rds": {}
+      },
+      "version": {
+       "kumaDp": {
+        "version": "dev-60984ad8d",
+        "gitTag": "1.5.0-rc1-18-g60984ad8d",
+        "gitCommit": "60984ad8d66a59b269b3493172a6a22edc310515",
+        "buildDate": "2022-02-18T13:38:45Z"
+       },
+       "envoy": {
+        "version": "1.21.0",
+        "build": "a9d72603c68da3a10a1c0d021d01c7877e6f2a30/1.21.0/Clean/RELEASE/BoringSSL"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "type": "ZoneEgressOverview",
+   "name": "kuma-3.egress",
+   "creationTime": "2022-02-18T13:40:30.086380212Z",
+   "modificationTime": "2022-02-18T13:40:30.086380212Z",
+   "zoneEgress": {
+    "zone": "kuma-3",
+    "networking": {
+     "address": "172.21.0.11",
+     "port": 30685
+    }
+   },
+   "zoneEgressInsight": {
+    "subscriptions": [
+     {
+      "id": "9f3766b3-f560-422f-b2ab-d8276f67d6d0",
+      "controlPlaneInstanceId": "69150c6bc245-f8ba",
+      "connectTime": "2022-02-18T13:40:30.084188804Z",
+      "status": {
+       "lastUpdateTime": "2022-02-18T13:40:39.129293439Z",
+       "total": {
+        "responsesSent": "6",
+        "responsesAcknowledged": "7"
+       },
+       "cds": {
+        "responsesSent": "2",
+        "responsesAcknowledged": "2"
+       },
+       "eds": {
+        "responsesSent": "2",
+        "responsesAcknowledged": "3"
+       },
+       "lds": {
+        "responsesSent": "2",
+        "responsesAcknowledged": "2"
+       },
+       "rds": {}
+      },
+      "version": {
+       "kumaDp": {
+        "version": "dev-60984ad8d",
+        "gitTag": "1.5.0-rc1-18-g60984ad8d",
+        "gitCommit": "60984ad8d66a59b269b3493172a6a22edc310515",
+        "buildDate": "2022-02-18T13:38:45Z"
+       },
+       "envoy": {
+        "version": "1.21.0",
+        "build": "a9d72603c68da3a10a1c0d021d01c7877e6f2a30/1.21.0/Clean/RELEASE/BoringSSL"
+       }
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "next": null
+}
+```
+
+#### Get Zone Egress Overview
+
+Request: `GET /zoneegressoverviews/{name}`
+
+Response: `200 OK` with `ZoneEgressOverview` entity (which is a combination of
+`ZoneEgress` and `ZoneEgressInsight` entities)
+
+Example:
+```bash
+curl http://localhost:5681/zonesegressoverviews/ze-1
+```
+```json
+{
+ "type": "ZoneEgressOverview",
+ "name": "ze-1",
+ "creationTime": "2022-02-18T13:40:30.086380212Z",
+ "modificationTime": "2022-02-18T13:40:30.086380212Z",
+ "zoneEgress": {
+  "zone": "zone-1",
+  "networking": {
+   "address": "172.21.0.11",
+   "port": 30685
+  }
+ },
+ "zoneEgressInsight": {
+  "subscriptions": [
+   {
+    "id": "9f3766b3-f560-422f-b2ab-d8276f67d6d0",
+    "controlPlaneInstanceId": "69150c6bc245-f8ba",
+    "connectTime": "2022-02-18T13:40:30.084188804Z",
+    "status": {
+     "lastUpdateTime": "2022-02-18T13:40:39.129293439Z",
+     "total": {
+      "responsesSent": "6",
+      "responsesAcknowledged": "7"
+     },
+     "cds": {
+      "responsesSent": "2",
+      "responsesAcknowledged": "2"
+     },
+     "eds": {
+      "responsesSent": "2",
+      "responsesAcknowledged": "3"
+     },
+     "lds": {
+      "responsesSent": "2",
+      "responsesAcknowledged": "2"
+     },
+     "rds": {}
+    },
+    "version": {
+     "kumaDp": {
+      "version": "dev-60984ad8d",
+      "gitTag": "1.5.0-rc1-18-g60984ad8d",
+      "gitCommit": "60984ad8d66a59b269b3493172a6a22edc310515",
+      "buildDate": "2022-02-18T13:38:45Z"
+     },
+     "envoy": {
+      "version": "1.21.0",
+      "build": "a9d72603c68da3a10a1c0d021d01c7877e6f2a30/1.21.0/Clean/RELEASE/BoringSSL"
+     }
+    }
+   }
+  ]
+ }
 }
 ```
 
