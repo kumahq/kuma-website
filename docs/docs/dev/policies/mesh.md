@@ -76,6 +76,10 @@ spec:
       containers:
         ...
 ```
+
+A `Mesh` may span multiple Kubernetes namespaces. Any Kuma resource in the cluster which
+specifies a particular `Mesh` will be part of that `Mesh`.
+
 :::
 ::: tab "Universal"
 
@@ -93,7 +97,7 @@ kuma-dp run \
 
 #### Policies
 
-When creating new [Policies](/policies) we also must specify to what `Mesh` they belong, this can be done in the following way:
+When creating new [Policies](/policies) we also must specify to what `Mesh` they belong. This can be done in the following way:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -108,6 +112,8 @@ metadata:
 spec:
   ...
 ```
+
+Kuma consumes all [Policies](/policies) on the cluster and joins each to an individual `Mesh`, identified by this property.
 :::
 ::: tab "Universal"
 By using the `mesh` property, like:
