@@ -18,3 +18,6 @@ Want to contribute? Checkout [CONTRIBUTING.md](CONTRIBUTING.md) to get started!
 # Writing docs
 
 Check [WRITING-DOCUMENTATION.md](WRITING-DOCUMENTATION.md).
+
+[kuma-logo]: https://kuma-public-assets.s3.amazonaws.com/kuma-logo-v2.png
+[kuma-url]: https://kuma.io

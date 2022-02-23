@@ -31,11 +31,11 @@ curl -L https://kuma.io/installer.sh | sh -
 
 You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access Kubernetes:
 
-* [CentOS](https://download.konghq.com/mesh-alpine/kuma-1.4.1-centos-amd64.tar.gz)
-* [RedHat](https://download.konghq.com/mesh-alpine/kuma-1.4.1-rhel-amd64.tar.gz)
-* [Debian](https://download.konghq.com/mesh-alpine/kuma-1.4.1-debian-amd64.tar.gz)
-* [Ubuntu](https://download.konghq.com/mesh-alpine/kuma-1.4.1-ubuntu-amd64.tar.gz)
-* [macOS](https://download.konghq.com/mesh-alpine/kuma-1.4.1-darwin-amd64.tar.gz) or run `brew install kumactl`
+* <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-centos-amd64.tar.gz'">CentOS</a>
+* <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-rhel-amd64.tar.gz'">RedHat</a>
+* <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-debian-amd64.tar.gz'">Debian</a>
+* <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-ubuntu-amd64.tar.gz'">Ubuntu</a>
+* <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-darwin-amd64.tar.gz'">macOS</a> or run `brew install kumactl`
 
 and extract the archive with:
 
@@ -48,7 +48,7 @@ tar xvzf kuma-*.tar.gz
 
 ### 2. Run Kuma
 
-Once downloaded, you will find the contents of Kuma in the `kuma-1.4.1` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](../documentation/cli/#kumactl).
+Once downloaded, you will find the contents of Kuma in the `kuma-{{ $page.latestRelease }}` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](../documentation/cli/#kumactl).
 
 ::: tip
 **Note**: On Kubernetes - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
@@ -57,7 +57,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-1.4.1` folder. 
 So we enter the `bin` folder by executing:
 
 ```sh
-cd kuma-1.4.1/bin
+cd kuma-*/bin
 ```
 
 Finally we can install and run Kuma in either **standalone** or **multi-zone** mode:
