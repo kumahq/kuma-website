@@ -54,7 +54,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
  name: default
- labels:
+ annotations:
    kuma.io/mesh: default
 [...]
 ```
