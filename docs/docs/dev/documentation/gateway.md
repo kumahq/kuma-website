@@ -349,6 +349,7 @@ conf:
           - destination:
               kuma.io/service: frontend
 ```
+:::
 ::: tab "Kubernetes"
 ```shell
 echo "
