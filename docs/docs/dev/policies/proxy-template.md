@@ -182,6 +182,7 @@ Available operations:
 Available matchers:
 * `name` - name of the listener.
 * `origin` - origin of the listener.
+* `tags` - tags of inbound or outbound listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -212,6 +213,8 @@ spec:
           match: # optional: if absent, all listeners will be patched
             name: test-listener # optional: if absent, all listeners regardless of name will be patched
             origin: inbound # optional: if absent, all listeners regardless of its origin will be patched
+            tags: # optional: if absent, all listeners are matched
+              kuma.io/service: backend
           value: | # you can specify only part of listener definition that will be merged into existing listener
             continueOnListenerFiltersTimeout: true
       - listener:
@@ -247,6 +250,8 @@ conf:
         match: # optional: if absent, all listeners will be patched
           name: test-listener # optional: if absent, all listeners regardless of name will be patched
           origin: inbound # optional: if absent, all listeners regardless of its origin will be patched
+          tags: # optional: if absent, all listeners are matched
+            kuma.io/service: backend
         value: | # you can specify only part of listener definition that will be merged into existing listener
           continueOnListenerFiltersTimeout: true
     - listener:
@@ -274,6 +279,7 @@ Available operations:
 Available matchers:
 * `name` - name of the network filter.
 * `listenerName` - name of the listener.
+* `listenerTags` - tags of inbound or outbound listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 * `origin` - origin of the listener.
 
 :::: tabs :options="{ useUrlFragment: false }"
@@ -296,6 +302,8 @@ spec:
           operation: addFirst
           match: # optional: if absent, filter will be added to all listeners
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
             name: envoy.filters.network.local_ratelimit
@@ -308,6 +316,8 @@ spec:
           operation: addLast
           match: # optional: if absent, filter will be added to all listeners
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
             name: envoy.filters.network.local_ratelimit
@@ -321,6 +331,8 @@ spec:
           match:
             name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added before existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
             name: envoy.filters.network.local_ratelimit
@@ -334,6 +346,8 @@ spec:
           match:
             name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added after existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
             name: envoy.filters.network.local_ratelimit
@@ -347,6 +361,8 @@ spec:
           match:
             name: envoy.filters.network.tcp_proxy 
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+              kuma.io/service: backend
             origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
           value: | # you can specify only part of filter definition that will be merged into existing filter
             name: envoy.filters.network.tcp_proxy
@@ -358,6 +374,8 @@ spec:
           match: # optional: if absent, all filters from all listeners will be removed
             name: envoy.filters.network.tcp_proxy # optional: if absent, all filters regardless of name will be removed
             listenerName: inbound:127.0.0.0:80 # optional: if absent, all filters regardless of the listener name will be removed
+            listenerTags: # optional: if absent, all filters regardless of the listener tags will be removed
+              kuma.io/service: backend
             origin: inbound # optional: if absent, all filters regardless of its origin will be removed
 ```
 :::
@@ -378,6 +396,8 @@ conf:
         operation: addFirst
         match: # optional: if absent, filter will be added to all listeners
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+          listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+            kuma.io/service: backend
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
           name: envoy.filters.network.local_ratelimit
@@ -390,6 +410,8 @@ conf:
         operation: addLast
         match: # optional: if absent, filter will be added to all listeners
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+          listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+            kuma.io/service: backend
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
           name: envoy.filters.network.local_ratelimit
@@ -403,6 +425,8 @@ conf:
         match:
           name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added before existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+          listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+            kuma.io/service: backend
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
           name: envoy.filters.network.local_ratelimit
@@ -416,6 +440,8 @@ conf:
         match:
           name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added after existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+          listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+            kuma.io/service: backend
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
           name: envoy.filters.network.local_ratelimit
@@ -429,6 +455,8 @@ conf:
         match:
           name: envoy.filters.network.tcp_proxy 
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+          listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+            kuma.io/service: backend
           origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
         value: | # you can specify only part of filter definition that will be merged into existing filter
           name: envoy.filters.network.tcp_proxy
@@ -440,6 +468,8 @@ conf:
         match: # optional: if absent, all filters from all listeners will be removed
           name: envoy.filters.network.tcp_proxy # optional: if absent, all filters regardless of name will be removed
           listenerName: inbound:127.0.0.0:80 # optional: if absent, all filters regardless of the listener name will be removed
+          listenerTags: # optional: if absent, all filters regardless of the listener tags will be removed
+            kuma.io/service: backend
           origin: inbound # optional: if absent, all filters regardless of its origin will be removed
 ```
 :::
@@ -463,6 +493,7 @@ Available operations:
 Available matchers:
 * `name` - name of the network filter
 * `listenerName` - name of the listener
+* `listenerTags` - tags of inbound or outbound listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 * `origin` - origin of the listener
 
 :::: tabs :options="{ useUrlFragment: false }"
@@ -485,6 +516,8 @@ spec:
           operation: addFirst
           match: # optional: if absent, filter will be added to all HTTP Connection Managers
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
             name: envoy.filters.http.gzip
@@ -495,6 +528,8 @@ spec:
           operation: addLast
           match: # optional: if absent, filter will be added to all HTTP Connection Managers
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
             name: envoy.filters.http.gzip
@@ -506,6 +541,8 @@ spec:
           match:
             name: envoy.filters.http.router # a new filter (Gzip) will be added before existing (Router). If there is no Router filter, Gzip won't be added.
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
             name: envoy.filters.http.gzip
@@ -517,6 +554,8 @@ spec:
           match:
             name: envoy.filters.http.router # a new filter (Gzip) will be added after existing (Router). If there is no Router filter, Gzip won't be added.
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
             origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
           value: |
             name: envoy.filters.http.gzip
@@ -528,6 +567,8 @@ spec:
           match:
             name: envoy.filters.http.router 
             listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+              kuma.io/service: backend
             origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
           value: | # you can specify only part of filter definition that will be merged into existing filter
             name: envoy.filters.http.router 
@@ -539,6 +580,8 @@ spec:
           match: # optional: if absent, all filters from all listeners will be removed
             name: envoy.filters.http.gzip # optional: if absent, all filters regardless of name will be removed
             listenerName: inbound:127.0.0.0:80 # optional: if absent, all filters regardless of the listener name will be removed
+            listenerTags: # optional: if absent, all filters regardless of the listener tags will be removed
+              kuma.io/service: backend
             origin: inbound # optional: if absent, all filters regardless of its origin will be removed
 ```
 :::
@@ -559,6 +602,8 @@ conf:
         operation: addFirst
         match: # optional: if absent, filter will be added to all HTTP Connection Managers
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+          listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+            kuma.io/service: backend
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
           name: envoy.filters.http.gzip
@@ -569,6 +614,8 @@ conf:
         operation: addLast
         match: # optional: if absent, filter will be added to all HTTP Connection Managers
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+          listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+            kuma.io/service: backend
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
           name: envoy.filters.http.gzip
@@ -580,6 +627,8 @@ conf:
         match:
           name: envoy.filters.http.router # a new filter (Gzip) will be added before existing (Router). If there is no Router filter, Gzip won't be added.
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+          listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+            kuma.io/service: backend
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
           name: envoy.filters.http.gzip
@@ -591,6 +640,8 @@ conf:
         match:
           name: envoy.filters.http.router # a new filter (Gzip) will be added after existing (Router). If there is no Router filter, Gzip won't be added.
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+          listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+            kuma.io/service: backend
           origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
         value: |
           name: envoy.filters.http.gzip
@@ -602,6 +653,8 @@ conf:
         match:
           name: envoy.filters.http.router 
           listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+          listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+            kuma.io/service: backend
           origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
         value: | # you can specify only part of filter definition that will be merged into existing filter
           name: envoy.filters.http.router 
@@ -613,6 +666,8 @@ conf:
         match: # optional: if absent, all filters from all listeners will be removed
           name: envoy.filters.http.gzip # optional: if absent, all filters regardless of name will be removed
           listenerName: inbound:127.0.0.0:80 # optional: if absent, all filters regardless of the listener name will be removed
+          listenerTags: # optional: if absent, all filters regardless of the listener tags will be removed
+            kuma.io/service: backend
           origin: inbound # optional: if absent, all filters regardless of its origin will be removed
 ```
 :::
@@ -733,7 +788,7 @@ At runtime, whenever `kuma-cp` generates the configuration for a given [data pla
 
 ## Lua filter example
 
-For a more complete example, explore this Lua filter that adds the new `x-header: test` header to all outgoing HTTP requests. 
+For a more complete example, explore this Lua filter that adds the new `x-header: test` header to all outgoing HTTP requests to service `offers`. 
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -756,6 +811,8 @@ spec:
           match:
             name: envoy.filters.http.router
             origin: outbound
+            listenerTags:
+              kuma.io/service: offers
           value: |
             name: envoy.filters.http.lua
             typedConfig:
@@ -783,6 +840,8 @@ conf:
         match:
           name: envoy.filters.http.router
           origin: outbound
+          listenerTags:
+            kuma.io/service: offers
         value: |
           name: envoy.filters.http.lua
           typedConfig:
