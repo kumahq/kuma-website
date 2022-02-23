@@ -19,15 +19,22 @@ If you are writing docs for a new feature you'll want to add it in the [dev](doc
 To cut the dev release copy paste the `dev` folder and rename it to the correct version:
 
 ```shell
-# Create a 1.6.x release
-cp docs/docs/dev docs/docs/1.6.x
+# Create a 1.5.x release
+cp docs/docs/dev docs/docs/1.5.x
 ```
 
-Once the release is ready make sure to update the `.latest` file:
+Update the `docs/docs/<version>/versions.json` with metadata specific to this release (actual patches that are released, helm versions...).
 
-```shell
-# Update the latest release to 1.6.1
-echo 1.6.1 > docs/docs/.latest
+Once the release is ready make sure to update the `latest` entry in the `versions.json` file:
+
+```json
+{
+  "helm": ["0.9.0"],
+  "kuma": [
+    "1.5.0"
+  ],
+  "latest": true
+}
 ```
 
 ## Fixing typos

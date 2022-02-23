@@ -14,10 +14,10 @@ The official Docker images are used by default in the [Kubernetes](../installati
 
 Kuma provides the following Docker images for all of its executables:
 
-* **kuma-cp**: at `docker.io/kumahq/kuma-cp:1.4.1`
-* **kuma-dp**: at `docker.io/kumahq/kuma-dp:1.4.1`
-* **kumactl**: at `docker.io/kumahq/kumactl:1.4.1`
-* **kuma-prometheus-sd**: at `docker.io/kumahq/kuma-prometheus-sd:1.4.1`
+* **kuma-cp**: at `docker.io/kumahq/kuma-cp:{{ $page.latestVersion }}`
+* **kuma-dp**: at `docker.io/kumahq/kuma-dp:{{ $page.latestVersion }}`
+* **kumactl**: at `docker.io/kumahq/kumactl:{{ $page.latestVersion }}`
+* **kuma-prometheus-sd**: at `docker.io/kumahq/kuma-prometheus-sd:{{ $page.latestVersion }}`
 
 You can freely `docker pull` these images to start using Kuma, as we will demonstrate in the following steps.
 
@@ -30,11 +30,7 @@ Finally we can run Kuma in either **standalone** or **multi-zone** mode:
 
 Standalone mode is perfect when running Kuma in a single cluster across one environment:
 
-```sh
-docker run \
-    -p 5681:5681 \
-    docker.io/kumahq/kuma-cp:1.4.1 run
-```
+`docker run -p 5681:5681 docker.io/kumahq/kuma-cp:{{ $page.latestVersion }} run`
 
 To learn more, read about the [deployment modes available](../documentation/deployments/).
 
@@ -108,11 +104,11 @@ curl -L https://kuma.io/installer.sh | sh -
 
 or you can download the distribution manually:
 
-* [CentOS](https://download.konghq.com/mesh-alpine/kuma-1.4.1-centos-amd64.tar.gz)
-* [RedHat](https://download.konghq.com/mesh-alpine/kuma-1.4.1-rhel-amd64.tar.gz)
-* [Debian](https://download.konghq.com/mesh-alpine/kuma-1.4.1-debian-amd64.tar.gz)
-* [Ubuntu](https://download.konghq.com/mesh-alpine/kuma-1.4.1-ubuntu-amd64.tar.gz)
-* [macOS](https://download.konghq.com/mesh-alpine/kuma-1.4.1-darwin-amd64.tar.gz)
+* <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-centos-amd64.tar.gz'">CentOS</a>
+* <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-rhel-amd64.tar.gz'">RedHat</a>
+* <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-debian-amd64.tar.gz'">Debian</a>
+* <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-ubuntu-amd64.tar.gz'">Ubuntu</a>
+* <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-darwin-amd64.tar.gz'">macOS</a> or run `brew install kumactl`
 
 and extract the archive with:
 
@@ -120,7 +116,7 @@ and extract the archive with:
 tar xvzf kuma-*.tar.gz
 ```
 
-You will then find the `kumactl` executable in the `kuma-1.4.1/bin` folder.
+You will then find the `kumactl` executable in the `kuma-{{ $page.latestVersion }}/bin` folder.
 
 :::
 ::::

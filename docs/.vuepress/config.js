@@ -30,18 +30,7 @@ const productData = {
 const dirTree = require('directory-tree')
 const path = require("path");
 const fs = require("fs");
-const {latestVersion, allVersions} = (() => {
-  const allVersions = fs.readdirSync(path.resolve(__dirname, "../../docs/docs"), {withFileTypes: true})
-    .filter((file) => {
-      return file.isDirectory()
-    })
-    .map(f => f.name);
-  const latestVersion = fs.readFileSync(path.resolve(__dirname, "../../docs/docs/.latest")).toString().trim();
-  if (!/^[0-9]+\.[0-9]+\.[0-9]+$/.test(latestVersion)) {
-    throw Error(`.latest pointer doesn't contain a semver version got:'${latestVersion}'`)
-  }
-  return {latestVersion: latestVersion, allVersions};
-})();
+const versions = require("./versions.js");
 
 /**
  * Site Configuration
@@ -51,8 +40,8 @@ module.exports = {
   themeConfig: {
     domain: productData.hostname,
     gaCode: productData.gaCode,
-    latestVersion: latestVersion.replace(/[0-9]+$/, "x"),
-    versions: allVersions,
+    latestVersion: versions.latestMinor,
+    versions: versions.allMinors,
     installMethods: require("./public/install-methods.json"),
     twitter: productData.twitter,
     author: productData.author,
@@ -72,7 +61,7 @@ module.exports = {
       apiKey: "",
       indexName: ""
     },
-    sidebar: allVersions.reduce((acc, v) => {
+    sidebar: versions.allMinors.reduce((acc, v) => {
       acc[`/docs/${v}/`] = require(`../docs/${v}/sidebar.json`).map(sb => {
         // Add policy reference docs
         if (sb.title === "Reference docs") {
@@ -207,7 +196,7 @@ module.exports = {
   ],
   // version release navigation
   additionalPages: [
-    allVersions.map(item => {
+    versions.allMinors.map(item => {
       return {
         path: `/install/${item}/`,
         meta: {
@@ -227,12 +216,9 @@ module.exports = {
   plugins: [
     (config = {}, ctx) => {
       // Plugin that will generate static assets from configuration
-      let sp = latestVersion.split(".");
-      let latestMinor = `${sp[0]}.${sp[1]}.x`;
-      let oldVersions = allVersions.filter((v) => v !== latestMinor);
       const files = {
-        "latest_version.html": latestVersion,
-        "releases.json": allVersions,
+        "latest_version.html": versions.latestVersion,
+        "releases.json": versions.allVersions,
         "images/docs/manifest.json": dirTree('./docs/.vuepress/public/images/docs', {
           extensions: /\.(jpg|png|gif)$/,
           normalizePath: true
@@ -241,7 +227,7 @@ module.exports = {
 User-agent: *
 Disallow: /latest_version
 Disallow: /latest_version.html
-${oldVersions.map((v) => `Disallow: /docs/${v}`).join("\n")}
+${versions.oldMinors.map((v) => `Disallow: /docs/${v}`).join("\n")}
 
 Sitemap: https://kuma.io/sitemap.xml
 `
@@ -266,10 +252,10 @@ Sitemap: https://kuma.io/sitemap.xml
         generated() {
 
           const redirects = [
-            `/docs /docs/${latestVersion} 301`,
-            `/install /install/${latestVersion} 200`,
-            `/docs/latest/* /docs/${latestVersion}/:splat 301`,
-            `/install/latest/* /install/${latestVersion}/:splat 301`,
+            `/docs /docs/${versions.latestMinor} 301`,
+            `/install /install/${versions.latestMinor} 200`,
+            `/docs/latest/* /docs/${versions.latestMinor}/:splat 301`,
+            `/install/latest/* /install/${versions.latestMinor}/:splat 301`,
             `/docs/:version/policies/ /docs/:version/policies/introduction 301`,
             `/docs/:version/overview/ /docs/:version/overview/what-is-kuma 301`,
             `/docs/:version/other/ /docs/:version/other/enterprise 301`,
@@ -278,16 +264,16 @@ Sitemap: https://kuma.io/sitemap.xml
             `/latest_version.html /latest_version 301`,
           ];
           // Add redirects for x.y.{0..5} to x.y.x
-          allVersions.forEach((v) => {
-            if (/[0-9]+\.[0-9]+\.x/.test(v)) {
-              for (let i = 0; i < 5; i++) {
-                const actualVersion = v.replace(".x", `.${i}`);
-                redirects.push(
-                  `/docs/${actualVersion}/* /docs/${v}/:splat 301`,
-                  `/install/${actualVersion}/* /install/${v}/:splat 301`,
-                )
-              }
+          versions.allMinors.forEach((minor) => {
+            if (minor === "dev") {
+              return;
             }
+            versions.versions(minor).forEach(v => {
+              redirects.push(
+                `/docs/${v}/* /docs/${minor}/:splat 301`,
+                `/install/${v}/* /install/${minor}/:splat 301`,
+              )
+            })
           });
           fs.writeFileSync(path.resolve(ctx.outDir, "_redirects"), redirects.join("\n"));
           fs.writeFileSync(path.resolve(ctx.outDir, "_headers"), `\
@@ -297,6 +283,27 @@ Sitemap: https://kuma.io/sitemap.xml
           `);
         }
 
+      }
+    },
+    (config = {}, ctx) => {
+      return {
+        name: "page-latest-version",
+        extendPageData: (page) => {
+          if (page.regularPath.startsWith("/docs")) {
+            let v = page.regularPath.split("/")[2]
+            if (!v) {
+              return
+            }
+            let ver = versions.versions(v);
+            if (ver) {
+              page.latestVersion = ver[ver.length - 1];
+            }
+            let helmVersions = versions.helmVersions(v);
+            if (helmVersions) {
+              page.latestHelmVersion = helmVersions[helmVersions.length - 1];
+            }
+          }
+        }
       }
     },
     ['code-copy', {color: "#4e1999", backgroundColor: '#4e1999'}],
