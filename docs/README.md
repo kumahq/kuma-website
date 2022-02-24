@@ -47,8 +47,7 @@ carousel:
 
 ::: slot news
 
-**Kuma 1.4.1 has been released!** &mdash; With continued performance improvements, better UX for token management, and more! [Read More](/blog/2021/kuma-1-4-1/)
-
+**Kuma 1.5.0 has been released!** &mdash; With a centralized Zone Egress, a new "builtin" Envoy Gateway, performance improvements and more. [Read More](/blog/2022/kuma-1-5-0/)
 :::
 
 <!-- page masthead -->
