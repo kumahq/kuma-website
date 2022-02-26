@@ -36,7 +36,7 @@ policies:
         url: /docs/latest/policies/fault-injection
         icon: /images/icons/policies/icon-fault-injection@2x.png
       - title: Kong Gateway
-        url: /docs/latest/documentation/dps-and-data-model/#gateway
+        url: /docs/latest/documentation/gateway/
         icon: /images/icons/policies/icon-kong-logo.png
       - title: External Services
         url: /docs/latest/policies/external-services/
