@@ -209,6 +209,9 @@ module.exports = {
       };
     }),
   ],
+  extendMarkdown: (md) => {
+    md.use(require('markdown-it-include'), "docs/_snippets")
+  },
   // plugin settings, build process, etc.
   markdown: {
     lineNumbers: true,

@@ -22,6 +22,7 @@
     "dayjs": "^1.8.26",
     "dotenv": "^8.2.0",
     "jquery": "^3.5.1",
+    "markdown-it-include": "^2.0.0",
     "vee-validate": "^3.0.4",
     "vue": "2.x",
     "vue-analytics": "^5.22.1",

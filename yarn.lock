@@ -5716,6 +5716,11 @@ markdown-it-for-inline@^0.1.1:
   version "0.1.1"
   resolved "https://registry.npmjs.org/markdown-it-for-inline/-/markdown-it-for-inline-0.1.1.tgz"
 
+markdown-it-include@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-it-include/-/markdown-it-include-2.0.0.tgz#e86e3b3c68c8f0e0437e179ba919ffd28443127a"
+  integrity sha512-wfgIX92ZEYahYWiCk6Jx36XmHvAimeHN420csOWgfyZjpf171Y0xREqZWcm/Rwjzyd0RLYryY+cbNmrkYW2MDw==
+
 markdown-it-meta@^0.0.1:
   version "0.0.1"
   resolved "https://registry.npmjs.org/markdown-it-meta/-/markdown-it-meta-0.0.1.tgz"
