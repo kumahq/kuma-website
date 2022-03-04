@@ -168,7 +168,7 @@ By default, a very permissive traffic permission is created.
 For the sake of this demo we will delete it:
 
 ```sh
-kubectl delete traffic-permission allow-all-default
+kubectl delete trafficpermission allow-all-default
 ```
 
 You can try to make requests to the demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) and you will notice that they will **not** work.
