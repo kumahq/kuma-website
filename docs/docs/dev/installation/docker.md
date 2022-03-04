@@ -23,28 +23,11 @@ You can freely `docker pull` these images to start using Kuma, as we will demons
 
 ### 2. Run Kuma
 
-Finally we can run Kuma in either **standalone** or **multi-zone** mode:
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Standalone"
-
-Standalone mode is perfect when running Kuma in a single cluster across one environment:
+We can run Kuma:
 
 `docker run -p 5681:5681 docker.io/kumahq/kuma-cp:{{ $page.latestVersion }} run`
 
-To learn more, read about the [deployment modes available](../documentation/deployments/).
-
-:::
-::: tab "Multi-Zone"
-
-Multi-zone mode is perfect when running one deployment of Kuma that spans across multiple Kubernetes clusters, clouds and VM environments under the same Kuma deployment. 
-
-This mode also supports hybrid Kubernetes + VMs deployments.
-
-To learn more, read the [multi-zone installation instructions](../documentation/deployments/).
-
-:::
-::::
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](../introduction/deployments.md) like "multi-zone".
 
 ::: tip
 **Note**: By default this will run Kuma with a `memory` [backend](../../documentation/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
@@ -73,7 +56,7 @@ To access Kuma you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to 
 
 You can use the `kumactl` CLI to perform **read and write** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API. For example:
 
-```language-sh
+```sh
 $ docker run --net="host" kumahq/kumactl:<version> kumactl get meshes
 NAME          mTLS      METRICS      LOGGING   TRACING
 default       off       off          off       off

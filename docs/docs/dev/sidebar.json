@@ -5,12 +5,11 @@
     "sidebarDepth": 1,
     "path": "",
     "children": [
-      "overview/what-is-kuma",
-      "overview/what-is-a-service-mesh",
-      "overview/why-kuma",
-      "documentation/deployments",
-      "other/enterprise",
-      "other/license"
+      "introduction/what-is-kuma",
+      "introduction/what-is-a-service-mesh",
+      "introduction/how-kuma-works",
+      "introduction/deployments",
+      "introduction/enterprise"
     ]
   },
   {
@@ -143,7 +142,8 @@
     "children": [
       "documentation/http-api",
       "documentation/kubernetes-annotations",
-      "community/data-collection"
+      "community/data-collection",
+      "reference/license"
     ]
   }
 ]
