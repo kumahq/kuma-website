@@ -49,6 +49,18 @@
             <Content slot-key="card-3-title"/>
           </template>
           <Content slot-key="card-3-content"/>
+          <ul class="inline-list">
+            <li>
+              <a href="https://tny.sh/NXs6EVO" target="_blank">
+                <span class="icon">📝</span>  Agenda
+              </a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/playlist?list=PLg_AhYkg50viOMrea6Nm3t9JCempVyLcj" target="_blank">
+                <span class="icon">🎥</span> Past Recordings
+              </a>
+            </li>
+          </ul>
           <div class="community-form">
             <CommunityCallForm />
           </div>
@@ -96,5 +108,32 @@ export default {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid #ccc;
+}
+
+.inline-list {
+  display: block;
+  overflow: hidden;
+  list-style: none;
+  margin: 10px 0 0 0 !important;
+  padding: 0;
+
+  li {
+    display: inline-block;
+
+  &:not(:last-of-type) {
+     border-right: 1px solid #ccc;
+     margin-right: 8px;
+     padding-right: 10px;
+   }
+  }
+
+  a {
+    display: block;
+  }
+
+  .icon {
+    display: inline-block;
+    margin: 0 5px 0 0;
+  }
 }
 </style>
