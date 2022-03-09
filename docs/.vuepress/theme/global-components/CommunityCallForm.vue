@@ -50,18 +50,8 @@
       </p>
       <ul class="inline-list">
         <li>
-          <a :href="agenda" target="_blank">
-            <span class="icon">📝</span>  Agenda
-          </a>
-        </li>
-        <li>
           <a :href="invite" target="_blank">
             <span class="icon">📅</span> Add to Your Calendar
-          </a>
-        </li>
-        <li>
-          <a href="https://www.youtube.com/playlist?list=PLg_AhYkg50viOMrea6Nm3t9JCempVyLcj" target="_blank">
-            <span class="icon">🎥</span> Past Recordings
           </a>
         </li>
       </ul>
@@ -128,7 +118,6 @@ export default {
   computed: {
     ...mapGetters({
       formEndpoint: 'getCommunityCallFormEndpoint',
-      agenda: 'getCommunityCallAgendaUrl',
       invite: 'getCommunityCallInvite'
     })
   },

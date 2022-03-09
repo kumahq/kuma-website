@@ -11,7 +11,6 @@ export default (releases, latestRelease, installMethods) => new Vuex.Store({
     installMethods: installMethods,
     requestADemoEndpoint:
       'https://script.google.com/macros/s/AKfycbwiFfaiSK6JqdNqZLAt5PRayPV43x7qw1ZAM_-sFSDg6IT44d4/exec' /** not currently in use */,
-    communityCallAgendaUrl: 'https://tny.sh/NXs6EVO',
     communityCallInvite:
       'https://calendar.google.com/calendar?cid=a29uZ2hxLmNvbV8xbWE5NnNzZGdnZmg5ZnJyY3M5N2VwdTM4b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t'
   },
@@ -49,7 +48,6 @@ export default (releases, latestRelease, installMethods) => new Vuex.Store({
     },
 
     /** community call */
-    getCommunityCallAgendaUrl: (state) => state.communityCallAgendaUrl,
     getCommunityCallInvite: (state) => state.communityCallInvite,
 
     /** version releases as vue-router links */
