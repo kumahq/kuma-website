@@ -37,7 +37,7 @@ kumactl install control-plane | kubectl apply -f -
 
 **With zone egress**:
 
-It's possible to run ZoneEgress for standalone deployment. In order to deploy Kuma with ZoneEgress run install command with additional parameter.
+It's possible to run `ZoneEgress` for standalone deployment. In order to deploy Kuma with `ZoneEgress` run install command with additional parameter.
 ```sh
 kumactl install control-plane --egress-enabled | kubectl apply -f -
 ```
@@ -47,6 +47,11 @@ This is the standard installation method as described in the [installation page]
 ```sh
 kuma-cp run
 ```
+
+**With zone egress**:
+
+`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](../documentation/zoneegress.md#zone-egress).
+
 :::
 ::::
 

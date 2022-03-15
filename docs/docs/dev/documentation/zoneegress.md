@@ -54,7 +54,15 @@ kumactl install control-plane \
 :::
 ::: tab "Universal"
 
-In Universal mode the dataplane resource should be deployed as follows:
+**Standalone**
+
+In Universal mode, the token is required to authenticate `ZoneEgress` instance. Create the token by using `kumactl` binary:
+
+```bash
+kumactl generate zone-token --valid-for --scope egress > /path/to/token
+```
+
+Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services to be configured to proxy traffic to other zones or external services through zone egress:
 
 ```yaml
 type: ZoneEgress
@@ -63,6 +71,21 @@ networking:
   address: 192.168.0.1
   port: 10002
 ```
+
+Apply the egress configuration, passing the IP address of the control plane and your instance should start.
+
+```bash
+kuma-dp run \
+--proxy-type=egress \
+--cp-address=https://<kuma-cp-address>:5678 \
+--dataplane-token-file=/path/to/token \
+--dataplane-file=/path/to/config
+```
+
+**Multi-zone**
+
+Multi-zone deployment is similar and for deployment, you should follow [multi-zone deployment instruction](../deployments/multi-zone.md).
+
 :::
 ::::
 
@@ -92,8 +115,24 @@ spec:
 
 **Multi-zone**:
 
-In multi-zone deployment, the same configuration as for standalone needs to be applied to global control plane.
+In multi-zone deployment, the same configuration as for standalone needs to be applied to the global control plane.
 :::
+::: tab "Universal"
+
+```shell
+cat <<EOF | kumactl apply -f -
+type: Mesh
+name: default
+mtls:
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: builtin
+EOF
+```
+:::
+::::
+
 
 After configuration change you should be able to communicate with services in other zone or external services and traffic should be routed through `ZoneEgress`. 
 
