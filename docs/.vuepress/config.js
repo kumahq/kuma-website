@@ -65,11 +65,18 @@ module.exports = {
       acc[`/docs/${v}/`] = require(`../docs/${v}/sidebar.json`).map(sb => {
         // Add policy reference docs
         if (sb.title === "Reference docs") {
-          const genPath = path.resolve(__dirname, `../docs/${v}/generated/policies`);
-          if (fs.existsSync(genPath)) {
-            const policies = fs.readdirSync(genPath, {withFileTypes: true})
+          const genPoliciesPath = path.resolve(__dirname, `../docs/${v}/generated/policies`);
+          if (fs.existsSync(genPoliciesPath)) {
+            const policies = fs.readdirSync(genPoliciesPath, {withFileTypes: true})
               .map(f => "generated/policies/" + f.name.replace(".md", ""));
             sb.children.push({"title": "Policies", "children": policies});
+          }
+          const genCmdPath = path.resolve(__dirname, `../docs/${v}/generated/cmd`);
+          if (fs.existsSync(genCmdPath)) {
+            const cmds = fs.readdirSync(genCmdPath, {withFileTypes: true})
+              .filter(f => f.isDirectory())
+              .map(f => `generated/cmd/${f.name}/${f.name}`);
+            sb.children.push({"title": "Commands", "children": cmds});
           }
         }
         return sb;
