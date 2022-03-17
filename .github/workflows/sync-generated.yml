@@ -1,0 +1,37 @@
+name: Sync generated from Kuma
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 0 * * *"
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Clone Kuma"
+        uses: actions/checkout@v2
+        with:
+          repository: kumahq/kuma
+          path: kuma
+      - name: "Clone docs"
+        uses: actions/checkout@v2
+        with:
+          path: kuma-website
+      - name: "Sync generated"
+        working-directory: kuma-website
+        run: |
+          ./sync_generated.sh
+      - name: "Create Pull Request"
+        uses: peter-evans/create-pull-request@v3
+        id: newPR
+        with:
+          path: kuma-website
+          commit-message: "chore(ci): auto update auto generated docs"
+          committer: GitHub <noreply@github.com>
+          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          signoff: true
+          branch: chore/auto-upgrade-kuma
+          branch-suffix: timestamp
+          delete-branch: true
+          title: "chore(ci): auto update auto generated docs"
+          body: "Auto upgrade docs using docs auto-generated in Kuma"
+          draft: false

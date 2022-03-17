@@ -69,4 +69,4 @@ Kuma sorts the rules in each table by specificity, so that routes with more spec
 For example, a rule that matches on a HTTP header and a path is more specific than one that matches only on path, and the longest match path will be considered more specific.
 This ordering allows Kume to combine routing rules from multiple `MeshGatewayRoute` resources and still produce predictable results.
 
-The reference doc contains all options on [`MeshGatewayRoute`](../generated/policies/mesh-gateway-route.md).
+The reference doc contains all options on [`MeshGatewayRoute`](../generated/resources/mesh-gateway-route.md).
