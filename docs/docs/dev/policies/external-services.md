@@ -149,7 +149,8 @@ In this example, when [locality aware load balancing](../locality-aware) is enab
 
 ### External Services and ZoneEgress
 
-There might be scenarios when traffic to external services should be monitored and goes through one place. In order to make it work it is possible to [configure ZoneEgress](../documentation/zoneegress.md). In this setup, it is possible to monitor and secure any traffic going outside the mesh. Also, with [disabled passthrough mode](mesh/#controlling-the-passthrough-mode) applications won't be able to access resources that are not in mesh or defined as external services.
+In scenarios when traffic to external services needs to be sent through a unique set of hosts you will [configure ZoneEgress](../documentation/zoneegress.md).
+In combination with [disabled passthrough mode](mesh/#controlling-the-passthrough-mode) applications won't be able to access resources that are not in mesh or defined as external services.
 
 For example when there is:
 * [disabled passthrough mode](mesh/#controlling-the-passthrough-mode)
@@ -167,7 +168,8 @@ networking:
   tls:
     enabled: false
 ```
-When application makes a equest to `https://example.com`, it will be first routed to `ZoneEgress` and then to `https://example.com`.
+
+When application makes a request to `https://example.com`, it will be first routed to `ZoneEgress` and then to `https://example.com`.
 
 ## Builtin Gateway support
 

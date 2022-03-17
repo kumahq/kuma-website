@@ -5,8 +5,7 @@ and you want to achieve isolation of outgoing traffic (to services in other
 zones or [external services](../policies/external-services.md) in the local zone),
 you can use `ZoneEgress` proxy.
 
-This proxy is not attached to any particular workload. Instead, it's bound to
-that particular zone. In the case of standalone mode, there is only the default zone that Kuma is running in.
+This proxy is not attached to any particular workload. In multi-zone the proxy is bound to a specific zone.
 
 When Zone Egress is present in the zone:
 * All requests that are sent from local data plane proxies to the ones in other
@@ -47,6 +46,8 @@ kumactl install control-plane \
 ```shell
 kumactl install control-plane \
   --mode=zone \
+  --zone=<my-zone> \
+  --kds-global-address grpcs://`<global-kds-address>` \
   --egress-enabled \
   [...] | kubectl apply -f -
 ```
@@ -93,48 +94,7 @@ A `ZoneEgress` deployment can be scaled horizontally.
 
 ## Configuration
 
-`ZoneEgress` won't work if there is no [mTLS enabled](../policies/mutual-tls.md). In this case it is necessary to enable secured communication.
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-
-**Standalone**:
-
-```shell
-echo "apiVersion: kuma.io/v1alpha1
-kind: Mesh
-metadata:
-  name: default
-spec:
-  mtls:
-    enabledBackend: ca-1
-    backends:
-    - name: ca-1
-      type: builtin" | kubectl apply -f -
-```
-
-**Multi-zone**:
-
-In multi-zone deployment, the same configuration as for standalone needs to be applied to the global control plane.
-:::
-::: tab "Universal"
-
-```shell
-cat <<EOF | kumactl apply -f -
-type: Mesh
-name: default
-mtls:
-  enabledBackend: ca-1
-  backends:
-  - name: ca-1
-    type: builtin
-EOF
-```
-:::
-::::
-
-
-After configuration change you should be able to communicate with services in other zone or external services and traffic should be routed through `ZoneEgress`. 
+[mTLS](../policies/mutual-tls.md) is required to enable `ZoneEgress`. After configuration change you should be able to communicate with services in other zone or external services through `ZoneEgress`. 
 
 
 
