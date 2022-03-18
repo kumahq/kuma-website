@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 for i in docs/docs/*; do
   if [[ ! -d $i ]]; then continue; fi
 
