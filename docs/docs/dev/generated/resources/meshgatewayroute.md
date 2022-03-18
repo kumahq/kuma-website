@@ -12,23 +12,17 @@
     
     - `udp` (optional)
     
-        (Not implemented)
-    
         Child properties:    
         
         - `rules` (required, repeated)    
     
     - `tcp` (optional)
     
-        (Not implemented)
-    
         Child properties:    
         
         - `rules` (required, repeated)    
     
     - `tls` (optional)
-    
-        (Not implemented)
     
         Child properties:    
         
@@ -41,8 +35,6 @@
         - `rules` (required, repeated)    
     
     - `http` (optional)
-    
-        Specific a http route
     
         Child properties:    
         
