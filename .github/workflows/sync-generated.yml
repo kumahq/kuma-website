@@ -12,6 +12,7 @@ jobs:
         with:
           repository: kumahq/kuma
           path: kuma
+          fetch-depth: '0' # Checkout all branches
       - name: "Clone docs"
         uses: actions/checkout@v2
         with:
