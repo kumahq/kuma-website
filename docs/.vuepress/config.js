@@ -63,8 +63,15 @@ module.exports = {
     },
     sidebar: versions.allMinors.reduce((acc, v) => {
       acc[`/docs/${v}/`] = require(`../docs/${v}/sidebar.json`).map(sb => {
-        // Add policy reference docs
+        // Add generated reference docs
         if (sb.title === "Reference docs") {
+          const generatedPath = path.resolve(__dirname, `../docs/${v}/generated`);
+          if (fs.existsSync(generatedPath)) {
+            fs.readdirSync(generatedPath, {withFileTypes: true})
+              .filter(f => f.isFile() && f.name.endsWith(".md"))
+              .map(f => `generated/${f.name}`)
+              .forEach((f) => sb.children.push(f));
+          }
           const genPoliciesPath = path.resolve(__dirname, `../docs/${v}/generated/resources`);
           if (fs.existsSync(genPoliciesPath)) {
             const policies = fs.readdirSync(genPoliciesPath, {withFileTypes: true})
