@@ -90,3 +90,11 @@ Then, you can analyze the retrieved profiling data using an application like [Sp
 :::warning
 After a successful debugging session, please remember to turn off the debugging endpoints since anybody could execute heap dumps on them potentially exposing sensitive data.
 :::
+
+## Kubernetes outbounds in central place
+
+Configure `KUMA_EXPERIMENTAL_KUBE_OUTBOUNDS_AS_VIPS` to `true` to store the list of outbounds in ConfigMap that is used for VIPs of Kuma DNS.
+This way we don't repeat this information across all `Dataplane` objects which may improve a performance with a large number of data plane proxies.
+
+You can enable this only after all instances of the control plane are updated to 1.6.0 or later.
+This option will be the default behaviour in the next versions of Kuma.
