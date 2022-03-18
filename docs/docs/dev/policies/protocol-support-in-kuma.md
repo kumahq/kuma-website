@@ -92,7 +92,7 @@ Note that in this case no advanced HTTP or GRPC statistics or logging are availa
 
 ## Websocket support
 
-Kuma out of the box support's `Websocket` protocol. The service exposing `Websocket` should be annotated with `kuma.io/protocol: tcp` annotation
+Kuma out of the box support's `Websocket` protocol. The service exposing `Websocket` should be marked as `tcp`.
 
 As `Websockets` use pure `TCP` connections under the hood, your service have to be recognised by `Kuma` as the `TCP` one. It's also the default behavior for Kuma to assume the service's `inbound` interfaces are the TCP ones, so you don't have to do anything, but if you want to be explicit, you can configure your services exposing `Websocket` endpoints with `appProtocol` property. I.e.:
 
