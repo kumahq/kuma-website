@@ -14,6 +14,26 @@ By doing this,
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
+On `Kubernetes`, to give Kuma a hint that your service supports `HTTP` protocol, you need to add an `appProtocol` to the `k8s` `Service` object.
+
+E.g.,
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: kuma-example
+spec:
+  selector:
+    app: web
+  ports:
+  - port: 8080
+    appProtocol: http # let Kuma know that your service supports HTTP protocol
+```
+
+:::
+::: tab "Kubernetes (deprecated)"
 On `Kubernetes`, to give Kuma a hint that your service supports `HTTP` protocol, you need to add a `<port>.service.kuma.io/protocol` annotation to the `k8s` `Service` object.
 
 E.g.,
@@ -72,9 +92,9 @@ Note that in this case no advanced HTTP or GRPC statistics or logging are availa
 
 ## Websocket support
 
-Kuma out of the box support's `Websocket` protocol. The service exposing `Websocket` should be annotated with `kuma.io/protocol: tcp` annotation
+Kuma out of the box support's `Websocket` protocol. The service exposing `Websocket` should be marked as `tcp`.
 
-As `Websockets` use pure `TCP` connections under the hood, your service have to be recognised by `Kuma` as the `TCP` one. It's also the default behavior for Kuma to assume the service's `inbound` interfaces are the TCP ones, so you don't have to do anything, but if you want to be explicit, you can annotate your services exposing `Websocket` endpoints with `kuma.io/protocol: tcp` annotation. I.e.:
+As `Websockets` use pure `TCP` connections under the hood, your service have to be recognised by `Kuma` as the `TCP` one. It's also the default behavior for Kuma to assume the service's `inbound` interfaces are the TCP ones, so you don't have to do anything, but if you want to be explicit, you can configure your services exposing `Websocket` endpoints with `appProtocol` property. I.e.:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -84,13 +104,12 @@ kind: Service
 metadata:
   name: websocket-server
   namespace: kuma-example
-  annotations:
-    8080.service.kuma.io/protocol: tcp
 spec:
   selector:
     app: websocket-server
   ports:
   - port: 8080
+    appProtocol: tcp
 ```
 
 :::
