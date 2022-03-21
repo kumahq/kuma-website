@@ -150,7 +150,6 @@ In this example, when [locality aware load balancing](../locality-aware) is enab
 ### External Services and ZoneEgress
 
 In scenarios when traffic to external services needs to be sent through a unique set of hosts you will [configure ZoneEgress](../documentation/zoneegress.md).
-In combination with [disabled passthrough mode](mesh/#controlling-the-passthrough-mode) applications won't be able to access resources that are not in mesh or defined as external services.
 
 For example when there is:
 * [disabled passthrough mode](mesh/#controlling-the-passthrough-mode)
@@ -170,7 +169,8 @@ networking:
 ```
 
 When application makes a request to `https://example.com`, it will be first routed to `ZoneEgress` and then to `https://example.com`.
-
+You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](mesh/#controlling-the-passthrough-mode).
+In this setup, applications will only be able to communicate with other applications in the mesh or external-services via the `ZoneEgress`.
 ## Builtin Gateway support
 
 Kuma Gateway fully supports external services.

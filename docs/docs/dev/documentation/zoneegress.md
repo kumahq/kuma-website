@@ -1,14 +1,15 @@
 # Zone Egress
 
-When Kuma is deployed as [standalone](../deployments/stand-alone.md) or in [multi-zone](../deployments/multi-zone.md),
+`ZoneEgress` proxy is used when it is required to isolate outgoing traffic (to services in other
+zones or [external services](../policies/external-services.md) in the local zone).
 and you want to achieve isolation of outgoing traffic (to services in other 
 zones or [external services](../policies/external-services.md) in the local zone),
 you can use `ZoneEgress` proxy.
 
 This proxy is not attached to any particular workload. In multi-zone the proxy is bound to a specific zone.
 
-When Zone Egress is present in the zone:
-* All requests that are sent from local data plane proxies to the ones in other
+When Zone Egress is present:
+* In multi-zone, all requests that are sent from local data plane proxies to other
   zones will be directed through the local Zone Egress instance, which then will
   direct the traffic to the proper instance of the Zone Ingress.
 * All requests that are sent from local data plane proxies to [external services](../policies/external-services.md)
@@ -95,6 +96,3 @@ A `ZoneEgress` deployment can be scaled horizontally.
 ## Configuration
 
 [mTLS](../policies/mutual-tls.md) is required to enable `ZoneEgress`. After configuration change you should be able to communicate with services in other zone or external services through `ZoneEgress`. 
-
-
-
