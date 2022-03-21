@@ -52,6 +52,8 @@ Available commands on `kumactl` are:
 * `kumactl help [..]`: help dialog that explains the commands available.
 * `kumactl version [--detailed]`: shows the version of the program.
 
+Checkout the [`kumactl` usage docs](../../generated/cmd/kumactl/kumactl) for full documentation.
+
 ### Using variables
 
 When using `kumactl apply` you can specify variables to use your yaml as a template.
