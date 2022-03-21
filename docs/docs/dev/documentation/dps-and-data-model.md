@@ -138,6 +138,11 @@ While annotations are still supported, we strongly recommend using labels.
 This is the only way to guarantee that applications can only be started with sidecar.
 :::
 
+Once your pod is running you can see the dataplane CRD that matches it using `kubectl`:
+
+```shell
+kubectl get dataplanes <podName>
+```
 
 ### Tag generation 
 
@@ -202,7 +207,7 @@ As mentioned previously in universal you need to create a dataplane definition a
 When transparent proxying is not enabled, the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity.
 This also means that with transparent proxying **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
 
-For example, this is how we start a `Dataplane` for an hypotetical Redis service and then start the `kuma-dp` process:
+For example, this is how we start a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:
 
 ```sh
 cat dp.yaml
@@ -224,6 +229,10 @@ kuma-dp run \
 ```
 
 In the example above, any external client who wants to consume Redis will have to make a request to the DP on address `192.168.0.1` and port `9000`, which internally will be redirected to the Redis service listening on address `127.0.0.1` and port `6379`.
+
+::: tip
+Note that in Universal dataplanes need to start with a token for authentication. You can learn how to generate tokens in the [security section](../security/dp-auth.md#data-plane-proxy-token).
+:::
 
 Now let's assume that we have another service called "Backend" that internally listens on port `80`, and that makes outgoing requests to the `redis` service:
 
