@@ -16,6 +16,11 @@ When Zone Egress is present in the zone:
   available within the Zone will be directed through the local Zone Egress
   instance.
 
+:::tip
+Currently `ZoneEgress` is a purely optional component.
+In the future it will become compulsory for using external services.
+:::
+
 The `ZoneEgress` entity includes a few sections:
 
 * `type`: must be `ZoneEgress`.
