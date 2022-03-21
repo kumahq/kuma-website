@@ -147,6 +147,30 @@ networking:
 In this example, when [locality aware load balancing](../locality-aware) is enabled, if the service in zone-1 is trying to set connection with
 `httpbin.mesh` it will be redirected to `zone-1.httpbin.org:80`. Whereas the same request from zone-2 will be redirected to `zone-2.httpbin.org:80`.
 
+### External Services and ZoneEgress
+
+In scenarios when traffic to external services needs to be sent through a unique set of hosts you will [configure ZoneEgress](../documentation/zoneegress.md).
+
+For example when there is:
+* [disabled passthrough mode](mesh/#controlling-the-passthrough-mode)
+* `ZoneEgress` deployed
+* `ExternalService` configuration that allows communicating with `https://example.com`.
+```yaml
+type: ExternalService
+mesh: default
+name: example
+tags:
+  kuma.io/service: example
+  kuma.io/protocol: tcp
+networking:
+  address: example.com:443
+  tls:
+    enabled: false
+```
+
+When application makes a request to `https://example.com`, it will be first routed to `ZoneEgress` and then to `https://example.com`.
+You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](mesh/#controlling-the-passthrough-mode).
+In this setup, applications will only be able to communicate with other applications in the mesh or external-services via the `ZoneEgress`.
 ## Builtin Gateway support
 
 Kuma Gateway fully supports external services.
