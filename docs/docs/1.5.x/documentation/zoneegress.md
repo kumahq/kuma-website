@@ -7,6 +7,7 @@ zones or [external services](../policies/external-services.md) in the local zone
 you can use `ZoneEgress` proxy.
 
 This proxy is not attached to any particular workload. In multi-zone the proxy is bound to a specific zone.
+Zone Egress can proxy the traffic between all meshes, so we need only one deployment for every zone.
 
 When Zone Egress is present:
 * In multi-zone, all requests that are sent from local data plane proxies to other
