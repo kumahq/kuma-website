@@ -351,3 +351,31 @@ metadata:
   annotations:
     kuma.io/envoy-admin-port: "8801"
 ```
+
+### `kuma.io/service-account-token-volume`
+
+Volume (specified in the pod spec) containing a service account token for Kuma to inject into the sidecar. 
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/service-account-token-volume: "token-vol"
+spec:
+  automountServiceAccountToken: false
+  serviceAccount: example
+  containers:
+  - image: busybox
+    name: busybox
+  volumes:
+  - name: token-vol
+    projected:
+      sources:
+      - serviceAccountToken:
+          path: token
+          expirationSeconds: 7200
+          audience: "https://kubernetes.default.svc.cluster.local"
