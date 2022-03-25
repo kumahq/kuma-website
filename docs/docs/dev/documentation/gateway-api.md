@@ -38,7 +38,6 @@ Gateway API support is an experimental feature that has to be explicitly enabled
    
    ```sh
    echo "apiVersion: gateway.networking.k8s.io/v1alpha2
-   apiVersion: gateway.networking.k8s.io/v1alpha2
    kind: GatewayClass
    metadata:
      name: kuma
