@@ -1,6 +1,8 @@
 # Zone Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](../deployments/multi-zone.md) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](../deployments/multi-zone.md) mode, there is a new proxy type `ZoneIngress`.
+These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
+Zone Ingress can proxy the traffic between all meshes, so we need only one deployment for every zone.  
 All requests that are sent from one zone to another will be directed to the proper instance by the Zone Ingress.
 
 The `ZoneIngress` entity includes a few sections:
