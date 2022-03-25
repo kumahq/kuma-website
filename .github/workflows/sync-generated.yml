@@ -12,6 +12,7 @@ jobs:
         with:
           repository: kumahq/kuma
           path: kuma
+          fetch-depth: '0' # Checkout all branches
       - name: "Clone docs"
         uses: actions/checkout@v2
         with:
@@ -30,7 +31,6 @@ jobs:
           author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           signoff: true
           branch: chore/auto-upgrade-kuma
-          branch-suffix: timestamp
           delete-branch: true
           title: "chore(ci): auto update auto generated docs"
           body: "Auto upgrade docs using docs auto-generated in Kuma"
