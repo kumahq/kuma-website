@@ -101,4 +101,38 @@ A `ZoneEgress` deployment can be scaled horizontally.
 
 ## Configuration
 
-[mTLS](../policies/mutual-tls.md) is required to enable `ZoneEgress`. After configuration change you should be able to communicate with services in other zone or external services through `ZoneEgress`. 
+[mTLS](../policies/mutual-tls.md) is required to enable `ZoneEgress` in addition to explicitly setting that trafic should be routed through `ZoneEgress` by setting `Mesh` configuration.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+
+```shell
+echo "apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  routing:
+    zoneEgress: true
+  mtls: # mTLS is required to use ZoneEgress
+    [...]" | kubectl apply -f -
+```
+
+:::
+::: tab "Universal"
+
+```shell
+cat <<EOF | kumactl apply -f -
+type: Mesh
+name: default
+mtls: # mTLS is required to use ZoneEgress
+  [...]
+routing:
+  zoneEgress: true
+EOF
+```
+
+:::
+::::
+
+ After configuration change you should be able to communicate with services in other zones or external services through `ZoneEgress`. If there is no instance of `ZoneEgress`, but the request should be routed through `ZoneEgress`, traffic won't reach other services.

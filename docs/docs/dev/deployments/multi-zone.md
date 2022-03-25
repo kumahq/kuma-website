@@ -296,7 +296,7 @@ deployed with zone ingress.
 
 #### Enable mTLS
 
-You must [enable mTLS](../policies/mutual-tls.md) for cross-zone communication.
+You must [enable mTLS](../policies/mutual-tls.md) and [enable ZoneEgress](../documentation/zoneegress.md#configuration) for cross-zone communication.
 
 Kuma uses the Server Name Indication field, part of the TLS protocol, as a way to pass routing information cross zones. Thus, mTLS is mandatory to enable cross-zone service communication.
 
