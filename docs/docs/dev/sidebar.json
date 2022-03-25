@@ -56,7 +56,8 @@
       "documentation/backends",
       "documentation/cli",
       "documentation/gui",
-      "documentation/inspect-api"
+      "documentation/inspect-api",
+      "documentation/gateway-api"
     ]
   },
   {
