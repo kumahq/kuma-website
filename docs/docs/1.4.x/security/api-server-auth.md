@@ -299,7 +299,7 @@ https://jwt.io/#id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6IjEiLCJ0eXAiOiJKV1QifQ.eyJO
 ## Admin Client Certificates
 
 This section describes alternative way of authenticating to API Server.
-Admin client certificates are deprecated. If you are using it, please migrate to user token described above. This will be removed in Kuma 1.5.0.
+Admin client certificates are deprecated. If you are using it, please migrate to user token described above.
 
 To use admin client certificates, set `KUMA_API_SERVER_AUTHN_TYPE` to `adminClientCerts`.
 
