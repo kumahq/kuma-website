@@ -20,6 +20,7 @@ Besides the ability of being able to create virtual service mesh, a `Mesh` resou
 * [Mutual TLS](../policies/mutual-tls/), to secure and encrypt our service traffic and assign an identity to the data plane proxies within the Mesh.
 * [Traffic Metrics](../policies/traffic-metrics/), to setup metrics backend that will be used to collect and visualize metrics of our service mesh and service traffic within the Mesh.
 * [Traffic Trace](../policies/traffic-trace/), to setup tracing backends that will be used to collect traces of our service traffic within the Mesh.
+* [Zone Egress](../documentation/zoneegress.md), to setup if `ZoneEgress` should be used for cross zone and external service communication.
 
 When [Mutual TLS](../policies/mutual-tls/) is enabled in `builtin` mode, each `Mesh` will provision its own CA root certificate and key unless we explicitly decide to use the same CA by sharing the same certificate and key across multiple meshes. When the CAs of our Meshes are different, data plane proxies from one `Mesh` will not be able to consume data plane proxies belonging to another `Mesh` and an intermediate API Gateway must be used in order to enable cross-mesh communication. Kuma supports a [gateway mode](../documentation/dps-and-data-model/#gateway) to make this happen.
 
