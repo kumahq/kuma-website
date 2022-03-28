@@ -133,6 +133,45 @@ Gateway API support is an experimental feature that has to be explicitly enabled
    ...
    ```
 
+## TLS Termination
+
+Gateway API supports TLS termination by using standard `kubernetes.io/tls` Secrets.
+
+Here is an example
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-tls
+  namespace: kuma-demo
+type: kubernetes.io/tls
+data:
+  tls.crt: "MIIEOzCCAyO..." # redacted
+  tls.key: "MIIEowIBAAKC..." # redacted
+```
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: Gateway
+metadata:
+  name: kuma
+  namespace: kuma-demo
+spec:
+  gatewayClassName: kuma
+  listeners:
+  - name: proxy
+    port: 8080
+    hostname: test.kuma.io
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - name: secret-tls
+```
+
+Under the hood, Kuma CP copies the Secret to `kuma-system` namespace and converts it to [Kuma Secret](../security/secrets.md).
+It tracks all the changes to the secret and deletes it if the original secret is deleted.
+
 ## Multizone
 
 Gateway API is not supported with multizone deployments, use Mesh Gateway CRDs instead.
