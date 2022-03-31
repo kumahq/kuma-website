@@ -5,8 +5,7 @@ to select endpoints for communication between dataplane proxies.
 Orchestrators, such as Kubernetes, use service health status to manage container lifecycles.
 Also, users want the service state to be observable through the GUI or CLI.
 
-
-Kuma supports several health checking methods:
+Kuma supports several mechanisms to regulate traffic depending on the health of a service:
 
 ## [Circuit Breaker](../../policies/circuit-breaker) Policy
 
@@ -15,7 +14,7 @@ Kuma supports several health checking methods:
   respond to a widely configurable range of errors and events that it may detect in communication
   with remote endpoints.
 
-## [Kubernetes](../../policies/service-health-probes#kubernetes-probes) and [Universal](../../policies/service-health-probes#universal-probes) Service Probes
+## [Kubernetes](../../policies/service-health-probes#kubernetes) and [Universal](../../policies/service-health-probes#universal-probes) Service Probes
 
   Configuration of centralized health probing of services, either directly by Kuma Control Plane,
   or by the underlying platform, such as Kubernetes.  These can detect problems from the
