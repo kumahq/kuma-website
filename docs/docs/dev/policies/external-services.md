@@ -174,8 +174,8 @@ In this setup, applications will only be able to communicate with other applicat
 
 ### External Services and Locality Aware Load Balancing through ZoneEgress
 
-There are might be scenarios when a specific `ExternalService` might be accessible only through the specific zone. To make it work we should use `kuma.io/zone` tag for external service. In order to make it work we need a multi-zone setup with `ZoneIngress` and `ZoneEgress` deployed. Also,
-[locality aware load balancing](../locality-aware) and [zone egress](../documentation/zoneegress.md#configuration) need to be enabled.
+There are might be scenarios when a specific `ExternalService` might be accessible only through the specific zone. To make it work we should use the `kuma.io/zone` tag for external service. In order to make it work, we need a multi-zone setup with `ZoneIngress` and `ZoneEgress` deployed. Also,
+[zone egress](../documentation/zoneegress.md#configuration) needs to be enabled.
  
 Example:
  
