@@ -67,8 +67,8 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * [`/zone-ingresses/{name}`](#get-zone-ingress)
 * [`/zoneingresses+insights`](#list-zone-ingress-overviews)
 * [`/zoneingresses+insights/{name}`](#get-zone-ingress-overview)
-* [`/zone-egresses`](#list-zone-egresses)
-* [`/zone-egresses/{name}`](#get-zone-egress)
+* [`/zoneegresses`](#list-zone-egresses)
+* [`/zoneegresses/{name}`](#get-zone-egress)
 * [`/zoneegressoverviews`](#list-zone-egress-overviews)
 * [`/zoneegressoverviews/{name}`](#get-zone-egress-overview)
 * `/global-insights`
@@ -3198,13 +3198,13 @@ curl http://localhost:5681/zoneingresses+insights/zi-1
 
 #### List Zone Egresses
 
-Request: `GET /zone-egresses`
+Request: `GET /zoneegresses`
 
 Response: `200 OK` with ZoneEgress entities
 
 Example:
 ```bash
-curl http://localhost:5681/zone-egresses
+curl http://localhost:5681/zoneegresses
 ```
 ```json
 {
@@ -3239,13 +3239,13 @@ curl http://localhost:5681/zone-egresses
 
 #### Get Zone Egress
 
-Request: `GET /zone-egresses/{name}`
+Request: `GET /zoneegresses/{name}`
 
 Response: `200 OK` with ZoneEgress entity 
 
 Example:
 ```bash
-curl http://localhost:5681/zone-egresses/ze-1
+curl http://localhost:5681/zoneegresses/ze-1
 ```
 ```json
 {
