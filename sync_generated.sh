@@ -19,4 +19,14 @@ for i in docs/docs/*; do
   echo "Copying generated docs"
   rm -rf "${i}/generated"
   cp -r ../kuma/docs/generated "${i}/generated"
+  if [[ -f ../kuma/pkg/config/app/kuma-cp/kuma-cp.defaults.yaml ]]; then
+    echo "Copying default"
+
+    echo '# Control-Plane configuration
+Here are all options to configure the control-plane:
+
+```yaml' > "${i}/generated/kuma-cp.md"
+    cat ../kuma/pkg/config/app/kuma-cp/kuma-cp.defaults.yaml >> "${i}/generated/kuma-cp.md"
+    echo '```' >> "${i}/generated/kuma-cp.md"
+  fi
 done
