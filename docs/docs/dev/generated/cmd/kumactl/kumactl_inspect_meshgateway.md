@@ -1,20 +1,19 @@
-## kumactl inspect zoneegress
+## kumactl inspect meshgateway
 
-Inspect ZoneEgress
+Inspect MeshGateway
 
 ### Synopsis
 
-Inspect ZoneEgress.
+List Dataplanes matched by this MeshGateway.
 
 ```
-kumactl inspect zoneegress NAME [flags]
+kumactl inspect meshgateway NAME [flags]
 ```
 
 ### Options
 
 ```
-      --config-dump   if set then the command returns envoy config dump for provided dataplane
-  -h, --help          help for zoneegress
+  -h, --help   help for meshgateway
 ```
 
 ### Options inherited from parent commands
