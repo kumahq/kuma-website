@@ -8,21 +8,17 @@ Kuma supports configuring [Built-in Gateway](gateway.md) using [Kubernetes Gatew
 Gateway API support is an experimental feature that has to be explicitly enabled.
 :::
 
-1. Enable Built-in Gateway
-
-   Gateway API can only be used when Kuma built-in Gateway is enabled.
-
-   When Kuma is installed with kumactl, use `--experimental-meshgateway`.
-
-   When Kuma is installed with HELM, use `experimental.meshGateway=true` value.  
-
-2. Install Gateway API CRDs
+1. Install Gateway API CRDs
 
    The Gateway API CRDs are not yet available by default in Kubernetes. You must first [install them](https://gateway-api.sigs.k8s.io/v1alpha2/guides/getting-started/#installing-gateway-api-crds-manually).
 
-3. Enable Gateway API support
+2. Enable Built-in Gateway and Gateway API support
 
-   [Configure](../documentation/configuration.md) kuma-cp with `KUMA_EXPERIMENTAL_GATEWAY_API` set to `true`.
+   Gateway API can only be used when Kuma built-in Gateway is enabled.
+
+   When Kuma is installed with kumactl, use `--experimental-meshgateway` and `--experimental-gatewayapi`.
+
+   When Kuma is installed with HELM, use `experimental.meshGateway=true` value and `experimental.gatewayAPI=true`.
 
 ## Usage
 
