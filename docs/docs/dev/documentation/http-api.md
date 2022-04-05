@@ -4085,21 +4085,55 @@ Request: `GET /meshes/{mesh}/{policy-type}/{policy}/dataplanes`
 
 Example:
 ```bash
-curl localhost:5681/meshes/default/health-checks/gateway-to-backend/policies
+curl localhost:5681/meshes/default/circuit-breakers/circuit-breaker-all-default/dataplanes
 ```
 ```json
 {
- "total": 1,
+ "total": 2,
  "items": [
   {
+   "kind": "SidecarDataplane",
    "dataplane": {
     "mesh": "default",
-    "name": "backend-1"
+    "name": "demo-app-1"
    },
    "attachments": [
     {
      "type": "service",
-     "name": "gateway"
+     "name": "demo-app_kuma-demo_svc_5000",
+     "service": "demo-app_kuma-demo_svc_5000"
+    }
+   ]
+  },
+  {
+   "kind": "MeshGatewayDataplane",
+   "dataplane": {
+    "mesh": "default",
+    "name": "gateway-1"
+   },
+   "gateway": {
+    "mesh": "default",
+    "name": "edge-gateway"
+   },
+   "listeners": [
+    {
+     "port": 80,
+     "protocol": "HTTP",
+     "hosts": [
+      {
+       "hostName": "go.com",
+       "routes": [
+        {
+         "route": "default-gateway",
+         "destinations": [
+          {
+           "kuma.io/service": "demo-app_kuma-demo_svc_5000"
+          }
+         ]
+        }
+       ]
+      }
+     ]
     }
    ]
   }
