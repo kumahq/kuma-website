@@ -64,10 +64,14 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/zones/{name}`
 * `/zones+insights`
 * `/zones+insights/{name}`
-* [`/zonesegresses`](#list-zone-egresses)
-* [`/zonesegresses/{name}`](#get-zone-egress)
-* [`/zonesegressoverviews`](#list-zone-egress-overviews)
-* [`/zonesegressoverviews/{name}`](#get-zone-egress-overview)
+* [`/zone-ingresses`](#list-zone-ingresses)
+* [`/zone-ingresses/{name}`](#get-zone-ingress)
+* [`/zoneingresses+insights`](#list-zone-ingress-overviews)
+* [`/zoneingresses+insights/{name}`](#get-zone-ingress-overview)
+* [`/zoneegresses`](#list-zone-egresses)
+* [`/zoneegresses/{name}`](#get-zone-egress)
+* [`/zoneegressoverviews`](#list-zone-egress-overviews)
+* [`/zoneegressoverviews/{name}`](#get-zone-egress-overview)
 * `/global-insights`
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
@@ -2855,18 +2859,353 @@ curl http://localhost:5681/zones+insights
  "next": null
 }
 ```
+## Zone Ingresses
+
+#### List Zone Ingresses
+
+Request: `GET /zone-ingresses`
+
+Response: `200 OK` with ZoneIngresses entities
+
+Example:
+```bash
+curl http://localhost:5681/zone-ingresses
+```
+```json
+{
+ "total": 2,
+ "items": [
+  {
+   "type": "ZoneIngress",
+   "name": "zi-1",
+   "creationTime": "2022-04-01T18:33:41Z",
+   "modificationTime": "2022-04-01T18:33:41Z",
+   "zone": "kuma-4",
+   "networking": {
+    "address": "192.168.64.9",
+    "advertisedAddress": "192.168.64.9",
+    "port": 30685,
+    "advertisedPort": 30685
+   },
+   "availableServices": [
+    {
+     "tags": {
+      "kuma.io/service": "zone4-demo-client",
+      "kuma.io/zone": "kuma-4",
+      "team": "client-owners"
+     },
+     "instances": 1,
+     "mesh": "default"
+    },
+    {
+     "tags": {
+      "kuma.io/protocol": "http",
+      "kuma.io/service": "external-service-in-zone4",
+      "kuma.io/zone": "kuma-4",
+      "mesh": "default"
+     },
+     "instances": 1,
+     "mesh": "default",
+     "externalService": true
+    }
+   ]
+  },
+  {
+   "type": "ZoneIngress",
+   "name": "zi-2",
+   "creationTime": "2022-04-01T18:33:15Z",
+   "modificationTime": "2022-04-01T18:33:15Z",
+   "networking": {
+    "address": "10.42.0.6",
+    "advertisedAddress": "192.168.64.4",
+    "port": 10001,
+    "advertisedPort": 31882
+   },
+   "availableServices": [
+    {
+     "tags": {
+      "app": "demo-client",
+      "k8s.kuma.io/namespace": "kuma-test",
+      "kuma.io/instance": "demo-client-6794456845-fr4gf",
+      "kuma.io/protocol": "tcp",
+      "kuma.io/service": "demo-client_kuma-test_svc",
+      "kuma.io/zone": "kuma-1-zone",
+      "pod-template-hash": "6794456845"
+     },
+     "instances": 1,
+     "mesh": "default"
+    },
+    {
+     "tags": {
+      "kuma.io/protocol": "http",
+      "kuma.io/service": "external-service-in-zone1",
+      "kuma.io/zone": "kuma-1-zone",
+      "mesh": "default"
+     },
+     "instances": 1,
+     "mesh": "default",
+     "externalService": true
+    }
+   ]
+  }
+ ],
+ "next": null
+}
+```
+
+#### Get Zone Ingress
+
+Request: `GET /zone-ingress/{name}`
+
+Response: `200 OK` with ZoneIngress entity
+
+Example:
+```bash
+curl http://localhost:5681/zone-ingresses/ze-1
+```
+```json
+{
+ "type": "ZoneIngress",
+ "name": "zi-1",
+ "creationTime": "2022-04-01T18:33:41Z",
+ "modificationTime": "2022-04-01T18:33:41Z",
+ "zone": "kuma-4",
+ "networking": {
+  "address": "192.168.64.9",
+  "advertisedAddress": "192.168.64.9",
+  "port": 30685,
+  "advertisedPort": 30685
+ },
+ "availableServices": [
+  {
+   "tags": {
+    "kuma.io/service": "zone4-demo-client",
+    "kuma.io/zone": "kuma-4",
+    "team": "client-owners"
+   },
+   "instances": 1,
+   "mesh": "default"
+  },
+  {
+   "tags": {
+    "kuma.io/protocol": "http",
+    "kuma.io/service": "external-service-in-zone4",
+    "kuma.io/zone": "kuma-4",
+    "mesh": "default"
+   },
+   "instances": 1,
+   "mesh": "default",
+   "externalService": true
+  }
+ ]
+}
+```
+
+## Zone Ingress Overviews
+
+#### List Zone Ingress Overviews
+
+Request: `GET /zoneingresses+insights`
+
+Response: `200 OK` with `ZoneIngressOverview` entities (which are combination of
+`ZoneIngress` and `ZoneIngressInsight` entities)
+
+Example:
+```bash
+curl http://localhost:5681/zoneingresses+insights
+```
+```json
+{
+ "total": 2,
+ "items": [
+  {
+   "type": "ZoneIngressOverview",
+   "name": "zi-1",
+   "creationTime": "2022-04-01T19:45:11Z",
+   "modificationTime": "2022-04-01T19:45:11Z",
+   "zoneIngress": {
+    "zone": "kuma-4",
+    "networking": {
+     "address": "192.168.64.9",
+     "advertisedAddress": "192.168.64.9",
+     "port": 30685,
+     "advertisedPort": 30685
+    },
+    "availableServices": [
+     {
+      "tags": {
+       "kuma.io/service": "zone4-demo-client",
+       "kuma.io/zone": "kuma-4",
+       "team": "client-owners"
+      },
+      "instances": 1,
+      "mesh": "default"
+     },
+     {
+      "tags": {
+       "kuma.io/protocol": "http",
+       "kuma.io/service": "external-service-in-zone4",
+       "kuma.io/zone": "kuma-4",
+       "mesh": "default"
+      },
+      "instances": 1,
+      "mesh": "default",
+      "externalService": true
+     }
+    ]
+   }
+  },
+  {
+   "type": "ZoneIngressOverview",
+   "name": "zi-2",
+   "creationTime": "2022-04-01T19:44:46Z",
+   "modificationTime": "2022-04-01T19:44:46Z",
+   "zoneIngress": {
+    "networking": {
+     "address": "10.42.0.6",
+     "advertisedAddress": "192.168.64.2",
+     "port": 10001,
+     "advertisedPort": 30103
+    },
+    "availableServices": [
+     {
+      "tags": {
+       "app": "demo-client",
+       "k8s.kuma.io/namespace": "kuma-test",
+       "kuma.io/instance": "demo-client-59ff94f647-8wqw7",
+       "kuma.io/protocol": "tcp",
+       "kuma.io/service": "demo-client_kuma-test_svc",
+       "kuma.io/zone": "kuma-1-zone",
+       "pod-template-hash": "59ff94f647"
+      },
+      "instances": 1,
+      "mesh": "default"
+     },
+     {
+      "tags": {
+       "kuma.io/protocol": "http",
+       "kuma.io/service": "external-service-in-zone1",
+       "kuma.io/zone": "kuma-1-zone",
+       "mesh": "default"
+      },
+      "instances": 1,
+      "mesh": "default",
+      "externalService": true
+     }
+    ]
+   },
+   "zoneIngressInsight": {
+    "subscriptions": [
+     {
+      "id": "e92113b3-f01c-43cf-a21e-2b7064eb5bf8",
+      "controlPlaneInstanceId": "kuma-control-plane-7cc9ffd8f9-s79r8-5b83",
+      "connectTime": "2022-04-01T19:44:52.306011636Z",
+      "status": {
+       "lastUpdateTime": "2022-04-01T19:45:14.389007660Z",
+       "total": {
+        "responsesSent": "8",
+        "responsesAcknowledged": "9"
+       },
+       "cds": {
+        "responsesSent": "3",
+        "responsesAcknowledged": "3"
+       },
+       "eds": {
+        "responsesSent": "2",
+        "responsesAcknowledged": "3"
+       },
+       "lds": {
+        "responsesSent": "3",
+        "responsesAcknowledged": "3"
+       },
+       "rds": {}
+      },
+      "version": {
+       "kumaDp": {
+        "version": "dev-d66126389",
+        "gitTag": "1.5.0-rc1-156-gd66126389",
+        "gitCommit": "d66126389d1842fb459b4db399e2db82781527bf",
+        "buildDate": "2022-04-01T19:43:19Z"
+       },
+       "envoy": {
+        "version": "1.21.1",
+        "build": "af50070ee60866874b0a9383daf9364e884ded22/1.21.1/Clean/RELEASE/BoringSSL",
+        "kumaDpCompatible": true
+       }
+      },
+      "generation": 18
+     }
+    ]
+   }
+  }
+ ],
+ "next": null
+}
+```
+
+#### Get Zone Ingress Overview
+
+Request: `GET /zoneingresses+insights/{name}`
+
+Response: `200 OK` with `ZoneIngressOverview` entity (which is a combination of
+`ZoneIngress` and `ZoneIngressInsight` entities)
+
+Example:
+```bash
+curl http://localhost:5681/zoneingresses+insights/zi-1
+```
+```json
+{
+ "type": "ZoneIngressOverview",
+ "name": "zi-1",
+ "creationTime": "2022-04-01T19:45:11Z",
+ "modificationTime": "2022-04-01T19:45:11Z",
+ "zoneIngress": {
+  "zone": "kuma-4",
+  "networking": {
+   "address": "192.168.64.9",
+   "advertisedAddress": "192.168.64.9",
+   "port": 30685,
+   "advertisedPort": 30685
+  },
+  "availableServices": [
+   {
+    "tags": {
+     "kuma.io/service": "zone4-demo-client",
+     "kuma.io/zone": "kuma-4",
+     "team": "client-owners"
+    },
+    "instances": 1,
+    "mesh": "default"
+   },
+   {
+    "tags": {
+     "kuma.io/protocol": "http",
+     "kuma.io/service": "external-service-in-zone4",
+     "kuma.io/zone": "kuma-4",
+     "mesh": "default"
+    },
+    "instances": 1,
+    "mesh": "default",
+    "externalService": true
+   }
+  ]
+ },
+ "zoneIngressInsight": {}
+}
+```
 
 ## Zone Egresses
 
 #### List Zone Egresses
 
-Request: `GET /zonesegresses`
+Request: `GET /zoneegresses`
 
 Response: `200 OK` with ZoneEgress entities
 
 Example:
 ```bash
-curl http://localhost:5681/zonesegresses
+curl http://localhost:5681/zoneegresses
 ```
 ```json
 {
@@ -2901,13 +3240,13 @@ curl http://localhost:5681/zonesegresses
 
 #### Get Zone Egress
 
-Request: `GET /zonesegresses/{name}`
+Request: `GET /zoneegresses/{name}`
 
 Response: `200 OK` with ZoneEgress entity 
 
 Example:
 ```bash
-curl http://localhost:5681/zonesegresses/ze-1
+curl http://localhost:5681/zoneegresses/ze-1
 ```
 ```json
 {
