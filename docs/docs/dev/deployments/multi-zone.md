@@ -17,7 +17,7 @@ The DNS resolver is embedded in each data plane proxy and configured through XDS
 The global control plane and the zone control planes communicate to synchronize resources such as Kuma policy configurations over Kuma Discovery Service (KDS), which is a protocol based on xDS.
 
 :::tip
-A zone ingress is not an API gateway. Instead, it is specific to internal cross-zone communication within the mesh. API gateways are supported in Kuma [gateway mode](../documentation/dps-and-data-model.md) which can be deployed in addition to zone ingresses.
+A zone ingress is not an API gateway. Instead, it is specific to internal cross-zone communication within the mesh. API gateways are supported in Kuma [gateway mode](../documentation/dpp.md) which can be deployed in addition to zone ingresses.
 :::
 
 ### Components of a multi-zone deployment

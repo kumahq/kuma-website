@@ -49,7 +49,9 @@
     "path": "",
     "children": [
       "documentation/overview",
-      "documentation/dps-and-data-model",
+      "documentation/dpp",
+      "documentation/dpp-on-kubernetes",
+      "documentation/dpp-on-universal",
       "documentation/gateway",
       "documentation/zone-ingress",
       "documentation/zoneegress",

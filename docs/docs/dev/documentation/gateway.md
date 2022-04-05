@@ -83,7 +83,7 @@ For the latter, we need to expose a dedicated Kubernetes `Service` object with t
 We will follow these instructions to setup an echo service that is reached through Kong.
 These instructions are mostly taken from the [Kong docs](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/guides/getting-started/).
 
-To get started [install Kuma](../installation/kubernetes.md) on your cluster and have the `default` [namespace labelled with sidecar-injection](../documentation/dps-and-data-model.md#kubernetes).
+To get started [install Kuma](../installation/kubernetes.md) on your cluster and have the `default` [namespace labelled with sidecar-injection](../documentation/dpp.md#kubernetes).
 
 Install [Kong using helm](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/deployment/k4k8s/#helm).
 
