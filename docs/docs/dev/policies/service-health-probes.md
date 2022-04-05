@@ -5,13 +5,13 @@ Kuma is able to track the status of the Envoy proxy and the underlying app.
 Compared to `HealthCheck` policies, Health Probes have the following advantages:
 
 - knowledge about health is propagated back to `kuma-cp` and is visible in both in Kuma GUI and Kuma CLI
-- scalable with thousands of Dataplanes
+- scalable with thousands of data plane proxies
 
 Unlike `HealthCheck` policies, Health Probes:
 - only updates when `kuma-cp` is up and running and the proxy can connect to it.
-- doesn't check connectivity between Dataplanes.
+- doesn't check connectivity between data plane proxies.
 
-Every `inbound` in the Dataplane model has a `health` section:
+Every `inbound` in the `Dataplane` model has a `health` section:
 
 ```yaml
 type: Dataplane
@@ -37,21 +37,21 @@ It's treated the same way regardless of the environment:
   into load balancing set.
 - if `health.ready` is false -  Kuma doesn't include the inbound into the load balancing set.
 
-Also, `health.ready` is used to compute the status of the Dataplanes and Service. You can see these statuses both in Kuma GUI and Kuma CLI:
+Also, `health.ready` is used to compute the status of the data plane proxy and service. You can see these statuses both in Kuma GUI and Kuma CLI:
 
-Dataplane health follows these rules:
+data plane proxy health follows these rules:
 
-- if proxy status is `Offline`, then Dataplane is `Offline`.
+- if proxy status is `Offline`, then data plane proxy is `Offline`.
 - if proxy status is `Online`:
-  - if all inbounds have `health.ready=true` or no `health` then Dataplane is `Online`
-  - if all inbounds have `health.ready=false` then Dataplane is `Offline`
-  - if at least one of the inbounds has `health.ready=false` then Dataplane is `Partially degraded` 
+  - if all inbounds have `health.ready=true` or no `health` then data plane proxy is `Online`
+  - if all inbounds have `health.ready=false` then data plane proxy is `Offline`
+  - if at least one of the inbounds has `health.ready=false` then data plane proxy is `Partially degraded` 
 
-Service health is computed by aggregating the health of all dataplanes that have one inbound with a given `kuma.io/service` and is set this way:
+Service health is computed by aggregating the health of all data plane proxies that have one inbound with a given `kuma.io/service` and is set this way:
 
-- if all dataplanes are `Online` then the service is `Online`
-- if no dataplane is `Online` then the service is `Offline`
-- if at least one of the dataplanes is `Offline` are `Partially degraded` then the service is `Partially degraded`
+- if all data plane proxies are `Online` then the service is `Online`
+- if no data plane proxy is `Online` then the service is `Offline`
+- if at least one of the data plane proxies is `Offline` are `Partially degraded` then the service is `Partially degraded`
 
 ## Kubernetes
 
@@ -142,10 +142,10 @@ annotations:
 ## Universal probes
 
 On Universal there is no single standard for probing the service.
-For health checking, the dataplane status on Universal Kuma uses Envoy's Health Discovery Service (HDS).
+For health checking, the `Dataplane` status on Universal Kuma uses Envoy's Health Discovery Service (HDS).
 Envoy does health checks and reports the status back to the Kuma Control Plane.
 
-In order to configure health checks for your dataplane you have to update `inbound` config with `serviceProbe`:
+In order to configure health checks for your `Dataplane` you have to update `inbound` config with `serviceProbe`:
 
 ```yaml
 type: Dataplane
