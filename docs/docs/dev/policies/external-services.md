@@ -6,7 +6,9 @@ When you enable this policy, you should also [disable passthrough mode](mesh/#co
 
 ## Usage
 
-A simple HTTPS external service can be defined:
+Simple configuration of external service requires `name` of the resource, `kuma.io/service: service-name`, and `address`. By default, a protocol used for communication is `TCP`. It's possible to change that by configuring `kuma.io/protocol` tag. Apart from that, it's possible to define TLS configuration used for communication with external services. More information about configuration options can be found [here](#available-policy-fields).
+
+Below is an example of simple HTTPS external service:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -19,7 +21,7 @@ metadata:
 spec:
   tags:
     kuma.io/service: httpbin
-    kuma.io/protocol: http
+    kuma.io/protocol: http # optional, one of http, http2, tcp, grpc, kafka
   networking:
     address: httpbin.org:443
     tls: # optional
@@ -45,7 +47,7 @@ mesh: default
 name: httpbin
 tags:
   kuma.io/service: httpbin
-  kuma.io/protocol: http
+  kuma.io/protocol: http # optional, one of http, http2, tcp, grpc, kafka
 networking:
   address: httpbin.org:443
   tls:
@@ -92,25 +94,32 @@ Consuming the defined service from within the mesh for both Kubernetes and Unive
 * With the `.mesh` naming of the service `curl httpbin.mesh`. With this approach, specify port 80.
 * With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](../networking/dns/#data-plane-proxy-built-in-dns) name resolution.
 
-Although the external service is HTTPS, it's consumed as plain HTTP. This is possible because when `networking.tls.enabled` is set to `true` then Envoy is responsible for originating and verifying TLS.
-
-To consume the service using HTTPS, set the service protocol to `kuma.io/protocol: tcp` and `networking.tls.enabled=false`. This way application itself is responsible for originating and verifying TLS and Envoy is just passing the connection to a proper destination.
+It's possible to define TLS origination and validation at 2 different layers:
+*  Envoy is responsible for originating and verifying TLS.
+*  Application itself is responsible for originating and verifying TLS and Envoy is just passing the connection to a proper destination.
+ 
+In the first case, the external service is defined as HTTPS, but it's consumed as plain HTTP. This is possible because when `networking.tls.enabled` is set to `true` then Envoy is responsible for originating and verifying TLS.
+ 
+The second approach allows consuming the service using HTTPS. It's possible when `kuma.io/protocol: tcp` and `networking.tls.enabled=false` are set in the configuration of the external service.
 
 The first approach has an advantage that we can apply HTTP based policies, because Envoy is aware of HTTP protocol and can apply request modifications before the request is encrypted. Additionally, we can modify TLS certificates without restarting applications.
 
 ### Available policy fields
 
-* `tags` the external service can include an arbitrary number of tags, where `kuma.io/service` is mandatory. The special `kuma.io/protocol` tag is also taken into account and supports the standard Kuma protocol values. It designates the specific protocol for the service.
-* ` networking` describes the networking configuration of the external service
+* `tags` the external service can include an arbitrary number of tags, where:
+  *  `kuma.io/service` is mandatory.
+  *  `kuma.io/protocol` tag is also taken into account and supports the standard Kuma protocol values. It designates the specific protocol for the service (one of: `http`, `https`, `tcp`, `grpc`, `kafka`, default: `tcp`).
+  *  `kuma.io/zone` tag is taken into account when [`locality aware load balancing`](#external-services-and-locality-aware-load-balancing) is enabled or external service should be [accessible only from the specific zone](#external-services-accessible-from-specific-zone-through-zoneegress).
+* ` networking` describes the networking configuration of the external service:
     * `address` is the address where the external service can be reached.
-    * `tls` is the section to configure the TLS originator when consuming the external service
+    * `tls` is the section to configure the TLS originator when consuming the external service:
         * `enabled` turns on and off the TLS origination.
         * `allowRenegotiation` turns on and off TLS renegotiation. It's not recommended enabling this for [security reasons](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/tls.proto).
           However, some servers require this setting to fetch client certificate after TLS handshake. TLS renegotiation is not available in TLS v1.3.
         * `sni` overrides the default Server Name Indication. Set this value to empty string to disable SNI.
-        * `caCert` the CA certificate for the external service TLS verification
-        * `clientCert` the client certificate for mTLS
-        * `clientKey` the client key for mTLS
+        * `caCert` the CA certificate for the external service TLS verification.
+        * `clientCert` the client certificate for mTLS.
+        * `clientKey` the client key for mTLS.
 
 As with other services, avoid duplicating service names under `kuma.io/service` with already existing ones. A good practice is to derive the tag value from the domain name or IP of the actual external service.
 
@@ -172,7 +181,7 @@ When application makes a request to `https://example.com`, it will be first rout
 You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](mesh/#controlling-the-passthrough-mode).
 In this setup, applications will only be able to communicate with other applications in the mesh or external-services via the `ZoneEgress`.
 
-### External Services and Locality Aware Load Balancing through ZoneEgress
+### External Services accessible from specific zone through ZoneEgress
 
 There are might be scenarios when a specific `ExternalService` might be accessible only through the specific zone. To make it work we should use the `kuma.io/zone` tag for external service. In order to make it work, we need a multi-zone setup with `ZoneIngress` and `ZoneEgress` deployed. Also,
 [zone egress](../documentation/zoneegress.md#configuration) needs to be enabled.
@@ -192,7 +201,7 @@ networking:
 ```
  
 In this example, when all the conditions mentioned above are fulfilled if the service in `zone-1` is trying to set a connection with
-`httpbin.mesh` it will be redirected to the `ZoneEgress` instance within the `zone-1`. Next, this request goes to the `ZoneIngress` instance in `zone-2` which redirects it to the `ZoneEgress` cluster instanc from where it goes outside to the `ExternalService`.
+`httpbin.mesh` it will be redirected to the `ZoneEgress` instance within the `zone-1`. Next, this request goes to the `ZoneIngress` instance in `zone-2` which redirects it to the `ZoneEgress` cluster instance from where it goes outside to the `ExternalService`.
 
 ## Builtin Gateway support
 
