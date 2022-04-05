@@ -149,7 +149,7 @@ In this example, when [locality aware load balancing](../locality-aware) is enab
 
 ### External Services and ZoneEgress
 
-In scenarios when traffic to external services needs to be sent through a unique set of hosts you will [configure ZoneEgress](../documentation/zoneegress.md).
+In scenarios when traffic to external services needs to be sent through a unique set of hosts you will [configure ZoneEgress](../explore/zoneegress.md).
 
 For example when there is:
 * [disabled passthrough mode](mesh/#controlling-the-passthrough-mode)
@@ -175,7 +175,7 @@ In this setup, applications will only be able to communicate with other applicat
 ### External Services and Locality Aware Load Balancing through ZoneEgress
 
 There are might be scenarios when a specific `ExternalService` might be accessible only through the specific zone. To make it work we should use the `kuma.io/zone` tag for external service. In order to make it work, we need a multi-zone setup with `ZoneIngress` and `ZoneEgress` deployed. Also,
-[zone egress](../documentation/zoneegress.md#configuration) needs to be enabled.
+[zone egress](../explore/zoneegress.md#configuration) needs to be enabled.
  
 Example:
  

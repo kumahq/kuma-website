@@ -50,12 +50,12 @@ kuma-cp run
 
 **With zone egress**:
 
-`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](../documentation/zoneegress.md#zone-egress).
+`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](../explore/zoneegress.md#zone-egress).
 
 :::
 ::::
 
-Once Kuma is up and running, data plane proxies can now [connect](../../documentation/dps-and-data-model) directly to it.
+Once Kuma is up and running, data plane proxies can now [connect](../explore/dpp.md) directly to it.
 
 :::tip
 When the mode is not specified, Kuma will always start in `standalone` mode by default.

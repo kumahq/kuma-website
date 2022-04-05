@@ -408,7 +408,7 @@ Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` 
 :::
 ::: tab "HTTP API"
 
-We can use the Kuma HTTP API by retrieving the [Dataplane Insight](../documentation/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
+We can use the Kuma HTTP API by retrieving the [Dataplane Insight](../reference/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
 
 ```json
 ...

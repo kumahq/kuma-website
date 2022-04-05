@@ -9,8 +9,8 @@ When Kuma (`kuma-cp`) runs, it waits for the data plane proxies to connect and r
 ## Dataplane Entity
 
 A `Dataplane` entity must be passed to `kuma-dp` when instances attempt to connect to the control plane.
-On Kubernetes, this operation is [fully **automated**](#kubernetes).
-On Universal, it must be executed [**manually**](#universal).
+On Kubernetes, this operation is [fully **automated**](dpp-on-kubernetes.md).
+On Universal, it must be executed [**manually**](dpp-on-universal.md).
 
 To understand why the `Dataplane` entity is required, we must take a step back. As we have explained already, Kuma follows a sidecar proxy model for the data plane proxies, where we have an instance of a data plane proxy for every instance of our services. Each Service and DP will communicate with each other on the same machine, therefore on `127.0.0.1`.
 
@@ -34,11 +34,11 @@ When we start a new data plane proxy in Kuma, it needs to communicate a few thin
 ::: tip
 There exists special types of data planes proxies:
 
-- [ZoneIngress](./zone-ingress.md) which will enable inbound cross-zone traffic.
-- [ZoneEgress](./zoneegress.md) which allows isolating outgoing cross-zone
+- [ZoneIngress](zone-ingress.md) which will enable inbound cross-zone traffic.
+- [ZoneEgress](zoneegress.md) which allows isolating outgoing cross-zone
   traffic as well as any traffic going to external services available in local
   zone
-- [Gateway](./gateway.md) which will traffic external to the mesh to enter it.
+- [Gateway](gateway.md) which will traffic external to the mesh to enter it.
 
 Because these dataplane types are specific and complex we will discuss them separately to "standard" dataplane proxies.
 :::
@@ -46,7 +46,7 @@ Because these dataplane types are specific and complex we will discuss them sepa
 To do this, we have to create a file with a `Dataplane` definition and pass it to `kuma-dp run`. This way, data-plane will be registered in the Control Plane and Envoy will start accepting requests.
 
 ::: tip
-**Remember**: this is [all automated](#kubernetes) if you are running Kuma on Kubernetes!
+**Remember**: this is [all automated](dpp-on-kubernetes.md) if you are running Kuma on Kubernetes!
 :::
 
 The registration of the `Dataplane` includes three main sections that are described below in the [Dataplane Specification](#dataplane-specification):

@@ -50,7 +50,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 :::
 ::::
 
-You can use any [Tag](../documentation/dps-and-data-model/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
+You can use any [Tag](../explore/dpp/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
 
 ## Access to External Services
 

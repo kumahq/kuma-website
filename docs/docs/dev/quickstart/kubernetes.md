@@ -47,7 +47,7 @@ Two different YAML files are available:
 
 ## Explore the mesh
 
-The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace. This means that Kuma [already knows](../documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](../policies/mesh/) resource:
+The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace. This means that Kuma [already knows](../explore/dpp-on-kubernetes.md) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](../policies/mesh/) resource:
 
 ```yaml
 apiVersion: v1

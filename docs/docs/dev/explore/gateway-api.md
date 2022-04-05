@@ -1,6 +1,6 @@
 # Kubernetes Gateway API
 
-Kuma supports configuring [Built-in Gateway](./gateway.md) using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
+Kuma supports configuring [Built-in Gateway](gateway.md) using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
 ## Installation
 
@@ -22,7 +22,7 @@ Gateway API support is an experimental feature that has to be explicitly enabled
 
 3. Enable Gateway API support
 
-   [Configure](./configuration.md) kuma-cp with `KUMA_EXPERIMENTAL_GATEWAY_API` set to `true`.
+   [Configure](../documentation/configuration.md) kuma-cp with `KUMA_EXPERIMENTAL_GATEWAY_API` set to `true`.
 
 ## Usage
 

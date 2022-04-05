@@ -48,18 +48,18 @@
     "sidebarDepth": 1,
     "path": "",
     "children": [
-      "documentation/overview",
-      "documentation/dpp",
-      "documentation/dpp-on-kubernetes",
-      "documentation/dpp-on-universal",
-      "documentation/gateway",
-      "documentation/zone-ingress",
-      "documentation/zoneegress",
-      "documentation/backends",
-      "documentation/cli",
-      "documentation/gui",
-      "documentation/inspect-api",
-      "documentation/gateway-api"
+      "explore/overview",
+      "explore/dpp",
+      "explore/dpp-on-kubernetes",
+      "explore/dpp-on-universal",
+      "explore/gateway",
+      "explore/zone-ingress",
+      "explore/zoneegress",
+      "explore/backends",
+      "explore/cli",
+      "explore/gui",
+      "explore/inspect-api",
+      "explore/gateway-api"
     ]
   },
   {
@@ -143,10 +143,10 @@
     "sidebarDepth": 1,
     "path": "",
     "children": [
-      "documentation/http-api",
-      "documentation/kubernetes-annotations",
-      "documentation/dpp-specification",
-      "community/data-collection",
+      "reference/http-api",
+      "reference/kubernetes-annotations",
+      "reference/dpp-specification",
+      "reference/data-collection",
       "reference/license"
     ]
   }

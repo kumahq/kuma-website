@@ -54,4 +54,4 @@ When we start a data-plane via `kuma-dp` we expect all the inbound and outbound 
 
 In addition to the service traffic ports, the data-plane automatically also opens the `envoy` [administration interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) listener on the `127.0.0.1:9901`.
 
-Check the [dpp documentation](../documentation/dps-and-data-model/#envoy) for more on Envoy Admin port.
+Check the [dpp documentation](../explore/dpp/#envoy) for more on Envoy Admin port.

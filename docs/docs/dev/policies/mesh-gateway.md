@@ -1,6 +1,6 @@
 # MeshGateway
 
-`MeshGateway` is a policy used to configure [Kuma's builtin gateway](../documentation/gateway.md#builtin).
+`MeshGateway` is a policy used to configure [Kuma's builtin gateway](../explore/gateway.md#builtin).
 It is used in combination with [`MeshGatewayRoute`](./mesh-gateway-route.md).
 
 A builtin gateway `Dataplane` with no additional configuration does nothing.

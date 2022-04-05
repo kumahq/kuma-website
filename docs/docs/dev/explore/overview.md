@@ -49,7 +49,7 @@ When running on **Kubernetes**, Kuma will store all of its state and configurati
 kuma.io/sidecar-injection: enabled
 ```
 
-You can learn more about sidecar injection in the section on [Dataplanes](./dps-and-data-model/#kubernetes).
+You can learn more about sidecar injection in the section on [Dataplanes](dpp-on-kubernetes.md).
 
 <center>
 <img src="/images/docs/0.5.0/diagram-08.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -80,7 +80,7 @@ spec:
 
 This `kuma.io/mesh` annotation also could be set on the namespace. In this case all Pods in the namespace belong to specified mesh.
 
-See also [a complete list of the annotations you can specify in Kubernetes mode](./kubernetes-annotations/).
+See also [a complete list of the annotations you can specify in Kubernetes mode](../reference/kubernetes-annotations/).
  
 ### Matching Labels in `Pod` and `Service` 
 
@@ -198,7 +198,7 @@ In both cases these tags will be see in the CLI and GUI tools when inspecting th
 
 ## Last but not least
 
-Once the `kuma-cp` process is started, it waits for [data-planes](../dps-and-data-model) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](../../policies/introduction).
+Once the `kuma-cp` process is started, it waits for [data-planes](dpp.md) to connect, while at the same time accepting user-defined configuration to start creating Service Meshes and configuring the behavior of those meshes via Kuma [Policies](../../policies/introduction).
 
 When we look at a typical Kuma installation, at a higher level it works like this:
 
