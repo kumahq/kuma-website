@@ -3593,6 +3593,7 @@ curl localhost:5681/meshes/default/dataplanes/backend-1/policies
 ```json
 {
  "total": 3,
+ "kind": "SidecarDataplane",
  "items": [
   {
    "type": "inbound",
@@ -3651,6 +3652,88 @@ curl localhost:5681/meshes/default/dataplanes/backend-1/policies
      }
     ]
    }
+  }
+ ]
+}
+```
+
+Example:
+```bash
+curl localhost:5681/meshes/default/dataplanes/gateway-1/policies
+```
+```json
+{
+ "gateway": {
+  "mesh": "default",
+  "name": "foo-gateway.default"
+ },
+ "kind": "MeshGatewayDataplane",
+ "listeners": [
+  {
+   "hosts": [
+    {
+     "hostName": "go.com",
+     "routes": [
+      {
+       "destinations": [
+        {
+         "policies": {
+          "CircuitBreaker": {
+           "type": "CircuitBreaker"
+           "mesh": "default",
+           "name": "circuit-breaker-all-default",
+           ...
+          },
+          "Retry": {
+           "type": "Retry"
+           "mesh": "default",
+           "name": "retry-all-default",
+           ...
+          },
+          "Timeout": {
+           "type": "Timeout"
+           "mesh": "default",
+           "name": "timeout-all-default",
+           ...
+          }
+         },
+         "tags": {
+          "kuma.io/service": "demo-app_kuma-demo_svc_5000"
+         }
+        },
+        {
+         "policies": {
+          "CircuitBreaker": {
+           "type": "CircuitBreaker"
+           "mesh": "default",
+           "name": "circuit-breaker-all-default",
+           ...
+          },
+          "Retry": {
+           "type": "Retry"
+           "mesh": "default",
+           "name": "retry-all-default",
+           ...
+          },
+          "Timeout": {
+           "type": "Timeout"
+           "mesh": "default",
+           "name": "timeout-all-default",
+           ...
+          }
+         },
+         "tags": {
+          "kuma.io/service": "httpbin"
+         }
+        }
+       ],
+       "route": "default-foo-gateway-hw6n5"
+      }
+     ]
+    }
+   ],
+   "port": 80,
+   "protocol": "HTTP"
   }
  ]
 }
