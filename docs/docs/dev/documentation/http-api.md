@@ -3658,7 +3658,7 @@ curl localhost:5681/meshes/default/dataplanes/backend-1/policies
 }
 ```
 
-Example:
+`MeshGateway`-configured `Dataplane` example:
 ```bash
 curl localhost:5681/meshes/default/dataplanes/gateway-1/policies
 ```
