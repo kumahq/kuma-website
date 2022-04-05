@@ -2956,7 +2956,7 @@ curl http://localhost:5681/zone-ingresses
 
 Request: `GET /zone-ingress/{name}`
 
-Response: `200 OK` with ZoneIngress entity 
+Response: `200 OK` with ZoneIngress entity
 
 Example:
 ```bash
