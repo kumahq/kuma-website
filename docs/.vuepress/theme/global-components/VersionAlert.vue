@@ -3,7 +3,7 @@
     <div v-if="showAlert" class="version-alert">
       <div class="warning custom-block">
         <p class="custom-block-title">Careful!</p>
-        <p v-if="isDev">You are browsing documentation for the next version of {{getSiteData.title}}. Use this version at your own risks.</p>
+        <p v-if="isDev">You are browsing documentation for the next version of {{getSiteData.title}}. Use this version at your own risk.</p>
         <p v-else>You are browsing documentation for a version of {{getSiteData.title}} that is not the latest release.</p>
         <p>
           <router-link :to="{ path: `/docs/${getLatestRelease}/` }">Go here</router-link> to browse the documentation for the latest version.
