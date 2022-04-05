@@ -39,7 +39,7 @@ It's treated the same way regardless of the environment:
 
 Also, `health.ready` is used to compute the status of the data plane proxy and service. You can see these statuses both in Kuma GUI and Kuma CLI:
 
-data plane proxy health follows these rules:
+Data plane proxy health follows these rules:
 
 - if proxy status is `Offline`, then data plane proxy is `Offline`.
 - if proxy status is `Online`:
