@@ -8,13 +8,13 @@ You can configure the control plane:
 - With environment variables
 - With a YAML configuration file
 
-Environment variables take precedence over a YAML configuration file.
+Environment variables take precedence over YAML configuration.
 
-The Kuma package includes a reference configuration, at `conf/kuma-cp.conf.yml`.
+You can find all possible configuration and the default values in the [`kuma-cp` reference doc](../generated/kuma-cp.md).
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes (kumactl)"
-If you install the control plane with `kumactl`, you can override the configuration with the `--env-var` flag. For example, to configure the refresh interval for configuration of the data plane proxy, specify:
+When using `kumactl`, you can override the configuration with the `--env-var` flag. For example, to configure the refresh interval for configuration of the data plane proxy, specify:
 ```sh
 kumactl install control-plane \
   --env-var KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
@@ -22,7 +22,7 @@ kumactl install control-plane \
 ```
 :::
 ::: tab "Kubernetes (HELM)"
-If you install the control plane with HELM, you can override the configuration with the `envVars` field. For example, to configure the refresh interval for configuration with the data plane proxy, specify:
+When using `helm`, you can override the configuration with the `envVars` field. For example, to configure the refresh interval for configuration with the data plane proxy, specify:
 ```sh
 helm install --version 0.7.1 \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
@@ -81,9 +81,9 @@ You can also get the configuration with a call to the Kuma API server:
 ```sh
 curl http://<CP_ADDRESS>:5681/config
 ```
-And it's displayed on the Diagnostic tab in the GUI, in the lower left corner.
+It's also displayed on the Diagnostic tab in the GUI, in the lower left corner.
 
-In a multizone deployment, the zone control plane sends its config to the global control plane. This lets you inspect all configurations with `kumactl inspect zones -oyaml`. You can also find them on the Zone tab in the GUI.
+In a multi-zone deployment, the zone control plane sends its config to the global control plane. This lets you inspect all configurations with `kumactl inspect zones -oyaml` or in the GUI.
 
 ## Data plane proxy
 
