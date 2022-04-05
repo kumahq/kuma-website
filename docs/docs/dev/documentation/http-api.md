@@ -48,6 +48,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/fault-injections`
 * `/meshes/{mesh}/fault-injections/{name}`
 * `/meshes/{mesh}/{policy-type}/{policy-name}/dataplanes`  
+* `/meshes/{mesh}/meshgateways/{gateway-name}/dataplanes`
 * `/meshes/{mesh}/external-services`
 * `/meshes/{mesh}/external-services/{name}`
 * `/meshes/{mesh}/service-insights`
@@ -3764,6 +3765,28 @@ curl localhost:5681/meshes/default/health-checks/gateway-to-backend/policies
    ]
   }
  ]
+}
+```
+
+### Get data plane proxies configured by `MeshGateway`
+
+Request: `GET /meshes/{mesh}/meshgateways/{meshgateway}/dataplanes`
+
+Example:
+```bash
+curl localhost:5681/meshes/default/meshgateways/edge-gateway/policies
+```
+```json
+{
+ "items": [
+  {
+   "dataplane": {
+    "mesh": "default",
+    "name": "gateway-1"
+   }
+  }
+ ],
+ "total": 1
 }
 ```
 
