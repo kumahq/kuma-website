@@ -30,7 +30,7 @@ We can run Kuma:
 This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](../introduction/deployments.md) like "multi-zone".
 
 ::: tip
-**Note**: By default this will run Kuma with a `memory` [backend](../../documentation/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
+**Note**: By default this will run Kuma with a `memory` [backend](../../explore/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 :::
 
 ### 3. Use Kuma

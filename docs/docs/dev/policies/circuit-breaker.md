@@ -100,7 +100,7 @@ conf:
       minimumHosts: 5
       threshold: 85
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../reference/http-api).
 :::
 ::::
 
@@ -144,7 +144,7 @@ conf:
     totalErrors: {}
     standardDeviation: {}
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../reference/http-api).
 :::
 ::::
 

@@ -43,7 +43,7 @@ We will apply the configuration with `kubectl apply -f [..]`.
 type: Mesh
 name: default
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../reference/http-api).
 :::
 ::::
 

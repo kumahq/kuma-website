@@ -46,7 +46,7 @@ destinations:
   - match:
       kuma.io/service: '*'
 ```
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 :::
 ::::
 
