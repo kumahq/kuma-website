@@ -67,3 +67,86 @@ For this to work, we must update our application to consume `redis` on `127.0.0.
 ::: tip
 You can parametrize your `Dataplane` definition, so you can reuse the same file for many `kuma-dp` instances or even services.
 :::
+
+## Lifecycle 
+
+On Universal there are 2 ways how Dataplane resource lifecycle could be managed: [Direct](#direct) and [Indirect](#indirect). 
+
+### Direct
+
+This is a recommended way to operate with Dataplane resources on Universal.
+
+#### Creation
+
+Pass Dataplane resource directly to `kuma-dp run` command. Dataplane resource could be a [Go Template](https://pkg.go.dev/text/template) in this case:
+
+_backend-dp-tmpl.yaml_
+```yaml
+type: Dataplane
+mesh: default
+name: {{ name }}
+networking:
+  address: {{ address }}
+  inbound:
+    - port: 8000
+      servicePort: 80
+      tags:
+        kuma.io/service: backend
+        kuma.io/protocol: http
+```
+
+The command with template parameters will look like this:
+```shell
+kuma-dp run \
+  --dataplane-file=backend-dp-tmpl.yaml \
+  --dataplane-var name=my-backend-dp \
+  --dataplane-var address=192.168.0.2 \
+  ...
+```
+
+When xDS connection between proxy and kuma-cp is established, Dataplane resource will be created automatically by kuma-cp. 
+
+#### Deletion
+
+If data plane proxy is shutdown gracefully, then Dataplane resource will be automatically deleted by kuma-cp. 
+
+If data plane proxy went down ungracefully, then Dataplane resource won't be deleted immediately. The following sequence 
+of the events should happen:
+1. Since xDS connection between proxy and kuma-cp is inactive, Dataplane proxy will be marked as Offline after `KUMA_METRICS_DATAPLANE_IDLE_TIMEOUT`, 
+by default it happens after 5 minutes.
+2. Offline data plane proxies deleted automatically after `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE`, by default it's 72h.
+
+So it's guaranteed Dataplane resource will be eventually cleaned up in case of **ungraceful** shutdown. 
+
+### Indirect
+
+The lifecycle is called "Indirect", because there is no strict dependency between Dataplane resource creation and the actual 
+data plane proxy start. That's an old but still valid way to manage Dataplane resources. 
+
+#### Creation
+
+Dataplane resource is created using [HTTP API](../reference/http-api.md#dataplanes) or [kumactl](../explore/cli.md). 
+Dataplane resource is created before data plane proxy started. There is no support for templates, resource should be
+a valid Dataplane configuration. 
+
+When data plane proxy is started, it takes `name` and `mesh` as an input arguments. After connection between proxy and 
+kuma-cp is established, kuma-cp will attempt to find Dataplane resource with `name` and `mesh` in the store. 
+
+```shell
+kuma-cp run \
+  --name=my-backend-dp \
+  --mesh=default \
+  ...
+```
+
+#### Deletion
+
+Regardless the way data plane proxy went down (gracefull or ungracefull), Dataplane resource won't be cleaned up immediately.
+
+If data plane proxy is shutdown gracefully, then Dataplane resource will be marked as Offline. Offline data plane proxies 
+deleted automatically after `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE`, by default it's 72h.
+
+If data plane proxy went down ungracefully, then the following sequence of the events should happen:
+1. Since xDS connection between proxy and kuma-cp is inactive, Dataplane proxy will be marked as Offline after `KUMA_METRICS_DATAPLANE_IDLE_TIMEOUT`,
+   by default it happens after 5 minutes.
+2. Offline data plane proxies deleted automatically after `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE`, by default it's 72h.
