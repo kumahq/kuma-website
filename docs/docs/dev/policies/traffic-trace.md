@@ -61,7 +61,7 @@ tracing:
       url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 :::
 ::::
 
@@ -136,7 +136,7 @@ tracing:
       port: 8126
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 :::
 ::::
 
@@ -177,7 +177,7 @@ conf:
   backend: jaeger-collector # or the name of any backend defined for the mesh
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 :::
 ::::
 

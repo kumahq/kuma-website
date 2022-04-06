@@ -17,7 +17,7 @@ The DNS resolver is embedded in each data plane proxy and configured through XDS
 The global control plane and the zone control planes communicate to synchronize resources such as Kuma policy configurations over Kuma Discovery Service (KDS), which is a protocol based on xDS.
 
 :::tip
-A zone ingress is not an API gateway. Instead, it is specific to internal cross-zone communication within the mesh. API gateways are supported in Kuma [gateway mode](../documentation/dps-and-data-model.md) which can be deployed in addition to zone ingresses.
+A zone ingress is not an API gateway. Instead, it is specific to internal cross-zone communication within the mesh. API gateways are supported in Kuma [gateway mode](../explore/gateway.md) which can be deployed in addition to zone ingresses.
 :::
 
 ### Components of a multi-zone deployment
@@ -296,7 +296,7 @@ deployed with zone ingress.
 
 #### Enable mTLS
 
-You must [enable mTLS](../policies/mutual-tls.md) and [enable ZoneEgress](../documentation/zoneegress.md#configuration) for cross-zone communication.
+You must [enable mTLS](../policies/mutual-tls.md) and [enable ZoneEgress](../explore/zoneegress.md#configuration) for cross-zone communication.
 
 Kuma uses the Server Name Indication field, part of the TLS protocol, as a way to pass routing information cross zones. Thus, mTLS is mandatory to enable cross-zone service communication.
 
@@ -313,7 +313,7 @@ A service of type `LoadBalancer` is automatically created when installing Kuma w
 
 Depending on your load balancer implementation, you might need to wait a few minutes for Kuma to get the address.
 
-You can also set this address and port by using the annotations: [`kuma.io/ingress-public-address` and `kuma.io/ingress-public-port`](../documentation/kubernetes-annotations/#kuma-io-ingress-public-port)
+You can also set this address and port by using the annotations: [`kuma.io/ingress-public-address` and `kuma.io/ingress-public-port`](../reference/kubernetes-annotations/#kuma-io-ingress-public-port)
 
 ::: tab "Universal"
 Set the advertisedAddress and advertisedPort field in the `ZoneIngress` definition

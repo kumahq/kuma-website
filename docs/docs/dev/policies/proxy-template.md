@@ -61,13 +61,13 @@ conf:
 
 In these examples, note:
 
-* The `selectors` object specifies the [data plane proxies](../documentation/dps-and-data-model/#dataplane-entity) that are targeted by the `ProxyTemplate` resource. Values are provided as Kuma tags.
+* The `selectors` object specifies the [data plane proxies](../explore/dpp/#dataplane-entity) that are targeted by the `ProxyTemplate` resource. Values are provided as Kuma tags.
 * The `imports` object specifies the reusable configuration that Kuma generates automatically. Kuma then extends the imports object with the custom configuration you specify. The value must be one or both of `default-proxy` -- the default configuration for non-ingress data planes -- or `ingress` -- the default configuration for zone-ingress proxy.
 
 
 ### Modifications
 
-To customize the configuration of [data plane proxies](../documentation/dps-and-data-model/#dataplane-entity), 
+To customize the configuration of [data plane proxies](../explore/dpp/#dataplane-entity), 
 you can combine modifications of any type in one ProxyTemplate. Each modification consists of the following sections:
 
 * `operation` - operation applied to the generated config (e.g. `add`, `remove`, `patch`).
@@ -778,10 +778,10 @@ conf:
 
 ## How Kuma handles the proxy template
 
-At runtime, whenever `kuma-cp` generates the configuration for a given [data plane proxy](../documentation/dps-and-data-model/#dataplane-entity), it will proceed as follows:
+At runtime, whenever `kuma-cp` generates the configuration for a given [data plane proxy](../explore/dpp/#dataplane-entity), it will proceed as follows:
 
 1. Kuma searches for all the `ProxyTemplates` resources that have been defined in the specified [`Mesh`](../mesh).
-2. It loads in memory the `ProxyTemplates` resources whose `selectors` [match](./how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any [data plane proxy](../documentation/dps-and-data-model/#dataplane-entity) accordingly to the Kuma Tags selected.
+2. It loads in memory the `ProxyTemplates` resources whose `selectors` [match](./how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any [data plane proxy](../explore/dpp/#dataplane-entity) accordingly to the Kuma Tags selected.
 3. Every matching `ProxyTemplate` is [ranked](./how-kuma-chooses-the-right-policy-to-apply/). The `ProxyTemplate` resource with the highest ranking is used to generate the configuration for the specified data plane proxy (or proxies).
 4. If the `ProxyTemplate` resource specifies an `imports` object, these resources are generated first.
 5. If a `ProxyTemplate` defines a `modification` object, all modifications are applied, one by one in the order defined in `modification` section.

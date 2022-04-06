@@ -3807,7 +3807,7 @@ curl -XDELETE http://localhost:5681/global-secrets/sample-global-secret
 
 ## Multi-zone
 
-These APIs are available on the `Global` control plane, when running in a distributed [multi-zone mode](../documentation/deployments/).
+These APIs are available on the `Global` control plane, when running in a distributed [multi-zone mode](../introduction/deployments/).
 
 ### Zones status
 Request: `GET /status/zones`

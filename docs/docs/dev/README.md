@@ -24,4 +24,4 @@ The core maintainer of Kuma is **Kong**, the maker of the popular open-source Ko
 
 [Jump to the quickstart](quickstart/kubernetes.md)
 
-[Explore the API](documentation/http-api.md)
+[Explore the API](reference/http-api.md)

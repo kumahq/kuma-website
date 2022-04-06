@@ -1,6 +1,6 @@
 # MeshGatewayRoute
 
-`MeshGatewayRoute` is a policy used to configure [Kuma's builtin gateway](../documentation/gateway.md#builtin).
+`MeshGatewayRoute` is a policy used to configure [Kuma's builtin gateway](../explore/gateway.md#builtin).
 It is used in combination with [`MeshGateway`](./mesh-gateway.md).
 
 `MeshGatewayRoute` is a new Kuma dataplane policy that replaces TrafficRoute for Kuma Gateway.

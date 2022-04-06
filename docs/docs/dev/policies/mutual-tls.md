@@ -76,7 +76,7 @@ mtls:
           expiration: 10y
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../reference/http-api).
 :::
 ::::
 
@@ -92,7 +92,7 @@ When using a `builtin` backend Kuma automatically generates a root CA certificat
 * `{mesh name}.ca-builtin-cert-{backend name}` for the certificate
 * `{mesh name}.ca-builtin-key-{backend name}` for the key
 
-On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [backend](../../documentation/backends) configured in `kuma-cp`.
+On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [backend](../../explore/backends) configured in `kuma-cp`.
 
 We can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or via `kubectl` on Kubernetes only:
 
@@ -178,7 +178,7 @@ mtls:
           secret: name-of-secret
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../reference/http-api).
 :::
 ::::
 
@@ -408,7 +408,7 @@ Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` 
 :::
 ::: tab "HTTP API"
 
-We can use the Kuma HTTP API by retrieving the [Dataplane Insight](../documentation/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
+We can use the Kuma HTTP API by retrieving the [Dataplane Insight](../reference/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
 
 ```json
 ...

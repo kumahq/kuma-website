@@ -37,7 +37,7 @@ kumactl install control-plane | kubectl apply -f -
 
 **With zone egress**:
 
-It's possible to run [`ZoneEgress`](../documentation/zone-egress.md) for standalone deployment. In order to deploy Kuma with `ZoneEgress` run the install command with an additional parameter.
+It's possible to run [`ZoneEgress`](../explore/zoneegress.md) for standalone deployment. In order to deploy Kuma with `ZoneEgress` run the install command with an additional parameter.
 ```sh
 kumactl install control-plane --egress-enabled | kubectl apply -f -
 ```
@@ -50,12 +50,12 @@ kuma-cp run
 
 **With zone egress**:
 
-`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](../documentation/zoneegress.md#zone-egress).
+`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](../explore/zoneegress.md#zone-egress).
 
 :::
 ::::
 
-Once Kuma is up and running, data plane proxies can now [connect](../../documentation/dps-and-data-model) directly to it.
+Once Kuma is up and running, data plane proxies can now [connect](../explore/dpp.md) directly to it.
 
 :::tip
 When the mode is not specified, Kuma will always start in `standalone` mode by default.
