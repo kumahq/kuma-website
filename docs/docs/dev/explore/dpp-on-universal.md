@@ -78,7 +78,7 @@ This is a recommended way to operate with Dataplane resources on Universal.
 
 #### Creation
 
-Pass Dataplane resource directly to `kuma-dp run` command. Dataplane resource could be a [Mustache template](http://mustache.github.io/mustache.5.html) in this case:
+Pass `Dataplane` resource directly to `kuma-dp run` command. Dataplane resource could be a [Mustache template](http://mustache.github.io/mustache.5.html) in this case:
 
 _backend-dp-tmpl.yaml_
 ```yaml
