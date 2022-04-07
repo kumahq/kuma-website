@@ -79,6 +79,13 @@ bootstrapServer:
 
 It is not possible to override the data plane proxy resource directly in Kubernetes. If you still want to override it, use the pod annotation `kuma.io/envoy-admin-port`.
 
+### Envoy concurrency tunning
+
+Envoy allows configuring the number of worker threads used for processing requests. Sometimes it might be useful to change the default number of worker threads e.g.: high CPU machine with low traffic. Depending on the type of deployment, there are different mechanisms in `kuma-dp` to change Envoy’s concurrency level.
+
+* [Envoy K8s concurrency setting](./dpp-on-kubernetes.md#envoy-concurrency-setting)
+* [Envoy Universal concurrency setting](./dpp-on-universal.md#envoy-concurrency-setting)
+
 ## Tags
 
 Each Kuma data plane proxy is associated with tags - or attributes - that can be used to both identify the service that the data plane proxy is representing, they are also used to configure the service mesh with matching [policies](/policies).

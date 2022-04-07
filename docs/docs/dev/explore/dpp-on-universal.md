@@ -67,3 +67,13 @@ For this to work, we must update our application to consume `redis` on `127.0.0.
 ::: tip
 You can parametrize your `Dataplane` definition, so you can reuse the same file for many `kuma-dp` instances or even services.
 :::
+
+## Envoy concurrency setting
+
+Envoy on Linux, by default, starts with the flag `--cpuset-threads`. In this case, cpuset size is used to determine the number of worker threads on systems. When the value is not present then the number of worker threads is based on the number of hardware threads on the machine. `Kuma-dp` allows tuning that value by providing a `--concurrency` flag with the number of worker threads to create.
+
+```sh
+kuma-dp run \
+  [..]
+  --concurrency=5
+```
