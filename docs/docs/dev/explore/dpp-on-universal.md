@@ -74,11 +74,11 @@ On Universal you can manage `Dataplane` resources either in [Direct](#direct) mo
 
 ### Direct
 
-This is a recommended way to operate with Dataplane resources on Universal.
+This is the recommended way to operate with `Dataplane` resources on Universal.
 
 #### Creation
 
-Pass `Dataplane` resource directly to `kuma-dp run` command. Dataplane resource could be a [Mustache template](http://mustache.github.io/mustache.5.html) in this case:
+Pass `Dataplane` resource directly to `kuma-dp run` command. `Dataplane` resource could be a [Mustache template](http://mustache.github.io/mustache.5.html) in this case:
 
 _backend-dp-tmpl.yaml_
 ```yaml
@@ -104,7 +104,7 @@ kuma-dp run \
   ...
 ```
 
-When xDS connection between proxy and kuma-cp is established, Dataplane resource will be created automatically by kuma-cp. 
+When xDS connection between proxy and kuma-cp is established, `Dataplane` resource will be created automatically by kuma-cp. 
 
 #### Deletion
 
@@ -112,22 +112,23 @@ If data plane proxy is shutdown gracefully, the `Dataplane` resource is automati
 
 If the data plane proxy goes down ungracefully, the `Dataplane` resource is not deleted immediately. The following happens:
 of the events should happen:
-1. Since xDS connection between proxy and kuma-cp is inactive, Dataplane proxy will be marked as Offline after `KUMA_METRICS_DATAPLANE_IDLE_TIMEOUT`, 
-by default it happens after 5 minutes.
-2. Offline data plane proxies are deleted automatically after `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE`, by default it's 72h.
+1. After `KUMA_METRICS_DATAPLANE_IDLE_TIMEOUT` (default 5mins) the data plane proxy is marked as Offline . This is because 
+there's no active xDS connection between the proxy and kuma-cp.
+2. After `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE` (default 72h) offline data plane proxies are deleted.
 
 This guarantees that `Dataplane` resources are eventually cleaned up even in the case of **ungraceful** shutdown. 
 
 ### Indirect
 
-The lifecycle is called "Indirect", because there is no strict dependency between Dataplane resource creation and the 
-startup of the data plane proxy. That's an old but still valid way to manage Dataplane resources. 
+The lifecycle is called "Indirect", because there is no strict dependency between `Dataplane` resource creation and the 
+startup of the data plane proxy. This is a good way if you have some external components that manages `Dataplane` 
+lifecycle. 
 
 #### Creation
 
-Dataplane resource is created using [HTTP API](../reference/http-api.md#dataplanes) or [kumactl](../explore/cli.md). 
-Dataplane resource is created before data plane proxy started. There is no support for templates, resource should be
-a valid Dataplane configuration. 
+`Dataplane` resource is created using [HTTP API](../reference/http-api.md#dataplanes) or [kumactl](../explore/cli.md). 
+`Dataplane` resource is created before data plane proxy started. There is no support for templates, resource should be
+a valid `Dataplane` configuration. 
 
 When data plane proxy is started, it takes `name` and `mesh` as an input arguments. After connection between proxy and 
 kuma-cp is established, kuma-cp finds the `Dataplane` resource with `name` and `mesh` in the store. 
@@ -143,10 +144,10 @@ kuma-cp run \
 
 Kuma-cp will **never** delete the `Dataplane` resource (with both graceful and ungraceful shutdowns).
 
-If data plane proxy is shutdown gracefully, then Dataplane resource will be marked as Offline. Offline data plane proxies 
+If data plane proxy is shutdown gracefully, then `Dataplane` resource will be marked as Offline. Offline data plane proxies 
 deleted automatically after `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE`, by default it's 72h.
 
 If data plane proxy went down ungracefully, then the following sequence of the events should happen:
-1. Since xDS connection between proxy and kuma-cp is inactive, Dataplane proxy will be marked as Offline after `KUMA_METRICS_DATAPLANE_IDLE_TIMEOUT`,
-   by default it happens after 5 minutes.
-2. Offline data plane proxies are deleted automatically after `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE`, by default it's 72h.
+1. After `KUMA_METRICS_DATAPLANE_IDLE_TIMEOUT` (default 5mins) the data plane proxy is marked as Offline . This is because
+   there's no active xDS connection between the proxy and kuma-cp.
+2. After `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE` (default 72h) offline data plane proxies are deleted.

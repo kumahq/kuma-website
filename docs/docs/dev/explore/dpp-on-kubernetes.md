@@ -51,7 +51,7 @@ kubectl get dataplanes <podName>
 
 ## Tag generation
 
-When Dataplane entities are automatically created, all labels from Pod are converted into Dataplane tags.
+When `Dataplane` entities are automatically created, all labels from Pod are converted into `Dataplane` tags.
 Labels with keys that contains `kuma.io/` are not converted because they are reserved to Kuma.
 The following tags are added automatically and cannot be overridden using Pod labels.
 
@@ -110,9 +110,9 @@ Using `*` to directly access every service is a resource intensive operation, so
 ### Creation
 
 On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For each Pod with sidecar-injection label a new 
-Dataplane resource will be created. 
+`Dataplane` resource will be created. 
 
 ### Deletion
 
-Dataplane resource has an [owner reference](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/) 
-to the corresponding Pod. That's why when Pod is deleted Dataplane resource is deleted as well.  
+When a Pod is deleted its matching `Dataplane` resource is deleted as well. This is possible thanks to the
+[owner reference](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/) set on the `Dataplane` resource.
