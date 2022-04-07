@@ -130,7 +130,7 @@ Dataplane resource is created before data plane proxy started. There is no suppo
 a valid Dataplane configuration. 
 
 When data plane proxy is started, it takes `name` and `mesh` as an input arguments. After connection between proxy and 
-kuma-cp is established, kuma-cp will attempt to find Dataplane resource with `name` and `mesh` in the store. 
+kuma-cp is established, kuma-cp finds the `Dataplane` resource with `name` and `mesh` in the store. 
 
 ```shell
 kuma-cp run \
