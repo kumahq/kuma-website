@@ -116,7 +116,7 @@ of the events should happen:
 by default it happens after 5 minutes.
 2. Offline data plane proxies are deleted automatically after `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE`, by default it's 72h.
 
-It's guaranteed that Dataplane resource will be eventually cleaned up in case of **ungraceful** shutdown. 
+This guarantees that `Dataplane` resources are eventually cleaned up even in the case of **ungraceful** shutdown. 
 
 ### Indirect
 
