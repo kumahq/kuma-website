@@ -109,7 +109,7 @@ Using `*` to directly access every service is a resource intensive operation, so
 
 ### Creation
 
-On Kubernetes, Dataplane resource is automatically created by kuma-cp. For each Pod with sidecar-injection label a new 
+On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For each Pod with sidecar-injection label a new 
 Dataplane resource will be created. 
 
 ### Deletion
