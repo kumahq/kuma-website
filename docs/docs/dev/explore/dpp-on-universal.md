@@ -70,7 +70,7 @@ You can parametrize your `Dataplane` definition, so you can reuse the same file 
 
 ## Lifecycle 
 
-On Universal there are 2 ways how Dataplane resource lifecycle could be managed: [Direct](#direct) and [Indirect](#indirect). 
+On Universal you can manage `Dataplane` resources either in [Direct](#direct) mode or in [Indirect](#indirect) mode.  
 
 ### Direct
 
