@@ -98,3 +98,46 @@ This way we don't repeat this information across all `Dataplane` objects which m
 
 You can enable this only after all instances of the control plane are updated to 1.6.0 or later.
 This option will be the default behaviour in the next versions of Kuma.
+
+## Envoy
+
+### Envoy concurrency tunning
+
+Envoy allows configuring the number of [worker threads ](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/intro/threading_model)used for processing requests. Sometimes it might be useful to change the default number of worker threads e.g.: high CPU machine with low traffic. Depending on the type of deployment, there are different mechanisms in `kuma-dp` to change Envoy’s concurrency level.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+
+By default, Envoy runs with a concurrency level based on resource limit. For example, if you’ve started the `kuma-dp` container with CPU resource limit `7000m` then concurrency is going to be set to 7. It's also worth mentioning that concurrency for K8s is set from at least 2 to a maximum of 10 worker threads. In case when higher concurrency level is required it's possible to change the setting by using annotation `kuma.io/sidecar-proxy-concurrency` which allows to change the concurrency level without limits.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+spec:
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+      annotations:
+        kuma.io/sidecar-proxy-concurrency: 55
+[...]
+```
+:::
+
+::: tab "Universal"
+
+Envoy on Linux, by default, starts with the flag `--cpuset-threads`. In this case, cpuset size is used to determine the number of worker threads on systems. When the value is not present then the number of worker threads is based on the number of hardware threads on the machine. `Kuma-dp` allows tuning that value by providing a `--concurrency` flag with the number of worker threads to create.
+
+```sh
+kuma-dp run \
+  [..]
+  --concurrency=5
+```
+
+:::
+::::
