@@ -108,7 +108,7 @@ When xDS connection between proxy and kuma-cp is established, Dataplane resource
 
 #### Deletion
 
-If data plane proxy is shutdown gracefully, then Dataplane resource will be automatically deleted by kuma-cp. 
+If data plane proxy is shutdown gracefully, the `Dataplane` resource is automatically deleted by kuma-cp. 
 
 If data plane proxy went down ungracefully, then Dataplane resource won't be deleted immediately. The following sequence 
 of the events should happen:
