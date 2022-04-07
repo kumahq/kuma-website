@@ -141,7 +141,7 @@ kuma-cp run \
 
 #### Deletion
 
-Regardless the way data plane proxy went down (gracefull or ungracefull), Dataplane resource won't be cleaned up immediately.
+Kuma-cp will **never** delete the `Dataplane` resource (with both graceful and ungraceful shutdowns).
 
 If data plane proxy is shutdown gracefully, then Dataplane resource will be marked as Offline. Offline data plane proxies 
 deleted automatically after `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE`, by default it's 72h.
