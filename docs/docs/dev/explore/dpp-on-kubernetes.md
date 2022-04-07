@@ -104,25 +104,3 @@ kuma.io/direct-access-services: *
 ::: warning
 Using `*` to directly access every service is a resource intensive operation, so we must use it carefully.
 :::
-
-## Envoy concurrency setting
-
-By default, Envoy runs with a concurrency level based on resource limit. For example, if you’ve started the `kuma-dp` container with CPU resource limit `7000m` then concurrency is going to be set to 7. It's also worth mentioning that concurrency for K8s is set from at least 2 to a maximum of 10 worker threads. In case when higher concurrency level is required it's possible to change the setting by using annotation `kuma.io/sidecar-proxy-concurrency` which allows to change the concurrency level without limits.
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: demo-app
-spec:
-  selector:
-    matchLabels:
-      app: demo-app
-  template:
-    metadata:
-      labels:
-        app: demo-app
-      annotations:
-        kuma.io/sidecar-proxy-concurrency: 55
-[...]
-```
