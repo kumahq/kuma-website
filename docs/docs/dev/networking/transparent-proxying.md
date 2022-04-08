@@ -13,11 +13,11 @@ Kuma integrates with a service naming provided by Kubernetes DNS as well as prov
 
 ## Universal
 
-On **Universal** `kuma-dp` leverages the [data plane proxy specification](../reference/dpp-specification.md) associated to it for receiving incoming requests on a pre-defined port.
+On **Universal** `kuma-dp` leverages the [data plane proxy specification](../generated/resources/proxy_dataplane.md) associated to it for receiving incoming requests on a pre-defined port.
 
 There are several advantages for using transparent proxying in universal mode:
 
- * Simpler [Dataplane resource](../reference/dpp-specification.md), as the `outbound` section becomes obsolete and can be skipped.
+ * Simpler [Dataplane resource](../generated/resources/proxy_dataplane.md), as the `outbound` section becomes obsolete and can be skipped.
  * Universal service naming with `.mesh` [DNS domain](../networking/dns/) instead of explicit outbound like `https://localhost:10001`.
  * Support for hostnames of your choice using [VirtualOutbounds](../policies/virtual-outbound) that lets you preserve existing service naming.
  * Better service manageability (security, tracing).

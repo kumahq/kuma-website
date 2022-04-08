@@ -49,7 +49,7 @@ To do this, we have to create a file with a `Dataplane` definition and pass it t
 **Remember**: this is [all automated](dpp-on-kubernetes.md) if you are running Kuma on Kubernetes!
 :::
 
-The registration of the `Dataplane` includes three main sections that are described below in the [Dataplane Specification](../reference/dpp-specification.md):
+The registration of the `Dataplane` includes three main sections that are described below in the [Dataplane Specification](../generated/resources/proxy_dataplane.md):
 
 * `address` IP at which this dataplane will be accessible to other data plane proxies
 * `inbound` networking configuration, to configure on what port the data plane proxy will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
