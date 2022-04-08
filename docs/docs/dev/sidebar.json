@@ -101,7 +101,8 @@
     "children": [
       "documentation/health",
       "documentation/fine-tuning",
-      "documentation/configuration"
+      "documentation/configuration",
+      "documentation/upgrades"
     ]
   },
   {
