@@ -72,11 +72,11 @@ module.exports = {
               .map(f => `generated/${f.name}`)
               .forEach((f) => sb.children.push(f));
           }
-          const genPoliciesPath = path.resolve(__dirname, `../docs/${v}/generated/resources`);
-          if (fs.existsSync(genPoliciesPath)) {
-            const policies = fs.readdirSync(genPoliciesPath, {withFileTypes: true})
+          const genResourcesPath = path.resolve(__dirname, `../docs/${v}/generated/resources`);
+          if (fs.existsSync(genResourcesPath)) {
+            const resources = fs.readdirSync(genResourcesPath, {withFileTypes: true})
               .map(f => "generated/resources/" + f.name.replace(".md", ""));
-            sb.children.push({"title": "Policies", "children": policies});
+            sb.children.push({"title": "Resources", "children": resources});
           } else {
             const genPoliciesPath = path.resolve(__dirname, `../docs/${v}/generated/policies`);
             if (fs.existsSync(genPoliciesPath)) {
