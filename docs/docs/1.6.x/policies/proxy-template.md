@@ -62,7 +62,13 @@ conf:
 In these examples, note:
 
 * The `selectors` object specifies the [data plane proxies](../explore/dpp/#dataplane-entity) that are targeted by the `ProxyTemplate` resource. Values are provided as Kuma tags.
-* The `imports` object specifies the reusable configuration that Kuma generates automatically. Kuma then extends the imports object with the custom configuration you specify. The value must be one or both of `default-proxy` -- the default configuration for non-ingress data planes -- or `ingress` -- the default configuration for zone-ingress proxy.
+* The `imports` object specifies the reusable configuration that Kuma generates automatically. Kuma then extends the imports object with the custom configuration you specify. Possible values:
+* `default-proxy` - the default configuration for non-ingress data planes.
+* `ingress-proxy` - the default configuration for zone-ingress proxy.
+* `gateway-proxy` - the default configuration for mesh gateway.
+* `egress-proxy` - the default configuration for zone-egress proxy.
+
+You can choose more than one import object.
 
 
 ### Modifications
@@ -85,6 +91,7 @@ Available origins:
 * `prometheus` - resources generated when Prometheus metrics are enabled.
 * `direct-access` - resources generated for Direct Access functionality.
 * `ingress` - resources generated for Zone Ingress.
+* `gateway` - resources generated for MeshGateway
 
 #### Cluster
 
@@ -474,6 +481,34 @@ conf:
 ```
 :::
 ::::
+
+Example how to change `streamIdleTimeout` for `MeshGateway`:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ProxyTemplate
+mesh: default
+metadata:
+  name: custom-template-1
+spec:
+  selectors:
+    - match:
+        kuma.io/service: '*'
+  conf:
+    imports:
+      - gateway-proxy # default configuration for MeshGateway
+    modifications:
+      - networkFilter:
+          operation: patch
+          match:
+            name: envoy.filters.network.http_connection_manager
+            origin: gateway # you can also specify the name of the listener
+          value: |
+            name: envoy.filters.network.http_connection_manager
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+              streamIdleTimeout: 15s
+```
 
 #### HTTP Filter
 
