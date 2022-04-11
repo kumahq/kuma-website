@@ -146,7 +146,6 @@
     "children": [
       "reference/http-api",
       "reference/kubernetes-annotations",
-      "reference/dpp-specification",
       "reference/data-collection",
       "reference/license"
     ]
