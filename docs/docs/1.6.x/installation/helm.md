@@ -8,6 +8,8 @@ To install and run Kuma on Kubernetes with Helm charts execute the following ste
 
 Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and continue your Kuma journey.
 
+Please note that at least version 3.8.0 of Helm is required to use the Kuma Helm charts. If you are using an older version of Helm, please upgrade to version 3.8.0 first.
+
 ::: tip
 Kuma also provides an alternative [Kubernetes distribution](../installation/kubernetes/) that we can use instead of Helm charts.
 :::
