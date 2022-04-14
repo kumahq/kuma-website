@@ -24,6 +24,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 : "${ARCH:=amd64}"
 
 PRODUCT_NAME=Kuma
+CTL_NAME=kumactl
 LATEST_VERSION=https://kuma.io/latest_version
 REPO_PREFIX=kuma
 
@@ -91,7 +92,13 @@ URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$VERSION-$DISTRO-$ARCH
 
 if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
   if [ "$OS" = "Linux" ]; then
-      printf "WARNING\tYou appear to be running an unsupported Linux distribution.\n"
+      printf "INFO\tWe don't compile the $PRODUCT_NAME executables for your Linux distribution.\n"
+      printf "INFO\tFetching $CTL_NAME...\n"
+      URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$VERSION-linux-$ARCH.tar.gz"
+      if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
+        printf "ERROR\tUnable to download $CTL_NAME at the following URL: %s\n" "$URL"
+        exit 1
+      fi
   fi
   printf "ERROR\tUnable to download $PRODUCT_NAME at the following URL: %s\n" "$URL"
   exit 1
