@@ -26,5 +26,4 @@ jobs:
       - name: link checker
         run: |
           npm install broken-link-checker -g
-          # Exclude old versions for the moment
-          blc $URL -rof --exclude 127.0.0.1 --exclude 192.168 --exclude redis.io | grep -v '───OK───'
+          blc $URL -rof --exclude 127.0.0.1 --exclude 192.168 --exclude redis.io  | grep -v '───OK───'
