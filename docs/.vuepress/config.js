@@ -277,7 +277,8 @@ Sitemap: https://kuma.io/sitemap.xml
 
           const redirects = [
             `/docs /docs/${versions.latestMinor} 301`,
-            `/install /install/${versions.latestMinor} 200`,
+            `/install/kong-gateway /docs/${versions.latestMinor}/explore/gateway 301`,
+            `/install /install/${versions.latestMinor} 301`,
             `/docs/latest/* /docs/${versions.latestMinor}/:splat 301`,
             `/install/latest/* /install/${versions.latestMinor}/:splat 301`,
             `/docs/:version/policies/ /docs/:version/policies/introduction 301`,
