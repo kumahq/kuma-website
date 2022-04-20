@@ -412,7 +412,10 @@ Sitemap: https://kuma.io/sitemap.xml
   configureWebpack: (config) => {
     return {
       plugins: [
-        new webpack.EnvironmentPlugin({...process.env})
+        new webpack.EnvironmentPlugin({...process.env}),
+        new webpack.optimize.LimitChunkCountPlugin({
+          maxChunks: 20
+        })
       ]
     }
   },
