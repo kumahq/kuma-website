@@ -94,13 +94,17 @@ if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..'
   IFS=. read -r major minor patch <<< "${VERSION}"
 
   # handle the kumactl archive
-  if [ "$OS" = "Linux" ] && [ "$major" -ge "1" ] && [ "$minor" -ge "7" ]; then
-      printf "INFO\tWe don't compile the $PRODUCT_NAME executables for your Linux distribution.\n"
-      printf "INFO\tFetching $CTL_NAME...\n"
-      URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$CTL_NAME-$VERSION-linux-$ARCH.tar.gz"
-      if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
-        printf "ERROR\tUnable to download $CTL_NAME at the following URL: %s\n" "$URL"
-        exit 1
+  if [ "$OS" = "Linux" ]; then
+      if  [ "$major" -ge "1" ] && [ "$minor" -ge "7" ]; then
+          printf "INFO\tWe don't compile the $PRODUCT_NAME executables for your Linux distribution.\n"
+          printf "INFO\tFetching $CTL_NAME...\n"
+          URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$CTL_NAME-$VERSION-linux-$ARCH.tar.gz"
+          if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
+            printf "ERROR\tUnable to download $CTL_NAME at the following URL: %s\n" "$URL"
+            exit 1
+          fi
+      else
+        printf "WARNING\tYou appear to be running an unsupported Linux distribution.\n"
       fi
   fi
   printf "ERROR\tUnable to download $PRODUCT_NAME at the following URL: %s\n" "$URL"
