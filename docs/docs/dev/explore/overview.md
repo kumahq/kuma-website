@@ -1,6 +1,6 @@
 # Overview
 
-As we have [already learned](../introduction), Kuma is a universal control plane that can run across both modern environments like Kubernetes and more traditional VM-based ones.
+As we have [already learned](../documentation/introduction.md), Kuma is a universal control plane that can run across both modern environments like Kubernetes and more traditional VM-based ones.
 
 The first step is obviously to [download and install Kuma](/install/) on the platform of your choice. Different distributions will present different installation instructions that follow the best practices for the platform you have selected.
 

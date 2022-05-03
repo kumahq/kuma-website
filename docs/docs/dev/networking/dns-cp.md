@@ -15,11 +15,11 @@ The DNS server in kuma-cp listens on port `5653`.
 
 The Kuma control plane exposes a DNS service which handles the name resolution in the `.mesh` DNS zone.
 
-Usually DNS configuration expects DNS server to be served on port `53` therefore we need to [configure](../documentation/configuration) the control plane with `KUMA_DNS_SERVER_PORT` set to `53`.
+Usually DNS configuration expects DNS server to be served on port `53` therefore we need to [configure](../documentation/configuration.md) the control plane with `KUMA_DNS_SERVER_PORT` set to `53`.
 
 :::: tabs
 ::: tab "Kubernetes" :options="{ useUrlFragment: false }"
-1. When you install the control plane, [configure](../documentation/configuration) it with the following environment variable to disable the data plane proxy DNS:
+1. When you install the control plane, [configure](../documentation/configuration.md) it with the following environment variable to disable the data plane proxy DNS:
 
 `KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false`
 

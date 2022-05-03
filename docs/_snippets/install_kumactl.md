@@ -23,7 +23,7 @@ and extract the archive with `tar xvzf kuma-{{ $page.latestVersion }}.tar.gz`
 :::
 ::::
 
-Once downloaded, you will find the contents of Kuma in the `kuma-{{ $page.latestVersion }}` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](../documentation/cli/#kumactl).
+Once downloaded, you will find the contents of Kuma in the `kuma-{{ $page.latestVersion }}` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](../explore/cli.md).
 
 ::: tip
 **Note**: On Kubernetes - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
