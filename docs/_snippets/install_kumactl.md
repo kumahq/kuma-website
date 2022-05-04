@@ -5,7 +5,7 @@ To run Kuma on Kubernetes, you need to download the Kuma cli (`kumactl`) on your
 
 You can run the following script to automatically detect the operating system and download Kuma:
 
-`VERSION={{ $page.latestVersion }} curl -L https://kuma.io/installer.sh | sh -`
+`VERSION={{ $page.latestVersion }} curl -L https://kuma.io/installer.sh | bash -`
 
 You can omit the `VERSION` variable to install the latest version. 
 :::
