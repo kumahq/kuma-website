@@ -55,11 +55,14 @@ module.exports = {
     docsDir: "docs",
     editLinks: false,
     sidebarDepth: 0,
-    search: true,
+    // TODO: Reenable as soon as the doc search index is good with meta
+    search: false,
     searchMaxSuggestions: 10,
     algolia: {
-      apiKey: "",
-      indexName: ""
+      apiKey: "4224b11bee5bf294f73032a4988a00ea",
+      appId: "RSEEOBCB49",
+      indexName: "kuma",
+      filters: `section:_blog OR (section:docs AND version:${versions.latestMinor})`,
     },
     sidebar: versions.allMinors.reduce((acc, v) => {
       acc[`/docs/${v}/`] = require(`../docs/${v}/sidebar.json`).map(sb => {
@@ -341,9 +344,16 @@ Sitemap: https://kuma.io/sitemap.xml
       customMeta: (add, context) => {
         const {$site, $page} = context;
 
-        // Twitter and OpenGraph image URL string
-        const ogImage = `${productData.hostname}${productData.ogImage}?cb=`
+        let sp = $page.regularPath.split("/");
+        if (sp.length > 1) {
+          add("docsearch:section", sp[1]);
+          if (sp[1] === "docs" && sp.length > 2) {
+            add("docsearch:docsversion", sp[2]);
+          }
+        }
 
+        // Twitter and OpenGraph image URL string
+        const ogImage = `${productData.hostname}${productData.ogImage}?cb=`;
         // Twitter
         add("twitter:image", `${ogImage}${Math.random().toString(36).substring(2, 8)}`);
         add("twitter:image:alt", productData.description);
