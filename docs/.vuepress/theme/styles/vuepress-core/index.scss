@@ -46,7 +46,6 @@ body {
   bottom: 0;
   box-sizing: border-box;
   border-right: 1px solid $borderColor;
-  overflow-y: auto;
 }
 
 #{$contentClass}:not(.custom) {

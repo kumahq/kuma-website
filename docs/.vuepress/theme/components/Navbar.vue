@@ -51,7 +51,6 @@
         } : {}"
       >
         <NavLinks class="can-hide"/>
-        <SearchBox v-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/>
       </div>
 
     </div>
@@ -60,13 +59,12 @@
 </template>
 
 <script>
-import SearchBox from '@SearchBox'
 import SidebarButton from '@theme/components/SidebarButton.vue'
 import NavLinks from '@theme/components/NavLinks.vue'
 import GithubButton from 'vue-github-button'
 
 export default {
-  components: { SidebarButton, NavLinks, SearchBox, GithubButton },
+  components: { SidebarButton, NavLinks, GithubButton },
 
   data () {
     return {
@@ -88,9 +86,7 @@ export default {
     handleLinksWrapWidth()
     window.addEventListener('resize', handleLinksWrapWidth, false)
   },
-
-  computed: {
-  }
+  computed: {}
 }
 
 function css (el, property) {
