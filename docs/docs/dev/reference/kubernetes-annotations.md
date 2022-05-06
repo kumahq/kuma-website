@@ -340,7 +340,7 @@ metadata:
 ### `kuma.io/transparent-proxying-experimental-engine`
 
 Enable or disable experimental transparent proxy engine on Pod.
-Defaults to disabled.
+Default is `disabled`.
 
 **Example**
 
