@@ -31,6 +31,64 @@ const dirTree = require('directory-tree')
 const path = require("path");
 const fs = require("fs");
 const versions = require("./versions.js");
+const installMethods = [
+  {
+    "label": "Kubernetes",
+    "logo": "/images/platforms/logo-kubernetes.png",
+    "slug": "kubernetes"
+  },
+  {
+    "label": "Helm",
+    "logo": "/images/platforms/logo-helm.png",
+    "slug": "helm"
+  },
+  {
+    "label": "OpenShift",
+    "logo": "/images/platforms/logo-openshift.png",
+    "slug": "openshift"
+  },
+  {
+    "label": "Docker",
+    "logo": "/images/platforms/logo-docker.png",
+    "slug": "docker"
+  },
+  {
+    "label": "Amazon Linux",
+    "logo": "/images/platforms/logo-amazon-linux.png",
+    "slug": "amazonlinux"
+  },
+  {
+    "label": "Amazon EKS",
+    "logo": "/images/platforms/logo-eks.png",
+    "slug": "kubernetes"
+  },
+  {
+    "label": "CentOS",
+    "logo": "/images/platforms/logo-centos.gif",
+    "slug": "centos"
+  },
+  {
+    "label": "RedHat",
+    "logo": "/images/platforms/logo-redhat.jpg",
+    "slug": "redhat"
+  },
+  {
+    "label": "Debian",
+    "logo": "/images/platforms/logo-debian.jpg",
+    "slug": "debian"
+  },
+  {
+    "label": "Ubuntu",
+    "logo": "/images/platforms/logo-ubuntu.png",
+    "slug": "ubuntu"
+  },
+  {
+    "label": "macOS",
+    "logo": "/images/platforms/logo-macos.png",
+    "slug": "macos"
+  }
+]
+
 
 /**
  * Site Configuration
@@ -42,7 +100,7 @@ module.exports = {
     gaCode: productData.gaCode,
     latestVersion: versions.latestMinor,
     versions: versions.allMinors,
-    installMethods: require("./public/install-methods.json"),
+    installMethods: installMethods,
     twitter: productData.twitter,
     author: productData.author,
     websiteRepo: productData.websiteRepo,
@@ -419,12 +477,6 @@ Sitemap: https://kuma.io/sitemap.xml
       })
     ]
   },
-  // this is covered in the VuePress documentation
-  // but it doesn't seem to work. Left here in case
-  // that changes.
-  extraWatchFiles: [
-    "/public/install-methods.json",
-  ],
   evergreen: false,
   configureWebpack: (config) => {
     return {

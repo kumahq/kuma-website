@@ -37,7 +37,7 @@ ln -s ./kumactl /usr/local/bin/kumactl
 ```
 
 ::: tip
-**Note**: By default this will run Kuma with a `memory` [backend](../documentation/backends.md), but for production you have to use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
+**Note**: By default this will run Kuma with a `memory` [store](../explore/backends.md), but for production you have to use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 :::
 
 ### 3. Use Kuma

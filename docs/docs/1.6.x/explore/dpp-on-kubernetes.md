@@ -57,8 +57,8 @@ The following tags are added automatically and cannot be overridden using Pod la
 
 * `kuma.io/service`: Identifies the service name based on a Service that selects a Pod. This will be of format `<name>_<namespace>_svc_<port>` where `<name>`, `<namespace>` and `<port>` are from the Kubernetes service that is associated with the particular pod.
   When a pod is spawned without being associated with any Kubernetes Service resource the dataplane tag will be `kuma.io/service: <name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the Pod resource.
-* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](../../deployments/how-multi-zone-works).
-* `kuma.io/protocol`: Identifies [the protocol](../../policies/protocol-support-in-kuma) that was defined on the Service that selects a Pod.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](../deployments/multi-zone.md).
+* `kuma.io/protocol`: Identifies [the protocol](../policies/protocol-support-in-kuma.md) that was defined on the Service that selects a Pod.
 * `k8s.kuma.io/namespace`: Identifies the Pod's namespace. Example: `kuma-demo`.
 * `k8s.kuma.io/service-name`: Identifies the name of Kubernetes Service that selects a Pod. Example: `demo-app`.
 * `k8s.kuma.io/service-port`: Identifies the port of Kubernetes Service that selects a Pod. Example: `80`.

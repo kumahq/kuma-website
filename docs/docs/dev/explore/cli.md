@@ -33,7 +33,7 @@ The `kumactl` executable is a very important component in your journey with Kuma
 * It provides helpers to install Kuma on Kubernetes, and to configure the PostgreSQL schema on Universal (`kumactl install [..]`).
 
 ::: tip
-The `kumactl` application is a CLI client for the underlying [HTTP API](../http-api) of Kuma. Therefore, you can access the state of Kuma by leveraging with the API directly. On Universal you will be able to also make changes via the HTTP API, while on Kubernetes the HTTP API is read-only.
+The `kumactl` application is a CLI client for the underlying [HTTP API](../reference/http-api.md) of Kuma. Therefore, you can access the state of Kuma by leveraging with the API directly. On Universal you will be able to also make changes via the HTTP API, while on Kubernetes the HTTP API is read-only.
 :::
 
 Available commands on `kumactl` are:
