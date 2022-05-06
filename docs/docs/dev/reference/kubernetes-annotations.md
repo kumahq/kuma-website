@@ -337,7 +337,7 @@ metadata:
     traffic.kuma.io/exclude-outbound-ports: "1234,1235"
 ```
 
-### `kuma.io/transparent-proxying-experimental-engine
+### `kuma.io/transparent-proxying-experimental-engine`
 
 Enable or disable experimental transparent proxy engine on Pod.
 Defaults to disabled.
