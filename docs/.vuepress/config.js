@@ -55,14 +55,13 @@ module.exports = {
     docsDir: "docs",
     editLinks: false,
     sidebarDepth: 0,
-    // TODO: Reenable as soon as the doc search index is good with meta
     search: false,
+    searchPlaceholder: "Search...",
     searchMaxSuggestions: 10,
     algolia: {
       apiKey: "4224b11bee5bf294f73032a4988a00ea",
       appId: "RSEEOBCB49",
       indexName: "kuma",
-      filters: `section:_blog OR (section:docs AND version:${versions.latestMinor})`,
     },
     sidebar: versions.allMinors.reduce((acc, v) => {
       acc[`/docs/${v}/`] = require(`../docs/${v}/sidebar.json`).map(sb => {
@@ -254,7 +253,6 @@ module.exports = {
 User-agent: *
 Disallow: /latest_version
 Disallow: /latest_version.html
-${versions.oldMinors.map((v) => `Disallow: /docs/${v}`).join("\n")}
 
 Sitemap: https://kuma.io/sitemap.xml
 `
@@ -321,12 +319,14 @@ Sitemap: https://kuma.io/sitemap.xml
         name: "page-latest-version",
         extendPageData: (page) => {
           if (page.regularPath.startsWith("/docs")) {
+            page.frontmatter.search = true;
             let v = page.regularPath.split("/")[2]
             if (!v) {
               return
             }
             let ver = versions.versions(v);
             if (ver) {
+              page.version = v;
               page.latestVersion = ver[ver.length - 1];
             }
             let helmVersions = versions.helmVersions(v);
@@ -347,8 +347,12 @@ Sitemap: https://kuma.io/sitemap.xml
         let sp = $page.regularPath.split("/");
         if (sp.length > 1) {
           add("docsearch:section", sp[1]);
-          if (sp[1] === "docs" && sp.length > 2) {
-            add("docsearch:docsversion", sp[2]);
+          if ($page.version) {
+            add("docsearch:docsversion", $page.version);
+            if ($page.version !== versions.latestMinor) {
+              // Only index the latest version of the docs
+              add("robots", "noindex follow")
+            }
           }
         }
 

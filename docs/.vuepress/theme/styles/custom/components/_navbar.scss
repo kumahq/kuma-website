@@ -64,17 +64,6 @@ $navbar-link-margin: 3rem; // the spacing between navbar links
     // top: $navbar-vertical-padding;
     display: flex;
     margin-left: auto;
-
-    .search-box {
-      flex: 0 0 auto;
-      vertical-align: top;
-      padding: 1rem;
-    }
-    .search-box > input {
-      height: 2.5rem;
-      background-position-x: 0.7rem;
-      background-position-y: 0.7rem;
-    }
   }
 
   .home-link {
