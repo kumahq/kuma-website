@@ -83,7 +83,12 @@ conf:
   interval: 1s
   baseEjectionTime: 30s
   maxEjectionPercent: 20
-  splitExternalAndLocalErrors: false 
+  splitExternalAndLocalErrors: false
+  thresholds:
+    maxConnections: 2
+    maxPendingRequests: 2
+    maxRequests: 2
+    maxRetries: 2
   detectors:
     totalErrors: 
       consecutive: 20
