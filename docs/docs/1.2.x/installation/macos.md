@@ -84,7 +84,7 @@ To learn more, read the [multi-zone installation instructions](/docs/1.2.3/docum
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
 ```sh
-ln -s ./kumactl /usr/local/bin/kumactl
+ln -s $PWD/kumactl /usr/local/bin/kumactl
 ```
 
 ::: tip
