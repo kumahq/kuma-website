@@ -58,7 +58,7 @@ cd kuma-1.1.6/bin
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
 ```sh
-ln -s ./kumactl /usr/local/bin/kumactl
+ln -s $PWD/kumactl /usr/local/bin/kumactl
 ```
 
 Finally we can install and run Kuma in either **standalone** or **multi-zone** mode:
