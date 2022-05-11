@@ -20,9 +20,18 @@ Kuma also provides [Helm charts](../installation/helm/) that we can use instead 
 
 Finally, we can install and run Kuma:
 
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "x86"
 ```sh
 kumactl install control-plane | kubectl apply -f -
 ```
+:::
+::: tab "ARM"
+```sh
+kumactl install control-plane --control-plane-node-selector kubernetes.io/arch=arm64 | kubectl apply -f-
+```
+:::
+::::
 
 This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](../introduction/deployments.md) like "multi-zone".
 
