@@ -52,12 +52,12 @@ It's possible to run [`ZoneEgress`](../explore/zoneegress.md) for standalone dep
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "x86"
 ```sh
-kumactl install control-plane | kubectl apply -f -
+kumactl install control-plane --egress-enabled | kubectl apply -f -
 ```
 :::
 ::: tab "ARM"
 ```sh
-kumactl install control-plane --control-plane-node-selector kubernetes.io/arch=arm64 | kubectl apply -f-
+kumactl install control-plane --egress-enabled --control-plane-node-selector kubernetes.io/arch=arm64 | kubectl apply -f-
 ```
 :::
 ::::
