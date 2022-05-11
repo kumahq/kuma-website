@@ -31,18 +31,9 @@ In order to deploy Kuma in a standalone deployment, the `kuma-cp` control plane 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 This is the standard installation method as described in the [installation page](/install).
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "x86"
 ```sh
 kumactl install control-plane | kubectl apply -f -
 ```
-:::
-::: tab "ARM"
-```sh
-kumactl install control-plane --control-plane-node-selector kubernetes.io/arch=arm64 | kubectl apply -f-
-```
-:::
-::::
 
 **With zone egress**:
 
