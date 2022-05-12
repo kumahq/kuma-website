@@ -7,7 +7,7 @@ To install and run Kuma execute the following steps:
 
 Finally, you can follow the [Quickstart](#4-quickstart) to take it from here and continue your Kuma journey.
 
-### 1. Download Kuma
+###1. Download Kuma
 
 Run the following script to automatically detect the operating system and download Kuma:
 
@@ -23,7 +23,7 @@ Make sure you have tar and gzip installed.
 :::
 
 
-### 2. Run Kuma
+###2. Run Kuma
 Once downloaded, you will find the contents of Kuma in the `kuma-{{ $page.latestVersion }}` folder. In this folder, you will find - among other files - the `bin` directory that stores all the executables for Kuma.
 
 You can start the control-plane with: `kuma-{{ $page.latestVersion }}/bin/kuma-cp run`
@@ -40,7 +40,7 @@ ln -s $PWD/kumactl /usr/local/bin/kumactl
 **Note**: By default this will run Kuma with a `memory` [store](../explore/backends.md), but for production you have to use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 :::
 
-### 3. Use Kuma
+###3. Use Kuma
 
 Kuma (`kuma-cp`) is now running! Now that Kuma has been installed you can access the control-plane via either the GUI, the HTTP API, or the CLI:
 
@@ -91,7 +91,7 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 
 You will notice that Kuma automatically creates a [`Mesh`](../policies/mesh.md) entity with name `default`.
 
-### 4. Quickstart
+###4. Quickstart
 
 Congratulations! You have successfully installed Kuma 🚀.
 
