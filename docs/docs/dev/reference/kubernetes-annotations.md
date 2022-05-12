@@ -296,7 +296,7 @@ A boolean to mark a resource as ignored by Kuma.
 It currently only works for services.
 This is useful when transitioning to Kuma or to temporarily ignore some entities.
 
-** Example**
+**Example**
 ```yaml
 apiVersion: v1
 kind: Service
