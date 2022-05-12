@@ -124,7 +124,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 - **`retriableStatusCodes`** (optional)
 
-  A list of status codes which will cause the request to be retried. When this field will be provided it will overwrite the default behaviour of accepting as retriable codes: `502`, `503` and `504` and if they also should be considered as `retriable` you hove to manually place them in the list
+  A list of status codes which will cause the request to be retried. When this field will be provided it will overwrite the default behaviour of accepting as retriable codes: `502`, `503` and `504` and if they also should be considered as `retriable` you have to manually place them in the list
 
   For example to add a status code `418`:
   ```yaml
