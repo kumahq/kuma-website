@@ -348,6 +348,7 @@ Sitemap: https://kuma.io/sitemap.xml
             `/docs/:version/other/ /docs/:version/other/enterprise 301`,
             `/docs/:version/installation/ /docs/:version/installation/kubernetes 301`,
             `/docs/:version/api/ /docs/:version/documentation/http-api 301`,
+            `/docs/:version/documentation/deployments/ /docs/:version/introduction/deployments 301`,
             `/latest_version.html /latest_version 301`,
           ];
           // Add redirects for x.y.{0..5} to x.y.x
