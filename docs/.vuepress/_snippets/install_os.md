@@ -1,11 +1,11 @@
 
 To install and run Kuma execute the following steps:
 
-* [1. Download Kuma](#_1-download-kuma)
-* [2. Run Kuma](#_2-run-kuma)
-* [3. Use Kuma](#_3-use-kuma)
+* [1. Download Kuma](#1-download-kuma)
+* [2. Run Kuma](#2-run-kuma)
+* [3. Use Kuma](#3-use-kuma)
 
-Finally, you can follow the [Quickstart](#_4-quickstart) to take it from here and continue your Kuma journey.
+Finally, you can follow the [Quickstart](#4-quickstart) to take it from here and continue your Kuma journey.
 
 ### 1. Download Kuma
 

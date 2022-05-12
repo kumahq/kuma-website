@@ -2,7 +2,7 @@
 
 This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](mesh/#controlling-the-passthrough-mode). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
 
-When you enable this policy, you should also [disable passthrough mode](mesh/#controlling-the-passthrough-mode) for the mesh and enable the [data plane proxy builtin DNS](../networking/dns/#data-plane-proxy-built-in-dns) name resolution.
+When you enable this policy, you should also [disable passthrough mode](mesh.md#controlling-the-passthrough-mode) for the mesh and enable the [data plane proxy builtin DNS](../networking/dns.md) name resolution.
 
 ## Usage
 
