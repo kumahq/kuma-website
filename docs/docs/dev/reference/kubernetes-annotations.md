@@ -296,7 +296,7 @@ A boolean to mark a resource as ignored by Kuma.
 It currently only works for services.
 This is useful when transitioning to Kuma or to temporarily ignore some entities.
 
-** Example**
+**Example**
 ```yaml
 apiVersion: v1
 kind: Service
@@ -335,6 +335,22 @@ metadata:
   name: example
   annotations:
     traffic.kuma.io/exclude-outbound-ports: "1234,1235"
+```
+
+### `kuma.io/transparent-proxying-experimental-engine`
+
+Enable or disable experimental transparent proxy engine on Pod.
+Default is `disabled`.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/transparent-proxying-experimental-engine: enabled
 ```
 
 ### `kuma.io/envoy-admin-port`

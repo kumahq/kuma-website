@@ -33,7 +33,7 @@ This example will run Kuma in `standalone` mode for a "flat" deployment, but the
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
 ```sh
-ln -s ./kumactl /usr/local/bin/kumactl
+ln -s $PWD/kumactl /usr/local/bin/kumactl
 ```
 
 ::: tip
