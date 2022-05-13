@@ -107,12 +107,60 @@ Using `*` to directly access every service is a resource intensive operation, so
 
 ## Lifecycle
 
-### Creation
+### Joining the mesh
 
-On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For each Pod with sidecar-injection label a new 
-`Dataplane` resource will be created. 
+On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For each Pod with sidecar-injection label a new
+`Dataplane` resource will be created.
 
-### Deletion
+To join the mesh in a graceful way, we need to first make sure the application is ready to serve traffic before it can be considered a valid traffic destination.
+
+When Pod is converted to a `Dataplane` object it will be marked as unhealthy until Kubernetes considers all containers to be ready.
+
+### Leaving the mesh
+
+To leave the mesh in a graceful shutdown, we need to remove the traffic destination from all the clients before shutting it down.
+
+Kuma DP sidecar upon receiving SIGTERM starts listener draining in Envoy, then it waits for draining time before stopping the process.
+During the draining process, Envoy can still accept connections however:
+1) It is marked as unhealthy on Envoy Admin `/ready` endpoint
+2) It sends `connection: close` for HTTP/1.1 requests and GOAWAY frame for HTTP/2.
+   This forces clients to close a connection and reconnect to the new instance.
+
+You can read [Kubernetes docs](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination) to learn how Kubernetes handles pod lifecycle. Here is the summary with relevant parts for Kuma.
+
+Whenever a user or system deletes a Pod, Kubernetes does the following things:
+1) It marks the Pod as terminated.
+2) Concurrently for every container it
+  1) Executes any pre stop hook if defined
+  2) Sends a SIGTERM signal
+  3) Waits until container is terminated for maximum of graceful termination time (by default 60s)
+  4) Sends a SIGKILL to the container
+3) It removes the Pod object from the system
+
+When Pod is marked as terminated, Kuma CP updates Dataplane object to be unhealthy which will trigger configuration update to all the clients to remove it as a destination.
+This can take a couple of seconds depending on the size of the mesh, available resources for CP, XDS configuration interval, etc.
+
+If the application next to the Kuma DP sidecar quits immediately after the SIGTERM signal, there is a high chance that clients will still try to send traffic to this destination.
+
+To mitigate this, we need to either
+* Support graceful shutdown in the application. For example, the application should wait X seconds to exit after receiving the first SIGTERM signal.
+* Add a pre-stop hook to postpone stopping the application container. Example:
+  ```yaml
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: redis
+  spec:
+    template:
+      spec:
+        containers:
+        - name: redis
+          image: "redis"
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sleep", "30"]
+  ```
 
 When a Pod is deleted its matching `Dataplane` resource is deleted as well. This is possible thanks to the
 [owner reference](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/) set on the `Dataplane` resource.
