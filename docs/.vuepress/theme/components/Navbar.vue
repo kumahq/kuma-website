@@ -33,7 +33,7 @@
           data-icon="octicon-star"
           data-size="small"
           data-show-count="false"
-          aria-label="Star Konvoy on GitHub"
+          aria-label="Star Kuma on GitHub"
         >
           {{
             getSiteData.themeConfig.repoButtonLabel 
