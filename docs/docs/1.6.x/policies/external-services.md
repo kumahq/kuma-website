@@ -62,7 +62,7 @@ networking:
       secret: clientKey
 ```
 
-Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api.md).
+Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../reference/http-api.md).
 
 Universal mode is best combined with [transparent proxy](../networking/transparent-proxying.md). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
 

@@ -27,4 +27,4 @@ jobs:
           max_timeout: 1200
       - name: link checker
         run: |
-          `go env GOPATH`/bin/muffet ${URL} --max-connections=64 --exclude=twitter.com --exclude 127.0.0.1 --exclude ${URL}/assets --exclude https://download.konghq.com --exclude ${URL}/images
+          `go env GOPATH`/bin/muffet ${URL} --max-connections-per-host=16 --exclude=twitter.com --exclude 127.0.0.1 --exclude ${URL}/assets --exclude ${URL}/images --rate-limit 100 --timeout 30
