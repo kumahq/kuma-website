@@ -28,21 +28,42 @@ If these limitations are problematic you should look at [Multi-zone deployments]
 
 In order to deploy Kuma in a standalone deployment, the `kuma-cp` control plane must be started in `standalone` mode:
 
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
+:::::: tabs :options="{ useUrlFragment: false }"
+::::: tab "Kubernetes"
 This is the standard installation method as described in the [installation page](/install).
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "x86"
 ```sh
 kumactl install control-plane | kubectl apply -f -
 ```
+:::
+::: tab "ARM"
+```sh
+kumactl install control-plane --control-plane-node-selector kubernetes.io/arch=arm64 | kubectl apply -f-
+```
+:::
+::::
 
 **With zone egress**:
 
 It's possible to run [`ZoneEgress`](../explore/zoneegress.md) for standalone deployment. In order to deploy Kuma with `ZoneEgress` run the install command with an additional parameter.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "x86"
 ```sh
 kumactl install control-plane --egress-enabled | kubectl apply -f -
 ```
 :::
-::: tab "Universal"
+::: tab "ARM"
+```sh
+kumactl install control-plane --egress-enabled --control-plane-node-selector kubernetes.io/arch=arm64 | kubectl apply -f-
+```
+:::
+::::
+
+:::::
+::::: tab "Universal"
 This is the standard installation method as described in the [installation page](/install).
 ```sh
 kuma-cp run
@@ -52,8 +73,8 @@ kuma-cp run
 
 `ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](../explore/zoneegress.md#zone-egress).
 
-:::
-::::
+:::::
+::::::
 
 Once Kuma is up and running, data plane proxies can now [connect](../explore/dpp.md) directly to it.
 
