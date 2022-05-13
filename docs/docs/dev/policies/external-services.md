@@ -1,6 +1,6 @@
 # External Service
 
-This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](mesh/#controlling-the-passthrough-mode). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
+This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](mesh.md#controlling-the-passthrough-mode). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
 
 When you enable this policy, you should also [disable passthrough mode](mesh.md#controlling-the-passthrough-mode) for the mesh and enable the [data plane proxy builtin DNS](../networking/dns.md) name resolution.
 
@@ -62,9 +62,9 @@ networking:
       secret: clientKey
 ```
 
-Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../reference/http-api.md).
 
-Universal mode is best combined with [transparent proxy](../networking/transparent-proxying/). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
+Universal mode is best combined with [transparent proxy](../networking/transparent-proxying.md). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
 
 ```yaml
 type: Dataplane
@@ -89,10 +89,10 @@ Then `httpbin.org` is accessible at `127.0.0.1:10000`.
 
 ### Accessing the External Service
 
-Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming [transparent proxy](../networking/transparent-proxying/)) can be done:
+Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming [transparent proxy](../networking/transparent-proxying.md)) can be done:
 
 * With the `.mesh` naming of the service `curl httpbin.mesh`. With this approach, specify port 80.
-* With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](../networking/dns/#data-plane-proxy-built-in-dns) name resolution.
+* With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](../networking/dns.md) name resolution.
 
 It's possible to define TLS origination and validation at 2 different layers:
 *  Envoy is responsible for originating and verifying TLS.
@@ -126,7 +126,7 @@ As with other services, avoid duplicating service names under `kuma.io/service` 
 ### External Services and Locality Aware Load Balancing
 
 There are might be scenarios when a particular external service should be accessible only from the particular zone. 
-In order to make it work we should use `kuma.io/zone` tag for external service. When this tag is set and [locality aware load balancing](../locality-aware) is enabled
+In order to make it work we should use `kuma.io/zone` tag for external service. When this tag is set and [locality aware load balancing](locality-aware.md) is enabled
 then the traffic from the zone will be redirected only to external services associated with the zone using `kuma.io/zone` tag.
 
 Example:
@@ -153,7 +153,7 @@ networking:
   address: zone-2.httpbin.org:80
 ```
 
-In this example, when [locality aware load balancing](../locality-aware) is enabled, if the service in zone-1 is trying to set connection with
+In this example, when [locality aware load balancing](locality-aware.md) is enabled, if the service in zone-1 is trying to set connection with
 `httpbin.mesh` it will be redirected to `zone-1.httpbin.org:80`. Whereas the same request from zone-2 will be redirected to `zone-2.httpbin.org:80`.
 
 ### External Services and ZoneEgress
@@ -161,7 +161,7 @@ In this example, when [locality aware load balancing](../locality-aware) is enab
 In scenarios when traffic to external services needs to be sent through a unique set of hosts you will [configure ZoneEgress](../explore/zoneegress.md).
 
 For example when there is:
-* [disabled passthrough mode](mesh/#controlling-the-passthrough-mode)
+* [disabled passthrough mode](mesh.md#controlling-the-passthrough-mode)
 * `ZoneEgress` deployed
 * `ExternalService` configuration that allows communicating with `https://example.com`.
 ```yaml
@@ -178,7 +178,7 @@ networking:
 ```
 
 When application makes a request to `https://example.com`, it will be first routed to `ZoneEgress` and then to `https://example.com`.
-You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](mesh/#controlling-the-passthrough-mode).
+You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](mesh.md#controlling-the-passthrough-mode).
 In this setup, applications will only be able to communicate with other applications in the mesh or external-services via the `ZoneEgress`.
 
 ### External Services accessible from specific zone through ZoneEgress
