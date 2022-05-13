@@ -2,7 +2,7 @@
 
 As mentioned previously in universal you need to create a dataplane definition and pass it to the `kuma-dp run` command.
 
-When transparent proxying is not enabled, the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity.
+When transparent proxying is not enabled, the outbound service dependencies have to be manually specified in the [`Dataplane`](dpp.md#dataplane-entity) entity.
 This also means that with transparent proxying **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
 
 For example, this is how we start a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:

@@ -7,7 +7,9 @@ jobs:
       URL: https://deploy-preview-${{github.event.number}}--kuma.netlify.app
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-go@v3
+      - run: |
+          go install github.com/raviqqe/muffet/v2@v2.4.9
       - name: Wait for Pages changed to be neutral
         uses: fountainhead/action-wait-for-check@v1.0.0
         id: waitForCheck
@@ -25,5 +27,7 @@ jobs:
           max_timeout: 1200
       - name: link checker
         run: |
-          npm install broken-link-checker -g
-          blc $URL -rof --exclude 127.0.0.1 --exclude 192.168 --exclude redis.io  | grep -v '───OK───'
+          `go env GOPATH`/bin/muffet ${URL} --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --rate-limit 50 --timeout 60
+      - name: link checker dev docs
+        run: |
+          `go env GOPATH`/bin/muffet ${URL}/docs/dev --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --rate-limit 50 --timeout 60

@@ -401,6 +401,6 @@ Current features include:
 - List zones.
 - List services.
 
-To use the plugin you'll need to add the binary to your grafana instance by following the [installation instructions](https://github.com/kumahq/kuma-grafana-datasource#how-to-install).
+To use the plugin you'll need to add the binary to your grafana instance by following the [installation instructions](https://github.com/kumahq/kuma-grafana-datasource).
 
 To make things simpler the datasource is installed and configured when using `kumactl install metrics`.

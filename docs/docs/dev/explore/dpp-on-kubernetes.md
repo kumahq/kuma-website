@@ -1,6 +1,6 @@
 # Data plane on Kubernetes
 
-On Kubernetes the [`Dataplane`](#dataplane-entity) entity is automatically created for you, and because transparent proxying is used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
+On Kubernetes the [`Dataplane`](dpp.md#dataplane-entity) entity is automatically created for you, and because transparent proxying is used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
 You can control where Kuma automatically injects the dataplane proxy by **labeling** either the Namespace or the Pod with
 `kuma.io/sidecar-injection=enabled`, e.g.

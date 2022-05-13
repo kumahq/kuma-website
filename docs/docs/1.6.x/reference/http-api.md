@@ -3839,10 +3839,10 @@ curl -XGET http://localhost:5681/status/zones
 Generate the data plane proxy tokens required for data plane proxy authentication.
 
 ::: warning
-Requires [authentication to the control plane by the user](../security/certificates/#authentication).
+Requires [authentication to the control plane by the user](../security/certificates.md#authentication).
 :::
 
-For details, see [data plane proxy authentication](../security/certificates/#data-plane-proxy-authentication).
+For details, see [data plane proxy authentication](../security/certificates.md#data-plane-proxy-to-control-plane-communication).
 
 ### Generate dataplane proxy token
 

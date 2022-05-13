@@ -2,12 +2,12 @@
 
 This policy enables tracing logging to a third party tracing solution. 
 
-Tracing is supported over HTTP, HTTP2, and gRPC protocols in a [`Mesh`](../mesh). You must [explicitly specify the protocol](./protocol-support-in-kuma/) for each service and data plane proxy you want to enable tracing for.
+Tracing is supported over HTTP, HTTP2, and gRPC protocols in a [`Mesh`](mesh.md). You must [explicitly specify the protocol](protocol-support-in-kuma.md) for each service and data plane proxy you want to enable tracing for.
 
 You must also:
 
-1. [Add a tracing backend](#add-a-tracing-backend). You specify a tracing backend as a [`Mesh`](../mesh) resource property.
-1. [Add a TrafficTrace resource](#add-a-traffictrace-resource). You pass the backend to the `TrafficTrace` resource.
+1. [Add a tracing backend](#add-jaeger-backend). You specify a tracing backend as a [`Mesh`](mesh.md) resource property.
+1. [Add a TrafficTrace resource](#add-traffictrace-resource). You pass the backend to the `TrafficTrace` resource.
 
 Kuma currently supports the following backends:
 
@@ -61,7 +61,7 @@ tracing:
       url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../reference/http-api.md).
 :::
 ::::
 
@@ -136,7 +136,7 @@ tracing:
       port: 8126
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../reference/http-api.md).
 :::
 ::::
 
@@ -177,7 +177,7 @@ conf:
   backend: jaeger-collector # or the name of any backend defined for the mesh
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../reference/http-api.md).
 :::
 ::::
 

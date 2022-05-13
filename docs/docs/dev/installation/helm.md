@@ -2,11 +2,11 @@
 
 To install and run Kuma on Kubernetes with Helm charts execute the following steps:
 
-* [1. Add the Kuma charts repository](#_1-add-the-kuma-charts-repository)
-* [2. Run Kuma](#_2-run-kuma)
-* [3. Use Kuma](#_3-use-kuma)
+* [1. Add the Kuma charts repository](#add-the-kuma-charts-repository)
+* [2. Run Kuma](#run-kuma)
+* [3. Use Kuma](#use-kuma)
 
-Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and continue your Kuma journey.
+Finally you can follow the [Quickstart](#quickstart) to take it from here and continue your Kuma journey.
 
 Please note that at least version 3.8.0 of Helm is required to use the Kuma Helm charts. If you are using an older version of Helm, please upgrade to version 3.8.0 first.
 
@@ -14,7 +14,7 @@ Please note that at least version 3.8.0 of Helm is required to use the Kuma Helm
 Kuma also provides an alternative [Kubernetes distribution](../installation/kubernetes/) that we can use instead of Helm charts.
 :::
 
-### 1. Add the Kuma charts repository
+### Add the Kuma charts repository
 
 To start using Kuma with Helm charts, we first need to add the [Kuma charts repository](https://kumahq.github.io/charts) to our local Helm deployment: 
 
@@ -34,11 +34,11 @@ helm install --create-namespace --namespace kuma-system kuma kuma/kuma
 
 This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](../introduction/deployments.md) like "multi-zone".
 
-### 3. Use Kuma
+### Use Kuma
 
 !!!include(use_kuma_k8s.md)!!!
 
-### 4. Quickstart
+### Quickstart
 
 Congratulations! You have successfully installed Kuma on Kubernetes 🚀. 
 
