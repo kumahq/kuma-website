@@ -27,4 +27,4 @@ jobs:
           max_timeout: 1200
       - name: link checker
         run: |
-          `go env GOPATH`/bin/muffet ${URL} --max-connections-per-host=16 --exclude=twitter.com --exclude 127.0.0.1 --exclude ${URL}/assets --exclude ${URL}/images --exclude https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md --rate-limit 100 --timeout 30 -v
+          `go env GOPATH`/bin/muffet ${URL} --max-connections-per-host=16 --exclude=twitter.com --exclude 127.0.0.1 --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --rate-limit 100 --timeout 30 -v
