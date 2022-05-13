@@ -18,7 +18,7 @@
 # download by setting the VERSION environment variable, and you can change
 # the default 64bit architecture by setting the ARCH variable.
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="$( cd "$( dirname "$0" )" >/dev/null 2>&1 && pwd )"
 
 : "${VERSION:=}"
 : "${ARCH:=amd64}"
@@ -91,7 +91,9 @@ fi
 URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$VERSION-$DISTRO-$ARCH.tar.gz"
 
 if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
-  IFS=. read -r major minor patch <<< "${VERSION}"
+  IFS=. read -r major minor patch <<EOF
+${VERSION}
+EOF
 
   # handle the kumactl archive
   if [ "$OS" = "Linux" ]; then

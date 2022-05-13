@@ -1,6 +1,6 @@
 {
   "name": "kuma-website",
-  "description": "The website and docs for Konvoy.",
+  "description": "The website and docs for Kuma.",
   "author": "Kong Inc.",
   "scripts": {
     "docs:dev": "node ./node_modules/vuepress/cli.js dev docs --open",
