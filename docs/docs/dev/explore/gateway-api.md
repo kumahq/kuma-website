@@ -16,9 +16,9 @@ Gateway API support is an experimental feature that has to be explicitly enabled
 
    Gateway API can only be used when Kuma built-in Gateway is enabled.
 
-   When Kuma is installed with kumactl, use `--experimental-meshgateway` and `--experimental-gatewayapi`.
+   When Kuma is installed with kumactl, use `--experimental-gatewayapi`.
 
-   When Kuma is installed with HELM, use `experimental.meshGateway=true` value and `experimental.gatewayAPI=true`.
+   When Kuma is installed with HELM, use `experimental.gatewayAPI=true` value.
 
 ## Usage
 
