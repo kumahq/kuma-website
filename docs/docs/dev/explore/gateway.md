@@ -182,7 +182,7 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 ## Builtin
 
 :::warning
-The builtin gateway is currently experimental and is enabled with the kuma-cp flag `--experimental-meshgateway` or the environment variable `KUMA_EXPERIMENTAL_MESHGATEWAY`
+The builtin gateway is currently experimental
 :::
 
 The builtin type of gateway is integrated into the core Kuma control plane.
