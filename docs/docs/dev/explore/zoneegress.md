@@ -67,7 +67,7 @@ kumactl install control-plane \
 In Universal mode, the token is required to authenticate `ZoneEgress` instance. Create the token by using `kumactl` binary:
 
 ```bash
-kumactl generate zone-token --valid-for --scope egress > /path/to/token
+kumactl generate zone-token --valid-for 24h --scope egress > /path/to/token
 ```
 
 Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services to be configured to proxy traffic to other zones or external services through zone egress:
