@@ -254,7 +254,7 @@ You need the following values to pass to each zone control plane setup:
    a zone token first with appropriate scope first:
 
     ```sh
-    kumactl generate zone-token --zone=<zone-name> --scope egress > /tmp/zoneegress-token
+    kumactl generate zone-token --zone=<zone-name> --valid-for=24h --scope egress > /tmp/zoneegress-token
     ```
 
    You can also generate the token [with the REST API](../security/zoneegress-auth.md).
