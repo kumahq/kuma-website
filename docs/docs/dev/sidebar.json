@@ -71,7 +71,6 @@
       "networking/networking",
       "networking/service-discovery",
       "networking/dns",
-      "networking/dns-cp",
       "networking/cni",
       "networking/transparent-proxying",
       "networking/ipv6"
