@@ -2,6 +2,10 @@
 
 This page expose the different requirements to run Kuma.
 
+## Architecture
+
+Kuma supports machines with `x86_64` architecture and since `1.7.0` it's possible to run Kuma on `arm64`.
+
 ## Kubernetes
 
 Kuma is validated against Kubernetes `1.19.x`, `1.20.x`, `1.21.x` and `1.22.x`.
