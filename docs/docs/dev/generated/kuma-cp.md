@@ -322,8 +322,6 @@ guiServer:
 dnsServer:
   # The domain that the server will resolve the services for
   domain: "mesh" # ENV: KUMA_DNS_SERVER_DOMAIN
-  # Port on which the server is exposed
-  port: 5653 # ENV: KUMA_DNS_SERVER_PORT
   # The CIDR range used to allocate
   CIDR: "240.0.0.0/4" # ENV: KUMA_DNS_SERVER_CIDR
   # Will create a service "<kuma.io/service>.mesh" dns entry for every service.
@@ -442,8 +440,6 @@ access:
 
 # Configuration of experimental features of Kuma
 experimental:
-  # If true, experimental built-in gateway is enabled
-  meshGateway: false # ENV: KUMA_EXPERIMENTAL_MESHGATEWAY
   # If true, experimental Gateway API is enabled
   gatewayAPI: false # ENV: KUMA_EXPERIMENTAL_GATEWAY_API
   # If true, instead of embedding kubernetes outbounds into Dataplane object, they are persisted next to VIPs in ConfigMap

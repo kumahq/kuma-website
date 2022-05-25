@@ -8,7 +8,7 @@ Kuma is validated against Kubernetes `1.19.x`, `1.20.x`, `1.21.x` and `1.22.x`.
 
 ## Envoy
 
-Versions of envoy supported are: `~1.21.1` which means `>=1.21.1` and `<1.22.0`.
+Versions of envoy supported are: `~1.22.0` which means `>=1.22.0` and `<1.23.0`.
 
 ## Sizing your control-plane
 

@@ -397,11 +397,35 @@ spec:
           audience: "https://kubernetes.default.svc.cluster.local"
 ```
 
+### `kuma.io/transparent-proxying-reachable-services`
+
+A comma separated list of `kuma.io/service` to indicate which services this communicates with.
+For more details see the [reachable services docs](../networking/transparent-proxying.md#reachable-services).
+
+**Example**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        # a comma separated list of kuma.io/service values
+        kuma.io/transparent-proxying-reachable-services: "redis_kuma-demo_svc_6379,elastic_kuma-demo_svc_9200"
+    spec:
+      containers:
+        ...
+```
+
 ### `prometheus.metrics.kuma.io/aggregate-<name>-enabled`
 
 Define if `kuma-dp` should scrape metrics from the application that has been defined in the `Mesh` configuration. Default value: `true`.
-
-**Example**
 
 ```yaml
 apiVersion: v1
