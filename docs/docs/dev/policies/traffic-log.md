@@ -164,7 +164,7 @@ When `backend ` field of a `TrafficLog` policy is omitted, the logs will be forw
 
 **1. Install Loki**
 
-To install Loki use `kumactl install logging | kubectl apply -f -`. This will deploy Loki automatically in a `kuma-logging` namespace.
+To install Loki use `kumactl install observability --components loki | kubectl apply -f -`. This will deploy Loki automatically in a `mesh-observability` namespace.
 
 **2. Update the mesh**
 
@@ -191,7 +191,7 @@ spec:
 To visualise your **containers' logs** and your **access logs** you need to have a Grafana up and running.
 You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](traffic-metrics.md).
 
-If you have installed Grafana yourself you can configure a new datasource with url:`http://loki.kuma-logging:3100` so Grafana will be able to retrieve the logs from Loki.
+If you have installed Grafana yourself you can configure a new datasource with url: `http://loki.mesh-observability:3100` so Grafana will be able to retrieve the logs from Loki.
 
 <center>
 <img src="../images/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>

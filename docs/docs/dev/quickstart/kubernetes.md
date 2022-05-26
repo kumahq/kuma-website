@@ -196,19 +196,23 @@ By doing so every request we now make on our demo application at [`127.0.0.1:500
 As usual, you can visualize the Mutual TLS configuration and the Traffic Permission policies we have just applied via the GUI, the HTTP API or `kumactl`.
 :::
 
-## Explore Traffic Metrics
+## Explore Observability features
+
+With `kumactl` you can quickly install all observability components (metrics, logs, tracing) with a single command:
+
+```sh
+kumactl install observability | kubectl apply -f -
+```
+
+Once that is installed you can use different policies to configure each component. 
+
+### Traffic Metrics
 
 One of the most important [policies](/policies) that Kuma provides out of the box is [Traffic Metrics](../policies/traffic-metrics/).
 
 With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that visualize the overall traffic activity of our application and the status of the service mesh.
 
-To enable traffic metrics we need to first install Prometheus and Grafana:
-
-```sh
-kumactl install metrics | kubectl apply -f -
-```
-
-This will provision a new `kuma-metrics` namespace with all the services required to run our metric collection and visualization. Please note that this operation can take a while as Kubernetes downloads all the required containers.
+This will provision a new `mesh-observability` namespace with all the services required to run our metric collection and visualization. Please note that this operation can take a while as Kubernetes downloads all the required containers.
 
 Once we have installed the required dependencies, we can now go ahead and enable metrics on our [Mesh]() object by executing:
 
@@ -235,7 +239,7 @@ This will enable the `prometheus` metrics backend on the `default` [Mesh](../pol
 Increment the counter to generate traffic. Then you can expose the Grafana dashboard:
 
 ```sh
-kubectl port-forward svc/grafana -n kuma-metrics 3000:80
+kubectl port-forward svc/grafana -n mesh-observability 3000:80
 ```
 
 and access the dashboard at [127.0.0.1:3000](http://127.0.0.1:3000) with default credentials for both the username (`admin`) and the password (`admin`).
@@ -247,6 +251,10 @@ Kuma automatically installs three dashboard that are ready to use:
 * `Kuma Service to Service`: to visualize traffic metrics for our services.
 
 You can now explore the dashboards and see the metrics being populated over time.
+
+### Traffic logs and trace
+
+You can check out specific instructions on [Traffic Log](../policies/traffic-log.md) and [Traffic Trace](../policies/traffic-trace.md) policies in separate documents.
 
 ## Next steps
 
