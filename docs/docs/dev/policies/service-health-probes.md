@@ -174,3 +174,6 @@ Alternatively, it's possible to omit a `serviceProbe` section and develop custom
 If the grpc stream with Envoy is disconnected then Kuma considers this proxy offline.
 It will, however, still advertise inbounds using the final update on their health before disconnection.
 This is to avoid connection issues between `kuma-cp` and `kuma-dp` blocking data plane traffic.
+
+Additionally, when `serviceProbe` is defined, probes takes into account a health of Envoy.
+When kuma-dp receives the first shutdown signal, it goes into draining state and all inbounds are considered unhealthy.
