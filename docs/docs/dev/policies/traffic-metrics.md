@@ -181,7 +181,7 @@ to a file on disk. Prometheus watches for changes to the file and updates its sc
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-You can run `kumactl install metrics | kubectl apply -f -` to deploy configured Prometheus with Grafana.
+You can run `kumactl install observability | kubectl apply -f -` to deploy all observability components with configured Prometheus with Grafana.
 
 If you've already deployed Prometheus, you can use [Prometheus federation](https://prometheus.io/docs/prometheus/latest/federation/) to bring Kuma metrics to your main Prometheus cluster.
 :::
@@ -223,7 +223,7 @@ Check the Targets page in the Prometheus dashboard. You should see a list of dat
 
 ## Secure data plane proxy metrics
 
-Kuma lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment model when `kumactl install metrics` is used on Kubernetes.
+Kuma lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment model when `kumactl install observability` is used on Kubernetes.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -263,18 +263,18 @@ metadata:
 spec:
   sources:
     - match:
-       kuma.io/service: prometheus-server_kuma-metrics_svc_80
+       kuma.io/service: prometheus-server_mesh-observability_svc_80
   destinations:
     - match:
        kuma.io/service: dataplane-metrics
     - match:
-       kuma.io/service: "prometheus-alertmanager_kuma-metrics_svc_80"
+       kuma.io/service: "prometheus-alertmanager_mesh-observability_svc_80"
     - match:
-       kuma.io/service: "prometheus-kube-state-metrics_kuma-metrics_svc_80"
+       kuma.io/service: "prometheus-kube-state-metrics_mesh-observability_svc_80"
     - match:
-       kuma.io/service: "prometheus-kube-state-metrics_kuma-metrics_svc_81"
+       kuma.io/service: "prometheus-kube-state-metrics_mesh-observability_svc_81"
     - match:
-       kuma.io/service: "prometheus-pushgateway_kuma-metrics_svc_9091"
+       kuma.io/service: "prometheus-pushgateway_mesh-observability_svc_9091"
 ---
 apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
@@ -284,10 +284,10 @@ metadata:
 spec:
    sources:
    - match:
-      kuma.io/service: "grafana_kuma-metrics_svc_80"
+      kuma.io/service: "grafana_mesh-observability_svc_80"
    destinations:
    - match:
-      kuma.io/service: "prometheus-server_kuma-metrics_svc_80"
+      kuma.io/service: "prometheus-server_mesh-observability_svc_80"
 ```
 
 :::
@@ -511,4 +511,4 @@ Current features include:
 
 To use the plugin you'll need to add the binary to your grafana instance by following the [installation instructions](https://github.com/kumahq/kuma-grafana-datasource).
 
-To make things simpler the datasource is installed and configured when using `kumactl install metrics`.
+To make things simpler the datasource is installed and configured when using `kumactl install observability`.
