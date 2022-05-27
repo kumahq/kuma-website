@@ -21,7 +21,7 @@
 DIR="$( cd "$( dirname "$0" )" >/dev/null 2>&1 && pwd )"
 
 : "${VERSION:=}"
-: "${ARCH:=amd64}"
+: "${ARCH:=}"
 
 PRODUCT_NAME=Kuma
 LATEST_VERSION=https://kuma.io/latest_version
@@ -65,6 +65,18 @@ fi
 if [ -z "$DISTRO" ]; then
   printf "ERROR\tUnable to detect the operating system\n"
   exit 1
+fi
+
+DETECTED_ARCH=`uname -m`
+if [ "$ARCH" = "" ]; then
+  if [ "$DETECTED_ARCH" = "x86_64" ]; then
+    ARCH=amd64
+  elif [ "$DETECTED_ARCH" = "arm64" ] || [ "$DETECTED_ARCH" = "aarch64" ] || [ "$DETECTED_ARCH" = "armv8l" ] || [ "$DETECTED_ARCH" = "armv8b" ]; then
+    ARCH=arm64
+  else
+    printf "ERROR\tArchitecture %s not supported by $PRODUCT_NAME\n" "$DETECTED_ARCH"
+    exit 1
+  fi
 fi
 
 if [ -z "$VERSION" ]; then
