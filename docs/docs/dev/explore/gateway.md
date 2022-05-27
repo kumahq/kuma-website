@@ -432,7 +432,7 @@ set the `crossMesh` property.
 
 The listener must include a `hostname` value.
 The cross-mesh listener will then be reachable
-from other `Mesh`es at this hostname.
+from all `Mesh`es at this hostname.
 
 #### Limitations
 
