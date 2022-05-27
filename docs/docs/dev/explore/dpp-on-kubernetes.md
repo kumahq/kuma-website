@@ -119,12 +119,16 @@ When a Pod is deleted its matching `Dataplane` resource is deleted as well. This
 
 ## Custom Container Configuration
 
-For the vast majority of situations, using the default configuration of injected
-by Kuma containers (`kuma-sidecar` and `kuma-init`) is suggested. If you want to
-modify it the new Kubernetes CRD named `ContainerPatch` was introduced.
-It allows configuration of both sidecar and init containers. `ContainerPatch`
-resources are namespace scoped and can only be applied in a namespace where
-**Kuma CP** is running.
+If you want to modify the default container configuration the Kubernetes CRD
+named `ContainerPatch` was introduced.  It allows configuration of both sidecar
+and init containers. `ContainerPatch` resources are namespace scoped and can
+only be applied in a namespace where **Kuma CP** is running.
+
+::: warning
+In the vast majority of cases you shouldn't need to override the sidecar and
+init-container configurations. `ContainerPatch` is a feature which requires good
+understanding of both Kuma and Kubernetes.
+:::
 
 The specification of `ContainerPatch` consists of the list of [jsonpatch](https://datatracker.ietf.org/doc/html/rfc6902)
 strings which describe the modifications to be performed.
