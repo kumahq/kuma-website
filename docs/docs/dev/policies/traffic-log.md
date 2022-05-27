@@ -162,9 +162,9 @@ When `backend ` field of a `TrafficLog` policy is omitted, the logs will be forw
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-**1. Install Loki**
+**1. Install observability**
 
-To install Loki use `kumactl install observability --components loki | kubectl apply -f -`. This will deploy Loki automatically in a `mesh-observability` namespace.
+To install observability components use `kumactl install observability | kubectl apply -f -`. This will deploy all observability components with Loki automatically in a `mesh-observability` namespace.
 
 **2. Update the mesh**
 

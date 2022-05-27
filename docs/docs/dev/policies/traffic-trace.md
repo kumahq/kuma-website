@@ -25,7 +25,7 @@ While most commonly we want all the traces to be sent to the same tracing backen
 ::: tab "Kubernetes"
 
 ::: tip
-On Kubernetes you can deploy Jaeger automatically in a `mesh-observability` namespace with `kumactl install observability --components jaeger | kubectl apply -f -`.
+On Kubernetes you can deploy all observability components with Jaeger automatically in a `mesh-observability` namespace with `kumactl install observability | kubectl apply -f -`.
 :::
 
 ```yaml

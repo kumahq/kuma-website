@@ -181,7 +181,7 @@ to a file on disk. Prometheus watches for changes to the file and updates its sc
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-You can run `kumactl install observability --components grafana,prometheus | kubectl apply -f -` to deploy configured Prometheus with Grafana.
+You can run `kumactl install observability | kubectl apply -f -` to deploy all observability components with configured Prometheus with Grafana.
 
 If you've already deployed Prometheus, you can use [Prometheus federation](https://prometheus.io/docs/prometheus/latest/federation/) to bring Kuma metrics to your main Prometheus cluster.
 :::
