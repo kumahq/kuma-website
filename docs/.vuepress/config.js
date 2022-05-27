@@ -291,7 +291,7 @@ module.exports = {
     }),
   ],
   extendMarkdown: (md) => {
-    md.use(require('markdown-it-include'), "docs/_snippets")
+    md.use(require('markdown-it-include'), "docs/.vuepress/_snippets")
   },
   // plugin settings, build process, etc.
   markdown: {

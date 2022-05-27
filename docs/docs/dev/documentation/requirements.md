@@ -2,13 +2,17 @@
 
 This page expose the different requirements to run Kuma.
 
+## Architecture
+
+Kuma supports machines with `x86_64` architecture and since `1.7.0` it's possible to run Kuma on `arm64`.
+
 ## Kubernetes
 
 Kuma is validated against Kubernetes `1.19.x`, `1.20.x`, `1.21.x` and `1.22.x`.
 
 ## Envoy
 
-Versions of envoy supported are: `~1.21.1` which means `>=1.21.1` and `<1.22.0`.
+Versions of envoy supported are: `~1.22.0` which means `>=1.22.0` and `<1.23.0`.
 
 ## Sizing your control-plane
 

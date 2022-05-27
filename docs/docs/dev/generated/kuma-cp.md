@@ -250,6 +250,9 @@ runtime:
       initContainer:
         # Image name.
         image: kuma/kuma-init:latest # ENV: KUMA_INJECTOR_INIT_CONTAINER_IMAGE
+      # ContainerPatches is an optional list of ContainerPatch names which will be applied
+      # to init and sidecar containers if workload is not annotated with a patch list.
+      containerPatches: [ ] # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_CONTAINER_PATCHES
       # Configuration for a traffic that is intercepted by sidecar
       sidecarTraffic:
         # List of inbound ports that will be excluded from interception.
@@ -319,8 +322,6 @@ guiServer:
 dnsServer:
   # The domain that the server will resolve the services for
   domain: "mesh" # ENV: KUMA_DNS_SERVER_DOMAIN
-  # Port on which the server is exposed
-  port: 5653 # ENV: KUMA_DNS_SERVER_PORT
   # The CIDR range used to allocate
   CIDR: "240.0.0.0/4" # ENV: KUMA_DNS_SERVER_CIDR
   # Will create a service "<kuma.io/service>.mesh" dns entry for every service.
@@ -439,8 +440,6 @@ access:
 
 # Configuration of experimental features of Kuma
 experimental:
-  # If true, experimental built-in gateway is enabled
-  meshGateway: false # ENV: KUMA_EXPERIMENTAL_MESHGATEWAY
   # If true, experimental Gateway API is enabled
   gatewayAPI: false # ENV: KUMA_EXPERIMENTAL_GATEWAY_API
   # If true, instead of embedding kubernetes outbounds into Dataplane object, they are persisted next to VIPs in ConfigMap
