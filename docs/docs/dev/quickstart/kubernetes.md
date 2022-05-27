@@ -212,9 +212,7 @@ One of the most important [policies](/policies) that Kuma provides out of the bo
 
 With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that visualize the overall traffic activity of our application and the status of the service mesh.
 
-This will provision a new `mesh-observability` namespace with all the services required to run our metric collection and visualization. Please note that this operation can take a while as Kubernetes downloads all the required containers.
-
-Once we have installed the required dependencies, we can now go ahead and enable metrics on our [Mesh]() object by executing:
+We can now go ahead and enable metrics on our [Mesh]() object by executing:
 
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
