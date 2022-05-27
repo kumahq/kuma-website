@@ -298,48 +298,12 @@ This feature requires transparent proxy, so it's currently not available for Uni
 
 ## Expose metrics from applications
  
-In addition to exposing metrics from the data plane proxies, you might want to expose metrics from applications running next to the proxies. You can do this in 2 different ways:
- 
-* directly from the applications,
-* through Kuma sidecar.
- 
-### Expose metrics directly from the applications
- 
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-Use standard `prometheus.io` annotations on `Pod` or `Service`:
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: kuma-example
-  name: kuma-tcp-echo
-spec:
-  ...
-  template:
-    metadata:
-      ...
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "1234"
-        prometheus.io/path: "/non-standard-path"
-    spec:
-      containers:
-      ...
-```
+In addition to exposing metrics from the data plane proxies, you might want to expose metrics from applications running next to the proxies. Kuma allows scraping Prometheus metrics from the applications endpoint running in the same `Pod` or `VM`. Later those metrics are aggregated and exposed at the same `port/path` as Dataplane metrics. It is possible to configure it at the `Mesh` level, for all the applications in the `Mesh`, or just for specific applications.
+This is especially useful when mTLS is enabled and the prometheus scraper doesn't use mTLS.
+
+::: tip
+Any configuration change requires redeployment of the dataplane.
 :::
-::: tab "Universal"
-
-Use the Discovery Service of [your choice](https://prometheus.io/docs/prometheus/latest/configuration/configuration/).
-
-:::
-::::
-
-To consume paths protected by mTLS, you need Traffic Permission that lets Prometheus consume applications.
-
-### Expose metrics through the Kuma sidecar.
-
-Kuma allows scraping Prometheus metrics from the applications endpoint running in the same `Pod` or `VM`. Later those metrics are aggregated and exposed at the same `port/path` as Dataplane metrics. It is possible to configure it at the `Mesh` level, for all the applications in the `Mesh`, or just for specific applications. It's worth mentioning that any configuration change requires redeployment.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -410,7 +374,7 @@ spec:
    metadata:
      ...
      annotations:
-       prometheus.metrics.kuma.io/aggregate-my-service-enabled: "false"  # causes that configuration from Mesh is disabled and endpoint's metrics won't be exposed
+       prometheus.metrics.kuma.io/aggregate-my-service-enabled: "false"  # causes that configuration from Mesh to be disabled and result in this endpoint's metrics to not be exposed
        prometheus.metrics.kuma.io/aggregate-other-sidecar-port: "1234" # override port from Mesh
        prometheus.metrics.kuma.io/aggregate-application-port: "80"
        prometheus.metrics.kuma.io/aggregate-application-path: "/stats"
@@ -429,7 +393,7 @@ metrics:
  conf:
    path: /metrics/overridden
    aggregate:
-     my-service: # causes that configuration from Mesh is disabled and endpoint's metrics won't be exposed
+     my-service: # causes that configuration from Mesh to be disabled and result in this endpoint's metrics to not be exposed
        enabled: false
      other-sidecar:
        port: 1234 # override port from Mesh
