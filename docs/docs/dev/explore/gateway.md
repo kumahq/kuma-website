@@ -22,6 +22,7 @@ If you have multiple meshes, each mesh will need its own gateway.
 :::
 
 ## Delegated
+
 The `Dataplane` entity can operate in `gateway` mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
 
 Gateway mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic.
@@ -62,6 +63,7 @@ Kuma automatically injects this annotation for every Service that is in a namesp
 Like for regular dataplanes the `Dataplane` entities are automatically generated.
 To inject gateway data planes, mark your API Gateway's Pod with `kuma.io/gateway: enabled` annotation.
 For example:
+
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -119,6 +121,7 @@ spec:
 You can access your ingress with `curl -i $PROXY_IP/foo` where `$PROXY_IP` is the ip retrieved from the service that exposes Kong outside your cluster.
 
 You can check that the sidecar is running by checking the number of containers in each pod:
+
 ```shell
 kubectl get pods
 NAME                                    READY   STATUS    RESTARTS   AGE
@@ -132,14 +135,13 @@ In the previous example, we setup a `echo` (that is running on port `80`) and de
 
 We will now make sure that this service works correctly with multi-zone. In order to do so, the following `Service` needs to be created manually:
 
-
 ```shell
 echo "
 apiVersion: v1
 kind: Service
 metadata:
   name: echo-multizone
-  namespace: default 
+  namespace: default
 spec:
   type: ExternalName
   externalName: echo.default.svc.80.mesh
@@ -211,7 +213,7 @@ To configure your gateway Kuma has these resources:
 
 ### Usage
 
-We will set up a simple gateway that exposes a http listener and 2 routes to imaginary services: "frontend" and "api". 
+We will set up a simple gateway that exposes a http listener and 2 routes to imaginary services: "frontend" and "api".
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Universal"
@@ -239,8 +241,9 @@ kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=kuma-token-gateway \ # this needs to be generated like for regular Data plane
-  --dataplane-file=my-gateway.yaml # the dataplane resource described above 
+  --dataplane-file=my-gateway.yaml # the dataplane resource described above
 ```
+
 :::
 ::: tab "Kubernetes"
 To ease starting gateways on Kubernetes Kuma comes with a builtin type "MeshGatewayInstance".
@@ -271,6 +274,7 @@ Now that the dataplane is running we can describe the gateway listener:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Universal"
+
 ```yaml
 type: MeshGateway
 mesh: default
@@ -286,8 +290,10 @@ conf:
     tags:
       port: http/8080
 ```
+
 :::
 ::: tab "Kubernetes"
+
 ```shell
 echo "
 apiVersion: kuma.io/v1alpha1
@@ -306,8 +312,9 @@ spec:
         hostname: foo.example.com
         tags:
           port: http/8080
-" | kubectl apply -f -  
+" | kubectl apply -f -
 ```
+
 :::
 ::::
 
@@ -319,18 +326,19 @@ These are Kuma policies so if you are running on multi-zone they need to be crea
 See the [dedicated section](../deployments/multi-zone.md) for detailed information.
 :::
 
-We will now define our routes which will take traffic and route it either to our `api` or our `frontend` depending on the path of the http request: 
+We will now define our routes which will take traffic and route it either to our `api` or our `frontend` depending on the path of the http request:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Universal"
+
 ```yaml
 type: MeshGatewayRoute
 mesh: default
-name: edge-gateway-route 
+name: edge-gateway-route
 selectors:
   - match:
       kuma.io/service: edge-gateway
-      port: http/8080 
+      port: http/8080
 conf:
   http:
     rules:
@@ -349,20 +357,22 @@ conf:
           - destination:
               kuma.io/service: frontend
 ```
+
 :::
 ::: tab "Kubernetes"
+
 ```shell
 echo "
 apiVersion: kuma.io/v1alpha1
 kind: MeshGatewayRoute
 mesh: default
 metadata:
-  name: edge-gateway-route 
+  name: edge-gateway-route
 spec:
   selectors:
     - match:
         kuma.io/service: edge-gateway
-        port: http/8080 
+        port: http/8080
   conf:
     http:
       rules:
@@ -382,6 +392,7 @@ spec:
                 kuma.io/service: frontend_default_svc_80
 " | kubectl apply -f -
 ```
+
 :::
 ::::
 
@@ -393,6 +404,50 @@ So `/api/foo` will go to the `api` service whereas `/asset` will go to the `fron
 The Kuma Gateway resource types, `MeshGateway` and `MeshGatewayRoute`, are synced across zones by the Kuma control plane.
 If you have a multi-zone deployment, follow existing Kuma practice and create any Kuma Gateway resources in the global control plane.
 Once these resources exist, you can provision serving capacity in the zones where it is needed by deploying builtin gateway Dataplanes (in Universal zones) or `MeshGatewayInstances` (Kubernetes zones).
+
+### Cross-mesh
+
+Cross-mesh gateways are an experimental feature new in Kuma v1.7.
+The `Mesh` abstraction allows users
+to encapsulate and isolate services
+inside a kind of submesh with its own CA.
+With a cross-mesh `MeshGateway`,
+you can expose the services of one `Mesh`
+to other `Mesh`es by defining an API with `MeshGatewayRoute`s.
+All traffic remains inside the Kuma data plane protected by mTLS.
+
+All meshes involved in cross-mesh communication must have mTLS enabled.
+To enable cross-mesh functionality for a `MeshGateway` listener,
+set the `crossMesh` property.
+
+```
+  ...
+  conf:
+    listeners:
+      - port: 8080
+        protocol: HTTP
+        crossMesh: true
+        hostname: foo.example.mesh
+```
+
+The listener must include a `hostname` value.
+The cross-mesh listener will then be reachable
+from all `Mesh`es at this hostname.
+
+#### Limitations
+
+Cross-mesh functionality isn't supported across zones at the
+moment but will be in a future release.
+
+The only `protocol` supported is `HTTP`.
+Similar to service to service traffic,
+all traffic to the gateway is protected with mTLS
+but appears like HTTP traffic
+to the applications inside the mesh.
+In the future, this limitations may be relaxed.
+
+There can be only one entry in `selectors`
+for a `MeshGateway` with `crossMesh: true`.
 
 ### Policy support
 
@@ -411,19 +466,19 @@ Kuma may select different connection policies of the same type depending on the 
 For example, when Kuma configures an Envoy route, there may be multiple candidate policies (due to the traffic splitting across destination services), but when Kuma configures an Envoy cluster there is usually only a single candidate (because clusters are defined to be a single service).
 This can result in situations where different policies (of the same type) are used for different parts of the Envoy configuration.
 
-| Policy                                                     | GatewaySupport |
-| ---------------------------------------------------------- | -------------- |
-| [Circuit Breaker](../policies/circuit-breaker.md)          | Full           |
-| [External Services](../policies/external-services.md)      | Full           |
-| [Fault Injection](../policies/fault-injection.md)          | Full           |
-| [Health Check](../policies/health-check.md)                | Full           |
-| [Proxy Template](../policies/proxy-template.md)            | Full           |
-| [Rate Limits](../policies/rate-limit.md)                   | Full           |
-| [Retries](../policies/retry.md)                            | Full           |
-| [Traffic Permissions](../policies/traffic-permissions.md)  | Full           |
-| [Traffic Routes](../policies/traffic-route.md)             | None           |
-| [Traffic Log](../policies/traffic-log.md)                  | Partial        |
-| [Timeouts](../policies/timeout.md)                         | Full           |
-| [VirtualOutbounds](../policies/virtual-outbound.md)        | None           |
+| Policy                                                    | GatewaySupport |
+| --------------------------------------------------------- | -------------- |
+| [Circuit Breaker](../policies/circuit-breaker.md)         | Full           |
+| [External Services](../policies/external-services.md)     | Full           |
+| [Fault Injection](../policies/fault-injection.md)         | Full           |
+| [Health Check](../policies/health-check.md)               | Full           |
+| [Proxy Template](../policies/proxy-template.md)           | Full           |
+| [Rate Limits](../policies/rate-limit.md)                  | Full           |
+| [Retries](../policies/retry.md)                           | Full           |
+| [Traffic Permissions](../policies/traffic-permissions.md) | Full           |
+| [Traffic Routes](../policies/traffic-route.md)            | None           |
+| [Traffic Log](../policies/traffic-log.md)                 | Partial        |
+| [Timeouts](../policies/timeout.md)                        | Full           |
+| [VirtualOutbounds](../policies/virtual-outbound.md)       | None           |
 
 You can find in each policy's dedicated information with regard to builtin gateway support.
