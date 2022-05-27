@@ -119,8 +119,8 @@ When a Pod is deleted its matching `Dataplane` resource is deleted as well. This
 
 ## Custom Container Configuration
 
-If you want to modify the default container configuration the Kubernetes CRD
-named `ContainerPatch` was introduced.  It allows configuration of both sidecar
+If you want to modify the default container configuration you can use
+the `ContainerPatch` Kubernetes CRD. It allows configuration of both sidecar
 and init containers. `ContainerPatch` resources are namespace scoped and can
 only be applied in a namespace where **Kuma CP** is running.
 
