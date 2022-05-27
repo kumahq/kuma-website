@@ -120,7 +120,11 @@ When Pod is converted to a `Dataplane` object it will be marked as unhealthy unt
 
 To leave the mesh in a graceful shutdown, we need to remove the traffic destination from all the clients before shutting it down.
 
-Kuma DP sidecar upon receiving SIGTERM starts listener draining in Envoy, then it waits for draining time before stopping the process.
+When the Kuma DP sidecar receives a `SIGTERM` signal it does in this order:
+
+1) start draining Envoy listeners
+2) wait for the entire draining time
+3) stop the sidecar process
 During the draining process, Envoy can still accept connections however:
 1) It is marked as unhealthy on Envoy Admin `/ready` endpoint
 2) It sends `connection: close` for HTTP/1.1 requests and GOAWAY frame for HTTP/2.
