@@ -2,7 +2,7 @@
 
 On Kubernetes the [`Dataplane`](dpp.md#dataplane-entity) entity is automatically created for you, and because transparent proxying is used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
-You can control where Kuma automatically injects the dataplane proxy by **labeling** either the Namespace or the Pod with
+You can control where Kuma automatically injects the data plane proxy by **labeling** either the Namespace or the Pod with
 `kuma.io/sidecar-injection=enabled`, e.g.
 
 ```yaml
@@ -43,7 +43,7 @@ While annotations are still supported, we strongly recommend using labels.
 This is the only way to guarantee that applications can only be started with sidecar.
 :::
 
-Once your pod is running you can see the dataplane CRD that matches it using `kubectl`:
+Once your pod is running you can see the data plane CRD that matches it using `kubectl`:
 
 ```shell
 kubectl get dataplanes <podName>
@@ -56,7 +56,7 @@ Labels with keys that contains `kuma.io/` are not converted because they are res
 The following tags are added automatically and cannot be overridden using Pod labels.
 
 * `kuma.io/service`: Identifies the service name based on a Service that selects a Pod. This will be of format `<name>_<namespace>_svc_<port>` where `<name>`, `<namespace>` and `<port>` are from the Kubernetes service that is associated with the particular pod.
-  When a pod is spawned without being associated with any Kubernetes Service resource the dataplane tag will be `kuma.io/service: <name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the Pod resource.
+  When a pod is spawned without being associated with any Kubernetes Service resource the data plane tag will be `kuma.io/service: <name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the Pod resource.
 * `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](../deployments/multi-zone.md).
 * `kuma.io/protocol`: Identifies [the protocol](../policies/protocol-support-in-kuma.md) that was defined on the Service that selects a Pod.
 * `k8s.kuma.io/namespace`: Identifies the Pod's namespace. Example: `kuma-demo`.
@@ -65,7 +65,7 @@ The following tags are added automatically and cannot be overridden using Pod la
 
 ## Direct access to services
 
-By default on Kubernetes data plane proxies communicate with each other by leveraging the `ClusterIP` address of the `Service` resources. Also by default, any request made to another service is automatically load balanced client-side by the data plane proxy that originates the request (they are load balanced by the local Envoy proxy sidecar proxy).
+By default, on Kubernetes data plane proxies communicate with each other by leveraging the `ClusterIP` address of the `Service` resources. Also by default, any request made to another service is automatically load balanced client-side by the data plane proxy that originates the request (they are load balanced by the local Envoy proxy sidecar proxy).
 
 There are situations where we may want to bypass the client-side load balancing and directly access services by using their IP address (ie: in the case of Prometheus wanting to scrape metrics from services by their individual IP address).
 
@@ -168,3 +168,151 @@ To mitigate this, we need to either
 
 When a Pod is deleted its matching `Dataplane` resource is deleted as well. This is possible thanks to the
 [owner reference](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/) set on the `Dataplane` resource.
+
+## Custom Container Configuration
+
+If you want to modify the default container configuration you can use
+the `ContainerPatch` Kubernetes CRD. It allows configuration of both sidecar
+and init containers. `ContainerPatch` resources are namespace scoped and can
+only be applied in a namespace where **Kuma CP** is running.
+
+::: warning
+In the vast majority of cases you shouldn't need to override the sidecar and
+init-container configurations. `ContainerPatch` is a feature which requires good
+understanding of both Kuma and Kubernetes.
+:::
+
+The specification of `ContainerPatch` consists of the list of [jsonpatch](https://datatracker.ietf.org/doc/html/rfc6902)
+strings which describe the modifications to be performed.
+
+### Example
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ContainerPatch
+metadata:
+  name: container-patch-1
+  namespace: kuma-system
+spec:
+  sidecarPatch:
+    - op: add
+      path: /securityContext/privileged
+      value: "true"
+  initPatch:
+    - op: add
+      path: /securityContext/runAsNonRoot
+      value: "true"
+    - op: remove
+      path: /securityContext/runAsUser
+```
+
+This will change the `securityContext` section of `kuma-sidecar` container from:
+
+```yaml
+      securityContext:
+        runAsGroup: 5678
+        runAsUser: 5678
+```
+
+to:
+
+```yaml
+      securityContext:
+        runAsGroup: 5678
+        runAsUser: 5678
+        privileged: true
+```
+
+and similarly change the securityContext section of the init container from:
+
+```yaml
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - NET_RAW
+        runAsGroup: 0
+        runAsUser: 0
+```
+
+to:
+
+```yaml
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - NET_RAW
+        runAsGroup: 0
+        runAsNonRoot: true
+```
+
+### Workload matching
+
+A `ContainerPatch` is matched to a `Pod` via an `kuma.io/container-patches`
+annotation on the workload. Each annotation may be an ordered list of
+`ContainerPatch` names, which will be applied in the order specified.
+
+::: warning
+If a workload refers to a `ContainerPatch` which does not exist, the injection
+will explicitly fail and log the failure.
+:::
+
+#### Example
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: app-ns
+  name: app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-deployment
+  template:
+    metadata:
+      labels:
+        app: app-deployment
+      annotations:
+        kuma.io/container-patches: container-patch-1,container-patch-2
+    spec: [...]
+```
+
+### Default patches 
+
+You can configure `kuma-cp` to apply the list of default patches for workloads
+which don't specify their own patches by modifying the `containerPatches` value
+from the `kuma-dp` configuration:
+
+```yaml
+[...]
+runtime:
+  kubernetes:
+    injector:
+      containerPatches: [ ]
+[...]
+```
+
+::: tip
+If you specify the list of default patches (i.e. `["default-patch-1", "default-patch-2]`)
+but your workload will be annotated with its own list of patches (i.e.
+`["pod-patch-1", "pod-patch-2]`) only the latter will be applied. 
+:::
+
+#### Example
+
+```shell
+kumactl install control-plane --env-var "KUMA_RUNTIME_KUBERNETES_INJECTOR_CONTAINER_PATCHES=patch1,patch2"
+```
+
+### Error modes and validation
+
+When applying `ContainerPatch` Kuma will validate that the rendered container
+spec meets the Kubernetes specification. Kuma **will not** validate that it is
+a sane configuration.
+
+If a workload refers to a `ContainerPatch` which does not exist, the injection
+will explicitly fail and log the failure.
+
