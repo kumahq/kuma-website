@@ -1,6 +1,6 @@
 # Annotations and labels in Kubernetes mode
 
-This page provide a complete list of all the annotations you can specify when you run Kuma in Kubernetes mode.
+This page provides a complete list of all the annotations you can specify when you run Kuma in Kubernetes mode.
 
 ## Labels
 
@@ -74,7 +74,7 @@ Annotating pods or deployments will take precedence on the namespace annotation.
 
 ### `kuma.io/sidecar-injection`
 
-Similar to the prefered [label](#kuma-io-sidecar-injection).
+Similar to the preferred [label](#kuma-io-sidecar-injection).
 
 **Example**
 
@@ -227,6 +227,39 @@ metadata:
   name: example
   annotations:
     kuma.io/sidecar-env-vars: TEST1=1;TEST2=2 
+```
+
+### `kuma.io/containes-patches`
+
+Specifies the list of names of `ContainerPatch` resources to be applied on
+`kuma-init` and `kuma-sidecar` containers.
+
+More information about how to use `ContainerPatch` you can find at
+[Custom Container Configuration](../explore/dpp-on-kubernetes/#custom-container-configuration)
+
+**Example**
+
+It can be used on a resource describing workload (i.e. `Deployment`, `DaemonSet`
+or `Pod`):
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: kuma-system
+  name: example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+      annotations:
+        kuma.io/container-patches: container-patch-1,container-patch-2
+    spec: [...]
 ```
 
 ### `prometheus.metrics.kuma.io/port`
