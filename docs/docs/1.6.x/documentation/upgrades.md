@@ -5,6 +5,10 @@ Upgrades can be performed up to two major versions. Examples:
 * You can upgrade from `1.4.x` to `1.6.x`
 * To upgrade from `1.2.x` to `1.6.x`, first upgrade from `1.2.x` to `1.4.x`. Then from `1.4.x` to `1.6.x`.
 
+::: tip
+To avoid control-plane downtime when restarting on the new version make sure you have more than one instance of the control-plane in each zone.
+:::
+
 ## Standalone
 
 To upgrade Kuma with standalone deployment, first upgrade the control plane, then upgrade data plane proxies.
