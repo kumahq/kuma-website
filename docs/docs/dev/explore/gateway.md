@@ -431,8 +431,13 @@ set the `crossMesh` property.
 ```
 
 The listener must include a `hostname` value.
-The cross-mesh listener will then be reachable
-from all `Mesh`es at this hostname.
+
+#### Hostname
+
+The cross-mesh listener will be reachable
+from all other `Mesh`es at this `hostname` and `port`.
+
+In this case, `http://foo.example.mesh:8080`.
 
 #### Limitations
 
