@@ -347,12 +347,12 @@ metrics:
       path: /metrics
       skipMTLS: true # by default mTLS metrics are also protected by mTLS. Scraping metrics with mTLS without transparent proxy is not supported at the moment.
       aggregate:
-        my-service: # name of the metric, required to later disable/override at dataplane configuration
-          path: "/metrics/prometheus"
-          port: 8888
-        other-sidecar:
-          # default path is going to be used, default: /metrics
-          port: 8000
+      - name: my-service # name of the metric, required to later disable/override at dataplane configuration
+        path: "/metrics/prometheus"
+        port: 8888
+      - name: other-sidecar
+        # default path is going to be used, default: /metrics
+        port: 8000
 ```
 :::
 ::::
@@ -389,17 +389,17 @@ type: Dataplane
 mesh: default
 name: example
 metrics:
- type: prometheus
- conf:
-   path: /metrics/overridden
-   aggregate:
-     my-service: # causes that configuration from Mesh to be disabled and result in this endpoint's metrics to not be exposed
-       enabled: false
-     other-sidecar:
-       port: 1234 # override port from Mesh
-     application:
-       path: "/stats"
-       port: 80`
+  type: prometheus
+  conf:
+    path: /metrics/overridden
+    aggregate:
+    - name:  my-service # causes that configuration from Mesh to be disabled and result in this endpoint's metrics to not be exposed
+      enabled: false
+    - name: other-sidecar
+      port: 1234 # override port from Mesh
+    - name: application
+      path: "/stats"
+      port: 80`
 ```
 :::
 ::::
