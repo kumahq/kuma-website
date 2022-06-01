@@ -455,3 +455,52 @@ spec:
       containers:
         ...
 ```
+
+### `prometheus.metrics.kuma.io/aggregate-<name>-enabled`
+
+Define if `kuma-dp` should scrape metrics from the application that has been defined in the `Mesh` configuration. Default value: `true`. For more details see the [applications metrics docs](../policies/traffic-metrics.md#expose-metrics-from-applications)
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    prometheus.metrics.kuma.io/aggregate-app-enabled: "false"
+spec:
+  ...
+```
+
+### `prometheus.metrics.kuma.io/aggregate-<name>-path`
+
+Define path, which `kuma-dp` sidecar has to scrape for prometheus metrics. Default value: `/metrics`. For more details see the [applications metrics docs](../policies/traffic-metrics.md#expose-metrics-from-applications)
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    prometheus.metrics.kuma.io/aggregate-app-path: "/stats"
+spec:
+  ...
+```
+
+### `prometheus.metrics.kuma.io/aggregate-<name>-port`
+
+Define port, which `kuma-dp` sidecar has to scrape for prometheus metrics. For more details see the [applications metrics docs](../policies/traffic-metrics.md#expose-metrics-from-applications)
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    prometheus.metrics.kuma.io/aggregate-app-port: "1234"
+spec:
+  ...
+```
