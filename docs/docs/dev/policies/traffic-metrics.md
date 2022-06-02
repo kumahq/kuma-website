@@ -297,40 +297,112 @@ This feature requires transparent proxy, so it's currently not available for Uni
 ::::
 
 ## Expose metrics from applications
+ 
+In addition to exposing metrics from the data plane proxies, you might want to expose metrics from applications running next to the proxies. Kuma allows scraping Prometheus metrics from the applications endpoint running in the same `Pod` or `VM`. Later those metrics are aggregated and exposed at the same `port/path` as Dataplane metrics. It is possible to configure it at the `Mesh` level, for all the applications in the `Mesh`, or just for specific applications.
+This is especially useful when mTLS is enabled and the prometheus scraper doesn't use mTLS.
 
-In addition to exposing metrics from the data plane proxies, you might want to expose metrics from applications running next to the proxies.
+::: tip
+Any configuration change requires redeployment of the dataplane.
+:::
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-Use standard `prometheus.io` annotations on `Pod` or `Service`:
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  metrics:
+    enabledBackend: prometheus-1
+    backends:
+    - name: prometheus-1
+      type: prometheus
+      conf:
+        skipMTLS: false
+        port: 5670
+        path: /metrics
+        tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS 
+          kuma.io/service: dataplane-metrics
+        aggregate:
+          my-service: # name of the metric, required to later disable/override at dataplane configuration
+            path: "/metrics/prometheus"
+            port: 8888
+          other-sidecar:
+            # default path is going to be used, default: /metrics
+            port: 8000
+```
+:::
+::: tab "Universal"
+```yaml
+type: Mesh
+name: default
+metrics:
+  enabledBackend: prometheus-1
+  backends:
+  - name: prometheus-1
+    type: prometheus
+    conf:
+      port: 5670
+      path: /metrics
+      skipMTLS: true # by default mTLS metrics are also protected by mTLS. Scraping metrics with mTLS without transparent proxy is not supported at the moment.
+      aggregate:
+      - name: my-service # name of the metric, required to later disable/override at dataplane configuration
+        path: "/metrics/prometheus"
+        port: 8888
+      - name: other-sidecar
+        # default path is going to be used, default: /metrics
+        port: 8000
+```
+:::
+::::
+
+This configuration will cause every application in the `Mesh` to be scrapped for metrics by the Kuma dataplane. If you need to expose metrics only for the specific application it is possible through `annotation` for Kubernetes or `Dataplane` configuration for Universal deployment.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+Kubernetes allows to configure it through annotations. In case to configure you can use `prometheus.metrics.kuma.io/aggregate-<name>-(path/port/enabled)`, where name is used to match the `Mesh` configuration and override or disable it.
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: kuma-example
-  name: kuma-tcp-echo
+ namespace: kuma-example
+ name: kuma-tcp-echo
 spec:
-  ...
-  template:
-    metadata:
-      ...
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "1234"
-        prometheus.io/path: "/non-standard-path"
-    spec:
-      containers:
-      ...
+ ...
+ template:
+   metadata:
+     ...
+     annotations:
+       prometheus.metrics.kuma.io/aggregate-my-service-enabled: "false"  # causes that configuration from Mesh to be disabled and result in this endpoint's metrics to not be exposed
+       prometheus.metrics.kuma.io/aggregate-other-sidecar-port: "1234" # override port from Mesh
+       prometheus.metrics.kuma.io/aggregate-application-port: "80"
+       prometheus.metrics.kuma.io/aggregate-application-path: "/stats"
+   spec:
+     containers:
+     ...
 ```
 :::
 ::: tab "Universal"
-
-Use the Discovery Service of [your choice](https://prometheus.io/docs/prometheus/latest/configuration/configuration/).
-
+```yaml
+type: Dataplane
+mesh: default
+name: example
+metrics:
+  type: prometheus
+  conf:
+    path: /metrics/overridden
+    aggregate:
+    - name:  my-service # causes that configuration from Mesh to be disabled and result in this endpoint's metrics to not be exposed
+      enabled: false
+    - name: other-sidecar
+      port: 1234 # override port from Mesh
+    - name: application
+      path: "/stats"
+      port: 80`
+```
 :::
 ::::
-
-To consume paths protected by mTLS, you need Traffic Permission that lets Prometheus consume applications.
 
 ## Grafana Dashboards
 
