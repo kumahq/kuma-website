@@ -70,8 +70,8 @@ conf:
 
 ::: warning
 `FaultInjection` policy is available only for L7 HTTP traffic,
-`kuma.io/protocol` is mandatory tag for the destination selector.
-Allowed values are `http`, `http2` and `grpc`.
+therefore `kuma.io/protocol` is a mandatory tag for the destination selector
+and must be of value `http`, `http2` or `grpc`.
 :::
 
 ### HTTP Faults
