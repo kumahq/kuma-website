@@ -192,7 +192,7 @@ You can install Grafana by following the information of the [official page](http
 With Grafana installed you can configure a new datasource with url:`http://loki.kuma-logging:3100` so Grafana will be able to retrieve the logs from Loki.
 
 <center>
-<img src="../images/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the explore section.
@@ -228,7 +228,7 @@ You can install Grafana by following the information of the [official page](http
 With Grafana installed you can configure a new datasource with url:`http://loki.kuma-logging:3100` so Grafana will be able to retrieve the logs from Loki.
 
 <center>
-<img src="../images/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the explore section.
