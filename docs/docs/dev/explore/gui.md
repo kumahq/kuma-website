@@ -12,7 +12,7 @@ When launching Kuma, the GUI will start by default on the API port, and defaults
 When you run the GUI for the first time, you’ll be presented with the Wizard:
 
 <center>
-<img src="/images/docs/0.4.0/gui-wizard-step-1.png" alt="A screenshot of the first step of the Kuma GUI Wizard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/gui-welcome-wizard.png" alt="A screenshot of the first step of the Kuma GUI Wizard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ### This tool will:
@@ -25,7 +25,7 @@ When you run the GUI for the first time, you’ll be presented with the Wizard:
 Once you’ve completed the setup process, you’ll be sent to the Mesh Overview. This is a general overview of all of the meshes found. You can then view each entity and see how many dataplanes and traffic permissions, routes, and logs are associated with that mesh.
 
 <center>
-<img src="/images/docs/0.4.0/gui-mesh-overview.png" alt="A screenshot of the Mesh Overview of the Kuma GUI" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/gui-mesh-overview.png" alt="A screenshot of the Mesh Overview of the Kuma GUI" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ## Mesh Details
@@ -35,16 +35,28 @@ If you want to view information regarding a specific mesh, you can select the de
 If you haven't yet created any meshes, this will default to the `default` mesh.
 :::
 
-Each of these views will provide you with a table that displays helpful at-a-glance information. The Dataplanes table will display helpful information, including whether or not a dataplane is online, when it was last connected, how many connections it has, etc. This view also provides a control for refreshing your data on the fly without having to do a full page reload each time you've made changes:
+Each of these views will provide you with a table that displays helpful at-a-glance information. The Dataplanes table will display helpful information, including whether a dataplane is online, when it was last connected, how many connections it has, etc. This view also provides a control for refreshing your data on the fly without having to do a full page reload each time you've made changes:
 
 <center>
-<img src="/images/docs/0.4.0/gui-dataplanes-table.png" alt="A screenshot of the Dataplanes information table with the new tag styles for Kuma release 0.4.0" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/gui-dataplanes-table.png" alt="A screenshot of the Dataplanes information table with the new tag styles for Kuma" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-We also provide an easy way to view your entity in YAML format, as well as an control to copy it to your clipboard:
+We also provide an easy way to view your entity in YAML format, as well as a control to copy it to your clipboard:
 
 <center>
-<img src="/images/docs/0.4.0/gui-yaml-to-clipboard.png" alt="A screenshot of the YAML to clipboard feature in the Kuma GUI" style="padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/gui-yaml-to-clipboard.png" alt="A screenshot of the YAML to clipboard feature in the Kuma GUI" style="padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+The dataplane view will enable you to see all policies that affect a specific dataplane:
+
+<center>
+<img src="/images/docs/gui-dataplane-policy-list.png" alt="A screenshot of policies that affect a dataplane in the Kuma GUI" style="padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
+It also gives you access to the full Envoy configuration of each dataplane which is useful when troubleshooting:
+
+<center>
+<img src="/images/docs/gui-dataplane-xds-dump.png" alt="A screenshot of the Envoy XDS dump of a dataplane in the Kuma GUI" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ## What’s to come
