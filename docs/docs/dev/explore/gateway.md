@@ -422,22 +422,41 @@ set the `crossMesh` property.
 
 ```
   ...
+  mesh: default
+  selectors:
+    - match:
+        kuma.io/service: cross-mesh-gateway
   conf:
     listeners:
       - port: 8080
         protocol: HTTP
         crossMesh: true
-        hostname: foo.example.mesh
+        hostname: default.mesh
 ```
-
-The listener must include a `hostname` value.
 
 #### Hostname
 
-The cross-mesh listener will be reachable
-from all other `Mesh`es at this `hostname` and `port`.
+If the listener includes a `hostname` value,
+the cross-mesh listener will be reachable
+from all `Mesh`es at this `hostname` and `port`.
+In this case, the URL `http://default.mesh:8080`.
 
-In this case, `http://foo.example.mesh:8080`.
+Otherwise it will be reachable at the host:
+`internal.<gateway-name>.<mesh-of-gateway-name>.mesh`.
+
+#### Without transparent proxy
+
+If transparent proxy isn't set up, you'll have to add the listener explicitly as
+an outbound to your `Dataplane` objects if you want to access it:
+
+```
+  ...
+  outbound
+  - port: 8080
+    tags:
+      kuma.io/service: cross-mesh-gateway
+      kuma.io/mesh: default
+```
 
 #### Limitations
 
@@ -445,11 +464,11 @@ Cross-mesh functionality isn't supported across zones at the
 moment but will be in a future release.
 
 The only `protocol` supported is `HTTP`.
-Similar to service to service traffic,
+Like service to service traffic,
 all traffic to the gateway is protected with mTLS
-but appears like HTTP traffic
+but appears to be HTTP traffic
 to the applications inside the mesh.
-In the future, this limitations may be relaxed.
+In the future, this limitation may be relaxed.
 
 There can be only one entry in `selectors`
 for a `MeshGateway` with `crossMesh: true`.
