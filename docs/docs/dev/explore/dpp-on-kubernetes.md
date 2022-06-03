@@ -132,13 +132,13 @@ During the draining process, Envoy can still accept connections however:
 
 You can read [Kubernetes docs](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination) to learn how Kubernetes handles pod lifecycle. Here is the summary with relevant parts for Kuma.
 
-Whenever a user or system deletes a Pod, Kubernetes does the following things:
-1) It marks the Pod as terminated.
-2) Concurrently for every container it
-  1) Executes any pre stop hook if defined
-  2) Sends a SIGTERM signal
-  3) Waits until container is terminated for maximum of graceful termination time (by default 60s)
-  4) Sends a SIGKILL to the container
+Whenever a user or system deletes a Pod, Kubernetes does the following:
+1) It marks the Pod as terminated
+2) Concurrently for every container it:
+    1) Executes any pre stop hook if defined
+    2) Sends a SIGTERM signal
+    3) Waits until container is terminated for maximum of graceful termination time (by default 60s)
+    4) Sends a SIGKILL to the container
 3) It removes the Pod object from the system
 
 When Pod is marked as terminated, Kuma CP updates Dataplane object to be unhealthy which will trigger configuration update to all the clients to remove it as a destination.
