@@ -8,7 +8,52 @@ Specify the proxy to configure with the `sources` selector, and the outbound con
 
 The policy lets you configure timeouts for `HTTP`, `GRPC`, and `TCP` protocols.
 
-## Example
+## Configuration
+
+Timeouts applied when communicating with services of **any protocol**:
+
+Field: **connectTimeout**<br>
+Description: time to establish a connection<br>
+Default value: 10s<br>
+Envoy conf: Cluster
+
+Timeouts applied when communicating with **TCP** services:
+
+Field: **tcp.idleTimeout**<br>
+Description: period in which there are no bytes sent or received 
+on either the upstream or downstream connection<br>
+Default value: disabled<br>
+Envoy conf: TCPProxy
+
+Timeouts applied when communicating with **HTTP**, **HTTP2** or **GRPC** services:
+
+Field: **http.requestTimeout**<br>
+Description: is a span between the point at which the entire 
+downstream request (i.e. end-of-stream) has been processed and when the 
+upstream response has been completely processed<br>
+Default value: disabled<br>
+Envoy conf: Route
+
+Field: **http.idleTimeout**<br>
+Description: time at which a downstream or upstream connection 
+will be terminated if there are no active streams<br>
+Default value: disabled<br>
+Envoy conf: HTTPConnectionManager and Cluster
+
+Field: **http.streamIdleTimeout**<br>
+Description: amount of time that the connection manager 
+will allow a stream to exist with no upstream or downstream activity<br>
+Default value: disabled<br>
+Envoy conf: HTTPConnectionManager
+
+Field: **http.maxStreamDuration**<br>
+Description: maximum time that a stream’s lifetime will span<br>
+Default value: disabled<br>
+Envoy conf: Cluster
+
+## Default general-purpose Timeout policy
+
+By default, Kuma creates the following Timeout policy:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -17,30 +62,23 @@ apiVersion: kuma.io/v1alpha1
 kind: Timeout
 mesh: default
 metadata:
-  name: timeouts-backend
+  name: timeout-all-default
 spec:
   sources:
     - match:
         kuma.io/service: '*'
   destinations:
     - match:
-        kuma.io/service: 'backend_default_svc_80'
+        kuma.io/service: '*'
   conf:
-    # connectTimeout defines time to establish connection, 'connect_timeout' on Cluster, default 10s
-    connectTimeout: 10s
-    tcp:
-      # 'idle_timeout' on TCPProxy, disabled by default
+    connectTimeout: 5s # all protocols
+    tcp: # tcp, kafka
+      idleTimeout: 1h 
+    http: # http, http2, grpc
+      requestTimeout: 15s 
       idleTimeout: 1h
-    http:
-      # 'timeout' on Route, disabled by default
-      requestTimeout: 5s
-      # 'idle_timeout' on Cluster, disabled by default
-      idleTimeout: 1h
-    grpc:
-      # 'stream_idle_timeout' on HttpConnectionManager, disabled by default
-      streamIdleTimeout: 5m
-      # 'max_stream_duration' on Cluster, disabled by default
-      maxStreamDuration: 30m
+      streamIdleTimeout: 30m
+      maxStreamDuration: 0s
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 :::
@@ -49,31 +87,31 @@ We will apply the configuration with `kubectl apply -f [..]`.
 ```yaml
 type: Timeout
 mesh: default
-name: timeouts-backend
+name: timeout-all-default
 sources:
   - match:
       kuma.io/service: '*'
 destinations:
   - match:
-      kuma.io/service: 'backend'
+      kuma.io/service: '*'
 conf:
-  # connectTimeout defines time to establish connection, 'connect_timeout' on Cluster, default 10s
-  connectTimeout: 10s
-  tcp:
-    # 'idle_timeout' on TCPProxy, disabled by default
+  connectTimeout: 5s # all protocols
+  tcp: # tcp, kafka
     idleTimeout: 1h
-  http:
-    # 'timeout' on Route, disabled by default
-    requestTimeout: 5s
-    # 'idle_timeout' on Cluster, disabled by default
+  http: # http, http2, grpc
+    requestTimeout: 15s
     idleTimeout: 1h
-  grpc:
-    # 'stream_idle_timeout' on HttpConnectionManager, disabled by default
-    streamIdleTimeout: 5m
-    # 'max_stream_duration' on Cluster, disabled by default
-    maxStreamDuration: 30m
+    streamIdleTimeout: 30m
+    maxStreamDuration: 0s
 ```
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../reference/http-api).
+:::
+::::
+
+:::warning
+Default timeout policy works fine in most cases. 
+But if your application is using [GRPC streaming](https://grpc.io/docs/what-is-grpc/core-concepts/) 
+make sure to set `http.requestTimeout` to 0s. 
 :::
 
 ## Matching
@@ -88,3 +126,89 @@ Request timeouts are configured on the Envoy routes and may select a different T
 
 Mesh configures an idle timeout on the HTTPConnectionManager, but doesn’t consistently use the Timeout policy values for this, so the semantica are ambiguous.
 There’s no policy that configures the idle timeout for downstream connections to the Gateway.
+
+## Inbound timeouts
+
+Current policy configures timeouts only on the outbound side.
+Timeouts on the inbound side have constant values:
+
+```yaml
+connectTimeout: 10s 
+tcp:
+  idleTimeout: 2h
+http:
+  requestTimeout: 0s
+  idleTimeout: 2h
+  streamIdleTimeout: 1h
+  maxStreamDuration: 0s
+```
+
+These timeouts are either disabled or 2 times bigger than outbound default values
+to not interfere with the user's smaller values.
+
+Despite there is no policy at that moment to modify inbound timeouts,
+all values could be changed using ProxyTemplate:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ProxyTemplate
+mesh: default
+metadata:
+  name: custom-template-1
+spec:
+  selectors:
+    - match:
+        kuma.io/service: '*'
+  conf:
+    imports:
+      - default-proxy 
+    modifications:
+      - networkFilter:
+          operation: patch
+          match:
+            name: envoy.filters.network.http_connection_manager
+            origin: inbound 
+          value: |
+            name: envoy.filters.network.http_connection_manager
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+              streamIdleTimeout: 0s # disable http.streamIdleTimeout 
+              common_http_protocol_options: 
+                idle_timeout: 0s # disable http.idleTimeout
+```
+:::
+
+::: tab "Universal"
+```yaml
+type: Timeout
+mesh: default
+name: timeout-all-default
+selectors:
+  - match:
+      kuma.io/service: '*'
+conf:
+  imports:
+    - default-proxy 
+  modifications:
+    - networkFilter:
+        operation: patch
+        match:
+          name: envoy.filters.network.http_connection_manager
+          origin: inbound 
+        value: |
+          name: envoy.filters.network.http_connection_manager
+          typedConfig:
+            '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+            streamIdleTimeout: 0s # disable http.streamIdleTimeout 
+            common_http_protocol_options: 
+              idle_timeout: 0s # disable http.idleTimeout
+```
+:::
+::::
+
+:::warning
+It's not recommended disabling `streamIdleTimeouts` and `idleTimeout`
+since it has a high likelihood of yielding connection leaks.
+:::
