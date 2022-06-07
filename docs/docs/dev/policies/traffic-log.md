@@ -1,6 +1,6 @@
 # Traffic Log
 
-With `TrafficLog` policy you can easily set up access logs on every data-plane in a mesh. 
+With the Traffic Log policy you can easily set up access logs on every data plane in a mesh. 
 
 ::: warning
 This policy only records outbound traffic. It doesn't record inbound traffic.
@@ -20,7 +20,7 @@ If you haven't already read the [observability docs](../explore/observability.md
 
 A _logging backend_ is essentially a sink for access logs.
 
-Currently, it can be either a `file` or a `TCP log collector`, such as Logstash, Splunk or others.
+Currently, it can be either a `file` or a `TCP log collector`, such as Logstash, Splunk or other.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -171,8 +171,8 @@ In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTR
 
 ## Builtin Gateway support
 
-Traffic Log is a Kuma outbound connection policy, so Kuma chooses a Traffic Log policy by matching the service tag of the Dataplane’s outbounds.
-Since a builtin gateway Dataplane does not have outbounds, Kuma always uses the builtin service name “pass_through” to match the Traffic Log policy for Gateways.
+Traffic Log is a Kuma outbound connection policy, so Kuma chooses a Traffic Log policy by matching the service tag of the data plane's outbounds.
+Since a builtin gateway data plane does not have outbounds, Kuma always uses the builtin service name `pass_through` to match the Traffic Log policy for Gateways.
 
 ## Access Log Format
 

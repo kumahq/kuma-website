@@ -14,7 +14,7 @@ This page will describe how to configure different observability tools to work w
 
 - [prometheus](https://prometheus.io) for metrics
 - [jaeger](https://jaegertracing.io) for ingesting and storing traces
-- [loki](https://grafana.com/oss/loki/)  for ingesting and storing logs
+- [loki](https://grafana.com/oss/loki/) for ingesting and storing logs
 - [grafana](https://grafana.com/oss/grafana/) for querying and displaying metrics, traces and logs
 
 This stack can be installed on Kubernetes with:
@@ -32,18 +32,18 @@ For production setups we recommend referring to each project's website or to use
 
 ## Control plane metrics
 
-Control plane metrics are exposed on port `:5680` and under the standard path `/metrics`.
+Control plane metrics are exposed on port `:5680` and available under the standard path `/metrics`.
 
 ## Configuring Prometheus
 
 The Kuma community has contributed a builtin service discovery to Prometheus, it is documented in the [Prometheus docs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
-This service discovery will connect to the control plane and retrieve all the dataplanes who have metrics enabled which prometheus will then scrape and retrieve metrics according to your [TrafficMetrics setup](../policies/traffic-metrics.md).  
+This service discovery will connect to the control plane and retrieve all data planes with enabled metrics which Prometheus will scrape and retrieve metrics according to your [TrafficMetrics setup](../policies/traffic-metrics.md).  
 
 ::: tip
 There are 2 ways you can run prometheus:
 
-1. Inside the mesh (default for [`kumactl install observability`](#demo-setup)). In this case you can use mTLS to retrieve the metrics. This provides high security but will require one prometheus per mesh and might not be accessible if your mesh becomes unavailable. It will also require one prometheus deployment per Kuma mesh.
-2. Outside the mesh. In this case you'll need to specify `skipMTLS: true` in the [TrafficMetrics](../policies/traffic-metrics.md). This is less secured but will ensure prometheus is as available as possible. It is also easier to add to an existing setup with services in and outside the mesh.
+1. Inside the mesh (default for [`kumactl install observability`](#demo-setup)). In this case you can use mTLS to retrieve the metrics. This provides high security but will require one prometheus per mesh and might not be accessible if your mesh becomes unavailable. It will also require one Prometheus deployment per Kuma mesh.
+2. Outside the mesh. In this case you'll need to specify `skipMTLS: true` in the [TrafficMetrics](../policies/traffic-metrics.md). This is less secured but will ensure Prometheus is as available as possible. It is also easier to add to an existing setup with services in and outside the mesh.
 
 In production, we recommend the second option as it provides better visibility when things go wrong, and it's usually acceptable for metrics to be less secure.
 :::
@@ -72,7 +72,7 @@ scrape_configs:
       - action: labelmap
         regex: __meta_kuma_label_(.+)
       kuma_sd_configs:
-      - server: "http://kuma-control-plane.kuma-system.svc:5676" # replace with the url of your control-plane
+      - server: "http://kuma-control-plane.kuma-system.svc:5676" # replace with the url of your control plane
 ```
 
 For more information, see [the Prometheus documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
@@ -148,8 +148,8 @@ To learn more about the search syntax check the [Loki docs](https://grafana.com/
 ::: tip
 **Nice to have**
 
-Having your Logs and Traces in the same visualisation tool can come really handy. By adding the traceId in your app logs you can visualize your logs and the related Jaeger traces.
-To learn more about it go read this [article](https://grafana.com/blog/2020/05/22/new-in-grafana-7.0-trace-viewer-and-integrations-with-jaeger-and-zipkin/).
+Having your Logs and Traces in the same visualisation tool can come really handy. By adding the `traceId` in your app logs you can visualize your logs and the related Jaeger traces.
+To learn more about it go read [this article](https://grafana.com/blog/2020/05/22/new-in-grafana-7.0-trace-viewer-and-integrations-with-jaeger-and-zipkin/).
 :::
 
 ### Grafana extensions
@@ -158,7 +158,7 @@ The Kuma community has built a datasource and a set of dashboards to provide gre
 
 #### Datasource and service map
 
-The Grafana Datasource is a datasource specifically built to relate information from the control-plane with prometheus metrics.
+The Grafana Datasource is a datasource specifically built to relate information from the control plane with Prometheus metrics.
 
 Current features include:
 
@@ -167,7 +167,7 @@ Current features include:
 - List zones.
 - List services.
 
-To use the plugin you'll need to add the binary to your grafana instance by following the [installation instructions](https://github.com/kumahq/kuma-grafana-datasource).
+To use the plugin you'll need to add the binary to your Grafana instance by following the [installation instructions](https://github.com/kumahq/kuma-grafana-datasource).
 
 To make things simpler the datasource is installed and configured when using [`kumactl install observability`](#demo-setup).
 
@@ -270,7 +270,7 @@ Checkout the
 ::: tab "Kubernetes"
 Configure the [Datadog agent for APM](https://docs.datadoghq.com/agent/kubernetes/apm/).
 
-If Datadog is not running on each Node you can expose the APM agent port to Kuma via Kubernetes service.
+If Datadog is not running on each node you can expose the APM agent port to Kuma via Kubernetes service.
 ```yaml
 apiVersion: v1
 kind: Service
@@ -305,7 +305,7 @@ Kuma is multi-zone at heart. We explain here how to architect your telemetry sta
 
 ### Prometheus
 
-When Kuma is used in multi-zone the recommended approach is to use 1 prometheus in each zone and to send the metrics of each zone to a global prometheus.
+When Kuma is used in multi-zone the recommended approach is to use 1 Prometheus instance in each zone and to send the metrics of each zone to a global Prometheus instance.
 
 Prometheus offers different ways to do this:
 
@@ -317,4 +317,4 @@ Prometheus offers different ways to do this:
 
 Most telemetry components don't have a hierarchical setup like Prometheus.
 If you want to have a central view of everything you can set up the system in global and have each zone send their data to it. 
-Because zone is present in dataplane tags you shouldn't be worried about metrics, logs and traces overlapping between zones. 
+Because zone is present in data plane tags you shouldn't be worried about metrics, logs and traces overlapping between zones. 

@@ -105,12 +105,12 @@ It is possible to configure it at the `Mesh` level, for all the applications in 
 
 Here are reasons where you'd want to use this feature:
 
-- Application metrics are labelled with your mesh parameters (tags, mesh, dataplane name...), this means that in mixed Universal and k8s mode metrics are reported with the same types of labels.
+- Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
 - Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
 - If you disable [passthrough](../policies/mesh.md#controlling-the-passthrough-mode) and your mesh uses mTLS but Prometheus is outside the mesh (`skipMTLS: true`) this will be the only way to retrieve these metrics as the application is completely hidden behind the sidecar. 
 
 ::: warning
-Any configuration change requires redeployment of the dataplane.
+Any configuration change requires redeployment of the data plane.
 :::
 
 :::: tabs :options="{ useUrlFragment: false }"
@@ -133,7 +133,7 @@ spec:
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS 
           kuma.io/service: dataplane-metrics
         aggregate:
-          - name: my-service # name of the metric, required to later disable/override at dataplane configuration
+          - name: my-service # name of the metric, required to later disable/override with pod annotations 
             path: "/metrics/prometheus"
             port: 8888
           - name: other-sidecar
@@ -155,7 +155,7 @@ metrics:
       path: /metrics
       skipMTLS: true # by default mTLS metrics are also protected by mTLS. Scraping metrics with mTLS without transparent proxy is not supported at the moment.
       aggregate:
-      - name: my-service # name of the metric, required to later disable/override at dataplane configuration
+      - name: my-service # name of the metric, required to later disable/override in the Dataplane resource
         path: "/metrics/prometheus"
         port: 8888
       - name: other-sidecar
@@ -165,7 +165,7 @@ metrics:
 :::
 ::::
 
-This configuration will cause every application in the `Mesh` to be scrapped for metrics by the Kuma dataplane. If you need to expose metrics only for the specific application it is possible through `annotation` for Kubernetes or `Dataplane` configuration for Universal deployment.
+This configuration will cause every application in the mesh to be scrapped for metrics by the data plane proxy. If you need to expose metrics only for the specific application it is possible through `annotation` for Kubernetes or `Dataplane` resource for Universal deployment.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -265,7 +265,7 @@ This proxy exposes an HTTP endpoint with Prometheus metrics on port `1234` and U
 
 ## Secure data plane proxy metrics
 
-Kuma lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment mode on kubernetes when using [`kumactl install observability`](../explore/observability.md#demo-setup).
+Kuma lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment mode on Kubernetes when using [`kumactl install observability`](../explore/observability.md#demo-setup).
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -290,11 +290,11 @@ spec:
         port: 5670
         path: /metrics
         skipMTLS: false
-        tags: # tags that can be referred in Traffic Permission  
+        tags: # tags that can be referred in a TrafficPermission resource 
           kuma.io/service: dataplane-metrics
 ```
 
-If you have strict TrafficPermissions you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
+If you have strict [traffic permissions](./traffic-permissions.md) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -344,11 +344,11 @@ spec:
         port: 5670
         path: /metrics
         skipMTLS: false
-        tags: # tags that can be referred in Traffic Permission  
+        tags: # tags that can be referred in a TrafficPermission resource 
           kuma.io/service: dataplane-metrics
 ```
 
-If you have strict TrafficPermissions you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
+If you have strict [traffic permissions](./traffic-permissions.md) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
 
 ```yaml
 type: TrafficPermission
