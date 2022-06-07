@@ -79,7 +79,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../r
 ### Datadog
 
 ::: tip
-This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](../explore/observability.md#configure-datadog). 
+This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](../explore/observability.md#configuring-datadog). 
 :::
 
 :::: tabs :options="{ useUrlFragment: false }"
