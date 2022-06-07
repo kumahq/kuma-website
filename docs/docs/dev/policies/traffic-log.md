@@ -1,20 +1,26 @@
 # Traffic Log
 
-With `TrafficLog` policy you can easily set up access logs on every data-plane in a [`Mesh`](../mesh).
+With the Traffic Log policy you can easily set up access logs on every data plane in a mesh. 
 
-`TrafficLog` only logs outbound traffic. It doesn't log inbound traffic.
+::: warning
+This policy only records outbound traffic. It doesn't record inbound traffic.
+:::
 
-Configuring access logs in `Kuma` is a 3-step process:
+To configure access logs in Kuma you need to:
 
 * [1. Add a logging backend](#add-a-logging-backend)
 * [2. Add a TrafficLog resource](#add-a-trafficlog-resource)
-* [3. Log aggregation and visualisation](#log-aggregation-and-visualisation) (kubernetes only)
+
+::: tip
+In the rest of this page we assume you have already configured your observability tools to work with Kuma.
+If you haven't already read the [observability docs](../explore/observability.md).
+:::
 
 ## Add a logging backend
 
 A _logging backend_ is essentially a sink for access logs.
 
-Currently, a _logging backend_ can be either a `file` or a `TCP log collector`, such as Logstash.
+Currently, it can be either a `file` or a `TCP log collector`, such as Logstash, Splunk or other.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -37,7 +43,7 @@ spec:
         type: tcp
         # Use `config` field to co configure a TCP logging backend.
         conf:
-          # Address of a log collector.
+          # Address of a log collector (like logstash, splunk or other).
           address: 127.0.0.1:5000
       - name: file
         type: file
@@ -78,7 +84,7 @@ logging:
 
 ## Add a TrafficLog resource
 
-You need to create a `TrafficLog` policy to select a subset of traffic and forward its access logs into one of the _logging backends_ configured for that `Mesh`.
+You need to create a `TrafficLog` policy to select a subset of traffic and write its access logs into one of the backends configured for that mesh.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -96,7 +102,6 @@ spec:
   destinations:
     - match:
         kuma.io/service: "*"
-  # When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that Mesh.
 ```
 
 ```yaml
@@ -130,7 +135,6 @@ sources:
 destinations:
   - match:
       kuma.io/service: "*"
-# When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that Mesh.
 ```
 
 ```yaml
@@ -152,109 +156,27 @@ conf:
 ::::
 
 ::: tip
-When `backend ` field of a `TrafficLog` policy is omitted, the logs will be forwarded into the `defaultBackend` of that `Mesh`.
+When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that `Mesh`.
 :::
 
-## Log aggregation and visualisation
+### Matching
 
-`Kuma` is presenting a simple solution to aggregate the **logs of your containers** and the **access logs of your data-planes**.
+`TrafficLog` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
+For this reason the only supported value for `destinations.match` is `kuma.io/service`.
 
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
+## Logging external services
 
-**1. Install observability**
+When running Kuma on Kubernetes you can also log the traffic to external services. To do it, the matched destination section has to have wildcard `*` value.
+In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.
 
-To install observability components use `kumactl install observability | kubectl apply -f -`. This will deploy all observability components with Loki automatically in a `mesh-observability` namespace.
+## Builtin Gateway support
 
-**2. Update the mesh**
+Traffic Log is a Kuma outbound connection policy, so Kuma chooses a Traffic Log policy by matching the service tag of the data plane's outbounds.
+Since a builtin gateway data plane does not have outbounds, Kuma always uses the builtin service name `pass_through` to match the Traffic Log policy for Gateways.
 
-The logging backend needs to be configured to send the access logs of your data-planes to `stdout`. 
-Loki will directly retrieve the logs from `stdout` of your containers.
+## Access Log Format
 
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: Mesh
-metadata:
-  name: default
-spec:
-    logging:
-      defaultBackend: loki
-      backends:
-        - name: loki
-          type: file
-          conf:
-            path: /dev/stdout
-```
-
-**3. Configure Grafana to visualize the logs**
-
-To visualise your **containers' logs** and your **access logs** you need to have a Grafana up and running.
-You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](traffic-metrics.md).
-
-If you have installed Grafana yourself you can configure a new datasource with url: `http://loki.mesh-observability:3100` so Grafana will be able to retrieve the logs from Loki.
-
-<center>
-<img src="/images/docs/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
-
-At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the [explore section](https://grafana.com/docs/grafana/latest/explore/).
-
-For example, running: `{container="kuma-sidecar"} |= "GET"` will show all GET requests on your cluster.
-To learn more about the search syntax check the [Loki docs](https://grafana.com/docs/loki/latest/logql/).
-:::
-::: tab "Universal"
-
-**1. Install Loki**
-
-To install Loki use the instructions on the official [Loki Github repository](https://github.com/grafana/loki/blob/v1.5.0/docs/installation/README.md).
-
-**2. Update the mesh**
-
-The logging backend needs to be configured to send the access logs of your data-planes to `stdout`. 
-Loki will directly retrieve the logs from `stdout` of your containers.
-
-```yaml
-type: Mesh
-name: default
-logging:
-  defaultBackend: loki
-  backends:
-    - name: loki
-      type: file
-      conf:
-        path: /dev/stdout
-```
-    
-**3. Configure Grafana to visualize the logs**
-
-To visualise your **containers' logs** and your **access logs** you need to have a Grafana up and running. 
-You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](traffic-metrics.md).
-
-<center>
-<img src="/images/docs/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
-
-At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the [explore section](https://grafana.com/docs/grafana/latest/explore/).
-
-For example, running: `{container="kuma-sidecar"} |= "GET"` will show all GET requests on your cluster.
-To learn more about the search syntax check the [Loki docs](https://grafana.com/docs/loki/latest/logql/).
-:::
-::::
-
-::: tip
-**Nice to have**
-
-Having your Logs and Traces in the same visualisation tool can come really handy. By adding the traceId in your app logs you can visualize your logs and the related Jaeger traces. 
-To learn more about it go read this [article](https://grafana.com/blog/2020/05/22/new-in-grafana-7.0-trace-viewer-and-integrations-with-jaeger-and-zipkin/).
-
-To set up tracing see the [traffic-trace policy](traffic-trace.md).
-:::
-
-You can also forward the access logs to a collector (such as logstash) that can further transmit them into systems like Splunk, ELK and Datadog.
-
-### Access Log Format
-
-`Kuma` gives you full control over the format of access logs.
+Kuma gives you full control over the format of the access logs.
 
 The shape of a single log record is defined by a template string that uses [command operators](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators) to extract and format data about a `TCP` connection or an `HTTP` request.
 
@@ -266,12 +188,7 @@ E.g.,
 
 where `%START_TIME%` and `%KUMA_SOURCE_SERVICE%` are examples of available _command operators_.
 
-A complete set of supported _command operators_ consists of:
-
-1. All _command operators_ [supported by Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators)
-2. _Command operators_ unique to `Kuma`
-
-The latter include:
+_Command operators_ consists of a [subset](https://github.com/kumahq/kuma/issues/596) of all _command operators_ [supported by Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators) and some custom to Kuma:
 
 | Command Operator                     | Description                                                      |
 | ------------------------------------ | ---------------------------------------------------------------- |
@@ -287,7 +204,7 @@ All access log _command operators_ are valid to use with both `TCP` and `HTTP` t
 
 If a _command operator_ is specific to `HTTP` traffic, such as `%REQ(X?Y):Z%` or `%RESP(X?Y):Z%`, it will be replaced by a symbol "`-`" in case of `TCP` traffic.
 
-Internally, `Kuma` [determines traffic protocol](../protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
+Internally, Kuma [determines traffic protocol](protocol-support-in-kuma.md) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
 
 The default format string for `TCP` traffic is:
 
@@ -302,10 +219,10 @@ The default format string for `HTTP` traffic is:
 ```
 
 ::: tip
-To provide different format for TCP and HTTP logging you can define two separate logging backends with the same address and different format. Then define two TrafficLog entity, one for TCP and one for HTTP with `kuma.io/protocol: http` selector.
+To provide different format for TCP and HTTP logging you can define two separate logging backends with the same address and different format. Then define two TrafficLog entity, one for TCP and one for HTTP with matching `kuma.io/protocol` selector.
 :::
 
-### Access Logs in JSON format
+#### JSON format
 
 If you need an access log with entries in `JSON` format, you have to provide a template string that is a valid `JSON` object, e.g.
 
@@ -321,20 +238,3 @@ If you need an access log with entries in `JSON` format, you have to provide a t
   "bytes_sent":          "%BYTES_SENT%"
 }
 ```
-
-To use it with Logstash, use `json_lines` codec and make sure your JSON is formatted into one line.
-
-### Logging external services
-
-When running Kuma on Kubernetes you can also log the traffic to external services. To do it, the matched destination section has to have wildcard `*` value.
-In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.  
-
-## Matching
-
-`TrafficLog` is an [Outbound Connection Policy](how-kuma-chooses-the-right-policy-to-apply.md#outbound-connection-policy).
-The only supported value for `destinations.match` is `kuma.io/service`.
-
-## Builtin Gateway support
-
-Traffic Log is a Kuma outbound connection policy, so Kuma chooses a Traffic Log policy by matching the service tag of the Dataplane’s outbounds.
-Since a builtin gateway Dataplane does not have outbounds, Kuma always uses the builtin service name “pass_through” to match the Traffic Log policy for Gateways.

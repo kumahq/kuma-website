@@ -2,31 +2,43 @@
 
 This policy enables tracing logging to a third party tracing solution. 
 
-Tracing is supported over HTTP, HTTP2, and gRPC protocols in a [`Mesh`](mesh.md). You must [explicitly specify the protocol](protocol-support-in-kuma.md) for each service and data plane proxy you want to enable tracing for.
+Tracing is supported over HTTP, HTTP2, and gRPC protocols. You must [explicitly specify the protocol](protocol-support-in-kuma.md) for each service and data plane proxy you want to enable tracing for.
 
 You must also:
 
-1. [Add a tracing backend](#add-jaeger-backend). You specify a tracing backend as a [`Mesh`](mesh.md) resource property.
-1. [Add a TrafficTrace resource](#add-traffictrace-resource). You pass the backend to the `TrafficTrace` resource.
+1. [Add a tracing backend](#add-a-tracing-backend-to-the-mesh). You specify a tracing backend as a [`Mesh`](mesh.md) resource property.
+2. [Add a TrafficTrace resource](#add-traffictrace-resource). You pass the backend to the `TrafficTrace` resource.
 
-Kuma currently supports the following backends:
+Kuma currently supports the following trace exposition formats:
 
-* `zipkin`
-  * [Jaeger](https://www.jaegertracing.io/) as the Zipkin collector. The Zipkin examples specify Jaeger, but you can modify for a Zipkin-only deployment.
+* `zipkin` traces in this format can be sent to [many different tracing backends](https://github.com/openzipkin/openzipkin.github.io/issues/65). 
 * `datadog`
 
-::: tip
-While most commonly we want all the traces to be sent to the same tracing backend, we can optionally create multiple tracing backends in a `Mesh` resource and store traces for different paths of our service traffic in different backends by leveraging Kuma tags. This is especially useful when we want traces to never leave a world region, or a cloud, for example.
+::: warning
+Services still need to be instrumented to preserve the trace chain across requests made across different services.
+
+You can instrument with a language library of your choice ([for zipkin](https://zipkin.io/pages/tracers_instrumentation) and [for datadog](https://docs.datadoghq.com/tracing/setup_overview/setup/java/?tab=containers)).
+For HTTP you can also manually forward the following headers:
+
+* `x-request-id`
+* `x-b3-traceid`
+* `x-b3-parentspanid`
+* `x-b3-spanid`
+* `x-b3-sampled`
+* `x-b3-flags`
 :::
 
-## Add Jaeger backend
+## Add a tracing backend to the mesh
+
+### Zipkin
+
+::: tip
+This assumes you already have a zipkin compatible collector running.
+If you haven't, read the [observability docs](../explore/observability.md).
+:::
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-
-::: tip
-On Kubernetes you can deploy all observability components with Jaeger automatically in a `mesh-observability` namespace with `kumactl install observability | kubectl apply -f -`.
-:::
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -41,12 +53,11 @@ spec:
       type: zipkin
       sampling: 100.0
       conf:
-        url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
+        url: http://jaeger-collector.mesh-observability:9411/api/v2/spans # If not using `kuma install observability` replace by any zipkin compatible collector address.
 ```
 
 Apply the configuration with `kubectl apply -f [..]`.
 :::
-
 ::: tab "Universal"
 ```yaml
 type: Mesh
@@ -58,43 +69,18 @@ tracing:
     type: zipkin
     sampling: 100.0
     conf:
-      url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
+      url: http://my-jaeger-collector:9411/api/v2/spans # Replace by any zipkin compatible collector address.
 ```
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../reference/http-api.md).
 :::
 ::::
 
-## Add Datadog backend
+### Datadog
 
-### Prerequisites
-
-1. Set up the [Datadog](https://docs.datadoghq.com/tracing/) agent.
-1. Set up [APM](https://docs.datadoghq.com/tracing/).
-   - For Kubernetes, see [the datadog documentation for setting up Kubernetes](https://docs.datadoghq.com/agent/kubernetes/apm/).
-
-If Datadog is running within Kubernetes, you can expose the APM agent port to Kuma via Kubernetes service.
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: trace-svc
-spec:
-  selector:
-    app: datadog
-  ports:
-    - protocol: TCP
-      port: 8126
-      targetPort: 8126
-```
-Apply the configuration with `kubectl apply -f [..]`.
+::: tip
+This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](../explore/observability.md#configuring-datadog). 
 :::
-::::
-
-### Set up in Kuma
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -144,7 +130,7 @@ The `defaultBackend` property specifies the tracing backend to use if it's not e
 
 ## Add TrafficTrace resource
 
-Next, create `TrafficTrace` resources that specify how to collect traces, and which backend to store them in.
+Next, create `TrafficTrace` resources that specify how to collect traces, and which backend to send them to.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -181,24 +167,13 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../r
 :::
 ::::
 
+::: tip
+When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that `Mesh`.
+:::
+
 You can also add tags to apply the `TrafficTrace` resource only a subset of data plane proxies. `TrafficTrace` is a [Dataplane policy](how-kuma-chooses-the-right-policy-to-apply.md#dataplane-policy), so you can specify any of the `selectors` tags.
 
-Services should also be instrumented to preserve the trace chain across requests made across different services. You can instrument with a language library of your choice, or you can manually pass the following headers:
-
-* `x-request-id`
-* `x-b3-traceid`
-* `x-b3-parentspanid`
-* `x-b3-spanid`
-* `x-b3-sampled`
-* `x-b3-flags`
-
-## Configure Grafana to visualize the logs
-
-To visualise your **traces** you need to have a Grafana up and running.
-You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](traffic-metrics.md).
-
-With Grafana installed you can configure a new datasource with url:`http://jaeger-query.mesh-observability/` so Grafana will be able to retrieve the traces from Jaeger.
-
-<center>
-<img src="/images/docs/jaeger_grafana_config.png" alt="Jaeger Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
+::: tip
+While most commonly we want all the traces to be sent to the same tracing backend, we can optionally create multiple tracing backends in a `Mesh` resource and store traces for different paths of our service traffic in different backends by leveraging Kuma tags.
+This is especially useful when we want traces to never leave a world region, or a cloud, for example.
+:::
