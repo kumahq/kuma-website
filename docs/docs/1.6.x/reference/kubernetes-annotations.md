@@ -376,9 +376,20 @@ spec:
     projected:
       sources:
       - serviceAccountToken:
-          path: token
           expirationSeconds: 7200
+          path: token
           audience: "https://kubernetes.default.svc.cluster.local"
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
 ```
 
 ### `kuma.io/transparent-proxying-reachable-services`
