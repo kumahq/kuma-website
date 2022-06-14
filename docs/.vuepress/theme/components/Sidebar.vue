@@ -3,7 +3,7 @@
     <aside class="sidebar">
       <VersionNav/>
       <AlgoliaSearchBox v-if="$site.themeConfig.algolia.indexName && $page.frontmatter.search === true"
-                        :options="algolia" class="nav-item"/>
+                        :options="algolia" class="nav-item" :key="key"/>
 
       <NavLinks/>
 
@@ -29,6 +29,16 @@ export default {
     VersionNav
   },
   props: ['items'],
+  data() {
+    return {algoliaOptions: {}, key: 0}
+  },
+  watch: {
+    '$route'() {
+      // Option3 from a blogpost. Couldn't find another way to refresh the search when the version selector changes
+      // https://medium.com/emblatech/ways-to-force-vue-to-re-render-a-component-df866fbacf47
+      this.key += 1;
+    },
+  },
 
   computed: {
     algolia() {
