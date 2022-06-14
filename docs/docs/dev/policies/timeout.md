@@ -7,6 +7,7 @@ This policy enables Kuma to set timeouts on the outbound connections depending o
 Specify the proxy to configure with the `sources` selector, and the outbound connections from the proxy with the `destinations` selector.
 
 The policy lets you configure timeouts for `HTTP`, `GRPC`, and `TCP` protocols.
+More about [Protocol support in Kuma](protocol-support-in-kuma.md). 
 
 ## Configuration
 
@@ -15,7 +16,7 @@ Timeouts applied when communicating with services of **any protocol**:
 Field: **connectTimeout**<br>
 Description: time to establish a connection<br>
 Default value: 10s<br>
-Envoy conf: Cluster
+Envoy conf: [Cluster](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#envoy-v3-api-field-config-cluster-v3-cluster-connect-timeout)
 
 Timeouts applied when communicating with **TCP** services:
 
@@ -23,7 +24,7 @@ Field: **tcp.idleTimeout**<br>
 Description: period in which there are no bytes sent or received 
 on either the upstream or downstream connection<br>
 Default value: disabled<br>
-Envoy conf: TCPProxy
+Envoy conf: [TCPProxy](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/tcp_proxy/v3/tcp_proxy.proto#envoy-v3-api-field-extensions-filters-network-tcp-proxy-v3-tcpproxy-idle-timeout)
 
 Timeouts applied when communicating with **HTTP**, **HTTP2** or **GRPC** services:
 
@@ -32,24 +33,24 @@ Description: is a span between the point at which the entire
 downstream request (i.e. end-of-stream) has been processed and when the 
 upstream response has been completely processed<br>
 Default value: disabled<br>
-Envoy conf: Route
+Envoy conf: [Route](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-field-config-route-v3-routeaction-timeout)
 
 Field: **http.idleTimeout**<br>
 Description: time at which a downstream or upstream connection 
 will be terminated if there are no active streams<br>
 Default value: disabled<br>
-Envoy conf: HTTPConnectionManager and Cluster
+Envoy conf: [HTTPConnectionManager and Cluster](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#envoy-v3-api-field-config-core-v3-httpprotocoloptions-idle-timeout)
 
 Field: **http.streamIdleTimeout**<br>
 Description: amount of time that the connection manager 
 will allow a stream to exist with no upstream or downstream activity<br>
 Default value: disabled<br>
-Envoy conf: HTTPConnectionManager
+Envoy conf: [HTTPConnectionManager](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-stream-idle-timeout)
 
 Field: **http.maxStreamDuration**<br>
 Description: maximum time that a stream’s lifetime will span<br>
 Default value: disabled<br>
-Envoy conf: Cluster
+Envoy conf: [Cluster](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#envoy-v3-api-field-config-core-v3-httpprotocoloptions-max-stream-duration)
 
 ## Default general-purpose Timeout policy
 
@@ -80,7 +81,6 @@ spec:
       streamIdleTimeout: 30m
       maxStreamDuration: 0s
 ```
-We will apply the configuration with `kubectl apply -f [..]`.
 :::
 
 ::: tab "Universal"
@@ -104,7 +104,6 @@ conf:
     streamIdleTimeout: 30m
     maxStreamDuration: 0s
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../reference/http-api).
 :::
 ::::
 
@@ -129,7 +128,7 @@ There’s no policy that configures the idle timeout for downstream connections 
 
 ## Inbound timeouts
 
-Current policy configures timeouts only on the outbound side.
+Currently, there is no policy to set inbound timeouts.
 Timeouts on the inbound side have constant values:
 
 ```yaml
@@ -143,11 +142,7 @@ http:
   maxStreamDuration: 0s
 ```
 
-These timeouts are either disabled or 2 times bigger than outbound default values
-to not interfere with the user's smaller values.
-
-Despite there is no policy at that moment to modify inbound timeouts,
-all values could be changed using ProxyTemplate:
+If you still need to change inbound timeouts you can use a [ProxyTemplate](proxy-template.md):
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -182,12 +177,12 @@ spec:
 
 ::: tab "Universal"
 ```yaml
-type: Timeout
+type: ProxyTemplate
 mesh: default
-name: timeout-all-default
+name: custom-template-1
 selectors:
   - match:
-      kuma.io/service: '*'
+      kuma.io/service: "*"
 conf:
   imports:
     - default-proxy 
