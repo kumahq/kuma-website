@@ -5,7 +5,7 @@ Kuma Gateway is responsible for routing network traffic from outside a Kuma mesh
 Kuma Gateway deploys as a Kuma [`Dataplane`](../explore/dpp.md), i.e. an instance of the `kuma-dp` process.
 Like all Kuma `Dataplanes`, the Kuma Gateway `Dataplane` manages an Envoy proxy process that does the actual network traffic proxying.
 
-We can distinguish two types of gateways:
+You can distinguish two types of gateways:
 
 - delegated: allows users to use any existing gateway like [Kong](https://github.com/Kong/kong).
 - builtin: configures the data plane proxy to expose external listeners to drive traffic inside the mesh.
@@ -33,7 +33,7 @@ The blue lines represent traffic not managed by Kuma, which needs to be configur
 
 The `Dataplane` entity can operate in `gateway` mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
 
-The `gateway` mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic. When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy. In the `gateway` mode, we want inbound traffic to go directly to the gateway, otherwise, clients require certificates that are generated dynamically for communication between services within the mesh. The gateway itself should handle security at an entrance to the mesh.
+The `gateway` mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic. When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy. In the `gateway` mode, you want inbound traffic to go directly to the gateway, otherwise, clients require certificates that are generated dynamically for communication between services within the mesh. The gateway itself should handle security at an entrance to the mesh.
 
 ### Usage
 
@@ -117,9 +117,9 @@ kong-1645186528-kong-648b9596c7-f2xfv   3/3     Running   2          40m
 
 #### Example Gateway in Multi-Zone
 
-In the previous example, we setup an `echo` (that is running on port `80`) and deployed in the `default` namespace.
+In the previous example, you setup an `echo` (that is running on port `80`) and deployed in the `default` namespace.
 
-We will now make sure that this service works correctly with multi-zone. In order to do so, the following `Service` needs to be created manually:
+You will now make sure that this service works correctly with multi-zone. In order to do so, the following `Service` needs to be created manually:
 
 ```shell
 echo "
@@ -134,7 +134,7 @@ spec:
 " | kubectl apply -f -
 ```
 
-Finally, we need to create a corresponding Kubernetes `Ingress` that routes `/bar` to the multi-zone service:
+Finally, you need to create a corresponding Kubernetes `Ingress` that routes `/bar` to the multi-zone service:
 
 ```shell
 echo "
@@ -158,9 +158,9 @@ spec:
 " | kubectl apply -f -
 ```
 
-Note that since we are addressing the service by its domain name `echo.default.svc.8080.mesh`, we should always refer to port `80` (this port is only a placeholder and will be automatically replaced with the actual port of the service).
+Note that since you are addressing the service by its domain name `echo.default.svc.8080.mesh`, you should always refer to port `80` (this port is only a placeholder and will be automatically replaced with the actual port of the service).
 
-If we want to expose a `Service` in one zone only (as opposed to multi-zone), we can just use the service name in the `Ingress` definition without having to create an `externalName` entry, this is what we did in our first example.
+If you want to expose a `Service` in one zone only (as opposed to multi-zone), you can just use the service name in the `Ingress` definition without having to create an `externalName` entry, this is what you did in your first example.
 
 For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller), please follow this [demo application guide](https://github.com/kumahq/kuma-demo/tree/master/kubernetes).
 
@@ -222,7 +222,7 @@ To configure your gateway Kuma has these resources:
 
 ### Usage
 
-We will set up a simple gateway that exposes a http listener and 2 routes to imaginary services: "frontend" and "api".
+You will set up a simple gateway that exposes a http listener and 2 routes to imaginary services: "frontend" and "api".
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -264,9 +264,9 @@ networking:
       kuma.io/service: edge-gateway
 ```
 
-Note that this gateway has a `kuma.io/service` tag. We will use this to bind policies to configure this gateway.
+Note that this gateway has a `kuma.io/service` tag. You will use this to bind policies to configure this gateway.
 
-As we're in universal you now need to run kuma-dp:
+As you're in universal you now need to run kuma-dp:
 
 ```shell
 kuma-dp run \
@@ -279,7 +279,7 @@ kuma-dp run \
 :::
 ::::
 
-Now that the `Dataplane` is running we can describe the gateway listener:
+Now that the `Dataplane` is running you can describe the gateway listener:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -335,7 +335,7 @@ These are Kuma policies so if you are running on multi-zone they need to be crea
 See the [dedicated section](../deployments/multi-zone.md) for detailed information.
 :::
 
-We will now define our routes which will take traffic and route it either to our `api` or our `frontend` depending on the path of the http request:
+You will now define your routes which will take traffic and route it either to your `api` or your `frontend` depending on the path of the http request:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
