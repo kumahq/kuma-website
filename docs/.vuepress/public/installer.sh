@@ -105,6 +105,13 @@ fi
 
 URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$VERSION-$DISTRO-$ARCH.tar.gz"
 
+TARGET_NAME="$PRODUCT_NAME"
+
+fail_download() {
+    printf "ERROR\tUnable to download %s at the following URL: %s\n" "$TARGET_NAME" "$1"
+    exit 1
+}
+
 if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
   # shellcheck disable=SC2034
   IFS=. read -r major minor patch <<EOF
@@ -114,32 +121,37 @@ EOF
   # handle the kumactl archive
   if [ "$OS" = "Linux" ]; then
       if  [ "$major" -ge "1" ] && [ "$minor" -ge "7" ]; then
-          printf "INFO\tWe don't compile the %s executables for your Linux distribution.\n" "$PRODUCT_NAME"
-          printf "INFO\tFetching %s...\n" "$CTL_NAME"
+          printf "INFO\tWe only compile %s for your Linux distribution.\n" "$CTL_NAME"
+
+          TARGET_NAME="$CTL_NAME"
           URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$CTL_NAME-$VERSION-linux-$ARCH.tar.gz"
+
+          printf "INFO\tFetching %s...\n" "$TARGET_NAME"
           if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
-            printf "ERROR\tUnable to download %s at the following URL: %s\n" "$CTL_NAME" "$URL"
-            exit 1
+            fail_download "$URL"
           fi
       else
-        printf "WARNING\tYou appear to be running an unsupported Linux distribution.\n"
+        printf "ERROR\tYou appear to be running an unsupported Linux distribution.\n"
+        fail_download "$URL"
       fi
+  else
+    fail_download "$URL"
   fi
-  printf "ERROR\tUnable to download %s at the following URL: %s\n" "$PRODUCT_NAME" "$URL"
-  exit 1
 fi
 
-printf "INFO\tDownloading %s from: %s" "$PRODUCT_NAME" "$URL"
+printf "INFO\tDownloading %s from: %s" "$TARGET_NAME" "$URL"
 printf "\n\n"
 
 if curl -L "$URL" | tar xz; then
   printf "\n"
-  printf "INFO\t%s %s has been downloaded!\n" "$PRODUCT_NAME" "$VERSION"
-  printf "\n"
-  printf "%s" "$(cat "$DIR/$REPO_PREFIX-$VERSION/README")"
+  printf "INFO\t%s %s has been downloaded!\n" "$TARGET_NAME" "$VERSION"
+  if [ "$TARGET_NAME" != "$CTL_NAME" ]; then
+    printf "\n"
+    printf "%s" "$(cat "$DIR/$REPO_PREFIX-$VERSION/README")"
+  fi
   printf "\n"
 else
   printf "\n"
-  printf "ERROR\tUnable to download %s\n" "$PRODUCT_NAME"
+  printf "ERROR\tUnable to download %s\n" "$TARGET_NAME"
   exit 1
 fi
