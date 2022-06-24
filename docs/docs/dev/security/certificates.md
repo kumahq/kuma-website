@@ -300,7 +300,12 @@ kubectl create secret generic kds-ca-certs -n <namespace> \
   --from-file=ca.crt.pem=/tmp/ca.crt
 ```
 
-Set `controlPlane.tls.kdsZoneClient.secretName` to `kds-ca-certs`.
+Point to this secret when installing Kuma:
+```sh
+helm install --create-namespace --namespace <namespace> kuma kuma/kuma \
+  --set controlPlane.tls.kdsZoneClient.secretName=kds-ca-certs
+```
+
 :::
 ::: tab "Universal"
 Point to the certificate and the key:
