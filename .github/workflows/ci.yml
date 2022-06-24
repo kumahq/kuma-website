@@ -38,6 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        # NOTE: for each new OS, the check must be explicitly set as required in Github
         os:
           - amazonlinux:2022
           - debian:bookworm
