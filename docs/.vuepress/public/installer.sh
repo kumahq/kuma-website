@@ -121,7 +121,7 @@ EOF
   # handle the kumactl archive
   if [ "$OS" = "Linux" ]; then
       if  [ "$major" -ge "1" ] && [ "$minor" -ge "7" ]; then
-          printf "INFO\tWe don't compile the %s executables for your Linux distribution.\n" "$TARGET_NAME"
+          printf "INFO\tWe only compile %s for your Linux distribution.\n" "$CTL_NAME"
 
           TARGET_NAME="$CTL_NAME"
           URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$CTL_NAME-$VERSION-linux-$ARCH.tar.gz"
