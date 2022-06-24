@@ -44,6 +44,8 @@ jobs:
           - centos:7
           - redhat/ubi8:8.6
           - ubuntu:22.10
+          - archlinux:latest
+          - fedora:latest
     container:
       image: ${{ matrix.os }}
     steps:
