@@ -47,7 +47,7 @@ carousel:
 
 ::: slot news
 
-**Kuma 1.6.0 has been released!** &mdash; With Kubernetes Gateway API support, new and improved transparent-proxy and more. [Read More](/blog/2022/kuma-1-6-0/)
+**Kuma 1.7.0 has been released!** &mdash; With Builtin Gateway for Cross-Mesh Communication, ARM Support, and more [Read More](/blog/2022/kuma-1-7-0/)
 :::
 
 <!-- page masthead -->

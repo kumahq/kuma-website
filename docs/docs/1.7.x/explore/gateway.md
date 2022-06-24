@@ -18,8 +18,22 @@ There exists two types of gateways:
 
 ::: warning
 Gateways exist within a mesh.
-If you have multiple meshes, each mesh will need its own gateway.
+If you have multiple meshes, each mesh will need its own gateways. You can easily connect your meshes together using [cross-mesh gateways](#cross-mesh).
 :::
+
+Here's a visualization that shows how delegated and builtin gateways are different:
+
+Builtin with Kong Gateway to handle the inbound traffic:
+<center>
+<img src="/images/diagrams/builtin-gateway.webp" alt=""/>
+</center>
+
+Delegated with Kong Gateway:
+<center>
+<img src="/images/diagrams/delegated-gateway.webp" alt="" />
+</center>
+
+The blue lines represent traffic not managed by Kuma and that needs to be configured in your Gateway.
 
 ## Delegated
 

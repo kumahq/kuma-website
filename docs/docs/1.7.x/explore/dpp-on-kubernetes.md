@@ -55,55 +55,108 @@ When `Dataplane` entities are automatically created, all labels from Pod are con
 Labels with keys that contains `kuma.io/` are not converted because they are reserved to Kuma.
 The following tags are added automatically and cannot be overridden using Pod labels.
 
-* `kuma.io/service`: Identifies the service name based on a Service that selects a Pod. This will be of format `<name>_<namespace>_svc_<port>` where `<name>`, `<namespace>` and `<port>` are from the Kubernetes service that is associated with the particular pod.
-  When a pod is spawned without being associated with any Kubernetes Service resource the data plane tag will be `kuma.io/service: <name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the Pod resource.
+* `kuma.io/service`: Identifies the service name based on a Service that selects a Pod. This will be of format `<name>_<namespace>_svc_<port>` where `<name>`, `<namespace>` and `<port>` are from the Kubernetes service that is associated with this particular pod.
+  When a pod is spawned without being associated with any Kubernetes Service resource the data plane tag will be `kuma.io/service: <name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the Pod resource metadata.
 * `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](../deployments/multi-zone.md).
-* `kuma.io/protocol`: Identifies [the protocol](../policies/protocol-support-in-kuma.md) that was defined on the Service that selects a Pod.
+* `kuma.io/protocol`: Identifies [the protocol](../policies/protocol-support-in-kuma.md) that was defined by the `appProtocol` field on the Service that selects the Pod.
 * `k8s.kuma.io/namespace`: Identifies the Pod's namespace. Example: `kuma-demo`.
-* `k8s.kuma.io/service-name`: Identifies the name of Kubernetes Service that selects a Pod. Example: `demo-app`.
-* `k8s.kuma.io/service-port`: Identifies the port of Kubernetes Service that selects a Pod. Example: `80`.
+* `k8s.kuma.io/service-name`: Identifies the name of Kubernetes Service that selects the Pod. Example: `demo-app`.
+* `k8s.kuma.io/service-port`: Identifies the port of Kubernetes Service that selects the Pod. Example: `80`.
 
-## Direct access to services
-
-By default, on Kubernetes data plane proxies communicate with each other by leveraging the `ClusterIP` address of the `Service` resources. Also by default, any request made to another service is automatically load balanced client-side by the data plane proxy that originates the request (they are load balanced by the local Envoy proxy sidecar proxy).
-
-There are situations where we may want to bypass the client-side load balancing and directly access services by using their IP address (ie: in the case of Prometheus wanting to scrape metrics from services by their individual IP address).
-
-When an originating service wants to directly consume other services by their IP address, the originating service's `Deployment` resource must include the following annotation:
-
-```yaml
-kuma.io/direct-access-services: Service1, Service2, ServiceN
-```
-
-Where the value is a comma separated list of Kuma services that will be consumed directly. For example:
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: example-app
-  namespace: kuma-example
-spec:
-  ...
-  template:
-    metadata:
-      ...
-      annotations:
-        kuma.io/direct-access-services: "backend_example_svc_1234,backend_example_svc_1235"
-    spec:
-      containers:
-        ...
-```
-
-We can also use `*` to indicate direct access to every service in the Mesh:
-
-```yaml
-kuma.io/direct-access-services: *
-```
-
-::: warning
-Using `*` to directly access every service is a resource intensive operation, so we must use it carefully.
+:::tip
+- If a Kubernetes service exposes more than 1 port, multiple inbounds will be generated all with different `kuma.io/service`.
+- If a pod is attached to more than one Kubernetes service, multiple inbounds will also be generated. 
 :::
+
+### Example
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: my-app
+  namespace: my-namespace
+  labels:
+    foo: bar
+    app: my-app
+spec:
+  # ...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  namespace: my-namespace
+spec:
+  selector:
+    app: my-app
+  type: ClusterIP
+  ports:
+    - name: port1
+      protocol: TCP
+      appProtocol: http
+      port: 80
+      targetPort: 8080
+    - name: port2
+      protocol: TCP
+      appProtocol: grpc
+      port: 1200
+      targetPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-other-service
+  namespace: my-namespace
+spec:
+  selector:
+    foo: bar 
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      appProtocol: http
+      port: 81
+      targetPort: 8080
+```
+
+Will generate the following inbounds in your Kuma dataplane:
+
+```yaml
+...
+inbound:
+  - port: 8080
+    tags:
+      kuma.io/protocol: http
+      kuma.io/service: my-service_my-namespace_svc_80
+      k8s.kuma.io/service-name: my-service
+      k8s.kuma.io/service-port: "80"
+      k8s.kuma.io/namespace: my-namespace
+      # Labels coming from your pod
+      app: my-app
+      foo: bar
+  - port: 8081
+    tags:
+      kuma.io/protocol: grpc
+      kuma.io/service: my-service_my-namespace_svc_1200
+      k8s.kuma.io/service-name: my-service
+      k8s.kuma.io/service-port: "1200"
+      k8s.kuma.io/namespace: my-namespace
+      # Labels coming from your pod
+      app: my-app
+      foo: bar
+  - port: 8080
+    tags:
+      kuma.io/protocol: http
+      kuma.io/service: my-other-service_my-namespace_svc_81
+      k8s.kuma.io/service-name: my-other-service
+      k8s.kuma.io/service-port: "81"
+      k8s.kuma.io/namespace: my-namespace
+      # Labels coming from your pod
+      app: my-app
+      foo: bar
+```
+
+Notice how `kuma.io/service` is built on `<serviceName>_<namespace>_svc_<port>` and `kuma.io/protocol` is the `appProtocol` field of your service entry.
 
 ## Lifecycle
 
@@ -316,3 +369,44 @@ a sane configuration.
 If a workload refers to a `ContainerPatch` which does not exist, the injection
 will explicitly fail and log the failure.
 
+## Direct access to services
+
+By default, on Kubernetes data plane proxies communicate with each other by leveraging the `ClusterIP` address of the `Service` resources. Also by default, any request made to another service is automatically load balanced client-side by the data plane proxy that originates the request (they are load balanced by the local Envoy proxy sidecar proxy).
+
+There are situations where we may want to bypass the client-side load balancing and directly access services by using their IP address (ie: in the case of Prometheus wanting to scrape metrics from services by their individual IP address).
+
+When an originating service wants to directly consume other services by their IP address, the originating service's `Deployment` resource must include the following annotation:
+
+```yaml
+kuma.io/direct-access-services: Service1, Service2, ServiceN
+```
+
+Where the value is a comma separated list of Kuma services that will be consumed directly. For example:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        kuma.io/direct-access-services: "backend_example_svc_1234,backend_example_svc_1235"
+    spec:
+      containers:
+        ...
+```
+
+We can also use `*` to indicate direct access to every service in the Mesh:
+
+```yaml
+kuma.io/direct-access-services: *
+```
+
+::: warning
+Using `*` to directly access every service is a resource intensive operation, so we must use it carefully.
+:::
