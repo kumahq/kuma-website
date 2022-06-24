@@ -1,64 +1,86 @@
 # Data plane proxy
 
-When Kuma (`kuma-cp`) runs, it waits for the data plane proxies to connect and register themselves.
+A **data plane proxy (DPP)** is the part of Kuma that runs next to each workload that is a member of the mesh.
+A DPP is composed of the following components:
 
-<center>
-<img src="/images/docs/0.4.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
+- a `Dataplane` entity which defines the configuration of the data plane proxy.
+- a `kuma-dp` binary that runs on each instance that is part of the mesh. This binary spawns the following subprocesses:
+  - `envoy` which will receive configuration from the control-plane to manage traffic correctly 
+  - `core-dns` which will help resolve Kuma specific DNS entries
 
-## Dataplane Entity
+::: tip
+Data plane proxies are also often called sidecars.
+:::
 
-A `Dataplane` entity must be passed to `kuma-dp` when instances attempt to connect to the control plane.
-On Kubernetes, this operation is [fully **automated**](dpp-on-kubernetes.md).
-On Universal, it must be executed [**manually**](dpp-on-universal.md).
-
-To understand why the `Dataplane` entity is required, we must take a step back. As we have explained already, Kuma follows a sidecar proxy model for the data plane proxies, where we have an instance of a data plane proxy for every instance of our services. Each Service and DP will communicate with each other on the same machine, therefore on `127.0.0.1`.
-
-For example, if we have 6 replicas of a "Redis" service, then we must have one instances of `kuma-dp` running alongside each replica of the service, therefore 6 replicas of `kuma-dp` and 6 `Dataplane` entities as well.
+Since we have one replica of `kuma-dp` for every replica of every service, the number of DPP running quickly adds up. 
+For example, if we have 6 replicas of a "Redis" service, then we must have one instance of `kuma-dp` running alongside each replica of the service, therefore 6 replicas of `kuma-dp` and 6 `Dataplane` entities as well.
 
 <center>
 <img src="/images/docs/0.4.0/diagram-11.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-::: tip
-**Many DPs!** The number of data plane proxies that we have running can quickly add up, since we have one replica of `kuma-dp` for every replica of every service. That's why it's important for the `kuma-dp` process to be lightweight and consume few resources, otherwise we would quickly run out of memory, especially on platforms like Kubernetes where multiple services are running on the same underlying host machine. And that's one of the reasons Kuma leverages Envoy for this task.
-:::
+## Concepts: Inbounds, Outbounds, Tags and Services
 
-When we start a new data plane proxy in Kuma, it needs to communicate a few things to the control-plane: 
+### Inbound
 
-- What types they are: "standard", "zone-ingress", "zoneegress" or "gateway".
-- How they can be reached by other data plane proxies (This is an address/port combination).
-- What services they expose (This will be called inbounds).
-- How the application will use the sidecar to reach other services (either with transparent proxy or by explicitly listing services it will connect to).
+Inbounds are defined in the `Dataplane` entity and is a combination of a port and a set of tags.
+The port is the local port that the workload binds to for this inbound.
 
-::: tip
-There exists special types of data planes proxies:
+Most of the time a DPP exposes a single inbound. When a workload exposes multiple ports, multiple inbounds can be defined.
 
-- [ZoneIngress](zone-ingress.md) which will enable inbound cross-zone traffic.
-- [ZoneEgress](zoneegress.md) which allows isolating outgoing cross-zone
-  traffic as well as any traffic going to external services available in local
-  zone
-- [Gateway](gateway.md) which will traffic external to the mesh to enter it.
+### Tags
+Tags are a set of key-values that are defined for each DPP inbound. These tags serve these purposes:
 
-Because these dataplane types are specific and complex we will discuss them separately to "standard" dataplane proxies.
-:::
+- Define which service this DPP inbound is part of.
+- Add some metadata on the nature of the service being exposed. 
+- Be able to select subsets of dataplanes using these tags.
 
-To do this, we have to create a file with a `Dataplane` definition and pass it to `kuma-dp run`. This way, data-plane will be registered in the Control Plane and Envoy will start accepting requests.
+Some tags are reserved to Kuma are prefixed with `kuma.io` like:
 
-::: tip
-**Remember**: this is [all automated](dpp-on-kubernetes.md) if you are running Kuma on Kubernetes!
-:::
+* `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually. This tag must always be present.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](../deployments/multi-zone.md). This tag is automatically created and cannot be overwritten.
+* `kuma.io/protocol`: Identifies [the protocol](../../policies/protocol-support-in-kuma) of the service exposed by this inbound. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
-The registration of the `Dataplane` includes three main sections that are described below in the [Dataplane Specification](../generated/resources/proxy_dataplane.md):
+### Service
+A service is a group of all DPP inbounds that have the same `kuma.io/service` tag.
 
-* `address` IP at which this dataplane will be accessible to other data plane proxies
-* `inbound` networking configuration, to configure on what port the data plane proxy will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
-* `outbound` networking configuration, to enable the local service to consume other services.
+### Outbounds
+Outbounds in the `Dataplane` entity is a way to expose a service in the mesh on a local port of the proxy.
+This is useful when not using [transparent-proxy](../networking/transparent-proxying.md) which makes outbounds automatically managed by the control-plane. 
 
-::: tip
-In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](../../policies/mesh) in Kuma.
-By default, the system generates a `default` Mesh when the control-plane is run for the first time.
-:::
+## Dataplane Entity
+
+The `Dataplane` entity serves the following purpose:
+
+- Define the different **inbounds**
+- Describe how the other DPPs can connect to this DPP
+- Define the different **outbounds**
+- Configure local binaries (expose the Envoy admin port, expose health probes, configure transparent-proxy)
+
+A `Dataplane` entity must be present for each DPP. This will work differently in the following environments: 
+
+- Kubernetes: the `Dataplane` entity is generated [**automatically**](dpp-on-kubernetes.md) by the control-plane.
+- Universal: the `Dataplane` entity must be defined [**manually**](dpp-on-universal.md).
+ 
+The `Dataplane` entity includes the sections that are described below in the [Dataplane Specification](../generated/resources/proxy_dataplane.md):
+
+* `networking` define what services are exposed, transparent-proxy configuration, inbounds, and outbounds. 
+* `metrics` to configure how to collect metrics from the data plane proxy and the workload, check the [traffic metrics](../policies/traffic-metrics.md#expose-metrics-from-applications) for more details.
+* `probes` to configure unsecure port to access workload's health endpoints for platform health probing, check the [health probes](../policies/service-health-probes.md) for more details.
+
+## How data plane proxies get configured
+
+As mentioned previously each DPP has a `Dataplane` entity attached to it which describes what and how a workload should expose.
+
+On DPP startup it will:
+- The `kuma-dp` process sends a bootstrap request against the zone control-plane to retrieve the Envoy startup configuration
+- The `kuma-dp` process starts Envoy with this bootstrap configuration
+- Envoy will connect to the zone control-plane using XDS and start stream its configuration and receiving updates
+- The zone control-plane will use all policies and `Dataplane` entities to generate the DPP configuration and push it down to the Envoy using the XDS connection
+
+<center>
+<img src="/images/docs/0.4.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
 
 ## Envoy
 
@@ -77,18 +99,4 @@ bootstrapServer:
     adminPort: 9901 # ENV: KUMA_BOOTSTRAP_SERVER_PARAMS_ADMIN_PORT
 ```
 
-It is not possible to override the data plane proxy resource directly in Kubernetes. If you still want to override it, use the pod annotation `kuma.io/envoy-admin-port`.
-
-## Tags
-
-Each Kuma data plane proxy is associated with tags - or attributes - that can be used to both identify the service that the data plane proxy is representing, they are also used to configure the service mesh with matching [policies](/policies).
-
-A tag attributes a qualifier to the data plane proxy, and the tags that are reserved to Kuma are prefixed with `kuma.io` like:
-
-* `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
-* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](../deployments/multi-zone.md). This tag is automatically created and cannot be overwritten.
-* `kuma.io/protocol`: Identifies [the protocol](../../policies/protocol-support-in-kuma) that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
-
-::: tip
-The `kuma.io/service` tag must always be present.
-:::
+It is not possible to override the data plane proxy resource directly in Kubernetes. If you still want to change the admin port, use the pod annotation `kuma.io/envoy-admin-port`.
