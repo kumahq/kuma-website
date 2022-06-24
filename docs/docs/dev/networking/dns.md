@@ -1,6 +1,14 @@
 # DNS
 
-Kuma ships with DNS resolver to provide service naming - a mapping of hostname to Virtual IPs (VIPs) of services registered in Kuma.
+Kuma allows you to use service names to address services in a mesh.
+Every service receives [**Virtual IP address** (**VIP**)](https://en.wikipedia.org/wiki/Virtual_IP_address).
+The address is:
+- Unique which means no other service can receive the same VIP during
+  the service lifetime.
+- Stable, which means if instance of the service will be started, it will
+  receive the same address as before.
+
+[//]: # (Kuma ships with DNS server to provide service naming - a mapping of hostname to **Virtual IPs** &#40;**VIPs**&#41; of services registered in Kuma.)
 
 The usage of Kuma DNS is only relevant when [transparent proxying](../transparent-proxying) is used.
 
@@ -8,21 +16,26 @@ The usage of Kuma DNS is only relevant when [transparent proxying](../transparen
 
 Kuma DNS server responds to type `A` and `AAAA` DNS requests, and answers with `A` or `AAAAA` records, for example ```redis.mesh. 60 IN A  240.0.0.100``` or ```redis.mesh. 60 IN AAAAA  fd00:fd00::100```.
 
-The virtual IPs are allocated by the control plane from the configured CIDR (by default `240.0.0.0/4`) , by constantly scanning the services available in all Kuma meshes.
-When a service is removed, its VIP is also freed, and Kuma DNS does not respond for it with `A` and `AAAA` DNS record.
-Virtual IPs are stable (replicated) between instances of the control plane and data plane proxies.
+VIPs are allocated by the control plane from the configured CIDR (by default `240.0.0.0/4`), by constantly scanning the services available in all Kuma meshes.
 
-Once a new VIP is allocated or an old VIP is freed, the control plane configures the data plane proxy with this change.
+When a service is removed the following happens:
+- Its VIP is freed.
+- The control plane reconfigures data plane proxies [TODO]
+- Kuma DNS does not respond for it with `A` and `AAAA` DNS record anymore.
+VIPs are stable (replicated) between instances of the control plane and data plane proxies.
 
+Once a new VIP is allocated or an old VIP is freed, the control plane reconfigures the data plane proxy with this change.
+
+A data plane proxy handle all name lookups locally.
 All name lookups are handled locally by the data plane proxy, not by the control plane.
 This approach allows for more robust handling of name resolution.
 For example, when the control plane is down, a data plane proxy can still resolve DNS.
 
 The data plane proxy DNS consists of:
 
-- an Envoy DNS filter provides responses from the mesh for DNS records
-- a CoreDNS instance launched by `kuma-dp` that sends requests between the Envoy DNS filter and the original host DNS
-- iptable rules that will redirect the original DNS traffic to the local CoreDNS instance
+- An Envoy DNS filter, which provides responses from the mesh for DNS records.
+- A CoreDNS instance, which sends requests between the Envoy DNS filter and the original host DNS.
+- Iptables rules, which will redirect the outgoing DNS traffic to the local CoreDNS instance.
 
 As the DNS requests are sent to the Envoy DNS filter first, any DNS name that exists inside the mesh will always resolve to the mesh address. 
 This in practice means that DNS name present in the mesh will "shadow" equivalent names that exist outside the mesh.
@@ -159,7 +172,7 @@ Kuma DNS allocates a VIP for every service within a mesh. Then, it creates an ou
       },
       "last_updated": "2020-07-06T14:32:59.732Z"
      }
-    },
+    }
 ```
 
 ::: tip
