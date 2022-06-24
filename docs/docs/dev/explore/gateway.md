@@ -1,18 +1,18 @@
 # Gateway
 
-Kuma Gateway is responsible for routing network traffic from outside a Kuma mesh to services inside the mesh. Sometimes communication with services outside of the infrastructure is necessary. The gateway ensures that outside traffic reaches the correct service within the Kuma mesh. Also, the gateway itself can handle security for an entrance to the mesh.
+Kuma Gateway is responsible for routing network traffic from outside a Kuma mesh to services inside the mesh. Sometimes communication with services outside of the infrastructure is necessary. The gateway ensures that outside traffic reaches the correct service within the Kuma mesh. Also, the gateway itself can handle security at an entrance to the mesh.
 
 Kuma Gateway deploys as a Kuma [`Dataplane`](../explore/dpp.md), i.e. an instance of the `kuma-dp` process.
 Like all Kuma `Dataplanes`, the Kuma Gateway `Dataplane` manages an Envoy proxy process that does the actual network traffic proxying.
 
 We can distinguish two types of gateways:
 
-- delegated: allow users to use any existing gateway like [Kong](https://github.com/Kong/kong).
+- delegated: allows users to use any existing gateway like [Kong](https://github.com/Kong/kong).
 - builtin: configures the data plane proxy to expose external listeners to drive traffic inside the mesh.
 
 ::: warning
 Gateways exist within a mesh.
-If you have multiple meshes, each mesh requires its own gateways. You can easily connect your meshes together using [cross-mesh gateways](#cross-mesh).
+If you have multiple meshes, each mesh requires its own gateway. You can easily connect your meshes together using [cross-mesh gateways](#cross-mesh).
 :::
 
 Below visualization shows the difference between delegated and builtin gateways:
@@ -33,7 +33,7 @@ The blue lines represent traffic not managed by Kuma, which needs to be configur
 
 The `Dataplane` entity can operate in `gateway` mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
 
-The `gateway` mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic. When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy. In this case, we want inbound traffic to go directly to the gateway. Otherwise, clients require certificates that are generated dynamically for communication between services within the mesh. The gateway itself should handle security at an entrance to the mesh.
+The `gateway` mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic. When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy. In the `gateway` mode, we want inbound traffic to go directly to the gateway, otherwise, clients require certificates that are generated dynamically for communication between services within the mesh. The gateway itself should handle security at an entrance to the mesh.
 
 ### Usage
 
