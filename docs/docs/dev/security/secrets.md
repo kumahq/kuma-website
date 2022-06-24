@@ -1,16 +1,17 @@
 # Secrets
 
 The `Secret` resource implements the functionality of storing sensitive information.
-Sensitive information is anything a user considers a secret, e.g.:
+Sensitive information is anything a user considers non-public, e.g.:
 * TLS keys
 * tokens
 * passwords
-[Policies](../policies/introduction.md) use secrets at runtime.
-This functionality is being implemented by introducing a `Secret` resource.
+
 Secrets belong to a specific [`Mesh`](../../policies/mesh) resource, and cannot be shared across different `Meshes`.
+[Policies](../policies/introduction.md) use secrets at runtime.
 
 :::tip
-Kuma leverages `Secret` resources internally for certain operations, for example when storing auto-generated certificates and keys when Mutual TLS is enabled.
+Kuma leverages `Secret` resources internally for certain operations,
+for example when storing auto-generated certificates and keys when Mutual TLS is enabled.
 :::
 
 :::: tabs :options="{ useUrlFragment: false }"
