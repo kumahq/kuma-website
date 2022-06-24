@@ -1,27 +1,25 @@
 # Gateway
 
-Kuma Gateway is a Kuma component that routes network traffic from outside a Kuma mesh to services inside the mesh.
-The gateway can be thought of as having one foot outside the mesh to receive traffic and one foot inside the mesh to route this external traffic to services inside the mesh.
+Kuma Gateway is responsible for routing network traffic from outside a Kuma mesh to services inside the mesh. Sometimes communication with services outside of the infrastructure is necessary. The gateway ensures that outside traffic reaches the correct service within the Kuma mesh.
 
 When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy.
-Gateway should be deployed as any other service within the mesh. However, in this case we want inbound traffic to go directly to the gateway,
-otherwise clients would have to be provided with certificates that are generated dynamically for communication between services within the mesh.
-Security for an entrance to the mesh should be handled by Gateway itself.
+The gateway should deploy as any other service within the mesh. However, in this case, we want inbound traffic to go directly to the gateway. Otherwise, clients require certificates that are generated dynamically for communication between services within the mesh.
+The gateway itself should handle security for an entrance to the mesh.
 
-Kuma Gateway is deployed as a Kuma `Dataplane`, i.e. an instance of the `kuma-dp` process.
+Kuma Gateway deploys as a Kuma `Dataplane`, i.e. an instance of the `kuma-dp` process.
 Like all Kuma `Dataplanes`, the Kuma Gateway `Dataplane` manages an Envoy proxy process that does the actual network traffic proxying.
 
-There exists two types of gateways:
+You can distinguish two types of gateways:
 
-- Delegated: Which enables users to use any existing gateway like [Kong](https://github.com/Kong/kong).
-- Builtin: configures the data plane proxy to expose external listeners to drive traffic inside the mesh.
+- delegated: allow users to use any existing gateway like [Kong](https://github.com/Kong/kong).
+- builtin: configures the data plane proxy to expose external listeners to drive traffic inside the mesh.
 
 ::: warning
 Gateways exist within a mesh.
-If you have multiple meshes, each mesh will need its own gateways. You can easily connect your meshes together using [cross-mesh gateways](#cross-mesh).
+If you have multiple meshes, each mesh requires its own gateways. You can easily connect your meshes together using [cross-mesh gateways](#cross-mesh).
 :::
 
-Here's a visualization that shows how delegated and builtin gateways are different:
+Below visualization shows the difference between delegated and builtin gateways:
 
 Builtin with Kong Gateway to handle the inbound traffic:
 <center>
@@ -33,7 +31,7 @@ Delegated with Kong Gateway:
 <img src="/images/diagrams/delegated-gateway.webp" alt="" />
 </center>
 
-The blue lines represent traffic not managed by Kuma and that needs to be configured in your Gateway.
+The blue lines represent traffic not managed by Kuma, which needs to be configured in the Gateway.
 
 ## Delegated
 
