@@ -3,37 +3,36 @@
 A **data plane proxy (DPP)** is the part of Kuma that runs next to each workload that is a member of the mesh.
 A DPP is composed of the following components:
 
-- a `Dataplane` entity which defines the configuration of the data plane proxy.
-- a `kuma-dp` binary that runs on each instance that is part of the mesh. This binary spawns the following subprocesses:
-  - `envoy` which will receive configuration from the control-plane to manage traffic correctly 
-  - `core-dns` which will help resolve Kuma specific DNS entries
+- a `Dataplane` entity defines the configuration of the DPP
+- a `kuma-dp` binary runs on each instance that is part of the mesh. This binary spawns the following subprocesses:
+  - `Envoy` receives configuration from the control-plane to manage traffic correctly 
+  - `core-dns` resolves Kuma specific DNS entries
 
 ::: tip
-Data plane proxies are also often called sidecars.
+Data plane proxies are also called sidecars.
 :::
 
-Since we have one replica of `kuma-dp` for every replica of every service, the number of DPP running quickly adds up. 
-For example, if we have 6 replicas of a "Redis" service, then we must have one instance of `kuma-dp` running alongside each replica of the service, therefore 6 replicas of `kuma-dp` and 6 `Dataplane` entities as well.
+We have one instance of `kuma-dp` for every instance of every service.
 
 <center>
 <img src="/images/docs/0.4.0/diagram-11.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-## Concepts: Inbounds, Outbounds, Tags and Services
+## Concepts
 
 ### Inbound
 
-Inbounds are defined in the `Dataplane` entity and is a combination of a port and a set of tags.
+Inbounds are defined in the `Dataplane` entity and are a combination of a port and a set of tags.
 The port is the local port that the workload binds to for this inbound.
 
 Most of the time a DPP exposes a single inbound. When a workload exposes multiple ports, multiple inbounds can be defined.
 
 ### Tags
-Tags are a set of key-values that are defined for each DPP inbound. These tags serve these purposes:
+Tags are a set of key-value pairs (.e.g `version:v2`) that are defined for each DPP inbound. These tags serve the following purposes:
 
 - Define which service this DPP inbound is part of.
 - Add some metadata on the nature of the service being exposed. 
-- Be able to select subsets of dataplanes using these tags.
+- Allow subsets of data planes to be selected by these tags.
 
 Some tags are reserved to Kuma are prefixed with `kuma.io` like:
 
