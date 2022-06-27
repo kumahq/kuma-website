@@ -21,7 +21,7 @@
 DIR="$( cd "$( dirname "$0" )" >/dev/null 2>&1 && pwd )"
 
 : "${VERSION:=}"
-: "${ARCH:=amd64}"
+: "${ARCH:=}"
 : "${PRODUCT_NAME:=Kuma}"
 : "${LATEST_VERSION:=https://kuma.io/latest_version}"
 : "${REPO_PREFIX:=kuma}"
