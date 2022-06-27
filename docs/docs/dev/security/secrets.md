@@ -1,6 +1,6 @@
 # Secrets
 
-The `Secret` resource implements the functionality of storing sensitive information.
+The `Secret` resource enables users to store sensitive data.
 Sensitive information is anything a user considers non-public, e.g.:
 * TLS keys
 * tokens
