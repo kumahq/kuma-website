@@ -119,7 +119,7 @@ ${VERSION}
 EOF
 
   # handle the kumactl archive
-  if [ "$OS" = "Linux" ]; then
+  if [ "$OS" = "Linux" ] && [ "$PRODUCT_NAME" = "Kuma" ]; then
       if  [ "$major" -ge "1" ] && [ "$minor" -ge "7" ]; then
           printf "INFO\tWe only compile %s for your Linux distribution.\n" "$CTL_NAME"
 
