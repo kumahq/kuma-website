@@ -16,14 +16,14 @@ A user token is a signed JWT token that contains
 ### Groups
 
 A user can be a part of many groups. Kuma adds two groups to a user automatically:
-* Every authenticated user is a part of `mesh-system:authenticated`.
-* Every user that doesn't provide authentication data is a part of `mesh-system:unauthenticated`.
+* authenticated users are a part of `mesh-system:authenticated`.
+* unauthenticated users are part of `mesh-system:unauthenticated`.
 
 ### Admin user token
 
-Kuma creates an admin user token when the control plane starts.
+Kuma creates an admin user token on the first start of the control plane.
 The admin user token is a user token issued for user `mesh-system:admin` that belongs to `mesh-system:admin` group.
-This group is [by default authorized](./api-access-control.md) to execute all administrative operations.
+This group is [authorized by default](./api-access-control.md) to execute all administrative operations.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -36,7 +36,7 @@ This group is [by default authorized](./api-access-control.md) to execute all ad
 
 2. Expose Kuma CP to be accessible from your machine
 
-   To access Kuma CP via kumactl, you need to expose Kuma CP outside of a cluster. You can do this in several ways:
+   To access Kuma CP via kumactl, you need to expose Kuma CP outside of a cluster in one of the following ways:
    * Port-forward port 5681
    * Expose port 5681 and protect it by TLS or just expose 5682 with builtin TLS of `kuma-control-plane` service via a load balancer.
    * Expose port 5681 of `kuma-control-plane` via `Ingress` (for example Kong Ingress Controller) and protect it with TLS
@@ -245,7 +245,7 @@ If the signing key is compromised, you must rotate it including all the tokens t
 2. Regenerate user tokens
 
    Create new user tokens. Tokens are always signed by the signing key with the highest serial number.
-   Now tokens signed by either new or old signing key are valid.
+   Starting from now, tokens signed by either new or old signing key are valid.
 
 3. Remove the old signing key
    :::: tabs :options="{ useUrlFragment: false }"
@@ -293,7 +293,10 @@ kumactl delete global-secret admin-user-token
 ## Admin client certificates
 
 This section describes the alternative way of authenticating to API Server.
+
+::: warning
 Admin client certificates are deprecated. If you are using it, please migrate to the user token in preceding section.
+:::
 
 To use admin client certificates, set `KUMA_API_SERVER_AUTHN_TYPE` to `adminClientCerts`.
 
@@ -340,7 +343,7 @@ All users that provide client certificate are authenticated as a user with the n
    mkdir /opt/client-certs
    cp /tmp/tls.crt /opt/client-certs/client1.pem 
    ```
-   All client certificates must end with `.pem` extension. Remember to only put provide certificates without keys.
+   All client certificates must end with `.pem` extension. Remember to only provide certificates without keys.
    
    Configure control plane by pointing to this directory
    ```sh
@@ -367,4 +370,4 @@ All users that provide client certificate are authenticated as a user with the n
 In a multizone setup, users execute a majority of actions on the global control plane.
 However, some actions like generating dataplane tokens are available on the zone control plane.
 The global control plane doesn't propagate authentication credentials to the zone control plane.
-You can set up consistent user tokens across the whole setup can by manually synchronizing signing key from global to zone control planes. 
+You can set up consistent user tokens across the whole setup by manually copying signing key from global to zone control planes. 
