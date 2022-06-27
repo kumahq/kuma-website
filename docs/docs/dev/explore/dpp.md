@@ -33,7 +33,7 @@ Most of the time a DPP exposes a single inbound. When a workload exposes multipl
 Tags are a set of key-value pairs (.e.g `version=v2`) that are defined for each DPP inbound. These tags serve the following purposes:
 
 - specifying the service this DPP inbound is part of
-- adding some metadata about the exposed service
+- adding metadata about the exposed service
 - allowing subsets of DPPs to be selected by these tags
 
 Tags prefixed with `kuma.io` are reserved:
