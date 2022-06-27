@@ -47,18 +47,21 @@ if ! type "gzip" > /dev/null 2>&1; then
   exit 1;
 fi
 
-DISTRO=""
 OS=$(uname -s)
-if [ "$OS" = "Linux" ]; then
-  DISTRO=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-  if [ "$DISTRO" = "amzn" ]; then
-    DISTRO="centos"
+
+if [ -z "$DISTRO" ]; then
+  DISTRO=""
+  if [ "$OS" = "Linux" ]; then
+    DISTRO=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+    if [ "$DISTRO" = "amzn" ]; then
+      DISTRO="centos"
+    fi
+  elif [ "$OS" = "Darwin" ]; then
+    DISTRO="darwin"
+  else
+    printf "ERROR\tOperating system %s not supported by %s\n" "$OS" "$PRODUCT_NAME"
+    exit 1
   fi
-elif [ "$OS" = "Darwin" ]; then
-  DISTRO="darwin"
-else
-  printf "ERROR\tOperating system %s not supported by %s\n" "$OS" "$PRODUCT_NAME"
-  exit 1
 fi
 
 if [ -z "$DISTRO" ]; then
