@@ -253,7 +253,7 @@ You can add annotations to your pods to enable the Datadog agent to scrape metri
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-Please refer to the dedicated [documentation](https://docs.datadoghq.com/agent/kubernetes/prometheus/#metric-collection-with-prometheus-annotations).
+Please refer to the dedicated [documentation](https://docs.datadoghq.com/containers/kubernetes/prometheus/?tabs=helm#metric-collection-with-prometheus-annotations).
 :::
 ::: tab "Universal"
 You need to setup your agent with an [openmetrics.d/conf.yaml](https://docs.datadoghq.com/integrations/guide/prometheus-host-collection/#pagetitle).
