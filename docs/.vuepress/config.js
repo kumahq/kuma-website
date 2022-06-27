@@ -340,6 +340,7 @@ Sitemap: https://kuma.io/sitemap.xml
             `/docs/latest/documentation/gateway /docs/${versions.latestMinor}/explore/gateway 301`,
             `/docs/latest/deployments /docs/:version/${versions.latestMinor}/deployments 301`,
             `/docs/latest/documentation/deployments /docs/${versions.latestMinor}/introduction/deployments 301`,
+            `/docs/latest/explore/backends /docs/${versions.latestMinor}/documentation/configuration 301`,
             `/install /install/${versions.latestMinor} 301`,
             `/docs/latest/* /docs/${versions.latestMinor}/:splat 301`,
             `/install/latest/* /install/${versions.latestMinor}/:splat 301`,
