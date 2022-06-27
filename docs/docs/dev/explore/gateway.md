@@ -1,14 +1,14 @@
 # Gateway
 
-Kuma Gateway is responsible for routing network traffic from outside a Kuma mesh to services inside the mesh. Sometimes communication with services outside of the infrastructure is necessary. The gateway ensures that outside traffic reaches the correct service within the Kuma mesh. Also, the gateway itself can handle security at an entrance to the mesh.
+When services need to receive traffic from the outside (commonly called North/South) the Kuma Gateway enables routing network traffic from outside a Kuma mesh to services inside the mesh. The gateway is also responsible for security at the entrance of the Mesh.
 
 Kuma Gateway deploys as a Kuma [`Dataplane`](../explore/dpp.md), i.e. an instance of the `kuma-dp` process.
 Like all Kuma `Dataplanes`, the Kuma Gateway `Dataplane` manages an Envoy proxy process that does the actual network traffic proxying.
 
 You can distinguish two types of gateways:
 
-- delegated: allows users to use any existing gateway like [Kong](https://github.com/Kong/kong).
-- builtin: configures the data plane proxy to expose external listeners to drive traffic inside the mesh.
+- delegated: Allows users to use any existing gateway like [Kong](https://github.com/Kong/kong).
+- builtin: Configures the data plane proxy to expose external listeners to drive traffic inside the mesh.
 
 ::: warning
 Gateways exist within a mesh.
@@ -104,7 +104,7 @@ spec:
 " | kubectl apply -f -
 ```
 
-You can access your ingress with `curl -i $PROXY_IP/foo` where `$PROXY_IP` you can retrieve from the service that exposes Kong outside your cluster.
+You can access your ingress with `curl -i $PROXY_IP/foo` where `$PROXY_IP` is retrieved from the service that exposes Kong outside your cluster.
 
 You can check that the sidecar is running by checking the number of containers in each pod:
 
