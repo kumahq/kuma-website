@@ -29,7 +29,7 @@ Note, this CA is not the same CA for service-to-service communication.
 
 ::: tip
 If overridden, Kuma is using the certificates to protect not only [data plane proxy to control plane](#data-plane-proxy-to-control-plane-communication) traffic
-but also [user to control plane traffic](#user-to-control-plane-communication) 
+but also [user to control plane](#user-to-control-plane-communication) traffic
 and [control plane to control plane](#control-plane-to-control-plane-multizone) traffic.
 :::
 
