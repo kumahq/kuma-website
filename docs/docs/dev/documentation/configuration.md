@@ -52,7 +52,7 @@ If you have a lot of configuration you can just write them all in a YAML file an
 ```shell
 helm install kuma kuma/kuma --set-file controlPlace.config=cp-conf.yaml
 ```
-The value of the configmap `kuma-control plane-config` is now the content of `cp-conf.yaml`.
+The value of the configmap `kuma-control-plane-config` is now the content of `cp-conf.yaml`.
 
 :::
 ::: tab "Universal"
@@ -162,13 +162,13 @@ The CA used to verify the server's certificate is configured with the `KUMA_STOR
 
 After configuring the above security settings in Kuma, we also have to configure Postgres' [`pg_hba.conf`](https://www.postgresql.org/docs/9.1/auth-pg-hba-conf.html) file to restrict unsecured connections.
 
-Here is an example configuration that will allow only TLS connections and will require username and password:
+Here is an example configuration that allows only TLS connections and requires a username and password:
 ```
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 hostssl all             all             0.0.0.0/0               password
 ```
 
-We can also provide a client key and certificate for mTLS using the `KUMA_STORE_POSTGRES_TLS_CERT_PATH` and `KUMA_STORE_POSTGRES_TLS_KEY_PATH` variables.
+You can also provide a client key and certificate for mTLS using the `KUMA_STORE_POSTGRES_TLS_CERT_PATH` and `KUMA_STORE_POSTGRES_TLS_KEY_PATH` variables.
 This pair can be used in conjunction with the `cert` auth-method described [in the Postgres documentation](https://www.postgresql.org/docs/9.1/auth-pg-hba-conf.html).
 
 #### Migrations
@@ -186,5 +186,5 @@ KUMA_STORE_TYPE=postgres \
   kuma-cp migrate up
 ```
 
-Kuma CP at start will check if the current DB schema is compatible with the version of Kuma you are trying to run.
+Kuma CP at the start checks if the current DB schema is compatible with the version of Kuma you are trying to run.
 Information about the latest migration is stored in `schema_migration` table.
