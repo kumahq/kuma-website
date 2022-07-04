@@ -57,7 +57,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run installer.sh
         run: sh docs/.vuepress/public/installer.sh
-             sh ./kuma-*/bin/kumactl version | grep am64 &> /dev/null && exit $?
+             ./kuma-*/bin/kumactl version | grep "am64" &> /dev/null
+             exit $?
   installer-sh-arm64:
     runs-on: ubuntu-latest
     name: Test installer.sh on arm64
@@ -78,4 +79,5 @@ jobs:
           run: |
             apt-get update && apt-get install -y curl tar gzip
             sh docs/.vuepress/public/installer.sh
-            sh ./kuma-*/bin/kumactl version | grep ar64 &> /dev/null && exit $?
+            ./kuma-*/bin/kumactl version | grep "ar64" &> /dev/null
+            exit $?
