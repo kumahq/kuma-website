@@ -59,7 +59,7 @@ jobs:
         run: sh docs/.vuepress/public/installer.sh
   installer-sh-arm64:
     runs-on: ubuntu-latest
-    name: Build on ubuntu-latest
+    name: Test installer.sh on arm64
     steps:
       - uses: actions/checkout@v3
       - uses: uraimo/run-on-arch-action@v2
