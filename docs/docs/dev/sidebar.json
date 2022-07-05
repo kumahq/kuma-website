@@ -55,7 +55,6 @@
       "explore/gateway",
       "explore/zone-ingress",
       "explore/zoneegress",
-      "explore/backends",
       "explore/cli",
       "explore/gui",
       "explore/observability",
