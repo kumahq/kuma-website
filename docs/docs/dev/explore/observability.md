@@ -1,11 +1,5 @@
 # Observability
 
-Kuma provides integration to access logs, metrics and traces using the following policies:
-
-- [TrafficMetrics](../policies/traffic-metrics.md) for telemetry
-- [TrafficTrace](../policies/traffic-trace.md) for traces
-- [TrafficLog](../policies/traffic-log.md) for logs
-
 This page will describe how to configure different observability tools to work with Kuma.
 
 ## Demo setup
@@ -17,7 +11,13 @@ This page will describe how to configure different observability tools to work w
 - [loki](https://grafana.com/oss/loki/) for ingesting and storing logs
 - [grafana](https://grafana.com/oss/grafana/) for querying and displaying metrics, traces and logs
 
-This stack can be installed on Kubernetes with:
+First, remember to configure Kuma appropriately for the tools in the observability stack:
+
+- [Traffic metrics](../policies/traffic-metrics.md) for telemetry
+- [`TrafficTrace`](../policies/traffic-trace.md) for tracing
+- [`TrafficLog`](../policies/traffic-log.md) for logging
+
+On Kubernetes, the stack can be installed with:
 
 ```shell
 kumactl install observability | kubectl apply -f -
