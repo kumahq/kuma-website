@@ -6,7 +6,8 @@
 
 set -e
 if [[ $# -le 1 ]]; then
-  echo "backport a doc change from one directory to others"
+  echo "Backport a doc change from one directory to others"
+  echo "Add the changes you want to backport to the staging area"
   echo "./backport.sh <origin> <dest1> <dest2>"
   exit 1
 fi
