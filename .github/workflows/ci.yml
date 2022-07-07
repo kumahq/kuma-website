@@ -57,3 +57,27 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run installer.sh
         run: sh docs/.vuepress/public/installer.sh
+
+  vale:
+    name: Lint docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get changed files
+        id: changed-files
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const files = await github.paginate(
+              github.rest.pulls.listFiles, {
+                ...context.repo,
+                pull_number: ${{ github.event.number }},
+              },
+            );
+            return files.filter(d => d.status != "removed").map(d => d.filename);
+      - uses: actions/checkout@v2
+      - uses: errata-ai/vale-action@v2
+        name: Run Vale
+        with:
+          files: "${{ steps.changed-files.outputs.result }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
