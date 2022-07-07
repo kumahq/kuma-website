@@ -149,5 +149,14 @@
       "reference/data-collection",
       "reference/license"
     ]
+  },
+  {
+    "title": "Contribute",
+    "collapsable": true,
+    "sidebarDepth": 1,
+    "path": "",
+    "children": [
+      "contribute/introduction"
+    ]
   }
 ]
