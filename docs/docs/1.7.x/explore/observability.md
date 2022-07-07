@@ -4,7 +4,7 @@ This page will describe how to configure different observability tools to work w
 
 ## Demo setup
 
-`kumactl` ships with a builtin observability stack which consists of: 
+`kumactl` ships with a builtin observability stack which consists of:
 
 - [prometheus](https://prometheus.io) for metrics
 - [jaeger](https://jaegertracing.io) for ingesting and storing traces
@@ -37,13 +37,13 @@ Control plane metrics are exposed on port `:5680` and available under the standa
 ## Configuring Prometheus
 
 The Kuma community has contributed a builtin service discovery to Prometheus, it is documented in the [Prometheus docs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
-This service discovery will connect to the control plane and retrieve all data planes with enabled metrics which Prometheus will scrape and retrieve metrics according to your [TrafficMetrics setup](../policies/traffic-metrics.md).  
+This service discovery will connect to the control plane and retrieve all data planes with enabled metrics which Prometheus will scrape and retrieve metrics according to your [traffic metrics setup](../policies/traffic-metrics.md).
 
 ::: tip
 There are 2 ways you can run prometheus:
 
 1. Inside the mesh (default for [`kumactl install observability`](#demo-setup)). In this case you can use mTLS to retrieve the metrics. This provides high security but will require one prometheus per mesh and might not be accessible if your mesh becomes unavailable. It will also require one Prometheus deployment per Kuma mesh.
-2. Outside the mesh. In this case you'll need to specify `skipMTLS: true` in the [TrafficMetrics](../policies/traffic-metrics.md). This is less secured but will ensure Prometheus is as available as possible. It is also easier to add to an existing setup with services in and outside the mesh.
+2. Outside the mesh. In this case you'll need to specify `skipMTLS: true` in the [traffic metrics configuration](../policies/traffic-metrics.md). This is less secured but will ensure Prometheus is as available as possible. It is also easier to add to an existing setup with services in and outside the mesh.
 
 In production, we recommend the second option as it provides better visibility when things go wrong, and it's usually acceptable for metrics to be less secure.
 :::
@@ -100,7 +100,7 @@ to a file on disk. Prometheus watches for changes to the file and updates its sc
         - /var/run/kuma-prometheus-sd/kuma.file_sd.json
     ```
 
-If you have a [TrafficMetrics policy](../policies/traffic-metrics.md) for your mesh, check the Targets page in the Prometheus dashboard.
+If you have [traffic metrics](../policies/traffic-metrics.md) enabled for your mesh, check the Targets page in the Prometheus dashboard.
 You should see a list of data plane proxies from your mesh. For example:
 
 <center>
@@ -247,7 +247,7 @@ Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_u
 
 ### Metrics
 
-Kuma exposes metrics with the [TrafficMetrics policy](../policies/traffic-metrics.md) in Prometheus format. 
+Kuma exposes metrics with [traffic metrics](../policies/traffic-metrics.md) in Prometheus format.
 
 You can add annotations to your pods to enable the Datadog agent to scrape metrics.
 
@@ -262,7 +262,7 @@ You need to setup your agent with an [openmetrics.d/conf.yaml](https://docs.data
 
 ### Tracing
 
-Checkout the 
+Checkout the
 1. Set up the [Datadog](https://docs.datadoghq.com/tracing/) agent.
 2. Set up [APM](https://docs.datadoghq.com/tracing/).
 
@@ -297,9 +297,9 @@ Once the agent is configured to ingest traces you'll need to configure a [Traffi
 
 The best way to have Kuma and Datadog work together is with [TCP ingest](https://docs.datadoghq.com/agent/logs/?tab=tcpudp#custom-log-collection).
 
-Once your agent is configured with TCP ingest you can configure a [TrafficLog](../policies/traffic-log.md) for data plane proxies to send logs. 
+Once your agent is configured with TCP ingest you can configure a [TrafficLog](../policies/traffic-log.md) for data plane proxies to send logs.
 
-## Observability in multi-zone 
+## Observability in multi-zone
 
 Kuma is multi-zone at heart. We explain here how to architect your telemetry stack to accommodate multi-zone.
 
@@ -316,5 +316,5 @@ Prometheus offers different ways to do this:
 ### Jaeger, Loki, Datadog and others
 
 Most telemetry components don't have a hierarchical setup like Prometheus.
-If you want to have a central view of everything you can set up the system in global and have each zone send their data to it. 
-Because zone is present in data plane tags you shouldn't be worried about metrics, logs and traces overlapping between zones. 
+If you want to have a central view of everything you can set up the system in global and have each zone send their data to it.
+Because zone is present in data plane tags you shouldn't be worried about metrics, logs and traces overlapping between zones.
