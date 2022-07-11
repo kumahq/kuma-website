@@ -47,9 +47,9 @@ In order to start using Kuma, it's time to check out the [quickstart guide for K
 ## Argo CD
 
 Kuma requires a certificate to verify a connection between the control plane and a data plane proxy.
-Kuma HELM chart autogenerate self-signed certificate if the certificate isn't explicitly set.
+Kuma Helm chart autogenerate self-signed certificate if the certificate isn't explicitly set.
 Argo CD uses `helm template` to compare and apply Kubernetes YAMLs.
-HELM template doesn't work with chart logic to check if the certificate is present.
+Helm template doesn't work with chart logic to verify if the certificate is present.
 This results in replacing the certificate on each Argo redeployment.
 The solution to this problem is to explicitly set the certificates.
 See ["Data plane proxy to control plane communication"](../security/certificates.md#data-plane-proxy-to-control-plane-communication) to learn how to preconfigure Kuma with certificates.
