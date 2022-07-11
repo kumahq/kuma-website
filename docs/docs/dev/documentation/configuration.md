@@ -1,22 +1,26 @@
-# Configuration
+# Control Plane Configuration
 
-You configure the control plane, data plane, and CLI (kumactl) for Kuma separately. Here's what to do.
+## Modifying the configuration
 
-## Control plane
-
-You can configure the control plane:
-- With environment variables
-- With a YAML configuration file
+There are 2 ways to configure the control plane:
+- Environment variables
+- YAML configuration file
 
 Environment variables take precedence over YAML configuration.
 
-You can find all possible configuration and the default values in the [`kuma-cp` reference doc](../generated/kuma-cp.md).
+All possible configuration and their default values are in the [`kuma-cp` reference doc](../generated/kuma-cp.md).
+
+:::tip
+Environment variables usually match the yaml path by replacing `.` with `_`, capitalizing names and prefixing with KUMA.
+
+For example the yaml path: `store.postgres.port` is the environment variable: `KUMA_STORE_POSTGRES_PORT`.
+:::
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes (kumactl)"
-When using `kumactl`, you can override the configuration with the `--env-var` flag. For example, to configure the refresh interval for configuration of the data plane proxy, specify:
+When using `kumactl`, override the configuration with the `--env-var` flag. For example, to configure the refresh interval for configuration of the data plane proxy, specify:
 ```sh
-kumactl install control-plane \
+kumactl install control plane \
   --env-var KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
   --env-var KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s | kubactl apply -f -
 ```
@@ -24,7 +28,7 @@ kumactl install control-plane \
 ::: tab "Kubernetes (HELM)"
 When using `helm`, you can override the configuration with the `envVars` field. For example, to configure the refresh interval for configuration with the data plane proxy, specify:
 ```sh
-helm install --version 0.7.1 \
+helm install \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s \
   kuma kuma/kuma
@@ -40,11 +44,19 @@ controlPlane:
 and then specify it in the helm install command:
 
 ```sh
-helm install --version 0.7.1 -f values.yaml kuma kuma/kuma
+helm install -f values.yaml kuma kuma/kuma
 ```
+
+If you have a lot of configuration you can just write them all in a YAML file and use:
+
+```shell
+helm install kuma kuma/kuma --set-file controlPlace.config=cp-conf.yaml
+```
+The value of the configmap `kuma-control-plane-config` is now the content of `cp-conf.yaml`.
+
 :::
 ::: tab "Universal"
-First, specify your overrides in the appropriate config file, then run `kuma-cp`:
+First, specify your configuration in the appropriate config file, then run `kuma-cp`:
 
 For example create a `kuma-cp.conf.overrides.yml` file with:
 ```yaml
@@ -73,40 +85,106 @@ If you configure `kuma-cp` with a YAML file, make sure to provide only values th
 Otherwise, upgrading Kuma might be harder, because you need to keep track of your changes when replacing this file on every upgrade.
 :::
 
-### Inspecting the configuration
+## Inspecting the configuration
 
-Configuration of `kuma-cp` is logged when `kuma-cp` runs.
+There are many ways to see your control plane configuration:
 
-You can also get the configuration with a call to the Kuma API server:
+- In the `kuma-cp` logs, the configuration is logged on startup.
+- The control plane API server has an endpoint: `http://<CP_ADDRESS>:5681/config`
+- The GUI exposes the configuration on the Diagnostic tab, accessible in the lower left corner.
+- In a multi-zone deployment, the zone control plane sends its configuration to the global control plane. This lets you inspect all configurations with `kumactl inspect zones -oyaml` or in the GUI.
+
+## Store
+
+As explained in the [Overview](../documentation/introduction.md), when Kuma (`kuma-cp`) is up and running it needs to store its state somewhere.
+Thus state includes the policies configured, the data plane proxy status, and so on.
+
+Kuma supports a few different types of store.
+You can configure the backend storage by setting the `KUMA_STORE_TYPE` environment variable when running the control plane.
+
+The following backends are available:
+
+- memory
+- kubernetes
+- postgres
+
+The configuration to set the store is the yaml path `store.type` or the environment variable `KUMA_STORE_TYPE`.
+
+### Kubernetes
+
+Kuma stores all the state in the underlying Kubernetes cluster.
+
+This is only usable if the control plane is running in Kubernetes mode. You can't manage Universal CPPs from a control plane with a Kubernetes store.
+
+### Memory
+
+Kuma stores all the state in-memory. Restarting Kuma will delete all the data, and you cannot have more than one control plane instance running.
+
+Memory is the **default** memory store when running in Universal mode and is only available in Universal mode.
+
+
+::: warning
+Because the state is not persisted this store should only be used when trying things out.
+:::
+
+### Postgres
+
+Kuma stores all the state in a PostgreSQL database. This can only be used when running in Universal mode.
+
 ```sh
-curl http://<CP_ADDRESS>:5681/config
+KUMA_STORE_TYPE=postgres \
+  KUMA_STORE_POSTGRES_HOST=localhost \
+  KUMA_STORE_POSTGRES_PORT=5432 \
+  KUMA_STORE_POSTGRES_USER=kuma-user \
+  KUMA_STORE_POSTGRES_PASSWORD=kuma-password \
+  KUMA_STORE_POSTGRES_DB_NAME=kuma \
+  kuma-cp run
 ```
-It's also displayed on the Diagnostic tab in the GUI, in the lower left corner.
 
-In a multi-zone deployment, the zone control plane sends its config to the global control plane. This lets you inspect all configurations with `kumactl inspect zones -oyaml` or in the GUI.
-
-## Data plane proxy
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-In Kubernetes, `kuma-dp` is automatically configured and injected by Kubernetes.
-The data plane proxy configuration is determined by the control plane. You can review the config details in the `runtime.kubernetes.injector.sidecarContainer` section of the `kuma-cp` config.
+:::tip
+For great availability and low maintenance cost you can use a PostgreSQL database offered by any cloud vendor.
 :::
-::: tab "Universal"
-`kuma-dp` is configured with command line arguments. Run `kuma-dp run -h` to inspect all available settings.
-:::
-::::
 
-### Inspecting the configuration
+#### TLS
 
-Configuration of `kuma-dp` is logged when `kuma-dp` runs.
+Connection between Postgres and Kuma CP should be secured with TLS.
 
-## kumactl
+The following modes are available to secure the connection to Postgres:
 
-The configuration is stored in `$HOME/.kumactl/config`, which is created when you run `kumactl` for the first time. 
-When you add a new control plane with `kumactl config control-planes add`, the config file is updated.
-To change the path of the config file, run `kumactl` with `--config-file /new-path/config`.
+* `disable`: the connection is not secured with TLS (secrets will be transmitted over network in plain text).
+* `verifyNone`: the connection is secured but neither hostname, nor by which CA the certificate is signed is checked.
+* `verifyCa`: the connection is secured and the certificate presented by the server is verified using the provided CA.
+* `verifyFull`: the connection is secured, certificate presented by the server is verified using the provided CA and server hostname must match the one in the certificate.
 
-### Inspecting the configuration
 
-You can view the current configuration using `kumactl config view`.
+The mode is configured with the `KUMA_STORE_POSTGRES_TLS_MODE` environment variable.
+The CA used to verify the server's certificate is configured with the `KUMA_STORE_POSTGRES_TLS_CA_PATH` environment variable.
+
+After configuring the above security settings in Kuma, we also have to configure Postgres' [`pg_hba.conf`](https://www.postgresql.org/docs/9.1/auth-pg-hba-conf.html) file to restrict unsecured connections.
+
+Here is an example configuration that allows only TLS connections and requires a username and password:
+```
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+hostssl all             all             0.0.0.0/0               password
+```
+
+You can also provide a client key and certificate for mTLS using the `KUMA_STORE_POSTGRES_TLS_CERT_PATH` and `KUMA_STORE_POSTGRES_TLS_KEY_PATH` variables.
+This pair can be used in conjunction with the `cert` auth-method described [in the Postgres documentation](https://www.postgresql.org/docs/9.1/auth-pg-hba-conf.html).
+
+#### Migrations
+
+To provide easy upgrades between Kuma versions there is a migration system for the Postgres DB schema.
+
+When upgrading to a new version of Kuma, run `kuma-cp migrate up` so the new schema is applied.
+```sh
+KUMA_STORE_TYPE=postgres \
+  KUMA_STORE_POSTGRES_HOST=localhost \
+  KUMA_STORE_POSTGRES_PORT=5432 \
+  KUMA_STORE_POSTGRES_USER=kuma-user \
+  KUMA_STORE_POSTGRES_PASSWORD=kuma-password \
+  KUMA_STORE_POSTGRES_DB_NAME=kuma \
+  kuma-cp migrate up
+```
+
+Kuma CP at the start checks if the current DB schema is compatible with the version of Kuma you are trying to run.
+Information about the latest migration is stored in `schema_migration` table.
