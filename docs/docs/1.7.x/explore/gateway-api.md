@@ -165,6 +165,30 @@ spec:
 Under the hood, Kuma CP copies the `Secret` to `kuma-system` namespace and converts it to [Kuma secret](../security/secrets.md).
 It tracks all the changes to the secret and deletes it if the original secret is deleted.
 
+## Customization
+
+Gateway API provides the `parametersRef` field on `GatewayClass.spec`
+to provide additional, implementation-specific configuration to `Gateways`.
+When using Gateway API with Kuma, you can refer to a `MeshGatewayConfig` resource:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: GatewayClass
+metadata:
+  name: kuma
+spec:
+  controllerName: gateways.kuma.io/controller
+  parametersRef:
+    kind: MeshGatewayConfig
+    group: kuma.io
+    name: kuma
+```
+
+This resource has the same [structure as the `MeshGatewayInstance` resource](../gateway#usage-2)
+except that the `tags` field is optional.
+With a `MeshGatewayConfig` you can then customize
+the generated `Service` and `Deployment` resources.
+
 ## Multizone
 
 Gateway API isn't supported with multizone deployments, use Kuma's `MeshGateways`/`MeshGatewayRoutes` instead.
