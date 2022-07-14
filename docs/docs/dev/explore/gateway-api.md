@@ -1,6 +1,6 @@
 # Kubernetes Gateway API
 
-Kuma supports configuring [Built-in Gateway](gateway.md) using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
+Kuma supports configuring [built-in gateway](gateway.md) using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
 ## Installation
 
@@ -8,30 +8,27 @@ Kuma supports configuring [Built-in Gateway](gateway.md) using [Kubernetes Gatew
 Gateway API support is an experimental feature that has to be explicitly enabled.
 :::
 
-1. Install Gateway API CRDs
+1. Install the Gateway API CRDs.
 
-   The Gateway API CRDs are not yet available by default in Kubernetes. You must first [install them](https://gateway-api.sigs.k8s.io/v1alpha2/guides/getting-started).
+   The Gateway API CRDs aren't available in Kubernetes by default yet. You must first [install the _experimental release_ that includes those CRDs as well as the admission webhook](https://gateway-api.sigs.k8s.io/guides/getting-started/#install-experimental-channel).
 
-2. Enable Built-in Gateway and Gateway API support
+2. Enable Gateway API support.
 
-   Gateway API can only be used when Kuma built-in Gateway is enabled.
-
-   When Kuma is installed with kumactl, use `--experimental-gatewayapi`.
-
-   When Kuma is installed with HELM, use `experimental.gatewayAPI=true` value.
+   * With `kumactl`, use the `--experimental-gatewayapi` flag.
+   * With Helm, use the `experimental.gatewayAPI=true` value.
 
 ## Usage
 
-1. Setup [counter demo](https://github.com/kumahq/kuma-counter-demo) application
+1. Install the [counter demo](https://github.com/kumahq/kuma-counter-demo).
 
    ```sh
    kumactl install demo | kubectl apply -f -
    ```
 
-2. Add GatewayClass and Gateway
+2. Add a `GatewayClass` and `Gateway`.
 
-   The Gateway resource represents the proxy instance that handles traffic for a set of Gateway API routes, and a GatewayClass describes characteristics shared by all Gateways of a given type.
-   
+   The `Gateway` resource represents the proxy instance that handles traffic for a set of Gateway API routes, and a `GatewayClass` describes characteristics shared by all `Gateways` of a given type.
+
    ```sh
    echo "apiVersion: gateway.networking.k8s.io/v1alpha2
    kind: GatewayClass
@@ -41,7 +38,7 @@ Gateway API support is an experimental feature that has to be explicitly enabled
      controllerName: gateways.kuma.io/controller
    " | kubectl apply -f -
    ```
-   
+
    ```sh
    echo "apiVersion: gateway.networking.k8s.io/v1alpha2
    kind: Gateway
@@ -56,29 +53,29 @@ Gateway API support is an experimental feature that has to be explicitly enabled
        protocol: HTTP
    " | kubectl apply -f -
    ```
-   
-   When Gateway resource is applied, Kuma automatically creates an instance of a built-in Gateway with a corresponding Service.
-   
+
+   When a user applies a `Gateway` resource, Kuma automatically creates a `Deployment` of built-in gateways with a corresponding `Service`.
+
    ```
    kubectl get pods -n kuma-demo
    NAME                          READY   STATUS    RESTARTS   AGE
    redis-59c9d56fc-6gcbc         2/2     Running   0          2m8s
    demo-app-5845d6447b-v7npw     2/2     Running   0          2m8s
    kuma-4j6wr-58998b5576-25wl6   1/1     Running   0          30s
-   
+
    kubectl get svc -n kuma-demo
    NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
    redis        ClusterIP      10.43.223.223   <none>        6379/TCP         3m27s
    demo-app     ClusterIP      10.43.216.203   <none>        5000/TCP         3m27s
    kuma-pfh4s   LoadBalancer   10.43.122.93    172.20.0.3    8080:30627/TCP   87s
    ```
-   
-   Gateway can now be accessed using `172.20.0.3:8080` address.
 
-3. Add an HTTPRoute
+   The `Gateway` is now accessible using the external address `172.20.0.3:8080`.
 
-   HTTPRoute resources contains a set of matching criteria for HTTP requests and upstream Services to route those requests to.
-   
+3. Add an `HTTPRoute`.
+
+   `HTTPRoute` resources contain a set of matching criteria for HTTP requests and upstream `Services` to route those requests to.
+
    ```sh
    echo "apiVersion: gateway.networking.k8s.io/v1alpha2
    kind: HTTPRoute
@@ -104,13 +101,13 @@ Gateway API support is an experimental feature that has to be explicitly enabled
            value: /
    " | kubectl apply -f -
    ```
-   
-   After creating an HTTPRoute, accessing `/` forwards a request to the demo app:
-   
+
+   After creating an `HTTPRoute`, accessing `/` forwards a request to the demo app:
+
    ```sh
    curl 172.20.0.3:8080/ -i
    ```
-   
+
    ```
    HTTP/1.1 200 OK
    x-powered-by: Express
@@ -123,13 +120,13 @@ Gateway API support is an experimental feature that has to be explicitly enabled
    date: Fri, 18 Mar 2022 11:33:29 GMT
    x-envoy-upstream-service-time: 2
    server: Kuma Gateway
-   
+
    <html>
    <head>
    ...
    ```
 
-## TLS Termination
+## TLS termination
 
 Gateway API supports TLS termination by using standard `kubernetes.io/tls` Secrets.
 
@@ -165,16 +162,17 @@ spec:
       - name: secret-tls
 ```
 
-Under the hood, Kuma CP copies the Secret to `kuma-system` namespace and converts it to [Kuma Secret](../security/secrets.md).
+Under the hood, Kuma CP copies the `Secret` to `kuma-system` namespace and converts it to [Kuma secret](../security/secrets.md).
 It tracks all the changes to the secret and deletes it if the original secret is deleted.
 
 ## Multizone
 
-Gateway API is not supported with multizone deployments, use Mesh Gateway CRDs instead.
+Gateway API isn't supported with multizone deployments, use Kuma's `MeshGateways`/`MeshGatewayRoutes` instead.
 
-## How does it work
+## How it works
 
-When the feature is enabled, Kubernetes Gateway API CRDs are automatically converted to Kuma Mesh Gateway CRDs.
-This is the reason why in the GUI we will see Kuma Mesh Gateway and not Kubernetes Gateway API resources. 
+Kuma includes controllers that reconcile Gateway API CRDs and convert them into the corresponding Kuma gateway CRDs.
+This is why in the GUI, Kuma `MeshGateways`/`MeshGatewayRoutes` are visible and not Kubernetes Gateway API resources.
 
-When using Kubernetes Gateway API CRDs, it is a source of truth, so do not edit Kuma Mesh Gateway CRDs directly.
+Kubernetes Gateway API resources serve as the source of truth for Kuma gateways and
+any edits to Kuma gateway resources are overwritten.
