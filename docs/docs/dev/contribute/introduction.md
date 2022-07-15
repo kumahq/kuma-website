@@ -24,7 +24,7 @@ Kuma publishes new binaries for every commit.
 There's a small script to download the latest version:
 
 ```shell
-curl https://kuma.io/cd.sh | sh -
+curl https://kuma.io/preview.sh | sh -
 ```
 
 ::: tip
