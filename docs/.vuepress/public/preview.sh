@@ -1,6 +1,11 @@
 : "${BRANCH:=master}"
 : "${REPO:=kumahq/kuma}"
 
+if [[ ! -x `which gh` ]]; then 
+  echo "You must have github's gh client installed to use this tool"
+  exit 1
+fi
+
 IFS=/ read -r owner repo << EOF
 ${REPO}
 EOF
