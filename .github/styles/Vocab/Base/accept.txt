@@ -137,6 +137,7 @@ uuid
 Valero
 validator
 validators
+Vuejs
 websocket
 websockets
 wireframe

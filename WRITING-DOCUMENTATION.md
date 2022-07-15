@@ -80,3 +80,7 @@ If you create a new policy resource for Kuma, you should rebuild the generated p
 ## Markdown features
 If you want to see the full set of markdown features VuePress offers, please refer to [the official VuePress
 markdown documentation](https://vuepress.vuejs.org/guide/markdown.html).
+
+## Vale
+
+There's a github action to use Vale. You can add words to the dictionnary in `.github/styles/Vocab`.

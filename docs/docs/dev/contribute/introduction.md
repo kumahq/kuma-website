@@ -12,11 +12,11 @@ You can edit this documentation. To do so checkout [the getting started doc](htt
 
 ## Core Code
 
-Most of Kuma is written in Go. Checkout the [contributing](https://github.com/kumahq/kuma/blob/master/CONTRIBUTING.md) documentation on how to get started.
+Most of Kuma is in Go. Checkout the [contributing](https://github.com/kumahq/kuma/blob/master/CONTRIBUTING.md) documentation on how to get started.
 
 ## GUI Code
 
-The UI is written in Vuejs and Checkout the [repo](https://github.com/kumahq/kuma-gui/blob/master/DEVELOPER.md) to see how to contribute.
+The UI is in Vuejs and Checkout the [repo](https://github.com/kumahq/kuma-gui/blob/master/DEVELOPER.md) to see how to contribute.
 
 ## Testing unreleased versions
 
@@ -34,7 +34,7 @@ curl https://kuma.io/installer.sh | VERSION=kuma-0.0.0-preview.4d3a9fd03 sh -
 ```
 :::
 
-It will output:
+It outputs:
 
 ```shell
 Getting release
@@ -46,7 +46,7 @@ INFO	Operating system: Darwin
 INFO	Downloading Kuma from: https://download.konghq.com/mesh-alpine/kuma-0.0.0-preview.4d3a9fd03-darwin-amd64.tar.gz
 ```
 
-You'll then able to run kumactl with:
+You then run kumactl with:
 
 ```shell
 ./kuma-0.0.0-preview.4d3a9fd03/bin/kumactl
