@@ -9,6 +9,7 @@ autogenerates
 aws
 Bintray
 Bitnami
+backport
 blockquote
 blockquotes
 boolean
@@ -137,6 +138,7 @@ uuid
 Valero
 validator
 validators
+Vuejs
 websocket
 websockets
 wireframe
