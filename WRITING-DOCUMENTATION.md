@@ -83,4 +83,19 @@ markdown documentation](https://vuepress.vuejs.org/guide/markdown.html).
 
 ## Vale
 
-There's a Github action to use Vale. You can add words to the dictionary in `.github/styles/Vocab`.
+Vale is the tool used for linting the Kuma docs.
+The Github action only checks changed lines in your PR.
+
+You can [install Vale](https://vale.sh/docs/vale-cli/installation/)
+and run it locally from the repository root with:
+
+```shell
+vale sync # only necessary once in order to download the styles
+vale <any files changed in your PR or ones you want to check>
+```
+
+### Spurious warnings
+
+If Vale warns or errors incorrectly,
+the usual fix is to add the word or phrase
+to the vocab list in `.github/styles/Vocab`.
