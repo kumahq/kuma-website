@@ -52,4 +52,4 @@ You then run kumactl with:
 ./kuma-0.0.0-preview.4d3a9fd03/bin/kumactl
 ```
 
-Not that the version contains the commit short-hash which will be useful if you open issues.
+Note that the version contains the commit short-hash which is useful if you open issues.
