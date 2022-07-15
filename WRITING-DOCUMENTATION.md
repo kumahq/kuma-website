@@ -16,9 +16,9 @@ If you are writing docs for a new feature you'll want to add it in the [dev](doc
 
 ## Diagrams
 
-We are moving diagrams to [Google slides](https://docs.google.com/presentation/d/1qvIKeYfcuowrHW1hV9fk9mCptt3ywroPBUYFjMj9gkk/edit#slide=id.g13d0c1ffb72_0_67).
+The team is moving diagrams to [Google slides](https://docs.google.com/presentation/d/1qvIKeYfcuowrHW1hV9fk9mCptt3ywroPBUYFjMj9gkk/edit#slide=id.g13d0c1ffb72_0_67).
 Instructions are in the first slide.
-If write access is required ask one of the maintainer.
+Ask a maintainer to get write access.
 
 ## Cutting a new release
 
