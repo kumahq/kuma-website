@@ -187,7 +187,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
 
 ### Token rotation
 
-In case you need to generate a new token for Dataplane or you are using Projected Service Account Token on Kubernetes it is possible to reload it dynamically in `kuma-dp`. To enable this behaviour you need to set `kuma-cp` configuration property `dpServer.auth.useTokenPath` to `true`. When the property is enabled `kuma-dp` should detect that the token file has changed and is going to reload the token and use it when a new connection to `kuma-cp` is established.
+If you need to generate a new token for a `Dataplane` or you are using service acccount token projection on Kubernetes, it is possible to configure dynamic token reloading. To enable this behaviour, set the `kuma-cp` configuration property `dpServer.auth.useTokenPath` to `true`. When this property is enabled, `kuma-dp` detects changes to the token file, reloads the token and uses the new value when establishing a new connection to `kuma-cp`.
 
 ### Multizone
 
