@@ -158,7 +158,7 @@ spec:
 " | kubectl apply -f -
 ```
 
-Note that since you are addressing the service by its domain name `echo.default.svc.8080.mesh`, you should always refer to port `80` (this port is only a placeholder and will be automatically replaced with the actual port of the service).
+Note that since you are addressing the service by its domain name `echo.default.svc.8080.mesh`, you should always refer to port `80` (this port is only a placeholder and is automatically replaced with the actual port of the service).
 
 If you want to expose a `Service` in one zone only (as opposed to multi-zone), you can just use the service name in the `Ingress` definition without having to create an `externalName` entry, this is what you did in your first example.
 
