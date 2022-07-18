@@ -513,7 +513,7 @@ spec:
 #### HTTP Filter
 
 Modifications that are applied on [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/http/http) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resource.
-Modifications are applied on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#http-connection-manager) in the Listener.
+Modifications are applied on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#http-connection-manager-proto) in the Listener.
 
 HTTP Filter modifications can only be applied on services [configured as HTTP](../protocol-support-in-kuma).
 
@@ -722,7 +722,7 @@ Available operations:
 Available matchers:
 * `name` - name of the VirtualHost.
 * `origin` - origin of the VirtualHost.
-* `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration).
+* `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration-proto).
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
