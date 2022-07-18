@@ -222,7 +222,7 @@ To configure your gateway Kuma has these resources:
 
 ### Usage
 
-You will set up a simple gateway that exposes a http listener and 2 routes to imaginary services: "frontend" and "api".
+Steps required to setup a simple gateway that exposes a http listener and 2 routes to imaginary services: "frontend" and "api".
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -288,7 +288,7 @@ networking:
       kuma.io/service: edge-gateway
 ```
 
-Note that this gateway has a `kuma.io/service` tag. You will use this to bind policies to configure this gateway.
+Note that this gateway has a `kuma.io/service` tag. Use this to bind policies to configure this gateway.
 
 As you're in universal you now need to run `kuma-dp`:
 
@@ -359,7 +359,7 @@ These are Kuma policies so if you are running on multi-zone they need to be crea
 See the [dedicated section](../deployments/multi-zone.md) for detailed information.
 :::
 
-You will now define your routes which will take traffic and route it either to your `api` or your `frontend` depending on the path of the http request:
+Now define your routes which take the traffic and route it either to your `api` or your `frontend` depending on the path of the http request:
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
