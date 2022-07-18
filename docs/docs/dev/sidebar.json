@@ -55,7 +55,6 @@
       "explore/gateway",
       "explore/zone-ingress",
       "explore/zoneegress",
-      "explore/backends",
       "explore/cli",
       "explore/gui",
       "explore/observability",
@@ -149,6 +148,15 @@
       "reference/kubernetes-annotations",
       "reference/data-collection",
       "reference/license"
+    ]
+  },
+  {
+    "title": "Contribute",
+    "collapsable": true,
+    "sidebarDepth": 1,
+    "path": "",
+    "children": [
+      "contribute/introduction"
     ]
   }
 ]
