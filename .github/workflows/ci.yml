@@ -52,13 +52,13 @@ jobs:
     steps:
       - name: Prepare OS
         run: |
-          (apt-get update && apt-get install curl -y) || true
-          yum install tar gzip -y || true
+          (apt-get update && apt-get install file curl -y) || true
+          yum install file tar gzip -y || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
         run: sh docs/.vuepress/public/installer.sh
       - name: Check kumactl architecture
-        run: if ./kuma-*/bin/kumactl version | grep amd64 &> /dev/null; then exit 0; else exit 1; fi
+        run: if file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null; then exit 0; else exit 1; fi
   installer-sh-arm64:
     runs-on: ubuntu-latest
     name: Test installer.sh on arm64
@@ -77,6 +77,6 @@ jobs:
 
           # Set an output parameter `uname` for use in subsequent steps
           run: |
-            apt-get update && apt-get install -y curl tar gzip
+            apt-get update && apt-get install -y file curl tar gzip
             sh docs/.vuepress/public/installer.sh
-            if ./kuma-*/bin/kumactl version | grep arm64 &> /dev/null; then exit 0; else exit 1; fi
+            if file ./kuma-*/bin/kumactl | grep aarch64 &> /dev/null; then exit 0; else exit 1; fi
