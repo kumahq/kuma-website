@@ -41,6 +41,7 @@ hardcoded
 hostname
 hostnames
 http
+HTTP
 httpbin
 HTTPie
 https
