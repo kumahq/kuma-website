@@ -172,3 +172,21 @@ If data plane proxy went down ungracefully, then the following sequence of the e
 2. After `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE` (default 72h) offline data plane proxies are deleted.
 
 To leave the mesh in a graceful way, you can use service probes just like in Direct section.
+
+## Envoy
+
+`Envoy` has a powerful [Admin API](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) for monitoring and troubleshooting.
+
+By default, `kuma-dp` starts `Envoy Admin API` on the loopback interface. The port is configured in the `Dataplane` entity: 
+
+```yaml
+type: Dataplane
+mesh: default
+name: my-dp 
+networking:
+  admin:
+    port: 1000
+# ...
+```
+
+If the `admin` section is empty or port is equal to zero then the default value for port will be taken from the [Kuma Control Plane configuration](../generated/kuma-cp.md).

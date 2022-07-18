@@ -91,3 +91,11 @@ mtls:
         rotation:
           expiration: 10h
 ```
+
+### Configuration
+
+You can view the current configuration using `kumactl config view`.
+
+The configuration is stored in `$HOME/.kumactl/config`, which is created when you run `kumactl` for the first time.
+When you add a new control plane with `kumactl config control-planes add`, the config file is updated.
+To change the path of the config file, run `kumactl` with `--config-file /new-path/config`.

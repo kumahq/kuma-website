@@ -17,7 +17,7 @@ Global control plane follows the above compatibility rules with zone control pla
 * You can connect zone control plane `1.4.x` to global control plane `1.6.x`.
 * You cannot connect zone control plane `1.3.x` to global control plane `1.6.x`. It may cause undefined behavior.
 
-Despite control-planes within a zone not connecting to each other; they share a common [store](../explore/backends.md) (usually Kubernetes or Postgres), compatibility of the storage layer follows the above rules too:
+Despite control-planes within a zone not connecting to each other; they share a common [store](../../documentation/configuration#store) (usually Kubernetes or Postgres), compatibility of the storage layer follows the above rules too:
 * You can read any data written with a control-plane `1.4.x` with a control-plane version `1.6.x`.
 * You can read any data written with a control-plane `1.6.x` with a control-plane version `1.4.x`.
 * You cannot read data written with a control-plane `1.3.x` with a control-plane version `1.6.x` or higher. It may cause undefined behavior.
