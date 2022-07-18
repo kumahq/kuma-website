@@ -2,7 +2,7 @@
 
 When services need to receive traffic from the outside (commonly called North/South) the Kuma Gateway enables routing network traffic from outside a Kuma mesh to services inside the mesh. The gateway is also responsible for security at the entrance of the Mesh.
 
-Kuma Gateway deploys as a Kuma [`Dataplane`](../explore/dpp.md), i.e. an instance of the `kuma-dp` process.
+Kuma Gateway deploys as a Kuma [`Dataplane`](../explore/dpp.md), that is an instance of the `kuma-dp` process.
 Like all Kuma `Dataplanes`, the Kuma Gateway `Dataplane` manages an Envoy proxy process that does the actual network traffic proxying.
 
 You can distinguish two types of gateways:
@@ -41,7 +41,7 @@ The `gateway` mode lets you skip exposing inbound listeners so it won't be inter
 ::: tab "Kubernetes"
 
 Kuma supports most of the ingress controllers. However, the recommended gateway in Kubernetes is [Kong](https://docs.konghq.com/gateway). You can use [Kong ingress controller for Kubernetes](https://docs.konghq.com/kubernetes-ingress-controller/) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime.
-Most ingress controllers require an annotation [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/references/annotations/#ingresskubernetesioservice-upstream) on every Kubernetes `Service` to work with Kuma. Kuma automatically injects the annotation for every `Service` in a namespace in a mesh i.e. has `kuma.io/sidecar-injection: enabled` label.
+Most ingress controllers require an annotation [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/references/annotations/#ingresskubernetesioservice-upstream) on every Kubernetes `Service` to work with Kuma. Kuma automatically injects the annotation for every `Service` in a namespace in a mesh that has `kuma.io/sidecar-injection: enabled` label.
 
 To use the delegated gateway feature, mark your API Gateway's Pod with the `kuma.io/gateway: enabled` annotation. Control plane automatically generates `Dataplane` objects.
 
@@ -117,9 +117,9 @@ kong-1645186528-kong-648b9596c7-f2xfv   3/3     Running   2          40m
 
 #### Example Gateway in Multi-Zone
 
-In the previous example, you setup an `echo` (that is running on port `80`) and deployed in the `default` namespace.
+In the previous example, you setup an `echo` (that's running on port `80`) and deployed in the `default` namespace.
 
-You will now make sure that this service works correctly with multi-zone. In order to do so, the following `Service` needs to be created manually:
+Now make sure that this service works correctly with multi-zone. In order to do so, the following `Service` needs to be created manually:
 
 ```shell
 echo "
@@ -290,7 +290,7 @@ networking:
 
 Note that this gateway has a `kuma.io/service` tag. You will use this to bind policies to configure this gateway.
 
-As you're in universal you now need to run kuma-dp:
+As you're in universal you now need to run `kuma-dp`:
 
 ```shell
 kuma-dp run \
