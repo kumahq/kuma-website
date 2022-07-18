@@ -58,7 +58,7 @@ jobs:
       - name: Run installer.sh
         run: sh docs/.vuepress/public/installer.sh
       - name: Check kumactl architecture
-        run: if file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null; then exit 0; else exit 1; fi
+        run: file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
   installer-sh-arm64:
     runs-on: ubuntu-latest
     name: Test installer.sh on arm64
@@ -79,7 +79,7 @@ jobs:
           run: |
             apt-get update && apt-get install -y file curl tar gzip
             sh docs/.vuepress/public/installer.sh
-            if file ./kuma-*/bin/kumactl | grep aarch64 &> /dev/null; then exit 0; else exit 1; fi
+            file ./kuma-*/bin/kumactl | grep aarch64 &> /dev/null
 
   vale:
     name: Lint docs
