@@ -6,7 +6,11 @@ Kuma supports running your service mesh in multiple zones. It is even possible t
 The only condition is that all the data planes running within the zone must be able to connect to the other data planes in this same zone.
 
 <center>
-<img src="/images/docs/0.6.0/distributed-diagram.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/diagrams/gslides/kuma_multizone.svg" alt="Kuma service mesh multi zone deployment without zone egress" style="padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+Or without the optional zone egress:
+<center>
+<img src="/images/diagrams/gslides/kuma_multizone_without_egress.svg" alt="Kuma service mesh multi zone deployment with zone egress" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ### How it works

@@ -42,6 +42,7 @@ hardcoded
 hostname
 hostnames
 http
+HTTP
 httpbin
 HTTPie
 https
@@ -150,3 +151,8 @@ yaml
 yml
 Zipkin
 zsh
+API
+JWT
+Kong
+Multizone
+multizone

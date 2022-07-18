@@ -14,6 +14,12 @@ There is a special folder for the future non patch version of Kuma which is call
 
 If you are writing docs for a new feature you'll want to add it in the [dev](docs/docs/dev) folder.
 
+## Diagrams
+
+The team is moving diagrams to [Google slides](https://docs.google.com/presentation/d/1qvIKeYfcuowrHW1hV9fk9mCptt3ywroPBUYFjMj9gkk/edit#slide=id.g13d0c1ffb72_0_67).
+Instructions are in the first slide.
+Ask a maintainer to get write access.
+
 ## Cutting a new release
 
 To cut the dev release copy paste the `dev` folder and rename it to the correct version:
@@ -83,4 +89,19 @@ markdown documentation](https://vuepress.vuejs.org/guide/markdown.html).
 
 ## Vale
 
-There's a Github action to use Vale. You can add words to the dictionary in `.github/styles/Vocab`.
+Vale is the tool used for linting the Kuma docs.
+The Github action only checks changed lines in your PR.
+
+You can [install Vale](https://vale.sh/docs/vale-cli/installation/)
+and run it locally from the repository root with:
+
+```shell
+vale sync # only necessary once in order to download the styles
+vale <any files changed in your PR or ones you want to check>
+```
+
+### Spurious warnings
+
+If Vale warns or errors incorrectly,
+the usual fix is to add the word or phrase
+to the vocab list in `.github/styles/Vocab`.
