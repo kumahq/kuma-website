@@ -1,8 +1,8 @@
 # Gateway
 
-When services need to receive traffic from the outside (commonly called North/South) the Kuma Gateway enables routing network traffic from outside a Kuma mesh to services inside the mesh. The gateway is also responsible for security at the entrance of the Mesh.
+When services need to receive traffic from the outside, commonly called North/South, the Kuma Gateway enables routing network traffic from outside a Kuma mesh to services inside the mesh. The gateway is also responsible for security at the entrance of the Mesh.
 
-Kuma Gateway deploys as a Kuma [`Dataplane`](../explore/dpp.md), that is an instance of the `kuma-dp` process.
+Kuma Gateway deploys as a Kuma [`Dataplane`](../explore/dpp.md), that's an instance of the `kuma-dp` process.
 Like all Kuma `Dataplanes`, the Kuma Gateway `Dataplane` manages an Envoy proxy process that does the actual network traffic proxying.
 
 You can distinguish two types of gateways:
@@ -33,7 +33,7 @@ The blue lines represent traffic not managed by Kuma, which needs to be configur
 
 The `Dataplane` entity can operate in `gateway` mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
 
-The `gateway` mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic. When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy. In the `gateway` mode, you want inbound traffic to go directly to the gateway, otherwise, clients require certificates that are generated dynamically for communication between services within the mesh. The gateway itself should handle security at an entrance to the mesh.
+The `gateway` mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic. When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy. In the `gateway` mode, you want inbound traffic to go directly to the gateway, otherwise, clients require dynamically generated certificates for communication between services within the mesh. The gateway itself should handle security at an entrance to the mesh.
 
 ### Usage
 
@@ -104,7 +104,7 @@ spec:
 " | kubectl apply -f -
 ```
 
-You can access your ingress with `curl -i $PROXY_IP/foo` where `$PROXY_IP` is retrieved from the service that exposes Kong outside your cluster.
+You can access your ingress with `curl -i $PROXY_IP/foo` where `$PROXY_IP` you can retrieve from the service that exposes Kong outside your cluster.
 
 You can check that the sidecar is running by checking the number of containers in each pod:
 
@@ -117,9 +117,9 @@ kong-1645186528-kong-648b9596c7-f2xfv   3/3     Running   2          40m
 
 #### Example Gateway in Multi-Zone
 
-In the previous example, you setup an `echo` (that's running on port `80`) and deployed in the `default` namespace.
+In the previous example, you setup an `echo`, that's running on port `80`, and deployed in the `default` namespace.
 
-Now make sure that this service works correctly with multi-zone. In order to do so, the following `Service` needs to be created manually:
+Now make sure that this service works correctly with multi-zone. In order to do so, create `Service` manually:
 
 ```shell
 echo "
@@ -158,9 +158,9 @@ spec:
 " | kubectl apply -f -
 ```
 
-Note that since you are addressing the service by its domain name `echo.default.svc.8080.mesh`, you should always refer to port `80` (this port is only a placeholder and is automatically replaced with the actual port of the service).
+Note that since you are addressing the service by its domain name `echo.default.svc.8080.mesh`, you should always refer to port `80`. This port is only a placeholder and is automatically replaced with the actual port of the service.
 
-If you want to expose a `Service` in one zone only (as opposed to multi-zone), you can just use the service name in the `Ingress` definition without having to create an `externalName` entry, this is what you did in your first example.
+If you want to expose a `Service` in one zone only, as opposed to multi-zone, you can just use the service name in the `Ingress` definition without having to create an `externalName` entry, this is what you did in your first example.
 
 For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller), please follow this [demo application guide](https://github.com/kumahq/kuma-demo/tree/master/kubernetes).
 
