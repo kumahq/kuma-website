@@ -27,7 +27,7 @@ Delegated with Kong Gateway:
 <img src="/images/diagrams/delegated-gateway.webp" alt="" />
 </center>
 
-The blue lines represent traffic not managed by Kuma, which needs to be configured in the Gateway.
+The blue lines represent traffic not managed by Kuma, which needs configuring in the Gateway.
 
 ## Delegated
 
