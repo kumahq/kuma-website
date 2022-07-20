@@ -722,7 +722,7 @@ Available operations:
 Available matchers:
 * `name` - name of the VirtualHost.
 * `origin` - origin of the VirtualHost.
-* `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration).
+* `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration-proto).
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
