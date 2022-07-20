@@ -3,21 +3,43 @@
 ## About
 
 Kuma supports running your service mesh in multiple zones. It is even possible to run with a mix of Kubernetes and Universal zones. Your mesh environment can include multiple isolated service meshes (multi-tenancy), and workloads running in different regions, on different clouds, or in different datacenters. A zone can be a Kubernetes cluster, a VPC, or any other deployment you need to include in the same distributed mesh environment.
+The only condition is that all the data planes running within the zone must be able to connect to the other data planes in this same zone.
 
 <center>
-<img src="/images/docs/0.6.0/distributed-diagram.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/diagrams/gslides/kuma_multizone.svg" alt="Kuma service mesh multi zone deployment without zone egress" style="padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+Or without the optional zone egress:
+<center>
+<img src="/images/diagrams/gslides/kuma_multizone_without_egress.svg" alt="Kuma service mesh multi zone deployment with zone egress" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ### How it works
 
-Kuma manages service connectivity -- establishing and maintaining connections across zones in the mesh -- with the zone ingress and with a DNS resolver.
+In Kuma, zones are abstracted away, meaning that your data plane proxies will find services anywhere they run.
+Therefore, you can make a service multi-zone by having data planes using the same `kuma.io/service` run in different zones, this can help you achieve automatic fail-over of services when a specific zone fails.
 
-The DNS resolver is embedded in each data plane proxy and configured through XDS. It resolves each service address to a virtual IP address for all service-to-service communication.
+We will now explain how this works in details:
 
-The global control plane and the zone control planes communicate to synchronize resources such as Kuma policy configurations over Kuma Discovery Service (KDS), which is a protocol based on xDS.
+In the local zone: the zone ingress will receive all traffic coming from other zones and route it within this zone. The control-plane will update its local zone ingresses with a list of local services and the number of instances available, it will then synchronize it with the global control-plane.
+
+The global control-plane will propagate the zone ingress resources and all policies to all other zones over Kuma Discovery Service (KDS), which is a protocol based on xDS.
+
+In the remote zone, data plane proxies will either add new services or add endpoints to existing services which correspond to the remote zone-ingresses entries.
+Requests are then routed to either local instances of the service or to the remote zone ingress where instances of the service are running, which will proxy the request to the actual instance.
+
+In the presence of a [zone egress](../explore/zoneegress.md) the traffic is routed through the local zone egress before being sent to the remote zone ingress.
+
+When using [transparent-proxy](../networking/transparent-proxying.md) (enabled by default in Kubernetes), Kuma generates a VIP, a DNS entry with the format
+`<kuma.io/service>.mesh`, and will listen for traffic on port 80.
 
 :::tip
-A zone ingress is not an API gateway. Instead, it is specific to internal cross-zone communication within the mesh. API gateways are supported in Kuma [gateway mode](../explore/gateway.md) which can be deployed in addition to zone ingresses.
+A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in Kuma [gateway mode](../explore/gateway.md) and can be deployed in addition to zone ingresses.
+
+For Kubernetes the `kuma.io/service` is automatically generated as explained in the [data-plane on Kubernetes documentation](../explore/dpp-on-kubernetes.md).
+
+For load-balancing the zone ingress endpoints are weighted with the number of instances running behind them (.i.e: a zone with 2 instances will receive twice more traffic than a zone with 1 instance), you can also favor local traffic with [localityAware load-balancing](../policies/locality-aware.md).
+
+The `<kuma.io/service>.mesh:80>` is a convention. [Virtual Outbound](../policies/virtual-outbound.md)s will enable you to expose hostname/port differently. 
 :::
 
 ### Components of a multi-zone deployment
@@ -57,10 +79,10 @@ A multi-zone deployment includes:
 
 To set up a multi-zone deployment we will need to:
 
-- Set up the global control plane
-- Set up the zone control planes
-- Verify control plane connectivity
-- Set up cross-zone communication between data plane proxies
+- [Set up the global control plane](#set-up-the-global-control-plane)
+- [Set up the zone control planes](#set-up-the-zone-control-planes)
+- [Verify control plane connectivity](#verify-control-plane-connectivity)
+- [Ensure mTLS is enabled for the multi-zone meshes](#ensure-mtls-is-enabled-on-the-multi-zone-meshes)
 
 ### Set up the global control plane
 
@@ -292,182 +314,87 @@ When a zone control plane connects to the global control plane, the `Zone` resou
 The Zone Ingress tab of the web UI also lists zone control planes that you
 deployed with zone ingress.
 
-### Set up cross-zone communication
+### Ensure mTLS is enabled on the multi-zone meshes
 
-#### Enable mTLS
-
-You must [enable mTLS](../policies/mutual-tls.md) and [enable ZoneEgress](../explore/zoneegress.md#configuration) for cross-zone communication.
-
-Kuma uses the Server Name Indication field, part of the TLS protocol, as a way to pass routing information cross zones. Thus, mTLS is mandatory to enable cross-zone service communication.
-
-#### Ensure Zone Ingress has an external advertised address and port
-
-Cross-zone communication between services is available only if Zone Ingress has an external advertised address and port.
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-
-If a service of type `NodePort` or `LoadBalancer` is attached to the data plane, Kuma will automatically retrieve the external address and port.
-
-A service of type `LoadBalancer` is automatically created when installing Kuma with `kumactl install control-plane` or helm.
-
-Depending on your load balancer implementation, you might need to wait a few minutes for Kuma to get the address.
-
-You can also set this address and port by using the annotations: [`kuma.io/ingress-public-address` and `kuma.io/ingress-public-port`](../reference/kubernetes-annotations/#kuma-io-ingress-public-port)
-
-::: tab "Universal"
-Set the advertisedAddress and advertisedPort field in the `ZoneIngress` definition
-```yaml
-type: ZoneIngress
-name: ingress-01
-networking:
-  address: 127.0.0.1 # address that is routable within the zone
-  port: 10000
-  advertisedAddress: 10.0.0.1 # an address which other zones can use to consume this zone-ingress
-  advertisedPort: 10000 # a port which other zones can use to consume this zone-ingress
-```
-:::
-::::
-
-:::tip
-This address doesn't need to be public to the internet.
-It only needs to be reachable from all data plane proxies in other zones.
-:::
+MTLS is mandatory to enable cross-zone service communication.
+mTLS can be configured in your mesh configuration as indicated in the [mTLS section](../policies/mutual-tls.md).
+This is required because Kuma uses the [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) field, part of the TLS protocol, as a way to pass routing information cross zones.
 
 ### Cross-zone communication details
 
+For this example we will assume we have a service running in a Kubernetes zone exposing a `kuma.io/service` with value `echo-server_echo-example_svc_1010`.
+The following examples are running in the remote zone trying to access the previously mentioned service.
+
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
 
-To view the list of service names available for cross-zone communication, run:
+To view the list of service names available, run:
 
 ```sh
-kubectl get dataplanes -n echo-example -o yaml | grep kuma.io/service
-           kuma.io/service: echo-server_echo-example_svc_1010
+kubectl get serviceinsight all-default -oyaml
+apiVersion: kuma.io/v1alpha1
+kind: ServiceInsight
+mesh: default 
+metadata:
+  name: all-services-default
+spec:
+  services:
+    echo-server_echo-example_svc_1010:
+      dataplanes:
+        online: 1
+        total: 1
+      issuedBackends:
+        ca-1: 1
+      status: online
 ```
 
-To consume the example service only within the same Kuma zone, you can run:
+To consume the example service only within the same Kuma zone, you can rely on Kube-DNS and use the usual Kubernetes hostnames and ports, for example:
 
 ```sh
 <kuma-enabled-pod>$ curl http://echo-server:1010
 ```
 
-To consume the example service across all zones in your Kuma deployment (that is, from endpoints ultimately connecting to the same global control plane), you can run either of:
+To consume the example service across all zones in your Kuma deployment (that is, from endpoints ultimately connecting to the same global control plane), you can run:
 
 ```sh
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
+```
+
+We also render DNS names as [RFC 1123](https://datatracker.ietf.org/doc/html/rfc1123) compatible by replacing underscores with dots.
+```sh
 <kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
 ```
 
-And if your HTTP clients take the standard default port 80, you can the port value and run either of:
-
-```sh
-<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
-```
-
-Because Kuma on Kubernetes relies on transparent proxy, `kuma-dp` listens on port 80 for all virtual IPs that are assigned to services in the `.mesh` DNS zone. The DNS names are rendered RFC compatible by replacing underscores with dots.
-We can configure more flexible setup of hostnames and ports using [Virtual Outbound](../policies/virtual-outbound.md).
-
 :::
 ::: tab "Universal"
+```sh
+kumactl inspect services
+SERVICE                                  STATUS               DATAPLANES
+echo-service_echo-example_svc_1010       Online               1/1
 
-With a hybrid deployment, running in both Kubernetes and Universal mode, the service tag should be the same in both environments (e.g `echo-server_echo-example_svc_1010`):
-
-```yaml
-type: Dataplane
-mesh: default
-name: backend-02 
-networking:
-  address: 127.0.0.1
-  inbound:
-  - port: 2010
-    servicePort: 1010
-    tags:
-      kuma.io/service: echo-server_echo-example_svc_1010
 ```
 
-If the service is only meant to be run Universal, `kuma.io/service` does not have to follow `{name}_{namespace}_svc_{port}` convention.
-
-To consume a distributed service in a Universal deployment, where the application address is `http://localhost:20012`:
+To consume the service in a Universal deployment without transparent proxy add the following outbound to your [dataplane configuration](../explore/dpp-on-universal.md): 
 
 ```yaml
-type: Dataplane
-mesh: default
-name: web-02 
-networking:
-  address: 127.0.0.1
-  inbound:
-  - port: 10000
-    servicePort: 10001
-    tags:
-      kuma.io/service: web
   outbound:
   - port: 20012
     tags:
       kuma.io/service: echo-server_echo-example_svc_1010
 ```
 
-Alternatively, you can just call `echo-server_echo-example_svc_1010.mesh` without defining `outbound` section if you configure [transparent proxy](../networking/transparent-proxying.md).
+From the data plane running you will now be able to reach the service using `localhost:20012`.
+
+Alternatively, if you configure [transparent proxy](../networking/transparent-proxying.md) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
 
 :::
 ::::
 
-The Kuma DNS service format (e.g. `echo-server_kuma-test_svc_1010.mesh`) is a composition of Kubernetes Service Name (`echo-server`),
-Namespace (`kuma-test`), a fixed string (`svc`), the service port (`1010`). The service is resolvable in the DNS zone `.mesh` where
-the Kuma DNS service is hooked.
+::: tip
+For security reasons it's not possible to customize the `kuma.io/service` in Kubernetes.
 
-### Delete a zone
-
-To delete a `Zone` we must first shut down the corresponding Kuma zone control plane instances. As long as the Remote CP is running this will not be possible, and Kuma returns a validation error like:
-
-```
-zone: unable to delete Zone, Remote CP is still connected, please shut it down first
-```
-
-When the Remote CP is fully disconnected and shut down, then the `Zone` can be deleted. All corresponding resources (like `Dataplane` and `DataplaneInsight`) will be deleted automatically as well.
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```sh
-kubectl delete zone zone-1
-```
+If you want to have the same service running on both Universal and Kubernetes make sure to align the Universal's data plane inbound to have the same `kuma.io/service` as the one in Kubernetes or leverage [TrafficRoute](../policies/traffic-route.md).
 :::
-::: tab "Universal"
-```sh
-kumactl delete zone zone-1
-```
-:::
-::::
-
-### Disable a zone
-
-Change the `enabled` property value to `false` in the global control plane:
-
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Kubernetes"
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: Zone
-metadata:
-  name: zone-1
-spec:
-  enabled: false
-```
-:::
-::: tab "Universal"
-```yaml
-type: Zone
-name: zone-1
-spec:
-  enabled: false
-```
-:::
-::::
-
-With this setting, the global control plane will stop exchanging configuration with this zone.
-As a result, the zone's ingress from zone-1 will be deleted from other zone and traffic won't be routed to it anymore.
-The zone will show as **Offline** in the GUI and CLI.
 
 ## Failure modes
 
@@ -532,5 +459,57 @@ When it happens:
 * Communication across each zone will fail.
 
 ::: tip
-With the right resiliency setup ([Retries](../../policies/retry), [Probes](../../policies/health-check), [Locality Aware LoadBalancing](../../policies/locality-aware), [Circuit Breakers](../../policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
+With the right resiliency setup ([Retries](../policies/retry.md), [Probes](../policies/health-check.md), [Locality Aware LoadBalancing](../policies/locality-aware.md), [Circuit Breakers](../policies/circuit-breaker.md)) the failing zone can be quickly severed and traffic re-routed to another zone.
 :::
+
+## Delete a zone
+
+To delete a `Zone` we must first shut down the corresponding Kuma zone control plane instances. As long as the Zone CP is running this will not be possible, and Kuma returns a validation error like:
+
+```
+zone: unable to delete Zone, Zone CP is still connected, please shut it down first
+```
+
+When the Zone CP is fully disconnected and shut down, then the `Zone` can be deleted. All corresponding resources (like `Dataplane` and `DataplaneInsight`) will be deleted automatically as well.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```sh
+kubectl delete zone zone-1
+```
+:::
+::: tab "Universal"
+```sh
+kumactl delete zone zone-1
+```
+:::
+::::
+
+## Disable a zone
+
+Change the `enabled` property value to `false` in the global control plane:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Zone
+metadata:
+  name: zone-1
+spec:
+  enabled: false
+```
+:::
+::: tab "Universal"
+```yaml
+type: Zone
+name: zone-1
+spec:
+  enabled: false
+```
+:::
+::::
+
+With this setting, the global control plane will stop exchanging configuration with this zone.
+As a result, the zone's ingress from zone-1 will be deleted from other zone and traffic won't be routed to it anymore.
+The zone will show as **Offline** in the GUI and CLI.

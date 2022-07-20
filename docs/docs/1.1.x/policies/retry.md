@@ -113,7 +113,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
     Base amount of time which should be taken between retries (i.e. `30ms`, `0.03s`, `0.0005m`)
 
-  - **`maxDuration`** (optional)
+  - **`maxInterval`** (optional)
 
     A maximal amount of time which will be taken between retries  (i.e. `1s`, `0.5m`)
 

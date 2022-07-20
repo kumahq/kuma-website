@@ -229,7 +229,7 @@ metadata:
     kuma.io/sidecar-env-vars: TEST1=1;TEST2=2 
 ```
 
-### `kuma.io/containes-patches`
+### `kuma.io/container-patches`
 
 Specifies the list of names of `ContainerPatch` resources to be applied on
 `kuma-init` and `kuma-sidecar` containers.
