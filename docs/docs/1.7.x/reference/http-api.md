@@ -883,7 +883,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/dataplanes/backend-1 --data @data
         "port": 11011,
         "servicePort": 11012,
         "tags": {
-          "service": "backend",
+          "kuma.io/service": "backend",
           "version": "2.0",
           "env": "production"
         }
@@ -892,11 +892,15 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/dataplanes/backend-1 --data @data
     "outbound": [
       {
         "port": 33033,
-        "service": "database"
+        "tags": {
+          "kuma.io/service": "database"
+        }
       },
       {
         "port": 44044,
-        "service": "user"
+        "tags": {
+          "kuma.io/service": "user"
+        }
       }
     ]
   }
@@ -928,7 +932,7 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes
             "port": 11011,
             "servicePort": 11012,
             "tags": {
-              "service": "backend",
+              "kuma.io/service": "backend",
               "version": "2.0",
               "env": "production"
             }
@@ -937,11 +941,15 @@ curl http://localhost:5681/meshes/mesh-1/dataplanes
         "outbound": [
           {
             "port": 33033,
-            "service": "database"
+            "tags": {
+              "kuma.io/service": "database"
+            }
           },
           {
             "port": 44044,
-            "service": "user"
+            "tags": {
+              "kuma.io/service": "user"
+            }
           }
         ]
       }
@@ -988,7 +996,7 @@ curl http://localhost:5681/meshes/default/dataplanes+insights/example
      "servicePort": 11012,
      "tags": {
       "env": "production",
-      "service": "backend",
+      "kuma.io/service": "backend",
       "version": "2.0"
      }
     }
@@ -996,7 +1004,9 @@ curl http://localhost:5681/meshes/default/dataplanes+insights/example
    "outbound": [
     {
      "port": 33033,
-     "service": "database"
+     "tags": {
+      "kuma.io/service": "database"
+     }
     }
    ]
   }
@@ -1067,7 +1077,7 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
          "servicePort": 11012,
          "tags": {
           "env": "production",
-          "service": "backend",
+          "kuma.io/service": "backend",
           "version": "2.0"
          }
         }
@@ -1075,7 +1085,9 @@ curl http://localhost:5681/meshes/default/dataplanes+insights
        "outbound": [
         {
          "port": 33033,
-         "service": "database"
+         "tags": {
+          "kuma.io/service": "database"
+         }
         }
        ]
       }
@@ -1144,14 +1156,14 @@ curl http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend
  "sources": [
   {
    "match": {
-    "service": "web"
+    "kuma.io/service": "web"
    }
   }
  ],
  "destinations": [
   {
    "match": {
-    "service": "backend"
+    "kuma.io/service": "backend"
    }
   }
  ],
@@ -1212,14 +1224,14 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/health-checks/web-to-backend --da
  "sources": [
   {
    "match": {
-    "service": "web"
+    "kuma.io/service": "web"
    }
   }
  ],
  "destinations": [
   {
    "match": {
-    "service": "backend"
+    "kuma.io/service": "backend"
    }
   }
  ],
@@ -1284,14 +1296,14 @@ curl http://localhost:5681/meshes/mesh-1/health-checks
    "sources": [
     {
      "match": {
-      "service": "web"
+      "kuma.io/service": "web"
      }
     }
    ],
    "destinations": [
     {
      "match": {
-      "service": "backend"
+      "kuma.io/service": "backend"
      }
     }
    ],
@@ -1369,7 +1381,7 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates/pt-1
  "selectors": [
   {
    "match": {
-    "service": "backend"
+    "kuma.io/service": "backend"
    }
   }
  ],
@@ -1405,7 +1417,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/proxytemplates/pt-1 --data @proxy
   "selectors": [
     {
       "match": {
-          "service": "backend"
+          "kuma.io/service": "backend"
       }
     }
   ],
@@ -1445,7 +1457,7 @@ curl http://localhost:5681/meshes/mesh-1/proxytemplates
    "selectors": [
     {
      "match": {
-      "service": "backend"
+      "kuma.io/service": "backend"
      }
     }
    ],
@@ -1498,14 +1510,14 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions/tp-1
  "sources": [
   {
    "match": {
-    "service": "backend"
+    "kuma.io/service": "backend"
    }
   }
  ],
  "destinations": [
   {
    "match": {
-    "service": "redis"
+    "kuma.io/service": "redis"
    }
   }
  ]
@@ -1529,14 +1541,14 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-permissions/tp-1 --data @
   "sources": [
     {
       "match": {
-        "service": "backend"
+        "kuma.io/service": "backend"
       }
     }
   ],
   "destinations": [
     {
       "match": {
-        "service": "redis"
+        "kuma.io/service": "redis"
       }
     }
   ]
@@ -1564,14 +1576,14 @@ curl http://localhost:5681/meshes/mesh-1/traffic-permissions
    "sources": [
     {
      "match": {
-      "service": "backend"
+      "kuma.io/service": "backend"
      }
     }
    ],
    "destinations": [
     {
      "match": {
-      "service": "redis"
+      "kuma.io/service": "redis"
      }
     }
    ]
@@ -1612,7 +1624,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1
  "sources": [
   {
    "match": {
-    "service": "web",
+    "kuma.io/service": "web",
     "version": "1.0"
    }
   }
@@ -1620,7 +1632,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1
  "destinations": [
   {
    "match": {
-    "service": "backend"
+    "kuma.io/service": "backend"
    }
   }
  ],
@@ -1647,7 +1659,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1 --data @traffic
   "sources": [
     {
       "match": {
-        "service": "web",
+        "kuma.io/service": "web",
         "version": "1.0"
       }
     }
@@ -1655,7 +1667,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-logs/tl-1 --data @traffic
   "destinations": [
     {
       "match": {
-        "service": "backend"
+        "kuma.io/service": "backend"
       }
     }
   ],
@@ -1686,7 +1698,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs
    "sources": [
     {
      "match": {
-      "service": "web",
+      "kuma.io/service": "web",
       "version": "1.0"
      }
     }
@@ -1694,7 +1706,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-logs
    "destinations": [
     {
      "match": {
-      "service": "backend"
+      "kuma.io/service": "backend"
      }
     }
    ],
@@ -1739,7 +1751,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
   {
    "match": {
     "region": "us-east-1",
-    "service": "web",
+    "kuma.io/service": "web",
     "version": "v10"
    }
   }
@@ -1747,7 +1759,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
  "destinations": [
   {
    "match": {
-    "service": "backend"
+    "kuma.io/service": "backend"
    }
   }
  ],
@@ -1757,14 +1769,14 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend
      "weight": 90,
      "destination": {
       "region": "us-east-1",
-      "service": "backend",
+      "kuma.io/service": "backend",
       "version": "v2"
      }
     },
     {
      "weight": 10,
      "destination": {
-      "service": "backend",
+      "kuma.io/service": "backend",
       "version": "v3"
      }
     }
@@ -1791,7 +1803,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend --d
   {
    "match": {
     "region": "us-east-1",
-    "service": "web",
+    "kuma.io/service": "web",
     "version": "v10"
    }
   }
@@ -1799,7 +1811,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend --d
  "destinations": [
   {
    "match": {
-    "service": "backend"
+    "kuma.io/service": "backend"
    }
   }
  ],
@@ -1809,14 +1821,14 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-routes/web-to-backend --d
      "weight": 90,
      "destination": {
       "region": "us-east-1",
-      "service": "backend",
+      "kuma.io/service": "backend",
       "version": "v2"
      }
     },
     {
      "weight": 10,
      "destination": {
-      "service": "backend",
+      "kuma.io/service": "backend",
       "version": "v3"
      }
     }
@@ -1847,7 +1859,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes
     {
      "match": {
       "region": "us-east-1",
-      "service": "web",
+      "kuma.io/service": "web",
       "version": "v10"
      }
     }
@@ -1855,7 +1867,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes
    "destinations": [
     {
      "match": {
-      "service": "backend"
+      "kuma.io/service": "backend"
      }
     }
    ],
@@ -1865,14 +1877,14 @@ curl http://localhost:5681/meshes/mesh-1/traffic-routes
         "weight": 90,
         "destination": {
          "region": "us-east-1",
-         "service": "backend",
+         "kuma.io/service": "backend",
          "version": "v2"
         }
        },
        {
         "weight": 10,
         "destination": {
-         "service": "backend",
+         "kuma.io/service": "backend",
          "version": "v3"
         }
        }
@@ -1918,7 +1930,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-traces/tt-1
  "selectors": [
   {
    "match": {
-    "service": "*"
+    "kuma.io/service": "*"
    }
   }
  ]
@@ -1945,7 +1957,7 @@ curl -XPUT http://localhost:5681/meshes/mesh-1/traffic-traces/tt-1 --data @traff
  "selectors": [
   {
    "match": {
-    "service": "*"
+    "kuma.io/service": "*"
    }
   }
  ]
@@ -1973,7 +1985,7 @@ curl http://localhost:5681/meshes/mesh-1/traffic-traces
    "selectors": [
     {
      "match": {
-      "service": "*"
+      "kuma.io/service": "*"
      }
     }
    ],
@@ -2018,7 +2030,7 @@ curl http://localhost:5681/meshes/default/fault-injections/fi1
   {
    "match": {
     "protocol": "http",
-    "service": "frontend",
+    "kuma.io/service": "frontend",
     "version": "0.1"
    }
   }
@@ -2027,7 +2039,7 @@ curl http://localhost:5681/meshes/default/fault-injections/fi1
   {
    "match": {
     "protocol": "http",
-    "service": "backend"
+    "kuma.io/service": "backend"
    }
   }
  ],
@@ -2065,7 +2077,7 @@ curl -XPUT http://localhost:5681/meshes/default/fault-injections/fi1 --data @fau
   "sources": [
     {
       "match": {
-        "service": "frontend",
+        "kuma.io/service": "frontend",
         "version": "0.1",
         "protocol": "http"
       }
@@ -2074,7 +2086,7 @@ curl -XPUT http://localhost:5681/meshes/default/fault-injections/fi1 --data @fau
   "destinations": [
     {
       "match": {
-        "service": "backend",
+        "kuma.io/service": "backend",
         "protocol": "http"
       }
     }
@@ -2118,7 +2130,7 @@ curl http://localhost:5681/meshes/default/fault-injections
     {
      "match": {
       "protocol": "http",
-      "service": "frontend",
+      "kuma.io/service": "frontend",
       "version": "0.1"
      }
     }
@@ -2127,7 +2139,7 @@ curl http://localhost:5681/meshes/default/fault-injections
     {
      "match": {
       "protocol": "http",
-      "service": "backend"
+      "kuma.io/service": "backend"
      }
     }
    ],
@@ -2187,7 +2199,7 @@ curl http://localhost:5681/meshes/default/retries/r1
   {
    "match": {
     "protocol": "http",
-    "service": "frontend",
+    "kuma.io/service": "frontend",
     "version": "0.1"
    }
   }
@@ -2196,7 +2208,7 @@ curl http://localhost:5681/meshes/default/retries/r1
   {
    "match": {
     "protocol": "http",
-    "service": "backend"
+    "kuma.io/service": "backend"
    }
   }
  ],
@@ -2249,7 +2261,7 @@ curl -XPUT http://localhost:5681/meshes/default/retries/fi1 --data @retry.json -
   "sources": [
     {
       "match": {
-        "service": "frontend",
+        "kuma.io/service": "frontend",
         "version": "0.1",
         "protocol": "http"
       }
@@ -2258,7 +2270,7 @@ curl -XPUT http://localhost:5681/meshes/default/retries/fi1 --data @retry.json -
   "destinations": [
     {
       "match": {
-        "service": "backend",
+        "kuma.io/service": "backend",
         "protocol": "http"
       }
     }
@@ -2317,7 +2329,7 @@ curl http://localhost:5681/meshes/default/retries
     {
      "match": {
       "protocol": "http",
-      "service": "frontend",
+      "kuma.io/service": "frontend",
       "version": "0.1"
      }
     }
@@ -2326,7 +2338,7 @@ curl http://localhost:5681/meshes/default/retries
     {
      "match": {
       "protocol": "http",
-      "service": "backend"
+      "kuma.io/service": "backend"
      }
     }
    ],
