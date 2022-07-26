@@ -382,17 +382,10 @@ spec:
         - matches:
             - path:
                 match: PREFIX
-                value: /api
-          backends:
-            - destination:
-                kuma.io/service: api_default_svc_80
-        - matches:
-            - path:
-                match: PREFIX
                 value: /
           backends:
             - destination:
-                kuma.io/service: frontend_default_svc_80
+                kuma.io/service: demo-app_kuma-demo_svc_5000
 " | kubectl apply -f -
 ```
 
@@ -413,17 +406,10 @@ conf:
       - matches:
           - path:
               match: PREFIX
-              value: /api
-        backends:
-          - destination:
-              kuma.io/service: api
-      - matches:
-          - path:
-              match: PREFIX
               value: /
         backends:
           - destination:
-              kuma.io/service: frontend
+              kuma.io/service: demo-app_kuma-demo_svc_5000
 ```
 
 :::
