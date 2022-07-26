@@ -235,6 +235,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshGatewayInstance
 metadata:
   name: edge-gateway
+  namespace: default
 spec:
   replicas: 1
   serviceType: LoadBalancer
