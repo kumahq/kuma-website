@@ -34,6 +34,7 @@ dev
 DNS
 etcd
 Fargate
+Gateway API
 Github
 Goroutine
 Grafana
@@ -81,6 +82,8 @@ minikube
 Mockbin
 Moesif
 MongoDB
+multizone
+Multizone
 namespace
 namespaces
 namespaced
@@ -126,6 +129,7 @@ sudo
 Syslog
 tbl
 tcpdump
+TLS
 transcoder
 ttl
 txt
