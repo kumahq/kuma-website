@@ -1,5 +1,19 @@
 #!/bin/bash
 set -e
+
+pushd ../kuma
+
+for remote in $(git remote); do
+    url=$(git remote get-url "$remote")
+    if [[ "$url" =~ .*kumahq/kuma$ ]]; then
+        kumahq="$remote"
+    fi
+done
+
+git fetch $kumahq
+
+popd
+
 for i in docs/docs/*; do
   if [[ ! -d $i ]]; then continue; fi
 
@@ -10,7 +24,7 @@ for i in docs/docs/*; do
   echo "Copying $branch"
 
   pushd ../kuma
-    git checkout $branch
+    git checkout "$kumahq/$branch"
   popd
   if [[ ! -d ../kuma/docs/generated ]]; then
     echo "No generated docs, ignoring..."
