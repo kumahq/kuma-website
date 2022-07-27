@@ -515,3 +515,20 @@ metadata:
 spec:
   ...
 ```
+
+### `kuma.io/transparent-proxying-inbound-v6-port`
+
+Define the port to use for [IPv6](../networking/ipv6.md) traffic. To turn off IPv6 set this to 0.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/transparent-proxying-inbound-v6-port: "0"
+spec:
+  ...
+```

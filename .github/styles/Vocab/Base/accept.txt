@@ -49,6 +49,7 @@ httpbin
 HTTPie
 https
 inbounds
+IPv6
 ini
 io
 iptables
