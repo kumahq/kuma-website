@@ -76,7 +76,9 @@ The ports illustrated above are the default ones that `kumactl install transpare
 
 ### Invoking the Kuma data plane
 
+::: warning
 It is important that the `kuma-dp` process runs with the same system user that was passed to `kumactl install transparent-proxy --kuma-dp-user`.
+:::
 
 When systemd is used, this can be done with an entry `User=kuma-dp` in the `[Service]` section of the service file.
 
