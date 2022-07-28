@@ -96,7 +96,10 @@ jobs:
                 pull_number: ${{ github.event.number }},
               },
             );
-            return files.filter(d => d.status != "removed").map(d => d.filename);
+            return files
+              .filter(d => d.status != "removed")
+              .filter(d => !d.filename.includes("/generated/"))
+              .map(d => d.filename);
       - uses: actions/checkout@v2
       - uses: errata-ai/vale-action@v2
         name: Run Vale
