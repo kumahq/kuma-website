@@ -90,6 +90,8 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            // Note that we filter here first because otherwise vale is run on all files
+            // before the output is filtered to changed files, which takes a long time.
             const files = await github.paginate(
               github.rest.pulls.listFiles, {
                 ...context.repo,
