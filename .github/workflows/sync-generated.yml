@@ -33,8 +33,8 @@ jobs:
           token: ${{ steps.github-app-token.outputs.token }}
           path: kuma-website
           commit-message: "chore(ci): auto update auto generated docs"
-          committer: GitHub <noreply@github.com>
-          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          committer: kumahq[bot] <110050114+kumahq[bot]@users.noreply.github.com>
+          author: kumahq[bot] <110050114+kumahq[bot]@users.noreply.github.com>
           signoff: true
           branch: chore/auto-upgrade-kuma
           delete-branch: true
