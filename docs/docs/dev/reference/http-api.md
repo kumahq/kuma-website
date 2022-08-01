@@ -73,6 +73,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * [`/zoneegressoverviews`](#list-zone-egress-overviews)
 * [`/zoneegressoverviews/{name}`](#get-zone-egress-overview)
 * `/global-insights`
+* [`/policies`](#policies)
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -4239,6 +4240,115 @@ curl localhost:5681/zoneegresses/ze-1/xds
      }
     }
    }
+  }
+ ]
+}
+```
+
+
+### Policies
+
+Show all policies that are usalable on the control-plane
+
+Request: `GET /policies`
+
+Example:
+```bash
+curl localhost:5681/policies
+```
+
+```json
+{
+ "policies": [
+  {
+   "name": "CircuitBreaker",
+   "readOnly": false,
+   "path": "circuit-breakers",
+   "displayName": "Circuit Breakers"
+  },
+  {
+   "name": "ExternalService",
+   "readOnly": false,
+   "path": "external-services",
+   "displayName": "External Services"
+  },
+  {
+   "name": "FaultInjection",
+   "readOnly": false,
+   "path": "fault-injections",
+   "displayName": "Fault Injections"
+  },
+  {
+   "name": "HealthCheck",
+   "readOnly": false,
+   "path": "health-checks",
+   "displayName": "Health Checks"
+  },
+  {
+   "name": "MeshGateway",
+   "readOnly": false,
+   "path": "meshgateways",
+   "displayName": "Mesh Gateways"
+  },
+  {
+   "name": "MeshGatewayRoute",
+   "readOnly": false,
+   "path": "meshgatewayroutes",
+   "displayName": "Mesh Gateway Routes"
+  },
+  {
+   "name": "ProxyTemplate",
+   "readOnly": false,
+   "path": "proxytemplates",
+   "displayName": "Proxy Templates"
+  },
+  {
+   "name": "RateLimit",
+   "readOnly": false,
+   "path": "rate-limits",
+   "displayName": "Rate Limits"
+  },
+  {
+   "name": "Retry",
+   "readOnly": false,
+   "path": "retries",
+   "displayName": "Retries"
+  },
+  {
+   "name": "Timeout",
+   "readOnly": false,
+   "path": "timeouts",
+   "displayName": "Timeouts"
+  },
+  {
+   "name": "TrafficLog",
+   "readOnly": false,
+   "path": "traffic-logs",
+   "displayName": "Traffic Logs"
+  },
+  {
+   "name": "TrafficPermission",
+   "readOnly": false,
+   "path": "traffic-permissions",
+   "displayName": "Traffic Permissions"
+  },
+  {
+   "name": "TrafficRoute",
+   "readOnly": false,
+   "path": "traffic-routes",
+   "displayName": "Traffic Routes"
+  },
+  {
+   "name": "TrafficTrace",
+   "readOnly": false,
+   "path": "traffic-traces",
+   "displayName": "Traffic Traces"
+  },
+  {
+   "name": "VirtualOutbound",
+   "readOnly": false,
+   "path": "virtual-outbounds",
+   "displayName": "Virtual Outbounds"
   }
  ]
 }
