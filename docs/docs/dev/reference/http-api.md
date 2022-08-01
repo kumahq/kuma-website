@@ -4248,7 +4248,7 @@ curl localhost:5681/zoneegresses/ze-1/xds
 
 ### Policies
 
-Show all policies that are usalable on the control-plane
+Show all policies that are usable on the control plane
 
 Request: `GET /policies`
 
