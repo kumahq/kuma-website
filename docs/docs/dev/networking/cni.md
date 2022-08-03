@@ -10,8 +10,7 @@ There are two options to do this with Kuma:
 Kuma CNI can be leveraged in the two installation methods for Kubernetes: using [`kumactl`](../../installation/kubernetes) and with [Helm](../../installation/helm). The default settings are tuned for OpenShift with Multus, therefore to use it in other environments we need to set the relevant configuration parameters.
 
 :::warning
-Kuma CNI applies NetworkAttachmentDefinition(NAD) to the application in a namespace with `kuma.io/sidecar-injection` label or annotation. If you want 
-to use NAD but don't deploy Mesh set the label `kuma.io/sidecar-injection` to the value `false` or `disabled`. Kuma doesn't check the value of the label but its presence.
+Kuma CNI applies NetworkAttachmentDefinition(NAD) to applications in a namespace with `kuma.io/sidecar-injection` label or annotation. To correctly apply NAD to the applications not in a Mesh, add the label or annotation `kuma.io/sidecar-injection` with the value `false` or `disabled` to the namespace.
 :::
 
 Below are the details of how to set-up each of the options, considering and example where a plain Kubernetes cluster deployed with `kubeadm` and the default Calico CNI is used.
