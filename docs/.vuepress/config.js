@@ -251,12 +251,20 @@ module.exports = {
         property: "fb:app_id", content: productData.fbAppId
       }
     ],
+    [
+      "meta",
+      {
+        name: "viewport", content: "width=device-width"
+      }
+    ],
     // web fonts
     [
       "link",
       {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
+        rel: "preload",
+        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700&display=swap",
+        as: "style",
+        onload: "this.onload=null;this.rel='stylesheet'",
       }
     ],
     // [
@@ -285,9 +293,12 @@ module.exports = {
         },
         frontmatter: {
           sidebar: false,
-          layout: "Install"
+          layout: "Install",
+          meta: [
+            {name: "robots", content: "noindex,follow"}
+          ]
         }
-      };
+      }
     }),
   ],
   extendMarkdown: (md) => {
@@ -374,6 +385,7 @@ Sitemap: https://kuma.io/sitemap.xml
 
       }
     },
+    ["clean-urls", {normalSuffix: "/", indexSuffix: "/"}],
     (config = {}, ctx) => {
       return {
         name: "page-latest-version",
@@ -384,6 +396,27 @@ Sitemap: https://kuma.io/sitemap.xml
             if (!v) {
               return
             }
+            const {meta = [], sitemap = {}} = page.frontmatter;
+            meta.push(
+              {
+                name: "docsearch:section",
+                content: "docs"
+              }, {
+                name: "docsearch:docsversion",
+                content: v
+              }
+            )
+            if (v !== versions.latestMinor) {
+              // Only index the latest version of the docs
+              sitemap.exclude = true
+              meta.push({
+                name: "robots",
+                content: "noindex,follow"
+              });
+            }
+            page.frontmatter.meta = meta
+            page.frontmatter.search = sitemap
+
             let ver = versions.versions(v);
             if (ver) {
               page.version = v;
@@ -398,24 +431,9 @@ Sitemap: https://kuma.io/sitemap.xml
       }
     },
     ['code-copy', {color: "#4e1999", backgroundColor: '#4e1999'}],
-    ["clean-urls", {normalSuffix: "/", indexSuffix: "/"}],
     ["sitemap", {hostname: productData.hostname}],
     ["seo", {
       customMeta: (add, context) => {
-        const {$site, $page} = context;
-
-        let sp = $page.regularPath.split("/");
-        if (sp.length > 1) {
-          add("docsearch:section", sp[1]);
-          if ($page.version) {
-            add("docsearch:docsversion", $page.version);
-            if ($page.version !== versions.latestMinor) {
-              // Only index the latest version of the docs
-              add("robots", "noindex follow")
-            }
-          }
-        }
-
         // Twitter and OpenGraph image URL string
         const ogImage = `${productData.hostname}${productData.ogImage}?cb=`;
         // Twitter
@@ -432,13 +450,6 @@ Sitemap: https://kuma.io/sitemap.xml
       }
     }],
     ["@vuepress/google-analytics", {ga: productData.gaCode}],
-    // "@vuepress/plugin-pwa": {
-    //   serviceWorker: false,
-    //   updatePopup: false,
-    //   generateSWConfig: {
-    //     skipWaiting: true
-    //   }
-    // },
     ["@vuepress/nprogress"],
     ["tabs", {dedupeIds: true}],
     ["@vuepress/plugin-blog", {

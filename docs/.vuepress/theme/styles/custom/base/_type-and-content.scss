@@ -52,6 +52,12 @@ a {
   }
 }
 
+// Images
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 // Code blocks
 
 div[class*='language-'].line-numbers-mode pre {
@@ -112,13 +118,6 @@ div[class~='language-sh']:before {
 // yaml label
 div[class~='language-yaml']:before {
   content: 'yaml';
-}
-
-// Images
-
-img {
-  max-width: 100%;
-  height: auto;
 }
 
 // As originally the plugin increase height of code-snippet
