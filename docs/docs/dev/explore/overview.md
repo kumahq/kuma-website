@@ -5,12 +5,14 @@ It also covers how to start integrating your services into your mesh.
 
 A Kuma mesh consists of two main components:
 
-- **Data plane**: The data plane consists of the data plane proxies that run alongside your services.
+- The **data plane** consists of the proxies that run alongside your services.
   All of your mesh traffic flows through these proxies
   on its way to its destination.
   Kuma's uses [Envoy](https://www.envoyproxy.io/) for its data plane proxy.
-- **Control plane**: The control plane tells the data plane proxies how to handle mesh traffic.
-  Kuma users create and configure [policies](../../policies/introduction)
+- The **control plane** configures the data plane proxies for handling mesh traffic.
+  However, the control plane runs independently of the data plane and does not
+  interact with mesh traffic directly.
+  Kuma users create [policies](../../policies/introduction)
   that the Kuma control plane processes to generate configuration for the data plane proxies.
 
 ::: tip
@@ -31,22 +33,23 @@ as well as between the services and their data plane proxies:
 </center>
 
 ::: tip
-Kuma implements the [Envoy **xDS** APIs](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) so that `kuma-dp` can connect to `kuma-cp` and retrieve its configuration.
+Kuma implements the [Envoy **xDS** APIs](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol)
+so that data plane proxies can retrieve their configuration from the control plane.
 :::
 
 ## Components
 
-A minimal Kuma deployment involves one or more instances of the control plane executable (`kuma-cp`).
-For each service in your mesh, you'll have one or more instances of the data plane proxy (`kuma-dp`).
+A minimal Kuma deployment involves one or more instances of the control plane executable, `kuma-cp`.
+For each service in your mesh, you'll have one or more instances of the data plane proxy executable, `kuma-dp`.
 
 Users interact with the control plane via the command-line tool `kumactl`.
 
 There are two modes that the Kuma control plane can run in:
 
-- `kubernetes`: Users use Kubernetes resources for configuring Kuma.
-  Kuma uses the Kubernetes API server as a data store.
-- `universal`: Users always use the Kuma API server for interacting with Kuma
-  and must configure PostgreSQL as a data store.
+- `kubernetes`: users configure Kuma via Kubernetes resources and
+  Kuma uses the Kubernetes API server as the data store.
+- `universal`: users configure Kuma via the Kuma API server and Kuma resources.
+  PostgreSQL serves as the data store.
   This mode works for any infrastructure other than Kubernetes, though you can
   run a `universal` control plane on top of a Kubernetes cluster.
 
@@ -128,7 +131,7 @@ In some cases `Pods` don't belong to a corresponding `Service`.
 This is typically because they don't expose any consumable services.
 Kubernetes `Jobs` are a good example of this.
 
-In this case, the Kuma control plane generates a `kuma.io/service` tag with the format `<name>_<namespace>_svc`, where `<name>` and`<namespace>` are derived from the `Pod` resource itself.
+In this case, the Kuma control plane generates a `kuma.io/service` tag with the format `<name>_<namespace>_svc`, where `<name>` and`<namespace>` come from the `Pod` resource itself.
 
 The `Pods` created by the following example `Deployment` have the tag `kuma.io/service: example-client_kuma-example_svc`:
 
