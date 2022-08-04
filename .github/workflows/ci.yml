@@ -52,8 +52,61 @@ jobs:
     steps:
       - name: Prepare OS
         run: |
-          (apt-get update && apt-get install curl -y) || true
-          yum install tar gzip -y || true
+          (apt-get update && apt-get install file curl -y) || true
+          yum install file tar gzip -y || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
         run: sh docs/.vuepress/public/installer.sh
+      - name: Check kumactl architecture
+        run: file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
+  installer-sh-arm64:
+    runs-on: ubuntu-latest
+    name: Test installer.sh on arm64
+    steps:
+      - uses: actions/checkout@v3
+      - uses: uraimo/run-on-arch-action@v2
+        name: Run commands
+        id: runcmd
+        with:
+          arch: aarch64
+          distro: ubuntu22.04
+
+          # Not required, but speeds up builds by storing container images in
+          # a GitHub package registry.
+          githubToken: ${{ github.token }}
+
+          # Set an output parameter `uname` for use in subsequent steps
+          run: |
+            apt-get update && apt-get install -y file curl tar gzip
+            sh docs/.vuepress/public/installer.sh
+            file ./kuma-*/bin/kumactl | grep aarch64 &> /dev/null
+
+  vale:
+    name: Lint docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get changed files
+        id: changed-files
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // Note that we filter here first because otherwise vale is run on all files
+            // before the output is filtered to changed files, which takes a long time.
+            const files = await github.paginate(
+              github.rest.pulls.listFiles, {
+                ...context.repo,
+                pull_number: ${{ github.event.number }},
+              },
+            );
+            return files
+              .filter(d => d.status != "removed")
+              .filter(d => !d.filename.includes("/generated/"))
+              .map(d => d.filename);
+      - uses: actions/checkout@v2
+      - uses: errata-ai/vale-action@v2
+        if: fromJSON(steps.changed-files.outputs.result).length > 0
+        name: Run Vale
+        with:
+          files: "${{ steps.changed-files.outputs.result }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

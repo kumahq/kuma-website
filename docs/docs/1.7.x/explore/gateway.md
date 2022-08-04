@@ -240,6 +240,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshGatewayInstance
 metadata:
   name: edge-gateway
+  namespace: default
 spec:
   replicas: 1
   serviceType: LoadBalancer
@@ -252,6 +253,28 @@ In the example above, the control plane will create a new Deployment in the `gat
 This deployment will have the requested number of builtin gateway `Dataplane` pod replicas, which will be configured as part of the service named in the `MeshGatewayInstance` tags.
 When a Kuma `MeshGateway` is matched to the `MeshGatewayInstance`, the control plane will also create a new Service to send network traffic to the builtin `Dataplane` pods.
 The Service will be of the type requested in the `MeshGatewayInstance`, and its ports will automatically be adjusted to match the listeners on the corresponding `MeshGateway`.
+
+#### Customization
+
+Additional customization of the generated `Service` or `Deployment` is possible via `MeshGatewayInstance.spec`. For example, you can add annotations to the generated `Service`:
+
+```yaml
+spec:
+  replicas: 1
+  serviceType: LoadBalancer
+  tags:
+    kuma.io/service: edge-gateway
+  resources:
+    limits: ...
+    requests: ...
+  serviceTemplate:
+    metadata:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+        ...
+" | kubectl apply -f -
+```
+
 :::
 ::: tab "Universal"
 
@@ -363,17 +386,10 @@ spec:
         - matches:
             - path:
                 match: PREFIX
-                value: /api
-          backends:
-            - destination:
-                kuma.io/service: api_default_svc_80
-        - matches:
-            - path:
-                match: PREFIX
                 value: /
           backends:
             - destination:
-                kuma.io/service: frontend_default_svc_80
+                kuma.io/service: demo-app_kuma-demo_svc_5000
 " | kubectl apply -f -
 ```
 
@@ -394,17 +410,10 @@ conf:
       - matches:
           - path:
               match: PREFIX
-              value: /api
-        backends:
-          - destination:
-              kuma.io/service: api
-      - matches:
-          - path:
-              match: PREFIX
               value: /
         backends:
           - destination:
-              kuma.io/service: frontend
+              kuma.io/service: demo-app_kuma-demo_svc_5000
 ```
 
 :::

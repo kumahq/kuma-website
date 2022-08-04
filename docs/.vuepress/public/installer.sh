@@ -21,7 +21,7 @@
 DIR="$( cd "$( dirname "$0" )" >/dev/null 2>&1 && pwd )"
 
 : "${VERSION:=}"
-: "${ARCH:=amd64}"
+: "${ARCH:=}"
 : "${PRODUCT_NAME:=Kuma}"
 : "${LATEST_VERSION:=https://kuma.io/latest_version}"
 : "${REPO_PREFIX:=kuma}"
@@ -74,7 +74,8 @@ if [ "$ARCH" = "" ]; then
   if [ "$DETECTED_ARCH" = "x86_64" ]; then
     ARCH=amd64
   elif [ "$DETECTED_ARCH" = "arm64" ] || \
-    [ "$DETECTED_ARCH" = "arch64" ] || \
+    [ "$DETECTED_ARCH" = "aarch64" ] || \
+    [ "$DETECTED_ARCH" = "aarch64_be" ] || \
     [ "$DETECTED_ARCH" = "armv8l" ] || \
     [ "$DETECTED_ARCH" = "armv8b" ]; then
     ARCH=arm64
