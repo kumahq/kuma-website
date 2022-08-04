@@ -3,18 +3,18 @@
 This sections gives an overview of a Kuma service mesh.
 It also covers how to start integrating your services into your mesh.
 
-A Kuma mesh is made up of two main components:
+A Kuma mesh consists of two main components:
 
 - **Data plane**: The data plane consists of the data plane proxies that run alongside your services.
   All of your mesh traffic flows through these proxies
   on its way to its destination.
-  Kuma's data plane proxy is based on [Envoy](https://www.envoyproxy.io/).
+  Kuma's uses [Envoy](https://www.envoyproxy.io/) for its data plane proxy.
 - **Control plane**: The control plane tells the data plane proxies how to handle mesh traffic.
   Kuma users create and configure [policies](../../policies/introduction)
   that the Kuma control plane processes to generate configuration for the data plane proxies.
 
 ::: tip
-**Multi-mesh**: One Kuma control plane deployment can control multiple, isolated data planes using the [`Mesh`](../../policies/mesh) resource. As compared to one control plane per data plane, this option lowers the complexity and operational cost of supporting multiple meshes.
+**Multi-mesh**: one Kuma control plane deployment can control multiple, isolated data planes using the [`Mesh`](../../policies/mesh) resource. As compared to one control plane per data plane, this option lowers the complexity and operational cost of supporting multiple meshes.
 :::
 
 This is a high level visualization of a Kuma service mesh:
@@ -31,7 +31,7 @@ as well as between the services and their data plane proxies:
 </center>
 
 ::: tip
-**xDS**: Kuma implements the [Envoy xDS APIs](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) so that `kuma-dp` can connect to `kuma-cp` and retrieve its configuration.
+Kuma implements the [Envoy **xDS** APIs](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) so that `kuma-dp` can connect to `kuma-cp` and retrieve its configuration.
 :::
 
 ## Components
@@ -39,7 +39,7 @@ as well as between the services and their data plane proxies:
 A minimal Kuma deployment involves one or more instances of the control plane executable (`kuma-cp`).
 For each service in your mesh, you'll have one or more instances of the data plane proxy (`kuma-dp`).
 
-Users interact with the control plane via the CLI tool `kumactl`.
+Users interact with the control plane via the command-line tool `kumactl`.
 
 There are two modes that the Kuma control plane can run in:
 
@@ -47,18 +47,19 @@ There are two modes that the Kuma control plane can run in:
   Kuma uses the Kubernetes API server as a data store.
 - `universal`: Users always use the Kuma API server for interacting with Kuma
   and must configure PostgreSQL as a data store.
-  This mode is used for any infrastructure other than Kubernetes.
+  This mode works for any infrastructure other than Kubernetes, though you can
+  run a `universal` control plane on top of a Kubernetes cluster.
 
 ## Kubernetes mode
 
-When running in **Kubernetes** mode, Kuma will store all of its state and configuration on the underlying Kubernetes API Server.
+When running in **Kubernetes** mode, Kuma stores all of its state and configuration on the underlying Kubernetes API Server.
 
 <center>
 <img src="/images/docs/0.5.0/diagram-08.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 The only step necessary to join your Kubernetes services to the mesh is enabling _sidecar injection_.
-For any `Pods` configured with sidecar injection, Kuma will add the `kuma-dp` sidecar container.
+For any `Pods` configured with sidecar injection, Kuma adds the `kuma-dp` sidecar container.
 The following label on any `Namespace` or `Pod` controls this injection:
 
 ```
@@ -66,18 +67,18 @@ kuma.io/sidecar-injection: enabled
 ```
 
 ::: tip
-**Injection**: Learn more about sidecar injection in the section on [`Dataplanes`](dpp-on-kubernetes.md).
+**Injection**: learn more about sidecar injection in the section on [`Dataplanes`](dpp-on-kubernetes.md).
 
-**Annotations**: See [the complete list of the Kubernetes annotations](../reference/kubernetes-annotations/).
+**Annotations**: see [the complete list of the Kubernetes annotations](../reference/kubernetes-annotations/).
 
-**Policies with Kubernetes**: When using Kuma in Kubernetes mode you create [policies](../../policies/introduction) using `kubectl` and `kuma.io` CRDs.
+**Policies with Kubernetes**: when using Kuma in Kubernetes mode you create [policies](../../policies/introduction) using `kubectl` and `kuma.io` CRDs.
 :::
 
 ### `Services` and `Pods`
 
 #### `Pods` with a `Service`
 
-For all Pods associated with a Kubernetes `Service` resource, Kuma control plane automatically generates an annotation `kuma.io/service: <name>_<namespace>_svc_<port>` where `<name>`, `<namespace>` and `<port>` come from the `Service`. For example, the following resources will generate `kuma.io/service: echo-server_kuma-test_svc_80`:
+For all Pods associated with a Kubernetes `Service` resource, Kuma control plane automatically generates an annotation `kuma.io/service: <name>_<namespace>_svc_<port>` where `<name>`, `<namespace>` and `<port>` come from the `Service`. For example, the following resources generates `kuma.io/service: echo-server_kuma-test_svc_80`:
 
 ```yaml
 apiVersion: v1
@@ -121,13 +122,13 @@ spec:
             - containerPort: 80
 ```
 
-#### Pods without a Service
+#### `Pods` without a `Service`
 
 In some cases `Pods` don't belong to a corresponding `Service`.
 This is typically because they don't expose any consumable services.
 Kubernetes `Jobs` are a good example of this.
 
-In this case, the Kuma control plane will generate a `kuma.io/service` tag with the format `<name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the `Pod` resource itself.
+In this case, the Kuma control plane generates a `kuma.io/service` tag with the format `<name>_<namespace>_svc`, where `<name>` and`<namespace>` are derived from the `Pod` resource itself.
 
 The `Pods` created by the following example `Deployment` have the tag `kuma.io/service: example-client_kuma-example_svc`:
 
@@ -162,4 +163,4 @@ When running in **Universal** mode, Kuma requires a PostgreSQL database to store
 <img src="/images/docs/0.5.0/diagram-09.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Read [the docs about the Postgres backend](https://deploy-preview-870--kuma.netlify.app/docs/dev/explore/backends/#postgres) for more details.
+Read [the docs about the PostgreSQL backend](https://deploy-preview-870--kuma.netlify.app/docs/dev/explore/backends/#postgres) for more details.
