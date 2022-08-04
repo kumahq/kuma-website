@@ -30,6 +30,7 @@ Two different YAML files are available:
 
 - `demo.yaml` installs the basic resources
 - `demo-v2.yaml` installs the frontend service with different colors. This lets you more clearly view routing across multiple versions, for example.
+- [`gateway.yaml` installs a builtin gateway](#builtin-gateways)
 
 1.  Install resources in a `kuma-demo` namespace:
 
@@ -174,6 +175,7 @@ kubectl delete trafficpermission allow-all-default
 You can try to make requests to the demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) and you will notice that they will **not** work.
 
 Now let's add back the default traffic permission:
+
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
@@ -195,6 +197,19 @@ By doing so every request we now make on our demo application at [`127.0.0.1:500
 :::tip
 As usual, you can visualize the Mutual TLS configuration and the Traffic Permission policies we have just applied via the GUI, the HTTP API or `kumactl`.
 :::
+
+## Builtin gateways
+
+The resources for creating a builtin gateway is included with
+`kuma-counter-demo` in `gateway.yaml` as well:
+
+- a `MeshGateway` that sets up the listeners
+- a `MeshGatewayRoute` that directs requests to the demo app
+- a `MeshGatewayInstance` that manages and deploys proxies to serve gateway
+  traffic
+
+Learn more about builtin gateways in [the dedicated gateway
+docs.](https://kuma.io/docs/1.7.x/explore/gateway/#builtin)
 
 ## Explore Observability features
 
