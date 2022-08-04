@@ -5,8 +5,7 @@ It also covers how to start integrating your services into your mesh.
 
 A Kuma mesh is made up of two main components:
 
-- **Data plane**: The data plane consists of your services
-  and the data plane proxies that run alongside them.
+- **Data plane**: The data plane consists of the data plane proxies that run alongside your services.
   All of your mesh traffic flows through these proxies
   on its way to its destination.
   Kuma's data plane proxy is based on [Envoy](https://www.envoyproxy.io/).
