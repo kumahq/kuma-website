@@ -41,20 +41,10 @@ export default {
     // this is used as the model for the version selector
     defaultSelectedInstallVersion: {
       get() {
-        const routePath = this.$route.path
-        const test = '/docs/'
-        
-        // first, check to see that we're on a docs page:
-        if (routePath.startsWith(test)) {
-          // 1. if we're on a docs page, check the router path and extract the version
-          // 2. set the version selector to the extracted version
-          return this.$route.path.split('/')[2]
+        if (this.$page.version) {
+         return this.$page.version
         }
-        else {
-          // if we're on a page outside of the docs, grab the latest release
-          // from our Vuex Store and set the version selector value to that instead
-          return this.getLatestRelease
-        }
+        return this.getLatestRelease
       },
       set(value) {
         this.redirectToSelectedDocVersion(value)

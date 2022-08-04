@@ -64,11 +64,6 @@ $navbar-link-margin: 3rem; // the spacing between navbar links
     // top: $navbar-vertical-padding;
     display: flex;
     margin-left: auto;
-
-    .search-box {
-      flex: 0 0 auto;
-      vertical-align: top;
-    }
   }
 
   .home-link {

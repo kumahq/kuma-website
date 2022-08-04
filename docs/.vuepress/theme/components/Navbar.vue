@@ -33,7 +33,7 @@
           data-icon="octicon-star"
           data-size="small"
           data-show-count="false"
-          aria-label="Star Konvoy on GitHub"
+          aria-label="Star Kuma on GitHub"
         >
           {{
             getSiteData.themeConfig.repoButtonLabel 
@@ -50,11 +50,6 @@
           'max-width': linksWrapMaxWidth + 'px'
         } : {}"
       >
-        <!-- <AlgoliaSearchBox
-          v-if="isAlgoliaSearch"
-          :options="algolia"
-        />
-        <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"/> -->
         <NavLinks class="can-hide"/>
       </div>
 
@@ -64,14 +59,12 @@
 </template>
 
 <script>
-import AlgoliaSearchBox from '@AlgoliaSearchBox'
-import SearchBox from '@SearchBox'
 import SidebarButton from '@theme/components/SidebarButton.vue'
 import NavLinks from '@theme/components/NavLinks.vue'
 import GithubButton from 'vue-github-button'
 
 export default {
-  components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox, GithubButton },
+  components: { SidebarButton, NavLinks, GithubButton },
 
   data () {
     return {
@@ -93,16 +86,7 @@ export default {
     handleLinksWrapWidth()
     window.addEventListener('resize', handleLinksWrapWidth, false)
   },
-
-  computed: {
-    algolia () {
-      return this.$themeLocaleConfig.algolia || this.$site.themeConfig.algolia || {}
-    },
-
-    isAlgoliaSearch () {
-      return this.algolia && this.algolia.apiKey && this.algolia.indexName
-    }
-  }
+  computed: {}
 }
 
 function css (el, property) {

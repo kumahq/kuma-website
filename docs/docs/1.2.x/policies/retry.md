@@ -113,13 +113,13 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
     Base amount of time which should be taken between retries (i.e. `30ms`, `0.03s`, `0.0005m`)
 
-  - **`maxDuration`** (optional)
+  - **`maxInterval`** (optional)
 
     A maximal amount of time which will be taken between retries  (i.e. `1s`, `0.5m`)
 
 - **`retriableStatusCodes`** (optional)
 
-  A list of status codes which will cause the request to be retried. When this field will be provided it will overwrite the default behaviour of accepting as retriable codes: `502`, `503` and `504` and if they also should be considered as `retriable` you hove to manually place them in the list
+  A list of status codes which will cause the request to be retried. When this field will be provided it will overwrite the default behaviour of accepting as retriable codes: `502`, `503` and `504` and if they also should be considered as `retriable` you have to manually place them in the list
 
   For example to add a status code `418`:
   ```yaml

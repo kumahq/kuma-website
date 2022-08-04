@@ -33,15 +33,14 @@ The `kumactl` executable is a very important component in your journey with Kuma
 * It provides helpers to install Kuma on Kubernetes, and to configure the PostgreSQL schema on Universal (`kumactl install [..]`).
 
 ::: tip
-The `kumactl` application is a CLI client for the underlying [HTTP API](../http-api) of Kuma. Therefore, you can access the state of Kuma by leveraging with the API directly. On Universal you will be able to also make changes via the HTTP API, while on Kubernetes the HTTP API is read-only.
+The `kumactl` application is a CLI client for the underlying [HTTP API](../reference/http-api.md) of Kuma. Therefore, you can access the state of Kuma by leveraging with the API directly. On Universal you will be able to also make changes via the HTTP API, while on Kubernetes the HTTP API is read-only.
 :::
 
 Available commands on `kumactl` are:
 
 * `kumactl install [..]`: provides helpers to install Kuma components in Kubernetes.
   * `kumactl install control-plane`: Installs Kuma in Kubernetes in a `kuma-system` namespace.
-  * `kumactl install metrics`: Installs Prometheus + Grafana in Kubernetes in a `kuma-metrics` namespace.
-  * `kumactl install tracing`: Installs Jaeger with Zipkin compatibility in Kubernetes in a `kuma-tracing` namespace.
+  * `kumactl install observability`: Install Observability (Metrics, Logging, Tracing) backend in Kubernetes cluster (Prometheus + Grafana + Loki + Jaeger + Zipkin) in `mesh-observability` namespace.
 * `kumactl config [..]`: configures the local or zone control-planes that `kumactl` should talk to. You can have more than one enabled, and the configuration will be stored in `~/.kumactl/config`.
 * `kumactl apply [..]`: used to change the state of Kuma. Only available on Universal.
 * `kumactl get [..]`: used to retrieve the raw state of entities Kuma.
@@ -92,3 +91,11 @@ mtls:
         rotation:
           expiration: 10h
 ```
+
+### Configuration
+
+You can view the current configuration using `kumactl config view`.
+
+The configuration is stored in `$HOME/.kumactl/config`, which is created when you run `kumactl` for the first time.
+When you add a new control plane with `kumactl config control-planes add`, the config file is updated.
+To change the path of the config file, run `kumactl` with `--config-file /new-path/config`.

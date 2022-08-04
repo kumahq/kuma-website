@@ -70,6 +70,10 @@ store:
     # Max retries on upsert (get and update) operation when retry is enabled
     conflictRetryMaxTimes: 5 # ENV: KUMA_STORE_UPSERT_CONFLICT_RETRY_MAX_TIMES
 
+  # If true, skips validation of resource delete.
+  # For example you don't have to delete all Dataplane objects before you delete a Mesh
+  unsafeDelete: false # ENV: KUMA_STORE_UNSAFE_DELETE
+
 # Configuration of Bootstrap Server, which provides bootstrap config to Dataplanes
 bootstrapServer:
   # The version of Envoy API (available: "v3")
@@ -109,6 +113,12 @@ xdsServer:
   dataplaneStatusFlushInterval: 10s # ENV: KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL
   # Backoff that is executed when Control Plane is sending the response that was previously rejected by Dataplane
   nackBackoff: 5s # ENV: KUMA_XDS_SERVER_NACK_BACKOFF
+  # A delay between proxy terminating a connection and the CP trying to deregister the proxy.
+  # It is used only in universal mode when you use direct lifecycle.
+  # Setting this setting to 0s disables the delay.
+  # Disabling this may cause race conditions that one instance of CP removes proxy object
+  # while proxy is connected to another instance of the CP.
+  dataplaneDeregistrationDelay: 10s # ENV: KUMA_XDS_DATAPLANE_DEREGISTRATION_DELAY
 
 # API Server configuration
 apiServer:
@@ -246,6 +256,9 @@ runtime:
       initContainer:
         # Image name.
         image: kuma/kuma-init:latest # ENV: KUMA_INJECTOR_INIT_CONTAINER_IMAGE
+      # ContainerPatches is an optional list of ContainerPatch names which will be applied
+      # to init and sidecar containers if workload is not annotated with a patch list.
+      containerPatches: [ ] # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_CONTAINER_PATCHES
       # Configuration for a traffic that is intercepted by sidecar
       sidecarTraffic:
         # List of inbound ports that will be excluded from interception.
@@ -259,6 +272,17 @@ runtime:
         enabled: true # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED
         # Redirect port for DNS
         port: 15053 # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_PORT
+      # EBPF defines configuration for the ebpf, when transparent proxy is marked to be
+      # installed using ebpf instead of iptables
+      ebpf:
+        # Install transparent proxy using ebpf
+        enabled: false # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_ENABLED
+        # Name of the environmental variable which will include IP address of the pod
+        instanceIPEnvVarName: INSTANCE_IP # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_INSTANCE_IP_ENV_VAR_NAME
+        # Path where BPF file system will be mounted for pinning ebpf programs and maps
+        bpffsPath: /run/kuma/bpf # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_BPFFS_PATH
+        # Path where compiled eBPF programs are placed
+        programsSourcePath: /kuma/ebpf # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_PROGRAMS_SOURCE_PATH
     marshalingCacheExpirationTime: 5m # ENV: KUMA_RUNTIME_KUBERNETES_MARSHALING_CACHE_EXPIRATION_TIME
   # Universal-specific configuration
   universal:
@@ -315,8 +339,6 @@ guiServer:
 dnsServer:
   # The domain that the server will resolve the services for
   domain: "mesh" # ENV: KUMA_DNS_SERVER_DOMAIN
-  # Port on which the server is exposed
-  port: 5653 # ENV: KUMA_DNS_SERVER_PORT
   # The CIDR range used to allocate
   CIDR: "240.0.0.0/4" # ENV: KUMA_DNS_SERVER_CIDR
   # Will create a service "<kuma.io/service>.mesh" dns entry for every service.
@@ -432,11 +454,19 @@ access:
       users: [ ] # ENV: KUMA_ACCESS_STATIC_GET_CONFIG_DUMP_USERS
       # List of groups that are allowed to get envoy config dump
       groups: ["mesh-system:unauthenticated","mesh-system:authenticated"] # ENV: KUMA_ACCESS_STATIC_GET_CONFIG_DUMP_GROUPS
+    viewStats:
+      # List of users that are allowed to get envoy stats
+      users: [ ] # ENV: KUMA_ACCESS_STATIC_VIEW_STATS_USERS
+      # List of groups that are allowed to get envoy stats
+      groups: ["mesh-system:unauthenticated","mesh-system:authenticated"] # ENV: KUMA_ACCESS_STATIC_VIEW_STATS_GROUPS
+    viewClusters:
+      # List of users that are allowed to get envoy clusters
+      users: [ ] # ENV: KUMA_ACCESS_STATIC_VIEW_CLUSTERS_USERS
+      # List of groups that are allowed to get envoy clusters
+      groups: ["mesh-system:unauthenticated","mesh-system:authenticated"] # ENV: KUMA_ACCESS_STATIC_VIEW_CLUSTERS_GROUPS
 
 # Configuration of experimental features of Kuma
 experimental:
-  # If true, experimental built-in gateway is enabled
-  meshGateway: false # ENV: KUMA_EXPERIMENTAL_MESHGATEWAY
   # If true, experimental Gateway API is enabled
   gatewayAPI: false # ENV: KUMA_EXPERIMENTAL_GATEWAY_API
   # If true, instead of embedding kubernetes outbounds into Dataplane object, they are persisted next to VIPs in ConfigMap

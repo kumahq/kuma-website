@@ -130,8 +130,6 @@ This set of listener tags is what Kuma will match policies against.
 | kuma.io/service=edge-gateway              | kuma.io/service=example,domain=example.com         | kuma.io/service=example,domain=example.com          |
 | kuma.io/service=edge,location=us          | version=2                                          | kuma.io/service=edit,location=us,version=2          |
 
-The reference doc contains all options on [`MeshGateway`](../generated/resources/mesh-gateway.md).
-
 ## TLS Termination
 
 TLS sessions are terminated on a Gateway by specifying the "HTTPS" protocol, and providing a server certificate configuration.
@@ -177,8 +175,8 @@ spec:
       hostname: foo.example.com
       tls:
         mode: TERMINATE
-        certificate:
-          secret: foo-example-com-certificate
+        certificates:
+          - secret: foo-example-com-certificate
       tags:
         name: foo.example.com
 ```

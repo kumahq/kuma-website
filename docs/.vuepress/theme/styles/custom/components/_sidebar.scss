@@ -32,12 +32,11 @@ $sidebar-button-left-spacing: 1.5rem;
   position: fixed;
   top: 0;
   left: auto;
-  overflow-y: auto !important;
+  overflow-x: visible !important;
   background: none;
   // background-color: #fff;
   font-size: $base-font-size;
   width: $sidebar-width;
-  height: 100vh;
   padding-top: $sidebar-top-spacing;
 
   .nav-item {
@@ -128,6 +127,7 @@ a.sidebar-link {
 @media (max-width: $MQNarrowMid) {
   .sidebar {
     top: 0;
+    overflow: auto;
     padding-top: $navbarHeight;
     transform: translateX(-100%);
     transition: transform 0.2s ease;

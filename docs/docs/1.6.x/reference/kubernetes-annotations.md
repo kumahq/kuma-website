@@ -296,7 +296,7 @@ A boolean to mark a resource as ignored by Kuma.
 It currently only works for services.
 This is useful when transitioning to Kuma or to temporarily ignore some entities.
 
-** Example**
+**Example**
 ```yaml
 apiVersion: v1
 kind: Service
@@ -376,6 +376,44 @@ spec:
     projected:
       sources:
       - serviceAccountToken:
-          path: token
           expirationSeconds: 7200
-          audience: "https://kubernetes.default.svc.cluster.local"
+          path: token
+          audience: "https://kubernetes.default.svc"
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+```
+
+### `kuma.io/transparent-proxying-reachable-services`
+
+A comma separated list of `kuma.io/service` to indicate which services this communicates with.
+For more details see the [reachable services docs](../networking/transparent-proxying.md#reachable-services).
+
+**Example**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        # a comma separated list of kuma.io/service values
+        kuma.io/transparent-proxying-reachable-services: "redis_kuma-demo_svc_6379,elastic_kuma-demo_svc_9200"
+    spec:
+      containers:
+        ...
+```

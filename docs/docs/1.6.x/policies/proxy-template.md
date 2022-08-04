@@ -62,7 +62,13 @@ conf:
 In these examples, note:
 
 * The `selectors` object specifies the [data plane proxies](../explore/dpp/#dataplane-entity) that are targeted by the `ProxyTemplate` resource. Values are provided as Kuma tags.
-* The `imports` object specifies the reusable configuration that Kuma generates automatically. Kuma then extends the imports object with the custom configuration you specify. The value must be one or both of `default-proxy` -- the default configuration for non-ingress data planes -- or `ingress` -- the default configuration for zone-ingress proxy.
+* The `imports` object specifies the reusable configuration that Kuma generates automatically. Kuma then extends the imports object with the custom configuration you specify. Possible values:
+* `default-proxy` - the default configuration for non-ingress data planes.
+* `ingress-proxy` - the default configuration for zone-ingress proxy.
+* `gateway-proxy` - the default configuration for mesh gateway.
+* `egress-proxy` - the default configuration for zone-egress proxy.
+
+You can choose more than one import object.
 
 
 ### Modifications
@@ -85,6 +91,7 @@ Available origins:
 * `prometheus` - resources generated when Prometheus metrics are enabled.
 * `direct-access` - resources generated for Direct Access functionality.
 * `ingress` - resources generated for Zone Ingress.
+* `gateway` - resources generated for MeshGateway
 
 #### Cluster
 
@@ -475,10 +482,38 @@ conf:
 :::
 ::::
 
+Example how to change `streamIdleTimeout` for `MeshGateway`:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ProxyTemplate
+mesh: default
+metadata:
+  name: custom-template-1
+spec:
+  selectors:
+    - match:
+        kuma.io/service: '*'
+  conf:
+    imports:
+      - gateway-proxy # default configuration for MeshGateway
+    modifications:
+      - networkFilter:
+          operation: patch
+          match:
+            name: envoy.filters.network.http_connection_manager
+            origin: gateway # you can also specify the name of the listener
+          value: |
+            name: envoy.filters.network.http_connection_manager
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+              streamIdleTimeout: 15s
+```
+
 #### HTTP Filter
 
 Modifications that are applied on [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/http/http) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resource.
-Modifications are applied on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#http-connection-manager) in the Listener.
+Modifications are applied on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#http-connection-manager-proto) in the Listener.
 
 HTTP Filter modifications can only be applied on services [configured as HTTP](../protocol-support-in-kuma).
 
@@ -687,7 +722,7 @@ Available operations:
 Available matchers:
 * `name` - name of the VirtualHost.
 * `origin` - origin of the VirtualHost.
-* `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration).
+* `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration-proto).
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"

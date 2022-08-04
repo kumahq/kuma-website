@@ -17,7 +17,7 @@ The zone key is purely static and arbitrary. Different zone values for different
 
 ## Prerequisites
 
-- [Redis installed](https://redis.io/download#installation)
+- [Redis installed](https://redis.io/docs/quickstart)
 - [Kuma installed](/install)
 - [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 

@@ -55,9 +55,9 @@
       "explore/gateway",
       "explore/zone-ingress",
       "explore/zoneegress",
-      "explore/backends",
       "explore/cli",
       "explore/gui",
+      "explore/observability",
       "explore/inspect-api",
       "explore/gateway-api"
     ]
@@ -71,7 +71,6 @@
       "networking/networking",
       "networking/service-discovery",
       "networking/dns",
-      "networking/dns-cp",
       "networking/cni",
       "networking/transparent-proxying",
       "networking/ipv6"
@@ -102,7 +101,8 @@
       "documentation/health",
       "documentation/fine-tuning",
       "documentation/configuration",
-      "documentation/upgrades"
+      "documentation/upgrades",
+      "documentation/requirements"
     ]
   },
   {
@@ -156,9 +156,17 @@
     "children": [
       "reference/http-api",
       "reference/kubernetes-annotations",
-      "reference/dpp-specification",
       "reference/data-collection",
       "reference/license"
+    ]
+  },
+  {
+    "title": "Contribute",
+    "collapsable": true,
+    "sidebarDepth": 1,
+    "path": "",
+    "children": [
+      "contribute/introduction"
     ]
   }
 ]

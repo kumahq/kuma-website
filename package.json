@@ -1,6 +1,6 @@
 {
   "name": "kuma-website",
-  "description": "The website and docs for Konvoy.",
+  "description": "The website and docs for Kuma.",
   "author": "Kong Inc.",
   "scripts": {
     "docs:dev": "node ./node_modules/vuepress/cli.js dev docs --open",
@@ -36,8 +36,7 @@
     "@babel/plugin-transform-object-assign": "^7.2.0",
     "@vue/test-utils": "1.1.3",
     "@vuepress/plugin-blog": "^1.8.1",
-    "@vuepress/plugin-google-analytics": "^1.0.0-rc.1",
-    "@vuepress/plugin-medium-zoom": "^1.0.0-rc.1",
+    "@vuepress/plugin-google-analytics": "^1.1.0",
     "babel-jest": "24.9.0",
     "chalk": "^2.0.0",
     "commander": "^2.0.0",

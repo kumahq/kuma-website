@@ -60,8 +60,8 @@ produce the hostname: `v1.backend.mesh` with port: `1800`.
 
 Additional requirements:
 
-- [Transparent proxy](../../networking/transparent-proxying).
-- Either [data plane proxy DNS](../../networking/dns#data-plane-proxy-dns), or else the value of `conf.host` must end with the value of `dns_server.domain` (default value `.mesh`).
+- [Transparent proxy](../networking/transparent-proxying.md).
+- Either [data plane proxy DNS](../networking/dns.md), or else the value of `conf.host` must end with the value of `dns_server.domain` (default value `.mesh`).
 - `name` must be alphanumeric. (Used as a go template key).
 - Each value of `name` must be unique.
 - `kuma.io/service` must be specified even if it's unused in the template. (Prevents defining hostnames that spans services).

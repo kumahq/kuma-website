@@ -2,7 +2,7 @@
 
 With `TrafficLog` policy you can easily set up access logs on every data-plane in a [`Mesh`](../mesh).
 
-[//]: # (The logs can be then forwarded to a collector that can further transmit them into systems like Splunk, ELK and Datadog.)
+`TrafficLog` only logs outbound traffic. It doesn't log inbound traffic.
 
 Configuring access logs in `Kuma` is a 3-step process:
 
@@ -14,7 +14,7 @@ Configuring access logs in `Kuma` is a 3-step process:
 
 A _logging backend_ is essentially a sink for access logs.
 
-In the current release of `Kuma`, a _logging backend_ can be either a _file_ or a _TCP log collector_, such as Logstash.
+Currently, a _logging backend_ can be either a `file` or a `TCP log collector`, such as Logstash.
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
@@ -63,7 +63,7 @@ logging:
       # Use `format` field to adjust the access log format to your use case.
       format: '{"start_time": "%START_TIME%", "source": "%KUMA_SOURCE_SERVICE%", "destination": "%KUMA_DESTINATION_SERVICE%", "source_address": "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%", "destination_address": "%UPSTREAM_HOST%", "duration_millis": "%DURATION%", "bytes_received": "%BYTES_RECEIVED%", "bytes_sent": "%BYTES_SENT%"}'
       type: tcp
-      conf: # Use `config` field to co configure a TCP logging backend.
+      conf: # Use `config` field to configure a TCP logging backend.
         # Address of a log collector.
         address: 127.0.0.1:5000
     - name: file
@@ -92,10 +92,10 @@ spec:
   # This TrafficLog policy applies all traffic in that Mesh.
   sources:
     - match:
-        kuma.io/service: '*'
+        kuma.io/service: "*"
   destinations:
     - match:
-        kuma.io/service: '*'
+        kuma.io/service: "*"
   # When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that Mesh.
 ```
 
@@ -126,10 +126,10 @@ mesh: default
 # This TrafficLog policy applies to all traffic in the Mesh.
 sources:
   - match:
-      kuma.io/service: '*'
+      kuma.io/service: "*"
 destinations:
   - match:
-      kuma.io/service: '*'
+      kuma.io/service: "*"
 # When `backend ` field is omitted, the logs will be forwarded into the `defaultBackend` of that Mesh.
 ```
 
@@ -172,7 +172,8 @@ The logging backend needs to be configured to send the access logs of your data-
 Loki will directly retrieve the logs from `stdout` of your containers.
 
 ```yaml
-type: Mesh
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
 metadata:
   name: default
 spec:
@@ -190,13 +191,16 @@ spec:
 To visualise your **containers' logs** and your **access logs** you need to have a Grafana up and running.
 You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](traffic-metrics.md).
 
-With Grafana installed you can configure a new datasource with url:`http://loki.kuma-logging:3100` so Grafana will be able to retrieve the logs from Loki.
+If you have installed Grafana yourself you can configure a new datasource with url:`http://loki.kuma-logging:3100` so Grafana will be able to retrieve the logs from Loki.
 
 <center>
-<img src="../images/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the explore section.
+At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the [explore section](https://grafana.com/docs/grafana/latest/explore/).
+
+For example, running: `{container="kuma-sidecar"} |= "GET"` will show all GET requests on your cluster.
+To learn more about the search syntax check the [Loki docs](https://grafana.com/docs/loki/latest/logql/).
 :::
 ::: tab "Universal"
 
@@ -226,13 +230,14 @@ logging:
 To visualise your **containers' logs** and your **access logs** you need to have a Grafana up and running. 
 You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](traffic-metrics.md).
 
-With Grafana installed you can configure a new datasource with url:`http://loki.kuma-logging:3100` so Grafana will be able to retrieve the logs from Loki.
-
 <center>
-<img src="../images/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the explore section.
+At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the [explore section](https://grafana.com/docs/grafana/latest/explore/).
+
+For example, running: `{container="kuma-sidecar"} |= "GET"` will show all GET requests on your cluster.
+To learn more about the search syntax check the [Loki docs](https://grafana.com/docs/loki/latest/logql/).
 :::
 ::::
 
@@ -321,7 +326,7 @@ To use it with Logstash, use `json_lines` codec and make sure your JSON is forma
 
 ### Logging external services
 
-When running Kuma on Kubernetes you can also log the traffic to external services. To do it, the matched `TrafficPermission` destination section has to have wildcard `*` value.
+When running Kuma on Kubernetes you can also log the traffic to external services. To do it, the matched destination section has to have wildcard `*` value.
 In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.  
 
 ## Matching

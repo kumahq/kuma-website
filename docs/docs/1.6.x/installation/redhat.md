@@ -3,6 +3,6 @@ os: rhel
 arch: amd64
 ---
 
-# Debian
+# Redhat
 
 !!!include(install_os.md)!!!

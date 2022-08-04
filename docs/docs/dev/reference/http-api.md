@@ -3,7 +3,7 @@
 Kuma ships with a RESTful HTTP interface that you can use to retrieve the state of your configuration and policies on every environment, and when running on Universal mode it will also allow to make changes to the state. On Kubernetes, you will use native CRDs to change the state in order to be consistent with Kubernetes best practices.
 
 ::: tip
-**CI/CD**: The HTTP API can be used for infrastructure automation to either retrieve data, or to make changes when running in Universal mode. The [`kumactl`](../cli) CLI is built on top of the HTTP API, which you can also access with any other HTTP client like `curl`.
+**CI/CD**: The HTTP API can be used for infrastructure automation to either retrieve data, or to make changes when running in Universal mode. The [`kumactl`](../explore/cli.md) CLI is built on top of the HTTP API, which you can also access with any other HTTP client like `curl`.
 :::
 
 By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTPS). The endpoints available are:
@@ -73,6 +73,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * [`/zoneegressoverviews`](#list-zone-egress-overviews)
 * [`/zoneegressoverviews/{name}`](#get-zone-egress-overview)
 * `/global-insights`
+* [`/policies`](#policies)
 
 You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
@@ -2162,7 +2163,7 @@ curl -XDELETE http://localhost:5681/meshes/default/fault-injections/fi1
 ```
 
 ::: tip
-The [`kumactl`](../cli) CLI under the hood makes HTTP requests to this API.
+The [`kumactl`](../explore/cli.md) CLI under the hood makes HTTP requests to this API.
 :::
 
 ## Retry
@@ -2376,7 +2377,7 @@ curl -XDELETE http://localhost:5681/meshes/default/retries/r1
 ```
 
 ::: tip
-The [`kumactl`](../cli) CLI under the hood makes HTTP requests to this API.
+The [`kumactl`](../explore/cli.md) CLI under the hood makes HTTP requests to this API.
 :::
 
 ## Timeout
@@ -2550,7 +2551,7 @@ curl -XDELETE http://localhost:5681/meshes/default/timeouts/t1
 ```
 
 ::: tip
-The [`kumactl`](../cli) CLI under the hood makes HTTP requests to this API.
+The [`kumactl`](../explore/cli.md) CLI under the hood makes HTTP requests to this API.
 :::
 
 
@@ -3839,10 +3840,10 @@ curl -XGET http://localhost:5681/status/zones
 Generate the data plane proxy tokens required for data plane proxy authentication.
 
 ::: warning
-Requires [authentication to the control plane by the user](../security/certificates/#authentication).
+Requires [authentication to the control plane by the user](../security/certificates.md#authentication).
 :::
 
-For details, see [data plane proxy authentication](../security/certificates/#data-plane-proxy-authentication).
+For details, see [data plane proxy authentication](../security/certificates.md#data-plane-proxy-to-control-plane-communication).
 
 ### Generate dataplane proxy token
 
@@ -4239,6 +4240,115 @@ curl localhost:5681/zoneegresses/ze-1/xds
      }
     }
    }
+  }
+ ]
+}
+```
+
+
+### Policies
+
+Show all policies that are usable on the control plane
+
+Request: `GET /policies`
+
+Example:
+```bash
+curl localhost:5681/policies
+```
+
+```json
+{
+ "policies": [
+  {
+   "name": "CircuitBreaker",
+   "readOnly": false,
+   "path": "circuit-breakers",
+   "displayName": "Circuit Breakers"
+  },
+  {
+   "name": "ExternalService",
+   "readOnly": false,
+   "path": "external-services",
+   "displayName": "External Services"
+  },
+  {
+   "name": "FaultInjection",
+   "readOnly": false,
+   "path": "fault-injections",
+   "displayName": "Fault Injections"
+  },
+  {
+   "name": "HealthCheck",
+   "readOnly": false,
+   "path": "health-checks",
+   "displayName": "Health Checks"
+  },
+  {
+   "name": "MeshGateway",
+   "readOnly": false,
+   "path": "meshgateways",
+   "displayName": "Mesh Gateways"
+  },
+  {
+   "name": "MeshGatewayRoute",
+   "readOnly": false,
+   "path": "meshgatewayroutes",
+   "displayName": "Mesh Gateway Routes"
+  },
+  {
+   "name": "ProxyTemplate",
+   "readOnly": false,
+   "path": "proxytemplates",
+   "displayName": "Proxy Templates"
+  },
+  {
+   "name": "RateLimit",
+   "readOnly": false,
+   "path": "rate-limits",
+   "displayName": "Rate Limits"
+  },
+  {
+   "name": "Retry",
+   "readOnly": false,
+   "path": "retries",
+   "displayName": "Retries"
+  },
+  {
+   "name": "Timeout",
+   "readOnly": false,
+   "path": "timeouts",
+   "displayName": "Timeouts"
+  },
+  {
+   "name": "TrafficLog",
+   "readOnly": false,
+   "path": "traffic-logs",
+   "displayName": "Traffic Logs"
+  },
+  {
+   "name": "TrafficPermission",
+   "readOnly": false,
+   "path": "traffic-permissions",
+   "displayName": "Traffic Permissions"
+  },
+  {
+   "name": "TrafficRoute",
+   "readOnly": false,
+   "path": "traffic-routes",
+   "displayName": "Traffic Routes"
+  },
+  {
+   "name": "TrafficTrace",
+   "readOnly": false,
+   "path": "traffic-traces",
+   "displayName": "Traffic Traces"
+  },
+  {
+   "name": "VirtualOutbound",
+   "readOnly": false,
+   "path": "virtual-outbounds",
+   "displayName": "Virtual Outbounds"
   }
  ]
 }

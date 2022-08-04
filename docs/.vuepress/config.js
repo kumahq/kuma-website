@@ -31,6 +31,64 @@ const dirTree = require('directory-tree')
 const path = require("path");
 const fs = require("fs");
 const versions = require("./versions.js");
+const installMethods = [
+  {
+    "label": "Kubernetes",
+    "logo": "/images/platforms/logo-kubernetes.png",
+    "slug": "kubernetes"
+  },
+  {
+    "label": "Helm",
+    "logo": "/images/platforms/logo-helm.png",
+    "slug": "helm"
+  },
+  {
+    "label": "OpenShift",
+    "logo": "/images/platforms/logo-openshift.png",
+    "slug": "openshift"
+  },
+  {
+    "label": "Docker",
+    "logo": "/images/platforms/logo-docker.png",
+    "slug": "docker"
+  },
+  {
+    "label": "Amazon Linux",
+    "logo": "/images/platforms/logo-amazon-linux.png",
+    "slug": "amazonlinux"
+  },
+  {
+    "label": "Amazon EKS",
+    "logo": "/images/platforms/logo-eks.png",
+    "slug": "kubernetes"
+  },
+  {
+    "label": "CentOS",
+    "logo": "/images/platforms/logo-centos.gif",
+    "slug": "centos"
+  },
+  {
+    "label": "RedHat",
+    "logo": "/images/platforms/logo-redhat.jpg",
+    "slug": "redhat"
+  },
+  {
+    "label": "Debian",
+    "logo": "/images/platforms/logo-debian.jpg",
+    "slug": "debian"
+  },
+  {
+    "label": "Ubuntu",
+    "logo": "/images/platforms/logo-ubuntu.png",
+    "slug": "ubuntu"
+  },
+  {
+    "label": "macOS",
+    "logo": "/images/platforms/logo-macos.png",
+    "slug": "macos"
+  }
+]
+
 
 /**
  * Site Configuration
@@ -42,7 +100,7 @@ module.exports = {
     gaCode: productData.gaCode,
     latestVersion: versions.latestMinor,
     versions: versions.allMinors,
-    installMethods: require("./public/install-methods.json"),
+    installMethods: installMethods,
     twitter: productData.twitter,
     author: productData.author,
     websiteRepo: productData.websiteRepo,
@@ -55,11 +113,13 @@ module.exports = {
     docsDir: "docs",
     editLinks: false,
     sidebarDepth: 0,
-    search: true,
+    search: false,
+    searchPlaceholder: "Search...",
     searchMaxSuggestions: 10,
     algolia: {
-      apiKey: "",
-      indexName: ""
+      apiKey: "4224b11bee5bf294f73032a4988a00ea",
+      appId: "RSEEOBCB49",
+      indexName: "kuma",
     },
     sidebar: versions.allMinors.reduce((acc, v) => {
       acc[`/docs/${v}/`] = require(`../docs/${v}/sidebar.json`).map(sb => {
@@ -72,11 +132,11 @@ module.exports = {
               .map(f => `generated/${f.name}`)
               .forEach((f) => sb.children.push(f));
           }
-          const genPoliciesPath = path.resolve(__dirname, `../docs/${v}/generated/resources`);
-          if (fs.existsSync(genPoliciesPath)) {
-            const policies = fs.readdirSync(genPoliciesPath, {withFileTypes: true})
+          const genResourcesPath = path.resolve(__dirname, `../docs/${v}/generated/resources`);
+          if (fs.existsSync(genResourcesPath)) {
+            const resources = fs.readdirSync(genResourcesPath, {withFileTypes: true})
               .map(f => "generated/resources/" + f.name.replace(".md", ""));
-            sb.children.push({"title": "Policies", "children": policies});
+            sb.children.push({"title": "Resources", "children": resources});
           } else {
             const genPoliciesPath = path.resolve(__dirname, `../docs/${v}/generated/policies`);
             if (fs.existsSync(genPoliciesPath)) {
@@ -191,12 +251,20 @@ module.exports = {
         property: "fb:app_id", content: productData.fbAppId
       }
     ],
+    [
+      "meta",
+      {
+        name: "viewport", content: "width=device-width"
+      }
+    ],
     // web fonts
     [
       "link",
       {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700"
+        rel: "preload",
+        href: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700&display=swap",
+        as: "style",
+        onload: "this.onload=null;this.rel='stylesheet'",
       }
     ],
     // [
@@ -225,13 +293,16 @@ module.exports = {
         },
         frontmatter: {
           sidebar: false,
-          layout: "Install"
+          layout: "Install",
+          meta: [
+            {name: "robots", content: "noindex,follow"}
+          ]
         }
-      };
+      }
     }),
   ],
   extendMarkdown: (md) => {
-    md.use(require('markdown-it-include'), "docs/_snippets")
+    md.use(require('markdown-it-include'), "docs/.vuepress/_snippets")
   },
   // plugin settings, build process, etc.
   markdown: {
@@ -251,7 +322,6 @@ module.exports = {
 User-agent: *
 Disallow: /latest_version
 Disallow: /latest_version.html
-${versions.oldMinors.map((v) => `Disallow: /docs/${v}`).join("\n")}
 
 Sitemap: https://kuma.io/sitemap.xml
 `
@@ -277,7 +347,12 @@ Sitemap: https://kuma.io/sitemap.xml
 
           const redirects = [
             `/docs /docs/${versions.latestMinor} 301`,
-            `/install /install/${versions.latestMinor} 200`,
+            `/install/kong-gateway /docs/${versions.latestMinor}/explore/gateway 301`,
+            `/docs/latest/documentation/gateway /docs/${versions.latestMinor}/explore/gateway 301`,
+            `/docs/latest/deployments /docs/:version/${versions.latestMinor}/deployments 301`,
+            `/docs/latest/documentation/deployments /docs/${versions.latestMinor}/introduction/deployments 301`,
+            `/docs/latest/explore/backends /docs/${versions.latestMinor}/documentation/configuration 301`,
+            `/install /install/${versions.latestMinor} 301`,
             `/docs/latest/* /docs/${versions.latestMinor}/:splat 301`,
             `/install/latest/* /install/${versions.latestMinor}/:splat 301`,
             `/docs/:version/policies/ /docs/:version/policies/introduction 301`,
@@ -285,6 +360,7 @@ Sitemap: https://kuma.io/sitemap.xml
             `/docs/:version/other/ /docs/:version/other/enterprise 301`,
             `/docs/:version/installation/ /docs/:version/installation/kubernetes 301`,
             `/docs/:version/api/ /docs/:version/documentation/http-api 301`,
+            `/docs/:version/documentation/deployments/ /docs/:version/introduction/deployments 301`,
             `/latest_version.html /latest_version 301`,
           ];
           // Add redirects for x.y.{0..5} to x.y.x
@@ -309,17 +385,41 @@ Sitemap: https://kuma.io/sitemap.xml
 
       }
     },
+    ["clean-urls", {normalSuffix: "/", indexSuffix: "/"}],
     (config = {}, ctx) => {
       return {
         name: "page-latest-version",
         extendPageData: (page) => {
           if (page.regularPath.startsWith("/docs")) {
+            page.frontmatter.search = true;
             let v = page.regularPath.split("/")[2]
             if (!v) {
               return
             }
+            const {meta = [], sitemap = {}} = page.frontmatter;
+            meta.push(
+              {
+                name: "docsearch:section",
+                content: "docs"
+              }, {
+                name: "docsearch:docsversion",
+                content: v
+              }
+            )
+            if (v !== versions.latestMinor) {
+              // Only index the latest version of the docs
+              sitemap.exclude = true
+              meta.push({
+                name: "robots",
+                content: "noindex,follow"
+              });
+            }
+            page.frontmatter.meta = meta
+            page.frontmatter.search = sitemap
+
             let ver = versions.versions(v);
             if (ver) {
+              page.version = v;
               page.latestVersion = ver[ver.length - 1];
             }
             let helmVersions = versions.helmVersions(v);
@@ -331,15 +431,11 @@ Sitemap: https://kuma.io/sitemap.xml
       }
     },
     ['code-copy', {color: "#4e1999", backgroundColor: '#4e1999'}],
-    ["clean-urls", {normalSuffix: "/", indexSuffix: "/"}],
     ["sitemap", {hostname: productData.hostname}],
     ["seo", {
       customMeta: (add, context) => {
-        const {$site, $page} = context;
-
         // Twitter and OpenGraph image URL string
-        const ogImage = `${productData.hostname}${productData.ogImage}?cb=`
-
+        const ogImage = `${productData.hostname}${productData.ogImage}?cb=`;
         // Twitter
         add("twitter:image", `${ogImage}${Math.random().toString(36).substring(2, 8)}`);
         add("twitter:image:alt", productData.description);
@@ -354,13 +450,6 @@ Sitemap: https://kuma.io/sitemap.xml
       }
     }],
     ["@vuepress/google-analytics", {ga: productData.gaCode}],
-    // "@vuepress/plugin-pwa": {
-    //   serviceWorker: false,
-    //   updatePopup: false,
-    //   generateSWConfig: {
-    //     skipWaiting: true
-    //   }
-    // },
     ["@vuepress/nprogress"],
     ["tabs", {dedupeIds: true}],
     ["@vuepress/plugin-blog", {
@@ -401,17 +490,14 @@ Sitemap: https://kuma.io/sitemap.xml
       })
     ]
   },
-  // this is covered in the VuePress documentation
-  // but it doesn't seem to work. Left here in case
-  // that changes.
-  extraWatchFiles: [
-    "/public/install-methods.json",
-  ],
   evergreen: false,
   configureWebpack: (config) => {
     return {
       plugins: [
-        new webpack.EnvironmentPlugin({...process.env})
+        new webpack.EnvironmentPlugin({...process.env}),
+        new webpack.optimize.LimitChunkCountPlugin({
+          maxChunks: 20
+        })
       ]
     }
   },

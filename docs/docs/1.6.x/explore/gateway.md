@@ -252,6 +252,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshGatewayInstance
 metadata:
   name: edge-gateway
+  namespace: default
 spec:
   replicas: 1
   serviceType: LoadBalancer
@@ -298,7 +299,7 @@ metadata:
 spec:
   selectors:
   - match:
-    kuma.io/service: edge-gateway
+      kuma.io/service: edge-gateway
   conf:
     listeners:
       - port: 8080
@@ -337,17 +338,10 @@ conf:
       - matches:
           - path:
               match: PREFIX
-              value: /api
-        backends:
-          - destination:
-              kuma.io/service: api
-      - matches:
-          - path:
-              match: PREFIX
               value: /
         backends:
           - destination:
-              kuma.io/service: frontend
+              kuma.io/service: demo-app_kuma-demo_svc_5000
 ```
 :::
 ::: tab "Kubernetes"
@@ -369,17 +363,10 @@ spec:
         - matches:
             - path:
                 match: PREFIX
-                value: /api
-          backends:
-            - destination:
-                kuma.io/service: api_default_svc_80
-        - matches:
-            - path:
-                match: PREFIX
                 value: /
           backends:
             - destination:
-                kuma.io/service: frontend_default_svc_80
+                kuma.io/service: demo-app_kuma-demo_svc_5000
 " | kubectl apply -f -
 ```
 :::

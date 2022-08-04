@@ -3,7 +3,7 @@
 
     <div class="cncf-banner">
       <h4>{{ getSiteData.title }} is a CNCF Sandbox project</h4>
-      <img src="/images/CNCF_Alternate_Pantone.png" alt="Cloud Native Computing Foundation Logo">
+      <img src="/images/CNCF_Alternate_Pantone.png" alt="Cloud Native Computing Foundation Logo" loading="lazy">
       <br>
       <p>Kuma was originally created by <a href="https://konghq.com/">Kong, Inc.</a> and made successful by its open <a href="/community">community</a>.</p>
     </div>
@@ -39,7 +39,7 @@
                 data-icon="octicon-star"
                 data-size="small"
                 data-show-count="false"
-                aria-label="Star Konvoy on GitHub"
+                aria-label="Star Kuma on GitHub"
               >
                 {{
                   getSiteData.themeConfig.repoButtonLabel

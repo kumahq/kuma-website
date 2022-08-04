@@ -19,8 +19,6 @@ This is the default, single zone mode, in which all of the following ports are e
     * `5680`: the HTTP server that returns the health status and metrics of the control-plane.
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - that you can use to apply new policies. It also exposes the Kuma GUI at `/gui`
     * `5682`: HTTPS version of the services available under `5681`
-* UDP
-    * `5653`: [the Kuma DNS server](../dns-cp)
 
 ### Global Control Plane
 
@@ -45,8 +43,6 @@ When Kuma is run as a distributed service mesh, the Zone control plane exposes t
     * `5680`: the HTTP server that returns the health status of the control-plane.
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve Kuma's policies and - when running in `universal` - you can only manage the dataplane resources.
     * `5682`: HTTPS version of the services available under `5681`
-* UDP
-    * `5653`: [the Kuma DNS server](../dns-cp)
 
 ## kuma-dp ports
 
@@ -54,4 +50,4 @@ When we start a data-plane via `kuma-dp` we expect all the inbound and outbound 
 
 In addition to the service traffic ports, the data-plane automatically also opens the `envoy` [administration interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) listener on the `127.0.0.1:9901`.
 
-Check the [dpp documentation](../explore/dpp/#envoy) for more on Envoy Admin port.
+Check the [dpp documentation](../explore/dpp-on-universal.md#envoy) for more on Envoy Admin port.

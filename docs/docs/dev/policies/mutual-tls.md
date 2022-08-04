@@ -1,25 +1,25 @@
 # Mutual TLS
 
-This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](../mesh), as well as assigning an identity to every data plane proxy. Kuma supports different types of CA backends as well as automatic certificate rotation.
+This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](mesh.md), as well as assigning an identity to every data plane proxy. Kuma supports different types of CA backends as well as automatic certificate rotation.
 
 Kuma ships with the following CA (Certificate Authority) supported backends:
 
-* [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](../../security/secrets).
-* [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a [Secret](../../security/secrets).
+* [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](../security/secrets.md).
+* [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a [Secret](../security/secrets.md).
 
-Once a CA backend has been specified, Kuma will then automatically generate a certificate for every data plane proxy in the [`Mesh`](../mesh). The certificates that Kuma generates are SPIFFE compatible and are used for AuthN/Z use-cases in order to identify every workload in our system. 
-
-:::tip
-The certificates that Kuma generates have a SAN set to `spiffe://<mesh name>/<service name>`. When Kuma enforces policies that require an identity like [`TrafficPermission`](../traffic-permissions) it will extract the SAN from the client certificate and use it to match the service identity.
-:::
-
-Remember that by default mTLS **is not** enabled and needs to be explicitly enabled as described below. Also remember that by default when mTLS is enabled all traffic is denied **unless** a [`TrafficPermission`](../traffic-permissions) policy is being configured to explicitly allow traffic across proxies.
+Once a CA backend has been specified, Kuma will then automatically generate a certificate for every data plane proxy in the [`Mesh`](mesh.md). The certificates that Kuma generates are SPIFFE compatible and are used for AuthN/Z use-cases in order to identify every workload in our system. 
 
 :::tip
-Always make sure that a [`TrafficPermission`](../traffic-permissions) resource is present before enabling mTLS in a Mesh in order to avoid unexpected traffic interruptions caused by a lack of authorization between proxies.
+The certificates that Kuma generates have a SAN set to `spiffe://<mesh name>/<service name>`. When Kuma enforces policies that require an identity like [`TrafficPermission`](traffic-permissions.md) it will extract the SAN from the client certificate and use it to match the service identity.
 :::
 
-To enable mTLS we need to configure the `mtls` property in a [`Mesh`](../mesh) resource. We can have as many `backends` as we want, but only one at a time can be enabled via the `enabledBackend` property. 
+Remember that by default mTLS **is not** enabled and needs to be explicitly enabled as described below. Also remember that by default when mTLS is enabled all traffic is denied **unless** a [`TrafficPermission`](traffic-permissions.md) policy is being configured to explicitly allow traffic across proxies.
+
+:::tip
+Always make sure that a [`TrafficPermission`](traffic-permissions.md) resource is present before enabling mTLS in a Mesh in order to avoid unexpected traffic interruptions caused by a lack of authorization between proxies.
+:::
+
+To enable mTLS we need to configure the `mtls` property in a [`Mesh`](mesh.md) resource. We can have as many `backends` as we want, but only one at a time can be enabled via the `enabledBackend` property. 
 
 If `enabledBackend` is missing or empty, then mTLS will be disabled for the entire Mesh.
 
@@ -76,7 +76,7 @@ mtls:
           expiration: 10y
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../reference/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../reference/http-api.md).
 :::
 ::::
 
@@ -87,12 +87,12 @@ A few considerations:
 
 ### Storage of Secrets
 
-When using a `builtin` backend Kuma automatically generates a root CA certificate and key that are being stored as a Kuma [Secret resource](../../security/secrets) with the following name:
+When using a `builtin` backend Kuma automatically generates a root CA certificate and key that are being stored as a Kuma [Secret resource](../security/secrets.md) with the following name:
 
 * `{mesh name}.ca-builtin-cert-{backend name}` for the certificate
 * `{mesh name}.ca-builtin-key-{backend name}` for the key
 
-On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [backend](../../explore/backends) configured in `kuma-cp`.
+On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [store](../../documentation/configuration#store) configured in `kuma-cp`.
 
 We can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or via `kubectl` on Kubernetes only:
 
@@ -127,7 +127,7 @@ kubectl get secrets \
 
 If you choose to provide your own CA root certificate and key, you can use the `provided` backend. With this option, you must also manage the certificate lifecycle yourself.
 
-Unlike the `builtin` backend, with `provided` you first upload the certificate and key as [Secret resources](../../security/secrets), and then reference the Secrets in the mTLS configuration.
+Unlike the `builtin` backend, with `provided` you first upload the certificate and key as [Secret resources](../security/secrets.md), and then reference the Secrets in the mTLS configuration.
 
 Kuma then provisions data plane proxy certificates for every replica of every service from the CA root certificate and key.
 
@@ -178,7 +178,7 @@ mtls:
           secret: name-of-secret
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../../reference/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](../reference/http-api.md).
 :::
 ::::
 
@@ -244,10 +244,10 @@ VokELweu6SS7M4ODE8/Ci3QLS/mmx++9s2kCCqq49dyA2/ZabLb2nBF96wo/RDp9
 
 When using an arbitrary certificate and key for a `provided` backend, we must make sure that we comply with the following requirements:
 
-1. It MUST have basic constraint `CA` set to `true` (see [X509-SVID: 4.1. Basic Constraints](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#41-basic-constraints))
-2. It MUST have key usage extension `keyCertSign` set (see [X509-SVID: 4.3. Key Usage](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#43-key-usage))
-3. It MUST NOT have key usage extension 'keyAgreement' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
-4. It SHOULD NOT set key usage extension 'digitalSignature' and 'keyEncipherment' to be SPIFFE compliant (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md#appendix-a-x509-field-reference))
+1. It MUST have basic constraint `CA` set to `true` (see [X509-SVID: 4.1. Basic Constraints](https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md#41-basic-constraints))
+2. It MUST have key usage extension `keyCertSign` set (see [X509-SVID: 4.3. Key Usage](https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md#43-key-usage))
+3. It MUST NOT have key usage extension 'keyAgreement' set (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md#appendix-a-x509-field-reference))
+4. It SHOULD NOT set key usage extension 'digitalSignature' and 'keyEncipherment' to be SPIFFE compliant (see [X509-SVID: Appendix A. X.509 Field Reference](https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md#appendix-a-x509-field-reference))
 
 :::warning
 Do not use the following example in production, instead generate valid and compliant certificates. This example is intended for usage in a development environment.
@@ -274,7 +274,7 @@ openssl req -config <(echo "$SAMPLE_CA_CONFIG") -new -newkey rsa:2048 -nodes \
   -subj "/CN=Hello" -x509 -extensions ext -keyout key.pem -out crt.pem
 ```
 
-The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the Kuma Secret resources by following the [Secret reference](../../security/secrets).
+The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the Kuma Secret resources by following the [Secret reference](../security/secrets.md).
 
 :::
 ::::
@@ -408,7 +408,7 @@ Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` 
 :::
 ::: tab "HTTP API"
 
-We can use the Kuma HTTP API by retrieving the [Dataplane Insight](../reference/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
+We can use the Kuma HTTP API by retrieving the [Dataplane Insight](../reference/http-api.md#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
 
 ```json
 ...

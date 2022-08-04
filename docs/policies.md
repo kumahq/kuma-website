@@ -36,7 +36,7 @@ policies:
         url: /docs/latest/policies/fault-injection
         icon: /images/icons/policies/icon-fault-injection@2x.png
       - title: Kong Gateway
-        url: /docs/latest/documentation/gateway/
+        url: /docs/latest/explore/gateway/
         icon: /images/icons/policies/icon-kong-logo.png
       - title: External Services
         url: /docs/latest/policies/external-services/
@@ -61,7 +61,7 @@ policies:
         url: /docs/latest/policies/traffic-metrics/
         icon: /images/icons/policies/icon-dataplane-metrics@2x.png
       - title: Service Map
-        url: /docs/latest/policies/traffic-metrics/
+        url: /docs/latest/explore/observability/#datasource-and-service-map
         icon: /images/icons/policies/service-map@2x.png
       - title: Traffic Trace
         url: /docs/latest/policies/traffic-trace/
