@@ -166,4 +166,4 @@ When running in **Universal** mode, Kuma requires a PostgreSQL database to store
 <img src="/images/docs/0.5.0/diagram-09.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Read [the docs about the PostgreSQL backend](https://deploy-preview-870--kuma.netlify.app/docs/dev/explore/backends/#postgres) for more details.
+Read [the docs about the PostgreSQL backend](../../documentation/configuration#postgres) for more details.
