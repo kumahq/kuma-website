@@ -163,7 +163,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
   retryOn:
   - gateway-error
   - connect-failure
-	- refused-stream
+  - refused-stream
   ```
   :::
 
