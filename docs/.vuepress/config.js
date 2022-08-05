@@ -396,7 +396,7 @@ Sitemap: https://kuma.io/sitemap.xml
             if (!v) {
               return
             }
-            let {meta = [], search = false} = page.frontmatter;
+            const {meta = []} = page.frontmatter;
             meta.push(
               {
                 name: "docsearch:section",
@@ -408,14 +408,12 @@ Sitemap: https://kuma.io/sitemap.xml
             )
             if (v !== versions.latestMinor) {
               // Only index the latest version of the docs
-              search = true
               meta.push({
                 name: "robots",
                 content: "noindex,follow"
               });
             }
             page.frontmatter.meta = meta
-            page.frontmatter.search = search
 
             let ver = versions.versions(v);
             if (ver) {
