@@ -47,7 +47,7 @@ carousel:
 
 ::: slot news
 
-**Kuma 1.7.0 has been released!** &mdash; With Builtin Gateway for Cross-Mesh Communication, ARM Support, and more [Read More](/blog/2022/kuma-1-7-0/)
+**Kuma 1.7.0 has been released!** &mdash; With Builtin Gateway for Cross-Mesh Communication, ARM Support, and more [on the Kuma 1.7.0 release blog post](/blog/2022/kuma-1-7-0/)
 :::
 
 <!-- page masthead -->
@@ -70,7 +70,7 @@ carousel:
 
 ### Kubernetes, VMs & Multi-Mesh
 
-![CRD + RESTful Interface diagram](/images/diagrams/v3/diagram-crd-rest@2x.png)
+<img alt="CRD + RESTful Interface diagram" src="/images/diagrams/v3/diagram-crd-rest@2x.png" loading="lazy"/>
 
 Built on top of Envoy, Kuma is a modern control plane for Microservices & Service Mesh for both K8s and VMs, with support for multiple meshes in one cluster.
 :::
@@ -79,7 +79,7 @@ Built on top of Envoy, Kuma is a modern control plane for Microservices & Servic
 
 ### Easy To Use & Upgrade
 
-![L4 and L7 Policies chart](/images/diagrams/v3/diagram-l4-l7-policies@2x.png)
+<img src="/images/diagrams/v3/diagram-l4-l7-policies@2x.png" loading="lazy" alt="L4 and L7 Policies chart"/>
 
 Out of the box L4 + L7 policy architecture to enable zero trust security, observability, discovery, routing and traffic reliability in one click. Easy, yet powerful.
 :::
@@ -88,7 +88,7 @@ Out of the box L4 + L7 policy architecture to enable zero trust security, observ
 
 ### Multi-Cloud & Multi-Cluster
 
-![Platform Agnostic diagram](/images/diagrams/v3/diagram-platform-agnostic@2x.png)
+<img alt="Platform Agnostic diagram" src="/images/diagrams/v3/diagram-platform-agnostic@2x.png" loading="lazy"/>
 
 Built for the enterprise, Kuma ships with the most scalable multi-zone connectivity across multiple clouds & clusters on Kubernetes, VMs or hybrid.
 :::
@@ -172,7 +172,7 @@ Build modern service and application connectivity across every platform, cloud a
   :::
 
 ::: slot feature-focus-1-diagram
-![Diagram outlining connectivity with no boundaries](/images/diagrams/v3/diagram-connectivity-new@2x.png)
+<img alt="Diagram outlining connectivity with no boundaries" loading="lazy" src="/images/diagrams/v3/diagram-connectivity-new@2x.png"/>
 :::
 
 ::: slot feature-focus-2-content
@@ -187,7 +187,7 @@ Designed for the enterprise architect, Kuma ships with a native multi-mesh suppo
   :::
 
 ::: slot feature-focus-2-diagram
-![Diagram outlining one cluster for the entire organization](/images/diagrams/v3/diagram-one-cluster-new@2x.png)
+<img alt="Diagram outlining one cluster for the entire organization" loading="lazy" src="/images/diagrams/v3/diagram-one-cluster-new@2x.png"/>
 :::
 
 <!-- newsletter -->
