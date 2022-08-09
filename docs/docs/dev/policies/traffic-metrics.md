@@ -263,6 +263,51 @@ This proxy exposes an HTTP endpoint with Prometheus metrics on port `1234` and U
 :::
 ::::
 
+## Filer Envoy metrics
+
+In case you don't want to retrieve all Envoy's metrics, it's possible to filter them. Configuration is dynamic and doesn't require a restart of a sidecar. You are able to specify [`regex`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?filter=regex) which causes that metric's endpoint returns only matching metrics. Also, you can set flag [`usedOnly`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?usedonly) that returns only metrics updated by Envoy.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  metrics:
+    enabledBackend: prometheus-1
+    backends:
+    - name: prometheus-1
+      type: prometheus
+      conf:
+        skipMTLS: false
+        port: 5670
+        path: /metrics
+        envoy:
+          filterRegex: http2_act.*
+          usedOnly: true
+```
+:::
+::: tab "Universal"
+```yaml
+type: Mesh
+name: default
+metrics:
+  enabledBackend: prometheus-1
+  backends:
+  - name: prometheus-1
+    type: prometheus
+    conf:
+      port: 5670
+      path: /metrics
+      envoy:
+        filterRegex: http2_act.*
+        usedOnly: true
+```
+:::
+::::
+
 ## Secure data plane proxy metrics
 
 Kuma lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment mode on Kubernetes when using [`kumactl install observability`](../explore/observability.md#demo-setup).

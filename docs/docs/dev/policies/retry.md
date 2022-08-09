@@ -136,11 +136,42 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
   ```
 
   :::tip
-  Note that if you won't provide `retriableStatusCodes`, the default behaviour of the policy is to retry:
-  - when server responds with one of status codes: `502`, `503` or `504`,
-  - when server won't respond at all (disconnect/reset/read timeout),
-  - when server resets the stream with a `REFUSED_STREAM` error code.
+  If both `retriableStatusCodes` is provided in addition to `retryOn` (below), but the latter doesn't contain `retriable_status_codes` as a condition, it will be automatically added.
   :::
+
+- **`retryOn`** (optional)
+
+  List of conditions which will cause a retry.
+
+  **Acceptable values**
+
+  - `all_5xx`
+  - `gateway_error`
+  - `reset`
+  - `connect_failure`
+  - `envoy_ratelimited`
+  - `retriable_4xx`
+  - `refused_stream`
+  - `retriable_status_codes`
+  - `retriable_headers`
+  - `http3_post_connect_failure`
+
+  :::tip
+  Note that if `retryOn` is not defined or if it's empty, the policy will default to the equivalent of:
+
+  ```yaml
+  retryOn:
+  - gateway-error
+  - connect-failure
+  - refused-stream
+  ```
+  :::
+
+  :::warning
+  Providing `retriable_status_codes` without also providing 
+  `retriableStatusCodes` (above) will fail policy validation.
+  :::
+
 - **`retriableMethods`** (optional)
 
   A list of HTTP methods in which a request's method must be contained before that request can be retried. The default behavior is that all methods are retriable.
