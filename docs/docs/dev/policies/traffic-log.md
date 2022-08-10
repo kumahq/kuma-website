@@ -188,7 +188,7 @@ E.g.,
 
 where `%START_TIME%` and `%KUMA_SOURCE_SERVICE%` are examples of available _command operators_.
 
-_Command operators_ consists of a [subset](https://github.com/kumahq/kuma/issues/596) of all _command operators_ [supported by Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators) and some custom to Kuma:
+All _command operators_ [defined by Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators) are supported, along with additional _command operators_ defined by Kuma:
 
 | Command Operator                     | Description                                                      |
 | ------------------------------------ | ---------------------------------------------------------------- |
