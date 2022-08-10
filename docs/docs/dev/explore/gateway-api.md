@@ -189,6 +189,13 @@ except that the `tags` field is optional.
 With a `MeshGatewayConfig` you can then customize
 the generated `Service` and `Deployment` resources.
 
+## Multimesh
+
+You can specify a `Mesh` for `Gateway` and `HTTPRoute` resources
+by setting the [`kuma.io/mesh` annotation](../reference/kubernetes-annotations#kuma-io-mesh)
+Note. `HTTPRoutes` must also have the annotation in order to reference a
+`Gateway` from a non-default `Mesh`.
+
 ## Multizone
 
 Gateway API isn't supported with multizone deployments, use Kuma's `MeshGateways`/`MeshGatewayRoutes` instead.
