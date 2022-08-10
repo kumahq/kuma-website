@@ -344,6 +344,23 @@ Sitemap: https://kuma.io/sitemap.xml
       return {
         name: "netlify-configs",
         generated() {
+          // Some documentation URLs are being constructed using Kuma API paths for policy types.
+          // In order to dynamically generate the docs URLs, we need some redirects for them.
+          const policyRedirects = [
+            ['circuit-breakers', 'circuit-breaker'],
+            ['fault-injections', 'fault-injection'],
+            ['health-checks', 'health-check'],
+            ['meshgateways', 'mesh-gateway'],
+            ['meshgatewayroutes', 'mesh-gateway-route'],
+            ['proxytemplates', 'proxy-template'],
+            ['rate-limits', 'rate-limit'],
+            ['retries', 'retry'],
+            ['timeouts', 'timeout'],
+            ['traffic-logs', 'traffic-log'],
+            ['traffic-routes', 'traffic-route'],
+            ['traffic-traces', 'traffic-trace'],
+            ['virtual-outbounds', 'virtual-outbound'],
+          ].map(([sourcePath, destinationPath]) => `/docs/:version/policies/${sourcePath}/ /docs/:version/policies/${destinationPath}/ 301`)
 
           const redirects = [
             `/docs /docs/${versions.latestMinor} 301`,
@@ -356,6 +373,7 @@ Sitemap: https://kuma.io/sitemap.xml
             `/docs/latest/* /docs/${versions.latestMinor}/:splat 301`,
             `/install/latest/* /install/${versions.latestMinor}/:splat 301`,
             `/docs/:version/policies/ /docs/:version/policies/introduction 301`,
+            ...policyRedirects,
             `/docs/:version/overview/ /docs/:version/overview/what-is-kuma 301`,
             `/docs/:version/other/ /docs/:version/other/enterprise 301`,
             `/docs/:version/installation/ /docs/:version/installation/kubernetes 301`,
