@@ -12,7 +12,7 @@ Finally, you can follow the [Quickstart](#quickstart) to take it from here and c
 Run the following script to automatically detect the operating system and download Kuma:
 
 ```sh
-curl -L https://kuma.io/installer.sh | bash -
+curl -L https://kuma.io/installer.sh | VERSION={{ $page.latestVersion }} bash -
 ```
 or you can <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-' + $frontmatter.os + '-' + $frontmatter.arch + '.tar.gz'">download</a> the distribution manually.
 
