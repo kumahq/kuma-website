@@ -27,10 +27,10 @@ Below are the details of how to set up Kuma CNI in different environments.
 
 To enable the CNI setup and configure it for chaining with the CNI plugin you can use both `kumactl` and `helm`.
 
-:::::: tabs
+:::::: tabs :options="{ useUrlFragment: false }"
 ::::: tab "Calico"
 
-:::: tabs
+:::: tabs :options="{ useUrlFragment: false }"
 ::: tab "kumactl"
 
 ```shell
@@ -56,7 +56,7 @@ helm install --namespace kuma-system \
 :::::
 
 ::::: tab "K3D with Flannel"
-:::: tabs
+:::: tabs :options="{ useUrlFragment: false }"
 ::: tab "kumactl"
 
 ```shell
@@ -82,7 +82,7 @@ helm install --namespace kuma-system \
 :::::
 
 ::::: tab "Kind"
-:::: tabs
+:::: tabs :options="{ useUrlFragment: false }"
 ::: tab "kumactl"
 
 ```shell
@@ -108,7 +108,7 @@ helm install --namespace kuma-system \
 :::::
 
 ::::: tab "Azure"
-:::: tabs
+:::: tabs :options="{ useUrlFragment: false }"
 ::: tab "kumactl"
 
 ```shell
@@ -134,7 +134,7 @@ helm install --namespace kuma-system \
 :::::
 
 ::::: tab "AWS - EKS"
-:::: tabs
+:::: tabs :options="{ useUrlFragment: false }"
 ::: tab "kumactl"
 
 ```shell
@@ -163,7 +163,7 @@ helm install --namespace kuma-system \
 
 You need to [enable network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster (for existing clusters this redeploys the nodes).
 
-:::: tabs
+:::: tabs :options="{ useUrlFragment: false }"
 ::: tab "kumactl"
 
 ```shell
@@ -188,24 +188,23 @@ helm install --namespace kuma-system \
 ::::
 :::::
 
-::::: tab "OpenShift 3.10"
+::::: tab "OpenShift 3.11"
 
-You need to grant privileged permission to kuma-cni service account:
+1. Follow the instructions in [OpenShift 3.11 installation](../installation/openshift/#_2-run-kuma)
+to get the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` enabled (this is required for regular kuma installation).
+
+2. You need to grant privileged permission to kuma-cni service account:
 
 ```shell
 oc adm policy add-scc-to-user privileged -z kuma-cni -n kube-system
 ```
 
-:::: tabs
+:::: tabs :options="{ useUrlFragment: false }"
 ::: tab "kumactl"
 
 ```shell
 kumactl install control-plane \
   --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/opt/cni/bin" \
-  --set "cni.confName=10-calico.conflist" \
   --set "cni.securityContext.privileged=true"
 ```
 
@@ -214,7 +213,30 @@ kumactl install control-plane \
 
 ```shell
 helm install --namespace kuma-system \
-  --set cni.enabled=true,cni.chained=true,cni.netDir=/etc/cni/net.d,cni.binDir=/home/kubernetes/bin,cni.confName=10-calico.conflist \
+  --set cni.enabled=true,cni.securityContext.privileged=true \
+   kuma kuma/kuma
+```
+
+:::
+::::
+:::::
+
+::::: tab "OpenShift 4"
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "kumactl"
+
+```shell
+kumactl install control-plane \
+  --set "cni.enabled=true"
+```
+
+:::
+::: tab "Helm"
+
+```shell
+helm install --namespace kuma-system \
+  --set cni.enabled=true \
    kuma kuma/kuma
 ```
 
