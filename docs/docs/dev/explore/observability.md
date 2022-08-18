@@ -139,7 +139,41 @@ To visualise your **containers' logs** and your **access logs** you need to have
 <img src="/images/docs/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-You can then add a [TafficLog policy](../policies/traffic-log.md) to your mesh to start emitting access logs.
+You can then add a [TrafficLog policy](../policies/traffic-log.md) to your mesh to start emitting access logs. Loki will pick up logs that are sent to `stdout`. To send logs to `stdout` you can configure the logging backend as shown below:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Kubernetes"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  logging:
+    defaultBackend: stdout
+    backends:
+      - name: stdout
+        type: file
+        conf:
+          path: /dev/stdout
+```
+
+:::
+::: tab "Universal"
+```yaml
+type: Mesh
+name: default
+logging:
+  defaultBackend: stdout
+  backends:
+    - name: stdout
+      type: file
+      conf:
+        path: /dev/stdout
+```
+:::
+::::
+
 At this point you can visualize your **containers' logs** and your **access logs** in Grafana by choosing the loki datasource in the [explore section](https://grafana.com/docs/grafana/latest/explore/).
 
 For example, running: `{container="kuma-sidecar"} |= "GET"` will show all GET requests on your cluster.
@@ -189,9 +223,11 @@ This dashboard lets you investigate the status of a single dataplane in the mesh
 ##### Kuma Mesh
 
 This dashboard lets you investigate the aggregated statistics of a single mesh.
+It provides a topology view of your service traffic dependencies (**Service Map**)
+and includes information such as number of requests and error rates.
 
 <center>
-<img src="/images/docs/1.1.2/grafana-dashboard-kuma-mesh.jpg" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/1.8.0/grafana-dashboard-kuma-mesh.png" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ##### Kuma Service to Service
@@ -220,15 +256,6 @@ This dashboard lets you investigate aggregated statistics for each service.
 <center>
 <img src="/images/docs/1.1.2/grafana-dashboard-kuma-service.jpg" alt="Kuma Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
-
-##### Service Map
-
-This dashboard provides a topology view of your service traffic dependencies. It includes information such as number of requests and error rates.
-
-<center>
-<img src="/images/blog/kuma_1_3_0_service_map.png" alt="Kuma Service Map" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
-
 
 ## Configuring Datadog
 

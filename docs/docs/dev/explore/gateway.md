@@ -220,6 +220,10 @@ To configure your gateway Kuma has these resources:
 - [MeshGateway](../policies/mesh-gateway.md) is used to configure listeners exposed by the gateway
 - [MeshGatewayRoute](../policies/mesh-gateway-route.md) is used to configure route to route traffic from listeners to other services.
 
+::: tip
+Kuma gateways are configured with the [Envoy best practices for edge proxies](https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge).
+:::
+
 ### Usage
 
 Steps required to setup a simple gateway that exposes a http listener and 2 routes to imaginary services: "frontend" and "api".
