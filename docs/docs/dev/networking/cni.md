@@ -246,15 +246,53 @@ helm install --namespace kuma-system \
 
 ::::::
 
+## Logs
+
+Logs of the CNI plugin are available in `/tmp/kuma-cni.log` on the node and the logs of the installer are available via `kubectl logs`.
+
 # Kuma CNI v2
 
-The new version of the CNI is using new [kuma-net](https://github.com/kumahq/kuma-net/) engine to do transparent proxying.
+The v2 version of the CNI is using [kuma-net](https://github.com/kumahq/kuma-net/) engine to do transparent proxying.
 
-The new engine is capable of using the following methods to transparently redirect traffic:
-- iptables (default)
-- eBPF
+To install v2 CNI append the following options to the command from [Installation](#installation):
 
-To use the new CNI with eBPF add `experimental.cni=true` and `experimental.ebpf.enabled=true` settings to either `kumactl` or `helm`.
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "kumactl"
+
+```
+--set "cni.enabled=true" --set "experimental.cni=true"
+```
+
+:::
+::: tab "Helm"
+
+```
+--set [...],cni.enabled=true,experimental.cni=true
+```
+
+:::
+::::
+
+# Merbridge CNI with eBPF
+
+To install merbridge CNI with eBPF add the following options to `kumactl` or `helm`:
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "kumactl"
+
+```
+--set "cni.enabled=true" --set "experimental.ebpf.enabled=true"
+```
+
+:::
+::: tab "Helm"
+
+```
+--set [...],cni.enabled=true,experimental.ebpf.enabled=true
+```
+
+:::
+::::
 
 Currently, the v2 CNI is behind an `experimental` flag, but it's intended to be the default CNI in future releases.
 
@@ -264,7 +302,12 @@ To prevent a race condition described in [this issue](https://github.com/kumahq/
 The controller will taint a node with `NoSchedule` taint to prevent scheduling before the CNI DaemonSet is running and ready.
 Once the CNI DaemonSet is running and ready it will remove the taint and allow other pods to be scheduled into the node.
 
+To disable the taint controller use the following env variable:
+
+```
+KUMA_RUNTIME_KUBERNETES_NODE_TAINT_CONTROLLER_ENABLED=false
+```
+
 ## Logs
 
-Logs of the v2 CNI plugin are located in `/tmp/kuma-cni.log` on  the node itself
-and logs of the CNI installer are located in `/tmp/install-cni.log` on the CNI DaemonSet pod.
+Logs of the new CNI plugin and the installer are available via `kubectl logs`.
