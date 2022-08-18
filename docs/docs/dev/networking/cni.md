@@ -21,7 +21,7 @@ Kuma CNI applies NetworkAttachmentDefinition(NAD) to applications in a namespace
 To apply NAD to the applications not in a Mesh, add the label `kuma.io/sidecar-injection` with the value `disabled` to the namespace.
 :::
 
-# Installation
+## Installation
 
 Below are the details of how to set up Kuma CNI in different environments.
 
@@ -246,15 +246,15 @@ helm install --namespace kuma-system \
 
 ::::::
 
-## Logs
+### Kuma CNI Logs
 
 Logs of the CNI plugin are available in `/tmp/kuma-cni.log` on the node and the logs of the installer are available via `kubectl logs`.
 
-# Kuma CNI v2
+## Kuma CNI v2
 
 The v2 version of the CNI is using [kuma-net](https://github.com/kumahq/kuma-net/) engine to do transparent proxying.
 
-To install v2 CNI append the following options to the command from [Installation](#installation):
+To install v2 CNI append the following options to the command from [installation](#installation):
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "kumactl"
@@ -273,9 +273,27 @@ To install v2 CNI append the following options to the command from [Installation
 :::
 ::::
 
-# Merbridge CNI with eBPF
+Currently, the v2 CNI is behind an `experimental` flag, but it's intended to be the default CNI in future releases.
 
-To install merbridge CNI with eBPF add the following options to `kumactl` or `helm`:
+### Kuma v2 CNI Taint controller
+
+To prevent a race condition described in [this issue](https://github.com/kumahq/kuma/issues/4560) a new controller was implemented.
+The controller will taint a node with `NoSchedule` taint to prevent scheduling before the CNI DaemonSet is running and ready.
+Once the CNI DaemonSet is running and ready it will remove the taint and allow other pods to be scheduled into the node.
+
+To disable the taint controller use the following env variable:
+
+```
+KUMA_RUNTIME_KUBERNETES_NODE_TAINT_CONTROLLER_ENABLED=false
+```
+
+### Kuma CNI v2 Logs
+
+Logs of the new CNI plugin and the installer logs are available via `kubectl logs`.
+
+## Merbridge CNI with eBPF
+
+To install merbridge CNI with eBPF append the following options to the command from [installation](#installation):
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "kumactl"
@@ -294,20 +312,6 @@ To install merbridge CNI with eBPF add the following options to `kumactl` or `he
 :::
 ::::
 
-Currently, the v2 CNI is behind an `experimental` flag, but it's intended to be the default CNI in future releases.
+### Merbridge CNI with eBPF Logs
 
-## Taint controller
-
-To prevent a race condition described in [this issue](https://github.com/kumahq/kuma/issues/4560) a new controller was implemented.
-The controller will taint a node with `NoSchedule` taint to prevent scheduling before the CNI DaemonSet is running and ready.
-Once the CNI DaemonSet is running and ready it will remove the taint and allow other pods to be scheduled into the node.
-
-To disable the taint controller use the following env variable:
-
-```
-KUMA_RUNTIME_KUBERNETES_NODE_TAINT_CONTROLLER_ENABLED=false
-```
-
-## Logs
-
-Logs of the new CNI plugin and the installer are available via `kubectl logs`.
+Logs of the installer of Merbridge CNI with eBPF are available via `kubectl logs`.
