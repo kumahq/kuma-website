@@ -223,9 +223,11 @@ This dashboard lets you investigate the status of a single dataplane in the mesh
 ##### Kuma Mesh
 
 This dashboard lets you investigate the aggregated statistics of a single mesh.
+It provides a topology view of your service traffic dependencies (**Service Map**)
+and includes information such as number of requests and error rates.
 
 <center>
-<img src="/images/docs/1.1.2/grafana-dashboard-kuma-mesh.jpg" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/1.8.0/grafana-dashboard-kuma-mesh.png" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ##### Kuma Service to Service
@@ -254,15 +256,6 @@ This dashboard lets you investigate aggregated statistics for each service.
 <center>
 <img src="/images/docs/1.1.2/grafana-dashboard-kuma-service.jpg" alt="Kuma Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
-
-##### Service Map
-
-This dashboard provides a topology view of your service traffic dependencies. It includes information such as number of requests and error rates.
-
-<center>
-<img src="/images/blog/kuma_1_3_0_service_map.png" alt="Kuma Service Map" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-</center>
-
 
 ## Configuring Datadog
 
