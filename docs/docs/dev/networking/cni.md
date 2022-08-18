@@ -284,7 +284,7 @@ To install v2 CNI append the following options to the command from [installation
 ```
 --set ... \
 --set "cni.enabled=true" \
---set "experimental.ebpf.enabled=true"
+--set "experimental.cni=true"
 ```
 
 Currently, the v2 CNI is behind an `experimental` flag, but it's intended to be the default CNI in future releases.
