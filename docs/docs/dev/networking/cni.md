@@ -261,7 +261,7 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace kuma-system \
-  --set cni.enabled=true \
+  --set "cni.enabled=true" \
    kuma kuma/kuma
 ```
 
