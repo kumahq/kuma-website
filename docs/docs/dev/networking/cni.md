@@ -281,9 +281,6 @@ The v2 version of the CNI is using [kuma-net](https://github.com/kumahq/kuma-net
 
 To install v2 CNI append the following options to the command from [installation](#installation):
 
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "kumactl"
-
 ```
 --set ... \
 --set "cni.enabled=true" \
