@@ -205,7 +205,7 @@ oc adm policy add-scc-to-user privileged -z kuma-cni -n kube-system
 ```shell
 kumactl install control-plane \
   --set "cni.enabled=true" \
-  --set "cni.securityContext.privileged=true"
+  --set "cni.containerSecurityContext.privileged=true"
 ```
 
 :::
