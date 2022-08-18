@@ -46,8 +46,12 @@ kumactl install control-plane \
 ::: tab "Helm"
 
 ```shell
-helm install --namespace kuma-system \
-  --set cni.enabled=true,cni.chained=true,cni.netDir="/etc/cni/net.d",cni.binDir=/opt/cni/bin,cni.confName=10-calico.conflist \
+helm install --create-namespace --namespace kuma-system \
+  --set "cni.enabled=true" \
+  --set "cni.chained=true" \
+  --set "cni.netDir=/etc/cni/net.d" \
+  --set "cni.binDir=/opt/cni/bin" \
+  --set "cni.confName=10-calico.conflist" \
    kuma kuma/kuma
 ```
 
@@ -72,8 +76,12 @@ kumactl install control-plane \
 ::: tab "Helm"
 
 ```shell
-helm install --namespace kuma-system \
-  --set cni.enabled=true,cni.chained=true,cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d,cni.binDir=/bin,cni.confName=10-flannel.conflist \
+helm install --create-namespace --namespace kuma-system \
+  --set "cni.enabled=true" \
+  --set "cni.chained=true" \
+  --set "cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
+  --set "cni.binDir=/bin" \
+  --set "cni.confName=10-flannel.conflist" \
    kuma kuma/kuma
 ```
 
@@ -98,8 +106,12 @@ kumactl install control-plane \
 ::: tab "Helm"
 
 ```shell
-helm install --namespace kuma-system \
-  --set cni.enabled=true,cni.chained=true,cni.netDir=/etc/cni/net.d,cni.binDir=/opt/cni/bin,cni.confName=10-kindnet.conflist \
+helm install --create-namespace --namespace kuma-system \
+  --set "cni.enabled=true" \
+  --set "cni.chained=true" \
+  --set "cni.netDir=/etc/cni/net.d" \
+  --set "cni.binDir=/opt/cni/bin" \
+  --set "cni.confName=10-kindnet.conflist" \
    kuma kuma/kuma
 ```
 
@@ -124,8 +136,12 @@ kumactl install control-plane \
 ::: tab "Helm"
 
 ```shell
-helm install --namespace kuma-system \
-  --set cni.enabled=true,cni.chained=true,cni.netDir=/etc/cni/net.d,cni.binDir=/opt/cni/bin,cni.confName=10-azure.conflist \
+helm install --create-namespace --namespace kuma-system \
+  --set "cni.enabled=true" \
+  --set "cni.chained=true" \
+  --set "cni.netDir=/etc/cni/net.d" \
+  --set "cni.binDir=/opt/cni/bin" \
+  --set "cni.confName=10-azure.conflist" \
    kuma kuma/kuma
 ```
 
@@ -150,8 +166,12 @@ kumactl install control-plane \
 ::: tab "Helm"
 
 ```shell
-helm install --namespace kuma-system \
-  --set cni.enabled=true,cni.chained=true,cni.netDir=/etc/cni/net.d,cni.binDir=/opt/cni/bin,cni.confName=10-aws.conflist \
+helm install --create-namespace --namespace kuma-system \
+  --set "cni.enabled=true" \
+  --set "cni.chained=true" \
+  --set "cni.netDir=/etc/cni/net.d" \
+  --set "cni.binDir=/opt/cni/bin" \
+  --set "cni.confName=10-aws.conflist" \
    kuma kuma/kuma
 ```
 
@@ -179,8 +199,12 @@ kumactl install control-plane \
 ::: tab "Helm"
 
 ```shell
-helm install --namespace kuma-system \
-  --set cni.enabled=true,cni.chained=true,cni.netDir=/etc/cni/net.d,cni.binDir=/home/kubernetes/bin,cni.confName=10-calico.conflist \
+helm install --create-namespace --namespace kuma-system \
+  --set "cni.enabled=true" \
+  --set "cni.chained=true" \
+  --set "cni.netDir=/etc/cni/net.d" \
+  --set "cni.binDir=/home/kubernetes/bin" \
+  --set "cni.confName=10-calico.conflist" \
    kuma kuma/kuma
 ```
 
@@ -212,8 +236,9 @@ kumactl install control-plane \
 ::: tab "Helm"
 
 ```shell
-helm install --namespace kuma-system \
-  --set cni.enabled=true,cni.securityContext.privileged=true \
+helm install --create-namespace --namespace kuma-system \
+  --set "cni.enabled=true" \
+  --set "cni.containerSecurityContext.privileged=true" \
    kuma kuma/kuma
 ```
 
@@ -235,7 +260,7 @@ kumactl install control-plane \
 ::: tab "Helm"
 
 ```shell
-helm install --namespace kuma-system \
+helm install --create-namespace --namespace kuma-system \
   --set cni.enabled=true \
    kuma kuma/kuma
 ```
@@ -260,18 +285,10 @@ To install v2 CNI append the following options to the command from [installation
 ::: tab "kumactl"
 
 ```
---set "cni.enabled=true" --set "experimental.cni=true"
+--set ... \
+--set "cni.enabled=true" \
+--set "experimental.ebpf.enabled=true"
 ```
-
-:::
-::: tab "Helm"
-
-```
---set [...],cni.enabled=true,experimental.cni=true
-```
-
-:::
-::::
 
 Currently, the v2 CNI is behind an `experimental` flag, but it's intended to be the default CNI in future releases.
 
@@ -295,22 +312,11 @@ Logs of the new CNI plugin and the installer logs are available via `kubectl log
 
 To install merbridge CNI with eBPF append the following options to the command from [installation](#installation):
 
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "kumactl"
-
 ```
---set "cni.enabled=true" --set "experimental.ebpf.enabled=true"
+--set ... \
+--set "cni.enabled=true" \
+--set "experimental.ebpf.enabled=true"
 ```
-
-:::
-::: tab "Helm"
-
-```
---set [...],cni.enabled=true,experimental.ebpf.enabled=true
-```
-
-:::
-::::
 
 ### Merbridge CNI with eBPF Logs
 
