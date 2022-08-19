@@ -92,7 +92,7 @@ When using a `builtin` backend Kuma automatically generates a root CA certificat
 * `{mesh name}.ca-builtin-cert-{backend name}` for the certificate
 * `{mesh name}.ca-builtin-key-{backend name}` for the key
 
-On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [backend](../explore/backends.md) configured in `kuma-cp`.
+On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [store](../../documentation/configuration#store) configured in `kuma-cp`.
 
 We can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or via `kubectl` on Kubernetes only:
 
