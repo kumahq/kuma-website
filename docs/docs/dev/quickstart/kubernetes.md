@@ -209,7 +209,7 @@ The resources for creating a builtin gateway is included with
   traffic
 
 Learn more about builtin gateways in [the dedicated gateway
-docs.](https://kuma.io/docs/1.7.x/explore/gateway/#builtin)
+docs.](/explore/gateway/#builtin)
 
 ## Explore Observability features
 
