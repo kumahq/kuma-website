@@ -23,3 +23,18 @@ Admin resources are `Secret` and `GlobalSecret`.
 
 * `KUMA_ACCESS_STATIC_GENERATE_ZONE_TOKEN_USERS` allows users to generate zone token. Default `mesh-system:admin`.
 * `KUMA_ACCESS_STATIC_GENERATE_ZONE_TOKEN_GROUPS` allows groups to generate zone token. Default `mesh-system:admin`.
+
+## View Envoy config dump
+
+* `KUMA_ACCESS_STATIC_GET_CONFIG_DUMP_USERS` allows users to view Envoy config dump. Default is an empty list.
+* `KUMA_ACCESS_STATIC_GET_CONFIG_DUMP_GROUPS` allows groups to view Envoy config dump. Default: `mesh-system:unauthenticated`, `mesh-system:authenticated`.
+
+## View Envoy stats
+
+* `KUMA_ACCESS_STATIC_VIEW_STATS_USERS` allows users to view Envoy stats. Default is an empty list.
+* `KUMA_ACCESS_STATIC_VIEW_STATS_GROUPS` allows groups to view Envoy stats. Default: `mesh-system:unauthenticated`, `mesh-system:authenticated`.
+
+## View Envoy clusters
+
+* `KUMA_ACCESS_STATIC_VIEW_CLUSTERS_USERS` allows users to view Envoy clusters. Default is an empty list.
+* `KUMA_ACCESS_STATIC_VIEW_CLUSTERS_GROUPS` allows groups to view Envoy clusters. Default: `mesh-system:unauthenticated`, `mesh-system:authenticated`.
