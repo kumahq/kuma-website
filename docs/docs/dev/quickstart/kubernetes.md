@@ -209,7 +209,7 @@ The resources for creating a builtin gateway is included with
   traffic
 
 Learn more about builtin gateways in [the dedicated gateway
-docs.](/explore/gateway/#builtin)
+docs.](../explore/gateway/#builtin)
 
 ## Explore Observability features
 
