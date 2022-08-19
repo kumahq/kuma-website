@@ -23,9 +23,7 @@ To apply NAD to the applications not in a Mesh, add the label `kuma.io/sidecar-i
 
 ## Installation
 
-Below are the details of how to set up Kuma CNI in different environments.
-
-To enable the CNI setup and configure it for chaining with the CNI plugin you can use both `kumactl` and `helm`.
+Below are the details of how to set up Kuma CNI in different environments using both `kumactl` and `helm`.
 
 :::::: tabs :options="{ useUrlFragment: false }"
 ::::: tab "Calico"
