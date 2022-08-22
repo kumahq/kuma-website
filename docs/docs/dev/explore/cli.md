@@ -6,7 +6,6 @@ Kuma ships in a bundle that includes a few executables:
 * `kuma-dp`: this is the Kuma data plane proxy executable that - under the hood - invokes `envoy`.
 * `envoy`: this is the Envoy executable that we bundle for convenience into the archive.
 * `kumactl`: this is the the user CLI to interact with Kuma (`kuma-cp`) and its data.
-* `kuma-prometheus-sd`: this is a helper tool that enables native integration between `Kuma` and `Prometheus`. Thanks to it, `Prometheus` will be able to automatically find all dataplanes in your Mesh and scrape metrics out of them.
 * `kuma-tcp-echo`: this is a sample application that echos back the requests we are making, used for demo purposes.
 
 According to the [installation instructions](/install/), some of these executables are automatically executed as part of the installation workflow, while some other times you will have to execute them directly.
