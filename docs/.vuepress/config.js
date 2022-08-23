@@ -398,6 +398,8 @@ Sitemap: https://kuma.io/sitemap.xml
 /latest_version
     Content-Type: text/plain
     Access-Control-Allow-Origin: *
+    Access-Control-Allow-Method: GET
+    Access-Control-Allow-Headers: Content-Type
           `);
         }
 
