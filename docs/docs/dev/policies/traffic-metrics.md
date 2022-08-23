@@ -263,7 +263,7 @@ This proxy exposes an HTTP endpoint with Prometheus metrics on port `1234` and U
 :::
 ::::
 
-## Filer Envoy metrics
+## Filter Envoy metrics
 
 In case you don't want to retrieve all Envoy's metrics, it's possible to filter them. Configuration is dynamic and doesn't require a restart of a sidecar. You are able to specify [`regex`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?filter=regex) which causes that metric's endpoint returns only matching metrics. Also, you can set flag [`usedOnly`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?usedonly) that returns only metrics updated by Envoy.
 
