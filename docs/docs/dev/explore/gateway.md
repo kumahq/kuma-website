@@ -423,6 +423,41 @@ conf:
 Because routes are applied in order of specificity the first route will take precedence over the second one.
 So `/api/foo` will go to the `api` service whereas `/asset` will go to the `frontend` service.
 
+### TCP
+
+The builtin gateway also supports TCP `MeshGatewayRoutes`:
+
+```yaml
+type: MeshGateway
+mesh: default
+name: edge-gateway
+selectors:
+  - match:
+      kuma.io/service: edge-gateway
+conf:
+  listeners:
+    - port: 8080
+      protocol: TCP
+      tags:
+        port: tcp/8080
+---
+type: MeshGatewayRoute
+mesh: default
+name: edge-gateway-route
+selectors:
+  - match:
+      kuma.io/service: edge-gateway
+      port: tcp/8080
+conf:
+  tcp:
+    rules:
+      - backends:
+          - destination:
+              kuma.io/service: redis_kuma-demo_svc_6379
+```
+
+The TCP configuration _only_ supports the `backends` key (no `matches` or `filters`). There are no TCP-generic ways to filter or match traffic so it can only load balance.
+
 ### Multi-zone
 
 The Kuma Gateway resource types, `MeshGateway` and `MeshGatewayRoute`, are synced across zones by the Kuma control plane.
