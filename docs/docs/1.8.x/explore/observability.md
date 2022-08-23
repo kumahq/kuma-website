@@ -227,7 +227,7 @@ It provides a topology view of your service traffic dependencies (**Service Map*
 and includes information such as number of requests and error rates.
 
 <center>
-<img src="/images/docs/1.8.0/grafana-dashboard-kuma-mesh.png" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/grafana_dashboard_mesh.png" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ##### Kuma Service to Service
@@ -256,6 +256,15 @@ This dashboard lets you investigate aggregated statistics for each service.
 <center>
 <img src="/images/docs/1.1.2/grafana-dashboard-kuma-service.jpg" alt="Kuma Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
+
+##### Kuma MeshGateway
+
+This dashboard lets you investigate aggregated statistics for each builtin gateway.
+
+<center>
+<img src="/images/docs/grafana_dashboard_gateway.png" alt="Kuma Gateway dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
 
 ## Configuring Datadog
 
