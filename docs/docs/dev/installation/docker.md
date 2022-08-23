@@ -17,7 +17,6 @@ Kuma provides the following Docker images for all of its executables:
 * **kuma-cp**: at `docker.io/kumahq/kuma-cp:{{ $page.latestVersion }}`
 * **kuma-dp**: at `docker.io/kumahq/kuma-dp:{{ $page.latestVersion }}`
 * **kumactl**: at `docker.io/kumahq/kumactl:{{ $page.latestVersion }}`
-* **kuma-prometheus-sd**: at `docker.io/kumahq/kuma-prometheus-sd:{{ $page.latestVersion }}`
 
 You can freely `docker pull` these images to start using Kuma, as we will demonstrate in the following steps.
 
