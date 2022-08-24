@@ -47,7 +47,7 @@ carousel:
 
 ::: slot news
 
-**Kuma 1.7.0 has been released!** &mdash; With Builtin Gateway for Cross-Mesh Communication, ARM Support, and more [on the Kuma 1.7.0 release blog post](/blog/2022/kuma-1-7-0/)
+**Kuma 1.8.0 has been released!** &mdash; With Builtin Gateway GA, CNI rewrite, and much more [on the Kuma 1.8.0 release blog post](/blog/2022/kuma-1-8-0/)
 :::
 
 <!-- page masthead -->
