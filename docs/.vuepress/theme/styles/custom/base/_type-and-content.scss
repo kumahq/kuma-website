@@ -124,6 +124,15 @@ div[class~='language-yaml']:before {
 // and there is no reason to do so
 pre div.code-copy {
   height: 0;
+  .hover{
+    // Used important as it has to override the inline style from vuepress-plugin-code-copy
+    bottom: 0px !important;
+
+    // Used to fix the overlap of the scroll bar as due to the
+    // above property and hence we set it manually below
+    margin-bottom: 25px !important;
+    margin-right: 15px !important;
+  }
 }
 
 div[class~='language-sh'], 
@@ -136,4 +145,9 @@ div[class~='language-bash'] {
     font-size: 0.9rem;
     color: #333;
   }
+}
+
+//  Overrides the position: absolute on the code-block for the copy icon
+.code-copy-added{
+  position: static !important;
 }
