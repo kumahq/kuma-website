@@ -68,8 +68,8 @@ const installMethods = [
     "slug": "centos"
   },
   {
-    "label": "RedHat",
-    "logo": "/images/platforms/logo-redhat.jpg",
+    "label": "Red Hat",
+    "logo": "/images/platforms/logo-redhat.png",
     "slug": "redhat"
   },
   {
