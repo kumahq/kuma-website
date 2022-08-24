@@ -124,7 +124,7 @@ div[class~='language-yaml']:before {
 // and there is no reason to do so
 pre div.code-copy {
   height: 0;
-  .hover{
+  .hover {
     // Used important as it has to override the inline style from vuepress-plugin-code-copy
     bottom: 0 !important;
 
