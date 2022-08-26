@@ -220,6 +220,10 @@ To configure your gateway Kuma has these resources:
 - [MeshGateway](../policies/mesh-gateway.md) is used to configure listeners exposed by the gateway
 - [MeshGatewayRoute](../policies/mesh-gateway-route.md) is used to configure route to route traffic from listeners to other services.
 
+::: tip
+Kuma gateways are configured with the [Envoy best practices for edge proxies](https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge).
+:::
+
 ### Usage
 
 Steps required to setup a simple gateway that exposes a http listener and 2 routes to imaginary services: "frontend" and "api".
@@ -418,6 +422,41 @@ conf:
 
 Because routes are applied in order of specificity the first route will take precedence over the second one.
 So `/api/foo` will go to the `api` service whereas `/asset` will go to the `frontend` service.
+
+### TCP
+
+The builtin gateway also supports TCP `MeshGatewayRoutes`:
+
+```yaml
+type: MeshGateway
+mesh: default
+name: edge-gateway
+selectors:
+  - match:
+      kuma.io/service: edge-gateway
+conf:
+  listeners:
+    - port: 8080
+      protocol: TCP
+      tags:
+        port: tcp/8080
+---
+type: MeshGatewayRoute
+mesh: default
+name: edge-gateway-route
+selectors:
+  - match:
+      kuma.io/service: edge-gateway
+      port: tcp/8080
+conf:
+  tcp:
+    rules:
+      - backends:
+          - destination:
+              kuma.io/service: redis_kuma-demo_svc_6379
+```
+
+The TCP configuration _only_ supports the `backends` key (no `matches` or `filters`). There are no TCP-generic ways to filter or match traffic so it can only load balance.
 
 ### Multi-zone
 
