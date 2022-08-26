@@ -38,18 +38,6 @@ h6 {
 
 a {
   color: $color-5;
-
-  &:hover {
-  }
-
-  &:active {
-  }
-
-  &:focus {
-  }
-
-  &:visited {
-  }
 }
 
 // Images
@@ -120,10 +108,30 @@ div[class~='language-yaml']:before {
   content: 'yaml';
 }
 
-// As originally the plugin increase height of code-snippet
-// and there is no reason to do so
-pre div.code-copy {
-  height: 0;
+.code-copy {
+  // Positions the copy button container out of the document flow so that it doesn’t add extra height to the code block.
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  // Ensures the doesn’t occlude the scrollbar or content of the code block.
+  pointer-events: all;
+}
+
+.code-copy .hover {
+  // Resets pointer events as they have been disabled on the `.code-copy` element.
+  pointer-events: all;
+
+  // Used important as it has to override the inline style from vuepress-plugin-code-copy
+  bottom: 0 !important;
+
+  // Used to fix the overlap of the scroll bar as due to the
+  // above property and hence we set it manually below
+  margin-bottom: 25px;
+  margin-right: 15px;
+}
+
+.code-copy-added {
+  position: static !important;
 }
 
 div[class~='language-sh'], 

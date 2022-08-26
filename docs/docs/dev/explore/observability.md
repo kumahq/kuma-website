@@ -77,29 +77,6 @@ scrape_configs:
 
 For more information, see [the Prometheus documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
 
-For earlier versions of Prometheus, Kuma provides the `kuma-prometheus-sd` tool, which runs alongside your Prometheus instance.
-This tool fetches a list of current data plane proxies from the Kuma control plane and saves the list in Prometheus-compatible format
-to a file on disk. Prometheus watches for changes to the file and updates its scraping configuration accordingly.
-
-1.  Run `kuma-prometheus-sd`, for example:
-
-    ```shell
-    kuma-prometheus-sd run \
-      --cp-address=grpcs://kuma-control-plane.internal:5676 \
-      --output-file=/var/run/kuma-prometheus-sd/kuma.file_sd.json
-    ```
-
-1.  Configure Prometheus to read from the file you just saved. For example, add the following snippet to `prometheus.yml`:
-
-    ```yaml
-    scrape_configs:
-    - job_name: 'kuma-dataplanes'
-      scrape_interval: 15s
-      file_sd_configs:
-      - files:
-        - /var/run/kuma-prometheus-sd/kuma.file_sd.json
-    ```
-
 If you have [traffic metrics](../policies/traffic-metrics.md) enabled for your mesh, check the Targets page in the Prometheus dashboard.
 You should see a list of data plane proxies from your mesh. For example:
 
@@ -227,7 +204,7 @@ It provides a topology view of your service traffic dependencies (**Service Map*
 and includes information such as number of requests and error rates.
 
 <center>
-<img src="/images/docs/1.8.0/grafana-dashboard-kuma-mesh.png" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/images/docs/grafana_dashboard_mesh.png" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ##### Kuma Service to Service
@@ -256,6 +233,15 @@ This dashboard lets you investigate aggregated statistics for each service.
 <center>
 <img src="/images/docs/1.1.2/grafana-dashboard-kuma-service.jpg" alt="Kuma Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
+
+##### Kuma MeshGateway
+
+This dashboard lets you investigate aggregated statistics for each builtin gateway.
+
+<center>
+<img src="/images/docs/grafana_dashboard_gateway.png" alt="Kuma Gateway dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
 
 ## Configuring Datadog
 
