@@ -99,8 +99,8 @@ so Kuma DP can confirm the control plane identity.
 Configure the control plane with generated certificates:
 
 ```sh
-KUMA_DP_SERVER_TLS_CERT_FILE=/tmp/tls.crt \
-  KUMA_DP_SERVER_TLS_KEY_FILE=/tmp/tls.key \
+KUMA_GENERAL_TLS_CERT_FILE=/tmp/tls.crt \
+  KUMA_GENERAL_TLS_KEY_FILE=/tmp/tls.key \
   kuma-cp run
 ```
 
