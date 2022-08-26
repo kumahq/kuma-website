@@ -18,7 +18,7 @@ To run Kuma on OpenShift, you need to download a compatible version of Kuma for 
 You can run the following script to automatically detect the operating system and download Kuma:
 
 ```sh
-curl -L https://kuma.io/installer.sh | sh -
+curl -L https://kuma.io/installer.sh | VERSION={{ $page.latestVersion }} bash -
 ```
 
 :::

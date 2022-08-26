@@ -18,7 +18,7 @@ Run the following script to automatically detect the operating system and downlo
 
 ```sh
 yum install -y tar gzip
-curl -L https://kuma.io/installer.sh | sh -
+curl -L https://kuma.io/installer.sh | VERSION={{ $page.latestVersion }} bash -
 ```
 or you can <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-centos-amd64.tar.gz'">download</a> the distribution manually.
 
