@@ -13,7 +13,7 @@ Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and
 Run the following script to automatically detect the operating system and download Kuma:
 
 ```sh
-curl -L https://kuma.io/installer.sh | sh -
+curl -L https://kuma.io/installer.sh | VERSION={{ $page.latestVersion }} bash -
 ```
 
 or you can [download](https://download.konghq.com/mesh-alpine/kuma-1.3.1-debian-amd64.tar.gz) the distribution manually.
