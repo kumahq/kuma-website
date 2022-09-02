@@ -78,10 +78,9 @@ mtls:
 
 You can run the following script to automatically detect the operating system and download Kuma:
 
-<div class="language-sh">
-<pre><code>curl -L https://kuma.io/installer.sh | VERSION={{ $page.latestVersion }} sh -</code></pre>
-</div>
-
+```sh
+curl -L https://kuma.io/installer.sh | sh -
+```
 or you can download the distribution manually:
 
 * <a :href="'https://download.konghq.com/mesh-alpine/kuma-' + $page.latestVersion + '-centos-amd64.tar.gz'">CentOS</a>
