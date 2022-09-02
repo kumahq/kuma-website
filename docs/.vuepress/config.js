@@ -511,12 +511,18 @@ Sitemap: https://kuma.io/sitemap.xml
   evergreen: false,
   configureWebpack: (config) => {
     return {
-      plugins: [
-        new webpack.EnvironmentPlugin({...process.env}),
-        new webpack.optimize.LimitChunkCountPlugin({
-          maxChunks: 20
-        })
-      ]
+      plugins: (function() {
+        const sharedPlugins = [
+          new webpack.EnvironmentPlugin({...process.env}),
+        ];
+        if (process.env.NODE_ENV.toLowerCase() === "production") {
+          return [...sharedPlugins, new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks: 20
+          })]
+        } else {
+          return sharedPlugins;
+        }
+      })()
     }
   },
   shouldPrefetch: false,
