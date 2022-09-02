@@ -230,8 +230,9 @@ Steps required to setup a simple gateway that exposes a http listener and 2 rout
 
 :::: tabs :options="{ useUrlFragment: false }"
 ::: tab "Kubernetes"
-To ease starting gateways on Kubernetes Kuma comes with a builtin type "MeshGatewayInstance".
-This type requests that the control plane create and manage a Kubernetes Deployment and Service suitable for providing service capacity for the Gateway with the matching service tags.
+To ease starting gateways on Kubernetes, Kuma comes with a builtin type `MeshGatewayInstance`.
+This type requests that the control plane create and manage a Kubernetes `Deployment` and `Service`
+suitable for providing service capacity for the `MeshGateway` with the matching `kuma.io/service` tag.
 
 ```shell
 echo "
@@ -248,10 +249,11 @@ spec:
 " | kubectl apply -f -
 ```
 
-In the example above, the control plane will create a new Deployment in the `gateways` namespace.
-This deployment will have the requested number of builtin gateway `Dataplane` pod replicas, which will be configured as part of the service named in the `MeshGatewayInstance` tags.
-When a Kuma `MeshGateway` is matched to the `MeshGatewayInstance`, the control plane will also create a new Service to send network traffic to the builtin `Dataplane` pods.
-The Service will be of the type requested in the `MeshGatewayInstance`, and its ports will automatically be adjusted to match the listeners on the corresponding `MeshGateway`.
+For a given `MeshGatewayInstance`, the control plane waits for a `MeshGateway` matching the `kuma.io/service` tag to exist.
+Once one does, the control plane creates a new `Deployment` in the `default` namespace.
+This `Deployment` has the requested number of builtin gateway `Dataplane` pod replicas running as the service named in the `MeshGatewayInstance` tags.
+The control plane also creates a new `Service` to send network traffic to the builtin `Dataplane` pods.
+The `Service` is of the type requested in the `MeshGatewayInstance`, and its ports are automatically adjusted to match the listeners on the corresponding `MeshGateway`.
 
 #### Customization
 
