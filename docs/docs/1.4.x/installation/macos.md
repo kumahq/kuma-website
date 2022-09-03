@@ -17,9 +17,9 @@ To run Kuma on macOS you can choose among different installation methods:
 
 Run the following script to automatically detect the operating system and download Kuma:
 
-```sh
-curl -L https://kuma.io/installer.sh | sh -
-```
+<div class="language-sh">
+<pre><code>curl -L https://kuma.io/installer.sh | VERSION={{ $page.latestVersion }} sh -</code></pre>
+</div>
 
 :::
 ::: tab "Direct Link"
