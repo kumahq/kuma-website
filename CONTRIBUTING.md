@@ -10,7 +10,7 @@ Hello, and welcome! Whether you are looking for help, trying to report a bug, th
 
 ## Where to report bugs?
 
-Feel free to [submit an issue](https://github.com/kumahq/kuma-website/issues/new/choose) on the GitHub repository, we would be grateful to hear about it! Please be provide a direct link to the webpage that contains the issue and make sure to respect the GitHub issue template, and include:
+Feel free to [submit an issue](https://github.com/kumahq/kuma-website/issues/new/choose) on the GitHub repository, we would be grateful to hear about it! Please provide a direct link to the webpage that contains the issue and make sure to respect the GitHub issue template, and include:
 
 1. A summary of the issue
 2. A list of steps to reproduce the issue
@@ -49,7 +49,7 @@ If your Pull Request was accepted and fixes a bug, adds functionality, or makes 
 
 #### Sign Your Work
 
-The sign-off is a simple line at the end of the explanation for a commit. All commits needs to be signed. Your signature certifies that you wrote the patch or otherwise have the right to contribute the material. The rules are pretty simple, if you can certify the below (from [developercertificate.org](https://developercertificate.org/)):
+The sign-off is a simple line at the end of the explanation for a commit. All commits need to be signed. Your signature certifies that you wrote the patch or otherwise have the right to contribute the material. The rules are pretty simple, if you can certify the below (from [developercertificate.org](https://developercertificate.org/)):
 
 To signify that you agree to the DCO for a commit, you add a line to the git commit message:
 
