@@ -58,7 +58,3 @@ Signed-off-by: Jane Smith <jane.smith@example.com>
 ```
 
 In most cases, you can add this signoff to your commit automatically with the `-s` flag to `git commit`. You must use your real name and a reachable email address (sorry, no pseudonyms or anonymous contributions).
-
-### Contributor T-shirt
-
-If your pull request was accepted, and it fixes a bug, adds functionality, or makes it significantly easier to use or understand Kuma, congratulations! You are eligible to receive the very special Contributor T-shirt! Go ahead and fill out the [Contributors Submissions form](https://goo.gl/forms/5w6mxLaE4tz2YM0L2).
