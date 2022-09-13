@@ -102,7 +102,8 @@
       "documentation/fine-tuning",
       "documentation/configuration",
       "documentation/upgrades",
-      "documentation/requirements"
+      "documentation/requirements",
+      "documentation/monitoring"
     ]
   },
   {
