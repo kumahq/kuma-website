@@ -41,6 +41,9 @@ if [ $REPO == "kong/kong-mesh" ]; then
 else
   COMMIT=${COMMIT:0:9}
 fi
-VERSION=0.0.0-preview.${COMMIT}
+VERSION=0.0.0-preview.v${COMMIT}
 
-curl -s https://kuma.io/installer.sh | PRODUCT_NAME=${PRODUCT_NAME} REPO_PREFIX=${REPO_PREFIX} VERSION=${VERSION} sh -
+if ! curl -s https://kuma.io/installer.sh | PRODUCT_NAME=${PRODUCT_NAME} REPO_PREFIX=${REPO_PREFIX} VERSION=${VERSION} sh -; then
+  VERSION_NO_V=0.0.0-preview.${COMMIT}
+  curl -s https://kuma.io/installer.sh | PRODUCT_NAME=${PRODUCT_NAME} REPO_PREFIX=${REPO_PREFIX} VERSION=${VERSION_NO_V} sh -; then
+fi
