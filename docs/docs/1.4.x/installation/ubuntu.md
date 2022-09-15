@@ -12,9 +12,9 @@ Finally you can follow the [Quickstart](#_4-quickstart) to take it from here and
 
 Run the following script to automatically detect the operating system and download Kuma:
 
-```sh
-curl -L https://kuma.io/installer.sh | sh -
-```
+<div class="language-sh">
+<pre><code>curl -L https://kuma.io/installer.sh | VERSION={{ $page.latestVersion }} sh -</code></pre>
+</div>
 
 or you can [download](https://download.konghq.com/mesh-alpine/kuma-1.4.1-ubuntu-amd64.tar.gz) the distribution manually.
 
