@@ -43,7 +43,4 @@ else
 fi
 VERSION=0.0.0-preview.v${COMMIT}
 
-if ! curl -s https://kuma.io/installer.sh | PRODUCT_NAME=${PRODUCT_NAME} REPO_PREFIX=${REPO_PREFIX} VERSION=${VERSION} sh -; then
-  VERSION_NO_V=0.0.0-preview.${COMMIT}
-  curl -s https://kuma.io/installer.sh | PRODUCT_NAME=${PRODUCT_NAME} REPO_PREFIX=${REPO_PREFIX} VERSION=${VERSION_NO_V} sh -; then
-fi
+curl -s https://kuma.io/installer.sh | PRODUCT_NAME=${PRODUCT_NAME} REPO_PREFIX=${REPO_PREFIX} VERSION=${VERSION} sh -
