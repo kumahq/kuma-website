@@ -25,9 +25,23 @@ Gateway API support is an experimental feature that has to be explicitly enabled
    kumactl install demo | kubectl apply -f -
    ```
 
-2. Add a `GatewayClass` and `Gateway`.
+2. Add a `Gateway`.
 
-   The `Gateway` resource represents the proxy instance that handles traffic for a set of Gateway API routes, and a `GatewayClass` describes characteristics shared by all `Gateways` of a given type.
+   The `Gateway` resource represents the proxy instance that handles traffic for a set of Gateway API routes.
+
+   Every `Gateway` refers to a `GatewayClass` by name.
+
+:::: tabs :options="{ useUrlFragment: false }"
+::: tab "Standard install"
+
+   For Helm and `kumactl` installations, a `GatewayClass` named `kuma` is automatically installed
+   if the Gateway API CRDs are present.
+
+:::
+::: tab "Custom install"
+
+   If you've installed Kuma some other way, you can create your own `GatewayClass`
+   using the `controllerName: gateways.kuma.io/controller`:
 
    ```sh
    echo "apiVersion: gateway.networking.k8s.io/v1alpha2
@@ -38,6 +52,9 @@ Gateway API support is an experimental feature that has to be explicitly enabled
      controllerName: gateways.kuma.io/controller
    " | kubectl apply -f -
    ```
+
+:::
+::::
 
    ```sh
    echo "apiVersion: gateway.networking.k8s.io/v1alpha2
