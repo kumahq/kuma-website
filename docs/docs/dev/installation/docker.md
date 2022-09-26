@@ -56,7 +56,7 @@ To access Kuma you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to 
 You can use the `kumactl` CLI to perform **read and write** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API. For example:
 
 ```sh
-$ docker run --net="host" kumahq/kumactl:<version> kumactl get meshes
+docker run --net="host" kumahq/kumactl:<version> kumactl get meshes
 NAME          mTLS      METRICS      LOGGING   TRACING
 default       off       off          off       off
 ```
