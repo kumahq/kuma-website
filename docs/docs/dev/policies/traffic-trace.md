@@ -98,7 +98,7 @@ spec:
       type: datadog
       sampling: 100.0
       conf:
-        address: trace-svc.datadog.svc.cluster.local
+        address: trace-svc.default.svc.cluster.local
         port: 8126
         splitService: true
 ```
