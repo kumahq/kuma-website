@@ -130,7 +130,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../r
 
 The `defaultBackend` property specifies the tracing backend to use if it's not explicitly specified in the `TrafficTrace` resource.
 
-The `splitService` property determines if Datadog service name should be split based on traffic direction and destination. For example, if you have a `backend` service that communicates with couple databases. When `splitService` is enabled instead of single service named `backend` you will get `backend_INBOUND`, `backend_OUTBOUND_db1`, `backend_OUTBOUND_db2` in Datadog. By default, this property is set to false.
+The `splitService` property determines if Datadog service names should be split based on traffic direction and destination. For example, with `splitService: true` and a `backend` service that communicates with a couple of databases, you would get service names like `backend_INBOUND`, `backend_OUTBOUND_db1`, and `backend_OUTBOUND_db2` in Datadog. By default, this property is set to false.
 
 ## Add TrafficTrace resource
 
