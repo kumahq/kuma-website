@@ -314,13 +314,16 @@ metadata:
   name: trace-svc
 spec:
   selector:
-    app: datadog
+    app.kubernetes.io/name: datadog-agent-deployment
   ports:
     - protocol: TCP
       port: 8126
       targetPort: 8126
 ```
 Apply the configuration with `kubectl apply -f [..]`.
+
+Check if the label of the datadog pod installed has not changed (`app.kubernetes.io/name: datadog-agent-deployment`),
+if it did adjust accordingly.
 :::
 ::: tab "Universal"
 Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_usage)
