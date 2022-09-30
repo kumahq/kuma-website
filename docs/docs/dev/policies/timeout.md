@@ -1,5 +1,9 @@
 # Timeout
 
+:::tip
+Timeout is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
+:::
+
 This policy enables Kuma to set timeouts on the outbound connections depending on the protocol.
 
 ## Usage

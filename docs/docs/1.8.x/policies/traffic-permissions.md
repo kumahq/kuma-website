@@ -1,5 +1,9 @@
 # Traffic Permissions
 
+:::tip
+Traffic Permissions is an inbound policy. Dataplanes whose configuration is modified are in the `destinations` matcher.
+:::
+
 This policy provides access control rules to define the traffic that is allowed within the [Mesh](../mesh). 
 
 Traffic permissions requires [Mutual TLS](../mutual-tls) enabled on the [`Mesh`](../mesh). Mutual TLS is required for Kuma to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, Kuma allows all service traffic. 

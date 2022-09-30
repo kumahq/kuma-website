@@ -1,5 +1,9 @@
 # Health Check
 
+:::tip
+Circuit Breaker is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
+:::
+
 This policy enables Kuma to keep track of the health of every data plane proxy, with the goal of minimizing the number of failed requests in case a data plane proxy is temporarily unhealthy.
 
 By creating an `HealthCheck` resource we can instruct a data plane proxy to keep track of the health status for any other data plane proxy. When health-checks are properly configured, a data plane proxy will never send a request to another data plane proxy that is considered unhealthy. When an unhealthy proxy returns to a healthy state, Kuma will resume sending requests to it again.
