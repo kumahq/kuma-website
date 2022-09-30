@@ -297,7 +297,7 @@ spec:
       port: 8126
       targetPort: 8126
 ```
-Apply the configuration with `kubectl apply -f [..]`.
+Apply the configuration with `kubectl apply -f [..]`. Remember that in order for this to work you need to add label `app=datadog` to you agent pod.
 :::
 ::: tab "Universal"
 Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_usage)
