@@ -5,7 +5,7 @@ Kuma supports configuring [built-in gateway](gateway.md) using [Kubernetes Gatew
 ## Installation
 
 ::: warning
-Gateway API support is an experimental feature that has to be explicitly enabled.
+[Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) is still beta, therefore Kuma's integration provides the same level of stability.
 :::
 
 1. Install the Gateway API CRDs.
