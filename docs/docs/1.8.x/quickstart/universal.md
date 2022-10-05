@@ -73,7 +73,9 @@ kuma-dp run \
         serviceAddress: 127.0.0.1
         tags: 
           kuma.io/service: redis
-          kuma.io/protocol: tcp"
+          kuma.io/protocol: tcp
+    admin:
+      port: 9901"
 ```
 
 And for the demo app:
@@ -99,7 +101,9 @@ kuma-dp run \
         serviceAddress: 127.0.0.1
         tags: 
           kuma.io/service: app
-          kuma.io/protocol: http"
+          kuma.io/protocol: http
+    admin:
+      port: 9902"
 ```
 
 ## Run
