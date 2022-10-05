@@ -210,6 +210,7 @@ then the policy is appplied on the `web-1` data plane proxy.
 
 The policy can be applied either on inbound connections that a data plane proxy receives or outbound connections that data plane proxy creates,
 therefore there are two types of connection policies. 
+It is indicated at the beginning of each policy doc whether they are inbound or outbounds.
 
 ## Outbound Connection Policy
 
@@ -323,4 +324,3 @@ destinations:
 
 then the `TrafficPermission` is enforced only on the first inbound listener of the `backend-1` data plane proxy.
 The configuration of `web-1` data plane proxy is not changed in any way.
-
