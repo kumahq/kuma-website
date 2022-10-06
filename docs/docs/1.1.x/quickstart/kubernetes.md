@@ -1,5 +1,5 @@
 ---
-title: Kubernetes Quickstart
+title: Explore Kuma on Kubernetes
 ---
 
 # Quickstart in Kubernetes Mode
