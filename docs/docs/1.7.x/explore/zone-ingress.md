@@ -12,7 +12,7 @@ The `ZoneIngress` entity includes a few sections:
 * `networking`: contains networking parameters of the Zone Ingress
     * `address`: the address of the network interface Zone Ingress is listening on. Could be the address of either
       public or private network interface, but the latter must be used with a load balancer.
-    * `port`: is a port that Zone Ingress is listening on
+    * `port`: is a port that Zone Ingress is listening on default to 10001
     * `advertisedAddress`: an IP address or hostname which will be used to communicate with the Zone Ingress. Zone Ingress
       doesn't listen on this address. If Zone Ingress is exposed using a load balancer, then the address of the load balancer
       should be used here. If Zone Ingress is listening on the public network interface, then the address of the public network
