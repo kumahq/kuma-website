@@ -1,5 +1,5 @@
 ---
-title: Explore Kuma with the Universal demo app
+title: Explore Kuma on Universal
 ---
 
 # Set up and explore the Universal demo app
