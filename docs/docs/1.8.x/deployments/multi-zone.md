@@ -333,7 +333,7 @@ The following examples are running in the remote zone trying to access the previ
 To view the list of service names available, run:
 
 ```sh
-kubectl get serviceinsight all-default -oyaml
+kubectl get serviceinsight all-services-default -oyaml
 apiVersion: kuma.io/v1alpha1
 kind: ServiceInsight
 mesh: default 
