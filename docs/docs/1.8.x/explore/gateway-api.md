@@ -6,6 +6,8 @@ Kuma supports configuring [built-in gateway](gateway.md) using [Kubernetes Gatew
 
 ::: warning
 [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) is still beta, therefore Kuma's integration provides the same level of stability.
+
+Gateway API is not supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway`  resources](gateway.md).
 :::
 
 1. Install the Gateway API CRDs.
