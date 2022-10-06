@@ -1,5 +1,9 @@
 # Rate Limit
 
+:::tip
+Rate Limit is an inbound policy. Dataplanes whose configuration is modified are in the `destinations` matcher.
+:::
+
 The `RateLimit` policy leverages
 Envoy's [local rate limiting](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter)
 to allow for per-instance service request limiting. All HTTP/HTTP2 based requests are supported.
