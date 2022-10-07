@@ -192,10 +192,6 @@ When configuring your API Gateway to pass traffic to _backend_ set the url to `h
 
 ## Builtin
 
-:::warning
-The builtin gateway is currently experimental.
-:::
-
 The builtin gateway is integrated into the core Kuma control plane.
 You can configure gateway listeners and routes to service directly using Kuma policies.
 
@@ -433,7 +429,6 @@ Once these resources exist, you can provision serving capacity in the zones wher
 
 ### Cross-mesh
 
-Cross-mesh gateways are an experimental feature new in Kuma v1.7.
 The `Mesh` abstraction allows users
 to encapsulate and isolate services
 inside a kind of submesh with its own CA.
