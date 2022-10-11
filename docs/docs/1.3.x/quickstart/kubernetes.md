@@ -1,5 +1,5 @@
 ---
-title: Explore Kuma with the Kubernetes demo app
+title: Explore Kuma on Kubernetes
 ---
 
 # Set up and explore the Kubernetes demo app
