@@ -66,47 +66,47 @@ export default ({
     //   name: 'DocsLatest'
     // }    
     {
-      path: 'kuma.io/sidecar-injection',
+      path: '/sidecar-injection',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-sidecar-injection"
     },
     {
-      path: 'kuma.io/mesh',
+      path: '/mesh',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-mesh"
     },
     {
-      path: 'kuma.io/gateway',
+      path: '/gateway',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-gateway"
     },
     {
-      path: 'kuma.io/ingress',
+      path: '/ingress',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-ingress"
     },
     {
-      path: 'kuma.io/ingress-public-address',
+      path: '/ingress-public-address',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-ingress-public-address"
     },
     {
-      path: 'kuma.io/ingress-public-port',
+      path: '/ingress-public-port',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-ingress-public-port"
     },
     {
-      path: 'kuma.io/direct-access-services',
+      path: '/direct-access-services',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-direct-access-services"
     },
     {
-      path: 'kuma.io/virtual-probes',
+      path: '/virtual-probes',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-virtual-probes"
     },
     {
-      path: 'kuma.io/virtual-probes-port',
+      path: '/virtual-probes-port',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-virtual-probes-port"
     },
     {
-      path: 'https://kuma.io/sidecar-env-vars',
+      path: '/sidecar-env-vars',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-sidecar-env-vars"
     },
     {
-      path: 'kuma.io/container-patches',
+      path: '/container-patches',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-container-patches"
     },
     {
@@ -118,15 +118,15 @@ export default ({
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#prometheus-metrics-kuma-io-path"
     },
     {
-      path: 'kuma.io/builtindns',
+      path: '/builtindns',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-builtindns"
     },
     {
-      path: 'kuma.io/builtindnsport',
+      path: '/builtindnsport',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-builtindnsport"
     },
     {
-      path: 'kuma.io/ignore',
+      path: '/ignore',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-ignore"
     },
     {
@@ -138,19 +138,19 @@ export default ({
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#traffic-kuma-io-exclude-outbound-ports"
     },
     {
-      path: 'kuma.io/transparent-proxying-experimental-engine',
+      path: '/transparent-proxying-experimental-engine',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-transparent-proxying-experimental-engine"
     },
     {
-      path: 'kuma.io/envoy-admin-port',
+      path: '/envoy-admin-port',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-envoy-admin-port"
     },
     {
-      path: 'kuma.io/service-account-token-volume',
+      path: '/service-account-token-volume',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-service-account-token-volume"
     },
     {
-      path: 'kuma.io/transparent-proxying-reachable-services',
+      path: '/transparent-proxying-reachable-services',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-transparent-proxying-reachable-services"
     },
     {
@@ -166,11 +166,11 @@ export default ({
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#prometheus-metrics-kuma-io-aggregate-name-port"
     },
     {
-      path: 'kuma.io/transparent-proxying-inbound-v6-port',
+      path: '/transparent-proxying-inbound-v6-port',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-transparent-proxying-inbound-v6-port"
     },
     {
-      path: 'kuma.io/sidecar-drain-time',
+      path: '/sidecar-drain-time',
       redirect: "https://kuma.io/docs/1.8.x/reference/kubernetes-annotations/#kuma-io-sidecar-drain-time"
     }
   ])
