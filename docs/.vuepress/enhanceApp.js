@@ -64,6 +64,6 @@ export default ({
     //   path: '/docs/latest/',
     //   alias: `/docs/${siteData.themeConfig.latestVersion}/`,
     //   name: 'DocsLatest'
-    // }    
+    // }
   ])
 }
