@@ -398,6 +398,7 @@ Sitemap: https://kuma.io/sitemap.xml
             `/install/latest/* /install/${versions.latestMinor}/:splat 301`,
             `/docs/:version/policies/ /docs/:version/policies/introduction 301`,
             ...policyRedirects,
+            ...kumaIoTagRedirects,
             `/docs/:version/overview/ /docs/:version/overview/what-is-kuma 301`,
             `/docs/:version/other/ /docs/:version/other/enterprise 301`,
             `/docs/:version/installation/ /docs/:version/installation/kubernetes 301`,
