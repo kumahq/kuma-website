@@ -83,9 +83,6 @@ metadata:
   labels:
     kuma.io/mesh: default
 spec:
-  targetRef:
-    kind: Mesh
-    name: default
   default:
     backends:
       - zipkin:
@@ -141,9 +138,6 @@ type: MeshTrace
 name: default
 mesh: default
 spec:
-  targetRef:
-    kind: Mesh
-    name: default
   default:
     backends:
       - zipkin:
@@ -216,9 +210,6 @@ metadata:
   labels:
     kuma.io/mesh: default
 spec:
-  targetRef:
-    kind: Mesh
-    name: default
   default:
     backends:
       - datadog:
@@ -276,9 +267,6 @@ type: MeshTrace
 name: default
 mesh: default
 spec:
-  targetRef:
-    kind: Mesh
-    name: default
   default:
     backends:
       - datadog:
