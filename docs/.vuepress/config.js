@@ -385,6 +385,13 @@ Sitemap: https://kuma.io/sitemap.xml
             'virtual-probes-port',
             'virtual-probes',
           ].map((sourcePath) => `/${sourcePath}/ /docs/${versions.latestMinor}/reference/kubernetes-annotations/#kuma-io-${sourcePath}/ 301`)
+          
+          const kumaIoSubdomainRedirects = [
+            ['https://prometheus.metrics.kuma.io/port', `/docs/${versions.latestMinor}/reference/kubernetes-annotations/#prometheus-metrics-kuma-io-port`],
+            ['https://prometheus.metrics.kuma.io/path', `/docs/${versions.latestMinor}/reference/kubernetes-annotations/#prometheus-metrics-kuma-io-path`],
+            ['https://traffic.kuma.io/exclude-inbound-ports', `/docs/${versions.latestMinor}/reference/kubernetes-annotations/#traffic-kuma-io-exclude-inbound-ports`],
+            ['https://traffic.kuma.io/exclude-outbound-ports', `/docs/${versions.latestMinor}/reference/kubernetes-annotations/#traffic-kuma-io-exclude-outbound-ports`],
+          ].map(([sourceUrl, destinationPath]) => `${sourceUrl} ${destinationPath}/ 301`)
 
           const redirects = [
             `/docs /docs/${versions.latestMinor} 301`,
@@ -399,6 +406,7 @@ Sitemap: https://kuma.io/sitemap.xml
             `/docs/:version/policies/ /docs/:version/policies/introduction 301`,
             ...policyRedirects,
             ...kumaIoTagRedirects,
+            ...kumaIoSubdomainRedirects,
             `/docs/:version/overview/ /docs/:version/overview/what-is-kuma 301`,
             `/docs/:version/other/ /docs/:version/other/enterprise 301`,
             `/docs/:version/installation/ /docs/:version/installation/kubernetes 301`,
