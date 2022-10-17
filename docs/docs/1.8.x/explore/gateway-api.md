@@ -12,7 +12,7 @@ Gateway API is not supported in multi-zone. To use the builtin Gateway, you need
 
 1. Install the Gateway API CRDs.
 
-   The Gateway API CRDs aren't available in Kubernetes by default yet. You must first [install the _experimental release_ that includes those CRDs as well as the admission webhook](https://gateway-api.sigs.k8s.io/guides/getting-started/#install-experimental-channel).
+   The Gateway API CRDs aren't available in Kubernetes by default yet. You must first [install the _experimental release_ that includes those CRDs as well as the admission webhook](https://gateway-api.sigs.k8s.io/guides/#install-experimental-channel).
 
 2. Enable Gateway API support.
 
