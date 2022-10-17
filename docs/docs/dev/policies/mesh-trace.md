@@ -170,7 +170,7 @@ metadata:
   name: default
   namespace: kuma-system
   labels:
-    kuma.io/mesh: default
+    kuma.io/mesh: default # optional, defaults to `default` if unset
 spec:
   targetRef:
     kind: Mesh
