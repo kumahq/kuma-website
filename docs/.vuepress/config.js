@@ -361,6 +361,37 @@ Sitemap: https://kuma.io/sitemap.xml
             ['traffic-traces', 'traffic-trace'],
             ['virtual-outbounds', 'virtual-outbound'],
           ].map(([sourcePath, destinationPath]) => `/docs/:version/policies/${sourcePath}/ /docs/:version/policies/${destinationPath}/ 301`)
+          
+          // Redirects known “kuma.io/*” tags to their respective page in the docs.
+          const kumaIoTagRedirects = [
+            'builtindns',
+            'builtindnsport',
+            'container-patches',
+            'direct-access-services',
+            'envoy-admin-port',
+            'gateway',
+            'ignore',
+            'ingress-public-address',
+            'ingress-public-port',
+            'ingress',
+            'mesh',
+            'service-account-token-volume',
+            'sidecar-drain-time',
+            'sidecar-env-vars',
+            'sidecar-injection',
+            'transparent-proxying-experimental-engine',
+            'transparent-proxying-inbound-v6-port',
+            'transparent-proxying-reachable-services',
+            'virtual-probes-port',
+            'virtual-probes',
+          ].map((sourcePath) => `/${sourcePath}/ /docs/${versions.latestMinor}/reference/kubernetes-annotations/#kuma-io-${sourcePath}/ 301`)
+          
+          const kumaIoSubdomainRedirects = [
+            ['https://prometheus.metrics.kuma.io/port', `/docs/${versions.latestMinor}/reference/kubernetes-annotations/#prometheus-metrics-kuma-io-port`],
+            ['https://prometheus.metrics.kuma.io/path', `/docs/${versions.latestMinor}/reference/kubernetes-annotations/#prometheus-metrics-kuma-io-path`],
+            ['https://traffic.kuma.io/exclude-inbound-ports', `/docs/${versions.latestMinor}/reference/kubernetes-annotations/#traffic-kuma-io-exclude-inbound-ports`],
+            ['https://traffic.kuma.io/exclude-outbound-ports', `/docs/${versions.latestMinor}/reference/kubernetes-annotations/#traffic-kuma-io-exclude-outbound-ports`],
+          ].map(([sourceUrl, destinationPath]) => `${sourceUrl} ${destinationPath}/ 301`)
 
           const redirects = [
             `/docs /docs/${versions.latestMinor} 301`,
@@ -374,6 +405,8 @@ Sitemap: https://kuma.io/sitemap.xml
             `/install/latest/* /install/${versions.latestMinor}/:splat 301`,
             `/docs/:version/policies/ /docs/:version/policies/introduction 301`,
             ...policyRedirects,
+            ...kumaIoTagRedirects,
+            ...kumaIoSubdomainRedirects,
             `/docs/:version/overview/ /docs/:version/overview/what-is-kuma 301`,
             `/docs/:version/other/ /docs/:version/other/enterprise 301`,
             `/docs/:version/installation/ /docs/:version/installation/kubernetes 301`,
