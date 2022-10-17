@@ -5,7 +5,7 @@ This policy uses new policy matching algorithm and is in beta state,
 it should not be mixed with [TrafficTrace](traffic-trace.md).
 :::
 
-This policy enables tracing logging to a third party tracing solution. 
+This policy enables publishing traces to a third party tracing solution.
 
 Tracing is supported over HTTP, HTTP2, and gRPC protocols.
 You must [explicitly specify the protocol](protocol-support-in-kuma.md) for each service and data plane proxy you want to enable tracing for.
