@@ -337,4 +337,4 @@ With a lot of traffic going through the system,
 a valid use case is to target specific set of microservices that are part of a main request path
 (e.g. a process of buying an item in an e-commerce application).
 
-You can achieve that by using more specific `targetRef` and (if needed) a separate backend.
+You can achieve that by using a more specific `targetRef` and (if needed) a separate backend.
