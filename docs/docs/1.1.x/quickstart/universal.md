@@ -1,5 +1,5 @@
 ---
-title: Universal Quickstart
+title: Explore Kuma on Universal
 ---
 
 # Quickstart in Universal Mode

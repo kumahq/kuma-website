@@ -532,3 +532,21 @@ metadata:
 spec:
   ...
 ```
+
+### `kuma.io/sidecar-drain-time`
+
+Allows specifying drain time of Kuma DP sidecar. The default value is 30s.
+The default could be changed using [the control-plane configuration](../generated/kuma-cp.md) or `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_DRAIN_TIME` env.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/sidecar-drain-time: "10s"
+spec:
+  ...
+```

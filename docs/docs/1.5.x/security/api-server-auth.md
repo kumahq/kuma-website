@@ -124,7 +124,7 @@ If you want to remove default admin user token.
 ::: tab "Kubernetes"
 1. Delete `admin-user-token` Secret
 ```sh
-$ kubectl delete secret admin-user-token -n kuma-namespace
+kubectl delete secret admin-user-token -n kuma-namespace
 ```
 
 2. Disable bootstrap of the token

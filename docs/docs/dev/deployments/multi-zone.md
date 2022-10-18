@@ -116,7 +116,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 1.  Set the `controlPlane.mode` value to `global` in the chart (`values.yaml`), then install. On the command line, run:
 
     ```sh
-    helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
+    helm install kuma --create-namespace --namespace kuma-system --set controlPlane.mode=global kuma/kuma
     ```
 
     Or you can edit the chart and pass the file to the `helm install kuma` command. To get the default values, run:
@@ -197,6 +197,7 @@ You need the following values to pass to each zone control plane setup:
 
     ```sh
     helm install kuma \
+    --create-namespace \
     --namespace kuma-system \
     --set controlPlane.mode=zone \
     --set controlPlane.zone=<zone-name> \
@@ -212,6 +213,7 @@ You need the following values to pass to each zone control plane setup:
 
     ```sh
     helm install kuma \
+    --create-namespace \
     --namespace kuma-system \
     --set controlPlane.mode=zone \
     --set controlPlane.zone=<zone-name> \
@@ -331,7 +333,7 @@ The following examples are running in the remote zone trying to access the previ
 To view the list of service names available, run:
 
 ```sh
-kubectl get serviceinsight all-default -oyaml
+kubectl get serviceinsight all-services-default -oyaml
 apiVersion: kuma.io/v1alpha1
 kind: ServiceInsight
 mesh: default 

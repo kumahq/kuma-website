@@ -285,7 +285,12 @@ runtime:
         # Name of the environmental variable which will include IP address of the pod
         instanceIPEnvVarName: INSTANCE_IP # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_INSTANCE_IP_ENV_VAR_NAME
         # Path where BPF file system will be mounted for pinning ebpf programs and maps
-        bpffsPath: /run/kuma/bpf # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_BPFFS_PATH
+        bpffsPath: /sys/fs/bpf # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_BPFFS_PATH
+        # Path of mounted cgroup2
+        cgroupPath: /sys/fs/cgroup # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_CGROUP_PATH
+        # Name of the network interface which should be used to attach to it TC programs
+        # when not specified, we will try to automatically determine it
+        tcAttachIface: "" # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_TC_ATTACH_IFACE
         # Path where compiled eBPF programs are placed
         programsSourcePath: /kuma/ebpf # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_PROGRAMS_SOURCE_PATH
     marshalingCacheExpirationTime: 5m # ENV: KUMA_RUNTIME_KUBERNETES_MARSHALING_CACHE_EXPIRATION_TIME
@@ -347,6 +352,8 @@ dnsServer:
   CIDR: "240.0.0.0/4" # ENV: KUMA_DNS_SERVER_CIDR
   # Will create a service "<kuma.io/service>.mesh" dns entry for every service.
   serviceVipEnabled: true # ENV: KUMA_DNS_SERVER_SERVICE_VIP_ENABLED
+  # The port to use along with the `<kuma.io/service>.mesh` dns entry
+  serviceVipPort: 80 # ENV: KUMA_DNS_SERVICE_SERVICE_VIP_PORT
 
 # Multizone mode
 multizone:

@@ -5,12 +5,14 @@ Kuma supports configuring [built-in gateway](gateway.md) using [Kubernetes Gatew
 ## Installation
 
 ::: warning
-Gateway API support is an experimental feature that has to be explicitly enabled.
+[Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) is still beta, therefore Kuma's integration provides the same level of stability.
+
+Gateway API is not supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway`  resources](gateway.md).
 :::
 
 1. Install the Gateway API CRDs.
 
-   The Gateway API CRDs aren't available in Kubernetes by default yet. You must first [install the _experimental release_ that includes those CRDs as well as the admission webhook](https://gateway-api.sigs.k8s.io/guides/getting-started/#install-experimental-channel).
+   The Gateway API CRDs aren't available in Kubernetes by default yet. You must first [install the _experimental release_ that includes those CRDs as well as the admission webhook](https://gateway-api.sigs.k8s.io/guides/#install-experimental-channel).
 
 2. Enable Gateway API support.
 
