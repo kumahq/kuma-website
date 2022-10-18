@@ -44,7 +44,7 @@ metadata:
   name: default
   namespace: kuma-system
   labels:
-    kuma.io/mesh: default
+    kuma.io/mesh: default # optional, defaults to `default` if unset
 spec:
   default:
     backends:
@@ -60,7 +60,7 @@ metadata:
   name: default
   namespace: kuma-system
   labels:
-    kuma.io/mesh: default
+    kuma.io/mesh: default # optional, defaults to `default` if unset
 spec:
   targetRef:
     kind: Mesh
@@ -169,7 +169,7 @@ metadata:
   name: default
   namespace: kuma-system
   labels:
-    kuma.io/mesh: default
+    kuma.io/mesh: default # optional, defaults to `default` if unset
 spec:
   default:
     backends:
