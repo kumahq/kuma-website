@@ -36,6 +36,22 @@ For HTTP you can also manually forward the following headers:
 :::::: tabs :options="{ useUrlFragment: false }"
 ::::: tab "Kubernetes"
 :::: tabs :options="{ useUrlFragment: false }"
+::: tab "Minimal example"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrace
+metadata:
+  name: default
+  namespace: kuma-system
+  labels:
+    kuma.io/mesh: default
+spec:
+  default:
+    backends:
+      - zipkin:
+          url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
+```
+:::
 ::: tab "Full example"
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -71,22 +87,6 @@ spec:
         value: 60
       client:
         value: 40
-```
-:::
-::: tab "Minimal example"
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: kuma-system
-  labels:
-    kuma.io/mesh: default
-spec:
-  default:
-    backends:
-      - zipkin:
-          url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
 ```
 :::
 ::::
@@ -96,6 +96,20 @@ Apply the configuration with `kubectl apply -f [..]`.
 :::::
 ::::: tab "Universal"
 :::: tabs  :options="{ useUrlFragment: false }"
+::: tab "Minimal example"
+
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  default:
+    backends:
+      - zipkin:
+          url: http://jaeger-collector:9411/api/v2/spans
+```
+
+:::
 ::: tab "Full example"
 
 ```yaml
@@ -128,20 +142,6 @@ spec:
         value: 60
       client:
         value: 40
-```
-
-:::
-::: tab "Minimal example"
-
-```yaml
-type: MeshTrace
-name: default
-mesh: default
-spec:
-  default:
-    backends:
-      - zipkin:
-          url: http://jaeger-collector:9411/api/v2/spans
 ```
 
 :::
@@ -161,8 +161,23 @@ This assumes a Datadog agent is configured and running. If you haven't already c
 :::::: tabs :options="{ useUrlFragment: false }"
 ::::: tab "Kubernetes"
 :::: tabs :options="{ useUrlFragment: false }"
+::: tab "Minimal example"
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrace
+metadata:
+  name: default
+  namespace: kuma-system
+  labels:
+    kuma.io/mesh: default
+spec:
+  default:
+    backends:
+      - datadog:
+          url: http://trace-svc.default.svc.cluster.local:8126
+```
+:::
 ::: tab "Full example"
-
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -199,24 +214,6 @@ spec:
         value: 40
 ```
 :::
-::: tab "Minimal example"
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: kuma-system
-  labels:
-    kuma.io/mesh: default
-spec:
-  default:
-    backends:
-      - datadog:
-          url: http://trace-svc.default.svc.cluster.local:8126
-```
-
-:::
 ::::
 
 where `trace-svc` is the name of the Kubernetes Service you specified when you configured the Datadog APM agent.
@@ -226,6 +223,19 @@ Apply the configuration with `kubectl apply -f [..]`.
 :::::
 ::::: tab "Universal"
 :::: tabs  :options="{ useUrlFragment: false }"
+::: tab "Minimal example"
+
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  default:
+    backends:
+      - datadog:
+          url: http://127.0.0.1:8126
+```
+:::
 ::: tab "Full example"
 
 ```yaml
@@ -258,19 +268,6 @@ spec:
         value: 60
       client:
         value: 40
-```
-:::
-::: tab "Minimal example"
-
-```yaml
-type: MeshTrace
-name: default
-mesh: default
-spec:
-  default:
-    backends:
-      - datadog:
-          url: http://127.0.0.1:8126
 ```
 :::
 ::::
@@ -333,8 +330,6 @@ If `default` is not provided then the tag won't be added.
 
 ## Targeting parts of the infrastructure
 
-With a lot of traffic going through the system,
-a valid use case is to target specific set of microservices that are part of a main request path
-(e.g. a process of buying an item in an e-commerce application).
-
-You can achieve that by using a more specific `targetRef` and (if needed) a separate backend.
+While most commonly we want all the traces to be sent to the same tracing backend,
+we can target parts of a `Mesh` by using finer-grained `targetRef` and a designated backend to trace different paths of our service traffic.
+This is especially useful when we want traces to never leave a world region, or a cloud, for example.
