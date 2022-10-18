@@ -348,21 +348,25 @@ spec:
       status: online
 ```
 
-To consume the example service only within the same Kuma zone, you can rely on Kube-DNS and use the usual Kubernetes hostnames and ports, for example:
+The following are some examples of different ways to address `echo-server` in the
+`echo-example` `Namespace` in a multi-zone mesh.
+
+To send a request in the same zone, you can rely on Kubernetes DNS and use the usual Kubernetes hostnames and ports:
 
 ```sh
-<kuma-enabled-pod>$ curl http://echo-server:1010
+curl http://echo-server:1010
 ```
 
-To consume the example service across all zones in your Kuma deployment (that is, from endpoints ultimately connecting to the same global control plane), you can run:
+To send a request from any zone, you can [use the generated `kuma.io/service`](../explore/dpp-on-kubernetes.md#tag-generation) and [Kuma DNS](../networking/dns.md#dns):
 
 ```sh
-<kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
+curl http://echo-server_echo-example_svc_1010.mesh:80
 ```
 
-We also render DNS names as [RFC 1123](https://datatracker.ietf.org/doc/html/rfc1123) compatible by replacing underscores with dots.
+Kuma DNS also supports [RFC 1123](https://datatracker.ietf.org/doc/html/rfc1123) compatible names, where underscores are replaced with dots:
+
 ```sh
-<kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
+curl http://echo-server.echo-example.svc.1010.mesh:80
 ```
 
 :::
