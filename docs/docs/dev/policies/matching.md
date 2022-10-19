@@ -1,4 +1,50 @@
 # Policy Matching
+
+## targetRef levels
+
+`Top` level `targetRef` defines which set of proxies a policy will affect (.i.e: the set of proxies whose configuration is getting modified).
+`To` level `targetRef` defines rules that applies to outgoing traffic of proxies selected by the `Top` level `targetRef`.
+`From` level `targetRef` defines rules that applies to incoming traffic of proxies selected by the `Top` level `targetRef`.
+
+Consider the example below:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshAccessLog
+metadata:
+  name: example
+  namespace: kuma-system
+  labels:
+    kuma.io/mesh: default
+spec:
+  targetRef: # top level targetRef
+    kind: MeshService
+    name: web-frontend
+  to:
+    - targetRef: # to level targetRef
+        kind: MeshService
+        name: web-backend
+      default:
+        backends:
+          - file:
+              format:
+                plain: '{"start_time": "%START_TIME%"}'
+              path: '/tmp/logs.txt'
+  from:
+    - targetRef: # from level targetRef
+        kind: Mesh
+      default:
+        backends:
+          - file:
+              format:
+                plain: '{"start_time": "%START_TIME%"}'
+              path: '/tmp/logs.txt'
+```
+
+This policy will target all proxies that implement the service `web-frontend`.
+It logs traffic **coming** from `web-backend` to `web-frontend`.
+It also logs traffic going out of proxies that implement `web-frontend` to **anything** in the `Mesh`.
+
 ## Matrix
 | TargetRef type    | top level | to  | from |
 |-------------------|-----------|-----|------|
@@ -47,50 +93,3 @@ A combination of a policy and the top level `targetRef` can influence which type
 
 If a policy does not support a level then every type will be marked with ❌ in that level
 and the YAML configuration must omit that field from the definition.
-
-## targetRef levels
-
-Top level `targetRef` defines which set of proxies a policy will affect.
-`Top` level `targetRef` defines which set of proxies a policy will affect (.i.e: the set of proxies whose configuration is getting modified).
-`To` level `targetRef` defines rules that applies to outgoing traffic of proxies selected by the `Top` level `targetRef`.
-`From` level `targetRef` defines rules that applies to incoming traffic of proxies selected by the `Top` level `targetRef`.
-`From` level `targetRef` defines rules for incoming traffic relative to the top level.
-
-Consider the example below:
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshAccessLog
-metadata:
-  name: example
-  namespace: kuma-system
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef: # top level targetRef
-    kind: MeshService
-    name: web-frontend
-  to:
-    - targetRef: # to level targetRef
-        kind: MeshService
-        name: web-backend
-      default:
-        backends:
-          - file:
-              format:
-                plain: '{"start_time": "%START_TIME%"}'
-              path: '/tmp/logs.txt'
-  from:
-    - targetRef: # from level targetRef
-        kind: Mesh
-      default:
-        backends:
-          - file:
-              format:
-                plain: '{"start_time": "%START_TIME%"}'
-              path: '/tmp/logs.txt'
-```
-
-This policy will target all proxies that implement the service `web-frontend`.
-It logs traffic **coming** from `web-backend` to `web-frontend`.
-It also logs traffic going out of proxies that implement `web-frontend` to **anything** in the `Mesh`.
