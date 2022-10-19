@@ -29,6 +29,19 @@ For HTTP you can also manually forward the following headers:
 * `x-b3-flags`
 :::
 
+## Matching matrix
+
+| TargetRef type    | top level | to  | from |
+|-------------------|-----------|-----|------|
+| Mesh              | ✅         | ❌   | ❌    |
+| MeshSubset        | ✅         | ❌   | ❌    |
+| MeshService       | ✅         | ❌   | ❌    |
+| MeshServiceSubset | ✅         | ❌   | ❌    |
+| MeshGatewayRoute  | ✅         | ❌   | ❌    |
+| MeshHTTPRoute     | ❌         | ❌   | ❌    |
+
+[Legend](matching.md#matching-matrix)
+
 ## Add MeshTrace resource
 
 :::::::: tabs :options="{ useUrlFragment: false }"
@@ -290,7 +303,7 @@ By default, this property is set to false.
 ### Sampling
 
 You can configure sampling settings equivalent to Envoy's:
-- [overall](https://www.envoyproxy.io/docs/envoy/v1.22.5/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html?highlight=overall_sampling#extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-tracing)
+- [overall](https://www.envoyproxy.io/docs/envoy/v1.22.5/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html?highlight=overall_sampling#extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-tracing) - the most commonly used
 - [random](https://www.envoyproxy.io/docs/envoy/v1.22.5/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html?highlight=random_sampling#extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-tracing)
 - [client](https://www.envoyproxy.io/docs/envoy/v1.22.5/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html?highlight=client_sampling#extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-tracing)
 
