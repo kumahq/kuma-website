@@ -359,7 +359,10 @@ To send a request in the same zone, you can rely on Kubernetes DNS and use the u
 curl http://echo-server:1010
 ```
 
-To send a request from any zone, you can [use the generated `kuma.io/service`](../explore/dpp-on-kubernetes.md#tag-generation) and [Kuma DNS](../networking/dns.md#dns):
+Requests are distributed round robin between zones.
+You can use [locality-aware load balancing](../policies/locality-aware.md) to keep requests in the same zone.
+
+To send a request to any zone, you can [use the generated `kuma.io/service`](../explore/dpp-on-kubernetes.md#tag-generation) and [Kuma DNS](../networking/dns.md#dns):
 
 ```sh
 curl http://echo-server_echo-example_svc_1010.mesh:80
