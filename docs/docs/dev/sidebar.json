@@ -135,7 +135,8 @@
       "policies/virtual-outbound",
       "policies/mesh-gateway",
       "policies/mesh-gateway-route",
-      "policies/service-health-probes"
+      "policies/service-health-probes",
+      "policies/mesh-trace"
     ]
   },
   {
