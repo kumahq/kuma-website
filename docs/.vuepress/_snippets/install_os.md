@@ -32,10 +32,9 @@ You can start the control-plane with: `kuma-{{ $page.latestVersion }}/bin/kuma-c
 This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](../introduction/deployments.md) like "multi-zone".
 
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
-
-```sh
-ln -s kuma-{{ $page.latestVersion }}/bin/kumactl /usr/local/bin/kumactl
-```
+<div class="language-sh">
+<pre><code> ln -s kuma-{{ $page.latestVersion }}/bin/kumactl /usr/local/bin/kumactl </code></pre>
+</div>
 
 ::: tip
 **Note**: By default this will run Kuma with a `memory` [store](../documentation/configuration.md), but for production you have to use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
