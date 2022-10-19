@@ -83,7 +83,6 @@ spec:
   from:
     - targetRef: # from level targetRef
         kind: Mesh
-        name: default
       default:
         backends:
           - file:
