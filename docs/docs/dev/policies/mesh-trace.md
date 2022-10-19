@@ -40,7 +40,7 @@ For HTTP you can also manually forward the following headers:
 | MeshGatewayRoute  | ✅         | ❌   | ❌    |
 | MeshHTTPRoute     | ❌         | ❌   | ❌    |
 
-[Legend](matching.md#matching-matrix)
+If you don't understand this table you should read [matching docs](matching.md#matching-matrix)
 
 ## Add MeshTrace resource
 
