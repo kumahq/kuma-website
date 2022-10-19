@@ -48,7 +48,7 @@ A combination of a policy and the top level `targetRef` can influence which type
 If a policy does not support a level then every type will be marked with ❌ in that level
 and the YAML configuration must omit that field from the definition.
 
-# targetRef levels
+## targetRef levels
 
 Top level `targetRef` defines which set of proxies a policy will affect.
 `Top` level `targetRef` defines which set of proxies a policy will affect (.i.e: the set of proxies whose configuration is getting modified).
