@@ -46,7 +46,7 @@ Gateway API is not supported in multi-zone. To use the builtin Gateway, you need
    using the `controllerName: gateways.kuma.io/controller`:
 
    ```sh
-   echo "apiVersion: gateway.networking.k8s.io/v1alpha2
+   echo "apiVersion: gateway.networking.k8s.io/v1beta1
    kind: GatewayClass
    metadata:
      name: kuma
@@ -59,7 +59,7 @@ Gateway API is not supported in multi-zone. To use the builtin Gateway, you need
 ::::
 
    ```sh
-   echo "apiVersion: gateway.networking.k8s.io/v1alpha2
+   echo "apiVersion: gateway.networking.k8s.io/v1beta1
    kind: Gateway
    metadata:
      name: kuma
@@ -96,7 +96,7 @@ Gateway API is not supported in multi-zone. To use the builtin Gateway, you need
    `HTTPRoute` resources contain a set of matching criteria for HTTP requests and upstream `Services` to route those requests to.
 
    ```sh
-   echo "apiVersion: gateway.networking.k8s.io/v1alpha2
+   echo "apiVersion: gateway.networking.k8s.io/v1beta1
    kind: HTTPRoute
    metadata:
      name: echo
@@ -164,7 +164,7 @@ data:
 ```
 
 ```yaml
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: kuma
@@ -191,7 +191,7 @@ to provide additional, implementation-specific configuration to `Gateways`.
 When using Gateway API with Kuma, you can refer to a `MeshGatewayConfig` resource:
 
 ```yaml
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: GatewayClass
 metadata:
   name: kuma
