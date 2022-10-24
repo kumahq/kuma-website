@@ -18,7 +18,7 @@ If you install the control plane with `kumactl`, you can override the configurat
 ```sh
 kumactl install control-plane \
   --env-var KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
-  --env-var KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s | kubactl apply -f -
+  --env-var KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s | kubectl apply -f -
 ```
 :::
 ::: tab "Kubernetes (HELM)"
@@ -103,7 +103,7 @@ Configuration of `kuma-dp` is logged when `kuma-dp` runs.
 
 ## kumactl
 
-The configuration is stored in `$HOME/.kumactl/config`, which is created when you run `kumactl` for the first time. 
+The configuration is stored in `$HOME/.kumactl/config`, which is created when you run `kumactl` for the first time.
 When you add a new control plane with `kumactl config control-planes add`, the config file is updated.
 To change the path of the config file, run `kumactl` with `--config-file /new-path/config`.
 

@@ -22,7 +22,7 @@ When using `kumactl`, override the configuration with the `--env-var` flag. For 
 ```sh
 kumactl install control plane \
   --env-var KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
-  --env-var KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s | kubactl apply -f -
+  --env-var KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s | kubectl apply -f -
 ```
 :::
 ::: tab "Kubernetes (HELM)"
