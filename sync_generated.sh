@@ -14,7 +14,7 @@ git fetch $kumahq
 
 popd
 
-for i in docs/docs/*; do
+for i in app/docs/*; do
   if [[ ! -d $i ]]; then continue; fi
 
   branch=`basename $i | sed 's/\(.*\)\.x/release-\1/g'`

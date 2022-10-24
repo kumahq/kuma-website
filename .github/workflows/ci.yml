@@ -31,7 +31,7 @@ jobs:
           `go env GOPATH`/bin/muffet ${URL} --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --rate-limit 50 --timeout 60
       - name: link checker dev docs
         run: |
-          `go env GOPATH`/bin/muffet ${URL}/docs/dev --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --rate-limit 50 --timeout 60
+          `go env GOPATH`/bin/muffet ${URL}/docs/dev --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --exclude https://download.konghq.com --rate-limit 50 --timeout 60
 
   installer-sh:
     name: Test installer.sh
@@ -56,7 +56,7 @@ jobs:
           yum install file tar gzip -y || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
-        run: sh docs/.vuepress/public/installer.sh
+        run: sh app/installer.sh
       - name: Check kumactl architecture
         run: file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
   installer-sh-arm64:
@@ -78,7 +78,7 @@ jobs:
           # Set an output parameter `uname` for use in subsequent steps
           run: |
             apt-get update && apt-get install -y file curl tar gzip
-            sh docs/.vuepress/public/installer.sh
+            sh app/installer.sh
             file ./kuma-*/bin/kumactl | grep aarch64 &> /dev/null
 
   vale:

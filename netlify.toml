@@ -1,3 +1,14 @@
-# Build command that Netlify looks for
 [build]
-  command = "node --max_old_space_size=7168 ./node_modules/vuepress/cli.js build docs"
+  publish = "dist"
+  command = "bundle exec jekyll build --config jekyll.yml"
+  environment = { JEKYLL_ENV = "development", BUNDLE_WITHOUT = "development", NODE_OPTIONS = "--max_old_space_size=8192" }
+
+[context.main.environment]
+  JEKYLL_ENV = "production"
+
+[context.deploy-preview.environment]
+  JEKYLL_ENV = "preview"
+
+[dev]
+  autoLaunch = false
+  framework = "#static"

@@ -11,19 +11,19 @@ if [[ $# -le 1 ]]; then
   echo "./backport.sh <origin> <dest1> <dest2>"
   exit 1
 fi
-if [[ ! -d docs/docs/${1} ]]; then
-  echo "docs/docs/${1} is not an existing folder"
+if [[ ! -d app/docs/${1} ]]; then
+  echo "app/docs/${1} is not an existing folder"
   exit 1
 fi
-git diff --patch --cached docs/docs/${1} > /tmp/kuma-website.patch
+git diff --patch --cached app/docs/${1} > /tmp/kuma-website.patch
 trap "rm -rf /tmp/kuma-website.patch" EXIT
 
 for var in "$@"; do
-  if [[ ! -d docs/docs/${var} ]]; then
-    echo "no such doc version: docs/docs/${var}"
+  if [[ ! -d app/docs/${var} ]]; then
+    echo "no such doc version: app/docs/${var}"
     exit 1
   fi
   if [[ "${var}" != "${1}" ]]; then
-    git apply -p4 --directory docs/docs/$var /tmp/kuma-website.patch
+    git apply -p4 --directory app/docs/$var /tmp/kuma-website.patch
   fi
 done
