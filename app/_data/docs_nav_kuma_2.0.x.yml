@@ -1,0 +1,339 @@
+product: kuma
+release: 2.0.x
+generate: true
+items:
+  - title: Introduction
+    items:
+      - text: Overview of Kuma
+        url: /introduction/what-is-kuma
+      - text: About service meshes
+        url: /introduction/what-is-a-service-mesh/
+      - text: How Kuma works
+        url: /introduction/how-kuma-works/
+      - text: Architecture
+        url: /introduction/architecture/
+      - text: Kuma requirements
+        url: /introduction/requirements/
+      - text: Release notes
+        url: https://github.com/kumahq/kuma/blob/master/CHANGELOG.md
+        absolute_url: true
+  - title: Get Started
+    items:
+      - text: Overview
+        url: /get-started/
+      - text: Set up the Kubernetes demo app
+        url: /get-started/kubernetes-demo/
+      - text: Set up the Universal demo app
+        url: /get-started/universal-demo/
+      - text: Setup a hybrid mesh app
+        url: /get-started/hybrid/
+      - text: Get started with observability
+        url: /get-started/observability/
+  - title: Kuma in Production
+    items:
+      - text: Overview
+        url: /production/
+      - text: Deployment topologies
+        items:
+          - text: Overview
+            url: /production/deployment-topologies/
+          - text: Standalone deployment
+            url: /production/deployment-topologies/standalone/
+          - text: Multi-zone deployment
+            url: /production/deployment-topologies/multi-zone/
+      - text: Install Kuma
+        items:
+          - text: Kubernetes
+            items:
+              - text: Kubernetes
+                url: /production/install/kubernetes/
+              - text: Helm
+                url: /production/install/helm/
+              - text: OpenShift
+                url: /production/install/openshift/
+          - text: Docker
+            url: /production/install/docker/
+          - text: Linux
+            url: /production/install/linux/
+          - text: macOS
+            url: /production/install/macos/
+      - text: Deploy
+        items:
+          - text: Overview
+            url: /production/deploy/
+          - text: Deploy Kuma in standalone mode
+            url: /production/deploy/standalone/
+          - text: Deploy Kuma in multi-zone mode
+            url: /production/deploy/multi-zone/
+          - text: Create multiple service meshes in a cluster
+            url: /production/deploy/cluster/
+      - text: Configure the control plane
+        url: /production/cp/
+      - text: Data plane
+        items:
+          - text: Overview
+            url: /production/dp/
+          - text: Configure the data plane on Kubernetes
+            url: /production/dp/kubernetes-dp/
+          - text: Configure the data plane on Universal
+            url: /production/dp/universal-dp/
+      - text: Networking
+        items:
+          - text: Service discovery
+            url: /production/networking/service-discovery/
+          - text: Default ports
+            url: /production/networking/default-ports/
+          - text: DNS
+            url: /production/networking/dns/
+          - text: Configure the Kuma CNI
+            url: /production/networking/cni/
+          - text: Configure transparent proxying
+            url: /production/networking/transparent-proxying/
+          - text: IPv6 support
+            url: /production/networking/ipv6/
+          - text: Configure outbound communication
+            url: /production/networking/outbound-communication/
+          - text: Enable external service consumption
+            url: /production/networking/external-services/
+      - text: Security
+        items:
+          - text: Manage secrets
+            url: /production/security/manage-secrets/
+          - text: Kuma API access control
+            url: /production/security/api-access-control/
+          - text: Authenticate with the API server
+            url: /production/security/api-server-auth/
+          - text: Authenticate with the data plane proxy
+            url: /production/security/dp-auth/
+          - text: Configure data plane proxy membership
+            url: /production/security/dp-membership/
+      - text: Open source license
+        url: /production/license
+      - text: Gateway
+        items:
+          - text: Overview
+            url: /production/gateway/
+          - text: Configure a delegated gateway
+            url: /production/gateway/delegated
+          - text: Configure a built-in gateway
+            url: /production/gateway/built-in
+          - text: Configure built-in gateway listeners
+            url: /production/gateway/builtin-listeners/
+          - text: Configure built-in gateway routes
+            url: /production/gateway/builtin-routes/
+          - text: Use the Kubernetes Gateway API
+            url: /production/gateway/gateway-api/
+      - text: Kuma user interface
+        url: /production/gui/
+      - text: Upgrade Kuma
+        url: /production/upgrades/
+  - title: Features
+    items:
+      - text: Multi-zone
+        items:
+          - text: Overview
+            url: /features/multi-zone/
+          - text: Configure multi-zone services
+            url: /features/multi-zone/multi-zone-services/
+          - text: Zone ingress
+            url: /features/multi-zone/zone-ingress/
+          - text: Zone ingress authentication
+            url: /features/multi-zone/zone-ingress-auth/
+          - text: Zone egress
+            url: /features/multi-zone/zone-egress/
+          - text: Zone egress authentication
+            url: /features/multi-zone/zone-egress-auth/
+          - text: Enable locality-aware load balancing
+            url: /features/multi-zone/locality-aware/
+      - text: Observability
+        items:
+          - text: Overview
+            url: /features/observability/
+          - text: Configure Prometheus
+            url: /features/observability/prometheus
+          - text: Configure Grafana
+            url: /features/observability/grafana
+          - text: Configure Datadog
+            url: /features/observability/datadog
+          - text: Configure Honeycomb
+            url: /features/observability/honeycomb/
+          - text: Configure multi-zone observability
+            url: /features/observability/multi-zone/
+          - text: Configure traffic metrics
+            url: /features/observability/traffic-metrics/
+          - text: Configure traffic tracing
+            url: /features/observability/traffic-tracing/
+          - text: Configure New Relic tracing with Zipkin
+            url: /features/observability/zipkin/
+      - text: Zero trust
+        items:
+          - text: Overview
+            url: /features/zero-trust/
+          - text: Enable mutual TLS
+            url: /features/zero-trust/mutual-tls/
+          - text: Secure access across services
+            url: /features/zero-trust/certificates/
+      - text: Policy enforcement
+        items:
+          - text: Overview
+            url: /features/policy-enforcement/
+          - text: Apply policies
+            url: /features/policy-enforcement/applying-policies/
+          - text: How Kuma chooses the right policy to apply
+            url: >-
+              /features/policy-enforcement/choosing-policies/
+      - text: Health check
+        items:
+          - text: Enable data plane proxy health check
+            url: /features/health-check/health-check-policy/
+          - text: Configure service health probes
+            url: /features/health-check/service-health-probes/
+          - text: Enable failed request retry
+            url: /features/health-check/retry/
+      - text: Traffic
+        items:
+          - text: Configure traffic permissions
+            url: /features/traffic/permissions/
+          - text: Configure traffic logging
+            url: /features/traffic/log/
+          - text: Configure routing rules
+            url: /features/traffic/route/
+          - text: Configure protocol support
+            url: /features/traffic/protocol-support/
+      - text: Performance
+        items:
+          - text: Configure fault injection
+            url: /features/performance/fault-injection/
+          - text: Enable rate limiting
+            url: /features/performance/rate-limit/
+          - text: Enable circuit breaker
+            url: /features/performance/circuit-breaker/
+          - text: Set timeouts
+            url: /features/performance/timeout/
+          - text: Performance fine-tuning
+            url: /features/performance/fine-tuning/
+      - text: Debug
+        items:
+          - text: Debug policies
+            url: /features/debug/inspect-api/
+  - title: Envoy Filters
+    items:
+      - text: Log request and response body
+        url: /envoy-filters/log-request/
+      - text: Configure mirror traffic
+        url: /envoy-filters/mirror-traffic/
+  - title: Community
+    items:
+      - text: Contribute to Kuma
+        url: /community/introduction/
+  - title: Guides
+    items:
+      - text: Blue green and canary deployments
+        url: /guides/blue-green-canary/
+      - text: End-to-end zero trust
+        url: /guides/zero-trust/
+      - text: Full observability reference architecture
+        url: /guides/observability-architecture/
+      - text: High-availability control plane across regions with Kubernetes
+        url: /guides/kubernetes-region-cp/
+      - text: Locally verify a JWT with an OIDC provider
+        url: /guides/local-jwt/
+      - text: Remotely verify a JWT with an OIDC provider
+        url: /guides/remote-jwt/
+      - text: Create an Envoy WASM proxy extension
+        url: /guides/wasm/
+      - text: Change images for components in Helm
+        url: /guides/helm-images/
+      - text: End-to-end Prometheus monitoring
+        url: /guides/prometheus-monitoring/
+  - title: Reference
+    items:
+      - text: HTTP API
+        url: /reference/http-api/
+      - text: Kubernetes annotations and labels
+        url: /reference/kubernetes-annotations/
+      - text: Kuma data collection
+        url: /reference/data-collection/
+      - text: Control plane configuration reference
+        url: /reference/cp-config/
+        src: generated/cp-config/
+      - text: Envoy proxy template
+        url: /reference/proxy-template/
+      - text: Kubernetes RBAC
+        url: /reference/kubernetes-rbac/
+      - text: Resources
+        items:
+          - text: Mesh
+            url: /reference/resources/other_mesh/
+            src: generated/resources/other_mesh/
+          - text: CircuitBreaker
+            url: /reference/resources/policy_circuit-breaker/
+            src: generated/resources/policy_circuit-breaker/
+          - text: ExternalService
+            url: /reference/resources/policy_external-service/
+            src: generated/resources/policy_external-service/
+          - text: FaultInjection
+            url: /reference/resources/policy_fault-injection/
+            src: generated/resources/policy_fault-injection/
+          - text: HealthCheck
+            url: /reference/resources/policy_health-check/
+            src: generated/resources/policy_health-check/
+          - text: MeshGateway
+            url: /reference/resources/policy_meshgateway/
+            src: generated/resources/policy_meshgateway/
+          - text: MeshGatewayRoute
+            url: /reference/resources/policy_meshgatewayroute/
+            src: generated/resources/policy_meshgatewayroute/
+          - text: ProxyTemplate
+            url: /reference/resources/policy_proxy-template/
+            src: generated/resources/policy_proxy-template/
+          - text: RateLimit
+            url: /reference/resources/policy_rate-limit/
+            src: generated/resources/policy_rate-limit/
+          - text: Retry
+            url: /reference/resources/policy_retry/
+            src: generated/resources/policy_retry/
+          - text: Timeout
+            url: /reference/resources/policy_timeout/
+            src: generated/resources/policy_timeout/
+          - text: TrafficLog
+            url: /reference/resources/policy_traffic-log/
+            src: generated/resources/policy_traffic-log/
+          - text: TrafficPermission
+            url: /reference/resources/policy_traffic-permissions/
+            src: generated/resources/policy_traffic-permissions/
+          - text: TrafficRoute
+            url: /reference/resources/policy_traffic-route/
+            src: generated/resources/policy_traffic-route/
+          - text: TrafficTrace
+            url: /reference/resources/policy_traffic-trace/
+            src: generated/resources/policy_traffic-trace/
+          - text: VirtualOutbound
+            url: /reference/resources/policy_virtual-outbound/
+            src: generated/resources/policy_virtual-outbound/
+          - text: Dataplane
+            url: /reference/resources/proxy_dataplane/
+            src: generated/resources/proxy_dataplane/
+          - text: ZoneEgress
+            url: /reference/resources/proxy_zoneegress/
+            src: generated/resources/proxy_zoneegress/
+          - text: ZoneIngress
+            url: /reference/resources/proxy_zoneingress/
+            src: generated/resources/proxy_zoneingress/
+      - text: Commands
+        items:
+          - text: kuma-cp
+            url: /reference/cmd/kuma-cp/kuma-cp/
+            src: generated/cmd/kuma-cp/kuma-cp/
+          - text: kuma-dp
+            url: /reference/cmd/kuma-dp/kuma-dp/
+            src: generated/cmd/kuma-dp/kuma-dp/
+          - text: kuma-prometheus-sd
+            url: /reference/cmd/kuma-prometheus-sd/kuma-prometheus-sd/
+            src: generated/cmd/kuma-prometheus-sd/kuma-prometheus-sd/
+          - text: kumactl
+            url: /reference/cmd/kumactl/kumactl/
+            src: generated/cmd/kumactl/kumactl/
+unlisted:
+  - url: /
+
