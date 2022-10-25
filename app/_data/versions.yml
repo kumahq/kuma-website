@@ -24,4 +24,7 @@
   release: "1.8.x"
 - edition: "kuma"
   version: "2.0.0"
+  release: "2.0.x"
+- edition: "kuma"
+  version: "2.1.0"
   release: "dev"

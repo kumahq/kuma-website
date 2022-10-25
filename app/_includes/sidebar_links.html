@@ -4,7 +4,7 @@
   <ul class="sidebar-links {{ include.cssClass }}">
     {% for item in items %}
       <li>
-        {% if item.group %}
+        {% if item.items %}
           {% include sidebar_group.html item=item depth=include.depth version=include.version %}
         {% else %}
           {% include sidebar_link.html item=item version=include.version %}
