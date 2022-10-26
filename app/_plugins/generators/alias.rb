@@ -5,12 +5,19 @@ module Jekyll
     priority :lowest
 
     def generate(site)
-      content = File.read('app/_redirects')
+      static_files = [
+        "app/_redirects",
+        "app/_headers"
+      ]
 
-      page = PageWithoutAFile.new(site, __dir__, '', '_redirects')
-      page.content = content
-      page.data['layout'] = nil
-      site.pages << page
+      static_files.each do |path|
+        content = File.read(path)
+
+        page = PageWithoutAFile.new(site, __dir__, '', path.sub('app/',''))
+        page.content = content
+        page.data['layout'] = nil
+        site.pages << page
+      end
     end
   end
 end
