@@ -31,6 +31,7 @@ rinstall/1.1.6/* /install/1.1.x/:splat 301
 /docs/latest/documentation/gateway /docs/1.8.x/explore/gateway 301
 /docs/latest/deployments /docs/:version/1.8.x/deployments 301
 /docs/latest/documentation/deployments /docs/1.8.x/introduction/deployments 301
+/docs/latest/documentation/requirements /docs/latest/introduction/requirements
 /docs/latest/explore/backends /docs/1.8.x/documentation/configuration 301
 /docs/latest/* /docs/1.8.x/:splat 301
 /docs/:version/policies/ /docs/:version/policies/introduction 301
