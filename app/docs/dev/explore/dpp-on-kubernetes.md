@@ -316,7 +316,7 @@ securityContext:
   runAsNonRoot: true
 ```
 
-Resources requests cpu will be changed from: 
+Resources `requests cpu` will be changed from: 
 
 ```yaml
 requests:                                                                                                       │
