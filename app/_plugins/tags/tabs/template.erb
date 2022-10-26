@@ -1,4 +1,4 @@
-<div class="tabs-component" data-tab="<%= SecureRandom.uuid %>" data-tab-use-url-fragment=<%= options['useUrlFragment'] %>>
+<div class="tabs-component" data-tab="<%= SecureRandom.uuid %>" data-tab-use-url-fragment="<%= options['useUrlFragment'] %>">
   <ul role="tablist" class="tabs-component-tabs">
     <% environment['tabs'][file_path][@name].each_with_index do |(hash, value), index| %>
       <li class="tabs-component-tab <%= index == 0 ? 'is-active' : '' %>" role="presentation">
