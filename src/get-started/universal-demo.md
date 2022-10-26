@@ -1,5 +1,5 @@
 ---
-title: Set up and explore the Universal demo app
+title: Set up the Universal Demo App
 ---
 
 To start learning how Kuma works, you can download and run a simple demo application that consists of two services:
@@ -7,7 +7,7 @@ To start learning how Kuma works, you can download and run a simple demo applica
 - `demo-app`: web application that lets you increment a numeric counter
 - `redis`: data store for the counter
 
-This guide also introduces some of the tools Kuma provides to help you control and monitor traffic, track resource status, and more.
+This guide also introduces some of the tools {{ site.mesh_product_name }} provides to help you control and monitor traffic, track resource status, and more.
 
 The `demo-app` service listens on port 5000. When it starts, it expects to find a zone key in Redis that specifies the name of the datacenter (or cluster) where the Redis instance is running. This name is displayed in the browser.
 
@@ -16,7 +16,7 @@ The zone key is purely static and arbitrary. Different zone values for different
 ## Prerequisites
 
 - [Redis installed](https://redis.io/docs/getting-started/)
-- [Kuma installed](/install)
+- [{{ site.mesh_product_name }} installed](/install)
 - [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 
   ```sh
@@ -110,19 +110,19 @@ Navigate to 127.0.0.1:5000 and increment the counter.
 
 ## Explore the mesh
 
-You can view the sidecar proxies that are connected to the Kuma control plane:
+You can view the sidecar proxies that are connected to the {{ site.mesh_product_name }} control plane:
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage GUI (Read-Only) %}
 
-Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on the API port and defaults to `:5681/gui`.
+{{ site.mesh_product_name }} ships with a **read-only** GUI that you can use to retrieve {{ site.mesh_product_name }} resources. By default the GUI listens on the API port and defaults to `:5681/gui`.
 
 You can navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/meshes/default/dataplanes) to see the connected dataplanes.
 
 {% endtab %}
 {% tab usage HTTP API (Read/Write) %}
 
-Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resources.
+{{ site.mesh_product_name }} ships with a **read-only** HTTP API that you can use to retrieve {{ site.mesh_product_name }} resources.
 
 By default the HTTP API listens on port `5681`.
 
@@ -131,7 +131,7 @@ Navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/m
 {% endtab %}
 {% tab usage kumactl (Read/Write) %}
 
-You can use the `kumactl` CLI to perform **read-only** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API, you will need to first port-forward the API service with:
+You can use the `kumactl` CLI to perform **read-only** operations on {{ site.mesh_product_name }} resources. The `kumactl` binary is a client to the {{ site.mesh_product_name }} HTTP API, you will need to first port-forward the API service with:
 
 Run `kumactl`, for example:
 
@@ -153,7 +153,7 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 
 ## Enable Mutual TLS and Traffic Permissions
 
-By default the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/{{ page.version }}/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
+By default the network is unsecure and not encrypted. We can change this with {{ site.mesh_product_name }} by enabling the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/{{ page.version }}/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
@@ -169,7 +169,7 @@ mtls:
 EOF
 ```
 
-Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly have a [Traffic Permission](/docs/{{ page.version }}/policies/traffic-permissions/) policy that describes what services can be consumed by other services.
+Once Mutual TLS has been enabled, {{ site.mesh_product_name }} will **not allow** traffic to flow freely across our services unless we explicitly have a [Traffic Permission](/docs/{{ page.version }}/policies/traffic-permissions/) policy that describes what services can be consumed by other services.
 By default, a very permissive traffic permission is created.
 
 For the sake of this demo we will delete it:
@@ -204,7 +204,7 @@ As usual, you can visualize the Mutual TLS configuration and the Traffic Permiss
 
 ## Explore Traffic Metrics
 
-One of the most important [policies](/policies) that Kuma provides out of the box is [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics/).
+One of the most important [policies](/policies) that {{ site.mesh_product_name }} provides out of the box is [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics/).
 
 With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that visualize the overall traffic activity of our application and the status of the service mesh.
 
@@ -231,7 +231,7 @@ This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/
 
 Increment the counter to generate traffic, and access the dashboard at [127.0.0.1:3000](http://127.0.0.1:3000) with default credentials for both the username (`admin`) and the password (`admin`).
 
-Kuma automatically installs three dashboard that are ready to use:
+{{ site.mesh_product_name }} automatically installs three dashboard that are ready to use:
 
 - `Kuma Mesh`: to visualize the status of the overall Mesh.
 - `Kuma Dataplane`: to visualize metrics for a single individual dataplane.

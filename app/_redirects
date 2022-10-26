@@ -1,2 +1,6 @@
 # Anything after this line is manually maintained in _redirects
 # See app/_plugins/generators/redirects.rb to understand the above lines
+
+
+/docs/latest/quickstart/universal/ https://kuma.io/docs/latest/get-started/universal-demo/  301
+/docs/latest/quickstart/kubernetes/ https://kuma.io/docs/latest/get-started/kubernetes-demo/  301
