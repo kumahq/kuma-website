@@ -2,6 +2,12 @@
 title: Zone ingress authentication
 ---
 
+{% warning %}
+This is a legacy way of authenticating zone ingress.
+While this is still supported, please migrate to [Zone Token](zoneproxy-auth.md).
+This way of authentication will be removed in the future versions of Kuma.
+{% endwarning %}
+
 To obtain a configuration from the control plane,
 a zone ingress must authenticate itself.
 There are several authentication methods availble.
