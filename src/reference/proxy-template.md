@@ -1,5 +1,6 @@
 ---
-title: Proxy Template
+title: Envoy proxy template
+content_type: reference
 ---
 
 The proxy template provides configuration options for [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v3/api) that Kuma policies do not directly expose.
