@@ -243,7 +243,7 @@ strings which describe the modifications to be performed.
 ### Example
 
 {% warning %}
-When using ContainerPath every `value` field should be valid JSON.
+When using ContainerPath, every `value` field must be valid JSON.
 {% endwarning %}
 
 
