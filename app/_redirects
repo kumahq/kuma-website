@@ -32,6 +32,25 @@ rinstall/1.1.6/* /install/1.1.x/:splat 301
 /docs/latest/deployments /docs/:version/1.8.x/deployments 301
 /docs/latest/documentation/deployments /docs/1.8.x/introduction/deployments 301
 /docs/latest/explore/backends /docs/1.8.x/documentation/configuration 301
+/docs/latest/generated/resources/other_mesh /docs/latest/reference/resources/other_mesh 301
+/docs/latest/generated/resources/policy_circuit-breaker /docs/latest/reference/resources/policy_circuit-breaker 301
+/docs/latest/generated/resources/policy_external-service /docs/latest/reference/resources/policy_external-service 301
+/docs/latest/generated/resources/policy_fault-injection /docs/latest/reference/resources/policy_fault-injection 301
+/docs/latest/generated/resources/policy_health-check /docs/latest/reference/resources/policy_health-check 301
+/docs/latest/generated/resources/policy_meshgateway /docs/latest/reference/resources/policy_meshgateway 301
+/docs/latest/generated/resources/policy_meshgatewayroute /docs/latest/reference/resources/policy_meshgatewayroute 301
+/docs/latest/generated/resources/policy_proxy-template /docs/latest/reference/resources/policy_proxy-template 301
+/docs/latest/generated/resources/policy_rate-limit /docs/latest/reference/resources/policy_rate-limit 301
+/docs/latest/generated/resources/policy_retry /docs/latest/reference/resources/policy_retry 301
+/docs/latest/generated/resources/policy_timeout /docs/latest/reference/resources/policy_timeout 301
+/docs/latest/generated/resources/policy_traffic-log /docs/latest/reference/resources/policy_traffic-log
+/docs/latest/generated/resources/policy_traffic-permissions /docs/latest/reference/resources/policy_traffic-permissions 301
+/docs/latest/generated/resources/policy_traffic-route /docs/latest/reference/resources/policy_traffic-route 301
+/docs/latest/generated/resources/policy_traffic-trace /docs/latest/reference/resources/policy_traffic-trace 301
+/docs/latest/generated/resources/policy_virtual-outbound /docs/latest/reference/resources/policy_virtual-outbound 301
+/docs/latest/generated/resources/proxy_dataplane /docs/latest/reference/resources/proxy_dataplane 301
+/docs/latest/generated/resources/proxy_zoneegress /docs/latest/reference/resources/proxy_zoneegress 301 
+/docs/latest/generated/resources/proxy_zoneingress /docs/latest/reference/resources/proxy_zoneingress 301
 /docs/latest/* /docs/1.8.x/:splat 301
 /docs/:version/policies/ /docs/:version/policies/introduction 301
 /docs/:version/policies/circuit-breakers/ /docs/:version/policies/circuit-breaker/ 301
