@@ -1,2 +1,9 @@
 # Anything after this line is manually maintained in _redirects
 # See app/_plugins/generators/redirects.rb to understand the above lines
+
+
+/docs/latest/installation/amazonlinux/ /docs/latest/install/linux 301
+/docs/latest/installation/debian/ /docs/latest/install/linux 301
+/docs/latest/installation/centos/ /docs/latest/install/linux 301
+/docs/latest/installation/redhat/ /docs/latest/install/linux 301
+/docs/latest/installation/ubuntu/ /docs/latest/install/linux 301
