@@ -71,6 +71,7 @@ rinstall/1.1.6/* /install/1.1.x/:splat 301
 /docs/1.6.2/* /docs/1.6.x/:splat 301
 /docs/1.7.2/* /docs/1.7.x/:splat 301
 /docs/1.8.1/* /docs/1.8.x/:splat 301
+/docs/dev/security/zone-ingress-auth/ /docs/dev/security/zoneproxy-auth/ 301
 
 # Other
 /builtindns/ /docs/1.8.x/reference/kubernetes-annotations/#kuma-io-builtindns/ 301
