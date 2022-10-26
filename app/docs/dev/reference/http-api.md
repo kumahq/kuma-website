@@ -3891,7 +3891,7 @@ Generate token which zone ingress can use to authenticate itself.
 Requires [authentication to the control plane by the user](/docs/{{ page.version }}/security/certificates/#authentication).
 {% endwarning %}
 
-For details, see [zone ingress authentication](/docs/{{ page.version }}/security/zone-ingress-auth/#zone-ingress-token).
+For details, see [zone ingress authentication](/docs/{{ page.version }}/security/zoneproxy-auth/).
 
 ### Generate Zone Ingress Token
 

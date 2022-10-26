@@ -247,7 +247,7 @@ You need the following values to pass to each zone control plane setup:
    kumactl generate zone-token --zone=<zone-name> --scope egress --scope ingress > /tmp/zone-token
    ```
 
-   You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zone-ingress-auth).
+   You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zoneproxy-auth).
    Alternatively, you could generate separate tokens for ingress and egress.
 
 3. Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication:
