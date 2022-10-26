@@ -32,6 +32,7 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/meshes/{mesh}/dataplanes`
 * `/meshes/{mesh}/dataplanes/{name}`
 * `/meshes/{mesh}/dataplanes/{name}/policies`
+* `/meshes/{mesh}/dataplanes/{name}/rules`
 * `/meshes/{mesh}/dataplanes/{name}/xds`
 * `/zoneingresses/{name}/xds`
 * `/zoneegresses/{name}/xds`
@@ -4175,6 +4176,86 @@ curl localhost:5681/meshes/default/meshgateways/edge-gateway/policies
   }
  ],
  "total": 1
+}
+```
+
+### Get rule based view of policies matching dataplane proxy
+
+Request: `GET /meshes/{mesh}/dataplanes/{dataplane}/rules`
+
+Example:
+```bash
+curl localhost:5681/meshes/default/dataplanes/backend-1/rules
+```
+```json
+{
+  "total": 3,
+  "items": [
+    {
+      "type": "destinationSubset",
+      "name": "127.0.0.1:10001",
+      "service": "backend",
+      "policyType": "MeshAccessLog",
+      "subset": {},
+      "conf": {
+        "backends": [
+          {
+            "file": {
+              "path": "/tmp/access.logs"
+            }
+          }
+        ]
+      },
+      "origins": [
+        {
+          "mesh": "default",
+          "name": "mal-1"
+        }
+      ]
+    },
+    {
+      "type": "clientSubset",
+      "name": "192.168.0.2:80",
+      "service": "web",
+      "policyType": "MeshTrafficPermission",
+      "subset": {
+        "kuma.io/service": "client",
+        "kuma.io/zone": "east"
+      },
+      "conf": {
+        "action": "DENY"
+      },
+      "origins": [
+        {
+          "mesh": "default",
+          "name": "mtp-1"
+        }
+      ]
+    },
+    {
+      "type": "singleItem",
+      "name": "dataplane",
+      "service": "",
+      "policyType": "MeshTrace",
+      "subset": {},
+      "conf": {
+        "backends": [
+          {
+            "zipkin": {
+              "url": "http://jaeger-collector.mesh-observability:9411/api/v2/spans"
+            }
+          }
+        ],
+        "tags": null
+      },
+      "origins": [
+        {
+          "mesh": "default",
+          "name": "mtp-1"
+        }
+      ]
+    }
+  ]
 }
 ```
 
