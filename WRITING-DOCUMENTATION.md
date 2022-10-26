@@ -33,6 +33,8 @@ Update the `app_data/versions.yml` file with metadata specific to this release e
 
 ## Set up local builds with yarn
 
+Before start, make sure that installed Ruby version is the same as in the `.ruby-version` file.
+
 1.  Install:
 
     ```bash
