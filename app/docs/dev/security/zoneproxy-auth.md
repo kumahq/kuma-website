@@ -192,7 +192,7 @@ signed by it.
 ### Multi-zone
 
 When running in multi-zone mode, we can generate zone tokens only on the global
-control plane.
+control plane. The zone control plane only has a public key of a signing key to verify tokens.
 
 ## None
 You can turn off authentication by setting `KUMA_DP_SERVER_AUTH_TYPE` to `none`.
@@ -202,3 +202,7 @@ You should not disable authentication between the control plane and
 the data plane proxies in production. Disabling means that any data plane proxy
 can impersonate any service.
 {% endwarning %}
+
+## Legacy Zone Ingress Token
+
+Authenticating Zone Ingress using [separate Zone Ingress Token](/docs/1.8.x/security/zone-ingress-auth/) is still possible, but it is deprecated and will be removed in the future.

@@ -331,15 +331,6 @@ items:
             url: "/security/zoneproxy-auth/#zone-token"
           - text: None
             url: "/security/zoneproxy-auth/#none"
-      - text: Zone ingress authentication
-        url: /security/zone-ingress-auth/
-        items:
-          - text: Service Account Token
-            url: "/security/zone-ingress-auth/#service-account-token"
-          - text: Zone ingress token
-            url: "/security/zone-ingress-auth/#zone-ingress-token"
-          - text: None
-            url: "/security/zone-ingress-auth/#none"
       - text: Data plane proxy membership
         url: /security/dp-membership/
         items:
