@@ -27,11 +27,12 @@ rinstall/1.1.6/* /install/1.1.x/:splat 301
 
 # Docs
 
-/docs /docs/2.0.x 301
+/docs /docs/2.0.x 301 
 /docs/latest/documentation/gateway /docs/1.8.x/explore/gateway 301
 /docs/latest/deployments /docs/:version/1.8.x/deployments 301
 /docs/latest/documentation/deployments /docs/1.8.x/introduction/deployments 301
 /docs/latest/explore/backends /docs/1.8.x/documentation/configuration 301
+/docs/latest/explore/overview/ /docs/latest/introduction/architecture/
 /docs/latest/* /docs/1.8.x/:splat 301
 /docs/:version/policies/ /docs/:version/policies/introduction 301
 /docs/:version/policies/circuit-breakers/ /docs/:version/policies/circuit-breaker/ 301

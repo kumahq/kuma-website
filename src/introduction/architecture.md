@@ -1,5 +1,5 @@
 ---
-title: Overview
+title: Architecture
 ---
 
 This sections gives an overview of a Kuma service mesh.
