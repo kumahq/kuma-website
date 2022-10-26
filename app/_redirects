@@ -32,6 +32,10 @@ rinstall/1.1.6/* /install/1.1.x/:splat 301
 /docs/latest/deployments /docs/:version/1.8.x/deployments 301
 /docs/latest/documentation/deployments /docs/1.8.x/introduction/deployments 301
 /docs/latest/explore/backends /docs/1.8.x/documentation/configuration 301
+/docs/latest/generated/cmd/kuma-cp/kuma-cp /docs/latest/reference/cmd/kuma-cp/kuma-cp/ 301
+/docs/latest/generated/cmd/kuma-dp/kuma-dp/ /docs/latest/reference/cmd/kuma-dp/kuma-dp/ 301
+/docs/latest/generated/cmd/kuma-prometheus-sd/kuma-prometheus-sd/ /docs/latest/reference/cmd/kuma-prometheus-sd/kuma-prometheus-sd/ 301
+/docs/latest/generated/cmd/kumactl/kumactl/ /docs/latest/reference/cmd/kumactl/kumactl/ 301
 /docs/latest/* /docs/1.8.x/:splat 301
 /docs/:version/policies/ /docs/:version/policies/introduction 301
 /docs/:version/policies/circuit-breakers/ /docs/:version/policies/circuit-breaker/ 301
