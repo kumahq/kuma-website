@@ -329,7 +329,7 @@ requests:                                                                       
   cpu: 100m
 ```
 
-Resources limits will be changed from: 
+Resources `limits` will be changed from: 
 
 ```yaml
 limits:
