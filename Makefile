@@ -1,6 +1,6 @@
 # Installs npm packages and gems.
 install:
-  npm install -g netlify-cli
+	npm install -g netlify-cli
 	yarn install
 	bundle install
 
