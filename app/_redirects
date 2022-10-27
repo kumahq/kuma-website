@@ -16,3 +16,4 @@
 /docs/:version/explore/dpp/ /docs/:version/production/dp/index/ 302
 /docs/:version/explore/dpp-on-kubernetes/   /docs/:version/production/dp/kubernetes-dp/ 302
 /docs/:version/explore/dpp-on-universal/    /docs/:version/production/dp/universal-dp/ 302
+/docs/:version/networking/service-discovery/    /docs/:version/production/networking/service-discovery/ 302
