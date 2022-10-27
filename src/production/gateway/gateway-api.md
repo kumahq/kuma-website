@@ -34,7 +34,7 @@ Gateway API is not supported in multi-zone. To use the builtin Gateway, you need
    The `Gateway` resource represents the proxy instance that handles traffic for a set of Gateway API routes, and a `GatewayClass` describes characteristics shared by all `Gateways` of a given type.
 
    ```sh
-   echo "apiVersion: gateway.networking.k8s.io/v1alpha2
+   echo "apiVersion: gateway.networking.k8s.io/v1beta1
    kind: GatewayClass
    metadata:
      name: kuma
@@ -44,7 +44,7 @@ Gateway API is not supported in multi-zone. To use the builtin Gateway, you need
    ```
 
    ```sh
-   echo "apiVersion: gateway.networking.k8s.io/v1alpha2
+   echo "apiVersion: gateway.networking.k8s.io/v1beta1
    kind: Gateway
    metadata:
      name: kuma
@@ -81,7 +81,7 @@ Gateway API is not supported in multi-zone. To use the builtin Gateway, you need
    `HTTPRoute` resources contain a set of matching criteria for HTTP requests and upstream `Services` to route those requests to.
 
    ```sh
-   echo "apiVersion: gateway.networking.k8s.io/v1alpha2
+   echo "apiVersion: gateway.networking.k8s.io/v1beta1
    kind: HTTPRoute
    metadata:
      name: echo
@@ -149,7 +149,7 @@ data:
 ```
 
 ```yaml
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: kuma
@@ -176,7 +176,7 @@ to provide additional, implementation-specific configuration to `Gateways`.
 When using Gateway API with Kuma, you can refer to a `MeshGatewayConfig` resource:
 
 ```yaml
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: GatewayClass
 metadata:
   name: kuma
@@ -199,6 +199,46 @@ You can specify a `Mesh` for `Gateway` and `HTTPRoute` resources
 by setting the [`kuma.io/mesh` annotation](/docs/{{ page.version }}/reference/kubernetes-annotations#kuma-io-mesh)
 Note that `HTTPRoutes` must also have the annotation to reference a
 `Gateway` from a non-default `Mesh`.
+
+## Cross-mesh
+
+[Cross-mesh gateways](gateway.md#cross-mesh) are supported with Gateway API.
+You'll just need to create a corresponding `GatewayClass`
+pointing to a `MeshGatewayConfig` that
+sets `crossMesh: true`:
+
+```yaml
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: GatewayClass
+metadata:
+  name: kuma-cross-mesh
+spec:
+  controllerName: gateways.kuma.io/controller
+  parametersRef:
+    group: kuma.io
+    kind: MeshGatewayConfig
+    name: default-cross-mesh
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayConfig
+metadata:
+  name: default-cross-mesh
+spec:
+  crossMesh: true
+```
+
+and then reference it in your `Gateway`:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: kuma
+  namespace: default
+spec:
+  gatewayClassName: kuma-cross-mesh
+```
 
 ## Multi-zone
 

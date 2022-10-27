@@ -163,6 +163,8 @@ items:
             url: /features/observability/traffic-metrics/
           - text: Configure traffic tracing
             url: /features/observability/traffic-tracing/
+          - text: Configure mesh tracing
+            url: /features/observability/mesh-trace/
           - text: Configure New Relic tracing with Zipkin
             url: /features/observability/zipkin/
       - text: Zero trust
@@ -177,6 +179,8 @@ items:
         items:
           - text: Overview
             url: /features/policy-enforcement/
+          - text: Policy matching
+            url: /features/policy-enforcement/matching/
           - text: Apply policies
             url: /features/policy-enforcement/applying-policies/
           - text: How Kuma chooses the right policy to apply

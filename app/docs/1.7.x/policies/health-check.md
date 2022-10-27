@@ -3,7 +3,7 @@ title: Health Check
 ---
 
 {% tip %}
-Circuit Breaker is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
+Health Check is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
 {% endtip %}
 
 This policy enables Kuma to keep track of the health of every data plane proxy, with the goal of minimizing the number of failed requests in case a data plane proxy is temporarily unhealthy.
@@ -31,11 +31,11 @@ metadata:
   name: web-to-backend-check
 spec:
   sources:
-  - match:
-      kuma.io/service: web_default_svc_80
+    - match:
+        kuma.io/service: web_default_svc_80
   destinations:
-  - match:
-      kuma.io/service: backend_default_svc_80
+    - match:
+        kuma.io/service: backend_default_svc_80
   conf:
     interval: 10s
     timeout: 2s
@@ -53,20 +53,21 @@ spec:
     tcp: # only one of tcp or http can be defined
       send: Zm9v
       receive:
-      - YmFy
-      - YmF6
+        - YmFy
+        - YmF6
     http:
       path: /health
       requestHeadersToAdd:
-      - append: false
-        header:
-          key: Content-Type
-          value: application/json
-      - header:
-          key: Accept
-          value: application/json
+        - append: false
+          header:
+            key: Content-Type
+            value: application/json
+        - header:
+            key: Accept
+            value: application/json
       expectedStatuses: [200, 201]
 ```
+
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
@@ -77,11 +78,11 @@ type: HealthCheck
 name: web-to-backend-check
 mesh: default
 sources:
-- match:
-    kuma.io/service: web
+  - match:
+      kuma.io/service: web
 destinations:
-- match:
-    kuma.io/service: backend
+  - match:
+      kuma.io/service: backend
 conf:
   interval: 10s
   timeout: 2s
@@ -99,20 +100,21 @@ conf:
   tcp: # only one of tcp or http can be defined
     send: Zm9v
     receive:
-    - YmFy
-    - YmF6
+      - YmFy
+      - YmF6
   http:
     path: /health
     requestHeadersToAdd:
-    - append: false
-      header:
-        key: Content-Type
-        value: application/json
-    - header:
-        key: Accept
-        value: application/json
+      - append: false
+        header:
+          key: Content-Type
+          value: application/json
+      - header:
+          key: Accept
+          value: application/json
     expectedStatuses: [200, 201]
 ```
+
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
