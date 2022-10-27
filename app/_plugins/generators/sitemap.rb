@@ -4,13 +4,14 @@ module Sitemap
 
     def generate(site)
       # What's our latest version?
-      latest = site.data['versions'].reject { |v| v['release'] == 'dev' }.last
+      latest = site.data['latest_version']
 
       # Grab all pages that contain that version
       all_pages = []
       # Build a map of the latest available version of every URL
       site.pages.each do |page|
-        next if is_versioned(page['url']) and !is_latest(page['url'], latest)
+        # Skip if it's not the latest version of a page
+        next if is_versioned_url(page['url']) and !is_version(page['url'], latest)
         all_pages << page
       end
 
@@ -49,7 +50,7 @@ module Sitemap
       end
     end
 
-    def is_versioned(url)
+    def is_versioned_url(url)
       versioned = [
         "/install/",
         "/docs/",
@@ -60,7 +61,7 @@ module Sitemap
       false
     end
 
-    def is_latest(url, latest)
+    def is_version(url, latest)
       url.include?(latest['release'])
     end
   end
