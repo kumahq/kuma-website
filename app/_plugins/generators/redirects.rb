@@ -6,13 +6,15 @@ module Jekyll
 
     def generate(site)
       current_redirects = File.read("app/_redirects")
-      active_versions = site.data['versions'].filter {|v| v['release'] != "dev"}
+      active_versions = site.data['versions'].filter {|v| !v['dev']}
 
       # Generate redirects for the latest version
       latest_release = site.data['latest_version']['release']
+      dev_release = site.data['versions'].find{|v| v['dev']}['release']
       redirects = [
         "# Generated redirects",
         "/docs /docs/#{latest_release} 301",
+        "/docs/dev /docs/#{dev_release} 301",
         "/install/kong-gateway /docs/#{latest_release}/explore/gateway 301",
         "/docs/latest/documentation/gateway /docs/#{latest_release}/explore/gateway 301",
         "/docs/latest/deployments /docs/:version/#{latest_release}/deployments 301",
