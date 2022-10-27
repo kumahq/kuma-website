@@ -26,3 +26,4 @@
 /docs/:version/security/secrets/    /docs/:version/production/security/manage-secrets/ 302
 /docs/:version/security/api-access-control/ /docs/:version/production/security/api-access-control/ 302
 /docs/:version/security/api-server-auth/    /docs/:version/production/security/api-server-auth/ 302
+/docs/:version/security/dp-auth/   /docs/:version/production/security/dp-auth/ 302
