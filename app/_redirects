@@ -22,3 +22,4 @@
 /docs/:version/networking/cni/  /docs/:version/production/networking/cni/ 302
 /docs/:version/networking/ipv6/ /docs/:version/production/networking/ipv6 302
 /docs/:version/policies/virtual-outbound/   /docs/:version/production/networking/outbound-communication/ 302
+/docs/:version/policies/external-services/  /docs/:version/production/networking/external-services/ 302
