@@ -3,8 +3,8 @@ title: Configure a built-in gateway
 ---
 
 
-The builtin gateway is integrated into the core Kuma control plane.
-You can configure gateway listeners and routes to service directly using Kuma policies.
+The builtin gateway is integrated into the core {{ site.mesh_product_name }} control plane.
+You can configure gateway listeners and routes to service directly using {{ site.mesh_product_name }} policies.
 
 The builtin gateway is configured on a `Dataplane`:
 
@@ -22,13 +22,13 @@ networking:
 
 A builtin gateway `Dataplane` does not have either inbound or outbound configuration.
 
-To configure your gateway Kuma has these resources:
+To configure your gateway {{ site.mesh_product_name }} has these resources:
 
 - [MeshGateway](/docs/{{ page.version }}/policies/mesh-gateway) is used to configure listeners exposed by the gateway
 - [MeshGatewayRoute](/docs/{{ page.version }}/policies/mesh-gateway-route) is used to configure route to route traffic from listeners to other services.
 
 {% tip %}
-Kuma gateways are configured with the [Envoy best practices for edge proxies](https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge).
+{{ site.mesh_product_name }} gateways are configured with the [Envoy best practices for edge proxies](https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge).
 {% endtip %}
 
 ### Usage
@@ -37,7 +37,7 @@ Steps required to setup a simple gateway that exposes a http listener and 2 rout
 
 {% tabs setup useUrlFragment=false %}
 {% tab setup Kubernetes %}
-To ease starting gateways on Kubernetes, Kuma comes with a builtin type `MeshGatewayInstance`.
+To ease starting gateways on Kubernetes, {{ site.mesh_product_name }} comes with a builtin type `MeshGatewayInstance`.
 This type requests that the control plane create and manage a Kubernetes `Deployment` and `Service`
 suitable for providing service capacity for the `MeshGateway` with the matching `kuma.io/service` tag.
 
@@ -169,7 +169,7 @@ This policy creates a listener on port 8080 and will receive any traffic which h
 Notice that listeners have tags like `Dataplanes`. This will be useful when binding routes to listeners.
 
 {% tip %}
-These are Kuma policies so if you are running on multi-zone they need to be created on the Global CP.
+These are {{ site.mesh_product_name }} policies so if you are running on multi-zone they need to be created on the Global CP.
 See the [dedicated section](/docs/{{ page.version }}/deployments/multi-zone) for detailed information.
 {% endtip %}
 

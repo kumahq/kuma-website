@@ -1,5 +1,5 @@
 ---
-title: Kubernetes Gateway API
+title: Use the Kubernetes Gateway API
 ---
 
 Kuma supports configuring [built-in gateway](/docs/{{ page.version }}/explore/gateway) using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
@@ -188,7 +188,7 @@ spec:
     name: kuma
 ```
 
-This resource has the same [structure as the `MeshGatewayInstance` resource](/docs/{{ page.version }}/gateway#usage-2)
+This resource has the same [structure as the `MeshGatewayInstance` resource](/docs/{{ page.version }}/explore/gateway#usage-1)
 except that the `tags` field is optional.
 With a `MeshGatewayConfig` you can then customize
 the generated `Service` and `Deployment` resources.
@@ -196,13 +196,13 @@ the generated `Service` and `Deployment` resources.
 ## Multi-mesh
 
 You can specify a `Mesh` for `Gateway` and `HTTPRoute` resources
-by setting the [`kuma.io/mesh` annotation](/docs/{{ page.version }}/reference/kubernetes-annotations#kuma-io-mesh)
+by setting the [`kuma.io/mesh` annotation](/docs/{{ page.version }}/reference/kubernetes-annotations#kumaiomesh)
 Note that `HTTPRoutes` must also have the annotation to reference a
 `Gateway` from a non-default `Mesh`.
 
 ## Cross-mesh
 
-[Cross-mesh gateways](gateway.md#cross-mesh) are supported with Gateway API.
+[Cross-mesh gateways](/docs/{{ page.version }}/explore/gateway#cross-mesh) are supported with Gateway API.
 You'll just need to create a corresponding `GatewayClass`
 pointing to a `MeshGatewayConfig` that
 sets `crossMesh: true`:
