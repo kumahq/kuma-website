@@ -2,3 +2,7 @@
 # See app/_plugins/generators/redirects.rb to understand the above lines
 
 /docs/:version/deployments/stand-alone/ /docs/:version/production/deploy/standalone/ 302
+/docs/:version/deployments/universal/   /docs/:version/get-started/universal-demo/ 302
+/docs/:version/deployments/multi-zone/ /docs/:version/get-started/multizone-demo/ 302
+/docs/:version/explore/observability/#demo-setup.    /docs/:version/get-started/observability/ 302
+/docs/:version/introduction/deployments/ /docs/:version/production/deployment-topologies/ 302
