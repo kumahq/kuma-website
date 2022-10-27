@@ -11,3 +11,4 @@
 /docs/:version/quickstart/kubernetes/   /docs/:version/production/install/kubernetes/ 302
 /docs/:version/installation/helm/   /docs/:version/production/install/helm/ 302
 /docs/:version/installation/openshift/ /docs/:version/production/install/openshift/ 302
+/docs/:version/policies/mesh/   /docs/:version/production/deploy/multiple-policies/ 302
