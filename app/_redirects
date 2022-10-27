@@ -15,3 +15,4 @@
 /docs/:version/documentation/configuration/ /docs/:version/production/cp/ 302
 /docs/:version/explore/dpp/ /docs/:version/production/dp/index/ 302
 /docs/:version/explore/dpp-on-kubernetes/   /docs/:version/production/dp/kubernetes-dp/ 302
+/docs/:version/explore/dpp-on-universal/    /docs/:version/production/dp/universal-dp/ 302

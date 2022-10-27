@@ -1,5 +1,5 @@
 ---
-title: Data plane on Universal
+title: Configure the data plane on universal
 ---
 
 As mentioned previously in universal you need to create a dataplane definition and pass it to the `kuma-dp run` command.
@@ -163,7 +163,7 @@ To join the mesh in a graceful way, you can use service probes just like in Dire
 
 #### Leaving the mesh
 
-Kuma-cp will **never** delete the `Dataplane` resource (with both graceful and ungraceful shutdowns).
+The control plane will **never** delete the `Dataplane` resource (with both graceful and ungraceful shutdowns).
 
 If data plane proxy is shutdown gracefully, then `Dataplane` resource will be marked as Offline. Offline data plane proxies
 deleted automatically after `KUMA_RUNTIME_UNIVERSAL_DATAPLANE_CLEANUP_AGE`, by default it's 72h.
@@ -191,4 +191,4 @@ networking:
 # ...
 ```
 
-If the `admin` section is empty or port is equal to zero then the default value for port will be taken from the [Kuma Control Plane configuration](/docs/{{ page.version }}/generated/kuma-cp).
+If the `admin` section is empty or port is equal to zero then the default value for port will be taken from the [{{ site.mesh_product_name }} Control Plane configuration](/docs/{{ page.version }}/generated/kuma-cp).
