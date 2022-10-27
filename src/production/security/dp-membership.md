@@ -1,5 +1,5 @@
 ---
-title: Data plane proxy membership
+title: Configure data plane proxy membership
 ---
 
 Data plane proxy membership constraints let us define a set of rules that are executed when a data plane proxy is joining a mesh.
@@ -127,7 +127,7 @@ constraints:
 {% endtab %}
 {% endtabs %}
 
-By using these constraints, we can enforce consistency of tags in Kuma deployment.
+By using these constraints, we can enforce consistency of tags in {{ site.mesh_product_name }} deployment.
 With the example above, every data plane proxy must have non-empty `team` and `cloud` tags and cannot have `legacy` tag.
 
 ### Multizone mesh segmentation
