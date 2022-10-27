@@ -1,10 +1,10 @@
 ---
-title: Data plane on Kubernetes
+title: Configure the data plane on Kubernetes
 ---
 
 On Kubernetes the [`Dataplane`](/docs/{{ page.version }}/explore/dpp#dataplane-entity) entity is automatically created for you, and because transparent proxying is used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
-You can control where Kuma automatically injects the data plane proxy by **labeling** either the Namespace or the Pod with
+You can control where {{ site.mesh_product_name }} automatically injects the data plane proxy by **labeling** either the Namespace or the Pod with
 `kuma.io/sidecar-injection=enabled`, e.g.
 
 ```yaml
@@ -54,7 +54,7 @@ kubectl get dataplanes <podName>
 ## Tag generation
 
 When `Dataplane` entities are automatically created, all labels from Pod are converted into `Dataplane` tags.
-Labels with keys that contains `kuma.io/` are not converted because they are reserved to Kuma.
+Labels with keys that contains `kuma.io/` are not converted because they are reserved to {{ site.mesh_product_name }}.
 The following tags are added automatically and cannot be overridden using Pod labels.
 
 * `kuma.io/service`: Identifies the service name based on a Service that selects a Pod. This will be of format `<name>_<namespace>_svc_<port>` where `<name>`, `<namespace>` and `<port>` are from the Kubernetes service that is associated with this particular pod.
@@ -121,7 +121,7 @@ spec:
       targetPort: 8080
 ```
 
-Will generate the following inbounds in your Kuma dataplane:
+Will generate the following inbounds in your {{ site.mesh_product_name }} dataplane:
 
 ```yaml
 ...
@@ -175,7 +175,7 @@ When Pod is converted to a `Dataplane` object it will be marked as unhealthy unt
 
 To leave the mesh in a graceful shutdown, we need to remove the traffic destination from all the clients before shutting it down.
 
-When the Kuma DP sidecar receives a `SIGTERM` signal it does in this order:
+When the {{ site.mesh_product_name }} DP sidecar receives a `SIGTERM` signal it does in this order:
 
 1) start draining Envoy listeners
 2) wait for the entire draining time
@@ -185,7 +185,7 @@ During the draining process, Envoy can still accept connections however:
 2) It sends `connection: close` for HTTP/1.1 requests and GOAWAY frame for HTTP/2.
    This forces clients to close a connection and reconnect to the new instance.
 
-You can read [Kubernetes docs](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination) to learn how Kubernetes handles pod lifecycle. Here is the summary with relevant parts for Kuma.
+You can read [Kubernetes docs](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination) to learn how Kubernetes handles pod lifecycle. Here is the summary with relevant parts for {{ site.mesh_product_name }}.
 
 Whenever a user or system deletes a Pod, Kubernetes does the following:
 1) It marks the Pod as terminated
@@ -196,10 +196,10 @@ Whenever a user or system deletes a Pod, Kubernetes does the following:
     4) Sends a SIGKILL to the container
 3) It removes the Pod object from the system
 
-When Pod is marked as terminated, Kuma CP updates Dataplane object to be unhealthy which will trigger configuration update to all the clients to remove it as a destination.
+When Pod is marked as terminated, {{ site.mesh_product_name }} CP updates Dataplane object to be unhealthy which will trigger configuration update to all the clients to remove it as a destination.
 This can take a couple of seconds depending on the size of the mesh, available resources for CP, XDS configuration interval, etc.
 
-If the application next to the Kuma DP sidecar quits immediately after the SIGTERM signal, there is a high chance that clients will still try to send traffic to this destination.
+If the application next to the {{ site.mesh_product_name }} DP sidecar quits immediately after the SIGTERM signal, there is a high chance that clients will still try to send traffic to this destination.
 
 To mitigate this, we need to either
 * Support graceful shutdown in the application. For example, the application should wait X seconds to exit after receiving the first SIGTERM signal.
@@ -234,7 +234,7 @@ only be applied in a namespace where **Kuma CP** is running.
 {% warning %}
 In the vast majority of cases you shouldn't need to override the sidecar and
 init-container configurations. `ContainerPatch` is a feature which requires good
-understanding of both Kuma and Kubernetes.
+understanding of both {{ site.mesh_product_name }} and Kubernetes.
 {% endwarning %}
 
 The specification of `ContainerPatch` consists of the list of [jsonpatch](https://datatracker.ietf.org/doc/html/rfc6902)
@@ -364,8 +364,8 @@ kumactl install control-plane --env-var "KUMA_RUNTIME_KUBERNETES_INJECTOR_CONTAI
 
 ### Error modes and validation
 
-When applying `ContainerPatch` Kuma will validate that the rendered container
-spec meets the Kubernetes specification. Kuma **will not** validate that it is
+When applying `ContainerPatch` {{ site.mesh_product_name }} will validate that the rendered container
+spec meets the Kubernetes specification. {{ site.mesh_product_name }} **will not** validate that it is
 a sane configuration.
 
 If a workload refers to a `ContainerPatch` which does not exist, the injection
@@ -383,7 +383,7 @@ When an originating service wants to directly consume other services by their IP
 kuma.io/direct-access-services: Service1, Service2, ServiceN
 ```
 
-Where the value is a comma separated list of Kuma services that will be consumed directly. For example:
+Where the value is a comma separated list of {{ site.mesh_product_name }} services that will be consumed directly. For example:
 
 ```yaml
 apiVersion: apps/v1

@@ -13,3 +13,5 @@
 /docs/:version/installation/openshift/ /docs/:version/production/install/openshift/ 302
 /docs/:version/policies/mesh/   /docs/:version/production/deploy/multiple-policies/ 302
 /docs/:version/documentation/configuration/ /docs/:version/production/cp/ 302
+/docs/:version/explore/dpp/ /docs/:version/production/dp/index/ 302
+/docs/:version/explore/dpp-on-kubernetes/   /docs/:version/production/dp/kubernetes-dp/ 302

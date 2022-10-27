@@ -1,14 +1,14 @@
 ---
-title: Data plane proxy
+title: Data plane overview
 ---
 
-A **data plane proxy (DPP)** is the part of Kuma that runs next to each workload that is a member of the mesh.
+A **data plane proxy (DPP)** is the part of {{ site.mesh_product_name }} that runs next to each workload that is a member of the mesh.
 A DPP is composed of the following components:
 
 - a `Dataplane` entity defines the configuration of the DPP
 - a `kuma-dp` binary runs on each instance that is part of the mesh. This binary spawns the following subprocesses:
   - `Envoy` receives configuration from the control-plane to manage traffic correctly 
-  - `core-dns` resolves Kuma specific DNS entries
+  - `core-dns` resolves {{ site.mesh_product_name }} specific DNS entries
 
 {% tip %}
 Data plane proxies are also called sidecars.
