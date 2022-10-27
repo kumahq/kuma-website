@@ -7,3 +7,4 @@
 /docs/:version/explore/observability/#demo-setup.    /docs/:version/get-started/observability/ 302
 /docs/:version/introduction/deployments/ /docs/:version/production/deployment-topologies/ 302
 /docs/:version/installation/macos/  /docs/:version/production/install/macos/ 302
+/docs/:version/installation/docker/ /docs/:version/production/install/docker/ 302
