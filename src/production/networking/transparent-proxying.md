@@ -1,8 +1,8 @@
 ---
-title: Transparent Proxying
+title: Configure transparent proxying
 ---
 
-In order to automatically intercept traffic from and to a service through a `kuma-dp` data plane proxy instance, Kuma utilizes a transparent proxying using [`iptables`](https://linux.die.net/man/8/iptables).
+In order to automatically intercept traffic from and to a service through a `kuma-dp` data plane proxy instance, {{ site.mesh_product_name }} utilizes a transparent proxying using [`iptables`](https://linux.die.net/man/8/iptables).
 
 Transparent proxying helps with a smoother rollout of a Service Mesh to a current deployment by preserving existing service naming and as the result - avoid changes to the application code.
 
@@ -11,7 +11,7 @@ Transparent proxying helps with a smoother rollout of a Service Mesh to a curren
 On **Kubernetes** `kuma-dp` leverages transparent proxying automatically via `iptables` installed with `kuma-init` container or CNI.
 All incoming and outgoing traffic is automatically intercepted by `kuma-dp` without having to change the application code.
 
-Kuma integrates with a service naming provided by Kubernetes DNS as well as providing its own [Kuma DNS](/docs/{{ page.version }}/networking/dns) for multizone service naming.
+{{ site.mesh_product_name }} integrates with a service naming provided by Kubernetes DNS as well as providing its own [{{ site.mesh_product_name }} DNS](/docs/{{ page.version }}/networking/dns) for multizone service naming.
 
 ## Universal
 
@@ -32,7 +32,7 @@ Prerequisites:
 - `coredns` must be in the PATH so that `kuma-dp` can access it.
     - You can also set the location with the `--dns-coredns-path` flag to `kuma-dp`.
 
-Kuma comes with [`kumactl` executable](/docs/{{ page.version }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
+{{ site.mesh_product_name }} comes with [`kumactl` executable](/docs/{{ page.version }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
 The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
 
  1. Create a new dedicated user on the machine.
@@ -41,7 +41,7 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
 useradd -U kuma-dp
 ```
 
- 2. Redirect all the relevant inbound, outbound and DNS traffic to the Kuma data plane proxy.
+ 2. Redirect all the relevant inbound, outbound and DNS traffic to the {{ site.mesh_product_name }} data plane proxy.
 ```sh
 kumactl install transparent-proxy \
   --kuma-dp-user kuma-dp \
@@ -76,7 +76,7 @@ networking:
 
 The ports illustrated above are the default ones that `kumactl install transparent-proxy` will set. These can be changed using the relevant flags to that command.
 
-### Invoking the Kuma data plane
+### Invoking the {{ site.mesh_product_name }} data plane
 
 {% warning %}
 It is important that the `kuma-dp` process runs with the same system user that was passed to `kumactl install transparent-proxy --kuma-dp-user`.
@@ -99,7 +99,7 @@ runuser -u kuma-dp -- \
 ```
 
 You can now reach the service on the same IP and port as before installing transparent proxy, but now the traffic goes through Envoy.
-At the same time, you can now connect to services using [Kuma DNS](/docs/{{ page.version }}/networking/dns).
+At the same time, you can now connect to services using [{{ site.mesh_product_name }} DNS](/docs/{{ page.version }}/networking/dns).
 
 ### firewalld support
 
@@ -107,7 +107,7 @@ If you run `firewalld` to manage firewalls and wrap iptables, add the `--store-f
 
 ### Upgrades
 
-Before upgrading to the next version of Kuma, make sure to run `kumactl uninstall transparent-proxy` and only then replace the `kumactl` binary.
+Before upgrading to the next version of {{ site.mesh_product_name }}, make sure to run `kumactl uninstall transparent-proxy` and only then replace the `kumactl` binary.
 This will ensure smooth upgrade and no leftovers from the previous installations.
 
 ## Configuration
@@ -139,7 +139,7 @@ spec:
         ...
 ```  
 
-You can also control this value on whole Kuma deployment with the following Kuma CP [configuration](/docs/{{ page.version }}/documentation/configuration)
+You can also control this value on whole {{ site.mesh_product_name }} deployment with the following {{ site.mesh_product_name }} CP [configuration](/docs/{{ page.version }}/documentation/configuration)
 ```
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
