@@ -1,5 +1,5 @@
 ---
-title: Virtual Outbound
+title: Configure outbound communication
 ---
 
 This policy lets you customize hostnames and ports for communicating with data plane proxies.
