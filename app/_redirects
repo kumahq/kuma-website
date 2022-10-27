@@ -8,4 +8,6 @@
 /docs/:version/introduction/deployments/ /docs/:version/production/deployment-topologies/ 302
 /docs/:version/installation/macos/  /docs/:version/production/install/macos/ 302
 /docs/:version/installation/docker/ /docs/:version/production/install/docker/ 302
-/docs/:version/quickstart/kubernetes/   /docs/:version/production/install/kubernetes 302
+/docs/:version/quickstart/kubernetes/   /docs/:version/production/install/kubernetes/ 302
+/docs/:version/installation/helm/   /docs/:version/production/install/helm/ 302
+/docs/:version/installation/openshift/ /docs/:version/production/install/openshift/ 302
