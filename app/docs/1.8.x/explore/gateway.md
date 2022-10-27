@@ -31,12 +31,6 @@ Delegated with Kong Gateway:
 
 The blue lines represent traffic not managed by Kuma, which needs configuring in the Gateway.
 
-## Delegated
-
-The `Dataplane` entity can operate in `gateway` mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
-
-The `gateway` mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic. When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy. In the `gateway` mode, you want inbound traffic to go directly to the gateway, otherwise, clients require dynamically generated certificates for communication between services within the mesh. The gateway itself should handle security at an entrance to the mesh.
-
 ### Usage
 
 {% tabs usage useUrlFragment=false %}

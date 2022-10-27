@@ -3,7 +3,7 @@ title: Configure a delegated gateway
 ---
 ## Delegated
 
-The `Dataplane` entity can operate in `gateway` mode. This way you can integrate Kuma with existing API Gateways like [Kong](https://github.com/Kong/kong).
+The `Dataplane` entity can operate in `gateway` mode. This way you can integrate {{ site.mesh_product_name }} with existing API Gateways like [Kong](https://github.com/Kong/kong).
 
 The `gateway` mode lets you skip exposing inbound listeners so it won't be intercepting ingress traffic. When you use a data plane proxy with a service, both inbound traffic to a service and outbound traffic from the service flows through the proxy. In the `gateway` mode, you want inbound traffic to go directly to the gateway, otherwise, clients require dynamically generated certificates for communication between services within the mesh. The gateway itself should handle security at an entrance to the mesh.
 
@@ -12,8 +12,8 @@ The `gateway` mode lets you skip exposing inbound listeners so it won't be inter
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
 
-Kuma supports most of the ingress controllers. However, the recommended gateway in Kubernetes is [Kong](https://docs.konghq.com/gateway). You can use [Kong ingress controller for Kubernetes](https://docs.konghq.com/kubernetes-ingress-controller/) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime.
-Most ingress controllers require an annotation [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/references/annotations/#ingresskubernetesioservice-upstream) on every Kubernetes `Service` to work with Kuma. Kuma automatically injects the annotation for every `Service` in a namespace in a mesh that has `kuma.io/sidecar-injection: enabled` label.
+{{ site.mesh_product_name }} supports most of the ingress controllers. However, the recommended gateway in Kubernetes is [Kong](https://docs.konghq.com/gateway). You can use [Kong ingress controller for Kubernetes](https://docs.konghq.com/kubernetes-ingress-controller/) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime.
+Most ingress controllers require an annotation [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/references/annotations/#ingresskubernetesioservice-upstream) on every Kubernetes `Service` to work with {{ site.mesh_product_name }}. {{ site.mesh_product_name }} automatically injects the annotation for every `Service` in a namespace in a mesh that has `kuma.io/sidecar-injection: enabled` label.
 
 To use the delegated gateway feature, mark your API Gateway's Pod with the `kuma.io/gateway: enabled` annotation. Control plane automatically generates `Dataplane` objects.
 
@@ -36,14 +36,14 @@ API Gateway receives Services from:
 * one specific zone
 * multi-zone
 
-Multi-zone requires exposing a dedicated Kubernetes `Service` object with type `ExternalName`. Control plane creates a DNS entry `externalName` with suffix `.mesh`, which Kuma resolves in internal [service discovery](/docs/{{ page.version }}/networking/dns).
+Multi-zone requires exposing a dedicated Kubernetes `Service` object with type `ExternalName`. Control plane creates a DNS entry `externalName` with suffix `.mesh`, which {{ site.mesh_product_name }} resolves in internal [service discovery](/docs/{{ page.version }}/networking/dns).
 
 #### Example setting up Kong Ingress Controller
 
 Follow instructions to setup an echo service reachable through Kong.
 These instructions are mostly taken from the [Kong docs](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/guides/getting-started/).
 
-1. [Install Kuma](/docs/{{ page.version }}/installation/kubernetes) on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
+1. [Install {{ site.mesh_product_name }}](/docs/{{ page.version }}/installation/kubernetes) on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
 
 2. Install [Kong using helm](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/deployment/k4k8s/#helm).
 
@@ -134,7 +134,7 @@ Note that since you are addressing the service by its domain name `echo.default.
 
 If you want to expose a `Service` in one zone only, as opposed to multi-zone, you can just use the service name in the `Ingress` definition without having to create an `externalName` entry, this is what you did in your first example.
 
-For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller), please follow this [demo application guide](https://github.com/kumahq/kuma-demo/tree/master/kubernetes).
+For an in-depth example on deploying {{ site.mesh_product_name }} with [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller), please follow this [demo application guide](https://github.com/kumahq/kuma-demo/tree/master/kubernetes).
 
 {% endtab %}
 {% tab usage Universal %}
