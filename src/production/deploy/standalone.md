@@ -1,5 +1,5 @@
 ---
-title: Standalone deployment
+title: Deploy Kuma in standalone mode
 ---
 
 This is the simplest deployment mode for {{ site.mesh_product_name }}, and the default one.
