@@ -25,3 +25,4 @@
 /docs/:version/policies/external-services/  /docs/:version/production/networking/external-services/ 302
 /docs/:version/security/secrets/    /docs/:version/production/security/manage-secrets/ 302
 /docs/:version/security/api-access-control/ /docs/:version/production/security/api-access-control/ 302
+/docs/:version/security/api-server-auth/    /docs/:version/production/security/api-server-auth/ 302
