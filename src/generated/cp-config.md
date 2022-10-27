@@ -1,5 +1,6 @@
 ---
-title: Control-Plane configuration
+title: Control plane configuration reference
+content_type: reference
 ---
 Here are all options to configure the control-plane:
 
