@@ -18,3 +18,4 @@
 /docs/:version/explore/dpp-on-universal/    /docs/:version/production/dp/universal-dp/ 302
 /docs/:version/networking/service-discovery/    /docs/:version/production/networking/service-discovery/ 302
 /docs/:version/networking/networking/   /docs/:version/production/networking/default-ports/ 302
+/docs/:version/networking/dns/  /docs/:version/production/networking/dns/ 302
