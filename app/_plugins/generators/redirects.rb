@@ -9,7 +9,7 @@ module Jekyll
       active_versions = site.data['versions'].filter {|v| v['release'] != "dev"}
 
       # Generate redirects for the latest version
-      latest_release = active_versions.last['release']
+      latest_release = site.data['latest_version']['release']
       redirects = [
         "# Generated redirects",
         "/docs /docs/#{latest_release} 301",
