@@ -29,3 +29,4 @@
 /docs/:version/security/dp-auth/   /docs/:version/production/security/dp-auth/ 302
 /docs/:version/security/dp-membership/ /docs/:version/production/security/dp-membership/ 302
 /docs/:version/reference/licenses/  /docs/:version/production/licenses/
+/docs/:version/explore/gateway/ /docs/:version/production/gateway/  302
