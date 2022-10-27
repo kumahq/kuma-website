@@ -1,18 +1,19 @@
 ---
-title: Secrets
+title: Manage secrets
 ---
 
 The `Secret` resource enables users to store sensitive data.
 Sensitive information is anything a user considers non-public, e.g.:
-* TLS keys
-* tokens
-* passwords
+
+- TLS keys
+- tokens
+- passwords
 
 Secrets belong to a specific [`Mesh`](/docs/{{ page.version }}/policies/mesh) resource, and cannot be shared across different `Meshes`.
 [Policies](/docs/{{ page.version }}/policies/introduction) use secrets at runtime.
 
 {% tip %}
-Kuma leverages `Secret` resources internally for certain operations,
+{{ site.mesh_product_name }} leverages `Secret` resources internally for certain operations,
 for example when storing auto-generated certificates and keys when Mutual TLS is enabled.
 {% endtip %}
 
@@ -20,9 +21,9 @@ for example when storing auto-generated certificates and keys when Mutual TLS is
 
 {% tab secrets Kubernetes %}
 
-On Kubernetes, Kuma under the hood leverages the native [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/) resource to store sensitive information.
+On Kubernetes, {{ site.mesh_product_name }} under the hood leverages the native [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/) resource to store sensitive information.
 
-Kuma secrets are stored in the same namespace as the Control Plane with `type` set to `system.kuma.io/secret`:
+{{ site.mesh_product_name }} secrets are stored in the same namespace as the Control Plane with `type` set to `system.kuma.io/secret`:
 
 ```yaml
 apiVersion: v1
@@ -31,7 +32,7 @@ metadata:
   name: sample-secret
   namespace: kuma-system # Kuma will only manage secrets in the same namespace as the CP
   labels:
-    kuma.io/mesh: default # specify the Mesh scope of the secret 
+    kuma.io/mesh: default # specify the Mesh scope of the secret
 data:
   value: dGVzdAo= # Base64 encoded
 type: system.kuma.io/secret # Kuma will only manage secrets of this type
@@ -46,7 +47,7 @@ metadata:
   name: sample-secret
   namespace: kuma-system
   labels:
-    kuma.io/mesh: default 
+    kuma.io/mesh: default
 data:
   value: dGVzdAo=
 type: system.kuma.io/secret" | kubectl apply -f -
@@ -58,7 +59,7 @@ kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/secret'
 
 Kubernetes Secrets are identified with the `name + namespace` format,
 therefore **it is not possible** to have a `Secret` with the same name in multiple meshes.
-Multiple `Meshes` always belong to one Kuma CP that always runs in one Namespace.
+Multiple `Meshes` always belong to one {{ site.mesh_product_name }} CP that always runs in one Namespace.
 
 In order to reassign a `Secret` from one `Mesh` to another `Mesh` you need to delete the `Secret` resource and create it in another `Mesh`.
 
@@ -83,11 +84,12 @@ mesh: default
 name: sample-secret
 data: dGVzdAo=" | kumactl apply -f -
 ```
+
 {% endtab %}
 {% endtabs %}
 
 {% tip %}
-The `data` field of a Kuma `Secret` is a Base64 encoded value.
+The `data` field of a {{ site.mesh_product_name }} `Secret` is a Base64 encoded value.
 Use the `base64` command in Linux or macOS to encode any value in Base64:
 
 ```sh
@@ -97,6 +99,7 @@ cat cert.pem | base64
 # or Base64 encode a string
 echo "value" | base64
 ```
+
 {% endtip %}
 
 ### Access to the Secret HTTP API
@@ -106,15 +109,16 @@ Consult [Accessing Admin Server from a different machine](/docs/{{ page.version 
 
 ## Scope of the Secret
 
-Kuma provides two types of Secrets.
+{{ site.mesh_product_name }} provides two types of Secrets.
 
 ### Mesh-scoped Secrets
 
 Mesh-scoped Secrets are bound to a given Mesh.
-Only this kind of Secrets can be used in Mesh Policies like [Provided CA](/docs/{{ page.version }}/policies/mutual-tls.md#usage-of-provided-ca) or TLS setting in [External Service](/docs/{{ page.version }}/policies/external-services).
+Only this kind of Secrets can be used in Mesh Policies like [Provided CA](/docs/{{ page.version }}/policies/mutual-tls#usage-of-provided-ca) or TLS setting in [External Service](/docs/{{ page.version }}/policies/external-services).
 
 {% tabs mesh-scoped useUrlFragment=false %}
 {% tab mesh-scoped Kubernetes %}
+
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -122,19 +126,22 @@ metadata:
   name: sample-secret
   namespace: kuma-system
   labels:
-    kuma.io/mesh: default # specify the Mesh scope of the secret 
+    kuma.io/mesh: default # specify the Mesh scope of the secret
 data:
   value: dGVzdAo=
 type: system.kuma.io/secret
 ```
+
 {% endtab %}
 {% tab mesh-scoped Universal %}
+
 ```yaml
 type: Secret
 name: sample-secret
 mesh: default # specify the Mesh scope of the secret
 data: dGVzdAo=
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -147,31 +154,34 @@ You can manage them just like the regular secrets using `kumactl` or `kubectl`.
 {% tabs global-scoped useUrlFragment=false %}
 {% tab global-scoped Kubernetes %}
 Notice that the `type` is different and `kuma.io/mesh` label is not present.
+
 ```yaml
 apiVersion: v1
 kind: Secret
 metadata:
   name: sample-secret
-  namespace: kuma-system 
+  namespace: kuma-system
 data:
   value: dGVzdAo=
 type: system.kuma.io/global-secret
 ```
+
 {% endtab %}
 {% tab global-scoped Universal %}
 Notice that the `type` is different and `mesh` field is not present.
+
 ```yaml
 type: GlobalSecret
 name: sample-global-secret
 data: dGVzdAo=
 ```
+
 {% endtab %}
 {% endtabs %}
 
-
 ## Usage
 
-Here is an example of how you can use a Kuma `Secret` with a `provided` [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) backend.
+Here is an example of how you can use a {{ site.mesh_product_name }} `Secret` with a `provided` [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) backend.
 
 The examples below assumes that the `Secret` object has already been created beforehand.
 
@@ -183,16 +193,18 @@ type: Mesh
 name: default
 mtls:
   backends:
-  - name: ca-1
-    type: provided
-    config:
-      cert:
-        secret: my-cert # name of the Kuma Secret
-      key:
-        secret: my-key # name of the Kuma Secret
+    - name: ca-1
+      type: provided
+      config:
+        cert:
+          secret: my-cert # name of the Kuma Secret
+        key:
+          secret: my-key # name of the Kuma Secret
 ```
+
 {% endtab %}
 {% tab usage Kubernetes %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -201,13 +213,14 @@ metadata:
 spec:
   mtls:
     backends:
-    - name: ca-1
-      type: provided
-      config:
-        cert:
-          secret: my-cert # name of the Kubernetes Secret
-        key:
-          secret: my-key # name of the Kubernetes Secret   
+      - name: ca-1
+        type: provided
+        config:
+          cert:
+            secret: my-cert # name of the Kubernetes Secret
+          key:
+            secret: my-key # name of the Kubernetes Secret
 ```
+
 {% endtab %}
 {% endtabs %}
