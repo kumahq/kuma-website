@@ -1,5 +1,5 @@
 ---
-title: Kuma API Access Control
+title: Kuma API access control
 ---
 
 Kuma provide a simple access control to administrative actions executed on Kuma API Server (port 5681 by default).
