@@ -1,6 +1,7 @@
 ---
-title: Control Plane Configuration
+title: Configure the control plane
 ---
+
 
 ## Modifying the configuration
 
@@ -84,7 +85,7 @@ KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
 
 {% tip %}
 If you configure `kuma-cp` with a YAML file, make sure to provide only values that you want to override.
-Otherwise, upgrading Kuma might be harder, because you need to keep track of your changes when replacing this file on every upgrade.
+Otherwise, upgrading {{ site.mesh_product_name }} might be harder, because you need to keep track of your changes when replacing this file on every upgrade.
 {% endtip %}
 
 ## Inspecting the configuration
@@ -98,10 +99,10 @@ There are many ways to see your control plane configuration:
 
 ## Store
 
-As explained in the [Overview](/docs/{{ page.version }}/documentation/introduction), when Kuma (`kuma-cp`) is up and running it needs to store its state somewhere.
+As explained in the [Overview](/docs/{{ page.version }}/documentation/introduction), when {{ site.mesh_product_name }} (`kuma-cp`) is up and running it needs to store its state somewhere.
 Thus state includes the policies configured, the data plane proxy status, and so on.
 
-Kuma supports a few different types of store.
+{{ site.mesh_product_name }} supports a few different types of store.
 You can configure the backend storage by setting the `KUMA_STORE_TYPE` environment variable when running the control plane.
 
 The following backends are available:
@@ -114,13 +115,13 @@ The configuration to set the store is the yaml path `store.type` or the environm
 
 ### Kubernetes
 
-Kuma stores all the state in the underlying Kubernetes cluster.
+{{ site.mesh_product_name }} stores all the state in the underlying Kubernetes cluster.
 
 This is only usable if the control plane is running in Kubernetes mode. You can't manage Universal CPPs from a control plane with a Kubernetes store.
 
 ### Memory
 
-Kuma stores all the state in-memory. Restarting Kuma will delete all the data, and you cannot have more than one control plane instance running.
+{{ site.mesh_product_name }} stores all the state in-memory. Restarting {{ site.mesh_product_name }} will delete all the data, and you cannot have more than one control plane instance running.
 
 Memory is the **default** memory store when running in Universal mode and is only available in Universal mode.
 
@@ -131,7 +132,7 @@ Because the state is not persisted this store should only be used when trying th
 
 ### Postgres
 
-Kuma stores all the state in a PostgreSQL database. This can only be used when running in Universal mode.
+{{ site.mesh_product_name }} stores all the state in a PostgreSQL database. This can only be used when running in Universal mode.
 
 ```sh
 KUMA_STORE_TYPE=postgres \
@@ -149,7 +150,7 @@ For great availability and low maintenance cost you can use a PostgreSQL databas
 
 #### TLS
 
-Connection between Postgres and Kuma CP should be secured with TLS.
+Connection between Postgres and {{ site.mesh_product_name }} CP should be secured with TLS.
 
 The following modes are available to secure the connection to Postgres:
 
@@ -162,7 +163,7 @@ The following modes are available to secure the connection to Postgres:
 The mode is configured with the `KUMA_STORE_POSTGRES_TLS_MODE` environment variable.
 The CA used to verify the server's certificate is configured with the `KUMA_STORE_POSTGRES_TLS_CA_PATH` environment variable.
 
-After configuring the above security settings in Kuma, we also have to configure Postgres' [`pg_hba.conf`](https://www.postgresql.org/docs/9.1/auth-pg-hba-conf.html) file to restrict unsecured connections.
+After configuring the above security settings in {{ site.mesh_product_name }}, we also have to configure Postgres' [`pg_hba.conf`](https://www.postgresql.org/docs/9.1/auth-pg-hba-conf.html) file to restrict unsecured connections.
 
 Here is an example configuration that allows only TLS connections and requires a username and password:
 ```
@@ -175,9 +176,9 @@ This pair can be used in conjunction with the `cert` auth-method described [in t
 
 #### Migrations
 
-To provide easy upgrades between Kuma versions there is a migration system for the Postgres DB schema.
+To provide easy upgrades between {{ site.mesh_product_name }} versions there is a migration system for the Postgres DB schema.
 
-When upgrading to a new version of Kuma, run `kuma-cp migrate up` so the new schema is applied.
+When upgrading to a new version of {{ site.mesh_product_name }}, run `kuma-cp migrate up` so the new schema is applied.
 ```sh
 KUMA_STORE_TYPE=postgres \
   KUMA_STORE_POSTGRES_HOST=localhost \
@@ -188,5 +189,5 @@ KUMA_STORE_TYPE=postgres \
   kuma-cp migrate up
 ```
 
-Kuma CP at the start checks if the current DB schema is compatible with the version of Kuma you are trying to run.
+{{ site.mesh_product_name }} CP at the start checks if the current DB schema is compatible with the version of {{ site.mesh_product_name }} you are trying to run.
 Information about the latest migration is stored in `schema_migration` table.
