@@ -30,3 +30,4 @@
 /docs/:version/security/dp-membership/ /docs/:version/production/security/dp-membership/ 302
 /docs/:version/reference/licenses/  /docs/:version/production/licenses/
 /docs/:version/explore/gateway/ /docs/:version/production/gateway/  302
+docs/:version/policies/mesh-gateway/    /docs/:version/production/gateway/built-in 302

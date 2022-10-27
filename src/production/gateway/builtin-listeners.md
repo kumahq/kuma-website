@@ -1,5 +1,5 @@
 ---
-title: MeshGateway
+title: Configure built-in gateway listeners
 ---
 
 `MeshGateway` is a policy used to configure [Kuma's builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin).
