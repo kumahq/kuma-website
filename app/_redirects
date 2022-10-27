@@ -20,3 +20,4 @@
 /docs/:version/networking/networking/   /docs/:version/production/networking/default-ports/ 302
 /docs/:version/networking/dns/  /docs/:version/production/networking/dns/ 302
 /docs/:version/networking/cni/  /docs/:version/production/networking/cni/ 302
+/docs/:version/networking/ipv6/ /docs/:version/production/networking/ipv6 302
