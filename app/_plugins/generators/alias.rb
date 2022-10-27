@@ -6,7 +6,6 @@ module Jekyll
 
     def generate(site)
       static_files = [
-        "app/_redirects",
         "app/_headers"
       ]
 
