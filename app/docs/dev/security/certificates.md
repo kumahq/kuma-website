@@ -122,7 +122,7 @@ You can also provide the CA via environment variable `KUMA_CONTROL_PLANE_CA_CERT
 
 ### Authentication
 
-See [Data plane proxy authentication](/docs/{{ page.version }}/security/dp-auth/) and [Zone Ingress authentication](/docs/{{ page.version }}/security/zone-ingress-auth).
+See [Data plane proxy authentication](/docs/{{ page.version }}/security/dp-auth/) and [Zone proxy authentication](/docs/{{ page.version }}/security/zoneproxy-auth).
 
 ## User to control plane communication
 

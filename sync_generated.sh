@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+function os_agnostic_sed() {
+  if [[ "$(go env GOOS)" == "darwin" ]]; then
+    sed -i '' "$@"
+  else
+    sed -i "$@"
+  fi
+}
+
 pushd ../kuma
 
 for remote in $(git remote); do
@@ -10,14 +18,14 @@ for remote in $(git remote); do
     fi
 done
 
-git fetch $kumahq
+git fetch "$kumahq"
 
 popd
 
 for i in app/docs/*; do
   if [[ ! -d $i ]]; then continue; fi
 
-  branch=`basename $i | sed 's/\(.*\)\.x/release-\1/g'`
+  branch=$(basename "$i" | sed 's/\(.*\)\.x/release-\1/g')
   if [[ $branch == "dev" ]]; then
     branch="master"
   fi
@@ -43,4 +51,16 @@ Here are all options to configure the control-plane:
     cat ../kuma/pkg/config/app/kuma-cp/kuma-cp.defaults.yaml >> "${i}/generated/kuma-cp.md"
     echo '```' >> "${i}/generated/kuma-cp.md"
   fi
+  # Modify generated docs to have a valid format for the website
+  # shellcheck disable=SC2044
+  for j in $(find "${i}/generated" -name '*.md'); do
+    # Make frontmatter titles
+    os_agnostic_sed -E '1,1 s/^##? (.*)$/---\ntitle: \1\n---/' "${j}"
+    if [[ "$j" =~ .*/cmd/.* ]]; then
+      # Fix links
+      path=$(dirname $j | sed -E 's|.*(/generated.*)|/docs/{{ page.version }}\1|')
+      os_agnostic_sed -E 's|\((.*).md\)|('"$path"'/\1)|'  "${j}"
+    fi
+  done
+
 done
