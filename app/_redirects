@@ -40,3 +40,4 @@
 /docs/2.:/version/explore/zoneegress/   /docs/2.:/features/multi-zone/zone-egress/ 302
 /docs/2.:/version/security/zoneegress-auth/ /docs/2.:/features/multi-zone/zone-egress-auth/ 302
 /docs/2.:/version/policies/locality-aware/ /docs/2.:/features/multi-zone/locality-aware/ 302
+/docs/2.:/version/policies/traffic-metrics/ /docs/2.:/features/obesrvability/traffic-metrics/ 302
