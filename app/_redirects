@@ -1,35 +1,35 @@
 # Anything after this line is manually maintained in _redirects
 # See app/_plugins/generators/redirects.rb to understand the above lines
 
-/docs/:version/deployments/stand-alone/ /docs/:version/production/deploy/standalone/ 302
-/docs/:version/deployments/universal/   /docs/:version/get-started/universal-demo/ 302
-/docs/:version/deployments/multi-zone/ /docs/:version/get-started/multizone-demo/ 302
-/docs/:version/explore/observability/#demo-setup.    /docs/:version/get-started/observability/ 302
-/docs/:version/introduction/deployments/ /docs/:version/production/deployment-topologies/ 302
-/docs/:version/installation/macos/  /docs/:version/production/install/macos/ 302
-/docs/:version/installation/docker/ /docs/:version/production/install/docker/ 302
-/docs/:version/quickstart/kubernetes/   /docs/:version/production/install/kubernetes/ 302
-/docs/:version/installation/helm/   /docs/:version/production/install/helm/ 302
-/docs/:version/installation/openshift/ /docs/:version/production/install/openshift/ 302
-/docs/:version/policies/mesh/   /docs/:version/production/deploy/multiple-policies/ 302
-/docs/:version/documentation/configuration/ /docs/:version/production/cp/ 302
-/docs/:version/explore/dpp/ /docs/:version/production/dp/index/ 302
-/docs/:version/explore/dpp-on-kubernetes/   /docs/:version/production/dp/kubernetes-dp/ 302
-/docs/:version/explore/dpp-on-universal/    /docs/:version/production/dp/universal-dp/ 302
-/docs/:version/networking/service-discovery/    /docs/:version/production/networking/service-discovery/ 30
-/docs/:version/networking/networking/   /docs/:version/production/networking/default-ports/ 302
-/docs/:version/networking/dns/  /docs/:version/production/networking/dns/ 302
-/docs/:version/networking/cni/  /docs/:version/production/networking/cni/ 302
-/docs/:version/networking/ipv6/ /docs/:version/production/networking/ipv6 302
-/docs/:version/policies/virtual-outbound/   /docs/:version/production/networking/outbound-communication/ 302
-/docs/:version/policies/external-services/  /docs/:version/production/networking/external-services/ 302
-/docs/:version/security/secrets/    /docs/:version/production/security/manage-secrets/ 302
-/docs/:version/security/api-access-control/ /docs/:version/production/security/api-access-control/ 302
-/docs/:version/security/api-server-auth/    /docs/:version/production/security/api-server-auth/ 302
-/docs/:version/security/dp-auth/   /docs/:version/production/security/dp-auth/ 302
-/docs/:version/security/dp-membership/ /docs/:version/production/security/dp-membership/ 302
-/docs/:version/reference/licenses/  /docs/:version/production/licenses/
-/docs/:version/explore/gateway/ /docs/:version/production/gateway/  302
-/docs/:version/policies/mesh-gateway/    /docs/:version/production/gateway/built-in 302
-/docs/:version/policies/mesh-gateway-route/ /docs/:version/production/gateway/builtin-routes/ 302
-/docs/:version/explore/gateway-api/ /docs/:version/production/gateway-api/  302
+/docs/2.:version/deployments/stand-alone/ /docs/2.:version/production/deploy/standalone/ 302
+/docs/2.:version/deployments/universal/   /docs/2.:version/get-started/universal-demo/ 302
+/docs/2.:version/deployments/multi-zone/ /docs/2.:version/get-started/multizone-demo/ 302
+/docs/2.:version/explore/observability/#demo-setup.    /docs/2.:version/get-started/observability/ 302
+/docs/2.:version/introduction/deployments/ /docs/2.:version/production/deployment-topologies/ 302
+/docs/2.:version/installation/macos/  /docs/2.:version/production/install/macos/ 302
+/docs/2.:version/installation/docker/ /docs/2.:version/production/install/docker/ 302
+/docs/2.:version/quickstart/kubernetes/   /docs/2.:version/production/install/kubernetes/ 302
+/docs/2.:version/installation/helm/   /docs/2.:version/production/install/helm/ 302
+/docs/2.:version/installation/openshift/ /docs/2.:version/production/install/openshift/ 302
+/docs/2.:version/policies/mesh/   /docs/2.:version/production/deploy/multiple-policies/ 302
+/docs/2.:version/documentation/configuration/ /docs/2.:version/production/cp/ 302
+/docs/2.:version/explore/dpp/ /docs/2.:version/production/dp/index/ 302
+/docs/2.:version/explore/dpp-on-kubernetes/   /docs/2.:version/production/dp/kubernetes-dp/ 302
+/docs/2.:version/explore/dpp-on-universal/    /docs/2.:version/production/dp/universal-dp/ 302
+/docs/2.:version/networking/service-discovery/    /docs/2.:version/production/networking/service-discovery/ 30
+/docs/2.:version/networking/networking/   /docs/2.:version/production/networking/default-ports/ 302
+/docs/2.:version/networking/dns/  /docs/2.:version/production/networking/dns/ 302
+/docs/2.:version/networking/cni/  /docs/2.:version/production/networking/cni/ 302
+/docs/2.:version/networking/ipv6/ /docs/2.:version/production/networking/ipv6 302
+/docs/2.:version/policies/virtual-outbound/   /docs/2.:version/production/networking/outbound-communication/ 302
+/docs/2.:version/policies/external-services/  /docs/2.:version/production/networking/external-services/ 302
+/docs/2.:version/security/secrets/    /docs/2.:version/production/security/manage-secrets/ 302
+/docs/2.:version/security/api-access-control/ /docs/2.:version/production/security/api-access-control/ 302
+/docs/2.:version/security/api-server-auth/    /docs/2.:version/production/security/api-server-auth/ 302
+/docs/2.:version/security/dp-auth/   /docs/2.:version/production/security/dp-auth/ 302
+/docs/2.:version/security/dp-membership/ /docs/2.:version/production/security/dp-membership/ 302
+/docs/2.:version/reference/licenses/  /docs/2.:version/production/licenses/
+/docs/2.:version/explore/gateway/ /docs/2.:version/production/gateway/  302
+/docs/2.:version/policies/mesh-gateway/    /docs/2.:version/production/gateway/built-in 302
+/docs/2.:version/policies/mesh-gateway-route/ /docs/2.:version/production/gateway/builtin-routes/ 302
+/docs/2.:version/explore/gateway-api/ /docs/2.:version/production/gateway-api/  302
