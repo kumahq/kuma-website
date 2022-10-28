@@ -76,11 +76,9 @@
         {% endunless %}
 
         <div class="content-wrapper line-numbers">
-          {% unless page.themeContainerClasses contains "no-sidebar" %}
           <div class="sidebar-wrapper">
             {% include sidebar.html %}
           </div>
-          {% endunless %}
 
           {{ content }}
         </div>
