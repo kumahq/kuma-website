@@ -239,15 +239,16 @@ You need the following values to pass to each zone control plane setup:
 
    where `KUMA_MULTIZONE_ZONE_NAME` is the same value for all zone control planes in the same zone.
 
-2. Generate the zone ingress token:
+2. Generate the zone proxy token:
 
-   To register the zone ingress with the zone control plane, we need to generate a zone ingress token first
+   To register the zone ingress and zone egress with the zone control plane, we need to generate a token first
 
    ```sh
-   kumactl generate zone-ingress-token --zone=<zone-name> > /tmp/ingress-token
+   kumactl generate zone-token --zone=<zone-name> --scope egress --scope ingress > /tmp/zone-token
    ```
 
-   You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zone-ingress-auth).
+   You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zoneproxy-auth).
+   Alternatively, you could generate separate tokens for ingress and egress.
 
 3. Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication:
 
@@ -267,24 +268,13 @@ You need the following values to pass to each zone control plane setup:
    kuma-dp run \
    --proxy-type=ingress \
    --cp-address=https://<kuma-cp-address>:5678 \
-   --dataplane-token-file=/tmp/ingress-token \
+   --dataplane-token-file=/tmp/zone-token \
    --dataplane-file=ingress-dp.yaml
    ```
 
 (Optional) If you want to deploy zone egress:
 
-5.  Generate the zone token with `egress` in scope:
-
-    To register the zone egress with the zone control plane, we need to generate
-    a zone token first with appropriate scope first:
-
-    ```sh
-    kumactl generate zone-token --zone=<zone-name> --valid-for=24h --scope egress > /tmp/zoneegress-token
-    ```
-
-    You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zoneegress-auth).
-
-6.  Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services
+5.  Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services
     to be configured to proxy traffic to other zones or external services through
     zone egress:
 
@@ -296,13 +286,13 @@ You need the following values to pass to each zone control plane setup:
       port: 10002" > zoneegress-dataplane.yaml
     ```
 
-7.  Apply the egress config, passing the IP address of the zone control plane to `cp-address`:
+6. Apply the egress config, passing the IP address of the zone control plane to `cp-address`:
 
         ```sh
         kuma-dp run \
         --proxy-type=egress \
         --cp-address=https://<kuma-cp-address>:5678 \
-        --dataplane-token-file=/tmp/zoneegress-token \
+        --dataplane-token-file=/tmp/zone-token \
         --dataplane-file=zoneegress-dataplane.yaml
         ```
 

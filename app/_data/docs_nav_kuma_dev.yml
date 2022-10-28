@@ -322,24 +322,15 @@ items:
             url: "/security/dp-auth/#data-plane-proxy-token"
           - text: None
             url: "/security/dp-auth/#none"
-      - text: Zone ingress authentication
-        url: /security/zone-ingress-auth/
+      - text: Zone proxy authentication
+        url: /security/zoneproxy-auth/
         items:
           - text: Service Account Token
-            url: "/security/zone-ingress-auth/#service-account-token"
-          - text: Zone ingress token
-            url: "/security/zone-ingress-auth/#zone-ingress-token"
-          - text: None
-            url: "/security/zone-ingress-auth/#none"
-      - text: Zone Egress authentication
-        url: /security/zoneegress-auth/
-        items:
-          - text: Service Account Token
-            url: "/security/zoneegress-auth/#service-account-token"
+            url: "/security/zoneproxy-auth/#service-account-token"
           - text: Zone Token
-            url: "/security/zoneegress-auth/#zone-token"
+            url: "/security/zoneproxy-auth/#zone-token"
           - text: None
-            url: "/security/zoneegress-auth/#none"
+            url: "/security/zoneproxy-auth/#none"
       - text: Data plane proxy membership
         url: /security/dp-membership/
         items:
