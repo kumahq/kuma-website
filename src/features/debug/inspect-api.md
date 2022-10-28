@@ -1,15 +1,15 @@
 ---
-title: Inspect API
+title: Debug policies
 ---
 
-Starting with version 1.5.0, Kuma offers the Inspect API to improve the policy debugging experience.
+Starting with version 1.5.0, {{ site.mesh_product_name }} offers the Inspect API to improve the policy debugging experience.
 It's made up of several HTTP endpoints and is fully supported by `kumactl`,
 but can be used directly, using the [HTTP API](/docs/{{ page.version }}/reference/http-api/#inspect-api).
 
 ## Matched policies
 
-Read [how Kuma chooses the right policy to apply](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply)
-to understand how Kuma matches policies to data plane proxies.
+Read [how {{ site.mesh_product_name }} chooses the right policy to apply](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply)
+to understand how {{ site.mesh_product_name }} matches policies to data plane proxies.
 With so many policies, it's hard to understand which policies are selected for a specific data plane proxy.
 That's where the Inspect API can help:
 
@@ -77,7 +77,7 @@ This command works for all types of policies.
 
 ## Envoy proxy configuration
 
-Kuma has 3 components that build on top of envoy – kuma-dp, zone-ingress and zone-egress.
+{{ site.mesh_product_name }} has 3 components that build on top of envoy – kuma-dp, zone-ingress and zone-egress.
 To help with debugging these components, the Inspect API gives access to envoy config dumps:
 
 Get config dump for data plane proxy:

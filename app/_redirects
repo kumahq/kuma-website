@@ -41,3 +41,22 @@
 /docs/2.:/version/security/zoneegress-auth/ /docs/2.:/features/multi-zone/zone-egress-auth/ 302
 /docs/2.:/version/policies/locality-aware/ /docs/2.:/features/multi-zone/locality-aware/ 302
 /docs/2.:/version/policies/traffic-metrics/ /docs/2.:/features/obesrvability/traffic-metrics/ 302
+/docs/2.:/version/policies/traffic-trace/  /docs/2.:/features/observability/traffic-tracing/ 302
+/docs/2.:/version/policies/mutual-tls/ /docs/2.:/features/zero-trust/mutual-tls 302
+/docs/2.:/version/policies/introduction/    /docs/2.:/features/policy-enforcement/ 302
+/docs/2.:/version/policies/applying-policies/   /docs/2.:/features/policy-enforcement/ 302
+/docs/2.:/version/policies/policies/    /docs/2.:/features/policy-enforcement/ choosing-policies 302
+/docs/2.:/version/policies/health-check/    /docs/2.:/features/health-check/health-check-policy/ 302
+/docs/2.:/version/policies/service-health-probes/   /docs/2.:/features/health-check/service-health-proves/ 302
+/docs/2.:/version/policies/retry   /docs/2.:/features/health-check/retry/ 302
+/docs/2.:/version/policies/traffic-permissions/ /docs/2.:/features/traffic/permissions/ 302
+/docs/2.:/version/policies/traffic-log/ /docs/2.:/features/traffic/log/ 302
+/docs/2.:/version/policies/traffic-route/ /docs/2.:/features/traffic/route/ 302
+/docs/2.:/version/policies/protocol-support-in-kuma/ /docs/2.:/features/traffic/protocol-support/ 302
+/docs/2.:/version/policies/fault-injection/ /docs/2.:/features/performance/fault-injection/ 302
+/docs/2.:/version/policies/rate-limit/ /docs/2.:/features/performance/rate-limit/ 302
+/docs/2.:/version/policies/circuit-breaker/ /docs/2.:/features/performance/circuit-breaker/ 302
+/docs/2.:/version/policies/timeout/ /docs/2.:/features/performance/timeout/ 302
+/docs/2.:/version/policies/fine-tuning/ /docs/2.:/features/performance/fine-tuning/ 302
+/docs/2.:/version/explore/inspect-api/  /docs/2.:/features/debug/inspect-api/ 302
+/docs/2.:/version/reference/* /docs/2.:/reference/:splat

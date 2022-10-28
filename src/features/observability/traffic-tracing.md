@@ -1,5 +1,5 @@
 ---
-title: Traffic Trace
+title: Configure traffic tracing
 ---
 
 This policy enables tracing logging to a third party tracing solution. 

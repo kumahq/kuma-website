@@ -1,5 +1,5 @@
 ---
-title: Circuit Breaker
+title: Enable circuit breaker
 ---
 
 {% tip %}
@@ -162,7 +162,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 In this example when we get five errors in a row of any type (`5` is default Envoy value for `totalErrors.consecutive`) the data plane proxy will be ejected for `30s` the first time, `60s` for the second time, and so on.
 
 {% warning %}
-In the current version of Kuma `destinations` only supports the `service` tag.
+In the current version of {{ site.mesh_product_name }} `destinations` only supports the `service` tag.
 {% endwarning %}
 
 ### interval
@@ -184,12 +184,12 @@ Activates Split Mode.
 * Locally originated: errors triggered locally when estabilishing a connection at the TCP layer (ie: connection refused, connection reset).
 * Externally originated: errors triggered remotely like a 5xx error in the response.
 
-If Split Mode is off, Kuma won't distinguish errors by their origin and they will be counted together. If Split Mode is on, different parameters can be used to fine tune the detectors. All detectors counts errors according to the state of this parameter. 
+If Split Mode is off, {{ site.mesh_product_name }} won't distinguish errors by their origin and they will be counted together. If Split Mode is on, different parameters can be used to fine tune the detectors. All detectors counts errors according to the state of this parameter. 
 {% endtip %}
 
 ### Detectors
 
-Below is a list of available detectors that can be configured in Kuma.
+Below is a list of available detectors that can be configured in {{ site.mesh_product_name }}.
 
 #### Total Errors
 

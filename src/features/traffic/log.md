@@ -1,5 +1,5 @@
 ---
-title: Traffic Log
+title: Configure traffic logging
 ---
 
 With the Traffic Log policy you can easily set up access logs on every data plane in a mesh. 
@@ -8,13 +8,13 @@ With the Traffic Log policy you can easily set up access logs on every data plan
 This policy only records outbound traffic. It doesn't record inbound traffic.
 {% endwarning %}
 
-To configure access logs in Kuma you need to:
+To configure access logs in {{ site.mesh_product_name }} you need to:
 
 * [1. Add a logging backend](#add-a-logging-backend)
 * [2. Add a TrafficLog resource](#add-a-trafficlog-resource)
 
 {% tip %}
-In the rest of this page we assume you have already configured your observability tools to work with Kuma.
+In the rest of this page we assume you have already configured your observability tools to work with {{ site.mesh_product_name }}.
 If you haven't already read the [observability docs](/docs/{{ page.version }}/explore/observability).
 {% endtip %}
 
@@ -170,17 +170,17 @@ For this reason the only supported value for `destinations.match` is `kuma.io/se
 
 ## Logging external services
 
-When running Kuma on Kubernetes you can also log the traffic to external services. To do it, the matched destination section has to have wildcard `*` value.
+When running {{ site.mesh_product_name }} on Kubernetes you can also log the traffic to external services. To do it, the matched destination section has to have wildcard `*` value.
 In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.
 
 ## Builtin Gateway support
 
-Traffic Log is a Kuma outbound connection policy, so Kuma chooses a Traffic Log policy by matching the service tag of the data plane's outbounds.
-Since a builtin gateway data plane does not have outbounds, Kuma always uses the builtin service name `pass_through` to match the Traffic Log policy for Gateways.
+Traffic Log is a {{ site.mesh_product_name }} outbound connection policy, so {{ site.mesh_product_name }} chooses a Traffic Log policy by matching the service tag of the data plane's outbounds.
+Since a builtin gateway data plane does not have outbounds, {{ site.mesh_product_name }} always uses the builtin service name `pass_through` to match the Traffic Log policy for Gateways.
 
 ## Access Log Format
 
-Kuma gives you full control over the format of the access logs.
+{{ site.mesh_product_name }} gives you full control over the format of the access logs.
 
 The shape of a single log record is defined by a template string that uses [command operators](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators) to extract and format data about a `TCP` connection or an `HTTP` request.
 
@@ -192,7 +192,7 @@ E.g.,
 
 where `%START_TIME%` and `%KUMA_SOURCE_SERVICE%` are examples of available _command operators_.
 
-All _command operators_ [defined by Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators) are supported, along with additional _command operators_ defined by Kuma:
+All _command operators_ [defined by Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators) are supported, along with additional _command operators_ defined by {{ site.mesh_product_name }}:
 
 | Command Operator                     | Description                                                      |
 | ------------------------------------ | ---------------------------------------------------------------- |
@@ -208,7 +208,7 @@ All access log _command operators_ are valid to use with both `TCP` and `HTTP` t
 
 If a _command operator_ is specific to `HTTP` traffic, such as `%REQ(X?Y):Z%` or `%RESP(X?Y):Z%`, it will be replaced by a symbol "`-`" in case of `TCP` traffic.
 
-Internally, Kuma [determines traffic protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
+Internally, {{ site.mesh_product_name }} [determines traffic protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
 
 The default format string for `TCP` traffic is:
 

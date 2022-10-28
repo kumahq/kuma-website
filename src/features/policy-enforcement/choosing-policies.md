@@ -38,11 +38,11 @@ conf:
   backend: splunk
 ```
 
-What does `Kuma` do when it encounters multiple matching policies?
+What does `{{ site.mesh_product_name }}` do when it encounters multiple matching policies?
 
 ## General rules
 
-Kuma always picks the single most specific policy.
+{{ site.mesh_product_name }} always picks the single most specific policy.
 
 1. A policy that matches by a **greater number of tags**
 
@@ -151,7 +151,7 @@ spec:
 ```
 
 This is because both destinations match the same inbound with the same specificity,
-and Kuma selects exactly one policy of a given type.
+and {{ site.mesh_product_name }} selects exactly one policy of a given type.
 
 If it is desired that both policies be applied, they must be combined:
 

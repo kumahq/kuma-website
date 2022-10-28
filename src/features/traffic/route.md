@@ -1,5 +1,5 @@
 ---
-title: Traffic Route
+title: Configure routing rules
 ---
 
 {% tip %}
@@ -15,7 +15,7 @@ Note the following:
 - All available tags are supported for `spec.conf`.
 - This is an outbound connection policy. Make sure that your data plane proxy configuration [includes the appropriate tags](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy). 
 
-Kuma also supports [locality aware load balancing](/docs/{{ page.version }}/policies/locality-aware).
+{{ site.mesh_product_name }} also supports [locality aware load balancing](/docs/{{ page.version }}/policies/locality-aware).
 
 ### Default TrafficRoute
 
@@ -225,7 +225,7 @@ conf:
 {% endtab %}
 {% endtabs %}
 
-Kuma utilizes positive weights in the `TrafficRoute` policy and not percentages, therefore Kuma does not check if the total adds up to 100. If we want to stop sending traffic to a destination service we change the `weight` for that service to 0.
+{{ site.mesh_product_name }} utilizes positive weights in the `TrafficRoute` policy and not percentages, therefore {{ site.mesh_product_name }} does not check if the total adds up to 100. If we want to stop sending traffic to a destination service we change the `weight` for that service to 0.
 
 ### L4 Traffic Split
 

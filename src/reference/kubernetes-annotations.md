@@ -1,8 +1,8 @@
 ---
-title: Annotations and labels in Kubernetes mode
+title: Kubernetes annotations and labels
 ---
 
-This page provides a complete list of all the annotations you can specify when you run Kuma in Kubernetes mode.
+This page provides a complete list of all the annotations you can specify when you run {{ site.mesh_product_name }} in Kubernetes mode.
 
 ## Labels
 
@@ -137,7 +137,7 @@ metadata:
 
 ### `kuma.io/ingress-public-address`
 
-Specifies the public address for Ingress. If not provided, Kuma picks the address from the Ingress Service.
+Specifies the public address for Ingress. If not provided, {{ site.mesh_product_name }} picks the address from the Ingress Service.
 
 **Example**
 
@@ -154,7 +154,7 @@ metadata:
 
 ### `kuma.io/ingress-public-port`
 
-Specifies the public port for Ingress. If not provided, Kuma picks the port from the Ingress Service.
+Specifies the public port for Ingress. If not provided, {{ site.mesh_product_name }} picks the port from the Ingress Service.
 
 **Example**
 
@@ -187,7 +187,7 @@ metadata:
     kuma.io/transparent-proxying-outbound-port: [...]
 ```
 
-When you provide this annotation, Kuma generates a listener for each IP address and redirects traffic through a `direct-access` cluster that's configured to encrypt connections.
+When you provide this annotation, {{ site.mesh_product_name }} generates a listener for each IP address and redirects traffic through a `direct-access` cluster that's configured to encrypt connections.
 
 These listeners are needed because transparent proxy and mTLS assume a single IP per cluster (for example, the ClusterIP of a Kubernetes Service). If you pass requests to direct IP addresses, Envoy considers them unknown destinations and manages them in passthrough mode -- which means they're not encrypted with mTLS. The `direct-access` cluster enables encryption anyway.
 
@@ -218,7 +218,7 @@ Specifies the insecure port for listening on virtual probes.
 
 ### `kuma.io/sidecar-env-vars`
 
-Semicolon (`;`) separated list of environment variables for the Kuma sidecar.
+Semicolon (`;`) separated list of environment variables for the {{ site.mesh_product_name }} sidecar.
 
 **Example**
 
@@ -327,9 +327,9 @@ metadata:
 
 ### `kuma.io/ignore`
 
-A boolean to mark a resource as ignored by Kuma.
+A boolean to mark a resource as ignored by {{ site.mesh_product_name }}.
 It currently only works for services.
-This is useful when transitioning to Kuma or to temporarily ignore some entities.
+This is useful when transitioning to {{ site.mesh_product_name }} or to temporarily ignore some entities.
 
 **Example**
 ```yaml
@@ -344,7 +344,7 @@ metadata:
 
 ### `traffic.kuma.io/exclude-inbound-ports`
 
-List of inbound ports to exclude from traffic interception by the Kuma sidecar.
+List of inbound ports to exclude from traffic interception by the {{ site.mesh_product_name }} sidecar.
 
 **Example**
 
@@ -359,7 +359,7 @@ metadata:
 
 ### `traffic.kuma.io/exclude-outbound-ports`
 
-List of outbound ports to exclude from traffic interception by the Kuma sidecar.
+List of outbound ports to exclude from traffic interception by the {{ site.mesh_product_name }} sidecar.
 
 **Example**
 
@@ -405,7 +405,7 @@ metadata:
 
 ### `kuma.io/service-account-token-volume`
 
-Volume (specified in the pod spec) containing a service account token for Kuma to inject into the sidecar. 
+Volume (specified in the pod spec) containing a service account token for {{ site.mesh_product_name }} to inject into the sidecar. 
 
 **Example**
 
@@ -537,7 +537,7 @@ spec:
 
 ### `kuma.io/sidecar-drain-time`
 
-Allows specifying drain time of Kuma DP sidecar. The default value is 30s. 
+Allows specifying drain time of {{ site.mesh_product_name }} DP sidecar. The default value is 30s. 
 The default could be changed using [the control-plane configuration](/docs/{{ page.version }}/generated/kuma-cp) or `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_DRAIN_TIME` env.
 
 **Example**
