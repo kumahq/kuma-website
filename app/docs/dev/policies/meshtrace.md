@@ -49,7 +49,7 @@ If you don't understand this table you should read [matching docs](../matching#p
 ### Sampling
 
 {% tip %}
-Most of the time setting only `overall` is sufficient; `random` and `client` are for advanced use cases.
+Most of the time setting only `overall` is sufficient. `random` and `client` are for advanced use cases.
 {% endtip %}
 
 You can configure sampling settings equivalent to Envoy's:
@@ -74,7 +74,7 @@ sampling:
 
 ### Tags
 
-You can add tags to trace metadata by directly supplying the value ("literal") or by taking it from a header ("header").
+You can add tags to trace metadata by directly supplying the value (`literal`) or by taking it from a header (`header`).
 
 Example:
 
@@ -91,8 +91,8 @@ tags:
       name: x-version
 ```
 
-For `header` - if a value is missing then `default` will be used.
-If `default` is not provided then the tag won't be added.
+If a value is missing for `header`, `default` is used.
+If `default` isn't provided, then the tag won't be added.
 
 ### Backends
 
@@ -364,14 +364,14 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 ### Targeting parts of the infrastructure
 
-While most commonly we want all the traces to be sent to the same tracing backend,
-we can target parts of a `Mesh` by using finer-grained `targetRef` and a designated backend to trace different paths of our service traffic.
-This is especially useful when we want traces to never leave a world region, or a cloud, for example.
+While usually you want all the traces to be sent to the same tracing backend,
+you can target parts of a `Mesh` by using a finer-grained `targetRef` and a designated backend to trace different paths of our service traffic.
+This is especially useful when you want traces to never leave a world region, or a cloud, for example.
 
-In this example we have two zones `east` and `west`, each of these with their own zipkin collector: `east.zipkincollector:9411/api/v2/spans` and `west.zipkincollector:9411/api/v2/spans`.
+In this example, we have two zones `east` and `west`, each of these with their own Zipkin collector: `east.zipkincollector:9411/api/v2/spans` and `west.zipkincollector:9411/api/v2/spans`.
 We want dataplane proxies in each zone to only send traces to their local collector.
 
-To do this we use a `TargetRef` kind value of `MeshSubset` to filter which dataplane proxy a policy applies to.
+To do this, we use a `TargetRef` kind value of `MeshSubset` to filter which dataplane proxy a policy applies to.
 
 {% tabs meshtrace-region useUrlFragment=false %}
 {% tab meshtrace-region Universal %}
