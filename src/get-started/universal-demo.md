@@ -23,7 +23,7 @@ The zone key is purely static and arbitrary. Different zone values for different
   git clone https://github.com/kumahq/kuma-counter-demo.git
   ```
 
-To explore traffic metrics with the demo app, you also need to [set up Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/). See the [traffic metrics policy documentation](/docs/{{ page.version }}/policies/traffic-metrics).
+To explore traffic metrics with the demo app, you also need to [set up Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/). See the [traffic metrics policy documentation](/docs/{{ page.version }}/features/observability/traffic-metrics).
 
 ## Set up
 
@@ -153,7 +153,7 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 
 ## Enable Mutual TLS and Traffic Permissions
 
-By default the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/{{ page.version }}/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
+By default the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/{{ page.version }}/features/zero-trust/mutual-tls) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/{{ page.version }}/production/deploy/cluster) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
@@ -169,7 +169,7 @@ mtls:
 EOF
 ```
 
-Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly have a [Traffic Permission](/docs/{{ page.version }}/policies/traffic-permissions/) policy that describes what services can be consumed by other services.
+Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly have a [Traffic Permission](/docs/{{ page.version }}/features/traffic/permissions) policy that describes what services can be consumed by other services.
 By default, a very permissive traffic permission is created.
 
 For the sake of this demo we will delete it:
@@ -204,7 +204,7 @@ As usual, you can visualize the Mutual TLS configuration and the Traffic Permiss
 
 ## Explore Traffic Metrics
 
-One of the most important [policies](/policies) that Kuma provides out of the box is [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics/).
+One of the most important [policies](/policies) that Kuma provides out of the box is [Traffic Metrics](/docs/{{ page.version }}/features/observability/traffic-metrics).
 
 With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that visualize the overall traffic activity of our application and the status of the service mesh.
 
@@ -227,7 +227,7 @@ metrics:
 EOF
 ```
 
-This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/{{ page.version }}/policies/mesh/) and automatically collect metrics for all of our traffic.
+This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/{{ page.version }}/production/deploy/cluster) and automatically collect metrics for all of our traffic.
 
 Increment the counter to generate traffic, and access the dashboard at [127.0.0.1:3000](http://127.0.0.1:3000) with default credentials for both the username (`admin`) and the password (`admin`).
 

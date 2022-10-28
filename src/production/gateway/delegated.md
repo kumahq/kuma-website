@@ -36,14 +36,14 @@ API Gateway receives Services from:
 * one specific zone
 * multi-zone
 
-Multi-zone requires exposing a dedicated Kubernetes `Service` object with type `ExternalName`. Control plane creates a DNS entry `externalName` with suffix `.mesh`, which Kuma resolves in internal [service discovery](/docs/{{ page.version }}/networking/dns).
+Multi-zone requires exposing a dedicated Kubernetes `Service` object with type `ExternalName`. Control plane creates a DNS entry `externalName` with suffix `.mesh`, which Kuma resolves in internal [service discovery](/docs/{{ page.version }}/production/networking/dns).
 
 #### Example setting up Kong Ingress Controller
 
 Follow instructions to setup an echo service reachable through Kong.
 These instructions are mostly taken from the [Kong docs](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/guides/getting-started/).
 
-1. [Install Kuma](/docs/{{ page.version }}/installation/kubernetes) on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
+1. [Install Kuma](/docs/{{ page.version }}/production/install/kubernetes) on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.version }}/production/dp/kubernetes-dp).
 
 2. Install [Kong using helm](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/deployment/k4k8s/#helm).
 

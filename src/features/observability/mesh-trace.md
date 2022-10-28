@@ -4,13 +4,13 @@ title: Mesh Trace
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficTrace](traffic-trace.md).
+it should not be mixed with [TrafficTrace](/docs/{{ page.version }}/features/observability/traffic-tracing).
 {% endwarning %}
 
 This policy enables publishing traces to a third party tracing solution.
 
 Tracing is supported over HTTP, HTTP2, and gRPC protocols.
-You must [explicitly specify the protocol](protocol-support-in-kuma.md) for each service and data plane proxy you want to enable tracing for.
+You must [explicitly specify the protocol](/docs/{{ page.version }}/features/traffic/protocol-support) for each service and data plane proxy you want to enable tracing for.
 
 Kuma currently supports the following trace exposition formats:
 
@@ -42,7 +42,7 @@ For HTTP you can also manually forward the following headers:
 | MeshGatewayRoute  | ✅         | ❌   | ❌    |
 | MeshHTTPRoute     | ❌         | ❌   | ❌    |
 
-If you don't understand this table you should read [matching docs](matching.md#policy-matching)
+If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/features/observability/traffic-metrics)
 
 ## Add MeshTrace resource
 
@@ -161,14 +161,14 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../reference/http-api.md).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 
 {% tab add-resource Datadog %}
 
 {% tip %}
-This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](../explore/observability.md#configuring-datadog).
+This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](/docs/{{ page.version }}/features/observability/datadog).
 {% endtip %}
 
 {% tabs datadog-type %}

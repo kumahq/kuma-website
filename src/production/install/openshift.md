@@ -4,11 +4,11 @@ title: OpenShift
 
 To install and run Kuma on OpenShift execute the following steps:
 
-* [1. Download Kuma](#_1-download-kuma)
-* [2. Run Kuma](#_2-run-kuma)
-* [3. Use Kuma](#_3-use-kuma)
+* 1. Download Kuma
+* 2. Run Kuma
+* 3. Use Kuma
 
-Finally, you can follow the [Quickstart](#_4-quickstart) to take it from here and continue your Kuma journey.
+Finally, you can follow the Quickstart to take it from here and continue your Kuma journey.
 
 ### 1. Download Kuma
 
@@ -25,7 +25,7 @@ We can install and run Kuma:
 ./kumactl install control-plane --cni-enabled | oc apply -f -
 ```
 
-Starting from version 4.1 OpenShift utilizes `nftables` instead of `iptables`. So using init container for redirecting traffic to the proxy no longer works. Instead, we use the `--cni-enabled` flag to install the [`kuma-cni`](/docs/{{ page.version }}/networking/cni).
+Starting from version 4.1 OpenShift utilizes `nftables` instead of `iptables`. So using init container for redirecting traffic to the proxy no longer works. Instead, we use the `--cni-enabled` flag to install the [`kuma-cni`](/docs/{{ page.version }}/production/networking/cni).
 {% endtab %}
 
 {% tab openshift-run OpenShift 3.11 %}
@@ -55,7 +55,7 @@ After updating `master-config.yaml` restart the cluster and install `control-pla
 {% endtab %}
 {% endtabs %}
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/introduction/deployments) like "multi-zone".
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/production/deployment-topologies) like "multi-zone".
 
 {% tip %}
 It may take a while for OpenShift to start the Kuma resources, you can check the status by executing:
@@ -146,7 +146,7 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 {% endtab %}
 {% endtabs %}
 
-You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.version }}/production/deploy/cluster) entity with name `default`.
 
 {% tip %}
 Kuma explicitly specifies UID for `kuma-dp` sidecar to avoid capturing traffic from `kuma-dp` itself. For that reason, `nonroot` [Security Context Constraint](https://docs.openshift.com/container-platform/latest/authentication/managing-security-context-constraints.html) has to be granted to the application namespace:
@@ -165,7 +165,7 @@ If namespace is not configured properly, we will see following error on the `Dep
 
 Congratulations! You have successfully installed Kuma on OpenShift 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/quickstart/kubernetes/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/get-started/kubernetes-demo) deployments.
 
 {% tip %}
 Before running Kuma Demo in the Quickstart, remember to run the following command

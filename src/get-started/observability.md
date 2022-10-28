@@ -11,9 +11,9 @@ title: Get started with observability
 
 First, remember to configure Kuma appropriately for the tools in the observability stack:
 
-- [Traffic metrics](/docs/{{ page.version }}/policies/traffic-metrics) for telemetry
-- [`TrafficTrace`](/docs/{{ page.version }}/policies/traffic-trace) for tracing
-- [`TrafficLog`](/docs/{{ page.version }}/policies/traffic-log) for logging
+- [Traffic metrics](/docs/{{ page.version }}/features/observability/traffic-metrics) for telemetry
+- [`TrafficTrace`](/docs/{{ page.version }}/features/observability/traffic-tracing) for tracing
+- [`TrafficLog`](/docs/{{ page.version }}/features/traffic/log) for logging
 
 On Kubernetes, the stack can be installed with:
 
