@@ -5,8 +5,11 @@ module Jekyll
     priority :high
 
     def generate(site)
-      latest_version = site.data['versions'].reject { |v| v['release'] == 'dev' }.last
-      site.data['latest_version'] = latest_version
+      latest_versions = site.data['versions'].select {|v| v['latest']}
+      if latest_versions.size != 1
+        raise "Exactly one entry in app/_data/versions.yml must be marked as 'latest: true' (#{latest_versions.size} found)"
+      end
+      site.data['latest_version'] = latest_versions.first
 
       # Add a `version` property to every versioned page
       # TODO: Also create aliases under /latest/ for all x.x.x doc pages

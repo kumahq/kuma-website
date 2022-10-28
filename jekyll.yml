@@ -22,18 +22,16 @@ links:
 fb:
   app_id: 682375632267551
 twitter:
-  handle: '@KumaMesh'
+  handle: "@KumaMesh"
 
 defaults:
-  -
-    scope:
+  - scope:
       path: "_posts"
       type: "posts"
     values:
       layout: "post"
       permalink: "/blog/:year/:slug/"
-  -
-    scope:
+  - scope:
       path: "docs"
     values:
       layout: "page"
@@ -43,7 +41,7 @@ pagination:
   # Site-wide kill switch, disabled here it doesn't run at all
   enabled: true
   per_page: 5
-  title: 'Page :num | :title'
+  title: "Page :num | :title"
   sort_reverse: true
   trail:
     before: 1
@@ -51,22 +49,23 @@ pagination:
 
 # Pardot
 pardot:
-  communityCallFormEndpoint: 'https://go.pardot.com/l/392112/2020-02-28/bl766m'
-  communityCallInvite: 'https://calendar.google.com/calendar?cid=a29uZ2hxLmNvbV8xbWE5NnNzZGdnZmg5ZnJyY3M5N2VwdTM4b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t'
-  newsletterFormEndpoint: 'https://go.pardot.com/l/392112/2019-09-03/bjz6yv'
-  serviceMeshConFormEndpoint: 'https://go.konghq.com/l/392112/2020-11-16/bnlpqv'
+  communityCallFormEndpoint: "https://go.pardot.com/l/392112/2020-02-28/bl766m"
+  communityCallInvite: "https://calendar.google.com/calendar?cid=a29uZ2hxLmNvbV8xbWE5NnNzZGdnZmg5ZnJyY3M5N2VwdTM4b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+  newsletterFormEndpoint: "https://go.pardot.com/l/392112/2019-09-03/bjz6yv"
+  serviceMeshConFormEndpoint: "https://go.konghq.com/l/392112/2020-11-16/bnlpqv"
 
 # Analytics
 gtag:
-  tracking_id: 'UA-8499472-30'
+  tracking_id: "UA-8499472-30"
 
 jekyll-generator-single-source:
-  versions_file: '_data/versions.yml'
-  docs_nav_folder: '_data'
-  layout: 'page'
+  versions_file: "_data/versions.yml"
+  docs_nav_folder: "_data"
+  layout: "page"
   multiple_products: false
-  base_dest_path: 'docs'
+  base_dest_path: "docs"
 
 # Static files
 include:
   - preview.sh
+  - robots.txt

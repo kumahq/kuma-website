@@ -37,7 +37,7 @@ We suggest adding the `kumactl` executable to your `PATH` (by executing: `PATH=$
 
 {% raw %}
 ```sh
-ln -s kuma-{{ $page.latestVersion }}/bin/kumactl /usr/local/bin/kumactl
+ln -s kuma-{{ page.latest_version }}/bin/kumactl /usr/local/bin/kumactl
 ```
 {% endraw %}
 

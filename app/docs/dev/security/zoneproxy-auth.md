@@ -122,50 +122,53 @@ signed by it.
    Make sure to generate the new signing key with a serial number greater than
    the serial number of the current signing key.
 
-   {% tabs key-rotation useUrlFragment=false %}
-   {% tab key-rotation Kubernetes %}
-   Check what is the current highest serial number.
+{% capture tabbed_content %}
+{% tabs key-rotation useUrlFragment=false %}
+{% tab key-rotation Kubernetes %}
+Check what is the current highest serial number.
 
-   ```sh
-   kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/global-secret'
-   NAME                       TYPE                           DATA   AGE
-   zone-token-signing-key-1   system.kuma.io/global-secret   1      25m
-   ```
+```sh
+kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/global-secret'
+NAME                       TYPE                           DATA   AGE
+zone-token-signing-key-1   system.kuma.io/global-secret   1      25m
+```
 
-   In this case, the highest serial number is `1`. Generate a new signing key
-   with a serial number of `2`
-   ```sh
-   TOKEN="$(kumactl generate signing-key)" && echo "
-   apiVersion: v1
-   data:
-     value: $TOKEN
-   kind: Secret
-   metadata:
-     name: zone-token-signing-key-2
-     namespace: kuma-system
-   type: system.kuma.io/global-secret
-   " | kubectl apply -f - 
-   ```
+In this case, the highest serial number is `1`. Generate a new signing key
+with a serial number of `2`
+```sh
+TOKEN="$(kumactl generate signing-key)" && echo "
+apiVersion: v1
+data:
+  value: $TOKEN
+kind: Secret
+metadata:
+  name: zone-token-signing-key-2
+  namespace: kuma-system
+type: system.kuma.io/global-secret
+" | kubectl apply -f -
+```
 
-   {% endtab %}
-   {% tab key-rotation Universal %}
-   Check what is the current highest serial number.
-   ```sh
-   kumactl get global-secrets
-   NAME                       AGE
-   zone-token-signing-key-1   36m
-   ```
+{% endtab %}
+{% tab key-rotation Universal %}
+Check what is the current highest serial number.
+```sh
+kumactl get global-secrets
+NAME                       AGE
+zone-token-signing-key-1   36m
+```
 
-   In this case, the highest serial number is `1`. Generate a new signing key 
-   with a serial number of `2`
-   ```sh
-   echo "
-   type: GlobalSecret
-   name: zone-token-signing-key-2
-   data: {{ key }}" | kumactl apply --var key=$(kumactl generate signing-key) -f -
-   ```
-   {% endtab %}
-   {% endtabs %}
+In this case, the highest serial number is `1`. Generate a new signing key 
+with a serial number of `2`
+```sh
+echo "
+type: GlobalSecret
+name: zone-token-signing-key-2
+data: {{ key }}" | kumactl apply --var key=$(kumactl generate signing-key) -f -
+```
+{% endtab %}
+{% endtabs %}
+{% endcapture %}
+{{ tabbed_content | indent }}
 
 2. Regenerate tokens
    These tokens are automatically created with
@@ -174,20 +177,23 @@ signed by it.
    At this point, tokens signed by either new or old signing key are valid.
 
 3. Remove the old signing key
-   {% tabs remove-key useUrlFragment=false %}
-   {% tab remove-key Kubernetes %}
-   ```sh
-   kubectl delete secret zone-token-signing-key-1 -n kuma-system
-   ```
-   {% endtab %}
-   {% tab remove-key Universal %}
-   ```sh
-   kumactl delete global-secret zone-token-signing-key-1
-   ```
-   {% endtab %}
-   {% endtabs %}
-   All new connections to the control plane now require tokens signed with
-   the new signing key.
+{% capture tabbed_content %}
+{% tabs remove-key useUrlFragment=false %}
+{% tab remove-key Kubernetes %}
+```sh
+kubectl delete secret zone-token-signing-key-1 -n kuma-system
+```
+{% endtab %}
+{% tab remove-key Universal %}
+```sh
+kumactl delete global-secret zone-token-signing-key-1
+```
+{% endtab %}
+{% endtabs %}
+All new connections to the control plane now require tokens signed with
+the new signing key.
+{% endcapture %}
+{{ tabbed_content | indent }}
 
 ### Multi-zone
 
