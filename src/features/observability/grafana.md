@@ -86,7 +86,7 @@ To learn more about it go read [this article](https://grafana.com/blog/2020/05/2
 
 ### Grafana extensions
 
-The Kuma community has built a datasource and a set of dashboards to provide great interactions between Kuma and Grafana.
+The {{ site.mesh_product_name }} community has built a datasource and a set of dashboards to provide great interactions between {{ site.mesh_product_name }} and Grafana.
 
 #### Datasource and service map
 
@@ -105,60 +105,60 @@ To make things simpler the datasource is installed and configured when using [`k
 
 #### Dashboards
 
-Kuma ships with default dashboards that are available to import from [the Grafana Labs repository](https://grafana.com/orgs/konghq).
+{{ site.mesh_product_name }} ships with default dashboards that are available to import from [the Grafana Labs repository](https://grafana.com/orgs/konghq).
 
-##### Kuma Dataplane
+##### {{ site.mesh_product_name }} Dataplane
 
 This dashboard lets you investigate the status of a single dataplane in the mesh.
 
 <center>
-<img src="/assets/images/docs/0.4.0/kuma_dp1.jpeg" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-<img src="/assets/images/docs/0.4.0/kuma_dp2.png" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-<img src="/assets/images/docs/0.4.0/kuma_dp3.png" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-<img src="/assets/images/docs/1.1.2/kuma_dp4.png" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/0.4.0/kuma_dp1.jpeg" alt="{{ site.mesh_product_name }} Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/0.4.0/kuma_dp2.png" alt="{{ site.mesh_product_name }} Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/0.4.0/kuma_dp3.png" alt="{{ site.mesh_product_name }} Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/1.1.2/kuma_dp4.png" alt="{{ site.mesh_product_name }} Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-##### Kuma Mesh
+##### {{ site.mesh_product_name }} Mesh
 
 This dashboard lets you investigate the aggregated statistics of a single mesh.
 It provides a topology view of your service traffic dependencies (**Service Map**)
 and includes information such as number of requests and error rates.
 
 <center>
-<img src="/assets/images/docs/grafana_dashboard_mesh.png" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/grafana_dashboard_mesh.png" alt="{{ site.mesh_product_name }} Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-##### Kuma Service to Service
+##### {{ site.mesh_product_name }} Service to Service
 
 This dashboard lets you investigate aggregated statistics from dataplanes of specified source services to dataplanes of specified destination service.
 
 <center>
-<img src="/assets/images/docs/0.4.0/kuma_service_to_service.png" alt="Kuma Service to Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-<img src="/assets/images/docs/1.1.2/kuma_service_to_service_http.png" alt="Kuma Service to Service HTTP" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/0.4.0/kuma_service_to_service.png" alt="{{ site.mesh_product_name }} Service to Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/1.1.2/kuma_service_to_service_http.png" alt="{{ site.mesh_product_name }} Service to Service HTTP" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-##### Kuma CP
+##### {{ site.mesh_product_name }} CP
 
 This dashboard lets you investigate control plane statistics.
 
 <center>
-<img src="/assets/images/docs/0.7.1/grafana-dashboard-kuma-cp1.png" alt="Kuma CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-<img src="/assets/images/docs/0.7.1/grafana-dashboard-kuma-cp2.png" alt="Kuma CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
-<img src="/assets/images/docs/0.7.1/grafana-dashboard-kuma-cp3.png" alt="Kuma CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/0.7.1/grafana-dashboard-kuma-cp1.png" alt="{{ site.mesh_product_name }} CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/0.7.1/grafana-dashboard-kuma-cp2.png" alt="{{ site.mesh_product_name }} CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/0.7.1/grafana-dashboard-kuma-cp3.png" alt="{{ site.mesh_product_name }} CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-##### Kuma Service
+##### {{ site.mesh_product_name }} Service
 
 This dashboard lets you investigate aggregated statistics for each service.
 
 <center>
-<img src="/assets/images/docs/1.1.2/grafana-dashboard-kuma-service.jpg" alt="Kuma Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/1.1.2/grafana-dashboard-kuma-service.jpg" alt="{{ site.mesh_product_name }} Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-##### Kuma MeshGateway
+##### {{ site.mesh_product_name }} MeshGateway
 
 This dashboard lets you investigate aggregated statistics for each builtin gateway.
 
 <center>
-<img src="/assets/images/docs/grafana_dashboard_gateway.png" alt="Kuma Gateway dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/grafana_dashboard_gateway.png" alt="{{ site.mesh_product_name }} Gateway dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
