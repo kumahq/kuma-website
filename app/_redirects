@@ -36,4 +36,5 @@
 /docs/2.:version/explore/zone-ingress/ /docs/2.:version/features/multi-zone/zone-ingress/ 302
 /docs/2.:version/security/zone-ingress-auth/ /docs/2.:version/features/multi-zone/zone-ingress-auth/ 302
 /docs/2.:version/explore/gui/   /docs/production/gui/ 302
-/docs/2.:/version/documentation/upgrades/   /docs/production/upgrades 302
+/docs/2.:/version/documentation/upgrades/   /docs/production/upgrades/ 302
+/docs/2.:/version/explore/zoneegress/   /docs/features/multi-zone/zone-egress/ 302
