@@ -1,13 +1,13 @@
 ---
-title: Locality-aware Load Balancing
+title: Enable locality-aware load balancing
 ---
 
-In a [multi-zone deployment](/docs/{{ page.version }}/introduction/deployments/), locality-aware load balancing
+In a [multi-zone deployment](/docs/kuma/introduction/deployments/), locality-aware load balancing
 instructs data plane proxies to try to keep requests within one zone. The amount
 of traffic that remains in one zone depends on the health of the service endpoints in that
 zone.
 
-By way of example, consider a request from a service in Kuma zone `east` to another
+By way of example, consider a request from a service in {{ site.mesh_product_name }} zone `east` to another
 service `backend`. If all of the endpoints for `backend` in zone `east` are healthy,
 the request will be sent to one of those endpoints rather than to another zone.
 
