@@ -1,8 +1,8 @@
 ---
-title: Upgrades
+title: Upgrade Kuma
 ---
 
-Since Kuma 1.4.x upgrades can be performed up to two minor versions. Examples:
+Since {{ site.mesh_product_name }} 1.4.x upgrades can be performed up to two minor versions. Examples:
 * You can upgrade from `1.5.x` to `1.6.x`
 * You can upgrade from `1.4.x` to `1.6.x`
 * To upgrade from `1.2.x` to `1.6.x`, first upgrade from `1.2.x` to `1.4.x`. Then from `1.4.x` to `1.6.x`.
@@ -34,10 +34,10 @@ To guarantee our compatibility policy we will always wait at least two minor ver
 
 ## Standalone
 
-To upgrade Kuma with a standalone deployment, first upgrade the control plane, then upgrade data plane proxies.
+To upgrade {{ site.mesh_product_name }} with a standalone deployment, first upgrade the control plane, then upgrade data plane proxies.
 To upgrade data plane proxies on Kubernetes, rollout the new deployment. This way injector will inject the newest sidecar.
 
 ## Multizone
 
-To upgrade Kuma with a multizone deployment, first upgrade the global control plane. Then, upgrade zone control planes.
+To upgrade {{ site.mesh_product_name }} with a multizone deployment, first upgrade the global control plane. Then, upgrade zone control planes.
 As a last step, upgrade data plane proxies.
