@@ -6,7 +6,7 @@ Uninstall Transparent Proxy pre-requisites on the host
 
 ### Synopsis
 
-Uninstall Transparent Proxy by restoring the hosts iptables and /etc/resolv.conf
+Uninstall Transparent Proxy by restoring the hosts iptables and /etc/resolv.conf or removing leftover ebpf objects
 
 ```
 kumactl uninstall transparent-proxy [flags]
@@ -15,9 +15,11 @@ kumactl uninstall transparent-proxy [flags]
 ### Options
 
 ```
-      --dry-run   dry run
-  -h, --help      help for transparent-proxy
-      --verbose   verbose
+      --dry-run                  dry run
+      --ebpf-bpffs-path string   the path of the BPF filesystem (default "/sys/fs/bpf")
+      --ebpf-enabled             uninstall transparent proxy with ebpf mode
+  -h, --help                     help for transparent-proxy
+      --verbose                  verbose
 ```
 
 ### Options inherited from parent commands

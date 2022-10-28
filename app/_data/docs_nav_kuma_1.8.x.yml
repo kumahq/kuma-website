@@ -744,6 +744,9 @@ items:
             url: /generated/cmd/kuma-prometheus-sd/kuma-prometheus-sd/
           - text: kumactl
             url: /generated/cmd/kumactl/kumactl/
+      - # Auto-generated
+        text: Kuma-cp configuration reference
+        url: /generated/kuma-cp
   - title: Contribute
     group: true
     items:

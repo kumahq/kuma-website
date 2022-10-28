@@ -740,6 +740,9 @@ items:
             url: /generated/cmd/kuma-dp/kuma-dp/
           - text: kumactl
             url: /generated/cmd/kumactl/kumactl/
+      - # Auto-generated
+        text: Kuma-cp configuration reference
+        url: /generated/kuma-cp
   - title: Contribute
     group: true
     items:
