@@ -241,6 +241,10 @@ The specification of `ContainerPatch` consists of the list of [jsonpatch](https:
 strings which describe the modifications to be performed.
 
 ### Example
+ 
+{% warning %}
+When using ContainerPath, every `value` field must be valid JSON.
+{% endwarning %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -253,6 +257,15 @@ spec:
     - op: add
       path: /securityContext/privileged
       value: "true"
+    - op: add
+      path: /resources/requests/cpu
+      value: '"100m"'
+    - op: add
+      path: /resources/limits
+      value: '{
+        "cpu": "500m",
+        "memory": "256Mi"
+      }'
   initPatch:
     - op: add
       path: /securityContext/runAsNonRoot
@@ -264,42 +277,72 @@ spec:
 This will change the `securityContext` section of `kuma-sidecar` container from:
 
 ```yaml
-      securityContext:
-        runAsGroup: 5678
-        runAsUser: 5678
+securityContext:
+  runAsGroup: 5678
+  runAsUser: 5678
 ```
 
 to:
 
 ```yaml
-      securityContext:
-        runAsGroup: 5678
-        runAsUser: 5678
-        privileged: true
+securityContext:
+  runAsGroup: 5678
+  runAsUser: 5678
+  privileged: true
 ```
 
 and similarly change the securityContext section of the init container from:
 
 ```yaml
-      securityContext:
-        capabilities:
-          add:
-          - NET_ADMIN
-          - NET_RAW
-        runAsGroup: 0
-        runAsUser: 0
+securityContext:
+  capabilities:
+    add:
+    - NET_ADMIN
+    - NET_RAW
+  runAsGroup: 0
+  runAsUser: 0
 ```
 
 to:
 
 ```yaml
-      securityContext:
-        capabilities:
-          add:
-          - NET_ADMIN
-          - NET_RAW
-        runAsGroup: 0
-        runAsNonRoot: true
+securityContext:
+  capabilities:
+    add:
+    - NET_ADMIN
+    - NET_RAW
+  runAsGroup: 0
+  runAsNonRoot: true
+```
+
+Resources `requests cpu` will be changed from: 
+
+```yaml
+requests:                                                                                                       │
+  cpu: 50m
+```
+
+to: 
+
+```yaml
+requests:                                                                                                       │
+  cpu: 100m
+```
+
+Resources `limits` will be changed from: 
+
+```yaml
+limits:
+  cpu: 1000m
+  memory: 512Mi
+```
+
+to: 
+
+```yaml
+limits:
+  cpu: 500m
+  memory: 256Mi
 ```
 
 ### Workload matching
