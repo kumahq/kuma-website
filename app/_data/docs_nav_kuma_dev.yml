@@ -604,6 +604,15 @@ items:
             url: "/policies/service-health-probes/#kubernetes"
           - text: Universal probes
             url: "/policies/service-health-probes/#universal-probes"
+      - text: MeshTrace (Beta)
+        url: /policies/meshtrace/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtrace/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtrace/#configuration"
+          - text: Examples
+            url: "/policies/meshtrace/#examples"
   - title: Reference docs
     group: true
     items:
