@@ -78,7 +78,7 @@ by setting the `KUMA_DATAPLANE_RUNTIME_TOKEN` environment variable.
 
 ### Token Revocation
 
-Kuma does not keep the list of issued tokens.
+{{ site.mesh_product_name }} does not keep the list of issued tokens.
 Whenever a single token is compromised,
 we can add it to revocation list so that it becomes invalid.
 
