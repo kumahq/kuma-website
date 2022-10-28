@@ -10,15 +10,15 @@ You can join the slack channel or the community meetings as shown in the [commun
 
 ## Documentation
 
-You can edit this documentation. To do so checkout [the getting started doc](https://github.com/kumahq/kuma-website/blob/master/CONTRIBUTING).
+You can edit this documentation. To do so checkout [the getting started doc](https://github.com/kumahq/kuma-website/blob/master/CONTRIBUTING.md).
 
 ## Core Code
 
-Most of Kuma is in Go. Checkout the [contributing](https://github.com/kumahq/kuma/blob/master/CONTRIBUTING) documentation on how to get started.
+Most of Kuma is in Go. Checkout the [contributing](https://github.com/kumahq/kuma/blob/master/CONTRIBUTING.md) documentation on how to get started.
 
 ## GUI Code
 
-The UI is in Vuejs and Checkout the [repo](https://github.com/kumahq/kuma-gui/blob/master/DEVELOPER) to see how to contribute.
+The UI is in Vuejs and Checkout the [repo](https://github.com/kumahq/kuma/blob/master/DEVELOPER.md) to see how to contribute.
 
 ## Testing unreleased versions
 

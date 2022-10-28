@@ -14,9 +14,9 @@ items:
         url: /introduction/architecture/
       - text: Kuma requirements
         url: /introduction/requirements/
-      - text: Release notes
-        url: https://github.com/kumahq/kuma/blob/master/CHANGELOG.md
-        absolute_url: true
+      # - text: Release notes
+      #   url: https://github.com/kumahq/kuma/blob/master/CHANGELOG.md
+      #   absolute_url: true
   - title: Get Started
     items:
       - text: Overview
@@ -48,7 +48,7 @@ items:
               - text: Kubernetes
                 url: /production/install/kubernetes/
               - text: Helm
-                url: /production/install/helm/
+                url: /production/install/helm/ 
               - text: OpenShift
                 url: /production/install/openshift/
           - text: Docker
@@ -254,6 +254,8 @@ items:
     items:
       - text: HTTP API
         url: /reference/http-api/
+      - text: Command line
+        url: /reference/cli/
       - text: Kubernetes annotations and labels
         url: /reference/kubernetes-annotations/
       - text: Kuma data collection

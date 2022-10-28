@@ -107,5 +107,5 @@ ResponseBandwidth defines a configuration to limit the speed of responding to th
 
 ## Matching
 
-`FaultInjection` is an [Inbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply#outbound-connection-policy).
+`FaultInjection` is an [Inbound Connection Policy](/docs/{{ page.version }}/features/policy-enforcement/choosing-policies).
 You can use all the tags in both `sources` and `destinations` sections.

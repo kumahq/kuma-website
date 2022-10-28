@@ -1,2 +1,59 @@
 # Anything after this line is manually maintained in _redirects
 # See app/_plugins/generators/redirects.rb to understand the above lines
+
+/docs/2.0.x/deployments/stand-alone /docs/latest/production/deployment-topologies/standalone  301
+/docs/2.0.x/deployments/multi-zone  /docs/latest/production/deployment-topologies/multi-zone  301
+/docs/2.0.x/quickstart/kubernetes /docs/latest/get-started/kubernetes-demo  301
+/docs/2.0.x/policies/external-services  /docs/latest/production/networking/external-services 301
+/docs/2.0.x/policies/introduction /docs/latest/features/policy-enforcement 301
+/docs/2.0.x/policies/mesh /docs/latest/production/deploy/cluster 301
+/docs/2.0.x/policies/mutual-tls /docs/latest/features/zero-trust/mutual-tls 301
+/docs/2.0.x/policies/mutual-tls.md#usage-of-provided-ca /docs/latest/features/zero-trust/mutual-tls#usage-of-provided-ca  301
+/docs/2.0.x/security/certificates/#user-to-control-plane-communication /docs/latest/features/zero-trust/certificates 301
+/docs/2.0.x/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy /docs/latest/features/policy-enforcement/choosing-policies  301
+/docs/2.0.x/policies/protocol-support-in-kuma /docs/latest/features/traffic/protocol-support  301
+/docs/2.0.x/policies/proxy-template /docs/latest/reference/proxy-template 301
+/docs/2.0.x/policies/traffic-log  /docs/latest/features/traffic/log 301
+/docs/2.0.x/policies/traffic-metrics  /docs/latest/features/observability/traffic-metrics 301
+/docs/2.0.x/policies/traffic-trace  /docs/latest/features/observability/traffic-tracing 301
+/docs/2.0.x/networking/transparent-proxying /docs/latest/production/networking/transparent-proxying 301
+/docs/2.0.x/policies/health-check /docs/latest/features/health-check/health-check-policy  301
+/docs/2.0.x/introduction/deployments  /docs/latest/production/deployment-topologies  301
+/docs/2.0.x/explore/zone-ingress  /docs/latest/features/multi-zone/zone-ingress 301
+/docs/2.0.x/explore/zoneegress  /docs/latest/features/multi-zone/zone-egress  301
+/docs/2.0.x/generated/resources/proxy_dataplane /docs/latest/reference/resources/proxy_dataplane  301
+/docs/2.0.x/networking/dns  /docs/latest/production/networking/dns  301
+/docs/2.0.x/networking/networking#kuma-dp-ports /docs/latest/production/networking/default-ports  301
+/docs/2.0.x/networking/networking  /docs/latest/production/networking/default-ports  301
+/docs/2.0.x/policies/traffic-permissions  /docs/latest/features/traffic/permissions 301
+
+/docs/2.0.x/generated/resources/* /docs/latest/reference/resources/:splat
+
+/docs/2.0.x/explore/dpp-on-universal#envoy  /docs/latest/production/dp/universal-dp#envoy 301
+/docs/2.0.x/explore/dpp-on-universal  /docs/latest/production/dp/universal-dp 301
+/docs/2.0.x/security/do-membership  /docs/latest/production/security/dp-membership  301
+/docs/2.0.x/explore/cli /docs/latest/reference/cli  301
+/docs/2.0.x/installation/helm /docs/latest/production/install/helm  301
+/docs/2.0.x/explore/inspect-api /docs/latest/features/debug/inspect-api 301
+/docs/2.0.x/documentation/configuration#postgres  /docs/latest/production/cp  301
+/docs/2.0.x/explore/dpp-on-kubernetes /docs/latest/production/dp/kubernetes-dp  301
+/docs/2.0.x/explore/gateway#builtin /docs/latest/production/gateway/built-in  301
+/docs/2.0.x/generated/resources/policy_meshgateway  /docs/latest/production/gateway/builtin-listeners 301
+/docs/2.0.x/policies/mesh-gateway-route /docs/latest/production/gateway/builtin-routes  301
+/docs/2.0.x/explore/dpp#dataplane-entity  /docs/latest/production/dp  301
+/docs/2.0.x/generated/kuma-cp /docs/latest/reference/cmd/kuma-cp/kuma-cp  301
+/docs/2.0.x/policies/service-health-probes  /docs/latest/features/health-check/service-health-probes  301
+/docs/2.0.x/security/dp-auth.md#data-plane-proxy-token  /docs/latest/production/security/dp-auth  301
+/docs/2.0.x/explore/dpp  /docs/latest/production/dp  301
+/docs/2.0.x/policies/circuit-breaker  /docs/latest/features/performance/circuit-breaker 301
+/docs/2.0.x/policies/fault-injection  /docs/latest/features/performance/fault-injection 301
+/docs/2.0.x/policies/mesh-gateway /docs/latest/production/gateway/built-in  301
+/docs/2.0.x/policies/rate-limit /docs/latest/features/performance/rate-limit  301
+/docs/2.0.x/policies/retry  /docs/latest/features/health-check/retry  301
+/docs/2.0.x/policies/timeout  /docs/latest/features/performance/timeout 301
+/docs/2.0.x/policies/traffic-route  /docs/latest/features/traffic/route 301
+/docs/2.0.x/policies/virtual-outbound /docs/latest/production/networking/outbound-communication 301
+/docs/2.0.x/explore/gateway /docs/latest/production/gateway 301
+/docs/2.0.x/policies/locality-aware /docs/latest/features/multi-zone/locality-aware 301
+/docs/2.0.x/security/zone-ingress-auth  /docs/latest/features/multi-zone/zone-ingress-auth  301
+/docs/2.0.x/security/zoneegress-auth  /docs/latest/features/multi-zone/zone-egress-auth 301
