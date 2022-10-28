@@ -35,7 +35,9 @@
 /docs/2.0.x/explore/cli /docs/latest/reference/cli  301
 /docs/2.0.x/installation/helm /docs/latest/production/install/helm  301
 /docs/2.0.x/explore/inspect-api /docs/latest/features/debug/inspect-api 301
+/docs/2.0.x/documentation/configuration  /docs/latest/production/cp  301
 /docs/2.0.x/documentation/configuration#postgres  /docs/latest/production/cp  301
+/docs/2.0.x/documentation/configuration#store /docs/latest/production/cp  301
 /docs/2.0.x/explore/dpp-on-kubernetes /docs/latest/production/dp/kubernetes-dp  301
 /docs/2.0.x/explore/gateway#builtin /docs/latest/production/gateway/built-in  301
 /docs/2.0.x/generated/resources/policy_meshgateway  /docs/latest/production/gateway/builtin-listeners 301
@@ -57,3 +59,7 @@
 /docs/2.0.x/policies/locality-aware /docs/latest/features/multi-zone/locality-aware 301
 /docs/2.0.x/security/zone-ingress-auth  /docs/latest/features/multi-zone/zone-ingress-auth  301
 /docs/2.0.x/security/zoneegress-auth  /docs/latest/features/multi-zone/zone-egress-auth 301
+/docs/2.0.x/explore/observability /docs/latest/features/observability 301
+/docs/2.0.x/explore/observability#configuring-datadog /docs/latest/features/observability/datadog
+/docs/2.0.x/security/api-access-control /docs/latest/production/security/api-access-control 301
+/docs/2.0.x/security/api-access-control#generate-user-token /docs/latest/production/security/api-access-control#generate-user-token 301
