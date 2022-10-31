@@ -604,6 +604,8 @@ items:
             url: "/policies/meshtrace/#configuration"
           - text: Examples
             url: "/policies/meshtrace/#examples"
+      - text: MeshAccessLog (Beta)
+        url: /policies/meshaccesslog/
   - title: Reference docs
     group: true
     items:
