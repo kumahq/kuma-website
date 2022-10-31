@@ -22,8 +22,6 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 | MeshSubset        | ✅         | ❌   | ❌    |
 | MeshService       | ✅         | ✅   | ❌    |
 | MeshServiceSubset | ✅         | ❌   | ❌    |
-| MeshGatewayRoute  | ✅         | ❌   | ❌    |
-| MeshHTTPRoute     | ❌         | ❌   | ❌    |
 
 If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/matching).
 
@@ -197,7 +195,7 @@ format:
 
 #### TCP
 
-You can configure a `TCP` backend with an address:
+You can configure a TCP backend with an address:
 
 ```yaml
 backends:
@@ -207,7 +205,7 @@ backends:
 
 #### File
 
-You can configure a `File` backend with a path:
+You can configure a file backend with a path:
 
 ```yaml
 backends:
