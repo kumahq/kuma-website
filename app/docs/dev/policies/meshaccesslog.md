@@ -6,7 +6,7 @@ With the MeshAccessLog policy you can easily set up access logs on every data pl
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficLog](traffic-log).
+it should not be mixed with [TrafficLog](/docs/{{ page.version }}/policies/trafficlog).
 {% endwarning %}
 
 {% tip %}
@@ -25,7 +25,7 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 | MeshGatewayRoute  | ✅         | ❌   | ❌    |
 | MeshHTTPRoute     | ❌         | ❌   | ❌    |
 
-If you don't understand this table you should read [matching docs](matching).
+If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/matching).
 
 ## Configuration
 
