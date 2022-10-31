@@ -115,6 +115,7 @@ Example output:
 <details>
   <summary>TCP configuration with default fields:</summary>
 
+  <div markdown="1">
 ```yaml
 format:
   json:
@@ -139,12 +140,14 @@ format:
     - key: "bytes_received"
       value: "%BYTES_RECEIVED%"
 ```
+</div>
 
 </details>
 
 <details>
   <summary>HTTP configuration with default fields:</summary>
 
+<div markdown="1">
 ```yaml
 format:
   json:
@@ -187,6 +190,7 @@ format:
     - key: "upstream_host"
       value: "%UPSTREAM_HOST%"
 ```
+</div>
 
 </details>
 
