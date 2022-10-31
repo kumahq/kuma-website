@@ -54,17 +54,19 @@ export default class Sidebar {
   expandActiveGroup() {
     const currentPath = window.location.pathname;
     const activeLink = this.elem.querySelector(`a[href^='${currentPath}']`);
-    const topLevelGroup = activeLink.closest(`.sidebar-group.depth-0`);
+    if (activeLink) {
+      const topLevelGroup = activeLink.closest(`.sidebar-group.depth-0`);
 
-    if (topLevelGroup !== null) {
-      this.toggleGroup(topLevelGroup);
+      if (topLevelGroup !== null) {
+        this.toggleGroup(topLevelGroup);
 
-      const nestedGroup = activeLink.closest(`.sidebar-group.depth-1`);
-      if (nestedGroup !== null) {
-        this.toggleGroup(nestedGroup);
-        nestedGroup.scrollIntoView({ behavior: "smooth", block: "center" });
-      } else {
-        topLevelGroup.scrollIntoView({ behavior: "smooth", block: "center" });
+        const nestedGroup = activeLink.closest(`.sidebar-group.depth-1`);
+        if (nestedGroup !== null) {
+          this.toggleGroup(nestedGroup);
+          nestedGroup.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else {
+          topLevelGroup.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       }
     }
   }
