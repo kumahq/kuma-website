@@ -7,4 +7,4 @@ default:
       delete: true
     - color: 0052cc
       name: "area/infra"
-      description: "Anything that's more about the inner workings rather of the site rather than content (Jekyll, CSS...)"
+      description: "Anything related the inner workings rather of the site rather than content (Jekyll, CSS...)"
