@@ -1,9 +1,12 @@
+---
+title: Mesh Trace
+---
 # Mesh Trace (beta)
 
-::: warning
+{% warning %}
 This policy uses new policy matching algorithm and is in beta state,
 it should not be mixed with [TrafficTrace](traffic-trace.md).
-:::
+{% endwarning %}
 
 This policy enables publishing traces to a third party tracing solution.
 
@@ -15,7 +18,7 @@ Kuma currently supports the following trace exposition formats:
 * `zipkin` traces in this format can be sent to [many different tracing backends](https://github.com/openzipkin/openzipkin.github.io/issues/65) 
 * `datadog`
 
-::: warning
+{% warning %}
 Services still need to be instrumented to preserve the trace chain across requests made across different services.
 
 You can instrument with a language library of your choice ([for zipkin](https://zipkin.io/pages/tracers_instrumentation) and [for datadog](https://docs.datadoghq.com/tracing/setup_overview/setup/java/?tab=containers)).
@@ -27,7 +30,7 @@ For HTTP you can also manually forward the following headers:
 * `x-b3-spanid`
 * `x-b3-sampled`
 * `x-b3-flags`
-:::
+{% endwarning %}
 
 ## Matching matrix
 
@@ -44,12 +47,12 @@ If you don't understand this table you should read [matching docs](matching.md#p
 
 ## Add MeshTrace resource
 
-:::::::: tabs :options="{ useUrlFragment: false }"
-::::::: tab "Zipkin"
-:::::: tabs :options="{ useUrlFragment: false }"
-::::: tab "Kubernetes"
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Minimal example"
+{% tabs resource useUrlFragment=false %}
+{% tab resource Zipkin %}
+{% tabs zipkin useUrlFragment=false %}
+{% tab zipkin Kubernetes %}
+{% tabs zipkin-kubernetes useUrlFragment=false %}
+{% tab zipkin-kubernetes Minimal example %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -64,8 +67,8 @@ spec:
       - zipkin:
           url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
 ```
-:::
-::: tab "Full example"
+{% endtab %}
+{% tab zipkin-kubernetes Full example %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -101,15 +104,15 @@ spec:
       client:
         value: 40
 ```
-:::
-::::
+{% endtab %}
+{% endtabs %}
 
 Apply the configuration with `kubectl apply -f [..]`.
 
-:::::
-::::: tab "Universal"
-:::: tabs  :options="{ useUrlFragment: false }"
-::: tab "Minimal example"
+{% endtab %}
+{% tab zipkin Universal %}
+{% tabs zipkin-universal useUrlFragment=false %}
+{% tab zipkin-universal Minimal example %}
 
 ```yaml
 type: MeshTrace
@@ -122,8 +125,8 @@ spec:
           url: http://jaeger-collector:9411/api/v2/spans
 ```
 
-:::
-::: tab "Full example"
+{% endtab %}
+{% tab zipkin-universal Full example %}
 
 ```yaml
 type: MeshTrace
@@ -157,24 +160,24 @@ spec:
         value: 40
 ```
 
-:::
-::::
+{% endtab %}
+{% endtabs %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../reference/http-api.md).
 
-:::::
-::::::
-:::::::
-::::::: tab "Datadog"
+{% endtab %}
+{% endtabs %}
+{% endtab %}
+{% tab resource Datadog %}
 
-::: tip
+{% tip %}
 This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](../explore/observability.md#configuring-datadog).
-:::
+{% endtip %}
 
-:::::: tabs :options="{ useUrlFragment: false }"
-::::: tab "Kubernetes"
-:::: tabs :options="{ useUrlFragment: false }"
-::: tab "Minimal example"
+{% tabs datadog useUrlFragment=false %}
+{% tab datadog Kubernetes %}
+{% tabs kubernetes useUrlFragment=false %}
+{% tab kubernetes Minimal example %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -189,8 +192,8 @@ spec:
       - datadog:
           url: http://trace-svc.default.svc.cluster.local:8126
 ```
-:::
-::: tab "Full example"
+{% endtab %}
+{% tab kubernetes Full example %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -226,17 +229,17 @@ spec:
       client:
         value: 40
 ```
-:::
-::::
+{% endtab %}
+{% endtabs %}
 
 where `trace-svc` is the name of the Kubernetes Service you specified when you configured the Datadog APM agent.
 
 Apply the configuration with `kubectl apply -f [..]`.
 
-:::::
-::::: tab "Universal"
-:::: tabs  :options="{ useUrlFragment: false }"
-::: tab "Minimal example"
+{% endtab %}
+{% tab datadog Universal %}
+{% tabs universal useUrlFragment= false %}
+{% tab universal Minimal example %}
 
 ```yaml
 type: MeshTrace
@@ -248,8 +251,8 @@ spec:
       - datadog:
           url: http://127.0.0.1:8126
 ```
-:::
-::: tab "Full example"
+{% endtab %}
+{% tab universal Full example %}
 
 ```yaml
 type: MeshTrace
@@ -282,21 +285,21 @@ spec:
       client:
         value: 40
 ```
-:::
-::::
+{% endtab %}
+{% endtabs %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../reference/http-api.md).
 
-:::::
-::::::
+{% endtab %}
+{% endtabs %}
 
 The `splitService` property determines if Datadog service names should be split based on traffic direction and destination.
 For example, with `splitService: true` and a `backend` service that communicates with a couple of databases,
 you would get service names like `backend_INBOUND`, `backend_OUTBOUND_db1`, and `backend_OUTBOUND_db2` in Datadog.
 By default, this property is set to false.
 
-:::::::
-::::::::
+{% endtab %}
+{% endtabs %}
 
 ## Configuration options
 
