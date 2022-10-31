@@ -604,6 +604,15 @@ items:
             url: "/policies/meshtrace/#configuration"
           - text: Examples
             url: "/policies/meshtrace/#examples"
+      - text: MeshAccessLog (Beta)
+        url: /policies/meshaccesslog/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshaccesslog/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshaccesslog/#configuration"
+          - text: Examples
+            url: "/policies/meshaccesslog/#examples"
   - title: Reference docs
     group: true
     items:
