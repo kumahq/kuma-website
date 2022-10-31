@@ -6,12 +6,12 @@ With the MeshAccessLog policy you can easily set up access logs on every data pl
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficLog](traffic-log.md).
+it should not be mixed with [TrafficLog](traffic-log).
 {% endwarning %}
 
 {% tip %}
 In the rest of this page we assume you have already configured your observability tools to work with Kuma.
-If you haven't already read the [observability docs](../explore/observability).
+If you haven't already read the [observability docs](/docs/{{ page.version }}/explore/observability).
 {% endtip %}
 
 ## TargetRef support matrix
@@ -25,7 +25,7 @@ If you haven't already read the [observability docs](../explore/observability).
 | MeshGatewayRoute  | ✅         | ❌   | ❌    |
 | MeshHTTPRoute     | ❌         | ❌   | ❌    |
 
-If you don't understand this table you should read [matching docs](matching.md).
+If you don't understand this table you should read [matching docs](matching).
 
 ## Configuration
 
@@ -57,7 +57,7 @@ All additional access log _command operators_ are valid to use with both `TCP` a
 
 If a _command operator_ is specific to `HTTP` traffic, such as `%REQ(X?Y):Z%` or `%RESP(X?Y):Z%`, it will be replaced by a symbol "`-`" in case of `TCP` traffic.
 
-Internally, Kuma [determines traffic protocol](protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
+Internally, Kuma [determines traffic protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
 
 [//]: # (Comments below are copied from the old policy - just to make sure, this won't work yet because we don't support MeshServiceSubset right?)
 
