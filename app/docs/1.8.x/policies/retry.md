@@ -167,9 +167,9 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
   ```yaml
   retryOn:
-  - gateway-error
-  - connect-failure
-  - refused-stream
+  - gateway_error
+  - connect_failure
+  - refused_stream
   ```
   {% endtip %}
 
