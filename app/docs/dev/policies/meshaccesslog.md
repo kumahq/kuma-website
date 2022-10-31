@@ -6,7 +6,7 @@ With the MeshAccessLog policy you can easily set up access logs on every data pl
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficLog](/docs/{{ page.version }}/policies/trafficlog).
+it should not be mixed with [TrafficLog](/docs/{{ page.version }}/policies/traffic-log).
 {% endwarning %}
 
 {% tip %}
