@@ -59,14 +59,6 @@ If a _command operator_ is specific to `HTTP` traffic, such as `%REQ(X?Y):Z%` or
 
 Internally, Kuma [determines traffic protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
 
-[//]: # (Comments below are copied from the old policy - just to make sure, this won't work yet because we don't support MeshServiceSubset right?)
-
-[//]: # ({% tip %})
-
-[//]: # (To provide different format for TCP and HTTP logging you can define two `MeshAccessLog` entities, one for TCP and one for HTTP with matching `kuma.io/protocol` selector.)
-
-[//]: # ({% endtip %})
-
 There are two types of `format` - `plain` and `json`.
 
 Plain will accept a string with _command operators_ and produce a string output.
