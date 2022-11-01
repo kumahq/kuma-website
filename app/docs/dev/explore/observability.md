@@ -100,7 +100,7 @@ With Grafana installed you can configure a new datasource with url:`http://jaege
 Grafana will then be able to retrieve the traces from Jaeger.
 
 <center>
-<img src="/assets/images/docs/jaeger_grafana_config.png" alt="Jaeger Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/jaeger_grafana_config.jpg" alt="Jaeger Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 You can then add a [TrafficTrace policy](/docs/{{ page.version }}/policies/traffic-trace) to your mesh to start emitting traces.
@@ -115,7 +115,7 @@ To visualise your **containers' logs** and your **access logs** you need to have
 {% endtip %}
 
 <center>
-<img src="/assets/images/docs/loki_grafana_config.png" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/loki_grafana_config.jpg" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 You can then add a [TrafficLog policy](/docs/{{ page.version }}/policies/traffic-log) to your mesh to start emitting access logs. Loki will pick up logs that are sent to `stdout`. To send logs to `stdout` you can configure the logging backend as shown below:
