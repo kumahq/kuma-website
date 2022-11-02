@@ -34,3 +34,82 @@ To see if you may need to increase your control-plane's spec, there are two main
 For any large mesh using transparent-proxy it's highly recommended to use [reachable-services](/docs/{{ page.version }}/networking/transparent-proxying#reachable-services).
 
 You can also find tuning configuration in the [fine-tuning](/docs/{{ page.version }}/documentation/fine-tuning) section of the docs.
+
+## Sizing your dataplane container on Kubernetes
+
+When deploying Kuma on Kubernetes, dataplane is deployed as a separate container in Pod. By default, `kuma-sidecar` container is configured like this:
+
+```yaml
+resources:
+    requests:
+        cpu: 50m
+        memory: 64Mi
+    limits:
+        cpu: 500m
+        memory: 512Mi
+```
+
+This resources configuration should be enough for most use cases. In some cases like when you cannot scale horizontally, or your service handle lots of concurrent traffic, you may need to change those values. You can do it using [ContainerPatch resource](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration). 
+
+To change thoes resources, you need `ContainerPatch` with `sidecarPatch`. You have multiple options. You can modify single parameter of resource section:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ContainerPatch
+metadata:
+  name: container-patch-1
+  namespace: kuma-system
+spec:
+  sidecarPatch:
+    - op: add
+      path: /resources/requests/cpu
+      value: '"1"'
+```
+
+You can modify whole `limits` section:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ContainerPatch
+metadata:
+  name: container-patch-1
+  namespace: kuma-system
+spec:
+  sidecarPatch:
+    - op: add
+      path: /resources/limits
+      value: '{
+        "cpu": "1",
+        "memory": "1G"
+      }'
+```
+
+Or you can modify whole `resources` section:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ContainerPatch
+metadata:
+  name: container-patch-1
+  namespace: kuma-system
+spec:
+  sidecarPatch:
+    - op: add
+      path: /resources
+      value: '{
+        "limits": {
+            "cpu": "1",
+            "memory": "1G"
+        },
+        "requests": {
+            "cpu": "500m",
+            "memory": "500Mi"
+        }
+    }'
+```
+
+Precise documentation on how to apply those `ContainerPatch` resources to specific Pod can be found [here](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#workload-matching).
+
+{% tip %}
+**Note**: When changing those resources, remember that they must be described using [Kubernetes resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes)
+{% endtip %} 
