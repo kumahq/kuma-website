@@ -2,7 +2,7 @@
 title: Kuma data collection
 ---
 
-Kuma can collect information about your deployment to continuously improve the product and gather anonymous feedback. The collected data is sent to Kong servers securely for storage and aggregation.
+{{site.mesh_product_name}} can collect information about your deployment to continuously improve the product and gather anonymous feedback. The collected data is sent to Kong servers securely for storage and aggregation.
 
 You can enable data collection when installing the control plane in Kubernetes, of before running `kuma-cp` in Universal mode.
 
@@ -22,14 +22,14 @@ Or you can set the `reports.enabled` field to `true` in the config YAML file.
 
 | Data field | Definition | 
 |---|---|
-| version  | The installed version of Kuma you're running | 
-| product  | Static value "Kuma" | 
+| version  | The installed version of {{site.mesh_product_name}} you're running | 
+| product  | Static value "{{site.mesh_product_name}}" | 
 | unique_id  | Control plane hostname + randon UUID, generated each time control plane instance is restarted | 
 | backend  | Where your config is stored. One of in memory, etcd, Postgres | 
 | mode    | One of standalone or multizone |
-| hostname | The hostname of each Kuma control plane you deploy |
+| hostname | The hostname of each {{site.mesh_product_name}} control plane you deploy |
 | signal | One of `start` or `ping`. `start` sent when control plane starts, then `ping` once per hour | 
-| cluster_id | Unique identifier for entire Kuma cluster. Value is the same for all control planes in the cluster |
+| cluster_id | Unique identifier for entire {{site.mesh_product_name}} cluster. Value is the same for all control planes in the cluster |
 | dps_total | The total number of data plane proxies across all meshes | 
 | meshes_total | The total number of meshes deployed | 
 | zones_total | The total number of zones deployed | 

@@ -2,19 +2,19 @@
 title: Mesh
 ---
 
-This resource describes a very important concept in Kuma, and that is the ability of creating multiple isolated service meshes within the same Kuma cluster which in turn make Kuma a very simple and easy project to operate in environments where more than one mesh is required based on security, segmentation or governance requirements.
+This resource describes a very important concept in {{site.mesh_product_name}}, and that is the ability of creating multiple isolated service meshes within the same {{site.mesh_product_name}} cluster which in turn make {{site.mesh_product_name}} a very simple and easy project to operate in environments where more than one mesh is required based on security, segmentation or governance requirements.
 
 Typically we would want to create a `Mesh` per line of business, per team, per application or per environment or for any other reason. Typically multiple meshes are being created so that a service mesh can be adopted by an organization with a gradual roll-out that doesn't require all the teams and their applications to coordinate with each other, or as an extra layer of security and segmentation for our services so that - for example - policies applied to one `Mesh` do not affect another `Mesh`.
 
-`Mesh` is the parent resource of every other resource in Kuma, including: 
+`Mesh` is the parent resource of every other resource in {{site.mesh_product_name}}, including: 
 
 * [Data plane proxies](/docs/{{ page.version }}/explore/dpp)
 * [Policies](/policies)
 
-In order to use Kuma at least one `Mesh` must exist, and there is no limit to the number of Meshes that can be created. When a data plane proxy connects to the control plane (`kuma-cp`) it specifies to what `Mesh` resource it belongs: a data plane proxy can only belong to one `Mesh` at a time.
+In order to use {{site.mesh_product_name}} at least one `Mesh` must exist, and there is no limit to the number of Meshes that can be created. When a data plane proxy connects to the control plane (`kuma-cp`) it specifies to what `Mesh` resource it belongs: a data plane proxy can only belong to one `Mesh` at a time.
 
 {% tip %}
-When starting a new Kuma cluster from scratch a `default` Mesh is being created automatically.
+When starting a new {{site.mesh_product_name}} cluster from scratch a `default` Mesh is being created automatically.
 {% endtip %}
 
 Besides the ability of being able to create virtual service mesh, a `Mesh` resource will also be used for:
@@ -24,7 +24,7 @@ Besides the ability of being able to create virtual service mesh, a `Mesh` resou
 * [Traffic Trace](/docs/{{ page.version }}/policies/traffic-trace/), to setup tracing backends that will be used to collect traces of our service traffic within the Mesh.
 * [Zone Egress](/docs/{{ page.version }}/explore/zoneegress), to setup if `ZoneEgress` should be used for cross zone and external service communication.
 
-When [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) is enabled in `builtin` mode, each `Mesh` will provision its own CA root certificate and key unless we explicitly decide to use the same CA by sharing the same certificate and key across multiple meshes. When the CAs of our Meshes are different, data plane proxies from one `Mesh` will not be able to consume data plane proxies belonging to another `Mesh` and an intermediate API Gateway must be used in order to enable cross-mesh communication. Kuma supports a [gateway mode](/docs/{{ page.version }}/explore/gateway) to make this happen.
+When [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) is enabled in `builtin` mode, each `Mesh` will provision its own CA root certificate and key unless we explicitly decide to use the same CA by sharing the same certificate and key across multiple meshes. When the CAs of our Meshes are different, data plane proxies from one `Mesh` will not be able to consume data plane proxies belonging to another `Mesh` and an intermediate API Gateway must be used in order to enable cross-mesh communication. {{site.mesh_product_name}} supports a [gateway mode](/docs/{{ page.version }}/explore/gateway) to make this happen.
 
 ## Usage
 
@@ -73,14 +73,14 @@ spec:
     metadata:
       ...
       annotations:
-        # indicate to Kuma what is the Mesh that the data plane proxy belongs to
+        # indicate to {{site.mesh_product_name}} what is the Mesh that the data plane proxy belongs to
         kuma.io/mesh: default
     spec:
       containers:
         ...
 ```
 
-A `Mesh` may span multiple Kubernetes namespaces. Any Kuma resource in the cluster which
+A `Mesh` may span multiple Kubernetes namespaces. Any {{site.mesh_product_name}} resource in the cluster which
 specifies a particular `Mesh` will be part of that `Mesh`.
 
 {% endtab %}
@@ -109,21 +109,21 @@ By using the `mesh` property, like:
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
-mesh: default # indicate to Kuma what is the Mesh that the resource belongs to
+mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the resource belongs to
 metadata:
   name: route-1
 spec:
   ...
 ```
 
-Kuma consumes all [Policies](/policies) on the cluster and joins each to an individual `Mesh`, identified by this property.
+{{site.mesh_product_name}} consumes all [Policies](/policies) on the cluster and joins each to an individual `Mesh`, identified by this property.
 {% endtab %}
 {% tab policies Universal %}
 By using the `mesh` property, like:
 ```yaml
 type: TrafficRoute
 name: route-1
-mesh: default # indicate to Kuma what is the Mesh that the resource belongs to
+mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the resource belongs to
 ...
 ```
 {% endtab %}
@@ -131,7 +131,7 @@ mesh: default # indicate to Kuma what is the Mesh that the resource belongs to
 
 ### Controlling the passthrough mode
 
-In its default setup, Kuma allows any non-mesh traffic to pass Envoy without applying any policy. For instance if a service needs to send a request to `http://example.com`, all requests won't be logged even if a traffic logging is enabled in the mesh where the service is deployed.
+In its default setup, {{site.mesh_product_name}} allows any non-mesh traffic to pass Envoy without applying any policy. For instance if a service needs to send a request to `http://example.com`, all requests won't be logged even if a traffic logging is enabled in the mesh where the service is deployed.
 The passthrough mode is enabled by default on all the dataplane proxies in transparent mode in a Mesh. This behavior can be changed by setting the `networking.outbound.passthrough` in the Mesh resource. Example:
 
 {% tabs passthrough-mode useUrlFragment=false %}

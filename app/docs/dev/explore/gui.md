@@ -2,13 +2,13 @@
 title: GUI
 ---
 
-Kuma now ships with a basic web-based GUI that will serve as a visual overview of your dataplanes, meshes, and various traffic policies.
+{{site.mesh_product_name}} now ships with a basic web-based GUI that will serve as a visual overview of your dataplanes, meshes, and various traffic policies.
 
 {% tip %}
 The GUI pairs with the HTTP API — Read more about the HTTP API [here](/docs/{{ page.version }}/reference/http-api)
 {% endtip %}
 
-When launching Kuma, the GUI will start by default on the API port, and defaults to `:5681/gui`. You can access it in your web browser by going to `http://localhost:5681/gui`.
+When launching {{site.mesh_product_name}}, the GUI will start by default on the API port, and defaults to `:5681/gui`. You can access it in your web browser by going to `http://localhost:5681/gui`.
 
 ## Getting Started
 When you run the GUI for the first time, you’ll be presented with the Wizard:
@@ -18,9 +18,9 @@ When you run the GUI for the first time, you’ll be presented with the Wizard:
 </center>
 
 ### This tool will:
-1. Confirm that Kuma is running
+1. Confirm that {{site.mesh_product_name}} is running
 2. Determine if your environment is either Universal or Kubernetes
-3. Provide instructions on how to add dataplanes (if none have yet been added). The instructions provided will be based on your Kuma environment -- Universal or Kubernetes
+3. Provide instructions on how to add dataplanes (if none have yet been added). The instructions provided will be based on your {{site.mesh_product_name}} environment -- Universal or Kubernetes
 4. Provide a short list of dataplanes found and their status (online or offline), in order to confirm that things are working accordingly and the app can display information
 
 ## Mesh Overview

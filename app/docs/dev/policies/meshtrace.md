@@ -12,7 +12,7 @@ This policy enables publishing traces to a third party tracing solution.
 Tracing is supported over HTTP, HTTP2, and gRPC protocols.
 You must [explicitly specify the protocol](../protocol-support-in-kuma) for each service and data plane proxy you want to enable tracing for.
 
-Kuma currently supports the following trace exposition formats:
+{{site.mesh_product_name}} currently supports the following trace exposition formats:
 
 - `zipkin` traces in this format can be sent to [many different tracing backends](https://github.com/openzipkin/openzipkin.github.io/issues/65)
 - `datadog`

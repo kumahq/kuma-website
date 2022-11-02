@@ -2,11 +2,11 @@
 title: Service Health Probes
 ---
 
-Kuma is able to track the status of the Envoy proxy and the underlying app.
+{{site.mesh_product_name}} is able to track the status of the Envoy proxy and the underlying app.
 
 Compared to `HealthCheck` policies, Health Probes have the following advantages:
 
-- knowledge about health is propagated back to `kuma-cp` and is visible in both in Kuma GUI and Kuma CLI
+- knowledge about health is propagated back to `kuma-cp` and is visible in both in {{site.mesh_product_name}} GUI and {{site.mesh_product_name}} CLI
 - scalable with thousands of data plane proxies
 
 Unlike `HealthCheck` policies, Health Probes:
@@ -35,11 +35,11 @@ This `health.ready` status is intended to show the status of the endpoint itself
 It is set differently depending on the environment ([Kubernetes](#kubernetes) or [Universal](#universal-probes)).
 It's treated the same way regardless of the environment:
 
-- if `health.ready` is true or `health` section is missing - Kuma considers the inbound as healthy and includes it 
+- if `health.ready` is true or `health` section is missing - {{site.mesh_product_name}} considers the inbound as healthy and includes it 
   into load balancing set.
-- if `health.ready` is false -  Kuma doesn't include the inbound into the load balancing set.
+- if `health.ready` is false -  {{site.mesh_product_name}} doesn't include the inbound into the load balancing set.
 
-Also, `health.ready` is used to compute the status of the data plane proxy and service. You can see these statuses both in Kuma GUI and Kuma CLI:
+Also, `health.ready` is used to compute the status of the data plane proxy and service. You can see these statuses both in {{site.mesh_product_name}} GUI and {{site.mesh_product_name}} CLI:
 
 Data plane proxy health follows these rules:
 
@@ -57,7 +57,7 @@ Service health is computed by aggregating the health of all data plane proxies t
 
 ## Kubernetes
 
-Kuma leverages container statuses within the pod to evaluate `dataplane.inbound.health` and will follow these rules:
+{{site.mesh_product_name}} leverages container statuses within the pod to evaluate `dataplane.inbound.health` and will follow these rules:
 
 - If the sidecar container is not ready then all inbound will have `health=false`.
 - If the side container is ready then the health of the inbound will be whatever is the readiness of the container which exposes the port used by the inbound. 
@@ -67,7 +67,7 @@ Kuma leverages container statuses within the pod to evaluate `dataplane.inbound.
 For better lifecycle management Kubernetes has [readiness, liveness and startup probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
 
 When using mTLS the container ports are not available outside the pod and Kubernetes will fail to check the probes.
-To work around this Kuma generates a special non-mTLs listener and overrides the probe definitions in the Pod to proxy them through this sidecar listener.
+To work around this {{site.mesh_product_name}} generates a special non-mTLs listener and overrides the probe definitions in the Pod to proxy them through this sidecar listener.
 These are called *Virtual probes*.
 
 {% warning %}
@@ -85,7 +85,7 @@ livenessProbe:
   periodSeconds: 3
 ```
 
-Kuma will replace it with:
+{{site.mesh_product_name}} will replace it with:
 
 ```yaml
 livenessProbe:
@@ -119,7 +119,7 @@ annotations:
 {% endtab %}
 {% endtabs %}
 
-You can also disable Kuma's probe virtualization:
+You can also disable {{site.mesh_product_name}}'s probe virtualization:
 
 {% tabs probe-visualization useUrlFragment=false %}
 {% tab probe-visualization control plane config %}
@@ -145,8 +145,8 @@ annotations:
 ## Universal probes
 
 On Universal there is no single standard for probing the service.
-For health checking, the `Dataplane` status on Universal Kuma uses Envoy's Health Discovery Service (HDS).
-Envoy does health checks and reports the status back to the Kuma Control Plane.
+For health checking, the `Dataplane` status on Universal {{site.mesh_product_name}} uses Envoy's Health Discovery Service (HDS).
+Envoy does health checks and reports the status back to the {{site.mesh_product_name}} Control Plane.
 
 In order to configure health checks for your `Dataplane` you have to update `inbound` config with `serviceProbe`:
 
@@ -170,11 +170,11 @@ networking:
         kuma.io/protocol: http
 ```
 
-If there is a `serviceProbe` configured for the inbound, Kuma will automatically fill the `inbound.health` section and update it 
+If there is a `serviceProbe` configured for the inbound, {{site.mesh_product_name}} will automatically fill the `inbound.health` section and update it 
 with the interval equal to `KUMA_DP_SERVER_HDS_REFRESH_INTERVAL`.
 Alternatively, it's possible to omit a `serviceProbe` section and develop custom automation that periodically updates the `health` of the inbound.
 
-If the grpc stream with Envoy is disconnected then Kuma considers this proxy offline.
+If the grpc stream with Envoy is disconnected then {{site.mesh_product_name}} considers this proxy offline.
 It will, however, still advertise inbounds using the final update on their health before disconnection.
 This is to avoid connection issues between `kuma-cp` and `kuma-dp` blocking data plane traffic.
 

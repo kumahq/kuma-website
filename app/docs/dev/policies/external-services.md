@@ -110,7 +110,7 @@ The first approach has an advantage that we can apply HTTP based policies, becau
 
 * `tags` the external service can include an arbitrary number of tags, where:
   *  `kuma.io/service` is mandatory.
-  *  `kuma.io/protocol` tag is also taken into account and supports the standard Kuma protocol values. It designates the specific protocol for the service (one of: `http`, `https`, `tcp`, `grpc`, `kafka`, default: `tcp`).
+  *  `kuma.io/protocol` tag is also taken into account and supports the standard {{site.mesh_product_name}} protocol values. It designates the specific protocol for the service (one of: `http`, `https`, `tcp`, `grpc`, `kafka`, default: `tcp`).
   *  `kuma.io/zone` tag is taken into account when [`locality aware load balancing`](#external-services-and-locality-aware-load-balancing) is enabled or external service should be [accessible only from the specific zone](#external-services-accessible-from-specific-zone-through-zoneegress).
 * ` networking` describes the networking configuration of the external service:
     * `address` is the address where the external service can be reached.
@@ -207,7 +207,7 @@ In this example, when all the conditions mentioned above are fulfilled if the se
 
 ## Builtin Gateway support
 
-Kuma Gateway fully supports external services.
+{{site.mesh_product_name}} Gateway fully supports external services.
 Note that mesh Dataplanes can be configured with the same `kuma.io/service` tag as an external service resource.
-In this scenario, Kuma Gateway will prefer the ExternalService and not route any traffic to the Dataplanes.
+In this scenario, {{site.mesh_product_name}} Gateway will prefer the ExternalService and not route any traffic to the Dataplanes.
 Note that before gateway becomes generally available this behaviour will change to be the same as for any other dataplanes.

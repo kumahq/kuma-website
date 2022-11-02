@@ -89,7 +89,7 @@ The control plane will then verify the data plane proxy resources that are conne
 
 ### Token Revocation
 
-Kuma does not keep the list of issued tokens. Whenever the single token is compromised, we can add it to revocation list so it's no longer valid.
+{{site.mesh_product_name}} does not keep the list of issued tokens. Whenever the single token is compromised, we can add it to revocation list so it's no longer valid.
 
 Every token has its own ID which is available in payload under `jti` key. You can extract ID from token using jwt.io or [`jwt-cli`](https://www.npmjs.com/package/jwt-cli) tool. Here is example of `jti`
 

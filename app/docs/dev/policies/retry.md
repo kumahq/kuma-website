@@ -6,7 +6,7 @@ title: Retry
 Retry is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
 {% endtip %}
 
-This policy enables Kuma to know how to behave if there is a failed scenario (i.e. HTTP request) which could be retried.
+This policy enables {{site.mesh_product_name}} to know how to behave if there is a failed scenario (i.e. HTTP request) which could be retried.
 
 ## Usage
 

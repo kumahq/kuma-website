@@ -5,7 +5,7 @@ title: What is Service Mesh?
 Service Mesh is a technology pattern that implements a better way to implement modern networking and connectivity among the different services that make up an application. While it is commonly used in the context of microservices, it can be used to improve connectivity among every architecture and on every platform like VMs and containers.
 
 {% tip %}
-**Reliable service connectivity** is a pre-requisite for every modern digital application. Transitioning to microservices - and to the Cloud - can be disastrous if network connectivity is not taken care of, and this is exactly why Kuma was built.
+**Reliable service connectivity** is a pre-requisite for every modern digital application. Transitioning to microservices - and to the Cloud - can be disastrous if network connectivity is not taken care of, and this is exactly why {{site.mesh_product_name}} was built.
 {% endtip %}
 
 When a service wants to communicate to another service over the network - like a monolith talking to a database or a microservices talking to another microservice - by default the connectivity among them is unreliable: the network can be slow, it is unsecure by default, and by default of those network requests are not being logged anywhere in case we need to debug an error.
@@ -23,7 +23,7 @@ While having data plane proxies deployed alongside our services helps with the n
 <img src="/assets/images/docs/0.4.0/diagram-14.jpg" alt="" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-We are going to be having many proxies connected to the control plane in order to always propagate the latest configuration, while simultaneously processing the service-to-service traffic among our infrastructure. Kuma is a control plane (and it is being shipped in a `kuma-cp` binary) while Envoy is a data plane proxy (shipped as an `envoy` binary). When using Kuma we don't have to worry about learning to use Envoy, because Kuma abstracts away that complexity by bundling Envoy into another binary called `kuma-dp` (`kuma-dp` under the hood will invoke the `envoy` binary but that complexity is hidden from you, the end user of Kuma).
+We are going to be having many proxies connected to the control plane in order to always propagate the latest configuration, while simultaneously processing the service-to-service traffic among our infrastructure. {{site.mesh_product_name}} is a control plane (and it is being shipped in a `kuma-cp` binary) while Envoy is a data plane proxy (shipped as an `envoy` binary). When using {{site.mesh_product_name}} we don't have to worry about learning to use Envoy, because {{site.mesh_product_name}} abstracts away that complexity by bundling Envoy into another binary called `kuma-dp` (`kuma-dp` under the hood will invoke the `envoy` binary but that complexity is hidden from you, the end user of {{site.mesh_product_name}}).
 
 Service Mesh does not introduce new concerns or use-cases: it addresses a concern that we are already taking care of (usually by writing more code, if we are doing anything at all): dealing with the connectivity in our network. 
 
@@ -31,4 +31,4 @@ Service Mesh does not introduce new concerns or use-cases: it addresses a concer
 <img src="/assets/images/docs/0.5.0/diagram-01.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-As we will learn, Kuma takes care of these concerns so that we don't have to worry about the network, and in turn making our applications more reliable.
+As we will learn, {{site.mesh_product_name}} takes care of these concerns so that we don't have to worry about the network, and in turn making our applications more reliable.

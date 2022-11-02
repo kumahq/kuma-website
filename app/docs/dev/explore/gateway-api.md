@@ -2,12 +2,12 @@
 title: Kubernetes Gateway API
 ---
 
-Kuma supports configuring [built-in gateway](/docs/{{ page.version }}/explore/gateway) using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
+{{site.mesh_product_name}} supports configuring [built-in gateway](/docs/{{ page.version }}/explore/gateway) using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
 ## Installation
 
 {% warning %}
-[Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) is still beta, therefore Kuma's integration provides the same level of stability.
+[Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) is still beta, therefore {{site.mesh_product_name}}'s integration provides the same level of stability.
 
 Gateway API is not supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/explore/gateway).
 {% endwarning %}
@@ -44,7 +44,7 @@ if the Gateway API CRDs are present.
 {% endtab %}
 {% tab usage Custom install %}
 
-If you've installed Kuma some other way, you can create your own `GatewayClass`
+If you've installed {{site.mesh_product_name}} some other way, you can create your own `GatewayClass`
 using the `controllerName: gateways.kuma.io/controller`:
 
 ```sh
@@ -75,7 +75,7 @@ spec:
 " | kubectl apply -f -
 ```
 
-When a user applies a `Gateway` resource, Kuma automatically creates a `Deployment` of built-in gateways with a corresponding `Service`.
+When a user applies a `Gateway` resource, {{site.mesh_product_name}} automatically creates a `Deployment` of built-in gateways with a corresponding `Service`.
 
 ```
 kubectl get pods -n kuma-demo
@@ -183,14 +183,14 @@ spec:
           - name: secret-tls
 ```
 
-Under the hood, Kuma CP copies the `Secret` to `kuma-system` namespace and converts it to [Kuma secret](/docs/{{ page.version }}/security/secrets).
+Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `kuma-system` namespace and converts it to [{{site.mesh_product_name}} secret](/docs/{{ page.version }}/security/secrets).
 It tracks all the changes to the secret and deletes it upon deletion of the original secret.
 
 ## Customization
 
 Gateway API provides the `parametersRef` field on `GatewayClass.spec`
 to provide additional, implementation-specific configuration to `Gateways`.
-When using Gateway API with Kuma, you can refer to a `MeshGatewayConfig` resource:
+When using Gateway API with {{site.mesh_product_name}}, you can refer to a `MeshGatewayConfig` resource:
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1alpha2
@@ -219,12 +219,12 @@ Note that `HTTPRoutes` must also have the annotation to reference a
 
 ## Multi-zone
 
-Gateway API isn't supported with multi-zone deployments, use Kuma's `MeshGateways`/`MeshGatewayRoutes` instead.
+Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product_name}}'s `MeshGateways`/`MeshGatewayRoutes` instead.
 
 ## How it works
 
-Kuma includes controllers that reconcile Gateway API CRDs and convert them into the corresponding Kuma gateway CRDs.
-This is why in the GUI, Kuma `MeshGateways`/`MeshGatewayRoutes` are visible and not Kubernetes Gateway API resources.
+{{site.mesh_product_name}} includes controllers that reconcile Gateway API CRDs and convert them into the corresponding {{site.mesh_product_name}} gateway CRDs.
+This is why in the GUI, {{site.mesh_product_name}} `MeshGateways`/`MeshGatewayRoutes` are visible and not Kubernetes Gateway API resources.
 
-Kubernetes Gateway API resources serve as the source of truth for Kuma gateways and
-any edits to Kuma gateway resources are overwritten.
+Kubernetes Gateway API resources serve as the source of truth for {{site.mesh_product_name}} gateways and
+any edits to {{site.mesh_product_name}} gateway resources are overwritten.

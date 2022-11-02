@@ -2,7 +2,7 @@
 title: MeshGateway
 ---
 
-`MeshGateway` is a policy used to configure [Kuma's builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin).
+`MeshGateway` is a policy used to configure [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin).
 It is used in combination with [`MeshGatewayRoute`](/docs/{{ page.version }}/policies/mesh-gateway-route).
 
 A builtin gateway `Dataplane` with no additional configuration does nothing.
@@ -10,12 +10,12 @@ It is simply an unconfigured unit of proxying capacity.
 To make use of it, we need to place a `MeshGateway` resource on it.
 The `MeshGateway` resource specifies what network ports the gateway should listen on and how network traffic should be accepted.
 A builtin gateway Dataplane can have exactly one `MeshGateway` resource bound to it.
-This binding uses standard Kuma matching semantics.
+This binding uses standard {{site.mesh_product_name}} matching semantics.
 
 The most important field in the `MeshGateway` resource is the listener field.
 A `MeshGateway` can have any number of listeners, where each listener represents an endpoint that can accept network traffic.
 To configure a listener, you need to specify the port number, the network protocol, and (optionally) the hostname to accept.
-Each listener has its own set of Kuma tags so that Kuma policy configuration can be targeted to specific listeners.
+Each listener has its own set of {{site.mesh_product_name}} tags so that {{site.mesh_product_name}} policy configuration can be targeted to specific listeners.
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Universal %}
@@ -121,9 +121,9 @@ spec:
 Above shows a `MeshGateway` resource with two HTTP listeners on the same port.
 In this example, the gateway proxy will be configured to listen on port 8080, and accept HTTP requests both for hostnames.
 
-Note that because each listener entry has its own Kuma tags, policy can still be targeted to a specific listener.
-Kuma generates a set of tags for each listener by overlaying the tags from the listener onto the tags from the Dataplane to which the Gateway is matched.
-This set of listener tags is what Kuma will match policies against.
+Note that because each listener entry has its own {{site.mesh_product_name}} tags, policy can still be targeted to a specific listener.
+{{site.mesh_product_name}} generates a set of tags for each listener by overlaying the tags from the listener onto the tags from the Dataplane to which the Gateway is matched.
+This set of listener tags is what {{site.mesh_product_name}} will match policies against.
 
 
 | `Dataplane` tags                            | Listener tags                                      | Final Tags                                          |
@@ -187,14 +187,14 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-The server certificate is provided through a Kuma datasource reference, in this case naming a secret that must contain both the server certificate and the corresponding private key.
+The server certificate is provided through a {{site.mesh_product_name}} datasource reference, in this case naming a secret that must contain both the server certificate and the corresponding private key.
 
 ### Server Certificate Secrets
-A TLS server certificate secret is a collection of PEM objects in a Kuma datasource (which may be a file, a Kuma secret, or inline data).
+A TLS server certificate secret is a collection of PEM objects in a {{site.mesh_product_name}} datasource (which may be a file, a {{site.mesh_product_name}} secret, or inline data).
 There must be at least a private key and the corresponding TLS server certificate.
 The CA certificate chain may also be present, but if it is, the server certificate must be the first certificate in the secret.
 
-Kuma gateway supports serving both RSA and ECDSA server certificates.
+{{site.mesh_product_name}} gateway supports serving both RSA and ECDSA server certificates.
 To enable this support, generate two server certificate secrets and provide them both to the listener TLS configuration.
 The `kumactl` tool supports generating simple, self-signed TLS server certificates. The script below shows how to do this.
 

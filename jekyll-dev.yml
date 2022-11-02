@@ -64,3 +64,8 @@ jekyll-generator-single-source:
   layout: 'page'
   multiple_products: false
   base_dest_path: 'docs'
+
+# Product name variables
+base_gateway: Kong Gateway
+mesh_product_name: Kuma
+kic_product_name: Kubernetes Ingress Controller

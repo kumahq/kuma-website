@@ -2,17 +2,17 @@
 title: Mutual TLS
 ---
 
-This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](/docs/{{ page.version }}/policies/mesh), as well as assigning an identity to every data plane proxy. Kuma supports different types of CA backends as well as automatic certificate rotation.
+This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](/docs/{{ page.version }}/policies/mesh), as well as assigning an identity to every data plane proxy. {{site.mesh_product_name}} supports different types of CA backends as well as automatic certificate rotation.
 
-Kuma ships with the following CA (Certificate Authority) supported backends:
+{{site.mesh_product_name}} ships with the following CA (Certificate Authority) supported backends:
 
 - [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](/docs/{{ page.version }}/security/secrets).
 - [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a [Secret](/docs/{{ page.version }}/security/secrets).
 
-Once a CA backend has been specified, Kuma will then automatically generate a certificate for every data plane proxy in the [`Mesh`](/docs/{{ page.version }}/policies/mesh). The certificates that Kuma generates are SPIFFE compatible and are used for AuthN/Z use-cases in order to identify every workload in our system.
+Once a CA backend has been specified, {{site.mesh_product_name}} will then automatically generate a certificate for every data plane proxy in the [`Mesh`](/docs/{{ page.version }}/policies/mesh). The certificates that {{site.mesh_product_name}} generates are SPIFFE compatible and are used for AuthN/Z use-cases in order to identify every workload in our system.
 
 {% tip %}
-The certificates that Kuma generates have a SAN set to `spiffe://<mesh name>/<service name>`. When Kuma enforces policies that require an identity like [`TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions) it will extract the SAN from the client certificate and use it to match the service identity.
+The certificates that {{site.mesh_product_name}} generates have a SAN set to `spiffe://<mesh name>/<service name>`. When {{site.mesh_product_name}} enforces policies that require an identity like [`TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions) it will extract the SAN from the client certificate and use it to match the service identity.
 {% endtip %}
 
 Remember that by default mTLS **is not** enabled and needs to be explicitly enabled as described below. Also remember that by default when mTLS is enabled all traffic is denied **unless** a [`TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions) policy is being configured to explicitly allow traffic across proxies.
@@ -27,9 +27,9 @@ If `enabledBackend` is missing or empty, then mTLS will be disabled for the enti
 
 ## Usage of "builtin" CA
 
-This is the fastest and simplest way to enable mTLS in Kuma.
+This is the fastest and simplest way to enable mTLS in {{site.mesh_product_name}}.
 
-With a `builtin` CA backend type, Kuma will dynamically generate its own CA root certificate and key that it uses to automatically provision (and rotate) certificates for every replica of every service.
+With a `builtin` CA backend type, {{site.mesh_product_name}} will dynamically generate its own CA root certificate and key that it uses to automatically provision (and rotate) certificates for every replica of every service.
 
 We can specify more than one `builtin` backend with different names, and each one of them will be automatically provisioned with a unique pair of certificate + key (they are not shared).
 
@@ -86,24 +86,24 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 A few considerations:
 
-- The `dpCert` configuration determines how often Kuma should automatically rotate the certificates assigned to every data plane proxy.
-- The `caCert` configuration determines a few properties that Kuma will use when auto-generating the CA root certificate.
+- The `dpCert` configuration determines how often {{site.mesh_product_name}} should automatically rotate the certificates assigned to every data plane proxy.
+- The `caCert` configuration determines a few properties that {{site.mesh_product_name}} will use when auto-generating the CA root certificate.
 
 ### Storage of Secrets
 
-When using a `builtin` backend Kuma automatically generates a root CA certificate and key that are being stored as a Kuma [Secret resource](/docs/{{ page.version }}/security/secrets) with the following name:
+When using a `builtin` backend {{site.mesh_product_name}} automatically generates a root CA certificate and key that are being stored as a {{site.mesh_product_name}} [Secret resource](/docs/{{ page.version }}/security/secrets) with the following name:
 
 - `{mesh name}.ca-builtin-cert-{backend name}` for the certificate
 - `{mesh name}.ca-builtin-key-{backend name}` for the key
 
-On Kubernetes, Kuma secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [store](/docs/{{ page.version }}/documentation/configuration#store) configured in `kuma-cp`.
+On Kubernetes, {{site.mesh_product_name}} secrets are being stored in the `kuma-system` namespace, while on Universal they are being stored in the underlying [store](/docs/{{ page.version }}/documentation/configuration#store) configured in `kuma-cp`.
 
 We can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or via `kubectl` on Kubernetes only:
 
 {% tabs secrets-storage useUrlFragment=false %}
 {% tab secrets-storage kumactl %}
 
-The following command can be executed on any Kuma backend:
+The following command can be executed on any {{site.mesh_product_name}} backend:
 
 ```sh
 kumactl get secrets [-m MESH]
@@ -135,7 +135,7 @@ If you choose to provide your own CA root certificate and key, you can use the `
 
 Unlike the `builtin` backend, with `provided` you first upload the certificate and key as [Secret resources](/docs/{{ page.version }}/security/secrets), and then reference the Secrets in the mTLS configuration.
 
-Kuma then provisions data plane proxy certificates for every replica of every service from the CA root certificate and key.
+{{site.mesh_product_name}} then provisions data plane proxy certificates for every replica of every service from the CA root certificate and key.
 
 Sample configuration:
 
@@ -192,7 +192,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 A few considerations:
 
-- The `dpCert` configuration determines how often Kuma should automatically rotate the certificates assigned to every data plane proxy.
+- The `dpCert` configuration determines how often {{site.mesh_product_name}} should automatically rotate the certificates assigned to every data plane proxy.
 - The Secrets must exist before referencing them in a `provided` backend.
 
 ### Intermediate CA
@@ -266,7 +266,7 @@ Below we can find an example to generate a sample CA certificate + key:
 {% tabs ca-requirements useUrlFragment=false %}
 {% tab ca-requirements openssl %}
 
-The following command will generate a CA root certificate and key that can be uploaded to Kuma as a Secret and then used in a `provided` mTLS backend:
+The following command will generate a CA root certificate and key that can be uploaded to {{site.mesh_product_name}} as a Secret and then used in a `provided` mTLS backend:
 
 ```sh
 SAMPLE_CA_CONFIG="
@@ -282,7 +282,7 @@ openssl req -config <(echo "$SAMPLE_CA_CONFIG") -new -newkey rsa:2048 -nodes \
   -subj "/CN=Hello" -x509 -extensions ext -keyout key.pem -out crt.pem
 ```
 
-The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the Kuma Secret resources by following the [Secret reference](/docs/{{ page.version }}/security/secrets).
+The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the {{site.mesh_product_name}} Secret resources by following the [Secret reference](/docs/{{ page.version }}/security/secrets).
 
 {% endtab %}
 {% endtabs %}
@@ -295,7 +295,7 @@ In development mode we may want to provide the `cert` and `key` properties of th
 Using the `inline` modes in production presents a security risk since it makes the values of our CA root certificate and key more easily accessible from a malicious actor. We highly recommend using `inline` only in development mode.
 {% endwarning %}
 
-Kuma offers an alternative way to specify the CA root certificate and key:
+{{site.mesh_product_name}} offers an alternative way to specify the CA root certificate and key:
 
 {% tabs dev-mode useUrlFragment=false %}
 {% tab dev-mode Kubernetes %}
@@ -346,7 +346,7 @@ mtls:
 
 ## Permissive mTLS
 
-In version 1.4.1 and later, Kuma provides `PERMISSIVE` mTLS mode to let you migrate existing workloads with zero downtime.
+In version 1.4.1 and later, {{site.mesh_product_name}} provides `PERMISSIVE` mTLS mode to let you migrate existing workloads with zero downtime.
 
 Permissive mTLS mode encrypts outbound connections the same way as strict mTLS mode, but inbound connections on the server-side
 accept both TLS and plaintext. This lets you migrate servers to an mTLS mesh before their clients. It also supports the case
@@ -395,11 +395,11 @@ mtls:
 
 ## Certificate Rotation
 
-Once a CA backend has been configured, Kuma will utilize the CA root certificate and key to automatically provision a certificate for every data plane proxy that it connects to `kuma-cp`.
+Once a CA backend has been configured, {{site.mesh_product_name}} will utilize the CA root certificate and key to automatically provision a certificate for every data plane proxy that it connects to `kuma-cp`.
 
-Unlike the CA certificate, the data plane proxy certificates are not permanently stored anywhere but they only reside in memory. These certificates are designed to be short-lived and rotated often by Kuma.
+Unlike the CA certificate, the data plane proxy certificates are not permanently stored anywhere but they only reside in memory. These certificates are designed to be short-lived and rotated often by {{site.mesh_product_name}}.
 
-By default, the expiration time of a data plane proxy certificate is `30` days. Kuma rotates these certificates automatically after 4/5 of the certificate validity time (ie: for the default `30` days expiration, that would be every `24` days).
+By default, the expiration time of a data plane proxy certificate is `30` days. {{site.mesh_product_name}} rotates these certificates automatically after 4/5 of the certificate validity time (ie: for the default `30` days expiration, that would be every `24` days).
 
 You can update the duration of the data plane proxy certificates by updating the `dpCert` property on every available mTLS backend.
 
@@ -408,7 +408,7 @@ You can inspect the certificate rotation statistics by executing the following c
 {% tabs certificate-rotation useUrlFragment=false %}
 {% tab certificate-rotation kumactl %}
 
-We can use the Kuma CLI:
+We can use the {{site.mesh_product_name}} CLI:
 
 ```sh
 kumactl inspect dataplanes
@@ -421,7 +421,7 @@ Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` 
 {% endtab %}
 {% tab certificate-rotation HTTP API %}
 
-We can use the Kuma HTTP API by retrieving the [Dataplane Insight](/docs/{{ page.version }}/reference/http-api#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
+We can use the {{site.mesh_product_name}} HTTP API by retrieving the [Dataplane Insight](/docs/{{ page.version }}/reference/http-api#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
 
 ```json
 ...
