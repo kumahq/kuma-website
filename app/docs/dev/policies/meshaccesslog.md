@@ -416,9 +416,11 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 {% endtab %}
 {% endtabs %}
 
-## Logging external services
+## Logging traffic going outside the Mesh
 
-To do it use `MeshService` as a `targetRef` target and match external service `name`.
+To target [External Service](/docs/{{ page.version }}/policies/external-services#usage) use `MeshService` as a `targetRef` target and match external service `name`.
+
+To target traffic going through [passthrough mode](/docs/{{ page.version }}/policies/external-services) use `Mesh` as a `targerRef`. This will cause case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.
 
 ## Builtin gateway
 
