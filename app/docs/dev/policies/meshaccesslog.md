@@ -2,7 +2,7 @@
 title: MeshAccessLog (beta)
 ---
 
-With the MeshAccessLog policy you can easily set up access logs on every data plane in a mesh.
+With the MeshAccessLog policy you can easily set up access logs on every data plane proxy in a mesh.
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
@@ -16,7 +16,7 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 
 ## TargetRef support matrix
 
-| TargetRef type    | top level | to  | from |
+| TargetRef kind    | top level | to  | from |
 |-------------------|-----------|-----|------|
 | Mesh              | ✅         | ✅   | ✅    |
 | MeshSubset        | ✅         | ❌   | ❌    |
@@ -197,8 +197,11 @@ format:
 
 ### Backends
 
+A backend determines where the logs ends up.
+
 #### TCP
 
+A TCP backend will stream logs to a server via TCP protocol.
 You can configure a TCP backend with an address:
 
 ```yaml
@@ -209,6 +212,7 @@ backends:
 
 #### File
 
+A file backend will stream logs to a text file.
 You can configure a file backend with a path:
 
 ```yaml
@@ -219,10 +223,72 @@ backends:
 
 ## Examples
 
-{% tabs meshaccesslog useUrlFragment=false %}
-{% tab meshaccesslog Kubernetes %}
+### Log outgoing traffic from specific frontend version to backend service
 
-Full example:
+{% tabs meshaccesslog-outgoing-from-frontend-to-backend useUrlFragment=false %}
+{% tab meshaccesslog-outgoing-from-frontend-to-backend Kubernetes %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshAccessLog
+metadata:
+  name: default
+  namespace: kuma-system
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if unset
+spec:
+  targetRef:
+    kind: MeshService
+    name: frontend
+    tags:
+      version: canary
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        backends:
+          - file:
+              path: /tmp/access.log
+```
+
+Apply the configuration with `kubectl apply -f [..]`.
+
+{% endtab %}
+{% tab meshaccesslog-outgoing-from-frontend-to-backend Universal %}
+
+```yaml
+type: MeshAccessLog
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name: frontend
+    tags:
+      version: canary
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        backends:
+          - file:
+              path: /tmp/access.log
+```
+
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+
+{% endtab %}
+{% endtabs %}
+
+### Logging to multiple backends
+
+This configuration will log to two backends - TCP and file.
+
+{% tabs meshaccesslog-multiple-backends useUrlFragment=false %}
+{% tab meshaccesslog-multiple-backends Kubernetes %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -234,26 +300,28 @@ metadata:
 spec:
   targetRef:
     kind: Mesh
-  default:
-    backends:
-      - tcp:
-          address: 127.0.0.1:5000
-          format:
-            json:
-              - key: "start_time"
-                value: "%START_TIME%"
-      - file:
-          path: /tmp/access.log
-          format:
-            plain: '[%START_TIME%]'
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - file:
+              address: 127.0.0.1:5000
+              format:
+                json:
+                  - key: "start_time"
+                    value: "%START_TIME%"
+          - file:
+              path: /tmp/access.log
+              format:
+                plain: '[%START_TIME%]'
 ```
 
 Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
-{% tab meshaccesslog Universal %}
+{% tab meshaccesslog-multiple-backends Universal %}
 
-Full example:
 ```yaml
 type: MeshAccessLog
 name: default
@@ -261,18 +329,86 @@ mesh: default
 spec:
   targetRef:
     kind: Mesh
-  default:
-    backends:
-      - tcp:
-          address: 127.0.0.1:5000
-          format:
-            json:
-              - key: "start_time"
-                value: "%START_TIME%"
-      - file:
-          path: /tmp/access.log
-          format:
-            plain: '[%START_TIME%]'
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - file:
+              address: 127.0.0.1:5000
+              format:
+                json:
+                  - key: "start_time"
+                    value: "%START_TIME%"
+          - file:
+              path: /tmp/access.log
+              format:
+                plain: '[%START_TIME%]'
+```
+
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+
+{% endtab %}
+{% endtabs %}
+
+## Log all incoming and outgoing traffic
+
+{% tabs meshaccesslog-all useUrlFragment=false %}
+{% tab meshaccesslog-all Kubernetes %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshAccessLog
+metadata:
+  name: default
+  namespace: kuma-system
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if unset
+spec:
+  targetRef:
+    kind: Mesh
+  from: # delete this section if you do not want to log incoming traffic
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - file:
+              path: /tmp/access.log
+  to: # delete this section if you do not want to log outgoing traffic
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - file:
+              path: /tmp/access.log
+```
+
+Apply the configuration with `kubectl apply -f [..]`.
+
+{% endtab %}
+{% tab meshaccesslog-all Universal %}
+
+```yaml
+type: MeshAccessLog
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  from: # delete this section if you do not want to log incoming traffic
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - file:
+              path: /tmp/access.log
+  to: # delete this section if you do not want to log outgoing traffic
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - file:
+              path: /tmp/access.log
 ```
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
@@ -282,9 +418,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 ## Logging external services
 
-When running Kuma on Kubernetes you can also log the traffic to external services.
-To do it use `MeshService` as a `targetRef` target.
-In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.
+To do it use `MeshService` as a `targetRef` target and match external service `name`.
 
 ## Builtin gateway
 
