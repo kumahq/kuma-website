@@ -285,3 +285,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 When running Kuma on Kubernetes you can also log the traffic to external services.
 To do it use `MeshService` as a `targetRef` target.
 In such case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.
+
+## Builtin gateway
+
+You can select a builtin gateway using the `kuma.io/service` value. A current limitation is that traffic routed from a gateway to a service will be logged by that gateway as having destination `"*"`.
