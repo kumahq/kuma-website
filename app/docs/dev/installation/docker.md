@@ -46,12 +46,18 @@ To do this, add `--network="host"` parameter to the `docker run` command from po
 ##### 2.1.2 Authenticating via token
 
 You can also configure `kumactl` to access `kuma-dp` from the container.
-To do this use the following commands:
+Get the `kuma-cp` container id:
 
 ```sh
-docker ps # note kuma-cp container id
+docker ps # copy kuma-cp container id
 
-TOKEN=$(bash -c 'docker exec -it <KUMA_CP_CONTAINER_ID> wget -q -O - http://localhost:5681/global-secrets/admin-user-token' | jq -r .data | base64 -d)
+export KUMA_CP_CONTAINER_ID='...'
+```
+
+Configure `kumactl`:
+
+```sh
+TOKEN=$(bash -c "docker exec -it $KUMA_CP_CONTAINER_ID wget -q -O - http://localhost:5681/global-secrets/admin-user-token" | jq -r .data | base64 -d)
 
 kumactl config control-planes add \
  --name my-control-plane \
