@@ -50,6 +50,10 @@ kumactl generate dataplane-token --name=redis > kuma-token-redis
 kumactl generate dataplane-token --name=app > kuma-token-app
 ```
 
+{% warning %}
+This action requires [authentication](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token) unless executed against a control-plane running on localhost.
+{% endwarning %}
+
 ## Create a data plane proxy for each service
 
 For Redis:

@@ -64,7 +64,7 @@ This group is [authorized by default](/docs/{{ page.version }}/security/api-acce
 
    Execute the following command on the machine where you deployed the control plane.
    ```sh
-   curl http://localhost:5681/global-secrets/admin-user-token | jq -r .data | base64 -d
+   wget -q -O - http://localhost:5681/global-secrets/admin-user-token | grep data | cut -d " " -f 3 | tr -d '"' | base64 -d
    ```
 
 2. Configure `kumactl` with admin user token

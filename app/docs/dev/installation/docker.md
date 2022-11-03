@@ -28,6 +28,12 @@ We can run Kuma:
 
 `docker run -p 5681:5681 docker.io/kumahq/kuma-cp:{{ page.latest_version }} run`
 
+{% tip %}
+Running administrative tasks without additional authentication is possible by running the container in a host network.
+To do this add `--network="host"` parameter to the above command.
+Alternatively you can `docker exec` into the container and setup kumactl [authentication](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token).
+{% endtip %}
+
 This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/introduction/deployments) like "multi-zone".
 
 {% tip %}
