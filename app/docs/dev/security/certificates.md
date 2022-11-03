@@ -127,7 +127,7 @@ See [Data plane proxy authentication](/docs/{{ page.version }}/security/dp-auth/
 ## Prometheus to control plane communication
 
 You can enable TLS on the [Monitoring Assignment Discovery Service](/docs/{{ page.version }}/policies/traffic-metrics/).
-By default, it uses the certificate used in `tls-general`, but TLS is disabled.
+By default, it uses the same certificate used for CP to DP communication. This is the certificate configured with the `--tls-general` options.
 You can enable it by using the `KUMA_MONITORING_ASSIGNMENT_SERVER_TLS_ENABLED=true` environment variable.
 
 {% tabs mads useUrlFragment=false %}
@@ -163,7 +163,7 @@ KUMA_MONITORING_ASSIGNMENT_SERVER_TLS_CERT_FILE=/tmp/tls.crt \
 {% endtab %}
 {% endtabs %}
 
-Now You can configure Kuma's prometheus SD with the correct TLS configuration using the [Prometheus docs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
+Now you can configure Kuma's Prometheus SD with the correct TLS configuration using the [Prometheus docs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
 
 ## User to control plane communication
 
