@@ -42,8 +42,6 @@ kind: MeshTrafficPermission
 metadata:
   namespace: kuma-system
   name: allow-orders
-  labels:
-    kuma.io/mesh: default
 spec:
   targetRef: # 1
     kind: MeshService
@@ -117,8 +115,6 @@ kind: MeshTrafficPermission
 metadata:
   namespace: kuma-system
   name: deny-all
-  labels:
-    kuma.io/mesh: default
 spec:
   targetRef: # 1
     kind: Mesh
@@ -185,8 +181,6 @@ kind: MeshTrafficPermission
 metadata:
   namespace: kuma-system
   name: example-with-tags
-  labels:
-    kuma.io/mesh: default
 spec:
   targetRef: # 1
     kind: Mesh
