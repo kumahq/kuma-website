@@ -36,7 +36,7 @@ This example will run Kuma in `standalone` mode for a "flat" deployment, but the
 
 #### 2.1 Authentication (optional)
 
-Running administrative tasks (like generating a dataplane token) require authentication by a token or a connection via localhost.
+Running administrative tasks (like generating a dataplane token) requires [authentication by token](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token) or a connection via localhost.
 
 ##### 2.1.1 Localhost
 
