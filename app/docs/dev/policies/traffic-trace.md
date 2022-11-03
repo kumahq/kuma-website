@@ -11,7 +11,7 @@ You must also:
 1. [Add a tracing backend](#add-a-tracing-backend-to-the-mesh). You specify a tracing backend as a [`Mesh`](/docs/{{ page.version }}/policies/mesh) resource property.
 2. [Add a TrafficTrace resource](#add-traffictrace-resource). You pass the backend to the `TrafficTrace` resource.
 
-Kuma currently supports the following trace exposition formats:
+{{site.mesh_product_name}} currently supports the following trace exposition formats:
 
 * `zipkin` traces in this format can be sent to [many different tracing backends](https://github.com/openzipkin/openzipkin.github.io/issues/65). 
 * `datadog`
@@ -176,6 +176,6 @@ When `backend ` field is omitted, the logs will be forwarded into the `defaultBa
 You can also add tags to apply the `TrafficTrace` resource only a subset of data plane proxies. `TrafficTrace` is a [Dataplane policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply#dataplane-policy), so you can specify any of the `selectors` tags.
 
 {% tip %}
-While most commonly we want all the traces to be sent to the same tracing backend, we can optionally create multiple tracing backends in a `Mesh` resource and store traces for different paths of our service traffic in different backends by leveraging Kuma tags.
+While most commonly we want all the traces to be sent to the same tracing backend, we can optionally create multiple tracing backends in a `Mesh` resource and store traces for different paths of our service traffic in different backends by leveraging {{site.mesh_product_name}} tags.
 This is especially useful when we want traces to never leave a world region, or a cloud, for example.
 {% endtip %}

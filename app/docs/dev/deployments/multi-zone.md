@@ -4,7 +4,7 @@ title: Multi-zone deployment
 
 ## About
 
-Kuma supports running your service mesh in multiple zones. It is even possible to run with a mix of Kubernetes and Universal zones. Your mesh environment can include multiple isolated service meshes (multi-tenancy), and workloads running in different regions, on different clouds, or in different datacenters. A zone can be a Kubernetes cluster, a VPC, or any other deployment you need to include in the same distributed mesh environment.
+{{site.mesh_product_name}} supports running your service mesh in multiple zones. It is even possible to run with a mix of Kubernetes and Universal zones. Your mesh environment can include multiple isolated service meshes (multi-tenancy), and workloads running in different regions, on different clouds, or in different datacenters. A zone can be a Kubernetes cluster, a VPC, or any other deployment you need to include in the same distributed mesh environment.
 The only condition is that all the data planes running within the zone must be able to connect to the other data planes in this same zone.
 
 <center>
@@ -17,25 +17,25 @@ Or without the optional zone egress:
 
 ### How it works
 
-In Kuma, zones are abstracted away, meaning that your data plane proxies will find services anywhere they run.
+In {{site.mesh_product_name}}, zones are abstracted away, meaning that your data plane proxies will find services anywhere they run.
 Therefore, you can make a service multi-zone by having data planes using the same `kuma.io/service` run in different zones, this can help you achieve automatic fail-over of services when a specific zone fails.
 
 We will now explain how this works in details:
 
 In the local zone: the zone ingress will receive all traffic coming from other zones and route it within this zone. The control-plane will update its local zone ingresses with a list of local services and the number of instances available, it will then synchronize it with the global control-plane.
 
-The global control-plane will propagate the zone ingress resources and all policies to all other zones over Kuma Discovery Service (KDS), which is a protocol based on xDS.
+The global control-plane will propagate the zone ingress resources and all policies to all other zones over {{site.mesh_product_name}} Discovery Service (KDS), which is a protocol based on xDS.
 
 In the remote zone, data plane proxies will either add new services or add endpoints to existing services which correspond to the remote zone-ingresses entries.
 Requests are then routed to either local instances of the service or to the remote zone ingress where instances of the service are running, which will proxy the request to the actual instance.
 
 In the presence of a [zone egress](/docs/{{ page.version }}/explore/zoneegress) the traffic is routed through the local zone egress before being sent to the remote zone ingress.
 
-When using [transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying) (enabled by default in Kubernetes), Kuma generates a VIP, a DNS entry with the format
+When using [transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying) (enabled by default in Kubernetes), {{site.mesh_product_name}} generates a VIP, a DNS entry with the format
 `<kuma.io/service>.mesh`, and will listen for traffic on port 80.
 
 {% tip %}
-A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in Kuma [gateway mode](/docs/{{ page.version }}/explore/gateway) and can be deployed in addition to zone ingresses.
+A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in {{site.mesh_product_name}} [gateway mode](/docs/{{ page.version }}/explore/gateway) and can be deployed in addition to zone ingresses.
 
 For Kubernetes the `kuma.io/service` is automatically generated as explained in the [data-plane on Kubernetes documentation](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
 
@@ -101,13 +101,13 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     kumactl install control-plane --mode=global | kubectl apply -f -
     ```
 
-1.  Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
+1.  Find the external IP and port of the `global-remote-sync` service in the `{{site.default_namespace}}` namespace:
 
     ```sh
-    kubectl get services -n kuma-system
+    kubectl get services -n {{site.default_namespace}}
     NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-    kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-    kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+    {{site.default_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    {{site.default_namespace}}   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
     In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
@@ -118,7 +118,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 1.  Set the `controlPlane.mode` value to `global` in the chart (`values.yaml`), then install. On the command line, run:
 
     ```sh
-    helm install kuma --create-namespace --namespace kuma-system --set controlPlane.mode=global kuma/kuma
+    helm install kuma --create-namespace --namespace {{site.default_namespace}} --set controlPlane.mode=global kuma/kuma
     ```
 
     Or you can edit the chart and pass the file to the `helm install kuma` command. To get the default values, run:
@@ -127,13 +127,13 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     helm show values kuma/kuma
     ```
 
-1.  Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
+1.  Find the external IP and port of the `global-remote-sync` service in the `{{site.default_namespace}}` namespace:
 
     ```sh
-    kubectl get services -n kuma-system
+    kubectl get services -n {{site.default_namespace}}
     NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-    kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-    kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+    {{site.default_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    {{site.default_namespace}}   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
     By default, it's exposed on [port 5685](/docs/{{ page.version }}/networking/networking). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
@@ -199,7 +199,7 @@ You need the following values to pass to each zone control plane setup:
     ```sh
     helm install kuma \
     --create-namespace \
-    --namespace kuma-system \
+    --namespace {{site.default_namespace}} \
     --set controlPlane.mode=zone \
     --set controlPlane.zone=<zone-name> \
     --set ingress.enabled=true \
@@ -215,7 +215,7 @@ You need the following values to pass to each zone control plane setup:
     ```sh
     helm install kuma \
     --create-namespace \
-    --namespace kuma-system \
+    --namespace {{site.default_namespace}} \
     --set controlPlane.mode=zone \
     --set controlPlane.zone=<zone-name> \
     --set ingress.enabled=true \
@@ -312,7 +312,7 @@ deployed with zone ingress.
 
 MTLS is mandatory to enable cross-zone service communication.
 mTLS can be configured in your mesh configuration as indicated in the [mTLS section](/docs/{{ page.version }}/policies/mutual-tls).
-This is required because Kuma uses the [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) field, part of the TLS protocol, as a way to pass routing information cross zones.
+This is required because {{site.mesh_product_name}} uses the [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) field, part of the TLS protocol, as a way to pass routing information cross zones.
 
 ### Cross-zone communication details
 
@@ -354,13 +354,13 @@ curl http://echo-server:1010
 Requests are distributed round robin between zones.
 You can use [locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware) to keep requests in the same zone.
 
-To send a request to any zone, you can [use the generated `kuma.io/service`](/docs/{{ page.version }}/explore/dpp-on-kubernetes#tag-generation) and [Kuma DNS](/docs/{{ page.version }}/networking/dns#dns):
+To send a request to any zone, you can [use the generated `kuma.io/service`](/docs/{{ page.version }}/explore/dpp-on-kubernetes#tag-generation) and [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns#dns):
 
 ```sh
 curl http://echo-server_echo-example_svc_1010.mesh:80
 ```
 
-Kuma DNS also supports [RFC 1123](https://datatracker.ietf.org/doc/html/rfc1123) compatible names, where underscores are replaced with dots:
+{{site.mesh_product_name}} DNS also supports [RFC 1123](https://datatracker.ietf.org/doc/html/rfc1123) compatible names, where underscores are replaced with dots:
 
 ```sh
 curl http://echo-server.echo-example.svc.1010.mesh:80
@@ -468,7 +468,7 @@ With the right resiliency setup ([Retries](/docs/{{ page.version }}/policies/ret
 
 ## Delete a zone
 
-To delete a `Zone` we must first shut down the corresponding Kuma zone control plane instances. As long as the Zone CP is running this will not be possible, and Kuma returns a validation error like:
+To delete a `Zone` we must first shut down the corresponding {{site.mesh_product_name}} zone control plane instances. As long as the Zone CP is running this will not be possible, and {{site.mesh_product_name}} returns a validation error like:
 
 ```
 zone: unable to delete Zone, Zone CP is still connected, please shut it down first

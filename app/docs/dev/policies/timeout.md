@@ -6,14 +6,14 @@ title: Timeout
 Timeout is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
 {% endtip %}
 
-This policy enables Kuma to set timeouts on the outbound connections depending on the protocol.
+This policy enables {{site.mesh_product_name}} to set timeouts on the outbound connections depending on the protocol.
 
 ## Usage
 
 Specify the proxy to configure with the `sources` selector, and the outbound connections from the proxy with the `destinations` selector.
 
 The policy lets you configure timeouts for `HTTP`, `GRPC`, and `TCP` protocols.
-More about [Protocol support in Kuma](/docs/{{ page.version }}/policies/protocol-support-in-kuma). 
+More about [Protocol support in {{site.mesh_product_name}}](/docs/{{ page.version }}/policies/protocol-support-in-kuma). 
 
 ## Configuration
 
@@ -60,7 +60,7 @@ Envoy conf: [Cluster](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/
 
 ## Default general-purpose Timeout policy
 
-By default, Kuma creates the following Timeout policy:
+By default, {{site.mesh_product_name}} creates the following Timeout policy:
 
 {% tabs timeout-policy useUrlFragment=false %}
 {% tab timeout-policy Kubernetes %}

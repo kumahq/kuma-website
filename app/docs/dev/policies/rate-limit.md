@@ -159,11 +159,11 @@ The service `backend` is configured with the following rate limiting hierarchy:
 
 ## Matching destinations
 
-`RateLimit`, when applied to a dataplane proxy bound Kuma service, is an [Inbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply#outbound-connection-policy).
+`RateLimit`, when applied to a dataplane proxy bound {{site.mesh_product_name}} service, is an [Inbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply#outbound-connection-policy).
 
 When applied to an [ExternalService](/docs/{{ page.version }}/policies/external-services), `RateLimit` is an [Outbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy). In this case, the only supported value for `destinations.match` is `kuma.io/service`.
 
 ## Builtin Gateway support
 
-Kuma Gateway supports the `RateLimit` connection policy.
+{{site.mesh_product_name}} Gateway supports the `RateLimit` connection policy.
 Rate limits are configured on each Envoy route by selecting the best Rate Limit policy that matches the source and destination.
