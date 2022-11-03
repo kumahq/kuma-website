@@ -4,7 +4,7 @@ title: MeshTrafficPermission (beta)
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficPermission](../traffic-permissions.md).
+it should not be mixed with [TrafficPermission](../traffic-permissions).
 {% endwarning %}
 
 ## TargetRef support matrix
