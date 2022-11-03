@@ -9,7 +9,7 @@ You can add metrics to a mesh configuration, or to an individual data plane prox
 Kuma provides full integration with Prometheus:
 
 * Each proxy can expose its metrics in [Prometheus format](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format).
-* Because metrics are part of the mesh configuration, We can leverage the control plane api to automatically find every proxy in the mesh.
+* Because metrics are part of the mesh configuration, Kuma exposes an API called the monitoring assignment service (MADS) which exposes every proxy in the mesh.
 
 To collect metrics from Kuma, you need to expose metrics from proxies and applications. 
 
