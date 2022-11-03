@@ -28,19 +28,38 @@ We can run Kuma:
 
 `docker run -p 5681:5681 docker.io/kumahq/kuma-cp:{{ page.latest_version }} run`
 
-{% tip %}
-Running administrative tasks without additional authentication is possible by running the container in a host network.
-To do this add `--network="host"` parameter to the above command.
-Alternatively you can `docker exec` into the container to get the token (point 1 from [authentication - universal](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token))
-and use that token to configure `kumactl` from the host machine (point 2 from [authentication - universal](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token)),
-use `http://<CONTROL_PLANE_ADDRESS>:5681` as `address` and `--skip-verify`.
-{% endtip %}
-
 This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/introduction/deployments) like "multi-zone".
 
 {% tip %}
 **Note**: By default this will run Kuma with a `memory` [store](/docs/{{ page.version }}/documentation/configuration#store), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 {% endtip %}
+
+#### 2.1 Authentication (optional)
+
+Running administrative tasks (like generating a dataplane token) require authentication by a token or a connection via localhost.
+
+##### 2.1.1 Localhost
+
+For `kuma-cp` to recognize requests issued to docker published port it needs to run the container in the host network.
+To do this, add `--network="host"` parameter to the `docker run` command from point 2.
+
+##### 2.1.2 Authenticating via token
+
+You can also configure `kumactl` to access `kuma-dp` from the container.
+To do this use the following commands:
+
+```sh
+docker ps # note kuma-cp container id
+
+TOKEN=$(bash -c 'docker exec -it <KUMA_CP_CONTAINER_ID> wget -q -O - http://localhost:5681/global-secrets/admin-user-token' | jq -r .data | base64 -d)
+
+kumactl config control-planes add \
+ --name my-control-plane \
+ --address http://localhost:5681 \
+ --auth-type=tokens \
+ --auth-conf token=$TOKEN \
+ --skip-verify
+```
 
 ### 3. Use Kuma
 
