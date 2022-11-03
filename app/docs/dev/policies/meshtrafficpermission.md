@@ -23,7 +23,7 @@ If you don't understand this table you should read [matching docs](/docs/{{ page
 
 ### Action
 
-{{ site.title }} allows configuring one of 3 actions for a group of service's clients:
+{{ site.mesh_product_name }} allows configuring one of 3 actions for a group of service's clients:
 
 * `ALLOW` - allows incoming requests matching the from `targetRef`.
 * `DENY` - denies incoming requests matching the from `targetRef`
@@ -281,6 +281,6 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 {% tip %}
 Order of rules inside the `from` array matters. 
-Request from the proxy that has both `kuma.io/zone: east` and `env: dev` will be denied, 
+Request from the proxy that has both `kuma.io/zone: east` and `env: dev` will be denied. 
 This is because the rule with `DENY` is later in the `from` array than any `ALLOW` rules.
 {% endtip %}
