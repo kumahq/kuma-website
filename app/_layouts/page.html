@@ -4,7 +4,7 @@ layout: default
 <main class="page">
   {% include version_alert.html %}
 
-  <div class="theme-default-content content__default">
+  <div class="theme-default-content content__default {% if page.doc %} doc {% endif %}">
     {% if page.doc %}
       <h1 id="{{ page.title | downcase | replace: ' ', '-' }}">{{ page.title }}</h1>
     {% endif %}

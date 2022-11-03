@@ -150,3 +150,10 @@ div[class~='language-bash'] {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace !important;
 }
+
+.blog-page .content-wrapper, .page-container--community, .doc {
+  a[target="_blank"][rel="noopener noreferrer"]:not(.no-outbound):after {
+    content: url('/assets/images/icons/icon-outbound.svg');
+    vertical-align: middle;
+  }
+}

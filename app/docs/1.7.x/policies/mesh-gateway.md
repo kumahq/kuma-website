@@ -155,8 +155,8 @@ conf:
     hostname: foo.example.com
     tls:
       mode: TERMINATE  
-      certificate:
-        secret: foo-example-com-certificate
+      certificates:
+        - secret: foo-example-com-certificate
     tags:
       name: foo.example.com
 ```

@@ -11,6 +11,7 @@ import '@/styles/custom.scss'
 //
 // Javascript
 //
+import AnchorJS from 'anchor-js'
 import Sidebar from '@/javascripts/sidebar'
 import DistributionDropdown from '@/javascripts/distribution_dropdown'
 import HomeTabs from '@/javascripts/home_tabs'
@@ -33,4 +34,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
   new Form();
   new FormPopUp();
   new NavBar();
+
+  const anchors = new AnchorJS({
+    placement: 'left',
+    icon: '#'
+  });
+  anchors.add('.doc h1, .doc h2, .doc h3, .doc h4, .doc h5, .doc h6');
 });
