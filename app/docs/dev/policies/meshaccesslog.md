@@ -62,6 +62,9 @@ Plain accepts a string with _command operators_ and produces a string output.
 
 JSON accepts a list of key-value pairs that produces a valid JSON object.
 
+It is up to the user to decide which format type to use.
+Some system will automatically parse JSON logs and allow you to filter and query based on available keys.
+
 #### Plain
 
 The default format string for `TCP` traffic is:
