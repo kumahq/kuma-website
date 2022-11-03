@@ -190,7 +190,7 @@ To make things simpler the datasource is installed and configured when using [`k
 
 ##### {{site.mesh_product_name}} Dataplane
 
-This dashboard lets you investigate the status of a single dataplane in the mesh.
+This dashboard lets you investigate the status of a single dataplane in the mesh. In order to see those metrics, you need to create [Traffic Metrics policy](/docs/{{ page.version }}/policies/traffic-metrics/) first. 
 
 <center>
 <img src="/assets/images/docs/0.4.0/kuma_dp1.jpeg" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
