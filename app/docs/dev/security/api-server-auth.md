@@ -62,10 +62,25 @@ This group is [authorized by default](/docs/{{ page.version }}/security/api-acce
 {% tab admin-user-token Universal %}
 1. Access admin user token
 
-   Execute the following command on the machine where you deployed the control plane.
+   Execute the following command on the machine where you deployed the control plane
+   (wget version works out of the box on `kuma-cp` docker image).
+
+   {% tabs command useUrlFragment=false %}
+   {% tab command curl %}
+
+   ```sh
+   curl http://localhost:5681/global-secrets/admin-user-token | jq -r .data | base64 -d
+   ```
+
+   {% endtab %}
+   {% tab command wget %}
+
    ```sh
    wget -q -O - http://localhost:5681/global-secrets/admin-user-token | grep data | cut -d " " -f 3 | tr -d '"' | base64 -d
    ```
+
+   {% endtab %}
+   {% endtabs %}
 
 2. Configure `kumactl` with admin user token
    ```sh
