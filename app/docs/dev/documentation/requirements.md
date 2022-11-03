@@ -84,30 +84,6 @@ spec:
       }'
 ```
 
-Or you can modify whole `resources` section:
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: ContainerPatch
-metadata:
-  name: container-patch-1
-  namespace: kuma-system
-spec:
-  sidecarPatch:
-    - op: add
-      path: /resources
-      value: '{
-        "limits": {
-            "cpu": "1",
-            "memory": "1G"
-        },
-        "requests": {
-            "cpu": "500m",
-            "memory": "500Mi"
-        }
-    }'
-```
-
 Check [the `ContainerPatch` documentation](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#workload-matching) for how to apply these resources to specific `Pods`.
 
 {% tip %}

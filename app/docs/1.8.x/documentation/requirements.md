@@ -35,7 +35,7 @@ For any large mesh using transparent-proxy it's highly recommended to use [reach
 
 You can also find tuning configuration in the [fine-tuning](/docs/{{ page.version }}/documentation/fine-tuning) section of the docs.
 
-## Sizing your dataplane container on Kubernetes
+## Sizing your sidecar container on Kubernetes
 
 When deploying Kuma on Kubernetes, dataplane is deployed as a separate container in Pod. By default, `kuma-sidecar` container is configured like this:
 
@@ -82,30 +82,6 @@ spec:
         "cpu": "1",
         "memory": "1G"
       }'
-```
-
-Or you can modify whole `resources` section:
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: ContainerPatch
-metadata:
-  name: container-patch-1
-  namespace: kuma-system
-spec:
-  sidecarPatch:
-    - op: add
-      path: /resources
-      value: '{
-        "limits": {
-            "cpu": "1",
-            "memory": "1G"
-        },
-        "requests": {
-            "cpu": "500m",
-            "memory": "500Mi"
-        }
-    }'
 ```
 
 Precise documentation on how to apply those `ContainerPatch` resources to specific Pod can be found [here](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#workload-matching).
