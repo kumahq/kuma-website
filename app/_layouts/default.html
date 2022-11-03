@@ -80,7 +80,7 @@
             {% include sidebar.html %}
           </div>
 
-          {{ content }}
+          {{ content | replace: '<a href="http', '<a rel="noopener noreferrer" target="_blank" href="http' }}
         </div>
 
         {% unless page.id == 'page-404' %}
