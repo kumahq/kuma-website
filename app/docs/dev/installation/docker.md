@@ -34,6 +34,39 @@ This example will run {{site.mesh_product_name}} in `standalone` mode for a "fla
 **Note**: By default this will run {{site.mesh_product_name}} with a `memory` [store](/docs/{{ page.version }}/documentation/configuration#store), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 {% endtip %}
 
+#### 2.1 Authentication (optional)
+
+Running administrative tasks (like generating a dataplane token) requires [authentication by token](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token) or a connection via localhost.
+
+##### 2.1.1 Localhost
+
+For `kuma-cp` to recognize requests issued to docker published port it needs to run the container in the host network.
+To do this, add `--network="host"` parameter to the `docker run` command from point 2.
+
+##### 2.1.2 Authenticating via token
+
+You can also configure `kumactl` to access `kuma-dp` from the container.
+Get the `kuma-cp` container id:
+
+```sh
+docker ps # copy kuma-cp container id
+
+export KUMA_CP_CONTAINER_ID='...'
+```
+
+Configure `kumactl`:
+
+```sh
+TOKEN=$(bash -c "docker exec -it $KUMA_CP_CONTAINER_ID wget -q -O - http://localhost:5681/global-secrets/admin-user-token" | jq -r .data | base64 -d)
+
+kumactl config control-planes add \
+ --name my-control-plane \
+ --address http://localhost:5681 \
+ --auth-type=tokens \
+ --auth-conf token=$TOKEN \
+ --skip-verify
+```
+
 ### 3. Use {{site.mesh_product_name}}
 
 {{site.mesh_product_name}} (`kuma-cp`) is now running! Now that {{site.mesh_product_name}} has been installed you can access the control-plane via either the GUI, the HTTP API, or the CLI:

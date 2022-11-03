@@ -124,6 +124,47 @@ You can also provide the CA via environment variable `KUMA_CONTROL_PLANE_CA_CERT
 
 See [Data plane proxy authentication](/docs/{{ page.version }}/security/dp-auth/) and [Zone proxy authentication](/docs/{{ page.version }}/security/zoneproxy-auth).
 
+## Prometheus to control plane communication
+
+You can enable TLS on the [Monitoring Assignment Discovery Service](/docs/{{ page.version }}/policies/traffic-metrics/).
+By default, it uses the same certificate used for CP to DP communication. This is the certificate configured with the `--tls-general` options.
+You can enable it by using the `KUMA_MONITORING_ASSIGNMENT_SERVER_TLS_ENABLED=true` environment variable.
+
+{% tabs mads useUrlFragment=false %}
+{% tab mads Kubernetes %}
+Create a secret in the namespace where the control plane is installed:
+```sh
+kubectl create secret generic general-tls-certs -n <namespace> \
+  --from-file=tls.crt=/tmp/tls.crt \
+  --from-file=tls.key=/tmp/tls.key \
+  --from-file=ca.crt=/tmp/ca.crt
+```
+
+Point to this secret when installing Kuma:
+```sh
+kumactl install control-plane \
+  --tls-general-secret=general-tls-certs \
+  --tls-general-ca-bundle=$(cat /tmp/ca.crt | base64) \
+  --env-var 'KUMA_MONITORING_ASSIGNMENT_SERVER_TLS_ENABLED=true'
+```
+
+{% endtab %}
+{% tab mads Universal %}
+
+Configure the control plane with generated certificates:
+
+```sh
+KUMA_MONITORING_ASSIGNMENT_SERVER_TLS_CERT_FILE=/tmp/tls.crt \
+  KUMA_MONITORING_ASSIGNMENT_SERVER_TLS_KEY_FILE=/tmp/tls.key \
+  KUMA_MONITORING_ASSIGNMENT_SERVER_TLS_ENABLED=true \
+  kuma-cp run
+```
+
+{% endtab %}
+{% endtabs %}
+
+Now you can configure Kuma's Prometheus SD with the correct TLS configuration using the [Prometheus docs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
+
 ## User to control plane communication
 
 Users and automation tools can interact with the control plane via the API Server using tools like `curl` or `kumactl`.

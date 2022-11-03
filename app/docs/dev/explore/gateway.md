@@ -224,7 +224,8 @@ To configure your gateway {{site.mesh_product_name}} has these resources:
 
 ### Usage
 
-Steps required to setup a simple gateway that exposes a http listener and 2 routes to imaginary services: "frontend" and "api".
+You can create and configure a gateway that listens for traffic from outside of your mesh
+and forwards it to the [demo app frontend](https://kuma.io/docs/dev/quickstart/kubernetes/).
 
 {% tabs setup useUrlFragment=false %}
 {% tab setup Kubernetes %}
@@ -365,7 +366,8 @@ These are {{site.mesh_product_name}} policies so if you are running on multi-zon
 See the [dedicated section](/docs/{{ page.version }}/deployments/multi-zone) for detailed information.
 {% endtip %}
 
-Now define your routes which take the traffic and route it either to your `api` or your `frontend` depending on the path of the HTTP request:
+Now, you can define a `MeshGatewayRoute` to forward your traffic based on the
+matched URL path.
 
 {% tabs routes useUrlFragment=false %}
 {% tab routes Kubernetes %}
@@ -420,9 +422,6 @@ conf:
 
 {% endtab %}
 {% endtabs %}
-
-Because routes are applied in order of specificity, the first route will take precedence over the second one.
-So `/api/foo` will go to the `api` service whereas `/asset` will go to the `frontend` service.
 
 ### TCP
 

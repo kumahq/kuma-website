@@ -155,8 +155,8 @@ conf:
     hostname: foo.example.com
     tls:
       mode: TERMINATE  
-      certificate:
-        secret: foo-example-com-certificate
+      certificates:
+        - secret: foo-example-com-certificate
     tags:
       name: foo.example.com
 ```
@@ -190,7 +190,9 @@ spec:
 The server certificate is provided through a {{site.mesh_product_name}} datasource reference, in this case naming a secret that must contain both the server certificate and the corresponding private key.
 
 ### Server Certificate Secrets
+
 A TLS server certificate secret is a collection of PEM objects in a {{site.mesh_product_name}} datasource (which may be a file, a {{site.mesh_product_name}} secret, or inline data).
+
 There must be at least a private key and the corresponding TLS server certificate.
 The CA certificate chain may also be present, but if it is, the server certificate must be the first certificate in the secret.
 
@@ -198,6 +200,26 @@ The CA certificate chain may also be present, but if it is, the server certifica
 To enable this support, generate two server certificate secrets and provide them both to the listener TLS configuration.
 The `kumactl` tool supports generating simple, self-signed TLS server certificates. The script below shows how to do this.
 
+{% tabs tls-secret useUrlFragment=false %}
+{% tab tls-secret Kubernetes %}
+```shell
+kubectl apply -f <(
+cat<<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: foo-example-com-certificate
+  namespace: kuma-system
+  labels:
+    kuma.io/mesh: default
+data:
+  value: '$(kumactl generate tls-certificate --type=server --hostname=foo.example.com --key-file=- --cert-file=- | base64 -w0)'
+type: system.kuma.io/secret
+EOF
+)
+```
+{% endtab %}
+{% tab tls-secret Universal %}
 ```shell
 kumactl apply -f <(
 cat<<EOF
@@ -208,3 +230,5 @@ data: $(kumactl generate tls-certificate --type=server --hostname=foo.example.co
 EOF
 )
 ```
+{% endtab %}
+{% endtabs %}
