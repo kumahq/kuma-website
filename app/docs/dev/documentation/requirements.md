@@ -37,7 +37,7 @@ You can also find tuning configuration in the [fine-tuning](/docs/{{ page.versio
 
 ## Sizing your sidecar container on Kubernetes
 
-When deploying Kuma on Kubernetes, dataplane is deployed as a separate container in Pod. By default, `kuma-sidecar` container is configured like this:
+When deploying Kuma on Kubernetes, the sidecar is deployed as a separate container, `kuma-sidecar`, in your `Pods`. By default it has the following resource requests and limits:
 
 ```yaml
 resources:
