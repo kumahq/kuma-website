@@ -108,7 +108,7 @@ spec:
     }'
 ```
 
-Precise documentation on how to apply those `ContainerPatch` resources to specific Pod can be found [here](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#workload-matching).
+Check [the `ContainerPatch` documentation](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#workload-matching) for how to apply these resources to specific `Pods`.
 
 {% tip %}
 **Note**: When changing these resources, remember that they must be described using [Kubernetes resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes)
