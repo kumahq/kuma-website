@@ -11,10 +11,10 @@ it should not be mixed with [TrafficPermission](../traffic-permissions).
 
 | TargetRef type    | top level | to  | from |
 | ----------------- | --------- | --- | ---- |
-| Mesh              | ✅        | ✅  | ❌   |
-| MeshSubset        | ✅        | ✅  | ❌   |
-| MeshService       | ✅        | ✅  | ❌   |
-| MeshServiceSubset | ✅        | ✅  | ❌   |
+| Mesh              | ✅        | ❌  | ✅   |
+| MeshSubset        | ✅        | ❌  | ✅   |
+| MeshService       | ✅        | ❌  | ✅   |
+| MeshServiceSubset | ✅        | ❌  | ✅   |
 | MeshGatewayRoute  | ✅        | ❌  | ❌   |
 
 If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/matching).
