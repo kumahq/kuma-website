@@ -392,6 +392,8 @@ items:
             url: "/documentation/requirements/#envoy"
           - text: Sizing your control-plane
             url: "/documentation/requirements/#sizing-your-control-plane"
+          - text: Sizing your sidecar container on Kubernetes
+            url: "/documentation/requirements/#sizing-your-sidecar-container-on-kubernetes"
   - title: Policies
     group: true
     items:

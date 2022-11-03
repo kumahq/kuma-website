@@ -34,3 +34,58 @@ To see if you may need to increase your control-plane's spec, there are two main
 For any large mesh using transparent-proxy it's highly recommended to use [reachable-services](/docs/{{ page.version }}/networking/transparent-proxying#reachable-services).
 
 You can also find tuning configuration in the [fine-tuning](/docs/{{ page.version }}/documentation/fine-tuning) section of the docs.
+
+## Sizing your sidecar container on Kubernetes
+
+When deploying Kuma on Kubernetes, the sidecar is deployed as a separate container, `kuma-sidecar`, in your `Pods`. By default it has the following resource requests and limits:
+
+```yaml
+resources:
+    requests:
+        cpu: 50m
+        memory: 64Mi
+    limits:
+        cpu: 500m
+        memory: 512Mi
+```
+
+This configuration should be enough for most use cases. In some cases, like when you cannot scale horizontally or your service handles lots of concurrent traffic, you may need to change these values. You can do this using the [`ContainerPatch` resource](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration). 
+
+For example, you can modify individual parameters under `resources`:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ContainerPatch
+metadata:
+  name: container-patch-1
+  namespace: kuma-system
+spec:
+  sidecarPatch:
+    - op: add
+      path: /resources/requests/cpu
+      value: '"1"'
+```
+
+you could modify the entire `limits`, `request` or `resources` sections:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ContainerPatch
+metadata:
+  name: container-patch-1
+  namespace: kuma-system
+spec:
+  sidecarPatch:
+    - op: add
+      path: /resources/limits
+      value: '{
+        "cpu": "1",
+        "memory": "1G"
+      }'
+```
+
+Check [the `ContainerPatch` documentation](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#workload-matching) for how to apply these resources to specific `Pods`.
+
+{% tip %}
+**Note**: When changing these resources, remember that they must be described using [Kubernetes resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes)
+{% endtip %} 
