@@ -23,7 +23,7 @@ conf:
 * destinations - list of selectors that specify the dataplane object the source traffic is sent to
 * conf - configuration to apply to network traffic between sources and destinations
 
-Kuma assumes that every dataplane object represents a service, even if it's a cron job that doesn't normally handle incoming traffic. This means the `kuma.io/service` tag is required for sources and destinations. Note the following requirements for values:
+{{site.mesh_product_name}} assumes that every dataplane object represents a service, even if it's a cron job that doesn't normally handle incoming traffic. This means the `kuma.io/service` tag is required for sources and destinations. Note the following requirements for values:
 
 * The wildcard character (*) is supported only as the selector value to match all traffic.
 * Tag values can contain only alphanumeric characters, dots (`.`), dashes (`-`), colons (`:`), and underscores (`_`).

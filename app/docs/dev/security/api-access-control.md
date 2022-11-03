@@ -2,7 +2,7 @@
 title: Kuma API Access Control
 ---
 
-Kuma provide a simple access control to administrative actions executed on Kuma API Server (port 5681 by default).
+{{site.mesh_product_name}} provide a simple access control to administrative actions executed on {{site.mesh_product_name}} API Server (port 5681 by default).
 
 ## Manage admin resources
 

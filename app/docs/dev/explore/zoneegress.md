@@ -34,7 +34,7 @@ The `ZoneEgress` entity includes a few sections:
     * `port`: is a port that Zone Egress is listening on
     * `admin`: determines parameters related to Envoy Admin API
       * `port`: the port that Envoy Admin API will listen to
-* `zone` **[auto-generated on Kuma CP]** : zone where Zone Egress belongs to
+* `zone` **[auto-generated on {{site.mesh_product_name}} CP]** : zone where Zone Egress belongs to
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}

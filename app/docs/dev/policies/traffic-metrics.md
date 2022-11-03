@@ -2,19 +2,19 @@
 title: Traffic Metrics
 ---
 
-Kuma facilitates consistent traffic metrics across all data plane proxies in your mesh.
+{{site.mesh_product_name}} facilitates consistent traffic metrics across all data plane proxies in your mesh.
 
 You can add metrics to a mesh configuration, or to an individual data plane proxy configuration. For example, you might need metrics for individual data plane proxies to override the default metrics port if it's already in use on the specified machine.
 
-Kuma provides full integration with Prometheus:
+{{site.mesh_product_name}} provides full integration with Prometheus:
 
 * Each proxy can expose its metrics in [Prometheus format](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format).
 * Because metrics are part of the mesh configuration, Kuma exposes an API called the monitoring assignment service (MADS) which exposes every proxy in the mesh.
 
-To collect metrics from Kuma, you need to expose metrics from proxies and applications. 
+To collect metrics from {{site.mesh_product_name}}, you need to expose metrics from proxies and applications. 
 
 {% tip %}
-In the rest of this page we assume you have already configured your observability tools to work with Kuma.
+In the rest of this page we assume you have already configured your observability tools to work with {{site.mesh_product_name}}.
 If you haven't already read the [observability docs](/docs/{{ page.version }}/explore/observability).
 {% endtip %}
 
@@ -94,7 +94,7 @@ metrics:
 {% endtab %}
 {% endtabs %}
 
-This tells Kuma to configure every proxy in the `default` mesh to expose an HTTP endpoint with Prometheus metrics on port `5670` and URI path `/metrics`.
+This tells {{site.mesh_product_name}} to configure every proxy in the `default` mesh to expose an HTTP endpoint with Prometheus metrics on port `5670` and URI path `/metrics`.
 
 The metrics endpoint is forwarded to the standard Envoy [Prometheus metrics endpoint](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?format=prometheus) and supports the same query parameters.
 You can pass the `filter` query parameter to limit the results to metrics whose names match a given regular expression.
@@ -102,7 +102,7 @@ By default all available metrics are returned.
 
 ## Expose metrics from applications
  
-In addition to exposing metrics from the data plane proxies, you might want to expose metrics from applications running next to the proxies. Kuma allows scraping Prometheus metrics from the applications endpoint running in the same `Pod` or `VM`.
+In addition to exposing metrics from the data plane proxies, you might want to expose metrics from applications running next to the proxies. {{site.mesh_product_name}} allows scraping Prometheus metrics from the applications endpoint running in the same `Pod` or `VM`.
 Later those metrics are aggregated and exposed at the same `port/path` as data plane proxy metrics.
 It is possible to configure it at the `Mesh` level, for all the applications in the `Mesh`, or just for specific applications.
 
@@ -313,7 +313,7 @@ metrics:
 
 ## Secure data plane proxy metrics
 
-Kuma lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment mode on Kubernetes when using [`kumactl install observability`](/docs/{{ page.version }}/explore/observability#demo-setup).
+{{site.mesh_product_name}} lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment mode on Kubernetes when using [`kumactl install observability`](/docs/{{ page.version }}/explore/observability#demo-setup).
 
 {% tabs secure-data-plane-proxy-metrics useUrlFragment=false %}
 {% tab secure-data-plane-proxy-metrics Kubernetes %}

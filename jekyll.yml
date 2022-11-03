@@ -36,6 +36,10 @@ defaults:
     values:
       layout: "page"
 
+# Product name variables
+mesh_product_name: Kuma
+default_namespace: kuma-system
+
 # Pagination
 pagination:
   # Site-wide kill switch, disabled here it doesn't run at all

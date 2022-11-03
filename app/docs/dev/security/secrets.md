@@ -13,7 +13,7 @@ Secrets belong to a specific [`Mesh`](/docs/{{ page.version }}/policies/mesh/) r
 [Policies](/docs/{{ page.version }}/policies/introduction) use secrets at runtime.
 
 {% tip %}
-Kuma leverages `Secret` resources internally for certain operations,
+{{site.mesh_product_name}} leverages `Secret` resources internally for certain operations,
 for example when storing auto-generated certificates and keys when Mutual TLS is enabled.
 {% endtip %}
 
@@ -21,21 +21,21 @@ for example when storing auto-generated certificates and keys when Mutual TLS is
 
 {% tab secrets Kubernetes %}
 
-On Kubernetes, Kuma under the hood leverages the native [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/) resource to store sensitive information.
+On Kubernetes, {{site.mesh_product_name}} under the hood leverages the native [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/) resource to store sensitive information.
 
-Kuma secrets are stored in the same namespace as the Control Plane with `type` set to `system.kuma.io/secret`:
+{{site.mesh_product_name}} secrets are stored in the same namespace as the Control Plane with `type` set to `system.kuma.io/secret`:
 
 ```yaml
 apiVersion: v1
 kind: Secret
 metadata:
   name: sample-secret
-  namespace: kuma-system # Kuma will only manage secrets in the same namespace as the CP
+  namespace: {{site.default_namespace}} # {{site.mesh_product_name}} will only manage secrets in the same namespace as the CP
   labels:
     kuma.io/mesh: default # specify the Mesh scope of the secret
 data:
   value: dGVzdAo= # Base64 encoded
-type: system.kuma.io/secret # Kuma will only manage secrets of this type
+type: system.kuma.io/secret # {{site.mesh_product_name}} will only manage secrets of this type
 ```
 
 Use `kubectl` to manage secrets like any other Kubernetes resource.
@@ -45,21 +45,21 @@ echo "apiVersion: v1
 kind: Secret
 metadata:
   name: sample-secret
-  namespace: kuma-system
+  namespace: {{site.default_namespace}}
   labels:
     kuma.io/mesh: default
 data:
   value: dGVzdAo=
 type: system.kuma.io/secret" | kubectl apply -f -
 
-kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/secret'
+kubectl get secrets -n {{site.default_namespace}} --field-selector='type=system.kuma.io/secret'
 # NAME            TYPE                    DATA   AGE
 # sample-secret   system.kuma.io/secret   1      3m12s
 ```
 
 Kubernetes Secrets are identified with the `name + namespace` format,
 therefore **it is not possible** to have a `Secret` with the same name in multiple meshes.
-Multiple `Meshes` always belong to one Kuma CP that always runs in one Namespace.
+Multiple `Meshes` always belong to one {{site.mesh_product_name}} CP that always runs in one Namespace.
 
 In order to reassign a `Secret` from one `Mesh` to another `Mesh` you need to delete the `Secret` resource and create it in another `Mesh`.
 
@@ -89,7 +89,7 @@ data: dGVzdAo=" | kumactl apply -f -
 {% endtabs %}
 
 {% tip %}
-The `data` field of a Kuma `Secret` is a Base64 encoded value.
+The `data` field of a {{site.mesh_product_name}} `Secret` is a Base64 encoded value.
 Use the `base64` command in Linux or macOS to encode any value in Base64:
 
 ```sh
@@ -109,7 +109,7 @@ Consult [Accessing Admin Server from a different machine](/docs/{{ page.version 
 
 ## Scope of the Secret
 
-Kuma provides two types of Secrets.
+{{site.mesh_product_name}} provides two types of Secrets.
 
 ### Mesh-scoped Secrets
 
@@ -124,7 +124,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: sample-secret
-  namespace: kuma-system
+  namespace: {{site.default_namespace}}
   labels:
     kuma.io/mesh: default # specify the Mesh scope of the secret
 data:
@@ -160,7 +160,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: sample-secret
-  namespace: kuma-system
+  namespace: {{site.default_namespace}}
 data:
   value: dGVzdAo=
 type: system.kuma.io/global-secret
@@ -181,7 +181,7 @@ data: dGVzdAo=
 
 ## Usage
 
-Here is an example of how you can use a Kuma `Secret` with a `provided` [Mutual TLS](/docs/{{ page.version}}/policies/mutual-tls) backend.
+Here is an example of how you can use a {{site.mesh_product_name}} `Secret` with a `provided` [Mutual TLS](/docs/{{ page.version}}/policies/mutual-tls) backend.
 
 The examples below assumes that the `Secret` object has already been created beforehand.
 
@@ -197,9 +197,9 @@ mtls:
       type: provided
       config:
         cert:
-          secret: my-cert # name of the Kuma Secret
+          secret: my-cert # name of the {{site.mesh_product_name}} Secret
         key:
-          secret: my-key # name of the Kuma Secret
+          secret: my-key # name of the {{site.mesh_product_name}} Secret
 ```
 
 {% endtab %}

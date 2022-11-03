@@ -2,7 +2,7 @@
 title: HTTP API
 ---
 
-Kuma ships with a RESTful HTTP interface that you can use to retrieve the state of your configuration and policies on every environment, and when running on Universal mode it will also allow to make changes to the state. On Kubernetes, you will use native CRDs to change the state in order to be consistent with Kubernetes best practices.
+{{site.mesh_product_name}} ships with a RESTful HTTP interface that you can use to retrieve the state of your configuration and policies on every environment, and when running on Universal mode it will also allow to make changes to the state. On Kubernetes, you will use native CRDs to change the state in order to be consistent with Kubernetes best practices.
 
 {% tip %}
 **CI/CD**: The HTTP API can be used for infrastructure automation to either retrieve data, or to make changes when running in Universal mode. The [`kumactl`](/docs/{{ page.version }}/explore/cli) CLI is built on top of the HTTP API, which you can also access with any other HTTP client like `curl`.
@@ -78,11 +78,11 @@ By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTP
 * `/global-insights`
 * [`/policies`](#policies)
 
-You can use `GET` requests to retrieve the state of Kuma on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
+You can use `GET` requests to retrieve the state of {{site.mesh_product_name}} on both Universal and Kubernetes, and `PUT` and `DELETE` requests on Universal to change the state.
 
 ## Pagination
 
-Every resource list in Kuma is paginated. To use pagination, you can use following query parameters:
+Every resource list in {{site.mesh_product_name}} is paginated. To use pagination, you can use following query parameters:
 * `size` - size of the page (default - 1000, maximum value - 10000).
 * `offset` - offset from which the page will be listed. The offset is a `string`, it does not have to be a number (it depends on the environment).
 
@@ -196,7 +196,7 @@ curl http://localhost:5681/config
   },
   "store": {
     "kubernetes": {
-      "systemNamespace": "kuma-system"
+      "systemNamespace": "{{site.default_namespace}}"
     },
     "postgres": {
       "connectionTimeout": 5,
@@ -223,7 +223,7 @@ curl http://localhost:5681/config
 
 Request: `GET /versions`
 
-Response: `200 OK` with versions of Envoy supported by Kuma DPs
+Response: `200 OK` with versions of Envoy supported by {{site.mesh_product_name}} DPs
 
 Example:
 ```bash
@@ -3229,7 +3229,7 @@ curl http://localhost:5681/zoneegresses
  "items": [
   {
    "type": "ZoneEgress",
-   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.kuma-system",
+   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.{{site.default_namespace}}",
    "creationTime": "2022-02-18T13:39:39Z",
    "modificationTime": "2022-02-18T13:39:39Z",
    "zone": "kuma-1-zone",
@@ -3297,7 +3297,7 @@ curl http://localhost:5681/zoneegressoverviews
  "items": [
   {
    "type": "ZoneEgressOverview",
-   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.kuma-system",
+   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.{{site.default_namespace}}",
    "creationTime": "2022-02-18T13:39:39Z",
    "modificationTime": "2022-02-18T13:39:39Z",
    "zoneEgress": {

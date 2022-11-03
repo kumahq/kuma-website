@@ -2,7 +2,7 @@
 title: Observability
 ---
 
-This page will describe how to configure different observability tools to work with Kuma.
+This page will describe how to configure different observability tools to work with {{site.mesh_product_name}}.
 
 ## Demo setup
 
@@ -13,7 +13,7 @@ This page will describe how to configure different observability tools to work w
 - [loki](https://grafana.com/oss/loki/) for ingesting and storing logs
 - [grafana](https://grafana.com/oss/grafana/) for querying and displaying metrics, traces and logs
 
-First, remember to configure Kuma appropriately for the tools in the observability stack:
+First, remember to configure {{site.mesh_product_name}} appropriately for the tools in the observability stack:
 
 - [Traffic metrics](/docs/{{ page.version }}/policies/traffic-metrics) for telemetry
 - [`TrafficTrace`](/docs/{{ page.version }}/policies/traffic-trace) for tracing
@@ -25,10 +25,10 @@ On Kubernetes, the stack can be installed with:
 kumactl install observability | kubectl apply -f -
 ```
 
-This will create a namespace `mesh-observability` with prometheus, jaeger, loki and grafana installed and setup to work with Kuma.
+This will create a namespace `mesh-observability` with prometheus, jaeger, loki and grafana installed and setup to work with {{site.mesh_product_name}}.
 
 {% warning %}
-This setup is meant to be used for trying out Kuma. It is in no way fit for use in production.
+This setup is meant to be used for trying out {{site.mesh_product_name}}. It is in no way fit for use in production.
 For production setups we recommend referring to each project's website or to use a hosted solution like Grafana cloud or Datadog.
 {% endwarning %}
 
@@ -38,13 +38,13 @@ Control plane metrics are exposed on port `:5680` and available under the standa
 
 ## Configuring Prometheus
 
-The Kuma community has contributed a builtin service discovery to Prometheus, it is documented in the [Prometheus docs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
+The {{site.mesh_product_name}} community has contributed a builtin service discovery to Prometheus, it is documented in the [Prometheus docs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
 This service discovery will connect to the control plane and retrieve all data planes with enabled metrics which Prometheus will scrape and retrieve metrics according to your [traffic metrics setup](/docs/{{ page.version }}/policies/traffic-metrics).
 
 {% tip %}
 There are 2 ways you can run prometheus:
 
-1. Inside the mesh (default for [`kumactl install observability`](#demo-setup)). In this case you can use mTLS to retrieve the metrics. This provides high security but will require one prometheus per mesh and might not be accessible if your mesh becomes unavailable. It will also require one Prometheus deployment per Kuma mesh.
+1. Inside the mesh (default for [`kumactl install observability`](#demo-setup)). In this case you can use mTLS to retrieve the metrics. This provides high security but will require one prometheus per mesh and might not be accessible if your mesh becomes unavailable. It will also require one Prometheus deployment per {{site.mesh_product_name}} mesh.
 2. Outside the mesh. In this case you'll need to specify `skipMTLS: true` in the [traffic metrics configuration](/docs/{{ page.version }}/policies/traffic-metrics). This is less secured but will ensure Prometheus is as available as possible. It is also easier to add to an existing setup with services in and outside the mesh.
 
 In production, we recommend the second option as it provides better visibility when things go wrong, and it's usually acceptable for metrics to be less secure.
@@ -52,7 +52,7 @@ In production, we recommend the second option as it provides better visibility w
 
 ### Using an already existing prometheus setup
 
-In Prometheus version 2.29 and later, you can add Kuma metrics to your `prometheus.yml`:
+In Prometheus version 2.29 and later, you can add {{site.mesh_product_name}} metrics to your `prometheus.yml`:
 
 ```sh
 scrape_configs:
@@ -74,7 +74,7 @@ scrape_configs:
       - action: labelmap
         regex: __meta_kuma_label_(.+)
       kuma_sd_configs:
-      - server: "http://kuma-control-plane.kuma-system.svc:5676" # replace with the url of your control plane
+      - server: "http://kuma-control-plane.{{site.default_namespace}}.svc:5676" # replace with the url of your control plane
 ```
 
 For more information, see [the Prometheus documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
@@ -167,7 +167,7 @@ To learn more about it go read [this article](https://grafana.com/blog/2020/05/2
 
 ### Grafana extensions
 
-The Kuma community has built a datasource and a set of dashboards to provide great interactions between Kuma and Grafana.
+The {{site.mesh_product_name}} community has built a datasource and a set of dashboards to provide great interactions between {{site.mesh_product_name}} and Grafana.
 
 #### Datasource and service map
 
@@ -186,9 +186,9 @@ To make things simpler the datasource is installed and configured when using [`k
 
 #### Dashboards
 
-Kuma ships with default dashboards that are available to import from [the Grafana Labs repository](https://grafana.com/orgs/konghq).
+{{site.mesh_product_name}} ships with default dashboards that are available to import from [the Grafana Labs repository](https://grafana.com/orgs/konghq).
 
-##### Kuma Dataplane
+##### {{site.mesh_product_name}} Dataplane
 
 This dashboard lets you investigate the status of a single dataplane in the mesh. In order to see those metrics, you need to create [Traffic Metrics policy](/docs/{{ page.version }}/policies/traffic-metrics/) first. 
 
@@ -199,7 +199,7 @@ This dashboard lets you investigate the status of a single dataplane in the mesh
 <img src="/assets/images/docs/1.1.2/kuma_dp4.png" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-##### Kuma Mesh
+##### {{site.mesh_product_name}} Mesh
 
 This dashboard lets you investigate the aggregated statistics of a single mesh.
 It provides a topology view of your service traffic dependencies (**Service Map**)
@@ -209,7 +209,7 @@ and includes information such as number of requests and error rates.
 <img src="/assets/images/docs/grafana_dashboard_mesh.png" alt="Kuma Mesh dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-##### Kuma Service to Service
+##### {{site.mesh_product_name}} Service to Service
 
 This dashboard lets you investigate aggregated statistics from dataplanes of specified source services to dataplanes of specified destination service.
 
@@ -218,7 +218,7 @@ This dashboard lets you investigate aggregated statistics from dataplanes of spe
 <img src="/assets/images/docs/1.1.2/kuma_service_to_service_http.png" alt="Kuma Service to Service HTTP" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-##### Kuma CP
+##### {{site.mesh_product_name}} CP
 
 This dashboard lets you investigate control plane statistics.
 
@@ -228,7 +228,7 @@ This dashboard lets you investigate control plane statistics.
 <img src="/assets/images/docs/0.7.1/grafana-dashboard-kuma-cp3.png" alt="Kuma CP dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-##### Kuma Service
+##### {{site.mesh_product_name}} Service
 
 This dashboard lets you investigate aggregated statistics for each service.
 
@@ -236,7 +236,7 @@ This dashboard lets you investigate aggregated statistics for each service.
 <img src="/assets/images/docs/1.1.2/grafana-dashboard-kuma-service.jpg" alt="Kuma Service dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-##### Kuma MeshGateway
+##### {{site.mesh_product_name}} MeshGateway
 
 This dashboard lets you investigate aggregated statistics for each builtin gateway.
 
@@ -263,7 +263,7 @@ Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_u
 
 ### Metrics
 
-Kuma exposes metrics with [traffic metrics](/docs/{{ page.version }}/policies/traffic-metrics) in Prometheus format.
+{{site.mesh_product_name}} exposes metrics with [traffic metrics](/docs/{{ page.version }}/policies/traffic-metrics) in Prometheus format.
 
 You can add annotations to your pods to enable the Datadog agent to scrape metrics.
 
@@ -287,7 +287,7 @@ Checkout the
 {% tab tracing Kubernetes %}
 Configure the [Datadog agent for APM](https://docs.datadoghq.com/agent/kubernetes/apm/).
 
-If Datadog is not running on each node you can expose the APM agent port to Kuma via Kubernetes service.
+If Datadog is not running on each node you can expose the APM agent port to {{site.mesh_product_name}} via Kubernetes service.
 ```yaml
 apiVersion: v1
 kind: Service
@@ -317,17 +317,17 @@ Once the agent is configured to ingest traces you'll need to configure a [Traffi
 
 ### Logs
 
-The best way to have Kuma and Datadog work together is with [TCP ingest](https://docs.datadoghq.com/agent/logs/?tab=tcpudp#custom-log-collection).
+The best way to have {{site.mesh_product_name}} and Datadog work together is with [TCP ingest](https://docs.datadoghq.com/agent/logs/?tab=tcpudp#custom-log-collection).
 
 Once your agent is configured with TCP ingest you can configure a [TrafficLog](/docs/{{ page.version }}/policies/traffic-log) for data plane proxies to send logs.
 
 ## Observability in multi-zone
 
-Kuma is multi-zone at heart. We explain here how to architect your telemetry stack to accommodate multi-zone.
+{{site.mesh_product_name}} is multi-zone at heart. We explain here how to architect your telemetry stack to accommodate multi-zone.
 
 ### Prometheus
 
-When Kuma is used in multi-zone the recommended approach is to use 1 Prometheus instance in each zone and to send the metrics of each zone to a global Prometheus instance.
+When {{site.mesh_product_name}} is used in multi-zone the recommended approach is to use 1 Prometheus instance in each zone and to send the metrics of each zone to a global Prometheus instance.
 
 Prometheus offers different ways to do this:
 
