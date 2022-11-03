@@ -2,6 +2,10 @@
 title: General notes about Kuma policies
 ---
 
+{% tip %}
+This only applies to source/destination policies. Unfamiliar what these are? Checkout [introduction to policies](../introduction).
+{% endtip %}
+
 Policies applied to data plane proxies all follow the same basic structure:
 
 ```yaml
@@ -80,4 +84,3 @@ destinations:
 conf:
   ...
 ```
-

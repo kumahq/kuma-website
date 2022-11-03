@@ -418,6 +418,9 @@ items:
             url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy"
           - text: Inbound Connection Policy
             url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#inbound-connection-policy"
+      - text: Understanding TargetRef policies
+        url: "/policies/targetref"
+
       - text: Protocol support in Kuma
         url: /policies/protocol-support-in-kuma/
         items:
