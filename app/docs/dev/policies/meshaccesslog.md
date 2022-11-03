@@ -422,6 +422,6 @@ the `kuma.io/service` value.
 
 To target other non-mesh traffic, i.e. [passthrough traffic](/docs/{{ page.version }}/policies/mesh/#controlling-the-passthrough-mode), use `Mesh` as the `targetRef` kind. In this case, `%KUMA_DESTINATION_SERVICE%` is set to `external`.
 
-## Builtin gateway
+## Select a built-in gateway
 
 You can select a built-in gateway using the `kuma.io/service` value. A current limitation is that traffic routed from a gateway to a service is logged by that gateway as having destination `"*"`.
