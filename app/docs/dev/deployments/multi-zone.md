@@ -101,13 +101,13 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     kumactl install control-plane --mode=global | kubectl apply -f -
     ```
 
-1.  Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
+1.  Find the external IP and port of the `global-remote-sync` service in the `{{site.default_namespace}}` namespace:
 
     ```sh
-    kubectl get services -n kuma-system
+    kubectl get services -n {{site.default_namespace}}
     NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-    kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-    kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+    {{site.default_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    {{site.default_namespace}}   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
     In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
@@ -118,7 +118,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 1.  Set the `controlPlane.mode` value to `global` in the chart (`values.yaml`), then install. On the command line, run:
 
     ```sh
-    helm install kuma --create-namespace --namespace kuma-system --set controlPlane.mode=global kuma/kuma
+    helm install kuma --create-namespace --namespace {{site.default_namespace}} --set controlPlane.mode=global kuma/kuma
     ```
 
     Or you can edit the chart and pass the file to the `helm install kuma` command. To get the default values, run:
@@ -127,13 +127,13 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     helm show values kuma/kuma
     ```
 
-1.  Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
+1.  Find the external IP and port of the `global-remote-sync` service in the `{{site.default_namespace}}` namespace:
 
     ```sh
-    kubectl get services -n kuma-system
+    kubectl get services -n {{site.default_namespace}}
     NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-    kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-    kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+    {{site.default_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    {{site.default_namespace}}   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
     By default, it's exposed on [port 5685](/docs/{{ page.version }}/networking/networking). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
@@ -199,7 +199,7 @@ You need the following values to pass to each zone control plane setup:
     ```sh
     helm install kuma \
     --create-namespace \
-    --namespace kuma-system \
+    --namespace {{site.default_namespace}} \
     --set controlPlane.mode=zone \
     --set controlPlane.zone=<zone-name> \
     --set ingress.enabled=true \
@@ -215,7 +215,7 @@ You need the following values to pass to each zone control plane setup:
     ```sh
     helm install kuma \
     --create-namespace \
-    --namespace kuma-system \
+    --namespace {{site.default_namespace}} \
     --set controlPlane.mode=zone \
     --set controlPlane.zone=<zone-name> \
     --set ingress.enabled=true \

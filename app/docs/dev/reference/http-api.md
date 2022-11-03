@@ -196,7 +196,7 @@ curl http://localhost:5681/config
   },
   "store": {
     "kubernetes": {
-      "systemNamespace": "kuma-system"
+      "systemNamespace": "{{site.default_namespace}}"
     },
     "postgres": {
       "connectionTimeout": 5,
@@ -3229,7 +3229,7 @@ curl http://localhost:5681/zoneegresses
  "items": [
   {
    "type": "ZoneEgress",
-   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.kuma-system",
+   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.{{site.default_namespace}}",
    "creationTime": "2022-02-18T13:39:39Z",
    "modificationTime": "2022-02-18T13:39:39Z",
    "zone": "kuma-1-zone",
@@ -3297,7 +3297,7 @@ curl http://localhost:5681/zoneegressoverviews
  "items": [
   {
    "type": "ZoneEgressOverview",
-   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.kuma-system",
+   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.{{site.default_namespace}}",
    "creationTime": "2022-02-18T13:39:39Z",
    "modificationTime": "2022-02-18T13:39:39Z",
    "zoneEgress": {

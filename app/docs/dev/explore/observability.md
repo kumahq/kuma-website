@@ -74,7 +74,7 @@ scrape_configs:
       - action: labelmap
         regex: __meta_kuma_label_(.+)
       kuma_sd_configs:
-      - server: "http://kuma-control-plane.kuma-system.svc:5676" # replace with the url of your control plane
+      - server: "http://kuma-control-plane.{{site.default_namespace}}.svc:5676" # replace with the url of your control plane
 ```
 
 For more information, see [the Prometheus documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).

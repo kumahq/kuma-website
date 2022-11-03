@@ -24,7 +24,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
 metadata:
   name: example
-  namespace: kuma-system
+  namespace: {{site.default_namespace}}
   labels:
     kuma.io/mesh: default
 spec:

@@ -69,3 +69,4 @@ jekyll-generator-single-source:
 base_gateway: Kong Gateway
 mesh_product_name: Kuma
 kic_product_name: Kubernetes Ingress Controller
+default_namespace: kuma-system

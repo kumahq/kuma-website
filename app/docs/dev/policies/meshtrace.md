@@ -137,7 +137,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
 metadata:
   name: default
-  namespace: kuma-system
+  namespace: {{site.default_namespace}}
   labels:
     kuma.io/mesh: default # optional, defaults to `default` if unset
 spec:
@@ -155,7 +155,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
 metadata:
   name: default
-  namespace: kuma-system
+  namespace: {{site.default_namespace}}
   labels:
     kuma.io/mesh: default # optional, defaults to `default` if unset
 spec:
@@ -256,7 +256,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
 metadata:
   name: default
-  namespace: kuma-system
+  namespace: {{site.default_namespace}}
   labels:
     kuma.io/mesh: default # optional, defaults to `default` if unset
 spec:
@@ -274,7 +274,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
 metadata:
   name: default
-  namespace: kuma-system
+  namespace: {{site.default_namespace}}
   labels:
     kuma.io/mesh: default # optional, defaults to `default` if unset
 spec:
@@ -415,7 +415,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
 metadata:
     name: trace-west
-    namespace: kuma-system
+    namespace: {{site.default_namespace}}
 spec:
   targetRef:
     kind: MeshSubset
@@ -433,7 +433,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
 metadata:
   name: trace-east
-  namespace: kuma-system
+  namespace: {{site.default_namespace}}
 spec:
   targetRef:
     kind: MeshSubset

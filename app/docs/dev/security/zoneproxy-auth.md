@@ -94,7 +94,7 @@ REVOCATIONS=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) && echo "api
 kind: Secret
 metadata:
   name: zone-token-revocations
-  namespace: kuma-system 
+  namespace: {{site.default_namespace}} 
 data:
   value: $REVOCATIONS
 type: system.kuma.io/global-secret" | kubectl apply -f -
@@ -128,7 +128,7 @@ signed by it.
 Check what is the current highest serial number.
 
 ```sh
-kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/global-secret'
+kubectl get secrets -n {{site.default_namespace}} --field-selector='type=system.kuma.io/global-secret'
 NAME                       TYPE                           DATA   AGE
 zone-token-signing-key-1   system.kuma.io/global-secret   1      25m
 ```
@@ -143,7 +143,7 @@ data:
 kind: Secret
 metadata:
   name: zone-token-signing-key-2
-  namespace: kuma-system
+  namespace: {{site.default_namespace}}
 type: system.kuma.io/global-secret
 " | kubectl apply -f -
 ```
@@ -181,7 +181,7 @@ data: {{ key }}" | kumactl apply --var key=$(kumactl generate signing-key) -f -
 {% tabs remove-key useUrlFragment=false %}
 {% tab remove-key Kubernetes %}
 ```sh
-kubectl delete secret zone-token-signing-key-1 -n kuma-system
+kubectl delete secret zone-token-signing-key-1 -n {{site.default_namespace}}
 ```
 {% endtab %}
 {% tab remove-key Universal %}
