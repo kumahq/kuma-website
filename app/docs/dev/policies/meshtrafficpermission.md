@@ -25,9 +25,9 @@ If you don't understand this table you should read [matching docs](/docs/{{ page
 
 {{ site.title }} allows configuring one of 3 actions for a group of service's clients:
 
-* `ALLOW` - lets the requests through
-* `DENY` - blocks all the requests
-* `ALLOW_WITH_SHADOW_DENY` - lets the requests through but emits logs as if requests were denied
+* `ALLOW` - allows incoming requests matching the from `targetRef`.
+* `DENY` - denies incoming requests matching the from `targetRef`
+* `ALLOW_WITH_SHADOW_DENY` - same as `ALLOW` but will log as if request is denied, this is useful for rolling new restrictive policies without breaking things.
 
 ## Examples
 
@@ -56,7 +56,6 @@ spec:
         action: ALLOW
 ```
 
-Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
 {% tab allow-orders Universal %}
@@ -76,7 +75,6 @@ spec:
       default: # 3
         action: ALLOW
 ```
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -131,7 +129,6 @@ spec:
         action: DENY
 ```
 
-Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
 {% tab deny-all Universal %}
@@ -149,14 +146,13 @@ spec:
       default: # 3
         action: DENY
 ```
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 
 {% endtab %}
 {% endtabs %}
 
 #### Explanation
 
-1. Top level `targetRef` selects all proxies in the mesh where is policy was applied (`default` mesh).
+1. Top level `targetRef` selects all proxies in the mesh.
 
     ```yaml
     targetRef: # 1
@@ -242,7 +238,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 #### Explanation
 
-1. Top level `targetRef` selects all proxies in the mesh where is policy was applied (`default` mesh).
+1. Top level `targetRef` selects all proxies in the mesh.
 
     ```yaml
     targetRef: # 1
@@ -259,14 +255,14 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
           kuma.io/zone: us-east
     ```
 
-3. The action is `ALLOW`. All requests from the zone `us-east` will be allowed on all proxies in the `default` mesh.
+3. The action is `ALLOW`. All requests from the zone `us-east` will be allowed on all proxies.
 
     ```yaml
     default: # 3
       action: ALLOW
     ```
 
-4. `TargetRef` inside the `from` array selects proxies that have label `kuma.io/zone: us-east`.
+4. `TargetRef` inside the `from` array selects proxies that have tags `kuma.io/zone: us-east`.
    These proxies will be subjected to the action from `default.action`.
 
     ```yaml
@@ -276,7 +272,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
           env: dev
     ```
 
-5. The action is `DENY`. All requests from the env `dev` will be denied on all proxies in the `default` mesh.
+5. The action is `DENY`. All requests from the env `dev` will be denied on all proxies.
 
     ```yaml
     default: # 5
@@ -286,5 +282,5 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 {% tip %}
 Order of rules inside the `from` array matters. 
 Request from the proxy that has both `kuma.io/zone: east` and `env: dev` will be denied, 
-because the rule with `DENY` has bigger index in the `from` array. 
+This is because the rule with `DENY` is later in the `from` array than any `ALLOW` rules.
 {% endtip %}
