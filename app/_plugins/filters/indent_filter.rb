@@ -2,13 +2,11 @@
 
 module IndentFilter
   def indent(input)
-    input.gsub(/\n/, "\n    ")
-    # Remove the trailing empty line
-    lines = input.split("\n")
-    if lines.last.strip == ""
-      lines.slice(0, lines.length - 2)
-    end
-    lines.join("\n")
+    input
+      .gsub("\n</code>", "</code>")
+      .split("\n")
+      .map { |l| l.prepend("   ") }
+      .join("\n")
   end
 end
 
