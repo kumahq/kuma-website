@@ -66,7 +66,7 @@ spec:
       value: '"1"'
 ```
 
-You can modify whole `limits` section:
+you could modify the entire `limits`, `request` or `resources` sections:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
