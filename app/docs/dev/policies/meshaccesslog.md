@@ -5,25 +5,24 @@ title: MeshAccessLog (beta)
 With the MeshAccessLog policy you can easily set up access logs on every data plane proxy in a mesh.
 
 {% warning %}
-This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficLog](/docs/{{ page.version }}/policies/traffic-log).
+This policy uses a new policy matching algorithm and is in beta state. It should not be combined with [TrafficLog](/docs/{{ page.version }}/policies/traffic-log).
 {% endwarning %}
 
 {% tip %}
-In the rest of this page we assume you have already configured your observability tools to work with Kuma.
-If you haven't already read the [observability docs](/docs/{{ page.version }}/explore/observability).
+This guide assumes you have already configured your observability tools to work with Kuma.
+If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/observability).
 {% endtip %}
 
-## TargetRef support matrix
+## `targetRef` support matrix
 
-| TargetRef kind    | top level | to  | from |
-|-------------------|-----------|-----|------|
-| Mesh              | ✅         | ✅   | ✅    |
-| MeshSubset        | ✅         | ❌   | ❌    |
-| MeshService       | ✅         | ✅   | ❌    |
-| MeshServiceSubset | ✅         | ❌   | ❌    |
+| `targetRef.kind`    | top level | to  | from |
+| ------------------- | --------- | --- | ---- |
+| `Mesh`              | ✅        | ✅  | ✅   |
+| `MeshSubset`        | ✅        | ❌  | ❌   |
+| `MeshService`       | ✅        | ✅  | ❌   |
+| `MeshServiceSubset` | ✅        | ❌  | ❌   |
 
-If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/matching).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/matching).
 
 ## Configuration
 
@@ -33,23 +32,23 @@ Kuma gives you full control over the format of the access logs.
 
 The shape of a single log record is defined by a template string that uses [command operators](https://www.envoyproxy.io/docs/envoy/v1.22.0/configuration/observability/access_log/usage#command-operators) to extract and format data about a `TCP` connection or an `HTTP` request.
 
-E.g.,
+For example:
 
 ```
 %START_TIME% %KUMA_SOURCE_SERVICE% => %KUMA_DESTINATION_SERVICE% %DURATION%
 ```
 
-where `%START_TIME%` and `%KUMA_SOURCE_SERVICE%` are examples of available _command operators_.
+`%START_TIME%` and `%KUMA_SOURCE_SERVICE%` are examples of available _command operators_.
 
 All _command operators_ [defined by Envoy](https://www.envoyproxy.io/docs/envoy/v1.22.0/configuration/observability/access_log/usage#command-operators) are supported, along with additional _command operators_ defined by Kuma:
 
 | Command Operator                     | Description                                                      |
 |--------------------------------------|------------------------------------------------------------------|
-| `%KUMA_MESH%`                        | name of the mesh in which traffic is flowing                     |
-| `%KUMA_SOURCE_SERVICE%`              | name of a `service` that is the `source` of traffic              |
-| `%KUMA_DESTINATION_SERVICE%`         | name of a `service` that is the `destination` of traffic         |
-| `%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%` | address of a `Dataplane` that is the `source` of traffic         |
-| `%KUMA_TRAFFIC_DIRECTION%`           | direction of the traffic, `INBOUND`, `OUTBOUND` or `UNSPECIFIED` |
+| `%KUMA_MESH%`                        | Name of the mesh in which traffic is flowing.                     |
+| `%KUMA_SOURCE_SERVICE%`              | Name of a `service` that is the `source` of traffic.              |
+| `%KUMA_DESTINATION_SERVICE%`         | Name of a `service` that is the `destination` of traffic.         |
+| `%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%` | Address of a `Dataplane` that is the `source` of traffic.         |
+| `%KUMA_TRAFFIC_DIRECTION%`           | Direction of the traffic, `INBOUND`, `OUTBOUND`, or `UNSPECIFIED`. |
 
 All additional access log _command operators_ are valid to use with both `TCP` and `HTTP` traffic.
 
@@ -57,11 +56,11 @@ If a _command operator_ is specific to `HTTP` traffic, such as `%REQ(X?Y):Z%` or
 
 Internally, Kuma [determines traffic protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
 
-There are two types of `format` - `plain` and `json`.
+There are two types of `format`, `plain` and `json`.
 
-Plain will accept a string with _command operators_ and produce a string output.
+Plain accepts a string with _command operators_ and produces a string output.
 
-JSON will accept a list of key-value pairs that will produce a valid JSON object.
+JSON accepts a list of key-value pairs that produces a valid JSON object.
 
 #### Plain
 
@@ -197,11 +196,11 @@ format:
 
 ### Backends
 
-A backend determines where the logs ends up.
+A backend determines where the logs end up.
 
 #### TCP
 
-A TCP backend will stream logs to a server via TCP protocol.
+A TCP backend streams logs to a server via TCP protocol.
 You can configure a TCP backend with an address:
 
 ```yaml
@@ -212,7 +211,7 @@ backends:
 
 #### File
 
-A file backend will stream logs to a text file.
+A file backend streams logs to a text file.
 You can configure a file backend with a path:
 
 ```yaml
@@ -223,7 +222,7 @@ backends:
 
 ## Examples
 
-### Log outgoing traffic from specific frontend version to backend service
+### Log outgoing traffic from specific frontend version to a backend service
 
 {% tabs meshaccesslog-outgoing-from-frontend-to-backend useUrlFragment=false %}
 {% tab meshaccesslog-outgoing-from-frontend-to-backend Kubernetes %}
@@ -235,7 +234,7 @@ metadata:
   name: default
   namespace: kuma-system
   labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
+    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
 spec:
   targetRef:
     kind: MeshService
@@ -284,7 +283,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 ### Logging to multiple backends
 
-This configuration will log to two backends - TCP and file.
+This configuration logs to two backends: TCP and file.
 
 {% tabs meshaccesslog-multiple-backends useUrlFragment=false %}
 {% tab meshaccesslog-multiple-backends Kubernetes %}
@@ -296,7 +295,7 @@ metadata:
   name: default
   namespace: kuma-system
   labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
+    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
 spec:
   targetRef:
     kind: Mesh
@@ -363,18 +362,18 @@ metadata:
   name: default
   namespace: kuma-system
   labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
+    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
 spec:
   targetRef:
     kind: Mesh
-  from: # delete this section if you do not want to log incoming traffic
+  from: # delete this section if you don't want to log incoming traffic
     - targetRef:
         kind: Mesh
       default:
         backends:
           - file:
               path: /tmp/access.log
-  to: # delete this section if you do not want to log outgoing traffic
+  to: # delete this section if you don't want to log outgoing traffic
     - targetRef:
         kind: Mesh
       default:
@@ -395,14 +394,14 @@ mesh: default
 spec:
   targetRef:
     kind: Mesh
-  from: # delete this section if you do not want to log incoming traffic
+  from: # delete this section if you don't want to log incoming traffic
     - targetRef:
         kind: Mesh
       default:
         backends:
           - file:
               path: /tmp/access.log
-  to: # delete this section if you do not want to log outgoing traffic
+  to: # delete this section if you don't want to log outgoing traffic
     - targetRef:
         kind: Mesh
       default:
@@ -418,10 +417,11 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 ## Logging traffic going outside the Mesh
 
-To target [External Service](/docs/{{ page.version }}/policies/external-services#usage) use `MeshService` as a `targetRef` target and match external service `name`.
+To target [`ExternalServices`](/docs/{{ page.version }}/policies/external-services#usage), use `MeshService` as the `targetRef` kind with `name` set to  
+the `kuma.io/service` value.
 
-To target traffic going through [passthrough mode](/docs/{{ page.version }}/policies/external-services) use `Mesh` as a `targerRef`. This will cause case `%KUMA_DESTINATION_SERVICE%` will have value `external` and `%UPSTREAM_HOST%` will have an IP of the service.
+To target other non-mesh traffic, i.e. [passthrough traffic](/docs/{{ page.version }}/policies/mesh/#controlling-the-passthrough-mode), use `Mesh` as the `targetRef` kind. In this case, `%KUMA_DESTINATION_SERVICE%` is set to `external`.
 
 ## Builtin gateway
 
-You can select a builtin gateway using the `kuma.io/service` value. A current limitation is that traffic routed from a gateway to a service will be logged by that gateway as having destination `"*"`.
+You can select a built-in gateway using the `kuma.io/service` value. A current limitation is that traffic routed from a gateway to a service is logged by that gateway as having destination `"*"`.
