@@ -31,7 +31,9 @@ We can run Kuma:
 {% tip %}
 Running administrative tasks without additional authentication is possible by running the container in a host network.
 To do this add `--network="host"` parameter to the above command.
-Alternatively you can `docker exec` into the container and setup kumactl [authentication](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token).
+Alternatively you can `docker exec` into the container to get the token (point 1 from [authentication - universal](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token))
+and use that token to configure `kumactl` from the host machine (point 2 from [authentication - universal](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token)),
+use `http://<CONTROL_PLANE_ADDRESS>:5681` as `address` and `--skip-verify`.
 {% endtip %}
 
 This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/introduction/deployments) like "multi-zone".
