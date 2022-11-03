@@ -35,7 +35,7 @@ For any large mesh using transparent-proxy it's highly recommended to use [reach
 
 You can also find tuning configuration in the [fine-tuning](/docs/{{ page.version }}/documentation/fine-tuning) section of the docs.
 
-## Sizing your dataplane container on Kubernetes
+## Sizing your sidecar container on Kubernetes
 
 When deploying Kuma on Kubernetes, dataplane is deployed as a separate container in Pod. By default, `kuma-sidecar` container is configured like this:
 
