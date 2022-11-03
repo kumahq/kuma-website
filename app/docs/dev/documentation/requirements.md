@@ -51,7 +51,7 @@ resources:
 
 This configuration should be enough for most use cases. In some cases, like when you cannot scale horizontally or your service handles lots of concurrent traffic, you may need to change these values. You can do this using the [`ContainerPatch` resource](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration). 
 
-To change thoes resources, you need `ContainerPatch` with `sidecarPatch`. You have multiple options. You can modify single parameter of resource section:
+For example, you can modify individual parameters under `resources`:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
