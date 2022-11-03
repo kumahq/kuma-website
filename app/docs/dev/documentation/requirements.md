@@ -49,7 +49,7 @@ resources:
         memory: 512Mi
 ```
 
-This resources configuration should be enough for most use cases. In some cases like when you cannot scale horizontally, or your service handle lots of concurrent traffic, you may need to change those values. You can do it using [ContainerPatch resource](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration). 
+This configuration should be enough for most use cases. In some cases, like when you cannot scale horizontally or your service handles lots of concurrent traffic, you may need to change these values. You can do this using the [`ContainerPatch` resource](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration). 
 
 To change thoes resources, you need `ContainerPatch` with `sidecarPatch`. You have multiple options. You can modify single parameter of resource section:
 
