@@ -228,7 +228,7 @@ Steps required to setup a simple gateway that exposes a http listener and 2 rout
 
 {% tabs setup useUrlFragment=false %}
 {% tab setup Kubernetes %}
-To ease starting gateways on Kubernetes, Kuma comes with a builtin type `MeshGatewayInstance`.
+To make starting gateways on Kubernetes easier, Kuma comes with a builtin type `MeshGatewayInstance`.
 This type requests that the control plane create and manage a Kubernetes `Deployment` and `Service`
 suitable for providing service capacity for the `MeshGateway` with the matching `kuma.io/service` tag.
 
@@ -247,8 +247,7 @@ spec:
 " | kubectl apply -f -
 ```
 
-For a given `MeshGatewayInstance`, the control plane waits for a `MeshGateway` matching the `kuma.io/service` tag to exist.
-Once one does, the control plane creates a new `Deployment` in the `default` namespace.
+Once a `MeshGateway` exists that matches the `kuma.io/service` tag, the control plane creates a new `Deployment` in the `default` namespace.
 This `Deployment` has the requested number of builtin gateway `Dataplane` pod replicas running as the service named in the `MeshGatewayInstance` tags.
 The control plane also creates a new `Service` to send network traffic to the builtin `Dataplane` pods.
 The `Service` is of the type requested in the `MeshGatewayInstance`, and its ports are automatically adjusted to match the listeners on the corresponding `MeshGateway`.
@@ -308,7 +307,7 @@ kuma-dp run \
 {% endtab %}
 {% endtabs %}
 
-Now that the `Dataplane` is running you can describe the gateway listener:
+Now let's create a `MeshGateway` to configure the listeners:
 
 {% tabs listener useUrlFragment=false %}
 {% tab listener Kubernetes %}
@@ -356,7 +355,7 @@ conf:
 {% endtab %}
 {% endtabs %}
 
-This policy creates a listener on port 8080 and will receive any traffic which has the `Host` header set to `foo.example.com`.
+The `MeshGateway` creates a listener on port 8080 and will accept any traffic which has the `Host` header set to `foo.example.com`.
 Notice that listeners have tags like `Dataplanes`. This will be useful when binding routes to listeners.
 
 {% tip %}
@@ -364,7 +363,7 @@ These are Kuma policies so if you are running on multi-zone they need to be crea
 See the [dedicated section](/docs/{{ page.version }}/deployments/multi-zone) for detailed information.
 {% endtip %}
 
-Now define your routes which take the traffic and route it either to your `api` or your `frontend` depending on the path of the http request:
+Now define your routes which take the traffic and route it either to your `api` or your `frontend` depending on the path of the HTTP request:
 
 {% tabs routes useUrlFragment=false %}
 {% tab routes Kubernetes %}
@@ -420,7 +419,7 @@ conf:
 {% endtab %}
 {% endtabs %}
 
-Because routes are applied in order of specificity the first route will take precedence over the second one.
+Because routes are applied in order of specificity, the first route will take precedence over the second one.
 So `/api/foo` will go to the `api` service whereas `/asset` will go to the `frontend` service.
 
 ### TCP

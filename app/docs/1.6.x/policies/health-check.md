@@ -2,9 +2,9 @@
 title: Health Check
 ---
 
-:::tip
+{% tip %}
 Health Check is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
-:::
+{% endtip %}
 
 This policy enables Kuma to keep track of the health of every data plane proxy, with the goal of minimizing the number of failed requests in case a data plane proxy is temporarily unhealthy.
 

@@ -2,9 +2,9 @@
 title: Retry
 ---
 
-:::tip
+{% tip %}
 Retry is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
-:::
+{% endtip %}
 
 This policy enables Kuma to know how to behave if there is a failed scenario (i.e. HTTP request) which could be retried.
 

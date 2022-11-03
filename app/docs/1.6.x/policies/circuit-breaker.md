@@ -2,9 +2,9 @@
 title: Circuit Breaker
 ---
 
-:::tip
+{% tip %}
 Circuit Breaker is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
-:::
+{% endtip %}
 
 This policy will look for errors in the live traffic being exchanged between our data plane proxies and it will mark a data proxy as an unhealthy if certain conditions are met and - by doing so - making sure that no additional traffic can reach an unhealthy data plane proxy until it is healthy again.
 

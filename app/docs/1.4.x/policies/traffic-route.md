@@ -2,9 +2,9 @@
 title: Traffic Route
 ---
 
-:::tip
+{% tip %}
 Traffic Route is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
-:::
+{% endtip %}
 
 This policy lets you configure routing rules for the traffic in the mesh. It supports weighted routing and can be used to implement versioning across services or to support deployment strategies such as blue/green or canary.
 
