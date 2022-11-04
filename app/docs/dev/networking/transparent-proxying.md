@@ -35,19 +35,18 @@ Prerequisites:
 {{site.mesh_product_name}} comes with [`kumactl` executable](/docs/{{ page.version }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
 The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
 
- 1. Create a new dedicated user on the machine.
- 
-```sh
-useradd -u 5678 -U kuma-dp
-```
+1. Create a new dedicated user on the machine.
+   ```sh
+   useradd -u 5678 -U kuma-dp
+   ```
 
- 2. Redirect all the relevant inbound, outbound and DNS traffic to the {{site.mesh_product_name}} data plane proxy.
-```sh
-kumactl install transparent-proxy \
-  --kuma-dp-user kuma-dp \
-  --skip-resolv-conf \
-  --redirect-dns
-```
+2. Redirect all the relevant inbound, outbound and DNS traffic to the {{site.mesh_product_name}} data plane proxy.
+   ```sh
+   kumactl install transparent-proxy \
+     --kuma-dp-user kuma-dp \
+     --skip-resolv-conf \
+     --redirect-dns
+   ```
 
 {% warning %}
 Please note that this command **will change** the host `iptables` rules.
@@ -200,5 +199,44 @@ networking:
       - redis_kuma-demo_svc_6379
       - elastic_kuma-demo_svc_9200 
 ```
+{% endtab %}
+{% endtabs %}
+
+### Transparent Proxy using eBPF (experimental)
+
+Starting from {{site.mesh_product_name}} 2.0 you can install transparent proxy,
+which to intercept traffic instead of Iptables uses eBPF.
+
+{% warning %}
+To use Transparent Proxy with eBPF your environment has to use `Kernel >= 5.7`
+and have `cgroup2` available
+{% endwarning %}
+
+{% tabs ebpf useUrlFragment=false %}
+{% tab ebpf Kubernetes %}
+
+```shell
+kumactl install control-plane \
+  --set "kuma.experimental.ebpf.enabled=true" | kubectl apply -f-
+```
+
+{% endtab %}
+
+{% tab ebpf Universal %}
+
+```shell
+kumactl install transparent-proxy \
+  --experimental-transparent-proxy-engine \
+  --ebpf-enabled \
+  --ebpf-instance-ip <IP_ADDRESS>
+```
+
+{% tip %}
+If your environment contains more than one non-loopback network interface, and
+you want to specify explicitly which one should be used for transparent proxying
+you should provide it using`--ebpf-tc-attach-iface <IFACE_NAME>` flag, during
+transparent proxy installation.
+{% endtip %}
+
 {% endtab %}
 {% endtabs %}
