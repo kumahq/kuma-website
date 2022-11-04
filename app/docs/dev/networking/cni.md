@@ -309,6 +309,11 @@ Logs of the new CNI plugin and the installer logs are available via `kubectl log
 
 To install merbridge CNI with eBPF append the following options to the command from [installation](#installation):
 
+{% warning %}
+To use Merbridge CNI with eBPF your environment has to use `Kernel >= 5.7`
+and have `cgroup2` available
+{% endwarning %}
+
 ```
 --set ... \
 --set "cni.enabled=true" \

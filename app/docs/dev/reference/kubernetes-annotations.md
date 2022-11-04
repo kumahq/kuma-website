@@ -470,6 +470,138 @@ spec:
         ...
 ```
 
+### `kuma.io/transparent-proxying-ebpf`
+
+When transparent proxy is installed with ebpf mode, you can disable it for particular workloads if necessary.
+
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental).
+
+**Example**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  [...]
+  template:
+    metadata:
+      [...]
+      annotations:
+        kuma.io/transparent-proxying-ebpf: disabled
+    spec:
+      containers:
+        [...]
+```
+
+### `kuma.io/transparent-proxying-ebpf-bpf-fs-path`
+
+Path to BPF FS if different than default (`/sys/fs/bpf`)
+
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental).
+
+**Example**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  [...]
+  template:
+    metadata:
+      [...]
+      annotations:
+        kuma.io/transparent-proxying-ebpf-bpf-fs-path: /custom/bpffs/path
+    spec:
+      containers:
+        [...]
+```
+
+### `kuma.io/transparent-proxying-ebpf-cgroup-path`
+
+cgroup2 path if different than default (`/sys/fs/cgroup`)
+
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental).
+
+**Example**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  [...]
+  template:
+    metadata:
+      [...]
+      annotations:
+        kuma.io/transparent-proxying-ebpf-cgroup-path: /custom/cgroup2/path
+    spec:
+      containers:
+        [...]
+```
+
+### `kuma.io/transparent-proxying-ebpf-programs-source-path`
+
+Custom path for ebpf programs to be loaded when installing transparent proxy
+
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental).
+
+**Example**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  [...]
+  template:
+    metadata:
+      [...]
+      annotations:
+        kuma.io/transparent-proxying-ebpf-programs-source-path: /custom/ebpf/programs/source/path
+    spec:
+      containers:
+        [...]
+```
+
+### `kuma.io/transparent-proxying-ebpf-tc-attach-iface`
+
+Name of the network interface which should be used to attach to it TC-related
+eBPF programs. By default {{site.mesh_product_name}} will use first, non-loopback
+interface it'll find.
+
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental).
+
+**Example**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: kuma-example
+spec:
+  [...]
+  template:
+    metadata:
+      [...]
+      annotations:
+        kuma.io/transparent-proxying-ebpf-tc-attach-iface: eth3
+    spec:
+      containers:
+        [...]
+```
+
 ### `prometheus.metrics.kuma.io/aggregate-<name>-enabled`
 
 Define if `kuma-dp` should scrape metrics from the application that has been defined in the `Mesh` configuration. Default value: `true`. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)
