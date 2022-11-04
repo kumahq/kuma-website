@@ -618,6 +618,15 @@ items:
             url: "/policies/meshaccesslog/#configuration"
           - text: Examples
             url: "/policies/meshaccesslog/#examples"
+      - text: MeshTrafficPermission (Beta)
+        url: /policies/meshtrafficpermission/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtrafficpermission/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtrafficpermission/#configuration"
+          - text: Examples
+            url: "/policies/meshtrafficpermission/#examples"
   - title: Reference docs
     group: true
     items:
