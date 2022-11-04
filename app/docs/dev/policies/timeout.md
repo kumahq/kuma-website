@@ -213,3 +213,85 @@ conf:
 It's not recommended disabling `streamIdleTimeouts` and `idleTimeout`
 since it has a high likelihood of yielding connection leaks.
 {% endwarning %}
+
+## Connections to outside the mesh
+
+When [passthrough mode](/docs/{{ page.version }}/policies/mesh#controlling-the-passthrough-mode) is activated 
+any non-mesh traffic is passing Envoy without applying any policies. 
+That's why timeouts for the non-mesh traffic can't be changed using the Timeout policy.
+Passthrough timeouts have the following values:
+
+```yaml
+connectTimeout: 10s
+tcp:
+  idleTimeout: 1h
+```
+
+If you still need to change these timeouts you can use a [ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template):
+
+{% tabs passthrough-timeouts useUrlFragment=false %}
+{% tab passthrough-timeouts Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ProxyTemplate
+mesh: default
+metadata:
+  name: custom-template-1
+spec:
+  selectors:
+    - match:
+        kuma.io/service: "*"
+  conf:
+    imports:
+      - default-proxy
+    modifications:
+      - cluster:
+          operation: patch
+          match:
+            name: "outbound:passthrough:ipv4"
+          value: |
+            connect_timeout: "99s" # NEW VALUE
+      - networkFilter:
+          operation: patch
+          match:
+            name: "envoy.filters.network.tcp_proxy"
+            listenerName: "outbound:passthrough:ipv4"
+          value: |
+            name: envoy.filters.network.tcp_proxy
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+              idleTimeout: "3h" # NEW VALUE
+```
+{% endtab %}
+
+{% tab passthrough-timeouts Universal %}
+```yaml
+type: ProxyTemplate
+mesh: default
+name: custom-template-1
+selectors:
+    - match:
+        kuma.io/service: "*"
+conf:
+  imports:
+    - default-proxy
+  modifications:
+    - cluster:
+        operation: patch
+        match:
+          name: "outbound:passthrough:ipv4"
+        value: |
+          connect_timeout: "99s" # NEW VALUE
+    - networkFilter:
+        operation: patch
+        match:
+          name: "envoy.filters.network.tcp_proxy"
+          listenerName: "outbound:passthrough:ipv4"
+        value: |
+          name: envoy.filters.network.tcp_proxy
+          typedConfig:
+            '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+            idleTimeout: "3h" # NEW VALUE
+```
+{% endtab %}
+{% endtabs %}
