@@ -88,7 +88,7 @@ data: dGVzdAo=" | kumactl apply -f -
 {% endtab %}
 {% endtabs %}
 
-{% tip %}
+
 The `data` field of a {{site.mesh_product_name}} `Secret` is a Base64 encoded value.
 Use the `base64` command in Linux or macOS to encode any value in Base64:
 
@@ -100,7 +100,6 @@ cat cert.pem | base64
 echo "value" | base64
 ```
 
-{% endtip %}
 
 ### Access to the Secret HTTP API
 
