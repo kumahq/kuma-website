@@ -5,10 +5,10 @@ install:
 	bundle install
 
 run:
-	bundle exec jekyll build --config jekyll.yml --watch
+	bundle exec jekyll serve --config jekyll.yml
 
 build:
-	bundle exec jekyll build --config jekyll.yml 
+	bundle exec jekyll build --config jekyll.yml
 
 serve:
 	netlify dev
