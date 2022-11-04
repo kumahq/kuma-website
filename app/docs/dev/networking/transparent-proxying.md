@@ -205,7 +205,6 @@ networking:
 ### Transparent Proxy using eBPF (experimental)
 
 Starting from {{site.mesh_product_name}} 2.0 you can setup transparent proxy to use eBPF instead of iptables.
-which to intercept traffic instead of Iptables uses eBPF.
 
 {% warning %}
 To use Transparent Proxy with eBPF your environment has to use `Kernel >= 5.7`
