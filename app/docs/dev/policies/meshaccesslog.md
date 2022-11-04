@@ -22,7 +22,7 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 | `MeshService`       | ✅        | ✅  | ❌   |
 | `MeshServiceSubset` | ✅        | ❌  | ❌   |
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/matching).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
 ## Configuration
 

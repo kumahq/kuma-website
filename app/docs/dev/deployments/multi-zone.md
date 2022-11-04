@@ -272,9 +272,22 @@ You need the following values to pass to each zone control plane setup:
    --dataplane-file=ingress-dp.yaml
    ```
 
-(Optional) If you want to deploy zone egress:
+   If zone-ingress is running on a different machine than zone-cp you need to
+   copy CA cert file from zone-cp (located in `~/.kuma/kuma-cp.crt`) to somewhere accessible by zone-ingress (e.g. `/tmp/kuma-cp.crt`).
+   Modify the above command and provide the certificate path in `--ca-cert-file` argument.
 
-5.  Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services
+   ```sh
+   kuma-dp run \
+   --proxy-type=ingress \
+   --cp-address=https://<kuma-cp-address>:5678 \
+   --dataplane-token-file=/tmp/zone-token \
+   --ca-cert-file=/tmp/kuma-cp.crt \
+   --dataplane-file=ingress-dp.yaml
+   ```
+
+5.  Optional: if you want to deploy zone egress
+
+    Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services
     to be configured to proxy traffic to other zones or external services through
     zone egress:
 

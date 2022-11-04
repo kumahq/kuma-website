@@ -418,6 +418,9 @@ items:
             url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy"
           - text: Inbound Connection Policy
             url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#inbound-connection-policy"
+      - text: Understanding TargetRef policies
+        url: "/policies/targetref"
+
       - text: Protocol support in Kuma
         url: /policies/protocol-support-in-kuma/
         items:
@@ -615,6 +618,15 @@ items:
             url: "/policies/meshaccesslog/#configuration"
           - text: Examples
             url: "/policies/meshaccesslog/#examples"
+      - text: MeshTrafficPermission (Beta)
+        url: /policies/meshtrafficpermission/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtrafficpermission/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtrafficpermission/#configuration"
+          - text: Examples
+            url: "/policies/meshtrafficpermission/#examples"
   - title: Reference docs
     group: true
     items:
