@@ -82,10 +82,10 @@ This group is [authorized by default](/docs/{{ page.version }}/security/api-acce
 
 3. Disable localhost is admin (optional)
 
-   By default, all requests originated from localhost are authenticated as an `mesh-system:admin` user.
-   After you retrieve and store the admin token, [configure a control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN` set to `false`.
-   {% endtab %}
-   {% endtabs %}
+  By default, all requests originated from localhost are authenticated as an `mesh-system:admin` user.
+  After you retrieve and store the admin token, [configure a control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN` set to `false`.
+  {% endtab %}
+  {% endtabs %}
 
 ### Generate user tokens
 
@@ -201,50 +201,50 @@ If the signing key is compromised, you must rotate it including all the tokens t
 
 1. Generate a new signing key
 
-   Make sure to generate the new signing key with a serial number greater than the serial number of the current signing key.
+Make sure to generate the new signing key with a serial number greater than the serial number of the current signing key.
 
-   {% tabs key-rotation useUrlFragment=false %}
-   {% tab key-rotation Kubernetes %}
-   Check what's the current highest serial number.
+{% tabs key-rotation useUrlFragment=false %}
+{% tab key-rotation Kubernetes %}
+Check what's the current highest serial number.
 
-   ```sh
-   kubectl get secrets -n {{site.default_namespace}} --field-selector='type=system.kuma.io/global-secret'
-   NAME                          TYPE                           DATA   AGE
-   user-token-signing-key-1   system.kuma.io/global-secret   1      25m
-   ```
+```sh
+kubectl get secrets -n {{site.default_namespace}} --field-selector='type=system.kuma.io/global-secret'
+NAME                          TYPE                           DATA   AGE
+user-token-signing-key-1   system.kuma.io/global-secret   1      25m
+```
 
-   In this case, the highest serial number is `1`. Generate a new signing key with a serial number of `2`
-   ```sh
-   TOKEN="$(kumactl generate signing-key)" && echo "
-   apiVersion: v1
-   data:
-     value: $TOKEN
-   kind: Secret
-   metadata:
-     name: user-token-signing-key-2
-     namespace: {{site.default_namespace}}
-   type: system.kuma.io/global-secret
-   " | kubectl apply -f - 
-   ```
+In this case, the highest serial number is `1`. Generate a new signing key with a serial number of `2`
+```sh
+TOKEN="$(kumactl generate signing-key)" && echo "
+apiVersion: v1
+data:
+  value: $TOKEN
+kind: Secret
+metadata:
+  name: user-token-signing-key-2
+  namespace: {{site.default_namespace}}
+type: system.kuma.io/global-secret
+" | kubectl apply -f - 
+```
 
-   {% endtab %}
-   {% tab key-rotation Universal %}
-   Check what's the current highest serial number.
-   ```sh
-   kumactl get global-secrets
-   NAME                             AGE
-   user-token-signing-key-1   36m
-   ```
+{% endtab %}
+{% tab key-rotation Universal %}
+Check what's the current highest serial number.
+```sh
+kumactl get global-secrets
+NAME                             AGE
+user-token-signing-key-1   36m
+```
 
-   In this case, the highest serial number is `1`. Generate a new signing key with a serial number of `2`
-   ```sh
-   echo "
-   type: GlobalSecret
-   name: user-token-signing-key-2
-   data: {{ key }}" | kumactl apply --var key=$(kumactl generate signing-key) -f -
-   ```
-   {% endtab %}
-   {% endtabs %}
+In this case, the highest serial number is `1`. Generate a new signing key with a serial number of `2`
+```sh
+echo "
+type: GlobalSecret
+name: user-token-signing-key-2
+data: {{ key }}" | kumactl apply --var key=$(kumactl generate signing-key) -f -
+```
+{% endtab %}
+{% endtabs %}
 
 2. Regenerate user tokens
 
@@ -316,46 +316,47 @@ All users that provide client certificate are authenticated as a user with the n
    ```
 
 2. Configure the control plane with client certificates
-   {% tabs usage useUrlFragment=false %}
-   {% tab usage Kubernetes (kumactl) %}
-   Create a secret in the namespace in which control plane is installed
-   ```sh
-   kubectl create secret generic api-server-client-certs -n {{site.default_namespace}} \
-     --from-file=client1.pem=/tmp/tls.crt \
-   ```
-   You can provide as many client certificates as you want. Remember to only provide certificates without keys.
 
-   Point to this secret when installing {{site.mesh_product_name}}
-   ```sh
-   kumactl install control-plane \
-     --tls-api-server-client-certs-secret=api-server-client-certs
-   ```
-   {% endtab %}
-   {% tab usage Kubernetes (HELM) %}
-   Create a secret in the namespace in which control plane is installed
-   ```sh
-   kubectl create secret generic api-server-client-certs -n {{site.default_namespace}} \
-     --from-file=client1.pem=/tmp/tls.crt \
-   ```
-   You can provide as many client certificates as you want. Remember to only provide certificates without keys.
+  {% tabs usage useUrlFragment=false %}
+  {% tab usage Kubernetes (kumactl) %}
+  Create a secret in the namespace in which control plane is installed
+  ```sh
+  kubectl create secret generic api-server-client-certs -n {{site.default_namespace}} \
+    --from-file=client1.pem=/tmp/tls.crt \
+  ```
+  You can provide as many client certificates as you want. Remember to only provide certificates without keys.
 
-   Set `controlPlane.tls.apiServer.clientCertsSecretName` to `api-server-client-certs` via HELM
-   {% endtab %}
-   {% tab usage Universal %}
-   Put all the certificates in one directory
-   ```sh
-   mkdir /opt/client-certs
-   cp /tmp/tls.crt /opt/client-certs/client1.pem 
-   ```
-   All client certificates must end with `.pem` extension. Remember to only provide certificates without keys.
+  Point to this secret when installing {{site.mesh_product_name}}
+  ```sh
+  kumactl install control-plane \
+    --tls-api-server-client-certs-secret=api-server-client-certs
+  ```
+  {% endtab %}
+  {% tab usage Kubernetes (HELM) %}
+  Create a secret in the namespace in which control plane is installed
+  ```sh
+  kubectl create secret generic api-server-client-certs -n {{site.default_namespace}} \
+    --from-file=client1.pem=/tmp/tls.crt \
+  ```
+  You can provide as many client certificates as you want. Remember to only provide certificates without keys.
 
-   Configure control plane by pointing to this directory
-   ```sh
-   KUMA_API_SERVER_AUTH_CLIENT_CERTS_DIR=/opt/client-certs \
-     kuma-cp run
-   ```
-   {% endtab %}
-   {% endtabs %}
+  Set `controlPlane.tls.apiServer.clientCertsSecretName` to `api-server-client-certs` via HELM
+  {% endtab %}
+  {% tab usage Universal %}
+  Put all the certificates in one directory
+  ```sh
+  mkdir /opt/client-certs
+  cp /tmp/tls.crt /opt/client-certs/client1.pem 
+  ```
+  All client certificates must end with `.pem` extension. Remember to only provide certificates without keys.
+
+  Configure control plane by pointing to this directory
+  ```sh
+  KUMA_API_SERVER_AUTH_CLIENT_CERTS_DIR=/opt/client-certs \
+    kuma-cp run
+  ```
+  {% endtab %}
+  {% endtabs %}
 
 3. Configure `kumactl` with valid client certificate
    ```sh
