@@ -15,7 +15,6 @@ it should not be mixed with [TrafficPermission](../traffic-permissions).
 | MeshSubset        | ✅        | ❌  | ✅   |
 | MeshService       | ✅        | ❌  | ✅   |
 | MeshServiceSubset | ✅        | ❌  | ✅   |
-| MeshGatewayRoute  | ✅        | ❌  | ❌   |
 
 If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/matching).
 
