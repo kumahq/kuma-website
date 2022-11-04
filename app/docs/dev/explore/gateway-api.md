@@ -35,6 +35,7 @@ Gateway API is not supported in multi-zone. To use the builtin Gateway, you need
 
    Every `Gateway` refers to a `GatewayClass` by name.
 
+{% capture gateway %}
 {% tabs usage useUrlFragment=false %}
 {% tab usage Standard install %}
 
@@ -90,7 +91,9 @@ redis        ClusterIP      10.43.223.223   <none>        6379/TCP         3m27s
 demo-app     ClusterIP      10.43.216.203   <none>        5000/TCP         3m27s
 kuma-pfh4s   LoadBalancer   10.43.122.93    172.20.0.3    8080:30627/TCP   87s
 ```
+{% endcapture %}
 
+{{ gateway | indent }}
 The `Gateway` is now accessible using the external address `172.20.0.3:8080`.
 
 3. Add an `HTTPRoute`.

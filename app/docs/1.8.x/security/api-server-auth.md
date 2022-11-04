@@ -203,6 +203,7 @@ If the signing key is compromised, you must rotate it including all the tokens t
 
    Make sure to generate the new signing key with a serial number greater than the serial number of the current signing key.
 
+   {% capture tabs %}
    {% tabs key-rotation useUrlFragment=false %}
    {% tab key-rotation Kubernetes %}
    Check what's the current highest serial number.
@@ -245,6 +246,8 @@ If the signing key is compromised, you must rotate it including all the tokens t
    ```
    {% endtab %}
    {% endtabs %}
+   {% endcapture %}
+   {{ tabs | indent }}
 
 2. Regenerate user tokens
 
@@ -252,6 +255,7 @@ If the signing key is compromised, you must rotate it including all the tokens t
    Starting from now, tokens signed by either new or old signing key are valid.
 
 3. Remove the old signing key
+   {% capture tabs %}
    {% tabs remove-key useUrlFragment=false %}
    {% tab remove-key Kubernetes %}
    ```sh
@@ -264,6 +268,8 @@ If the signing key is compromised, you must rotate it including all the tokens t
    ```
    {% endtab %}
    {% endtabs %}
+   {% endcapture %}
+   {{ tabs | indent }}
 
    All new requests to the control plane now require tokens signed with the new signing key.
 
@@ -316,6 +322,7 @@ All users that provide client certificate are authenticated as a user with the n
    ```
 
 2. Configure the control plane with client certificates
+   {% capture tabs %}
    {% tabs configure useUrlFragment=false %}
    {% tab configure Kubernetes (kumactl) %}
    Create a secret in the namespace in which control plane is installed
@@ -356,6 +363,8 @@ All users that provide client certificate are authenticated as a user with the n
    ```
    {% endtab %}
    {% endtabs %}
+   {% endcapture %}
+   {{ tabs | indent }}
 
 3. Configure `kumactl` with valid client certificate
    ```sh

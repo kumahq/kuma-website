@@ -35,20 +35,20 @@ Prerequisites:
 Kuma comes with [`kumactl` executable](/docs/{{ page.version }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
 The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
 
- 1. Create a new dedicated user on the machine.
- 
-```sh
-useradd -u 5678 -U kuma-dp
-```
+1. Create a new dedicated user on the machine.
 
- 2. Redirect all the relevant inbound, outbound and DNS traffic to the Kuma data plane proxy.
-```sh
-kumactl install transparent-proxy \
-  --kuma-dp-user kuma-dp \
-  --skip-resolv-conf \
-  --redirect-dns
-```
+   ```sh
+   useradd -u 5678 -U kuma-dp
+   ```
 
+2. Redirect all the relevant inbound, outbound and DNS traffic to the Kuma data plane proxy.
+
+   ```sh
+   kumactl install transparent-proxy \
+     --kuma-dp-user kuma-dp \
+     --skip-resolv-conf \
+     --redirect-dns
+   ```
 {% warning %}
 Please note that this command **will change** the host `iptables` rules.
 {% endwarning %}

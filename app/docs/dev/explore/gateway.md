@@ -79,32 +79,32 @@ These instructions are mostly taken from the [Kong docs](https://docs.konghq.com
 
 3. Start an echo-service:
 
-```shell
-kubectl apply -f https://bit.ly/echo-service
-```
+   ```shell
+   kubectl apply -f https://bit.ly/echo-service
+   ```
 
 4. Add an ingress:
 
-```shell
-echo "
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: demo
-spec:
-  ingressClassName: kong
-  rules:
-  - http:
-      paths:
-      - path: /foo
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: echo
-            port:
-              number: 80
-" | kubectl apply -f -
-```
+   ```shell
+   echo "
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: demo
+   spec:
+     ingressClassName: kong
+     rules:
+     - http:
+         paths:
+         - path: /foo
+           pathType: ImplementationSpecific
+           backend:
+             service:
+               name: echo
+               port:
+                 number: 80
+   " | kubectl apply -f -
+   ```
 
 You can access your ingress with `curl -i $PROXY_IP/foo` where `$PROXY_IP` you can retrieve from the service that exposes Kong outside your cluster.
 

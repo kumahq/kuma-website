@@ -23,11 +23,12 @@ Usually DNS configuration expects DNS server to be served on port `53` therefore
 {% tab installation Kubernetes useUrlFragment=false %}
 1. When you install the control plane, [configure](/docs/{{ page.version }}/documentation/configuration) it with the following environment variable to disable the data plane proxy DNS:
 
-`KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false`
+   `KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false`
 
 2. Plug Kuma DNS resolver into Kube DNS or Core DNS
 
-`kumactl install dns`
+   `kumactl install dns`
+
 {% endtab %}
 {% tab installation Universal %}
 Follow the instruction in [transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying), but when `install transparent-proxy` is executed. Set the following arguments
