@@ -40,9 +40,8 @@ For HTTP you can also manually forward the following headers:
 | MeshService       | ✅        | ❌  | ❌   |
 | MeshServiceSubset | ✅        | ❌  | ❌   |
 | MeshGatewayRoute  | ✅        | ❌  | ❌   |
-| MeshHTTPRoute     | ❌        | ❌  | ❌   |
 
-If you don't understand this table you should read [matching docs](../matching#policy-matching).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
 ## Configuration
 
