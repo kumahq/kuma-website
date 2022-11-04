@@ -38,7 +38,7 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
  1. Create a new dedicated user on the machine.
  
 ```sh
-useradd -U kuma-dp
+useradd -u 5678 -U kuma-dp
 ```
 
  2. Redirect all the relevant inbound, outbound and DNS traffic to the {{site.mesh_product_name}} data plane proxy.

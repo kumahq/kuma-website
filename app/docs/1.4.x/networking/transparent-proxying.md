@@ -33,7 +33,7 @@ Kuma comes with [`kumactl` executable](/docs/{{ page.version }}/documentation/cl
 
 ```sh
 # create a dedicated user called kuma-dp-user
-useradd -U kuma-dp
+useradd -u 5678 -U kuma-dp
 
 # use kumactl
 kumactl install transparent-proxy \
