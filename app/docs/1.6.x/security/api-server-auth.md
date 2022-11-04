@@ -43,94 +43,79 @@ A user can be a part of many groups. On top of that, Kuma adds two groups automa
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
 1. Access admin user token to be able to generate other user tokens
-{% capture snippet %}
-In order to generate other user tokens, we need to authenticate as admin. When Kuma starts, it generates admin user token and stores it as a [Global Secret](/docs/{{ page.version }}/security/secrets).
-Use `kubectl` to extract the admin token
-{% raw %}
-```sh
-kubectl get secret admin-user-token -n kuma-system --template={{.data.value}} | base64 -d
-```
-{% endraw %}
-{% endcapture %}
-{{ snippet | indent }}
+
+   In order to generate other user tokens, we need to authenticate as admin. When Kuma starts, it generates admin user token and stores it as a [Global Secret](/docs/{{ page.version }}/security/secrets).
+   Use `kubectl` to extract the admin token
+   {% raw %}
+   ```sh
+   kubectl get secret admin-user-token -n kuma-system --template={{.data.value}} | base64 -d
+   ```
+   {% endraw %}
 
 2. Expose Kuma CP outside a cluster and configure `kumactl` with admin user token
-  In order to access Kuma CP via kumactl, we need to expose Kuma CP to outside a cluster. We can do this in several ways
-  a) port-forward port 5681
-  b) Expose port 5681 and protect it by TLS or just expose 5682 (with builtin TLS) of `kuma-control-plane` service via load balancer.
-  c) Expose port 5681 of `kuma-control-plane` via `Ingress` (for example Kong Ingress Controller) and protect it by TLS
 
-{% capture snippet %}
-```sh
-kumactl config control-planes add \
-  --name my-control-plane \
-  --address https://<CONTROL_PLANE_ADDRESS>:5682 \
-  --auth-type=tokens \
-  --auth-conf token=<GENERATED_TOKEN> \
-  --ca-cert-file=/path/to/ca.crt # or --skip-verify if you want to skip CP verification
-```
-{% endcapture %}
-{{ snippet | indent }}
+   In order to access Kuma CP via kumactl, we need to expose Kuma CP to outside a cluster. We can do this in several ways
+   a) port-forward port 5681
+   b) Expose port 5681 and protect it by TLS or just expose 5682 (with builtin TLS) of `kuma-control-plane` service via load balancer.
+   c) Expose port 5681 of `kuma-control-plane` via `Ingress` (for example Kong Ingress Controller) and protect it by TLS
+
+   ```sh
+   kumactl config control-planes add \
+     --name my-control-plane \
+     --address https://<CONTROL_PLANE_ADDRESS>:5682 \
+     --auth-type=tokens \
+     --auth-conf token=<GENERATED_TOKEN> \
+     --ca-cert-file=/path/to/ca.crt # or --skip-verify if you want to skip CP verification
+   ```
 
 3. Generate user tokens
-  Now that `kumactl` is configured with admin credentials, we can generate other user tokens.
 
-{% capture snippet %}
-```sh
-kumactl generate user-token \
-  --name john \
-  --group doe \
-  --valid-for 24h
-```
-{% endcapture %}
-{{ snippet | indent }}
+   Now that `kumactl` is configured with admin credentials, we can generate other user tokens.
+
+   ```sh
+   kumactl generate user-token \
+     --name john \
+     --group doe \
+     --valid-for 24h
+   ```
+
 {% endtab %}
 {% tab usage Universal %}
 1. Access admin user token to be able to generate other user tokens
 
-{% capture item %}
-In order to generate other user tokens, we need to authenticate as admin. When Kuma starts, it generates admin user token and stores it as a [Global Secret](/docs/{{ page.version }}/security/secrets).
+   In order to generate other user tokens, we need to authenticate as admin. When Kuma starts, it generates admin user token and stores it as a [Global Secret](/docs/{{ page.version }}/security/secrets).
 
-Execute the following command on the machine on which the control plane is deployed.
-```sh
-curl http://localhost:5681/global-secrets/admin-user-token | jq -r .data | base64 -d
-```
-{% endcapture %}
-{{ item | indent }}
+   Execute the following command on the machine on which the control plane is deployed.
+   ```sh
+   curl http://localhost:5681/global-secrets/admin-user-token | jq -r .data | base64 -d
+   ```
 
 2. Configure `kumactl` with admin user token
-{% capture item %}
-```sh
-kumactl config control-planes add \
-  --name my-control-plane \
-  --address https://<CONTROL_PLANE_ADDRESS>:5682 \
-  --auth-type=tokens \
-  --auth-conf token=<GENERATED_TOKEN> \
-  --ca-cert-file=/path/to/ca.crt # or --skip-verify if you want to skip verifying CP
-```
-{% endcapture %}
-{{ item | indent }}
+
+   ```sh
+   kumactl config control-planes add \
+     --name my-control-plane \
+     --address https://<CONTROL_PLANE_ADDRESS>:5682 \
+     --auth-type=tokens \
+     --auth-conf token=<GENERATED_TOKEN> \
+     --ca-cert-file=/path/to/ca.crt # or --skip-verify if you want to skip verifying CP
+   ```
 
 3. Generate user tokens
-{% capture item %}
-Now that `kumactl` is configured with admin credentials, we can generate other user tokens.
 
-```sh
-kumactl generate user-token \
-  --name john \
-  --group doe \
-  --valid-for 24h
-```
-{% endcapture %}
-{{ item | indent }}
+   Now that `kumactl` is configured with admin credentials, we can generate other user tokens.
+
+   ```sh
+   kumactl generate user-token \
+     --name john \
+     --group doe \
+     --valid-for 24h
+   ```
 
 4. Disable localhost is admin
 
-{% capture item %}
-By default, all requests that originates from localhost are authenticated as user of name `admin` that belongs to group `mesh-system:admin`.
-After you retrieve and store the admin token, it is recommended to [configure a control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN` set to `false`.
-{% endcapture %}
-{{ item | indent }}
+   By default, all requests that originates from localhost are authenticated as user of name `admin` that belongs to group `mesh-system:admin`.
+   After you retrieve and store the admin token, it is recommended to [configure a control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN` set to `false`.
 
 {% endtab %}
 {% endtabs %}
@@ -387,7 +372,7 @@ All users that provides client certificate are authenticated as user with name `
    {{ tabs | indent }}
 
 3. Configure `kumactl` with valid client certificates
-   {% capture snippet %}
+
    ```sh
    kumactl config control-planes add \
      --name=<NAME>
@@ -396,8 +381,6 @@ All users that provides client certificate are authenticated as user with name `
      --client-key-file=/tmp/tls.key \
      --ca-cert-file=/tmp/ca.crt # CA cert used in "Encrypted communication" section
    ```
-   {% endcapture %}
-   {{ snippet | indent }}
 
 ## Multizone
 

@@ -78,37 +78,34 @@ These instructions are mostly taken from the [Kong docs](https://docs.konghq.com
 2. Install [Kong using helm](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/deployment/k4k8s/#helm).
 
 3. Start an echo-service:
-{% capture snippet %}
-```shell
-kubectl apply -f https://bit.ly/echo-service
-```
-{% endcapture %}
-{{ snippet | indent }}
+
+   ```shell
+   kubectl apply -f https://bit.ly/echo-service
+   ```
 
 4. Add an ingress:
-{% capture snippet %}
-```shell
-echo "
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: demo
-spec:
-  ingressClassName: kong
-  rules:
-  - http:
-      paths:
-      - path: /foo
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: echo
-            port:
-              number: 80
-" | kubectl apply -f -
-```
-{% endcapture %}
-{{ snippet | indent }}
+
+   ```shell
+   echo "
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: demo
+   spec:
+     ingressClassName: kong
+     rules:
+     - http:
+         paths:
+         - path: /foo
+           pathType: ImplementationSpecific
+           backend:
+             service:
+               name: echo
+               port:
+                 number: 80
+   " | kubectl apply -f -
+   ```
+
 You can access your ingress with `curl -i $PROXY_IP/foo` where `$PROXY_IP` you can retrieve from the service that exposes Kong outside your cluster.
 
 You can check that the sidecar is running by checking the number of containers in each pod:
