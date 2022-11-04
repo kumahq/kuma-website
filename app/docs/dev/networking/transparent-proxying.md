@@ -202,7 +202,7 @@ networking:
 {% endtab %}
 {% endtabs %}
 
-### Transparent Proxy using eBPF (experimental)
+### Transparent Proxy with eBPF (experimental)
 
 Starting from {{site.mesh_product_name}} 2.0 you can setup transparent proxy to use eBPF instead of iptables.
 
@@ -227,7 +227,8 @@ kumactl install control-plane \
 kumactl install transparent-proxy \
   --experimental-transparent-proxy-engine \
   --ebpf-enabled \
-  --ebpf-instance-ip <IP_ADDRESS>
+  --ebpf-instance-ip <IP_ADDRESS> \
+  --ebpf-programs-source-path <PATH>
 ```
 
 {% tip %}

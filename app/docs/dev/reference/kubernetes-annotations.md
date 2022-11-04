@@ -474,7 +474,7 @@ spec:
 
 When transparent proxy is installed with ebpf mode, you can disable it for particular workloads if necessary.
 
-For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#ebpf).
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental).
 
 **Example**
 
@@ -500,7 +500,7 @@ spec:
 
 Path to BPF FS if different than default (`/sys/fs/bpf`)
 
-For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#ebpf).
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental).
 
 **Example**
 
@@ -526,7 +526,7 @@ spec:
 
 cgroup2 path if different than default (`/sys/fs/cgroup`)
 
-For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#ebpf).
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental).
 
 **Example**
 
@@ -552,7 +552,7 @@ spec:
 
 Custom path for ebpf programs to be loaded when installing transparent proxy
 
-For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#ebpf).
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental).
 
 **Example**
 
@@ -580,7 +580,7 @@ Name of the network interface which should be used to attach to it TC-related
 eBPF programs. By default {{site.mesh_product_name}} will use first, non-loopback
 interface it'll find.
 
-For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#ebpf).
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental).
 
 **Example**
 
