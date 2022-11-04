@@ -37,7 +37,7 @@ carousel:
 
 {% contentfor news %}
 
-**Kuma 1.8.0 has been released!** &mdash; With Builtin Gateway GA, CNI rewrite, and much more [on the Kuma 1.8.0 release blog post](/blog/2022/kuma-1-8-0/)
+**Kuma 2.0.0 has been released!** &mdash; eBPF support, Next Gen Policies and New UI Improvements, and much more [on the Kuma 2.0.0 release blog post](/blog/2022/kuma-2-0-0/)
 
 {% endcontentfor %}
 

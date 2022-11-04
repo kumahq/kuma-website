@@ -22,10 +22,10 @@
 - edition: "kuma"
   version: "1.8.1"
   release: "1.8.x"
-  latest: true
 - edition: "kuma"
   version: "2.0.0"
   release: "2.0.x"
+  latest: true
 - edition: "kuma"
   version: "2.0.0"
   release: "dev"
