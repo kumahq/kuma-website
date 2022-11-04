@@ -203,16 +203,17 @@ If the signing key is compromised, you must rotate it including all the tokens t
 
    Make sure to generate the new signing key with a serial number greater than the serial number of the current signing key.
 
+   {% capture tabs %}
    {% tabs key-rotation useUrlFragment=false %}
    {% tab key-rotation Kubernetes %}
    Check what's the current highest serial number.
-   
+
    ```sh
    kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/global-secret'
    NAME                          TYPE                           DATA   AGE
    user-token-signing-key-1   system.kuma.io/global-secret   1      25m
    ```
-   
+
    In this case, the highest serial number is `1`. Generate a new signing key with a serial number of `2`
    ```sh
    TOKEN="$(kumactl generate signing-key)" && echo "
@@ -226,7 +227,7 @@ If the signing key is compromised, you must rotate it including all the tokens t
    type: system.kuma.io/global-secret
    " | kubectl apply -f - 
    ```
-   
+
    {% endtab %}
    {% tab key-rotation Universal %}
    Check what's the current highest serial number.
@@ -235,7 +236,7 @@ If the signing key is compromised, you must rotate it including all the tokens t
    NAME                             AGE
    user-token-signing-key-1   36m
    ```
-   
+
    In this case, the highest serial number is `1`. Generate a new signing key with a serial number of `2`
    ```sh
    echo "
@@ -244,8 +245,9 @@ If the signing key is compromised, you must rotate it including all the tokens t
    data: {{ key }}" | kumactl apply --var key=$(kumactl generate signing-key) -f -
    ```
    {% endtab %}
-
    {% endtabs %}
+   {% endcapture %}
+   {{ tabs | indent }}
 
 2. Regenerate user tokens
 
@@ -253,6 +255,7 @@ If the signing key is compromised, you must rotate it including all the tokens t
    Starting from now, tokens signed by either new or old signing key are valid.
 
 3. Remove the old signing key
+   {% capture tabs %}
    {% tabs regenerate-user-tokens useUrlFragment=false %}
    {% tab regenerate-user-tokens Kubernetes %}
    ```sh
@@ -264,8 +267,9 @@ If the signing key is compromised, you must rotate it including all the tokens t
    kumactl delete global-secret user-token-signing-key-1
    ```
    {% endtab %}
-
    {% endtabs %}
+   {% endcapture %}
+   {{ tabs | indent }}
 
    All new requests to the control plane now require tokens signed with the new signing key.
 
@@ -319,6 +323,7 @@ All users that provide client certificate are authenticated as a user with the n
    ```
 
 2. Configure the control plane with client certificates
+   {% capture tabs %}
    {% tabs usage useUrlFragment=false %}
    {% tab usage Kubernetes (kumactl) %}
    Create a secret in the namespace in which control plane is installed
@@ -359,6 +364,8 @@ All users that provide client certificate are authenticated as a user with the n
    ```
    {% endtab %} 
    {% endtabs %}
+   {% endcapture %}
+   {{ tabs | indent }}
 
 3. Configure `kumactl` with valid client certificate
    ```sh

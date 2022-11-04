@@ -36,11 +36,13 @@ Prerequisites:
 The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
 
 1. Create a new dedicated user on the machine.
+
    ```sh
    useradd -u 5678 -U kuma-dp
    ```
 
 2. Redirect all the relevant inbound, outbound and DNS traffic to the {{site.mesh_product_name}} data plane proxy.
+
    ```sh
    kumactl install transparent-proxy \
      --kuma-dp-user kuma-dp \

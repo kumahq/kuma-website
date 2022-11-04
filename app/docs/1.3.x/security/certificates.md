@@ -138,9 +138,9 @@ You can also provide the CA via environment variable `KUMA_CONTROL_PLANE_CA_CERT
 
 To obtain an mTLS certificate from the server ([SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) built-in in the control plane), a data plane proxy must authenticate itself.
 
-{% tabs useUrlFragment=false %}
+{% tabs data-plane-proxy useUrlFragment=false %}
 
-{% tab Kubernetes (Service Account Token) %}
+{% tab data-plane-proxy Kubernetes (Service Account Token) %}
 A data plane proxy proves its identity by leveraging [Service Account Token](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
 
 Keep in mind that if you don't explicitly specify `serviceAccountTokenName` in Deployment, Pod is run with the `default` Service Account Token in the Namespace.
@@ -150,7 +150,7 @@ To have a strict security bound to a Deployment, every Deployment should use uni
 On top of that, users should not be able to modify `serviceAccountTokenName` in `Deployment`. This can be achieved for example with [OPA Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/docs/).
 {% endtab %}
 
-{% tab Universal (Data plane proxy token) %}
+{% tab data-plane-proxy Universal (Data plane proxy token) %}
 
 A data plane proxy must be explicitly configured with a unique security token (data plane proxy token) that will be used to prove its identity. The data plane proxy token is a signed [JWT token](https://jwt.io) that carries the data plane proxy name and name of the mesh that it belongs to.
 
@@ -195,7 +195,7 @@ As we can see in the example above, we can generate a token by passing a `name`,
 * `type`. The type can be either `dataplane` (default if not specified) or `ingress`. A [zone-ingress proxy](/docs/{{ page.version }}/documentation/dps-and-data-model/#zone-ingress) in a [multi-zone deployment](/docs/{{ page.version }}/documentation/deployments) requires an ingress token.
 
 {% endtab %}
-{% tab Off %}
+{% tab data-plane-proxy Off %}
 We can turn off the authentication by setting `KUMA_DP_SERVER_AUTH_TYPE` to `none`.
 
 {% warning %}
@@ -214,7 +214,7 @@ To obtain Envoy resources over xDS from the server, a zone-ingress proxy must au
 A zone-ingress proxy proves its identity by leveraging [the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
 {% endtab %}
 
-{% tab Universal (Zone Ingress proxy token) %}
+{% tab zone-ingress-proxy-authentication Universal (Zone Ingress proxy token) %}
 A zone-ingress proxy must be explicitly configured with a unique security token (Zone Ingress proxy token) that will be used to prove its identity. 
 The Zone Ingress proxy token is a signed [JWT token](https://jwt.io) that carries the zone-ingress proxy name and name of the zone that it belongs to.
 

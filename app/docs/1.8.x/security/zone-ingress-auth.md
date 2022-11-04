@@ -131,6 +131,7 @@ If the signing key is compromised, we must rotate it and all the tokens that wer
 
    Make sure to generate the new signing key with a serial number greater than the serial number of the current signing key.
 
+   {% capture tabs %}
    {% tabs key-rotation useUrlFragment=false %}
    {% tab key-rotation Kubernetes %}
    Check what the current highest serial number is:
@@ -177,6 +178,8 @@ If the signing key is compromised, we must rotate it and all the tokens that wer
 
    {% endtab %}
    {% endtabs %}
+   {% endcapture %}
+   {{ tabs | indent }}
 
 2. Create new zone ingress tokens.
    These tokens are automatically created
@@ -185,6 +188,7 @@ If the signing key is compromised, we must rotate it and all the tokens that wer
    At this point, tokens signed by either the new or old signing key are valid.
 
 3. Remove the old signing key:
+   {% capture tabs %}
    {% tabs remove-key useUrlFragment=false %}
    {% tab remove-key Kubernetes %}
    ```sh
@@ -197,6 +201,8 @@ If the signing key is compromised, we must rotate it and all the tokens that wer
    ```
    {% endtab %}
    {% endtabs %}
+   {% endcapture %}
+   {{ tabs | indent }}
    All new connections to the control plane now require tokens signed with the new signing key.
 
 ## None
