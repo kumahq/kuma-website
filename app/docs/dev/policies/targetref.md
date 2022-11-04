@@ -4,20 +4,21 @@ title: Understanding TargetRef policies
 
 ## What is a policy?
 
-A policy is anything that can modify the configuration of a proxy.
+A policy is a set of configuration that will be used to generate the proxy configuration.
+{{ site.mesh_product_name }} combines policies with dataplane configuration to generate the Envoy configuration of a proxy.
 
 ## What do `targetRef` policies look like?
 
-There are 2 useful parts in a policy:
+There are two parts in a policy:
 
 1. The metadata
 2. The spec
 
-### The metadata
+### Metadata
 
 Metadata identifies the policies by its `name`, `type` and what `mesh` it is part of.
 
-It looks like the following:
+This is how it looks:
 
 {% tabs metadata %}
 {% tab metadata Universal %}
@@ -73,7 +74,7 @@ Policies are namespaced scope and currently the namespace must be the one the co
 {% endtab %}
 {% endtabs %}
 
-### The spec
+### Spec
 
 The spec contains the actual configuration of the policy.
 
@@ -125,7 +126,7 @@ spec:
 {% tip %}
 One of the benefits of `targetRef` policies is that the spec is always the same between Kubernetes and Universal.
 
-This means that converting policies between universal and Kubernetes only means rewriting the metadata.
+This means that converting policies between Universal and Kubernetes only means rewriting the metadata.
 {% endtip %}
 
 #### Writing a `targetRef`
@@ -203,23 +204,23 @@ To help users, each policy documentation includes a table indicating which `targ
 This table looks like:
 
 | `targetRef.kind`    | top level | to  | from |
-| ------------------- | --------- | --- | ---- |
+|---------------------| --------- | --- | ---- |
 | `Mesh`              | ✅        | ✅  | ❌   |
 | `MeshSubset`        | ✅        | ❌  | ❌   |
 | `MeshService`       | ✅        | ❌  | ✅   |
 | `MeshServiceSubset` | ✅        | ❌  | ❌   |
+| `MeshGatewayRoute`  | ✅        | ❌  | ❌   |
 
 Here it indicates that the top level can use any targetRef kinds. But in `targetRef.to` only kind `Mesh` can be used and in `targetRef.from` only kind `MeshService`.
 
-
 ### Merging configuration
 
-Because for a specific proxy multiple `targetRef` can be used.
-It is necessary to define a policy for merging configuration.
+It is necessary to define a policy for merging configuration,
+because a proxy can be targeted by multiple `targetRef`'s.
 
-We define a total order this way:
+We define a total order of policies:
 
-- Mesh > MeshSubset > MeshService > MeshServiceSubset > MeshGatewayRoute (The more a `targetRef` is specific the higher priority it has)
+- Mesh > MeshSubset > MeshService > MeshServiceSubset > MeshGatewayRoute (the more a `targetRef` is focused the higher priority it has)
 - If levels are equal the lexicographic order of policy names is used
 
 For `to` and `from` policies we concatenate the array for each matching policies.
@@ -228,31 +229,34 @@ We then build configuration by merging each level using [JSON patch merge](https
 For example if I have 2 `default` ordered this way:
 
 ```yaml
-conf: 1
-sub:
-  array: [1, 2, 3]
-  other: 50
-  other-array: [3, 4, 5]
+default:
+  conf: 1
+  sub:
+    array: [1, 2, 3]
+    other: 50
+    other-array: [3, 4, 5]
 ---
-sub:
-  array: []
-  other: null
-  other-array: [5, 6]
-  extra: 2
+default:
+  sub:
+    array: []
+    other: null
+    other-array: [5, 6]
+    extra: 2
 ```
 
 The merge result is:
 ```yaml
-conf: 1
-sub:
-  array: []
-  other-array: [5, 6]
-  extra: 2
+default:
+  conf: 1
+  sub:
+    array: []
+    other-array: [5, 6]
+    extra: 2
 ```
 
 ### Examples
 
-#### Applying as a global default
+#### Applying a global default
 
 ```yaml
 type: ExamplePolicy
@@ -291,7 +295,7 @@ All traffic from any proxy (top level `targetRef`) going to the service "my-serv
 
 This is useful when a service owner wants to suggest its clients as set of configuration.
 
-### Configuring all proxies of a team
+#### Configuring all proxies of a team
 
 ```yaml
 type: ExamplePolicy
@@ -313,7 +317,7 @@ All traffic from any proxies (from `targetRef`) going to any proxy that has the 
 
 This is a useful way to define coarse grain rules for example.
 
-### Configuring all proxies in a zone
+#### Configuring all proxies in a zone
 
 ```yaml
 type: ExamplePolicy
