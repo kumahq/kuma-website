@@ -18,6 +18,8 @@ module Jekyll
         "/docs/latest/deployments /docs/:version/#{latest_release}/deployments 301",
         "/docs/latest/documentation/deployments /docs/#{latest_release}/introduction/deployments 301",
         "/docs/latest/explore/backends /docs/#{latest_release}/documentation/configuration 301",
+        "/docs/latest/security/zone-ingress-auth /docs/#{latest_release}/security/zoneproxy-auth 301",
+        "/docs/latest/security/zoneegress-auth /docs/#{latest_release}/security/zoneproxy-auth 301",
         "/install /install/#{latest_release} 301",
         "/docs/latest/* /docs/#{latest_release}/:splat 301",
         "/install/latest/* /install/#{latest_release}/:splat 301",
@@ -43,7 +45,7 @@ module Jekyll
           #{redirects}/docs/#{current}/*  /docs/#{v['release']}/:splat  301
           /install/#{current}/*  /install/#{v['release']}/:splat  301
           RDR
-        end 
+        end
       end
 
       # Generate policy redirects
@@ -108,7 +110,7 @@ module Jekyll
       RDR
 
       # Add all hand-crafted redirects
-      redirects = <<~RDR 
+      redirects = <<~RDR
         #{redirects}
 
         # Original _redirects file:
