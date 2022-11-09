@@ -12,3 +12,9 @@
 [dev]
   autoLaunch = false
   framework = "#static"
+
+[[redirects]]
+from = "/vite-dev/*"
+to = "http://localhost:3036/vite-dev/:splat"
+force = true
+status = 301
