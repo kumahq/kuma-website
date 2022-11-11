@@ -268,6 +268,8 @@ items:
         items:
           - text: Disabling IPv6
             url: "/networking/ipv6/#disabling-ipv6"
+      - text: Non-mesh traffic
+        url: /networking/non-mesh-traffic/
   - title: Security
     group: true
     items:
@@ -519,8 +521,8 @@ items:
             url: "/policies/circuit-breaker/#matching"
           - text: Builtin Gateway support
             url: "/policies/circuit-breaker/#builtin-gateway-support"
-          - text: Connections to outside the mesh
-            url: "/policies/circuit-breaker/#connections-to-outside-the-mesh"
+          - text: Non-mesh traffic
+            url: "/policies/circuit-breaker/#non-mesh-traffic"
       - text: Proxy Template
         url: /policies/proxy-template/
         items:
@@ -565,8 +567,8 @@ items:
             url: "/policies/timeout/#builtin-gateway-support"
           - text: Inbound timeouts
             url: "/policies/timeout/#inbound-timeouts"
-          - text: Connections to outside the mesh
-            url: "/policies/timeout/#connections-to-outside-the-mesh"
+          - text: Non-mesh traffic
+            url: "/policies/timeout/#non-mesh-traffic"
       - text: Rate Limit
         url: /policies/rate-limit/
         items:

@@ -243,84 +243,8 @@ The only supported value for `destinations.match` is `kuma.io/service`.
 
 Circuit Breaker policies are supported on the builtin gateway like any other dataplane.
 
-## Connections to outside the mesh
+## Non-mesh traffic
 
 When [passthrough mode](/docs/{{ page.version }}/policies/mesh#controlling-the-passthrough-mode) is activated
-any non-mesh traffic is passing Envoy without applying any policies.
-That's why thresholds for the non-mesh traffic can't be changed using the CircuitBreaker policy.
-Passthrough thresholds have the following values:
-
-```yaml
-maxConnections: 1024
-maxPendingRequests: 1024
-maxRequests: 1024
-maxRetries: 3
-```
-
-If you still need to change these thresholds you can use a [ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template):
-
-{% tabs passthrough-thresholds useUrlFragment=false %}
-{% tab passthrough-thresholds Kubernetes %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: ProxyTemplate
-mesh: default
-metadata:
-  name: custom-template-1
-spec:
-  selectors:
-    - match:
-        kuma.io/service: "*"
-  conf:
-    imports:
-      - default-proxy
-    modifications:
-      - cluster:
-          operation: patch
-          match:
-            name: "outbound:passthrough:ipv4"
-          value: |
-            circuit_breakers: {
-              thresholds: [
-                {
-                  max_connections: 2048,
-                  max_pending_requests: 2048,
-                  max_requests: 2048,
-                  max_retries: 4
-                }
-              ]
-            }
-```
-{% endtab %}
-
-{% tab passthrough-thresholds Universal %}
-```yaml
-type: ProxyTemplate
-mesh: default
-name: custom-template-1
-selectors:
-    - match:
-        kuma.io/service: "*"
-conf:
-  imports:
-    - default-proxy
-  modifications:
-    - cluster:
-        operation: patch
-        match:
-          name: "outbound:passthrough:ipv4"
-        value: |
-          circuit_breakers: {
-            thresholds: [
-              {
-                max_connections: 2048,
-                max_pending_requests: 2048,
-                max_requests: 2048,
-                max_retries: 4
-              }
-            ]
-          }
-```
-{% endtab %}
-{% endtabs %}
-
+any non-mesh traffic is passing Envoy without applying the CircuitBreaker policies.
+Read more about [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#circuit-breaker).
