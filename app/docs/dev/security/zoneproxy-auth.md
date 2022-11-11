@@ -9,7 +9,7 @@ There are several authentication methods available.
 ## Service Account Token
 
 On Kubernetes, A zone proxy proves its identity by leveraging
-[the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation)
+[the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume)
 that is mounted in every pod.
 
 ## Zone Token

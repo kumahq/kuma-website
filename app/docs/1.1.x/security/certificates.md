@@ -137,7 +137,7 @@ To obtain an mTLS certificate from the server ([SDS](https://www.envoyproxy.io/d
 {% tabs authentication useUrlFragment=false %}
 
 {% tab authentication Kubernetes (Service Account Token) %}
-A data plane proxy proves its identity by leveraging [ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
+A data plane proxy proves its identity by leveraging [ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume) that is mounted in every pod.
 {% endtab %}
 
 {% tab authentication Universal (Data plane proxy token) %}

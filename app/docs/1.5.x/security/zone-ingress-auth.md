@@ -6,7 +6,7 @@ To obtain a configuration from the control-plane, a zone ingress must authentica
 
 ## Service Account Token
 
-On Kubernetes, A zone-ingress proxy proves its identity by leveraging [the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
+On Kubernetes, A zone-ingress proxy proves its identity by leveraging [the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume) that is mounted in every pod.
 
 ## Zone Ingress token
 

@@ -137,7 +137,7 @@ To obtain an mTLS certificate from the server ([SDS](https://www.envoyproxy.io/d
 {% tabs proxy-authentication useUrlFragment=false %}
 
 {% tab proxy-authentication Kubernetes (Service Account Token) %}
-A data plane proxy proves its identity by leveraging [ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
+A data plane proxy proves its identity by leveraging [ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume) that is mounted in every pod.
 {% endtab %}
 
 {% tab proxy-authentication Universal (Data plane proxy token) %}
@@ -201,7 +201,7 @@ To obtain Envoy resources over xDS from the server, a zone-ingress proxy must au
 {% tabs zone-ingress-proxy-authentication puseUrlFragment=false %}
 
 {% tab zone-ingress-proxy-authentication Kubernetes (Service Account Token) %}
-A zone-ingress proxy proves its identity by leveraging [the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
+A zone-ingress proxy proves its identity by leveraging [the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume) that is mounted in every pod.
 {% endtab %}
 
 {% tab zone-ingress-proxy-authentication Universal (Zone Ingress proxy token) %}
