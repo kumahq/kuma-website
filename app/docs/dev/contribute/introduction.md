@@ -26,7 +26,7 @@ Kuma publishes new binaries for every commit.
 There's a small script to download the latest version:
 
 ```shell
-curl https://kuma.io/preview.sh | sh -
+curl https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -
 ```
 
 {% tip %}

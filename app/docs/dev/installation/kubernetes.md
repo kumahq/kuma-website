@@ -16,7 +16,7 @@ Finally, you can follow the [Quickstart](#quickstart) to take it from here and c
 
 ### Download Kumactl
 
-{% include snippets/install_kumactl.md %}
+{% include snippets/install_kumactl.md installer_version="preview" %}
 
 ### Run {{site.mesh_product_name}}
 

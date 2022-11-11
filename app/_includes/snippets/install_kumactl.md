@@ -9,7 +9,7 @@ You can run the following script to automatically detect the operating system an
   <pre class="no-line-numbers"><code>curl -L https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -</code></pre>
 </div>
 
-You can omit the `VERSION` variable to install the latest version. 
+You can omit the `VERSION` variable to install the latest version.
 {% endtab %}
 {% tab install_kumactl Direct Link %}
 
@@ -38,4 +38,3 @@ We suggest adding the `kumactl` executable to your `PATH` (by executing: `PATH=$
 ```sh
 ln -s kuma-{{ page.latest_version }}/bin/kumactl /usr/local/bin/kumactl
 ```
-
