@@ -136,6 +136,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
 
    Make sure to generate the new signing key with a serial number greater than the serial number of the current signing key.
 
+   {% capture tabs %}
    {% tabs key-rotation useUrlFragment=false %}
    {% tab key-rotation Universal %}
    Check what is the current highest serial number.
@@ -183,12 +184,15 @@ If the signing key is compromised, we must rotate it and all the tokens that was
 
    {% endtab %}
    {% endtabs %}
+   {% endcapture %}
+   {{ tabs | indent }}
 
 2. Regenerate tokens
    Create new data plane proxy tokens. These tokens are automatically created with the signing key that’s assigned the highest serial number, so they’re created with the new signing key.
    At this point, tokens signed by either new or old signing key are valid.
 
 3. Remove the old signing key
+   {% capture tabs %}
    {% tabs remove-key useUrlFragment=false %}
    {% tab remove-key Universal %}
    ```sh
@@ -201,6 +205,8 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    ```
    {% endtab %}
    {% endtabs %}
+   {% endcapture %}
+   {{ tabs | indent }}
    All new connections to the control plane now require tokens signed with the new signing key.
 
 ### Multizone

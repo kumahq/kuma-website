@@ -17,4 +17,5 @@ group :development do
   # https://github.com/jekyll/jekyll/issues/8523
   gem "webrick", "~> 1.7"
   gem 'byebug'
+  gem 'foreman'
 end

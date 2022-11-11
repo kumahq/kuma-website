@@ -27,9 +27,10 @@ To cut the dev release copy paste the `dev` folder and rename it to the correct 
 ```shell
 # Create a 1.5.x release
 cp app/docs/dev app/docs/1.5.x
+cp app/_data/docs_nav_kuma_dev.yml app/_data/docs_nav_kuma_1.5.x.yml
 ```
 
-Update the `app_data/versions.yml` file with metadata specific to this release e.g: actual patches released, helm versions.
+Update the `app/_data/versions.yml` file with metadata specific to this release e.g: actual patches released, helm versions.
 
 ## Set up local builds with yarn
 
