@@ -6,7 +6,7 @@ To obtain a configuration from the control-plane, a data plane proxy must authen
 
 ## Service Account Token
 
-On Kubernetes, a data plane proxy proves its identity with the [Service Account Token](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
+On Kubernetes, a data plane proxy proves its identity with the [Service Account Token](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume) that is mounted in every pod.
 
 Keep in mind that if you don't explicitly specify `serviceAccountTokenName` in Deployment, the Pod is run with the `default` Service Account Token in the Namespace.
 This means that authentication scope is bound to a Namespace, so any Pod in the Namespace can authenticate as any other Pod in a Namespace.
@@ -57,7 +57,7 @@ kumactl generate dataplane-token \
   --mesh default \
   --tag kuma.io/service=backend,backend-admin \
   --valid-for 720h > /tmp/kuma-dp-echo1-token
-``` 
+```
 
 The token should be stored in a file and then used when starting `kuma-dp`
 ```bash
@@ -75,8 +75,8 @@ As we can see in the example above, we can generate a token by passing a `name`,
 The control plane will then verify the data plane proxy resources that are connecting to it against the token. This means we can generate a token by specifying:
 
 * Only `mesh`. By doing so we can reuse the token for all dataplanes in a given mesh.
-* `mesh` + `tag` (ex. `kuma.io/service`). This way we can use one token across all instances/replicas of the given service. 
-  Please keep in mind that we have to specify to include all the services that a data plane proxy is in charge of. 
+* `mesh` + `tag` (ex. `kuma.io/service`). This way we can use one token across all instances/replicas of the given service.
+  Please keep in mind that we have to specify to include all the services that a data plane proxy is in charge of.
   For example, if we have a Dataplane with two inbounds, one valued with `kuma.io/service: backend` and one with `kuma.io/service: backend-admin`, we need to specify both values (`--tag kuma.io/service=backend,backend-admin`).
 * `mesh` + `name` + `tag` (ex. `kuma.io/service`). This way we can use one token for one instance/replica of the given service.
 
@@ -107,7 +107,7 @@ REVOCATIONS=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) && echo "api
 kind: Secret
 metadata:
   name: dataplane-token-revocations-default
-  namespace: kuma-system 
+  namespace: kuma-system
 data:
   value: $REVOCATIONS
 type: system.kuma.io/secret" | kubectl apply -f -
@@ -163,7 +163,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
      name: dataplane-token-signing-key-mesh-2
      namespace: kuma-system
    type: system.kuma.io/secret
-   " | kubectl apply -f - 
+   " | kubectl apply -f -
    ```
 
    {% endtab %}

@@ -12,6 +12,7 @@ GEM
       http_parser.rb (~> 0)
     eventmachine (1.2.7)
     ffi (1.15.5)
+    foreman (0.87.2)
     forwardable-extended (2.6.0)
     http_parser.rb (0.8.0)
     i18n (1.12.0)
@@ -93,6 +94,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  foreman
   jekyll (~> 4.2)
   jekyll-contentblocks
   jekyll-generator-single-source

@@ -5,7 +5,7 @@ install:
 	bundle install
 
 run:
-	bundle exec jekyll serve --config jekyll.yml
+	bundle exec foreman start
 
 build:
 	bundle exec jekyll build --config jekyll.yml

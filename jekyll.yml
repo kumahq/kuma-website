@@ -71,5 +71,5 @@ jekyll-generator-single-source:
 
 # Static files
 include:
-  - preview.sh
+  - installer.sh
   - robots.txt

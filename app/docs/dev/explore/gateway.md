@@ -232,6 +232,13 @@ and forwards it to the [demo app frontend](https://kuma.io/docs/dev/quickstart/k
 
 To ease starting gateways on Kubernetes, {{site.mesh_product_name}} comes with a builtin type `MeshGatewayInstance`.
 
+{% tip %}
+This resource launches `kuma-dp` in your cluster.
+If you are running a multi-zone Kuma, `MeshGatewayInstance` needs to be created in a specific zone, not the global cluster.
+See the [dedicated section](#multi-zone) for using builtin gateways on
+multi-zone.
+{% endtip %}
+
 This type requests that the control plane create and manage a Kubernetes `Deployment` and `Service`
 suitable for providing service capacity for the `MeshGateway` with the matching `kuma.io/service` tag.
 
@@ -363,7 +370,8 @@ Notice that listeners have tags like `Dataplanes`. This will be useful when bind
 
 {% tip %}
 These are {{site.mesh_product_name}} policies so if you are running on multi-zone they need to be created on the Global CP.
-See the [dedicated section](/docs/{{ page.version }}/deployments/multi-zone) for detailed information.
+See the [dedicated section](#multi-zone) for using builtin gateways on
+multi-zone.
 {% endtip %}
 
 Now, you can define a `MeshGatewayRoute` to forward your traffic based on the
@@ -463,6 +471,9 @@ The TCP configuration _only_ supports the `backends` key (no `matches` or `filte
 The {{site.mesh_product_name}} Gateway resource types, `MeshGateway` and `MeshGatewayRoute`, are synced across zones by the {{site.mesh_product_name}} control plane.
 If you have a multi-zone deployment, follow existing {{site.mesh_product_name}} practice and create any {{site.mesh_product_name}} Gateway resources in the global control plane.
 Once these resources exist, you can provision serving capacity in the zones where it is needed by deploying builtin gateway `Dataplanes` (in Universal zones) or `MeshGatewayInstances` (Kubernetes zones).
+
+See the [multi-zone docs](/docs/{{ page.version }}/deployments/multi-zone) for a
+refresher.
 
 ### Cross-mesh
 

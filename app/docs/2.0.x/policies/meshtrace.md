@@ -63,12 +63,9 @@ Example:
 
 ```yaml
 sampling:
-  overall:
-    value: 80
-  random:
-    value: 60
-  client:
-    value: 40
+  overall: 80
+  random: 60
+  client: 40
 ```
 
 ### Tags
@@ -176,12 +173,9 @@ spec:
         header:
           name: x-version
     sampling:
-      overall:
-        value: 80
-      random:
-        value: 60
-      client:
-        value: 40
+      overall: 80
+      random: 60
+      client: 40
 ```
 
 Apply the configuration with `kubectl apply -f [..]`.
@@ -227,12 +221,9 @@ spec:
         header:
           name: x-version
     sampling:
-      overall:
-        value: 80
-      random:
-        value: 60
-      client:
-        value: 40
+      overall: 80
+      random: 60
+      client: 40
 ```
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
@@ -295,12 +286,9 @@ spec:
         header:
           name: x-version
     sampling:
-      overall:
-        value: 80
-      random:
-        value: 60
-      client:
-        value: 40
+      overall: 80
+      random: 60
+      client: 40
 ```
 
 where `trace-svc` is the name of the Kubernetes Service you specified when you configured the Datadog APM agent.
@@ -348,12 +336,9 @@ spec:
         header:
           name: x-version
     sampling:
-      overall:
-        value: 80
-      random:
-        value: 60
-      client:
-        value: 40
+      overall: 80
+      random: 60
+      client: 40
 ```
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
