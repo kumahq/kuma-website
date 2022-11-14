@@ -23,9 +23,13 @@ DIR="$( cd "$( dirname "$0" )" >/dev/null 2>&1 && pwd )"
 : "${VERSION:=}"
 : "${ARCH:=}"
 : "${PRODUCT_NAME:=Kuma}"
+: "${REPO:=kumahq/kuma}"
+: "${BRANCH:=master}"
 : "${LATEST_VERSION:=https://kuma.io/latest_version}"
-: "${REPO_PREFIX:=kuma}"
 : "${CTL_NAME:=kumactl}"
+
+REPO_ORG=$(echo $REPO | sed 's|\/.*$||')
+REPO_PREFIX=$(echo $REPO | sed 's|^.*\/||')
 
 printf "\n"
 printf "INFO\tWelcome to the %s automated download!\n" "$PRODUCT_NAME"
@@ -105,6 +109,44 @@ printf "INFO\t$PRODUCT_NAME architecture: %s\n" "$ARCH"
 printf "INFO\tOperating system: %s\n" "$OS"
 if [ "$OS" = "Linux" ]; then
     printf "INFO\tDistribution: %s\n" "$DISTRO"
+fi
+
+# Sets `VERSION` to the git tag representing the latest preview version.
+set_preview_version() {
+  if [ ! -x `which gh` ]; then
+    echo "You must have github's gh client installed to install a preview version"
+    exit 1
+  fi
+
+  JQCMD='.data.repository.ref.target.history.nodes | map(select(.statusCheckRollup.state == "SUCCESS")) | first | .oid'
+  PREVIEW_COMMIT=`gh api graphql  -f owner=${REPO_ORG} -f repo=${REPO_PREFIX} -f branch=${BRANCH} --jq "${JQCMD}" -F query='
+query($owner: String!, $repo: String!, $branch: String!) {
+  repository(owner: $owner, name: $repo) {
+    ref(qualifiedName: $branch) {
+      target {
+        ... on Commit {
+          history(first: 10) {
+            nodes {
+              oid
+              statusCheckRollup {
+                state
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+'`
+
+  PREVIEW_COMMIT=$(echo $PREVIEW_COMMIT | cut -c -9)
+  VERSION=0.0.0-preview.v${PREVIEW_COMMIT}
+  echo "Getting preview release with tag: $VERSION"
+}
+
+if [ "$VERSION" = "preview" ]; then
+  set_preview_version
 fi
 
 URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$VERSION-$DISTRO-$ARCH.tar.gz"

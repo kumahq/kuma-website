@@ -8,7 +8,7 @@ There are several authentication methods availble.
 
 ## Service Account Token
 
-On Kubernetes, a zone-ingress proxy authenticates by leveraging [the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
+On Kubernetes, a zone-ingress proxy authenticates by leveraging [the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume) that is mounted in every pod.
 
 ## Zone ingress token
 

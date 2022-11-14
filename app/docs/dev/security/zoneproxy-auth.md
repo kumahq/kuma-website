@@ -9,7 +9,7 @@ There are several authentication methods available.
 ## Service Account Token
 
 On Kubernetes, A zone proxy proves its identity by leveraging
-[the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation)
+[the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume)
 that is mounted in every pod.
 
 ## Zone Token
@@ -57,7 +57,7 @@ kumactl generate zone-token \
   --zone us-east \
   --scope egress \
   --valid-for 720h > /tmp/kuma-zone-proxy-token
-``` 
+```
 
 The token should be stored in a file and then passed when you start `kuma-dp`:
 ```bash
@@ -94,7 +94,7 @@ REVOCATIONS=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) && echo "api
 kind: Secret
 metadata:
   name: zone-token-revocations
-  namespace: {{site.default_namespace}} 
+  namespace: {{site.default_namespace}}
 data:
   value: $REVOCATIONS
 type: system.kuma.io/global-secret" | kubectl apply -f -
@@ -157,7 +157,7 @@ NAME                       AGE
 zone-token-signing-key-1   36m
 ```
 
-In this case, the highest serial number is `1`. Generate a new signing key 
+In this case, the highest serial number is `1`. Generate a new signing key
 with a serial number of `2`
 ```sh
 echo "
