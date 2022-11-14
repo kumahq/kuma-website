@@ -27,5 +27,5 @@
   release: "2.0.x"
   latest: true
 - edition: "kuma"
-  version: "2.0.0"
+  version: "preview"
   release: "dev"
