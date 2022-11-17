@@ -52,8 +52,6 @@ All _command operators_ [defined by Envoy](https://www.envoyproxy.io/docs/envoy/
 
 All additional access log _command operators_ are valid to use with both `TCP` and `HTTP` traffic.
 
-If a _command operator_ is specific to `HTTP` traffic, such as `%REQ(X?Y):Z%` or `%RESP(X?Y):Z%`, it will be replaced by a symbol "`-`" in case of `TCP` traffic.
-
 Internally, Kuma [determines traffic protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
 
 There are two types of `format`, `plain` and `json`.
@@ -64,6 +62,10 @@ JSON accepts a list of key-value pairs that produces a valid JSON object.
 
 It is up to the user to decide which format type to use.
 Some system will automatically parse JSON logs and allow you to filter and query based on available keys.
+
+If a _command operator_ is specific to `HTTP` traffic, such as `%REQ(X?Y):Z%` or `%RESP(X?Y):Z%`, in the case of TCP traffic it will be replaced by a symbol "`-`" for `plain` and a `null` value for `json`.
+You can set the `format.omitEmptyValues` boolean option to change this to `""` for `plain` and
+omit them entirely for `json`.
 
 #### Plain
 

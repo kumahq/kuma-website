@@ -200,46 +200,6 @@ by setting the [`kuma.io/mesh` annotation](/docs/{{ page.version }}/reference/ku
 Note that `HTTPRoutes` must also have the annotation to reference a
 `Gateway` from a non-default `Mesh`.
 
-## Cross-mesh
-
-[Cross-mesh gateways](/docs/{{ page.version }}/explore/gateway#cross-mesh) are supported with Gateway API.
-You'll just need to create a corresponding `GatewayClass`
-pointing to a `MeshGatewayConfig` that
-sets `crossMesh: true`:
-
-```yaml
----
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: GatewayClass
-metadata:
-  name: kuma-cross-mesh
-spec:
-  controllerName: gateways.kuma.io/controller
-  parametersRef:
-    group: kuma.io
-    kind: MeshGatewayConfig
-    name: default-cross-mesh
----
-apiVersion: kuma.io/v1alpha1
-kind: MeshGatewayConfig
-metadata:
-  name: default-cross-mesh
-spec:
-  crossMesh: true
-```
-
-and then reference it in your `Gateway`:
-
-```yaml
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: Gateway
-metadata:
-  name: kuma
-  namespace: default
-spec:
-  gatewayClassName: kuma-cross-mesh
-```
-
 ## Multi-zone
 
 Gateway API isn't supported with multi-zone deployments, use Kuma's `MeshGateways`/`MeshGatewayRoutes` instead.
