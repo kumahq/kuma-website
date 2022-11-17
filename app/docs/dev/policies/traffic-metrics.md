@@ -208,10 +208,16 @@ metrics:
       enabled: false
     - name: other-sidecar
       port: 1234 # override port from Mesh
+      address: "127.0.0.1"
     - name: application
       path: "/stats"
       port: 80`
 ```
+
+{% warning %}
+By default, sidecar scrapes metrics on `dataplane.networking.address`. If you set `dataplane.networking.inbound[].address.serviceAddress`, and you want to scrape metrics from the application, you also need to set `dataplane.metrics.conf.aggregate[].address`.
+{% endwarning %}
+
 {% endtab %}
 {% endtabs %}
 
