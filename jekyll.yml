@@ -39,6 +39,13 @@ defaults:
 # Product name variables
 mesh_product_name: Kuma
 default_namespace: kuma-system
+# Prefix for the values of "--set" flag for "kumactl install [...]" or
+# "helm install [...]" commands.
+# It's useful for projects based on Kuma, which expects Kuma options
+# to be prefixed with for example "kuma."
+# kumactl install control-plane \
+#   --set "{{set_flag_values_prefix}}experimental.ebpf.enabled=true"
+set_flag_values_prefix: ""
 
 # Pagination
 pagination:
