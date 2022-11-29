@@ -29,7 +29,7 @@ spec:
     tls: # optional
       enabled: true
       allowRenegotiation: false
-      sni: httpbin.org # optional
+      serverName: httpbin.org # optional
       caCert: # one of inline, inlineString, secret
         inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0t... # Base64 encoded cert
       clientCert: # one of inline, inlineString, secret
@@ -55,7 +55,7 @@ networking:
   tls:
     enabled: true
     allowRenegotiation: false
-    sni: httpbin.org # optional
+    serverName: httpbin.org # optional
     caCert: # one of inline, inlineString, secret
       inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0t... # Base64 encoded cert
     clientCert: # one of inline, inlineString, secret
@@ -118,7 +118,7 @@ The first approach has an advantage that we can apply HTTP based policies, becau
         * `enabled` turns on and off the TLS origination.
         * `allowRenegotiation` turns on and off TLS renegotiation. It's not recommended enabling this for [security reasons](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/tls.proto).
           However, some servers require this setting to fetch client certificate after TLS handshake. TLS renegotiation is not available in TLS v1.3.
-        * `sni` overrides the default Server Name Indication. Set this value to empty string to disable SNI.
+        * `serverName` overrides the default Server Name Indication. Set this value to empty string to disable SNI.
         * `caCert` the CA certificate for the external service TLS verification.
         * `clientCert` the client certificate for mTLS.
         * `clientKey` the client key for mTLS.
