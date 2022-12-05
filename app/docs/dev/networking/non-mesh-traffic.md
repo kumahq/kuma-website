@@ -2,6 +2,19 @@
 title: Non-mesh traffic
 ---
 
+## Incoming
+
+When mTLS is enabled, clients from outside the mesh can't reach the applications inside the mesh. 
+If you want to allow external clients to consume mesh services see 
+the [Permissive mTLS](/docs/{{ page.version }}/policies/mutual-tls/#permissive-mtls) mode.
+
+{% warning %}
+Without [Transparent Proxying](/docs/{{ page.version }}/networking/transparent-proxying)
+TLS check on Envoy can be bypassed. You should take action to secure the application ports. 
+{% endwarning %}
+
+## Outgoing
+
 In its default setup, {{site.mesh_product_name}} allows any non-mesh traffic to pass Envoy without applying any policy. 
 For instance if a service needs to send a request to `http://example.com`, 
 all requests won't be logged even if a traffic logging is enabled in the mesh where the service is deployed.
@@ -39,12 +52,12 @@ Before turning this feature on, double-check Envoy stats that no traffic is flow
 Otherwise, you will block the traffic which may cause the instability of the system.
 {% endtip %}
 
-## Policies don't apply to the non-mesh traffic
+### Policies don't apply to the non-mesh traffic
 
 If you need to change configuration for the non-mesh traffic 
 you can use a [ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template).
 
-### Circuit Breaker
+#### Circuit Breaker
 
 Default values:
 
@@ -122,7 +135,7 @@ conf:
 {% endtab %}
 {% endtabs %}
 
-## Timeouts
+#### Timeouts
 
 Default values:
 
