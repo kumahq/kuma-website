@@ -6,7 +6,7 @@ To obtain a configuration from the control-plane, a zone ingress must authentica
 
 ## Service Account Token
 
-On Kubernetes, A zone-ingress proxy proves its identity by leveraging [the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#service-account-automation) that is mounted in every pod.
+On Kubernetes, A zone-ingress proxy proves its identity by leveraging [the ServiceAccountToken](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume) that is mounted in every pod.
 
 ## Zone Ingress token
 
@@ -45,7 +45,7 @@ or with `kumactl`:
 kumactl generate zone-ingress-token \
   --zone us-east \
   --valid-for 720h > /tmp/kuma-ingress-token
-``` 
+```
 
 The token should be stored in a file and then passed when you start `kuma-dp`:
 ```bash
@@ -76,7 +76,7 @@ REVOCATIONS=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) && echo "api
 kind: Secret
 metadata:
   name: zone-ingress-token-revocations
-  namespace: kuma-system 
+  namespace: kuma-system
 data:
   value: $REVOCATIONS
 type: system.kuma.io/global-secret" | kubectl apply -f -
@@ -123,11 +123,11 @@ If the signing key is compromised, we must rotate it and all the tokens that was
      name: zone-ingress-token-signing-key-2
      namespace: kuma-system
    type: system.kuma.io/global-secret
-   " | kubectl apply -f - 
+   " | kubectl apply -f -
    ```
 
    {% endtab %}
-   {% tab key-rotation Universal %} 
+   {% tab key-rotation Universal %}
    Check what is the current highest serial number.
    ```sh
    kumactl get global-secrets

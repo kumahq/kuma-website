@@ -218,7 +218,7 @@ and have `cgroup2` available
 
 ```shell
 kumactl install control-plane \
-  --set "kuma.experimental.ebpf.enabled=true" | kubectl apply -f-
+  --set "{{site.set_flag_values_prefix}}experimental.ebpf.enabled=true" | kubectl apply -f-
 ```
 
 {% endtab %}

@@ -113,9 +113,9 @@ mtls:
 
 You can run the following script to automatically detect the operating system and download {{site.mesh_product_name}}:
 
-```sh
-curl -L https://kuma.io/installer.sh | sh -
-```
+<div class="language-sh">
+<pre class="no-line-numbers"><code>curl -L https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -</code></pre>
+</div>
 
 or you can download the distribution manually:
 
