@@ -52,9 +52,9 @@ Before turning this feature on, double-check Envoy stats that no traffic is flow
 Otherwise, you will block the traffic which may cause the instability of the system.
 {% endtip %}
 
-### Policies don't apply to the non-mesh traffic
+### Policies don't apply to non-mesh traffic
 
-If you need to change configuration for the non-mesh traffic 
+If you need to change configuration for non-mesh traffic 
 you can use a [ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template).
 
 #### Circuit Breaker
