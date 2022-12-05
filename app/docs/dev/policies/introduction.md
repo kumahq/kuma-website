@@ -12,19 +12,19 @@ Going forward from version 2.0, {{site.mesh_product_name}} is transitioning from
 
 The following table shows the equivalence between source/destination and `targetRef` policies:
 
-| source/destination policy                    | `targetRef` policy                |
-|----------------------------------------------|-----------------------------------|
-| [CircuitBreaker](../circuit-breaker)         | N/A                               |
-| [FaultInjection](../fault-injection)         | N/A                               |
-| [HealthCheck](../health-check)               | N/A                               |
-| [RateLimit](../rate-limit)                   | N/A                               |
-| [Retry](../retry)                            | N/A                               |
-| [Timeout](../timeout)                        | N/A                               |
-| [TrafficLog](../traffic-log)                 | [MeshAccessLog](../meshaccesslog) |
-| [TrafficMetrics](../traffic-metrics)         | N/A                               |
-| [TrafficPermissions](../traffic-permissions) | MeshTrafficPermission             |
-| [TrafficRoute](../traffic-route)             | N/A                               |
-| [TrafficTrace](../traffic-trace)             | [MeshTrace](../meshtrace)         |
+| source/destination policy                    | `targetRef` policy                                |
+|----------------------------------------------|---------------------------------------------------|
+| [CircuitBreaker](../circuit-breaker)         | N/A                                               |
+| [FaultInjection](../fault-injection)         | N/A                                               |
+| [HealthCheck](../health-check)               | N/A                                               |
+| [RateLimit](../rate-limit)                   | N/A                                               |
+| [Retry](../retry)                            | N/A                                               |
+| [Timeout](../timeout)                        | N/A                                               |
+| [TrafficLog](../traffic-log)                 | [MeshAccessLog](../meshaccesslog)                 |
+| [TrafficMetrics](../traffic-metrics)         | N/A                                               |
+| [TrafficPermissions](../traffic-permissions) | [MeshTrafficPermission](../meshtrafficpermission) |
+| [TrafficRoute](../traffic-route)             | N/A                                               |
+| [TrafficTrace](../traffic-trace)             | [MeshTrace](../meshtrace)                         |
 
 {% warning %}
 `targetRef` policies are still beta and it is therefore not supported to mix source/destination and targetRef policies together.
