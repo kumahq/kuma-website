@@ -35,6 +35,7 @@ Inspect Kuma resources.
 * [kumactl inspect meshaccesslog](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshaccesslog)	 - Inspect MeshAccessLog
 * [kumactl inspect meshes](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshes)	 - Inspect Meshes
 * [kumactl inspect meshgateway](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshgateway)	 - Inspect MeshGateway
+* [kumactl inspect meshratelimit](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshratelimit)	 - Inspect MeshRateLimit
 * [kumactl inspect meshtimeout](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshtimeout)	 - Inspect MeshTimeout
 * [kumactl inspect meshtrace](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshtrace)	 - Inspect MeshTrace
 * [kumactl inspect meshtrafficpermission](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshtrafficpermission)	 - Inspect MeshTrafficPermission
