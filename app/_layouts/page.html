@@ -29,13 +29,13 @@ layout: default
         {% if page.prev %}
           <span class="prev">
             ←
-            <a class="prev" href="/docs/{{ page.version }}{{ page.prev['url'] }}">{{ page.prev['text'] }}</a>
+            <a class="prev" href="{% unless page.prev['absolute_url']%}/docs/{{ page.version }}{% endunless %}{{ page.prev['url'] }}">{{ page.prev['text'] }}</a>
           </span>
         {% endif %}
 
         {% if page.next %}
           <span class="next">
-            <a href="/docs/{{ page.version }}{{ page.next['url'] }}">{{ page.next['text'] }}</a>
+            <a href="{% unless page.next['absolute_url']%}/docs/{{ page.version }}{% endunless %}{{ page.next['url'] }}">{{ page.next['text'] }}</a>
             →
           </span>
         {% endif %}
