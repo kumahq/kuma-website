@@ -177,6 +177,18 @@ apiServer:
   # Allowed domains for Cross-Origin Resource Sharing. The value can be either domain or regexp
   corsAllowedDomains:
     - ".*" # ENV: KUMA_API_SERVER_CORS_ALLOWED_DOMAINS
+  # Can be used if you use a reverse proxy
+  rootUrl: "" # ENV: KUMA_API_SERVER_ROOT_URL
+  # The path to serve the API from
+  basePath: "/" # ENV: KUMA_API_SERVER_BASE_PATH
+  # configuration specific to the GUI
+  gui:
+    # Whether to serve the gui (if mode=zone this has no effect)
+    enabled: true # ENV: KUMA_API_SERVER_GUI_ENABLED
+    # Can be used if you use a reverse proxy or want to serve the gui from a different path
+    rootUrl: "" # ENV: KUMA_API_SERVER_GUI_ROOT_URL
+    # The path to serve the GUI from
+    basePath: "/gui" # ENV: KUMA_API_SERVER_GUI_BASE_PATH
 
 # Environment-specific configuration
 runtime:
@@ -402,6 +414,9 @@ multizone:
       # MaxMsgSize defines a maximum size of the message in bytes that is exchanged using KDS.
       # In practice this means a limit on full list of one resource type.
       maxMsgSize: 10485760 # ENV: KUMA_MULTIZONE_GLOBAL_KDS_MAX_MSG_SIZE
+      # MsgSendTimeout defines a timeout on sending a single KDS message.
+      # KDS stream between control planes is terminated if the control plane hits this timeout.
+      msgSendTimeout: 60s # ENV: KUMA_MULTIZONE_GLOBAL_KDS_MSG_SEND_TIMEOUT
   zone:
     # Kuma Zone name used to mark the zone dataplane resources
     name: "" # ENV: KUMA_MULTIZONE_ZONE_NAME
@@ -415,6 +430,9 @@ multizone:
       # MaxMsgSize defines a maximum size of the message in bytes that is exchanged using KDS.
       # In practice this means a limit on full list of one resource type.
       maxMsgSize: 10485760 # ENV: KUMA_MULTIZONE_ZONE_KDS_MAX_MSG_SIZE
+      # MsgSendTimeout defines a timeout on sending a single KDS message.
+      # KDS stream between control planes is terminated if the control plane hits this timeout.
+      msgSendTimeout: 60s # ENV: KUMA_MULTIZONE_ZONE_KDS_MSG_SEND_TIMEOUT
 
 # Diagnostics configuration
 diagnostics:
@@ -422,6 +440,18 @@ diagnostics:
   serverPort: 5680 # ENV: KUMA_DIAGNOSTICS_SERVER_PORT
   # If true, enables https://golang.org/pkg/net/http/pprof/ debug endpoints
   debugEndpoints: false # ENV: KUMA_DIAGNOSTICS_DEBUG_ENDPOINTS
+  # Whether tls is enabled or not
+  tlsEnabled: false # ENV: KUMA_DIAGNOSTICS_TLS_ENABLED
+  # TlsCertFile defines a path to a file with PEM-encoded TLS cert. If empty, autoconfigured from general.tlsCertFile
+  tlsCertFile: # ENV: KUMA_DIAGNOSTICS_TLS_CERT_FILE
+  # TlsKeyFile defines a path to a file with PEM-encoded TLS key. If empty, autoconfigured from general.tlsKeyFile
+  tlsKeyFile: # ENV: KUMA_DIAGNOSTICS_TLS_KEY_FILE
+  # TlsMinVersion the minimum version of TLS
+  tlsMinVersion: "TLSv1_2" # ENV: KUMA_DIAGNOSTICS_TLS_MIN_VERSION
+  # TlsMaxVersion the maximum version of TLS
+  tlsMaxVersion: # ENV: KUMA_DIAGNOSTICS_TLS_MAX_VERSION
+  # TlsCipherSuites the list of cipher suites
+  tlsCipherSuites: [] # ENV: KUMA_DIAGNOSTICS_TLS_CIPHER_SUITES
 
 # Dataplane Server configuration that servers API like Bootstrap/XDS for the Dataplane.
 dpServer:
