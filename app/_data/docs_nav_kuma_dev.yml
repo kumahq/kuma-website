@@ -21,6 +21,9 @@ items:
         url: /introduction/deployments/
       - text: Enterprise
         url: /introduction/enterprise/
+      - text: Changelog
+        absolute_url: true
+        url: https://github.com/kumahq/kuma/blob/master/CHANGELOG.md
   - title: Install
     group: true
     items:
