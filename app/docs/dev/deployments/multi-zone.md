@@ -17,31 +17,40 @@ Or without the optional zone egress:
 
 ### How it works
 
-In {{site.mesh_product_name}}, zones are abstracted away, meaning that your data plane proxies will find services anywhere they run.
-Therefore, you can make a service multi-zone by having data planes using the same `kuma.io/service` run in different zones, this can help you achieve automatic fail-over of services when a specific zone fails.
+In {{site.mesh_product_name}}, zones are abstracted away, meaning that your data plane proxies will find services whereever they run.
+This way you can make a service multi-zone by having data planes using the same `kuma.io/service` in different zones. This gives you automatic fail-over of services in case a specific zone fails.
 
-We will now explain how this works in details:
+Let's look at how a service `backend` in `zone-b` is advertised to `zone-a` and a request from the local zone `zone-a` is routed to the remote
+service in `zone-b`.
 
-In the local zone: the zone ingress will receive all traffic coming from other zones and route it within this zone. The control-plane will update its local zone ingresses with a list of local services and the number of instances available, it will then synchronize it with the global control-plane.
+#### Destination service zone
+
+When the new service `backend` joins the mesh in `zone-b`, the `zone-b` zone control plane adds this service to the `availableServices` on the `zone-b` `ZoneIngress` resource.
+The `kuma-dp` proxy running as a zone ingress is configured with this list of
+services so that it can route incoming requests.
+This `ZoneIngress` resource is then also synchronized to the global control plane.
 
 The global control-plane will propagate the zone ingress resources and all policies to all other zones over {{site.mesh_product_name}} Discovery Service (KDS), which is a protocol based on xDS.
 
-In the remote zone, data plane proxies will either add new services or add endpoints to existing services which correspond to the remote zone-ingresses entries.
-Requests are then routed to either local instances of the service or to the remote zone ingress where instances of the service are running, which will proxy the request to the actual instance.
+#### Source service zone
 
-In the presence of a [zone egress](/docs/{{ page.version }}/explore/zoneegress) the traffic is routed through the local zone egress before being sent to the remote zone ingress.
+The `zone-b` `ZoneIngress` resource is synchronized from the global control
+plane to the `zone-a` zone control plane.
+Requests to the `availableServices` from `zone-a` are load balanced between local instances and remote instances of this service.
+Requests send to `zone-b` are routed to the zone ingress proxy of `zone-b`.
 
-When using [transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying) (enabled by default in Kubernetes), {{site.mesh_product_name}} generates a VIP, a DNS entry with the format
-`<kuma.io/service>.mesh`, and will listen for traffic on port 80.
+For load-balancing, the zone ingress endpoints are weighted with the number of instances running behind them. So a zone with 2 instances will receive twice as much traffic than a zone with 1 instance.
+You can also favor local service instances with [locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware).
+
+In the presence of a [zone egress](/docs/{{ page.version }}/explore/zoneegress), the traffic is routed through the local zone egress before being sent to the remote zone ingress.
+
+When using [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying) (default in Kubernetes),
+{{site.mesh_product_name}} generates a VIP,
+a DNS entry with the format `<kuma.io/service>.mesh`, and will listen for traffic on port 80. The `<kuma.io/service>.mesh:80` format is just a convention.
+[`VirtualOutbounds`](/docs/{{ page.version }}/policies/virtual-outbound)s enable you to customize the listening port and how the DNS name for these services looks.
 
 {% tip %}
 A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in {{site.mesh_product_name}} [gateway mode](/docs/{{ page.version }}/explore/gateway) and can be deployed in addition to zone ingresses.
-
-For Kubernetes the `kuma.io/service` is automatically generated as explained in the [data-plane on Kubernetes documentation](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
-
-For load-balancing the zone ingress endpoints are weighted with the number of instances running behind them (.i.e: a zone with 2 instances will receive twice more traffic than a zone with 1 instance), you can also favor local traffic with [localityAware load-balancing](/docs/{{ page.version }}/policies/locality-aware).
-
-The `<kuma.io/service>.mesh:80>` is a convention. [Virtual Outbound](/docs/{{ page.version }}/policies/virtual-outbound)s will enable you to expose hostname/port differently.
 {% endtip %}
 
 ### Components of a multi-zone deployment
