@@ -17,7 +17,7 @@ Or without the optional zone egress:
 
 ### How it works
 
-In {{site.mesh_product_name}}, zones are abstracted away, meaning that your data plane proxies will find services whereever they run.
+In {{site.mesh_product_name}}, zones are abstracted away, meaning that your data plane proxies will find services wherever they run.
 This way you can make a service multi-zone by having data planes using the same `kuma.io/service` in different zones. This gives you automatic fail-over of services in case a specific zone fails.
 
 Let's look at how a service `backend` in `zone-b` is advertised to `zone-a` and a request from the local zone `zone-a` is routed to the remote
