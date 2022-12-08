@@ -34,7 +34,7 @@ module Jekyll
     def pages_from_items(items)
       items.each_with_object([]) do |i, array|
         if i.key?('url') && URI(i.fetch('url')).fragment.nil?
-          array << { 'url' => i.fetch('url'), 'text' => i.fetch('text') }
+          array << { 'url' => i.fetch('url'), 'text' => i.fetch('text'), 'absolute_url' => i.fetch('absolute_url', false) }
         end
 
         if i.key?('items')

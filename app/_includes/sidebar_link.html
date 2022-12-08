@@ -1,17 +1,20 @@
 {% assign item = include.item %}
 {% assign current_page =  page.url | remove: '.html' %}
 
-<!-- "#TODO: handle external links" -->
-{% assign url = '/docs/' | append: include.version | append: item.url %}
-<a href="{{ url }}" class="sidebar-link {% if current_page == url %} active {% endif %}">{{ item.text or item.title }}</a>
+{% if item.absolute_url %}{% assign url = item.url %}
+{% else %}{% assign url = '/docs/' | append: include.version | append: item.url %}
+{% endif %}
+<a href="{{ url }}" class="sidebar-link {% if current_page == url %} active {% endif %}"{% if item.absolute_url %} target="_blank"{% endif %}>{{ item.text or item.title }}</a>
 
 {% if item.items and item.items.size > 0 %}
   <ul class="sidebar-sub-headers {% if current_page != url %} hidden {% endif %}">
     {% for sub_item in item.items %}
       <li class="sidebar-sub-header">
-        {% assign url = '/docs/' | append: include.version | append: sub_item.url %}
+        {% if sub_item.absolute_url %}{% assign url = sub_item.url %}
+        {% else %}{% assign url = '/docs/' | append: include.version | append: sub_item.url %}
+        {% endif %}
 
-        <a class="sidebar-link" href="{{ url }}">
+        <a class="sidebar-link" href="{{ url }}"{% if sub_item.absolute_url %} target="_blank"{% endif %}>
           {{ sub_item.text }}
         </a>
       </li>
