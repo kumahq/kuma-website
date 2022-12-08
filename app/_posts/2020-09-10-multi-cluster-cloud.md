@@ -12,8 +12,6 @@ With Kuma – now a CNCF project and at the time of this writing, the only Envoy
 
 Starting from Kuma 0.6, which was released this summer with a new advanced multi-zone capability, Kuma now supports every cloud vendor, every architecture and every platform together in a multi-mesh control plane. When deployed in a multi-zone deployment, Kuma abstracts away both the synchronization of the service mesh policies across multiple zones and the service connectivity (and service discovery) across those zones. A zone can be a Kubernetes cluster, a data center, a cloud region, a VPC, a subnet and so on – we can slice and dice zones to our liking, and we can also mix Kubernetes and VM workloads into one distributed mesh deployment.
 
-![](https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2020/09/diagram-02-1536x779.jpg)
-
 <center><i>
 Kuma creates a service connectivity overlay across hybrid infrastructure to discover and connect services automatically, including hybrid Kubernetes + VM services.
 </i></center>
@@ -21,8 +19,6 @@ Kuma creates a service connectivity overlay across hybrid infrastructure to disc
 This [multi-zone capability](https://kuma.io/docs/latest/deployments/multi-zone/) has been added in addition to the [multi-mesh support](https://kuma.io/docs/latest/policies/mesh/) that Kuma introduced since day one to create multiple isolated meshes on the same cluster (with dedicated mTLS CAs) in order to reduce team coordination, increase isolation and improve security rather than one large service mesh that everybody is sharing. Also, since multi-zone leverages the first-class K8s + VM support that shipped since the first version of Kuma, all teams and workloads in the organizations can benefit from service mesh and not just our greenfield initiatives.
 
 A Kuma service mesh distributed across every cloud, cluster and workload that the teams are using can therefore be managed from one individual cluster of Kuma itself. Meanwhile, multiple service meshes can be virtually provisioned on one Kuma control plane (horizontally scalable) to simplify mesh management across the organization – very similar to how Kubernetes and its namespaces work.
-
-![](https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2020/09/diagram-one-cluster-new@2x.png)
 
 <center><i>
 Kuma supports multiple virtual meshes on the same Kuma deployment, removing the requirement of having multiple service mesh clusters for each application and therefore lowering the ops costs significantly.
@@ -41,8 +37,6 @@ In a multi-zone deployment, there are a few important features that Kuma provide
 In a distributed deployment, the “global” control plane will be in charge of accepting Kuma resources to determine the behavior of the service mesh via either native Kubernetes CRDs or vanilla YAML in VM-based deployments. It will be in charge of propagating these resources to the “remote” control planes – one for each zone that we want to support.
 
 The “remote” control planes are going to be exchanging Kuma resources with the “global” control plane over an extension of the Envoy xDS API that we called KDS (Kuma Discovery Service) over a gRPC protocol, and therefore, over HTTP/2. The “remote” control planes are also going to be accepting requests from the Envoy-based data plane proxies that belong to the same zone over traditional xDS.
-
-![](https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2020/09/diagram-01-1536x1316.jpg)
 
 <center><i>
 The remote control planes also embed a DNS service discovery that can be used to discover services across different zones. The above architecture can be easily installed in just a few steps using either the Kuma CLI “kumactl” or HELM charts.
@@ -76,8 +70,6 @@ Among other use cases, cross-zone connectivity is useful for:
    Likewise with the “global” and “remote” control planes, the ingress and the DNS service discovery can also be installed in one click by following the [multi-zone instructions](https://kuma.io/docs/latest/deployments/multi-zone/) on Kuma.
 
 When it comes to service discovery, Kuma creates a “.mesh” DNS entry on the built-in DNS resolver that can be used to resolve services across the same zone or in other zones, effectively “flattening” the discovery of services across a complex infrastructure. Kuma will – accordingly to the traffic routing policies that have been configured – determine if we should be consuming a replica of the service in the local zone or if we should resolve the request to the IP address of a Kuma ingress in another zone, which will then leverage SNI to determine what service has been requested and route the request accordingly.
-
-![](https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2020/09/diagram-03.jpg)
 
 <center><i>
 In this example, we have three services (users, invoices and billing). Requests to “invoices.mesh” will be proxied to an IP address within the same zone, whereas requests to “billing.mesh” will be <b>automatically</b> proxied to an ingress of another zone.

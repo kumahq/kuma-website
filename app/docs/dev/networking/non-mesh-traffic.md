@@ -48,13 +48,13 @@ networking:
 When `networking.outbound.passthrough` is `false`, no traffic to any non-mesh resource can leave the Mesh.
 
 {% tip %}
-Before turning this feature on, double-check Envoy stats that no traffic is flowing through `pass_through` cluster. 
+Before setting `networking.outbound.passthrough` to `false`, double-check Envoy stats that no traffic is flowing through `pass_through` cluster. 
 Otherwise, you will block the traffic which may cause the instability of the system.
 {% endtip %}
 
-### Policies don't apply to the non-mesh traffic
+### Policies don't apply to non-mesh traffic
 
-If you need to change configuration for the non-mesh traffic 
+If you need to change configuration for non-mesh traffic 
 you can use a [ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template).
 
 #### Circuit Breaker

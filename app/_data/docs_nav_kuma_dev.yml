@@ -37,7 +37,7 @@ items:
         url: /installation/docker/
       - text: Amazon Linux
         url: /installation/amazonlinux/
-      - text: Debian
+      - text: Redhat
         url: /installation/redhat/
       - text: CentOS
         url: /installation/centos/
