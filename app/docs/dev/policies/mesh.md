@@ -23,6 +23,7 @@ Besides the ability of being able to create virtual service mesh, a `Mesh` resou
 * [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics/), to setup metrics backend that will be used to collect and visualize metrics of our service mesh and service traffic within the Mesh.
 * [Traffic Trace](/docs/{{ page.version }}/policies/traffic-trace/), to setup tracing backends that will be used to collect traces of our service traffic within the Mesh.
 * [Zone Egress](/docs/{{ page.version }}/explore/zoneegress), to setup if `ZoneEgress` should be used for cross zone and external service communication.
+* [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic), to setup if `passthrough` mode should be used for the non-mesh traffic.
 
 When [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) is enabled in `builtin` mode, each `Mesh` will provision its own CA root certificate and key unless we explicitly decide to use the same CA by sharing the same certificate and key across multiple meshes. When the CAs of our Meshes are different, data plane proxies from one `Mesh` will not be able to consume data plane proxies belonging to another `Mesh` and an intermediate API Gateway must be used in order to enable cross-mesh communication. {{site.mesh_product_name}} supports a [gateway mode](/docs/{{ page.version }}/explore/gateway) to make this happen.
 
@@ -128,38 +129,3 @@ mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the
 ```
 {% endtab %}
 {% endtabs %}
-
-### Controlling the passthrough mode
-
-In its default setup, {{site.mesh_product_name}} allows any non-mesh traffic to pass Envoy without applying any policy. For instance if a service needs to send a request to `http://example.com`, all requests won't be logged even if a traffic logging is enabled in the mesh where the service is deployed.
-The passthrough mode is enabled by default on all the dataplane proxies in transparent mode in a Mesh. This behavior can be changed by setting the `networking.outbound.passthrough` in the Mesh resource. Example:
-
-{% tabs passthrough-mode useUrlFragment=false %}
-{% tab passthrough-mode Kubernetes %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: Mesh
-metadata:
-  name: default
-spec:
-  networking:
-    outbound:
-      passthrough: false
-```
-{% endtab %}
-{% tab passthrough-mode Universal %}
-```yaml
-type: Mesh
-name: default
-networking:
-  outbound:
-    passthrough: false
-```
-{% endtab %}
-{% endtabs %}
-
-When `networking.outbound.passthrough` is `false`, no traffic to any non-mesh resource can leave the Mesh.
-
-{% tip %}
-Before turning this feature on, double-check Envoy stats that no traffic is flowing through `pass_through` cluster. Otherwise, you will block the traffic which may cause the instability of the system.
-{% endtip %}

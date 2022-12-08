@@ -242,3 +242,9 @@ The only supported value for `destinations.match` is `kuma.io/service`.
 ## Builtin Gateway support
 
 Circuit Breaker policies are supported on the builtin gateway like any other dataplane.
+
+## Non-mesh traffic
+
+When [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) is activated
+any non-mesh traffic is passing Envoy without applying the CircuitBreaker policies.
+Read more about [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#circuit-breaker).

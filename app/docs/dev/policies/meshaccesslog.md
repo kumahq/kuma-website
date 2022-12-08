@@ -425,7 +425,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 To target [`ExternalServices`](/docs/{{ page.version }}/policies/external-services#usage), use `MeshService` as the `targetRef` kind with `name` set to  
 the `kuma.io/service` value.
 
-To target other non-mesh traffic, i.e. [passthrough traffic](/docs/{{ page.version }}/policies/mesh/#controlling-the-passthrough-mode), use `Mesh` as the `targetRef` kind. In this case, `%KUMA_DESTINATION_SERVICE%` is set to `external`.
+To target other non-mesh traffic, i.e. [passthrough traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing), use `Mesh` as the `targetRef` kind. In this case, `%KUMA_DESTINATION_SERVICE%` is set to `external`.
 
 ## Select a built-in gateway
 

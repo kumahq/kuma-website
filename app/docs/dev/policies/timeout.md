@@ -213,3 +213,9 @@ conf:
 It's not recommended disabling `streamIdleTimeouts` and `idleTimeout`
 since it has a high likelihood of yielding connection leaks.
 {% endwarning %}
+
+## Non-mesh traffic
+
+When [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) is activated 
+any non-mesh traffic is passing Envoy without applying the Timeout policies. 
+Read more about [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#timeouts).
