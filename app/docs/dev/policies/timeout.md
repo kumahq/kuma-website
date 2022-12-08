@@ -216,6 +216,6 @@ since it has a high likelihood of yielding connection leaks.
 
 ## Non-mesh traffic
 
-When [passthrough mode](/docs/{{ page.version }}/policies/mesh#controlling-the-passthrough-mode) is activated 
+When [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) is activated 
 any non-mesh traffic is passing Envoy without applying the Timeout policies. 
 Read more about [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#timeouts).

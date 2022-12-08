@@ -245,6 +245,6 @@ Circuit Breaker policies are supported on the builtin gateway like any other dat
 
 ## Non-mesh traffic
 
-When [passthrough mode](/docs/{{ page.version }}/policies/mesh#controlling-the-passthrough-mode) is activated
+When [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) is activated
 any non-mesh traffic is passing Envoy without applying the CircuitBreaker policies.
 Read more about [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#circuit-breaker).
