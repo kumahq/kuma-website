@@ -110,7 +110,7 @@ Here are reasons where you'd want to use this feature:
 
 - Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
 - Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
-- If you disable [passthrough](/docs/{{ page.version }}/policies/mesh#controlling-the-passthrough-mode) and your mesh uses mTLS but Prometheus is outside the mesh (`skipMTLS: true`) this will be the only way to retrieve these metrics as the application is completely hidden behind the sidecar. 
+- If you disable [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS but Prometheus is outside the mesh (`skipMTLS: true`) this will be the only way to retrieve these metrics as the application is completely hidden behind the sidecar. 
 
 {% warning %}
 Any configuration change requires redeployment of the data plane.
