@@ -240,7 +240,7 @@ metadata:
     kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
 spec:
   targetRef:
-    kind: MeshService
+    kind: MeshServiceSubset
     name: frontend
     tags:
       version: canary
@@ -265,7 +265,7 @@ name: default
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
+    kind: MeshServiceSubset
     name: frontend
     tags:
       version: canary
