@@ -3960,7 +3960,8 @@ curl localhost:5681/meshes/default/dataplanes/backend-1/policies
       "type": "TrafficPermission",
       "mesh": "default",
       "name": "allow-all-default",
-      ...  
+      "creationTime": "2021-11-05T08:11:37.880477+01:00",
+      "modificationTime": "2021-11-05T08:11:37.880477+01:00",
      }
     ]
    }
@@ -3974,7 +3975,8 @@ curl localhost:5681/meshes/default/dataplanes/backend-1/policies
       "type": "Timeout",
       "mesh": "default",
       "name": "timeout-all-default",
-      ...
+      "creationTime": "2021-11-05T08:11:37.880477+01:00",
+      "modificationTime": "2021-11-05T08:11:37.880477+01:00",
      }
     ]
    }
@@ -3988,7 +3990,8 @@ curl localhost:5681/meshes/default/dataplanes/backend-1/policies
       "type": "CircuitBreaker",
       "mesh": "default",
       "name": "circuit-breaker-all-default",
-      ...
+      "creationTime": "2021-11-05T08:11:37.880477+01:00",
+      "modificationTime": "2021-11-05T08:11:37.880477+01:00",
      }
     ],
     "HealthCheck": [
@@ -3996,7 +3999,8 @@ curl localhost:5681/meshes/default/dataplanes/backend-1/policies
       "type": "HealthCheck",
       "mesh": "default",
       "name": "gateway-to-backend",
-      ...
+      "creationTime": "2021-11-05T08:11:37.880477+01:00",
+      "modificationTime": "2021-11-05T08:11:37.880477+01:00",
      }
     ],
     "Retry": [
@@ -4004,7 +4008,8 @@ curl localhost:5681/meshes/default/dataplanes/backend-1/policies
       "type": "Retry",
       "mesh": "default",
       "name": "retry-all-default",
-      ...
+      "creationTime": "2021-11-05T08:11:37.880477+01:00",
+      "modificationTime": "2021-11-05T08:11:37.880477+01:00",
      }
     ]
    }
