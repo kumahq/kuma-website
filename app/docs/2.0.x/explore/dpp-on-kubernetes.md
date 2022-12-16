@@ -164,42 +164,44 @@ Notice how `kuma.io/service` is built on `<serviceName>_<namespace>_svc_<port>` 
 
 ### Joining the mesh
 
-On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For each Pod with sidecar-injection label a new
+On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For each `Pod` with sidecar-injection label, a new
 `Dataplane` resource will be created.
 
 To join the mesh in a graceful way, we need to first make sure the application is ready to serve traffic before it can be considered a valid traffic destination.
 
-When Pod is converted to a `Dataplane` object it will be marked as unhealthy until Kubernetes considers all containers to be ready.
+When `Pod` is converted to a `Dataplane` object it will be marked as unhealthy until Kubernetes considers all containers to be ready.
 
 ### Leaving the mesh
 
 To leave the mesh in a graceful shutdown, we need to remove the traffic destination from all the clients before shutting it down.
 
-When the {{site.mesh_product_name}} DP sidecar receives a `SIGTERM` signal it does in this order:
+When the {{site.mesh_product_name}} sidecar receives a SIGTERM signal it:
 
-1) start draining Envoy listeners
-2) wait for the entire draining time
-3) stop the sidecar process
-During the draining process, Envoy can still accept connections however:
-1) It is marked as unhealthy on Envoy Admin `/ready` endpoint
-2) It sends `connection: close` for HTTP/1.1 requests and GOAWAY frame for HTTP/2.
-   This forces clients to close a connection and reconnect to the new instance.
+1. Starts draining Envoy listeners.
+1. Waits the entire drain time.
+1. Terminates.
 
-You can read [Kubernetes docs](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination) to learn how Kubernetes handles pod lifecycle. Here is the summary with relevant parts for {{site.mesh_product_name}}.
+While draining, Envoy can still accept connections, however:
 
-Whenever a user or system deletes a Pod, Kubernetes does the following:
-1) It marks the Pod as terminated
-2) Concurrently for every container it:
-    1) Executes any pre stop hook if defined
-    2) Sends a SIGTERM signal
-    3) Waits until container is terminated for maximum of graceful termination time (by default 60s)
-    4) Sends a SIGKILL to the container
-3) It removes the Pod object from the system
+1. It is marked unhealthy on the Envoy Admin `/ready` endpoint.
+1. It sends `connection: close` for HTTP/1.1 requests and the `GOAWAY` frame for HTTP/2.
+   This forces clients to close their connection and reconnect to the new instance.
 
-When Pod is marked as terminated, {{site.mesh_product_name}} CP updates Dataplane object to be unhealthy which will trigger configuration update to all the clients to remove it as a destination.
-This can take a couple of seconds depending on the size of the mesh, available resources for CP, XDS configuration interval, etc.
+You can read the [Kubernetes docs](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination) to learn how Kubernetes handles the `Pod` lifecycle. Here is the summary including the parts relevant for {{site.mesh_product_name}}.
 
-If the application next to the {{site.mesh_product_name}} DP sidecar quits immediately after the SIGTERM signal, there is a high chance that clients will still try to send traffic to this destination.
+Whenever a user or system deletes a `Pod`, Kubernetes does the following:
+1. It marks the `Pod` as terminated.
+1. For every container concurrently it:
+    1. Executes any pre stop hook if defined.
+    1. Sends a SIGTERM signal.
+    1. Waits until container is terminated for maximum of graceful termination time (by default 60s).
+    1. Sends a SIGKILL to the container.
+1. It removes the `Pod` object from the system.
+
+When `Pod` is marked as terminated, {{site.mesh_product_name}}, the CP marks the `Dataplane` object unhealthy, which triggers a configuration update to all the clients in order to remove it as a destination.
+This can take a couple of seconds depending on the size of the mesh, resources available to the CP, XDS configuration interval, etc.
+
+If the application served by the {{site.mesh_product_name}} sidecar quits immediately after the SIGTERM signal, there is a high chance that clients will still try to send traffic to this destination.
 
 To mitigate this, we need to either
 * Support graceful shutdown in the application. For example, the application should wait X seconds to exit after receiving the first SIGTERM signal.
@@ -221,7 +223,7 @@ To mitigate this, we need to either
                 command: ["/bin/sleep", "30"]
   ```
 
-When a Pod is deleted its matching `Dataplane` resource is deleted as well. This is possible thanks to the
+When a `Pod` is deleted, its matching `Dataplane` resource is deleted as well. This is possible thanks to the
 [owner reference](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/) set on the `Dataplane` resource.
 
 ## Custom Container Configuration
