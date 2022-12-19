@@ -36,5 +36,5 @@ So we enter the `bin` folder by executing: `cd kuma-{{ page.latest_version }}/bi
 We suggest adding the `kumactl` executable to your `PATH` (by executing: `PATH=$(pwd):$PATH`) so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
 ```sh
-ln -s kuma-{{ page.latest_version }}/bin/kumactl /usr/local/bin/kumactl
+ln -s $PWD/kuma-{{ page.latest_version }}/bin/kumactl /usr/local/bin/kumactl
 ```
