@@ -54,6 +54,9 @@
       <meta property="og:image:width" content="1200">
       <meta property="og:image:height" content="630">
     {% endunless %}
+    {% if page.canonicalUrl %}
+      <link rel="canonical" href="{{ page.canonicalUrl }}">
+    {% endif %}
 
     <meta name="apple-mobile-web-app-title" content="{{ site.title }}">
     <meta name="application-name" content="{{ site.title }}">
