@@ -42,6 +42,8 @@ Show Kuma resources.
 * [kumactl get mesh](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_mesh)	 - Show a single Mesh resource
 * [kumactl get meshaccesslog](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshaccesslog)	 - Show a single MeshAccessLog resource
 * [kumactl get meshaccesslogs](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshaccesslogs)	 - Show MeshAccessLog
+* [kumactl get meshcircuitbreaker](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshcircuitbreaker)	 - Show a single MeshCircuitBreaker resource
+* [kumactl get meshcircuitbreakers](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshcircuitbreakers)	 - Show MeshCircuitBreaker
 * [kumactl get meshes](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshes)	 - Show Mesh
 * [kumactl get meshgateway](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshgateway)	 - Show a single MeshGateway resource
 * [kumactl get meshgatewayroute](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshgatewayroute)	 - Show a single MeshGatewayRoute resource
