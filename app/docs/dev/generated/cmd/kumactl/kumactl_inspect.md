@@ -33,6 +33,7 @@ Inspect Kuma resources.
 * [kumactl inspect fault-injection](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_fault-injection)	 - Inspect FaultInjection
 * [kumactl inspect healthcheck](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_healthcheck)	 - Inspect HealthCheck
 * [kumactl inspect meshaccesslog](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshaccesslog)	 - Inspect MeshAccessLog
+* [kumactl inspect meshcircuitbreaker](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshcircuitbreaker)	 - Inspect MeshCircuitBreaker
 * [kumactl inspect meshes](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshes)	 - Inspect Meshes
 * [kumactl inspect meshgateway](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshgateway)	 - Inspect MeshGateway
 * [kumactl inspect meshratelimit](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshratelimit)	 - Inspect MeshRateLimit
