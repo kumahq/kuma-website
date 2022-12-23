@@ -49,8 +49,12 @@ Show Kuma resources.
 * [kumactl get meshgatewayroute](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshgatewayroute)	 - Show a single MeshGatewayRoute resource
 * [kumactl get meshgatewayroutes](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshgatewayroutes)	 - Show MeshGatewayRoute
 * [kumactl get meshgateways](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshgateways)	 - Show MeshGateway
+* [kumactl get meshhealthcheck](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshhealthcheck)	 - Show a single MeshHealthCheck resource
+* [kumactl get meshhealthchecks](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshhealthchecks)	 - Show MeshHealthCheck
 * [kumactl get meshratelimit](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshratelimit)	 - Show a single MeshRateLimit resource
 * [kumactl get meshratelimits](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshratelimits)	 - Show MeshRateLimit
+* [kumactl get meshretries](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshretries)	 - Show MeshRetry
+* [kumactl get meshretry](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshretry)	 - Show a single MeshRetry resource
 * [kumactl get meshtimeout](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshtimeout)	 - Show a single MeshTimeout resource
 * [kumactl get meshtimeouts](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshtimeouts)	 - Show MeshTimeout
 * [kumactl get meshtrace](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshtrace)	 - Show a single MeshTrace resource
