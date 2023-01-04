@@ -232,7 +232,7 @@ HTTP health checks are executed using HTTP2
 
 ### gRPC
 
-- **`disabled`** - (optional) - if true TCP health check is disabled
+- **`disabled`** - (optional) - if true gRPC health check is disabled
 - **`serviceName`** - (optional) - service name parameter which will be sent to gRPC service
 - **`authority`** - (optional) - value of the :authority header in the gRPC health check request,
   by default name of the cluster this health check is associated with
