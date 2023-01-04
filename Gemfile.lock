@@ -34,7 +34,7 @@ GEM
       terminal-table (~> 2.0)
     jekyll-contentblocks (1.2.0)
       jekyll
-    jekyll-generator-single-source (0.0.3)
+    jekyll-generator-single-source (0.0.4)
       jekyll (>= 4.2, < 5.0)
     jekyll-last-modified-at (1.3.0)
       jekyll (>= 3.7, < 5.0)
