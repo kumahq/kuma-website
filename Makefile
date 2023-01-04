@@ -1,3 +1,7 @@
+define newline
+
+
+endef
 RUBY_VERSION := "$(shell ruby -v)"
 RUBY_VERSION_REQUIRED := "$(shell cat .ruby-version)"
 RUBY_MATCH := $(shell [[ "$(shell ruby -v)" =~ "ruby $(shell cat .ruby-version)" ]] && echo matched)
@@ -5,7 +9,7 @@ RUBY_MATCH := $(shell [[ "$(shell ruby -v)" =~ "ruby $(shell cat .ruby-version)"
 .PHONY: ruby-version-check
 ruby-version-check:
 ifndef RUBY_MATCH
-	@printf "ruby $(RUBY_VERSION_REQUIRED) is required. Found %s\n" $(RUBY_VERSION)
+	$(error ruby $(RUBY_VERSION_REQUIRED) is required. Found $(RUBY_VERSION). $(newline)Run `rbenv install $(RUBY_VERSION_REQUIRED)`)$(newline)
 endif
 
 # Installs npm packages and gems.
