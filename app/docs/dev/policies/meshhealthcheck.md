@@ -108,8 +108,8 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 #### Protocol fallback
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs protocol useUrlFragment=false %}
+{% tab protocol Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -137,7 +137,7 @@ spec:
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
-{% tab usage Universal %}
+{% tab protocol Universal %}
 
 ```yaml
 type: MeshHealthCheck
