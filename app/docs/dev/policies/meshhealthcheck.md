@@ -45,6 +45,7 @@ The `MeshHealthCheck` policy supports both L4/TCP and L7/HTTP/gRPC checks.
 
 The health check protocol is selected by picking the most [specific protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma/#protocol-support-in-kuma) 
 and falls back to more general protocol when specified protocol has `disabled=true` in policy definition.
+See [protocol fallback example](#protocol-fallback).
 
 ### Examples
 
@@ -100,6 +101,65 @@ spec:
         http:
           path: /health
           expectedStatuses: [200, 201]
+```
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+{% endtab %}
+{% endtabs %}
+
+#### Protocol fallback
+
+{% tabs usage useUrlFragment=false %}
+{% tab usage Kubernetes %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshHealthCheck
+metadata:
+  name: web-to-backend-check
+spec:
+  targetRef:
+    kind: MeshService
+    name: web
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        interval: 10s
+        timeout: 2s
+        unhealthyThreshold: 3
+        healthyThreshold: 1
+        tcp: {} # http has "disabled=true" so TCP (a more general protocol) is used as a fallback
+        http:
+          disabled: true
+          path: /health
+```
+We will apply the configuration with `kubectl apply -f [..]`.
+{% endtab %}
+
+{% tab usage Universal %}
+
+```yaml
+type: MeshHealthCheck
+name: web-to-backend-check
+mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name: web
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        interval: 10s
+        timeout: 2s
+        unhealthyThreshold: 3
+        healthyThreshold: 1
+        tcp: {} # http has "disabled=true" so TCP (a more general protocol) is used as a fallback
+        http:
+          disabled: true
+          path: /health
 ```
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
