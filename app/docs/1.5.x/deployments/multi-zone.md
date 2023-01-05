@@ -96,13 +96,13 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 1.  Set the `controlPlane.mode` value to `global` in the chart (`values.yaml`), then install. On the command line, run:
 
     ```sh
-    helm install kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
+    helm install {{ site.helm_install_name }} --namespace kuma-system --set controlPlane.mode=global {{ site.helm_repo }}
     ```
 
-    Or you can edit the chart and pass the file to the `helm install kuma` command. To get the default values, run:
+    Or you can edit the chart and pass the file to the `helm install {{ site.helm_install_name }}` command. To get the default values, run:
 
     ```sh
-    helm show values kuma/kuma
+    helm show values {{ site.helm_repo }}
     ```
 1.  Find the external IP and port of the `global-remote-sync` service in the `kuma-system` namespace:
 
@@ -176,12 +176,12 @@ You need the following values to pass to each zone control plane setup:
 1.  On each zone control plane, run:
 
     ```sh
-    helm install kuma \
+    helm install {{ site.helm_install_name }} \
     --namespace kuma-system \
     --set controlPlane.mode=zone \
     --set controlPlane.zone=<zone-name> \
     --set ingress.enabled=true \
-    --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 kuma/kuma
+    --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 {{ site.helm_repo }}
     ```
 
     where `controlPlane.zone` is the same value for all zone control planes in the same zone.
@@ -191,13 +191,13 @@ You need the following values to pass to each zone control plane setup:
 1.  On each zone control plane, run:
 
     ```sh
-    helm install kuma \
+    helm install {{ site.helm_install_name }} \
     --namespace kuma-system \
     --set controlPlane.mode=zone \
     --set controlPlane.zone=<zone-name> \
     --set ingress.enabled=true \
     --set egress.enabled=true \
-    --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 kuma/kuma
+    --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 {{ site.helm_repo }}
     ```
 
     where `controlPlane.zone` is the same value for all zone control planes in the same zone.
