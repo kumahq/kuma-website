@@ -80,3 +80,7 @@ jekyll-generator-single-source:
 include:
   - installer.sh
   - robots.txt
+
+# Helm commands
+helm_repo: kuma/kuma
+helm_install_name: kuma
