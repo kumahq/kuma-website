@@ -82,5 +82,5 @@ include:
   - robots.txt
 
 # Helm commands
-helm_repo: kuma/kuma
-helm_install_name: kuma
+mesh_helm_repo: kuma/kuma
+mesh_helm_install_name: kuma
