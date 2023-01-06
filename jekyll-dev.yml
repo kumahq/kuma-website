@@ -70,5 +70,5 @@ mesh_product_name: Kuma
 default_namespace: kuma-system
 
 # Helm commands
-helm_repo: kuma/kuma
-helm_install_name: kuma
+mesh_helm_repo: kuma/kuma
+mesh_helm_install_name: kuma

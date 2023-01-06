@@ -33,7 +33,7 @@ When using `helm`, you can override the configuration with the `envVars` field. 
 helm install \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s \
-  {{ site.helm_install_name }} {{ site.helm_repo }}
+  {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
 ```
 
 Or you can create a `values.yaml` file with:
@@ -46,13 +46,13 @@ controlPlane:
 and then specify it in the helm install command:
 
 ```sh
-helm install -f values.yaml {{ site.helm_install_name }} {{ site.helm_repo }}
+helm install -f values.yaml {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
 ```
 
 If you have a lot of configuration you can just write them all in a YAML file and use:
 
 ```shell
-helm install {{ site.helm_install_name }} {{ site.helm_repo }} --set-file controlPlace.config=cp-conf.yaml
+helm install {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }} --set-file controlPlace.config=cp-conf.yaml
 ```
 The value of the configmap `kuma-control-plane-config` is now the content of `cp-conf.yaml`.
 
