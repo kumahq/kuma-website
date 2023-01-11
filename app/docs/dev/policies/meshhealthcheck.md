@@ -16,7 +16,7 @@ a data plane proxy will never send a request to another data plane proxy that is
 When an unhealthy proxy returns to a healthy state,
 {{site.mesh_product_name}} will resume sending requests to it again.
 
-[//]: # (TODO: change the below to mesh cirucuit breaker once the docs are done)
+[//]: # (TODO: change the below to mesh circuit breaker once the docs are done)
 
 This policy provides **active** checks.
 If you want to configure **passive** checks,
@@ -49,7 +49,7 @@ See [protocol fallback example](#protocol-fallback).
 
 ### Examples
 
-#### Healthcheck from web to backend service
+#### Health check from web to backend service
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
@@ -173,7 +173,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 - **`healthyThreshold`** - number of consecutive healthy checks before considering a host healthy (e.g. 1)
 - **`initialJitter`** - (optional) if specified, Envoy will start health checking after a random time in
   milliseconds between 0 and initialJitter. This only applies to the first health check
-- **`intervalJitter`** - (optional) if specified, during every interval Envoy will add IntervalJitter to the wait time
+- **`intervalJitter`** - (optional) if specified, during every interval Envoy will add `intervalJitter` to the wait time
 - **`intervalJitterPercent`** - (optional) if specified, during every interval Envoy will add IntervalJitter *
   IntervalJitterPercent / 100 to the wait time. If IntervalJitter and
   IntervalJitterPercent are both set, both of them will be used to increase the wait time.
