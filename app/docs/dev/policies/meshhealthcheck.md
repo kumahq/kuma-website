@@ -132,7 +132,6 @@ spec:
         tcp: {} # http has "disabled=true" so TCP (a more general protocol) is used as a fallback
         http:
           disabled: true
-          path: /health
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
@@ -159,7 +158,61 @@ spec:
         tcp: {} # http has "disabled=true" so TCP (a more general protocol) is used as a fallback
         http:
           disabled: true
-          path: /health
+```
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+{% endtab %}
+{% endtabs %}
+
+#### gRPC health check from cart to payment service
+
+{% tabs grpc useUrlFragment=false %}
+{% tab grpc Kubernetes %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshHealthCheck
+metadata:
+  name: cart-to-payment-check
+spec:
+  targetRef:
+    kind: MeshService
+    name: cart
+  to:
+    - targetRef:
+        kind: MeshService
+        name: payment
+      default:
+        interval: 15s
+        timeout: 5s
+        unhealthyThreshold: 3
+        healthyThreshold: 2
+        grpc:
+          serviceName: "grpc.health.v1.CustomHealth"
+```
+We will apply the configuration with `kubectl apply -f [..]`.
+{% endtab %}
+
+{% tab grpc Universal %}
+
+```yaml
+type: MeshHealthCheck
+name: cart-to-payment-check
+mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name: cart
+  to:
+    - targetRef:
+        kind: MeshService
+        name: payment
+      default:
+        interval: 15s
+        timeout: 5s
+        unhealthyThreshold: 3
+        healthyThreshold: 2
+        grpc:
+          serviceName: "grpc.health.v1.CustomHealth"
 ```
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
