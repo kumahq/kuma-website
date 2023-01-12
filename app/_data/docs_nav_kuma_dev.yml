@@ -1,4 +1,6 @@
 product: kuma
+generate: true
+assume_generated: true
 release: dev
 items:
   - title: Introduction
