@@ -641,6 +641,15 @@ items:
             url: "/policies/meshtrafficpermission/#configuration"
           - text: Examples
             url: "/policies/meshtrafficpermission/#examples"
+      - text: MeshHealthCheck (Beta)
+        url: /policies/meshhealthcheck/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshhealthcheck/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshhealthcheck/#configuration"
+          - text: Examples
+            url: "/policies/meshhealthcheck/#examples"
   - title: Reference docs
     group: true
     items:
