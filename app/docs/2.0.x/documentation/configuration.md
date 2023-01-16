@@ -54,7 +54,7 @@ If you have a lot of configuration you can just write them all in a YAML file an
 ```shell
 helm install {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }} --set-file controlPlace.config=cp-conf.yaml
 ```
-The value of the configmap `kuma-control-plane-config` is now the content of `cp-conf.yaml`.
+The value of the configmap `{{site.mesh_cp_name}}-config` is now the content of `cp-conf.yaml`.
 
 {% endtab %}
 {% tab usage Universal %}

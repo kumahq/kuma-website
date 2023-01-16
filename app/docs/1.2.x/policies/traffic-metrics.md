@@ -153,7 +153,7 @@ scrape_configs:
     - job_name: 'kuma-dataplanes'
       scrape_interval: "5s"
       kuma_sd_configs:
-      - server: "http://kuma-control-plane.kuma-system.svc:5676"
+      - server: "http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}.svc:5676"
 ```
 
 For more information, see [the Prometheus documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
@@ -174,7 +174,7 @@ If you've already deployed Prometheus, you can use [Prometheus federation](https
 
     ```shell
     kuma-prometheus-sd run \
-      --cp-address=grpcs://kuma-control-plane.internal:5676 \
+      --cp-address=grpcs://{{site.mesh_cp_name}}.internal:5676 \
       --output-file=/var/run/kuma-prometheus-sd/kuma.file_sd.json
     ```
 

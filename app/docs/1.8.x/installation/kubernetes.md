@@ -32,7 +32,7 @@ This example will run Kuma in `standalone` mode for a "flat" deployment, but the
 It may take a while for Kubernetes to start the Kuma resources, you can check the status by executing:
 
 ```sh
-kubectl get pod -n kuma-system
+kubectl get pod -n {{site.mesh_namespace}}
 ```
 {% endtip %}
 

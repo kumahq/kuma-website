@@ -59,13 +59,13 @@ Install the `global` control plane using:
 kumactl install control-plane --mode=global | kubectl apply -f -
 ```
 
-Find the external IP and port of the `global-remote-sync` service in `kuma-system` namespace:
+Find the external IP and port of the `global-remote-sync` service in `{{site.mesh_namespace}}` namespace:
 
 ```bash
-kubectl get services -n kuma-system
+kubectl get services -n {{site.mesh_namespace}}
 # NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-# kuma-system   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-# kuma-system   kuma-control-plane     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+# {{site.mesh_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+# {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 ```
 
 In this example it is `35.226.196.103:5685`. This will be used as `<global-kds-address>` further.
@@ -74,7 +74,7 @@ In this example it is `35.226.196.103:5685`. This will be used as `<global-kds-a
 Install the `global` control plane by setting the `controlPlane.mode` value to `global` when installing the chart. This can be done on the command line, or in a provided file:
 
 ```sh
-helm install --version 0.5.7 kuma --namespace kuma-system --set controlPlane.mode=global kuma/kuma
+helm install --version 0.5.7 kuma --namespace {{site.mesh_namespace}} --set controlPlane.mode=global kuma/kuma
 ```
 {% endtab %}
 {% tab global-control-plane Universal %}
@@ -115,7 +115,7 @@ To install the Remote Control plane we need to provide the following parameters:
  * `controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>`:
 
 ```bash
-helm install --version 0.5.7 kuma --namespace kuma-system --set controlPlane.mode=remote,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
+helm install --version 0.5.7 kuma --namespace {{site.mesh_namespace}} --set controlPlane.mode=remote,controlPlane.zone=<zone-name>,ingress.enabled=true,controlPlane.kdsGlobalAddress=grpcs://<global-kds-address> kuma/kuma
 kumactl install dns | kubectl apply -f -
 ```
 

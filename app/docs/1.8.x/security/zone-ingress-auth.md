@@ -103,7 +103,7 @@ REVOCATIONS=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) && echo "api
 kind: Secret
 metadata:
   name: zone-ingress-token-revocations
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
 data:
   value: $REVOCATIONS
 type: system.kuma.io/global-secret" | kubectl apply -f -
@@ -137,7 +137,7 @@ If the signing key is compromised, we must rotate it and all the tokens that wer
    Check what the current highest serial number is:
 
    ```sh
-   kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/global-secret'
+   kubectl get secrets -n {{site.mesh_namespace}} --field-selector='type=system.kuma.io/global-secret'
    NAME                               TYPE                           DATA   AGE
    zone-ingress-token-signing-key-1   system.kuma.io/global-secret   1      25m
    ```
@@ -152,7 +152,7 @@ If the signing key is compromised, we must rotate it and all the tokens that wer
    kind: Secret
    metadata:
      name: zone-ingress-token-signing-key-2
-     namespace: kuma-system
+     namespace: {{site.mesh_namespace}}
    type: system.kuma.io/global-secret
    " | kubectl apply -f -
    ```
@@ -192,7 +192,7 @@ If the signing key is compromised, we must rotate it and all the tokens that wer
    {% tabs remove-key useUrlFragment=false %}
    {% tab remove-key Kubernetes %}
    ```sh
-   kubectl delete secret zone-ingress-token-signing-key-1 -n kuma-system
+   kubectl delete secret zone-ingress-token-signing-key-1 -n {{site.mesh_namespace}}
    ```
    {% endtab %}
    {% tab remove-key Universal %}

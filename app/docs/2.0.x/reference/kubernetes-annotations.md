@@ -249,7 +249,7 @@ or `Pod`):
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{site.default_namespace}}
+  namespace: {{site.mesh_namespace}}
   name: example
 spec:
   replicas: 1

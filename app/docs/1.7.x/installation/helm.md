@@ -28,10 +28,10 @@ Once the repo is added, all following updates can be fetched with `helm repo upd
 
 ### Run Kuma
 
-At this point we can install and run Kuma using the following commands. We could use any Kubernetes namespace to install Kuma, by default we suggest using `kuma-system`:
+At this point we can install and run Kuma using the following commands. We could use any Kubernetes namespace to install Kuma, by default we suggest using `{{site.mesh_namespace}}`:
 
 ```sh
-helm install --create-namespace --namespace kuma-system kuma kuma/kuma
+helm install --create-namespace --namespace {{site.mesh_namespace}} kuma kuma/kuma
 ```
 
 This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/introduction/deployments) like "multi-zone".

@@ -32,7 +32,7 @@ This example will run {{site.mesh_product_name}} in `standalone` mode for a "fla
 It may take a while for Kubernetes to start the {{site.mesh_product_name}} resources, you can check the status by executing:
 
 ```sh
-kubectl get pod -n {{site.default_namespace}}
+kubectl get pod -n {{site.mesh_namespace}}
 ```
 {% endtip %}
 

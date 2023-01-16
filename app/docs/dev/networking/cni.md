@@ -46,7 +46,7 @@ kumactl install control-plane \
 {% tab calico Helm %}
 
 ```shell
-helm install --create-namespace --namespace {{site.default_namespace}} \
+helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.enabled=true" \
   --set "cni.chained=true" \
   --set "cni.netDir=/etc/cni/net.d" \
@@ -76,7 +76,7 @@ kumactl install control-plane \
 {% tab k3d Helm %}
 
 ```shell
-helm install --create-namespace --namespace {{site.default_namespace}} \
+helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.enabled=true" \
   --set "cni.chained=true" \
   --set "cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
@@ -106,7 +106,7 @@ kumactl install control-plane \
 {% tab kind Helm %}
 
 ```shell
-helm install --create-namespace --namespace {{site.default_namespace}} \
+helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.enabled=true" \
   --set "cni.chained=true" \
   --set "cni.netDir=/etc/cni/net.d" \
@@ -136,7 +136,7 @@ kumactl install control-plane \
 {% tab azure Helm %}
 
 ```shell
-helm install --create-namespace --namespace {{site.default_namespace}} \
+helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.enabled=true" \
   --set "cni.chained=true" \
   --set "cni.netDir=/etc/cni/net.d" \
@@ -166,7 +166,7 @@ kumactl install control-plane \
 {% tab aws-eks Helm %}
 
 ```shell
-helm install --create-namespace --namespace {{site.default_namespace}} \
+helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.enabled=true" \
   --set "cni.chained=true" \
   --set "cni.netDir=/etc/cni/net.d" \
@@ -199,7 +199,7 @@ kumactl install control-plane \
 {% tab google-gke Helm %}
 
 ```shell
-helm install --create-namespace --namespace {{site.default_namespace}} \
+helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.enabled=true" \
   --set "cni.chained=true" \
   --set "cni.netDir=/etc/cni/net.d" \
@@ -236,7 +236,7 @@ kumactl install control-plane \
 {% tab openshift-3 Helm %}
 
 ```shell
-helm install --create-namespace --namespace {{site.default_namespace}} \
+helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.enabled=true" \
   --set "cni.containerSecurityContext.privileged=true" \
    kuma kuma/kuma
@@ -260,7 +260,7 @@ kumactl install control-plane \
 {% tab openshift-4 Helm %}
 
 ```shell
-helm install --create-namespace --namespace {{site.default_namespace}} \
+helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.enabled=true" \
    kuma kuma/kuma
 ```

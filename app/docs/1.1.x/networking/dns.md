@@ -37,7 +37,7 @@ dnsServer:
 
 The `domain` field can change the default `.mesh` DNS zone that Kuma DNS will resolve for. If this is changed, please check the output of `kumactl install dns` and change the zone accordingly, so that your Kube DNS or Core DNS server will redirect all the relevant DNS requests.
 
-The `port` can set the port on which the Kuma DNS is accepting requests. Changing this value on Kubernetes shall be reflected in the respective port setting in the `kuma-control-plane` service. 
+The `port` can set the port on which the Kuma DNS is accepting requests. Changing this value on Kubernetes shall be reflected in the respective port setting in the `{{site.mesh_cp_name}}` service. 
 
 The `CIDR` field sets the IP range of virtual IPs. The default `240.0.0.0/4` is reserved for future use IPv4 range and is guaranteed to be non-routable. We strongly recommend to not change this, unless it is needed.
 
@@ -136,7 +136,7 @@ kumactl install control-plane \
 With [Helm](/docs/{{ page.version }}/installation/helm), the command invocation looks like:
 
 ```shell
-helm install --version 0.5.7 --namespace kuma-system \
+helm install --version 0.5.7 --namespace {{site.mesh_namespace}} \
   --set controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=true \
    kuma kuma/kuma
 ```

@@ -254,7 +254,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ContainerPatch
 metadata:
   name: container-patch-1
-  namespace: {{site.default_namespace}}
+  namespace: {{site.mesh_namespace}}
 spec:
   sidecarPatch:
     - op: add

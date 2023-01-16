@@ -41,7 +41,7 @@ The `kumactl` application is a CLI client for the underlying [HTTP API](/docs/{{
 Available commands on `kumactl` are:
 
 * `kumactl install [..]`: provides helpers to install Kuma components in Kubernetes.
-  * `kumactl install control-plane`: Installs Kuma in Kubernetes in a `kuma-system` namespace.
+  * `kumactl install control-plane`: Installs Kuma in Kubernetes in a `{{site.mesh_namespace}}` namespace.
   * `kumactl install metrics`: Installs Prometheus + Grafana in Kubernetes in a `kuma-metrics` namespace.
   * `kumactl install tracing`: Installs Jaeger with Zipkin compatibility in Kubernetes in a `kuma-tracing` namespace.
 * `kumactl config [..]`: configures the local or remote control-planes that `kumactl` should talk to. You can have more than one enabled, and the configuration will be stored in `~/.kumactl/config`.
