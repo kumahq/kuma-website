@@ -140,7 +140,7 @@ curl http://localhost:5681/config
       "adminAddress": "127.0.0.1",
       "adminPort": 0,
       "xdsConnectTimeout": "1s",
-      "xdsHost": "kuma-control-plane.internal",
+      "xdsHost": "{{site.mesh_cp_name}}.internal",
       "xdsPort": 5678
     },
     "port": 5682
@@ -169,7 +169,7 @@ curl http://localhost:5681/config
   },
   "environment": "universal",
   "general": {
-    "advertisedHostname": "kuma-control-plane.internal"
+    "advertisedHostname": "{{site.mesh_cp_name}}.internal"
   },
   "guiServer": {
   },
@@ -196,7 +196,7 @@ curl http://localhost:5681/config
   },
   "store": {
     "kubernetes": {
-      "systemNamespace": "{{site.default_namespace}}"
+      "systemNamespace": "{{site.mesh_namespace}}"
     },
     "postgres": {
       "connectionTimeout": 5,
@@ -3114,7 +3114,7 @@ curl http://localhost:5681/zoneingresses+insights
     "subscriptions": [
      {
       "id": "e92113b3-f01c-43cf-a21e-2b7064eb5bf8",
-      "controlPlaneInstanceId": "kuma-control-plane-7cc9ffd8f9-s79r8-5b83",
+      "controlPlaneInstanceId": "{{site.mesh_cp_name}}-7cc9ffd8f9-s79r8-5b83",
       "connectTime": "2022-04-01T19:44:52.306011636Z",
       "status": {
        "lastUpdateTime": "2022-04-01T19:45:14.389007660Z",
@@ -3229,7 +3229,7 @@ curl http://localhost:5681/zoneegresses
  "items": [
   {
    "type": "ZoneEgress",
-   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.{{site.default_namespace}}",
+   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.{{site.mesh_namespace}}",
    "creationTime": "2022-02-18T13:39:39Z",
    "modificationTime": "2022-02-18T13:39:39Z",
    "zone": "kuma-1-zone",
@@ -3297,7 +3297,7 @@ curl http://localhost:5681/zoneegressoverviews
  "items": [
   {
    "type": "ZoneEgressOverview",
-   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.{{site.default_namespace}}",
+   "name": "kuma-1-zone.kuma-egress-6f7c8bbcc9-rzxnw.{{site.mesh_namespace}}",
    "creationTime": "2022-02-18T13:39:39Z",
    "modificationTime": "2022-02-18T13:39:39Z",
    "zoneEgress": {
@@ -3311,7 +3311,7 @@ curl http://localhost:5681/zoneegressoverviews
     "subscriptions": [
      {
       "id": "bb56359c-5b1c-4a9e-af3f-0982e1f37b74",
-      "controlPlaneInstanceId": "kuma-control-plane-b799fb878-w2d9l-97fb",
+      "controlPlaneInstanceId": "{{site.mesh_cp_name}}-b799fb878-w2d9l-97fb",
       "connectTime": "2022-02-18T13:39:48.312313103Z",
       "status": {
        "lastUpdateTime": "2022-02-18T13:40:41.338203595Z",

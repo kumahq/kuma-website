@@ -237,7 +237,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
 metadata:
   name: default
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
 spec:
@@ -298,7 +298,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
 metadata:
   name: default
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
 spec:
@@ -365,7 +365,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
 metadata:
   name: default
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
 spec:

@@ -63,14 +63,14 @@ This example will run {{site.mesh_product_name}} in `standalone` mode for a "fla
 It may take a while for OpenShift to start the {{site.mesh_product_name}} resources, you can check the status by executing:
 
 ```sh
-oc get pod -n {{site.default_namespace}}
+oc get pod -n {{site.mesh_namespace}}
 ```
 
 {% endtip %}
 
 ### 3. Use {{site.mesh_product_name}}
 
-{{site.mesh_product_name}} (`kuma-cp`) will be installed in the newly created `{{site.default_namespace}}` namespace! Now that {{site.mesh_product_name}} has been installed, you can access the control-plane via either the GUI, `oc`, the HTTP API, or the CLI:
+{{site.mesh_product_name}} (`kuma-cp`) will be installed in the newly created `{{site.mesh_namespace}}` namespace! Now that {{site.mesh_product_name}} has been installed, you can access the control-plane via either the GUI, `oc`, the HTTP API, or the CLI:
 
 {% tabs openshift-use useUrlFragment=false %}
 {% tab openshift-use GUI (Read-Only) %}
@@ -80,7 +80,7 @@ oc get pod -n {{site.default_namespace}}
 To access {{site.mesh_product_name}} we need to first port-forward the API service with:
 
 ```sh
-oc port-forward svc/kuma-control-plane -n {{site.default_namespace}} 5681:5681
+oc port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
 ```
 
 And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
@@ -119,7 +119,7 @@ spec:
 By default the HTTP API listens on port `5681`. To access {{site.mesh_product_name}} we need to first port-forward the API service with:
 
 ```sh
-oc port-forward svc/kuma-control-plane -n {{site.default_namespace}} 5681:5681
+oc port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
 ```
 
 And then you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see the HTTP API.
@@ -130,7 +130,7 @@ And then you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see th
 You can use the `kumactl` CLI to perform **read-only** operations on {{site.mesh_product_name}} resources. The `kumactl` binary is a client to the {{site.mesh_product_name}} HTTP API, you will need to first port-forward the API service with:
 
 ```sh
-oc port-forward svc/kuma-control-plane -n {{site.default_namespace}} 5681:5681
+oc port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
 ```
 
 and then run `kumactl`, for example:

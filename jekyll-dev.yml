@@ -67,7 +67,8 @@ jekyll-generator-single-source:
 
 # Product name variables
 mesh_product_name: Kuma
-default_namespace: kuma-system
+mesh_namespace: kuma-system
+mesh_cp_name: kuma-control-plane
 
 # Helm commands
 mesh_helm_repo: kuma/kuma
