@@ -220,10 +220,10 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 ## Common configuration
 
-- **`interval`** - interval between consecutive health checks (e.g. "10s")
-- **`timeout`** - maximum time to wait for a health check response (e.g. "2s")
-- **`unhealthyThreshold`** - number of consecutive unhealthy checks before considering a host unhealthy (e.g. 3)
-- **`healthyThreshold`** - number of consecutive healthy checks before considering a host healthy (e.g. 1)
+- **`interval`** - (optional) interval between consecutive health checks, if not specified then equal to "1m"
+- **`timeout`** - (optional) maximum time to wait for a health check response, if not specified then equal to "15s"
+- **`unhealthyThreshold`** - (optional) number of consecutive unhealthy checks before considering a host unhealthy, if not specified then equal to 5
+- **`healthyThreshold`** - (optional) number of consecutive healthy checks before considering a host healthy, if not specified then equal to 1
 - **`initialJitter`** - (optional) if specified, Envoy will start health checking after a random time in
   milliseconds between 0 and `initialJitter`. This only applies to the first health check
 - **`intervalJitter`** - (optional) if specified, during every interval Envoy will add `intervalJitter` to the wait time
@@ -257,17 +257,16 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 HTTP health checks are executed using HTTP2
 
 - **`disabled`** - (optional) - if true HTTP health check is disabled
-- **`path`** - HTTP path to be used during the health checks
+- **`path`** - (optional) HTTP path to be used during the health checks, if not specified then equal to "/"
 - **`expectedStatuses`** (optional) - list of HTTP response statuses which are considered healthy
   - only statuses in the range `[100, 600)` are allowed
   - by default, when this property is not provided only responses with
     status code `200` are being considered healthy
 - **`requestHeadersToAdd`** (optional) - list of HTTP headers which should be added to each health check request
   - **`append`** (default, optional) - should the value of the provided
-    header be appended to already existing headers (if present)
-  - **`header`**:
-    - **`key`** - the name of the header
-    - **`value`** (optional) - the value of the header
+    header be appended to already existing headers, if not specified then equal to `true`
+  - **`key`** - the name of the header
+  - **`value`** - the value of the header
 
 ### TCP
 
