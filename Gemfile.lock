@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:Kong/jekyll-generator-single-source.git
-  revision: 30db76cec51884cd6145a784f7ba65902d8327ed
+  revision: 43696028a743b5c3aa92b8ee87809a4bad5270af
   branch: support-non-semver-versions
   specs:
     jekyll-generator-single-source (0.0.4)
