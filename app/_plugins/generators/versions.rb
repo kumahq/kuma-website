@@ -27,6 +27,10 @@ module Jekyll
         if latest
           page.data['latest_version'] = latest['version']
           page.data['latest_release'] = latest['release']
+
+          unless Gem::Version.correct?(parts[1])
+            page.data['latest_released_version'] = latest_versions.first['version']
+          end
         end
 
         version = if Gem::Version.correct?(parts[1])
