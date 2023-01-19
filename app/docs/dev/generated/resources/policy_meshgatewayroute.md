@@ -98,7 +98,11 @@ title: MeshGatewayRoute
                     
                         - `EXACT`
                     
-                        - `REGEX`    
+                        - `REGEX`
+                    
+                        - `ABSENT`
+                    
+                        - `PRESENT`    
                     
                     - `name` (required)
                     
