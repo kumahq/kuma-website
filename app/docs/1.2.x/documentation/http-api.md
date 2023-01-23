@@ -122,7 +122,7 @@ curl http://localhost:5681/config
       "adminAddress": "127.0.0.1",
       "adminPort": 0,
       "xdsConnectTimeout": "1s",
-      "xdsHost": "kuma-control-plane.internal",
+      "xdsHost": "{{site.mesh_cp_name}}.internal",
       "xdsPort": 5678
     },
     "port": 5682
@@ -151,7 +151,7 @@ curl http://localhost:5681/config
   },
   "environment": "universal",
   "general": {
-    "advertisedHostname": "kuma-control-plane.internal"
+    "advertisedHostname": "{{site.mesh_cp_name}}.internal"
   },
   "guiServer": {
   },
@@ -178,7 +178,7 @@ curl http://localhost:5681/config
   },
   "store": {
     "kubernetes": {
-      "systemNamespace": "kuma-system"
+      "systemNamespace": "{{site.mesh_namespace}}"
     },
     "postgres": {
       "connectionTimeout": 5,

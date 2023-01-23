@@ -39,7 +39,7 @@ If you don't understand this table you should read [matching docs](/docs/{{ page
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   name: allow-orders
 spec:
   targetRef: # 1
@@ -112,7 +112,7 @@ spec:
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   name: deny-all
 spec:
   targetRef: # 1
@@ -178,7 +178,7 @@ spec:
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   name: example-with-tags
 spec:
   targetRef: # 1

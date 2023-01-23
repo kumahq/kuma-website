@@ -30,7 +30,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: sample-secret
-  namespace: {{site.default_namespace}} # {{site.mesh_product_name}} will only manage secrets in the same namespace as the CP
+  namespace: {{site.mesh_namespace}} # {{site.mesh_product_name}} will only manage secrets in the same namespace as the CP
   labels:
     kuma.io/mesh: default # specify the Mesh scope of the secret
 data:
@@ -45,14 +45,14 @@ echo "apiVersion: v1
 kind: Secret
 metadata:
   name: sample-secret
-  namespace: {{site.default_namespace}}
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default
 data:
   value: dGVzdAo=
 type: system.kuma.io/secret" | kubectl apply -f -
 
-kubectl get secrets -n {{site.default_namespace}} --field-selector='type=system.kuma.io/secret'
+kubectl get secrets -n {{site.mesh_namespace}} --field-selector='type=system.kuma.io/secret'
 # NAME            TYPE                    DATA   AGE
 # sample-secret   system.kuma.io/secret   1      3m12s
 ```
@@ -123,7 +123,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: sample-secret
-  namespace: {{site.default_namespace}}
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default # specify the Mesh scope of the secret
 data:
@@ -159,7 +159,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: sample-secret
-  namespace: {{site.default_namespace}}
+  namespace: {{site.mesh_namespace}}
 data:
   value: dGVzdAo=
 type: system.kuma.io/global-secret

@@ -49,7 +49,7 @@ A user can be a part of many groups. On top of that, Kuma adds two groups automa
    Use `kubectl` to extract the admin token
    {% raw %}
    ```sh
-   kubectl get secret admin-user-token -n kuma-system --template={{.data.value}} | base64 -d
+   kubectl get secret admin-user-token -n {{site.mesh_namespace}} --template={{.data.value}} | base64 -d
    ```
    {% endraw %}
 
@@ -57,8 +57,8 @@ A user can be a part of many groups. On top of that, Kuma adds two groups automa
 
    In order to access Kuma CP via kumactl, we need to expose Kuma CP to outside a cluster. We can do this in several ways
    a) port-forward port 5681
-   b) Expose port 5681 and protect it by TLS or just expose 5682 (with builtin TLS) of `kuma-control-plane` service via load balancer.
-   c) Expose port 5681 of `kuma-control-plane` via `Ingress` (for example Kong Ingress Controller) and protect it by TLS
+   b) Expose port 5681 and protect it by TLS or just expose 5682 (with builtin TLS) of `{{site.mesh_cp_name}}` service via load balancer.
+   c) Expose port 5681 of `{{site.mesh_cp_name}}` via `Ingress` (for example Kong Ingress Controller) and protect it by TLS
 
    ```sh
    kumactl config control-planes add \
@@ -165,7 +165,7 @@ REVOCATIONS=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) && echo "api
 kind: Secret
 metadata:
   name: user-token-revocations
-  namespace: kuma-system 
+  namespace: {{site.mesh_namespace}} 
 data:
   value: $REVOCATIONS
 type: system.kuma.io/global-secret" | kubectl apply -f -
@@ -196,7 +196,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    Check what is the current highest serial number.
    
    ```sh
-   kubectl get secrets -n kuma-system --field-selector='type=system.kuma.io/global-secret'
+   kubectl get secrets -n {{site.mesh_namespace}} --field-selector='type=system.kuma.io/global-secret'
    NAME                          TYPE                           DATA   AGE
    user-token-signing-key-1   system.kuma.io/global-secret   1      25m
    ```
@@ -210,7 +210,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    kind: Secret
    metadata:
      name: user-token-signing-key-2
-     namespace: kuma-system
+     namespace: {{site.mesh_namespace}}
    type: system.kuma.io/global-secret
    " | kubectl apply -f - 
    ```
@@ -245,7 +245,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    {% tabs remove-key useUrlFragment=false %}
    {% tab remove-key Kubernetes %}
    ```sh
-   kubectl delete secret user-token-signing-key-1 -n kuma-system
+   kubectl delete secret user-token-signing-key-1 -n {{site.mesh_namespace}}
    ```
    {% endtab %}
    {% tab remove-key Universal %}
@@ -333,7 +333,7 @@ All users that provides client certificate are authenticated as user with name `
    {% tab configure-control-plane  Kubernetes (kumactl) %}
    Create a secret in the namespace in which control plane is installed
    ```sh
-   kubectl create secret generic api-server-client-certs -n kuma-system \
+   kubectl create secret generic api-server-client-certs -n {{site.mesh_namespace}} \
      --from-file=client1.pem=/tmp/tls.crt \
    ```
    We can provide as many client certificates as we want. Remember to only provide certificates without keys.
@@ -347,7 +347,7 @@ All users that provides client certificate are authenticated as user with name `
    {% tab configure-control-plane Kubernetes (HELM) %}
    Create a secret in the namespace in which control plane is installed
    ```sh
-   kubectl create secret generic api-server-client-certs -n kuma-system \
+   kubectl create secret generic api-server-client-certs -n {{site.mesh_namespace}} \
      --from-file=client1.pem=/tmp/tls.crt \
    ```
    We can provide as many client certificates as we want. Remember to only provide certificates without keys.

@@ -118,7 +118,7 @@ REVOCATIONS=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) && echo "api
 kind: Secret
 metadata:
   name: dataplane-token-revocations-default
-  namespace: {{site.default_namespace}}
+  namespace: {{site.mesh_namespace}}
 data:
   value: $REVOCATIONS
 type: system.kuma.io/secret" | kubectl apply -f -
@@ -162,7 +162,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    Check what is the current highest serial number.
 
    ```sh
-   kubectl get secrets -n {{site.default_namespace}} --field-selector='type=system.kuma.io/secret'
+   kubectl get secrets -n {{site.mesh_namespace}} --field-selector='type=system.kuma.io/secret'
    NAME                                 TYPE                    DATA   AGE
    dataplane-token-signing-key-mesh-1   system.kuma.io/secret   1      25m
    ```
@@ -177,7 +177,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    kind: Secret
    metadata:
      name: dataplane-token-signing-key-mesh-2
-     namespace: {{site.default_namespace}}
+     namespace: {{site.mesh_namespace}}
    type: system.kuma.io/secret
    " | kubectl apply -f -
    ```
@@ -201,7 +201,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    {% endtab %}
    {% tab remove-key Kubernetes %}
    ```sh
-   kubectl delete secret dataplane-token-signing-key-default-1 -n {{site.default_namespace}}
+   kubectl delete secret dataplane-token-signing-key-default-1 -n {{site.mesh_namespace}}
    ```
    {% endtab %}
    {% endtabs %}

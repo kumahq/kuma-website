@@ -167,7 +167,7 @@ spec:
       - name: secret-tls
 ```
 
-Under the hood, Kuma CP copies the Secret to `kuma-system` namespace and converts it to [Kuma Secret](/docs/{{ page.version }}/security/secrets).
+Under the hood, Kuma CP copies the Secret to `{{site.mesh_namespace}}` namespace and converts it to [Kuma Secret](/docs/{{ page.version }}/security/secrets).
 It tracks all the changes to the secret and deletes it if the original secret is deleted.
 
 ## Multizone

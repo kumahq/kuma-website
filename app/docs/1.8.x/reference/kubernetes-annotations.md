@@ -249,7 +249,7 @@ or `Pod`):
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   name: example
 spec:
   replicas: 1

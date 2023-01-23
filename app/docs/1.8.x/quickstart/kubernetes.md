@@ -98,7 +98,7 @@ Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources.
 To access Kuma we need to first port-forward the API service with:
 
 ```sh
-kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
 ```
 
 And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
@@ -111,7 +111,7 @@ Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resou
 By default the HTTP API listens on port `5681`. To access Kuma we need to first port-forward the API service with:
 
 ```sh
-kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
 ```
 
 And then you can navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/meshes/default/dataplanes) to see the connected dataplanes.
@@ -122,7 +122,7 @@ And then you can navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http:/
 You can use the `kumactl` CLI to perform **read-only** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API, you will need to first port-forward the API service with:
 
 ```sh
-kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
+kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
 ```
 
 and then run `kumactl`, for example:

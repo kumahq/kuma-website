@@ -40,8 +40,8 @@ We can also use `kumactl` to generate self-signed certs.
 ```sh
 kumactl generate tls-certificate \
   --type=server \
-  --hostname=kuma-control-plane.kuma-system \ # adjust the name if you are installing Kuma to other namespace
-  --hostname=kuma-control-plane.kuma-system.svc \ # adjust the name if you are installing Kuma to other namespace
+  --hostname={{site.mesh_cp_name}}.{{site.mesh_namespace}} \ # adjust the name if you are installing Kuma to other namespace
+  --hostname={{site.mesh_cp_name}}.{{site.mesh_namespace}}.svc \ # adjust the name if you are installing Kuma to other namespace
   --cert-file=/tmp/tls.crt \
   --key-file=/tmp/tls.key
 cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
@@ -49,7 +49,7 @@ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a
 
 2) Create a secret in the namespace where the control plane is installed
 ```sh
-kubectl create secret generic general-tls-certs -n kuma-system \
+kubectl create secret generic general-tls-certs -n {{site.mesh_namespace}} \
   --from-file=tls.crt=/tmp/tls.crt \
   --from-file=tls.key=/tmp/tls.key \
   --from-file=ca.crt=/tmp/ca.crt
@@ -75,8 +75,8 @@ We can also use `kumactl` to generate self-signed certs.
 ```sh
 kumactl generate tls-certificate \
   --type=server \
-  --hostname=kuma-control-plane.kuma-system \ # adjust the name if you are installing Kuma to other namespace
-  --hostname=kuma-control-plane.kuma-system.svc \ # adjust the name if you are installing Kuma to other namespace
+  --hostname={{site.mesh_cp_name}}.{{site.mesh_namespace}} \ # adjust the name if you are installing Kuma to other namespace
+  --hostname={{site.mesh_cp_name}}.{{site.mesh_namespace}}.svc \ # adjust the name if you are installing Kuma to other namespace
   --cert-file=/tmp/tls.crt \
   --key-file=/tmp/tls.key
 cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a CA
@@ -84,7 +84,7 @@ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a
 
 2) Create a secret in the namespace where the control plane is installed
 ```sh
-kubectl create secret generic general-tls-certs -n kuma-system \
+kubectl create secret generic general-tls-certs -n {{site.mesh_namespace}} \
   --from-file=tls.crt=/tmp/tls.crt \
   --from-file=tls.key=/tmp/tls.key \
   --from-file=ca.crt=/tmp/ca.crt
@@ -168,7 +168,7 @@ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a
 {% tab configure-control-plane Kubernetes (kumactl) %}
 Create a secret in the namespace in which the control plane is installed
 ```sh
-kubectl create secret tls api-server-tls -n kuma-system \
+kubectl create secret tls api-server-tls -n {{site.mesh_namespace}} \
   --cert=/tmp/tls.crt \
   --key=/tmp/tls.key
 ```
@@ -182,7 +182,7 @@ kumactl install control-plane \
 {% tab configure-control-plane Kubernetes (HELM) %}
 Create a secret in the namespace in which the control plane is installed
 ```sh
-kubectl create secret tls api-server-tls -n kuma-system \
+kubectl create secret tls api-server-tls -n {{site.mesh_namespace}} \
   --cert=/tmp/tls.crt \
   --key=/tmp/tls.key
 ```
@@ -246,7 +246,7 @@ cp /tmp/tls.crt /tmp/ca.crt # since this is self-signed cert, the cert is also a
 {% tab configure-global-control-plane Kubernetes (kumactl) %}
 Create a secret in the namespace where the global control plane is installed
 ```sh
-kubectl create secret tls kds-server-tls -n kuma-system \
+kubectl create secret tls kds-server-tls -n {{site.mesh_namespace}} \
   --cert=/tmp/tls.crt \
   --key=/tmp/tls.key
 ```
@@ -261,7 +261,7 @@ kumactl install control-plane \
 {% tab configure-global-control-plane Kubernetes (HELM) %}
 Create a secret in the namespace where the global control plane is installed
 ```sh
-kubectl create secret tls kds-server-tls -n kuma-system \
+kubectl create secret tls kds-server-tls -n {{site.mesh_namespace}} \
   --cert=/tmp/tls.crt \
   --key=/tmp/tls.key
 ```
@@ -285,7 +285,7 @@ KUMA_MULTIZONE_GLOBAL_KDS_TLS_CERT_FILE=/tmp/tls.crt \
 {% tab configure-zone-control-plane Kubernetes (kumactl) %}
 Create a secret in the namespace where the zone control plane is installed
 ```sh
-kubectl create secret generic kds-ca-certs -n kuma-system \
+kubectl create secret generic kds-ca-certs -n {{site.mesh_namespace}} \
   --from-file=ca.crt.pem=/tmp/ca.crt
 ```
 
@@ -299,7 +299,7 @@ kumactl install control-plane \
 {% tab configure-zone-control-plane Kubernetes (HELM) %}
 Create a secret in the namespace where the zone control plane is installed
 ```sh
-kubectl create secret generic kds-ca-certs -n kuma-system \
+kubectl create secret generic kds-ca-certs -n {{site.mesh_namespace}} \
   --from-file=ca.crt.pem=/tmp/ca.crt
 ```
 

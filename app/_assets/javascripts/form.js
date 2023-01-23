@@ -25,7 +25,6 @@ export default class Form {
         type: this.elem.method || 'GET',
         dataType: 'jsonp',
         crossDomain: true,
-
         data: $(this.elem).serialize(),
         xhrFields: {
           withCredentials: true
@@ -35,19 +34,11 @@ export default class Form {
           this.elem.querySelector('.btn').classList.add('is-sending');
           this.elem.querySelector('.spinner').classList.remove('hidden');
         },
-        success: (data, textStatus) => {
+        complete: (event, textStatus) => {
           this.elem
             .parentNode
             .querySelector('.form-success')
             .classList.remove('hidden')
-        },
-        error: (data, textStatus) => {
-          this.elem
-            .parentNode
-            .querySelector('.form-error')
-            .classList.remove('hidden');
-        },
-        complete: (data, textStatus) => {
           this.elem.remove();
         }
       })

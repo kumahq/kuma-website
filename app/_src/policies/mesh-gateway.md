@@ -209,7 +209,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: foo-example-com-certificate
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default
 data:

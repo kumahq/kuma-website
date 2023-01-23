@@ -45,7 +45,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ExamplePolicy
 metadata:
   name: my-policy-name
-  namespace: {{site.default_namespace}}
+  namespace: {{site.mesh_namespace}}
 spec:
   ... # spec data specific to the policy kind
 ```
@@ -60,7 +60,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ExamplePolicy
 metadata:
   name: my-policy-name
-  namespace: {{site.default_namespace}}
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: "my-mesh"
 spec:
@@ -68,7 +68,7 @@ spec:
 ```
 
 {% warning %}
-Policies are namespaced scope and currently the namespace must be the one the control-plane is running in `{{site.default_namespace}}` by default.
+Policies are namespaced scope and currently the namespace must be the one the control-plane is running in `{{site.mesh_namespace}}` by default.
 {% endwarning %}
 
 {% endtab %}
@@ -159,7 +159,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
 metadata:
   name: example
-  namespace: {{site.default_namespace}}
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default
 spec:

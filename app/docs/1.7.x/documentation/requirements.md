@@ -58,7 +58,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ContainerPatch
 metadata:
   name: container-patch-1
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
 spec:
   sidecarPatch:
     - op: add
@@ -73,7 +73,7 @@ apiVersion: kuma.io/v1alpha1
 kind: ContainerPatch
 metadata:
   name: container-patch-1
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
 spec:
   sidecarPatch:
     - op: add
