@@ -180,8 +180,8 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 ### gRPC web to backend on DeadlineExceeded
 
-{% tabs meshretry-http useUrlFragment=false %}
-{% tab meshretry-http Kubernetes %}
+{% tabs meshretry-grpc useUrlFragment=false %}
+{% tab meshretry-grpc Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -212,7 +212,7 @@ spec:
 Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
-{% tab meshretry-http Universal %}
+{% tab meshretry-grpc Universal %}
 
 ```yaml
 type: MeshRetry
@@ -243,8 +243,8 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 ### TCP web to backend
 
-{% tabs meshretry-http useUrlFragment=false %}
-{% tab meshretry-http Kubernetes %}
+{% tabs meshretry-tcp useUrlFragment=false %}
+{% tab meshretry-tcp Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -270,7 +270,7 @@ spec:
 Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
-{% tab meshretry-http Universal %}
+{% tab meshretry-tcp Universal %}
 
 ```yaml
 type: MeshRetry
