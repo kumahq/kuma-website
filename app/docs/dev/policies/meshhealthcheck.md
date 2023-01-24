@@ -59,6 +59,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshHealthCheck
 metadata:
   name: web-to-backend-check
+  namespace: {{site.mesh_namespace}}
 spec:
   targetRef:
     kind: MeshService
@@ -116,6 +117,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshHealthCheck
 metadata:
   name: web-to-backend-check
+  namespace: {{site.mesh_namespace}}
 spec:
   targetRef:
     kind: MeshService
@@ -173,6 +175,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshHealthCheck
 metadata:
   name: cart-to-payment-check
+  namespace: {{site.mesh_namespace}}
 spec:
   targetRef:
     kind: MeshService
@@ -271,9 +274,9 @@ HTTP health checks are executed using HTTP2
 ### TCP
 
 - **`disabled`** - (optional) - if true TCP health check is disabled
-- **`send`** - Base64 encoded content of the message which should be
+- **`send`** - (optional) - Base64 encoded content of the message which should be
   sent during the health checks
-- **`receive`** list of Base64 encoded blocks of strings which should be
+- **`receive`** - (optional) - list of Base64 encoded blocks of strings which should be
   found in the returning message which should be considered as healthy
   - when checking the response, “fuzzy” matching is performed such that
     each block must be found, and in the order specified, but not
