@@ -29,9 +29,9 @@ This mode generates extra traffic to other proxies and services as described in 
 | TargetRef type    | top level | to  | from |
 | ----------------- | --------- | --- | ---- |
 | Mesh              | ✅        | ✅  | ❌   |
-| MeshSubset        | ✅        | ✅  | ❌   |
+| MeshSubset        | ✅        | ❌  | ❌   |
 | MeshService       | ✅        | ✅  | ❌   |
-| MeshServiceSubset | ✅        | ✅  | ❌   |
+| MeshServiceSubset | ✅        | ❌  | ❌   |
 | MeshGatewayRoute  | ❌        | ❌  | ❌   |
 
 
