@@ -17,7 +17,7 @@ The following table shows the equivalence between source/destination and `target
 | [CircuitBreaker](../circuit-breaker)         | N/A                                               |
 | [FaultInjection](../fault-injection)         | N/A                                               |
 | [HealthCheck](../health-check)               | [MeshHealthCheck](../meshhealthcheck)             |
-| [RateLimit](../rate-limit)                   | [MeshRateLimit](../meshratelimit.md)                                               |
+| [RateLimit](../rate-limit)                   | [MeshRateLimit](../meshratelimit)                                               |
 | [Retry](../retry)                            | N/A                                               |
 | [Timeout](../timeout)                        | N/A                                               |
 | [TrafficLog](../traffic-log)                 | [MeshAccessLog](../meshaccesslog)                 |
