@@ -1,5 +1,5 @@
 ---
-title: Mesh Health Check
+title: Mesh Health Check (beta)
 ---
 
 {% warning %}
