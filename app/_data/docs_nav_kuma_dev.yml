@@ -650,6 +650,15 @@ items:
             url: "/policies/meshhealthcheck/#configuration"
           - text: Examples
             url: "/policies/meshhealthcheck/#examples"
+      - text: MeshRateLimit (Beta)
+        url: /policies/meshratelimit/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshratelimit/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshratelimit/#configuration"
+          - text: Examples
+            url: "/policies/meshratelimit/#examples"
   - title: Reference docs
     group: true
     items:
