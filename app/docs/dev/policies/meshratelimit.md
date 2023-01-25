@@ -17,10 +17,6 @@ You can configure:
 
 The policy is applied per service instance. This means that if a service `backend` has 3 instances rate limited to 100 requests per second, the overall service is rate limited to 300 requests per second.
 
-{% warning %}
-{{site.mesh_product_name}} currently doesn't allow to configure rate limiting for the specific service
-{% endwarning %}
-
 Rate limiting supports an [ExternalService](/docs/{{ page.version }}/policies/external-services) only when `ZoneEgress` is enabled.
 
 ## TargetRef support matrix
@@ -37,7 +33,7 @@ To learn more about the information in this table, see the [matching docs](/docs
 
 ## Configuration
 
-The `MeshRateLimit` policy supports both L4/TCP and L7/HTTP limiting.
+The `MeshRateLimit` policy supports both L4/TCP and L7/HTTP limiting. Envoy implements [Tocken Bucket](https://www.envoyproxy.io/docs/envoy/latest/api-v3/type/v3/token_bucket.proto) algorithm for rate limiting.
 
 ### HTTP Rate limiting
 
@@ -52,8 +48,6 @@ The `MeshRateLimit` policy supports both L4/TCP and L7/HTTP limiting.
          - **`value`** - the value of the header
          - **`append`** (optional) - should the value of the provided header be appended to already existing headers (if present)
 
-By default `disabled` has value `false` and when set to `true` configuration from the less specific policy is applied.
-
 ### TCP Rate limiting
 
 TCP rate limiting allows configuration of number of connections in the specific time window.
@@ -62,8 +56,6 @@ TCP rate limiting allows configuration of number of connections in the specific 
  - **`connectionRate`** - configuration of the number of connections in the specific time window
    - **`num`** - the number of requests to limit
    - **`interval`** - the interval for which `connections` will be limited
-
-By default `disabled` has value `false` and when set to `true` configuration from the less specific policy is applied.
 
 ## Examples
 
