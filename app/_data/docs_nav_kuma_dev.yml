@@ -650,6 +650,15 @@ items:
             url: "/policies/meshhealthcheck/#configuration"
           - text: Examples
             url: "/policies/meshhealthcheck/#examples"
+      - text: MeshFaultInjection (Beta)
+        url: /policies/meshfaultinjection/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshfaultinjection/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshfaultinjection/#configuration"
+          - text: Examples
+            url: "/policies/meshfaultinjection/#examples"
   - title: Reference docs
     group: true
     items:
