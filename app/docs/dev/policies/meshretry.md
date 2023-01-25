@@ -75,8 +75,6 @@ MeshRetry can be configured in such a way that
 when the upstream server rate limits the request and responds with a header like `retry-after` or `x-ratelimit-reset`
 it uses the value from the header to determine **when** to send the retry request instead of the [backoff](#backoff) algorithm.
 
-This can be configured by using `rateLimitedBackOff` field with `resetHeaders`.
-
 #### Example
 
 Given this configuration:
