@@ -650,6 +650,17 @@ items:
             url: "/policies/meshhealthcheck/#configuration"
           - text: Examples
             url: "/policies/meshhealthcheck/#examples"
+      - text: MeshHTTPRoute (Beta)
+        url: /policies/meshhttproute/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshhttproute/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshhttproute/#configuration"
+          - text: Examples
+            url: "/policies/meshhttproute/#examples"
+          - text: Merging
+            url: "/policies/meshhttproute/#merging"
   - title: Reference docs
     group: true
     items:
