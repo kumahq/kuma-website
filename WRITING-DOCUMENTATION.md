@@ -15,7 +15,7 @@ For the future non-patch versions of Kuma, changes can be made to the [docs_nav_
 
 If you are writing docs for a new feature you'll want to add it in the [src](app/_src) folder.
 
-Since content is single sourced, you must use [conditional rendering](link_to_cond_rendering) to ensure that the new feature content only displays for that version. For example:
+Since content is single sourced, you must use [conditional rendering](https://docs.konghq.com/contributing/conditional-rendering/) to ensure that the new feature content only displays for that version. For example:
 
 ```
 {% if_version eq:2.1.x %}
