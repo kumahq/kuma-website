@@ -807,3 +807,8 @@ items:
             url: "/contribute/introduction/#gui-code"
           - text: Testing unreleased versions
             url: "/contribute/introduction/#testing-unreleased-versions"
+unlisted:
+  - url: /
+  - url: /documentation/dependencies/
+  - url: /documentation/introduction/
+  - url: /policies/matching/
