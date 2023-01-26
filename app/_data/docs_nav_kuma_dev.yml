@@ -1,4 +1,6 @@
 product: kuma
+generate: true
+assume_generated: true
 release: dev
 items:
   - title: Introduction
@@ -740,55 +742,78 @@ items:
         items:
           - text: Mesh
             url: /generated/resources/other_mesh/
+            generate: false
           - text: CircuitBreaker
             url: /generated/resources/policy_circuit-breaker/
+            generate: false
           - text: ExternalService
             url: /generated/resources/policy_external-service/
+            generate: false
           - text: FaultInjection
             url: /generated/resources/policy_fault-injection/
+            generate: false
           - text: HealthCheck
             url: /generated/resources/policy_health-check/
+            generate: false
           - text: MeshGateway
             url: /generated/resources/policy_meshgateway/
+            generate: false
           - text: MeshGatewayRoute
             url: /generated/resources/policy_meshgatewayroute/
+            generate: false
           - text: ProxyTemplate
             url: /generated/resources/policy_proxy-template/
+            generate: false
           - text: RateLimit
             url: /generated/resources/policy_rate-limit/
+            generate: false
           - text: Retry
             url: /generated/resources/policy_retry/
+            generate: false
           - text: Timeout
             url: /generated/resources/policy_timeout/
+            generate: false
           - text: TrafficLog
             url: /generated/resources/policy_traffic-log/
+            generate: false
           - text: TrafficPermission
             url: /generated/resources/policy_traffic-permissions/
+            generate: false
           - text: TrafficRoute
             url: /generated/resources/policy_traffic-route/
+            generate: false
           - text: TrafficTrace
             url: /generated/resources/policy_traffic-trace/
+            generate: false
           - text: VirtualOutbound
             url: /generated/resources/policy_virtual-outbound/
+            generate: false
           - text: Dataplane
             url: /generated/resources/proxy_dataplane/
+            generate: false
           - text: ZoneEgress
             url: /generated/resources/proxy_zoneegress/
+            generate: false
           - text: ZoneIngress
             url: /generated/resources/proxy_zoneingress/
+            generate: false
       - # Auto-generated
         title: Commands
         group: true
         items:
           - text: kuma-cp
             url: /generated/cmd/kuma-cp/kuma-cp/
+            generate: false
           - text: kuma-dp
             url: /generated/cmd/kuma-dp/kuma-dp/
+            generate: false
           - text: kumactl
             url: /generated/cmd/kumactl/kumactl/
+            generate: false
       - # Auto-generated
         text: Kuma-cp configuration reference
         url: /generated/kuma-cp
+        generate: false
   - title: Contribute
     group: true
     items:
@@ -805,3 +830,5 @@ items:
             url: "/contribute/introduction/#gui-code"
           - text: Testing unreleased versions
             url: "/contribute/introduction/#testing-unreleased-versions"
+unlisted:
+  - url: /
