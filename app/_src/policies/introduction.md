@@ -23,7 +23,7 @@ The following table shows the equivalence between source/destination and `target
 | [TrafficLog](../traffic-log)                 | [MeshAccessLog](../meshaccesslog)                 |
 | [TrafficMetrics](../traffic-metrics)         | N/A                                               |
 | [TrafficPermissions](../traffic-permissions) | [MeshTrafficPermission](../meshtrafficpermission) |
-| [TrafficRoute](../traffic-route)             | N/A                                               |
+| [TrafficRoute](../traffic-route)             | [MeshHTTPRoute](../meshhttproute)                 |
 | [TrafficTrace](../traffic-trace)             | [MeshTrace](../meshtrace)                         |
 | [ProxyTemplate](../proxy-template)           | [MeshProxyPatch](../meshproxypatch)               |
 
