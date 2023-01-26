@@ -47,6 +47,42 @@ retryOn:
 
 means that it the policy will retry on a status code 429 **or** 503.
 
+Full list of available `HTTP` conditions:
+
+```yaml
+retryOn:
+  - 5XX
+  - GatewayError
+  - Reset
+  - Retriable4xx
+  - ConnectFailure
+  - EnvoyRatelimited
+  - RefusedStream
+  - Http3PostConnectFailure
+  - HttpMethodConnect
+  - HttpMethodDelete
+  - HttpMethodGet
+  - HttpMethodHead
+  - HttpMethodOptions
+  - HttpMethodPatch
+  - HttpMethodPost
+  - HttpMethodPut
+  - HttpMethodTrace
+  - "429" # any HTTP status code
+  - "503"
+```
+
+Full list of available `gRPC` conditions:
+
+```yaml
+retryOn:
+  - Canceled
+  - DeadlineExceeded
+  - Internal
+  - ResourceExhausted
+  - Unavailable
+```
+
 ### Backoff
 
 [//]: # (TODO: should this be required - https://github.com/kumahq/kuma/blob/b0925593253a186766174b66ca437a696a10c89d/pkg/plugins/policies/meshretry/api/v1alpha1/validator.go#L151 ? can't we just use envoy default of 25ms / 250ms?)
