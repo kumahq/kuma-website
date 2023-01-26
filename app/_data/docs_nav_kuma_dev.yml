@@ -661,6 +661,17 @@ items:
             url: "/policies/meshhealthcheck/#configuration"
           - text: Examples
             url: "/policies/meshhealthcheck/#examples"
+      - text: MeshProxyPatch (Beta)
+        url: /policies/meshproxypatch/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshproxypatch/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshproxypatch/#configuration"
+          - text: Examples
+            url: "/policies/meshproxypatch/#examples"
+          - text: Merging
+            url: "/policies/meshproxypatch/#merging"
   - title: Reference docs
     group: true
     items:
