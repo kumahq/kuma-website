@@ -12,10 +12,11 @@ This policy enables per-instance service request limiting. Policy supports ratel
 The `MeshRateLimit` policy leverages Envoy's [local rate limiting](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter) for HTTP/HTTP2 and [local rate limit filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/local_rate_limit_filter) for TCP connections.
 
 You can configure:
-*  how many requests are allowed in a specified time period, and how the service responds when the limit is reached for HTTP/HTTP2.
-*  how many connections are allowed in a specified time period for TCP.
+* how many HTTP requests are allowed in a specified time period
+* how the HTTP service responds when the limit is reached
+* how many TCP connections are allowed in a specified time period
 
-The policy is applied per service instance. This means that if a service `backend` has 3 instances rate limited to 100 requests per second, the overall service is rate limited to 300 requests per second.
+The policy is applied per service instance. This means that if a service `backend` has 3 instances rate limited to 100 requests per second, the overall service rate limit is 300 requests per second.
 
 Rate limiting supports an [ExternalService](/docs/{{ page.version }}/policies/external-services) only when `ZoneEgress` is enabled.
 
@@ -33,7 +34,7 @@ To learn more about the information in this table, see the [matching docs](/docs
 
 ## Configuration
 
-The `MeshRateLimit` policy supports both L4/TCP and L7/HTTP limiting. Envoy implements [Tocken Bucket](https://www.envoyproxy.io/docs/envoy/latest/api-v3/type/v3/token_bucket.proto) algorithm for rate limiting.
+The `MeshRateLimit` policy supports both L4/TCP and L7/HTTP limiting. Envoy implements [Token Bucket](https://www.envoyproxy.io/docs/envoy/latest/api-v3/type/v3/token_bucket.proto) algorithm for rate limiting.
 
 ### HTTP Rate limiting
 
@@ -56,7 +57,7 @@ The `MeshRateLimit` policy supports both L4/TCP and L7/HTTP limiting. Envoy impl
 
 ### TCP Rate limiting
 
-TCP rate limiting allows configuration of number of connections in the specific time window.
+TCP rate limiting allows the configuration of a number of connections in the specific time window
 
  - **`disabled`** - (optional) - should rate limiting policy be disabled
  - **`connectionRate`** - configuration of the number of connections in the specific time window
@@ -67,14 +68,15 @@ TCP rate limiting allows configuration of number of connections in the specific 
 
 ### HTTP Rate limit configured for service `backend` from all services in the Mesh
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs example-http-rate-limit useUrlFragment=false %}
+{% tab example-http-rate-limit Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshRateLimit
 metadata:
   name: backend-rate-limit
+  namespace: {{site.mesh_namespace}}
 spec:
   targetRef:
     kind: MeshService
@@ -98,7 +100,7 @@ spec:
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
-{% tab usage Universal %}
+{% tab example-http-rate-limit Universal %}
 
 ```yaml
 type: MeshRateLimit
@@ -130,14 +132,15 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 ### TCP rate limit for service backend from all services in the Mesh
 
-{% tabs grpc useUrlFragment=false %}
-{% tab grpc Kubernetes %}
+{% tabs example-tcp-rate-limit useUrlFragment=false %}
+{% tab example-tcp-rate-limit Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshRateLimit
 metadata:
   name: backend-rate-limit
+  namespace: {{site.mesh_namespace}}
 spec:
   targetRef:
     kind: MeshService
@@ -156,7 +159,7 @@ spec:
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
-{% tab grpc Universal %}
+{% tab example-tcp-rate-limit Universal %}
 
 ```yaml
 type: MeshRateLimit
