@@ -14,7 +14,7 @@ The following table shows the equivalence between source/destination and `target
 
 | source/destination policy                    | `targetRef` policy                                |
 |----------------------------------------------|---------------------------------------------------|
-| [CircuitBreaker](../circuit-breaker)         | N/A                                               |
+| [CircuitBreaker](../circuit-breaker)         | [MeshCircuitBreaker](../meshcircuitbreaker)       |
 | [FaultInjection](../fault-injection)         | N/A                                               |
 | [HealthCheck](../health-check)               | [MeshHealthCheck](../meshhealthcheck)             |
 | [RateLimit](../rate-limit)                   | N/A                                               |
