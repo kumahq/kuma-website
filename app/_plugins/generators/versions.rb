@@ -14,9 +14,9 @@ module Jekyll
       # Add a `version` property to every versioned page
       # TODO: Also create aliases under /latest/ for all x.x.x doc pages
       site.pages.each do |page|
-        next unless page.relative_path.start_with? 'docs'
+        next unless page.url.start_with?('/docs/')
 
-        parts = Pathname(page.relative_path).each_filename.to_a
+        parts = Pathname(page.url).each_filename.to_a
 
         latest = site.data['versions'].detect { |v| v['release'] == parts[1] }
 
@@ -27,9 +27,18 @@ module Jekyll
         if latest
           page.data['latest_version'] = latest['version']
           page.data['latest_release'] = latest['release']
+
+          unless Gem::Version.correct?(parts[1])
+            page.data['latest_released_version'] = latest_versions.first['version']
+          end
         end
 
-        page.data['nav_items'] = site.data["docs_nav_kuma_#{parts[1].gsub(/\./, '')}"]
+        version = if Gem::Version.correct?(parts[1])
+                    parts[1].gsub(/\./, '')
+                  else
+                    parts[1]
+                  end
+        page.data['nav_items'] = site.data["docs_nav_kuma_#{version}"]
 
         # Clean up nav_items for generated pages as there's an
         # additional level of nesting
