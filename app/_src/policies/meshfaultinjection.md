@@ -8,9 +8,6 @@ With the MeshFaultInjection policy you can easily test your microservices agains
 This policy uses a new policy matching algorithm and is in beta state. It should not be combined with [FaultInjection](/docs/{{ page.version }}/policies/fault-injection).
 {% endwarning %}
 
-`MeshFaultInjection` policy is available only for L7 HTTP traffic,
-therefore `kuma.io/protocol` is a mandatory tag to properly propagate configuration.
-
 ## `targetRef` support matrix
 
 | `targetRef.kind`    | top level | to  | from |
@@ -45,6 +42,19 @@ default:
        value: 5s
        percentage: 5
 ```
+
+It's worth mentioning that percentage of the next filter depends on the percentage of previous ones.
+
+```yaml
+http:
+  - abort:
+      httpStatus: 500
+      percentage: 70
+  - abort:
+      httpStatus: 503
+      percentage: 50
+```
+That means that for 70% of requests it returns 500 and for 50% of 30%  that passed it returns 503.
 
 ### Abort
 
