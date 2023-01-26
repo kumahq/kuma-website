@@ -34,6 +34,7 @@ spec:
   to:
     - targetRef: # targetRef selects a destination (outbound listener)
         kind: MeshService
+        name: backend
       rules:
         - matches: [...] # various ways to match an HTTP request (path, method, query)
           default: # configuration applied for the matched HTTP request
