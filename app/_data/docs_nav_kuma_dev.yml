@@ -634,6 +634,15 @@ items:
             url: "/policies/meshaccesslog/#configuration"
           - text: Examples
             url: "/policies/meshaccesslog/#examples"
+      - text: MeshRetry (Beta)
+        url: /policies/meshretry/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshretry/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshretry/#configuration"
+          - text: Examples
+            url: "/policies/meshretry/#examples"
       - text: MeshTrafficPermission (Beta)
         url: /policies/meshtrafficpermission/
         items:
