@@ -98,7 +98,7 @@ There are many ways to see your control plane configuration:
 
 ## Store
 
-As explained in the [Overview](/docs/{{ page.version }}/documentation/introduction), when {{site.mesh_product_name}} (`kuma-cp`) is up and running it needs to store its state somewhere.
+When {{site.mesh_product_name}} (`kuma-cp`) is up and running it needs to store its state on Universal it's Postgres, for Kubernetes it's leveraging Kubernetes custom resource definitions.
 Thus state includes the policies configured, the data plane proxy status, and so on.
 
 {{site.mesh_product_name}} supports a few different types of store.

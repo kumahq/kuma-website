@@ -7,12 +7,21 @@ as you write your documentation.
 
 The code uses trunk based development where `master` is the `trunk` branch.
 
-A folder in [app/docs](app/docs) exists for each minor version of Kuma. 
-There is a special folder for the future non patch version of Kuma which is called [dev](app/docs/dev).
+A single sourced folder in [app/_src](app/_src) is used for each version of Kuma. We use a Jekyll plugin to dynamically generate pages from a single source file.
+
+For the future non-patch versions of Kuma, changes can be made to the [docs_nav_kuma_dev.yml](app/_data/docs_nav_kuma_dev.yml) file. 
 
 ## Writing docs for a new feature
 
-If you are writing docs for a new feature you'll want to add it in the [dev](app/docs/dev) folder.
+If you are writing docs for a new feature you'll want to add it in the [src](app/_src) folder.
+
+Since content is single sourced, you must use [conditional rendering](https://docs.konghq.com/contributing/conditional-rendering/) to ensure that the new feature content only displays for that version. For example:
+
+```
+{% if_version eq:2.1.x %}
+This will only show for version 2.1.x
+{% endif_version %}
+```
 
 ## Diagrams
 
@@ -22,15 +31,9 @@ Ask a maintainer to get write access.
 
 ## Cutting a new release
 
-To cut the dev release copy paste the `dev` folder and rename it to the correct version:
+To cut the dev release, create a duplicate of the [docs_nav_kuma_dev.yml](app/_data/docs_nav_kuma_dev.yml) file and then rename one of the files to "docs_nav_kuma_[version].yml". Update the `release: dev` metadata in the new release file with the release version.
 
-```shell
-# Create a 1.5.x release
-cp app/docs/dev app/docs/1.5.x
-cp app/_data/docs_nav_kuma_dev.yml app/_data/docs_nav_kuma_1.5.x.yml
-```
-
-Update the `app/_data/versions.yml` file with metadata specific to this release e.g: actual patches released, helm versions.
+Update the `app/_data/versions.yml` file with metadata specific to this release, for example: actual patches released, helm versions.
 
 ## Set up local builds with yarn
 
@@ -69,8 +72,10 @@ WARNING: when you run a local Netlify build it modifies your local `netlify.toml
 If you create a new policy resource for Kuma, you should rebuild the generated policy reference documentation.
 
 ## Markdown features
-If you want to see the full set of markdown features VuePress offers, please refer to [the official VuePress
-markdown documentation](https://vuepress.vuejs.org/guide/markdown.html).
+For more information about the Markdown features and formatting that is supported, see the following:
+
+* [Markdown rules and formatting](https://docs.konghq.com/contributing/markdown-rules/)
+* [Reusable content](https://docs.konghq.com/contributing/includes/)
 
 ## Vale
 
