@@ -85,8 +85,6 @@ retryOn:
 
 ### Backoff
 
-[//]: # (TODO: should this be required - https://github.com/kumahq/kuma/blob/b0925593253a186766174b66ca437a696a10c89d/pkg/plugins/policies/meshretry/api/v1alpha1/validator.go#L151 ? can't we just use envoy default of 25ms / 250ms?)
-
 This parameter is applicable to both `HTTP` and `GRPC`.
 
 It consists of `BaseInterval` (the amount of time between retries) and 
