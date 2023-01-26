@@ -265,11 +265,18 @@ HTTP health checks are executed using HTTP2
   - only statuses in the range `[100, 600)` are allowed
   - by default, when this property is not provided only responses with
     status code `200` are being considered healthy
-- **`requestHeadersToAdd`** (optional) - list of HTTP headers which should be added to each health check request
-  - **`append`** (default, optional) - should the value of the provided
-    header be appended to already existing headers, if not specified then equal to `true`
-  - **`key`** - the name of the header
-  - **`value`** - the value of the header
+- **`requestHeadersToAdd`** (optional) - [HeaderModifier](#headermodifier) list of HTTP headers which should be added to each health check request
+
+#### HeaderModifier
+
+- **`set`** - (optional) - list of headers to set. Overrides value if the header exists.
+  - **`name`** - header's name
+  - **`value`** - header's value
+- **`add`** - (optional) - list of headers to add. Appends value if the header exists.
+  - **`name`** - header's name
+  - **`value`** - header's value
+- **`remove`** - (optional) - list of headers' names to remove
+
 
 ### TCP
 
