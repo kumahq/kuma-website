@@ -4,7 +4,9 @@ title: MeshProxyPatch (beta)
 
 The `MeshProxyPatch` provides configuration options for [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v3/api) that {{site.mesh_product_name}} policies do not directly expose.
 
+{% tip %}
 If you need features that aren't available as a {{site.mesh_product_name}} policy, [open a new issue on GitHub](https://github.com/kumahq/kuma/issues/new) so they can be added to the {{site.mesh_product_name}} roadmap.
+{% endtip %}
 
 A `MeshProxyPatch` policy can modify:
 
@@ -33,9 +35,9 @@ To learn more about the information in this table, see the [matching docs](/docs
 
 ### Modifications
 
-`MeshProxyPatch` lets you specify modifications in `appendModification` that can add a new resource, patch an existing resource or remove an existing resource.
+`MeshProxyPatch` lets you specify modifications in `appendModification` block that can add a new resource, patch an existing resource or remove an existing resource.
 
-Each xDS resource modification has 3 fields:
+Each xDS resource modification consists of 3 fields:
 * `operation` - operation applied to the generated config (e.g. `Add`, `Remove`, `Patch`).
 * `match` - some operations can be applied on matched resources (e.g. remove only resource of given name, patch all outbound resources).
 * `value` - raw Envoy xDS configuration. Can be partial if operation is `patch`.
@@ -52,9 +54,9 @@ Well known origins:
 * `transparent` - resources generated for transparent proxy functionality.
 * `prometheus` - resources generated for Prometheus to scrape when metrics on the Mesh is enabled.
 * `direct-access` - resources generated for Direct Access functionality.
-* `gateway` - resources generated for MeshGateway
+* `gateway` - resources generated for MeshGateway.
 
-The list is not complete, because policy plugins can introduce new resources.
+The list is not complete, as policy plugins can introduce new resources.
 For example MeshTrace plugin can create `Cluster` with `mesh-trace` origin.
 
 #### Cluster
@@ -453,10 +455,10 @@ Available operations:
 * `Remove` - remove a filter in HTTP Connection Manager.
 
 Available matchers:
-* `name` - name of the network filter
-* `listenerName` - name of the listener
+* `name` - name of the network filter.
+* `listenerName` - name of the listener.
 * `listenerTags` - tags of inbound or outbound listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
-* `origin` - origin of the listener
+* `origin` - origin of the listener.
 
 {% tabs http-filter useUrlFragment=false %}
 {% tab http-filter Kubernetes %}
@@ -732,6 +734,12 @@ spec:
 {% endtab %}
 {% endtabs %}
 
+## Merging
+
+All modifications from `appendModification` list are always merged.
+For example, if there is a policy with `targetRef.kind: Mesh` and second policy with `targetRef.kind: MeshService` that matches a data plane proxy,
+all modifications from both policies will be applied.
+
 ## Examples
 
 
@@ -855,8 +863,3 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-## Merging
-
-All modifications from `appendModification` list are always merged.
-For example, if there is a policy with `targetRef.kind: Mesh` and second policy with `targetRef.kind: MeshService` that matches a data plane proxy,
-all modifications from both policies will be applied.  
