@@ -652,6 +652,15 @@ items:
             url: "/policies/meshtrafficpermission/#configuration"
           - text: Examples
             url: "/policies/meshtrafficpermission/#examples"
+      - text: MeshTimeout (Beta)
+        url: /policies/meshtimeout/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtimeout/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtimeout/#configuration"
+          - text: Examples
+            url: "/policies/meshtimeout/#examples"
       - text: MeshHealthCheck (Beta)
         url: /policies/meshhealthcheck/
         items:
