@@ -16,11 +16,9 @@ a data plane proxy will never send a request to another data plane proxy that is
 When an unhealthy proxy returns to a healthy state,
 {{site.mesh_product_name}} will resume sending requests to it again.
 
-[//]: # (TODO: change the below to mesh circuit breaker once the docs are done)
-
 This policy provides **active** checks.
 If you want to configure **passive** checks,
-please utilize the [Circuit Breaker](/docs/{{ page.version }}/policies/circuit-breaker) policy.
+please utilize the [MeshCircuitBreaker](/docs/{{ page.version }}/policies/meshcircuitbreaker) policy.
 Data plane proxies with **active** checks will explicitly send requests to other data plane proxies to determine if target proxies are healthy or not.
 This mode generates extra traffic to other proxies and services as described in the policy configuration.
 
