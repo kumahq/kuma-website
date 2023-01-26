@@ -43,10 +43,16 @@ The `MeshRateLimit` policy supports both L4/TCP and L7/HTTP limiting. Envoy impl
    - **`interval`** - the interval for which `requests` will be limited
  - **`onRateLimit`** (optional) - actions to take on RateLimit event
      - **`status`**  (optional) - the status code to return, defaults to `429`
-     - **`headers`** - (optional) list of headers which should be added to every rate limited response:
-         - **`key`** - the name of the header
-         - **`value`** - the value of the header
-         - **`append`** (optional) - should the value of the provided header be appended to already existing headers (if present)
+     - **`headers`** - (optional) [headers](#headers) which should be added to every rate limited response
+
+#### Headers
+
+- **`set`** - (optional) - list of headers to set. Overrides value if the header exists.
+  - **`name`** - header's name
+  - **`value`** - header's value
+- **`add`** - (optional) - list of headers to add. Appends value if the header exists.
+  - **`name`** - header's name
+  - **`value`** - header's value
 
 ### TCP Rate limiting
 
@@ -85,9 +91,9 @@ spec:
             onRateLimit:
               status: 423
               headers:
-                - key: "x-kuma-rate-limited"
-                  value: "true"
-                  append: true
+                set:
+                  - name: "x-kuma-rate-limited"
+                    value: "true"
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
@@ -114,9 +120,9 @@ spec:
             onRateLimit:
               status: 423
               headers:
-                - key: "x-kuma-rate-limited"
-                  value: "true"
-                  append: true
+                set:
+                  - name: "x-kuma-rate-limited"
+                    value: "true"
 ```
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
