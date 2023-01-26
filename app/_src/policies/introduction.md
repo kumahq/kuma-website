@@ -25,6 +25,7 @@ The following table shows the equivalence between source/destination and `target
 | [TrafficPermissions](../traffic-permissions) | [MeshTrafficPermission](../meshtrafficpermission) |
 | [TrafficRoute](../traffic-route)             | [MeshHTTPRoute](../meshhttproute)                 |
 | [TrafficTrace](../traffic-trace)             | [MeshTrace](../meshtrace)                         |
+| [ProxyTemplate](../proxy-template)           | [MeshProxyPatch](../meshproxypatch)               |
 
 {% warning %}
 `targetRef` policies are still beta and it is therefore not supported to mix source/destination and targetRef policies together.
