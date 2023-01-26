@@ -10,9 +10,12 @@ module Jekyll
         next if page.path == 'docs/index.md'
 
         version = Pathname(page.relative_path).each_filename.to_a[1]
+        if Gem::Version.correct?(version)
+          version = version.gsub(/\./, '')
+        end
 
         # Get all sidenav items
-        nav_items = site.data["docs_nav_kuma_#{version.gsub(/\./, '')}"]['items']
+        nav_items = site.data["docs_nav_kuma_#{version}"]['items']
         pages = pages_from_items(nav_items)
 
         current_page = pages.detect do |u|
