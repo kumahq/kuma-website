@@ -64,13 +64,13 @@ For example MeshTrace plugin can create `Cluster` with `mesh-trace` origin.
 Modifications that are applied on [Clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#config-cluster-v3-cluster) resources.
 
 Available operations:
-* `Add` - add a new cluster or replace existing if the name is the same.
-* `Remove` - remove a cluster.
-* `Patch` - patch a part of cluster definition.
+* `Add` - add a new Cluster or replace existing if the name is the same.
+* `Remove` - remove a Cluster.
+* `Patch` - patch a part of Cluster definition.
 
 Available matchers:
-* `name` - name of the cluster.
-* `origin` - origin of the cluster.
+* `name` - name of the Cluster.
+* `origin` - origin of the Cluster.
 
 {% tabs cluster useUrlFragment=false %}
 {% tab cluster Kubernetes %}
@@ -145,14 +145,14 @@ spec:
 Modifications that are applied on [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resources.
 
 Available operations:
-* `Add` - add a new listener or replace existing if the name is the same.
-* `Remove` - remove a listener.
-* `Patch` - patch a part of listener definition.
+* `Add` - add a new Listener or replace existing if the name is the same.
+* `Remove` - remove a Listener.
+* `Patch` - patch a part of Listener definition.
 
 Available matchers:
-* `name` - name of the listener.
-* `origin` - origin of the listener.
-* `tags` - tags of inbound or outbound listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
+* `name` - name of the Listener.
+* `origin` - origin of the Listener.
+* `tags` - tags of inbound or outbound Listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 
 {% tabs listener useUrlFragment=false %}
 {% tab listener Kubernetes %}
@@ -244,10 +244,10 @@ Available operations:
 * `Remove` - remove a filter in Filter Chain.
 
 Available matchers:
-* `name` - name of the network filter.
-* `listenerName` - name of the listener.
-* `listenerTags` - tags of inbound or outbound listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
-* `origin` - origin of the listener.
+* `name` - name of the Network Filter.
+* `listenerName` - name of the Listener.
+* `listenerTags` - tags of inbound or outbound Listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
+* `origin` - origin of the Listener.
 
 {% tabs network-filter useUrlFragment=false %}
 {% tab network-filter Kubernetes %}
@@ -455,10 +455,10 @@ Available operations:
 * `Remove` - remove a filter in HTTP Connection Manager.
 
 Available matchers:
-* `name` - name of the network filter.
-* `listenerName` - name of the listener.
-* `listenerTags` - tags of inbound or outbound listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
-* `origin` - origin of the listener.
+* `name` - name of the HTTP Filter.
+* `listenerName` - name of the Listener.
+* `listenerTags` - tags of inbound or outbound Listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
+* `origin` - origin of the Listener.
 
 {% tabs http-filter useUrlFragment=false %}
 {% tab http-filter Kubernetes %}
