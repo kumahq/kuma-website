@@ -20,7 +20,7 @@ depending on where the request coming from and where it's going to.
 | MeshServiceSubset | ✅        | ❌  | ❌   |
 | MeshGatewayRoute  | ❌        | ❌  | ❌   |
 
-If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/matching).
+If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetref).
 
 ## Configuration
 
