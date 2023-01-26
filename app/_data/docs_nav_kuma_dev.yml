@@ -683,6 +683,17 @@ items:
             url: "/policies/meshproxypatch/#examples"
           - text: Merging
             url: "/policies/meshproxypatch/#merging"
+      - text: MeshCircuitBreaker (Beta)
+        url: /policies/meshcircuitbreaker/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshcircuitbreaker/#targetref-support-matrix"
+          - text: Examples
+            url: "/policies/meshcircuitbreaker/#examples"
+          - text: Connection limits configuration
+            url: "/policies/meshcircuitbreaker/#connection-limits-configuration"
+          - text: Outlier detection configuration
+            url: "/policies/meshcircuitbreaker/#outlier-detection-configuration"
   - title: Reference docs
     group: true
     items:
