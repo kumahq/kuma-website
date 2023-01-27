@@ -25,6 +25,9 @@
 - edition: "kuma"
   version: "2.0.2"
   release: "2.0.x"
+- edition: "kuma"
+  version: "2.1.0"
+  release: "2.1.x"
   latest: true
 - edition: "kuma"
   version: "preview"
