@@ -13,8 +13,8 @@ Going forward from version 2.0, {{site.mesh_product_name}} is transitioning from
 The following table shows the equivalence between source/destination and `targetRef` policies:
 
 | source/destination policy                    | `targetRef` policy                                |
-| -------------------------------------------- | ------------------------------------------------- |
-| [CircuitBreaker](../circuit-breaker)         | N/A                                               |
+|----------------------------------------------|---------------------------------------------------|
+| [CircuitBreaker](../circuit-breaker)         | [MeshCircuitBreaker](../meshcircuitbreaker)       |
 | [FaultInjection](../fault-injection)         | [MeshFaultInjection](../meshfaultinjection)       |
 | [HealthCheck](../health-check)               | [MeshHealthCheck](../meshhealthcheck)             |
 | [RateLimit](../rate-limit)                   | [MeshRateLimit](../meshratelimit)                 |

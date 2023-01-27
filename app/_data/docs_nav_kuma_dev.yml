@@ -710,6 +710,15 @@ items:
             url: "/policies/meshproxypatch/#examples"
           - text: Merging
             url: "/policies/meshproxypatch/#merging"
+      - text: MeshCircuitBreaker (Beta)
+        url: /policies/meshcircuitbreaker/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshcircuitbreaker/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshcircuitbreaker/#configuration"
+          - text: Examples
+            url: "/policies/meshcircuitbreaker/#examples"
   - title: Reference docs
     group: true
     items:
