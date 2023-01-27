@@ -13,13 +13,13 @@ Going forward from version 2.0, {{site.mesh_product_name}} is transitioning from
 The following table shows the equivalence between source/destination and `targetRef` policies:
 
 | source/destination policy                    | `targetRef` policy                                |
-|----------------------------------------------|---------------------------------------------------|
+| -------------------------------------------- | ------------------------------------------------- |
 | [CircuitBreaker](../circuit-breaker)         | N/A                                               |
 | [FaultInjection](../fault-injection)         | N/A                                               |
 | [HealthCheck](../health-check)               | [MeshHealthCheck](../meshhealthcheck)             |
 | [RateLimit](../rate-limit)                   | N/A                                               |
 | [Retry](../retry)                            | [MeshRetry](../meshretry)                         |
-| [Timeout](../timeout)                        | N/A                                               |
+| [Timeout](../timeout)                        | [MeshTimeout](../meshtimeout)                     |
 | [TrafficLog](../traffic-log)                 | [MeshAccessLog](../meshaccesslog)                 |
 | [TrafficMetrics](../traffic-metrics)         | N/A                                               |
 | [TrafficPermissions](../traffic-permissions) | [MeshTrafficPermission](../meshtrafficpermission) |

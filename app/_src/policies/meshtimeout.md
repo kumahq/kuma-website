@@ -21,7 +21,11 @@ To learn more about the information in this table, see the [matching docs](/docs
 
 ## Configuration
 
-This policy enables {{site.mesh_product_name}} to set timeouts on the inbound and outbound connections depending on the protocol. Using this policy you can configure TCP and HTTP timeouts. Timeout configuration is split into two sections: common configuration and http configuration. Common config is applied to both HTTP and TCP communication.
+This policy enables {{site.mesh_product_name}} to set timeouts on the inbound and outbound connections 
+depending on the protocol. Using this policy you can configure TCP and HTTP timeouts. 
+Timeout configuration is split into two sections: common configuration and HTTP configuration. 
+Common config is applied to both HTTP and TCP communication. HTTP timeout are only applied when
+service is marked as http. More on this in [protocol support section](../protocol-support-in-kuma).
 
 MeshTimeout policy lets you configure multiple timeouts:
 
@@ -40,29 +44,41 @@ Connection timeout specifies the amount of time DP will wait for a TCP connectio
 
 #### Idle timeout
 
-Idle timeout is the amount of time that the DP will allow a connection to exist with no inbound or outbound activity.
+For TCP connections idle timeout is the amount of time that the DP will allow a connection to exist 
+with no inbound or outbound activity. On the other hand when connection in HTTP time at which a inbound
+ or outbound connection will be terminated if there are no active streams
 
 #### HTTP request timeout
 
-Request timeout lests you configure how long the DP should wait for the full response. In details it spans between the point at which the entire request has been processed by DP and when the response has been completely processed by DP.
+Request timeout lets you configure how long the dataplane proxy should wait for the full response. 
+In details it spans between the point at which the entire request has been processed by DP and when the response has been completely processed by DP.
 
 #### HTTP stream idle timeout
 
-Stream idle timeout is the amount of time that the DP will allow a stream to exist with no inbound or outbound activity. This timeout is strongly recommended for all requests (not just streaming requests/responses) as it additionally defends against a peer that does not open the stream window once an entire response has been buffered to be sent to a downstream client.
+Stream idle timeout is the amount of time that the dataplane proxy will allow a HTTP/2 stream to exist with no inbound or outbound activity. 
+This timeout is strongly recommended for all requests (not just streaming requests/responses) as it additionally 
+defends against a peer that does not open the stream window once an entire response has been buffered to be sent to a downstream client.
+
+{% tip %}
+Stream timeouts apply even when you are only using HTTP/1.1 in you services. This is because dataplane proxy will upgrade every connection to HTTP/2.
+{% endtip %}
 
 #### HTTP max stream duration
 
-Max stream duration is the maximum time that a stream’s lifetime will span. You can use this functionality when you want to reset HTTP request/response streams periodically.
+Max stream duration is the maximum time that a stream’s lifetime will span. You can use this functionality 
+when you want to reset HTTP request/response streams periodically.
 
 #### HTTP max connection duration
 
-Max connection duration is the time after which a inbound or outbound connection will be drained and/or closed, starting from when it was first established. If there are no active streams, the connection will be closed. If there are any active streams, the drain sequence will kick-in, and the connection will be force-closed after 5 seconds.
+Max connection duration is the time after which an inbound or outbound connection will be drained and/or closed, 
+starting from when it was first established. If there are no active streams, the connection will be closed. 
+If there are any active streams, the drain sequence will kick-in, and the connection will be force-closed after 5 seconds.
 
 ### Examples
 
 #### Simple outbound HTTP configuration
 
-This configuration will be applied to all dataplanes inside of Mesh.
+This configuration will be applied to all dataplane proxies inside of Mesh.
 
 {% tabs example1 useUrlFragment=false %}
 {% tab example1 Kubernetes %}
@@ -72,9 +88,9 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTimeout
 metadata:
   name: timeout-global
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
-    kuma.io/mesh: deault
+    kuma.io/mesh: default
 spec:
   targetRef:
     kind: Mesh
@@ -124,9 +140,9 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTimeout
 metadata:
   name: tcp-timeout
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
-    kuma.io/mesh: deault
+    kuma.io/mesh: default
 spec:
   targetRef:
     kind: Mesh
@@ -174,9 +190,9 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTimeout
 metadata:
   name: inboud-timeout
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
-    kuma.io/mesh: deault
+    kuma.io/mesh: default
 spec:
   targetRef:
     kind: MeshService
@@ -228,9 +244,9 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTimeout
 metadata:
   name: inboud-timeout
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
-    kuma.io/mesh: deault
+    kuma.io/mesh: default
 spec:
   targetRef:
     kind: MeshService
