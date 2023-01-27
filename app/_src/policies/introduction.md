@@ -15,11 +15,11 @@ The following table shows the equivalence between source/destination and `target
 | source/destination policy                    | `targetRef` policy                                |
 |----------------------------------------------|---------------------------------------------------|
 | [CircuitBreaker](../circuit-breaker)         | [MeshCircuitBreaker](../meshcircuitbreaker)       |
-| [FaultInjection](../fault-injection)         | N/A                                               |
+| [FaultInjection](../fault-injection)         | [MeshFaultInjection](../meshfaultinjection)       |
 | [HealthCheck](../health-check)               | [MeshHealthCheck](../meshhealthcheck)             |
-| [RateLimit](../rate-limit)                   | N/A                                               |
+| [RateLimit](../rate-limit)                   | [MeshRateLimit](../meshratelimit)                 |
 | [Retry](../retry)                            | [MeshRetry](../meshretry)                         |
-| [Timeout](../timeout)                        | N/A                                               |
+| [Timeout](../timeout)                        | [MeshTimeout](../meshtimeout)                     |
 | [TrafficLog](../traffic-log)                 | [MeshAccessLog](../meshaccesslog)                 |
 | [TrafficMetrics](../traffic-metrics)         | N/A                                               |
 | [TrafficPermissions](../traffic-permissions) | [MeshTrafficPermission](../meshtrafficpermission) |
