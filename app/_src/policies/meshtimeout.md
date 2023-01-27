@@ -50,17 +50,17 @@ with no inbound or outbound activity. On the other hand when connection in HTTP 
 
 #### HTTP request timeout
 
-Request timeout lets you configure how long the dataplane proxy should wait for the full response. 
+Request timeout lets you configure how long the data plane proxy should wait for the full response. 
 In details it spans between the point at which the entire request has been processed by DP and when the response has been completely processed by DP.
 
 #### HTTP stream idle timeout
 
-Stream idle timeout is the amount of time that the dataplane proxy will allow a HTTP/2 stream to exist with no inbound or outbound activity. 
+Stream idle timeout is the amount of time that the data plane proxy will allow a HTTP/2 stream to exist with no inbound or outbound activity. 
 This timeout is strongly recommended for all requests (not just streaming requests/responses) as it additionally 
 defends against a peer that does not open the stream window once an entire response has been buffered to be sent to a downstream client.
 
 {% tip %}
-Stream timeouts apply even when you are only using HTTP/1.1 in you services. This is because dataplane proxy will upgrade every connection to HTTP/2.
+Stream timeouts apply even when you are only using HTTP/1.1 in you services. This is because every connection between data plane proxies is upgraded to HTTP/2.
 {% endtip %}
 
 #### HTTP max stream duration
@@ -78,7 +78,7 @@ If there are any active streams, the drain sequence will kick-in, and the connec
 
 #### Simple outbound HTTP configuration
 
-This configuration will be applied to all dataplane proxies inside of Mesh.
+This configuration will be applied to all data plane proxies inside of Mesh.
 
 {% tabs example1 useUrlFragment=false %}
 {% tab example1 Kubernetes %}
