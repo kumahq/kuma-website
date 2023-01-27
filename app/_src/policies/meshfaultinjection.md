@@ -25,22 +25,22 @@ To learn more about the information in this table, see the [matching docs](/docs
 
 ```yaml
 default:
- http:
-   - abort:
-       httpStatus: 500
-       percentage: "2.5"
-     delay:
-       value: 5s
-       percentage: 5
-     responseBandwidth:
-       limit: "50mbps"
-       percentage: 50
-   - abort:
-       httpStatus: 500
-       percentage: 10
-   - delay:
-       value: 5s
-       percentage: 5
+  http:
+    - abort:
+        httpStatus: 500
+        percentage: "2.5"
+      delay:
+        value: 5s
+        percentage: 5
+      responseBandwidth:
+        limit: "50mbps"
+        percentage: 50
+    - abort:
+        httpStatus: 500
+        percentage: 10
+    - delay:
+        value: 5s
+        percentage: 5
 ```
 
 It's worth mentioning that percentage of the next filter depends on the percentage of previous ones.
@@ -54,7 +54,7 @@ http:
       httpStatus: 503
       percentage: 50
 ```
-That means that for 70% of requests it returns 500 and for 50% of 30%  that passed it returns 503.
+That means that for 70% of requests, it returns 500 and for 50% of the 30% that passed it returns 503.
 
 ### Abort
 
@@ -88,23 +88,23 @@ ResponseBandwidth defines a configuration to limit the speed of responding to re
 apiVersion: kuma.io/v1alpha1
 kind: MeshFaultInjection
 metadata:
- name: default
- namespace: {{site.mesh_namespace}}
- labels:
-   kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
 spec:
- targetRef:
-   kind: MeshService
-   name: backend
- from:
-   - targetRef:
-       kind: MeshService
-       name: frontend
-     default:
-       http:
-        - abort:
-           httpStatus: 500
-           percentage: 50
+  targetRef:
+    kind: MeshService
+    name: backend
+  from:
+    - targetRef:
+        kind: MeshService
+        name: frontend
+      default:
+        http:
+          - abort:
+              httpStatus: 500
+              percentage: 50
 ```
 
 Apply the configuration with `kubectl apply -f [..]`.
@@ -117,18 +117,18 @@ type: MeshFaultInjection
 mesh: default
 name: default-fault-injection
 spec:
- targetRef:
-   kind: MeshService
-   name: backend
- from:
-   - targetRef:
-       kind: MeshService
-       name: frontend
-     default:
-       http:
-        - abort:
-           httpStatus: 500
-           percentage: 50
+  targetRef:
+    kind: MeshService
+    name: backend
+  from:
+    - targetRef:
+        kind: MeshService
+        name: frontend
+      default:
+        http:
+          - abort:
+              httpStatus: 500
+              percentage: 50
 ```
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
@@ -145,23 +145,23 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 apiVersion: kuma.io/v1alpha1
 kind: MeshFaultInjection
 metadata:
- name: default
- namespace: {{site.mesh_namespace}}
- labels:
-   kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
 spec:
- targetRef:
-   kind: MeshService
-   name: backend
- from:
-   - targetRef:
-       kind: MeshService
-       name: frontend
-     default:
-       http:
-        - delay:
-           percentage: "50.5"
-           value: 5s
+  targetRef:
+    kind: MeshService
+    name: backend
+  from:
+    - targetRef:
+        kind: MeshService
+        name: frontend
+      default:
+        http:
+          - delay:
+              percentage: "50.5"
+              value: 5s
 ```
 
 Apply the configuration with `kubectl apply -f [..]`.
@@ -174,18 +174,18 @@ type: MeshFaultInjection
 mesh: default
 name: default-fault-injection
 spec:
- targetRef:
-   kind: MeshService
-   name: backend
- from:
-   - targetRef:
-       kind: Mesh
-       name: default
-     default:
-       http:
-       - delay:
-           percentage: "50.5"
-           value: 5s
+  targetRef:
+    kind: MeshService
+    name: backend
+  from:
+    - targetRef:
+        kind: Mesh
+        name: default
+      default:
+        http:
+          - delay:
+              percentage: "50.5"
+              value: 5s
 ```
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
@@ -202,29 +202,29 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 apiVersion: kuma.io/v1alpha1
 kind: MeshFaultInjection
 metadata:
- name: default
- namespace: {{site.mesh_namespace}}
- labels:
-   kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
 spec:
- targetRef:
-   kind: MeshService
-   name: backend
- from:
-   - targetRef:
-       kind: MeshService
-       name: frontend
-     default:
-       http:
-        - abort:
-            httpStatus: 500
-            percentage: "2.5"
-        - abort:
-            httpStatus: 500
-            percentage: 10
-        - delay:
-            value: 5s
-            percentage: 5
+  targetRef:
+    kind: MeshService
+    name: backend
+  from:
+    - targetRef:
+        kind: MeshService
+        name: frontend
+      default:
+        http:
+          - abort:
+              httpStatus: 500
+              percentage: "2.5"
+          - abort:
+              httpStatus: 500
+              percentage: 10
+          - delay:
+              value: 5s
+              percentage: 5
 ```
 
 Apply the configuration with `kubectl apply -f [..]`.
@@ -237,24 +237,24 @@ type: MeshFaultInjection
 mesh: default
 name: default-fault-injection
 spec:
- targetRef:
-   kind: MeshService
-   name: backend
- from:
-   - targetRef:
-       kind: MeshService
-       name: frontend
-     default:
-       http:
-        - abort:
-            httpStatus: 500
-            percentage: "2.5"
-        - abort:
-            httpStatus: 500
-            percentage: 10
-        - delay:
-            value: 5s
-            percentage: 5
+  targetRef:
+    kind: MeshService
+    name: backend
+  from:
+    - targetRef:
+        kind: MeshService
+        name: frontend
+      default:
+        http:
+          - abort:
+              httpStatus: 500
+              percentage: "2.5"
+          - abort:
+              httpStatus: 500
+              percentage: 10
+          - delay:
+              value: 5s
+              percentage: 5
 ```
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
