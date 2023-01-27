@@ -66,6 +66,12 @@ To learn more about the information in this table, see the [matching docs](/docs
 
 ### Outlier detection
 
+Outlier detection can be configured for [HTTP, TCP or gRPC](/docs/{{ page.version }}/policies/protocol-support-in-kuma/#protocol-support-in-kuma) traffic.
+
+{% warning %}
+For **gRPC** requests, the outlier detection will use the HTTP status mapped from the `grpc-status` response header.
+{% endwarning %}
+
 - **`disabled`** - (optional) When set to true, outlierDetection configuration won't take any effect.
 - **`interval`** - (optional) The time interval between ejection analysis sweeps. This can result in both new ejections
   and hosts being returned to service.
@@ -81,86 +87,356 @@ To learn more about the information in this table, see the [matching docs](/docs
 
 #### Detectors configuration
 
-##### `totalFailures`
+Configuration for supported outlier detectors. At least one detector needs to be configured when policy is configured for outlier detection.
 
-In the default mode (`outlierDetection.splitExternalAndLocalErrors` is false) this detection type takes into account all
-generated errors: locally originated and externally originated (transaction) errors. In split mode (
-`outlierDetection.splitExternalLocalOriginErrors` is true) this detection type takes into account only externally
-originated (transaction) errors, ignoring locally originated errors. If an upstream host is an HTTP-server, only 5xx
-types of error are taken into account (see Consecutive Gateway Failure for exceptions). Properly formatted responses,
-even when they carry an operational error (like index not found, access denied) are not taken into account.
+{% tabs detectors useUrlFragment=false %}
+{% tab detectors Total Failures %}
 
-- **`consecutive`** - The number of consecutive server-side error responses (for HTTP traffic, 5xx responses; for TCP
-  traffic, connection failures; for Redis, failure to respond PONG; etc.) before a consecutive total failure ejection
-  occurs.
+Depending on mode the outlier detection can take into account all or externally originated (transaction) errors only. 
 
-#### `gatewayFailures`
+{% tabs totalFailures_modes useUrlFragment=false %}
+{% tab totalFailures_modes Default Mode %}
 
-In the default mode (`outlierDetection.splitExternalLocalOriginErrors` is false) this detection type takes into account
-a subset of 5xx errors, called "gateway errors" (502, 503 or 504 status code) and local origin failures, such as
-timeout, TCP reset etc.
-In split mode (`outlierDetection.splitExternalLocalOriginErrors` is true) this detection type takes into account a
-subset of 5xx errors, called "gateway errors" (502, 503 or 504 status code) and is supported only by the http router.
+{% tip %}
+Default mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is not set or equal `false`
+{% endtip %}
 
-- **`consecutive`** - The number of consecutive gateway failures (502, 503, 504 status codes) before a consecutive
+This detection type takes into account all generated errors: **locally originated** and **externally originated** (transaction) errors.
+
+**Configuration**
+
+- **`totalFailures.consecutive`** - The number of consecutive server-side error responses
+  (for HTTP traffic, 5xx responses; for TCP traffic, connection failures; etc.) before a consecutive total failure ejection occurs.
+
+**Example**
+
+```yaml
+type: MeshCircuitBreaker
+mesh: default
+name: circuit-breaker
+spec:
+  targetRef:
+    kind: Mesh
+    name: default
+  to:
+  - targetRef:
+      kind: Mesh
+      name: default
+    default:
+      outlierDetection:
+        detectors:
+          totalFailures:
+            consecutive: 10
+```
+
+{% endtab %}
+
+{% tab totalFailures_modes Split Mode %}
+
+{% tip %}
+Split Mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is equal `true`
+{% endtip %}
+
+This detection type takes into account only externally originated (transaction) errors, ignoring locally originated ones.
+
+[**HTTP**](/docs/{{ page.version }}/policies/protocol-support-in-kuma/#protocol-support-in-kuma)
+
+If an upstream host is an HTTP-server, only 5xx types of error are taken into account (see Consecutive Gateway Failure for exceptions).
+
+{% warning %}
+Properly formatted responses, even when they carry an operational error (like index not found, access denied) are not taken into account.
+{% endwarning %}
+
+**Configuration**
+
+- **`totalFailures.consecutive`** - The number of consecutive server-side error responses (for HTTP traffic, 5xx responses) before a consecutive total failure ejection occurs.
+
+**Example**
+
+```yaml
+type: MeshCircuitBreaker
+mesh: default
+name: circuit-breaker
+spec:
+  targetRef:
+    kind: Mesh
+    name: default
+  to:
+  - targetRef:
+      kind: Mesh
+      name: default
+    default:
+      outlierDetection:
+        splitExternalAndLocalErrors: true
+        detectors:
+          totalFailures:
+            consecutive: 10
+```
+
+{% endtab %}
+{% endtabs %}
+
+{% endtab %}
+{% tab detectors Gateway Failures %}
+
+Depending on mode the outlier detection can take into account gateway failures with locally originated failures (default mode) or gateway failures only (split mode).
+
+{% tabs gatewayFailures_modes useUrlFragment=false %}
+{% tab gatewayFailures_modes Default Mode %}
+
+{% tip %}
+Default mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is not set or equal `false`
+{% endtip %}
+
+This detection type takes into account a subset of **5xx** errors, called "gateway errors" (**502**, **503** or **504** status code) and local origin failures, such as **timeout**, **TCP reset** etc.
+
+**Configuration**
+
+- **`gatewayFailures.consecutive`** - The number of consecutive gateway failures (502, 503, 504 status codes) before a consecutive
   gateway failure ejection occurs.
 
-#### `localOriginFailures`
+**Example**
 
-This detection type is enabled only when `outlierDetection.splitExternalLocalOriginErrors` is true and takes into
-account only locally originated errors (timeout, reset, etc).
-If Envoy repeatedly cannot connect to an upstream host or communication with the upstream host is repeatedly
-interrupted, it will be ejected. Various locally originated problems are detected: timeout, TCP reset, ICMP errors, etc.
-This detection type is supported by http router and tcp proxy.
+```yaml
+type: MeshCircuitBreaker
+mesh: default
+name: circuit-breaker
+spec:
+  targetRef:
+    kind: Mesh
+    name: default
+  to:
+  - targetRef:
+      kind: Mesh
+      name: default
+    default:
+      outlierDetection:
+        detectors:
+          gatewayFailures:
+            consecutive: 10
+```
 
-- **`consecutive`** - The number of consecutive locally originated failures before ejection occurs. Parameter takes
-  effect only when `splitExternalAndLocalErrors` is set to true.
+{% endtab %}
 
-#### `successRate`
+{% tab gatewayFailures_modes Split Mode %}
 
-Success Rate based outlier detection aggregates success rate data from every host in a cluster. Then at given intervals
-ejects hosts based on statistical outlier detection. Success Rate outlier detection will not be calculated for a host if
-its request volume over the aggregation interval is less than the `outlierDetection.detectors.successRate.requestVolume`
+{% tip %}
+Split Mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is equal `true`
+{% endtip %}
+
+This detection type takes into account a subset of **5xx** errors, called "gateway errors" (**502**, **503** or **504** status code).
+
+{% warning %}
+This detector is supported only for HTTP traffic.
+{% endwarning %}
+
+**Configuration**
+
+- **`gatewayFailures.consecutive`** - The number of consecutive gateway failures (502, 503, 504 status codes) before a consecutive
+  gateway failure ejection occurs.
+
+**Example**
+
+```yaml
+type: MeshCircuitBreaker
+mesh: default
+name: circuit-breaker
+spec:
+  targetRef:
+    kind: Mesh
+    name: default
+  to:
+  - targetRef:
+      kind: Mesh
+      name: default
+    default:
+      outlierDetection:
+        splitExternalAndLocalErrors: true
+        detectors:
+          gatewayFailures:
+            consecutive: 10
+```
+
+{% endtab %}
+{% endtabs %}
+
+{% endtab %}
+{% tab detectors Locally Originated Failures %}
+
+{% warning %}
+This detection is supported only in Split Mode
+{% endwarning %}
+
+This detection takes into account only locally originated errors (timeout, reset, etc).
+
+If Envoy repeatedly cannot connect to an upstream host or communication with the upstream host is repeatedly interrupted, it will be ejected. Various locally originated problems are detected: timeout, TCP reset, ICMP errors, etc.
+
+{% tabs localOriginFailures_modes useUrlFragment=false %}
+{% tab localOriginFailures_modes Split Mode %}
+
+{% tip %}
+Split Mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is equal `true`
+{% endtip %}
+
+**Configuration**
+
+- **`localOriginFailures.consecutive`** - The number of consecutive locally originated failures before ejection occurs.
+
+**Example**
+
+```yaml
+type: MeshCircuitBreaker
+mesh: default
+name: circuit-breaker
+spec:
+  targetRef:
+    kind: Mesh
+    name: default
+  to:
+  - targetRef:
+      kind: Mesh
+      name: default
+    default:
+      outlierDetection:
+        splitExternalAndLocalErrors: true
+        detectors:
+          localOriginFailures:
+            consecutive: 10
+```
+{% endtab %}
+{% tab localOriginFailures_modes Default Mode %}
+
+This detection is not supported in the Default Mode
+
+{% endtab %}
+{% endtabs %}
+
+{% endtab %}
+{% tab detectors Success Rate %}
+
+Success Rate based outlier detection aggregates success rate data from every host in an Envoy Cluster. Then at given intervals ejects hosts based on statistical outlier detection.
+
+Success Rate outlier detection will not be calculated for a host if its request volume over the aggregation interval is less than the value of `successRate.requestVolume`
 value.
-Moreover, detection will not be performed for a cluster if the number of hosts with the minimum required request volume
-in an interval is less than the `outlierDetection.detectors.successRate.minimumHosts` value.
-In the default configuration mode (`outlierDetection.splitExternalLocalOriginErrors` is false) this detection type takes
-into account all types of errors: locally and externally originated.
-In split mode (`outlierDetection.splitExternalLocalOriginErrors` is true), locally originated errors and externally
-originated (transaction) errors are counted and treated separately.
 
-- **`minimumHosts`** - The number of hosts in an Envoy Cluster that must have enough request volume to detect success
-  rate outliers. If the number of hosts is less than this setting, outlier detection via success rate statistics is not
-  performed for any host in the Cluster.
-- **`requestVolume`** - The minimum number of total requests that must be collected in one interval (as defined by the
-  interval duration configured in outlierDetection section) to include this host in success rate based outlier
-  detection. If the volume is lower than this setting, outlier detection via success rate statistics is not performed
-  for that host.
-- **`standardDeviationFactor`** - This factor is used to determine the ejection threshold for success rate outlier
-  ejection. The ejection threshold is the difference between the mean success rate, and the product of this factor and
-  the standard deviation of the mean success rate: mean - (standard_deviation *success_rate_standard_deviation_factor).
-  Either int or decimal represented as string.
+Moreover, detection will not be performed for a cluster if the number of hosts with the minimum required request volume in an interval is less than the `successRate.minimumHosts` value.
 
-#### `failurePercentage`
+{% tabs successRate_modes useUrlFragment=false %}
+{% tab successRate_modes Default Mode %}
 
-Failure Percentage based outlier detection functions similarly to success rate detection, in that it relies on success
-rate data from each host in a cluster. However, rather than compare those values to the mean success rate of the cluster
-as a whole, they are compared to a flat user-configured threshold. This threshold is configured via
-the `outlierDetection.failurePercentageThreshold` field.
-The other configuration fields for failure percentage based detection are similar to the fields for success rate
-detection. As with success rate detection, detection will not be performed for a host if its request volume over the
-aggregation interval is less than the `outlierDetection.detectors.failurePercentage.requestVolume` value.
-Detection also will not be performed for a cluster if the number of hosts with the minimum required request volume in an
-interval is less than the `outlierDetection.detectors.failurePercentage.minimumHosts` value.
+{% tip %}
+Default mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is not set or equal `false`
+{% endtip %}
 
-- **`requestVolume`** - The minimum number of hosts in an Envoy Cluster in order to perform failure percentage-based
-  ejection. If the total number of hosts in the Cluster is less than this value, failure percentage-based ejection will
-  not be performed.
-- **`minimumHosts`** - The minimum number of total requests that must be collected in one interval (as defined by the
-  interval duration above) to perform failure percentage-based ejection for this host. If the volume is lower than this
-  setting, failure percentage-based ejection will not be performed for this host.
-- **`threshold`** - The failure percentage to use when determining failure percentage-based outlier detection. If the
-  failure percentage of a given host is greater than or equal to this value, it will be ejected.
+This detection type takes into account all types of errors: locally and externally originated.
+
+{% endtab %}
+{% tab successRate_modes Split Mode %}
+
+{% tip %}
+Split Mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is equal `true`
+{% endtip %}
+
+Locally originated errors and externally originated (transaction) errors are counted and treated separately.
+
+{% endtab %}
+{% endtabs %}
+
+**Configuration**
+
+- **`successRate.minimumHosts`** - The number of hosts in an Envoy Cluster that must have enough request volume to detect success rate outliers. If the number of hosts is less than this setting, outlier detection via success rate statistics is not performed for any host in the Cluster.
+- **`successRate.requestVolume`** - The minimum number of total requests that must be collected in one interval (as defined by the interval duration configured in outlierDetection section) to include this host in success rate based outlier detection. If the volume is lower than this setting, outlier detection via success rate statistics is not performed for that host.
+- **`successRate.standardDeviationFactor`** - This factor is used to determine the ejection threshold for success rate outlier ejection. The ejection threshold is the difference between the mean success rate, and the product of this factor and the standard deviation of the mean success rate: mean - (standard_deviation *success_rate_standard_deviation_factor). Either int or decimal represented as string.
+
+**Example**
+
+```yaml
+type: MeshCircuitBreaker
+mesh: default
+name: circuit-breaker
+spec:
+  targetRef:
+    kind: Mesh
+    name: default
+  to:
+  - targetRef:
+      kind: Mesh
+      name: default
+    default:
+      outlierDetection:
+        splitExternalAndLocalErrors: true
+        detectors:
+          successRate:
+            minimumHosts: 5
+            requestVolume: 10
+            standardDeviationFactor: "1.9"
+```
+
+{% endtab %}
+{% tab detectors Failure Percentage %}
+
+Failure Percentage based outlier detection functions similarly to success rate detection, in that it relies on success rate data from each host in an Envoy Cluster. However, rather than compare those values to the mean success rate of the Cluster as a whole, they are compared to a flat user-configured threshold. This threshold is configured via the [`failurePercentageThreshold`](#outlier-detection) field.
+
+The other configuration fields for failure percentage based detection are similar to the fields for success rate detection. As with success rate detection, detection will not be performed for a host if its request volume over the aggregation interval is less than the `failurePercentage.requestVolume` value.
+
+Detection also will not be performed for an Envoy Cluster if the number of hosts with the minimum required request volume in an interval is less than the `failurePercentage.minimumHosts` value.
+
+{% tabs failurePercentage_modes useUrlFragment=false %}
+{% tab failurePercentage_modes Default Mode %}
+
+{% tip %}
+Default mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is not set or equal `false`
+{% endtip %}
+
+This detection type takes into account all types of errors: locally and externally originated.
+
+{% endtab %}
+{% tab failurePercentage_modes Split Mode %}
+
+{% tip %}
+Split Mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is equal `true`
+{% endtip %}
+
+Locally originated errors and externally originated (transaction) errors are counted and treated separately.
+
+{% endtab %}
+{% endtabs %}
+
+**Configuration**
+
+- **`failurePercentage.requestVolume`** - The minimum number of hosts in an Envoy Cluster in order to perform failure percentage-based ejection. If the total number of hosts in the Cluster is less than this value, failure percentage-based ejection will not be performed.
+- **`failurePercentage.minimumHosts`** - The minimum number of total requests that must be collected in one interval (as defined by the interval duration above) to perform failure percentage-based ejection for this host. If the volume is lower than this setting, failure percentage-based ejection will not be performed for this host.
+- **`failurePercentage.threshold`** - The failure percentage to use when determining failure percentage-based outlier detection. If the failure percentage of a given host is greater than or equal to this value, it will be ejected.
+
+**Example**
+
+```yaml
+type: MeshCircuitBreaker
+mesh: default
+name: circuit-breaker
+spec:
+  targetRef:
+    kind: Mesh
+    name: default
+  to:
+  - targetRef:
+      kind: Mesh
+      name: default
+    default:
+      outlierDetection:
+        splitExternalAndLocalErrors: true
+        detectors:
+          failurePercentage:
+            requestVolume: 10
+            minimumHosts: 5
+            threshold: 85
+```
+
+{% endtab %}
+
+{% endtabs %}
+
+<hr />
 
 ### Examples
 
