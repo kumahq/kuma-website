@@ -692,10 +692,6 @@ items:
             url: "/policies/meshcircuitbreaker/#configuration"
           - text: Examples
             url: "/policies/meshcircuitbreaker/#examples"
-          - text: Connection limits configuration
-            url: "/policies/meshcircuitbreaker/#connection-limits-configuration"
-          - text: Outlier detection configuration
-            url: "/policies/meshcircuitbreaker/#outlier-detection-configuration"
   - title: Reference docs
     group: true
     items:
