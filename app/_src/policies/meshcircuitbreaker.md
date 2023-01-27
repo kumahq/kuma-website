@@ -31,7 +31,7 @@ proxy will further extend the [baseEjectionTime](#outlier-detection) multiplied 
 the 4th ejection will be lasting for a period of time of `4 * baseEjectionTime`.
 
 This policy provides **passive** checks.
-If you want to configure **active** checks, please utilize the [MeshHealthCheck](/docs/{{ page.version }}/policies/meshhealthcheckcz)
+If you want to configure **active** checks, please utilize the [MeshHealthCheck](/docs/{{ page.version }}/policies/meshhealthcheck)
 policy.
 Data plane proxies with **passive** checks won't explicitly send requests to other data plane proxies to determine if
 target proxies are healthy or not.
