@@ -1,7 +1,5 @@
 product: kuma
-generate: true
-assume_generated: true
-release: dev
+release: 2.1.x
 items:
   - title: Introduction
     group: true
@@ -897,5 +895,3 @@ items:
             url: "/contribute/introduction/#gui-code"
           - text: Testing unreleased versions
             url: "/contribute/introduction/#testing-unreleased-versions"
-unlisted:
-  - url: /
