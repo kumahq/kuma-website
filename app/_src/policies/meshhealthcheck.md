@@ -275,8 +275,6 @@ HTTP health checks are executed using HTTP2
 - **`add`** - (optional) - list of headers to add. Appends value if the header exists.
   - **`name`** - header's name
   - **`value`** - header's value
-- **`remove`** - (optional) - list of headers' names to remove
-
 
 ### TCP
 
