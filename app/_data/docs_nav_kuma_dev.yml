@@ -652,6 +652,15 @@ items:
             url: "/policies/meshtrafficpermission/#configuration"
           - text: Examples
             url: "/policies/meshtrafficpermission/#examples"
+      - text: MeshTimeout (Beta)
+        url: /policies/meshtimeout/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtimeout/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtimeout/#configuration"
+          - text: Examples
+            url: "/policies/meshtimeout/#examples"
       - text: MeshHealthCheck (Beta)
         url: /policies/meshhealthcheck/
         items:
@@ -670,6 +679,15 @@ items:
             url: "/policies/meshfaultinjection/#configuration"
           - text: Examples
             url: "/policies/meshfaultinjection/#examples"
+      - text: MeshRateLimit (Beta)
+        url: /policies/meshratelimit/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshratelimit/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshratelimit/#configuration"
+          - text: Examples
+            url: "/policies/meshratelimit/#examples"
       - text: MeshHTTPRoute (Beta)
         url: /policies/meshhttproute/
         items:
