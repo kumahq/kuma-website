@@ -329,3 +329,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 | http.streamIdleTimeout     | 30m     |
 | http.maxStreamDuration     | 0s      |
 | http.maxConnectionDuration | 0s      |
+
+{% if_version eq:2.1.x %}
+If you don't specify `from` or `to` section defaults from [Timeout policy](../timeout) will be used. This is [known bug](https://github.com/kumahq/kuma/issues/5850) and will be fixed in next version.
+{% endif_version %}
