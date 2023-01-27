@@ -1,0 +1,29 @@
+# Policy redirects
+/docs/:version/policies/circuit-breakers/ /docs/:version/policies/circuit-breaker/ 301
+/docs/:version/policies/fault-injections/ /docs/:version/policies/fault-injection/ 301
+/docs/:version/policies/health-checks/ /docs/:version/policies/health-check/ 301
+/docs/:version/policies/meshgateways/ /docs/:version/policies/mesh-gateway/ 301
+/docs/:version/policies/meshgatewayroutes/ /docs/:version/policies/mesh-gateway-route/ 301
+/docs/:version/policies/proxytemplates/ /docs/:version/policies/proxy-template/ 301
+/docs/:version/policies/rate-limits/ /docs/:version/policies/rate-limit/ 301
+/docs/:version/policies/retries/ /docs/:version/policies/retry/ 301
+/docs/:version/policies/timeouts/ /docs/:version/policies/timeout/ 301
+/docs/:version/policies/traffic-logs/ /docs/:version/policies/traffic-log/ 301
+/docs/:version/policies/traffic-routes/ /docs/:version/policies/traffic-route/ 301
+/docs/:version/policies/traffic-traces/ /docs/:version/policies/traffic-trace/ 301
+/docs/:version/policies/virtual-outbounds/ /docs/:version/policies/virtual-outbound/ 301
+
+# Docs
+/docs/latest/documentation/gateway /docs/LATEST_RELEASE/explore/gateway 301
+/docs/latest/deployments /docs/:version/LATEST_RELEASE/deployments 301
+/docs/latest/documentation/deployments /docs/LATEST_RELEASE/introduction/deployments 301
+/docs/latest/explore/backends /docs/LATEST_RELEASE/documentation/configuration 301
+/docs/latest/security/zone-ingress-auth /docs/LATEST_RELEASE/security/zoneproxy-auth 301
+/docs/latest/security/zoneegress-auth /docs/LATEST_RELEASE/security/zoneproxy-auth 301
+/docs/latest/* /docs/LATEST_RELEASE/:splat 301
+/docs/:version/policies/ /docs/:version/policies/introduction 301
+/docs/:version/overview/ /docs/:version/overview/what-is-kuma 301
+/docs/:version/other/ /docs/:version/other/enterprise 301
+/docs/:version/installation/ /docs/:version/installation/kubernetes 301
+/docs/:version/api/ /docs/:version/documentation/http-api 301
+/docs/:version/documentation/deployments/ /docs/:version/introduction/deployments 301
