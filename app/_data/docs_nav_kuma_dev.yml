@@ -688,6 +688,8 @@ items:
         items:
           - text: TargetRef support matrix
             url: "/policies/meshcircuitbreaker/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshcircuitbreaker/#configuration"
           - text: Examples
             url: "/policies/meshcircuitbreaker/#examples"
           - text: Connection limits configuration

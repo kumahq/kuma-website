@@ -48,6 +48,8 @@ target proxies are healthy or not.
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
+## Configuration
+
 ### Examples
 
 #### Basic circuit breaker for outbound traffic from web, to backend service
@@ -192,17 +194,17 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 ## Connection limits configuration
 
-- **`maxConnections`** - (optional) The maximum number of connections allowed to be made to the upstream cluster. If not
-  specified then equal to "1024".
-- **`maxConnectionPools`** - (optional) The maximum number of connection pools per cluster that are concurrently
-  supported at once. Set this for clusters which create a large number of connection pools. If not specified, the
+- **`maxConnections`** - (optional) The maximum number of connections allowed to be made to the upstream Envoy Cluster.
+  If not specified then equal to "1024".
+- **`maxConnectionPools`** - (optional) The maximum number of connection pools per Envoy Cluster that are concurrently
+  supported at once. Set this for Envoy Clusters which create a large number of connection pools. If not specified, the
   default is unlimited.
-- **`maxPendingRequests`** - (optional) The maximum number of pending requests that are allowed to the upstream cluster.
-  This limit is applied as a connection limit for non-HTTP traffic. If not specified then equal to "1024".
-- **`maxRetries`** - (optional) The maximum number of parallel retries that will be allowed to the upstream cluster. If
-  not specified then equal to "3".
+- **`maxPendingRequests`** - (optional) The maximum number of pending requests that are allowed to the upstream Envoy
+  Cluster. This limit is applied as a connection limit for non-HTTP traffic. If not specified then equal to "1024".
+- **`maxRetries`** - (optional) The maximum number of parallel retries that will be allowed to the upstream Envoy
+  Cluster. If not specified then equal to "3".
 - **`maxRequests`** - (optional) The maximum number of parallel requests that are allowed to be made to the upstream
-  cluster. This limit does not apply to non-HTTP traffic. If not specified then equal to "1024".
+  Envoy Cluster. This limit does not apply to non-HTTP traffic. If not specified then equal to "1024".
 
 ## Outlier detection configuration
 
@@ -211,7 +213,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
   and hosts being returned to service.
 - **`baseEjectionTime`** - (optional) The base time that a host is ejected for. The real time is equal to the base time
   multiplied by the number of times the host has been ejected.
-- **`maxEjectionPercent`** - (optional) The maximum % of an upstream cluster that can be ejected due to outlier
+- **`maxEjectionPercent`** - (optional) The maximum % of an upstream Envoy Clusters that can be ejected due to outlier
   detection. Defaults to 10% but will eject at least one host regardless of the value.
 - **`splitExternalAndLocalErrors`** - (optional) Determines whether to distinguish local origin failures from external
   errors. If set to true the following configuration parameters are taken into
@@ -269,9 +271,9 @@ into account all types of errors: locally and externally originated.
 In split mode (`outlierDetection.splitExternalLocalOriginErrors` is true), locally originated errors and externally
 originated (transaction) errors are counted and treated separately.
 
-- **`minimumHosts`** - The number of hosts in a cluster that must have enough request volume to detect success rate
-  outliers. If the number of hosts is less than this setting, outlier detection via success rate statistics is not
-  performed for any host in the cluster.
+- **`minimumHosts`** - The number of hosts in an Envoy Cluster that must have enough request volume to detect success
+  rate outliers. If the number of hosts is less than this setting, outlier detection via success rate statistics is not
+  performed for any host in the Cluster.
 - **`requestVolume`** - The minimum number of total requests that must be collected in one interval (as defined by the
   interval duration configured in outlierDetection section) to include this host in success rate based outlier
   detection. If the volume is lower than this setting, outlier detection via success rate statistics is not performed
@@ -293,9 +295,9 @@ aggregation interval is less than the `outlierDetection.detectors.failurePercent
 Detection also will not be performed for a cluster if the number of hosts with the minimum required request volume in an
 interval is less than the `outlierDetection.detectors.failurePercentage.minimumHosts` value.
 
-- **`requestVolume`** - The minimum number of hosts in a cluster in order to perform failure percentage-based ejection.
-  If the total number of hosts in the cluster is less than this value, failure percentage-based ejection will not be
-  performed.
+- **`requestVolume`** - The minimum number of hosts in an Envoy Cluster in order to perform failure percentage-based
+  ejection. If the total number of hosts in the Cluster is less than this value, failure percentage-based ejection will
+  not be performed.
 - **`minimumHosts`** - The minimum number of total requests that must be collected in one interval (as defined by the
   interval duration above) to perform failure percentage-based ejection for this host. If the volume is lower than this
   setting, failure percentage-based ejection will not be performed for this host.
