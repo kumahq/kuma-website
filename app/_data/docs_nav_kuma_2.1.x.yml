@@ -1,7 +1,7 @@
 product: kuma
+release: 2.1.x
 generate: true
 assume_generated: true
-release: dev
 items:
   - title: Introduction
     group: true
