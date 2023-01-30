@@ -24,9 +24,9 @@ If you don't understand this table you should read [matching docs](/docs/{{ page
 
 {{ site.mesh_product_name }} allows configuring one of 3 actions for a group of service's clients:
 
-* `ALLOW` - allows incoming requests matching the from `targetRef`.
-* `DENY` - denies incoming requests matching the from `targetRef`
-* `ALLOW_WITH_SHADOW_DENY` - same as `ALLOW` but will log as if request is denied, this is useful for rolling new restrictive policies without breaking things.
+* `Allow` - allows incoming requests matching the from `targetRef`.
+* `Deny` - denies incoming requests matching the from `targetRef`
+* `AllowWithShadowDeny` - same as `Allow` but will log as if request is denied, this is useful for rolling new restrictive policies without breaking things.
 
 ## Examples
 
@@ -50,7 +50,7 @@ spec:
         kind: MeshService
         name: orders
       default: # 3
-        action: ALLOW
+        action: Allow
 ```
 
 
@@ -70,7 +70,7 @@ spec:
         kind: MeshService
         name: orders
       default: # 3
-        action: ALLOW
+        action: Allow
 ```
 
 {% endtab %}
@@ -96,11 +96,11 @@ spec:
         name: orders
     ```
 
-3. The action is `ALLOW`. All requests from service `orders` will be allowed on service `payments`.
+3. The action is `Allow`. All requests from service `orders` will be allowed on service `payments`.
 
     ```yaml
     default: # 3
-      action: ALLOW
+      action: Allow
     ```
 
 ### Deny all
@@ -121,7 +121,7 @@ spec:
     - targetRef: # 2
         kind: Mesh
       default: # 3
-        action: DENY
+        action: Deny
 ```
 
 
@@ -139,7 +139,7 @@ spec:
     - targetRef: # 2
         kind: Mesh
       default: # 3
-        action: DENY
+        action: Deny
 ```
 
 {% endtab %}
@@ -161,11 +161,11 @@ spec:
         kind: Mesh
     ```
 
-3. The action is `DENY`. All requests from all services will be denied on all proxies in the `default` mesh.
+3. The action is `Deny`. All requests from all services will be denied on all proxies in the `default` mesh.
 
     ```yaml
     default: # 3
-      action: DENY
+      action: Deny
     ```
    
 
@@ -189,13 +189,13 @@ spec:
         tags:
           kuma.io/zone: us-east
       default: # 3
-        action: ALLOW
+        action: Allow
     - targetRef: # 4
         kind: MeshSubset
         tags:
           env: dev
       default: # 5
-        action: DENY
+        action: Deny
 ```
 
 Apply the configuration with `kubectl apply -f [..]`.
@@ -216,13 +216,13 @@ spec:
         tags:
           kuma.io/zone: us-east
       default: # 3
-        action: ALLOW
+        action: Allow
     - targetRef: # 4
         kind: MeshSubset
         tags:
           env: dev
       default: # 5
-        action: DENY
+        action: Deny
 ```
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 
@@ -248,11 +248,11 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
           kuma.io/zone: us-east
     ```
 
-3. The action is `ALLOW`. All requests from the zone `us-east` will be allowed on all proxies.
+3. The action is `Allow`. All requests from the zone `us-east` will be allowed on all proxies.
 
     ```yaml
     default: # 3
-      action: ALLOW
+      action: Allow
     ```
 
 4. `TargetRef` inside the `from` array selects proxies that have tags `kuma.io/zone: us-east`.
@@ -265,15 +265,15 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
           env: dev
     ```
 
-5. The action is `DENY`. All requests from the env `dev` will be denied on all proxies.
+5. The action is `Deny`. All requests from the env `dev` will be denied on all proxies.
 
     ```yaml
     default: # 5
-      action: DENY
+      action: Deny
     ```
 
 {% tip %}
 Order of rules inside the `from` array matters. 
 Request from the proxy that has both `kuma.io/zone: east` and `env: dev` will be denied. 
-This is because the rule with `DENY` is later in the `from` array than any `ALLOW` rules.
+This is because the rule with `Deny` is later in the `from` array than any `Allow` rules.
 {% endtip %}
