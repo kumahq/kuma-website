@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       apiKey: '4224b11bee5bf294f73032a4988a00ea',
       inputSelector: '#algolia-search-input',
       algoliaOptions: {
-        hitsPerPage: 5,
+        hitsPerPage: 10,
         facetFilters: ['section:docs', `docsversion:${docsVersion}`]
       },
       // Override selected event to allow for local environment navigation
