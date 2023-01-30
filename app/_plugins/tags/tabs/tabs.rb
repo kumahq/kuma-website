@@ -17,7 +17,7 @@ module Jekyll
       def render(context)
         environment = context.environments.first
         environment['tabs'] ||= {}
-        file_path = context.registers[:page]['path']
+        file_path = context.registers[:page]['dir']
         environment['tabs'][file_path] ||= {}
 
         if environment['tabs'][file_path].key? @name
@@ -47,7 +47,7 @@ module Jekyll
       def render(context)
         site = context.registers[:site]
         converter = site.find_converter_instance(::Jekyll::Converters::Markdown)
-        file_path = context.registers[:page]['path']
+        file_path = context.registers[:page]['dir']
 
         environment = context.environments.first
 
