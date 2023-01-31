@@ -47,7 +47,7 @@ When {{site.mesh_product_name}} is run as a distributed service mesh, the Zone c
     * `5680`: the HTTP server that returns the health status of the control-plane.
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve {{site.mesh_product_name}}'s policies and - when running in `universal` - you can only manage the dataplane resources.
     * `5682`: HTTPS version of the services available under `5681`
-    * `5683`: gRPC Intercommunication CP server used internally by Kuma to communicate between CP instances.
+    * `5683`: gRPC Intercommunication CP server used internally by {{site.mesh_product_name}} to communicate between CP instances.
 
 ## kuma-dp ports
 
