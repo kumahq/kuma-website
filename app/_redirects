@@ -1,2 +1,36 @@
 # Anything after this line is manually maintained in _redirects
 # See app/_plugins/generators/redirects.rb to understand the above lines
+
+/docs /docs/LATEST_RELEASE/ 301
+/latest_version.html /latest_version 301
+/install /install/LATEST_RELEASE/ 301
+/install/latest/* /install/LATEST_RELEASE/:splat 301
+/install/kong-gateway /docs/LATEST_RELEASE/explore/gateway 301
+
+# Kuma tag redirects
+/builtindns/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiobuiltindns 301
+/builtindnsport/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiobuiltindnsport 301
+/container-patches/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiocontainer-patches 301
+/direct-access-services/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiodirect-access-services 301
+/envoy-admin-port/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaioenvoy-admin-port 301
+/gateway/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiogateway 301
+/ignore/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaioignore 301
+/ingress-public-address/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaioingress-public-address 301
+/ingress-public-port/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaio#builtindns 301
+/ingress/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaioingress 301
+/mesh/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiomesh 301
+/service-account-token-volume/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaioservice-account-token-volume 301
+/sidecar-drain-time/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiosidecar-drain-time 301
+/sidecar-env-vars/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiosidecar-env-vars 301
+/sidecar-injection/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiosidecar-injection 301
+/transparent-proxying-experimental-engine/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiotransparent-proxying-experimental-engine 301
+/transparent-proxying-inbound-v6-port/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiotransparent-proxying-inbound-v6-port 301
+/transparent-proxying-reachable-services/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiotransparent-proxying-reachable-services 301
+/virtual-probes-port/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiovirtual-probes-port 301
+/virtual-probes/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiovirtual-probes 301
+
+# kuma.io subdomain redirects
+https://prometheus.metrics.kuma.io/port /docs/LATEST_RELEASE/reference/kubernetes-annotations/#prometheus-metrics-kuma-io-port/ 301
+https://prometheus.metrics.kuma.io/path /docs/LATEST_RELEASE/reference/kubernetes-annotations/#prometheus-metrics-kuma-io-path/ 301
+https://traffic.kuma.io/exclude-inbound-ports /docs/LATEST_RELEASE/reference/kubernetes-annotations/#traffic-kuma-io-exclude-inbound-ports/ 301
+https://traffic.kuma.io/exclude-outbound-ports /docs/LATEST_RELEASE/reference/kubernetes-annotations/#traffic-kuma-io-exclude-outbound-ports/ 301
