@@ -37,7 +37,7 @@ carousel:
 
 {% contentfor news %}
 
-**Kuma 2.0.0 has been released!** &mdash; eBPF support, Next Gen Policies and New UI Improvements, and much more [on the Kuma 2.0.0 release blog post](/blog/2022/kuma-2-0-0/)
+**Kuma 2.1.0 has been released!** &mdash; with a full suite of next-gen policies and New UI Improvements, and much more [on the Kuma 2.1.0 release blog post](/blog/2023/kuma-2-1-0/)
 
 {% endcontentfor %}
 
