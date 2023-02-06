@@ -83,7 +83,7 @@ You can use `GET` requests to retrieve the state of {{site.mesh_product_name}} o
 ## Pagination
 
 Every resource list in {{site.mesh_product_name}} is paginated. To use pagination, you can use following query parameters:
-* `size` - size of the page (default - 1000, maximum value - 10000).
+* `size` - size of the page (default - 100, maximum value - 1000).
 * `offset` - offset from which the page will be listed. The offset is a `string`, it does not have to be a number (it depends on the environment).
 
 A response with a pagination contains `next` field with URL to fetch the next page. Example:

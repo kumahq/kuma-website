@@ -14,13 +14,13 @@
 /docs/:version/policies/virtual-outbounds/ /docs/:version/policies/virtual-outbound/ 301
 
 # Docs
-/docs/latest/documentation/gateway /docs/LATEST_RELEASE/explore/gateway 301
-/docs/latest/deployments /docs/:version/LATEST_RELEASE/deployments 301
-/docs/latest/documentation/deployments /docs/LATEST_RELEASE/introduction/deployments 301
-/docs/latest/explore/backends /docs/LATEST_RELEASE/documentation/configuration 301
-/docs/latest/security/zone-ingress-auth /docs/LATEST_RELEASE/security/zoneproxy-auth 301
-/docs/latest/security/zoneegress-auth /docs/LATEST_RELEASE/security/zoneproxy-auth 301
-/docs/latest/* /docs/LATEST_RELEASE/:splat 301
+/docs/:version/documentation/gateway /docs/:version/explore/gateway 301
+/docs/:version/deployments /docs/:version/:version/deployments 301
+/docs/:version/documentation/deployments /docs/:version/introduction/deployments 301
+/docs/:version/explore/backends /docs/:version/documentation/configuration 301
+/docs/:version/security/zone-ingress-auth /docs/:version/security/zoneproxy-auth 301
+/docs/:version/security/zoneegress-auth /docs/:version/security/zoneproxy-auth 301
+/docs/latest/* /docs/LATEST_RELEASE/:splat 302
 /docs/:version/policies/ /docs/:version/policies/introduction 301
 /docs/:version/overview/ /docs/:version/overview/what-is-kuma 301
 /docs/:version/other/ /docs/:version/other/enterprise 301
