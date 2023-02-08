@@ -10,7 +10,7 @@
 This repository contains the source content and tooling for the Kuma website. See also [the source code for Kuma](https://github.com/kumahq/kuma).
 Kuma provides a control plane for service mesh that supports both Kubernetes and VM environments.
 
-The website is built on [VuePress](https://vuepress.vuejs.org/) and is published with Netlify.
+The website is built on [Jekyll](https://jekyllrb.com/) and is published with Netlify.
 It's open-source for the community to contribute to.
 
 Want to contribute? Checkout [CONTRIBUTING.md](CONTRIBUTING.md) to get started!

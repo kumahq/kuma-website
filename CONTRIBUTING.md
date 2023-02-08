@@ -58,3 +58,31 @@ Signed-off-by: Jane Smith <jane.smith@example.com>
 ```
 
 In most cases, you can add this signoff to your commit automatically with the `-s` flag to `git commit`. You must use your real name and a reachable email address (sorry, no pseudonyms or anonymous contributions).
+
+### Running the site locally
+
+Clone the repository and run `make install`, make sure you have the right ruby version installed (`cat .ruby-version`).
+Jekyll is a static-site generator, so first we need to build the site and compile the assets:
+```
+make build
+```
+Note: If you face any issues, e.g. the asset don't look right, try cleaning the cache first and re-build the site:
+```
+make clean && make build
+```
+
+Next, run
+```
+make serve
+```
+which will run `Netlify` locally in a local dev server, similar to production, making all the redirects, env variables, etc.
+available. You can visit http://localhost:8888/ and start reading the documentation.
+
+#### Modifying files locally
+
+If you want to make changes to the docs or the assets and see them reflected on the browser, you need to run the site with:
+```
+make run
+```
+This will run `jekyll serve` and `vite` in the background wich wil re-build the corresponding pages whenever a doc or asset changes,
+while running `netlify dev` so that all the redirects work locally.
