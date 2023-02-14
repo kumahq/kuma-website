@@ -29,13 +29,13 @@ If you don't understand this table you should read [matching docs](/docs/{{ page
 
 ## Configuration
 
-Unlike others outbound policies `MeshHTTPRoute` doesn't contain `default` directly in the `to` array. 
+Unlike others outbound policies `MeshHTTPRoute` doesn't contain `default` directly in the `to` array.
 The `default` section is nested inside `rules`, so the policy structure looks like this:
 
 ```yaml
 spec:
   targetRef: # top-level targetRef selects a group of proxies to configure
-    kind: Mesh|MeshSubset|MeshService|MeshServiceSubset 
+    kind: Mesh|MeshSubset|MeshService|MeshServiceSubset
   to:
     - targetRef: # targetRef selects a destination (outbound listener)
         kind: MeshService
@@ -49,6 +49,10 @@ spec:
 
 ### Matches
 
+Only one entry in `matches` must match for the rule to be applied.
+Each entry must have one or more match types set. Every set field must match for the entry
+to match.
+
 - **`path`** - (optional) - HTTP path to match the request on
 {% if_version gte:2.3.x %}
   - **`type`** - one of `Exact`, `PathPrefix`, `RegularExpression`
@@ -59,62 +63,72 @@ spec:
   - **`value`** - actual value that's going to be matched depending on the `type`
 - **`method`** - (optional) - HTTP2 method, available values are 
   `CONNECT`, `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`, `TRACE`
-- **`queryParams`** - (optional) - list of HTTP URL query parameters. Multiple matches are ANDed together 
-  such that all listed matches must succeed
-  - **`type`** - one of `Exact` or `RegularExpression`
-  - **`name`** - name of the query parameter
-  - **`value`** - actual value that's going to be matched depending on the `type`
+- **`queryParams`** list of HTTP URL query parameters. Every entry must match
+  for `queryParams` to match.
+  - **`type`** one of `Exact` or `RegularExpression`
+  - **`name`**
+  - **`value`**
+- **`headers`** list of header matches. Every entry must match for `headers` to
+  match.
+  - **`type`** one of `Exact`,`Present`,`RegularExpression`,`Absent`,`Prefix`
+  - **`name`**
+  - **`value`** should be unset if `type` is `Present` or `Absent`
 
 ### Default conf
 
-- **`filters`** - (optional) - a list of modifications applied to the matched request
-  - **`type`** - available values are `RequestHeaderModifier`, `ResponseHeaderModifier`,
-    `RequestRedirect`, `URLRewrite`.
-  - **`requestHeaderModifier`** - [HeaderModifier](#headermodifier), must be set if the `type` is `RequestHeaderModifier`.
-  - **`responseHeaderModifier`** - [HeaderModifier](#headermodifier), must be set if the `type` is `ResponseHeaderModifier`. 
-  - **`requestRedirect`** - must be set if the `type` is `RequestRedirect`
-    - **`scheme`** - one of `http` or `http2`
-    - **`hostname`** - is the fully qualified domain name of a network host. This
+- **`filters`** a list of modifications applied to the matched request
+  - **`type`** available values are `RequestHeaderModifier`, `ResponseHeaderModifier`,
+    `RequestRedirect`, `URLRewrite`. The filter field corresponding to the type must
+    then be set.
+  - **`requestHeaderModifier`** [HeaderModifier](#headermodifier)
+  - **`responseHeaderModifier`** [HeaderModifier](#headermodifier)
+  - **`requestRedirect`**
+    - **`scheme`** (optional) one of `http` or `http2`
+    - **`hostname`** (optional) is the fully qualified domain name of a network host. This
       matches the RFC 1123 definition of a hostname with 1 notable exception that
       numeric IP addresses are not allowed.
-    - **`port`** - is the port to be used in the value of the `Location` header in 
+    - **`port`** (optional) is the port to be used in the value of the `Location` header in
       the response. When empty, port (if specified) of the request is used.
-    - **`statusCode`** - is the HTTP status code to be used in response. Available values are
+    - **`statusCode`** (optional) is the HTTP status code to be used in response. Available values are
       `301`, `302`, `303`, `307`, `308`.
-  - **`urlRewrite`** - must be set if the `type` is `URLRewrite`
-    - **`hostname`** - (optional) - is the fully qualified domain name of a network host. This
+    - **`path`** (optional)
+      - **`type`** is one of `ReplaceFullPath`, `ReplacePrefixMatch`
+      - **`replaceFullPath`**
+      - **`replacePrefixMatch`** requires using a path prefix match.
+  - **`urlRewrite`** must be set if the `type` is `URLRewrite`
+    - **`hostname`** (optional) is the fully qualified domain name of a network host. This
       matches the RFC 1123 definition of a hostname with 1 notable exception that
       numeric IP addresses are not allowed.
-    - **`path`** - (optional)
-      - **`type`** - one of `ReplaceFullPath`, `ReplacePrefixMatch`
-      - **`replaceFullPath`** - must be set if the `type` is `ReplaceFullPath`
-      - **`replacePrefixMatch`** - must be set if the `type` is `ReplacePrefixMatch`
-- **`backendRefs`** - (optional) - list of destination for request to be redirected to
-  - **`kind`** - one of `MeshService`, `MeshServiceSubset`
-  - **`name`** - service name
-  - **`tags`** - service tags, must be specified if the `kind` is `MeshServiceSubset`
-  - **`weight`** - when a request matches the route, the choice of an upstream cluster 
+    - **`path`** (optional)
+      - **`type`** is one of `ReplaceFullPath`, `ReplacePrefixMatch`
+      - **`replaceFullPath`**
+      - **`replacePrefixMatch`** requires using a path prefix match.
+- **`backendRefs`** (optional) list of destination for request to be redirected to
+  - **`kind`** one of `MeshService`, `MeshServiceSubset`
+  - **`name`** service name
+  - **`tags`** (optional) service tags, must be specified if the `kind` is `MeshServiceSubset`
+  - **`weight`** when a request matches the route, the choice of an upstream cluster
     is determined by its weight. Total weight is a sum of all weights in `backendRefs` list.
 
 ### HeaderModifier
 
-- **`set`** - (optional) - list of headers to set. Overrides value if the header exists.
-  - **`name`** - header's name
-  - **`value`** - header's value
-- **`add`** - (optional) - list of headers to add. Appends value if the header exists.
-  - **`name`** - header's name
-  - **`value`** - header's value
-- **`remove`** - (optional) - list of headers' names to remove
+- **`set`** list of headers to set. Overrides value if the header exists.
+  - **`name`** header's name
+  - **`value`** header's value
+- **`add`** list of headers to add. Appends value if the header exists.
+  - **`name`** header's name
+  - **`value`** header's value
+- **`remove`** list of header names to remove
 
 ## Examples
 
 ### Traffic split
 
-We can use `MeshHTTPRoute` to split an HTTP traffic between services with different tags 
+We can use `MeshHTTPRoute` to split an HTTP traffic between services with different tags
 implementing A/B testing or canary deployments.
 
-Here is an example of a `MeshHTTPRoute` that splits the traffic from 
-`frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions, 
+Here is an example of a `MeshHTTPRoute` that splits the traffic from
+`frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions,
 but only on endpoints starting with `/api`. All other endpoints will go to version: `1.0`.
 
 {% tabs split useUrlFragment=false %}
@@ -269,10 +283,10 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 ### Traffic modifications
 
-We can use `MeshHTTPRoute` to modify outgoing requests, by setting new path 
+We can use `MeshHTTPRoute` to modify outgoing requests, by setting new path
 or changing request and response headers.
 
-Here is an example of a `MeshHTTPRoute` that adds `x-custom-header` with value `xyz` 
+Here is an example of a `MeshHTTPRoute` that adds `x-custom-header` with value `xyz`
 when `frontend_kuma-demo_svc_8080` tries to consume `backend_kuma-demo_svc_3001`.
 
 {% tabs modifications useUrlFragment=false %}
@@ -386,7 +400,7 @@ merged in the following list of rules:
 
 ```yaml
 rules:
-  - matches: 
+  - matches:
       - path:
           type: Exact
           name: /orders
