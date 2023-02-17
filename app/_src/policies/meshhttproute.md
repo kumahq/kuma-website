@@ -10,6 +10,12 @@ it should not be mixed with [TrafficRoute](../traffic-route).
 The `MeshHTTPRoute` policy allows altering and redirecting HTTP requests
 depending on where the request coming from and where it's going to.
 
+{% if_version lte:2.1.x %}
+{% warning %}
+`MeshHTTPRoute` does not route cross-zone traffic yet!
+{% endwarning %}
+{% endif_version %}
+
 ## TargetRef support matrix
 
 | TargetRef type    | top level | to  | from |
