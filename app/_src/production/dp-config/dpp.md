@@ -1,5 +1,6 @@
 ---
 title: Data plane proxy
+content_type: explanation
 ---
 
 A **data plane proxy (DPP)** is the part of {{site.mesh_product_name}} that runs next to each workload that is a member of the mesh.

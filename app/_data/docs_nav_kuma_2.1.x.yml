@@ -19,13 +19,93 @@ items:
             url: "/introduction/how-kuma-works/#vm-and-k8s-support"
           - text: Kuma vs XYZ
             url: "/introduction/how-kuma-works/#kuma-vs-xyz"
-      - text: Deployments
-        url: /introduction/deployments/
       - text: Enterprise
         url: /introduction/enterprise/
       - text: Changelog
         absolute_url: true
         url: https://github.com/kumahq/kuma/blob/master/CHANGELOG.md
+  - title: Kuma in Production
+    group: true
+    items:
+      # - text: Overview
+        # url: /production/
+      - text: Deployment topologies
+        items:
+          - text: Overview
+            url: /production/deployment/
+          - text: Standalone deployment
+            url: /production/deployment/stand-alone/
+          - text: Multi-zone deployment
+            url: /production/deployment/multi-zone/
+          - text: Default ports
+            url: /production/deployment/networking/
+      # - text: Install kumactl
+        # url: /production/install-kumactl
+      - text: Control plane deployment
+        items:
+          # - text: Kong Mesh license
+            # url: /production/
+          - text: Deploy a multi-zone global control plane
+            url: /production/cp-deployment/multi-zone/ 
+            items:
+              # - text: Add a zone
+                # url: /production/
+              # - text: Configure multi-zone authentication
+                # url: /production/
+              - text: Zone Ingress
+                url: /production/cp-deployment/zone-ingress/
+              - text: Zone Egress
+                url: /production/cp-deployment/zoneegress/
+              - text: Configure zone proxy authentication
+                url: /production/cp-deployment/zoneproxy-auth/
+          - text: Deploy a standalone control plane
+            url: /production/stand-alone/
+          - text: Control plane configuration reference
+            url: /production/cp-config-reference/
+            src: /generated/kuma-cp/
+      - text: Create multiple service meshes in a cluster
+        url: /production/mesh/
+      - text: Data plane configuration
+        items:
+          - text: Data plane proxy
+            url: /production/dp-config/dpp/
+          - text: Configure the data plane on Kubernetes
+            url: /production/dp-config/
+          - text: Configure the data plane on Universal
+            url: /production/dp-config/
+          - text: Configure the Kuma CNI
+            url: /production/dp-config/
+          - text: Configure transparent proxying
+            url: /production/dp-config/
+          - text: IPv6 support
+            url: /production/dp-config/
+      - text: Secure your deployment
+        items:
+          - text: Manage secrets
+            url: /production/
+          - text: Kuma API access control
+            url: /production/
+          - text: Authentication with the API server
+            url: /production/
+          - text: Authentication with the data plane proxy
+            url: /production/
+          - text: Configure data plane proxy membership
+            url: /production/
+          # - text: Kong Mesh RBAC
+            # url: /production/
+          # - text: FIPS support
+            # url: /production/
+          - text: Secure access accross services
+            url: /production/
+      - text: Kuma user interface
+        url: /production/
+      - text: Upgrades and tuning
+        items:
+          - text: Upgrade Kuma
+            url: /production/
+          - text: Performance fine-tuning
+            url: /production/
+
   - title: Install
     group: true
     items:
@@ -93,30 +173,6 @@ items:
             url: "/quickstart/universal/#explore-traffic-metrics"
           - text: Next steps
             url: "/quickstart/universal/#next-steps"
-      - text: Standalone deployment
-        url: /deployments/stand-alone/
-        items:
-          - text: About
-            url: "/deployments/stand-alone/#standalone-deployment"
-          - text: Limitations
-            url: "/deployments/stand-alone/#limitations"
-          - text: Usage
-            url: "/deployments/stand-alone/#usage"
-          - text: Failure modes
-            url: "/deployments/stand-alone/#failure-modes"
-      - text: Multi-zone deployment
-        url: /deployments/multi-zone/
-        items:
-          - text: About
-            url: "/deployments/multi-zone/#multi-zone-deployment"
-          - text: Usage
-            url: "/deployments/multi-zone/#usage"
-          - text: Failure modes
-            url: "/deployments/multi-zone/#failure-modes"
-          - text: Delete a zone
-            url: "/deployments/multi-zone/#delete-a-zone"
-          - text: Disable a zone
-            url: "/deployments/multi-zone/#disable-a-zone"
   - title: Explore
     group: true
     items:
@@ -129,15 +185,6 @@ items:
             url: "/explore/overview/#kubernetes-mode"
           - text: Universal mode
             url: "/explore/overview/#universal-mode"
-      - text: Data plane proxy
-        url: /explore/dpp/
-        items:
-          - text: Concepts
-            url: "/explore/dpp/#concepts"
-          - text: Dataplane entity
-            url: "/explore/dpp/#dataplane-entity"
-          - text: Dynamic configuration of the data plane proxy
-            url: "/explore/dpp/#dynamic-configuration-of-the-data-plane-proxy"
       - text: Data plane on Kubernetes
         url: /explore/dpp-on-kubernetes/
         items:
@@ -163,13 +210,6 @@ items:
             url: "/explore/gateway/#delegated"
           - text: Builtin
             url: "/explore/gateway/#builtin"
-      - text: Zone Ingress
-        url: /explore/zone-ingress/
-      - text: Zone Egress
-        url: /explore/zoneegress/
-        items:
-          - text: Configuration
-            url: "/explore/zoneegress/#configuration"
       - text: CLI
         url: /explore/cli/
         items:
@@ -227,16 +267,6 @@ items:
             url: "/explore/gateway-api/#multi-zone"
           - text: How it works
             url: "/explore/gateway-api/#how-it-works"
-  - title: Networking
-    group: true
-    items:
-      - text: Networking
-        url: /networking/networking/
-        items:
-          - text: kuma-cp ports
-            url: "/networking/networking/#kuma-cp-ports"
-          - text: kuma-dp ports
-            url: "/networking/networking/#kuma-dp-ports"
       - text: Service Discovery
         url: /networking/service-discovery/
       - text: DNS
@@ -334,15 +364,6 @@ items:
             url: "/security/dp-auth/#data-plane-proxy-token"
           - text: None
             url: "/security/dp-auth/#none"
-      - text: Zone proxy authentication
-        url: /security/zoneproxy-auth/
-        items:
-          - text: Service Account Token
-            url: "/security/zoneproxy-auth/#service-account-token"
-          - text: Zone Token
-            url: "/security/zoneproxy-auth/#zone-token"
-          - text: None
-            url: "/security/zoneproxy-auth/#none"
       - text: Data plane proxy membership
         url: /security/dp-membership/
         items:
@@ -442,11 +463,6 @@ items:
             url: "/policies/protocol-support-in-kuma/#tls-support"
           - text: Websocket support
             url: "/policies/protocol-support-in-kuma/#websocket-support"
-      - text: Mesh
-        url: /policies/mesh/
-        items:
-          - text: Usage
-            url: "/policies/mesh/#usage"
       - text: Mutual TLS
         url: /policies/mutual-tls/
         items:

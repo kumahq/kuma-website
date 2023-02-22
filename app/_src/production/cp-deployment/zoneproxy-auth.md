@@ -1,5 +1,6 @@
 ---
-title: Zone Proxy authentication
+title: Configure zone proxy authentication
+content_type: how-to
 ---
 
 To obtain a configuration from the control plane, a zone proxy (zone ingress / zone egress) must

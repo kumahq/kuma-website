@@ -1,5 +1,6 @@
 ---
-title: Mesh
+title: Create multiple service meshes in a cluster
+content_type: how-to
 ---
 
 This resource describes a very important concept in {{site.mesh_product_name}}, and that is the ability of creating multiple isolated service meshes within the same {{site.mesh_product_name}} cluster which in turn make {{site.mesh_product_name}} a very simple and easy project to operate in environments where more than one mesh is required based on security, segmentation or governance requirements.

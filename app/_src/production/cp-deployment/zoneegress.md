@@ -1,5 +1,6 @@
 ---
 title: Zone Egress
+content_type: how-to
 ---
 
 `ZoneEgress` proxy is used when it is required to isolate outgoing traffic (to services in other

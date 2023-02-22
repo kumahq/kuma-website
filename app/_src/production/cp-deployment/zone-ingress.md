@@ -1,5 +1,6 @@
 ---
 title: Zone Ingress
+content_type: how-to
 ---
 
 To implement cross-zone communication when {{site.mesh_product_name}} is deployed in a [multi-zone](/docs/{{ page.version }}/deployments/multi-zone) mode, there is a new proxy type `ZoneIngress`.
