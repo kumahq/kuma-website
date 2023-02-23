@@ -1,5 +1,6 @@
 ---
-title: Fine-tuning
+title: Performance fine-tuning
+content_type: reference
 ---
 
 ## Reachable services

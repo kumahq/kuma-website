@@ -1,5 +1,6 @@
 ---
-title: API server authentication
+title: Authentication with the API server
+content_type: how-to
 ---
 
 {{site.mesh_product_name}} exposes API server on [ports](/docs/{{ page.version }}/networking/networking) `5681` and `5682` (protected by TLS).

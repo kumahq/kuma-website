@@ -1,5 +1,6 @@
 ---
-title: Secure access across Kuma components
+title: Secure access accross services
+content_type: how-to
 ---
 
 This page explains how secure access is provided across a {{site.mesh_product_name}} deployment:

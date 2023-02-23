@@ -29,6 +29,84 @@ items:
   - title: Kuma in Production
     group: true
     items:
+      - text: Deployment topologies
+        items:
+          - text: Overview
+            url: /production/deployment/
+          - text: Standalone deployment
+            url: /production/deployment/stand-alone/
+          - text: Multi-zone deployment
+            url: /production/deployment/multi-zone/
+          - text: Default ports
+            url: /production/deployment/networking/
+      - text: Control plane deployment
+        items:
+          # - text: Kong Mesh license
+            # url: /production/
+          - text: Deploy a multi-zone global control plane
+            url: /production/cp-deployment/multi-zone/ 
+            items:
+              # - text: Add a zone
+                # url: /production/
+              # - text: Configure multi-zone authentication
+                # url: /production/
+              - text: Zone Ingress
+                url: /production/cp-deployment/zone-ingress/
+              - text: Zone Egress
+                url: /production/cp-deployment/zoneegress/
+              - text: Configure zone proxy authentication
+                url: /production/cp-deployment/zoneproxy-auth/
+          - text: Deploy a standalone control plane
+            url: /production/stand-alone/
+          - text: Control plane configuration reference
+            url: /production/cp-config-reference/
+            src: /generated/kuma-cp/
+            generate: false
+      - text: Create multiple service meshes in a cluster
+        url: /production/mesh/
+      - text: Data plane configuration
+        items:
+          - text: Data plane proxy
+            url: /production/dp-config/dpp/
+          - text: Configure the data plane on Kubernetes
+            url: /production/dp-config/dpp-on-kubernetes/
+          - text: Configure the data plane on Universal
+            url: /production/dp-config/dpp-on-universal/
+          - text: Configure the Kuma CNI
+            url: /production/dp-config/cni/
+          - text: Configure transparent proxying
+            url: /production/dp-config/transparent-proxying/
+          - text: IPv6 support
+            url: /production/dp-config/ipv6/
+      - text: Secure your deployment
+        items:
+          - text: Manage secrets
+            url: /production/secure-deployment/secrets/
+          - text: Kuma API access control
+            url: /production/secure-deployment/api-access-control/
+          - text: Authentication with the API server
+            url: /production/secure-deployment/api-server-auth/
+          - text: Authentication with the data plane proxy
+            url: /production/secure-deployment/dp-auth/
+          - text: Configure data plane proxy membership
+            url: /production/secure-deployment/dp-membership/
+          # - text: Kong Mesh RBAC
+            # url: /production/secure-deployment/
+          # - text: FIPS support
+            # url: /production/secure-deployment/
+          - text: Secure access accross services
+            url: /production/secure-deployment/certificates/
+      - text: Kuma user interface
+        url: /production/gui/
+      - text: Upgrades and tuning
+        items:
+          - text: Upgrade Kuma
+            url: /production/upgrades-tuning/upgrades/
+          - text: Performance fine-tuning
+            url: /production/upgrades-tuning/fine-tuning/
+  - title: Install
+    group: true
+    items:
       - text: Install kumactl
         url: /production/install-kumactl/
       - text: Use Kuma

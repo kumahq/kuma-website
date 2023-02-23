@@ -1,5 +1,6 @@
 ---
-title: Transparent Proxying
+title: Configure transparent proxying
+content_type: how-to
 ---
 
 In order to automatically intercept traffic from and to a service through a `kuma-dp` data plane proxy instance, {{site.mesh_product_name}} utilizes a transparent proxying using [`iptables`](https://linux.die.net/man/8/iptables).

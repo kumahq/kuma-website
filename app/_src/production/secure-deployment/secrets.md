@@ -1,5 +1,6 @@
 ---
-title: Secrets
+title: Manage secrets
+content_type: how-to
 ---
 
 The `Secret` resource enables users to store sensitive data.

@@ -1,5 +1,6 @@
 ---
 title: Data plane on Kubernetes
+content_type: how-to
 ---
 
 On Kubernetes the [`Dataplane`](/docs/{{ page.version }}/explore/dpp#dataplane-entity) entity is automatically created for you, and because transparent proxying is used to communicate between the service and the sidecar proxy, no code changes are required in your applications.

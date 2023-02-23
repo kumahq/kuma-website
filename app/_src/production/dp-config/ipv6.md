@@ -1,5 +1,6 @@
 ---
 title: IPv6 support
+content_type: how-to
 ---
 
 All {{site.mesh_product_name}} entitites do support running in mixed IPv4 and IPv6 environments as well as pure IPv6 setup. This includes

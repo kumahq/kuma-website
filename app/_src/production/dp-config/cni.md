@@ -1,5 +1,6 @@
 ---
-title: Kuma CNI
+title: Configure the Kuma CNI
+content_type: how-to
 ---
 
 The operation of the {{site.mesh_product_name}} data plane proxy,
