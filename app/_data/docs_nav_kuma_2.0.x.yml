@@ -19,6 +19,7 @@ items:
             url: "/introduction/how-kuma-works/#kuma-vs-xyz"
       - text: Deployments
         url: /introduction/deployments/
+        src: /production/deployment/
       - text: Enterprise
         url: /introduction/enterprise/
   - title: Install
@@ -90,9 +91,11 @@ items:
             url: "/quickstart/universal/#next-steps"
       - text: Standalone deployment
         url: /deployments/stand-alone/
+        src: /production/deployment/stand-alone/
         items:
           - text: About
             url: "/deployments/stand-alone/#standalone-deployment"
+            src: /production/deployment/stand-alone/#standalone-deployment
           - text: Limitations
             url: "/deployments/stand-alone/#limitations"
           - text: Usage
