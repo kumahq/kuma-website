@@ -93,6 +93,7 @@ Then, you can analyze the retrieved profiling data using an application like [Sp
 After a successful debugging session, please remember to turn off the debugging endpoints since anybody could execute heap dumps on them potentially exposing sensitive data.
 {% endwarning %}
 
+{% if_version lte:2.1.x %}
 ## Kubernetes outbounds in central place
 
 Configure `KUMA_EXPERIMENTAL_KUBE_OUTBOUNDS_AS_VIPS` to `true` to store the list of outbounds in ConfigMap that is used for VIPs of {{site.mesh_product_name}} DNS.
@@ -100,7 +101,7 @@ This way we don't repeat this information across all `Dataplane` objects which m
 
 You can enable this only after all instances of the control plane are updated to 1.6.0 or later.
 This option will be the default behaviour in the next versions of {{site.mesh_product_name}}.
-
+{% endif_version %}
 ## Envoy
 
 ### Envoy concurrency tunning
