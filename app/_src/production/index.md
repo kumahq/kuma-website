@@ -8,14 +8,15 @@ After you've completed your initial test and assessment of {{site.mesh_product_n
 
 ## Overview of deployment steps
 
-General overview of the different steps to take when deploying Kuma. Each of these should have a link to supporting docs.
+Deploying {{site.mesh_product_name}} to a production environment involves the following steps:
 
-1. Decide on which deployment topology you plan to use.
-1. Install kumactl (why, what is this)
-1. Deploy the control plane
-1. Configure the data plane
-1. Configure security measures for {{site.mesh_product_name}}
-1. 
+1. Decide which deployment topology you plan to use.
+1. Install kumactl.
+1. Deploy the control plane.
+1. Configure the data plane.
+1. Configure security features for {{site.mesh_product_name}}.
+
+You can read more details about these steps in the following sections.
 
 ### Deployment topologies
 
@@ -34,10 +35,23 @@ The following table describes some common use cases and the deployment modes you
 
 The first step after you pick your deployment mode is to install `kumactl`. `kumactl` is a CLI that can perform read-only operations on {{site.mesh_product_name}} resources. The `kumactl` binary is a client to the {{site.mesh_product_name}} HTTP API. 
 
-This is required to perform any _____? 
+`kumactl` is one of the tools you can use to access the {{site.mesh_product_name}}.
 
-### CP and DP structure?
+### Control plane and data plane architecture
 
-Info about how the CP and DP interact? Or is this basically a rehash of existing content?
+Once `kumactl` is installed, you can use it to configure the control plane and deploy the data plane. The control plane (CP) is never on the execution path of the requests that the services exchange with each other. It’s used as a source of truth to dynamically configure the underlying data plane proxies that are deployed alongside every instance of every service that is part of the service mesh.
+
+You can either configure a [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone/) or [standalone](/docs/{{ page.version }}/production/stand-alone/) control plane, depending on your organization's needs. You can deploy either a [Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/) or [Universal](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/) data plane.
 
 ### {{site.mesh_product_name}} security
+
+{{site.mesh_product_name}} offers many security features that you can use to ensure your service mesh is safe.
+
+Here's a few of the main features:
+
+* [Secure the access to your {{site.mesh_product_name}} deployment](/docs/{{ page.version }}/production/secure-deployment/certificates/)
+* [Store sensitive data with secrets](/docs/{{ page.version }}/production/secure-deployment/secrets/)
+* [Manage access control to administrative actions executed on the {{site.mesh_product_name}} API Server](/docs/{{ page.version }}/production/secure-deployment/api-access-control/)
+* [Required data plane proxy authentication to obtain a configuration from the control plane](/docs/{{ page.version }}/production/secure-deployment/dp-auth/)
+* [Required zone proxy authentication to obtain a configuration from the control plane](/docs/{{ page.version }}/production/cp-deployment/zoneproxy-auth/)
+* [Configure data plane proxy membership constraints when joining a mesh](/docs/{{ page.version }}/production/secure-deployment/dp-membership/)
