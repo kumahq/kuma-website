@@ -15,7 +15,6 @@ items:
             url: "/overview/why-kuma/#dependencies"
       - text: Deployments
         url: /documentation/deployments/
-        src: /production/deployment/
       - text: Enterprise
         url: /other/enterprise/
       - text: License
@@ -54,7 +53,6 @@ items:
         url: /quickstart/universal/
       - text: Set up a standalone deployment
         url: /deployments/stand-alone/
-        src: /production/deployment/stand-alone/
       - text: Set up a multi-zone deployment
         url: /deployments/multi-zone/
         items:

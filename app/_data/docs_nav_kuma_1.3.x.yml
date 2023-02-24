@@ -15,7 +15,6 @@ items:
             url: "/overview/why-kuma/#dependencies"
       - text: Deployments
         url: /documentation/deployments/
-        src: /production/deployment/
       - text: Kuma data collection
         url: /community/data-collection/
         items:
@@ -93,7 +92,6 @@ items:
             url: "/quickstart/universal/#next-steps"
       - text: Set up a standalone deployment
         url: /deployments/stand-alone/
-        src: /production/deployment/stand-alone/
       - text: Set up a multi-zone deployment
         url: /deployments/multi-zone/
         items:

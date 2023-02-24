@@ -19,8 +19,6 @@ items:
             url: "/introduction/how-kuma-works/#vm-and-k8s-support"
           - text: Kuma vs XYZ
             url: "/introduction/how-kuma-works/#kuma-vs-xyz"
-      - text: Deployments
-        url: /introduction/deployments/
       - text: Enterprise
         url: /introduction/enterprise/
       - text: Changelog
@@ -152,30 +150,6 @@ items:
             url: "/quickstart/universal/#explore-traffic-metrics"
           - text: Next steps
             url: "/quickstart/universal/#next-steps"
-      - text: Standalone deployment
-        url: /deployments/stand-alone/
-        items:
-          - text: About
-            url: "/deployments/stand-alone/#standalone-deployment"
-          - text: Limitations
-            url: "/deployments/stand-alone/#limitations"
-          - text: Usage
-            url: "/deployments/stand-alone/#usage"
-          - text: Failure modes
-            url: "/deployments/stand-alone/#failure-modes"
-      - text: Multi-zone deployment
-        url: /deployments/multi-zone/
-        items:
-          - text: About
-            url: "/deployments/multi-zone/#multi-zone-deployment"
-          - text: Usage
-            url: "/deployments/multi-zone/#usage"
-          - text: Failure modes
-            url: "/deployments/multi-zone/#failure-modes"
-          - text: Delete a zone
-            url: "/deployments/multi-zone/#delete-a-zone"
-          - text: Disable a zone
-            url: "/deployments/multi-zone/#disable-a-zone"
   - title: Explore
     group: true
     items:
@@ -188,33 +162,6 @@ items:
             url: "/explore/overview/#kubernetes-mode"
           - text: Universal mode
             url: "/explore/overview/#universal-mode"
-      - text: Data plane proxy
-        url: /explore/dpp/
-        items:
-          - text: Concepts
-            url: "/explore/dpp/#concepts"
-          - text: Dataplane entity
-            url: "/explore/dpp/#dataplane-entity"
-          - text: Dynamic configuration of the data plane proxy
-            url: "/explore/dpp/#dynamic-configuration-of-the-data-plane-proxy"
-      - text: Data plane on Kubernetes
-        url: /explore/dpp-on-kubernetes/
-        items:
-          - text: Tag generation
-            url: "/explore/dpp-on-kubernetes/#tag-generation"
-          - text: Lifecycle
-            url: "/explore/dpp-on-kubernetes/#lifecycle"
-          - text: Custom Container Configuration
-            url: "/explore/dpp-on-kubernetes/#custom-container-configuration"
-          - text: Direct access to services
-            url: "/explore/dpp-on-kubernetes/#direct-access-to-services"
-      - text: Data plane on Universal
-        url: /explore/dpp-on-universal/
-        items:
-          - text: Lifecycle
-            url: "/explore/dpp-on-universal/#lifecycle"
-          - text: Envoy
-            url: "/explore/dpp-on-universal/#envoy"
       - text: Gateway
         url: /explore/gateway/
         items:
@@ -222,29 +169,11 @@ items:
             url: "/explore/gateway/#delegated"
           - text: Builtin
             url: "/explore/gateway/#builtin"
-      - text: Zone Ingress
-        url: /explore/zone-ingress/
-      - text: Zone Egress
-        url: /explore/zoneegress/
-        items:
-          - text: Configuration
-            url: "/explore/zoneegress/#configuration"
       - text: CLI
         url: /explore/cli/
         items:
           - text: kumactl
             url: "/explore/cli/#kumactl"
-      - text: GUI
-        url: /explore/gui/
-        items:
-          - text: Getting Started
-            url: "/explore/gui/#getting-started"
-          - text: Mesh Overview
-            url: "/explore/gui/#mesh-overview"
-          - text: Mesh Details
-            url: "/explore/gui/#mesh-details"
-          - text: What’s to come
-            url: "/explore/gui/#whats-to-come"
       - text: Observability
         url: /explore/observability/
         items:
@@ -289,13 +218,6 @@ items:
   - title: Networking
     group: true
     items:
-      - text: Networking
-        url: /networking/networking/
-        items:
-          - text: kuma-cp ports
-            url: "/networking/networking/#kuma-cp-ports"
-          - text: kuma-dp ports
-            url: "/networking/networking/#kuma-dp-ports"
       - text: Service Discovery
         url: /networking/service-discovery/
       - text: DNS
@@ -309,29 +231,6 @@ items:
             url: "/networking/dns/#configuration"
           - text: Usage
             url: "/networking/dns/#usage"
-      - text: Kuma CNI
-        url: /networking/cni/
-        items:
-          - text: Installation
-            url: "/networking/cni/#installation"
-          - text: Kuma CNI v2
-            url: "/networking/cni/#kuma-cni-v2"
-          - text: Merbridge CNI with eBPF
-            url: "/networking/cni/#merbridge-cni-with-ebpf"
-      - text: Transparent Proxying
-        url: /networking/transparent-proxying/
-        items:
-          - text: Kubernetes
-            url: "/networking/transparent-proxying/#kubernetes"
-          - text: Universal
-            url: "/networking/transparent-proxying/#universal"
-          - text: Configuration
-            url: "/networking/transparent-proxying/#configuration"
-      - text: IPv6 support
-        url: /networking/ipv6/
-        items:
-          - text: Disabling IPv6
-            url: "/networking/ipv6/#disabling-ipv6"
       - text: Non-mesh traffic
         url: "/networking/non-mesh-traffic/"
         items:
@@ -339,76 +238,6 @@ items:
             url: "/networking/non-mesh-traffic/#incoming"
           - text: Outgoing
             url: "/networking/non-mesh-traffic/#outgoing"
-  - title: Security
-    group: true
-    items:
-      - text: Secure access across Kuma components
-        url: /security/certificates/
-        items:
-          - text: Data plane proxy to control plane communication
-            url: "/security/certificates/#data-plane-proxy-to-control-plane-communication"
-          - text: User to control plane communication
-            url: "/security/certificates/#user-to-control-plane-communication"
-          - text: Control plane to control plane (Multizone)
-            url: "/security/certificates/#control-plane-to-control-plane-multizone"
-      - text: Secrets
-        url: /security/secrets/
-        items:
-          - text: Scope of the Secret
-            url: "/security/secrets/#scope-of-the-secret"
-          - text: Usage
-            url: "/security/secrets/#usage"
-      - text: Kuma API Access Control
-        url: /security/api-access-control/
-        items:
-          - text: Manage admin resources
-            url: "/security/api-access-control/#manage-admin-resources"
-          - text: Generate dataplane token
-            url: "/security/api-access-control/#generate-dataplane-token"
-          - text: Generate user token
-            url: "/security/api-access-control/#generate-user-token"
-          - text: Generate zone token
-            url: "/security/api-access-control/#generate-zone-token"
-          - text: View Envoy config dump
-            url: "/security/api-access-control/#view-envoy-config-dump"
-          - text: View Envoy stats
-            url: "/security/api-access-control/#view-envoy-stats"
-          - text: View Envoy clusters
-            url: "/security/api-access-control/#view-envoy-clusters"
-      - text: API server authentication
-        url: /security/api-server-auth/
-        items:
-          - text: User token
-            url: "/security/api-server-auth/#user-token"
-          - text: Admin client certificates
-            url: "/security/api-server-auth/#admin-client-certificates"
-          - text: Multizone
-            url: "/security/api-server-auth/#multizone"
-      - text: Data plane proxy authentication
-        url: /security/dp-auth/
-        items:
-          - text: Service Account Token
-            url: "/security/dp-auth/#service-account-token"
-          - text: Data plane proxy token
-            url: "/security/dp-auth/#data-plane-proxy-token"
-          - text: None
-            url: "/security/dp-auth/#none"
-      - text: Zone proxy authentication
-        url: /security/zoneproxy-auth/
-        items:
-          - text: Service Account Token
-            url: "/security/zoneproxy-auth/#service-account-token"
-          - text: Zone Token
-            url: "/security/zoneproxy-auth/#zone-token"
-          - text: None
-            url: "/security/zoneproxy-auth/#none"
-      - text: Data plane proxy membership
-        url: /security/dp-membership/
-        items:
-          - text: Usage
-            url: "/security/dp-membership/#usage"
-          - text: Example use cases
-            url: "/security/dp-membership/#example-use-cases"
   - title: Monitor & manage
     group: true
     items:
@@ -421,19 +250,6 @@ items:
             url: "/documentation/health/#kubernetes-and-universal-service-probes"
           - text: Health Check Policy
             url: "/documentation/health/#health-check-policy"
-      - text: Fine-tuning
-        url: /documentation/fine-tuning/
-        items:
-          - text: Reachable services
-            url: "/documentation/fine-tuning/#reachable-services"
-          - text: Postgres
-            url: "/documentation/fine-tuning/#postgres"
-          - text: Snapshot Generation
-            url: "/documentation/fine-tuning/#snapshot-generation"
-          - text: Profiling
-            url: "/documentation/fine-tuning/#profiling"
-          - text: Envoy
-            url: "/documentation/fine-tuning/#envoy"
       - text: Control Plane Configuration
         url: /documentation/configuration/
         items:
@@ -443,13 +259,6 @@ items:
             url: "/documentation/configuration/#inspecting-the-configuration"
           - text: Store
             url: "/documentation/configuration/#store"
-      - text: Upgrades
-        url: /documentation/upgrades/
-        items:
-          - text: Standalone
-            url: "/documentation/upgrades/#standalone"
-          - text: Multizone
-            url: "/documentation/upgrades/#multizone"
       - text: Requirements
         url: /documentation/requirements/
         items:
@@ -499,11 +308,6 @@ items:
             url: "/policies/protocol-support-in-kuma/#tls-support"
           - text: Websocket support
             url: "/policies/protocol-support-in-kuma/#websocket-support"
-      - text: Mesh
-        url: /policies/mesh/
-        items:
-          - text: Usage
-            url: "/policies/mesh/#usage"
       - text: Mutual TLS
         url: /policies/mutual-tls/
         items:
