@@ -27,7 +27,8 @@ items:
   - title: Kuma in Production
     group: true
     items:
-      - text: Deployment topologies
+      - title: Deployment topologies
+        group: true
         items:
           - text: Overview
             url: /production/deployment/
@@ -37,12 +38,14 @@ items:
             url: /production/deployment/multi-zone/
           - text: Default ports
             url: /production/deployment/networking/
-      - text: Control plane deployment
+      - title: Control plane deployment
+        group: true
         items:
           # - text: Kong Mesh license
             # url: /production/
           - text: Deploy a multi-zone global control plane
             url: /production/cp-deployment/multi-zone/ 
+            group: true
             items:
               # - text: Add a zone
                 # url: /production/
@@ -62,7 +65,8 @@ items:
             generate: false
       - text: Create multiple service meshes in a cluster
         url: /production/mesh/
-      - text: Data plane configuration
+      - title: Data plane configuration
+        group: true
         items:
           - text: Data plane proxy
             url: /production/dp-config/dpp/
@@ -76,7 +80,8 @@ items:
             url: /production/dp-config/transparent-proxying/
           - text: IPv6 support
             url: /production/dp-config/ipv6/
-      - text: Secure your deployment
+      - title: Secure your deployment
+        group: true
         items:
           - text: Manage secrets
             url: /production/secure-deployment/secrets/
@@ -96,7 +101,8 @@ items:
             url: /production/secure-deployment/certificates/
       - text: Kuma user interface
         url: /production/gui/
-      - text: Upgrades and tuning
+      - title: Upgrades and tuning
+        group: true
         items:
           - text: Upgrade Kuma
             url: /production/upgrades-tuning/upgrades/
