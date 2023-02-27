@@ -45,18 +45,16 @@ items:
             # url: /production/
           - text: Deploy a multi-zone global control plane
             url: /production/cp-deployment/multi-zone/ 
-            group: true
-            items:
-              # - text: Add a zone
-                # url: /production/
-              # - text: Configure multi-zone authentication
-                # url: /production/
-              - text: Zone Ingress
-                url: /production/cp-deployment/zone-ingress/
-              - text: Zone Egress
-                url: /production/cp-deployment/zoneegress/
-              - text: Configure zone proxy authentication
-                url: /production/cp-deployment/zoneproxy-auth/
+          # - text: Add a zone
+            # url: /production/
+          # - text: Configure multi-zone authentication
+            # url: /production/
+          - text: Zone Ingress
+            url: /production/cp-deployment/zone-ingress/
+          - text: Zone Egress
+            url: /production/cp-deployment/zoneegress/
+          - text: Configure zone proxy authentication
+            url: /production/cp-deployment/zoneproxy-auth/
           - text: Deploy a standalone control plane
             url: /production/stand-alone/
           # - text: Control plane configuration reference
