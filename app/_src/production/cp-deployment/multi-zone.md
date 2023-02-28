@@ -1,6 +1,6 @@
 ---
-title:
-content_type:
+title: Deploy a multi-zone global control plane
+content_type: how-to
 ---
 
 ## Prerequisites

@@ -56,9 +56,10 @@ items:
           - text: Configure zone proxy authentication
             url: /production/cp-deployment/zoneproxy-auth/
           - text: Deploy a standalone control plane
-            url: /production/stand-alone/
-          # - text: Control plane configuration reference
-            # url: /generated/kuma-cp/
+            url: /production/cp-deployment/stand-alone/
+          - text: Control plane configuration reference
+            url: /generated/kuma-cp/
+            generate: false
       - text: Create multiple service meshes in a cluster
         url: /production/mesh/
       - title: Data plane configuration

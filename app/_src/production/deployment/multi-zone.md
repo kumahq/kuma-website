@@ -87,6 +87,10 @@ A multi-zone deployment includes:
     - to zone ingress proxies from other zones;
     - to external services from local zone;
 
+{% if_version gte:2.2.x %}
+
 ## More information
 
 For more information about how to configure a multi-zone deployment, see [Deploy a multi-zone global control plane](/docs/{{ page.version }}/production/cp-deployment/multi-zone/).
+
+{% endif_version %}

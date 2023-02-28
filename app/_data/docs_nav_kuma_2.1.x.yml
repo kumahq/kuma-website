@@ -106,10 +106,10 @@ items:
             src: /production/deployment/stand-alone/
           - text: Usage
             url: "/deployments/stand-alone/#usage"
-            src: /production/deployment/stand-alone/
+            src: /production/cp-deployment/stand-alone/
           - text: Failure modes
             url: "/deployments/stand-alone/#failure-modes"
-            src: /production/deployment/stand-alone/
+            src: /production/cp-deployment/stand-alone/
       - text: Multi-zone deployment
         url: /deployments/multi-zone/
         src: /production/deployment/multi-zone/
