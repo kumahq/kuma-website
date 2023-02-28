@@ -33,15 +33,18 @@ The following table describes some common use cases and the deployment modes you
 
 ### kumactl
 
-The first step after you pick your deployment mode is to install `kumactl`. `kumactl` is a CLI that can perform read-only operations on {{site.mesh_product_name}} resources. The `kumactl` binary is a client to the {{site.mesh_product_name}} HTTP API. 
+The first step after you pick your deployment mode is to install `kumactl`. `kumactl` is one of the tools you can use to access the {{site.mesh_product_name}}. `kumactl` is a CLI that can do the following:
 
-`kumactl` is one of the tools you can use to access the {{site.mesh_product_name}}.
+* Perform read-only operations on {{site.mesh_product_name}} resources on Kubernetes. 
+* Read and create resources in {{site.mesh_product_name}} in Universal mode.
+
+The `kumactl` binary is a client to the {{site.mesh_product_name}} HTTP API. 
 
 ### Control plane and data plane architecture
 
 Once `kumactl` is installed, you can use it to configure the control plane and deploy the data plane. The control plane (CP) is never on the execution path of the requests that the services exchange with each other. It’s used as a source of truth to dynamically configure the underlying data plane proxies that are deployed alongside every instance of every service that is part of the service mesh.
 
-You can either configure a [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone/) or [standalone](/docs/{{ page.version }}/production/stand-alone/) control plane, depending on your organization's needs. You can deploy either a [Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/) or [Universal](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/) data plane.
+You can either configure a [multi-zone]<!--(/docs/{{ page.version }}/production/cp-deployment/multi-zone/)--> or <!--[standalone](/docs/{{ page.version }}/production/stand-alone/)--> control plane, depending on your organization's needs. You can deploy either a <!--[Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/)--> or <!--[Universal](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/)--> data plane.
 
 ### {{site.mesh_product_name}} security
 
@@ -49,9 +52,9 @@ You can either configure a [multi-zone](/docs/{{ page.version }}/production/cp-d
 
 Here's a few of the main features:
 
-* [Secure the access to your {{site.mesh_product_name}} deployment](/docs/{{ page.version }}/production/secure-deployment/certificates/)
-* [Store sensitive data with secrets](/docs/{{ page.version }}/production/secure-deployment/secrets/)
-* [Manage access control to administrative actions executed on the {{site.mesh_product_name}} API Server](/docs/{{ page.version }}/production/secure-deployment/api-access-control/)
-* [Required data plane proxy authentication to obtain a configuration from the control plane](/docs/{{ page.version }}/production/secure-deployment/dp-auth/)
-* [Required zone proxy authentication to obtain a configuration from the control plane](/docs/{{ page.version }}/production/cp-deployment/zoneproxy-auth/)
-* [Configure data plane proxy membership constraints when joining a mesh](/docs/{{ page.version }}/production/secure-deployment/dp-membership/)
+* [Secure the access to your {{site.mesh_product_name}} deployment]<!--(/docs/{{ page.version }}/production/secure-deployment/certificates/)-->
+* [Store sensitive data with secrets]<!--(/docs/{{ page.version }}/production/secure-deployment/secrets/)-->
+* [Manage access control to administrative actions executed on the {{site.mesh_product_name}} API Server]<!--(/docs/{{ page.version }}/production/secure-deployment/api-access-control/)-->
+* [Required data plane proxy authentication to obtain a configuration from the control plane]<!--(/docs/{{ page.version }}/production/secure-deployment/dp-auth/)-->
+* [Required zone proxy authentication to obtain a configuration from the control plane]<!--(/docs/{{ page.version }}/production/cp-deployment/zoneproxy-auth/)-->
+* [Configure data plane proxy membership constraints when joining a mesh]<!--(/docs/{{ page.version }}/production/secure-deployment/dp-membership/)-->
