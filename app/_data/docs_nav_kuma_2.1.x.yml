@@ -122,39 +122,30 @@ items:
         items:
           - text: Concepts
             url: "/explore/dpp/#concepts"
-            src: /production/dp-config/dpp/
           - text: Dataplane entity
             url: "/explore/dpp/#dataplane-entity"
-            src: /production/dp-config/dpp/
           - text: Dynamic configuration of the data plane proxy
             url: "/explore/dpp/#dynamic-configuration-of-the-data-plane-proxy"
-            src: /production/dp-config/dpp/
       - text: Data plane on Kubernetes
         url: /explore/dpp-on-kubernetes/
         src: /production/dp-config/dpp-on-kubernetes/
         items:
           - text: Tag generation
             url: "/explore/dpp-on-kubernetes/#tag-generation"
-            src: /production/dp-config/dpp-on-kubernetes/
           - text: Lifecycle
             url: "/explore/dpp-on-kubernetes/#lifecycle"
-            src: /production/dp-config/dpp-on-kubernetes/
           - text: Custom Container Configuration
             url: "/explore/dpp-on-kubernetes/#custom-container-configuration"
-            src: /production/dp-config/dpp-on-kubernetes/
           - text: Direct access to services
             url: "/explore/dpp-on-kubernetes/#direct-access-to-services"
-            src: /production/dp-config/dpp-on-kubernetes/
       - text: Data plane on Universal
         url: /explore/dpp-on-universal/
         src: /production/dp-config/dpp-on-universal/
         items:
           - text: Lifecycle
             url: "/explore/dpp-on-universal/#lifecycle"
-            src: /production/dp-config/dpp-on-universal/
           - text: Envoy
             url: "/explore/dpp-on-universal/#envoy"
-            src: /production/dp-config/dpp-on-universal/
       - text: Gateway
         url: /explore/gateway/
       - text: Zone Ingress
@@ -166,7 +157,6 @@ items:
         items:
           - text: Configuration
             url: "/explore/zoneegress/#configuration"
-            src: /production/cp-deployment/zoneegress/
       - text: CLI
         url: /explore/cli/
         items:
@@ -178,16 +168,12 @@ items:
         items:
           - text: Getting Started
             url: "/explore/gui/#getting-started"
-            src: /production/gui/
           - text: Mesh Overview
             url: "/explore/gui/#mesh-overview"
-            src: /production/gui/
           - text: Mesh Details
             url: "/explore/gui/#mesh-details"
-            src: /production/gui/
           - text: What’s to come
             url: "/explore/gui/#whats-to-come"
-            src: /production/gui/
       - text: Observability
         url: /explore/observability/
         items:
@@ -238,10 +224,8 @@ items:
         items:
           - text: kuma-cp ports
             url: "/networking/networking/#kuma-cp-ports"
-            src: /production/deployment/networking/
           - text: kuma-dp ports
             url: "/networking/networking/#kuma-dp-ports"
-            src: /production/deployment/networking/
       - text: Service Discovery
         url: /networking/service-discovery/
       - text: DNS
@@ -261,33 +245,26 @@ items:
         items:
           - text: Installation
             url: "/networking/cni/#installation"
-            src: /production/dp-config/cni/
           - text: Kuma CNI v2
             url: "/networking/cni/#kuma-cni-v2"
-            src: /production/dp-config/cni/
           - text: Merbridge CNI with eBPF
             url: "/networking/cni/#merbridge-cni-with-ebpf"
-            src: /production/dp-config/cni/
       - text: Transparent Proxying
         url: /networking/transparent-proxying/
         src: /production/dp-config/transparent-proxying/
         items:
           - text: Kubernetes
             url: "/networking/transparent-proxying/#kubernetes"
-            src: /production/dp-config/transparent-proxying/
           - text: Universal
             url: "/networking/transparent-proxying/#universal"
-            src: /production/dp-config/transparent-proxying/
           - text: Configuration
             url: "/networking/transparent-proxying/#configuration"
-            src: /production/dp-config/transparent-proxying/
       - text: IPv6 support
         url: /networking/ipv6/
         src: /production/dp-config/ipv6/
         items:
           - text: Disabling IPv6
             url: "/networking/ipv6/#disabling-ipv6"
-            src: /production/dp-config/ipv6/
       - text: Non-mesh traffic
         url: "/networking/non-mesh-traffic/"
         items:
@@ -304,97 +281,74 @@ items:
         items:
           - text: Data plane proxy to control plane communication
             url: "/security/certificates/#data-plane-proxy-to-control-plane-communication"
-            src: /production/secure-deployment/certificates/
           - text: User to control plane communication
             url: "/security/certificates/#user-to-control-plane-communication"
-            src: /production/secure-deployment/certificates/
           - text: Control plane to control plane (Multizone)
             url: "/security/certificates/#control-plane-to-control-plane-multizone"
-            src: /production/secure-deployment/certificates/
       - text: Secrets
         url: /security/secrets/
         src: /production/secure-deployment/secrets/
         items:
           - text: Scope of the Secret
             url: "/security/secrets/#scope-of-the-secret"
-            src: /production/secure-deployment/secrets/
           - text: Usage
             url: "/security/secrets/#usage"
-            src: /production/secure-deployment/secrets/
       - text: Kuma API Access Control
         url: /security/api-access-control/
         src: /production/secure-deployment/api-access-control/
         items:
           - text: Manage admin resources
             url: "/security/api-access-control/#manage-admin-resources"
-            src: /production/secure-deployment/api-access-control/
           - text: Generate dataplane token
             url: "/security/api-access-control/#generate-dataplane-token"
-            src: /production/secure-deployment/api-access-control/
           - text: Generate user token
             url: "/security/api-access-control/#generate-user-token"
-            src: /production/secure-deployment/api-access-control/
           - text: Generate zone token
             url: "/security/api-access-control/#generate-zone-token"
-            src: /production/secure-deployment/api-access-control/
           - text: View Envoy config dump
             url: "/security/api-access-control/#view-envoy-config-dump"
-            src: /production/secure-deployment/api-access-control/
           - text: View Envoy stats
             url: "/security/api-access-control/#view-envoy-stats"
-            src: /production/secure-deployment/api-access-control/
           - text: View Envoy clusters
             url: "/security/api-access-control/#view-envoy-clusters"
-            src: /production/secure-deployment/api-access-control/
       - text: API server authentication
         url: /security/api-server-auth/
         src: /production/secure-deployment/api-server-auth/
         items:
           - text: User token
             url: "/security/api-server-auth/#user-token"
-            src: /production/secure-deployment/api-server-auth/
           - text: Admin client certificates
             url: "/security/api-server-auth/#admin-client-certificates"
-            src: /production/secure-deployment/api-server-auth/
           - text: Multizone
             url: "/security/api-server-auth/#multizone"
-            src: /production/secure-deployment/api-server-auth/
       - text: Data plane proxy authentication
         url: /security/dp-auth/
         src: /production/secure-deployment/dp-auth/
         items:
           - text: Service Account Token
             url: "/security/dp-auth/#service-account-token"
-            src: /production/secure-deployment/dp-auth/
           - text: Data plane proxy token
             url: "/security/dp-auth/#data-plane-proxy-token"
-            src: /production/secure-deployment/dp-auth/
           - text: None
             url: "/security/dp-auth/#none"
-            src: /production/secure-deployment/dp-auth/
       - text: Zone proxy authentication
         url: /security/zoneproxy-auth/
         src: /production/cp-deployment/zoneproxy-auth/
         items:
           - text: Service Account Token
             url: "/security/zoneproxy-auth/#service-account-token"
-            src: /production/cp-deployment/zoneproxy-auth/
           - text: Zone Token
             url: "/security/zoneproxy-auth/#zone-token"
-            src: /production/cp-deployment/zoneproxy-auth/
           - text: None
             url: "/security/zoneproxy-auth/#none"
-            src: /production/cp-deployment/zoneproxy-auth/
       - text: Data plane proxy membership
         url: /security/dp-membership/
         src: /production/secure-deployment/dp-membership/
         items:
           - text: Usage
             url: "/security/dp-membership/#usage"
-            src: /production/secure-deployment/dp-membership/
           - text: Example use cases
             url: "/security/dp-membership/#example-use-cases"
-            src: /production/secure-deployment/dp-membership/
   - title: Monitor & manage
     group: true
     items:
@@ -413,22 +367,16 @@ items:
         items:
           - text: Reachable services
             url: "/documentation/fine-tuning/#reachable-services"
-            src: /production/upgrades-tuning/fine-tuning/
           - text: Postgres
             url: "/documentation/fine-tuning/#postgres"
-            src: /production/upgrades-tuning/fine-tuning/
           - text: Snapshot Generation
             url: "/documentation/fine-tuning/#snapshot-generation"
-            src: /production/upgrades-tuning/fine-tuning/
           - text: Profiling
             url: "/documentation/fine-tuning/#profiling"
-            src: /production/upgrades-tuning/fine-tuning/
           - text: Kubernetes outbounds in central place
             url: "/documentation/fine-tuning/#kubernetes-outbounds-in-central-place"
-            src: /production/upgrades-tuning/fine-tuning/
           - text: Envoy
             url: "/documentation/fine-tuning/#envoy"
-            src: /production/upgrades-tuning/fine-tuning/
       - text: Control Plane Configuration
         url: /documentation/configuration/
         items:
@@ -444,10 +392,8 @@ items:
         items:
           - text: Standalone
             url: "/documentation/upgrades/#standalone"
-            src: /production/upgrades-tuning/upgrades/
           - text: Multizone
             url: "/documentation/upgrades/#multizone"
-            src: /production/upgrades-tuning/upgrades/
       - text: Requirements
         url: /documentation/requirements/
         items:
@@ -503,7 +449,6 @@ items:
         items:
           - text: Usage
             url: "/policies/mesh/#usage"
-            src: /production/mesh/
       - text: Mutual TLS
         url: /policies/mutual-tls/
         items:
