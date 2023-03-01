@@ -373,8 +373,6 @@ items:
             url: "/documentation/fine-tuning/#snapshot-generation"
           - text: Profiling
             url: "/documentation/fine-tuning/#profiling"
-          - text: Kubernetes outbounds in central place
-            url: "/documentation/fine-tuning/#kubernetes-outbounds-in-central-place"
           - text: Envoy
             url: "/documentation/fine-tuning/#envoy"
       - text: Control Plane Configuration
