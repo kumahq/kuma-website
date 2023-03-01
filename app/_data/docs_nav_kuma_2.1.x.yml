@@ -97,38 +97,13 @@ items:
       - text: Standalone deployment
         url: /deployments/stand-alone/
         src: /production/deployment/stand-alone/
-        items:
-          - text: About
-            url: "/deployments/stand-alone/#standalone-deployment"
-            src: /production/deployment/stand-alone/
-          - text: Limitations
-            url: "/deployments/stand-alone/#limitations"
-            src: /production/deployment/stand-alone/
-          - text: Usage
-            url: "/deployments/stand-alone/#usage"
-            src: /production/cp-deployment/stand-alone/
-          - text: Failure modes
-            url: "/deployments/stand-alone/#failure-modes"
-            src: /production/cp-deployment/stand-alone/
+      - text: Deploy a standalone control plane
+        url: /production/cp-deployment/stand-alone/
       - text: Multi-zone deployment
         url: /deployments/multi-zone/
         src: /production/deployment/multi-zone/
-        items:
-          - text: About
-            url: "/deployments/multi-zone/#multi-zone-deployment"
-            src: /production/deployment/multi-zone/
-          - text: Usage
-            url: "/deployments/multi-zone/#usage"
-            src: /production/cp-deployment/multi-zone/
-          - text: Failure modes
-            url: "/deployments/multi-zone/#failure-modes"
-            src: /production/cp-deployment/multi-zone/
-          - text: Delete a zone
-            url: "/deployments/multi-zone/#delete-a-zone"
-            src: /production/cp-deployment/multi-zone/
-          - text: Disable a zone
-            url: "/deployments/multi-zone/#disable-a-zone"
-            src: /production/cp-deployment/multi-zone/
+      - text: Deploy a multi-zone global control plane
+        url: /production/cp-deployment/multi-zone/
   - title: Explore
     group: true
     items:

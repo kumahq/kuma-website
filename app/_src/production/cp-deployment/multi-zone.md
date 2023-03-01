@@ -12,6 +12,7 @@ To set up a multi-zone deployment we will need to:
 - [Verify control plane connectivity](#verify-control-plane-connectivity)
 - [Ensure mTLS is enabled for the multi-zone meshes](#ensure-mtls-is-enabled-on-the-multi-zone-meshes)
 
+## Usage
 ### Set up the global control plane
 
 The global control plane must run on a dedicated cluster, and cannot be assigned to a zone.

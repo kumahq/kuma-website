@@ -26,9 +26,3 @@ Standalone mode is usually a great choice within the context of one zone (ie: wi
 * A deployment can connect to only one Kubernetes cluster at once.
 
 If these limitations are problematic you should look at [Multi-zone deployments](/docs/{{ page.version }}/deployments/multi-zone).
-
-{% if_version gte:2.2.x %}
-## More information
-
-For more information about how to configure a standalone deployment, see [Deploy a standalone control plane](/docs/{{ page.version }}/production/stand-alone/).
-{% endif_version %}
