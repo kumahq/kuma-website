@@ -26,6 +26,11 @@ items:
       - text: Changelog
         absolute_url: true
         url: https://github.com/kumahq/kuma/blob/master/CHANGELOG.md
+  - title: Kuma in Production
+    group: true
+    items:
+      - text: Install kumactl
+        url: /production/install-kumactl/
   - title: Install
     group: true
     items:
