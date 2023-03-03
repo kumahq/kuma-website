@@ -4,23 +4,24 @@ content_type: explanation
 subtitle: Deploying Kuma in a production environment. 
 ---
 
-After you've completed your initial test and assessment of {{site.mesh_product_name}}, it's time to deploy {{site.mesh_product_name}} in your production environment. Before doing so, it's important to understand the overall steps in the deployment process as well as the different options you have when deploying {{site.mesh_product_name}}. This guide will walk you through the big picture steps and options so you can make the right decisions when it comes to deployment time.
+After you've completed your initial test and assessment of {{site.mesh_product_name}}, it's time to deploy {{site.mesh_product_name}} in your production environment. Before doing so, it's important to understand the overall steps in the deployment process as well as the different options you have when deploying {{site.mesh_product_name}}. This guide walks you through the big picture steps and options so you can make the right decisions when it comes to deployment time.
 
 ## Overview of deployment steps
 
 Deploying {{site.mesh_product_name}} to a production environment involves the following steps:
 
-1. Decide which deployment topology you plan to use.
-1. Install kumactl.
-1. Deploy the control plane.
-1. Configure the data plane.
-1. Configure security features for {{site.mesh_product_name}}.
-
-You can read more details about these steps in the following sections.
+1. [Decide which deployment topology you plan to use](#deployment-topologies).
+1. [Install `kumactl`](#kumactl).
+1. [Deploy the control plane](#control-plane-and-data-plane-architecture).
+1. [Configure the data plane](#control-plane-and-data-plane-architecture).
+1. [Configure security features for {{site.mesh_product_name}}](#{{site.mesh_product_name}}-security).
 
 ### Deployment topologies
 
-There are two deployment models that can be adopted with {{site.mesh_product_name}} in order to address any Service Mesh use-case, from the simple one running in one zone to the more complex one where multiple Kubernetes or VM zones are involved, or even hybrid universal ones where {{site.mesh_product_name}} runs simultaneously on Kubernetes and VMs.
+There are two deployment models that can be adopted with {{site.mesh_product_name}}: standalone and multi-zone. You can use these modes to address any service mesh use case, including:
+* A simple model with the service mesh running in one zone
+* A more complex model where multiple Kubernetes or VM zones are involved
+* A hybrid universal model where {{site.mesh_product_name}} runs simultaneously on Kubernetes and VMs
 
 The following table describes some common use cases and the deployment modes you can use for them:
 
@@ -33,7 +34,7 @@ The following table describes some common use cases and the deployment modes you
 
 ### kumactl
 
-The first step after you pick your deployment mode is to install `kumactl`. `kumactl` is one of the tools you can use to access the {{site.mesh_product_name}}. `kumactl` is a CLI that can do the following:
+The first step after you pick your deployment mode is to install `kumactl`. `kumactl` is a CLI tool that you can use to access the {{site.mesh_product_name}}. It can do the following:
 
 * Perform read-only operations on {{site.mesh_product_name}} resources on Kubernetes. 
 * Read and create resources in {{site.mesh_product_name}} in Universal mode.
@@ -50,7 +51,7 @@ You can either configure a [multi-zone]<!--(/docs/{{ page.version }}/production/
 
 {{site.mesh_product_name}} offers many security features that you can use to ensure your service mesh is safe.
 
-Here's a few of the main features:
+Here are a few of the main features:
 
 * [Secure the access to your {{site.mesh_product_name}} deployment]<!--(/docs/{{ page.version }}/production/secure-deployment/certificates/)-->
 * [Store sensitive data with secrets]<!--(/docs/{{ page.version }}/production/secure-deployment/secrets/)-->
