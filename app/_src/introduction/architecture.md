@@ -1,5 +1,5 @@
 ---
-title: Overview
+title: Architecture
 ---
 
 This sections gives an overview of a {{site.mesh_product_name}} service mesh.

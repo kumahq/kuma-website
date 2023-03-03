@@ -8,8 +8,10 @@ items:
     items:
       - text: Introduction to Kuma
         url: /introduction/what-is-kuma/
+        src: /introduction/overview-of-kuma/
       - text: What is Service Mesh?
         url: /introduction/what-is-a-service-mesh/
+        src: /introduction/about-service-meshes/
       - text: How Kuma works
         url: /introduction/how-kuma-works/
         items:
@@ -109,6 +111,7 @@ items:
     items:
       - text: Overview
         url: /explore/overview/
+        src: /introduction/architecture/
         items:
           - text: Components
             url: "/explore/overview/#components"
@@ -396,6 +399,7 @@ items:
             url: "/documentation/upgrades/#multizone"
       - text: Requirements
         url: /documentation/requirements/
+        src: /introduction/requirements/
         items:
           - text: Architecture
             url: "/documentation/requirements/#architecture"

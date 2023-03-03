@@ -1,5 +1,5 @@
 ---
-title: Requirements
+title: Kuma requirements
 ---
 
 This page expose the different requirements to run {{site.mesh_product_name}}.
