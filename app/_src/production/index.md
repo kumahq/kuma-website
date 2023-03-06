@@ -14,7 +14,7 @@ Deploying {{site.mesh_product_name}} to a production environment involves the fo
 1. [Install `kumactl`](#kumactl).
 1. [Deploy the control plane](#control-plane-and-data-plane-architecture).
 1. [Configure the data plane](#control-plane-and-data-plane-architecture).
-1. [Configure security features for {{site.mesh_product_name}}](#{{site.mesh_product_name}}-security).
+1. [Configure security features for {{site.mesh_product_name}}](#kuma-security).
 
 ### Deployment topologies
 
@@ -34,7 +34,7 @@ The following table describes some common use cases and the deployment modes you
 
 ### kumactl
 
-The first step after you pick your deployment mode is to install `kumactl`. `kumactl` is a CLI tool that you can use to access the {{site.mesh_product_name}}. It can do the following:
+The first step after you pick your deployment mode is to install `kumactl`. `kumactl` is a CLI tool that you can use to access {{site.mesh_product_name}}. It can do the following:
 
 * Perform read-only operations on {{site.mesh_product_name}} resources on Kubernetes. 
 * Read and create resources in {{site.mesh_product_name}} in Universal mode.
