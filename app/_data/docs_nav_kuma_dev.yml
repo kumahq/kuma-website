@@ -799,8 +799,6 @@ items:
             url: "/reference/data-collection/#enabling-data-collection"
           - text: What data is collected
             url: "/reference/data-collection/#what-data-is-collected"
-      - text: License
-        url: /reference/license/
       - # Auto-generated
         title: Resources
         group: true
@@ -879,21 +877,12 @@ items:
         text: Kuma-cp configuration reference
         url: /generated/kuma-cp
         generate: false
-  - title: Contribute
+  - title: Community
     group: true
     items:
-      - text: Introduction
-        url: /contribute/introduction/
-        items:
-          - text: Community
-            url: "/contribute/introduction/#community"
-          - text: Documentation
-            url: "/contribute/introduction/#documentation"
-          - text: Core Code
-            url: "/contribute/introduction/#core-code"
-          - text: GUI Code
-            url: "/contribute/introduction/#gui-code"
-          - text: Testing unreleased versions
-            url: "/contribute/introduction/#testing-unreleased-versions"
+      - text: License
+        url: /community/license/
+      - text: Contribute to Kuma
+        url: /community/contribute-to-kuma/
 unlisted:
   - url: /

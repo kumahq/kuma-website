@@ -803,6 +803,7 @@ items:
             url: "/reference/data-collection/#what-data-is-collected"
       - text: License
         url: /reference/license/
+        src: "/community/license/"
       - # Auto-generated
         title: Resources
         group: true
@@ -886,6 +887,7 @@ items:
     items:
       - text: Introduction
         url: /contribute/introduction/
+        src: /community/contribute-to-kuma/
         items:
           - text: Community
             url: "/contribute/introduction/#community"
