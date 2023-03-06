@@ -27,20 +27,20 @@ items:
           - text: Kubernetes mode
             url: "/introduction/architecture/#kubernetes-mode"
           - text: Universal mode
-            url: "/introduction/overview/#universal-mode"
+            url: "/introduction/architecture/#universal-mode"
       - text: Kuma requirements
         url: /introduction/requirements/
         items:
           - text: Architecture
-            url: "/documentation/requirements/#architecture"
+            url: "/introduction/requirements/#architecture"
           - text: Kubernetes
-            url: "/documentation/requirements/#kubernetes"
+            url: "/introduction/requirements/#kubernetes"
           - text: Envoy
-            url: "/documentation/requirements/#envoy"
+            url: "/introduction/requirements/#envoy"
           - text: Sizing your control-plane
-            url: "/documentation/requirements/#sizing-your-control-plane"
+            url: "/introduction/requirements/#sizing-your-control-plane"
           - text: Sizing your sidecar container on Kubernetes
-            url: "/documentation/requirements/#sizing-your-sidecar-container-on-kubernetes"
+            url: "/introduction/requirements/#sizing-your-sidecar-container-on-kubernetes"
       - text: Release notes
         absolute_url: true
         url: https://github.com/kumahq/kuma/blob/master/CHANGELOG.md
