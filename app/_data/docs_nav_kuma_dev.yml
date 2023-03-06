@@ -41,14 +41,8 @@ items:
       - title: Control plane deployment
         group: true
         items:
-          # - text: Kong Mesh license
-            # url: /production/
           - text: Deploy a multi-zone global control plane
             url: /production/cp-deployment/multi-zone/ 
-          # - text: Add a zone
-            # url: /production/
-          # - text: Configure multi-zone authentication
-            # url: /production/
           - text: Zone Ingress
             url: /production/cp-deployment/zone-ingress/
           - text: Zone Egress
@@ -90,10 +84,6 @@ items:
             url: /production/secure-deployment/dp-auth/
           - text: Configure data plane proxy membership
             url: /production/secure-deployment/dp-membership/
-          # - text: Kong Mesh RBAC
-            # url: /production/secure-deployment/
-          # - text: FIPS support
-            # url: /production/secure-deployment/
           - text: Secure access accross services
             url: /production/secure-deployment/certificates/
       - text: Kuma user interface
