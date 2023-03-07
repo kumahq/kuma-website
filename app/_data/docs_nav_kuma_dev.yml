@@ -31,32 +31,8 @@ items:
     items:
       - text: Install kumactl
         url: /production/install-kumactl/
-  - title: Install
-    group: true
-    items:
-      - text: Kubernetes
-        url: /installation/kubernetes/
-      - text: Helm
-        url: /installation/helm/
-        items:
-          - text: Argo CD
-            url: "/installation/helm/#argo-cd"
-      - text: OpenShift
-        url: /installation/openshift/
-      - text: Docker
-        url: /installation/docker/
-      - text: Amazon Linux
-        url: /installation/amazonlinux/
-      - text: Redhat
-        url: /installation/redhat/
-      - text: CentOS
-        url: /installation/centos/
-      - text: Debian
-        url: /installation/debian/
-      - text: Ubuntu
-        url: /installation/ubuntu/
-      - text: macOS
-        url: /installation/macos/
+      - text: Use Kuma
+        url: /production/use-kuma/
   - title: Deploy
     group: true
     items:
