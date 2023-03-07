@@ -73,7 +73,7 @@ Multi-zone requires exposing a dedicated Kubernetes `Service` object with type `
 Follow instructions to setup an echo service reachable through Kong.
 These instructions are mostly taken from the [Kong docs](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/guides/getting-started/).
 
-1. [Install {{site.mesh_product_name}}](/docs/{{ page.version }}/installation/kubernetes) on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
+1. {% if_version lte:2.1.x %}[Install {{site.mesh_product_name}}](/docs/{{ page.version }}/installation/kubernetes){% endif_version %}{% if_version gte:2.2.x %}[Install {{site.mesh_product_name}}](/docs/{{ page.version }}/production/install-kumactl/){% endif_version %} on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
 
 2. Install [Kong using helm](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/deployment/k4k8s/#helm).
 

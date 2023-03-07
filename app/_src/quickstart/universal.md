@@ -52,7 +52,7 @@ kumactl generate dataplane-token --name=app > kuma-token-app
 
 {% warning %}
 This action requires [authentication](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token) unless executed against a control-plane running on localhost.
-If `kuma-cp` is running inside docker container please see [docker authentication docs](/docs/{{ page.version }}//installation/docker#21-authentication-optional).
+If `kuma-cp` is running inside docker container please see [docker authentication docs](/docs/{{ page.version }}/deployments/stand-alone/).
 {% endwarning %}
 
 ## Create a data plane proxy for each service

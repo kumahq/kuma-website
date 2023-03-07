@@ -15,7 +15,7 @@ The zone key is purely static and arbitrary. Different zone values for different
 
 ## Prerequisites
 
-- [{{site.mesh_product_name}} installed on your Kubernetes cluster](/docs/{{ page.version }}/installation/kubernetes/)
+- {% if_version lte:2.1.x %}[{{site.mesh_product_name}} installed on your Kubernetes cluster](/docs/{{ page.version }}/installation/kubernetes/){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} installed on your Kubernetes cluster](/docs/{{ page.version }}/production/install-kumactl/){% endif_version %}
 - [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 
   ```sh
