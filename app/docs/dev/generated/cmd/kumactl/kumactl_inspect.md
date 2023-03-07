@@ -39,6 +39,7 @@ Inspect Kuma resources.
 * [kumactl inspect meshgateway](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshgateway)	 - Inspect MeshGateway
 * [kumactl inspect meshhealthcheck](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshhealthcheck)	 - Inspect MeshHealthCheck
 * [kumactl inspect meshhttproute](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshhttproute)	 - Inspect MeshHTTPRoute
+* [kumactl inspect meshloadbalancingstrategy](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshloadbalancingstrategy)	 - Inspect MeshLoadBalancingStrategy
 * [kumactl inspect meshproxypatch](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshproxypatch)	 - Inspect MeshProxyPatch
 * [kumactl inspect meshratelimit](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshratelimit)	 - Inspect MeshRateLimit
 * [kumactl inspect meshretry](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshretry)	 - Inspect MeshRetry
