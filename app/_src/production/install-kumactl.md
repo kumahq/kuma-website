@@ -14,7 +14,7 @@ The `kumactl` binary is a client to the {{site.mesh_product_name}} HTTP API.
 
 {% tabs install-kumactl useUrlFragment=false %}
 {% tab install-kumactl Kubernetes %}
-1. Download {{site.mesh_product_name}}:
+Download {{site.mesh_product_name}}:
 {% tabs install_kumactl useUrlFragment=false %}
 {% tab install_kumactl Script %}
 
@@ -40,7 +40,7 @@ and extract the archive with `tar xvzf kuma-{{ page.latest_version }}.tar.gz`
 {% endtab %}
 {% endtabs %}
 
-1. Add the `kumactl` executable to your path:
+Add the `kumactl` executable to your path:
 ```
 cd kuma-{{ page.latest_version }}/bin
 PATH=$(pwd):$PATH
@@ -67,6 +67,7 @@ Download {{site.mesh_product_name}}:
 docker pull docker.io/kumahq/kuma-cp:{{ page.latest_version }}
 docker pull docker.io/kumahq/kuma-dp:{{ page.latest_version }}
 docker pull docker.io/kumahq/kumactl:{{ page.latest_version }}
+alias kumactl="docker run --rm -it kumahq/kumactl:{{ page.latest_version }} kumactl"
 ```
 {% endtab %}
 {% tab install-kumactl Linux %}

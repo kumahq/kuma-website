@@ -14,7 +14,9 @@ There are two options to do this with {{site.mesh_product_name}}:
 - use the standard `kuma-init`, which is the default
 - use the {{site.mesh_product_name}} CNI
 
-{{site.mesh_product_name}} CNI can be leveraged in the two installation methods for Kubernetes: using {% if_version lte:2.1.x %}[`kumactl`](/docs/{{ page.version }}/installation/kubernetes) and with [Helm](/docs/{{ page.version }}/installation/helm){% endif_version %}{% if_version gte:2.2.x %}[`kumactl`](/docs/{{ page.version }}/production/install-kumactl/) and with [Helm](/docs/{{ page.version }}/production/install-kumactl/){% endif_version %}.
+{{site.mesh_product_name}} CNI can be leveraged in the two installation methods for Kubernetes: using 
+{% if_version lte:2.1.x %}[`kumactl`](/docs/{{ page.version }}/installation/kubernetes) and with [Helm](/docs/{{ page.version }}/installation/helm){% endif_version %}
+{% if_version gte:2.2.x %}[`kumactl`](/docs/{{ page.version }}/production/install-kumactl/) and with [Helm](/docs/{{ page.version }}/production/install-kumactl/){% endif_version %}.
 The default settings are tuned for OpenShift with Multus,
 therefore to use it in other environments we need to set the relevant configuration parameters.
 
