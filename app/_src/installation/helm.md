@@ -34,7 +34,7 @@ At this point we can install and run {{site.mesh_product_name}} using the follow
 helm install --create-namespace --namespace {{site.mesh_namespace}} kuma kuma/kuma
 ```
 
-This example will run {{site.mesh_product_name}} in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/introduction/deployments) like "multi-zone".
+This example will run {{site.mesh_product_name}} in `standalone` mode for a "flat" deployment, but there are more advanced {% if_version lte:2.1.x %}[deployment modes](/docs/{{ page.version }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployment modes](/docs/{{ page.version }}/production/deployment/){% endif_version %} like "multi-zone".
 
 ### Use {{site.mesh_product_name}}
 
@@ -54,4 +54,4 @@ Argo CD uses `helm template` to compare and apply Kubernetes YAMLs.
 Helm template doesn't work with chart logic to verify if the certificate is present.
 This results in replacing the certificate on each Argo redeployment.
 The solution to this problem is to explicitly set the certificates.
-See ["Data plane proxy to control plane communication"](/docs/{{ page.version }}/security/certificates#data-plane-proxy-to-control-plane-communication) to learn how to preconfigure {{site.mesh_product_name}} with certificates.
+See {% if_version lte:2.1.x %}["Data plane proxy to control plane communication"](/docs/{{ page.version }}/security/certificates#data-plane-proxy-to-control-plane-communication){% endif_version %}{% if_version gte:2.2.x %}["Data plane proxy to control plane communication"](/docs/{{ page.version }}/production/secure-deployment/certificates/){% endif_version %} to learn how to preconfigure {{site.mesh_product_name}} with certificates.

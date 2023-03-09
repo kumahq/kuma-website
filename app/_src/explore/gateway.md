@@ -4,7 +4,7 @@ title: Gateway
 
 When services need to receive traffic from the outside, commonly called North/South, the {{site.mesh_product_name}} Gateway enables routing network traffic from outside a {{site.mesh_product_name}} mesh to services inside the mesh. The gateway is also responsible for security at the entrance of the Mesh.
 
-{{site.mesh_product_name}} Gateway deploys as a {{site.mesh_product_name}} [`Dataplane`](/docs/{{ page.version }}/explore/dpp), that's an instance of the `kuma-dp` process.
+{{site.mesh_product_name}} Gateway deploys as a {{site.mesh_product_name}} {% if_version lte:2.1.x %}[`Dataplane`](/docs/{{ page.version }}/explore/dpp){% endif_version %}{% if_version gte:2.2.x %}[`Dataplane`](/docs/{{ page.version }}/production/dp-config/dpp/){% endif_version %}, that's an instance of the `kuma-dp` process.
 Like all {{site.mesh_product_name}} `Dataplanes`, the {{site.mesh_product_name}} Gateway `Dataplane` manages an Envoy proxy process that does the actual network traffic proxying.
 
 You can distinguish two types of gateways:
@@ -73,7 +73,7 @@ Multi-zone requires exposing a dedicated Kubernetes `Service` object with type `
 Follow instructions to setup an echo service reachable through Kong.
 These instructions are mostly taken from the [Kong docs](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/guides/getting-started/).
 
-1. {% if_version lte:2.1.x %}[Install {{site.mesh_product_name}}](/docs/{{ page.version }}/installation/kubernetes){% endif_version %}{% if_version gte:2.2.x %}[Install {{site.mesh_product_name}}](/docs/{{ page.version }}/production/install-kumactl/){% endif_version %} on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
+1. [Install {{site.mesh_product_name}}](/docs/{{ page.version }}/installation/kubernetes) on your cluster and have the `default` {% if_version lte:2.1.x %}[namespace labelled with sidecar-injection](/docs/{{ page.version }}/explore/dpp-on-kubernetes){% endif_version %}{% if_version gte:2.2.x %}[namespace labelled with sidecar-injection](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/){% endif_version %}.
 
 2. Install [Kong using helm](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/deployment/k4k8s/#helm).
 
@@ -472,7 +472,7 @@ The {{site.mesh_product_name}} Gateway resource types, `MeshGateway` and `MeshGa
 If you have a multi-zone deployment, follow existing {{site.mesh_product_name}} practice and create any {{site.mesh_product_name}} Gateway resources in the global control plane.
 Once these resources exist, you can provision serving capacity in the zones where it is needed by deploying builtin gateway `Dataplanes` (in Universal zones) or `MeshGatewayInstances` (Kubernetes zones).
 
-See the [multi-zone docs](/docs/{{ page.version }}/deployments/multi-zone) for a
+See the {% if_version lte:2.1.x %}[multi-zone docs](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone docs](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %} for a
 refresher.
 
 ### Cross-mesh

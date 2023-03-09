@@ -63,7 +63,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
-    By default, it's exposed on [port 5685](/docs/{{ page.version }}/networking/networking). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+    By default, it's exposed on {% if_version lte:2.1.x %}[port 5685](/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}[port 5685](/docs/{{ page.version }}/production/deployment/networking/){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 {% tab global-control-plane Universal %}
@@ -174,7 +174,7 @@ You need the following values to pass to each zone control plane setup:
    kumactl generate zone-token --zone=<zone-name> --scope egress --scope ingress > /tmp/zone-token
    ```
 
-   You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zoneproxy-auth).
+   You can also generate the token {% if_version lte:2.1.x %}[with the REST API](/docs/{{ page.version }}/security/zoneproxy-auth){% endif_version%}{% if_version gte:2.2.x %}[with the REST API](/docs/{{ page.version }}/production/cp-deployment/zoneproxy-auth/){% endif_version%}.
    Alternatively, you could generate separate tokens for ingress and egress.
 
 3. Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication:
@@ -294,7 +294,7 @@ curl http://echo-server:1010
 Requests are distributed round robin between zones.
 You can use [locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware) to keep requests in the same zone.
 
-To send a request to any zone, you can [use the generated `kuma.io/service`](/docs/{{ page.version }}/explore/dpp-on-kubernetes#tag-generation) and [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns#dns):
+To send a request to any zone, you can {% if_version lte:2.1.x %}[use the generated `kuma.io/service`](/docs/{{ page.version }}/explore/dpp-on-kubernetes#tag-generation){% endif_version %}{% if_version gte:2.2.x %}[use the generated `kuma.io/service`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#tag-generation){% endif_version %} and [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns#dns):
 
 ```sh
 curl http://echo-server_echo-example_svc_1010.mesh:80
@@ -316,7 +316,7 @@ echo-service_echo-example_svc_1010       Online               1/1
 
 ```
 
-To consume the service in a Universal deployment without transparent proxy add the following outbound to your [dataplane configuration](/docs/{{ page.version }}/explore/dpp-on-universal):
+To consume the service in a Universal deployment without transparent proxy add the following outbound to your {% if_version lte:2.1.x %}[dataplane configuration](/docs/{{ page.version }}/explore/dpp-on-universal){% endif_version %}{% if_version gte:2.2.x %}[dataplane configuration](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/){% endif_version %}:
 
 ```yaml
 outbound:
@@ -327,7 +327,7 @@ outbound:
 
 From the data plane running you will now be able to reach the service using `localhost:20012`.
 
-Alternatively, if you configure [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
+Alternatively, if you configure {% if_version lte:2.1.x %}[transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxy](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %} you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
 
 {% endtab %}
 {% endtabs %}

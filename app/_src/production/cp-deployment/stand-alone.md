@@ -14,7 +14,7 @@ kumactl install control-plane | kubectl apply -f -
 
 **With zone egress**:
 
-It's possible to run [`ZoneEgress`](/docs/{{ page.version }}/explore/zoneegress) for standalone deployment. In order to deploy {{site.mesh_product_name}} with `ZoneEgress` run the install command with an additional parameter.
+It's possible to run {% if_version lte:2.1.x %}[`ZoneEgress`](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[`ZoneEgress`](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %} for standalone deployment. In order to deploy {{site.mesh_product_name}} with `ZoneEgress` run the install command with an additional parameter.
 ```sh
 kumactl install control-plane --egress-enabled | kubectl apply -f -
 ```
@@ -27,12 +27,12 @@ kuma-cp run
 
 **With zone egress**:
 
-`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](/docs/{{ page.version }}/explore/zoneegress#zone-egress).
+`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment {% if_version lte:2.1.x %}[follow the instruction](/docs/{{ page.version }}/explore/zoneegress#zone-egress){% endif_version %}{% if_version gte:2.2.x %}[follow the instruction](/docs/{{ page.version }}/production/cp-deployment/zoneegress/#zone-egress){% endif_version %}.
 
 {% endtab %}
 {% endtabs %}
 
-Once {{site.mesh_product_name}} is up and running, data plane proxies can now [connect](/docs/{{ page.version }}/explore/dpp) directly to it.
+Once {{site.mesh_product_name}} is up and running, data plane proxies can now {% if_version lte:2.1.x %}[connect](/docs/{{ page.version }}/explore/dpp){% endif_version %}{% if_version gte:2.2.x %}[connect](/docs/{{ page.version }}/production/dp-config/dpp/){% endif_version %} directly to it.
 
 {% tip %}
 When the mode is not specified, {{site.mesh_product_name}} will always start in `standalone` mode by default.

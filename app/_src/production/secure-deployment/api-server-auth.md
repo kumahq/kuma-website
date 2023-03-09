@@ -3,7 +3,7 @@ title: Authentication with the API server
 content_type: how-to
 ---
 
-{{site.mesh_product_name}} exposes API server on [ports](/docs/{{ page.version }}/networking/networking) `5681` and `5682` (protected by TLS).
+{{site.mesh_product_name}} exposes API server on {% if_version lte:2.1.x %}[ports](/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}[ports](/docs/{{ page.version }}/production/deployment/networking/){% endif_version %} `5681` and `5682` (protected by TLS).
 
 An authenticated user can be authorized to execute administrative actions such as
 * Managing administrative resources like {{site.mesh_product_name}} Secrets on Universal
@@ -26,7 +26,7 @@ A user can be a part of many groups. {{site.mesh_product_name}} adds two groups 
 
 {{site.mesh_product_name}} creates an admin user token on the first start of the control plane.
 The admin user token is a user token issued for user `mesh-system:admin` that belongs to `mesh-system:admin` group.
-This group is [authorized by default](/docs/{{ page.version }}/security/api-access-control) to execute all administrative operations.
+This group is {% if_version lte:2.1.x %}[authorized by default](/docs/{{ page.version }}/security/api-access-control){% endif_version %}{% if_version gte:2.2.x %}[authorized by default](/docs/{{ page.version }}/production/secure-deployment/api-access-control/){% endif_version %} to execute all administrative operations.
 
 {% tabs admin-user-token useUrlFragment=false %}
 {% tab admin-user-token Kubernetes %}
@@ -90,7 +90,7 @@ This group is [authorized by default](/docs/{{ page.version }}/security/api-acce
 
 ### Generate user tokens
 
-You can generate user tokens only when you provide the credentials of a user [authorized to generate user tokens](/docs/{{ page.version }}/security/api-access-control#generate-user-token).
+You can generate user tokens only when you provide the credentials of a user {% if_version lte:2.1.x %}[authorized to generate user tokens](/docs/{{ page.version }}/security/api-access-control#generate-user-token){% endif_version %}{% if_version gte:2.2.x %}[authorized to generate user tokens](/docs/{{ page.version }}/production/secure-deployment/api-access-control#generate-user-token){% endif_version %}.
 `kumactl` configured with admin user token extracted in the preceding section is authorized to do it.
 
 ```sh

@@ -64,7 +64,7 @@ produce the hostname: `v1.backend.mesh` with port: `1800`.
 
 Additional requirements:
 
-- [Transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying).
+- {% if_version lte:2.1.x %}[Transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[Transparent proxy](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %}.
 - Either [data plane proxy DNS](/docs/{{ page.version }}/networking/dns), or else the value of `conf.host` must end with the value of `dns_server.domain` (default value `.mesh`).
 - `name` must be alphanumeric. (Used as a go template key).
 - Each value of `name` must be unique.

@@ -9,7 +9,7 @@ Typically we would want to create a `Mesh` per line of business, per team, per a
 
 `Mesh` is the parent resource of every other resource in {{site.mesh_product_name}}, including: 
 
-* [Data plane proxies](/docs/{{ page.version }}/explore/dpp)
+* {% if_version lte:2.1.x %}[Data plane proxies](/docs/{{ page.version }}/explore/dpp){% endif_version %}{% if_version gte:2.2.x %}[Data plane proxies](/docs/{{ page.version }}/production/dp-config/dpp/){% endif_version %}
 * [Policies](/policies)
 
 In order to use {{site.mesh_product_name}} at least one `Mesh` must exist, and there is no limit to the number of Meshes that can be created. When a data plane proxy connects to the control plane (`kuma-cp`) it specifies to what `Mesh` resource it belongs: a data plane proxy can only belong to one `Mesh` at a time.
@@ -23,7 +23,7 @@ Besides the ability of being able to create virtual service mesh, a `Mesh` resou
 * [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/), to secure and encrypt our service traffic and assign an identity to the data plane proxies within the Mesh.
 * [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics/), to setup metrics backend that will be used to collect and visualize metrics of our service mesh and service traffic within the Mesh.
 * [Traffic Trace](/docs/{{ page.version }}/policies/traffic-trace/), to setup tracing backends that will be used to collect traces of our service traffic within the Mesh.
-* [Zone Egress](/docs/{{ page.version }}/explore/zoneegress), to setup if `ZoneEgress` should be used for cross zone and external service communication.
+* {% if_version lte:2.1.x %}[Zone Egress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}, to setup if `ZoneEgress` should be used for cross zone and external service communication.
 * [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic), to setup if `passthrough` mode should be used for the non-mesh traffic.
 
 When [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) is enabled in `builtin` mode, each `Mesh` will provision its own CA root certificate and key unless we explicitly decide to use the same CA by sharing the same certificate and key across multiple meshes. When the CAs of our Meshes are different, data plane proxies from one `Mesh` will not be able to consume data plane proxies belonging to another `Mesh` and an intermediate API Gateway must be used in order to enable cross-mesh communication. {{site.mesh_product_name}} supports a [gateway mode](/docs/{{ page.version }}/explore/gateway) to make this happen.

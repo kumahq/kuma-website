@@ -25,4 +25,4 @@ Standalone mode is usually a great choice within the context of one zone (ie: wi
 * A standalone deployment cannot mix Universal and Kubernetes workloads.
 * A deployment can connect to only one Kubernetes cluster at once.
 
-If these limitations are problematic you should look at [Multi-zone deployments](/docs/{{ page.version }}/deployments/multi-zone).
+If these limitations are problematic you should look at {% if_version lte:2.1.x %}[Multi-zone deployments](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[Multi-zone deployments](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}.

@@ -13,7 +13,7 @@ This page explains how secure access is provided across a {{site.mesh_product_na
 directory is `$HOME/.kuma`. You can change the working directory by setting the `KUMA_GENERAL_WORK_DIR` environment variable.
 
 {% tip %}
-This section is not to be confused with the [mTLS policy](/docs/{{ page.version }}/policies/mutual-tls/) that we can apply to a [Mesh](/docs/{{ page.version }}/policies/mesh/) to secure service-to-service traffic.
+This section is not to be confused with the [mTLS policy](/docs/{{ page.version }}/policies/mutual-tls/) that we can apply to a {% if_version lte:2.1.x %}[Mesh](/docs/{{ page.version }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.version }}/production/mesh/){% endif_version %} to secure service-to-service traffic.
 {% endtip %}
 
 ## Data plane proxy to control plane communication
@@ -123,7 +123,7 @@ You can also provide the CA via environment variable `KUMA_CONTROL_PLANE_CA_CERT
 
 ### Authentication
 
-See [Data plane proxy authentication](/docs/{{ page.version }}/security/dp-auth/) and [Zone proxy authentication](/docs/{{ page.version }}/security/zoneproxy-auth).
+See {% if_version lte:2.1.x %}[Data plane proxy authentication](/docs/{{ page.version }}/security/dp-auth/){% endif_version %}{% if_version gte:2.2.x %}[Data plane proxy authentication](/docs/{{ page.version }}/production/secure-deployment/dp-auth/){% endif_version %} and {% if_version lte:2.1.x %}[Zone proxy authentication](/docs/{{ page.version }}/security/zoneproxy-auth){% endif_version %}{% if_version gte:2.2.x %}[Zone proxy authentication](/docs/{{ page.version }}/production/cp-deployment/zoneproxy-auth/){% endif_version %}.
 
 ## Prometheus to control plane communication
 
@@ -249,7 +249,7 @@ We can also hide the HTTP version of API Server by binding it to localhost `KUMA
 
 ### Authentication
 
-See [API Server authentication](/docs/{{ page.version }}/security/api-server-auth/).
+See {% if_version lte:2.1.x %}[API Server authentication](/docs/{{ page.version }}/security/api-server-auth/){% endif_version %}{% if_version gte:2.2.x %}[API Server authentication](/docs/{{ page.version }}/production/secure-deployment/api-server-auth/){% endif_version %}.
 
 ## Control plane to control plane (Multizone)
 
