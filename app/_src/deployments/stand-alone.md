@@ -70,7 +70,7 @@ Running administrative tasks (like generating a dataplane token) requires [authe
 ##### Localhost authentication
 
 For `kuma-cp` to recognize requests issued to docker published port it needs to run the container in the host network.
-To do this, add `--network="host"` parameter to the `docker run` command from point 2.
+To do this, add `--network="host"` parameter to the `docker run` command.
 
 ##### Authenticate via token
 
