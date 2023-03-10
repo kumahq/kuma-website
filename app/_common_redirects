@@ -15,7 +15,6 @@
 
 # Docs
 /docs/:version/documentation/gateway /docs/:version/explore/gateway 301
-/docs/:version/deployments /docs/:version/:version/deployments 301
 /docs/:version/documentation/deployments /docs/:version/introduction/deployments 301
 /docs/:version/explore/backends /docs/:version/documentation/configuration 301
 /docs/:version/security/zone-ingress-auth /docs/:version/security/zoneproxy-auth 301
