@@ -20,7 +20,6 @@
 /docs/:version/security/zone-ingress-auth /docs/:version/security/zoneproxy-auth 301
 /docs/:version/security/zoneegress-auth /docs/:version/security/zoneproxy-auth 301
 /docs/:version/policies/ /docs/:version/policies/introduction 301
-/docs/:version/overview/ /docs/:version/overview/what-is-kuma 301
 /docs/:version/other/ /docs/:version/other/enterprise 301
 /docs/:version/installation/ /docs/:version/installation/kubernetes 301
 /docs/:version/api/ /docs/:version/documentation/http-api 301
