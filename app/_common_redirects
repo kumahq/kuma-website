@@ -20,7 +20,6 @@
 /docs/:version/explore/backends /docs/:version/documentation/configuration 301
 /docs/:version/security/zone-ingress-auth /docs/:version/security/zoneproxy-auth 301
 /docs/:version/security/zoneegress-auth /docs/:version/security/zoneproxy-auth 301
-/docs/latest/* /docs/LATEST_RELEASE/:splat 302
 /docs/:version/policies/ /docs/:version/policies/introduction 301
 /docs/:version/overview/ /docs/:version/overview/what-is-kuma 301
 /docs/:version/other/ /docs/:version/other/enterprise 301
