@@ -541,6 +541,7 @@ items:
             url: "/policies/circuit-breaker/#non-mesh-traffic"
       - text: Proxy Template
         url: /policies/proxy-template/
+        src: /reference/proxy-template/
         items:
           - text: Usage
             url: "/policies/proxy-template/#usage"

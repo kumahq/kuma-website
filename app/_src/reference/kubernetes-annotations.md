@@ -1,5 +1,6 @@
 ---
-title: Annotations and labels in Kubernetes mode
+title: Kubernetes annotations and labels
+content-type: reference
 ---
 
 This page provides a complete list of all the annotations you can specify when you run {{site.mesh_product_name}} in Kubernetes mode.
