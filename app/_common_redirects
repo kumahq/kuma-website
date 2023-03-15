@@ -15,14 +15,11 @@
 
 # Docs
 /docs/:version/documentation/gateway /docs/:version/explore/gateway 301
-/docs/:version/deployments /docs/:version/:version/deployments 301
 /docs/:version/documentation/deployments /docs/:version/introduction/deployments 301
 /docs/:version/explore/backends /docs/:version/documentation/configuration 301
 /docs/:version/security/zone-ingress-auth /docs/:version/security/zoneproxy-auth 301
 /docs/:version/security/zoneegress-auth /docs/:version/security/zoneproxy-auth 301
-/docs/latest/* /docs/LATEST_RELEASE/:splat 302
 /docs/:version/policies/ /docs/:version/policies/introduction 301
-/docs/:version/overview/ /docs/:version/overview/what-is-kuma 301
 /docs/:version/other/ /docs/:version/other/enterprise 301
 /docs/:version/installation/ /docs/:version/installation/kubernetes 301
 /docs/:version/api/ /docs/:version/documentation/http-api 301
