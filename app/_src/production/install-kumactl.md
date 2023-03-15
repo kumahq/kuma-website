@@ -64,8 +64,6 @@ curl -L https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -
 {% tab install-kumactl Docker %}
 Download {{site.mesh_product_name}}:
 ```sh
-docker pull docker.io/kumahq/kuma-cp:{{ page.latest_version }}
-docker pull docker.io/kumahq/kuma-dp:{{ page.latest_version }}
 docker pull docker.io/kumahq/kumactl:{{ page.latest_version }}
 alias kumactl="docker run --rm -it kumahq/kumactl:{{ page.latest_version }} kumactl"
 ```

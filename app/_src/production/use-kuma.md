@@ -20,9 +20,9 @@ By accessing the control plane using one of these methods, you can see the curre
 {% tabs use-kuma-kubernetes useUrlFragment=false %}
 {% tab use-kuma-kubernetes GUI (Read-Only) %}
 
-Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on the API port and defaults to `:5681/gui`.
+{{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default the GUI listens on the API port and defaults to `:5681/gui`.
 
-To access Kuma we need to first port-forward the API service with:
+To access {{site.mesh_product_name}} we need to first port-forward the API service with:
 
 ```sh
 kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
@@ -30,10 +30,12 @@ kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5
 
 And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
 
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+
 {% endtab %}
 {% tab use-kuma-kubernetes kubectl (Read & Write) %}
 
-You can use Kuma with `kubectl` to perform **read and write** operations on Kuma resources. For example:
+You can use {{site.mesh_product_name}} with `kubectl` to perform **read and write** operations on {{site.mesh_product_name}} resources. For example:
 
 ```sh
 kubectl get meshes
@@ -56,12 +58,14 @@ spec:
       type: builtin" | kubectl apply -f -
 ```
 
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+
 {% endtab %}
 {% tab use-kuma-kubernetes HTTP API (Read-Only) %}
 
-Kuma ships with a **read-only** HTTP API that you can use to retrieve Kuma resources.
+{{site.mesh_product_name}} ships with a **read-only** HTTP API that you can use to retrieve {{site.mesh_product_name}} resources.
 
-By default the HTTP API listens on port `5681`. To access Kuma we need to first port-forward the API service with:
+By default the HTTP API listens on port `5681`. To access {{site.mesh_product_name}} we need to first port-forward the API service with:
 
 ```sh
 kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
@@ -69,10 +73,12 @@ kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5
 
 And then you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see the HTTP API.
 
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+
 {% endtab %}
 {% tab use-kuma-kubernetes kumactl (Read-Only) %}
 
-You can use the `kumactl` CLI to perform **read-only** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API, you will need to first port-forward the API service with:
+You can use the `kumactl` CLI to perform **read-only** operations on {{site.mesh_product_name}} resources. The `kumactl` binary is a client to the {{site.mesh_product_name}} HTTP API, you will need to first port-forward the API service with:
 
 ```sh
 kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
@@ -92,31 +98,35 @@ You can configure `kumactl` to point to any zone `kuma-cp` instance by running:
 kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
 ```
 
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+
 {% endtab %}
 {% endtabs %}
-
-You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
 
 ## Use {{site.mesh_product_name}} with Universal
 
 {% tabs use-kuma-universal useUrlFragment=false %}
 {% tab use-kuma-universal GUI (Read-Only) %}
 
-Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on the API port and defaults to `:5681/gui`.
+{{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default the GUI listens on the API port and defaults to `:5681/gui`.
 
-To access Kuma you can navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
+To access {{site.mesh_product_name}} you can navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
+
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
 
 {% endtab %}
 {% tab use-kuma-universal HTTP API (Read & Write) %}
 
-Kuma ships with a **read and write** HTTP API that you can use to perform operations on Kuma resources. By default the HTTP API listens on port `5681`.
+{{site.mesh_product_name}} ships with a **read and write** HTTP API that you can use to perform operations on {{site.mesh_product_name}} resources. By default the HTTP API listens on port `5681`.
 
-To access Kuma you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see the HTTP API.
+To access {{site.mesh_product_name}} you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see the HTTP API.
+
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
 
 {% endtab %}
 {% tab use-kuma-universal kumactl (Read & Write) %}
 
-You can use the `kumactl` CLI to perform **read and write** operations on Kuma resources. The `kumactl` binary is a client to the Kuma HTTP API. For example:
+You can use the `kumactl` CLI to perform **read and write** operations on {{site.mesh_product_name}} resources. The `kumactl` binary is a client to the {{site.mesh_product_name}} HTTP API. For example:
 
 ```sh
 kumactl get meshes
@@ -141,7 +151,8 @@ You can configure `kumactl` to point to any zone `kuma-cp` instance by running:
 ```sh
 kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
 ```
+
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+
 {% endtab %}
 {% endtabs %}
-
-You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
