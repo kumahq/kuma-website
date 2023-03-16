@@ -41,9 +41,9 @@ Each xDS resource modification consists of 3 fields:
 * `operation` - operation applied to the generated config (e.g. `Add`, `Remove`, `Patch`).
 * `match` - some operations can be applied on matched resources (e.g. remove only resource of given name, patch all outbound resources).
 {% if_version gte:2.2.x %}
+
 and one of
-* `jsonPatches` - list of modifications in [JSON Patch notation](https://jsonpatch.com/).
-{% endif_version %}
+* `jsonPatches` - list of modifications in [JSON Patch notation](https://jsonpatch.com/).{% endif_version %}
 * `value` - raw Envoy xDS configuration. Can be partial if operation is `patch`.
 
 #### Origin
