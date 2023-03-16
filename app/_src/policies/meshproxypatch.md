@@ -40,6 +40,10 @@ To learn more about the information in this table, see the [matching docs](/docs
 Each xDS resource modification consists of 3 fields:
 * `operation` - operation applied to the generated config (e.g. `Add`, `Remove`, `Patch`).
 * `match` - some operations can be applied on matched resources (e.g. remove only resource of given name, patch all outbound resources).
+{% if_version gte:2.2.x %}
+and one of
+* `jsonPatches` - list of modifications in [JSON Patch notation](https://jsonpatch.com/).
+{% endif_version %}
 * `value` - raw Envoy xDS configuration. Can be partial if operation is `patch`.
 
 #### Origin
@@ -72,6 +76,7 @@ Available matchers:
 * `name` - name of the Cluster.
 * `origin` - origin of the Cluster.
 
+{% if_version lte:2.1.x %}
 {% tabs cluster useUrlFragment=false %}
 {% tab cluster Kubernetes %}
 ```yaml
@@ -139,6 +144,109 @@ spec:
 ```
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
+
+{% if_version gte:2.2.x %}
+{% tabs cluster useUrlFragment=false %}
+{% tab cluster Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshProxyPatch
+metadata:
+  name: custom-template-1
+  namespace: {{site.mesh_namespace}}
+spec:
+  targetRef:
+    kind: MeshService
+    name: backend_default_svc_80
+  default:
+    appendModifications:
+      - cluster:
+          operation: Add
+          value: |
+            name: test-cluster
+            connectTimeout: 5s
+            type: STATIC
+      - cluster:
+          operation: Patch
+          match: # optional: if absent, all clusters will be patched
+            name: test-cluster # optional: if absent, all clusters regardless of name will be patched
+            origin: inbound # optional: if absent, all clusters regardless of its origin will be patched
+          value: | # you can specify only part of cluster definition that will be merged into existing cluster
+            connectTimeout: 5s
+      - cluster:
+          operation: Patch
+          match: # optional: if absent, all clusters will be patched
+            name: test-cluster # optional: if absent, all clusters regardless of name will be patched
+            origin: inbound # optional: if absent, all clusters regardless of its origin will be patched
+          jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
+            - op: add
+              path: /transportSocket/typedConfig/commonTlsContext/tlsParams
+              value:
+                tlsMinimumProtocolVersion: TLSv1_2
+            - op: add
+              path: /transportSocket/typedConfig/commonTlsContext/tlsParams/tlsMaximumProtocolVersion
+              value: TLSv1_2
+            - op: replace
+              path: /connectTimeout
+              value: 77s
+      - cluster:
+          operation: Remove
+          match: # optional: if absent, all clusters will be removed
+            name: test-cluster # optional: if absent, all clusters regardless of name will be removed
+            origin: inbound # optional: if absent, all clusters regardless of its origin will be removed
+```
+{% endtab %}
+{% tab cluster Universal %}
+
+```yaml
+type: MeshProxyPatch
+mesh: default
+name: custom-template-1
+spec:
+  targetRef:
+    kind: MeshService
+    name: backend
+  default:
+    appendModifications:
+      - cluster:
+          operation: Add
+          value: |
+            name: test-cluster
+            connectTimeout: 5s
+            type: STATIC
+      - cluster:
+          operation: Patch
+          match: # optional: if absent, all clusters will be patched
+            name: test-cluster # optional: if absent, all clusters regardless of name will be patched
+            origin: inbound # optional: if absent, all clusters regardless of its origin will be patched
+          value: | # you can specify only part of cluster definition that will be merged into existing cluster
+            connectTimeout: 5s
+      - cluster:
+          operation: Patch
+          match: # optional: if absent, all clusters will be patched
+            name: test-cluster # optional: if absent, all clusters regardless of name will be patched
+            origin: inbound # optional: if absent, all clusters regardless of its origin will be patched
+          jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
+            - op: add
+              path: /transportSocket/typedConfig/commonTlsContext/tlsParams
+              value:
+                tlsMinimumProtocolVersion: TLSv1_2
+            - op: add
+              path: /transportSocket/typedConfig/commonTlsContext/tlsParams/tlsMaximumProtocolVersion
+              value: TLSv1_2
+            - op: replace
+              path: /connectTimeout
+              value: 77s
+      - cluster:
+          operation: Remove
+          match: # optional: if absent, all clusters will be removed
+            name: test-cluster # optional: if absent, all clusters regardless of name will be removed
+            origin: inbound # optional: if absent, all clusters regardless of its origin will be removed
+```
+{% endtab %}
+{% endtabs %}
+{% endif_version %}
 
 #### Listener
 
@@ -154,6 +262,7 @@ Available matchers:
 * `origin` - origin of the Listener.
 * `tags` - tags of inbound or outbound Listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 
+{% if_version lte:2.1.x %}
 {% tabs listener useUrlFragment=false %}
 {% tab listener Kubernetes %}
 ```yaml
@@ -229,6 +338,107 @@ spec:
 ```
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
+
+{% if_version gte:2.2.x %}
+{% tabs listener useUrlFragment=false %}
+{% tab listener Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshProxyPatch
+metadata:
+  name: custom-template-1
+  namespace: {{site.mesh_namespace}}
+spec:
+  targetRef:
+    kind: MeshService
+    name: backend_default_svc_80
+  default:
+    appendModifications:
+      - listener:
+          operation: Add
+          value: |
+            name: test-listener
+            address:
+              socketAddress:
+                address: 192.168.0.1
+                portValue: 8080
+      - listener:
+          operation: Patch
+          match: # optional: if absent, all listeners will be patched
+            name: test-listener # optional: if absent, all listeners regardless of name will be patched
+            origin: inbound # optional: if absent, all listeners regardless of its origin will be patched
+            tags: # optional: if absent, all listeners are matched
+              kuma.io/service: backend
+          value: | # you can specify only part of listener definition that will be merged into existing listener
+            continueOnListenerFiltersTimeout: true
+      - listener:
+          operation: Patch
+          match: # optional: if absent, all listeners will be patched
+            name: test-listener # optional: if absent, all listeners regardless of name will be patched
+            origin: inbound # optional: if absent, all listeners regardless of its origin will be patched
+            tags: # optional: if absent, all listeners are matched
+              kuma.io/service: backend
+          jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
+            - op: add
+              path: /continueOnListenerFiltersTimeout
+              value: true
+      - listener:
+          operation: Remove
+          match: # optional: if absent, all listeners will be removed
+            name: test-listener # optional: if absent, all listeners regardless of name will be removed
+            origin: inbound # optional: if absent, all listeners regardless of its origin will be removed
+```
+{% endtab %}
+{% tab listener Universal %}
+
+```yaml
+type: MeshProxyPatch
+mesh: default
+name: custom-template-1
+spec:
+  targetRef:
+    kind: MeshService
+    name: backend
+  default:
+    appendModifications:
+      - listener:
+          operation: Add
+          value: |
+            name: test-listener
+            address:
+              socketAddress:
+                address: 192.168.0.1
+                portValue: 8080
+      - listener:
+          operation: Patch
+          match: # optional: if absent, all listeners will be patched
+            name: test-listener # optional: if absent, all listeners regardless of name will be patched
+            origin: inbound # optional: if absent, all listeners regardless of its origin will be patched
+            tags: # optional: if absent, all listeners are matched
+              kuma.io/service: backend
+          value: | # you can specify only part of listener definition that will be merged into existing listener
+            continueOnListenerFiltersTimeout: true
+      - listener:
+          operation: Patch
+          match: # optional: if absent, all listeners will be patched
+            name: test-listener # optional: if absent, all listeners regardless of name will be patched
+            origin: inbound # optional: if absent, all listeners regardless of its origin will be patched
+            tags: # optional: if absent, all listeners are matched
+              kuma.io/service: backend
+          jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
+            - op: add
+              path: /continueOnListenerFiltersTimeout
+              value: true
+      - listener:
+          operation: Remove
+          match: # optional: if absent, all listeners will be removed
+            name: test-listener # optional: if absent, all listeners regardless of name will be removed
+            origin: inbound # optional: if absent, all listeners regardless of its origin will be removed
+```
+{% endtab %}
+{% endtabs %}
+{% endif_version %}
 
 #### Network Filter
 
@@ -249,6 +459,7 @@ Available matchers:
 * `listenerTags` - tags of inbound or outbound Listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 * `origin` - origin of the Listener.
 
+{% if_version lte:2.1.x %}
 {% tabs network-filter useUrlFragment=false %}
 {% tab network-filter Kubernetes %}
 ```yaml
@@ -438,6 +649,223 @@ spec:
 ```
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
+
+{% if_version gte:2.2.x %}
+{% tabs network-filter useUrlFragment=false %}
+{% tab network-filter Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshProxyPatch
+metadata:
+  name: custom-template-1
+  namespace: {{site.mesh_namespace}}
+spec:
+  targetRef:
+    kind: MeshService
+    name: backend_default_svc_80
+  default:
+    appendModifications:
+      - networkFilter:
+          operation: AddFirst
+          match: # optional: if absent, filter will be added to all listeners
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.network.local_ratelimit
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+              statPrefix: rateLimit
+              tokenBucket:
+                fillInterval: 1s
+      - networkFilter:
+          operation: AddLast
+          match: # optional: if absent, filter will be added to all listeners
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.network.local_ratelimit
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+              statPrefix: rateLimit
+              tokenBucket:
+                fillInterval: 1s
+      - networkFilter:
+          operation: AddBefore
+          match:
+            name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added before existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.network.local_ratelimit
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+              statPrefix: rateLimit
+              tokenBucket:
+                fillInterval: 1s
+      - networkFilter:
+          operation: AddAfter
+          match:
+            name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added after existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.network.local_ratelimit
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+              statPrefix: rateLimit
+              tokenBucket:
+                fillInterval: 1s
+      - networkFilter:
+          operation: Patch
+          match:
+            name: envoy.filters.network.tcp_proxy 
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
+          value: | # you can specify only part of filter definition that will be merged into existing filter
+            name: envoy.filters.network.tcp_proxy
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+              idleTimeout: 10s
+      - networkFilter:
+          operation: Patch
+          match:
+            name: envoy.filters.network.tcp_proxy 
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
+          jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
+            - op: replace
+              path: /idleTimeout
+              value: 10s
+      - networkFilter:
+          operation: Remove
+          match: # optional: if absent, all filters from all listeners will be removed
+            name: envoy.filters.network.tcp_proxy # optional: if absent, all filters regardless of name will be removed
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, all filters regardless of the listener name will be removed
+            listenerTags: # optional: if absent, all filters regardless of the listener tags will be removed
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, all filters regardless of its origin will be removed
+```
+{% endtab %}
+{% tab network-filter Universal %}
+
+```yaml
+type: MeshProxyPatch
+mesh: default
+name: custom-template-1
+spec:
+  targetRef:
+    kind: MeshService
+    name: backend
+  default:
+    appendModifications:
+      - networkFilter:
+          operation: AddFirst
+          match: # optional: if absent, filter will be added to all listeners
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.network.local_ratelimit
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+              statPrefix: rateLimit
+              tokenBucket:
+                fillInterval: 1s
+      - networkFilter:
+          operation: AddLast
+          match: # optional: if absent, filter will be added to all listeners
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.network.local_ratelimit
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+              statPrefix: rateLimit
+              tokenBucket:
+                fillInterval: 1s
+      - networkFilter:
+          operation: AddBefore
+          match:
+            name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added before existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.network.local_ratelimit
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+              statPrefix: rateLimit
+              tokenBucket:
+                fillInterval: 1s
+      - networkFilter:
+          operation: AddAfter
+          match:
+            name: envoy.filters.network.tcp_proxy # a new filter (Local RateLimit) will be added after existing (TcpProxy). If there is no TcpProxy filter, Local RateLimit won't be added.
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.network.local_ratelimit
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+              statPrefix: rateLimit
+              tokenBucket:
+                fillInterval: 1s
+      - networkFilter:
+          operation: Patch
+          match:
+            name: envoy.filters.network.tcp_proxy
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
+          value: | # you can specify only part of filter definition that will be merged into existing filter
+            name: envoy.filters.network.tcp_proxy
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+              idleTimeout: 10s
+      - networkFilter:
+          operation: Patch
+          match:
+            name: envoy.filters.network.tcp_proxy
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
+          jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
+            - op: replace
+              path: /idleTimeout
+              value: 10s
+      - networkFilter:
+          operation: Remove
+          match: # optional: if absent, all filters from all listeners will be removed
+            name: envoy.filters.network.tcp_proxy # optional: if absent, all filters regardless of name will be removed
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, all filters regardless of the listener name will be removed
+            listenerTags: # optional: if absent, all filters regardless of the listener tags will be removed
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, all filters regardless of its origin will be removed
+```
+{% endtab %}
+{% endtabs %}
+{% endif_version %}
 
 #### HTTP Filter
 
@@ -460,6 +888,7 @@ Available matchers:
 * `listenerTags` - tags of inbound or outbound Listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 * `origin` - origin of the Listener.
 
+{% if_version lte:2.1.x %}
 {% tabs http-filter useUrlFragment=false %}
 {% tab http-filter Kubernetes %}
 ```yaml
@@ -633,6 +1062,207 @@ spec:
 ```
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
+
+{% if_version gte:2.2.x %}
+{% tabs http-filter useUrlFragment=false %}
+{% tab http-filter Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshProxyPatch
+metadata:
+  name: custom-template-1
+  namespace: {{site.mesh_namespace}}
+spec:
+  targetRef:
+    kind: MeshService
+    name: backend_default_svc_80
+  default:
+    appendModifications:
+      - httpFilter:
+          operation: AddFirst
+          match: # optional: if absent, filter will be added to all HTTP Connection Managers
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.http.gzip
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
+              memoryLevel: 9
+      - httpFilter:
+          operation: AddLast
+          match: # optional: if absent, filter will be added to all HTTP Connection Managers
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.http.gzip
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
+              memoryLevel: 9
+      - httpFilter:
+          operation: AddBefore
+          match:
+            name: envoy.filters.http.router # a new filter (Gzip) will be added before existing (Router). If there is no Router filter, Gzip won't be added.
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.http.gzip
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
+              memoryLevel: 9
+      - httpFilter:
+          operation: AddAfter
+          match:
+            name: envoy.filters.http.router # a new filter (Gzip) will be added after existing (Router). If there is no Router filter, Gzip won't be added.
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.http.gzip
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
+              memoryLevel: 9
+      - httpFilter:
+          operation: Patch
+          match:
+            name: envoy.filters.http.router 
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
+          value: | # you can specify only part of filter definition that will be merged into existing filter
+            name: envoy.filters.http.router 
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+              dynamicStats: false
+      - httpFilter:
+          operation: Patch
+          match:
+            name: envoy.filters.http.router 
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
+          jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
+            - op: replace
+              path: /dynamicStats
+              value: false
+      - httpFilter:
+          operation: Remove
+          match: # optional: if absent, all filters from all listeners will be removed
+            name: envoy.filters.http.gzip # optional: if absent, all filters regardless of name will be removed
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, all filters regardless of the listener name will be removed
+            listenerTags: # optional: if absent, all filters regardless of the listener tags will be removed
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, all filters regardless of its origin will be removed
+```
+{% endtab %}
+{% tab http-filter Universal %}
+
+```yaml
+type: MeshProxyPatch
+mesh: default
+name: custom-template-1
+spec:
+  targetRef:
+    kind: MeshService
+    name: backend_default_svc_80
+  default:
+    appendModifications:
+      - httpFilter:
+          operation: AddFirst
+          match: # optional: if absent, filter will be added to all HTTP Connection Managers
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.http.gzip
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
+              memoryLevel: 9
+      - httpFilter:
+          operation: AddLast
+          match: # optional: if absent, filter will be added to all HTTP Connection Managers
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.http.gzip
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
+              memoryLevel: 9
+      - httpFilter:
+          operation: AddBefore
+          match:
+            name: envoy.filters.http.router # a new filter (Gzip) will be added before existing (Router). If there is no Router filter, Gzip won't be added.
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.http.gzip
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
+              memoryLevel: 9
+      - httpFilter:
+          operation: AddAfter
+          match:
+            name: envoy.filters.http.router # a new filter (Gzip) will be added after existing (Router). If there is no Router filter, Gzip won't be added.
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be added to all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be added to all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be added to all listeners regardless of its origin
+          value: |
+            name: envoy.filters.http.gzip
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.gzip.v3.Gzip
+              memoryLevel: 9
+      - httpFilter:
+          operation: Patch
+          match:
+            name: envoy.filters.http.router
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
+          value: | # you can specify only part of filter definition that will be merged into existing filter
+            name: envoy.filters.http.router 
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+              dynamicStats: false
+      - httpFilter:
+          operation: Patch
+          match:
+            name: envoy.filters.http.router
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, filter will be patched within all listeners regardless of name
+            listenerTags: # optional: if absent, filter will be patched within all listeners regardless of listener tags
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, filter will be patched within all listeners regardless of its origin
+          jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
+            - op: replace
+              path: /dynamicStats
+              value: false
+      - httpFilter:
+          operation: Remove
+          match: # optional: if absent, all filters from all listeners will be removed
+            name: envoy.filters.http.gzip # optional: if absent, all filters regardless of name will be removed
+            listenerName: inbound:127.0.0.0:80 # optional: if absent, all filters regardless of the listener name will be removed
+            listenerTags: # optional: if absent, all filters regardless of the listener tags will be removed
+              kuma.io/service: backend
+            origin: inbound # optional: if absent, all filters regardless of its origin will be removed
+```
+{% endtab %}
+{% endtabs %}
+{% endif_version %}
 
 #### VirtualHost
 
@@ -650,6 +1280,8 @@ Available matchers:
 * `origin` - origin of the VirtualHost.
 * `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration-proto).
 
+
+{% if_version lte:2.1.x %}
 {% tabs virtual-host useUrlFragment=false %}
 {% tab virtual-host Kubernetes %}
 ```yaml
@@ -733,6 +1365,117 @@ spec:
 ```
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
+
+{% if_version gte:2.2.x %}
+{% tabs virtual-host useUrlFragment=false %}
+{% tab virtual-host Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshProxyPatch
+metadata:
+  name: custom-template-1
+  namespace: {{site.mesh_namespace}}
+spec:
+  targetRef:
+    kind: MeshService
+    name: backend_default_svc_80
+  default:
+    appendModifications:
+      - virtualHost:
+          operation: Add
+          value: |
+            name: backend
+            domains:
+            - "*"
+            routes:
+            - match:
+                prefix: /
+              route:
+                cluster: backend
+      - virtualHost:
+          operation: Patch
+          match: # optional: if absent, all listeners will be patched
+            name: backend # optional: if absent, all virtual hosts regardless of name will be patched
+            origin: inbound # optional: if absent, all virtual hosts regardless of its origin will be patched
+            routeConfigurationName: outbound:backend # optional: if absent, all virtual hosts in all route configurations will be patched
+          value: | # you can specify only part of virtual host definition that will be merged into existing virtual host
+            retryPolicy:
+              retryOn: 5xx
+              numRetries: 3
+      - virtualHost:
+          operation: Patch
+          match: # optional: if absent, all listeners will be patched
+            name: backend # optional: if absent, all virtual hosts regardless of name will be patched
+            origin: inbound # optional: if absent, all virtual hosts regardless of its origin will be patched
+            routeConfigurationName: outbound:backend # optional: if absent, all virtual hosts in all route configurations will be patched
+          jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
+            - op: add
+              path: /retryPolicy
+              value:
+                retryOn: 5xx
+                numRetries: 3
+      - virtualHost:
+          operation: Remove
+          match: # optional: if absent, all virtual hosts will be removed
+            name: test-listener # optional: if absent, all virtual hsots regardless of name will be removed
+            origin: inbound # optional: if absent, all virtual hosts regardless of its origin will be removed
+```
+{% endtab %}
+{% tab virtual-host Universal %}
+
+```yaml
+type: MeshProxyPatch
+mesh: default
+name: custom-template-1
+spec:
+  targetRef:
+    kind: MeshService
+    name: backend
+  default:
+    appendModifications:
+      - virtualHost:
+          operation: Add
+          value: |
+            name: backend
+            domains:
+            - "*"
+            routes:
+            - match:
+                prefix: /
+              route:
+                cluster: backend
+      - virtualHost:
+          operation: Patch
+          match: # optional: if absent, all listeners will be patched
+            name: backend # optional: if absent, all virtual hosts regardless of name will be patched
+            origin: inbound # optional: if absent, all virtual hosts regardless of its origin will be patched
+            routeConfigurationName: outbound:backend # optional: if absent, all virtual hosts in all route configurations will be patched
+          value: | # you can specify only part of virtual host definition that will be merged into existing virtual host
+            retryPolicy:
+              retryOn: 5xx
+              numRetries: 3
+      - virtualHost:
+          operation: Patch
+          match: # optional: if absent, all listeners will be patched
+            name: backend # optional: if absent, all virtual hosts regardless of name will be patched
+            origin: inbound # optional: if absent, all virtual hosts regardless of its origin will be patched
+            routeConfigurationName: outbound:backend # optional: if absent, all virtual hosts in all route configurations will be patched
+          jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
+            - op: add
+              path: /retryPolicy
+              value:
+                retryOn: 5xx
+                numRetries: 3
+      - virtualHost:
+          operation: Remove
+          match: # optional: if absent, all virtual hosts will be removed
+            name: test-listener # optional: if absent, all virtual hsots regardless of name will be removed
+            origin: inbound # optional: if absent, all virtual hosts regardless of its origin will be removed
+```
+{% endtab %}
+{% endtabs %}
+{% endif_version %}
 
 ## Merging
 
