@@ -557,8 +557,6 @@ items:
     items:
       - text: HTTP API
         url: /reference/http-api/
-      # - text: Kuma Command Line
-        # url: /reference/command-line/
       - text: Kubernetes annotations and labels
         url: /reference/kubernetes-annotations/
       - text: Kuma data collection
