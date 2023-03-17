@@ -30,7 +30,7 @@ Zone Ingress without `advertisedAddress` and `advertisedPort` is not taken into 
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
-The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/{{ page.version }}/deployments/multi-zone). It works as a separate deployment of a single-container pod.
+The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in {% if_version lte:2.1.x %}[multi-zone](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}. It works as a separate deployment of a single-container pod.
 
 {{site.mesh_product_name}} will try to resolve `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this Zone Ingress.
 
