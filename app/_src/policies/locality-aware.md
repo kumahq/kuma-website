@@ -2,7 +2,7 @@
 title: Locality-aware Load Balancing
 ---
 
-In a [multi-zone deployment](/docs/{{ page.version }}/introduction/deployments/), locality-aware load balancing
+In a {% if_version lte:2.1.x %}[multi-zone deployment](/docs/{{ page.version }}/introduction/deployments/){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment](/docs/{{ page.version }}/production/deployment/){% endif_version %}, locality-aware load balancing
 instructs data plane proxies to try to keep requests within one zone. The amount
 of traffic that remains in one zone depends on the health of the service endpoints in that
 zone.

@@ -1,11 +1,12 @@
 ---
-title: Kuma CNI
+title: Configure the Kuma CNI
+content_type: how-to
 ---
 
 The operation of the {{site.mesh_product_name}} data plane proxy,
 precludes that all the relevant inbound and outbound traffic on the host (or container)
 that runs the service is diverted to pass through the proxy itself.
-This is done through [transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying),
+This is done through {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %},
 which is set up automatically on Kubernetes.
 Installing it requires certain privileges,
 which are delegated to pre-sidecar initialisation steps.

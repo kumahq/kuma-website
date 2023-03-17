@@ -1,5 +1,6 @@
 ---
 title: Data plane proxy
+content_type: explanation
 ---
 
 A **data plane proxy (DPP)** is the part of {{site.mesh_product_name}} that runs next to each workload that is a member of the mesh.
@@ -41,7 +42,7 @@ Tags are a set of key-value pairs (.e.g `version=v2`) that are defined for each 
 Tags prefixed with `kuma.io` are reserved:
 
 * `kuma.io/service` identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually. This tag must always be present.
-* `kuma.io/zone` identifies the zone name in a [multi-zone deployment](/docs/{{ page.version }}/deployments/multi-zone). This tag is automatically created and cannot be overwritten.
+* `kuma.io/zone` identifies the zone name in a {% if_version lte:2.1.x %}[multi-zone deployment](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}. This tag is automatically created and cannot be overwritten.
 * `kuma.io/protocol` identifies [the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) of the service exposed by this inbound. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 ### Service
@@ -49,7 +50,7 @@ A service is a group of all DPP inbounds that have the same `kuma.io/service` ta
 
 ### Outbounds
 An outbound allows the workload to consume a service in the mesh using a local port.
-This is only useful when not using [transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying). 
+This is only useful when not using {% if_version lte:2.1.x %}[transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %}. 
 
 ## `Dataplane` entity
 
@@ -61,8 +62,8 @@ The `Dataplane` entity consists of:
 
 A `Dataplane` entity must be present for each DPP. `Dataplane` entities are managed differently depending on the environment: 
 
-- Kubernetes: The control plane [**automatically generates**](/docs/{{ page.version }}/explore/dpp-on-kubernetes) the `Dataplane` entity. 
-- Universal: The [**user defines**](/docs/{{ page.version}}/explore/dpp-on-universal) the `Dataplane` entity. 
+- Kubernetes: The control plane {% if_version lte:2.1.x %}[**automatically generates**](/docs/{{ page.version }}/explore/dpp-on-kubernetes){% endif_version %}{% if_version gte:2.2.x %}[**automatically generates**](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/){% endif_version %} the `Dataplane` entity. 
+- Universal: The {% if_version lte:2.1.x %}[**user defines**](/docs/{{ page.version}}/explore/dpp-on-universal){% endif_version %}{% if_version gte:2.2.x %}[**user defines**](/docs/{{ page.version}}/production/dp-config/dpp-on-universal/){% endif_version %} the `Dataplane` entity. 
  
 For more details check the [dataplane specification](/docs/{{ page.version }}/generated/resources/proxy_dataplane):
 

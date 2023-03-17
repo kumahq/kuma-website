@@ -18,7 +18,7 @@ A {{site.mesh_product_name}} mesh consists of two main components:
   that the {{site.mesh_product_name}} control plane processes to generate configuration for the data plane proxies.
 
 {% tip %}
-**Multi-mesh**: one {{site.mesh_product_name}} control plane deployment can control multiple, isolated data planes using the [`Mesh`](/docs/{{ page.version }}/policies/mesh) resource. As compared to one control plane per data plane, this option lowers the complexity and operational cost of supporting multiple meshes.
+**Multi-mesh**: one {{site.mesh_product_name}} control plane deployment can control multiple, isolated data planes using the {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %} resource. As compared to one control plane per data plane, this option lowers the complexity and operational cost of supporting multiple meshes.
 {% endtip %}
 
 This is a high level visualization of a {{site.mesh_product_name}} service mesh:
@@ -72,7 +72,7 @@ kuma.io/sidecar-injection: enabled
 ```
 
 {% tip %}
-**Injection**: learn more about sidecar injection in the section on [`Dataplanes`](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
+**Injection**: learn more about sidecar injection in the section on {% if_version lte:2.1.x %}[`Dataplanes`](/docs/{{ page.version }}/explore/dpp-on-kubernetes){% endif_version %}{% if_version gte:2.2.x %}[`Dataplanes`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/){% endif_version %}.
 
 **Annotations**: see [the complete list of the Kubernetes annotations](/docs/{{ page.version }}/reference/kubernetes-annotations/).
 

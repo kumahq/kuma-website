@@ -6,9 +6,9 @@ title: Traffic Permissions
 Traffic Permissions is an inbound policy. Dataplanes whose configuration is modified are in the `destinations` matcher.
 {% endtip %}
 
-This policy provides access control rules to define the traffic that is allowed within the [Mesh](/docs/{{ page.version }}/policies/mesh). 
+This policy provides access control rules to define the traffic that is allowed within the {% if_version lte:2.1.x %}[Mesh](/docs/{{ page.version }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.version }}/production/mesh/){% endif_version %}. 
 
-Traffic permissions requires [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) enabled on the [`Mesh`](/docs/{{ page.version }}/policies/mesh). Mutual TLS is required for {{site.mesh_product_name}} to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, {{site.mesh_product_name}} allows all service traffic. 
+Traffic permissions requires [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) enabled on the [{% if_version lte:2.1.x %}[Mesh](/docs/{{ page.version }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.version }}/production/mesh/){% endif_version %}. Mutual TLS is required for {{site.mesh_product_name}} to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, {{site.mesh_product_name}} allows all service traffic. 
 
 The default `TrafficPermission` policy that {{site.mesh_product_name}} creates when you install allows all communication between all services in the new `Mesh`. Make sure to configure your policies to allow appropriate access to each of the services in your mesh.
 
@@ -56,7 +56,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endtab %}
 {% endtabs %}
 
-You can use any [Tag](/docs/{{ page.version }}/explore/dpp/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
+You can use any {% if_version lte:2.1.x %}[Tag](/docs/{{ page.version }}/explore/dpp/#tags){% endif_version %}{% if_version gte:2.2.x %}[Tag](/docs/{{ page.version }}/production/dp-config/dpp/#tags){% endif_version %} with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
 
 ## Access to External Services
 
@@ -64,8 +64,8 @@ The `TrafficPermission` policy can also be used to restrict traffic to [services
 
 ### Prerequisites
 
-* {{site.mesh_product_name}} deployed with [transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying)
-* `Mesh` configured to [disable passthrough mode](/docs/{{ page.version }}/policies/mesh/#usage)
+* {{site.mesh_product_name}} deployed with {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %}
+* `Mesh` configured to {% if_version lte:2.1.x %}[disable passthrough mode](/docs/{{ page.version }}/policies/mesh/#usage){% endif_version %}{% if_version gte:2.2.x %}[disable passthrough mode](/docs/{{ page.version }}/production/mesh/#usage){% endif_version %}
 
 These settings lock down traffic to and from the mesh, which means that requests to any unknown destination are not allowed. The mesh can't rely on mTLS, because there is no data plane proxy on the destination side.
 

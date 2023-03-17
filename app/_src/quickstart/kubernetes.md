@@ -16,7 +16,7 @@ The zone key is purely static and arbitrary. Different zone values for different
 ## Prerequisites
 
 - {% if_version lte:2.1.x %}[{{site.mesh_product_name}} installed on your Kubernetes cluster](/docs/{{ page.version }}/installation/kubernetes/){% endif_version %}
-{% if_version gte:2.2.x %}[{{site.mesh_product_name}} installed on your Kubernetes cluster](/docs/{{ page.version }}/deployments/stand-alone/){% endif_version %}
+{% if_version gte:2.2.x %}[{{site.mesh_product_name}} installed on your Kubernetes cluster](/docs/{{ page.version }}/production/deployment/stand-alone/){% endif_version %}
 - [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 
   ```sh
@@ -47,7 +47,7 @@ Two different YAML files are available:
 
 ## Explore the mesh
 
-The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace. This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.version }}/explore/dpp-on-kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/{{ page.version }}/policies/mesh/) resource:
+The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace. This means that {{site.mesh_product_name}} {% if_version lte:2.1.x %}[already knows](/docs/{{ page.version }}/explore/dpp-on-kubernetes){% endif_version %}{% if_version gte:2.2.x %}[already knows](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/){% endif_version %} that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` {% if_version lte:2.1.x %}[Mesh](/docs/{{ page.version }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.version }}/production/mesh/){% endif_version %} resource:
 
 ```yaml
 apiVersion: v1
@@ -145,7 +145,7 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 
 ## Enable Mutual TLS and Traffic Permissions
 
-By default, the network is unsecure and not encrypted. We can change this with {{site.mesh_product_name}} by enabling the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/{{ page.version }}/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
+By default, the network is unsecure and not encrypted. We can change this with {{site.mesh_product_name}} by enabling the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` {% if_version lte:2.1.x %}[Mesh](/docs/{{ page.version }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.version }}/production/mesh/){% endif_version %} resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
@@ -245,7 +245,7 @@ spec:
       type: prometheus" | kubectl apply -f -
 ```
 
-This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/{{ page.version }}/policies/mesh/) and automatically collect metrics for all of our traffic.
+This will enable the `prometheus` metrics backend on the `default` {% if_version lte:2.1.x %}[Mesh](/docs/{{ page.version }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.version }}/production/mesh/){% endif_version %} and automatically collect metrics for all of our traffic.
 
 Increment the counter to generate traffic. Then you can expose the Grafana dashboard:
 

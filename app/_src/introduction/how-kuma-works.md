@@ -117,7 +117,7 @@ These control planes captured a lot of enthusiasm in the early days, but they al
 <img src="/assets/images/docs/0.6.0/distributed-deployment.jpg" alt="" style="width: 700px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-To learn more about the single and multi-zone deployments of {{site.mesh_product_name}} you can ready the [deployments guide](/docs/{{ page.version }}/introduction/deployments).
+To learn more about the single and multi-zone deployments of {{site.mesh_product_name}} you can ready the {% if_version lte:2.1.x %}[deployments guide](/docs/{{ page.version }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployments guide](/docs/{{ page.version }}/production/deployment/){% endif_version %}.
 
 {% tip %}
 **Real-Time Support**: The {{site.mesh_product_name}} community provides channels for real-time communication and support that you can explore in our [Community](/community) page. It also provides dedicated [Enterprise Support](/enterprise) delivered by [Kong](https://konghq.com).
