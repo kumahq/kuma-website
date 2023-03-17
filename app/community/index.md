@@ -45,7 +45,7 @@ Here is where all the coding happens. Feel free to ask questions, submit PRs and
 
 {% contentfor card-2-content %}
 
-[Join](https://chat.kuma.io) the official community Slack chat where the community
+[Join](https://join.slack.com/t/kuma-mesh/shared_invite/zt-1rcll3y6t-DkV_CAItZUoy0IvCwQ~jlQ) the official community Slack chat where the community
 can discuss and ask questions in real-time. If you have already joined, go directly to the [Kuma Workspace](https://kuma-mesh.slack.com).
 
 {% endcontentfor %}
