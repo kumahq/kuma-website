@@ -1,5 +1,6 @@
 ---
 title: Zone Egress
+content_type: how-to
 ---
 
 `ZoneEgress` proxy is used when it is required to isolate outgoing traffic (to services in other
@@ -39,7 +40,7 @@ The `ZoneEgress` entity includes a few sections:
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
 The recommended way to deploy a `ZoneEgress` proxy in Kubernetes is to use
-`kumactl`, or the Helm charts as specified in [multi-zone](/docs/{{ page.version }}/deployments/multi-zone).
+`kumactl`, or the Helm charts as specified in {% if_version lte:2.1.x %}[multi-zone](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}.
 It works as a separate deployment of a single-container pod.
 
 **Standalone**:
@@ -94,7 +95,7 @@ kuma-dp run \
 
 **Multi-zone**
 
-Multi-zone deployment is similar and for deployment, you should follow [multi-zone deployment instruction](/docs/{{ page.version }}/deployments/multi-zone).
+Multi-zone deployment is similar and for deployment, you should follow {% if_version lte:2.1.x %}[multi-zone deployment instruction](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment instruction](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}.
 
 {% endtab %}
 {% endtabs %}

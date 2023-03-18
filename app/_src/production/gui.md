@@ -1,5 +1,6 @@
 ---
-title: GUI
+title: Kuma user interface
+content_type: explanation
 ---
 
 {{site.mesh_product_name}} now ships with a basic web-based GUI that will serve as a visual overview of your dataplanes, meshes, and various traffic policies.

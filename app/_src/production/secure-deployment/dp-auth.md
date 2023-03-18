@@ -1,5 +1,6 @@
 ---
-title: Data plane proxy authentication
+title: Authentication with the data plane proxy
+content_type: reference
 ---
 
 To obtain a configuration from the control-plane, a data plane proxy must authenticate itself. There are several authentication methods availble.
@@ -14,7 +15,7 @@ This means that authentication scope is bound to a Namespace, so any Pod in the 
 To have a strict security bound to a Deployment, every Deployment should use unique Service Account Token.
 On top of that, users should not be able to modify `serviceAccountTokenName` in `Deployment`. This can be achieved for example with [OPA Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/docs/).
 
-Service Account Token is not bound to a mesh, see [data plane proxy membership](/docs/{{ page.version }}/security/dp-membership) how to restrict which Pods can join a mesh.
+Service Account Token is not bound to a mesh, see {% if_version lte:2.1.x %}[data plane proxy membership](/docs/{{ page.version }}/security/dp-membership){% endif_version %}{% if_version gte:2.2.x %}[data plane proxy membership](/docs/{{ page.version }}/production/secure-deployment/dp-membership/){% endif_version %} how to restrict which Pods can join a mesh.
 
 ## Data plane proxy token
 

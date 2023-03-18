@@ -145,12 +145,6 @@ query($owner: String!, $repo: String!, $branch: String!) {
   echo "Getting preview release with tag: $VERSION"
 }
 
-if [ "$VERSION" = "preview" ]; then
-  set_preview_version
-fi
-
-URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$VERSION-$DISTRO-$ARCH.tar.gz"
-
 TARGET_NAME="$PRODUCT_NAME"
 
 fail_download() {
@@ -158,30 +152,48 @@ fail_download() {
     exit 1
 }
 
-if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
-  # shellcheck disable=SC2034
-  IFS=. read -r major minor patch <<EOF
+if [ "$VERSION" = "preview" ]; then
+  IS_PREVIEW=1
+  set_preview_version
+fi
+# shellcheck disable=SC2034
+IFS=. read -r major minor patch <<EOF
 ${VERSION}
 EOF
+if [ "$IS_PREVIEW" = "1" ]; then
+  BASE_URL="https://download.konghq.com/$REPO_PREFIX-binaries-preview/$REPO_PREFIX-$VERSION"
+elif [ "$major" -gt "2" ] || [ "$major" = "2" ] && [ "$minor" -ge "2" ]; then
+  BASE_URL="https://download.konghq.com/$REPO_PREFIX-binaries-release/$REPO_PREFIX-$VERSION"
+fi
 
-  # handle the kumactl archive
-  if [ "$OS" = "Linux" ] && [ "$PRODUCT_NAME" = "Kuma" ]; then
-      if  [ "$major" -gt "1" ] || { [ "$major" -ge "1" ] && [ "$minor" -ge "7" ]; } then
-          printf "INFO\tWe only compile %s for your Linux distribution.\n" "$CTL_NAME"
-
-          TARGET_NAME="$CTL_NAME"
-          URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$CTL_NAME-$VERSION-linux-$ARCH.tar.gz"
-
-          printf "INFO\tFetching %s...\n" "$TARGET_NAME"
-          if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
-            fail_download "$URL"
-          fi
-      else
-        printf "ERROR\tYou appear to be running an unsupported Linux distribution.\n"
-        fail_download "$URL"
-      fi
+if [ "$BASE_URL" != "" ]; then
+  if [ "$OS" = "Linux" ]; then
+    URL="$BASE_URL-linux-$ARCH.tar.gz"
   else
-    fail_download "$URL"
+    URL="$BASE_URL-$DISTRO-$ARCH.tar.gz"
+  fi
+else
+  URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$VERSION-$DISTRO-$ARCH.tar.gz"
+  if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
+    # handle the kumactl archive
+    if [ "$OS" = "Linux" ] && [ "$PRODUCT_NAME" = "Kuma" ]; then
+        if  [ "$major" -gt "1" ] || { [ "$major" -ge "1" ] && [ "$minor" -ge "7" ]; } then
+            printf "INFO\tWe only compile %s for your Linux distribution.\n" "$CTL_NAME"
+
+            TARGET_NAME="$CTL_NAME"
+            URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$CTL_NAME-$VERSION-linux-$ARCH.tar.gz"
+
+            printf "INFO\tFetching %s...\n" "$TARGET_NAME"
+            if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
+              fail_download "$URL"
+            fi
+        else
+          printf "ERROR\tYou appear to be running an unsupported Linux distribution.\n"
+          fail_download "$URL"
+        fi
+    else
+      fail_download "$URL"
+    fi
   fi
 fi
 

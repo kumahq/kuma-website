@@ -1,5 +1,6 @@
 ---
-title: Fine-tuning
+title: Performance fine-tuning
+content_type: reference
 ---
 
 ## Reachable services
@@ -13,7 +14,7 @@ The result is that:
 * Smaller config is sent over a wire saving a lot of network bandwidth
 * Envoy only has to keep a couple of Clusters/Listeners which means much fewer statistics and lower memory usage.
 
-Follow the [transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying) docs on how to configure it.
+Follow the {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %} docs on how to configure it.
 
 ## Postgres
 
