@@ -1,5 +1,6 @@
 ---
-title: Upgrades
+title: Upgrade Kuma
+content_type: reference
 ---
 
 Since {{site.mesh_product_name}} 1.4.x upgrades can be performed up to two minor versions. Examples:

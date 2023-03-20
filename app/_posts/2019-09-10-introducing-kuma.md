@@ -22,4 +22,4 @@ Kuma’s key features include:
 
 Want to learn more about #KumaMesh? 
 
-Read our [documentation](https://kuma.io/install/latest/) and join us on [Slack](https://chat.kuma.io)! 
+Read our [documentation](https://kuma.io/install/latest/) and join us on [Slack](https://join.slack.com/t/kuma-mesh/shared_invite/zt-1rcll3y6t-DkV_CAItZUoy0IvCwQ~jlQ)! 

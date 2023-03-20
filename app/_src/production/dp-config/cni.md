@@ -1,11 +1,12 @@
 ---
-title: Kuma CNI
+title: Configure the Kuma CNI
+content_type: how-to
 ---
 
 The operation of the {{site.mesh_product_name}} data plane proxy,
 precludes that all the relevant inbound and outbound traffic on the host (or container)
 that runs the service is diverted to pass through the proxy itself.
-This is done through [transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying),
+This is done through {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %},
 which is set up automatically on Kubernetes.
 Installing it requires certain privileges,
 which are delegated to pre-sidecar initialisation steps.
@@ -14,7 +15,9 @@ There are two options to do this with {{site.mesh_product_name}}:
 - use the standard `kuma-init`, which is the default
 - use the {{site.mesh_product_name}} CNI
 
-{{site.mesh_product_name}} CNI can be leveraged in the two installation methods for Kubernetes: using [`kumactl`](/docs/{{ page.version }}/installation/kubernetes) and with [Helm](/docs/{{ page.version }}/installation/helm).
+{{site.mesh_product_name}} CNI can be leveraged in the two installation methods for Kubernetes: using 
+{% if_version lte:2.1.x %}[`kumactl`](/docs/{{ page.version }}/installation/kubernetes) and with [Helm](/docs/{{ page.version }}/installation/helm){% endif_version %}
+{% if_version gte:2.2.x %}[`kumactl`](/docs/{{ page.version }}/production/install-kumactl/) and with [Helm](/docs/{{ page.version }}/production/install-kumactl/){% endif_version %}.
 The default settings are tuned for OpenShift with Multus,
 therefore to use it in other environments we need to set the relevant configuration parameters.
 

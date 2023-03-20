@@ -2,10 +2,12 @@
 # See app/_plugins/generators/redirects.rb to understand the above lines
 
 /docs /docs/LATEST_RELEASE/ 302
+/docs/:version/overview/ /docs/:version/overview/what-is-kuma 301
 /latest_version.html /latest_version 301
 /install /install/LATEST_RELEASE/ 302
 /install/latest/* /install/LATEST_RELEASE/:splat 302
 /install/kong-gateway /docs/LATEST_RELEASE/explore/gateway 302
+/docs/latest/* /docs/LATEST_RELEASE/:splat 302
 
 # Kuma tag redirects
 /builtindns/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiobuiltindns 302
@@ -34,3 +36,12 @@ https://prometheus.metrics.kuma.io/port /docs/LATEST_RELEASE/reference/kubernete
 https://prometheus.metrics.kuma.io/path /docs/LATEST_RELEASE/reference/kubernetes-annotations/#prometheus-metrics-kuma-io-path/ 302
 https://traffic.kuma.io/exclude-inbound-ports /docs/LATEST_RELEASE/reference/kubernetes-annotations/#traffic-kuma-io-exclude-inbound-ports/ 302
 https://traffic.kuma.io/exclude-outbound-ports /docs/LATEST_RELEASE/reference/kubernetes-annotations/#traffic-kuma-io-exclude-outbound-ports/ 302
+
+# kuma IA redirects
+/docs/:version/deployments/multi-zone/#usage /docs/:version/production/cp-deployment/multi-zone/
+/docs/:version/deployments/stand-alone/#usage  /docs/:version/production/cp-deployment/stand-alone/
+
+# Community section
+
+/contribute/introduction/*  /docs/LATEST_RELEASE/community/contribute-to-kuma/:splat 302
+/reference/license/   /docs/LATEST_RELEASE/community/license/ 302

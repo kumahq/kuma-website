@@ -3823,7 +3823,7 @@ curl -XDELETE http://localhost:5681/global-secrets/sample-global-secret
 
 ## Multi-zone
 
-These APIs are available on the `Global` control plane, when running in a distributed [multi-zone mode](/docs/{{ page.version }}/introduction/deployments/).
+These APIs are available on the `Global` control plane, when running in a distributed {% if_version lte:2.1.x %}[multi-zone mode](/docs/{{ page.version }}/introduction/deployments/){% endif_version %}{% if_version gte:2.2.x %}[multi-zone mode](/docs/{{ page.version }}/production/deployment/){% endif_version %}.
 
 ### Zones status
 Request: `GET /status/zones`
@@ -3855,10 +3855,10 @@ curl -XGET http://localhost:5681/status/zones
 Generate the data plane proxy tokens required for data plane proxy authentication.
 
 {% warning %}
-Requires [authentication to the control plane by the user](/docs/{{ page.version }}/security/certificates#authentication).
+Requires {% if_version lte:2.1.x %}[authentication to the control plane by the user](/docs/{{ page.version }}/security/certificates#authentication){% endif_version %}{% if_version gte:2.2.x %}[authentication to the control plane by the user](/docs/{{ page.version }}/production/secure-deployment/certificates/#authentication){% endif_version %}.
 {% endwarning %}
 
-For details, see [data plane proxy authentication](/docs/{{ page.version }}/security/certificates#data-plane-proxy-to-control-plane-communication).
+For details, see {% if_version lte:2.1.x %}[data plane proxy authentication](/docs/{{ page.version }}/security/certificates#data-plane-proxy-to-control-plane-communication){% endif_version %}{% if_version gte:2.2.x %}[data plane proxy authentication](/docs/{{ page.version }}/production/secure-deployment/certificates/#data-plane-proxy-to-control-plane-communication){% endif_version %}.
 
 ### Generate dataplane proxy token
 
@@ -3888,10 +3888,10 @@ curl -XPOST \
 Generate token which zone ingress can use to authenticate itself.
 
 {% warning %}
-Requires [authentication to the control plane by the user](/docs/{{ page.version }}/security/certificates/#authentication).
+Requires {% if_version lte:2.1.x %}[authentication to the control plane by the user](/docs/{{ page.version }}/security/certificates#authentication){% endif_version %}{% if_version gte:2.2.x %}[authentication to the control plane by the user](/docs/{{ page.version }}/production/secure-deployment/certificates/#authentication){% endif_version %}.
 {% endwarning %}
 
-For details, see [zone ingress authentication](/docs/{{ page.version }}/security/zoneproxy-auth/).
+For details, see {% if_version lte:2.1.x %}[zone ingress authentication](/docs/{{ page.version }}/security/zoneproxy-auth/){% endif_version %}{% if_version gte:2.2.x %}[zone ingress authentication](/docs/{{ page.version }}/production/cp-deployment/zoneproxy-auth/){% endif_version %}.
 
 ### Generate Zone Ingress Token
 

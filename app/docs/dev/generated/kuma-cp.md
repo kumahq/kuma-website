@@ -176,6 +176,22 @@ apiServer:
     tokens:
       # If true then User Token with name admin and group admin will be created and placed as admin-user-token Kuma secret
       bootstrapAdminToken: true # ENV: KUMA_API_SERVER_AUTHN_TOKENS_BOOTSTRAP_ADMIN_TOKEN
+      # If true the control plane token issuer is enabled. It's recommended to set it to false when all the tokens are issued offline.
+      enableIssuer: true # ENV: KUMA_API_SERVER_AUTHN_TOKENS_ENABLE_ISSUER
+      # Token validator configuration
+      validator:
+        # If true then Kuma secrets with prefix "user-token-signing-key" are considered as signing keys.
+        useSecrets: true # ENV: KUMA_API_SERVER_AUTHN_TOKENS_VALIDATOR_USE_SECRETS
+        # List of public keys used to validate the token. Example:
+        # - kid: 1
+        #   key: |
+        #     -----BEGIN RSA PUBLIC KEY-----
+        #     MIIBCgKCAQEAq....
+        #     -----END RSA PUBLIC KEY-----
+        # - kid: 2
+        #   keyFile: /keys/public.pem
+        publicKeys: []
+
   # If true, then API Server will operate in read only mode (serving GET requests)
   readOnly: false # ENV: KUMA_API_SERVER_READ_ONLY
   # Allowed domains for Cross-Origin Resource Sharing. The value can be either domain or regexp
@@ -310,7 +326,7 @@ runtime:
         enabled: true # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED
         # Redirect port for DNS
         port: 15053 # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_PORT
-      transparentProxyV2: false # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_TRANSPARENT_PROXY_V2
+      transparentProxyV1: false # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_TRANSPARENT_PROXY_V1
       # EBPF defines configuration for the ebpf, when transparent proxy is marked to be
       # installed using ebpf instead of iptables
       ebpf:
@@ -405,6 +421,8 @@ multizone:
       refreshInterval: 1s # ENV: KUMA_MULTIZONE_GLOBAL_KDS_REFRESH_INTERVAL
       # Interval for flushing Zone Insights (stats of multi-zone communication)
       zoneInsightFlushInterval: 10s # ENV: KUMA_MULTIZONE_GLOBAL_KDS_ZONE_INSIGHT_FLUSH_INTERVAL
+      # TlsEnabled turns on TLS for KDS
+      tlsEnabled: true # ENV: KUMA_MULTIZONE_GLOBAL_KDS_TLS_ENABLED
       # TlsCertFile defines a path to a file with PEM-encoded TLS cert.
       tlsCertFile: # ENV: KUMA_MULTIZONE_GLOBAL_KDS_TLS_CERT_FILE
       # TlsKeyFile defines a path to a file with PEM-encoded TLS key.
@@ -475,11 +493,72 @@ dpServer:
   tlsMaxVersion: # ENV: KUMA_DP_SERVER_TLS_MAX_VERSION
   # TlsCipherSuites the list of cipher suites
   tlsCipherSuites: [] # ENV: KUMA_DP_SERVER_TLS_CIPHER_SUITES
+  # ReadHeaderTimeout defines the amount of time DP server will be allowed
+  # to read request headers. The connection's read deadline is reset
+  # after reading the headers and the Handler can decide what is considered
+  # too slow for the body. If ReadHeaderTimeout is zero there is no timeout.
+  # The timeout is configurable as in rare cases, when Kuma CP was restarting,
+  # 1s which is explicitly set in other servers was insufficient and DPs
+  # were failing to reconnect (we observed this in Projected Service Account
+  # Tokens e2e tests, which started flaking a lot after introducing explicit
+  # 1s timeout)
+  readHeaderTimeout: 5s # ENV: KUMA_DP_SERVER_READ_HEADER_TIMEOUT
   # Auth defines an authentication configuration for the DP Server
+  # DEPRECATED: use "authn" section.
   auth:
     # Type of authentication. Available values: "serviceAccountToken", "dpToken", "none".
     # If empty, autoconfigured based on the environment - "serviceAccountToken" on Kubernetes, "dpToken" on Universal.
     type: "" # ENV: KUMA_DP_SERVER_AUTH_TYPE
+  # Authn defines an authentication configuration for the DP Server
+  authn:
+    # Configuration for data plane proxy authentication.
+    dpProxy:
+      # Type of authentication. Available values: "serviceAccountToken", "dpToken", "none".
+      # If empty, autoconfigured based on the environment - "serviceAccountToken" on Kubernetes, "dpToken" on Universal.
+      type: ""
+      # Configuration of dpToken authentication method
+      dpToken:
+        # If true the control plane token issuer is enabled. It's recommended to set it to false when all the tokens are issued offline.
+        enableIssuer: true
+        # DP Token validator configuration.
+        validator:
+          # If true then Kuma secrets with prefix "dataplane-token-signing-key-{mesh}" are considered as signing keys.
+          useSecrets: true
+          # List of public keys used to validate the token. Example:
+          # - kid: 1
+          #   mesh: default
+          #   key: |
+          #     -----BEGIN RSA PUBLIC KEY-----
+          #     MIIBCgKCAQEAq....
+          #     -----END RSA PUBLIC KEY-----
+          # - kid: 2
+          #   mesh: demo
+          #   keyFile: /keys/public.pem
+          publicKeys: []
+    # Configuration for zone proxy authentication.
+    zoneProxy:
+      # Type of authentication. Available values: "serviceAccountToken", "zoneToken", "none".
+      # If empty, autoconfigured based on the environment - "serviceAccountToken" on Kubernetes, "zoneToken" on Universal.
+      type: ""
+      # Configuration for zoneToken authentication method.
+      zoneToken:
+        # If true the control plane token issuer is enabled. It's recommended to set it to false when all the tokens are issued offline.
+        enableIssuer: true
+        # Zone Token validator configuration.
+        validator:
+          # If true then Kuma secrets with prefix "zone-token-signing-key" are considered as signing keys.
+          useSecrets: true
+          # List of public keys used to validate the token. Example:
+          # - kid: 1
+          #   key: |
+          #     -----BEGIN RSA PUBLIC KEY-----
+          #     MIIBCgKCAQEAq....
+          #     -----END RSA PUBLIC KEY-----
+          # - kid: 2
+          #   keyFile: /keys/public.pem
+          publicKeys: []
+    # If true then Envoy uses Google gRPC instead of Envoy gRPC which lets a proxy reload the auth data (service account token, dp token etc.) stored in the file without proxy restart.
+    enableReloadableTokens: false # ENV: KUMA_DP_SERVER_AUTHN_ENABLE_RELOADABLE_TOKENS
   # Hds defines a Health Discovery Service configuration
   hds:
     # Enabled if true then Envoy will actively check application's ports, but only on Universal.
