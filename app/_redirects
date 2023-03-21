@@ -40,7 +40,8 @@ https://traffic.kuma.io/exclude-outbound-ports /docs/LATEST_RELEASE/reference/ku
 # kuma IA redirects
 /docs/:version/deployments/multi-zone/#usage /docs/:version/production/cp-deployment/multi-zone/
 /docs/:version/deployments/stand-alone/#usage  /docs/:version/production/cp-deployment/stand-alone/
-
+/docs/dev/introduction/what-is-a-service-mesh/ /docs/dev/introduction/about-service-meshes
+/docs/dev/introduction/what-is-kuma/ /docs/dev/introduction/overview-of-kuma
 
 # Community section
 
