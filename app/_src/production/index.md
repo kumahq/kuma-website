@@ -45,7 +45,7 @@ The `kumactl` binary is a client to the {{site.mesh_product_name}} HTTP API.
 
 Once `kumactl` is installed, you can use it to configure the control plane and deploy the data plane. The control plane (CP) is never on the execution path of the requests that the services exchange with each other. It’s used as a source of truth to dynamically configure the underlying data plane proxies that are deployed alongside every instance of every service that is part of the service mesh.
 
-You can either configure a [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone/) or [standalone](/docs/{{ page.version }}/production/stand-alone/) control plane, depending on your organization's needs. You can deploy either a [Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/) or [Universal](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/) data plane.
+You can either configure a [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone/) or [standalone](/docs/{{ page.version }}/production/cp-deployment/stand-alone/) control plane, depending on your organization's needs. You can deploy either a [Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/) or [Universal](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/) data plane.
 
 ### {{site.mesh_product_name}} security
 
