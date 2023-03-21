@@ -41,6 +41,7 @@ https://traffic.kuma.io/exclude-outbound-ports /docs/LATEST_RELEASE/reference/ku
 /docs/:version/deployments/multi-zone/#usage /docs/:version/production/cp-deployment/multi-zone/
 /docs/:version/deployments/stand-alone/#usage  /docs/:version/production/cp-deployment/stand-alone/
 
+
 # Community section
 
 /contribute/introduction/*  /docs/LATEST_RELEASE/community/contribute-to-kuma/:splat 302
