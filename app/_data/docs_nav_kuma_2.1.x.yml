@@ -399,6 +399,7 @@ items:
             url: "/documentation/upgrades/#multizone"
       - text: Requirements
         url: /documentation/requirements/
+        src: /introduction/kuma-requirements/
         items:
           - text: Architecture
             url: "/documentation/requirements/#architecture"

@@ -2,19 +2,21 @@
 title: Kuma Requirements
 ---
 
-This page expose the different requirements to run {{site.mesh_product_name}}.
+This page exposes the different requirements to run {{site.mesh_product_name}}.
 
 ## Architecture
 
+{% if_version leq:2.1.x %}
 {{site.mesh_product_name}} supports machines with `x86_64` architecture and since `1.7.0` it's possible to run {{site.mesh_product_name}} on `arm64`.
+{% endif_version %}
 
 ## Kubernetes
 
-{{site.mesh_product_name}} is validated against Kubernetes `1.19.x`, `1.20.x`, `1.21.x` and `1.22.x`.
+{{site.mesh_product_name}} is validated against Kubernetes `1.26.x`, `1.20.x`. For the specific Kubernetes version refer to the {{site.mesh_product_name}} CircleCI [configuration file](https://github.com/kumahq/kuma/blob/master/.circleci/config.yml#L7-L8).
 
 ## Envoy
 
-Versions of envoy supported are: `~1.22.0` which means `>=1.22.0` and `<1.23.0`.
+Versions of envoy supported are: `~1.22.0` which means `>=1.22.0` and `<1.23.0`. You can find the current version in the [version.sh](https://github.com/kumahq/kuma/blob/87233aabaac68ee56787d8e4e360e5614ad02689/tools/releases/version.sh#L11) file.
 
 ## Sizing your control-plane
 
