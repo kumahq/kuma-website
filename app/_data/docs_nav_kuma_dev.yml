@@ -47,6 +47,8 @@ items:
   - title: Kuma in Production
     group: true
     items:
+      - text: Overview
+        url: /production/
       - title: Deployment topologies
         group: true
         items:
@@ -58,6 +60,10 @@ items:
             url: /production/deployment/multi-zone/
           - text: Default ports
             url: /production/deployment/networking/
+      - text: Install kumactl
+        url: /production/install-kumactl/
+      - text: Use Kuma
+        url: /production/use-kuma/
       - title: Control plane deployment
         group: true
         items:
@@ -115,13 +121,6 @@ items:
             url: /production/upgrades-tuning/upgrades/
           - text: Performance fine-tuning
             url: /production/upgrades-tuning/fine-tuning/
-  - title: Install
-    group: true
-    items:
-      - text: Install kumactl
-        url: /production/install-kumactl/
-      - text: Use Kuma
-        url: /production/use-kuma/
   - title: Deploy
     group: true
     items:
