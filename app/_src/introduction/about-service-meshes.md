@@ -1,5 +1,5 @@
 ---
-title: What is Service Mesh?
+title: About service meshes
 ---
 
 Service Mesh is a technology pattern that implements a better way to implement modern networking and connectivity among the different services that make up an application. While it is commonly used in the context of microservices, it can be used to improve connectivity among every architecture and on every platform like VMs and containers.
