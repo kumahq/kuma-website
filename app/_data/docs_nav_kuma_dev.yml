@@ -40,8 +40,6 @@ items:
             url: /production/deployment/stand-alone/
           - text: Multi-zone deployment
             url: /production/deployment/multi-zone/
-          - text: Default ports
-            url: /production/deployment/networking/
       - text: Install kumactl
         url: /production/install-kumactl/
       - text: Use Kuma
@@ -49,6 +47,8 @@ items:
       - title: Control plane deployment
         group: true
         items:
+          - text: Deploy a standalone control plane
+            url: /production/cp-deployment/stand-alone/
           - text: Deploy a multi-zone global control plane
             url: /production/cp-deployment/multi-zone/ 
           - text: Zone Ingress
@@ -57,8 +57,6 @@ items:
             url: /production/cp-deployment/zoneegress/
           - text: Configure zone proxy authentication
             url: /production/cp-deployment/zoneproxy-auth/
-          - text: Deploy a standalone control plane
-            url: /production/cp-deployment/stand-alone/
           - text: Control plane configuration reference
             url: /generated/kuma-cp/
             generate: false
