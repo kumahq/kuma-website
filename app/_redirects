@@ -47,3 +47,7 @@ https://traffic.kuma.io/exclude-outbound-ports /docs/LATEST_RELEASE/reference/ku
 
 /contribute/introduction/*  /docs/LATEST_RELEASE/community/contribute-to-kuma/:splat 302
 /reference/license/   /docs/LATEST_RELEASE/community/license/ 302
+
+# Kuma IA Reference section
+
+/docs/:version/policies/proxy-template/ /docs/:version/reference/proxy-template/
