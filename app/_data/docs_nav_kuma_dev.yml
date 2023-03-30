@@ -6,10 +6,10 @@ items:
   - title: Introduction
     group: true
     items:
-      - text: Introduction to Kuma
-        url: /introduction/what-is-kuma/
-      - text: What is Service Mesh?
-        url: /introduction/what-is-a-service-mesh/
+      - text: About service meshes
+        url: /introduction/about-service-meshes
+      - text: Overview of Kuma
+        url: /introduction/overview-of-kuma/
       - text: How Kuma works
         url: /introduction/how-kuma-works/
         items:
@@ -19,14 +19,18 @@ items:
             url: "/introduction/how-kuma-works/#vm-and-k8s-support"
           - text: Kuma vs XYZ
             url: "/introduction/how-kuma-works/#kuma-vs-xyz"
-      - text: Enterprise
-        url: /introduction/enterprise/
-      - text: Changelog
+      - text: Architecture
+        url: /introduction/architecture/
+      - text: Kuma requirements
+        url: /introduction/kuma-requirements/
+      - text: Release notes
         absolute_url: true
         url: https://github.com/kumahq/kuma/blob/master/CHANGELOG.md
   - title: Kuma in Production
     group: true
     items:
+      - text: Overview
+        url: /production/
       - title: Deployment topologies
         group: true
         items:
@@ -38,6 +42,10 @@ items:
             url: /production/deployment/multi-zone/
           - text: Default ports
             url: /production/deployment/networking/
+      - text: Install kumactl
+        url: /production/install-kumactl/
+      - text: Use Kuma
+        url: /production/use-kuma/
       - title: Control plane deployment
         group: true
         items:
@@ -95,13 +103,6 @@ items:
             url: /production/upgrades-tuning/upgrades/
           - text: Performance fine-tuning
             url: /production/upgrades-tuning/fine-tuning/
-  - title: Install
-    group: true
-    items:
-      - text: Install kumactl
-        url: /production/install-kumactl/
-      - text: Use Kuma
-        url: /production/use-kuma/
   - title: Deploy
     group: true
     items:
@@ -146,15 +147,6 @@ items:
   - title: Explore
     group: true
     items:
-      - text: Overview
-        url: /explore/overview/
-        items:
-          - text: Components
-            url: "/explore/overview/#components"
-          - text: Kubernetes mode
-            url: "/explore/overview/#kubernetes-mode"
-          - text: Universal mode
-            url: "/explore/overview/#universal-mode"
       - text: Gateway
         url: /explore/gateway/
         items:
