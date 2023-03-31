@@ -157,9 +157,6 @@ items:
       - text: Zone Egress
         url: /explore/zoneegress/
         src: /production/cp-deployment/zoneegress/
-        items:
-          - text: Configuration
-            url: "/explore/zoneegress/#configuration"
       - text: CLI
         url: /explore/cli/
         items:
