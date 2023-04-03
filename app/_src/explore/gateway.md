@@ -284,13 +284,13 @@ spec:
     metadata:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+    spec:
+      loadBalancerIP: ...
   podTemplate:
     metadata:
       labels:
         app-name: my-app
         ...
-    spec:
-      loadBalancerIP: ...
 ```
 
 You can also modify several security-related parameters for the generated `Pods`, and specify a `loadBalancerIP` for the `Service`:
