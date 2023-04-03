@@ -27,7 +27,7 @@ Standalone mode is usually a great choice within the context of one zone (ie: wi
 
 If these limitations are problematic you should look at {% if_version lte:2.1.x %}[Multi-zone deployments](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[Multi-zone deployments](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}.
 
-## Components of a multi-zone deployment
+## Components of a standalone deployment
 
 A standalone deployment includes:
 
