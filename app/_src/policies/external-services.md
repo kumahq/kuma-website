@@ -66,7 +66,7 @@ networking:
 
 Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
-Universal mode is best combined with [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
+Universal mode is best combined with {% if_version lte:2.1.x %}[transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version%}{% if_version gte:2.2.x %}[transparent proxy](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version%}. For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
 
 ```yaml
 type: Dataplane
@@ -91,7 +91,7 @@ Then `httpbin.org` is accessible at `127.0.0.1:10000`.
 
 ### Accessing the External Service
 
-Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying)) can be done:
+Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming {% if_version lte:2.1.x %}[transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version%}{% if_version gte:2.2.x %}[transparent proxy](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version%}) can be done:
 
 * With the `.mesh` naming of the service `curl httpbin.mesh`. With this approach, specify port 80.
 * With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](/docs/{{ page.version }}/networking/dns) name resolution.
@@ -160,7 +160,7 @@ In this example, when [locality aware load balancing](/docs/{{ page.version }}/p
 
 ### External Services and ZoneEgress
 
-In scenarios when traffic to external services needs to be sent through a unique set of hosts you will [configure ZoneEgress](/docs/{{ page.version }}/explore/zoneegress).
+In scenarios when traffic to external services needs to be sent through a unique set of hosts you will {% if_version lte:2.1.x %}[configure ZoneEgress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[configure ZoneEgress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}.
 
 For example when there is:
 * [disabled passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing)
@@ -186,7 +186,7 @@ In this setup, applications will only be able to communicate with other applicat
 ### External Services accessible from specific zone through ZoneEgress
 
 There are might be scenarios when a specific `ExternalService` might be accessible only through the specific zone. To make it work we should use the `kuma.io/zone` tag for external service. In order to make it work, we need a multi-zone setup with `ZoneIngress` and `ZoneEgress` deployed. Also,
-[zone egress](/docs/{{ page.version }}/explore/zoneegress#configuration) needs to be enabled.
+{% if_version lte:2.1.x %}[zone egress](/docs/{{ page.version }}/explore/zoneegress#configuration){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/#configuration){% endif_version %} needs to be enabled.
  
 Example:
  

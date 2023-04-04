@@ -4,7 +4,7 @@ Hello, and welcome! Whether you are looking for help, trying to report a bug, th
 
 ## Where to seek help?
 
-[Slack](https://kuma-mesh.slack.com) is the main chat channel used by the community and the maintainers of this project. If you do not have an existing account, please follow this [link](https://chat.kuma.io) to sign up for free.
+[Slack](https://kuma-mesh.slack.com) is the main chat channel used by the community and the maintainers of this project. If you do not have an existing account, please follow this [link](https://join.slack.com/t/kuma-mesh/shared_invite/zt-1rcll3y6t-DkV_CAItZUoy0IvCwQ~jlQ) to sign up for free.
 
 **Please avoid opening GitHub issues for general questions or help**, as those should be reserved for actual bug reports. The Kuma community is welcoming and more than willing to assist you on Slack!
 

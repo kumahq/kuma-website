@@ -8,7 +8,7 @@ Tracing is supported over HTTP, HTTP2, and gRPC protocols. You must [explicitly 
 
 You must also:
 
-1. [Add a tracing backend](#add-a-tracing-backend-to-the-mesh). You specify a tracing backend as a [`Mesh`](/docs/{{ page.version }}/policies/mesh) resource property.
+1. [Add a tracing backend](#add-a-tracing-backend-to-the-mesh). You specify a tracing backend as a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %} resource property.
 2. [Add a TrafficTrace resource](#add-traffictrace-resource). You pass the backend to the `TrafficTrace` resource.
 
 {{site.mesh_product_name}} currently supports the following trace exposition formats:

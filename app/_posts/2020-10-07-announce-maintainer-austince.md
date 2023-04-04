@@ -32,4 +32,4 @@ this universal connectivity problem we all face. Everyone's deployment landscape
 accessible to any deployment pattern, environment, and user is where I'll be -- hope to see you there!
 
 To see how we've adopted Kuma inside FinTech Studios, please check out my
-talk at [Kong Summit](https://konghq.com/kong-summit/): _Day 0 to Day 2 with Kuma, Helm, and Kubernetes_!
+talk at [Kong Summit](https://www.youtube.com/watch?v=V_wjEWEy1JA): _Day 0 to Day 2 with Kuma, Helm, and Kubernetes_!
