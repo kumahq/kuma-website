@@ -301,6 +301,95 @@ kumactl delete global-secret admin-user-token
    {% endtab %}
    {% endtabs %}
 
+### Offline token issuing
+
+In addition to the regular flow of generating signing keys, storing them in secret, and using it to sign tokens on the control plane, Kuma also offers offline signing of tokens.
+In this flow, you can generate a pair of public and private keys and configure the control plane only with public keys for token verification.
+You can generate all the tokens without running the control plane.
+
+The advantages of this mode are:
+* easier, more reproducible deployments of the control plane. More in line with GitOps.
+* potentially more secure setup, because the control plane does not have access to the private keys.
+
+Here's how to use offline issuing
+
+1. Generate a pair of signing keys
+   ```sh
+   kumactl generate signing-key --format=pem > /tmp/key-private.pem
+   kumactl generate public-key --signing-key-path=/tmp/key-private.pem > /tmp/key-public.pem
+   ```
+
+   The result should be similar to this output
+   ```sh
+   cat /tmp/key-private.pem && cat /tmp/key-public.pem 
+   -----BEGIN RSA PRIVATE KEY-----
+   MIIEpAIBAAKCAQEAsS61a79gC4mkr2Ltwi09ajakLyUR8YTkJWzZE805EtTkEn/r
+   ...
+   htKtzsYA7yGlt364IuDybrP+PlPMSK9cQAmWRRZIcBNsKOODkAgKFA==
+   -----END RSA PRIVATE KEY-----
+   -----BEGIN RSA PUBLIC KEY-----
+   MIIBCgKCAQEAsS61a79gC4mkr2Ltwi09ajakLyUR8YTkJWzZE805EtTkEn/rL2u/
+   ...
+   se7sx2Pt/NPbWFFTMGVFm3A1ueTUoorW+wIDAQAB
+   -----END RSA PUBLIC KEY----- 
+   ```
+
+2. Configure the control plane with public key
+
+   [Configure a control plane](/docs/{{ page.version }}/documentation/configuration) with the following settings
+   ```yaml
+   apiServer:
+     authn:
+       type: tokens
+       tokens:
+         enableIssuer: false # disable control plane token issuer that uses secrets
+         validator:
+           useSecrets: false # do not use signing key stored in secrets to validate the token
+           publicKeys:
+           - kid: "key-1"
+             key: |
+               -----BEGIN RSA PUBLIC KEY-----
+               MIIBCgKCAQEAsS61a79gC4mkr2Ltwi09ajakLyUR8YTkJWzZE805EtTkEn/rL2u/
+               ...
+               se7sx2Pt/NPbWFFTMGVFm3A1ueTUoorW+wIDAQAB
+               -----END RSA PUBLIC KEY-----
+   ```
+   
+3. Use the private key to issue tokens offline
+
+   The command is the same as with online signing, but with two additional arguments:
+   * `--kid` - ID of the key that should be used to validate the token. This should match `kid` specified in the control plane configuration.
+   * `--signing-key-path` - path to a PEM-encoded private key.
+
+   ```sh
+   kumactl generate user-token \
+     --name john.doe@example.com \
+     --group users \
+     --valid-for 24h \
+     --signing-key-path /tmp/key-private.pem \
+     --kid key-1
+   ```
+   
+   You can also use any external system that can issue JWT tokens using `RS256` signing method with the following claims:
+   * `Name` (string) - the name of the user
+   * `Groups` ([]string) - list of user groups
+   
+#### Migration
+
+You can use both offline and online issuing by keeping `apiServer.authn.tokens.enableIssuer` to true.
+You can use both secrets and public key static config validators by keeping `apiServer.authn.tokens.validator.useSecrets` to true.
+
+#### Management
+
+Token revocation works the same when using both online and offline issuing.
+
+Signing key rotation works similarly:
+* generate another pair of signing keys
+* configure a control plane with old and new public keys
+* issue tokens with a new private key
+* remove the old public key from the configuration
+
+
 ## Admin client certificates
 
 This section describes the alternative way of authenticating to API Server.
