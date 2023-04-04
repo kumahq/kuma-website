@@ -379,19 +379,6 @@ items:
             url: "/policies/circuit-breaker/#builtin-gateway-support"
           - text: Non-mesh traffic
             url: "/policies/circuit-breaker/#non-mesh-traffic"
-      - text: Proxy Template
-        url: /policies/proxy-template/
-        items:
-          - text: Usage
-            url: "/policies/proxy-template/#usage"
-          - text: How Kuma handles the proxy template
-            url: "/policies/proxy-template/#how-kuma-handles-the-proxy-template"
-          - text: Lua filter example
-            url: "/policies/proxy-template/#lua-filter-example"
-          - text: Matching
-            url: "/policies/proxy-template/#matching"
-          - text: Builtin Gateway support
-            url: "/policies/proxy-template/#builtin-gateway-support"
       - text: External Service
         url: /policies/external-services/
         items:
@@ -565,88 +552,21 @@ items:
             url: "/policies/meshtrafficpermission/#configuration"
           - text: Examples
             url: "/policies/meshtrafficpermission/#examples"
-  - title: Reference docs
+  - title: Reference
     group: true
     items:
       - text: HTTP API
         url: /reference/http-api/
-        items:
-          - text: Pagination
-            url: "/reference/http-api/#pagination"
-          - text: Control Plane configuration
-            url: "/reference/http-api/#control-plane-configuration"
-          - text: Supported Envoy versions
-            url: "/reference/http-api/#supported-envoy-versions"
-          - text: Meshes
-            url: "/reference/http-api/#meshes"
-          - text: Mesh Insights
-            url: "/reference/http-api/#mesh-insights"
-          - text: Dataplanes
-            url: "/reference/http-api/#dataplanes"
-          - text: Dataplane Overviews
-            url: "/reference/http-api/#dataplane-overviews"
-          - text: Health Check
-            url: "/reference/http-api/#health-check"
-          - text: Proxy Template
-            url: "/reference/http-api/#proxy-template"
-          - text: Traffic Permission
-            url: "/reference/http-api/#traffic-permission"
-          - text: Traffic Log
-            url: "/reference/http-api/#traffic-log"
-          - text: Traffic Route
-            url: "/reference/http-api/#traffic-route"
-          - text: Traffic Trace
-            url: "/reference/http-api/#traffic-trace"
-          - text: Fault Injection
-            url: "/reference/http-api/#fault-injection"
-          - text: Retry
-            url: "/reference/http-api/#retry"
-          - text: Timeout
-            url: "/reference/http-api/#timeout"
-          - text: Zones
-            url: "/reference/http-api/#zones"
-          - text: Zone Overview
-            url: "/reference/http-api/#zone-overview"
-          - text: Zone Ingresses
-            url: "/reference/http-api/#zone-ingresses"
-          - text: Zone Ingress Overviews
-            url: "/reference/http-api/#zone-ingress-overviews"
-          - text: Zone Egresses
-            url: "/reference/http-api/#zone-egresses"
-          - text: Zone Egress Overviews
-            url: "/reference/http-api/#zone-egress-overviews"
-          - text: External Services
-            url: "/reference/http-api/#external-services"
-          - text: Service Insights
-            url: "/reference/http-api/#service-insights"
-          - text: Secrets
-            url: "/reference/http-api/#secrets"
-          - text: Global Secrets
-            url: "/reference/http-api/#global-secrets"
-          - text: Multi-zone
-            url: "/reference/http-api/#multi-zone"
-          - text: Dataplane Proxy Tokens
-            url: "/reference/http-api/#dataplane-proxy-tokens"
-          - text: Zone Ingress Tokens
-            url: "/reference/http-api/#zone-ingress-tokens"
-          - text: Global Insights
-            url: "/reference/http-api/#global-insights"
-          - text: Inspect API
-            url: "/reference/http-api/#inspect-api"
-      - text: Annotations and labels in Kubernetes mode
+      - text: Kubernetes annotations and labels
         url: /reference/kubernetes-annotations/
-        items:
-          - text: Labels
-            url: "/reference/kubernetes-annotations/#labels"
-          - text: Annotations
-            url: "/reference/kubernetes-annotations/#annotations"
       - text: Kuma data collection
         url: /reference/data-collection/
-        items:
-          - text: Enabling data collection
-            url: "/reference/data-collection/#enabling-data-collection"
-          - text: What data is collected
-            url: "/reference/data-collection/#what-data-is-collected"
+      - # Auto-generated
+        text: Control plane configuration reference 
+        url: /generated/kuma-cp
+        generate: false
+      - text: Envoy proxy template
+        url: /reference/proxy-template/  
       - # Auto-generated
         title: Resources
         group: true
@@ -721,10 +641,6 @@ items:
           - text: kumactl
             url: /generated/cmd/kumactl/kumactl/
             generate: false
-      - # Auto-generated
-        text: Kuma-cp configuration reference
-        url: /generated/kuma-cp
-        generate: false
   - title: Community
     group: true
     items:
