@@ -65,6 +65,69 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 
     By default, it's exposed on {% if_version lte:2.1.x %}[port 5685](/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}[port 5685](/docs/{{ page.version }}/production/deployment/networking/){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
+{% if_version gte:2.2.x %}
+{% tab global-control-plane Universal on Kubernetes using Helm %}
+
+1. Set `controlPlane.environment=universal` and `controlPlane.mode=global` in the chart (`values.yaml`).
+
+1. Set `controlPlane.secrets` with database sensitive information
+
+```yaml
+# ...
+    secrets:
+      postgresDb:
+        Secret: your-secret-name
+        Key: POSTGRES_DB
+        Env: KUMA_STORE_POSTGRES_DB_NAME
+      postgresHost:
+        Secret: your-secret-name
+        Key: POSTGRES_HOST_RW
+        Env: KUMA_STORE_POSTGRES_HOST
+      postgrestUser:
+        Secret: your-secret-name
+        Key: POSTGRES_USER
+        Env: KUMA_STORE_POSTGRES_USER
+      postgresPassword:
+        Secret: your-secret-name
+        Key: POSTGRES_PASSWORD
+        Env: KUMA_STORE_POSTGRES_PASSWORD
+```
+
+1. Optionally set `postgres` with TLS settings
+
+```yaml
+  # Postgres' settings for universal control plane on k8s
+  postgres:
+    # -- Postgres port, password should be provided as a secret reference in "controlPlane.secrets"
+    # with the Env value "KUMA_STORE_POSTGRES_PASSWORD".
+    # Example:
+    # controlPlane:
+    #   secrets:
+    #     - Secret: postgres-postgresql
+    #       Key: postgresql-password
+    #       Env: KUMA_STORE_POSTGRES_PASSWORD
+    port: "5432"
+    # TLS settings
+    tls:
+      # -- Mode of TLS connection. Available values are: "disable", "verifyNone", "verifyCa", "verifyFull"
+      mode: disable # ENV: KUMA_STORE_POSTGRES_TLS_MODE
+      # -- Whether to disable SNI the postgres `sslsni` option.
+      disableSSLSNI: false # ENV: KUMA_STORE_POSTGRES_TLS_DISABLE_SSLSNI
+      # -- Secret name that contains the ca.crt
+      caSecretName:
+      # -- Secret name that contains the client tls.crt, tls.key
+      secretName:
+```
+
+1. Run helm install
+
+    ```sh
+    helm install {{ site.mesh_helm_install_name }} -f values.yaml --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh_helm_repo }}
+    ```
+
+{% endtab %}
+{% endif_version %}
+
 {% endtab %}
 {% tab global-control-plane Universal %}
 
