@@ -9,7 +9,7 @@ Zone Ingress can proxy the traffic between all meshes, so we need only one deplo
 All requests that are sent from one zone to another will be directed to the proper instance by the Zone Ingress.
 
 {%tip%}
-Because Zone ingress uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.version }}/policies/mutual-tls) is required to do cross zone communication.
+Because `ZoneIngress` uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.version }}/policies/mutual-tls) is required to do cross zone communication.
 {%endtip%}
 
 The `ZoneIngress` entity includes a few sections:
@@ -34,7 +34,7 @@ Zone Ingress without `advertisedAddress` and `advertisedPort` is not taken into 
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
-To install zone-ingress in Kubernetes when doing `kumactl install control-plane` use the `--ingress-enabled`. If using helm add `ingress.enabled: true` to your `values.yaml`.
+To install `ZoneIngress` in Kubernetes when doing `kumactl install control-plane` use the `--ingress-enabled`. If using helm add `ingress.enabled: true` to your `values.yaml`.
 
 {{site.mesh_product_name}} will set `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this Zone Ingress.
 

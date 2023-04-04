@@ -10,7 +10,7 @@ zones or [external services](/docs/{{ page.version }}/policies/external-services
 you can use `ZoneEgress` proxy.
 
 {%tip%}
-Because Zone egress uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.version }}/policies/mutual-tls) is required.
+Because `ZoneEgress` uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.version }}/policies/mutual-tls) is required.
 {%endtip%}
 
 This proxy is not attached to any particular workload. In multi-zone the proxy is bound to a specific zone.
@@ -43,7 +43,7 @@ The `ZoneEgress` entity includes a few sections:
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
-To install zone-egress in Kubernetes when doing `kumactl install control-plane` use the `--egress-enabled`. If using helm add `egress.enabled: true` to your `values.yaml`.
+To install `ZoneEgress` in Kubernetes when doing `kumactl install control-plane` use the `--egress-enabled`. If using helm add `egress.enabled: true` to your `values.yaml`.
 
 {% endtab %}
 {% tab usage Universal %}
@@ -54,7 +54,7 @@ In Universal mode, the token is required to authenticate `ZoneEgress` instance. 
 kumactl generate zone-token --valid-for 720h --scope egress > /path/to/token
 ```
 
-Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services to be configured to proxy traffic to other zones or external services through zone egress:
+Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services to be configured to proxy traffic to other zones or external services through `ZoneEgress`:
 
 ```yaml
 type: ZoneEgress
@@ -64,7 +64,7 @@ networking:
   port: 10002
 ```
 
-Apply the egress configuration, passing the IP address of the control plane and your instance should start.
+Apply the `ZoneEgress` configuration, passing the IP address of the control plane and your instance should start.
 
 ```bash
 kuma-dp run \

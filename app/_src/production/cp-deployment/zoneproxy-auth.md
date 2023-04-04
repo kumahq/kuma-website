@@ -67,7 +67,7 @@ curl -XPOST \
 The token should be stored in a file and then passed when you start `kuma-dp`:
 ```bash
 kuma-dp run \
-  --proxy-type=egress|ingress \
+  --proxy-type=ingress # or egress \
   --dataplane-file=zone-proxy-definition.yaml
   --cp-address=https://127.0.0.1:5678 \
   --dataplane-token-file=/tmp/kuma-zone-proxy-token
