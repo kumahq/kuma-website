@@ -2,7 +2,7 @@
 set -e
 
 function os_agnostic_sed() {
-  if [[ "$(go env GOOS)" == "darwin" ]]; then
+  if [[ "$(uname)" == "Darwin" ]]; then
     sed -i '' "$@"
   else
     sed -i "$@"
@@ -13,7 +13,7 @@ pushd ../kuma
 
 for remote in $(git remote); do
     url=$(git remote get-url "$remote")
-    if [[ "$url" =~ .*kumahq/kuma$ ]]; then
+    if [[ "$url" =~ .*kumahq/kuma.* ]]; then
         kumahq="$remote"
     fi
 done
@@ -34,6 +34,10 @@ for i in app/docs/*; do
   pushd ../kuma
     git checkout "$kumahq/$branch"
   popd
+  if [[ $branch == "master" ]]; then
+    echo "copying versions.yml file"
+    cp ../kuma/versions.yml app/_data/versions.yml
+  fi
   if [[ ! -d ../kuma/docs/generated ]]; then
     echo "No generated docs, ignoring..."
     continue
