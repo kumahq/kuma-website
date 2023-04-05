@@ -301,6 +301,7 @@ kumactl delete global-secret admin-user-token
    {% endtab %}
    {% endtabs %}
 
+{% if_version gte:2.2.x %}
 ### Offline token issuing
 
 In addition to the regular flow of generating signing keys, storing them in secret, and using them to sign tokens on the control plane, Kuma also offers offline signing of tokens.
@@ -388,7 +389,7 @@ Signing key rotation works similarly:
 * configure a control plane with old and new public keys
 * regenerate tokens for all existing users with the new private key
 * remove the old public key from the configuration
-
+{% endif_version %}
 
 ## Admin client certificates
 
