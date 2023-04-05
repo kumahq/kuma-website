@@ -70,16 +70,3 @@ kumactl config control-planes add \
  --auth-conf token=$TOKEN \
  --skip-verify
 ```
-
-## Failure modes
-
-#### Control plane offline
-
-* New data planes proxis won't be able to join the mesh.
-* Data-plane proxy configuration will not be updated.
-* Communication between data planes proxies will still work.
-
-{% tip %}
-You can think of this failure case as *"Freezing"* the zone mesh configuration.
-Communication will still work but changes will not be reflected on existing data plane proxies.
-{% endtip %}

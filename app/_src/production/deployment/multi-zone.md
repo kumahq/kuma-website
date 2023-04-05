@@ -16,7 +16,7 @@ Or without the optional zone egress:
 <img src="/assets/images/diagrams/gslides/kuma_multizone_without_egress.svg" alt="Kuma service mesh multi zone deployment with zone egress" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-### How it works
+## How it works
 
 In {{site.mesh_product_name}}, zones are abstracted away, meaning that your data plane proxies will find services wherever they run.
 This way you can make a service multi-zone by having data planes using the same `kuma.io/service` in different zones. This gives you automatic fail-over of services in case a specific zone fails.
@@ -24,7 +24,7 @@ This way you can make a service multi-zone by having data planes using the same 
 Let's look at how a service `backend` in `zone-b` is advertised to `zone-a` and a request from the local zone `zone-a` is routed to the remote
 service in `zone-b`.
 
-#### Destination service zone
+### Destination service zone
 
 When the new service `backend` joins the mesh in `zone-b`, the `zone-b` zone control plane adds this service to the `availableServices` on the `zone-b` `ZoneIngress` resource.
 The `kuma-dp` proxy running as a zone ingress is configured with this list of
@@ -33,7 +33,7 @@ This `ZoneIngress` resource is then also synchronized to the global control plan
 
 The global control-plane will propagate the zone ingress resources and all policies to all other zones over {{site.mesh_product_name}} Discovery Service (KDS), which is a protocol based on xDS.
 
-#### Source service zone
+### Source service zone
 
 The `zone-b` `ZoneIngress` resource is synchronized from the global control
 plane to the `zone-a` zone control plane.
@@ -54,7 +54,7 @@ a DNS entry with the format `<kuma.io/service>.mesh`, and will listen for traffi
 A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in {{site.mesh_product_name}} [gateway mode](/docs/{{ page.version }}/explore/gateway) and can be deployed in addition to zone ingresses.
 {% endtip %}
 
-### Components of a multi-zone deployment
+## Components of a multi-zone deployment
 
 A multi-zone deployment includes:
 
@@ -86,3 +86,71 @@ A multi-zone deployment includes:
   - Proxy traffic from local data plane proxies:
     - to zone ingress proxies from other zones;
     - to external services from local zone;
+
+## Failure modes
+
+### Global control plane offline
+
+- Policy updates will be impossible
+- Change in service list between zones will not propagate:
+  - New services will not be discoverable in other zones.
+  - Services removed from a zone will still appear available in other zones.
+- You won't be able to disable or delete a zone.
+
+{% tip %}
+Note that both local and cross-zone application traffic is not impacted by this failure case.
+Data plane proxy changes will be propagated within their zones.
+{% endtip %}
+
+### Zone control plane offline
+
+- New data plane proxies won't be able to join the mesh.
+- Data plane proxy configuration will not be updated.
+- Communication between data plane proxies will still work.
+- Cross zone communication will still work.
+- Other zones are unaffected.
+
+{% tip %}
+You can think of this failure case as _"Freezing"_ the zone mesh configuration.
+Communication will still work but changes will not be reflected on existing data plane proxies.
+{% endtip %}
+
+### Communication between Global and Zone control plane failing
+
+This can happen with misconfiguration or network connectivity issues between control planes.
+
+- Operations inside the zone will happen correctly (data plane proxies can join, leave and all configuration will be updated and sent correctly).
+- Policy changes will not be propagated to the zone control plane.
+- `ZoneIngress`, `ZoneEgress` and `Dataplane` changes will not be propagated to the global control plane:
+  - The global inventory view of the data plane proxies will be outdated (this only impacts observability).
+  - Other zones will not see new services registered inside this zone.
+  - Other zones will not see services no longer running inside this zone.
+  - Other zones will not see changes in number of instances of each service running in the local zone.
+- Global control plane will not send changes from other zone ingress to the zone:
+  - Local data plane proxies will not see new services registered in other zones.
+  - Local data plane proxies will not see services no longer running in other zones.
+  - Local data plane proxies will not see changes in number of instances of each service running in other zones.
+- Global control plane will not send changes from other zone ingress to the zone.
+
+{% tip %}
+Note that both local and cross-zone application traffic is not impacted by this failure case.
+{% endtip %}
+
+### Communication between 2 zones failing
+
+This can happen if there are network connectivity issues:
+
+- Between control plane and zone ingress from other zone.
+- Between control plane and zone egress (when present).
+- Between zone egress (when present) and zone ingress from other zone.
+- All Zone egress instances of a zone (when present) are down.
+- All zone ingress instances of a zone are down.
+
+When it happens:
+
+- Communication and operation within each zone is unaffected.
+- Communication across each zone will fail.
+
+{% tip %}
+With the right resiliency setup ([Retries](/docs/{{ page.version }}/policies/retry), [Probes](/docs/{{ page.version }}/policies/health-check), [Locality Aware LoadBalancing](/docs/{{ page.version }}/policies/locality-aware), [Circuit Breakers](/docs/{{ page.version }}/policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
+{% endtip %}
