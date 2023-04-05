@@ -315,6 +315,10 @@ The advantages of this mode are:
 Here's how to use offline issuing
 
 1. Generate a pair of signing keys
+
+   The following commands generate standard RSA key of 2048 bits and outputs it in PEM-encoded format.
+   You can use any external tool to generate a pair of keys.
+
    ```sh
    kumactl generate signing-key --format=pem > /tmp/key-private.pem
    kumactl generate public-key --signing-key-path=/tmp/key-private.pem > /tmp/key-public.pem
