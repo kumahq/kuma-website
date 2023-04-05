@@ -303,12 +303,12 @@ kumactl delete global-secret admin-user-token
 
 ### Offline token issuing
 
-In addition to the regular flow of generating signing keys, storing them in secret, and using it to sign tokens on the control plane, Kuma also offers offline signing of tokens.
+In addition to the regular flow of generating signing keys, storing them in secret, and using them to sign tokens on the control plane, Kuma also offers offline signing of tokens.
 In this flow, you can generate a pair of public and private keys and configure the control plane only with public keys for token verification.
 You can generate all the tokens without running the control plane.
 
 The advantages of this mode are:
-* easier, more reproducible deployments of the control plane. More in line with GitOps.
+* easier, more reproducible deployments of the control plane, and more in line with GitOps.
 * potentially more secure setup, because the control plane does not have access to the private keys.
 
 Here's how to use offline issuing
@@ -321,7 +321,7 @@ Here's how to use offline issuing
 
    The result should be similar to this output
    ```sh
-   cat /tmp/key-private.pem && cat /tmp/key-public.pem 
+   cat /tmp/key-private.pem /tmp/key-public.pem 
    -----BEGIN RSA PRIVATE KEY-----
    MIIEpAIBAAKCAQEAsS61a79gC4mkr2Ltwi09ajakLyUR8YTkJWzZE805EtTkEn/r
    ...
@@ -386,7 +386,7 @@ Token revocation works the same when using both online and offline issuing.
 Signing key rotation works similarly:
 * generate another pair of signing keys
 * configure a control plane with old and new public keys
-* issue tokens with a new private key
+* regenerate tokens for all existing users with the new private key
 * remove the old public key from the configuration
 
 
