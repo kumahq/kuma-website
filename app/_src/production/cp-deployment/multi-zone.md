@@ -81,13 +81,13 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 Running global control plane in "Universal on Kubernetes" mode means using PostgreSQL as storage instead of Kubernetes.
 It means that failover / HA / reliability characteristics will change.
 Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/) and
-[PostgreSQL](https://www.postgresql.org/docs/current/high-availability.html) for more details.
+[PostgreSQL](https://www.postgresql.org/docs/current/high-availability.html) docs for more details.
 
 {% endtip %}
 
 1. Set `controlPlane.environment=universal` and `controlPlane.mode=global` in the chart (`values.yaml`).
 
-1. Define secrets with database sensitive information
+1. Define Kubernetes secrets with database sensitive information
 
    ```yaml
    apiVersion: v1
