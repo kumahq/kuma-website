@@ -15,7 +15,13 @@ To set up a multi-zone deployment we will need to:
 ## Usage
 ### Set up the global control plane
 
+{% if_version gte:2.2.x %}
+The global control plane must run on a dedicated cluster (unless using "Universal on Kubernetes" mode), and cannot be assigned to a zone.
+{% endif_version %}
+
+{% if_version lte:2.1.x %}
 The global control plane must run on a dedicated cluster, and cannot be assigned to a zone.
+{% endif_version %}
 
 {% tabs global-control-plane useUrlFragment=false %}
 {% tab global-control-plane Kubernetes %}
@@ -66,6 +72,105 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     By default, it's exposed on [port 5685]({% if_version lte:2.1.x %}/docs/{{ page.version }}/networking/networking{% endif_version %}{% if_version gte:2.2.x %}/docs/{{ page.version }}/production/use-kuma#control-plane-ports{% endif_version %}). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
+
+{% if_version gte:2.2.x %}
+{% tab global-control-plane Universal on Kubernetes using Helm %}
+
+{% tip %}
+
+Running global control plane in "Universal on Kubernetes" mode means using PostgreSQL as storage instead of Kubernetes.
+It means that failover / HA / reliability characteristics will change.
+Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/) and
+[PostgreSQL](https://www.postgresql.org/docs/current/high-availability.html) docs for more details.
+
+{% endtip %}
+
+1. Set `controlPlane.environment=universal` and `controlPlane.mode=global` in the chart (`values.yaml`).
+
+1. Define Kubernetes secrets with database sensitive information
+
+   ```yaml
+   apiVersion: v1
+   kind: Secret
+   metadata:
+     name: your-secret-name
+   type: Opaque
+   data:
+     POSTGRES_DB: ...
+     POSTGRES_HOST_RW: ...
+     POSTGRES_USER: ...
+     POSTGRES_PASSWORD: ...
+   ```
+
+1. Set `controlPlane.secrets` with database sensitive information
+
+   ```yaml
+   # ...
+       secrets:
+         postgresDb:
+           Secret: your-secret-name
+           Key: POSTGRES_DB
+           Env: KUMA_STORE_POSTGRES_DB_NAME
+         postgresHost:
+           Secret: your-secret-name
+           Key: POSTGRES_HOST_RW
+           Env: KUMA_STORE_POSTGRES_HOST
+         postgrestUser:
+           Secret: your-secret-name
+           Key: POSTGRES_USER
+           Env: KUMA_STORE_POSTGRES_USER
+         postgresPassword:
+           Secret: your-secret-name
+           Key: POSTGRES_PASSWORD
+           Env: KUMA_STORE_POSTGRES_PASSWORD
+   ```
+
+1. Optionally set `postgres` with TLS settings
+
+   ```yaml
+     # Postgres' settings for universal control plane on k8s
+     postgres:
+       # -- Postgres port, password should be provided as a secret reference in "controlPlane.secrets"
+       # with the Env value "KUMA_STORE_POSTGRES_PASSWORD".
+       # Example:
+       # controlPlane:
+       #   secrets:
+       #     - Secret: postgres-postgresql
+       #       Key: postgresql-password
+       #       Env: KUMA_STORE_POSTGRES_PASSWORD
+       port: "5432"
+       # TLS settings
+       tls:
+         # -- Mode of TLS connection. Available values are: "disable", "verifyNone", "verifyCa", "verifyFull"
+         mode: disable # ENV: KUMA_STORE_POSTGRES_TLS_MODE
+         # -- Whether to disable SNI the postgres `sslsni` option.
+         disableSSLSNI: false # ENV: KUMA_STORE_POSTGRES_TLS_DISABLE_SSLSNI
+         # -- Secret name that contains the ca.crt
+         caSecretName:
+         # -- Secret name that contains the client tls.crt, tls.key
+         secretName:
+   ```
+
+1. Run helm install
+
+    ```sh
+    helm install {{ site.mesh_helm_install_name }} -f values.yaml --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh_helm_repo }}
+    ```
+
+1. Find the external IP and port of the `global-remote-sync` service in the `{{site.mesh_namespace}}` namespace:
+
+    ```sh
+    kubectl get services -n {{site.mesh_namespace}}
+    NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
+    {{site.mesh_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+    ```
+
+    In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+
+{% endtab %}
+{% endif_version %}
+
 {% tab global-control-plane Universal %}
 
 1.  Set up the global control plane, and add the `global` environment variable:
