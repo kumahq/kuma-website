@@ -17,6 +17,16 @@ To set up a multi-zone deployment we will need to:
 
 {% if_version gte:2.2.x %}
 The global control plane must run on a dedicated cluster (unless using "Universal on Kubernetes" mode), and cannot be assigned to a zone.
+
+{% tip %}
+
+Running global control plane in "Universal on Kubernetes" mode most likely means using PostgreSQL as storage (in-memory storage is just for testing purposes).
+It means that failover / HA / reliability characteristics will change.
+Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/) and
+[PostgreSQL](https://www.postgresql.org/docs/current/high-availability.html) for more details.
+
+{% endtip %}
+
 {% endif_version %}
 
 {% if_version lte:2.1.x %}
