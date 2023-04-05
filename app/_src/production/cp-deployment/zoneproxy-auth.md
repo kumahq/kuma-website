@@ -44,27 +44,31 @@ zone-token-signing-key-1   7s
 
 ### Usage
 
-Generate the token with the REST API:
-```bash
-curl -XPOST \
-  -H "Content-Type: application/json" \
-  --data '{"zone": "us-east", "validFor": "720h", "scope": ["egress", "ingress"]}' \
-  http://localhost:5681/tokens/zone
-```
-
-or with `kumactl`:
+{% tabs token-creation useUrlFragment=false %}
+{% tab token-creation kumactl %}
 ```bash
 kumactl generate zone-token \
   --zone us-east \
   --scope egress \
   --valid-for 720h > /tmp/kuma-zone-proxy-token
 ```
+{% endtab %}
+{% tab token-creation REST %}
+Generate the token with the REST API:
+```bash
+curl -XPOST \
+  -H "Content-Type: application/json" \
+  --data '{"zone": "us-east", "validFor": "720h", "scope": ["egress", "ingress"]}' \
+  http://localhost:5681/tokens/zone > /tmp/kuma-zone-proxy-token
+```
+{% endtab %}
+{% endtabs %}
 
 The token should be stored in a file and then passed when you start `kuma-dp`:
 ```bash
 kuma-dp run \
-  --proxy-type=egress \
-  --dataplane-file=egress.yaml
+  --proxy-type=ingress # or egress \
+  --dataplane-file=zone-proxy-definition.yaml
   --cp-address=https://127.0.0.1:5678 \
   --dataplane-token-file=/tmp/kuma-zone-proxy-token
 ```

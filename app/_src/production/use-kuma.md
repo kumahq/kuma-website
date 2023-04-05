@@ -14,9 +14,8 @@ After {{site.mesh_product_name}} is installed, you can access the control plane 
 
 By accessing the control plane using one of these methods, you can see the current {{site.mesh_product_name}} configuration or with some methods, you can edit the configuration. 
 
-
-## Use {{site.mesh_product_name}} with Kubernetes
-
+{% tabs use-kuma useUrlFragment=false %}
+{% tab use-kuma Kubernetes %}
 {% tabs use-kuma-kubernetes useUrlFragment=false %}
 {% tab use-kuma-kubernetes GUI (Read-Only) %}
 
@@ -103,8 +102,8 @@ You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`]
 {% endtab %}
 {% endtabs %}
 
-## Use {{site.mesh_product_name}} with Universal
-
+{% endtab %}
+{% tab use-kuma Universal%}
 {% tabs use-kuma-universal useUrlFragment=false %}
 {% tab use-kuma-universal GUI (Read-Only) %}
 
@@ -156,3 +155,52 @@ You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`]
 
 {% endtab %}
 {% endtabs %}
+{% endtab %}
+{% endtabs %}
+
+{{site.mesh_product_name}} - being an application that wants to improve the underlying connectivity between your services by making the underlying network more reliable - also comes with some networking requirements itself.
+
+## Control Plane ports 
+
+First and foremost, the `kuma-cp` application is a server that offers a number of services - some meant for internal consumption by `kuma-dp` data-planes, some meant for external consumption by `kumactl`, the HTTP API, the GUI or other systems.
+
+The number and type of exposed ports depends on the mode in which the control plane is running as:
+
+### Standalone Control Plane
+
+This is the default, single zone mode, in which all of the following ports are enabled in `kuma-cp`
+
+* TCP
+    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
+    * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
+    * `5678`: the server for the control-plane to data-planes communication (bootstrap configuration, xDS to retrieve their configuration, SDS to retrieve mTLS certificates).
+    * `5680`: the HTTP server that returns the health status and metrics of the control-plane.
+    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve {{site.mesh_product_name}}'s policies and - when running in `universal` - that you can use to apply new policies. It also exposes the {{site.mesh_product_name}} GUI at `/gui`
+    * `5682`: HTTPS version of the services available under `5681`
+    * `5683`: gRPC Intercommunication CP server used internally by {{site.mesh_product_name}} to communicate between CP instances.
+
+### Global Control Plane
+
+
+When {{site.mesh_product_name}} is run as a distributed service mesh, the Global control plane exposes the following ports:
+
+* TCP
+    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
+    * `5680`: the HTTP server that returns the health status of the control-plane.
+    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve {{site.mesh_product_name}}'s policies and - when running in `universal` - that you can use to apply new policies. Manipulating the dataplane resources is not possible. It also exposes the {{site.mesh_product_name}} GUI at `/gui`
+    * `5682`: HTTPS version of the services available under `5681`
+    * `5683`: gRPC Intercommunication CP server used internally by {{site.mesh_product_name}} to communicate between CP instances.
+    * `5685`: the {{site.mesh_product_name}} Discovery Service port, leveraged in multi-zone deployment
+
+### Zone Control Plane
+
+When {{site.mesh_product_name}} is run as a distributed service mesh, the Zone control plane exposes the following ports:
+
+* TCP
+    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
+    * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
+    * `5678`: the server for the control-plane to data-planes communication (bootstrap configuration, xDS to retrieve their configuration, SDS to retrieve mTLS certificates).
+    * `5680`: the HTTP server that returns the health status of the control-plane.
+    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve {{site.mesh_product_name}}'s policies and - when running in `universal` - you can only manage the dataplane resources.
+    * `5682`: HTTPS version of the services available under `5681`
+    * `5683`: gRPC Intercommunication CP server used internally by {{site.mesh_product_name}} to communicate between CP instances.

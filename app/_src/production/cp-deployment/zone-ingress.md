@@ -5,8 +5,12 @@ content_type: how-to
 
 To implement cross-zone communication when {{site.mesh_product_name}} is deployed in a {% if_version lte:2.1.x %}[multi-zone](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %} mode, there is a new proxy type `ZoneIngress`.
 These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
-Zone Ingress can proxy the traffic between all meshes, so we need only one deployment for every zone.  
+Zone Ingress can proxy the traffic between all meshes, so we need only one deployment in each zone.  
 All requests that are sent from one zone to another will be directed to the proper instance by the Zone Ingress.
+
+{%tip%}
+Because `ZoneIngress` uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.version }}/policies/mutual-tls) is required to do cross zone communication.
+{%endtip%}
 
 The `ZoneIngress` entity includes a few sections:
 
@@ -24,37 +28,54 @@ The `ZoneIngress` entity includes a few sections:
     * `admin`: determines parameters related to Envoy Admin API
       * `port`: the port that Envoy Admin API will listen to
 * `availableServices` **[auto-generated on {{site.mesh_product_name}} CP]** : the list of services that could be consumed through the Zone Ingress
-* `zone` **[auto-generated on {{site.mesh_product_name}} CP]** : zone where Zone Ingress belongs to
+* `zone` **[auto-generated on {{site.mesh_product_name}} CP]** : zone where Zone Ingress is running 
 
 Zone Ingress without `advertisedAddress` and `advertisedPort` is not taken into account when generating Envoy configuration, because they cannot be accessed by data plane proxies from other zones.
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
-The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in {% if_version lte:2.1.x %}[multi-zone](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}. It works as a separate deployment of a single-container pod.
+To install `ZoneIngress` in Kubernetes when doing `kumactl install control-plane` use the `--ingress-enabled`. If using helm add `ingress.enabled: true` to your `values.yaml`.
 
-{{site.mesh_product_name}} will try to resolve `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this Zone Ingress.
+{{site.mesh_product_name}} will set `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this Zone Ingress.
 
 If the Service type is Load Balancer, {{site.mesh_product_name}} will wait for public IP to be resolved. It may take a couple of minutes to receive public IP depending on the LB implementation of your Kubernetes provider.
-
 If the Service type is Node Port, {{site.mesh_product_name}} will take an External IP of the first Node in the cluster and combine it with Node Port.
 
-You can provide your own public address and port using the following annotations on the Ingress deployment
+You can provide your own public address and port using the following annotations on the Ingress deployment:
 * `kuma.io/ingress-public-address`
 * `kuma.io/ingress-public-port`
-  {% endtab %}
-  {% tab usage Universal %}
 
-In Universal mode the dataplane resource should be deployed as follows:
+{% endtab %}
+{% tab usage Universal %}
+
+In Universal mode, the token is required to authenticate `ZoneIngress` instance. Create the token by using `kumactl` binary:
+
+```bash
+kumactl generate zone-token --valid-for 720h --scope ingress > /path/to/token
+```
+
+Create a `ZoneIngress` data plane proxy configuration to allow services to receive traffic from other zones:
 
 ```yaml
 type: ZoneIngress
-name: dp-ingress
+name: zoneingress-1
 networking:
   address: 192.168.0.1
   port: 10001
   advertisedAddress: 10.0.0.1
   advertisedPort: 10000
 ```
+
+Apply the ingress configuration, passing the IP address of the control plane and your instance should start.
+
+```bash
+kuma-dp run \
+--proxy-type=ingress \
+--cp-address=https://<kuma-cp-address>:5678 \
+--dataplane-token-file=/path/to/token \
+--dataplane-file=/path/to/config
+```
+
 {% endtab %}
 {% endtabs %}
 

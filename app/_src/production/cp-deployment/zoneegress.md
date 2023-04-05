@@ -9,6 +9,10 @@ and you want to achieve isolation of outgoing traffic (to services in other
 zones or [external services](/docs/{{ page.version }}/policies/external-services) in the local zone),
 you can use `ZoneEgress` proxy.
 
+{%tip%}
+Because `ZoneEgress` uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.version }}/policies/mutual-tls) is required.
+{%endtip%}
+
 This proxy is not attached to any particular workload. In multi-zone the proxy is bound to a specific zone.
 Zone Egress can proxy the traffic between all meshes, so we need only one deployment for every zone.
 
@@ -39,41 +43,18 @@ The `ZoneEgress` entity includes a few sections:
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
-The recommended way to deploy a `ZoneEgress` proxy in Kubernetes is to use
-`kumactl`, or the Helm charts as specified in {% if_version lte:2.1.x %}[multi-zone](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}.
-It works as a separate deployment of a single-container pod.
-
-**Standalone**:
-
-```shell
-kumactl install control-plane \
-  --egress-enabled \
-  [...] | kubectl apply -f -
-```
-
-**Multi-zone**:
-
-```shell
-kumactl install control-plane \
-  --mode=zone \
-  --zone=<my-zone> \
-  --kds-global-address grpcs://`<global-kds-address>` \
-  --egress-enabled \
-  [...] | kubectl apply -f -
-```
+To install `ZoneEgress` in Kubernetes when doing `kumactl install control-plane` use the `--egress-enabled`. If using helm add `egress.enabled: true` to your `values.yaml`.
 
 {% endtab %}
 {% tab usage Universal %}
 
-**Standalone**
-
 In Universal mode, the token is required to authenticate `ZoneEgress` instance. Create the token by using `kumactl` binary:
 
 ```bash
-kumactl generate zone-token --valid-for 24h --scope egress > /path/to/token
+kumactl generate zone-token --valid-for 720h --scope egress > /path/to/token
 ```
 
-Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services to be configured to proxy traffic to other zones or external services through zone egress:
+Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services to be configured to proxy traffic to other zones or external services through `ZoneEgress`:
 
 ```yaml
 type: ZoneEgress
@@ -83,7 +64,7 @@ networking:
   port: 10002
 ```
 
-Apply the egress configuration, passing the IP address of the control plane and your instance should start.
+Apply the `ZoneEgress` configuration, passing the IP address of the control plane and your instance should start.
 
 ```bash
 kuma-dp run \
@@ -93,19 +74,13 @@ kuma-dp run \
 --dataplane-file=/path/to/config
 ```
 
-**Multi-zone**
-
-Multi-zone deployment is similar and for deployment, you should follow {% if_version lte:2.1.x %}[multi-zone deployment instruction](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment instruction](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}.
-
 {% endtab %}
 {% endtabs %}
 
 
 A `ZoneEgress` deployment can be scaled horizontally.
 
-## Configuration
-
-[mTLS](/docs/{{ page.version }}/policies/mutual-tls) is required to enable `ZoneEgress`. In addition, there's a configuration in the `Mesh` policy to route traffic through the `ZoneEgress`
+In addition to MTLS, there's a configuration in the `Mesh` policy to route traffic through the `ZoneEgress`
 
 {% tabs configuration useUrlFragment=false %}
 {% tab configuration Kubernetes %}
@@ -139,4 +114,5 @@ EOF
 {% endtab %}
 {% endtabs %}
 
-This configuration will force cross zone communication to go through `ZoneEgress`. If enabled but no `ZoneEgress` is available the communication will fail.
+This configuration will force cross zone communication and external services to go through `ZoneEgress`.
+If enabled but no `ZoneEgress` is available the communication will fail.

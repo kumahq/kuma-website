@@ -186,7 +186,7 @@ In this setup, applications will only be able to communicate with other applicat
 ### External Services accessible from specific zone through ZoneEgress
 
 There are might be scenarios when a specific `ExternalService` might be accessible only through the specific zone. To make it work we should use the `kuma.io/zone` tag for external service. In order to make it work, we need a multi-zone setup with `ZoneIngress` and `ZoneEgress` deployed. Also,
-{% if_version lte:2.1.x %}[zone egress](/docs/{{ page.version }}/explore/zoneegress#configuration){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/#configuration){% endif_version %} needs to be enabled.
+{% if_version lte:2.1.x %}[zone egress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress){% endif_version %} needs to be enabled.
  
 Example:
  
