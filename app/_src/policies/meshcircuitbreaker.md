@@ -579,3 +579,7 @@ spec:
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
+
+## Complete spec
+
+{% policyschema MeshCircuitBreaker %}
