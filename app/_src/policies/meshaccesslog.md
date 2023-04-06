@@ -225,6 +225,19 @@ backends:
       path: /tmp/access.log
 ```
 
+{% if_version gte:2.2.x %}
+#### OpenTelemetry
+
+An OpenTelemetry (OTel) backend sends data to an OpenTelemetry server.
+You can configure an OpenTelemetry backend with an endpoint:
+
+```yaml
+backends:
+  - openTelemetry:
+      endpoint: otel-collector:4317
+```
+{% endif_version %}
+
 ## Examples
 
 ### Log outgoing traffic from specific frontend version to a backend service
@@ -288,11 +301,18 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 ### Logging to multiple backends
 
+{% if_version lte:2.1.x %}
 This configuration logs to two backends: TCP and file.
+{% endif_version %}
+
+{% if_version gte:2.2.x %}
+This configuration logs to three backends: TCP, file and OpenTelemetry.
+{% endif_version %}
 
 {% tabs meshaccesslog-multiple-backends useUrlFragment=false %}
 {% tab meshaccesslog-multiple-backends Kubernetes %}
 
+{% if_version lte:2.1.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -309,7 +329,7 @@ spec:
         kind: Mesh
       default:
         backends:
-          - file:
+          - tcp:
               address: 127.0.0.1:5000
               format:
                 json:
@@ -320,12 +340,49 @@ spec:
               format:
                 plain: '[%START_TIME%]'
 ```
+{% endif_version %}
+
+{% if_version gte:2.2.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshAccessLog
+metadata:
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
+spec:
+  targetRef:
+    kind: Mesh
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - tcp:
+              address: 127.0.0.1:5000
+              format:
+                json:
+                  - key: "start_time"
+                    value: "%START_TIME%"
+          - file:
+              path: /tmp/access.log
+              format:
+                plain: '[%START_TIME%]'
+          - openTelemetry:
+              endpoint: otel-collector:4317
+              attributes:
+                - key: "start_time"
+                  value: "%START_TIME%"
+```
+{% endif_version %}
 
 Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
 {% tab meshaccesslog-multiple-backends Universal %}
 
+{% if_version lte:2.1.x %}
 ```yaml
 type: MeshAccessLog
 name: default
@@ -338,7 +395,7 @@ spec:
         kind: Mesh
       default:
         backends:
-          - file:
+          - tcp:
               address: 127.0.0.1:5000
               format:
                 json:
@@ -349,6 +406,38 @@ spec:
               format:
                 plain: '[%START_TIME%]'
 ```
+{% endif_version %}
+
+{% if_version gte:2.2.x %}
+```yaml
+type: MeshAccessLog
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - tcp:
+              address: 127.0.0.1:5000
+              format:
+                json:
+                  - key: "start_time"
+                    value: "%START_TIME%"
+          - file:
+              path: /tmp/access.log
+              format:
+                plain: '[%START_TIME%]'
+          - openTelemetry:
+              endpoint: otel-collector:4317
+              attributes:
+                - key: "start_time"
+                  value: "%START_TIME%"
+```
+{% endif_version %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 

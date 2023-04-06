@@ -307,7 +307,7 @@ spec:
         kind: Mesh
       default:
         backends:
-          - file:
+          - tcp:
               address: 127.0.0.1:5000
               format:
                 json:
@@ -336,7 +336,7 @@ spec:
         kind: Mesh
       default:
         backends:
-          - file:
+          - tcp:
               address: 127.0.0.1:5000
               format:
                 json:
