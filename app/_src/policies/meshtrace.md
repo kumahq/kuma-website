@@ -120,6 +120,18 @@ zipkin:
   sharedSpanContext: false # Default to true. If true, the inbound and outbound traffic will share the same span. 
 ```
 
+{% if_version gte:2.2.x %}
+#### OpenTelemetry
+
+The only field you can set is `endpoint`.
+
+Example:
+```yaml
+openTelemetry:
+  endpoint: otel-collector:4317 # Required. Address of OpenTelemetry collector
+```
+{% endif_version %}
+
 ## Examples
 
 ### Zipkin
@@ -345,6 +357,118 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 {% endtab %}
 {% endtabs %}
+
+{% if_version gte:2.2.x %}
+### OpenTelemetry
+
+{% tip %}
+This assumes a OpenTelemetry collector is configured and running.
+If you haven't already check the [OpenTelementry operator](https://github.com/open-telemetry/opentelemetry-operator).
+{% endtip %}
+
+{% tabs meshtrace-otel useUrlFragment=false %}
+{% tab meshtrace-otel Kubernetes %}
+
+Simple Example:
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrace
+metadata:
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if unset
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - openTelemetry:
+          endpoint: otel-collector:4317
+```
+
+Full example:
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - openTelemetry:
+          endpoint: otel-collector:4317
+    tags:
+      - name: team
+        literal: core
+      - name: env
+        header:
+          name: x-env
+          default: prod
+      - name: version
+        header:
+          name: x-version
+    sampling:
+      overall: 80
+      random: 60
+      client: 40
+```
+
+where `otel-collector` is the name of the Kubernetes Service for OTel exporter.
+
+Apply the configuration with `kubectl apply -f [..]`.
+
+{% endtab %}
+{% tab meshtrace-otel Universal %}
+
+Simple Example:
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - openTelemetry:
+          endpoint: my-otel-collector.com:4317
+```
+
+Full example:
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - openTelemetry:
+          endpoint: my-otel-collector.com:4317
+    tags:
+      - name: team
+        literal: core
+      - name: env
+        header:
+          name: x-env
+          default: prod
+      - name: version
+        header:
+          name: x-version
+    sampling:
+      overall: 80
+      random: 60
+      client: 40
+```
+
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+
+{% endtab %}
+{% endtabs %}
+{% endif_version %}
 
 ### Targeting parts of the infrastructure
 
