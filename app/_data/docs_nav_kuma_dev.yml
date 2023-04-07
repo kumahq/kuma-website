@@ -244,19 +244,6 @@ items:
             url: "/documentation/configuration/#inspecting-the-configuration"
           - text: Store
             url: "/documentation/configuration/#store"
-      - text: Requirements
-        url: /documentation/requirements/
-        items:
-          - text: Architecture
-            url: "/documentation/requirements/#architecture"
-          - text: Kubernetes
-            url: "/documentation/requirements/#kubernetes"
-          - text: Envoy
-            url: "/documentation/requirements/#envoy"
-          - text: Sizing your control-plane
-            url: "/documentation/requirements/#sizing-your-control-plane"
-          - text: Sizing your sidecar container on Kubernetes
-            url: "/documentation/requirements/#sizing-your-sidecar-container-on-kubernetes"
   - title: Policies
     group: true
     items:
