@@ -333,13 +333,13 @@ You need the following values to pass to each zone control plane setup:
 
 6. Apply the egress config, passing the IP address of the zone control plane to `cp-address`:
 
-        ```sh
-        kuma-dp run \
-        --proxy-type=egress \
-        --cp-address=https://<kuma-cp-address>:5678 \
-        --dataplane-token-file=/tmp/zone-token \
-        --dataplane-file=zoneegress-dataplane.yaml
-        ```
+    ```sh
+    kuma-dp run \
+    --proxy-type=egress \
+    --cp-address=https://<kuma-cp-address>:5678 \
+    --dataplane-token-file=/tmp/zone-token \
+    --dataplane-file=zoneegress-dataplane.yaml
+    ```
 
     {% endtab %}
     {% endtabs %}
