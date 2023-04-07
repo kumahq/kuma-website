@@ -40,7 +40,7 @@ When the mode is not specified, {{site.mesh_product_name}} will always start in 
 
 #### Optional: Docker authentication
 
-Running administrative tasks (like generating a dataplane token) requires {% if_version lte:2.1.x %}[authentication by token](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/secure-deployment/api-server-auth/#admin-user-token){% endif_version %} or a connection via localhost.
+Running administrative tasks (like generating a dataplane token) requires {% if_version lte:2.1.x %}[authentication by token](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token){% endif_version %}{% if_version gte:2.2.x %}[authentication by token](/docs/{{ page.version }}/production/secure-deployment/api-server-auth/#admin-user-token){% endif_version %} or a connection via localhost.
 
 ##### Localhost authentication
 
