@@ -50,7 +50,7 @@ items:
           - text: Deploy a standalone control plane
             url: /production/cp-deployment/stand-alone/
           - text: Deploy a multi-zone global control plane
-            url: /production/cp-deployment/multi-zone/ 
+            url: /production/cp-deployment/multi-zone/
           - text: Zone Ingress
             url: /production/cp-deployment/zone-ingress/
           - text: Zone Egress
@@ -60,6 +60,8 @@ items:
           - text: Control plane configuration reference
             url: /generated/kuma-cp/
             generate: false
+          - text: Systemd
+            url: /production/cp-deployment/systemd/
       - text: Create multiple service meshes in a cluster
         url: /production/mesh/
       - title: Data plane configuration
@@ -560,11 +562,11 @@ items:
       - text: Kuma data collection
         url: /reference/data-collection/
       - # Auto-generated
-        text: Control plane configuration reference 
+        text: Control plane configuration reference
         url: /generated/kuma-cp
         generate: false
       - text: Envoy proxy template
-        url: /reference/proxy-template/  
+        url: /reference/proxy-template/
       - # Auto-generated
         title: Resources
         group: true
