@@ -294,7 +294,7 @@ Signing key rotation works similarly:
 * configure a control plane with old and new public keys
 * regenerate tokens for all existing zone proxies with the new private key
 * remove the old public key from the configuration
-  {% endif_version %}
+{% endif_version %}
 
 ### Multi-zone
 
