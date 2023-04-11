@@ -214,6 +214,104 @@ If the signing key is compromised, we must rotate it and all the tokens that was
 
 If you need to generate a new token for a `Dataplane` or you are using service account token projection on Kubernetes, it's possible to configure dynamic token reloading. To enable this behaviour, set the `kuma-cp` configuration property `dpServer.auth.useTokenPath` to `true`. When you enable the property, `kuma-dp` detects changes to the token file, reloads the token and uses the new value when establishing a new connection to `kuma-cp`.
 
+{% if_version gte:2.2.x %}
+### Offline token issuing
+
+In addition to the regular flow of generating signing keys, storing them in secret, and using them to sign tokens on the control plane, Kuma also offers offline signing of tokens.
+In this flow, you can generate a pair of public and private keys and configure the control plane only with public keys for token verification.
+You can generate all the tokens without running the control plane.
+
+The advantages of this mode are:
+* easier, more reproducible deployments of the control plane, and more in line with GitOps.
+* potentially more secure setup, because the control plane does not have access to the private keys.
+
+Here's how to use offline issuing
+
+1. Generate a pair of signing keys
+
+   The following commands generate standard RSA key of 2048 bits and outputs it in PEM-encoded format.
+   You can use any external tool to generate a pair of keys.
+
+   ```sh
+   kumactl generate signing-key --format=pem > /tmp/key-private.pem
+   kumactl generate public-key --signing-key-path=/tmp/key-private.pem > /tmp/key-public.pem
+   ```
+
+   The result should be similar to this output
+   ```sh
+   cat /tmp/key-private.pem /tmp/key-public.pem 
+   -----BEGIN RSA PRIVATE KEY-----
+   MIIEpAIBAAKCAQEAsS61a79gC4mkr2Ltwi09ajakLyUR8YTkJWzZE805EtTkEn/r
+   ...
+   htKtzsYA7yGlt364IuDybrP+PlPMSK9cQAmWRRZIcBNsKOODkAgKFA==
+   -----END RSA PRIVATE KEY-----
+   -----BEGIN RSA PUBLIC KEY-----
+   MIIBCgKCAQEAsS61a79gC4mkr2Ltwi09ajakLyUR8YTkJWzZE805EtTkEn/rL2u/
+   ...
+   se7sx2Pt/NPbWFFTMGVFm3A1ueTUoorW+wIDAQAB
+   -----END RSA PUBLIC KEY----- 
+   ```
+
+2. Configure the control plane with public key
+
+   [Configure a control plane](/docs/{{ page.version }}/documentation/configuration) with the following settings
+   ```yaml
+   dpServer:
+     authn:
+       dpProxy:
+         type: dpToken
+         dpToken:
+           enableIssuer: false # disable control plane token issuer that uses secrets
+           validator:
+             useSecrets: false # do not use signing key stored in secrets to validate the token
+             publicKeys:
+             - kid: "key-1"
+               mesh: default
+               key: |
+                 -----BEGIN RSA PUBLIC KEY-----
+                 MIIBCgKCAQEAsS61a79gC4mkr2Ltwi09ajakLyUR8YTkJWzZE805EtTkEn/rL2u/
+                 ...
+                 se7sx2Pt/NPbWFFTMGVFm3A1ueTUoorW+wIDAQAB
+                 -----END RSA PUBLIC KEY-----
+   ```
+
+3. Use the private key to issue tokens offline
+
+   The command is the same as with online signing, but with two additional arguments:
+   * `--kid` - ID of the key that should be used to validate the token. This should match `kid` specified in the control plane configuration.
+   * `--signing-key-path` - path to a PEM-encoded private key.
+
+   ```sh
+   kumactl generate dataplane-token \
+     --name dp-echo-1 \
+     --mesh default \
+     --tag kuma.io/service=backend,backend-admin \
+     --valid-for 720h > /tmp/kuma-dp-echo1-token \
+     --signing-key-path /tmp/key-private.pem \
+     --kid key-1
+   ```
+
+   You can also use any external system that can issue JWT tokens using `RS256` signing method with the following claims:
+   * `Name` (string) - the name of the DPP
+   * `Mesh` (string) - the name of the mesh
+   * `Tags` (map of string to []string) - list of tags that are permitted to use 
+
+#### Migration
+
+You can use both offline and online issuing by keeping `dpServer.authn.dpProxy.dpToken.enableIssuer` to true.
+You can use both secrets and public key static config validators by keeping `dpServer.authn.dpProxy.dpToken.validator.useSecrets` to true.
+
+#### Management
+
+Token revocation works the same when using both online and offline issuing.
+
+Signing key rotation works similarly:
+* generate another pair of signing keys
+* configure a control plane with old and new public keys
+* regenerate tokens for all existing data plane proxies with the new private key
+* remove the old public key from the configuration
+{% endif_version %}
+
 ### Multizone
 
 When running in multizone, mode we can generate data plane proxy token both on global and zone control plane.
