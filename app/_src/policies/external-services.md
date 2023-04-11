@@ -159,7 +159,7 @@ In this example, when [locality aware load balancing](/docs/{{ page.version }}/p
 `httpbin.mesh` it will be redirected to `zone-1.httpbin.org:80`. Whereas the same request from the `zone-2` will be redirected to `zone-2.httpbin.org:80`.
 
 {% warning %}
-If ZoneEgress is enabled, there is a limitation that prevents the behavior described above from working. The control-plane replaces the external service's address in the remote zone with the IP address of ZoneEgress. This causes a problem because Envoy does not support clusters that use both DNS and IP addresses, and the configuration will be rejected.
+If `ZoneEgress` is enabled, there is a limitation that prevents the behavior described above from working. The control-plane replaces the external service's address in the remote zone with the IP address of `ZoneEgress`. This causes a problem because Envoy does not support a cluster that use both DNS and IP addresses as endpoints definition.
 {% endwarning %}
 
 ### External Services and ZoneEgress
