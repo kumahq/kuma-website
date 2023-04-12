@@ -269,7 +269,9 @@ The `Service` is of the type requested in the `MeshGatewayInstance`, and its por
 
 #### Customization
 
-Additional customization of the generated `Service` or `Deployment` is possible via `MeshGatewayInstance.spec`. For example, you can add annotations to the generated `Service`:
+{% if_version lte:2.1.x %}
+
+Additional customization of the generated `Service` is possible via `MeshGatewayInstance.spec`. For example, you can add annotations to the generated `Service`, and specify the `loadBalancerIP`:
 
 ```yaml
 spec:
@@ -287,9 +289,64 @@ spec:
         ...
     spec:
       loadBalancerIP: ...
-" | kubectl apply -f -
+```
+{% endif_version %}
+{% if_version gte:2.2.x %}
+
+Additional customization of the generated `Service` or `Pods` is possible via `MeshGatewayInstance.spec`. For example, you can add annotations and/or labels to the generated objects:
+
+```yaml
+spec:
+  replicas: 1
+  serviceType: LoadBalancer
+  tags:
+    kuma.io/service: edge-gateway
+  resources:
+    limits: ...
+    requests: ...
+  serviceTemplate:
+    metadata:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+    spec:
+      loadBalancerIP: ...
+  podTemplate:
+    metadata:
+      labels:
+        app-name: my-app
+        ...
 ```
 
+You can also modify several security-related parameters for the generated `Pods`, and specify a `loadBalancerIP` for the `Service`:
+
+```yaml
+spec:
+  replicas: 1
+  serviceType: LoadBalancer
+  tags:
+    kuma.io/service: edge-gateway
+  resources:
+    limits: ...
+    requests: ...
+  serviceTemplate:
+    metadata:
+      labels:
+        svc-id: "19-001"
+    spec:
+      loadBalancerIP: ...
+  podTemplate:
+    metadata:
+      annotations:
+        app-monitor: "false"
+    spec:
+      serviceAccountName: my-sa
+      securityContext:
+        fsGroup: ...
+      container:
+        securityContext:
+          readOnlyRootFilesystem: true
+```
+{% endif_version %}
 {% endtab %}
 {% tab setup Universal %}
 
