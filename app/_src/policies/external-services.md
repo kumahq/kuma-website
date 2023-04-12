@@ -155,8 +155,12 @@ networking:
   address: zone-2.httpbin.org:80
 ```
 
-In this example, when [locality aware load balancing](/docs/{{ page.version }}/policies/locality-aware) is enabled, if the service in zone-1 is trying to set connection with
-`httpbin.mesh` it will be redirected to `zone-1.httpbin.org:80`. Whereas the same request from zone-2 will be redirected to `zone-2.httpbin.org:80`.
+In this example, when [locality aware load balancing](/docs/{{ page.version }}/policies/locality-aware) is enabled, if the service in the `zone-1` is trying to set connection with
+`httpbin.mesh` it will be redirected to `zone-1.httpbin.org:80`. Whereas the same request from the `zone-2` will be redirected to `zone-2.httpbin.org:80`.
+
+{% warning %}
+If `ZoneEgress` is enabled, there is a limitation that prevents the behavior described above from working. The control-plane replaces the external service's address in the remote zone with the IP address of `ZoneEgress`. This causes a problem because Envoy does not support a cluster that use both DNS and IP addresses as endpoints definition.
+{% endwarning %}
 
 ### External Services and ZoneEgress
 
@@ -182,6 +186,35 @@ networking:
 When application makes a request to `https://example.com`, it will be first routed to `ZoneEgress` and then to `https://example.com`.
 You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing).
 In this setup, applications will only be able to communicate with other applications in the mesh or external-services via the `ZoneEgress`.
+
+{% warning %}
+The `ExternalService` with the same `kuma.io/service` name cannot mix dns names and IP addresses of the endpoint.
+
+Example:
+```yaml
+---
+type: ExternalService
+mesh: default
+name: example-1
+tags:
+  kuma.io/service: example
+  kuma.io/protocol: tcp
+networking:
+  address: example.com:443
+---
+type: ExternalService
+mesh: default
+name: example-2
+tags:
+  kuma.io/service: example
+  kuma.io/protocol: tcp
+networking:
+  address: 192.168.0.1:443
+```
+
+The above configuration is incorrect and configuration generation will fail.
+
+{% endwarning %}
 
 ### External Services accessible from specific zone through ZoneEgress
 
