@@ -67,7 +67,7 @@ name: default
 mtls:
   backends:
   - name: vault-1
-    type: {{ caType }}
+    type: {% raw %}{{ caType }}{% endraw %}
     dpCert:
       rotation:
         expiration: 10h

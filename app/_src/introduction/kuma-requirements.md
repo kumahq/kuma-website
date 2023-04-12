@@ -6,7 +6,7 @@ This page exposes the different requirements to run {{site.mesh_product_name}}.
 
 ## Architecture
 
-{{site.mesh_product_name}} supports machines with `x86_64` architecture and since `1.8.0` it's possible to run {{site.mesh_product_name}} on `arm64`.
+{{site.mesh_product_name}} supports machines with `x86_64` and `arm64` architecture. 
 
 ## Kubernetes
 
@@ -14,7 +14,13 @@ This page exposes the different requirements to run {{site.mesh_product_name}}.
 
 ## Envoy
 
-Versions of envoy supported are: `~1.22.0` which means `>=1.22.0` and `<1.23.0`. You can find the current version in the [version.sh](https://github.com/kumahq/kuma/blob/master/tools/releases/version.sh#L11) file.
+{% if_version lte:2.1.x %}
+Versions of envoy supported are: `~1.22.0` which means `>=1.22.0` and `<1.23.0`.
+{% endif_version %}
+{% if_version gte:2.2.x %}
+Versions of envoy supported are: `~1.25.0` which means `>=1.25.0` and `<1.25.0`.
+{% endif_version %}
+You can find the current version in the [version.sh](https://github.com/kumahq/kuma/blob/master/tools/releases/version.sh#L11) file.
 
 ## Sizing your control-plane
 

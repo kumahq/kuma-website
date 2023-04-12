@@ -100,6 +100,8 @@ kuma-dp run \
 {% endtab %}
 {% endtabs %}
 
+You can control which data plane proxies are allowed to join the mesh using [mesh constraints]({% if_version gte:2.2.x %}/docs/{{ page.version }}/production/secure-deployment/dp-membership/{% endif_version %}{% if_version lte:2.1.x %}/docs/{{ page.version }}/security/dp-membership/{% endif_version %}).
+
 #### Policies
 
 When creating new [Policies](/policies) we also must specify to what `Mesh` they belong. This can be done in the following way:
@@ -114,6 +116,23 @@ kind: TrafficRoute
 mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the resource belongs to
 metadata:
   name: route-1
+spec:
+  ...
+```
+
+{{site.mesh_product_name}} consumes all [Policies](/policies) on the cluster and joins each to an individual `Mesh`, identified by this property.
+{% endtab %}
+{% tab policies Kubernetes (New policies) %}
+By using the `kuma.io/mesh` label, like:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshHTTPRoute
+metadata:
+  name: route-1
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the resource belongs to
 spec:
   ...
 ```

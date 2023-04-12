@@ -43,11 +43,11 @@ To explore traffic metrics with the demo app, you also need to [set up Prometheu
 
 ## Generate tokens
 
-Create a token for Redis and a token for the app:
+Create a token for Redis and a token for the app (all valid for 30 days):
 
 ```sh
-kumactl generate dataplane-token --name=redis > kuma-token-redis
-kumactl generate dataplane-token --name=app > kuma-token-app
+kumactl generate dataplane-token --tag kuma.io/service=redis --valid-for=720h > kuma-token-redis
+kumactl generate dataplane-token --tag kuma.io/service=app --valid-for=720h > kuma-token-app
 ```
 
 {% warning %}
