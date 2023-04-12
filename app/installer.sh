@@ -104,12 +104,6 @@ if [ -z "$VERSION" ]; then
   fi
 fi
 
-printf "INFO\t$PRODUCT_NAME version: %s\n" "$VERSION"
-printf "INFO\t$PRODUCT_NAME architecture: %s\n" "$ARCH"
-printf "INFO\tOperating system: %s\n" "$OS"
-if [ "$OS" = "Linux" ]; then
-    printf "INFO\tDistribution: %s\n" "$DISTRO"
-fi
 
 # Sets `VERSION` to the git tag representing the latest preview version.
 set_preview_version() {
@@ -142,8 +136,17 @@ query($owner: String!, $repo: String!, $branch: String!) {
 
   PREVIEW_COMMIT=$(echo $PREVIEW_COMMIT | cut -c -9)
   VERSION=0.0.0-preview.v${PREVIEW_COMMIT}
-  echo "Getting preview release with tag: $VERSION"
 }
+
+if [ "$VERSION" = "preview" ]; then
+  set_preview_version
+fi
+printf "INFO\t$PRODUCT_NAME version: %s\n" "$VERSION"
+printf "INFO\t$PRODUCT_NAME architecture: %s\n" "$ARCH"
+printf "INFO\tOperating system: %s\n" "$OS"
+if [ "$OS" = "Linux" ]; then
+    printf "INFO\tDistribution: %s\n" "$DISTRO"
+fi
 
 TARGET_NAME="$PRODUCT_NAME"
 
@@ -151,16 +154,11 @@ fail_download() {
     printf "ERROR\tUnable to download %s at the following URL: %s\n" "$TARGET_NAME" "$1"
     exit 1
 }
-
-if [ "$VERSION" = "preview" ]; then
-  IS_PREVIEW=1
-  set_preview_version
-fi
 # shellcheck disable=SC2034
 IFS=. read -r major minor patch <<EOF
 ${VERSION}
 EOF
-if [ "$IS_PREVIEW" = "1" ]; then
+if echo "$VERSION" | grep -q "preview"; then
   BASE_URL="https://download.konghq.com/$REPO_PREFIX-binaries-preview/$REPO_PREFIX-$VERSION"
 elif [ "$major" -gt "2" ] || [ "$major" = "2" ] && [ "$minor" -ge "2" ]; then
   BASE_URL="https://download.konghq.com/$REPO_PREFIX-binaries-release/$REPO_PREFIX-$VERSION"
