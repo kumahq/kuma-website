@@ -1,6 +1,18 @@
 name: CI
 on: pull_request
 jobs:
+  test-plugins:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.2'
+          bundler-cache: true
+      - working-directory: jekyll-kuma-plugins
+        run: bundle install
+      - working-directory: jekyll-kuma-plugins
+        run: bundle exec rspec
   check-links:
     name: Check links
     runs-on: ubuntu-latest

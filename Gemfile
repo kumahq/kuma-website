@@ -10,6 +10,7 @@ group :jekyll_plugins do
   gem 'jekyll-contentblocks'
   gem 'jekyll-vite'
   gem 'jekyll-generator-single-source'
+  gem 'jekyll-kuma-plugins', path: './jekyll-kuma-plugins'
 end
 
 group :development do
