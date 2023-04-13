@@ -1,0 +1,639 @@
+product: kuma
+generate: true
+assume_generated: true
+release: dev
+items:
+  - title: Introduction
+    group: true
+    items:
+      - text: About service meshes
+        url: /introduction/about-service-meshes
+      - text: Overview of Kuma
+        url: /introduction/overview-of-kuma/
+      - text: How Kuma works
+        url: /introduction/how-kuma-works/
+        items:
+          - text: Dependencies
+            url: "/introduction/how-kuma-works/#dependencies"
+          - text: VM and K8s support
+            url: "/introduction/how-kuma-works/#vm-and-k8s-support"
+          - text: Kuma vs XYZ
+            url: "/introduction/how-kuma-works/#kuma-vs-xyz"
+      - text: Architecture
+        url: /introduction/architecture/
+      - text: Kuma requirements
+        url: /introduction/kuma-requirements/
+      - text: Release notes
+        absolute_url: true
+        url: https://github.com/kumahq/kuma/blob/master/CHANGELOG.md
+  - title: Kuma in Production
+    group: true
+    items:
+      - text: Overview
+        url: /production/
+      - title: Deployment topologies
+        group: true
+        items:
+          - text: Overview
+            url: /production/deployment/
+          - text: Standalone deployment
+            url: /production/deployment/stand-alone/
+          - text: Multi-zone deployment
+            url: /production/deployment/multi-zone/
+      - text: Install kumactl
+        url: /production/install-kumactl/
+      - text: Use Kuma
+        url: /production/use-kuma/
+      - title: Control plane deployment
+        group: true
+        items:
+          - text: Deploy a standalone control plane
+            url: /production/cp-deployment/stand-alone/
+          - text: Deploy a multi-zone global control plane
+            url: /production/cp-deployment/multi-zone/
+          - text: Zone Ingress
+            url: /production/cp-deployment/zone-ingress/
+          - text: Zone Egress
+            url: /production/cp-deployment/zoneegress/
+          - text: Configure zone proxy authentication
+            url: /production/cp-deployment/zoneproxy-auth/
+          - text: Control plane configuration reference
+            url: /generated/kuma-cp/
+            generate: false
+          - text: Systemd
+            url: /production/cp-deployment/systemd/
+      - text: Create multiple service meshes in a cluster
+        url: /production/mesh/
+      - title: Data plane configuration
+        group: true
+        items:
+          - text: Data plane proxy
+            url: /production/dp-config/dpp/
+          - text: Configure the data plane on Kubernetes
+            url: /production/dp-config/dpp-on-kubernetes/
+          - text: Configure the data plane on Universal
+            url: /production/dp-config/dpp-on-universal/
+          - text: Configure the Kuma CNI
+            url: /production/dp-config/cni/
+          - text: Configure transparent proxying
+            url: /production/dp-config/transparent-proxying/
+          - text: IPv6 support
+            url: /production/dp-config/ipv6/
+      - title: Secure your deployment
+        group: true
+        items:
+          - text: Manage secrets
+            url: /production/secure-deployment/secrets/
+          - text: Kuma API access control
+            url: /production/secure-deployment/api-access-control/
+          - text: Authentication with the API server
+            url: /production/secure-deployment/api-server-auth/
+          - text: Authentication with the data plane proxy
+            url: /production/secure-deployment/dp-auth/
+          - text: Configure data plane proxy membership
+            url: /production/secure-deployment/dp-membership/
+          - text: Secure access accross services
+            url: /production/secure-deployment/certificates/
+      - text: Kuma user interface
+        url: /production/gui/
+      - title: Upgrades and tuning
+        group: true
+        items:
+          - text: Upgrade Kuma
+            url: /production/upgrades-tuning/upgrades/
+          - text: Performance fine-tuning
+            url: /production/upgrades-tuning/fine-tuning/
+  - title: Deploy
+    group: true
+    items:
+      - text: Explore Kuma with the Kubernetes demo app
+        url: /quickstart/kubernetes/
+        items:
+          - text: Prerequisites
+            url: "/quickstart/kubernetes/#prerequisites"
+          - text: Set up and run
+            url: "/quickstart/kubernetes/#set-up-and-run"
+          - text: Explore the mesh
+            url: "/quickstart/kubernetes/#explore-the-mesh"
+          - text: Enable Mutual TLS and Traffic Permissions
+            url: "/quickstart/kubernetes/#enable-mutual-tls-and-traffic-permissions"
+          - text: Builtin gateways
+            url: "/quickstart/kubernetes/#builtin-gateways"
+          - text: Explore Observability features
+            url: "/quickstart/kubernetes/#explore-observability-features"
+          - text: Next steps
+            url: "/quickstart/kubernetes/#next-steps"
+      - text: Explore Kuma with the Universal demo app
+        url: /quickstart/universal/
+        items:
+          - text: Prerequisites
+            url: "/quickstart/universal/#prerequisites"
+          - text: Set up
+            url: "/quickstart/universal/#set-up"
+          - text: Generate tokens
+            url: "/quickstart/universal/#generate-tokens"
+          - text: Create a data plane proxy for each service
+            url: "/quickstart/universal/#create-a-data-plane-proxy-for-each-service"
+          - text: Run
+            url: "/quickstart/universal/#run"
+          - text: Explore the mesh
+            url: "/quickstart/universal/#explore-the-mesh"
+          - text: Enable Mutual TLS and Traffic Permissions
+            url: "/quickstart/universal/#enable-mutual-tls-and-traffic-permissions"
+          - text: Explore Traffic Metrics
+            url: "/quickstart/universal/#explore-traffic-metrics"
+          - text: Next steps
+            url: "/quickstart/universal/#next-steps"
+  - title: Explore
+    group: true
+    items:
+      - text: Gateway
+        url: /explore/gateway/
+        items:
+          - text: Delegated
+            url: "/explore/gateway/#delegated"
+          - text: Builtin
+            url: "/explore/gateway/#builtin"
+      - text: CLI
+        url: /explore/cli/
+        items:
+          - text: kumactl
+            url: "/explore/cli/#kumactl"
+      - text: Observability
+        url: /explore/observability/
+        items:
+          - text: Demo setup
+            url: "/explore/observability/#demo-setup"
+          - text: Control plane metrics
+            url: "/explore/observability/#control-plane-metrics"
+          - text: Configuring Prometheus
+            url: "/explore/observability/#configuring-prometheus"
+          - text: Configuring Grafana
+            url: "/explore/observability/#configuring-grafana"
+          - text: Configuring Datadog
+            url: "/explore/observability/#configuring-datadog"
+          - text: Observability in multi-zone
+            url: "/explore/observability/#observability-in-multi-zone"
+      - text: Inspect API
+        url: /explore/inspect-api/
+        items:
+          - text: Matched policies
+            url: "/explore/inspect-api/#matched-policies"
+          - text: Affected data plane proxies
+            url: "/explore/inspect-api/#affected-data-plane-proxies"
+          - text: Envoy proxy configuration
+            url: "/explore/inspect-api/#envoy-proxy-configuration"
+      - text: Kubernetes Gateway API
+        url: /explore/gateway-api/
+        items:
+          - text: Installation
+            url: "/explore/gateway-api/#installation"
+          - text: Usage
+            url: "/explore/gateway-api/#usage"
+          - text: TLS termination
+            url: "/explore/gateway-api/#tls-termination"
+          - text: Customization
+            url: "/explore/gateway-api/#customization"
+          - text: Multi-mesh
+            url: "/explore/gateway-api/#multi-mesh"
+          - text: Multi-zone
+            url: "/explore/gateway-api/#multi-zone"
+          - text: How it works
+            url: "/explore/gateway-api/#how-it-works"
+  - title: Networking
+    group: true
+    items:
+      - text: Service Discovery
+        url: /networking/service-discovery/
+      - text: DNS
+        url: /networking/dns/
+        items:
+          - text: How it works
+            url: "/networking/dns/#how-it-works"
+          - text: Installation
+            url: "/networking/dns/#installation"
+          - text: Configuration
+            url: "/networking/dns/#configuration"
+          - text: Usage
+            url: "/networking/dns/#usage"
+      - text: Non-mesh traffic
+        url: "/networking/non-mesh-traffic/"
+        items:
+          - text: Incoming
+            url: "/networking/non-mesh-traffic/#incoming"
+          - text: Outgoing
+            url: "/networking/non-mesh-traffic/#outgoing"
+  - title: Monitor & manage
+    group: true
+    items:
+      - text: Dataplane Health
+        url: /documentation/health/
+        items:
+          - text: Circuit Breaker Policy
+            url: "/documentation/health/#circuit-breaker-policy"
+          - text: Kubernetes and Universal Service Probes
+            url: "/documentation/health/#kubernetes-and-universal-service-probes"
+          - text: Health Check Policy
+            url: "/documentation/health/#health-check-policy"
+      - text: Control Plane Configuration
+        url: /documentation/configuration/
+        items:
+          - text: Modifying the configuration
+            url: "/documentation/configuration/#modifying-the-configuration"
+          - text: Inspecting the configuration
+            url: "/documentation/configuration/#inspecting-the-configuration"
+          - text: Store
+            url: "/documentation/configuration/#store"
+  - title: Policies
+    group: true
+    items:
+      - text: Introduction
+        url: /policies/introduction/
+      - text: General notes about Kuma policies
+        url: /policies/general-notes-about-kuma-policies/
+      - text: Applying Policies
+        url: /policies/applying-policies/
+      - text: How Kuma chooses the right policy to apply
+        url: /policies/how-kuma-chooses-the-right-policy-to-apply/
+        items:
+          - text: General rules
+            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#general-rules"
+          - text: Combine Policies to Avoid Overriding
+            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#combine-policies-to-avoid-overriding"
+          - text: Dataplane Policy
+            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#dataplane-policy"
+          - text: Connection policies
+            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#connection-policies"
+          - text: Outbound Connection Policy
+            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy"
+          - text: Inbound Connection Policy
+            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#inbound-connection-policy"
+      - text: Understanding TargetRef policies
+        url: "/policies/targetref"
+
+      - text: Protocol support in Kuma
+        url: /policies/protocol-support-in-kuma/
+        items:
+          - text: HTTP/2 support
+            url: "/policies/protocol-support-in-kuma/#http2-support"
+          - text: TLS support
+            url: "/policies/protocol-support-in-kuma/#tls-support"
+          - text: Websocket support
+            url: "/policies/protocol-support-in-kuma/#websocket-support"
+      - text: Mutual TLS
+        url: /policies/mutual-tls/
+        items:
+          - text: Usage of "builtin" CA
+            url: "/policies/mutual-tls/#usage-of-builtin-ca"
+          - text: Usage of "provided" CA
+            url: "/policies/mutual-tls/#usage-of-provided-ca"
+          - text: Permissive mTLS
+            url: "/policies/mutual-tls/#permissive-mtls"
+          - text: Certificate Rotation
+            url: "/policies/mutual-tls/#certificate-rotation"
+      - text: Traffic Permissions
+        url: /policies/traffic-permissions/
+        items:
+          - text: Usage
+            url: "/policies/traffic-permissions/#usage"
+          - text: Access to External Services
+            url: "/policies/traffic-permissions/#access-to-external-services"
+      - text: Traffic Route
+        url: /policies/traffic-route/
+        items:
+          - text: Usage
+            url: "/policies/traffic-route/#usage"
+      - text: Traffic Metrics
+        url: /policies/traffic-metrics/
+        items:
+          - text: Expose metrics from data plane proxies
+            url: "/policies/traffic-metrics/#expose-metrics-from-data-plane-proxies"
+          - text: Expose metrics from applications
+            url: "/policies/traffic-metrics/#expose-metrics-from-applications"
+          - text: Override Prometheus settings per data plane proxy
+            url: "/policies/traffic-metrics/#override-prometheus-settings-per-data-plane-proxy"
+          - text: Filter Envoy metrics
+            url: "/policies/traffic-metrics/#filter-envoy-metrics"
+          - text: Secure data plane proxy metrics
+            url: "/policies/traffic-metrics/#secure-data-plane-proxy-metrics"
+      - text: Traffic Trace
+        url: /policies/traffic-trace/
+        items:
+          - text: Add a tracing backend to the mesh
+            url: "/policies/traffic-trace/#add-a-tracing-backend-to-the-mesh"
+          - text: Add TrafficTrace resource
+            url: "/policies/traffic-trace/#add-traffictrace-resource"
+      - text: Traffic Log
+        url: /policies/traffic-log/
+        items:
+          - text: Add a logging backend
+            url: "/policies/traffic-log/#add-a-logging-backend"
+          - text: Add a TrafficLog resource
+            url: "/policies/traffic-log/#add-a-trafficlog-resource"
+          - text: Logging external services
+            url: "/policies/traffic-log/#logging-external-services"
+          - text: Builtin Gateway support
+            url: "/policies/traffic-log/#builtin-gateway-support"
+          - text: Access Log Format
+            url: "/policies/traffic-log/#access-log-format"
+      - text: Locality-aware Load Balancing
+        url: /policies/locality-aware/
+        items:
+          - text: Enabling locality-aware load balancing
+            url: "/policies/locality-aware/#enabling-locality-aware-load-balancing"
+      - text: Fault Injection
+        url: /policies/fault-injection/
+        items:
+          - text: Usage
+            url: "/policies/fault-injection/#usage"
+          - text: Matching
+            url: "/policies/fault-injection/#matching"
+      - text: Health Check
+        url: /policies/health-check/
+        items:
+          - text: Usage
+            url: "/policies/health-check/#usage"
+          - text: Matching
+            url: "/policies/health-check/#matching"
+      - text: Circuit Breaker
+        url: /policies/circuit-breaker/
+        items:
+          - text: Usage
+            url: "/policies/circuit-breaker/#usage"
+          - text: Matching
+            url: "/policies/circuit-breaker/#matching"
+          - text: Builtin Gateway support
+            url: "/policies/circuit-breaker/#builtin-gateway-support"
+          - text: Non-mesh traffic
+            url: "/policies/circuit-breaker/#non-mesh-traffic"
+      - text: External Service
+        url: /policies/external-services/
+        items:
+          - text: Usage
+            url: "/policies/external-services/#usage"
+          - text: Builtin Gateway support
+            url: "/policies/external-services/#builtin-gateway-support"
+      - text: Retry
+        url: /policies/retry/
+        items:
+          - text: Usage
+            url: "/policies/retry/#usage"
+          - text: Matching
+            url: "/policies/retry/#matching"
+          - text: Builtin Gateway support
+            url: "/policies/retry/#builtin-gateway-support"
+      - text: Timeout
+        url: /policies/timeout/
+        items:
+          - text: Usage
+            url: "/policies/timeout/#usage"
+          - text: Configuration
+            url: "/policies/timeout/#configuration"
+          - text: Default general-purpose Timeout policy
+            url: "/policies/timeout/#default-general-purpose-timeout-policy"
+          - text: Matching
+            url: "/policies/timeout/#matching"
+          - text: Builtin Gateway support
+            url: "/policies/timeout/#builtin-gateway-support"
+          - text: Inbound timeouts
+            url: "/policies/timeout/#inbound-timeouts"
+          - text: Non-mesh traffic
+            url: "/policies/timeout/#non-mesh-traffic"
+      - text: Rate Limit
+        url: /policies/rate-limit/
+        items:
+          - text: Usage
+            url: "/policies/rate-limit/#usage"
+          - text: Matching destinations
+            url: "/policies/rate-limit/#matching-destinations"
+          - text: Builtin Gateway support
+            url: "/policies/rate-limit/#builtin-gateway-support"
+      - text: Virtual Outbound
+        url: /policies/virtual-outbound/
+        items:
+          - text: Examples
+            url: "/policies/virtual-outbound/#examples"
+      - text: MeshGateway
+        url: /policies/mesh-gateway/
+        items:
+          - text: TLS Termination
+            url: "/policies/mesh-gateway/#tls-termination"
+      - text: MeshGatewayRoute
+        url: /policies/mesh-gateway-route/
+        items:
+          - text: Listener tags
+            url: "/policies/mesh-gateway-route/#listener-tags"
+          - text: Matching
+            url: "/policies/mesh-gateway-route/#matching"
+          - text: Filters
+            url: "/policies/mesh-gateway-route/#filters"
+          - text: Reference
+            url: "/policies/mesh-gateway-route/#reference"
+      - text: Service Health Probes
+        url: /policies/service-health-probes/
+        items:
+          - text: Kubernetes
+            url: "/policies/service-health-probes/#kubernetes"
+          - text: Universal probes
+            url: "/policies/service-health-probes/#universal-probes"
+      - text: MeshAccessLog (Beta)
+        url: /policies/meshaccesslog/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshaccesslog/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshaccesslog/#configuration"
+          - text: Examples
+            url: "/policies/meshaccesslog/#examples"
+      - text: MeshCircuitBreaker (Beta)
+        url: /policies/meshcircuitbreaker/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshcircuitbreaker/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshcircuitbreaker/#configuration"
+          - text: Examples
+            url: "/policies/meshcircuitbreaker/#examples"
+      - text: MeshFaultInjection (Beta)
+        url: /policies/meshfaultinjection/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshfaultinjection/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshfaultinjection/#configuration"
+          - text: Examples
+            url: "/policies/meshfaultinjection/#examples"
+      - text: MeshHealthCheck (Beta)
+        url: /policies/meshhealthcheck/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshhealthcheck/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshhealthcheck/#configuration"
+          - text: Examples
+            url: "/policies/meshhealthcheck/#examples"
+      - text: MeshHTTPRoute (Beta)
+        url: /policies/meshhttproute/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshhttproute/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshhttproute/#configuration"
+          - text: Examples
+            url: "/policies/meshhttproute/#examples"
+          - text: Merging
+            url: "/policies/meshhttproute/#merging"
+      - text: MeshProxyPatch (Beta)
+        url: /policies/meshproxypatch/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshproxypatch/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshproxypatch/#configuration"
+          - text: Examples
+            url: "/policies/meshproxypatch/#examples"
+          - text: Merging
+            url: "/policies/meshproxypatch/#merging"
+      - text: MeshRateLimit (Beta)
+        url: /policies/meshratelimit/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshratelimit/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshratelimit/#configuration"
+          - text: Examples
+            url: "/policies/meshratelimit/#examples"
+      - text: MeshRetry (Beta)
+        url: /policies/meshretry/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshretry/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshretry/#configuration"
+          - text: Examples
+            url: "/policies/meshretry/#examples"
+      - text: MeshTimeout (Beta)
+        url: /policies/meshtimeout/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtimeout/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtimeout/#configuration"
+          - text: Examples
+            url: "/policies/meshtimeout/#examples"
+      - text: MeshTrace (Beta)
+        url: /policies/meshtrace/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtrace/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtrace/#configuration"
+          - text: Examples
+            url: "/policies/meshtrace/#examples"
+      - text: MeshTrafficPermission (Beta)
+        url: /policies/meshtrafficpermission/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtrafficpermission/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtrafficpermission/#configuration"
+          - text: Examples
+            url: "/policies/meshtrafficpermission/#examples"
+  - title: Reference
+    group: true
+    items:
+      - text: HTTP API
+        url: /reference/http-api/
+      - text: Kubernetes annotations and labels
+        url: /reference/kubernetes-annotations/
+      - text: Kuma data collection
+        url: /reference/data-collection/
+      - # Auto-generated
+        text: Control plane configuration reference
+        url: /generated/kuma-cp
+        generate: false
+      - text: Envoy proxy template
+        url: /reference/proxy-template/
+      - # Auto-generated
+        title: Resources
+        group: true
+        items:
+          - text: Mesh
+            url: /generated/resources/other_mesh/
+            generate: false
+          - text: CircuitBreaker
+            url: /generated/resources/policy_circuit-breaker/
+            generate: false
+          - text: ExternalService
+            url: /generated/resources/policy_external-service/
+            generate: false
+          - text: FaultInjection
+            url: /generated/resources/policy_fault-injection/
+            generate: false
+          - text: HealthCheck
+            url: /generated/resources/policy_health-check/
+            generate: false
+          - text: MeshGateway
+            url: /generated/resources/policy_meshgateway/
+            generate: false
+          - text: MeshGatewayRoute
+            url: /generated/resources/policy_meshgatewayroute/
+            generate: false
+          - text: ProxyTemplate
+            url: /generated/resources/policy_proxy-template/
+            generate: false
+          - text: RateLimit
+            url: /generated/resources/policy_rate-limit/
+            generate: false
+          - text: Retry
+            url: /generated/resources/policy_retry/
+            generate: false
+          - text: Timeout
+            url: /generated/resources/policy_timeout/
+            generate: false
+          - text: TrafficLog
+            url: /generated/resources/policy_traffic-log/
+            generate: false
+          - text: TrafficPermission
+            url: /generated/resources/policy_traffic-permissions/
+            generate: false
+          - text: TrafficRoute
+            url: /generated/resources/policy_traffic-route/
+            generate: false
+          - text: TrafficTrace
+            url: /generated/resources/policy_traffic-trace/
+            generate: false
+          - text: VirtualOutbound
+            url: /generated/resources/policy_virtual-outbound/
+            generate: false
+          - text: Dataplane
+            url: /generated/resources/proxy_dataplane/
+            generate: false
+          - text: ZoneEgress
+            url: /generated/resources/proxy_zoneegress/
+            generate: false
+          - text: ZoneIngress
+            url: /generated/resources/proxy_zoneingress/
+            generate: false
+      - # Auto-generated
+        title: Commands
+        group: true
+        items:
+          - text: kuma-cp
+            url: /generated/cmd/kuma-cp/kuma-cp/
+            generate: false
+          - text: kuma-dp
+            url: /generated/cmd/kuma-dp/kuma-dp/
+            generate: false
+          - text: kumactl
+            url: /generated/cmd/kumactl/kumactl/
+            generate: false
+  - title: Community
+    group: true
+    items:
+      - text: License
+        url: /community/license/
+      - text: Contribute to Kuma
+        url: /community/contribute-to-kuma/
+unlisted:
+  - url: /
