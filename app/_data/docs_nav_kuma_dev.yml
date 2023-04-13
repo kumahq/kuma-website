@@ -539,6 +539,15 @@ items:
             url: "/policies/meshtrafficpermission/#configuration"
           - text: Examples
             url: "/policies/meshtrafficpermission/#examples"
+      - text: MeshLoadBalancingStrategy (Beta)
+        url: /policies/meshloadbalancingstrategy/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshloadbalancingstrategy/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshloadbalancingstrategy/#configuration"
+          - text: Examples
+            url: "/policies/meshloadbalancingstrategy/#examples"
   - title: Reference
     group: true
     items:
