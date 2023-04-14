@@ -51,3 +51,5 @@ https://traffic.kuma.io/exclude-outbound-ports /docs/LATEST_RELEASE/reference/ku
 # Kuma IA Reference section
 
 /docs/:version/policies/proxy-template/ /docs/:version/reference/proxy-template/
+/docs/2.2.x/installation/* /docs/2.2.x/production/install-kumactl/
+/docs/latest/installation/* /docs/latest/production/install-kumactl/
