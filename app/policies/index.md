@@ -77,6 +77,6 @@ policies:
         url: /docs/latest/policies/proxy-template/
         icon: /assets/images/icons/policies/icon-proxy-template@2x.png
       - title: DP/CP Security
-        url: /docs/latest/security/certificates/#data-plane-proxy-to-control-plane-communication
+        url: /docs/latest/production/secure-deployment/dp-auth/
         icon: /assets/images/icons/policies/icon-dc-cp-security@2x.png
 ---
