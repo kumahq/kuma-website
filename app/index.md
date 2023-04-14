@@ -37,7 +37,7 @@ carousel:
 
 {% contentfor news %}
 
-**Kuma 2.1.0 has been released!** &mdash; with a full suite of next-gen policies and New UI Improvements, and much more [on the Kuma 2.1.0 release blog post](/blog/2023/kuma-2-1-0/)
+**Kuma 2.2.0 has been released!** &mdash; with OpenTelemetry support, Offline Token Signing, and much more [on the Kuma 2.2.0 release blog post](/blog/2023/kuma-2-2-0/)
 
 {% endcontentfor %}
 
