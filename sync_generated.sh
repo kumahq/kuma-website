@@ -22,14 +22,15 @@ git fetch "$kumahq"
 
 popd
 
-for i in app/docs/*; do
-  if [[ ! -d $i ]]; then continue; fi
-
-  branch=$(basename "$i" | sed 's/\(.*\)\.x/release-\1/g')
-  if [[ $branch == "dev" ]]; then
-    branch="master"
-  fi
+for branch in $(jq -r '.[]' ../kuma/active-branches.json); do
   echo "Copying $branch"
+  i="app/docs/${branch}"
+  if [[ "${branch}" == "master" ]]; then
+    i=app/docs/dev
+  else
+    i="app/docs/$(echo "${branch}" | sed 's/release-//g').x"
+  fi
+  mkdir -p "${i}"
 
   pushd ../kuma
     git checkout "$kumahq/$branch"

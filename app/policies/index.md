@@ -11,7 +11,7 @@ policies:
     sectionSubTitle: Identity, Encryption and Compliance
     items:
       - title: Mesh / Multi-Mesh
-        url: /docs/latest/policies/mesh/
+        url: /docs/latest/production/mesh/
         icon: /assets/images/icons/policies/icon-mesh-multi-tenancy@2x.png
       - title: Mutual TLS (mTLS)
         url: /docs/latest/policies/mutual-tls/
