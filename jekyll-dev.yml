@@ -17,6 +17,7 @@ title: "Kuma"
 description: "Build, Secure and Observe your modern Service Mesh"
 links:
   web: https://kuma.io
+  download: https://download.konghq.com
 fb:
   app_id: 682375632267551
 twitter:
@@ -69,6 +70,7 @@ jekyll-generator-single-source:
 mesh_product_name: Kuma
 mesh_namespace: kuma-system
 mesh_cp_name: kuma-control-plane
+mesh_base_url: https://kuma.io
 
 # Helm commands
 mesh_helm_repo: kuma/kuma
