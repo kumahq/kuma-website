@@ -154,7 +154,7 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
 1. Run helm install
 
     ```sh
-    helm install {{ site.mesh_helm_install_name }} -f values.yaml --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh_helm_repo }}
+    helm install {{ site.mesh_helm_install_name }} -f values.yaml --skip-crds --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh_helm_repo }}
     ```
 
 1. Find the external IP and port of the `global-remote-sync` service in the `{{site.mesh_namespace}}` namespace:
