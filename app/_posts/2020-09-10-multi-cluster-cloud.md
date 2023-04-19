@@ -16,7 +16,7 @@ Starting from Kuma 0.6, which was released this summer with a new advanced multi
 Kuma creates a service connectivity overlay across hybrid infrastructure to discover and connect services automatically, including hybrid Kubernetes + VM services.
 </i></center>
 
-This [multi-zone capability](https://kuma.io/docs/latest/deployments/multi-zone/) has been added in addition to the [multi-mesh support](https://kuma.io/docs/latest/policies/mesh/) that Kuma introduced since day one to create multiple isolated meshes on the same cluster (with dedicated mTLS CAs) in order to reduce team coordination, increase isolation and improve security rather than one large service mesh that everybody is sharing. Also, since multi-zone leverages the first-class K8s + VM support that shipped since the first version of Kuma, all teams and workloads in the organizations can benefit from service mesh and not just our greenfield initiatives.
+This [multi-zone capability](/docs/latest/deployments/multi-zone/) has been added in addition to the [multi-mesh support](/docs/latest/policies/mesh/) that Kuma introduced since day one to create multiple isolated meshes on the same cluster (with dedicated mTLS CAs) in order to reduce team coordination, increase isolation and improve security rather than one large service mesh that everybody is sharing. Also, since multi-zone leverages the first-class K8s + VM support that shipped since the first version of Kuma, all teams and workloads in the organizations can benefit from service mesh and not just our greenfield initiatives.
 
 A Kuma service mesh distributed across every cloud, cluster and workload that the teams are using can therefore be managed from one individual cluster of Kuma itself. Meanwhile, multiple service meshes can be virtually provisioned on one Kuma control plane (horizontally scalable) to simplify mesh management across the organization – very similar to how Kubernetes and its namespaces work.
 
@@ -67,7 +67,7 @@ Among other use cases, cross-zone connectivity is useful for:
 
 1. A new “ingress” data plane proxy mode processes incoming traffic into a zone. There will be one Kuma ingress deployment per zone, that can be scaled horizontally as the traffic increases. The “ingress” data plane mode is being added in addition to the default proxying one and the “gateway” one (to support third-party API gateways). Because of the new “ingress” mode, Kuma doesn’t require a flat networking topology between zones and can support more complex infrastructure.
 2. A built-in service discovery DNS server resolves the address of a service to either an IP address of a replica in the same zone or the address of an ingress proxy in another zone.
-   Likewise with the “global” and “remote” control planes, the ingress and the DNS service discovery can also be installed in one click by following the [multi-zone instructions](https://kuma.io/docs/latest/deployments/multi-zone/) on Kuma.
+   Likewise with the “global” and “remote” control planes, the ingress and the DNS service discovery can also be installed in one click by following the [multi-zone instructions](/docs/latest/deployments/multi-zone/) on Kuma.
 
 When it comes to service discovery, Kuma creates a “.mesh” DNS entry on the built-in DNS resolver that can be used to resolve services across the same zone or in other zones, effectively “flattening” the discovery of services across a complex infrastructure. Kuma will – accordingly to the traffic routing policies that have been configured – determine if we should be consuming a replica of the service in the local zone or if we should resolve the request to the IP address of a Kuma ingress in another zone, which will then leverage SNI to determine what service has been requested and route the request accordingly.
 
@@ -75,9 +75,9 @@ When it comes to service discovery, Kuma creates a “.mesh” DNS entry on the 
 In this example, we have three services (users, invoices and billing). Requests to “invoices.mesh” will be proxied to an IP address within the same zone, whereas requests to “billing.mesh” will be <b>automatically</b> proxied to an ingress of another zone.
 </i></center>
 
-Since SNI resolution is mandatory for cross-zone communication, the [mTLS policy](https://kuma.io/docs/latest/policies/mutual-tls/) must be enabled on the mesh. Also, since Kuma already knows where all the services are running, cross-zone discovery and connectivity happen automatically.
+Since SNI resolution is mandatory for cross-zone communication, the [mTLS policy](/docs/latest/policies/mutual-tls/) must be enabled on the mesh. Also, since Kuma already knows where all the services are running, cross-zone discovery and connectivity happen automatically.
 
-When a new service is registered into Kuma, a new “kuma.io/zone” tag is added to the data plane definition so that we can use the [attribute-based policy selectors](https://kuma.io/docs/latest/explore/dpp/#tags) to configure Kuma policies like [Traffic Route](https://kuma.io/docs/latest/policies/traffic-route/) to determine the behavior of cross-zone traffic (blue/green or canary across different zones, weighted traffic, as well as traffic shifting).
+When a new service is registered into Kuma, a new “kuma.io/zone” tag is added to the data plane definition so that we can use the [attribute-based policy selectors](/docs/latest/explore/dpp/#tags) to configure Kuma policies like [Traffic Route](/docs/latest/policies/traffic-route/) to determine the behavior of cross-zone traffic (blue/green or canary across different zones, weighted traffic, as well as traffic shifting).
 
 When consuming any “{service-name}.mesh” on default port 80 (even if the service is not listening on port 80), the DNS resolver – in addition to resolving the address of the service – will also automatically resolve the port of the destination service and inject it into the connection in order to keep the uptime of the overall connectivity even when a team decides to re-assign ports of a service that other teams may be using. This feature reduces the team coordination required to maintain a large number of services and connections in a Kuma mesh.
 
@@ -85,8 +85,8 @@ When consuming any “{service-name}.mesh” on default port 80 (even if the ser
 
 Thanks to the new multi-zone capability that Kuma provides since v0.6+, we can now easily run a service mesh across multiple Kubernetes clusters, clouds and regions. Since Kuma natively supports both containerized and VM workloads, this functionality can also be used to create service connectivity across hybrid architectures.
 
-By providing [one-click installation steps](https://kuma.io/docs/latest/documentation/deployments/) to automate the installation of new zones as well as features like global/remote control planes, built-in service discovery and a native Kuma ingress, Kuma abstracts away service connectivity by creating a network overlay that effectively flattens out how services can discover and consume each other across complex network topologies. This makes it a great fit for any enterprise or distributed environment.
+By providing [one-click installation steps](/docs/latest/documentation/deployments/) to automate the installation of new zones as well as features like global/remote control planes, built-in service discovery and a native Kuma ingress, Kuma abstracts away service connectivity by creating a network overlay that effectively flattens out how services can discover and consume each other across complex network topologies. This makes it a great fit for any enterprise or distributed environment.
 
-To get up and running with Kuma, you can check out the [installation page](https://kuma.io/install) as well as the official [Slack channel](https://kuma.io/community).
+To get up and running with Kuma, you can check out the [installation page](/install) as well as the official [Slack channel](/community).
 
 Happy meshing! 🚀
