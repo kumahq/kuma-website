@@ -24,7 +24,7 @@ Make sure you have tar and gzip installed.
 Run the following script to automatically detect the operating system and download Kuma:
 
 <div class="language-sh">
-  <pre class="no-line-numbers"><code>curl -L https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -</code></pre>
+  <pre class="no-line-numbers"><code>curl -L {{site.links.web}}{% if page.edition %}/{{page.edition}}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -</code></pre>
 </div>
 
 You can omit the `VERSION` variable to install the latest version.
@@ -33,28 +33,30 @@ You can omit the `VERSION` variable to install the latest version.
 
 Download the distribution manually. Download a distribution for the **client host** from where you will be executing kumactl:
 
-{% if page.version == "dev" %}
+{% if page.version_data.release == "dev" %}
 In preview builds each version are of the format `{{ site.mesh_helm_install_name }}-0.0.0-preview-v<8charactersShortCommitHash>`.
 
-You can find all released versions for all targets from: <a href="https://download.konghq.com/{{ site.mesh_helm_install_name }}-binaries-preview/">The download page.</a>
+You can find all released versions for all targets from: <a href="{{site.links.download}}/{{ site.mesh_helm_install_name }}-binaries-preview/">The download page.</a>
 {% endif %}
-{% if page.version != "dev" %}
-The latest version is: **{{ page.latest_version }}**.
+{% if page.version_data.release != "dev" %}
+The latest version is: **{{ page.version_data.version }}**.
 
-You can find all released versions for all targets from: <a href="https://download.konghq.com/{{ site.mesh_helm_install_name }}-binaries-release/">The download page.</a>
+You can find all released versions for all targets from: <a href="{{site.links.download}}/{{ site.mesh_helm_install_name }}-binaries-release/">The download page.</a>
 {% endif %}
 
+{% if site.mesh_helm_install_name == "kuma" %}
 {% tip %}
 On macOS you can use `brew install kumactl`.
 {% endtip %}
+{% endif %}
 
-and extract the archive with `tar -xvzf {{ site.mesh_helm_install_name }}-{{ page.latest_version }}.tar.gz`
+and extract the archive with `tar -xvzf {{ site.mesh_helm_install_name }}-{{ page.version_data.version }}.tar.gz`
 {% endtab %}
 {% endtabs %}
 
 Add the `kumactl` executable to your path:
 ```
-cd kuma-{{ page.latest_version }}/bin
+cd kuma-{{ page.version_data.version }}/bin
 PATH=$(pwd):$PATH
 ```
 

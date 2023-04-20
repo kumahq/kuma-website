@@ -8,28 +8,14 @@ module Jekyll
       site.pages.each_with_index do |page, index|
         next unless page.relative_path.start_with? 'docs'
         next if page.path == 'docs/index.md'
+        # remove docs/<version>/ prefix and `.md` and the end
+        page_url = page.path.gsub(/docs\/[^\/]+\//, '/').gsub('.md', '/')
 
-        version = Pathname(page.relative_path).each_filename.to_a[1]
-        if Gem::Version.correct?(version)
-          version = version.gsub(/\./, '')
-        end
-
-        # Get all sidenav items
-        nav_items = site.data["docs_nav_kuma_#{version}"]['items']
-        pages = pages_from_items(nav_items)
-
-        current_page = pages.detect do |u|
-          u['url'] == page_path_to_sidebar_url(page.relative_path, version)
-        end
-
-        page_index = pages.index(current_page)
-
-        if page_index && page_index != 0
-          page.data['prev'] = pages[page_index - 1]
-        end
-
-        if page_index && page_index != 0
-          page.data['next'] = pages[page_index + 1]
+        pages = pages_from_items(page.data["nav_items"])
+        page_index = pages.index { |u| u['url'] == page_url }
+        if page_index
+            page.data['prev'] = pages[page_index - 1] if page_index != 0
+            page.data['next'] = pages[page_index + 1] if page_index != pages.length - 1
         end
       end
     end
@@ -44,10 +30,6 @@ module Jekyll
           array << pages_from_items(i.fetch('items'))
         end
       end.flatten
-    end
-
-    def page_path_to_sidebar_url(path, version)
-      path.delete_prefix("docs/#{version}").gsub('.md', '/')
     end
   end
 end
