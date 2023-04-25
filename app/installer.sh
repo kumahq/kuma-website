@@ -141,6 +141,20 @@ query($owner: String!, $repo: String!, $branch: String!) {
 if [ "$VERSION" = "preview" ]; then
   set_preview_version
 fi
+
+if [[ $# -gt 0 ]]; then
+    case $1 in
+      --print-version)
+        echo "${VERSION}"
+        exit 0
+        ;;
+      *)
+        echo "Invalid arguments"
+        exit 1
+        ;;
+    esac
+fi
+
 printf "INFO\t$PRODUCT_NAME version: %s\n" "$VERSION"
 printf "INFO\t$PRODUCT_NAME architecture: %s\n" "$ARCH"
 printf "INFO\tOperating system: %s\n" "$OS"
