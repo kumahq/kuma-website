@@ -142,7 +142,7 @@ if [ "$VERSION" = "preview" ]; then
   set_preview_version
 fi
 
-if [[ $# -gt 0 ]]; then
+if [ $# -gt 0 ]; then
     case $1 in
       --print-version)
         echo "${VERSION}"
