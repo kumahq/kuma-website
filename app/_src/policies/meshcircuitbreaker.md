@@ -582,4 +582,4 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 ## Complete spec
 
-{% policyschema MeshCircuitBreaker %}
+{% policy_schema MeshCircuitBreaker %}
