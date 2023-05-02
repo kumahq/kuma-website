@@ -519,3 +519,7 @@ To target other non-mesh traffic, i.e. [passthrough traffic](/docs/{{ page.versi
 ## Select a built-in gateway
 
 You can select a built-in gateway using the `kuma.io/service` value. A current limitation is that traffic routed from a gateway to a service is logged by that gateway as having destination `"*"`.
+
+## All policy options
+
+{% policy_schema MeshAccessLog %}

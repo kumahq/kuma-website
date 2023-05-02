@@ -277,3 +277,7 @@ Order of rules inside the `from` array matters.
 Request from the proxy that has both `kuma.io/zone: east` and `env: dev` will be denied. 
 This is because the rule with `Deny` is later in the `from` array than any `Allow` rules.
 {% endtip %}
+
+## All policy options
+
+{% policy_schema MeshTrafficPermission %}
