@@ -68,4 +68,14 @@ Here are all options to configure the control-plane:
     fi
   done
 
+  shopt -s nullglob
+  for policy in ../kuma/pkg/plugins/policies/*/api/v1alpha1/schema.yaml; do
+    name=$(yq '.properties.type.enum[0]' "${policy}")
+    if [[ "${name}" == "null" ]]; then
+        continue
+    fi
+    yq -o json '.' "${policy}" > "${i}/generated/${name}.json"
+  done
+  shopt -u nullglob
+
 done

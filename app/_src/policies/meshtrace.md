@@ -554,3 +554,7 @@ spec:
 ```
 {% endtab %}
 {% endtabs %}
+
+## All policy options
+
+{% policy_schema MeshTrace %}

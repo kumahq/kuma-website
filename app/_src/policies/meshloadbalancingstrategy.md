@@ -237,3 +237,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 {% endtab %}
 {% endtabs %}
+
+## All policy options
+
+{% policy_schema MeshLoadBalancingStrategy %}

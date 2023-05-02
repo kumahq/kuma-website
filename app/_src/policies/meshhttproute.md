@@ -321,3 +321,7 @@ rules:
         method: POST
     default: merge(CONF_2, CONF_4) # because 'key-2' == 'key-4'
 ```
+
+## All policy options
+
+{% policy_schema MeshHTTPRoute %}

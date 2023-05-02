@@ -294,3 +294,7 @@ HTTP health checks are executed using HTTP2
 - **`serviceName`** - (optional) - service name parameter which will be sent to gRPC service
 - **`authority`** - (optional) - value of the :authority header in the gRPC health check request,
   by default name of the cluster this health check is associated with
+
+## All policy options
+
+{% policy_schema MeshHealthCheck %}
