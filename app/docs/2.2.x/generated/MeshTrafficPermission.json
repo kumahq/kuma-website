@@ -1,11 +1,10 @@
 {
-  "type": "object",
   "properties": {
     "type": {
       "description": "the type of the resource",
       "type": "string",
       "enum": [
-        "DoNothingPolicy"
+        "MeshTrafficPermission"
       ]
     },
     "mesh": {
@@ -18,7 +17,7 @@
       "type": "string"
     },
     "spec": {
-      "description": "Spec is the specification of the Kuma DoNothingPolicy resource.",
+      "description": "Spec is the specification of the Kuma MeshTrafficPermission resource.",
       "properties": {
         "from": {
           "description": "From list makes a match between clients and corresponding configurations",
@@ -27,9 +26,14 @@
               "default": {
                 "description": "Default is a configuration specific to the group of clients referenced in 'targetRef'",
                 "properties": {
-                  "enableDoNothing": {
-                    "description": "User defined fields Set true in case of doing nothing",
-                    "type": "boolean"
+                  "action": {
+                    "description": "Action defines a behavior for the specified group of clients:",
+                    "enum": [
+                      "Allow",
+                      "Deny",
+                      "AllowWithShadowDeny"
+                    ],
+                    "type": "string"
                   }
                 },
                 "type": "object"
@@ -105,60 +109,6 @@
             }
           },
           "type": "object"
-        },
-        "to": {
-          "description": "To list makes a match between the consumed services and corresponding configurations",
-          "items": {
-            "properties": {
-              "default": {
-                "description": "Default is a configuration specific to the group of destinations referenced in 'targetRef'",
-                "properties": {
-                  "enableDoNothing": {
-                    "description": "User defined fields Set true in case of doing nothing",
-                    "type": "boolean"
-                  }
-                },
-                "type": "object"
-              },
-              "targetRef": {
-                "description": "TargetRef is a reference to the resource that represents a group of destinations.",
-                "properties": {
-                  "kind": {
-                    "description": "Kind of the referenced resource",
-                    "enum": [
-                      "Mesh",
-                      "MeshSubset",
-                      "MeshService",
-                      "MeshServiceSubset",
-                      "MeshGatewayRoute"
-                    ],
-                    "type": "string"
-                  },
-                  "mesh": {
-                    "description": "Mesh is reserved for future use to identify cross mesh resources.",
-                    "type": "string"
-                  },
-                  "name": {
-                    "description": "Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and `MeshGatewayRoute`",
-                    "type": "string"
-                  },
-                  "tags": {
-                    "additionalProperties": {
-                      "type": "string"
-                    },
-                    "description": "Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshServiceSubset`",
-                    "type": "object"
-                  }
-                },
-                "type": "object"
-              }
-            },
-            "required": [
-              "targetRef"
-            ],
-            "type": "object"
-          },
-          "type": "array"
         }
       },
       "required": [

@@ -1,5 +1,4 @@
 {
-  "type": "object",
   "properties": {
     "type": {
       "description": "the type of the resource",
@@ -459,7 +458,7 @@
                               "type": {
                                 "enum": [
                                   "Exact",
-                                  "PathPrefix",
+                                  "Prefix",
                                   "RegularExpression"
                                 ],
                                 "type": "string"
