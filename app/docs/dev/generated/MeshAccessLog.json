@@ -55,8 +55,18 @@
                                 },
                                 "plain": {
                                   "type": "string"
+                                },
+                                "type": {
+                                  "enum": [
+                                    "Plain",
+                                    "Json"
+                                  ],
+                                  "type": "string"
                                 }
                               },
+                              "required": [
+                                "type"
+                              ],
                               "type": "object"
                             },
                             "path": {
@@ -128,8 +138,18 @@
                                 },
                                 "plain": {
                                   "type": "string"
+                                },
+                                "type": {
+                                  "enum": [
+                                    "Plain",
+                                    "Json"
+                                  ],
+                                  "type": "string"
                                 }
                               },
+                              "required": [
+                                "type"
+                              ],
                               "type": "object"
                             }
                           },
@@ -137,8 +157,19 @@
                             "address"
                           ],
                           "type": "object"
+                        },
+                        "type": {
+                          "enum": [
+                            "Tcp",
+                            "File",
+                            "OpenTelemetry"
+                          ],
+                          "type": "string"
                         }
                       },
+                      "required": [
+                        "type"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -253,8 +284,18 @@
                                 },
                                 "plain": {
                                   "type": "string"
+                                },
+                                "type": {
+                                  "enum": [
+                                    "Plain",
+                                    "Json"
+                                  ],
+                                  "type": "string"
                                 }
                               },
+                              "required": [
+                                "type"
+                              ],
                               "type": "object"
                             },
                             "path": {
@@ -326,8 +367,18 @@
                                 },
                                 "plain": {
                                   "type": "string"
+                                },
+                                "type": {
+                                  "enum": [
+                                    "Plain",
+                                    "Json"
+                                  ],
+                                  "type": "string"
                                 }
                               },
+                              "required": [
+                                "type"
+                              ],
                               "type": "object"
                             }
                           },
@@ -335,8 +386,19 @@
                             "address"
                           ],
                           "type": "object"
+                        },
+                        "type": {
+                          "enum": [
+                            "Tcp",
+                            "File",
+                            "OpenTelemetry"
+                          ],
+                          "type": "string"
                         }
                       },
+                      "required": [
+                        "type"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
