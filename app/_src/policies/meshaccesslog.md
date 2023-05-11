@@ -83,10 +83,19 @@ The default format string for `HTTP` traffic is:
 
 Example configuration:
 
+{% if_version lte:2.2.x %}
 ```yaml
 format:
   plain: '[%START_TIME%] %BYTES_RECEIVED%'
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+format:
+  type: Plain
+  plain: '[%START_TIME%] %BYTES_RECEIVED%'
+```
+{% endif_version %}
 
 Example output:
 
@@ -98,6 +107,7 @@ Example output:
 
 Example configuration:
 
+{% if_version lte:2.2.x %}
 ```yaml
 format:
   json:
@@ -106,6 +116,18 @@ format:
     - key: "bytes_received"
       value: "%BYTES_RECEIVED%"
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+format:
+  type: Json
+  json:
+    - key: "start_time"
+      value: "%START_TIME%"
+    - key: "bytes_received"
+      value: "%BYTES_RECEIVED%"
+```
+{% endif_version %}
 
 Example output:
 
@@ -120,6 +142,7 @@ Example output:
   <summary>TCP configuration with default fields:</summary>
 
   <div markdown="1">
+{% if_version lte:2.2.x %}
 ```yaml
 format:
   json:
@@ -144,6 +167,34 @@ format:
     - key: "bytes_received"
       value: "%BYTES_RECEIVED%"
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+format:
+  type: Json
+  json:
+    - key: "start_time"
+      value: "%START_TIME%"
+    - key: "response_flags"
+      value: "%RESPONSE_FLAGS%"
+    - key: "kuma_mesh"
+      value: "%KUMA_MESH%"
+    - key: "kuma_source_address_without_port"
+      value: "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%"
+    - key: "kuma_source_service"
+      value: "%KUMA_SOURCE_SERVICE%"
+    - key: "upstream_host"
+      value: "%UPSTREAM_HOST%"
+    - key: "kuma_destination_service"
+      value: "%KUMA_DESTINATION_SERVICE%"
+    - key: "duration_ms"
+      value: "%DURATION%"
+    - key: "bytes_sent"
+      value: "%BYTES_SENT%"
+    - key: "bytes_received"
+      value: "%BYTES_RECEIVED%"
+```
+{% endif_version %}
 </div>
 
 </details>
@@ -152,6 +203,7 @@ format:
   <summary>HTTP configuration with default fields:</summary>
 
 <div markdown="1">
+{% if_version lte:2.2.x %}
 ```yaml
 format:
   json:
@@ -194,6 +246,52 @@ format:
     - key: "upstream_host"
       value: "%UPSTREAM_HOST%"
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+format:
+  type: Json
+  json:
+    - key: "start_time"
+      value: "%START_TIME%"
+    - key: "kuma_mesh"
+      value: "%KUMA_MESH%"
+    - key: 'method'
+      value: '"%REQ(:METHOD)%'
+    - key: "path"
+      value: "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%"
+    - key: 'protocol'
+      value: '%PROTOCOL%'
+    - key: "response_code"
+      value: "%RESPONSE_CODE%"
+    - key: "response_flags"
+      value: "%RESPONSE_FLAGS%"
+    - key: "bytes_received"
+      value: "%BYTES_RECEIVED%"
+    - key: "bytes_sent"
+      value: "%BYTES_SENT%"
+    - key: "duration_ms"
+      value: "%DURATION%"
+    - key: "upstream_service_time"
+      value: "%RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)%"
+    - key: 'x_forwarded_for'
+      value: '"%REQ(X-FORWARDED-FOR)%"'
+    - key: 'user_agent'
+      value: '"%REQ(USER-AGENT)%"'
+    - key: 'request_id'
+      value: '"%REQ(X-REQUEST-ID)%"'
+    - key: 'authority'
+      value: '"%REQ(:AUTHORITY)%"'
+    - key: "kuma_source_service"
+      value: "%KUMA_SOURCE_SERVICE%"
+    - key: "kuma_destination_service"
+      value: "%KUMA_DESTINATION_SERVICE%"
+    - key: "kuma_source_address_without_port"
+      value: "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%"
+    - key: "upstream_host"
+      value: "%UPSTREAM_HOST%"
+```
+{% endif_version %}
 </div>
 
 </details>
@@ -208,22 +306,42 @@ A backend determines where the logs end up.
 A TCP backend streams logs to a server via TCP protocol.
 You can configure a TCP backend with an address:
 
+{% if_version lte:2.2.x %}
 ```yaml
 backends:
   - tcp:
       address: 127.0.0.1:5000
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+backends:
+  - type: Tcp
+    tcp:
+      address: 127.0.0.1:5000
+```
+{% endif_version %}
 
 #### File
 
 A file backend streams logs to a text file.
 You can configure a file backend with a path:
 
+{% if_version lte:2.2.x %}
 ```yaml
 backends:
   - file:
       path: /tmp/access.log
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+backends:
+  - type: File
+    file:
+      path: /tmp/access.log
+```
+{% endif_version %}
 
 {% if_version gte:2.2.x %}
 #### OpenTelemetry
@@ -231,11 +349,21 @@ backends:
 An OpenTelemetry (OTel) backend sends data to an OpenTelemetry server.
 You can configure an OpenTelemetry backend with an endpoint:
 
+{% if_version lte:2.2.x %}
 ```yaml
 backends:
   - openTelemetry:
       endpoint: otel-collector:4317
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+backends:
+  - type: OpenTelemetry
+    openTelemetry:
+      endpoint: otel-collector:4317
+```
+{% endif_version %}
 {% endif_version %}
 
 ## Examples
@@ -245,6 +373,7 @@ backends:
 {% tabs meshaccesslog-outgoing-from-frontend-to-backend useUrlFragment=false %}
 {% tab meshaccesslog-outgoing-from-frontend-to-backend Kubernetes %}
 
+{% if_version lte:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -268,12 +397,40 @@ spec:
           - file:
               path: /tmp/access.log
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshAccessLog
+metadata:
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
+spec:
+  targetRef:
+    kind: MeshServiceSubset
+    name: frontend
+    tags:
+      version: canary
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        backends:
+          - type: File
+            file:
+              path: /tmp/access.log
+```
+{% endif_version %}
 
 Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
 {% tab meshaccesslog-outgoing-from-frontend-to-backend Universal %}
 
+{% if_version lte:2.2.x %}
 ```yaml
 type: MeshAccessLog
 name: default
@@ -293,6 +450,29 @@ spec:
           - file:
               path: /tmp/access.log
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshAccessLog
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: MeshServiceSubset
+    name: frontend
+    tags:
+      version: canary
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        backends:
+          - type: File
+            file:
+              path: /tmp/access.log
+```
+{% endif_version %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 
@@ -342,7 +522,7 @@ spec:
 ```
 {% endif_version %}
 
-{% if_version gte:2.2.x %}
+{% if_version eq:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -370,6 +550,45 @@ spec:
               format:
                 plain: '[%START_TIME%]'
           - openTelemetry:
+              endpoint: otel-collector:4317
+              attributes:
+                - key: "start_time"
+                  value: "%START_TIME%"
+```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshAccessLog
+metadata:
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
+spec:
+  targetRef:
+    kind: Mesh
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: Tcp
+            tcp:
+              address: 127.0.0.1:5000
+              format:
+                type: Json
+                json:
+                  - key: "start_time"
+                    value: "%START_TIME%"
+          - type: File
+            file:
+              path: /tmp/access.log
+              format:
+                type: Plain
+                plain: '[%START_TIME%]'
+          - type: OpenTelemetry
+            openTelemetry:
               endpoint: otel-collector:4317
               attributes:
                 - key: "start_time"
@@ -408,7 +627,7 @@ spec:
 ```
 {% endif_version %}
 
-{% if_version gte:2.2.x %}
+{% if_version eq:2.2.x %}
 ```yaml
 type: MeshAccessLog
 name: default
@@ -438,6 +657,41 @@ spec:
                   value: "%START_TIME%"
 ```
 {% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshAccessLog
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: Tcp
+            tcp:
+              address: 127.0.0.1:5000
+              format:
+                type: Json
+                json:
+                  - key: "start_time"
+                    value: "%START_TIME%"
+          - type: File
+            file:
+              path: /tmp/access.log
+              format:
+                type: Plain
+                plain: '[%START_TIME%]'
+          - type: OpenTelemetry
+            openTelemetry:
+              endpoint: otel-collector:4317
+              attributes:
+                - key: "start_time"
+                  value: "%START_TIME%"
+```
+{% endif_version %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 
@@ -449,6 +703,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 {% tabs meshaccesslog-all useUrlFragment=false %}
 {% tab meshaccesslog-all Kubernetes %}
 
+{% if_version lte:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -475,12 +730,44 @@ spec:
           - file:
               path: /tmp/access.log
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshAccessLog
+metadata:
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
+spec:
+  targetRef:
+    kind: Mesh
+  from: # delete this section if you don't want to log incoming traffic
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: File
+            file:
+              path: /tmp/access.log
+  to: # delete this section if you don't want to log outgoing traffic
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: File
+            file:
+              path: /tmp/access.log
+```
+{% endif_version %}
 
 Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
 {% tab meshaccesslog-all Universal %}
 
+{% if_version lte:2.2.x %}
 ```yaml
 type: MeshAccessLog
 name: default
@@ -503,6 +790,33 @@ spec:
           - file:
               path: /tmp/access.log
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshAccessLog
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  from: # delete this section if you don't want to log incoming traffic
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: File
+            file:
+              path: /tmp/access.log
+  to: # delete this section if you don't want to log outgoing traffic
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: File
+            file:
+              path: /tmp/access.log
+```
+{% endif_version %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 
