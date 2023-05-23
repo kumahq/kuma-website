@@ -53,7 +53,8 @@ spec:
 - **`path`** - (optional) - HTTP path to match the request on
 {% if_version gte:2.3.x %}
   - **`type`** - one of `Exact`, `PathPrefix`, `RegularExpression`
-{% else %}
+{% endif_version %}
+{% if_version lte:2.2.x %}
   - **`type`** - one of `Exact`, `Prefix`, `RegularExpression`
 {% endif_version %}
   - **`value`** - actual value that's going to be matched depending on the `type`
@@ -155,7 +156,8 @@ spec:
                   version: "2.0"
                 weight: 10
 ```
-{% else %}
+{% endif_version %}
+{% if_version lte:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshHTTPRoute
@@ -228,7 +230,8 @@ spec:
                   version: "2.0"
                 weight: 10
 ```
-{% else %}
+{% endif_version %}
+{% if_version lte:2.2.x %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
