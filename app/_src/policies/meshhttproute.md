@@ -52,6 +52,7 @@ spec:
 
 - **`path`** - (optional) - HTTP path to match the request on
 {% if_version gte:2.3.x %}
+  - **`type`** - one of `Exact`, `PathPrefix`, `RegularExpression`
 {% else %}
   - **`type`** - one of `Exact`, `Prefix`, `RegularExpression`
 {% endif_version %}
@@ -120,6 +121,40 @@ but only on endpoints starting with `/api`. All other endpoints will go to versi
 {% tab split Kubernetes %}
 
 {% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshHTTPRoute
+metadata:
+  name: http-route-1
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name: frontend_kuma-demo_svc_8080
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend_kuma-demo_svc_3001
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /api
+          default:
+            backendRefs:
+              - kind: MeshServiceSubset
+                name: backend_kuma-demo_svc_3001
+                tags:
+                  version: "1.0"
+                weight: 90
+              - kind: MeshServiceSubset
+                name: backend_kuma-demo_svc_3001
+                tags:
+                  version: "2.0"
+                weight: 10
+```
 {% else %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -163,6 +198,36 @@ We will apply the configuration with `kubectl apply -f [..]`.
 {% tab split Universal %}
 
 {% if_version gte:2.3.x %}
+```yaml
+type: MeshHTTPRoute
+name: http-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name: frontend_kuma-demo_svc_8080
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend_kuma-demo_svc_3001
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /api
+          default:
+            backendRefs:
+              - kind: MeshServiceSubset
+                name: backend_kuma-demo_svc_3001
+                tags:
+                  version: "1.0"
+                weight: 90
+              - kind: MeshServiceSubset
+                name: backend_kuma-demo_svc_3001
+                tags:
+                  version: "2.0"
+                weight: 10
+```
 {% else %}
 ```yaml
 type: MeshHTTPRoute
