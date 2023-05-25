@@ -403,6 +403,7 @@
                       "type": "object"
                     },
                     "matches": {
+                      "description": "Matches describes how to match HTTP requests this rule should be applied to.",
                       "items": {
                         "properties": {
                           "headers": {
@@ -507,6 +508,7 @@
                         },
                         "type": "object"
                       },
+                      "minItems": 1,
                       "type": "array"
                     }
                   },
