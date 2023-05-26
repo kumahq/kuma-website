@@ -140,6 +140,7 @@ openTelemetry:
 {% tab meshtrace-zipkin Kubernetes %}
 
 Simple example:
+{% if_version lte:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -156,8 +157,29 @@ spec:
       - zipkin:
           url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrace
+metadata:
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if unset
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
+```
+{% endif_version %}
 
 Full example:
+{% if_version lte:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -189,6 +211,41 @@ spec:
       random: 60
       client: 40
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrace
+metadata:
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if unset
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
+          apiVersion: httpJson
+    tags:
+      - name: team
+        literal: core
+      - name: env
+        header:
+          name: x-env
+          default: prod
+      - name: version
+        header:
+          name: x-version
+    sampling:
+      overall: 80
+      random: 60
+      client: 40
+```
+{% endif_version %}
 
 Apply the configuration with `kubectl apply -f [..]`.
 
@@ -196,6 +253,7 @@ Apply the configuration with `kubectl apply -f [..]`.
 {% tab meshtrace-zipkin Universal %}
 
 Simple example:
+{% if_version lte:2.2.x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -208,8 +266,25 @@ spec:
       - zipkin:
           url: http://jaeger-collector:9411/api/v2/spans
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://jaeger-collector:9411/api/v2/spans
+```
+{% endif_version %}
 
 Full example:
+{% if_version lte:2.2.x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -237,6 +312,37 @@ spec:
       random: 60
       client: 40
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://jaeger-collector:9411/api/v2/spans
+          apiVersion: httpJson
+    tags:
+      - name: team
+        literal: core
+      - name: env
+        header:
+          name: x-env
+          default: prod
+      - name: version
+        header:
+          name: x-version
+    sampling:
+      overall: 80
+      random: 60
+      client: 40
+```
+{% endif_version %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 
@@ -253,6 +359,8 @@ This assumes a Datadog agent is configured and running. If you haven't already c
 {% tab meshtrace-datadog Kubernetes %}
 
 Simple Example:
+
+{% if_version lte:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -269,8 +377,29 @@ spec:
       - datadog:
           url: http://trace-svc.default.svc.cluster.local:8126
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrace
+metadata:
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if unset
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: Datadog
+        datadog:
+          url: http://trace-svc.default.svc.cluster.local:8126
+```
+{% endif_version %}
 
 Full Example:
+{% if_version lte:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -302,6 +431,41 @@ spec:
       random: 60
       client: 40
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrace
+metadata:
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if unset
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: Datadog
+        datadog:
+          url: http://trace-svc.default.svc.cluster.local:8126
+          splitService: true
+    tags:
+      - name: team
+        literal: core
+      - name: env
+        header:
+          name: x-env
+          default: prod
+      - name: version
+        header:
+          name: x-version
+    sampling:
+      overall: 80
+      random: 60
+      client: 40
+```
+{% endif_version %}
 
 where `trace-svc` is the name of the Kubernetes Service you specified when you configured the Datadog APM agent.
 
@@ -311,6 +475,8 @@ Apply the configuration with `kubectl apply -f [..]`.
 {% tab meshtrace-datadog Universal %}
 
 Simple example:
+
+{% if_version lte:2.2.x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -323,8 +489,26 @@ spec:
       - datadog:
           url: http://127.0.0.1:8126
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: Datadog
+        datadog:
+          url: http://127.0.0.1:8126
+```
+{% endif_version %}
 
 Full example:
+
+{% if_version lte:2.2.x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -352,6 +536,37 @@ spec:
       random: 60
       client: 40
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: Datadog
+        datadog:
+          url: http://127.0.0.1:8126
+          splitService: true
+    tags:
+      - name: team
+        literal: core
+      - name: env
+        header:
+          name: x-env
+          default: prod
+      - name: version
+        header:
+          name: x-version
+    sampling:
+      overall: 80
+      random: 60
+      client: 40
+```
+{% endif_version %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 
@@ -370,6 +585,7 @@ If you haven't already check the [OpenTelementry operator](https://github.com/op
 {% tab meshtrace-otel Kubernetes %}
 
 Simple Example:
+{% if_version eq:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -386,8 +602,30 @@ spec:
       - openTelemetry:
           endpoint: otel-collector:4317
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrace
+metadata:
+  name: default
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # optional, defaults to `default` if unset
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: OpenTelemetry
+        openTelemetry:
+          endpoint: otel-collector:4317
+```
+{% endif_version %}
 
 Full example:
+
+{% if_version eq:2.2.x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -414,6 +652,36 @@ spec:
       random: 60
       client: 40
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: OpenTelemetry
+        openTelemetry:
+          endpoint: otel-collector:4317
+    tags:
+      - name: team
+        literal: core
+      - name: env
+        header:
+          name: x-env
+          default: prod
+      - name: version
+        header:
+          name: x-version
+    sampling:
+      overall: 80
+      random: 60
+      client: 40
+```
+{% endif_version %}
 
 where `otel-collector` is the name of the Kubernetes Service for OTel exporter.
 
@@ -423,6 +691,8 @@ Apply the configuration with `kubectl apply -f [..]`.
 {% tab meshtrace-otel Universal %}
 
 Simple Example:
+
+{% if_version eq:2.2.x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -435,8 +705,26 @@ spec:
       - openTelemetry:
           endpoint: my-otel-collector.com:4317
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: OpenTelemetry
+        openTelemetry:
+          endpoint: my-otel-collector.com:4317
+```
+{% endif_version %}
 
 Full example:
+
+{% if_version eq:2.2.x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -463,6 +751,36 @@ spec:
       random: 60
       client: 40
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: OpenTelemetry
+        openTelemetry:
+          endpoint: my-otel-collector.com:4317
+    tags:
+      - name: team
+        literal: core
+      - name: env
+        header:
+          name: x-env
+          default: prod
+      - name: version
+        header:
+          name: x-version
+    sampling:
+      overall: 80
+      random: 60
+      client: 40
+```
+{% endif_version %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
 
@@ -485,6 +803,8 @@ To do this, we use a `TargetRef` kind value of `MeshSubset` to filter which data
 {% tab meshtrace-region Universal %}
 
 West only policy:
+
+{% if_version lte:2.2.x %}
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -499,8 +819,27 @@ spec:
       - zipkin:
           url: http://west.zipkincollector:9411/api/v2/spans
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshTrace
+name: trace-west
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      kuma.io/zome: west
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://west.zipkincollector:9411/api/v2/spans
+```
+{% endif_version %}
 
 East only policy:
+{% if_version lte:2.2.x %}
 ```yaml
 type: MeshTrace
 name: trace-east
@@ -515,9 +854,31 @@ spec:
       - zipkin:
           url: http://east.zipkincollector:9411/api/v2/spans
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+type: MeshTrace
+name: trace-east
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      kuma.io/zome: east
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://east.zipkincollector:9411/api/v2/spans
+```
+{% endif_version %}
+
 {% endtab %}
 {% tab meshtrace-region Kubernetes %}
+
 West only policy:
+
+{% if_version lte:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -534,8 +895,30 @@ spec:
       - zipkin:
           url: http://west.zipkincollector:9411/api/v2/spans
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrace
+metadata:
+    name: trace-west
+    namespace: {{site.mesh_namespace}}
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      kuma.io/zome: west
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://west.zipkincollector:9411/api/v2/spans
+```
+{% endif_version %}
 
 East only policy:
+
+{% if_version lte:2.2.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrace
@@ -552,6 +935,27 @@ spec:
       - zipkin:
           url: http://east.zipkincollector:9411/api/v2/spans
 ```
+{% endif_version %}
+{% if_version gte:2.3.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrace
+metadata:
+  name: trace-east
+  namespace: {{site.mesh_namespace}}
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      kuma.io/zome: east
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://east.zipkincollector:9411/api/v2/spans
+```
+{% endif_version %}
+
 {% endtab %}
 {% endtabs %}
 
