@@ -3,12 +3,11 @@ title: MeshTCPRoute (beta)
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficRoute](../traffic-route).
+This policy uses a new policy matching algorithm and is in beta state. It shouldn't be combined with [TrafficRoute](../traffic-route).
 {% endwarning %}
 
-The `MeshTCPRoute` policy allows altering and redirecting TCP requests
-depending on where the request coming from and where it's going to.
+The `MeshTCPRoute` policy allows you to alter and redirect TCP requests
+depending on where the request is coming from and where it's going to.
 
 ## TargetRef support matrix
 
@@ -20,14 +19,13 @@ depending on where the request coming from and where it's going to.
 | MeshServiceSubset | ✅         | ❌  | ❌    |
 | MeshGatewayRoute  | ❌         | ❌  | ❌    |
 
-If you don't understand this table you should read 
-[matching docs](/docs/{{ page.version }}/policies/targetref).
+For more information, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
 ## Configuration
 
-Unlike others outbound policies `MeshTCPRoute` doesn't contain `default`
-directly in the `to` array. The `default` section is nested inside`rules`,
-so the policy structure looks like this:
+Unlike other outbound policies, `MeshTCPRoute` doesn't contain `default`
+directly in the `to` array. The `default` section is nested inside `rules`,
+so the policy structure looks like the following:
 
 ```yaml
 spec:
@@ -42,17 +40,18 @@ spec:
             backendRefs: [...]
 ```
 
-### Default conf
+### Default configuration
 
-- **`backendRefs`** - (optional) - list of destination for request to be
-  redirected to
-  - **`kind`** - one of `MeshService`, `MeshServiceSubset`
-  - **`name`** - service name
-  - **`tags`** - service tags, must be specified if the `kind` is 
-    `MeshServiceSubset`
-  - **`weight`** - when a request matches the route, the choice of an upstream
+The following describes the default configuration settings of the `MeshTCPRoute` policy:
+
+- **`backendRefs`**: (Optional) List of destinations for the request to be redirected to
+  - **`kind`**: Either `MeshService` or `MeshServiceSubset`
+  - **`name`**: The service name
+  - **`tags`**: Service tags. These must be specified if the `kind` is 
+    `MeshServiceSubset`.
+  - **`weight`**: When a request matches the route, the choice of an upstream
     cluster is determined by its weight. Total weight is a sum of all weights
-    in `backendRefs` list.
+    in the `backendRefs` list.
 
 
 ## Examples
@@ -62,8 +61,8 @@ spec:
 We can use `MeshTCPRoute` to split a TCP traffic between services with
 different tags implementing A/B testing or canary deployments.
 
-Here is an example of a `MeshTCPRoute` that splits the traffic from 
-`frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions.
+Here's an example of a `MeshTCPRoute` that splits the traffic from 
+`frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions:
 
 {% tabs split useUrlFragment=false %}
 {% tab split Kubernetes %}
@@ -99,7 +98,7 @@ spec:
                 weight: 10
 ```
 
-We will apply the configuration with `kubectl apply -f [..]`.
+You can apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
 {% tab split Universal %}
@@ -135,19 +134,19 @@ spec:
                 weight: 10
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via
+You can apply the configuration with `kumactl apply -f [..]` or use
 the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
 ### Traffic redirection
 
-We can use `MeshTCPRoute` to redirect outgoing traffic from one service to
+You can use `MeshTCPRoute` to redirect outgoing traffic from one service to
 another.
 
-Here is an example of a `MeshTCPRoute` that redirects outgoing traffic 
-originated at `frontend_kuma-demo_svc_8080` from `backend_kuma-demo_svc_3001`
-to `external-backend`. 
+Here's an example of a `MeshTCPRoute` that redirects outgoing traffic 
+originating at `frontend_kuma-demo_svc_8080` from `backend_kuma-demo_svc_3001`
+to `external-backend`:
 
 {% tabs modifications useUrlFragment=false %}
 {% tab modifications Kubernetes %}
@@ -174,7 +173,7 @@ spec:
               - kind: MeshService
                 name: external-backend
 ```
-We will apply the configuration with `kubectl apply -f [..]`.
+You can apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
 {% tab modifications Universal %}
@@ -198,15 +197,15 @@ spec:
                 name: external-backend
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via
+You can apply the configuration with `kumactl apply -f [..]` or use
 the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
 ## Route policies with different types targeting the same destination
 
-If multiple route policies with different types (`MeshTCPRoute`, `MeshHTTPRoute`
-etc.) target the same destination, only a single route type with the highest
+If multiple route policies with different types (`MeshTCPRoute` and `MeshHTTPRoute`
+for example) target the same destination, only a single route type with the highest
 specificity will be applied.
 
 In example, in a situation when both `MeshTCPRoute` and `MeshHTTPRoute` exist,
@@ -229,7 +228,7 @@ to:
               name: other-tcp-backend
 ```
 
-**MeshHTTPRoute**
+**MeshHTTPRoute**:
 ```yaml
 # [...]
 targetRef:
@@ -254,6 +253,6 @@ Depending on the `backend`'s protocol:
 - `MeshHTTPRoute` will be applied in case of `http`, `http2` or `grpc`
 - `MeshTCPRoute` will be applied in case of `tcp`, `kafka` or when unspecified 
  
-## All policy options
+## All policy configuration settings
 
 {% policy_schema MeshTCPRoute %}
