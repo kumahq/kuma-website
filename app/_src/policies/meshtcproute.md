@@ -142,7 +142,6 @@ the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 ### Traffic redirection
 
-
 We can use `MeshTCPRoute` to redirect outgoing traffic from one service to
 another.
 
@@ -207,10 +206,54 @@ the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 ## Route policies with different types targeting the same destination
 
 If multiple route policies with different types (`MeshTCPRoute`, `MeshHTTPRoute`
-etc.) target the same destination, only a single route type will be applied.
+etc.) target the same destination, only a single route type with the highest
+specificity will be applied.
 
-> Writing in progress...
+In example, in a situation when both `MeshTCPRoute` and `MeshHTTPRoute` exist,
+and target the same destination, like below:
 
+**MeshTCPRoute**:
+```yaml
+# [...]
+targetRef:
+  kind: MeshService
+  name: frontend
+to:
+  - targetRef:
+      kind: MeshService
+      name: backend
+    rules:
+      - default:
+          backendRefs:
+            - kind: MeshService
+              name: other-tcp-backend
+```
+
+**MeshHTTPRoute**
+```yaml
+# [...]
+targetRef:
+  kind: MeshService
+  name: frontend
+to:
+  - targetRef:
+      kind: MeshService
+      name: backend
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: "/"
+        default:
+          backendRefs:
+            - kind: MeshService
+              name: other-http-backend
+```
+
+Depending on the `backend`'s protocol:
+- `MeshHTTPRoute` will be applied in case of `http`, `http2` or `grpc`
+- `MeshTCPRoute` will be applied in case of `tcp`, `kafka` or when unspecified 
+ 
 ## All policy options
 
 {% policy_schema MeshTCPRoute %}
