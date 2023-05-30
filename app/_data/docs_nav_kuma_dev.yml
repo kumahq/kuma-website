@@ -512,6 +512,17 @@ items:
             url: "/policies/meshretry/#configuration"
           - text: Examples
             url: "/policies/meshretry/#examples"
+      - text: MeshTCPRoute (Beta)
+        url: /policies/meshtcproute/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtcproute/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtcproute/#configuration"
+          - text: Examples
+            url: "/policies/meshtcproute/#examples"
+          - text: Route policies with different types targeting the same destination
+            url: "/policies/meshtcproute/#route-policies-with-different-types-targeting-the-same-destination"
       - text: MeshTimeout (Beta)
         url: /policies/meshtimeout/
         items:
