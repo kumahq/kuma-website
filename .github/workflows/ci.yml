@@ -54,7 +54,6 @@ jobs:
         os:
           - amazonlinux:2022
           - debian:bookworm
-          - centos:7
           - redhat/ubi8:8.6
           - ubuntu:22.10
           - archlinux:latest
