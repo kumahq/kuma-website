@@ -83,19 +83,19 @@ To help with debugging these components, the Inspect API gives access to envoy c
 Get config dump for data plane proxy:
 
 ```shell
-kumactl inspect dataplane backend-1 --config-dump
+kumactl inspect dataplane backend-1 --type=config-dump
 ```
 
 Get config dump for zone ingress:
 
 ```shell
-kumactl inspect zoneingress zi-1 --config-dump
+kumactl inspect zoneingress zi-1 --type=config-dump
 ```
 
 Get config dump for zone egress:
 
 ```shell
-kumactl inspect zoneegress ze-1 --config-dump
+kumactl inspect zoneegress ze-1 --type=config-dump
 ```
 
 {% warning %}
