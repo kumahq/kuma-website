@@ -15,7 +15,6 @@ it should not be mixed with [Timeout policy](../timeout).
 | MeshSubset        | ✅         | ❌   | ❌    |
 | MeshService       | ✅         | ✅   | ❌    |
 | MeshServiceSubset | ✅         | ❌   | ❌    |
-| MeshGatewayRoute  | ❌         | ❌   | ❌    |
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 

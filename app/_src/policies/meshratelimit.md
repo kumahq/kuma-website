@@ -28,7 +28,6 @@ Rate limiting supports an [ExternalService](/docs/{{ page.version }}/policies/ex
 | MeshSubset        | ✅        | ❌  | ❌   |
 | MeshService       | ✅        | ❌  | ❌   |
 | MeshServiceSubset | ✅        | ❌  | ❌   |
-| MeshGatewayRoute  | ❌        | ❌  | ❌   |
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 

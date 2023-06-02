@@ -18,7 +18,6 @@ flag is going to be replaced by the current policy and will be deprecated in the
 | MeshSubset        | ✅        | ❌  | ❌   |
 | MeshService       | ✅        | ✅  | ❌   |
 | MeshServiceSubset | ✅        | ❌  | ❌   |
-| MeshGatewayRoute  | ❌        | ❌  | ❌   |
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 

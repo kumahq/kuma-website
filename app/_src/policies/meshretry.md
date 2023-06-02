@@ -17,7 +17,6 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there is
 | MeshSubset        | ✅        | ❌  | ❌   |
 | MeshService       | ✅        | ✅  | ❌   |
 | MeshServiceSubset | ✅        | ❌  | ❌   |
-| MeshGatewayRoute  | ❌        | ❌  | ❌   |
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
