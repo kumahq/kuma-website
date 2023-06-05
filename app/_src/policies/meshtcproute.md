@@ -17,7 +17,6 @@ depending on where the request is coming from and where it's going to.
 | MeshSubset        | ✅         | ❌  | ❌    |
 | MeshService       | ✅         | ✅  | ❌    |
 | MeshServiceSubset | ✅         | ❌  | ❌    |
-| MeshGatewayRoute  | ❌         | ❌  | ❌    |
 
 For more information, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
@@ -58,8 +57,8 @@ The following describes the default configuration settings of the `MeshTCPRoute`
 
 ### Traffic split
 
-We can use `MeshTCPRoute` to split a TCP traffic between services with
-different tags implementing A/B testing or canary deployments.
+You can use `MeshTCPRoute` to split TCP traffic between services with
+different tags and implement A/B testing or canary deployments.
 
 Here's an example of a `MeshTCPRoute` that splits the traffic from 
 `frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions:
@@ -208,8 +207,7 @@ If multiple route policies with different types (`MeshTCPRoute` and `MeshHTTPRou
 for example) target the same destination, only a single route type with the highest
 specificity will be applied.
 
-In example, in a situation when both `MeshTCPRoute` and `MeshHTTPRoute` exist,
-and target the same destination, like below:
+In this example, both `MeshTCPRoute` and `MeshHTTPRoute` target the same destination:
 
 **MeshTCPRoute**:
 ```yaml
@@ -250,8 +248,8 @@ to:
 ```
 
 Depending on the `backend`'s protocol:
-- `MeshHTTPRoute` will be applied in case of `http`, `http2` or `grpc`
-- `MeshTCPRoute` will be applied in case of `tcp`, `kafka` or when unspecified 
+- `MeshHTTPRoute` will be applied if `http`, `http2`, or `grpc` are specified
+- `MeshTCPRoute` will be applied if `tcp` or `kafka` is specified, or when nothing is specified 
  
 ## All policy configuration settings
 
