@@ -115,11 +115,7 @@ spec:
         kind: MeshService
         name: backend_kuma-demo_svc_3001
       rules:
-        - matches:
-            - path:
-                type: PathPrefix
-                value: /api
-          default:
+        - default:
             backendRefs:
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
