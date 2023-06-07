@@ -115,7 +115,7 @@ jobs:
               .map(d => d.filename);
       - uses: actions/checkout@v2
       - uses: errata-ai/vale-action@v2
-        if: fromJSON(steps.changed-files.outputs.result).length > 0
+        if: join(fromJSON(steps.changed-files.outputs.result)) != ''
         name: Run Vale
         with:
           files: "${{ steps.changed-files.outputs.result }}"
