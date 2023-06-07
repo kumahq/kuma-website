@@ -109,13 +109,16 @@ jobs:
                 pull_number: ${{ github.event.number }},
               },
             );
-            return files
+            console.log(files);
+            const out = files
               .filter(d => d.status != "removed")
               .filter(d => !d.filename.includes("/generated/"))
               .map(d => d.filename);
+            console.log(out);
+            return out;
       - uses: actions/checkout@v2
       - uses: errata-ai/vale-action@v2
-        if: fromJSON(steps.changed-files.outputs.result).length > 0
+        if: join(fromJSON(steps.changed-files.outputs.result)) != ''
         name: Run Vale
         with:
           files: "${{ steps.changed-files.outputs.result }}"
