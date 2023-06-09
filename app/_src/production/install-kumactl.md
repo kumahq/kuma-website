@@ -56,7 +56,7 @@ and extract the archive with `tar -xvzf {{ site.mesh_helm_install_name }}-{{ pag
 
 Add the `kumactl` executable to your path:
 ```
-cd kuma-{{ page.version_data.version }}/bin
+cd kong-mesh-{{ page.version_data.version }}/bin
 PATH=$(pwd):$PATH
 ```
 
