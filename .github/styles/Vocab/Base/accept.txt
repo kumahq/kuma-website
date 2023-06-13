@@ -99,6 +99,7 @@ outbounds
 passthrough
 PayPal
 plaintext
+policy_schema
 PowerShell
 prepend
 prepends
