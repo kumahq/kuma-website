@@ -63,6 +63,8 @@ Show Kuma resources.
 * [kumactl get meshratelimits](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshratelimits)	 - Show MeshRateLimit
 * [kumactl get meshretries](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshretries)	 - Show MeshRetry
 * [kumactl get meshretry](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshretry)	 - Show a single MeshRetry resource
+* [kumactl get meshtcproute](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshtcproute)	 - Show a single MeshTCPRoute resource
+* [kumactl get meshtcproutes](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshtcproutes)	 - Show MeshTCPRoute
 * [kumactl get meshtimeout](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshtimeout)	 - Show a single MeshTimeout resource
 * [kumactl get meshtimeouts](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshtimeouts)	 - Show MeshTimeout
 * [kumactl get meshtrace](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get_meshtrace)	 - Show a single MeshTrace resource
