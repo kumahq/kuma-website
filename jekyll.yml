@@ -87,3 +87,6 @@ set_flag_values_prefix: ""
 # Helm commands
 mesh_helm_repo: kuma/kuma
 mesh_helm_install_name: kuma
+
+# binary options
+install_archive_name: kuma
