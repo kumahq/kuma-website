@@ -220,7 +220,7 @@ You need the following values to pass to each zone control plane setup:
 
     {% if_version gte:2.3.x %}
     `--set controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
-    It is recommended to use a certificate signed by a trusted CA in production. See [Secure access accross services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
+    It is recommended to use a certificate signed by a trusted CA in production. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
     {% endif_version %}
 
 {% endtab %}
@@ -258,7 +258,7 @@ You need the following values to pass to each zone control plane setup:
 
     {% if_version gte:2.3.x %}
     `--set controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
-    It is recommended to use a certificate signed by a trusted CA in production. See [Secure access accross services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
+    It is recommended to use a certificate signed by a trusted CA in production. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
     {% endif_version %}
 
 {% endtab %}
@@ -288,7 +288,7 @@ You need the following values to pass to each zone control plane setup:
 
    {% if_version gte:2.3.x %}
    `KUMA_MULTIZONE_ZONE_KDS_TLS_SKIP_VERIFY` is required because the default global control plane's certificate is self-signed.
-   It is recommended to use a certificate signed by a trusted CA in production. See [Secure access accross services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
+   It is recommended to use a certificate signed by a trusted CA in production. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
    {% endif_version %}
 
 2. Generate the zone proxy token:
