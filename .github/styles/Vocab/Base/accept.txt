@@ -35,6 +35,7 @@ dev
 DNS
 etcd
 Fargate
+GAMMA
 Gateway API
 Github
 Goroutine
@@ -127,6 +128,7 @@ stdin
 stdout
 Bagdi
 subcommand
+subproject
 sudo
 Syslog
 tbl
