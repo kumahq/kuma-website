@@ -216,7 +216,7 @@ You need the following values to pass to each zone control plane setup:
 
     where `zone` is the same value for all zone control planes in the same zone.
 
-    Add `--egress-enabled` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneproxy/).
+    Add `--egress-enabled` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/).
 
     {% if_version gte:2.3.x %}
     `--set controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
@@ -254,7 +254,7 @@ You need the following values to pass to each zone control plane setup:
 
     where `controlPlane.zone` is the same value for all zone control planes in the same zone.
 
-    Add `--set egress.enabled=true` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneproxy/).
+    Add `--set egress.enabled=true` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/).
 
     {% if_version gte:2.3.x %}
     `--set controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
