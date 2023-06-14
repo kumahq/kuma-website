@@ -43,6 +43,7 @@ Inspect Kuma resources.
 * [kumactl inspect meshproxypatch](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshproxypatch)	 - Inspect MeshProxyPatch
 * [kumactl inspect meshratelimit](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshratelimit)	 - Inspect MeshRateLimit
 * [kumactl inspect meshretry](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshretry)	 - Inspect MeshRetry
+* [kumactl inspect meshtcproute](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshtcproute)	 - Inspect MeshTCPRoute
 * [kumactl inspect meshtimeout](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshtimeout)	 - Inspect MeshTimeout
 * [kumactl inspect meshtrace](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshtrace)	 - Inspect MeshTrace
 * [kumactl inspect meshtrafficpermission](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect_meshtrafficpermission)	 - Inspect MeshTrafficPermission

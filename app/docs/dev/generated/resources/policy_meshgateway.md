@@ -47,6 +47,8 @@ title: MeshGateway
         
             - `TCP`
         
+            - `TLS`
+        
             - `HTTP`
         
             - `HTTPS`    
@@ -64,7 +66,9 @@ title: MeshGateway
             
                 - `NONE`
             
-                - `TERMINATE`    
+                - `TERMINATE`
+            
+                - `PASSTHROUGH`    
             
             - `certificates` (optional, repeated)
             
