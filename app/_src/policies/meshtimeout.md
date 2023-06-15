@@ -428,8 +428,8 @@ spec:
 | http.maxConnectionDuration | 0s      |
 
 {% if_version eq:2.1.x %}
-If you don't specify `from` or `to` section defaults from [Timeout policy](../timeout) will be used. This
-is [known bug](https://github.com/kumahq/kuma/issues/5850) and will be fixed in the next version.
+If you don't specify a `from` or `to` section , the defaults from [`Timeout`](../timeout) will be used. This
+is [a known bug](https://github.com/kumahq/kuma/issues/5850) and is fixed in the next version.
 {% endif_version %}
 
 ## All policy options
