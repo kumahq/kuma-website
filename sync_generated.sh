@@ -76,6 +76,8 @@ Here are all options to configure the control-plane:
     fi
     yq -o json '.' "${policy}" > "${i}/generated/${name}.json"
   done
+
+  yq '.spec.versions[0].schema.openAPIV3Schema' -o json ../kuma/deployments/charts/kuma/crds/kuma.io_meshgatewayinstances.yaml > "${i}/generated/MeshGatewayInstance.json"
   shopt -u nullglob
 
 done
