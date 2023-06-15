@@ -441,36 +441,7 @@ spec:
 
 #### Basic circuit breaker for outbound traffic from web, to backend service
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshCircuitBreaker
-metadata:
-  name: web-to-backend-circuit-breaker
-  namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshService
-    name: web
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        connectionLimits:
-          maxConnections: 2
-          maxPendingRequests: 8
-          maxRetries: 2
-          maxRequests: 2
-```
-
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab usage Universal %}
-
+{% policy_yaml usage %}
 ```yaml
 type: MeshCircuitBreaker
 name: web-to-backend-circuit-breaker
@@ -490,57 +461,11 @@ spec:
           maxRetries: 2
           maxRequests: 2
 ```
-
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Outlier detection for inbound traffic to backend service
 
-{% tabs protocol useUrlFragment=false %}
-{% tab protocol Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshCircuitBreaker
-metadata:
-  name: backend-inbound-outlier-detection
-  namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshService
-    name: web
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        outlierDetection:
-          interval: 5s
-          baseEjectionTime: 30s
-          maxEjectionPercent: 20
-          splitExternalAndLocalErrors: true
-          detectors:
-            totalFailures:
-              consecutive: 10
-            gatewayFailures:
-              consecutive: 10
-            localOriginFailures:
-              consecutive: 10
-            successRate:
-              minimumHosts: 5
-              requestVolume: 10
-              standardDeviationFactor: 1.9
-            failurePercentage:
-              requestVolume: 10
-              minimumHosts: 5
-              threshold: 85
-```
-
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab protocol Universal %}
-
+{% policy_yaml protocol %}
 ```yaml
 type: MeshCircuitBreaker
 name: backend-inbound-outlier-detection
@@ -574,10 +499,7 @@ spec:
               minimumHosts: 5
               threshold: 85
 ```
-
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 ## All policy options
 
