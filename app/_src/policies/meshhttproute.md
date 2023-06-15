@@ -122,7 +122,6 @@ but only on endpoints starting with `/api`. All other endpoints will go to versi
 
 {% tabs split useUrlFragment=false %}
 {% tab split Kubernetes %}
-
 {% if_version gte:2.3.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -195,12 +194,8 @@ spec:
                 weight: 10
 ```
 {% endif_version %}
-
-We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
-
 {% tab split Universal %}
-
 {% if_version gte:2.3.x %}
 ```yaml
 type: MeshHTTPRoute
@@ -265,8 +260,6 @@ spec:
                 weight: 10
 ```
 {% endif_version %}
-
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -310,11 +303,8 @@ spec:
                     - name: x-custom-header
                       value: xyz
 ```
-We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
-
 {% tab modifications Universal %}
-
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -340,7 +330,6 @@ spec:
                     - name: x-custom-header
                       value: xyz
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -353,7 +342,6 @@ interrupting real users.
 
 {% tabs mirror useUrlFragment=false %}
 {% tab mirror Kubernetes %}
-
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshHTTPRoute
@@ -392,12 +380,8 @@ spec:
                 tags:
                   version: v0
 ```
-
-We will apply the configuration with `kubectl apply -f [..]`.
-
 {% endtab %}
 {% tab mirror Universal %}
-
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -432,9 +416,6 @@ spec:
                 tags:
                   version: v0
 ```
-
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
 {% endtab %}
 {% endtabs %}
 {% endif_version %}
