@@ -51,7 +51,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 1.  Set the `controlPlane.mode` value to `global` in the chart (`values.yaml`), then install. On the command line, run:
 
     ```sh
-    helm install {{ site.mesh_helm_install_name }} --create-namespace --namespace {{site.mesh_namespace}} --set controlPlane.mode=global {{ site.mesh_helm_repo }}
+    helm install {{ site.mesh_helm_install_name }} --create-namespace --namespace {{site.mesh_namespace}} --set {{set_flag_values_prefix}}controlPlane.mode=global {{ site.mesh_helm_repo }}
     ```
 
     Or you can edit the chart and pass the file to the `helm install {{ site.mesh_helm_install_name }}` command. To get the default values, run:
@@ -201,7 +201,7 @@ You need the following values to pass to each zone control plane setup:
     --zone=<zone name> \
     --ingress-enabled \
     --kds-global-address grpcs://<global-kds-address>:5685 \
-    --set controlPlane.tls.kdsZoneClient.skipVerify=true | kubectl apply -f -
+    --set {{set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true | kubectl apply -f -
     ```
     {% endif_version %}
     {% if_version lte:2.2.x %}
@@ -219,8 +219,8 @@ You need the following values to pass to each zone control plane setup:
     Add `--egress-enabled` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/).
 
     {% if_version gte:2.3.x %}
-    `--set controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
-    We recommend to use a certificate signed by a trusted CA in production. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
+    `--set {{set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
+    It is recommended to use a certificate signed by a trusted CA in production. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
     {% endif_version %}
 
 {% endtab %}
@@ -233,11 +233,11 @@ You need the following values to pass to each zone control plane setup:
     helm install {{ site.mesh_helm_install_name }} \
     --create-namespace \
     --namespace {{site.mesh_namespace}} \
-    --set controlPlane.mode=zone \
-    --set controlPlane.zone=<zone-name> \
-    --set ingress.enabled=true \
-    --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 \
-    --set controlPlane.tls.kdsZoneClient.skipVerify=true {{ site.mesh_helm_repo }}
+    --set {{set_flag_values_prefix}}controlPlane.mode=zone \
+    --set {{set_flag_values_prefix}}controlPlane.zone=<zone-name> \
+    --set {{set_flag_values_prefix}}ingress.enabled=true \
+    --set {{set_flag_values_prefix}}controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 \
+    --set {{set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true {{ site.mesh_helm_repo }}
     ```
     {% endif_version %}
     {% if_version lte:2.2.x %}
@@ -245,19 +245,19 @@ You need the following values to pass to each zone control plane setup:
     helm install {{ site.mesh_helm_install_name }} \
     --create-namespace \
     --namespace {{site.mesh_namespace}} \
-    --set controlPlane.mode=zone \
-    --set controlPlane.zone=<zone-name> \
-    --set ingress.enabled=true \
-    --set controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 {{ site.mesh_helm_repo }}
+    --set {{set_flag_values_prefix}}controlPlane.mode=zone \
+    --set {{set_flag_values_prefix}}controlPlane.zone=<zone-name> \
+    --set {{set_flag_values_prefix}}ingress.enabled=true \
+    --set {{set_flag_values_prefix}}controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 {{ site.mesh_helm_repo }}
     ```
     {% endif_version %}
 
     where `controlPlane.zone` is the same value for all zone control planes in the same zone.
 
-    Add `--set egress.enabled=true` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/).
+    Add `--set {{set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/).
 
     {% if_version gte:2.3.x %}
-    `--set controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
+    `--set {{set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
     It is recommended to use a certificate signed by a trusted CA in production. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
     {% endif_version %}
 
