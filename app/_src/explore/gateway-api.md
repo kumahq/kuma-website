@@ -13,7 +13,7 @@ as well as traffic routing using the experimental
 {% warning %}
 [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) is still beta, therefore {{site.mesh_product_name}}'s integration provides the same level of stability.
 
-Gateway API `Gateways` aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/explore/gateway).
+Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/explore/gateway).
 {% endwarning %}
 
 1. Install the Gateway API CRDs.
@@ -38,11 +38,14 @@ Gateway API `Gateways` aren't supported in multi-zone. To use the builtin Gatewa
    kumactl install demo | kubectl apply -f -
    ```
 
-2. Add a `Gateway`.
+2. Add a [`Gateway`](https://gateway-api.sigs.k8s.io/api-types/gateway/).
 
    The `Gateway` resource represents the proxy instance that handles traffic for a set of Gateway API routes.
 
-   Every `Gateway` refers to a `GatewayClass` by name.
+   Every `Gateway` refers to a [`GatewayClass`](https://gateway-api.sigs.k8s.io/api-types/gatewayclass/).
+   The `GatewayClass` represents the class of `Gateway`, in this case Kuma's builtin edge
+   gateway, and points to a controller that should manage these `Gateways`. It can also hold
+   [additional configuration](#customization).
 
 {% capture gateway %}
 {% tabs usage useUrlFragment=false %}
@@ -106,7 +109,7 @@ kuma-pfh4s   LoadBalancer   10.43.122.93    172.20.0.3    8080:30627/TCP   87s
 {{ gateway | indent }}
 The `Gateway` is now accessible using the external address `172.20.0.3:8080`.
 
-3. Add an `HTTPRoute`.
+3. Add an [`HTTPRoute`](https://gateway-api.sigs.k8s.io/api-types/httproute/).
 
    `HTTPRoute` resources contain a set of matching criteria for HTTP requests and upstream `Services` to route those requests to.
 
