@@ -72,7 +72,7 @@ spec:
     - **`hostname`** - is the fully qualified domain name of a network host. This
       matches the RFC 1123 definition of a hostname with 1 notable exception that
       numeric IP addresses are not allowed.
-    - **`port`** - is the port to be used in the value of the `Location` header in e
+    - **`port`** - is the port to be used in the value of the `Location` header in
       the response. When empty, port (if specified) of the request is used.
     - **`statusCode`** - is the HTTP status code to be used in response. Available values are
       `301`, `302`, `303`, `307`, `308`.
@@ -87,9 +87,9 @@ spec:
 {% if_version gte:2.2.x %} 
   - **`requestMirror`** - must be set if the `type` is `RequestMirror`
     - **`percentage`** - percentage of requests to mirror. If not specified, all requests to the target cluster will be mirrored.
-    - **`backendRef`** - [BackendRef](#backendref), destination for request to be mirrored 
+    - **`backendRef`** - [BackendRef](#backendref), destination to mirror request to
 {% endif_version %}
-- **`backendRefs`** - [BackendRef](#backendref) (optional), list of destination for request to be redirected to
+- **`backendRefs`** - [BackendRef](#backendref) (optional), list of destinations to redirect requests to
 
 ### HeaderModifier
 
@@ -347,7 +347,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 {% if_version gte:2.2.x %}
 ### Traffic mirror
 
-We can use MeshHTTPRoute policy to mirror a fraction of request to another service.
+`MeshHTTPRoute` can mirror a fraction of requests to another service.
 This can be useful when testing a new version of the app with the production payload without 
 interrupting real users. 
 
