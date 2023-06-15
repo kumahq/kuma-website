@@ -100,30 +100,7 @@ seconds.
 
 This configuration will be applied to all data plane proxies inside of Mesh.
 
-{% tabs example1 useUrlFragment=false %}
-{% tab example1 Kubernetes %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: timeout-global
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-  to:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 20s
-        connectionTimeout: 2s
-        http:
-          requestTimeout: 2s
-```
-{% endtab %}
-{% tab example1 Universal %}
+{% policy_yaml example1 %}
 ```yaml
 type: MeshTimeout
 name: timeout-global
@@ -140,33 +117,11 @@ spec:
         http:
           requestTimeout: 2s
 ```
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Simple TCP configuration
 
-{% tabs example2 useUrlFragment=false %}
-{% tab example2 Kubernetes %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: tcp-timeout
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-  to:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 20s
-        connectionTimeout: 2s
-```
-{% endtab %}
-{% tab example2 Universal %}
+{% policy_yaml example2 %}
 ```yaml
 type: MeshTimeout
 name: tcp-timeout
@@ -181,38 +136,13 @@ spec:
         idleTimeout: 20s
         connectionTimeout: 2s
 ```
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Simple configuration for inbound applied to specific service
 
 This configuration will be applied to `backend` service inbound.
 
-{% tabs example3 useUrlFragment=false %}
-{% tab example3 Kubernetes %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: inboud-timeout
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: backend_kuma-test_svc_80
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 60s
-        connectionTimeout: 1s
-        http:
-          requestTimeout: 5s
-```
-{% endtab %}
-{% tab example3 Universal %}
+{% policy_yaml example3 %}
 ```yaml
 type: MeshTimeout
 name: inboud-timeout
@@ -228,55 +158,14 @@ spec:
         idleTimeout: 20s
         connectionTimeout: 2s
 ```
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Full config applied to inbound and outboud of specific service
 
 This timeout configuration will be applied to all inbound connections to `frontend` and outbound connections
 from `frontend` to `backend` service
 
-{% tabs example4 useUrlFragment=false %}
-{% tab example4 Kubernetes %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: inboud-timeout
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: fontend_kuma-test_svc_80
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 60s
-        connectionTimeout: 2s
-        http:
-          requestTimeout: 10s
-          streamIdleTimeout: 1h
-          maxStreamDuration: 30m
-          maxConnectionDuration: 30m
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend_kuma-test_svc_80
-      default:
-        idleTimeout: 60s
-        connectionTimeout: 1s
-        http:
-          requestTimeout: 5s
-          streamIdleTimeout: 1h
-          maxStreamDuration: 30m
-          maxConnectionDuration: 30m
-
-```
-{% endtab %}
-{% tab example4 Universal %}
+{% policy_yaml example4 %}
 ```yaml
 type: MeshTimeout
 name: inboud-timeout
@@ -309,11 +198,9 @@ spec:
           maxStreamDuration: 30m
           maxConnectionDuration: 30m
 ```
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 {% if_version gte:2.3.x %}
-
 #### Target `MeshHTTPRoute`
 
 Timeouts like `http.requestTimeout` and `http.streamIdleTimeout` are configurable per route.
@@ -322,57 +209,7 @@ If a `MeshHTTPRoute` creates routes on the outbound listener of the service then
 In the following example the `MeshHTTPRoute` policy `route-to-backend-v2` redirects all requests to `/v2*` to `backend` instances with `version: v2` tag.
 `MeshTimeout` `backend-v2` configures timeouts only for requests that are going through `route-to-backend-v2` route. 
 
-{% tabs example5 useUrlFragment=false %}
-{% tab example5 Kubernetes %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshHTTPRoute
-metadata:
-  name: route-to-backend-v2
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend_kuma-demo_svc_3001
-      rules:
-        - matches:
-            - path:
-                type: PathPrefix
-                value: /v2
-          default:
-            backendRef:
-              - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
-                tags:
-                  version: v2
----
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: backend-v2
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshHTTPRoute
-    name: route-to-backend-v2
-  to:
-    - targetRef:
-        kind: Mesh
-      default:
-        http:
-          requestTimeout: 30s
-          streamIdleTimeout: 30m
-```
-{% endtab %}
-{% tab example5 Universal %}
+{% policy_yaml example5 %}
 ```yaml
 type: MeshHTTPRoute
 name: route-to-backend-v2
@@ -412,8 +249,7 @@ spec:
           requestTimeout: 5s
           streamIdleTimeout: 1h
 ```
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 {% endif_version %}
 
 ### Defaults
