@@ -441,7 +441,7 @@ All users that provide client certificate are authenticated as a user with the n
    ```
    You can provide as many client certificates as you want. Remember to only provide certificates without keys.
 
-   Set `controlPlane.tls.apiServer.clientCertsSecretName` to `api-server-client-certs` via HELM
+   Set `{{set_flag_values_prefix}}controlPlane.tls.apiServer.clientCertsSecretName` to `api-server-client-certs` via HELM
    {% endtab %}
    {% tab usage Universal %}
    Put all the certificates in one directory

@@ -90,8 +90,8 @@ kubectl create secret generic general-tls-certs -n <namespace> \
 Point to this secret when installing {{site.mesh_product_name}}:
 ```sh
 helm install --create-namespace --namespace <namespace> kuma kuma/kuma \
-  --set controlPlane.tls.general.secretName=general-tls-certs \
-  --set controlPlane.tls.general.caBundle=$(cat /tmp/ca.crt | base64)
+  --set {{set_flag_values_prefix}}controlPlane.tls.general.secretName=general-tls-certs \
+  --set {{set_flag_values_prefix}}controlPlane.tls.general.caBundle=$(cat /tmp/ca.crt | base64)
 ```
 
 The data plane proxy Injector in the control plane automatically provides the CA to the {{site.mesh_product_name}} DP sidecar 
@@ -222,7 +222,7 @@ kubectl create secret tls api-server-tls -n <namespace> \
 Point to this secret when installing {{site.mesh_product_name}}:
 ```sh
 helm install --create-namespace --namespace <namespace> kuma kuma/kuma \
-  --set controlPlane.tls.apiServer.secretName=api-server-tls
+  --set {{set_flag_values_prefix}}controlPlane.tls.apiServer.secretName=api-server-tls
 ```
 
 {% endtab %}
@@ -311,7 +311,7 @@ kubectl create secret tls kds-server-tls -n <namespace> \
 Point to this secret when installing {{site.mesh_product_name}}:
 ```sh
 helm install --create-namespace --namespace <namespace> kuma kuma/kuma \
-  --set controlPlane.tls.kdsGlobalServer.secretName=kds-server-tls
+  --set {{set_flag_values_prefix}}controlPlane.tls.kdsGlobalServer.secretName=kds-server-tls
 ```
 
 {% endtab %}
@@ -353,7 +353,7 @@ kubectl create secret generic kds-ca-certs -n <namespace> \
 Point to this secret when installing {{site.mesh_product_name}}:
 ```sh
 helm install --create-namespace --namespace <namespace> kuma kuma/kuma \
-  --set controlPlane.tls.kdsZoneClient.secretName=kds-ca-certs
+  --set {{set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.secretName=kds-ca-certs
 ```
 
 {% endtab %}

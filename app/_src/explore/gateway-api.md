@@ -19,7 +19,7 @@ Gateway API is not supported in multi-zone. To use the builtin Gateway, you need
 2. Enable Gateway API support.
 
    - With `kumactl`, use the `--experimental-gatewayapi` flag.
-   - With Helm, use the `experimental.gatewayAPI=true` value.
+   - With Helm, use the `{{set_flag_values_prefix}}experimental.gatewayAPI=true` value.
 
 ## Usage
 
