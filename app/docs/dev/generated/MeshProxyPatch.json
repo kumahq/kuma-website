@@ -452,7 +452,8 @@
                 "Mesh",
                 "MeshSubset",
                 "MeshService",
-                "MeshServiceSubset"
+                "MeshServiceSubset",
+                "MeshHTTPRoute"
               ],
               "type": "string"
             },
