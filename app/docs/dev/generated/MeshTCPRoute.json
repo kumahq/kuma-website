@@ -29,7 +29,8 @@
                 "Mesh",
                 "MeshSubset",
                 "MeshService",
-                "MeshServiceSubset"
+                "MeshServiceSubset",
+                "MeshHTTPRoute"
               ],
               "type": "string"
             },
@@ -72,7 +73,8 @@
                                   "Mesh",
                                   "MeshSubset",
                                   "MeshService",
-                                  "MeshServiceSubset"
+                                  "MeshServiceSubset",
+                                  "MeshHTTPRoute"
                                 ],
                                 "type": "string"
                               },
@@ -126,7 +128,8 @@
                       "Mesh",
                       "MeshSubset",
                       "MeshService",
-                      "MeshServiceSubset"
+                      "MeshServiceSubset",
+                      "MeshHTTPRoute"
                     ],
                     "type": "string"
                   },
