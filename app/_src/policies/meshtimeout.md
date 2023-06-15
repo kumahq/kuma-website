@@ -314,13 +314,13 @@ spec:
 
 {% if_version gte:2.3.x %}
 
-#### Target MeshHTTPRoute
+#### Target `MeshHTTPRoute`
 
 Timeouts like `http.requestTimeout` and `http.streamIdleTimeout` are configurable per route.
-If MeshHTTPRoute policy creates routes on the outbound listener of the service then MeshTimeout policy can configure timeouts on these routes.
+If a `MeshHTTPRoute` creates routes on the outbound listener of the service then `MeshTimeout` policy can configure timeouts on these routes.
 
-In the following example MeshHTTPRoute policy `route-to-backend-v2` redirects all requests to `/v2*` to backend instances with `version: v2` tag.
-MeshTimeout policy `backend-v2` configures timeouts only for requests that are going through `route-to-backend-v2` route. 
+In the following example the `MeshHTTPRoute` policy `route-to-backend-v2` redirects all requests to `/v2*` to `backend` instances with `version: v2` tag.
+`MeshTimeout` `backend-v2` configures timeouts only for requests that are going through `route-to-backend-v2` route. 
 
 {% tabs example5 useUrlFragment=false %}
 {% tab example5 Kubernetes %}
