@@ -449,11 +449,13 @@ mesh: default
 spec:
   targetRef:
     kind: MeshService
-    name: web
+    name_uni: web
+    name_kube: web_kuma-demo_svc_8080
   to:
     - targetRef:
         kind: MeshService
-        name: backend
+        name_uni: backend
+        name_kube: backend_kuma-demo_svc_8080
       default:
         connectionLimits:
           maxConnections: 2
@@ -473,7 +475,8 @@ mesh: default
 spec:
   targetRef:
     kind: MeshService
-    name: web
+    name_uni: web
+    name_kube: web_kuma-demo_svc_8080
   from:
     - targetRef:
         kind: Mesh
