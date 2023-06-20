@@ -247,8 +247,7 @@ multi-zone.
 This type requests that the control plane create and manage a Kubernetes `Deployment` and `Service`
 suitable for providing service capacity for the `MeshGateway` with the matching `kuma.io/service` tag.
 
-```shell
-echo "
+```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGatewayInstance
 metadata:
@@ -259,94 +258,9 @@ spec:
   serviceType: LoadBalancer
   tags:
     kuma.io/service: edge-gateway
-" | kubectl apply -f -
 ```
 
-Once a `MeshGateway` exists that matches the `kuma.io/service` tag, the control plane creates a new `Deployment` in the `default` namespace.
-This `Deployment` has the requested number of builtin gateway `Dataplane` pod replicas running as the service named in the `MeshGatewayInstance` tags.
-The control plane also creates a new `Service` to send network traffic to the builtin `Dataplane` pods.
-The `Service` is of the type requested in the `MeshGatewayInstance`, and its ports are automatically adjusted to match the listeners on the corresponding `MeshGateway`.
-
-#### Customization
-
-{% if_version lte:2.1.x %}
-
-Additional customization of the generated `Service` is possible via `MeshGatewayInstance.spec`. For example, you can add annotations to the generated `Service`, and specify the `loadBalancerIP`:
-
-```yaml
-spec:
-  replicas: 1
-  serviceType: LoadBalancer
-  tags:
-    kuma.io/service: edge-gateway
-  resources:
-    limits: ...
-    requests: ...
-  serviceTemplate:
-    metadata:
-      annotations:
-        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
-        ...
-    spec:
-      loadBalancerIP: ...
-```
-{% endif_version %}
-{% if_version gte:2.2.x %}
-
-Additional customization of the generated `Service` or `Pods` is possible via `MeshGatewayInstance.spec`. For example, you can add annotations and/or labels to the generated objects:
-
-```yaml
-spec:
-  replicas: 1
-  serviceType: LoadBalancer
-  tags:
-    kuma.io/service: edge-gateway
-  resources:
-    limits: ...
-    requests: ...
-  serviceTemplate:
-    metadata:
-      annotations:
-        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
-    spec:
-      loadBalancerIP: ...
-  podTemplate:
-    metadata:
-      labels:
-        app-name: my-app
-        ...
-```
-
-You can also modify several security-related parameters for the generated `Pods`, and specify a `loadBalancerIP` for the `Service`:
-
-```yaml
-spec:
-  replicas: 1
-  serviceType: LoadBalancer
-  tags:
-    kuma.io/service: edge-gateway
-  resources:
-    limits: ...
-    requests: ...
-  serviceTemplate:
-    metadata:
-      labels:
-        svc-id: "19-001"
-    spec:
-      loadBalancerIP: ...
-  podTemplate:
-    metadata:
-      annotations:
-        app-monitor: "false"
-    spec:
-      serviceAccountName: my-sa
-      securityContext:
-        fsGroup: ...
-      container:
-        securityContext:
-          readOnlyRootFilesystem: true
-```
-{% endif_version %}
+See [the `MeshGatewayInstance` docs](/docs/{{ page.version }}/policies/meshgatewayinstance) for more.
 {% endtab %}
 {% tab setup Universal %}
 

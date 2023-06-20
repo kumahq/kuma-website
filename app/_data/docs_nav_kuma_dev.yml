@@ -188,8 +188,8 @@ items:
         items:
           - text: Installation
             url: "/explore/gateway-api/#installation"
-          - text: Usage
-            url: "/explore/gateway-api/#usage"
+          - text: Gateways
+            url: "/explore/gateway-api/#gateways"
           - text: TLS termination
             url: "/explore/gateway-api/#tls-termination"
           - text: Customization
@@ -198,6 +198,8 @@ items:
             url: "/explore/gateway-api/#multi-mesh"
           - text: Multi-zone
             url: "/explore/gateway-api/#multi-zone"
+          - text: GAMMA
+            url: "/explore/gateway-api/#service-to-service-routing"
           - text: How it works
             url: "/explore/gateway-api/#how-it-works"
   - title: Networking
@@ -429,6 +431,8 @@ items:
             url: "/policies/mesh-gateway-route/#filters"
           - text: Reference
             url: "/policies/mesh-gateway-route/#reference"
+      - text: MeshGatewayInstance
+        url: /policies/meshgatewayinstance/
       - text: Service Health Probes
         url: /policies/service-health-probes/
         items:

@@ -429,6 +429,8 @@ items:
             url: "/policies/mesh-gateway-route/#filters"
           - text: Reference
             url: "/policies/mesh-gateway-route/#reference"
+      - text: MeshGatewayInstance
+        url: /policies/meshgatewayinstance/
       - text: Service Health Probes
         url: /policies/service-health-probes/
         items:
