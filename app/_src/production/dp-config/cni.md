@@ -38,11 +38,11 @@ Below are the details of how to set up {{site.mesh_product_name}} CNI in differe
 
 ```shell
 kumactl install control-plane \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/opt/cni/bin" \
-  --set "cni.confName=10-calico.conflist"
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-calico.conflist"
 ```
 
 {% endtab %}
@@ -50,11 +50,11 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/opt/cni/bin" \
-  --set "cni.confName=10-calico.conflist" \
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-calico.conflist" \
    kuma kuma/kuma
 ```
 
@@ -68,11 +68,11 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
-  --set "cni.binDir=/bin" \
-  --set "cni.confName=10-flannel.conflist"
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-flannel.conflist"
 ```
 
 {% endtab %}
@@ -80,11 +80,11 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
-  --set "cni.binDir=/bin" \
-  --set "cni.confName=10-flannel.conflist" \
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-flannel.conflist" \
    kuma kuma/kuma
 ```
 
@@ -98,11 +98,11 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/opt/cni/bin" \
-  --set "cni.confName=10-kindnet.conflist"
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-kindnet.conflist"
 ```
 
 {% endtab %}
@@ -110,11 +110,11 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/opt/cni/bin" \
-  --set "cni.confName=10-kindnet.conflist" \
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-kindnet.conflist" \
    kuma kuma/kuma
 ```
 
@@ -128,11 +128,11 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/opt/cni/bin" \
-  --set "cni.confName=10-azure.conflist"
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-azure.conflist"
 ```
 
 {% endtab %}
@@ -140,11 +140,11 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/opt/cni/bin" \
-  --set "cni.confName=10-azure.conflist" \
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-azure.conflist" \
    kuma kuma/kuma
 ```
 
@@ -158,11 +158,11 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/opt/cni/bin" \
-  --set "cni.confName=10-aws.conflist"
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-aws.conflist"
 ```
 
 {% endtab %}
@@ -170,11 +170,11 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/opt/cni/bin" \
-  --set "cni.confName=10-aws.conflist" \
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-aws.conflist" \
    kuma kuma/kuma
 ```
 
@@ -191,11 +191,11 @@ You need to [enable network-policy](https://cloud.google.com/kubernetes-engine/d
 
 ```shell
 kumactl install control-plane \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/home/kubernetes/bin" \
-  --set "cni.confName=10-calico.conflist"
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/home/kubernetes/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-calico.conflist"
 ```
 
 {% endtab %}
@@ -203,11 +203,11 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "cni.enabled=true" \
-  --set "cni.chained=true" \
-  --set "cni.netDir=/etc/cni/net.d" \
-  --set "cni.binDir=/home/kubernetes/bin" \
-  --set "cni.confName=10-calico.conflist" \
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/home/kubernetes/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=10-calico.conflist" \
    kuma kuma/kuma
 ```
 
@@ -231,8 +231,8 @@ oc adm policy add-scc-to-user privileged -z kuma-cni -n kube-system
 
 ```shell
 kumactl install control-plane \
-  --set "cni.enabled=true" \
-  --set "cni.containerSecurityContext.privileged=true"
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.containerSecurityContext.privileged=true"
 ```
 
 {% endtab %}
@@ -240,8 +240,8 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "cni.enabled=true" \
-  --set "cni.containerSecurityContext.privileged=true" \
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.containerSecurityContext.privileged=true" \
    kuma kuma/kuma
 ```
 
@@ -256,7 +256,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "cni.enabled=true"
+  --set "{{set_flag_values_prefix}}cni.enabled=true"
 ```
 
 {% endtab %}
@@ -264,7 +264,7 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
    kuma kuma/kuma
 ```
 
@@ -286,8 +286,8 @@ To install v2 CNI append the following options to the command from [installation
 
 ```
 --set ... \
---set "cni.enabled=true" \
---set "experimental.cni=true"
+--set "{{set_flag_values_prefix}}cni.enabled=true" \
+--set "{{set_flag_values_prefix}}experimental.cni=true"
 ```
 
 Currently, the v2 CNI is behind an `experimental` flag, but it's intended to be the default CNI in future releases.
@@ -319,8 +319,8 @@ and have `cgroup2` available
 
 ```
 --set ... \
---set "cni.enabled=true" \
---set "experimental.ebpf.enabled=true"
+--set "{{set_flag_values_prefix}}cni.enabled=true" \
+--set "{{set_flag_values_prefix}}experimental.ebpf.enabled=true"
 ```
 
 ### Merbridge CNI with eBPF Logs

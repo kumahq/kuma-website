@@ -24,13 +24,18 @@ popd
 
 for branch in $(jq -r '.[]' ../kuma/active-branches.json); do
   echo "Copying $branch"
-  i="app/docs/${branch}"
+  v="${branch}"
   if [[ "${branch}" == "master" ]]; then
-    i=app/docs/dev
+    v=dev
   else
-    i="app/docs/$(echo "${branch}" | sed 's/release-//g').x"
+    v="$(echo "${branch}" | sed 's/release-//g').x"
   fi
+  i="app/docs/${v}"
   mkdir -p "${i}"
+
+  if [[ ! -f "app/_data/docs_nav_kuma_${v}.yml" ]]; then
+    cp app/_data/docs_nav_kuma_dev.yml "app/_data/docs_nav_kuma_${v}.yml"
+  fi
 
   pushd ../kuma
     git checkout "$kumahq/$branch"
@@ -76,6 +81,8 @@ Here are all options to configure the control-plane:
     fi
     yq -o json '.' "${policy}" > "${i}/generated/${name}.json"
   done
+
+  yq '.spec.versions[0].schema.openAPIV3Schema' -o json ../kuma/deployments/charts/kuma/crds/kuma.io_meshgatewayinstances.yaml > "${i}/generated/MeshGatewayInstance.json"
   shopt -u nullglob
 
 done

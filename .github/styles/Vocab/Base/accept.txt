@@ -35,6 +35,7 @@ dev
 DNS
 etcd
 Fargate
+GAMMA
 Gateway API
 Github
 Goroutine
@@ -99,6 +100,7 @@ outbounds
 passthrough
 PayPal
 plaintext
+policy_schema
 PowerShell
 prepend
 prepends
@@ -127,6 +129,7 @@ stdin
 stdout
 Bagdi
 subcommand
+subproject
 sudo
 Syslog
 tbl

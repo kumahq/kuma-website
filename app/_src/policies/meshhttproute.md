@@ -50,12 +50,7 @@ spec:
 ### Matches
 
 - **`path`** - (optional) - HTTP path to match the request on
-{% if_version gte:2.3.x %}
-  - **`type`** - one of `Exact`, `PathPrefix`, `RegularExpression`
-{% endif_version %}
-{% if_version lte:2.2.x %}
-  - **`type`** - one of `Exact`, `Prefix`, `RegularExpression`
-{% endif_version %}
+  - **`type`** - one of `Exact`, {% if_version gte:2.3.x %}`PathPrefix`{% endif_version %}{% if_version lte:2.2.x %}`Prefix`{% endif_version %}, `RegularExpression`
   - **`value`** - actual value that's going to be matched depending on the `type`
 - **`method`** - (optional) - HTTP2 method, available values are 
   `CONNECT`, `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`, `TRACE`
@@ -77,7 +72,7 @@ spec:
     - **`hostname`** - is the fully qualified domain name of a network host. This
       matches the RFC 1123 definition of a hostname with 1 notable exception that
       numeric IP addresses are not allowed.
-    - **`port`** - is the port to be used in the value of the `Location` header in 
+    - **`port`** - is the port to be used in the value of the `Location` header in
       the response. When empty, port (if specified) of the request is used.
     - **`statusCode`** - is the HTTP status code to be used in response. Available values are
       `301`, `302`, `303`, `307`, `308`.
@@ -89,12 +84,12 @@ spec:
       - **`type`** - one of `ReplaceFullPath`, `ReplacePrefixMatch`
       - **`replaceFullPath`** - must be set if the `type` is `ReplaceFullPath`
       - **`replacePrefixMatch`** - must be set if the `type` is `ReplacePrefixMatch`
-- **`backendRefs`** - (optional) - list of destination for request to be redirected to
-  - **`kind`** - one of `MeshService`, `MeshServiceSubset`
-  - **`name`** - service name
-  - **`tags`** - service tags, must be specified if the `kind` is `MeshServiceSubset`
-  - **`weight`** - when a request matches the route, the choice of an upstream cluster 
-    is determined by its weight. Total weight is a sum of all weights in `backendRefs` list.
+{% if_version gte:2.2.x %} 
+  - **`requestMirror`** - must be set if the `type` is `RequestMirror`
+    - **`percentage`** - percentage of requests to mirror. If not specified, all requests to the target cluster will be mirrored.
+    - **`backendRef`** - [BackendRef](#backendref), destination to mirror request to
+{% endif_version %}
+- **`backendRefs`** - [BackendRef](#backendref) (optional), list of destinations to redirect requests to
 
 ### HeaderModifier
 
@@ -105,6 +100,14 @@ spec:
   - **`name`** - header's name
   - **`value`** - header's value
 - **`remove`** - (optional) - list of headers' names to remove
+
+### BackendRef
+
+- **`kind`** - one of `MeshService`, `MeshServiceSubset`
+- **`name`** - service name
+- **`tags`** - service tags, must be specified if the `kind` is `MeshServiceSubset`
+- **`weight`** - when a request matches the route, the choice of an upstream cluster
+  is determined by its weight. Total weight is a sum of all weights in `backendRefs` list.
 
 ## Examples
 
@@ -119,7 +122,6 @@ but only on endpoints starting with `/api`. All other endpoints will go to versi
 
 {% tabs split useUrlFragment=false %}
 {% tab split Kubernetes %}
-
 {% if_version gte:2.3.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -192,12 +194,8 @@ spec:
                 weight: 10
 ```
 {% endif_version %}
-
-We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
-
 {% tab split Universal %}
-
 {% if_version gte:2.3.x %}
 ```yaml
 type: MeshHTTPRoute
@@ -262,8 +260,6 @@ spec:
                 weight: 10
 ```
 {% endif_version %}
-
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -307,11 +303,8 @@ spec:
                     - name: x-custom-header
                       value: xyz
 ```
-We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
-
 {% tab modifications Universal %}
-
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -337,9 +330,95 @@ spec:
                     - name: x-custom-header
                       value: xyz
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
+
+{% if_version gte:2.2.x %}
+### Traffic mirror
+
+`MeshHTTPRoute` can mirror a fraction of requests to another service.
+This can be useful when testing a new version of the app with the production payload without 
+interrupting real users. 
+
+{% tabs mirror useUrlFragment=false %}
+{% tab mirror Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshHTTPRoute
+metadata:
+  name: http-route-1
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name: frontend_kuma-demo_svc_8080
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend_kuma-demo_svc_3001
+      rules:
+        - matches:
+            - headers:
+                - type: Exact
+                  name: mirror-this-request
+                  value: "true"
+          default:
+            filters:
+              - type: RequestMirror
+                requestMirror:
+                  percentage: 30
+                  backendRef:
+                    kind: MeshServiceSubset
+                    name: backend_kuma-demo_svc_3001
+                    tags:
+                      version: v1/experimental
+            backendRefs:
+              - kind: MeshServiceSubset
+                name: backend_kuma-demo_svc_3001
+                tags:
+                  version: v0
+```
+{% endtab %}
+{% tab mirror Universal %}
+```yaml
+type: MeshHTTPRoute
+name: http-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name: frontend_kuma-demo_svc_8080
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend_kuma-demo_svc_3001
+      rules:
+        - matches:
+            - headers:
+                - type: Exact
+                  name: mirror-this-request
+                  value: "true"
+          default:
+            filters:
+              - type: RequestMirror
+                requestMirror:
+                  percentage: 30
+                  backendRef:
+                    kind: MeshServiceSubset
+                    name: backend_kuma-demo_svc_3001
+                    tags:
+                      version: v1/experimental
+            backendRefs:
+              - kind: MeshServiceSubset
+                name: backend_kuma-demo_svc_3001
+                tags:
+                  version: v0
+```
+{% endtab %}
+{% endtabs %}
+{% endif_version %}
 
 ## Merging
 
