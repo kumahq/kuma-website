@@ -89,7 +89,7 @@ kubectl create secret generic general-tls-certs -n <namespace> \
 
 Point to this secret when installing {{site.mesh_product_name}}:
 ```sh
-helm install --create-namespace --namespace <namespace> kuma kuma/kuma \
+helm install --create-namespace --namespace <namespace> {{mesh_helm_install_name}} {{mesh_helm_repo}} \
   --set {{set_flag_values_prefix}}controlPlane.tls.general.secretName=general-tls-certs \
   --set {{set_flag_values_prefix}}controlPlane.tls.general.caBundle=$(cat /tmp/ca.crt | base64)
 ```
@@ -221,7 +221,7 @@ kubectl create secret tls api-server-tls -n <namespace> \
 
 Point to this secret when installing {{site.mesh_product_name}}:
 ```sh
-helm install --create-namespace --namespace <namespace> kuma kuma/kuma \
+helm install --create-namespace --namespace <namespace> {{mesh_helm_install_name}} {{mesh_helm_repo}} \
   --set {{set_flag_values_prefix}}controlPlane.tls.apiServer.secretName=api-server-tls
 ```
 
@@ -310,7 +310,7 @@ kubectl create secret tls kds-server-tls -n <namespace> \
 
 Point to this secret when installing {{site.mesh_product_name}}:
 ```sh
-helm install --create-namespace --namespace <namespace> kuma kuma/kuma \
+helm install --create-namespace --namespace <namespace> {{mesh_helm_install_name}} {{mesh_helm_repo}} \
   --set {{set_flag_values_prefix}}controlPlane.tls.kdsGlobalServer.secretName=kds-server-tls
 ```
 
@@ -352,7 +352,7 @@ kubectl create secret generic kds-ca-certs -n <namespace> \
 
 Point to this secret when installing {{site.mesh_product_name}}:
 ```sh
-helm install --create-namespace --namespace <namespace> kuma kuma/kuma \
+helm install --create-namespace --namespace <namespace> {{mesh_helm_install_name}} {{mesh_helm_repo}} \
   --set {{set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.secretName=kds-ca-certs
 ```
 

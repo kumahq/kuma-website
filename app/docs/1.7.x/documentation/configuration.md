@@ -29,7 +29,7 @@ When using `helm`, you can override the configuration with the `envVars` field. 
 helm install --version 0.7.1 \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s \
-  kuma kuma/kuma
+  {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 Or you can create a `values.yaml` file with:
@@ -42,7 +42,7 @@ controlPlane:
 and then specify it in the helm install command:
 
 ```sh
-helm install --version 0.7.1 -f values.yaml kuma kuma/kuma
+helm install --version 0.7.1 -f values.yaml {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 {% endtab %}
 {% tab control-plane Universal %}
