@@ -57,7 +57,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     Or you can edit the chart and pass the file to the `helm install {{ site.mesh_helm_install_name }}` command. To get the default values, run:
 
     ```sh
-    helm show values kuma/kuma
+    helm show values {{mesh_helm_repo}}
     ```
 
 1.  Find the external IP and port of the `global-remote-sync` service in the `{{site.mesh_namespace}}` namespace:

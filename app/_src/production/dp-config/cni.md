@@ -55,7 +55,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
   --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
   --set "{{set_flag_values_prefix}}cni.confName=10-calico.conflist" \
-   kuma kuma/kuma
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -85,7 +85,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "{{set_flag_values_prefix}}cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
   --set "{{set_flag_values_prefix}}cni.binDir=/bin" \
   --set "{{set_flag_values_prefix}}cni.confName=10-flannel.conflist" \
-   kuma kuma/kuma
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -115,7 +115,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
   --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
   --set "{{set_flag_values_prefix}}cni.confName=10-kindnet.conflist" \
-   kuma kuma/kuma
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -145,7 +145,8 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
   --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
   --set "{{set_flag_values_prefix}}cni.confName=10-azure.conflist" \
-   kuma kuma/kuma
+  --set "{{set_flag_values_prefix}}runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6=0" # EKS does not have ipv6 enabled by default
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -162,7 +163,8 @@ kumactl install control-plane \
   --set "{{set_flag_values_prefix}}cni.chained=true" \
   --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
   --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-aws.conflist"
+  --set "{{set_flag_values_prefix}}cni.confName=10-aws.conflist" \
+  --set "{{set_flag_values_prefix}}runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6=0" # EKS does not have ipv6 enabled by default
 ```
 
 {% endtab %}
@@ -175,7 +177,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
   --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
   --set "{{set_flag_values_prefix}}cni.confName=10-aws.conflist" \
-   kuma kuma/kuma
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -208,7 +210,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
   --set "{{set_flag_values_prefix}}cni.binDir=/home/kubernetes/bin" \
   --set "{{set_flag_values_prefix}}cni.confName=10-calico.conflist" \
-   kuma kuma/kuma
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -242,7 +244,7 @@ kumactl install control-plane \
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "{{set_flag_values_prefix}}cni.enabled=true" \
   --set "{{set_flag_values_prefix}}cni.containerSecurityContext.privileged=true" \
-   kuma kuma/kuma
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -265,7 +267,7 @@ kumactl install control-plane \
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "{{set_flag_values_prefix}}cni.enabled=true" \
-   kuma kuma/kuma
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 {% endtab %}
