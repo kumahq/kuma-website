@@ -13,4 +13,4 @@ jobs:
   lifecycle:
     uses: kumahq/.github/.github/workflows/wfc_lifecycle.yml@main
     with:
-      filesToIgnore: CODEOWNERS
+      filesToIgnore: CODEOWNERS,CONTRIBUTING.md
