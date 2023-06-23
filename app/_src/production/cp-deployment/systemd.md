@@ -17,7 +17,7 @@ Documentation={{ site.links.web }}
 [Service]
 User = {{ site.mesh_product_name | downcase }}
 Environment = KUMA_MODE=standalone
-ExecStart = /path/to/{{ site.mesh_product_name | downcase }}/bin/kuma-cp run --config-file=/home/{{ site.mesh_product_name | downcase }}/cp-config.yaml
+ExecStart = /home/{{ site.mesh_product_name | downcase }}/{{ site.mesh_product_name | downcase }}-{{ page.latest_version }}/bin/kuma-cp run --config-file=/home/{{ site.mesh_product_name | downcase }}/cp-config.yaml
 # if you need your Control Plane to be able to handle a non-trivial number of concurrent connections
 # (a total of both incoming and outgoing connections), you need to set proper resource limits on
 # the `kuma-cp` process, especially maximum number of open files.
