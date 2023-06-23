@@ -1,6 +1,7 @@
 import Prism from 'prismjs'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.min.js'
 import 'prismjs/components/prism-bash.min.js'
+import 'prismjs/components/prism-systemd.min.js'
 import 'prismjs/components/prism-yaml.min.js'
 import 'prismjs/components/prism-json.min.js'
 
