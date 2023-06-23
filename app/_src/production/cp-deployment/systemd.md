@@ -12,7 +12,7 @@ Here are examples of systemd configurations
 [Unit]
 Description = {{ site.mesh_product_name }} Control Plane
 After = network.target
-Documentation={{ site.links.web }}
+Documentation = {{ site.links.web }}
 
 [Service]
 User = {{ site.mesh_product_name | downcase }}
