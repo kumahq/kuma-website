@@ -685,7 +685,7 @@ spec: ...
 ### `kuma.io/init-first`
 
 Allows specifying that the {{site.mesh_product_name}} init container should run first (ahead of any other init containers). 
-The default is `false` if omitted. Setting this to true may be desirable for security, as it would prevent network access for other init containers. The order is _not_ guaranteed, as other mutating admission webhooks may further manipulate this ordering. 
+The default is `false` if omitted. Setting this to `true` may be desirable for security, as it would prevent network access for other init containers. The order is _not_ guaranteed, as other mutating admission webhooks may further manipulate this ordering. 
 
 **Example**
 
