@@ -6,7 +6,7 @@ With `TrafficLog` policy you can easily set up access logs on every data-plane i
 
 `TrafficLog` only logs outbound traffic. It doesn't log inbound traffic.
 
-Configuring access logs in `Kuma` is a 3-step process:
+Configuring access logs in {{site.mesh_product_name}} is a 3-step process:
 
 * [1. Add a logging backend](#add-a-logging-backend)
 * [2. Add a TrafficLog resource](#add-a-trafficlog-resource)
@@ -159,7 +159,7 @@ When `backend ` field of a `TrafficLog` policy is omitted, the logs will be forw
 
 ## Log aggregation and visualisation
 
-`Kuma` is presenting a simple solution to aggregate the **logs of your containers** and the **access logs of your data-planes**.
+{{site.mesh_product_name}} is presenting a simple solution to aggregate the **logs of your containers** and the **access logs of your data-planes**.
 
 {% tabs log-aggregation useUrlFragment=false %}
 {% tab log-aggregation Kubernetes %}
@@ -256,7 +256,7 @@ You can also forward the access logs to a collector (such as logstash) that can 
 
 ### Access Log Format
 
-`Kuma` gives you full control over the format of access logs.
+{{site.mesh_product_name}} gives you full control over the format of access logs.
 
 The shape of a single log record is defined by a template string that uses [command operators](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators) to extract and format data about a `TCP` connection or an `HTTP` request.
 
@@ -271,7 +271,7 @@ where `%START_TIME%` and `%KUMA_SOURCE_SERVICE%` are examples of available _comm
 A complete set of supported _command operators_ consists of:
 
 1. All _command operators_ [supported by Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators)
-2. _Command operators_ unique to `Kuma`
+2. _Command operators_ unique to {{site.mesh_product_name}}
 
 The latter include:
 
@@ -289,7 +289,7 @@ All access log _command operators_ are valid to use with both `TCP` and `HTTP` t
 
 If a _command operator_ is specific to `HTTP` traffic, such as `%REQ(X?Y):Z%` or `%RESP(X?Y):Z%`, it will be replaced by a symbol "`-`" in case of `TCP` traffic.
 
-Internally, `Kuma` [determines traffic protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
+Internally, {{site.mesh_product_name}} [determines traffic protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
 
 The default format string for `TCP` traffic is:
 

@@ -43,7 +43,7 @@ conf:
   backend: splunk
 ```
 
-What does `Kuma` do when it encounters multiple matching policies?
+What does {{site.mesh_product_name}} do when it encounters multiple matching policies?
 
 ## General rules
 

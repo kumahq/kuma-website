@@ -220,7 +220,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 {% tab insallation OpenShift 3.11 %}
 
 1. Follow the instructions in [OpenShift 3.11 installation](/docs/{{ page.version }}/installation/openshift/#2-run-kuma)
-   to get the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` enabled (this is required for regular kuma installation).
+   to get the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` enabled (this is required for regular {{site.mesh_product_name}} installation).
 
 2. You need to grant privileged permission to kuma-cni service account:
 
