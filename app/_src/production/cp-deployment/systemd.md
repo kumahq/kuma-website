@@ -12,7 +12,7 @@ Here are examples of systemd configurations
 [Unit]
 Description = {{ site.mesh_product_name }} Control Plane
 After = network.target
-Documentation={{ site.mesh_base_url }}
+Documentation={{ site.links.web }}
 
 [Service]
 User = {{ site.mesh_product_name_lowercase }}
@@ -53,7 +53,7 @@ WantedBy = multi-user.target
 [Unit]
 Description = {{ site.mesh_product_name }} Data Plane Proxy
 After = network.target
-Documentation = {{ site.mesh_base_url }}
+Documentation = {{ site.links.web }}
 
 [Service]
 User = {{ site.mesh_product_name_lowercase }}
