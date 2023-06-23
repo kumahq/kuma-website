@@ -131,7 +131,7 @@ kind: MeshLoadBalancingStrategy
 apiVersion: kuma.io/v1alpha1
 metadata:
   name: ring-hash
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: mesh-1
 spec:
@@ -196,7 +196,7 @@ kind: MeshLoadBalancingStrategy
 apiVersion: kuma.io/v1alpha1
 metadata:
   name: disable-la-to-backend
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: mesh-1
 spec:
