@@ -3,7 +3,7 @@ title: Systemd
 content_type: how-to
 ---
 
-When using {{ site.mesh_product_name }} on VMs it is recommended to use a process manager like systemd.
+It's recommended to use a process manager like systemd when using {{ site.mesh_product_name }} on VMs. 
 Here are examples of systemd configurations
 
 ## kuma-cp
