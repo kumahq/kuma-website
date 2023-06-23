@@ -117,7 +117,7 @@ E.g.,
 * you can turn `Envoy Admin API` off by using `--admin-port=`
 
 {% warning %}
-If you choose to turn `Envoy Admin API` off, you will not be able to leverage some of `Kuma` features, such as enabling `Prometheus` metrics on that dataplane.
+If you choose to turn `Envoy Admin API` off, you will not be able to leverage some of {{site.mesh_product_name}} features, such as enabling `Prometheus` metrics on that dataplane.
 {% endwarning %}
 
 ## Tags

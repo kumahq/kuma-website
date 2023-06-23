@@ -2,7 +2,7 @@
 title: Protocol support in Kuma
 ---
 
-At its core, `Kuma` distinguishes between the following major categories of traffic: `http`, `grpc`, `kafka` and opaque `tcp` traffic.
+At its core, {{site.mesh_product_name}} distinguishes between the following major categories of traffic: `http`, `grpc`, `kafka` and opaque `tcp` traffic.
 
 For `http`, `grpc` and `kafka` traffic Kuma provides deep insights down to application-level transactions, in the latter `tcp` case the observability is limited to connection-level statistics.
 
@@ -96,7 +96,7 @@ Note that in this case no advanced HTTP or GRPC statistics or logging are availa
 
 Kuma out of the box support's `Websocket` protocol. The service exposing `Websocket` should be marked as `tcp`.
 
-As `Websockets` use pure `TCP` connections under the hood, your service have to be recognised by `Kuma` as the `TCP` one. It's also the default behavior for Kuma to assume the service's `inbound` interfaces are the TCP ones, so you don't have to do anything, but if you want to be explicit, you can configure your services exposing `Websocket` endpoints with `appProtocol` property. I.e.:
+As `Websockets` use pure `TCP` connections under the hood, your service have to be recognised by {{site.mesh_product_name}} as the `TCP` one. It's also the default behavior for Kuma to assume the service's `inbound` interfaces are the TCP ones, so you don't have to do anything, but if you want to be explicit, you can configure your services exposing `Websocket` endpoints with `appProtocol` property. I.e.:
 
 {% tabs websocket-support useUrlFragment=false %}
 {% tab websocket-support Kubernetes %}

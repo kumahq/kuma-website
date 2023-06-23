@@ -18,7 +18,7 @@ Follow the {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.versio
 
 ## Postgres
 
-If you choose `Postgres` as a configuration store for `Kuma` on Universal,
+If you choose `Postgres` as a configuration store for {{site.mesh_product_name}} on Universal,
 please be aware of the following key settings that affect performance of {{site.mesh_product_name}} Control Plane.
 
 * `KUMA_STORE_POSTGRES_CONNECTION_TIMEOUT` : connection timeout to the Postgres database (default: 5s)

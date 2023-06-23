@@ -27,7 +27,7 @@ Since Kuma bundles a data-plane in addition to the control-plane, we decided to 
 * `kuma-dp`: this is the Kuma data-plane executable that - under the hood - invokes `envoy`.
 * `envoy`: this is the Envoy executable that we bundle for convenience into the archive.
 * `kumactl`: this is the the user CLI to interact with Kuma (`kuma-cp`) and its data.
-* `kuma-prometheus-sd`: this is a helper tool that enables native integration between `Kuma` and `Prometheus`. Thanks to it, `Prometheus` will be able to automatically find all dataplanes in your Mesh and scrape metrics out of them.
+* `kuma-prometheus-sd`: this is a helper tool that enables native integration between {{site.mesh_product_name}} and `Prometheus`. Thanks to it, `Prometheus` will be able to automatically find all dataplanes in your Mesh and scrape metrics out of them.
 * `kuma-tcp-echo`: this is a sample application that echos back the requests we are making, used for demo purposes.
 
 A minimal Kuma deployment involves one or more instances of the control-plane (`kuma-cp`), and one or more instances of the data-planes (`kuma-dp`) which will connect to the control-plane as soon as they startup. Kuma supports two modes:
