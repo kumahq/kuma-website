@@ -55,7 +55,7 @@ kumactl install control-plane [flags]
       --mode string                                  kuma cp modes: one of standalone|zone|global (default "standalone")
       --namespace string                             namespace to install Kuma Control Plane to (default "kuma-system")
       --registry string                              registry for all images (default "docker.io/kumahq")
-      --set {{set_flag_values_prefix}}helm template <chart> --set ...          set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2), This is similar to helm template <chart> --set ... to use set-file or set-string just use helm instead
+      --set helm template <chart> --set ...          set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2), This is similar to helm template <chart> --set ... to use set-file or set-string just use helm instead
       --tls-api-server-client-certs-secret string    Secret that contains list of .pem certificates that can access admin endpoints of Kuma API on HTTPS
       --tls-api-server-secret string                 Secret that contains tls.crt, tls.key for protecting Kuma API on HTTPS
       --tls-general-ca-bundle string                 Base64 encoded CA certificate (the same as in controlPlane.tls.general.secret#ca.crt)
