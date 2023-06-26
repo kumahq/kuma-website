@@ -110,7 +110,7 @@ The first approach has an advantage that we can apply HTTP based policies, becau
 
 * `tags` the external service can include an arbitrary number of tags, where:
   *  `kuma.io/service` is mandatory.
-  *  `kuma.io/protocol` tag is also taken into account and supports the standard {{site.mesh_product_name}} protocol values. It designates the specific protocol for the service (one of: `http`, `https`, `tcp`, `grpc`, `kafka`, default: `tcp`).
+  *  `kuma.io/protocol` tag is also taken into account and supports the standard {{site.mesh_product_name}} protocol values. It designates the specific protocol for the service (one of: `http`, `tcp`, `grpc`, `kafka`, default: `tcp`).
   *  `kuma.io/zone` tag is taken into account when [`locality aware load balancing`](#external-services-and-locality-aware-load-balancing) is enabled or external service should be [accessible only from the specific zone](#external-services-accessible-from-specific-zone-through-zoneegress).
 * ` networking` describes the networking configuration of the external service:
     * `address` is the address where the external service can be reached.

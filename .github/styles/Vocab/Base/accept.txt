@@ -168,3 +168,13 @@ Multizone
 multizone
 VM
 VMs
+endwarning
+endif
+endif_version
+endunless
+endfor
+endcontentfor
+endcapture
+endtab
+endtabs
+endtip
