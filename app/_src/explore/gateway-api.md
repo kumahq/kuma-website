@@ -287,6 +287,10 @@ Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product
 GAMMA is a Gateway API subproject focused on mesh implementations of Gateway API
 and extending the Gateway API resources to mesh use cases.
 
+{% warning %}
+GAMMA itself as well as GAMMA in Kuma are **experimental**!
+{% endwarning %}
+
 The key feature of `HTTPRoute` for mesh routing is specifying a Kubernetes
 `Service` as the `parentRef`, as opposed to a `Gateway`.
 All requests to this `Service` are then filtered and routed as specified in the
@@ -317,6 +321,12 @@ the route to _requests from all workloads_.
 If the route's namespace differs from its `parentRef`'s namespace,
 the `HTTPRoute` applies only to requests
 _from workloads in the route's namespace_.
+
+{% warning %}
+Because of [how Kuma maps resources](#how-it-works) at the moment,
+the combination of the `HTTPRoute`s name and namespace and
+the parent `Service` name and namespace must be no more than 249 characters.
+{% endwarning %}
 
 {% endif_version %}
 
