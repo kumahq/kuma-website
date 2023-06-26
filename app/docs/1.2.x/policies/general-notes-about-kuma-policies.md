@@ -2,7 +2,7 @@
 title: General notes about Kuma policies
 ---
 
-You may have already noticed that most `Kuma` policies have very similar structure, namely
+You may have already noticed that most {{site.mesh_product_name}} policies have very similar structure, namely
 
 ```yaml
 sources:
@@ -25,7 +25,7 @@ where
 * `destinations` - a list of selectors to match those `Dataplanes` where network traffic destined at
 * `conf` - configuration to apply to network traffic between `sources` and `destinations`
 
-To keep configuration model simple and consistent, `Kuma` assumes that every `Dataplane` represents a `service`, even if it's a cron job that doesn't normally handle incoming traffic.
+To keep configuration model simple and consistent, {{site.mesh_product_name}} assumes that every `Dataplane` represents a `service`, even if it's a cron job that doesn't normally handle incoming traffic.
 
 Consequently, `service` tag is mandatory for `sources` and `destinations` selectors.
 

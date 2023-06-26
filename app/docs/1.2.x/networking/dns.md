@@ -78,7 +78,7 @@ Set the environment variable:
 ```shell
 helm install --version 0.6.3 --namespace {{site.mesh_namespace}} \
   --set controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false \
-   kuma kuma/kuma
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 {% endtab %}

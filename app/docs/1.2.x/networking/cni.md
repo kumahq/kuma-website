@@ -35,7 +35,7 @@ When using [Helm](/docs/{{ page.version }}/installation/helm), we should use the
 ```shell
 helm install --version 0.6.3 --namespace {{site.mesh_namespace}} \
   --set cni.enabled=true,cni.chained=true,cni.netDir="/etc/cni/net.d",cni.binDir=/opt/cni/bin,cni.confName=10-calico.conflist \
-   kuma kuma/kuma
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
 {% endtab %}

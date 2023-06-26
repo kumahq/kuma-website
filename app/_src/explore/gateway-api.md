@@ -43,7 +43,7 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
    The `Gateway` resource represents the proxy instance that handles traffic for a set of Gateway API routes.
 
    Every `Gateway` refers to a [`GatewayClass`](https://gateway-api.sigs.k8s.io/api-types/gatewayclass/).
-   The `GatewayClass` represents the class of `Gateway`, in this case Kuma's builtin edge
+   The `GatewayClass` represents the class of `Gateway`, in this case {{site.mesh_product_name}}'s builtin edge
    gateway, and points to a controller that should manage these `Gateways`. It can also hold
    [additional configuration](#customization).
 

@@ -98,7 +98,7 @@ By default all available metrics are returned.
 
 {% tabs override-prometheus useUrlFragment=false %}
 {% tab override-prometheus Kubernetes %}
-To override `Mesh`-wide defaults for a particular `Pod`, use `Kuma`-specific annotations:
+To override `Mesh`-wide defaults for a particular `Pod`, use {{site.mesh_product_name}}-specific annotations:
 * `prometheus.metrics.kuma.io/port` - to override `Mesh`-wide default port
 * `prometheus.metrics.kuma.io/path` - to override `Mesh`-wide default path
 

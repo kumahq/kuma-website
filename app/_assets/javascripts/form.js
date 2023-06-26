@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { ajax } from 'jquery'
 
 export default class Form {

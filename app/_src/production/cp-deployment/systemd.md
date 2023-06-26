@@ -3,21 +3,21 @@ title: Systemd
 content_type: how-to
 ---
 
-When using {{site.mesh_product_name}} on VMs it is recommended to use a process manager like systemd.
+It's recommended to use a process manager like systemd when using {{ site.mesh_product_name }} on VMs. 
 Here are examples of systemd configurations
 
 ## kuma-cp
 
-```
+```systemd
 [Unit]
-Description = Kuma Control Plane
+Description = {{ site.mesh_product_name }} Control Plane
 After = network.target
-Documentation=https://kuma.io
+Documentation = {{ site.links.web }}
 
 [Service]
-User=kuma
-Environment=KUMA_MODE=standalone
-ExecStart = /path/to/kuma/bin/kuma-cp run --config-file=/home/kuma/cp-config.yaml
+User = {{ site.mesh_product_name | downcase }}
+Environment = KUMA_MODE=standalone
+ExecStart = /home/{{ site.mesh_product_name | downcase }}/{{ site.mesh_product_name | downcase }}-{{ page.latest_version }}/bin/kuma-cp run --config-file=/home/{{ site.mesh_product_name | downcase }}/cp-config.yaml
 # if you need your Control Plane to be able to handle a non-trivial number of concurrent connections
 # (a total of both incoming and outgoing connections), you need to set proper resource limits on
 # the `kuma-cp` process, especially maximum number of open files.
@@ -27,7 +27,7 @@ ExecStart = /path/to/kuma/bin/kuma-cp run --config-file=/home/kuma/cp-config.yam
 #
 # to check effective resource limits set on a running `kuma-cp` instance, execute
 #
-#   $ cat /proc/`pgrep kuma-cp`/limits
+#   $ cat /proc/$(pgrep kuma-cp)/limits
 #
 #   Limit                     Soft Limit           Hard Limit           Units
 #   ...
@@ -36,12 +36,12 @@ ExecStart = /path/to/kuma/bin/kuma-cp run --config-file=/home/kuma/cp-config.yam
 #
 # for Kuma demo setup, we chose the same limit as `docker` and `containerd` set by default.
 # See https://github.com/containerd/containerd/issues/3201
-LimitNOFILE=1048576
-Restart=always
-RestartSec=1s
+LimitNOFILE = 1048576
+Restart = always
+RestartSec = 1s
 # disable rate limiting on start attempts
-StartLimitIntervalSec=0
-StartLimitBurst=0
+StartLimitIntervalSec = 0
+StartLimitBurst = 0
 
 [Install]
 WantedBy = multi-user.target
@@ -49,25 +49,25 @@ WantedBy = multi-user.target
 
 ## kuma-dp
 
-```
+```systemd
 [Unit]
-Description=Kuma data plane proxy
-After=network.target
-Documentation=https://kuma.io
+Description = {{ site.mesh_product_name }} Data Plane Proxy
+After = network.target
+Documentation = {{ site.links.web }}
 
 [Service]
-User=kuma
-ExecStart=/home/kuma/kong-mesh-1.9.1/bin/kuma-dp run \
+User = {{ site.mesh_product_name | downcase }}
+ExecStart = /home/{{ site.mesh_product_name | downcase }}/{{ site.mesh_product_name | downcase }}-{{ page.latest_version }}/bin/kuma-dp run \
   --cp-address=https://<kuma-cp-address>:5678 \
-  --dataplane-token-file=/home/kuma/echo-service-universal.token \
-  --dataplane-file=/home/kuma/dataplane-notransparent.yaml \
-  --ca-cert-file=/home/kuma/ca.pem
-Restart=always
-RestartSec=1s
+  --dataplane-token-file=/home/{{ site.mesh_product_name | downcase }}/echo-service-universal.token \
+  --dataplane-file=/home/{{ site.mesh_product_name | downcase }}/dataplane-notransparent.yaml \
+  --ca-cert-file=/home/{{ site.mesh_product_name | downcase }}/ca.pem
+Restart = always
+RestartSec = 1s
 # disable rate limiting on start attempts
-StartLimitIntervalSec=0
-StartLimitBurst=0
+StartLimitIntervalSec = 0
+StartLimitBurst = 0
 
 [Install]
-WantedBy=multi-user.target
+WantedBy = multi-user.target
 ```

@@ -9,20 +9,36 @@ it should not be mixed with [Timeout policy](../timeout).
 
 ## TargetRef support matrix
 
+{% if_version gte:2.3.x %}
+
 | TargetRef type    | top level | to  | from |
-| ----------------- | --------- | --- | ---- |
+|-------------------|-----------|-----|------|
+| Mesh              | ✅         | ✅   | ✅    |
+| MeshSubset        | ✅         | ❌   | ❌    |
+| MeshService       | ✅         | ✅   | ❌    |
+| MeshServiceSubset | ✅         | ❌   | ❌    |
+| MeshHTTPRoute     | ✅         | ❌   | ❌    |
+
+{% endif_version %}
+
+{% if_version lte:2.2.x %}
+
+| TargetRef type    | top level | to  | from |
+|-------------------|-----------|-----|------|
 | Mesh              | ✅         | ✅   | ✅    |
 | MeshSubset        | ✅         | ❌   | ❌    |
 | MeshService       | ✅         | ✅   | ❌    |
 | MeshServiceSubset | ✅         | ❌   | ❌    |
 
+{% endif_version %}
+
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
 ## Configuration
 
-This policy enables {{site.mesh_product_name}} to set timeouts on the inbound and outbound connections 
-depending on the protocol. Using this policy you can configure TCP and HTTP timeouts. 
-Timeout configuration is split into two sections: common configuration and HTTP configuration. 
+This policy enables {{site.mesh_product_name}} to set timeouts on the inbound and outbound connections
+depending on the protocol. Using this policy you can configure TCP and HTTP timeouts.
+Timeout configuration is split into two sections: common configuration and HTTP configuration.
 Common config is applied to both HTTP and TCP communication. HTTP timeout are only applied when
 service is marked as http. More on this in [protocol support section](../protocol-support-in-kuma).
 
@@ -43,35 +59,40 @@ Connection timeout specifies the amount of time DP will wait for a TCP connectio
 
 #### Idle timeout
 
-For TCP connections idle timeout is the amount of time that the DP will allow a connection to exist 
+For TCP connections idle timeout is the amount of time that the DP will allow a connection to exist
 with no inbound or outbound activity. On the other hand when connection in HTTP time at which a inbound
- or outbound connection will be terminated if there are no active streams
+or outbound connection will be terminated if there are no active streams
 
 #### HTTP request timeout
 
-Request timeout lets you configure how long the data plane proxy should wait for the full response. 
-In details it spans between the point at which the entire request has been processed by DP and when the response has been completely processed by DP.
+Request timeout lets you configure how long the data plane proxy should wait for the full response.
+In details it spans between the point at which the entire request has been processed by DP and when the response has
+been completely processed by DP.
 
 #### HTTP stream idle timeout
 
-Stream idle timeout is the amount of time that the data plane proxy will allow a HTTP/2 stream to exist with no inbound or outbound activity. 
-This timeout is strongly recommended for all requests (not just streaming requests/responses) as it additionally 
-defends against a peer that does not open the stream window once an entire response has been buffered to be sent to a downstream client.
+Stream idle timeout is the amount of time that the data plane proxy will allow a HTTP/2 stream to exist with no inbound
+or outbound activity.
+This timeout is strongly recommended for all requests (not just streaming requests/responses) as it additionally
+defends against a peer that does not open the stream window once an entire response has been buffered to be sent to a
+downstream client.
 
 {% tip %}
-Stream timeouts apply even when you are only using HTTP/1.1 in you services. This is because every connection between data plane proxies is upgraded to HTTP/2.
+Stream timeouts apply even when you are only using HTTP/1.1 in you services. This is because every connection between
+data plane proxies is upgraded to HTTP/2.
 {% endtip %}
 
 #### HTTP max stream duration
 
-Max stream duration is the maximum time that a stream’s lifetime will span. You can use this functionality 
+Max stream duration is the maximum time that a stream’s lifetime will span. You can use this functionality
 when you want to reset HTTP request/response streams periodically.
 
 #### HTTP max connection duration
 
-Max connection duration is the time after which an inbound or outbound connection will be drained and/or closed, 
-starting from when it was first established. If there are no active streams, the connection will be closed. 
-If there are any active streams, the drain sequence will kick-in, and the connection will be force-closed after 5 seconds.
+Max connection duration is the time after which an inbound or outbound connection will be drained and/or closed,
+starting from when it was first established. If there are no active streams, the connection will be closed.
+If there are any active streams, the drain sequence will kick-in, and the connection will be force-closed after 5
+seconds.
 
 ### Examples
 
@@ -79,35 +100,7 @@ If there are any active streams, the drain sequence will kick-in, and the connec
 
 This configuration will be applied to all data plane proxies inside of Mesh.
 
-{% tabs example1 useUrlFragment=false %}
-{% tab example1 Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: timeout-global
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-  to:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 20s
-        connectionTimeout: 2s
-        http:
-          requestTimeout: 2s
-```
-
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab example1 Universal %}
-
+{% policy_yaml example1 %}
 ```yaml
 type: MeshTimeout
 name: timeout-global
@@ -124,40 +117,11 @@ spec:
         http:
           requestTimeout: 2s
 ```
-
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Simple TCP configuration
 
-{% tabs example2 useUrlFragment=false %}
-{% tab example2 Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: tcp-timeout
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-  to:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 20s
-        connectionTimeout: 2s
-```
-
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab example2 Universal %}
-
+{% policy_yaml example2 %}
 ```yaml
 type: MeshTimeout
 name: tcp-timeout
@@ -172,45 +136,13 @@ spec:
         idleTimeout: 20s
         connectionTimeout: 2s
 ```
+{% endpolicy_yaml %}
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
-
-#### Simple configuration for inboud applied to specific service
+#### Simple configuration for inbound applied to specific service
 
 This configuration will be applied to `backend` service inbound.
 
-{% tabs example3 useUrlFragment=false %}
-{% tab example3 Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: inboud-timeout
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: backend_kuma-test_svc_80
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 60s
-        connectionTimeout: 1s
-        http:
-          requestTimeout: 5s
-```
-
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab example3 Universal %}
-
+{% policy_yaml example3 %}
 ```yaml
 type: MeshTimeout
 name: inboud-timeout
@@ -226,61 +158,14 @@ spec:
         idleTimeout: 20s
         connectionTimeout: 2s
 ```
-
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Full config applied to inbound and outboud of specific service
 
-This timeout configuration will be applied to all inbound connections to `frontend` and outbound connections from `frontend` to `backend` service 
+This timeout configuration will be applied to all inbound connections to `frontend` and outbound connections
+from `frontend` to `backend` service
 
-{% tabs example4 useUrlFragment=false %}
-{% tab example4 Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: inboud-timeout
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: fontend_kuma-test_svc_80
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 60s
-        connectionTimeout: 2s
-        http:
-          requestTimeout: 10s
-          streamIdleTimeout: 1h
-          maxStreamDuration: 30m
-          maxConnectionDuration: 30m
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend_kuma-test_svc_80
-      default:
-        idleTimeout: 60s
-        connectionTimeout: 1s
-        http:
-          requestTimeout: 5s
-          streamIdleTimeout: 1h
-          maxStreamDuration: 30m
-          maxConnectionDuration: 30m
-
-```
-
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab example4 Universal %}
-
+{% policy_yaml example4 %}
 ```yaml
 type: MeshTimeout
 name: inboud-timeout
@@ -313,15 +198,64 @@ spec:
           maxStreamDuration: 30m
           maxConnectionDuration: 30m
 ```
+{% endpolicy_yaml %}
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% if_version gte:2.3.x %}
+#### Target `MeshHTTPRoute`
+
+Timeouts like `http.requestTimeout` and `http.streamIdleTimeout` are configurable per route.
+If a `MeshHTTPRoute` creates routes on the outbound listener of the service then `MeshTimeout` policy can configure timeouts on these routes.
+
+In the following example the `MeshHTTPRoute` policy `route-to-backend-v2` redirects all requests to `/v2*` to `backend` instances with `version: v2` tag.
+`MeshTimeout` `backend-v2` configures timeouts only for requests that are going through `route-to-backend-v2` route. 
+
+{% policy_yaml example5 %}
+```yaml
+type: MeshHTTPRoute
+name: route-to-backend-v2
+mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name: frontend_kuma-demo_svc_8080
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend_kuma-demo_svc_3001
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /v2
+          default:
+            backendRef:
+              - kind: MeshServiceSubset
+                name: backend_kuma-demo_svc_3001
+                tags:
+                  version: v2
+---
+type: MeshTimeout
+name: backend-v2
+mesh: default
+spec:
+  targetRef:
+    kind: MeshHTTPRoute
+    name: route-to-backend-v2
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        http:
+          requestTimeout: 5s
+          streamIdleTimeout: 1h
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Defaults
 
 | Property                   | default |
-| -------------------------- | ------- |
+|----------------------------|---------|
 | idleTimeout                | 1h      |
 | connectionTimeout          | 5s      |
 | http.requestTimeout        | 15s     |
@@ -330,7 +264,8 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 | http.maxConnectionDuration | 0s      |
 
 {% if_version eq:2.1.x %}
-If you don't specify `from` or `to` section defaults from [Timeout policy](../timeout) will be used. This is [known bug](https://github.com/kumahq/kuma/issues/5850) and will be fixed in the next version.
+If you don't specify a `from` or `to` section , the defaults from [`Timeout`](../timeout) will be used. This
+is [a known bug](https://github.com/kumahq/kuma/issues/5850) and is fixed in the next version.
 {% endif_version %}
 
 ## All policy options
