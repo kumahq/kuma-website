@@ -145,7 +145,36 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
   --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
   --set "{{set_flag_values_prefix}}cni.confName=10-azure.conflist" \
-  --set "{{set_flag_values_prefix}}runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6=0" # EKS does not have ipv6 enabled by default
+   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+```
+
+{% endtab %}
+{% endtabs %}
+{% endtab %}
+
+{% tab installation Azure Overlay %}
+{% tabs azure useUrlFragment=false %}
+{% tab azure kumactl %}
+
+```shell
+kumactl install control-plane \
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=15-azure-swift-overlay.conflist"
+```
+
+{% endtab %}
+{% tab azure Helm %}
+
+```shell
+helm install --create-namespace --namespace {{site.mesh_namespace}} \
+  --set "{{set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{set_flag_values_prefix}}cni.chained=true" \
+  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{set_flag_values_prefix}}cni.confName=15-azure-swift-overlay.conflist" \
    {{mesh_helm_install_name}} {{mesh_helm_repo}}
 ```
 
