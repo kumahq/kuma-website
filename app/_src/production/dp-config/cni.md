@@ -153,8 +153,8 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 {% endtab %}
 
 {% tab installation Azure Overlay %}
-{% tabs azure useUrlFragment=false %}
-{% tab azure kumactl %}
+{% tabs azure_overlay useUrlFragment=false %}
+{% tab azure_overlay kumactl %}
 
 ```shell
 kumactl install control-plane \
@@ -166,7 +166,7 @@ kumactl install control-plane \
 ```
 
 {% endtab %}
-{% tab azure Helm %}
+{% tab azure_overlay Helm %}
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
