@@ -65,6 +65,7 @@
   releaseDate: "2023-06-23"
   endOfLifeDate: "2024-06-23"
   branch: release-2.3
+  latest: true
 - edition: kuma
   version: preview
   release: dev
