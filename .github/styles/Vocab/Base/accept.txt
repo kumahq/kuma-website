@@ -1,5 +1,7 @@
 [Kk]ong
 [kK]ubernetes
+[Kk]uma
+[Mm]erbridge
 [Mm]ultizone
 Alertmanager
 allowlist
@@ -8,6 +10,7 @@ api|API
 auth[nz]
 autogenerate[ds]?
 aws|AWS
+azure_overlay
 backport
 Bagdi
 Bintray
@@ -15,6 +18,7 @@ Bitnami
 blockquotes?
 boolean
 CloudFormation
+CNI
 Cognito
 configs?
 conntrack
@@ -31,6 +35,8 @@ degraphql
 denylist
 dev
 DNS
+eBPF
+EKS
 endcapture
 endcontentfor
 endfor
@@ -44,6 +50,7 @@ Fargate
 GAMMA
 Gateway API
 GitHub
+GKE
 Goroutine
 Grafana
 grpcs?
@@ -70,7 +77,6 @@ Knative
 Konnect
 kubeconfig
 kubectl
-Kuma
 kumactl
 kustomization
 Kustomize
@@ -83,6 +89,8 @@ minikube
 Mockbin
 Moesif
 MongoDB
+Multus
+NAD
 namespace[sd]?
 navtabs
 Netlify
