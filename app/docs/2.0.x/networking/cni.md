@@ -52,7 +52,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.netDir=/etc/cni/net.d" \
   --set "cni.binDir=/opt/cni/bin" \
   --set "cni.confName=10-calico.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -82,7 +82,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
   --set "cni.binDir=/bin" \
   --set "cni.confName=10-flannel.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -112,7 +112,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.netDir=/etc/cni/net.d" \
   --set "cni.binDir=/opt/cni/bin" \
   --set "cni.confName=10-kindnet.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -142,7 +142,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.netDir=/etc/cni/net.d" \
   --set "cni.binDir=/opt/cni/bin" \
   --set "cni.confName=10-azure.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -172,7 +172,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.netDir=/etc/cni/net.d" \
   --set "cni.binDir=/opt/cni/bin" \
   --set "cni.confName=10-aws.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -205,7 +205,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.netDir=/etc/cni/net.d" \
   --set "cni.binDir=/home/kubernetes/bin" \
   --set "cni.confName=10-calico.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -239,7 +239,7 @@ kumactl install control-plane \
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.enabled=true" \
   --set "cni.containerSecurityContext.privileged=true" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -262,7 +262,7 @@ kumactl install control-plane \
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
   --set "cni.enabled=true" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}

@@ -38,11 +38,11 @@ Below are the details of how to set up {{site.mesh_product_name}} CNI in differe
 
 ```shell
 kumactl install control-plane \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-calico.conflist"
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-calico.conflist"
 ```
 
 {% endtab %}
@@ -50,12 +50,12 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-calico.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-calico.conflist" \
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -68,11 +68,11 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-flannel.conflist"
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-flannel.conflist"
 ```
 
 {% endtab %}
@@ -80,12 +80,12 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-flannel.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-flannel.conflist" \
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -98,11 +98,11 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-kindnet.conflist"
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-kindnet.conflist"
 ```
 
 {% endtab %}
@@ -110,12 +110,12 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-kindnet.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-kindnet.conflist" \
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -128,11 +128,11 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-azure.conflist"
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-azure.conflist"
 ```
 
 {% endtab %}
@@ -140,12 +140,12 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-azure.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-azure.conflist" \
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -158,11 +158,11 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=15-azure-swift-overlay.conflist"
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=15-azure-swift-overlay.conflist"
 ```
 
 {% endtab %}
@@ -170,12 +170,12 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=15-azure-swift-overlay.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=15-azure-swift-overlay.conflist" \
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -188,12 +188,12 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-aws.conflist" \
-  --set "{{set_flag_values_prefix}}runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6=0" # EKS does not have ipv6 enabled by default
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-aws.conflist" \
+  --set "{{site.set_flag_values_prefix}}runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6=0" # EKS does not have ipv6 enabled by default
 ```
 
 {% endtab %}
@@ -201,12 +201,12 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-aws.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-aws.conflist" \
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -222,11 +222,11 @@ You need to [enable network-policy](https://cloud.google.com/kubernetes-engine/d
 
 ```shell
 kumactl install control-plane \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/home/kubernetes/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-calico.conflist"
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/home/kubernetes/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-calico.conflist"
 ```
 
 {% endtab %}
@@ -234,12 +234,12 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.chained=true" \
-  --set "{{set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{set_flag_values_prefix}}cni.binDir=/home/kubernetes/bin" \
-  --set "{{set_flag_values_prefix}}cni.confName=10-calico.conflist" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/home/kubernetes/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=10-calico.conflist" \
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -262,8 +262,8 @@ oc adm policy add-scc-to-user privileged -z kuma-cni -n kube-system
 
 ```shell
 kumactl install control-plane \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.containerSecurityContext.privileged=true"
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.containerSecurityContext.privileged=true"
 ```
 
 {% endtab %}
@@ -271,9 +271,9 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{set_flag_values_prefix}}cni.containerSecurityContext.privileged=true" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.containerSecurityContext.privileged=true" \
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -287,7 +287,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 
 ```shell
 kumactl install control-plane \
-  --set "{{set_flag_values_prefix}}cni.enabled=true"
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true"
 ```
 
 {% endtab %}
@@ -295,8 +295,8 @@ kumactl install control-plane \
 
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{set_flag_values_prefix}}cni.enabled=true" \
-   {{mesh_helm_install_name}} {{mesh_helm_repo}}
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 {% endtab %}
@@ -317,8 +317,8 @@ To install v2 CNI append the following options to the command from [installation
 
 ```
 --set ... \
---set "{{set_flag_values_prefix}}cni.enabled=true" \
---set "{{set_flag_values_prefix}}experimental.cni=true"
+--set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+--set "{{site.set_flag_values_prefix}}experimental.cni=true"
 ```
 
 Currently, the v2 CNI is behind an `experimental` flag, but it's intended to be the default CNI in future releases.
@@ -350,8 +350,8 @@ and have `cgroup2` available
 
 ```
 --set ... \
---set "{{set_flag_values_prefix}}cni.enabled=true" \
---set "{{set_flag_values_prefix}}experimental.ebpf.enabled=true"
+--set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+--set "{{site.set_flag_values_prefix}}experimental.ebpf.enabled=true"
 ```
 
 ### Merbridge CNI with eBPF Logs
