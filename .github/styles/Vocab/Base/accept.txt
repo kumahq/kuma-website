@@ -10,7 +10,6 @@ api|API
 auth[nz]
 autogenerate[ds]?
 aws|AWS
-azure_overlay
 backport
 Bagdi
 Bintray
@@ -36,7 +35,7 @@ denylist
 dev
 DNS
 eBPF
-EKS
+eks|EKS
 endcapture
 endcontentfor
 endfor
@@ -50,7 +49,7 @@ Fargate
 GAMMA
 Gateway API
 GitHub
-GKE
+gke|GKE
 Goroutine
 Grafana
 grpcs?
