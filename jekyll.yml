@@ -81,7 +81,7 @@ mesh_cp_name: kuma-control-plane
 # It's useful for projects based on Kuma, which expects Kuma options
 # to be prefixed with for example "kuma."
 # kumactl install control-plane \
-#   --set "{{set_flag_values_prefix}}experimental.ebpf.enabled=true"
+#   --set "{{site.set_flag_values_prefix}}experimental.ebpf.enabled=true"
 set_flag_values_prefix: ""
 
 # Helm commands

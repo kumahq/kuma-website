@@ -38,7 +38,7 @@ In some cases you might not want to use IPv6 at all.
 {% tabs disabling useUrlFragment=false %}
 {% tab disabling Kubernetes %}
 To turn it off for all workloads set either:
-- `{{set_flag_values_prefix}}runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6` to 0
+- `{{site.set_flag_values_prefix}}runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6` to 0
 - the environment variable: `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_REDIRECT_PORT_INBOUND_V6=0`
 
 To turn it off for a specific pod add the annotation `kuma.io/transparent-proxying-inbound-v6-port: "0"`.

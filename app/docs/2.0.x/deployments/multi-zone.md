@@ -127,7 +127,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
 1.  Set the `controlPlane.mode` value to `global` in the chart (`values.yaml`), then install. On the command line, run:
 
     ```sh
-    helm install {{ site.mesh_helm_install_name }} --create-namespace --namespace {{site.mesh_namespace}} --set {{set_flag_values_prefix}}controlPlane.mode=global {{ site.mesh_helm_repo }}
+    helm install {{ site.mesh_helm_install_name }} --create-namespace --namespace {{site.mesh_namespace}} --set {{site.set_flag_values_prefix}}controlPlane.mode=global {{ site.mesh_helm_repo }}
     ```
 
     Or you can edit the chart and pass the file to the `helm install {{ site.mesh_helm_install_name }}` command. To get the default values, run:
@@ -209,10 +209,10 @@ You need the following values to pass to each zone control plane setup:
     helm install {{ site.mesh_helm_install_name }} \
     --create-namespace \
     --namespace {{site.mesh_namespace}} \
-    --set {{set_flag_values_prefix}}controlPlane.mode=zone \
-    --set {{set_flag_values_prefix}}controlPlane.zone=<zone-name> \
-    --set {{set_flag_values_prefix}}ingress.enabled=true \
-    --set {{set_flag_values_prefix}}controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 {{ site.mesh_helm_repo }}
+    --set {{site.set_flag_values_prefix}}controlPlane.mode=zone \
+    --set {{site.set_flag_values_prefix}}controlPlane.zone=<zone-name> \
+    --set {{site.set_flag_values_prefix}}ingress.enabled=true \
+    --set {{site.set_flag_values_prefix}}controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 {{ site.mesh_helm_repo }}
     ```
 
     where `controlPlane.zone` is the same value for all zone control planes in the same zone.
@@ -225,11 +225,11 @@ You need the following values to pass to each zone control plane setup:
     helm install {{ site.mesh_helm_install_name }} \
     --create-namespace \
     --namespace {{site.mesh_namespace}} \
-    --set {{set_flag_values_prefix}}controlPlane.mode=zone \
-    --set {{set_flag_values_prefix}}controlPlane.zone=<zone-name> \
-    --set {{set_flag_values_prefix}}ingress.enabled=true \
-    --set {{set_flag_values_prefix}}egress.enabled=true \
-    --set {{set_flag_values_prefix}}controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 {{ site.mesh_helm_repo }}
+    --set {{site.set_flag_values_prefix}}controlPlane.mode=zone \
+    --set {{site.set_flag_values_prefix}}controlPlane.zone=<zone-name> \
+    --set {{site.set_flag_values_prefix}}ingress.enabled=true \
+    --set {{site.set_flag_values_prefix}}egress.enabled=true \
+    --set {{site.set_flag_values_prefix}}controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 {{ site.mesh_helm_repo }}
     ```
 
     where `controlPlane.zone` is the same value for all zone control planes in the same zone.

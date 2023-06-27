@@ -34,7 +34,7 @@ Zone Ingress without `advertisedAddress` and `advertisedPort` is not taken into 
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
-To install `ZoneIngress` in Kubernetes when doing `kumactl install control-plane` use the `--ingress-enabled`. If using helm add `{{set_flag_values_prefix}}ingress.enabled: true` to your `values.yaml`.
+To install `ZoneIngress` in Kubernetes when doing `kumactl install control-plane` use the `--ingress-enabled`. If using helm add `{{site.set_flag_values_prefix}}ingress.enabled: true` to your `values.yaml`.
 
 {{site.mesh_product_name}} will set `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this Zone Ingress.
 

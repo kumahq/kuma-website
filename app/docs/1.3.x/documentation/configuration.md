@@ -29,7 +29,7 @@ If you install the control plane with HELM, you can override the configuration w
 helm install --version 0.7.1 \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
   --set controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s \
-  {{mesh_helm_install_name}} {{mesh_helm_repo}}
+  {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 Or you can edit the `Values.yaml` file:
@@ -39,7 +39,7 @@ controlPlane:
   envVars:
     KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL: 5s
     KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL: 5s
-helm install --version 0.7.1 -f Values.yaml {{mesh_helm_install_name}} {{mesh_helm_repo}}
+helm install --version 0.7.1 -f Values.yaml {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 {% endtab %}
 {% tab control-plane Universal %}

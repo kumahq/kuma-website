@@ -31,7 +31,7 @@ Once the repo is added, all following updates can be fetched with `helm repo upd
 At this point we can install and run {{site.mesh_product_name}} using the following commands. We could use any Kubernetes namespace to install {{site.mesh_product_name}}, by default we suggest using `{{site.mesh_namespace}}`:
 
 ```sh
-helm install --create-namespace --namespace {{site.mesh_namespace}} {{mesh_helm_install_name}} {{mesh_helm_repo}}
+helm install --create-namespace --namespace {{site.mesh_namespace}} {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
 This example will run {{site.mesh_product_name}} in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/introduction/deployments) like "multi-zone".

@@ -43,7 +43,7 @@ The `ZoneEgress` entity includes a few sections:
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
-To install `ZoneEgress` in Kubernetes when doing `kumactl install control-plane` use the `--egress-enabled`. If using helm add `{{set_flag_values_prefix}}egress.enabled: true` to your `values.yaml`.
+To install `ZoneEgress` in Kubernetes when doing `kumactl install control-plane` use the `--egress-enabled`. If using helm add `{{site.set_flag_values_prefix}}egress.enabled: true` to your `values.yaml`.
 
 {% endtab %}
 {% tab usage Universal %}

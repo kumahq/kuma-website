@@ -23,7 +23,7 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
 2. Enable Gateway API support.
 
    - With `kumactl`, use the `--experimental-gatewayapi` flag.
-   - With Helm, use the `{{set_flag_values_prefix}}experimental.gatewayAPI=true` value.
+   - With Helm, use the `{{site.set_flag_values_prefix}}experimental.gatewayAPI=true` value.
 
 {% if_version lte:2.2.x %}
 ## Usage
