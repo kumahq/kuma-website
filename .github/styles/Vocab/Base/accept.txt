@@ -35,7 +35,7 @@ denylist
 dev
 DNS
 eBPF
-eks|EKS
+EKS|eks
 endcapture
 endcontentfor
 endfor
