@@ -17,7 +17,7 @@ Bitnami
 blockquotes?
 boolean
 CloudFormation
-CNI
+cni|CNI
 Cognito
 configs?
 conntrack
