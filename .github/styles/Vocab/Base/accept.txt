@@ -1,15 +1,15 @@
 [Kk]ong
-[kK]ubernetes
+[Kk]ubernetes
 [Kk]uma
 [Mm]erbridge
 [Mm]ultizone
 Alertmanager
 allowlist
 anonymized
-api|API
+API|api
 auth[nz]
 autogenerate[ds]?
-aws|AWS
+AWS|aws
 backport
 Bagdi
 Bintray
@@ -17,7 +17,7 @@ Bitnami
 blockquotes?
 boolean
 CloudFormation
-cni|CNI
+CNI|cni
 Cognito
 configs?
 conntrack
@@ -49,7 +49,7 @@ Fargate
 GAMMA
 Gateway API
 GitHub
-gke|GKE
+GKE|gke
 Goroutine
 Grafana
 grpcs?
