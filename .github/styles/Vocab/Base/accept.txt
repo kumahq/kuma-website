@@ -142,8 +142,7 @@ urls?
 uuid
 Valero
 validators?
-VM
-VMs
+VMs?
 Vuejs
 websockets?
 wireframes?
