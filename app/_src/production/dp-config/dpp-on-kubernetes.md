@@ -450,6 +450,10 @@ spec:
         ...
 ```
 
+{% tip %}
+**Note**: When using direct access with [headless service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services), destination service will be accessible at: `{{site.mesh_product_name}}-service.pod-name.mesh`
+{% endtip %}
+
 We can also use `*` to indicate direct access to every service in the Mesh:
 
 ```yaml
