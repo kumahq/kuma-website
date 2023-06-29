@@ -28,6 +28,7 @@
               "enum": [
                 "Mesh",
                 "MeshSubset",
+                "MeshGateway",
                 "MeshService",
                 "MeshServiceSubset",
                 "MeshHTTPRoute"
@@ -257,6 +258,7 @@
                     "enum": [
                       "Mesh",
                       "MeshSubset",
+                      "MeshGateway",
                       "MeshService",
                       "MeshServiceSubset",
                       "MeshHTTPRoute"
