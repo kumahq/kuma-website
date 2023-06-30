@@ -403,7 +403,7 @@ but your workload will be annotated with its own list of patches (i.e.
 `["pod-patch-1", "pod-patch-2]`) only the latter will be applied. 
 {% endtip %}
 
-#### Example
+To install a CP with env vars you can do:
 
 ```shell
 kumactl install control-plane --env-var "KUMA_RUNTIME_KUBERNETES_INJECTOR_CONTAINER_PATCHES=patch1,patch2"
@@ -417,6 +417,10 @@ a sane configuration.
 
 If a workload refers to a `ContainerPatch` which does not exist, the injection
 will explicitly fail and log the failure.
+
+### Schema
+
+{% json_schema kuma.io_containerpatches type=crd %}
 
 ## Direct access to services
 

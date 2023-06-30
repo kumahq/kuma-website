@@ -219,3 +219,7 @@ since it has a high likelihood of yielding connection leaks.
 When [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) is activated 
 any non-mesh traffic is passing Envoy without applying the Timeout policies. 
 Read more about [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#timeouts).
+
+## All options
+
+{% json_schema Timeout type=proto %}

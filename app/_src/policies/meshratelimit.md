@@ -185,4 +185,4 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 ## All policy options
 
-{% policy_schema MeshRateLimit %}
+{% json_schema MeshRateLimits %}

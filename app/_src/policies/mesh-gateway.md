@@ -232,3 +232,7 @@ EOF
 ```
 {% endtab %}
 {% endtabs %}
+
+## All options
+
+{% json_schema MeshGateway type=proto %}

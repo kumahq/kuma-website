@@ -481,4 +481,4 @@ rules:
 
 ## All policy options
 
-{% policy_schema MeshHTTPRoute %}
+{% json_schema MeshHttpRoutes %}
