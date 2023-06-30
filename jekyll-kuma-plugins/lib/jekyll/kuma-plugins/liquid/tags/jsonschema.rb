@@ -20,7 +20,7 @@ module Jekyll
           def render(context)
             release = context.registers[:page]['release']
             base_path = context.registers[:site].config.fetch('mesh_raw_generated_path', 'app/docs')
-            data = @type.load("#{base_path}/#{release}/generated/raw")
+            data = @type.load("#{base_path}/#{release}")
 
             <<~TIP
               <div id='markdown_html'></div>

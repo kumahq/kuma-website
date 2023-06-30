@@ -22,8 +22,7 @@ items:
       - text: Kuma requirements
         url: /introduction/kuma-requirements/
       - text: Release notes
-        absolute_url: true
-        url: https://github.com/kumahq/kuma/blob/master/CHANGELOG.md
+        url: /introduction/changelog/
   - title: Kuma in Production
     group: true
     items:

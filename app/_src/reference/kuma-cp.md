@@ -4,10 +4,10 @@ title: kuma-cp configuration reference
 
 ## Kuma CP configuration
 ```yaml
-{% embed_versioned kuma-cp.yaml %}
+{% embed kuma-cp.yaml versioned %}
 ```
 
 ## Helm values.yaml
 ```yaml
-{% embed_versioned helm-values.yaml %}
+{% embed helm-values.yaml versioned %}
 ```
