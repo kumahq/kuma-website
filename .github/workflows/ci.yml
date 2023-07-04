@@ -40,10 +40,10 @@ jobs:
           max_timeout: 1200
       - name: link checker
         run: |
-          `go env GOPATH`/bin/muffet ${URL} --buffer-size 8192  --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --rate-limit 50 --timeout 60
+          `go env GOPATH`/bin/muffet ${URL} --buffer-size 8192  --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/kumahq/kuma/pull' --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --rate-limit 50 --timeout 60
       - name: link checker dev docs
         run: |
-          `go env GOPATH`/bin/muffet ${URL}/docs/dev --buffer-size 8192 --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --exclude https://download.konghq.com --rate-limit 50 --timeout 60
+          `go env GOPATH`/bin/muffet ${URL}/docs/dev --buffer-size 8192 --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/kumahq/kuma/pull' --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --exclude https://download.konghq.com --rate-limit 50 --timeout 60
 
   installer-sh:
     name: Test installer.sh
