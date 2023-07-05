@@ -120,6 +120,6 @@ spec:
 
 {% endif_version %}
 
-## schema
+## Schema
 
 {% json_schema kuma.io_meshgatewayinstances type=crd %}

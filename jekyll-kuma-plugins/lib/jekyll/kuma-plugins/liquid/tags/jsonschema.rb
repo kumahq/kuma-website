@@ -23,11 +23,11 @@ module Jekyll
             data = @type.load("#{base_path}/#{release}")
 
             <<~TIP
-              <div id='markdown_html'></div>
+              <div id="markdown_html"></div>
 
               <script type="text/javascript">
               const data = #{JSON.dump(data)};
-              document.addEventListener("DOMContentLoaded", function(){
+              document.addEventListener("DOMContentLoaded", function() {
                 // create an instance of JSONSchemaMarkdown
                 const Doccer = new JSONSchemaMarkdown();
 
@@ -40,7 +40,7 @@ module Jekyll
                 const converter = new showdown.Converter();
 
                 // use the converter to make html from the markdown
-                document.getElementById('markdown_html').innerHTML = converter.makeHtml(Doccer.markdown);
+                document.getElementById("markdown_html").innerHTML = converter.makeHtml(Doccer.markdown);
               });
               </script>
             TIP
