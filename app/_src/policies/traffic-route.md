@@ -597,3 +597,7 @@ There are different load balancing algorithms that can be used to determine how 
   loadBalancer:
     maglev: {}
   ```
+
+## All options
+
+{% json_schema TrafficRoute type=proto %}

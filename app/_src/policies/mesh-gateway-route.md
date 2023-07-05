@@ -105,3 +105,7 @@ For example, the following filters match `/prefix`, trim it from the path and se
 ## Reference
 
 The reference doc contains all options on [`MeshGatewayRoute`](/docs/{{ page.version }}/generated/resources/policy_meshgatewayroute).
+
+## All options
+
+{% json_schema MeshGatewayRoute type=proto %}

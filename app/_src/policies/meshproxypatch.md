@@ -1582,4 +1582,4 @@ spec:
 
 ## All policy options
 
-{% policy_schema MeshProxyPatch %}
+{% json_schema MeshProxyPatches %}

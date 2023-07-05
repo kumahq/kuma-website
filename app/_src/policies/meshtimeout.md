@@ -270,4 +270,4 @@ is [a known bug](https://github.com/kumahq/kuma/issues/5850) and is fixed in the
 
 ## All policy options
 
-{% policy_schema MeshTimeout %}
+{% json_schema MeshTimeouts %}

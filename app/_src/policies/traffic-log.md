@@ -240,3 +240,6 @@ If you need an access log with entries in `JSON` format, you have to provide a t
   "bytes_sent":          "%BYTES_SENT%"
 }
 ```
+## All policy options
+
+{% json_schema TrafficLog type=proto %}

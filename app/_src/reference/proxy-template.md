@@ -900,3 +900,7 @@ conf:
 The Proxy Template policy supports a new `gateway-proxy` configuration name that can be imported.
 This generates the Envoy resources for a {{site.mesh_product_name}} Gateway proxy.
 The origin name for matching template modifications is `gateway`.
+
+## Schema
+
+{% json_schema ProxyTemplate type=proto %}

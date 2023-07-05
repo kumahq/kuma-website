@@ -273,3 +273,7 @@ conf:
 {% endraw %}
 {% endtab %}
 {% endtabs %}
+
+## All options
+
+{% json_schema VirtualOutbound type=proto %}
