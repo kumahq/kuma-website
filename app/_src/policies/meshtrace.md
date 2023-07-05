@@ -960,4 +960,4 @@ spec:
 
 ## All policy options
 
-{% policy_schema MeshTrace %}
+{% json_schema MeshTraces %}

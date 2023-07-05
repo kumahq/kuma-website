@@ -242,3 +242,7 @@ The only supported value for `destinations.match` is `kuma.io/service`.
 ## Builtin Gateway support
 
 Retries can be configured on each route by matching the `Retry` connection policy to the backend destination tags.
+
+## All options
+
+{% json_schema Retry type=proto %}

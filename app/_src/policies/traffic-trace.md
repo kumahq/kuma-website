@@ -179,3 +179,7 @@ You can also add tags to apply the `TrafficTrace` resource only a subset of data
 While most commonly we want all the traces to be sent to the same tracing backend, we can optionally create multiple tracing backends in a `Mesh` resource and store traces for different paths of our service traffic in different backends by leveraging {{site.mesh_product_name}} tags.
 This is especially useful when we want traces to never leave a world region, or a cloud, for example.
 {% endtip %}
+
+## All options
+
+{% json_schema TrafficTrace type=proto %}

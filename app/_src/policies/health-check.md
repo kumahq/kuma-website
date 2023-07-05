@@ -152,3 +152,7 @@ HTTP health checks are executed using HTTP 2
 
 `HealthCheck` is an [Outbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
 The only supported value for `destinations.match` is `kuma.io/service`.
+
+## All options
+
+{% json_schema HealthCheck type=proto %}

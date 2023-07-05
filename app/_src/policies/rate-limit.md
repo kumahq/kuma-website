@@ -167,3 +167,7 @@ When applied to an [ExternalService](/docs/{{ page.version }}/policies/external-
 
 {{site.mesh_product_name}} Gateway supports the `RateLimit` connection policy.
 Rate limits are configured on each Envoy route by selecting the best Rate Limit policy that matches the source and destination.
+
+## All options
+
+{% json_schema RateLimit type=proto %}

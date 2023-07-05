@@ -249,4 +249,4 @@ Depending on the `backend`'s protocol:
  
 ## All policy configuration settings
 
-{% policy_schema MeshTCPRoute %}
+{% json_schema MeshTCPRoutes %}

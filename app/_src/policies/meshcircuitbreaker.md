@@ -506,4 +506,4 @@ spec:
 
 ## All policy options
 
-{% policy_schema MeshCircuitBreaker %}
+{% json_schema MeshCircuitBreakers %}

@@ -148,3 +148,7 @@ destinations:
 {% endtabs %}
 
 Remember, the `ExternalService` follows [the same rules](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply) for matching policies as any other service in the mesh -- {{site.mesh_product_name}} selects the most specific `TrafficPermission` for every `ExternalService`.
+
+## All options
+
+{% json_schema TrafficPermission type=proto %}
