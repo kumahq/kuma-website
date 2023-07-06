@@ -31,6 +31,11 @@ This `Deployment` deploys 2 replicas of `kuma-dp` and corresponding builtin gate
 The control plane also creates a new `Service` to send network traffic to the builtin `Dataplane` pods.
 The `Service` is of type `LoadBalancer`, and its ports are automatically adjusted to match the listeners on the corresponding `MeshGateway`.
 
+{% tip %}
+If you're not using the `default` `Mesh`, you'll need to _label_ the
+`MeshGatewayInstance` using `kuma.io/mesh`.
+{% endtip %}
+
 ## Customization
 
 {% if_version lte:2.1.x %}
@@ -115,6 +120,6 @@ spec:
 
 {% endif_version %}
 
-## `.spec` schema
+## Schema
 
-{% policy_schema MeshGatewayInstance %}
+{% json_schema kuma.io_meshgatewayinstances type=crd %}

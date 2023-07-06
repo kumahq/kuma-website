@@ -296,4 +296,4 @@ HTTP health checks are executed using HTTP2
 
 ## All policy options
 
-{% policy_schema MeshHealthCheck %}
+{% json_schema MeshHealthChecks %}

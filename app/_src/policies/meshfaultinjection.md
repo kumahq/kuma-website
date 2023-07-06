@@ -264,4 +264,4 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 
 ## All policy options
 
-{% policy_schema MeshFaultInjection %}
+{% json_schema MeshFaultInjections %}

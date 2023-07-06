@@ -109,3 +109,7 @@ ResponseBandwidth defines a configuration to limit the speed of responding to th
 
 `FaultInjection` is an [Inbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply#outbound-connection-policy).
 You can use all the tags in both `sources` and `destinations` sections.
+
+## All options
+
+{% json_schema FaultInjection type=proto %}
