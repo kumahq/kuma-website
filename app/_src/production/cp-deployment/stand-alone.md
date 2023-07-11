@@ -27,7 +27,7 @@ kuma-cp run
 
 **With zone egress**:
 
-`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment {% if_version lte:2.1.x %}[follow the instruction](/docs/{{ page.version }}/explore/zoneegress#zone-egress){% endif_version %}{% if_version gte:2.2.x %}[follow the instruction](/docs/{{ page.version }}/production/cp-deployment/zoneegress/#zone-egress){% endif_version %}.
+`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment {% if_version lte:2.1.x %}[follow the instruction](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[follow the instruction](/docs/{{ page.version }}/production/cp-deployment/zoneegress){% endif_version %}.
 
 {% endtab %}
 {% endtabs %}

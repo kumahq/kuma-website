@@ -14,7 +14,7 @@ Deploying {{site.mesh_product_name}} to a production environment involves the fo
 1. [Install `kumactl`](#kumactl).
 1. [Deploy the control plane](#control-plane-and-data-plane-architecture).
 1. [Configure the data plane](#control-plane-and-data-plane-architecture).
-1. [Configure security features for {{site.mesh_product_name}}](#kuma-security).
+1. [Configure security features for {{site.mesh_product_name}}](#security).
 
 ### Deployment topologies
 
@@ -47,7 +47,7 @@ Once `kumactl` is installed, you can use it to configure the control plane and d
 
 You can either configure a [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone/) or [standalone](/docs/{{ page.version }}/production/cp-deployment/stand-alone/) control plane, depending on your organization's needs. You can deploy either a [Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/) or [Universal](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/) data plane.
 
-### {{site.mesh_product_name}} security
+### Security
 
 {{site.mesh_product_name}} offers many security features that you can use to ensure your service mesh is safe.
 

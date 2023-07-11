@@ -179,7 +179,7 @@ spec:
                   name: x-header
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -232,7 +232,7 @@ spec:
           disabled: true
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}

@@ -4,7 +4,7 @@ title: MeshCircuitBreaker (beta)
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state, it should not be mixed
-with [CircuitBreaker](../circuit-breaker).
+with [CircuitBreaker](/docs/{{ page.version }}/policies/circuit-breaker).
 {% endwarning %}
 
 This policy will look for errors in the live traffic being exchanged between our data plane proxies. It will mark a data
@@ -65,7 +65,7 @@ To learn more about the information in this table, see the [matching docs](/docs
 
 ### Outlier detection
 
-Outlier detection can be configured for [HTTP, TCP or gRPC](/docs/{{ page.version }}/policies/protocol-support-in-kuma/#protocol-support-in-kuma) traffic.
+Outlier detection can be configured for [HTTP, TCP or gRPC](/docs/{{ page.version }}/policies/protocol-support-in-kuma) traffic.
 
 {% warning %}
 For **gRPC** requests, the outlier detection will use the HTTP status mapped from the `grpc-status` response header.
@@ -138,7 +138,7 @@ Split Mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is equal 
 
 This detection type takes into account only externally originated (transaction) errors, ignoring locally originated ones.
 
-[**HTTP**](/docs/{{ page.version }}/policies/protocol-support-in-kuma/#protocol-support-in-kuma)
+[**HTTP**](/docs/{{ page.version }}/policies/protocol-support-in-kuma)
 
 If an upstream host is an HTTP-server, only 5xx types of error are taken into account (see Consecutive Gateway Failure for exceptions).
 

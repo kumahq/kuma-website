@@ -4,7 +4,7 @@ title: How Kuma chooses the right policy to apply
 
 {% tip %}
 This only applies to source/destination policies. 
-If you are unfamiliar with these, checkout [introduction to policies](../introduction).
+If you are unfamiliar with these, checkout [introduction to policies](/docs/{{ page.version }}/policies/introduction).
 {% endtip %}
 
 At any single moment, there might be multiple policies (of the same type) that match a connection between `sources` and `destinations` `Dataplane`s.
