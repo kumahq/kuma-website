@@ -73,6 +73,7 @@ include:
   - robots.txt
 
 mesh_product_name: Kuma
+mesh_product_name_path: kuma
 mesh_namespace: kuma-system
 mesh_cp_name: kuma-control-plane
 # Product name variables

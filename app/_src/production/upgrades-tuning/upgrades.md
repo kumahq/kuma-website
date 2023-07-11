@@ -28,7 +28,7 @@ Despite control-planes within a zone not connecting to each other; they share a 
 
 
 {% warning %}
-Some feature flags may not provide backward compatibility, when this is the case it is clearly documented in [the control-plane configuration](/docs/{{ page.version }}/generated/kuma-cp) and will be part of the `experimental` section.
+Some feature flags may not provide backward compatibility, when this is the case it is clearly documented in [the control-plane configuration](/docs/{{ page.version }}/reference/kuma-cp) and will be part of the `experimental` section.
 
 To guarantee our compatibility policy we will always wait at least two minor versions before making these features enabled by default.
 {% endwarning %}

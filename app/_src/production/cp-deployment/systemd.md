@@ -15,9 +15,10 @@ After = network.target
 Documentation = {{ site.links.web }}
 
 [Service]
-User = {{ site.mesh_product_name | downcase }}
+User = < user to use to run the process >
 Environment = KUMA_MODE=standalone
-ExecStart = /home/{{ site.mesh_product_name | downcase }}/{{ site.mesh_product_name | downcase }}-{{ page.latest_version }}/bin/kuma-cp run --config-file=/home/{{ site.mesh_product_name | downcase }}/cp-config.yaml
+WorkingDirectory = <directory of the {{ site.mesh_product_name}} install >
+ExecStart = ./bin/kuma-cp run --config-file=./cp-config.yaml
 # if you need your Control Plane to be able to handle a non-trivial number of concurrent connections
 # (a total of both incoming and outgoing connections), you need to set proper resource limits on
 # the `kuma-cp` process, especially maximum number of open files.
@@ -56,12 +57,13 @@ After = network.target
 Documentation = {{ site.links.web }}
 
 [Service]
-User = {{ site.mesh_product_name | downcase }}
-ExecStart = /home/{{ site.mesh_product_name | downcase }}/{{ site.mesh_product_name | downcase }}-{{ page.latest_version }}/bin/kuma-dp run \
+User = < user to use to run the process >
+WorkingDirectory = <directory of the {{ site.mesh_product_name}} install >
+ExecStart = ./bin/kuma-dp run \
   --cp-address=https://<kuma-cp-address>:5678 \
-  --dataplane-token-file=/home/{{ site.mesh_product_name | downcase }}/echo-service-universal.token \
-  --dataplane-file=/home/{{ site.mesh_product_name | downcase }}/dataplane-notransparent.yaml \
-  --ca-cert-file=/home/{{ site.mesh_product_name | downcase }}/ca.pem
+  --dataplane-token-file=./echo-service-universal.token \
+  --dataplane-file=./dataplane-notransparent.yaml \
+  --ca-cert-file=./ca.pem
 Restart = always
 RestartSec = 1s
 # disable rate limiting on start attempts

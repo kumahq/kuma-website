@@ -668,7 +668,7 @@ spec: ...
 ### `kuma.io/sidecar-drain-time`
 
 Allows specifying drain time of {{site.mesh_product_name}} DP sidecar. The default value is 30s.
-The default could be changed using [the control-plane configuration](/docs/{{ page.version }}/generated/kuma-cp) or `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_DRAIN_TIME` env.
+The default could be changed using [the control-plane configuration](/docs/{{ page.version }}/reference/kuma-cp) or `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_DRAIN_TIME` env.
 
 **Example**
 

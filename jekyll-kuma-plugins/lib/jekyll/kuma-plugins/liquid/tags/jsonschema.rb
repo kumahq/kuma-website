@@ -25,6 +25,7 @@ module Jekyll
             <<~TIP
               <div id="markdown_html"></div>
 
+              <script defer src="https://brianwendt.github.io/json-schema-md-doc/lib/JSONSchemaMarkdown.js"></script>
               <script type="text/javascript">
               const data = #{JSON.dump(data)};
               document.addEventListener("DOMContentLoaded", function() {

@@ -41,15 +41,3 @@ https://traffic.kuma.io/exclude-outbound-ports /docs/LATEST_RELEASE/reference/ku
 
 /contribute/introduction/*  /docs/LATEST_RELEASE/community/contribute-to-kuma/:splat 302
 /reference/license/   /docs/LATEST_RELEASE/community/license/ 302
-
-# kuma IA redirects (pages that do exist take precedence on these so it's safe to use `:version` for pages moved in newer versions).
-/docs/:version/deployments/multi-zone /docs/:version/production/cp-deployment/multi-zone/
-/docs/:version/deployments/stand-alone /docs/:version/production/cp-deployment/stand-alone/
-/docs/:version/introduction/what-is-a-service-mesh/ /docs/:version/introduction/about-service-meshes
-/docs/:version/introduction/what-is-kuma/ /docs/:version/introduction/overview-of-kuma
-/docs/:version/introduction/deployments /docs/:version/production/deployment/
-/docs/:version/policies/mesh /docs/:version/production/mesh/
-/docs/:version/policies/proxy-template/ /docs/:version/reference/proxy-template/
-/docs/:version/explore/dpp/* /docs/:version/production/dp-config/dpp/
-/docs/:version/installation/* /docs/:version/production/install-kumactl/
-

@@ -57,7 +57,7 @@ items:
           - text: Configure zone proxy authentication
             url: /production/cp-deployment/zoneproxy-auth/
           - text: Control plane configuration reference
-            url: /generated/kuma-cp/
+            url: /reference/kuma-cp/
             generate: false
           - text: Systemd
             url: /production/cp-deployment/systemd/

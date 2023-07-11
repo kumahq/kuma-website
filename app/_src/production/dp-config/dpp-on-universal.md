@@ -196,7 +196,7 @@ networking:
 # ...
 ```
 
-If the `admin` section is empty or port is equal to zero then the default value for port will be taken from the [{{site.mesh_product_name}} Control Plane configuration](/docs/{{ page.version }}/generated/kuma-cp).
+If the `admin` section is empty or port is equal to zero then the default value for port will be taken from the [{{site.mesh_product_name}} Control Plane configuration](/docs/{{ page.version }}/reference/kuma-cp).
 
 ## Dataplane configuration
 
