@@ -52,7 +52,7 @@ Available commands on `kumactl` are:
 * `kumactl help [..]`: help dialog that explains the commands available.
 * `kumactl version [--detailed]`: shows the version of the program.
 
-Checkout the [`kumactl` usage docs](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl) for full documentation.
+Just use `kumactl [cmd] --help` for documentation.
 
 ### Using variables
 

@@ -279,7 +279,7 @@ spec:
               path: /tmp/access.log
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -348,7 +348,7 @@ spec:
                 plain: '[%START_TIME%]'
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -413,7 +413,7 @@ spec:
               path: /tmp/access.log
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}

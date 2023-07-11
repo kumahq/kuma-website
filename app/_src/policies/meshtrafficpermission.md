@@ -4,7 +4,7 @@ title: MeshTrafficPermission (beta)
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficPermission](../traffic-permissions).
+it should not be mixed with [TrafficPermission](/docs/{{ page.version }}/policies/traffic-permissions).
 {% endwarning %}
 
 ## TargetRef support matrix
@@ -224,7 +224,7 @@ spec:
       default: # 5
         action: Deny
 ```
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}

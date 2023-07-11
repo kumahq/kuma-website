@@ -4,7 +4,7 @@ title: MeshRetry (beta)
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [Retry](../retry).
+it should not be mixed with [Retry](/docs/{{ page.version }}/policies/retry).
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to know how to behave if there is a failed scenario (i.e. HTTP request) which could be retried.
@@ -23,7 +23,7 @@ To learn more about the information in this table, see the [matching docs](/docs
 ## Configuration
 
 The policy let you configure retry behaviour for `HTTP`, `GRPC` and `TCP` protocols.
-The protocol is selected by picking the most [specific protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma/#protocol-support-in-kuma).
+The protocol is selected by picking the most [specific protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
 
 Each protocol has a separate section under `default` in the policy YAML.
 Some sections are common between protocols or have similar meaning.
@@ -204,7 +204,7 @@ spec:
             - "5xx"
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -267,7 +267,7 @@ spec:
             - "DeadlineExceeded"
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -320,7 +320,7 @@ spec:
           maxConnectAttempt: 5
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}

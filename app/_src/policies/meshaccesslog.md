@@ -499,7 +499,7 @@ spec:
 ```
 {% endif_version %}
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -718,7 +718,7 @@ spec:
 ```
 {% endif_version %}
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -843,7 +843,7 @@ spec:
 ```
 {% endif_version %}
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}

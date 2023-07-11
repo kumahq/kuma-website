@@ -4,7 +4,7 @@ title: Mesh Health Check (beta)
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [HealthCheck](../health-check).
+it should not be mixed with [HealthCheck](/docs/{{ page.version }}/policies/health-check).
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to keep track of the health of every data plane proxy,
@@ -40,7 +40,7 @@ The `MeshHealthCheck` policy supports both L4/TCP and L7/HTTP/gRPC checks.
 
 ### Protocol selection
 
-The health check protocol is selected by picking the most [specific protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma/#protocol-support-in-kuma) 
+The health check protocol is selected by picking the most [specific protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma)
 and falls back to more general protocol when specified protocol has `disabled=true` in policy definition.
 See [protocol fallback example](#protocol-fallback).
 

@@ -65,8 +65,6 @@ A `Dataplane` entity must be present for each DPP. `Dataplane` entities are mana
 - Kubernetes: The control plane {% if_version lte:2.1.x %}[**automatically generates**](/docs/{{ page.version }}/explore/dpp-on-kubernetes){% endif_version %}{% if_version gte:2.2.x %}[**automatically generates**](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/){% endif_version %} the `Dataplane` entity. 
 - Universal: The {% if_version lte:2.1.x %}[**user defines**](/docs/{{ page.version}}/explore/dpp-on-universal){% endif_version %}{% if_version gte:2.2.x %}[**user defines**](/docs/{{ page.version}}/production/dp-config/dpp-on-universal/){% endif_version %} the `Dataplane` entity. 
  
-For more details check the [dataplane specification](/docs/{{ page.version }}/generated/resources/proxy_dataplane):
-
 ## Dynamic configuration of the data plane proxy 
 
 When the DPP runs:
@@ -85,3 +83,7 @@ The control plane uses policies and `Dataplane` entities to generate the DPP con
 When we start a data-plane via `kuma-dp` we expect all the inbound and outbound service traffic to go through it. The inbound and outbound ports are defined in the dataplane specification when running in universal mode, while on Kubernetes the service-to-service traffic always runs on port `15001`.
 
 In addition to the service traffic ports, the data-plane automatically also opens the `envoy` [administration interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) listener on the `127.0.0.1:9901`.
+
+## Schema
+
+{% json_schema Dataplane type=proto %}

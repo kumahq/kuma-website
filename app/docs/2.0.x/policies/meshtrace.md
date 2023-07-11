@@ -4,13 +4,13 @@ title: MeshTrace (beta)
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficTrace](../traffic-trace).
+it should not be mixed with [TrafficTrace](/docs/{{ page.version }}/policies/traffic-trace).
 {% endwarning %}
 
 This policy enables publishing traces to a third party tracing solution.
 
 Tracing is supported over HTTP, HTTP2, and gRPC protocols.
-You must [explicitly specify the protocol](../protocol-support-in-kuma) for each service and data plane proxy you want to enable tracing for.
+You must [explicitly specify the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) for each service and data plane proxy you want to enable tracing for.
 
 {{site.mesh_product_name}} currently supports the following trace exposition formats:
 
@@ -226,7 +226,7 @@ spec:
       client: 40
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -234,7 +234,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../.
 ### Datadog
 
 {% tip %}
-This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](../../explore/observability#configuring-datadog).
+This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](/docs/{{ page.version }}/explore/observability#configuring-datadog).
 {% endtip %}
 
 {% tabs meshtrace-datadog useUrlFragment=false %}
@@ -341,7 +341,7 @@ spec:
       client: 40
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](../../reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}

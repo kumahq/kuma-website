@@ -4,7 +4,7 @@ title: MeshRateLimit (beta)
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it shouldn't be mixed with [Rate Limit](../rate-limit).
+it shouldn't be mixed with [Rate Limit](/docs/{{ page.version }}/policies/rate-limit).
 {% endwarning %}
 
 This policy enables per-instance service request limiting. Policy supports ratelimiting of HTTP/HTTP2 requests and TCP connections.
