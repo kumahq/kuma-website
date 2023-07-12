@@ -17,7 +17,7 @@ The connection between the data-planes and the control-plane is not on the execu
 While doing so, the data-planes also advertise the IP address of each service. The IP address is retrieved:
 
 * On Kubernetes by looking at the address of the `Pod`.
-* On Universal by looking at the inbound listeners that have been configured in the [`inbound` property](/docs/{{ page.version }}/dp-config/dpp-on-universal#dataplane-configuration) of the data-plane specification.
+* On Universal by looking at the inbound listeners that have been configured in the [`inbound` property](/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration) of the data-plane specification.
 
 The IP address that's being advertised by every data-plane to the control-plane is also being used to route service traffic from one `kuma-dp` to another `kuma-dp`. This means that {{site.mesh_product_name}} knows at any given time what are all the IP addresses associated to every replica of every service. Another use-case where the IP address of the data-planes is being used is for metrics scraping by Prometheus.
 
