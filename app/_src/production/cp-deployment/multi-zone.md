@@ -216,7 +216,7 @@ You need the following values to pass to each zone control plane setup:
 
     where `zone` is the same value for all zone control planes in the same zone.
 
-    Add `--egress-enabled` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/).
+    Add `--egress-enabled` to list of arguments if you want to deploy optional [Zone Egress]({% if_version lte:2.1.x %}/docs/{{ page.version }}/explore/zoneegress/{% endif_version %}{% if_version gte:2.2.x %}/docs/{{ page.version }}/production/cp-deployment/zoneegress/{% endif_version %}).
 
     {% if_version gte:2.3.x %}
     `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
@@ -254,7 +254,7 @@ You need the following values to pass to each zone control plane setup:
 
     where `controlPlane.zone` is the same value for all zone control planes in the same zone.
 
-    Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/).
+    Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional [Zone Egress]({% if_version lte:2.1.x %}/docs/{{ page.version }}/explore/zoneegress/{% endif_version %}{% if_version gte:2.2.x %}/docs/{{ page.version }}/production/cp-deployment/zoneegress/{% endif_version %}).
 
     {% if_version gte:2.3.x %}
     `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
@@ -522,3 +522,5 @@ spec:
 With this setting, the global control plane will stop exchanging configuration with this zone.
 As a result, the zone's ingress from zone-1 will be deleted from other zone and traffic won't be routed to it anymore.
 The zone will show as **Offline** in the GUI and CLI.
+
+[zoneegress]: https://kuma.io/docs/latest/security/zoneproxy-auth/
