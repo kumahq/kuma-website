@@ -16,11 +16,11 @@ All incoming and outgoing traffic is automatically intercepted by `kuma-dp` with
 
 ## Universal
 
-On **Universal** `kuma-dp` leverages the [data plane proxy specification](/docs/{{ page.version }}/generated/resources/proxy_dataplane) associated to it for receiving incoming requests on a pre-defined port.
+On **Universal** `kuma-dp` leverages the [data plane proxy specification]({%if_version lte:2.1.x %}/docs/{{ page.version }}/explore/dpp-on-universal/{%endif_version%}{%if_version gte:2.2.x %}/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration{%endif_version%}) associated to it for receiving incoming requests on a pre-defined port.
 
 There are several advantages for using transparent proxying in universal mode:
 
- * Simpler [Dataplane resource](/docs/{{ page.version }}/generated/resources/proxy_dataplane), as the `outbound` section becomes obsolete and can be skipped.
+ * Simpler Dataplane resource, as the `outbound` section becomes obsolete and can be skipped.
  * Universal service naming with `.mesh` [DNS domain](/docs/{{ page.version }}/networking/dns) instead of explicit outbound like `https://localhost:10001`.
  * Support for hostnames of your choice using [VirtualOutbounds](/docs/{{ page.version }}/policies/virtual-outbound) that lets you preserve existing service naming.
  * Better service manageability (security, tracing).

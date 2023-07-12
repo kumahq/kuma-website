@@ -77,7 +77,7 @@ These instructions are mostly taken from the [Kong docs](https://docs.konghq.com
 1. [Install {{site.mesh_product_name}}](/docs/{{ page.version }}/installation/kubernetes) on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
 {% endif_version %}
 {% if_version gte:2.2.x %}
-1. [Install {{site.mesh_product_name}}](/docs/{{ page.version }}/production/use-kuma/) on your cluster and have the `default`[namespace labelled with sidecar-injection](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/).
+1. [Install {{site.mesh_product_name}}](/docs/{{ page.version }}/production/use-mesh/) on your cluster and have the `default`[namespace labelled with sidecar-injection](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/).
 {% endif_version %}
 
 2. Install [Kong using helm](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/deployment/k4k8s/#helm).

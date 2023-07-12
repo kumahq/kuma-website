@@ -25,7 +25,7 @@ The core maintainer of Kuma is **Kong**, the maker of the popular open-source Ko
 
 [Explore the API](/docs/{{ page.version }}/reference/http-api)
 {% endif_version %}
-{% if_version gte:2.1.x %}
+{% if_version gte:2.2.x %}
 [Read about service mesh](/docs/{{ page.version }}/introduction/about-service-meshes)
 
 [Read about Kuma](/docs/{{ page.version }}/introduction/overview-of-kuma)

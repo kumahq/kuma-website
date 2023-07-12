@@ -69,7 +69,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
-    By default, it's exposed on [port 5685]({% if_version lte:2.1.x %}/docs/{{ page.version }}/networking/networking{% endif_version %}{% if_version gte:2.2.x %}/docs/{{ page.version }}/production/use-kuma#control-plane-ports{% endif_version %}). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+    By default, it's exposed on [port 5685]({% if_version lte:2.1.x %}/docs/{{ page.version }}/networking/networking{% endif_version %}{% if_version gte:2.2.x %}/docs/{{ page.version }}/production/use-mesh#control-plane-ports{% endif_version %}). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 
@@ -216,7 +216,7 @@ You need the following values to pass to each zone control plane setup:
 
     where `zone` is the same value for all zone control planes in the same zone.
 
-    Add `--egress-enabled` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/).
+    Add `--egress-enabled` to list of arguments if you want to deploy optional [Zone Egress]({% if_version lte:2.1.x %}/docs/{{ page.version }}/explore/zoneegress/{% endif_version %}{% if_version gte:2.2.x %}/docs/{{ page.version }}/production/cp-deployment/zoneegress/{% endif_version %}).
 
     {% if_version gte:2.3.x %}
     `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
@@ -254,7 +254,7 @@ You need the following values to pass to each zone control plane setup:
 
     where `controlPlane.zone` is the same value for all zone control planes in the same zone.
 
-    Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/).
+    Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional [Zone Egress]({% if_version lte:2.1.x %}/docs/{{ page.version }}/explore/zoneegress/{% endif_version %}{% if_version gte:2.2.x %}/docs/{{ page.version }}/production/cp-deployment/zoneegress/{% endif_version %}).
 
     {% if_version gte:2.3.x %}
     `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
@@ -522,3 +522,5 @@ spec:
 With this setting, the global control plane will stop exchanging configuration with this zone.
 As a result, the zone's ingress from zone-1 will be deleted from other zone and traffic won't be routed to it anymore.
 The zone will show as **Offline** in the GUI and CLI.
+
+[zoneegress]: https://kuma.io/docs/latest/security/zoneproxy-auth/
