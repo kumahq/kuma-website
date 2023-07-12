@@ -42,7 +42,7 @@ items:
       - text: Install kumactl
         url: /production/install-kumactl/
       - text: Use Kuma
-        url: /production/use-kuma/
+        url: /production/use-mesh/
       - title: Control plane deployment
         group: true
         items:

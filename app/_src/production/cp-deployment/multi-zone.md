@@ -69,7 +69,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
-    By default, it's exposed on [port 5685]({% if_version lte:2.1.x %}/docs/{{ page.version }}/networking/networking{% endif_version %}{% if_version gte:2.2.x %}/docs/{{ page.version }}/production/use-kuma#control-plane-ports{% endif_version %}). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+    By default, it's exposed on [port 5685]({% if_version lte:2.1.x %}/docs/{{ page.version }}/networking/networking{% endif_version %}{% if_version gte:2.2.x %}/docs/{{ page.version }}/production/use-mesh#control-plane-ports{% endif_version %}). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 
