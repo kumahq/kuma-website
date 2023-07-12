@@ -3,9 +3,7 @@ title: Policies
 ---
 Here you can find the list of Policies that {{site.mesh_product_name}} supports.
 
-Going forward from version 2.0, {{site.mesh_product_name}} is transitioning from [source/destination policies](/docs/{{
-page.version }}/policies/general-notes-about-kuma-policies) to [`targetRef` policies](/docs/{{ page.version
-}}/policies/targetref).
+Going forward from version 2.0, {{site.mesh_product_name}} is transitioning from [source/destination policies](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies) to [`targetRef` policies](/docs/{{ page.version }}/policies/targetref).
 
 The following table shows the equivalence between source/destination and `targetRef` policies:
 
