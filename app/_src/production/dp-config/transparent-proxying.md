@@ -16,7 +16,7 @@ All incoming and outgoing traffic is automatically intercepted by `kuma-dp` with
 
 ## Universal
 
-On **Universal** `kuma-dp` leverages the [data plane proxy specification]({%if_version lte:2.1.x %}/docs/{{ page.version }}/explore/dpp-on-universal/{%endif_version%}{%if_version gte:2.2.x %}/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration{%endif_version%}) associated to it for receiving incoming requests on a pre-defined port.
+On **Universal** `kuma-dp` leverages the [data plane proxy specification]{%if_version lte:2.1.x %}(/docs/{{ page.version }}/explore/dpp-on-universal/){%endif_version%}{%if_version gte:2.2.x %}(/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration){%endif_version%} associated to it for receiving incoming requests on a pre-defined port.
 
 There are several advantages for using transparent proxying in universal mode:
 

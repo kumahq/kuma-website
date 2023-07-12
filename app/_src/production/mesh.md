@@ -100,7 +100,7 @@ kuma-dp run \
 {% endtab %}
 {% endtabs %}
 
-You can control which data plane proxies are allowed to join the mesh using [mesh constraints]({% if_version gte:2.2.x %}/docs/{{ page.version }}/production/secure-deployment/dp-membership/{% endif_version %}{% if_version lte:2.1.x %}/docs/{{ page.version }}/security/dp-membership/{% endif_version %}).
+You can control which data plane proxies are allowed to join the mesh using [mesh constraints]{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/secure-deployment/dp-membership/){% endif_version %}{% if_version lte:2.1.x %}(/docs/{{ page.version }}/security/dp-membership/){% endif_version %}.
 
 #### Policies
 
