@@ -15,17 +15,17 @@ module Jekyll
           end
 
           def render(context)
-            base_path = context.registers[:site].config.fetch('mesh_raw_generated_path', 'app/docs')
+            base_paths = context.registers[:site].config.fetch(PATHS_CONFIG, DEFAULT_PATHS)
             ignored_links = context.registers[:site].config.fetch('mesh_ignored_links_regex', [])
             release = context.registers[:page]['release']
-            path = File.join(base_path, @versioned ? release : '', @file)
-
-            data = File.read(path) rescue begin
-                Jekyll.logger.warn("Failed reading raw file", path)
-                return
+            begin
+                f = read_file(base_paths, File.join(@versioned ? release : '', @file))
+                data = f.read()
+                ignored_links.each {|re| data = data.gsub(Regexp.new(re), '') }
+                return data
+            rescue => e
+                Jekyll.logger.warn("Failed reading raw file", e)
             end
-            ignored_links.each {|re| data = data.gsub(Regexp.new(re), '') }
-            return data
           end
         end
       end

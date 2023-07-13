@@ -14,38 +14,42 @@ module Jekyll
                 sp = item.split('=')
                 params[sp[0]] = sp[1] unless sp[1] == ''
             end
-            @type = create_loader(params['type'], name)
+            @load = create_loader(params['type'], name)
           end
 
           def render(context)
             release = context.registers[:page]['release']
-            base_path = context.registers[:site].config.fetch('mesh_raw_generated_path', 'app/docs')
-            data = @type.load("#{base_path}/#{release}")
+            base_paths = context.registers[:site].config.fetch(PATHS_CONFIG, DEFAULT_PATHS)
+            begin
+                data = @load.call(base_paths, release)
+                <<~TIP
+                  <div id="markdown_html"></div>
 
-            <<~TIP
-              <div id="markdown_html"></div>
+                  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
+                  <script defer src="https://brianwendt.github.io/json-schema-md-doc/lib/JSONSchemaMarkdown.js"></script>
+                  <script type="text/javascript">
+                  const data = #{JSON.dump(data)};
+                  document.addEventListener("DOMContentLoaded", function() {
+                    // create an instance of JSONSchemaMarkdown
+                    const Doccer = new JSONSchemaMarkdown();
 
-              <script defer src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
-              <script defer src="https://brianwendt.github.io/json-schema-md-doc/lib/JSONSchemaMarkdown.js"></script>
-              <script type="text/javascript">
-              const data = #{JSON.dump(data)};
-              document.addEventListener("DOMContentLoaded", function() {
-                // create an instance of JSONSchemaMarkdown
-                const Doccer = new JSONSchemaMarkdown();
+                    // don't include the path of the field in the output
+                    Doccer.writePath = function() {};
 
-                // don't include the path of the field in the output
-                Doccer.writePath = function() {};
+                    Doccer.load(data);
+                    Doccer.generate();
 
-                Doccer.load(data);
-                Doccer.generate();
+                    const converter = new showdown.Converter();
 
-                const converter = new showdown.Converter();
-
-                // use the converter to make html from the markdown
-                document.getElementById("markdown_html").innerHTML = converter.makeHtml(Doccer.markdown);
-              });
-              </script>
-            TIP
+                    // use the converter to make html from the markdown
+                    document.getElementById("markdown_html").innerHTML = converter.makeHtml(Doccer.markdown);
+                  });
+                  </script>
+                TIP
+            rescue => e
+                Jekyll.logger.warn("Failed reading jsonschema", e)
+                return
+            end
           end
         end
       end
@@ -53,58 +57,37 @@ module Jekyll
   end
 end
 
-class ProtoReader
-    def initialize(name)
-        @name = name
-    end
-    def load(base_path)
-        path = "#{base_path}/protos/#{@name}.json"
-        file = File.open(path) rescue begin
-            Jekyll.logger.warn("Failed reading proto", path)
-            return
+PATHS_CONFIG = 'mesh_raw_generated_paths'
+DEFAULT_PATHS = ['app/docs']
+def read_file(paths, file_name)
+    paths.each do |path|
+        file_path = File.join(path, file_name)
+        if File.readable? file_path
+            return File.open(file_path)
         end
-        d = JSON.load(file)
-        return d
     end
+    raise "couldn't read #{file_name} in none of these paths:#{paths}"
 end
-class CrdReader
-    def initialize(name)
-        @name = name
-    end
-    def load(base_path)
-        path = "#{base_path}/crds/#{@name}.yaml"
-        file = File.open(path) rescue begin
-            Jekyll.logger.warn("Failed reading crd", path)
-            return
-        end
-        d = YAML.load(file)
-        return d['spec']['versions'][0]['schema']['openAPIV3Schema']
-    end
-end
-class PolicyReader
-    def initialize(name)
-        @name = name
-    end
-    def load(base_path)
-        path = "#{base_path}/crds/kuma.io_#{@name.downcase}.yaml"
-        file = File.open(path) rescue begin
-            Jekyll.logger.warn("Failed reading policy", path)
-            return
-        end
-        d = YAML.load(file)
-        return d['spec']['versions'][0]['schema']['openAPIV3Schema']['properties']['spec']
-    end
-end
+
 def create_loader(type, name)
     case type
     when 'proto'
-        ProtoReader.new(name)
+        l = lambda do |paths, release|
+            return JSON.load(read_file(paths, File.join("#{release}", 'protos', "#{name}.json")))
+        end
     when 'crd'
-        CrdReader.new(name)
+        l = lambda do |paths, release|
+            d = YAML.load(read_file(paths, File.join("#{release}", 'crds', "#{name}.yaml")))
+            return d['spec']['versions'][0]['schema']['openAPIV3Schema']
+        end
     when 'policy'
-        PolicyReader.new(name)
+        l = lambda do |paths, release|
+            d = YAML.load(read_file(paths, File.join("#{release}", 'crds', "kuma.io_#{name.downcase}.yaml")))
+            return d['spec']['versions'][0]['schema']['openAPIV3Schema']['properties']['spec']
+        end
     else
       raise "Invalid type: #{type}"
     end
+    return l
 end
 Liquid::Template.register_tag('json_schema', Jekyll::KumaPlugins::Liquid::Tags::JsonSchema)
