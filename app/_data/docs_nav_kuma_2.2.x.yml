@@ -24,7 +24,9 @@ items:
       - text: Kuma requirements
         url: /introduction/kuma-requirements/
       - text: Release notes
-        url: /introduction/changelog/
+        url: /docs/changelog/
+        absolute_url: true
+        generate: true
   - title: Kuma in Production
     group: true
     items:

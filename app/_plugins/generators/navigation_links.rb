@@ -8,6 +8,7 @@ module Jekyll
       site.pages.each_with_index do |page, index|
         next unless page.relative_path.start_with? 'docs'
         next if page.path == 'docs/index.md'
+        next unless page.data.key? 'nav_items'
         # remove docs/<version>/ prefix and `.md` and the end
         page_url = page.path.gsub(/docs\/[^\/]+\//, '/').gsub('.md', '/')
 

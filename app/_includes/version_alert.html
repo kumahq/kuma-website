@@ -4,7 +4,7 @@
 {% assign latest_version_path = "docs/" | append: latest_version | append: '/' | append: page_path | append: '.md' %}
 {% assign latest_page = site.pages | find: 'path', latest_version_path %}
 
-{% if current_version != site.data.latest_version.release %}
+{% if current_version && current_version != site.data.latest_version.release %}
   <div>
     <div class="version-alert">
       <div class="warning custom-block">
