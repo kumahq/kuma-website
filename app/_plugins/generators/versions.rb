@@ -13,6 +13,8 @@ module Jekyll
       site.pages.each do |page|
         next unless page.url.start_with?('/docs/')
         version_data = version_from_page_url(page.url, site.data['versions'])
+        page.data['nav_items'] = {}
+        next unless version_data
         page.data['doc'] = true
         page.data['has_version'] = true
         page.data['version'] = version_data['release']

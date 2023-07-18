@@ -27,7 +27,9 @@ items:
       - text: Enterprise
         url: /introduction/enterprise/
       - text: Release notes
-        url: /introduction/changelog/
+        url: /docs/changelog/
+        absolute_url: true
+        generate: false
   - title: Install
     group: true
     items:
