@@ -2,4 +2,4 @@
 title: Release notes
 ---
 
-{% embed CHANGELOG.md %}
+{% embed raw/CHANGELOG.md %}
