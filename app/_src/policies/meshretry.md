@@ -11,12 +11,38 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there is
 
 ## TargetRef support matrix
 
-| TargetRef type    | top level | to  | from |
-| ----------------- | --------- | --- | ---- |
-| Mesh              | ✅        | ✅  | ❌   |
-| MeshSubset        | ✅        | ❌  | ❌   |
-| MeshService       | ✅        | ✅  | ❌   |
-| MeshServiceSubset | ✅        | ❌  | ❌   |
+{% if_version gte:2.4.x %}
+{% tabs targetRef useUrlFragment=false %}
+{% tab targetRef Sidecar %}
+| `targetRef.kind`    | top level | to  | from |
+| ------------------- | --------- | --- | ---- |
+| `Mesh`              | ✅        | ✅  | ❌   |
+| `MeshSubset`        | ✅        | ❌  | ❌   |
+| `MeshService`       | ✅        | ✅  | ❌   |
+| `MeshServiceSubset` | ✅        | ❌  | ❌   |
+{% endtab %}
+
+{% tab targetRef Builtin Gateway %}
+| `targetRef.kind`    | top level | to  |
+| ------------------- | --------- | --- |
+| `Mesh`              | ✅        | ✅  |
+| `MeshGateway`       | ✅        | ❌  |
+| `MeshService`       | ✅        | ❌  |
+| `MeshServiceSubset` | ✅        | ❌  |
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
+{% if_version lte:2.3.x %}
+
+| `targetRef.kind`    | top level | to  | from |
+| ------------------- | --------- | --- | ---- |
+| `Mesh`              | ✅        | ✅  | ❌   |
+| `MeshSubset`        | ✅        | ❌  | ❌   |
+| `MeshService`       | ✅        | ✅  | ❌   |
+| `MeshServiceSubset` | ✅        | ❌  | ❌   |
+
+{% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
