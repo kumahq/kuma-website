@@ -22,7 +22,7 @@ run: ruby-version-check
 	bundle exec foreman start
 
 build: ruby-version-check
-	bundle exec jekyll build --config jekyll.yml
+	bundle exec jekyll build --config jekyll.yml --profile
 
 serve:
 	netlify dev
