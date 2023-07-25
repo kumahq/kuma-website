@@ -211,4 +211,4 @@ can impersonate any service.
 
 ## Legacy Zone Ingress Token
 
-Authenticating Zone Ingress using [separate Zone Ingress Token](/docs/1.8.x/security/zone-ingress-auth/) is still possible, but it is deprecated and will be removed in the future.
+Authenticating Zone Ingress using [separate Zone Ingress Token](https://kuma.io/docs/1.8.x/security/zone-ingress-auth/) is still possible, but it is deprecated and will be removed in the future.

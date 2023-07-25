@@ -16,7 +16,7 @@ it should not be mixed with [TrafficPermission](/docs/{{ page.version }}/policie
 | MeshService       | ✅        | ❌  | ✅   |
 | MeshServiceSubset | ✅        | ❌  | ✅   |
 
-If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetRef).
+If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetref).
 
 ## Configuration
 
