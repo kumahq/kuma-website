@@ -161,6 +161,16 @@ inbound:
 
 Notice how `kuma.io/service` is built on `<serviceName>_<namespace>_svc_<port>` and `kuma.io/protocol` is the `appProtocol` field of your service entry.
 
+## Capabilities
+
+{% if_version lte:2.3.x %}
+The only required
+[capability](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) for the sidecar is `NET_BIND_SERVICE`.
+{% endif_version %}{% if_version gte:2.4.x %}
+The sidecar doesn't need any [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) and works with `drop: ["ALL"]`.
+{% endif_version %} Use [`ContainerPatch`](#custom-container-configuration) to
+control capabilities for the sidecar.
+
 ## Lifecycle
 
 ### Joining the mesh
@@ -236,19 +246,19 @@ only be applied in a namespace where **{{site.mesh_product_name}} CP** is runnin
 
 {% warning %}
 In the vast majority of cases you shouldn't need to override the sidecar and
-init-container configurations. `ContainerPatch` is a feature which requires good
+init container configurations. `ContainerPatch` is a feature which requires good
 understanding of both {{site.mesh_product_name}} and Kubernetes.
 {% endwarning %}
 
-The specification of `ContainerPatch` consists of the list of [jsonpatch](https://datatracker.ietf.org/doc/html/rfc6902)
-strings which describe the modifications to be performed.
+A `ContainerPatch` specification consists of the list of [JSON patch](https://datatracker.ietf.org/doc/html/rfc6902)
+strings that describe the modifications. Consult [the entire
+resource schema](#schema).
 
 ### Example
 
 {% warning %}
-When using ContainerPath, every `value` field must be valid JSON.
+When using ContainerPath, every `value` field must be a string containing valid JSON.
 {% endwarning %}
-
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -418,10 +428,6 @@ a sane configuration.
 If a workload refers to a `ContainerPatch` which does not exist, the injection
 will explicitly fail and log the failure.
 
-### Schema
-
-{% json_schema kuma.io_containerpatches type=crd %}
-
 ## Direct access to services
 
 By default, on Kubernetes data plane proxies communicate with each other by leveraging the `ClusterIP` address of the `Service` resources. Also by default, any request made to another service is automatically load balanced client-side by the data plane proxy that originates the request (they are load balanced by the local Envoy proxy sidecar proxy).
@@ -467,3 +473,7 @@ kuma.io/direct-access-services: *
 {% warning %}
 Using `*` to directly access every service is a resource intensive operation, so we must use it carefully.
 {% endwarning %}
+
+### Schema
+
+{% json_schema kuma.io_containerpatches type=crd %}
