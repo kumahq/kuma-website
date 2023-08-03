@@ -13,7 +13,9 @@ Possible use cases are:
 
 Limitations:
 
-- Complex virtual outbounds do not work for cross-zone traffic. This is because only service tags are propagated across zones.
+{% if_version lte:2.3.x %}
+- A virtual outbound that contains any parameters other than `kuma.io/service` won’t work cross-zone.
+{% endif_version %}
 - When duplicate `(hostname, port)` combinations are detected, the virtual outbound with the highest priority takes over. For more information, see [the documentation on how {{site.mesh_product_name}} chooses the right policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply). All duplicate instances are logged.
 
 `conf.host` and `conf.port` are processed as [go text templates](https://pkg.go.dev/text/template) with a key-value pair derived from `conf.parameters`.
