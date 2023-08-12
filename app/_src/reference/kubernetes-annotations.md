@@ -29,7 +29,7 @@ Used on a deployment using pod template it will inject the sidecar in all pods m
 
 ```yaml
 apiVersion: v1
-king: Deployment
+kind: Deployment
 metadata:
   name: my-deployment
 spec:
