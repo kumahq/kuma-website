@@ -3,12 +3,12 @@ title: MeshGatewayRoute
 ---
 
 `MeshGatewayRoute` is a policy used to configure [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin).
-It is used in combination with [`MeshGateway`](/docs/{{ page.version }}/policies/mesh-gateway).
+It is used in combination with [`MeshGateway`](/docs/{{ page.version }}/policies/meshgateway).
 
 `MeshGatewayRoute` is a new {{site.mesh_product_name}} dataplane policy that replaces TrafficRoute for {{site.mesh_product_name}} Gateway.
 It configures how a gateway should process network traffic.
 At the moment, it targets HTTP routing use cases.
-`MeshGatewayRoutes` are attached to gateways by matching their selector to the [`MeshGateway`](/docs/{{ page.version }}/policies/mesh-gateway) listener tags.
+`MeshGatewayRoutes` are attached to gateways by matching their selector to the [`MeshGateway`](/docs/{{ page.version }}/policies/meshgateway) listener tags.
 
 To define `MeshGatewayRoute` that attaches a route to a listener with a tag: `vhost=foo.example.com` and routes traffic to the backend service do:
 
