@@ -3,7 +3,7 @@ title: MeshGateway
 ---
 
 `MeshGateway` is a policy used to configure [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin).
-It is used in combination with [`MeshGatewayRoute`](/docs/{{ page.version }}/policies/mesh-gateway-route).
+It is used in combination with [`MeshGatewayRoute`](/docs/{{ page.version }}/policies/meshgatewayroute).
 
 A builtin gateway `Dataplane` with no additional configuration does nothing.
 It is simply an unconfigured unit of proxying capacity.
