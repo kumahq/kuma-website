@@ -19,6 +19,8 @@
 /docs/:version/policies/trafficlog/ /docs/:version/policies/traffic-log/ 301
 /docs/:version/policies/traffic-routes/ /docs/:version/policies/traffic-route/ 301
 /docs/:version/policies/trafficroute/ /docs/:version/policies/traffic-route/ 301
+/docs/:version/policies/traffic-permission/ /docs/:version/policies/traffic-permissions/ 301
+/docs/:version/policies/trafficpermission/ /docs/:version/policies/traffic-permissions/ 301
 /docs/:version/policies/traffictrace/ /docs/:version/policies/traffic-trace/ 301
 /docs/:version/policies/virtualoutbound/ /docs/:version/policies/virtual-outbound/ 301
 
