@@ -58,6 +58,10 @@ spec:
         path: /metrics
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
           kuma.io/service: dataplane-metrics
+{% if_version lte:2.3.x %}
+        tls:
+          mode: activeMTLSBackend
+{% endif_version %}
 ```
 {% endtab %}
 {% tab expose-metrics-data-plane-proxies Universal %}
@@ -72,6 +76,10 @@ metrics:
     type: prometheus
     conf:
       skipMTLS: true # by default mTLS metrics are also protected by mTLS. Scraping metrics with mTLS without transparent proxy is not supported at the moment.
+{% if_version lte:2.3.x %}
+        tls:
+          mode: disabled
+{% endif_version %}
 ```
 
 which is a shortcut for:
@@ -90,6 +98,10 @@ metrics:
       path: /metrics
       tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
         kuma.io/service: dataplane-metrics
+{% if_version lte:2.3.x %}
+        tls:
+          mode: disabled
+{% endif_version %}
 ```
 {% endtab %}
 {% endtabs %}
@@ -99,6 +111,88 @@ This tells {{site.mesh_product_name}} to configure every proxy in the `default` 
 The metrics endpoint is forwarded to the standard Envoy [Prometheus metrics endpoint](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?format=prometheus) and supports the same query parameters.
 You can pass the `filter` query parameter to limit the results to metrics whose names match a given regular expression.
 By default all available metrics are returned.
+
+{% if_version lte:2.3.x %}
+### Secure metrics with TLS
+
+{{site.mesh_product_name}} allows configuring metrics endpoint with TLS. This can be used when the `Prometheus` is deployed outside of the mesh and security is required for the communication.
+
+{% tabs expose-metrics-data-plane-proxies-tls useUrlFragment=false %}
+{% tab expose-metrics-data-plane-proxies-tls Kubernetes %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  metrics:
+    enabledBackend: prometheus-1
+    backends:
+    - name: prometheus-1
+      type: prometheus
+      conf:
+        port: 5670
+        path: /metrics
+        tls:
+          mode: delegated
+```
+Apart from `Mesh` configuration, `kuma-sidecar` requires provided certificate and key to the `kuma-sidecar`. When the certificate and the key is available in the container, `kuma-sidecar` needs paths to them provided in environment variables:
+
+* KUMA_DATAPLANE_METRICS_CERT_PATH
+* KUMA_DATAPLANE_METRICS_KEY_PATH
+
+It's possible to use [`ContainerPatch`](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration) to add variable into `kuma-sidecar`:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ContainerPatch
+metadata:
+  name: container-patch-1
+  namespace: kuma-system
+spec:
+  sidecarPatch:
+    - op: add
+      path: /env/-
+      value: '{
+          "name": "KUMA_DATAPLANE_METRICS_CERT_PATH",
+          "value": "/kuma/server.crt"
+        }'
+    - op: add
+      path: /env/-
+      value: '{
+          "name": "KUMA_DATAPLANE_METRICS_KEY_PATH",
+          "value": "/kuma/server.key"
+        }'
+```
+
+{% endtab %}
+{% tab expose-metrics-data-plane-proxies-tls Universal %}
+
+```yaml
+type: Mesh
+name: default
+metrics:
+  enabledBackend: prometheus-1
+  backends:
+  - name: prometheus-1
+    type: prometheus
+    conf:
+      port: 5670
+      path: /metrics
+      tls:
+        mode: delegated
+```
+
+Apart from `Mesh` configuration, `kuma-dp` requires provided certificate and key to the `kuma-dp`. Upload the certificate and the key to the machine and define:
+* KUMA_DATAPLANE_METRICS_CERT_PATH
+* KUMA_DATAPLANE_METRICS_KEY_PATH
+
+for `kuma-dp` with paths to them.
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
 
 ## Expose metrics from applications
  
