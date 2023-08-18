@@ -1,4 +1,4 @@
-[Kk]ong
+ [Kk]ong
 [Kk]ubernetes
 [Kk]uma
 [Mm]erbridge
@@ -130,6 +130,7 @@ targetRef
 tbl
 tcpdump
 TLS
+tls
 transcoder
 ttl
 txt

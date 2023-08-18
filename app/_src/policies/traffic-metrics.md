@@ -115,7 +115,7 @@ By default all available metrics are returned.
 {% if_version lte:2.3.x %}
 ### Secure metrics with TLS
 
-{{site.mesh_product_name}} allows configuring metrics endpoint with TLS. This can be used when the `Prometheus` is deployed outside of the mesh and security is required for the communication.
+{{site.mesh_product_name}} allows configuring metrics endpoint with TLS. You can use it when the `Prometheus` is deployed outside of the mesh and security is required for the communication.
 
 {% tabs expose-metrics-data-plane-proxies-tls useUrlFragment=false %}
 {% tab expose-metrics-data-plane-proxies-tls Kubernetes %}
