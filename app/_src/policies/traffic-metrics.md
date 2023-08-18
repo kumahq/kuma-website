@@ -142,7 +142,7 @@ Apart from `Mesh` configuration, `kuma-sidecar` requires provided certificate an
 * KUMA_DATAPLANE_METRICS_CERT_PATH
 * KUMA_DATAPLANE_METRICS_KEY_PATH
 
-It's possible to use [`ContainerPatch`](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration) to add variable into `kuma-sidecar`:
+It's possible to use [`ContainerPatch`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration) to add variable into `kuma-sidecar`:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
