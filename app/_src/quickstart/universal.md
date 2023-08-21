@@ -226,7 +226,13 @@ metrics:
   - name: prometheus-1
     type: prometheus
     conf:
+{% if_version lte:2.3.x %}
       skipMTLS: true
+{% endif_version %}
+{% if_version gte:2.4.x %}
+      tls:
+        mode: disabled
+{% endif_version %}
 EOF
 ```
 

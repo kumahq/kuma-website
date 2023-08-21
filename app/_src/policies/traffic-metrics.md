@@ -53,12 +53,14 @@ spec:
     - name: prometheus-1
       type: prometheus
       conf:
+{% if_version lte:2.3.x %}
         skipMTLS: false
+{% endif_version %}
         port: 5670
         path: /metrics
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
           kuma.io/service: dataplane-metrics
-{% if_version lte:2.4.x %}
+{% if_version gte:2.4.x %}
         tls:
           mode: activeMTLSBackend
 {% endif_version %}
@@ -75,8 +77,10 @@ metrics:
   - name: prometheus-1
     type: prometheus
     conf:
+{% if_version lte:2.3.x %}
       skipMTLS: true # by default mTLS metrics are also protected by mTLS. Scraping metrics with mTLS without transparent proxy is not supported at the moment.
-{% if_version lte:2.4.x %}
+{% endif_version %}
+{% if_version gte:2.4.x %}
         tls:
           mode: disabled
 {% endif_version %}
@@ -93,12 +97,14 @@ metrics:
   - name: prometheus-1
     type: prometheus
     conf:
+{% if_version lte:2.3.x %}
       skipMTLS: true
+{% endif_version %}
       port: 5670
       path: /metrics
       tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
         kuma.io/service: dataplane-metrics
-{% if_version lte:2.4.x %}
+{% if_version gte:2.4.x %}
         tls:
           mode: disabled
 {% endif_version %}
@@ -112,7 +118,7 @@ The metrics endpoint is forwarded to the standard Envoy [Prometheus metrics endp
 You can pass the `filter` query parameter to limit the results to metrics whose names match a given regular expression.
 By default all available metrics are returned.
 
-{% if_version lte:2.4.x %}
+{% if_version gte:2.4.x %}
 ### Secure metrics with TLS
 
 {{site.mesh_product_name}} allows configuring metrics endpoint with TLS. You can use it when the `Prometheus` deployment is outside of the mesh and requires secure communication.
@@ -203,7 +209,7 @@ Here are reasons where you'd want to use this feature:
 
 - Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
 - Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
-- If you disable [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS but Prometheus is outside the mesh (`skipMTLS: true`) this will be the only way to retrieve these metrics as the application is completely hidden behind the sidecar. 
+- If you disable [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS but Prometheus is outside the mesh {% if_version lte:2.3.x %}(`skipMTLS: true`){% endif_version %} {% if_version gte:2.4.x %} `tls.mode: disabled` {% endif_version %}this will be the only way to retrieve these metrics as the application is completely hidden behind the sidecar.
 
 {% warning %}
 Any configuration change requires redeployment of the data plane.
@@ -223,11 +229,17 @@ spec:
     - name: prometheus-1
       type: prometheus
       conf:
+{% if_version lte:2.3.x %}
         skipMTLS: false
+{% endif_version %}
         port: 5670
         path: /metrics
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS 
           kuma.io/service: dataplane-metrics
+{% if_version gte:2.4.x %}
+        tls:
+          mode: activeMTLSBackend
+{% endif_version %}
         aggregate:
           - name: my-service # name of the metric, required to later disable/override with pod annotations 
             path: "/metrics/prometheus"
@@ -249,7 +261,13 @@ metrics:
     conf:
       port: 5670
       path: /metrics
+{% if_version lte:2.3.x %}
       skipMTLS: true # by default mTLS metrics are also protected by mTLS. Scraping metrics with mTLS without transparent proxy is not supported at the moment.
+{% endif_version %}
+{% if_version gte:2.4.x %}
+      tls:
+        mode: disabled
+{% endif_version %}
       aggregate:
       - name: my-service # name of the metric, required to later disable/override in the Dataplane resource
         path: "/metrics/prometheus"
@@ -356,7 +374,13 @@ name: example
 metrics:
   type: prometheus
   conf:
+{% if_version lte:2.3.x %}
     skipMTLS: false
+{% endif_version %}
+{% if_version gte:2.4.x %}
+    tls:
+      mode: activeMTLSBackend
+{% endif_version %}
     port: 1234
     path: /non-standard-path
 ```
@@ -383,7 +407,13 @@ spec:
     - name: prometheus-1
       type: prometheus
       conf:
+{% if_version lte:2.3.x %}
         skipMTLS: false
+{% endif_version %}
+{% if_version gte:2.4.x %}
+        tls:
+          mode: activeMTLSBackend
+{% endif_version %}
         port: 5670
         path: /metrics
         envoy:
@@ -436,7 +466,13 @@ spec:
       conf:
         port: 5670
         path: /metrics
+{% if_version lte:2.3.x %}
         skipMTLS: false
+{% endif_version %}
+{% if_version gte:2.4.x %}
+        tls:
+          mode: activeMTLSBackend
+{% endif_version %}
         tags: # tags that can be referred in a TrafficPermission resource 
           kuma.io/service: dataplane-metrics
 ```
@@ -490,7 +526,13 @@ spec:
       conf:
         port: 5670
         path: /metrics
+{% if_version lte:2.3.x %}
         skipMTLS: false
+{% endif_version %}
+{% if_version gte:2.4.x %}
+        tls:
+          mode: activeMTLSBackend
+{% endif_version %}
         tags: # tags that can be referred in a TrafficPermission resource 
           kuma.io/service: dataplane-metrics
 ```
