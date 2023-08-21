@@ -143,7 +143,7 @@ spec:
         tls:
           mode: delegatedTLS
 ```
-In addition to the `Mesh` configuration, `kuma-sidecar` requires a provided certificate and key for its operation. When the certificate and key are available within the container, `kuma-sidecar` needs the paths to these files to be provided as the following environment variables:
+In addition to the `Mesh` configuration, `kuma-sidecar` requires a provided certificate and key for its operation. When the certificate and key are available within the container, `kuma-sidecar` needs the paths to provided files as the following environment variables:
 
 * KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH
 * KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH
