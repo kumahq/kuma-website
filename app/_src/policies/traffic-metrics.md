@@ -182,7 +182,7 @@ spec:
         port: 5670
         path: /metrics
         tls:
-          mode: delegatedTLS
+          mode: providedTLS
 ```
 In addition to the `Mesh` configuration, `kuma-sidecar` requires a provided certificate and key for its operation. When the certificate and key are available within the container, `kuma-sidecar` needs the paths to provided files as the following environment variables:
 
@@ -228,7 +228,7 @@ metrics:
       port: 5670
       path: /metrics
       tls:
-        mode: delegatedTLS
+        mode: providedTLS
 ```
 
 In addition to the `Mesh` configuration, `kuma-dp` requires a provided certificate and key for its operation. Please upload the certificate and the key to the machine, and then define the following environment variables with the correct paths:
