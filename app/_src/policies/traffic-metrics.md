@@ -58,7 +58,7 @@ spec:
         path: /metrics
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
           kuma.io/service: dataplane-metrics
-{% if_version lte:2.3.x %}
+{% if_version lte:2.4.x %}
         tls:
           mode: activeMTLSBackend
 {% endif_version %}
@@ -76,7 +76,7 @@ metrics:
     type: prometheus
     conf:
       skipMTLS: true # by default mTLS metrics are also protected by mTLS. Scraping metrics with mTLS without transparent proxy is not supported at the moment.
-{% if_version lte:2.3.x %}
+{% if_version lte:2.4.x %}
         tls:
           mode: disabled
 {% endif_version %}
@@ -98,7 +98,7 @@ metrics:
       path: /metrics
       tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
         kuma.io/service: dataplane-metrics
-{% if_version lte:2.3.x %}
+{% if_version lte:2.4.x %}
         tls:
           mode: disabled
 {% endif_version %}
@@ -112,10 +112,10 @@ The metrics endpoint is forwarded to the standard Envoy [Prometheus metrics endp
 You can pass the `filter` query parameter to limit the results to metrics whose names match a given regular expression.
 By default all available metrics are returned.
 
-{% if_version lte:2.3.x %}
+{% if_version lte:2.4.x %}
 ### Secure metrics with TLS
 
-{{site.mesh_product_name}} allows configuring metrics endpoint with TLS. You can use it when the `Prometheus` deployment is outside of the mesh and requires security for the communication.
+{{site.mesh_product_name}} allows configuring metrics endpoint with TLS. You can use it when the `Prometheus` deployment is outside of the mesh and requires secure communication.
 
 {% tabs expose-metrics-data-plane-proxies-tls useUrlFragment=false %}
 {% tab expose-metrics-data-plane-proxies-tls Kubernetes %}
@@ -135,14 +135,14 @@ spec:
         port: 5670
         path: /metrics
         tls:
-          mode: delegated
+          mode: delegatedTLS
 ```
-Apart from `Mesh` configuration, `kuma-sidecar` requires provided certificate and key to the `kuma-sidecar`. When the certificate and the key is available in the container, `kuma-sidecar` needs paths to them provided in environment variables:
+In addition to the `Mesh` configuration, `kuma-sidecar` requires a provided certificate and key for its operation. When the certificate and key are available within the container, `kuma-sidecar` needs the paths to these files to be provided as the following environment variables:
 
-* KUMA_DATAPLANE_METRICS_CERT_PATH
-* KUMA_DATAPLANE_METRICS_KEY_PATH
+* KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH
+* KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH
 
-It's possible to use [`ContainerPatch`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration) to add variable into `kuma-sidecar`:
+It's possible to use a [`ContainerPatch`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration) to add variables to `kuma-sidecar`:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -155,13 +155,13 @@ spec:
     - op: add
       path: /env/-
       value: '{
-          "name": "KUMA_DATAPLANE_METRICS_CERT_PATH",
+          "name": "KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH",
           "value": "/kuma/server.crt"
         }'
     - op: add
       path: /env/-
       value: '{
-          "name": "KUMA_DATAPLANE_METRICS_KEY_PATH",
+          "name": "KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH",
           "value": "/kuma/server.key"
         }'
 ```
@@ -181,14 +181,13 @@ metrics:
       port: 5670
       path: /metrics
       tls:
-        mode: delegated
+        mode: delegatedTLS
 ```
 
-Apart from `Mesh` configuration, `kuma-dp` requires provided certificate and key to the `kuma-dp`. Upload the certificate and the key to the machine and define:
-* KUMA_DATAPLANE_METRICS_CERT_PATH
-* KUMA_DATAPLANE_METRICS_KEY_PATH
+In addition to the `Mesh` configuration, `kuma-dp` requires a provided certificate and key for its operation. Please upload the certificate and the key to the machine, and then define the following environment variables with the correct paths:
+	* KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH
+	* KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH
 
-for `kuma-dp` with paths to them.
 {% endtab %}
 {% endtabs %}
 

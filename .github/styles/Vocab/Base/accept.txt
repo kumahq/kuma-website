@@ -1,4 +1,4 @@
- [Kk]ong
+[Kk]ong
 [Kk]ubernetes
 [Kk]uma
 [Mm]erbridge
