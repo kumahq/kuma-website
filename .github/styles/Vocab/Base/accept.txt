@@ -33,6 +33,7 @@ deduplicat(:?e|ion)
 degraphql
 denylist
 dev
+disabled
 DNS
 eBPF
 EKS|eks
