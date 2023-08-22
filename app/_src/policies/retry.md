@@ -120,7 +120,7 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
   Configuration of durations which will be used in exponential backoff strategy between retries
 
-  - **`baseDuration`** (required)
+  - **`baseInterval`** (required)
 
     Base amount of time which should be taken between retries (i.e. `30ms`, `0.03s`, `0.0005m`)
 
