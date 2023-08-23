@@ -251,7 +251,7 @@ Here are reasons where you'd want to use this feature:
 
 - Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
 - Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
-- If you disable [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS but Prometheus is outside the mesh {% if_version lte:2.3.x %}(`skipMTLS: true`){% endif_version %}{% if_version gte:2.4.x %}`tls.mode: disabled`{% endif_version %} this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
+- If you disable [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS but Prometheus is outside the mesh {% if_version lte:2.3.x %}(`skipMTLS: true`){% endif_version %}{% if_version gte:2.4.x %}(`tls.mode: disabled`){% endif_version %} this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
 
 {% warning %}
 Any configuration change requires redeployment of the data plane.
@@ -277,10 +277,6 @@ spec:
         path: /metrics
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS 
           kuma.io/service: dataplane-metrics
-{% if_version gte:2.4.x %}
-        tls:
-          mode: activeMTLSBackend
-{% endif_version %}
         aggregate:
           - name: my-service # name of the metric, required to later disable/override with pod annotations 
             path: "/metrics/prometheus"

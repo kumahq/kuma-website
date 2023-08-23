@@ -211,6 +211,7 @@ One of the most important [policies](/policies) that {{site.mesh_product_name}} 
 
 With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that visualize the overall traffic activity of our application and the status of the service mesh.
 
+{% if_version lte:2.3.x %}
 ```sh
 cat <<EOF | kumactl apply -f -
 type: Mesh
@@ -226,15 +227,31 @@ metrics:
   - name: prometheus-1
     type: prometheus
     conf:
-{% if_version lte:2.3.x %}
       skipMTLS: true
-{% endif_version %}
-{% if_version gte:2.4.x %}
-      tls:
-        mode: disabled
-{% endif_version %}
 EOF
 ```
+{% endif_version %}
+{% if_version gte:2.4.x %}
+```sh
+cat <<EOF | kumactl apply -f -
+type: Mesh
+name: default
+mtls:
+  enabledBackend: ca-1
+  backends:
+  - name: ca-1
+    type: builtin
+metrics:
+  enabledBackend: prometheus-1
+  backends:
+  - name: prometheus-1
+    type: prometheus
+    conf:
+      tls:
+        mode: disabled
+EOF
+```
+{% endif_version %}
 
 This will enable the `prometheus` metrics backend on the `default` {% if_version lte:2.1.x %}[Mesh](/docs/{{ page.version }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.version }}/production/mesh/){% endif_version %} and automatically collect metrics for all of our traffic.
 
