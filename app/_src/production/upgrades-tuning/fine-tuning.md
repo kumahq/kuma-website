@@ -112,7 +112,7 @@ This option will be the default behaviour in the next versions of {{site.mesh_pr
 ### Kubernetes client
 
 Kubernetes client uses client level throttling to not overwhelm kube-api server. In larger deployments, bigger than 2k services in a single kubernetes cluster, number
-of resources updates can hit this throttling. In most cases it will be safe to increse this limit as kube-api have it's own throttling mechanism. To change client
+of resources updates can hit this throttling. In most cases it is safe to increase this limit as kube-api have it's own throttling mechanism. To change client
 throttling configuration you need to update config.
 
 ```yaml
@@ -125,7 +125,7 @@ runtime:
 
 ### Kubernetes controller manager
 
-{{site.mesh_product_name}} is modifing some kubernetes resources. Process of modification is called reconciliation. Every resource has it's own working queue, and reconcliation tasks are
+{{site.mesh_product_name}} is modifying some kubernetes resources. Process of modification is called reconciliation. Every resource has it's own working queue, and reconcliation tasks are
 added to that queue. In larger deployments, bigger than 2k services in a single kubernetes cluster, size of the work queue for pod reconciliation
 can grow and slow down pods updates. In this situation you can change the number of concurrent pod roconciliation tasks, by changing configuration:
 
