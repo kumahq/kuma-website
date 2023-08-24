@@ -95,7 +95,10 @@ After a successful debugging session, please remember to turn off the debugging 
 {% endwarning %}
 
 {% if_version lte:2.1.x %}
-## Kubernetes outbounds in central place
+
+## Kubernetes
+
+### Kubernetes outbounds in central place
 
 Configure `KUMA_EXPERIMENTAL_KUBE_OUTBOUNDS_AS_VIPS` to `true` to store the list of outbounds in ConfigMap that is used for VIPs of {{site.mesh_product_name}} DNS.
 This way we don't repeat this information across all `Dataplane` objects which may improve a performance with a large number of data plane proxies.
@@ -103,6 +106,38 @@ This way we don't repeat this information across all `Dataplane` objects which m
 You can enable this only after all instances of the control plane are updated to 1.6.0 or later.
 This option will be the default behaviour in the next versions of {{site.mesh_product_name}}.
 {% endif_version %}
+
+{% if_version gte:2.3.x %}
+
+### Kubernetes client
+
+Kubernetes client uses client level throttling to not overwhelm kube-api server. In larger deployments, bigger than 2k services in a single kubernetes cluster, number
+of resources updates can hit this throttling. In most cases it will be safe to increse this limit as kube-api have it's own throttling mechanism. To change client
+throttling configuration you need to update config.
+
+```yaml
+runtime:
+  kubernetes:
+    clientConfig:
+      qps: ... # Qps defines maximum requests kubernetes client is allowed to make per second.
+      burstQps: ... # BurstQps defines maximum burst requests kubernetes client is allowed to make per second
+```
+
+### Kubernetes controller manager
+
+{{site.mesh_product_name}} is modifing some kubernetes resources. Process of modification is called reconciliation. Every resource has it's own working queue, and reconcliation tasks are
+added to that queue. In larger deployments, bigger than 2k services in a single kubernetes cluster, size of the work queue for pod reconciliation
+can grow and slow down pods updates. In this situation you can change the number of concurrent pod roconciliation tasks, by changing configuration:
+
+```yaml
+runtime:
+  kubernetes:
+    controllersConcurrency:
+      podController: ... # PodController defines maximum concurrent reconciliations of Pod resources
+```
+
+{% endif_version %}
+
 ## Envoy
 
 ### Envoy concurrency tunning
