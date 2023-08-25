@@ -130,7 +130,7 @@ This set of listener tags is what {{site.mesh_product_name}} will match policies
 | ----------------------------------------- | -------------------------------------------------- | --------------------------------------------------- |
 | kuma.io/service=edge-gateway              | vhost=foo.example.com                              | kuma.io/service=edge-gateway,vhost=foo.example.com  |
 | kuma.io/service=edge-gateway              | kuma.io/service=example,domain=example.com         | kuma.io/service=example,domain=example.com          |
-| kuma.io/service=edge,location=us          | version=2                                          | kuma.io/service=edit,location=us,version=2          |
+| kuma.io/service=edge,location=us          | version=2                                          | kuma.io/service=edge,location=us,version=2          |
 
 ## TLS Termination
 
