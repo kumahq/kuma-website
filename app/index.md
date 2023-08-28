@@ -37,7 +37,7 @@ carousel:
 
 {% contentfor news %}
 
-**Kuma 2.3.0 has been released!** &mdash; MeshTCPRoute, GAMMA support, and much more [on the Kuma 2.3.0 release blog post](/blog/2023/kuma-2-3-0/)
+**Kuma 2.4.0 has been released!** &mdash; sidecar lifecycle, metrics TLS and multi-zone improvements, and much more [on the Kuma 2.4.0 release blog post](/blog/2023/kuma-2-4-0/).
 
 {% endcontentfor %}
 
