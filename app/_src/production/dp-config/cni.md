@@ -32,256 +32,101 @@ Below are the details of how to set up {{site.mesh_product_name}} CNI in differe
 
 {% tabs installation useUrlFragment=false %}
 {% tab installation Cilium %}
-{% tabs cilium useUrlFragment=false %}
-{% tab cilium kumactl %}
-
-```shell
-kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=05-cilium.conflist"
-```
-{% endtab %}
-{% tab cilium helm %}
-
-```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=05-cilium.conflist" \
-   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
-```
-{% endtab %}
-{% endtabs %}
+{% cpinstall cilium %}
+cni.enabled=true
+cni.chained=true
+cni.netDir=/etc/cni/net.d
+cni.binDir=/opt/cni/bin
+cni.confName=05-cilium.conflist
+{% endcpinstall %}
 
 {% warning %}
 For Cilium versions < 1.14 you should use `{{site.set_flag_values_prefix}}cni.confName=05-cilium.conf` as this has changed
 for version starting from [Cilium 1.14](https://docs.cilium.io/en/stable/operations/upgrade/#id2).
 {% endwarning %}
-
 {% endtab %}
+
 {% tab installation Calico %}
-
-{% tabs calico useUrlFragment=false %}
-{% tab calico kumactl %}
-
-```shell
-kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-calico.conflist"
-```
-
-{% endtab %}
-{% tab calico Helm %}
-
-```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-calico.conflist" \
-   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
-```
-
-{% endtab %}
-{% endtabs %}
+{% cpinstall calico %}
+cni.enabled=true
+cni.chained=true
+cni.netDir=/etc/cni/net.d
+cni.binDir=/opt/cni/bin
+cni.confName=10-calico.conflist
+{% endcpinstall%}
 {% endtab %}
 
 {% tab installation K3D with Flannel %}
-{% tabs k3d useUrlFragment=false %}
-{% tab k3d kumactl %}
-
-```shell
-kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-flannel.conflist"
-```
-
-{% endtab %}
-{% tab k3d Helm %}
-
-```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-flannel.conflist" \
-   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
-```
-
-{% endtab %}
-{% endtabs %}
+{% cpinstall k3d %}
+cni.enabled=true
+cni.chained=true
+cni.netDir=/var/lib/rancher/k3s/agent/etc/cni/net.d
+cni.binDir=/bin
+cni.confName=10-flannel.conflist
+{% endcpinstall %}
 {% endtab %}
 
 {% tab installation Kind %}
-{% tabs kind useUrlFragment=false %}
-{% tab kind kumactl %}
-
-```shell
-kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-kindnet.conflist"
-```
-
-{% endtab %}
-{% tab kind Helm %}
-
-```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-kindnet.conflist" \
-   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
-```
-
-{% endtab %}
-{% endtabs %}
+{% cpinstall kind %}
+cni.enabled=true
+cni.chained=true
+cni.netDir=/etc/cni/net.d
+cni.binDir=/opt/cni/bin
+cni.confName=10-kindnet.conflist
+{% endcpinstall %}
 {% endtab %}
 
 {% tab installation Azure %}
-{% tabs azure useUrlFragment=false %}
-{% tab azure kumactl %}
-
-```shell
-kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-azure.conflist"
-```
-
-{% endtab %}
-{% tab azure Helm %}
-
-```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-azure.conflist" \
-   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
-```
-
-{% endtab %}
-{% endtabs %}
+{% cpinstall azure %}
+cni.enabled=true
+cni.chained=true
+cni.netDir=/etc/cni/net.d
+cni.binDir=/opt/cni/bin
+cni.confName=10-azure.conflist
+{% endcpinstall %}
 {% endtab %}
 
 {% tab installation Azure Overlay %}
-{% tabs azure_overlay useUrlFragment=false %}
-{% tab azure_overlay kumactl %}
-
-```shell
-kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=15-azure-swift-overlay.conflist"
-```
-
-{% endtab %}
-{% tab azure_overlay Helm %}
-
-```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=15-azure-swift-overlay.conflist" \
-   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
-```
-
-{% endtab %}
-{% endtabs %}
+{% cpinstall azure_overlay %}
+cni.enabled=true
+cni.chained=true
+cni.netDir=/etc/cni/net.d
+cni.binDir=/opt/cni/bin
+cni.confName=15-azure-swift-overlay.conflist
+{% endcpinstall %}
 {% endtab %}
 
 {% tab installation AWS - EKS %}
-{% tabs aws-eks useUrlFragment=false %}
-{% tab aws-eks kumactl %}
+{% cpinstall aws-eks %}
+cni.enabled=true
+cni.chained=true
+cni.netDir=/etc/cni/net.d
+cni.binDir=/opt/cni/bin
+cni.confName=10-aws.conflist
+runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6=0
+{% endcpinstall %}
 
-```shell
-kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-aws.conflist" \
-  --set "{{site.set_flag_values_prefix}}runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6=0" # EKS does not have ipv6 enabled by default
-```
-
-{% endtab %}
-{% tab aws-eks Helm %}
-
-```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-aws.conflist" \
-   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
-```
-
-{% endtab %}
-{% endtabs %}
+{% tip %}
+Add `redirectPortInboundV6=0` as EKS has IPv6 disabled by default.
+{% endtip %}
 {% endtab %}
 
 {% tab installation Google - GKE %}
 
 You need to [enable network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster (for existing clusters this redeploys the nodes).
 
-{% tabs google-gke useUrlFragment=false %}
-{% tab google-gke kumactl %}
+{% cpinstall google-gke %}
+cni.enabled=true
+cni.chained=true
+cni.netDir=/etc/cni/net.d
+cni.binDir=/home/kubernetes/bin
+cni.confName=10-calico.conflist
+{% endcpinstall %}
+{%endtab%}
 
-```shell
-kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/home/kubernetes/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-calico.conflist"
-```
+{% tab installation OpenShift 3.11 %}
 
-{% endtab %}
-{% tab google-gke Helm %}
-
-```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
-  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
-  --set "{{site.set_flag_values_prefix}}cni.binDir=/home/kubernetes/bin" \
-  --set "{{site.set_flag_values_prefix}}cni.confName=10-calico.conflist" \
-   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
-```
-
-{% endtab %}
-{% endtabs %}
-{% endtab %}
-
-{% tab insallation OpenShift 3.11 %}
-
-1. Follow the instructions in [OpenShift 3.11 installation](/docs/{{ page.version }}/installation/openshift/#2-run-kuma)
+1. Follow the instructions in [OpenShift 3.11 installation](/docs/{{ page.version }}/production/cp-deployment/stand-alone)
    to get the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` enabled (this is required for regular {{site.mesh_product_name}} installation).
 
 2. You need to grant privileged permission to kuma-cni service account:
@@ -290,50 +135,17 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 oc adm policy add-scc-to-user privileged -z kuma-cni -n kube-system
 ```
 
-{% tabs openshift-3 useUrlFragment=false %}
-{% tab openshift-3 kumactl %}
-
-```shell
-kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.containerSecurityContext.privileged=true"
-```
-
-{% endtab %}
-{% tab openshift-3 Helm %}
-
-```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-  --set "{{site.set_flag_values_prefix}}cni.containerSecurityContext.privileged=true" \
-   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
-```
-
-{% endtab %}
-{% endtabs %}
+{% cpinstall openshit-3 %}
+cni.enabled=true
+cni.containerSecurityContext.privileged=true
+{% endcpinstall %}
 {% endtab %}
 
 {% tab installation OpenShift 4 %}
-
-{% tabs openshift-4 useUrlFragment=false %}
-{% tab openshift-4 kumactl %}
-
-```shell
-kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true"
-```
-
-{% endtab %}
-{% tab openshift-4 Helm %}
-
-```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \
-  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
-   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
-```
-
-{% endtab %}
-{% endtabs %}
+{% cpinstall openshit-4 %}
+cni.enabled=true
+cni.containerSecurityContext.privileged=true
+{% endcpinstall %}
 {% endtab %}
 
 {% endtabs %}
@@ -390,7 +202,7 @@ If you are using the CNI v2 version logs are available via `kubectl logs` instea
 {% endif_version %}
 
 {% if_version gte:2.2.x %}
-Logs are available via `kubectl logs`.
+Logs of the are available via `kubectl logs`.
 
 {% warning %}
 eBPF CNI currently doesn't have support for exposing its logs.

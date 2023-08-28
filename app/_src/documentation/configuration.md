@@ -19,22 +19,12 @@ For example the yaml path: `store.postgres.port` is the environment variable: `K
 {% endtip %}
 
 {% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes (kumactl) %}
-When using `kumactl`, override the configuration with the `--env-var` flag. For example, to configure the refresh interval for configuration of the data plane proxy, specify:
-```sh
-kumactl install control plane \
-  --env-var KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
-  --env-var KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s | kubectl apply -f -
-```
-{% endtab %}
-{% tab usage Kubernetes (HELM) %}
-When using `helm`, you can override the configuration with the `envVars` field. For example, to configure the refresh interval for configuration with the data plane proxy, specify:
-```sh
-helm install \
-  --set {{site.set_flag_values_prefix}}controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s \
-  --set {{site.set_flag_values_prefix}}controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s \
-  {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
-```
+{% tab usage Kubernetes %}
+On Kubernetes, you can override the configuration with the `envVars` field. For example, to configure the refresh interval for configuration with the data plane proxy, specify:
+{% cpinstall envars %}
+controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s
+controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_STATUS_FLUSH_INTERVAL=5s
+{% endcpinstall %}
 
 Or you can create a `values.yaml` file with:
 ```yaml
