@@ -45,7 +45,10 @@ This service discovery will connect to the control plane and retrieve all data p
 There are 2 ways you can run prometheus:
 
 1. Inside the mesh (default for [`kumactl install observability`](#demo-setup)). In this case you can use mTLS to retrieve the metrics. This provides high security but will require one prometheus per mesh and might not be accessible if your mesh becomes unavailable. It will also require one Prometheus deployment per {{site.mesh_product_name}} mesh.
-2. Outside the mesh. In this case you'll need to specify `skipMTLS: true` in the [traffic metrics configuration](/docs/{{ page.version }}/policies/traffic-metrics). This is less secured but will ensure Prometheus is as available as possible. It is also easier to add to an existing setup with services in and outside the mesh.
+2. Outside the mesh. In this case you'll need to specify {% if_version lte:2.3.x %}`skipMTLS: true`{% endif_version %}{% if_version gte:2.4.x %}`tls.mode: disabled`{% endif_version %} in the [traffic metrics configuration](/docs/{{ page.version }}/policies/traffic-metrics). This is less secure but ensures Prometheus is as available as possible. It's also easier to add to an existing setup with services in and outside the mesh.
+{% if_version gte:2.4.x %}
+3. Outside the mesh with TLS enabled. In this case you'll need to provide certificates for each dataplane and specify configuration in the [traffic metrics configuration](/docs/{{ page.version }}/policies/traffic-metrics#secure-metrics-with-tls). This is more secure than second option but requires more configuration.
+{% endif_version %}
 
 In production, we recommend the second option as it provides better visibility when things go wrong, and it's usually acceptable for metrics to be less secure.
 {% endtip %}

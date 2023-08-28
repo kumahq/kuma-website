@@ -33,6 +33,7 @@ deduplicat(:?e|ion)
 degraphql
 denylist
 dev
+disabled
 DNS
 eBPF
 EKS|eks
@@ -130,6 +131,7 @@ targetRef
 tbl
 tcpdump
 TLS
+tls
 transcoder
 ttl
 txt
