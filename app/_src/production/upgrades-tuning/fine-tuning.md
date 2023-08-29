@@ -112,7 +112,7 @@ This option will be the default behaviour in the next versions of {{site.mesh_pr
 ### Kubernetes client
 
 Kubernetes client uses client level throttling to not overwhelm kube-api server. In larger deployments, bigger than 2k services in a single kubernetes cluster, number
-of resources updates can hit this throttling. In most cases it's safe to increase this limit as kube-api have it's own throttling mechanism. To change client
+of resources updates can hit this throttling. In most cases it's safe to increase this limit as kube-api has it's own throttling mechanism. To change client
 throttling configuration you need to update config.
 
 ```yaml
