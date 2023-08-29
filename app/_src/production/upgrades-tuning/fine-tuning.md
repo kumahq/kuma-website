@@ -125,7 +125,7 @@ runtime:
 
 ### Kubernetes controller manager
 
-{{site.mesh_product_name}} is modifying some kubernetes resources. Kubernetes call the process of modification reconciliation. Every resource has its own working queue, and control plane adds reconciliation tasks to that queue. In larger deployments, bigger than 2k services in a single kubernetes cluster, size of the work queue for pod reconciliation
+{{site.mesh_product_name}} is modifying some Kubernetes resources. Kubernetes calls the process of modification reconciliation. Every resource has its own working queue, and control plane adds reconciliation tasks to that queue. In larger deployments, bigger than 2000 services in a single Kubernetes cluster, size of the work queue for pod reconciliation
 can grow and slow down pods updates. In this situation you can change the number of concurrent pod reconciliation tasks, by changing configuration:
 
 ```yaml
