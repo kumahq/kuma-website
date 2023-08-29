@@ -180,6 +180,18 @@ On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For eac
 
 To join the mesh in a graceful way, we need to first make sure the application is ready to serve traffic before it can be considered a valid traffic destination.
 
+{% if_version lte:2.3.x %}
+
+If any of the init containers experience network connectivity issues we suggest trying setting `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true` so that the init container for the sidecar finishes only when the sidecar is ready to serve traffic.
+
+{% warning %}
+The `waitForDataplaneReady` setting relies on Kubernetes container creation sequence (which is undocumented, so it might be changed in the future) and injecting kuma-init as the first init container (which we can't guarantee, because other mutating webhooks can rearrange the init containers) with a `postStart` hook.
+
+This will be properly solved when [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) are stable and widely available.
+{% endwarning %}
+
+{% endif_version %}
+
 When `Pod` is converted to a `Dataplane` object it will be marked as unhealthy until Kubernetes considers all containers to be ready.
 
 ### Leaving the mesh
