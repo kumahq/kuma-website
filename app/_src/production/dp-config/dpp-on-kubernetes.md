@@ -180,19 +180,31 @@ On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For eac
 
 To join the mesh in a graceful way, we need to first make sure the application is ready to serve traffic before it can be considered a valid traffic destination.
 
-{% if_version lte:2.3.x %}
+When `Pod` is converted to a `Dataplane` object it will be marked as unhealthy until Kubernetes considers all containers to be ready.
 
-If any of the init containers experience network connectivity issues we suggest trying setting `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true` so that the init container for the sidecar finishes only when the sidecar is ready to serve traffic.
+{% if_version gte:2.4.x %}
+### Waiting for the dataplane to be ready
+
+By default, containers are started in any order, so an application container can start even though a dataplane container might not be ready to receive traffic.
+
+This can make initial requests (like connecting to a database) fail for short time after starting the pod.
+
+To mitigate this problem we suggest setting
+* `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true`, or 
+* [kuma.io/wait-for-dataplane-ready](/docs/{{ page.version }}/reference/kubernetes-annotations/#wait-for-dataplane-ready) annotation to `true`
+so that the app container waits for the dataplane container to be ready to serve traffic.
 
 {% warning %}
-The `waitForDataplaneReady` setting relies on Kubernetes container creation sequence (which is undocumented, so it might be changed in the future) and injecting kuma-init as the first init container (which we can't guarantee, because other mutating webhooks can rearrange the init containers) with a `postStart` hook.
 
-This will be properly solved when [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) are stable and widely available.
+The `waitForDataplaneReady` setting relies on the fact that when a `postStart` hook is defined Kubernetes runs containers in sequence of occurrence in `containers` list.
+This is not documented and could change in the future.
+It also relies on the kuma-sidecar container being injected as the first container in the pod, which is not guaranteed because other mutating webhooks can rearrange the containers.
+
+A better solution will be available when [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) are more stable and widely available.
 {% endwarning %}
 
 {% endif_version %}
 
-When `Pod` is converted to a `Dataplane` object it will be marked as unhealthy until Kubernetes considers all containers to be ready.
 
 ### Leaving the mesh
 

@@ -30,6 +30,7 @@
 /transparent-proxying-reachable-services/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiotransparent-proxying-reachable-services 302
 /virtual-probes-port/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiovirtual-probes-port 302
 /virtual-probes/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiovirtual-probes 302
+/wait-for-dataplane-ready/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiowait-for-dataplane-ready 302
 
 # kuma.io subdomain redirects
 https://prometheus.metrics.kuma.io/port /docs/LATEST_RELEASE/reference/kubernetes-annotations/#prometheus-metrics-kuma-io-port/ 302
