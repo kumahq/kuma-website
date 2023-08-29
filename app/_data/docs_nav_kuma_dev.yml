@@ -24,7 +24,7 @@ items:
       - text: Release notes
         url: /docs/changelog/
         absolute_url: true
-        generate: true
+        generate: false
   - title: Kuma in Production
     group: true
     items:
