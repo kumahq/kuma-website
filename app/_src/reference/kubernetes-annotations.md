@@ -76,6 +76,7 @@ metadata:
 
 Annotating pods or deployments will take precedence on the namespace annotation.
 
+{% if_version lte:2.1.x %}
 ### `kuma.io/sidecar-injection`
 
 Similar to the preferred [label](#kumaiosidecar-injection).
@@ -96,6 +97,7 @@ metadata:
 While you can still use annotations to inject sidecar, we strongly recommend using labels.
 It's the only way to guarantee that application can only be started with sidecar.
 {% endwarning %}
+{% endif_version %}
 
 ### `kuma.io/gateway`
 
