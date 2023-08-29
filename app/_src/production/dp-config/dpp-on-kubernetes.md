@@ -40,11 +40,13 @@ spec:
       containers:
         ...
 ```
+{% if_version lte:2.1.x %}
 {% warning %}
 In previous versions the recommended way was to use annotations.
 While annotations are still supported, we strongly recommend using labels.
 This is the only way to guarantee that applications can only be started with sidecar.
 {% endwarning %}
+{% endif_version %}
 
 Once your pod is running you can see the data plane CRD that matches it using `kubectl`:
 
