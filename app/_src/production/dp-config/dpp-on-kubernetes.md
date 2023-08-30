@@ -189,7 +189,7 @@ When `Pod` is converted to a `Dataplane` object it will be marked as unhealthy u
 
 By default, containers start in any order, so an app container can start even though a dataplane container might not be ready to receive traffic.
 
-Making initial requests, such as connecting to a database, can fail for a brief period after the pod is started. ```
+Making initial requests, such as connecting to a database, can fail for a brief period after the pod starts. 
 
 To mitigate this problem try setting
 * `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true`, or 
@@ -202,7 +202,7 @@ The `waitForDataplaneReady` setting relies on the fact that defining a `postStar
 This isn't documented and could change in the future.
 It also depends on injecting the kuma-sidecar container as the first container in the pod, which isn't guaranteed since other mutating webhooks can rearrange the containers.
 
-As [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) gain stability and wider availability, a better solution is going to be implemented.
+A better solution will be available when [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) are more stable and widely available.
 {% endwarning %}
 
 {% endif_version %}
