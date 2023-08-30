@@ -193,7 +193,7 @@ Making initial requests, such as connecting to a database, can fail for a brief 
 
 To mitigate this problem try setting
 * `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true`, or 
-* [kuma.io/wait-for-dataplane-ready](/docs/{{ page.version }}/reference/kubernetes-annotations/#wait-for-dataplane-ready) annotation to `true`
+* [kuma.io/wait-for-dataplane-ready](/docs/{{ page.version }}/reference/kubernetes-annotations/#kumaiowait-for-dataplane-ready) annotation to `true`
 so that the app container waits for the dataplane container to be ready to serve traffic.
 
 {% warning %}
