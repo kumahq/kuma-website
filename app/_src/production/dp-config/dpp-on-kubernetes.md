@@ -202,7 +202,9 @@ The `waitForDataplaneReady` setting relies on the fact that defining a `postStar
 This isn't documented and could change in the future.
 It also depends on injecting the kuma-sidecar container as the first container in the pod, which isn't guaranteed since other mutating webhooks can rearrange the containers.
 
+<!-- vale off -->
 A better solution will be available when [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) are more stable and widely available.
+<!-- vale on -->
 {% endwarning %}
 
 {% endif_version %}
