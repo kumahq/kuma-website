@@ -605,6 +605,14 @@ spec:
         [...]
 ```
 
+{% if_version gte:2.4.x %}
+### `kuma.io/wait-for-dataplane-ready`
+
+Define if you want the kuma-sidecar container to wait for the dataplane to be ready before starting app container.
+Read relevant [Data plane on Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#waiting-for-the-dataplane-to-be-ready) section for more information.
+
+{% endif_version %}
+
 ### `prometheus.metrics.kuma.io/aggregate-<name>-enabled`
 
 Define if `kuma-dp` should scrape metrics from the application that has been defined in the `Mesh` configuration. Default value: `true`. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)

@@ -184,6 +184,32 @@ To join the mesh in a graceful way, we need to first make sure the application i
 
 When `Pod` is converted to a `Dataplane` object it will be marked as unhealthy until Kubernetes considers all containers to be ready.
 
+{% if_version gte:2.4.x %}
+### Waiting for the dataplane to be ready
+
+By default, containers start in any order, so an app container can start even though a dataplane container might not be ready to receive traffic.
+
+Making initial requests, such as connecting to a database, can fail for a brief period after the pod starts. 
+
+To mitigate this problem try setting
+* `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true`, or 
+* [kuma.io/wait-for-dataplane-ready](/docs/{{ page.version }}/reference/kubernetes-annotations/#kumaiowait-for-dataplane-ready) annotation to `true`
+so that the app container waits for the dataplane container to be ready to serve traffic.
+
+{% warning %}
+
+The `waitForDataplaneReady` setting relies on the fact that defining a `postStart` hook causes Kubernetes to run containers sequentially based on their order of occurrence in the `containers` list.
+This isn't documented and could change in the future.
+It also depends on injecting the kuma-sidecar container as the first container in the pod, which isn't guaranteed since other mutating webhooks can rearrange the containers.
+
+<!-- vale off -->
+A better solution will be available when [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) are more stable and widely available.
+<!-- vale on -->
+{% endwarning %}
+
+{% endif_version %}
+
+
 ### Leaving the mesh
 
 To leave the mesh in a graceful shutdown, we need to remove the traffic destination from all the clients before shutting it down.
