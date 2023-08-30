@@ -608,7 +608,7 @@ spec:
 {% if_version gte:2.4.x %}
 ### `kuma.io/wait-for-dataplane-ready`
 
-Define if you want the init container to wait for the dataplane to be ready before exiting.
+Define if you want the kuma-sidecar container to wait for the dataplane to be ready before exiting.
 Read relevant [Data plane on Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#waiting-for-the-dataplane-to-be-ready) section for more information.
 
 {% endif_version %}

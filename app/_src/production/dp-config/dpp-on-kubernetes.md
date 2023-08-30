@@ -187,22 +187,22 @@ When `Pod` is converted to a `Dataplane` object it will be marked as unhealthy u
 {% if_version gte:2.4.x %}
 ### Waiting for the dataplane to be ready
 
-By default, containers are started in any order, so an application container can start even though a dataplane container might not be ready to receive traffic.
+By default, containers start in any order, so an app container can start even though a dataplane container might not be ready to receive traffic.
 
-This can make initial requests (like connecting to a database) fail for short time after starting the pod.
+Making initial requests, such as connecting to a database, can fail for a brief period after the pod is started. ```
 
-To mitigate this problem we suggest setting
+To mitigate this problem try setting
 * `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true`, or 
 * [kuma.io/wait-for-dataplane-ready](/docs/{{ page.version }}/reference/kubernetes-annotations/#wait-for-dataplane-ready) annotation to `true`
 so that the app container waits for the dataplane container to be ready to serve traffic.
 
 {% warning %}
 
-The `waitForDataplaneReady` setting relies on the fact that when a `postStart` hook is defined Kubernetes runs containers in sequence of occurrence in `containers` list.
-This is not documented and could change in the future.
-It also relies on the kuma-sidecar container being injected as the first container in the pod, which is not guaranteed because other mutating webhooks can rearrange the containers.
+The `waitForDataplaneReady` setting relies on the fact that defining a `postStart` hook causes Kubernetes to run containers sequentially based on their order of occurrence in the `containers` list.
+This isn't documented and could change in the future.
+It also depends on injecting the kuma-sidecar container as the first container in the pod, which isn't guaranteed since other mutating webhooks can rearrange the containers.
 
-A better solution will be available when [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) are more stable and widely available.
+As [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) gain stability and wider availability, a better solution is going to be implemented.
 {% endwarning %}
 
 {% endif_version %}
