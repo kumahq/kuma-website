@@ -47,6 +47,11 @@ spec:
             backendRefs: [...]
 ```
 
+{% tip %}
+Remember to tag your `Service` ports with `appProtocol: HTTP` to use
+them in a `MeshHTTPRoute`!
+{% endtip %}
+
 ### Matches
 
 - **`path`** - (optional) - HTTP path to match the request on
