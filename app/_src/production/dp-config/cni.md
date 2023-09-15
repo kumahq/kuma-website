@@ -31,6 +31,39 @@ To apply NAD to the applications not in a Mesh, add the label `kuma.io/sidecar-i
 Below are the details of how to set up {{site.mesh_product_name}} CNI in different environments using both `kumactl` and `helm`.
 
 {% tabs installation useUrlFragment=false %}
+{% tab installation Cilium %}
+{% tabs cilium useUrlFragment=false %}
+{% tab cilium kumactl %}
+
+```shell
+kumactl install control-plane \
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=05-cilium.conflist"
+```
+{% endtab %}
+{% tab cilium helm %}
+
+```shell
+helm install --create-namespace --namespace {{site.mesh_namespace}} \
+  --set "{{site.set_flag_values_prefix}}cni.enabled=true" \
+  --set "{{site.set_flag_values_prefix}}cni.chained=true" \
+  --set "{{site.set_flag_values_prefix}}cni.netDir=/etc/cni/net.d" \
+  --set "{{site.set_flag_values_prefix}}cni.binDir=/opt/cni/bin" \
+  --set "{{site.set_flag_values_prefix}}cni.confName=05-cilium.conflist" \
+   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
+```
+{% endtab %}
+{% endtabs %}
+
+{% warning %}
+For Cilium versions < 1.14 you should use `{{site.set_flag_values_prefix}}cni.confName=05-cilium.conf` as this has changed
+for version starting from [Cilium 1.14](https://docs.cilium.io/en/stable/operations/upgrade/#id2).
+{% endwarning %}
+
+{% endtab %}
 {% tab installation Calico %}
 
 {% tabs calico useUrlFragment=false %}
@@ -308,7 +341,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \
 {% if_version lte:2.1.x %}
 ## {{site.mesh_product_name}} CNI v2
 
-The CNI v2 is a rewritten and improved version of our original transparent-proxy.  
+The CNI v2 is a rewritten and improved version of the previous transparent-proxy.  
 
 To install v2 CNI append the following options to the command from [installation](#installation):
 
@@ -318,10 +351,10 @@ To install v2 CNI append the following options to the command from [installation
 --set "{{site.set_flag_values_prefix}}experimental.cni=true"
 ```
 
-Currently, the v2 CNI is behind an `experimental` flag, but it is default in versions newer than 2.2.x 
+Currently, the v2 CNI is behind an `experimental` flag, but it's default in versions newer than 2.2.x 
 {% endif_version %}
 
-### {{site.mesh_product_name}} CNI Taint controller
+### {{site.mesh_product_name}} CNI taint controller
 
 To prevent a race condition described in [this issue](https://github.com/kumahq/kuma/issues/4560) a new controller was implemented.
 The controller will taint a node with `NoSchedule` taint to prevent scheduling before the CNI DaemonSet is running and ready.
@@ -348,14 +381,19 @@ and have `cgroup2` available
 --set "{{site.set_flag_values_prefix}}experimental.ebpf.enabled=true"
 ```
 
-## {{site.mesh_product_name}} CNI Logs
+## {{site.mesh_product_name}} CNI logs
 
 {% if_version lte:2.1.x %}
 Logs of the CNI plugin are available in `/tmp/kuma-cni.log` on the node and the logs of the installer are available via `kubectl logs`.
 
-If you are using the CNI v2 or eBPF version logs will be available via `kubectl logs` instead.
+If you are using the CNI v2 version logs are available via `kubectl logs` instead.
 {% endif_version %}
 
 {% if_version gte:2.2.x %}
-Logs of the installer are available via `kubectl logs`.
+Logs of the are available via `kubectl logs`.
+
+{% warning %}
+eBPF CNI currently doesn't have support for exposing its logs.
+{% endwarning %}
+
 {% endif_version %}
