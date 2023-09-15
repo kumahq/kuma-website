@@ -323,7 +323,7 @@ the `HTTPRoute` applies only to requests
 _from workloads in the route's namespace_.
 
 {% tip %}
-Remember to tag your `Service` ports with `appProtocol: HTTP` to use
+Remember to tag your `Service` ports with `appProtocol: http` to use
 them in an `HTTPRoute`!
 {% endtip %}
 

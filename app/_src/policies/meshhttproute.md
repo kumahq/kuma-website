@@ -48,7 +48,7 @@ spec:
 ```
 
 {% tip %}
-Remember to tag your `Service` ports with `appProtocol: HTTP` to use
+Remember to tag your `Service` ports with `appProtocol: http` to use
 them in a `MeshHTTPRoute`!
 {% endtip %}
 
