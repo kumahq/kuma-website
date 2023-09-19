@@ -351,7 +351,7 @@ To install v2 CNI append the following options to the command from [installation
 --set "{{site.set_flag_values_prefix}}experimental.cni=true"
 ```
 
-Currently, the v2 CNI is behind an `experimental` flag, but it's default in versions newer than 2.2.x 
+Until 2.2.x the v2 CNI was behind an `experimental` flag, but now it's the default.
 {% endif_version %}
 
 ### {{site.mesh_product_name}} CNI taint controller
