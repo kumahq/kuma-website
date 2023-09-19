@@ -390,7 +390,7 @@ If you are using the CNI v2 version logs are available via `kubectl logs` instea
 {% endif_version %}
 
 {% if_version gte:2.2.x %}
-Logs of the are available via `kubectl logs`.
+Logs are available via `kubectl logs`.
 
 {% warning %}
 eBPF CNI currently doesn't have support for exposing its logs.
