@@ -4,7 +4,7 @@ jobs:
   test-plugins:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1.2'
@@ -20,7 +20,7 @@ jobs:
       URL: https://deploy-preview-${{github.event.number}}--kuma.netlify.app
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v4
       - run: |
           go install github.com/raviqqe/muffet/v2@v2.9.2
       - name: Wait for Pages changed to be neutral
