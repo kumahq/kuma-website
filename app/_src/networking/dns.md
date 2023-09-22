@@ -119,8 +119,9 @@ Consuming a service handled by {{site.mesh_product_name}} DNS, whether from {{si
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
 ```
+Be aware of DNS standards ([RFC1035](https://www.ietf.org/rfc/rfc1035.txt)) if using underscores in the service name.
 
-A DNS standards compliant name is also available, where the underscores in the service name are replaced with dots. For example:
+A DNS standards-compliant name is also available, where the underscores in the service name are replaced with dots. For example:
 
 ```
 <kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
