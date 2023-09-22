@@ -113,7 +113,7 @@ The first approach has an advantage that we can apply HTTP based policies, becau
   *  `kuma.io/protocol` tag is also taken into account and supports the standard {{site.mesh_product_name}} protocol values. It designates the specific protocol for the service (one of: `http`, `tcp`, `grpc`, `kafka`, default: `tcp`).
   *  `kuma.io/zone` tag is taken into account when [`locality aware load balancing`](#external-services-and-locality-aware-load-balancing) is enabled or external service should be [accessible only from the specific zone](#external-services-accessible-from-specific-zone-through-zoneegress).
 * ` networking` describes the networking configuration of the external service:
-    * `address` is the address where the external service can be reached.
+    * `address` is the address where the external service can be reached. The address has to be a valid IP address or a domain name, and must include a port.
     * `tls` is the section to configure the TLS originator when consuming the external service:
         * `enabled` turns on and off the TLS origination.
         * `allowRenegotiation` turns on and off TLS renegotiation. It's not recommended enabling this for [security reasons](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/tls.proto).
