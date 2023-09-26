@@ -363,7 +363,7 @@ Once the CNI DaemonSet is running and ready it will remove the taint and allow o
 To disable the taint controller use the following env variable:
 
 ```
-KUMA_RUNTIME_KUBERNETES_NODE_TAINT_CONTROLLER_ENABLED=false
+KUMA_RUNTIME_KUBERNETES_NODE_TAINT_CONTROLLER_ENABLED="false"
 ```
 
 ## Merbridge CNI with eBPF
