@@ -120,9 +120,8 @@ Consuming a service handled by {{site.mesh_product_name}} DNS, whether from {{si
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
 ```
 
-<!-- vale Google.Parens = NO -->
-You can also use a DNS-compliant name (RFC 1035: https://www.ietf.org/rfc/rfc1035.txt) by replacing the underscores in the service name with dots. For example:
-<!-- vale Google.Parens = YES -->
+
+You can also use a [DNS RFC1035 compliant name](https://www.ietf.org/rfc/rfc1035.txt) by replacing the underscores in the service name with dots. For example:
 
 ```
 <kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh:80
