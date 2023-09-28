@@ -16,6 +16,10 @@ Or without the optional zone egress:
 <img src="/assets/images/diagrams/gslides/kuma_multizone_without_egress.svg" alt="Kuma service mesh multi zone deployment with zone egress" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
+{% if_version gte:2.2.x %}
+To Install with this topology follow the [multi-zone deployment docs](/docs/{{ page.version }}/production/cp-deployment/multi-zone).
+{% endif_version %}
+
 ## How it works
 
 In {{site.mesh_product_name}}, zones are abstracted away, meaning that your data plane proxies will find services wherever they run.

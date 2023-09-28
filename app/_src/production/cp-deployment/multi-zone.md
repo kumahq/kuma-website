@@ -28,48 +28,23 @@ The global control plane must run on a dedicated cluster, and cannot be assigned
 
 The global control plane on Kubernetes must reside on its own Kubernetes cluster, to keep its resources separate from the resources the zone control planes create during synchronization.
 
-1.  Run:
+Run:
 
-    ```sh
-    kumactl install control-plane --mode=global | kubectl apply -f -
-    ```
+    {% cpinstall gcp %}
+    controlPlane.mode=global
+    {% endcpinstall %}
 
-1.  Find the external IP and port of the `global-remote-sync` service in the `{{site.mesh_namespace}}` namespace:
+Find the external IP and port of the `global-remote-sync` service in the `{{site.mesh_namespace}}` namespace:
 
-    ```sh
-    kubectl get services -n {{site.mesh_namespace}}
-    NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-    {{site.mesh_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-    {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
-    ```
+```sh
+kubectl get services -n {{site.mesh_namespace}}
+NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
+{{site.mesh_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+{{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+```
 
-    In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
-
-{% endtab %}
-{% tab global-control-plane Helm %}
-
-1.  Set the `controlPlane.mode` value to `global` in the chart (`values.yaml`), then install. On the command line, run:
-
-    ```sh
-    helm install {{ site.mesh_helm_install_name }} --create-namespace --namespace {{site.mesh_namespace}} --set {{site.set_flag_values_prefix}}controlPlane.mode=global {{ site.mesh_helm_repo }}
-    ```
-
-    Or you can edit the chart and pass the file to the `helm install {{ site.mesh_helm_install_name }}` command. To get the default values, run:
-
-    ```sh
-    helm show values {{site.mesh_helm_repo}}
-    ```
-
-   1.  Find the external IP and port of the `global-remote-sync` service in the `{{site.mesh_namespace}}` namespace:
-
-       ```sh
-       kubectl get services -n {{site.mesh_namespace}}
-       NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-       {{site.mesh_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-       {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
-       ```
-
-       By default, it's exposed on [port 5685]{% if_version lte:2.1.x %}(/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/use-mesh#control-plane-ports){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+By default, it's exposed on [port 5685]{% if_version lte:2.1.x %}(/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/use-mesh#control-plane-ports){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 
@@ -192,74 +167,34 @@ You need the following values to pass to each zone control plane setup:
 {% tabs zone-control-planes useUrlFragment=false %}
 {% tab zone-control-planes Kubernetes %}
 
-1.  On each zone control plane, run:
+On each zone control plane, run:
 
-    {% if_version gte:2.3.x %}
-    ```sh
-    kumactl install control-plane \
-    --mode=zone \
-    --zone=<zone name> \
-    --ingress-enabled \
-    --kds-global-address grpcs://<global-kds-address>:5685 \
-    --set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true | kubectl apply -f -
-    ```
-    {% endif_version %}
-    {% if_version lte:2.2.x %}
-    ```sh
-    kumactl install control-plane \
-    --mode=zone \
-    --zone=<zone name> \
-    --ingress-enabled \
-    --kds-global-address grpcs://<global-kds-address>:5685 | kubectl apply -f -
-    ```
-    {% endif_version %}
+{% if_version gte:2.3.x %}
+{% cpinstall zcp %}
+controlPlane.mode=zone
+controlPlane.zone=<zone-name>
+ingress.enabled=true
+controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685
+controlPlane.tls.kdsZoneClient.skipVerify=true
+{% endcpinstall %}
+{% endif_version %}
+{% if_version lte:2.2.x %}
+{% cpinstall zcp-old %}
+controlPlane.mode=zone
+controlPlane.zone=<zone-name>
+ingress.enabled=true
+controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685
+{% endcpinstall %}
+{% endif_version %}
 
-    where `zone` is the same value for all zone control planes in the same zone.
+where `{{site.set_flag_values_prefix}}controlPlane.zone` is the same value for all zone control planes in the same zone.
 
-    Add `--egress-enabled` to list of arguments if you want to deploy optional [Zone Egress]{% if_version lte:2.1.x %}(/docs/{{ page.version }}/explore/zoneegress/){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}.
+Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional {% if_version lte:2.1.x %}[Zone Egress](/docs/{{ page.version }}/explore/zoneegress/){% endif_version %}{% if_version gte:2.2.x %}[Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}.
 
-    {% if_version gte:2.3.x %}
-    `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
-    It is recommended to use a certificate signed by a trusted CA in production. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
-    {% endif_version %}
-
-{% endtab %}
-{% tab zone-control-planes Helm %}
-
-1.  On each zone control plane, run:
-
-    {% if_version gte:2.3.x %}
-    ```sh
-    helm install {{ site.mesh_helm_install_name }} \
-    --create-namespace \
-    --namespace {{site.mesh_namespace}} \
-    --set {{site.set_flag_values_prefix}}controlPlane.mode=zone \
-    --set {{site.set_flag_values_prefix}}controlPlane.zone=<zone-name> \
-    --set {{site.set_flag_values_prefix}}ingress.enabled=true \
-    --set {{site.set_flag_values_prefix}}controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 \
-    --set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true {{ site.mesh_helm_repo }}
-    ```
-    {% endif_version %}
-    {% if_version lte:2.2.x %}
-    ```sh
-    helm install {{ site.mesh_helm_install_name }} \
-    --create-namespace \
-    --namespace {{site.mesh_namespace}} \
-    --set {{site.set_flag_values_prefix}}controlPlane.mode=zone \
-    --set {{site.set_flag_values_prefix}}controlPlane.zone=<zone-name> \
-    --set {{site.set_flag_values_prefix}}ingress.enabled=true \
-    --set {{site.set_flag_values_prefix}}controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685 {{ site.mesh_helm_repo }}
-    ```
-    {% endif_version %}
-
-    where `controlPlane.zone` is the same value for all zone control planes in the same zone.
-
-    Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional [Zone Egress]{% if_version lte:2.1.x %}(/docs/{{ page.version }}/explore/zoneegress/){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}.
-
-    {% if_version gte:2.3.x %}
-    `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` is required because the default global control plane's certificate is self-signed.
-    It is recommended to use a certificate signed by a trusted CA in production. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
-    {% endif_version %}
+{% if_version gte:2.3.x %}
+Set `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` because the default global control plane's certificate is self-signed.
+For production use a certificate signed by a trusted CA. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
+{% endif_version %}
 
 {% endtab %}
 {% tab zone-control-planes Universal %}
@@ -361,8 +296,8 @@ You need the following values to pass to each zone control plane setup:
     --dataplane-file=zoneegress-dataplane.yaml
     ```
 
-    {% endtab %}
-    {% endtabs %}
+{% endtab %}
+{% endtabs %}
 
 ### Verify control plane connectivity
 
