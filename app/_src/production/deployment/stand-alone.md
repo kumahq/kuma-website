@@ -19,6 +19,10 @@ This mode implies that we can deploy {{site.mesh_product_name}} and its data pla
 
 Standalone mode is usually a great choice within the context of one zone (ie: within one Kubernetes cluster or one AWS VPC).
 
+{% if_version gte:2.2.x %}
+To Install with this topology follow the [stand-alone deployment docs](/docs/{{ page.version }}/production/cp-deployment/stand-alone).
+{% endif_version %}
+
 ## Limitations
 
 * All data plane proxies need to be able to communicate with every other dataplane proxy.
