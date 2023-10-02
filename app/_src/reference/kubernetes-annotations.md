@@ -29,7 +29,7 @@ Used on a deployment using pod template it will inject the sidecar in all pods m
 
 ```yaml
 apiVersion: v1
-king: Deployment
+kind: Deployment
 metadata:
   name: my-deployment
 spec:
@@ -76,6 +76,7 @@ metadata:
 
 Annotating pods or deployments will take precedence on the namespace annotation.
 
+{% if_version lte:2.1.x %}
 ### `kuma.io/sidecar-injection`
 
 Similar to the preferred [label](#kumaiosidecar-injection).
@@ -96,6 +97,7 @@ metadata:
 While you can still use annotations to inject sidecar, we strongly recommend using labels.
 It's the only way to guarantee that application can only be started with sidecar.
 {% endwarning %}
+{% endif_version %}
 
 ### `kuma.io/gateway`
 
@@ -602,6 +604,14 @@ spec:
       containers:
         [...]
 ```
+
+{% if_version gte:2.4.x %}
+### `kuma.io/wait-for-dataplane-ready`
+
+Define if you want the kuma-sidecar container to wait for the dataplane to be ready before starting app container.
+Read relevant [Data plane on Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#waiting-for-the-dataplane-to-be-ready) section for more information.
+
+{% endif_version %}
 
 ### `prometheus.metrics.kuma.io/aggregate-<name>-enabled`
 

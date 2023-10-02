@@ -33,6 +33,7 @@ deduplicat(:?e|ion)
 degraphql
 denylist
 dev
+disabled
 DNS
 eBPF
 EKS|eks
@@ -113,6 +114,7 @@ proxying
 redis
 referenceable
 repo
+RFC
 routable
 runtimes?
 sandboxing
@@ -130,6 +132,7 @@ targetRef
 tbl
 tcpdump
 TLS
+tls
 transcoder
 ttl
 txt

@@ -220,8 +220,8 @@ A builtin gateway `Dataplane` does not have either inbound or outbound configura
 
 To configure your gateway {{site.mesh_product_name}} has these resources:
 
-- [MeshGateway](/docs/{{ page.version }}/policies/mesh-gateway) is used to configure listeners exposed by the gateway
-- [MeshGatewayRoute](/docs/{{ page.version }}/policies/mesh-gateway-route) is used to configure route to route traffic from listeners to other services.
+- [MeshGateway](/docs/{{ page.version }}/policies/meshgateway) is used to configure listeners exposed by the gateway
+- [MeshGatewayRoute](/docs/{{ page.version }}/policies/meshgatewayroute) is used to configure route to route traffic from listeners to other services.
 
 {% tip %}
 {{site.mesh_product_name}} gateways are configured with the [Envoy best practices for edge proxies](https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge).

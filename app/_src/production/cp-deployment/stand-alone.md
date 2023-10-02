@@ -7,20 +7,22 @@ In order to deploy {{site.mesh_product_name}} in a standalone deployment, the `k
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
-This is the standard installation method as described in the [installation page](/install).
-```sh
-kumactl install control-plane | kubectl apply -f -
-```
+This is the standard installation method. 
+{% cpinstall cpstandalone %}
+controlPlane.mode=standalone
+{% endcpinstall %}
 
 **With zone egress**:
 
 It's possible to run {% if_version lte:2.1.x %}[`ZoneEgress`](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[`ZoneEgress`](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %} for standalone deployment. In order to deploy {{site.mesh_product_name}} with `ZoneEgress` run the install command with an additional parameter.
-```sh
-kumactl install control-plane --egress-enabled | kubectl apply -f -
-```
+{% cpinstall cpstandalone-egress %}
+controlPlane.mode=standalone
+egress.enabled=true
+{% endcpinstall %}
+
 {% endtab %}
 {% tab usage Universal %}
-This is the standard installation method as described in the [installation page](/install).
+This is the standard installation method. 
 ```sh
 kuma-cp run
 ```

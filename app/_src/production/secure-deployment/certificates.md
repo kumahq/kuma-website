@@ -58,7 +58,7 @@ cp /tmp/tls.crt /tmp/ca.crt
 2) Configure the control plane with generated certs:
 
 {% tabs control-plane useUrlFragment=false %}
-{% tab control-plane Kubernetes (kumactl) %}
+{% tab control-plane Kubernetes %}
 Create a secret in the namespace where the control plane is installed:
 ```sh
 kubectl create secret generic general-tls-certs -n <namespace> \
@@ -68,31 +68,11 @@ kubectl create secret generic general-tls-certs -n <namespace> \
 ```
 
 Point to this secret when installing {{site.mesh_product_name}}:
-```sh
-kumactl install control-plane \
-  --tls-general-secret=general-tls-certs \
-  --tls-general-ca-bundle=$(cat /tmp/ca.crt | base64)
-```
 
-The data plane proxy Injector in the control plane automatically provides the CA to the {{site.mesh_product_name}} DP sidecar 
-so {{site.mesh_product_name}} DP can confirm the control plane identity.
-
-{% endtab %}
-{% tab control-plane Kubernetes (HELM) %}
-Create a secret in the namespace where the control plane is installed:
-```sh
-kubectl create secret generic general-tls-certs -n <namespace> \
-  --from-file=tls.crt=/tmp/tls.crt \
-  --from-file=tls.key=/tmp/tls.key \
-  --from-file=ca.crt=/tmp/ca.crt
-```
-
-Point to this secret when installing {{site.mesh_product_name}}:
-```sh
-helm install --create-namespace --namespace <namespace> {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}} \
-  --set {{site.set_flag_values_prefix}}controlPlane.tls.general.secretName=general-tls-certs \
-  --set {{site.set_flag_values_prefix}}controlPlane.tls.general.caBundle=$(cat /tmp/ca.crt | base64)
-```
+{% cpinstall certs %}
+controlPlane.tls.general.secretName=general-tls-certs
+controlPlane.tls.general.caBundle=$(cat /tmp/ca.crt | base64)
+{% endcpinstall %}
 
 The data plane proxy Injector in the control plane automatically provides the CA to the {{site.mesh_product_name}} DP sidecar 
 so {{site.mesh_product_name}} DP can confirm the control plane identity.
@@ -142,12 +122,12 @@ kubectl create secret generic general-tls-certs -n <namespace> \
 ```
 
 Point to this secret when installing Kuma:
-```sh
-kumactl install control-plane \
-  --tls-general-secret=general-tls-certs \
-  --tls-general-ca-bundle=$(cat /tmp/ca.crt | base64) \
-  --env-var 'KUMA_MONITORING_ASSIGNMENT_SERVER_TLS_ENABLED=true'
-```
+
+{% cpinstall install-mads %}
+controlPlane.tls.general.secretName=general-tls-certs
+controlPlane.tls.general.caBundle=$(cat /tmp/ca.crt | base64)
+controlPlane.envVars.KUMA_MONITORING_ASSIGNMENT_SERVER_TLS_ENABLED=true
+{% endcpinstall %}
 
 {% endtab %}
 {% tab mads Universal %}
@@ -197,7 +177,7 @@ cp /tmp/tls.crt /tmp/ca.crt
 
 2) Configure the control plane with generated certificates
 {% tabs configure-control-plane useUrlFragment=false %}
-{% tab configure-control-plane Kubernetes (kumactl) %}
+{% tab configure-control-plane Kubernetes %}
 Create a secret in the namespace in which the control plane is installed:
 ```sh
 kubectl create secret tls api-server-tls -n <namespace> \
@@ -206,24 +186,10 @@ kubectl create secret tls api-server-tls -n <namespace> \
 ```
 
 Point to this secret when installing {{site.mesh_product_name}}:
-```sh
-kumactl install control-plane \
-  --tls-api-server-secret=api-server-tls
-```
-{% endtab %}
-{% tab configure-control-plane Kubernetes (HELM) %}
-Create a secret in the namespace in which the control plane is installed:
-```sh
-kubectl create secret tls api-server-tls -n <namespace> \
-  --cert=/tmp/tls.crt \
-  --key=/tmp/tls.key
-```
 
-Point to this secret when installing {{site.mesh_product_name}}:
-```sh
-helm install --create-namespace --namespace <namespace> {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}} \
-  --set {{site.set_flag_values_prefix}}controlPlane.tls.apiServer.secretName=api-server-tls
-```
+{% cpinstall apiserversecret %}
+controlPlane.tls.apiServer.secretName=api-server-tls
+{% endcpinstall %}
 
 {% endtab %}
 {% tab configure-control-plane Universal %}
@@ -284,8 +250,9 @@ cp /tmp/tls.crt /tmp/ca.crt
 ```
 
 2) Configure global control plane
+
 {% tabs global-control-plane useUrlFragment=false %}
-{% tab global-control-plane Kubernetes (kumactl) %}
+{% tab global-control-plane Kubernetes %}
 Create a secret in the namespace where the global control plane is installed:
 ```sh
 kubectl create secret tls kds-server-tls -n <namespace> \
@@ -294,25 +261,10 @@ kubectl create secret tls kds-server-tls -n <namespace> \
 ```
 
 Point to this secret when installing the global control plane:
-```sh
-kumactl install control-plane \
-  --mode=global \
-  --tls-kds-global-server-secret=general-tls-certs
-```
-{% endtab %}
-{% tab global-control-plane Kubernetes (HELM) %}
-Create a secret in the namespace where the global control plane is installed:
-```sh
-kubectl create secret tls kds-server-tls -n <namespace> \
-  --cert=/tmp/tls.crt \
-  --key=/tmp/tls.key
-```
 
-Point to this secret when installing {{site.mesh_product_name}}:
-```sh
-helm install --create-namespace --namespace <namespace> {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}} \
-  --set {{site.set_flag_values_prefix}}controlPlane.tls.kdsGlobalServer.secretName=kds-server-tls
-```
+{% cpinstall kdsglobalsecret %}
+controlPlane.tls.kdsGlobalServer.secretName=kds-server-tls
+{% endcpinstall %}
 
 {% endtab %}
 {% tab global-control-plane Universal %}
@@ -329,7 +281,7 @@ KUMA_MULTIZONE_GLOBAL_KDS_TLS_CERT_FILE=/tmp/tls.crt \
 3) Configure the zone control plane
 
 {% tabs zone-control-plane useUrlFragment=false %}
-{% tab zone-control-plane Kubernetes (kumactl) %}
+{% tab zone-control-plane Kubernetes %}
 Create a secret in the namespace where the zone control plane is installed:
 ```sh
 kubectl create secret generic kds-ca-certs -n <namespace> \
@@ -337,24 +289,10 @@ kubectl create secret generic kds-ca-certs -n <namespace> \
 ```
 
 Point to this secret when installing the zone control plane:
-```sh
-kumactl install control-plane \
-  --mode=zone \
-  --tls-kds-zone-client-secret=kds-ca-certs
-```
-{% endtab %}
-{% tab zone-control-plane Kubernetes (HELM) %}
-Create a secret in the namespace where the zone control plane is installed:
-```sh
-kubectl create secret generic kds-ca-certs -n <namespace> \
-  --from-file=ca.crt.pem=/tmp/ca.crt
-```
 
-Point to this secret when installing {{site.mesh_product_name}}:
-```sh
-helm install --create-namespace --namespace <namespace> {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}} \
-  --set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.secretName=kds-ca-certs
-```
+{% cpinstall kdszonesecret %}
+controlPlane.tls.kdsZoneClient.secretName=kds-ca-certs
+{% endcpinstall %}
 
 {% endtab %}
 {% tab zone-control-plane Universal %}

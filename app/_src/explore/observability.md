@@ -45,7 +45,10 @@ This service discovery will connect to the control plane and retrieve all data p
 There are 2 ways you can run prometheus:
 
 1. Inside the mesh (default for [`kumactl install observability`](#demo-setup)). In this case you can use mTLS to retrieve the metrics. This provides high security but will require one prometheus per mesh and might not be accessible if your mesh becomes unavailable. It will also require one Prometheus deployment per {{site.mesh_product_name}} mesh.
-2. Outside the mesh. In this case you'll need to specify `skipMTLS: true` in the [traffic metrics configuration](/docs/{{ page.version }}/policies/traffic-metrics). This is less secured but will ensure Prometheus is as available as possible. It is also easier to add to an existing setup with services in and outside the mesh.
+2. Outside the mesh. In this case you'll need to specify {% if_version lte:2.3.x %}`skipMTLS: true`{% endif_version %}{% if_version gte:2.4.x %}`tls.mode: disabled`{% endif_version %} in the [traffic metrics configuration](/docs/{{ page.version }}/policies/traffic-metrics). This is less secure but ensures Prometheus is as available as possible. It's also easier to add to an existing setup with services in and outside the mesh.
+{% if_version gte:2.4.x %}
+3. Outside the mesh with TLS enabled. In this case you'll need to provide certificates for each dataplane and specify configuration in the [traffic metrics configuration](/docs/{{ page.version }}/policies/traffic-metrics#secure-metrics-with-tls). This is more secure than second option but requires more configuration.
+{% endif_version %}
 
 In production, we recommend the second option as it provides better visibility when things go wrong, and it's usually acceptable for metrics to be less secure.
 {% endtip %}
@@ -331,12 +334,12 @@ When {{site.mesh_product_name}} is used in multi-zone the recommended approach i
 
 Prometheus offers different ways to do this:
 
-- [Federation](https://prometheus.io/docs/prometheus/latest/federation/) the global Prometheus will scrape each zone Prometheuses.
-- [Remote Write](https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations) each zone Prometheuses will directly write their metrics to the global, this is meant to be more efficient the API the federation.
-- [Remote Read](https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations) like remote write but the other way around.
+- [Federation](https://prometheus.io/docs/prometheus/latest/federation/) The global Prometheus will scrape Prometheus in each zone.
+- [Remote Write](https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations) Prometheus in each zone will directly write metrics to the global, this is meant to be more efficient than the federation.
+- [Remote Read](https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations) like remote write, but the other way around.
 
 ### Jaeger, Loki, Datadog and others
 
 Most telemetry components don't have a hierarchical setup like Prometheus.
 If you want to have a central view of everything you can set up the system in global and have each zone send their data to it.
-Because zone is present in data plane tags you shouldn't be worried about metrics, logs and traces overlapping between zones.
+Because zone is present in data plane tags you shouldn't be worried about metrics, logs, and traces overlapping between zones.

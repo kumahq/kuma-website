@@ -322,6 +322,11 @@ If the route's namespace differs from its `parentRef`'s namespace,
 the `HTTPRoute` applies only to requests
 _from workloads in the route's namespace_.
 
+{% tip %}
+Remember to tag your `Service` ports with `appProtocol: http` to use
+them in an `HTTPRoute`!
+{% endtip %}
+
 {% warning %}
 Because of [how Kuma maps resources](#how-it-works) at the moment,
 the combination of the `HTTPRoute`s name and namespace and

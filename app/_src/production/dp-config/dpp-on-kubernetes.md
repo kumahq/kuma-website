@@ -40,11 +40,13 @@ spec:
       containers:
         ...
 ```
+{% if_version lte:2.1.x %}
 {% warning %}
 In previous versions the recommended way was to use annotations.
 While annotations are still supported, we strongly recommend using labels.
 This is the only way to guarantee that applications can only be started with sidecar.
 {% endwarning %}
+{% endif_version %}
 
 Once your pod is running you can see the data plane CRD that matches it using `kubectl`:
 
@@ -161,6 +163,16 @@ inbound:
 
 Notice how `kuma.io/service` is built on `<serviceName>_<namespace>_svc_<port>` and `kuma.io/protocol` is the `appProtocol` field of your service entry.
 
+## Capabilities
+
+{% if_version lte:2.3.x %}
+The only required
+[capability](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) for the sidecar is `NET_BIND_SERVICE`.
+{% endif_version %}{% if_version gte:2.4.x %}
+The sidecar doesn't need any [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) and works with `drop: ["ALL"]`.
+{% endif_version %} Use [`ContainerPatch`](#custom-container-configuration) to
+control capabilities for the sidecar.
+
 ## Lifecycle
 
 ### Joining the mesh
@@ -171,6 +183,32 @@ On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For eac
 To join the mesh in a graceful way, we need to first make sure the application is ready to serve traffic before it can be considered a valid traffic destination.
 
 When `Pod` is converted to a `Dataplane` object it will be marked as unhealthy until Kubernetes considers all containers to be ready.
+
+{% if_version gte:2.4.x %}
+### Waiting for the dataplane to be ready
+
+By default, containers start in any order, so an app container can start even though a dataplane container might not be ready to receive traffic.
+
+Making initial requests, such as connecting to a database, can fail for a brief period after the pod starts. 
+
+To mitigate this problem try setting
+* `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true`, or 
+* [kuma.io/wait-for-dataplane-ready](/docs/{{ page.version }}/reference/kubernetes-annotations/#kumaiowait-for-dataplane-ready) annotation to `true`
+so that the app container waits for the dataplane container to be ready to serve traffic.
+
+{% warning %}
+
+The `waitForDataplaneReady` setting relies on the fact that defining a `postStart` hook causes Kubernetes to run containers sequentially based on their order of occurrence in the `containers` list.
+This isn't documented and could change in the future.
+It also depends on injecting the kuma-sidecar container as the first container in the pod, which isn't guaranteed since other mutating webhooks can rearrange the containers.
+
+<!-- vale off -->
+A better solution will be available when [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) are more stable and widely available.
+<!-- vale on -->
+{% endwarning %}
+
+{% endif_version %}
+
 
 ### Leaving the mesh
 
@@ -236,19 +274,19 @@ only be applied in a namespace where **{{site.mesh_product_name}} CP** is runnin
 
 {% warning %}
 In the vast majority of cases you shouldn't need to override the sidecar and
-init-container configurations. `ContainerPatch` is a feature which requires good
+init container configurations. `ContainerPatch` is a feature which requires good
 understanding of both {{site.mesh_product_name}} and Kubernetes.
 {% endwarning %}
 
-The specification of `ContainerPatch` consists of the list of [jsonpatch](https://datatracker.ietf.org/doc/html/rfc6902)
-strings which describe the modifications to be performed.
+A `ContainerPatch` specification consists of the list of [JSON patch](https://datatracker.ietf.org/doc/html/rfc6902)
+strings that describe the modifications. Consult [the entire
+resource schema](#schema).
 
 ### Example
 
 {% warning %}
-When using ContainerPath, every `value` field must be valid JSON.
+When using ContainerPath, every `value` field must be a string containing valid JSON.
 {% endwarning %}
-
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -418,10 +456,6 @@ a sane configuration.
 If a workload refers to a `ContainerPatch` which does not exist, the injection
 will explicitly fail and log the failure.
 
-### Schema
-
-{% json_schema kuma.io_containerpatches type=crd %}
-
 ## Direct access to services
 
 By default, on Kubernetes data plane proxies communicate with each other by leveraging the `ClusterIP` address of the `Service` resources. Also by default, any request made to another service is automatically load balanced client-side by the data plane proxy that originates the request (they are load balanced by the local Envoy proxy sidecar proxy).
@@ -467,3 +501,7 @@ kuma.io/direct-access-services: *
 {% warning %}
 Using `*` to directly access every service is a resource intensive operation, so we must use it carefully.
 {% endwarning %}
+
+### Schema
+
+{% json_schema kuma.io_containerpatches type=crd %}

@@ -599,21 +599,21 @@ items:
           - text: Examples
             url: "/policies/virtual-outbound/#examples"
       - text: MeshGateway
-        url: /policies/mesh-gateway/
+        url: /policies/meshgateway/
         items:
           - text: TLS Termination
-            url: "/policies/mesh-gateway/#tls-termination"
+            url: "/policies/meshgateway/#tls-termination"
       - text: MeshGatewayRoute
-        url: /policies/mesh-gateway-route/
+        url: /policies/meshgatewayroute/
         items:
           - text: Listener tags
-            url: "/policies/mesh-gateway-route/#listener-tags"
+            url: "/policies/meshgatewayroute/#listener-tags"
           - text: Matching
-            url: "/policies/mesh-gateway-route/#matching"
+            url: "/policies/meshgatewayroute/#matching"
           - text: Filters
-            url: "/policies/mesh-gateway-route/#filters"
+            url: "/policies/meshgatewayroute/#filters"
           - text: Reference
-            url: "/policies/mesh-gateway-route/#reference"
+            url: "/policies/meshgatewayroute/#reference"
       - text: MeshGatewayInstance
         url: /policies/meshgatewayinstance/
       - text: Service Health Probes

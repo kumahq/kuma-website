@@ -1,10 +1,13 @@
 name: CI
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 on: pull_request
 jobs:
   test-plugins:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1.2'
@@ -20,9 +23,9 @@ jobs:
       URL: https://deploy-preview-${{github.event.number}}--kuma.netlify.app
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v4
       - run: |
-          go install github.com/raviqqe/muffet/v2@v2.4.9
+          go install github.com/raviqqe/muffet/v2@v2.9.2
       - name: Wait for Pages changed to be neutral
         uses: fountainhead/action-wait-for-check@v1.0.0
         id: waitForCheck
@@ -40,10 +43,10 @@ jobs:
           max_timeout: 1200
       - name: link checker
         run: |
-          $(go env GOPATH)/bin/muffet ${URL} --buffer-size 8192  --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/kumahq/kuma/pull' --exclude 'https://github.com//kumahq/kuma/pull' --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --rate-limit 50 --timeout 60
+          $(go env GOPATH)/bin/muffet ${URL} --buffer-size 8192 --exclude https://linux.die.net --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/kumahq/kuma/pull' --exclude 'https://github.com//kumahq/kuma/pull' --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --exclude https://download.konghq.com --exclude ${URL}/docs/1. --rate-limit 50 --timeout 60
       - name: link checker dev docs
         run: |
-          $(go env GOPATH)/bin/muffet ${URL}/docs/dev --buffer-size 8192 --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/kumahq/kuma/pull'  --exclude 'https://github.com//kumahq/kuma/pull' --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --exclude https://download.konghq.com --rate-limit 50 --timeout 60
+          $(go env GOPATH)/bin/muffet ${URL}/docs/dev --buffer-size 8192 --exclude https://linux.die.net --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/kumahq/kuma/pull'  --exclude 'https://github.com//kumahq/kuma/pull' --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --exclude https://download.konghq.com --rate-limit 50 --timeout 60
 
   installer-sh:
     name: Test installer.sh
@@ -55,7 +58,7 @@ jobs:
           - amazonlinux:2022
           - debian:bookworm
           - redhat/ubi8:8.6
-          - ubuntu:22.10
+          - ubuntu:22.04
           - archlinux:latest
           - fedora:latest
     container:
