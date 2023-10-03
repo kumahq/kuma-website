@@ -116,7 +116,7 @@ Memory is the **default** memory store when running in Universal mode and is onl
 
 
 {% warning %}
-Because the state is not persisted this store should only be used when trying things out.
+Because the state is not persisted this store should **not** be used in production.
 {% endwarning %}
 
 ### Postgres
