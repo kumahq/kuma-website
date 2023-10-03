@@ -8,7 +8,7 @@ Due to the way that {{site.mesh_product_name}} implements transparent proxying, 
 
 The common pitfall is the idea that it's possible to order init containers so that the mesh init container is run after other init containers.
 However, when injecting these init containers into a Pod via webhooks, such as the Vault init container, there is no assurance of the order.
-The ordering of init containers also does not provide a solution when the CNI is used, as traffic redirection to the sidecar occurs even before any init container runs
+The ordering of init containers also doesn't provide a solution when the CNI is used, as traffic redirection to the sidecar occurs even before any init container runs
 
 To solve this issue, start the init container with a specific user ID and exclude specific ports from interception.
 Remember also about excluding port of DNS interception. Here is an example of annotations to enable HTTPS traffic for a container running as user id `1234`.
