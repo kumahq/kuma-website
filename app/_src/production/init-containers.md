@@ -6,11 +6,11 @@ Due to the way that {{site.mesh_product_name}} implements transparent proxying, 
 
 ### Network calls to outside of the mesh
 
-The common pitfall is the idea that it is possible to order init containers so that the mesh init container is run after other init containers.
-However, if those init containers are injected into a Pod via webhooks (for example, the Vault init container), there is no guarantee of the order.
-Ordering of init containers is also not a solution when the CNI is used, because traffic redirection to the sidecar is applied even before any init container is run.
+The common pitfall is the idea that it's possible to order init containers so that the mesh init container is run after other init containers.
+However, when injecting these init containers into a Pod via webhooks, such as the Vault init container, there is no assurance of the order.
+The ordering of init containers also does not provide a solution when the CNI is used, as traffic redirection to the sidecar occurs even before any init container runs
 
-The solution is to start the init container with a specific user id and exclude specific ports from being intercepted.
+To solve this issue, start the init container with a specific user ID and exclude specific ports from interception.
 Remember also about excluding port of DNS interception. Here is an example of annotations to enable HTTPS traffic for a container running as user id `1234`.
 ```yaml
 apiVersion: v1
@@ -33,5 +33,5 @@ spec:
 
 ### Network calls inside the mesh with mTLS enabled
 
-In this case, it's simply impossible to use the init container, because `kuma-dp` is responsible for encrypting the traffic, and it is run after all init containers.
-This might be solved in the future when [Kubernetes Sidecar KEP](https://github.com/kubernetes/enhancements/issues/753) is implemented.
+In this scenario, using the init container is simply impossible because `kuma-dp` is the one responsible for encrypting the traffic and runs after all init containers.
+A potential solution for this may arise in the future once the [Kubernetes Sidecar KEP](https://github.com/kubernetes/enhancements/issues/753) is implemented.
