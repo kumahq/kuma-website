@@ -173,7 +173,8 @@ mesh: default
 spec:
   targetRef:
     kind: MeshService
-    name: frontend
+    name_uni: frontend
+    name_kube: frontend_kuma-demo_svc_8080
   from:
     - targetRef:
         kind: Mesh
@@ -188,7 +189,8 @@ spec:
   to:
     - targetRef:
         kind: MeshService
-        name: backend
+        name_uni: backend
+        name_kube: backend_kuma-demo_svc_3001
       default:
         idleTimeout: 60s
         connectionTimeout: 1s
@@ -217,7 +219,8 @@ mesh: default
 spec:
   targetRef:
     kind: MeshService
-    name: frontend_kuma-demo_svc_8080
+    name_uni: frontend
+    name_kube: frontend_kuma-demo_svc_8080
   to:
     - targetRef:
         kind: MeshService
@@ -230,7 +233,8 @@ spec:
           default:
             backendRef:
               - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
+                name_uni: backend
+                name_kube: backend_kuma-demo_svc_3001
                 tags:
                   version: v2
 ---
