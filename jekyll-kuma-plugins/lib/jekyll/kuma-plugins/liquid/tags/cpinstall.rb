@@ -1,12 +1,11 @@
 # This plugins lets us add a set of key values to add to install and it will generate 2 tabs for helm and kumactl install
 # It removes duplication of examples for both universal and kubernetes environments.
-# The expected format is universal. It only works for policies V2 with a `spec` blocks.
 require 'yaml'
 module Jekyll
   module KumaPlugins
     module Liquid
       module Tags
-        class PolicyYaml < ::Liquid::Block
+        class InstallCp < ::Liquid::Block
           def initialize(tag_name, tabs_name, options)
              super
              @tabs_name = tabs_name
@@ -55,4 +54,4 @@ helm install --create-namespace \\
   end
 end
 
-Liquid::Template.register_tag('cpinstall', Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml)
+Liquid::Template.register_tag('cpinstall', Jekyll::KumaPlugins::Liquid::Tags::InstallCp)
