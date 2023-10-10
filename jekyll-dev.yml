@@ -67,6 +67,7 @@ jekyll-generator-single-source:
   base_dest_path: 'docs'
 
 # Product name variables
+mesh_helm_repo_url: https://kumahq.github.io/charts
 mesh_product_name: Kuma
 mesh_product_name_path: kuma
 mesh_namespace: kuma-system
