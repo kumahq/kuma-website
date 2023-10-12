@@ -48,7 +48,7 @@ To use the CNI you can use the detailed [instructions to configure the {{site.me
 ### Native sidecar support
 
 In version 1.28 Kubernetes introduced [native sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/).
-support for this feature is planned and is covered in (#7541)[https://github.com/kumahq/kuma/issues/7541).
+support for this feature is planned and is covered in [#7541](https://github.com/kumahq/kuma/issues/7541).
 
 ## OpenShift
 
