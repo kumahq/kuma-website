@@ -10,25 +10,25 @@ This page covers special steps for some Kubernetes distributions or version and 
 
 ### Adding the {{site.mesh_product_name}} charts repository
 
-To start using {{site.mesh_product_name}} with Helm charts, we first need to add the [{{site.mesh_product_name}} charts repository]({{site.mesh_helm_repo_url}}) to our local Helm deployment:
+To use {{site.mesh_product_name}} with Helm charts, add the [{{site.mesh_product_name}} charts repository]({{site.mesh_helm_repo_url}}) locally:
 
 ```sh
 helm repo add {{site.mesh_helm_repo_name}} {{site.mesh_helm_repo_url}}
 ```
 
-Once the repo is added, all following updates can be fetched with `helm repo update`.
+All following updates can be fetched with `helm repo update`.
 
 ### Helm config
 
-We provide a full [reference of helm configuration](/docs/{{ page.version }}/reference/kuma-cp/#helm-valuesyaml).
+You can find a full [reference of helm configuration](/docs/{{ page.version }}/reference/kuma-cp/#helm-valuesyaml).
 
-You can also set any control-plane configuration by using the prefix: `{{ site.set_flag_values_prefix }}controlPlane.envVars.` this is explained in more details in: [Control plane configuration](/docs/{{ page.version }}/documentation/configuration/#modifying-the-configuration).
+You can also set any control-plane configuration by using the prefix: `{{ site.set_flag_values_prefix }}controlPlane.envVars.`. More detailed explanations can be found in the page: [control plane configuration](/docs/{{ page.version }}/documentation/configuration/#modifying-the-configuration).
 
 ### Argo CD
 
 {{site.mesh_product_name}} zones require a certificate to verify a connection between the control plane and a data plane proxy.
 {{site.mesh_product_name}} Helm chart autogenerate self-signed certificate if the certificate isn't explicitly set.
-Argo CD uses `helm template` to compare and apply Kubernetes YAMLs.
+[Argo CD](https://argo-cd.readthedocs.io/en/stable/) uses `helm template` to compare and apply Kubernetes YAMLs.
 Helm template doesn't work with chart logic to verify if the certificate is present.
 This results in replacing the certificate on each Argo redeployment.
 The solution to this problem is to explicitly set the certificates.
