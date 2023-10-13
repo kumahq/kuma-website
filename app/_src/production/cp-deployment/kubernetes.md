@@ -16,13 +16,13 @@ To use {{site.mesh_product_name}} with Helm charts, add the [{{site.mesh_product
 helm repo add {{site.mesh_helm_repo_name}} {{site.mesh_helm_repo_url}}
 ```
 
-All following updates can be fetched with `helm repo update`.
+You can fetch all following updates by running `helm repo update`.
 
 ### Helm config
 
 You can find a full [reference of helm configuration](/docs/{{ page.version }}/reference/kuma-cp/#helm-valuesyaml).
 
-You can also set any control-plane configuration by using the prefix: `{{ site.set_flag_values_prefix }}controlPlane.envVars.`. More detailed explanations can be found in the page: [control plane configuration](/docs/{{ page.version }}/documentation/configuration/#modifying-the-configuration).
+You can also set any control-plane configuration by using the prefix: `{{ site.set_flag_values_prefix }}controlPlane.envVars.`. Find detailed explanations in the page: [control plane configuration](/docs/{{ page.version }}/documentation/configuration/#modifying-the-configuration).
 
 ### Argo CD
 
@@ -38,9 +38,9 @@ See ["Data plane proxy to control plane communication"](/docs/{{ page.version }}
 
 ### CNI
 
-On Kubernetes there are two ways we can redirect traffic to the sidecar:
+On Kubernetes there are two ways to redirect traffic to the sidecar:
 
-- init-containers which will require these containers to run with elevated privileges.
+- init-containers which need to run with elevated privileges.
 - [CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) which requires a little extra setup.
 
 To use the CNI you can use the detailed [instructions to configure the {{site.mesh_product_name}} CNI](/docs/{{ page.version }}/production/dp-config/cni/). 
@@ -48,7 +48,7 @@ To use the CNI you can use the detailed [instructions to configure the {{site.me
 ### Native sidecar support
 
 In version 1.28 Kubernetes introduced [native sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/).
-support for this feature is planned and is covered in [#7541](https://github.com/kumahq/kuma/issues/7541).
+This feature is tracked in [#7541](https://github.com/kumahq/kuma/issues/7541).
 
 ## OpenShift
 
