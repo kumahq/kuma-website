@@ -86,6 +86,8 @@ mesh_cp_name: kuma-control-plane
 set_flag_values_prefix: ""
 
 # Helm commands
+mesh_helm_repo_url: https://kumahq.github.io/charts
+mesh_helm_repo_name: kuma
 mesh_helm_repo: kuma/kuma
 mesh_helm_install_name: kuma
 

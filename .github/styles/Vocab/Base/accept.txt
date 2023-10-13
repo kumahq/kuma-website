@@ -1,3 +1,4 @@
+Argo CD
 [Kk]ong
 [Kk]ubernetes
 [Kk]uma
