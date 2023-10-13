@@ -22,12 +22,27 @@ This policy uses a new policy matching algorithm and is in beta state. It should
 
 ## `targetRef` support matrix
 
+{% if_version lte:2.4.x %}
+
 | `targetRef.kind`    | top level |
-| ------------------- | --------- |
-| `Mesh`              | ✅        |
-| `MeshSubset`        | ✅        |
-| `MeshService`       | ✅        |
-| `MeshServiceSubset` | ✅        |
+|---------------------|-----------|
+| `Mesh`              | ✅         |
+| `MeshSubset`        | ✅         |
+| `MeshService`       | ✅         |
+| `MeshServiceSubset` | ✅         |
+
+{% endif_version %}
+{% if_version gte:2.5.x %}
+
+| `targetRef.kind`    | top level |
+|---------------------|-----------|
+| `Mesh`              | ✅         |
+| `MeshSubset`        | ✅         |
+| `MeshService`       | ✅         |
+| `MeshServiceSubset` | ✅         |
+| `MeshGateway`       | ✅         |
+
+{% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
@@ -1466,6 +1481,7 @@ Example how to change `streamIdleTimeout` for `MeshGateway`:
 
 {% tabs timeout-meshgateway useUrlFragment=false %}
 {% tab timeout-meshgateway Kubernetes %}
+{% if_version lte:2.4.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshProxyPatch
@@ -1483,14 +1499,39 @@ spec:
           match:
             name: envoy.filters.network.http_connection_manager
             origin: gateway # you can also specify the name of the listener
-          value: |
-            name: envoy.filters.network.http_connection_manager
-            typedConfig:
-              '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-              streamIdleTimeout: 15s
+          jsonPatches:
+            - op: replace
+              path: /streamIdleTimeout
+              value: 15s
 ``` 
+{% endif_version %}
+{% if_version gte:2.5.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshProxyPatch
+metadata:
+  name: custom-template-1
+  namespace: {{site.mesh_namespace}}
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: gateway
+  default:
+    appendModifications:
+      - networkFilter:
+          operation: Patch
+          match:
+            name: envoy.filters.network.http_connection_manager
+            origin: gateway # you can also specify the name of the listener
+          jsonPatches:
+            - op: replace
+              path: /streamIdleTimeout
+              value: 15s
+``` 
+{% endif_version %}
 {% endtab %}
 {% tab timeout-meshgateway Universal %}
+{% if_version lte:2.4.x %}
 ```yaml
 type: MeshProxyPatch
 mesh: default
@@ -1506,12 +1547,34 @@ spec:
           match:
             name: envoy.filters.network.http_connection_manager
             origin: gateway # you can also specify the name of the listener
-          value: |
-            name: envoy.filters.network.http_connection_manager
-            typedConfig:
-              '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-              streamIdleTimeout: 15s
+          jsonPatches:
+            - op: replace
+              path: /streamIdleTimeout
+              value: 15s
 ```
+{% endif_version %}
+{% if_version gte:2.5.x %}
+```yaml
+type: MeshProxyPatch
+mesh: default
+name: custom-template-1
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: gateway
+  default:
+    appendModifications:
+      - networkFilter:
+          operation: Patch
+          match:
+            name: envoy.filters.network.http_connection_manager
+            origin: gateway # you can also specify the name of the listener
+          jsonPatches:
+            - op: replace
+              path: /streamIdleTimeout
+              value: 15s
+```
+{% endif_version %}
 {% endtab %}
 {% endtabs %}
 
