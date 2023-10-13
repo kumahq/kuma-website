@@ -22,14 +22,26 @@ This policy uses a new policy matching algorithm and is in beta state. It should
 
 ## `targetRef` support matrix
 
+{% if_version lte:2.4.x %}
+
 | `targetRef.kind`    | top level |
 |---------------------|-----------|
 | `Mesh`              | ✅         |
 | `MeshSubset`        | ✅         |
 | `MeshService`       | ✅         |
 | `MeshServiceSubset` | ✅         |
+
+{% endif_version %}
 {% if_version gte:2.5.x %}
-| `MeshGateway`       | ✅        |
+
+| `targetRef.kind`    | top level |
+|---------------------|-----------|
+| `Mesh`              | ✅         |
+| `MeshSubset`        | ✅         |
+| `MeshService`       | ✅         |
+| `MeshServiceSubset` | ✅         |
+| `MeshGateway`       | ✅         |
+
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
