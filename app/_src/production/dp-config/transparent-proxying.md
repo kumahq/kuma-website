@@ -51,11 +51,23 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
      --redirect-dns
    ```
 
+
 {% warning %}
 Please note that this command **will change** the host `iptables` rules.
+It's recommended to install the transparent proxy in a virtual network to easily recreate things from scratch.
 {% endwarning %}
 
-The changes will persist over restarts, so this command is needed only once. Reverting to the original state of the host can be done by issuing `kumactl uninstall transparent-proxy`.
+
+The changes will persist over restarts, so this command is needed only once. Reverting to the original state of the host can be done by issuing `kumactl uninstall transparent-proxy` {% if_version gte:2.2.x %} (which is not implemented yet see issue [#8071](https://github.com/kumahq/kuma/issues/8071)).{% endif_version %}
+
+{% warning %}
+If you are running transparent proxy on a host that is access through ssh you should exclude the ssh port to avoid being locked outside when applying iptables.
+You can do this with:
+
+```shell
+kumactl install transparent-proxy --exclude-inbound-ports 22 --exclude-outbound-ports 1521
+```
+{% warning %}
 
 ### Data plane proxy resource
 
