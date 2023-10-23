@@ -212,7 +212,7 @@ KUMA_API_SERVER_HTTPS_TLS_CERT_FILE=/tmp/tls.crt \
   ```
 
 
-3) Configure secure connection using the `kumactl` command-line tool:
+3) Configure secure connection using the `kumactl` CLI:
   ```sh
   kumactl config control-planes add \
     --name=<NAME> \

@@ -17,6 +17,7 @@ Bitnami
 blockquotes?
 boolean
 CloudFormation
+CLI
 CNI|cni
 Cognito
 configs?
