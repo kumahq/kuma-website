@@ -67,7 +67,7 @@ When the mode is not specified, {{site.mesh_product_name}} will always start in 
 
 #### Control plane offline
 
-* New data planes proxis won't be able to join the mesh.
+* New data plane proxies won't be able to join the mesh.
 * Data-plane proxy configuration will not be updated.
 * Communication between data planes proxies will still work.
 
