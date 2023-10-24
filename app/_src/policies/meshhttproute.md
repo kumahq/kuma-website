@@ -3,8 +3,8 @@ title: Mesh HTTP Route (beta)
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route).
+This policy is in beta and uses a new policy matching algorithm.
+Do **not** mix it with [`TrafficRoute`](/docs/{{ page.version }}/policies/traffic-route) except for the default `route-all` route, which should be kept.
 {% endwarning %}
 
 The `MeshHTTPRoute` policy allows altering and redirecting HTTP requests
@@ -113,6 +113,10 @@ them in a `MeshHTTPRoute`!
 - **`tags`** - service tags, must be specified if the `kind` is `MeshServiceSubset`
 - **`weight`** - when a request matches the route, the choice of an upstream cluster
   is determined by its weight. Total weight is a sum of all weights in `backendRefs` list.
+
+## Interactions with `MeshTCPRoute`
+
+`MeshHTTPRoute` takes priority over [`MeshTCPRoute`](./meshtcproute.md) when both are defined for the same service, and the matching `MeshTCPRoute` is ignored.
 
 ## Examples
 
