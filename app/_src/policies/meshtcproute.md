@@ -55,7 +55,7 @@ The following describes the default configuration settings of the `MeshTCPRoute`
 
 ## Interactions with `MeshHTTPRoute`
 
-[`MeshHTTPRoute`](./meshhttproute.md) takes priority over `MeshTCPRoute` when both are defined for the same service, and the matching `MeshTCPRoute` is ignored.
+[`MeshHTTPRoute`](../meshhttproute.md) takes priority over `MeshTCPRoute` when both are defined for the same service, and the matching `MeshTCPRoute` is ignored.
 
 ## Examples
 

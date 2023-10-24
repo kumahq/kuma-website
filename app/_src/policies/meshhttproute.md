@@ -116,7 +116,7 @@ them in a `MeshHTTPRoute`!
 
 ## Interactions with `MeshTCPRoute`
 
-`MeshHTTPRoute` takes priority over [`MeshTCPRoute`](./meshtcproute.md) when both are defined for the same service, and the matching `MeshTCPRoute` is ignored.
+`MeshHTTPRoute` takes priority over [`MeshTCPRoute`](../meshtcproute.md) when both are defined for the same service, and the matching `MeshTCPRoute` is ignored.
 
 ## Examples
 
