@@ -65,7 +65,7 @@ When the mode is not specified, Kuma will always start in `standalone` mode by d
 
 #### Control plane offline
 
-* New data planes proxis won't be able to join the mesh.
+* New data plane proxies won't be able to join the mesh.
 * Data-plane proxy configuration will not be updated.
 * Communication between data planes proxies will still work.
 

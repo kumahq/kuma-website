@@ -27,9 +27,9 @@ Kuma assumes that every dataplane object represents a service, even if it's a cr
 
 * The wildcard character (*) is supported only as the selector value to match all traffic.
 * Tag values can contain only alphanumeric characters, dots (`.`), dashes (`-`), colons (`:`), and underscores (`_`).
-* Selector values can contain only alphanumeric characters, dots (`.`), dashes (`-`), colons (`:`), underscores (`_`). slashes (`_`).
+* Selector values can contain only alphanumeric characters, dots (`.`), dashes (`-`), colons (`:`), underscores (`_`). slashes (`/`).
 
-Tag and selector names can contain only alphanumeric characters, dots (`.`), dashes (`-`), colons (`:`), underscores (`_`), and slashes (`_`).
+Tag and selector names can contain only alphanumeric characters, dots (`.`), dashes (`-`), colons (`:`), underscores (`_`), and slashes (`/`).
 
 All policies support arbitrary tags for the `sources` selector, but there are tag limitations for the `destinations` selector. For example, policies that are applied on the client side of a connection between two dataplane objects do not support arbitrary tags in the `destinations` selector. Only the `kuma.io/service` tag is supported in this case. This includes TrafficRoute, TrafficLog, and HealthCheck.
 
