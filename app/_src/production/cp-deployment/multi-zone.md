@@ -60,7 +60,7 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
 
 {% endtip %}
 
-1. Set `controlPlane.environment=universal` and `controlPlane.mode=global` in the chart (`values.yaml`).
+1. Create a `values.yaml` file with: `{{site.set_flag_values_prefix}}controlPlane.environment=universal` and `{{site.set_flag_values_prefix}}controlPlane.mode=global` in the chart (`values.yaml`).
 
 1. Define Kubernetes secrets with database sensitive information
 
@@ -103,6 +103,7 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
 1. Optionally set `postgres` with TLS settings
 
    ```yaml
+     ...
      # Postgres' settings for universal control plane on k8s
      postgres:
        # -- Postgres port, password should be provided as a secret reference in "controlPlane.secrets"
