@@ -237,7 +237,10 @@ spec:
                 name_kube: backend_kuma-demo_svc_3001
                 tags:
                   version: v2
----
+{% endpolicy_yaml %}
+You can see in the following route that the top level `targetRef` matches the previously defined `MeshHTTPRoute`.
+{% policy_yaml example6 %}
+```yaml
 type: MeshTimeout
 name: backend-v2
 mesh: default
