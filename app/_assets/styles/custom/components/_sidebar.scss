@@ -1,6 +1,6 @@
-// 
+//
 // Sidebarm, sidebar button
-// 
+//
 
 $sidebar-width: $sidebarWidth; // comes from VuePress core styles
 $sidebar-top-spacing: $navbar-height-large;
@@ -13,36 +13,20 @@ $sidebar-button-left-spacing: 1.5rem;
 
 // Sidebar
 
-.sidebar-wrapper {
-  position: relative;
-
-  &:after {
-    position: absolute;
-    top: 0; right: 0; bottom: 0;
-    z-index: 0;
-    display: block;
-    height: 100%;
-    width: 100vw;
-    content: "";
-    background-color: $gray-1;
-  }
-}
-
 .sidebar {
   position: fixed;
   top: 0;
+  bottom: 0;
+  overflow-y: auto;
   left: auto;
-  overflow-x: visible !important;
   background: none;
-  // background-color: #fff;
   font-size: $base-font-size;
   width: $sidebar-width;
-  padding-top: $sidebar-top-spacing;
 
   .nav-item {
     margin: 0;
-    
-    > a {
+
+    >a {
       padding: 1rem;
     }
   }
@@ -61,10 +45,6 @@ $sidebar-button-left-spacing: 1.5rem;
   }
 }
 
-.sidebar-links {
-  
-}
-
 a.sidebar-link {
 
   &:hover {
@@ -80,7 +60,7 @@ a.sidebar-link {
 // Sidebar button
 
 .sidebar-button {
-  top: calc( (#{$navbarHeight} / 2) - (#{$sidebar-button-size} / 2) );
+  top: calc((#{$navbarHeight} / 2) - (#{$sidebar-button-size} / 2));
   left: $sidebar-button-left-spacing;
   display: none;
   padding: 0;
@@ -105,14 +85,9 @@ a.sidebar-link {
 @media (min-width: $MQNarrowMid + 1) {
   .sidebar {
     position: sticky;
-    // top: $navbarHeight;
-    left: auto;
-    bottom: auto;
-    // padding-top: $navbarHeight;
-  }
-
-  .page {
-    // padding-left: 15rem;
+    top: $navbarHeight;
+    bottom: 0;
+    height: calc(100vh - #{$navbarHeight});
   }
 
   .theme-container.no-sidebar .sidebar {
