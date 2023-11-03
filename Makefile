@@ -35,6 +35,8 @@ serve:
 clean:
 	-rm -rf dist
 	-rm -rf app/.jekyll-cache
+	-rm -rf app/.jekyll-metadata
+	-rm -rf .jekyll-cache/vite
 
 kill-ports:
 	@JEKYLL_PROCESS=$$(lsof -ti:4000) && kill -9 $$JEKYLL_PROCESS || true
