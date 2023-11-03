@@ -1,3 +1,5 @@
+SHELL := /usr/bin/env bash
+
 define newline
 
 
