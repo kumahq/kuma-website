@@ -86,6 +86,7 @@ Loggly
 loopback
 lua
 Luarocks
+MADR
 md
 minikube
 Mockbin
@@ -155,5 +156,8 @@ wireframes?
 workspace
 yaml
 yml
+xds
+xDS
+XDS
 Zipkin
 zsh
