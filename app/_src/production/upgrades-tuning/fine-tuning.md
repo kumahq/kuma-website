@@ -16,6 +16,103 @@ The result is that:
 
 Follow the {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %} docs on how to configure it.
 
+{% if_version gte:2.5.x %}
+## Config trimming by using MeshTrafficPermission
+
+Starting with release 2.5 the problem stated in [reachable services](#reachable-services) section
+can be also mitigated by defining MeshTrafficPermissions in combination with:
+- `{{site.set_flag_values_prefix}}.experimental.autoReachableServices` flag (or `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES` environment variable) and
+- [mTLS enabled in strict mode](/docs/{{ page.version }}/policies/mutual-tls/)
+
+Switching on the flag will result in computing a graph of dependencies between the services
+and generating XDS configuration that enables communication **only** with services that are allowed to communicate with each other,
+meaning: their [effective](/docs/{{ page.version }}/policies/targetref/#merging-configuration) action is **not** `deny`.
+
+For example: if a service `b` can be called only by service `a`:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: kuma-system
+  name: mtp-b
+spec:
+  targetRef:
+    kind: MeshService
+    name: b
+  from:
+    - targetRef:
+        kind: MeshService
+        name: a
+      default:
+        action: Allow
+```
+
+Then there is no reason to compute and distribute configuration of service `b` to any other services in the Mesh since (even if they wanted)
+they wouldn't be able to communicate with it.
+
+{% tip %}
+You can combine `autoReachableServices` with [reachable services](#reachable-services), but **reachable services** will take precedence.
+{% endtip %}
+
+Sections below highlight the most important aspects of this feature, if you want to dig deeper please take a look at the [MADR](https://github.com/kumahq/kuma/blob/master/docs/madr/decisions/031-automatic-rechable-services.md#automatic-reachable-services).
+
+### Supported targetRef kinds
+
+The following kinds affect the graph generation and performance:
+- all levels of `MeshService`
+- [top](/docs/{{ page.version }}/policies/targetref/#target-resources) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service`, `k8s.kuma.io/port` labels
+- [from](/docs/{{ page.version }}/policies/targetref/#target-resources) level `MeshSubset` and `MeshServiceSubset` with all labels
+
+If you define a MeshTrafficPermission with other kind, like this one:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: kuma-system
+  name: mtp-mesh-to-mesh
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      customLabel: true
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        action: Allow
+```
+
+it won't affect performance.
+
+### Changes to the communication between services
+
+Requests from services trying to communicate with services that they don't have access to will now fail with connection closed error like this:
+
+```bash
+```bash
+root@second-test-server:/# curl -v first-test-server:80
+*   Trying [IP]:80...
+* Connected to first-test-server ([IP]) port 80 (#0)
+> GET / HTTP/1.1
+> Host: first-test-server
+> User-Agent: curl/7.81.0
+> Accept: */*
+>
+* Empty reply from server
+* Closing connection 0
+curl: (52) Empty reply from server
+```
+
+instead of getting a 403 with "RBAC: access denied" error.
+
+### Migration
+
+A recommended path of migration is to start with a coarse grain MeshTrafficPermission targeting a namespace and then drill down to individual services if needed.
+
+{% endif_version %}
+
 ## Postgres
 
 If you choose `Postgres` as a configuration store for {{site.mesh_product_name}} on Universal,
