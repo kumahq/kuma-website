@@ -17,11 +17,12 @@ $sidebar-button-left-spacing: 1.5rem;
   position: fixed;
   top: 0;
   bottom: 0;
-  overflow-y: auto;
   left: auto;
   background: none;
   font-size: $base-font-size;
   width: $sidebar-width;
+  display: flex;
+  flex-direction: column;
 
   .nav-item {
     margin: 0;
@@ -43,6 +44,10 @@ $sidebar-button-left-spacing: 1.5rem;
   .nav-links {
     display: block;
   }
+}
+
+.sidebar-links {
+  overflow-y: auto;
 }
 
 a.sidebar-link {
@@ -102,7 +107,6 @@ a.sidebar-link {
 @media (max-width: $MQNarrowMid) {
   .sidebar {
     top: 0;
-    overflow: auto;
     padding-top: $navbarHeight;
     transform: translateX(-100%);
     transition: transform 0.2s ease;
