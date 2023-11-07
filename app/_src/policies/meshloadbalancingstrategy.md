@@ -3,7 +3,7 @@ title: MeshLoadBalancingStrategy (beta)
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm and is in beta state.
+This policy uses new policy matching algorithm.
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to configure the load balancing strategy 

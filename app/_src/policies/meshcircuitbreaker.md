@@ -3,8 +3,8 @@ title: MeshCircuitBreaker (beta)
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm and is in beta state, it should not be mixed
-with [CircuitBreaker](/docs/{{ page.version }}/policies/circuit-breaker).
+This policy uses new policy matching algorithm.
+It shouldn't be mixed with [CircuitBreaker](/docs/{{ page.version }}/policies/circuit-breaker).
 {% endwarning %}
 
 This policy will look for errors in the live traffic being exchanged between our data plane proxies. It will mark a data

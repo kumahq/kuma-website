@@ -5,7 +5,8 @@ title: MeshFaultInjection (beta)
 With the MeshFaultInjection policy you can easily test your microservices against resiliency.
 
 {% warning %}
-This policy uses a new policy matching algorithm and is in beta state. It should not be combined with [FaultInjection](/docs/{{ page.version }}/policies/fault-injection).
+This policy uses a new policy matching algorithm.
+It shouldn't be combined with [FaultInjection](/docs/{{ page.version }}/policies/fault-injection).
 {% endwarning %}
 
 ## `targetRef` support matrix

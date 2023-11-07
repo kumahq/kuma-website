@@ -3,8 +3,8 @@ title: Mesh Health Check (beta)
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [HealthCheck](/docs/{{ page.version }}/policies/health-check).
+This policy uses new policy matching algorithm. 
+It shouldn't be mixed with [HealthCheck](/docs/{{ page.version }}/policies/health-check).
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to keep track of the health of every data plane proxy,

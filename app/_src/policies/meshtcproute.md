@@ -3,7 +3,8 @@ title: MeshTCPRoute (beta)
 ---
 
 {% warning %}
-This policy uses a new policy matching algorithm and is in beta state. It shouldn't be combined with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route).
+This policy uses a new policy matching algorithm.
+It shouldn't be combined with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route).
 {% endwarning %}
 
 The `MeshTCPRoute` policy allows you to alter and redirect TCP requests

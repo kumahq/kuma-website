@@ -443,7 +443,7 @@ items:
             url: "/policies/service-health-probes/#kubernetes"
           - text: Universal probes
             url: "/policies/service-health-probes/#universal-probes"
-      - text: MeshAccessLog (Beta)
+      - text: MeshAccessLog
         url: /policies/meshaccesslog/
         items:
           - text: TargetRef support matrix
@@ -452,7 +452,7 @@ items:
             url: "/policies/meshaccesslog/#configuration"
           - text: Examples
             url: "/policies/meshaccesslog/#examples"
-      - text: MeshCircuitBreaker (Beta)
+      - text: MeshCircuitBreaker
         url: /policies/meshcircuitbreaker/
         items:
           - text: TargetRef support matrix
@@ -461,7 +461,7 @@ items:
             url: "/policies/meshcircuitbreaker/#configuration"
           - text: Examples
             url: "/policies/meshcircuitbreaker/#examples"
-      - text: MeshFaultInjection (Beta)
+      - text: MeshFaultInjection
         url: /policies/meshfaultinjection/
         items:
           - text: TargetRef support matrix
@@ -470,7 +470,7 @@ items:
             url: "/policies/meshfaultinjection/#configuration"
           - text: Examples
             url: "/policies/meshfaultinjection/#examples"
-      - text: MeshHealthCheck (Beta)
+      - text: MeshHealthCheck
         url: /policies/meshhealthcheck/
         items:
           - text: TargetRef support matrix
@@ -479,7 +479,7 @@ items:
             url: "/policies/meshhealthcheck/#configuration"
           - text: Examples
             url: "/policies/meshhealthcheck/#examples"
-      - text: MeshHTTPRoute (Beta)
+      - text: MeshHTTPRoute
         url: /policies/meshhttproute/
         items:
           - text: TargetRef support matrix
@@ -490,7 +490,7 @@ items:
             url: "/policies/meshhttproute/#examples"
           - text: Merging
             url: "/policies/meshhttproute/#merging"
-      - text: MeshProxyPatch (Beta)
+      - text: MeshProxyPatch
         url: /policies/meshproxypatch/
         items:
           - text: TargetRef support matrix
@@ -501,7 +501,7 @@ items:
             url: "/policies/meshproxypatch/#examples"
           - text: Merging
             url: "/policies/meshproxypatch/#merging"
-      - text: MeshRateLimit (Beta)
+      - text: MeshRateLimit
         url: /policies/meshratelimit/
         items:
           - text: TargetRef support matrix
@@ -510,7 +510,7 @@ items:
             url: "/policies/meshratelimit/#configuration"
           - text: Examples
             url: "/policies/meshratelimit/#examples"
-      - text: MeshRetry (Beta)
+      - text: MeshRetry
         url: /policies/meshretry/
         items:
           - text: TargetRef support matrix
@@ -519,7 +519,7 @@ items:
             url: "/policies/meshretry/#configuration"
           - text: Examples
             url: "/policies/meshretry/#examples"
-      - text: MeshTCPRoute (Beta)
+      - text: MeshTCPRoute
         url: /policies/meshtcproute/
         items:
           - text: TargetRef support matrix
@@ -530,7 +530,7 @@ items:
             url: "/policies/meshtcproute/#examples"
           - text: Route policies with different types targeting the same destination
             url: "/policies/meshtcproute/#route-policies-with-different-types-targeting-the-same-destination"
-      - text: MeshTimeout (Beta)
+      - text: MeshTimeout
         url: /policies/meshtimeout/
         items:
           - text: TargetRef support matrix
@@ -539,7 +539,7 @@ items:
             url: "/policies/meshtimeout/#configuration"
           - text: Examples
             url: "/policies/meshtimeout/#examples"
-      - text: MeshTrace (Beta)
+      - text: MeshTrace
         url: /policies/meshtrace/
         items:
           - text: TargetRef support matrix
@@ -548,7 +548,7 @@ items:
             url: "/policies/meshtrace/#configuration"
           - text: Examples
             url: "/policies/meshtrace/#examples"
-      - text: MeshTrafficPermission (Beta)
+      - text: MeshTrafficPermission
         url: /policies/meshtrafficpermission/
         items:
           - text: TargetRef support matrix
@@ -557,7 +557,7 @@ items:
             url: "/policies/meshtrafficpermission/#configuration"
           - text: Examples
             url: "/policies/meshtrafficpermission/#examples"
-      - text: MeshLoadBalancingStrategy (Beta)
+      - text: MeshLoadBalancingStrategy
         url: /policies/meshloadbalancingstrategy/
         items:
           - text: TargetRef support matrix
