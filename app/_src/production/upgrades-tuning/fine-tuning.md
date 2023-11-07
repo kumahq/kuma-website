@@ -28,7 +28,7 @@ Follow the {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.versio
 
 Starting with release 2.5 the problem stated in [reachable services](#reachable-services) section
 can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.version }}/policies/meshtrafficpermission) in combination with:
-- `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true` environment variable set on **global CP** (for helm use `--set {{site.set_flag_values_prefix}}controlPlane.envVars.KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`) and
+- `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true` environment variable set on **zone CP** (for helm use `--set {{site.set_flag_values_prefix}}controlPlane.envVars.KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`) and
 - [mTLS enabled in strict mode](/docs/{{ page.version }}/policies/mutual-tls/)
 
 Switching on the flag will result in computing a graph of dependencies between the services
@@ -68,12 +68,12 @@ Sections below highlight the most important aspects of this feature, if you want
 
 The following kinds affect the graph generation and performance:
 - all levels of `MeshService`
-- [top](/docs/{{ page.version }}/policies/targetref/#target-resources) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service`, `k8s.kuma.io/port` labels
-- [from](/docs/{{ page.version }}/policies/targetref/#target-resources) level `MeshSubset` and `MeshServiceSubset` with all labels
+- [top](/docs/{{ page.version }}/policies/targetref/#target-resources) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service`, `k8s.kuma.io/port` tags
+- [from](/docs/{{ page.version }}/policies/targetref/#target-resources) level `MeshSubset` and `MeshServiceSubset` with all tags
 
 If you define a MeshTrafficPermission with other kind, like this one:
 
-```yaml
+```policy_yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
