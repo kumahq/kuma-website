@@ -303,6 +303,19 @@ For production use a certificate signed by a trusted CA. See [Secure access acro
 
 ### Verify control plane connectivity
 
+If your global control plane is installed on Kubernetes, you'll need to configure your `kumactl` like so:
+
+```sh
+# forward traffic from local pc into global control plane in the cluster
+kubectl -n {{site.mesh_namespace}} port-forward svc/{{site.mesh_cp_name}} 5681:5681 &
+
+# configure control plane for kumactl
+kumactl config control-planes add \
+ --name global-control-plane \
+ --address http://localhost:5681 \
+ --skip-verify
+```
+
 You can run `kumactl get zones`, or check the list of zones in the web UI for the global control plane, to verify zone control plane connections.
 
 When a zone control plane connects to the global control plane, the `Zone` resource is created automatically in the global control plane.
