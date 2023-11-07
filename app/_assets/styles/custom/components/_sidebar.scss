@@ -87,10 +87,11 @@ a.sidebar-link {
 
 // Responsive
 
-@media (min-width: $MQNarrowMid + 1) {
+@media (min-width: ($MQNarrowMid + 1)) {
   .sidebar {
     position: sticky;
-    top: $navbarHeight;
+    top: 0;
+    padding-top: $navbarHeight;
     bottom: 0;
     height: calc(100vh - #{$navbarHeight});
   }
