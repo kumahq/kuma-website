@@ -1,5 +1,5 @@
 ---
-title: MeshCircuitBreaker (beta)
+title: MeshCircuitBreaker
 ---
 
 {% warning %}

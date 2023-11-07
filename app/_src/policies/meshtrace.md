@@ -1,5 +1,5 @@
 ---
-title: MeshTrace (beta)
+title: MeshTrace
 ---
 
 {% warning %}

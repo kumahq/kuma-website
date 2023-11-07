@@ -1,5 +1,5 @@
 ---
-title: Mesh Timeout (beta)
+title: Mesh Timeout
 ---
 
 {% warning %}

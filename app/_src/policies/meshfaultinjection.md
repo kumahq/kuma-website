@@ -1,5 +1,5 @@
 ---
-title: MeshFaultInjection (beta)
+title: MeshFaultInjection
 ---
 
 With the MeshFaultInjection policy you can easily test your microservices against resiliency.

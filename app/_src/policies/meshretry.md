@@ -1,5 +1,5 @@
 ---
-title: MeshRetry (beta)
+title: MeshRetry
 ---
 
 {% warning %}

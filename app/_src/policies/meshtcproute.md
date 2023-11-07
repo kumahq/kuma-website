@@ -1,5 +1,5 @@
 ---
-title: MeshTCPRoute (beta)
+title: MeshTCPRoute
 ---
 
 {% warning %}

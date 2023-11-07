@@ -1,5 +1,5 @@
 ---
-title: MeshTrafficPermission (beta)
+title: MeshTrafficPermission
 ---
 
 {% warning %}

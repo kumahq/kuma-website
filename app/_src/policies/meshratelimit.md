@@ -1,5 +1,5 @@
 ---
-title: MeshRateLimit (beta)
+title: MeshRateLimit
 ---
 
 {% warning %}

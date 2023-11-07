@@ -1,5 +1,5 @@
 ---
-title: Mesh HTTP Route (beta)
+title: Mesh HTTP Route
 ---
 
 {% warning %}

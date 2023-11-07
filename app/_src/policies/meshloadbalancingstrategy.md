@@ -1,5 +1,5 @@
 ---
-title: MeshLoadBalancingStrategy (beta)
+title: MeshLoadBalancingStrategy
 ---
 
 {% warning %}
