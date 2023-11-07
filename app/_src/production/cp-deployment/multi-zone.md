@@ -60,7 +60,7 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
 
 {% endtip %}
 
-1. Create a `values.yaml` file with: `{{site.set_flag_values_prefix}}controlPlane.environment=universal` and `{{site.set_flag_values_prefix}}controlPlane.mode=global` in the chart (`values.yaml`).
+Before using {{site.mesh_product_name}} with helm, please follow [these steps](/docs/{{ page.version }}/production/cp-deployment/kubernetes/#helm) to configure your local helm repo and learn the reference helm configuration `values.yaml`.
 
 1. Define Kubernetes secrets with database sensitive information
 
@@ -76,8 +76,9 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
      POSTGRES_USER: ...
      POSTGRES_PASSWORD: ...
    ```
+1. Create a `values.yaml` file with: `{{site.set_flag_values_prefix}}controlPlane.environment=universal` and `{{site.set_flag_values_prefix}}controlPlane.mode=global` in the chart (`values.yaml`).
 
-1. Set `controlPlane.secrets` with database sensitive information
+2. Set `{{site.set_flag_values_prefix}}controlPlane.secrets` with database sensitive information
 
    ```yaml
    # ...
@@ -100,7 +101,7 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
            Env: KUMA_STORE_POSTGRES_PASSWORD
    ```
 
-1. Optionally set `postgres` with TLS settings
+1. Optionally set `{{site.set_flag_values_prefix}}postgres` with TLS settings
 
    ```yaml
      ...
