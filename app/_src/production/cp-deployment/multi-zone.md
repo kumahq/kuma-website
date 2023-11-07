@@ -303,7 +303,7 @@ For production use a certificate signed by a trusted CA. See [Secure access acro
 
 ### Verify control plane connectivity
 
-If your global control plane is installed on Kubernetes, you'll need to configure your `kumactl` like so:
+If your global control plane runs on Kubernetes, you'll need to configure your `kumactl` like so:
 
 ```sh
 # forward traffic from local pc into global control plane in the cluster
