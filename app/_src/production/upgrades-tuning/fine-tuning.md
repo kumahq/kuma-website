@@ -19,14 +19,21 @@ Follow the {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.versio
 {% if_version gte:2.5.x %}
 ## Config trimming by using MeshTrafficPermission
 
+{% warning %}
+1. This feature only works with [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission),
+   if you're using [TrafficPermission](/docs/{{ page.version }}/policies/traffic-permissions) you need to migrate to MeshTrafficPermission,
+   otherwise enabling this feature could stop all traffic flow.
+2. Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.version }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions.
+   {% endwarning %}
+
 Starting with release 2.5 the problem stated in [reachable services](#reachable-services) section
-can be also mitigated by defining MeshTrafficPermissions in combination with:
-- `{{site.set_flag_values_prefix}}.experimental.autoReachableServices` flag (or `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES` environment variable) and
+can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.version }}/policies/meshtrafficpermission) in combination with:
+- `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true` environment variable set on **global CP** (for helm use `--set {{site.set_flag_values_prefix}}controlPlane.envVars.KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`) and
 - [mTLS enabled in strict mode](/docs/{{ page.version }}/policies/mutual-tls/)
 
 Switching on the flag will result in computing a graph of dependencies between the services
-and generating XDS configuration that enables communication **only** with services that are allowed to communicate with each other,
-meaning: their [effective](/docs/{{ page.version }}/policies/targetref/#merging-configuration) action is **not** `deny`.
+and generating XDS configuration that enables communication **only** with services that are allowed to communicate with each other
+(their [effective](/docs/{{ page.version }}/policies/targetref/#merging-configuration) action is **not** `deny`).
 
 For example: if a service `b` can be called only by service `a`:
 
@@ -76,7 +83,7 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      customLabel: true
+      customTag: true
   from:
     - targetRef:
         kind: Mesh
@@ -84,13 +91,12 @@ spec:
         action: Allow
 ```
 
-it won't affect performance.
+it **won't** affect performance.
 
 ### Changes to the communication between services
 
 Requests from services trying to communicate with services that they don't have access to will now fail with connection closed error like this:
 
-```bash
 ```bash
 root@second-test-server:/# curl -v first-test-server:80
 *   Trying [IP]:80...
@@ -105,11 +111,11 @@ root@second-test-server:/# curl -v first-test-server:80
 curl: (52) Empty reply from server
 ```
 
-instead of getting a 403 with "RBAC: access denied" error.
+instead of getting a `403` with `"RBAC: access denied"` error.
 
 ### Migration
 
-A recommended path of migration is to start with a coarse grain MeshTrafficPermission targeting a namespace and then drill down to individual services if needed.
+A recommended path of migration is to start with a coarse grain `MeshTrafficPermission` targeting a namespace and then drill down to individual services if needed.
 
 {% endif_version %}
 
