@@ -79,12 +79,12 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     kumactl install control-plane --mode=global | kubectl apply -f -
     ```
 
-1.  Find the external IP and port of the `global-remote-sync` service in the `{{site.mesh_namespace}}` namespace:
+1.  Find the external IP and port of the `{{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync` service in the `{{site.mesh_namespace}}` namespace:
 
     ```sh
     kubectl get services -n {{site.mesh_namespace}}
     NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-    {{site.mesh_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    {{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
     {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
@@ -104,12 +104,12 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     ```sh
     helm show values {{ site.mesh_helm_repo }}
     ```
-1.  Find the external IP and port of the `global-remote-sync` service in the `{{site.mesh_namespace}}` namespace:
+1.  Find the external IP and port of the `{{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync` service in the `{{site.mesh_namespace}}` namespace:
 
     ```sh
     kubectl get services -n {{site.mesh_namespace}}
     NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-    {{site.mesh_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    {{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
     {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
