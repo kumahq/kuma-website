@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 //
 
 // Variables
@@ -57,9 +59,9 @@ $gradient-4: linear-gradient(0deg, #fff 0%, $pale-blue 55%);
 $gradient-5: linear-gradient(to top, #fff 0%, $pale-blue 50%);
 
 $btn-height-base: 40px;
-$btn-radius: $btn-height-base / 2;
+$btn-radius: math.div($btn-height-base, 2);
 $btn-height-base-large: 50px;
-$btn-radius-large: $btn-height-base-large / 2;
+$btn-radius-large: math.div($btn-height-base-large, 2);
 $btn-font-size-large: 18px;
 
 $navbar-height-large: 5.5rem;
