@@ -34,12 +34,12 @@ Run:
     controlPlane.mode=global
     {% endcpinstall %}
 
-Find the external IP and port of the `global-remote-sync` service in the `{{site.mesh_namespace}}` namespace:
+Find the external IP and port of the `{{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync` service in the `{{site.mesh_namespace}}` namespace:
 
 ```sh
 kubectl get services -n {{site.mesh_namespace}}
 NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-{{site.mesh_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+{{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
 {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 ```
 
@@ -60,7 +60,7 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
 
 {% endtip %}
 
-1. Create a `values.yaml` file with: `{{site.set_flag_values_prefix}}controlPlane.environment=universal` and `{{site.set_flag_values_prefix}}controlPlane.mode=global` in the chart (`values.yaml`).
+Before using {{site.mesh_product_name}} with helm, please follow [these steps](/docs/{{ page.version }}/production/cp-deployment/kubernetes/#helm) to configure your local helm repo and learn the reference helm configuration `values.yaml`.
 
 1. Define Kubernetes secrets with database sensitive information
 
@@ -76,8 +76,9 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
      POSTGRES_USER: ...
      POSTGRES_PASSWORD: ...
    ```
+1. Create a `values.yaml` file with: `{{site.set_flag_values_prefix}}controlPlane.environment=universal` and `{{site.set_flag_values_prefix}}controlPlane.mode=global` in the chart (`values.yaml`).
 
-1. Set `controlPlane.secrets` with database sensitive information
+2. Set `{{site.set_flag_values_prefix}}controlPlane.secrets` with database sensitive information
 
    ```yaml
    # ...
@@ -100,7 +101,7 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
            Env: KUMA_STORE_POSTGRES_PASSWORD
    ```
 
-1. Optionally set `postgres` with TLS settings
+1. Optionally set `{{site.set_flag_values_prefix}}postgres` with TLS settings
 
    ```yaml
      ...
@@ -133,12 +134,12 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
     helm install {{ site.mesh_helm_install_name }} -f values.yaml --skip-crds --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh_helm_repo }}
     ```
 
-1. Find the external IP and port of the `global-remote-sync` service in the `{{site.mesh_namespace}}` namespace:
+1. Find the external IP and port of the `{{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync` service in the `{{site.mesh_namespace}}` namespace:
 
     ```sh
     kubectl get services -n {{site.mesh_namespace}}
     NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-    {{site.mesh_namespace}}   global-remote-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    {{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
     {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
@@ -301,6 +302,19 @@ For production use a certificate signed by a trusted CA. See [Secure access acro
 {% endtabs %}
 
 ### Verify control plane connectivity
+
+If your global control plane runs on Kubernetes, you'll need to configure your `kumactl` like so:
+
+```sh
+# forward traffic from local pc into global control plane in the cluster
+kubectl -n {{site.mesh_namespace}} port-forward svc/{{site.mesh_cp_name}} 5681:5681 &
+
+# configure control plane for kumactl
+kumactl config control-planes add \
+ --name global-control-plane \
+ --address http://localhost:5681 \
+ --skip-verify
+```
 
 You can run `kumactl get zones`, or check the list of zones in the web UI for the global control plane, to verify zone control plane connections.
 
