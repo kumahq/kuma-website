@@ -18,7 +18,7 @@ A `MeshProxyPatch` policy can modify:
 
 {% warning %}
 This policy uses a new policy matching algorithm.
-It shouldn't be combined with [Proxy Template](/docs/{{ page.version }}/policies/proxy-template).
+Do **not** combine with [Proxy Template](/docs/{{ page.version }}/policies/proxy-template).
 {% endwarning %}
 
 ## `targetRef` support matrix

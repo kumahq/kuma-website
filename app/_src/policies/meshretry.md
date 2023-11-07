@@ -4,7 +4,7 @@ title: MeshRetry (beta)
 
 {% warning %}
 This policy uses new policy matching algorithm. 
-It shouldn't be mixed with [Retry](/docs/{{ page.version }}/policies/retry).
+Do **not** combine with [Retry](/docs/{{ page.version }}/policies/retry).
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to know how to behave if there is a failed scenario (i.e. HTTP request) which could be retried.

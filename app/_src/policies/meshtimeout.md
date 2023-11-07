@@ -4,7 +4,7 @@ title: Mesh Timeout (beta)
 
 {% warning %}
 This policy uses new policy matching algorithm. 
-It shouldn't be mixed with [Timeout policy](/docs/{{ page.version }}/policies/timeout).
+Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeout).
 {% endwarning %}
 
 ## TargetRef support matrix
