@@ -65,7 +65,8 @@ When the mode is not specified, Kuma will always start in `standalone` mode by d
 
 #### Control plane offline
 
-* New data plane proxies won't be able to join the mesh.
+* New data plane proxies won't be able to join the mesh. This includes new instances (Pod/VM) that are newly created by automatic deployment mechanisms (e.g. a rolling update process), this means a control plane connection failure could block "update by replacement processes" of applications and events that involves new instances to be created.
+* On mTLS enabled meshes, a data plane proxy may fail to refresh its client certificate prior to expiry (defaults to 24h, could be configured at mesh level), thus traffic from/to this data planes will be blocked.
 * Data-plane proxy configuration will not be updated.
 * Communication between data planes proxies will still work.
 
