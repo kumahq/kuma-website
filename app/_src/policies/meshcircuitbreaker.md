@@ -116,11 +116,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         detectors:
@@ -159,11 +157,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         splitExternalAndLocalErrors: true
@@ -203,11 +199,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         detectors:
@@ -243,11 +237,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         splitExternalAndLocalErrors: true
@@ -290,11 +282,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         splitExternalAndLocalErrors: true
@@ -356,11 +346,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         splitExternalAndLocalErrors: true
@@ -416,11 +404,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         splitExternalAndLocalErrors: true
