@@ -131,7 +131,7 @@ subcommand
 subproject
 sudo
 Syslog
-targetRef
+target[Rr]ef
 tbl
 tcpdump
 TLS
@@ -156,8 +156,6 @@ wireframes?
 workspace
 yaml
 yml
-xds
-xDS
-XDS
+[xX]DS|xds
 Zipkin
 zsh

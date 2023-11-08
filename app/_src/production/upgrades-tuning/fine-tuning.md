@@ -73,7 +73,8 @@ The following kinds affect the graph generation and performance:
 
 If you define a MeshTrafficPermission with other kind, like this one:
 
-```policy_yaml
+{% policy_yaml meshtrafficpermission_other_kind %}
+```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
@@ -90,6 +91,7 @@ spec:
       default:
         action: Allow
 ```
+{% endpolicy_yaml %}
 
 it **won't** affect performance.
 
@@ -97,7 +99,7 @@ it **won't** affect performance.
 
 Requests from services trying to communicate with services that they don't have access to will now fail with connection closed error like this:
 
-```bash
+```sh
 root@second-test-server:/# curl -v first-test-server:80
 *   Trying [IP]:80...
 * Connected to first-test-server ([IP]) port 80 (#0)
