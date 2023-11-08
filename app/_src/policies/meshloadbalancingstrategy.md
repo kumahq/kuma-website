@@ -43,6 +43,9 @@ Local zone routing allows you to define traffic routing rules within a local zon
     - **`weight`** - (optional) weight of the tag used for load balancing. The bigger the weight the higher number of requests is routed to dataplanes with specific tag. By default we will adjust them so that 90% traffic goes to first tag, 9% to next, and 1% to third and so on.
 
 #### CrossZone
+{% warning %}
+Remember that cross-zone traffic requires [mTLS enabled](/docs/{{ page.version}}/mutual-tls).
+{% endwarning %}
 Advanced locality-aware load balancing provides a powerful means of defining how your service should behave when there is no service available in your local zone. With this feature, you have the flexibility to configure the fallback behavior of your service, specifying the order in which it should attempt fallback options and defining different behaviors for instances located in various zones.
 
 - **`crossZone`** - (optional) allows to define behaviour when there is no healthy instances of the service. When not defined, cross zone traffic is disabled.
