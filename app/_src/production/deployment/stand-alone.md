@@ -49,7 +49,8 @@ A standalone deployment includes:
 
 #### Control plane offline
 
-* New data plane proxies won't be able to join the mesh.
+* New data plane proxies won't be able to join the mesh. This includes new instances (Pod/VM) that are newly created by automatic deployment mechanisms (for example, a rolling update process), meaning a control plane connection failure could block updates of applications and events that create new instances.
+* On mTLS enabled meshes, a data plane proxy may fail to refresh its client certificate prior to expiry (defaults to 24 hours), thus causing traffic from/to this data plane to fail.
 * Data-plane proxy configuration will not be updated.
 * Communication between data planes proxies will still work.
 
