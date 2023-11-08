@@ -54,8 +54,7 @@ spec:
     - name: prometheus-1
       type: prometheus
       conf:
-        tls:
-          mode: activeMTLSBackend
+        skipMTLS: false
         port: 5670
         path: /metrics
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
