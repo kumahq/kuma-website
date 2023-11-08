@@ -20,7 +20,7 @@ metadata:
 spec:
   template:
     metadata:
-      labels:
+      annotations:
         traffic.kuma.io/exclude-outbound-tcp-ports-for-uids: "443:1234"
         traffic.kuma.io/exclude-outbound-udp-ports-for-uids: "53:1234"
     spec:
