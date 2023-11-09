@@ -27,9 +27,7 @@ Follow the {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.versio
    {% endwarning %}
 
 Starting with release 2.5 the problem stated in [reachable services](#reachable-services) section
-can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.version }}/policies/meshtrafficpermission) in combination with:
-- `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true` environment variable set on **zone CP** (for helm use `--set {{site.set_flag_values_prefix}}controlPlane.envVars.KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`) and
-- [mTLS enabled in strict mode](/docs/{{ page.version }}/policies/mutual-tls/)
+can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.version }}/policies/meshtrafficpermission) and [configuring](/docs/{{ page.version }}/documentation/configuration) a **zone** control plane with `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`.
 
 Switching on the flag will result in computing a graph of dependencies between the services
 and generating XDS configuration that enables communication **only** with services that are allowed to communicate with each other
@@ -75,11 +73,9 @@ If you define a MeshTrafficPermission with other kind, like this one:
 
 {% policy_yaml meshtrafficpermission_other_kind %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: kuma-system
-  name: mtp-mesh-to-mesh
+type: MeshTrafficPermission
+mesh: default
+name: mtp-mesh-to-mesh
 spec:
   targetRef:
     kind: MeshSubset
@@ -113,11 +109,31 @@ root@second-test-server:/# curl -v first-test-server:80
 curl: (52) Empty reply from server
 ```
 
-instead of getting a `403` with `"RBAC: access denied"` error.
+instead of getting a `503` error.
+
+```sh
+root@second-test-server:/# curl -v first-test-server:80
+*   Trying [IP]:80...
+* Connected to first-test-server ([IP]) port 80 (#0)
+> GET / HTTP/1.1
+> Host: first-test-server
+> User-Agent: curl/7.81.0
+> Accept: */*
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 503 Service Unavailable
+< content-length: 118
+< content-type: text/plain
+< date: Wed, 08 Nov 2023 14:15:24 GMT
+< server: envoy
+<
+* Connection #0 to host first-test-server left intact
+upstream connect error or disconnect/reset before headers. retried and the latest reset reason: connection termination/
+```
 
 ### Migration
 
-A recommended path of migration is to start with a coarse grain `MeshTrafficPermission` targeting a namespace and then drill down to individual services if needed.
+A recommended path of migration is to start with a coarse grain `MeshTrafficPermission` targeting a `MeshSubset` with `k8s.kuma.io/namespace` and then drill down to individual services if needed.
 
 {% endif_version %}
 
