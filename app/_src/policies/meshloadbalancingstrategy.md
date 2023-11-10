@@ -295,6 +295,49 @@ spec:
 ```
 {% endpolicy_yaml %}
 
+### Disable cross zone traffic and route to the local zone instances equally
+
+In this example, when a user sends a request to the backend service, the request is routed equally to all instances in the local zone. If there are no instances in the local zone, the request will fail because there is no cross-zone traffic.
+
+{% policy_yaml local-zone-affinity-backend-2 %}
+```yaml
+type: MeshLoadBalancingStrategy
+name: local-zone-affinity-backend
+mesh: mesh-1
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        localityAwareness:
+          localZone:
+            affinityTags: []
+```
+{% endpolicy_yaml %}
+
+or 
+
+{% policy_yaml local-zone-affinity-backend-3 %}
+```yaml
+type: MeshLoadBalancingStrategy
+name: local-zone-affinity-backend
+mesh: mesh-1
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        localityAwareness:
+          localZone: {}
+```
+{% endpolicy_yaml %}
+
 ### Route within the local zone equally, but specify cross zone order
 
 Requests to the backend service will be evenly distributed among all endpoints within the local zone. If there are fewer than 25% healthy hosts in the local zone, traffic will be redirected to other zones. Initially, traffic will be sent to the `us-1` zone. In the event that the `us-1` zone becomes unavailable, traffic will then be directed to all zones, except for `us-2` and `us-3`. If these zones are also found to have unhealthy hosts, the traffic will be rerouted to `us-2` and `us-3`.
