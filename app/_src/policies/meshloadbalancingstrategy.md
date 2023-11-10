@@ -32,14 +32,14 @@ across all endpoints regardless of locality.
 
 {% if_version gte:2.5.x %}
 ### Advanced LocalityAwareness
-Advanced locality-aware load balancing provides a more robust and straightforward method for balancing traffic within and across zones. This not only allows you to route traffic to a cross zone when the local zone service is unhealthy but also enables you to define traffic prioritization within the local zone and set cross-zone fallback priorities.
+Advanced locality-aware load balancing provides a more robust and straightforward method for balancing traffic within and across zones. This not only allows you to route traffic across zones when the local zone service is unhealthy but also enables you to define traffic prioritization within the local zone and set cross-zone fallback priorities.
 
 #### LocalZone
 Local zone routing allows you to define traffic routing rules within a local zone, prioritizing data planes based on tags and their associated weights. This enables you to allocate specific traffic percentages to data planes with particular tags within the local zone. If there are no healthy endpoints within the highest priority group, the next priority group takes precedence. Locality awareness within the local zone relies on tags within inbounds, so it's crucial to ensure that the tags used in the policy are defined for the service (Dataplane object on Universal, Deployment annotations on Kubernetes).
 
-- **`localZone`** - (optional) allows to define load balancing priorities between dataplanes in the local zone. When not defined traffic is distributed equally to all endpoints within the local zone.
-  - **`affinityTags`** - list of tags and their weights based on which traffic is loadbalanced
-    - **`key`** - defines tag for which affinity is configured. The tag needs to be configured on the inbound of the service. In case of Kubernetes pod needs to have a tag and it should be propagated. On Universal user needs to define it on the inbound of the service. In case there so match, the dataplane match to the last group with the lowest weight.
+- **`localZone`** - (optional) allows to define load balancing priorities between dataplanes in the local zone. When not defined, traffic is distributed equally to all endpoints within the local zone.
+  - **`affinityTags`** - list of tags and their weights based on which traffic is load balanced
+    - **`key`** - defines tag for which affinity is configured. The tag needs to be configured on the inbound of the service. In case of Kubernetes, pod needs to have an annotations or a label. On Universal user needs to define it on the inbound of the service. In case there no match, the dataplane match to the last group with the lowest weight.
     - **`weight`** - (optional) weight of the tag used for load balancing. The bigger the weight the higher number of requests is routed to dataplanes with specific tag. By default we will adjust them so that 90% traffic goes to first tag, 9% to next, and 1% to third and so on.
 
 #### CrossZone
@@ -49,7 +49,7 @@ Remember that cross-zone traffic requires [mTLS enabled](/docs/{{ page.version}}
 Advanced locality-aware load balancing provides a powerful means of defining how your service should behave when there is no service available in your local zone. With this feature, you have the flexibility to configure the fallback behavior of your service, specifying the order in which it should attempt fallback options and defining different behaviors for instances located in various zones.
 
 - **`crossZone`** - (optional) allows to define behaviour when there is no healthy instances of the service. When not defined, cross zone traffic is disabled.
-  - **`failover`** - defines list of load balancing rules in order of priority. If a zone is not specified explicitly or by type `Any`, by default zone is excluded from the traffic. 
+  - **`failover`** - defines a list of load balancing rules in order of priority. If a zone is not specified explicitly by name or implicitly using the type `Any`/`AnyExcept`/`Only` it is excluded from receiving traffic.
     - **`from`** - (optional) defines the list of zones to which the rule applies. If not specified, rule is applied to all zones.
       - **`zones`** - list of zones.
     - **`to`** - defines to which zones the traffic should be load balanced.
@@ -272,8 +272,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% if_version gte:2.5.x %}
 ### Disable cross zone traffic and prioritize traffic the dataplanes on the same node and availability zone
 
-Requests to `backend` will be spread based on default weights and won't leave the local zone. 
-In this example, whenever user sends a request to `backend` service 90% of requests will arrive to the instance with the same value of `k8s.io/node` tag, 9% of requests to the instance with the same value as caller of tag `k8s.io/az`, and 1% to rest of instances.
+In this example, whenever a user sends a request to the `backend` service, 90% of the requests will arrive at the instance with the same value of the `k8s.io/node` tag, 9% of the requests will go to the instance with the same value as the caller of the `k8s.io/az` tag, and 1% will go to the rest of the instances.
 
 {% tabs local-zone-affinity-backend useUrlFragment=false %}
 {% tab local-zone-affinity-backend Kubernetes %}
@@ -409,7 +408,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 Requests to backend will be distributed based on weights, with 99.9% of requests routed to data planes in the same datacenter, 0.001% to data planes in the same region, and the remainder to other local instances.
 
-When there are no healthy backends within the local zone, traffic from data planes in zones `us-1`, `us-2`, and `us-3` will only fall back to zones `us-1`, `us-2`, and `us-3`. If there are no healthy instances in these zones, requests from any instance will then fall back to `us-4`. If there are no healthy instances in `us-4`, the request will fail, as the last rule, by default, has type: `None`, meaning no fallback is allowed.
+When no healthy backends are available within the local zone, traffic from data planes in zones `us-1`, `us-2`, and `us-3` will only fall back to zones `us-1`, `us-2`, and `us-3`, while in zones `eu-1`, `eu-2`, and `eu-3` will only fall back to zones `eu-1`, `eu-2`, and `eu-3`. If there are no healthy instances in all zones `eu-[1-3]` or `us-[1-3]`, requests from any instance will then fall back to `us-4`. If there are no healthy instances in `us-4`, the request will fail, as the last rule, by default, has a type of `None`, meaning no fallback is allowed.
 
 {% tabs local-zone-affinity-cross-backend useUrlFragment=false %}
 {% tab local-zone-affinity-cross-backend Kubernetes %}
@@ -437,21 +436,21 @@ spec:
                 weight: 9000
               - key: infra.io/region
                 weight: 9
-        crossZone:
-          failover:
-            - from: 
-                zones: ["us-1", "us-2", "us-3"]
-              to:
-                type: Only
-                zones: ["us-1", "us-2", "us-3"]
-            - from:
-                zones: ["eu-1", "eu-2", "eu-3"]
-              to:
-                type: Only
-                zones: ["eu-1", "eu-2", "eu-3"]
-            - to:
-                type: Only
-                zones: ["us-4"]
+          crossZone:
+            failover:
+              - from: 
+                  zones: ["us-1", "us-2", "us-3"]
+                to:
+                  type: Only
+                  zones: ["us-1", "us-2", "us-3"]
+              - from:
+                  zones: ["eu-1", "eu-2", "eu-3"]
+                to:
+                  type: Only
+                  zones: ["eu-1", "eu-2", "eu-3"]
+              - to:
+                  type: Only
+                  zones: ["us-4"]
 ```
 
 Apply the configuration with `kubectl apply -f [..]`.
@@ -478,21 +477,21 @@ spec:
                 weight: 9000
               - key: infra.io/region
                 weight: 9
-        crossZone:
-          failover:
-            - from: 
-                zones: ["us-1", "us-2", "us-3"]
-              to:
-                type: Only
-                zones: ["us-1", "us-2", "us-3"]
-            - from:
-                zones: ["eu-1", "eu-2", "eu-3"]
-              to:
-                type: Only
-                zones: ["eu-1", "eu-2", "eu-3"]
-            - to:
-                type: Only
-                zones: ["us-4"]
+          crossZone:
+            failover:
+              - from: 
+                  zones: ["us-1", "us-2", "us-3"]
+                to:
+                  type: Only
+                  zones: ["us-1", "us-2", "us-3"]
+              - from:
+                  zones: ["eu-1", "eu-2", "eu-3"]
+                to:
+                  type: Only
+                  zones: ["eu-1", "eu-2", "eu-3"]
+              - to:
+                  type: Only
+                  zones: ["us-4"]
 ```
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
