@@ -61,6 +61,15 @@ Advanced locality-aware load balancing provides a powerful means of defining how
       - **`zones`** - names of zones
   - **`failoverThreshold.percentage`** - (optional) defines the percentage of live destination dataplane proxies below which load balancing to the next priority starts. Default: 50%
 
+#### Zone Egress support
+
+Using Zone Egress Proxy in multizone deployment poses certain limitations for this policy. When configuring `MeshLoadbalancingStrategy` with Zone Egress you can only use `Mesh` as a top level targetRef. This is because we don't differentiate requests that come to Zone Egress from different clients, yet. 
+
+Moreover, Zone Egress is a simple proxy that uses a long living L4 connection between Zone Ingress. Because of this, when new `MeshLoadbalancingStrategy` with locality awareness is configured, we won’t refresh connections and locality awareness will apply only to new connections. 
+
+Another thing you need to be aware of is that when you use the `MeshCircuitBreaker`'s outlier detection to keep track of healthy endpoints. Normally, you would use `MeshCircuitBreaker` to act on failures and trigger traffic redirect to the next priority level if the number of healthy endpoints fall below crossZone `failoverThreshold`. When you have a single instance of Zone Egress, all remote zones will be behind a single endpoint. Since `MeshCircuitBreaker` is configured on Data Plane Proxy, when one of the zones start responding with errors it will mark the whole Zone Egress as not healthy and won’t send traffic there even though there could be multiple zones with live endpoints.
+
+
 {% endif_version %}
 
 ### LoadBalancer
