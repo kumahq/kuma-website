@@ -49,7 +49,7 @@ Remember that cross-zone traffic requires [mTLS enabled](/docs/{{ page.version}}
 Advanced locality-aware load balancing provides a powerful means of defining how your service should behave when there is no service available in your local zone. With this feature, you have the flexibility to configure the fallback behavior of your service, specifying the order in which it should attempt fallback options and defining different behaviors for instances located in various zones.
 
 - **`crossZone`** - (optional) allows to define behaviour when there is no healthy instances of the service. When not defined, cross zone traffic is disabled.
-  - **`failover`** - defines a list of load balancing rules in order of priority. If a zone is not specified explicitly by name or implicitly using the type `Any`/`AnyExcept`/`Only` it is excluded from receiving traffic.
+  - **`failover`** - defines a list of load balancing rules in order of priority. If a zone is not specified explicitly by name or implicitly using the type `Any`/`AnyExcept` it is excluded from receiving traffic. By default, the last rule is always `None` which means, that there is no traffic to other zones after specified rules.
     - **`from`** - (optional) defines the list of zones to which the rule applies. If not specified, rule is applied to all zones.
       - **`zones`** - list of zones.
     - **`to`** - defines to which zones the traffic should be load balanced.
