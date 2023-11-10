@@ -274,37 +274,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 In this example, whenever a user sends a request to the `backend` service, 90% of the requests will arrive at the instance with the same value of the `k8s.io/node` tag, 9% of the requests will go to the instance with the same value as the caller of the `k8s.io/az` tag, and 1% will go to the rest of the instances.
 
-{% tabs local-zone-affinity-backend useUrlFragment=false %}
-{% tab local-zone-affinity-backend Kubernetes %}
-
-```yaml
-kind: MeshLoadBalancingStrategy
-apiVersion: kuma.io/v1alpha1
-metadata:
-  name: local-zone-affinity-backend
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: mesh-1
-spec:
-  targetRef:
-    kind: Mesh
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        localityAwareness:
-          localZone:
-            affinityTags:
-              - key: k8s.io/node
-              - key: k8s.io/az
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab local-zone-affinity-backend Universal %}
-
+{% policy_yaml local-zone-affinity-backend %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -323,55 +293,13 @@ spec:
               - key: k8s.io/node
               - key: k8s.io/az
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 ### Route within the local zone equally, but specify cross zone order
 
 Requests to the backend service will be evenly distributed among all endpoints within the local zone. If there are fewer than 25% healthy hosts in the local zone, traffic will be redirected to other zones. Initially, traffic will be sent to the `us-1` zone. In the event that the `us-1` zone becomes unavailable, traffic will then be directed to all zones, except for `us-2` and `us-3`. If these zones are also found to have unhealthy hosts, the traffic will be rerouted to `us-2` and `us-3`.
 
-{% tabs cross-zone-backend useUrlFragment=false %}
-{% tab cross-zone-backend Kubernetes %}
-
-```yaml
-kind: MeshLoadBalancingStrategy
-apiVersion: kuma.io/v1alpha1
-metadata:
-  name: cross-zone-backend
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: mesh-1
-spec:
-  targetRef:
-    kind: Mesh
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        localityAwareness:
-          crossZone:
-            failover:
-              - to:
-                  type: Only
-                  zones: ["us-1"]
-              - to:
-                  type: AnyExcept
-                  zones: ["us-2", "us-3"]
-              - to:
-                  type: Any
-          failoverThreshold:
-            percentage: 25
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab cross-zone-backend Universal %}
-
+{% policy_yaml cross-zone-backend %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: cross-zone-backend
@@ -398,11 +326,7 @@ spec:
             failoverThreshold:
               percentage: 25
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 ### Prioritize traffic to dataplanes within the same datacenter and fallback cross zone in specific order
 
@@ -410,54 +334,7 @@ Requests to backend will be distributed based on weights, with 99.9% of requests
 
 When no healthy backends are available within the local zone, traffic from data planes in zones `us-1`, `us-2`, and `us-3` will only fall back to zones `us-1`, `us-2`, and `us-3`, while in zones `eu-1`, `eu-2`, and `eu-3` will only fall back to zones `eu-1`, `eu-2`, and `eu-3`. If there are no healthy instances in all zones `eu-[1-3]` or `us-[1-3]`, requests from any instance will then fall back to `us-4`. If there are no healthy instances in `us-4`, the request will fail, as the last rule, by default, has a type of `None`, meaning no fallback is allowed.
 
-{% tabs local-zone-affinity-cross-backend useUrlFragment=false %}
-{% tab local-zone-affinity-cross-backend Kubernetes %}
-
-```yaml
-kind: MeshLoadBalancingStrategy
-apiVersion: kuma.io/v1alpha1
-metadata:
-  name: local-zone-affinity-cross-backend
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: mesh-1
-spec:
-  targetRef:
-    kind: Mesh
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        localityAwareness:
-          localZone:
-            affinityTags:
-              - key: infra.io/datacenter
-                weight: 9000
-              - key: infra.io/region
-                weight: 9
-          crossZone:
-            failover:
-              - from: 
-                  zones: ["us-1", "us-2", "us-3"]
-                to:
-                  type: Only
-                  zones: ["us-1", "us-2", "us-3"]
-              - from:
-                  zones: ["eu-1", "eu-2", "eu-3"]
-                to:
-                  type: Only
-                  zones: ["eu-1", "eu-2", "eu-3"]
-              - to:
-                  type: Only
-                  zones: ["us-4"]
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab local-zone-affinity-cross-backend Universal %}
-
+{% policy_yaml local-zone-affinity-cross-backend %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-cross-backend
@@ -493,12 +370,7 @@ spec:
                   type: Only
                   zones: ["us-4"]
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
-
+{% endpolicy_yaml %}
 {% endif_version %}
 
 ## All policy options
