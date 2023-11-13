@@ -1,11 +1,12 @@
 ---
-title: MeshAccessLog (beta)
+title: MeshAccessLog
 ---
 
 With the MeshAccessLog policy you can easily set up access logs on every data plane proxy in a mesh.
 
 {% warning %}
-This policy uses a new policy matching algorithm and is in beta state. It should not be combined with [TrafficLog](/docs/{{ page.version }}/policies/traffic-log).
+This policy uses a new policy matching algorithm.
+Do **not** combine with [TrafficLog](/docs/{{ page.version }}/policies/traffic-log).
 {% endwarning %}
 
 {% tip %}

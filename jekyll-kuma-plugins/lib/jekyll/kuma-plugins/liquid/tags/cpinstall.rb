@@ -39,8 +39,9 @@ kumactl install control-plane \\
 ```
 {% endtab %}
 {% tab #{@tabs_name} helm %}
+Before using {{site.mesh_product_name}} with helm, please follow [these steps](/docs/{{ page.version }}/production/cp-deployment/kubernetes/#helm) to configure your local helm repo.
 ```shell
-helm install --create-namespace \\
+helm install --create-namespace --namespace {{site.mesh_namespace}} \\
   #{res} \\
   {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```

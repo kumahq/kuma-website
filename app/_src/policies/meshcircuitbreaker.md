@@ -1,10 +1,10 @@
 ---
-title: MeshCircuitBreaker (beta)
+title: MeshCircuitBreaker
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm and is in beta state, it should not be mixed
-with [CircuitBreaker](/docs/{{ page.version }}/policies/circuit-breaker).
+This policy uses new policy matching algorithm.
+Do **not** combine with [CircuitBreaker](/docs/{{ page.version }}/policies/circuit-breaker).
 {% endwarning %}
 
 This policy will look for errors in the live traffic being exchanged between our data plane proxies. It will mark a data
@@ -116,11 +116,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         detectors:
@@ -159,11 +157,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         splitExternalAndLocalErrors: true
@@ -203,11 +199,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         detectors:
@@ -243,11 +237,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         splitExternalAndLocalErrors: true
@@ -290,11 +282,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         splitExternalAndLocalErrors: true
@@ -356,11 +346,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         splitExternalAndLocalErrors: true
@@ -416,11 +404,9 @@ name: circuit-breaker
 spec:
   targetRef:
     kind: Mesh
-    name: default
   to:
   - targetRef:
       kind: Mesh
-      name: default
     default:
       outlierDetection:
         splitExternalAndLocalErrors: true

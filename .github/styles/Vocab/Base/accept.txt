@@ -86,6 +86,7 @@ Loggly
 loopback
 lua
 Luarocks
+MADR
 md
 minikube
 Mockbin
@@ -130,7 +131,7 @@ subcommand
 subproject
 sudo
 Syslog
-targetRef
+target[Rr]ef
 tbl
 tcpdump
 TLS
@@ -155,5 +156,6 @@ wireframes?
 workspace
 yaml
 yml
+[xX]DS|xds
 Zipkin
 zsh

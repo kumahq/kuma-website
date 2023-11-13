@@ -1,10 +1,10 @@
 ---
-title: Mesh Timeout (beta)
+title: Mesh Timeout
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [Timeout policy](/docs/{{ page.version }}/policies/timeout).
+This policy uses new policy matching algorithm. 
+Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeout).
 {% endwarning %}
 
 ## TargetRef support matrix

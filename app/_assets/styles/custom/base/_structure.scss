@@ -43,6 +43,11 @@ body {
   .theme-container:not(.no-sidebar) .content-wrapper {
     display: flex;
   }
+
+  .page {
+    // Makes sure the main content doesn’t cause a horizontal scrollbar on small viewport widths and instead adapts to the viewport width.
+    min-width: 0;
+  }
 }
 
 .theme-default-content code {
