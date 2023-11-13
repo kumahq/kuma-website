@@ -139,7 +139,7 @@ It looks like:
 ```yaml
 targetRef:
   kind: Mesh | MeshSubset | MeshService | MeshServiceSubset | MeshGatewayRoute
-  name: "my-name" # For kinds MeshService, MeshServiceSubset and MeshGatewayRoute a name can be defined
+  name: "my-name" # For kinds MeshService, MeshServiceSubset and MeshGatewayRoute a name has to be defined
   tags:
     key: value # For kinds MeshServiceSubset and MeshSubset a list of matching tags can be used
 ```
