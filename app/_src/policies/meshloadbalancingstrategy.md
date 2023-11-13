@@ -63,7 +63,7 @@ Advanced locality-aware load balancing provides a powerful means of defining how
 
 #### Zone Egress support
 
-Using Zone Egress Proxy in multizone deployment poses certain limitations for this policy. When configuring `MeshLoadbalancingStrategy` with Zone Egress you can only use `Mesh` as a top level targetRef. This is because we don't differentiate requests that come to Zone Egress from different clients, yet. 
+Using Zone Egress Proxy in multizone deployment poses certain limitations for this feature. When configuring `MeshLoadbalancingStrategy` with Zone Egress you can only use `Mesh` as a top level targetRef. This is because we don't differentiate requests that come to Zone Egress from different clients, yet. 
 
 Moreover, Zone Egress is a simple proxy that uses a long-living L4 connection to Zone Ingress. Consequently, when a new `MeshLoadbalancingStrategy` with locality awareness is configured, connections won’t be refreshed, and locality awareness will apply only to new connections.
 
