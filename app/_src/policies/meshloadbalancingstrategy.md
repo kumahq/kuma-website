@@ -39,7 +39,7 @@ Local zone routing allows you to define traffic routing rules within a local zon
 
 - **`localZone`** - (optional) allows to define load balancing priorities between dataplanes in the local zone. When not defined, traffic is distributed equally to all endpoints within the local zone.
   - **`affinityTags`** - list of tags and their weights based on which traffic is load balanced
-    - **`key`** - defines tag for which affinity is configured. The tag needs to be configured on the inbound of the service. In case of Kubernetes, pod needs to have an annotations or a label. On Universal user needs to define it on the inbound of the service. In case there is no match, the dataplane match to the last group with the lowest weight.
+    - **`key`** - defines tag for which affinity is configured. The tag needs to be configured on the inbound of the service. In case of Kubernetes, pod needs to have a label. On Universal user needs to define it on the inbound of the service. If the tag is absent this entry is skipped.
     - **`weight`** - (optional) weight of the tag used for load balancing. The bigger the weight the higher number of requests is routed to dataplanes with specific tag. By default we will adjust them so that 90% traffic goes to first tag, 9% to next, and 1% to third and so on.
 
 #### CrossZone
