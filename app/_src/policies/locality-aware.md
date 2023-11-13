@@ -4,7 +4,7 @@ title: Locality-aware Load Balancing
 
 {% if_version gte:2.5.x %}
 {% warning %}
-If you are looking for more advanced configuration use [MeshLoadBalancingStrategy](/docs/{{ page.version }}/policies/meshloadbalancingstrategy).
+This mode of doing locality aware load balancing is being replaced by [MeshLoadBalancingStrategy](/docs/{{ page.version }}/policies/meshloadbalancingstrategy) which is more powerful and flexible.
 {% endwarning %}
 {% endif_version %}
 

@@ -34,17 +34,20 @@ across all endpoints regardless of locality.
 {% endif_version %}
 {% if_version gte:2.5.x %}
 ### LocalityAwareness
-Locality-aware load balancing provides a more robust and straightforward method for balancing traffic within and across zones. This not only allows you to route traffic across zones when the local zone service is unhealthy but also enables you to define traffic prioritization within the local zone and set cross-zone fallback priorities.
+Locality-aware load balancing provides robust and straightforward method for balancing traffic within and across zones. This not only allows you to route traffic across zones when the local zone service is unhealthy but also enables you to define traffic prioritization within the local zone and set cross-zone fallback priorities.
 
 #### Default behaviour
 Locality-aware load balancing is enabled by default, unlike its predecessor [localityAwareLoadBalancing](/docs/{{ page.version }}/policies/locality-aware). Requests are distributed across all endpoints within the local zone first unless there are not enough healthy endpoints.
 
-#### Disabling cross zone routing
-It's possible to disable cross-zone traffic. In this case, all endpoints are treated equally.
+#### Disabling locality aware routing
+If you do so, all endpoints regardless of their zone will be treated equally. To do this do:
 
-#### Configuring LocalityAware Load Balancing
-- **`disabled`** – (optional) allows to disable locality-aware load balancing. When disabled requests are distributed across all endpoints regardless of locality.
+```yaml
+localityAwareness:
+  disabled: true
+```
 
+#### Configuring LocalityAware Load Balancing for traffic within the same zone
 {% warning %}
 If `crossZone` and/or `localZone` is defined, they take precedence over `disabled` and apply more specific configuration.
 {% endwarning %}
@@ -56,6 +59,7 @@ Local zone routing allows you to define traffic routing rules within a local zon
     - **`key`** - defines tag for which affinity is configured. The tag needs to be configured on the inbound of the service. In case of Kubernetes, pod needs to have a label. On Universal user needs to define it on the inbound of the service. If the tag is absent this entry is skipped.
     - **`weight`** - (optional) weight of the tag used for load balancing. The bigger the weight the higher number of requests is routed to dataplanes with specific tag. By default we will adjust them so that 90% traffic goes to first tag, 9% to next, and 1% to third and so on.
 
+#### Configuring LocalityAware Load Balancing for traffic across zones
 {% warning %}
 Remember that cross-zone traffic requires [mTLS to be enabled](/docs/{{ page.version}}/policies/mutual-tls).
 {% endwarning %}
