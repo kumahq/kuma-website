@@ -35,30 +35,30 @@ across all endpoints regardless of locality.
 Advanced locality-aware load balancing provides a more robust and straightforward method for balancing traffic within and across zones. This not only allows you to route traffic across zones when the local zone service is unhealthy but also enables you to define traffic prioritization within the local zone and set cross-zone fallback priorities.
 
 #### LocalZone
-Local zone routing allows you to define traffic routing rules within a local zone, prioritizing data planes based on tags and their associated weights. This enables you to allocate specific traffic percentages to data planes with particular tags within the local zone. If there are no healthy endpoints within the highest priority group, the next priority group takes precedence. Locality awareness within the local zone relies on tags within inbounds, so it's crucial to ensure that the tags used in the policy are defined for the service (Dataplane object on Universal, Deployment annotations on Kubernetes).
+Local zone routing allows you to define traffic routing rules within a local zone, prioritizing data planes based on tags and their associated weights. This enables you to allocate specific traffic percentages to data planes with particular tags within the local zone. If there are no healthy endpoints within the highest priority group, the next priority group takes precedence. Locality awareness within the local zone relies on tags within inbounds, so it's crucial to ensure that the tags used in the policy are defined for the service (Dataplane object on Universal, PodTemplate labels on Kubernetes).
 
 - **`localZone`** - (optional) allows to define load balancing priorities between dataplanes in the local zone. When not defined, traffic is distributed equally to all endpoints within the local zone.
   - **`affinityTags`** - list of tags and their weights based on which traffic is load balanced
-    - **`key`** - defines tag for which affinity is configured. The tag needs to be configured on the inbound of the service. In case of Kubernetes, pod needs to have an annotations or a label. On Universal user needs to define it on the inbound of the service. In case there no match, the dataplane match to the last group with the lowest weight.
+    - **`key`** - defines tag for which affinity is configured. The tag needs to be configured on the inbound of the service. In case of Kubernetes, pod needs to have an annotations or a label. On Universal user needs to define it on the inbound of the service. In case there is no match, the dataplane match to the last group with the lowest weight.
     - **`weight`** - (optional) weight of the tag used for load balancing. The bigger the weight the higher number of requests is routed to dataplanes with specific tag. By default we will adjust them so that 90% traffic goes to first tag, 9% to next, and 1% to third and so on.
 
 #### CrossZone
 {% warning %}
-Remember that cross-zone traffic requires [mTLS enabled](/docs/{{ page.version}}/policies/mutual-tls).
+Remember that cross-zone traffic requires [mTLS to be enabled](/docs/{{ page.version}}/policies/mutual-tls).
 {% endwarning %}
-Advanced locality-aware load balancing provides a powerful means of defining how your service should behave when there is no service available in your local zone. With this feature, you have the flexibility to configure the fallback behavior of your service, specifying the order in which it should attempt fallback options and defining different behaviors for instances located in various zones.
+Advanced locality-aware load balancing provides a powerful means of defining how your service should behave when there is no instances of your service available or they are in a degraded state in your local zone. With this feature, you have the flexibility to configure the fallback behavior of your service, specifying the order in which it should attempt fallback options and defining different behaviors for instances located in various zones.
 
 - **`crossZone`** - (optional) allows to define behaviour when there is no healthy instances of the service. When not defined, cross zone traffic is disabled.
   - **`failover`** - defines a list of load balancing rules in order of priority. If a zone is not specified explicitly by name or implicitly using the type `Any`/`AnyExcept` it is excluded from receiving traffic. By default, the last rule is always `None` which means, that there is no traffic to other zones after specified rules.
     - **`from`** - (optional) defines the list of zones to which the rule applies. If not specified, rule is applied to all zones.
-      - **`zones`** - list of zones.
+      - **`zones`** - list of zone names.
     - **`to`** - defines to which zones the traffic should be load balanced.
       - **`type`** - defines how target zones will be picked from available zones. Available options:
         - **`Any`** - traffic will be load balanced to every available zone.
         - **`Only`** - traffic will be load balanced only to zones specified in zones list.
-        - **`AnyExcept`** - traffic will be load balanced to every available zone except these specified in zones list.
+        - **`AnyExcept`** - traffic will be load balanced to every available zone except those specified in zones list.
         - **`None`** - traffic will not be load balanced to any zone.
-      - **`zones`** - names of zones
+      - **`zones`** - list of zone names
   - **`failoverThreshold.percentage`** - (optional) defines the percentage of live destination dataplane proxies below which load balancing to the next priority starts. Default: 50%
 
 #### Zone Egress support
