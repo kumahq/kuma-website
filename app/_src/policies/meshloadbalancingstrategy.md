@@ -45,6 +45,10 @@ It's possible to disable cross-zone traffic. In this case, all endpoints are tre
 #### Configuring LocalityAware Load Balancing
 - **`disabled`** – (optional) allows to disable locality-aware load balancing. When disabled requests are distributed across all endpoints regardless of locality.
 
+{% warning %}
+If `crossZone` and/or `localZone` is defined, they take precedence over `disabled` and apply more specific configuration.
+{% endwarning %}
+
 Local zone routing allows you to define traffic routing rules within a local zone, prioritizing data planes based on tags and their associated weights. This enables you to allocate specific traffic percentages to data planes with particular tags within the local zone. If there are no healthy endpoints within the highest priority group, the next priority group takes precedence. Locality awareness within the local zone relies on tags within inbounds, so it's crucial to ensure that the tags used in the policy are defined for the service (Dataplane object on Universal, PodTemplate labels on Kubernetes).
 
 - **`localZone`** - (optional) allows to define load balancing priorities between dataplanes in the local zone. When not defined, traffic is distributed equally to all endpoints within the local zone.
