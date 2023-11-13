@@ -23,6 +23,7 @@ To learn more about the information in this table, see the [matching docs](/docs
 
 ## Configuration
 
+{% if_version lte:2.4.x %}
 ### LocalityAwareness
 
 Locality-aware load balancing is enabled by default unlike its predecessor [localityAwareLoadBalancing](/docs/{{ page.version }}/policies/locality-aware).
@@ -30,11 +31,20 @@ Locality-aware load balancing is enabled by default unlike its predecessor [loca
 - **`disabled`** – (optional) allows to disable locality-aware load balancing. When disabled requests are distributed 
 across all endpoints regardless of locality.
 
+{% endif_version %}
 {% if_version gte:2.5.x %}
-### Advanced LocalityAwareness
-Advanced locality-aware load balancing provides a more robust and straightforward method for balancing traffic within and across zones. This not only allows you to route traffic across zones when the local zone service is unhealthy but also enables you to define traffic prioritization within the local zone and set cross-zone fallback priorities.
+### LocalityAwareness
+Locality-aware load balancing provides a more robust and straightforward method for balancing traffic within and across zones. This not only allows you to route traffic across zones when the local zone service is unhealthy but also enables you to define traffic prioritization within the local zone and set cross-zone fallback priorities.
 
-#### LocalZone
+#### Default behaviour
+Locality-aware load balancing is enabled by default, unlike its predecessor [localityAwareLoadBalancing](/docs/{{ page.version }}/policies/locality-aware). Requests are distributed across all endpoints within the local zone first unless there are not enough healthy endpoints.
+
+#### Disabling cross zone routing
+It's possible to disable cross-zone traffic. In this case, all endpoints are treated equally.
+
+#### Configuring LocalityAware Load Balancing
+- **`disabled`** – (optional) allows to disable locality-aware load balancing. When disabled requests are distributed across all endpoints regardless of locality.
+
 Local zone routing allows you to define traffic routing rules within a local zone, prioritizing data planes based on tags and their associated weights. This enables you to allocate specific traffic percentages to data planes with particular tags within the local zone. If there are no healthy endpoints within the highest priority group, the next priority group takes precedence. Locality awareness within the local zone relies on tags within inbounds, so it's crucial to ensure that the tags used in the policy are defined for the service (Dataplane object on Universal, PodTemplate labels on Kubernetes).
 
 - **`localZone`** - (optional) allows to define load balancing priorities between dataplanes in the local zone. When not defined, traffic is distributed equally to all endpoints within the local zone.
@@ -42,7 +52,6 @@ Local zone routing allows you to define traffic routing rules within a local zon
     - **`key`** - defines tag for which affinity is configured. The tag needs to be configured on the inbound of the service. In case of Kubernetes, pod needs to have a label. On Universal user needs to define it on the inbound of the service. If the tag is absent this entry is skipped.
     - **`weight`** - (optional) weight of the tag used for load balancing. The bigger the weight the higher number of requests is routed to dataplanes with specific tag. By default we will adjust them so that 90% traffic goes to first tag, 9% to next, and 1% to third and so on.
 
-#### CrossZone
 {% warning %}
 Remember that cross-zone traffic requires [mTLS to be enabled](/docs/{{ page.version}}/policies/mutual-tls).
 {% endwarning %}
@@ -306,7 +315,7 @@ spec:
 
 ### Disable cross zone traffic and route to the local zone instances equally
 
-In this example, when a user sends a request to the backend service, the request is routed equally to all instances in the local zone. If there are no instances in the local zone, the request will fail because there is no cross-zone traffic.
+In this example, when a user sends a request to the backend service, the request is routed equally to all instances in the local zone. If there are no instances in the local zone, the request will fail because there is no cross zone traffic.
 
 {% policy_yaml local-zone-affinity-backend-2 %}
 ```yaml
