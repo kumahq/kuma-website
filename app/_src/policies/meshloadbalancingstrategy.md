@@ -68,7 +68,7 @@ Advanced locality-aware load balancing provides a powerful means of defining how
         - **`AnyExcept`** - traffic will be load balanced to every available zone except those specified in zones list.
         - **`None`** - traffic will not be load balanced to any zone.
       - **`zones`** - list of zone names
-  - **`failoverThreshold.percentage`** - (optional) defines the percentage of live destination dataplane proxies below which load balancing to the next priority starts. Default: 50%
+  - **`failoverThreshold.percentage`** - (optional) defines the percentage of live destination dataplane proxies below which load balancing to the next priority starts. Has to be in (0.0 - 100.0] range. If the value is a double number, put it in quotes.
 
 #### Zone Egress support
 
