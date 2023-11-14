@@ -205,6 +205,8 @@ networking:
 {% endtab %}
 {% endtabs %}
 
+In the future release, `kumactl` [will ship](https://github.com/kumahq/kuma/issues/8071) with `uninstall` command.
+
 ### Transparent Proxy with eBPF (experimental)
 
 Starting from {{site.mesh_product_name}} 2.0 you can setup transparent proxy to use eBPF instead of iptables.
