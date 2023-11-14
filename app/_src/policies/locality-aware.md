@@ -2,6 +2,12 @@
 title: Locality-aware Load Balancing
 ---
 
+{% if_version gte:2.5.x %}
+{% warning %}
+This mode of doing locality aware load balancing is being replaced by [MeshLoadBalancingStrategy](/docs/{{ page.version }}/policies/meshloadbalancingstrategy) which is more powerful and flexible.
+{% endwarning %}
+{% endif_version %}
+
 In a {% if_version lte:2.1.x %}[multi-zone deployment](/docs/{{ page.version }}/introduction/deployments/){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment](/docs/{{ page.version }}/production/deployment/){% endif_version %}, locality-aware load balancing
 instructs data plane proxies to try to keep requests within one zone. The amount
 of traffic that remains in one zone depends on the health of the service endpoints in that
