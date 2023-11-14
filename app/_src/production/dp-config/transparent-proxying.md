@@ -38,7 +38,7 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
 
 1. Use proper version of iptables
     
-    {{site.mesh_product_name}} [is not yet compatible](https://github.com/kumahq/kuma/issues/8293) with `nf_tables`. You can check the version of iptables with the following command
+    {{site.mesh_product_name}} [isn't yet compatible](https://github.com/kumahq/kuma/issues/8293) with `nf_tables`. You can check the version of iptables with the following command
     ```sh
     $ iptables --version
     iptables v1.8.7 (nf_tables)
@@ -71,10 +71,10 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
 {% warning %}
 Please note that this command **will change** the host `iptables` rules.
 
-We exclude port 22, so we can SSH to the machine without `kuma-dp` running.
+The command excludes port 22, so you can SSH to the machine without `kuma-dp` running.
 {% endwarning %}
 
-The changes will not persist over restarts. You need to either add this command to your start scripts or use firewalld.
+The changes won't persist over restarts. You need to either add this command to your start scripts or use firewalld.
 
 ### Data plane proxy resource
 
@@ -142,7 +142,7 @@ ip6tables -t nat -X
 ip6tables -t raw -F
 ip6tables -t raw -X
 ```
-Be aware that the command above with remove all iptables rules, not only created by {{site.mesh_product_name}}. 
+Be aware that this command removes all iptables rules, not only created by {{site.mesh_product_name}}. 
 
 In the future release, `kumactl` [will ship](https://github.com/kumahq/kuma/issues/8071) with `uninstall` command.
 
