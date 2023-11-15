@@ -49,6 +49,7 @@ endunless
 endwarning
 etcd
 Fargate
+firewalld
 GAMMA
 Gateway API
 GitHub
