@@ -40,18 +40,18 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
     
     {{site.mesh_product_name}} [isn't yet compatible](https://github.com/kumahq/kuma/issues/8293) with `nf_tables`. You can check the version of iptables with the following command
     ```sh
-    $ iptables --version
-    iptables v1.8.7 (nf_tables)
+    iptables --version
+    # iptables v1.8.7 (nf_tables)
     ```
     
     On the recent versions of Ubuntu, you need to change default `iptables`.
     
     ```sh
-    $ update-alternatives --set iptables /usr/sbin/iptables-legacy
-    $ update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-    $ iptables --version
-    iptables v1.8.7 (legacy)
-```
+    update-alternatives --set iptables /usr/sbin/iptables-legacy
+    update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+    iptables --version
+    # iptables v1.8.7 (legacy)
+    ```
 
 2. Create a new dedicated user on the machine.
 
@@ -132,17 +132,20 @@ If you run `firewalld` to manage firewalls and wrap iptables, add the `--store-f
 Before upgrading to the next version of {{site.mesh_product_name}}, it's best to clean existing `iptables` rules and only then replace the `kumactl` binary.
 
 You can clean the rules either by restarting the host or by running following commands
+
+{% warning %}
+Executing these commands will remove all iptables rules, including those created by {{site.mesh_product_name}} and any other applications or services.
+{% endwarning %}
+
 ```sh
-iptables -t nat -F
-iptables -t nat -X
-iptables -t raw -F
-iptables -t raw -X
-ip6tables -t nat -F
-ip6tables -t nat -X
-ip6tables -t raw -F
-ip6tables -t raw -X
-```
-Be aware that this command removes all iptables rules, not only created by {{site.mesh_product_name}}. 
+iptables --table nat --flush
+iptables --table raw --flush
+ip6tables --table nat --flush
+ip6tables --table raw --flush
+iptables --table nat --delete-chain
+iptables --table raw --delete-chain
+ip6tables --table nat --delete-chain
+ip6tables --table raw --delete-chain
 
 In the future release, `kumactl` [will ship](https://github.com/kumahq/kuma/issues/8071) with `uninstall` command.
 
