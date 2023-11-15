@@ -123,5 +123,6 @@ jobs:
         name: Run Vale
         with:
           files: "${{ steps.changed-files.outputs.result }}"
+          reporter: github-pr-review
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
