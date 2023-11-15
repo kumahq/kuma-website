@@ -114,7 +114,6 @@ jobs:
             );
             return files
               .filter(d => d.status != "removed")
-              .filter(d => !d.filename.includes("/_posts/"))
               .filter(d => !d.filename.includes("/generated/"))
               .filter(d => !d.filename.includes("/raw/"))
               .map(d => d.filename);
