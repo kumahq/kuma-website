@@ -22,6 +22,7 @@ module Jekyll
             content = super
             return "" unless content != ""
             site_data = context.registers[:site].config
+            page = context.environments.first['page']
 
             opts = content.strip.split("\n").map do |x|
                 x = site_data['set_flag_values_prefix'] + x if @prefixed
@@ -39,7 +40,7 @@ kumactl install control-plane \\
 ```
 {% endtab %}
 {% tab #{@tabs_name} helm %}
-Before using {{site.mesh_product_name}} with helm, please follow [these steps](/docs/{{ page.version }}/production/cp-deployment/kubernetes/#helm) to configure your local helm repo.
+Before using {{site.mesh_product_name}} with helm, please follow [these steps](/#{product_url_segment(page)}/{{ page.release }}/production/cp-deployment/kubernetes/#helm) to configure your local helm repo.
 ```shell
 helm install --create-namespace --namespace {{site.mesh_namespace}} \\
   #{res} \\
@@ -48,6 +49,10 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} \\
 {% endtab %}
 {% endtabs %}"
             ::Liquid::Template.parse(htmlContent).render(context)
+          end
+
+          def product_url_segment(page)
+            page['dir'].split('/')[1]
           end
         end
       end
