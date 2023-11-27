@@ -69,6 +69,13 @@ A multi-zone deployment includes:
   - Send zone ingresses down to zone control plane.
   - Keep an inventory of all data plane proxies running in all zones (this is only done for observability but is not required for operations).
   - Reject connections from data plane proxies.
+  - Leader
+    - Writes to the store
+    - Does insights processing
+    - Other leader components (CP catalog, gc, subscription finalizer, inter cp server)
+  - Followers
+    - Run default components 
+    - Read from the store
 - The **zone control planes**:
   - Accept connections from data plane proxies started within this zone.
   - Receive policy updates from the global control plane.
@@ -76,6 +83,14 @@ A multi-zone deployment includes:
   - Compute and send configurations using XDS to the local data plane proxies.
   - Update list of services which exist in the zone in the zone ingress.
   - Reject policy changes that do not come from global.
+  - Leader
+    - Writes to the store
+    - Runs k8s controllers (pod converter, CNI taint)
+    - Runs leader components (kds mux client)
+    - Connects to any global control plane (either leader or follower)
+  - Followers
+    - Run default components
+    - Connect to any global control plane
 - The **data plane proxies**:
   - Connect to the local zone control plane.
   - Receive configurations using XDS from the local zone control plane.
