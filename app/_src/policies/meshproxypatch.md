@@ -1473,9 +1473,9 @@ All modifications from `appendModification` list are always merged.
 For example, if there is a policy with `targetRef.kind: Mesh` and second policy with `targetRef.kind: MeshService` that matches a data plane proxy,
 all modifications from both policies will be applied.
 
-## JSON Patch
+## Json patch
 
-If you use JSON Patch, remember to always use _snakeCase_ instead of _camel_case_ in `path` parameter even though you see _camel_case_ in Envoy Config Dump.
+If you use json patch, remember to always use _snakeCase_ instead of _camel_case_ in `path` parameter even though you see _camel_case_ in Envoy Config Dump.
 
 ## Examples
 
