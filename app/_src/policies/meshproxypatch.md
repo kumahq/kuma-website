@@ -160,7 +160,7 @@ spec:
             origin: inbound # optional: if absent, all clusters regardless of its origin will be patched
           jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
             - op: add
-              path: /transportSocket/typedConfig/commonTlsContext/tlsParams
+              path: /transportSocket/typedConfig/commonTlsContext/tlsParams # remember to always use camelCase
               value:
                 tlsMinimumProtocolVersion: TLSv1_2
             - op: add
@@ -1472,6 +1472,10 @@ spec:
 All modifications from `appendModification` list are always merged.
 For example, if there is a policy with `targetRef.kind: Mesh` and second policy with `targetRef.kind: MeshService` that matches a data plane proxy,
 all modifications from both policies will be applied.
+
+## Json patch
+
+If you use json patch, remember to always use _snakeCase_ instead of _camel_case_ in `path` parameter even though you see _camel_case_ in Envoy Config Dump.
 
 ## Examples
 
