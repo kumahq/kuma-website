@@ -1,10 +1,10 @@
 ---
-title: MeshTrace (beta)
+title: MeshTrace
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficTrace](/docs/{{ page.version }}/policies/traffic-trace).
+This policy uses new policy matching algorithm.
+Do **not** combine with [TrafficTrace](/docs/{{ page.version }}/policies/traffic-trace).
 {% endwarning %}
 
 This policy enables publishing traces to a third party tracing solution.

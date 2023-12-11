@@ -1,10 +1,10 @@
 ---
-title: MeshTCPRoute (beta)
+title: MeshTCPRoute
 ---
 
 {% warning %}
-This policy is in beta and uses a new policy matching algorithm.
-Do **not** mix it with [`TrafficRoute`](/docs/{{ page.version }}/policies/traffic-route) except for the default `route-all` route, which should be kept.
+This policy uses a new policy matching algorithm.
+Do **not** combine with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) except for the default `route-all` route, which should be kept.
 {% endwarning %}
 
 The `MeshTCPRoute` policy allows you to alter and redirect TCP requests

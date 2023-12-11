@@ -95,8 +95,6 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
-    conf:
-      skipMTLS: true # by default mTLS metrics are also protected by mTLS. Scraping metrics with mTLS without transparent proxy is not supported at the moment.
 ```
 {% endif_version %}
 {% if_version gte:2.4.x %}
@@ -108,9 +106,6 @@ metrics:
   backends:
   - name: prometheus-1
     type: prometheus
-    conf:
-      tls:
-        mode: disabled
 ```
 {% endif_version %}
 which is a shortcut for:
@@ -125,7 +120,7 @@ metrics:
   - name: prometheus-1
     type: prometheus
     conf:
-      skipMTLS: true
+      skipMTLS: false
       port: 5670
       path: /metrics
       tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
@@ -147,7 +142,7 @@ metrics:
       tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
         kuma.io/service: dataplane-metrics
       tls:
-        mode: disabled
+        mode: activeMTLSBackend
 ```
 {% endif_version %}
 {% endtab %}

@@ -1,5 +1,5 @@
 ---
-title: MeshProxyPatch (beta)
+title: MeshProxyPatch
 ---
 
 The `MeshProxyPatch` provides configuration options for [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v3/api) that {{site.mesh_product_name}} policies do not directly expose.
@@ -17,7 +17,8 @@ A `MeshProxyPatch` policy can modify:
 * [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-virtualhost)
 
 {% warning %}
-This policy uses a new policy matching algorithm and is in beta state. It should not be combined with [Proxy Template](/docs/{{ page.version }}/policies/proxy-template).
+This policy uses a new policy matching algorithm.
+Do **not** combine with [Proxy Template](/docs/{{ page.version }}/policies/proxy-template).
 {% endwarning %}
 
 ## `targetRef` support matrix
@@ -159,7 +160,7 @@ spec:
             origin: inbound # optional: if absent, all clusters regardless of its origin will be patched
           jsonPatches: # optional and mutually exclusive with "value": list of modifications in JSON Patch notation
             - op: add
-              path: /transportSocket/typedConfig/commonTlsContext/tlsParams
+              path: /transportSocket/typedConfig/commonTlsContext/tlsParams # remember to always use camelCase
               value:
                 tlsMinimumProtocolVersion: TLSv1_2
             - op: add
@@ -1471,6 +1472,10 @@ spec:
 All modifications from `appendModification` list are always merged.
 For example, if there is a policy with `targetRef.kind: Mesh` and second policy with `targetRef.kind: MeshService` that matches a data plane proxy,
 all modifications from both policies will be applied.
+
+## Json patch
+
+If you use json patch, remember to always use _snakeCase_ instead of _camel_case_ in `path` parameter even though you see _camel_case_ in Envoy Config Dump.
 
 ## Examples
 

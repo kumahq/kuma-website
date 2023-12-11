@@ -37,7 +37,7 @@ carousel:
 
 {% contentfor news %}
 
-**Kuma 2.4.0 has been released!** &mdash; sidecar lifecycle, metrics TLS and multi-zone improvements, and much more [on the Kuma 2.4.0 release blog post](/blog/2023/kuma-2-4-0/).
+**Kuma 2.5.0 has been released!** &mdash; With advanced locality-aware load-balancing, new policies GA, auto-reachable services, and much more [on the Kuma 2.5.0 release blog post](/blog/2023/kuma-2-5-0/).
 
 {% endcontentfor %}
 

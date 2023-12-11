@@ -1,3 +1,5 @@
+SHELL := /usr/bin/env bash
+
 define newline
 
 
@@ -14,7 +16,7 @@ endif
 
 # Installs npm packages and gems.
 install: ruby-version-check
-	npm install -g netlify-cli
+	npm install -g netlify-cli@16.5.1
 	yarn install
 	bundle install
 
@@ -33,3 +35,9 @@ serve:
 clean:
 	-rm -rf dist
 	-rm -rf app/.jekyll-cache
+	-rm -rf app/.jekyll-metadata
+	-rm -rf .jekyll-cache/vite
+
+kill-ports:
+	@JEKYLL_PROCESS=$$(lsof -ti:4000) && kill -9 $$JEKYLL_PROCESS || true
+	@VITE_PROCESS=$$(lsof -ti:3036) && kill -9 $$VITE_PROCESS || true

@@ -1,10 +1,10 @@
 ---
-title: Mesh HTTP Route (beta)
+title: Mesh HTTP Route
 ---
 
 {% warning %}
-This policy is in beta and uses a new policy matching algorithm.
-Do **not** mix it with [`TrafficRoute`](/docs/{{ page.version }}/policies/traffic-route) except for the default `route-all` route, which should be kept.
+This policy uses new policy matching algorithm.
+Do **not** combine with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) except for the default `route-all` route, which should be kept..
 {% endwarning %}
 
 The `MeshHTTPRoute` policy allows altering and redirecting HTTP requests

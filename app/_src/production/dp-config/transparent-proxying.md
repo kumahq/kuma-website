@@ -36,26 +36,45 @@ Prerequisites:
 {{site.mesh_product_name}} comes with [`kumactl` executable](/docs/{{ page.version }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
 The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
 
-1. Create a new dedicated user on the machine.
+1. Use proper version of iptables
+    
+    {{site.mesh_product_name}} [isn't yet compatible](https://github.com/kumahq/kuma/issues/8293) with `nf_tables`. You can check the version of iptables with the following command
+    ```sh
+    iptables --version
+    # iptables v1.8.7 (nf_tables)
+    ```
+    
+    On the recent versions of Ubuntu, you need to change default `iptables`.
+    
+    ```sh
+    update-alternatives --set iptables /usr/sbin/iptables-legacy
+    update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+    iptables --version
+    # iptables v1.8.7 (legacy)
+    ```
+
+2. Create a new dedicated user on the machine.
 
    ```sh
    useradd -u 5678 -U kuma-dp
    ```
 
-2. Redirect all the relevant inbound, outbound and DNS traffic to the {{site.mesh_product_name}} data plane proxy.
+3. Redirect all the relevant inbound, outbound and DNS traffic to the {{site.mesh_product_name}} data plane proxy.
 
    ```sh
    kumactl install transparent-proxy \
      --kuma-dp-user kuma-dp \
-     --skip-resolv-conf \
-     --redirect-dns
+     --redirect-dns \
+     --exclude-inbound-ports 22
    ```
 
 {% warning %}
 Please note that this command **will change** the host `iptables` rules.
+
+The command excludes port 22, so you can SSH to the machine without `kuma-dp` running.
 {% endwarning %}
 
-The changes will persist over restarts, so this command is needed only once. Reverting to the original state of the host can be done by issuing `kumactl uninstall transparent-proxy`.
+The changes won't persist over restarts. You need to either add this command to your start scripts or use firewalld.
 
 ### Data plane proxy resource
 
@@ -64,11 +83,11 @@ In transparent proxying mode, the `Dataplane` resource should omit the `networki
 ```yaml
 type: Dataplane
 mesh: default
-name: {{ name }}
+name: {% raw %}{{ name }}{% endraw %}
 networking:
-  address: {{ address }}
+  address: {% raw %}{{ address }}{% endraw %}
   inbound:
-  - port: {{ port }}
+  - port: {% raw %}{{ port }}{% endraw %}
     tags:
       kuma.io/service: demo-client
   transparentProxying:
@@ -82,6 +101,7 @@ The ports illustrated above are the default ones that `kumactl install transpare
 
 {% warning %}
 It is important that the `kuma-dp` process runs with the same system user that was passed to `kumactl install transparent-proxy --kuma-dp-user`.
+The service itself should run with any other user than `kuma-dp`. Otherwise, it won't be able to leverage transparent proxying.
 {% endwarning %}
 
 When systemd is used, this can be done with an entry `User=kuma-dp` in the `[Service]` section of the service file.
@@ -109,8 +129,25 @@ If you run `firewalld` to manage firewalls and wrap iptables, add the `--store-f
 
 ### Upgrades
 
-Before upgrading to the next version of {{site.mesh_product_name}}, make sure to run `kumactl uninstall transparent-proxy` and only then replace the `kumactl` binary.
-This will ensure smooth upgrade and no leftovers from the previous installations.
+Before upgrading to the next version of {{site.mesh_product_name}}, it's best to clean existing `iptables` rules and only then replace the `kumactl` binary.
+
+You can clean the rules either by restarting the host or by running following commands
+
+{% warning %}
+Executing these commands will remove all iptables rules, including those created by {{site.mesh_product_name}} and any other applications or services.
+{% endwarning %}
+
+```sh
+iptables --table nat --flush
+iptables --table raw --flush
+ip6tables --table nat --flush
+ip6tables --table raw --flush
+iptables --table nat --delete-chain
+iptables --table raw --delete-chain
+ip6tables --table nat --delete-chain
+ip6tables --table raw --delete-chain
+
+In the future release, `kumactl` [will ship](https://github.com/kumahq/kuma/issues/8071) with `uninstall` command.
 
 ## Configuration
 
@@ -188,11 +225,11 @@ spec:
 ```yaml
 type: Dataplane
 mesh: default
-name: {{ name }}
+name: {% raw %}{{ name }}{% endraw %}
 networking:
-  address: {{ address }}
+  address: {% raw %}{{ address }}{% endraw %}
   inbound:
-  - port: {{ port }}
+  - port: {% raw %}{{ port }}{% endraw %}
     tags:
       kuma.io/service: demo-client
   transparentProxying:

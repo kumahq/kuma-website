@@ -132,8 +132,7 @@ Consider using [service probes](/docs/{{ page.version }}/policies/service-health
 
 If data plane proxy is shutdown gracefully, the `Dataplane` resource is automatically deleted by kuma-cp.
 
-If the data plane proxy goes down ungracefully, the `Dataplane` resource is not deleted immediately. The following happens:
-of the events should happen:
+If the data plane proxy goes down ungracefully, the `Dataplane` resource isn't deleted immediately. The following sequence of the events should happen:
 
 1. After `KUMA_METRICS_DATAPLANE_IDLE_TIMEOUT` (default 5mins) the data plane proxy is marked as Offline . This is because
    there's no active xDS connection between the proxy and kuma-cp.

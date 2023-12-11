@@ -1,9 +1,9 @@
 ---
-title: MeshLoadBalancingStrategy (beta)
+title: MeshLoadBalancingStrategy
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm and is in beta state.
+This policy uses new policy matching algorithm.
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to configure the load balancing strategy 
@@ -23,6 +23,7 @@ To learn more about the information in this table, see the [matching docs](/docs
 
 ## Configuration
 
+{% if_version lte:2.4.x %}
 ### LocalityAwareness
 
 Locality-aware load balancing is enabled by default unlike its predecessor [localityAwareLoadBalancing](/docs/{{ page.version }}/policies/locality-aware).
@@ -30,6 +31,63 @@ Locality-aware load balancing is enabled by default unlike its predecessor [loca
 - **`disabled`** – (optional) allows to disable locality-aware load balancing. When disabled requests are distributed 
 across all endpoints regardless of locality.
 
+{% endif_version %}
+{% if_version gte:2.5.x %}
+### LocalityAwareness
+Locality-aware load balancing provides robust and straightforward method for balancing traffic within and across zones. This not only allows you to route traffic across zones when the local zone service is unhealthy but also enables you to define traffic prioritization within the local zone and set cross-zone fallback priorities.
+
+#### Default behaviour
+Locality-aware load balancing is enabled by default, unlike its predecessor [localityAwareLoadBalancing](/docs/{{ page.version }}/policies/locality-aware). Requests are distributed across all endpoints within the local zone first unless there are not enough healthy endpoints.
+
+#### Disabling locality aware routing
+If you do so, all endpoints regardless of their zone will be treated equally. To do this do:
+
+```yaml
+localityAwareness:
+  disabled: true
+```
+
+#### Configuring LocalityAware Load Balancing for traffic within the same zone
+{% warning %}
+If `crossZone` and/or `localZone` is defined, they take precedence over `disabled` and apply more specific configuration.
+{% endwarning %}
+
+Local zone routing allows you to define traffic routing rules within a local zone, prioritizing data planes based on tags and their associated weights. This enables you to allocate specific traffic percentages to data planes with particular tags within the local zone. If there are no healthy endpoints within the highest priority group, the next priority group takes precedence. Locality awareness within the local zone relies on tags within inbounds, so it's crucial to ensure that the tags used in the policy are defined for the service (Dataplane object on Universal, PodTemplate labels on Kubernetes).
+
+- **`localZone`** - (optional) allows to define load balancing priorities between dataplanes in the local zone. When not defined, traffic is distributed equally to all endpoints within the local zone.
+  - **`affinityTags`** - list of tags and their weights based on which traffic is load balanced
+    - **`key`** - defines tag for which affinity is configured. The tag needs to be configured on the inbound of the service. In case of Kubernetes, pod needs to have a label. On Universal user needs to define it on the inbound of the service. If the tag is absent this entry is skipped.
+    - **`weight`** - (optional) weight of the tag used for load balancing. The bigger the weight the higher number of requests is routed to dataplanes with specific tag. By default we will adjust them so that 90% traffic goes to first tag, 9% to next, and 1% to third and so on.
+
+#### Configuring LocalityAware Load Balancing for traffic across zones
+{% warning %}
+Remember that cross-zone traffic requires [mTLS to be enabled](/docs/{{ page.version}}/policies/mutual-tls).
+{% endwarning %}
+Advanced locality-aware load balancing provides a powerful means of defining how your service should behave when there is no instances of your service available or they are in a degraded state in your local zone. With this feature, you have the flexibility to configure the fallback behavior of your service, specifying the order in which it should attempt fallback options and defining different behaviors for instances located in various zones.
+
+- **`crossZone`** - (optional) allows to define behaviour when there is no healthy instances of the service. When not defined, cross zone traffic is disabled.
+  - **`failover`** - defines a list of load balancing rules in order of priority. If a zone is not specified explicitly by name or implicitly using the type `Any`/`AnyExcept` it is excluded from receiving traffic. By default, the last rule is always `None` which means, that there is no traffic to other zones after specified rules.
+    - **`from`** - (optional) defines the list of zones to which the rule applies. If not specified, rule is applied to all zones.
+      - **`zones`** - list of zone names.
+    - **`to`** - defines to which zones the traffic should be load balanced.
+      - **`type`** - defines how target zones will be picked from available zones. Available options:
+        - **`Any`** - traffic will be load balanced to every available zone.
+        - **`Only`** - traffic will be load balanced only to zones specified in zones list.
+        - **`AnyExcept`** - traffic will be load balanced to every available zone except those specified in zones list.
+        - **`None`** - traffic will not be load balanced to any zone.
+      - **`zones`** - list of zone names
+  - **`failoverThreshold.percentage`** - (optional) defines the percentage of live destination dataplane proxies below which load balancing to the next priority starts. Has to be in (0.0 - 100.0] range. If the value is a double number, put it in quotes.
+
+#### Zone Egress support
+
+Using Zone Egress Proxy in multizone deployment poses certain limitations for this feature. When configuring `MeshLoadbalancingStrategy` with Zone Egress you can only use `Mesh` as a top level targetRef. This is because we don't differentiate requests that come to Zone Egress from different clients, yet. 
+
+Moreover, Zone Egress is a simple proxy that uses long-lived L4 connection with each Zone Ingresses. Consequently, when a new `MeshLoadbalancingStrategy` with locality awareness is configured, connections won’t be refreshed, and locality awareness will apply only to new connections.
+
+Another thing you need to be aware of is how outbound traffic behaves when you use the `MeshCircuitBreaker`'s outlier detection to keep track of healthy endpoints. Normally, you would use `MeshCircuitBreaker` to act on failures and trigger traffic redirect to the next priority level if the number of healthy endpoints fall below `crossZone.failoverThreshold`. When you have a single instance of Zone Egress, all remote zones will be behind a single endpoint. Since `MeshCircuitBreaker` is configured on Data Plane Proxy, when one of the zones start responding with errors it will mark the whole Zone Egress as not healthy and won’t send traffic there even though there could be multiple zones with live endpoints. This will be changed in the future with overall improvements to the Zone Egress proxy.
+
+
+{% endif_version %}
 
 ### LoadBalancer
 
@@ -236,6 +294,153 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 {% endtab %}
 {% endtabs %}
+
+{% if_version gte:2.5.x %}
+### Disable cross zone traffic and prioritize traffic the dataplanes on the same node and availability zone
+
+In this example, whenever a user sends a request to the `backend` service, 90% of the requests will arrive at the instance with the same value of the `k8s.io/node` tag, 9% of the requests will go to the instance with the same value as the caller of the `k8s.io/az` tag, and 1% will go to the rest of the instances.
+
+{% policy_yaml local-zone-affinity-backend %}
+```yaml
+type: MeshLoadBalancingStrategy
+name: local-zone-affinity-backend
+mesh: mesh-1
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        localityAwareness:
+          localZone:
+            affinityTags:
+              - key: k8s.io/node
+              - key: k8s.io/az
+```
+{% endpolicy_yaml %}
+
+### Disable cross zone traffic and route to the local zone instances equally
+
+In this example, when a user sends a request to the backend service, the request is routed equally to all instances in the local zone. If there are no instances in the local zone, the request will fail because there is no cross zone traffic.
+
+{% policy_yaml local-zone-affinity-backend-2 %}
+```yaml
+type: MeshLoadBalancingStrategy
+name: local-zone-affinity-backend
+mesh: mesh-1
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        localityAwareness:
+          localZone:
+            affinityTags: []
+```
+{% endpolicy_yaml %}
+
+or 
+
+{% policy_yaml local-zone-affinity-backend-3 %}
+```yaml
+type: MeshLoadBalancingStrategy
+name: local-zone-affinity-backend
+mesh: mesh-1
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        localityAwareness:
+          localZone: {}
+```
+{% endpolicy_yaml %}
+
+### Route within the local zone equally, but specify cross zone order
+
+Requests to the backend service will be evenly distributed among all endpoints within the local zone. If there are fewer than 25% healthy hosts in the local zone, traffic will be redirected to other zones. Initially, traffic will be sent to the `us-1` zone. In the event that the `us-1` zone becomes unavailable, traffic will then be directed to all zones, except for `us-2` and `us-3`. If these zones are also found to have unhealthy hosts, the traffic will be rerouted to `us-2` and `us-3`.
+
+{% policy_yaml cross-zone-backend %}
+```yaml
+type: MeshLoadBalancingStrategy
+name: cross-zone-backend
+mesh: mesh-1
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        localityAwareness:
+          crossZone:
+            failover:
+              - to:
+                  type: Only
+                  zones: ["us-1"]
+              - to:
+                  type: AnyExcept
+                  zones: ["us-2", "us-3"]
+              - to:
+                  type: Any
+            failoverThreshold:
+              percentage: 25
+```
+{% endpolicy_yaml %}
+
+### Prioritize traffic to dataplanes within the same datacenter and fallback cross zone in specific order
+
+Requests to backend will be distributed based on weights, with 99.9% of requests routed to data planes in the same datacenter, 0.001% to data planes in the same region, and the remainder to other local instances.
+
+When no healthy backends are available within the local zone, traffic from data planes in zones `us-1`, `us-2`, and `us-3` will only fall back to zones `us-1`, `us-2`, and `us-3`, while in zones `eu-1`, `eu-2`, and `eu-3` will only fall back to zones `eu-1`, `eu-2`, and `eu-3`. If there are no healthy instances in all zones `eu-[1-3]` or `us-[1-3]`, requests from any instance will then fall back to `us-4`. If there are no healthy instances in `us-4`, the request will fail, as the last rule, by default, has a type of `None`, meaning no fallback is allowed.
+
+{% policy_yaml local-zone-affinity-cross-backend %}
+```yaml
+type: MeshLoadBalancingStrategy
+name: local-zone-affinity-cross-backend
+mesh: mesh-1
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      default:
+        localityAwareness:
+          localZone:
+            affinityTags:
+              - key: infra.io/datacenter
+                weight: 9000
+              - key: infra.io/region
+                weight: 9
+          crossZone:
+            failover:
+              - from: 
+                  zones: ["us-1", "us-2", "us-3"]
+                to:
+                  type: Only
+                  zones: ["us-1", "us-2", "us-3"]
+              - from:
+                  zones: ["eu-1", "eu-2", "eu-3"]
+                to:
+                  type: Only
+                  zones: ["eu-1", "eu-2", "eu-3"]
+              - to:
+                  type: Only
+                  zones: ["us-4"]
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ## All policy options
 
