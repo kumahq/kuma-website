@@ -4,7 +4,7 @@ title: MeshTCPRoute
 
 {% warning %}
 This policy uses a new policy matching algorithm.
-Do **not** combine with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route).
+Do **not** combine with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) except for the default `route-all` route, which should be kept.
 {% endwarning %}
 
 The `MeshTCPRoute` policy allows you to alter and redirect TCP requests
@@ -53,6 +53,9 @@ The following describes the default configuration settings of the `MeshTCPRoute`
     cluster is determined by its weight. Total weight is a sum of all weights
     in the `backendRefs` list.
 
+## Interactions with `MeshHTTPRoute`
+
+[`MeshHTTPRoute`](../meshhttproute) takes priority over `MeshTCPRoute` when both are defined for the same service, and the matching `MeshTCPRoute` is ignored.
 
 ## Examples
 
