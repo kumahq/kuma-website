@@ -52,7 +52,7 @@ This feature is tracked in [#7541](https://github.com/kumahq/kuma/issues/7541).
 
 ## OpenShift
 
-## Transparent proxy
+### Transparent proxy
 
 Starting from version 4.1 OpenShift uses `nftables` instead of `iptables`.
 So using init container for redirecting traffic to the proxy no longer works and you should use the [`kuma-cni`](/docs/{{ page.version }}/production/dp-config/cni/) instead.
@@ -78,3 +78,24 @@ admissionConfig:
 ```
 
 After updating `master-config.yaml` restart the cluster and install `control-plane`.
+
+## GKE Autopilot
+
+By default, GKE Autopilot forbids the use of the `NET_ADMIN` linux capability. This is required by Kuma to set up the iptables rules in order to intercept inbound and outbound traffic. 
+
+It is possible to configure a GKE cluster in autopilot mode so that the `NET_ADMIN` capability is authorized with the following option in your gcloud command: `--workload-policies=allow-net-admin`
+
+Full example:
+```shell
+gcloud beta container \
+  --project ${GCP_PROJECT} \
+  clusters create-auto ${CLUSTER_NAME} \
+  --region ${REGION} \
+  --release-channel "regular" \
+  --scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" \
+  --network "projects/${GCP_PROJECT}/global/networks/default" \
+  --subnetwork "projects/${GCP_PROJECT}/regions/${REGION}/subnetworks/default" \
+  --no-enable-master-authorized-networks \
+  --cluster-ipv4-cidr=/20 \
+  --workload-policies=allow-net-admin
+```
