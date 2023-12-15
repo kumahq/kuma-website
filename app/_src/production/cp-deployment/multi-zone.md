@@ -44,7 +44,6 @@ NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP 
 ```
 
 By default, it's exposed on [port 5685]{% if_version lte:2.1.x %}(/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/use-mesh#control-plane-ports){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
-In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 
