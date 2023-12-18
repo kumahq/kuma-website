@@ -94,3 +94,7 @@ mesh_helm_install_name: kuma
 
 # binary options
 mesh_install_archive_name: kuma
+
+mesh_raw_generated_paths:
+  - app/assets
+  - app/docs
