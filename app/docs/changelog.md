@@ -3,4 +3,4 @@ title: Release notes
 no_version: true
 ---
 
-{% embed raw/CHANGELOG.md %}
+{% embed CHANGELOG.md %}
