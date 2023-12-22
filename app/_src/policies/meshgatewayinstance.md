@@ -19,6 +19,8 @@ kind: MeshGatewayInstance
 metadata:
   name: edge-gateway
   namespace: default
+  annotations:
+    kuma.io/mesh: "default"
 spec:
   replicas: 2
   serviceType: LoadBalancer
