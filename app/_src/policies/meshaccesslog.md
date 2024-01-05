@@ -28,15 +28,25 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
+{% if_version lte:2.5.x %}
 | `targetRef.kind`    | top level | to  |
 | ------------------- | --------- | --- |
 | `Mesh`              | ✅        | ✅  |
 | `MeshGateway`       | ✅        | ❌  |
 | `MeshService`       | ✅        | ❌  |
+{% endif_version %}
+{% if_version gte:2.6.x %}
+| `targetRef.kind`                    | top level | to  |
+| ----------------------------------- | --------- | --- |
+| `Mesh`                              | ✅        | ✅  |
+| `MeshGateway`                       | ✅        | ❌  |
+| `MeshGateway` with listener `.tags` | ✅        | ❌  |
+| `MeshService`                       | ✅        | ✅  |
+{% endif_version %}
 {% endtab %}
 {% endtabs %}
-
 {% endif_version %}
+
 {% if_version lte:2.3.x %}
 
 | `targetRef.kind`    | top level | to  | from |
