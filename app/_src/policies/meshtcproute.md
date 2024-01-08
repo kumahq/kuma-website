@@ -10,6 +10,12 @@ Do **not** combine with [TrafficRoute](/docs/{{ page.version }}/policies/traffic
 The `MeshTCPRoute` policy allows you to alter and redirect TCP requests
 depending on where the request is coming from and where it's going to.
 
+{% if_version lte:2.5.x %}
+{% tip %}
+`MeshTCPRoute` doesn't support cross zone traffic before version 2.6.
+{% endtip %}
+{% endif_version %}
+
 ## TargetRef support matrix
 
 | TargetRef type    | top level | to | from |
