@@ -16,7 +16,7 @@ There are two parts to a policy:
 
 ### Metadata
 
-Metadata identifies the policies by its `name`, `type` and what `mesh` it is part of:
+Metadata identifies the policies by its `name`, `type` and what `mesh` it's part of:
 
 {% tabs metadata %}
 {% tab metadata Universal %}
