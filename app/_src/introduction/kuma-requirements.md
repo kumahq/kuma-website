@@ -51,7 +51,7 @@ resources:
         cpu: 50m
         memory: 64Mi
     limits:
-        cpu: 500m
+        cpu: 1000m
         memory: 512Mi
 ```
 
