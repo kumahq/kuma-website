@@ -126,6 +126,22 @@ items:
             url: /production/upgrades-tuning/fine-tuning/
       - text: Init containers
         url: /production/init-containers/
+  - title: Using Kong Mesh
+    group: true
+    items:
+      - text: Managing ingress traffic
+        url: /using-mesh/managing-ingress-traffic/overview/
+        items:
+          - text: Delegated gateways
+            url: /using-mesh/managing-ingress-traffic/delegated/
+          - text: Built-in gateways
+            url: /using-mesh/managing-ingress-traffic/builtin/
+          - text: Configuring built-in listeners
+            url: /using-mesh/managing-ingress-traffic/builtin-listeners/
+          - text: Configuring built-in routes
+            url: /using-mesh/managing-ingress-traffic/builtin-routes/
+          - text: Using the Kubernetes Gateway API
+            url: /using-mesh/managing-ingress-traffic/gateway-api/
   - title: Explore
     group: true
     items:
