@@ -61,7 +61,7 @@ This mode implements advanced networking techniques, so take special care for th
 In some cases it might be useful for you to configure the default CoreDNS.
 
 {% if_version gte:2.6.x %}
-{{site.mesh_product_name}} supports overriding the CoreDNS configuration from control plane for both Kubernetes and Universal installations; for Universal installations, {{site.mesh_product_name}} also supports overriding from data planes. When overriding from control plane, all the data planes in the mesh will use the overridden DNS template.
+{{site.mesh_product_name}} supports overriding the CoreDNS configuration from control plane for both Kubernetes and Universal installations; for Universal installations, {{site.mesh_product_name}} also supports overriding from data planes. When overriding from control plane, all the data planes in the mesh will use the overridden DNS configuration.
 {% endif_version %}
 
 {% tabs override useUrlFragment=false %}
@@ -69,14 +69,14 @@ In some cases it might be useful for you to configure the default CoreDNS.
 {% if_version gte:2.6.x %}
 Only overriding from control plane is supported.
 
-You can configure the bootstrap server in `kuma-cp`:
+To override, you can configure the bootstrap server in `kuma-cp`:
 
 ```yaml
 bootstrapServer:
   corefileTemplatePath: "/path/to/mounted-corefile-template" # ENV: KUMA_BOOTSTRAP_SERVER_PARAMS_COREFILE_TEMPLATE_PATH
 ```
 
-You'll also need to mount the DNS template file into the control plane by adding an extra configMap, here are the steps: 
+You'll also need to mount the DNS configuration template file into the control plane by adding an extra configMap, here are the steps: 
 
 Create a configmap in the namespace in which the control plane is installed:
 
@@ -89,10 +89,11 @@ kubectl create --namespace {{site.mesh_namespace}} configmap corefile-template \
   --from-file corefile-template=/path/to/corefile-template-on-disk 
 ```
 
+Point to this configmap when installing {{site.mesh_product_name}}:
+
 {% tabs install-control-plane useUrlFragment=false %}
 {% tab install-control-plane Kubernetes (kumactl) %}
 
-Point to this configmap when installing {{site.mesh_product_name}}:
 ```sh
 kumactl install control-plane \
   --env-var "KUMA_BOOTSTRAP_SERVER_PARAMS_COREFILE_TEMPLATE_PATH=/path/to/mounted-corefile-template" \
@@ -102,6 +103,7 @@ kumactl install control-plane \
 ```
 {% endtab %}
 {% tab install-control-plane Kubernetes (HELM) %}
+
 ```sh
 helm install --namespace {{site.mesh_namespace}} \
   --set "{{site.set_flag_values_prefix}}controlPlane.envVars.KUMA_BOOTSTRAP_SERVER_PARAMS_COREFILE_TEMPLATE_PATH=/path/to/mounted-corefile-template" \
@@ -135,8 +137,8 @@ To override DNS configuration from data planes, use `--dns-coredns-config-templa
 {% endtab %}
 {% endtabs %}
 
-This file is a [CoreDNS configuration](https://coredns.io/manual/toc/) that is processed as a go-template.
-If you edit this configuration you should base yourself on the default existing configuration, which looks like the following
+This file used to override builtin DNS configuration is a [CoreDNS configuration](https://coredns.io/manual/toc/) that is processed as a go-template.
+If you edit this configuration, you should base on the existing and default configuration, which looks like the following:
 
 {% raw %}
 
