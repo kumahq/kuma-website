@@ -12,11 +12,11 @@ Transparent proxying helps with a smoother rollout of a Service Mesh to a curren
 On **Kubernetes** `kuma-dp` leverages transparent proxying automatically via `iptables` installed with `kuma-init` container or CNI.
 All incoming and outgoing traffic is automatically intercepted by `kuma-dp` without having to change the application code.
 
-{{site.mesh_product_name}} integrates with a service naming provided by Kubernetes DNS as well as providing its own [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns) for multizone service naming.
+{{site.mesh_product_name}} integrates with a service naming provided by Kubernetes DNS as well as providing its own [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns) for multi-zone service naming.
 
 ## Universal
 
-On **Universal** `kuma-dp` leverages the [data plane proxy specification]{%if_version lte:2.1.x %}(/docs/{{ page.version }}/explore/dpp-on-universal/){%endif_version%}{%if_version gte:2.2.x %}(/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration){%endif_version%} associated to it for receiving incoming requests on a pre-defined port.
+On **Universal** `kuma-dp` leverages the {%if_version lte:2.1.x %}[data plane proxy specification](/docs/{{ page.version }}/explore/dpp-on-universal/){%endif_version%}{%if_version gte:2.2.x %}[data plane proxy specification](/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration){%endif_version%} associated to it for receiving incoming requests on a pre-defined port.
 
 There are several advantages for using transparent proxying in universal mode:
 
@@ -169,7 +169,7 @@ spec:
     metadata:
       ...
       annotations:
-        # all incomming connections on ports 1234 won't be intercepted by Envoy
+        # all incoming connections on ports 1234 won't be intercepted by Envoy
         traffic.kuma.io/exclude-inbound-ports: "1234"
         # all outgoing connections on ports 5678, 8900 won't be intercepted by Envoy
         traffic.kuma.io/exclude-outbound-ports: "5678,8900"
@@ -244,7 +244,7 @@ networking:
 
 ### Transparent Proxy with eBPF (experimental)
 
-Starting from {{site.mesh_product_name}} 2.0 you can setup transparent proxy to use eBPF instead of iptables.
+Starting from {{site.mesh_product_name}} 2.0 you can set up transparent proxy to use eBPF instead of iptables.
 
 {% warning %}
 To use Transparent Proxy with eBPF your environment has to use `Kernel >= 5.7`
