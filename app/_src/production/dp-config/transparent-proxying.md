@@ -37,21 +37,22 @@ Prerequisites:
 The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
 
 1. Use proper version of iptables
-    
-    {{site.mesh_product_name}} [isn't yet compatible](https://github.com/kumahq/kuma/issues/8293) with `nf_tables`. You can check the version of iptables with the following command
-    ```sh
-    iptables --version
-    # iptables v1.8.7 (nf_tables)
-    ```
-    
-    On the recent versions of Ubuntu, you need to change default `iptables`.
-    
-    ```sh
-    update-alternatives --set iptables /usr/sbin/iptables-legacy
-    update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-    iptables --version
-    # iptables v1.8.7 (legacy)
-    ```
+
+   {{site.mesh_product_name}} [isn't yet compatible](https://github.com/kumahq/kuma/issues/8293) with `nf_tables`. You can check the version of iptables with the following command
+
+   ```sh
+   iptables --version
+   # iptables v1.8.7 (nf_tables)
+   ```
+
+   On the recent versions of Ubuntu, you need to change default `iptables`.
+
+   ```sh
+   update-alternatives --set iptables /usr/sbin/iptables-legacy
+   update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+   iptables --version
+   # iptables v1.8.7 (legacy)
+   ```
 
 2. Create a new dedicated user on the machine.
 
@@ -146,6 +147,7 @@ iptables --table nat --delete-chain
 iptables --table raw --delete-chain
 ip6tables --table nat --delete-chain
 ip6tables --table raw --delete-chain
+```
 
 In the future release, `kumactl` [will ship](https://github.com/kumahq/kuma/issues/8071) with `uninstall` command.
 
@@ -157,6 +159,7 @@ In the future release, `kumactl` [will ship](https://github.com/kumahq/kuma/issu
 {% tab intercepted-traffic Kubernetes %}
 
 By default, all the traffic is intercepted by Envoy. You can exclude which ports are intercepted by Envoy with the following annotations placed on the Pod
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -179,6 +182,7 @@ spec:
 ```  
 
 You can also control this value on whole {{site.mesh_product_name}} deployment with the following {{site.mesh_product_name}} CP [configuration](/docs/{{ page.version }}/documentation/configuration)
+
 ```
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
