@@ -14,21 +14,37 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there is
 {% if_version gte:2.4.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
+{% if_version gte:2.6.x %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+{% endif_version %}
+{% if_version lte:2.5.x %}
 | `targetRef.kind`    | top level | to  | from |
 | ------------------- | --------- | --- | ---- |
 | `Mesh`              | ✅        | ✅  | ❌   |
 | `MeshSubset`        | ✅        | ❌  | ❌   |
 | `MeshService`       | ✅        | ✅  | ❌   |
 | `MeshServiceSubset` | ✅        | ❌  | ❌   |
+{% endif_version %}
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
+{% if_version gte:2.6.x %}
+| `targetRef`           | Allowed kinds                                             |
+| --------------------- | --------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
+| `to[].targetRef.kind` | `Mesh`                                                    |
+{% endif_version %}
+{% if_version lte:2.5.x %}
 | `targetRef.kind`    | top level | to  |
 | ------------------- | --------- | --- |
 | `Mesh`              | ✅        | ✅  |
 | `MeshGateway`       | ✅        | ❌  |
 | `MeshService`       | ✅        | ❌  |
 | `MeshServiceSubset` | ✅        | ❌  |
+{% endif_version %}
 {% endtab %}
 {% endtabs %}
 
