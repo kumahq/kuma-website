@@ -11,7 +11,7 @@ title: Dependencies
 Out of the box, {{site.mesh_product_name}} ships with a bundled [Envoy](https://www.envoyproxy.io/) data plane proxy ready to use for our services, so that you don't have to worry about putting all the pieces together.
 
 {% tip %}
-{{site.mesh_product_name}} ships with an executable `kuma-dp` that executes the bundled `envoy` executable to create the data plane proxy. For details, see the [Overview](/docs/{{ page.version }}/introduction).
+{{site.mesh_product_name}} ships with an executable `kuma-dp` that executes the bundled `envoy` executable to create the data plane proxy. For details, see the [Overview](/docs/{{ page.release }}/introduction).
 {% endtip %}
 
 [Install {{site.mesh_product_name}}](/install/) and follow the instructions to get up and running in a few steps.

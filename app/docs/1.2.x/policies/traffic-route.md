@@ -2,11 +2,11 @@
 title: Traffic Route
 ---
 
-This policy allows us to configure routing rules for the traffic running in our [Mesh](/docs/{{ page.version }}/policies/mesh). This policy provides support for weighted routing and can be used to implement versioning across our services as well as deployment strategies like blue/green and canary.
+This policy allows us to configure routing rules for the traffic running in our [Mesh](/docs/{{ page.release }}/policies/mesh). This policy provides support for weighted routing and can be used to implement versioning across our services as well as deployment strategies like blue/green and canary.
 
 `TrafficRoute` must select the data plane proxies to route the connection between them.
 
-Kuma also supports [locality aware load balancing](/docs/{{ page.version }}/policies/locality-aware).
+Kuma also supports [locality aware load balancing](/docs/{{ page.release }}/policies/locality-aware).
 
 ### Default TrafficRoute
 
@@ -399,7 +399,7 @@ conf:
 {% endtabs %}
 
 {% tip %}
-In order to use L7 Traffic Split, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+In order to use L7 Traffic Split, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 {% endtip %}
 
 ### L7 Traffic Modification
@@ -470,7 +470,7 @@ conf:
 {% endtabs %}
 
 {% tip %}
-In order to use L7 Traffic Modification, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+In order to use L7 Traffic Modification, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 {% endtip %}
 
 ### L7 Traffic Rerouting
@@ -530,7 +530,7 @@ conf:
 {% endtabs %}
 
 {% tip %}
-In order to use L7 Traffic Rerouting, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+In order to use L7 Traffic Rerouting, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 {% endtip %}
 
 ### Load balancer types
@@ -591,5 +591,5 @@ There are different load balancing algorithms that can be used to determine how 
 
 ## Matching
 
-`TrafficRoute` is an [Outbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
+`TrafficRoute` is an [Outbound Connection Policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
 You can only use `kuma.io/service` in the `destinations` section. However, you can use all the tags in `conf` subsections.

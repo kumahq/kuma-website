@@ -20,7 +20,7 @@ This mode implies that we can deploy {{site.mesh_product_name}} and its data pla
 Standalone mode is usually a great choice within the context of one zone (ie: within one Kubernetes cluster or one AWS VPC).
 
 {% if_version gte:2.2.x %}
-To Install with this topology follow the [stand-alone deployment docs](/docs/{{ page.version }}/production/cp-deployment/stand-alone).
+To Install with this topology follow the [stand-alone deployment docs](/docs/{{ page.release }}/production/cp-deployment/stand-alone).
 {% endif_version %}
 
 ## Limitations
@@ -29,7 +29,7 @@ To Install with this topology follow the [stand-alone deployment docs](/docs/{{ 
 * A standalone deployment cannot mix Universal and Kubernetes workloads.
 * A deployment can connect to only one Kubernetes cluster at once.
 
-If these limitations are problematic you should look at {% if_version lte:2.1.x %}[Multi-zone deployments](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[Multi-zone deployments](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}.
+If these limitations are problematic you should look at {% if_version lte:2.1.x %}[Multi-zone deployments](/docs/{{ page.release }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[Multi-zone deployments](/docs/{{ page.release }}/production/deployment/multi-zone/){% endif_version %}.
 
 ## Components of a standalone deployment
 

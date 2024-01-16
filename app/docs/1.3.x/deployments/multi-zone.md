@@ -17,7 +17,7 @@ We can support multiple isolated service meshes thanks to Kuma's multi-tenancy s
 When running in multi-zone mode, we introduce the notion of a `global` and `zone` control planes for Kuma:
 
 * **Global**: this control plane will be used to configure the global Service Mesh [policies](/policies) that we want to apply to our data plane proxies. Data plane proxies **cannot** connect directly to a global control plane, but can connect to `zone` control planes that are being deployed on each underlying zone that we want to include as part of the Service Mesh (can be a Kubernetes cluster, or VM based). Only one deployment of the global control plane is required, and it can be scaled horizontally.
-* **Zone**: we are going to have as many zone control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/{{ page.version }}/policies/mesh/). Zone control planes accept connections from data plane proxies that are started in the same underlying zone, and they connect to the `global` control plane to fetch their service mesh policies. Zone control plane policy APIs are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally within their zone.
+* **Zone**: we are going to have as many zone control planes as the number of underlying Kubernetes or VM zones that we want to include in a Kuma [mesh](/docs/{{ page.release }}/policies/mesh/). Zone control planes accept connections from data plane proxies that are started in the same underlying zone, and they connect to the `global` control plane to fetch their service mesh policies. Zone control plane policy APIs are read-only and **cannot** accept Service Mesh policies to be directly configured on them. They can be scaled horizontally within their zone.
 
 In this deployment, a Kuma cluster is made of one global control plane and as many zone control planes as the number of zones that we want to support:
 
@@ -35,7 +35,7 @@ To implement easy service connectivity, Kuma ships with:
 * **Zone Ingress Proxy**: Kuma provides an out of the box `zone-ingress` proxy mode that will be used to enable traffic to enter a zone from another zone. It can be scaled horizontally. Each zone must have a `zone-ingress` proxy deployed. 
 
 {% tip %}
-A `zone-ingress` proxy is specific to internal communication within a mesh and is not to be considered an API gateway. API gateways are supported in Kuma's [gateway mode](/docs/{{ page.version }}/documentation/dps-and-data-model/#gateway), which can be deployed in addition to `zone-ingress` proxies.
+A `zone-ingress` proxy is specific to internal communication within a mesh and is not to be considered an API gateway. API gateways are supported in Kuma's [gateway mode](/docs/{{ page.release }}/documentation/dps-and-data-model/#gateway), which can be deployed in addition to `zone-ingress` proxies.
 {% endtip %}
 
 The global control plane and the zone control planes communicate with each other over xDS to synchronize the resources that are created to configure Kuma, such as policies.
@@ -172,7 +172,7 @@ Note that on Kubernetes, Kuma automatically tries to pick up the public address 
 ### Enable mTLS
 
 Cross-zone communication between services is only possible when mTLS is enabled, because Zone Ingress is routing connections using SNI.
-Make sure you [enable mTLS](/docs/{{ page.version }}/policies/mutual-tls) and apply [Traffic Permission](/docs/{{ page.version }}/policies/traffic-permissions). 
+Make sure you [enable mTLS](/docs/{{ page.release }}/policies/mutual-tls) and apply [Traffic Permission](/docs/{{ page.release }}/policies/traffic-permissions). 
 
 ### Using the multi-zone deployment
 

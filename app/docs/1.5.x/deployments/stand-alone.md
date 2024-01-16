@@ -24,7 +24,7 @@ Standalone mode is usually a great choice within the context of one zone (ie: wi
 * A standalone deployment cannot mix Universal and Kubernetes workloads.
 * A deployment can connect to only one Kubernetes cluster at once.
 
-If these limitations are problematic you should look at [Multi-zone deployments](/docs/{{ page.version }}/deployments/multi-zone).
+If these limitations are problematic you should look at [Multi-zone deployments](/docs/{{ page.release }}/deployments/multi-zone).
 
 ## Usage
 
@@ -39,7 +39,7 @@ kumactl install control-plane | kubectl apply -f -
 
 **With zone egress**:
 
-It's possible to run [`ZoneEgress`](/docs/{{ page.version }}/documentation/zone-egress) for standalone deployment. In order to deploy Kuma with `ZoneEgress` run the install command with an additional parameter.
+It's possible to run [`ZoneEgress`](/docs/{{ page.release }}/documentation/zone-egress) for standalone deployment. In order to deploy Kuma with `ZoneEgress` run the install command with an additional parameter.
 ```sh
 kumactl install control-plane --egress-enabled | kubectl apply -f -
 ```
@@ -52,12 +52,12 @@ kuma-cp run
 
 **With zone egress**:
 
-`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](/docs/{{ page.version }}/documentation/zoneegress#zone-egress).
+`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](/docs/{{ page.release }}/documentation/zoneegress#zone-egress).
 
 {% endtab %}
 {% endtabs %}
 
-Once Kuma is up and running, data plane proxies can now [connect](/docs/{{ page.version }}/documentation/dps-and-data-model) directly to it.
+Once Kuma is up and running, data plane proxies can now [connect](/docs/{{ page.release }}/documentation/dps-and-data-model) directly to it.
 
 {% tip %}
 When the mode is not specified, Kuma will always start in `standalone` mode by default.

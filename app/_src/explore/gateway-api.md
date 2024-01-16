@@ -3,7 +3,7 @@ title: Kubernetes Gateway API
 ---
 
 {{site.mesh_product_name}} supports [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/)
-for configuring [built-in gateway](/docs/{{ page.version }}/explore/gateway)
+for configuring [built-in gateway](/docs/{{ page.release }}/explore/gateway)
 as well as traffic routing using the experimental
 [GAMMA](https://gateway-api.sigs.k8s.io/contributing/gamma/)
 [routing spec](https://gateway-api.sigs.k8s.io/geps/gep-1426/).
@@ -13,7 +13,7 @@ as well as traffic routing using the experimental
 {% warning %}
 [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) is still beta, therefore {{site.mesh_product_name}}'s integration provides the same level of stability.
 
-Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/explore/gateway).
+Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.release }}/explore/gateway).
 {% endwarning %}
 
 1. Install the Gateway API CRDs.
@@ -198,7 +198,7 @@ spec:
           - name: secret-tls
 ```
 
-Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mesh_namespace}}` namespace and converts it to {% if_version lte:2.1.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.version }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.version }}/production/secure-deployment/secrets/){% endif_version %}.
+Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mesh_namespace}}` namespace and converts it to {% if_version lte:2.1.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.release }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.release }}/production/secure-deployment/secrets/){% endif_version %}.
 It tracks all the changes to the secret and deletes it upon deletion of the original secret.
 
 ### Customization
@@ -220,7 +220,7 @@ spec:
     name: kuma
 ```
 
-This resource has the same [structure as the `MeshGatewayInstance` resource](/docs/{{ page.version }}/explore/gateway#usage-1)
+This resource has the same [structure as the `MeshGatewayInstance` resource](/docs/{{ page.release }}/explore/gateway#usage-1)
 except that the `tags` field is optional.
 With a `MeshGatewayConfig` you can then customize
 the generated `Service` and `Deployment` resources.
@@ -228,13 +228,13 @@ the generated `Service` and `Deployment` resources.
 ### Multi-mesh
 
 You can specify a `Mesh` for `Gateway` and `HTTPRoute` resources
-by setting the [`kuma.io/mesh` annotation](/docs/{{ page.version }}/reference/kubernetes-annotations#kumaiomesh)
+by setting the [`kuma.io/mesh` annotation](/docs/{{ page.release }}/reference/kubernetes-annotations#kumaiomesh)
 Note that `HTTPRoutes` must also have the annotation to reference a
 `Gateway` from a non-default `Mesh`.
 
 ### Cross-mesh
 
-[Cross-mesh gateways](/docs/{{ page.version }}/explore/gateway#cross-mesh) are supported with Gateway API.
+[Cross-mesh gateways](/docs/{{ page.release }}/explore/gateway#cross-mesh) are supported with Gateway API.
 You'll just need to create a corresponding `GatewayClass`
 pointing to a `MeshGatewayConfig` that
 sets `crossMesh: true`:

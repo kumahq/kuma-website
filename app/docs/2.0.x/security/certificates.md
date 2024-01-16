@@ -12,7 +12,7 @@ This page explains how secure access is provided across a {{site.mesh_product_na
 directory is `$HOME/.kuma`. You can change the working directory by setting the `KUMA_GENERAL_WORK_DIR` environment variable.
 
 {% tip %}
-This section is not to be confused with the [mTLS policy](/docs/{{ page.version }}/policies/mutual-tls/) that we can apply to a [Mesh](/docs/{{ page.version }}/policies/mesh/) to secure service-to-service traffic.
+This section is not to be confused with the [mTLS policy](/docs/{{ page.release }}/policies/mutual-tls/) that we can apply to a [Mesh](/docs/{{ page.release }}/policies/mesh/) to secure service-to-service traffic.
 {% endtip %}
 
 ## Data plane proxy to control plane communication
@@ -122,11 +122,11 @@ You can also provide the CA via environment variable `KUMA_CONTROL_PLANE_CA_CERT
 
 ### Authentication
 
-See [Data plane proxy authentication](/docs/{{ page.version }}/security/dp-auth/) and [Zone proxy authentication](/docs/{{ page.version }}/security/zoneproxy-auth).
+See [Data plane proxy authentication](/docs/{{ page.release }}/security/dp-auth/) and [Zone proxy authentication](/docs/{{ page.release }}/security/zoneproxy-auth).
 
 ## Prometheus to control plane communication
 
-You can enable TLS on the [Monitoring Assignment Discovery Service](/docs/{{ page.version }}/policies/traffic-metrics/).
+You can enable TLS on the [Monitoring Assignment Discovery Service](/docs/{{ page.release }}/policies/traffic-metrics/).
 By default, it uses the same certificate used for CP to DP communication. This is the certificate configured with the `--tls-general` options.
 You can enable it by using the `KUMA_MONITORING_ASSIGNMENT_SERVER_TLS_ENABLED=true` environment variable.
 
@@ -248,7 +248,7 @@ We can also hide the HTTP version of API Server by binding it to localhost `KUMA
 
 ### Authentication
 
-See [API Server authentication](/docs/{{ page.version }}/security/api-server-auth/).
+See [API Server authentication](/docs/{{ page.release }}/security/api-server-auth/).
 
 ## Control plane to control plane (Multizone)
 

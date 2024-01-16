@@ -114,7 +114,7 @@ Kuma always picks the single most specific policy.
 Only one policy of a given type is matched to a particular inbound. If multiple
 matches are desired, they must be combined into a single policy.
 
-To see which policies were matched for the specific data plane proxy you can use [Inspect API](/docs/{{ page.version }}/explore/inspect-api).
+To see which policies were matched for the specific data plane proxy you can use [Inspect API](/docs/{{ page.release }}/explore/inspect-api).
 
 ## Combine Policies to Avoid Overriding
 

@@ -4,11 +4,11 @@ title: Traffic Trace
 
 This policy enables tracing logging to a third party tracing solution.
 
-Tracing is supported over HTTP, HTTP2, and gRPC protocols in a [`Mesh`](/docs/{{ page.version }}/policies/mesh). You must [explicitly specify the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma/) for each service and data plane proxy you want to enable tracing for.
+Tracing is supported over HTTP, HTTP2, and gRPC protocols in a [`Mesh`](/docs/{{ page.release }}/policies/mesh). You must [explicitly specify the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma/) for each service and data plane proxy you want to enable tracing for.
 
 You must also:
 
-1. [Add a tracing backend](#add-a-tracing-backend). You specify a tracing backend as a [`Mesh`](/docs/{{ page.version }}/policies/mesh) resource property.
+1. [Add a tracing backend](#add-a-tracing-backend). You specify a tracing backend as a [`Mesh`](/docs/{{ page.release }}/policies/mesh) resource property.
 1. [Add a TrafficTrace resource](#add-a-traffictrace-resource). You pass the backend to the `TrafficTrace` resource.
 
 Kuma currently supports the following backends:
@@ -64,7 +64,7 @@ tracing:
         url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/documentation/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -145,7 +145,7 @@ tracing:
         port: 8126
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/documentation/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -188,11 +188,11 @@ conf:
   backend: jaeger-collector # or the name of any backend defined for the mesh
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/documentation/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/documentation/http-api).
 {% endtab %}
 {% endtabs %}
 
-You can also add tags to apply the `TrafficTrace` resource only a subset of data plane proxies. `TrafficTrace` is a [Dataplane policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply#dataplane-policy), so you can specify any of the `selectors` tags.
+You can also add tags to apply the `TrafficTrace` resource only a subset of data plane proxies. `TrafficTrace` is a [Dataplane policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply#dataplane-policy), so you can specify any of the `selectors` tags.
 
 Services should also be instrumented to preserve the trace chain across requests made across different services. You can instrument with a language library of your choice, or you can manually pass the following headers:
 
@@ -206,7 +206,7 @@ Services should also be instrumented to preserve the trace chain across requests
 ## Configure Grafana to visualize the logs
 
 To visualise your **traces** you need to have a Grafana up and running.
-You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](/docs/{{ page.version }}/policies/traffic-metrics).
+You can install Grafana by following the information of the [official page](https://grafana.com/docs/grafana/latest/installation/) or use the one installed with [Traffic metrics](/docs/{{ page.release }}/policies/traffic-metrics).
 
 With Grafana installed you can configure a new datasource with url:`http://jaeger-query.kuma-tracing/` so Grafana will be able to retrieve the traces from Jaeger.
 

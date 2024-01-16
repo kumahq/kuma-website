@@ -29,7 +29,7 @@ kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5
 
 And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
 
-You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/production/mesh/) entity with name `default`.
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.release }}/production/mesh/) entity with name `default`.
 
 {% endtab %}
 {% tab use-kuma-kubernetes kubectl (Read & Write) %}
@@ -57,7 +57,7 @@ spec:
       type: builtin" | kubectl apply -f -
 ```
 
-You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/production/mesh/) entity with name `default`.
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.release }}/production/mesh/) entity with name `default`.
 
 {% endtab %}
 {% tab use-kuma-kubernetes HTTP API (Read-Only) %}
@@ -72,7 +72,7 @@ kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5
 
 And then you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see the HTTP API.
 
-You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/production/mesh/) entity with name `default`.
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.release }}/production/mesh/) entity with name `default`.
 
 {% endtab %}
 {% tab use-kuma-kubernetes kumactl (Read-Only) %}
@@ -97,7 +97,7 @@ You can configure `kumactl` to point to any zone `kuma-cp` instance by running:
 kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
 ```
 
-You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/production/mesh/) entity with name `default`.
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.release }}/production/mesh/) entity with name `default`.
 
 {% endtab %}
 {% endtabs %}
@@ -111,7 +111,7 @@ You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`]
 
 To access {{site.mesh_product_name}} you can navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
 
-You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/production/mesh/) entity with name `default`.
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.release }}/production/mesh/) entity with name `default`.
 
 {% endtab %}
 {% tab use-kuma-universal HTTP API (Read & Write) %}
@@ -120,7 +120,7 @@ You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`]
 
 To access {{site.mesh_product_name}} you can navigate to [`127.0.0.1:5681`](http://127.0.0.1:5681) to see the HTTP API.
 
-You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/production/mesh/) entity with name `default`.
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.release }}/production/mesh/) entity with name `default`.
 
 {% endtab %}
 {% tab use-kuma-universal kumactl (Read & Write) %}
@@ -151,7 +151,7 @@ You can configure `kumactl` to point to any zone `kuma-cp` instance by running:
 kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
 ```
 
-You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/production/mesh/) entity with name `default`.
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.release }}/production/mesh/) entity with name `default`.
 
 {% endtab %}
 {% endtabs %}

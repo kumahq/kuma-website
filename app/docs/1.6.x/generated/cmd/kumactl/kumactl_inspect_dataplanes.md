@@ -34,5 +34,5 @@ kumactl inspect dataplanes [flags]
 
 ### SEE ALSO
 
-* [kumactl inspect](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_inspect)	 - Inspect Kuma resources
+* [kumactl inspect](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_inspect)	 - Inspect Kuma resources
 

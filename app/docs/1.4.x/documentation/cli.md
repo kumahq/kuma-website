@@ -29,13 +29,13 @@ kuma-cp version --detailed
 
 The `kumactl` executable is a very important component in your journey with Kuma. It allows to:
 
-* Retrieve the state of Kuma and the configured [policies](/docs/{{ page.version }}/policies/introduction) in every environment.
+* Retrieve the state of Kuma and the configured [policies](/docs/{{ page.release }}/policies/introduction) in every environment.
 * On **Universal** environments, it allows to change the state of Kuma by applying new policies with the `kumactl apply [..]` command.
 * On **Kubernetes** it is **read-only**, because you are supposed to change the state of Kuma by leveraging Kuma's CRDs.
 * It provides helpers to install Kuma on Kubernetes, and to configure the PostgreSQL schema on Universal (`kumactl install [..]`).
 
 {% tip %}
-The `kumactl` application is a CLI client for the underlying [HTTP API](/docs/{{ page.version }}/documentation/http-api) of Kuma. Therefore, you can access the state of Kuma by leveraging with the API directly. On Universal you will be able to also make changes via the HTTP API, while on Kubernetes the HTTP API is read-only.
+The `kumactl` application is a CLI client for the underlying [HTTP API](/docs/{{ page.release }}/documentation/http-api) of Kuma. Therefore, you can access the state of Kuma by leveraging with the API directly. On Universal you will be able to also make changes via the HTTP API, while on Kubernetes the HTTP API is read-only.
 {% endtip %}
 
 Available commands on `kumactl` are:
@@ -48,7 +48,7 @@ Available commands on `kumactl` are:
 * `kumactl apply [..]`: used to change the state of Kuma. Only available on Universal.
 * `kumactl get [..]`: used to retrieve the raw state of entities Kuma.
 * `kumactl inspect [..]`: used to retrieve an augmented state of entities in Kuma.
-* `kumactl generate dataplane-token`: used to generate [Dataplane Token](/docs/{{ page.version }}/security/dp-auth/#data-plane-proxy-token).
+* `kumactl generate dataplane-token`: used to generate [Dataplane Token](/docs/{{ page.release }}/security/dp-auth/#data-plane-proxy-token).
 * `kumactl generate tls-certificate`: used to generate a TLS certificate for client or server.
 * `kumactl manage ca [..]`: used to manage certificate authorities.
 * `kumactl help [..]`: help dialog that explains the commands available.

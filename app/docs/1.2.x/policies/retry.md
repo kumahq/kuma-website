@@ -92,7 +92,7 @@ conf:
     maxConnectAttempts: 3
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/documentation/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -188,5 +188,5 @@ This policy will make attempt to retry the TCP connection which fail to be estab
 
 ## Matching
 
-`Retry` is an [Outbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
+`Retry` is an [Outbound Connection Policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
 The only supported value for `destinations.match` is `kuma.io/service`.

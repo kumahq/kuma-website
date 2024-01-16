@@ -4,13 +4,13 @@ title: MeshTrace (beta)
 
 {% warning %}
 This policy uses new policy matching algorithm and is in beta state,
-it should not be mixed with [TrafficTrace](/docs/{{ page.version }}/policies/traffic-trace).
+it should not be mixed with [TrafficTrace](/docs/{{ page.release }}/policies/traffic-trace).
 {% endwarning %}
 
 This policy enables publishing traces to a third party tracing solution.
 
 Tracing is supported over HTTP, HTTP2, and gRPC protocols.
-You must [explicitly specify the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) for each service and data plane proxy you want to enable tracing for.
+You must [explicitly specify the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) for each service and data plane proxy you want to enable tracing for.
 
 {{site.mesh_product_name}} currently supports the following trace exposition formats:
 
@@ -41,7 +41,7 @@ For HTTP you can also manually forward the following headers:
 | MeshServiceSubset | ✅        | ❌  | ❌   |
 | MeshGatewayRoute  | ✅        | ❌  | ❌   |
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/targetref).
 
 ## Configuration
 
@@ -226,7 +226,7 @@ spec:
       client: 40
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -234,7 +234,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 ### Datadog
 
 {% tip %}
-This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](/docs/{{ page.version }}/explore/observability#configuring-datadog).
+This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](/docs/{{ page.release }}/explore/observability#configuring-datadog).
 {% endtip %}
 
 {% tabs meshtrace-datadog useUrlFragment=false %}
@@ -341,7 +341,7 @@ spec:
       client: 40
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}

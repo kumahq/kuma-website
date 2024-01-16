@@ -9,7 +9,7 @@ To install and run {{site.mesh_product_name}} on Docker execute the following st
 - [3. Use {{site.mesh_product_name}}](#3-use-kuma)
 
 {% tip %}
-The official Docker images are used by default in the [Kubernetes](/docs/{{ page.version }}/installation/kubernetes/) and [OpenShift](/docs/{{ page.version }}/installation/openshift/) distributions.
+The official Docker images are used by default in the [Kubernetes](/docs/{{ page.release }}/installation/kubernetes/) and [OpenShift](/docs/{{ page.release }}/installation/openshift/) distributions.
 {% endtip %}
 
 ### 1. Download {{site.mesh_product_name}}
@@ -28,15 +28,15 @@ We can run {{site.mesh_product_name}}:
 
 `docker run -p 5681:5681 docker.io/kumahq/kuma-cp:{{ page.latest_version }} run`
 
-This example will run {{site.mesh_product_name}} in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/introduction/deployments) like "multi-zone".
+This example will run {{site.mesh_product_name}} in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.release }}/introduction/deployments) like "multi-zone".
 
 {% tip %}
-**Note**: By default this will run {{site.mesh_product_name}} with a `memory` [store](/docs/{{ page.version }}/documentation/configuration#store), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
+**Note**: By default this will run {{site.mesh_product_name}} with a `memory` [store](/docs/{{ page.release }}/documentation/configuration#store), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 {% endtip %}
 
 #### 2.1 Authentication (optional)
 
-Running administrative tasks (like generating a dataplane token) requires [authentication by token](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token) or a connection via localhost.
+Running administrative tasks (like generating a dataplane token) requires [authentication by token](/docs/{{ page.release }}/security/api-server-auth/#admin-user-token) or a connection via localhost.
 
 ##### 2.1.1 Localhost
 
@@ -136,10 +136,10 @@ You will then find the `kumactl` executable in the `kuma-{{ page.latest_version 
 {% endtab %}
 {% endtabs %}
 
-You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.release }}/policies/mesh) entity with name `default`.
 
 ### 4. Quickstart
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on Docker 🚀.
 
-In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Universal](/docs/{{ page.version }}/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes/) as well.
+In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Universal](/docs/{{ page.release }}/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/{{ page.release }}/quickstart/kubernetes/) as well.

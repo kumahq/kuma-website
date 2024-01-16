@@ -4,7 +4,7 @@ title: Mesh HTTP Route
 
 {% warning %}
 This policy uses new policy matching algorithm.
-Do **not** combine with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) except for the default `route-all` route, which should be kept..
+Do **not** combine with [TrafficRoute](/docs/{{ page.release }}/policies/traffic-route) except for the default `route-all` route, which should be kept..
 {% endwarning %}
 
 The `MeshHTTPRoute` policy allows altering and redirecting HTTP requests
@@ -55,7 +55,7 @@ depending on where the request coming from and where it's going to.
 
 {% endif_version %}
 
-If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetref).
+If you don't understand this table you should read [matching docs](/docs/{{ page.release }}/policies/targetref).
 
 ## Configuration
 
@@ -463,7 +463,7 @@ spec:
 
 When several `MeshHTTPRoute` policies target the same data plane proxy they're merged.
 Similar to the new policies the merging order is determined by
-[the top level targetRef](/docs/{{ page.version }}/policies/targetref#merging-configuration).
+[the top level targetRef](/docs/{{ page.release }}/policies/targetref#merging-configuration).
 The difference is in `spec.to[].rules`.
 {{site.mesh_product_name}} treats `rules` as a key-value map
 where `matches` is a key and `default` is a value. For example MeshHTTPRoute policies:

@@ -2,26 +2,26 @@
 title: Mutual TLS
 ---
 
-This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](/docs/{{ page.version }}/policies/mesh), as well as assigning an identity to every data plane proxy. Kuma supports different types of CA backends as well as automatic certificate rotation.
+This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](/docs/{{ page.release }}/policies/mesh), as well as assigning an identity to every data plane proxy. Kuma supports different types of CA backends as well as automatic certificate rotation.
 
 Kuma ships with the following CA (Certificate Authority) supported backends:
 
-* [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](/docs/{{ page.version }}/security/secrets).
-* [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a [Secret](/docs/{{ page.version }}/security/secrets).
+* [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](/docs/{{ page.release }}/security/secrets).
+* [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a [Secret](/docs/{{ page.release }}/security/secrets).
 
-Once a CA backend has been specified, Kuma will then automatically generate a certificate for every data plane proxy in the [`Mesh`](/docs/{{ page.version }}/policies/mesh). The certificates that Kuma generates are SPIFFE compatible and are used for AuthN/Z use-cases in order to identify every workload in our system. 
-
-{% tip %}
-The certificates that Kuma generates have a SAN set to `spiffe://<mesh name>/<service name>`. When Kuma enforces policies that require an identity like [`TrafficPermission`](/docs/{{ page.version }}/traffic-permissions) it will extract the SAN from the client certificate and use it to match the service identity.
-{% endtip %}
-
-Remember that by default mTLS **is not** enabled and needs to be explicitly enabled as described below. Also remember that by default when mTLS is enabled all traffic is denied **unless** a [`TrafficPermission`](/docs/{{ page.version }}/traffic-permissions) policy is being configured to explicitly allow traffic across proxies.
+Once a CA backend has been specified, Kuma will then automatically generate a certificate for every data plane proxy in the [`Mesh`](/docs/{{ page.release }}/policies/mesh). The certificates that Kuma generates are SPIFFE compatible and are used for AuthN/Z use-cases in order to identify every workload in our system. 
 
 {% tip %}
-Always make sure that a [`TrafficPermission`](/docs/{{ page.version }}/traffic-permissions) resource is present before enabling mTLS in a Mesh in order to avoid unexpected traffic interruptions caused by a lack of authorization between proxies.
+The certificates that Kuma generates have a SAN set to `spiffe://<mesh name>/<service name>`. When Kuma enforces policies that require an identity like [`TrafficPermission`](/docs/{{ page.release }}/traffic-permissions) it will extract the SAN from the client certificate and use it to match the service identity.
 {% endtip %}
 
-To enable mTLS we need to configure the `mtls` property in a [`Mesh`](/docs/{{ page.version }}/policies/mesh) resource. We can have as many `backends` as we want, but only one at a time can be enabled via the `enabledBackend` property. 
+Remember that by default mTLS **is not** enabled and needs to be explicitly enabled as described below. Also remember that by default when mTLS is enabled all traffic is denied **unless** a [`TrafficPermission`](/docs/{{ page.release }}/traffic-permissions) policy is being configured to explicitly allow traffic across proxies.
+
+{% tip %}
+Always make sure that a [`TrafficPermission`](/docs/{{ page.release }}/traffic-permissions) resource is present before enabling mTLS in a Mesh in order to avoid unexpected traffic interruptions caused by a lack of authorization between proxies.
+{% endtip %}
+
+To enable mTLS we need to configure the `mtls` property in a [`Mesh`](/docs/{{ page.release }}/policies/mesh) resource. We can have as many `backends` as we want, but only one at a time can be enabled via the `enabledBackend` property. 
 
 If `enabledBackend` is missing or empty, then mTLS will be disabled for the entire Mesh.
 
@@ -78,7 +78,7 @@ mtls:
           expiration: 10y
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/documentation/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -89,12 +89,12 @@ A few considerations:
 
 ### Storage of Secrets
 
-When using a `builtin` backend Kuma automatically generates a root CA certificate and key that are being stored as a Kuma [Secret resource](/docs/{{ page.version }}/security/secrets) with the following name:
+When using a `builtin` backend Kuma automatically generates a root CA certificate and key that are being stored as a Kuma [Secret resource](/docs/{{ page.release }}/security/secrets) with the following name:
 
 * `{mesh name}.ca-builtin-cert-{backend name}` for the certificate
 * `{mesh name}.ca-builtin-key-{backend name}` for the key
 
-On Kubernetes, Kuma secrets are being stored in the `{{site.mesh_namespace}}` namespace, while on Universal they are being stored in the underlying [backend](/docs/{{ page.version }}/documentation/backends) configured in `kuma-cp`.
+On Kubernetes, Kuma secrets are being stored in the `{{site.mesh_namespace}}` namespace, while on Universal they are being stored in the underlying [backend](/docs/{{ page.release }}/documentation/backends) configured in `kuma-cp`.
 
 We can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or via `kubectl` on Kubernetes only:
 
@@ -129,7 +129,7 @@ kubectl get secrets \
 
 If you choose to provide your own CA root certificate and key, you can use the `provided` backend. With this option, you must also manage the certificate lifecycle yourself.
 
-Unlike the `builtin` backend, with `provided` you first upload the certificate and key as [Secret resources](/docs/{{ page.version }}/security/secrets), and then reference the Secrets in the mTLS configuration.
+Unlike the `builtin` backend, with `provided` you first upload the certificate and key as [Secret resources](/docs/{{ page.release }}/security/secrets), and then reference the Secrets in the mTLS configuration.
 
 Kuma then provisions data plane proxy certificates for every replica of every service from the CA root certificate and key.
 
@@ -180,7 +180,7 @@ mtls:
           secret: name-of-secret
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/documentation/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -276,7 +276,7 @@ openssl req -config <(echo "$SAMPLE_CA_CONFIG") -new -newkey rsa:2048 -nodes \
   -subj "/CN=Hello" -x509 -extensions ext -keyout key.pem -out crt.pem
 ```
 
-The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the Kuma Secret resources by following the [Secret reference](/docs/{{ page.version }}/security/secrets).
+The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the Kuma Secret resources by following the [Secret reference](/docs/{{ page.release }}/security/secrets).
 
 {% endtab %}
 {% endtabs %}
@@ -410,7 +410,7 @@ Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` 
 {% endtab %}
 {% tab certificate-rotation HTTP API %}
 
-We can use the Kuma HTTP API by retrieving the [Dataplane Insight](/docs/{{ page.version }}/documentation/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
+We can use the Kuma HTTP API by retrieving the [Dataplane Insight](/docs/{{ page.release }}/documentation/http-api/#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
 
 ```json
 ...

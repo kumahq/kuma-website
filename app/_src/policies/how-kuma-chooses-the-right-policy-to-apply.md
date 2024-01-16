@@ -10,7 +10,7 @@ New to Kuma? You don't need this, check [`TargetRef` policies](/docs/{{ page.ver
 {% if_version lte:2.5.x %}
 {% tip %}
 This only applies to source/destination policies. 
-If you are unfamiliar with these, checkout [introduction to policies](/docs/{{ page.version }}/policies/introduction).
+If you are unfamiliar with these, checkout [introduction to policies](/docs/{{ page.release }}/policies/introduction).
 {% endtip %}
 {% endif_version %}
 
@@ -126,7 +126,7 @@ What does {{site.mesh_product_name}} do when it encounters multiple matching pol
 Only one policy of a given type is matched to a particular inbound. If multiple
 matches are desired, they must be combined into a single policy.
 
-To see which policies were matched for the specific data plane proxy you can use [Inspect API](/docs/{{ page.version }}/explore/inspect-api).
+To see which policies were matched for the specific data plane proxy you can use [Inspect API](/docs/{{ page.release }}/explore/inspect-api).
 
 ## Combine Policies to Avoid Overriding
 

@@ -4,11 +4,11 @@ title: Locality-aware Load Balancing
 
 {% if_version gte:2.5.x %}
 {% warning %}
-New to Kuma? You don't need this, Check the [`MeshLoadBalancingStrategy` policy](/docs/{{ page.version }}/policies/meshloadbalancingstrategy) instead.
+New to Kuma? You don't need this, Check the [`MeshLoadBalancingStrategy` policy](/docs/{{ page.release }}/policies/meshloadbalancingstrategy) instead.
 {% endwarning %}
 {% endif_version %}
 
-In a {% if_version lte:2.1.x %}[multi-zone deployment](/docs/{{ page.version }}/introduction/deployments/){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment](/docs/{{ page.version }}/production/deployment/){% endif_version %}, locality-aware load balancing
+In a {% if_version lte:2.1.x %}[multi-zone deployment](/docs/{{ page.release }}/introduction/deployments/){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment](/docs/{{ page.release }}/production/deployment/){% endif_version %}, locality-aware load balancing
 instructs data plane proxies to try to keep requests within one zone. The amount
 of traffic that remains in one zone depends on the health of the service endpoints in that
 zone.
@@ -53,6 +53,6 @@ routing:
   localityAwareLoadBalancing: true
 ```
 
-The configuration can be applied with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+The configuration can be applied with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}

@@ -32,7 +32,7 @@ Usually, at this point, developers take one of the following actions to remedy t
 
 Since we are going to be having many instances for our services, we are also going to be having an equal number of sidecar proxies: that's a lot of proxies! Therefore the sidecar proxy model **requires** a control plane that allows a team to configure the behavior of the proxies dynamically without having to manually configure them. The proxies initiate connections with the control plane to receive new configurations, while at runtime the control provides them with the most updated configuration.
 
-Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as Kuma. [Compare Kuma with other CPs](/docs/{{ page.version }}/overview/kuma-vs-xyz).
+Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as Kuma. [Compare Kuma with other CPs](/docs/{{ page.release }}/overview/kuma-vs-xyz).
 
 Unlike a data plane proxy (DP), the control plane (CP) is never on the execution path of the requests that the services exchange with each other, and it's being used as a source of truth to dynamically configure the underlying data plane proxies that in the meanwhile we have deployed alongside every instance of every service that is part of the Mesh:
 
@@ -74,4 +74,4 @@ Kuma ships with an executable `kuma-dp` that executes the bundled `envoy` execut
 
 [Install Kuma](/install/) and follow the instructions to get up and running in a few steps.
 
-[Learn more](/docs/{{ page.version }}/overview/vm-and-k8s-support) about how Kuma enables modernization within our existing architectures.
+[Learn more](/docs/{{ page.release }}/overview/vm-and-k8s-support) about how Kuma enables modernization within our existing architectures.

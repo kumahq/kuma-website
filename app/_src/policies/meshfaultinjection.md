@@ -6,7 +6,7 @@ With the MeshFaultInjection policy you can easily test your microservices agains
 
 {% warning %}
 This policy uses a new policy matching algorithm.
-Do **not** combine with [FaultInjection](/docs/{{ page.version }}/policies/fault-injection).
+Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault-injection).
 {% endwarning %}
 
 ## `targetRef` support matrix
@@ -46,7 +46,7 @@ Do **not** combine with [FaultInjection](/docs/{{ page.version }}/policies/fault
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/targetref).
 
 ## Configuration
 
@@ -160,7 +160,7 @@ spec:
               percentage: 50
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -217,7 +217,7 @@ spec:
               value: 5s
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -286,7 +286,7 @@ spec:
               percentage: 5
 ```
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}

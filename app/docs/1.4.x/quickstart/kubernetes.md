@@ -15,7 +15,7 @@ The zone key is purely static and arbitrary. Different zone values for different
 
 ## Prerequisites
 
-- [Kuma installed on your Kubernetes cluster](/docs/{{ page.version }}/installation/kubernetes/)
+- [Kuma installed on your Kubernetes cluster](/docs/{{ page.release }}/installation/kubernetes/)
 - [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 
   ```sh
@@ -45,7 +45,7 @@ Two different YAML files are available:
 
 ## Explore the mesh
 
-The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace. This means that Kuma [already knows](/docs/{{ page.version }}/documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/{{ page.version }}/policies/mesh/) resource:
+The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace. This means that Kuma [already knows](/docs/{{ page.release }}/documentation/dps-and-data-model/#kubernetes) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/{{ page.release }}/policies/mesh/) resource:
 
 ```yaml
 apiVersion: v1
@@ -144,7 +144,7 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 
 ## Enable Mutual TLS and Traffic Permissions
 
-By default, the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/{{ page.version }}/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
+By default, the network is unsecure and not encrypted. We can change this with Kuma by enabling the [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) policy to provision a dynamic Certificate Authority (CA) on the `default` [Mesh](/docs/{{ page.release }}/policies/mesh/) resource that will automatically assign TLS certificates to our services (more specifically to the injected dataplane proxies running alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
@@ -161,7 +161,7 @@ spec:
       type: builtin" | kubectl apply -f -
 ```
 
-Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly have a [Traffic Permission](/docs/{{ page.version }}/policies/traffic-permissions/) policy that describes what services can be consumed by other services.
+Once Mutual TLS has been enabled, Kuma will **not allow** traffic to flow freely across our services unless we explicitly have a [Traffic Permission](/docs/{{ page.release }}/policies/traffic-permissions/) policy that describes what services can be consumed by other services.
 By default, a very permissive traffic permission is created.
 
 For the sake of this demo we will delete it:
@@ -198,7 +198,7 @@ As usual, you can visualize the Mutual TLS configuration and the Traffic Permiss
 
 ## Explore Traffic Metrics
 
-One of the most important [policies](/policies) that Kuma provides out of the box is [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics/).
+One of the most important [policies](/policies) that Kuma provides out of the box is [Traffic Metrics](/docs/{{ page.release }}/policies/traffic-metrics/).
 
 With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that visualize the overall traffic activity of our application and the status of the service mesh.
 
@@ -230,7 +230,7 @@ spec:
       type: prometheus" | kubectl apply -f -
 ```
 
-This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/{{ page.version }}/policies/mesh/) and automatically collect metrics for all of our traffic.
+This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/{{ page.release }}/policies/mesh/) and automatically collect metrics for all of our traffic.
 
 Increment the counter to generate traffic. Then you can expose the Grafana dashboard:
 
@@ -251,5 +251,5 @@ You can now explore the dashboards and see the metrics being populated over time
 ## Next steps
 
 - Explore the [Policies](/policies) available to govern and orchestrate your service traffic.
-- Read the [full documentation](/docs/{{ page.version }}/) to learn about all the capabilities of Kuma.
+- Read the [full documentation](/docs/{{ page.release }}/) to learn about all the capabilities of Kuma.
 - Chat with us at the official [Kuma Slack](/community) for questions or feedback.

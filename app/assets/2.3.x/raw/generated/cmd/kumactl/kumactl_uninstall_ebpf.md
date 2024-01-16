@@ -37,5 +37,5 @@ kumactl uninstall ebpf [flags]
 
 ### SEE ALSO
 
-* [kumactl uninstall](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_uninstall)	 - Uninstall various Kuma components.
+* [kumactl uninstall](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_uninstall)	 - Uninstall various Kuma components.
 

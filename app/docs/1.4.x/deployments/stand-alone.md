@@ -24,7 +24,7 @@ Standalone mode is usually a great choice within the context of one zone (ie: wi
 * A standalone deployment cannot mix Universal and Kubernetes workloads.
 * A deployment can connect to only one Kubernetes cluster at once.
 
-If these limitations are problematic you should look at [Multi-zone deployments](/docs/{{ page.version }}/deployments/multi-zone).
+If these limitations are problematic you should look at [Multi-zone deployments](/docs/{{ page.release }}/deployments/multi-zone).
 
 ## Usage
 
@@ -45,7 +45,7 @@ kuma-cp run
 {% endtab %}
 {% endtabs %}
 
-Once Kuma is up and running, data plane proxies can now [connect](/docs/{{ page.version }}/documentation/dps-and-data-model) directly to it.
+Once Kuma is up and running, data plane proxies can now [connect](/docs/{{ page.release }}/documentation/dps-and-data-model) directly to it.
 
 {% tip %}
 When the mode is not specified, Kuma will always start in `standalone` mode by default.

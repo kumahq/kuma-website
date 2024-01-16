@@ -238,7 +238,7 @@ Specifies the list of names of `ContainerPatch` resources to be applied on
 `kuma-init` and `kuma-sidecar` containers.
 
 More information about how to use `ContainerPatch` you can find at
-[Custom Container Configuration](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration)
+[Custom Container Configuration](/docs/{{ page.release }}/explore/dpp-on-kubernetes/#custom-container-configuration)
 
 **Example**
 
@@ -447,7 +447,7 @@ spec:
 ### `kuma.io/transparent-proxying-reachable-services`
 
 A comma separated list of `kuma.io/service` to indicate which services this communicates with.
-For more details see the [reachable services docs](/docs/{{ page.version }}/networking/transparent-proxying#reachable-services).
+For more details see the [reachable services docs](/docs/{{ page.release }}/networking/transparent-proxying#reachable-services).
 
 **Example**
 
@@ -472,7 +472,7 @@ spec:
 
 ### `prometheus.metrics.kuma.io/aggregate-<name>-enabled`
 
-Define if `kuma-dp` should scrape metrics from the application that has been defined in the `Mesh` configuration. Default value: `true`. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)
+Define if `kuma-dp` should scrape metrics from the application that has been defined in the `Mesh` configuration. Default value: `true`. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
 
 ```yaml
 apiVersion: v1
@@ -486,7 +486,7 @@ spec: ...
 
 ### `prometheus.metrics.kuma.io/aggregate-<name>-path`
 
-Define path, which `kuma-dp` sidecar has to scrape for prometheus metrics. Default value: `/metrics`. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)
+Define path, which `kuma-dp` sidecar has to scrape for prometheus metrics. Default value: `/metrics`. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
 
 **Example**
 
@@ -502,7 +502,7 @@ spec: ...
 
 ### `prometheus.metrics.kuma.io/aggregate-<name>-port`
 
-Define port, which `kuma-dp` sidecar has to scrape for prometheus metrics. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)
+Define port, which `kuma-dp` sidecar has to scrape for prometheus metrics. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
 
 **Example**
 
@@ -518,7 +518,7 @@ spec: ...
 
 ### `kuma.io/transparent-proxying-inbound-v6-port`
 
-Define the port to use for [IPv6](/docs/{{ page.version }}/networking/ipv6) traffic. To turn off IPv6 set this to 0.
+Define the port to use for [IPv6](/docs/{{ page.release }}/networking/ipv6) traffic. To turn off IPv6 set this to 0.
 
 **Example**
 
@@ -535,7 +535,7 @@ spec: ...
 ### `kuma.io/sidecar-drain-time`
 
 Allows specifying drain time of Kuma DP sidecar. The default value is 30s.
-The default could be changed using [the control-plane configuration](/docs/{{ page.version }}/generated/kuma-cp) or `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_DRAIN_TIME` env.
+The default could be changed using [the control-plane configuration](/docs/{{ page.release }}/generated/kuma-cp) or `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_DRAIN_TIME` env.
 
 **Example**
 

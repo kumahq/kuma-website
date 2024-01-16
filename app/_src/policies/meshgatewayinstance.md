@@ -2,7 +2,7 @@
 title: MeshGatewayInstance
 ---
 
-`MeshGatewayInstance` is a Kubernetes-only resource for deploying {% if_version gte:2.6.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin){% endif_version %}{% if_version lte:2.5.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin){% endif_version %}.
+`MeshGatewayInstance` is a Kubernetes-only resource for deploying {% if_version gte:2.6.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin){% endif_version %}{% if_version lte:2.5.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/explore/gateway#builtin){% endif_version %}.
 
 `MeshGateway` and `MeshGatewayRoute` allow specifying builtin gateway
 listener and route configuration but don't handle deploying `kuma-dp`
