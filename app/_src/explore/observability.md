@@ -324,7 +324,7 @@ Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_u
 {% endtab %}
 {% endtabs %}
 
-Once the agent is configured to ingest traces you'll need to configure a [TrafficTrace](/docs/{{ page.version }}/policies/traffic-trace).
+Once the agent is configured to ingest traces you'll need to configure a {% if_version lte:2.5.x inline:true %}[TrafficTrace policy](/docs/{{ page.version }}/policies/traffic-trace){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshTrace policy](/docs/{{ page.version }}/policies/meshtrace){% endif_version %}.
 
 ### Logs
 
