@@ -23,28 +23,28 @@ To collect metrics from {{site.mesh_product_name}}, you need to expose metrics f
 {% tip %}
 In the rest of this page we assume you have already configured your observability tools to work with {{site.mesh_product_name}}.
 If you haven't already read the [observability docs](/docs/{{ page.version }}/explore/observability).
-
-
 {% endtip %}
 
 ## TargetRef support matrix
 
-| TargetRef type    | top level |
-|-------------------|-----------|
-| Mesh              | ✅         | 
-| MeshSubset        | ✅         | 
-| MeshService       | ✅         | 
-| MeshServiceSubset | ✅         | 
+| TargetRef type    | top level | to | from |
+|-------------------|-----------|----|------|
+| Mesh              | ✅         | ❌  | ❌    |    
+| MeshSubset        | ✅         | ❌  | ❌    |    
+| MeshService       | ✅         | ❌  | ❌    |    
+| MeshServiceSubset | ✅         | ❌  | ❌    |    
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
 ## Configuration
 
-There are three main sections of the configuration: sidecar, applications, backends.
+There are three main sections of the configuration: `sidecar`, `applications`, `backends`.
 The first two define how to scrape parts of the mesh (sidecar and underlying applications), the third one defines what to do with the data (in case of Prometheus instructs to scrape specific address, in case of OpenTelemetry defines where to push data).
 
+{% tip %}
 In contrast to [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics) all configuration is dynamic and no restarts of the DPPs are needed.
-You can define configuration refresh interval by using `KUMA_DATAPLANE_RUNTIME_DYNAMIC_CONFIGURATION_REFRESH_INTERVAL` env var or `dataplaneRuntime.dynamicConfiguration.refreshInterval` Helm value.
+You can define configuration refresh interval by using `KUMA_DATAPLANE_RUNTIME_DYNAMIC_CONFIGURATION_REFRESH_INTERVAL` env var or `{{site.set_flag_values_prefix}}dataplaneRuntime.dynamicConfiguration.refreshInterval` Helm value.
+{% endtip %}
 
 ### Sidecar
 
@@ -104,7 +104,6 @@ By default, all available metrics are returned.
 #### Secure metrics with TLS
 
 {{site.mesh_product_name}} allows configuring metrics endpoint with TLS.
-You can use it when the `Prometheus` deployment is outside the mesh and requires secure communication.
 
 ```yaml
     backends:
@@ -163,7 +162,7 @@ Please upload the certificate and the key to the machine, and then define the fo
 
 #### activeMTLSBackend
 
-We no longer support activeMTLSBackend, if you need to "end to end" secure the metrics use [Secure metrics with TLS](#secure-metrics-with-tls) with combination of [some authorization method](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
+We no longer support activeMTLSBackend, if you need to encrypt and authorize the metrics use [Secure metrics with TLS](#secure-metrics-with-tls) with a combination of [one of the authorization methods](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
 
 #### Running multiple prometheus instances
 
@@ -173,7 +172,7 @@ If you need to run multiple instances of Prometheus and want to target different
 To use `clientId` setting you need to be running at least Prometheus `2.49.0`.
 {% endwarning %}
 
-Example configurations:
+Example configurations differentiated by `prometheus` tag:
 
 {% policy_yaml first %}
 ```yaml
@@ -221,7 +220,7 @@ scrape_configs:
     # ...
     kuma_sd_configs:
     - server: http://localhost:5676
-      refresh_interval: 60s
+      refresh_interval: 60s # different from prometheus-two
       client_id: "prometheus-one"
 ```
 
@@ -231,7 +230,7 @@ scrape_configs:
     # ...
     kuma_sd_configs:
       - server: http://localhost:5676
-        refresh_interval: 20s
+        refresh_interval: 20s # different from prometheus-one
         client_id: "prometheus-two"
 ```
 
@@ -239,7 +238,7 @@ scrape_configs:
 
 ### With custom port, path, clientId, application aggregation and service override
 
-The first policy defines a default MeshMetric policy for the `default` mesh.
+The first policy defines a default `MeshMetric` policy for the `default` mesh.
 The second policy creates an override for workloads tagged with `framework: example-web-framework`.
 That web framework exposes metrics under `/metrics/prometheus` and port 8888.
 
