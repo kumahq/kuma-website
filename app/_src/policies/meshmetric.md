@@ -194,7 +194,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-{% policy_yaml first %}
+{% policy_yaml second %}
 ```yaml
 type: MeshMetrics
 name: prometheus-two
@@ -243,7 +243,7 @@ The first policy defines a default MeshMetric policy for the `default` mesh.
 The second policy creates an override for workloads tagged with `framework: example-web-framework`.
 That web framework exposes metrics under `/metrics/prometheus` and port 8888.
 
-{% policy_yaml first %}
+{% policy_yaml customone %}
 ```yaml
 type: MeshMetric
 mesh: default
@@ -264,7 +264,7 @@ default:
 ```
 {% endpolicy_yaml %}
 
-{% policy_yaml first %}
+{% policy_yaml customtwo %}
 ```yaml
 type: MeshMetric
 mesh: default
