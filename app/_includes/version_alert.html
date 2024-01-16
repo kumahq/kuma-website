@@ -1,14 +1,14 @@
-{% assign current_version = page.version %}
+{% assign current_release = page.release %}
 {% assign latest_version = site.data.latest_version.release %}
 {% assign page_path = page.url | split: '/' | shift: 3 | join: '/' %}
 {% assign latest_version_path = "docs/" | append: latest_version | append: '/' | append: page_path | append: '.md' %}
 {% assign latest_page = site.pages | find: 'path', latest_version_path %}
 
-{%- if current_version and current_version != site.data.latest_version.release -%}
+{% if current_release and current_release.latest? == false %}
 <div class="version-alert">
   <div class="custom-block warning">
     <p class="custom-block-title">Careful!</p>
-    {% if current_version == 'dev' %}
+    {% if current_release.label == 'dev' %}
       <p>You are browsing documentation for the next version of {{ site.title }}. Use this version at your own risk.</p>
     {% else %}
       <p>You are browsing documentation for a version of {{ site.title }} that is not the latest release.</p>
@@ -19,7 +19,7 @@
         <a href="/docs/latest/{{ page_path }}">Go here</a> to browse the documentation for the latest version.
       </p>
     {% endif %}
-    {% if current_version != 'dev' %}
+    {% if current_release.label != 'dev' %}
       <p>Looking for even older versions? <a href="{% post_url 2021-04-16-website-reorg %}">Learn more</a>.</p>
     {% endif %}
   </div>

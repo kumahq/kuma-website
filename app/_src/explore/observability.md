@@ -16,15 +16,15 @@ This page will describe how to configure different observability tools to work w
 First, remember to configure {{site.mesh_product_name}} appropriately for the tools in the observability stack:
 
 {% if_version lte:2.5.x %}
-- [Traffic metrics](/docs/{{ page.version }}/policies/traffic-metrics) for telemetry
-- [`TrafficTrace`](/docs/{{ page.version }}/policies/traffic-trace) for tracing
-- [`TrafficLog`](/docs/{{ page.version }}/policies/traffic-log) for logging
+- [Traffic metrics](/docs/{{ page.release }}/policies/traffic-metrics) for telemetry
+- [`TrafficTrace`](/docs/{{ page.release }}/policies/traffic-trace) for tracing
+- [`TrafficLog`](/docs/{{ page.release }}/policies/traffic-log) for logging
 {% endif_version %}
 
 {% if_version gte:2.6.x %}
-- [`MeshMetric`](/docs/{{ page.version }}/policies/meshmetric) for telemetry
-- [`MeshTrace`](/docs/{{ page.version }}/policies/meshtrace) for tracing
-- [`MeshAccessLog`](/docs/{{ page.version }}/policies/meshaccesslog) for logging
+- [`MeshMetric`](/docs/{{ page.release }}/policies/meshmetric) for telemetry
+- [`MeshTrace`](/docs/{{ page.release }}/policies/meshtrace) for tracing
+- [`MeshAccessLog`](/docs/{{ page.release }}/policies/meshaccesslog) for logging
 {% endif_version %}
 
 On Kubernetes, the stack can be installed with:
@@ -80,15 +80,15 @@ This will disable long polling on Prometheus service discovery.
 {% endif_version %}
 
 The {{site.mesh_product_name}} community has contributed a builtin service discovery to Prometheus, it is documented in the [Prometheus docs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
-This service discovery will connect to the control plane and retrieve all data planes with enabled metrics which Prometheus will scrape and retrieve metrics according to your {% if_version lte:2.5.x inline:true %}[traffic metrics setup](/docs/{{ page.version }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric policies](/docs/{{ page.version }}/policies/meshmetric){% endif_version %}.
+This service discovery will connect to the control plane and retrieve all data planes with enabled metrics which Prometheus will scrape and retrieve metrics according to your {% if_version lte:2.5.x inline:true %}[traffic metrics setup](/docs/{{ page.release }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric policies](/docs/{{ page.release }}/policies/meshmetric){% endif_version %}.
 
 {% tip %}
 There are 2 ways you can run prometheus:
 
 1. Inside the mesh (default for [`kumactl install observability`](#demo-setup)).{% if_version lte:2.5.x inline:true %} In this case you can use mTLS to retrieve the metrics. This provides high security but will require one prometheus per mesh and might not be accessible if your mesh becomes unavailable. It will also require one Prometheus deployment per {{site.mesh_product_name}} mesh.{% endif_version %}
-2. Outside the mesh. In this case you'll need to specify {% if_version lte:2.3.x %}`skipMTLS: true`{% endif_version %}{% if_version gte:2.4.x %}`tls.mode: disabled`{% endif_version %} in the {% if_version lte:2.5.x inline:true %}[traffic metrics configuration](/docs/{{ page.version }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric configuration](/docs/{{ page.version }}/policies/meshmetric){% endif_version %}. This is less secure but ensures Prometheus is as available as possible. It's also easier to add to an existing setup with services in and outside the mesh.
+2. Outside the mesh. In this case you'll need to specify {% if_version lte:2.3.x %}`skipMTLS: true`{% endif_version %}{% if_version gte:2.4.x %}`tls.mode: disabled`{% endif_version %} in the {% if_version lte:2.5.x inline:true %}[traffic metrics configuration](/docs/{{ page.release }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric configuration](/docs/{{ page.release }}/policies/meshmetric){% endif_version %}. This is less secure but ensures Prometheus is as available as possible. It's also easier to add to an existing setup with services in and outside the mesh.
 {% if_version gte:2.4.x %}
-3. Outside the mesh with TLS enabled. In this case you'll need to provide certificates for each dataplane and specify configuration in the {% if_version lte:2.5.x inline:true %}[traffic metrics configuration](/docs/{{ page.version }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric configuration](/docs/{{ page.version }}/policies/meshmetric){% endif_version %}. This is more secure than second option but requires more configuration.
+3. Outside the mesh with TLS enabled. In this case you'll need to provide certificates for each dataplane and specify configuration in the {% if_version lte:2.5.x inline:true %}[traffic metrics configuration](/docs/{{ page.release }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric configuration](/docs/{{ page.release }}/policies/meshmetric){% endif_version %}. This is more secure than second option but requires more configuration.
 {% endif_version %}
 
 In production, we recommend the second option as it provides better visibility when things go wrong, and it's usually acceptable for metrics to be less secure.
@@ -119,7 +119,7 @@ scrape_configs:
 
 For more information, see [the Prometheus documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
 
-If you have {% if_version lte:2.5.x inline:true %}[traffic metrics](/docs/{{ page.version }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric](/docs/{{ page.version }}/policies/meshmetric){% endif_version %} enabled for your mesh, check the Targets page in the Prometheus dashboard.
+If you have {% if_version lte:2.5.x inline:true %}[traffic metrics](/docs/{{ page.release }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric](/docs/{{ page.release }}/policies/meshmetric){% endif_version %} enabled for your mesh, check the Targets page in the Prometheus dashboard.
 You should see a list of data plane proxies from your mesh. For example:
 
 <center>
@@ -143,7 +143,7 @@ Grafana will then be able to retrieve the traces from Jaeger.
 <img src="/assets/images/docs/jaeger_grafana_config.jpg" alt="Jaeger Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-You can then add a {% if_version lte:2.5.x inline:true %}[TrafficTrace policy](/docs/{{ page.version }}/policies/traffic-trace){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshTrace policy](/docs/{{ page.version }}/policies/meshtrace){% endif_version %} to your mesh to start emitting traces.
+You can then add a {% if_version lte:2.5.x inline:true %}[TrafficTrace policy](/docs/{{ page.release }}/policies/traffic-trace){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshTrace policy](/docs/{{ page.release }}/policies/meshtrace){% endif_version %} to your mesh to start emitting traces.
 At this point you can visualize your traces in Grafana by choosing the jaeger datasource in the [explore section](https://grafana.com/docs/grafana/latest/explore/).
 
 #### Visualizing logs
@@ -158,7 +158,7 @@ To visualise your **containers' logs** and your **access logs** you need to have
 <img src="/assets/images/docs/loki_grafana_config.jpg" alt="Loki Grafana configuration" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-You can then add a {% if_version lte:2.5.x inline:true %}[TrafficLog policy](/docs/{{ page.version }}/policies/traffic-log){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshAccessLog policy](/docs/{{ page.version }}/policies/meshaccesslog){% endif_version %} to your mesh to start emitting access logs. Loki will pick up logs that are sent to `stdout`. To send logs to `stdout` you can configure the logging backend as shown below:
+You can then add a {% if_version lte:2.5.x inline:true %}[TrafficLog policy](/docs/{{ page.release }}/policies/traffic-log){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshAccessLog policy](/docs/{{ page.release }}/policies/meshaccesslog){% endif_version %} to your mesh to start emitting access logs. Loki will pick up logs that are sent to `stdout`. To send logs to `stdout` you can configure the logging backend as shown below:
 
 {% tabs visualizing-logs useUrlFragment=false %}
 {% tab visualizing-logs Kubernetes %}
@@ -230,7 +230,7 @@ To make things simpler the datasource is installed and configured when using [`k
 
 ##### {{site.mesh_product_name}} Dataplane
 
-This dashboard lets you investigate the status of a single dataplane in the mesh. In order to see those metrics, you need to create {% if_version lte:2.5.x inline:true %}[Traffic Metrics policy](/docs/{{ page.version }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric policy](/docs/{{ page.version }}/policies/meshmetric){% endif_version %} first. 
+This dashboard lets you investigate the status of a single dataplane in the mesh. In order to see those metrics, you need to create {% if_version lte:2.5.x inline:true %}[Traffic Metrics policy](/docs/{{ page.release }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric policy](/docs/{{ page.release }}/policies/meshmetric){% endif_version %} first. 
 
 <center>
 <img src="/assets/images/docs/0.4.0/kuma_dp1.jpeg" alt="Kuma Dataplane dashboard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -303,7 +303,7 @@ Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_u
 
 ### Metrics
 
-{{site.mesh_product_name}} exposes metrics with {% if_version lte:2.5.x inline:true %}[traffic metrics](/docs/{{ page.version }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric policy](/docs/{{ page.version }}/policies/meshmetric){% endif_version %} in Prometheus format.
+{{site.mesh_product_name}} exposes metrics with {% if_version lte:2.5.x inline:true %}[traffic metrics](/docs/{{ page.release }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric policy](/docs/{{ page.release }}/policies/meshmetric){% endif_version %} in Prometheus format.
 
 You can add annotations to your pods to enable the Datadog agent to scrape metrics.
 
@@ -353,13 +353,13 @@ Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_u
 {% endtab %}
 {% endtabs %}
 
-Once the agent is configured to ingest traces you'll need to configure a {% if_version lte:2.5.x inline:true %}[TrafficTrace policy](/docs/{{ page.version }}/policies/traffic-trace){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshTrace policy](/docs/{{ page.version }}/policies/meshtrace){% endif_version %}.
+Once the agent is configured to ingest traces you'll need to configure a {% if_version lte:2.5.x inline:true %}[TrafficTrace policy](/docs/{{ page.release }}/policies/traffic-trace){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshTrace policy](/docs/{{ page.release }}/policies/meshtrace){% endif_version %}.
 
 ### Logs
 
 The best way to have {{site.mesh_product_name}} and Datadog work together is with [TCP ingest](https://docs.datadoghq.com/agent/logs/?tab=tcpudp#custom-log-collection).
 
-Once your agent is configured with TCP ingest you can configure a {% if_version lte:2.5.x inline:true %}[TrafficLog policy](/docs/{{ page.version }}/policies/traffic-log){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshAccessLog policy](/docs/{{ page.version }}/policies/meshaccesslog){% endif_version %} for data plane proxies to send logs.
+Once your agent is configured with TCP ingest you can configure a {% if_version lte:2.5.x inline:true %}[TrafficLog policy](/docs/{{ page.release }}/policies/traffic-log){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshAccessLog policy](/docs/{{ page.release }}/policies/meshaccesslog){% endif_version %} for data plane proxies to send logs.
 
 ## Observability in multi-zone
 

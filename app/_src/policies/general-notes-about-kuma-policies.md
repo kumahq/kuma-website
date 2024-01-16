@@ -9,7 +9,7 @@ New to Kuma? You don't need this, check [`TargetRef` policies](/docs/{{ page.ver
 {% if_version lte:2.5.x %}
 {% tip %}
 This only applies to source/destination policies.
-If you are unfamiliar with these, checkout [introduction to policies](/docs/{{ page.version }}/policies/introduction).
+If you are unfamiliar with these, checkout [introduction to policies](/docs/{{ page.release }}/policies/introduction).
 {% endtip %}
 {% endif_version %}
 

@@ -4,7 +4,7 @@ title: Mesh Timeout
 
 {% warning %}
 This policy uses new policy matching algorithm. 
-Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeout).
+Do **not** combine with [Timeout policy](/docs/{{ page.release }}/policies/timeout).
 {% endwarning %}
 
 ## TargetRef support matrix
@@ -83,7 +83,7 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 {% endif_version %}
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 
@@ -91,7 +91,7 @@ This policy enables {{site.mesh_product_name}} to set timeouts on the inbound an
 depending on the protocol. Using this policy you can configure TCP and HTTP timeouts.
 Timeout configuration is split into two sections: common configuration and HTTP configuration.
 Common config is applied to both HTTP and TCP communication. HTTP timeout are only applied when
-service is marked as http. More on this in [protocol support section](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+service is marked as http. More on this in [protocol support section](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 
 MeshTimeout policy lets you configure multiple timeouts:
 
@@ -528,7 +528,7 @@ spec:
 {% if_version inline:true gte:2.6.x %}| `http.requestHeadersTimeout` | `0s`      |{% endif_version %}
 
 {% if_version eq:2.1.x %}
-If you don't specify a `from` or `to` section , the defaults from [`Timeout`](/docs/{{ page.version }}/policies/timeout) will be used. This
+If you don't specify a `from` or `to` section , the defaults from [`Timeout`](/docs/{{ page.release }}/policies/timeout) will be used. This
 is [a known bug](https://github.com/kumahq/kuma/issues/5850) and is fixed in the next version.
 {% endif_version %}
 

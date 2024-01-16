@@ -2,7 +2,7 @@
 title: Backends
 ---
 
-As explained in the [Overview](/docs/{{ page.version }}/documentation/overview), when Kuma (`kuma-cp`) is up and running it needs to store data somewhere. The data will include the state, the policies configured, the data plane proxy status, and so on.
+As explained in the [Overview](/docs/{{ page.release }}/documentation/overview), when Kuma (`kuma-cp`) is up and running it needs to store data somewhere. The data will include the state, the policies configured, the data plane proxy status, and so on.
 
 Kuma supports a few different backends that we can use when running `kuma-cp`. You can configure the backend storage by setting the `KUMA_STORE_TYPE` environment variable when running the control plane.
 

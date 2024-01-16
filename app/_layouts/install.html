@@ -11,11 +11,11 @@ layout: default
           {% include version_selector.html name="version_selector "%}
 
           <div class="version-selector__version-notifier">
-            <p class="page-sub-title">You are viewing installation instructions for <strong>{{ page.version }}</strong>.</p>
-            <p><a href="/docs/changelog">Changelog</a> • <a href="/docs/{{ page.version }}/production/upgrades-tuning/upgrade-notes">Upgrade Path</a> • <a href="/community">Community</a></p>
+            <p class="page-sub-title">You are viewing installation instructions for <strong>{{ page.release }}</strong>.</p>
+            <p><a href="/docs/changelog">Changelog</a> • <a href="/docs/{{ page.release }}/production/upgrades-tuning/upgrade-notes">Upgrade Path</a> • <a href="/community">Community</a></p>
           </div>
 
-          {% if page.version != site.data.latest_version.release  %}
+          {% unless page.release.latest?  %}
             <div class="version-alert">
               <div class="warning custom-block">
                 <p class="custom-block-title">Careful!</p>
@@ -25,7 +25,7 @@ layout: default
                 <p>Looking for even older versions? <a href="{% post_url 2021-04-16-website-reorg %}">Learn more</a>.</p>
               </div>
             </div>
-          {% endif %}
+          {% endunless %}
         </div>
     </div>
   </header>
@@ -36,7 +36,7 @@ layout: default
           {% for item in page.cta %}
           <li class="kuma-cta__item w-full sm:w-1/2 lg:w-1/3 px-4 mb-8">
             <a
-                    href='/docs/{{ page.version }}{{ item.slug }}/'
+                    href='/docs/{{ page.release }}{{ item.slug }}/'
                     class="kuma-cta__item-link flex flex-wrap justify-center items-center"
             >
               <div class="kuma-cta__item-logo w-full sm:w-1/4 px-3">

@@ -4,11 +4,11 @@ content_type: how-to
 ---
 
 `ZoneEgress` proxy is used when it is required to isolate outgoing traffic (to services in other
-zones or [external services](/docs/{{ page.version }}/policies/external-services) in the local zone).
+zones or [external services](/docs/{{ page.release }}/policies/external-services) in the local zone).
 
 
 {%tip%}
-Because `ZoneEgress` uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.version }}/policies/mutual-tls) is required.
+Because `ZoneEgress` uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.release }}/policies/mutual-tls) is required.
 {%endtip%}
 
 This proxy is not attached to any particular workload. In multi-zone the proxy is bound to a specific zone.
@@ -18,7 +18,7 @@ When Zone Egress is present:
 * In multi-zone, all requests that are sent from local data plane proxies to other
   zones will be directed through the local Zone Egress instance, which then will
   direct the traffic to the proper instance of the Zone Ingress.
-* All requests that are sent from local data plane proxies to [external services](/docs/{{ page.version }}/policies/external-services)
+* All requests that are sent from local data plane proxies to [external services](/docs/{{ page.release }}/policies/external-services)
   available within the Zone will be directed through the local Zone Egress
   instance.
 

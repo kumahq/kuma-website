@@ -6,10 +6,10 @@ title: Non-mesh traffic
 
 When mTLS is enabled, clients from outside the mesh can't reach the applications inside the mesh. 
 If you want to allow external clients to consume mesh services see 
-the [Permissive mTLS](/docs/{{ page.version }}/policies/mutual-tls/#permissive-mtls) mode.
+the [Permissive mTLS](/docs/{{ page.release }}/policies/mutual-tls/#permissive-mtls) mode.
 
 {% warning %}
-Without {% if_version lte:2.1.x %}[Transparent Proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[Transparent Proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %}
+Without {% if_version lte:2.1.x %}[Transparent Proxying](/docs/{{ page.release }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[Transparent Proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/){% endif_version %}
 TLS check on Envoy can be bypassed. You should take action to secure the application ports. 
 {% endwarning %}
 

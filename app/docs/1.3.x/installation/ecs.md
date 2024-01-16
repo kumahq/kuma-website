@@ -53,7 +53,7 @@ aws cloudformation deploy \
     --parameter-overrides AllowedCidr=0.0.0.0/0
 ```
 
-To learn more, read about the [deployment modes available](/docs/{{ page.version }}/documentation/deployments).
+To learn more, read about the [deployment modes available](/docs/{{ page.release }}/documentation/deployments).
 
 {% endtab %}
 {% tab ecs-run Multi-Zone %}
@@ -80,7 +80,7 @@ aws cloudformation deploy \
     --parameter-overrides AllowedCidr=0.0.0.0/0
 ```
 
-A Kuma [zone-ingress proxy](/docs/{{ page.version }}/documentation/dps-and-data-model/#zone-ingress) is needed in each zone to enable cross-zone communication. Like every other data plane proxy type, it also needs a [data plane proxy token](/docs/{{ page.version }}/installation/ecs/#generate-the-dp-token) if the data plane proxy and control plane communication is secured. Learn more about [DP and CP security](/docs/{{ page.version }}/documentation/security/#data-plane-proxy-to-control-plane-communication).
+A Kuma [zone-ingress proxy](/docs/{{ page.release }}/documentation/dps-and-data-model/#zone-ingress) is needed in each zone to enable cross-zone communication. Like every other data plane proxy type, it also needs a [data plane proxy token](/docs/{{ page.release }}/installation/ecs/#generate-the-dp-token) if the data plane proxy and control plane communication is secured. Learn more about [DP and CP security](/docs/{{ page.release }}/documentation/security/#data-plane-proxy-to-control-plane-communication).
 
 We can provision a token with the following command:
 
@@ -99,7 +99,7 @@ aws cloudformation deploy \
       DPToken="<token>"
 ```
 
-To learn more, read the [multi-zone installation instructions](/docs/{{ page.version }}/documentation/deployments).
+To learn more, read the [multi-zone installation instructions](/docs/{{ page.release }}/documentation/deployments).
 
 {% endtab %}
 {% endtabs %}
@@ -124,7 +124,7 @@ Before moving forward with the next steps, please write down the `kuma-cp` IP ad
 
 #### Kuma DNS
 
-The services within the Kuma mesh are exposed through their names (as defined in the `kuma.io/service` tag) in the [`.mesh` DNS zone](/docs/{{ page.version }}/documentation/networking/#kuma-dns). In the default workload example presented in these instructions, our services will be available on `httpbin.mesh`.
+The services within the Kuma mesh are exposed through their names (as defined in the `kuma.io/service` tag) in the [`.mesh` DNS zone](/docs/{{ page.release }}/documentation/networking/#kuma-dns). In the default workload example presented in these instructions, our services will be available on `httpbin.mesh`.
 
 Run the following command to create the necessary forwarding rules in AWS Route53 and to leverage the integrated service discovery in `kuma-cp`:
 
@@ -149,7 +149,7 @@ While we have installed the Kuma control plane successfully, we still need to st
 
 #### Generate the DP token
 
-In order to run the `kuma-dp` container, we have to issue an access token. The latter can be generated using the Admin API of the Kuma CP. Learn more about [DP and CP security](/docs/{{ page.version }}/documentation/security/#data-plane-proxy-to-control-plane-communication).
+In order to run the `kuma-dp` container, we have to issue an access token. The latter can be generated using the Admin API of the Kuma CP. Learn more about [DP and CP security](/docs/{{ page.release }}/documentation/security/#data-plane-proxy-to-control-plane-communication).
 
 In this example we'll show the simplest way to generate a new data plane proxy token by executing the following command on the same machine where `kuma-cp` is running (although this is only one of many ways to generate the data plane proxy token):
 
@@ -209,4 +209,4 @@ The `workload` template has many parameters so that it can be customized with di
 
 Congratulations! You have successfully installed Kuma on AWS ECS 🚀.
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/{{ page.version }}/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes/) as well.
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/{{ page.release }}/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/{{ page.release }}/quickstart/kubernetes/) as well.

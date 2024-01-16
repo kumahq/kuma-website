@@ -305,7 +305,7 @@ Specifies the list of names of `ContainerPatch` resources to be applied on
 `kuma-init` and `kuma-sidecar` containers.
 
 More information about how to use `ContainerPatch` you can find at
-{% if_version lte:2.1.x %}[Custom Container Configuration](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}{% if_version gte:2.2.x %}[Custom Container Configuration](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}.
+{% if_version lte:2.1.x %}[Custom Container Configuration](/docs/{{ page.release }}/explore/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}{% if_version gte:2.2.x %}[Custom Container Configuration](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}.
 
 **Example**
 
@@ -548,7 +548,7 @@ spec:
 ### `kuma.io/transparent-proxying-reachable-services`
 
 A comma separated list of `kuma.io/service` to indicate which services this communicates with.
-For more details see the {% if_version lte:2.1.x %}[reachable services docs](/docs/{{ page.version }}/networking/transparent-proxying#reachable-services){% endif_version %}{% if_version gte:2.2.x %}[reachable services docs](/docs/{{ page.version }}/production/dp-config/transparent-proxying#reachable-services){% endif_version %}.
+For more details see the {% if_version lte:2.1.x %}[reachable services docs](/docs/{{ page.release }}/networking/transparent-proxying#reachable-services){% endif_version %}{% if_version gte:2.2.x %}[reachable services docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying#reachable-services){% endif_version %}.
 
 **Example**
 
@@ -575,7 +575,7 @@ spec:
 
 When transparent proxy is installed with ebpf mode, you can disable it for particular workloads if necessary.
 
-For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.version }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
+For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
 
 **Example**
 
@@ -601,7 +601,7 @@ spec:
 
 Path to BPF FS if different than default (`/sys/fs/bpf`)
 
-For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.version }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
+For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
 
 **Example**
 
@@ -627,7 +627,7 @@ spec:
 
 cgroup2 path if different than default (`/sys/fs/cgroup`)
 
-For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.version }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
+For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
 
 **Example**
 
@@ -653,7 +653,7 @@ spec:
 
 Custom path for ebpf programs to be loaded when installing transparent proxy
 
-For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.version }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
+For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
 
 **Example**
 
@@ -681,7 +681,7 @@ Name of the network interface which should be used to attach to it TC-related
 eBPF programs. By default {{site.mesh_product_name}} will use first, non-loopback
 interface it'll find.
 
-For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.version }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.version }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
+For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
 
 **Example**
 
@@ -707,13 +707,13 @@ spec:
 ### `kuma.io/wait-for-dataplane-ready`
 
 Define if you want the kuma-sidecar container to wait for the dataplane to be ready before starting app container.
-Read relevant [Data plane on Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#waiting-for-the-dataplane-to-be-ready) section for more information.
+Read relevant [Data plane on Kubernetes](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#waiting-for-the-dataplane-to-be-ready) section for more information.
 
 {% endif_version %}
 
 ### `prometheus.metrics.kuma.io/aggregate-<name>-enabled`
 
-Define if `kuma-dp` should scrape metrics from the application that has been defined in the `Mesh` configuration. Default value: `true`. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)
+Define if `kuma-dp` should scrape metrics from the application that has been defined in the `Mesh` configuration. Default value: `true`. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
 
 ```yaml
 apiVersion: v1
@@ -727,7 +727,7 @@ spec: ...
 
 ### `prometheus.metrics.kuma.io/aggregate-<name>-path`
 
-Define path, which `kuma-dp` sidecar has to scrape for prometheus metrics. Default value: `/metrics`. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)
+Define path, which `kuma-dp` sidecar has to scrape for prometheus metrics. Default value: `/metrics`. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
 
 **Example**
 
@@ -743,7 +743,7 @@ spec: ...
 
 ### `prometheus.metrics.kuma.io/aggregate-<name>-port`
 
-Define port, which `kuma-dp` sidecar has to scrape for prometheus metrics. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)
+Define port, which `kuma-dp` sidecar has to scrape for prometheus metrics. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
 
 **Example**
 
@@ -759,7 +759,7 @@ spec: ...
 
 ### `kuma.io/transparent-proxying-inbound-v6-port`
 
-Define the port to use for {% if_version lte:2.1.x %}[IPv6](/docs/{{ page.version }}/networking/ipv6){% endif_version %}{% if_version gte:2.2.x %}[IPv6](/docs/{{ page.version }}/production/dp-config/ipv6/){% endif_version %} traffic. To turn off IPv6 set this to 0.
+Define the port to use for {% if_version lte:2.1.x %}[IPv6](/docs/{{ page.release }}/networking/ipv6){% endif_version %}{% if_version gte:2.2.x %}[IPv6](/docs/{{ page.release }}/production/dp-config/ipv6/){% endif_version %} traffic. To turn off IPv6 set this to 0.
 
 **Example**
 
@@ -776,7 +776,7 @@ spec: ...
 ### `kuma.io/sidecar-drain-time`
 
 Allows specifying drain time of {{site.mesh_product_name}} DP sidecar. The default value is 30s.
-The default could be changed using [the control-plane configuration](/docs/{{ page.version }}/reference/kuma-cp) or `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_DRAIN_TIME` env.
+The default could be changed using [the control-plane configuration](/docs/{{ page.release }}/reference/kuma-cp) or `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_DRAIN_TIME` env.
 
 **Example**
 

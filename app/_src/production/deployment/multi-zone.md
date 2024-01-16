@@ -17,7 +17,7 @@ Or without the optional zone egress:
 </center>
 
 {% if_version gte:2.2.x %}
-To Install with this topology follow the [multi-zone deployment docs](/docs/{{ page.version }}/production/cp-deployment/multi-zone).
+To Install with this topology follow the [multi-zone deployment docs](/docs/{{ page.release }}/production/cp-deployment/multi-zone).
 {% endif_version %}
 
 ## How it works
@@ -45,17 +45,17 @@ Requests to the `availableServices` from `zone-a` are load balanced between loca
 Requests send to `zone-b` are routed to the zone ingress proxy of `zone-b`.
 
 For load-balancing, the zone ingress endpoints are weighted with the number of instances running behind them. So a zone with 2 instances will receive twice as much traffic than a zone with 1 instance.
-You can also favor local service instances with {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %}.
+You can also favor local service instances with {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/meshloadbalancingstrategy){% endif_version %}.
 
-In the presence of a {% if_version lte:2.1.x %}[zone egress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}, the traffic is routed through the local zone egress before being sent to the remote zone ingress.
+In the presence of a {% if_version lte:2.1.x %}[zone egress](/docs/{{ page.release }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/){% endif_version %}, the traffic is routed through the local zone egress before being sent to the remote zone ingress.
 
-When using {% if_version lte:2.1.x %}[transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxy](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %} (default in Kubernetes),
+When using {% if_version lte:2.1.x %}[transparent proxy](/docs/{{ page.release }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxy](/docs/{{ page.release }}/production/dp-config/transparent-proxying/){% endif_version %} (default in Kubernetes),
 {{site.mesh_product_name}} generates a VIP,
 a DNS entry with the format `<kuma.io/service>.mesh`, and will listen for traffic on port 80. The `<kuma.io/service>.mesh:80` format is just a convention.
-[`VirtualOutbounds`](/docs/{{ page.version }}/policies/virtual-outbound)s enable you to customize the listening port and how the DNS name for these services looks.
+[`VirtualOutbounds`](/docs/{{ page.release }}/policies/virtual-outbound)s enable you to customize the listening port and how the DNS name for these services looks.
 
 {% tip %}
-A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in {{site.mesh_product_name}} {% if_version gte:2.6.x %}[gateway mode](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/overview){% endif_version %}{% if_version lte:2.5.x %}[gateway mode](/docs/{{ page.version }}/explore/gateway){% endif_version %} and can be deployed in addition to zone ingresses.
+A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in {{site.mesh_product_name}} {% if_version gte:2.6.x %}[gateway mode](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/overview){% endif_version %}{% if_version lte:2.5.x %}[gateway mode](/docs/{{ page.release }}/explore/gateway){% endif_version %} and can be deployed in addition to zone ingresses.
 {% endtip %}
 
 ## Components of a multi-zone deployment
@@ -157,5 +157,5 @@ When it happens:
 - Communication across each zone will fail.
 
 {% tip %}
-With the right resiliency setup ({% if_version lte:2.5.x %}[Retries](/docs/{{ page.version }}/policies/retry){% endif_version %}{% if_version gte:2.6.x %}[MeshRetries](/docs/{{ page.version }}/policies/meshretry){% endif_version %}, {% if_version lte:2.5.x %}[Probes](/docs/{{ page.version }}/policies/health-check){% endif_version %}{% if_version gte:2.6.x %}[MeshHealthCheck](/docs/{{ page.version }}/policies/meshhealthcheck){% endif_version %}, {% if_version lte:2.5.x %}[Locality Aware LoadBalancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[MeshLoadBalancingStrategy](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %}, {% if_version lte:2.5.x %}[Circuit Breakers](/docs/{{ page.version }}/policies/circuit-breaker){% endif_version %}{% if_version gte:2.6.x %}[MeshCircuitBreakers](/docs/{{ page.version }}/policies/meshcircuitbreaker){% endif_version %}) the failing zone can be quickly severed and traffic re-routed to another zone.
+With the right resiliency setup ({% if_version lte:2.5.x %}[Retries](/docs/{{ page.release }}/policies/retry){% endif_version %}{% if_version gte:2.6.x %}[MeshRetries](/docs/{{ page.release }}/policies/meshretry){% endif_version %}, {% if_version lte:2.5.x %}[Probes](/docs/{{ page.release }}/policies/health-check){% endif_version %}{% if_version gte:2.6.x %}[MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck){% endif_version %}, {% if_version lte:2.5.x %}[Locality Aware LoadBalancing](/docs/{{ page.release }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[MeshLoadBalancingStrategy](/docs/{{ page.release }}/policies/meshloadbalancingstrategy){% endif_version %}, {% if_version lte:2.5.x %}[Circuit Breakers](/docs/{{ page.release }}/policies/circuit-breaker){% endif_version %}{% if_version gte:2.6.x %}[MeshCircuitBreakers](/docs/{{ page.release }}/policies/meshcircuitbreaker){% endif_version %}) the failing zone can be quickly severed and traffic re-routed to another zone.
 {% endtip %}

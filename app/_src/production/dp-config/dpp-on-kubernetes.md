@@ -3,7 +3,7 @@ title: Data plane on Kubernetes
 content_type: how-to
 ---
 
-On Kubernetes the {% if_version lte:2.1.x %}[`Dataplane`](/docs/{{ page.version }}/explore/dpp#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[`Dataplane`](/docs/{{ page.version }}/production/dp-config/dpp#dataplane-entity){% endif_version %} entity is automatically created for you, and because transparent proxying is used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
+On Kubernetes the {% if_version lte:2.1.x %}[`Dataplane`](/docs/{{ page.release }}/explore/dpp#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[`Dataplane`](/docs/{{ page.release }}/production/dp-config/dpp#dataplane-entity){% endif_version %} entity is automatically created for you, and because transparent proxying is used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
 The {{ site.mesh_product_name }} control plane injects a `kuma-sidecar` container into your `Pod`'s container. If
 you're not using the CNI, it also injects a `kuma-init` into `initContainers` to
@@ -66,8 +66,8 @@ The following tags are added automatically and cannot be overridden using Pod la
 
 * `kuma.io/service`: Identifies the service name based on a Service that selects a Pod. This will be of format `<name>_<namespace>_svc_<port>` where `<name>`, `<namespace>` and `<port>` are from the Kubernetes service that is associated with this particular pod.
   When a pod is spawned without being associated with any Kubernetes Service resource the data plane tag will be `kuma.io/service: <name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the Pod resource metadata.
-* `kuma.io/zone`: Identifies the zone name in a {% if_version lte:2.1.x %}[multi-zone deployment](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}.
-* `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) that was defined by the `appProtocol` field on the Service that selects the Pod.
+* `kuma.io/zone`: Identifies the zone name in a {% if_version lte:2.1.x %}[multi-zone deployment](/docs/{{ page.release }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment](/docs/{{ page.release }}/production/deployment/multi-zone/){% endif_version %}.
+* `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) that was defined by the `appProtocol` field on the Service that selects the Pod.
 * `k8s.kuma.io/namespace`: Identifies the Pod's namespace. Example: `kuma-demo`.
 * `k8s.kuma.io/service-name`: Identifies the name of Kubernetes Service that selects the Pod. Example: `demo-app`.
 * `k8s.kuma.io/service-port`: Identifies the port of Kubernetes Service that selects the Pod. Example: `80`.
@@ -289,7 +289,7 @@ Making initial requests, such as connecting to a database, can fail for a brief 
 
 To mitigate this problem try setting
 * `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true`, or 
-* [kuma.io/wait-for-dataplane-ready](/docs/{{ page.version }}/reference/kubernetes-annotations/#kumaiowait-for-dataplane-ready) annotation to `true`
+* [kuma.io/wait-for-dataplane-ready](/docs/{{ page.release }}/reference/kubernetes-annotations/#kumaiowait-for-dataplane-ready) annotation to `true`
 so that the app container waits for the dataplane container to be ready to serve traffic.
 
 {% warning %}

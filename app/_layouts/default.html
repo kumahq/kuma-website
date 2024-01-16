@@ -29,11 +29,11 @@
     {% if page.doc %}
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
       <meta name="docsearch:section" content="docs">
-      <meta name="docsearch:docsversion" content="{{ page.version }}">
+      <meta name="docsearch:docsversion" content="{{ page.release }}">
 
-      {% if page.version != site.data.latest_version.release %}
+      {% unless page.release.latest? %}
         <meta name="robots" content="noindex,follow">
-      {% endif %}
+      {% endunless %}
     {% endif %}
 
     {% unless page.id == 'page-404' %}

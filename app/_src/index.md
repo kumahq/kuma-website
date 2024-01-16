@@ -15,22 +15,22 @@ The core maintainer of Kuma is **Kong**, the maker of the popular open-source Ko
 ## Get started
 
 {% if_version lte:2.1.x %}
-[Read about service mesh](/docs/{{ page.version }}/introduction/what-is-a-service-mesh)
+[Read about service mesh](/docs/{{ page.release }}/introduction/what-is-a-service-mesh)
 
 
-[Read about Kuma](/docs/{{ page.version }}/introduction/what-is-kuma)
+[Read about Kuma](/docs/{{ page.release }}/introduction/what-is-kuma)
 
 [Install Kuma](/install/latest/)
 
-[Jump to quickstart](/docs/{{ page.version }}/quickstart/kubernetes/)
+[Jump to quickstart](/docs/{{ page.release }}/quickstart/kubernetes/)
 
-[Explore the API](/docs/{{ page.version }}/reference/http-api)
+[Explore the API](/docs/{{ page.release }}/reference/http-api)
 {% endif_version %}
 {% if_version gte:2.2.x %}
-[Read about service mesh](/docs/{{ page.version }}/introduction/about-service-meshes)
+[Read about service mesh](/docs/{{ page.release }}/introduction/about-service-meshes)
 
 
-[Read about Kuma](/docs/{{ page.version }}/introduction/overview-of-kuma)
+[Read about Kuma](/docs/{{ page.release }}/introduction/overview-of-kuma)
 
 {% if_version lte:2.8.x %}
 [Install Kuma](/install/latest/)
@@ -39,7 +39,7 @@ The core maintainer of Kuma is **Kong**, the maker of the popular open-source Ko
 [Install Kuma](/docs/{{ page.version }}/introduction/install-kuma)
 {% endif_version %}
 
-{% if_version gte:2.6.x %}[Jump to quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[Jump to quickstart](/docs/{{ page.version }}/quickstart/kubernetes/){% endif_version %}
+{% if_version gte:2.6.x %}[Jump to quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[Jump to quickstart](/docs/{{ page.release }}/quickstart/kubernetes/){% endif_version %}
 
-[Explore the API](/docs/{{ page.version }}/reference/http-api)
+[Explore the API](/docs/{{ page.release }}/reference/http-api)
 {% endif_version %}

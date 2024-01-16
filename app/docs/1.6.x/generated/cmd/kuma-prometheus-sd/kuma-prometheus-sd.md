@@ -24,6 +24,6 @@ See: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#k
 
 ### SEE ALSO
 
-* [kuma-prometheus-sd run](/docs/{{ page.version }}/generated/cmd/kuma-prometheus-sd/kuma-prometheus-sd_run)	 - Launch Kuma Prometheus SD adapter
-* [kuma-prometheus-sd version](/docs/{{ page.version }}/generated/cmd/kuma-prometheus-sd/kuma-prometheus-sd_version)	 - Print version
+* [kuma-prometheus-sd run](/docs/{{ page.release }}/generated/cmd/kuma-prometheus-sd/kuma-prometheus-sd_run)	 - Launch Kuma Prometheus SD adapter
+* [kuma-prometheus-sd version](/docs/{{ page.release }}/generated/cmd/kuma-prometheus-sd/kuma-prometheus-sd_version)	 - Print version
 

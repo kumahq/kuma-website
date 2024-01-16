@@ -22,7 +22,7 @@ Prerequisites:
 - User created to run the `kuma-dp` process. You must run the `kuma-dp` process with a different user than the user you test with. Otherwise, name resolution might not work.
   - On Ubuntu, for example, you can run: `useradd -U kuma-dp`.
 
-1.  Specify the flags `--skip-resolv-conf` and `--redirect-dns` in the [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying/) iptables rules:
+1.  Specify the flags `--skip-resolv-conf` and `--redirect-dns` in the [transparent proxy](/docs/{{ page.release }}/networking/transparent-proxying/) iptables rules:
 
     ```shell
     kumactl install transparent-proxy \
@@ -32,7 +32,7 @@ Prerequisites:
               --redirect-dns
     ```
 
-1.  Start [the kuma-dp](/docs/{{ page.version }}/documentation/dps-and-data-model/#dataplane-entity)
+1.  Start [the kuma-dp](/docs/{{ page.release }}/documentation/dps-and-data-model/#dataplane-entity)
 
     ```shell
     kuma-dp run \
@@ -47,8 +47,8 @@ Prerequisites:
 
 This mode implements advanced networking techniques, so take special care for the following cases:
 
- * The mode can safely be used with the [Kuma CNI plugin](/docs/{{ page.version }}/networking/cni/).
- * In mixed IPv4 and IPv6 environments, it's recommended that you specify an [IPv6 virtual IP CIDR](/docs/{{ page.version }}/networking/ipv6/).
+ * The mode can safely be used with the [Kuma CNI plugin](/docs/{{ page.release }}/networking/cni/).
+ * In mixed IPv4 and IPv6 environments, it's recommended that you specify an [IPv6 virtual IP CIDR](/docs/{{ page.release }}/networking/ipv6/).
 
 ### How it works
 
@@ -104,7 +104,7 @@ helm install --namespace {{site.mesh_namespace}} \
 
 ### Universal
 
-1.  Configure [the transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying/) iptables rules:
+1.  Configure [the transparent proxy](/docs/{{ page.release }}/networking/transparent-proxying/) iptables rules:
 
     ```shell
     kumactl install transparent-proxy \
@@ -112,7 +112,7 @@ helm install --namespace {{site.mesh_namespace}} \
               --kuma-cp-ip <KUMA_CP_IP_ADDRESS>
     ```
 
-1.  Start [the kuma-dp](/docs/{{ page.version }}/documentation/dps-and-data-model/#dataplane-entity) with flag `--dns-enabled` set to `false`:
+1.  Start [the kuma-dp](/docs/{{ page.release }}/documentation/dps-and-data-model/#dataplane-entity) with flag `--dns-enabled` set to `false`:
 
     ```shell
     kuma-dp run \
@@ -145,7 +145,7 @@ The `port` field specifies the port where Kuma DNS accepts requests. Make sure t
 
 The `CIDR` field sets the IP range of virtual IPs. The default `240.0.0.0/4` is reserved for future IPv4 use IPv4 and is guaranteed to be non-routable. We strongly recommend to not change this value unless you have a specific need for a different IP range.
 
-The `serviceVipEnabled` field defines if there should be a vip generated for each `kuma.io/service`. This can be disabled for performance reason and [virtual-outbound](/docs/{{ page.version }}/policies/virtual-outbound) provides a more flexible way to do this.
+The `serviceVipEnabled` field defines if there should be a vip generated for each `kuma.io/service`. This can be disabled for performance reason and [virtual-outbound](/docs/{{ page.release }}/policies/virtual-outbound) provides a more flexible way to do this.
 
 ## How Kuma DNS works 
 
@@ -166,7 +166,7 @@ Kuma DNS is not a service discovery mechanism. Instead, it returns a single VIP 
 {% tip %}
 The following setup will only work when `serviceVipEnabled=true` which will default to false and then fully removed in future versions of Kuma.
 
-The preferred way to define hostnames is using [virtual-outbounds](/docs/{{ page.version }}/policies/virtual-outbound).
+The preferred way to define hostnames is using [virtual-outbounds](/docs/{{ page.release }}/policies/virtual-outbound).
 Virtual-outbounds also makes it possible to define dynamic hostnames using specific tags or to expose services on a different port.
 {% endtip %}
 

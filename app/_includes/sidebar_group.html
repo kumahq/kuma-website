@@ -8,5 +8,5 @@
   </button>
 
   {% assign children_depth = depth | plus: 1 %}
-  {% include sidebar_links.html nav_items=item.items depth=children_depth cssClass='sidebar-group-items hidden' version=include.version %}
+  {% include sidebar_links.html nav_items=item.items depth=children_depth cssClass='sidebar-group-items hidden' release=include.release %}
 </section>

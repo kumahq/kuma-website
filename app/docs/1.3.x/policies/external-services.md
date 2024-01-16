@@ -2,9 +2,9 @@
 title: External Service
 ---
 
-This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](/docs/{{ page.version }}/policies/mesh/#controlling-the-passthrough-mode). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
+This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](/docs/{{ page.release }}/policies/mesh/#controlling-the-passthrough-mode). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
 
-When you enable this policy, you should also [disable passthrough mode](/docs/{{ page.version }}/policies/mesh/#controlling-the-passthrough-mode) for the mesh and enable the [data plane proxy builtin DNS](/docs/{{ page.version }}/networking/dns/#data-plane-proxy-built-in-dns) name resolution.
+When you enable this policy, you should also [disable passthrough mode](/docs/{{ page.release }}/policies/mesh/#controlling-the-passthrough-mode) for the mesh and enable the [data plane proxy builtin DNS](/docs/{{ page.release }}/networking/dns/#data-plane-proxy-built-in-dns) name resolution.
 
 ## Usage
 
@@ -63,9 +63,9 @@ networking:
       secret: clientKey
 ```
 
-Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/documentation/http-api).
+Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/documentation/http-api).
 
-Universal mode is best combined with [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying/). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
+Universal mode is best combined with [transparent proxy](/docs/{{ page.release }}/networking/transparent-proxying/). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
 
 ```yaml
 type: Dataplane
@@ -90,10 +90,10 @@ Then `httpbin.org` is accessible at `127.0.0.1:10000`.
 
 ### Accessing the External Service
 
-Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying/)) can be done:
+Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming [transparent proxy](/docs/{{ page.release }}/networking/transparent-proxying/)) can be done:
 
 * With the `.mesh` naming of the service `curl httpbin.mesh`. With this approach, specify port 80.
-* With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](/docs/{{ page.version }}/networking/dns/#data-plane-proxy-built-in-dns) name resolution.
+* With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](/docs/{{ page.release }}/networking/dns/#data-plane-proxy-built-in-dns) name resolution.
 
 Although the external service is HTTPS, it's consumed as plain HTTP. This is possible because when `networking.tls.enabled` is set to `true` then Envoy is responsible for originating and verifying TLS.
 

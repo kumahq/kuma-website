@@ -104,5 +104,6 @@
   branch: release-2.9
 - edition: kuma
   version: preview
-  release: dev
+  release: 2.7.x
+  label: dev
   branch: master

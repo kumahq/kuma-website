@@ -36,7 +36,7 @@ The following table describes some common use cases and the deployment modes you
 
 ### kumactl
 
-The first step after you pick your deployment mode is to {% if_version lte:2.8.x %}[install `kumactl`](/docs/{{ page.version }}/production/install-kumactl/){% endif_version %}{% if_version gte:2.9.x %}[install `kumactl`](/docs/{{ page.version }}/introduction/install-kuma/){% endif_version %}. 
+The first step after you pick your deployment mode is to {% if_version lte:2.8.x %}[install `kumactl`](/docs/{{ page.release }}/production/install-kumactl/){% endif_version %}{% if_version gte:2.9.x %}[install `kumactl`](/docs/{{ page.release }}/introduction/install-kuma/){% endif_version %}. 
 `kumactl` is a CLI tool that you can use to access {{site.mesh_product_name}}. It can do the following:
 
 * Perform read-only operations on {{site.mesh_product_name}} resources on Kubernetes.
@@ -48,7 +48,7 @@ The `kumactl` binary is a client to the {{site.mesh_product_name}} HTTP API.
 
 Once `kumactl` is installed, you can use it to configure the control plane and deploy the data plane. The control plane (CP) is never on the execution path of the requests that the services exchange with each other. It’s used as a source of truth to dynamically configure the underlying data plane proxies that are deployed alongside every instance of every service that is part of the service mesh.
 
-You can either configure a [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone/) or {% if_version gte:2.6.x %}[single-zone](/docs/{{ page.version }}/production/cp-deployment/single-zone/){% endif_version %}{% if_version lte:2.5.x %}[standalone](/docs/{{ page.version }}/production/cp-deployment/stand-alone/){% endif_version %} control plane, depending on your organization's needs. You can deploy either a [Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/) or [Universal](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/) data plane.
+You can either configure a [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone/) or {% if_version gte:2.6.x %}[single-zone](/docs/{{ page.release }}/production/cp-deployment/single-zone/){% endif_version %}{% if_version lte:2.5.x %}[standalone](/docs/{{ page.release }}/production/cp-deployment/stand-alone/){% endif_version %} control plane, depending on your organization's needs. You can deploy either a [Kubernetes](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) or [Universal](/docs/{{ page.release }}/production/dp-config/dpp-on-universal/) data plane.
 
 ### Security
 
@@ -56,9 +56,9 @@ You can either configure a [multi-zone](/docs/{{ page.version }}/production/cp-d
 
 Here are a few of the main features:
 
-* [Secure the access to your {{site.mesh_product_name}} deployment](/docs/{{ page.version }}/production/secure-deployment/certificates/)
-* [Store sensitive data with secrets](/docs/{{ page.version }}/production/secure-deployment/secrets/)
-* [Manage access control to administrative actions executed on the {{site.mesh_product_name}} API Server](/docs/{{ page.version }}/production/secure-deployment/api-access-control/)
-* [Require data plane proxy authentication to obtain a configuration from the control plane](/docs/{{ page.version }}/production/secure-deployment/dp-auth/)
-* [Require zone proxy authentication to obtain a configuration from the control plane](/docs/{{ page.version }}/production/cp-deployment/zoneproxy-auth/)
-* [Configure data plane proxy membership constraints when joining a mesh](/docs/{{ page.version }}/production/secure-deployment/dp-membership/)
+* [Secure the access to your {{site.mesh_product_name}} deployment](/docs/{{ page.release }}/production/secure-deployment/certificates/)
+* [Store sensitive data with secrets](/docs/{{ page.release }}/production/secure-deployment/secrets/)
+* [Manage access control to administrative actions executed on the {{site.mesh_product_name}} API Server](/docs/{{ page.release }}/production/secure-deployment/api-access-control/)
+* [Require data plane proxy authentication to obtain a configuration from the control plane](/docs/{{ page.release }}/production/secure-deployment/dp-auth/)
+* [Require zone proxy authentication to obtain a configuration from the control plane](/docs/{{ page.release }}/production/cp-deployment/zoneproxy-auth/)
+* [Configure data plane proxy membership constraints when joining a mesh](/docs/{{ page.release }}/production/secure-deployment/dp-membership/)

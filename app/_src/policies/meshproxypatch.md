@@ -18,7 +18,7 @@ A `MeshProxyPatch` policy can modify:
 
 {% warning %}
 This policy uses a new policy matching algorithm.
-Do **not** combine with [Proxy Template](/docs/{{ page.version }}/policies/proxy-template).
+Do **not** combine with [Proxy Template](/docs/{{ page.release }}/policies/proxy-template).
 {% endwarning %}
 
 ## `targetRef` support matrix
@@ -76,7 +76,7 @@ Do **not** combine with [Proxy Template](/docs/{{ page.version }}/policies/proxy
 {% endif_version %}
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 
@@ -910,7 +910,7 @@ spec:
 Modifications that are applied on [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/http/http) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resource.
 Modifications that {{site.mesh_product_name}} applies on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#http-connection-manager-proto) in the Listener.
 
-HTTP Filter modifications can only be applied on services [configured as HTTP](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+HTTP Filter modifications can only be applied on services [configured as HTTP](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 
 Available operations:
 * `AddFirst` - add a new filter as a first filter in HTTP Connection Manager.
@@ -1303,7 +1303,7 @@ spec:
 
 Modifications that are applied on [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-virtualhost) resources.
 
-VirtualHost modifications can only be applied on services [configured as HTTP](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+VirtualHost modifications can only be applied on services [configured as HTTP](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 
 Available operations:
 * `Add` - add a new VirtualHost.

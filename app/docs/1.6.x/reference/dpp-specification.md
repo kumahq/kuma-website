@@ -2,7 +2,7 @@
 title: Data plane proxy specification
 ---
 
-The [`Dataplane`](/docs/{{ page.version }}/explore/dpp#dataplane-entity) entity includes the networking and naming configuration that a data-plane proxy (`kuma-dp`) must have attempting to connect to the control-plane (`kuma-cp`).
+The [`Dataplane`](/docs/{{ page.release }}/explore/dpp#dataplane-entity) entity includes the networking and naming configuration that a data-plane proxy (`kuma-dp`) must have attempting to connect to the control-plane (`kuma-cp`).
 
 This specification is useful mostly in Universal and for troubleshooting as on Kubernetes Kuma-cp will generate it for you.
 
@@ -20,13 +20,13 @@ The `Dataplane` entity includes a few sections:
         * `servicePort`: determines the port of the service deployed next to the dataplane. This can be omitted if service is exposed on the same port as the dataplane, but only listening on `serviceAddress` or `127.0.0.1` and differs from `networking.address`.
         * `address`: IP at which inbound listener will be exposed. By default it is inherited from `networking.address`
         * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `kuma.io/service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
-    * `gateway`: determines if the data-plane will operate in [Gateway](/docs/{{ page.version }}/explore/gateway) mode. It replaces the `inbound` object and enables Kuma to integrate with existing API gateways like [Kong](https://github.com/Kong/kong).
+    * `gateway`: determines if the data-plane will operate in [Gateway](/docs/{{ page.release }}/explore/gateway) mode. It replaces the `inbound` object and enables Kuma to integrate with existing API gateways like [Kong](https://github.com/Kong/kong).
         * `type`: Type of gateway this dataplane manages. The default is a DELEGATED gateway, which is an external proxy. The BUILTIN gateway type causes the dataplane proxy itself to be configured as a gateway.
         * `tags`: each data-plane can include any arbitrary number of tags, with the only requirement that `kuma.io/service` is **mandatory** and it identifies the name of service. You can include tags like `version`, `cloud`, `region`, and so on to give more attributes to the `Dataplane` (attributes that can later on be used to apply policies).
     * `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service:
         * `port`: the port that the service needs to consume locally to make a request to the external service
         * `address`: the IP at which outbound listener is exposed. By default it is `127.0.0.1` since it should only be consumed by the app deployed next to the dataplane.
-        * `tags`: traffic on `port:address` will be sent to each data-plane that matches those tags. You can put many tags here. However, it is recommended to keep the list short and then use [`TrafficRoute`](/docs/{{ page.version }}/policies/traffic-route) for dynamic management of the traffic.
+        * `tags`: traffic on `port:address` will be sent to each data-plane that matches those tags. You can put many tags here. However, it is recommended to keep the list short and then use [`TrafficRoute`](/docs/{{ page.release }}/policies/traffic-route) for dynamic management of the traffic.
     * `admin`: determines parameters related to Envoy Admin API
         * `port`: the port that Envoy Admin API will listen to
 

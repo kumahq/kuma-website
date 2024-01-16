@@ -30,5 +30,5 @@ kumactl install gateway kong [flags]
 
 ### SEE ALSO
 
-* [kumactl install gateway](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_install_gateway)	 - Install ingress gateway on Kubernetes
+* [kumactl install gateway](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_install_gateway)	 - Install ingress gateway on Kubernetes
 
