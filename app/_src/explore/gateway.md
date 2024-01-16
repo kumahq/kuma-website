@@ -522,23 +522,36 @@ for a `MeshGateway` with `crossMesh: true`.
 
 ### Policy support
 
-Not all {{site.mesh_product_name}} policies are applicable to {{site.mesh_product_name}} Gateway (see table below).
-{{site.mesh_product_name}} connection policies are selected by matching the source and destination expressions against sets of {{site.mesh_product_name}} tags.
-In the case of {{site.mesh_product_name}} Gateway the source selector is always matched against the Gateway listener tags, and the destination expression is matched against the backend destination tags configured on a Gateway Route.
+{{site.mesh_product_name}} may select different policies of the same type depending on the context. When a gateway route forwards traffic, it may weight the traffic across multiple services.
+When {{site.mesh_product_name}} configures an Envoy route on the gateway, there may be multiple candidate policies due to the traffic splitting across destination services.
+When {{site.mesh_product_name}} configures an Envoy cluster there is usually only a single candidate because clusters exist in a 1-1 relationship with services.
+This can result in situations where different policies (of the same type) are used for different parts of the Envoy configuration.
 
-When a Gateway Route forwards traffic, it may weight the traffic across multiple services.
-In this case, matching the destination for a connection policy becomes ambiguous.
+See the reference docs for each policy for more on builtin gateway support.
+
+#### `targetRef` policies
+
+For `targetRef` policies, see the reference docs for more information about
+builtin gateway support. {% if_version gte:2.6.x %}Select gateways with
+`targerRef.kind: MeshGateway` and potentially use `targetRef.tags` to narrow the policy to
+specific listeners.{% endif_version %}{% if_version lte:2.5.x %}Select gateways
+with `targetRef.kind: MeshService` via their `kuma.io/service` and
+potentially use `targetRef.tags` to narrow the policy to specific listeners.{%
+endif_version %}
+
+#### Legacy policies
+
+Not all {{site.mesh_product_name}} policies are applicable to {{site.mesh_product_name}} builtin gateways (see table below).
+{{site.mesh_product_name}} connection policies are selected by matching the source and destination expressions against sets of {{site.mesh_product_name}} tags.
+In the case of {{site.mesh_product_name}} gateway the source selector is always matched against the gateway listener tags, and the destination expression is matched against the backend destination tags configured on a gateway route.
+
 Although the traffic is proxied to more than one distinct service, {{site.mesh_product_name}} can only configure the route with one connection policy.
 In this case, {{site.mesh_product_name}} employs some simple heuristics to choose the policy.
 If all the backend destinations refer to the same service, {{site.mesh_product_name}} will choose the oldest connection policy that has a matching destination service.
 However, if the backend destinations refer to different services, {{site.mesh_product_name}} will prefer a connection policy with a wildcard destination (i.e. where the destination service is `*`).
 
-{{site.mesh_product_name}} may select different connection policies of the same type depending on the context.
-For example, when {{site.mesh_product_name}} configures an Envoy route, there may be multiple candidate policies (due to the traffic splitting across destination services), but when {{site.mesh_product_name}} configures an Envoy cluster there is usually only a single candidate (because clusters are defined to be a single service).
-This can result in situations where different policies (of the same type) are used for different parts of the Envoy configuration.
-
-| Policy                                                    | GatewaySupport |
-| --------------------------------------------------------- | -------------- |
+| Policy                                                                       | GatewaySupport |
+| ---------------------------------------------------------------------------- | -------------- |
 | [Circuit Breaker](/docs/{{ page.version }}/policies/circuit-breaker)         | Full           |
 | [External Services](/docs/{{ page.version }}/policies/external-services)     | Full           |
 | [Fault Injection](/docs/{{ page.version }}/policies/fault-injection)         | Full           |
@@ -547,9 +560,8 @@ This can result in situations where different policies (of the same type) are us
 | [Rate Limits](/docs/{{ page.version }}/policies/rate-limit)                  | Full           |
 | [Retries](/docs/{{ page.version }}/policies/retry)                           | Full           |
 | [Traffic Permissions](/docs/{{ page.version }}/policies/traffic-permissions) | Full           |
+| [Traffic Trace](/docs/{{ page.version }}/policies/traffic-trace)             | Full           |
 | [Traffic Routes](/docs/{{ page.version }}/policies/traffic-route)            | None           |
 | [Traffic Log](/docs/{{ page.version }}/policies/traffic-log)                 | Partial        |
 | [Timeouts](/docs/{{ page.version }}/policies/timeout)                        | Full           |
 | [VirtualOutbounds](/docs/{{ page.version }}/policies/virtual-outbound)       | None           |
-
-You can find in each policy's dedicated information with regard to builtin gateway support.
