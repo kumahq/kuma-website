@@ -16,7 +16,7 @@ The following table shows the equivalence between source/destination and `target
 | [Retry](/docs/{{ page.version }}/policies/retry)                            | [MeshRetry](/docs/{{ page.version }}/policies/meshretry)                         |
 | [Timeout](/docs/{{ page.version }}/policies/timeout)                        | [MeshTimeout](/docs/{{ page.version }}/policies/meshtimeout)                     |
 | [TrafficLog](/docs/{{ page.version }}/policies/traffic-log)                 | [MeshAccessLog](/docs/{{ page.version }}/policies/meshaccesslog)                 |
-| [TrafficMetrics](/docs/{{ page.version }}/policies/traffic-metrics)         | N/A                                                                              |
+| [TrafficMetrics](/docs/{{ page.version }}/policies/traffic-metrics)         | [MeshMetric](/docs/{{ page.version }}/policies/meshmetric)                       |
 | [TrafficPermissions](/docs/{{ page.version }}/policies/traffic-permissions) | [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission) |
 | [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route)             | [MeshHTTPRoute](/docs/{{ page.version }}/policies/meshhttproute)                 |
 | [TrafficTrace](/docs/{{ page.version }}/policies/traffic-trace)             | [MeshTrace](/docs/{{ page.version }}/policies/meshtrace)                         |
