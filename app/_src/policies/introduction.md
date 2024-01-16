@@ -16,11 +16,16 @@ The following table shows the equivalence between source/destination and `target
 | [Retry](/docs/{{ page.version }}/policies/retry)                            | [MeshRetry](/docs/{{ page.version }}/policies/meshretry)                         |
 | [Timeout](/docs/{{ page.version }}/policies/timeout)                        | [MeshTimeout](/docs/{{ page.version }}/policies/meshtimeout)                     |
 | [TrafficLog](/docs/{{ page.version }}/policies/traffic-log)                 | [MeshAccessLog](/docs/{{ page.version }}/policies/meshaccesslog)                 |
-| [TrafficMetrics](/docs/{{ page.version }}/policies/traffic-metrics)         | [MeshMetric](/docs/{{ page.version }}/policies/meshmetric)                       |
-| [TrafficPermissions](/docs/{{ page.version }}/policies/traffic-permissions) | [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission) |
-| [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route)             | [MeshHTTPRoute](/docs/{{ page.version }}/policies/meshhttproute)                 |
-| [TrafficTrace](/docs/{{ page.version }}/policies/traffic-trace)             | [MeshTrace](/docs/{{ page.version }}/policies/meshtrace)                         |
-| [ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template)           | [MeshProxyPatch](/docs/{{ page.version }}/policies/meshproxypatch)               |
+{% if_version lte:2.5.x %}
+| [TrafficMetrics](/docs/{{ page.version }}/policies/traffic-metrics)          | N/A                                                                              |
+{% endif_version %}
+{% if_version gte:2.6.x %}
+| [TrafficMetrics](/docs/{{ page.version }}/policies/traffic-metrics)          | [MeshMetric](/docs/{{ page.version }}/policies/meshmetric)                       |
+{% endif_version %}
+| [TrafficPermissions](/docs/{{ page.version }}/policies/traffic-permissions)  | [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission) |
+| [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route)              | [MeshHTTPRoute](/docs/{{ page.version }}/policies/meshhttproute)                 |
+| [TrafficTrace](/docs/{{ page.version }}/policies/traffic-trace)              | [MeshTrace](/docs/{{ page.version }}/policies/meshtrace)                         |
+| [ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template)            | [MeshProxyPatch](/docs/{{ page.version }}/policies/meshproxypatch)               |
 
 {% warning %}
 `targetRef` policies are still beta and it is therefore not supported to mix source/destination and targetRef policies

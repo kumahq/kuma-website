@@ -15,9 +15,17 @@ This page will describe how to configure different observability tools to work w
 
 First, remember to configure {{site.mesh_product_name}} appropriately for the tools in the observability stack:
 
+{% if_version lte:2.5.x %}
 - [Traffic metrics](/docs/{{ page.version }}/policies/traffic-metrics) for telemetry
 - [`TrafficTrace`](/docs/{{ page.version }}/policies/traffic-trace) for tracing
 - [`TrafficLog`](/docs/{{ page.version }}/policies/traffic-log) for logging
+{% endif_version %}
+
+{% if_version gte:2.6.x %}
+- [MeshMetrics](/docs/{{ page.version }}/policies/meshmetric) for telemetry
+- [`TrafficTrace`](/docs/{{ page.version }}/policies/traffic-trace) for tracing
+- [`TrafficLog`](/docs/{{ page.version }}/policies/traffic-log) for logging
+{% endif_version %}
 
 On Kubernetes, the stack can be installed with:
 
