@@ -19,7 +19,6 @@ For example, you might need to override the default metrics port if it's already
 
 To collect metrics from {{site.mesh_product_name}}, you need to expose metrics from proxies and applications.
 
-
 {% tip %}
 In the rest of this page we assume you have already configured your observability tools to work with {{site.mesh_product_name}}.
 If you haven't already read the [observability docs](/docs/{{ page.version }}/explore/observability).
@@ -42,7 +41,7 @@ There are three main sections of the configuration: `sidecar`, `applications`, `
 The first two define how to scrape parts of the mesh (sidecar and underlying applications), the third one defines what to do with the data (in case of Prometheus instructs to scrape specific address, in case of OpenTelemetry defines where to push data).
 
 {% tip %}
-In contrast to [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics) all configuration is dynamic and no restarts of the DPPs are needed.
+In contrast to [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics) all configuration is dynamic and no restarts of the Data Plane Proxies are needed.
 You can define configuration refresh interval by using `KUMA_DATAPLANE_RUNTIME_DYNAMIC_CONFIGURATION_REFRESH_INTERVAL` env var or `{{site.set_flag_values_prefix}}dataplaneRuntime.dynamicConfiguration.refreshInterval` Helm value.
 {% endtip %}
 
@@ -74,14 +73,12 @@ Here are reasons where you'd want to use this feature:
 - Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
 - If you disable [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS and Prometheus is outside the mesh this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
 
-[//]: # (make sure the sentence above is correct since it's no longer possible to )
-
 Example section of the configuration:
 
 ```yaml
     applications:
       - path: "/metrics/prometheus"
-        address: # optional custom address if the underlying application listens on a different address than the DPP
+        address: # optional custom address if the underlying application listens on a different address than the Data Plane Proxy
         port: 8888
 ```
 
@@ -122,8 +119,8 @@ In addition to the `MeshMetric` configuration, `kuma-sidecar` requires a provide
 
 When the certificate and key are available within the container, `kuma-sidecar` needs the paths to provided files as the following environment variables:
 
-* KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH
-* KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH
+* `KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH`
+* `KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH`
 
 It's possible to use a [`ContainerPatch`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration) to add variables to `kuma-sidecar`:
 
@@ -154,8 +151,8 @@ spec:
 
 Please upload the certificate and the key to the machine, and then define the following environment variables with the correct paths:
 
-	* KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH
-	* KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH
+	* `KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH`
+	* `KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH`
 
 {% endtab %}
 {% endtabs %}
@@ -166,7 +163,7 @@ We no longer support activeMTLSBackend, if you need to encrypt and authorize the
 
 #### Running multiple prometheus instances
 
-If you need to run multiple instances of Prometheus and want to target different set of DPPs you can do this by using Client ID setting on both `MeshMetric` (`clientId`) and [Prometheus configuration](https://github.com/prometheus/prometheus/pull/13278/files#diff-17f1012e0c2fbd9bcd8dff3c23b18ff4b6676eef3beca6f8a3e72e6a36633334R2233) (`client_id`).
+If you need to run multiple instances of Prometheus and want to target different set of Data Plane Proxies you can do this by using Client ID setting on both `MeshMetric` (`clientId`) and [Prometheus configuration](https://github.com/prometheus/prometheus/pull/13278/files#diff-17f1012e0c2fbd9bcd8dff3c23b18ff4b6676eef3beca6f8a3e72e6a36633334R2233) (`client_id`).
 
 {% warning %}
 To use `clientId` setting you need to be running at least Prometheus `2.49.0`.
@@ -176,7 +173,7 @@ Example configurations differentiated by `prometheus` tag:
 
 {% policy_yaml first %}
 ```yaml
-type: MeshMetrics
+type: MeshMetric
 name: prometheus-one
 mesh: default
 spec:
@@ -195,7 +192,7 @@ spec:
 
 {% policy_yaml second %}
 ```yaml
-type: MeshMetrics
+type: MeshMetric
 name: prometheus-two
 mesh: default
 spec:
@@ -240,7 +237,7 @@ scrape_configs:
 
 The first policy defines a default `MeshMetric` policy for the `default` mesh.
 The second policy creates an override for workloads tagged with `framework: example-web-framework`.
-That web framework exposes metrics under `/metrics/prometheus` and port 8888.
+That web framework exposes metrics under `/metrics/prometheus` and port `8888`.
 
 {% policy_yaml customone %}
 ```yaml
