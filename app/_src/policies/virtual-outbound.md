@@ -61,7 +61,7 @@ spec:
       - name: service
         tagKey: "kuma.io/service"
       - name: port
-        tagKey: "k8s.kuma.io/service-port
+        tagKey: "k8s.kuma.io/service-port"
       - name: v
         tagKey: version
 ```
