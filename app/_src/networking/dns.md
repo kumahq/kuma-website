@@ -58,7 +58,7 @@ This mode implements advanced networking techniques, so take special care for th
 
 ### Overriding the CoreDNS configuration
 
-In some cases it might be useful for you to configure the default CoreDNS.
+In some cases it might be useful for you to configure the default CoreDNS configuration.
 
 {% if_version gte:2.6.x %}
 {{site.mesh_product_name}} supports overriding the CoreDNS configuration from control plane for both Kubernetes and Universal installations; for Universal installations, {{site.mesh_product_name}} also supports overriding from data planes. When overriding from control plane, all the data planes in the mesh will use the overridden DNS configuration.
@@ -69,7 +69,7 @@ In some cases it might be useful for you to configure the default CoreDNS.
 {% if_version gte:2.6.x %}
 Only overriding from control plane is supported.
 
-To override, you can configure the bootstrap server in `kuma-cp`:
+To override, you can [configure](/docs/{{ page.version }}/reference/kuma-cp/) the bootstrap server in `kuma-cp`:
 
 ```yaml
 bootstrapServer:
@@ -121,9 +121,15 @@ At this moment, there is no builtin option to override CoreDNS configuration.
 {% endif_version %}
 {% endtab %}
 {% tab override Universal %}
+{% if_version lte:2.5.x %}
+{{site.mesh_product_name}} supports overriding DNS from data planes.
+{% endif_version %}
+{% if_version gte:2.6.x %}
 Both overriding from the control plane and data planes are supported.
+{% endif_version %}
 
-To override DNS configuration from the control plane, you can configure the bootstrap server in `kuma-cp`:
+{% if_version gte:2.6.x %}
+To override DNS configuration from the control plane, you can [configure](/docs/{{ page.version }}/reference/kuma-cp/) the bootstrap server in `kuma-cp`:
 
 ```yaml
 bootstrapServer:
@@ -131,19 +137,27 @@ bootstrapServer:
 ```
 
 Please make sure the file path do exist on disk.
+{% endif_version %}
 
-To override DNS configuration from data planes, use `--dns-coredns-config-template-path` as an argument to `kuma-dp`. When the data plane is connecting to a control plane that also has DNS configuration overridden, overridden from data plane will take precedence.
+To override DNS configuration from data planes, use `--dns-coredns-config-template-path` as an argument to `kuma-dp`. {% if_version gte:2.6.x %}When the data plane is connecting to a control plane that also has DNS configuration overridden, overridden from data plane will take precedence.{% endif_version %}
 
 {% endtab %}
 {% endtabs %}
 
-This file used to override builtin DNS configuration is a [CoreDNS configuration](https://coredns.io/manual/toc/) that is processed as a go-template.
-If you edit this configuration, you should base on the existing and default configuration, which looks like the following:
+Once supported, you'll need to prepare a DNS configuration file to be used for overriding. This file is a [CoreDNS configuration](https://coredns.io/manual/toc/) that is processed as a go-template.
+
+Editing should base on [the existing and default configuration](https://github.com/kumahq/kuma/blob/master/app/kuma-dp/pkg/dataplane/dnsserver/Corefile). For example, you may use the following configuration to make the DNS server not respond errors to IPv6 queries when your cluster has IPv6 disabled:
 
 {% raw %}
 
 ```
 .:{{ .CoreDNSPort }} {
+    # add a plugin to return NOERROR for IPv6 queries
+    template IN AAAA . {
+       rcode NOERROR
+       fallthrough
+    }
+
     forward . 127.0.0.1:{{ .EnvoyDNSPort }}
     # We want all requests to be sent to the Envoy DNS Filter, unsuccessful responses should be forwarded to the original DNS server.
     # For example: requests other than A, AAAA and SRV will return NOTIMP when hitting the envoy filter and should be sent to the original DNS server.
@@ -164,7 +178,7 @@ If you edit this configuration, you should base on the existing and default conf
 
 ## Configuration
 
-You can configure {{site.mesh_product_name}} DNS in `kuma-cp`:
+You can [configure](/docs/{{ page.version }}/reference/kuma-cp/) {{site.mesh_product_name}} DNS in `kuma-cp`:
 
 ```yaml
 dnsServer:
