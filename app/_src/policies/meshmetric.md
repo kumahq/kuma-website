@@ -244,19 +244,20 @@ That web framework exposes metrics under `/metrics/prometheus` and port `8888`.
 type: MeshMetric
 mesh: default
 name: metrics-default
-targetRef:
-  kind: Mesh
-default:
-  sidecar:
-    usedOnly: true
-  backends:
-    - type: Prometheus
-      prometheus:
-        clientId: main-backend 
-        port: 5670
-        path: /metrics
-        tls:
-          mode: "ProvidedTLS"
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    sidecar:
+      usedOnly: true
+    backends:
+      - type: Prometheus
+        prometheus:
+          clientId: main-backend 
+          port: 5670
+          path: /metrics
+          tls:
+            mode: "ProvidedTLS"
 ```
 {% endpolicy_yaml %}
 
@@ -265,14 +266,15 @@ default:
 type: MeshMetric
 mesh: default
 name: metrics-for-mesh-service
-targetRef:
-  kind: MeshSubset
-  tags:
-    framework: "example-web-framework"
-default:
-  applications:
-    - path: "/metrics/prometheus"
-      port: 8888
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      framework: "example-web-framework"
+  default:
+    applications:
+      - path: "/metrics/prometheus"
+        port: 8888
 ```
 {% endpolicy_yaml %}
 
