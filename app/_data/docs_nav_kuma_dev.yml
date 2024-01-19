@@ -490,6 +490,15 @@ items:
             url: "/policies/meshhttproute/#examples"
           - text: Merging
             url: "/policies/meshhttproute/#merging"
+      - text: MeshMetric
+        url: /policies/meshmetric/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshmetric/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshmetric/#configuration"
+          - text: Examples
+            url: "/policies/meshmetric/#examples"
       - text: MeshProxyPatch
         url: /policies/meshproxypatch/
         items:
