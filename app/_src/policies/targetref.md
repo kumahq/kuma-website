@@ -192,19 +192,48 @@ Not every policy supports `to` and `from` levels. Additionally, not every resour
 appear at every supported level. The specified top level resource can also affect which
 resources can appear in `to` or `from`.
 
-To help users, each policy documentation includes a table indicating which `targetRef` kinds is supported at each level.
+To help users, each policy documentation includes tables indicating which `targetRef` kinds is supported at each level.
+For each type of proxy, sidecar or builtin gateway, the table indicates for each
+`targetRef` level, which kinds are supported.
 
-This table looks like:
+The tables look like:
 
-| `targetRef.kind`    | top level | to  | from |
-| ------------------- | --------- | --- | ---- |
-| `Mesh`              | ✅        | ✅  | ❌   |
-| `MeshSubset`        | ✅        | ❌  | ❌   |
-| `MeshService`       | ✅        | ❌  | ✅   |
-| `MeshServiceSubset` | ✅        | ❌  | ❌   |
-| `MeshGateway`       | ✅        | ❌  | ❌   |
+{% tabs targetRef useUrlFragment=false %}
+{% tab targetRef Sidecar %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
+| `from[].targetRef.kind` | `Mesh`                                                   |
+{% endtab %}
 
-Here it indicates that the top level can use any targetRef kinds. But in `targetRef.to` only kind `Mesh` can be used and in `targetRef.from` only kind `MeshService`.
+{% tab targetRef Builtin Gateway %}
+| `targetRef`           | Allowed kinds                                    |
+| --------------------- | ------------------------------------------------ |
+| `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
+| `to[].targetRef.kind` | `Mesh`                                           |
+{% endtab %}
+{% endtabs %}
+
+#### Sidecar
+
+We see that we can select sidecar proxies via any of the kinds that select
+sidecars and we can set both `to` and `from`.
+
+We can apply policy to:
+* all traffic originating at the sidecar _to_ anywhere (`to[].targetRef.kind: Mesh`)
+* traffic _to_ a specific `kuma.io/service` (`to[].targetRef.kind: MeshService`)
+
+We can also apply policy to:
+* traffic terminating at the sidecar _from_ anywhere in the mesh (`from[].targetRef.kind: Mesh`)
+
+#### Builtin gateways
+
+We see that we can select gateway proxies via any of the kinds that select
+gateways as well as specific gateway listeners and we can set only `to`.
+
+We can only apply policy to:
+* all traffic originating at the gateway _to_ anywhere (`to[].targetRef.kind: Mesh`)
 
 ### Merging configuration
 
