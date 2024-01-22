@@ -73,9 +73,6 @@ features:
       - title: Service Map
         url: /docs/latest/explore/observability/#datasource-and-service-map
         icon: /assets/images/icons/policies/service-map@2x.png
-      - title: Mesh Metric
-        url: /docs/latest/policies/meshmetric/
-        icon: /assets/images/icons/policies/icon-dataplane-metrics@2x.png
       - title: Mesh Trace
         url: /docs/latest/policies/meshtrace/
         icon: /assets/images/icons/policies/icon-traffic-trace@2x.png
@@ -85,7 +82,6 @@ features:
       - title: Open telemetry support 
         url: /docs/latest/explore/observability/
         icon: /assets/images/icons/policies/icon-opentelemetry.png
-
   - section: advanced
     sectionTitle: Advanced
     sectionSubTitle: Envoy configuration and Miscellaneous
