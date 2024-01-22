@@ -41,21 +41,18 @@ target proxies are healthy or not.
 {% if_version gte:2.6.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
-| `targetRef.kind`    | top level | to  | from |
-| ------------------- | --------- | --- | ---- |
-| `Mesh`              | ✅        | ✅  | ✅   |
-| `MeshSubset`        | ✅        | ❌  | ❌   |
-| `MeshService`       | ✅        | ✅  | ❌   |
-| `MeshServiceSubset` | ✅        | ❌  | ❌   |
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
+| `from[].targetRef.kind` | `Mesh`                                                   |
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
-| `targetRef.kind`                    | top level | to  |
-| ----------------------------------- | --------- | --- |
-| `Mesh`                              | ✅        | ✅  |
-| `MeshGateway`                       | ✅        | ❌  |
-| `MeshGateway` with listener `.tags` | ✅        | ❌  |
-| `MeshService`                       | ✅        | ✅  |
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
 {% endtab %}
 {% endtabs %}
 
