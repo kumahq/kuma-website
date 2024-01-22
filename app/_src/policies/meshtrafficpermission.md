@@ -9,12 +9,18 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.version }}/policies/tr
 
 ## TargetRef support matrix
 
-| TargetRef type    | top level | to  | from |
-| ----------------- | --------- | --- | ---- |
-| Mesh              | ✅        | ❌  | ✅   |
-| MeshSubset        | ✅        | ❌  | ✅   |
-| MeshService       | ✅        | ❌  | ✅   |
-| MeshServiceSubset | ✅        | ❌  | ✅   |
+{% tabs targetRef useUrlFragment=false %}
+{% tab targetRef Sidecar %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+{% endtab %}
+{% tab targetRef Builtin Gateway %}
+`MeshTrafficPermission` isn't supported on builtin gateways. If applied via
+`spec.targetRef.kind: MeshService`, it has no effect.
+{% endtab %}
+{% endtabs %}
 
 If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetref).
 
