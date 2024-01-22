@@ -1,6 +1,11 @@
 ---
 title: Rate Limit
 ---
+{% if_version gte:2.6.x %}
+{% warning %}
+New to Kuma? Don't use this policy, check [`MeshRateLimit`](/docs/{{ page.version }}/policies/meshratelimit) instead.
+{% endwarning %}
+{% endif_version %}
 
 {% tip %}
 Rate Limit is an inbound policy. Dataplanes whose configuration is modified are in the `destinations` matcher.
