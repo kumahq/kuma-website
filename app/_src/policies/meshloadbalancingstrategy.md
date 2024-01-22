@@ -6,9 +6,8 @@ title: MeshLoadBalancingStrategy
 This policy uses new policy matching algorithm.
 {% endwarning %}
 
-This policy enables {{site.mesh_product_name}} to configure the load balancing strategy 
-for traffic between services in the mesh. Also, [localityAwareLoadBalancing](/docs/{{ page.version }}/policies/locality-aware) 
-flag is going to be replaced by the current policy and will be deprecated in the future releases.  
+This policy enables {{site.mesh_product_name}} to configure the load balancing strategy for traffic between services in the mesh.
+When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.version }}/policies/locality-aware) flag is ignored.
 
 ## TargetRef support matrix
 

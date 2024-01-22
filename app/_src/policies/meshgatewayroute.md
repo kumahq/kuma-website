@@ -1,6 +1,11 @@
 ---
 title: MeshGatewayRoute
 ---
+{% if_version gte:2.6.x %}
+{% warning %}
+New to Kuma? Don't use this, check the [`MeshHTTPRoute` policy](/docs/{{ page.version }}/policies/meshhttproute) or [`MeshTCPRoute` policy](/docs/{{ page.version }}/meshtcproute) instead.
+{% endwarning %}
+{% endif_version %}
 
 `MeshGatewayRoute` is a policy used to configure [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin).
 It is used in combination with [`MeshGateway`](/docs/{{ page.version }}/policies/meshgateway).

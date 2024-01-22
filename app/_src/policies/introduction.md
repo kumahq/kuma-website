@@ -23,6 +23,13 @@ The following table shows the equivalence between source/destination and `target
 | [ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template)           | [MeshProxyPatch](/docs/{{ page.version }}/policies/meshproxypatch)                                                                                                                   |
 
 {% warning %}
+{% if_version lte:2.5.x %}
 `targetRef` policies are still beta and it is therefore not supported to mix source/destination and targetRef policies
 together.
+{% endif_version %}
+{% if_version gte:2.6.x %}
+If you are new to Kuma you should only need to use `targetRef` policies.
+If you already use source/destination policies you can keep using them. Future versions of Kuma will provide a migration path.
+You can mix targetRef and source/destination policies as long as they are of different types. For example: You can use `MeshTrafficPermission` with `FaultInjection` but you can't use `MeshTrafficPermission` with `TrafficPermission`.
+{% endif_version %}
 {% endwarning %}
