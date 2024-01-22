@@ -3,7 +3,7 @@ title: MeshGatewayRoute
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this, check the [`MeshHTTPRoute` policy](/docs/{{ page.version }}/policies/meshhttproute) or [`MeshTCPRoute` policy](/docs/{{ page.version }}/meshtcproute) instead.
+New to Kuma? Don't use this, check the [`MeshHTTPRoute` policy](/docs/{{ page.version }}/policies/meshhttproute) or [`MeshTCPRoute` policy](/docs/{{ page.version }}/policies/meshtcproute) instead.
 {% endwarning %}
 {% endif_version %}
 
