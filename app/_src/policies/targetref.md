@@ -192,6 +192,7 @@ Not every policy supports `to` and `from` levels. Additionally, not every resour
 appear at every supported level. The specified top level resource can also affect which
 resources can appear in `to` or `from`.
 
+{% if_version gte:2.6.x %}
 To help users, each policy documentation includes tables indicating which `targetRef` kinds is supported at each level.
 For each type of proxy, sidecar or builtin gateway, the table indicates for each
 `targetRef` level, which kinds are supported.
@@ -234,6 +235,25 @@ gateways as well as specific gateway listeners and we can set only `to`.
 
 We can only apply policy to:
 * all traffic originating at the gateway _to_ anywhere (`to[].targetRef.kind: Mesh`)
+{% endif_version %}
+{% if_version lte:2.5.x %}
+To help users, each policy documentation includes a table indicating which
+`targetRef` kinds is supported at each level.
+
+This table looks like:
+
+| `targetRef.kind`    | top level | to  | from |
+| ------------------- | --------- | --- | ---- |
+| `Mesh`              | ✅        | ✅  | ❌   |
+| `MeshSubset`        | ✅        | ❌  | ❌   |
+| `MeshService`       | ✅        | ❌  | ✅   |
+| `MeshServiceSubset` | ✅        | ❌  | ❌   |
+| `MeshGateway`       | ✅        | ❌  | ❌   |
+
+Here it indicates that the top level can use any targetRef kinds. But in
+`targetRef.to` only kind `Mesh` can be used and in `targetRef.from`
+only kind `MeshService`.
+{% endif_version %}
 
 ### Merging configuration
 
