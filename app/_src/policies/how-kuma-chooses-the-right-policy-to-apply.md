@@ -2,10 +2,17 @@
 title: How Kuma chooses the right policy to apply
 ---
 
+{% if_version gte:2.6.x %}
+{% warning %}
+New to Kuma? You don't need this, check [`TargetRef` policies](/docs/{{ page.version }}/policies/introduction) instead.
+{% endwarning %}
+{% endif_version %}
+{% if_version lte:2.5.x %}
 {% tip %}
 This only applies to source/destination policies. 
 If you are unfamiliar with these, checkout [introduction to policies](/docs/{{ page.version }}/policies/introduction).
 {% endtip %}
+{% endif_version %}
 
 At any single moment, there might be multiple policies (of the same type) that match a connection between `sources` and `destinations` `Dataplane`s.
 
