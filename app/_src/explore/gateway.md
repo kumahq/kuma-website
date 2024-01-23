@@ -230,7 +230,7 @@ To configure your gateway {{site.mesh_product_name}} has these resources:
 ### Usage
 
 You can create and configure a gateway that listens for traffic from outside of your mesh
-and forwards it to the [demo app frontend](https://kuma.io/docs/dev/quickstart/kubernetes/).
+and forwards it to the [demo app frontend](/docs/dev/quickstart/kubernetes{% if_version gte:2.6.x %}-demo{% endif_version %}/).
 
 {% tabs setup useUrlFragment=false %}
 {% tab setup Kubernetes %}

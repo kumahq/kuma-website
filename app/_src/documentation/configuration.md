@@ -36,7 +36,7 @@ controlPlane:
 and then specify it in the helm install command:
 
 ```sh
-helm install -f values.yaml {{ site.kuma_install_name }} {{ site.mesh_helm_repo }}
+helm install -f values.yaml {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
 ```
 
 If you have a lot of configuration you can just write them all in a YAML file and use:

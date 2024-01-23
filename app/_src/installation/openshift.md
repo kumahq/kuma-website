@@ -171,7 +171,7 @@ If namespace is not configured properly, we will see following error on the `Dep
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on OpenShift 🚀.
 
-In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/quickstart/kubernetes/) deployments.
+In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/quickstart/kubernetes{% if_version gte:2.6.x %}-demo{% endif_version %}/) deployments.
 
 {% tip %}
 Before running {{site.mesh_product_name}} Demo in the Quickstart, remember to run the following command

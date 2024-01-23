@@ -142,4 +142,4 @@ You will notice that {{site.mesh_product_name}} automatically creates a {% if_ve
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on Docker 🚀.
 
-In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Universal](/docs/{{ page.version }}/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes/) as well.
+In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Universal](/docs/{{ page.version }}/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes{% if_version gte:2.6.x %}-demo{% endif_version %}/) as well.

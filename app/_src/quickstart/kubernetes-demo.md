@@ -31,7 +31,7 @@ Install Kuma control plane with Helm by executing:
 ```sh
 helm repo add kuma https://kumahq.github.io/charts
 helm repo update
-helm install --create-namespace --namespace {{site.mesh_namespace}} {{ site.kuma_install_name }} {{ site.mesh_helm_repo }}
+helm install --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
 ```
 
 ## Deploy demo application
