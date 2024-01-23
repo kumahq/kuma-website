@@ -41,13 +41,13 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} {{ site.kuma
     kubectl apply -f https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.yaml
     ```
 
-2.  Port forward the service to the namespace on port 5000:
+2.  Port-forward the service to the namespace on port 5000:
 
     ```sh
     kubectl port-forward svc/demo-app -n kuma-demo 5000:5000
     ```
 
-3.  In a browser, go to `127.0.0.1:5000` and increment the counter.
+3.  In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter.
 
 The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace.
 
@@ -66,7 +66,7 @@ This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.version
 
 You can view the sidecar proxies that are connected to the {{site.mesh_product_name}} control plane.
 
-{{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default, the GUI listens on the API port and defaults to `:5681/gui`.
+{{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default, the GUI listens on the API port which defaults to `5681`.
 
 To access {{site.mesh_product_name}} we need to first port-forward the API service with:
 
@@ -74,7 +74,7 @@ To access {{site.mesh_product_name}} we need to first port-forward the API servi
 kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
 ```
 
-And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
+And then navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the GUI.
 
 ## Introduce zero-trust security
 
