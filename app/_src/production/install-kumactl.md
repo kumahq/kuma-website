@@ -57,7 +57,7 @@ and extract the archive with `tar -xvzf {{ site.mesh_helm_install_name }}-{{ pag
 Add the `kumactl` executable to your path:
 ```
 cd {{site.mesh_install_archive_name }}-{{ page.version_data.version }}/bin
-export PATH=$(pwd):$PATH
+PATH=$(pwd):$PATH
 ```
 
 ## Next steps

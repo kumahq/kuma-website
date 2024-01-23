@@ -29,6 +29,34 @@ The team is moving diagrams to [Google slides](https://docs.google.com/presentat
 Instructions are in the first slide.
 Ask a maintainer to get write access.
 
+### Mermaid.js diagrams
+
+You can use Mermaid.js diagrams in our documentation. It can be used with the following syntax: 
+```
+{% mermaid %}
+{% endmermaid %}
+```
+
+For example, if you wanted to make a flowchart, you can use the following syntax:
+```
+{% mermaid %}
+flowchart TD
+    A[Christmas] -->|Get money| B(Go shopping)
+    B --> C{Let me think}
+    C -->|One| D[Laptop]
+    C -->|Two| E[iPhone]
+    C -->|Three| F[fa:fa-car Car]
+{% endmermaid %}
+```
+
+This flowchart would render like the following in the docs:
+
+![Mermaid flowchart example](/assets/images/diagrams/mermaid-example.png)
+
+You can use [https://mermaid.live/edit](https://mermaid.live/edit) to generate diagrams and see the rendered output before adding it to docs.
+
+**Note:** Currently, Mermaid isn't supported in navtabs.
+
 ## Cutting a new release
 
 To cut the dev release, create a duplicate of the [docs_nav_kuma_dev.yml](app/_data/docs_nav_kuma_dev.yml) file and then rename one of the files to "docs_nav_kuma_[version].yml". Update the `release: dev` metadata in the new release file with the release version.

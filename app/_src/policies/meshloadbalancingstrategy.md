@@ -6,30 +6,11 @@ title: MeshLoadBalancingStrategy
 This policy uses new policy matching algorithm.
 {% endwarning %}
 
-This policy enables {{site.mesh_product_name}} to configure the load balancing strategy for traffic between services in the mesh.
-When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.version }}/policies/locality-aware) flag is ignored.
+This policy enables {{site.mesh_product_name}} to configure the load balancing strategy 
+for traffic between services in the mesh. Also, [localityAwareLoadBalancing](/docs/{{ page.version }}/policies/locality-aware) 
+flag is going to be replaced by the current policy and will be deprecated in the future releases.  
 
 ## TargetRef support matrix
-
-{% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
-| `targetRef`           | Allowed kinds                                            |
-| --------------------- | -------------------------------------------------------- |
-| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-| `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
-{% endtab %}
-
-{% tab targetRef Builtin Gateway %}
-| `targetRef`             | Allowed kinds                                            |
-| ----------------------- | -------------------------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
-| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
-{% endtab %}
-{% endtabs %}
-
-{% endif_version %}
-{% if_version lte:2.5.x %}
 
 | TargetRef type    | top level | to  | from |
 | ----------------- | --------- | --- | ---- |
@@ -37,8 +18,6 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.version }
 | MeshSubset        | ✅        | ❌  | ❌   |
 | MeshService       | ✅        | ✅  | ❌   |
 | MeshServiceSubset | ✅        | ❌  | ❌   |
-
-{% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
@@ -97,7 +76,7 @@ Advanced locality-aware load balancing provides a powerful means of defining how
         - **`AnyExcept`** - traffic will be load balanced to every available zone except those specified in zones list.
         - **`None`** - traffic will not be load balanced to any zone.
       - **`zones`** - list of zone names
-  - **`failoverThreshold.percentage`** - (optional) defines the percentage of live destination dataplane proxies below which load balancing to the next priority starts. .e.g: If you have this set to 70 and you have 10 dataplane proxies it will start load balancing to the next priority when the number of healthy destinations falls under 7. The value to be in (0.0 - 100.0] range (Default 50). If the value is a double number, put it in quotes.
+  - **`failoverThreshold.percentage`** - (optional) defines the percentage of live destination dataplane proxies below which load balancing to the next priority starts. Has to be in (0.0 - 100.0] range. If the value is a double number, put it in quotes.
 
 #### Zone Egress support
 

@@ -22,20 +22,8 @@ egress.enabled=true
 
 {% endtab %}
 {% tab usage Universal %}
-
-{% tip %}
-When running the standalone control plane in Universal mode, a database must be used to persist state for production deployments.
-Ensure that migrations have been run against the database prior to running the standalone control plane.
-{% endtip %}
-
 This is the standard installation method. 
 ```sh
-KUMA_STORE_TYPE=postgres \
-KUMA_STORE_POSTGRES_HOST=<postgres-host> \
-KUMA_STORE_POSTGRES_PORT=<postgres-port> \
-KUMA_STORE_POSTGRES_USER=<postgres-user> \
-KUMA_STORE_POSTGRES_PASSWORD=<postgres-password> \
-KUMA_STORE_POSTGRES_DB_NAME=<postgres-db-name> \
 kuma-cp run
 ```
 

@@ -9,23 +9,28 @@ A policy is a set of configuration that will be used to generate the proxy confi
 
 ## What do `targetRef` policies look like?
 
-There are two parts to a policy:
+There are two parts in a policy:
 
 1. The metadata
 2. The spec
 
 ### Metadata
 
-Metadata identifies the policies by its `name`, `type` and what `mesh` it's part of:
+Metadata identifies the policies by its `name`, `type` and what `mesh` it is part of.
+
+This is how it looks:
 
 {% tabs metadata %}
 {% tab metadata Universal %}
+
+A policy metadata looks like:
 
 ```yaml
 type: ExamplePolicy
 name: my-policy-name
 mesh: default
-spec: ... # spec data specific to the policy kind
+spec:
+  ... # spec data specific to the policy kind
 ```
 
 {% endtab %}
@@ -33,13 +38,16 @@ spec: ... # spec data specific to the policy kind
 
 In Kubernetes all our policies are implemented as [custom resource definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) in the group `kuma.io/v1alpha1`.
 
+A policy metadata looks like:
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ExamplePolicy
 metadata:
   name: my-policy-name
-  namespace: {{ site.mesh_namespace }}
-spec: ... # spec data specific to the policy kind
+  namespace: {{site.mesh_namespace}}
+spec:
+  ... # spec data specific to the policy kind
 ```
 
 By default the policy is created in the `default` mesh.
@@ -52,10 +60,11 @@ apiVersion: kuma.io/v1alpha1
 kind: ExamplePolicy
 metadata:
   name: my-policy-name
-  namespace: {{ site.mesh_namespace }}
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: "my-mesh"
-spec: ... # spec data specific to the policy kind
+spec:
+  ... # spec data specific to the policy kind
 ```
 
 {% warning %}
@@ -67,7 +76,7 @@ Policies are namespaced scope and currently the namespace must be the one the co
 
 ### Spec
 
-The `spec` field contains the actual configuration of the policy.
+The spec contains the actual configuration of the policy.
 
 All specs have a **top level `targetRef`** which identifies which proxies this policy applies to.
 In particular, it defines which proxies have their Envoy configuration modified.
@@ -129,10 +138,10 @@ It looks like:
 
 ```yaml
 targetRef:
-  kind: Mesh | MeshSubset | MeshService | MeshServiceSubset | MeshGateway
-  name: "my-name" # For kinds MeshService, MeshServiceSubset and MeshGateway a name has to be defined
+  kind: Mesh | MeshSubset | MeshService | MeshServiceSubset | MeshGatewayRoute
+  name: "my-name" # For kinds MeshService, MeshServiceSubset and MeshGatewayRoute a name has to be defined
   tags:
-    key: value # For kinds MeshServiceSubset, MeshSubset and MeshGateway a list of matching tags can be used
+    key: value # For kinds MeshServiceSubset and MeshSubset a list of matching tags can be used
 ```
 
 Here's an explanation of each kinds and their scope:
@@ -141,9 +150,7 @@ Here's an explanation of each kinds and their scope:
 - MeshSubset: same as Mesh but filters only proxies who have matching `targetRef.tags`
 - MeshService: all proxies with a tag `kuma.io/service` equal to `targetRef.name`
 - MeshServiceSubset: same as `MeshService` but further refine to proxies that have matching `targetRef.tags`
-- MeshGateway: targets proxies matched by the named MeshGateway
-    - Note that it's very strongly recommended to target MeshGateway proxies using this
-      kind, as opposed to MeshService/MeshServiceSubset.
+- MeshGatewayRoute: gateway using `MeshGatewayRoute` that have a name equal to `targetRef.name`
 
 Consider the example below:
 
@@ -152,7 +159,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
 metadata:
   name: example
-  namespace: {{ site.mesh_namespace }}
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default
 spec:
@@ -192,68 +199,19 @@ Not every policy supports `to` and `from` levels. Additionally, not every resour
 appear at every supported level. The specified top level resource can also affect which
 resources can appear in `to` or `from`.
 
-{% if_version gte:2.6.x %}
-To help users, each policy documentation includes tables indicating which `targetRef` kinds is supported at each level.
-For each type of proxy, sidecar or builtin gateway, the table indicates for each
-`targetRef` level, which kinds are supported.
-
-The tables look like:
-
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
-| `targetRef`             | Allowed kinds                                            |
-| ----------------------- | -------------------------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
-| `from[].targetRef.kind` | `Mesh`                                                   |
-{% endtab %}
-
-{% tab targetRef Builtin Gateway %}
-| `targetRef`           | Allowed kinds                                    |
-| --------------------- | ------------------------------------------------ |
-| `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
-| `to[].targetRef.kind` | `Mesh`                                           |
-{% endtab %}
-{% endtabs %}
-
-#### Sidecar
-
-We see that we can select sidecar proxies via any of the kinds that select
-sidecars and we can set both `to` and `from`.
-
-We can apply policy to:
-* all traffic originating at the sidecar _to_ anywhere (`to[].targetRef.kind: Mesh`)
-* traffic _to_ a specific `kuma.io/service` (`to[].targetRef.kind: MeshService`)
-
-We can also apply policy to:
-* traffic terminating at the sidecar _from_ anywhere in the mesh (`from[].targetRef.kind: Mesh`)
-
-#### Builtin gateways
-
-We see that we can select gateway proxies via any of the kinds that select
-gateways as well as specific gateway listeners and we can set only `to`.
-
-We can only apply policy to:
-* all traffic originating at the gateway _to_ anywhere (`to[].targetRef.kind: Mesh`)
-{% endif_version %}
-{% if_version lte:2.5.x %}
-To help users, each policy documentation includes a table indicating which
-`targetRef` kinds is supported at each level.
+To help users, each policy documentation includes a table indicating which `targetRef` kinds is supported at each level.
 
 This table looks like:
 
 | `targetRef.kind`    | top level | to  | from |
-| ------------------- | --------- | --- | ---- |
+|---------------------| --------- | --- | ---- |
 | `Mesh`              | ✅        | ✅  | ❌   |
 | `MeshSubset`        | ✅        | ❌  | ❌   |
 | `MeshService`       | ✅        | ❌  | ✅   |
 | `MeshServiceSubset` | ✅        | ❌  | ❌   |
-| `MeshGateway`       | ✅        | ❌  | ❌   |
+| `MeshGatewayRoute`  | ✅        | ❌  | ❌   |
 
-Here it indicates that the top level can use any targetRef kinds. But in
-`targetRef.to` only kind `Mesh` can be used and in `targetRef.from`
-only kind `MeshService`.
-{% endif_version %}
+Here it indicates that the top level can use any targetRef kinds. But in `targetRef.to` only kind `Mesh` can be used and in `targetRef.from` only kind `MeshService`.
 
 ### Merging configuration
 
@@ -262,7 +220,7 @@ because a proxy can be targeted by multiple `targetRef`'s.
 
 We define a total order of policies:
 
-- Mesh > MeshSubset > MeshService > MeshServiceSubset (the more a `targetRef` is focused the higher priority it has)
+- Mesh > MeshSubset > MeshService > MeshServiceSubset > MeshGatewayRoute (the more a `targetRef` is focused the higher priority it has)
 - If levels are equal the lexicographic order of policy names is used
 
 For `to` and `from` policies we concatenate the array for each matching policies.
@@ -287,7 +245,6 @@ default:
 ```
 
 The merge result is:
-
 ```yaml
 default:
   conf: 1

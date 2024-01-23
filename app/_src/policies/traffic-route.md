@@ -1,11 +1,6 @@
 ---
 title: Traffic Route
 ---
-{% if_version gte:2.6.x %}
-{% warning %}
-New to Kuma? Don't use this, check the [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) or [`MeshTCPRoute` policy](/docs/{{ page.version }}/policies/meshtcproute) policies instead.
-{% endwarning %}
-{% endif_version %}
 
 {% tip %}
 Traffic Route is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.

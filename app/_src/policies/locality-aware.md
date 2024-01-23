@@ -4,7 +4,7 @@ title: Locality-aware Load Balancing
 
 {% if_version gte:2.5.x %}
 {% warning %}
-New to Kuma? You don't need this, Check the [`MeshLoadBalancingStrategy` policy](/docs/{{ page.version }}/policies/meshloadbalancingstrategy) instead.
+This mode of doing locality aware load balancing is being replaced by [MeshLoadBalancingStrategy](/docs/{{ page.version }}/policies/meshloadbalancingstrategy) which is more powerful and flexible.
 {% endwarning %}
 {% endif_version %}
 

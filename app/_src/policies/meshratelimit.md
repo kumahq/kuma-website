@@ -22,34 +22,12 @@ Rate limiting supports an [ExternalService](/docs/{{ page.version }}/policies/ex
 
 ## TargetRef support matrix
 
-{% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
-| `targetRef`             | Allowed kinds                                            |
-| ----------------------- | -------------------------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-| `from[].targetRef.kind` | `Mesh`                                                   |
-{% endtab %}
-
-{% tab targetRef Builtin Gateway %}
-| `targetRef`           | Allowed kinds                                             |
-| --------------------- | --------------------------------------------------------- |
-| `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
-| `to[].targetRef.kind` | `Mesh`                                                    |
-{% endtab %}
-{% endtabs %}
-
-{% endif_version %}
-{% if_version lte:2.5.x %}
-
 | TargetRef type    | top level | to  | from |
 | ----------------- | --------- | --- | ---- |
 | Mesh              | ✅        | ❌  | ✅   |
 | MeshSubset        | ✅        | ❌  | ❌   |
 | MeshService       | ✅        | ❌  | ❌   |
 | MeshServiceSubset | ✅        | ❌  | ❌   |
-
-{% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 

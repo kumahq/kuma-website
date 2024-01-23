@@ -1,11 +1,6 @@
 ---
 title: Timeout
 ---
-{% if_version gte:2.6.x %}
-{% warning %}
-New to Kuma? Don't use this policy, check [`MeshTimeout`](/docs/{{ page.version }}/policies/meshtimeout) instead.
-{% endwarning %}
-{% endif_version %}
 
 {% tip %}
 Timeout is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.

@@ -34,23 +34,7 @@ Do **not** combine with [Proxy Template](/docs/{{ page.version }}/policies/proxy
 
 {% endif_version %}
 {% if_version gte:2.5.x %}
-{% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
-| `targetRef`           | Allowed kinds                                            |
-| --------------------- | -------------------------------------------------------- |
-| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-{% endtab %}
 
-{% tab targetRef Builtin Gateway %}
-| `targetRef`      | Allowed kinds         |
-| ---------------- | --------------------- |
-| `targetRef.kind` | `Mesh`, `MeshGateway` |
-{% endtab %}
-{% endtabs %}
-
-{% endif_version %}
-{% if_version lte:2.5.x %}
 | `targetRef.kind`    | top level |
 |---------------------|-----------|
 | `Mesh`              | ✅         |
@@ -59,7 +43,6 @@ Do **not** combine with [Proxy Template](/docs/{{ page.version }}/policies/proxy
 | `MeshServiceSubset` | ✅         |
 | `MeshGateway`       | ✅         |
 
-{% endif_version %}
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).

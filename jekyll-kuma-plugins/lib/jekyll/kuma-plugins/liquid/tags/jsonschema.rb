@@ -58,7 +58,7 @@ module Jekyll
 end
 
 PATHS_CONFIG = 'mesh_raw_generated_paths'
-DEFAULT_PATHS = ['app/assets']
+DEFAULT_PATHS = ['app/docs']
 def read_file(paths, file_name)
     paths.each do |path|
         file_path = File.join(path, file_name)
@@ -73,16 +73,16 @@ def create_loader(type, name)
     case type
     when 'proto'
         l = lambda do |paths, release|
-            return JSON.load(read_file(paths, File.join("#{release}", 'raw', 'protos', "#{name}.json")))
+            return JSON.load(read_file(paths, File.join("#{release}", 'protos', "#{name}.json")))
         end
     when 'crd'
         l = lambda do |paths, release|
-            d = YAML.load(read_file(paths, File.join("#{release}", 'raw', 'crds', "#{name}.yaml")))
+            d = YAML.load(read_file(paths, File.join("#{release}", 'crds', "#{name}.yaml")))
             return d['spec']['versions'][0]['schema']['openAPIV3Schema']
         end
     when 'policy'
         l = lambda do |paths, release|
-            d = YAML.load(read_file(paths, File.join("#{release}", 'raw', 'crds', "kuma.io_#{name.downcase}.yaml")))
+            d = YAML.load(read_file(paths, File.join("#{release}", 'crds', "kuma.io_#{name.downcase}.yaml")))
             return d['spec']['versions'][0]['schema']['openAPIV3Schema']['properties']['spec']
         end
     else
