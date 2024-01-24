@@ -1,6 +1,12 @@
 ---
 title: Traffic Permissions
 ---
+{% if_version gte:2.6.x %}
+{% warning %}
+New to Kuma? Don't use this, check the [`MeshTrafficPermission` policy](/docs/{{ page.version }}/policies/meshtrafficpermission) instead.
+{% endwarning %}
+{% endif_version %}
+
 
 {% tip %}
 Traffic Permissions is an inbound policy. Dataplanes whose configuration is modified are in the `destinations` matcher.

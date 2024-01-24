@@ -25,6 +25,26 @@ items:
         url: /docs/changelog/
         absolute_url: true
         generate: false
+  - title: Quickstart
+    group: true
+    items:
+      - text: Deploy Kuma on Kubernetes
+        url: /quickstart/kubernetes-demo
+        items:
+          - text: Prerequisites
+            url: "/quickstart/kubernetes-demo/#prerequisites"
+          - text: Start Kubernetes cluster
+            url: "/quickstart/kubernetes-demo/#start-kubernetes-cluster"
+          - text: Install Kuma
+            url: "/quickstart/kubernetes-demo/#install-kuma"
+          - text: Deploy demo application
+            url: "/quickstart/kubernetes-demo/#deploy-demo-application"
+          - text: Explore GUI
+            url: "/quickstart/kubernetes-demo/#explore-gui"
+          - text: Introduce zero-trust security
+            url: "/quickstart/kubernetes-demo/#introduce-zero-trust-security"
+          - text: Next steps
+            url: "/quickstart/kubernetes-demo/#next-steps"
   - title: Kuma in Production
     group: true
     items:
@@ -106,47 +126,6 @@ items:
             url: /production/upgrades-tuning/fine-tuning/
       - text: Init containers
         url: /production/init-containers/
-  - title: Deploy
-    group: true
-    items:
-      - text: Explore Kuma with the Kubernetes demo app
-        url: /quickstart/kubernetes/
-        items:
-          - text: Prerequisites
-            url: "/quickstart/kubernetes/#prerequisites"
-          - text: Set up and run
-            url: "/quickstart/kubernetes/#set-up-and-run"
-          - text: Explore the mesh
-            url: "/quickstart/kubernetes/#explore-the-mesh"
-          - text: Enable Mutual TLS and Traffic Permissions
-            url: "/quickstart/kubernetes/#enable-mutual-tls-and-traffic-permissions"
-          - text: Builtin gateways
-            url: "/quickstart/kubernetes/#builtin-gateways"
-          - text: Explore Observability features
-            url: "/quickstart/kubernetes/#explore-observability-features"
-          - text: Next steps
-            url: "/quickstart/kubernetes/#next-steps"
-      - text: Explore Kuma with the Universal demo app
-        url: /quickstart/universal/
-        items:
-          - text: Prerequisites
-            url: "/quickstart/universal/#prerequisites"
-          - text: Set up
-            url: "/quickstart/universal/#set-up"
-          - text: Generate tokens
-            url: "/quickstart/universal/#generate-tokens"
-          - text: Create a data plane proxy for each service
-            url: "/quickstart/universal/#create-a-data-plane-proxy-for-each-service"
-          - text: Run
-            url: "/quickstart/universal/#run"
-          - text: Explore the mesh
-            url: "/quickstart/universal/#explore-the-mesh"
-          - text: Enable Mutual TLS and Traffic Permissions
-            url: "/quickstart/universal/#enable-mutual-tls-and-traffic-permissions"
-          - text: Explore Traffic Metrics
-            url: "/quickstart/universal/#explore-traffic-metrics"
-          - text: Next steps
-            url: "/quickstart/universal/#next-steps"
   - title: Explore
     group: true
     items:
@@ -254,28 +233,10 @@ items:
     items:
       - text: Introduction
         url: /policies/introduction/
-      - text: General notes about Kuma policies
-        url: /policies/general-notes-about-kuma-policies/
       - text: Applying Policies
         url: /policies/applying-policies/
-      - text: How Kuma chooses the right policy to apply
-        url: /policies/how-kuma-chooses-the-right-policy-to-apply/
-        items:
-          - text: General rules
-            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#general-rules"
-          - text: Combine Policies to Avoid Overriding
-            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#combine-policies-to-avoid-overriding"
-          - text: Dataplane Policy
-            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#dataplane-policy"
-          - text: Connection policies
-            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#connection-policies"
-          - text: Outbound Connection Policy
-            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy"
-          - text: Inbound Connection Policy
-            url: "/policies/how-kuma-chooses-the-right-policy-to-apply/#inbound-connection-policy"
       - text: Understanding TargetRef policies
         url: "/policies/targetref"
-
       - text: Protocol support in Kuma
         url: /policies/protocol-support-in-kuma/
         items:
@@ -296,81 +257,6 @@ items:
             url: "/policies/mutual-tls/#permissive-mtls"
           - text: Certificate Rotation
             url: "/policies/mutual-tls/#certificate-rotation"
-      - text: Traffic Permissions
-        url: /policies/traffic-permissions/
-        items:
-          - text: Usage
-            url: "/policies/traffic-permissions/#usage"
-          - text: Access to External Services
-            url: "/policies/traffic-permissions/#access-to-external-services"
-      - text: Traffic Route
-        url: /policies/traffic-route/
-        items:
-          - text: Usage
-            url: "/policies/traffic-route/#usage"
-      - text: Traffic Metrics
-        url: /policies/traffic-metrics/
-        items:
-          - text: Expose metrics from data plane proxies
-            url: "/policies/traffic-metrics/#expose-metrics-from-data-plane-proxies"
-          - text: Expose metrics from applications
-            url: "/policies/traffic-metrics/#expose-metrics-from-applications"
-          - text: Override Prometheus settings per data plane proxy
-            url: "/policies/traffic-metrics/#override-prometheus-settings-per-data-plane-proxy"
-          - text: Filter Envoy metrics
-            url: "/policies/traffic-metrics/#filter-envoy-metrics"
-          - text: Secure data plane proxy metrics
-            url: "/policies/traffic-metrics/#secure-data-plane-proxy-metrics"
-      - text: Traffic Trace
-        url: /policies/traffic-trace/
-        items:
-          - text: Add a tracing backend to the mesh
-            url: "/policies/traffic-trace/#add-a-tracing-backend-to-the-mesh"
-          - text: Add TrafficTrace resource
-            url: "/policies/traffic-trace/#add-traffictrace-resource"
-      - text: Traffic Log
-        url: /policies/traffic-log/
-        items:
-          - text: Add a logging backend
-            url: "/policies/traffic-log/#add-a-logging-backend"
-          - text: Add a TrafficLog resource
-            url: "/policies/traffic-log/#add-a-trafficlog-resource"
-          - text: Logging external services
-            url: "/policies/traffic-log/#logging-external-services"
-          - text: Builtin Gateway support
-            url: "/policies/traffic-log/#builtin-gateway-support"
-          - text: Access Log Format
-            url: "/policies/traffic-log/#access-log-format"
-      - text: Locality-aware Load Balancing
-        url: /policies/locality-aware/
-        items:
-          - text: Enabling locality-aware load balancing
-            url: "/policies/locality-aware/#enabling-locality-aware-load-balancing"
-      - text: Fault Injection
-        url: /policies/fault-injection/
-        items:
-          - text: Usage
-            url: "/policies/fault-injection/#usage"
-          - text: Matching
-            url: "/policies/fault-injection/#matching"
-      - text: Health Check
-        url: /policies/health-check/
-        items:
-          - text: Usage
-            url: "/policies/health-check/#usage"
-          - text: Matching
-            url: "/policies/health-check/#matching"
-      - text: Circuit Breaker
-        url: /policies/circuit-breaker/
-        items:
-          - text: Usage
-            url: "/policies/circuit-breaker/#usage"
-          - text: Matching
-            url: "/policies/circuit-breaker/#matching"
-          - text: Builtin Gateway support
-            url: "/policies/circuit-breaker/#builtin-gateway-support"
-          - text: Non-mesh traffic
-            url: "/policies/circuit-breaker/#non-mesh-traffic"
       - text: External Service
         url: /policies/external-services/
         items:
@@ -378,46 +264,13 @@ items:
             url: "/policies/external-services/#usage"
           - text: Builtin Gateway support
             url: "/policies/external-services/#builtin-gateway-support"
-      - text: Retry
-        url: /policies/retry/
+      - text: Service Health Probes
+        url: /policies/service-health-probes/
         items:
-          - text: Usage
-            url: "/policies/retry/#usage"
-          - text: Matching
-            url: "/policies/retry/#matching"
-          - text: Builtin Gateway support
-            url: "/policies/retry/#builtin-gateway-support"
-      - text: Timeout
-        url: /policies/timeout/
-        items:
-          - text: Usage
-            url: "/policies/timeout/#usage"
-          - text: Configuration
-            url: "/policies/timeout/#configuration"
-          - text: Default general-purpose Timeout policy
-            url: "/policies/timeout/#default-general-purpose-timeout-policy"
-          - text: Matching
-            url: "/policies/timeout/#matching"
-          - text: Builtin Gateway support
-            url: "/policies/timeout/#builtin-gateway-support"
-          - text: Inbound timeouts
-            url: "/policies/timeout/#inbound-timeouts"
-          - text: Non-mesh traffic
-            url: "/policies/timeout/#non-mesh-traffic"
-      - text: Rate Limit
-        url: /policies/rate-limit/
-        items:
-          - text: Usage
-            url: "/policies/rate-limit/#usage"
-          - text: Matching destinations
-            url: "/policies/rate-limit/#matching-destinations"
-          - text: Builtin Gateway support
-            url: "/policies/rate-limit/#builtin-gateway-support"
-      - text: Virtual Outbound
-        url: /policies/virtual-outbound/
-        items:
-          - text: Examples
-            url: "/policies/virtual-outbound/#examples"
+          - text: Kubernetes
+            url: "/policies/service-health-probes/#kubernetes"
+          - text: Universal probes
+            url: "/policies/service-health-probes/#universal-probes"
       - text: MeshGateway
         url: /policies/meshgateway/
         items:
@@ -436,13 +289,6 @@ items:
             url: "/policies/meshgatewayroute/#reference"
       - text: MeshGatewayInstance
         url: /policies/meshgatewayinstance/
-      - text: Service Health Probes
-        url: /policies/service-health-probes/
-        items:
-          - text: Kubernetes
-            url: "/policies/service-health-probes/#kubernetes"
-          - text: Universal probes
-            url: "/policies/service-health-probes/#universal-probes"
       - text: MeshAccessLog
         url: /policies/meshaccesslog/
         items:
@@ -579,6 +425,39 @@ items:
             url: "/policies/meshloadbalancingstrategy/#configuration"
           - text: Examples
             url: "/policies/meshloadbalancingstrategy/#examples"
+      - title: Previous Policies
+        group: true
+        items:
+          - text: General notes about Kuma policies
+            url: /policies/general-notes-about-kuma-policies/
+          - text: How Kuma chooses the right policy to apply
+            url: /policies/how-kuma-chooses-the-right-policy-to-apply/
+          - text: Traffic Permissions
+            url: /policies/traffic-permissions/
+          - text: Traffic Route
+            url: /policies/traffic-route/
+          - text: Traffic Metrics
+            url: /policies/traffic-metrics/
+          - text: Traffic Trace
+            url: /policies/traffic-trace/
+          - text: Traffic Log
+            url: /policies/traffic-log/
+          - text: Locality-aware Load Balancing
+            url: /policies/locality-aware/
+          - text: Fault Injection
+            url: /policies/fault-injection/
+          - text: Health Check
+            url: /policies/health-check/
+          - text: Circuit Breaker
+            url: /policies/circuit-breaker/
+          - text: Retry
+            url: /policies/retry/
+          - text: Timeout
+            url: /policies/timeout/
+          - text: Rate Limit
+            url: /policies/rate-limit/
+          - text: Virtual Outbound
+            url: /policies/virtual-outbound/
   - title: Reference
     group: true
     items:
