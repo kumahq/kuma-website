@@ -343,6 +343,10 @@ items:
             url: "/policies/meshmetric/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshmetric/#configuration"
+          - text: Prometheus
+            url: "/policies/meshmetric/#prometheus"
+          - text: OpenTelemetry
+            url: "/policies/meshmetric/#opentelemetry-experimental"
           - text: Examples
             url: "/policies/meshmetric/#examples"
       - text: MeshProxyPatch
