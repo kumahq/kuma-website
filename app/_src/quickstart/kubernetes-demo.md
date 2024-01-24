@@ -16,7 +16,7 @@ To start learning how {{site.mesh_product_name}} works, you run and secure a sim
 Start a new Kubernetes cluster on your local machine by executing:
 
 ```sh
-kind create cluster --name=kuma
+kind create cluster --name=kuma-zone
 ```
 
 {% tip %}
@@ -39,6 +39,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh
 1.  Deploy the application
     ```sh
     kubectl apply -f https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.yaml
+    kubectl wait -n kuma-demo --for=condition=ready pod --selector=app=demo-app --timeout=90s
     ```
 
 2.  Port-forward the service to the namespace on port 5000:
@@ -117,6 +118,7 @@ spec:
 ```
 
 At this point, the demo application should not function, because we blocked the traffic.
+You can verify this by clicking the increment button again and seeing the error message in the browser
 We can allow the traffic from the `demo-app` to `redis` by applying the following MeshTrafficPermission
 
 ```sh
@@ -138,7 +140,8 @@ spec:
         action: Allow" | kubectl apply -f -
 ```
 
-The application should function once again. The traffic to `redis` from any other service than `demo-app` is not allowed.
+You can click the increment button, the application should function once again.
+However, the traffic to `redis` from any other service than `demo-app` is not allowed.
 
 ## Next steps
 
