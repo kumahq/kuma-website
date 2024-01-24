@@ -1,6 +1,11 @@
 ---
 title: Health Check
 ---
+{% if_version gte:2.6.x %}
+{% warning %}
+New to Kuma? You don't need this policy, check [`MeshHealthCheck`](/docs/{{ page.version }}/policies/meshhealthcheck) instead.
+{% endwarning %}
+{% endif_version %}
 
 {% tip %}
 Health Check is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.
