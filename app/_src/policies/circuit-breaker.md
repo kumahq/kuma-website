@@ -1,6 +1,11 @@
 ---
 title: Circuit Breaker
 ---
+{% if_version gte:2.6.x %}
+{% warning %}
+New to Kuma? You don't need this policy, check [`MeshCircuitBreaker`](/docs/{{ page.version }}/policies/meshcircuitbreaker) instead.
+{% endwarning %}
+{% endif_version %}
 
 {% tip %}
 Circuit Breaker is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.

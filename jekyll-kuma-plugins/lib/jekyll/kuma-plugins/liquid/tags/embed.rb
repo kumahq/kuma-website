@@ -19,7 +19,7 @@ module Jekyll
             ignored_links = context.registers[:site].config.fetch('mesh_ignored_links_regex', [])
             release = context.registers[:page]['release']
             begin
-                f = read_file(base_paths, File.join(@versioned ? release : '', @file))
+                f = read_file(base_paths, File.join(@versioned ? release : '', 'raw',  @file))
                 data = f.read()
                 ignored_links.each {|re| data = data.gsub(Regexp.new(re), '') }
                 return data
