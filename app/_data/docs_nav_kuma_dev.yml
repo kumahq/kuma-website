@@ -25,6 +25,26 @@ items:
         url: /docs/changelog/
         absolute_url: true
         generate: false
+  - title: Quickstart
+    group: true
+    items:
+      - text: Deploy Kuma on Kubernetes
+        url: /quickstart/kubernetes-demo
+        items:
+          - text: Prerequisites
+            url: "/quickstart/kubernetes-demo/#prerequisites"
+          - text: Start Kubernetes cluster
+            url: "/quickstart/kubernetes-demo/#start-kubernetes-cluster"
+          - text: Install Kuma
+            url: "/quickstart/kubernetes-demo/#install-kuma"
+          - text: Deploy demo application
+            url: "/quickstart/kubernetes-demo/#deploy-demo-application"
+          - text: Explore GUI
+            url: "/quickstart/kubernetes-demo/#explore-gui"
+          - text: Introduce zero-trust security
+            url: "/quickstart/kubernetes-demo/#introduce-zero-trust-security"
+          - text: Next steps
+            url: "/quickstart/kubernetes-demo/#next-steps"
   - title: Kuma in Production
     group: true
     items:
@@ -106,47 +126,6 @@ items:
             url: /production/upgrades-tuning/fine-tuning/
       - text: Init containers
         url: /production/init-containers/
-  - title: Deploy
-    group: true
-    items:
-      - text: Explore Kuma with the Kubernetes demo app
-        url: /quickstart/kubernetes/
-        items:
-          - text: Prerequisites
-            url: "/quickstart/kubernetes/#prerequisites"
-          - text: Set up and run
-            url: "/quickstart/kubernetes/#set-up-and-run"
-          - text: Explore the mesh
-            url: "/quickstart/kubernetes/#explore-the-mesh"
-          - text: Enable Mutual TLS and Traffic Permissions
-            url: "/quickstart/kubernetes/#enable-mutual-tls-and-traffic-permissions"
-          - text: Builtin gateways
-            url: "/quickstart/kubernetes/#builtin-gateways"
-          - text: Explore Observability features
-            url: "/quickstart/kubernetes/#explore-observability-features"
-          - text: Next steps
-            url: "/quickstart/kubernetes/#next-steps"
-      - text: Explore Kuma with the Universal demo app
-        url: /quickstart/universal/
-        items:
-          - text: Prerequisites
-            url: "/quickstart/universal/#prerequisites"
-          - text: Set up
-            url: "/quickstart/universal/#set-up"
-          - text: Generate tokens
-            url: "/quickstart/universal/#generate-tokens"
-          - text: Create a data plane proxy for each service
-            url: "/quickstart/universal/#create-a-data-plane-proxy-for-each-service"
-          - text: Run
-            url: "/quickstart/universal/#run"
-          - text: Explore the mesh
-            url: "/quickstart/universal/#explore-the-mesh"
-          - text: Enable Mutual TLS and Traffic Permissions
-            url: "/quickstart/universal/#enable-mutual-tls-and-traffic-permissions"
-          - text: Explore Traffic Metrics
-            url: "/quickstart/universal/#explore-traffic-metrics"
-          - text: Next steps
-            url: "/quickstart/universal/#next-steps"
   - title: Explore
     group: true
     items:
