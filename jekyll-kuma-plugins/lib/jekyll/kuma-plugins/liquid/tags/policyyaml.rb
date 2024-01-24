@@ -65,6 +65,7 @@ module Jekyll
                 "name" => yaml_data["name"],
                 "namespace" => mesh_namespace,
                 "labels" => {
+                  **(yaml_data["labels"] || {}),
                   "kuma.io/mesh" => yaml_data["mesh"]
                 }
               },
