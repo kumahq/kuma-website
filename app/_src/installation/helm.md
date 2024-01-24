@@ -44,7 +44,7 @@ This example will run {{site.mesh_product_name}} in `standalone` mode for a "fla
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on Kubernetes 🚀. 
 
-In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/quickstart/kubernetes{% if_version gte:2.6.x %}-demo{% endif_version %}/) deployments.
+In order to start using {{site.mesh_product_name}}, it's time to check out the {% if_version gte:2.6.x %}[quickstart guide](/docs/{{ page.version }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[quickstart guide](/docs/{{ page.version }}/quickstart/kubernetes/){% endif_version %} deployments.
 
 ## Argo CD
 
