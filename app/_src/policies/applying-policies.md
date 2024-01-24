@@ -34,7 +34,7 @@ echo "
 {% endtab %}
 {% endtabs %}
 
-In addition to [`kumactl`](/docs/{{ page.version }}/explore/cli), you can also retrieve the state via the {{site.mesh_product_name}} [HTTP API](/docs/{{ page.version }}/reference/http-api) as well.
+In addition to [`kumactl`](/docs/{{ page.version }}/explore/cli), you can also retrieve the state via the {{site.mesh_product_name}} [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
 {% if_version gte:2.6.x %}
 
@@ -46,11 +46,13 @@ Policies can be applied on both Global and Zone CPs.
 
 When policy is applied on Global CP:
 * it is propagated to all Zone CPs and applied to all matched data plane proxies in all zones
-* Global CP is a source of truth for the policy (when Global CP is down it's not possible to create/update policies)
+* Global CP is a source of truth for the policy (when Global CP is down it's not possible to create/update those policies)
+* You cannot manage this policy (modify / delete) on Zone CP
 
 When policy is applied on Zone CP:
-* it is applied only to matched data plane proxies in the same zone
+* it is applied only to matched data plane proxies in the **same zone**
 * Zone CP is a source of truth for the policy (when Global CP is down it's still possible to create/update zone-originated policies)
+* you cannot manage this policy (modify / delete) on Global CP
 * it is synced to Global CP to be visible in the UI and API calls
 
 Applying policy on Zone CP requires setting `kuma.io/origin` label to `zone` (`zone` is a keyword, not a name of the zone):
@@ -76,7 +78,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-Validation of the origin label can be disabled by providing `KUMA_MULTIZONE_ZONE_DISABLE_ORIGIN_LABEL_VALIDATION: "true"` environment variable to the Zone CP.
+Validation of the origin label can be disabled by [configuring](/docs/{{ page.version }}/documentation/configuration) a zone CP with `KUMA_MULTIZONE_ZONE_DISABLE_ORIGIN_LABEL_VALIDATION: "true"`.
 
 {% endif_version %}
 
