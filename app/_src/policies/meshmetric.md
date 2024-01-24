@@ -247,15 +247,15 @@ backends:
       endpoint: http://otel-collector.observability.svc:4317
 ```
 
-This configuration tells {{site.mesh_product_name}} Dataplane Proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
-Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.version }}/policies/meshmetric/#applications) 
+This configuration tells {{site.mesh_product_name}} data plane proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
+Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.version }}/policies/meshmetric/#applications) in a Pod/VM.
 and push them to configured OpenTelemetry collector.
 
 When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/) 
 
 ##### Limitations
 
-- You cannot configure scraping interval for OpenTelemetry. By default, it will publish metrics to collector every **30 seconds**. Ability to configure scraping interval in policy will be added in next release. 
+- You cannot configure scraping interval for OpenTelemetry. By default, it will publish metrics to collector every **30 seconds**. Ability to configure scraping interval in policy will be added in the future. 
 - Right now {{site.mesh_product_name}} supports configuring only one `OpenTelemetry` backend.
 - OpenTelemetry integration does not take [sidecar](/docs/{{ page.version }}/policies/meshmetric/#sidecar) configuration into account.
     This support will be added in the next release.
