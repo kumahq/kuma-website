@@ -8,7 +8,6 @@
 /install/latest/* /install/LATEST_RELEASE/:splat 302
 /install/kong-gateway /docs/LATEST_RELEASE/explore/gateway 302
 /docs/latest/* /docs/LATEST_RELEASE/:splat 302
-/policies /features 301
 
 # Kuma tag redirects
 /builtindns/ /docs/LATEST_RELEASE/reference/kubernetes-annotations/#kumaiobuiltindns 302

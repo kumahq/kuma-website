@@ -1,11 +1,6 @@
 ---
 title: Retry
 ---
-{% if_version gte:2.6.x %}
-{% warning %}
-New to Kuma? Don't use this policy, check [`MeshRetry`](/docs/{{ page.version }}/policies/meshretry) instead.
-{% endwarning %}
-{% endif_version %}
 
 {% tip %}
 Retry is an outbound policy. Dataplanes whose configuration is modified are in the `sources` matcher.

@@ -44,6 +44,7 @@ NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP 
 ```
 
 By default, it's exposed on [port 5685]{% if_version lte:2.1.x %}(/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/use-mesh#control-plane-ports){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 
@@ -149,23 +150,10 @@ Before using {{site.mesh_product_name}} with helm, please follow [these steps](/
 
 {% tab global-control-plane Universal %}
 
-{% tip %}
-When running the global control plane in Universal mode, a database must be used to persist state for production deployments.
-Ensure that migrations have been run against the database prior to running the global control plane.
-{% endtip %}
-
 1.  Set up the global control plane, and add the `global` environment variable:
 
     ```sh
-    KUMA_MODE=global 
-    KUMA_ENVIRONMENT=universal \
-    KUMA_STORE_TYPE=postgres \
-    KUMA_STORE_POSTGRES_HOST=<postgres-host> \
-    KUMA_STORE_POSTGRES_PORT=<postgres-port> \
-    KUMA_STORE_POSTGRES_USER=<postgres-user> \
-    KUMA_STORE_POSTGRES_PASSWORD=<postgres-password> \
-    KUMA_STORE_POSTGRES_DB_NAME=<postgres-db-name> \
-    kuma-cp run
+    KUMA_MODE=global kuma-cp run
     ```
 
 {% endtab %}
@@ -213,41 +201,23 @@ For production use a certificate signed by a trusted CA. See [Secure access acro
 {% endtab %}
 {% tab zone-control-planes Universal %}
 
-{% tip %}
-When running the zone control plane in Universal mode, a database must be used to persist state for production deployments.
-Ensure that migrations have been run against the database prior to running the zone control plane.
-{% endtip %}
-
 1. On each zone control plane, run:
 
    {% if_version gte:2.3.x %}
    ```sh
-    KUMA_MODE=zone \
-    KUMA_MULTIZONE_ZONE_NAME=<zone-name> \
-    KUMA_ENVIRONMENT=universal \
-    KUMA_STORE_TYPE=postgres \
-    KUMA_STORE_POSTGRES_HOST=<postgres-host> \
-    KUMA_STORE_POSTGRES_PORT=<postgres-port> \
-    KUMA_STORE_POSTGRES_USER=<postgres-user> \
-    KUMA_STORE_POSTGRES_PASSWORD=<postgres-password> \
-    KUMA_STORE_POSTGRES_DB_NAME=<postgres-db-name> \
-    KUMA_MULTIZONE_ZONE_GLOBAL_ADDRESS=grpcs://<global-kds-address>:5685 \
-    kuma-cp run
+   KUMA_MODE=zone \
+   KUMA_MULTIZONE_ZONE_NAME=<zone-name> \
+   KUMA_MULTIZONE_ZONE_KDS_TLS_SKIP_VERIFY=true \
+   KUMA_MULTIZONE_ZONE_GLOBAL_ADDRESS=grpcs://<global-kds-address>:5685 \
+   ./kuma-cp run
    ```
    {% endif_version %}
    {% if_version lte:2.2.x %}
    ```sh
-    KUMA_MODE=zone \
-    KUMA_MULTIZONE_ZONE_NAME=<zone-name> \
-    KUMA_ENVIRONMENT=universal \
-    KUMA_STORE_TYPE=postgres \
-    KUMA_STORE_POSTGRES_HOST=<postgres-host> \
-    KUMA_STORE_POSTGRES_PORT=<postgres-port> \
-    KUMA_STORE_POSTGRES_USER=<postgres-user> \
-    KUMA_STORE_POSTGRES_PASSWORD=<postgres-password> \
-    KUMA_STORE_POSTGRES_DB_NAME=<postgres-db-name> \
-    KUMA_MULTIZONE_ZONE_GLOBAL_ADDRESS=grpcs://<global-kds-address>:5685 \
-    kuma-cp run
+   KUMA_MODE=zone \
+   KUMA_MULTIZONE_ZONE_NAME=<zone-name> \
+   KUMA_MULTIZONE_ZONE_GLOBAL_ADDRESS=grpcs://<global-kds-address>:5685 \
+   ./kuma-cp run
    ```
    {% endif_version %}
 

@@ -1,11 +1,6 @@
 ---
 title: Traffic Log
 ---
-{% if_version gte:2.6.x %}
-{% warning %}
-New to Kuma? Don't use this, check the [`MeshAccessLog` policy](/docs/{{ page.version }}/policies/meshaccesslog) instead.
-{% endwarning %}
-{% endif_version %}
 
 With the Traffic Log policy you can easily set up access logs on every data plane in a mesh. 
 

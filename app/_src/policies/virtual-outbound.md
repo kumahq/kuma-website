@@ -6,10 +6,10 @@ This policy lets you customize hostnames and ports for communicating with data p
 
 Possible use cases are:
 
-1. Preserving hostnames when migrating to service mesh.
-2. Providing multiple hostnames for reaching the same service, for example when renaming or for usability.
-3. Providing specific routes, for example to reach a specific pod in a service with StatefulSets on Kubernetes, or to add a URL to reach a specific version of a service.
-4. Expose multiple inbounds on different ports.
+1) Preserving hostnames when migrating to service mesh.
+2) Providing multiple hostnames for reaching the same service, for example when renaming or for usability.
+3) Providing specific routes, for example to reach a specific pod in a service with StatefulSets on Kubernetes, or to add a URL to reach a specific version of a service.
+4) Expose multiple inbounds on different ports.
 
 Limitations:
 
@@ -41,33 +41,6 @@ inbound:
 
 and a virtual outbound with this definition:
 
-{% tabs default-test-virtualoutbound useUrlFragment=false %}
-{% tab default-test-virtualoutbound Kubernetes %}
-{% raw %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: VirtualOutbound
-mesh: default
-metadata:
-  name: test
-spec:
-  selectors:
-    - match:
-        kuma.io/service: "*"
-  conf:
-    host: "{{.v}}.{{.service}}.mesh"
-    port: "{{.port}}"
-    parameters:
-      - name: service
-        tagKey: "kuma.io/service"
-      - name: port
-        tagKey: "k8s.kuma.io/service-port"
-      - name: v
-        tagKey: version
-```
-{% endraw %}
-{% endtab %}
-{% tab default-test-virtualoutbound Universal %}
 {% raw %}
 ```yaml
 type: VirtualOutbound
@@ -88,20 +61,16 @@ conf:
       tagKey: version
 ```
 {% endraw %}
-{% endtab %}
-{% endtabs %}
 
 produce the hostname: `v1.backend.mesh` with port: `1800`.
 
-Additional Requirements:
+Additional requirements:
 
-- {% if_version lte:2.1.x %}[Transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[Transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %} must be enabled.
-- Either:
-  - [Data plane proxy DNS](/docs/{{ page.version }}/networking/dns) must be enabled.
-  - Or, the value of `conf.host` must end with the value of `dns_server.domain`, which defaults to `.mesh`.
-- Parameter names must be alphanumeric. These names are used as Go template keys.
-- Parameter names must be unique. This ensures that each parameter can be referenced unambiguously.
-- Parameter with the `kuma.io/service` tagKey must be specified even if it is not used in the template. This prevents hostnames from being defined that could span multiple services.
+- {% if_version lte:2.1.x %}[Transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[Transparent proxy](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %}.
+- Either [data plane proxy DNS](/docs/{{ page.version }}/networking/dns), or else the value of `conf.host` must end with the value of `dns_server.domain` (default value `.mesh`).
+- `name` must be alphanumeric. (Used as a go template key).
+- Each value of `name` must be unique.
+- `kuma.io/service` must be specified even if it's unused in the template. (Prevents defining hostnames that spans services).
 
 The default value of `tagKey` is the value of `name`.
 
@@ -158,8 +127,8 @@ conf:
 
 ### One hostname per version
 
-{% tabs one-hostname-per-version useUrlFragment=false %}
-{% tab one-hostname-per-version Kubernetes %}
+{% tabs one-hostanme-per-version useUrlFragment=false %}
+{% tab one-hostanme-per-version Kubernetes %}
 {% raw %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -182,7 +151,7 @@ spec:
 ```
 {% endraw %}
 {% endtab %}
-{% tab one-hostname-per-version Universal %}
+{% tab one-hostanme-per-version Universal %}
 {% raw %}
 ```yaml
 type: VirtualOutbound

@@ -1,11 +1,6 @@
 ---
 title: Fault Injection
 ---
-{% if_version gte:2.6.x %}
-{% warning %}
-New to Kuma? You need this policy, check [`MeshFaultInjection`](/docs/{{ page.version }}/policies/meshfaultinjection) instead.
-{% endwarning %}
-{% endif_version %}
 
 {% tip %}
 Fault Injection is an inbound policy. Dataplanes whose configuration is modified are in the `destinations` matcher.

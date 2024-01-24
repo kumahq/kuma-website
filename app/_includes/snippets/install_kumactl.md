@@ -33,7 +33,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-{{ page.latest_
 
 So we enter the `bin` folder by executing: `cd kuma-{{ page.latest_version }}/bin`
 
-We suggest adding the `kumactl` executable to your `PATH` (by executing: `export PATH=$(pwd):$PATH`) so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
+We suggest adding the `kumactl` executable to your `PATH` (by executing: `PATH=$(pwd):$PATH`) so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
 ```sh
 ln -s $PWD/kuma-{{ page.latest_version }}/bin/kumactl /usr/local/bin/kumactl

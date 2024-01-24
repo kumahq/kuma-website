@@ -11,11 +11,6 @@ instances that listen and serve traffic.
 Kuma offers `MeshGatewayInstance` to manage a Kubernetes `Deployment` and `Service`
 that together provide service capacity for the `MeshGateway` with the matching `kuma.io/service` tag.
 
-{% tip %}
-If you're not using the `default` `Mesh`, you'll need to _label_ the
-`MeshGatewayInstance` using `kuma.io/mesh`.
-{% endtip %}
-
 Consider the following example:
 
 ```yaml
@@ -24,8 +19,6 @@ kind: MeshGatewayInstance
 metadata:
   name: edge-gateway
   namespace: default
-  labels:
-    kuma.io/mesh: default # only necessary if not using default Mesh
 spec:
   replicas: 2
   serviceType: LoadBalancer
@@ -37,6 +30,11 @@ Once a `MeshGateway` exists with `kuma.io/service: edge-gateway`, the control pl
 This `Deployment` deploys 2 replicas of `kuma-dp` and corresponding builtin gateway `Dataplane` running with `kuma.io/service: edge-gateway`.
 The control plane also creates a new `Service` to send network traffic to the builtin `Dataplane` pods.
 The `Service` is of type `LoadBalancer`, and its ports are automatically adjusted to match the listeners on the corresponding `MeshGateway`.
+
+{% tip %}
+If you're not using the `default` `Mesh`, you'll need to _label_ the
+`MeshGatewayInstance` using `kuma.io/mesh`.
+{% endtip %}
 
 ## Customization
 
