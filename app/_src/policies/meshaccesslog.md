@@ -19,24 +19,30 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 {% if_version gte:2.4.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
-| `targetRef.kind`    | top level | to  | from |
-| ------------------- | --------- | --- | ---- |
-| `Mesh`              | ✅        | ✅  | ✅   |
-| `MeshSubset`        | ✅        | ❌  | ❌   |
-| `MeshService`       | ✅        | ✅  | ❌   |
-| `MeshServiceSubset` | ✅        | ❌  | ❌   |
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
+| `from[].targetRef.kind` | `Mesh`                                                   |
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
-| `targetRef.kind`    | top level | to  |
-| ------------------- | --------- | --- |
-| `Mesh`              | ✅        | ✅  |
-| `MeshGateway`       | ✅        | ❌  |
-| `MeshService`       | ✅        | ❌  |
+{% if_version lte:2.5.x %}
+| `targetRef`           | Allowed kinds                       |
+| --------------------- | ----------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService` |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`               |
+{% endif_version %}
+{% if_version gte:2.6.x %}
+| `targetRef`           | Allowed kinds                                    |
+| --------------------- | ------------------------------------------------ |
+| `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`                            |
+{% endif_version %}
 {% endtab %}
 {% endtabs %}
-
 {% endif_version %}
+
 {% if_version lte:2.3.x %}
 
 | `targetRef.kind`    | top level | to  | from |
