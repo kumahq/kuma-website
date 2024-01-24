@@ -454,6 +454,22 @@ items:
             url: /policies/rate-limit/
           - text: Virtual Outbound
             url: /policies/virtual-outbound/
+  - title: Guides
+    group: true
+    items:
+      - text: Federate zone control plane
+        url: /guides/federate/
+        items:
+          - text: Prerequisites
+            url: /guides/federate/#prerequisites
+          - text: Start a global control plane
+            url: /guides/federate/#start-global-cp
+          - text: Copy resources from zone to global control plane
+            url: /guides/federate/#copy-resources
+          - text: Connect zone control plane to global control plane
+            url: /guides/federate/#connect-zone-cp
+          - text: Verify federation
+            url: /guides/federate/#verify-federation
   - title: Reference
     group: true
     items:
