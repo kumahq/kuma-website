@@ -173,7 +173,47 @@ spec:
     default: # 3
       action: Deny
     ```
-   
+
+### Allow all
+
+{% policy_yaml allow-all %}
+```yaml
+type: MeshTrafficPermission
+name: allow-all
+mesh: default
+spec:
+  targetRef: # 1
+    kind: Mesh
+  from:
+    - targetRef: # 2
+        kind: Mesh
+      default: # 3
+        action: Allow
+```
+{% endpolicy_yaml %}
+
+#### Explanation
+
+1. Top level `targetRef` selects all proxies in the mesh.
+
+    ```yaml
+    targetRef: # 1
+      kind: Mesh
+    ```
+
+2. `TargetRef` inside the `from` array selects all clients.
+
+    ```yaml
+    - targetRef: # 2
+        kind: Mesh
+    ```
+
+3. The action is `All`. All requests from all services will be allow on all proxies in the `default` mesh.
+
+    ```yaml
+    default: # 3
+      action: Allow
+    ```
 
 ### Allow requests from zone 'us-east', deny requests from 'dev' environment
 

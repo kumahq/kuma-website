@@ -12,13 +12,13 @@ This policy enables automatic encrypted mTLS traffic for all the services in a {
 Once a CA backend has been specified, {{site.mesh_product_name}} will then automatically generate a certificate for every data plane proxy in the {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %}. The certificates that {{site.mesh_product_name}} generates are SPIFFE compatible and are used for AuthN/Z use-cases in order to identify every workload in our system.
 
 {% tip %}
-The certificates that {{site.mesh_product_name}} generates have a SAN set to `spiffe://<mesh name>/<service name>`. When {{site.mesh_product_name}} enforces policies that require an identity like [`TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions) it will extract the SAN from the client certificate and use it to match the service identity.
+The certificates that {{site.mesh_product_name}} generates have a SAN set to `spiffe://<mesh name>/<service name>`. When {{site.mesh_product_name}} enforces policies that require an identity like {% if_version lte:2.5.x %}[`TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions){% endif_version %}{% if_version gte:2.6.x %}[`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission){% endif_version %} it will extract the SAN from the client certificate and use it to match the service identity.
 {% endtip %}
 
-Remember that by default mTLS **is not** enabled and needs to be explicitly enabled as described below. Also remember that by default when mTLS is enabled all traffic is denied **unless** a [`TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions) policy is being configured to explicitly allow traffic across proxies.
+Remember that by default mTLS **is not** enabled and needs to be explicitly enabled as described below. Also remember that by default when mTLS is enabled all traffic is denied **unless** a {% if_version lte:2.5.x %}[`TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions){% endif_version %}{% if_version gte:2.6.x %}[`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission){% endif_version %} policy is being configured to explicitly allow traffic across proxies.
 
 {% tip %}
-Always make sure that a [`TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions) resource is present before enabling mTLS in a Mesh in order to avoid unexpected traffic interruptions caused by a lack of authorization between proxies.
+Always make sure that a {% if_version lte:2.5.x %}[`TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions){% endif_version %}{% if_version gte:2.6.x %}[`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission){% endif_version %} resource is present before enabling mTLS in a Mesh in order to avoid unexpected traffic interruptions caused by a lack of authorization between proxies.
 {% endtip %}
 
 To enable mTLS we need to configure the `mtls` property in a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %} resource. We can have as many `backends` as we want, but only one at a time can be enabled via the `enabledBackend` property.
@@ -34,6 +34,12 @@ With a `builtin` CA backend type, {{site.mesh_product_name}} will dynamically ge
 We can specify more than one `builtin` backend with different names, and each one of them will be automatically provisioned with a unique pair of certificate + key (they are not shared).
 
 To enable a `builtin` mTLS for the entire Mesh we can apply the following configuration:
+
+{% if_version gte:2.6.x %}
+{% warning %}
+Since version 2.6.x, by default, we don't create default `TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions) policy which is required for traffic to works after enabling mTLS. If you don't want to break your traffic, before enabling mTLS, add specific or default [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission#allow-all).
+{% endwarning %}
+{% endif_version %}
 
 {% tabs builtin-ca useUrlFragment=false %}
 {% tab builtin-ca Kubernetes %}
