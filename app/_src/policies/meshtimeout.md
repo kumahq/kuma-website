@@ -29,6 +29,7 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 {% endtabs %}
 
 {% endif_version %}
+
 {% if_version lte:2.5.x %}
 {% if_version gte:2.3.x %}
 
@@ -41,6 +42,7 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 | MeshHTTPRoute     | ✅         | ❌   | ❌    |
 
 {% endif_version %}
+{% endif_version %}
 
 {% if_version lte:2.2.x %}
 
@@ -51,7 +53,6 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 | MeshService       | ✅         | ✅   | ❌    |
 | MeshServiceSubset | ✅         | ❌   | ❌    |
 
-{% endif_version %}
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
