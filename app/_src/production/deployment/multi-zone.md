@@ -45,7 +45,7 @@ Requests to the `availableServices` from `zone-a` are load balanced between loca
 Requests send to `zone-b` are routed to the zone ingress proxy of `zone-b`.
 
 For load-balancing, the zone ingress endpoints are weighted with the number of instances running behind them. So a zone with 2 instances will receive twice as much traffic than a zone with 1 instance.
-You can also favor local service instances with {% if_version let:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %}.
+You can also favor local service instances with {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %}.
 
 In the presence of a {% if_version lte:2.1.x %}[zone egress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}, the traffic is routed through the local zone egress before being sent to the remote zone ingress.
 
