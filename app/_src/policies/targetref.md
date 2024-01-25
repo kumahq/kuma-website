@@ -135,7 +135,7 @@ targetRef:
   tags:
     key: value # For kinds MeshServiceSubset, MeshSubset and MeshGateway a list of matching tags can be used
 ```
-{% endif_version}
+{% endif_version %}
 {% if_version gte:2.6.x %}
 ```yaml
 targetRef:
@@ -145,8 +145,7 @@ targetRef:
     key: value # For kinds MeshServiceSubset, MeshSubset and MeshGateway a list of matching tags can be used
   proxyTypes: ["Sidecar", "Gateway"] # For kinds Mesh and MeshSubset a list of matching Dataplanes types can be used
 ```
-{% endif_version}
-
+{% endif_version %}
 
 Here's an explanation of each kinds and their scope:
 
@@ -163,7 +162,7 @@ Since version 2.6.x, the `targetRef` now allows the selection of a subset of Dat
 - `Sidecar` - refers specifically to Dataplanes acting as sidecars to applications.
 - `Gateway` - applies to Dataplanes operating in Gateway mode.
 - Empty list - which refers to all Dataplanes.
-{% endif_version}
+{% endif_version %}
 
 Consider the example below:
 
@@ -399,6 +398,7 @@ All proxies in zone `east` (top level `targetRef`) will have this policy configu
 
 This can be very useful when observability stores are different for each zone for example.
 
+{% if_version gte:2.6.x %}
 #### Configuring all gateways in a Mesh
 
 ```yaml
@@ -416,3 +416,4 @@ spec:
 All gateway proxies in mesh `default` will have this policy configured with `key=value`.
 
 This can be very useful when timeout configurations for gateways need to differ from those of other proxies.
+{% endif_version %}
