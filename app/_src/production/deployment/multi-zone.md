@@ -45,7 +45,7 @@ Requests to the `availableServices` from `zone-a` are load balanced between loca
 Requests send to `zone-b` are routed to the zone ingress proxy of `zone-b`.
 
 For load-balancing, the zone ingress endpoints are weighted with the number of instances running behind them. So a zone with 2 instances will receive twice as much traffic than a zone with 1 instance.
-You can also favor local service instances with [locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware).
+You can also favor local service instances with {% if_version let:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version get:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %}.
 
 In the presence of a {% if_version lte:2.1.x %}[zone egress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}, the traffic is routed through the local zone egress before being sent to the remote zone ingress.
 
@@ -157,5 +157,5 @@ When it happens:
 - Communication across each zone will fail.
 
 {% tip %}
-With the right resiliency setup ([Retries](/docs/{{ page.version }}/policies/retry), [Probes](/docs/{{ page.version }}/policies/health-check), [Locality Aware LoadBalancing](/docs/{{ page.version }}/policies/locality-aware), [Circuit Breakers](/docs/{{ page.version }}/policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
+With the right resiliency setup ({% if_version let:2.5.x %}[Retries](/docs/{{ page.version }}/policies/retry{% endif_version %}{% if_version get:2.6.x %}[MeshRetries](/docs/{{ page.version }}/policies/meshretry{% endif_version %}, {% if_version let:2.5.x %}[Probes](/docs/{{ page.version }}/policies/health-check{% endif_version %}{% if_version get:2.6.x %}[MeshHealthCheck](/docs/{{ page.version }}/policies/meshhealthcheck{% endif_version %}, {% if_version let:2.5.x %}[Locality Aware LoadBalancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version get:2.6.x %}[MeshLoadBalancingStrategy](/docs/{{ page.version }}/policies/meshloadbalancingstrategy{% endif_version %}, {% if_version let:2.5.x %}[Circuit Breakers](/docs/{{ page.version }}/policies/circuit-breaker){% endif_version %}{% if_version get:2.6.x %}[MeshCircuitBreakers](/docs/{{ page.version }}/policies/meshcircuitbreaker{% endif_version %}) the failing zone can be quickly severed and traffic re-routed to another zone.
 {% endtip %}
