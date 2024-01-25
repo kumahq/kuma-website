@@ -20,10 +20,10 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
-| `targetRef`           | Allowed kinds                                             |
-| --------------------- | --------------------------------------------------------- |
-| `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
-| `to[].targetRef.kind` | `Mesh`                                                    |
+| `targetRef`             | Allowed kinds                                             |
+| ----------------------- | --------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
+| `to[].targetRef.kind`   | `Mesh`                                                    |
 | `from[].targetRef.kind` | `Mesh`                                                    |
 {% endtab %}
 {% endtabs %}
