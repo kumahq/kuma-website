@@ -24,6 +24,7 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 | --------------------- | --------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
 | `to[].targetRef.kind` | `Mesh`                                                    |
+| `from[].targetRef.kind` | `Mesh`                                                    |
 {% endtab %}
 {% endtabs %}
 
@@ -71,6 +72,9 @@ MeshTimeout policy lets you configure multiple timeouts:
 - http streamIdleTimeout
 - http maxStreamDuration
 - http maxConnectionDuration
+{% if_version gte:2.6.x %}
+- http requestHeadersTimeout
+{% endif_version %}
 
 ### Timeouts explained
 
@@ -114,6 +118,12 @@ Max connection duration is the time after which an inbound or outbound connectio
 starting from when it was first established. If there are no active streams, the connection will be closed.
 If there are any active streams, the drain sequence will kick-in, and the connection will be force-closed after 5
 seconds.
+
+{% if_version gte:2.6.x %}
+#### HTTP request headers timeout
+
+The amount of time that proxy will wait for the request headers to be received. The timer is activated when the first byte of the headers is received, and is disarmed when the last byte of the headers has been received.
+{% endif_version %}
 
 ### Examples
 
@@ -294,6 +304,39 @@ spec:
 {% if_version eq:2.1.x %}
 If you don't specify a `from` or `to` section , the defaults from [`Timeout`](/docs/{{ page.version }}/policies/timeout) will be used. This
 is [a known bug](https://github.com/kumahq/kuma/issues/5850) and is fixed in the next version.
+{% endif_version %}
+
+{% if_version gte:2.6.x %}
+#### Default configuration for all gateways in the Mesh
+
+This configuration will be applied on inbounds and outbounds of all gateways.
+
+{% policy_yaml example5 %}
+```yaml
+type: MeshTimeout
+name: mesh-gateways-timeout-all-default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+    proxyTypes: ["Gateway"]
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 5m
+        http:
+          streamIdleTimeout: 5s
+          requestHeadersTimeout: 500ms
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 1h
+        http:
+          streamIdleTimeout: 5s
+```
+{% endpolicy_yaml %}
 {% endif_version %}
 
 ## All policy options
