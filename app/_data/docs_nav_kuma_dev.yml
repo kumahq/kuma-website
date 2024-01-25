@@ -46,8 +46,8 @@ items:
       - title: Control plane deployment
         group: true
         items:
-          - text: Deploy a standalone control plane
-            url: /production/cp-deployment/stand-alone/
+          - text: Deploy a single-zone control plane
+            url: /production/cp-deployment/single-zone/
           - text: Deploy a multi-zone global control plane
             url: /production/cp-deployment/multi-zone/
           - text: Zone Ingress
