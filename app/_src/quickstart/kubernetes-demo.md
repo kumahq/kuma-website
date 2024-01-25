@@ -16,7 +16,7 @@ To start learning how {{site.mesh_product_name}} works, you run and secure a sim
 Start a new Kubernetes cluster on your local machine by executing:
 
 ```sh
-kind create cluster --name=kuma-zone
+kind create cluster --name=mesh-zone
 ```
 
 {% tip %}
@@ -146,5 +146,6 @@ However, the traffic to `redis` from any other service than `demo-app` is not al
 ## Next steps
 
 * Explore the [Features](/features) available to govern and orchestrate your service traffic.
+* [Federate](/docs/{{ page.version }}/guides/federate) zone into a multizone deployment.
 * Read the [full documentation](/docs/{{ page.version }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
 * Chat with us at the official [Kuma Slack](/community) for questions or feedback.
