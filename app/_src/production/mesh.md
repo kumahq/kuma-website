@@ -21,13 +21,7 @@ When starting a new {{site.mesh_product_name}} cluster from scratch a `default` 
 Besides the ability of being able to create virtual service mesh, a `Mesh` resource will also be used for:
 
 * [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/), to secure and encrypt our service traffic and assign an identity to the data plane proxies within the Mesh.
-{% if_version lte:2.5.x %}
 * [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics/), to setup metrics backend that will be used to collect and visualize metrics of our service mesh and service traffic within the Mesh.
-{% endif_version %}
-{% if_version gte:2.6.x %}
-
-{% endif_version %}
-
 * [Traffic Trace](/docs/{{ page.version }}/policies/traffic-trace/), to setup tracing backends that will be used to collect traces of our service traffic within the Mesh.
 * {% if_version lte:2.1.x %}[Zone Egress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}, to setup if `ZoneEgress` should be used for cross zone and external service communication.
 * [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic), to setup if `passthrough` mode should be used for the non-mesh traffic.
