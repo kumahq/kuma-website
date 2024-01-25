@@ -208,7 +208,7 @@ spec:
         kind: Mesh
     ```
 
-3. The action is `All`. All requests from all services will be allow on all proxies in the `default` mesh.
+3. The action is `Allow`. All requests from all services will be allow on all proxies in the `default` mesh.
 
     ```yaml
     default: # 3

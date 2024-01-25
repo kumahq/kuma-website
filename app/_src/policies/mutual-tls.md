@@ -37,7 +37,7 @@ To enable a `builtin` mTLS for the entire Mesh we can apply the following config
 
 {% if_version gte:2.6.x %}
 {% warning %}
-Since version 2.6.x, by default, we don't create default `TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions) policy which is required for traffic to works after enabling mTLS. If you don't want to break your traffic, before enabling mTLS, add specific or default [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission#allow-all).
+Since version 2.6.x, by default, we no longer create the default [`TrafficPermission`](/docs/{{ page.version }}/policies/traffic-permissions) policy required for traffic to function after enabling mTLS. If you wish to avoid disrupting your traffic, it is recommended to add a specific or default [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission#allow-all) before enabling mTLS.
 {% endwarning %}
 {% endif_version %}
 
