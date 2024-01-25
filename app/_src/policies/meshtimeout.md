@@ -311,7 +311,7 @@ is [a known bug](https://github.com/kumahq/kuma/issues/5850) and is fixed in the
 
 This configuration will be applied on inbounds and outbounds of all gateways.
 
-{% policy_yaml example5 %}
+{% policy_yaml example6 %}
 ```yaml
 type: MeshTimeout
 name: mesh-gateways-timeout-all-default
