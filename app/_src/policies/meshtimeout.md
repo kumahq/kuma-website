@@ -326,6 +326,7 @@ spec:
 ### Defaults
 
 {% if_version lte:2.5.x %}
+
 | Property                   | default |
 |----------------------------|---------|
 | idleTimeout                | 1h      |
@@ -334,8 +335,10 @@ spec:
 | http.streamIdleTimeout     | 30m     |
 | http.maxStreamDuration     | 0s      |
 | http.maxConnectionDuration | 0s      |
+
 {% endif_version %}
 {% if_version gte:2.6.x %}
+
 | Property                   | default |
 |----------------------------|---------|
 | idleTimeout                | 1h      |
@@ -345,6 +348,7 @@ spec:
 | http.maxStreamDuration     | 0s      |
 | http.maxConnectionDuration | 0s      |
 | http.requestHeadersTimeout | 0s      |
+
 {% endif_version %}
 
 {% if_version eq:2.1.x %}
