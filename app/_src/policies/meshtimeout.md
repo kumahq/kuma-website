@@ -334,7 +334,7 @@ spec:
 | http.streamIdleTimeout     | 30m     |
 | http.maxStreamDuration     | 0s      |
 | http.maxConnectionDuration | 0s      |
-{% if_version inline:true gte:2.6.x %}| http.requestHeadersTimeout | 0s      |{% endif_version %}{% if_version lte:2.5.x inline:true %} {% endif_version %}
+{% if_version inline:true gte:2.6.x %}| http.requestHeadersTimeout | 0s      |{% endif_version %}
 
 {% if_version eq:2.1.x %}
 If you don't specify a `from` or `to` section , the defaults from [`Timeout`](/docs/{{ page.version }}/policies/timeout) will be used. This
