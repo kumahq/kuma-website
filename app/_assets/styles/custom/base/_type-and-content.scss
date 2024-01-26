@@ -90,7 +90,11 @@ div[class*='language-'] {
   pre[class*='language-'],
   div[class*='language-'] {
     background-color: $codeBgColor;
-
+    
+    &.mermaid {
+      background-color: unset;
+    }
+    
     code {
       font-size: 0.9rem;
       line-height: 1.5;
