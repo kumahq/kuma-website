@@ -53,6 +53,7 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 | MeshServiceSubset | ✅         | ❌   | ❌    |
 
 {% endif_version %}
+{% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
