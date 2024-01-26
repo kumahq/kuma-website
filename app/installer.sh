@@ -113,6 +113,8 @@ main() {
     VERSION="$LATEST_VERSION"
   fi
 
+  FILENAME_VERSION="${VERSION}"
+
   if [ "$VERSION" = 'preview' ]; then
 
     if ! command -v gh >/dev/null 2>&1; then
@@ -160,7 +162,8 @@ main() {
     )"
 
     commit="$(echo "$commit" | cut -c -9)"
-    VERSION="0.0.0-preview.v${commit}"
+    VERSION="$commit"
+    FILENAME_VERSION="0.0.0-preview.v${commit}"
   fi
 
   if [ $# -gt 0 ]; then
@@ -199,7 +202,7 @@ main() {
 ${VERSION}
 EOF
 
-  if echo "$VERSION" | grep -qs -E 'preview|0.0.0'; then
+  if echo "$FILENAME_VERSION" | grep -qs -E 'preview|0.0.0'; then
     URL_REPO="${REPO_REPO}-binaries-preview"
   else
 
@@ -233,7 +236,7 @@ EOF
   # kong-mesh-2.5.1-windows-amd64.tar.gz
   # kong-mesh-2.5.1-linux-arm64.tar.gz
   # kumactl-1.8.1-linux-amd64.tar.gz
-  URL_FILENAME="${REPO_REPO}-${VERSION}-${DISTRO}-${ARCH}.tar.gz"
+  URL_FILENAME="${REPO_REPO}-${FILENAME_VERSION}-${DISTRO}-${ARCH}.tar.gz"
 
   URL="${URL}/${URL_REPO}/raw/names/${URL_NAME}/versions/${VERSION}/${URL_FILENAME}"
 
@@ -244,10 +247,10 @@ EOF
   log "Downloading ${TARGET_NAME} from: ${URL}"
 
   if curl --fail -L "$URL" | tar xz; then
-    log "${TARGET_NAME} ${VERSION} has been downloaded!"
+    log "${TARGET_NAME} ${FILENAME_VERSION} has been downloaded!"
 
     if [ "$TARGET_NAME" != "$CTL_NAME" ]; then
-      cat "${DIR}/${REPO_REPO}-${VERSION}/README"
+      cat "${DIR}/${REPO_REPO}-${FILENAME_VERSION}/README"
     fi
   else
     err "Unable to download ${TARGET_NAME}"
