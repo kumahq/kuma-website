@@ -158,10 +158,10 @@ Here's an explanation of each kinds and their scope:
       kind, as opposed to MeshService/MeshServiceSubset.
 
 {% if_version gte:2.6.x %}
-Since version 2.6.x, the `targetRef` now allows the selection of a subset of Dataplanes. A new field, proxyTypes, has been introduced to apply policies to:
-- `Sidecar` - refers specifically to Dataplanes acting as sidecars to applications.
-- `Gateway` - applies to Dataplanes operating in Gateway mode.
-- Empty list - which refers to all Dataplanes.
+In {{site.mesh_product_name}} 2.6.x, the `targetRef` field gained the ability to select a specific subset of data plane proxies. To further refine policy enforcement, a new field named `proxyTypes` has been introduced. It allows you to target policies to specific types of data plane proxies:
+- `Sidecar`: Targets data plane proxies acting as sidecars to applications.
+- `Gateway`: Applies to data plane proxies operating in Gateway mode.
+- Empty list: Defaults to targeting all data plane proxies.
 {% endif_version %}
 
 Consider the example below:
