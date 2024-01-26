@@ -127,7 +127,7 @@ main() {
         -f branch="$BRANCH" \
         -q '.data.repository.ref.target.history.nodes | map(
           select(
-            .statusCheckRollup.state == 'SUCCESS'
+            .statusCheckRollup.state == "SUCCESS"
           )
         ) | first | .oid' \
         -F query='
