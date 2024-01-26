@@ -166,6 +166,7 @@ First and foremost, the `kuma-cp` application is a server that offers a number o
 
 The number and type of exposed ports depends on the mode in which the control plane is running as:
 
+{% if_version lte:2.5.x %}
 ### Standalone Control Plane
 
 This is the default, single zone mode, in which all of the following ports are enabled in `kuma-cp`
@@ -178,6 +179,7 @@ This is the default, single zone mode, in which all of the following ports are e
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve {{site.mesh_product_name}}'s policies and - when running in `universal` - that you can use to apply new policies. It also exposes the {{site.mesh_product_name}} GUI at `/gui`
     * `5682`: HTTPS version of the services available under `5681`
     * `5683`: gRPC Intercommunication CP server used internally by {{site.mesh_product_name}} to communicate between CP instances.
+{% endif_version %}
 
 ### Global Control Plane
 
@@ -200,7 +202,7 @@ When {{site.mesh_product_name}} is run as a distributed service mesh, the Zone c
     * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
     * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
     * `5678`: the server for the control-plane to data-planes communication (bootstrap configuration, xDS to retrieve their configuration, SDS to retrieve mTLS certificates).
-    * `5680`: the HTTP server that returns the health status of the control-plane.
-    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve {{site.mesh_product_name}}'s policies and - when running in `universal` - you can only manage the dataplane resources.
+    * `5680`: the HTTP server that returns the health status and metrics of the control-plane.
+    * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve {{site.mesh_product_name}}'s policies and - when running in `universal` - you can only manage the dataplane resources. {% if_version gte:2.6.x %}When not connected to global, It also exposes the {{site.mesh_product_name}} GUI at `/gui`{% endif_version %}
     * `5682`: HTTPS version of the services available under `5681`
     * `5683`: gRPC Intercommunication CP server used internally by {{site.mesh_product_name}} to communicate between CP instances.

@@ -55,8 +55,8 @@ items:
         items:
           - text: Overview
             url: /production/deployment/
-          - text: Standalone deployment
-            url: /production/deployment/stand-alone/
+          - text: Single-zone deployment
+            url: /production/deployment/single-zone/
           - text: Multi-zone deployment
             url: /production/deployment/multi-zone/
       - text: Install kumactl

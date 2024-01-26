@@ -10,7 +10,7 @@ This way you can:
 - manage policies that are pushed to all zones
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to setup a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 
 ## Start a global control plane
 
