@@ -10,7 +10,7 @@ When a data plane proxy connects to the control-plane, it initiates a gRPC strea
 In {% if_version lte:2.1.x %}[standalone mode](/docs/{{ page.version }}/deployments/stand-alone){% endif_version %}{% if_version gte:2.2.x %}[standalone mode](/docs/{{ page.version }}/production/deployment/stand-alone/){% endif_version %} the `kuma-dp` process connects directly to the `kuma-cp` instances.
 {% endif_version %}
 {% if_version gte:2.6.x %}
-In [single-zone mode](/docs/{{ page.version }}/production/deployment/stand-alone/) the `kuma-dp` process connects directly to the `kuma-cp` instances.
+In [single-zone mode](/docs/{{ page.version }}/production/deployment/single-zone/) the `kuma-dp` process connects directly to the `kuma-cp` instances.
 {% endif_version %}
 
 In a {% if_version lte:2.1.x %}[multi-zone deployment](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %} the `kuma-dp` processes will connect to the zone control plane, while the zone control planes will connect to the global control plane over an extension of the xDS API that we have built called "KDS" ({{site.mesh_product_name}} Discovery Service). In multi-zone mode, the data plane proxies never connect to the global control plane but only to the zone ones.
