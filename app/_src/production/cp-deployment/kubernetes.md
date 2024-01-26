@@ -3,7 +3,7 @@ title: Kubernetes
 content_type: how-to
 ---
 
-You can find instructions to install on kubernetes for {% if_version gte:2.6.x %}[standalone](/docs/{{ page.version }}/production/cp-deployment/stand-alone){% endif_version %}{% if_version lte:2.5.x %}[standalone](/docs/{{ page.version }}/production/cp-deployment/stand-alone){% endif_version %} or [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone).
+You can find instructions to install on kubernetes for {% if_version gte:2.6.x %}[single-zone](/docs/{{ page.version }}/production/cp-deployment/single-zone){% endif_version %}{% if_version lte:2.5.x %}[standalone](/docs/{{ page.version }}/production/cp-deployment/stand-alone){% endif_version %} or [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone).
 This page covers special steps for some Kubernetes distributions or version and some troubleshooting help.
 
 ## Helm
