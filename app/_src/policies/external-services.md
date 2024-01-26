@@ -128,7 +128,7 @@ As with other services, avoid duplicating service names under `kuma.io/service` 
 ### External Services and Locality Aware Load Balancing
 
 There are might be scenarios when a particular external service should be accessible only from the particular zone. 
-In order to make it work we should use `kuma.io/zone` tag for external service. When this tag is set and [locality aware load balancing](/docs/{{ page.version }}/policies/locality-aware) is enabled
+In order to make it work we should use `kuma.io/zone` tag for external service. When this tag is set and {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %} is enabled
 then the traffic from the zone will be redirected only to external services associated with the zone using `kuma.io/zone` tag.
 
 Example:
@@ -155,7 +155,7 @@ networking:
   address: zone-2.httpbin.org:80
 ```
 
-In this example, when [locality aware load balancing](/docs/{{ page.version }}/policies/locality-aware) is enabled, if the service in the `zone-1` is trying to set connection with
+In this example, when {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %} is enabled, if the service in the `zone-1` is trying to set connection with
 `httpbin.mesh` it will be redirected to `zone-1.httpbin.org:80`. Whereas the same request from the `zone-2` will be redirected to `zone-2.httpbin.org:80`.
 
 {% warning %}
