@@ -201,7 +201,7 @@ spec:
       kind: Mesh
     ```
 
-2. `TargetRef` inside the `from` array selects all clients.
+2. `targetRef` inside the element of the `from` array selects all clients within the mesh.
 
     ```yaml
     - targetRef: # 2

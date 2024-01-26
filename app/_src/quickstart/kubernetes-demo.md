@@ -82,19 +82,20 @@ And then navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the 
 By default, the network is insecure and not encrypted. We can change this with {{site.mesh_product_name}} by enabling the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running alongside the services).
 
 {% if_version gte:2.6.x %}
-Before we enable [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) you need to create `MeshTrafficPermisson` policy to allow traffic between applications. 
+Before enabling [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTLS) in your mesh, you need to create a `MeshTrafficPermission` policy that allows traffic between your applications.
 
 {% warning %}
-If you enable [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) without `MeshTrafficPermission` you will break the whole traffic.
+If you enable [mTLS](/docs/{{ page.version }}/policies/mutual-tls/) without a `MeshTrafficPermission` policy, all traffic between your applications will be blocked. 
 {% endwarning %}
 
+To create a `MeshTrafficPermission` policy, you can use the following command:
+
 ```sh
-echo "
-apiVersion: kuma.io/v1alpha1
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
   namespace: {{site.mesh_namespace}}
-  name: mtp
+  name: allow-all-traffic
 spec:
   targetRef:
     kind: Mesh
@@ -104,6 +105,8 @@ spec:
       default:
         action: Allow" | kubectl apply -f -
 ```
+
+This command will create a policy that allows all traffic between applications within your mesh. If you need to create more specific rules, you can do so by editing the policy manifest.
 {% endif_version %}
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
