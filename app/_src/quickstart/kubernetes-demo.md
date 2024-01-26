@@ -95,7 +95,7 @@ echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
   namespace: {{site.mesh_namespace}}
-  name: allow-all-traffic
+  name: mtp
 spec:
   targetRef:
     kind: Mesh
