@@ -37,12 +37,14 @@ depending on where the request is coming from and where it's going to.
 
 {% endif_version %}
 {% if_version lte:2.5.x %}
-| TargetRef type    | top level | to | from |
-|-------------------|-----------|----|------|
-| Mesh              | ✅         | ❌  | ❌    |
-| MeshSubset        | ✅         | ❌  | ❌    |
-| MeshService       | ✅         | ✅  | ❌    |
-| MeshServiceSubset | ✅         | ❌  | ❌    |
+
+| TargetRef type    | top level | to  | from |
+|-------------------|-----------|-----|------|
+| Mesh              | ✅         | ❌   | ❌    |
+| MeshSubset        | ✅         | ❌   | ❌    |
+| MeshService       | ✅         | ✅   | ❌    |
+| MeshServiceSubset | ✅         | ❌   | ❌    |
+
 {% endif_version %}
 
 For more information, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
