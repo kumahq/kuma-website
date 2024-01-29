@@ -23,7 +23,9 @@ Follow the {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.versio
 1. This feature only works with [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission),
    if you're using [TrafficPermission](/docs/{{ page.version }}/policies/traffic-permissions) you need to migrate to MeshTrafficPermission,
    otherwise enabling this feature could stop all traffic flow.
-2. Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.version }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions.
+{% if_version lte:2.5.x %}
+2. Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.version }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions, or upgrade {{site.mesh_product_name}} to 2.6.x or newer.
+{% endif_version %}
    {% endwarning %}
 
 Starting with release 2.5 the problem stated in [reachable services](#reachable-services) section
