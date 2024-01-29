@@ -93,8 +93,8 @@ jobs:
     steps:
       - name: Prepare OS
         run: |
-          (apt-get update && apt-get install file curl -y) || true
-          yum install file tar gzip -y || true
+          (apt-get update && apt-get install curl -y) || true
+          yum install gzip tar -y || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
         run: sh app/installer.sh
@@ -118,7 +118,7 @@ jobs:
 
           # Set an output parameter `uname` for use in subsequent steps
           run: |
-            apt-get update && apt-get install -y file curl tar gzip
+            apt-get update && apt-get install -y tar gzip curl
             sh app/installer.sh
             file ./kuma-*/bin/kumactl | grep aarch64 &> /dev/null
 
