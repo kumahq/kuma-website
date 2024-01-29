@@ -261,8 +261,10 @@ spec:
           operation: Patch
           match:
             name: "outbound:passthrough:ipv4"
-          value: |
-            connect_timeout: "99s"
+          jsonPatches:
+            - op: replace
+              path: /connectTimeout
+              value: 99s
       - networkFilter:
           operation: Patch
           match:
