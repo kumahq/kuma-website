@@ -55,7 +55,7 @@ Otherwise, you will block the traffic which may cause the instability of the sys
 ### Policies don't apply to non-mesh traffic
 
 If you need to change configuration for non-mesh traffic 
-you can use a {% if_version lte:2.5.x inline:true %}ProxyTemplate{% endif_version %}{% if_version inline:true gte:2.6.x %}MeshProxyPatch{% endif_version %}.
+you can use a {% if_version lte:2.5.x inline:true %}Proxy Template{% endif_version %}{% if_version inline:true gte:2.6.x %}MeshProxyPatch{% endif_version %}.
 
 #### Circuit Breaker
 
@@ -177,7 +177,7 @@ tcp:
   idleTimeout: 1h
 ```
 
-Proxy Template to change the defaults:
+{% if_version lte:2.5.x inline:true %}Proxy Template{% endif_version %}{% if_version inline:true gte:2.6.x %}MeshProxyPatch{% endif_version %}to change the defaults:
 
 {% if_version lte:2.5.x %}
 {% tabs passthrough-timeouts useUrlFragment=false %}
