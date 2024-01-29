@@ -5,7 +5,7 @@ module Jekyll
     priority :low
 
     def generate(site)
-      active_versions = site.data['versions'].filter {|v| v['release'] != "dev"}
+      active_versions = site.data['versions'].filter { |v| !v.key?('label') || v['label'] != "dev" }
 
       # Generate redirects for the latest version
       latest_release = site.data['latest_version']['release']
