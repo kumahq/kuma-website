@@ -7,7 +7,7 @@ New to Kuma? Don't use this, check the [`MeshHTTPRoute` policy](/docs/{{ page.ve
 {% endwarning %}
 {% endif_version %}
 
-`MeshGatewayRoute` is a policy used to configure [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin).
+`MeshGatewayRoute` is a policy used to configure {% if_version gte:2.6.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin){% endif_version %}{% if_version lte:2.5.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin){% endif_version %}.
 It is used in combination with {% if_version gte:2.6.x %}[`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners){% endif_version %}{% if_version lte:2.5.x %}[`MeshGateway`](/docs/{{ page.version }}/policies/meshgateway){% endif_version %}.
 
 `MeshGatewayRoute` is a new {{site.mesh_product_name}} dataplane policy that replaces TrafficRoute for {{site.mesh_product_name}} Gateway.

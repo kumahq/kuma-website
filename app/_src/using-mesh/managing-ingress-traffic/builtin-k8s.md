@@ -2,7 +2,7 @@
 title: Running built-in gateway pods on Kubernetes
 ---
 
-`MeshGatewayInstance` is a Kubernetes-only resource for deploying [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin).
+`MeshGatewayInstance` is a Kubernetes-only resource for deploying [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin).
 
 `MeshGateway`, [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and
 [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) allow specifying builtin gateway
