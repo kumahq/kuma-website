@@ -111,35 +111,39 @@ main() {
       err "Must have github's gh CLI installed to install a preview version."
     fi
 
-    commit="$(
+    inner() {
       # shellcheck disable=SC2016
       gh api graphql \
         -f owner="$REPO_ORG" \
         -f repo="$REPO_REPO" \
         -f branch="$BRANCH" \
+        -F "count=${1}" \
         -q '.data.repository.ref.target.history.nodes | map(
-          select(
-            .statusCheckRollup.state == "SUCCESS"
-          )
-        ) | first | .oid' \
+            select(
+              .statusCheckRollup.state == "SUCCESS"
+            )
+          ) | first | .oid
+        ' \
         -F query='
-        query(
-          $branch: String!,
-          $owner: String!,
-          $repo: String!
-        ) {
-          repository(
-            name: $repo,
-            owner: $owner
+          query(
+            $branch: String!,
+            $owner: String!,
+            $repo: String!,
+            $count: Int!
           ) {
-            ref(qualifiedName: $branch) {
-              target {
-                ... on Commit {
-                  history(first: 10) {
-                    nodes {
-                      oid
-                      statusCheckRollup {
-                        state
+            repository(
+              name: $repo,
+              owner: $owner
+            ) {
+              ref(qualifiedName: $branch) {
+                target {
+                  ... on Commit {
+                    history(first: $count) {
+                      nodes {
+                        oid
+                        statusCheckRollup {
+                          state
+                        }
                       }
                     }
                   }
@@ -147,11 +151,24 @@ main() {
               }
             }
           }
-        }
-      '
-    )"
+        ' ||
+        true
+    }
+
+    for count in 5 10 25 50; do
+      commit="$(inner "$count")"
+
+      if echo "$commit" | grep -qs -E '[a-z0-9]{9,}'; then
+        break
+      fi
+    done
+
+    if ! echo "$commit" | grep -qs -E '[a-z0-9]{9,}'; then
+      err "Failed to find suitable preview commit (${count} commits checked)."
+    fi
 
     commit="$(echo "$commit" | cut -c -9)"
+
     VERSION="$commit"
     FILENAME_VERSION="0.0.0-preview.v${commit}"
   fi
