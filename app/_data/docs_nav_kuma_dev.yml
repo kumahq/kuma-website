@@ -199,7 +199,7 @@ items:
           - text: Built-in gateways
             url: "/using-mesh/managing-ingress-traffic/builtin/"
           - text: Running built-in gateway pods on Kubernetes
-            url: "/policies/meshgatewayinstance"
+            url: "/using-mesh/managing-ingress-traffic/builtin-k8s/"
           - text: Configuring built-in listeners
             url: "/using-mesh/managing-ingress-traffic/builtin-listeners/"
           - text: Configuring built-in routes
