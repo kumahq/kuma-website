@@ -17,6 +17,7 @@ That's where the Inspect API can help:
 kumactl inspect dataplane backend-1 --mesh=default
 ```
 
+{% if_version lte:2.5.x %}
 ```text
 DATAPLANE:
   ProxyTemplate
@@ -42,6 +43,32 @@ SERVICE gateway:
   Retry
     retry-all-default
 ```
+{% endif_version %}
+{% if_version gte:2.6.x %}
+```text
+DATAPLANE:
+  MeshProxyPatch
+    pt-1
+  MeshTrace
+    backends-eu
+
+INBOUND 127.0.0.1:10010:10011(backend):
+  MeshTrafficPermission
+    allow-all
+
+OUTBOUND 127.0.0.1:10006(gateway):
+  MeshTimeout
+    timeout-all-default
+
+SERVICE gateway:
+  MeshCircuitBreaker
+    circuit-breaker-all-default
+  MeshHealthCheck
+    gateway-to-backend
+  MeshRetry
+    retry-all-default
+```
+{% endif_version %}
 
 Each data plane proxy has 4 policy attachment points:
 
@@ -58,7 +85,7 @@ Sometimes it's useful to see if it's safe to delete or modify some policy. Befor
 it is worth checking which data plane proxies will be affected. This can be done using the Inspect API as well:
 
 ```shell
-kumactl inspect traffic-permission tp1 --mesh=default
+kumactl inspect {% if_version lte:2.5.x inline:true %}traffic-permission{% endif_version %}{% if_version gte:2.6.x inline:true %}meshtrafficpermission{% endif_version %} tp1 --mesh=default
 ```
 
 ```text
@@ -99,7 +126,7 @@ kumactl inspect zoneegress ze-1 --type=config-dump
 ```
 
 {% warning %}
-In order to retrieve a config dump in a Multizone deployment, `kumactl` should be pointed to a zone CP
+To retrieve a config dump in a Multizone deployment, `kumactl` should be pointed to a zone CP
 Global CPs don't have access to envoy config dumps.
 This is [a limitation that will be resolved in an upcoming release](https://github.com/kumahq/kuma/issues/3789).
 {% endwarning %}
