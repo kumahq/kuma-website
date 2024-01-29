@@ -73,9 +73,7 @@ MeshTimeout policy lets you configure multiple timeouts:
 - http streamIdleTimeout
 - http maxStreamDuration
 - http maxConnectionDuration
-{% if_version gte:2.6.x %}
-- http requestHeadersTimeout
-{% endif_version %}
+{% if_version inline:true gte:2.6.x %}- http requestHeadersTimeout{% endif_version %}
 
 ### Timeouts explained
 
@@ -86,18 +84,18 @@ Connection timeout specifies the amount of time DP will wait for a TCP connectio
 #### Idle timeout
 
 For TCP connections idle timeout is the amount of time that the DP will allow a connection to exist
-with no inbound or outbound activity. On the other hand when connection in HTTP time at which a inbound
+with no inbound or outbound activity. On the other hand when connection in HTTP time at which an inbound
 or outbound connection will be terminated if there are no active streams
 
 #### HTTP request timeout
 
 Request timeout lets you configure how long the data plane proxy should wait for the full response.
-In details it spans between the point at which the entire request has been processed by DP and when the response has
+In details, it spans between the point at which the entire request has been processed by DP and when the response has
 been completely processed by DP.
 
 #### HTTP stream idle timeout
 
-Stream idle timeout is the amount of time that the data plane proxy will allow a HTTP/2 stream to exist with no inbound
+Stream idle timeout is the amount of time that the data plane proxy will allow an HTTP/2 stream to exist with no inbound
 or outbound activity.
 This timeout is strongly recommended for all requests (not just streaming requests/responses) as it additionally
 defends against a peer that does not open the stream window once an entire response has been buffered to be sent to a
@@ -177,7 +175,7 @@ This configuration will be applied to `backend` service inbound.
 {% policy_yaml example3 %}
 ```yaml
 type: MeshTimeout
-name: inboud-timeout
+name: inbound-timeout
 mesh: default
 spec:
   targetRef:
@@ -192,7 +190,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-#### Full config applied to inbound and outboud of specific service
+#### Full config applied to inbound and outbound of specific service
 
 This timeout configuration will be applied to all inbound connections to `frontend` and outbound connections
 from `frontend` to `backend` service
@@ -200,7 +198,7 @@ from `frontend` to `backend` service
 {% policy_yaml example4 %}
 ```yaml
 type: MeshTimeout
-name: inboud-timeout
+name: inbound-timeout
 mesh: default
 spec:
   targetRef:
@@ -269,6 +267,7 @@ spec:
                 name_kube: backend_kuma-demo_svc_3001
                 tags:
                   version: v2
+```
 {% endpolicy_yaml %}
 You can see in the following route that the top level `targetRef` matches the previously defined `MeshHTTPRoute`.
 {% policy_yaml example6 %}
