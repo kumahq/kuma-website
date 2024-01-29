@@ -9,7 +9,12 @@ Also, users want the service state to be observable through the GUI or CLI.
 
 {{site.mesh_product_name}} supports several mechanisms to regulate traffic depending on the health of a service:
 
+{% if_version lte:2.5.x %}
 ## [Circuit Breaker](/docs/{{ page.version }}/policies/circuit-breaker) Policy
+{% endif_version %}
+{% if_version gte:2.6.x %}
+## [MeshCircuitBreaker](/docs/{{ page.version }}/policies/meshcircuitbreaker) Policy
+{% endif_version %}
 
   A **passive** {{site.mesh_product_name}} policy which configures a dataplane proxy to monitor its existing
   mesh traffic in order to evaluate dataplane health. The dataplane can be configured to
@@ -24,7 +29,12 @@ Also, users want the service state to be observable through the GUI or CLI.
   for the Control Plane to be available, unlike policies which operate independently on the
   dataplane itself.
 
+{% if_version lte:2.5.x %}
 ## [Health Check](/docs/{{ page.version }}/policies/health-check) Policy
+{% endif_version %}
+{% if_version gte:2.6.x %}
+## [MeshHealthCheck](/docs/{{ page.version }}/policies/meshhealthcheck) Policy
+{% endif_version %}
 
   An **active** {{site.mesh_product_name}} policy which configures a dataplane proxy to send extra traffic
   to other dataplane proxies in order to evaluate their health. The amount of extra traffic
