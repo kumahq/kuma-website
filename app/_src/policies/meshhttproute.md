@@ -18,12 +18,32 @@ depending on where the request coming from and where it's going to.
 
 ## TargetRef support matrix
 
+{% if_version gte:2.6.x %}
+{% tabs targetRef useUrlFragment=false %}
+{% tab targetRef Sidecar %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `to[].targetRef.kind` | `MeshService`                                            |
+{% endtab %}
+
+{% tab targetRef Builtin Gateway %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
+| `to[].targetRef.kind`   | `Mesh`                                                   |
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
+{% if_version lte:2.5.x %}
 | TargetRef type    | top level | to  | from |
 | ----------------- | --------- | --- | ---- |
 | Mesh              | ✅        | ❌  | ❌   |
 | MeshSubset        | ✅        | ❌  | ❌   |
 | MeshService       | ✅        | ✅  | ❌   |
 | MeshServiceSubset | ✅        | ❌  | ❌   |
+{% endif_version %}
 
 If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetref).
 
