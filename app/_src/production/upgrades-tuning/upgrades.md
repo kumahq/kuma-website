@@ -33,9 +33,9 @@ Some feature flags may not provide backward compatibility, when this is the case
 To guarantee our compatibility policy we will always wait at least two minor versions before making these features enabled by default.
 {% endwarning %}
 
-## Standalone
+## {% if_version lte:2.5.x inline:true %}Standalone{% endif_version %}{% if_version gte:2.6.x inline:true %}Single-zone{% endif_version %}
 
-To upgrade {{site.mesh_product_name}} with a standalone deployment, first upgrade the control plane, then upgrade data plane proxies.
+To upgrade {{site.mesh_product_name}} with a {% if_version lte:2.5.x %}standalone{% endif_version %}{% if_version gte:2.6.x %}single-zone{% endif_version %} deployment, first upgrade the control plane, then upgrade data plane proxies.
 To upgrade data plane proxies on Kubernetes, rollout the new deployment. This way injector will inject the newest sidecar.
 
 ## Multizone

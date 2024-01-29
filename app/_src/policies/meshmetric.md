@@ -17,6 +17,10 @@ For example, you might need to override the default metrics port if it's already
 * Each proxy can expose its metrics in [Prometheus format](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format).
 * {{site.mesh_product_name}} exposes an API called the monitoring assignment service (MADS) which exposes proxies configured by `MeshMetric`.
 
+Moreover, {{site.mesh_product_name}} provides experimental integration with OpenTelemetry:
+
+* Each proxy can publish its metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/). 
+
 To collect metrics from {{site.mesh_product_name}}, you need to expose metrics from proxies and applications.
 
 {% tip %}
@@ -51,14 +55,14 @@ This part of the configuration applies to the data plane proxy scraping.
 
 In case you don't want to retrieve all Envoy's metrics, it's possible to filter them.
 You are able to specify [`regex`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?filter=regex) which causes the metrics endpoint to return only matching metrics.
-Also, you can set flag [`usedOnly`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?usedonly) that returns only metrics updated by Envoy.
+By default, metrics that were not updated won't be published. You can set flag `includeUnused` that returns all metrics from Envoy.
 
 Example section of the configuration:
 
 ```yaml
-    sidecar:
-      regex: http2_act.*
-      usedOnly: true
+sidecar:
+  regex: http2_act.*
+  includeUnused: true
 ```
 
 ### Applications
@@ -76,20 +80,23 @@ Here are reasons where you'd want to use this feature:
 Example section of the configuration:
 
 ```yaml
-    applications:
-      - path: "/metrics/prometheus"
-        address: # optional custom address if the underlying application listens on a different address than the Data Plane Proxy
-        port: 8888
+applications:
+  - name: "backend" # application name used for logging and to scope OpenTelemetry metrics (optional)
+    path: "/metrics/prometheus" # application metrics endpoint path
+    address: # optional custom address if the underlying application listens on a different address than the Data Plane Proxy
+    port: 8888 # port on which application is listening
 ```
 
 ### Backends
 
+#### Prometheus
+
 ```yaml
-    backends:
-      - type: Prometheus
-        prometheus: 
-          port: 5670
-          path: /metrics
+backends:
+  - type: Prometheus
+    prometheus: 
+      port: 5670
+      path: /metrics
 ```
 
 This tells {{site.mesh_product_name}} to expose an HTTP endpoint with Prometheus metrics on port `5670` and URI path `/metrics`.
@@ -98,18 +105,18 @@ The metrics endpoint is forwarded to the standard Envoy [Prometheus metrics endp
 You can pass the `filter` query parameter to limit the results to metrics whose names match a given regular expression.
 By default, all available metrics are returned.
 
-#### Secure metrics with TLS
+##### Secure metrics with TLS
 
 {{site.mesh_product_name}} allows configuring metrics endpoint with TLS.
 
 ```yaml
-    backends:
-      - type: Prometheus
-        prometheus: 
-          port: 5670
-          path: /metrics
-          tls:
-            mode: ProvidedTLS
+backends:
+  - type: Prometheus
+    prometheus: 
+      port: 5670
+      path: /metrics
+      tls:
+        mode: ProvidedTLS
 ```
 
 In addition to the `MeshMetric` configuration, `kuma-sidecar` requires a provided certificate and key for its operation.
@@ -157,16 +164,16 @@ Please upload the certificate and the key to the machine, and then define the fo
 {% endtab %}
 {% endtabs %}
 
-#### activeMTLSBackend
+##### activeMTLSBackend
 
 We no longer support activeMTLSBackend, if you need to encrypt and authorize the metrics use [Secure metrics with TLS](#secure-metrics-with-tls) with a combination of [one of the authorization methods](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
 
-#### Running multiple prometheus instances
+##### Running multiple prometheus instances
 
 If you need to run multiple instances of Prometheus and want to target different set of Data Plane Proxies you can do this by using Client ID setting on both `MeshMetric` (`clientId`) and [Prometheus configuration](https://github.com/prometheus/prometheus/pull/13278/files#diff-17f1012e0c2fbd9bcd8dff3c23b18ff4b6676eef3beca6f8a3e72e6a36633334R2233) (`client_id`).
 
 {% warning %}
-To use `clientId` setting you need to be running at least Prometheus `2.49.0`.
+Support for `clientId` setting is not yet released in Prometheus, it most likely will be released in Prometheus `2.50.0`.
 {% endwarning %}
 
 Example configurations differentiated by `prometheus` tag:
@@ -230,6 +237,29 @@ scrape_configs:
         refresh_interval: 20s # different from prometheus-one
         client_id: "prometheus-two"
 ```
+
+#### OpenTelemetry (experimental)
+
+```yaml
+backends:
+  - type: OpenTelemetry
+    openTelemetry: 
+      endpoint: http://otel-collector.observability.svc:4317
+```
+
+This configuration tells {{site.mesh_product_name}} data plane proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
+Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.version }}/policies/meshmetric/#applications) in a Pod/VM.
+and push them to configured OpenTelemetry collector.
+
+When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/) 
+
+##### Limitations
+
+- You cannot configure scraping interval for OpenTelemetry. By default, it will publish metrics to collector every **30 seconds**. Ability to configure scraping interval in policy will be added in the future. 
+- Right now {{site.mesh_product_name}} supports configuring only one `OpenTelemetry` backend.
+- OpenTelemetry integration does not take [sidecar](/docs/{{ page.version }}/policies/meshmetric/#sidecar) configuration into account.
+    This support will be added in the next release.
+- [Application](/docs/{{ page.version }}/policies/meshmetric/#applications) must expose metrics in Prometheus format for this integration to work
 
 ## Examples
 

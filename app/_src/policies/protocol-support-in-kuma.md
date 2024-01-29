@@ -10,9 +10,16 @@ So, as a user of {{site.mesh_product_name}}, you're _highly encouraged_ to give 
 
 By doing this,
 
+{% if_version lte:2.5.x %}
 * you will get richer metrics with [`Traffic Metrics`](/docs/{{ page.version }}/policies/traffic-metrics) policy
 * you will get richer logs with [`Traffic Log`](/docs/{{ page.version }}/policies/traffic-log) policy
 * you will be able to use [`Traffic Trace`](/docs/{{ page.version }}/policies/traffic-trace) policy
+{% endif_version %}
+{% if_version gte: 2.6.x %}
+* you will get richer metrics with [`MeshMetric`](/docs/{{ page.version }}/policies/meshmetric) policy
+* you will get richer logs with [`MeshAccessLog`](/docs/{{ page.version }}/policies/meshaccesslog) policy
+* you will be able to use [`MeshTrace`](/docs/{{ page.version }}/policies/meshtrace) policy
+{% endif_version %}
 
 {% tabs protocol-support useUrlFragment=false %}
 {% tab protocol-support Kubernetes %}

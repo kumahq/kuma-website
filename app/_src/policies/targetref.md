@@ -127,6 +127,7 @@ Its goal is to select subsets of proxies with maximum flexibility.
 
 It looks like:
 
+{% if_version lte:2.5.x %}
 ```yaml
 targetRef:
   kind: Mesh | MeshSubset | MeshService | MeshServiceSubset | MeshGateway
@@ -134,6 +135,17 @@ targetRef:
   tags:
     key: value # For kinds MeshServiceSubset, MeshSubset and MeshGateway a list of matching tags can be used
 ```
+{% endif_version %}
+{% if_version gte:2.6.x %}
+```yaml
+targetRef:
+  kind: Mesh | MeshSubset | MeshService | MeshServiceSubset | MeshGateway
+  name: "my-name" # For kinds MeshService, MeshServiceSubset and MeshGateway a name has to be defined
+  tags:
+    key: value # For kinds MeshServiceSubset, MeshSubset and MeshGateway a list of matching tags can be used
+  proxyTypes: ["Sidecar", "Gateway"] # For kinds Mesh and MeshSubset a list of matching Dataplanes types can be used
+```
+{% endif_version %}
 
 Here's an explanation of each kinds and their scope:
 
@@ -144,6 +156,13 @@ Here's an explanation of each kinds and their scope:
 - MeshGateway: targets proxies matched by the named MeshGateway
     - Note that it's very strongly recommended to target MeshGateway proxies using this
       kind, as opposed to MeshService/MeshServiceSubset.
+
+{% if_version gte:2.6.x %}
+In {{site.mesh_product_name}} 2.6.x, the `targetRef` field gained the ability to select a specific subset of data plane proxies. To further refine policy enforcement, a new field named `proxyTypes` has been introduced. It allows you to target policies to specific types of data plane proxies:
+- `Sidecar`: Targets data plane proxies acting as sidecars to applications.
+- `Gateway`: Applies to data plane proxies operating in Gateway mode.
+- Empty list: Defaults to targeting all data plane proxies.
+{% endif_version %}
 
 Consider the example below:
 
@@ -378,3 +397,23 @@ spec:
 All proxies in zone `east` (top level `targetRef`) will have this policy configured with `key=value`.
 
 This can be very useful when observability stores are different for each zone for example.
+
+{% if_version gte:2.6.x %}
+#### Configuring all gateways in a Mesh
+
+```yaml
+type: ExamplePolicy
+name: example
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+    proxyTypes: ["Gateway"]
+  default:
+    key: value
+```
+
+All gateway proxies in mesh `default` will have this policy configured with `key=value`.
+
+This can be very useful when timeout configurations for gateways need to differ from those of other proxies.
+{% endif_version %}

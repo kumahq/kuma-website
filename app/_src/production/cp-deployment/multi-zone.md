@@ -397,7 +397,7 @@ curl http://echo-server:1010
 ```
 
 Requests are distributed round robin between zones.
-You can use [locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware) to keep requests in the same zone.
+You can use {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %} to keep requests in the same zone.
 
 To send a request to any zone, you can {% if_version lte:2.1.x %}[use the generated `kuma.io/service`](/docs/{{ page.version }}/explore/dpp-on-kubernetes#tag-generation){% endif_version %}{% if_version gte:2.2.x %}[use the generated `kuma.io/service`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#tag-generation){% endif_version %} and [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns):
 
@@ -440,7 +440,7 @@ Alternatively, if you configure {% if_version lte:2.1.x %}[transparent proxy](/d
 {% tip %}
 For security reasons it's not possible to customize the `kuma.io/service` in Kubernetes.
 
-If you want to have the same service running on both Universal and Kubernetes make sure to align the Universal's data plane inbound to have the same `kuma.io/service` as the one in Kubernetes or leverage [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route).
+If you want to have the same service running on both Universal and Kubernetes make sure to align the Universal's data plane inbound to have the same `kuma.io/service` as the one in Kubernetes or leverage {% if_version lte:2.5.x %}[TrafficRoute](/docs/{{ page.version }}/policies/traffic-route){% endif_version %}{% if_version gte:2.6.x %}[MeshHTTPRoute](/docs/{{ page.version }}/policies/meshhttproute) and [MeshTCPRoute](/docs/{{ page.version }}/policies/meshtcproute){% endif_version %}.
 {% endtip %}
 
 ## Delete a zone

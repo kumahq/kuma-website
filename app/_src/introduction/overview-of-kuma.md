@@ -11,8 +11,9 @@ title: Overview of Kuma
 {{site.mesh_product_name}} helps implement a service mesh approach to distributed deployments as part of the move from monolithic architectures to microservices. You can run a service mesh with {{site.mesh_product_name}} before you start decomposing your monolith, which helps keep your network secure and observable as your architecture changes. {{site.mesh_product_name}} is:
 
 * **Universal and Kubernetes-native**: Platform-agnostic, can run and operate anywhere.
-* **Standalone and multi-zone**: Supports multiple clouds, regions, and Kubernetes clusters with native DNS service discovery and ingress capability.
-  * {% if_version lte:2.1.x %}[Read more about standalone deployments](/docs/{{ page.version }}/deployments/stand-alone){% endif_version %}{% if_version gte:2.2.x %}[Read more about standalone deployments](/docs/{{ page.version }}/production/deployment/stand-alone/){% endif_version %}
+* **{% if_version gte:2.6.x %}Single-zone{% endif_version %}{% if_version lte:2.5.x %}Standalone{% endif_version %} and multi-zone**: Supports multiple clouds, regions, and Kubernetes clusters with native DNS service discovery and ingress capability.
+  * {% if_version lte:2.5.x %}{% if_version lte:2.1.x %}[Read more about standalone deployments](/docs/{{ page.version }}/deployments/stand-alone){% endif_version %}{% if_version gte:2.2.x %}[Read more about standalone deployments](/docs/{{ page.version }}/production/deployment/stand-alone/){% endif_version %}{% endif_version %}
+  * {% if_version gte:2.6.x %}[Read more about single-zone deployments](/docs/{{ page.version }}/production/deployment/single-zone/){% endif_version %}
   * {% if_version lte:2.1.x %}[Read more about multi-zone deployments](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[Read more about multi-zone deployments](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}
 * **Multi-mesh**: Supports multiple individual meshes with one control plane, lowering the operational costs of supporting the entire organization.
 * **Attribute-based policies**: Lets you apply fine grained service and traffic policies with any arbitrary tag selector for `sources` and `destinations`.

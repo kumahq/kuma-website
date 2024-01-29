@@ -16,7 +16,7 @@ To start learning how {{site.mesh_product_name}} works, you run and secure a sim
 Start a new Kubernetes cluster on your local machine by executing:
 
 ```sh
-kind create cluster --name=kuma-zone
+kind create cluster --name=mesh-zone
 ```
 
 {% tip %}
@@ -81,6 +81,34 @@ And then navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the 
 
 By default, the network is insecure and not encrypted. We can change this with {{site.mesh_product_name}} by enabling the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running alongside the services).
 
+{% if_version gte:2.6.x %}
+Before enabling [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTLS) in your mesh, you need to create a `MeshTrafficPermission` policy that allows traffic between your applications.
+
+{% warning %}
+If you enable [mTLS](/docs/{{ page.version }}/policies/mutual-tls/) without a `MeshTrafficPermission` policy, all traffic between your applications will be blocked. 
+{% endwarning %}
+
+To create a `MeshTrafficPermission` policy, you can use the following command:
+
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: {{site.mesh_namespace}}
+  name: mtp
+spec:
+  targetRef:
+    kind: Mesh
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        action: Allow" | kubectl apply -f -
+```
+
+This command will create a policy that allows all traffic between applications within your mesh. If you need to create more specific rules, you can do so by editing the policy manifest.
+{% endif_version %}
+
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
 ```sh
@@ -96,7 +124,7 @@ spec:
       type: builtin" | kubectl apply -f -
 ```
 
-The traffic is now encrypted with mTLS. However, every service can reach any other service.
+The traffic is now encrypted with mTLS and each service can reach any other service.
 
 We can then restrict the traffic by default by executing:
 
@@ -106,7 +134,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
   namespace: {{site.mesh_namespace}}
-  name: deny-all
+  name: mtp
 spec:
   targetRef:
     kind: Mesh
@@ -146,5 +174,6 @@ However, the traffic to `redis` from any other service than `demo-app` is not al
 ## Next steps
 
 * Explore the [Features](/features) available to govern and orchestrate your service traffic.
+* [Federate](/docs/{{ page.version }}/guides/federate) zone into a multizone deployment.
 * Read the [full documentation](/docs/{{ page.version }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
 * Chat with us at the official [Kuma Slack](/community) for questions or feedback.

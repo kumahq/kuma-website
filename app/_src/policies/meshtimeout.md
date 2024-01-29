@@ -20,14 +20,16 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
-| `targetRef`           | Allowed kinds                                             |
-| --------------------- | --------------------------------------------------------- |
-| `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
-| `to[].targetRef.kind` | `Mesh`                                                    |
+| `targetRef`             | Allowed kinds                                             |
+| ----------------------- | --------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
+| `to[].targetRef.kind`   | `Mesh`                                                    |
+| `from[].targetRef.kind` | `Mesh`                                                    |
 {% endtab %}
 {% endtabs %}
 
 {% endif_version %}
+
 {% if_version lte:2.5.x %}
 {% if_version gte:2.3.x %}
 
@@ -71,6 +73,7 @@ MeshTimeout policy lets you configure multiple timeouts:
 - http streamIdleTimeout
 - http maxStreamDuration
 - http maxConnectionDuration
+{% if_version inline:true gte:2.6.x %}- http requestHeadersTimeout{% endif_version %}
 
 ### Timeouts explained
 
@@ -81,18 +84,18 @@ Connection timeout specifies the amount of time DP will wait for a TCP connectio
 #### Idle timeout
 
 For TCP connections idle timeout is the amount of time that the DP will allow a connection to exist
-with no inbound or outbound activity. On the other hand when connection in HTTP time at which a inbound
+with no inbound or outbound activity. On the other hand when connection in HTTP time at which an inbound
 or outbound connection will be terminated if there are no active streams
 
 #### HTTP request timeout
 
 Request timeout lets you configure how long the data plane proxy should wait for the full response.
-In details it spans between the point at which the entire request has been processed by DP and when the response has
+In details, it spans between the point at which the entire request has been processed by DP and when the response has
 been completely processed by DP.
 
 #### HTTP stream idle timeout
 
-Stream idle timeout is the amount of time that the data plane proxy will allow a HTTP/2 stream to exist with no inbound
+Stream idle timeout is the amount of time that the data plane proxy will allow an HTTP/2 stream to exist with no inbound
 or outbound activity.
 This timeout is strongly recommended for all requests (not just streaming requests/responses) as it additionally
 defends against a peer that does not open the stream window once an entire response has been buffered to be sent to a
@@ -114,6 +117,12 @@ Max connection duration is the time after which an inbound or outbound connectio
 starting from when it was first established. If there are no active streams, the connection will be closed.
 If there are any active streams, the drain sequence will kick-in, and the connection will be force-closed after 5
 seconds.
+
+{% if_version gte:2.6.x %}
+#### HTTP request headers timeout
+
+The amount of time that proxy will wait for the request headers to be received. The timer is activated when the first byte of the headers is received, and is disarmed when the last byte of the headers has been received.
+{% endif_version %}
 
 ### Examples
 
@@ -166,7 +175,7 @@ This configuration will be applied to `backend` service inbound.
 {% policy_yaml example3 %}
 ```yaml
 type: MeshTimeout
-name: inboud-timeout
+name: inbound-timeout
 mesh: default
 spec:
   targetRef:
@@ -181,7 +190,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-#### Full config applied to inbound and outboud of specific service
+#### Full config applied to inbound and outbound of specific service
 
 This timeout configuration will be applied to all inbound connections to `frontend` and outbound connections
 from `frontend` to `backend` service
@@ -189,7 +198,7 @@ from `frontend` to `backend` service
 {% policy_yaml example4 %}
 ```yaml
 type: MeshTimeout
-name: inboud-timeout
+name: inbound-timeout
 mesh: default
 spec:
   targetRef:
@@ -258,6 +267,7 @@ spec:
                 name_kube: backend_kuma-demo_svc_3001
                 tags:
                   version: v2
+```
 {% endpolicy_yaml %}
 You can see in the following route that the top level `targetRef` matches the previously defined `MeshHTTPRoute`.
 {% policy_yaml example6 %}
@@ -280,6 +290,39 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+{% if_version gte:2.6.x %}
+#### Default configuration for all gateways in the Mesh
+
+This configuration will be applied on inbounds and outbounds of all gateways.
+
+{% policy_yaml example7 %}
+```yaml
+type: MeshTimeout
+name: mesh-gateways-timeout-all-default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+    proxyTypes: ["Gateway"]
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 5m
+        http:
+          streamIdleTimeout: 5s
+          requestHeadersTimeout: 500ms
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 1h
+        http:
+          streamIdleTimeout: 5s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
 ### Defaults
 
 | Property                   | default |
@@ -290,6 +333,7 @@ spec:
 | http.streamIdleTimeout     | 30m     |
 | http.maxStreamDuration     | 0s      |
 | http.maxConnectionDuration | 0s      |
+{% if_version inline:true gte:2.6.x %}| http.requestHeadersTimeout | 0s      |{% endif_version %}
 
 {% if_version eq:2.1.x %}
 If you don't specify a `from` or `to` section , the defaults from [`Timeout`](/docs/{{ page.version }}/policies/timeout) will be used. This

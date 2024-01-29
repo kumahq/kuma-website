@@ -35,15 +35,15 @@ If these limitations are problematic you should look at {% if_version lte:2.1.x 
 
 A standalone deployment includes:
 
-- The **control planes**:
-    - Accept connections from data plane proxies.
-    - Accept creation and changes to [policies](/policies) that will be applied to the data plane proxies.
-    - Keep an inventory of all data plane proxies running.
-    - Compute and send configurations using XDS to the data plane proxies.
+- The **control plane**:
+  - Accept connections from data plane proxies.
+  - Accept creation and changes to [policies](/policies) that will be applied to the data plane proxies.
+  - Keep an inventory of all data plane proxies running.
+  - Compute and send configurations using XDS to the data plane proxies.
 - The **data plane proxies**:
-    - Connect to the zone control plane.
-    - Receive configurations using XDS from the control plane.
-    - Connect to other data plane proxies.
+  - Connect to the zone control plane.
+  - Receive configurations using XDS from the control plane.
+  - Connect to other data plane proxies.
 
 ## Failure modes
 
