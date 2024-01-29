@@ -106,9 +106,9 @@ You can control which data plane proxies are allowed to join the mesh using [mes
 
 When creating new [Policies](/policies) we also must specify to what `Mesh` they belong. This can be done in the following way:
 
+{% if_version lte:2.5.x %}
 {% tabs policies useUrlFragment=false %}
-{% if_version lte:2.5.x inline:true %}
-{% tab policies Kubernetes (Old policies) %}
+{% tab policies Kubernetes %}
 By using the `mesh` property, like:
 
 ```yaml
@@ -123,8 +123,7 @@ spec:
 
 {{site.mesh_product_name}} consumes all [Policies](/policies) on the cluster and joins each to an individual `Mesh`, identified by this property.
 {% endtab %}
-{% endif_version %}
-{% tab policies Kubernetes %}
+{% tab policies Kubernetes tab (New policies) %}
 By using the `kuma.io/mesh` label, like:
 
 ```yaml
@@ -151,3 +150,34 @@ mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the
 ```
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
+{% if_version gte:2.6.x %}
+{% tabs policies useUrlFragment=false %}
+{% tab policies Kubernetes tab %}
+By using the `kuma.io/mesh` label, like:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshHTTPRoute
+metadata:
+  name: route-1
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the resource belongs to
+spec:
+  ...
+```
+
+{{site.mesh_product_name}} consumes all [Policies](/policies) on the cluster and joins each to an individual `Mesh`, identified by this property.
+{% endtab %}
+{% tab policies Universal %}
+By using the `mesh` property, like:
+```yaml
+type: MeshHTTPRoute
+name: route-1
+mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the resource belongs to
+...
+```
+{% endtab %}
+{% endtabs %}
+{% endif_version %}
