@@ -107,7 +107,7 @@ You can control which data plane proxies are allowed to join the mesh using [mes
 When creating new [Policies](/policies) we also must specify to what `Mesh` they belong. This can be done in the following way:
 
 {% tabs policies useUrlFragment=false %}
-{% if_version lte:2.5.x %}
+{% if_version lte:2.5.x inline:true %}
 {% tab policies Kubernetes (Old policies) %}
 By using the `mesh` property, like:
 
