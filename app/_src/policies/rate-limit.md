@@ -3,7 +3,7 @@ title: Rate Limit
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this policy, check [`MeshRateLimit`](/docs/{{ page.version }}/policies/meshratelimit) instead.
+New to Kuma? Don't use this policy, check [`MeshRateLimit`](/docs/{{ page.release }}/policies/meshratelimit) instead.
 {% endwarning %}
 {% endif_version %}
 

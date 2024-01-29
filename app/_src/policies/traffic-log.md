@@ -3,7 +3,7 @@ title: Traffic Log
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this, check the [`MeshAccessLog` policy](/docs/{{ page.version }}/policies/meshaccesslog) instead.
+New to Kuma? Don't use this, check the [`MeshAccessLog` policy](/docs/{{ page.release }}/policies/meshaccesslog) instead.
 {% endwarning %}
 {% endif_version %}
 

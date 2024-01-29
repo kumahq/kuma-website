@@ -3,7 +3,7 @@ title: Traffic Permissions
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to {{site.mesh_product_name}}? Don't use this, check the [`MeshTrafficPermission` policy](/docs/{{ page.version }}/policies/meshtrafficpermission) instead.
+New to {{site.mesh_product_name}}? Don't use this, check the [`MeshTrafficPermission` policy](/docs/{{ page.release }}/policies/meshtrafficpermission) instead.
 {% endwarning %}
 {% endif_version %}
 

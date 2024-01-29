@@ -3,7 +3,7 @@ title: Fault Injection
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? You need this policy, check [`MeshFaultInjection`](/docs/{{ page.version }}/policies/meshfaultinjection) instead.
+New to Kuma? You need this policy, check [`MeshFaultInjection`](/docs/{{ page.release }}/policies/meshfaultinjection) instead.
 {% endwarning %}
 {% endif_version %}
 

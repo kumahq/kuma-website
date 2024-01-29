@@ -10,12 +10,12 @@ This way you can:
 - manage policies that are pushed to all zones
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 {% if_version lte:2.8.x %}
-- Have [kumactl installed and in your path](/docs/{{ page.version }}/production/install-kumactl)
+- Have [kumactl installed and in your path](/docs/{{ page.release }}/production/install-kumactl)
 {% endif_version %}
 {% if_version gte:2.9.x %}
-- Have [kumactl installed and in your path](/docs/{{ page.version }}/introduction/install-kuma/)
+- Have [kumactl installed and in your path](/docs/{{ page.release }}/introduction/install-kuma/)
 {% endif_version %}
 
 ## Start a global control plane
@@ -168,4 +168,4 @@ NAMESPACE     NAME                                                TARGETREF KIND
 
 ## Next steps
 
-* Read the [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone) docs to learn more about this deployment model and cross-zone connectivity.
+* Read the [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone) docs to learn more about this deployment model and cross-zone connectivity.

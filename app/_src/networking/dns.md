@@ -78,7 +78,7 @@ In some cases it might be useful for you to configure the default CoreDNS config
 {% if_version gte:2.6.x %}
 Only overriding from control plane is supported.
 
-To override, you can [configure](/docs/{{ page.version }}/reference/kuma-cp/) the bootstrap server in `kuma-cp`:
+To override, you can [configure](/docs/{{ page.release }}/reference/kuma-cp/) the bootstrap server in `kuma-cp`:
 
 ```yaml
 bootstrapServer:
@@ -138,7 +138,7 @@ Both overriding from the control plane and data planes are supported.
 {% endif_version %}
 
 {% if_version gte:2.6.x %}
-To override DNS configuration from the control plane, you can [configure](/docs/{{ page.version }}/reference/kuma-cp/) the bootstrap server in `kuma-cp`:
+To override DNS configuration from the control plane, you can [configure](/docs/{{ page.release }}/reference/kuma-cp/) the bootstrap server in `kuma-cp`:
 
 ```yaml
 bootstrapServer:
@@ -187,7 +187,7 @@ Editing should base on [the existing and default configuration](https://github.c
 
 ## Configuration
 
-You can [configure](/docs/{{ page.version }}/reference/kuma-cp/) {{site.mesh_product_name}} DNS in `kuma-cp`:
+You can [configure](/docs/{{ page.release }}/reference/kuma-cp/) {{site.mesh_product_name}} DNS in `kuma-cp`:
 
 ```yaml
 dnsServer:

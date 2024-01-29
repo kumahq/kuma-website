@@ -3,7 +3,7 @@ title: Traffic Route
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this, check the [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) or [`MeshTCPRoute` policy](/docs/{{ page.version }}/policies/meshtcproute) policies instead.
+New to Kuma? Don't use this, check the [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute) or [`MeshTCPRoute` policy](/docs/{{ page.release }}/policies/meshtcproute) policies instead.
 {% endwarning %}
 {% endif_version %}
 
