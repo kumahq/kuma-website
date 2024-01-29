@@ -21,10 +21,10 @@ install: ruby-version-check
 	bundle install
 
 run: ruby-version-check
-	bundle exec foreman start
+	netlify dev
 
 build: ruby-version-check
-	bundle exec jekyll build --config jekyll.yml --profile
+	exe/build
 
 serve:
 	netlify dev

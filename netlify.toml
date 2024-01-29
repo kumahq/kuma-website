@@ -1,6 +1,6 @@
 [build]
   publish = "dist"
-  command = "bundle exec jekyll build --config jekyll.yml"
+  command = "exe/build"
   environment = { JEKYLL_ENV = "development", BUNDLE_WITHOUT = "development", NODE_OPTIONS = "--max_old_space_size=8192" }
 
 [context.production.environment]
@@ -11,7 +11,7 @@
 
 [dev]
   autoLaunch = false
-  framework = "#static"
+  targetPort = 4000
 
 [[redirects]]
 from = "/vite-dev/*"
