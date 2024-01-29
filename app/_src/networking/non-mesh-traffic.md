@@ -74,7 +74,7 @@ maxRequests: 1024
 maxRetries: 3
 ```
 
-{% if_version lte:2.5.x inline:true %}[ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch](/docs/{{ page.version }}/policies/meshproxypatch){% endif_version %} to change the defaults:
+{% if_version lte:2.5.x inline:true %}[ProxyTemplate](/docs/{{ page.release }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch](/docs/{{ page.release }}/policies/meshproxypatch){% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
 {% tabs passthrough-thresholds useUrlFragment=false %}
