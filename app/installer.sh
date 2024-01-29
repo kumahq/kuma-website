@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2019-2020 Kong Inc.
+# Copyright 2019-2024 Kong Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,210 +18,244 @@
 # download by setting the VERSION environment variable, and you can change
 # the default 64bit architecture by setting the ARCH variable.
 
-DIR="$( cd "$( dirname "$0" )" >/dev/null 2>&1 && pwd )"
+set -eu
 
-: "${VERSION:=}"
-: "${ARCH:=}"
-: "${PRODUCT_NAME:=Kuma}"
-: "${REPO:=kumahq/kuma}"
-: "${BRANCH:=master}"
-: "${LATEST_VERSION:=https://kuma.io/latest_version}"
-: "${CTL_NAME:=kumactl}"
-
-REPO_ORG=$(echo $REPO | sed 's|\/.*$||')
-REPO_PREFIX=$(echo $REPO | sed 's|^.*\/||')
-
-printf "\n"
-printf "INFO\tWelcome to the %s automated download!\n" "$PRODUCT_NAME"
-
-if ! type "grep" > /dev/null 2>&1; then
-  printf "ERROR\tgrep cannot be found\n"
-  exit 1;
-fi
-if ! type "curl" > /dev/null 2>&1; then
-  printf "ERROR\tcurl cannot be found\n"
-  exit 1;
-fi
-if ! type "tar" > /dev/null 2>&1; then
-  printf "ERROR\ttar cannot be found\n"
-  exit 1;
-fi
-if ! type "gzip" > /dev/null 2>&1; then
-  printf "ERROR\tgzip cannot be found\n"
-  exit 1;
+if [ -n "${VERBOSE:-}" ]; then
+  set -x
 fi
 
-OS=$(uname -s)
+log() {
+  # Print to stderr to support --print-version being the only stdout output
+  printf >&2 "%s\t%s\n" "${2:-INFO}" "$1"
+}
 
-if [ -z "$DISTRO" ]; then
-  DISTRO=""
-  if [ "$OS" = "Linux" ]; then
-    DISTRO=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-    if [ "$DISTRO" = "amzn" ]; then
-      DISTRO="centos"
-    fi
-  elif [ "$OS" = "Darwin" ]; then
-    DISTRO="darwin"
-  else
-    printf "ERROR\tOperating system %s not supported by %s\n" "$OS" "$PRODUCT_NAME"
-    exit 1
-  fi
-fi
-
-if [ -z "$DISTRO" ]; then
-  printf "ERROR\tUnable to detect the operating system\n"
+err() {
+  log "$1" 'ERROR'
   exit 1
-fi
+}
 
-DETECTED_ARCH=$(uname -m)
-if [ "$ARCH" = "" ]; then
-  if [ "$DETECTED_ARCH" = "x86_64" ]; then
-    ARCH=amd64
-  elif [ "$DETECTED_ARCH" = "arm64" ] || \
-    [ "$DETECTED_ARCH" = "aarch64" ] || \
-    [ "$DETECTED_ARCH" = "aarch64_be" ] || \
-    [ "$DETECTED_ARCH" = "armv8l" ] || \
-    [ "$DETECTED_ARCH" = "armv8b" ]; then
-    ARCH=arm64
-  else
-    printf "ERROR\tArchitecture %s not supported by %s\n" "$DETECTED_ARCH" "$PRODUCT_NAME"
-    exit 1
+main() {
+
+  DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1 && pwd)"
+
+  : "${ARCH:=$(uname -m)}"
+  : "${BRANCH:=master}"
+  : "${CTL_NAME:=kumactl}"
+  : "${PRODUCT_NAME:=Kuma}"
+  : "${REPO:=kumahq/kuma}"
+  : "${VERSION:=latest}"
+  : "${OS:=$(uname -s | tr '[:upper:]' '[:lower:]')}"
+
+  OS="${OS:-linux}"
+  DISTRO="${DISTRO:-$OS}"
+
+  log "Welcome to the ${PRODUCT_NAME} automated download!"
+
+  case "_${OS}" in
+  _darwin) true ;;
+  _linux)
+    DISTRO="${DISTRO:-$(
+      grep -E '^ID=.*' /etc/os-release |
+        cut -d'=' -f2 |
+        tr -d '"' |
+        tr -d \' |
+        tr '[:upper:]' '[:lower:]'
+    )}"
+
+    if [ "$DISTRO" = 'amzn' ]; then
+      DISTRO='centos'
+    fi
+    ;;
+  _ | _*) err "Operating system ${OS} not supported by ${PRODUCT_NAME}." ;;
+  esac
+
+  case "_${ARCH}" in
+  _amd64 | _x86_64)
+    ARCH='amd64'
+    ;;
+  _aarch64* | _arm64 | _armv8*)
+    ARCH='arm64'
+    ;;
+  _ | _*) err "Architecture ${ARCH} not supported by ${PRODUCT_NAME}" ;;
+  esac
+
+  REPO_ORG="${REPO%%/*}"
+  REPO_REPO="${REPO##*/}"
+
+  missing=''
+  for tool in curl grep gzip tar; do
+    if ! command -v $tool >/dev/null 2>&1; then
+      missing="${missing:+${missing} }${tool}"
+    fi
+  done
+
+  if [ -n "$missing" ]; then
+    err "Required tools cannot be found: ${missing}."
   fi
-fi
 
-if [ -z "$VERSION" ]; then
-  # Fetching latest version
-  printf "INFO\tFetching latest %s version..\n" "$PRODUCT_NAME"
+  if [ "$VERSION" = 'latest' ]; then
+    log "Fetching latest ${PRODUCT_NAME} version.."
 
-  if ! VERSION=$(curl -s $LATEST_VERSION); then
-    printf "ERROR\tUnable to fetch latest %s version.\n" "$PRODUCT_NAME"
-    exit 1
+    LATEST_VERSION="$(curl -f -sL 'https://kuma.io/latest_version')"
+    if [ -z "$LATEST_VERSION" ]; then
+      err "Unable to fetch latest ${PRODUCT_NAME} version."
+    fi
+    VERSION="$LATEST_VERSION"
   fi
 
-  if [ -z "$VERSION" ]; then
-    printf "ERROR\tUnable to fetch latest %s version because of a problem with %s.\n" "$PRODUCT_NAME" "$PRODUCT_NAME"
-    exit 1
-  fi
-fi
+  FILENAME_VERSION="${VERSION}"
 
+  if [ "$VERSION" = 'preview' ]; then
 
-# Sets `VERSION` to the git tag representing the latest preview version.
-set_preview_version() {
-  if [ ! -x `which gh` ]; then
-    echo "You must have github's gh client installed to install a preview version"
-    exit 1
-  fi
+    if ! command -v gh >/dev/null 2>&1; then
+      err "Must have github's gh CLI installed to install a preview version."
+    fi
 
-  JQCMD='.data.repository.ref.target.history.nodes | map(select(.statusCheckRollup.state == "SUCCESS")) | first | .oid'
-  PREVIEW_COMMIT=`gh api graphql  -f owner=${REPO_ORG} -f repo=${REPO_PREFIX} -f branch=${BRANCH} --jq "${JQCMD}" -F query='
-query($owner: String!, $repo: String!, $branch: String!) {
-  repository(owner: $owner, name: $repo) {
-    ref(qualifiedName: $branch) {
-      target {
-        ... on Commit {
-          history(first: 10) {
-            nodes {
-              oid
-              statusCheckRollup {
-                state
+    commit="$(
+      # shellcheck disable=SC2016
+      gh api graphql \
+        -f owner="$REPO_ORG" \
+        -f repo="$REPO_REPO" \
+        -f branch="$BRANCH" \
+        -q '.data.repository.ref.target.history.nodes | map(
+          select(
+            .statusCheckRollup.state == "SUCCESS"
+          )
+        ) | first | .oid' \
+        -F query='
+        query(
+          $branch: String!,
+          $owner: String!,
+          $repo: String!
+        ) {
+          repository(
+            name: $repo,
+            owner: $owner
+          ) {
+            ref(qualifiedName: $branch) {
+              target {
+                ... on Commit {
+                  history(first: 10) {
+                    nodes {
+                      oid
+                      statusCheckRollup {
+                        state
+                      }
+                    }
+                  }
+                }
               }
             }
           }
         }
-      }
-    }
-  }
-}
-'`
+      '
+    )"
 
-  PREVIEW_COMMIT=$(echo $PREVIEW_COMMIT | cut -c -9)
-  VERSION=0.0.0-preview.v${PREVIEW_COMMIT}
-}
+    commit="$(echo "$commit" | cut -c -9)"
+    VERSION="$commit"
+    FILENAME_VERSION="0.0.0-preview.v${commit}"
+  fi
 
-if [ "$VERSION" = "preview" ]; then
-  set_preview_version
-fi
-
-if [ $# -gt 0 ]; then
+  if [ $# -gt 0 ]; then
     case $1 in
-      --print-version)
-        echo "${VERSION}"
-        exit 0
-        ;;
-      *)
-        echo "Invalid arguments"
-        exit 1
-        ;;
+    --print-version)
+      echo "$VERSION"
+      exit 0
+      ;;
+    *)
+      err "Invalid arguments."
+      ;;
     esac
-fi
+  fi
 
-printf "INFO\t$PRODUCT_NAME version: %s\n" "$VERSION"
-printf "INFO\t$PRODUCT_NAME architecture: %s\n" "$ARCH"
-printf "INFO\tOperating system: %s\n" "$OS"
-if [ "$OS" = "Linux" ]; then
-    printf "INFO\tDistribution: %s\n" "$DISTRO"
-fi
+  log "${PRODUCT_NAME} version:          ${VERSION}"
+  log "${PRODUCT_NAME} architecture:     ${ARCH}"
+  log "${PRODUCT_NAME} Operating system: ${OS}"
+  if [ "$OS" = 'Linux' ]; then
+    log "                                  Distribution: ${DISTRO}"
+  fi
 
-TARGET_NAME="$PRODUCT_NAME"
+  TARGET_NAME="$PRODUCT_NAME"
 
-fail_download() {
-    printf "ERROR\tUnable to download %s at the following URL: %s\n" "$TARGET_NAME" "$1"
-    exit 1
-}
-# shellcheck disable=SC2034
-IFS=. read -r major minor patch <<EOF
+  # Example Cloudsmith URLs
+  # https://packages.konghq.com/public/kuma-binaries-preview/raw/names/kuma-darwin-arm64/versions/6f6e380ae/kuma-0.0.0-preview.v6f6e380ae-darwin-arm64.tar.gz
+  # https://packages.konghq.com/public/kong-mesh-binaries-release/raw/names/kong-mesh-windows-amd64/versions/2.5.1/kong-mesh-2.5.1-windows-amd64.tar.gz
+  # https://packages.konghq.com/public/kong-mesh-binaries-release/raw/names/kong-mesh-linux-arm64/versions/2.5.1/kong-mesh-2.5.1-linux-arm64.tar.gz
+  # https://packages.konghq.com/public/kuma-legacy/raw/names/kumactl-linux-amd64/versions/1.8.1/kumactl-1.8.1-linux-amd64.tar.gz
+
+  URL='https://packages.konghq.com/public'
+  URL_REPO="${REPO_REPO}-binaries-release"
+
+  # populate major/minor/patch using read builtin
+  # shellcheck disable=SC2034
+  IFS=. read -r major minor patch <<-EOF
 ${VERSION}
 EOF
-if echo "$VERSION" | grep -q "preview"; then
-  BASE_URL="https://download.konghq.com/$REPO_PREFIX-binaries-preview/$REPO_PREFIX-$VERSION"
-elif [ "$major" -gt "2" ] || [ "$major" = "2" ] && [ "$minor" -ge "2" ]; then
-  BASE_URL="https://download.konghq.com/$REPO_PREFIX-binaries-release/$REPO_PREFIX-$VERSION"
-fi
 
-if [ "$BASE_URL" != "" ]; then
-  if [ "$OS" = "Linux" ]; then
-    URL="$BASE_URL-linux-$ARCH.tar.gz"
+  if echo "$FILENAME_VERSION" | grep -qs -E 'preview|0.0.0'; then
+    URL_REPO="${REPO_REPO}-binaries-preview"
   else
-    URL="$BASE_URL-$DISTRO-$ARCH.tar.gz"
-  fi
-else
-  URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$VERSION-$DISTRO-$ARCH.tar.gz"
-  if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
-    # handle the kumactl archive
-    if [ "$OS" = "Linux" ] && [ "$PRODUCT_NAME" = "Kuma" ]; then
-        if  [ "$major" -gt "1" ] || { [ "$major" -ge "1" ] && [ "$minor" -ge "7" ]; } then
-            printf "INFO\tWe only compile %s for your Linux distribution.\n" "$CTL_NAME"
 
-            TARGET_NAME="$CTL_NAME"
-            URL="https://download.konghq.com/mesh-alpine/$REPO_PREFIX-$CTL_NAME-$VERSION-linux-$ARCH.tar.gz"
+    # 2.1.x or lower
+    if {
+      [ "$major" = '2' ] && [ "$minor" -lt '2' ]
+    } || [ "$major" -le '1' ]; then
+      URL_REPO="${REPO_REPO}-legacy"
 
-            printf "INFO\tFetching %s...\n" "$TARGET_NAME"
-            if ! curl -s --head "$URL" | head -n 1 | grep -E 'HTTP/1.1 [23]..|HTTP/2 [23]..' > /dev/null; then
-              fail_download "$URL"
-            fi
-        else
-          printf "ERROR\tYou appear to be running an unsupported Linux distribution.\n"
-          fail_download "$URL"
-        fi
-    else
-      fail_download "$URL"
+      # kuma and ( 1.7.x or newer )
+      if [ "$REPO_REPO" = 'kuma' ] && {
+        [ "$major" -gt '1' ] || {
+          [ "$major" -ge '1' ] && [ "$minor" -ge '7' ]
+        }
+      }; then
+        log "We only compile ${CTL_NAME} for your Linux distribution."
+
+        TARGET_NAME='kumactl'
+        REPO_REPO='kumactl'
+      fi
     fi
   fi
-fi
 
-printf "INFO\tDownloading %s from: %s" "$TARGET_NAME" "$URL"
-printf "\n\n"
+  # kuma-darwin-arm64
+  # kong-mesh-windows-amd64
+  # kong-mesh-linux-arm64
+  # kumactl-linux-amd64
+  URL_NAME="${REPO_REPO}-${DISTRO}-${ARCH}"
 
-if curl -L "$URL" | tar xz; then
-  printf "\n"
-  printf "INFO\t%s %s has been downloaded!\n" "$TARGET_NAME" "$VERSION"
-  if [ "$TARGET_NAME" != "$CTL_NAME" ]; then
-    printf "\n"
-    printf "%s" "$(cat "$DIR/$REPO_PREFIX-$VERSION/README")"
+  # kuma-0.0.0-preview.v6f6e380ae-darwin-arm64.tar.gz
+  # kong-mesh-2.5.1-windows-amd64.tar.gz
+  # kong-mesh-2.5.1-linux-arm64.tar.gz
+  # kumactl-1.8.1-linux-amd64.tar.gz
+  URL_FILENAME="${REPO_REPO}-${FILENAME_VERSION}-${DISTRO}-${ARCH}.tar.gz"
+
+  URL="${URL}/${URL_REPO}/raw/names/${URL_NAME}/versions/${VERSION}/${URL_FILENAME}"
+
+  if ! curl --fail --silent --head "$URL" >/dev/null; then
+    err "Unable to download ${TARGET_NAME} at the following URL: ${URL}"
   fi
-  printf "\n"
-else
-  printf "\n"
-  printf "ERROR\tUnable to download %s\n" "$TARGET_NAME"
-  exit 1
-fi
+
+  log "Downloading ${TARGET_NAME} from: ${URL}"
+
+  if curl --fail -L "$URL" | tar xz; then
+    log "${TARGET_NAME} ${FILENAME_VERSION} has been downloaded!"
+
+    if [ "$TARGET_NAME" != "$CTL_NAME" ]; then
+
+      # correct for discrepancies in $0 between invocation types:
+      #   - curl | sh (piped)
+      #   - ./app/installer.sh (shebang)
+      #   - sh app/installer.sh (sh argument)
+      # argument invocation
+      if [ "$(basename "$DIR")" = 'app' ]; then
+        DIR="$(dirname "$DIR")"
+      fi
+
+      cat "${DIR}/${REPO_REPO}-${FILENAME_VERSION}/README"
+    fi
+  else
+    err "Unable to download ${TARGET_NAME}"
+  fi
+
+}
+
+main "$@"

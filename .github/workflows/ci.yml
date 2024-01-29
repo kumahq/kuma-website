@@ -98,6 +98,8 @@ jobs:
           yum install gzip tar -y || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
+        env:
+          VERBOSE: ${{ runner.debug }}
         run: sh app/installer.sh
       - name: Check kumactl architecture
         run: file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
@@ -113,6 +115,8 @@ jobs:
         with:
           arch: aarch64
           distro: ubuntu22.04
+          env: |
+            VERBOSE: '${{ runner.debug }}'
 
           # Not required, but speeds up builds by storing container images in
           # a GitHub package registry.
