@@ -152,8 +152,8 @@ mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the
 {% endtabs %}
 {% endif_version %}
 {% if_version gte:2.6.x %}
-{% tabs policies useUrlFragment=false %}
-{% tab policies Kubernetes tab %}
+{% tabs policies26 useUrlFragment=false %}
+{% tab policies26 Kubernetes tab %}
 By using the `kuma.io/mesh` label, like:
 
 ```yaml
@@ -170,7 +170,7 @@ spec:
 
 {{site.mesh_product_name}} consumes all [Policies](/policies) on the cluster and joins each to an individual `Mesh`, identified by this property.
 {% endtab %}
-{% tab policies Universal %}
+{% tab policies26 Universal %}
 By using the `mesh` property, like:
 ```yaml
 type: MeshHTTPRoute
