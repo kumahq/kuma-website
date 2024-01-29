@@ -83,11 +83,11 @@ jobs:
         # NOTE: for each new OS, the check must be explicitly set as required in Github
         os:
           - amazonlinux:2022
+          - archlinux:latest
           - debian:bookworm
+          - fedora:latest
           - redhat/ubi8:8.6
           - ubuntu:22.04
-          - archlinux:latest
-          - fedora:latest
     container:
       image: ${{ matrix.os }}
     steps:
