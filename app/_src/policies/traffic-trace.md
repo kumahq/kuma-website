@@ -3,7 +3,7 @@ title: Traffic Trace
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this, check the [`MeshTrace` policy](/docs/{{ page.version }}/policies/meshtrace) instead.
+New to Kuma? Don't use this, check the [`MeshTrace` policy](/docs/{{ page.release }}/policies/meshtrace) instead.
 {% endwarning %}
 {% endif_version %}
 
