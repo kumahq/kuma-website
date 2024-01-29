@@ -2,8 +2,7 @@
 title: Configure a built-in gateway
 ---
 
-The built-in gateway is configured using a combination of [`MeshGateway`](/docs/{{ page.version }}/policies/meshgateway)
-and [`MeshGatewayRoute`](/docs/{{ page.version }}/policies/meshgatewayroute),
+The built-in gateway is configured using a combination of [`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners), [`MeshGatewayRoute`](/docs/{{ page.version }}/policies/meshgatewayroute), [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute),
 and served by Envoy instances represented by `Dataplanes` configured as built-in
 gateways. {{ site.mesh_product_name }} policies are then used to configure
 built-in gateways.
@@ -21,7 +20,7 @@ you're running in Kubernetes or Universal mode.
 {% tab setup Kubernetes %}
 
 For managing gateway instances on Kubernetes, {{site.mesh_product_name}} provides a
-[`MeshGatewayInstance`](/docs/{{ page.version }}/policies/meshgatewayinstance) CRD.
+[`MeshGatewayInstance`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s) CRD.
 
 {% tip %}
 This resource launches `kuma-dp` in your cluster.
@@ -48,7 +47,7 @@ spec:
     kuma.io/service: edge-gateway
 ```
 
-See [the `MeshGatewayInstance` docs](/docs/{{ page.version }}/policies/meshgatewayinstance) for more options.
+See [the `MeshGatewayInstance` docs](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s) for more options.
 {% endtab %}
 {% tab setup Universal %}
 
@@ -83,7 +82,7 @@ kuma-dp run \
 
 ### Multi-zone
 
-The {{site.mesh_product_name}} Gateway resource types, `MeshGateway` and `MeshGatewayRoute`, are synced across zones by the {{site.mesh_product_name}} control plane.
+The {{site.mesh_product_name}} Gateway resource types, `MeshGateway`, [`MeshGatewayRoute`](/docs/{{ page.version }}/policies/meshgatewayroute), [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute), are synced across zones by the {{site.mesh_product_name}} control plane.
 If you have a multi-zone deployment, follow existing {{site.mesh_product_name}} practice and create any {{site.mesh_product_name}} Gateway resources in the global control plane.
 Once these resources exist, you can provision serving capacity in the zones where it is needed by deploying built-in gateway `Dataplanes` (in Universal zones) or `MeshGatewayInstances` (Kubernetes zones).
 

@@ -13,7 +13,7 @@ as well as traffic routing using the experimental
 {% warning %}
 [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) is still beta, therefore {{site.mesh_product_name}}'s integration provides the same level of stability.
 
-Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/explore/gateway).
+Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners).
 {% endwarning %}
 
 1. Install the Gateway API CRDs.
@@ -220,7 +220,7 @@ spec:
     name: kuma
 ```
 
-This resource has the same [structure as the `MeshGatewayInstance` resource](/docs/{{ page.version }}/explore/gateway#usage-1)
+This resource has the same [structure as the `MeshGatewayInstance` resource](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s)
 except that the `tags` field is optional.
 With a `MeshGatewayConfig` you can then customize
 the generated `Service` and `Deployment` resources.
@@ -234,7 +234,7 @@ Note that `HTTPRoutes` must also have the annotation to reference a
 
 ### Cross-mesh
 
-[Cross-mesh gateways](/docs/{{ page.version }}/explore/gateway#cross-mesh) are supported with Gateway API.
+[Cross-mesh gateways](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners#cross-mesh) are supported with Gateway API.
 You'll just need to create a corresponding `GatewayClass`
 pointing to a `MeshGatewayConfig` that
 sets `crossMesh: true`:
@@ -274,7 +274,8 @@ spec:
 
 ### Multi-zone
 
-Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product_name}}'s `MeshGateways`/`MeshGatewayRoutes` instead.
+Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product_name}}'s [`MeshGateways`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners)/[`MeshGatewayRoutes`](/docs/{{ page.version }}/policies/meshgatewayroute)/[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute)/
+[`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) instead.
 
 {% if_version gte:2.3.x %}
 
@@ -338,7 +339,7 @@ the parent `Service` name and namespace must be no more than 249 characters.
 ## How it works
 
 {{site.mesh_product_name}} includes controllers that reconcile Gateway API CRDs and convert them into the corresponding {{site.mesh_product_name}} CRDs.
-This is why in the GUI, {{site.mesh_product_name}} `MeshGateways`/`MeshGatewayRoutes`/`MeshHTTPRoutes` are visible and not Kubernetes Gateway API resources.
+This is why in the GUI, {{site.mesh_product_name}} `MeshGateways`/`MeshGatewayRoutes`/`MeshHTTPRoutes`/`MeshTCPRoutes` are visible and not Kubernetes Gateway API resources.
 
 Kubernetes Gateway API resources serve as the source of truth for {{site.mesh_product_name}} gateways and routes.
 Any edits to the corresponding {{site.mesh_product_name}} resources are overwritten.

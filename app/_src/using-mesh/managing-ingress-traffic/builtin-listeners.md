@@ -6,7 +6,7 @@ For configuring built-in gateway listeners, use the [`MeshGateway`](/docs/{{ pag
 
 {% tip %}
 These are {{site.mesh_product_name}} policies so if you are running on multi-zone they need to be created on the Global CP.
-See the [dedicated section](#multi-zone) for using builtin gateways on
+See the [dedicated section](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin#multi-zone) for using builtin gateways on
 multi-zone.
 {% endtip %}
 
