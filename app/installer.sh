@@ -185,11 +185,11 @@ main() {
     esac
   fi
 
-  log "${PRODUCT_NAME} version:          ${VERSION}"
-  log "${PRODUCT_NAME} architecture:     ${ARCH}"
-  log "${PRODUCT_NAME} Operating system: ${OS}"
-  if [ "$OS" = 'Linux' ]; then
-    log "                                  Distribution: ${DISTRO}"
+  log "${PRODUCT_NAME} version: ${FILENAME_VERSION}"
+  log "${PRODUCT_NAME} architecture: ${ARCH}"
+  log "Operating system: ${OS}"
+  if [ "$OS" = 'linux' ]; then
+    log "Distribution: ${DISTRO}"
   fi
 
   TARGET_NAME="$PRODUCT_NAME"
