@@ -18,7 +18,7 @@ Run the following script to automatically detect the operating system and downlo
 <pre class="no-line-numbers"><code>curl -L https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -</code></pre>
 </div>
 
-or you can [download](https://download.konghq.com/mesh-alpine/kuma-1.3.1-centos-amd64.tar.gz) the distribution manually.
+or you can [download]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-centos-amd64/versions/1.3.1/kuma-1.3.1-centos-amd64.tar.gz) the distribution manually.
 
 Then extract the archive with:
 

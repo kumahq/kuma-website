@@ -28,7 +28,7 @@ Run the following script to automatically detect the operating system and downlo
 
 You can also download the distribution manually:
 
-- [Download Kuma](https://download.konghq.com/mesh-alpine/kuma-1.4.1-darwin-amd64.tar.gz)
+- [Download Kuma]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-darwin-amd64/versions/1.4.1/kuma-1.4.1-darwin-amd64.tar.gz)
 
 Then extract the archive with:
 

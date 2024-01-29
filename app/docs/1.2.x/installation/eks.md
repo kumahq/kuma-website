@@ -32,11 +32,11 @@ You can run the following script to automatically detect the operating system an
 
 You can also download the distribution manually. Download a distribution for the **client host** from where you will be executing the commands to access Kubernetes:
 
-- [CentOS](https://download.konghq.com/mesh-alpine/kuma-1.2.3-centos-amd64.tar.gz)
-- [RedHat](https://download.konghq.com/mesh-alpine/kuma-1.2.3-rhel-amd64.tar.gz)
-- [Debian](https://download.konghq.com/mesh-alpine/kuma-1.2.3-debian-amd64.tar.gz)
-- [Ubuntu](https://download.konghq.com/mesh-alpine/kuma-1.2.3-ubuntu-amd64.tar.gz)
-- [macOS](https://download.konghq.com/mesh-alpine/kuma-1.2.3-darwin-amd64.tar.gz) or run `brew install kumactl`
+- [CentOS]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-centos-amd64/versions/1.2.3/kuma-1.2.3-centos-amd64.tar.gz)
+- [RedHat]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-rhel-amd64/versions/1.2.3/kuma-1.2.3-rhel-amd64.tar.gz)
+- [Debian]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-debian-amd64/versions/1.2.3/kuma-1.2.3-debian-amd64.tar.gz)
+- [Ubuntu]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-ubuntu-amd64/versions/1.2.3/kuma-1.2.3-ubuntu-amd64.tar.gz)
+- [macOS]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-darwin-amd64/versions/1.2.3/kuma-1.2.3-darwin-amd64.tar.gz) or run `brew install kumactl`
 
 and extract the archive with:
 

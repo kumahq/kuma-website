@@ -143,11 +143,11 @@ You can run the following script to automatically detect the operating system an
 
 or you can download the distribution manually:
 
-- [CentOS](https://download.konghq.com/mesh-alpine/kuma-1.4.1-centos-amd64.tar.gz)
-- [RedHat](https://download.konghq.com/mesh-alpine/kuma-1.4.1-rhel-amd64.tar.gz)
-- [Debian](https://download.konghq.com/mesh-alpine/kuma-1.4.1-debian-amd64.tar.gz)
-- [Ubuntu](https://download.konghq.com/mesh-alpine/kuma-1.4.1-ubuntu-amd64.tar.gz)
-- [macOS](https://download.konghq.com/mesh-alpine/kuma-1.4.1-darwin-amd64.tar.gz)
+- [CentOS]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-centos-amd64/versions/1.4.1/kuma-1.4.1-centos-amd64.tar.gz)
+- [RedHat]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-rhel-amd64/versions/1.4.1/kuma-1.4.1-rhel-amd64.tar.gz)
+- [Debian]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-debian-amd64/versions/1.4.1/kuma-1.4.1-debian-amd64.tar.gz)
+- [Ubuntu]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-ubuntu-amd64/versions/1.4.1/kuma-1.4.1-ubuntu-amd64.tar.gz)
+- [macOS]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-darwin-amd64/versions/1.4.1/kuma-1.4.1-darwin-amd64.tar.gz)
 
 and extract the archive with:
 

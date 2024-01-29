@@ -44,10 +44,10 @@ It outputs:
 Getting release
 
 INFO	Welcome to the Kuma automated download!
-INFO	Kuma version: 0.0.0-preview.4d3a9fd03
+INFO	Kuma version: 0.0.0-preview.vbda3bc4bd
 INFO	Kuma architecture: amd64
-INFO	Operating system: Darwin
-INFO	Downloading Kuma from: https://download.konghq.com/mesh-alpine/kuma-0.0.0-preview.4d3a9fd03-darwin-amd64.tar.gz
+INFO	Operating system: darwin
+INFO	Downloading Kuma from: https://packages.konghq.com/public/kuma-binaries-preview/raw/names/kuma-darwin-amd64/versions/bda3bc4bd/kuma-0.0.0-preview.vbda3bc4bd-darwin-amd64.tar.gz
 ```
 
 You then run kumactl with:
