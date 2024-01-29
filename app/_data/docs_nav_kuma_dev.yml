@@ -83,6 +83,8 @@ items:
             url: /production/cp-deployment/systemd/
           - text: Kubernetes
             url: /production/cp-deployment/kubernetes/
+          - text: kumactl
+            url: /explore/cli
       - text: Create multiple service meshes in a cluster
         url: /production/mesh/
       - title: Data plane configuration
@@ -117,6 +119,15 @@ items:
             url: /production/secure-deployment/certificates/
       - text: Kuma user interface
         url: /production/gui/
+      - text: Inspect API
+        url: /explore/inspect-api/
+        items:
+          - text: Matched policies
+            url: "/explore/inspect-api/#matched-policies"
+          - text: Affected data plane proxies
+            url: "/explore/inspect-api/#affected-data-plane-proxies"
+          - text: Envoy proxy configuration
+            url: "/explore/inspect-api/#envoy-proxy-configuration"
       - title: Upgrades and tuning
         group: true
         items:
@@ -126,21 +137,65 @@ items:
             url: /production/upgrades-tuning/fine-tuning/
       - text: Init containers
         url: /production/init-containers/
-  - title: Explore
+      - text: Control Plane Configuration
+        url: /documentation/configuration/
+        items:
+          - text: Modifying the configuration
+            url: /documentation/configuration/#modifying-the-configuration
+          - text: Inspecting the configuration
+            url: /documentation/configuration/#inspecting-the-configuration
+          - text: Store
+            url: /documentation/configuration/#store
+  - title: Using Kuma
     group: true
     items:
-      - text: Gateway
+      - title: Zero Trust & Application Security
+        group: true
+        items:
+          - text: Mutual TLS
+            url: /policies/mutual-tls/
+            items:
+              - text: Usage of "builtin" CA
+                url: "/policies/mutual-tls/#usage-of-builtin-ca"
+              - text: Usage of "provided" CA
+                url: "/policies/mutual-tls/#usage-of-provided-ca"
+              - text: Permissive mTLS
+                url: "/policies/mutual-tls/#permissive-mtls"
+              - text: Certificate Rotation
+                url: "/policies/mutual-tls/#certificate-rotation"
+          - text: External Service
+            url: /policies/external-services/
+            items:
+              - text: Usage
+                url: "/policies/external-services/#usage"
+              - text: Builtin Gateway support
+                url: "/policies/external-services/#builtin-gateway-support"
+      - title: Resiliency & Failover
+        group: true
+        items:
+        - text: Dataplane Health
+          url: /documentation/health/
+          items:
+            - text: MeshCircuitBreaker Policy
+              url: "/documentation/health/#meshcircuitbreaker-policy"
+            - text: Kubernetes and Universal Service Probes
+              url: "/documentation/health/#kubernetes-and-universal-service-probes"
+            - text: MeshHealthCheck Policy
+              url: "/documentation/health/#meshhealthcheck-policy"
+        - text: Service Health Probes
+          url: /policies/service-health-probes/
+          items:
+            - text: Kubernetes
+              url: "/policies/service-health-probes/#kubernetes"
+            - text: Universal probes
+              url: "/policies/service-health-probes/#universal-probes"
+      - text: Gateway # This will change a lot with upcoming "managing ingress traffic PR"
         url: /explore/gateway/
         items:
           - text: Delegated
             url: "/explore/gateway/#delegated"
           - text: Builtin
             url: "/explore/gateway/#builtin"
-      - text: CLI
-        url: /explore/cli/
-        items:
-          - text: kumactl
-            url: "/explore/cli/#kumactl"
       - text: Observability
         url: /explore/observability/
         items:
@@ -156,78 +211,41 @@ items:
             url: "/explore/observability/#configuring-datadog"
           - text: Observability in multi-zone
             url: "/explore/observability/#observability-in-multi-zone"
-      - text: Inspect API
-        url: /explore/inspect-api/
+      - title: Route & Traffic shaping
+        group: true
         items:
-          - text: Matched policies
-            url: "/explore/inspect-api/#matched-policies"
-          - text: Affected data plane proxies
-            url: "/explore/inspect-api/#affected-data-plane-proxies"
-          - text: Envoy proxy configuration
-            url: "/explore/inspect-api/#envoy-proxy-configuration"
-      - text: Kubernetes Gateway API
-        url: /explore/gateway-api/
+          - text: Protocol support in Kuma
+            url: /policies/protocol-support-in-kuma/
+            items:
+              - text: HTTP/2 support
+                url: "/policies/protocol-support-in-kuma/#http2-support"
+              - text: TLS support
+                url: "/policies/protocol-support-in-kuma/#tls-support"
+              - text: Websocket support
+                url: "/policies/protocol-support-in-kuma/#websocket-support"
+      - title: Service Discovery & Networking
+        group: true
         items:
-          - text: Installation
-            url: "/explore/gateway-api/#installation"
-          - text: Gateways
-            url: "/explore/gateway-api/#gateways"
-          - text: TLS termination
-            url: "/explore/gateway-api/#tls-termination"
-          - text: Customization
-            url: "/explore/gateway-api/#customization"
-          - text: Multi-mesh
-            url: "/explore/gateway-api/#multi-mesh"
-          - text: Multi-zone
-            url: "/explore/gateway-api/#multi-zone"
-          - text: GAMMA
-            url: "/explore/gateway-api/#service-to-service-routing"
-          - text: How it works
-            url: "/explore/gateway-api/#how-it-works"
-  - title: Networking
-    group: true
-    items:
-      - text: Service Discovery
-        url: /networking/service-discovery/
-      - text: DNS
-        url: /networking/dns/
-        items:
-          - text: How it works
-            url: "/networking/dns/#how-it-works"
-          - text: Installation
-            url: "/networking/dns/#installation"
-          - text: Configuration
-            url: "/networking/dns/#configuration"
-          - text: Usage
-            url: "/networking/dns/#usage"
-      - text: Non-mesh traffic
-        url: "/networking/non-mesh-traffic/"
-        items:
-          - text: Incoming
-            url: "/networking/non-mesh-traffic/#incoming"
-          - text: Outgoing
-            url: "/networking/non-mesh-traffic/#outgoing"
-  - title: Monitor & manage
-    group: true
-    items:
-      - text: Dataplane Health
-        url: /documentation/health/
-        items:
-          - text: MeshCircuitBreaker Policy
-            url: "/documentation/health/#meshcircuitbreaker-policy"
-          - text: Kubernetes and Universal Service Probes
-            url: "/documentation/health/#kubernetes-and-universal-service-probes"
-          - text: MeshHealthCheck Policy
-            url: "/documentation/health/#meshhealthcheck-policy"
-      - text: Control Plane Configuration
-        url: /documentation/configuration/
-        items:
-          - text: Modifying the configuration
-            url: "/documentation/configuration/#modifying-the-configuration"
-          - text: Inspecting the configuration
-            url: "/documentation/configuration/#inspecting-the-configuration"
-          - text: Store
-            url: "/documentation/configuration/#store"
+          - text: Service Discovery
+            url: /networking/service-discovery/
+          - text: DNS
+            url: /networking/dns/
+            items:
+              - text: How it works
+                url: "/networking/dns/#how-it-works"
+              - text: Installation
+                url: "/networking/dns/#installation"
+              - text: Configuration
+                url: "/networking/dns/#configuration"
+              - text: Usage
+                url: "/networking/dns/#usage"
+          - text: Non-mesh traffic
+            url: "/networking/non-mesh-traffic/"
+            items:
+              - text: Incoming
+                url: "/networking/non-mesh-traffic/#incoming"
+              - text: Outgoing
+                url: "/networking/non-mesh-traffic/#outgoing"
   - title: Policies
     group: true
     items:
@@ -237,40 +255,6 @@ items:
         url: /policies/applying-policies/
       - text: Understanding TargetRef policies
         url: "/policies/targetref"
-      - text: Protocol support in Kuma
-        url: /policies/protocol-support-in-kuma/
-        items:
-          - text: HTTP/2 support
-            url: "/policies/protocol-support-in-kuma/#http2-support"
-          - text: TLS support
-            url: "/policies/protocol-support-in-kuma/#tls-support"
-          - text: Websocket support
-            url: "/policies/protocol-support-in-kuma/#websocket-support"
-      - text: Mutual TLS
-        url: /policies/mutual-tls/
-        items:
-          - text: Usage of "builtin" CA
-            url: "/policies/mutual-tls/#usage-of-builtin-ca"
-          - text: Usage of "provided" CA
-            url: "/policies/mutual-tls/#usage-of-provided-ca"
-          - text: Permissive mTLS
-            url: "/policies/mutual-tls/#permissive-mtls"
-          - text: Certificate Rotation
-            url: "/policies/mutual-tls/#certificate-rotation"
-      - text: External Service
-        url: /policies/external-services/
-        items:
-          - text: Usage
-            url: "/policies/external-services/#usage"
-          - text: Builtin Gateway support
-            url: "/policies/external-services/#builtin-gateway-support"
-      - text: Service Health Probes
-        url: /policies/service-health-probes/
-        items:
-          - text: Kubernetes
-            url: "/policies/service-health-probes/#kubernetes"
-          - text: Universal probes
-            url: "/policies/service-health-probes/#universal-probes"
       - text: MeshGateway
         url: /policies/meshgateway/
         items:
