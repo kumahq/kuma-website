@@ -136,7 +136,6 @@ conf:
 {% endtab %}
 {% endtabs %}
 {% endif_version %}
-
 {% if_version gte:2.6.x %}
 {% policy_yaml passthrough-thresholds-mpp %}
 ```yaml
@@ -247,7 +246,6 @@ conf:
 {% endtab %}
 {% endtabs %}
 {% endif_version %}
-
 {% if_version gte:2.6.x %}
 {% policy_yaml passthrough-timeouts-mpp %}
 ```yaml
