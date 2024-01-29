@@ -189,23 +189,23 @@ items:
               url: "/policies/service-health-probes/#kubernetes"
             - text: Universal probes
               url: "/policies/service-health-probes/#universal-probes"
-      - text: Managing incoming traffic with gateways
+      - title: Managing incoming traffic with gateways
         group: true
         items:
           - text: How ingress works in Kuma
-            url: /using-mesh/managing-ingress-traffic/overview/
+            url: "/using-mesh/managing-ingress-traffic/overview/"
           - text: Delegated gateways
-            url: /using-mesh/managing-ingress-traffic/delegated/
+            url: "/using-mesh/managing-ingress-traffic/delegated/"
           - text: Built-in gateways
-            url: /using-mesh/managing-ingress-traffic/builtin/
+            url: "/using-mesh/managing-ingress-traffic/builtin/"
           - text: Running built-in gateway pods on Kubernetes
-            url: /using-mesh/managing-ingress-traffic/builtin-k8s/
+            url: "/using-mesh/managing-ingress-traffic/builtin-k8s/"
           - text: Configuring built-in listeners
-            url: /using-mesh/managing-ingress-traffic/builtin-listeners/
+            url: "/using-mesh/managing-ingress-traffic/builtin-listeners/"
           - text: Configuring built-in routes
-            url: /using-mesh/managing-ingress-traffic/builtin-routes/
+            url: "/using-mesh/managing-ingress-traffic/builtin-routes/"
           - text: Using the Kubernetes Gateway API
-            url: /using-mesh/managing-ingress-traffic/gateway-api/
+            url: "/using-mesh/managing-ingress-traffic/gateway-api/"
       - text: Observability
         url: /explore/observability/
         items:

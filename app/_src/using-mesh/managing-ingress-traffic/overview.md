@@ -1,5 +1,5 @@
 ---
-title: Managing ingress traffic
+title: Managing incoming traffic with gateways
 ---
 
 {{site.mesh_product_name}} provides two features to manage ingress traffic, also known as north/south traffic.
