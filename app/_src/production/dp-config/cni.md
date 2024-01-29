@@ -129,7 +129,7 @@ cni.confName=10-calico.conflist
 
 {% tab installation OpenShift 3.11 %}
 
-1. Follow the instructions in [OpenShift 3.11 installation](/docs/{{ page.version }}/production/cp-deployment/stand-alone)
+1. Follow the instructions in [OpenShift 3.11 installation](/docs/{{ page.version }}/production/cp-deployment/{% if_version gte:2.6.x inline:true %}single-zone{% endif_version %}{% if_version lte:2.5.x inline:true %}stand-alone{% endif_version %})
    to get the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` enabled (this is required for regular {{site.mesh_product_name}} installation).
 
 2. You need to grant privileged permission to kuma-cni service account:

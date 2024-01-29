@@ -28,7 +28,7 @@ We can run {{site.mesh_product_name}}:
 
 `docker run -p 5681:5681 docker.io/kumahq/kuma-cp:{{ page.latest_version }} run`
 
-This example will run {{site.mesh_product_name}} in `standalone` mode for a "flat" deployment, but there are more advanced {% if_version lte:2.1.x %}[deployment modes](/docs/{{ page.version }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployment modes](/docs/{{ page.version }}/production/deployment/){% endif_version %} like "multi-zone".
+This example will run {{site.mesh_product_name}} in {% if_version lte:2.5.x %}`standalone`{% endif_version %}{% if_version gte:2.6.x %}`single-zone`{% endif_version %} mode for a "flat" deployment, but there are more advanced {% if_version lte:2.1.x %}[deployment modes](/docs/{{ page.version }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployment modes](/docs/{{ page.version }}/production/deployment/){% endif_version %} like "multi-zone".
 
 {% tip %}
 **Note**: By default this will run {{site.mesh_product_name}} with a `memory` [store](/docs/{{ page.version }}/documentation/configuration#store), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.

@@ -16,7 +16,6 @@ Documentation = {{ site.links.web }}
 
 [Service]
 User = < user to use to run the process >
-Environment = KUMA_MODE=standalone
 WorkingDirectory = <directory of the {{ site.mesh_product_name}} install >
 ExecStart = ./bin/kuma-cp run --config-file=./cp-config.yaml
 # if you need your Control Plane to be able to handle a non-trivial number of concurrent connections
