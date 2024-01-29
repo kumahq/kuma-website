@@ -225,7 +225,7 @@ To configure your gateway {{site.mesh_product_name}} has these resources:
 ### Usage
 
 You can create and configure a gateway that listens for traffic from outside of your mesh
-and forwards it to the [demo app frontend](/docs/{{ page.version }}/quickstart/kubernetes/).
+and forwards it to the [demo app frontend](/docs/{{ page.release }}/quickstart/kubernetes/).
 
 {% tabs setup useUrlFragment=false %}
 {% tab setup Kubernetes %}

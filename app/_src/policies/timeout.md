@@ -3,7 +3,7 @@ title: Timeout
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this policy, check [`MeshTimeout`](/docs/{{ page.version }}/policies/meshtimeout) instead. If you want to use the `Retry` policy, remember that it requires the [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) policy to function properly.
+New to Kuma? Don't use this policy, check [`MeshTimeout`](/docs/{{ page.release }}/policies/meshtimeout) instead. If you want to use the `Retry` policy, remember that it requires the [TrafficRoute](/docs/{{ page.release }}/policies/traffic-route) policy to function properly.
 {% endwarning %}
 {% endif_version %}
 

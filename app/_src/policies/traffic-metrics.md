@@ -3,7 +3,7 @@ title: Traffic Metrics
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this, check the [`MeshMetric` policy](/docs/{{ page.version }}/policies/meshmetric) instead.
+New to Kuma? Don't use this, check the [`MeshMetric` policy](/docs/{{ page.release }}/policies/meshmetric) instead.
 {% endwarning %}
 {% endif_version %}
 

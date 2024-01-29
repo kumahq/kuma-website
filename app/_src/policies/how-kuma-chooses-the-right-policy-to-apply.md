@@ -4,7 +4,7 @@ title: How Kuma chooses the right policy to apply
 
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? You don't need this, check [`TargetRef` policies](/docs/{{ page.version }}/policies/introduction) instead.
+New to Kuma? You don't need this, check [`TargetRef` policies](/docs/{{ page.release }}/policies/introduction) instead.
 {% endwarning %}
 {% endif_version %}
 {% if_version lte:2.5.x %}

@@ -3,7 +3,7 @@ title: Health Check
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? You don't need this policy, check [`MeshHealthCheck`](/docs/{{ page.version }}/policies/meshhealthcheck) instead. If you want to use the `HealthCheck` policy, remember that it requires the [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) policy to function properly.
+New to Kuma? You don't need this policy, check [`MeshHealthCheck`](/docs/{{ page.release }}/policies/meshhealthcheck) instead. If you want to use the `HealthCheck` policy, remember that it requires the [TrafficRoute](/docs/{{ page.release }}/policies/traffic-route) policy to function properly.
 {% endwarning %}
 {% endif_version %}
 

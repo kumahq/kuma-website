@@ -73,7 +73,7 @@ metadata:
     kuma.io/sidecar-injection: enabled
 ```
 
-This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/) that it needs to automatically inject a sidecar proxy to every Kubernetes pod in the `kuma-demo` namespace.
+This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) that it needs to automatically inject a sidecar proxy to every Kubernetes pod in the `kuma-demo` namespace.
 
 ## Explore GUI
 
@@ -91,13 +91,13 @@ And then navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the 
 
 ## Introduce zero-trust security
 
-By default, the network is insecure and not encrypted. We can change this with {{site.mesh_product_name}} by enabling the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running alongside the services).
+By default, the network is insecure and not encrypted. We can change this with {{site.mesh_product_name}} by enabling the [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running alongside the services).
 
 {% if_version gte:2.6.x %}
-Before enabling [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTLS) in your mesh, you need to create a `MeshTrafficPermission` policy that allows traffic between your applications.
+Before enabling [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) (mTLS) in your mesh, you need to create a `MeshTrafficPermission` policy that allows traffic between your applications.
 
 {% warning %}
-If you enable [mTLS](/docs/{{ page.version }}/policies/mutual-tls/) without a `MeshTrafficPermission` policy, all traffic between your applications will be blocked. 
+If you enable [mTLS](/docs/{{ page.release }}/policies/mutual-tls/) without a `MeshTrafficPermission` policy, all traffic between your applications will be blocked. 
 {% endwarning %}
 
 To create a `MeshTrafficPermission` policy, you can use the following command:
@@ -186,10 +186,10 @@ However, the traffic to `redis` from any other service than `demo-app` is not al
 ## Next steps
 
 * Explore the [Features](/features) available to govern and orchestrate your service traffic.
-* Add a gateway to access the demo from the outside by following the [builtin gateway guide](/docs/{{ page.version }}/guides/gateway-builtin/).
-* Add Kong as gateway to access the demo from the outside by following the [delegated gateway guide](/docs/{{ page.version }}/guides/gateway-delegated/).
-* [Federate](/docs/{{ page.version }}/guides/federate) zone into a multizone deployment.
-* Read the [full documentation](/docs/{{ page.version }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
+* Add a gateway to access the demo from the outside by following the [builtin gateway guide](/docs/{{ page.release }}/guides/gateway-builtin/).
+* Add Kong as gateway to access the demo from the outside by following the [delegated gateway guide](/docs/{{ page.release }}/guides/gateway-delegated/).
+* [Federate](/docs/{{ page.release }}/guides/federate) zone into a multizone deployment.
+* Read the [full documentation](/docs/{{ page.release }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
 {% if site.mesh_product_name == "Kuma" %}
 * Chat with us at the official [Kuma Slack](/community) for questions or feedback.
 {% endif %}
