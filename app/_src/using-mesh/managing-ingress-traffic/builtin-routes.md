@@ -7,25 +7,19 @@ use [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and
 [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute).
 
 Using these route resources with a gateway requires [using `spec.targetRef` to target
-gateway data plane proxies](../../../policies/targetref/#target-resources).
-Otherwise, [filtering and routing traffic](/../../../policies/meshhttproute) is
+gateway data plane proxies](/docs/{{ page.version }}/policies/targetref/#target-resources).
+Otherwise, [filtering and routing traffic](/docs/{{ page.version }}/policies/meshhttproute) is
 configured as outlined in the docs.
 
-Note that when using `MeshHTTPRoute` and `MeshTCPRoute` with builtin gateways,
-`spec.to[].targetRef` is restricted to `kind: Mesh`.
+Note that when using [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) with builtin gateways, `spec.to[].targetRef` is restricted to `kind: Mesh`.
 
 ### `MeshHTTPRoute`
 
-{% tabs routes useUrlFragment=false %}
-{% tab routes Kubernetes %}
-
+{% policy_yaml mesh-http-route-example %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshHTTPRoute
-metadata:
-  name: edge-gateway-route
-  labels:
-    kuma.io/mesh: default
+type: MeshHTTPRoute
+name: edge-gateway-route
+mesh: default
 spec:
   targetRef:
     kind: MeshGateway
@@ -45,34 +39,9 @@ spec:
           default:
             backendRefs:
               - kind: MeshService
-                name: demo-app_kuma-demo_svc_5000-demo_svc_3001
+                name: demo-app_kuma-demo_svc_5000
 ```
-
-{% endtab %}
-{% tab routes Universal %}
-
-```yaml
-type: MeshGatewayRoute
-mesh: default
-name: edge-gateway-route
-selectors:
-  - match:
-      kuma.io/service: edge-gateway
-      port: http/8080
-conf:
-  http:
-    rules:
-      - matches:
-          - path:
-              match: PREFIX
-              value: /
-        backends:
-          - destination:
-              kuma.io/service: demo-app_kuma-demo_svc_5000
-```
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Listener hostname
 
@@ -101,9 +70,13 @@ conf:
       hostname: wild
 ```
 
-along with the following `MeshHTTPRoute` rule, the only one present in the mesh:
+along with the following [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) rule, the only one present in the mesh:
 
+{% policy_yaml mesh-http-route-example-2 %}
 ```yaml
+type: MeshHTTPRoute
+name: http-route
+mesh: default
 spec:
   targetRef:
     kind: MeshGateway
@@ -123,6 +96,7 @@ spec:
               - kind: MeshService
                 name: example_app_svc_8080
 ```
+{% endpolicy_yaml %}
 
 This route explicitly attaches to the second listener with `hostname: *.example.com`.
 
@@ -132,10 +106,14 @@ will return a 404 because there are no routes attached for that listener.
 
 #### `MeshHTTPRoute` hostnames
 
-`MeshHTTPRoute` rules can themselves specify an additional list of hostnames to further
+[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) rules can themselves specify an additional list of hostnames to further
 limit the traffic handled by those rules. Consider the following example:
 
+{% policy_yaml mesh-http-route-example-3 %}
 ```yaml
+type: MeshHTTPRoute
+name: http-route
+mesh: default
 spec:
   targetRef:
     kind: MeshGateway
@@ -170,16 +148,21 @@ spec:
                 tags:
                   version: v2
 ```
+{% endpolicy_yaml %}
 
 This route would send all traffic to `dev.example.com` to the `v2` backend but
 other traffic to `v1`.
 
 ### `MeshTCPRoute`
 
-If your traffic isn't HTTP, you can use `MeshTCPRoute` to balance traffic
+If your traffic isn't HTTP, you can use [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) to balance traffic
 between services.
 
+{% policy_yaml mesh-tcp-route-example %}
 ```yaml
+type: MeshTCPRoute
+name: tcp-route
+mesh: default
 spec:
   targetRef:
     kind: MeshGateway
@@ -201,3 +184,5 @@ spec:
                   version: v2
                 weight: 10
 ```
+
+{% endpolicy_yaml %}

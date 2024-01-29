@@ -181,11 +181,11 @@ Note that because each listener entry has its own {{site.mesh_product_name}} tag
 {{site.mesh_product_name}} generates a set of tags for each listener by combining the tags from the listener, the `MeshGateway` and the `Dataplane`.
 {{ site.mesh_product_name}} matches policies against this set of combined tags.
 
-| `Dataplane` tags                 | Listener tags                              | Final Tags                                         |
-| -------------------------------- | ------------------------------------------ | -------------------------------------------------- |
-| kuma.io/service=edge-gateway     | vhost=foo.example.com                      | kuma.io/service=edge-gateway,vhost=foo.example.com |
-| kuma.io/service=edge-gateway     | kuma.io/service=example,domain=example.com | kuma.io/service=example,domain=example.com         |
-| kuma.io/service=edge,location=us | version=2                                  | kuma.io/service=edge,location=us,version=2         |
+| `Dataplane` tags                 | Listener tags                                 | Final Tags                                         |
+| -------------------------------- | --------------------------------------------- | -------------------------------------------------- |
+| kuma.io/service=edge-gateway     | vhost=foo.example.com                         | kuma.io/service=edge-gateway,vhost=foo.example.com |
+| kuma.io/service=edge-gateway     | kuma.io/service=example,domain=example.com    | kuma.io/service=example,domain=example.com         |
+| kuma.io/service=edge,location=us | version=2                                     | kuma.io/service=edge,location=us,version=2         |
 
 ## TLS Termination
 
@@ -265,7 +265,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: foo-example-com-certificate
-  namespace: { { site.mesh_namespace } }
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default
 data:

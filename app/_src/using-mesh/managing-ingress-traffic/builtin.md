@@ -33,7 +33,7 @@ multi-zone.
 This resource manages a Kubernetes `Deployment` and `Service`
 suitable for providing service capacity for the `MeshGateway` with the matching `kuma.io/service` tag.
 
-The `kuma.io/service` value you select will be used in `MeshGateway` to [configure listeners](../builtin-listeners).
+The `kuma.io/service` value you select will be used in `MeshGateway` to [configure listeners](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners).
 
 ```yaml
 apiVersion: kuma.io/v1alpha1

@@ -189,13 +189,17 @@ items:
               url: "/policies/service-health-probes/#kubernetes"
             - text: Universal probes
               url: "/policies/service-health-probes/#universal-probes"
-      - text: Managing ingress traffic
-        url: /using-mesh/managing-ingress-traffic/overview/
+      - text: Managing incoming traffic with gateways
+        group: true
         items:
+          - text: How ingress works in Kuma
+            url: /using-mesh/managing-ingress-traffic/overview/
           - text: Delegated gateways
             url: /using-mesh/managing-ingress-traffic/delegated/
           - text: Built-in gateways
             url: /using-mesh/managing-ingress-traffic/builtin/
+          - text: Running built-in gateway pods on Kubernetes
+            url: /using-mesh/managing-ingress-traffic/builtin-k8s/
           - text: Configuring built-in listeners
             url: /using-mesh/managing-ingress-traffic/builtin-listeners/
           - text: Configuring built-in routes
@@ -261,24 +265,6 @@ items:
         url: /policies/applying-policies/
       - text: Understanding TargetRef policies
         url: "/policies/targetref"
-      - text: MeshGateway
-        url: /policies/meshgateway/
-        items:
-          - text: TLS Termination
-            url: "/policies/meshgateway/#tls-termination"
-      - text: MeshGatewayRoute
-        url: /policies/meshgatewayroute/
-        items:
-          - text: Listener tags
-            url: "/policies/meshgatewayroute/#listener-tags"
-          - text: Matching
-            url: "/policies/meshgatewayroute/#matching"
-          - text: Filters
-            url: "/policies/meshgatewayroute/#filters"
-          - text: Reference
-            url: "/policies/meshgatewayroute/#reference"
-      - text: MeshGatewayInstance
-        url: /policies/meshgatewayinstance/
       - text: MeshAccessLog
         url: /policies/meshaccesslog/
         items:
@@ -448,6 +434,8 @@ items:
             url: /policies/rate-limit/
           - text: Virtual Outbound
             url: /policies/virtual-outbound/
+          - text: MeshGatewayRoute
+            url: /policies/meshgatewayroute/
   - title: Guides
     group: true
     items:

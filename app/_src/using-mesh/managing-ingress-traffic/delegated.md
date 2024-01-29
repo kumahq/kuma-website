@@ -27,7 +27,7 @@ gateway.
 Remember that {{ site.mesh_product_name }} takes over from `kube-proxy` when it comes to managing endpoints for `Service` traffic.
 Ingress controllers generally do the same thing for upstream traffic.
 In order for these two functionalities not to conflict with each other, `Services` are required to
-have the [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/references/annotations/#ingresskubernetesioservice-upstream) annotation.
+have the [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/3.0.x/references/annotations/#ingresskubernetesioservice-upstream) annotation.
 With this annotation the ingress controller sends traffic to the `Service` IP instead of directly to the endpoints selected by the `Service`.
 {{site.mesh_product_name}} then routes this `Service` traffic to endpoints as configured by the mesh.
 {{site.mesh_product_name}} automatically injects this annotation for every
@@ -57,7 +57,7 @@ Now the gateway can send traffic to any services in the mesh including other
 zones.
 
 Note that in order to send multi-zone traffic you can either use the
-[`.mesh` address](../../networking/dns) or create a `Service` of type `ExternalName` that points to that URL.
+[`.mesh` address](/docs/{{ page.version }}/networking/dns) or create a `Service` of type `ExternalName` that points to that URL.
 
 {% endtab %}
 {% tab usage Universal %}
