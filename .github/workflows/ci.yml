@@ -16,6 +16,7 @@ jobs:
         run: bundle install
       - working-directory: jekyll-kuma-plugins
         run: bundle exec rspec
+
   check-links:
     name: Check links
     runs-on: ubuntu-latest
@@ -100,6 +101,7 @@ jobs:
         run: sh app/installer.sh
       - name: Check kumactl architecture
         run: file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
+
   installer-sh-arm64:
     runs-on: ubuntu-latest
     name: Test installer.sh on arm64
