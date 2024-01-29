@@ -20,7 +20,7 @@ you're running in Kubernetes or Universal mode.
 {% tab setup Kubernetes %}
 
 For managing gateway instances on Kubernetes, {{site.mesh_product_name}} provides a
-[`MeshGatewayInstance`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s) CRD.
+[`MeshGatewayInstance`](/docs/{{ page.version }}/policies/meshgatewayinstance) CRD.
 
 {% tip %}
 This resource launches `kuma-dp` in your cluster.
@@ -47,7 +47,7 @@ spec:
     kuma.io/service: edge-gateway
 ```
 
-See [the `MeshGatewayInstance` docs](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s) for more options.
+See [the `MeshGatewayInstance` docs](/docs/{{ page.version }}/policies/meshgatewayinstance) for more options.
 {% endtab %}
 {% tab setup Universal %}
 

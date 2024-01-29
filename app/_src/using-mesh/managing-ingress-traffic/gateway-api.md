@@ -220,7 +220,7 @@ spec:
     name: kuma
 ```
 
-This resource has the same [structure as the `MeshGatewayInstance` resource](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s)
+This resource has the same [structure as the `MeshGatewayInstance` resource](/docs/{{ page.version }}/policies/meshgatewayinstance)
 except that the `tags` field is optional.
 With a `MeshGatewayConfig` you can then customize
 the generated `Service` and `Deployment` resources.
