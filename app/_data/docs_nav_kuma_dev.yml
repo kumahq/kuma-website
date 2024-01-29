@@ -213,12 +213,12 @@ items:
       - text: Dataplane Health
         url: /documentation/health/
         items:
-          - text: Circuit Breaker Policy
-            url: "/documentation/health/#circuit-breaker-policy"
+          - text: MeshCircuitBreaker Policy
+            url: "/documentation/health/#meshcircuitbreaker-policy"
           - text: Kubernetes and Universal Service Probes
             url: "/documentation/health/#kubernetes-and-universal-service-probes"
-          - text: Health Check Policy
-            url: "/documentation/health/#health-check-policy"
+          - text: MeshHealthCheck Policy
+            url: "/documentation/health/#meshhealthcheck-policy"
       - text: Control Plane Configuration
         url: /documentation/configuration/
         items:
