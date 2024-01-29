@@ -274,7 +274,7 @@ spec:
 
 ### Multi-zone
 
-Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product_name}}'s [`MeshGateways`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners)/[`MeshGatewayRoutes`](/docs/{{ page.version }}/policies/meshgatewayroute)/[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute)/
+Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product_name}}'s [`MeshGateways`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners)/[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute)/
 [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) instead.
 
 {% if_version gte:2.3.x %}

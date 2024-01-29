@@ -8,12 +8,12 @@ New to Kuma? Don't use this, check the [`MeshHTTPRoute` policy](/docs/{{ page.ve
 {% endif_version %}
 
 `MeshGatewayRoute` is a policy used to configure [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin).
-It is used in combination with [`MeshGateway`](/docs/{{ page.version }}/policies/meshgateway).
+It is used in combination with {% if_version gte:2.6.x %}[`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners){% endif_version %}{% if_version lte:2.5.x %}[`MeshGateway`](/docs/{{ page.version }}/policies/meshgateway){% endif_version %}.
 
 `MeshGatewayRoute` is a new {{site.mesh_product_name}} dataplane policy that replaces TrafficRoute for {{site.mesh_product_name}} Gateway.
 It configures how a gateway should process network traffic.
 At the moment, it targets HTTP routing use cases.
-`MeshGatewayRoutes` are attached to gateways by matching their selector to the [`MeshGateway`](/docs/{{ page.version }}/policies/meshgateway) listener tags. This requires the `kuma.io/service` tag and, optionally, additional tags to match specific `MeshGateway` listeners.
+`MeshGatewayRoutes` are attached to gateways by matching their selector to the {% if_version gte:2.6.x %}[`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners){% endif_version %}{% if_version lte:2.5.x %}[`MeshGateway`](/docs/{{ page.version }}/policies/meshgateway){% endif_version %} listener tags. This requires the `kuma.io/service` tag and, optionally, additional tags to match specific `MeshGateway` listeners.
 
 The following `MeshGatewayRoute` routes traffic to the `backend` service and attaches to any listeners tagged with `vhost=foo.example.com` that attach to builtin gateways with `kuma.io/service: edge-gateway`.
 

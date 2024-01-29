@@ -15,6 +15,10 @@ At a technical level the delegated gateway sidecar is similar to any other sidec
 in the mesh except that incoming traffic bypasses the sidecar and directly reaches the
 gateway.
 
+<center>
+<img src="/assets/images/docs/diagram-delegated-gateway-detailed.jpg" alt="Delegated gateway" style="padding-top: 20px; padding-bottom: 10px;"/>
+</center>
+
 ### Usage
 
 {% tabs usage useUrlFragment=false %}
