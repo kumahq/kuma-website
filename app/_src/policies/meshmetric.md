@@ -30,12 +30,32 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 
 ## TargetRef support matrix
 
+{% if_version gte:2.6.x %}
+{% tabs targetRef useUrlFragment=false %}
+{% tab targetRef Sidecar %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+{% endtab %}
+
+{% tab targetRef Builtin Gateway %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`                                                   |
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
+{% if_version lte:2.5.x %}
+
 | TargetRef type    | top level | to | from |
 |-------------------|-----------|----|------|
 | Mesh              | ✅         | ❌  | ❌    |    
 | MeshSubset        | ✅         | ❌  | ❌    |    
 | MeshService       | ✅         | ❌  | ❌    |    
 | MeshServiceSubset | ✅         | ❌  | ❌    |    
+
+{% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 
@@ -279,7 +299,7 @@ spec:
     kind: Mesh
   default:
     sidecar:
-      usedOnly: true
+      includeUnused: false
     backends:
       - type: Prometheus
         prometheus:
