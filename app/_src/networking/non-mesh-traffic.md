@@ -55,7 +55,7 @@ Otherwise, you will block the traffic which may cause the instability of the sys
 ### Policies don't apply to non-mesh traffic
 
 If you need to change configuration for non-mesh traffic 
-you can use a {% if_version lte:2.5.x inline:true %}[ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch](/docs/{{ page.version }}/policies/meshproxypatch){% endif_version %}.
+you can use a {% if_version lte:2.5.x inline:true %}ProxyTemplate{% endif_version %}{% if_version inline:true gte:2.6.x %}MeshProxyPatch{% endif_version %}.
 
 #### Circuit Breaker
 
@@ -68,7 +68,7 @@ maxRequests: 1024
 maxRetries: 3
 ```
 
-Proxy Template to change the defaults:
+{% if_version lte:2.5.x inline:true %}[ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch](/docs/{{ page.version }}/policies/meshproxypatch){% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
 {% tabs passthrough-thresholds useUrlFragment=false %}
