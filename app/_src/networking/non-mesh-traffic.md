@@ -71,7 +71,41 @@ maxRetries: 3
 Proxy Template to change the defaults:
 
 {% if_version lte:2.5.x %}
-{% policy_yaml passthrough-thresholds %}
+{% tabs passthrough-thresholds useUrlFragment=false %}
+{% tab passthrough-thresholds Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ProxyTemplate
+mesh: default
+metadata:
+  name: custom-template-1
+spec:
+  selectors:
+    - match:
+        kuma.io/service: "*"
+  conf:
+    imports:
+      - default-proxy
+    modifications:
+      - cluster:
+          operation: patch
+          match:
+            name: "outbound:passthrough:ipv4"
+          value: |
+            circuit_breakers: {
+              thresholds: [
+                {
+                  max_connections: 2048,
+                  max_pending_requests: 2048,
+                  max_requests: 2048,
+                  max_retries: 4
+                }
+              ]
+            }
+```
+{% endtab %}
+
+{% tab passthrough-thresholds Universal %}
 ```yaml
 type: ProxyTemplate
 mesh: default
@@ -99,7 +133,8 @@ conf:
             ]
           }
 ```
-{% endpolicy_yaml %}
+{% endtab %}
+{% endtabs %}
 {% endif_version %}
 
 {% if_version gte:2.6.x %}
@@ -145,7 +180,42 @@ tcp:
 Proxy Template to change the defaults:
 
 {% if_version lte:2.5.x %}
-{% policy_yaml passthrough-timeouts %}
+{% tabs passthrough-timeouts useUrlFragment=false %}
+{% tab passthrough-timeouts Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ProxyTemplate
+mesh: default
+metadata:
+  name: custom-template-1
+spec:
+  selectors:
+    - match:
+        kuma.io/service: "*"
+  conf:
+    imports:
+      - default-proxy
+    modifications:
+      - cluster:
+          operation: patch
+          match:
+            name: "outbound:passthrough:ipv4"
+          value: |
+            connect_timeout: "99s"
+      - networkFilter:
+          operation: patch
+          match:
+            name: "envoy.filters.network.tcp_proxy"
+            listenerName: "outbound:passthrough:ipv4"
+          value: |
+            name: envoy.filters.network.tcp_proxy
+            typedConfig:
+              '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+              idleTimeout: "3h"
+```
+{% endtab %}
+
+{% tab passthrough-timeouts Universal %}
 ```yaml
 type: ProxyTemplate
 mesh: default
@@ -174,7 +244,8 @@ conf:
             '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
             idleTimeout: "3h"
 ```
-{% endpolicy_yaml %}
+{% endtab %}
+{% endtabs %}
 {% endif_version %}
 
 {% if_version gte:2.6.x %}
