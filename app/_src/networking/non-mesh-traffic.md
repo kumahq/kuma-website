@@ -141,7 +141,7 @@ conf:
 ```yaml
 type: MeshProxyPatch
 mesh: default
-name: custom-template-1
+name: custom-mpp-1
 spec:
   targetRef:
     kind: Mesh
@@ -176,7 +176,7 @@ tcp:
   idleTimeout: 1h
 ```
 
-{% if_version lte:2.5.x inline:true %}Proxy Template{% endif_version %}{% if_version inline:true gte:2.6.x %}MeshProxyPatch{% endif_version %}to change the defaults:
+{% if_version lte:2.5.x inline:true %}Proxy Template{% endif_version %}{% if_version inline:true gte:2.6.x %}MeshProxyPatch{% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
 {% tabs passthrough-timeouts useUrlFragment=false %}
@@ -251,7 +251,7 @@ conf:
 ```yaml
 type: MeshProxyPatch
 mesh: default
-name: custom-template-1
+name: custom-mpp-1
 spec:
   targetRef:
     kind: Mesh
