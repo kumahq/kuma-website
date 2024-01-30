@@ -39,9 +39,9 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
-| `targetRef`             | Allowed kinds                                            |
-| ----------------------- | -------------------------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `MeshGateway`                     |
+| `targetRef`             | Allowed kinds                                             |
+| ----------------------- | --------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
 {% endtab %}
 {% endtabs %}
 {% endif_version %}
