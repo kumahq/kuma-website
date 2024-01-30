@@ -32,9 +32,9 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
-| `targetRef`           | Allowed kinds                                            |
-| --------------------- | -------------------------------------------------------- |
-| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
@@ -286,7 +286,7 @@ spec:
     kind: Mesh
   default:
     sidecar:
-      usedOnly: true
+      includeUnused: false
     backends:
       - type: Prometheus
         prometheus:

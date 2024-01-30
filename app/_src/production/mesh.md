@@ -123,7 +123,7 @@ spec:
 
 {{site.mesh_product_name}} consumes all [Policies](/policies) on the cluster and joins each to an individual `Mesh`, identified by this property.
 {% endtab %}
-{% tab policies Kubernetes tab (New policies) %}
+{% tab policies Kubernetes (New policies) %}
 By using the `kuma.io/mesh` label, like:
 
 ```yaml
