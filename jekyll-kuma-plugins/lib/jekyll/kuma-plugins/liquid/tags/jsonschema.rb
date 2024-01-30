@@ -42,7 +42,7 @@ module Jekyll
                     const converter = new showdown.Converter();
 
                     // https://github.com/showdownjs/showdown/issues/801
-                    const markdown = mk2 = Doccer.markdown.replace(/(?<=\n)\n/g, '­  \n').replace(/(?<=­ {2})\n(?=---)/g, '\n\n');
+                    const markdown = mk2 = Doccer.markdown.replace('/(?<=\n)\n/g', '­  \n').replace('/(?<=­ {2})\n(?=---)/g', '\n\n');
                     // use the converter to make html from the markdown
                     document.getElementById("markdown_html").innerHTML = converter.makeHtml(markdown);
                   });
