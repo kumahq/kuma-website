@@ -128,6 +128,23 @@ jobs:
             sh app/installer.sh
             file ./kuma-*/bin/kumactl | grep aarch64 &> /dev/null
 
+  installer-sh-mesh:
+    name: Test installer.sh for Kong Mesh
+    runs-on: ubuntu-latest
+    strategy:
+    steps:
+      - name: Prepare OS
+        run: |
+          (apt-get update && apt-get install curl -y) || true
+      - uses: actions/checkout@v3
+      - name: Run installer.sh
+        env:
+          VERBOSE: ${{ runner.debug }}
+          PRODUCT_NAME: Kong Mesh
+          REPO: kong/kong-mesh
+          LATEST_VERSION: https://docs.konghq.com/mesh/latest_version
+        run: sh app/installer.sh
+
   vale:
     name: Lint docs
     runs-on: ubuntu-latest

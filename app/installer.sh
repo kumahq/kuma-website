@@ -44,6 +44,7 @@ main() {
   : "${PRODUCT_NAME:=Kuma}"
   : "${REPO:=kumahq/kuma}"
   : "${VERSION:=latest}"
+  : "${LATEST_VERSION:=https://kuma.io/latest_version}"
   : "${OS:=$(uname -s | tr '[:upper:]' '[:lower:]')}"
 
   OS="${OS:-linux}"
@@ -96,9 +97,9 @@ main() {
   if [ "$VERSION" = 'latest' ]; then
     log "Fetching latest ${PRODUCT_NAME} version.."
 
-    LATEST_VERSION="$(curl -f -sL 'https://kuma.io/latest_version')"
+    LATEST_VERSION="$(curl -f -sL "$LATEST_VERSION")"
     if [ -z "$LATEST_VERSION" ]; then
-      err "Unable to fetch latest ${PRODUCT_NAME} version."
+      err "Unable to determine latest ${PRODUCT_NAME} version, tried: ${LATEST_VERSION}"
     fi
     VERSION="$LATEST_VERSION"
   fi
