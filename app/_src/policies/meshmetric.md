@@ -44,7 +44,6 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 | `targetRef.kind`        | `Mesh`                                                   |
 {% endtab %}
 {% endtabs %}
-
 {% endif_version %}
 {% if_version lte:2.5.x %}
 
