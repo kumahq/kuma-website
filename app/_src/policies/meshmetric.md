@@ -41,7 +41,7 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 {% tab targetRef Builtin Gateway %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
-| `targetRef.kind`        | `Mesh`                                                   |
+| `targetRef.kind`        | `Mesh`, `MeshGateway`                     |
 {% endtab %}
 {% endtabs %}
 {% endif_version %}
