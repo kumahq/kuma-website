@@ -30,19 +30,32 @@ module Jekyll
                   <script type="text/javascript">
                   const data = #{JSON.dump(data)};
                   document.addEventListener("DOMContentLoaded", function() {
+                    function removeNewlinesFromDescriptions(obj) {
+                      for (const key in obj) {
+                        if (typeof obj[key] === 'object') {
+                          // Recursively process nested objects
+                          removeNewlinesFromDescriptions(obj[key]);
+                        } else if (key === 'description' && typeof obj[key] === 'string') {
+                          // Replace newlines in description values
+                          obj[key] = obj[key].replace(\/\n/g, '');
+                        }
+                      }
+                    }
+
                     // create an instance of JSONSchemaMarkdown
                     const Doccer = new JSONSchemaMarkdown();
 
                     // don't include the path of the field in the output
                     Doccer.writePath = function() {};
+                    // remove new lines in description
+                    removeNewlinesFromDescriptions(data)
 
                     Doccer.load(data);
                     Doccer.generate();
 
                     const converter = new showdown.Converter();
-                    const markdown = Doccer.markdown.replace(\/(?<=\\n)\\n/g, '­  \\n').replace(\/(?<=­ {2})\\n(?=---)/g, '\\n\\n');
                     // use the converter to make html from the markdown
-                    document.getElementById("markdown_html").innerHTML = converter.makeHtml(markdown);
+                    document.getElementById("markdown_html").innerHTML = converter.makeHtml(Doccer.markdown);
                   });
                   </script>
                 TIP
