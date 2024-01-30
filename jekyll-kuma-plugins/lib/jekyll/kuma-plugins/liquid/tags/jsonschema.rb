@@ -37,7 +37,7 @@ module Jekyll
                           removeNewlinesFromDescriptions(obj[key]);
                         } else if (key === 'description' && typeof obj[key] === 'string') {
                           // Replace newlines in description values
-                          obj[key] = obj[key].replace(\/\n/g, '');
+                          obj[key] = obj[key].replace(\/\\n/g, '');
                         }
                       }
                     }
