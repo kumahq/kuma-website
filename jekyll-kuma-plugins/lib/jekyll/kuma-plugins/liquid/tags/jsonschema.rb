@@ -40,7 +40,7 @@ module Jekyll
                     Doccer.generate();
 
                     const converter = new showdown.Converter();
-                    const markdown = Doccer.markdown.replace(/\n\n/g, '­  \n').replace(/­ {2}\n/g, '\n\n');
+                    const markdown = Doccer.markdown.replace(/\n/g, '­  \n').replace(/­ {2}\n/g, '\n\n');
                     // use the converter to make html from the markdown
                     document.getElementById("markdown_html").innerHTML = converter.makeHtml(markdown);
                   });
