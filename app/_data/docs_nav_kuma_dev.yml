@@ -85,7 +85,7 @@ items:
             url: /production/cp-deployment/kubernetes/
           - text: kumactl
             url: /explore/cli
-      - text: Create multiple service meshes in a cluster
+      - text: Configuring your Mesh and multi-tenancy
         url: /production/mesh/
       - title: Data plane configuration
         group: true

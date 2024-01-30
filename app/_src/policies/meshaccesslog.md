@@ -34,10 +34,11 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 | `to[].targetRef.kind` | `Mesh`, `MeshService`               |
 {% endif_version %}
 {% if_version gte:2.6.x %}
-| `targetRef`           | Allowed kinds                                    |
-| --------------------- | ------------------------------------------------ |
-| `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
-| `to[].targetRef.kind` | `Mesh`, `MeshService`                            |
+| `targetRef`             | Allowed kinds                                    |
+| ----------------------- | ------------------------------------------------ |
+| `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`                            |
+| `from[].targetRef.kind` | `Mesh`                                                   |
 {% endif_version %}
 {% endtab %}
 {% endtabs %}
