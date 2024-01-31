@@ -44,7 +44,6 @@ module Jekyll
 
                     // create an instance of JSONSchemaMarkdown
                     const Doccer = new JSONSchemaMarkdown();
-
                     // don't include the path of the field in the output
                     Doccer.writePath = function() {};
                     // remove new lines in description
