@@ -50,3 +50,5 @@
 /docs/:version/policies/proxy-template/ /docs/:version/reference/proxy-template/
 /docs/:version/installation/* /docs/:version/production/cp-deployment/stand-alone/
 /docs/:version/production/cp-deployment/stand-alone/ /docs/:version/production/cp-deployment/single-zone/
+/docs/:version/production/deployment/stand-alone/ /docs/:version/production/deployment/single-zone/
+/docs/:version/explore/gateway/ /docs/:version/using-mesh/managing-ingress-traffic/overview/
