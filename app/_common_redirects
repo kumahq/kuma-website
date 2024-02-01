@@ -49,3 +49,4 @@
 # kuma IA redirects (pages that do exist take precedence on these so it's safe to use `:version` for pages moved in newer versions).
 /docs/:version/policies/proxy-template/ /docs/:version/reference/proxy-template/
 /docs/:version/installation/* /docs/:version/production/cp-deployment/stand-alone/
+/docs/:version/production/cp-deployment/stand-alone/ /docs/:version/production/cp-deployment/single-zone/
