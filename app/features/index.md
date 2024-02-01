@@ -29,9 +29,10 @@ features:
     - title: Builtin Gateway
       url: /docs/latest/explore/gateway/#builtin
       icon: /assets/images/icons/policies/icon-builtingateway.png
-    - title: Gateway API
-      url: /docs/latest/explore/gateway-api
-      icon: /assets/images/icons/policies/icon-gatewayapi.png
+# Temporarily removed, waiting for https://github.com/kumahq/kuma-website/pull/1582
+#    - title: Gateway API
+#      url: /docs/latest/explore/gateway-api
+#      icon: /assets/images/icons/policies/icon-gatewayapi.png
   - section: traffic-control
     sectionTitle: Traffic Control
     sectionSubTitle: Routing, Ingress, Failover

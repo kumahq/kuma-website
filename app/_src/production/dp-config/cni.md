@@ -45,7 +45,7 @@ cni.confName=05-cilium.conflist
 
 {% warning %}
 For Cilium versions < 1.14 you should use `{{site.set_flag_values_prefix}}cni.confName=05-cilium.conf` as this has changed
-for version starting from [Cilium 1.14](https://docs.cilium.io/en/stable/operations/upgrade/#id2).
+for version starting from [Cilium 1.14](https://docs.cilium.io/en/v1.14/operations/upgrade/#id2).
 {% endwarning %}
 {% endtab %}
 
