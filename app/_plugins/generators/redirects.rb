@@ -15,6 +15,8 @@ module Jekyll
 
       # Generate redirects for specific versions
       version_specific_redirects = active_versions.each_with_object([]) do |v, redirects|
+        next unless Gem::Version.correct?(v['version'])
+
         vp = v['version'].split('.').map(&:to_i)
 
         # Generate redirects for x.y.0, x.y.1, x.y.2 etc
