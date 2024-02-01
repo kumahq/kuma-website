@@ -16,7 +16,7 @@ in the mesh except that incoming traffic bypasses the sidecar and directly reach
 gateway.
 
 <center>
-<img src="/assets/images/docs/diagram-delegated-gateway-detailed@3x.jpg" alt="Delegated gateway" style="width: 387px; high: 452px; padding-top: 20px; padding-bottom: 10px;"/>
+<img src="/assets/images/docs/diagram-delegated-gateway-detailed@3x.jpg" alt="Delegated gateway" style="width: 387px; height: 452px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
 ### Usage
