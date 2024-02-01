@@ -3,7 +3,7 @@ title: Kubernetes Gateway API
 ---
 
 {{site.mesh_product_name}} supports [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/)
-for configuring {% if_version gte:2.6.x inline:true %}[built-in gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin){% endif_version %}{% if_version lte:2.5.x inline:true %}[built-in gateway](/docs/{{ page.version }}/explore/gateway){% endif_version %} as well as traffic routing using the experimental
+for configuring {% if_version gte:2.6.x inline:true %}[built-in gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin){% endif_version %}{% if_version lte:2.5.x inline:true %}[built-in gateway](/docs/{{ page.release }}/explore/gateway){% endif_version %} as well as traffic routing using the experimental
 [GAMMA](https://gateway-api.sigs.k8s.io/contributing/gamma/)
 [routing spec](https://gateway-api.sigs.k8s.io/geps/gep-1426/).
 
@@ -19,7 +19,7 @@ Checkout our dedicated installation [guide](/docs/{{ page.version }}/guides/gate
 {{ site.mesh_product_name }}'s [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) implementation is beta.
 {% endwarning %}
 {% warning %}
-Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners).
+Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners).
 {% endwarning %}
 
 1. Install the Gateway API CRDs.
@@ -212,7 +212,7 @@ spec:
       - name: secret-tls
 ```
 
-Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mesh_namespace}}` namespace and converts it to {% if_version lte:2.1.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.version }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.version }}/production/secure-deployment/secrets/){% endif_version %}.
+Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mesh_namespace}}` namespace and converts it to {% if_version lte:2.1.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.release }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.release }}/production/secure-deployment/secrets/){% endif_version %}.
 It tracks all the changes to the secret and deletes it upon deletion of the original secret.
 
 {% endif_version %}
@@ -235,7 +235,7 @@ spec:
     name: kuma
 ```
 
-This resource has the same [structure as the `MeshGatewayInstance` resource](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s)
+This resource has the same [structure as the `MeshGatewayInstance` resource](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-k8s)
 except that the `tags` field is optional.
 With a `MeshGatewayConfig` you can then customize
 the generated `Service` and `Deployment` resources.
@@ -243,13 +243,13 @@ the generated `Service` and `Deployment` resources.
 ### Multi-mesh
 
 You can specify a `Mesh` for `Gateway` and `HTTPRoute` resources
-by setting the [`kuma.io/mesh` annotation](/docs/{{ page.version }}/reference/kubernetes-annotations#kumaiomesh)
+by setting the [`kuma.io/mesh` annotation](/docs/{{ page.release }}/reference/kubernetes-annotations#kumaiomesh)
 Note that `HTTPRoutes` must also have the annotation to reference a
 `Gateway` from a non-default `Mesh`.
 
 ### Cross-mesh
 
-[Cross-mesh gateways](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners#cross-mesh) are supported with Gateway API.
+[Cross-mesh gateways](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners#cross-mesh) are supported with Gateway API.
 You'll just need to create a corresponding `GatewayClass`
 pointing to a `MeshGatewayConfig` that
 sets `crossMesh: true`:
@@ -294,8 +294,8 @@ spec:
 
 {% if_version lte:2.6.x %}
 
-Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product_name}}'s [`MeshGateways`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners)/[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute)/
-[`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) instead.
+Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product_name}}'s [`MeshGateways`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners)/[`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute)/
+[`MeshTCPRoute`](/docs/{{ page.release }}/policies/meshtcproute) instead.
 
 {% endif_version %}
 {% if_version gte:2.7.x %}
