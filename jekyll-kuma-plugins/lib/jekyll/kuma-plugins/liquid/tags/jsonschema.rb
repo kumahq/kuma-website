@@ -41,6 +41,7 @@ module Jekyll
                         }
                       }
                     }
+
                     // create an instance of JSONSchemaMarkdown
                     const Doccer = new JSONSchemaMarkdown();
                     // don't include the path of the field in the output
@@ -52,7 +53,6 @@ module Jekyll
                     Doccer.generate();
 
                     const converter = new showdown.Converter();
-
                     // use the converter to make html from the markdown
                     document.getElementById("markdown_html").innerHTML = converter.makeHtml(Doccer.markdown);
                   });

@@ -24,15 +24,14 @@ features:
     sectionSubTitle: Getting traffic inside your mesh
     items:
     - title: Delegated Gateway
-      url: /docs/latest/explore/gateway/#delegated 
+      url: /docs/latest/using-mesh/managing-ingress-traffic/delegated/
       icon: /assets/images/icons/policies/icon-delegatedgateway.png
     - title: Builtin Gateway
-      url: /docs/latest/explore/gateway/#builtin
+      url: /docs/latest/using-mesh/managing-ingress-traffic/builtin/
       icon: /assets/images/icons/policies/icon-builtingateway.png
-# Temporarily removed, waiting for https://github.com/kumahq/kuma-website/pull/1582
-#    - title: Gateway API
-#      url: /docs/latest/explore/gateway-api
-#      icon: /assets/images/icons/policies/icon-gatewayapi.png
+    - title: Gateway API
+      url: /docs/latest/using-mesh/managing-ingress-traffic/gateway-api/
+      icon: /assets/images/icons/policies/icon-gatewayapi.png
   - section: traffic-control
     sectionTitle: Traffic Control
     sectionSubTitle: Routing, Ingress, Failover

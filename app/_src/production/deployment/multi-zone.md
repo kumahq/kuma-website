@@ -55,7 +55,7 @@ a DNS entry with the format `<kuma.io/service>.mesh`, and will listen for traffi
 [`VirtualOutbounds`](/docs/{{ page.version }}/policies/virtual-outbound)s enable you to customize the listening port and how the DNS name for these services looks.
 
 {% tip %}
-A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in {{site.mesh_product_name}} [gateway mode](/docs/{{ page.version }}/explore/gateway) and can be deployed in addition to zone ingresses.
+A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in {{site.mesh_product_name}} {% if_version gte:2.6.x %}[gateway mode](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/overview){% endif_version %}{% if_version lte:2.5.x %}[gateway mode](/docs/{{ page.version }}/explore/gateway){% endif_version %} and can be deployed in addition to zone ingresses.
 {% endtip %}
 
 ## Components of a multi-zone deployment

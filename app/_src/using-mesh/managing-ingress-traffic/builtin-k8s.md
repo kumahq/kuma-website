@@ -1,10 +1,10 @@
 ---
-title: MeshGatewayInstance
+title: Running built-in gateway pods on Kubernetes
 ---
 
-`MeshGatewayInstance` is a Kubernetes-only resource for deploying {% if_version gte:2.6.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin){% endif_version %}{% if_version lte:2.5.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway#builtin){% endif_version %}.
+`MeshGatewayInstance` is a Kubernetes-only resource for deploying [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin).
 
-`MeshGateway` and `MeshGatewayRoute` allow specifying builtin gateway
+[`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners) and [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute)/[`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) allow specifying builtin gateway
 listener and route configuration but don't handle deploying `kuma-dp`
 instances that listen and serve traffic.
 
@@ -39,31 +39,6 @@ The control plane also creates a new `Service` to send network traffic to the bu
 The `Service` is of type `LoadBalancer`, and its ports are automatically adjusted to match the listeners on the corresponding `MeshGateway`.
 
 ## Customization
-
-{% if_version lte:2.1.x %}
-
-Additional customization of the generated `Service` is possible via `spec.serviceTemplate`. For example, you can add annotations to the generated `Service`, and specify the `loadBalancerIP`:
-
-```yaml
-spec:
-  replicas: 1
-  serviceType: LoadBalancer
-  tags:
-    kuma.io/service: edge-gateway
-  resources:
-    limits: ...
-    requests: ...
-  serviceTemplate:
-    metadata:
-      annotations:
-        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
-        ...
-    spec:
-      loadBalancerIP: ...
-```
-
-{% endif_version %}
-{% if_version gte:2.2.x %}
 
 Additional customization of the generated `Service` or `Pods` is possible via `spec.serviceTemplate` and `spec.podTemplate`.
 For example, you can add annotations and/or labels to the generated objects:
@@ -119,8 +94,6 @@ spec:
         securityContext:
           readOnlyRootFilesystem: true
 ```
-
-{% endif_version %}
 
 ## Schema
 
