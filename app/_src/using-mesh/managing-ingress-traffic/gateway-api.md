@@ -11,7 +11,7 @@ as well as traffic routing using the experimental
 ## Installation
 
 {% warning %}
-[Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) is still beta, therefore {{site.mesh_product_name}}'s integration provides the same level of stability.
+{{ site.mesh_prodict_name}}'s [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) implementation is beta.
 
 Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners).
 {% endwarning %}
