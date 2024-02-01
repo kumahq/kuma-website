@@ -14,8 +14,13 @@ When launching {{site.mesh_product_name}}, the GUI will start by default on the 
 ## Getting Started
 When you run the GUI for the first time, you’ll be presented with the Wizard:
 
-<center>
-<img src="/assets/images/docs/gui-welcome-wizard.png" alt="A screenshot of the first step of the Kuma GUI Wizard" style="width: 600px; padding-top: 20px; padding-bottom: 10px;"/>
+<center style="padding-top: 20px; padding-bottom: 10px;">
+{% if_version gte:2.6.x %}
+<img src="/assets/images/docs/2.6.x/gui/onboarding.png" alt="A screenshot of the first step of the Kuma GUI Wizard" />
+{% endif_version %}
+{% if_version lte:2.5.x %}
+<img src="/assets/images/docs/gui-welcome-wizard.png" alt="A screenshot of the first step of the Kuma GUI Wizard" />
+{% endif_version %}
 </center>
 
 ### This tool will:
@@ -27,8 +32,14 @@ When you run the GUI for the first time, you’ll be presented with the Wizard:
 ## Mesh Overview
 Once you’ve completed the setup process, you’ll be sent to the Mesh Overview. This is a general overview of all of the meshes found. You can then view each entity and see how many dataplanes and traffic permissions, routes, and logs are associated with that mesh.
 
-<center>
-<img src="/assets/images/docs/gui-mesh-overview.png" alt="A screenshot of the Mesh Overview of the Kuma GUI" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
+
+<center style="padding-top: 20px; padding-bottom: 10px;">
+{% if_version gte:2.6.x %}
+<img src="/assets/images/docs/2.6.x/gui/mesh-overview.png" alt="A screenshot of the Mesh Overview of the Kuma GUI" />
+{% endif_version %}
+{% if_version lte:2.5.x %}
+<img src="/assets/images/docs/gui-mesh-overview.png" alt="A screenshot of the Mesh Overview of the Kuma GUI" />
+{% endif_version %}
 </center>
 
 ## Mesh Details
@@ -40,26 +51,46 @@ If you haven't yet created any meshes, this will default to the `default` mesh.
 
 Each of these views will provide you with a table that displays helpful at-a-glance information. The Dataplanes table will display helpful information, including whether a dataplane is online, when it was last connected, how many connections it has, etc. This view also provides a control for refreshing your data on the fly without having to do a full page reload each time you've made changes:
 
-<center>
-<img src="/assets/images/docs/gui-dataplanes-table.png" alt="A screenshot of the Dataplanes information table with the new tag styles for Kuma" style="padding-top: 20px; padding-bottom: 10px;"/>
+<center style="padding-top: 20px; padding-bottom: 10px;">
+{% if_version gte:2.6.x %}
+<img src="/assets/images/docs/2.6.x/gui/dataplane-list.png" alt="A screenshot of the Dataplanes information table with the new tag styles for Kuma" />
+{% endif_version %}
+{% if_version lte:2.5.x %}
+<img src="/assets/images/docs/gui-dataplanes-table.png" alt="A screenshot of the Dataplanes information table with the new tag styles for Kuma" />
+{% endif_version %}
 </center>
 
 We also provide an easy way to view your entity in YAML format, as well as a control to copy it to your clipboard:
 
-<center>
-<img src="/assets/images/docs/gui-yaml-to-clipboard.png" alt="A screenshot of the YAML to clipboard feature in the Kuma GUI" style="padding-top: 20px; padding-bottom: 10px;"/>
+<center style="padding-top: 20px; padding-bottom: 10px;">
+{% if_version gte:2.6.x %}
+<img src="/assets/images/docs/2.6.x/gui/dataplane-config.png" alt="A screenshot of the YAML to clipboard feature in the Kuma GUI" />
+{% endif_version %}
+{% if_version lte:2.5.x %}
+<img src="/assets/images/docs/gui-yaml-to-clipboard.png" alt="A screenshot of the YAML to clipboard feature in the Kuma GUI" />
+{% endif_version %}
 </center>
 
 The dataplane view will enable you to see all policies that affect a specific dataplane:
 
-<center>
-<img src="/assets/images/docs/gui-dataplane-policy-list.png" alt="A screenshot of policies that affect a dataplane in the Kuma GUI" style="padding-top: 20px; padding-bottom: 10px;"/>
+<center style="padding-top: 20px; padding-bottom: 10px;">
+{% if_version gte:2.6.x %}
+<img src="/assets/images/docs/2.6.x/gui/dataplane-policies.png" alt="A screenshot of policies that affect a dataplane in the Kuma GUI" />
+{% endif_version %}
+{% if_version lte:2.5.x %}
+<img src="/assets/images/docs/gui-dataplane-policy-list.png" alt="A screenshot of policies that affect a dataplane in the Kuma GUI" />
+{% endif_version %}
 </center>
 
 It also gives you access to the full Envoy configuration of each dataplane which is useful when troubleshooting:
 
-<center>
-<img src="/assets/images/docs/gui-dataplane-xds-dump.png" alt="A screenshot of the Envoy XDS dump of a dataplane in the Kuma GUI" style="padding-top: 20px; padding-bottom: 10px;"/>
+<center style="padding-top: 20px; padding-bottom: 10px;">
+{% if_version gte:2.6.x %}
+<img src="/assets/images/docs/2.6.x/gui/xds-config.png" alt="A screenshot of the Envoy XDS dump of a dataplane in the Kuma GUI" />
+{% endif_version %}
+{% if_version lte:2.5.x %}
+<img src="/assets/images/docs/gui-dataplane-xds-dump.png" alt="A screenshot of the Envoy XDS dump of a dataplane in the Kuma GUI" />
+{% endif_version %}
 </center>
 
 ## What’s to come

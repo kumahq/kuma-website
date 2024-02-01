@@ -84,5 +84,5 @@ If you want to make changes to the docs or the assets and see them reflected on 
 ```
 make run
 ```
-This will run `jekyll serve` and `vite` in the background wich wil re-build the corresponding pages whenever a doc or asset changes,
+This will run `jekyll serve` and `vite` in the background which will re-build the corresponding pages whenever a doc or asset changes,
 while running `netlify dev` so that all the redirects work locally.
