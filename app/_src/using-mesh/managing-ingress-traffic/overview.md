@@ -1,5 +1,5 @@
 ---
-title: How ingress works in Kuma
+title: How ingress works in {{site.mesh_product_name}}
 ---
 
 {{site.mesh_product_name}} provides two features to manage ingress traffic, also known as north/south traffic.
