@@ -18,12 +18,34 @@ depending on where the request is coming from and where it's going to.
 
 ## TargetRef support matrix
 
-| TargetRef type    | top level | to | from |
-|-------------------|-----------|----|------|
-| Mesh              | ✅         | ❌  | ❌    |
-| MeshSubset        | ✅         | ❌  | ❌    |
-| MeshService       | ✅         | ✅  | ❌    |
-| MeshServiceSubset | ✅         | ❌  | ❌    |
+{% if_version gte:2.6.x %}
+{% tabs targetRef useUrlFragment=false %}
+{% tab targetRef Sidecar %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `to[].targetRef.kind` | `MeshService`                                            |
+{% endtab %}
+
+{% tab targetRef Builtin Gateway %}
+| `targetRef`             | Allowed kinds         |
+| ----------------------- | --------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshGateway` |
+| `to[].targetRef.kind`   | `Mesh`                |
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
+{% if_version lte:2.5.x %}
+
+| TargetRef type    | top level | to  | from |
+|-------------------|-----------|-----|------|
+| Mesh              | ✅         | ❌   | ❌    |
+| MeshSubset        | ✅         | ❌   | ❌    |
+| MeshService       | ✅         | ✅   | ❌    |
+| MeshServiceSubset | ✅         | ❌   | ❌    |
+
+{% endif_version %}
 
 For more information, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
 

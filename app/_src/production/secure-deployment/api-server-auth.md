@@ -104,7 +104,7 @@ or you can use API
 
 ```sh
 curl localhost:5681/tokens/user \
-  -H'authentication: Bearer eyJhbGc...' \
+  -H'authorization: Bearer eyJhbGc...' \
   -H'content-type: application/json' \
   --data '{"name": "john","groups": ["team-a"], "validFor": "24h"}' 
 ```
