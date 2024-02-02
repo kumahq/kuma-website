@@ -133,7 +133,6 @@ jobs:
   installer-sh-mesh:
     name: Test installer.sh for Kong Mesh
     runs-on: ubuntu-latest
-    strategy:
     steps:
       - name: Prepare OS
         run: |
