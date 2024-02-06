@@ -56,9 +56,9 @@ jobs:
             --exclude https://linux.die.net \
             --exclude https://packages.konghq.com \
             --exclude https://twitter.com \
-            --max-connections-per-host 10 \
+            --max-connections-per-host=8 \
             --max-response-body-size 100000000 \
-            --rate-limit 4 \
+            --rate-limit 50 \
             --timeout 60
       - name: link checker dev docs
         run: |
@@ -73,9 +73,9 @@ jobs:
             --exclude https://linux.die.net \
             --exclude https://packages.konghq.com \
             --exclude https://twitter.com \
-            --max-connections-per-host 10 \
+            --max-connections-per-host=8 \
             --max-response-body-size 100000000 \
-            --rate-limit 4 \
+            --rate-limit 50 \
             --timeout 60
 
   installer-sh:
