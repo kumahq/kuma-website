@@ -16,6 +16,7 @@ jobs:
         run: bundle install
       - working-directory: jekyll-kuma-plugins
         run: bundle exec rspec
+
   check-links:
     name: Check links
     runs-on: ubuntu-latest
@@ -43,10 +44,39 @@ jobs:
           max_timeout: 1200
       - name: link checker
         run: |
-          $(go env GOPATH)/bin/muffet ${URL} --buffer-size 8192 --exclude https://linux.die.net --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/kumahq/kuma/pull' --exclude 'https://github.com//kumahq/kuma/pull' --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --exclude https://download.konghq.com --exclude ${URL}/docs/1. --rate-limit 50 --timeout 60
+          $(go env GOPATH)/bin/muffet \
+            ${URL} \
+            --buffer-size 8192 \
+            --exclude 'https://github.com/kumahq/kuma/pull' \
+            --exclude 'https://github.com/kumahq/kuma/pull' \
+            --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' \
+            --exclude ${URL}/docs/1. \
+            --exclude 127.0.0.1 \
+            --exclude https://cloudsmith.io/~kong/repos \
+            --exclude https://linux.die.net \
+            --exclude https://packages.konghq.com \
+            --exclude https://twitter.com \
+            --max-connections-per-host=8 \
+            --max-response-body-size 100000000 \
+            --rate-limit 50 \
+            --timeout 60
       - name: link checker dev docs
         run: |
-          $(go env GOPATH)/bin/muffet ${URL}/docs/dev --buffer-size 8192 --exclude https://linux.die.net --exclude https://twitter.com --max-connections-per-host=8 --exclude 127.0.0.1 --exclude 'https://github.com/kumahq/kuma/pull'  --exclude 'https://github.com//kumahq/kuma/pull' --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' --exclude https://download.konghq.com --rate-limit 50 --timeout 60
+          $(go env GOPATH)/bin/muffet \
+            ${URL}/docs/dev \
+            --buffer-size 8192 \
+            --exclude 'https://github.com/kumahq/kuma/pull' \
+            --exclude 'https://github.com/kumahq/kuma/pull' \
+            --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' \
+            --exclude 127.0.0.1 \
+            --exclude https://cloudsmith.io/~kong/repos \
+            --exclude https://linux.die.net \
+            --exclude https://packages.konghq.com \
+            --exclude https://twitter.com \
+            --max-connections-per-host=8 \
+            --max-response-body-size 100000000 \
+            --rate-limit 50 \
+            --timeout 60
 
   installer-sh:
     name: Test installer.sh
@@ -56,11 +86,11 @@ jobs:
         # NOTE: for each new OS, the check must be explicitly set as required in Github
         os:
           - amazonlinux:2022
+          - archlinux:latest
           - debian:bookworm
+          - fedora:latest
           - redhat/ubi8:8.6
           - ubuntu:22.04
-          - archlinux:latest
-          - fedora:latest
     container:
       image: ${{ matrix.os }}
     steps:
@@ -70,9 +100,12 @@ jobs:
           yum install file tar gzip -y || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
+        env:
+          VERBOSE: ${{ runner.debug }}
         run: sh app/installer.sh
       - name: Check kumactl architecture
         run: file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
+
   installer-sh-arm64:
     runs-on: ubuntu-latest
     name: Test installer.sh on arm64
@@ -84,6 +117,8 @@ jobs:
         with:
           arch: aarch64
           distro: ubuntu22.04
+          env: |
+            VERBOSE: '${{ runner.debug }}'
 
           # Not required, but speeds up builds by storing container images in
           # a GitHub package registry.
@@ -94,6 +129,22 @@ jobs:
             apt-get update && apt-get install -y file curl tar gzip
             sh app/installer.sh
             file ./kuma-*/bin/kumactl | grep aarch64 &> /dev/null
+
+  installer-sh-mesh:
+    name: Test installer.sh for Kong Mesh
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare OS
+        run: |
+          (apt-get update && apt-get install curl -y) || true
+      - uses: actions/checkout@v3
+      - name: Run installer.sh
+        env:
+          VERBOSE: ${{ runner.debug }}
+          PRODUCT_NAME: Kong Mesh
+          REPO: kong/kong-mesh
+          LATEST_VERSION: https://docs.konghq.com/mesh/latest_version
+        run: sh app/installer.sh
 
   vale:
     name: Lint docs
