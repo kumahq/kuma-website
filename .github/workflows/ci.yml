@@ -93,8 +93,6 @@ jobs:
           - ubuntu:22.04
     container:
       image: ${{ matrix.os }}
-    env:
-      VERBOSE: ${{ runner.debug }}
     steps:
       - name: Prepare OS
         run: |
@@ -102,12 +100,15 @@ jobs:
           yum install file tar gzip -y || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
+        env:
+          VERBOSE: ${{ runner.debug }}
         run: |
           sh app/installer.sh
           file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
           rm -rf ./kuma-*/
       - name: Run installer.sh with VERSION=preview
         env:
+          VERBOSE: ${{ runner.debug }}
           VERSION: preview
         run: |
           sh app/installer.sh
@@ -115,6 +116,7 @@ jobs:
           rm -rf ./kuma-*/
       - name: Run installer.sh with legacy version
         env:
+          VERBOSE: ${{ runner.debug }}
           VERSION: 2.2.0
         run: |
           sh app/installer.sh
@@ -122,6 +124,7 @@ jobs:
           rm -rf ./kuma-*/
       - name: Run installer.sh with preview version
         env:
+          VERBOSE: ${{ runner.debug }}
           VERSION: 0.0.0-preview.v76e03eb68
         run: |
           sh app/installer.sh
