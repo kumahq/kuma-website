@@ -212,6 +212,7 @@ EOF
 
   if echo "$FILENAME_VERSION" | grep -qs -E 'preview|0.0.0'; then
     URL_REPO="${REPO_REPO}-binaries-preview"
+    VERSION="${FILENAME_VERSION#*0.0.0-preview.v}"
   else
 
     # 2.1.x or lower
