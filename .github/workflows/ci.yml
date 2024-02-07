@@ -93,6 +93,8 @@ jobs:
           - ubuntu:22.04
     container:
       image: ${{ matrix.os }}
+    env:
+      VERBOSE: ${{ runner.debug }}
     steps:
       - name: Prepare OS
         run: |
@@ -100,11 +102,32 @@ jobs:
           yum install file tar gzip -y || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
+        run: |
+          sh app/installer.sh
+          file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
+          rm -rf ./kuma-*/
+      - name: Run installer.sh with VERSION=preview
         env:
-          VERBOSE: ${{ runner.debug }}
-        run: sh app/installer.sh
-      - name: Check kumactl architecture
-        run: file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
+          VERSION: preview
+        run: |
+          sh app/installer.sh
+          file ./kuma-0.0.0-preview.v/bin/kumactl | grep x86-64 &> /dev/null
+          rm -rf ./kuma-*/
+      - name: Run installer.sh with legacy version
+        env:
+          VERSION: 2.2.0
+        run: |
+          sh app/installer.sh
+          file ./kuma-2.2.0/bin/kumactl | grep x86-64 &> /dev/null
+          rm -rf ./kuma-*/
+      - name: Run installer.sh with preview version
+        env:
+          VERSION: 0.0.0-preview.v76e03eb68
+        run: |
+          sh app/installer.sh
+          file ./kuma-2.2.0/bin/kumactl | grep x86-64 &> /dev/null
+          rm -rf ./kuma-*/ 
+
 
   installer-sh-arm64:
     runs-on: ubuntu-latest
