@@ -81,6 +81,8 @@ jobs:
   installer-sh:
     name: Test installer.sh
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     strategy:
       matrix:
         # NOTE: for each new OS, the check must be explicitly set as required in Github
@@ -96,15 +98,41 @@ jobs:
     steps:
       - name: Prepare OS
         run: |
-          (apt-get update && apt-get install file curl -y) || true
-          yum install file tar gzip -y || true
+          (apt-get update && apt-get install file curl gh -y) || true
+          (yum install yum-utils -y && yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && yum install file tar gzip gh -y) || true
+          pacman --noconfirm -Sy github-cli file curl || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
         env:
           VERBOSE: ${{ runner.debug }}
-        run: sh app/installer.sh
-      - name: Check kumactl architecture
-        run: file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
+        run: |
+          sh app/installer.sh
+          file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
+          rm -rf ./kuma-*/
+      - name: Run installer.sh with VERSION=preview
+        env:
+          VERBOSE: ${{ runner.debug }}
+          VERSION: preview
+        run: |
+          sh app/installer.sh
+          file ./kuma-0.0.0-preview.v*/bin/kumactl | grep x86-64 &> /dev/null
+          rm -rf ./kuma-*/
+      - name: Run installer.sh with legacy version
+        env:
+          VERBOSE: ${{ runner.debug }}
+          VERSION: 2.2.0
+        run: |
+          sh app/installer.sh
+          file ./kuma-2.2.0/bin/kumactl | grep x86-64 &> /dev/null
+          rm -rf ./kuma-*/
+      - name: Run installer.sh with preview version
+        env:
+          VERBOSE: ${{ runner.debug }}
+          VERSION: 0.0.0-preview.v76e03eb68
+        run: |
+          sh app/installer.sh
+          file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
+          rm -rf ./kuma-*/ 
 
   installer-sh-arm64:
     runs-on: ubuntu-latest
