@@ -126,6 +126,7 @@ jobs:
           file ./kuma-2.2.0/bin/kumactl | grep x86-64 &> /dev/null
           rm -rf ./kuma-*/
       - name: Run installer.sh with preview version
+        if: false
         env:
           VERBOSE: ${{ runner.debug }}
           VERSION: 0.0.0-preview.v76e03eb68

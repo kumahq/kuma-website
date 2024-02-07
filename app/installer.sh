@@ -270,14 +270,11 @@ EOF
       fi
 
       cat "${DIR}/${REPO_REPO}-${FILENAME_VERSION}/README"
-      echo "1. ** here ** "
     fi
   else
     err "Unable to download ${TARGET_NAME}"
   fi
-  echo "2. ** here ** "
 }
 
 main "$@"
-echo "3. ** here ** "
 exit 0
