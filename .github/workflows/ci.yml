@@ -81,6 +81,8 @@ jobs:
   installer-sh:
     name: Test installer.sh
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     strategy:
       matrix:
         # NOTE: for each new OS, the check must be explicitly set as required in Github
