@@ -30,6 +30,8 @@ log() {
 }
 
 err() {
+  echo "** here **"
+  sleep 3
   log "$1" 'ERROR'
   exit 1
 }
