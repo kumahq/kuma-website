@@ -275,6 +275,7 @@ EOF
     err "Unable to download ${TARGET_NAME}"
   fi
 
+  exit 0
 }
 
 main "$@"

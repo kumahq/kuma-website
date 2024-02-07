@@ -106,7 +106,7 @@ jobs:
         env:
           VERBOSE: ${{ runner.debug }}
         run: |
-          sh app/installer.sh || true # just testing
+          sh app/installer.sh
           file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
           rm -rf ./kuma-*/
       - name: Run installer.sh with VERSION=preview
