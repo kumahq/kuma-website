@@ -30,8 +30,6 @@ log() {
 }
 
 err() {
-  echo "** here **"
-  sleep 3
   log "$1" 'ERROR'
   exit 1
 }
@@ -272,12 +270,13 @@ EOF
       fi
 
       cat "${DIR}/${REPO_REPO}-${FILENAME_VERSION}/README"
+      echo "1. ** here ** "
     fi
   else
     err "Unable to download ${TARGET_NAME}"
   fi
-
-  exit 0
+  echo "2. ** here ** "
 }
 
 main "$@"
+exit 0
