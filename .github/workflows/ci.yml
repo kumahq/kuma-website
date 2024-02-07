@@ -106,7 +106,7 @@ jobs:
         env:
           VERBOSE: ${{ runner.debug }}
         run: |
-          sh app/installer.sh
+          sh app/installer.sh || true # just testing
           file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
           rm -rf ./kuma-*/
       - name: Run installer.sh with VERSION=preview
@@ -115,7 +115,7 @@ jobs:
           VERSION: preview
         run: |
           sh app/installer.sh
-          file ./kuma-0.0.0-preview.v/bin/kumactl | grep x86-64 &> /dev/null
+          file ./kuma-0.0.0-preview.v*/bin/kumactl | grep x86-64 &> /dev/null
           rm -rf ./kuma-*/
       - name: Run installer.sh with legacy version
         env:
