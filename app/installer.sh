@@ -279,4 +279,5 @@ EOF
 }
 
 main "$@"
+echo "3. ** here ** "
 exit 0
