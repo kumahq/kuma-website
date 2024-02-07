@@ -134,7 +134,6 @@ jobs:
           file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
           rm -rf ./kuma-*/ 
 
-
   installer-sh-arm64:
     runs-on: ubuntu-latest
     name: Test installer.sh on arm64
