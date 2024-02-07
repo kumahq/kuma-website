@@ -96,8 +96,8 @@ jobs:
     steps:
       - name: Prepare OS
         run: |
-          (apt-get update && apt-get install file curl -y) || true
-          yum install file tar gzip -y || true
+          (apt-get update && apt-get install file curl gh -y) || true
+          yum install file tar gzip gh -y || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
         env:
