@@ -79,7 +79,10 @@ features:
       - title: Mesh Access Log
         url: /docs/latest/policies/meshaccesslog/
         icon: /assets/images/icons/policies/icon-traffic-log@2x.png
-      - title: Open telemetry support 
+      - title: Mesh Metric 
+        url: /docs/latest/policies/meshmetric/
+        icon: /assets/images/icons/policies/icon-healthcheck@2x.png
+      - title: Open telemetry
         url: /docs/latest/explore/observability/
         icon: /assets/images/icons/policies/icon-opentelemetry.png
   - section: advanced
