@@ -18,7 +18,7 @@ Run the following script to automatically detect the operating system and downlo
 <pre class="no-line-numbers"><code>curl -L https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -</code></pre>
 </div>
 
-or you can [download](https://download.konghq.com/mesh-alpine/kuma-1.2.3-ubuntu-amd64.tar.gz) the distribution manually.
+or you can [download]({{ site.links.direct }}/kuma-legacy/raw/names/kuma-ubuntu-amd64/versions/1.2.3/kuma-1.2.3-ubuntu-amd64.tar.gz) the distribution manually.
 
 Then extract the archive with:
 

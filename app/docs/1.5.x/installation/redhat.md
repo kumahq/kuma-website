@@ -18,7 +18,7 @@ Run the following script to automatically detect the operating system and downlo
 <pre class="no-line-numbers"><code>curl -L https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -</code></pre>
 </div>
 
-or you can <a href="https://download.konghq.com/mesh-alpine/kuma-{{ page.latest_version }}-rhel-amd64.tar.gz">download</a> the distribution manually.
+or you can <a href="{{ site.links.direct }}/kuma-legacy/raw/names/kuma-rhel-amd64/versions/{{ page.latest_version }}/kuma-{{ page.latest_version }}-rhel-amd64.tar.gz">download</a> the distribution manually.
 
 Then extract the archive with:
 

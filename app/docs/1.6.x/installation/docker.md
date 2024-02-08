@@ -120,11 +120,11 @@ You can run the following script to automatically detect the operating system an
 
 or you can download the distribution manually:
 
-- <a href="https://download.konghq.com/mesh-alpine/kuma-{{ page.latest_version }}-centos-amd64.tar.gz">CentOS</a>
-- <a href="https://download.konghq.com/mesh-alpine/kuma-{{ page.latest_version }}-rhel-amd64.tar.gz">RedHat</a>
-- <a href="https://download.konghq.com/mesh-alpine/kuma-{{ page.latest_version }}-debian-amd64.tar.gz">Debian</a>
-- <a href="https://download.konghq.com/mesh-alpine/kuma-{{ page.latest_version }}-ubuntu-amd64.tar.gz">Ubuntu</a>
-- <a href="https://download.konghq.com/mesh-alpine/kuma-{{ page.latest_version }}-darwin-amd64.tar.gz">macOS</a> or run `brew install kumactl`
+- <a href="{{ site.links.direct }}/kuma-legacy/raw/names/kuma-centos-amd64/versions/{{ page.latest_version }}/kuma-{{ page.latest_version }}-centos-amd64.tar.gz">CentOS</a>
+- <a href="{{ site.links.direct }}/kuma-legacy/raw/names/kuma-rhel-amd64/versions/{{ page.latest_version }}/kuma-{{ page.latest_version }}-rhel-amd64.tar.gz">RedHat</a>
+- <a href="{{ site.links.direct }}/kuma-legacy/raw/names/kuma-debian-amd64/versions/{{ page.latest_version }}/kuma-{{ page.latest_version }}-debian-amd64.tar.gz">Debian</a>
+- <a href="{{ site.links.direct }}/kuma-legacy/raw/names/kuma-ubuntu-amd64/versions/{{ page.latest_version }}/kuma-{{ page.latest_version }}-ubuntu-amd64.tar.gz">Ubuntu</a>
+- <a href="{{ site.links.direct }}/kuma-legacy/raw/names/kuma-darwin-amd64/versions/{{ page.latest_version }}/kuma-{{ page.latest_version }}-darwin-amd64.tar.gz">macOS</a> or run `brew install kumactl`
 
 and extract the archive with:
 
