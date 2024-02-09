@@ -24,12 +24,12 @@ You can skip this step if you already have a Kubernetes cluster running.
 It can be a cluster running locally or in a public cloud like AWS EKS, GCP GKE, etc.
 {% endtip %}
 
-## Install Kuma
+## Install {{site.mesh_product_name}}
 
-Install Kuma control plane with Helm by executing:
+Install {{site.mesh_product_name}} control plane with Helm by executing:
 
 ```sh
-helm repo add kuma https://kumahq.github.io/charts
+helm repo add {{site.mesh_helm_repo_name}} {{site.mesh_helm_repo_url}}
 helm repo update
 helm install --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
 ```
@@ -176,4 +176,6 @@ However, the traffic to `redis` from any other service than `demo-app` is not al
 * Explore the [Features](/features) available to govern and orchestrate your service traffic.
 * [Federate](/docs/{{ page.version }}/guides/federate) zone into a multizone deployment.
 * Read the [full documentation](/docs/{{ page.version }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
+{% if site.mesh_product_name == "Kuma" %}
 * Chat with us at the official [Kuma Slack](/community) for questions or feedback.
+{% endif %}

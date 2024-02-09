@@ -66,7 +66,7 @@ kubectl --context=kind-mesh-zone port-forward svc/{{site.mesh_cp_name}} -n {{sit
 
 Then we export resources:
 ```sh
-export ZONE_USER_ADMIN_TOKEN=$(kubectl --context=kind-mesh-zone get secrets -n kuma-system admin-user-token -ojson | jq -r .data.value | base64 -d)
+export ZONE_USER_ADMIN_TOKEN=$(kubectl --context=kind-mesh-zone get secrets -n {{site.mesh_namespace}} admin-user-token -ojson | jq -r .data.value | base64 -d)
 kumactl config control-planes add \
   --address http://localhost:5681 \
   --headers "authorization=Bearer $ZONE_USER_ADMIN_TOKEN" \
@@ -145,8 +145,8 @@ kubectl get --context=kind-mesh-zone meshcircuitbreakers -A
 The policy should be eventually available in zone control plane
 ```
 NAMESPACE     NAME                                                TARGETREF KIND   TARGETREF NAME
-kuma-system   demo-app-to-redis-65xb45x2xfd5bf7f                  MeshService      demo-app_kuma-demo_svc_5000
-kuma-system   mesh-circuit-breaker-all-default                    Mesh
+{{site.mesh_namespace}} demo-app-to-redis-65xb45x2xfd5bf7f        MeshService      demo-app_kuma-demo_svc_5000
+{{site.mesh_namespace}} mesh-circuit-breaker-all-default          Mesh
 ```
 
 ## Next steps
