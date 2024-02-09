@@ -23,11 +23,11 @@
     <link rel="shortcut icon" href="/assets/images/favicon.ico?cb={{ cache_buster }}">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
 
     <meta name="description" content="{{ site.description }}">
 
     {% if page.doc %}
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
       <meta name="docsearch:section" content="docs">
       <meta name="docsearch:docsversion" content="{{ page.version }}">
 
@@ -93,6 +93,8 @@
     </div>
 
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    {% if page.doc %}
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    {% endif %}
   </body>
 </html>

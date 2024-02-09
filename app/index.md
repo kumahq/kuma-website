@@ -14,8 +14,8 @@ meta:
 # custom page data
 showTestimonial: true # change this to `true` if you want to display the testimonial
 showNews: true # change this to `true` if you want to display the news bar
-whyText: Explore Policies
-whyUrl: /policies/
+whyText: Explore Features
+whyUrl: /features/
 
 # testimonials
 testimonials:

@@ -7,7 +7,7 @@ Welcome to the official documentation for Kuma, a modern distributed **Control P
 The word "Kuma" means "bear" in Japanese (クマ).
 
 <center>
-<img src="/assets/images/diagrams/main-diagram@2x.png" alt="" style="width: 450px; padding-top: 10px"/>
+<img src="/assets/images/diagrams/main-diagram@2x.png" alt="" width="450" height="267"/>
 </center>
 
 The core maintainer of Kuma is **Kong**, the maker of the popular open-source Kong Gateway 🦍.
