@@ -186,7 +186,8 @@ However, the traffic to `redis` from any other service than `demo-app` is not al
 ## Next steps
 
 * Explore the [Features](/features) available to govern and orchestrate your service traffic.
-* Add a gateway to access the demo from the outside by following the [builtin gateway guide](/docs/{{ page.version }}/guides/builtin-gateway/).
+* Add a gateway to access the demo from the outside by following the [builtin gateway guide](/docs/{{ page.version }}/guides/gateway-builtin/).
+* Add Kong as gateway to access the demo from the outside by following the [delegated gateway guide](/docs/{{ page.version }}/guides/gateway-delegated/).
 * [Federate](/docs/{{ page.version }}/guides/federate) zone into a multizone deployment.
 * Read the [full documentation](/docs/{{ page.version }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
 {% if site.mesh_product_name == "Kuma" %}

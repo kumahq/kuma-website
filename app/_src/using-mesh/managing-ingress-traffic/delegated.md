@@ -19,6 +19,13 @@ gateway.
 <img src="/assets/images/docs/diagram-delegated-gateway-detailed@3x.jpg" alt="Delegated gateway" style="width: 387px;"/>
 </center>
 
+
+{% tip %}
+**New to Kuma?**
+Checkout our [guide](/docs/{{ page.version }}/guides/gateway-delegated/) to get quickly started with delegated gateways!
+{% endtip %}
+
+
 ### Usage
 
 {% tabs usage useUrlFragment=false %}
