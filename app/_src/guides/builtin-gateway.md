@@ -31,11 +31,10 @@ flowchart LR
 
 ### Create a `MeshGatewayInstance` 
 
-A [`MeshGatewayInstance`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s/) lets you configure the pods
-that will run your gateway.
+A [`MeshGatewayInstance`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s/) configures the pods
+that will run the gateway.
 
-You can do so by running:
-
+Create it by running:
 ```shell
 echo "
 apiVersion: kuma.io/v1alpha1
@@ -52,15 +51,15 @@ spec:
 ```
 
 {% warning %}
-Your kubernetes cluster needs to support LoadBalancer for this to work.
-This may not be the case if you are running kubernetes locally with `kind` or `k3d`. 
+The kubernetes cluster needs to support LoadBalancer for this to work.
+This may not be the case if the kubernetes cluster is running locally with `kind` or `k3d`. 
 {% endwarning %}
 
 ### Define a listener using `MeshGateway`
 
-[`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners/) lets you define listeners for your gateway.
+[`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners/) defines listeners for the gateway.
 
-Here we will define a single HTTP listener on port 8080:
+Define a single HTTP listener on port 8080:
 
 ```shell
 echo "
@@ -84,10 +83,13 @@ spec:
 
 Notice how the selector selects the `kuma.io/service` tag of the previously defined `MeshGatewayInstance`.
 
-Now that you have this running you can see gateway pods running:
-
+Now look at the pods running in the namespace by running: 
 ```shell
-$ kubectl get pods -n kuma-demo
+kubectl get pods -n kuma-demo
+```
+
+Observe the two gateway pods:
+```shell
 NAME                            READY   STATUS    RESTARTS   AGE
 redis-5fdb98848c-5tw62          2/2     Running   0          5m5s
 demo-app-c7cd6588b-rtwlj        2/2     Running   0          5m5s
@@ -95,17 +97,19 @@ edge-gateway-66c76fd477-ncsp5   1/1     Running   0          18s
 edge-gateway-66c76fd477-thxqj   1/1     Running   0          18s
 ```
 
-You can then retrieve the public url for your gateway with:
-
+Retrieve the public URL for the gateway with:
 ```shell
 export PROXY_IP=$(kubectl get svc --namespace kuma-demo edge-gateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
 ```
 
-You can check the gateway is running:
-
+Check the gateway is running:
 ```shell
-$ curl -v ${PROXY_IP}:8080
+curl -v ${PROXY_IP}:8080
+```
+
+Which outputs:
+```shell
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
 > GET / HTTP/1.1
@@ -122,13 +126,12 @@ $ curl -v ${PROXY_IP}:8080
 <
 This is a Kuma MeshGateway. No routes match this MeshGateway!
 ```
-
-We can see a default response that says there are not routes configured.
+Notice the gateway says that there are no routes configured.
 
 ## Define a route using `MeshHTTPRoute`
 
-[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute/) lets you define http routes inside your service mesh.
-You can attach a route to an entire gateway or to a single listener by using the `targetRef.kind: MeshGateway` 
+[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute/) defines HTTP routes inside your service mesh.
+Attach a route to an entire gateway or to a single listener by using `targetRef.kind: MeshGateway` 
 
 ```shell
 echo "
@@ -158,9 +161,13 @@ spec:
 " | kubectl apply -f -
 ```
 
-Now if we try to reach our gateway again: 
+Now try to reach our gateway again: 
 ```shell
-$ curl -v ${PROXY_IP}:8080
+curl -v ${PROXY_IP}:8080
+```
+
+which outputs:
+```shell
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
 > GET / HTTP/1.1
@@ -179,8 +186,10 @@ $ curl -v ${PROXY_IP}:8080
 RBAC: access denied%
 ```
 
-We see we're getting a forbidden error. This is because we do have permissions from the gateway to talk to our demo-app service.
-Let's add a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission):
+Notice the forbidden error.
+This is because the gateway doesn't have permissions to talk to the demo-app service.
+
+To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission):
 
 ```shell
 echo "
@@ -202,10 +211,13 @@ spec:
 " | kubectl apply -f -
 ```
 
-You can check it works with:
-
+Check it works with:
 ```shell
 curl -XPOST -v ${PROXY_IP}:8080/increment
+```
+
+Now returns a 200 OK response:
+```shell
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
 > POST /increment HTTP/1.1
@@ -226,16 +238,14 @@ curl -XPOST -v ${PROXY_IP}:8080/increment
 {"counter":3265,"zone":"local","err":null}
 ```
 
-See how now the demo-app responds.
-
 ## Securing your public endpoint with a certificate
 
-We've exposed our application to a public endpoint thanks to our gateway.
-However, we probably now want to add TLS to our endpoint.
+The application is now exposed to a public endpoint thanks to the gateway.
+We will now add TLS to our endpoint.
 
 ### Create a certificate
 
-For this demo we'll create a self-signed certificate:
+Create a self-signed certificate:
 
 ```shell
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=${PROXY_IP}"
@@ -257,8 +267,7 @@ type: system.kuma.io/secret
 " | kubectl apply -f - 
 ```
 
-Now let's update our gateway to use this certificate
-
+Now update the gateway to use this certificate:
 ```shell
 echo "
 apiVersion: kuma.io/v1alpha1
@@ -283,10 +292,13 @@ spec:
 " | kubectl apply -f -
 ```
 
-We can now check we can call the API using TLS:
-
+Check the call to the gateway: 
 ```shell
-$ curl -v -k https://127.0.0.1:8080/increment -XPOST
+curl -v -k https://127.0.0.1:8080/increment -XPOST
+```
+
+Which should output a successful call and indicate TLS is being used:
+```shell
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
 * ALPN: curl offers h2,http/1.1
