@@ -7,6 +7,18 @@ To start learning how {{site.mesh_product_name}} works, you run and secure a sim
 - `demo-app`: a web application that lets you increment a numeric counter. It listens on port 5000
 - `redis`: data store for the counter
 
+
+{% mermaid %}
+---
+title: service graph of the demo app
+---
+flowchart LR
+demo-app(demo-app :5000)
+redis(redis :6379)
+demo-app --> redis
+{% endmermaid %}
+
+
 ## Prerequisites
 - [Helm](https://helm.sh/) - a package manager for Kubernetes
 - [Kind](https://kind.sigs.k8s.io/) - a tool for running local Kubernetes clusters
@@ -174,6 +186,7 @@ However, the traffic to `redis` from any other service than `demo-app` is not al
 ## Next steps
 
 * Explore the [Features](/features) available to govern and orchestrate your service traffic.
+* Add a gateway to access the demo from the outside by following the [builtin gateway guide](/docs/{{ page.version }}/guides/builtin-gateway/).
 * [Federate](/docs/{{ page.version }}/guides/federate) zone into a multizone deployment.
 * Read the [full documentation](/docs/{{ page.version }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
 {% if site.mesh_product_name == "Kuma" %}
