@@ -43,7 +43,7 @@ metadata:
   name: edge-gateway
   namespace: kuma-demo
 spec:
-  replicas: 2
+  replicas: 1
   serviceType: LoadBalancer
   tags:
     kuma.io/service: edge-gateway
@@ -88,13 +88,12 @@ Now look at the pods running in the namespace by running:
 kubectl get pods -n kuma-demo
 ```
 
-Observe the two gateway pods:
+Observe the one gateway pods:
 ```shell
 NAME                            READY   STATUS    RESTARTS   AGE
 redis-5fdb98848c-5tw62          2/2     Running   0          5m5s
 demo-app-c7cd6588b-rtwlj        2/2     Running   0          5m5s
 edge-gateway-66c76fd477-ncsp5   1/1     Running   0          18s
-edge-gateway-66c76fd477-thxqj   1/1     Running   0          18s
 ```
 
 Retrieve the public URL for the gateway with:
@@ -187,7 +186,8 @@ RBAC: access denied%
 ```
 
 Notice the forbidden error.
-This is because the gateway doesn't have permissions to talk to the demo-app service.
+This is because the quickstart has very restrictive permissions as defaults.
+Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
 To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission):
 
@@ -262,7 +262,7 @@ metadata:
   labels:
     kuma.io/mesh: default
 data:
-  value: "$(cat tls.key tls.cert | base64)"
+  value: "$(cat tls.key tls.crt | base64)"
 type: system.kuma.io/secret
 " | kubectl apply -f - 
 ```
@@ -294,7 +294,7 @@ spec:
 
 Check the call to the gateway: 
 ```shell
-curl -v -k https://127.0.0.1:8080/increment -XPOST
+curl -XPOST -v -k https://${PROXY_IP}:8080/increment
 ```
 
 Which should output a successful call and indicate TLS is being used:
