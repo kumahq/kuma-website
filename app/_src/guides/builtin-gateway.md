@@ -7,8 +7,8 @@ a builtin gateway.
 
 In the [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
 inside the mesh.
-This is not something that can be used in production and you need to set up a gateway to receive traffic external to the mesh.
-In this guide you will add a gateway in front of the demo-app service to expose it publicly.
+In production you typically set up a gateway to receive traffic external to the mesh.
+In this guide you will add [a built-in gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
 
 {% mermaid %}
 ---
@@ -51,8 +51,8 @@ spec:
 ```
 
 {% warning %}
-The kubernetes cluster needs to support LoadBalancer for this to work.
-This may not be the case if the kubernetes cluster is running locally with `kind` or `k3d`. 
+The Kubernetes cluster needs to support LoadBalancer for this to work.
+This may not be the case if the Kubernetes cluster is running locally with `kind` or `k3d`. 
 {% endwarning %}
 
 ### Define a listener using `MeshGateway`
@@ -88,7 +88,7 @@ Now look at the pods running in the namespace by running:
 kubectl get pods -n kuma-demo
 ```
 
-Observe the one gateway pods:
+Observe the gateway pod:
 ```shell
 NAME                            READY   STATUS    RESTARTS   AGE
 redis-5fdb98848c-5tw62          2/2     Running   0          5m5s
@@ -294,7 +294,7 @@ spec:
 
 Check the call to the gateway: 
 ```shell
-curl -XPOST -v -k https://${PROXY_IP}:8080/increment
+curl -X POST -v --insecure https://${PROXY_IP}:8080/increment
 ```
 
 Which should output a successful call and indicate TLS is being used:
@@ -344,7 +344,7 @@ Which should output a successful call and indicate TLS is being used:
 {"counter":3271,"zone":"local","err":null}%
 ```
 
-Note that we're using `-k` as we have used a self-signed certificate.
+Note that we're using `--insecure` as we have used a self-signed certificate.
 
 ## Next steps
 
