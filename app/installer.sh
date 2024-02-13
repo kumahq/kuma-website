@@ -177,7 +177,7 @@ main() {
   if [ $# -gt 0 ]; then
     case $1 in
     --print-version)
-      echo "$VERSION"
+      echo "${FILENAME_VERSION}"
       exit 0
       ;;
     *)
