@@ -216,7 +216,9 @@ To help users, each policy documentation includes tables indicating which `targe
 For each type of proxy, sidecar or builtin gateway, the table indicates for each
 `targetRef` level, which kinds are supported.
 
-The tables look like:
+#### Example tables
+
+These are just examples, remember to check the docs specific to your policy!
 
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
