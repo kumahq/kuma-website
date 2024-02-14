@@ -51,7 +51,7 @@ Restart both the controller and the gateway to leverage sidecar injection:
 kubectl rollout restart -n kong deployment kong-gateway kong-controller
 ```
 
-Wait until pods are fully rollout and look at them:
+Wait until pods are fully rolled out and look at them:
 ```shell
 kubectl get pods -n kong
 ```
@@ -68,7 +68,7 @@ Verify the gateway still works:
 curl -i $PROXY_IP
 ```
 
-outputs that there are no routes defined:
+which outputs that there are no routes defined:
 ```shell
 HTTP/1.1 404 Not Found
 Date: Fri, 09 Feb 2024 15:25:45 GMT
@@ -88,12 +88,13 @@ X-Kong-Request-Id: e7dfe659c9e46639a382f82c16d9582f
 ## Add a route to our `demo-app`
 
 Patch our gateway to allow routes in any namespace:
-
 ```shell
 kubectl patch --type=json gateways.gateway.networking.k8s.io kong -p='[{"op":"replace","path": "/spec/listeners/0/allowedRoutes/namespaces/from","value":"All"}]'
 ```
+This is required because in the Kong ingress controller tutorial the gateway is created in the `default` namespace.
+To do this the Gateway API spec requires to explicitly allow routes from different namespaces.
 
-Add the route in our `kuma-demo` namespace which binds to the gateway `kong` defined in the `kong` namespace:
+Now add the gateway route in our `kuma-demo` namespace which binds to the gateway `kong` defined in the `default` namespace:
 ```shell
 echo "
 apiVersion: gateway.networking.k8s.io/v1
@@ -116,6 +117,10 @@ spec:
       port: 5000 
 " | kubectl apply -f -
 ```
+
+{% warning %}
+This route is managed by the Kong ingress controller and not by Kuma.
+{% endwarning %}
 
 Now call the gateway: 
 ```shell
