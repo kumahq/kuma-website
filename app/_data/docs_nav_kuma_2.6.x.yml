@@ -436,22 +436,14 @@ items:
             url: /policies/virtual-outbound/
           - text: MeshGatewayRoute
             url: /policies/meshgatewayroute/
+
   - title: Guides
     group: true
     items:
       - text: Federate zone control plane
         url: /guides/federate/
-        items:
-          - text: Prerequisites
-            url: /guides/federate/#prerequisites
-          - text: Start a global control plane
-            url: /guides/federate/#start-a-global-control-plane
-          - text: Copy resources from zone to global control plane
-            url: /guides/federate/#copy-resources-from-zone-to-global-control-plane
-          - text: Connect zone control plane to global control plane
-            url: /guides/federate/#connect-zone-control-plane-to-global-control-plane
-          - text: Verify federation
-            url: /guides/federate/#verify-federation
+      - text: Add a builtin Gateway
+        url: /guides/builtin-gateway/
   - title: Reference
     group: true
     items:

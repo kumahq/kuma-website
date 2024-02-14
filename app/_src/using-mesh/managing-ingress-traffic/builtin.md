@@ -8,7 +8,8 @@ gateways. {{ site.mesh_product_name }} policies are then used to configure
 built-in gateways.
 
 {% tip %}
-{{site.mesh_product_name}} gateways are configured with the [Envoy best practices for edge proxies](https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge).
+**New to Kuma?**
+Checkout our [guide](/docs/{{ page.version }}/guides/builtin-gateway/) to get quickly started with builtin gateways!
 {% endtip %}
 
 ### Deploying gateways
@@ -80,6 +81,10 @@ kuma-dp run \
 {% endtab %}
 {% endtabs %}
 
+{% tip %}
+{{site.mesh_product_name}} gateways are configured with the [Envoy best practices for edge proxies](https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge).
+{% endtip %}
+
 ### Multi-zone
 
 The {{site.mesh_product_name}} Gateway resource types, `MeshGateway`, [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute), are synced across zones by the {{site.mesh_product_name}} control plane.
@@ -88,4 +93,3 @@ Once these resources exist, you can provision serving capacity in the zones wher
 
 See the {% if_version lte:2.1.x %}[multi-zone docs](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone docs](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %} for a
 refresher.
-
