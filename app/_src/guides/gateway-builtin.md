@@ -7,7 +7,7 @@ a builtin gateway.
 
 In the [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
 inside the mesh.
-In production you typically set up a gateway to receive traffic external to the mesh.
+In production, you typically set up a gateway to receive traffic external to the mesh.
 In this guide you will add [a built-in gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
 
 {% mermaid %}

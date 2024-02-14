@@ -9,7 +9,7 @@ built-in gateways.
 
 {% tip %}
 **New to Kuma?**
-Checkout our [guide](/docs/{{ page.version }}/guides/builtin-gateway/) to get quickly started with builtin gateways!
+Checkout our [guide](/docs/{{ page.version }}/guides/gateway-builtin/) to get quickly started with builtin gateways!
 {% endtip %}
 
 ### Deploying gateways

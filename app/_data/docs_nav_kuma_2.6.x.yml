@@ -443,7 +443,9 @@ items:
       - text: Federate zone control plane
         url: /guides/federate/
       - text: Add a builtin Gateway
-        url: /guides/builtin-gateway/
+        url: /guides/gateway-builtin/
+      - text: Add Kong as a delegated Gateway
+        url: /guides/gateway-delegated/
   - title: Reference
     group: true
     items:
