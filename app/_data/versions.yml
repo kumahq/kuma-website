@@ -84,6 +84,7 @@
   endOfLifeDate: "2025-02-01"
   branch: release-2.6
 - edition: kuma
-  version: 2.7.0
+  version: preview
   release: 2.7.x
+  label: dev
   branch: master
