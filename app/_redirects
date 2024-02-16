@@ -39,6 +39,11 @@ https://prometheus.metrics.kuma.io/path /docs/LATEST_RELEASE/reference/kubernete
 https://traffic.kuma.io/exclude-inbound-ports /docs/LATEST_RELEASE/reference/kubernetes-annotations/#traffic-kuma-io-exclude-inbound-ports/ 302
 https://traffic.kuma.io/exclude-outbound-ports /docs/LATEST_RELEASE/reference/kubernetes-annotations/#traffic-kuma-io-exclude-outbound-ports/ 302
 
+# Argo CD section redirects post submodule
+
+/docs/2.3.x/installation/helm/#argo-cd  /docs/2.3.x/production/cp-deployment/kubernetes/#argo-cd    
+/docs/2.2.x/installation/helm/#argo-cd  /docs/2.2.x/production/cp-deployment/kubernetes/#argo-cd
+
 # Community section
 
 /contribute/introduction/*  /docs/LATEST_RELEASE/community/contribute-to-kuma/:splat 302
