@@ -3,15 +3,14 @@ title: Kubernetes Gateway API
 ---
 
 {{site.mesh_product_name}} supports [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/)
-for configuring {% if_version gte:2.6.x %}[built-in gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin){% endif_version %}{% if_version lte:2.5.x %}[built-in gateway](/docs/{{ page.version }}/explore/gateway){% endif_version %}
-as well as traffic routing using the experimental
+for configuring {% if_version gte:2.6.x inline:true %}[built-in gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin){% endif_version %}{% if_version lte:2.5.x inline:true %}[built-in gateway](/docs/{{ page.version }}/explore/gateway){% endif_version %} as well as traffic routing using the experimental
 [GAMMA](https://gateway-api.sigs.k8s.io/contributing/gamma/)
 [routing spec](https://gateway-api.sigs.k8s.io/geps/gep-1426/).
 
 ## Installation
 
 {% warning %}
-{{ site.mesh_prodict_name}}'s [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) implementation is beta.
+{{ site.mesh_product_name }}'s [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) implementation is beta.
 
 Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners).
 {% endwarning %}
