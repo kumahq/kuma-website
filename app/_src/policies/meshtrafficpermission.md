@@ -23,6 +23,7 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.version }}/policies/tr
 
 {% tab targetRef Delegated Gateway %}
 `MeshTrafficPermission` isn't supported on delegated gateways.
+{% endtab %}
 {% endtabs %}
 
 If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetref).
