@@ -33,6 +33,14 @@ depending on where the request coming from and where it's going to.
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
 | `to[].targetRef.kind`   | `Mesh`                                                   |
 {% endtab %}
+
+{% tab targetRef Delegated Gateway %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `to[].targetRef.kind` | `MeshService`                                            |
+{% endtab %}
+
 {% endtabs %}
 
 {% endif_version %}

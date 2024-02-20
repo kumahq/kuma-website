@@ -41,6 +41,16 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 | `from[].targetRef.kind` | `Mesh`                                                   |
 {% endif_version %}
 {% endtab %}
+
+{% if_version gte:2.6.x %}
+{% tab targetRef Delegated Gateway %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
+{% endtab %}
+{% endif_version %}
+
 {% endtabs %}
 {% endif_version %}
 

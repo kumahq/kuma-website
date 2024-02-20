@@ -47,6 +47,13 @@ Do **not** combine with [Proxy Template](/docs/{{ page.version }}/policies/proxy
 | ---------------- | --------------------- |
 | `targetRef.kind` | `Mesh`, `MeshGateway` |
 {% endtab %}
+
+{% tab targetRef Delegated Gateway %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+{% endtab %}
+
 {% endtabs %}
 
 {% endif_version %}
