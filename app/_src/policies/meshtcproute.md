@@ -28,10 +28,10 @@ depending on where the request is coming from and where it's going to.
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
-| `targetRef`             | Allowed kinds         |
-| ----------------------- | --------------------- |
-| `targetRef.kind`        | `Mesh`, `MeshGateway` |
-| `to[].targetRef.kind`   | `Mesh`                |
+| `targetRef`             | Allowed kinds                                             |
+| ----------------------- | --------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
+| `to[].targetRef.kind`   | `Mesh`                                                    |
 {% endtab %}
 {% endtabs %}
 
