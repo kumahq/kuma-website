@@ -5,7 +5,7 @@ title: Transparent Proxying
 ## What is Transparent Proxying?
 A transparent proxy is a type of server that can intercept network traffic to and from a service without changes to the client application code. In the case of {{site.mesh_product_name}} it is used to capture traffic and redirect it to `kuma-dp` so Mesh policies can be applied.
 
-To accomplish this, {{site.mesh_product_name}} utilizes [`iptables`](https://linux.die.net/man/8/iptables).
+To accomplish this, {{site.mesh_product_name}} utilizes [`iptables`](https://linux.die.net/man/8/iptables) and offers additional, experimental support for [`eBPF`](https://ebpf.io/). The examples provided in this section will concentrate on iptables to clearly illustrate the point.
 
 Below is a high level visualization of how Transparent Proxying works
 
