@@ -9,7 +9,7 @@ built-in gateways.
 
 {% tip %}
 **New to {{site.mesh_product_name}}?**
-Checkout our [guide](/docs/{{ page.version }}/guides/gateway-builtin/) to get quickly started with builtin gateways!
+Checkout our [guide](/docs/{{ page.release }}/guides/gateway-builtin/) to get quickly started with builtin gateways!
 {% endtip %}
 
 ### Deploying gateways

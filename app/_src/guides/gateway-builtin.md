@@ -5,10 +5,10 @@ title: Add a builtin gateway
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use 
 a builtin gateway.
 
-In the [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
+In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
 inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
-In this guide you will add [a built-in gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
+In this guide you will add [a built-in gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
 
 {% mermaid %}
 ---
@@ -25,13 +25,13 @@ flowchart LR
 {% endmermaid %}
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 
 ## Start a gateway 
 
 ### Create a `MeshGatewayInstance` 
 
-A [`MeshGatewayInstance`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s/) configures the pods
+A [`MeshGatewayInstance`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-k8s/) configures the pods
 that will run the gateway.
 
 Create it by running:
@@ -59,7 +59,7 @@ One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.co
 
 ### Define a listener using `MeshGateway`
 
-[`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners/) defines listeners for the gateway.
+[`MeshGateway`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners/) defines listeners for the gateway.
 
 Define a single HTTP listener on port 8080:
 
@@ -131,7 +131,7 @@ Notice the gateway says that there are no routes configured.
 
 ## Define a route using `MeshHTTPRoute`
 
-[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute/) defines HTTP routes inside your service mesh.
+[`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute/) defines HTTP routes inside your service mesh.
 Attach a route to an entire gateway or to a single listener by using `targetRef.kind: MeshGateway` 
 
 ```shell
@@ -191,7 +191,7 @@ Notice the forbidden error.
 This is because the quickstart has very restrictive permissions as defaults.
 Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
-To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission):
+To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
 
 ```shell
 echo "
@@ -351,5 +351,5 @@ Note that we're using `--insecure` as we have used a self-signed certificate.
 
 ## Next steps
 
-* Read more about the different types of gateways in the [managing ingress traffic docs](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/overview/).
-* Learn about setting up [observability](/docs/{{ page.version }}/explore/observability/) to get full end to end visibility of your mesh.
+* Read more about the different types of gateways in the [managing ingress traffic docs](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/overview/).
+* Learn about setting up [observability](/docs/{{ page.release }}/explore/observability/) to get full end to end visibility of your mesh.
