@@ -22,7 +22,7 @@ gateway.
 
 {% tip %}
 **New to Kuma?**
-Checkout our [guide](/docs/{{ page.version }}/guides/gateway-delegated/) to get quickly started with delegated gateways!
+Checkout our [guide](/docs/{{ page.release }}/guides/gateway-delegated/) to get quickly started with delegated gateways!
 {% endtip %}
 
 
