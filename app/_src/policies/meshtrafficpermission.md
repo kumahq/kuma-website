@@ -20,6 +20,10 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.version }}/policies/tr
 `MeshTrafficPermission` isn't supported on builtin gateways. If applied via
 `spec.targetRef.kind: MeshService`, it has no effect.
 {% endtab %}
+
+{% tab targetRef Delegated Gateway %}
+`MeshTrafficPermission` isn't supported on delegated gateways.
+{% endtab %}
 {% endtabs %}
 
 If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetref).

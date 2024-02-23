@@ -26,6 +26,12 @@ Do **not** combine with [FaultInjection](/docs/{{ page.version }}/policies/fault
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
 | `to[].targetRef.kind`   | `Mesh`                                                   |
 {% endtab %}
+
+{% tab targetRef Delegated Gateway %}
+
+`MeshFaultInjection` isn't supported on delegated gateways.
+
+{% endtab %}
 {% endtabs %}
 
 {% endif_version %}

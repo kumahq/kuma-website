@@ -42,6 +42,13 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 | ----------------------- | --------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
 {% endtab %}
+
+{% tab targetRef Delegated Gateway %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+{% endtab %}
+
 {% endtabs %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).

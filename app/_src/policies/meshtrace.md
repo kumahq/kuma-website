@@ -46,6 +46,13 @@ For HTTP you can also manually forward the following headers:
 | ---------------- | --------------------- |
 | `targetRef.kind` | `Mesh`, `MeshGateway` |
 {% endtab %}
+
+{% tab targetRef Delegated Gateway %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+{% endtab %}
+
 {% endtabs %}
 
 {% endif_version %}
