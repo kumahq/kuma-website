@@ -46,6 +46,16 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there is
 | `MeshServiceSubset` | ✅        | ❌  |
 {% endif_version %}
 {% endtab %}
+
+{% if_version gte:2.6.x %}
+{% tab targetRef Delegated Gateway %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+{% endtab %}
+{% endif_version %}
+
 {% endtabs %}
 
 {% endif_version %}

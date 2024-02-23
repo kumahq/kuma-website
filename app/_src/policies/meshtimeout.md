@@ -26,6 +26,13 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 | `to[].targetRef.kind`   | `Mesh`                                                    |
 | `from[].targetRef.kind` | `Mesh`                                                    |
 {% endtab %}
+
+{% tab targetRef Delegated Gateway %}
+| `targetRef`             | Allowed kinds                                                             |
+| ----------------------- | ------------------------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset`, `MeshHTTPRoute` |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                                     |
+{% endtab %}
 {% endtabs %}
 
 {% endif_version %}

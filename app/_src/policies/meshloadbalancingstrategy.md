@@ -26,6 +26,14 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.version }
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
 {% endtab %}
+
+{% tab targetRef Delegated Gateway %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+{% endtab %}
+
 {% endtabs %}
 
 {% endif_version %}
