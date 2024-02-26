@@ -1,8 +1,8 @@
 {% assign current_release = page.release %}
 {% assign latest_version = site.data.latest_version.release %}
 {% assign page_path = page.url | split: '/' | shift: 3 | join: '/' %}
-{% assign latest_version_path = "docs/" | append: latest_version | append: '/' | append: page_path | append: '.md' %}
-{% assign latest_page = site.pages | find: 'path', latest_version_path %}
+{% assign latest_version_path = "/docs/" | append: latest_version | append: '/' | append: page_path %}
+{% assign latest_page = site.pages | find: 'url', latest_version_path %}
 
 {% if current_release %}
   {% unless current_release.latest? %}
