@@ -304,8 +304,8 @@ When you configure application scraping make sure to specify `application.name` 
 
 Right now if you want to expose metrics from you application to OpenTelemetry collector you can access collector directly.
 
-If you have disabled [passthrough](/networking/non-mesh-traffic/#outgoing) in your Mesh you need to
-configure [ExternalService](/policies/external-services/#external-service) with you collector endpoint. Example ExternalService:
+If you have disabled [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic/#outgoing) in your Mesh you need to
+configure [ExternalService](/docs/{{ page.version }}/policies/external-services/#external-service) with you collector endpoint. Example ExternalService:
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
