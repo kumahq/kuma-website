@@ -45,6 +45,8 @@ items:
             url: "/quickstart/kubernetes-demo/#introduce-zero-trust-security"
           - text: Next steps
             url: "/quickstart/kubernetes-demo/#next-steps"
+  - text: Install
+    url: /install/
   - title: Kuma in Production
     group: true
     items:
