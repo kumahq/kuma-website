@@ -101,6 +101,13 @@ applications:
     port: 8888 # port on which application is listening
 ```
 
+{% if_version gte:2.7.x %}
+{% warning %}
+Metrics exposed in application needs to be in Prometheus format in order for Dataplane Proxy to parse it and expose. Either 
+for Prometheus or OpenTelemetry backend.
+{% endwarning %}
+{% endif_version %}
+
 ### Backends
 
 #### Prometheus
@@ -254,6 +261,7 @@ scrape_configs:
 
 #### OpenTelemetry (experimental)
 
+{% if_version lte:2.6.x %}
 ```yaml
 backends:
   - type: OpenTelemetry
@@ -274,6 +282,62 @@ When you configure application scraping make sure to specify `application.name` 
 - OpenTelemetry integration does not take [sidecar](/docs/{{ page.version }}/policies/meshmetric/#sidecar) configuration into account.
     This support will be added in the next release.
 - [Application](/docs/{{ page.version }}/policies/meshmetric/#applications) must expose metrics in Prometheus format for this integration to work
+
+{% endif_version %}
+
+{% if_version gte:2.7.x %}
+```yaml
+backends:
+  - type: OpenTelemetry
+    openTelemetry: 
+      endpoint: http://otel-collector.observability.svc:4317
+      refreshInterval: 60s
+```
+
+This configuration tells {{site.mesh_product_name}} data plane proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
+Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.version }}/policies/meshmetric/#applications) in a Pod/VM.
+and push them to configured OpenTelemetry collector, every **60 seconds**.
+
+When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/)
+
+#### Exposing metrics from application to OpenTelemetry collector
+
+Right now if you want to expose metrics from you application to OpenTelemetry collector you can access collector directly.
+
+If you have disabled [passthrough](/networking/non-mesh-traffic/#outgoing) in your Mesh you need to
+configure [ExternalService](/policies/external-services/#external-service) with you collector endpoint. Example ExternalService:
+
+{% tabs usage useUrlFragment=false %}
+{% tab usage Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ExternalService
+mesh: default
+metadata:
+  name: otel-collector
+spec:
+  tags:
+    kuma.io/service: otel-collector-grpc
+    kuma.io/protocol: grpc
+  networking:
+    address: otel-collector.observability.svc.cluster.local:4317
+```
+{% endtab %}
+{% tab usage Universal %}
+```yaml
+type: ExternalService
+mesh: default
+name: otel-collector
+tags:
+  kuma.io/service: otel-collector-grpc
+  kuma.io/protocol: grpc
+networking:
+  address: otel-collector.observability.svc.cluster.local:4317
+```
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
 
 ## Examples
 
