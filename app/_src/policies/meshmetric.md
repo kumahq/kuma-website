@@ -300,7 +300,7 @@ and push them to configured OpenTelemetry collector, every **60 seconds**.
 
 When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/)
 
-#### Exposing metrics from application to OpenTelemetry collector
+#### Pushing metrics from application to OpenTelemetry collector directly
 
 Right now if you want to expose metrics from you application to OpenTelemetry collector you can access collector directly.
 
