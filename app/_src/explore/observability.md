@@ -46,6 +46,18 @@ Control plane metrics are exposed on port `:5680` and available under the standa
 
 ## Configuring Prometheus
 
+{% if_version eq:2.6.x %}
+{% warning %}
+This version of {{site.mesh_product_name}} has introduced a [bug in MADS server](https://github.com/kumahq/kuma/issues/9508). This bug can cause delays in delivering monitoring assignment to Prometheus, if you changed default prometheus configuration for `kuma_sd_configs.fetch_timeout`.
+Which result in Prometheus not collecting metrics from new dataplane proxies for that period of time. In order to fix this issue, you need configure `kuma_sd_configs` as follows:
+```yaml
+kuma_sd_configs:
+  - fetch_timeout: 0s
+```
+This will disable long polling on Prometheus service discovery.
+{% endwarning %}
+{% endif_version %}
+
 The {{site.mesh_product_name}} community has contributed a builtin service discovery to Prometheus, it is documented in the [Prometheus docs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
 This service discovery will connect to the control plane and retrieve all data planes with enabled metrics which Prometheus will scrape and retrieve metrics according to your {% if_version lte:2.5.x inline:true %}[traffic metrics setup](/docs/{{ page.version }}/policies/traffic-metrics){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshMetric policies](/docs/{{ page.version }}/policies/meshmetric){% endif_version %}.
 
