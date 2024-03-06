@@ -11,16 +11,16 @@ To install and run {{site.mesh_product_name}} execute the following steps:
 Finally, you can follow the [Quickstart](#quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
 
 {% tip %}
-{{site.mesh_product_name}} also provides [Helm charts](/docs/{{ page.version }}/installation/helm) that we can use instead of this distribution.
+{{site.mesh_product_name}} also provides [Helm charts](/docs/{{ page.version }}/installation/helm) that you can use instead of this distribution.
 {% endtip %}
 
-### Download Kumactl
+## Download kumactl
 
 {% include snippets/install_kumactl.md installer_version="preview" %}
 
-### Run {{site.mesh_product_name}}
+## Run {{site.mesh_product_name}}
 
-Finally, we can install and run {{site.mesh_product_name}}:
+Finally, you can install and run {{site.mesh_product_name}}:
 
 ```sh
 kumactl install control-plane | kubectl apply -f -
@@ -36,11 +36,11 @@ kubectl get pod -n {{site.mesh_namespace}}
 ```
 {% endtip %}
 
-### Use {{site.mesh_product_name}}
+## Use {{site.mesh_product_name}}
 
 {% include snippets/use_kuma_k8s.md %}
 
-### Quickstart
+## Quickstart
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on Kubernetes 🚀.
 

@@ -10,15 +10,17 @@ To install and run {{site.mesh_product_name}} on Kubernetes with Helm charts exe
 
 Finally you can follow the [Quickstart](#quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
 
-Please note that at least version 3.8.0 of Helm is required to use the {{site.mesh_product_name}} Helm charts. If you are using an older version of Helm, please upgrade to version 3.8.0 first.
-
 {% tip %}
-{{site.mesh_product_name}} also provides an alternative [Kubernetes distribution](/docs/{{ page.version }}/installation/kubernetes/) that we can use instead of Helm charts.
+{{site.mesh_product_name}} also provides an alternative [Kubernetes distribution](/docs/{{ page.version }}/installation/kubernetes/) that you can use instead of Helm charts.
 {% endtip %}
 
-### Add the {{site.mesh_product_name}} charts repository
+## Prerequisites
 
-To start using {{site.mesh_product_name}} with Helm charts, we first need to add the [{{site.mesh_product_name}} charts repository](https://kumahq.github.io/charts) to our local Helm deployment: 
+Helm version 3.8.0 is required to use the {{site.mesh_product_name}} Helm charts. If you are using an older version of Helm, upgrade to version 3.8.0 first.
+
+## Add the {{site.mesh_product_name}} charts repository
+
+To start using {{site.mesh_product_name}} with Helm charts, you first need to add the [{{site.mesh_product_name}} charts repository](https://kumahq.github.io/charts) to your local Helm deployment: 
 
 ```sh
 helm repo add kuma https://kumahq.github.io/charts
@@ -26,9 +28,9 @@ helm repo add kuma https://kumahq.github.io/charts
 
 Once the repo is added, all following updates can be fetched with `helm repo update`.
 
-### Run {{site.mesh_product_name}}
+## Run {{site.mesh_product_name}}
 
-At this point we can install and run {{site.mesh_product_name}} using the following commands. We could use any Kubernetes namespace to install {{site.mesh_product_name}}, by default we suggest using `{{site.mesh_namespace}}`:
+At this point, you can install and run {{site.mesh_product_name}} using the following commands. You could use any Kubernetes namespace to install {{site.mesh_product_name}}, by default we recommend using `{{site.mesh_namespace}}`:
 
 ```sh
 helm install --create-namespace --namespace {{site.mesh_namespace}} kuma kuma/kuma
@@ -36,11 +38,11 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} kuma kuma/ku
 
 This example will run {{site.mesh_product_name}} in {% if_version lte:2.5.x %}`standalone`{% endif_version %}{% if_version gte:2.6.x %}`single-zone`{% endif_version %} mode for a "flat" deployment, but there are more advanced {% if_version lte:2.1.x %}[deployment modes](/docs/{{ page.version }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployment modes](/docs/{{ page.version }}/production/deployment/){% endif_version %} like "multi-zone".
 
-### Use {{site.mesh_product_name}}
+## Use {{site.mesh_product_name}}
 
 {% include snippets/use_kuma_k8s.md %}
 
-### Quickstart
+## Quickstart
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on Kubernetes 🚀. 
 

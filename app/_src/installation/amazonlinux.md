@@ -5,7 +5,7 @@ arch: amd64
 ---
 
 {% tip %}
-If you wish to use {{site.mesh_product_name}} on Amazon EKS please follow the [Kubernetes instructions](/docs/{{ page.version }}/installation/kubernetes/) instead.
+If you want to use {{site.mesh_product_name}} on Amazon EKS, see the [Kubernetes instructions](/docs/{{ page.version }}/installation/kubernetes/) instead.
 {% endtip %}
 
 

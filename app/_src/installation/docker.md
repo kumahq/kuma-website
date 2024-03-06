@@ -2,7 +2,7 @@
 title: Docker
 ---
 
-To install and run {{site.mesh_product_name}} on Docker execute the following steps:
+To install and run {{site.mesh_product_name}} on Docker, you must do the following:
 
 - [1. Download {{site.mesh_product_name}}](#1-download-kuma)
 - [2. Run {{site.mesh_product_name}}](#2-run-kuma)
@@ -12,7 +12,7 @@ To install and run {{site.mesh_product_name}} on Docker execute the following st
 The official Docker images are used by default in the [Kubernetes](/docs/{{ page.version }}/installation/kubernetes/) and [OpenShift](/docs/{{ page.version }}/installation/openshift/) distributions.
 {% endtip %}
 
-### 1. Download {{site.mesh_product_name}}
+## Download {{site.mesh_product_name}}
 
 {{site.mesh_product_name}} provides the following Docker images for all of its executables:
 
@@ -22,9 +22,9 @@ The official Docker images are used by default in the [Kubernetes](/docs/{{ page
 
 You can freely `docker pull` these images to start using {{site.mesh_product_name}}, as we will demonstrate in the following steps.
 
-### 2. Run {{site.mesh_product_name}}
+## Run {{site.mesh_product_name}}
 
-We can run {{site.mesh_product_name}}:
+You can run {{site.mesh_product_name}}:
 
 `docker run -p 5681:5681 docker.io/kumahq/kuma-cp:{{ page.latest_version }} run`
 
@@ -34,16 +34,16 @@ This example will run {{site.mesh_product_name}} in {% if_version lte:2.5.x %}`s
 **Note**: By default this will run {{site.mesh_product_name}} with a `memory` [store](/docs/{{ page.version }}/documentation/configuration#store), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 {% endtip %}
 
-#### 2.1 Authentication (optional)
+### Optional: Authentication
 
 Running administrative tasks (like generating a dataplane token) requires {% if_version lte:2.1.x %}[authentication by token](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token){% endif_version %}{% if_version gte:2.2.x %}[authentication by token](/docs/{{ page.version }}/production/secure-deployment/api-server-auth/#admin-user-token){% endif_version %} or a connection via localhost.
 
-##### 2.1.1 Localhost
+#### Localhost authentication
 
 For `kuma-cp` to recognize requests issued to docker published port it needs to run the container in the host network.
 To do this, add `--network="host"` parameter to the `docker run` command from point 2.
 
-##### 2.1.2 Authenticating via token
+#### Authenticating via token
 
 You can also configure `kumactl` to access `kuma-dp` from the container.
 Get the `kuma-cp` container id:
@@ -67,7 +67,7 @@ kumactl config control-planes add \
  --skip-verify
 ```
 
-### 3. Use {{site.mesh_product_name}}
+## Use {{site.mesh_product_name}}
 
 {{site.mesh_product_name}} (`kuma-cp`) is now running! Now that {{site.mesh_product_name}} has been installed you can access the control-plane via either the GUI, the HTTP API, or the CLI:
 
@@ -109,7 +109,7 @@ mtls:
   docker.io/kumahq/kumactl:<version> kumactl apply -f -
 ```
 
-**Note**: we are running `kumactl` from the Docker container on the same network as the `host`, but most likely you want to download a compatible version of {{site.mesh_product_name}} for the machine where you will be executing the commands.
+**Note**: We are running `kumactl` from the Docker container on the same network as the `host`, but most likely you want to download a compatible version of {{site.mesh_product_name}} for the machine where you will be executing the commands.
 
 You can run the following script to automatically detect the operating system and download {{site.mesh_product_name}}:
 
@@ -138,7 +138,7 @@ You will then find the `kumactl` executable in the `kuma-{{ page.latest_version 
 
 You will notice that {{site.mesh_product_name}} automatically creates a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %} entity with name `default`.
 
-### 4. Quickstart
+### Quickstart
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on Docker 🚀.
 

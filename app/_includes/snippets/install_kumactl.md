@@ -1,9 +1,9 @@
-To run Kuma on Kubernetes, you need to download the Kuma cli (`kumactl`) on your machine.
+To run {{site.mesh_product_name}} on Kubernetes, you need to download the {{site.mesh_product_name}} cli (`kumactl`) on your machine.
 
 {% tabs install_kumactl useUrlFragment=false %}
 {% tab install_kumactl Script %}
 
-You can run the following script to automatically detect the operating system and download Kuma:
+You can run the following script to automatically detect the operating system and download {{site.mesh_product_name}}:
 
 <div class="language-sh">
   <pre class="no-line-numbers"><code>curl -L https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -</code></pre>
@@ -25,15 +25,15 @@ and extract the archive with `tar xvzf kuma-{{ page.latest_version }}.tar.gz`
 {% endtab %}
 {% endtabs %}
 
-Once downloaded, you will find the contents of Kuma in the `kuma-{{ page.latest_version }}` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/{{ page.version }}/explore/cli).
+Once downloaded, you will find the contents of {{site.mesh_product_name}} in the `kuma-{{ page.latest_version }}` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for {{site.mesh_product_name}}, including the CLI client [`kumactl`](/docs/{{ page.version }}/explore/cli).
 
 {% tip %}
-**Note**: On Kubernetes - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
+**Note**: On Kubernetes, of all the {{site.mesh_product_name}} binaries in the `bin` folder, you only need `kumactl`.
 {% endtip %}
 
-So we enter the `bin` folder by executing: `cd kuma-{{ page.latest_version }}/bin`
+Enter the `bin` folder by executing: `cd kuma-{{ page.latest_version }}/bin`
 
-We suggest adding the `kumactl` executable to your `PATH` (by executing: `export PATH=$(pwd):$PATH`) so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
+We recommend adding the `kumactl` executable to your `PATH` (by executing: `export PATH=$(pwd):$PATH`) so that it's always available in every working directory. Alternatively, you can also create the link in `/usr/local/bin/` by executing:
 
 ```sh
 ln -s $PWD/kuma-{{ page.latest_version }}/bin/kumactl /usr/local/bin/kumactl
