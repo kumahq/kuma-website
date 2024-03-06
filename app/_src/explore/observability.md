@@ -46,9 +46,9 @@ Control plane metrics are exposed on port `:5680` and available under the standa
 
 ## Configuring Prometheus
 
-{% if_version eq:2.6.x %}
+{% if_version gte:2.6.x %}
 {% warning %}
-This version of {{site.mesh_product_name}} has introduced a [bug in MADS server](https://github.com/kumahq/kuma/issues/9508). This bug can cause delays in delivering monitoring assignment to Prometheus, if you changed default prometheus configuration for `kuma_sd_configs.fetch_timeout`.
+2.6.0 version of {{site.mesh_product_name}} has introduced a [bug in MADS server](https://github.com/kumahq/kuma/issues/9508). This bug can cause delays in delivering monitoring assignment to Prometheus, if you changed default prometheus configuration for `kuma_sd_configs.fetch_timeout`.
 Which result in Prometheus not collecting metrics from new dataplane proxies for that period of time. In order to fix this issue, you need configure `kuma_sd_configs` as follows:
 ```yaml
 kuma_sd_configs:
