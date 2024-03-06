@@ -8,7 +8,7 @@ To install and run {{site.mesh_product_name}} on OpenShift execute the following
 - Run {{site.mesh_product_name}}
 - Use {{site.mesh_product_name}}
 
-Finally, you can follow the [Quickstart](#4-quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
+Finally, you can follow the [Quickstart](#quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
 
 ## Download {{site.mesh_product_name}}
 
