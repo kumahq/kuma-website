@@ -103,8 +103,7 @@ applications:
 
 {% if_version gte:2.7.x %}
 {% warning %}
-Metrics exposed in application needs to be in Prometheus format in order for Dataplane Proxy to parse it and expose. Either 
-for Prometheus or OpenTelemetry backend.
+Metrics exposed by the application need to be in Prometheus format for the Dataplane Proxy to be able to parse and expose them to either Prometheus or OpenTelemetry backend.
 {% endwarning %}
 {% endif_version %}
 
@@ -294,15 +293,15 @@ backends:
       refreshInterval: 60s
 ```
 
-This configuration tells {{site.mesh_product_name}} data plane proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
-Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.version }}/policies/meshmetric/#applications) in a Pod/VM.
-and push them to configured OpenTelemetry collector, every **60 seconds**.
+This configuration tells {{site.mesh_product_name}} Dataplane Proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
+Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.version }}/policies/meshmetric/#applications) in a Pod/VM
+and push them to configured OpenTelemetry collector, by default every **60 seconds** (use `refreshInterval` to change it).
 
-When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/)
+When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/).
 
 #### Pushing metrics from application to OpenTelemetry collector directly
 
-Right now if you want to expose metrics from you application to OpenTelemetry collector you can access collector directly.
+Right now if you want to expose metrics from your application to OpenTelemetry collector you can access collector directly.
 
 If you have disabled [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic/#outgoing) in your Mesh you need to
 configure [ExternalService](/docs/{{ page.version }}/policies/external-services/#external-service) with you collector endpoint. Example ExternalService:
