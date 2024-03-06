@@ -27,6 +27,29 @@ items:
         url: /docs/changelog/
         absolute_url: true
         generate: false
+  - title: Install
+    group: true
+    items:
+      - text: Kubernetes
+        url: /installation/kubernetes/
+      - text: Helm
+        url: /installation/helm/
+      - text: OpenShift
+        url: /installation/openshift/
+      - text: Docker
+        url: /installation/docker/
+      - text: Amazon Linux
+        url: /installation/amazonlinux/
+      - text: Redhat
+        url: /installation/redhat/
+      - text: CentOS
+        url: /installation/centos/
+      - text: Debian
+        url: /installation/debian/
+      - text: Ubuntu
+        url: /installation/ubuntu/
+      - text: macOS
+        url: /installation/macos/
   - title: Kuma in Production
     group: true
     items:
