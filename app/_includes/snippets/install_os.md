@@ -1,10 +1,8 @@
 To install and run {{site.mesh_product_name}}, you must do the following:
 
-* [1. Download {{site.mesh_product_name}}](#download-kuma)
-* [2. Run {{site.mesh_product_name}}](#run-kuma)
-* [3. Use {{site.mesh_product_name}}](#use-kuma)
-
-Finally, you can follow the [Quickstart](#quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
+* Download {{site.mesh_product_name}}
+* Run {{site.mesh_product_name}}
+* Use {{site.mesh_product_name}}
 
 ## Download {{site.mesh_product_name}}
 
@@ -91,8 +89,14 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 
 You will notice that {{site.mesh_product_name}} automatically creates a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %} entity with name `default`.
 
-## Quickstart
+## Next steps
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} 🚀.
 
+{% if_version lte:2.5.x %}
 In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Universal](/docs/{{ page.version }}/quickstart/universal) deployments.
+{% endif_version %}
+
+{% if_version gte:2.6.x %}
+In order to start using {{site.mesh_product_name}}, it's time to check out [Deploy a single-zone control plane for universal](/docs/{{ page.version }}/production/cp-deployment/single-zone/).
+{% endif_version %}

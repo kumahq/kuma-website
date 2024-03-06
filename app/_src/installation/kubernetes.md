@@ -4,9 +4,9 @@ title: Kubernetes
 
 To install and run {{site.mesh_product_name}} execute the following steps:
 
-* [1. Download {{site.mesh_product_name}}](#download-kumactl)
-* [2. Run {{site.mesh_product_name}}](#run-kuma)
-* [3. Use {{site.mesh_product_name}}](#use-kuma)
+* Download {{site.mesh_product_name}}
+* Run {{site.mesh_product_name}}
+* Use {{site.mesh_product_name}}
 
 Finally, you can follow the [Quickstart](#quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
 
@@ -44,4 +44,4 @@ kubectl get pod -n {{site.mesh_namespace}}
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on Kubernetes 🚀.
 
-In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/quickstart/kubernetes) deployments.
+In order to start using {{site.mesh_product_name}}, it's time to check out the {% if_version gte:2.6.x %}[Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes/){% endif_version %}.

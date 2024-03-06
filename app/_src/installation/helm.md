@@ -4,9 +4,9 @@ title: Helm
 
 To install and run {{site.mesh_product_name}} on Kubernetes with Helm charts execute the following steps:
 
-* [1. Add the {{site.mesh_product_name}} charts repository](#add-the-kuma-charts-repository)
-* [2. Run {{site.mesh_product_name}}](#run-kuma)
-* [3. Use {{site.mesh_product_name}}](#use-kuma)
+* Add the {{site.mesh_product_name}} charts repository
+* Run {{site.mesh_product_name}}
+* Use {{site.mesh_product_name}}
 
 Finally you can follow the [Quickstart](#quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
 

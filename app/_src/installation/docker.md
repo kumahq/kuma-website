@@ -4,9 +4,9 @@ title: Docker
 
 To install and run {{site.mesh_product_name}} on Docker, you must do the following:
 
-- [1. Download {{site.mesh_product_name}}](#1-download-kuma)
-- [2. Run {{site.mesh_product_name}}](#2-run-kuma)
-- [3. Use {{site.mesh_product_name}}](#3-use-kuma)
+* Download {{site.mesh_product_name}}
+* Run {{site.mesh_product_name}}
+* Use {{site.mesh_product_name}}
 
 {% tip %}
 The official Docker images are used by default in the [Kubernetes](/docs/{{ page.version }}/installation/kubernetes/) and [OpenShift](/docs/{{ page.version }}/installation/openshift/) distributions.
@@ -138,8 +138,16 @@ You will then find the `kumactl` executable in the `kuma-{{ page.latest_version 
 
 You will notice that {{site.mesh_product_name}} automatically creates a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %} entity with name `default`.
 
-### Quickstart
+### Next steps
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on Docker 🚀.
 
-In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Universal](/docs/{{ page.version }}/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the {% if_version gte:2.6.x %}[Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes/){% endif_version %} as well.
+{% if_version lte:2.5.x %}
+In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Universal](/docs/{{ page.version }}/quickstart/universal) deployments.
+{% endif_version %}
+
+{% if_version gte:2.6.x %}
+In order to start using {{site.mesh_product_name}}, it's time to check out [Deploy a single-zone control plane for universal](/docs/{{ page.version }}/production/cp-deployment/single-zone/).
+{% endif_version %} 
+
+If you are using Docker you may also be interested in checking out the {% if_version gte:2.6.x %}[Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes/){% endif_version %} as well.

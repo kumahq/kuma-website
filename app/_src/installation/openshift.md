@@ -4,9 +4,9 @@ title: OpenShift
 
 To install and run {{site.mesh_product_name}} on OpenShift execute the following steps:
 
-- [1. Download {{site.mesh_product_name}}](#1-download-kuma)
-- [2. Run {{site.mesh_product_name}}](#2-run-kuma)
-- [3. Use {{site.mesh_product_name}}](#3-use-kuma)
+- Download {{site.mesh_product_name}}
+- Run {{site.mesh_product_name}}
+- Use {{site.mesh_product_name}}
 
 Finally, you can follow the [Quickstart](#4-quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
 
