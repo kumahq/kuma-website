@@ -5,12 +5,12 @@ title: Transparent Proxying
 In order to interecept traffic from and to a service through a `kuma-dp` data plane proxy instance, Kuma utilizes a variety of patterns.
 
 * On **Kubernetes** `kuma-dp` leverages transparent proxying automatically via `iptables` or CNI, for all incoming and outgoing traffic that is automatically intercepted by `kuma-dp` without having to change the application code.
-* On **Universal** `kuma-dp` leverages the [data plane proxy specification](/docs/{{ page.version }}/documentation/dps-and-data-model/) associated to it for receiving incoming requests on a pre-defined port, while it can leverage both transparent proxying and explicit `outbound` entries in the same data plane proxy specification for all outgoing traffic.
+* On **Universal** `kuma-dp` leverages the [data plane proxy specification](/docs/{{ page.release }}/documentation/dps-and-data-model/) associated to it for receiving incoming requests on a pre-defined port, while it can leverage both transparent proxying and explicit `outbound` entries in the same data plane proxy specification for all outgoing traffic.
 
 There are several advantages for using transparent proxying in universal mode:
 
- * Simpler [Dataplane resource](/docs/{{ page.version }}/documentation/dps-and-data-model/#dataplane-specification), as the `outbound` section becomes obsolete and can be skipped.
- * Universal service naming with `.mesh` [DNS domain](/docs/{{ page.version }}/networking/dns/).
+ * Simpler [Dataplane resource](/docs/{{ page.release }}/documentation/dps-and-data-model/#dataplane-specification), as the `outbound` section becomes obsolete and can be skipped.
+ * Universal service naming with `.mesh` [DNS domain](/docs/{{ page.release }}/networking/dns/).
  * Better service manageability (security, tracing).
 
 ### Preparing the Kuma Control plane
@@ -29,7 +29,7 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
  2. Redirect all the relevant inbound and outbound traffic to the Kuma data plane proxy.
  3. Point the DNS resolving for `.mesh` to the `kuma-cp` embedded DNS server.
 
-Kuma comes with [`kumactl` executable](/docs/{{ page.version }}/documentation/cli/#kumactl) which can help us preparing the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment. However, the common steps would be to execute the following commands as `root`:
+Kuma comes with [`kumactl` executable](/docs/{{ page.release }}/documentation/cli/#kumactl) which can help us preparing the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment. However, the common steps would be to execute the following commands as `root`:
 
 ```sh
 # create a dedicated user called kuma-dp-user

@@ -8,7 +8,7 @@ Typically we would want to create a `Mesh` per line of business, per team, per a
 
 `Mesh` is the parent resource of every other resource in {{site.mesh_product_name}}, including: 
 
-* [Data plane proxies](/docs/{{ page.version }}/explore/dpp)
+* [Data plane proxies](/docs/{{ page.release }}/explore/dpp)
 * [Policies](/policies)
 
 In order to use {{site.mesh_product_name}} at least one `Mesh` must exist, and there is no limit to the number of Meshes that can be created. When a data plane proxy connects to the control plane (`kuma-cp`) it specifies to what `Mesh` resource it belongs: a data plane proxy can only belong to one `Mesh` at a time.
@@ -19,12 +19,12 @@ When starting a new {{site.mesh_product_name}} cluster from scratch a `default` 
 
 Besides the ability of being able to create virtual service mesh, a `Mesh` resource will also be used for:
 
-* [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/), to secure and encrypt our service traffic and assign an identity to the data plane proxies within the Mesh.
-* [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics/), to setup metrics backend that will be used to collect and visualize metrics of our service mesh and service traffic within the Mesh.
-* [Traffic Trace](/docs/{{ page.version }}/policies/traffic-trace/), to setup tracing backends that will be used to collect traces of our service traffic within the Mesh.
-* [Zone Egress](/docs/{{ page.version }}/explore/zoneegress), to setup if `ZoneEgress` should be used for cross zone and external service communication.
+* [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/), to secure and encrypt our service traffic and assign an identity to the data plane proxies within the Mesh.
+* [Traffic Metrics](/docs/{{ page.release }}/policies/traffic-metrics/), to setup metrics backend that will be used to collect and visualize metrics of our service mesh and service traffic within the Mesh.
+* [Traffic Trace](/docs/{{ page.release }}/policies/traffic-trace/), to setup tracing backends that will be used to collect traces of our service traffic within the Mesh.
+* [Zone Egress](/docs/{{ page.release }}/explore/zoneegress), to setup if `ZoneEgress` should be used for cross zone and external service communication.
 
-When [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) is enabled in `builtin` mode, each `Mesh` will provision its own CA root certificate and key unless we explicitly decide to use the same CA by sharing the same certificate and key across multiple meshes. When the CAs of our Meshes are different, data plane proxies from one `Mesh` will not be able to consume data plane proxies belonging to another `Mesh` and an intermediate API Gateway must be used in order to enable cross-mesh communication. {{site.mesh_product_name}} supports a [gateway mode](/docs/{{ page.version }}/explore/gateway) to make this happen.
+When [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) is enabled in `builtin` mode, each `Mesh` will provision its own CA root certificate and key unless we explicitly decide to use the same CA by sharing the same certificate and key across multiple meshes. When the CAs of our Meshes are different, data plane proxies from one `Mesh` will not be able to consume data plane proxies belonging to another `Mesh` and an intermediate API Gateway must be used in order to enable cross-mesh communication. {{site.mesh_product_name}} supports a [gateway mode](/docs/{{ page.release }}/explore/gateway) to make this happen.
 
 ## Usage
 
@@ -45,7 +45,7 @@ We will apply the configuration with `kubectl apply -f [..]`.
 type: Mesh
 name: default
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 

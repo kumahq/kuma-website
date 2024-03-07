@@ -14,7 +14,7 @@ controlPlane.mode=zone
 
 **With zone egress**:
 
-It's possible to run [`ZoneEgress`](/docs/{{ page.version }}/production/cp-deployment/zoneegress/) for single-zone deployment. In order to deploy {{site.mesh_product_name}} with `ZoneEgress` run the install command with an additional parameter.
+It's possible to run [`ZoneEgress`](/docs/{{ page.release }}/production/cp-deployment/zoneegress/) for single-zone deployment. In order to deploy {{site.mesh_product_name}} with `ZoneEgress` run the install command with an additional parameter.
 {% cpinstall cpsinglezone-egress %}
 controlPlane.mode=zone
 egress.enabled=true
@@ -41,12 +41,12 @@ kuma-cp run
 
 **With zone egress**:
 
-`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](/docs/{{ page.version }}/production/cp-deployment/zoneegress).
+`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment [follow the instruction](/docs/{{ page.release }}/production/cp-deployment/zoneegress).
 
 {% endtab %}
 {% endtabs %}
 
-Once {{site.mesh_product_name}} is up and running, data plane proxies can now [connect](/docs/{{ page.version }}/production/dp-config/dpp/) directly to it.
+Once {{site.mesh_product_name}} is up and running, data plane proxies can now [connect](/docs/{{ page.release }}/production/dp-config/dpp/) directly to it.
 
 {% tip %}
 When the mode is not specified, {{site.mesh_product_name}} will always start in `zone` mode by default.
@@ -54,7 +54,7 @@ When the mode is not specified, {{site.mesh_product_name}} will always start in 
 
 ### Optional: control plane authentication
 
-Running administrative tasks (like generating auth tokens) requires [authentication by token](/docs/{{ page.version }}/production/secure-deployment/api-server-auth/#admin-user-token) or a connection via localhost when interacting with the control plane.
+Running administrative tasks (like generating auth tokens) requires [authentication by token](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/#admin-user-token) or a connection via localhost when interacting with the control plane.
 
 {% tabs auth useUrlFragment=false %}
 {% tab auth Kubernetes %}
@@ -106,4 +106,4 @@ kumactl config control-planes add \
 
 ## Moving to a multi-zone deployment
 
-You can transform a single-zone deployment into a multi-zone deployment by doing [federation](/docs/{{ page.version }}/guides/federate). 
+You can transform a single-zone deployment into a multi-zone deployment by doing [federation](/docs/{{ page.release }}/guides/federate). 

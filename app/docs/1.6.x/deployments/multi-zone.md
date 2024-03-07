@@ -19,7 +19,7 @@ The DNS resolver is embedded in each data plane proxy and configured through XDS
 The global control plane and the zone control planes communicate to synchronize resources such as Kuma policy configurations over Kuma Discovery Service (KDS), which is a protocol based on xDS.
 
 {% tip %}
-A zone ingress is not an API gateway. Instead, it is specific to internal cross-zone communication within the mesh. API gateways are supported in Kuma [gateway mode](/docs/{{ page.version }}/explore/gateway) which can be deployed in addition to zone ingresses.
+A zone ingress is not an API gateway. Instead, it is specific to internal cross-zone communication within the mesh. API gateways are supported in Kuma [gateway mode](/docs/{{ page.release }}/explore/gateway) which can be deployed in addition to zone ingresses.
 {% endtip %}
 
 ### Components of a multi-zone deployment
@@ -113,7 +113,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
-    By default, it's exposed on [port 5685](/docs/{{ page.version }}/networking/networking). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+    By default, it's exposed on [port 5685](/docs/{{ page.release }}/networking/networking). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 {% tab global-control-plane Universal %}
@@ -224,7 +224,7 @@ You need the following values to pass to each zone control plane setup:
     kumactl generate zone-ingress-token --zone=<zone-name> > /tmp/ingress-token
     ```
 
-   You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zone-ingress-auth).
+   You can also generate the token [with the REST API](/docs/{{ page.release }}/security/zone-ingress-auth).
 
 3. Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication:
 
@@ -272,7 +272,7 @@ You need the following values to pass to each zone control plane setup:
     kumactl generate zone-token --zone=<zone-name> --valid-for=24h --scope egress > /tmp/zoneegress-token
     ```
 
-   You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zoneegress-auth).
+   You can also generate the token [with the REST API](/docs/{{ page.release }}/security/zoneegress-auth).
 
 6. Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services
    to be configured to proxy traffic to other zones or external services through
@@ -311,7 +311,7 @@ deployed with zone ingress.
 
 #### Enable mTLS
 
-You must [enable mTLS](/docs/{{ page.version }}/policies/mutual-tls) and [enable ZoneEgress](/docs/{{ page.version }}/explore/zoneegress#configuration) for cross-zone communication.
+You must [enable mTLS](/docs/{{ page.release }}/policies/mutual-tls) and [enable ZoneEgress](/docs/{{ page.release }}/explore/zoneegress#configuration) for cross-zone communication.
 
 Kuma uses the Server Name Indication field, part of the TLS protocol, as a way to pass routing information cross zones. Thus, mTLS is mandatory to enable cross-zone service communication.
 
@@ -328,7 +328,7 @@ A service of type `LoadBalancer` is automatically created when installing Kuma w
 
 Depending on your load balancer implementation, you might need to wait a few minutes for Kuma to get the address.
 
-You can also set this address and port by using the annotations: [`kuma.io/ingress-public-address` and `kuma.io/ingress-public-port`](/docs/{{ page.version }}/reference/kubernetes-annotations/#kuma-io-ingress-public-port)
+You can also set this address and port by using the annotations: [`kuma.io/ingress-public-address` and `kuma.io/ingress-public-port`](/docs/{{ page.release }}/reference/kubernetes-annotations/#kuma-io-ingress-public-port)
 
 {% endtab %}
 {% tab address-and-port Universal %}
@@ -383,7 +383,7 @@ And if your HTTP clients take the standard default port 80, you can the port val
 ```
 
 Because Kuma on Kubernetes relies on transparent proxy, `kuma-dp` listens on port 80 for all virtual IPs that are assigned to services in the `.mesh` DNS zone. The DNS names are rendered RFC compatible by replacing underscores with dots.
-We can configure more flexible setup of hostnames and ports using [Virtual Outbound](/docs/{{ page.version }}/policies/virtual-outbound).
+We can configure more flexible setup of hostnames and ports using [Virtual Outbound](/docs/{{ page.release }}/policies/virtual-outbound).
 
 {% endtab %}
 {% tab cross-zone-communication-details Universal %}
@@ -424,7 +424,7 @@ networking:
       kuma.io/service: echo-server_echo-example_svc_1010
 ```
 
-Alternatively, you can just call `echo-server_echo-example_svc_1010.mesh` without defining `outbound` section if you configure [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying).
+Alternatively, you can just call `echo-server_echo-example_svc_1010.mesh` without defining `outbound` section if you configure [transparent proxy](/docs/{{ page.release }}/networking/transparent-proxying).
 
 {% endtab %}
 {% endtabs %}
@@ -548,5 +548,5 @@ When it happens:
 * Communication across each zone will fail.
 
 {% tip %}
-With the right resiliency setup ([Retries](/docs/{{ page.version }}/policies/retry), [Probes](/docs/{{ page.version }}/policies/health-check), [Locality Aware LoadBalancing](/docs/{{ page.version }}/policies/locality-aware), [Circuit Breakers](/docs/{{ page.version }}/policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
+With the right resiliency setup ([Retries](/docs/{{ page.release }}/policies/retry), [Probes](/docs/{{ page.release }}/policies/health-check), [Locality Aware LoadBalancing](/docs/{{ page.release }}/policies/locality-aware), [Circuit Breakers](/docs/{{ page.release }}/policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
 {% endtip %}

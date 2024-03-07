@@ -36,11 +36,11 @@ When we start a new data plane proxy in Kuma, it needs to communicate a few thin
 {% tip %}
 There exists special types of data planes proxies:
 
-- [ZoneIngress](/docs/{{ page.version }}/documentation/zone-ingress) which will enable inbound cross-zone traffic.
-- [ZoneEgress](/docs/{{ page.version }}/documentation/zoneegress) which allows isolating outgoing cross-zone
+- [ZoneIngress](/docs/{{ page.release }}/documentation/zone-ingress) which will enable inbound cross-zone traffic.
+- [ZoneEgress](/docs/{{ page.release }}/documentation/zoneegress) which allows isolating outgoing cross-zone
   traffic as well as any traffic going to external services available in local
   zone
-- [Gateway](/docs/{{ page.version }}/documentation/gateway) which will traffic external to the mesh to enter it.
+- [Gateway](/docs/{{ page.release }}/documentation/gateway) which will traffic external to the mesh to enter it.
 
 Because these dataplane types are specific and complex we will discuss them separately to "standard" dataplane proxies.
 {% endtip %}
@@ -58,7 +58,7 @@ The registration of the `Dataplane` includes three main sections that are descri
 - `outbound` networking configuration, to enable the local service to consume other services.
 
 {% tip %}
-In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](/docs/{{ page.version }}/policies/mesh) in Kuma.
+In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](/docs/{{ page.release }}/policies/mesh) in Kuma.
 By default, the system generates a `default` Mesh when the control-plane is run for the first time.
 {% endtip %}
 
@@ -88,8 +88,8 @@ Each Kuma data plane proxy is associated with tags - or attributes - that can be
 A tag attributes a qualifier to the data plane proxy, and the tags that are reserved to Kuma are prefixed with `kuma.io` like:
 
 - `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
-- `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/{{ page.version }}/deployments/multi-zone). This tag is automatically created and cannot be overwritten.
-- `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
+- `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/{{ page.release }}/deployments/multi-zone). This tag is automatically created and cannot be overwritten.
+- `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 {% tip %}
 The `kuma.io/service` tag must always be present.
@@ -155,8 +155,8 @@ The following tags are added automatically and cannot be overridden using Pod la
 
 - `kuma.io/service`: Identifies the service name based on a Service that selects a Pod. This will be of format `<name>_<namespace>_svc_<port>` where `<name>`, `<namespace>` and `<port>` are from the Kubernetes service that is associated with the particular pod.
   When a pod is spawned without being associated with any Kubernetes Service resource the dataplane tag will be `kuma.io/service: <name>_<namespace>_svc`, where `<name>` and`<namespace>` are extracted from the Pod resource.
-- `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/{{ page.version }}/deployments/how-multi-zone-works).
-- `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) that was defined on the Service that selects a Pod.
+- `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/{{ page.release }}/deployments/how-multi-zone-works).
+- `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) that was defined on the Service that selects a Pod.
 - `k8s.kuma.io/namespace`: Identifies the Pod's namespace. Example: `kuma-demo`.
 - `k8s.kuma.io/service-name`: Identifies the name of Kubernetes Service that selects a Pod. Example: `demo-app`.
 - `k8s.kuma.io/service-port`: Identifies the port of Kubernetes Service that selects a Pod. Example: `80`.
@@ -234,7 +234,7 @@ kuma-dp run \
 In the example above, any external client who wants to consume Redis will have to make a request to the DP on address `192.168.0.1` and port `9000`, which internally will be redirected to the Redis service listening on address `127.0.0.1` and port `6379`.
 
 {% tip %}
-Note that in Universal dataplanes need to start with a token for authentication. You can learn how to generate tokens in the [security section](/docs/{{ page.version }}/security/dp-auth#data-plane-proxy-token).
+Note that in Universal dataplanes need to start with a token for authentication. You can learn how to generate tokens in the [security section](/docs/{{ page.release }}/security/dp-auth#data-plane-proxy-token).
 {% endtip %}
 
 Now let's assume that we have another service called "Backend" that internally listens on port `80`, and that makes outgoing requests to the `redis` service:
@@ -296,7 +296,7 @@ The `Dataplane` entity includes a few sections:
   - `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service:
     - `port`: the port that the service needs to consume locally to make a request to the external service
     - `address`: the IP at which outbound listener is exposed. By default it is `127.0.0.1` since it should only be consumed by the app deployed next to the dataplane.
-    - `tags`: traffic on `port:address` will be sent to each data-plane that matches those tags. You can put many tags here. However, it is recommended to keep the list short and then use [`TrafficRoute`](/docs/{{ page.version }}/policies/traffic-route) for dynamic management of the traffic.
+    - `tags`: traffic on `port:address` will be sent to each data-plane that matches those tags. You can put many tags here. However, it is recommended to keep the list short and then use [`TrafficRoute`](/docs/{{ page.release }}/policies/traffic-route) for dynamic management of the traffic.
   - `admin`: determines parameters related to Envoy Admin API
     - `port`: the port that Envoy Admin API will listen to
 

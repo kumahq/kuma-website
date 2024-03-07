@@ -14,11 +14,11 @@ A {{site.mesh_product_name}} mesh consists of two main components:
 - The **control plane** configures the data plane proxies for handling mesh traffic.
   However, the control plane runs independently of the data plane and does not
   interact with mesh traffic directly.
-  {{site.mesh_product_name}} users create [policies](/docs/{{ page.version }}/policies/introduction)
+  {{site.mesh_product_name}} users create [policies](/docs/{{ page.release }}/policies/introduction)
   that the {{site.mesh_product_name}} control plane processes to generate configuration for the data plane proxies.
 
 {% tip %}
-**Multi-mesh**: one {{site.mesh_product_name}} control plane deployment can control multiple, isolated data planes using the {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %} resource. As compared to one control plane per data plane, this option lowers the complexity and operational cost of supporting multiple meshes.
+**Multi-mesh**: one {{site.mesh_product_name}} control plane deployment can control multiple, isolated data planes using the {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %} resource. As compared to one control plane per data plane, this option lowers the complexity and operational cost of supporting multiple meshes.
 {% endtip %}
 
 This is a high level visualization of a {{site.mesh_product_name}} service mesh:
@@ -72,11 +72,11 @@ kuma.io/sidecar-injection: enabled
 ```
 
 {% tip %}
-**Injection**: learn more about sidecar injection in the section on {% if_version lte:2.1.x %}[`Dataplanes`](/docs/{{ page.version }}/explore/dpp-on-kubernetes){% endif_version %}{% if_version gte:2.2.x %}[`Dataplanes`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/){% endif_version %}.
+**Injection**: learn more about sidecar injection in the section on {% if_version lte:2.1.x %}[`Dataplanes`](/docs/{{ page.release }}/explore/dpp-on-kubernetes){% endif_version %}{% if_version gte:2.2.x %}[`Dataplanes`](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/){% endif_version %}.
 
-**Annotations**: see [the complete list of the Kubernetes annotations](/docs/{{ page.version }}/reference/kubernetes-annotations/).
+**Annotations**: see [the complete list of the Kubernetes annotations](/docs/{{ page.release }}/reference/kubernetes-annotations/).
 
-**Policies with Kubernetes**: when using {{site.mesh_product_name}} in Kubernetes mode you create [policies](/docs/{{ page.version }}/policies/introduction) using `kubectl` and `kuma.io` CRDs.
+**Policies with Kubernetes**: when using {{site.mesh_product_name}} in Kubernetes mode you create [policies](/docs/{{ page.release }}/policies/introduction) using `kubectl` and `kuma.io` CRDs.
 {% endtip %}
 
 ### `Services` and `Pods`
@@ -168,4 +168,4 @@ When running in **Universal** mode, {{site.mesh_product_name}} requires a Postgr
 <img src="/assets/images/docs/0.5.0/diagram-09.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Read [the docs about the PostgreSQL backend](/docs/{{ page.version }}/documentation/configuration#postgres) for more details.
+Read [the docs about the PostgreSQL backend](/docs/{{ page.release }}/documentation/configuration#postgres) for more details.

@@ -3,7 +3,7 @@ title: Traffic Log
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this, check the [`MeshAccessLog` policy](/docs/{{ page.version }}/policies/meshaccesslog) instead.
+New to Kuma? Don't use this, check the [`MeshAccessLog` policy](/docs/{{ page.release }}/policies/meshaccesslog) instead.
 {% endwarning %}
 {% endif_version %}
 
@@ -20,7 +20,7 @@ To configure access logs in {{site.mesh_product_name}} you need to:
 
 {% tip %}
 In the rest of this page we assume you have already configured your observability tools to work with {{site.mesh_product_name}}.
-If you haven't already read the [observability docs](/docs/{{ page.version }}/explore/observability).
+If you haven't already read the [observability docs](/docs/{{ page.release }}/explore/observability).
 {% endtip %}
 
 ## Add a logging backend
@@ -168,7 +168,7 @@ When `backend ` field is omitted, the logs will be forwarded into the `defaultBa
 
 ### Matching
 
-`TrafficLog` is an [Outbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
+`TrafficLog` is an [Outbound Connection Policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
 For this reason the only supported value for `destinations.match` is `kuma.io/service`.
 
 ## Logging external services
@@ -211,7 +211,7 @@ All access log _command operators_ are valid to use with both `TCP` and `HTTP` t
 
 If a _command operator_ is specific to `HTTP` traffic, such as `%REQ(X?Y):Z%` or `%RESP(X?Y):Z%`, it will be replaced by a symbol "`-`" in case of `TCP` traffic.
 
-Internally, {{site.mesh_product_name}} [determines traffic protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
+Internally, {{site.mesh_product_name}} [determines traffic protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
 
 The default format string for `TCP` traffic is:
 

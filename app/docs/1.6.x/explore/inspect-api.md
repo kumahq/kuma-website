@@ -4,11 +4,11 @@ title: Inspect API
 
 Starting with version 1.5.0, Kuma offers the Inspect API to improve the policy debugging experience.
 It's made up of several HTTP endpoints and is fully supported by `kumactl`,
-but can be used directly, using the [HTTP API](/docs/{{ page.version }}/reference/http-api/#inspect-api).
+but can be used directly, using the [HTTP API](/docs/{{ page.release }}/reference/http-api/#inspect-api).
 
 ## Matched policies
 
-Read [how Kuma chooses the right policy to apply](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply)
+Read [how Kuma chooses the right policy to apply](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply)
 to understand how Kuma matches policies to data plane proxies.
 With so many policies, it's hard to understand which policies are selected for a specific data plane proxy.
 That's where the Inspect API can help:

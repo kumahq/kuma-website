@@ -40,17 +40,17 @@ Requests to the `availableServices` from `zone-a` are load balanced between loca
 Requests send to `zone-b` are routed to the zone ingress proxy of `zone-b`.
 
 For load-balancing, the zone ingress endpoints are weighted with the number of instances running behind them. So a zone with 2 instances will receive twice as much traffic than a zone with 1 instance.
-You can also favor local service instances with [locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware).
+You can also favor local service instances with [locality-aware load balancing](/docs/{{ page.release }}/policies/locality-aware).
 
-In the presence of a [zone egress](/docs/{{ page.version }}/explore/zoneegress), the traffic is routed through the local zone egress before being sent to the remote zone ingress.
+In the presence of a [zone egress](/docs/{{ page.release }}/explore/zoneegress), the traffic is routed through the local zone egress before being sent to the remote zone ingress.
 
-When using [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying) (default in Kubernetes),
+When using [transparent proxy](/docs/{{ page.release }}/networking/transparent-proxying) (default in Kubernetes),
 {{site.mesh_product_name}} generates a VIP,
 a DNS entry with the format `<kuma.io/service>.mesh`, and will listen for traffic on port 80. The `<kuma.io/service>.mesh:80` format is just a convention.
-[`VirtualOutbounds`](/docs/{{ page.version }}/policies/virtual-outbound)s enable you to customize the listening port and how the DNS name for these services looks.
+[`VirtualOutbounds`](/docs/{{ page.release }}/policies/virtual-outbound)s enable you to customize the listening port and how the DNS name for these services looks.
 
 {% tip %}
-A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in {{site.mesh_product_name}} [gateway mode](/docs/{{ page.version }}/explore/gateway) and can be deployed in addition to zone ingresses.
+A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in {{site.mesh_product_name}} [gateway mode](/docs/{{ page.release }}/explore/gateway) and can be deployed in addition to zone ingresses.
 {% endtip %}
 
 ### Components of a multi-zone deployment
@@ -145,7 +145,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
-    By default, it's exposed on [port 5685](/docs/{{ page.version }}/networking/networking). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+    By default, it's exposed on [port 5685](/docs/{{ page.release }}/networking/networking). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 {% tab global-control-plane Universal %}
@@ -256,7 +256,7 @@ You need the following values to pass to each zone control plane setup:
    kumactl generate zone-token --zone=<zone-name> --scope egress --scope ingress > /tmp/zone-token
    ```
 
-   You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zoneproxy-auth).
+   You can also generate the token [with the REST API](/docs/{{ page.release }}/security/zoneproxy-auth).
    Alternatively, you could generate separate tokens for ingress and egress.
 
 3. Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication:
@@ -346,7 +346,7 @@ deployed with zone ingress.
 ### Ensure mTLS is enabled on the multi-zone meshes
 
 MTLS is mandatory to enable cross-zone service communication.
-mTLS can be configured in your mesh configuration as indicated in the [mTLS section](/docs/{{ page.version }}/policies/mutual-tls).
+mTLS can be configured in your mesh configuration as indicated in the [mTLS section](/docs/{{ page.release }}/policies/mutual-tls).
 This is required because {{site.mesh_product_name}} uses the [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) field, part of the TLS protocol, as a way to pass routing information cross zones.
 
 ### Cross-zone communication details
@@ -387,9 +387,9 @@ curl http://echo-server:1010
 ```
 
 Requests are distributed round robin between zones.
-You can use [locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware) to keep requests in the same zone.
+You can use [locality-aware load balancing](/docs/{{ page.release }}/policies/locality-aware) to keep requests in the same zone.
 
-To send a request to any zone, you can [use the generated `kuma.io/service`](/docs/{{ page.version }}/explore/dpp-on-kubernetes#tag-generation) and [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns#dns):
+To send a request to any zone, you can [use the generated `kuma.io/service`](/docs/{{ page.release }}/explore/dpp-on-kubernetes#tag-generation) and [{{site.mesh_product_name}} DNS](/docs/{{ page.release }}/networking/dns#dns):
 
 ```sh
 curl http://echo-server_echo-example_svc_1010.mesh:80
@@ -411,7 +411,7 @@ echo-service_echo-example_svc_1010       Online               1/1
 
 ```
 
-To consume the service in a Universal deployment without transparent proxy add the following outbound to your [dataplane configuration](/docs/{{ page.version }}/explore/dpp-on-universal):
+To consume the service in a Universal deployment without transparent proxy add the following outbound to your [dataplane configuration](/docs/{{ page.release }}/explore/dpp-on-universal):
 
 ```yaml
 outbound:
@@ -422,7 +422,7 @@ outbound:
 
 From the data plane running you will now be able to reach the service using `localhost:20012`.
 
-Alternatively, if you configure [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
+Alternatively, if you configure [transparent proxy](/docs/{{ page.release }}/networking/transparent-proxying) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
 
 {% endtab %}
 {% endtabs %}
@@ -430,7 +430,7 @@ Alternatively, if you configure [transparent proxy](/docs/{{ page.version }}/net
 {% tip %}
 For security reasons it's not possible to customize the `kuma.io/service` in Kubernetes.
 
-If you want to have the same service running on both Universal and Kubernetes make sure to align the Universal's data plane inbound to have the same `kuma.io/service` as the one in Kubernetes or leverage [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route).
+If you want to have the same service running on both Universal and Kubernetes make sure to align the Universal's data plane inbound to have the same `kuma.io/service` as the one in Kubernetes or leverage [TrafficRoute](/docs/{{ page.release }}/policies/traffic-route).
 {% endtip %}
 
 ## Failure modes
@@ -499,7 +499,7 @@ When it happens:
 - Communication across each zone will fail.
 
 {% tip %}
-With the right resiliency setup ([Retries](/docs/{{ page.version }}/policies/retry), [Probes](/docs/{{ page.version }}/policies/health-check), [Locality Aware LoadBalancing](/docs/{{ page.version }}/policies/locality-aware), [Circuit Breakers](/docs/{{ page.version }}/policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
+With the right resiliency setup ([Retries](/docs/{{ page.release }}/policies/retry), [Probes](/docs/{{ page.release }}/policies/health-check), [Locality Aware LoadBalancing](/docs/{{ page.release }}/policies/locality-aware), [Circuit Breakers](/docs/{{ page.release }}/policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
 {% endtip %}
 
 ## Delete a zone

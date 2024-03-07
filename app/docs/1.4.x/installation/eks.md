@@ -11,7 +11,7 @@ To install and run Kuma on AWS EKS execute the following steps:
 Finally you can follow the [Quickstart](#4-quickstart) to take it from here and continue your Kuma journey.
 
 {% tip %}
-Kuma also provides [Helm charts](/docs/{{ page.version }}/installation/helm/) that we can use instead of this distribution.
+Kuma also provides [Helm charts](/docs/{{ page.release }}/installation/helm/) that we can use instead of this distribution.
 {% endtip %}
 
 ### 1. Download Kuma
@@ -49,7 +49,7 @@ tar xvzf kuma-*.tar.gz
 
 ### 2. Run Kuma
 
-Once downloaded, you will find the contents of Kuma in the `kuma-1.4.1` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/{{ page.version }}/documentation/cli/#kumactl).
+Once downloaded, you will find the contents of Kuma in the `kuma-1.4.1` folder. In this folder, you will find - among other files - the `bin` directory that stores the executables for Kuma, including the CLI client [`kumactl`](/docs/{{ page.release }}/documentation/cli/#kumactl).
 
 {% tip %}
 **Note**: On Kubernetes - of all the Kuma binaries in the `bin` folder - we only need `kumactl`.
@@ -72,7 +72,7 @@ Standalone mode is perfect when running Kuma in a single cluster across one envi
 ./kumactl install control-plane | kubectl apply -f -
 ```
 
-To learn more, read about the [deployment modes available](/docs/{{ page.version }}/documentation/deployments/).
+To learn more, read about the [deployment modes available](/docs/{{ page.release }}/documentation/deployments/).
 
 {% endtab %}
 {% tab eks-run Multi-Zone %}
@@ -81,7 +81,7 @@ Multi-zone mode is perfect when running one deployment of Kuma that spans across
 
 This mode also supports hybrid Kubernetes + VMs deployments.
 
-To learn more, read the [multi-zone installation instructions](/docs/{{ page.version }}/documentation/deployments/).
+To learn more, read the [multi-zone installation instructions](/docs/{{ page.release }}/documentation/deployments/).
 
 {% endtab %}
 {% endtabs %}
@@ -183,10 +183,10 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 {% endtab %}
 {% endtabs %}
 
-You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.release }}/policies/mesh) entity with name `default`.
 
 ### 4. Quickstart
 
 Congratulations! You have successfully installed Kuma on AWS EKS 🚀.
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/quickstart/kubernetes/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.release }}/quickstart/kubernetes/) deployments.

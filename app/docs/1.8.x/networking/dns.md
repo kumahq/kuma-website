@@ -4,7 +4,7 @@ title: DNS
 
 Kuma ships with DNS resolver to provide service naming - a mapping of hostname to Virtual IPs (VIPs) of services registered in Kuma.
 
-The usage of Kuma DNS is only relevant when [transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying) is used.
+The usage of Kuma DNS is only relevant when [transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying) is used.
 
 ## How it works
 
@@ -44,7 +44,7 @@ Kuma DNS is enabled by default whenever kuma-dp sidecar proxy is injected.
 {% endtab %}
 {% tab installation Universal %}
 
-Follow the instruction in [transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying).
+Follow the instruction in [transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying).
 
 {% endtab %}
 {% endtabs %}
@@ -53,8 +53,8 @@ Follow the instruction in [transparent proxying](/docs/{{ page.version }}/networ
 
 This mode implements advanced networking techniques, so take special care for the following cases:
 
-- The mode can safely be used with the [Kuma CNI plugin](/docs/{{ page.version }}/networking/cni).
-- In mixed IPv4 and IPv6 environments, it's recommended that you specify an [IPv6 virtual IP CIDR](/docs/{{ page.version }}/networking/ipv6).
+- The mode can safely be used with the [Kuma CNI plugin](/docs/{{ page.release }}/networking/cni).
+- In mixed IPv4 and IPv6 environments, it's recommended that you specify an [IPv6 virtual IP CIDR](/docs/{{ page.release }}/networking/ipv6).
 
 ### Overriding the CoreDNS configuration
 
@@ -110,7 +110,7 @@ The `CIDR` field sets the IP range of virtual IPs. The default `240.0.0.0/4` is 
 
 The `domain` field specifies the default `.mesh` DNS zone that Kuma DNS provides resolution for. It's only relevant when `serviceVipEnabled` is set to `true`.
 
-The `serviceVipEnabled` field defines if there should be a vip generated for each `kuma.io/service`. This can be disabled for performance reason and [virtual-outbound](/docs/{{ page.version }}/policies/virtual-outbound) provides a more flexible way to do this.
+The `serviceVipEnabled` field defines if there should be a vip generated for each `kuma.io/service`. This can be disabled for performance reason and [virtual-outbound](/docs/{{ page.release }}/policies/virtual-outbound) provides a more flexible way to do this.
 
 ## Usage
 
@@ -173,6 +173,6 @@ Kuma DNS allocates a VIP for every service within a mesh. Then, it creates an ou
 {% tip %}
 The following setup will work when `serviceVipEnabled=true` which is a default value.
 
-The preferred way to define hostnames is using [Virtual Outbounds](/docs/{{ page.version }}/policies/virtual-outbound).
+The preferred way to define hostnames is using [Virtual Outbounds](/docs/{{ page.release }}/policies/virtual-outbound).
 Virtual Outbounds also makes it possible to define dynamic hostnames using specific tags or to expose services on a different port.
 {% endtip %}

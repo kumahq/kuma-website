@@ -91,3 +91,11 @@ mesh_helm_install_name: kuma
 mesh_raw_generated_paths:
   - app/assets
   - app/docs
+
+plugins:
+  - jekyll-generator-single-source
+  - jekyll-paginate-v2
+  - jekyll-last-modified-at
+  - jekyll-contentblocks
+  - jekyll/vite
+  - jekyll-kuma-plugins

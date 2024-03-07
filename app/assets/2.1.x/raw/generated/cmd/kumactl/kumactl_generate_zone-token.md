@@ -42,5 +42,5 @@ $ kumactl generate zone-token --zone zone-1 --valid-for 24h --scope ingress --sc
 
 ### SEE ALSO
 
-* [kumactl generate](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_generate)	 - Generate resources, tokens, etc
+* [kumactl generate](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_generate)	 - Generate resources, tokens, etc
 

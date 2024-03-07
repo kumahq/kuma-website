@@ -4,6 +4,7 @@
   "author": "Kong Inc.",
   "scripts": {
     "test": "yarn jest",
+    "dev": "foreman start",
     "test-coverage": "yarn jest --coverage"
   },
   "dependencies": {

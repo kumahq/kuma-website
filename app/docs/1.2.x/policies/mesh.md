@@ -8,7 +8,7 @@ Typically we would want to create a `Mesh` per line of business, per team, per a
 
 `Mesh` is the parent resource of every other resource in Kuma, including: 
 
-* [Data plane proxies](/docs/{{ page.version }}/documentation/dps-and-data-model/)
+* [Data plane proxies](/docs/{{ page.release }}/documentation/dps-and-data-model/)
 * [Policies](/policies)
 
 In order to use Kuma at least one `Mesh` must exist, and there is no limit to the number of Meshes that can be created. When a data plane proxy connects to the control plane (`kuma-cp`) it specifies to what `Mesh` resource it belongs: a data plane proxy can only belong to one `Mesh` at a time.
@@ -19,11 +19,11 @@ When starting a new Kuma cluster from scratch a `default` Mesh is being created 
 
 Besides the ability of being able to create virtual service mesh, a `Mesh` resource will also be used for:
 
-* [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/), to secure and encrypt our service traffic and assign an identity to the data plane proxies within the Mesh.
-* [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics), to setup metrics backend that will be used to collect and visualize metrics of our service mesh and service traffic within the Mesh.
-* [Traffic Trace](/docs/{{ page.version }}/policies/traffic-trace/), to setup tracing backends that will be used to collect traces of our service traffic within the Mesh.
+* [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/), to secure and encrypt our service traffic and assign an identity to the data plane proxies within the Mesh.
+* [Traffic Metrics](/docs/{{ page.release }}/policies/traffic-metrics), to setup metrics backend that will be used to collect and visualize metrics of our service mesh and service traffic within the Mesh.
+* [Traffic Trace](/docs/{{ page.release }}/policies/traffic-trace/), to setup tracing backends that will be used to collect traces of our service traffic within the Mesh.
 
-When [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) is enabled in `builtin` mode, each `Mesh` will provision its own CA root certificate and key unless we explicitly decide to use the same CA by sharing the same certificate and key across multiple meshes. When the CAs of our Meshes are different, data plane proxies from one `Mesh` will not be able to consume data plane proxies belonging to another `Mesh` and an intermediate API Gateway must be used in order to enable cross-mesh communication. Kuma supports a [gateway mode](/docs/{{ page.version }}/documentation/dps-and-data-model/#gateway) to make this happen.
+When [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) is enabled in `builtin` mode, each `Mesh` will provision its own CA root certificate and key unless we explicitly decide to use the same CA by sharing the same certificate and key across multiple meshes. When the CAs of our Meshes are different, data plane proxies from one `Mesh` will not be able to consume data plane proxies belonging to another `Mesh` and an intermediate API Gateway must be used in order to enable cross-mesh communication. Kuma supports a [gateway mode](/docs/{{ page.release }}/documentation/dps-and-data-model/#gateway) to make this happen.
 
 ## Usage
 
@@ -44,7 +44,7 @@ We will apply the configuration with `kubectl apply -f [..]`.
 type: Mesh
 name: default
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/documentation/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/documentation/http-api).
 {% endtab %}
 {% endtabs %}
 

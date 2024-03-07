@@ -3,7 +3,7 @@ title: Fault Injection
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? You need this policy, check [`MeshFaultInjection`](/docs/{{ page.version }}/policies/meshfaultinjection) instead.
+New to Kuma? You need this policy, check [`MeshFaultInjection`](/docs/{{ page.release }}/policies/meshfaultinjection) instead.
 {% endwarning %}
 {% endif_version %}
 
@@ -112,7 +112,7 @@ ResponseBandwidth defines a configuration to limit the speed of responding to th
 
 ## Matching
 
-`FaultInjection` is an [Inbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply#outbound-connection-policy).
+`FaultInjection` is an [Inbound Connection Policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply#outbound-connection-policy).
 You can use all the tags in both `sources` and `destinations` sections.
 
 ## All options

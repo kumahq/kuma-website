@@ -10,7 +10,7 @@ There are 2 ways to configure the control plane:
 
 Environment variables take precedence over YAML configuration.
 
-All possible configuration and their default values are in the [`kuma-cp` reference doc](/docs/{{ page.version }}/reference/kuma-cp).
+All possible configuration and their default values are in the [`kuma-cp` reference doc](/docs/{{ page.release }}/reference/kuma-cp).
 
 {% tip %}
 Environment variables usually match the yaml path by replacing `.` with `_`, capitalizing names and prefixing with KUMA.

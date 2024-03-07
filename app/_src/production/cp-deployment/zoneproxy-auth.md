@@ -241,7 +241,7 @@ Here's how to use offline issuing
 
 2. Configure the control plane with public key
 
-   [Configure a control plane](/docs/{{ page.version }}/documentation/configuration) with the following settings
+   [Configure a control plane](/docs/{{ page.release }}/documentation/configuration) with the following settings
    ```yaml
    dpServer:
      authn:

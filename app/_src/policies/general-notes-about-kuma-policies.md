@@ -3,13 +3,13 @@ title: General notes about Kuma policies
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? You don't need this, check [`TargetRef` policies](/docs/{{ page.version }}/policies/introduction) instead.
+New to Kuma? You don't need this, check [`TargetRef` policies](/docs/{{ page.release }}/policies/introduction) instead.
 {% endwarning %}
 {% endif_version %}
 {% if_version lte:2.5.x %}
 {% tip %}
 This only applies to source/destination policies.
-If you are unfamiliar with these, checkout [introduction to policies](/docs/{{ page.version }}/policies/introduction).
+If you are unfamiliar with these, checkout [introduction to policies](/docs/{{ page.release }}/policies/introduction).
 {% endtip %}
 {% endif_version %}
 

@@ -10,7 +10,7 @@ There are 2 ways to configure the control plane:
 
 Environment variables take precedence over YAML configuration.
 
-All possible configuration and their default values are in the [`kuma-cp` reference doc](/docs/{{ page.version }}/generated/kuma-cp).
+All possible configuration and their default values are in the [`kuma-cp` reference doc](/docs/{{ page.release }}/generated/kuma-cp).
 
 {% tip %}
 Environment variables usually match the yaml path by replacing `.` with `_`, capitalizing names and prefixing with KUMA.
@@ -98,7 +98,7 @@ There are many ways to see your control plane configuration:
 
 ## Store
 
-As explained in the [Overview](/docs/{{ page.version }}/documentation/introduction), when Kuma (`kuma-cp`) is up and running it needs to store its state somewhere.
+As explained in the [Overview](/docs/{{ page.release }}/documentation/introduction), when Kuma (`kuma-cp`) is up and running it needs to store its state somewhere.
 Thus state includes the policies configured, the data plane proxy status, and so on.
 
 Kuma supports a few different types of store.

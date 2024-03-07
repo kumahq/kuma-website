@@ -2,7 +2,7 @@
 title: API server authentication
 ---
 
-{{site.mesh_product_name}} exposes API server on [ports](/docs/{{ page.version }}/networking/networking) `5681` and `5682` (protected by TLS).
+{{site.mesh_product_name}} exposes API server on [ports](/docs/{{ page.release }}/networking/networking) `5681` and `5682` (protected by TLS).
 
 An authenticated user can be authorized to execute administrative actions such as
 * Managing administrative resources like {{site.mesh_product_name}} Secrets on Universal
@@ -25,7 +25,7 @@ A user can be a part of many groups. {{site.mesh_product_name}} adds two groups 
 
 {{site.mesh_product_name}} creates an admin user token on the first start of the control plane.
 The admin user token is a user token issued for user `mesh-system:admin` that belongs to `mesh-system:admin` group.
-This group is [authorized by default](/docs/{{ page.version }}/security/api-access-control) to execute all administrative operations.
+This group is [authorized by default](/docs/{{ page.release }}/security/api-access-control) to execute all administrative operations.
 
 {% tabs admin-user-token useUrlFragment=false %}
 {% tab admin-user-token Kubernetes %}
@@ -83,13 +83,13 @@ This group is [authorized by default](/docs/{{ page.version }}/security/api-acce
 3. Disable localhost is admin (optional)
 
    By default, all requests originated from localhost are authenticated as an `mesh-system:admin` user.
-   After you retrieve and store the admin token, [configure a control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN` set to `false`.
+   After you retrieve and store the admin token, [configure a control plane](/docs/{{ page.release }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN` set to `false`.
    {% endtab %}
    {% endtabs %}
 
 ### Generate user tokens
 
-You can generate user tokens only when you provide the credentials of a user [authorized to generate user tokens](/docs/{{ page.version }}/security/api-access-control#generate-user-token).
+You can generate user tokens only when you provide the credentials of a user [authorized to generate user tokens](/docs/{{ page.release }}/security/api-access-control#generate-user-token).
 `kumactl` configured with admin user token extracted in the preceding section is authorized to do it.
 
 ```sh
@@ -287,7 +287,7 @@ kubectl delete secret admin-user-token -n kuma-namespace
 ```
 
 2. Disable bootstrap of the token
-   [Configure a control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_TOKENS_BOOTSTRAP_ADMIN_TOKEN` set to `false`.
+   [Configure a control plane](/docs/{{ page.release }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_TOKENS_BOOTSTRAP_ADMIN_TOKEN` set to `false`.
    {% endtab %}
    {% tab bootstrap Universal %}
 1. Delete `admin-user-token` Global Secret
@@ -296,7 +296,7 @@ kumactl delete global-secret admin-user-token
 ```
 
 2. Disable bootstrap of the token
-   [Configure a control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_TOKENS_BOOTSTRAP_ADMIN_TOKEN` set to `false`.
+   [Configure a control plane](/docs/{{ page.release }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_TOKENS_BOOTSTRAP_ADMIN_TOKEN` set to `false`.
    {% endtab %}
    {% endtabs %}
 

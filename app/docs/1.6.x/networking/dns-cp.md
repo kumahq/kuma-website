@@ -3,7 +3,7 @@ title: DNS in the control plane
 ---
 
 {% warning %}
-This is deprecated way of handling Kuma DNS that will be removed in the future versions of Kuma. Consider using [DNS embedded in kuma-dp](/docs/{{ page.version }}/networking/dns)
+This is deprecated way of handling Kuma DNS that will be removed in the future versions of Kuma. Consider using [DNS embedded in kuma-dp](/docs/{{ page.release }}/networking/dns)
 {% endwarning %}
 
 In this mode, DNS traffic is not intercepted and resolved by Envoy, but the DNS resolver is explicitly configured with `kuma-cp` DNS server for defined domains (`.mesh` by default).
@@ -17,11 +17,11 @@ The DNS server in kuma-cp listens on port `5653`.
 
 The Kuma control plane exposes a DNS service which handles the name resolution in the `.mesh` DNS zone.
 
-Usually DNS configuration expects DNS server to be served on port `53` therefore we need to [configure](/docs/{{ page.version }}/documentation/configuration) the control plane with `KUMA_DNS_SERVER_PORT` set to `53`.
+Usually DNS configuration expects DNS server to be served on port `53` therefore we need to [configure](/docs/{{ page.release }}/documentation/configuration) the control plane with `KUMA_DNS_SERVER_PORT` set to `53`.
 
 {% tabs dns useUrlFragment=false%}
 {% tab dns Kubernetes %}
-1. When you install the control plane, [configure](/docs/{{ page.version }}/documentation/configuration) it with the following environment variable to disable the data plane proxy DNS:
+1. When you install the control plane, [configure](/docs/{{ page.release }}/documentation/configuration) it with the following environment variable to disable the data plane proxy DNS:
 
    `KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED=false`
 
@@ -31,7 +31,7 @@ Usually DNS configuration expects DNS server to be served on port `53` therefore
 
 {% endtab %}
 {% tab dns Universal %}
-Follow the instruction in [transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying), but when `install transparent-proxy` is executed. Set the following arguments
+Follow the instruction in [transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying), but when `install transparent-proxy` is executed. Set the following arguments
 
 ```shell
 kumactl install transparent-proxy \

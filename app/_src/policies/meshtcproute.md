@@ -4,7 +4,7 @@ title: MeshTCPRoute
 
 {% warning %}
 This policy uses a new policy matching algorithm.
-Do **not** combine with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) except for the default `route-all` route, which should be kept.
+Do **not** combine with [TrafficRoute](/docs/{{ page.release }}/policies/traffic-route) except for the default `route-all` route, which should be kept.
 {% endwarning %}
 
 The `MeshTCPRoute` policy allows you to alter and redirect TCP requests
@@ -54,7 +54,7 @@ depending on where the request is coming from and where it's going to.
 
 {% endif_version %}
 
-For more information, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+For more information, see the [matching docs](/docs/{{ page.release }}/policies/targetref).
 
 ## Configuration
 
@@ -169,7 +169,7 @@ spec:
 ```
 
 You can apply the configuration with `kumactl apply -f [..]` or use
-the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -232,7 +232,7 @@ spec:
 ```
 
 You can apply the configuration with `kumactl apply -f [..]` or use
-the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 

@@ -41,5 +41,5 @@ $ kumactl generate public-key --signing-key-path=/tmp/key.pem
 
 ### SEE ALSO
 
-* [kumactl generate](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_generate)	 - Generate resources, tokens, etc
+* [kumactl generate](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_generate)	 - Generate resources, tokens, etc
 

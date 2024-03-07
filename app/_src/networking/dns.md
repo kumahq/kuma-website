@@ -4,7 +4,7 @@ title: DNS
 
 {{site.mesh_product_name}} ships with DNS resolver to provide service naming - a mapping of hostname to Virtual IPs (VIPs) of services registered in {{site.mesh_product_name}}.
 
-The usage of {{site.mesh_product_name}} DNS is only relevant when {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %} is used.
+The usage of {{site.mesh_product_name}} DNS is only relevant when {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/){% endif_version %} is used.
 
 ## How it works
 
@@ -44,7 +44,7 @@ The default TTL is 60 seconds, to ensure the client synchronizes with {{site.mes
 {% endtab %}
 {% tab installation Universal %}
 
-Follow the instruction in {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %}.
+Follow the instruction in {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/){% endif_version %}.
 
 {% endtab %}
 {% endtabs %}
@@ -53,8 +53,8 @@ Follow the instruction in {% if_version lte:2.1.x %}[transparent proxying](/docs
 
 This mode implements advanced networking techniques, so take special care for the following cases:
 
-- The mode can safely be used with the {% if_version lte:2.1.x %}[{{site.mesh_product_name}} CNI plugin](/docs/{{ page.version }}/networking/cni){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} CNI plugin](/docs/{{ page.version }}/production/dp-config/cni/){% endif_version %}.
-- In mixed IPv4 and IPv6 environments, it's recommended that you specify an {% if_version lte:2.1.x %}[IPv6 virtual IP CIDR](/docs/{{ page.version }}/networking/ipv6){% endif_version %}{% if_version gte:2.2.x %}[IPv6 virtual IP CIDR](/docs/{{ page.version }}/production/dp-config/ipv6/){% endif_version %}.
+- The mode can safely be used with the {% if_version lte:2.1.x %}[{{site.mesh_product_name}} CNI plugin](/docs/{{ page.release }}/networking/cni){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} CNI plugin](/docs/{{ page.release }}/production/dp-config/cni/){% endif_version %}.
+- In mixed IPv4 and IPv6 environments, it's recommended that you specify an {% if_version lte:2.1.x %}[IPv6 virtual IP CIDR](/docs/{{ page.release }}/networking/ipv6){% endif_version %}{% if_version gte:2.2.x %}[IPv6 virtual IP CIDR](/docs/{{ page.release }}/production/dp-config/ipv6/){% endif_version %}.
 
 ### Overriding the CoreDNS configuration
 
@@ -69,7 +69,7 @@ In some cases it might be useful for you to configure the default CoreDNS config
 {% if_version gte:2.6.x %}
 Only overriding from control plane is supported.
 
-To override, you can [configure](/docs/{{ page.version }}/reference/kuma-cp/) the bootstrap server in `kuma-cp`:
+To override, you can [configure](/docs/{{ page.release }}/reference/kuma-cp/) the bootstrap server in `kuma-cp`:
 
 ```yaml
 bootstrapServer:
@@ -129,7 +129,7 @@ Both overriding from the control plane and data planes are supported.
 {% endif_version %}
 
 {% if_version gte:2.6.x %}
-To override DNS configuration from the control plane, you can [configure](/docs/{{ page.version }}/reference/kuma-cp/) the bootstrap server in `kuma-cp`:
+To override DNS configuration from the control plane, you can [configure](/docs/{{ page.release }}/reference/kuma-cp/) the bootstrap server in `kuma-cp`:
 
 ```yaml
 bootstrapServer:
@@ -178,7 +178,7 @@ Editing should base on [the existing and default configuration](https://github.c
 
 ## Configuration
 
-You can [configure](/docs/{{ page.version }}/reference/kuma-cp/) {{site.mesh_product_name}} DNS in `kuma-cp`:
+You can [configure](/docs/{{ page.release }}/reference/kuma-cp/) {{site.mesh_product_name}} DNS in `kuma-cp`:
 
 ```yaml
 dnsServer:
@@ -191,7 +191,7 @@ The `CIDR` field sets the IP range of virtual IPs. The default `240.0.0.0/4` is 
 
 The `domain` field specifies the default `.mesh` DNS zone that {{site.mesh_product_name}} DNS provides resolution for. It's only relevant when `serviceVipEnabled` is set to `true`.
 
-The `serviceVipEnabled` field defines if there should be a vip generated for each `kuma.io/service`. This can be disabled for performance reason and [virtual-outbound](/docs/{{ page.version }}/policies/virtual-outbound) provides a more flexible way to do this.
+The `serviceVipEnabled` field defines if there should be a vip generated for each `kuma.io/service`. This can be disabled for performance reason and [virtual-outbound](/docs/{{ page.release }}/policies/virtual-outbound) provides a more flexible way to do this.
 
 ## Usage
 
@@ -255,6 +255,6 @@ The default listeners created on the VIP default to port `80`, so the port can b
 {% tip %}
 The following setup will work when `serviceVipEnabled=true` which is a default value.
 
-The preferred way to define hostnames is using [Virtual Outbounds](/docs/{{ page.version }}/policies/virtual-outbound).
+The preferred way to define hostnames is using [Virtual Outbounds](/docs/{{ page.release }}/policies/virtual-outbound).
 Virtual Outbounds also makes it possible to define dynamic hostnames using specific tags or to expose services on a different port.
 {% endtip %}

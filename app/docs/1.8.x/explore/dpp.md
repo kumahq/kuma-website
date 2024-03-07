@@ -41,15 +41,15 @@ Tags are a set of key-value pairs (.e.g `version=v2`) that are defined for each 
 Tags prefixed with `kuma.io` are reserved:
 
 * `kuma.io/service` identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually. This tag must always be present.
-* `kuma.io/zone` identifies the zone name in a [multi-zone deployment](/docs/{{ page.version }}/deployments/multi-zone). This tag is automatically created and cannot be overwritten.
-* `kuma.io/protocol` identifies [the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) of the service exposed by this inbound. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
+* `kuma.io/zone` identifies the zone name in a [multi-zone deployment](/docs/{{ page.release }}/deployments/multi-zone). This tag is automatically created and cannot be overwritten.
+* `kuma.io/protocol` identifies [the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) of the service exposed by this inbound. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 ### Service
 A service is a group of all DPP inbounds that have the same `kuma.io/service` tag.
 
 ### Outbounds
 An outbound allows the workload to consume a service in the mesh using a local port.
-This is only useful when not using [transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying). 
+This is only useful when not using [transparent-proxy](/docs/{{ page.release }}/networking/transparent-proxying). 
 
 ## `Dataplane` entity
 
@@ -61,10 +61,10 @@ The `Dataplane` entity consists of:
 
 A `Dataplane` entity must be present for each DPP. `Dataplane` entities are managed differently depending on the environment: 
 
-- Kubernetes: The control plane [**automatically generates**](/docs/{{ page.version }}/explore/dpp-on-kubernetes) the `Dataplane` entity. 
-- Universal: The [**user defines**](/docs/{{ page.version}}/explore/dpp-on-universal) the `Dataplane` entity. 
+- Kubernetes: The control plane [**automatically generates**](/docs/{{ page.release }}/explore/dpp-on-kubernetes) the `Dataplane` entity. 
+- Universal: The [**user defines**](/docs/{{ page.release }}/explore/dpp-on-universal) the `Dataplane` entity. 
  
-For more details check the [dataplane specification](/docs/{{ page.version }}/generated/resources/proxy_dataplane):
+For more details check the [dataplane specification](/docs/{{ page.release }}/generated/resources/proxy_dataplane):
 
 ## Dynamic configuration of the data plane proxy 
 

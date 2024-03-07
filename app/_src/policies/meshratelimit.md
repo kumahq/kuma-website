@@ -4,7 +4,7 @@ title: MeshRateLimit
 
 {% warning %}
 This policy uses new policy matching algorithm.
-Do **not** combine with [Rate Limit](/docs/{{ page.version }}/policies/rate-limit).
+Do **not** combine with [Rate Limit](/docs/{{ page.release }}/policies/rate-limit).
 {% endwarning %}
 
 This policy enables per-instance service request limiting. Policy supports ratelimiting of HTTP/HTTP2 requests and TCP connections.
@@ -18,7 +18,7 @@ You can configure:
 
 The policy is applied per service instance. This means that if a service `backend` has 3 instances rate limited to 100 requests per second, the overall service rate limit is 300 requests per second.
 
-Rate limiting supports an [ExternalService](/docs/{{ page.version }}/policies/external-services) only when `ZoneEgress` is enabled.
+Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/external-services) only when `ZoneEgress` is enabled.
 
 ## TargetRef support matrix
 
@@ -60,7 +60,7 @@ Rate limiting supports an [ExternalService](/docs/{{ page.version }}/policies/ex
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/targetref).
 
 ## Configuration
 
@@ -156,7 +156,7 @@ spec:
                   - name: "x-kuma-rate-limited"
                     value: "true"
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -210,7 +210,7 @@ spec:
               interval: 10s
 ```
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 

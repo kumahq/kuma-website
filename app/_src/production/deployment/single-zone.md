@@ -18,9 +18,9 @@ This mode implies that we can deploy {{site.mesh_product_name}} and its data pla
 </center>
 
 Single-zone mode is a great choice to start within the context of one zone (ie: within one Kubernetes cluster or one AWS VPC).
-You can then [federate](/docs/{{ page.version }}/guides/federate) it into a multi-zone deployment.
+You can then [federate](/docs/{{ page.release }}/guides/federate) it into a multi-zone deployment.
 
-To Install with this topology follow the [single-zone deployment docs](/docs/{{ page.version }}/production/cp-deployment/single-zone).
+To Install with this topology follow the [single-zone deployment docs](/docs/{{ page.release }}/production/cp-deployment/single-zone).
 
 ## Limitations
 
@@ -28,7 +28,7 @@ To Install with this topology follow the [single-zone deployment docs](/docs/{{ 
 * A single-zone deployment cannot mix Universal and Kubernetes workloads.
 * A deployment can connect to only one Kubernetes cluster at once.
 
-If these limitations are problematic you should look at [Multi-zone deployments](/docs/{{ page.version }}/production/deployment/multi-zone/).
+If these limitations are problematic you should look at [Multi-zone deployments](/docs/{{ page.release }}/production/deployment/multi-zone/).
 
 ## Components of a single-zone deployment
 

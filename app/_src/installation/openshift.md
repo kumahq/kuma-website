@@ -25,7 +25,7 @@ We can install and run {{site.mesh_product_name}}:
 ./kumactl install control-plane --cni-enabled | oc apply -f -
 ```
 
-Starting from version 4.1 OpenShift utilizes `nftables` instead of `iptables`. So using init container for redirecting traffic to the proxy no longer works. Instead, we use the `--cni-enabled` flag to install the {% if_version lte:2.1.x %}[`kuma-cni`](/docs/{{ page.version }}/networking/cni){% endif_version %}{% if_version gte:2.2.x %}[`kuma-cni`](/docs/{{ page.version }}/production/dp-config/cni/){% endif_version %}.
+Starting from version 4.1 OpenShift utilizes `nftables` instead of `iptables`. So using init container for redirecting traffic to the proxy no longer works. Instead, we use the `--cni-enabled` flag to install the {% if_version lte:2.1.x %}[`kuma-cni`](/docs/{{ page.release }}/networking/cni){% endif_version %}{% if_version gte:2.2.x %}[`kuma-cni`](/docs/{{ page.release }}/production/dp-config/cni/){% endif_version %}.
 {% endtab %}
 
 {% tab openshift-run OpenShift 3.11 %}
@@ -57,7 +57,7 @@ After updating `master-config.yaml` restart the cluster and install `control-pla
 {% endtab %}
 {% endtabs %}
 
-This example will run {{site.mesh_product_name}} in {% if_version lte:2.5.x %}`standalone`{% endif_version %}{% if_version gte:2.6.x %}`single-zone`{% endif_version %} mode for a "flat" deployment, but there are more advanced {% if_version lte:2.1.x %}[deployment modes](/docs/{{ page.version }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployment modes](/docs/{{ page.version }}/production/deployment/){% endif_version %} like "multi-zone".
+This example will run {{site.mesh_product_name}} in {% if_version lte:2.5.x %}`standalone`{% endif_version %}{% if_version gte:2.6.x %}`single-zone`{% endif_version %} mode for a "flat" deployment, but there are more advanced {% if_version lte:2.1.x %}[deployment modes](/docs/{{ page.release }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployment modes](/docs/{{ page.release }}/production/deployment/){% endif_version %} like "multi-zone".
 
 {% tip %}
 It may take a while for OpenShift to start the {{site.mesh_product_name}} resources, you can check the status by executing:
@@ -150,7 +150,7 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 {% endtab %}
 {% endtabs %}
 
-You will notice that {{site.mesh_product_name}} automatically creates a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %} entity with name `default`.
+You will notice that {{site.mesh_product_name}} automatically creates a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %} entity with name `default`.
 
 {% tip %}
 {{site.mesh_product_name}} explicitly specifies UID for `kuma-dp` sidecar to avoid capturing traffic from `kuma-dp` itself. For that reason, `nonroot` [Security Context Constraint](https://docs.openshift.com/container-platform/latest/authentication/managing-security-context-constraints.html) has to be granted to the application namespace:
@@ -171,7 +171,7 @@ If namespace is not configured properly, we will see following error on the `Dep
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on OpenShift 🚀.
 
-In order to start using {{site.mesh_product_name}}, it's time to check out the {% if_version gte:2.6.x %}[quickstart guide](/docs/{{ page.version }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[quickstart guide](/docs/{{ page.version }}/quickstart/kubernetes/){% endif_version %} deployments.
+In order to start using {{site.mesh_product_name}}, it's time to check out the {% if_version gte:2.6.x %}[quickstart guide](/docs/{{ page.release }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[quickstart guide](/docs/{{ page.release }}/quickstart/kubernetes/){% endif_version %} deployments.
 
 {% tip %}
 Before running {{site.mesh_product_name}} Demo in the Quickstart, remember to run the following command

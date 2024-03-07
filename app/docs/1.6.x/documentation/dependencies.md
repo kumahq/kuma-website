@@ -11,7 +11,7 @@ Kuma (`kuma-cp`) is one single executable written in GoLang that can be installe
 Out of the box, Kuma ships with a bundled [Envoy](https://www.envoyproxy.io/) data plane proxy ready to use for our services, so that you don't have to worry about putting all the pieces together.
 
 {% tip %}
-Kuma ships with an executable `kuma-dp` that executes the bundled `envoy` executable to create the data plane proxy. For details, see the [Overview](/docs/{{ page.version }}/introduction).
+Kuma ships with an executable `kuma-dp` that executes the bundled `envoy` executable to create the data plane proxy. For details, see the [Overview](/docs/{{ page.release }}/introduction).
 {% endtip %}
 
 [Install Kuma](/install/) and follow the instructions to get up and running in a few steps.

@@ -2,7 +2,7 @@
 {% assign current_page =  page.url | remove: '.html' %}
 
 {% if item.absolute_url %}{% assign url = item.url %}
-{% else %}{% assign url = '/docs/' | append: include.version | append: item.url %}
+{% else %}{% assign url = '/docs/' | append: include.release | append: item.url %}
 {% endif %}
 <a href="{{ url }}" class="sidebar-link {% if current_page == url %} active {% endif %}"{% if item.absolute_url %} target="_blank"{% endif %}>{{ item.text or item.title }}</a>
 
@@ -11,7 +11,7 @@
     {% for sub_item in item.items %}
       <li class="sidebar-sub-header">
         {% if sub_item.absolute_url %}{% assign url = sub_item.url %}
-        {% else %}{% assign url = '/docs/' | append: include.version | append: sub_item.url %}
+        {% else %}{% assign url = '/docs/' | append: include.release | append: sub_item.url %}
         {% endif %}
 
         <a class="sidebar-link" href="{{ url }}"{% if sub_item.absolute_url %} target="_blank"{% endif %}>
