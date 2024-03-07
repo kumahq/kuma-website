@@ -271,8 +271,10 @@ When you configure application scraping make sure to specify `application.name` 
 
 - You cannot configure scraping interval for OpenTelemetry. By default, it will publish metrics to collector every **30 seconds**. Ability to configure scraping interval in policy will be added in the future. 
 - Right now {{site.mesh_product_name}} supports configuring only one `OpenTelemetry` backend.
+{% if_version lte:2.6.x %}
 - OpenTelemetry integration does not take [sidecar](/docs/{{ page.version }}/policies/meshmetric/#sidecar) configuration into account.
-    This support will be added in the next release.
+  This support will be added in the next release.
+{% endif_version %}
 - [Application](/docs/{{ page.version }}/policies/meshmetric/#applications) must expose metrics in Prometheus format for this integration to work
 
 ## Examples
