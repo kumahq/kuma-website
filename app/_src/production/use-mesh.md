@@ -172,7 +172,7 @@ The number and type of exposed ports depends on the mode in which the control pl
 This is the default, single zone mode, in which all of the following ports are enabled in `kuma-cp`
 
 * TCP
-    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
+    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`. The default Kubernetes `{{site.mesh_cp_name}}` service exposes this port on `443`.
     * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
     * `5678`: the server for the control-plane to data-planes communication (bootstrap configuration, xDS to retrieve their configuration, SDS to retrieve mTLS certificates).
     * `5680`: the HTTP server that returns the health status and metrics of the control-plane.
@@ -187,7 +187,7 @@ This is the default, single zone mode, in which all of the following ports are e
 When {{site.mesh_product_name}} is run as a distributed service mesh, the Global control plane exposes the following ports:
 
 * TCP
-    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
+    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`. The default Kubernetes `{{site.mesh_cp_name}}` service exposes this port on `443`.
     * `5680`: the HTTP server that returns the health status of the control-plane.
     * `5681`: the HTTP API server that is being used by `kumactl`, and that you can also use to retrieve {{site.mesh_product_name}}'s policies and - when running in `universal` - that you can use to apply new policies. Manipulating the dataplane resources is not possible. It also exposes the {{site.mesh_product_name}} GUI at `/gui`
     * `5682`: HTTPS version of the services available under `5681`
@@ -199,7 +199,7 @@ When {{site.mesh_product_name}} is run as a distributed service mesh, the Global
 When {{site.mesh_product_name}} is run as a distributed service mesh, the Zone control plane exposes the following ports:
 
 * TCP
-    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`
+    * `5443`: The port for the admission webhook, only enabled in `Kubernetes`. The default Kubernetes `{{site.mesh_cp_name}}` service exposes this port on `443`.
     * `5676`: the Monitoring Assignment server that responds to discovery requests from monitoring tools, such as `Prometheus`, that are looking for a list of targets to scrape metrics from, e.g. a list of all dataplanes in the mesh.
     * `5678`: the server for the control-plane to data-planes communication (bootstrap configuration, xDS to retrieve their configuration, SDS to retrieve mTLS certificates).
     * `5680`: the HTTP server that returns the health status and metrics of the control-plane.
