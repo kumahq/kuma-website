@@ -81,6 +81,12 @@ sidecar:
 
 ### Applications
 
+{% if_version gte:2.7.x %}
+{% warning %}
+Metrics exposed by the application need to be in Prometheus format for the Dataplane Proxy to be able to parse and expose them to either Prometheus or OpenTelemetry backend.
+{% endwarning %}
+{% endif_version %}
+
 In addition to exposing metrics from the data plane proxies, you might want to expose metrics from applications running next to the proxies.
 {{site.mesh_product_name}} allows scraping Prometheus metrics from the applications endpoint running in the same `Pod` or `VM`.
 Later those metrics are aggregated and exposed at the same `port/path` as data plane proxy metrics.
@@ -254,6 +260,7 @@ scrape_configs:
 
 #### OpenTelemetry (experimental)
 
+{% if_version lte:2.6.x %}
 ```yaml
 backends:
   - type: OpenTelemetry
@@ -276,6 +283,62 @@ When you configure application scraping make sure to specify `application.name` 
   This support will be added in the next release.
 {% endif_version %}
 - [Application](/docs/{{ page.version }}/policies/meshmetric/#applications) must expose metrics in Prometheus format for this integration to work
+
+{% endif_version %}
+
+{% if_version gte:2.7.x %}
+```yaml
+backends:
+  - type: OpenTelemetry
+    openTelemetry: 
+      endpoint: http://otel-collector.observability.svc:4317
+      refreshInterval: 60s
+```
+
+This configuration tells {{site.mesh_product_name}} Dataplane Proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
+Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.version }}/policies/meshmetric/#applications) in a Pod/VM
+and push them to configured OpenTelemetry collector, by default every **60 seconds** (use `refreshInterval` to change it).
+
+When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/).
+
+#### Pushing metrics from application to OpenTelemetry collector directly
+
+Right now if you want to expose metrics from your application to OpenTelemetry collector you can access collector directly.
+
+If you have disabled [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic/#outgoing) in your Mesh you need to
+configure [ExternalService](/docs/{{ page.version }}/policies/external-services/#external-service) with you collector endpoint. Example ExternalService:
+
+{% tabs usage useUrlFragment=false %}
+{% tab usage Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ExternalService
+mesh: default
+metadata:
+  name: otel-collector
+spec:
+  tags:
+    kuma.io/service: otel-collector-grpc
+    kuma.io/protocol: grpc
+  networking:
+    address: otel-collector.observability.svc.cluster.local:4317
+```
+{% endtab %}
+{% tab usage Universal %}
+```yaml
+type: ExternalService
+mesh: default
+name: otel-collector
+tags:
+  kuma.io/service: otel-collector-grpc
+  kuma.io/protocol: grpc
+networking:
+  address: otel-collector.observability.svc.cluster.local:4317
+```
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
 
 ## Examples
 
