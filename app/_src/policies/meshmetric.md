@@ -81,6 +81,12 @@ sidecar:
 
 ### Applications
 
+{% if_version gte:2.7.x %}
+{% warning %}
+Metrics exposed by the application need to be in Prometheus format for the Dataplane Proxy to be able to parse and expose them to either Prometheus or OpenTelemetry backend.
+{% endwarning %}
+{% endif_version %}
+
 In addition to exposing metrics from the data plane proxies, you might want to expose metrics from applications running next to the proxies.
 {{site.mesh_product_name}} allows scraping Prometheus metrics from the applications endpoint running in the same `Pod` or `VM`.
 Later those metrics are aggregated and exposed at the same `port/path` as data plane proxy metrics.
@@ -100,12 +106,6 @@ applications:
     address: # optional custom address if the underlying application listens on a different address than the Data Plane Proxy
     port: 8888 # port on which application is listening
 ```
-
-{% if_version gte:2.7.x %}
-{% warning %}
-Metrics exposed by the application need to be in Prometheus format for the Dataplane Proxy to be able to parse and expose them to either Prometheus or OpenTelemetry backend.
-{% endwarning %}
-{% endif_version %}
 
 ### Backends
 
