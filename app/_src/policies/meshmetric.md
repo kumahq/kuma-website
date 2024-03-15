@@ -208,6 +208,7 @@ spec:
     kind: MeshSubset
     tags:
       prometheus: "one"
+  default:
     backends:
       - type: Prometheus
         prometheus: 
@@ -227,6 +228,7 @@ spec:
     kind: MeshSubset
     tags:
       prometheus: "two"
+  default:
     backends:
       - type: Prometheus
         prometheus: 
@@ -243,7 +245,7 @@ scrape_configs:
   - job_name: 'kuma-dataplanes'
     # ...
     kuma_sd_configs:
-    - server: http://localhost:5676
+    - server: http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5676
       refresh_interval: 60s # different from prometheus-two
       client_id: "prometheus-one"
 ```
@@ -253,7 +255,7 @@ scrape_configs:
   - job_name: 'kuma-dataplanes'
     # ...
     kuma_sd_configs:
-      - server: http://localhost:5676
+      - server: http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5676
         refresh_interval: 20s # different from prometheus-one
         client_id: "prometheus-two"
 ```
@@ -265,7 +267,7 @@ scrape_configs:
 backends:
   - type: OpenTelemetry
     openTelemetry: 
-      endpoint: http://otel-collector.observability.svc:4317
+      endpoint: otel-collector.observability.svc:4317
 ```
 
 This configuration tells {{site.mesh_product_name}} data plane proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
@@ -291,7 +293,7 @@ When you configure application scraping make sure to specify `application.name` 
 backends:
   - type: OpenTelemetry
     openTelemetry: 
-      endpoint: http://otel-collector.observability.svc:4317
+      endpoint: otel-collector.observability.svc:4317
       refreshInterval: 60s
 ```
 
