@@ -188,7 +188,7 @@ Please upload the certificate and the key to the machine, and then define the fo
 
 We no longer support activeMTLSBackend, if you need to encrypt and authorize the metrics use [Secure metrics with TLS](#secure-metrics-with-tls) with a combination of [one of the authorization methods](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
 
-##### Running multiple prometheus instances
+##### Running multiple prometheus deployments
 
 If you need to run multiple instances of Prometheus and want to target different set of Data Plane Proxies you can do this by using Client ID setting on both `MeshMetric` (`clientId`) and [Prometheus configuration](https://github.com/prometheus/prometheus/pull/13278/files#diff-17f1012e0c2fbd9bcd8dff3c23b18ff4b6676eef3beca6f8a3e72e6a36633334R2233) (`client_id`).
 
