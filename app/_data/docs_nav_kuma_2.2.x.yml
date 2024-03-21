@@ -224,6 +224,8 @@ items:
             url: "/networking/non-mesh-traffic/#incoming"
           - text: Outgoing
             url: "/networking/non-mesh-traffic/#outgoing"
+      - text: Transparent Proxying
+        url: /networking/transparent-proxying/
   - title: Monitor & manage
     group: true
     items:
