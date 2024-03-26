@@ -48,6 +48,7 @@ jobs:
             ${URL} \
             --buffer-size 8192 \
             --exclude 'https://github.com/(/)?kumahq/kuma/pull/.*' \
+            --exclude 'https://github.com/(/)?kumahq/kuma/blob/.*#.*' \
             --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' \
             --exclude ${URL}/docs/1. \
             --exclude 127.0.0.1 \
