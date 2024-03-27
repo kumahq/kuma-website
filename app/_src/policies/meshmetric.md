@@ -188,7 +188,7 @@ Please upload the certificate and the key to the machine, and then define the fo
 
 We no longer support activeMTLSBackend, if you need to encrypt and authorize the metrics use [Secure metrics with TLS](#secure-metrics-with-tls) with a combination of [one of the authorization methods](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
 
-##### Running multiple prometheus instances
+##### Running multiple prometheus deployments
 
 If you need to run multiple instances of Prometheus and want to target different set of Data Plane Proxies you can do this by using Client ID setting on both `MeshMetric` (`clientId`) and [Prometheus configuration](https://github.com/prometheus/prometheus/pull/13278/files#diff-17f1012e0c2fbd9bcd8dff3c23b18ff4b6676eef3beca6f8a3e72e6a36633334R2233) (`client_id`).
 
@@ -208,6 +208,7 @@ spec:
     kind: MeshSubset
     tags:
       prometheus: "one"
+  default:
     backends:
       - type: Prometheus
         prometheus: 
@@ -227,6 +228,7 @@ spec:
     kind: MeshSubset
     tags:
       prometheus: "two"
+  default:
     backends:
       - type: Prometheus
         prometheus: 
@@ -243,7 +245,7 @@ scrape_configs:
   - job_name: 'kuma-dataplanes'
     # ...
     kuma_sd_configs:
-    - server: http://localhost:5676
+    - server: http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5676
       refresh_interval: 60s # different from prometheus-two
       client_id: "prometheus-one"
 ```
@@ -253,7 +255,7 @@ scrape_configs:
   - job_name: 'kuma-dataplanes'
     # ...
     kuma_sd_configs:
-      - server: http://localhost:5676
+      - server: http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5676
         refresh_interval: 20s # different from prometheus-one
         client_id: "prometheus-two"
 ```
@@ -265,7 +267,7 @@ scrape_configs:
 backends:
   - type: OpenTelemetry
     openTelemetry: 
-      endpoint: http://otel-collector.observability.svc:4317
+      endpoint: otel-collector.observability.svc:4317
 ```
 
 This configuration tells {{site.mesh_product_name}} data plane proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
@@ -291,7 +293,7 @@ When you configure application scraping make sure to specify `application.name` 
 backends:
   - type: OpenTelemetry
     openTelemetry: 
-      endpoint: http://otel-collector.observability.svc:4317
+      endpoint: otel-collector.observability.svc:4317
       refreshInterval: 60s
 ```
 
