@@ -20,9 +20,7 @@ GEM
     ffi (1.15.5)
     foreman (0.87.2)
     forwardable-extended (2.6.0)
-    google-protobuf (3.23.3-arm64-darwin)
-    google-protobuf (3.23.3-x86_64-darwin)
-    google-protobuf (3.23.3-x86_64-linux)
+    google-protobuf (3.23.3)
     http_parser.rb (0.8.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -101,12 +99,7 @@ GEM
     zeitwerk (2.6.8)
 
 PLATFORMS
-  arm64-darwin-21
-  arm64-darwin-22
-  arm64-darwin-23
-  x86_64-darwin-21
-  x86_64-darwin-22
-  x86_64-linux
+  ruby
 
 DEPENDENCIES
   byebug
