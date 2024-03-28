@@ -61,6 +61,8 @@ items:
             generate: false
           - text: Systemd
             url: /production/cp-deployment/systemd/
+          - text: Kubernetes
+            url: /production/cp-deployment/kubernetes/
       - text: Create multiple service meshes in a cluster
         url: /production/mesh/
       - title: Data plane configuration
