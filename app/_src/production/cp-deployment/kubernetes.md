@@ -34,6 +34,9 @@ This results in replacing the certificate on each Argo redeployment.
 The solution to this problem is to explicitly set the certificates.
 See ["Data plane proxy to control plane communication"](/docs/{{ page.version }}/production/secure-deployment/certificates/) to learn how to preconfigure {{site.mesh_product_name}} with certificates.
 
+If you use [Argo Rollouts](https://argoproj.github.io/rollouts/) for blue-green deployment [configure the control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_RUNTIME_KUBERNETES_INJECTOR_IGNORED_SERVICE_SELECTOR_LABELS` set to `rollouts-pod-template-hash`.
+It will enable traffic shifting between active and preview Service without traffic interruption.
+
 ## Sidecars
 
 ### CNI
