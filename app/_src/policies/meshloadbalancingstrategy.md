@@ -428,7 +428,7 @@ spec:
 
 ### Prioritize traffic to dataplanes within the same datacenter and fallback cross zone in specific order
 
-Requests to backend will be distributed based on weights, with 99.9% of requests routed to data planes in the same datacenter, 0.001% to data planes in the same region, and the remainder to other local instances.
+Requests to backend will be distributed based on weights, with 99.9% of requests routed to data planes in the same datacenter, 0.099% to data planes in the same region, and the remainder to other local instances.
 
 When no healthy backends are available within the local zone, traffic from data planes in zones `us-1`, `us-2`, and `us-3` will only fall back to zones `us-1`, `us-2`, and `us-3`, while in zones `eu-1`, `eu-2`, and `eu-3` will only fall back to zones `eu-1`, `eu-2`, and `eu-3`. If there are no healthy instances in all zones `eu-[1-3]` or `us-[1-3]`, requests from any instance will then fall back to `us-4`. If there are no healthy instances in `us-4`, the request will fail, as the last rule, by default, has a type of `None`, meaning no fallback is allowed.
 
@@ -448,9 +448,9 @@ spec:
         localityAwareness:
           localZone:
             affinityTags:
-              - key: infra.io/datacenter
+              - key: kubernetes.io/hostname
                 weight: 9000
-              - key: infra.io/region
+              - key: topology.kubernetes.io/zone
                 weight: 9
           crossZone:
             failover:
