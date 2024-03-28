@@ -4,23 +4,23 @@ title: Kubernetes
 
 To install and run {{site.mesh_product_name}} execute the following steps:
 
-* [1. Download {{site.mesh_product_name}}](#download-kumactl)
-* [2. Run {{site.mesh_product_name}}](#run-kuma)
-* [3. Use {{site.mesh_product_name}}](#use-kuma)
+* Download {{site.mesh_product_name}}
+* Run {{site.mesh_product_name}}
+* Use {{site.mesh_product_name}}
 
 Finally, you can follow the [Quickstart](#quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
 
 {% tip %}
-{{site.mesh_product_name}} also provides [Helm charts](/docs/{{ page.version }}/installation/helm) that we can use instead of this distribution.
+{{site.mesh_product_name}} also provides [Helm charts](/docs/{{ page.version }}/installation/helm) that you can use instead of this distribution.
 {% endtip %}
 
-### Download Kumactl
+## Download kumactl
 
 {% include snippets/install_kumactl.md installer_version="preview" %}
 
-### Run {{site.mesh_product_name}}
+## Run {{site.mesh_product_name}}
 
-Finally, we can install and run {{site.mesh_product_name}}:
+Finally, you can install and run {{site.mesh_product_name}}:
 
 ```sh
 kumactl install control-plane | kubectl apply -f -
@@ -36,12 +36,12 @@ kubectl get pod -n {{site.mesh_namespace}}
 ```
 {% endtip %}
 
-### Use {{site.mesh_product_name}}
+## Use {{site.mesh_product_name}}
 
 {% include snippets/use_kuma_k8s.md %}
 
-### Quickstart
+## Quickstart
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on Kubernetes 🚀.
 
-In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/quickstart/kubernetes) deployments.
+In order to start using {{site.mesh_product_name}}, it's time to check out the {% if_version gte:2.6.x %}[Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes/){% endif_version %}.

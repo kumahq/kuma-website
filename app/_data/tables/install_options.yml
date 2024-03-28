@@ -1,0 +1,58 @@
+columns:
+  - name: Kuma
+    key: oss
+  - name: Kong Mesh
+    key: enterprise
+features:
+  - name: "Kubernetes"
+    items:
+      - name: "Kubernetes"
+        url: /docs/VERSION//installation/kubernetes/
+        oss: true
+        enterprise: true
+        icon: /assets/images/icons/platforms/logo-kubernetes.png
+      - name: "Helm"
+        url: /docs/VERSION/installation/helm/
+        oss: true
+        enterprise: true
+        icon: /assets/images/icons/platforms/logo-helm.png
+      - name: "OpenShift"
+        url: /docs/VERSION/install/kubernetes/
+        oss: true
+        enterprise: true
+        support: true
+        icon: /assets/images/icons/platforms/logo-openshift.png
+  - name: "Packages"
+    items:
+      - name: "CentOS"
+        url: /docs/VERSION/installation/centos/
+        oss: true
+        enterprise: true
+        icon: /assets/images/icons/platforms/logo-centos.gif
+      - name: "Debian"
+        url: /docs/VERSION/installation/debian/
+        oss: true
+        enterprise: true
+        icon: /assets/images/icons/platforms/logo-debian.jpg
+      - name: "Ubuntu"
+        url: /docs/VERSION/install/linux/ubuntu/
+        oss: true
+        enterprise: true
+        icon: /assets/images/icons/platforms/logo-ubuntu.png
+      - name: "RedHat"
+        url: /docs/VERSION/install/linux/rhel/
+        oss: true
+        enterprise: true
+        icon: /assets/images/icons/platforms/logo-redhat.png
+      - name: "Amazon Linux 2"
+        url: /docs/VERSION/install/linux/amazon-linux/
+        oss: true
+        enterprise: true
+        icon: /assets/images/icons/platforms/logo-amazon-linux.png
+  - name: "Other"
+    items:
+      - name: "Docker"
+        oss: true
+        enterprise: true
+        url: /docs/VERSION/installation/docker/
+        icon: /assets/images/icons/platforms/logo-docker.png

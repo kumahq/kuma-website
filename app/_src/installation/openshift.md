@@ -4,19 +4,19 @@ title: OpenShift
 
 To install and run {{site.mesh_product_name}} on OpenShift execute the following steps:
 
-- [1. Download {{site.mesh_product_name}}](#1-download-kuma)
-- [2. Run {{site.mesh_product_name}}](#2-run-kuma)
-- [3. Use {{site.mesh_product_name}}](#3-use-kuma)
+- Download {{site.mesh_product_name}}
+- Run {{site.mesh_product_name}}
+- Use {{site.mesh_product_name}}
 
-Finally, you can follow the [Quickstart](#4-quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
+Finally, you can follow the [Quickstart](#quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
 
-### 1. Download {{site.mesh_product_name}}
+## Download {{site.mesh_product_name}}
 
 {% include snippets/install_kumactl.md installer_version="preview" %}
 
-### 2. Run {{site.mesh_product_name}}
+## Run {{site.mesh_product_name}}
 
-We can install and run {{site.mesh_product_name}}:
+You can install and run {{site.mesh_product_name}}:
 
 {% tabs openshift-run useUrlFragment=false %}
 {% tab openshift-run OpenShift 4.x %}
@@ -25,7 +25,7 @@ We can install and run {{site.mesh_product_name}}:
 ./kumactl install control-plane --cni-enabled | oc apply -f -
 ```
 
-Starting from version 4.1 OpenShift utilizes `nftables` instead of `iptables`. So using init container for redirecting traffic to the proxy no longer works. Instead, we use the `--cni-enabled` flag to install the {% if_version lte:2.1.x %}[`kuma-cni`](/docs/{{ page.version }}/networking/cni){% endif_version %}{% if_version gte:2.2.x %}[`kuma-cni`](/docs/{{ page.version }}/production/dp-config/cni/){% endif_version %}.
+Starting from version 4.1 OpenShift utilizes `nftables` instead of `iptables`. So using init container for redirecting traffic to the proxy no longer works. Instead, you can use the `--cni-enabled` flag to install the {% if_version lte:2.1.x %}[`kuma-cni`](/docs/{{ page.version }}/networking/cni){% endif_version %}{% if_version gte:2.2.x %}[`kuma-cni`](/docs/{{ page.version }}/production/dp-config/cni/){% endif_version %}.
 {% endtab %}
 
 {% tab openshift-run OpenShift 3.11 %}
@@ -68,7 +68,7 @@ oc get pod -n {{site.mesh_namespace}}
 
 {% endtip %}
 
-### 3. Use {{site.mesh_product_name}}
+## Use {{site.mesh_product_name}}
 
 {{site.mesh_product_name}} (`kuma-cp`) will be installed in the newly created `{{site.mesh_namespace}}` namespace! Now that {{site.mesh_product_name}} has been installed, you can access the control-plane via either the GUI, `oc`, the HTTP API, or the CLI:
 
@@ -77,7 +77,7 @@ oc get pod -n {{site.mesh_namespace}}
 
 {{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default the GUI listens on the API port and defaults to `:5681/gui`.
 
-To access {{site.mesh_product_name}} we need to first port-forward the API service with:
+To access {{site.mesh_product_name}}, you need to first port-forward the API service:
 
 ```sh
 oc port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
@@ -116,7 +116,7 @@ spec:
 
 {{site.mesh_product_name}} ships with a **read-only** HTTP API that you can use to retrieve {{site.mesh_product_name}} resources.
 
-By default the HTTP API listens on port `5681`. To access {{site.mesh_product_name}} we need to first port-forward the API service with:
+By default the HTTP API listens on port `5681`. To access {{site.mesh_product_name}}, you need to first port-forward the API service:
 
 ```sh
 oc port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
@@ -159,7 +159,7 @@ You will notice that {{site.mesh_product_name}} automatically creates a {% if_ve
 oc adm policy add-scc-to-group nonroot system:serviceaccounts:<app-namespace>
 ```
 
-If namespace is not configured properly, we will see following error on the `Deployment` or `DeploymentConfig`
+If namespace is not configured properly, you will see following error on the `Deployment` or `DeploymentConfig`
 
 ```
 'pods "kuma-demo-backend-v0-cd6b68b54-" is forbidden: unable to validate against any security context constraint: [spec.containers[1].securityContext.securityContext.runAsUser: Invalid value: 5678: must be in the ranges: [1000540000, 1000549999]]'
@@ -167,7 +167,7 @@ If namespace is not configured properly, we will see following error on the `Dep
 
 {% endtip %}
 
-### 4. Quickstart
+## Quickstart
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on OpenShift 🚀.
 
@@ -180,5 +180,5 @@ Before running {{site.mesh_product_name}} Demo in the Quickstart, remember to ru
 oc adm policy add-scc-to-group anyuid system:serviceaccounts:kuma-demo
 ```
 
-In case of {{site.mesh_product_name}} Demo, one of the component requires root access therefore we use `anyuid` instead of `nonroot` permission.
+In case of {{site.mesh_product_name}} Demo, one of the components requires root access, therefore you use `anyuid` instead of `nonroot` permission.
 {% endtip %}
