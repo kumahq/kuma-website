@@ -43,7 +43,7 @@ The `gateway` mode lets you skip exposing inbound listeners so it won't be inter
 {% tab usage Kubernetes %}
 
 Kuma supports most of the ingress controllers. However, the recommended gateway in Kubernetes is [Kong](https://docs.konghq.com/gateway). You can use [Kong ingress controller for Kubernetes](https://docs.konghq.com/kubernetes-ingress-controller/) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime.
-Most ingress controllers require an annotation [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/references/annotations/#ingresskubernetesioservice-upstream) on every Kubernetes `Service` to work with Kuma. Kuma automatically injects the annotation for every `Service` in a namespace in a mesh that has `kuma.io/sidecar-injection: enabled` label.
+Most ingress controllers require an annotation [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/3.1.x/reference/annotations/#ingresskubernetesioservice-upstream) on every Kubernetes `Service` to work with Kuma. Kuma automatically injects the annotation for every `Service` in a namespace in a mesh that has `kuma.io/sidecar-injection: enabled` label.
 
 To use the delegated gateway feature, mark your API Gateway's Pod with the `kuma.io/gateway: enabled` annotation. Control plane automatically generates `Dataplane` objects.
 
@@ -71,11 +71,11 @@ Multi-zone requires exposing a dedicated Kubernetes `Service` object with type `
 #### Example setting up Kong Ingress Controller
 
 Follow instructions to setup an echo service reachable through Kong.
-These instructions are mostly taken from the [Kong docs](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/guides/getting-started/).
+These instructions are mostly taken from the [Kong docs](https://docs.konghq.com/kubernetes-ingress-controller/3.1.x/get-started/).
 
 1. [Install Kuma](/docs/{{ page.version }}/installation/kubernetes) on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
 
-2. Install [Kong using helm](https://docs.konghq.com/kubernetes-ingress-controller/2.1.x/deployment/k4k8s/#helm).
+2. Install [Kong using helm](https://docs.konghq.com/kubernetes-ingress-controller/3.1.x/install/helm/).
 
 3. Start an echo-service:
 
