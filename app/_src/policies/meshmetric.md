@@ -193,11 +193,41 @@ We no longer support activeMTLSBackend, if you need to encrypt and authorize the
 If you need to run multiple instances of Prometheus and want to target different set of Data Plane Proxies you can do this by using Client ID setting on both `MeshMetric` (`clientId`) and [Prometheus configuration](https://github.com/prometheus/prometheus/pull/13278/files#diff-17f1012e0c2fbd9bcd8dff3c23b18ff4b6676eef3beca6f8a3e72e6a36633334R2233) (`client_id`).
 
 {% warning %}
-Support for `clientId` setting is not yet released in Prometheus, it most likely will be released in Prometheus `2.50.0`.
+Support for `clientId` was added in Prometheus version `2.50.0`.
 {% endwarning %}
 
-Example configurations differentiated by `prometheus` tag:
+###### Example Prometheus configuration
 
+Let's assume we have two prometheus deployments `main` and `secondary`. We would like to use each of them to monitor different sets
+of data plane proxies, with different tags. 
+
+We can start with configuring each Prometheus deployments to use [Kuma SD](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
+Prometheus's deployments will be differentiated by `client_id` parameter.
+
+Main Prometheus config:
+```yaml
+scrape_configs:
+  - job_name: 'kuma-dataplanes'
+    # ...
+    kuma_sd_configs:
+    - server: http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5676
+      refresh_interval: 60s # different from prometheus-secondary
+      client_id: "prometheus-main" # Kuma will use this to pick proper data plane proxies
+```
+
+Secondary Prometheus config:
+```yaml
+scrape_configs:
+  - job_name: 'kuma-dataplanes'
+    # ...
+    kuma_sd_configs:
+      - server: http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5676
+        refresh_interval: 20s # different from prometheus-main
+        client_id: "prometheus-secondary"
+```
+
+Now we can configure first `MeshMetric` policy to pick data plane proxies with tag `prometheus: main` for main Prometheus discovery.
+`clientId` in policy should be the same as `client_id` in Prometheus configuration.
 {% policy_yaml first %}
 ```yaml
 type: MeshMetric
@@ -207,17 +237,18 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      prometheus: "one"
+      prometheus: "main"
   default:
     backends:
       - type: Prometheus
         prometheus: 
-          clientId: "prometheus-one" 
+          clientId: "prometheus-main"  
           port: 5670
           path: /metrics
 ```
 {% endpolicy_yaml %}
 
+And policy for secondary Prometheus deployment that will pick dataplane proxies with tag `prometheus: secondary`. 
 {% policy_yaml second %}
 ```yaml
 type: MeshMetric
@@ -227,42 +258,20 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      prometheus: "two"
+      prometheus: "secondary"
   default:
     backends:
       - type: Prometheus
         prometheus: 
-          clientId: "prometheus-two" 
+          clientId: "prometheus-secondary" # this clientId should be the same as client_id in Prometheus
           port: 5670
           path: /metrics
 ```
 {% endpolicy_yaml %}
 
-And the Prometheus configurations:
-
-```yaml
-scrape_configs:
-  - job_name: 'kuma-dataplanes'
-    # ...
-    kuma_sd_configs:
-    - server: http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5676
-      refresh_interval: 60s # different from prometheus-two
-      client_id: "prometheus-one"
-```
-
-```yaml
-scrape_configs:
-  - job_name: 'kuma-dataplanes'
-    # ...
-    kuma_sd_configs:
-      - server: http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5676
-        refresh_interval: 20s # different from prometheus-one
-        client_id: "prometheus-two"
-```
-
+{% if_version lte:2.6.x %}
 #### OpenTelemetry (experimental)
 
-{% if_version lte:2.6.x %}
 ```yaml
 backends:
   - type: OpenTelemetry
@@ -289,6 +298,8 @@ When you configure application scraping make sure to specify `application.name` 
 {% endif_version %}
 
 {% if_version gte:2.7.x %}
+#### OpenTelemetry
+
 ```yaml
 backends:
   - type: OpenTelemetry
