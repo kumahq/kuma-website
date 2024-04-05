@@ -110,7 +110,7 @@ main() {
     fi
 
     log "Fetching latest preview commit.."
-    commit=$(gh run list --repo "${REPO}" --branch "${BRANCH}" --workflow build-test-distribute -e push -s success --json headSha --jq '. | first | .headSha[0:9]')
+    commit=$(gh run list --repo "${REPO}" --branch "${BRANCH}" --workflow build-test-distribute -L 200 --json event,headSha,conclusion --jq '[.[] | select(.conclusion == "success" and .event == "push")] | first | .headSha[0:9]')
     if ! echo "$commit" | grep -qs -E '[a-z0-9]{9,}'; then
       err "Failed to find suitable preview commit (${count} commits checked)."
     fi
