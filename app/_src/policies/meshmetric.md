@@ -65,30 +65,40 @@ You can define configuration refresh interval by using `KUMA_DATAPLANE_RUNTIME_D
 
 ### Sidecar
 
+{% if site.mesh_product_name != "Kuma" %}
+{% if_version lte:2.6.x %}
+{% warning %}
+If you're using Mesh Manager the field `regex` is no longer available.
+You need to use version 2.7.x or above and migrate to `profiles.exclude`.
+{% endwarning %}
+{% endif_version %}
+{% endif %}
+
 This part of the configuration applies to the data plane proxy scraping.
 In case you don't want to retrieve all Envoy's metrics, it's possible to filter them.
+
+{% if_version gte:2.7.x %}
 Below are different methods of filtering.
 The order of the operations is as follows:
 1. Unused metrics
 2. Profiles
 3. Exclude
 4. Include
+{% endif_version %}
+
+{% if_version lte:2.6.x %}
+#### Regex
+
+You are able to specify [`regex`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?filter=regex) which causes the metrics endpoint to return only matching metrics.
+{% endif_version %}
 
 #### Unused metrics
 
 By default, metrics that were not updated won't be published.
 You can set the `includeUnused` flag that returns all metrics from Envoy.
 
+{% if_version gte:2.7.x %}
 #### Profiles
-
-{% if site.mesh_product_name != "Kuma" %}
-{% if_version lte:2.6.x %}
-{% warning %}
-If you're using Mesh Manager the deprecated field `regex` is no longer available.
-You also need to use zone version 2.7.x or above and migrate to `profiles.exclude`.
-{% endwarning %}
-{% endif_version %}
-{% endif %}
 
 Profiles are predefined sets of metrics with manual `include` and `exclude` functionality.
 There are 3 sections:
@@ -101,9 +111,22 @@ Today only 3 profiles are available: `All`, `Basic` and `None`.
 `None` profile removes all metrics
 - `exclude` - after profiles are applied you can manually exclude metrics on top of profile filtering.
 - `include` - after exclude is applied you can manually include metrics.
+{% endif_version %}
 
 #### Examples
 
+{% if_version lte:2.6.x %}
+##### Include unused metrics and filter them by regex
+
+```yaml
+sidecar:
+  regex: http2_act.*
+  includeUnused: true
+```
+
+{% endif_version %}
+
+{% if_version gte:2.7.x %}
 ##### Include unused metrics of only Basic profile with manual exclude and include
 
 ```yaml
@@ -143,6 +166,7 @@ sidecar:
       - type: Regex
         match: "envoy_rbac.*"
 ```
+{% endif_version %}
 
 ### Applications
 
