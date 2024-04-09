@@ -15,7 +15,7 @@ The zone key is purely static and arbitrary. Different zone values for different
 
 ## Prerequisites
 
-- [Redis installed](https://redis.io/docs/getting-started/)
+- [Redis installed](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack)
 - [{{site.mesh_product_name}} installed](/install)
 - [Demo app downloaded from GitHub](https://github.com/kumahq/kuma-counter-demo):
 
