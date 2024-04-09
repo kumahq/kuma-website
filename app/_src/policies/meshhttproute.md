@@ -182,18 +182,18 @@ spec:
         - matches:
             - path:
                 type: PathPrefix
-                value: /api
+                value: /
           default:
             backendRefs:
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
                 tags:
-                  version: "1.0"
+                  version: "v0"
                 weight: 90
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
                 tags:
-                  version: "2.0"
+                  version: "v1"
                 weight: 10
 ```
 {% endif_version %}
@@ -218,18 +218,18 @@ spec:
         - matches:
             - path:
                 type: Prefix
-                value: /api
+                value: /
           default:
             backendRefs:
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
                 tags:
-                  version: "1.0"
+                  version: "v0"
                 weight: 90
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
                 tags:
-                  version: "2.0"
+                  version: "v1"
                 weight: 10
 ```
 {% endif_version %}
@@ -252,18 +252,18 @@ spec:
         - matches:
             - path:
                 type: PathPrefix
-                value: /api
+                value: /
           default:
             backendRefs:
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
                 tags:
-                  version: "1.0"
+                  version: "v0"
                 weight: 90
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
                 tags:
-                  version: "2.0"
+                  version: "v1"
                 weight: 10
 ```
 {% endif_version %}
@@ -284,18 +284,18 @@ spec:
         - matches:
             - path:
                 type: PathPrefix
-                value: /api
+                value: /
           default:
             backendRefs:
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
                 tags:
-                  version: "1.0"
+                  version: "v0"
                 weight: 90
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
                 tags:
-                  version: "2.0"
+                  version: "v1"
                 weight: 10
 ```
 {% endif_version %}
