@@ -65,19 +65,108 @@ You can define configuration refresh interval by using `KUMA_DATAPLANE_RUNTIME_D
 
 ### Sidecar
 
+{% if site.mesh_product_name != "Kuma" %}
+{% if_version lte:2.6.x %}
+{% warning %}
+If you're using Mesh Manager the field `regex` is no longer available.
+You need to use version 2.7.x or above and migrate to `profiles.exclude`.
+{% endwarning %}
+{% endif_version %}
+{% endif %}
+
 This part of the configuration applies to the data plane proxy scraping.
-
 In case you don't want to retrieve all Envoy's metrics, it's possible to filter them.
-You are able to specify [`regex`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?filter=regex) which causes the metrics endpoint to return only matching metrics.
-By default, metrics that were not updated won't be published. You can set flag `includeUnused` that returns all metrics from Envoy.
 
-Example section of the configuration:
+{% if_version gte:2.7.x %}
+Below are different methods of filtering.
+The order of the operations is as follows:
+1. Unused metrics
+2. Profiles
+3. Exclude
+4. Include
+{% endif_version %}
+
+{% if_version lte:2.6.x %}
+#### Regex
+
+You are able to specify [`regex`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?filter=regex) which causes the metrics endpoint to return only matching metrics.
+{% endif_version %}
+
+#### Unused metrics
+
+By default, metrics that were not updated won't be published.
+You can set the `includeUnused` flag that returns all metrics from Envoy.
+
+{% if_version gte:2.7.x %}
+#### Profiles
+
+Profiles are predefined sets of metrics with manual `include` and `exclude` functionality.
+There are 3 sections:
+- `appendProfiles` - allows to combine multiple predefined profiles of metrics.
+Right now you can only define one profile but this might change it the future
+(e.g. there might be feature related profiles like "Fault injection profile" and "Circuit Breaker profile" so you can mix and match the ones that you need based on your features usage).
+Today only 3 profiles are available: `All`, `Basic` and `None`.
+`All` profile contains all metrics produced by Envoy.
+`Basic` profile contains all metrics needed by {{site.mesh_product_name}} dashboards and [golden 4 signals](https://sre.google/sre-book/monitoring-distributed-systems/) metrics.
+`None` profile removes all metrics
+- `exclude` - after profiles are applied you can manually exclude metrics on top of profile filtering.
+- `include` - after exclude is applied you can manually include metrics.
+{% endif_version %}
+
+#### Examples
+
+{% if_version lte:2.6.x %}
+##### Include unused metrics and filter them by regex
 
 ```yaml
 sidecar:
   regex: http2_act.*
   includeUnused: true
 ```
+
+{% endif_version %}
+
+{% if_version gte:2.7.x %}
+##### Include unused metrics of only Basic profile with manual exclude and include
+
+```yaml
+sidecar:
+  includeUnused: true
+  profiles:
+    appendProfiles:
+      - name: Basic
+    exclude:
+      - type: Regex
+        match: "envoy_cluster_lb_.*"
+    include:
+      - type: Exact
+        match: "envoy_cluster_default_total_match_count"
+```
+
+##### Include only manually defined metrics
+
+```yaml
+sidecar:
+  profiles:
+    appendProfiles:
+      - name: None
+    include:
+      - type: Regex
+        match: "envoy_rbac.*"
+```
+
+##### Include all metrics apart from one manually excluded
+
+```yaml
+sidecar:
+  profiles:
+    appendProfiles:
+      - name: All
+    exclude:
+      - type: Regex
+        match: "envoy_rbac.*"
+```
+{% endif_version %}
 
 ### Applications
 
