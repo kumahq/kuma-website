@@ -68,53 +68,52 @@ spec:
   controllerName: gateways.kuma.io/controller
 " | kubectl apply -f -
 ```
-
 {% endtab %}
 {% endtabs %}
-
-```sh
-echo "apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: kuma
-  namespace: kuma-demo
-spec:
-  gatewayClassName: kuma
-  listeners:
-  - name: proxy
-    port: 8080
-    protocol: HTTP
-" | kubectl apply -f -
-```
-
-When a user applies a `Gateway` resource, {{site.mesh_product_name}} automatically creates a `Deployment` of built-in gateways with a corresponding `Service`.
-
-```sh
-kubectl get pods -n kuma-demo
-```
-
-```
-NAME                          READY   STATUS    RESTARTS   AGE
-redis-59c9d56fc-6gcbc         2/2     Running   0          2m8s
-demo-app-5845d6447b-v7npw     2/2     Running   0          2m8s
-kuma-4j6wr-58998b5576-25wl6   1/1     Running   0          30s
-```
-
-```sh
-kubectl get svc -n kuma-demo
-```
-
-```
-NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-redis        ClusterIP      10.43.223.223   <none>        6379/TCP         3m27s
-demo-app     ClusterIP      10.43.216.203   <none>        5000/TCP         3m27s
-kuma-pfh4s   LoadBalancer   10.43.122.93    172.20.0.3    8080:30627/TCP   87s
-```
-
 {% endcapture %}
 
 {{ gateway | indent }}
-The `Gateway` is now accessible using the external address `172.20.0.3:8080`.
+
+   ```sh
+   echo "apiVersion: gateway.networking.k8s.io/v1
+   kind: Gateway
+   metadata:
+     name: kuma
+     namespace: kuma-demo
+   spec:
+     gatewayClassName: kuma
+     listeners:
+     - name: proxy
+       port: 8080
+       protocol: HTTP
+   " | kubectl apply -f -
+   ```
+   
+   When a user applies a `Gateway` resource, {{site.mesh_product_name}} automatically creates a `Deployment` of built-in gateways with a corresponding `Service`.
+   
+   ```sh
+   kubectl get pods -n kuma-demo
+   ```
+   
+   ```
+   NAME                          READY   STATUS    RESTARTS   AGE
+   redis-59c9d56fc-6gcbc         2/2     Running   0          2m8s
+   demo-app-5845d6447b-v7npw     2/2     Running   0          2m8s
+   kuma-4j6wr-58998b5576-25wl6   1/1     Running   0          30s
+   ```
+   
+   ```sh
+   kubectl get svc -n kuma-demo
+   ```
+   
+   ```
+   NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+   redis        ClusterIP      10.43.223.223   <none>        6379/TCP         3m27s
+   demo-app     ClusterIP      10.43.216.203   <none>        5000/TCP         3m27s
+   kuma-pfh4s   LoadBalancer   10.43.122.93    172.20.0.3    8080:30627/TCP   87s
+   ```
+   
+   The `Gateway` is now accessible using the external address `172.20.0.3:8080`.
 
 3. Add an [`HTTPRoute`](https://gateway-api.sigs.k8s.io/api-types/httproute/).
 
