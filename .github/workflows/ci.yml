@@ -48,7 +48,7 @@ jobs:
             ${URL} \
             --buffer-size 8192 \
             --exclude 'https://github.com/(/)?kumahq/kuma/pull/.*' \
-            --exclude 'https://github.com/(/)?kumahq/kuma/blob/.*#.*' \
+            --exclude 'https://github.com/.*/.*/blob/.*#.*' \
             --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' \
             --exclude ${URL}/docs/1. \
             --exclude 127.0.0.1 \
@@ -66,7 +66,7 @@ jobs:
             ${URL}/docs/dev \
             --buffer-size 8192 \
             --exclude 'https://github.com/(/)?kumahq/kuma/pull/.*' \
-            --exclude 'https://github.com/(/)?kumahq/kuma/blob/.*#.*' \
+            --exclude 'https://github.com/.*/.*/blob/.*#.*' \
             --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' \
             --exclude 127.0.0.1 \
             --exclude https://cloudsmith.io/~kong/repos \
@@ -92,7 +92,7 @@ jobs:
           - debian:bookworm
           - fedora:latest
           - redhat/ubi8:8.6
-          - ubuntu:22.04
+          - ubuntu:23.10 # to have newer gh version, update to 24.04 LTS when released
     container:
       image: ${{ matrix.os }}
     steps:
