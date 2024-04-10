@@ -87,7 +87,7 @@ We use `otlp` receiver to accept metrics pushed from dataplane proxies.
 Then we have basic recommended processors to limit memory usage and to 
 process metrics in batch. You can filter, modify and do more with [available processors](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor).
 
-Last part is `exporters` section. You can export metrics to multiple destination like Prometheus, Datadog, Grafana Cloud and more. Full list of available exporters can be found [here]().
+Last part is `exporters` section. You can export metrics to multiple destination like Prometheus, Datadog, Grafana Cloud and more. Full list of available exporters can be found [here](https://opentelemetry.io/ecosystem/registry/?component=exporter).
 We will use Prometheus exporter for now.
 
 With configuration in place we can install OpenTelemetry collector:
@@ -120,7 +120,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshMetric
 metadata:
   name: 'otel-metrics'
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default
 spec:
@@ -152,4 +152,5 @@ Then navigate to browser `http://localhost:3000` and check `Dataplane` dashboard
 
 * Further explore [MeshMetric policy](/docs/{{ page.version }}/policies/meshmetric)
 * Explore [MeshAccessLog](/docs/{{ page.version }}/policies/meshaccesslog/#opentelemetry) and [MeshTrace](/docs/{{ page.version }}/policies/meshtrace/#opentelemetry) policies that work with OpenTelemetry
-* Explore features of [OpenTelemetry collector](https://opentelemetry.io/docs/collector/) for metrics filtering/processing and exporting 
+* Explore features of [OpenTelemetry collector](https://opentelemetry.io/docs/collector/) for metrics filtering/processing and exporting
+* Checkout tutorials on how to push metrics to saas solutions [Grafana cloud](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/collector/opentelemetry-collector/) [Datadog](https://www.datadoghq.com/blog/ingest-opentelemetry-traces-metrics-with-datadog-exporter/)
