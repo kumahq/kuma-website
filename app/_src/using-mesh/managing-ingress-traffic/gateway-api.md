@@ -301,7 +301,7 @@ GAMMA is a Gateway API subproject focused on mesh implementations of Gateway API
 and extending the Gateway API resources to mesh use cases.
 
 {% warning %}
-GAMMA itself as well as GAMMA in Kuma are **experimental**!
+GAMMA in {{site.mesh_product_name}} is **experimental**!
 {% endwarning %}
 
 The key feature of `HTTPRoute` for mesh routing is specifying a Kubernetes
