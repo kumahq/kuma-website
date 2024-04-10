@@ -281,7 +281,7 @@ only kind `MeshService`.
 It is necessary to define a policy for merging configuration,
 because a proxy can be targeted by multiple `targetRef`'s.
 
-We define a total order of policies:
+We define a total order of policy priority:
 
 - MeshServiceSubset > MeshService > MeshSubset > Mesh (the more a `targetRef` is focused the higher priority it has)
 - If levels are equal the lexicographic order of policy names is used
