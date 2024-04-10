@@ -247,7 +247,6 @@ pointing to a `MeshGatewayConfig` that
 sets `crossMesh: true`:
 
 ```yaml
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
