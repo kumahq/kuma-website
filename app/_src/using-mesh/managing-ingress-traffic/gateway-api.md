@@ -60,7 +60,7 @@ If you've installed {{site.mesh_product_name}} some other way, you can create yo
 using the `controllerName: gateways.kuma.io/controller`:
 
 ```sh
-echo "apiVersion: gateway.networking.k8s.io/v1beta1
+echo "apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
   name: kuma
@@ -73,7 +73,7 @@ spec:
 {% endtabs %}
 
 ```sh
-echo "apiVersion: gateway.networking.k8s.io/v1beta1
+echo "apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: kuma
@@ -113,7 +113,7 @@ The `Gateway` is now accessible using the external address `172.20.0.3:8080`.
    `HTTPRoute` resources contain a set of matching criteria for HTTP requests and upstream `Services` to route those requests to.
 
    ```sh
-   echo "apiVersion: gateway.networking.k8s.io/v1beta1
+   echo "apiVersion: gateway.networking.k8s.io/v1
    kind: HTTPRoute
    metadata:
      name: echo
@@ -180,7 +180,7 @@ data:
 ```
 
 ```yaml
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: kuma
@@ -207,7 +207,7 @@ to provide additional, implementation-specific configuration to `Gateways`.
 When using Gateway API with {{site.mesh_product_name}}, you can refer to a `MeshGatewayConfig` resource:
 
 ```yaml
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
   name: kuma
@@ -240,7 +240,7 @@ sets `crossMesh: true`:
 
 ```yaml
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
   name: kuma-cross-mesh
@@ -262,13 +262,17 @@ spec:
 and then reference it in your `Gateway`:
 
 ```yaml
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: kuma
   namespace: default
 spec:
   gatewayClassName: kuma-cross-mesh
+  listeners:
+    - name: proxy
+      port: 8080
+      protocol: HTTP
 ```
 
 ### Multi-zone
@@ -297,7 +301,7 @@ All requests to this `Service` are then filtered and routed as specified in the
 `HTTPRoute`.
 
 ```yaml
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: canary-demo-app
