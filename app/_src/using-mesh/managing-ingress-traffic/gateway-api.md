@@ -17,7 +17,7 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
 
 1. Install the Gateway API CRDs.
 
-   The Gateway API CRDs aren't available in Kubernetes by default yet. You must first [install the _experimental release_ that includes those CRDs as well as the admission webhook](https://gateway-api.sigs.k8s.io/guides/#install-experimental-channel).
+   Kubernetes doesn't include Gateway API functionality by default. To use it, you'll need to install the CRDs first. Instructions: [Installing Gateway API Standard Channel](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
 
 2. Enable Gateway API support.
 
