@@ -348,7 +348,7 @@ the parent `Service` name and namespace must be no more than 249 characters.
 ## How it works
 
 {{site.mesh_product_name}} includes controllers that reconcile Gateway API CRDs and convert them into the corresponding {{site.mesh_product_name}} CRDs.
-This is why in the GUI, {{site.mesh_product_name}} `MeshGateways`/`MeshGatewayRoutes`/`MeshHTTPRoutes`/`MeshTCPRoutes` are visible and not Kubernetes Gateway API resources.
+This is why in the GUI, {{site.mesh_product_name}} `MeshGateways`/{% if_version lte:2.6.x inline:true %}`MeshGatewayRoutes`/{% endif_version %}`MeshHTTPRoutes`/`MeshTCPRoutes` are visible and not Kubernetes Gateway API resources.
 
 Kubernetes Gateway API resources serve as the source of truth for {{site.mesh_product_name}} gateways and routes.
 Any edits to the corresponding {{site.mesh_product_name}} resources are overwritten.
