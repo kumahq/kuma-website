@@ -135,6 +135,8 @@ items:
             url: /production/upgrades-tuning/upgrades/
           - text: Performance fine-tuning
             url: /production/upgrades-tuning/fine-tuning/
+          - text: Version specific upgrade notes
+            url: /production/upgrades-tuning/upgrade-notes/
       - text: Init containers
         url: /production/init-containers/
       - text: Control Plane Configuration
@@ -447,6 +449,8 @@ items:
         url: /guides/gateway-builtin/
       - text: Add Kong as a delegated Gateway
         url: /guides/gateway-delegated/
+      - text: Collect Metrics with OpenTelemetry
+        url: /guides/otel-metrics/
   - title: Reference
     group: true
     items:
