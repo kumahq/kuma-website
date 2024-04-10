@@ -11,9 +11,12 @@ for configuring {% if_version gte:2.6.x inline:true %}[built-in gateway](/docs/{
 
 {% warning %}
 {{ site.mesh_product_name }}'s [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) implementation is beta.
-
+{% endwarning %}
+{% if_version lte:2.6.x %}
+{% warning %}
 Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners).
 {% endwarning %}
+{% endif_version %}
 
 1. Install the Gateway API CRDs.
 
