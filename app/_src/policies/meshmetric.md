@@ -65,19 +65,108 @@ You can define configuration refresh interval by using `KUMA_DATAPLANE_RUNTIME_D
 
 ### Sidecar
 
+{% if site.mesh_product_name != "Kuma" %}
+{% if_version lte:2.6.x %}
+{% warning %}
+If you're using Mesh Manager the field `regex` is no longer available.
+You need to use version 2.7.x or above and migrate to `profiles.exclude`.
+{% endwarning %}
+{% endif_version %}
+{% endif %}
+
 This part of the configuration applies to the data plane proxy scraping.
-
 In case you don't want to retrieve all Envoy's metrics, it's possible to filter them.
-You are able to specify [`regex`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?filter=regex) which causes the metrics endpoint to return only matching metrics.
-By default, metrics that were not updated won't be published. You can set flag `includeUnused` that returns all metrics from Envoy.
 
-Example section of the configuration:
+{% if_version gte:2.7.x %}
+Below are different methods of filtering.
+The order of the operations is as follows:
+1. Unused metrics
+2. Profiles
+3. Exclude
+4. Include
+{% endif_version %}
+
+{% if_version lte:2.6.x %}
+#### Regex
+
+You are able to specify [`regex`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?filter=regex) which causes the metrics endpoint to return only matching metrics.
+{% endif_version %}
+
+#### Unused metrics
+
+By default, metrics that were not updated won't be published.
+You can set the `includeUnused` flag that returns all metrics from Envoy.
+
+{% if_version gte:2.7.x %}
+#### Profiles
+
+Profiles are predefined sets of metrics with manual `include` and `exclude` functionality.
+There are 3 sections:
+- `appendProfiles` - allows to combine multiple predefined profiles of metrics.
+Right now you can only define one profile but this might change it the future
+(e.g. there might be feature related profiles like "Fault injection profile" and "Circuit Breaker profile" so you can mix and match the ones that you need based on your features usage).
+Today only 3 profiles are available: `All`, `Basic` and `None`.
+`All` profile contains all metrics produced by Envoy.
+`Basic` profile contains all metrics needed by {{site.mesh_product_name}} dashboards and [golden 4 signals](https://sre.google/sre-book/monitoring-distributed-systems/) metrics.
+`None` profile removes all metrics
+- `exclude` - after profiles are applied you can manually exclude metrics on top of profile filtering.
+- `include` - after exclude is applied you can manually include metrics.
+{% endif_version %}
+
+#### Examples
+
+{% if_version lte:2.6.x %}
+##### Include unused metrics and filter them by regex
 
 ```yaml
 sidecar:
   regex: http2_act.*
   includeUnused: true
 ```
+
+{% endif_version %}
+
+{% if_version gte:2.7.x %}
+##### Include unused metrics of only Basic profile with manual exclude and include
+
+```yaml
+sidecar:
+  includeUnused: true
+  profiles:
+    appendProfiles:
+      - name: Basic
+    exclude:
+      - type: Regex
+        match: "envoy_cluster_lb_.*"
+    include:
+      - type: Exact
+        match: "envoy_cluster_default_total_match_count"
+```
+
+##### Include only manually defined metrics
+
+```yaml
+sidecar:
+  profiles:
+    appendProfiles:
+      - name: None
+    include:
+      - type: Regex
+        match: "envoy_rbac.*"
+```
+
+##### Include all metrics apart from one manually excluded
+
+```yaml
+sidecar:
+  profiles:
+    appendProfiles:
+      - name: All
+    exclude:
+      - type: Regex
+        match: "envoy_rbac.*"
+```
+{% endif_version %}
 
 ### Applications
 
@@ -188,16 +277,46 @@ Please upload the certificate and the key to the machine, and then define the fo
 
 We no longer support activeMTLSBackend, if you need to encrypt and authorize the metrics use [Secure metrics with TLS](#secure-metrics-with-tls) with a combination of [one of the authorization methods](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
 
-##### Running multiple prometheus instances
+##### Running multiple prometheus deployments
 
 If you need to run multiple instances of Prometheus and want to target different set of Data Plane Proxies you can do this by using Client ID setting on both `MeshMetric` (`clientId`) and [Prometheus configuration](https://github.com/prometheus/prometheus/pull/13278/files#diff-17f1012e0c2fbd9bcd8dff3c23b18ff4b6676eef3beca6f8a3e72e6a36633334R2233) (`client_id`).
 
 {% warning %}
-Support for `clientId` setting is not yet released in Prometheus, it most likely will be released in Prometheus `2.50.0`.
+Support for `clientId` was added in Prometheus version `2.50.0`.
 {% endwarning %}
 
-Example configurations differentiated by `prometheus` tag:
+###### Example Prometheus configuration
 
+Let's assume we have two prometheus deployments `main` and `secondary`. We would like to use each of them to monitor different sets
+of data plane proxies, with different tags. 
+
+We can start with configuring each Prometheus deployments to use [Kuma SD](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
+Prometheus's deployments will be differentiated by `client_id` parameter.
+
+Main Prometheus config:
+```yaml
+scrape_configs:
+  - job_name: 'kuma-dataplanes'
+    # ...
+    kuma_sd_configs:
+    - server: http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5676
+      refresh_interval: 60s # different from prometheus-secondary
+      client_id: "prometheus-main" # Kuma will use this to pick proper data plane proxies
+```
+
+Secondary Prometheus config:
+```yaml
+scrape_configs:
+  - job_name: 'kuma-dataplanes'
+    # ...
+    kuma_sd_configs:
+      - server: http://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5676
+        refresh_interval: 20s # different from prometheus-main
+        client_id: "prometheus-secondary"
+```
+
+Now we can configure first `MeshMetric` policy to pick data plane proxies with tag `prometheus: main` for main Prometheus discovery.
+`clientId` in policy should be the same as `client_id` in Prometheus configuration.
 {% policy_yaml first %}
 ```yaml
 type: MeshMetric
@@ -207,16 +326,18 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      prometheus: "one"
+      prometheus: "main"
+  default:
     backends:
       - type: Prometheus
         prometheus: 
-          clientId: "prometheus-one" 
+          clientId: "prometheus-main"  
           port: 5670
           path: /metrics
 ```
 {% endpolicy_yaml %}
 
+And policy for secondary Prometheus deployment that will pick dataplane proxies with tag `prometheus: secondary`. 
 {% policy_yaml second %}
 ```yaml
 type: MeshMetric
@@ -226,46 +347,25 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      prometheus: "two"
+      prometheus: "secondary"
+  default:
     backends:
       - type: Prometheus
         prometheus: 
-          clientId: "prometheus-two" 
+          clientId: "prometheus-secondary" # this clientId should be the same as client_id in Prometheus
           port: 5670
           path: /metrics
 ```
 {% endpolicy_yaml %}
 
-And the Prometheus configurations:
-
-```yaml
-scrape_configs:
-  - job_name: 'kuma-dataplanes'
-    # ...
-    kuma_sd_configs:
-    - server: http://localhost:5676
-      refresh_interval: 60s # different from prometheus-two
-      client_id: "prometheus-one"
-```
-
-```yaml
-scrape_configs:
-  - job_name: 'kuma-dataplanes'
-    # ...
-    kuma_sd_configs:
-      - server: http://localhost:5676
-        refresh_interval: 20s # different from prometheus-one
-        client_id: "prometheus-two"
-```
-
+{% if_version lte:2.6.x %}
 #### OpenTelemetry (experimental)
 
-{% if_version lte:2.6.x %}
 ```yaml
 backends:
   - type: OpenTelemetry
     openTelemetry: 
-      endpoint: http://otel-collector.observability.svc:4317
+      endpoint: otel-collector.observability.svc:4317
 ```
 
 This configuration tells {{site.mesh_product_name}} data plane proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
@@ -287,11 +387,13 @@ When you configure application scraping make sure to specify `application.name` 
 {% endif_version %}
 
 {% if_version gte:2.7.x %}
+#### OpenTelemetry
+
 ```yaml
 backends:
   - type: OpenTelemetry
     openTelemetry: 
-      endpoint: http://otel-collector.observability.svc:4317
+      endpoint: otel-collector.observability.svc:4317
       refreshInterval: 60s
 ```
 

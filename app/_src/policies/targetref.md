@@ -357,7 +357,7 @@ spec:
 
 All traffic from any proxy (top level `targetRef`) going to the service "my-service" (to `targetRef`) will have this policy applied with value `key=value`.
 
-This is useful when a service owner wants to suggest its clients as set of configuration.
+This is useful when a service owner wants to suggest a set of configurations to its clients.
 
 #### Configuring all proxies of a team
 
