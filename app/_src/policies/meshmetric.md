@@ -210,16 +210,6 @@ spec:
       - type: Prometheus
 ```
 {% endpolicy_yaml %}
-
-```yaml
-sidecar:
-  profiles:
-    appendProfiles:
-      - name: All
-    exclude:
-      - type: Regex
-        match: "envoy_rbac.*"
-```
 {% endif_version %}
 
 ### Applications
