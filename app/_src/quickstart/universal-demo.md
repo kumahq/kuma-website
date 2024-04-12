@@ -29,9 +29,9 @@ demo-app --> redis
 {% tab install Docker %}
 Install a {{site.mesh_product_name}} control plane using the Docker images:
 
-* **kuma-cp**: at `docker.io/kumahq/kuma-cp:{{ page.latest_version }}`
-* **kuma-dp**: at `docker.io/kumahq/kuma-dp:{{ page.latest_version }}`
-* **kumactl**: at `docker.io/kumahq/kumactl:{{ page.latest_version }}`
+* **kuma-cp**: at `docker.io/{{ site. mesh_docker_org }}/kuma-cp:{{ page.latest_version }}`
+* **kuma-dp**: at `docker.io/{{ site. mesh_docker_org }}/kuma-dp:{{ page.latest_version }}`
+* **kumactl**: at `docker.io/{{ site. mesh_docker_org }}/kumactl:{{ page.latest_version }}`
 
 You can freely `docker pull` these images to start using {{site.mesh_product_name}}, as we will demonstrate in the following steps.
 {% endtab %}
@@ -40,9 +40,9 @@ Do one of the following to download {{site.mesh_product_name}}:
 
 * Run the following script to automatically detect the operating system (Amazon Linux, CentOS, RedHat, Debian, Ubuntu, and macOS) and download {{site.mesh_product_name}}:
     <div class="language-sh">
-    <pre class="no-line-numbers"><code>curl -L https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -</code></pre>
+    <pre class="no-line-numbers"><code>curl -L {{site.mesh_download_url}} | VERSION={{ page.latest_version }} sh -</code></pre>
     </div>
-* <a href="{{ site.links.direct }}/kuma-legacy/raw/names/kuma-{{ page.os }}-{{ page.arch }}/versions/{{ page.latest_version }}/kuma-{{ page.latest_version }}-{{ page.os }}-{{ page.arch }}.tar.gz">Download</a> the distribution manually. Then, extract the archive with: `tar xvzf kuma-{{ page.latest_version }}`.
+* <a href="https://packages.konghq.com/public/{{site.mesh_product_name_path}}-binaries-release/raw/names/{{site.mesh_product_name_path}}-{{ page.os }}-{{ page.arch }}/versions/{{ page.latest_version }}/{{site.mesh_product_name_path}}-{{ page.latest_version }}-{{ page.os }}-{{ page.arch }}.tar.gz">Download</a> the distribution manually. Then, extract the archive with: `tar xvzf {{site.mesh_product_name_path}}-{{ page.latest_version }}-{{ page.os }}-{{ page.arch }}.tar.gz`.
 {% endtab %}
 {% endtabs %}
 
@@ -147,17 +147,18 @@ You can try to make requests to the demo application at [`127.0.0.1:5000/`](http
 Now, let's add back the default traffic permission:
 ```sh
 cat <<EOF | kumactl apply -f -
-type: TrafficPermission
-name: allow-all-default
+type: MeshTrafficPermission
+name: allow-all
 mesh: default
-sources:
-  - match:
-      kuma.io/service: '*'
-destinations:
-  - match:
-      kuma.io/service: '*'
+spec:
+  targetRef:
+    kind: Mesh
+  from:
+  - targetRef:
+      kind: Mesh
+    default:
+      action: Allow
 EOF
-```
 
 By doing so every request, we now make sure our demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) is not only working again, but it's automatically encrypted and secure.
 
