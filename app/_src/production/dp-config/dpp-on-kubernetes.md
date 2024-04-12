@@ -194,8 +194,11 @@ In effect, the following lifecycle subsections are irrelevant when using this fe
 When enabled, the ordering of the sidecar startup and shutdown is enforced by Kubernetes.
 Draining incoming connections gracefully is handled via a `preStop` hook
 on the `kuma-sidecar` container.
+
 However, remember that if the `terminationGracePeriodSeconds` has elapsed, ordering
-is no longer guaranteed.
+and thus correct behavior of the sidecar is no longer guaranteed.
+The grace period should be set long enough that your workload finishes shutdown
+before it elapses.
 
 As always, your application should itself initiate graceful shutdown
 when it receives SIGTERM. In particular, remember that Kubernetes works largely
