@@ -118,44 +118,98 @@ Today only 3 profiles are available: `All`, `Basic` and `None`.
 {% if_version lte:2.6.x %}
 ##### Include unused metrics and filter them by regex
 
+{% policy_yaml include_unused_and_regex %}
 ```yaml
-sidecar:
-  regex: http2_act.*
-  includeUnused: true
+type: MeshMetric
+mesh: default
+name: metrics-default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    sidecar:
+      regex: http2_act.*
+      includeUnused: true
+    backends:
+      - type: Prometheus
 ```
+{% endpolicy_yaml %}
 
 {% endif_version %}
 
 {% if_version gte:2.7.x %}
 ##### Include unused metrics of only Basic profile with manual exclude and include
 
+{% policy_yaml include_unused_and_exclude %}
 ```yaml
-sidecar:
-  includeUnused: true
-  profiles:
-    appendProfiles:
-      - name: Basic
-    exclude:
-      - type: Regex
-        match: "envoy_cluster_lb_.*"
-    include:
-      - type: Exact
-        match: "envoy_cluster_default_total_match_count"
+type: MeshMetric
+mesh: default
+name: metrics-default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    sidecar:
+      includeUnused: true
+      profiles:
+        appendProfiles:
+          - name: Basic
+        exclude:
+          - type: Regex
+            match: "envoy_cluster_external_upstream_rq_.*"
+        include:
+          - type: Exact
+            match: "envoy_cluster_default_total_match_count"
+    backends:
+      - type: Prometheus
 ```
+{% endpolicy_yaml %}
 
 ##### Include only manually defined metrics
 
+{% policy_yaml include_only_manually_defined %}
 ```yaml
-sidecar:
-  profiles:
-    appendProfiles:
-      - name: None
-    include:
-      - type: Regex
-        match: "envoy_rbac.*"
+type: MeshMetric
+mesh: default
+name: metrics-default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    sidecar:
+      profiles:
+        appendProfiles:
+          - name: None
+        include:
+          - type: Regex
+            match: "envoy_cluster_external_upstream_rq_.*"
+    backends:
+      - type: Prometheus
 ```
+{% endpolicy_yaml %}
 
 ##### Include all metrics apart from one manually excluded
+
+{% policy_yaml exclude_only_manually_defined %}
+```yaml
+type: MeshMetric
+mesh: default
+name: metrics-default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    sidecar:
+      profiles:
+        appendProfiles:
+          - name: None
+        include:
+          - type: Regex
+            match: "envoy_cluster_external_upstream_rq_.*"
+    backends:
+      - type: Prometheus
+```
+{% endpolicy_yaml %}
 
 ```yaml
 sidecar:
