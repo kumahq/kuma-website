@@ -21,6 +21,10 @@ demo-app --> redis
 ## Prerequisites
 
 * [Redis installed](https://redis.io/docs/getting-started/)
+* Demo app downloaded from GitHub:
+  ```sh
+  git clone https://github.com/kumahq/kuma-counter-demo.git
+  ```
 * Optional: To explore traffic metrics with the demo app, you also need to [set up Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/). See the [traffic metrics policy documentation](/docs/{{ page.version }}/policies/traffic-metrics).
 
 ## Install {{site.mesh_product_name}}
@@ -48,12 +52,18 @@ Do one of the following to download {{site.mesh_product_name}}:
 
 ## Deploy the demo application
 
-1. Deploy the demo app:
-    ```sh
-    kumactl apply https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.yaml
-    ```
+1. Run `redis` as a daemon on port 26379 and set a default zone name:
+  ```sh
+  redis-server --port 26379 --daemonize yes
+  redis-cli -p 26379 set zone local
+  ```
 
-1. Port forward?
+1. Install and start `demo-app` on the default port 5000:
+  ```sh
+  npm install --prefix=app/
+  npm start --prefix=app/
+  ```
+
 1. In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter.
 
 The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace:
@@ -122,15 +132,13 @@ If you enable [mTLS](/docs/{{ page.version }}/policies/mutual-tls/) without a `M
 To create a `MeshTrafficPermission` policy with a builtin CA backend, do the following:
 
 ```sh
-cat <<EOF | kumactl apply -f -
-type: Mesh
-name: default
-mtls:
-  enabledBackend: ca-1
-  backends:
-  - name: ca-1
-    type: builtin
-EOF
+echo 'type: Mesh
+	name: default
+	mtls:
+	  enabledBackend: ca-1
+	  backends:
+	  - name: ca-1
+	    type: builtin' | kumactl apply -f -
 ```
 
 Once Mutual TLS has been enabled, {{site.mesh_product_name}} will **not allow** traffic to flow freely across our services unless we explicitly have a [Traffic Permission](/docs/{{ page.version }}/policies/traffic-permissions/) policy that describes what services can be consumed by other services.
@@ -146,8 +154,7 @@ You can try to make requests to the demo application at [`127.0.0.1:5000/`](http
 
 Now, let's add back the default traffic permission:
 ```sh
-cat <<EOF | kumactl apply -f -
-type: MeshTrafficPermission
+echo 'type: MeshTrafficPermission
 name: allow-all
 mesh: default
 spec:
@@ -157,8 +164,8 @@ spec:
   - targetRef:
       kind: Mesh
     default:
-      action: Allow
-EOF
+      action: Allow' | kumactl apply -f -
+```
 
 By doing so every request, we now make sure our demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) is not only working again, but it's automatically encrypted and secure.
 
