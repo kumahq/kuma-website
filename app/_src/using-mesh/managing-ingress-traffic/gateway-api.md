@@ -9,14 +9,13 @@ for configuring {% if_version gte:2.6.x inline:true %}[built-in gateway](/docs/{
 
 ## Installation
 
+{% if_version lte:2.6.x %}
 {% warning %}
 {{ site.mesh_product_name }}'s [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) implementation is beta.
 {% endwarning %}
-{% if_version lte:2.6.x %}
 {% warning %}
 Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners).
 {% endwarning %}
-{% endif_version %}
 
 1. Install the Gateway API CRDs.
 
@@ -26,6 +25,10 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
 
    - With `kumactl`, use the `--experimental-gatewayapi` flag.
    - With Helm, use the `{{site.set_flag_values_prefix}}experimental.gatewayAPI=true` value.
+{% endif_version %}
+{% if_version gte:2.7.x %}
+Kubernetes doesn't include Gateway API functionality by default. To use it, you'll need to install the CRDs first. Instructions: [Installing Gateway API Standard Channel](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
+{% endif_version %}
 
 {% if_version lte:2.2.x %}
 ## Usage
@@ -300,9 +303,11 @@ Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product
 GAMMA is a Gateway API subproject focused on mesh implementations of Gateway API
 and extending the Gateway API resources to mesh use cases.
 
+{% if_version lte:2.6.x %}
 {% warning %}
 GAMMA in {{site.mesh_product_name}} is **experimental**!
 {% endwarning %}
+{% endif_version %}
 
 The key feature of `HTTPRoute` for mesh routing is specifying a Kubernetes
 `Service` as the `parentRef`, as opposed to a `Gateway`.
