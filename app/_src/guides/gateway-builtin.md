@@ -202,8 +202,9 @@ spec:
     name: demo-app_kuma-demo_svc_5000
   from:
     - targetRef:
-        kind: MeshService
-        name: edge-gateway_kuma-demo_svc 
+        kind: MeshSubset
+        tags: 
+          kuma.io/service: edge-gateway_kuma-demo_svc 
       default:
         action: Allow
 " | kubectl apply -f -
