@@ -28,6 +28,7 @@ The core maintainer of Kuma is **Kong**, the maker of the popular open-source Ko
 {% if_version gte:2.2.x %}
 [Read about service mesh](/docs/{{ page.version }}/introduction/about-service-meshes)
 
+
 [Read about Kuma](/docs/{{ page.version }}/introduction/overview-of-kuma)
 
 [Install Kuma](/install/latest/)
