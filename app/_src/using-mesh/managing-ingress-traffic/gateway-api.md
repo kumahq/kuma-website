@@ -284,10 +284,34 @@ spec:
       protocol: HTTP
 ```
 
-### Multi-zone
+### Multi-zone Deployments
 
+{% if_version lte:2.6.x %}
 Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product_name}}'s [`MeshGateways`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners)/[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute)/
 [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) instead.
+{% endif_version %}
+{% if_version gte:2.7.x %}
+Gateway API supports multi-zone deployments with some limitations.
+
+#### Important Considerations:
+
+- Gateway API resources like `Gateway`, `ReferenceGrant`, and `HTTPRoute` must be created in non-global zones. They are specific to the zone they reside in.
+- Only services deployed within the same kubernetes cluster as the `HTTPRoute` can be referenced as the `backendRef`.
+
+{% capture backendref-limitation %}
+{% tip %}
+This is temporary limitation, which will be lifted when [work on allowing targeting {{site.mesh_product_name}}'s `MeshService`s in `backendRef`](https://github.com/kumahq/kuma/issues/9894) will be completed.
+{% endtip %}
+{% endcapture %}
+{{ backendref-limitation | indent }}
+
+   **Scenario:**
+   
+   Imagine you have two zones (`zone-1` in one kubernetes cluster and `zone-2` separate one) with a service named `backend` deployed in each zone and service `db` deployed only in `zone-1`. Here's what happens:
+   
+   - If you create an `HTTPRoute` with a `backendRef` targeting the backend service in `zone-1`, it will only route traffic to the `backend` service within `zone-1`.
+   - Similarly, if you create an `HTTPRoute` in zone-2 with a `backendRef` pointing to the `db` service, it will result in `HTTPRoute` with a `ResolvedRefs` status condition of `BackendNotFound` because service `db` is not present in `zone-1`.
+{% endif_version %}
 
 {% if_version gte:2.3.x %}
 
