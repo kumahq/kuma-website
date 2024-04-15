@@ -85,3 +85,87 @@ Validation of the origin label can be disabled by [configuring](/docs/{{ page.ve
 {% if_version gte:1.3.x %}
 
 {% endif_version %}
+
+{% if_version gte:2.7.x %}
+
+## Applying policies in shadow mode
+
+### Overview
+
+The new shadow mode functionality allows users to mark policies with a specific label to simulate configuration changes
+without affecting the live environment. 
+It enables the observation of potential impact on Envoy proxy configurations, providing a risk-free method to test, 
+validate, and fine-tune settings before actual deployment. 
+Ideal for learning, debugging, and migrating, shadow mode ensures configurations are error-free, 
+improving the overall system reliability without disrupting ongoing operations.
+
+### Prerequisites
+
+* {{site.mesh_product_name}} 2.7 or newer
+* [jq](https://jqlang.github.io/jq/) and [jd](https://github.com/josephburnett/jd) are optional
+
+### How to use shadow mode 
+
+1. Before applying the policy, add a `kuma.io/effect: shadow` label.
+
+2. Check the proxy config with shadow policies taken into account through the {{site.mesh_product_name}} API. By using HTTP API:
+    ```shell
+    curl http://localhost:5681/meshes/${mesh}/dataplane/${dataplane}/_config?shadow=true
+    ```
+    or by using `kumactl`:
+    ```shell
+    kumactl inspect dataplane ${name} --type=config --shadow
+    ```
+
+3. Check the diff in [JSONPatch](https://jsonpatch.com/) format through the {{site.mesh_product_name}} API. By using HTTP API:
+    ```shell
+    curl http://localhost:5681/meshes/${mesh}/dataplane/${dataplane}/_config?shadow=true&include=diff
+    ```
+   or by using `kumactl`:
+    ```shell
+    kumactl inspect dataplane ${name} --type=config --shadow --include=diff
+    ```
+
+### Limitations and Considerations
+
+Currently, the {{site.mesh_product_name}} API mentioned above works only on Zone CP. 
+Attempts to use it on Global CP lead to `405 Method Not Allowed`. 
+This might change in the future.
+
+### Examples 
+
+Apply policy with `kuma.io/effect: shadow` label:
+
+{% policy_yaml example2 %}
+```yaml
+type: MeshTimeout
+name: frontend-timeouts
+mesh: default
+labels:
+  kuma.io/effect: shadow
+spec:
+   targetRef:
+     kind: MeshService
+     name: frontend
+   to:
+   - targetRef:
+       kind: MeshService
+       name: backend
+     default:
+       idleTimeout: 23s
+```
+{% endpolicy_yaml %}
+
+Check the diff using `kumactl`:
+
+```shell
+$ kumactl inspect dataplane frontend-dpp --type=config --include=diff --shadow | jq '.diff' | jd -t patch2jd
+@ ["type.googleapis.com/envoy.config.cluster.v3.Cluster","backend_kuma-demo_svc_3001","typedExtensionProtocolOptions","envoy.extensions.upstreams.http.v3.HttpProtocolOptions","commonHttpProtocolOptions","idleTimeout"]
+- "3600s"
+@ ["type.googleapis.com/envoy.config.cluster.v3.Cluster","backend_kuma-demo_svc_3001","typedExtensionProtocolOptions","envoy.extensions.upstreams.http.v3.HttpProtocolOptions","commonHttpProtocolOptions","idleTimeout"]
++ "23s"
+```
+
+The output not only identifies the exact location in Envoy where the change will occur, but also shows the current timeout value that we're planning to replace.
+
+{% endif_version %}
