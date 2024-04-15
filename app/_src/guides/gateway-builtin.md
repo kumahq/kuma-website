@@ -45,8 +45,6 @@ metadata:
 spec:
   replicas: 1
   serviceType: LoadBalancer
-  tags:
-    kuma.io/service: edge-gateway
 " | kubectl apply -f -
 ```
 
@@ -71,7 +69,7 @@ metadata:
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway_kuma-demo_svc
   conf:
     listeners:
       - port: 8080
@@ -206,7 +204,7 @@ spec:
     - targetRef:
         kind: MeshSubset
         tags: 
-          kuma.io/service: edge-gateway 
+          kuma.io/service: edge-gateway_kuma-demo_svc 
       default:
         action: Allow
 " | kubectl apply -f -
@@ -279,7 +277,7 @@ metadata:
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway_kuma-demo_svc
   conf:
     listeners:
       - port: 8080
