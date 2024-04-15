@@ -99,10 +99,9 @@ validate, and fine-tune settings before actual deployment.
 Ideal for learning, debugging, and migrating, shadow mode ensures configurations are error-free, 
 improving the overall system reliability without disrupting ongoing operations.
 
-### Prerequisites
+### Recommended setup
 
-* {{site.mesh_product_name}} 2.7 or newer
-* [jq](https://jqlang.github.io/jq/) and [jd](https://github.com/josephburnett/jd) are optional
+It's not necessary but CLI tools like [jq](https://jqlang.github.io/jq/) and [jd](https://github.com/josephburnett/jd) can greatly improve the UX.
 
 ### How to use shadow mode 
 
