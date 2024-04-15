@@ -175,6 +175,57 @@ control capabilities for the sidecar.
 
 ## Lifecycle
 
+{% if_version gte:2.7.x %}
+The lifecycle management has been significantly improved
+with the `SidecarContainers` feature introduced in Kubernetes v1.29.
+
+### Kubernetes sidecar containers
+
+In order to enable the use of this feature with Kuma you should enable the
+`experimental.sidecarContainers`/`KUMA_EXPERIMENTAL_SIDECAR_CONTAINERS` option.
+
+This feature supports adding the injected Kuma container to
+`initContainers` with `restartPolicy: Always`, which marks it as a sidecar
+container. Refer to the
+[Kubernetes docs](https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/)
+to learn more about how they work.
+
+In effect, the following lifecycle subsections are irrelevant when using this feature.
+When enabled, the ordering of the sidecar startup and shutdown is enforced by Kubernetes.
+Draining incoming connections gracefully is handled via a `preStop` hook
+on the `kuma-sidecar` container.
+
+However, remember that if the `terminationGracePeriodSeconds` has elapsed, ordering
+and thus correct behavior of the sidecar is no longer guaranteed.
+The grace period should be set long enough that your workload finishes shutdown
+before it elapses.
+
+As always, your application should itself initiate graceful shutdown
+when it receives SIGTERM. In particular, remember that Kubernetes works largely
+asynchronously. So if your application exits "too quickly" it's possible that
+requests are still routed to the `Pod` and they fail. There's [an article at
+learnk8s.io](https://learnk8s.io/graceful-shutdown#graceful-shutdown)
+with an overview of the problem and potential solutions.
+
+It ultimately comes down to "just wait a little bit" when your application
+receives SIGTERM. This can either be done in the application itself or you can
+add a `preStop` command to your container:
+
+```yaml
+kind: Deployment
+# ...
+spec:
+  template:
+    spec:
+      containers:
+      - name: app-container
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sleep", "15"]
+```
+{% endif_version %}
+
 ### Joining the mesh
 
 On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For each `Pod` with sidecar-injection label, a new
@@ -201,10 +252,6 @@ so that the app container waits for the dataplane container to be ready to serve
 The `waitForDataplaneReady` setting relies on the fact that defining a `postStart` hook causes Kubernetes to run containers sequentially based on their order of occurrence in the `containers` list.
 This isn't documented and could change in the future.
 It also depends on injecting the kuma-sidecar container as the first container in the pod, which isn't guaranteed since other mutating webhooks can rearrange the containers.
-
-<!-- vale off -->
-A better solution will be available when [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) are more stable and widely available.
-<!-- vale on -->
 {% endwarning %}
 
 {% endif_version %}
@@ -259,7 +306,7 @@ To mitigate this, we need to either
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sleep", "30"]
+                command: ["/bin/sleep", "15"]
   ```
 
 When a `Pod` is deleted, its matching `Dataplane` resource is deleted as well. This is possible thanks to the
