@@ -22,7 +22,7 @@ We will use it to scrape metrics from OpenTelemetry collector and visualise them
 
 ## Install OpenTelemetry collector
 
-First we need an OpenTelemetry collector configuration:
+First we need an OpenTelemetry collector configuration. Save it by running:
 
 ```shell
 echo "
@@ -65,11 +65,12 @@ ports:
     containerPort: 8889
     servicePort: 8889
     protocol: TCP
-" > values.yaml
+" > values-otel.yaml
 ```
 
-This will configure OpenTelemetry collector to listen on grpc port `4317` for metrics pushed by dataplane proxy, process and expose
-collected metrics in Prometheus format on port `8889`. In the next step we will configure Prometheus to scrape these metrics.
+This is the Helm chart configuration we will be using. This will configure OpenTelemetry collector to listen on grpc port `4317` for metrics 
+pushed by dataplane proxy, process and expose collected metrics in Prometheus format on port `8889`. In the next step we 
+will configure Prometheus to scrape these metrics.
 
 Most important in this configuration is `pipelines` section:
 
@@ -94,7 +95,7 @@ With configuration in place we can install OpenTelemetry collector:
 
 ```shell
 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
-helm install --namespace mesh-observability opentelemetry-collector open-telemetry/opentelemetry-collector -f values.yaml
+helm install --namespace mesh-observability opentelemetry-collector open-telemetry/opentelemetry-collector -f values-otel.yaml
 ```
 
 ## Configure Prometheus to scrape metrics from OpenTelemetry collector
@@ -107,7 +108,18 @@ We need to update `prometheus-server` ConfigMap and add `scrape_configs` entry:
     - targets: ["opentelemetry-collector.mesh-observability.svc:8889"]
 ```
 
-Prometheus will automatically pick up this config and start scraping OpenTelemetry collector.
+Prometheus will automatically pick up this config and start scraping OpenTelemetry collector. To check if config was applied properly
+you can go to Prometheus GUI:
+
+```shell
+kubectl port-forward svc/prometheus-server -n mesh-observability 9090:80
+```
+
+Now go to http://localhost:9090/targets. You should see new target `opentelemetry-collector`:
+
+<center>
+<img src="/assets/images/guides/otel-metrics/prometheus_otel_source.png" alt="Prometheus OpenTelemetry source"/>
+</center>
 
 ## Enable OpenTelemetry metrics and check results
 
@@ -115,11 +127,11 @@ By now we have installed and configured all needed observability tools: OpenTele
 We can now apply [MeshMetric policy](/docs/{{ page.version }}/policies/meshmetric):
 
 ```shell
-echo "
+echo '
 apiVersion: kuma.io/v1alpha1
 kind: MeshMetric
 metadata:
-  name: 'otel-metrics'
+  name: otel-metrics
   namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default
@@ -131,7 +143,7 @@ spec:
       - type: OpenTelemetry
         openTelemetry:
           endpoint: opentelemetry-collector.mesh-observability.svc:4317
-" | kubectl apply -f -
+' | kubectl apply -f -
 ```
 
 This policy will configure all dataplane proxies in `default` Mesh to collect and push metrics to OpenTelemetry collector. 
