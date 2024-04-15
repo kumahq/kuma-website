@@ -80,7 +80,7 @@ spec:
 {{ gateway | indent }}
 
    ```yaml
-   echo "apiVersion: gateway.networking.k8s.io/v1
+   apiVersion: gateway.networking.k8s.io/v1
    kind: Gateway
    metadata:
      name: kuma
