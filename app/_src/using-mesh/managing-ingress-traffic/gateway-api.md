@@ -65,14 +65,13 @@ if the Gateway API CRDs are present.
 If you've installed {{site.mesh_product_name}} some other way, you can create your own `GatewayClass`
 using the `controllerName: gateways.kuma.io/controller`:
 
-```sh
-echo "apiVersion: gateway.networking.k8s.io/v1
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
   name: kuma
 spec:
   controllerName: gateways.kuma.io/controller
-" | kubectl apply -f -
 ```
 {% endtab %}
 {% endtabs %}
@@ -80,7 +79,7 @@ spec:
 
 {{ gateway | indent }}
 
-   ```sh
+   ```yaml
    echo "apiVersion: gateway.networking.k8s.io/v1
    kind: Gateway
    metadata:
@@ -92,7 +91,6 @@ spec:
      - name: proxy
        port: 8080
        protocol: HTTP
-   " | kubectl apply -f -
    ```
    
    When a user applies a `Gateway` resource, {{site.mesh_product_name}} automatically creates a `Deployment` of built-in gateways with a corresponding `Service`.
@@ -125,8 +123,8 @@ spec:
 
    `HTTPRoute` resources contain a set of matching criteria for HTTP requests and upstream `Services` to route those requests to.
 
-   ```sh
-   echo "apiVersion: gateway.networking.k8s.io/v1
+   ```yaml
+   apiVersion: gateway.networking.k8s.io/v1
    kind: HTTPRoute
    metadata:
      name: echo
@@ -147,7 +145,6 @@ spec:
        - path:
            type: PathPrefix
            value: /
-   " | kubectl apply -f -
    ```
 
    After creating an `HTTPRoute`, accessing `/` forwards a request to the demo app:
