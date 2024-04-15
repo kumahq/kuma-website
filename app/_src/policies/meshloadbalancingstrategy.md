@@ -471,6 +471,40 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+## Load balancing HTTP traffic through zone proxies
+
+If you proxy HTTP traffic through zone proxies (zone ingress / egress) you may notice that the traffic does not go to every instance of destination service.
+In the case of in-zone traffic (without zone proxies on a request path), the client is aware of all server endpoints, so if you have 10 server endpoints the traffic goes to all of them.
+In the case of cross-zone traffic, the client is only aware of zone ingress endpoints, so if you have 10 server endpoints and 1 zone ingress, the client only sees one zone ingress endpoint.
+Because zone ingress is just a TCP passthrough proxy (it does not terminate TLS), it only load balances TCP connections over server endpoints.
+
+HTTP traffic between Envoys is upgraded to HTTP/2 automatically for performance benefits. The client's Envoy leverages HTTP/2 multiplexing therefore it opens only a few TCP connections.
+
+You can mitigate this problem by adjusting `max_requests_per_connection` setting on Envoy Cluster. For example
+
+{% policy_yaml local-zone-affinity-backend %}
+```yaml
+type: MeshProxyPatch
+name: max-requests-per-conn
+mesh: mesh-1
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    appendModifications:
+      - cluster:
+          operation: Patch
+          match:
+            name: demo-app_kuma-demo_svc_5000
+            origin: outbound
+          value: |
+            max_requests_per_connection: 1
+```
+{% endpolicy_yaml %}
+
+This way, we allow only 1 in-flight request on a TCP connection, so the client will open more TCP connections which will lead to more fair load balancing.
+The downside is that we now have to establish and maintain more TCP connections. Adjust this value for your needs with this downside in mind.
+
 ## All policy options
 
 {% json_schema MeshLoadBalancingStrategies %}
