@@ -59,8 +59,15 @@ spec:
 ```
 {% endif_version %}
 
-Once a `MeshGateway` exists with {% if_version lte:2.6.x inline:true %}`kuma.io/service: edge-gateway`{% endif_version %}{% if_version gte:2.7.x inline:true %}`kuma.io/service: edge-gateway_default_svc`{% endif_version %}, the control plane creates a new `Deployment` in the `default` namespace.
-This `Deployment` deploys 2 replicas of `kuma-dp` and corresponding builtin gateway `Dataplane` running with {% if_version lte:2.6.x inline:true %}`kuma.io/service: edge-gateway`{% endif_version %}{% if_version gte:2.7.x inline:true %}`kuma.io/service: edge-gateway_default_svc`{% endif_version %}.
+{% if_version lte:2.6.x %}
+Once a `MeshGateway` exists with `kuma.io/service: edge-gateway`, the control plane creates a new `Deployment` in the `default` namespace.
+This `Deployment` deploys 2 replicas of `kuma-dp` and corresponding builtin gateway `Dataplane` running with `kuma.io/service: edge-gateway`.
+{% endif_version %}
+{% if_version gte:2.7.x %}
+Once a `MeshGateway` exists with `kuma.io/service: edge-gateway_default_svc`, the control plane creates a new `Deployment` in the `default` namespace.
+This `Deployment` deploys 2 replicas of `kuma-dp` and corresponding builtin gateway `Dataplane` running with `kuma.io/service: edge-gateway_default_svc`.
+{% endif_version %}
+
 The control plane also creates a new `Service` to send network traffic to the builtin `Dataplane` pods.
 The `Service` is of type `LoadBalancer`, and its ports are automatically adjusted to match the listeners on the corresponding `MeshGateway`.
 
