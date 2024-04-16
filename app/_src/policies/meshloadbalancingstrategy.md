@@ -473,7 +473,7 @@ spec:
 
 ## Load balancing HTTP traffic through zone proxies
 
-If you proxy HTTP traffic through zone proxies (zone ingress / egress) you may notice that the traffic does not go to every instance of destination service.
+If you proxy HTTP traffic through zone proxies (zone ingress/egress), you may notice that the traffic does not reach every instance of the destination service.
 In the case of in-zone traffic (without zone proxies on a request path), the client is aware of all server endpoints, so if you have 10 server endpoints the traffic goes to all of them.
 In the case of cross-zone traffic, the client is only aware of zone ingress endpoints, so if you have 10 server endpoints and 1 zone ingress, the client only sees one zone ingress endpoint.
 Because zone ingress is just a TCP passthrough proxy (it does not terminate TLS), it only load balances TCP connections over server endpoints.
@@ -502,8 +502,8 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-This way, we allow only 1 in-flight request on a TCP connection, so the client will open more TCP connections which will lead to more fair load balancing.
-The downside is that we now have to establish and maintain more TCP connections. Adjust this value for your needs with this downside in mind.
+This way, we allow only one in-flight request on a TCP connection. Consequently, the client will open more TCP connections, leading to fairer load balancing.
+The downside is that we now have to establish and maintain more TCP connections. Keep this in mind as you adjust the value to suit your needs.
 
 ## All policy options
 
