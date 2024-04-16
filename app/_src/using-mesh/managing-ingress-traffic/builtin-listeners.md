@@ -319,7 +319,7 @@ to encapsulate and isolate services
 inside a kind of sub-mesh with its own CA.
 With a cross-mesh `MeshGateway`,
 you can expose the services of one `Mesh`
-to other `Mesh`es by defining an API with `MeshGatewayRoute`s.
+to other `Mesh`es by defining an API with {% if_version gte:2.6.x inline:true %}`MeshHTTPRoute`s{% endif_version %}{% if_version lte:2.5.x inline:true %}`MeshGatewayRoute`s{% endif_version %}.
 All traffic remains inside the {{site.mesh_product_name}} data plane protected by mTLS.
 
 All meshes involved in cross-mesh communication must have mTLS enabled.
