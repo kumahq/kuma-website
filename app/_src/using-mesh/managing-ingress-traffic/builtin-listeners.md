@@ -204,7 +204,7 @@ metadata:
 spec:
   selectors:
     - match:
-    kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway
   conf:
     listeners:
     - port: 8443
