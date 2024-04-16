@@ -110,9 +110,9 @@ main() {
     fi
 
     log "Fetching latest preview commit.."
-    commit=$(curl -s --request GET --url "https://api.cloudsmith.io/v1/packages/kong/""$(echo ${PRODUCT_NAME} | tr '[:upper:]' '[:lower:]')""-binaries-preview/?page=1&page_size=1&query=filename%3A0.0.0-preview&sort=-date" --header 'accept: application/json' | jq -r '.[0].version')
+    commit=$(curl -s --request GET --url "https://api.cloudsmith.io/v1/packages/kong/""$(echo ${PRODUCT_NAME} | tr '[:upper:]' '[:lower:]' | tr ' ' '-')""-binaries-preview/?page=1&page_size=1&query=filename%3A0.0.0-preview&sort=-date" --header 'accept: application/json' | jq -r '.[0].version')
     if ! echo "$commit" | grep -qs -E '[a-z0-9]{9,}'; then
-      err "Failed to find suitable preview commit (${count} commits checked)."
+      err "Failed to find suitable preview commit."
     fi
     log "Found preview commit: https://github.com/${REPO}/commit/${commit}"
 
