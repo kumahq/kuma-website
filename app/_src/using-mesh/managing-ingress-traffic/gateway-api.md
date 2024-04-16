@@ -298,15 +298,13 @@ The Gateway API supports multi-zone deployments, but with some limitations:
 
 {% capture backendref-limitation %}
 {% tip %}
-This is temporary limitation, which will be lifted when [work on allowing targeting {{site.mesh_product_name}}'s `MeshService`s in `backendRef`](https://github.com/kumahq/kuma/issues/9894) will be completed.
+This is a temporary limitation, which will be lifted when [work on allowing targeting {{site.mesh_product_name}}'s `MeshService`s in `backendRef`](https://github.com/kumahq/kuma/issues/9894) is completed.
 {% endtip %}
 {% endcapture %}
 {{ backendref-limitation | indent }}
 
 Here's an example scenario that describes how you could configure multi-zone deployments with the Gateway API. In this example, you have the following resources:
-* Two zones:
-  * `zone-1` is in a Kubernetes cluster
-  * `zone-2` is in a separate Kubernetes cluster
+* Two zones (`zone-1` and `zone-2`) in separate Kubernetes clusters
 *  Two services:
   * A service named `backend` deployed in each zone 
   * A service named `db` deployed only in `zone-1`
