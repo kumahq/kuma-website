@@ -137,8 +137,8 @@ other parts of the `Deployment` can be configured arbitrarily.
 Most importantly you'll need to change:
 
 * `kuma.io/tags` annotation - must match the `MeshGateway` `selectors`
-* `KUMA_CONTROL_PLANE_CA_CERT` environment variable - can be retrieved with `kubectl get secret kuma-tls-cert  -n kuma-system -o=jsonpath='{.data.ca\.crt}' | base64 -d`
-* `containers[0].image` field - should be the version of Kuma you're using
+* `KUMA_CONTROL_PLANE_CA_CERT` environment variable - can be retrieved with `kubectl get secret {{site.mesh_product_name_path}}-tls-cert -n {{site.mesh_namespace}} -o=jsonpath='{.data.ca\.crt}' | base64 -d`
+* `containers[0].image` field - should be the version of {{site.mesh_product_name}} you're using
 
 Make sure `containers[0].resources` is appropriate for your use case.
 
@@ -190,7 +190,7 @@ Make sure `containers[0].resources` is appropriate for your use case.
             Y8vutIcexOtJfAdTZ3/GxBxH1Q==
             -----END CERTIFICATE-----
         - name: KUMA_CONTROL_PLANE_URL
-          value: https://kuma-control-plane.kuma-system:5678
+          value: https://{{site.mesh_cp_name}}.{{site.mesh_namespace}}:5678
         - name: KUMA_DATAPLANE_DRAIN_TIME
           value: 30s
         - name: KUMA_DATAPLANE_MESH
