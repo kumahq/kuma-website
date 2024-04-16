@@ -19,7 +19,7 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
 
 1. Install the Gateway API CRDs.
 
-   Kubernetes doesn't include Gateway API functionality by default. To use it, you'll need to install the CRDs first. Instructions: [Installing Gateway API Standard Channel](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
+   Kubernetes doesn't include Gateway API CRDs by default. To install them follow the [Installing Gateway API Standard Channel](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
 
 2. Enable Gateway API support.
 
@@ -27,7 +27,7 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
    - With Helm, use the `{{site.set_flag_values_prefix}}experimental.gatewayAPI=true` value.
 {% endif_version %}
 {% if_version gte:2.7.x %}
-Kubernetes doesn't include Gateway API functionality by default. To use it, you'll need to install the CRDs first. Instructions: [Installing Gateway API Standard Channel](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
+Kubernetes doesn't include Gateway API CRDs by default. To install them follow the [Installing Gateway API Standard Channel](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
 {% endif_version %}
 
 {% if_version lte:2.2.x %}
@@ -293,7 +293,7 @@ Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product
 {% if_version gte:2.7.x %}
 The Gateway API supports multi-zone deployments, but with some limitations:
 
-- Gateway API resources like `Gateway`, `ReferenceGrant`, and `HTTPRoute` must be created in non-global zones. They are specific to the zone they reside in.
+- Gateway API resources like `Gateway`, `ReferenceGrant`, and `HTTPRoute` must be created in non-global zones. They are kubernetes resources and therefore are not known to {{ site.mesh_product_name }}.
 - Only services deployed within the same Kubernetes cluster, such as the `HTTPRoute`, can be referenced as the `backendRef`.
 
 {% capture backendref-limitation %}
