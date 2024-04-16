@@ -291,12 +291,10 @@ Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product
 [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) instead.
 {% endif_version %}
 {% if_version gte:2.7.x %}
-Gateway API supports multi-zone deployments with some limitations.
-
-#### Important Considerations:
+The Gateway API supports multi-zone deployments, but with some limitations:
 
 - Gateway API resources like `Gateway`, `ReferenceGrant`, and `HTTPRoute` must be created in non-global zones. They are specific to the zone they reside in.
-- Only services deployed within the same kubernetes cluster as the `HTTPRoute` can be referenced as the `backendRef`.
+- Only services deployed within the same Kubernetes cluster, such as the `HTTPRoute`, can be referenced as the `backendRef`.
 
 {% capture backendref-limitation %}
 {% tip %}
@@ -305,12 +303,18 @@ This is temporary limitation, which will be lifted when [work on allowing target
 {% endcapture %}
 {{ backendref-limitation | indent }}
 
-   **Scenario:**
+Here's an example scenario that describes how you could configure multi-zone deployments with the Gateway API. In this example, you have the following resources:
+* Two zones:
+  * `zone-1` is in a Kubernetes cluster
+  * `zone-2` is in a separate Kubernetes cluster
+*  Two services:
+  * A service named `backend` deployed in each zone 
+  * A service named `db` deployed only in `zone-1`
+
+If you deploy multi-zone with Gateway API, the following will occur:
    
-   Imagine you have two zones (`zone-1` in one kubernetes cluster and `zone-2` separate one) with a service named `backend` deployed in each zone and service `db` deployed only in `zone-1`. Here's what happens:
-   
-   - If you create an `HTTPRoute` with a `backendRef` targeting the backend service in `zone-1`, it will only route traffic to the `backend` service within `zone-1`.
-   - Similarly, if you create an `HTTPRoute` in zone-2 with a `backendRef` pointing to the `db` service, it will result in `HTTPRoute` with a `ResolvedRefs` status condition of `BackendNotFound` because service `db` is not present in `zone-1`.
+   - If you create an `HTTPRoute` with a `backendRef` targeting the backend service in `zone-1`, it will only route traffic to the `backend` service in `zone-1`.
+   - Similarly, if you create an `HTTPRoute` in `zone-2` with a `backendRef` pointing to the `db` service, it will result in a `HTTPRoute` with a `ResolvedRefs` status condition of `BackendNotFound` because service `db` is not present in `zone-1`.
 {% endif_version %}
 
 {% if_version gte:2.3.x %}
