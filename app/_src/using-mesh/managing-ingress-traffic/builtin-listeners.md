@@ -54,8 +54,15 @@ Each listener may also have its own set of {{site.mesh_product_name}} tags so th
 {% tab listener Kubernetes %}
 
 ```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
+mesh: default
+metadata:
+  name: edge-gateway
 spec:
-  ...
+  selectors:
+    - match:
+        kuma.io/service: edge-gateway
   conf:
     listeners:
       - port: 8080
@@ -68,6 +75,12 @@ spec:
 {% tab listener Universal %}
 
 ```yaml
+type: MeshGateway
+mesh: default
+name: edge-gateway
+selectors:
+  - match:
+      kuma.io/service: edge-gateway
 conf:
   listeners:
     - port: 8080
@@ -91,8 +104,15 @@ the port/protocol with other routes attached to other hostnames.
 {% tab usage Kubernetes %}
 
 ```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
+mesh: default
+metadata:
+  name: edge-gateway
 spec:
-  ...
+  selectors:
+    - match:
+        kuma.io/service: edge-gateway
   conf:
     listeners:
       - port: 8080
@@ -106,6 +126,12 @@ spec:
 {% tab usage Universal %}
 
 ```yaml
+type: MeshGateway
+mesh: default
+name: edge-gateway
+selectors:
+  - match:
+      kuma.io/service: edge-gateway
 conf:
   listeners:
     - port: 8080
@@ -300,9 +326,18 @@ All meshes involved in cross-mesh communication must have mTLS enabled.
 To enable cross-mesh functionality for a `MeshGateway` listener,
 set the `crossMesh` property.
 
-```
-  ...
-  mesh: default
+{% tabs cross-mesh useUrlFragment=false %}
+{% tab cross-mesh Kubernetes %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
+mesh: default
+metadata:
+  name: cross-mesh-gateway
+  labels:
+    kuma.io/mesh: default
+spec:
   selectors:
     - match:
         kuma.io/service: cross-mesh-gateway
@@ -313,6 +348,27 @@ set the `crossMesh` property.
         crossMesh: true
         hostname: default.mesh
 ```
+
+{% endtab %}
+{% tab cross-mesh Universal %}
+
+```yaml
+type: MeshGateway
+mesh: default
+name: cross-mesh-gateway
+selectors:
+  - match:
+      kuma.io/service: cross-mesh-gateway
+conf:
+  listeners:
+    - port: 8080
+      protocol: HTTP
+      crossMesh: true
+      hostname: default.mesh
+```
+
+{% endtab %}
+{% endtabs %}
 
 #### Hostname
 
