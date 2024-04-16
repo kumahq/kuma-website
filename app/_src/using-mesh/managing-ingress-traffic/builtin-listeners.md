@@ -233,15 +233,15 @@ spec:
         kuma.io/service: edge-gateway
   conf:
     listeners:
-    - port: 8443
-      protocol: HTTPS
-      hostname: foo.example.com
-      tls:
-        mode: TERMINATE
-        certificates:
-          - secret: foo-example-com-certificate
-      tags:
-        name: foo.example.com
+      - port: 8443
+        protocol: HTTPS
+        hostname: foo.example.com
+        tls:
+          mode: TERMINATE
+          certificates:
+            - secret: foo-example-com-certificate
+        tags:
+          name: foo.example.com
 ```
 
 {% endtab %}
