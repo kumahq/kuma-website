@@ -482,7 +482,7 @@ HTTP traffic between Envoys is upgraded to HTTP/2 automatically for performance 
 
 You can mitigate this problem by adjusting `max_requests_per_connection` setting on Envoy Cluster. For example
 
-{% policy_yaml local-zone-affinity-backend %}
+{% policy_yaml local-zone-affinity-backend-4 %}
 ```yaml
 type: MeshProxyPatch
 name: max-requests-per-conn
