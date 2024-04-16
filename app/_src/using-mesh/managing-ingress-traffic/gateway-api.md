@@ -198,13 +198,13 @@ metadata:
 spec:
   gatewayClassName: kuma
   listeners:
-    - name: proxy
-      port: 8080
-      hostname: test.kuma.io
-      protocol: HTTPS
-      tls:
-        certificateRefs:
-          - name: secret-tls
+  - name: proxy
+    port: 8080
+    hostname: test.kuma.io
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - name: secret-tls
 ```
 
 Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mesh_namespace}}` namespace and converts it to {% if_version lte:2.1.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.version }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.version }}/production/secure-deployment/secrets/){% endif_version %}.
@@ -279,9 +279,9 @@ metadata:
 spec:
   gatewayClassName: kuma-cross-mesh
   listeners:
-    - name: proxy
-      port: 8080
-      protocol: HTTP
+  - name: proxy
+    port: 8080
+    protocol: HTTP
 ```
 
 ### Multi-zone Deployments
@@ -345,15 +345,15 @@ metadata:
   namespace: kuma-demo
 spec:
   parentRefs:
-    - name: demo-app
-      port: 5000
-      kind: Service
+  - name: demo-app
+    port: 5000
+    kind: Service
   rules:
-    - backendRefs:
-        - name: demo-app-v1
-          port: 5000
-        - name: demo-app-v2
-          port: 5000
+  - backendRefs:
+    - name: demo-app-v1
+      port: 5000
+    - name: demo-app-v2
+      port: 5000
 ```
 
 The namespace of the `HTTPRoute` is key. If the route's namespace and the
