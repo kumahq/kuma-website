@@ -2,6 +2,8 @@
 title: Configuring built-in listeners
 ---
 
+{% capture k8s_service_selector_suffix %}{% if_version gte:2.7.x inline:true %}_default_svc{% endif_version %}{% endcapture %}
+
 For configuring built-in gateway listeners, use the [`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners) resource.
 
 {% tip %}
@@ -13,6 +15,16 @@ multi-zone.
 The `MeshGateway` resource specifies what network ports the gateway should listen on and how network traffic should be accepted.
 A builtin gateway Dataplane can have exactly one `MeshGateway` resource bound to it.
 This binding uses standard, tag-based {{site.mesh_product_name}} matching semantics:
+
+{% if_version gte:2.7.x lte:2.9.x %}
+[//]: # (This is change in behavior, let's assume that users will get used to it, so we won't have to show this warning after 2.9.x)
+{% warning %}
+**Heads up!**
+In previous versions of {{site.mesh_product_name}}, setting the `kuma.io/service` tag directly within a `MeshGatewayInstance` resource was used to identify the service. However, this practice is deprecated and no longer recommended for security reasons since {{site.mesh_product_name}} version 2.7.0.
+
+We've automatically switched to generating the service name for you based on your `MeshGatewayInstance` resource name and namespace (format: `{name}_{namespace}_svc`).
+{% endwarning %}
+{% endif_version %}
 
 {% tabs binding useUrlFragment=false %}
 {% tab binding Kubernetes %}
@@ -26,7 +38,7 @@ metadata:
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway{{ k8s_service_selector_suffix }}
 ```
 
 {% endtab %}
@@ -62,7 +74,7 @@ metadata:
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway{{ k8s_service_selector_suffix }}
   conf:
     listeners:
       - port: 8080
@@ -112,7 +124,7 @@ metadata:
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway{{ k8s_service_selector_suffix }}
   conf:
     listeners:
       - port: 8080
@@ -158,7 +170,7 @@ metadata:
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway{{ k8s_service_selector_suffix }}
   conf:
     listeners:
       - port: 8080
@@ -207,11 +219,12 @@ Note that because each listener entry has its own {{site.mesh_product_name}} tag
 {{site.mesh_product_name}} generates a set of tags for each listener by combining the tags from the listener, the `MeshGateway` and the `Dataplane`.
 {{ site.mesh_product_name}} matches policies against this set of combined tags.
 
-| `Dataplane` tags                 | Listener tags                                 | Final Tags                                         |
-| -------------------------------- | --------------------------------------------- | -------------------------------------------------- |
-| kuma.io/service=edge-gateway     | vhost=foo.example.com                         | kuma.io/service=edge-gateway,vhost=foo.example.com |
-| kuma.io/service=edge-gateway     | kuma.io/service=example,domain=example.com    | kuma.io/service=example,domain=example.com         |
-| kuma.io/service=edge,location=us | version=2                                     | kuma.io/service=edge,location=us,version=2         |
+| `Dataplane` tags                                                  | Listener tags                                 | Final Tags                                                                         |
+|-------------------------------------------------------------------| --------------------------------------------- |------------------------------------------------------------------------------------|
+| kuma.io/service=edge-gateway{{ k8s_service_selector_suffix }}     | vhost=foo.example.com                         | kuma.io/service=edge-gateway{{ k8s_service_selector_suffix }},vhost=foo.example.com |
+| kuma.io/service=edge-gateway{{ k8s_service_selector_suffix }}     | kuma.io/service=example,domain=example.com    | kuma.io/service=example,domain=example.com                                         |
+| kuma.io/service=edge{{ k8s_service_selector_suffix }},location=us | version=2                                     | kuma.io/service=edge{{ k8s_service_selector_suffix }},location=us,version=2        |
+
 
 ## TLS Termination
 
@@ -230,7 +243,7 @@ metadata:
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway{{ k8s_service_selector_suffix }}
   conf:
     listeners:
       - port: 8443
@@ -340,7 +353,7 @@ metadata:
 spec:
   selectors:
     - match:
-        kuma.io/service: cross-mesh-gateway
+        kuma.io/service: cross-mesh-gateway{{ k8s_service_selector_suffix }}
   conf:
     listeners:
       - port: 8080
