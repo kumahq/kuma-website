@@ -228,7 +228,7 @@ Make sure `containers[0].resources` is appropriate for your use case.
               containerName: kuma-gateway
               divisor: "0"
               resource: limits.memory
-        image: docker.io/{{ site.mesh_docker_org }}/kuma-dp:{{ page.version }}
+        image: docker.io/{{ site.mesh_docker_org }}/kuma-dp:2.6.2
         livenessProbe:
           failureThreshold: 12
           httpGet:
