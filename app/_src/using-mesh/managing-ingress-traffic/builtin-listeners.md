@@ -45,7 +45,7 @@ selectors:
 {% endtabs %}
 
 A `MeshGateway` can have any number of listeners, where each listener represents an endpoint that can accept network traffic.
-Note that the `MeshGateway` doesn’t specify which IP addresses are listened on; the `Dataplane` resource specifies that.
+Note that the `MeshGateway` doesn't specify which IP addresses are listened on; the `Dataplane` resource specifies that.
 
 To configure a listener, you need to specify at least the port number and network protocol.
 Each listener may also have its own set of {{site.mesh_product_name}} tags so that {{site.mesh_product_name}} policy configuration can be targeted to specific listeners.
@@ -118,7 +118,7 @@ conf:
 {% endtab %}
 {% endtabs %}
 
-In this example, the gateway proxy listens for HTTP protocol connections on TCP port 8080 but restricts the `Host` header to `foo.example.com`.
+In the above example, the gateway proxy listens for HTTP protocol connections on TCP port 8080 but restricts the `Host` header to `foo.example.com`.
 
 {% tabs selectors useUrlFragment=false %}
 {% tab selectors Kubernetes %}
@@ -290,7 +290,7 @@ data: $(kumactl generate tls-certificate --type=server --hostname=foo.example.co
 
 The `Mesh` abstraction allows users
 to encapsulate and isolate services
-inside a kind of submesh with its own CA.
+inside a kind of sub-mesh with its own CA.
 With a cross-mesh `MeshGateway`,
 you can expose the services of one `Mesh`
 to other `Mesh`es by defining an API with `MeshGatewayRoute`s.
