@@ -304,10 +304,11 @@ This is a temporary limitation, which will be lifted when [work on allowing targ
 {{ backendref-limitation | indent }}
 
 Here's an example scenario that describes how you could configure multi-zone deployments with the Gateway API. In this example, you have the following resources:
-* Two zones (`zone-1` and `zone-2`) in separate Kubernetes clusters
-* Two services:
-  * A service named `backend` deployed in each zone 
-  * A service named `db` deployed only in `zone-1`
+
+- Two zones (`zone-1` and `zone-2`) in separate Kubernetes clusters
+- Two services:
+  - A service named `backend` deployed in each zone 
+  - A service named `db` deployed only in `zone-1`
 
 If you deploy multi-zone with Gateway API, the following will occur:
    
