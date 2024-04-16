@@ -98,9 +98,9 @@ jobs:
     steps:
       - name: Prepare OS
         run: |
-          (apt-get update && apt-get install file curl gh -y) || true
-          (yum install yum-utils -y && yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && yum install file tar gzip gh -y) || true
-          pacman --noconfirm -Sy github-cli file curl || true
+          (apt-get update && apt-get install file curl jq -y) || true
+          (yum install yum-utils -y && yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && yum install file tar gzip jq -y) || true
+          pacman --noconfirm -Sy jq file curl || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
         env:

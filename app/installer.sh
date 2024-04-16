@@ -105,12 +105,12 @@ main() {
 
   if [ "$VERSION" = 'preview' ]; then
 
-    if ! command -v gh >/dev/null 2>&1; then
-      err "Must have github's gh CLI installed to install a preview version."
+    if ! command -v jq >/dev/null 2>&1; then
+      err "Must have jq installed to install a preview version."
     fi
 
     log "Fetching latest preview commit.."
-    commit=$(gh run list --repo "${REPO}" --branch "${BRANCH}" --workflow build-test-distribute -L 200 --json event,headSha,conclusion --jq '[.[] | select(.conclusion == "success" and .event == "push")] | first | .headSha[0:9]')
+    commit=$(curl -s --request GET --url "https://api.cloudsmith.io/v1/packages/kong/""$(echo ${PRODUCT_NAME} | tr '[:upper:]' '[:lower:]')""-binaries-preview/?page=1&page_size=1&query=filename%3A0.0.0-preview&sort=-date" --header 'accept: application/json' | jq -r '.[0].version')
     if ! echo "$commit" | grep -qs -E '[a-z0-9]{9,}'; then
       err "Failed to find suitable preview commit (${count} commits checked)."
     fi
