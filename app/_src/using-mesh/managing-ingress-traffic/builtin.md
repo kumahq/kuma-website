@@ -87,9 +87,12 @@ to manage `kuma-dp` instances and forward traffic to them.
 Keep in mind however, that you'll need to keep the listeners of your
 `MeshGateway` in sync with your `Service`.
 
-These instructions will use the resources created by `MeshGatewayInstance` as a
-guide but it's likely worth creating a `MeshGatewayInstance` to configure as
-much as you can and using it as a basis for your resources.
+{% tip %}
+These instructions will use the resources created by `MeshGatewayInstance` with
+version 2.6.2 as a
+guide but remember to create a `MeshGatewayInstance` _for your version_ to configure as
+much as you can and use it as a basis for these self-managed resources.
+{% endtip %}
 
 Given a `MeshGateway` spec:
 
@@ -225,7 +228,7 @@ Make sure `containers[0].resources` is appropriate for your use case.
               containerName: kuma-gateway
               divisor: "0"
               resource: limits.memory
-        image: docker.io/kumahq/kuma-dp:2.6.2
+        image: docker.io/{{ site.mesh_docker_org }}/kuma-dp:{{ page.version }}
         livenessProbe:
           failureThreshold: 12
           httpGet:
