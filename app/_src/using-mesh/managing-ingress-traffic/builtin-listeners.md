@@ -385,13 +385,13 @@ Otherwise it will be reachable at the host:
 If transparent proxy isn't set up, you'll have to add the listener explicitly as
 an outbound to your `Dataplane` objects if you want to access it:
 
-```
-  ...
-  outbound
-  - port: 8080
-    tags:
-      kuma.io/service: cross-mesh-gateway
-      kuma.io/mesh: default
+```yaml
+...
+  outbound:
+    - port: 8080
+      tags:
+        kuma.io/service: cross-mesh-gateway
+        kuma.io/mesh: default
 ```
 
 #### Limitations
