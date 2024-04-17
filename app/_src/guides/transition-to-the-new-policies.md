@@ -276,7 +276,7 @@ If everything is fine then remove the old policies.
          default:
            action: Allow' | kubectl apply -f -
     ```
-   
+
     Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective. 
 
 4. Observe the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission and conclude the transition.
