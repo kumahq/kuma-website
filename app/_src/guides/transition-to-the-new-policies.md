@@ -1,5 +1,5 @@
 ---
-title: Transition to the new policies
+title: Migration to the new policies
 ---
 
 {{site.mesh_product_name}} provides two set of policies to configure proxies.
@@ -201,7 +201,7 @@ spec:
         threshold: 36' | kubectl apply -f-
 ```
 
-## Transition to the new policies
+## Migration to the new policies
 
 It's time to migrate the demo app to the new policies.
 
@@ -291,7 +291,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
 
     Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective. 
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission and conclude the transition.
+4. Observe the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission and conclude the migration.
 
 ### Timeout -> MeshTimeout
 
@@ -362,7 +362,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
 3. Remove the `kuma.io/effect: shadow` label.
    Even though the old Timeout and the new MeshTimeout are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove Timeout and conclude the transition.
+4. Observe the demo app behaves as expected. If everything goes well, we can safely remove Timeout and conclude the migration.
 
 ### CircuitBreaker -> MeshCircuitBreaker
 
@@ -422,7 +422,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
 3. Remove the `kuma.io/effect: shadow` label.
    Even though the old CircuitBreaker and the new MeshCircuitBreaker are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove CircuitBreaker and conclude the transition.
+4. Observe the demo app behaves as expected. If everything goes well, we can safely remove CircuitBreaker and conclude the migration.
 
 ### TrafficRoute -> MeshTCPRoute
 
