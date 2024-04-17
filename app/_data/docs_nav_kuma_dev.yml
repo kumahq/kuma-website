@@ -451,6 +451,8 @@ items:
         url: /guides/gateway-delegated/
       - text: Collect Metrics with OpenTelemetry
         url: /guides/otel-metrics/
+      - text: Migration to the new policies
+        url: /guides/migration-to-the-new-policies/
   - title: Reference
     group: true
     items:
