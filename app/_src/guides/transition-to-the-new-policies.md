@@ -124,7 +124,7 @@ spec:
         kuma.io/service: "*"
   conf:
     destination:
-      kuma.io/service: "*"' | kc apply -f-
+      kuma.io/service: "*"' | kubectl apply -f-
 ```
 
 ### Deploy Timeouts
@@ -214,35 +214,35 @@ If everything is fine then remove the old policies.
 1. Create a replacement policy for `app-to-redis` TrafficPermission and apply it with `kuma.io/effect: shadow` label:
 
     ```sh
-    echo 'apiVersion: kuma.io/v1alpha1
-    kind: MeshTrafficPermission
-    metadata:
-      namespace: {{site.mesh_namespace}}
-      name: app-to-redis
-      labels:
-        kuma.io/mesh: default
-        kuma.io/effect: shadow
-    spec:
-      targetRef:
-        kind: MeshService
-        name: redis_kuma-demo_svc_6379
-      from:
-        - targetRef:
-            kind: MeshSubset
-            tags: 
-              kuma.io/service: demo-app_kuma-demo_svc_5000
-          default:
-            action: Allow' | kubectl apply -f -
+   echo 'apiVersion: kuma.io/v1alpha1
+   kind: MeshTrafficPermission
+   metadata:
+     namespace: {{site.mesh_namespace}}
+     name: app-to-redis
+     labels:
+       kuma.io/mesh: default
+       kuma.io/effect: shadow
+   spec:
+     targetRef:
+       kind: MeshService
+       name: redis_kuma-demo_svc_6379
+     from:
+       - targetRef:
+           kind: MeshSubset
+           tags: 
+             kuma.io/service: demo-app_kuma-demo_svc_5000
+         default:
+           action: Allow' | kubectl apply -f -
     ```
 
 2. Check the list of changes for `redis_kuma-demo_svc_6379` pod in Envoy configuration using `kumactl`, `jq` and `jd`:
 
     ```sh
-    kumactl inspect dataplane redis-8fcbfc795-twlst.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
-    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","inbound:10.42.0.13:6379","filterChains","0","filters","0","typedConfig","rules","policies","allow-all-default"]
-    - {"permissions":[{"any":true}],"principals":[{"authenticated":{"principalName":{"exact":"spiffe://default/demo-app_kuma-demo_svc_5000"}}}]}
-    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","inbound:10.42.0.13:6379","filterChains","0","filters","0","typedConfig","rules","policies","MeshTrafficPermission"]
-    + {"permissions":[{"any":true}],"principals":[{"authenticated":{"principalName":{"exact":"spiffe://default/demo-app_kuma-demo_svc_5000"}}}]}
+   kumactl inspect dataplane redis-8fcbfc795-twlst.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+   @ ["type.googleapis.com/envoy.config.listener.v3.Listener","inbound:10.42.0.13:6379","filterChains","0","filters","0","typedConfig","rules","policies","allow-all-default"]
+   - {"permissions":[{"any":true}],"principals":[{"authenticated":{"principalName":{"exact":"spiffe://default/demo-app_kuma-demo_svc_5000"}}}]}
+   @ ["type.googleapis.com/envoy.config.listener.v3.Listener","inbound:10.42.0.13:6379","filterChains","0","filters","0","typedConfig","rules","policies","MeshTrafficPermission"]
+   + {"permissions":[{"any":true}],"principals":[{"authenticated":{"principalName":{"exact":"spiffe://default/demo-app_kuma-demo_svc_5000"}}}]}
     ```
 
     As we can see, the only difference is the policy name "MeshTrafficPermission" instead of "allow-all-default". 
@@ -251,24 +251,24 @@ If everything is fine then remove the old policies.
 3. Remove the `kuma.io/effect: shadow` label:
 
     ```sh
-    echo 'apiVersion: kuma.io/v1alpha1
-    kind: MeshTrafficPermission
-    metadata:
-      namespace: {{site.mesh_namespace}}
-      name: app-to-redis
-      labels:
-        kuma.io/mesh: default
-    spec:
-      targetRef:
-        kind: MeshService
-        name: redis_kuma-demo_svc_6379
-      from:
-        - targetRef:
-            kind: MeshSubset
-            tags: 
-              kuma.io/service: demo-app_kuma-demo_svc_5000
-          default:
-            action: Allow' | kubectl apply -f -
+   echo 'apiVersion: kuma.io/v1alpha1
+   kind: MeshTrafficPermission
+   metadata:
+     namespace: {{site.mesh_namespace}}
+     name: app-to-redis
+     labels:
+       kuma.io/mesh: default
+   spec:
+     targetRef:
+       kind: MeshService
+       name: redis_kuma-demo_svc_6379
+     from:
+       - targetRef:
+           kind: MeshSubset
+           tags: 
+             kuma.io/service: demo-app_kuma-demo_svc_5000
+         default:
+           action: Allow' | kubectl apply -f -
     ```
 
     Although the old TrafficPermission and the new MeshTrafficPermission currently coexist, the new policy completely overrides the old one.
@@ -280,52 +280,52 @@ If everything is fine then remove the old policies.
 1. Create a replacement policy for `timeout-global` Timeout and apply it with `kuma.io/effect: shadow` label:
 
     ```sh
-    echo 'apiVersion: kuma.io/v1alpha1
-    kind: MeshTimeout
-    metadata:
-      namespace: {{site.mesh_namespace}}
-      name: timeout-global
-      labels:
-        kuma.io/mesh: default
-        kuma.io/effect: shadow
-    spec:
-      targetRef:
-        kind: Mesh
-      to:
-      - targetRef:
-          kind: Mesh
-        default:
-          connectionTimeout: 21s
-          idleTimeout: 22s
-          http:
-            requestTimeout: 23s
-            streamIdleTimeout: 25s
-            maxStreamDuration: 26s
-      from:
-      - targetRef:
-          kind: Mesh
-        default:
-          connectionTimeout: 10s
-          idleTimeout: 2h
-          http:
-            requestTimeout: 0s
-            streamIdleTimeout: 2h' | kubectl apply -f-
+   echo 'apiVersion: kuma.io/v1alpha1
+   kind: MeshTimeout
+   metadata:
+     namespace: {{site.mesh_namespace}}
+     name: timeout-global
+     labels:
+       kuma.io/mesh: default
+       kuma.io/effect: shadow
+   spec:
+     targetRef:
+       kind: Mesh
+     to:
+     - targetRef:
+         kind: Mesh
+       default:
+         connectionTimeout: 21s
+         idleTimeout: 22s
+         http:
+           requestTimeout: 23s
+           streamIdleTimeout: 25s
+           maxStreamDuration: 26s
+     from:
+     - targetRef:
+         kind: Mesh
+       default:
+         connectionTimeout: 10s
+         idleTimeout: 2h
+         http:
+           requestTimeout: 0s
+           streamIdleTimeout: 2h' | kubectl apply -f-
     ```
 
 2. Check the list of changes for `redis_kuma-demo_svc_6379` pod in Envoy configuration using `kumactl`, `jq` and `jd`:
 
     ```yaml
-    kumactl inspect dataplane redis-8fcbfc795-twlst.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
-    @ ["type.googleapis.com/envoy.config.cluster.v3.Cluster","demo-app_kuma-demo_svc_5000","typedExtensionProtocolOptions","envoy.extensions.upstreams.http.v3.HttpProtocolOptions","commonHttpProtocolOptions","maxConnectionDuration"]
-    + "0s"
-    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","commonHttpProtocolOptions","idleTimeout"]
-    - "22s"
-    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","commonHttpProtocolOptions","idleTimeout"]
-    + "0s"
-    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","routeConfig","virtualHosts","0","routes","0","route","idleTimeout"]
-    + "25s"
-    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","requestHeadersTimeout"]
-    + "0s"
+   kumactl inspect dataplane redis-8fcbfc795-twlst.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+   @ ["type.googleapis.com/envoy.config.cluster.v3.Cluster","demo-app_kuma-demo_svc_5000","typedExtensionProtocolOptions","envoy.extensions.upstreams.http.v3.HttpProtocolOptions","commonHttpProtocolOptions","maxConnectionDuration"]
+   + "0s"
+   @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","commonHttpProtocolOptions","idleTimeout"]
+   - "22s"
+   @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","commonHttpProtocolOptions","idleTimeout"]
+   + "0s"
+   @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","routeConfig","virtualHosts","0","routes","0","route","idleTimeout"]
+   + "25s"
+   @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","requestHeadersTimeout"]
+   + "0s"
     ```
 
     Review the list and ensure the new MeshTimeout policy won't change the important settings.
@@ -348,52 +348,52 @@ If everything is fine then remove the old policies.
 1. Create a replacement policy for `cb-global` CircutBreaker and apply it with `kuma.io/effect: shadow` label:
 
     ```sh
-    echo 'apiVersion: kuma.io/v1alpha1
-    kind: MeshCircuitBreaker
-    metadata:
-      namespace: {{site.mesh_namespace}}
-      name: cb-global
-      labels:
-        kuma.io/mesh: default
-        kuma.io/effect: shadow
-    spec:
-      targetRef:
-        kind: Mesh
-      to:
-      - targetRef:
-          kind: Mesh
-        default:
-          connectionLimits:
-            maxConnections: 24
-            maxPendingRequests: 25
-            maxRequests: 26
-            maxRetries: 27
-          outlierDetection:
-            interval: 21s
-            baseEjectionTime: 22s
-            maxEjectionPercent: 23
-            splitExternalAndLocalErrors: false
-            detectors:
-              totalFailures:
-                consecutive: 28
-              gatewayFailures:
-                consecutive: 29
-              localOriginFailures:
-                consecutive: 30
-              successRate:
-                requestVolume: 31
-                minimumHosts: 32
-                standardDeviationFactor: "1.33"
-              failurePercentage:
-                requestVolume: 34
-                minimumHosts: 35
-                threshold: 36' | kubectl apply -f-
+   echo 'apiVersion: kuma.io/v1alpha1
+   kind: MeshCircuitBreaker
+   metadata:
+     namespace: {{site.mesh_namespace}}
+     name: cb-global
+     labels:
+       kuma.io/mesh: default
+       kuma.io/effect: shadow
+   spec:
+     targetRef:
+       kind: Mesh
+     to:
+     - targetRef:
+         kind: Mesh
+       default:
+         connectionLimits:
+           maxConnections: 24
+           maxPendingRequests: 25
+           maxRequests: 26
+           maxRetries: 27
+         outlierDetection:
+           interval: 21s
+           baseEjectionTime: 22s
+           maxEjectionPercent: 23
+           splitExternalAndLocalErrors: false
+           detectors:
+             totalFailures:
+               consecutive: 28
+             gatewayFailures:
+               consecutive: 29
+             localOriginFailures:
+               consecutive: 30
+             successRate:
+               requestVolume: 31
+               minimumHosts: 32
+               standardDeviationFactor: "1.33"
+             failurePercentage:
+               requestVolume: 34
+               minimumHosts: 35
+               threshold: 36' | kubectl apply -f-
     ```
 
 2. Check the list of changes for `redis_kuma-demo_svc_6379` pod in Envoy configuration using `kumactl`, `jq` and `jd`:
 
     ```sh
-    kumactl inspect dataplane demo-app-b4f98898-zxrqj.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+   kumactl inspect dataplane demo-app-b4f98898-zxrqj.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
    
     As we can see this time is empty. CircuitBreaker and MeshCircuitBreaker configures Envoy in the exact similar way.
