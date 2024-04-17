@@ -287,30 +287,23 @@ spec:
 ### Multi-zone Deployments
 
 {% if_version lte:2.6.x %}
+
 Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product_name}}'s [`MeshGateways`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners)/[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute)/
 [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) instead.
+
 {% endif_version %}
 {% if_version gte:2.7.x %}
-The Gateway API supports multi-zone deployments, but with some limitations:
-
-- Gateway API resources like `Gateway`, `ReferenceGrant`, and `HTTPRoute` must be created in non-global zones. They are kubernetes resources and therefore are not known to {{ site.mesh_product_name }}.
-- Only services deployed within the same Kubernetes cluster, such as the `HTTPRoute`, can be referenced via `backendRef`.
 
 {% capture backendref-limitation %}
 {% tip %}
-This is a temporary limitation, which will be lifted when [work on allowing targeting {{site.mesh_product_name}}'s `MeshService`s in `backendRef`](https://github.com/kumahq/kuma/issues/9894) is completed.
+**Important Note**:
+This limitation exist because, {{site.mesh_product_name}} currently only allows referencing as `backendRefs` [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/).
+
+This is a temporary limitation. [We're actively working on extending `backendRef` to support {{site.mesh_product_name}}'s `MeshServices`](https://github.com/kumahq/kuma/issues/9894). Once this feature is complete, you'll be able to reference services across different clusters within your mesh.
 {% endtip %}
 {% endcapture %}
-{{ backendref-limitation | indent }}
 
-Here's an example scenario that describes how you could configure multi-zone deployments with the Gateway API. In this example, you have the following resources:
-
-- Two zones (`zone-1` and `zone-2`) in separate Kubernetes clusters
-- Gateway with listener on port `8080` deployed in `zone-1`
-- Two services:
-  - A service named `backend` deployed in each zone 
-  - A service named `db` deployed only in `zone-2`
-
+{% capture backendref-limitation-environment %}
 {% mermaid %}
 flowchart TD
     subgraph c2["k8s-cluster-2"]
@@ -334,8 +327,7 @@ flowchart TD
         end
     end
 {% endmermaid %}
-
-If you deploy multi-zone with Gateway API, the following will occur:
+{% endcapture %}
 
 {% capture gapi_multizone_limitation_1 %}
 {% mermaid %}
@@ -401,6 +393,30 @@ flowchart TD
     end
 {% endmermaid %}
 {% endcapture %}
+
+The Gateway API supports multi-zone deployments, but with some limitations:
+
+- Gateway API resources like `Gateway`, `ReferenceGrant`, and `HTTPRoute` must be created in non-global zones.
+
+- Only services deployed within the same Kubernetes cluster, such as the `HTTPRoute`, can be referenced via `backendRef`.
+
+   {{ backendref-limitation | indent }}
+
+   To better visualize this limitation here's an example scenario that describes how you could configure multi-zone deployments with the Gateway API. In this example, you have the following resources:
+
+   - Two zones (`zone-1` and `zone-2`) in separate Kubernetes clusters
+
+   - Gateway with listener on port `8080` deployed in `zone-1`
+
+   - Two services:
+
+      - A service named `backend` deployed in each zone 
+
+      - A service named `db` deployed only in `zone-2`
+
+   {{ backendref-limitation-environment | indent }}
+
+   If you deploy multi-zone with Gateway API, the following will occur:
 
    - If you create an `HTTPRoute` with a `backendRef` targeting the `backend` service in `k8s-cluster-1`, it will only route traffic to the `backend` service in `k8s-cluster-1`.
      
