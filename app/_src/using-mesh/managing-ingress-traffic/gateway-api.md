@@ -306,14 +306,110 @@ This is a temporary limitation, which will be lifted when [work on allowing targ
 Here's an example scenario that describes how you could configure multi-zone deployments with the Gateway API. In this example, you have the following resources:
 
 - Two zones (`zone-1` and `zone-2`) in separate Kubernetes clusters
+- Gateway with listener on port `8080` deployed in `zone-1`
 - Two services:
   - A service named `backend` deployed in each zone 
-  - A service named `db` deployed only in `zone-1`
+  - A service named `db` deployed only in `zone-2`
+
+{% mermaid %}
+flowchart TD
+    subgraph c2["k8s-cluster-2"]
+        subgraph z2["zone-2"]
+            subgraph c1z2s1["Service"]
+                b2(backend)
+            end
+            subgraph c1z2s2["Service"]
+                db(db)
+            end
+        end
+    end
+    subgraph c1["k8s-cluster-1"]
+        subgraph z1["zone-1"]
+            subgraph Gateway
+                listener(:8080)
+            end
+            subgraph Service
+                b1(backend)
+            end
+        end
+    end
+{% endmermaid %}
 
 If you deploy multi-zone with Gateway API, the following will occur:
-   
-   - If you create an `HTTPRoute` with a `backendRef` targeting the backend service in `zone-1`, it will only route traffic to the `backend` service in `zone-1`.
-   - Similarly, if you create an `HTTPRoute` in `zone-2` with a `backendRef` pointing to the `db` service, it will result in a `HTTPRoute` with a `ResolvedRefs` status condition of `BackendNotFound` because service `db` is not present in `zone-1`.
+
+{% capture gapi_multizone_limitation_1 %}
+{% mermaid %}
+flowchart TD
+    subgraph c2["k8s-cluster-2"]
+        subgraph z2["zone-2"]
+            subgraph c1z2s1["Service"]
+                backend2(backend)
+            end
+            subgraph c1z2s2["Service"]
+                db(db)
+            end
+        end
+    end
+    subgraph c1["k8s-cluster-1"]
+        subgraph z1["zone-1"]
+            subgraph Service
+                backend1(backend)
+            end
+            subgraph Gateway
+                listener(:8080)
+            end
+            subgraph HTTPRoute
+                route1(/)
+            end
+            route1--"❌"-->backend2
+            linkStyle 0 stroke:red,color:red,stroke-dasharray: 5 5;
+            route1-->backend1
+            listener-->route1
+        end
+    end
+{% endmermaid %}
+{% endcapture %}
+
+{% capture gapi_multizone_limitation_2 %}
+{% mermaid %}
+flowchart TD
+    subgraph c2["k8s-cluster-2"]
+        subgraph z2["zone-2"]
+            subgraph c1z2s1["Service"]
+                backend2(backend)
+            end
+            subgraph c1z2s2["Service"]
+                db(db)
+            end
+        end
+    end
+    subgraph c1["k8s-cluster-1"]
+        subgraph z1["zone-1"]
+            subgraph Gateway
+                listener(:8080)
+            end
+            subgraph HTTPRoute
+                route1(/)
+            end
+            subgraph Service
+                backend1(backend)
+            end
+            route1--"❌"-->db
+            linkStyle 0 stroke:red,color:red,stroke-dasharray: 5 5;
+            listener-->route1
+        end
+    end
+{% endmermaid %}
+{% endcapture %}
+
+   - If in `k8s-cluster-1` you create an `HTTPRoute` with a `backendRef` targeting the `backend` service, it will only route traffic to the `backend` service in `k8s-cluster-1`.
+     
+     {{ gapi_multizone_limitation_1 | indent }}
+
+   - Similarly, if in `k8s-cluster-1` you create an `HTTPRoute` with a `backendRef` pointing to the `db` service, it will result in a `HTTPRoute` with a `ResolvedRefs` status condition of `BackendNotFound` because service `db` is not present in `k8s-cluster-1`.
+
+     {{ gapi_multizone_limitation_2 | indent }}
+
 {% endif_version %}
 
 {% if_version gte:2.3.x %}
