@@ -42,6 +42,9 @@ Make sure the list of meshes is empty:
 
 ```sh
 kubectl get meshes
+```
+Expected output:
+```
 No resources found
 ```
 
@@ -239,6 +242,9 @@ If everything is fine then remove the old policies.
 
     ```sh
    kumactl inspect dataplane redis-8fcbfc795-twlst.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+    ```
+    Expected output:
+    ```
    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","inbound:10.42.0.13:6379","filterChains","0","filters","0","typedConfig","rules","policies","allow-all-default"]
    - {"permissions":[{"any":true}],"principals":[{"authenticated":{"principalName":{"exact":"spiffe://default/demo-app_kuma-demo_svc_5000"}}}]}
    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","inbound:10.42.0.13:6379","filterChains","0","filters","0","typedConfig","rules","policies","MeshTrafficPermission"]
@@ -314,8 +320,11 @@ If everything is fine then remove the old policies.
 
 2. Check the list of changes for `redis_kuma-demo_svc_6379` pod in Envoy configuration using `kumactl`, `jq` and `jd`:
 
-    ```yaml
+    ```sh
    kumactl inspect dataplane redis-8fcbfc795-twlst.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+    ```
+    Expected output:
+    ```
    @ ["type.googleapis.com/envoy.config.cluster.v3.Cluster","demo-app_kuma-demo_svc_5000","typedExtensionProtocolOptions","envoy.extensions.upstreams.http.v3.HttpProtocolOptions","commonHttpProtocolOptions","maxConnectionDuration"]
    + "0s"
    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","commonHttpProtocolOptions","idleTimeout"]
@@ -396,7 +405,7 @@ If everything is fine then remove the old policies.
    kumactl inspect dataplane demo-app-b4f98898-zxrqj.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
    
-    As we can see this time is empty. CircuitBreaker and MeshCircuitBreaker configures Envoy in the exact similar way.
+    The expected output is empty. CircuitBreaker and MeshCircuitBreaker configures Envoy in the exact similar way.
 
 3. Remove the `kuma.io/effect: shadow` label.
    Although the old CircuitBreaker and the new MeshCircuitBreaker currently coexist, the new policy completely overrides the old one.
