@@ -207,7 +207,7 @@ The generalized migration process roughly consists of 4 steps:
 
 1. Create and deploy the replacement policies in [shadow mode](/docs/{{ page.version }}/policies/applying-policies/#applying-policies-in-shadow-mode). 
 The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction).
-2. Review the list of changes that're going to be created by the replacement policy.
+2. Review the list of changes that are going to be created by the replacement policy.
 3. Remove `kuma.io/effect: shadow` label so that policy is applied in a normal mode.
 4. Observe metrics, traces and logs. If something goes wrong change policy's mode back to shadow and return to the step 2.
 If everything is fine then remove the old policies.
@@ -251,8 +251,8 @@ If everything is fine then remove the old policies.
    + {"permissions":[{"any":true}],"principals":[{"authenticated":{"principalName":{"exact":"spiffe://default/demo-app_kuma-demo_svc_5000"}}}]}
     ```
 
-    As we can see, the only difference is the policy name "MeshTrafficPermission" instead of "allow-all-default". 
-    The list of principals looks similar. 
+    As we can see, the only difference is the policy name "MeshTrafficPermission" instead of "allow-all-default".
+    The value of the policy is the same.
 
 3. Remove the `kuma.io/effect: shadow` label:
 
@@ -414,8 +414,8 @@ If everything is fine then remove the old policies.
 
 ### TrafficRoute -> MeshTCPRoute
 
-It's safe to simply remove `route-all-default` TrafficRoute. 
-Traffic is going to flow through the system even if there are no either TrafficRoutes or MeshTCPRoutes/MeshHTTPRoutes.
+It's safe to simply remove `route-all-default` TrafficRoute.
+Traffic will flow through the system even if there are neither TrafficRoutes nor MeshTCPRoutes/MeshHTTPRoutes.
 
 {% warning %}
 Ensure that TrafficRoute is the last policy deleted when removing older policies.
