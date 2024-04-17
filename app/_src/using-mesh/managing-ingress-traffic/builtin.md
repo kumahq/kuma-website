@@ -8,7 +8,7 @@ gateways. {{ site.mesh_product_name }} policies are then used to configure
 built-in gateways.
 
 {% tip %}
-**New to Kuma?**
+**New to {{site.mesh_product_name}}?**
 Checkout our [guide](/docs/{{ page.version }}/guides/gateway-builtin/) to get quickly started with builtin gateways!
 {% endtip %}
 
@@ -31,8 +31,9 @@ multi-zone.
 {% endtip %}
 
 This resource manages a Kubernetes `Deployment` and `Service`
-suitable for providing service capacity for the `MeshGateway` with the matching `kuma.io/service` tag.
+suitable for providing service capacity for the `MeshGateway`{% if_version lte:2.6.x inline:true %} with the matching `kuma.io/service` tag{% endif_version %}.
 
+{% if_version lte:2.6.x %}
 The `kuma.io/service` value you select will be used in `MeshGateway` to [configure listeners](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners).
 
 ```yaml
@@ -47,6 +48,22 @@ spec:
   tags:
     kuma.io/service: edge-gateway
 ```
+{% endif_version %}
+{% if_version gte:2.7.x %}
+
+{% include snippets/warning_meshgatewayinstance_service_tag.md %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayInstance
+metadata:
+  name: edge-gateway
+  namespace: default
+spec:
+  replicas: 1
+  serviceType: LoadBalancer
+```
+{% endif_version %}
 
 See [the `MeshGatewayInstance` docs](/docs/{{ page.version }}//using-mesh/managing-ingress-traffic/builtin-k8s) for more options.
 {% endtab %}
