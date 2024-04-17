@@ -67,71 +67,79 @@ The `Service` is of type `LoadBalancer`, and its ports are automatically adjuste
 ## Customization
 
 Additional customization of the generated `Service` or `Pods` is possible via `spec.serviceTemplate` and `spec.podTemplate`.
+
 For example, you can add annotations and/or labels to the generated objects:
 
 {% if_version lte:2.6.x %}
 ```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayInstance
+metadata:
+  name: edge-gateway
+  namespace: default
 spec:
   replicas: 1
   serviceType: LoadBalancer
   tags:
     kuma.io/service: edge-gateway
-  resources:
-    limits: ...
-    requests: ...
   serviceTemplate:
     metadata:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-internal: "true"
-    spec:
-      loadBalancerIP: ...
   podTemplate:
     metadata:
       labels:
         app-name: my-app
-        ...
 ```
 {% endif_version %}
 {% if_version gte:2.7.x %}
 ```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayInstance
+metadata:
+  name: edge-gateway
+  namespace: default
 spec:
   replicas: 1
   serviceType: LoadBalancer
-  resources:
-    limits: ...
-    requests: ...
   serviceTemplate:
     metadata:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-internal: "true"
-    spec:
-      loadBalancerIP: ...
   podTemplate:
     metadata:
       labels:
         app-name: my-app
-        ...
 ```
 {% endif_version %}
 
-You can also modify several security-related parameters for the generated `Pods` or specify a `loadBalancerIP` for the `Service`:
+You can also modify several resource limits or security-related parameters for the generated `Pods` or specify a `loadBalancerIP` for the `Service`:
 
 {% if_version lte:2.6.x %}
 ```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayInstance
+metadata:
+  name: edge-gateway
+  namespace: default
 spec:
   replicas: 1
   serviceType: LoadBalancer
   tags:
     kuma.io/service: edge-gateway
   resources:
-    limits: ...
-    requests: ...
+    requests:
+      memory: 64Mi
+      cpu: 250m
+    limits:
+      memory: 128Mi
+      cpu: 500m
   serviceTemplate:
     metadata:
       labels:
         svc-id: "19-001"
     spec:
-      loadBalancerIP: ...
+      loadBalancerIP: 172.17.0.1
   podTemplate:
     metadata:
       annotations:
@@ -139,7 +147,7 @@ spec:
     spec:
       serviceAccountName: my-sa
       securityContext:
-        fsGroup: ...
+        fsGroup: 2000
       container:
         securityContext:
           readOnlyRootFilesystem: true
@@ -147,18 +155,27 @@ spec:
 {% endif_version %}
 {% if_version gte:2.7.x %}
 ```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayInstance
+metadata:
+  name: edge-gateway
+  namespace: default
 spec:
   replicas: 1
   serviceType: LoadBalancer
   resources:
-    limits: ...
-    requests: ...
+    requests:
+      memory: 64Mi
+      cpu: 250m
+    limits:
+      memory: 128Mi
+      cpu: 500m
   serviceTemplate:
     metadata:
       labels:
         svc-id: "19-001"
     spec:
-      loadBalancerIP: ...
+      loadBalancerIP: 172.17.0.1
   podTemplate:
     metadata:
       annotations:
@@ -166,7 +183,7 @@ spec:
     spec:
       serviceAccountName: my-sa
       securityContext:
-        fsGroup: ...
+        fsGroup: 2000
       container:
         securityContext:
           readOnlyRootFilesystem: true
