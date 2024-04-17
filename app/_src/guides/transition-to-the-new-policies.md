@@ -276,8 +276,8 @@ If everything is fine then remove the old policies.
          default:
            action: Allow' | kubectl apply -f -
     ```
-
-    Although the old TrafficPermission and the new MeshTrafficPermission currently coexist, the new policy completely overrides the old one.
+   
+    Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective. 
 
 4. Observe the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission and conclude the transition.
 
@@ -348,7 +348,7 @@ If everything is fine then remove the old policies.
     These 3 facts perfectly explain the list of changes we're observing.
 
 3. Remove the `kuma.io/effect: shadow` label.
-   Although the old Timeout and the new MeshTimeout currently coexist, the new policy completely overrides the old one.
+   Even though the old Timeout and the new MeshTimeout are both in use, the new policy takes precedence, making the old one ineffective.
 
 4. Observe the demo app behaves as expected. If everything goes well, we can safely remove Timeout and conclude the transition.
 
@@ -408,7 +408,7 @@ If everything is fine then remove the old policies.
     The expected output is empty. CircuitBreaker and MeshCircuitBreaker configures Envoy in the exact similar way.
 
 3. Remove the `kuma.io/effect: shadow` label.
-   Although the old CircuitBreaker and the new MeshCircuitBreaker currently coexist, the new policy completely overrides the old one.
+   Even though the old CircuitBreaker and the new MeshCircuitBreaker are both in use, the new policy takes precedence, making the old one ineffective.
 
 4. Observe the demo app behaves as expected. If everything goes well, we can safely remove CircuitBreaker and conclude the transition.
 
