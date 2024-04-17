@@ -211,9 +211,10 @@ It's possible to migrate all policies at once, but small portions are preferable
 
 The generalized migration process roughly consists of 4 steps:
 
-1. Create and deploy the replacement policies in [shadow mode](/docs/{{ page.version }}/policies/applying-policies/#applying-policies-in-shadow-mode). 
-The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction).
-2. Review the list of changes that are going to be created by the replacement policy.
+1. Create a new [targetRef](/docs/{{ page.version }}/policies/targetref) policy as a replacement for exising [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policy. 
+The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction). 
+Deploy the policy in [shadow mode](/docs/{{ page.version }}/policies/applying-policies/#applying-policies-in-shadow-mode) to avoid any traffic disruptions.
+2. Using Inspect API review the list of changes that are going to be created by the new policy.
 3. Remove `kuma.io/effect: shadow` label so that policy is applied in a normal mode.
 4. Observe metrics, traces and logs. If something goes wrong change policy's mode back to shadow and return to the step 2.
 If everything is fine then remove the old policies.
