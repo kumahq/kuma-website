@@ -37,6 +37,12 @@ See ["Data plane proxy to control plane communication"](/docs/{{ page.version }}
 If you use [Argo Rollouts](https://argoproj.github.io/rollouts/) for blue-green deployment [configure the control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_RUNTIME_KUBERNETES_INJECTOR_IGNORED_SERVICE_SELECTOR_LABELS` set to `rollouts-pod-template-hash`.
 It will enable traffic shifting between active and preview Service without traffic interruption.
 
+{% if_version gte:2.7.x %}
+If you are using policies inside Argo managed entities you will want to workaround [argoproj/argo-cd#4764](https://github.com/argoproj/argo-cd/issues/4764).
+To do so disable the mesh owner reference by setting `KUMA_RUNTIME_KUBERNETES_SKIP_MESH_OWNER_REFERENCE=true` in your control-plane configuration.
+If you do this, deleting a mesh will not delete the resources that are attached to it.
+{% endif_version %}
+
 ## Sidecars
 
 ### CNI

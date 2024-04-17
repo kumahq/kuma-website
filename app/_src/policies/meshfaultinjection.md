@@ -11,7 +11,32 @@ Do **not** combine with [FaultInjection](/docs/{{ page.version }}/policies/fault
 
 ## `targetRef` support matrix
 
-{% if_version gte:2.6.x %}
+{% if_version gte:2.7.x %}
+{% tabs targetRef27x useUrlFragment=false %}
+{% tab targetRef27x Sidecar %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset` |
+{% endtab %}
+
+{% tab targetRef27x Builtin Gateway %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
+| `to[].targetRef.kind`   | `Mesh`                                                   |
+{% endtab %}
+
+{% tab targetRef27x Delegated Gateway %}
+
+`MeshFaultInjection` isn't supported on delegated gateways.
+
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
+
+{% if_version eq:2.6.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
 | `targetRef`             | Allowed kinds                                            |
@@ -127,8 +152,9 @@ spec:
     name: backend
   from:
     - targetRef:
-        kind: MeshService
-        name: frontend
+        kind: MeshSubset
+        tags: 
+          kuma.io/service: frontend
       default:
         http:
           - abort:
@@ -151,8 +177,9 @@ spec:
     name: backend
   from:
     - targetRef:
-        kind: MeshService
-        name: frontend
+        kind: MeshSubset
+        tags:
+          kuma.io/service: frontend
       default:
         http:
           - abort:
@@ -184,8 +211,9 @@ spec:
     name: backend
   from:
     - targetRef:
-        kind: MeshService
-        name: frontend
+        kind: MeshSubset
+        tags:
+          kuma.io/service: frontend
       default:
         http:
           - delay:
@@ -241,8 +269,9 @@ spec:
     name: backend
   from:
     - targetRef:
-        kind: MeshService
-        name: frontend
+        kind: MeshSubset
+        tags:
+          kuma.io/service: frontend
       default:
         http:
           - abort:
@@ -271,8 +300,9 @@ spec:
     name: backend
   from:
     - targetRef:
-        kind: MeshService
-        name: frontend
+        kind: MeshSubset
+        tags:
+          kuma.io/service: frontend
       default:
         http:
           - abort:

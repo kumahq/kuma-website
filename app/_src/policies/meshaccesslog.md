@@ -390,13 +390,23 @@ backends:
 #### OpenTelemetry
 
 An OpenTelemetry (OTel) backend sends data to an OpenTelemetry server.
-You can configure an OpenTelemetry backend with an endpoint:
+You can configure an OpenTelemetry backend with an endpoint, [attributes](https://opentelemetry.io/docs/specs/otel/logs/data-model/#field-attributes) (which contain additional information about the log) and [body](https://opentelemetry.io/docs/specs/otel/logs/data-model/#field-body) (can be a string message, including multi-line, or it can be a structured data).
+Attributes and endpoints can use placeholders described in the [format section](#format).
 
 {% if_version lte:2.2.x %}
 ```yaml
 backends:
   - openTelemetry:
       endpoint: otel-collector:4317
+      body:
+        kvlistValue:
+          values:
+            - key: "mesh"
+              value:
+                stringValue: "%KUMA_MESH%"
+      attributes:
+        - key: "start_time"
+          value: "%START_TIME%"
 ```
 {% endif_version %}
 {% if_version gte:2.3.x %}
@@ -405,9 +415,63 @@ backends:
   - type: OpenTelemetry
     openTelemetry:
       endpoint: otel-collector:4317
+      body:
+        kvlistValue:
+          values:
+            - key: "mesh"
+              value:
+                stringValue: "%KUMA_MESH%"
+      attributes:
+        - key: "start_time"
+          value: "%START_TIME%"
 ```
 {% endif_version %}
 {% endif_version %}
+
+### Body
+Body is of type [any](https://opentelemetry.io/docs/specs/otel/logs/data-model/#type-any) (defined [here](https://github.com/open-telemetry/opentelemetry-proto/blob/342e1d4c3a1fe43312823ffb53bd38327f263059/opentelemetry/proto/common/v1/common.proto#L28-L40))
+and can be one of the following forms:
+
+```yaml
+body:
+  stringValue: "%KUMA_MESH%"
+```
+
+```yaml
+body:
+  boolValue: true
+```
+
+```yaml
+body:
+  intValue: 123
+```
+
+```yaml
+body:
+  doubleValue: 1.2
+```
+
+```yaml
+body:
+  bytesValue: aGVsbG8=
+```
+
+```yaml
+body:
+  arrayValue:
+    values:
+      - stringValue: "%KUMA_MESH%"
+```
+
+```yaml
+body:
+  kvlistValue:
+    values:
+      - key: "mesh"
+        value:
+          stringValue: "%KUMA_MESH%"
+```
 
 ## Examples
 
@@ -594,6 +658,12 @@ spec:
                 plain: '[%START_TIME%]'
           - openTelemetry:
               endpoint: otel-collector:4317
+              body:
+                kvlistValue:
+                values:
+                  - key: "mesh"
+                    value:
+                      stringValue: "%KUMA_MESH%"
               attributes:
                 - key: "start_time"
                   value: "%START_TIME%"
@@ -633,6 +703,12 @@ spec:
           - type: OpenTelemetry
             openTelemetry:
               endpoint: otel-collector:4317
+              body:
+                kvlistValue:
+                values:
+                  - key: "mesh"
+                    value:
+                      stringValue: "%KUMA_MESH%"
               attributes:
                 - key: "start_time"
                   value: "%START_TIME%"
@@ -695,6 +771,12 @@ spec:
                 plain: '[%START_TIME%]'
           - openTelemetry:
               endpoint: otel-collector:4317
+              body:
+                kvlistValue:
+                values:
+                  - key: "mesh"
+                    value:
+                      stringValue: "%KUMA_MESH%"
               attributes:
                 - key: "start_time"
                   value: "%START_TIME%"
@@ -730,6 +812,12 @@ spec:
           - type: OpenTelemetry
             openTelemetry:
               endpoint: otel-collector:4317
+              body:
+                kvlistValue:
+                values:
+                  - key: "mesh"
+                    value:
+                      stringValue: "%KUMA_MESH%"
               attributes:
                 - key: "start_time"
                   value: "%START_TIME%"
@@ -741,7 +829,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endtab %}
 {% endtabs %}
 
-## Log all incoming and outgoing traffic
+### Log all incoming and outgoing traffic
 
 {% tabs meshaccesslog-all useUrlFragment=false %}
 {% tab meshaccesslog-all Kubernetes %}

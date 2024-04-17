@@ -59,13 +59,13 @@ If you don't understand this table you should read [matching docs](/docs/{{ page
 
 ## Configuration
 
-Unlike others outbound policies `MeshHTTPRoute` doesn't contain `default` directly in the `to` array. 
+Unlike others outbound policies `MeshHTTPRoute` doesn't contain `default` directly in the `to` array.
 The `default` section is nested inside `rules`, so the policy structure looks like this:
 
 ```yaml
 spec:
   targetRef: # top-level targetRef selects a group of proxies to configure
-    kind: Mesh|MeshSubset|MeshService|MeshServiceSubset 
+    kind: Mesh|MeshSubset|MeshService|MeshServiceSubset
   to:
     - targetRef: # targetRef selects a destination (outbound listener)
         kind: MeshService
@@ -87,9 +87,9 @@ them in a `MeshHTTPRoute`!
 - **`path`** - (optional) - HTTP path to match the request on
   - **`type`** - one of `Exact`, {% if_version gte:2.3.x %}`PathPrefix`{% endif_version %}{% if_version lte:2.2.x %}`Prefix`{% endif_version %}, `RegularExpression`
   - **`value`** - actual value that's going to be matched depending on the `type`
-- **`method`** - (optional) - HTTP2 method, available values are 
+- **`method`** - (optional) - HTTP2 method, available values are
   `CONNECT`, `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`, `TRACE`
-- **`queryParams`** - (optional) - list of HTTP URL query parameters. Multiple matches are ANDed together 
+- **`queryParams`** - (optional) - list of HTTP URL query parameters. Multiple matches are ANDed together
   such that all listed matches must succeed
   - **`type`** - one of `Exact` or `RegularExpression`
   - **`name`** - name of the query parameter
@@ -101,7 +101,7 @@ them in a `MeshHTTPRoute`!
   - **`type`** - available values are `RequestHeaderModifier`, `ResponseHeaderModifier`,
     `RequestRedirect`, `URLRewrite`.
   - **`requestHeaderModifier`** - [HeaderModifier](#headermodifier), must be set if the `type` is `RequestHeaderModifier`.
-  - **`responseHeaderModifier`** - [HeaderModifier](#headermodifier), must be set if the `type` is `ResponseHeaderModifier`. 
+  - **`responseHeaderModifier`** - [HeaderModifier](#headermodifier), must be set if the `type` is `ResponseHeaderModifier`.
   - **`requestRedirect`** - must be set if the `type` is `RequestRedirect`
     - **`scheme`** - one of `http` or `http2`
     - **`hostname`** - is the fully qualified domain name of a network host. This
@@ -119,7 +119,7 @@ them in a `MeshHTTPRoute`!
       - **`type`** - one of `ReplaceFullPath`, `ReplacePrefixMatch`
       - **`replaceFullPath`** - must be set if the `type` is `ReplaceFullPath`
       - **`replacePrefixMatch`** - must be set if the `type` is `ReplacePrefixMatch`
-{% if_version gte:2.2.x %} 
+{% if_version gte:2.2.x %}
   - **`requestMirror`** - must be set if the `type` is `RequestMirror`
     - **`percentage`** - percentage of requests to mirror. If not specified, all requests to the target cluster will be mirrored.
     - **`backendRef`** - [BackendRef](#backendref), destination to mirror request to
@@ -152,11 +152,11 @@ them in a `MeshHTTPRoute`!
 
 ### Traffic split
 
-We can use `MeshHTTPRoute` to split an HTTP traffic between services with different tags 
+We can use `MeshHTTPRoute` to split an HTTP traffic between services with different tags
 implementing A/B testing or canary deployments.
 
-Here is an example of a `MeshHTTPRoute` that splits the traffic from 
-`frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions, 
+Here is an example of a `MeshHTTPRoute` that splits the traffic from
+`frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions,
 but only on endpoints starting with `/api`. All other endpoints will go to version: `1.0`.
 
 {% tabs split useUrlFragment=false %}
@@ -304,10 +304,10 @@ spec:
 
 ### Traffic modifications
 
-We can use `MeshHTTPRoute` to modify outgoing requests, by setting new path 
+We can use `MeshHTTPRoute` to modify outgoing requests, by setting new path
 or changing request and response headers.
 
-Here is an example of a `MeshHTTPRoute` that adds `x-custom-header` with value `xyz` 
+Here is an example of a `MeshHTTPRoute` that adds `x-custom-header` with value `xyz`
 when `frontend_kuma-demo_svc_8080` tries to consume `backend_kuma-demo_svc_3001`.
 
 {% tabs modifications useUrlFragment=false %}
@@ -376,8 +376,8 @@ spec:
 ### Traffic mirror
 
 `MeshHTTPRoute` can mirror a fraction of requests to another service.
-This can be useful when testing a new version of the app with the production payload without 
-interrupting real users. 
+This can be useful when testing a new version of the app with the production payload without
+interrupting real users.
 
 {% tabs mirror useUrlFragment=false %}
 {% tab mirror Kubernetes %}
@@ -412,7 +412,7 @@ spec:
                     kind: MeshServiceSubset
                     name: backend_kuma-demo_svc_3001
                     tags:
-                      version: v1/experimental
+                      version: v1_experimental
             backendRefs:
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
@@ -448,7 +448,7 @@ spec:
                     kind: MeshServiceSubset
                     name: backend_kuma-demo_svc_3001
                     tags:
-                      version: v1/experimental
+                      version: v1_experimental
             backendRefs:
               - kind: MeshServiceSubset
                 name: backend_kuma-demo_svc_3001
@@ -504,7 +504,7 @@ merged in the following list of rules:
 
 ```yaml
 rules:
-  - matches: 
+  - matches:
       - path:
           type: Exact
           name: /orders

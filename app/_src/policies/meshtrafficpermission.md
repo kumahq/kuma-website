@@ -9,6 +9,26 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.version }}/policies/tr
 
 ## TargetRef support matrix
 
+{% if_version gte:2.7.x %}
+{% tabs targetRef27x useUrlFragment=false %}
+{% tab targetRef27x Sidecar %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset` |
+{% endtab %}
+{% tab targetRef27x Builtin Gateway %}
+`MeshTrafficPermission` isn't supported on builtin gateways. If applied via
+`spec.targetRef.kind: MeshService`, it has no effect.
+{% endtab %}
+
+{% tab targetRef27x Delegated Gateway %}
+`MeshTrafficPermission` isn't supported on delegated gateways.
+{% endtab %}
+{% endtabs %}
+{% endif_version %}
+
+{% if_version lte:2.6.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
 | `targetRef`             | Allowed kinds                                            |
@@ -25,6 +45,7 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.version }}/policies/tr
 `MeshTrafficPermission` isn't supported on delegated gateways.
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
 
 If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetref).
 
@@ -57,8 +78,9 @@ spec:
     name: payments
   from:
     - targetRef: # 2
-        kind: MeshService
-        name: orders
+        kind: MeshSubset
+        tags:
+           kuma.io/service: orders
       default: # 3
         action: Allow
 ```
@@ -77,8 +99,9 @@ spec:
     name: payments
   from:
     - targetRef: # 2
-        kind: MeshService
-        name: orders
+        kind: MeshSubset
+        tags: 
+          kuma.io/service: orders
       default: # 3
         action: Allow
 ```
@@ -102,8 +125,9 @@ spec:
 
     ```yaml
     - targetRef: # 2
-        kind: MeshService
-        name: orders
+        kind: MeshSubset
+        tags: 
+          kuma.io/service: orders
     ```
 
 3. The action is `Allow`. All requests from service `orders` will be allowed on service `payments`.
