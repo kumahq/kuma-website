@@ -38,9 +38,12 @@ Find the external IP and port of the `{{site.mesh_cp_zone_sync_name_prefix}}glob
 
 ```sh
 kubectl get services -n {{site.mesh_namespace}}
-# NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-# {{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-# {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+```
+
+```
+NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
+{{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+{{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 ```
 
 By default, it's exposed on {% if_version lte:2.1.x inline:true %}[port 5685](/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x inline:true %}[port 5685](/docs/{{ page.version }}/production/use-mesh#control-plane-ports){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
@@ -143,9 +146,12 @@ Before using {{site.mesh_product_name}} with helm, please follow [these steps](/
 
     ```sh
     kubectl get services -n {{site.mesh_namespace}}
-    # NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-    # {{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-    # {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
+    ```
+
+    ```
+    NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
+    {{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
+    {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
     In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
@@ -377,20 +383,23 @@ To view the list of service names available, run:
 
 ```sh
 kubectl get serviceinsight all-services-default -oyaml
-# apiVersion: kuma.io/v1alpha1
-# kind: ServiceInsight
-# mesh: default
-# metadata:
-#   name: all-services-default
-# spec:
-#   services:
-#     echo-server_echo-example_svc_1010:
-#       dataplanes:
-#         online: 1
-#         total: 1
-#       issuedBackends:
-#         ca-1: 1
-#       status: online
+```
+
+```
+apiVersion: kuma.io/v1alpha1
+kind: ServiceInsight
+mesh: default
+metadata:
+  name: all-services-default
+spec:
+  services:
+    echo-server_echo-example_svc_1010:
+      dataplanes:
+        online: 1
+        total: 1
+      issuedBackends:
+        ca-1: 1
+      status: online
 ```
 
 The following are some examples of different ways to address `echo-server` in the
@@ -422,8 +431,11 @@ curl http://echo-server.echo-example.svc.1010.mesh:80
 
 ```sh
 kumactl inspect services
-# SERVICE                                  STATUS               DATAPLANES
-# echo-service_echo-example_svc_1010       Online               1/1
+```
+
+```
+SERVICE                                  STATUS               DATAPLANES
+echo-service_echo-example_svc_1010       Online               1/1
 ```
 
 To consume the service in a Universal deployment without transparent proxy add the following outbound to your {% if_version lte:2.1.x %}[dataplane configuration](/docs/{{ page.version }}/explore/dpp-on-universal){% endif_version %}{% if_version gte:2.2.x %}[dataplane configuration](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/){% endif_version %}:
