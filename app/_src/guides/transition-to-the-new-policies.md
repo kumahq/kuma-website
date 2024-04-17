@@ -2,12 +2,13 @@
 title: Transition to the new policies
 ---
 
-{{site.mesh_product_name}} provides two set of policies to configure proxies. 
-There are old [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policies that didn't live up to expectations and
-there are new [targetRef](/docs/{{ page.version }}/policies/targetref) policies that are designed to address the shortcomings of the old ones, 
-providing improved functionality and UX.
+{{site.mesh_product_name}} provides two set of policies to configure proxies.
+The original [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policies,
+while provided a lot of features, haven't met users expectations in terms of flexibility and transparency.
+The new [targetRef](/docs/{{ page.version }}/policies/targetref) policies were designed to preserve what already worked well,
+and enhance the matching functionality and overall UX.
 
-In this guide, we're going to setup a demo with old policies and then perform a transition to the new policies.
+In this guide, we're going to setup a demo with old policies and then perform a migration to the new policies.
 
 ## Prerequisites
 - [Helm](https://helm.sh/) - a package manager for Kubernetes
