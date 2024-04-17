@@ -25,7 +25,7 @@ demo-app --> redis
   ```sh
   git clone https://github.com/kumahq/kuma-counter-demo.git
   ```
-* Optional: To explore traffic metrics with the demo app, you also need to [set up Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/). See the [traffic metrics policy documentation](/docs/{{ page.version }}/policies/traffic-metrics).
+* Optional: To explore traffic metrics with the demo app, you also need to [set up Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/). See the [MeshMetric policy documentation](/docs/{{ page.version }}/policies/meshmetric/).
 
 ## Install {{site.mesh_product_name}}
 
@@ -33,9 +33,9 @@ demo-app --> redis
 {% tab install Docker %}
 Install a {{site.mesh_product_name}} control plane using the Docker images:
 
-* **kuma-cp**: at `docker.io/{{ site. mesh_docker_org }}/kuma-cp:{{ page.latest_version }}`
-* **kuma-dp**: at `docker.io/{{ site. mesh_docker_org }}/kuma-dp:{{ page.latest_version }}`
-* **kumactl**: at `docker.io/{{ site. mesh_docker_org }}/kumactl:{{ page.latest_version }}`
+* **kuma-cp**: at `docker.io/{{ site.mesh_docker_org }}/kuma-cp:{{ page.version }}`
+* **kuma-dp**: at `docker.io/{{ site.mesh_docker_org }}/kuma-dp:{{ page.version }}`
+* **kumactl**: at `docker.io/{{ site.mesh_docker_org }}/kumactl:{{ page.version }}`
 
 You can freely `docker pull` these images to start using {{site.mesh_product_name}}, as we will demonstrate in the following steps.
 {% endtab %}
@@ -44,11 +44,79 @@ Do one of the following to download {{site.mesh_product_name}}:
 
 * Run the following script to automatically detect the operating system (Amazon Linux, CentOS, RedHat, Debian, Ubuntu, and macOS) and download {{site.mesh_product_name}}:
     <div class="language-sh">
-    <pre class="no-line-numbers"><code>curl -L {{site.mesh_download_url}} | VERSION={{ page.latest_version }} sh -</code></pre>
+    <pre class="no-line-numbers"><code>curl -L {{site.mesh_download_url}} | VERSION={{ page.version }} sh -</code></pre>
     </div>
-* <a href="https://packages.konghq.com/public/{{site.mesh_product_name_path}}-binaries-release/raw/names/{{site.mesh_product_name_path}}-{{ page.os }}-{{ page.arch }}/versions/{{ page.latest_version }}/{{site.mesh_product_name_path}}-{{ page.latest_version }}-{{ page.os }}-{{ page.arch }}.tar.gz">Download</a> the distribution manually. Then, extract the archive with: `tar xvzf {{site.mesh_product_name_path}}-{{ page.latest_version }}-{{ page.os }}-{{ page.arch }}.tar.gz`.
+* <a href="https://packages.konghq.com/public/{{site.mesh_product_name_path}}-binaries-release/raw/names/{{site.mesh_product_name_path}}-{{ page.os }}-{{ page.arch }}/versions/{{ page.version }}/{{site.mesh_product_name_path}}-{{ page.version }}-{{ page.os }}-{{ page.arch }}.tar.gz">Download</a> the distribution manually. Then, extract the archive with: `tar xvzf {{site.mesh_product_name_path}}-{{ page.version }}-{{ page.os }}-{{ page.arch }}.tar.gz`.
 {% endtab %}
 {% endtabs %}
+
+## Generate tokens
+
+Create a token for Redis and a token for the app (both are valid for 30 days):
+
+```sh
+kumactl generate dataplane-token --tag kuma.io/service=redis --valid-for=720h > kuma-token-redis
+kumactl generate dataplane-token --tag kuma.io/service=app --valid-for=720h > kuma-token-app
+```
+
+{% warning %}
+This requires {% if_version lte:2.1.x %}[authentication](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token){% endif_version %}{% if_version gte:2.2.x %}[authentication](/docs/{{ page.version }}/production/secure-deployment/api-server-auth/#admin-user-token){% endif_version %} unless executed against a control-plane running on localhost.
+If `kuma-cp` is running inside a Docker container, see {% if_version lte:2.1.x %}[docker authentication docs](/docs/{{ page.version }}/deployments/stand-alone/){% endif_version %}{% if_version gte:2.2.x %}[docker authentication docs](/docs/{{ page.version }}/production/cp-deployment/stand-alone/){% endif_version %}.
+{% endwarning %}
+
+## Create a data plane proxy for each service
+
+For Redis:
+
+```sh
+kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=kuma-token-redis \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: redis
+  networking: 
+    address: 127.0.0.1
+    inbound: 
+      - port: 16379
+        servicePort: 26379
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: redis
+          kuma.io/protocol: tcp
+    admin:
+      port: 9901"
+```
+
+For the demo app:
+
+```sh
+kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=kuma-token-app \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: app
+  networking: 
+    address: 127.0.0.1
+    outbound:
+      - port: 6379
+        tags:
+          kuma.io/service: redis
+    inbound: 
+      - port: 15000
+        servicePort: 5000
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: app
+          kuma.io/protocol: http
+    admin:
+      port: 9902"
+```
 
 ## Deploy the demo application
 
@@ -65,17 +133,6 @@ Do one of the following to download {{site.mesh_product_name}}:
   ```
 
 1. In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter.
-
-The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace:
-
-```yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: kuma-demo
-  labels:
-    kuma.io/sidecar-injection: enabled
-```
 
 ## Explore the GUI
 
@@ -129,17 +186,33 @@ Before enabling [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTL
 If you enable [mTLS](/docs/{{ page.version }}/policies/mutual-tls/) without a `MeshTrafficPermission` policy, all traffic between your applications will be blocked. 
 {% endwarning %}
 
-To create a `MeshTrafficPermission` policy with a builtin CA backend, do the following:
+1. To create a `MeshTrafficPermission` policy that allows all traffic, do the following:
 
-```sh
-echo 'type: Mesh
-	name: default
-	mtls:
-	  enabledBackend: ca-1
-	  backends:
-	  - name: ca-1
-	    type: builtin' | kumactl apply -f -
-```
+  ```sh
+  echo 'type: MeshTrafficPermission 
+  name: allow-all 
+  mesh: default 
+  spec: 
+    targetRef: 
+      kind: Mesh 
+    from: 
+      - targetRef: 
+          kind: Mesh 
+      default: 
+        action: Allow' | kumactl apply -f -
+  ```
+
+1. To create a `Mesh` policy with a builtin CA backend, do the following:
+
+  ```sh
+  echo 'type: Mesh
+    name: default
+    mtls:
+      enabledBackend: ca-1
+      backends:
+      - name: ca-1
+        type: builtin' | kumactl apply -f -
+  ```
 
 Once Mutual TLS has been enabled, {{site.mesh_product_name}} will **not allow** traffic to flow freely across our services unless we explicitly have a [Traffic Permission](/docs/{{ page.version }}/policies/traffic-permissions/) policy that describes what services can be consumed by other services.
 By default, a very permissive traffic permission is created.
