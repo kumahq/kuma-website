@@ -416,5 +416,12 @@ If everything is fine then remove the old policies.
 
 It's safe to simply remove `route-all-default` TrafficRoute. 
 Traffic is going to flow through the system even if there are no either TrafficRoutes or MeshTCPRoutes/MeshHTTPRoutes.
-Ensure that TrafficRoute is the last policy deleted when removing older policies. 
+
+{% warning %}
+Ensure that TrafficRoute is the last policy deleted when removing older policies.
 Many old policies (i.e. Timeout, CircuitBreaker) rely on the presence of TrafficRoutes to work properly.
+{% endwarning %}
+
+## Next steps
+
+* Further explore [new policies](/docs/{{ page.version }}/policies/introduction)
