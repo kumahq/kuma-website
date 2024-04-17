@@ -50,6 +50,8 @@ No resources found
 
 ## Setup demo with old policies
 
+In the first half of this guide we're going to deploy a demo app in the `default` mesh and configure it using old policies.
+
 ### Create `default` mesh
 
 ```sh
@@ -200,8 +202,11 @@ spec:
 
 ## Transition to the new policies
 
-Each type of policy is migrated separately; for example, once we have completely finished with the Timeouts, 
-we will proceed to the next policy type, CircuitBreakers.
+It's time to migrate the demo app to the new policies.
+
+Each type of policy can be migrated separately; for example, once we have completely finished with the Timeouts, 
+we will proceed to the next policy type, CircuitBreakers. 
+It's possible to migrate all policies at once, but small portions are preferable as they're easily reversible. 
 
 The generalized migration process roughly consists of 4 steps:
 
@@ -211,6 +216,12 @@ The corresponding new policy type can be found in [the table](/docs/{{ page.vers
 3. Remove `kuma.io/effect: shadow` label so that policy is applied in a normal mode.
 4. Observe metrics, traces and logs. If something goes wrong change policy's mode back to shadow and return to the step 2.
 If everything is fine then remove the old policies.
+
+{% warning %}
+The order of migrating policies generally doesn't matter, except for the TrafficRoute policy, 
+which should be the last one deleted when removing old policies. 
+This is because many old policies, like Timeout and CircuitBreaker, depend on TrafficRoutes to function correctly.
+{% endwarning %}
 
 ### TrafficPermission -> MeshTrafficPermission
 
@@ -416,11 +427,6 @@ If everything is fine then remove the old policies.
 
 It's safe to simply remove `route-all-default` TrafficRoute.
 Traffic will flow through the system even if there are neither TrafficRoutes nor MeshTCPRoutes/MeshHTTPRoutes.
-
-{% warning %}
-Ensure that TrafficRoute is the last policy deleted when removing older policies.
-Many old policies (i.e. Timeout, CircuitBreaker) rely on the presence of TrafficRoutes to work properly.
-{% endwarning %}
 
 ## Next steps
 
