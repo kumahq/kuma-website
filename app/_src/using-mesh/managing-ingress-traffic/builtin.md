@@ -53,7 +53,6 @@ spec:
 
 {% include snippets/warning_meshgatewayinstance_service_tag.md %}
 
-{% endif_version %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGatewayInstance
