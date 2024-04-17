@@ -19,7 +19,7 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
 
 1. Install the Gateway API CRDs.
 
-   Kubernetes doesn't include Gateway API CRDs by default. To install them follow the [Installing Gateway API Standard Channel](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
+   Kubernetes doesn't include Gateway API CRDs, [install them from the standard channel CRD bundle](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
 
 2. Enable Gateway API support.
 
@@ -27,7 +27,7 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
    - With Helm, use the `{{site.set_flag_values_prefix}}experimental.gatewayAPI=true` value.
 {% endif_version %}
 {% if_version gte:2.7.x %}
-Kubernetes doesn't include Gateway API CRDs by default. To install them follow the [Installing Gateway API Standard Channel](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
+Kubernetes doesn't include Gateway API CRDs, [install them from the standard channel CRD bundle](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
 {% endif_version %}
 
 {% if_version lte:2.2.x %}
@@ -294,7 +294,7 @@ Gateway API isn't supported with multi-zone deployments, use {{site.mesh_product
 The Gateway API supports multi-zone deployments, but with some limitations:
 
 - Gateway API resources like `Gateway`, `ReferenceGrant`, and `HTTPRoute` must be created in non-global zones. They are kubernetes resources and therefore are not known to {{ site.mesh_product_name }}.
-- Only services deployed within the same Kubernetes cluster, such as the `HTTPRoute`, can be referenced as the `backendRef`.
+- Only services deployed within the same Kubernetes cluster, such as the `HTTPRoute`, can be referenced via `backendRef`.
 
 {% capture backendref-limitation %}
 {% tip %}
@@ -402,11 +402,11 @@ flowchart TD
 {% endmermaid %}
 {% endcapture %}
 
-   - If in `k8s-cluster-1` you create an `HTTPRoute` with a `backendRef` targeting the `backend` service, it will only route traffic to the `backend` service in `k8s-cluster-1`.
+   - If you create an `HTTPRoute` with a `backendRef` targeting the `backend` service in `k8s-cluster-1`, it will only route traffic to the `backend` service in `k8s-cluster-1`.
      
      {{ gapi_multizone_limitation_1 | indent }}
 
-   - Similarly, if in `k8s-cluster-1` you create an `HTTPRoute` with a `backendRef` pointing to the `db` service, it will result in a `HTTPRoute` with a `ResolvedRefs` status condition of `BackendNotFound` because service `db` is not present in `k8s-cluster-1`.
+   - Similarly, if you create an `HTTPRoute` with a `backendRef` pointing to the `db` service in `k8s-cluster-1`, it will result in a `HTTPRoute` with a `ResolvedRefs` status condition of `BackendNotFound` because service `db` is not present in `k8s-cluster-1`.
 
      {{ gapi_multizone_limitation_2 | indent }}
 
