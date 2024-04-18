@@ -1,13 +1,14 @@
 ---
-title: Transition to the new policies
+title: Migration to the new policies
 ---
 
-{{site.mesh_product_name}} provides two set of policies to configure proxies. 
-There are old [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policies that didn't live up to expectations and
-there are new [targetRef](/docs/{{ page.version }}/policies/targetref) policies that are designed to address the shortcomings of the old ones, 
-providing improved functionality and UX.
+{{site.mesh_product_name}} provides two set of policies to configure proxies.
+The original [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policies,
+while provided a lot of features, haven't met users expectations in terms of flexibility and transparency.
+The new [targetRef](/docs/{{ page.version }}/policies/targetref) policies were designed to preserve what already worked well,
+and enhance the matching functionality and overall UX.
 
-In this guide, we're going to setup a demo with old policies and then perform a transition to the new policies.
+In this guide, we're going to setup a demo with old policies and then perform a migration to the new policies.
 
 ## Prerequisites
 - [Helm](https://helm.sh/) - a package manager for Kubernetes
@@ -49,6 +50,8 @@ No resources found
 ```
 
 ## Setup demo with old policies
+
+In the first half of this guide we're going to deploy a demo app in the `default` mesh and configure it using old policies.
 
 ### Create `default` mesh
 
@@ -198,19 +201,29 @@ spec:
         threshold: 36' | kubectl apply -f-
 ```
 
-## Transition to the new policies
+## Migration to the new policies
 
-Each type of policy is migrated separately; for example, once we have completely finished with the Timeouts, 
-we will proceed to the next policy type, CircuitBreakers.
+It's time to migrate the demo app to the new policies.
+
+Each type of policy can be migrated separately; for example, once we have completely finished with the Timeouts, 
+we will proceed to the next policy type, CircuitBreakers. 
+It's possible to migrate all policies at once, but small portions are preferable as they're easily reversible. 
 
 The generalized migration process roughly consists of 4 steps:
 
-1. Create and deploy the replacement policies in [shadow mode](/docs/{{ page.version }}/policies/applying-policies/#applying-policies-in-shadow-mode). 
-The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction).
-2. Review the list of changes that're going to be created by the replacement policy.
+1. Create a new [targetRef](/docs/{{ page.version }}/policies/targetref) policy as a replacement for exising [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policy. 
+The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction). 
+Deploy the policy in [shadow mode](/docs/{{ page.version }}/policies/applying-policies/#applying-policies-in-shadow-mode) to avoid any traffic disruptions.
+2. Using Inspect API review the list of changes that are going to be created by the new policy.
 3. Remove `kuma.io/effect: shadow` label so that policy is applied in a normal mode.
 4. Observe metrics, traces and logs. If something goes wrong change policy's mode back to shadow and return to the step 2.
 If everything is fine then remove the old policies.
+
+{% warning %}
+The order of migrating policies generally doesn't matter, except for the TrafficRoute policy, 
+which should be the last one deleted when removing old policies. 
+This is because many old policies, like Timeout and CircuitBreaker, depend on TrafficRoutes to function correctly.
+{% endwarning %}
 
 ### TrafficPermission -> MeshTrafficPermission
 
@@ -251,8 +264,8 @@ If everything is fine then remove the old policies.
    + {"permissions":[{"any":true}],"principals":[{"authenticated":{"principalName":{"exact":"spiffe://default/demo-app_kuma-demo_svc_5000"}}}]}
     ```
 
-    As we can see, the only difference is the policy name "MeshTrafficPermission" instead of "allow-all-default". 
-    The list of principals looks similar. 
+    As we can see, the only difference is the policy name "MeshTrafficPermission" instead of "allow-all-default".
+    The value of the policy is the same.
 
 3. Remove the `kuma.io/effect: shadow` label:
 
@@ -277,9 +290,9 @@ If everything is fine then remove the old policies.
            action: Allow' | kubectl apply -f -
     ```
 
-    Although the old TrafficPermission and the new MeshTrafficPermission currently coexist, the new policy completely overrides the old one.
+    Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective. 
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission and conclude the transition.
+4. Observe the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission and conclude the migration.
 
 ### Timeout -> MeshTimeout
 
@@ -348,9 +361,9 @@ If everything is fine then remove the old policies.
     These 3 facts perfectly explain the list of changes we're observing.
 
 3. Remove the `kuma.io/effect: shadow` label.
-   Although the old Timeout and the new MeshTimeout currently coexist, the new policy completely overrides the old one.
+   Even though the old Timeout and the new MeshTimeout are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove Timeout and conclude the transition.
+4. Observe the demo app behaves as expected. If everything goes well, we can safely remove Timeout and conclude the migration.
 
 ### CircuitBreaker -> MeshCircuitBreaker
 
@@ -408,19 +421,14 @@ If everything is fine then remove the old policies.
     The expected output is empty. CircuitBreaker and MeshCircuitBreaker configures Envoy in the exact similar way.
 
 3. Remove the `kuma.io/effect: shadow` label.
-   Although the old CircuitBreaker and the new MeshCircuitBreaker currently coexist, the new policy completely overrides the old one.
+   Even though the old CircuitBreaker and the new MeshCircuitBreaker are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove CircuitBreaker and conclude the transition.
+4. Observe the demo app behaves as expected. If everything goes well, we can safely remove CircuitBreaker and conclude the migration.
 
 ### TrafficRoute -> MeshTCPRoute
 
-It's safe to simply remove `route-all-default` TrafficRoute. 
-Traffic is going to flow through the system even if there are no either TrafficRoutes or MeshTCPRoutes/MeshHTTPRoutes.
-
-{% warning %}
-Ensure that TrafficRoute is the last policy deleted when removing older policies.
-Many old policies (i.e. Timeout, CircuitBreaker) rely on the presence of TrafficRoutes to work properly.
-{% endwarning %}
+It's safe to simply remove `route-all-default` TrafficRoute.
+Traffic will flow through the system even if there are neither TrafficRoutes nor MeshTCPRoutes/MeshHTTPRoutes.
 
 ## Next steps
 
