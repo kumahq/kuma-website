@@ -250,7 +250,7 @@ network calls from init containers while running a mesh can be a challenge.
 
 The common pitfall is the idea that it's possible to order init containers so that the mesh init container is run after other init containers.
 However, when injecting these init containers into a Pod via webhooks, such as the Vault init container, there is no assurance of the order.
-The ordering of init containers also doesn't provide a solution when the CNI is used, as traffic redirection to the sidecar occurs even before
+The ordering of init containers also doesn't provide a solution when the {{site.mesh_product_name}} CNI is used, as traffic redirection to the sidecar occurs even before
 any init container runs.
 
 To solve this issue, start the init container with a specific user ID and exclude specific ports from interception.
