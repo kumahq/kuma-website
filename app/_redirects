@@ -3,6 +3,7 @@
 
 /docs /docs/LATEST_RELEASE/ 302
 /docs/:version/overview/ /docs/:version/overview/what-is-kuma 301
+/docs/:version/production/init-containers/ /docs/:version/production/dp-config/dpp-on-kubernetes/#init-containers 301
 /latest_version.html /latest_version 301
 /install /install/LATEST_RELEASE/ 302
 /install/latest/* /install/LATEST_RELEASE/:splat 302
