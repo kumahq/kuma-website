@@ -49,7 +49,7 @@ If you do this, deleting a mesh will not delete the resources that are attached 
 
 On Kubernetes there are two ways to redirect traffic to the sidecar:
 
-- init-containers which need to run with elevated privileges.
+- Init containers which need to run with elevated privileges.
 - [CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) which requires a little extra setup.
 
 To use the CNI you can use the detailed [instructions to configure the {{site.mesh_product_name}} CNI](/docs/{{ page.version }}/production/dp-config/cni/). 

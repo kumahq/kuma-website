@@ -137,8 +137,6 @@ items:
             url: /production/upgrades-tuning/fine-tuning/
           - text: Version specific upgrade notes
             url: /production/upgrades-tuning/upgrade-notes/
-      - text: Init containers
-        url: /production/init-containers/
       - text: Control Plane Configuration
         url: /documentation/configuration/
         items:

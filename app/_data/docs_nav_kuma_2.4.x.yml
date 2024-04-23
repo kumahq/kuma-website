@@ -104,8 +104,6 @@ items:
             url: /production/upgrades-tuning/upgrades/
           - text: Performance fine-tuning
             url: /production/upgrades-tuning/fine-tuning/
-      - text: Init containers
-        url: /production/init-containers/
   - title: Deploy
     group: true
     items:
