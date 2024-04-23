@@ -204,7 +204,7 @@ As always, your application should itself initiate graceful shutdown
 when it receives SIGTERM. In particular, remember that Kubernetes works largely
 asynchronously. So if your application exits "too quickly" it's possible that
 requests are still routed to the `Pod` and they fail. There's [an article at
-learnk8s.io](https://learnk8s.io/graceful-shutdown#graceful-shutdown)
+learnk8s.io](https://learnk8s.io/graceful-shutdown#how-to-gracefully-shut-down-pods)
 with an overview of the problem and potential solutions.
 
 It ultimately comes down to "just wait a little bit" when your application
