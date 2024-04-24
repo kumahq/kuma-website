@@ -28,6 +28,18 @@ This way you can make a service multi-zone by having data planes using the same 
 Let's look at how a service `backend` in `zone-b` is advertised to `zone-a` and a request from the local zone `zone-a` is routed to the remote
 service in `zone-b`.
 
+{% mermaid %}
+graph TD
+    subgraph zone-A
+        client[Client]
+        serviceA[Service Backend A]
+    end
+    subgraph zone-B
+        serviceB[Service Backend B]
+    end
+    client --> serviceB
+{% endmermaid %}
+
 ### Destination service zone
 
 When the new service `backend` joins the mesh in `zone-b`, the `zone-b` zone control plane adds this service to the `availableServices` on the `zone-b` `ZoneIngress` resource.
