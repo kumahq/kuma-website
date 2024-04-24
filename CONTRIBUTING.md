@@ -61,7 +61,11 @@ In most cases, you can add this signoff to your commit automatically with the `-
 
 ### Running the site locally
 
-Clone the repository and run `make install`, make sure you have the right ruby version installed (`cat .ruby-version`).
+Clone the repository and run:
+```
+make install
+```
+make sure you have the right ruby version installed (`cat .ruby-version`).
 Jekyll is a static-site generator, so first we need to build the site and compile the assets:
 ```
 make build
