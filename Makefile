@@ -16,7 +16,6 @@ endif
 
 # Installs npm packages and gems.
 install: ruby-version-check
-	npm install -g netlify-cli@16.5.1
 	yarn install
 	bundle install
 
@@ -27,7 +26,7 @@ build: ruby-version-check
 	bundle exec jekyll build --config jekyll.yml --profile
 
 serve:
-	netlify dev
+	yarn run dev
 
 # Cleans up all temp files in the build.
 # Run `make clean` locally whenever you're updating dependencies, or to help
