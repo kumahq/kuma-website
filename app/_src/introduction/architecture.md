@@ -135,7 +135,7 @@ Kubernetes `Jobs` are a good example of this.
 
 In this case, the {{site.mesh_product_name}} control plane generates a `kuma.io/service` tag with the format `<name>_<namespace>_svc`, where `<name>` and`<namespace>` come from the `Pod` resource itself.
 
-The `Pods` created by the following example `Deployment` have the tag `kuma.io/service: example-client_kuma-example_svc`:
+The `Pods` created by the following example `Deployment` have the tag `kuma.io/service: echo-client_default_svc`:
 
 ```yaml
 apiVersion: apps/v1

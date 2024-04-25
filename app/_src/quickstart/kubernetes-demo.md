@@ -158,7 +158,7 @@ spec:
 ```
 
 At this point, the demo application should not function, because we blocked the traffic.
-You can verify this by clicking the increment button again and seeing the error message in the browser
+You can verify this by clicking the increment button again and seeing the error message in the browser.
 We can allow the traffic from the `demo-app` to `redis` by applying the following MeshTrafficPermission
 
 ```sh
