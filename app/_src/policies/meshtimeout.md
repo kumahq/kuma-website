@@ -268,7 +268,7 @@ spec:
                 type: PathPrefix
                 value: /v2
           default:
-            backendRef:
+            backendRefs:
               - kind: MeshServiceSubset
                 name_uni: backend
                 name_kube: backend_kuma-demo_svc_3001

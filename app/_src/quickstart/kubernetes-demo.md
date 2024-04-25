@@ -174,8 +174,9 @@ spec:
     name: redis_kuma-demo_svc_6379
   from:
     - targetRef:
-        kind: MeshService
-        name: demo-app_kuma-demo_svc_5000
+        kind: MeshSubset
+        tags:
+          kuma.io/service: demo-app_kuma-demo_svc_5000
       default:
         action: Allow" | kubectl apply -f -
 ```
