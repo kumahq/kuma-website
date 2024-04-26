@@ -24,10 +24,10 @@ Usually, at this point, developers take one of the following actions to remedy t
   - It is typically language-specific; therefore, it prevents innovation
   - Multiple implementations of the library exist, which creates fragmentation in the long run.
 
-- **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. And of course it will execute traffic policies at runtime, like routing or logging. By using this approach, developers don't have to worry about connectivity and focus entirely on their services and applications.
+- **Sidecar proxy**: The services delegate all the connectivity and observability concerns to an out-of-process runtime, that will be on the execution path of every request. It will proxy all the outgoing connections and accept all the incoming ones. And of course it will execute traffic policies at runtime, like routing or logging. By using this approach, developers don't have to worry about connectivity and can focus entirely on their services and applications.
 
 {% tip %}
-**Sidecar Proxy**: It's called _sidecar_ proxy because the proxy it's another process running alongside our service process on the same underlying host. There is going to be one instance of a sidecar proxy for each running instance of our services, and because all the incoming and outgoing requests - and their data - always go through the sidecar proxy, it is also called a data-plane (DP) since it sits on the data path.
+**Sidecar Proxy**: It's called _sidecar_ proxy because the proxy is another process running alongside our service process on the same underlying host. There is going to be one instance of a sidecar proxy for each running instance of our services, and because all the incoming and outgoing requests - and their data - always go through the sidecar proxy, it is also called a data-plane (DP) since it sits on the data path.
 {% endtip %}
 
 Since we are going to be having many instances for our services, we are also going to be having an equal number of sidecar proxies: that's a lot of proxies! Therefore the sidecar proxy model **requires** a control plane that allows a team to configure the behavior of the proxies dynamically without having to manually configure them. The proxies initiate connections with the control plane to receive new configurations, while at runtime the control provides them with the most updated configuration.
@@ -52,7 +52,7 @@ By outsourcing all the connectivity, security, and routing concerns to a sidecar
 - focus on the core functionality of our services to drive more business
 - build a more secure and standardized architecture by reducing fragmentation
 
-By reducing the code that our teams create and maintain, we can modernize our applications piece by piece without ever needing to bite more than we can chew.
+By reducing the code that our teams create and maintain, we can modernize our applications piece by piece without ever needing to bite off more than we can chew.
 
 <center>
 <img src="/assets/images/docs/0.5.0/diagram-04.jpg" alt="" style=" padding-top: 20px; padding-bottom: 10px;"/>
@@ -76,7 +76,7 @@ Out of the box, {{site.mesh_product_name}} ships with a bundled [Envoy](https://
 
 ## VM and K8s support
 
-The platform agnosticity of {{site.mesh_product_name}} enables Service Mesh to the entire organization - and not just Kubernetes - making it a more viable solution for the entire organization.
+The platform agnosticity of {{site.mesh_product_name}} enables Service Mesh organization-wide - and not just Kubernetes - making it a more viable solution for the entire organization.
 
 Until now, Service Mesh has been considered to be the last step of architecture modernization after transitioning to containers and perhaps to Kubernetes. This approach is entirely backwards. It makes the adoption and the business value of Service Mesh available only after implementing other massive transformations that - in the meanwhile - can go wrong.
 
@@ -96,7 +96,7 @@ Finally, by leveraging out-of-the-box policies and {{site.mesh_product_name}}'s 
 
 When Service Mesh first became mainstream around 2017, a few control planes were released by small and large organizations in order to support the first implementations of this new architectural pattern.
 
-These control planes captured a lot of enthusiasm in the early days, but they all lacked pragmatism into creating a viable journey to Service Mesh adoption within existing organizations. These 1st generation solutions are:
+These control planes captured a lot of enthusiasm in the early days, but they all lacked pragmatism in terms of creating a viable journey to Service Mesh adoption within existing organizations. These 1st generation solutions are:
 
 * **Greenfield-only**: Hyper-focused on new greenfield applications, without providing a journey to modernize existing workloads running on VM and Bare Metal platforms where the current business runs today, in addition to Kubernetes.
 * **Complicated to use**: Service Mesh doesn't have to be complicated, but early implementations were hard to use; they had poor documentation and no clear upgrade path to mitigate breaking changes.
