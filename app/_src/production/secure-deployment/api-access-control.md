@@ -3,6 +3,13 @@ title: Kuma API access control
 content_type: reference
 ---
 
+{% if site.mesh_product_name != "Kuma" %}
+{% warning %}
+{{site.mesh_product_name}} uses RBAC access control by default. See [Role-Based Access Control documentation](/docs/{{ page.version }}/features/rbac/) for details.
+If you heave a strong reason to use static access control you need to set `KUMA_ACCESS_TYPE=static` to use the variables described in this page.
+{% endwarning %}
+{% endif %}
+
 {{site.mesh_product_name}} provide a simple access control to administrative actions executed on {{site.mesh_product_name}} API Server (port 5681 by default).
 
 ## Manage admin resources
