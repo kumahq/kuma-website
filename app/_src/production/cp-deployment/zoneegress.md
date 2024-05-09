@@ -5,9 +5,7 @@ content_type: how-to
 
 `ZoneEgress` proxy is used when it is required to isolate outgoing traffic (to services in other
 zones or [external services](/docs/{{ page.version }}/policies/external-services) in the local zone).
-and you want to achieve isolation of outgoing traffic (to services in other 
-zones or [external services](/docs/{{ page.version }}/policies/external-services) in the local zone),
-you can use `ZoneEgress` proxy.
+
 
 {%tip%}
 Because `ZoneEgress` uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.version }}/policies/mutual-tls) is required.
