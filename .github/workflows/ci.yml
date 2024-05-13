@@ -136,7 +136,7 @@ jobs:
           VERBOSE: ${{ runner.debug }}
           VERSION: preview
         run: |
-          VERSION=$(sh app/installer.sh --print-version 2> /dev/null)
+          export VERSION=$(sh app/installer.sh --print-version 2> /dev/null)
           sh app/installer.sh
           file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
           rm -rf ./kuma-*/ 
