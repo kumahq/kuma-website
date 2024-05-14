@@ -136,6 +136,14 @@ jobs:
           VERBOSE: ${{ runner.debug }}
           VERSION: preview
         run: |
+          sh app/installer.sh
+          file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
+          rm -rf ./kuma-*/
+          echo ${VERSION}
+      - name: Run installer.sh with specific version
+        env:
+          VERBOSE: ${{ runner.debug }}
+        run: |
           VERSION=$(sh app/installer.sh --print-version 2> /dev/null)
           sh app/installer.sh
           file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
