@@ -134,13 +134,13 @@ jobs:
       - name: Run installer.sh with preview version
         env:
           VERBOSE: ${{ runner.debug }}
-          VERSION: 0.0.0-preview.v76e03eb68
+          VERSION: preview
         run: |
+          VERSION=$(sh app/installer.sh --print-version 2> /dev/null)
           sh app/installer.sh
           file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
           rm -rf ./kuma-*/ 
-          PRINT_VERSION=$(sh app/installer.sh --print-version 2> /dev/null)
-          echo ${PRINT_VERSION} | grep "${VERSION}" || echo "Unexpected version ${PRINT_VERSION}"
+          echo ${VERSION}
   installer-sh-arm64:
     runs-on: ubuntu-latest
     name: Test installer.sh on arm64
