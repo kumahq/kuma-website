@@ -5,7 +5,7 @@ content_type: how-to
 
 In order to automatically intercept traffic from and to a service through a `kuma-dp` data plane proxy instance, {{site.mesh_product_name}} utilizes a transparent proxying using [`iptables`](https://linux.die.net/man/8/iptables).
 
-Transparent proxying helps with a smoother rollout of a Service Mesh to a current deployment by preserving existing service naming and as the result - avoid changes to the application code.
+Transparent proxying helps with a smoother rollout of a Service Mesh to a current deployment by preserving existing service naming and as the result - avoid changes to the application code.  
 
 ## Kubernetes
 
@@ -17,6 +17,8 @@ All incoming and outgoing traffic is automatically intercepted by `kuma-dp` with
 ## Universal
 
 On **Universal** `kuma-dp` leverages the {% if_version lte:2.1.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/explore/dpp-on-universal/){% endif_version %}{%if_version gte:2.2.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration){% endif_version %} associated to it for receiving incoming requests on a pre-defined port.
+
+In order to enable transparent-proxy the Zone Control Plane must exist on a seperate server.  Running the Zone Control Plane with Postgres does not function with transparent-proxy on the same machine.
 
 There are several advantages for using transparent proxying in universal mode:
 
