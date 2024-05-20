@@ -65,12 +65,15 @@ ports:
     containerPort: 8889
     servicePort: 8889
     protocol: TCP
+image:
+  repository: 'otel/opentelemetry-collector-contrib'
 " > values-otel.yaml
 ```
 
 This is the Helm chart configuration we will be using. This will configure OpenTelemetry collector to listen on grpc port `4317` for metrics 
 pushed by dataplane proxy, process and expose collected metrics in Prometheus format on port `8889`. In the next step we 
-will configure Prometheus to scrape these metrics.
+will configure Prometheus to scrape these metrics. Refer to openTelemetry-collector helm installation [UPGRADING](https://github.com/open-telemetry/opentelemetry-helm-charts/blob/main/charts/opentelemetry-collector/UPGRADING.md#0880-to-0890),
+it requires the parameter `image.repository` must be set and our current configurations rely on `Contrib distribution` image repository.
 
 Most important in this configuration is `pipelines` section:
 
