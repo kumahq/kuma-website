@@ -16,7 +16,7 @@ All incoming and outgoing traffic is automatically intercepted by `kuma-dp` with
 
 ## Universal
 
-On **Universal** `kuma-dp` leverages the {%if_version lte:2.1.x %}[data plane proxy specification](/docs/{{ page.version }}/explore/dpp-on-universal/){%endif_version%}{%if_version gte:2.2.x %}[data plane proxy specification](/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration){%endif_version%} associated to it for receiving incoming requests on a pre-defined port.
+On **Universal** `kuma-dp` leverages the {% if_version lte:2.1.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/explore/dpp-on-universal/){% endif_version %}{%if_version gte:2.2.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration){% endif_version %} associated to it for receiving incoming requests on a pre-defined port.
 
 There are several advantages for using transparent proxying in universal mode:
 
@@ -31,11 +31,12 @@ Prerequisites:
 
 - `kuma-dp`, `envoy`, and `coredns` must run on the worker node -- that is, the node that runs your service mesh workload.
 - `coredns` must be in the PATH so that `kuma-dp` can access it.
-    - You can also set the location with the `--dns-coredns-path` flag to `kuma-dp`.
+  - You can also set the location with the `--dns-coredns-path` flag to `kuma-dp`.
 
 {{site.mesh_product_name}} comes with [`kumactl` executable](/docs/{{ page.version }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
 The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
 
+{% if_version lte:2.4.x %}
 1. Use proper version of iptables
 
    {{site.mesh_product_name}} [isn't yet compatible](https://github.com/kumahq/kuma/issues/8293) with `nf_tables`. You can check the version of iptables with the following command
@@ -53,6 +54,7 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
    iptables --version
    # iptables v1.8.7 (legacy)
    ```
+{% endif_version %}
 
 2. Create a new dedicated user on the machine.
 
@@ -70,9 +72,9 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
    ```
 
 {% warning %}
-Please note that this command **will change** the host `iptables` rules.
+Please note that this command **will change** the host's `iptables` rules.
 
-The command excludes port 22, so you can SSH to the machine without `kuma-dp` running.
+The command excludes port `22`, so you can SSH to the machine without `kuma-dp` running.
 {% endwarning %}
 
 The changes won't persist over restarts. You need to either add this command to your start scripts or use firewalld.
@@ -135,7 +137,7 @@ Before upgrading to the next version of {{site.mesh_product_name}}, it's best to
 You can clean the rules either by restarting the host or by running following commands
 
 {% warning %}
-Executing these commands will remove all iptables rules, including those created by {{site.mesh_product_name}} and any other applications or services.
+Executing these commands will remove all `iptables` rules, including those created by {{site.mesh_product_name}} and any other applications or services.
 {% endwarning %}
 
 ```sh
@@ -183,7 +185,7 @@ spec:
 
 You can also control this value on whole {{site.mesh_product_name}} deployment with the following {{site.mesh_product_name}} CP [configuration](/docs/{{ page.version }}/documentation/configuration)
 
-```
+```sh
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
 ```
@@ -191,10 +193,11 @@ KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
 {% endtab %}
 
 {% tab intercepted-traffic Universal %}
-The default settings will exclude the SSH port `22` from the redirection, thus allowing the remote access to the host to be preserved.
-If the host is set up to use other remote management mechanisms, use `--exclude-inbound-ports` to provide a comma separated list of the TCP ports that will be excluded from the redirection.
+By default, all ports are intercepted by the transparent proxy. This may prevent remote access to the host via SSH (port `22`) or other management tools when `kuma-dp` is not running.
 
-Execute `kumactl install transparent-proxy --help` to see available options.
+If you need to access the host directly, even when `kuma-dp` is not running, use the `--exclude-inbound-ports` flag with `kumactl install transparent-proxy` to specify a comma-separated list of ports to exclude from redirection.
+
+Run `kumactl install transparent-proxy --help` for all available options.
 {% endtab %}
 {% endtabs %}
 
@@ -258,7 +261,7 @@ and have `cgroup2` available
 {% tabs ebpf useUrlFragment=false %}
 {% tab ebpf Kubernetes %}
 
-```shell
+```sh
 kumactl install control-plane \
   --set "{{site.set_flag_values_prefix}}experimental.ebpf.enabled=true" | kubectl apply -f-
 ```
@@ -267,7 +270,7 @@ kumactl install control-plane \
 
 {% tab ebpf Universal %}
 
-```shell
+```sh
 kumactl install transparent-proxy \
   --experimental-transparent-proxy-engine \
   --ebpf-enabled \
@@ -278,7 +281,7 @@ kumactl install transparent-proxy \
 {% tip %}
 If your environment contains more than one non-loopback network interface, and
 you want to specify explicitly which one should be used for transparent proxying
-you should provide it using`--ebpf-tc-attach-iface <IFACE_NAME>` flag, during
+you should provide it using `--ebpf-tc-attach-iface <IFACE_NAME>` flag, during
 transparent proxy installation.
 {% endtip %}
 

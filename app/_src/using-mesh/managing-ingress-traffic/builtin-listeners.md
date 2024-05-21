@@ -2,6 +2,8 @@
 title: Configuring built-in listeners
 ---
 
+{% capture k8s_service_selector_suffix %}{% if_version gte:2.7.x inline:true %}_default_svc{% endif_version %}{% endcapture %}
+
 For configuring built-in gateway listeners, use the [`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners) resource.
 
 {% tip %}
@@ -13,6 +15,18 @@ multi-zone.
 The `MeshGateway` resource specifies what network ports the gateway should listen on and how network traffic should be accepted.
 A builtin gateway Dataplane can have exactly one `MeshGateway` resource bound to it.
 This binding uses standard, tag-based {{site.mesh_product_name}} matching semantics:
+
+[//]: # (This is change in behavior, let's assume that users will get used to it, so we won't have to show this warning after 2.9.x)
+{% if_version gte:2.7.x lte:2.9.x %}
+
+{% warning %}
+**Heads up!**
+In previous versions of {{site.mesh_product_name}}, setting the `kuma.io/service` tag directly within a `MeshGatewayInstance` resource was used to identify the service. However, this practice is deprecated and no longer recommended for security reasons since {{site.mesh_product_name}} version 2.7.0.
+
+We've automatically switched to generating the service name for you based on your `MeshGatewayInstance` resource name and namespace (format: `{name}_{namespace}_svc`).
+{% endwarning %}
+
+{% endif_version %}
 
 {% tabs binding useUrlFragment=false %}
 {% tab binding Kubernetes %}
@@ -26,7 +40,7 @@ metadata:
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway{{ k8s_service_selector_suffix }}
 ```
 
 {% endtab %}
@@ -45,7 +59,7 @@ selectors:
 {% endtabs %}
 
 A `MeshGateway` can have any number of listeners, where each listener represents an endpoint that can accept network traffic.
-Note that the `MeshGateway` doesn’t specify which IP addresses are listened on; the `Dataplane` resource specifies that.
+Note that the `MeshGateway` doesn't specify which IP addresses are listened on; the `Dataplane` resource specifies that.
 
 To configure a listener, you need to specify at least the port number and network protocol.
 Each listener may also have its own set of {{site.mesh_product_name}} tags so that {{site.mesh_product_name}} policy configuration can be targeted to specific listeners.
@@ -54,8 +68,15 @@ Each listener may also have its own set of {{site.mesh_product_name}} tags so th
 {% tab listener Kubernetes %}
 
 ```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
+mesh: default
+metadata:
+  name: edge-gateway
 spec:
-  ...
+  selectors:
+    - match:
+        kuma.io/service: edge-gateway{{ k8s_service_selector_suffix }}
   conf:
     listeners:
       - port: 8080
@@ -68,6 +89,12 @@ spec:
 {% tab listener Universal %}
 
 ```yaml
+type: MeshGateway
+mesh: default
+name: edge-gateway
+selectors:
+  - match:
+      kuma.io/service: edge-gateway
 conf:
   listeners:
     - port: 8080
@@ -91,8 +118,15 @@ the port/protocol with other routes attached to other hostnames.
 {% tab usage Kubernetes %}
 
 ```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
+mesh: default
+metadata:
+  name: edge-gateway
 spec:
-  ...
+  selectors:
+    - match:
+        kuma.io/service: edge-gateway{{ k8s_service_selector_suffix }}
   conf:
     listeners:
       - port: 8080
@@ -106,6 +140,12 @@ spec:
 {% tab usage Universal %}
 
 ```yaml
+type: MeshGateway
+mesh: default
+name: edge-gateway
+selectors:
+  - match:
+      kuma.io/service: edge-gateway
 conf:
   listeners:
     - port: 8080
@@ -118,7 +158,7 @@ conf:
 {% endtab %}
 {% endtabs %}
 
-In this example, the gateway proxy listens for HTTP protocol connections on TCP port 8080 but restricts the `Host` header to `foo.example.com`.
+In the above example, the gateway proxy listens for HTTP protocol connections on TCP port 8080 but restricts the `Host` header to `foo.example.com`.
 
 {% tabs selectors useUrlFragment=false %}
 {% tab selectors Kubernetes %}
@@ -132,7 +172,7 @@ metadata:
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway{{ k8s_service_selector_suffix }}
   conf:
     listeners:
       - port: 8080
@@ -181,11 +221,12 @@ Note that because each listener entry has its own {{site.mesh_product_name}} tag
 {{site.mesh_product_name}} generates a set of tags for each listener by combining the tags from the listener, the `MeshGateway` and the `Dataplane`.
 {{ site.mesh_product_name}} matches policies against this set of combined tags.
 
-| `Dataplane` tags                 | Listener tags                                 | Final Tags                                         |
-| -------------------------------- | --------------------------------------------- | -------------------------------------------------- |
-| kuma.io/service=edge-gateway     | vhost=foo.example.com                         | kuma.io/service=edge-gateway,vhost=foo.example.com |
-| kuma.io/service=edge-gateway     | kuma.io/service=example,domain=example.com    | kuma.io/service=example,domain=example.com         |
-| kuma.io/service=edge,location=us | version=2                                     | kuma.io/service=edge,location=us,version=2         |
+| `Dataplane` tags                                                  | Listener tags                                 | Final Tags                                                                         |
+|-------------------------------------------------------------------| --------------------------------------------- |------------------------------------------------------------------------------------|
+| kuma.io/service=edge-gateway{{ k8s_service_selector_suffix }}     | vhost=foo.example.com                         | kuma.io/service=edge-gateway{{ k8s_service_selector_suffix }},vhost=foo.example.com |
+| kuma.io/service=edge-gateway{{ k8s_service_selector_suffix }}     | kuma.io/service=example,domain=example.com    | kuma.io/service=example,domain=example.com                                         |
+| kuma.io/service=edge{{ k8s_service_selector_suffix }},location=us | version=2                                     | kuma.io/service=edge{{ k8s_service_selector_suffix }},location=us,version=2        |
+
 
 ## TLS Termination
 
@@ -204,18 +245,18 @@ metadata:
 spec:
   selectors:
     - match:
-    kuma.io/service: edge-gateway
+        kuma.io/service: edge-gateway{{ k8s_service_selector_suffix }}
   conf:
     listeners:
-    - port: 8443
-      protocol: HTTPS
-      hostname: foo.example.com
-      tls:
-        mode: TERMINATE
-        certificates:
-          - secret: foo-example-com-certificate
-      tags:
-        name: foo.example.com
+      - port: 8443
+        protocol: HTTPS
+        hostname: foo.example.com
+        tls:
+          mode: TERMINATE
+          certificates:
+            - secret: foo-example-com-certificate
+        tags:
+          name: foo.example.com
 ```
 
 {% endtab %}
@@ -290,22 +331,31 @@ data: $(kumactl generate tls-certificate --type=server --hostname=foo.example.co
 
 The `Mesh` abstraction allows users
 to encapsulate and isolate services
-inside a kind of submesh with its own CA.
+inside a kind of sub-mesh with its own CA.
 With a cross-mesh `MeshGateway`,
 you can expose the services of one `Mesh`
-to other `Mesh`es by defining an API with `MeshGatewayRoute`s.
+to other `Mesh`es by defining an API with {% if_version gte:2.6.x inline:true %}`MeshHTTPRoute`s{% endif_version %}{% if_version lte:2.5.x inline:true %}`MeshGatewayRoute`s{% endif_version %}.
 All traffic remains inside the {{site.mesh_product_name}} data plane protected by mTLS.
 
 All meshes involved in cross-mesh communication must have mTLS enabled.
 To enable cross-mesh functionality for a `MeshGateway` listener,
 set the `crossMesh` property.
 
-```
-  ...
-  mesh: default
+{% tabs cross-mesh useUrlFragment=false %}
+{% tab cross-mesh Kubernetes %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
+mesh: default
+metadata:
+  name: cross-mesh-gateway
+  labels:
+    kuma.io/mesh: default
+spec:
   selectors:
     - match:
-        kuma.io/service: cross-mesh-gateway
+        kuma.io/service: cross-mesh-gateway{{ k8s_service_selector_suffix }}
   conf:
     listeners:
       - port: 8080
@@ -313,6 +363,27 @@ set the `crossMesh` property.
         crossMesh: true
         hostname: default.mesh
 ```
+
+{% endtab %}
+{% tab cross-mesh Universal %}
+
+```yaml
+type: MeshGateway
+mesh: default
+name: cross-mesh-gateway
+selectors:
+  - match:
+      kuma.io/service: cross-mesh-gateway
+conf:
+  listeners:
+    - port: 8080
+      protocol: HTTP
+      crossMesh: true
+      hostname: default.mesh
+```
+
+{% endtab %}
+{% endtabs %}
 
 #### Hostname
 
@@ -329,13 +400,13 @@ Otherwise it will be reachable at the host:
 If transparent proxy isn't set up, you'll have to add the listener explicitly as
 an outbound to your `Dataplane` objects if you want to access it:
 
-```
-  ...
-  outbound
-  - port: 8080
-    tags:
-      kuma.io/service: cross-mesh-gateway
-      kuma.io/mesh: default
+```yaml
+...
+  outbound:
+    - port: 8080
+      tags:
+        kuma.io/service: cross-mesh-gateway
+        kuma.io/mesh: default
 ```
 
 #### Limitations

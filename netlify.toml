@@ -11,7 +11,7 @@
 
 [dev]
   autoLaunch = false
-  framework = "#static"
+  targetPort = 4000
 
 [[redirects]]
 from = "/vite-dev/*"

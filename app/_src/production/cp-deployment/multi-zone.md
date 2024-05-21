@@ -38,12 +38,15 @@ Find the external IP and port of the `{{site.mesh_cp_zone_sync_name_prefix}}glob
 
 ```sh
 kubectl get services -n {{site.mesh_namespace}}
+```
+
+```
 NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
 {{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
 {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 ```
 
-By default, it's exposed on [port 5685]{% if_version lte:2.1.x %}(/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/use-mesh#control-plane-ports){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+By default, it's exposed on {% if_version lte:2.1.x inline:true %}[port 5685](/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x inline:true %}[port 5685](/docs/{{ page.version }}/production/use-mesh#control-plane-ports){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 
@@ -75,9 +78,10 @@ Before using {{site.mesh_product_name}} with helm, please follow [these steps](/
      POSTGRES_USER: ...
      POSTGRES_PASSWORD: ...
    ```
-1. Create a `values.yaml` file with: `{{site.set_flag_values_prefix}}controlPlane.environment=universal` and `{{site.set_flag_values_prefix}}controlPlane.mode=global` in the chart (`values.yaml`).
 
-2. Set `{{site.set_flag_values_prefix}}controlPlane.secrets` with database sensitive information
+2. Create a `values.yaml` file with: `{{site.set_flag_values_prefix}}controlPlane.environment=universal` and `{{site.set_flag_values_prefix}}controlPlane.mode=global` in the chart (`values.yaml`).
+
+3. Set `{{site.set_flag_values_prefix}}controlPlane.secrets` with database sensitive information
 
    ```yaml
    # ...
@@ -100,10 +104,10 @@ Before using {{site.mesh_product_name}} with helm, please follow [these steps](/
            Env: KUMA_STORE_POSTGRES_PASSWORD
    ```
 
-1. Optionally set `{{site.set_flag_values_prefix}}postgres` with TLS settings
+4. Optionally set `{{site.set_flag_values_prefix}}postgres` with TLS settings
 
    ```yaml
-     ...
+   # ...
      # Postgres' settings for universal control plane on k8s
      postgres:
        # -- Postgres port, password should be provided as a secret reference in "controlPlane.secrets"
@@ -127,16 +131,24 @@ Before using {{site.mesh_product_name}} with helm, please follow [these steps](/
          secretName:
    ```
 
-1. Run helm install
+5. Run helm install
 
     ```sh
-    helm install {{ site.mesh_helm_install_name }} -f values.yaml --skip-crds --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh_helm_repo }}
+    helm install {{ site.mesh_helm_install_name }} \
+      --create-namespace \
+      --skip-crds \
+      --namespace {{site.mesh_namespace}} \
+      --values values.yaml \
+      {{ site.mesh_helm_repo }}
     ```
 
-1. Find the external IP and port of the `{{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync` service in the `{{site.mesh_namespace}}` namespace:
+6. Find the external IP and port of the `{{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync` service in the `{{site.mesh_namespace}}` namespace:
 
     ```sh
     kubectl get services -n {{site.mesh_namespace}}
+    ```
+
+    ```
     NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
     {{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
     {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
@@ -157,7 +169,7 @@ Ensure that migrations have been run against the database prior to running the g
 1.  Set up the global control plane, and add the `global` environment variable:
 
     ```sh
-    KUMA_MODE=global 
+    KUMA_MODE=global \
     KUMA_ENVIRONMENT=universal \
     KUMA_STORE_TYPE=postgres \
     KUMA_STORE_POSTGRES_HOST=<postgres-host> \
@@ -285,10 +297,10 @@ Ensure that migrations have been run against the database prior to running the z
 
    ```sh
    kuma-dp run \
-   --proxy-type=ingress \
-   --cp-address=https://<kuma-cp-address>:5678 \
-   --dataplane-token-file=/tmp/zone-token \
-   --dataplane-file=ingress-dp.yaml
+     --proxy-type=ingress \
+     --cp-address=https://<kuma-cp-address>:5678 \
+     --dataplane-token-file=/tmp/zone-token \
+     --dataplane-file=ingress-dp.yaml
    ```
 
    If zone-ingress is running on a different machine than zone-cp you need to
@@ -297,11 +309,11 @@ Ensure that migrations have been run against the database prior to running the z
 
    ```sh
    kuma-dp run \
-   --proxy-type=ingress \
-   --cp-address=https://<kuma-cp-address>:5678 \
-   --dataplane-token-file=/tmp/zone-token \
-   --ca-cert-file=/tmp/kuma-cp.crt \
-   --dataplane-file=ingress-dp.yaml
+     --proxy-type=ingress \
+     --cp-address=https://<kuma-cp-address>:5678 \
+     --dataplane-token-file=/tmp/zone-token \
+     --ca-cert-file=/tmp/kuma-cp.crt \
+     --dataplane-file=ingress-dp.yaml
    ```
 
 5.  Optional: if you want to deploy zone egress
@@ -322,10 +334,10 @@ Ensure that migrations have been run against the database prior to running the z
 
     ```sh
     kuma-dp run \
-    --proxy-type=egress \
-    --cp-address=https://<kuma-cp-address>:5678 \
-    --dataplane-token-file=/tmp/zone-token \
-    --dataplane-file=zoneegress-dataplane.yaml
+      --proxy-type=egress \
+      --cp-address=https://<kuma-cp-address>:5678 \
+      --dataplane-token-file=/tmp/zone-token \
+      --dataplane-file=zoneegress-dataplane.yaml
     ```
 
 {% endtab %}
@@ -341,9 +353,9 @@ kubectl -n {{site.mesh_namespace}} port-forward svc/{{site.mesh_cp_name}} 5681:5
 
 # configure control plane for kumactl
 kumactl config control-planes add \
- --name global-control-plane \
- --address http://localhost:5681 \
- --skip-verify
+  --name global-control-plane \
+  --address http://localhost:5681 \
+  --skip-verify
 ```
 
 You can run `kumactl get zones`, or check the list of zones in the web UI for the global control plane, to verify zone control plane connections.
@@ -355,7 +367,7 @@ deployed with zone ingress.
 
 ### Ensure mTLS is enabled on the multi-zone meshes
 
-MTLS is mandatory to enable cross-zone service communication.
+mTLS is mandatory to enable cross-zone service communication.
 mTLS can be configured in your mesh configuration as indicated in the [mTLS section](/docs/{{ page.version }}/policies/mutual-tls).
 This is required because {{site.mesh_product_name}} uses the [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) field, part of the TLS protocol, as a way to pass routing information cross zones.
 
@@ -371,6 +383,9 @@ To view the list of service names available, run:
 
 ```sh
 kubectl get serviceinsight all-services-default -oyaml
+```
+
+```
 apiVersion: kuma.io/v1alpha1
 kind: ServiceInsight
 mesh: default
@@ -396,7 +411,7 @@ To send a request in the same zone, you can rely on Kubernetes DNS and use the u
 curl http://echo-server:1010
 ```
 
-Requests are distributed round robin between zones.
+Requests are distributed round-robin between zones.
 You can use {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %} to keep requests in the same zone.
 
 To send a request to any zone, you can {% if_version lte:2.1.x %}[use the generated `kuma.io/service`](/docs/{{ page.version }}/explore/dpp-on-kubernetes#tag-generation){% endif_version %}{% if_version gte:2.2.x %}[use the generated `kuma.io/service`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#tag-generation){% endif_version %} and [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns):
@@ -416,9 +431,11 @@ curl http://echo-server.echo-example.svc.1010.mesh:80
 
 ```sh
 kumactl inspect services
+```
+
+```
 SERVICE                                  STATUS               DATAPLANES
 echo-service_echo-example_svc_1010       Online               1/1
-
 ```
 
 To consume the service in a Universal deployment without transparent proxy add the following outbound to your {% if_version lte:2.1.x %}[dataplane configuration](/docs/{{ page.version }}/explore/dpp-on-universal){% endif_version %}{% if_version gte:2.2.x %}[dataplane configuration](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/){% endif_version %}:

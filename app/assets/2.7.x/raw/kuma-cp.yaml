@@ -405,6 +405,9 @@ runtime:
     # If this is set to true, deleting a Mesh will not delete resources that belong to that Mesh.
     # This can be useful when resources are managed in Argo CD where creation/deletion is managed there.
     skipMeshOwnerReference: false # ENV: KUMA_RUNTIME_KUBERNETES_SKIP_MESH_OWNER_REFERENCE
+    # If true, then control plane can support TLS secrets for builtin gateway outside of mesh system namespace.
+    # The downside is that control plane requires permission to read Secrets in all namespaces.
+    supportGatewaySecretsInAllNamespaces: false # ENV: KUMA_RUNTIME_KUBERNETES_SUPPORT_GATEWAY_SECRETS_IN_ALL_NAMESPACES
   # Universal-specific configuration
   universal:
     # DataplaneCleanupAge defines how long Dataplane should be offline to be cleaned up by GC
@@ -731,8 +734,6 @@ access:
       groups: ["mesh-system:unauthenticated", "mesh-system:authenticated"] # ENV: KUMA_ACCESS_STATIC_CONTROL_PLANE_METADATA_GROUPS
 # Configuration of experimental features of Kuma
 experimental:
-  # If true, experimental Gateway API is enabled
-  gatewayAPI: false # ENV: KUMA_EXPERIMENTAL_GATEWAY_API
   # If true, instead of embedding kubernetes outbounds into Dataplane object, they are persisted next to VIPs in ConfigMap
   # This can improve performance, but it should be enabled only after all instances are migrated to version that supports this config
   kubeOutboundsAsVIPs: true # ENV: KUMA_EXPERIMENTAL_KUBE_OUTBOUNDS_AS_VIPS

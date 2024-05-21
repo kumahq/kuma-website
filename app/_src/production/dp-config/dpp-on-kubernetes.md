@@ -5,7 +5,11 @@ content_type: how-to
 
 On Kubernetes the {% if_version lte:2.1.x %}[`Dataplane`](/docs/{{ page.version }}/explore/dpp#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[`Dataplane`](/docs/{{ page.version }}/production/dp-config/dpp#dataplane-entity){% endif_version %} entity is automatically created for you, and because transparent proxying is used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
 
-You can control where {{site.mesh_product_name}} automatically injects the data plane proxy by **labeling** either the Namespace or the Pod with
+The {{ site.mesh_product_name }} control plane injects a `kuma-sidecar` container into your `Pod`'s container. If
+you're not using the CNI, it also injects a `kuma-init` into `initContainers` to
+setup [transparent proxying](../transparent-proxying).
+
+You can control whether {{site.mesh_product_name}} automatically injects the data plane proxy by **labeling** either the Namespace or the Pod with
 `kuma.io/sidecar-injection=enabled`, e.g.
 
 ```yaml
@@ -175,6 +179,61 @@ control capabilities for the sidecar.
 
 ## Lifecycle
 
+{% if_version gte:2.7.x %}
+The lifecycle management has been significantly improved
+with the `SidecarContainers` feature introduced in Kubernetes v1.29.
+
+### Kubernetes sidecar containers
+
+In order to enable the use of this feature with {{ site.mesh_product_name }} you should enable the
+`experimental.sidecarContainers`/`KUMA_EXPERIMENTAL_SIDECAR_CONTAINERS` option.
+
+This feature supports adding the injected Kuma container to
+`initContainers` with `restartPolicy: Always`, which marks it as a sidecar
+container. Refer to the
+[Kubernetes docs](https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/)
+to learn more about how they work.
+
+In effect, the following lifecycle subsections are irrelevant when using this feature.
+When enabled, the ordering of the sidecar startup and shutdown is enforced by Kubernetes.
+
+In order to use the mesh in an init container, ensure that it comes after `kuma-sidecar`.
+{{ site.mesh_product_name }} injects its sidecar at the front of the list but can't guarantee that its webhook runs last.
+
+Draining incoming connections gracefully is handled via a `preStop` hook
+on the `kuma-sidecar` container.
+
+However, remember that if the `terminationGracePeriodSeconds` has elapsed, ordering
+and thus correct behavior of the sidecar is no longer guaranteed.
+The grace period should be set long enough that your workload finishes shutdown
+before it elapses.
+
+As always, your application should itself initiate graceful shutdown
+when it receives SIGTERM. In particular, remember that Kubernetes works largely
+asynchronously. So if your application exits "too quickly" it's possible that
+requests are still routed to the `Pod` and they fail. There's [an article at
+learnk8s.io](https://learnk8s.io/graceful-shutdown#how-to-gracefully-shut-down-pods)
+with an overview of the problem and potential solutions.
+
+It ultimately comes down to "just wait a little bit" when your application
+receives SIGTERM. This can either be done in the application itself or you can
+add a `preStop` command to your container:
+
+```yaml
+kind: Deployment
+# ...
+spec:
+  template:
+    spec:
+      containers:
+      - name: app-container
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sleep", "15"]
+```
+{% endif_version %}
+
 ### Joining the mesh
 
 On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For each `Pod` with sidecar-injection label, a new
@@ -182,12 +241,49 @@ On Kubernetes, `Dataplane` resource is automatically created by kuma-cp. For eac
 
 To join the mesh in a graceful way, we need to first make sure the application is ready to serve traffic before it can be considered a valid traffic destination.
 
-When `Pod` is converted to a `Dataplane` object it will be marked as unhealthy until Kubernetes considers all containers to be ready.
+#### Init containers
+
+Due to the way that {{site.mesh_product_name}} implements transparent proxying and sidecars in Kubernetes,
+network calls from init containers while running a mesh can be a challenge.
+
+##### Network calls to outside of the mesh
+
+The common pitfall is the idea that it's possible to order init containers so that the mesh init container is run after other init containers.
+However, when injecting these init containers into a Pod via webhooks, such as the Vault init container, there is no assurance of the order.
+The ordering of init containers also doesn't provide a solution when the {{site.mesh_product_name}} CNI is used, as traffic redirection to the sidecar occurs even before
+any init container runs.
+
+To solve this issue, start the init container with a specific user ID and exclude specific ports from interception.
+Remember also about excluding port of DNS interception. Here is an example of annotations to enable HTTPS traffic for a container running as user id `1234`.
+
+```yaml
+apiVersion: v1
+king: Deployment
+metadata:
+  name: my-deployment
+spec:
+  template:
+    metadata:
+      annotations:
+        traffic.kuma.io/exclude-outbound-tcp-ports-for-uids: "443:1234"
+        traffic.kuma.io/exclude-outbound-udp-ports-for-uids: "53:1234"
+    spec:
+      initContainers:
+      - name: my-init-container
+        ...
+        securityContext:
+          runAsUser: 1234
+```
+
+##### Network calls inside the mesh with mTLS enabled
+
+In this scenario, using the init container is simply impossible
+because `kuma-dp` is responsible for encrypting the traffic and only runs after all init containers have exited.
 
 {% if_version gte:2.4.x %}
 ### Waiting for the dataplane to be ready
 
-By default, containers start in any order, so an app container can start even though a dataplane container might not be ready to receive traffic.
+By default, containers start in arbitrary order, so an app container can start even though the sidecar container might not be ready to receive traffic.
 
 Making initial requests, such as connecting to a database, can fail for a brief period after the pod starts. 
 
@@ -200,11 +296,7 @@ so that the app container waits for the dataplane container to be ready to serve
 
 The `waitForDataplaneReady` setting relies on the fact that defining a `postStart` hook causes Kubernetes to run containers sequentially based on their order of occurrence in the `containers` list.
 This isn't documented and could change in the future.
-It also depends on injecting the kuma-sidecar container as the first container in the pod, which isn't guaranteed since other mutating webhooks can rearrange the containers.
-
-<!-- vale off -->
-A better solution will be available when [sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/) are more stable and widely available.
-<!-- vale on -->
+It also depends on injecting the `kuma-sidecar` container as the first container in the pod, which isn't guaranteed since other mutating webhooks can rearrange the containers.
 {% endwarning %}
 
 {% endif_version %}
@@ -259,7 +351,7 @@ To mitigate this, we need to either
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sleep", "30"]
+                command: ["/bin/sleep", "15"]
   ```
 
 When a `Pod` is deleted, its matching `Dataplane` resource is deleted as well. This is possible thanks to the
