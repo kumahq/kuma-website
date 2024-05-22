@@ -79,9 +79,7 @@ mesh_product_name_path: kuma
 mesh_namespace: kuma-system
 mesh_cp_name: kuma-control-plane
 mesh_cp_zone_sync_name_prefix: kuma-
-mesh_download_url: https://kuma.io/installer.sh
 mesh_docker_org: kumahq
-
 # Prefix for the values of "--set" flag for "kumactl install [...]" or
 # "helm install [...]" commands.
 # It's useful for projects based on Kuma, which expects Kuma options

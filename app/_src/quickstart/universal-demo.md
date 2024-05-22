@@ -33,9 +33,9 @@ demo-app --> redis
 {% tab install Docker %}
 Install a {{site.mesh_product_name}} control plane using the Docker images:
 
-* **kuma-cp**: at `docker.io/{{ site.mesh_docker_org }}/kuma-cp:{{ page.version }}`
-* **kuma-dp**: at `docker.io/{{ site.mesh_docker_org }}/kuma-dp:{{ page.version }}`
-* **kumactl**: at `docker.io/{{ site.mesh_docker_org }}/kumactl:{{ page.version }}`
+* **kuma-cp**: at `docker.io/{{ site.mesh_docker_org }}/kuma-cp:{{ page.version_data.version }}`
+* **kuma-dp**: at `docker.io/{{ site.mesh_docker_org }}/kuma-dp:{{ page.version_data.version }}`
+* **kumactl**: at `docker.io/{{ site.mesh_docker_org }}/kumactl:{{ page.version_data.version }}`
 
 You can freely `docker pull` these images to start using {{site.mesh_product_name}}, as we will demonstrate in the following steps.
 {% endtab %}
@@ -44,7 +44,8 @@ Do one of the following to download {{site.mesh_product_name}}:
 
 * Run the following script to automatically detect the operating system (Amazon Linux, CentOS, RedHat, Debian, Ubuntu, and macOS) and download {{site.mesh_product_name}}:
     <div class="language-sh">
-    <pre class="no-line-numbers"><code>curl -L {{site.mesh_download_url}} | VERSION={{ page.version }} sh -</code></pre>
+  <pre class="no-line-numbers"><code>curl -L {{site.links.web}}{% if page.edition %}/{{page.edition}}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -</code></pre>```
+
     </div>
 * <a href="https://packages.konghq.com/public/{{site.mesh_product_name_path}}-binaries-release/raw/names/{{site.mesh_product_name_path}}-{{ page.os }}-{{ page.arch }}/versions/{{ page.version }}/{{site.mesh_product_name_path}}-{{ page.version }}-{{ page.os }}-{{ page.arch }}.tar.gz">Download</a> the distribution manually. Then, extract the archive with: `tar xvzf {{site.mesh_product_name_path}}-{{ page.version }}-{{ page.os }}-{{ page.arch }}.tar.gz`.
 {% endtab %}
@@ -186,7 +187,7 @@ Before enabling [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTL
 If you enable [mTLS](/docs/{{ page.version }}/policies/mutual-tls/) without a `MeshTrafficPermission` policy, all traffic between your applications will be blocked. 
 {% endwarning %}
 
-1. To create a `MeshTrafficPermission` policy that allows all traffic, do the following:
+2. To create a `MeshTrafficPermission` policy that allows all traffic, do the following:
 
   ```sh
   echo 'type: MeshTrafficPermission 
