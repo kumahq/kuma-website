@@ -15,7 +15,7 @@ Kuma helps implement a service mesh approach to distributed deployments as part 
   * [Read more about standalone deployments](/docs/{{ page.version }}/deployments/stand-alone)
   * [Read more about multi-zone deployments](/docs/{{ page.version }}/deployments/multi-zone)
 * **Multi-mesh**: Supports multiple individual meshes with one control plane, lowering the operational costs of supporting the entire organization.
-* **Attribute-based policies**: Lets you apply fine grained service and traffic policies with any arbitrary tag selector for `sources` and `destinations`.
+* **Attribute-based policies**: Let you apply fine grained service and traffic policies with any arbitrary tag selector for `sources` and `destinations`.
 * **Envoy-based**: Powered by Envoy sidecar proxies, without exposing the complexity of Envoy itself.
 * **Horizontally scalable**
 * **Enterprise-ready**: Supports mission critical enterprise use cases that require uptime and stability.

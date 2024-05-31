@@ -137,8 +137,6 @@ items:
             url: /production/upgrades-tuning/fine-tuning/
           - text: Version specific upgrade notes
             url: /production/upgrades-tuning/upgrade-notes/
-      - text: Init containers
-        url: /production/init-containers/
       - text: Control Plane Configuration
         url: /documentation/configuration/
         items:
@@ -451,8 +449,8 @@ items:
         url: /guides/gateway-delegated/
       - text: Collect Metrics with OpenTelemetry
         url: /guides/otel-metrics/
-      - text: Transition to the new policies
-        url: /guides/transition-to-the-new-policies/
+      - text: Migration to the new policies
+        url: /guides/migration-to-the-new-policies/
   - title: Reference
     group: true
     items:

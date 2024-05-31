@@ -133,7 +133,7 @@ Kuma DNS includes these components:
 - The VIPs allocator
 - Cross-replica persistence
 
-The DNS server listens on port `5653`, responds to type `A` and `AAAA` DNS requests, and answers with `A` or `AAAAA` records, for example ```<service>.mesh. 60 IN A  240.0.0.100``` or ```<service>.mesh. 60 IN AAAAA  fd00:fd00::100```. The default TTL is 60 seconds, to ensure the client synchronizes with Kuma DNS and to account for any intervening changes.
+The DNS server listens on port `5653`, responds to type `A` and `AAAA` DNS requests, and answers with `A` or `AAAA` records, for example ```<service>.mesh. 60 IN A  240.0.0.100``` or ```<service>.mesh. 60 IN AAAA  fd00:fd00::100```. The default TTL is 60 seconds, to ensure the client synchronizes with Kuma DNS and to account for any intervening changes.
 
 The virtual IPs are allocated from the configured CIDR, by constantly scanning the services available in all Kuma meshes. When a service is removed, its VIP is also freed, and Kuma DNS does not respond for it with `A` DNS record.
 

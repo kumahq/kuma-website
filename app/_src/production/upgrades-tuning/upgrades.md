@@ -8,6 +8,13 @@ Since {{site.mesh_product_name}} 1.4.x upgrades can be performed up to two minor
 * You can upgrade from `1.4.x` to `1.6.x`
 * To upgrade from `1.2.x` to `1.6.x`, first upgrade from `1.2.x` to `1.4.x`. Then from `1.4.x` to `1.6.x`.
 
+{% warning %}
+Some versions have specific upgrade instructions. Make sure to read the [version specific upgrade notes](/docs/{{ page.version }}/production/upgrades-tuning/upgrade-notes) for more information.
+{% endwarning %}
+
+{% warning %}
+{% endwarning %}
+
 {% tip %}
 To avoid control plane downtime when restarting on the new version make sure you have more than one instance of the control plane in each zone.
 {% endtip %}

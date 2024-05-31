@@ -37,7 +37,7 @@ carousel:
 
 {% contentfor news %}
 
-**Kuma 2.6.0 has been released!** &mdash; With targetRef policies as default, dataplane view, MeshMetric, and much more [on the Kuma 2.6.0 release blog post](/blog/2024/kuma-2-6-0/).
+**Kuma 2.7.0 has been released!** &mdash; with GUI improvements, shadow policies and more  [on the Kuma 2.7.0 release blog post](/blog/2024/kuma-2-7-0/).
 
 {% endcontentfor %}
 
