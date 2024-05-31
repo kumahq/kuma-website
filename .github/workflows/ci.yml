@@ -92,7 +92,7 @@ jobs:
           - debian:bookworm
           - fedora:latest
           - redhat/ubi8:8.6
-          - ubuntu:23.10 # to have newer gh version, update to 24.04 LTS when released
+          - ubuntu:24.04
     container:
       image: ${{ matrix.os }}
     steps:
@@ -100,7 +100,7 @@ jobs:
         run: |
           (apt-get update && apt-get install file curl jq -y) || true
           (yum install yum-utils -y && yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && yum install file tar gzip jq -y) || true
-          pacman --noconfirm -Sy jq file curl || true
+          pacman --noconfirm -Syu jq file curl || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
         env:
