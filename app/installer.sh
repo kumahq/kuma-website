@@ -101,8 +101,6 @@ main() {
     VERSION="$LATEST_VERSION"
   fi
 
-  FILENAME_VERSION="${VERSION}"
-
   if [ "$VERSION" = 'preview' ]; then
 
     if ! command -v jq >/dev/null 2>&1; then
@@ -110,20 +108,17 @@ main() {
     fi
 
     log "Fetching latest preview commit.."
-    commit=$(curl -s --request GET --url "https://api.cloudsmith.io/v1/packages/kong/""$(echo ${PRODUCT_NAME} | tr '[:upper:]' '[:lower:]' | tr ' ' '-')""-binaries-preview/?page=1&page_size=1&query=filename%3A0.0.0-preview&sort=-date" --header 'accept: application/json' | jq -r '.[0].version')
-    if ! echo "$commit" | grep -qs -E '[a-z0-9]{9,}'; then
+    VERSION=$(curl -s --request GET --url "https://api.cloudsmith.io/v1/packages/kong/""$(echo ${PRODUCT_NAME} | tr '[:upper:]' '[:lower:]' | tr ' ' '-')""-binaries-preview/?page=1&page_size=1&query=filename%3A0.0.0-preview&sort=-date" --header 'accept: application/json' | jq -r '.[0].version')
+    if ! echo "$VERSION" | grep -qs -E '[a-z0-9]{9,}'; then
       err "Failed to find suitable preview commit."
     fi
-    log "Found preview commit: https://github.com/${REPO}/commit/${commit}"
-
-    VERSION="$commit"
-    FILENAME_VERSION="0.0.0-preview.v${commit}"
+    log "Found preview commit: https://github.com/${REPO}/commit/${VERSION#0.0.0-preview.v}"
   fi
 
   if [ $# -gt 0 ]; then
     case $1 in
     --print-version)
-      echo "${FILENAME_VERSION}"
+      echo "${VERSION}"
       exit 0
       ;;
     *)
@@ -132,7 +127,7 @@ main() {
     esac
   fi
 
-  log "${PRODUCT_NAME} version: ${FILENAME_VERSION}"
+  log "${PRODUCT_NAME} version: ${VERSION}"
   log "${PRODUCT_NAME} architecture: ${ARCH}"
   log "Operating system: ${OS}"
   if [ "$OS" = 'linux' ]; then
@@ -157,9 +152,8 @@ main() {
 ${VERSION}
 EOF
 
-  if echo "$FILENAME_VERSION" | grep -qs -E 'preview|0.0.0'; then
+  if echo "${VERSION}" | grep -qs -E 'preview|0.0.0'; then
     URL_REPO="${REPO_REPO}-binaries-preview"
-    VERSION="${FILENAME_VERSION#*0.0.0-preview.v}"
   else
 
     # 2.1.x or lower
@@ -192,7 +186,7 @@ EOF
   # kong-mesh-2.5.1-windows-amd64.tar.gz
   # kong-mesh-2.5.1-linux-arm64.tar.gz
   # kumactl-1.8.1-linux-amd64.tar.gz
-  URL_FILENAME="${REPO_REPO}-${FILENAME_VERSION}-${DISTRO}-${ARCH}.tar.gz"
+  URL_FILENAME="${REPO_REPO}-${VERSION}-${DISTRO}-${ARCH}.tar.gz"
 
   URL="${URL}/${URL_REPO}/raw/names/${URL_NAME}/versions/${VERSION}/${URL_FILENAME}"
 
@@ -203,7 +197,7 @@ EOF
   log "Downloading ${TARGET_NAME} from: ${URL}"
 
   if curl --fail -L "$URL" | tar xz; then
-    log "${TARGET_NAME} ${FILENAME_VERSION} has been downloaded!"
+    log "${TARGET_NAME} ${VERSION} has been downloaded!"
 
     if [ "$TARGET_NAME" != "$CTL_NAME" ]; then
 
@@ -216,7 +210,7 @@ EOF
         DIR="$(dirname "$DIR")"
       fi
 
-      cat "${DIR}/${REPO_REPO}-${FILENAME_VERSION}/README"
+      cat "${DIR}/${REPO_REPO}-${VERSION}/README"
     fi
   else
     err "Unable to download ${TARGET_NAME}"

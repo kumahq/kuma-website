@@ -727,6 +727,8 @@ postgres:
 # @ignored for helm-docs
 plugins:
   resources:
+    hostnamegenerators: true
+    meshexternalservices: true
     meshservices: true
   policies:
     meshaccesslogs: true
