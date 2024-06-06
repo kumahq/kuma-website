@@ -13,9 +13,9 @@ When using this policy, the [passthrough mode](/docs/{{ page.version }}/networki
 
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
-| `targetRef`           | Allowed kinds        |
-| --------------------- | ---------------------|
-| `targetRef.kind`      | `Mesh`, `MeshSubset` |
+| `targetRef`           | Allowed kinds         |
+| --------------------- | --------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`  |
 {% endtab %}
 {% endtabs %}
 
@@ -24,7 +24,7 @@ To learn more about the information in this table, see the [matching docs](/docs
 ## Configuration
 
 {% warning %}
-This policy doesn't work with sidecars not using [transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying/#what-is-transparent-proxying)
+This policy doesn't work with sidecars not using [transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying/#what-is-transparent-proxying).
 {% endwarning %}
 
 The following describes the default configuration settings of the `MeshPassthrough` policy:
@@ -36,7 +36,7 @@ The following describes the default configuration settings of the `MeshPassthrou
   - **`port`**: Port at which exterbal service is available. When not defined it caches all traffic to the address.
   - **`protocol`**: Defines protocol of the external service.
     - **`tcp`**: **Can't be used when `type` is `Domain` (at TCP level we are not able to disinguish domain, in this case it is going to hijack whole traffic on this port)**.
-    - **`tls`**:  Should be used when TLS traffic is originated by the client application.
+    - **`tls`**: Should be used when TLS traffic is originated by the client application.
     - **`http`**
     - **`http2`**
     - **`grpc`**
@@ -60,7 +60,7 @@ spec:
   default:
     appendMatch:
     - type: Domain
-      value: `*.cluster-1.kafka.aws.us-east-2.com`
+      value: '*.cluster-1.kafka.aws.us-east-2.com'
       protocol: tls
       port: 443
 ```
@@ -70,7 +70,7 @@ spec:
 
 It is advised that the `MeshOperator` is responsible for the `MeshPassthrough` policy. This policy can introduce traffic outside of the mesh or even the cluster, and the `MeshOperator` should be aware of this. If you want to secure access to `MeshPassthrough` to specific services, you must choose them manually. If you rely on tags in the top-level `targetRef` you might consider securing them by one of the:
 
-* Make sure that service owners can't freely set them (using something like `kyverno`, `OPA`)
+* Make sure that service owners can't freely set them (using something like [`kyverno`](https://kyverno.io/), [`OPA`](https://www.openpolicyagent.org/))
 * Accept the risk of being able to "impersonate" a passthrough label and rely on auditing.
 
 ### Limitations
