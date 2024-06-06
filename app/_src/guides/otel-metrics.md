@@ -72,7 +72,7 @@ image:
 
 This is the Helm chart configuration we will be using. This will configure OpenTelemetry collector to listen on grpc port `4317` for metrics 
 pushed by dataplane proxy, process and expose collected metrics in Prometheus format on port `8889`. In the next step we 
-will configure Prometheus to scrape these metrics. Our configuration relies on [the contrib distribution](https://github.com/open-telemetry/opentelemetry-collector-contrib?tab=readme-ov-file#opentelemetry-collector-contrib) of opentelemetry-collector so we set this in the values.
+will configure Prometheus to scrape these metrics. Our configuration relies on [the contrib distribution](https://github.com/open-telemetry/opentelemetry-collector-contrib#opentelemetry-collector-contrib) of opentelemetry-collector so we set this in the values.
 
 Most important in this configuration is `pipelines` section:
 
