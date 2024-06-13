@@ -6,7 +6,7 @@ title: MeshPassthrough
 This policy uses new policy matching algorithm.
 {% endwarning %}
 
-This policy enables {{site.mesh_product_name}} to configure external traffic for specific sidecar.
+This policy enables {{site.mesh_product_name}} to configure traffic to external destinations that is allowed to pass outside the mesh.
 When using this policy, the [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic/#outgoing) flag is ignored.
 
 ## TargetRef support matrix
@@ -24,29 +24,29 @@ To learn more about the information in this table, see the [matching docs](/docs
 ## Configuration
 
 {% warning %}
-This policy doesn't work with sidecars not using [transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying/#what-is-transparent-proxying).
+This policy doesn't work with sidecars without [transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying/#what-is-transparent-proxying).
 {% endwarning %}
 
 The following describes the default configuration settings of the `MeshPassthrough` policy:
 
-- **`enabled`**: (Optional) If true, allows traffic to all external destinations.
-- **`appendMatch`**: List of destinations that sidecar should be able to reach. When `enabled` is `true` this list is not used. It works only when `enabled` is `false`.
-  - **`type`**: Defines what type of destination should be allowed. Either `Domain`, `IP` or `CIDR`
+- **`enabled`**: (Optional) If true, allows all traffic to pass outside.
+- **`appendMatch`**: List of destinations that are allowed to pass through. When `enabled` is `true` this list is not used. It only takes effect when `enabled` is `false`.
+  - **`type`**: Defines what type of destination is allowed. Either `Domain`, `IP` or `CIDR`.
   - **`value`**: Destination address based on the defined `type`.
-  - **`port`**: Port at which exterbal service is available. When not defined it caches all traffic to the address.
-  - **`protocol`**: Defines protocol of the external service.
+  - **`port`**: Port at which external destination is available. When not defined it caches all traffic to the address.
+  - **`protocol`**: Defines protocol of the external destination.
     - **`tcp`**: **Can't be used when `type` is `Domain` (at TCP level we are not able to disinguish domain, in this case it is going to hijack whole traffic on this port)**.
     - **`tls`**: Should be used when TLS traffic is originated by the client application.
     - **`http`**
     - **`http2`**
     - **`grpc`**
   
-### Wildcard domains
+### Wildcard DNS matching
 
-A `MeshPassthrough` policy allows you to create a match for a wildcard domain. You can match a subdomain and allow this traffic to go outside of the cluster.
+`MeshPassthrough` policy allows you to create a match for a wildcard subdomain.
 
 {% warning %}
-Currently, partial matches are not possible. For example, the domain `*ww.example.com` will be rejected.
+Currently, support for partial subdomain matching is not implemented. For example, a match for `*w.example.com` will be rejected.
 {% endwarning %}
 
 {% policy_yaml wildcard %}
@@ -68,10 +68,13 @@ spec:
 
 ### Security
 
-It is advised that the `MeshOperator` is responsible for the `MeshPassthrough` policy. This policy can introduce traffic outside of the mesh or even the cluster, and the `MeshOperator` should be aware of this. If you want to secure access to `MeshPassthrough` to specific services, you must choose them manually. If you rely on tags in the top-level `targetRef` you might consider securing them by one of the:
+It is advised that the `MeshOperator` is responsible for managing the `MeshPassthrough` policy.
+This policy can introduce traffic outside of the mesh or even the cluster, and the `MeshOperator` should be aware of this.
+If you want to restrict access to `MeshPassthrough` to specific services, you must choose them manually.
+If you rely on tags in the top-level `targetRef` you might consider securing them by using one of the following techniques:
 
-* Make sure that service owners can't freely set them (using something like [`kyverno`](https://kyverno.io/), [`OPA`](https://www.openpolicyagent.org/))
-* Accept the risk of being able to "impersonate" a passthrough label and rely on auditing.
+* Make sure that service owners can't freely modify them (using something like [`kyverno`](https://kyverno.io/), [`OPA`](https://www.openpolicyagent.org/) or similar)
+* Accept the risk of being able to "impersonate" a passthrough label and rely on auditing to figure out any violations.
 
 ### Limitations
 
@@ -96,7 +99,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-### Enable passthrough for a subset sidecars
+### Enable passthrough for a subset of sidecars
 
 {% policy_yaml example2 %}
 ```yaml
