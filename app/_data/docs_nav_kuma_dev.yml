@@ -287,6 +287,13 @@ items:
             url: "/policies/meshcircuitbreaker/#configuration"
           - text: Examples
             url: "/policies/meshcircuitbreaker/#examples"
+      - text: MeshExternalService
+        url: /policies/meshexternalservice/
+        items:
+          - text: Configuration
+            url: "/policies/meshfaultinjection/#configuration"
+          - text: Examples
+            url: "/policies/meshfaultinjection/#examples"
       - text: MeshFaultInjection
         url: /policies/meshfaultinjection/
         items:
