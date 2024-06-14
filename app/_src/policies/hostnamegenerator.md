@@ -8,9 +8,10 @@ This resource is experimental!
 
 A `HostnameGenerator` provides
 
-- a template to generate hostnames from properties of `MeshServices`
-- a selector that defines for which `MeshServices` this generator runs
+- a template to generate hostnames from properties of `MeshServices` and `MeshExternalServices`
+- a selector that defines for which `MeshServices` and `MeshExternalServices` this generator runs
 
+{% policy_yaml hg-all %}
 ```yaml
 type: HostnameGenerator
 name: all
@@ -21,11 +22,12 @@ spec:
         k8s.kuma.io/namespace: kuma-demo
   template: "{{ .Name }}.{{ .Namespace }}.mesh"
 ```
+{% endpolicy_yaml %}
 
 ## Template
 
 A template is a [golang text template](https://pkg.go.dev/text/template).
-It is run with the name, namespace and mesh as input and function `label` to retrieve labels of the `MeshService`.
+It is run with the name, namespace and mesh as input and function `label` to retrieve labels of the `MeshService` or `MeshExternalService`.
 
 For exampe, given:
 
