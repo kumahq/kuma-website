@@ -291,9 +291,9 @@ items:
         url: /policies/meshexternalservice/
         items:
           - text: Configuration
-            url: "/policies/meshfaultinjection/#configuration"
+            url: "/policies/meshexternalservice/#configuration"
           - text: Examples
-            url: "/policies/meshfaultinjection/#examples"
+            url: "/policies/meshexternalservice/#examples"
       - text: MeshFaultInjection
         url: /policies/meshfaultinjection/
         items:
