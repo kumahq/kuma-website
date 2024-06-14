@@ -119,7 +119,7 @@ echo 'echo this' | nc -q 3 mes-tcp.mesh 4242
 
 ### TCP with TLS
 
-{% policy_yaml tcp %}
+{% policy_yaml tcp-tls %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
@@ -146,11 +146,11 @@ echo 'echo this' | nc -q 3 mes-tcp-tls.mesh 4243
 
 ### TCP with mTLS
 
-{% policy_yaml tcp %}
+{% policy_yaml tcp-mtls %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
-name: mes-tcp-tls
+name: mes-tcp-mtls
 mesh: default
 spec:
   match:
@@ -172,7 +172,7 @@ spec:
 {% endpolicy_yaml %}
 
 ```bash
-echo 'echo this' | nc -q 3 mes-tcp-tls.mesh 4244
+echo 'echo this' | nc -q 3 mes-tcp-mtls.mesh 4244
 ```
 
 ### HTTP
@@ -200,7 +200,7 @@ curl http://mes-http.mesh
 
 ### HTTPS
 
-{% policy_yaml http %}
+{% policy_yaml https %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
@@ -250,11 +250,11 @@ grpcurl -plaintext -v mes-grpc.mesh:9000 list
 
 ### gRPCS
 
-{% policy_yaml grpc %}
+{% policy_yaml grpcs %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
-name: mes-grpc
+name: mes-grpcs
 mesh: default
 spec:
   match:
