@@ -405,6 +405,15 @@ items:
             url: "/policies/meshloadbalancingstrategy/#configuration"
           - text: Examples
             url: "/policies/meshloadbalancingstrategy/#examples"
+      - text: MeshPassthrough
+        url: /policies/meshpassthrough/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshpassthrough/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshpassthrough/#configuration"
+          - text: Examples
+            url: "/policies/meshpassthrough/#examples"
       - title: Previous Policies
         group: true
         items:
