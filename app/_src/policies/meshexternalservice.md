@@ -20,7 +20,7 @@ This limitation will be lifted in the next release.
 ### Match
 
 This section specifies the rules for matching traffic that will be routed to external resources defined in `endpoints` section.
-The only `type` supported is `HostnameGenerator` and it means that it will match traffic directed to a hostname created by the hostname generator.
+The only `type` supported is [HostnameGenerator](/docs/{{ page.version }}/policies/hostnamegenerator) and it means that it will match traffic directed to a hostname created by the hostname generator.
 The `port` field when omitted means that all traffic will be matched.
 Protocols that are supported are: `tcp`, `grpc`, `http`, `http2`.
 
@@ -72,6 +72,8 @@ tls:
     clientKey:
       secret: "123"
 ```
+
+When TLS is enabled but the CA is not set, the sidecar uses the default OS-specific CA. The user can override the default CA by setting the path in the environment variable `KUMA_DATAPLANE_RUNTIME_DYNAMIC_SYSTEM_CA_PATH` for the sidecar
 
 ### DNS setup
 
