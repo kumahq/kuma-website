@@ -47,6 +47,12 @@ networking:
 
 When `networking.outbound.passthrough` is `false`, no traffic to any non-mesh resource can leave the Mesh.
 
+{% if_version gte:2.8.x %}
+{% tip %}
+Since version 2.8.x, you can take advantage of a new policy, [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough), which allows you to enable passthrough traffic for a specific group of sidecars and only for specific destinations.
+{% endtip %}
+{% endif_version %}
+
 {% tip %}
 Before setting `networking.outbound.passthrough` to `false`, double-check Envoy stats that no traffic is flowing through `pass_through` cluster. 
 Otherwise, you will block the traffic which may cause the instability of the system.
