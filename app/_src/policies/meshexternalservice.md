@@ -81,7 +81,7 @@ To be able to access `MeshExternalService` via a hostname you need to define a [
 
 ## Examples
 
-For the following examples the following `HostnameGenerator` will be used:
+For the examples below the following `HostnameGenerator` will be used:
 
 {% policy_yaml hostnamegenerator %}
 ```yaml
