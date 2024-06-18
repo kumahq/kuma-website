@@ -11,7 +11,7 @@ The `MeshExternalService` resource allows you to declare external resources inst
 In contrast to passthrough `MeshExternalService` behaves like a normal service as if it was part of the mesh.
 
 {% warning %}
-Currently `MeshExternalService` resource does not support targeting by [targetRef policies](/docs/{{ page.version }}/policies/targetref).
+Currently `MeshExternalService` resource does not support targeting by [targetRef policies](/docs/{{ page.version }}/policies/targetref) without [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress).
 This limitation will be lifted in the next release.
 {% endwarning %}
 
@@ -76,6 +76,8 @@ tls:
 When TLS is enabled but `caCert` is not set, the sidecar uses the [autodetected OS-specific CA](https://github.com/kumahq/kuma/blob/aba6518fca65bc7ab52e5328eb686a51a6f98a53/app/kuma-dp/pkg/dataplane/certificate/cert.go#L12). The user can override the default CA by setting the path in the environment variable `KUMA_DATAPLANE_RUNTIME_DYNAMIC_SYSTEM_CA_PATH` for the sidecar.
 
 ### DNS setup
+
+For clients that the hostname is not fully known in advance please take a look at [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough).
 
 To be able to access `MeshExternalService` via a hostname you need to define a [HostnameGenerator](/docs/{{ page.version }}/policies/hostnamegenerator) with a `meshExternalService` selector.
 
