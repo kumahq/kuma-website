@@ -3,16 +3,15 @@ title: MeshExternalService
 ---
 
 {% warning %}
-Do **not** combine with [External Service](/docs/{{ page.version }}/policies/external-services).
+This resource is experimental!
 {% endwarning %}
 
 This resource allows services running inside the mesh to consume services that are not part of the mesh.
 The `MeshExternalService` resource allows you to declare external resources instead of relying on [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough) or [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing).
-In contrast to passthrough, `MeshExternalService` behaves like a normal service as if it is part of the mesh.
 
 {% warning %}
-Currently `MeshExternalService` resource does not support targeting by [targetRef policies](/docs/{{ page.version }}/policies/targetref) without [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress).
-This limitation will be lifted in a future release.
+Currently `MeshExternalService` resource only supports targeting by [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission) with [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress).
+This limitation will be lifted in the next release.
 {% endwarning %}
 
 ## Configuration
@@ -70,22 +69,28 @@ tls:
     clientCert:
       secret: "123"
     clientKey:
-      secret: "123"
+      secret: "456"
 ```
 
-When TLS is enabled but `caCert` is not set, the sidecar uses the [autodetected OS-specific CA](https://github.com/kumahq/kuma/blob/aba6518fca65bc7ab52e5328eb686a51a6f98a53/app/kuma-dp/pkg/dataplane/certificate/cert.go#L12). The user can override the default CA by setting the path in the environment variable `KUMA_DATAPLANE_RUNTIME_DYNAMIC_SYSTEM_CA_PATH` for the sidecar.
+When TLS is enabled but `caCert` is not set, the sidecar uses the [autodetected OS-specific CA](https://github.com/kumahq/kuma/blob/aba6518fca65bc7ab52e5328eb686a51a6f98a53/app/kuma-dp/pkg/dataplane/certificate/cert.go#L12).
+The user can override the default CA by setting the path in the environment variable `KUMA_DATAPLANE_RUNTIME_DYNAMIC_SYSTEM_CA_PATH` for the sidecar.
 
 ### DNS setup
 
-For clients that the hostname is not fully known in advance please take a look at [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough).
-
 To be able to access `MeshExternalService` via a hostname you need to define a [HostnameGenerator](/docs/{{ page.version }}/policies/hostnamegenerator) with a `meshExternalService` selector.
+
+{% warning %}
+Do **not** hijack original addresses like httpbin.com (the way it was done with [External Service](/docs/{{ page.version }}/policies/external-services)).
+If you need to transparently pass traffic through the Mesh without modifying it use [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough).
+{% endwarning %}
+
+For clients that the hostname is not fully known in advance please take a look at [Wildcard DNS matching in MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough/#wildcard-dns-matching).
 
 ## Examples
 
 TCP examples use https://tcpbin.com/ service which is a TCP echo service, check out the website for more details.
 HTTP examples use https://httpbin.org/ service which is a website for inspecting and debugging HTTP requests.
-gRPC examples use https://grpcbin.test.k6.io/ service which is a gRPC Request & Response Service.
+GRPC examples use https://grpcbin.test.k6.io/ service which is a gRPC Request & Response Service.
 
 For the examples below the following `HostnameGenerator` will be used:
 
@@ -165,6 +170,11 @@ echo 'echo this' | nc -q 3 mes-tcp-tls.mesh 4243
 
 This example builds up on the previous example adding client cert and key.
 Notice that we're using an mTLS port `4244`.
+
+{% tip %}
+In a real world scenario you should use `secret` and refer to it through it's name and store sensitive information as a Kubernetes secret instead of using `inline`.
+This example is purposefully simplified to make it easy to try out.
+{% endtip %}
 
 {% policy_yaml tcp-mtls %}
 ```yaml
