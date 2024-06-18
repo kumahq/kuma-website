@@ -91,6 +91,7 @@ For clients that the hostname is not fully known in advance please take a look a
 TCP examples use https://tcpbin.com/ service which is a TCP echo service, check out the website for more details.
 HTTP examples use https://httpbin.org/ service which is a website for inspecting and debugging HTTP requests.
 GRPC examples use https://grpcbin.test.k6.io/ service which is a gRPC Request & Response Service.
+You can use [grpcurl](https://github.com/fullstorydev/grpcurl) as a client, it is available in [netshoot](https://github.com/nicolaka/netshoot) debug image alongside other tools used in later sections.
 
 For the examples below the following `HostnameGenerator` will be used:
 
