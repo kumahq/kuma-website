@@ -81,6 +81,10 @@ To be able to access `MeshExternalService` via a hostname you need to define a [
 
 ## Examples
 
+TCP examples use https://tcpbin.com/ service which is a TCP echo service, check out the website for more details.
+HTTP examples use https://httpbin.org/ service which is a website for inspecting and debugging HTTP requests.
+gRPC examples use https://grpcbin.test.k6.io/ service which is a gRPC Request & Response Service.
+
 For the examples below the following `HostnameGenerator` will be used:
 
 {% policy_yaml hostnamegenerator %}
@@ -97,6 +101,8 @@ spec:
 {% endpolicy_yaml %}
 
 ### TCP
+
+This is a simple example of accessing `tcpbin.com` service without TLS that echos back bytes sent to it.
 
 {% policy_yaml tcp %}
 ```yaml
@@ -115,11 +121,16 @@ spec:
 ```
 {% endpolicy_yaml %}
 
+Running this should result in printing 'echo this' in the terminal:
+
 ```bash
 echo 'echo this' | nc -q 3 mes-tcp.mesh 4242
 ```
 
 ### TCP with TLS
+
+This example builds up on the previous example adding TLS verification with default system CA.
+Notice that we're using a TLS port `4243`.
 
 {% policy_yaml tcp-tls %}
 ```yaml
@@ -142,11 +153,16 @@ spec:
 ```
 {% endpolicy_yaml %}
 
+Running this should result in printing 'echo this' in the terminal:
+
 ```bash
 echo 'echo this' | nc -q 3 mes-tcp-tls.mesh 4243
 ```
 
 ### TCP with mTLS
+
+This example builds up on the previous example adding client cert and key.
+Notice that we're using an mTLS port `4244`.
 
 {% policy_yaml tcp-mtls %}
 ```yaml
@@ -173,11 +189,15 @@ spec:
 ```
 {% endpolicy_yaml %}
 
+Running this should result in printing 'echo this' in the terminal:
+
 ```bash
 echo 'echo this' | nc -q 3 mes-tcp-mtls.mesh 4244
 ```
 
 ### HTTP
+
+This is a simple example using plaintext HTTP.
 
 {% policy_yaml http %}
 ```yaml
@@ -196,11 +216,15 @@ spec:
 ```
 {% endpolicy_yaml %}
 
+Running this should result in printing httpbin.org HTML in the terminal:
+
 ```bash
-curl http://mes-http.mesh
+curl -s http://mes-http.mesh
 ```
 
 ### HTTPS
+
+This example builds up on the previous example adding TLS verification with default system CA.
 
 {% policy_yaml https %}
 ```yaml
@@ -215,7 +239,7 @@ spec:
     protocol: http
   endpoints:
     - address: httpbin.org
-      port: 80
+      port: 443
   tls:
     enabled: true
     verification:
@@ -223,11 +247,15 @@ spec:
 ```
 {% endpolicy_yaml %}
 
+Running this should result in printing httpbin.org HTML in the terminal:
+
 ```bash
 curl http://mes-https.mesh
 ```
 
 ### gRPC
+
+This is a simple example using plaintext gRPC.
 
 {% policy_yaml grpc %}
 ```yaml
@@ -246,11 +274,16 @@ spec:
 ```
 {% endpolicy_yaml %}
 
+Running this should result in printing grpcbin.test.k6.io available methods:
+
 ```bash
 grpcurl -plaintext -v mes-grpc.mesh:9000 list
 ```
 
 ### gRPCS
+
+This example builds up on the previous example adding TLS verification with default system CA.
+Notice that we're using a different port `9001`.
 
 {% policy_yaml grpcs %}
 ```yaml
@@ -261,17 +294,19 @@ mesh: default
 spec:
   match:
     type: HostnameGenerator
-    port: 9000
+    port: 9001
     protocol: grpc
   endpoints:
     - address: grpcbin.test.k6.io
-      port: 9000
+      port: 9001
   tls:
     enabled: true
     verification:
       serverName: grpcbin.test.k6.io
 ```
 {% endpolicy_yaml %}
+
+Running this should result in printing grpcbin.test.k6.io available methods:
 
 ```bash
 grpcurl -plaintext -v mes-grpcs.mesh:9001 list # this is using plaintext because Envoy is doing TLS origination
