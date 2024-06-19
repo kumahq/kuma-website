@@ -104,7 +104,7 @@ spec:
   selector:
     meshExternalService:
       matchLabels: {}
-  template: "{{&nbsp;.Name&nbsp;}}.mesh"
+  template: "&lcub;&lcub; .Name &rcub;&rcub;.mesh"
 ```
 {% endpolicy_yaml %}
 

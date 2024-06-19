@@ -259,7 +259,7 @@ items:
               - text: Outgoing
                 url: "/networking/non-mesh-traffic/#outgoing"
           - text: MeshExternalService
-            url: /policies/meshexternalservice/
+            url: /networking/meshexternalservice/
             items:
               - text: Configuration
                 url: "/networking/meshexternalservice/#configuration"
