@@ -265,8 +265,8 @@ items:
                 url: "/policies/meshexternalservice/#configuration"
               - text: Examples
                 url: "/policies/meshexternalservice/#examples"
-              - text: Transparent Proxying
-                url: /networking/transparent-proxying/
+          - text: Transparent Proxying
+            url: /networking/transparent-proxying/
   - title: Policies
     group: true
     items:
