@@ -57,6 +57,7 @@ mesh: default
 spec:
   targetRef:
     kind: Mesh
+    proxyTypes: ["Sidecar"]
   default:
     appendMatch:
     - type: Domain
@@ -94,6 +95,7 @@ mesh: default
 spec:
   targetRef:
     kind: Mesh
+    proxyTypes: ["Sidecar"]
   default:
     enabled: false
 ```
@@ -109,6 +111,7 @@ mesh: default
 spec:
   targetRef:
     kind: MeshSubset
+    proxyTypes: ["Sidecar"]
     tags:
       kuma.io/service: demo-app_kuma-demo_svc_5000
   default:
@@ -126,6 +129,7 @@ mesh: default
 spec:
   targetRef:
     kind: MeshSubset
+    proxyTypes: ["Sidecar"]
     tags:
       kuma.io/service: demo-app_kuma-demo_svc_5000
   default:
