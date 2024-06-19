@@ -5,8 +5,9 @@ title: MeshService
 {% warning %}
 This resource is experimental!
 In Kubernetes, to take advantage of the automatic generation described below,
-you need to set both [CP configuration variables](/docs/{{ page.version }}/reference/kuma-cp/) `KUMA_EXPERIMENTAL_SKIP_PERSISTED_VIPS`
-and `KUMA_EXPERIMENTAL_GENERATE_MESH_SERVICES` to `"true"`.
+you need to set both [control plane configuration variables](/docs/{{ page.version }}/reference/kuma-cp/) `KUMA_EXPERIMENTAL_SKIP_PERSISTED_VIPS`
+and `KUMA_EXPERIMENTAL_GENERATE_MESH_SERVICES` to `"true"` on the zone control
+planes that use `MeshServices`.
 {% endwarning %}
 
 MeshService is a new resource that represents what was previously expressed by
