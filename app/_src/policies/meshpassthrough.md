@@ -69,8 +69,8 @@ spec:
 
 ### Security
 
-It is advised that the MeshOperator is responsible for managing the `MeshPassthrough` policy.
-This policy can introduce traffic outside of the mesh or even the cluster, and the MeshOperator should be aware of this.
+It is advised that the Mesh Operator is responsible for managing the `MeshPassthrough` policy.
+This policy can introduce traffic outside of the mesh or even the cluster, and the Mesh Operator should be aware of this.
 If you want to restrict access to `MeshPassthrough` to specific services, you must choose them manually.
 If you rely on tags in the top-level `targetRef` you might consider securing them by using one of the following techniques:
 
