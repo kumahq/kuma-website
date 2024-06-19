@@ -96,7 +96,6 @@ You can use [grpcurl](https://github.com/fullstorydev/grpcurl) as a client, it i
 For the examples below the following `HostnameGenerator` will be used:
 
 {% policy_yaml hostnamegenerator %}
-{% raw %}
 ```yaml
 type: HostnameGenerator
 name: example
@@ -105,9 +104,8 @@ spec:
   selector:
     meshExternalService:
       matchLabels: {}
-  template: "{{.Name}}.mesh"
+  template: "{{&nbsp;.Name&nbsp;}}.mesh"
 ```
-{% endraw %}
 {% endpolicy_yaml %}
 
 ### TCP
