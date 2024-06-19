@@ -87,14 +87,18 @@ module Jekyll
             htmlContent = "
 {% tabs #{@tabs_name} useUrlFragment=false %}
 {% tab #{@tabs_name} Kubernetes %}
+{% raw %}
 ```yaml
 #{kube_content}
 ```
+{% endraw %}
 {% endtab %}
 {% tab #{@tabs_name} Universal %}
+{% raw %}
 ```yaml
 #{uni_content}
 ```
+{% endraw %}
 {% endtab %}
 {% endtabs %}"
             ::Liquid::Template.parse(htmlContent).render(context)
