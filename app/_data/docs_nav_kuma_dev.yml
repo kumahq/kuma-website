@@ -262,9 +262,9 @@ items:
             url: /policies/meshexternalservice/
             items:
               - text: Configuration
-                url: "/policies/meshexternalservice/#configuration"
+                url: "/networking/meshexternalservice/#configuration"
               - text: Examples
-                url: "/policies/meshexternalservice/#examples"
+                url: "/networking/meshexternalservice/#examples"
           - text: Transparent Proxying
             url: /networking/transparent-proxying/
   - title: Policies

@@ -105,7 +105,7 @@ spec:
   selector:
     meshExternalService:
       matchLabels: {}
-  template: "{{ .Name }}.mesh"
+  template: "{{.Name}}.mesh"
 ```
 {% endraw %}
 {% endpolicy_yaml %}
