@@ -103,27 +103,7 @@ You can use [grpcurl](https://github.com/fullstorydev/grpcurl) as a client, it i
 
 For the examples below we're using a [single-zone deployment](/docs/{{ page.version }}/production/deployment/single-zone) and the following `HostnameGenerator`:
 
-{% tabs hostnamegenerator useUrlFragment=false %}
-{% tab hostnamegenerator Kubernetes %}
-{% raw %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: HostnameGenerator
-metadata:
-  name: example
-  namespace: kuma-system
-  labels:
-    kuma.io/mesh: default
-spec:
-  selector:
-    meshExternalService:
-      matchLabels:
-        kuma.io/origin: zone # only consider local MeshExternalServices
-  template: '{{ .DisplayName }}.svc.meshext.local'
-```
-{% endraw %}
-{% endtab %}
-{% tab hostnamegenerator Universal %}
+{% policy_yaml hostnamegen %}
 {% raw %}
 ```yaml
 type: HostnameGenerator
@@ -133,12 +113,11 @@ spec:
   selector:
     meshExternalService:
       matchLabels:
-        kuma.io/origin: zone
+        kuma.io/origin: zone # only consider local MeshExternalServices
   template: '{{ .DisplayName }}.svc.meshext.local'
 ```
 {% endraw %}
-{% endtab %}
-{% endtabs %}"
+{% endpolicy_yaml %}
 
 If you're in [multi-zone deployment](/docs/{{ page.version }}/production/deployment/multi-zone) and you're applying resources on the global control plane you'd need a second `HostnameGenerator` with `matchLabels: kuma.io/origin: global` for resources applied on the global Control Plane and to adjust the URLs accordingly to match the template.
 
