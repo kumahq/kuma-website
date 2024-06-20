@@ -20,7 +20,7 @@ spec:
     meshService:
       matchLabels:
         k8s.kuma.io/namespace: kuma-demo
-  template: "{{ .Name }}.{{ .Namespace }}.mesh"
+  template: "{{ .DisplayName }}.{{ .Namespace }}.mesh"
 ```
 {% endpolicy_yaml %}
 
@@ -46,7 +46,7 @@ metadata:
 and
 
 ```
-  template: "{{ .Name }}.{{ .Namespace }}.{{ .Mesh }}.{{ label "team" }}.mesh"
+  template: "{{ .DisplayName }}.{{ .Namespace }}.{{ .Mesh }}.{{ label "team" }}.mesh"
 ```
 
 the generated hostname would be:
