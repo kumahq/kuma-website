@@ -95,7 +95,27 @@ You can use [grpcurl](https://github.com/fullstorydev/grpcurl) as a client, it i
 
 For the examples below the following `HostnameGenerator` will be used:
 
-{% policy_yaml hostnamegenerator %}
+{% tabs hostnamegenerator useUrlFragment=false %}
+{% tab hostnamegenerator Kubernetes %}
+{% raw %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: HostnameGenerator
+metadata:
+  name: example
+  namespace: kuma-system
+  labels:
+    kuma.io/mesh: default
+spec:
+  selector:
+    meshExternalService:
+      matchLabels: {}
+  template: '{{ .Name }}.mesh'
+```
+{% endraw %}
+{% endtab %}
+{% tab hostnamegenerator Universal %}
+{% raw %}
 ```yaml
 type: HostnameGenerator
 name: example
@@ -106,7 +126,9 @@ spec:
       matchLabels: {}
   template: "{{ .Name }}.mesh"
 ```
-{% endpolicy_yaml %}
+{% endraw %}
+{% endtab %}
+{% endtabs %}"
 
 ### TCP
 
