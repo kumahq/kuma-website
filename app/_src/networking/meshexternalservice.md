@@ -110,7 +110,7 @@ spec:
   selector:
     meshExternalService:
       matchLabels: {}
-  template: '{{ .Name }}.mesh'
+  template: '{{ .Name }}.meshexternalservice'
 ```
 {% endraw %}
 {% endtab %}
@@ -124,7 +124,7 @@ spec:
   selector:
     meshExternalService:
       matchLabels: {}
-  template: "{{ .Name }}.mesh"
+  template: "{{ .Name }}.meshexternalservice"
 ```
 {% endraw %}
 {% endtab %}
@@ -154,7 +154,7 @@ spec:
 Running this should result in printing 'echo this' in the terminal:
 
 ```bash
-echo 'echo this' | nc -q 3 mes-tcp.mesh 4242
+echo 'echo this' | nc -q 3 mes-tcp.meshexternalservice 4242
 ```
 
 ### TCP with TLS
@@ -186,7 +186,7 @@ spec:
 Running this should result in printing 'echo this' in the terminal:
 
 ```bash
-echo 'echo this' | nc -q 3 mes-tcp-tls.mesh 4243
+echo 'echo this' | nc -q 3 mes-tcp-tls.meshexternalservice 4243
 ```
 
 ### TCP with mTLS
@@ -227,7 +227,7 @@ spec:
 Running this should result in printing 'echo this' in the terminal:
 
 ```bash
-echo 'echo this' | nc -q 3 mes-tcp-mtls.mesh 4244
+echo 'echo this' | nc -q 3 mes-tcp-mtls.meshexternalservice 4244
 ```
 
 ### HTTP
@@ -254,7 +254,7 @@ spec:
 Running this should result in printing httpbin.org HTML in the terminal:
 
 ```bash
-curl -s http://mes-http.mesh
+curl -s http://mes-http.meshexternalservice
 ```
 
 ### HTTPS
@@ -285,7 +285,7 @@ spec:
 Running this should result in printing httpbin.org HTML in the terminal:
 
 ```bash
-curl http://mes-https.mesh
+curl http://mes-https.meshexternalservice
 ```
 
 ### gRPC
@@ -312,7 +312,7 @@ spec:
 Running this should result in printing grpcbin.test.k6.io available methods:
 
 ```bash
-grpcurl -plaintext -v mes-grpc.mesh:9000 list
+grpcurl -plaintext -v mes-grpc.meshexternalservice:9000 list
 ```
 
 ### gRPCS
@@ -344,7 +344,7 @@ spec:
 Running this should result in printing grpcbin.test.k6.io available methods:
 
 ```bash
-grpcurl -plaintext -v mes-grpcs.mesh:9001 list # this is using plaintext because Envoy is doing TLS origination
+grpcurl -plaintext -v mes-grpcs.meshexternalservice:9001 list # this is using plaintext because Envoy is doing TLS origination
 ```
 
 ## All policy configuration settings
