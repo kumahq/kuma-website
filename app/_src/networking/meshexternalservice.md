@@ -25,7 +25,7 @@ Protocols that are supported are: `tcp`, `grpc`, `http`, `http2`.
 
 ```yaml
 match:
-  type: HostnameGenerator
+  type: HostnameGenerator # optional
   port: 4244
   protocol: tcp
 ```
@@ -101,7 +101,7 @@ HTTP examples use https://httpbin.org/ service which is a website for inspecting
 GRPC examples use https://grpcbin.test.k6.io/ service which is a gRPC Request & Response Service.
 You can use [grpcurl](https://github.com/fullstorydev/grpcurl) as a client, it is available in [netshoot](https://github.com/nicolaka/netshoot) debug image alongside other tools used in later sections.
 
-For the examples below the following `HostnameGenerator` will be used:
+For the examples below we're using a [single-zone deployment](/docs/{{ page.version }}/production/deployment/single-zone) and the following `HostnameGenerator`:
 
 {% tabs hostnamegenerator useUrlFragment=false %}
 {% tab hostnamegenerator Kubernetes %}
@@ -117,8 +117,9 @@ metadata:
 spec:
   selector:
     meshExternalService:
-      matchLabels: {}
-  template: '{{ .Name }}.meshexternalservice'
+      matchLabels:
+        kuma.io/origin: zone # only consider local MeshExternalServices
+  template: '{{ .DisplayName }}.svc.meshext.local'
 ```
 {% endraw %}
 {% endtab %}
@@ -131,12 +132,15 @@ mesh: default
 spec:
   selector:
     meshExternalService:
-      matchLabels: {}
-  template: "{{ .Name }}.meshexternalservice"
+      matchLabels:
+        kuma.io/origin: zone
+  template: '{{ .DisplayName }}.svc.meshext.local'
 ```
 {% endraw %}
 {% endtab %}
 {% endtabs %}"
+
+If you're in [multi-zone deployment](/docs/{{ page.version }}/production/deployment/multi-zone) and you're applying resources on the global control plane you'd need a second `HostnameGenerator` with `matchLabels: kuma.io/origin: global` for resources applied on the global Control Plane and to adjust the URLs accordingly to match the template.
 
 ### TCP
 
@@ -161,7 +165,7 @@ spec:
 Running this should result in printing 'echo this' in the terminal:
 
 ```bash
-echo 'echo this' | nc -q 3 mes-tcp.meshexternalservice 4242
+echo 'echo this' | nc -q 3 mes-tcp.svc.meshext.local 4242
 ```
 
 ### TCP with TLS
@@ -192,7 +196,7 @@ spec:
 Running this should result in printing 'echo this' in the terminal:
 
 ```bash
-echo 'echo this' | nc -q 3 mes-tcp-tls.meshexternalservice 4243
+echo 'echo this' | nc -q 3 mes-tcp-tls.svc.meshext.local 4243
 ```
 
 ### TCP with mTLS
@@ -232,7 +236,7 @@ spec:
 Running this should result in printing 'echo this' in the terminal:
 
 ```bash
-echo 'echo this' | nc -q 3 mes-tcp-mtls.meshexternalservice 4244
+echo 'echo this' | nc -q 3 mes-tcp-mtls.svc.meshext.local 4244
 ```
 
 ### HTTP
@@ -258,7 +262,7 @@ spec:
 Running this should result in printing httpbin.org HTML in the terminal:
 
 ```bash
-curl -s http://mes-http.meshexternalservice
+curl -s http://mes-http.svc.meshext.local
 ```
 
 ### HTTPS
@@ -288,7 +292,7 @@ spec:
 Running this should result in printing httpbin.org HTML in the terminal:
 
 ```bash
-curl http://mes-https.meshexternalservice
+curl http://mes-https.svc.meshext.local
 ```
 
 ### gRPC
@@ -314,7 +318,7 @@ spec:
 Running this should result in printing grpcbin.test.k6.io available methods:
 
 ```bash
-grpcurl -plaintext -v mes-grpc.meshexternalservice:9000 list
+grpcurl -plaintext -v mes-grpc.svc.meshext.local:9000 list
 ```
 
 ### gRPCS
@@ -345,7 +349,7 @@ spec:
 Running this should result in printing grpcbin.test.k6.io available methods:
 
 ```bash
-grpcurl -plaintext -v mes-grpcs.meshexternalservice:9001 list # this is using plaintext because Envoy is doing TLS origination
+grpcurl -plaintext -v mes-grpcs.svc.meshext.local:9001 list # this is using plaintext because Envoy is doing TLS origination
 ```
 
 ## All policy configuration settings
