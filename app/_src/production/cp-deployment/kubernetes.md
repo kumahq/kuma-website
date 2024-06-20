@@ -45,6 +45,9 @@ If you do this, deleting a mesh will not delete the resources that are attached 
 
 ## Sidecars
 
+Check [the notes on DP lifecycle for Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#kubernetes-sidecar-containers)
+for important considerations about sidecars with {{site.mesh_product_name}}.
+
 ### CNI
 
 On Kubernetes there are two ways to redirect traffic to the sidecar:
@@ -53,11 +56,6 @@ On Kubernetes there are two ways to redirect traffic to the sidecar:
 - [CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) which requires a little extra setup.
 
 To use the CNI you can use the detailed [instructions to configure the {{site.mesh_product_name}} CNI](/docs/{{ page.version }}/production/dp-config/cni/). 
-
-### Native sidecar support
-
-In version 1.28 Kubernetes introduced [native sidecar containers](https://kubernetes.io/blog/2023/08/25/native-sidecar-containers/).
-This feature is tracked in [#7541](https://github.com/kumahq/kuma/issues/7541).
 
 ## OpenShift
 

@@ -42,8 +42,43 @@ spec:
 
 Labeling pods or deployments will take precedence on the namespace annotation.
 
+{% if_version gt:2.8.x %}
+### `kuma.io/mesh`
+
+Associate Pods with a particular Mesh. Label value must be the name of a Mesh resource.
+
+**Example**
+
+It can be used on an entire namespace:
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: default
+ labels:
+   kuma.io/mesh: default
+[...]
+```
+
+It can be used on a pod:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: backend
+ labels:
+   kuma.io/mesh: default
+[...]
+```
+
+Labeling pods or deployments will take precedence on the namespace annotation.
+{% endif_version %}
+
 ## Annotations
 
+{% if_version lte:2.7.x %}
 ### `kuma.io/mesh`
 
 Associate Pods with a particular Mesh. Annotation value must be the name of a Mesh resource.
@@ -75,6 +110,7 @@ metadata:
 ```
 
 Annotating pods or deployments will take precedence on the namespace annotation.
+{% endif_version %}
 
 {% if_version lte:2.1.x %}
 ### `kuma.io/sidecar-injection`
