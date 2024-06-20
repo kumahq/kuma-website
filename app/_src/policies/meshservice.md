@@ -30,19 +30,18 @@ spec:
       kuma.io/zone: east-1 # added automatically
   ports:
   - port: 6739
-    targetPort:
-      value: 6739
+    targetPort: 6739
     appProtocol: tcp
   - name: some-port
     port: 16739
-    targetPort:
-      name: target-port-from-container # name of the inbound
+    targetPort: target-port-from-container # name of the inbound
     appProtocol: tcp
 status:
   addresses:
   - hostname: redis.mesh
     origin: HostnameGenerator
-    hostnameGeneratorRef: my-hostname-generator
+    hostnameGeneratorRef:
+      name: kmy-hostname-generator
   vips:
   - ip: 10.0.1.1 # kuma VIP or Kubernetes cluster IP
 ```
@@ -83,7 +82,8 @@ resource was introduced to manage hostnames for
 ## Ports
 
 The `ports` field lists the ports exposed by the `Dataplanes` that
-the `MeshService` matches.
+the `MeshService` matches. `targetPort` can refer to a port directly or by the
+name of the `Dataplane` port.
 
 ```
   ports:
