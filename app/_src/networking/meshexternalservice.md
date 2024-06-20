@@ -47,6 +47,7 @@ endpoints:
 ### TLS
 
 This section describes the TLS and verification behaviour.
+TLS origination happens on the sidecar, so if your application is already using TLS you might want to use [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough).
 You can define TLS version requirements, option to allow renegotiation, verification of SNI, SAN, custom CA and client certificate and key for server verification.
 To disable parts of the verification you can set different `mode` - `SkipSAN`, `SkipCA`, `SkipAll`, `Secured` (default).
 
@@ -78,9 +79,16 @@ The user can override the default CA by setting the path in the environment vari
 ### DNS setup
 
 To be able to access `MeshExternalService` via a hostname you need to define a [HostnameGenerator](/docs/{{ page.version }}/policies/hostnamegenerator) with a `meshExternalService` selector.
+In the future release a default [HostnameGenerator](/docs/{{ page.version }}/policies/hostnamegenerator) will be provided.
+
+Once a [HostnameGenerator](/docs/{{ page.version }}/policies/hostnamegenerator) and a `MeshExternalService` is in place the following will happen:
+- a hostname (or multiple hostnames if there are many `HostnameGenerators` matching) are generated using the specified templates
+- a VIP is allocated from `242.0.0.0/8` range (can be changed by `KUMA_IPAM_MESH_EXTERNAL_SERVICE_CIDR` environment variable)
+- Envoy cluster is created which will use endpoints defined in `spec.endpoints` as the [cluster endpoints](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/endpoint/v3/endpoint_components.proto)
 
 {% warning %}
 Do **not** hijack original addresses like httpbin.com (the way it was done with [External Service](/docs/{{ page.version }}/policies/external-services)).
+Hijacking the original address is like performing a man-in-the-middle attack so there is a high chance of something breaking.
 If you need to transparently pass traffic through the Mesh without modifying it use [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough).
 {% endwarning %}
 
@@ -136,7 +144,6 @@ This is a simple example of accessing `tcpbin.com` service without TLS that echo
 
 {% policy_yaml tcp %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
 name: mes-tcp
 mesh: default
@@ -164,7 +171,6 @@ Notice that we're using a TLS port `4243`.
 
 {% policy_yaml tcp-tls %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
 name: mes-tcp-tls
 mesh: default
@@ -201,7 +207,6 @@ This example is purposefully simplified to make it easy to try out.
 
 {% policy_yaml tcp-mtls %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
 name: mes-tcp-mtls
 mesh: default
@@ -236,7 +241,6 @@ This is a simple example using plaintext HTTP.
 
 {% policy_yaml http %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
 name: mes-http
 mesh: default
@@ -263,7 +267,6 @@ This example builds up on the previous example adding TLS verification with defa
 
 {% policy_yaml https %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
 name: mes-https
 mesh: default
@@ -294,7 +297,6 @@ This is a simple example using plaintext gRPC.
 
 {% policy_yaml grpc %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
 name: mes-grpc
 mesh: default
@@ -322,7 +324,6 @@ Notice that we're using a different port `9001`.
 
 {% policy_yaml grpcs %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
 type: MeshExternalService
 name: mes-grpcs
 mesh: default
