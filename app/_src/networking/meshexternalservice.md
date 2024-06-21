@@ -94,6 +94,48 @@ If you need to transparently pass traffic through the Mesh without modifying it 
 
 For accessing entire subdomains, take a look at [Wildcard DNS matching in MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough/#wildcard-dns-matching).
 
+### Universal mode without Transparent Proxy
+
+`MeshExternalService` works on Universal mode without Transparent Proxy, but you need to manually define an outbound that targets the correct `MeshExternalService`:
+
+```yaml
+networking:
+  outbound:
+    - port: 8080
+      backendRef:
+        kind: MeshExternalService
+        name: mes-http
+```
+
+The whole command will look something like this:
+
+```bash
+./kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=token-file \
+  --dataplane="
+type: Dataplane
+mesh: default
+name: example
+networking:
+  address: 127.0.0.1
+  inbound:
+    - port: 16379
+      servicePort: 26379
+      serviceAddress: 127.0.0.1
+      tags:
+        kuma.io/service: example
+        kuma.io/protocol: tcp
+  outbound:
+    - port: 8080
+      backendRef:
+        kind: MeshExternalService
+        name: mes-http
+  admin:
+    port: 9901"
+```
+
 ## Examples
 
 TCP examples use https://tcpbin.com/ service which is a TCP echo service, check out the website for more details.
