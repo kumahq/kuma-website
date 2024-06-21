@@ -240,6 +240,10 @@ items:
         items:
           - text: Service Discovery
             url: /networking/service-discovery/
+          - text: MeshService
+            url: "/policies/meshservice"
+          - text: HostnameGenerator
+            url: "/policies/hostnamegenerator"
           - text: DNS
             url: /networking/dns/
             items:
@@ -269,10 +273,6 @@ items:
         url: /policies/applying-policies/
       - text: Understanding TargetRef policies
         url: "/policies/targetref"
-      - text: MeshService
-        url: "/policies/meshservice"
-      - text: HostnameGenerator
-        url: "/policies/hostnamegenerator"
       - text: MeshAccessLog
         url: /policies/meshaccesslog/
         items:
