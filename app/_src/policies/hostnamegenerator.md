@@ -20,16 +20,22 @@ spec:
     meshService:
       matchLabels:
         k8s.kuma.io/namespace: kuma-demo
-  template: "{{ .DisplayName }}.{{ .Namespace }}.mesh"
+  template: "{% raw %}{{ .DisplayName }}.{{ .Namespace }}.mesh{% endraw %}"
 ```
 {% endpolicy_yaml %}
 
 ## Template
 
 A template is a [golang text template](https://pkg.go.dev/text/template).
-It is run with the name, namespace and mesh as input and function `label` to retrieve labels of the `MeshService` or `MeshExternalService`.
+It is run with the function `label` to retrieve labels of the `MeshService` or `MeshExternalService`
+as well as the following attributes:
 
-For exampe, given:
+* `.DisplayName`: the name of the resource in its original zone
+* `.Namespace`: the namespace of the resource in its original zone, if kubernetes
+* `.Zone`: the zone of the resource
+* `.Mesh`: the mesh of the resource
+
+For example, given:
 
 ```yaml
 kind: MeshService
@@ -46,7 +52,7 @@ metadata:
 and
 
 ```
-  template: "{{ .DisplayName }}.{{ .Namespace }}.{{ .Mesh }}.{{ label "team" }}.mesh"
+  template: "{% raw %}{{ .DisplayName }}.{{ .Namespace }}.{{ .Mesh }}.{{ label "team" }}.mesh{% endraw %}"
 ```
 
 the generated hostname would be:

@@ -16,7 +16,8 @@ the analog of a Kubernetes `Service`.
 
 A basic example follows to illustrate the structure:
 
-```
+{% policy_yaml meshservice_example %}
+```yaml
 type: MeshService
 name: redis
 mesh: default
@@ -27,7 +28,6 @@ spec:
     dataplaneTags: # tags in Dataplane object, see below
       app: redis
       k8s.kuma.io/namespace: redis-system # added automatically
-      kuma.io/zone: east-1 # added automatically
   ports:
   - port: 6739
     targetPort: 6739
@@ -45,6 +45,7 @@ status:
   vips:
   - ip: 10.0.1.1 # kuma VIP or Kubernetes cluster IP
 ```
+{% endpolicy_yaml %}
 
 The MeshService represents a destination for traffic from elsewhere in the mesh.
 It defines which `Dataplane` objects serve this traffic as well as what ports
