@@ -87,7 +87,7 @@ default:
         value: 5s
         percentage: 5
       responseBandwidth:
-        limit: "50mbps"
+        limit: "50Mbps"
         percentage: 50
     - abort:
         httpStatus: 500
@@ -129,7 +129,7 @@ Delay defines a configuration of delaying a response from a destination.
 
 ResponseBandwidth defines a configuration to limit the speed of responding to requests.
 
-- `limit` - represented by value measure in gbps, mbps, kbps, or bps, e.g. 10kbps
+- `limit` - represented by value measure in Gbps, Mbps, kbps, or bps, e.g. 10kbps
 - `percentage` - a percentage of requests on which abort will be injected, has to be in [0.0 - 100.0] range. If the value is a double number, put it in quotes.
 
 ## Examples
