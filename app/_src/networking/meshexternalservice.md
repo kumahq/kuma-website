@@ -92,7 +92,7 @@ Hijacking the original address is like performing a man-in-the-middle attack so 
 If you need to transparently pass traffic through the Mesh without modifying it use [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough).
 {% endwarning %}
 
-For clients that the hostname is not fully known in advance please take a look at [Wildcard DNS matching in MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough/#wildcard-dns-matching).
+For accessing entire subdomains, take a look at [Wildcard DNS matching in MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough/#wildcard-dns-matching).
 
 ## Examples
 
