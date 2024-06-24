@@ -78,10 +78,10 @@ The user can override the default CA by setting the path in the environment vari
 
 ### DNS setup
 
-To be able to access `MeshExternalService` via a hostname you need to define a [HostnameGenerator](/docs/{{ page.version }}/policies/hostnamegenerator) with a `meshExternalService` selector.
-In the future release a default [HostnameGenerator](/docs/{{ page.version }}/policies/hostnamegenerator) will be provided.
+To be able to access `MeshExternalService` via a hostname you need to define a `HostnameGenerator` with a `meshExternalService` selector.
+In the future release a default `HostnameGenerator` will be provided.
 
-Once a [HostnameGenerator](/docs/{{ page.version }}/policies/hostnamegenerator) and a `MeshExternalService` is in place the following will happen:
+Once a `HostnameGenerator` and a `MeshExternalService` is in place the following will happen:
 - a hostname (or multiple hostnames if there are many `HostnameGenerators` matching) are generated using the specified templates
 - a VIP is allocated from `242.0.0.0/8` range (can be changed by `KUMA_IPAM_MESH_EXTERNAL_SERVICE_CIDR` environment variable)
 - Envoy cluster is created which will use endpoints defined in `spec.endpoints` as the [cluster endpoints](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/endpoint/v3/endpoint_components.proto)
