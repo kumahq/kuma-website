@@ -258,6 +258,13 @@ items:
                 url: "/networking/non-mesh-traffic/#incoming"
               - text: Outgoing
                 url: "/networking/non-mesh-traffic/#outgoing"
+          - text: MeshExternalService
+            url: /networking/meshexternalservice/
+            items:
+              - text: Configuration
+                url: "/networking/meshexternalservice/#configuration"
+              - text: Examples
+                url: "/networking/meshexternalservice/#examples"
           - text: Transparent Proxying
             url: /networking/transparent-proxying/
   - title: Policies
