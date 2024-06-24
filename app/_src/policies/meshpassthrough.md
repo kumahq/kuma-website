@@ -29,7 +29,7 @@ This policy doesn't work with sidecars without [transparent-proxy](/docs/{{ page
 
 The following describes the default configuration settings of the `MeshPassthrough` policy:
 
-- **`enabled`**: (Optional) If true, allows all traffic to pass outside.
+- **`passthroughMode`**: (Optional) Defines behaviour for handling traffic. Allowed values: `All`, `None` and `Matched`. Default: `None`. `All` enables all traffic to pass through, `Matched` allows only the traffic defined in `appendMatch` and `None` disallows all traffic.
 - **`appendMatch`**: List of destinations that are allowed to pass through. When `enabled` is `true` this list is not used. It only takes effect when `enabled` is `false`.
   - **`type`**: Defines what type of destination is allowed. Either `Domain`, `IP` or `CIDR`.
   - **`value`**: Destination address based on the defined `type`.
@@ -59,6 +59,7 @@ spec:
     kind: Mesh
     proxyTypes: ["Sidecar"]
   default:
+    passthroughMode: Matched
     appendMatch:
     - type: Domain
       value: '*.cluster-1.kafka.aws.us-east-2.com'
@@ -97,7 +98,7 @@ spec:
     kind: Mesh
     proxyTypes: ["Sidecar"]
   default:
-    enabled: false
+    passthroughMode: None
 ```
 {% endpolicy_yaml %}
 
@@ -115,7 +116,7 @@ spec:
     tags:
       kuma.io/service: demo-app_kuma-demo_svc_5000
   default:
-    enabled: true
+    passthroughMode: All
 ```
 {% endpolicy_yaml %}
 
@@ -133,6 +134,7 @@ spec:
     tags:
       kuma.io/service: demo-app_kuma-demo_svc_5000
   default:
+    passthroughMode: Matched
     appendMatch:
     - type: Domain
       value: httpbin.org
