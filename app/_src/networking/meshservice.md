@@ -78,7 +78,7 @@ the future.
 Because of various shortcomings, the existing `VirtualOutbound` does not work
 with `MeshService` and is planned for phasing out. A [new `HostnameGenerator`
 resource was introduced to manage hostnames for
-`MeshServices`](/docs/{{ page.version }}/policies/hostnamegenerator/).
+`MeshServices`](/docs/{{ page.version }}/networking/hostnamegenerator/).
 
 ## Ports
 
