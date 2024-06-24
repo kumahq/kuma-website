@@ -241,9 +241,9 @@ items:
           - text: Service Discovery
             url: /networking/service-discovery/
           - text: MeshService
-            url: "/policies/meshservice"
+            url: "/networking/meshservice/"
           - text: HostnameGenerator
-            url: "/policies/hostnamegenerator"
+            url: "/networking/hostnamegenerator/"
           - text: DNS
             url: /networking/dns/
             items:
