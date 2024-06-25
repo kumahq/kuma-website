@@ -74,5 +74,5 @@ status:
     - hostname: redis.kuma-demo.mesh
       origin: HostnameGenerator
       hostnameGeneratorRef:
-        name: all
+        coreName: all
 ```

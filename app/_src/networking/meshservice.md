@@ -41,7 +41,7 @@ status:
   - hostname: redis.mesh
     origin: HostnameGenerator
     hostnameGeneratorRef:
-      name: kmy-hostname-generator
+      coreName: kmy-hostname-generator
   vips:
   - ip: 10.0.1.1 # kuma VIP or Kubernetes cluster IP
 ```
