@@ -240,6 +240,10 @@ items:
         items:
           - text: Service Discovery
             url: /networking/service-discovery/
+          - text: MeshService
+            url: "/networking/meshservice/"
+          - text: HostnameGenerator
+            url: "/networking/hostnamegenerator/"
           - text: DNS
             url: /networking/dns/
             items:
