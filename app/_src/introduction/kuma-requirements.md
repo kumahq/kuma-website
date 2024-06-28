@@ -18,7 +18,10 @@ This page exposes the different requirements to run {{site.mesh_product_name}}.
 Versions of envoy supported are: `~1.22.0` which means `>=1.22.0` and `<1.23.0`.
 {% endif_version %}
 {% if_version gte:2.2.x %}
-Versions of envoy supported are: `~1.25.0` which means `>=1.25.0` and `<1.25.0`.
+Versions of envoy supported are: `~1.25.0` which means `>=1.25.0` and `<1.26.0`.
+{% endif_version %}
+{% if_version gte:2.7.x %}
+The lowest Envoy version we support is the Envoy shipped in the minor - 2 of Kuma. For example, in Kuma `2.7.x`, we support Envoy shipped in the Kuma `2.5.0`, which is version `1.28.0`.
 {% endif_version %}
 You can find the current version in the [version.sh](https://github.com/kumahq/kuma/blob/master/tools/releases/version.sh#L11) file.
 

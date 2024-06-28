@@ -92,7 +92,7 @@ jobs:
           - debian:bookworm
           - fedora:latest
           - redhat/ubi8:8.6
-          - ubuntu:23.10 # to have newer gh version, update to 24.04 LTS when released
+          - ubuntu:24.04
     container:
       image: ${{ matrix.os }}
     steps:
@@ -100,7 +100,7 @@ jobs:
         run: |
           (apt-get update && apt-get install file curl jq -y) || true
           (yum install yum-utils -y && yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && yum install file tar gzip jq -y) || true
-          pacman --noconfirm -Sy jq file curl || true
+          pacman --noconfirm -Syu jq file curl || true
       - uses: actions/checkout@v3
       - name: Run installer.sh
         env:
@@ -134,13 +134,13 @@ jobs:
       - name: Run installer.sh with preview version
         env:
           VERBOSE: ${{ runner.debug }}
-          VERSION: 0.0.0-preview.v76e03eb68
+          VERSION: preview
         run: |
+          VERSION=$(sh app/installer.sh --print-version 2> /dev/null)
           sh app/installer.sh
           file ./kuma-*/bin/kumactl | grep x86-64 &> /dev/null
           rm -rf ./kuma-*/ 
-          PRINT_VERSION=$(sh app/installer.sh --print-version 2> /dev/null)
-          echo ${PRINT_VERSION} | grep "${VERSION}" || echo "Unexpected version ${PRINT_VERSION}"
+          echo ${VERSION}
   installer-sh-arm64:
     runs-on: ubuntu-latest
     name: Test installer.sh on arm64
@@ -210,5 +210,6 @@ jobs:
         with:
           files: "${{ steps.changed-files.outputs.result }}"
           reporter: github-pr-review
+          reviewdog_url: https://github.com/reviewdog/reviewdog/releases/download/v0.18.1/reviewdog_0.18.1_Linux_x86_64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

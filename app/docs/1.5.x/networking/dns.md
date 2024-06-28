@@ -8,7 +8,7 @@ The usage of Kuma DNS is only relevant when [transparent proxying](/docs/{{ page
 
 ## How it works
 
-Kuma DNS server responds to type `A` and `AAAA` DNS requests, and answers with `A` or `AAAAA` records, for example ```redis.mesh. 60 IN A  240.0.0.100``` or ```redis.mesh. 60 IN AAAAA  fd00:fd00::100```.
+Kuma DNS server responds to type `A` and `AAAA` DNS requests, and answers with `A` or `AAAA` records, for example ```redis.mesh. 60 IN A  240.0.0.100``` or ```redis.mesh. 60 IN AAAA  fd00:fd00::100```.
 
 The virtual IPs are allocated by the control plane from the configured CIDR (by default `240.0.0.0/4`) , by constantly scanning the services available in all Kuma meshes.
 When a service is removed, its VIP is also freed, and Kuma DNS does not respond for it with `A` and `AAAA` DNS record.

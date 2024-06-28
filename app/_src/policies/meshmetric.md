@@ -132,6 +132,9 @@ spec:
       includeUnused: true
     backends:
       - type: Prometheus
+        prometheus:
+          port: 5670
+          path: /metrics
 ```
 {% endpolicy_yaml %}
 
@@ -162,6 +165,9 @@ spec:
             match: "envoy_cluster_default_total_match_count"
     backends:
       - type: Prometheus
+        prometheus:
+          port: 5670
+          path: /metrics
 ```
 {% endpolicy_yaml %}
 
@@ -185,6 +191,9 @@ spec:
             match: "envoy_cluster_external_upstream_rq_.*"
     backends:
       - type: Prometheus
+        prometheus:
+          port: 5670
+          path: /metrics
 ```
 {% endpolicy_yaml %}
 
@@ -208,6 +217,9 @@ spec:
             match: "envoy_cluster_external_upstream_rq_.*"
     backends:
       - type: Prometheus
+        prometheus:
+          port: 5670
+          path: /metrics
 ```
 {% endpolicy_yaml %}
 {% endif_version %}

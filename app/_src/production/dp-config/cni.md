@@ -44,6 +44,10 @@ cni.confName=05-cilium.conflist
 {% endcpinstall %}
 
 {% warning %}
+For installing {{site.mesh_product_name}} CNI with Cilium on GKE, you should follow the `Google - GKE` section.
+{% endwarning %}
+
+{% warning %}
 For Cilium versions < 1.14 you should use `{{site.set_flag_values_prefix}}cni.confName=05-cilium.conf` as this has changed
 for version starting from [Cilium 1.14](https://docs.cilium.io/en/v1.14/operations/upgrade/#id2).
 {% endwarning %}
@@ -57,6 +61,10 @@ cni.netDir=/etc/cni/net.d
 cni.binDir=/opt/cni/bin
 cni.confName=10-calico.conflist
 {% endcpinstall%}
+
+{% warning %}
+For installing {{site.mesh_product_name}} CNI with Calico on GKE, you should follow the `Google - GKE` section.
+{% endwarning %}
 {% endtab %}
 
 {% tab installation K3D with Flannel %}
@@ -118,12 +126,13 @@ Add `redirectPortInboundV6=0` as EKS has IPv6 disabled by default.
 
 You need to [enable network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster (for existing clusters this redeploys the nodes).
 
+Define the Variable `CNI_CONF_NAME` by your CNI, like: `export CNI_CONF_NAME=05-cilium.conflist` or `export CNI_CONF_NAME=10-calico.conflist`
 {% cpinstall google-gke %}
 cni.enabled=true
 cni.chained=true
 cni.netDir=/etc/cni/net.d
 cni.binDir=/home/kubernetes/bin
-cni.confName=10-calico.conflist
+cni.confName=${CNI_CONF_NAME}
 {% endcpinstall %}
 {%endtab%}
 
