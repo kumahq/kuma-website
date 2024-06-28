@@ -18,6 +18,8 @@ All incoming and outgoing traffic is automatically intercepted by `kuma-dp` with
 
 On **Universal** `kuma-dp` leverages the {% if_version lte:2.1.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/explore/dpp-on-universal/){% endif_version %}{%if_version gte:2.2.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration){% endif_version %} associated to it for receiving incoming requests on a pre-defined port.
 
+In order to enable transparent-proxy the Zone Control Plane must exist on a seperate server.  Running the Zone Control Plane with Postgres does not function with transparent-proxy on the same machine.
+
 There are several advantages for using transparent proxying in universal mode:
 
  * Simpler Dataplane resource, as the `outbound` section becomes obsolete and can be skipped.
