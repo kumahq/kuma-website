@@ -64,7 +64,7 @@ The host that will run the `kuma-dp` process in transparent proxying mode needs 
    useradd -u 5678 -U kuma-dp
    ```
 
-3. Redirect all the relevant inbound, outbound and DNS traffic to the {{site.mesh_product_name}} data plane proxy.
+3. Redirect all the relevant inbound, outbound and DNS traffic to the {{site.mesh_product_name}} data plane proxy (if you're running any other services on that machine you need to adjust the comma separated lists of `--exclude-inbound-ports` and `--exclude-outbound-ports` accordingly).
 
    ```sh
    kumactl install transparent-proxy \
