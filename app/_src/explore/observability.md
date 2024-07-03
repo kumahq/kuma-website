@@ -48,6 +48,7 @@ The control plane supports metrics and traces for observability.
 
 Control plane metrics are exposed on port `:5680` and available under the standard path `/metrics`.
 
+{% if_version gte:2.4.x %}
 ### Traces
 
 {{ site.mesh_product_name }} can be configured to export OpenTelemetry traces. It exports traces for:
@@ -62,6 +63,7 @@ To enable tracing, set the
 `KUMA_TRACING_OPENTELEMETRY_ENABLED`/`tracing.openTelemetry.enabled` control plane
 config variable to `"true"` and configure OpenTelemetry using the
 [standard `OTEL_EXPORTER_OTLP_*` environment variables](https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter).
+{% endif_version %}
 
 ## Configuring Prometheus
 
