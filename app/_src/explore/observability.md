@@ -40,9 +40,28 @@ This setup is meant to be used for trying out {{site.mesh_product_name}}. It is 
 For production setups we recommend referring to each project's website or to use a hosted solution like Grafana cloud or Datadog.
 {% endwarning %}
 
-## Control plane metrics
+## Control plane observability
+
+The control plane supports metrics and traces for observability.
+
+### Metrics
 
 Control plane metrics are exposed on port `:5680` and available under the standard path `/metrics`.
+
+### Traces
+
+{{ site.mesh_product_name }} can be configured to export OpenTelemetry traces. It exports traces for:
+
+* API server
+* KDS on global
+  * Note only basic information about the connections to zones are traced,
+    nothing resource specific
+* Inter CP server
+
+To enable tracing, set the
+`KUMA_TRACING_OPENTELEMETRY_ENABLED`/`tracing.openTelemetry.enabled` control plane
+config variable to `"true"` and configure OpenTelemetry using the
+[standard `OTEL_EXPORTER_OTLP_*` environment variables](https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter).
 
 ## Configuring Prometheus
 
