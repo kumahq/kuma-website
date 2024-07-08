@@ -164,7 +164,7 @@ items:
           - text: Demo setup
             url: "/explore/observability/#demo-setup"
           - text: Control plane metrics
-            url: "/explore/observability/#control-plane-metrics"
+            url: "/explore/observability/#control-plane-observability"
           - text: Configuring Prometheus
             url: "/explore/observability/#configuring-prometheus"
           - text: Configuring Grafana
