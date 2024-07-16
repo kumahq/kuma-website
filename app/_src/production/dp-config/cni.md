@@ -114,11 +114,11 @@ cni.chained=true
 cni.netDir=/etc/cni/net.d
 cni.binDir=/opt/cni/bin
 cni.confName=10-aws.conflist
-runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6=0
+controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_IP_FAMILY_MODE=ipv4
 {% endcpinstall %}
 
 {% tip %}
-Add `redirectPortInboundV6=0` as EKS has IPv6 disabled by default.
+Add `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_IP_FAMILY_MODE=ipv4` as EKS has IPv6 disabled by default.
 {% endtip %}
 {% endtab %}
 
