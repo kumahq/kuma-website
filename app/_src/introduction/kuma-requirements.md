@@ -10,7 +10,7 @@ This page exposes the different requirements to run {{site.mesh_product_name}}.
 
 ## Kubernetes
 
-{{site.mesh_product_name}} is validated against Kubernetes `1.27.x`, `1.23.x`. For the specific Kubernetes version refer to the {{site.mesh_product_name}} CircleCI [configuration file](https://github.com/kumahq/kuma/blob/master/.circleci/config.yml).
+{{site.mesh_product_name}} is validated against Kubernetes `1.27.x`, `1.23.x`. For the specific Kubernetes version refer to the {{site.mesh_product_name}} [Makefile](https://github.com/kumahq/kuma/blob/master/mk/dev.mk#L24-L25).
 
 ## Envoy
 
