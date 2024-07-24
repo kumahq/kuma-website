@@ -44,6 +44,13 @@ cni.confName=05-cilium.conflist
 {% endcpinstall %}
 
 {% warning %}
+You need to set the Cilium config value `cni-exclusive`
+or the corresponding Helm chart value `cni.exclusive` to `false`
+in order to use Cilum and {{ site.mesh_product_name }} together.
+This is necessary starting with the release of Cilium v1.14.
+{% endwarning %}
+
+{% warning %}
 For installing {{site.mesh_product_name}} CNI with Cilium on GKE, you should follow the `Google - GKE` section.
 {% endwarning %}
 
