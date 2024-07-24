@@ -3,7 +3,7 @@ title: Traffic Permissions
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this, check the [`MeshTrafficPermission` policy](/docs/{{ page.version }}/policies/meshtrafficpermission) instead.
+New to {{site.mesh_product_name}}? Don't use this, check the [`MeshTrafficPermission` policy](/docs/{{ page.version }}/policies/meshtrafficpermission) instead.
 {% endwarning %}
 {% endif_version %}
 
@@ -14,7 +14,7 @@ Traffic Permissions is an inbound policy. Dataplanes whose configuration is modi
 
 This policy provides access control rules to define the traffic that is allowed within the {% if_version lte:2.1.x %}[Mesh](/docs/{{ page.version }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.version }}/production/mesh/){% endif_version %}. 
 
-Traffic permissions requires [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) enabled on the [{% if_version lte:2.1.x %}[Mesh](/docs/{{ page.version }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.version }}/production/mesh/){% endif_version %}. Mutual TLS is required for {{site.mesh_product_name}} to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, {{site.mesh_product_name}} allows all service traffic. 
+Traffic permissions requires [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) enabled on the {% if_version lte:2.1.x %}[Mesh](/docs/{{ page.version }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.version }}/production/mesh/){% endif_version %}. Mutual TLS is required for {{site.mesh_product_name}} to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, {{site.mesh_product_name}} allows all service traffic. 
 
 The default `TrafficPermission` policy that {{site.mesh_product_name}} creates when you install allows all communication between all services in the new `Mesh`. Make sure to configure your policies to allow appropriate access to each of the services in your mesh.
 
