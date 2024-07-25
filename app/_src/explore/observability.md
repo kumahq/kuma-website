@@ -111,10 +111,6 @@ scrape_configs:
         - __meta_kuma_dataplane
         regex: "(.*)"
         target_label: dataplane
-      - source_labels:
-        - __meta_kuma_service
-        regex: "(.*)"
-        target_label: service
       - action: labelmap
         regex: __meta_kuma_label_(.+)
       kuma_sd_configs:
