@@ -430,6 +430,147 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
 It's safe to simply remove `route-all-default` TrafficRoute.
 Traffic will flow through the system even if there are neither TrafficRoutes nor MeshTCPRoutes/MeshHTTPRoutes.
 
+### MeshGatewayRoute -> MeshHTTPRoute/MeshTCPRoute
+
+The biggest change is that there are now 2 protocol specific routes, one for TCP
+and one for HTTP. `MeshHTTPRoute` always takes precedence over `MeshTCPRoute` if
+both exist.
+
+Otherwise the high-level structure of the routes hasn't changed, though there are a number
+of details to consider.
+Some enum values and some field structures were updated, largely to reflect Gateway API.
+
+Please first read the [`MeshGatewayRoute` docs](/docs/{{ page.version
+}}/policies/meshgatewayroute), the [`MeshHTTPRoute` docs](/docs/{{ page.version }}/policies/meshhttproute)
+and the [`MeshTCPRoute` docs](/docs/{{ page.version }}/policies/meshtcproute).
+Always refer to the spec to ensure your new resource is valid.
+
+Note that `MeshHTTPRoute` has precedence over `MeshGatewayRoute`.
+
+#### Targeting
+
+The main consideration is specifying which gateways are affected by the route.
+The most important change is that instead of
+solely using tags to select `MeshGateway` listeners,
+new routes target `MeshGateways` by name and optionally with tags for specific
+listeners.
+
+For example:
+
+```yaml
+spec:
+  selectors:
+    - match:
+        kuma.io/service: edge-gateway
+        vhost: foo.example.com
+```
+
+becomes:
+
+```yaml
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: edge-gateway # where this MeshGateway has `kuma.io/service: edge-gateway`
+    tags:
+      vhost: foo.example.com
+  to:
+```
+
+#### Spec
+
+As with all new policies, the spec is now merged under a `default` field.
+`MeshTCPRoute` is very simple, so the rest of this is focused on
+`MeshHTTPRoute`.
+
+Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
+
+```yaml
+  conf:
+    http:
+      hostnames:
+        - example.com
+      rules:
+        - matches:
+            - path:
+                match: PREFIX
+                value: /
+          # ...
+```
+
+```yaml
+  to:
+    - targetRef:
+        kind: Mesh
+      hostnames:
+        - example.com
+      rules:
+        - matches:
+            - path:
+                match: PathPrefix
+                value: /
+          default:
+            # ...
+```
+
+##### Matching
+
+Matching works the same as before. Remember that for `MeshHTTPRoute` that merging is done on a match
+basis. So it's possible for one route to define `filters` and another
+`backendRefs` for a given match, and the resulting rule would both apply the filters and route to the
+backends:
+
+```yaml
+  to:
+    - targetRef:
+        kind: Mesh
+      rules:
+        - matches:
+            - path:
+                match: PathPrefix
+                value: /
+          default:
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  set:
+                    - name: x-custom-header
+                      value: xyz
+```
+
+```yaml
+  to:
+    - targetRef:
+        kind: Mesh
+      hostnames:
+        - example.com
+      rules:
+        - matches:
+            - path:
+                match: PathPrefix
+                value: /
+          default:
+            backendRefs:
+              - kind: MeshServiceSubset
+                name: backend_kuma-demo_svc_3001
+                tags:
+                  version: v0
+```
+
+Traffic to `/` would have the `x-custom-header` added and be sent to the `v0`
+versions of `backend_kuma-demo_svc_3001`.
+
+##### Filters
+
+Every `MeshGatewayRoute` filter has an equivalent in `MeshHTTPRoute`.
+Consult the documentation for both resources to
+find out how each filter looks in `MeshHTTPRoute`.
+
+##### Backends
+
+Backends are similar except that instead of targeting with tags, the `targetRef`
+structure with `kind: MeshService`/`kind: MeshServiceSubset` is used.
+
 ## Next steps
 
 * Further explore [new policies](/docs/{{ page.version }}/policies/introduction)
