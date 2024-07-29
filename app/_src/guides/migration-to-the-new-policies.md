@@ -150,7 +150,7 @@ spec:
         kuma.io/service: "*"
   conf:
     connectTimeout: 21s
-    tcp: 
+    tcp:
       idleTimeout: 22s
     http:
       idleTimeout: 22s
@@ -185,11 +185,11 @@ spec:
       maxRequests: 26
       maxRetries: 27
     detectors:
-      totalErrors: 
+      totalErrors:
         consecutive: 28
-      gatewayErrors: 
+      gatewayErrors:
         consecutive: 29
-      localErrors: 
+      localErrors:
         consecutive: 30
       standardDeviation:
         requestVolume: 31
@@ -205,14 +205,14 @@ spec:
 
 It's time to migrate the demo app to the new policies.
 
-Each type of policy can be migrated separately; for example, once we have completely finished with the Timeouts, 
-we will proceed to the next policy type, CircuitBreakers. 
-It's possible to migrate all policies at once, but small portions are preferable as they're easily reversible. 
+Each type of policy can be migrated separately; for example, once we have completely finished with the Timeouts,
+we will proceed to the next policy type, CircuitBreakers.
+It's possible to migrate all policies at once, but small portions are preferable as they're easily reversible.
 
 The generalized migration process roughly consists of 4 steps:
 
-1. Create a new [targetRef](/docs/{{ page.version }}/policies/targetref) policy as a replacement for exising [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policy. 
-The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction). 
+1. Create a new [targetRef](/docs/{{ page.version }}/policies/targetref) policy as a replacement for exising [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policy.
+The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction).
 Deploy the policy in [shadow mode](/docs/{{ page.version }}/policies/applying-policies/#applying-policies-in-shadow-mode) to avoid any traffic disruptions.
 2. Using Inspect API review the list of changes that are going to be created by the new policy.
 3. Remove `kuma.io/effect: shadow` label so that policy is applied in a normal mode.
@@ -220,8 +220,8 @@ Deploy the policy in [shadow mode](/docs/{{ page.version }}/policies/applying-po
 If everything is fine then remove the old policies.
 
 {% warning %}
-The order of migrating policies generally doesn't matter, except for the TrafficRoute policy, 
-which should be the last one deleted when removing old policies. 
+The order of migrating policies generally doesn't matter, except for the TrafficRoute policy,
+which should be the last one deleted when removing old policies.
 This is because many old policies, like Timeout and CircuitBreaker, depend on TrafficRoutes to function correctly.
 {% endwarning %}
 
@@ -245,7 +245,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
      from:
        - targetRef:
            kind: MeshSubset
-           tags: 
+           tags:
              kuma.io/service: demo-app_kuma-demo_svc_5000
          default:
            action: Allow' | kubectl apply -f -
@@ -284,13 +284,13 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
      from:
        - targetRef:
            kind: MeshSubset
-           tags: 
+           tags:
              kuma.io/service: demo-app_kuma-demo_svc_5000
          default:
            action: Allow' | kubectl apply -f -
     ```
 
-    Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective. 
+    Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective.
 
 4. Observe the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission and conclude the migration.
 
@@ -354,7 +354,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
     The key differences between old and new timeout policies:
 
     * Previously, there was no way to specify `requestHeadersTimeout`, `maxConnectionDuration` and `maxStreamDuration` (on inbound).
-    These timeouts were unset. With the new MeshTimeout policy we explicitly set them to `0s` by default. 
+    These timeouts were unset. With the new MeshTimeout policy we explicitly set them to `0s` by default.
     * `idleTimeout` was configured both on the cluster and listener. MeshTimeout configures it only on the cluster.
     * `route/idleTimeout` is duplicated value of `streamIdleTimeout` but per-route. Previously we've set it only per-listener.
 
@@ -417,7 +417,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
     ```sh
    kumactl inspect dataplane demo-app-b4f98898-zxrqj.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
-   
+
     The expected output is empty. CircuitBreaker and MeshCircuitBreaker configures Envoy in the exact similar way.
 
 3. Remove the `kuma.io/effect: shadow` label.
