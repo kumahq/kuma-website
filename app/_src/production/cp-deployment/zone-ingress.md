@@ -63,7 +63,7 @@ networking:
   address: 192.168.0.1
   port: 10001
   advertisedAddress: 10.0.0.1
-  advertisedPort: 10000
+  advertisedPort: 10001
 ```
 
 Apply the ingress configuration, passing the IP address of the control plane and your instance should start.
