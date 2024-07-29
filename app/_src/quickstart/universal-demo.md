@@ -67,6 +67,18 @@ If `kuma-cp` is running inside a Docker container, see {% if_version lte:2.1.x %
 
 ## Create a data plane proxy for each service
 
+{% warning %}
+Because this is a quickstart, we don't setup [certificates for communication
+between the data plane proxies and the control plane](/docs/{{ page.version }}/production/secure-deployment/certificates/#encrypted-communication).
+You'll see a warning like the following in the `kuma-dp` logs:
+
+```
+2024-07-25T20:06:36.082Z	INFO	dataplane	[WARNING] The data plane proxy cannot verify the identity of the control plane because you are not setting the "--ca-cert-file" argument or setting the KUMA_CONTROL_PLANE_CA_CERT environment variable.
+```
+
+This isn't related to mTLS between services.
+{% endwarning %}
+
 For Redis:
 
 ```sh
