@@ -374,7 +374,7 @@ You can configure a file backend with a path:
 ```yaml
 backends:
   - file:
-      path: /tmp/access.log
+      path: /dev/stdout
 ```
 {% endif_version %}
 {% if_version gte:2.3.x %}
@@ -382,7 +382,7 @@ backends:
 backends:
   - type: File
     file:
-      path: /tmp/access.log
+      path: /dev/stdout
 ```
 {% endif_version %}
 
@@ -502,7 +502,7 @@ spec:
       default:
         backends:
           - file:
-              path: /tmp/access.log
+              path: /dev/stdout
 ```
 {% endif_version %}
 {% if_version gte:2.3.x %}
@@ -528,7 +528,7 @@ spec:
         backends:
           - type: File
             file:
-              path: /tmp/access.log
+              path: /dev/stdout
 ```
 {% endif_version %}
 
@@ -555,7 +555,7 @@ spec:
       default:
         backends:
           - file:
-              path: /tmp/access.log
+              path: /dev/stdout
 ```
 {% endif_version %}
 {% if_version gte:2.3.x %}
@@ -577,7 +577,7 @@ spec:
         backends:
           - type: File
             file:
-              path: /tmp/access.log
+              path: /dev/stdout
 ```
 {% endif_version %}
 
@@ -623,7 +623,7 @@ spec:
                   - key: "start_time"
                     value: "%START_TIME%"
           - file:
-              path: /tmp/access.log
+              path: /dev/stdout
               format:
                 plain: '[%START_TIME%]'
 ```
@@ -653,7 +653,7 @@ spec:
                   - key: "start_time"
                     value: "%START_TIME%"
           - file:
-              path: /tmp/access.log
+              path: /dev/stdout
               format:
                 plain: '[%START_TIME%]'
           - openTelemetry:
@@ -696,7 +696,7 @@ spec:
                     value: "%START_TIME%"
           - type: File
             file:
-              path: /tmp/access.log
+              path: /dev/stdout
               format:
                 type: Plain
                 plain: '[%START_TIME%]'
@@ -740,7 +740,7 @@ spec:
                   - key: "start_time"
                     value: "%START_TIME%"
           - file:
-              path: /tmp/access.log
+              path: /dev/stdout
               format:
                 plain: '[%START_TIME%]'
 ```
@@ -766,7 +766,7 @@ spec:
                   - key: "start_time"
                     value: "%START_TIME%"
           - file:
-              path: /tmp/access.log
+              path: /dev/stdout
               format:
                 plain: '[%START_TIME%]'
           - openTelemetry:
@@ -805,7 +805,7 @@ spec:
                     value: "%START_TIME%"
           - type: File
             file:
-              path: /tmp/access.log
+              path: /dev/stdout
               format:
                 type: Plain
                 plain: '[%START_TIME%]'
@@ -852,14 +852,14 @@ spec:
       default:
         backends:
           - file:
-              path: /tmp/access.log
+              path: /dev/stdout
   to: # delete this section if you don't want to log outgoing traffic
     - targetRef:
         kind: Mesh
       default:
         backends:
           - file:
-              path: /tmp/access.log
+              path: /dev/stdout
 ```
 {% endif_version %}
 {% if_version gte:2.3.x %}
@@ -881,7 +881,7 @@ spec:
         backends:
           - type: File
             file:
-              path: /tmp/access.log
+              path: /dev/stdout
   to: # delete this section if you don't want to log outgoing traffic
     - targetRef:
         kind: Mesh
@@ -889,7 +889,7 @@ spec:
         backends:
           - type: File
             file:
-              path: /tmp/access.log
+              path: /dev/stdout
 ```
 {% endif_version %}
 
@@ -912,14 +912,14 @@ spec:
       default:
         backends:
           - file:
-              path: /tmp/access.log
+              path: /dev/stdout
   to: # delete this section if you don't want to log outgoing traffic
     - targetRef:
         kind: Mesh
       default:
         backends:
           - file:
-              path: /tmp/access.log
+              path: /dev/stdout
 ```
 {% endif_version %}
 {% if_version gte:2.3.x %}
@@ -937,7 +937,7 @@ spec:
         backends:
           - type: File
             file:
-              path: /tmp/access.log
+              path: /dev/stdout
   to: # delete this section if you don't want to log outgoing traffic
     - targetRef:
         kind: Mesh
@@ -945,7 +945,7 @@ spec:
         backends:
           - type: File
             file:
-              path: /tmp/access.log
+              path: /dev/stdout
 ```
 {% endif_version %}
 
