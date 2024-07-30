@@ -150,7 +150,7 @@ spec:
         kuma.io/service: "*"
   conf:
     connectTimeout: 21s
-    tcp: 
+    tcp:
       idleTimeout: 22s
     http:
       idleTimeout: 22s
@@ -185,11 +185,11 @@ spec:
       maxRequests: 26
       maxRetries: 27
     detectors:
-      totalErrors: 
+      totalErrors:
         consecutive: 28
-      gatewayErrors: 
+      gatewayErrors:
         consecutive: 29
-      localErrors: 
+      localErrors:
         consecutive: 30
       standardDeviation:
         requestVolume: 31
@@ -205,14 +205,14 @@ spec:
 
 It's time to migrate the demo app to the new policies.
 
-Each type of policy can be migrated separately; for example, once we have completely finished with the Timeouts, 
-we will proceed to the next policy type, CircuitBreakers. 
-It's possible to migrate all policies at once, but small portions are preferable as they're easily reversible. 
+Each type of policy can be migrated separately; for example, once we have completely finished with the Timeouts,
+we will proceed to the next policy type, CircuitBreakers.
+It's possible to migrate all policies at once, but small portions are preferable as they're easily reversible.
 
 The generalized migration process roughly consists of 4 steps:
 
-1. Create a new [targetRef](/docs/{{ page.version }}/policies/targetref) policy as a replacement for exising [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policy. 
-The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction). 
+1. Create a new [targetRef](/docs/{{ page.version }}/policies/targetref) policy as a replacement for exising [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policy.
+The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction).
 Deploy the policy in [shadow mode](/docs/{{ page.version }}/policies/applying-policies/#applying-policies-in-shadow-mode) to avoid any traffic disruptions.
 2. Using Inspect API review the list of changes that are going to be created by the new policy.
 3. Remove `kuma.io/effect: shadow` label so that policy is applied in a normal mode.
@@ -220,8 +220,8 @@ Deploy the policy in [shadow mode](/docs/{{ page.version }}/policies/applying-po
 If everything is fine then remove the old policies.
 
 {% warning %}
-The order of migrating policies generally doesn't matter, except for the TrafficRoute policy, 
-which should be the last one deleted when removing old policies. 
+The order of migrating policies generally doesn't matter, except for the TrafficRoute policy,
+which should be the last one deleted when removing old policies.
 This is because many old policies, like Timeout and CircuitBreaker, depend on TrafficRoutes to function correctly.
 {% endwarning %}
 
@@ -245,7 +245,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
      from:
        - targetRef:
            kind: MeshSubset
-           tags: 
+           tags:
              kuma.io/service: demo-app_kuma-demo_svc_5000
          default:
            action: Allow' | kubectl apply -f -
@@ -284,13 +284,13 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
      from:
        - targetRef:
            kind: MeshSubset
-           tags: 
+           tags:
              kuma.io/service: demo-app_kuma-demo_svc_5000
          default:
            action: Allow' | kubectl apply -f -
     ```
 
-    Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective. 
+    Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective.
 
 4. Observe the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission and conclude the migration.
 
@@ -354,7 +354,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
     The key differences between old and new timeout policies:
 
     * Previously, there was no way to specify `requestHeadersTimeout`, `maxConnectionDuration` and `maxStreamDuration` (on inbound).
-    These timeouts were unset. With the new MeshTimeout policy we explicitly set them to `0s` by default. 
+    These timeouts were unset. With the new MeshTimeout policy we explicitly set them to `0s` by default.
     * `idleTimeout` was configured both on the cluster and listener. MeshTimeout configures it only on the cluster.
     * `route/idleTimeout` is duplicated value of `streamIdleTimeout` but per-route. Previously we've set it only per-listener.
 
@@ -417,7 +417,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
     ```sh
    kumactl inspect dataplane demo-app-b4f98898-zxrqj.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
-   
+
     The expected output is empty. CircuitBreaker and MeshCircuitBreaker configures Envoy in the exact similar way.
 
 3. Remove the `kuma.io/effect: shadow` label.
@@ -429,6 +429,147 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
 
 It's safe to simply remove `route-all-default` TrafficRoute.
 Traffic will flow through the system even if there are neither TrafficRoutes nor MeshTCPRoutes/MeshHTTPRoutes.
+
+### MeshGatewayRoute -> MeshHTTPRoute/MeshTCPRoute
+
+The biggest change is that there are now 2 protocol specific routes, one for TCP
+and one for HTTP. `MeshHTTPRoute` always takes precedence over `MeshTCPRoute` if
+both exist.
+
+Otherwise the high-level structure of the routes hasn't changed, though there are a number
+of details to consider.
+Some enum values and some field structures were updated, largely to reflect Gateway API.
+
+Please first read the [`MeshGatewayRoute` docs](/docs/{{ page.version
+}}/policies/meshgatewayroute), the [`MeshHTTPRoute` docs](/docs/{{ page.version }}/policies/meshhttproute)
+and the [`MeshTCPRoute` docs](/docs/{{ page.version }}/policies/meshtcproute).
+Always refer to the spec to ensure your new resource is valid.
+
+Note that `MeshHTTPRoute` has precedence over `MeshGatewayRoute`.
+
+#### Targeting
+
+The main consideration is specifying which gateways are affected by the route.
+The most important change is that instead of
+solely using tags to select `MeshGateway` listeners,
+new routes target `MeshGateways` by name and optionally with tags for specific
+listeners.
+
+For example:
+
+```yaml
+spec:
+  selectors:
+    - match:
+        kuma.io/service: edge-gateway
+        vhost: foo.example.com
+```
+
+becomes:
+
+```yaml
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: edge-gateway # where this MeshGateway has `kuma.io/service: edge-gateway`
+    tags:
+      vhost: foo.example.com
+  to:
+```
+
+#### Spec
+
+As with all new policies, the spec is now merged under a `default` field.
+`MeshTCPRoute` is very simple, so the rest of this is focused on
+`MeshHTTPRoute`.
+
+Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
+
+```yaml
+  conf:
+    http:
+      hostnames:
+        - example.com
+      rules:
+        - matches:
+            - path:
+                match: PREFIX
+                value: /
+          # ...
+```
+
+```yaml
+  to:
+    - targetRef:
+        kind: Mesh
+      hostnames:
+        - example.com
+      rules:
+        - matches:
+            - path:
+                match: PathPrefix
+                value: /
+          default:
+            # ...
+```
+
+##### Matching
+
+Matching works the same as before. Remember that for `MeshHTTPRoute` that merging is done on a match
+basis. So it's possible for one route to define `filters` and another
+`backendRefs` for a given match, and the resulting rule would both apply the filters and route to the
+backends:
+
+```yaml
+  to:
+    - targetRef:
+        kind: Mesh
+      rules:
+        - matches:
+            - path:
+                match: PathPrefix
+                value: /
+          default:
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  set:
+                    - name: x-custom-header
+                      value: xyz
+```
+
+```yaml
+  to:
+    - targetRef:
+        kind: Mesh
+      hostnames:
+        - example.com
+      rules:
+        - matches:
+            - path:
+                match: PathPrefix
+                value: /
+          default:
+            backendRefs:
+              - kind: MeshServiceSubset
+                name: backend_kuma-demo_svc_3001
+                tags:
+                  version: v0
+```
+
+Traffic to `/` would have the `x-custom-header` added and be sent to the `v0`
+versions of `backend_kuma-demo_svc_3001`.
+
+##### Filters
+
+Every `MeshGatewayRoute` filter has an equivalent in `MeshHTTPRoute`.
+Consult the documentation for both resources to
+find out how each filter looks in `MeshHTTPRoute`.
+
+##### Backends
+
+Backends are similar except that instead of targeting with tags, the `targetRef`
+structure with `kind: MeshService`/`kind: MeshServiceSubset` is used.
 
 ## Next steps
 
