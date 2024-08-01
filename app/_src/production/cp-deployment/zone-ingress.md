@@ -54,7 +54,7 @@ In Universal mode, the token is required to authenticate `ZoneIngress` instance.
 kumactl generate zone-token --valid-for 720h --scope ingress > /path/to/token
 ```
 
-Create a `ZoneIngress` data plane proxy configuration to allow services to receive traffic from other zones:
+Create a `ZoneIngress` configuration to allow services to receive traffic from other zones:
 
 ```yaml
 type: ZoneIngress
@@ -62,8 +62,8 @@ name: zoneingress-1
 networking:
   address: 192.168.0.1
   port: 10001
-  advertisedAddress: 10.0.0.1
-  advertisedPort: 10000
+  advertisedAddress: 10.0.0.1 # Adapt to the address of the Load Balancer in front of your ZoneIngresses
+  advertisedPort: 10001 # Adapt to the port of the Load Balancer in front of you ZoneIngresses
 ```
 
 Apply the ingress configuration, passing the IP address of the control plane and your instance should start.
