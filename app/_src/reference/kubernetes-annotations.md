@@ -462,7 +462,7 @@ metadata:
 
 ### `kuma.io/envoy-component-log-level`
 
-Specifies the log level for Envoy system logs to enable by components. See `ALL_LOGGER_IDS` in [logger.h from Envoy source](https://github.com/envoyproxy/envoy/blob/main/source/common/common/logger.h#L29) for a list of available components.
+Specifies the log level for Envoy system logs to enable by components. See `ALL_LOGGER_IDS` in [logger.h from Envoy source](https://github.com/envoyproxy/envoy/blob/main/source/common/common/logger.h#L36) for a list of available components.
 
 **Example**
 
