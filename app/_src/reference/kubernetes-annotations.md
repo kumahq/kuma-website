@@ -443,6 +443,40 @@ metadata:
     kuma.io/envoy-admin-port: "8801"
 ```
 
+### `kuma.io/envoy-log-level`
+
+Specifies the log level for Envoy system logs to enable. The available log levels are `trace`, `debug`, `info`, `warning/warn`, `error`, `critical`, `off`. The default is `info`.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/envoy-log-level: "warning"
+```
+
+{% if_version gte:2.5.x %}
+
+### `kuma.io/envoy-component-log-level`
+
+Specifies the log level for Envoy system logs to enable by components. See `ALL_LOGGER_IDS` in [logger.h from Envoy source](https://github.com/envoyproxy/envoy/blob/main/source/common/common/logger.h#L36) for a list of available components.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/envoy-component-log-level: "upstream:debug,connection:trace"
+```
+
+{% endif_version %}
+
 ### `kuma.io/service-account-token-volume`
 
 Volume (specified in the pod spec) containing a service account token for {{site.mesh_product_name}} to inject into the sidecar.
