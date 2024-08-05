@@ -8,6 +8,10 @@ As mentioned previously in universal you need to create a dataplane definition a
 When transparent proxying is not enabled, the outbound service dependencies have to be manually specified in the {% if_version lte:2.1.x %}[`Dataplane`](/docs/{{ page.version }}/explore/dpp#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[`Dataplane`](/docs/{{ page.version }}/production/dp-config/dpp/#dataplane-entity){% endif_version %} entity.
 This also means that without transparent proxying **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
 
+{% tip %}
+To avoid users bypassing the sidecar, have the service listen only on the internal interface (`127.0.0.1` or `::1`) instead of all interfaces (`0.0.0.0` or `::`).
+{% endtip %}
+
 For example, this is how we start a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:
 
 ```sh
@@ -16,7 +20,7 @@ type: Dataplane
 mesh: default
 name: redis-1
 networking:
-  address: 192.168.0.1
+  address: 23.234.0.1 # IP of the instance
   inbound:
   - port: 9000
     servicePort: 6379
@@ -29,13 +33,13 @@ kuma-dp run \
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
 
-In the example above, any external client who wants to consume Redis will have to make a request to the DP on address `192.168.0.1` and port `9000`, which internally will be redirected to the Redis service listening on address `127.0.0.1` and port `6379`.
+In the example above, any external client who wants to consume Redis through the sidecar will have to use `23.234.0.1:9000`, which will redirect to the Redis service listening on address `127.0.0.1:6379`.
 
 {% tip %}
 Note that in Universal dataplanes need to start with a token for authentication. You can learn how to generate tokens in the {% if_version lte:2.1.x %}[security section](/docs/{{ page.version }}/security/dp-auth#data-plane-proxy-token){% endif_version %}{% if_version gte:2.2.x %}[security section](/docs/{{ page.version }}/production/secure-deployment/dp-auth/#data-plane-proxy-token){% endif_version %}.
 {% endtip %}
 
-Now let's assume that we have another service called "Backend" that internally listens on port `80`, and that makes outgoing requests to the `redis` service:
+Now let's assume that we have another service called "Backend" that listens on port `80`, and that makes outgoing requests to the `redis` service:
 
 ```sh
 cat dp.yaml
