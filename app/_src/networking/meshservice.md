@@ -64,6 +64,11 @@ MeshService. For this reason, Kuma generates `MeshServices` from `Services` and:
 - reuses VIPs in the form of cluster IPs
 - uses Kubernetes DNS names
 
+{% tip %}
+You need to set the `kuma.io/mesh` label on any `Services` from which
+a `MeshService` should be generated.
+{% endtip %}
+
 In the vast majority of cases, Kubernetes users do not create `MeshServices`.
 
 ### Universal
