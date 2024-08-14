@@ -12,6 +12,7 @@
     "@kongponents/styles": "^0.2.0",
     "anchor-js": "^4.3.1",
     "animejs": "^3.1.0",
+    "braces": "3.0.3",
     "jquery": "^3.5.1",
     "prismjs": "^1.29.0",
     "regexp-tree": "^0.1.27",
