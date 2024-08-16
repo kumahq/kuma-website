@@ -9,7 +9,19 @@ When transparent proxying is not enabled, the outbound service dependencies have
 This also means that without transparent proxying **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
 
 {% tip %}
-To avoid users bypassing the sidecar, have the service listen only on the internal interface (`127.0.0.1` or `::1`) instead of all interfaces (`0.0.0.0` or `::`).
+To avoid users bypassing the sidecar, have the service listen only on the internal interface (`127.0.0.1` or `::1`) instead of all interfaces (`0.0.0.0` or `::`). Another approach is to set the `serviceAddress` as shown below.
+
+```yaml
+type: Dataplane
+...
+networking:
+  ...
+  inbound:
+  - port: 9000
+    serviceAddress: 192.168.1.10
+    servicePort: 6379
+    ...
+```
 {% endtip %}
 
 For example, this is how we start a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:
