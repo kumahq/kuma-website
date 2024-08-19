@@ -10,7 +10,6 @@ This also means that without transparent proxying **you must update** your codeb
 
 {% tip %}
 To avoid users bypassing the sidecar, have the service listen only on the internal interface (`127.0.0.1` or `::1`) instead of all interfaces (`0.0.0.0` or `::`).
-```
 {% endtip %}
 
 For example, this is how we start a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:
