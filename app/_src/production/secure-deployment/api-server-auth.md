@@ -33,11 +33,10 @@ This group is {% if_version lte:2.1.x %}[authorized by default](/docs/{{ page.ve
 1. Access admin user token
 
    Use `kubectl` to extract the admin token
-   {% raw %}
+
    ```sh
-   kubectl get secret admin-user-token -n {{site.mesh_namespace}} --template={{.data.value}} | base64 -d
+   kubectl get secret admin-user-token -n {{site.mesh_namespace}} {% raw %}--template={{.data.value}}{% endraw %} | base64 -d
    ```
-   {% endraw %}
 
 2. Expose {{site.mesh_product_name}} CP to be accessible from your machine
 
