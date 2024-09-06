@@ -65,9 +65,9 @@ Service health is computed by aggregating the health of all data plane proxies t
 {% if_version gte:2.9.x %}
 ### Application Probe Proxy
 
-For better lifecycle management Kubernetes has [readiness, liveness and startup probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/). When using {{site.mesh_product_name}}, native probe functionalities are broken by different ways: HTTPGet and gRPC probes always fail when mTLS enabled and TCPSocket probes alway succeed regardless of mTLS. Application Probe Proxy is here to help: it listens on a non-mTLS port, handles probe requests from Kubernetes and forward them back to applications; it works by overrideing the probe definitions in the Pod so that probe requests will first be sent to the proxy.
+For better lifecycle management Kubernetes has [readiness, liveness and startup probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/). When using {{site.mesh_product_name}}, native probe functionalities are broken in different ways: `HTTPGet` and `gRPC` probes always fail when mTLS enabled and `TCPSocket` probes alway succeed regardless of mTLS. Application Probe Proxy is here to help: it listens on a non-mTLS port, handles probe requests from Kubernetes and forward them back to applications; it works by overrideing the probe definitions in the Pod so that probe requests will first be sent to the proxy.
 
-For example, if we specify the following probe:
+For example, if we specify the following `HTTPGet` probe:
 
 ```yaml
 livenessProbe:
@@ -89,7 +89,7 @@ livenessProbe:
   periodSeconds: 3
 ```
 
-Similarly, the following TCPSocket probe
+Similarly, the following `TCPSocket` probe
 
 ```yaml
 readinessProbe:
@@ -102,7 +102,7 @@ readinessProbe:
 will be replaced with:
 
 ```yaml
-livenessProbe:
+readinessProbe:
   httpGet:
     path: /tcp/5432
     port: 9001
@@ -110,7 +110,7 @@ livenessProbe:
   periodSeconds: 3
 ```
 
-Where `9001` is a default port that Application Probe Proxy listens on and it is configurable:
+Where `9001` is a default port that Application Probe Proxy listens on. To prevent potential conflicts with applications, you may configure this port using one of these methods:
 
 {% tabs config-probe-proxy useUrlFragment=false %}
 {% tab config-probe-proxy control plane config %}
@@ -133,7 +133,7 @@ annotations:
 {% endtab %}
 {% endtabs %}
 
-You can disable Application Probe Proxy by set the port to `0`. When it is disabled, When Application Probe Proxy is disabled, Virtual Probes still works as usual before Virtual Probes is removed.
+You can disable Application Probe Proxy by set the port to `0`. When it is disabled, Virtual Probes still works as usual before being removed.
 
 {% endif_version %}
 
@@ -141,7 +141,7 @@ You can disable Application Probe Proxy by set the port to `0`. When it is disab
 
 {% if_version gte:2.9.x %}
 {% warning %}
-Starting with {{site.mesh_product_name}} version 2.9.0, the Virtual Probes feature is deprecated. Application Probe Proxy is the successor and will be enabled by default. 
+Starting with {{site.mesh_product_name}} version 2.9.0, the Virtual Probes feature is deprecated and suppressed. Application Probe Proxy is the successor and will be enabled by default. 
 {% endwarning %}
 {% endif_version %}
 

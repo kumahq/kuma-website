@@ -239,7 +239,7 @@ These listeners are needed because transparent proxy and mTLS assume a single IP
 
 ### `kuma.io/application-probe-proxy-port`
 
-Specifies the port on which "Application Probe Proxy" listens. Application Probe Proxy coverts `HTTPGet`, `TCPSocket` and `gRPC` probes on pods to `HTTPGet` probes and converts back to their original type before sending to the application when an actual probe request is received. 
+Specifies the port on which "Application Probe Proxy" listens. Application Probe Proxy coverts `HTTPGet`, `TCPSocket` and `gRPC` probes in the pod to `HTTPGet` probes and converts back to their original types before sending to the application when actual probe requests are received. 
 
 Application Probe Proxy by default listens on port `9001` and it suppresses the "Virtual Probes" feature. To set it to `0`, you can disable this feature and activate "Virtual Probes" unless it's also disabled.
 
