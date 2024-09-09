@@ -62,10 +62,17 @@ Service health is computed by aggregating the health of all data plane proxies t
 - If the sidecar container is not ready then all inbound will have `health=false`.
 - If the side container is ready then the health of the inbound will be whatever is the readiness of the container which exposes the port used by the inbound. 
 
+{% if_version lte:2.8.x %}
+### Kubernetes Probes
+
+Native [probe functionalities](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) are not supported until 2.9 release. `HTTPGet` and `gRPC` probes always fail when mTLS enabled and `TCPSocket` probes always succeed regardless of mTLS.
+
+{% endif_version %}
+
 {% if_version gte:2.9.x %}
 ### Application Probe Proxy
 
-For better lifecycle management Kubernetes has [readiness, liveness and startup probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/). When using {{site.mesh_product_name}}, native probe functionalities are broken in different ways: `HTTPGet` and `gRPC` probes always fail when mTLS enabled and `TCPSocket` probes alway succeed regardless of mTLS. Application Probe Proxy is here to help: it listens on a non-mTLS port, handles probe requests from Kubernetes and forward them back to applications; it works by overrideing the probe definitions in the Pod so that probe requests will first be sent to the proxy.
+For better lifecycle management Kubernetes has [readiness, liveness and startup probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/). When using {{site.mesh_product_name}}. Application Probe Proxy listens on a non-mTLS port, handles probe requests from Kubernetes and forwards them back to applications. It works by overriding the probe definitions in the Pod so that probe requests will be sent to the proxy.
 
 For example, if we specify the following `HTTPGet` probe:
 
