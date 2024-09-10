@@ -82,4 +82,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshTLS %}
+{% json_schema MeshTLSes %}
