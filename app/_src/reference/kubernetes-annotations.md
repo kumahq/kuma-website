@@ -235,6 +235,28 @@ These listeners are needed because transparent proxy and mTLS assume a single IP
 **WARNING**: You should specify this annotation only if you really need it. Generating listeners for every endpoint makes the xDS snapshot very large.
 {% endwarning %}
 
+{% if_version gte:2.9.x %}
+
+### `kuma.io/application-probe-proxy-port`
+
+Specifies the port on which "Application Probe Proxy" listens. Application Probe Proxy coverts `HTTPGet`, `TCPSocket` and `gRPC` probes in the pod to `HTTPGet` probes and converts back to their original types before sending to the application when actual probe requests are received. 
+
+Application Probe Proxy by default listens on port `9001` and it suppresses the "Virtual Probes" feature. By setting it to `0`, you can disable this feature and activate "Virtual Probes" unless it's also disabled.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    kuma.io/application-probe-proxy-port: "9001"
+[...]
+```
+
+{% endif_version %}
+
 ### `kuma.io/virtual-probes`
 
 Enables automatic converting of HttpGet probes to virtual probes. The virtual probe is served on a sub-path of the insecure port specified with `kuma.io/virtual-probes-port` -- for example, `:8080/health/readiness` -> `:9000/8080/health/readiness`, where `9000` is the value of the `kuma.io/virtual-probes-port` annotation.
