@@ -76,6 +76,12 @@ metadata:
 Labeling pods or deployments will take precedence on the namespace annotation.
 {% endif_version %}
 
+### `kuma.io/system-namespace`
+
+This label is used to indicate the Namespace that Kuma stores its secrets in.
+It's automatically set on the Namespace the Helm chart is installed into by a
+Job started by Helm.
+
 ## Annotations
 
 {% if_version lte:2.7.x %}
