@@ -3,7 +3,7 @@ title: Authentication with the API server
 content_type: how-to
 ---
 
-{{site.mesh_product_name}} exposes API server on [ports]{% if_version lte:2.1.x %}(/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/use-mesh#control-plane-ports){% endif_version %} `5681` and `5682` (protected by TLS).
+{{site.mesh_product_name}} exposes API server on {% if_version lte:2.1.x %}[ports](/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}[ports](/docs/{{ page.version }}/production/use-mesh#control-plane-ports){% endif_version %} `5681` and `5682` (protected by TLS).
 
 An authenticated user can be authorized to execute administrative actions such as
 * Managing administrative resources like {{site.mesh_product_name}} Secrets on Universal
