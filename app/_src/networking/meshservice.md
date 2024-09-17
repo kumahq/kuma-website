@@ -98,3 +98,47 @@ name of the `Dataplane` port.
     targetPort: 6739
     appProtocol: tcp
 ```
+
+## Migration
+
+MeshService is opt-in and involves a migration process. Every `Mesh` must enable
+`MeshServices` in some form:
+
+```
+spec:
+  meshServices:
+    enabled: Disabled # or Everywhere, ReachableBackends, Exclusive
+```
+
+Remember that the biggest change with `MeshService` is that traffic is no longer
+load-balancing between all zones. Traffic sent to a `MeshService` is only ever
+sent to a single zone.
+
+You may be using `kuma.io/service` to split traffic across zones. Part of
+migrating is deciding for every `kuma.io/service`, whether traffic should be
+limited to one zone, so using a `MeshService`, or load-balancing, which
+means using `MeshMultiZoneService`.
+
+After enabling `MeshServices`, the control plane generates additional resources.
+There are a few ways to manage this.
+
+### `Everywhere`
+
+This enables `MeshService` resource generation everywhere. This means twice as
+many Envoy Clusters and ClusterLoadAssignments. That in turn means potentially
+hitting the resource limits of the control plane, before reachable backends
+would otherwise be necessary. Therefore, consider trying `ReachableBackends` as
+described below.
+
+### `ReachableBackends`
+
+This enables automatic generation of the Kuma `MeshServices` resource but
+does not include the corresponding resources for every data plane proxy.
+The intention is for users to explicitly and gradually introduce
+relevant `MeshServices` via `reachableBackends`.
+
+### `Exclusive`
+
+This is the end goal of the migration. Destinations in the mesh are managed
+solely with `MeshService` resources and no longer via `kuma.io/service` tags and
+`Dataplane` inbounds.
