@@ -201,7 +201,7 @@ spec:
         threshold: 36' | kubectl apply -f-
 ```
 
-## Migration to the new policies
+## Migration steps
 
 It's time to migrate the demo app to the new policies.
 
