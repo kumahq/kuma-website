@@ -48,4 +48,4 @@ To upgrade data plane proxies on Kubernetes, rollout the new deployment. This wa
 ## Multizone
 
 To upgrade {{site.mesh_product_name}} with a multizone deployment, first upgrade the global control plane. Then, upgrade zone control planes.
-As a last step, upgrade data plane proxies.
+As a last step, upgrade data plane proxies by manually restarting them.
