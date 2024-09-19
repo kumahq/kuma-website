@@ -41,7 +41,7 @@ Setting the TLS version and ciphers on both the client and server makes it harde
 If you want to try out a specific version/cipher combination, we recommend creating a [temporary mesh](/docs/{{ page.version }}/production/mesh/#usage), deploying two applications within it, and testing whether communication is working.
 If you have a use case for configuring a different set of allowed versions/ciphers on different workloads, we'd love to hear about it.
 In that case, please open an [issue](https://github.com/kumahq/kuma/issues).
-{% tip %}
+{% endtip %}
 
 ## Examples
 
