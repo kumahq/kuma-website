@@ -4,7 +4,7 @@ title: Mutual TLS
 
 {% if_version gte:2.9.x %}
 {% tip %}
-If you want to configure version, ciphers or per service permissive / strict mode check out [`MeshTLS`](/docs/{{ page.version }}/policies/mesh)
+If you want to configure version, ciphers or per service permissive / strict mode check out [`MeshTLS`](/docs/{{ page.version }}/policies/meshtls)
 {% endtip %}
 {% endif_version %}
 
