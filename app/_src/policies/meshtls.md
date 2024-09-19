@@ -36,6 +36,13 @@ The following describes the default configuration settings of the `MeshTLS` poli
 - **`tlsCiphers`**: Defines TLS ciphers to be used by **both client and server**. Allowed values: `ECDHE-ECDSA-AES128-GCM-SHA256`, `ECDHE-ECDSA-AES256-GCM-SHA384`, `ECDHE-ECDSA-CHACHA20-POLY1305`, `ECDHE-RSA-AES128-GCM-SHA256`, `ECDHE-RSA-AES256-GCM-SHA384`, `ECDHE-RSA-CHACHA20-POLY1305`.
 - **`mode`**: Defines the mTLS mode - `Permissive` mode encrypts outbound connections the same way as `Strict` mode, but inbound connections on the server-side accept both TLS and plaintext. Allowed values: `Strict`, `Permissive`.
 
+{% tip %}
+Setting the TLS version and ciphers on both the client and server makes it harder to misconfigure.
+If you want to try out a specific version/cipher combination, we recommend creating a [temporary mesh](/docs/{{ page.version }}/production/mesh/#usage), deploying two applications within it, and testing whether communication is working.
+If you have a use case for configuring a different set of allowed versions/ciphers on different workloads, we'd love to hear about it.
+In that case, please open an [issue](https://github.com/kumahq/kuma/issues).
+{% tip %}
+
 ## Examples
 
 ### Set specific TLS version and ciphers
