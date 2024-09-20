@@ -2,10 +2,6 @@
 title: MeshTLS
 ---
 
-{% warning %}
-This policy uses new policy matching algorithm.
-{% endwarning %}
-
 This policy enables {{site.mesh_product_name}} to configure TLS mode, ciphers and version. 
 Backends and default mode values are taken from [the Mesh object](/docs/{{ page.version }}/policies/mutual-tls/).
 
@@ -78,7 +74,7 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      kuma.io/service: redis_kuma-demo_svc_6379
+      app: redis
   from:
     - targetRef:
         kind: Mesh
