@@ -99,6 +99,8 @@ name of the `Dataplane` port.
     appProtocol: tcp
 ```
 
+{% if_version gte:2.9.x %}
+
 ## Migration
 
 MeshService is opt-in and involves a migration process. Every `Mesh` must enable
@@ -164,3 +166,5 @@ solely with `MeshService` resources and no longer via `kuma.io/service` tags and
 1. Update `targetRef.kind: MeshService` references to use the real name of the
    `MeshService` as opposed to the `kuma.io/service`.
   - this is not strictly required
+
+{% endif_version %}
