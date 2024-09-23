@@ -22,6 +22,14 @@ curl -s https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.y
   sed "s#namespace: kuma-demo#namespace: kuma-demo-migration#" | kubectl apply -f -
 ```
 
+### Enable port forwarding for both second app
+
+```bash
+kubectl port-forward svc/demo-app -n kuma-demo-migration 5001:5000
+```
+
+Open up both apps' GUI and turn on auto incrementing.
+
 ### Enable permissive mode on redis
 
 We begin with preparing redis to start in [permissive](/docs/{{ page.version }}/policies/meshtls/#configuration) mode when deployed inside the mesh.
@@ -59,6 +67,11 @@ kubectl patch deployment redis -n kuma-demo-migration \
 ```
 
 After this redis will be receiving plaintext traffic from non-meshed client.
+You can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
+
+```yaml
+tls_inspector.tls_not_found
+```
 
 ### Migrate client to mesh
 
@@ -68,6 +81,12 @@ Next we do the same to the client so the traffic is encrypted:
 kubectl patch deployment demo-app -n kuma-demo-migration \
 --type='json' \
 -p='[{"op": "add", "path": "/spec/template/metadata/labels/kuma.io~1sidecar-injection", "value": "enabled"}]'
+```
+
+After this is done, you can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
+
+```yaml
+tls_inspector.tls_found
 ```
 
 ### Set strict mode on redis
