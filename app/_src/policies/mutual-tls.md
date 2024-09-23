@@ -2,6 +2,12 @@
 title: Mutual TLS
 ---
 
+{% if_version gte:2.9.x %}
+{% tip %}
+If you want to configure version, ciphers or per service permissive / strict mode check out [`MeshTLS`](/docs/{{ page.version }}/policies/meshtls)
+{% endtip %}
+{% endif_version %}
+
 This policy enables automatic encrypted mTLS traffic for all the services in a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %}, as well as assigning an identity to every data plane proxy. {{site.mesh_product_name}} supports different types of CA backends as well as automatic certificate rotation.
 
 {{site.mesh_product_name}} ships with the following CA (Certificate Authority) supported backends:
