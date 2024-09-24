@@ -22,6 +22,27 @@ curl -s https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.y
   sed "s#namespace: kuma-demo#namespace: kuma-demo-migration#" | kubectl apply -f -
 ```
 
+Below diagram shows 
+
+{% mermaid %}
+---
+title: service graph of the second demo app
+---
+flowchart LR
+    subgraph meshed - kuma-demo
+        direction LR
+        demo-app(demo-app :5000)
+        redis(redis :6379)
+        demo-app --> redis
+    end
+    subgraph non-meshed - kuma-demo-migration
+        direction LR
+        demo-app2(demo-app :5000)
+        redis2(redis :6379)
+        demo-app2 --> redis2
+    end
+{% endmermaid %}
+
 ### Enable port forwarding for both second app
 
 ```bash
@@ -69,6 +90,28 @@ kubectl patch deployment redis -n kuma-demo-migration \
 After this redis will be receiving plaintext traffic from non-meshed client.
 You can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
 
+{% mermaid %}
+---
+title: service graph when redis is inside the mesh
+---
+flowchart LR
+    subgraph meshed - kuma-demo
+        direction LR
+        demo-app(demo-app :5000)
+        redis(redis :6379)
+        demo-app --> redis
+    end
+    subgraph non-meshed - kuma-demo-migration
+        direction LR
+        demo-app2(demo-app :5000)
+    end
+        subgraph meshed - kuma-demo-migration
+        direction LR
+        redis2(redis :6379)
+        demo-app2 --> redis2
+    end
+{% endmermaid %}
+
 ```yaml
 tls_inspector.tls_not_found
 ```
@@ -88,6 +131,25 @@ After this is done, you can go to {{site.mesh_product_name}} GUI (port 5681) and
 ```yaml
 tls_inspector.tls_found
 ```
+
+{% mermaid %}
+---
+title: service graph when both client and redis are inside the mesh
+---
+flowchart LR
+    subgraph meshed - kuma-demo
+        direction LR
+        demo-app(demo-app :5000)
+        redis(redis :6379)
+        demo-app --> redis
+    end
+    subgraph meshed - kuma-demo-migration
+        direction LR
+        demo-app2(demo-app :5000)
+        redis2(redis :6379)
+        demo-app2 --> redis2
+    end
+{% endmermaid %}
 
 ### Set strict mode on redis
 
