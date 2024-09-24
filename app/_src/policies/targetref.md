@@ -147,11 +147,17 @@ targetRef:
 ```
 {% endif_version %}
 
-Here's an explanation of each kinds and their scope:
+Here's an explanation of each kind and their scope:
 
 - Mesh: applies to all proxies running in the mesh
 - MeshSubset: same as Mesh but filters only proxies who have matching `targetRef.tags`
+{% if_version lte:2.8.x %}
 - MeshService: all proxies with a tag `kuma.io/service` equal to `targetRef.name`
+{% endif_version %}
+{% if_version gte:2.9.x %}
+- MeshService: all proxies with a tag `kuma.io/service` equal to `targetRef.name` (deprecated) or
+- MeshService: all proxies matching `name` and `namespace` (only on kubernetes) or specified `labels`
+{% endif_version %}
 - MeshServiceSubset: same as `MeshService` but further refine to proxies that have matching `targetRef.tags`
 - MeshGateway: targets proxies matched by the named MeshGateway
     - Note that it's very strongly recommended to target MeshGateway proxies using this
@@ -166,6 +172,7 @@ In {{site.mesh_product_name}} 2.6.x, the `targetRef` field gained the ability to
 
 Consider the example below:
 
+{% if_version lte:2.8.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -198,6 +205,43 @@ spec:
                 plain: '{"start_time": "%START_TIME%"}'
               path: "/tmp/logs.txt"
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshAccessLog
+metadata:
+  name: example
+  namespace: {{ site.mesh_namespace }}
+  labels:
+    kuma.io/mesh: default
+spec:
+  targetRef: # top level targetRef
+    kind: MeshService
+    name: web-frontend
+    namespace: web
+  to:
+    - targetRef: # to level targetRef
+        kind: MeshService
+        name: web-backend
+        namespace: web
+      default:
+        backends:
+          - file:
+              format:
+                plain: '{"start_time": "%START_TIME%"}'
+              path: "/tmp/logs.txt"
+  from:
+    - targetRef: # from level targetRef
+        kind: Mesh
+      default:
+        backends:
+          - file:
+              format:
+                plain: '{"start_time": "%START_TIME%"}'
+              path: "/tmp/logs.txt"
+```
+{% endif_version %}
 
 Using `spec.targetRef`, this policy targets all proxies that implement the service `web-frontend`.
 It defines the scope of this policy as applying to traffic either from or to `web-frontend` services.
@@ -340,6 +384,7 @@ All traffic from any proxy (top level `targetRef`) going to any proxy (to `targe
 
 #### Recommending to users
 
+{% if_version lte:2.8.x %}
 ```yaml
 type: ExamplePolicy
 name: example
@@ -354,6 +399,24 @@ spec:
       default:
         key: value
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```yaml
+type: ExamplePolicy
+name: example
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: my-service
+        namespace: demo
+      default:
+        key: value
+```
+{% endif_version %}
 
 All traffic from any proxy (top level `targetRef`) going to the service "my-service" (to `targetRef`) will have this policy applied with value `key=value`.
 
