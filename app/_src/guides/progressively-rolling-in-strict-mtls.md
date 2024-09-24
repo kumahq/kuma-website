@@ -2,7 +2,7 @@
 title: Progressively rolling in strict mTLS
 ---
 
-The new [MeshTLS](/docs/{{ page.version }}/policies/meshtls/) policy allows you to gradually migrate services to mutual TLS without dropping a packet.
+The [MeshTLS](/docs/{{ page.version }}/policies/meshtls/) policy allows you to gradually migrate services to mutual TLS without dropping a packet.
 
 ## Prerequisites
 - Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
