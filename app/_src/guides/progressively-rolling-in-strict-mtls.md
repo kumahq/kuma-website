@@ -29,17 +29,21 @@ Below diagram shows
 title: service graph of the second demo app
 ---
 flowchart LR
-    subgraph meshed - kuma-demo
-        direction LR
-        demo-app(demo-app :5000)
-        redis(redis :6379)
-        demo-app --> redis
+    subgraph meshed
+        subgraph kuma-demo
+            direction LR
+            demo-app(demo-app :5000)
+            redis(redis :6379)
+            demo-app --> redis
+        end
     end
-    subgraph non-meshed - kuma-demo-migration
-        direction LR
-        demo-app2(demo-app :5000)
-        redis2(redis :6379)
-        demo-app2 --> redis2
+    subgraph non-meshed
+        subgraph kuma-demo-migration
+            direction LR
+            redis2(redis :6379)
+            demo-app2(demo-app :5000)
+            demo-app2 --> redis2
+        end
     end
 {% endmermaid %}
 
@@ -95,20 +99,25 @@ You can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this
 title: service graph when redis is inside the mesh
 ---
 flowchart LR
-    subgraph meshed - kuma-demo
-        direction LR
-        demo-app(demo-app :5000)
-        redis(redis :6379)
-        demo-app --> redis
+    subgraph meshed
+        subgraph kuma-demo
+            direction LR
+            demo-app(demo-app :5000)
+            redis(redis :6379)
+            demo-app --> redis
+        end
+        
+        subgraph kuma-demo-migration 
+            direction LR
+            redis2(redis :6379)
+        end
     end
-    subgraph non-meshed - kuma-demo-migration
-        direction LR
-        demo-app2(demo-app :5000)
-    end
-        subgraph meshed - kuma-demo-migration
-        direction LR
-        redis2(redis :6379)
-        demo-app2 --> redis2
+    subgraph non-meshed
+        subgraph kuma-demo-migration
+            direction LR
+            demo-app2(demo-app :5000)
+            demo-app2 --> redis2
+        end
     end
 {% endmermaid %}
 
@@ -137,17 +146,19 @@ tls_inspector.tls_found
 title: service graph when both client and redis are inside the mesh
 ---
 flowchart LR
-    subgraph meshed - kuma-demo
-        direction LR
-        demo-app(demo-app :5000)
-        redis(redis :6379)
-        demo-app --> redis
-    end
-    subgraph meshed - kuma-demo-migration
-        direction LR
-        demo-app2(demo-app :5000)
-        redis2(redis :6379)
-        demo-app2 --> redis2
+    subgraph meshed
+        subgraph kuma-demo
+            direction LR
+            demo-app(demo-app :5000)
+            redis(redis :6379)
+            demo-app --> redis
+        end
+        subgraph kuma-demo-migration
+            direction LR
+            demo-app2(demo-app :5000)
+            redis2(redis :6379)
+            demo-app2 --> redis2
+        end
     end
 {% endmermaid %}
 
@@ -158,6 +169,10 @@ Finally, to set strict mode you can either edit the policy or remove it (the def
 ```bash
 kubectl delete meshtlses.kuma.io -n kuma-system redis
 ```
+
+## Things to remember when migrating to strict TLS
+
+* Before changing a workload to `Strict` mode check that `tls_inspector.tls_not_found` stat is no longer incrementing.
 
 ## Next steps
 
