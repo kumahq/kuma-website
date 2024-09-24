@@ -114,6 +114,7 @@ You should eventually see
 
 We can check policy synchronization from global control plane to zone control plane by applying a policy on global control plane:
 
+{% if_version lte:2.8.x %}
 ```
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshCircuitBreaker
@@ -137,6 +138,33 @@ spec:
         maxRetries: 2
         maxRequests: 2" | kubectl --context=kind-mesh-global apply -f -
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshCircuitBreaker
+metadata:
+  name: demo-app-to-redis
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name: demo-app
+    namespace: kuma-demo
+  to:
+  - targetRef:
+      kind: MeshService
+      name: redis_kuma-demo_svc_6379
+    default:
+      connectionLimits:
+        maxConnections: 2
+        maxPendingRequests: 8
+        maxRetries: 2
+        maxRequests: 2" | kubectl --context=kind-mesh-global apply -f -
+```
+{% endif_version %}
 
 If we execute the following command:
 ```sh
