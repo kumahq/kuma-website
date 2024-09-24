@@ -22,7 +22,7 @@ curl -s https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.y
   sed "s#namespace: kuma-demo#namespace: kuma-demo-migration#" | kubectl apply -f -
 ```
 
-Below diagram shows 
+Below diagram shows which applications are inside the mesh and which are not:
 
 {% mermaid %}
 ---
@@ -94,6 +94,12 @@ kubectl patch deployment redis -n kuma-demo-migration \
 After this redis will be receiving plaintext traffic from non-meshed client.
 You can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
 
+```yaml
+tls_inspector.tls_not_found
+```
+
+The below diagram shows that the second redis was moved to be inside the mesh:
+
 {% mermaid %}
 ---
 title: service graph when redis is inside the mesh
@@ -121,10 +127,6 @@ flowchart LR
     end
 {% endmermaid %}
 
-```yaml
-tls_inspector.tls_not_found
-```
-
 ### Migrate client to mesh
 
 Next we do the same to the client so the traffic is encrypted:
@@ -140,6 +142,8 @@ After this is done, you can go to {{site.mesh_product_name}} GUI (port 5681) and
 ```yaml
 tls_inspector.tls_found
 ```
+
+The below diagram shows that all services are now in the mesh:
 
 {% mermaid %}
 ---
