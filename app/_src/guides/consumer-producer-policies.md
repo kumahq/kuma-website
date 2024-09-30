@@ -8,7 +8,7 @@ title: Namespace scoped policies
 
 ## Basic setup
 
-In order to be able to fully utilize namespace scoped policies you need to use real [MeshService](/docs/{{ page.version }}/networking/meshservice). 
+In order to be able to fully utilize namespace scoped policies you need to use [MeshService](/docs/{{ page.version }}/networking/meshservice). 
 To enable MeshService resource generation on Mesh level we need to run:
 
 ```shell
@@ -18,7 +18,7 @@ metadata:
   name: default
 spec:
   meshServices:
-    enabled: Everywhere
+    mode: Exclusive
   mtls:
     enabledBackend: ca-1
     backends:
@@ -26,32 +26,13 @@ spec:
       type: builtin" | kubectl apply -f -
 ```
 
-We also need HostnameGenerator for easy access to our services:
-
-```shell
-echo 'apiVersion: kuma.io/v1alpha1
-kind: HostnameGenerator
-metadata:
-  name: all
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  selector:
-    meshService:
-      matchLabels:
-        k8s.kuma.io/namespace: kuma-demo
-  template: "{{ .DisplayName }}.{{ .Namespace }}.mesh"' | kubectl apply -f -
-```
-
-With this HostnameGenerator we will be able to call demo-app using dns name `demo-app.kuma-demo.mesh`.
 To make sure that traffic works in our examples let's configure MeshTrafficPermission to allow all traffic:
 
 ```shell
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
-  namespace: {{site.mesh_namespace}}
+  namespace: kuma-system
   name: mtp
 spec:
   targetRef:
@@ -97,13 +78,13 @@ kubectl run consumer --image nicolaka/netshoot -n second-consumer --command -- /
 You can make now make a couple of requests to our demo app to check if everything is working: 
 
 ```shell
-kubectl exec -n first-consumer consumer -- curl --no-progress-meter demo-app.kuma-demo.mesh:5000/counter
+kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment
 ```
 
 You should see something similar to:
 
 ```json
-{"counter":"0","zone":"local","err":null}
+{"counter":"1","zone":"local","err":null}
 ```
 
 ## Namespace scoped policies
@@ -197,7 +178,7 @@ spec:
 We can now make few requests to our demo-app, and we should see timeouts:
 
 ```shell
-kubectl exec -n first-consumer consumer -- curl --no-progress-meter demo-app.kuma-demo.mesh:5000/counter
+kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment
 ```
 
 Example output:
@@ -210,7 +191,7 @@ upstream request timeout
 We should see the same results when making requests from second-consumer namespace:
 
 ```shell
-kubectl exec -n second-consumer consumer -- curl --no-progress-meter demo-app.kuma-demo.mesh:5000/counter
+kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment
 ```
 
 ## Utilizing consumer policy
@@ -241,14 +222,14 @@ spec:
 When we now make requests from the first-consumer namespace all the requests should succeed, but they will take longer:
 
 ```shell
-kubectl exec -n first-consumer consumer -- curl --no-progress-meter demo-app.kuma-demo.mesh:5000/counter
+kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment
 ```
 
 Policy that we have just applied is consumer policy. This means that traffic from other namespaces to demo-app should not be affected by it.
 We can test this by making requests from our second-consumer namespace:
 
 ```shell
-kubectl exec -n second-consumer consumer -- curl --no-progress-meter demo-app.kuma-demo.mesh:5000/counter
+kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment
 ```
 
 We should still see timeouts:
