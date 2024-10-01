@@ -22,7 +22,8 @@ curl -s https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.y
   sed "s#namespace: kuma-demo#namespace: kuma-demo-migration#" | kubectl apply -f -
 ```
 
-Below diagram shows which applications are inside the mesh and which are not:
+Below diagram shows which applications are inside the mesh and which are not.
+Purple links indicate that the communication is encrypted, gray ones are plaintext.
 
 {% mermaid %}
 ---
@@ -45,6 +46,8 @@ flowchart LR
             demo-app2 --> redis2
         end
     end
+    linkStyle 0 stroke:#d25585, stroke-width:2px;
+    linkStyle 1 stroke:#555a5d, stroke-width:2px;
 {% endmermaid %}
 
 ### Enable port forwarding for both second app
@@ -124,6 +127,8 @@ flowchart LR
             demo-app2 --> redis2
         end
     end
+    linkStyle 0 stroke:#d25585, stroke-width:2px;
+    linkStyle 1 stroke:#555a5d, stroke-width:2px;
 {% endmermaid %}
 
 ### Migrate client to mesh
@@ -163,6 +168,7 @@ flowchart LR
             demo-app2 --> redis2
         end
     end
+    linkStyle 0,1 stroke:#d25585, stroke-width:2px;
 {% endmermaid %}
 
 ### Set strict mode on redis
