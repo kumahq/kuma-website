@@ -65,7 +65,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTLS
 metadata:
   name: redis
-  namespace: {{ site.namespace }}
+  namespace: kuma-demo-migration
   labels:
     kuma.io/mesh: default
 spec:
@@ -73,7 +73,6 @@ spec:
     kind: MeshSubset
     tags:
       app: redis
-      k8s.kuma.io/namespace: kuma-demo-migration
   from:
   - targetRef:
       kind: Mesh
@@ -95,7 +94,7 @@ After this redis will be receiving plaintext traffic from non-meshed client.
 You can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
 
 ```yaml
-tls_inspector.tls_not_found
+cluster.localhost_6379.upstream_cx_total
 ```
 
 The below diagram shows that the second redis was moved to be inside the mesh:
@@ -137,10 +136,10 @@ kubectl patch deployment demo-app -n kuma-demo-migration \
 -p='[{"op": "add", "path": "/spec/template/metadata/labels/kuma.io~1sidecar-injection", "value": "enabled"}]'
 ```
 
-After this is done, you can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
+After this is done, you'll have to re-enable the port-forward, and then you can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
 
 ```yaml
-tls_inspector.tls_found
+inbound_POD_IP_6379.rbac.allowed: 809
 ```
 
 The below diagram shows that all services are now in the mesh:
