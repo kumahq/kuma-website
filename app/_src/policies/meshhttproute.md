@@ -138,7 +138,7 @@ them in a `MeshHTTPRoute`!
 
 ### BackendRef
 
-- **`kind`** - one of `MeshService`, `MeshServiceSubset`
+- **`kind`** - one of `MeshService`, `MeshServiceSubset`{% if_version gte:2.9.x %}, `MeshExtenalService`{% endif_version %}
 - **`name`** - service name
 - **`tags`** - service tags, must be specified if the `kind` is `MeshServiceSubset`
 - **`weight`** - when a request matches the route, the choice of an upstream cluster
