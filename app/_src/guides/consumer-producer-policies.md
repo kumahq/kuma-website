@@ -134,7 +134,7 @@ This is new label that indicates policy role. Possible values of this label are:
 
 - `system` - policies applied in system namespace
 - `workload-owner` - policies that specify `spec.from` section
-- `consumer` - policies targeting MeshServices from different namespace
+- `consumer` - policies targeting MeshServices from different namespace or targeting MeshService by labels
 - `producer` - policies targeting MeshServices from the same namespace
 
 ### Producer consumer model
@@ -151,47 +151,24 @@ Consumer policies will override producer policies.
 ## Testing producer policy
 
 To test MeshTimeout that we've applied in previous steps we need to simulate delays on our requests. To do this we need
-MeshFaultInjection policy
-
-```shell
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshFaultInjection
-metadata:
-  name: default
-  namespace: kuma-demo
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-    proxyTypes: [Sidecar]
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        http:
-          - delay:
-              percentage: '50'
-              value: 2s" | kubectl apply -f -
-```
+add header `x-set-response-delay-ms` to our requests
 
 We can now make few requests to our demo-app, and we should see timeouts:
 
 ```shell
-kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment
+kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment -H "x-set-response-delay-ms: 2000"
 ```
 
 Example output:
 
 ```
-{"counter":"0","zone":"local","err":null}
-upstream request timeout
+{"counter":"3","zone":"local","err":null}
 ```
 
 We should see the same results when making requests from second-consumer namespace:
 
 ```shell
-kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment
+kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment -H "x-set-response-delay-ms: 2000"
 ```
 
 ## Utilizing consumer policy
@@ -222,14 +199,14 @@ spec:
 When we now make requests from the first-consumer namespace all the requests should succeed, but they will take longer:
 
 ```shell
-kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment
+kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment -H "x-set-response-delay-ms: 2000"
 ```
 
 Policy that we have just applied is consumer policy. This means that traffic from other namespaces to demo-app should not be affected by it.
 We can test this by making requests from our second-consumer namespace:
 
 ```shell
-kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment
+kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment -H "x-set-response-delay-ms: 2000"
 ```
 
 We should still see timeouts:
@@ -237,6 +214,13 @@ We should still see timeouts:
 ```
 upstream request timeout
 ```
+
+## What we've learnt?
+
+- How to apply policy on a namespace
+- What are policy roles and what types can you encounter 
+- What are producer and consumer policies
+- How producer and consumer policies interact with each other
 
 ## Next steps
 
