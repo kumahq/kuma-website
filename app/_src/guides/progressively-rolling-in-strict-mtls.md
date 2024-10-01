@@ -65,7 +65,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTLS
 metadata:
   name: redis
-  namespace: kuma-system
+  namespace: {{ site.namespace }}
   labels:
     kuma.io/mesh: default
 spec:
