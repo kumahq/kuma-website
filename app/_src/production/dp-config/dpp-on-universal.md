@@ -33,7 +33,21 @@ kuma-dp run \
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
 
-In the example above, any external client who wants to consume Redis through the sidecar will have to use `23.234.0.1:9000`, which will redirect to the Redis service listening on address `127.0.0.1:6379`.
+In the example above, any external client who wants to consume Redis through the sidecar will have to use `23.234.0.1:9000`, which will redirect to the Redis service listening on address `127.0.0.1:6379`. If your service doesn't listen on `127.0.0.1` and you can't change the address it listens on, you can set the `serviceAddress` as shown below.
+
+```yaml
+type: Dataplane
+...
+networking:
+  ...
+  inbound:
+  - port: 9000
+    serviceAddress: 192.168.1.10
+    servicePort: 6379
+    ...
+```
+
+This configuration indicates that your service is listening on `192.168.1.10`, and incoming traffic will be redirected to that address.
 
 {% tip %}
 Note that in Universal dataplanes need to start with a token for authentication. You can learn how to generate tokens in the {% if_version lte:2.1.x %}[security section](/docs/{{ page.version }}/security/dp-auth#data-plane-proxy-token){% endif_version %}{% if_version gte:2.2.x %}[security section](/docs/{{ page.version }}/production/secure-deployment/dp-auth/#data-plane-proxy-token){% endif_version %}.

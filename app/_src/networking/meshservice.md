@@ -98,3 +98,73 @@ name of the `Dataplane` port.
     targetPort: 6739
     appProtocol: tcp
 ```
+
+{% if_version gte:2.9.x %}
+
+## Migration
+
+MeshService is opt-in and involves a migration process. Every `Mesh` must enable
+`MeshServices` in some form:
+
+```
+spec:
+  meshServices:
+    enabled: Disabled # or Everywhere, ReachableBackends, Exclusive
+```
+
+The biggest change with `MeshService` is that traffic is no longer
+load-balanced between all zones. Traffic sent to a `MeshService` is only ever
+sent to a single zone.
+
+The goal of migration is to stop using `kuma.io/service` entirely and instead
+use `MeshService` resources as destinations and as `targetRef` in policies
+and `backendRef` in routes.
+
+After enabling `MeshServices`, the control plane generates additional resources.
+There are a few ways to manage this.
+
+### Options
+
+#### `Everywhere`
+
+This enables `MeshService` resource generation everywhere.
+Both `kuma.io/service` and `MeshService` are used to generate clusters.
+So this options means twice as many Envoy Clusters and ClusterLoadAssignments.
+That in turn means potentially
+hitting the resource limits of the control plane and memory usage in the
+dataplane, before reachable backends
+would otherwise be necessary. Therefore, consider trying `ReachableBackends` as
+described below.
+
+#### `ReachableBackends`
+
+This enables automatic generation of the Kuma `MeshServices` resource but
+does not include the corresponding resources for every data plane proxy.
+The intention is for users to explicitly and gradually introduce
+relevant `MeshServices` via `reachableBackends`.
+
+#### `Exclusive`
+
+This is the end goal of the migration. Destinations in the mesh are managed
+solely with `MeshService` resources and no longer via `kuma.io/service` tags and
+`Dataplane` inbounds.
+
+### Steps
+
+1. Decide whether you want to set `enabled: Everywhere` or whether you
+   enable `MeshService` consumer by consumer with `enabled: ReachableBackends`.
+1. For every usage of a `kuma.io/service`, decide how it should be consumed:
+- as `MeshService`: only ever from one single zone
+  - these are created automatically
+- as `MeshMultiZoneService`: combined with all "same" services in other zones
+  - these have to be created manually
+1. Update your MeshHTTPRoutes/MeshTCPRoutes to refer to
+   `MeshService`/`MeshMultiZoneService` directly.
+  - this is required
+1. Set `enabled: Exclusive` to stop receiving configuration based on
+   `kuma.io/service`.
+1. Update `targetRef.kind: MeshService` references to use the real name of the
+   `MeshService` as opposed to the `kuma.io/service`.
+  - this is not strictly required
+
+{% endif_version %}

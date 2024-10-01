@@ -62,7 +62,95 @@ Service health is computed by aggregating the health of all data plane proxies t
 - If the sidecar container is not ready then all inbound will have `health=false`.
 - If the side container is ready then the health of the inbound will be whatever is the readiness of the container which exposes the port used by the inbound. 
 
+{% if_version lte:2.8.x %}
+### Kubernetes Probes
+
+Native [probe functionalities](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) are not supported until 2.9 release. `HTTPGet` and `gRPC` probes always fail when mTLS enabled and `TCPSocket` probes always succeed regardless of mTLS.
+
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+### Application Probe Proxy
+
+For better lifecycle management Kubernetes has [readiness, liveness and startup probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/). When using {{site.mesh_product_name}}. Application Probe Proxy listens on a non-mTLS port, handles probe requests from Kubernetes and forwards them back to applications. It works by overriding the probe definitions in the Pod so that probe requests will be sent to the proxy.
+
+For example, if we specify the following `HTTPGet` probe:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /metrics
+    port: 3001
+  initialDelaySeconds: 3
+  periodSeconds: 3
+```
+
+{{site.mesh_product_name}} will replace it with:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /3001/metrics
+    port: 9001
+  initialDelaySeconds: 3
+  periodSeconds: 3
+```
+
+Similarly, the following `TCPSocket` probe
+
+```yaml
+readinessProbe:
+  tcpSocket:
+    port: 5432
+  initialDelaySeconds: 3
+  periodSeconds: 3
+```
+
+will be replaced with:
+
+```yaml
+readinessProbe:
+  httpGet:
+    path: /tcp/5432
+    port: 9001
+  initialDelaySeconds: 3
+  periodSeconds: 3
+```
+
+Where `9001` is a default port that Application Probe Proxy listens on. To prevent potential conflicts with applications, you may configure this port using one of these methods:
+
+{% tabs config-probe-proxy useUrlFragment=false %}
+{% tab config-probe-proxy control plane config %}
+With the config yaml:
+```yaml
+runtime:
+  kubernetes:
+    injector:
+      applicationProbeProxyPort: 19100
+```
+
+or environment variable: `KUMA_RUNTIME_KUBERNETES_APPLICATION_PROBE_PROXY_PORT=19100`
+{% endtab %}
+{% tab config-probe-proxy Pod annotation %}
+With the Pod annotation:
+```yaml
+annotations:
+  kuma.io/application-probe-proxy-port: 19100
+```
+{% endtab %}
+{% endtabs %}
+
+You can disable Application Probe Proxy by set the port to `0`. When it is disabled, Virtual Probes still works as usual before being removed.
+
+{% endif_version %}
+
 ### Virtual Probes
+
+{% if_version gte:2.9.x %}
+{% warning %}
+Starting with {{site.mesh_product_name}} version 2.9.0, the Virtual Probes feature is deprecated and suppressed. Application Probe Proxy is the successor and will be enabled by default. 
+{% endwarning %}
+{% endif_version %}
 
 For better lifecycle management Kubernetes has [readiness, liveness and startup probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
 

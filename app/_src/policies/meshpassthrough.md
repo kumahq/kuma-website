@@ -161,4 +161,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshPassthrough %}
+{% json_schema MeshPassthroughs %}
