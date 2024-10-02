@@ -80,7 +80,7 @@ spec:
 The following describes the default configuration settings of the `MeshTCPRoute` policy:
 
 - **`backendRefs`**: (Optional) List of destinations for the request to be redirected to
-  - **`kind`**: Either `MeshService` or `MeshServiceSubset`
+  - **`kind`**: One of `MeshService`, `MeshServiceSubset`{% if_version gte:2.9.x %}, `MeshExtenalService`{% endif_version %}
   - **`name`**: The service name
   - **`tags`**: Service tags. These must be specified if the `kind` is 
     `MeshServiceSubset`.
