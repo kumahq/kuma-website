@@ -42,7 +42,7 @@ metadata:
 spec: ... # spec data specific to the policy kind
 ```
 
-By default the policy is created in the `default` mesh.
+By default, the policy is created in the `default` mesh.
 You can specify the mesh by using the `kuma.io/mesh` label.
 
 For example:
@@ -69,8 +69,13 @@ Policies are namespaced scope and currently the namespace must be the one the co
 
 The `spec` field contains the actual configuration of the policy.
 
+{% if_version lte:2.8.x %}
 All specs have a **top level `targetRef`** which identifies which proxies this policy applies to.
 In particular, it defines which proxies have their Envoy configuration modified.
+{% endif_version %}
+{% if_version gte:2.9.x %}
+You can omit **top level `targetRef`** it means that it's targeting `kind: Mesh`.
+{% endif_version %}
 
 Some policies also support further narrowing.
 
@@ -122,7 +127,8 @@ This means that converting policies between Universal and Kubernetes only means 
 
 #### Writing a `targetRef`
 
-`targetRef` is a concept borrowed from [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) its usage is fully defined in [MADR 005](https://github.com/kumahq/kuma/blob/master/docs/madr/decisions/005-policy-matching.md).
+`targetRef` is a concept borrowed from [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) its usage is defined in [MADR 005](https://github.com/kumahq/kuma/blob/master/docs/madr/decisions/005-policy-matching.md)
+and any changes are documented in [consecutive MADRs](https://github.com/kumahq/kuma/pulls?q=is%3Apr+%22docs%28madr%29%22+targetref).
 Its goal is to select subsets of proxies with maximum flexibility.
 
 It looks like:
@@ -217,9 +223,9 @@ metadata:
     kuma.io/mesh: default
 spec:
   targetRef: # top level targetRef
-    kind: MeshService
-    name: web-frontend
-    namespace: web
+    kind: MeshSubset
+    tags:
+      app: web-frontend
   to:
     - targetRef: # to level targetRef
         kind: MeshService
@@ -249,6 +255,65 @@ It defines the scope of this policy as applying to traffic either from or to `we
 The `spec.to.targetRef` section enables logging for any traffic going to `web-backend`.
 The `spec.from.targetRef` section enables logging for any traffic coming from _any service_ in the `Mesh`.
 
+```mermaid
+block-beta
+columns 1
+  block:POLICY
+  columns 1
+  TOP["kind: MeshSubset
+    tags:
+    app: web-frontend"]
+  TO["to:
+    - targetRef: # to level targetRef
+        kind: MeshService
+        name: web-backend
+        namespace: web"]  
+  FROM["from:
+    - targetRef: # from level targetRef
+        kind: Mesh"] 
+  end
+  space
+  space
+  space
+  space
+  space
+  space
+  space
+  block:ID
+    A["gateway"]
+    space
+    B["web-frontend"]
+    space
+    C["web-backend"]
+  end
+  space
+  A-->B
+  B-->C
+  style B fill:#7cbdc9,stroke-width:4px
+```
+
+##### MeshService
+
+###### Section Name
+
+If `sectionName` is set in `targetRef.kind` with `kind: MeshService`, it refers to an entry in `ports` by name.
+Only traffic to that specific `port` is affected.
+
+```yaml
+---
+kind: MeshService
+spec:
+  ports:
+    - port: 80
+      name: http
+---
+targetRef:
+  kind: MeshService
+  namespace: backend
+  name: backend
+  sectionName: http
+```
+
 ### Target resources
 
 Not every policy supports `to` and `from` levels. Additionally, not every resource can
@@ -256,7 +321,7 @@ appear at every supported level. The specified top level resource can also affec
 resources can appear in `to` or `from`.
 
 {% if_version gte:2.6.x %}
-To help users, each policy documentation includes tables indicating which `targetRef` kinds is supported at each level.
+To help users, each policy documentation includes tables indicating which `targetRef` kinds are supported at each level.
 For each type of proxy, sidecar or builtin gateway, the table indicates for each
 `targetRef` level, which kinds are supported.
 
@@ -284,7 +349,7 @@ These are just examples, remember to check the docs specific to your policy!
 #### Sidecar
 
 We see that we can select sidecar proxies via any of the kinds that select
-sidecars and we can set both `to` and `from`.
+sidecars, and we can set both `to` and `from`.
 
 We can apply policy to:
 * all traffic originating at the sidecar _to_ anywhere (`to[].targetRef.kind: Mesh`)
@@ -322,7 +387,7 @@ only kind `MeshService`.
 
 ### Merging configuration
 
-It is necessary to define a policy for merging configuration,
+It is necessary to define an algorithm for merging configuration,
 because a proxy can be targeted by multiple `targetRef`'s.
 
 We define a total order of policy priority:
