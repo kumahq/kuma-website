@@ -8,6 +8,7 @@
           href="#<%= hash.rstrip.gsub(' ', '-') %>"
           class="tabs-component-tab-a"
           role="tab"
+          data-slug="<%= hash.rstrip.gsub(' ', '-') %>"
           >
             <%= hash %>
         </a>
@@ -22,6 +23,7 @@
         class="tabs-component-panel <%= index != 0 ? 'hidden' : '' %>"
         id="<%= key.rstrip.gsub(' ', '-') %>"
         role="tabpanel"
+        data-panel="<%= key.rstrip.gsub(' ', '-') %>"
       >
         <%= value %>
       </section>
