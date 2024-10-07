@@ -89,7 +89,12 @@ the future.
 
 {% if_version gte:2.9.x %}
 In universal zones, `MeshServices` are generated based on the `kuma.io/service`
-value of the `Dataplane` `inbounds`. The only restriction in this case is that
+value of the `Dataplane` `inbounds`. The name of the generated `MeshService`
+is derived from the value of the `kuma.io/service` tag and it has one port that
+corresponds to the given inbound. If the inbound doesn't have a name, one is
+generated from the `port` value.
+
+The only restriction in this case is that
 the port numbers match. For example an inbound:
 
 ```
