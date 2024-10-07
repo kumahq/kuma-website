@@ -2,6 +2,12 @@
 title: HostnameGenerator
 ---
 
+{% if_version gte:2.9.x %}
+{% warning %}
+This resource is experimental!
+{% endwarning %}
+{% endif_version %}
+
 A `HostnameGenerator` provides
 
 - a template to generate hostnames from properties of `MeshServices`, `MeshMultiZoneService`, and `MeshExternalServices`
