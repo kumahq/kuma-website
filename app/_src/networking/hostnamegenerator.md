@@ -2,7 +2,7 @@
 title: HostnameGenerator
 ---
 
-{% if_version gte:2.9.x %}
+{% if_version lte:2.8.x %}
 {% warning %}
 This resource is experimental!
 {% endwarning %}
