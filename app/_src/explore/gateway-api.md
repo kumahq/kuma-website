@@ -35,7 +35,7 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
 1. Install the [counter demo](https://github.com/kumahq/kuma-counter-demo).
 
    ```sh
-   kumactl install demo | kubectl apply -f -
+   kumactl install demo --without-gateway | kubectl apply -f -
    ```
 
 2. Add a [`Gateway`](https://gateway-api.sigs.k8s.io/api-types/gateway/).
