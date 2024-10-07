@@ -109,7 +109,7 @@ MeshService is opt-in and involves a migration process. Every `Mesh` must enable
 ```
 spec:
   meshServices:
-    enabled: Disabled # or Everywhere, ReachableBackends, Exclusive
+    mode: Disabled # or Everywhere, ReachableBackends, Exclusive
 ```
 
 The biggest change with `MeshService` is that traffic is no longer
@@ -151,8 +151,8 @@ solely with `MeshService` resources and no longer via `kuma.io/service` tags and
 
 ### Steps
 
-1. Decide whether you want to set `enabled: Everywhere` or whether you
-   enable `MeshService` consumer by consumer with `enabled: ReachableBackends`.
+1. Decide whether you want to set `mode: Everywhere` or whether you
+   enable `MeshService` consumer by consumer with `mode: ReachableBackends`.
 1. For every usage of a `kuma.io/service`, decide how it should be consumed:
 - as `MeshService`: only ever from one single zone
   - these are created automatically
@@ -161,7 +161,7 @@ solely with `MeshService` resources and no longer via `kuma.io/service` tags and
 1. Update your MeshHTTPRoutes/MeshTCPRoutes to refer to
    `MeshService`/`MeshMultiZoneService` directly.
   - this is required
-1. Set `enabled: Exclusive` to stop receiving configuration based on
+1. Set `mode: Exclusive` to stop receiving configuration based on
    `kuma.io/service`.
 1. Update `targetRef.kind: MeshService` references to use the real name of the
    `MeshService` as opposed to the `kuma.io/service`.
