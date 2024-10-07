@@ -128,9 +128,9 @@ There are a few ways to manage this.
 #### `Everywhere`
 
 This enables `MeshService` resource generation everywhere.
-Both `kuma.io/service` and `MeshService` are used to generate clusters.
-So this options means twice as many Envoy Clusters and ClusterLoadAssignments.
-That in turn means potentially
+Both `kuma.io/service` and `MeshService` are used to generate the Envoy resources
+Envoy Clusters and ClusterLoadAssignments. So having both enabled means roughly
+twice as many resources which in turn means potentially
 hitting the resource limits of the control plane and memory usage in the
 dataplane, before reachable backends
 would otherwise be necessary. Therefore, consider trying `ReachableBackends` as
