@@ -4,6 +4,7 @@ class TabsComponent {
     this.options = this.elem.dataset;
 
     this.addEventListeners();
+    this.setInitialMeshServiceState(localStorage.getItem("meshservice"))
   }
 
   addEventListeners() {
@@ -11,8 +12,21 @@ class TabsComponent {
       item.addEventListener('click', this.selectTab.bind(this));
     });
 
+    this.elem.querySelectorAll('.meshservice input').forEach((item) => {
+      item.addEventListener('change', this.onNewMeshServiceChanged.bind(this));
+    });
+
     // Listen for the custom event to update tabs
     document.addEventListener('tabSelected', this.onTabSelected.bind(this));
+  }
+
+  setInitialMeshServiceState(checked) {
+    localStorage.setItem("meshservice", checked)
+    this.elem.querySelectorAll('.meshservice input').forEach((item) => {
+      if (checked === "true") {
+        item.setAttribute("checked", checked)
+      }
+    });
   }
 
   selectTab(event) {
@@ -53,8 +67,12 @@ class TabsComponent {
     this.setSelectedTabBySlug(tabSlug);
   }
 
-  onNewMeshServiceChecked(event) {
-    // TODO
+  onNewMeshServiceChanged(event) {
+    if (event.currentTarget.checked === true) {
+      localStorage.setItem("meshservice", "true")
+    } else {
+      localStorage.setItem("meshservice", "false")
+    }
   }
 
   setSelectedTab(selectedTab) {

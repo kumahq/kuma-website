@@ -13,6 +13,13 @@
 
   .meshservice {
     text-align: right;
+
+    input {
+      height: auto;
+      line-height: inherit;
+      width: auto;
+      display: inline;
+    }
   }
 }
 

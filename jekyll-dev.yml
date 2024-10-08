@@ -67,10 +67,6 @@ jekyll-generator-single-source:
   multiple_products: false
   base_dest_path: 'docs'
 
-# Static files
-include:
-  - app/_plugins/tags/tabs
-
 # Product name variables
 mesh_helm_repo_url: https://kumahq.github.io/charts
 mesh_helm_repo_name: kuma
