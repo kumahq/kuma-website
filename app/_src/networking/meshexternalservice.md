@@ -7,7 +7,13 @@ This resource is experimental!
 {% endwarning %}
 
 This resource allows services running inside the mesh to consume services that are not part of the mesh.
-The `MeshExternalService` resource allows you to declare external resources instead of relying on [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough) or [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing).
+The `MeshExternalService` resource allows you to declare external resources instead of relying on [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough) or [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing). 
+
+{% tip %}
+What is the difference between `MeshPassthrough` and `MeshExternalService`?
+
+The main difference is that `MeshExternalService` is assigned a custom domain and can be targeted by policies. `MeshPassthrough`, on the other hand, does not alter the address of the original host and cannot be targeted by policies.
+{% endtip %}
 
 {% warning %}
 Currently `MeshExternalService` resource only supports targeting by [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission) with [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress).
