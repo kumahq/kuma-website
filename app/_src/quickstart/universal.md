@@ -120,7 +120,7 @@ You can view the sidecar proxies that are connected to the {{site.mesh_product_n
 {% tabs usage useUrlFragment=false %}
 {% tab usage GUI (Read-Only) %}
 
-{{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default the GUI listens on the API port and defaults to `:5681/gui`. 
+{{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default the GUI listens on the API port and defaults to `:5681/gui`.
 
 You can navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/meshes/default/dataplanes) to see the connected dataplanes.
 
