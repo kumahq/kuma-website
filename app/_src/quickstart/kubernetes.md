@@ -71,7 +71,7 @@ To access {{site.mesh_product_name}} we need to first port-forward the API servi
 kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
 ```
 
-And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI.
+And then navigate to [`127.0.0.1:5681/gui`](http://127.0.0.1:5681/gui) to see the GUI. 
 
 {% endtab %}
 {% tab usage HTTP API (Read-Only) %}
