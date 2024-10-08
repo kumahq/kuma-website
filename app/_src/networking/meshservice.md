@@ -2,6 +2,7 @@
 title: MeshService
 ---
 
+{% if_version lte:2.8.x %}
 {% warning %}
 This resource is experimental!
 In Kubernetes, to take advantage of the automatic generation described below,
@@ -9,6 +10,7 @@ you need to set both [control plane configuration variables](/docs/{{ page.versi
 and `KUMA_EXPERIMENTAL_GENERATE_MESH_SERVICES` to `"true"` on the zone control
 planes that use `MeshServices`.
 {% endwarning %}
+{% endif_version %}
 
 MeshService is a new resource that represents what was previously expressed by
 the `Dataplane` tag `kuma.io/service`. Kubernetes users should think about it as
@@ -55,6 +57,9 @@ to reach this destination.
 ## Zone types
 
 How users interact with `MeshServices` will depend on the type of zone.
+{% if_version gte:2.9.x %}
+In both cases, the resource is generated automatically.
+{% endif_version %}
 
 ### Kubernetes
 
@@ -64,19 +69,70 @@ MeshService. For this reason, Kuma generates `MeshServices` from `Services` and:
 - reuses VIPs in the form of cluster IPs
 - uses Kubernetes DNS names
 
+{% if_version lte:2.8.x %}
 {% tip %}
 You need to set the `kuma.io/mesh` label on any `Services` from which
 a `MeshService` should be generated.
 {% endtip %}
+{% endif_version %}
 
 In the vast majority of cases, Kubernetes users do not create `MeshServices`.
 
 ### Universal
 
+{% if_version lte:2.8.x %}
 In universal zones, `MeshServices` need to be created manually for now. A
 strategy of
 automatically generating `MeshService` objects from `Dataplanes` is planned for
 the future.
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+In universal zones, `MeshServices` are generated based on the `kuma.io/service`
+value of the `Dataplane` `inbounds`. The name of the generated `MeshService`
+is derived from the value of the `kuma.io/service` tag and it has one port that
+corresponds to the given inbound. If the inbound doesn't have a name, one is
+generated from the `port` value.
+
+The only restriction in this case is that
+the port numbers match. For example an inbound:
+
+```
+      inbound:
+      - name: main
+        port: 80
+        tags:
+          kuma.io/service: test-server
+```
+
+would result in a `MeshService`:
+
+```
+type: MeshService
+name: test-server
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    name: main
+  selector:
+    dataplaneTags:
+      kuma.io/service: test-server
+```
+
+but you can't also have on a different `Dataplane`:
+
+```
+      inbound:
+      - name: main
+        port: 8080
+        tags:
+          kuma.io/service: test-server
+```
+
+since there's no way to create a coherent `MeshService`
+for `test-server` from these two inbounds.
+{% endif_version %}
 
 ## Hostnames
 
