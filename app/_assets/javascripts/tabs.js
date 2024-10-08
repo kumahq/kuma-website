@@ -53,6 +53,10 @@ class TabsComponent {
     this.setSelectedTabBySlug(tabSlug);
   }
 
+  onNewMeshServiceChecked(event) {
+    // TODO
+  }
+
   setSelectedTab(selectedTab) {
     this.hideTabs(selectedTab);
 
