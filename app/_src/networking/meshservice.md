@@ -224,3 +224,10 @@ solely with `MeshService` resources and no longer via `kuma.io/service` tags and
   - this is not strictly required
 
 {% endif_version %}
+
+## Multizone
+
+Each MeshService created in a zone is synced to a global control plane which then syncs them to other zones.
+The end result is that each zone should contain the same set of MeshServices.
+When using MeshService, the client always connects to a MeshService in a specific zone.
+Learn about [MeshMultiZoneService](/docs/{{ page.version }}/networking/meshmultizoneservice) to implement failover or load balancing between MeshServices in multiple zones. 
