@@ -34,6 +34,15 @@ Instead, it always returns a single VIP that is assigned to the relevant service
 
 The default TTL is 60 seconds, to ensure the client synchronizes with {{site.mesh_product_name}} DNS and to account for any intervening changes.
 
+### Naming
+
+By default, Kuma generates domain names of `<kuma.io/service tag>.mesh` accessible on port `80`.
+More advanced configuration including customizing the port is available using [Virtual Outbounds](/docs/{{ page.version }}/policies/virtual-outbound).
+
+{% if_version gte:2.9.x %}
+If you use [MeshService](/docs/{{ page.version }}/networking/meshservice), [MeshExternalService](/docs/{{ page.version }}/networking/meshexternalservice), or MeshMultiZoneService the domains are generated using [HostnameGenerator](/docs/{{ page.version }}/networking/hostnamegenerator).
+{% endif_version %}
+
 ## Installation
 
 {% tabs installation useUrlFragment=false %}
@@ -251,10 +260,3 @@ The default listeners created on the VIP default to port `80`, so the port can b
      }
     }
 ```
-
-{% tip %}
-The following setup will work when `serviceVipEnabled=true` which is a default value.
-
-The preferred way to define hostnames is using [Virtual Outbounds](/docs/{{ page.version }}/policies/virtual-outbound).
-Virtual Outbounds also makes it possible to define dynamic hostnames using specific tags or to expose services on a different port.
-{% endtip %}
