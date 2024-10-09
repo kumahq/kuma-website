@@ -18,7 +18,7 @@ the analog of a Kubernetes `Service`.
 
 A basic example follows to illustrate the structure:
 
-{% policy_yaml meshservice_example %}
+{% policy_yaml meshservice_example namespace=kuma-demo %}
 ```yaml
 type: MeshService
 name: redis
@@ -29,7 +29,7 @@ spec:
   selector:
     dataplaneTags: # tags in Dataplane object, see below
       app: redis
-      k8s.kuma.io/namespace: redis-system # added automatically
+      k8s.kuma.io/namespace: kuma-demo # added automatically
   ports:
   - port: 6739
     targetPort: 6739
