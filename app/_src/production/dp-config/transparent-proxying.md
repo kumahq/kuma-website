@@ -255,6 +255,10 @@ networking:
 
 ### Reachable Backends
 
+{% warning %}
+This works only when [MeshService](/docs/{{ page.version }}/networking/meshservice) is enabled.
+{% endwarning %}
+
 Reachable Backends provides similar functionality to [reachable services](/docs/{{ page.version }}/production/dp-config/transparent-proxying#reachable-services), but it applies to [MeshService](/docs/{{ page.version }}/networking/meshservice), [MeshExternalService](/docs/{{ page.version }}/networking/meshexternalservice), and MeshMultiZoneService.
 
 By default, every data plane proxy in the mesh tracks every other data plane proxy. Configuring reachableBackends can improve performance and reduce resource utilization.
