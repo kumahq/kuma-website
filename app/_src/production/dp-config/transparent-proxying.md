@@ -320,6 +320,7 @@ networking:
         name: mes-http
 ```
 {% endtab %}
+{% endtabs %}
 
 #### Examples
 
@@ -371,6 +372,7 @@ networking:
         port: 6379
 ```
 {% endtab %}
+{% endtabs %}
 
 ##### `demo-app` doesn't need to communicate with any service
 
@@ -411,6 +413,7 @@ networking:
     reachableBackends: {}
 ```
 {% endtab %}
+{% endtabs %}
 
 ##### `demo-app` wants to communicate with all MeshServices in `kuma-demo` namespace
 
@@ -438,7 +441,7 @@ spec:
         ...
 ```
 {% endtab %}
-{% endtab %}
+{% endtabs %}
 {% endif_version %}
 ### Transparent Proxy with eBPF (experimental)
 
