@@ -251,7 +251,7 @@ networking:
 {% endtab %}
 {% endtabs %}
 
-{% if_version gt:2.8.x %}
+{% if_version gte:2.9.x %}
 
 ### Reachable Backends
 
@@ -281,6 +281,14 @@ Unlike reachable services, the model for providing data in Reachable Backends is
 {% tab reachable-backends-model Kubernetes %}
 
 ```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+...
+spec:
+  ...
+  template:
+    metadata:
         kuma.io/reachable-backends: |
           refs:
           - kind: MeshService
@@ -301,11 +309,7 @@ type: Dataplane
 mesh: default
 name: {% raw %}{{ name }}{% endraw %}
 networking:
-  address: {% raw %}{{ address }}{% endraw %}
-  inbound:
-  - port: {% raw %}{{ port }}{% endraw %}
-    tags:
-      kuma.io/service: demo-app
+  ...
   transparentProxying:
     redirectPortInbound: 15006
     redirectPortOutbound: 15001
@@ -417,8 +421,8 @@ networking:
 
 ##### `demo-app` wants to communicate with all MeshServices in `kuma-demo` namespace
 
-{% tabs reachable-backends-in-services useUrlFragment=false %}
-{% tab reachable-backends-no-services Kubernetes %}
+{% tabs reachable-backends-in-namespace useUrlFragment=false %}
+{% tab reachable-backends-in-namespace Kubernetes %}
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -442,6 +446,7 @@ spec:
 ```
 {% endtab %}
 {% endtabs %}
+
 {% endif_version %}
 ### Transparent Proxy with eBPF (experimental)
 
