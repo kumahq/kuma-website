@@ -175,7 +175,7 @@ spec:
 ```
 
 This would target the policy to requests to the given `MeshService` and port with the name
-`main`. `sectionName` is optional and if left out, all `ports` will be targeted.
+`main`.
 Only Kubernetes zones can reference using `namespace`, which always selects
 resources in the local zone.
 
@@ -206,6 +206,8 @@ spec:
                 namespace: test-app
                 port: 80
 ```
+
+As opposed to `targetRef`, in `backendRefs` `port` can be omitted.
 
 ### Labels
 
