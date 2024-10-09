@@ -157,6 +157,86 @@ name of the `Dataplane` port.
 
 {% if_version gte:2.9.x %}
 
+## Targeting
+
+### Policy `targetRef`
+
+A `MeshService` resource can be used as the destination target of a policy by
+putting it in a `to[].targetRef` entry. For example:
+
+```
+spec:
+  to:
+  - targetRef:
+      kind: MeshService
+      name: test-server
+      namespace: test-app
+      sectionName: main
+```
+
+This would target the policy to requests to the given `MeshService` and port with the name
+`main`. `sectionName` is optional and if left out, all `ports` will be targeted.
+Only Kubernetes zones can reference using `namespace`, which always selects
+resources in the local zone.
+
+### Route `.backendRefs`
+
+In order to direct traffic to a given `MeshService`, it must be used as a
+`backendRefs` entry.
+In `backendRefs`, ports are optionally referred to by their number:
+
+```
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: test-server
+        namespace: test-app
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /v2
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: test-server-v2
+                namespace: test-app
+                port: 80
+```
+
+### Labels
+
+In order to select `MeshServices` from other zones as well as multiple
+`MeshServices`, you must set `labels`.
+Note that with `backendRefs` only one resource is allowed to be selected.
+
+If this field is set, resources are selected via their `labels`.
+
+```
+- kind: MeshService
+  labels:
+    kuma.io/display-name: test-server-v2
+    k8s.kuma.io/namespace: test-app
+    kuma.io/zone: east
+```
+
+In this case, the entry selects any resource with the display name
+`test-server-v2` from the `east` zone in the `test-app` namespace.
+Only one resource will be selected.
+
+But if we leave out the namespace, _any_ resource named `test-server-v2` in the
+`east` zone is selected, regardless of its namespace.
+
+```
+- kind: MeshService
+  labels:
+    kuma.io/display-name: test-server-v2
+    kuma.io/zone: east
+```
+
 ## Migration
 
 MeshService is opt-in and involves a migration process. Every `Mesh` must enable
