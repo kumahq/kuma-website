@@ -242,6 +242,8 @@ items:
             url: /networking/service-discovery/
           - text: MeshService
             url: "/networking/meshservice/"
+          - text: MeshMultiZoneService
+            url: "/networking/meshmultizoneservice/"
           - text: HostnameGenerator
             url: "/networking/hostnamegenerator/"
           - text: DNS
