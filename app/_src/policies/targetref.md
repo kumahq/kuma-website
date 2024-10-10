@@ -9,7 +9,12 @@ A policy is a set of configuration that will be used to generate the proxy confi
 
 ## What do policies look like?
 
+{% if_version gte:2.9.x %}
 Like all [resources](/docs/{{ page.version }}/introduction/concepts#resource) in {{ site.mesh_product_name }}, there are two parts to a policy:
+{% endif_version %}
+{% if_version lte:2.8.x %}
+Policies are made of two parts:
+{% endif_version %}
 
 1. The metadata
 2. The spec
