@@ -59,17 +59,13 @@ $install-page-header-shadow: $base-border-shadow;
   }
 }
 
-.install-methods {
+.kuma-cta {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.install-methods__item {
-
-}
-
-.install-methods__item-link {
+.kuma-cta__item-link {
   padding: 1.3rem;
   background-color: $install-tile-bg-color;
   box-shadow: $install-tile-shadow;
@@ -92,13 +88,13 @@ $install-page-header-shadow: $base-border-shadow;
   }
 
   @media (min-width: $MQMobileMid + 1) {
-    &:hover .install-methods__item-logo {
+    &:hover .kuma-cta__item-logo {
       border-right: $install-tile-border-hover !important;
     }
   }
 }
 
-.install-methods__item-logo {
+.kuma-cta__item-logo {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,7 +105,7 @@ $install-page-header-shadow: $base-border-shadow;
   }
 }
 
-.install-methods__item-title {
+.kuma-cta__item-title {
 
   h3 {
     margin: 0;
@@ -122,7 +118,7 @@ $install-page-header-shadow: $base-border-shadow;
     background-size: 100% auto;
   }
 
-  .install-methods__item-logo {
+  .kuma-cta__item-logo {
     will-change: border;
     transition: border 200ms $cb-1;
     border-right: $install-tile-border;
@@ -130,11 +126,11 @@ $install-page-header-shadow: $base-border-shadow;
 }
 
 @media (max-width: $MQMobileMid) {
-  .install-methods {
+  .kuma-cta {
     text-align: center;
   }
 
-  .install-methods__item-logo {
+  .kuma-cta__item-logo {
     border-bottom: $install-tile-border;
     padding-bottom: 1rem;
     margin-bottom: 1rem;
@@ -145,7 +141,7 @@ $install-page-header-shadow: $base-border-shadow;
     }
   }
 
-  .install-methods__item-link {
+  .kuma-cta__item-link {
 
   }
 }

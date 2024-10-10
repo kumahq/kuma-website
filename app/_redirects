@@ -5,7 +5,7 @@
 /docs/:version/overview/ /docs/:version/overview/what-is-kuma 301
 /docs/:version/production/init-containers/ /docs/:version/production/dp-config/dpp-on-kubernetes/#init-containers 301
 /latest_version.html /latest_version 301
-/install /docs/LATEST_RELEASE/production/install-kumactl 302
+/install /install/LATEST_RELEASE/ 302
 /install/latest/* /install/LATEST_RELEASE/:splat 302
 /install/kong-gateway /docs/LATEST_RELEASE/explore/gateway 302
 /docs/latest/* /docs/LATEST_RELEASE/:splat 302

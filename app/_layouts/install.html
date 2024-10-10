@@ -1,23 +1,21 @@
 ---
 layout: default
 ---
-{% assign current_version = page.version %}
 
 <div class="page-container page-container--install">
   <header class="page-header text-center bg-gradient">
     <div class="inner">
       <h1>Install {{ site.title }}</h1>
 
-      {% if site.data.install_methods.size > 0 %}
         <div class="version-selector-wrapper">
           {% include version_selector.html name="version_selector "%}
 
           <div class="version-selector__version-notifier">
-            <p class="page-sub-title">You are viewing installation instructions for <strong>{{ current_version }}</strong>.</p>
-            <p><a href="https://github.com/kumahq/kuma/blob/master/CHANGELOG.md">Changelog</a> • <a href="https://github.com/kumahq/kuma/blob/master/UPGRADE.md">Upgrade Path</a> • <a href="/community">Slack Chat</a></p>
+            <p class="page-sub-title">You are viewing installation instructions for <strong>{{ page.version }}</strong>.</p>
+            <p><a href="/docs/changelog">Changelog</a> • <a href="/docs/{{ page.version }}/production/upgrades-tuning/upgrade-notes">Upgrade Path</a> • <a href="/community">Community</a></p>
           </div>
 
-          {% if current_version != site.data.latest_version.release  %}
+          {% if page.version != site.data.latest_version.release  %}
             <div class="version-alert">
               <div class="warning custom-block">
                 <p class="custom-block-title">Careful!</p>
@@ -29,32 +27,29 @@ layout: default
             </div>
           {% endif %}
         </div>
-      {% endif %}
     </div>
   </header>
 
   <div class="inner">
-    {% if site.data.install_methods.size > 0 %}
-      <div class="install-methods-wrapper">
-        <ul class="install-methods flex flex-wrap justify-center -mx-4">
-          {% for item in site.data.install_methods %}
-            <li class="install-methods__item w-full sm:w-1/2 lg:w-1/3 px-4 mb-8">
-              <a
-                href='/docs/{{ current_version }}/installation/{{ item.slug }}/'
-                class="install-methods__item-link flex flex-wrap justify-center items-center"
-              >
-                <div class="install-methods__item-logo w-full sm:w-1/4 px-3">
-                  <img src="{{ item.logo }}" class="object-contain w-full">
-                </div>
-                <div class="install-methods__item-title w-full sm:w-3/4 px-3">
-                  <h3>{{ item.label }}</h3>
-                </div>
-              </a>
-            </li>
+    <div class="kuma-cta-wrapper">
+      <ul class="kuma-cta flex flex-wrap justify-center -mx-4">
+          {% for item in page.cta %}
+          <li class="kuma-cta__item w-full sm:w-1/2 lg:w-1/3 px-4 mb-8">
+            <a
+                    href='/docs/{{ page.version }}{{ item.slug }}/'
+                    class="kuma-cta__item-link flex flex-wrap justify-center items-center"
+            >
+              <div class="kuma-cta__item-logo w-full sm:w-1/4 px-3">
+                <img src="{{ item.logo }}" class="object-contain w-full">
+              </div>
+              <div class="kuma-cta__item-title w-full sm:w-3/4 px-3">
+                <h3>{{ item.label }}</h3>
+              </div>
+            </a>
+          </li>
           {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
+      </ul>
+    </div>
   </div>
 
   <div class="newsletter-form-wrap">
