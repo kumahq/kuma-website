@@ -19,6 +19,8 @@ items:
             url: "/introduction/how-kuma-works/#kuma-vs-xyz"
       - text: Architecture
         url: /introduction/architecture/
+      - text: Concepts
+        url: /introduction/concepts/
       - text: Kuma requirements
         url: /introduction/kuma-requirements/
       - text: Release notes
@@ -277,11 +279,7 @@ items:
     group: true
     items:
       - text: Introduction
-        url: /policies/introduction/
-      - text: Applying Policies
-        url: /policies/applying-policies/
-      - text: Understanding TargetRef policies
-        url: "/policies/targetref"
+        url: /policies/targetref/
       - text: MeshAccessLog
         url: /policies/meshaccesslog/
         items:
