@@ -10,7 +10,9 @@ module Jekyll
           def initialize(tag_name, markup, options)
             super
             @tabs_name, *params_list = @markup.split(' ')
-            @params = {"raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false"} # Default use_meshservice to false
+            # Initialize @params here, so it is specific to each block
+            @default_params = {"raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false"}
+            @params = Marshal.load(Marshal.dump(@default_params)) # Clone the default params
             params_list.each do |item|
               sp = item.split('=')
               @params[sp[0]] = sp[1] unless sp[1] == ''
@@ -86,7 +88,10 @@ module Jekyll
             kube_style1_content = ""
             kube_style2_content = ""
 
-            use_meshservice = @params["use_meshservice"] == "true" # Check if use_meshservice is enabled
+            # Ensure @params are isolated per block
+            current_params = Marshal.load(Marshal.dump(@params))
+
+            use_meshservice = current_params["use_meshservice"] == "true" # Check if use_meshservice is enabled
             YAML.load_stream(content) do |yaml_data|
               # Universal Style 1 (Original targetRef)
               uni_style1_data = Marshal.load(Marshal.dump(yaml_data))
@@ -97,7 +102,7 @@ module Jekyll
 
               # Kubernetes Style 1 (Original targetRef)
               kube_style1_data = {
-                "apiVersion" => @params["apiVersion"],
+                "apiVersion" => current_params["apiVersion"],
                 "kind" => yaml_data["type"],
                 "metadata" => {
                   "name" => yaml_data["name"],
