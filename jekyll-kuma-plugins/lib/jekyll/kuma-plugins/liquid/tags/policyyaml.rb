@@ -10,7 +10,7 @@ module Jekyll
           def initialize(tag_name, markup, options)
             super
             @tabs_name, *params_list = @markup.split(' ')
-            @params = {"raw" => false, "apiVersion" => "kuma.io/v1alpha1"}
+            @params = {"raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false"} # Default use_meshservice to false
             params_list.each do |item|
                 sp = item.split('=')
                 @params[sp[0]] = sp[1] unless sp[1] == ''
@@ -80,13 +80,14 @@ module Jekyll
             kube_style1_content = ""
             kube_style2_content = ""
 
+            use_meshservice = @params["use_meshservice"] == "true" # Check if use_meshservice is enabled
             YAML.load_stream(content) do |yaml_data|
                 # Universal Style 1 (Original targetRef)
                 uni_style1_data = Marshal.load(Marshal.dump(yaml_data))
 
-                # Universal Style 2 (Transformed targetRef)
+                # Universal Style 2 (Transformed targetRef) only if use_meshservice is enabled
                 uni_style2_data = Marshal.load(Marshal.dump(yaml_data))
-                transform_target_ref(uni_style2_data)
+                transform_target_ref(uni_style2_data) if use_meshservice
 
                 # Kubernetes Style 1 (Original targetRef)
                 kube_style1_data = {
@@ -103,9 +104,9 @@ module Jekyll
                   "spec" => yaml_data["spec"]
                 }
 
-                # Kubernetes Style 2 (Transformed targetRef)
+                # Kubernetes Style 2 (Transformed targetRef) only if use_meshservice is enabled
                 kube_style2_data = Marshal.load(Marshal.dump(kube_style1_data))
-                transform_target_ref(kube_style2_data)
+                transform_target_ref(kube_style2_data) if use_meshservice
 
                 # Process hashes to remove suffixes (e.g., _uni, _kube)
                 process_hash(kube_style1_data, "_uni", "_kube")
