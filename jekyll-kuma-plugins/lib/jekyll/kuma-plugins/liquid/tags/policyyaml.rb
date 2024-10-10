@@ -1,6 +1,3 @@
-# This plugins lets us write the policy YAML only once.
-# It removes duplication of examples for both universal and kubernetes environments.
-# The expected format is universal. It only works for policies V2 with a `spec` blocks.
 require 'yaml'
 
 module Jekyll
@@ -12,7 +9,7 @@ module Jekyll
             super
             @tabs_name, *params_list = markup.split(' ')
             @default_params = { "raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false" }
-            # Params are now initialized per block
+            # Params are initialized per block
             @params = Marshal.load(Marshal.dump(@default_params))
             params_list.each do |item|
               key, value = item.split('=')
@@ -143,23 +140,31 @@ module Jekyll
             kube_style1_content = "```yaml\n" + kube_style1_content + "\n```\n"
             kube_style2_content = "```yaml\n" + kube_style2_content + "\n```\n"
 
-            # Render tabs for each style
+            # Conditionally render tabs based on use_meshservice
             htmlContent = "
-{% tabs #{@tabs_name} useUrlFragment=false %}
+{% tabs #{@tabs_name} useUrlFragment=false %}"
+
+            htmlContent += "
 {% tab #{@tabs_name} Kubernetes (Style 1) %}
 #{kube_style1_content}
 {% endtab %}
+{% tab #{@tabs_name} Universal (Style 1) %}
+#{uni_style1_content}
+{% endtab %}"
+
+            if use_meshservice
+              htmlContent += "
 {% tab #{@tabs_name} Kubernetes (Style 2) %}
 #{kube_style2_content}
 {% endtab %}
-{% tab #{@tabs_name} Universal (Style 1) %}
-#{uni_style1_content}
-{% endtab %}
 {% tab #{@tabs_name} Universal (Style 2) %}
 #{uni_style2_content}
-{% endtab %}
-{% endtabs %}"
+{% endtab %}"
+            end
 
+            htmlContent += "{% endtabs %}"
+
+            # Return the final HTML content
             ::Liquid::Template.parse(htmlContent).render(context)
           end
         end
