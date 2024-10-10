@@ -2,6 +2,7 @@
 # It removes duplication of examples for both universal and kubernetes environments.
 # The expected format is universal. It only works for policies V2 with a `spec` blocks.
 require 'yaml'
+
 module Jekyll
   module KumaPlugins
     module Liquid
@@ -9,21 +10,21 @@ module Jekyll
         class PolicyYaml < ::Liquid::Block
           def initialize(tag_name, markup, options)
             super
-            @tabs_name, *params_list = @markup.split(' ')
-            # Initialize @params here, so it is specific to each block
-            @default_params = {"raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false"}
-            @params = Marshal.load(Marshal.dump(@default_params)) # Clone the default params
+            @tabs_name, *params_list = markup.split(' ')
+            @default_params = { "raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false" }
+            # Params are now initialized per block
+            @params = Marshal.load(Marshal.dump(@default_params))
             params_list.each do |item|
-              sp = item.split('=')
-              @params[sp[0]] = sp[1] unless sp[1] == ''
+              key, value = item.split('=')
+              @params[key] = value unless value == ''
             end
           end
 
-          # Transform targetRef if the kind is MeshService, combining namespace, name, and sectionName
+          # Function to transform targetRef based on MeshService name (if needed)
           def transform_target_ref(hash)
             if hash.dig("spec", "targetRef", "kind") == "MeshService"
               target_ref = hash["spec"]["targetRef"]
-              if target_ref["name_kube"] # If we're in Kubernetes style
+              if target_ref["name_kube"]
                 transformed_name = target_ref["name_kube"].split('_')
                 hash["spec"]["targetRef"] = {
                   "kind" => "MeshService",
@@ -31,7 +32,7 @@ module Jekyll
                   "namespace" => transformed_name[1],
                   "sectionName" => transformed_name[3]
                 }
-              elsif target_ref["name_uni"] # If we're in Universal style
+              elsif target_ref["name_uni"]
                 hash["spec"]["targetRef"]["name"] = target_ref["name_uni"]
                 hash["spec"]["targetRef"].delete("name_uni")
                 hash["spec"]["targetRef"].delete("name_kube")
@@ -39,7 +40,7 @@ module Jekyll
             end
           end
 
-          # Remove the suffixes from names in the hash (_uni, _kube)
+          # Function to remove and rename suffixes in the YAML block (_uni, _kube)
           def process_hash(hash, remove_suffix, rename_suffix)
             keys_to_remove = []
             keys_to_rename = {}
@@ -67,18 +68,15 @@ module Jekyll
 
           def process_array(array, remove_suffix, rename_suffix)
             array.each do |item|
-              if item.is_a?(Hash)
-                process_hash(item, remove_suffix, rename_suffix)
-              elsif item.is_a?(Array)
-                process_array(item, remove_suffix, rename_suffix)
-              end
+              process_hash(item, remove_suffix, rename_suffix) if item.is_a?(Hash)
+              process_array(item, remove_suffix, rename_suffix) if item.is_a?(Array)
             end
           end
 
           def render(context)
             content = super
             return "" if content == ""
-            has_raw = @body.nodelist.first { |x| x.has?("tag_name") and x.tag_name == "raw" }
+
             content = content.gsub(/`{3}yaml\n/, '').gsub(/`{3}/, '')
             site_data = context.registers[:site].config
             mesh_namespace = site_data['mesh_namespace']
@@ -88,21 +86,21 @@ module Jekyll
             kube_style1_content = ""
             kube_style2_content = ""
 
-            # Ensure @params are isolated per block
-            current_params = Marshal.load(Marshal.dump(@params))
+            # Re-initialize params to ensure no cross-block contamination
+            params = Marshal.load(Marshal.dump(@params))
+            use_meshservice = params["use_meshservice"] == "true"
 
-            use_meshservice = current_params["use_meshservice"] == "true" # Check if use_meshservice is enabled
             YAML.load_stream(content) do |yaml_data|
-              # Universal Style 1 (Original targetRef)
+              # Universal Style 1 (without transformation)
               uni_style1_data = Marshal.load(Marshal.dump(yaml_data))
 
-              # Universal Style 2 (Transformed targetRef) only if use_meshservice is enabled
+              # Universal Style 2 (with transformation, if applicable)
               uni_style2_data = Marshal.load(Marshal.dump(yaml_data))
               transform_target_ref(uni_style2_data) if use_meshservice
 
-              # Kubernetes Style 1 (Original targetRef)
+              # Kubernetes Style 1 (without transformation)
               kube_style1_data = {
-                "apiVersion" => current_params["apiVersion"],
+                "apiVersion" => params["apiVersion"],
                 "kind" => yaml_data["type"],
                 "metadata" => {
                   "name" => yaml_data["name"],
@@ -115,18 +113,17 @@ module Jekyll
                 "spec" => yaml_data["spec"]
               }
 
-              # Kubernetes Style 2 (Transformed targetRef) only if use_meshservice is enabled
+              # Kubernetes Style 2 (with transformation, if applicable)
               kube_style2_data = Marshal.load(Marshal.dump(kube_style1_data))
               transform_target_ref(kube_style2_data) if use_meshservice
 
-              # Process hashes to remove suffixes (e.g., _uni, _kube)
+              # Handle suffix removal for universal and kubernetes variations
               process_hash(kube_style1_data, "_uni", "_kube")
               process_hash(kube_style2_data, "_uni", "_kube")
-
               process_hash(uni_style1_data, "_kube", "_uni")
               process_hash(uni_style2_data, "_kube", "_uni")
 
-              # Generate YAML content for each style
+              # Build the YAML content for all four styles
               uni_style1_content += "\n---\n" unless uni_style1_content == ''
               uni_style1_content += YAML.dump(uni_style1_data).gsub(/^---\n/, '').chomp
 
@@ -140,20 +137,13 @@ module Jekyll
               kube_style2_content += YAML.dump(kube_style2_data).gsub(/^---\n/, '').chomp
             end
 
-            # Wrap the content in YAML code blocks
+            # Wrap YAML content in code blocks
             uni_style1_content = "```yaml\n" + uni_style1_content + "\n```\n"
             uni_style2_content = "```yaml\n" + uni_style2_content + "\n```\n"
             kube_style1_content = "```yaml\n" + kube_style1_content + "\n```\n"
             kube_style2_content = "```yaml\n" + kube_style2_content + "\n```\n"
 
-            if has_raw != false
-              uni_style1_content = "{% raw %}\n" + uni_style1_content + "{% endraw %}\n"
-              uni_style2_content = "{% raw %}\n" + uni_style2_content + "{% endraw %}\n"
-              kube_style1_content = "{% raw %}\n" + kube_style1_content + "{% endraw %}\n"
-              kube_style2_content = "{% raw %}\n" + kube_style2_content + "{% endraw %}\n"
-            end
-
-            # Create the four tabs in HTML
+            # Render tabs for each style
             htmlContent = "
 {% tabs #{@tabs_name} useUrlFragment=false %}
 {% tab #{@tabs_name} Kubernetes (Style 1) %}
