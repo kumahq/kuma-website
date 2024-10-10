@@ -1,6 +1,6 @@
-# This plugin lets us write the policy YAML only once.
+# This plugins lets us write the policy YAML only once.
 # It removes duplication of examples for both universal and kubernetes environments.
-# The expected format is universal. It only works for policies V2 with a `spec` block.
+# The expected format is universal. It only works for policies V2 with a `spec` blocks.
 require 'yaml'
 module Jekyll
   module KumaPlugins
@@ -18,25 +18,26 @@ module Jekyll
           end
 
           # Transform targetRef if the kind is MeshService, combining namespace, name, and sectionName
-          def transform_target_ref(hash, use_suffix = false)
+          def transform_target_ref(hash)
             if hash.dig("spec", "targetRef", "kind") == "MeshService"
               target_ref = hash["spec"]["targetRef"]
-              if use_suffix
-                # Transform name_uni or name_kube based on suffixes
-                transformed_name = "#{target_ref['name']}_#{target_ref['namespace']}_svc_#{target_ref['sectionName']}"
-                target_ref['name'] = transformed_name
-              elsif target_ref.key?('name')
-                # Default transformation (without suffix handling)
-                transformed_name = "#{target_ref['name']}_#{target_ref['namespace']}_svc_#{target_ref['sectionName']}"
+              if target_ref["name_kube"] # If we're in Kubernetes style
+                transformed_name = target_ref["name_kube"].split('_')
                 hash["spec"]["targetRef"] = {
                   "kind" => "MeshService",
-                  "name" => transformed_name
+                  "name" => transformed_name[0],
+                  "namespace" => transformed_name[1],
+                  "sectionName" => transformed_name[3]
                 }
+              elsif target_ref["name_uni"] # If we're in Universal style
+                hash["spec"]["targetRef"]["name"] = target_ref["name_uni"]
+                hash["spec"]["targetRef"].delete("name_uni")
+                hash["spec"]["targetRef"].delete("name_kube")
               end
             end
           end
 
-          # Handle process_hash and process_array for suffixes _uni and _kube
+          # Remove the suffixes from names in the hash (_uni, _kube)
           def process_hash(hash, remove_suffix, rename_suffix)
             keys_to_remove = []
             keys_to_rename = {}
@@ -48,11 +49,11 @@ module Jekyll
                 process_array(value, remove_suffix, rename_suffix)
               end
 
-              # Remove the keys with the specified suffix
+              # Remove keys with the specific suffix
               if key.end_with?(remove_suffix)
                 keys_to_remove << key
               elsif key.end_with?(rename_suffix)
-                # Rename the keys with the appropriate suffix
+                # Rename keys to remove the suffix
                 new_key = key.sub(/#{rename_suffix}\z/, '')
                 keys_to_rename[key] = new_key
               end
@@ -90,9 +91,9 @@ module Jekyll
               # Universal Style 1 (Original targetRef)
               uni_style1_data = Marshal.load(Marshal.dump(yaml_data))
 
-              # Universal Style 2 (Transformed targetRef with MeshService, if enabled)
+              # Universal Style 2 (Transformed targetRef) only if use_meshservice is enabled
               uni_style2_data = Marshal.load(Marshal.dump(yaml_data))
-              transform_target_ref(uni_style2_data, use_suffix = true) if use_meshservice
+              transform_target_ref(uni_style2_data) if use_meshservice
 
               # Kubernetes Style 1 (Original targetRef)
               kube_style1_data = {
@@ -109,11 +110,11 @@ module Jekyll
                 "spec" => yaml_data["spec"]
               }
 
-              # Kubernetes Style 2 (Transformed targetRef with MeshService, if enabled)
+              # Kubernetes Style 2 (Transformed targetRef) only if use_meshservice is enabled
               kube_style2_data = Marshal.load(Marshal.dump(kube_style1_data))
-              transform_target_ref(kube_style2_data, use_suffix = true) if use_meshservice
+              transform_target_ref(kube_style2_data) if use_meshservice
 
-              # Process suffixes _uni and _kube
+              # Process hashes to remove suffixes (e.g., _uni, _kube)
               process_hash(kube_style1_data, "_uni", "_kube")
               process_hash(kube_style2_data, "_uni", "_kube")
 
