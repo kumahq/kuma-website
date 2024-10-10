@@ -145,19 +145,19 @@ module Jekyll
 {% tabs #{@tabs_name} useUrlFragment=false %}"
 
             htmlContent += "
-{% tab #{@tabs_name} Kubernetes (Style 1) %}
+{% tab #{@tabs_name} Kubernetes %}
 #{kube_style1_content}
 {% endtab %}
-{% tab #{@tabs_name} Universal (Style 1) %}
+{% tab #{@tabs_name} Universal %}
 #{uni_style1_content}
 {% endtab %}"
 
             if use_meshservice
               htmlContent += "
-{% tab #{@tabs_name} Kubernetes (Style 2) %}
+{% tab #{@tabs_name} Kubernetes&nbsp; %}
 #{kube_style2_content}
 {% endtab %}
-{% tab #{@tabs_name} Universal (Style 2) %}
+{% tab #{@tabs_name} Universal&nbsp; %}
 #{uni_style2_content}
 {% endtab %}"
             end
