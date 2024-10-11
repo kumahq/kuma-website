@@ -8,7 +8,7 @@ While [MeshService](/docs/{{ page.version }}/networking/meshservice) represents 
 MeshMultiZoneService is assigned zone-agnostic hostnames and can load balance the traffic to multiple MeshServices.
 For example, MeshService named `redis` in zone `east` accessible through `redis.svc.east.mesh.local` and `redis` in zone `west`
 accessible through `redis.svc.west.mesh.local` can be aggregated into one MeshMultiZoneService accessible through `redis.mzsvc.mesh.local`.
-This way, clients don't need to pick redis from a specific zone as well as we don't need to change the clients if we add redis in yet another zone.
+This way, clients don't need to pick redis from a specific zone or be updated if another redis is added in yet another zone.
 
 The most common use case for using MeshMultiZoneService is to group MeshServices that spawn across multiple clusters with failover to another cluster in case of unavailability in the local cluster.
 
