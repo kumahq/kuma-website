@@ -4,7 +4,7 @@ class TabsComponent {
     this.options = this.elem.dataset;
 
     this.addEventListeners();
-    this.setInitialMeshServiceState(localStorage.getItem("meshservice"))
+    this.setInitialMeshServiceState(localStorage.getItem("meshservice") || "false")
     this.currentTabSlug = "Kubernetes"
   }
 
