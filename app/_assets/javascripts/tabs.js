@@ -22,6 +22,12 @@ class TabsComponent {
   }
 
   setInitialMeshServiceState(checked) {
+    // hide meshservice if not avilable
+    if (this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').length === 0) {
+      this.elem.querySelectorAll('.meshservice').hidden = true
+      return
+    }
+
     localStorage.setItem("meshservice", checked)
     this.elem.querySelectorAll('.meshservice input').forEach((item) => {
       if (checked === "true") {
