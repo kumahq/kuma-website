@@ -24,7 +24,7 @@ class TabsComponent {
   setInitialMeshServiceState(checked) {
     // hide meshservice if not avilable
     if (this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').length === 0) {
-      this.elem.querySelectorAll('.meshservice').hidden = true
+      this.elem.querySelectorAll('.meshservice')[0].hidden = true
       return
     }
 
