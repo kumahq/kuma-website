@@ -5,6 +5,7 @@ class TabsComponent {
 
     this.addEventListeners();
     this.setInitialMeshServiceState(localStorage.getItem("meshservice"))
+    this.currentTabSlug = "Kubernetes"
   }
 
   addEventListeners() {
@@ -25,6 +26,38 @@ class TabsComponent {
     this.elem.querySelectorAll('.meshservice input').forEach((item) => {
       if (checked === "true") {
         item.setAttribute("checked", checked)
+      }
+    });
+    this.hideMeshServiceTabs(checked)
+  }
+
+  hideMeshServiceTabs(checked) {
+    // do nothing on non meshservice capable elements
+    if (this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').length === 0) {
+      return
+    }
+
+    const that = this
+    this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
+      if (checked === "false") {
+        item.parentElement.hidden = true
+        item.parentElement.classList.remove("is-active")
+      } else if (checked === "true") {
+        item.parentElement.hidden = false
+        if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
+          item.parentElement.classList.add("is-active")
+        }
+      }
+    });
+    this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
+      if (checked === "true") {
+        item.parentElement.hidden = true
+        item.parentElement.classList.remove("is-active")
+      } else if (checked === "false") {
+        item.parentElement.hidden = false
+        if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
+          item.parentElement.classList.add("is-active")
+        }
       }
     });
   }
@@ -66,13 +99,16 @@ class TabsComponent {
   onTabSelected(event) {
     const { tabSlug } = event.detail;
     this.setSelectedTabBySlug(tabSlug);
+    this.currentTabSlug = tabSlug
   }
 
   onNewMeshServiceChanged(event) {
     if (event.currentTarget.checked === true) {
       localStorage.setItem("meshservice", "true")
+      this.hideMeshServiceTabs("true")
     } else {
       localStorage.setItem("meshservice", "false")
+      this.hideMeshServiceTabs("false")
     }
   }
 

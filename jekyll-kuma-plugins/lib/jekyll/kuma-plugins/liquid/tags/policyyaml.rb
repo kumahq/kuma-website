@@ -154,10 +154,10 @@ module Jekyll
 
             if use_meshservice
               htmlContent += "
-{% tab #{@tabs_name} Kubernetes&nbsp; %}
+{% tab #{@tabs_name} Kubernetes­%}
 #{kube_style2_content}
 {% endtab %}
-{% tab #{@tabs_name} Universal&nbsp; %}
+{% tab #{@tabs_name} Universal­%}
 #{uni_style2_content}
 {% endtab %}"
             end
