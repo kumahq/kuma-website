@@ -76,7 +76,7 @@ module Jekyll
 
             content = content.gsub(/`{3}yaml\n/, '').gsub(/`{3}/, '')
             site_data = context.registers[:site].config
-            mesh_namespace = site_data['mesh_namespace']
+            mesh_namespace = @params["namespace"] || site_data['mesh_namespace']
 
             uni_style1_content = ""
             uni_style2_content = ""
