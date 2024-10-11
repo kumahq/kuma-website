@@ -34,6 +34,7 @@ class TabsComponent {
     if (!this.options['useUrlFragment']) {
       event.preventDefault();
     }
+    event.target.scrollIntoView({ behavior: "smooth", block: "start" });
     const selectedTab = event.currentTarget;
     this.setSelectedTab(selectedTab);
     this.dispatchTabSelectedEvent(event.target.dataset.slug);

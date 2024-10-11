@@ -40,7 +40,7 @@ items:
           - text: Deploy demo application
             url: "/quickstart/kubernetes-demo/#deploy-demo-application"
           - text: Explore GUI
-            url: "/quickstart/kubernetes-demo/#explore-gui"
+            url: "/quickstart/kubernetes-demo/#explore-the-gui"
           - text: Introduce zero-trust security
             url: "/quickstart/kubernetes-demo/#introduce-zero-trust-security"
           - text: Next steps
