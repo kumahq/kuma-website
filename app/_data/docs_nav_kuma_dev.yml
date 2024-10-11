@@ -279,7 +279,7 @@ items:
     group: true
     items:
       - text: Introduction
-        url: /policies/targetref/
+        url: /policies/introduction/
       - text: MeshAccessLog
         url: /policies/meshaccesslog/
         items:
