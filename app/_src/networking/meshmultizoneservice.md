@@ -45,7 +45,7 @@ It also holds information about which IPs and hostnames can be used to reach thi
 [`HostnameGenerator`](/docs/{{ page.version }}/networking/hostnamegenerator/) can be used to assign hostnames.
 
 {{site.mesh_product_name}} assigns each MeshMultiZoneService a unique Virtual IP.
-The default CIDR is `243.0.0.0/8` and can be changed by [configuring a zone control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_IPAM_MESH_MULTI_ZONE_SERVICE_CIDR` environment variable.
+The default CIDR is `243.0.0.0/8` and can be changed by [configuring a zone control plane](/docs/{{ page.version }}/documentation/configuration) with the `KUMA_IPAM_MESH_MULTI_ZONE_SERVICE_CIDR` environment variable.
 
 Hostnames and VIPs are assigned and stored in the `MeshMultiZoneService` status in each zone.
 It means that you won't be able to see them in the status of `MeshMultiZoneService` in the global control plane GUI.
