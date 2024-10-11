@@ -34,4 +34,4 @@ Policies are a specific type of Resources which controls the behaviour, security
 They can enable traffic management, security, observability and traffic reliability.
 
 Policies always have a clear specific area of impact and goal.
-To learn more about [policies checkout the in depth introduction](/docs/{{ page.version }}/policies/targetref).
+To learn more about [policies checkout the in depth introduction](/docs/{{ page.version }}/policies/introduction).
