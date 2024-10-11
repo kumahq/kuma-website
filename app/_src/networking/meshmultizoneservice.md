@@ -2,7 +2,7 @@
 title: MeshMultiZoneService
 ---
 
-MeshMultiZoneService is a resource that represents a group of MeshServices in a multizone deployment.
+The MeshMultiZoneService resource represents a group of MeshServices in a multizone deployment.
 While [MeshService](/docs/{{ page.version }}/networking/meshservice) represents a service in a specific zone, MeshMultiZoneService can help us work around this boundary.
 
 MeshMultiZoneService is assigned zone-agnostic hostnames and can load balance the traffic to multiple MeshServices.
@@ -37,22 +37,22 @@ spec:
 {% endpolicy_yaml %}
 
 The MeshMultiZoneService represents a destination for traffic from elsewhere in the mesh.
-It defines which `MeshService` objects serve this traffic as well as what ports are available.
+It defines which MeshService objects serve this traffic as well as what ports are available.
 It also holds information about which IPs and hostnames can be used to reach this destination.
 
 ## Hostnames and VIPs
 
-[`HostnameGenerator`](/docs/{{ page.version }}/networking/hostnamegenerator/) can be used to assign hostnames.
+[HostnameGenerator](/docs/{{ page.version }}/networking/hostnamegenerator/) can be used to assign hostnames.
 
 {{site.mesh_product_name}} assigns each MeshMultiZoneService a unique Virtual IP.
 The default CIDR is `243.0.0.0/8` and can be changed by [configuring a zone control plane](/docs/{{ page.version }}/documentation/configuration) with the `KUMA_IPAM_MESH_MULTI_ZONE_SERVICE_CIDR` environment variable.
 
-Hostnames and VIPs are assigned and stored in the `MeshMultiZoneService` status in each zone.
-It means that you won't be able to see them in the status of `MeshMultiZoneService` in the global control plane GUI.
+Hostnames and VIPs are assigned and stored in the MeshMultiZoneService status in each zone.
+It means that you won't be able to see them in the status of MeshMultiZoneService in the global control plane GUI.
 
 ## Ports
 
-The `ports` field lists the ports exposed by the `MeshService` that the `MeshMultiZoneService` matches.
+The `ports` field lists the ports exposed by the MeshService that the MeshMultiZoneService matches.
 
 ```
 ports:
