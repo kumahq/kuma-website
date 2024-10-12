@@ -5,7 +5,7 @@ title: Progressively rolling in strict mTLS
 The [MeshTLS](/docs/{{ page.version }}/policies/meshtls/) policy allows you to gradually migrate services to mutual TLS without dropping a packet.
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application and make sure you enabled mTLS from the quickstart.
 
 ## Gradually bring another service into the mesh
 
@@ -50,10 +50,11 @@ flowchart LR
     linkStyle 1 stroke:#555a5d, stroke-width:2px;
 {% endmermaid %}
 
-### Enable port forwarding for both second app
+### Enable port forwarding for both demo-app
 
 ```bash
-kubectl port-forward svc/demo-app -n kuma-demo-migration 5001:5000
+kubectl port-forward svc/demo-app -n kuma-demo 5001:5000
+kubectl port-forward svc/demo-app -n kuma-demo-migration 5002:5000
 ```
 
 Open up both apps' GUI and turn on auto incrementing.
@@ -175,13 +176,15 @@ flowchart LR
 
 Finally, to set strict mode you can either edit the policy or remove it (the default is taken from `Mesh` object which is `STRICT`).
 
+{% tip %}
+**Things to remember when migrating to strict TLS**
+
+Before changing a workload to `Strict` mode check that `tls_inspector.tls_not_found` stat is no longer incrementing.
+{% endtip %}
+
 ```bash
-kubectl delete meshtlses.kuma.io -n kuma-system redis
+kubectl delete meshtlses.kuma.io -n kuma-demo-migration redis
 ```
-
-## Things to remember when migrating to strict TLS
-
-* Before changing a workload to `Strict` mode check that `tls_inspector.tls_not_found` stat is no longer incrementing.
 
 ## Next steps
 
