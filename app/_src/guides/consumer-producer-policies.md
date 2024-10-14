@@ -1,6 +1,10 @@
 ---
-title: Namespace scoped policies
+title: Producer and Consumer policies
 ---
+
+With namespace scoped policies in {{site.mesh_product_name}} you can have fine-grained control over policies and how they apply to 
+your workloads. To fully utilize power of namespace scoped policies we need to get familiar with producer consumer model.
+This guide will help you get comfortable with producer consumer model.
 
 ## Prerequisites
 
@@ -66,13 +70,13 @@ metadata:
 Now we can create deployment we will be using to communicate with our demo-app from a first-consumer namespace:
 
 ```shell
-kubectl run consumer --image nicolaka/netshoot -n first-consumer --command -- /bin/bash -c "while true; do ping localhost; sleep 60;done"
+kubectl run consumer --image nicolaka/netshoot -n first-consumer --command -- /bin/bash -c "ping -i 60 localhost"
 ```
 
 and from the second-consumer namespace:
 
 ```shell
-kubectl run consumer --image nicolaka/netshoot -n second-consumer --command -- /bin/bash -c "while true; do ping localhost; sleep 60;done"
+kubectl run consumer --image nicolaka/netshoot -n second-consumer --command -- /bin/bash -c "ping -i 60 localhost"
 ```
 
 You can make now make a couple of requests to our demo app to check if everything is working: 
@@ -133,9 +137,9 @@ We should see output like:
 This is new label that indicates policy role. Possible values of this label are:
 
 - `system` - policies applied in system namespace
-- `workload-owner` - policies that specify `spec.from` section
+- `workload-owner` - policies that don't specify `spec.from` and `spec.to` sections or specify only `spec.from` section
 - `consumer` - policies targeting MeshServices from different namespace or targeting MeshService by labels
-- `producer` - policies targeting MeshServices from the same namespace
+- `producer` - policies targeting MeshServices from the same namespace in `spec.to[]` section 
 
 ### Producer consumer model
 
