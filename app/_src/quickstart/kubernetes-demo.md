@@ -21,14 +21,14 @@ demo-app --> redis
 
 ## Prerequisites
 - [Helm](https://helm.sh/) - a package manager for Kubernetes
-- [Kind](https://kind.sigs.k8s.io/) - a tool for running local Kubernetes clusters
+- [Minikube](https://minikube.sigs.k8s.io/docs/) - a tool for running local Kubernetes clusters
 
 ## Start Kubernetes cluster
 
-Start a new Kubernetes cluster on your local machine by executing:
+Start a new Kubernetes cluster on your local machine by executing the command below. The -p option creates a new profile named 'kuma-zone'."
 
 ```sh
-kind create cluster --name=mesh-zone
+minikube start -p kuma-zone
 ```
 
 {% tip %}
