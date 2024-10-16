@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1.2'
+          ruby-version: "3.1.2"
           bundler-cache: true
       - working-directory: jekyll-kuma-plugins
         run: bundle install
@@ -183,7 +183,9 @@ jobs:
 
   vale:
     name: Lint docs
-    runs-on: ubuntu-latest
+    # Had to pin to 22.04 because of https://github.com/errata-ai/vale-action/issues/128.
+    # Once fixed upstream we can put it back to latest.
+    runs-on: ubuntu-22.04
     steps:
       - name: Get changed files
         id: changed-files
