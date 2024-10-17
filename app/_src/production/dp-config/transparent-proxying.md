@@ -259,7 +259,7 @@ networking:
 This works only when [MeshService](/docs/{{ page.version }}/networking/meshservice) is enabled.
 {% endwarning %}
 
-Reachable Backends provides similar functionality to [reachable services](/docs/{{ page.version }}/production/dp-config/transparent-proxying#reachable-services), but it applies to [MeshService](/docs/{{ page.version }}/networking/meshservice), [MeshExternalService](/docs/{{ page.version }}/networking/meshexternalservice), and MeshMultiZoneService.
+Reachable Backends provides similar functionality to [reachable services](/docs/{{ page.version }}/production/dp-config/transparent-proxying#reachable-services), but it applies to [MeshService](/docs/{{ page.version }}/networking/meshservice), [MeshExternalService](/docs/{{ page.version }}/networking/meshexternalservice), and [MeshMultiZoneService](/docs/{{ page.version }}/networking/meshmultizoneservice).
 
 By default, every data plane proxy in the mesh tracks every other data plane proxy. Configuring reachableBackends can improve performance and reduce resource utilization.
 
@@ -274,7 +274,7 @@ Unlike reachable services, the model for providing data in Reachable Backends is
     - **MeshMultiZoneService**
   - **name**: The name of the resource.
   - **namespace**: (Kubernetes only) The namespace where the resource is located. When this is defined, the name is required. Only on kubernetes.
-  - **labels**: A list of labels to match on the resources.
+  - **labels**: A list of labels to match on the resources (either `labels` or `name` can be defined).
   - **port**: (Optional) The port of the service you want to communicate with. Works with `MeshService` and `MeshMultiZoneService`
 
 {% tabs reachable-backends-model useUrlFragment=false %}
