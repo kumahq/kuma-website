@@ -69,7 +69,7 @@ Do **not** combine with [Proxy Template](/docs/{{ page.version }}/policies/proxy
 {% endif_version %}
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 

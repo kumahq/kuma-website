@@ -71,7 +71,7 @@ Do **not** combine with [FaultInjection](/docs/{{ page.version }}/policies/fault
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 

@@ -33,7 +33,7 @@ can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.version
 
 Switching on the flag will result in computing a graph of dependencies between the services
 and generating XDS configuration that enables communication **only** with services that are allowed to communicate with each other
-(their [effective](/docs/{{ page.version }}/policies/targetref/#merging-configuration) action is **not** `deny`).
+(their [effective](/docs/{{ page.version }}/policies/introduction) action is **not** `deny`).
 
 For example: if a service `b` can be called only by service `a`:
 
@@ -68,8 +68,8 @@ Sections below highlight the most important aspects of this feature, if you want
 
 The following kinds affect the graph generation and performance:
 - all levels of `MeshService`
-- [top](/docs/{{ page.version }}/policies/targetref/#target-resources) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
-- [from](/docs/{{ page.version }}/policies/targetref/#target-resources) level `MeshSubset` and `MeshServiceSubset` with all tags
+- [top](/docs/{{ page.version }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
+- [from](/docs/{{ page.version }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with all tags
 
 If you define a MeshTrafficPermission with other kind, like this one:
 

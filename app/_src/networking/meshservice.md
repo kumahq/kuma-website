@@ -303,7 +303,7 @@ relevant `MeshServices` via [`reachableBackends`](/docs/{{ page.version }}/produ
 
 This is the end goal of the migration. Destinations in the mesh are managed
 solely with `MeshService` resources and no longer via `kuma.io/service` tags and
-`Dataplane` inbounds.
+`Dataplane` inbounds. In the future this will become the default.
 
 ### Steps
 
