@@ -24,7 +24,7 @@ class TabsComponent {
   setInitialMeshServiceState(checked) {
     // hide meshservice if not avilable
     if (this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').length === 0) {
-      this.elem.querySelectorAll('.meshservice')[0].hidden = true
+      this.elem.querySelectorAll('.meshservice')[0].classList.add("hidden")
       return
     }
 
@@ -45,7 +45,7 @@ class TabsComponent {
 
     this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
       if (!checked) {
-        item.parentElement.hidden = true
+        item.parentElement.classList.add("hidden")
         item.parentElement.classList.remove("is-active")
         this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
           if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
@@ -54,7 +54,7 @@ class TabsComponent {
           }
         })
       } else {
-        item.parentElement.hidden = false
+        item.parentElement.classList.remove("hidden")
         if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
           item.parentElement.classList.add("is-active")
           item.click()
@@ -63,7 +63,7 @@ class TabsComponent {
     });
     this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
       if (checked) {
-        item.parentElement.hidden = true
+        item.parentElement.classList.add("hidden")
         item.parentElement.classList.remove("is-active")
         this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
           if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
@@ -72,7 +72,7 @@ class TabsComponent {
           }
         })
       } else {
-        item.parentElement.hidden = false
+        item.parentElement.classList.remove("hidden")
         if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
           item.parentElement.classList.add("is-active")
           item.click()
