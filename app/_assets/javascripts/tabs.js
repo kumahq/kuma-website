@@ -44,7 +44,7 @@ class TabsComponent {
     }
 
     this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
-      if (checked === false) {
+      if (!checked) {
         item.parentElement.hidden = true
         item.parentElement.classList.remove("is-active")
         this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
@@ -52,7 +52,7 @@ class TabsComponent {
             item.click()
           }
         })
-      } else if (checked === true) {
+      } else {
         item.parentElement.hidden = false
         if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug)) {
           item.parentElement.classList.add("is-active")
@@ -61,7 +61,7 @@ class TabsComponent {
       }
     });
     this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
-      if (checked === true) {
+      if (checked) {
         item.parentElement.hidden = true
         item.parentElement.classList.remove("is-active")
         this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
@@ -69,7 +69,7 @@ class TabsComponent {
             item.click()
           }
         })
-      } else if (checked === false) {
+      } else {
         item.parentElement.hidden = false
         if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug)) {
           item.parentElement.classList.add("is-active")
