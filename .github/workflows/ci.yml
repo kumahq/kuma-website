@@ -187,7 +187,7 @@ jobs:
     steps:
       - name: Get changed files
         id: changed-files
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             // Note that we filter here first because otherwise vale is run on all files
