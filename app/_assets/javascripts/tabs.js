@@ -54,11 +54,7 @@ class TabsComponent {
           }
         })
       } else {
-        item.parentElement.classList.remove("hidden")
-        if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
-          item.parentElement.classList.add("is-active")
-          item.click()
-        }
+        this.unhideTab(item)
       }
     });
     this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
@@ -72,13 +68,17 @@ class TabsComponent {
           }
         })
       } else {
-        item.parentElement.classList.remove("hidden")
-        if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
-          item.parentElement.classList.add("is-active")
-          item.click()
-        }
+        this.unhideTab(item)
       }
     });
+  }
+
+  unhideTab(item) {
+    item.parentElement.classList.remove("hidden")
+    if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
+      item.parentElement.classList.add("is-active")
+      item.click()
+    }
   }
 
   selectTab(event) {
