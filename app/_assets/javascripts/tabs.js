@@ -46,9 +46,13 @@ class TabsComponent {
     const that = this
     this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
       if (checked === false) {
-        debugger
         item.parentElement.hidden = true
         item.parentElement.classList.remove("is-active")
+        that.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
+          if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
+            item.click()
+          }
+        })
       } else if (checked === true) {
         item.parentElement.hidden = false
         if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
@@ -57,16 +61,20 @@ class TabsComponent {
         }
       }
     });
-    debugger
     this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
       if (checked === true) {
         item.parentElement.hidden = true
         item.parentElement.classList.remove("is-active")
+        that.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
+          if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
+            item.click()
+          }
+        })
       } else if (checked === false) {
         item.parentElement.hidden = false
         if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
-          item.click()
           item.parentElement.classList.add("is-active")
+          item.click()
         }
       }
     });
