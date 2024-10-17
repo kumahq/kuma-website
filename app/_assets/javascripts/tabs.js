@@ -1,11 +1,63 @@
+const $$ = ($el, sel) => $el.querySelectorAll(sel)
+const $ = ($el, sel) => $el.querySelector(sel)
+
+const get = (key, d = null) => {
+  try {
+    const val = localStorage.getItem(key)
+    return val !== null ? JSON.parse(val) : d
+  } catch(e) {
+    return d
+  }
+}
+
+const set = (key, value) => {
+  if(get(key) === value) {
+    return
+  }
+  localStorage.setItem(key, JSON.stringify(value))
+  window.dispatchEvent(new StorageEvent('storage', { key: key }))
+}
+
+
+const KEY = 'mesh-service-support';
+class MeshServiceSwitcher {
+  constructor(elem) {
+    this.elem = elem;
+    const $toggles = $$(this.elem, '.meshservice');
+
+    // when any checkbox is clicked, sync the storage
+    [...$toggles].forEach($item => $item.addEventListener('change', (e) => set(KEY, e.target.checked)));
+
+    // listen for all storage events/syncs, i.e. changes
+    window.addEventListener('storage', (e) => {
+      if(e.key === KEY) {
+        [...$toggles].forEach($item => {
+          // the $bits we need
+          const $checkbox = $($item, 'input[type="checkbox"]');
+          const $legacy = $($item.parentNode, '.meshservice ~ .language-yaml:nth-child(2)');
+          const $meshService = $($item.parentNode, '.meshservice ~ .language-yaml:nth-child(3)');
+
+          // get the changed value and update the view
+          const enabled = get(KEY, e.key);
+          $checkbox.checked = enabled;
+
+          (enabled ? $meshService : $legacy).classList.remove('hidden');
+          (!enabled ? $meshService : $legacy).classList.add('hidden');
+        })
+      }
+    })
+    
+    // fire a fake event to update the view
+    window.dispatchEvent(new StorageEvent('storage', { key: KEY }));
+  }
+}
+
 class TabsComponent {
   constructor(elem) {
-    this.currentTabSlug = "Kubernetes"
     this.elem = elem;
     this.options = this.elem.dataset;
 
     this.addEventListeners();
-    this.setInitialMeshServiceState(JSON.parse(localStorage.getItem("meshservice")) || false)
   }
 
   addEventListeners() {
@@ -13,78 +65,8 @@ class TabsComponent {
       item.addEventListener('click', this.selectTab.bind(this));
     });
 
-    this.elem.querySelectorAll('.meshservice input').forEach((item) => {
-      item.addEventListener('change', this.onNewMeshServiceChanged.bind(this));
-    });
-
     // Listen for the custom event to update tabs
     document.addEventListener('tabSelected', this.onTabSelected.bind(this));
-  }
-
-  setInitialMeshServiceState(checked) {
-    // hide meshservice if not avilable
-    if (this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').length === 0) {
-      this.elem.querySelectorAll('.meshservice')[0].classList.add("hidden")
-      return
-    }
-
-    localStorage.setItem("meshservice", JSON.stringify(checked))
-    this.elem.querySelectorAll('.meshservice input').forEach((item) => {
-      if (checked === true) {
-        item.setAttribute("checked", checked)
-      }
-    });
-    this.hideMeshServiceTabs(checked)
-  }
-
-  hideMeshServiceTabs(checked) {
-    // do nothing on non meshservice capable elements
-    if (!this.hasMeshServiceSupport()) {
-      return
-    }
-
-    this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
-      if (!checked) {
-        this.hideMeshServiceTab(item, true)
-      } else {
-        this.unhideMeshServiceTab(item)
-      }
-    });
-    this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
-      if (checked) {
-        this.hideMeshServiceTab(item, false)
-      } else {
-        this.unhideMeshServiceTab(item)
-      }
-    });
-  }
-
-  hasMeshServiceSupport() {
-    return this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').length > 0
-  }
-
-  unhideMeshServiceTab(item) {
-    item.parentElement.classList.remove("hidden")
-    if (this.isShyEquivalent(item.attributes['aria-controls'].nodeValue, this.currentTabSlug)) {
-      item.parentElement.classList.add("is-active")
-      item.click()
-    }
-  }
-
-  hideMeshServiceTab(item, isMeshService) {
-    item.parentElement.classList.add("hidden")
-    item.parentElement.classList.remove("is-active")
-    const selector = isMeshService ? '.tabs-component-tabs a:not([data-slug$="­"])' : '.tabs-component-tabs a[data-slug$="­"]'
-    this.elem.querySelectorAll(selector).forEach((item) => {
-      if (this.isShyEquivalent(item.attributes['aria-controls'].nodeValue, this.currentTabSlug)) {
-        item.parentElement.classList.add("is-active")
-        item.click()
-      }
-    })
-  }
-
-  isShyEquivalent(value1, value2) {
-    return value1.includes(value2) || value2.includes(value1)
   }
 
   selectTab(event) {
@@ -124,22 +106,6 @@ class TabsComponent {
   onTabSelected(event) {
     const { tabSlug } = event.detail;
     this.setSelectedTabBySlug(tabSlug);
-    this.currentTabSlug = tabSlug
-    // if (tabSlug.includes("­")) {
-    //   console.log(tabSlug + "shy")
-    // } else {
-    //   console.log(tabSlug)
-    // }
-  }
-
-  onNewMeshServiceChanged(event) {
-    if (event.currentTarget.checked === true) {
-      localStorage.setItem("meshservice", JSON.stringify(true))
-      this.hideMeshServiceTabs(true)
-    } else {
-      localStorage.setItem("meshservice", JSON.stringify(false))
-      this.hideMeshServiceTabs(false)
-    }
   }
 
   setSelectedTab(selectedTab) {
@@ -157,27 +123,11 @@ class TabsComponent {
   }
 
   setSelectedTabBySlug(slug) {
-    let elems
-    if (slug.includes("­")) {
-      console.log(slug + "shy")
-    } else {
-      console.log(slug)
-    }
-    if (this.hasMeshServiceSupport() && slug.includes("­")) {
-      const childElems= this.elem.querySelectorAll('li.tabs-component-tab a[data-slug$="­"]')
-      elems = [...childElems].map(e => e.parentElement)
-    } else {
-      elems = this.elem.querySelectorAll('li.tabs-component-tab')
-    }
-
     const tab = Array.from(
-      elems
-    ).find(tab => {
-      return this.isShyEquivalent(tab.querySelector('.tabs-component-tab-a').dataset.slug, slug)
-    });
+      this.elem.querySelectorAll('li.tabs-component-tab')
+    ).find(tab => tab.querySelector('.tabs-component-tab-a').dataset.slug === slug);
 
     if (tab) {
-      console.log(tab)
       this.setSelectedTab(tab);
     }
   }
@@ -187,6 +137,10 @@ export default class Tabs {
   constructor() {
     document.querySelectorAll('.tabs-component').forEach((elem) => {
       new TabsComponent(elem);
+      if ($(elem, '.meshservice')) {
+        new MeshServiceSwitcher(elem)
+      }
+
     });
   }
 }

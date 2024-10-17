@@ -144,28 +144,29 @@ module Jekyll
             htmlContent = "
 {% tabs #{@tabs_name} useUrlFragment=false %}"
 
+
+            if use_meshservice
+              htmlContent += "
+{% tab #{@tabs_name} Kubernetes %}
+<div class=\"meshservice\">
+  I am using <a href=\"\">MeshService</a> <input type=\"checkbox\">
+</div>
+#{kube_style1_content}
+#{kube_style2_content}
+{% endtab %}
+{% tab #{@tabs_name} Universal %}
+<div class=\"meshservice\">
+  I am using <a href=\"\">MeshService</a> <input type=\"checkbox\">
+</div>
+#{uni_style1_content}
+#{uni_style2_content}
+{% endtab %}"
+            else
             htmlContent += "
 {% tab #{@tabs_name} Kubernetes %}
 #{kube_style1_content}
 {% endtab %}
 {% tab #{@tabs_name} Universal %}
-#{uni_style1_content}
-{% endtab %}"
-
-            if use_meshservice
-              htmlContent += "
-{% tab #{@tabs_name} Kubernetes­%}
-#{kube_style2_content}
-{% endtab %}
-{% tab #{@tabs_name} Universal­%}
-#{uni_style2_content}
-{% endtab %}"
-            else
-              htmlContent += "
-{% tab #{@tabs_name} Kubernetes­%}
-#{kube_style1_content}
-{% endtab %}
-{% tab #{@tabs_name} Universal­%}
 #{uni_style1_content}
 {% endtab %}"
             end

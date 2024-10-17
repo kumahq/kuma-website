@@ -17,10 +17,6 @@
   </ul>
 
   <div class="tabs-component-panels">
-    <div class="meshservice">
-      I am using <a href="">MeshService</a> <input type="checkbox">
-    </div>
-
     <% environment['tabs'][file_path][@name].each_with_index do |(key, value), index| %>
       <section
         aria-hidden="<%= index != 0 %>"
