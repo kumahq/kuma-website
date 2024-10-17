@@ -68,8 +68,8 @@ Sections below highlight the most important aspects of this feature, if you want
 
 The following kinds affect the graph generation and performance:
 - all levels of `MeshService`
-- [top](/docs/{{ page.version }}/policies/targetref/#target-resources) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
-- [from](/docs/{{ page.version }}/policies/targetref/#target-resources) level `MeshSubset` and `MeshServiceSubset` with all tags
+- [top](/docs/{{ page.version }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
+- [from](/docs/{{ page.version }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with all tags
 
 If you define a MeshTrafficPermission with other kind, like this one:
 
