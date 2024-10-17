@@ -183,9 +183,7 @@ jobs:
 
   vale:
     name: Lint docs
-    # Had to pin to 22.04 because of https://github.com/errata-ai/vale-action/issues/128.
-    # Once fixed upstream we can put it back to latest.
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Get changed files
         id: changed-files
@@ -206,7 +204,7 @@ jobs:
               .filter(d => !d.filename.includes("/raw/"))
               .map(d => d.filename);
       - uses: actions/checkout@v2
-      - uses: errata-ai/vale-action@v2
+      - uses: errata-ai/vale-action@v2.1.1
         if: join(fromJSON(steps.changed-files.outputs.result)) != ''
         name: Run Vale
         with:
