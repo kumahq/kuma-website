@@ -37,7 +37,7 @@ carousel:
 
 {% contentfor news %}
 
-**Kuma 2.8.0 has been released!** &mdash; with MeshExternalService, MeshPassthrough and more [on the Kuma 2.8.0 release blog post](/blog/2024/kuma-2-8-0/).
+**Kuma 2.9.0 has been released!** &mdash; with MeshTLS, service rewrite and more [on the Kuma 2.9.0 release blog post](/blog/2024/kuma-2-9-0/).
 
 {% endcontentfor %}
 
