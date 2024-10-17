@@ -39,7 +39,7 @@ class TabsComponent {
 
   hideMeshServiceTabs(checked) {
     // do nothing on non meshservice capable elements
-    if (this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').length === 0) {
+    if (!this.hasMeshServiceSupport()) {
       return
     }
 
@@ -59,9 +59,13 @@ class TabsComponent {
     });
   }
 
+  hasMeshServiceSupport() {
+    return this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').length > 0
+  }
+
   unhideMeshServiceTab(item) {
     item.parentElement.classList.remove("hidden")
-    if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
+    if (this.isShyEquivalent(item.attributes['aria-controls'].nodeValue, this.currentTabSlug)) {
       item.parentElement.classList.add("is-active")
       item.click()
     }
@@ -72,11 +76,15 @@ class TabsComponent {
     item.parentElement.classList.remove("is-active")
     const selector = isMeshService ? '.tabs-component-tabs a:not([data-slug$="­"])' : '.tabs-component-tabs a[data-slug$="­"]'
     this.elem.querySelectorAll(selector).forEach((item) => {
-      if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
+      if (this.isShyEquivalent(item.attributes['aria-controls'].nodeValue, this.currentTabSlug)) {
         item.parentElement.classList.add("is-active")
         item.click()
       }
     })
+  }
+
+  isShyEquivalent(value1, value2) {
+    return value1.includes(value2) || value2.includes(value1)
   }
 
   selectTab(event) {
@@ -117,6 +125,11 @@ class TabsComponent {
     const { tabSlug } = event.detail;
     this.setSelectedTabBySlug(tabSlug);
     this.currentTabSlug = tabSlug
+    // if (tabSlug.includes("­")) {
+    //   console.log(tabSlug + "shy")
+    // } else {
+    //   console.log(tabSlug)
+    // }
   }
 
   onNewMeshServiceChanged(event) {
@@ -144,11 +157,27 @@ class TabsComponent {
   }
 
   setSelectedTabBySlug(slug) {
+    let elems
+    if (slug.includes("­")) {
+      console.log(slug + "shy")
+    } else {
+      console.log(slug)
+    }
+    if (this.hasMeshServiceSupport() && slug.includes("­")) {
+      const childElems= this.elem.querySelectorAll('li.tabs-component-tab a[data-slug$="­"]')
+      elems = [...childElems].map(e => e.parentElement)
+    } else {
+      elems = this.elem.querySelectorAll('li.tabs-component-tab')
+    }
+
     const tab = Array.from(
-      this.elem.querySelectorAll('li.tabs-component-tab')
-    ).find(tab => tab.querySelector('.tabs-component-tab-a').dataset.slug === slug);
+      elems
+    ).find(tab => {
+      return this.isShyEquivalent(tab.querySelector('.tabs-component-tab-a').dataset.slug, slug)
+    });
 
     if (tab) {
+      console.log(tab)
       this.setSelectedTab(tab);
     }
   }

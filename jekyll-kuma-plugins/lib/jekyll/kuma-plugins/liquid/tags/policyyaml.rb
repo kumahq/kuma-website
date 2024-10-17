@@ -160,6 +160,14 @@ module Jekyll
 {% tab #{@tabs_name} Universal­%}
 #{uni_style2_content}
 {% endtab %}"
+            else
+              htmlContent += "
+{% tab #{@tabs_name} Kubernetes­%}
+#{kube_style1_content}
+{% endtab %}
+{% tab #{@tabs_name} Universal­%}
+#{uni_style1_content}
+{% endtab %}"
             end
 
             htmlContent += "{% endtabs %}"
