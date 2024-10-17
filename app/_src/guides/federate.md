@@ -24,11 +24,19 @@ It can be a cluster running locally or in a public cloud like AWS EKS, GCP GKE, 
 {% endtip %}
 
 ```sh
-kind create cluster --name=mesh-global
+minikube start -p kuma-mesh-global
 ```
 
-By default, Kind does not support LoadBalancer therefore we need to configure it by following this [guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/).
-Note that all public cloud providers support load balancers out of the box.
+### Setup the minikube tunnel
+If you are using Minikube for local testing, you can take advantage of the built-in minikube tunnel command. This command allows load balancer addresses to be provisioned using localhost.
+
+{% tip %}
+Using nohup will allow the tunnel to continue running should your current terminal session end. 
+{% endtip %}
+
+```sh
+nohup minikube tunnel -p &
+```
 
 ### Deploy a global control plane
 
