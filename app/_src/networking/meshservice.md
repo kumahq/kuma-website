@@ -156,6 +156,24 @@ name of the `Dataplane` port.
 ```
 
 {% if_version gte:2.9.x %}
+## Multizone
+
+The main difference at the data plane level between `kuma.io/service` and
+`MeshService` is that traffic to a `MeshService` always goes to some particular zone.
+It may be the local zone or it may be a remote zone.
+
+With `kuma.io/service`, this behavior depends on
+[`localityAwareLoadBalancing`](/docs/{{page.version}}/policies/locality-aware).
+If this _is not_ enabled, traffic is load balanced equally between zones.
+If it _is_ enabled, destinations in the local zone are prioritized.
+
+So when moving to `MeshService`, the choice needs to be made between:
+
+* keeping this behavior, which means moving to [`MeshMultiZoneService`](/docs/{{page.version}}/networking/meshmultizoneservice/).
+* using `MeshService` instead, either from the local zone or one synced from
+  a remote zone.
+
+This is noted in the [migration outline](#migration).
 
 ## Targeting
 
