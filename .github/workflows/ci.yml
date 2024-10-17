@@ -24,7 +24,7 @@ jobs:
       URL: https://deploy-preview-${{github.event.number}}--kuma.netlify.app
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/setup-go@v4
+      - uses: actions/setup-go@v5
       - run: |
           go install github.com/raviqqe/muffet/v2@v2.9.3
       - name: Wait for Pages changed to be neutral
