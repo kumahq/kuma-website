@@ -45,28 +45,14 @@ class TabsComponent {
 
     this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
       if (!checked) {
-        item.parentElement.classList.add("hidden")
-        item.parentElement.classList.remove("is-active")
-        this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
-          if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
-            item.parentElement.classList.add("is-active")
-            item.click()
-          }
-        })
+        this.hideTab(item, true)
       } else {
         this.unhideTab(item)
       }
     });
     this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
       if (checked) {
-        item.parentElement.classList.add("hidden")
-        item.parentElement.classList.remove("is-active")
-        this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
-          if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
-            item.parentElement.classList.add("is-active")
-            item.click()
-          }
-        })
+        this.hideTab(item, false)
       } else {
         this.unhideTab(item)
       }
@@ -79,6 +65,18 @@ class TabsComponent {
       item.parentElement.classList.add("is-active")
       item.click()
     }
+  }
+
+  hideTab(item, isMeshService) {
+    item.parentElement.classList.add("hidden")
+    item.parentElement.classList.remove("is-active")
+    const selector = isMeshService ? '.tabs-component-tabs a:not([data-slug$="­"])' : '.tabs-component-tabs a[data-slug$="­"]'
+    this.elem.querySelectorAll(selector).forEach((item) => {
+      if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
+        item.parentElement.classList.add("is-active")
+        item.click()
+      }
+    })
   }
 
   selectTab(event) {
