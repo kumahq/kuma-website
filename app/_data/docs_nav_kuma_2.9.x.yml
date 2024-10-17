@@ -242,6 +242,8 @@ items:
             url: /networking/service-discovery/
           - text: MeshService
             url: "/networking/meshservice/"
+          - text: MeshMultiZoneService
+            url: "/networking/meshmultizoneservice/"
           - text: HostnameGenerator
             url: "/networking/hostnamegenerator/"
           - text: DNS
@@ -425,6 +427,15 @@ items:
             url: "/policies/meshpassthrough/#configuration"
           - text: Examples
             url: "/policies/meshpassthrough/#examples"
+      - text: MeshTLS
+        url: /policies/meshtls/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshpassthrough/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshpassthrough/#configuration"
+          - text: Examples
+            url: "/policies/meshpassthrough/#examples"
       - title: Previous Policies
         group: true
         items:
@@ -473,6 +484,8 @@ items:
         url: /guides/otel-metrics/
       - text: Migration to the new policies
         url: /guides/migration-to-the-new-policies/
+      - text: Progressively rolling in strict MTLS
+        url: /guides/progressively-rolling-in-strict-mtls/
   - title: Reference
     group: true
     items:
