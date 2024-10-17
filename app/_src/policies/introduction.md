@@ -147,7 +147,7 @@ Here's an explanation of each kinds and their scope:
 
 - Mesh: applies to all proxies running in the mesh
 - MeshSubset: same as Mesh but filters only proxies who have matching `targetRef.tags`
-- MeshService: all proxies with a tag `kuma.io/service` equal to `targetRef.name`.{% if_version gte:2.9.x %} This can work differently when using [explicit services](##using-policies-with-meshservice-meshmultizoneservice-and-meshexternalservice){% endif_version %}.
+- MeshService: all proxies with a tag `kuma.io/service` equal to `targetRef.name`.{% if_version gte:2.9.x %} This can work differently when using [explicit services](#using-policies-with-meshservice-meshmultizoneservice-and-meshexternalservice){% endif_version %}.
 - MeshGateway: targets proxies matched by the named MeshGateway
     - Note that it's very strongly recommended to target MeshGateway proxies using this
       kind, as opposed to MeshService/MeshServiceSubset.
@@ -677,4 +677,87 @@ If you already use source/destination policies you can keep using them. Future v
 You can mix targetRef and source/destination policies as long as they are of different types. For example: You can use `MeshTrafficPermission` with `FaultInjection` but you can't use `MeshTrafficPermission` with `TrafficPermission`.
 {% endif_version %}
 {% endwarning %}
+{% endif_version %}
+
+{% if_version gte:2.7.x %}
+
+## Applying policies in shadow mode
+
+### Overview
+
+The new shadow mode functionality allows users to mark policies with a specific label to simulate configuration changes
+without affecting the live environment.
+It enables the observation of potential impact on Envoy proxy configurations, providing a risk-free method to test,
+validate, and fine-tune settings before actual deployment.
+Ideal for learning, debugging, and migrating, shadow mode ensures configurations are error-free,
+improving the overall system reliability without disrupting ongoing operations.
+
+### Recommended setup
+
+It's not necessary but CLI tools like [jq](https://jqlang.github.io/jq/) and [jd](https://github.com/josephburnett/jd) can greatly improve the UX.
+
+### How to use shadow mode
+
+1. Before applying the policy, add a `kuma.io/effect: shadow` label.
+
+2. Check the proxy config with shadow policies taken into account through the {{site.mesh_product_name}} API. By using HTTP API:
+    ```shell
+    curl http://localhost:5681/meshes/${mesh}/dataplane/${dataplane}/_config?shadow=true
+    ```
+   or by using `kumactl`:
+    ```shell
+    kumactl inspect dataplane ${name} --type=config --shadow
+    ```
+
+3. Check the diff in [JSONPatch](https://jsonpatch.com/) format through the {{site.mesh_product_name}} API. By using HTTP API:
+    ```shell
+    curl http://localhost:5681/meshes/${mesh}/dataplane/${dataplane}/_config?shadow=true&include=diff
+    ```
+   or by using `kumactl`:
+    ```shell
+    kumactl inspect dataplane ${name} --type=config --shadow --include=diff
+    ```
+
+### Limitations and Considerations
+
+Currently, the {{site.mesh_product_name}} API mentioned above works only on Zone CP.
+Attempts to use it on Global CP lead to `405 Method Not Allowed`.
+This might change in the future.
+
+### Examples
+
+Apply policy with `kuma.io/effect: shadow` label:
+
+{% policy_yaml example2 %}
+```yaml
+type: MeshTimeout
+name: frontend-timeouts
+mesh: default
+labels:
+  kuma.io/effect: shadow
+spec:
+   targetRef:
+     kind: MeshService
+     name: frontend
+   to:
+   - targetRef:
+       kind: MeshService
+       name: backend
+     default:
+       idleTimeout: 23s
+```
+{% endpolicy_yaml %}
+
+Check the diff using `kumactl`:
+
+```shell
+$ kumactl inspect dataplane frontend-dpp --type=config --include=diff --shadow | jq '.diff' | jd -t patch2jd
+@ ["type.googleapis.com/envoy.config.cluster.v3.Cluster","backend_kuma-demo_svc_3001","typedExtensionProtocolOptions","envoy.extensions.upstreams.http.v3.HttpProtocolOptions","commonHttpProtocolOptions","idleTimeout"]
+- "3600s"
+@ ["type.googleapis.com/envoy.config.cluster.v3.Cluster","backend_kuma-demo_svc_3001","typedExtensionProtocolOptions","envoy.extensions.upstreams.http.v3.HttpProtocolOptions","commonHttpProtocolOptions","idleTimeout"]
++ "23s"
+```
+
+The output not only identifies the exact location in Envoy where the change will occur, but also shows the current timeout value that we're planning to replace.
+
 {% endif_version %}
