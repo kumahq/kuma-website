@@ -93,7 +93,7 @@ You should see something similar to:
 
 ## Namespace scoped policies
 
-Now that we have our setup we can start playing with policies. Let's create simple MeshTimeout policy in `kuma-demo` namespace:
+Now that we have our setup we can start playing with policies. Let's create a simple MeshTimeout policy in `kuma-demo` namespace:
 
 ```shell
 echo "apiVersion: kuma.io/v1alpha1
