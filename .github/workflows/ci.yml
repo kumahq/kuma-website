@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1.2'
+          ruby-version: "3.1.2"
           bundler-cache: true
       - working-directory: jekyll-kuma-plugins
         run: bundle install
@@ -204,7 +204,7 @@ jobs:
               .filter(d => !d.filename.includes("/raw/"))
               .map(d => d.filename);
       - uses: actions/checkout@v2
-      - uses: errata-ai/vale-action@v2
+      - uses: errata-ai/vale-action@v2.1.1
         if: join(fromJSON(steps.changed-files.outputs.result)) != ''
         name: Run Vale
         with:

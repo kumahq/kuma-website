@@ -8,17 +8,17 @@ Backends and default mode values are taken from [the Mesh object](/docs/{{ page.
 ## TargetRef support matrix
 
 {% tabs targetRef useUrlFragment=false %}
-{% tab targetRef For tls ciphers/version %}
-| `targetRef`             | Allowed kinds       |
-| ----------------------- | ------------------- |
-| `targetRef.kind`        | `Mesh`              |
-| `from[].targetRef.kind` | `Mesh`              |
-{% endtab %}
 {% tab targetRef For mode %}
 | `targetRef`             | Allowed kinds        |
 | ----------------------- | -------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset` |
 | `from[].targetRef.kind` | `Mesh`               |
+{% endtab %}
+{% tab targetRef For tls ciphers/version %}
+| `targetRef`             | Allowed kinds       |
+| ----------------------- | ------------------- |
+| `targetRef.kind`        | `Mesh`              |
+| `from[].targetRef.kind` | `Mesh`              |
 {% endtab %}
 {% endtabs %}
 

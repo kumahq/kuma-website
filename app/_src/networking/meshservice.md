@@ -18,7 +18,7 @@ the analog of a Kubernetes `Service`.
 
 A basic example follows to illustrate the structure:
 
-{% policy_yaml meshservice_example %}
+{% policy_yaml meshservice_example namespace=kuma-demo %}
 ```yaml
 type: MeshService
 name: redis
@@ -29,7 +29,7 @@ spec:
   selector:
     dataplaneTags: # tags in Dataplane object, see below
       app: redis
-      k8s.kuma.io/namespace: redis-system # added automatically
+      k8s.kuma.io/namespace: kuma-demo # added automatically
   ports:
   - port: 6739
     targetPort: 6739
@@ -156,6 +156,106 @@ name of the `Dataplane` port.
 ```
 
 {% if_version gte:2.9.x %}
+## Multizone
+
+The main difference at the data plane level between `kuma.io/service` and
+`MeshService` is that traffic to a `MeshService` always goes to some particular zone.
+It may be the local zone or it may be a remote zone.
+
+With `kuma.io/service`, this behavior depends on
+[`localityAwareLoadBalancing`](/docs/{{page.version}}/policies/locality-aware).
+If this _is not_ enabled, traffic is load balanced equally between zones.
+If it _is_ enabled, destinations in the local zone are prioritized.
+
+So when moving to `MeshService`, the choice needs to be made between:
+
+* keeping this behavior, which means moving to [`MeshMultiZoneService`](/docs/{{page.version}}/networking/meshmultizoneservice/).
+* using `MeshService` instead, either from the local zone or one synced from
+  a remote zone.
+
+This is noted in the [migration outline](#migration).
+
+## Targeting
+
+### Policy `targetRef`
+
+A `MeshService` resource can be used as the destination target of a policy by
+putting it in a `to[].targetRef` entry. For example:
+
+```
+spec:
+  to:
+  - targetRef:
+      kind: MeshService
+      name: test-server
+      namespace: test-app
+      sectionName: main
+```
+
+This would target the policy to requests to the given `MeshService` and port with the name
+`main`.
+Only Kubernetes zones can reference using `namespace`, which always selects
+resources in the local zone.
+
+### Route `.backendRefs`
+
+In order to direct traffic to a given `MeshService`, it must be used as a
+`backendRefs` entry.
+In `backendRefs`, ports are optionally referred to by their number:
+
+```
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: test-server
+        namespace: test-app
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /v2
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: test-server-v2
+                namespace: test-app
+                port: 80
+```
+
+As opposed to `targetRef`, in `backendRefs` `port` can be omitted.
+
+### Labels
+
+In order to select `MeshServices` from other zones as well as multiple
+`MeshServices`, you must set `labels`.
+Note that with `backendRefs` only one resource is allowed to be selected.
+
+If this field is set, resources are selected via their `labels`.
+
+```
+- kind: MeshService
+  labels:
+    kuma.io/display-name: test-server-v2
+    k8s.kuma.io/namespace: test-app
+    kuma.io/zone: east
+```
+
+In this case, the entry selects any resource with the display name
+`test-server-v2` from the `east` zone in the `test-app` namespace.
+Only one resource will be selected.
+
+But if we leave out the namespace, _any_ resource named `test-server-v2` in the
+`east` zone is selected, regardless of its namespace.
+
+```
+- kind: MeshService
+  labels:
+    kuma.io/display-name: test-server-v2
+    kuma.io/zone: east
+```
 
 ## Migration
 
