@@ -43,19 +43,18 @@ class TabsComponent {
       return
     }
 
-    const that = this
     this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
       if (checked === false) {
         item.parentElement.hidden = true
         item.parentElement.classList.remove("is-active")
-        that.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
-          if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
+        this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
+          if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug)) {
             item.click()
           }
         })
       } else if (checked === true) {
         item.parentElement.hidden = false
-        if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
+        if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug)) {
           item.parentElement.classList.add("is-active")
           item.click()
         }
@@ -65,14 +64,14 @@ class TabsComponent {
       if (checked === true) {
         item.parentElement.hidden = true
         item.parentElement.classList.remove("is-active")
-        that.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
-          if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
+        this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
+          if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug)) {
             item.click()
           }
         })
       } else if (checked === false) {
         item.parentElement.hidden = false
-        if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
+        if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug)) {
           item.parentElement.classList.add("is-active")
           item.click()
         }
