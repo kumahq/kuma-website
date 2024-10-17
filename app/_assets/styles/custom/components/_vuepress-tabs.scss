@@ -52,6 +52,7 @@
   display: flex;
   padding: 0.25em 0.5em;
   text-decoration: none;
+  scroll-margin-top: $navbarHeight;
 }
 
 .tabs-component-panels {

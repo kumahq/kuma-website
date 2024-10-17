@@ -29,8 +29,11 @@ This policy doesn't work with sidecars without [transparent-proxy](/docs/{{ page
 
 The following describes the default configuration settings of the `MeshPassthrough` policy:
 
-- **`passthroughMode`**: (Optional) Defines behaviour for handling traffic. Allowed values: `All`, `None` and `Matched`. Default: `None`. `All` enables all traffic to pass through, `Matched` allows only the traffic defined in `appendMatch` and `None` disallows all traffic.
-- **`appendMatch`**: List of destinations that are allowed to pass through. When `enabled` is `true` this list is not used. It only takes effect when `enabled` is `false`.
+- **`passthroughMode`**: (Optional) Defines behaviour for handling traffic. Allowed values: `All`, `None` and `Matched`. Default: `None`
+  - **`All`** enables all traffic to pass through.
+  - **`Matched`** allows only the traffic defined in `appendMatch`.
+  - **`None`** disallows all traffic.
+- **`appendMatch`**: List of destinations that are allowed to pass through. When `passthroughMode` is `All` or `None` this list is not used. It only takes effect when `passthroughMode` is `Matched`.
   - **`type`**: Defines what type of destination is allowed. Either `Domain`, `IP` or `CIDR`.
   - **`value`**: Destination address based on the defined `type`.
   - **`port`**: Port at which external destination is available. When not defined it caches all traffic to the address.

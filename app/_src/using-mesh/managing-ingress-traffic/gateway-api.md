@@ -40,7 +40,7 @@ Kubernetes doesn't include Gateway API CRDs, [install them from the standard cha
 1. Install the [counter demo](https://github.com/kumahq/kuma-counter-demo).
 
    ```sh
-   kumactl install demo | kubectl apply -f -
+   kumactl install demo --without-gateway | kubectl apply -f -
    ```
 
 2. Add a [`Gateway`](https://gateway-api.sigs.k8s.io/api-types/gateway/).
