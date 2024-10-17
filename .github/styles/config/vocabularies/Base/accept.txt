@@ -28,7 +28,7 @@ CRD
 Curity
 Datadog
 datagrams?
-dataplanes?
+Dataplanes?
 dbless
 declaratively
 deduplicat(:?e|ion)
