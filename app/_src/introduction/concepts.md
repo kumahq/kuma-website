@@ -4,7 +4,7 @@ title: Concepts
 
 In this page we will introduce concepts that are core to understanding Kuma.
 
-## Control-Plane
+## Control Plane
 
 The control-plane is the central management layer of {{ site.product_name }}. It is responsible for configuring and managing the behavior of the data plane,
 which handles the actual traffic between services.
@@ -13,7 +13,7 @@ which handles the actual traffic between services.
 
 The data-plane handles traffic between services.
 It connects to the control-plane which computes a configuration specific to it.
-The Data-Plane proxy or Sidecar is the instance of Envoy running alongside the data-plane which will send and receive traffic from the rest of the service mesh.
+The data-plane proxy or Sidecar is the instance of Envoy running alongside the data-plane which will send and receive traffic from the rest of the service mesh.
 
 ## Resource
 
