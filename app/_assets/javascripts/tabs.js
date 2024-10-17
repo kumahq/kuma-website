@@ -1,11 +1,11 @@
 class TabsComponent {
   constructor(elem) {
+    this.currentTabSlug = "Kubernetes"
     this.elem = elem;
     this.options = this.elem.dataset;
 
     this.addEventListeners();
     this.setInitialMeshServiceState(JSON.parse(localStorage.getItem("meshservice")) || false)
-    this.currentTabSlug = "Kubernetes"
   }
 
   addEventListeners() {
@@ -48,13 +48,14 @@ class TabsComponent {
         item.parentElement.hidden = true
         item.parentElement.classList.remove("is-active")
         this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
-          if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug)) {
+          if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
+            item.parentElement.classList.add("is-active")
             item.click()
           }
         })
       } else {
         item.parentElement.hidden = false
-        if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug)) {
+        if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
           item.parentElement.classList.add("is-active")
           item.click()
         }
@@ -65,13 +66,14 @@ class TabsComponent {
         item.parentElement.hidden = true
         item.parentElement.classList.remove("is-active")
         this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
-          if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug)) {
+          if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
+            item.parentElement.classList.add("is-active")
             item.click()
           }
         })
       } else {
         item.parentElement.hidden = false
-        if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug)) {
+        if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
           item.parentElement.classList.add("is-active")
           item.click()
         }
@@ -116,7 +118,6 @@ class TabsComponent {
   onTabSelected(event) {
     const { tabSlug } = event.detail;
     this.setSelectedTabBySlug(tabSlug);
-    console.log(tabSlug)
     this.currentTabSlug = tabSlug
   }
 
