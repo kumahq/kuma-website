@@ -48,7 +48,7 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.version }
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 

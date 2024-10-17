@@ -51,7 +51,7 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 
 {% endtabs %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 
