@@ -82,7 +82,7 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 

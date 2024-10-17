@@ -7,7 +7,7 @@ use [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and
 [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute).
 
 Using these route resources with a gateway requires [using `spec.targetRef` to target
-gateway data plane proxies](/docs/{{ page.version }}/policies/targetref/#target-resources).
+gateway data plane proxies](/docs/{{ page.version }}/policies/introduction).
 Otherwise, [filtering and routing traffic](/docs/{{ page.version }}/policies/meshhttproute) is
 configured as outlined in the docs.
 
