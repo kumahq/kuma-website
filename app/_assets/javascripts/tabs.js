@@ -4,7 +4,7 @@ class TabsComponent {
     this.options = this.elem.dataset;
 
     this.addEventListeners();
-    this.setInitialMeshServiceState(localStorage.getItem("meshservice") || "false")
+    this.setInitialMeshServiceState(JSON.parse(localStorage.getItem("meshservice")) || false)
     this.currentTabSlug = "Kubernetes"
   }
 
@@ -28,9 +28,9 @@ class TabsComponent {
       return
     }
 
-    localStorage.setItem("meshservice", checked)
+    localStorage.setItem("meshservice", JSON.stringify(checked))
     this.elem.querySelectorAll('.meshservice input').forEach((item) => {
-      if (checked === "true") {
+      if (checked === true) {
         item.setAttribute("checked", checked)
       }
     });
@@ -45,23 +45,27 @@ class TabsComponent {
 
     const that = this
     this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
-      if (checked === "false") {
+      if (checked === false) {
+        debugger
         item.parentElement.hidden = true
         item.parentElement.classList.remove("is-active")
-      } else if (checked === "true") {
+      } else if (checked === true) {
         item.parentElement.hidden = false
         if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
           item.parentElement.classList.add("is-active")
+          item.click()
         }
       }
     });
+    debugger
     this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
-      if (checked === "true") {
+      if (checked === true) {
         item.parentElement.hidden = true
         item.parentElement.classList.remove("is-active")
-      } else if (checked === "false") {
+      } else if (checked === false) {
         item.parentElement.hidden = false
         if (item.attributes['aria-controls'].nodeValue.includes(that.currentTabSlug)) {
+          item.click()
           item.parentElement.classList.add("is-active")
         }
       }
@@ -105,16 +109,17 @@ class TabsComponent {
   onTabSelected(event) {
     const { tabSlug } = event.detail;
     this.setSelectedTabBySlug(tabSlug);
+    console.log(tabSlug)
     this.currentTabSlug = tabSlug
   }
 
   onNewMeshServiceChanged(event) {
     if (event.currentTarget.checked === true) {
-      localStorage.setItem("meshservice", "true")
-      this.hideMeshServiceTabs("true")
+      localStorage.setItem("meshservice", JSON.stringify(true))
+      this.hideMeshServiceTabs(true)
     } else {
-      localStorage.setItem("meshservice", "false")
-      this.hideMeshServiceTabs("false")
+      localStorage.setItem("meshservice", JSON.stringify(false))
+      this.hideMeshServiceTabs(false)
     }
   }
 
