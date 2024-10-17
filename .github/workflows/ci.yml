@@ -101,7 +101,7 @@ jobs:
           (apt-get update && apt-get install file curl jq -y) || true
           (yum install yum-utils -y && yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && yum install file tar gzip jq -y) || true
           pacman --noconfirm -Syu jq file curl || true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run installer.sh
         env:
           VERBOSE: ${{ runner.debug }}
@@ -145,7 +145,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Test installer.sh on arm64
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
         name: Run commands
         id: runcmd
@@ -172,7 +172,7 @@ jobs:
       - name: Prepare OS
         run: |
           (apt-get update && apt-get install curl -y) || true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run installer.sh
         env:
           VERBOSE: ${{ runner.debug }}
@@ -203,7 +203,7 @@ jobs:
               .filter(d => !d.filename.includes("/generated/"))
               .filter(d => !d.filename.includes("/raw/"))
               .map(d => d.filename);
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: errata-ai/vale-action@v2.1.1
         if: join(fromJSON(steps.changed-files.outputs.result)) != ''
         name: Run Vale
