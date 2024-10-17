@@ -9,10 +9,7 @@ A policy is a set of configuration that will be used to generate the proxy confi
 
 ## What do policies look like?
 
-Like all [resources](/docs/{{ page.version }}/introduction/concepts#resource) in {{ site.mesh_product_name }}, there are two parts to a policy:
-
-1. The metadata
-2. The spec
+Like all [resources](/docs/{{ page.version }}/introduction/concepts#resource) in {{ site.mesh_product_name }}, there are two parts to a policy: the metadata and the spec.
 
 ### Metadata
 
@@ -59,7 +56,7 @@ spec: ... # spec data specific to the policy kind
 ```
 
 {% warning %}
-Policies are namespaced scope and currently the namespace must be the one the control-plane is running in `{{site.mesh_namespace}}` by default.
+Policies are namespace-scoped and currently the namespace must be the one the control-plane is running in `{{site.mesh_namespace}}` by default.
 {% endwarning %}
 
 {% endtab %}
@@ -74,7 +71,7 @@ Some policies apply to only a subset of the configuration of the proxy.
 - **Inbound policies** apply only to incoming traffic. The `spec.from[].targetRef` field defines the subset of clients that are going to be impacted by this policy.
 - **Outbound policies** apply only to outgoing traffic. The `spec.to[].targetRef` field defines the outbounds that are going to be impacted by this policy
 
-The actual configuration is defined in a `default` map.
+The actual configuration is defined under the `default` field.
 
 For example:
 
@@ -130,7 +127,7 @@ This means that converting policies between Universal and Kubernetes only means 
 
 ## Writing a `targetRef`
 
-`targetRef` is a concept borrowed from [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) its usage is fully defined in [MADR 005](https://github.com/kumahq/kuma/blob/master/docs/madr/decisions/005-policy-matching.md).
+`targetRef` is a concept borrowed from [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/). 
 Its goal is to select subsets of proxies with maximum flexibility.
 
 It looks like:
@@ -142,6 +139,8 @@ targetRef:
   tags:
     key: value # For kinds MeshSubset and MeshGateway a list of matching tags can be used
   proxyTypes: ["Sidecar", "Gateway"] # For kinds Mesh and MeshSubset a list of matching Dataplanes types can be used
+  labels:
+    key: value # In the case of policies that apply to labeled resources you can use these to apply the policy to each resource
 ```
 
 Here's an explanation of each kinds and their scope:
@@ -195,7 +194,7 @@ The `spec.to[].targetRef` section enables logging for any traffic going to `web-
 The `spec.from[].targetRef` section enables logging for any traffic coming from _anywhere_ in the `Mesh`.
 
 ### Omitting `targetRef`
-When a `targetRef` is not present. It is semantically equivalent to: `targetRef.kind: Mesh` meaning everything inside the mesh.
+When a `targetRef` is not present. It is semantically equivalent to: `targetRef.kind: Mesh` meaning everything inside the `Mesh`.
 
 ### Applying to specific proxy types
 The `targetRef` field can select a specific subset of data plane proxies. The field named `proxyTypes` can restrict policies to specific types of data plane proxies:
@@ -410,7 +409,7 @@ In other words:
    ```
 
 There is however, one exception to this when using `MeshService` with **outbound** policies (policies with `spec.to[].targetRef`).
-In this case, if you define a policy in the same namespace as the `MeshService` it is defined in a policy will be considered to be a **producer** policy.
+In this case, if you define a policy in the same namespace as the `MeshService` it is defined in, that policy will be considered a **producer** policy.
 This means that all clients of this service (even in different zones) will be impacted by this policy.
 
 An example of a producer policy is:
