@@ -45,21 +45,21 @@ class TabsComponent {
 
     this.elem.querySelectorAll('.tabs-component-tabs a[data-slug$="­"]').forEach((item) => {
       if (!checked) {
-        this.hideTab(item, true)
+        this.hideMeshServiceTab(item, true)
       } else {
-        this.unhideTab(item)
+        this.unhideMeshServiceTab(item)
       }
     });
     this.elem.querySelectorAll('.tabs-component-tabs a:not([data-slug$="­"])').forEach((item) => {
       if (checked) {
-        this.hideTab(item, false)
+        this.hideMeshServiceTab(item, false)
       } else {
-        this.unhideTab(item)
+        this.unhideMeshServiceTab(item)
       }
     });
   }
 
-  unhideTab(item) {
+  unhideMeshServiceTab(item) {
     item.parentElement.classList.remove("hidden")
     if (item.attributes['aria-controls'].nodeValue.includes(this.currentTabSlug) || this.currentTabSlug.includes(item.attributes['aria-controls'].nodeValue)) {
       item.parentElement.classList.add("is-active")
@@ -67,7 +67,7 @@ class TabsComponent {
     }
   }
 
-  hideTab(item, isMeshService) {
+  hideMeshServiceTab(item, isMeshService) {
     item.parentElement.classList.add("hidden")
     item.parentElement.classList.remove("is-active")
     const selector = isMeshService ? '.tabs-component-tabs a:not([data-slug$="­"])' : '.tabs-component-tabs a[data-slug$="­"]'
