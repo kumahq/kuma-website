@@ -37,7 +37,7 @@ jobs:
           timeoutSeconds: 1200
       - name: Wait for Netlify site to be ready
         if: steps.waitForCheck.outputs.conclusion == 'neutral'
-        uses: jakepartusch/wait-for-netlify-action@v1.2
+        uses: jakepartusch/wait-for-netlify-action@v1.4
         id: waitForNetlify
         with:
           site_name: "kuma"
