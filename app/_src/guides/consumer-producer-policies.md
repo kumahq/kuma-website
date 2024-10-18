@@ -134,21 +134,21 @@ We should see output like:
 ```
 
 {{site.mesh_product_name}} is adding custom labels to our policy. The one that interests us most at the moment is `kuma.io/policy-role`.
-This is new label that indicates policy role. Possible values of this label are:
+This label indicates the policy role. Possible values of this label are:
 
 - `system` - policies applied in system namespace
 - `workload-owner` - policies that don't specify `spec.from` and `spec.to` sections or specify only `spec.from` section
 - `consumer` - policies targeting MeshServices from different namespace or targeting MeshService by labels
-- `producer` - policies targeting MeshServices from the same namespace in `spec.to[]` section 
+- `producer` - policies defined in the same namespace as the MeshService they are targeting in their `spec.to[]`. 
 
 ### Producer consumer model
 
-With namespace scoped policies we've introduced producer/consumer model for policies. 
+With namespace scoped policies we've introduced a producer/consumer model for policies. 
 
 A **producer** is someone who authors and operates a service. A producer can create policies that will be applied by default to any communication with their services.
 Producer policies will be created in the same zone as `MeshService` they target. Producer policies will be synced to other zones. 
 
-**Consumer** is someone that utilizes a service by communicating with it. Consumer policies will be applied in consumer 
+A **consumer** is the client of a service. Consumer policies will be applied in the consumer
 namespace and will target MeshService from different namespace. Consumer policy will take effect only in consumer namespace.
 Consumer policies will override producer policies.
 
