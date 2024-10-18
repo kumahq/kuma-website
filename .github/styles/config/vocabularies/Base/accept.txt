@@ -83,7 +83,7 @@ kubectl
 kumactl
 kustomization
 Kustomize
-listStyle
+linkStyle
 Loggly
 loopback
 lua
@@ -94,8 +94,8 @@ minikube
 Mockbin
 Moesif
 MongoDB
+m?TLS
 Multus
-mTLS
 NAD
 namespace[sd]?
 navtabs
@@ -138,7 +138,6 @@ Syslog
 target[Rr]ef
 tbl
 tcpdump
-TLS
 transcoder
 ttl
 txt

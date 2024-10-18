@@ -5,7 +5,42 @@ title: Progressively rolling in strict mTLS
 The [MeshTLS](/docs/{{ page.version }}/policies/meshtls/) policy allows you to gradually migrate services to mutual TLS without dropping a packet.
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application.
+
+## Basic setup
+
+In order to be able to fully utilize MeshTLS policy you need to enable [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTLS), and you can do it with `builtin` CA backend by executing:
+
+```shell
+echo "apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  mtls:
+    enabledBackend: ca-1
+    backends:
+    - name: ca-1
+      type: builtin" | kubectl apply -f -
+```
+
+To make sure that traffic works in our examples let's configure MeshTrafficPermission to allow all traffic:
+
+```shell
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: kuma-system
+  name: mtp
+spec:
+  targetRef:
+    kind: Mesh
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        action: Allow" | kubectl apply -f -
+```
 
 ## Gradually bring another service into the mesh
 
@@ -50,10 +85,11 @@ flowchart LR
     linkStyle 1 stroke:#555a5d, stroke-width:2px;
 {% endmermaid %}
 
-### Enable port forwarding for both second app
+### Enable port forwarding for both demo-apps
 
 ```bash
-kubectl port-forward svc/demo-app -n kuma-demo-migration 5001:5000
+kubectl port-forward svc/demo-app -n kuma-demo 5001:5000
+kubectl port-forward svc/demo-app -n kuma-demo-migration 5002:5000
 ```
 
 Open up both apps' GUI and turn on auto incrementing.
@@ -94,7 +130,11 @@ kubectl patch deployment redis -n kuma-demo-migration \
 ```
 
 After this redis will be receiving plaintext traffic from non-meshed client.
-You can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
+You can go to the {{site.mesh_product_name}} GUI, check the `Stats` tab for the `redis` Dataplane in the `kuma-demo-migration` namespace, and you should see this metric increment :
+
+<center>
+<img src="/assets/images/guides/meshtls/dp-stats-view1.png" alt="Data Plane Proxies Stats metric for cluster.localhost_6379.upstream_cx_total"/>
+</center>
 
 ```yaml
 cluster.localhost_6379.upstream_cx_total
@@ -141,10 +181,14 @@ kubectl patch deployment demo-app -n kuma-demo-migration \
 -p='[{"op": "add", "path": "/spec/template/metadata/labels/kuma.io~1sidecar-injection", "value": "enabled"}]'
 ```
 
-After this is done, you'll have to re-enable the port-forward, and then you can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
+After this is done, you'll have to re-enable the port-forward, and then you can go to the {{site.mesh_product_name}} GUI, check the `Stats` tab for the `redis` Dataplane in the `kuma-demo-migration` namespace, and you should see this metric increment:
+
+<center>
+<img src="/assets/images/guides/meshtls/dp-stats-view2.png" alt="Data Plane Proxies Stats metric for inbound_POD_IP_6379.rbac.allowed"/>
+</center>
 
 ```yaml
-inbound_POD_IP_6379.rbac.allowed: 809
+inbound_POD_IP_6379.rbac.allowed
 ```
 
 The below diagram shows that all services are now in the mesh:
@@ -175,13 +219,15 @@ flowchart LR
 
 Finally, to set strict mode you can either edit the policy or remove it (the default is taken from `Mesh` object which is `STRICT`).
 
+{% tip %}
+**Things to remember when migrating to strict TLS**
+
+If only encrypted traffic is sent to the destination, the difference between `cluster.localhost_6379.upstream_cx_total` and `inbound_10_42_0_13_6379.rbac.allowed` will not change after setting the workload to `Strict` mode.
+{% endtip %}
+
 ```bash
-kubectl delete meshtlses.kuma.io -n kuma-system redis
+kubectl delete meshtlses.kuma.io -n kuma-demo-migration redis
 ```
-
-## Things to remember when migrating to strict TLS
-
-* Before changing a workload to `Strict` mode check that `tls_inspector.tls_not_found` stat is no longer incrementing.
 
 ## Next steps
 
