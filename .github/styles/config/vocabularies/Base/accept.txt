@@ -95,6 +95,7 @@ Mockbin
 Moesif
 MongoDB
 Multus
+mTLS
 NAD
 namespace[sd]?
 navtabs
@@ -138,7 +139,6 @@ target[Rr]ef
 tbl
 tcpdump
 TLS
-tls
 transcoder
 ttl
 txt
