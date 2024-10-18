@@ -3,7 +3,9 @@ title: Producer and Consumer policies
 ---
 
 With namespace scoped policies in {{site.mesh_product_name}} you can have fine-grained control over policies and how they apply to 
-your workloads. To fully utilize power of namespace scoped policies we need to get familiar with producer consumer model.
+your workloads. Moreover, this empowers app owners to take advantage of Kubernetes RBAC for policy configuration.
+
+To fully utilize power of namespace scoped policies we need to get familiar with producer consumer model.
 This guide will help you get comfortable with producer consumer model.
 
 ## Prerequisites
@@ -91,9 +93,32 @@ You should see something similar to:
 {"counter":"1","zone":"local","err":null}
 ```
 
+At this moment our setup looks like this:
+
+{% mermaid %}
+flowchart LR
+
+subgraph first-consumer-ns
+  first-consumer
+end
+
+subgraph second-consumer-ns
+  second-consumer
+end
+
+subgraph kuma-demo-ns
+  kuma-demo
+  redis
+end
+
+kuma-demo --> redis
+first-consumer --> kuma-demo
+second-consumer --> kuma-demo
+{% endmermaid %}
+
 ## Namespace scoped policies
 
-Now that we have our setup we can start playing with policies. Let's create a simple MeshTimeout policy in `kuma-demo` namespace:
+Now that we have our setup we can start playing with policies. Let's create a simple [MeshTimeout](/docs/{{ page.version }}/policies/meshtimeout/) policy in `kuma-demo` namespace:
 
 ```shell
 echo "apiVersion: kuma.io/v1alpha1
@@ -138,7 +163,7 @@ This label indicates the policy role. Possible values of this label are:
 
 - `system` - policies applied in system namespace
 - `workload-owner` - policies that don't specify `spec.from` and `spec.to` sections or specify only `spec.from` section
-- `consumer` - policies targeting MeshServices from different namespace or targeting MeshService by labels
+- `consumer` - policies targeting `MeshServices` from different namespace in `spec.to` section or targeting `MeshService` by labels
 - `producer` - policies defined in the same namespace as the MeshService they are targeting in their `spec.to[]`. 
 
 ### Producer consumer model
@@ -175,6 +200,36 @@ We should see the same results when making requests from second-consumer namespa
 kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment -H "x-set-response-delay-ms: 2000"
 ```
 
+Output:
+
+```
+{"counter":"4","zone":"local","err":null}
+```
+
+Producer policy will be applied on all traffic to `kuma-demo` as we can see on this diagram: 
+
+{% mermaid %}
+flowchart LR
+
+subgraph first-consumer-ns
+first-consumer
+end
+
+subgraph second-consumer-ns
+second-consumer
+end
+
+subgraph kuma-demo-ns
+kuma-demo
+redis
+end
+
+kuma-demo --> redis
+first-consumer --producer-timeout--> kuma-demo
+second-consumer --producer-timeout--> kuma-demo
+{% endmermaid %}
+
+
 ## Utilizing consumer policy
 
 Until now, we were relying on producer policy created previously. Let's assume that we don't mind waiting a little longer
@@ -193,8 +248,8 @@ spec:
   to:
     - targetRef:
         kind: MeshService
-        name: demo-app
-        namespace: kuma-demo
+        labels:
+          k8s.kuma.io/service-name: demo-app
       default:
         http:
           requestTimeout: 3s" | kubectl apply -f -
@@ -219,6 +274,29 @@ We should still see timeouts:
 upstream request timeout
 ```
 
+To better visualize this we can look again at our diagram and see that only traffic from `first-consumer` will be affected.
+
+{% mermaid %}
+flowchart LR
+
+subgraph first-consumer-ns
+first-consumer
+end
+
+subgraph second-consumer-ns
+second-consumer
+end
+
+subgraph kuma-demo-ns
+kuma-demo
+redis
+end
+
+kuma-demo --> redis
+first-consumer --consumer-timeout--> kuma-demo
+second-consumer --producer-timeout--> kuma-demo
+{% endmermaid %}
+
 ## What we've learnt?
 
 - How to apply policy on a namespace
@@ -228,4 +306,5 @@ upstream request timeout
 
 ## Next steps
 
-- Read more about [producer/consumer policies](TODO)
+- Read more about [producer/consumer policies](/docs/{{ page.version }}/policies/introduction)
+- Check out [Federate zone control plane](/docs/{{ page.version }}/guides/federate/) guide
