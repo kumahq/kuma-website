@@ -12,11 +12,9 @@ module Jekyll
             super
             @tabs_name, *params_list = markup.split(' ')
             @default_params = { "raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false" }
-            # Params are initialized per block
-            @params = Marshal.load(Marshal.dump(@default_params))
             params_list.each do |item|
-              key, value = item.split('=')
-              @params[key] = value unless value == ''
+              sp = item.split('=')
+              @params[sp[0]] = sp[1] unless sp[1] == ''
             end
           end
 
@@ -53,7 +51,7 @@ module Jekyll
               if value.is_a?(Hash)
                 process_hash(value, remove_suffix, rename_suffix)  # Recursive call for nested hash
               elsif value.is_a?(Array)
-                process_array(value, remove_suffix, rename_suffix)  # Recursive call for nested hash
+                process_array(value, remove_suffix, rename_suffix)  # Recursive call for nested array
               end
 
               # Remove keys with the specific suffix
@@ -96,8 +94,6 @@ module Jekyll
             kube_style1_content = ""
             kube_style2_content = ""
 
-            # Re-initialize params to ensure no cross-block contamination
-            params = Marshal.load(Marshal.dump(@params))
             use_meshservice = params["use_meshservice"] == "true"
 
             YAML.load_stream(content) do |yaml_data|
