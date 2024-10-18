@@ -165,7 +165,7 @@ there is already a hash generated, the hash is returned immediately, ignoring th
     - **`name`** - the name of the URL query parameter that will be used to obtain the hash key. If the parameter is not 
     present, no hash will be produced. Query parameter names are case-sensitive.
   - **`filterState`**:
-    - **`key`** – the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is 
+    - **`key`** the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is 
     no data associated with the key, or the stored object is not `Envoy::Hashable`, no hash will be produced.
 
 #### Random
@@ -201,7 +201,7 @@ must be prime number limited to 5000011. If it is not specified, the default is 
     - **`name`** - the name of the URL query parameter that will be used to obtain the hash key. If the parameter is not
       present, no hash will be produced. Query parameter names are case-sensitive.
   - **`filterState`**:
-    - **`key`** – the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is
+    - **`key`** the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is
       no data associated with the key, or the stored object is not `Envoy::Hashable`, no hash will be produced.
 
 ## Examples

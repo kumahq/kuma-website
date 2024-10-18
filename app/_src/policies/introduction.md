@@ -324,7 +324,7 @@ default:
 
 ## Using policies with `MeshService`, `MeshMultizoneService` and `MeshExternalService`.
 
-[`MeshService`](/docs/{{ page.version }}/networking/meshservice) is a feature to define services explicitly in {{ site.product_name }}.
+[`MeshService`](/docs/{{ page.version }}/networking/meshservice) is a feature to define services explicitly in {{ site.mesh_product_name }}.
 It can be selectively enabled and disable depending on the value of [meshServices.mode](/docs/{{ page.version }}/networking/meshservice/#migration) on your Mesh object.
 
 When using explicit services, `MeshServiceSubset` is no longer a valid kind and `MeshService` can only be used to select an actual `MeshService` resource (it can no longer select a `kuma.io/service`).
@@ -465,7 +465,7 @@ Remember that `labels` on a `MeshService` applies to _each_ matching `MeshServic
 named the same way in different namespaces or zones with different configuration use a more specific set of labels.
 {% endtip %}
 
-{{ site.product_name }} adds a label `kuma.io/policy-role` to identify the type of the policy. The values of the label are:
+{{ site.mesh_product_name }} adds a label `kuma.io/policy-role` to identify the type of the policy. The values of the label are:
 
 - **system**: Policies defined on global or in the zone's system namespace
 - **workload-owner**: Policies defined in a non system namespaces that do not have `spec.to` entries, or have both `spec.from` and `spec.to` entries

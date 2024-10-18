@@ -2,11 +2,11 @@
 title: Concepts
 ---
 
-In this page we will introduce concepts that are core to understanding {{ site.product_name }}.
+In this page we will introduce concepts that are core to understanding {{ site.mesh_product_name }}.
 
 ## Control Plane
 
-The control plane is the central management layer of {{ site.product_name }}. It is responsible for configuring and managing the behavior of the data plane,
+The control plane is the central management layer of {{ site.mesh_product_name }}. It is responsible for configuring and managing the behavior of the data plane,
 which handles the actual traffic between services.
 
 ## Data Plane
@@ -52,14 +52,14 @@ An outbound is the part
 
 ## Resource
 
-A resource is an object or entity that can be created, managed, and interacted with in {{ site.product_name }}.
+A resource is an object or entity that can be created, managed, and interacted with in {{ site.mesh_product_name }}.
 Resources are the building blocks that define the behavior and state of your service mesh.
 Each resource is defined as a type of API object that has a specific purpose and is represented by its state and configuration.
 
 A resource is most often expressed as yaml and can have 2 formats:
 
-- `Kubernetes` when the backing control plane runs on Kubernetes. In this case {{ site.product_name }} resources are defined as Kubernetes Custom Resource Definitions.
-- `Universal` in other cases or when accessing resources through {{ site.product_name}}'s REST api.
+- `Kubernetes` when the backing control plane runs on Kubernetes. In this case {{ site.mesh_product_name }} resources are defined as Kubernetes Custom Resource Definitions.
+- `Universal` in other cases or when accessing resources through {{ site.mesh_product_name}}'s REST api.
 
 Resources are most commonly represented in yaml format.
 
