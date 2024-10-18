@@ -145,8 +145,8 @@ This is new label that indicates policy role. Possible values of this label are:
 
 With namespace scoped policies we've introduced producer/consumer model for policies. 
 
-**Producer** is someone who authors and operates service. Producer can create default policies that will be used when communicating with service. 
-Producer policies will be created in the same zone as MeshService they target. Producer policies will be synced to other zones. 
+A **producer** is someone who authors and operates a service. A producer can create policies that will be applied by default to any communication with their services.
+Producer policies will be created in the same zone as `MeshService` they target. Producer policies will be synced to other zones. 
 
 **Consumer** is someone that utilizes a service by communicating with it. Consumer policies will be applied in consumer 
 namespace and will target MeshService from different namespace. Consumer policy will take effect only in consumer namespace.
@@ -177,7 +177,7 @@ kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:50
 
 ## Utilizing consumer policy
 
-To this moment we were relying on producer policy created previously. Let's assume that we don't mind waiting a little longer
+Until now, we were relying on producer policy created previously. Let's assume that we don't mind waiting a little longer
 for the response from demo-app, and we would like to override the timeout just for our namespace. To do so we need to create new policy:
 
 ```shell
@@ -206,7 +206,7 @@ When we now make requests from the first-consumer namespace all the requests sho
 kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment -H "x-set-response-delay-ms: 2000"
 ```
 
-Policy that we have just applied is consumer policy. This means that traffic from other namespaces to demo-app should not be affected by it.
+We have just applied a consumer policy. The timeout will only be applied in the `first-consumer` namespace.
 We can test this by making requests from our second-consumer namespace:
 
 ```shell
