@@ -14,13 +14,13 @@ You must [explicitly specify the protocol](/docs/{{ page.version }}/policies/pro
 
 {{site.mesh_product_name}} currently supports the following trace exposition formats:
 
-- `zipkin` traces in this format can be sent to [many different tracing backends](https://github.com/openzipkin/openzipkin.github.io/issues/65)
-- `datadog`
+- `Zipkin` traces in this format can be sent to [many different tracing backends](https://github.com/openzipkin/openzipkin.github.io/issues/65)
+- `Datadog`
 
 {% warning %}
 Services still need to be instrumented to preserve the trace chain across requests made across different services.
 
-You can instrument with a language library of your choice ([for zipkin](https://zipkin.io/pages/tracers_instrumentation) and [for datadog](https://docs.datadoghq.com/tracing/setup_overview/setup/java/?tab=containers)).
+You can instrument with a language library of your choice ([for Zipkin](https://zipkin.io/pages/tracers_instrumentation) and [for Datadog](https://docs.datadoghq.com/tracing/setup_overview/setup/java/?tab=containers)).
 For HTTP you can also manually forward the following headers:
 
 - `x-request-id`
@@ -821,9 +821,9 @@ you can target parts of a `Mesh` by using a finer-grained `targetRef` and a desi
 This is especially useful when you want traces to never leave a world region, or a cloud, for example.
 
 In this example, we have two zones `east` and `west`, each of these with their own Zipkin collector: `east.zipkincollector:9411/api/v2/spans` and `west.zipkincollector:9411/api/v2/spans`.
-We want dataplane proxies in each zone to only send traces to their local collector.
+We want data plane proxies in each zone to only send traces to their local collector.
 
-To do this, we use a `TargetRef` kind value of `MeshSubset` to filter which dataplane proxy a policy applies to.
+To do this, we use a `TargetRef` kind value of `MeshSubset` to filter which data plane proxy a policy applies to.
 
 {% tabs meshtrace-region useUrlFragment=false %}
 {% tab meshtrace-region Universal %}

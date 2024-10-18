@@ -2,7 +2,7 @@
 title: Concepts
 ---
 
-In this page we will introduce concepts that are core to understanding Kuma.
+In this page we will introduce concepts that are core to understanding {{ site.product_name }}.
 
 ## Control Plane
 
@@ -53,7 +53,7 @@ An outbound is the part
 ## Resource
 
 A resource is an object or entity that can be created, managed, and interacted with in {{ site.product_name }}.
-Resources are the building blocks that define the behavior and state of your service-mesh.
+Resources are the building blocks that define the behavior and state of your service mesh.
 Each resource is defined as a type of API object that has a specific purpose and is represented by its state and configuration.
 
 A resource is most often expressed as yaml and can have 2 formats:
@@ -65,7 +65,7 @@ Resources are most commonly represented in yaml format.
 
 ## Policy
 
-Policies are a specific type of Resources which controls the behaviour, security and communication of applications running inside your service mesh.
+Policies are a specific type of resources that controls the behaviour, security and communication of applications running inside your service mesh.
 They can enable traffic management, security, observability and traffic reliability.
 
 Policies always have a clear specific area of impact and goal.

@@ -138,7 +138,7 @@ targetRef:
   labels:
     key: value # In the case of policies that apply to labeled resources you can use these to apply the policy to each resource
   sectionName: ASection # This is used when trying to attach to a specific part of a resource (for example a port of a `MeshService`)
-  namespace: ns # when in kubernetes this namespace the resource is inside.
+  namespace: ns # valid when the policy is applied by a Kubernetes control plane 
 ```
 
 Here's an explanation of each kinds and their scope:
@@ -203,7 +203,7 @@ The `spec.to[].targetRef` section enables logging for any traffic going to `web-
 The `spec.from[].targetRef` section enables logging for any traffic coming from _anywhere_ in the `Mesh`.
 
 ### Omitting `targetRef`
-When a `targetRef` is not present. It is semantically equivalent to: `targetRef.kind: Mesh` meaning everything inside the `Mesh`.
+When a `targetRef` is not present, it is semantically equivalent to `targetRef.kind: Mesh` and refers to everything inside the `Mesh`.
 
 ### Applying to specific proxy types
 The top level `targetRef` field can select a specific subset of data plane proxies. The field named `proxyTypes` can restrict policies to specific types of data plane proxies:
@@ -243,7 +243,7 @@ For each type of proxy, sidecar or builtin gateway, the table indicates for each
 
 #### Example tables
 
-These are just examples, remember to check the docs specific to your policy!
+These are just examples, remember to check the docs specific to your policy.
 
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
@@ -287,7 +287,7 @@ We define a total order of policy priority:
 - If levels are equal the lexicographic order of policy names is used
 
 {% tip %}
-Remember that a broader a targetRef is the lower its priority is.
+Remember: the broader a `targetRef`, the lower its priority.
 {% endtip %}
 
 For `to` and `from` policies we concatenate the array for each matching policies.
@@ -394,7 +394,7 @@ In this case this is equivalent to writing a specific policy for each service th
 When `MeshService` have multiple ports, you can use `sectionName` to restrict policy to a single port.
 {% endtip %}
 
-### Global, Zonal, Producer and Consumer policies
+### Global, zonal, producer and consumer policies
 
 Policies can be applied to a zone or to a namespace when using Kubernetes.
 Policies will always impact at most the scope at which they are defined.
@@ -465,14 +465,14 @@ Remember that `labels` on a `MeshService` applies to _each_ matching `MeshServic
 named the same way in different namespaces or zones with different configuration use a more specific set of labels.
 {% endtip %}
 
-{{ site.mesh_product_name }} adds a label `kuma.io/policy-role` to identify the type of the policy. The values of the label are:
+{{ site.product_name }} adds a label `kuma.io/policy-role` to identify the type of the policy. The values of the label are:
 
 - **system**: Policies defined on global or in the zone's system namespace
 - **workload-owner**: Policies defined in a non system namespaces that do not have `spec.to` entries, or have both `spec.from` and `spec.to` entries
 - **consumer**: Policies defined in a non system namespace that have `spec.to` which either do not use `name` or have a different `namespace`
 - **producer**: Policies defined in the same namespace as the services identified in the `spec.to[].targetRef`
 
-The merging order of the different policy scopes is: **global < zonal < producer < consumer < worload-owner**.
+The merging order of the different policy scopes is: **workload-owner > consumer > producer > zonal > global**.
 
 ### Example
 
@@ -508,7 +508,7 @@ spec:
 ```
 
 We know it's a producer policy because it is defined in the same namespace as the `MeshService: server` and names this server in its `spec.to[].targetRef`.
-So both client1 and client2 will receive the timeout of 20s.
+So both client1 and client2 will receive the timeout of 20 seconds.
 
 We now create a consumer policy:
 
@@ -616,7 +616,7 @@ spec:
 
 All traffic from any proxies (from `targetRef`) going to any proxy that has the tag `team=my-team` (top level `targetRef`) will have this policy applied with value `key=value`.
 
-This is a useful way to define coarse grain rules for example.
+This is a useful way to define coarse-grained rules for example.
 
 #### Configuring all proxies in a zone
 
@@ -705,7 +705,7 @@ improving the overall system reliability without disrupting ongoing operations.
 
 ### Recommended setup
 
-It's not necessary but CLI tools like [jq](https://jqlang.github.io/jq/) and [jd](https://github.com/josephburnett/jd) can greatly improve the UX.
+It's not necessary but CLI tools like [jq](https://jqlang.github.io/jq/) and [jd](https://github.com/josephburnett/jd) can greatly improve working with {{ site.mesh_product_name }} resources.
 
 ### How to use shadow mode
 

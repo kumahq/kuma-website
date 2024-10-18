@@ -13,7 +13,7 @@ In this guide, we're going to setup a demo with old policies and then perform a 
 ## Prerequisites
 - [`helm`](https://helm.sh/) - a package manager for Kubernetes
 - [`kind`](https://kind.sigs.k8s.io/) - a tool for running local Kubernetes clusters
-- [`jq`](https://jqlang.github.io/jq/) - a command-line json processor
+- [`jq`](https://jqlang.github.io/jq/) - a command-line JSON processor
 - [`jd`](https://github.com/josephburnett/jd) - a command-line utility to visualise JSONPatch
 
 ## Start Kubernetes cluster

@@ -118,6 +118,7 @@ PayPal
 plaintext
 policy_schema
 PowerShell
+Postgres
 prepend(?:ed|s)?
 profiler
 Prometheus
@@ -134,6 +135,7 @@ sandboxing
 serializer
 serverless
 snis
+Speedscope
 Splunk
 ssl
 std(?:in|out|err)
@@ -145,6 +147,7 @@ Syslog
 target[Rr]ef
 tbl
 tcpdump
+TLS
 transcoder
 ttl
 txt

@@ -144,22 +144,22 @@ A recommended path of migration is to start with a coarse grain `MeshTrafficPerm
 If you choose `Postgres` as a configuration store for {{site.mesh_product_name}} on Universal,
 please be aware of the following key settings that affect performance of {{site.mesh_product_name}} Control Plane.
 
-* `KUMA_STORE_POSTGRES_CONNECTION_TIMEOUT` : connection timeout to the Postgres database (default: 5s)
-* `KUMA_STORE_POSTGRES_MAX_OPEN_CONNECTIONS` : maximum number of open connections to the Postgres database (default: unlimited)
+* `KUMA_STORE_POSTGRES_CONNECTION_TIMEOUT` : connection timeout to the Postgres database (default: `5s`)
+* `KUMA_STORE_POSTGRES_MAX_OPEN_CONNECTIONS` : maximum number of open connections to the Postgres database (default: `unlimited`)
 
 ### KUMA_STORE_POSTGRES_CONNECTION_TIMEOUT
 
-The default value will work well in those cases where both `kuma-cp` and Postgres database are deployed in the same datacenter / cloud region.
+The default value will work well in those cases where both `kuma-cp` and Postgres database are deployed in the same data center / cloud region.
 
-However, if you're pursuing a more distributed topology, e.g. by hosting `kuma-cp` on premise and using Postgres as a service in the cloud, the default value might no longer be enough.
+However, if you're pursuing a more distributed topology, for example by hosting `kuma-cp` on premise and using Postgres as a service in the cloud, the default value might no longer be enough.
 
 ### KUMA_STORE_POSTGRES_MAX_OPEN_CONNECTIONS
 
-The more dataplanes join your meshes, the more connections to Postgres database {{site.mesh_product_name}} might need to fetch configurations and update statuses.
+The more data planes join your meshes, the more connections to Postgres database {{site.mesh_product_name}} might need to fetch configurations and update statuses.
 
 As of version 1.4.1 the default value is 50.
 
-However, if your Postgres database (e.g., as a service in the cloud) only permits a small number of concurrent connections, you will have to adjust {{site.mesh_product_name}} configuration respectively.
+However, if your Postgres database (for example as a service in the cloud) only permits a small number of concurrent connections, you will have to adjust {{site.mesh_product_name}} configuration respectively.
 
 ## Snapshot Generation
 
@@ -167,27 +167,27 @@ However, if your Postgres database (e.g., as a service in the cloud) only permit
 This is advanced topic describing {{site.mesh_product_name}} implementation internals
 {% endwarning %}
 
-The main task of the control plane is to provide config for dataplanes. When a dataplane connects to the control plane, the CP starts a new goroutine.
-This goroutine runs the reconciliation process with given interval (1s by default). During this process, all dataplanes and policies are fetched for matching.
-When matching is done, the Envoy config (including policies and available endpoints of services) for given dataplane is generated and sent only if there is an actual change.
+The main task of the control plane is to provide config for data planes. When a data plane connects to the control plane, the control plane starts a new Goroutine.
+This Goroutine runs the reconciliation process with given interval (`1s` by default). During this process, all data planes and policies are fetched for matching.
+When matching is done, the Envoy config (including policies and available endpoints of services) for given data plane is generated and sent only if there is an actual change.
 
-* `KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL` : interval for re-generating configuration for Dataplanes connected to the Control Plane (default: 1s)
+* `KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL` : interval for re-generating configuration for data planes connected to the control plane (default: `1s`)
 
-This process can be CPU intensive with high number of dataplanes therefore you can control the interval time for a single dataplane.
-You can lower the interval scarifying the latency of the new config propagation to avoid overloading the CP. For example,
-changing it to 5s means that when you apply a policy (like TrafficPermission) or the new dataplane of the service is up or down, CP will generate and send new config within 5 seconds.
+This process can be CPU intensive with high number of data planes therefore you can control the interval time for a single data plane.
+You can lower the interval scarifying the latency of the new config propagation to avoid overloading the control plane. For example,
+changing it to 5 seconds means that when you apply a policy (like `MeshTrafficPermission`) or the new data plane of the service is up or down, control plane will generate and send new config within 5 seconds.
 
-For systems with high traffic, keeping old endpoints for such a long time (5s) may not be acceptable. To solve this, you can use passive or active [health checks](/docs/{{ page.version }}/policies/health-check) provided by {{site.mesh_product_name}}.
+For systems with high traffic, keeping old endpoints for such a long time (5 seconds) may not be acceptable. To solve this, you can use passive or active [health checks](/docs/{{ page.version }}/policies/health-check) provided by {{site.mesh_product_name}}.
 
 Additionally, to avoid overloading the underlying storage there is a cache that shares fetch results between concurrent reconciliation processes for multiple dataplanes.
 
-* `KUMA_STORE_CACHE_EXPIRATION_TIME` : expiration time for elements in cache (1s by default).
+* `KUMA_STORE_CACHE_EXPIRATION_TIME` : expiration time for elements in cache (1 second by default).
 
 You can also change the expiration time, but it should not exceed `KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL`, otherwise CP will be wasting time building Envoy config with the same data.
 
 ## Profiling
 
-{{site.mesh_product_name}}'s control plane ships with [pprof](https://golang.org/pkg/net/http/pprof/) endpoints so you can profile and debug the performance of the `kuma-cp` process.
+{{site.mesh_product_name}}'s control plane ships with [`pprof`](https://golang.org/pkg/net/http/pprof/) endpoints so you can profile and debug the performance of the `kuma-cp` process.
 
 To enable the debugging endpoints, you can set the `KUMA_DIAGNOSTICS_DEBUG_ENDPOINTS` environment variable to `true` before starting `kuma-cp` and use one of the following methods to retrieve the profiling information:
 
@@ -262,7 +262,7 @@ runtime:
 
 ## Envoy
 
-### Envoy concurrency tunning
+### Envoy concurrency tuning
 
 Envoy allows configuring the number of [worker threads ](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/intro/threading_model)used for processing requests. Sometimes it might be useful to change the default number of worker threads e.g.: high CPU machine with low traffic. Depending on the type of deployment, there are different mechanisms in `kuma-dp` to change Envoy’s concurrency level.
 
@@ -292,7 +292,7 @@ spec:
 
 {% tab envoy Universal %}
 
-Envoy on Linux, by default, starts with the flag `--cpuset-threads`. In this case, cpuset size is used to determine the number of worker threads on systems. When the value is not present then the number of worker threads is based on the number of hardware threads on the machine. `Kuma-dp` allows tuning that value by providing a `--concurrency` flag with the number of worker threads to create.
+Envoy on Linux, by default, starts with the flag `--cpuset-threads`. In this case, `cpuset` size is used to determine the number of worker threads on systems. When the value is not present then the number of worker threads is based on the number of hardware threads on the machine. `Kuma-dp` allows tuning that value by providing a `--concurrency` flag with the number of worker threads to create.
 
 ```sh
 kuma-dp run \
