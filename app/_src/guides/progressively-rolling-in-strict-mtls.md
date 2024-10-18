@@ -9,7 +9,7 @@ The [MeshTLS](/docs/{{ page.version }}/policies/meshtls/) policy allows you to g
 
 ## Basic setup
 
-In order to be able to fully utilize MeshTLS policy you need to enable [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTLS), and we can do it with `builtin` CA backend by executing:
+In order to be able to fully utilize MeshTLS policy you need to enable [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTLS), and you can do it with `builtin` CA backend by executing:
 
 ```shell
 echo "apiVersion: kuma.io/v1alpha1
@@ -222,7 +222,7 @@ Finally, to set strict mode you can either edit the policy or remove it (the def
 {% tip %}
 **Things to remember when migrating to strict TLS**
 
-The difference between `cluster.localhost_6379.upstream_cx_total` and `inbound_10_42_0_13_6379.rbac.allowed` before changing a workload to `Strict` mode equals that after changing it.
+If only encrypted traffic is sent to the destination, the difference between `cluster.localhost_6379.upstream_cx_total` and `inbound_10_42_0_13_6379.rbac.allowed` will not change after setting the workload to `Strict` mode.
 {% endtip %}
 
 ```bash
