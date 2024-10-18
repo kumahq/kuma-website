@@ -20,20 +20,17 @@ The data plane proxy or sidecar is the instance of Envoy running alongside the a
 It connects to the control plane which computes a configuration specific to it.
 
 {% mermaid %}
--------------------------------------
-title: Representation of a Dataplane
--------------------------------------
+
 flowchart LR
+clients
+servers
 
-clients@{ shape: processes, label: "clients" }
-servers@{ shape: processes, label: "servers"}
-
-subgraph Data plane
-   app
-   subgraph data plane proxy/Envoy
-   inbounds
-   outbounds
-   end
+subgraph data plane
+app
+subgraph data plane proxy/Envoy
+inbounds
+outbounds
+end
 end
 
 inbounds -.local traffic.-> app
@@ -41,14 +38,15 @@ app -.local traffic.-> outbounds
 
 clients --> inbounds
 outbounds --> servers
+
 {% endmermaid %}
 
-### Inbound
+#### Inbound
 
 An inbound is the part of the data plane proxy which receives traffic for a specific port.
 Inbounds are usually grouped between different data planes and form a service.
 
-### Outbound
+#### Outbound
 
 An outbound is the part of the data plane proxy which sends traffic for a specific service.
 Outbounds group multiple remote inbounds as endpoints.

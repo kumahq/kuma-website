@@ -232,7 +232,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-### Target resources
+### `TargetRef` support for different policy types
 
 Not every policy supports `to` and `from` levels. Additionally, not every resource can
 appear at every supported level. The specified top level resource can also affect which
@@ -270,7 +270,7 @@ We can also apply policy as an _inbound_ policy with:
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
 | `to[].targetRef.kind` | `Mesh`                                           |
 
-The table above indicates that we can select builtin gateway vua `Mesh`, `MeshGateway` or even specific listeners with `MeshGateway` using tags. 
+The table above indicates that we can select builtin gateway via `Mesh`, `MeshGateway` or even specific listeners with `MeshGateway` using tags. 
 
 We can use the policy only as an _outbound_ policy with:
 * `to[].targetRef.kind: Mesh` all traffic from the gateway _to_ anywhere.
@@ -284,7 +284,7 @@ A proxy can be targeted by multiple `targetRef`'s, to define how policies are me
 
 We define a total order of policy priority:
 
-- MeshServiceSubset > MeshService > MeshSubset > Mesh (the more a `targetRef` is focused the higher priority it has)
+- `MeshServiceSubset` > `MeshService` > `MeshSubset` > `Mesh` (the more a `targetRef` is focused the higher priority it has)
 - If levels are equal the lexicographic order of policy names is used
 
 {% tip %}
