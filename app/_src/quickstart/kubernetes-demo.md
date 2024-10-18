@@ -172,8 +172,9 @@ metadata:
   name: redis
 spec:
   targetRef:
-    kind: MeshService
-    name: redis_kuma-demo_svc_6379
+    kind: MeshSubset
+    tags:
+      kuma.io/service: redis_kuma-demo_svc_6379
   from:
     - targetRef:
         kind: MeshSubset

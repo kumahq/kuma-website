@@ -36,13 +36,14 @@ Download the distribution manually. Download a distribution for the **client hos
 {% if page.version_data.release == "dev" %}
 In preview builds each version are of the format `{{ site.mesh_helm_install_name }}-0.0.0-preview-v<8charactersShortCommitHash>`.
 
-You can find all released versions for all targets from: <a href="{{site.links.download}}/{{ site.mesh_helm_install_name }}-binaries-preview/">The download page.</a>
 {% endif %}
 {% if page.version_data.release != "dev" %}
 The latest version is: **{{ page.version_data.version }}**.
 
-You can find all released versions for all targets from: <a href="{{site.links.download}}/{{ site.mesh_helm_install_name }}-binaries-release/">The download page.</a>
 {% endif %}
+
+You can find all released versions for all targets on <a href="{{site.links.download}}/{{ site.mesh_helm_install_name }}-binaries-release/">the download page</a> and extract the archive with\
+`tar -xvzf {{ site.mesh_helm_install_name }}-{{ page.version_data.version }}.tar.gz`.
 
 {% if site.mesh_helm_install_name == "kuma" %}
 {% tip %}
@@ -50,7 +51,6 @@ On macOS you can use `brew install kumactl`.
 {% endtip %}
 {% endif %}
 
-and extract the archive with `tar -xvzf {{ site.mesh_helm_install_name }}-{{ page.version_data.version }}.tar.gz`
 {% endtab %}
 {% endtabs %}
 
