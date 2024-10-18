@@ -83,6 +83,7 @@ kubectl
 kumactl
 kustomization
 Kustomize
+listStyle
 Loggly
 loopback
 lua
@@ -129,6 +130,7 @@ Splunk
 ssl
 std(?:in|out|err)
 subcommand
+subgraph
 subproject
 sudo
 Syslog
