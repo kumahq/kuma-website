@@ -1,3 +1,6 @@
+# This plugins lets us to write the policy YAML only once.
+# It removes duplication of examples for both universal and kubernetes environments.
+# The expected format is universal. It only works for policies V2 with a `spec` blocks.
 require 'yaml'
 
 module Jekyll
@@ -37,16 +40,20 @@ module Jekyll
             end
           end
 
-          # Function to remove and rename suffixes in the YAML block (_uni, _kube)
+          # process_hash and process_array are recursive functions that remove the suffixes from the keys
+          # and rename the keys that have the suffixes.
+          # For example, if you have keys called `name_uni` and `name_kube`:
+          # on universal - `name_uni` -> `name` and `name_kube` will be removed
+          # on kubernetes - `name_kube` -> `name` and `name_uni` will be removed
           def process_hash(hash, remove_suffix, rename_suffix)
             keys_to_remove = []
             keys_to_rename = {}
 
             hash.each do |key, value|
               if value.is_a?(Hash)
-                process_hash(value, remove_suffix, rename_suffix)
+                process_hash(value, remove_suffix, rename_suffix)  # Recursive call for nested hash
               elsif value.is_a?(Array)
-                process_array(value, remove_suffix, rename_suffix)
+                process_array(value, remove_suffix, rename_suffix)  # Recursive call for nested hash
               end
 
               # Remove keys with the specific suffix
@@ -65,16 +72,21 @@ module Jekyll
 
           def process_array(array, remove_suffix, rename_suffix)
             array.each do |item|
-              process_hash(item, remove_suffix, rename_suffix) if item.is_a?(Hash)
-              process_array(item, remove_suffix, rename_suffix) if item.is_a?(Array)
+              if item.is_a?(Hash)
+                process_hash(item, remove_suffix, rename_suffix)  # Recursive call for nested hash in array
+              elsif item.is_a?(Array)
+                process_array(item, remove_suffix, rename_suffix)  # Recursive call for nested array
+              end
             end
           end
 
           def render(context)
             content = super
             return "" if content == ""
+            has_raw = @body.nodelist.first { |x| x.has?("tag_name") and x.tag_name == "raw"}
 
             version = context.registers[:page]['version']
+            # remove ```yaml header and ``` footer and read each document one by one
             content = content.gsub(/`{3}yaml\n/, '').gsub(/`{3}/, '')
             site_data = context.registers[:site].config
             mesh_namespace = @params["namespace"] || site_data['mesh_namespace']
@@ -140,6 +152,13 @@ module Jekyll
             uni_style2_content = "```yaml\n" + uni_style2_content + "\n```\n"
             kube_style1_content = "```yaml\n" + kube_style1_content + "\n```\n"
             kube_style2_content = "```yaml\n" + kube_style2_content + "\n```\n"
+
+            if has_raw != false
+              uni_style1_content = "{% raw %}\n" + uni_style1_content + "{% endraw %}\n"
+              uni_style2_content = "{% raw %}\n" + uni_style2_content + "{% endraw %}\n"
+              kube_style1_content = "{% raw %}\n" + kube_style1_content + "{% endraw %}\n"
+              kube_style2_content = "{% raw %}\n" + kube_style2_content + "{% endraw %}\n"
+            end
 
             # Conditionally render tabs based on use_meshservice
             htmlContent = "
