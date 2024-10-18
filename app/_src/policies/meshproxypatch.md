@@ -78,8 +78,8 @@ To learn more about the information in this table, see the [matching docs](/docs
 `MeshProxyPatch` lets you specify modifications in `appendModification` block that can add a new resource, patch an existing resource or remove an existing resource.
 
 Each xDS resource modification consists of 3 fields:
-* `operation` - operation applied to the generated config (e.g. `Add`, `Remove`, `Patch`).
-* `match` - some operations can be applied on matched resources (e.g. remove only resource of given name, patch all outbound resources).
+* `operation` - operation applied to the generated config (for example: `Add`, `Remove`, `Patch`).
+* `match` - some operations can be applied on matched resources (for example: remove only resource of given name, patch all outbound resources).
 {% if_version gte:2.2.x %}
 
 and one of
@@ -1497,9 +1497,9 @@ All modifications from `appendModification` list are always merged.
 For example, if there is a policy with `targetRef.kind: Mesh` and second policy with `targetRef.kind: MeshService` that matches a data plane proxy,
 all modifications from both policies will be applied.
 
-## Json patch
+## JSONPatch
 
-If you use json patch, remember to always use _snakeCase_ instead of _camel_case_ in `path` parameter even though you see _camel_case_ in Envoy Config Dump.
+If you use JSONPatch, remember to always use _camelCase_ instead of _snakeCase_ in `path` parameter even though you see _snakeCase_ in Envoy Config Dump.
 
 ## Examples
 
@@ -1607,9 +1607,9 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### Lua filter
+### lua filter
 
-Here is and example of Lua filter that adds the new `x-header: test` header to all outgoing HTTP requests to service `offers`.
+Here is and example of lua filter that adds the new `x-header: test` header to all outgoing HTTP requests to service `offers`.
 
 {% tabs lua-filter useUrlFragment=false %}
 {% tab lua-filter Kubernetes %}

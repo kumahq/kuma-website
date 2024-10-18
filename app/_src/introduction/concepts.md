@@ -6,18 +6,18 @@ In this page we will introduce concepts that are core to understanding Kuma.
 
 ## Control Plane
 
-The control-plane is the central management layer of {{ site.product_name }}. It is responsible for configuring and managing the behavior of the data plane,
+The control plane is the central management layer of {{ site.product_name }}. It is responsible for configuring and managing the behavior of the data plane,
 which handles the actual traffic between services.
 
 ## Data Plane
 
-### Data-Plane Proxy / Sidecar
+### Data Plane Proxy / Sidecar
 
-The data-plane handles traffic between services.
-It connects to the control-plane which computes a configuration specific to it.
-The data-plane proxy or Sidecar is the instance of Envoy running alongside the data-plane which will send and receive traffic from the rest of the service mesh.
+The data plane handles traffic between services.
+It connects to the control plane which computes a configuration specific to it.
+The data plane proxy or sidecar is the instance of Envoy running alongside the application which will send and receive traffic from the rest of the service mesh.
 
-```mermaid
+{% mermaid %}
 -------------------------------------
 title: Representation of a Dataplane
 -------------------------------------
@@ -26,9 +26,9 @@ flowchart LR
 clients@{ shape: processes, label: "clients" }
 servers@{ shape: processes, label: "servers"}
 
-subgraph Data-plane
+subgraph Data plane
    app
-   subgraph data-plane proxy/Envoy
+   subgraph data plane proxy/Envoy
    inbounds
    outbounds
    end
@@ -39,12 +39,12 @@ app -.local traffic.-> outbounds
 
 clients --> inbounds
 outbounds --> servers
-```
+{% endmermaid %}
 
 ### Inbound
 
-An inbound is the part of the data-plane proxy which receives traffic for a specific port.
-inbounds are usually grouped between different data-planes and form a service.
+An inbound is the part of the data plane proxy which receives traffic for a specific port.
+inbounds are usually grouped between different data planes and form a service.
 
 ### Outbound
 
@@ -58,7 +58,7 @@ Each resource is defined as a type of API object that has a specific purpose and
 
 A resource is most often expressed as yaml and can have 2 formats:
 
-- `Kubernetes` when the backing control-plane runs on Kubernetes. In this case {{ site.product_name }} resources are defined as Kubernetes Custom Resource Definitions.
+- `Kubernetes` when the backing control plane runs on Kubernetes. In this case {{ site.product_name }} resources are defined as Kubernetes Custom Resource Definitions.
 - `Universal` in other cases or when accessing resources through {{ site.product_name}}'s REST api.
 
 Resources are most commonly represented in yaml format.

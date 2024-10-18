@@ -249,8 +249,8 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 ## Common configuration
 
-- **`interval`** - (optional) interval between consecutive health checks, if not specified then equal to "1m"
-- **`timeout`** - (optional) maximum time to wait for a health check response, if not specified then equal to "15s"
+- **`interval`** - (optional) interval between consecutive health checks, if not specified then equal to `1m`
+- **`timeout`** - (optional) maximum time to wait for a health check response, if not specified then equal to `15s`
 - **`unhealthyThreshold`** - (optional) number of consecutive unhealthy checks before considering a host unhealthy, if not specified then equal to 5
 - **`healthyThreshold`** - (optional) number of consecutive healthy checks before considering a host healthy, if not specified then equal to 1
 - **`initialJitter`** - (optional) if specified, Envoy will start health checking after a random time in

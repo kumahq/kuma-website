@@ -89,7 +89,7 @@ them in a `MeshHTTPRoute`!
   - **`value`** - actual value that's going to be matched depending on the `type`
 - **`method`** - (optional) - HTTP2 method, available values are
   `CONNECT`, `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`, `TRACE`
-- **`queryParams`** - (optional) - list of HTTP URL query parameters. Multiple matches are ANDed together
+- **`queryParams`** - (optional) - list of HTTP URL query parameters. Multiple matches are combined together
   such that all listed matches must succeed
   - **`type`** - one of `Exact` or `RegularExpression`
   - **`name`** - name of the query parameter

@@ -21,14 +21,14 @@ plane proxy is allowed to freely flow through it. When it is **open** then the t
 {% endtip %}
 
 The conditions that determine when a circuit breaker is closed or open are being configured on connection limits or
-outlier detection basis. For outlier detection to open circuit breaker you can configure what we call "detectors".
+outlier detection basis. For outlier detection to open circuit breaker you can configure what we call _detectors_.
 This policy provides 5 different types of detectors, and they are triggered on some deviations in the upstream service
 behavior. All detectors could coexist on the same outbound interface.
 
 Once one of the detectors has been triggered the corresponding data plane proxy is ejected from the set of the load
 balancer for a period equal to [baseEjectionTime](#outlier-detection). Every further ejection of the same data plane
 proxy will further extend the [baseEjectionTime](#outlier-detection) multiplied by the number of ejections: for example
-the 4th ejection will be lasting for a period of time of `4 * baseEjectionTime`.
+the fourth ejection will be lasting for a period of time of `4 * baseEjectionTime`.
 
 This policy provides **passive** checks.
 If you want to configure **active** checks, please utilize the [MeshHealthCheck](/docs/{{ page.version }}/policies/meshhealthcheck)
@@ -82,16 +82,16 @@ To learn more about the information in this table, see the [matching docs](/docs
 ### Connection limits
 
 - **`maxConnections`** - (optional) The maximum number of connections allowed to be made to the upstream Envoy Cluster.
-  If not specified then equal to "1024".
+  If not specified then equal to _1024_.
 - **`maxConnectionPools`** - (optional) The maximum number of connection pools per Envoy Cluster that are concurrently
   supported at once. Set this for Envoy Clusters which create a large number of connection pools. If not specified, the
   default is unlimited.
 - **`maxPendingRequests`** - (optional) The maximum number of pending requests that are allowed to the upstream Envoy
-  Cluster. This limit is applied as a connection limit for non-HTTP traffic. If not specified then equal to "1024".
+  Cluster. This limit is applied as a connection limit for non-HTTP traffic. If not specified then equal to _1024_.
 - **`maxRetries`** - (optional) The maximum number of parallel retries that will be allowed to the upstream Envoy
-  Cluster. If not specified then equal to "3".
+  Cluster. If not specified then equal to _3_.
 - **`maxRequests`** - (optional) The maximum number of parallel requests that are allowed to be made to the upstream
-  Envoy Cluster. This limit does not apply to non-HTTP traffic. If not specified then equal to "1024".
+  Envoy Cluster. This limit does not apply to non-HTTP traffic. If not specified then equal to _1024_.
 
 ### Outlier detection
 

@@ -1,3 +1,4 @@
+Aiven
 Argo CD
 [Kk]ong
 [Kk]ubernetes
@@ -15,6 +16,7 @@ backport
 Bagdi
 Bintray
 Bitnami
+[GkM]bps
 blockquotes?
 boolean
 CloudFormation
@@ -25,6 +27,7 @@ configs?
 conntrack
 cors
 CRD
+cron
 Curity
 Datadog
 datagrams?
@@ -47,6 +50,7 @@ endtabs?
 endtip
 endunless
 endwarning
+enum
 etcd
 Fargate
 firewalld
@@ -67,11 +71,13 @@ inbounds
 ini
 io
 iptables
+IPs?
 IPv6
 Istio
 jq
-json
-JsonPath
+JSON
+JSONPath
+JSONPatch
 jwks?
 jwt|JWT
 Keycloak
@@ -105,6 +111,7 @@ ngrok
 observability
 Okta
 opa
+[Oo]tel
 outbounds
 passthrough
 PayPal

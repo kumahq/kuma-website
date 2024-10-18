@@ -112,7 +112,7 @@ That means that for 70% of requests, it returns 500 and for 50% of the 30% that 
 
 ### Abort
 
-Abort defines a configuration of not delivering requests to destination service and replacing the responses from destination dataplane by
+Abort defines a configuration of not delivering requests to destination service and replacing the responses from destination data plane by
 predefined status code.
 
 - `httpStatus` - HTTP status code which will be returned to source side, has to be in [100 - 599] range
@@ -129,7 +129,7 @@ Delay defines a configuration of delaying a response from a destination.
 
 ResponseBandwidth defines a configuration to limit the speed of responding to requests.
 
-- `limit` - represented by value measure in Gbps, Mbps, kbps, or bps, e.g. 10kbps
+- `limit` - represented by value measure in Gbps, Mbps, kbps, or bps, for example `10kbps`
 - `percentage` - a percentage of requests on which abort will be injected, has to be in [0.0 - 100.0] range. If the value is a double number, put it in quotes.
 
 ## Examples
@@ -192,7 +192,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endtab %}
 {% endtabs %}
 
-### 50.5% of requests to service backend from any service is going to be delayed by 5s
+### 50.5% of requests to service backend from any service is going to be delayed by 5 seconds
 
 {% tabs meshfaultinjection-from-all useUrlFragment=false %}
 {% tab meshfaultinjection-from-all Kubernetes %}

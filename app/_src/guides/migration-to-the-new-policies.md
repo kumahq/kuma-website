@@ -11,10 +11,10 @@ and enhance the matching functionality and overall UX.
 In this guide, we're going to setup a demo with old policies and then perform a migration to the new policies.
 
 ## Prerequisites
-- [Helm](https://helm.sh/) - a package manager for Kubernetes
-- [Kind](https://kind.sigs.k8s.io/) - a tool for running local Kubernetes clusters
-- [jq](https://jqlang.github.io/jq/) - a command-line JSON processor
-- [jd](https://github.com/josephburnett/jd) - a command-line util to visualise JSONPatch
+- [`helm`](https://helm.sh/) - a package manager for Kubernetes
+- [`kind`](https://kind.sigs.k8s.io/) - a tool for running local Kubernetes clusters
+- [`jq`](https://jqlang.github.io/jq/) - a command-line json processor
+- [`jd`](https://github.com/josephburnett/jd) - a command-line utility to visualise JSONPatch
 
 ## Start Kubernetes cluster
 
@@ -205,13 +205,13 @@ spec:
 
 It's time to migrate the demo app to the new policies.
 
-Each type of policy can be migrated separately; for example, once we have completely finished with the Timeouts,
-we will proceed to the next policy type, CircuitBreakers.
+Each type of policy can be migrated separately; for example, once we have completely finished with the `Timeout`s,
+we will proceed to the next policy type, `CircuitBreakers`.
 It's possible to migrate all policies at once, but small portions are preferable as they're easily reversible.
 
 The generalized migration process roughly consists of 4 steps:
 
-1. Create a new [targetRef](/docs/{{ page.version }}/policies/introduction) policy as a replacement for exising [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policy (do not forget about default policies that might not be stored in your source control).
+1. Create a new [targetRef](/docs/{{ page.version }}/policies/introduction) policy as a replacement for existing [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policy (do not forget about default policies that might not be stored in your source control).
 The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction).
 Deploy the policy in [shadow mode](/docs/{{ page.version }}/policies/introduction/#applying-policies-in-shadow-mode) to avoid any traffic disruptions.
 2. Using Inspect API review the list of changes that are going to be created by the new policy.
@@ -264,7 +264,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
    + {"permissions":[{"any":true}],"principals":[{"authenticated":{"principalName":{"exact":"spiffe://default/demo-app_kuma-demo_svc_5000"}}}]}
     ```
 
-    As we can see, the only difference is the policy name "MeshTrafficPermission" instead of "allow-all-default".
+    As we can see, the only difference is the policy name `MeshTrafficPermission` instead of `allow-all-default`.
     The value of the policy is the same.
 
 3. Remove the `kuma.io/effect: shadow` label:
