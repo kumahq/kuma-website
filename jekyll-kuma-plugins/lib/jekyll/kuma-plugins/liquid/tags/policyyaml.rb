@@ -99,7 +99,7 @@ module Jekyll
             kube_style1_content = ""
             kube_style2_content = ""
 
-            use_meshservice = params["use_meshservice"] == "true"
+            use_meshservice = @params["use_meshservice"] == "true"
 
             YAML.load_stream(content) do |yaml_data|
               # Universal Style 1 (without transformation)
@@ -111,7 +111,7 @@ module Jekyll
 
               # Kubernetes Style 1 (without transformation)
               kube_style1_data = {
-                "apiVersion" => params["apiVersion"],
+                "apiVersion" => @params["apiVersion"],
                 "kind" => yaml_data["type"],
                 "metadata" => {
                   "name" => yaml_data["name"],
