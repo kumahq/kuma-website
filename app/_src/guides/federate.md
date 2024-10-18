@@ -28,10 +28,10 @@ minikube start -p mesh-global
 ```
 
 ### Setup the minikube tunnel
-If you are using Minikube for local testing, you can take advantage of the built-in minikube tunnel command. This command allows load balancer addresses to be provisioned using localhost.
+If you are using minikube for local testing, you can take advantage of the built-in minikube tunnel command. This command allows load balancer addresses to be provisioned using localhost.
 
 {% tip %}
-Using nohup will allow the tunnel to continue running should your current terminal session end. 
+Using `nohup` will allow the tunnel to continue running should your current terminal session end. 
 {% endtip %}
 
 ```sh

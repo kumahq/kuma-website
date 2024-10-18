@@ -21,7 +21,7 @@ demo-app --> redis
 
 ## Prerequisites
 - [Helm](https://helm.sh/) - a package manager for Kubernetes
-- [Minikube](https://minikube.sigs.k8s.io/docs/) - a tool for running local Kubernetes clusters
+- [minikube](https://minikube.sigs.k8s.io/docs/) - a tool for running local Kubernetes clusters
 
 ## Start Kubernetes cluster
 
