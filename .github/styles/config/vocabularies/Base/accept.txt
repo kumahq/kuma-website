@@ -83,6 +83,7 @@ kubectl
 kumactl
 kustomization
 Kustomize
+linkStyle
 Loggly
 loopback
 lua
@@ -93,6 +94,7 @@ minikube
 Mockbin
 Moesif
 MongoDB
+mtls
 Multus
 NAD
 namespace[sd]?
@@ -129,6 +131,7 @@ Splunk
 ssl
 std(?:in|out|err)
 subcommand
+subgraph
 subproject
 sudo
 Syslog
@@ -137,7 +140,6 @@ tbl
 tcpdump
 TLS
 tls
-mTLS
 transcoder
 ttl
 txt
