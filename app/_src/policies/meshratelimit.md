@@ -7,7 +7,7 @@ This policy uses new policy matching algorithm.
 Do **not** combine with [Rate Limit](/docs/{{ page.version }}/policies/rate-limit).
 {% endwarning %}
 
-This policy enables per-instance service request limiting. Policy supports ratelimiting of HTTP/HTTP2 requests and TCP connections.
+This policy enables per-instance service request limiting. Policy supports rate limiting of HTTP/HTTP2 requests and TCP connections.
 
 The `MeshRateLimit` policy leverages Envoy's [local rate limiting](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter) for HTTP/HTTP2 and [local rate limit filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/local_rate_limit_filter) for TCP connections.
 
@@ -60,7 +60,7 @@ Rate limiting supports an [ExternalService](/docs/{{ page.version }}/policies/ex
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 

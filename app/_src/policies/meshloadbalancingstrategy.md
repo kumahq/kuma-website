@@ -48,7 +48,7 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.version }
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 
@@ -105,7 +105,7 @@ Advanced locality-aware load balancing provides a powerful means of defining how
         - **`AnyExcept`** - traffic will be load balanced to every available zone except those specified in zones list.
         - **`None`** - traffic will not be load balanced to any zone.
       - **`zones`** - list of zone names
-  - **`failoverThreshold.percentage`** - (optional) defines the percentage of live destination dataplane proxies below which load balancing to the next priority starts. .e.g: If you have this set to 70 and you have 10 dataplane proxies it will start load balancing to the next priority when the number of healthy destinations falls under 7. The value to be in (0.0 - 100.0] range (Default 50). If the value is a double number, put it in quotes.
+  - **`failoverThreshold.percentage`** - (optional) defines the percentage of live destination data plane proxies below which load balancing to the next priority starts. .e.g: If you have this set to 70 and you have 10 data plane proxies it will start load balancing to the next priority when the number of healthy destinations falls under 7. The value to be in (0.0 - 100.0] range (Default 50). If the value is a double number, put it in quotes.
 
 #### Zone Egress support
 
@@ -128,7 +128,7 @@ RoundRobin is a load balancing algorithm that distributes requests across availa
 
 #### LeastRequest
 
-LeastRequest selects N random available hosts as specified in 'choiceCount' (2 by default) and picks the host which has 
+`LeastRequest` selects N random available hosts as specified in `choiceCount` (2 by default) and picks the host which has 
 the fewest active requests.
 
 - **`choiceCount`** - (optional) is the number of random healthy hosts from which the host with the fewest active requests will 
@@ -157,7 +157,7 @@ there is already a hash generated, the hash is returned immediately, ignoring th
     - **`name`** - the name of the request header that will be used to obtain the hash key.
   - **`cookie`**:
     - **`name`** - the name of the cookie that will be used to obtain the hash key.
-    - **`ttl`** - (optional) if specified, a cookie with the TTL will be generated if the cookie is not present.
+    - **`ttl`** - (optional) if specified, a cookie with this _time to live_ will be generated if the cookie is not present.
     - **`path`** - (optional) the name of the path for the cookie.
   - **`connection`**:
     - **`sourceIP`** - if true, then hashing is based on a source IP address.
@@ -165,8 +165,8 @@ there is already a hash generated, the hash is returned immediately, ignoring th
     - **`name`** - the name of the URL query parameter that will be used to obtain the hash key. If the parameter is not 
     present, no hash will be produced. Query parameter names are case-sensitive.
   - **`filterState`**:
-    - **`key`** – the name of the Object in the per-request filterState, which is an Envoy::Hashable object. If there is 
-    no data associated with the key, or the stored object is not Envoy::Hashable, no hash will be produced.
+    - **`key`** the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is 
+    no data associated with the key, or the stored object is not `Envoy::Hashable`, no hash will be produced.
 
 #### Random
 
@@ -193,7 +193,7 @@ must be prime number limited to 5000011. If it is not specified, the default is 
     - **`name`** - the name of the request header that will be used to obtain the hash key.
   - **`cookie`**:
     - **`name`** - the name of the cookie that will be used to obtain the hash key.
-    - **`ttl`** - (optional) if specified, a cookie with the TTL will be generated if the cookie is not present.
+    - **`ttl`** - (optional) if specified, a cookie with this _time to live_ will be generated if the cookie is not present.
     - **`path`** - (optional) the name of the path for the cookie.
   - **`connection`**:
     - **`sourceIP`** - if true, then hashing is based on a source IP address.
@@ -201,8 +201,8 @@ must be prime number limited to 5000011. If it is not specified, the default is 
     - **`name`** - the name of the URL query parameter that will be used to obtain the hash key. If the parameter is not
       present, no hash will be produced. Query parameter names are case-sensitive.
   - **`filterState`**:
-    - **`key`** – the name of the Object in the per-request filterState, which is an Envoy::Hashable object. If there is
-      no data associated with the key, or the stored object is not Envoy::Hashable, no hash will be produced.
+    - **`key`** the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is
+      no data associated with the key, or the stored object is not `Envoy::Hashable`, no hash will be produced.
 
 ## Examples
 
@@ -426,9 +426,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-### Prioritize traffic to dataplanes within the same datacenter and fallback cross zone in specific order
+### Prioritize traffic to data planes within the same data center and fallback cross zone in specific order
 
-Requests to backend will be distributed based on weights, with 99.9% of requests routed to data planes in the same datacenter, 0.099% to data planes in the same region, and the remainder to other local instances.
+Requests to backend will be distributed based on weights, with 99.9% of requests routed to data planes in the same data center, 0.099% to data planes in the same region, and the remainder to other local instances.
 
 When no healthy backends are available within the local zone, traffic from data planes in zones `us-1`, `us-2`, and `us-3` will only fall back to zones `us-1`, `us-2`, and `us-3`, while in zones `eu-1`, `eu-2`, and `eu-3` will only fall back to zones `eu-1`, `eu-2`, and `eu-3`. If there are no healthy instances in all zones `eu-[1-3]` or `us-[1-3]`, requests from any instance will then fall back to `us-4`. If there are no healthy instances in `us-4`, the request will fail, as the last rule, by default, has a type of `None`, meaning no fallback is allowed.
 

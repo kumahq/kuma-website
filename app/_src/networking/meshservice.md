@@ -4,7 +4,7 @@ title: MeshService
 
 {% if_version lte:2.8.x %}
 {% warning %}
-This resource is experimental!
+This resource is experimental.
 In Kubernetes, to take advantage of the automatic generation described below,
 you need to set both [control plane configuration variables](/docs/{{ page.version }}/reference/kuma-cp/) `KUMA_EXPERIMENTAL_SKIP_PERSISTED_VIPS`
 and `KUMA_EXPERIMENTAL_GENERATE_MESH_SERVICES` to `"true"` on the zone control
@@ -288,7 +288,7 @@ Both `kuma.io/service` and `MeshService` are used to generate the Envoy resource
 Envoy Clusters and ClusterLoadAssignments. So having both enabled means roughly
 twice as many resources which in turn means potentially
 hitting the resource limits of the control plane and memory usage in the
-dataplane, before reachable backends
+data plane, before reachable backends
 would otherwise be necessary. Therefore, consider trying `ReachableBackends` as
 described below.
 
@@ -303,7 +303,7 @@ relevant `MeshServices` via [`reachableBackends`](/docs/{{ page.version }}/produ
 
 This is the end goal of the migration. Destinations in the mesh are managed
 solely with `MeshService` resources and no longer via `kuma.io/service` tags and
-`Dataplane` inbounds.
+`Dataplane` inbounds. In the future this will become the default.
 
 ### Steps
 

@@ -79,7 +79,7 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 {% endif_version %}
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 
@@ -91,13 +91,13 @@ service is marked as http. More on this in [protocol support section](/docs/{{ p
 
 MeshTimeout policy lets you configure multiple timeouts:
 
-- connectionTimeout
-- idleTimeout
-- http requestTimeout
-- http streamIdleTimeout
-- http maxStreamDuration
-- http maxConnectionDuration
-{% if_version inline:true gte:2.6.x %}- http requestHeadersTimeout{% endif_version %}
+- `connectionTimeout`
+- `idleTimeout`
+- `http.requestTimeout`
+- `http.streamIdleTimeout`
+- `http.maxStreamDuration`
+- `http.maxConnectionDuration`
+{% if_version inline:true gte:2.6.x %}- `http.requestHeadersTimeout`{% endif_version %}
 
 ### Timeouts explained
 
@@ -351,13 +351,13 @@ spec:
 
 | Property                   | default |
 |----------------------------|---------|
-| idleTimeout                | 1h      |
-| connectionTimeout          | 5s      |
-| http.requestTimeout        | 15s     |
-| http.streamIdleTimeout     | 30m     |
-| http.maxStreamDuration     | 0s      |
-| http.maxConnectionDuration | 0s      |
-{% if_version inline:true gte:2.6.x %}| http.requestHeadersTimeout | 0s      |{% endif_version %}
+| `idleTimeout`                | `1h`      |
+| `connectionTimeout`          | `5s`      |
+| `http.requestTimeout`        | `15s`    |
+| `http.streamIdleTimeout`     | `30m`    |
+| `http.maxStreamDuration`     | `0s`     |
+| `http.maxConnectionDuration` | `0s`     |
+{% if_version inline:true gte:2.6.x %}| `http.requestHeadersTimeout` | `0s`      |{% endif_version %}
 
 {% if_version eq:2.1.x %}
 If you don't specify a `from` or `to` section , the defaults from [`Timeout`](/docs/{{ page.version }}/policies/timeout) will be used. This

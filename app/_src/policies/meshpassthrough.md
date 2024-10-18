@@ -19,7 +19,7 @@ When using this policy, the [passthrough mode](/docs/{{ page.version }}/networki
 {% endtab %}
 {% endtabs %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 
@@ -38,7 +38,7 @@ The following describes the default configuration settings of the `MeshPassthrou
   - **`value`**: Destination address based on the defined `type`.
   - **`port`**: Port at which external destination is available. When not defined it caches all traffic to the address.
   - **`protocol`**: Defines protocol of the external destination.
-    - **`tcp`**: **Can't be used when `type` is `Domain` (at TCP level we are not able to disinguish domain, in this case it is going to hijack whole traffic on this port)**.
+    - **`tcp`**: **Can't be used when `type` is `Domain` (at TCP level we are not able to distinguish domain, in this case it is going to hijack whole traffic on this port)**.
     - **`tls`**: Should be used when TLS traffic is originated by the client application.
     - **`http`**
     - **`http2`**
@@ -123,7 +123,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-### Allow a subset of services to communicate with specifc external endpoints
+### Allow a subset of services to communicate with specific external endpoints
 
 {% policy_yaml example3 %}
 ```yaml

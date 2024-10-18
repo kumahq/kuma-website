@@ -12,7 +12,7 @@ depending on where the request coming from and where it's going to.
 
 {% if_version lte:2.1.x %}
 {% warning %}
-`MeshHTTPRoute` does not route cross-zone traffic yet!
+`MeshHTTPRoute` does not route cross-zone traffic yet.
 {% endwarning %}
 {% endif_version %}
 
@@ -55,7 +55,7 @@ depending on where the request coming from and where it's going to.
 
 {% endif_version %}
 
-If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetref).
+If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 
@@ -89,7 +89,7 @@ them in a `MeshHTTPRoute`!
   - **`value`** - actual value that's going to be matched depending on the `type`
 - **`method`** - (optional) - HTTP2 method, available values are
   `CONNECT`, `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`, `TRACE`
-- **`queryParams`** - (optional) - list of HTTP URL query parameters. Multiple matches are ANDed together
+- **`queryParams`** - (optional) - list of HTTP URL query parameters. Multiple matches are combined together
   such that all listed matches must succeed
   - **`type`** - one of `Exact` or `RegularExpression`
   - **`name`** - name of the query parameter
@@ -463,7 +463,7 @@ spec:
 
 When several `MeshHTTPRoute` policies target the same data plane proxy they're merged.
 Similar to the new policies the merging order is determined by
-[the top level targetRef](/docs/{{ page.version }}/policies/targetref#merging-configuration).
+[the top level targetRef](/docs/{{ page.version }}/policies/introduction).
 The difference is in `spec.to[].rules`.
 {{site.mesh_product_name}} treats `rules` as a key-value map
 where `matches` is a key and `default` is a value. For example MeshHTTPRoute policies:

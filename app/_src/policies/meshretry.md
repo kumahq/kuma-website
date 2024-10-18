@@ -7,7 +7,7 @@ This policy uses new policy matching algorithm.
 Do **not** combine with [Retry](/docs/{{ page.version }}/policies/retry).
 {% endwarning %}
 
-This policy enables {{site.mesh_product_name}} to know how to behave if there is a failed scenario (i.e. HTTP request) which could be retried.
+This policy enables {{site.mesh_product_name}} to know how to behave if there are failed requests which could be retried.
 
 ## TargetRef support matrix
 
@@ -84,22 +84,22 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there is
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 
 The policy let you configure retry behaviour for `HTTP`, `GRPC` and `TCP` protocols.
 The protocol is selected by picking the most [specific protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
 
-Each protocol has a separate section under `default` in the policy YAML.
+Each protocol has a separate section under `default` in the policy yaml.
 Some sections are common between protocols or have similar meaning.
 
 ### Retry on
 
 The field `retryOn` is a list of conditions which will cause a retry.
 
-For `HTTP` these are related to the response status code or method ("5xx", "429", "HttpMethodGet").
-For `gRPC` these are status codes in response headers ("canceled", "deadline-exceeded", etc.).
+For `HTTP` these are related to the response status code or method (`5xx`, `429`, `HttpMethodGet`).
+For `gRPC` these are status codes in response headers (`canceled`, `deadline-exceeded`, etc.).
 There is no equivalent for `TCP`.
 
 One or more conditions can be specified, for example:
@@ -148,31 +148,31 @@ retryOn:
   - Unavailable
 ```
 
-### Backoff
+### Back off
 
 This parameter is applicable to both `HTTP` and `GRPC`.
 
 It consists of `BaseInterval` (the amount of time between retries) and 
 `MaxInterval` (the maximal amount of time taken between retries).
 
-We use a fully jittered exponential back-off algorithm for retries.
+We use an exponential back-off algorithm with jitter for retries.
 Given a base interval B and retry number N,
 the back-off for the retry is in the range **[0, (2<sup>N</sup> - 1) × B)**.
 
-For example, given a 25ms interval, the first retry will be delayed randomly by 0-24ms,
-the 2nd by 0-74ms,
-the 3rd by 0-174ms, 
+For example, given a 25 ms interval, the first retry will be delayed randomly by 0-24 ms,
+the second by 0-74 ms,
+the third by 0-174 ms, 
 and so on.
 
 The interval is capped at a `MaxInterval`, which defaults to 10 times the `BaseInterval`.
 
-### Rate limited backoff
+### Rate limited back off
 
 This parameter is applicable to both `HTTP` and `GRPC`.
 
-MeshRetry can be configured in such a way that
+`MeshRetry` can be configured in such a way that
 when the upstream server rate limits the request and responds with a header like `retry-after` or `x-ratelimit-reset`
-it uses the value from the header to determine **when** to send the retry request instead of the [backoff](#backoff) algorithm.
+it uses the value from the header to determine **when** to send the retry request instead of the [back off](#back-off) algorithm.
 
 #### Example
 
@@ -208,7 +208,7 @@ x-ratelimit-reset: 1706096119
 The request will be retried at `Wed Jan 24 2024 11:35:19 GMT+0000`.
 
 If the response does not contain `retry-after` or `x-ratelimit-reset` header (with valid integer value)
-then the amount of time to wait before issuing a request is determined by [backoff](#backoff) algorithm.
+then the amount of time to wait before issuing a request is determined by [back off](#back-off) algorithm.
 
 ## Examples
 
