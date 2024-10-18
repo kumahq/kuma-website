@@ -130,7 +130,7 @@ kubectl patch deployment redis -n kuma-demo-migration \
 ```
 
 After this redis will be receiving plaintext traffic from non-meshed client.
-You can go to {{site.mesh_product_name}} GUI (port 5681) Data Plane Proxies `Stats` section on `redis` in `kuma-demo-migration` namespace, and you should see this metric increment :
+You can go to the {{site.mesh_product_name}} GUI, check the `Stats` tab for the `redis` Dataplane in the `kuma-demo-migration` namespace, and you should see this metric increment :
 
 <center>
 <img src="/assets/images/guides/meshtls/dp-stats-view1.png" alt="Data Plane Proxies Stats metric for cluster.localhost_6379.upstream_cx_total"/>
@@ -181,7 +181,7 @@ kubectl patch deployment demo-app -n kuma-demo-migration \
 -p='[{"op": "add", "path": "/spec/template/metadata/labels/kuma.io~1sidecar-injection", "value": "enabled"}]'
 ```
 
-After this is done, you'll have to re-enable the port-forward, and then you can go to {{site.mesh_product_name}} GUI (port 5681) Data Plane Proxies `Stats` section on `redis` in `kuma-demo-migration` namespace, and you should see this metric increment:
+After this is done, you'll have to re-enable the port-forward, and then you can go to the {{site.mesh_product_name}} GUI, check the `Stats` tab for the `redis` Dataplane in the `kuma-demo-migration` namespace, and you should see this metric increment:
 
 <center>
 <img src="/assets/images/guides/meshtls/dp-stats-view2.png" alt="Data Plane Proxies Stats metric for inbound_POD_IP_6379.rbac.allowed"/>
