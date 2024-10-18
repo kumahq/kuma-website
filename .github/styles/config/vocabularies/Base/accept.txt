@@ -94,7 +94,7 @@ minikube
 Mockbin
 Moesif
 MongoDB
-mtls
+m?(TLS|tls)
 Multus
 NAD
 namespace[sd]?
@@ -138,8 +138,6 @@ Syslog
 target[Rr]ef
 tbl
 tcpdump
-TLS
-tls
 transcoder
 ttl
 txt
