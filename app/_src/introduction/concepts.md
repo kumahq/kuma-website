@@ -46,7 +46,7 @@ outbounds --> servers
 ### Inbound
 
 An inbound is the part of the data plane proxy which receives traffic for a specific port.
-inbounds are usually grouped between different data planes and form a service.
+Inbounds are usually grouped between different data planes and form a service.
 
 ### Outbound
 

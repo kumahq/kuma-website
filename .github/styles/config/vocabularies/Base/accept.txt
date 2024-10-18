@@ -68,7 +68,7 @@ httpbin
 HTTPie
 HTTPS?
 https?
-inbounds
+[iI]nbounds?
 ini
 io
 iptables
@@ -115,7 +115,7 @@ observability
 Okta
 opa
 [Oo]tel
-outbounds
+[Oo]utbounds?
 PascalCase
 passthrough
 PayPal
