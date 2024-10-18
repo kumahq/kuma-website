@@ -486,6 +486,8 @@ items:
         url: /guides/migration-to-the-new-policies/
       - text: Progressively rolling in strict MTLS
         url: /guides/progressively-rolling-in-strict-mtls/
+      - text: Producer and consumer policies
+        url: /guides/consumer-producer-policies
   - title: Reference
     group: true
     items:

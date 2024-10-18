@@ -28,7 +28,7 @@ CRD
 Curity
 Datadog
 datagrams?
-dataplanes?
+Dataplanes?
 dbless
 declaratively
 deduplicat(:?e|ion)
@@ -94,7 +94,7 @@ minikube
 Mockbin
 Moesif
 MongoDB
-m?(TLS|tls)
+m?TLS
 Multus
 NAD
 namespace[sd]?
