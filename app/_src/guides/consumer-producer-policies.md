@@ -149,7 +149,7 @@ A **producer** is someone who authors and operates a service. A producer can cre
 Producer policies will be created in the same zone as `MeshService` they target. Producer policies will be synced to other zones. 
 
 A **consumer** is the client of a service. Consumer policies will be applied in the consumer
-namespace and will target MeshService from different namespace. Consumer policy will take effect only in consumer namespace.
+namespace and may target MeshService from different namespaces. Consumer policies take effect only in the consumer namespace.
 Consumer policies will override producer policies.
 
 ## Testing producer policy
