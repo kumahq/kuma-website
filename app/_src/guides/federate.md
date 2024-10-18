@@ -11,6 +11,7 @@ This way you can:
 
 ## Prerequisites
 - Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Have [kumactl installed and in your path](/docs/{{ page.version }}/production/install-kumactl)
 
 ## Start a global control plane
 
@@ -51,23 +52,19 @@ We skip default mesh creation as we will bring mesh from zone control plane in t
 
 ### Sync endpoint
 
-Find the external IP and port of the `{{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync` service in the `{{site.mesh_namespace}}` namespace:
-
-```sh
-kubectl get services -n {{site.mesh_namespace}}
-NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                  AGE
-{{site.mesh_namespace}}   {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync     LoadBalancer   10.105.9.10     35.226.196.103   5685:30685/TCP                                                           89s
-{{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
-```
-
-You can also retrieve the IP directly with:
+Find and save the external IP and port of the `{{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync` service in the `{{site.mesh_namespace}}` namespace:
 
 ```shell
-export KDS_IP=$(kubectl get svc --namespace {{site.mesh_namespace}} {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export KDS_IP=$(kubectl --context=mesh-global get svc --namespace {{site.mesh_namespace}} {{site.mesh_cp_zone_sync_name_prefix}}global-zone-sync -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 ```
 
-In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you federate the zone control plane.
-If you see `<Pending>` you either need to wait until load balancer is provisioned or you need to make sure that your Kubernetes cluster support provisioning load balancers. 
+{% tip %}
+If you are using minikube, you should use [`host.minikube.internal`](https://minikube.sigs.k8s.io/docs/handbook/host-access/) to ensure networking works correctly.
+
+```sh
+export KDS_IP=host.minikube.internal
+```
+{% endtip %}
 
 ## Copy resources from zone to global control plane
 
@@ -98,14 +95,6 @@ kubectl apply --context=mesh-global -f resources.yaml
 ## Connect zone control plane to global control plane
 
 Update Helm deployment of zone control plane to configure connection to the global control plane.
-
-{% tip %}
-If you are using minikube, you should use [`host.minikube.internal`](https://minikube.sigs.k8s.io/docs/handbook/host-access/) to ensure networking works correctly.
-
-```sh
-export KDS_IP=host.minikube.internal
-```
-{% endtip %}
 
 
 ```sh
