@@ -50,7 +50,7 @@ flowchart LR
     linkStyle 1 stroke:#555a5d, stroke-width:2px;
 {% endmermaid %}
 
-### Enable port forwarding for both demo-app
+### Enable port forwarding for both demo-apps
 
 ```bash
 kubectl port-forward svc/demo-app -n kuma-demo 5001:5000
@@ -95,7 +95,7 @@ kubectl patch deployment redis -n kuma-demo-migration \
 ```
 
 After this redis will be receiving plaintext traffic from non-meshed client.
-You can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
+You can go to {{site.mesh_product_name}} GUI (port 5681) Data Plane Proxies `Stats` section on `redis` in `kuma-demo-migration` namespace, and you should see this metric increment :
 
 ```yaml
 cluster.localhost_6379.upstream_cx_total
@@ -142,10 +142,10 @@ kubectl patch deployment demo-app -n kuma-demo-migration \
 -p='[{"op": "add", "path": "/spec/template/metadata/labels/kuma.io~1sidecar-injection", "value": "enabled"}]'
 ```
 
-After this is done, you'll have to re-enable the port-forward, and then you can go to {{site.mesh_product_name}} GUI (port 5681) and you should see this metric increment on `redis` in `kuma-demo-migration` namespace:
+After this is done, you'll have to re-enable the port-forward, and then you can go to {{site.mesh_product_name}} GUI (port 5681) Data Plane Proxies `Stats` section on `redis` in `kuma-demo-migration` namespace, and you should see this metric increment:
 
 ```yaml
-inbound_POD_IP_6379.rbac.allowed: 809
+inbound_POD_IP_6379.rbac.allowed
 ```
 
 The below diagram shows that all services are now in the mesh:
@@ -179,7 +179,7 @@ Finally, to set strict mode you can either edit the policy or remove it (the def
 {% tip %}
 **Things to remember when migrating to strict TLS**
 
-Before changing a workload to `Strict` mode check that `tls_inspector.tls_not_found` stat is no longer incrementing.
+The difference between `cluster.localhost_6379.upstream_cx_total` and `inbound_10_42_0_13_6379.rbac.allowed` before changing a workload to `Strict` mode equals that after changing it.
 {% endtip %}
 
 ```bash
