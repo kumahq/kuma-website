@@ -104,7 +104,7 @@ Profiles are predefined sets of metrics with manual `include` and `exclude` func
 There are 3 sections:
 - `appendProfiles` - allows to combine multiple predefined profiles of metrics.
 Right now you can only define one profile but this might change it the future
-(e.g. there might be feature related profiles like "Fault injection profile" and "Circuit Breaker profile" so you can mix and match the ones that you need based on your features usage).
+(for example there might be feature related profiles like "Fault injection profile" and "Circuit Breaker profile" so you can mix and match the ones that you need based on your features usage).
 Today only 3 profiles are available: `All`, `Basic` and `None`.
 `All` profile contains all metrics produced by Envoy.
 `Basic` profile contains all metrics needed by {{site.mesh_product_name}} dashboards and [golden 4 signals](https://sre.google/sre-book/monitoring-distributed-systems/) metrics.

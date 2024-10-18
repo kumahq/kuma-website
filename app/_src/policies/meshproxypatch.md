@@ -1499,7 +1499,7 @@ all modifications from both policies will be applied.
 
 ## JSONPatch
 
-If you use JSONPatch, remember to always use _camelCase_ instead of _snakeCase_ in `path` parameter even though you see _snakeCase_ in Envoy Config Dump.
+If you use JSONPatch, remember to always use _camelCase_ instead of _snake_case_ in `path` parameter even though you see _snake_case_ in Envoy Config Dump.
 
 ## Examples
 

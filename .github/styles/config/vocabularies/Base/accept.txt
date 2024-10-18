@@ -19,6 +19,7 @@ Bitnami
 [GkM]bps
 blockquotes?
 boolean
+camelCase
 CloudFormation
 CLI
 CNI|cni
@@ -97,6 +98,8 @@ Luarocks
 MADR
 md
 minikube
+Maglev
+matchers
 Mockbin
 Moesif
 MongoDB
@@ -113,6 +116,7 @@ Okta
 opa
 [Oo]tel
 outbounds
+PascalCase
 passthrough
 PayPal
 plaintext
@@ -134,6 +138,7 @@ runtimes?
 sandboxing
 serializer
 serverless
+snake_case
 snis
 Speedscope
 Splunk

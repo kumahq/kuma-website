@@ -157,7 +157,7 @@ there is already a hash generated, the hash is returned immediately, ignoring th
     - **`name`** - the name of the request header that will be used to obtain the hash key.
   - **`cookie`**:
     - **`name`** - the name of the cookie that will be used to obtain the hash key.
-    - **`ttl`** - (optional) if specified, a cookie with the TTL will be generated if the cookie is not present.
+    - **`ttl`** - (optional) if specified, a cookie with the time to live will be generated if the cookie is not present.
     - **`path`** - (optional) the name of the path for the cookie.
   - **`connection`**:
     - **`sourceIP`** - if true, then hashing is based on a source IP address.
@@ -165,7 +165,7 @@ there is already a hash generated, the hash is returned immediately, ignoring th
     - **`name`** - the name of the URL query parameter that will be used to obtain the hash key. If the parameter is not 
     present, no hash will be produced. Query parameter names are case-sensitive.
   - **`filterState`**:
-    - **`key`** – the name of the Object in the per-request filterState, which is an `Envoy::Hashable` object. If there is 
+    - **`key`** – the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is 
     no data associated with the key, or the stored object is not `Envoy::Hashable`, no hash will be produced.
 
 #### Random
@@ -201,8 +201,8 @@ must be prime number limited to 5000011. If it is not specified, the default is 
     - **`name`** - the name of the URL query parameter that will be used to obtain the hash key. If the parameter is not
       present, no hash will be produced. Query parameter names are case-sensitive.
   - **`filterState`**:
-    - **`key`** – the name of the Object in the per-request filterState, which is an Envoy::Hashable object. If there is
-      no data associated with the key, or the stored object is not Envoy::Hashable, no hash will be produced.
+    - **`key`** – the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is
+      no data associated with the key, or the stored object is not `Envoy::Hashable`, no hash will be produced.
 
 ## Examples
 
@@ -426,9 +426,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-### Prioritize traffic to dataplanes within the same datacenter and fallback cross zone in specific order
+### Prioritize traffic to data planes within the same data center and fallback cross zone in specific order
 
-Requests to backend will be distributed based on weights, with 99.9% of requests routed to data planes in the same datacenter, 0.099% to data planes in the same region, and the remainder to other local instances.
+Requests to backend will be distributed based on weights, with 99.9% of requests routed to data planes in the same data center, 0.099% to data planes in the same region, and the remainder to other local instances.
 
 When no healthy backends are available within the local zone, traffic from data planes in zones `us-1`, `us-2`, and `us-3` will only fall back to zones `us-1`, `us-2`, and `us-3`, while in zones `eu-1`, `eu-2`, and `eu-3` will only fall back to zones `eu-1`, `eu-2`, and `eu-3`. If there are no healthy instances in all zones `eu-[1-3]` or `us-[1-3]`, requests from any instance will then fall back to `us-4`. If there are no healthy instances in `us-4`, the request will fail, as the last rule, by default, has a type of `None`, meaning no fallback is allowed.
 
