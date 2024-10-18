@@ -5,7 +5,42 @@ title: Progressively rolling in strict mTLS
 The [MeshTLS](/docs/{{ page.version }}/policies/meshtls/) policy allows you to gradually migrate services to mutual TLS without dropping a packet.
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application and make sure you enabled mTLS from the quickstart.
+- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application.
+
+## Basic setup
+
+In order to be able to fully utilize MeshTLS policy you need to enable [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTLS), and we can do it with `builtin` CA backend by executing:
+
+```shell
+echo "apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  mtls:
+    enabledBackend: ca-1
+    backends:
+    - name: ca-1
+      type: builtin" | kubectl apply -f -
+```
+
+To make sure that traffic works in our examples let's configure MeshTrafficPermission to allow all traffic:
+
+```shell
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: kuma-system
+  name: mtp
+spec:
+  targetRef:
+    kind: Mesh
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        action: Allow" | kubectl apply -f -
+```
 
 ## Gradually bring another service into the mesh
 
@@ -97,6 +132,10 @@ kubectl patch deployment redis -n kuma-demo-migration \
 After this redis will be receiving plaintext traffic from non-meshed client.
 You can go to {{site.mesh_product_name}} GUI (port 5681) Data Plane Proxies `Stats` section on `redis` in `kuma-demo-migration` namespace, and you should see this metric increment :
 
+<center>
+<img src="/assets/images/guides/meshtls/dp-stats-view1.png" alt="Data Plane Proxies Stats metric for cluster.localhost_6379.upstream_cx_total"/>
+</center>
+
 ```yaml
 cluster.localhost_6379.upstream_cx_total
 ```
@@ -143,6 +182,10 @@ kubectl patch deployment demo-app -n kuma-demo-migration \
 ```
 
 After this is done, you'll have to re-enable the port-forward, and then you can go to {{site.mesh_product_name}} GUI (port 5681) Data Plane Proxies `Stats` section on `redis` in `kuma-demo-migration` namespace, and you should see this metric increment:
+
+<center>
+<img src="/assets/images/guides/meshtls/dp-stats-view2.png" alt="Data Plane Proxies Stats metric for inbound_POD_IP_6379.rbac.allowed"/>
+</center>
 
 ```yaml
 inbound_POD_IP_6379.rbac.allowed
