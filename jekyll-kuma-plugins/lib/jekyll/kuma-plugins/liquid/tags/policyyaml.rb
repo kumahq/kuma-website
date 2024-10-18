@@ -20,20 +20,25 @@ module Jekyll
 
           # Function to transform targetRef based on MeshService name (if needed)
           def transform_target_ref(hash)
-            if hash.dig("spec", "targetRef", "kind") == "MeshService"
-              target_ref = hash["spec"]["targetRef"]
-              if target_ref["name_kube"]
-                transformed_name = target_ref["name_kube"].split('_')
-                hash["spec"]["targetRef"] = {
-                  "kind" => "MeshService",
-                  "name" => transformed_name[0],
-                  "namespace" => transformed_name[1],
-                  "sectionName" => transformed_name[3]
-                }
-              elsif target_ref["name_uni"]
-                hash["spec"]["targetRef"]["name"] = target_ref["name_uni"]
-                hash["spec"]["targetRef"].delete("name_uni")
-                hash["spec"]["targetRef"].delete("name_kube")
+            # Transform each element in spec.to[].targetRef.kind if spec.to exists
+            if hash.dig("spec", "to").is_a?(Array)
+              hash["spec"]["to"].each do |to_item|
+                if to_item.dig("targetRef", "kind") == "MeshService"
+                  target_ref = to_item["targetRef"]
+                  if target_ref["name_kube"]
+                    transformed_name = target_ref["name_kube"].split('_')
+                    to_item["targetRef"] = {
+                      "kind" => "MeshService",
+                      "name" => transformed_name[0],
+                      "namespace" => transformed_name[1],
+                      "sectionName" => transformed_name[3]
+                    }
+                  elsif target_ref["name_uni"]
+                    to_item["targetRef"]["name"] = target_ref["name_uni"]
+                    to_item["targetRef"].delete("name_uni")
+                    to_item["targetRef"].delete("name_kube")
+                  end
+                end
               end
             end
           end
