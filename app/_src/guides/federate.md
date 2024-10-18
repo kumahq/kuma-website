@@ -73,7 +73,7 @@ kumactl config control-planes add \
   --name "zone-cp" \
   --overwrite  
   
-kumactl export --profile=federation --format=kubernetes > resources.yaml
+kumactl export --profile=federation-with-policies --format=kubernetes > resources.yaml
 ```
 
 And finally, we apply resources on global control plane

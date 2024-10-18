@@ -251,6 +251,203 @@ networking:
 {% endtab %}
 {% endtabs %}
 
+{% if_version gte:2.9.x %}
+
+### Reachable Backends
+
+{% warning %}
+This works only when [MeshService](/docs/{{ page.version }}/networking/meshservice) is enabled.
+{% endwarning %}
+
+Reachable Backends provides similar functionality to [reachable services](/docs/{{ page.version }}/production/dp-config/transparent-proxying#reachable-services), but it applies to [MeshService](/docs/{{ page.version }}/networking/meshservice), [MeshExternalService](/docs/{{ page.version }}/networking/meshexternalservice), and [MeshMultiZoneService](/docs/{{ page.version }}/networking/meshmultizoneservice).
+
+By default, every data plane proxy in the mesh tracks every other data plane proxy. Configuring reachableBackends can improve performance and reduce resource utilization.
+
+Unlike reachable services, the model for providing data in Reachable Backends is more structured.
+
+#### Model
+
+- **refs**: A list of all resources your application wants to track and communicate with.
+  - **kind**: The type of resource. Possible values include:
+    - [**MeshService**](/docs/{{ page.version }}/networking/meshservice)
+    - [**MeshExternalService**](/docs/{{ page.version }}/networking/meshexternalservice)
+    - **MeshMultiZoneService**
+  - **name**: The name of the resource.
+  - **namespace**: (Kubernetes only) The namespace where the resource is located. When this is defined, the name is required. Only on kubernetes.
+  - **labels**: A list of labels to match on the resources (either `labels` or `name` can be defined).
+  - **port**: (Optional) The port of the service you want to communicate with. Works with `MeshService` and `MeshMultiZoneService`
+
+{% tabs reachable-backends-model useUrlFragment=false %}
+{% tab reachable-backends-model Kubernetes %}
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+...
+spec:
+  ...
+  template:
+    metadata:
+        kuma.io/reachable-backends: |
+          refs:
+          - kind: MeshService
+            name: redis
+            namespace: kuma-demo
+            port: 8080
+          - kind: MeshMulitZoneService
+            labels:
+              kuma.io/display-name: test-server
+          - kind: MeshExternalService
+            name: mes-http
+            namespace: kuma-system
+```
+{% endtab %}
+{% tab reachable-backends-model Universal %}
+```yaml
+type: Dataplane
+mesh: default
+name: {% raw %}{{ name }}{% endraw %}
+networking:
+  ...
+  transparentProxying:
+    redirectPortInbound: 15006
+    redirectPortOutbound: 15001
+    reachableBackends:
+      refs:
+      - kind: MeshService
+        name: redis
+      - kind: MeshMulitZoneService
+        labels:
+          kuma.io/display-name: test-server
+      - kind: MeshExternalService
+        name: mes-http
+```
+{% endtab %}
+{% endtabs %}
+
+#### Examples
+
+##### `demo-app` communicates only with `redis` on port 6379
+
+{% tabs reachable-backends useUrlFragment=false %}
+{% tab reachable-backends Kubernetes %}
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: kuma-demo
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        kuma.io/reachable-backends: |
+          refs:
+          - kind: MeshService
+            name: redis
+            namespace: kuma-demo
+            port: 6379
+    spec:
+      containers:
+        ...
+```
+{% endtab %}
+{% tab reachable-backends Universal %}
+```yaml
+type: Dataplane
+mesh: default
+name: {% raw %}{{ name }}{% endraw %}
+networking:
+  address: {% raw %}{{ address }}{% endraw %}
+  inbound:
+  - port: {% raw %}{{ port }}{% endraw %}
+    tags:
+      kuma.io/service: demo-app
+  transparentProxying:
+    redirectPortInbound: 15006
+    redirectPortOutbound: 15001
+    reachableBackends:
+      refs:
+      - kind: MeshService
+        name: redis
+        port: 6379
+```
+{% endtab %}
+{% endtabs %}
+
+##### `demo-app` doesn't need to communicate with any service
+
+{% tabs reachable-backends-no-services useUrlFragment=false %}
+{% tab reachable-backends-no-services Kubernetes %}
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: kuma-demo
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        kuma.io/reachable-backends: ""
+    spec:
+      containers:
+        ...
+```
+{% endtab %}
+{% tab reachable-backends-no-services Universal %}
+```yaml
+type: Dataplane
+mesh: default
+name: {% raw %}{{ name }}{% endraw %}
+networking:
+  address: {% raw %}{{ address }}{% endraw %}
+  inbound:
+  - port: {% raw %}{{ port }}{% endraw %}
+    tags:
+      kuma.io/service: demo-app
+  transparentProxying:
+    redirectPortInbound: 15006
+    redirectPortOutbound: 15001
+    reachableBackends: {}
+```
+{% endtab %}
+{% endtabs %}
+
+##### `demo-app` wants to communicate with all MeshServices in `kuma-demo` namespace
+
+{% tabs reachable-backends-in-namespace useUrlFragment=false %}
+{% tab reachable-backends-in-namespace Kubernetes %}
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: kuma-demo
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        kuma.io/reachable-backends: |
+          refs:
+          - kind: MeshService
+            labels:
+              k8s.kuma.io/namespace: kuma-demo
+    spec:
+      containers:
+        ...
+```
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
 ### Transparent Proxy with eBPF (experimental)
 
 Starting from {{site.mesh_product_name}} 2.0 you can set up transparent proxy to use eBPF instead of iptables.
