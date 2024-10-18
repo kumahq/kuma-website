@@ -157,7 +157,7 @@ there is already a hash generated, the hash is returned immediately, ignoring th
     - **`name`** - the name of the request header that will be used to obtain the hash key.
   - **`cookie`**:
     - **`name`** - the name of the cookie that will be used to obtain the hash key.
-    - **`ttl`** - (optional) if specified, a cookie with the time to live will be generated if the cookie is not present.
+    - **`ttl`** - (optional) if specified, a cookie with this _time to live_ will be generated if the cookie is not present.
     - **`path`** - (optional) the name of the path for the cookie.
   - **`connection`**:
     - **`sourceIP`** - if true, then hashing is based on a source IP address.

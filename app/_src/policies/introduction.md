@@ -174,7 +174,8 @@ spec:
                 plain: '{"start_time": "%START_TIME%"}'
               path: "/tmp/logs.txt"
 ```
-{% endpolicy_yaml accesslog_inbound_example %}
+{% endpolicy_yaml %}
+{% policy_yaml accesslog_inbound_example %}
 ```yaml
 type: MeshAccessLog
 name: example-inbound

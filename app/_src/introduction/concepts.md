@@ -65,7 +65,7 @@ Resources are most commonly represented in yaml format.
 
 ## Policy
 
-Policies are a specific type of resources that controls the behaviour, security and communication of applications running inside your service mesh.
+Policies are a specific type of resources that controls the behaviour and communication of applications running inside your service mesh.
 They can enable traffic management, security, observability and traffic reliability.
 
 Policies always have a clear specific area of impact and goal.
