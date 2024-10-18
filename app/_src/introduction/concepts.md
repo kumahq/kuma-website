@@ -11,11 +11,13 @@ which handles the actual traffic between services.
 
 ## Data Plane
 
+The data plane handles traffic between services.
+In practice these are the apps that you build and that you want to put inside you service-mesh.
+
 ### Data Plane Proxy / Sidecar
 
-The data plane handles traffic between services.
-It connects to the control plane which computes a configuration specific to it.
 The data plane proxy or sidecar is the instance of Envoy running alongside the application which will send and receive traffic from the rest of the service mesh.
+It connects to the control plane which computes a configuration specific to it.
 
 {% mermaid %}
 -------------------------------------
@@ -48,7 +50,8 @@ inbounds are usually grouped between different data planes and form a service.
 
 ### Outbound
 
-An outbound is the part 
+An outbound is the part of the data plane proxy which sends traffic for a specific service.
+Outbounds group multiple remote inbounds as endpoints.
 
 ## Resource
 
@@ -63,7 +66,7 @@ A resource is most often expressed as yaml and can have 2 formats:
 
 Resources are most commonly represented in yaml format.
 
-## Policy
+### Policy
 
 Policies are a specific type of resources that controls the behaviour and communication of applications running inside your service mesh.
 They can enable traffic management, security, observability and traffic reliability.
