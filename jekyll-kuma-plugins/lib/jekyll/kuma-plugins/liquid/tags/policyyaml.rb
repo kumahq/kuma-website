@@ -74,6 +74,7 @@ module Jekyll
             content = super
             return "" if content == ""
 
+            version = context.registers[:page]['version']
             content = content.gsub(/`{3}yaml\n/, '').gsub(/`{3}/, '')
             site_data = context.registers[:site].config
             mesh_namespace = @params["namespace"] || site_data['mesh_namespace']
@@ -149,14 +150,14 @@ module Jekyll
               htmlContent += "
 {% tab #{@tabs_name} Kubernetes %}
 <div class=\"meshservice\">
-  I am using <a href=\"\">MeshService</a> <input type=\"checkbox\">
+  I am using <a href=\"/docs/" + version + "/networking/meshservice/\">MeshService</a> <input type=\"checkbox\">
 </div>
 #{kube_style1_content}
 #{kube_style2_content}
 {% endtab %}
 {% tab #{@tabs_name} Universal %}
 <div class=\"meshservice\">
-  I am using <a href=\"\">MeshService</a> <input type=\"checkbox\">
+  I am using <a href=\"/docs/" + version + "/networking/meshservice/\">MeshService</a> <input type=\"checkbox\">
 </div>
 #{uni_style1_content}
 #{uni_style2_content}
