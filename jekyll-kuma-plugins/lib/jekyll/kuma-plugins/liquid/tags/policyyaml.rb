@@ -10,11 +10,11 @@ module Jekyll
         class PolicyYaml < ::Liquid::Block
           def initialize(tag_name, markup, options)
             super
-            @tabs_name, *params_list = markup.split(' ')
-            @default_params = { "raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false" }
+            @tabs_name, *params_list = @markup.split(' ')
+            @params = {"raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false" }
             params_list.each do |item|
-              sp = item.split('=')
-              @params[sp[0]] = sp[1] unless sp[1] == ''
+                sp = item.split('=')
+                @params[sp[0]] = sp[1] unless sp[1] == ''
             end
           end
 
