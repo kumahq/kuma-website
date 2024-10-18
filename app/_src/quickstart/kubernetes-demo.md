@@ -25,10 +25,10 @@ demo-app --> redis
 
 ## Start Kubernetes cluster
 
-Start a new Kubernetes cluster on your local machine by executing the command below. The -p option creates a new profile named 'kuma-zone'."
+Start a new Kubernetes cluster on your local machine by executing the command below. The -p option creates a new profile named 'mesh-zone'."
 
 ```sh
-minikube start -p kuma-zone
+minikube start -p mesh-zone
 ```
 
 {% tip %}
