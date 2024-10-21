@@ -2,12 +2,15 @@
 # It removes duplication of examples for both universal and kubernetes environments.
 # The expected format is universal. It only works for policies V2 with a `spec` blocks.
 require 'yaml'
+require 'rubygems'  # Required for Gem::Version
 
 module Jekyll
   module KumaPlugins
     module Liquid
       module Tags
         class PolicyYaml < ::Liquid::Block
+          TARGET_VERSION = Gem::Version.new("2.9.0")
+
           def initialize(tag_name, markup, options)
             super
             @tabs_name, *params_list = @markup.split(' ')
@@ -83,6 +86,13 @@ module Jekyll
             end
           end
 
+          def version_supported(version)
+            return true if version == "dev"
+
+            current_version = Gem::Version.new(version)
+            current_version > TARGET_VERSION
+          end
+
           def render(context)
             content = super
             return "" if content == ""
@@ -99,7 +109,7 @@ module Jekyll
             kube_style1_content = ""
             kube_style2_content = ""
 
-            use_meshservice = @params["use_meshservice"] == "true"
+            use_meshservice = @params["use_meshservice"] == "true" && version_supported(version)
 
             YAML.load_stream(content) do |yaml_data|
               # Universal Style 1 (without transformation)
@@ -202,5 +212,7 @@ module Jekyll
     end
   end
 end
+
+
 
 Liquid::Template.register_tag('policy_yaml', Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml)
