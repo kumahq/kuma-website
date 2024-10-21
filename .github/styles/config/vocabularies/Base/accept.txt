@@ -1,3 +1,4 @@
+Aiven
 Argo CD
 [Kk]ong
 [Kk]ubernetes
@@ -15,8 +16,10 @@ backport
 Bagdi
 Bintray
 Bitnami
+[GkM]bps
 blockquotes?
 boolean
+camelCase
 CloudFormation
 CLI
 CNI|cni
@@ -25,6 +28,7 @@ configs?
 conntrack
 cors
 CRD
+cron
 Curity
 Datadog
 datagrams?
@@ -47,6 +51,7 @@ endtabs?
 endtip
 endunless
 endwarning
+enum
 etcd
 Fargate
 firewalld
@@ -63,15 +68,17 @@ httpbin
 HTTPie
 HTTPS?
 https?
-inbounds
+[iI]nbounds?
 ini
 io
 iptables
+IPs?
 IPv6
 Istio
 jq
-json
-JsonPath
+JSON
+JSONPath
+JSONPatch
 jwks?
 jwt|JWT
 Keycloak
@@ -91,6 +98,8 @@ Luarocks
 MADR
 md
 minikube
+Maglev
+matchers
 Mockbin
 Moesif
 MongoDB
@@ -105,12 +114,15 @@ ngrok
 observability
 Okta
 opa
-outbounds
+[Oo]tel
+[Oo]utbounds?
+PascalCase
 passthrough
 PayPal
 plaintext
 policy_schema
 PowerShell
+Postgres
 prepend(?:ed|s)?
 profiler
 Prometheus
@@ -126,7 +138,9 @@ runtimes?
 sandboxing
 serializer
 serverless
+snake_case
 snis
+Speedscope
 Splunk
 ssl
 std(?:in|out|err)
@@ -138,6 +152,7 @@ Syslog
 target[Rr]ef
 tbl
 tcpdump
+TLS
 transcoder
 ttl
 txt

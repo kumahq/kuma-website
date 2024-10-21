@@ -54,7 +54,7 @@ depending on where the request is coming from and where it's going to.
 
 {% endif_version %}
 
-For more information, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+For more information, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 

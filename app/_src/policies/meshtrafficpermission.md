@@ -47,7 +47,7 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.version }}/policies/tr
 {% endtabs %}
 {% endif_version %}
 
-If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/targetref).
+If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 

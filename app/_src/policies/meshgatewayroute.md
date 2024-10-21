@@ -75,12 +75,12 @@ One application of this mechanism is to inject standard routes into all virtual 
 
 ## Matching
 
-`MeshGatewayRoute` allows HTTP requests to be matched by various criteria (e.g. URI path, HTTP headers).
+`MeshGatewayRoute` allows HTTP requests to be matched by various criteria (for example uri path, HTTP headers).
 When {{site.mesh_product_name}} generates the final Envoy configuration for a builtin gateway `Dataplane`, it combines all the matching `MeshGatewayRoutes` into a single set of routing tables, partitioned by the virtual hostname, which is specified either in the `MeshGateway` listener or in the `MeshGatewayRoute`.
 
 {{site.mesh_product_name}} sorts the rules in each table by specificity, so that routes with more specific match criteria are always ordered first.
 For example, a rule that matches on a HTTP header and a path is more specific than one that matches only on path, and the longest match path will be considered more specific.
-This ordering allows Kume to combine routing rules from multiple `MeshGatewayRoute` resources and still produce predictable results.
+This ordering allows {{site.mesh_product_name}} to combine routing rules from multiple `MeshGatewayRoute` resources and still produce predictable results.
 
 ## Filters
 

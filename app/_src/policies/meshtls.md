@@ -22,7 +22,7 @@ Backends and default mode values are taken from [the Mesh object](/docs/{{ page.
 {% endtab %}
 {% endtabs %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 

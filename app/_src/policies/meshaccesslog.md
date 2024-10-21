@@ -82,7 +82,7 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 
@@ -201,7 +201,7 @@ Example output:
 <details>
   <summary>TCP configuration with default fields:</summary>
 
-  <div markdown="1">
+  <div markdown="1" class="code">
 {% if_version lte:2.2.x %}
 ```yaml
 format:
@@ -262,7 +262,7 @@ format:
 <details>
   <summary>HTTP configuration with default fields:</summary>
 
-<div markdown="1">
+<div markdown="1" class="code">
 {% if_version lte:2.2.x %}
 ```yaml
 format:
@@ -976,7 +976,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 To target [`ExternalServices`](/docs/{{ page.version }}/policies/external-services#usage), use `MeshService` as the `targetRef` kind with `name` set to  
 the `kuma.io/service` value.
 
-To target other non-mesh traffic, i.e. [passthrough traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing), use `Mesh` as the `targetRef` kind. In this case, `%KUMA_DESTINATION_SERVICE%` is set to `external`.
+To target other non-mesh traffic, for example [passthrough traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing), use `Mesh` as the `targetRef` kind. In this case, `%KUMA_DESTINATION_SERVICE%` is set to `external`.
 
 ## Select a built-in gateway
 
