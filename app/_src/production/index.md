@@ -5,7 +5,7 @@ subtitle: Deploying Kuma in a production environment.
 ---
 
 After you've completed your initial test and assessment of {{site.mesh_product_name}}, it's time to deploy {{site.mesh_product_name}} in your production environment.
-Before doing so, it's important to understand the overall steps in the deployment process as well as the different options you have when deploying {{site.mesh_product_name}}.
+Before doing so, it's important to understand the overall steps in the process as well as the different options you have.
 This guide walks you through the big picture steps and options so you can make the right decisions when it comes to deployment time.
 
 ## Overview of deployment steps
