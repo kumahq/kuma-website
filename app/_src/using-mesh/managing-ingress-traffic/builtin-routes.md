@@ -25,7 +25,7 @@ spec:
     kind: MeshGateway
     name: edge-gateway
     tags: # optional, for selecting specific listeners
-      port: http/8080
+      port: http-8080
   to:
     - targetRef:
         kind: Mesh
