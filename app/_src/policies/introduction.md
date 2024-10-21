@@ -16,16 +16,6 @@ Like all [resources](/docs/{{ page.version }}/introduction/concepts#resource) in
 Metadata identifies the policies by its `name`, `type` and what `mesh` it's part of:
 
 {% tabs metadata %}
-{% tab metadata Universal %}
-
-```yaml
-type: ExamplePolicy
-name: my-policy-name
-mesh: default
-spec: ... # spec data specific to the policy kind
-```
-
-{% endtab %}
 {% tab metadata Kubernetes %}
 
 In Kubernetes all our policies are implemented as [custom resource definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) in the group `kuma.io/v1alpha1`.
@@ -52,6 +42,16 @@ metadata:
   namespace: {{ site.mesh_namespace }}
   labels:
     kuma.io/mesh: "my-mesh"
+spec: ... # spec data specific to the policy kind
+```
+
+{% endtab %}
+{% tab metadata Universal %}
+
+```yaml
+type: ExamplePolicy
+name: my-policy-name
+mesh: default
 spec: ... # spec data specific to the policy kind
 ```
 
@@ -147,8 +147,6 @@ Here's an explanation of each kinds and their scope:
 - MeshSubset: same as Mesh but filters only proxies who have matching `targetRef.tags`
 - MeshService: all proxies with a tag `kuma.io/service` equal to `targetRef.name`.{% if_version gte:2.9.x %} This can work differently when using [explicit services](#using-policies-with-meshservice-meshmultizoneservice-and-meshexternalservice){% endif_version %}.
 - MeshGateway: targets proxies matched by the named MeshGateway
-    - Note that it's very strongly recommended to target MeshGateway proxies using this
-      kind, as opposed to MeshService/MeshServiceSubset.
 - MeshServiceSubset: same as `MeshService` but further refine to proxies that have matching `targetRef.tags`. ⚠️This is deprecated from version 2.9.x ⚠️.
 
 Consider the two example policies below:
