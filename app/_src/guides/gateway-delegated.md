@@ -32,8 +32,12 @@ flowchart LR
 Follow the steps on the [Kong docs website](https://docs.konghq.com/kubernetes-ingress-controller/latest/get-started/) to install the ingress controller.
 
 {% warning %}
-The Kubernetes cluster needs to support LoadBalancer for this to work.
-This may not be the case if the Kubernetes cluster is running locally with `kind` or `k3d`.
+The Kubernetes cluster needs to support `LoadBalancer` for this to work.
+
+If you are running `minikube` you will want to open a [tunnel](https://minikube.sigs.k8s.io/docs/handbook/accessing/#loadbalancer-access) with `minikube tunnel -p mesh-zone`.
+
+You may not have support for `LoadBalancer` if you are running locally with `kind` or `k3d`.
+One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind) may be helpful.
 {% endwarning %}
 
 ## Enable sidecar injection on the `kong` namespace

@@ -30,11 +30,11 @@ conf:
   ... # policy-specific configuration
 ```
 
-* sources - list of selectors that specify the dataplane objects where network traffic originates
-* destinations - list of selectors that specify the dataplane object the source traffic is sent to
+* sources - list of selectors that specify the data planes where network traffic originates
+* destinations - list of selectors that specify the data planes the source traffic is sent to
 * conf - configuration to apply to network traffic between sources and destinations
 
-{{site.mesh_product_name}} assumes that every dataplane object represents a service, even if it's a cron job that doesn't normally handle incoming traffic. This means the `kuma.io/service` tag is required for sources and destinations. Note the following requirements for values:
+{{site.mesh_product_name}} assumes that every data plane represents a service, even if it's a cron job that doesn't normally handle incoming traffic. This means the `kuma.io/service` tag is required for sources and destinations. Note the following requirements for values:
 
 * The wildcard character (*) is supported only as the selector value to match all traffic.
 * Tag values can contain only alphanumeric characters, dots (`.`), dashes (`-`), colons (`:`), and underscores (`_`).
@@ -42,9 +42,9 @@ conf:
 
 Tag and selector names can contain only alphanumeric characters, dots (`.`), dashes (`-`), colons (`:`), underscores (`_`), and slashes (`/`).
 
-All policies support arbitrary tags for the `sources` selector, but there are tag limitations for the `destinations` selector. For example, policies that are applied on the client side of a connection between two dataplane objects do not support arbitrary tags in the `destinations` selector. Only the `kuma.io/service` tag is supported in this case. This includes TrafficRoute, TrafficLog, and HealthCheck.
+All policies support arbitrary tags for the `sources` selector, but there are tag limitations for the `destinations` selector. For example, policies that are applied on the client side of a connection between two data planes do not support arbitrary tags in the `destinations` selector. Only the `kuma.io/service` tag is supported in this case. This includes TrafficRoute, TrafficLog, and HealthCheck.
 
-For example, this policy applies to all network traffic between all dataplane objects:
+For example, this policy applies to all network traffic between all data planes:
 
 ```yaml
 sources:
@@ -59,7 +59,7 @@ conf:
   ...
 ```
 
-This policy applies only to network traffic between dataplane objects for the specified services:
+This policy applies only to network traffic between data planes for the specified services:
 
 ```yaml
 sources:

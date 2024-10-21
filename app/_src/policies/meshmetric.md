@@ -51,7 +51,7 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 
 {% endtabs %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/targetref).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
 
 ## Configuration
 
@@ -104,7 +104,7 @@ Profiles are predefined sets of metrics with manual `include` and `exclude` func
 There are 3 sections:
 - `appendProfiles` - allows to combine multiple predefined profiles of metrics.
 Right now you can only define one profile but this might change it the future
-(e.g. there might be feature related profiles like "Fault injection profile" and "Circuit Breaker profile" so you can mix and match the ones that you need based on your features usage).
+(for example there might be feature related profiles like "Fault injection profile" and "Circuit Breaker profile" so you can mix and match the ones that you need based on your features usage).
 Today only 3 profiles are available: `All`, `Basic` and `None`.
 `All` profile contains all metrics produced by Envoy.
 `Basic` profile contains all metrics needed by {{site.mesh_product_name}} dashboards and [golden 4 signals](https://sre.google/sre-book/monitoring-distributed-systems/) metrics.
@@ -264,7 +264,7 @@ backends:
       path: /metrics
 ```
 
-This tells {{site.mesh_product_name}} to expose an HTTP endpoint with Prometheus metrics on port `5670` and URI path `/metrics`.
+This tells {{site.mesh_product_name}} to expose an HTTP endpoint with Prometheus metrics on port `5670` and uri path `/metrics`.
 
 The metrics endpoint is forwarded to the standard Envoy [Prometheus metrics endpoint](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?format=prometheus) and supports the same query parameters.
 You can pass the `filter` query parameter to limit the results to metrics whose names match a given regular expression.
@@ -333,7 +333,7 @@ Please upload the certificate and the key to the machine, and then define the fo
 
 We no longer support activeMTLSBackend, if you need to encrypt and authorize the metrics use [Secure metrics with TLS](#secure-metrics-with-tls) with a combination of [one of the authorization methods](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
 
-##### Running multiple prometheus deployments
+##### Running multiple Prometheus deployments
 
 If you need to run multiple instances of Prometheus and want to target different set of Data Plane Proxies you can do this by using Client ID setting on both `MeshMetric` (`clientId`) and [Prometheus configuration](https://github.com/prometheus/prometheus/pull/13278/files#diff-17f1012e0c2fbd9bcd8dff3c23b18ff4b6676eef3beca6f8a3e72e6a36633334R2233) (`client_id`).
 
@@ -393,7 +393,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-And policy for secondary Prometheus deployment that will pick dataplane proxies with tag `prometheus: secondary`. 
+And policy for secondary Prometheus deployment that will pick data plane proxies with tag `prometheus: secondary`. 
 {% policy_yaml second %}
 ```yaml
 type: MeshMetric
