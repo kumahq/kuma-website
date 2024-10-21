@@ -10,6 +10,22 @@
 
 .tabs-component {
   margin: 2em 0;
+
+  .meshservice {
+    text-align: right;
+
+    label {
+      text-transform: none;
+      font-size: inherit;
+    }
+
+    input {
+      height: auto;
+      line-height: inherit;
+      width: auto;
+      display: inline;
+    }
+  }
 }
 
 .tabs-component-tabs {
