@@ -219,7 +219,7 @@ spec:
 This timeout configuration will be applied to all inbound connections to `frontend` and outbound connections
 from `frontend` to `backend` service
 
-{% policy_yaml example4 use_meshservice=true %}
+{% policy_yaml example4 %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
