@@ -32,7 +32,7 @@ conf:
     protocol: HTTP
     hostname: foo.example.com
     tags:
-      port: http/8080 
+      port: http-8080 
 ```
 {% endtab %}
 {% tab usage Kubernetes %}
@@ -52,7 +52,7 @@ spec:
       protocol: HTTP
       hostname: foo.example.com
       tags:
-        port: http/8080 
+        port: http-8080 
 ```
 {% endtab %}
 {% endtabs %}
