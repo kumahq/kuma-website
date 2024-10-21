@@ -180,14 +180,14 @@ module Jekyll
               htmlContent += "
 {% tab #{@tabs_name} Kubernetes %}
 <div class=\"meshservice\">
-  I am using <a href=\"/docs/" + version + "/networking/meshservice/\">MeshService</a> <input type=\"checkbox\">
+ <label> <input type=\"checkbox\"> I am using <a href=\"/docs/" + version + "/networking/meshservice/\">MeshService</a> </label>
 </div>
 #{kube_style1_content}
 #{kube_style2_content}
 {% endtab %}
 {% tab #{@tabs_name} Universal %}
 <div class=\"meshservice\">
-  I am using <a href=\"/docs/" + version + "/networking/meshservice/\">MeshService</a> <input type=\"checkbox\">
+ <label> <input type=\"checkbox\"> I am using <a href=\"/docs/" + version + "/networking/meshservice/\">MeshService</a> </label>
 </div>
 #{uni_style1_content}
 #{uni_style2_content}

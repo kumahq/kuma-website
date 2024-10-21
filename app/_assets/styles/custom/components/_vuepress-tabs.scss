@@ -14,6 +14,11 @@
   .meshservice {
     text-align: right;
 
+    label {
+      text-transform: none;
+      font-size: inherit;
+    }
+
     input {
       height: auto;
       line-height: inherit;
