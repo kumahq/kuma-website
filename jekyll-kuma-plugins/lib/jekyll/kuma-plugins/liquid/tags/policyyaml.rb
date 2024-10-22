@@ -34,6 +34,7 @@ module Jekyll
                       "kind" => "MeshService",
                       "name" => target_ref['name'] + "_" + namespace + "_" + port,
                     }
+                  else
                     to_item["targetRef"].delete("sectionName")
                     to_item["targetRef"].delete("section_name")
                   end
