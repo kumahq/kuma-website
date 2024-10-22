@@ -149,7 +149,7 @@ spec:
     - targetRef:
         kind: MeshSubset
         tags:
-          app: frontend
+          kuma.io/service: frontend
       default:
         http:
           - abort:
@@ -198,7 +198,7 @@ spec:
     - targetRef:
         kind: MeshSubset
         tags:
-          app: frontend
+          kuma.io/service: frontend
       default:
         http:
           - abort:
