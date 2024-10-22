@@ -112,7 +112,7 @@ running on separate machines this is obsolete.
 Now we need to start data plane for our demo-app, we can do this by running:
 
 ```shell
-KUMA_READINESS_PORT=9903 ./kuma-dp run \
+KUMA_READINESS_PORT=9903 kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-demo-app \
