@@ -104,7 +104,7 @@ KUMA_READINESS_PORT=9901 kuma-dp run \
       port: 9902"
 ```
 
-You can notice that we manually specify readiness port with env variable `KUMA_READINESS_PORT` when every data plane is 
+You can notice that we manually specify readiness port with environment variable `KUMA_READINESS_PORT` when every data plane is 
 running on separate machines this is obsolete. 
 
 [//]: # (TODO should we tell users explicitely to open another terminal window or should we just run kuma-dp in background?)
