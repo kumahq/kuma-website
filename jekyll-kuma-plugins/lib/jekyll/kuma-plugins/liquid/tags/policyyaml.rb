@@ -21,21 +21,38 @@ module Jekyll
             end
           end
 
-          # Function to transform targetRef based on MeshService name (if needed)
-          def transform_target_ref(hash)
+          def to_legacy_meshservice_target_ref(hash)
             # Transform each element in spec.to[].targetRef.kind if spec.to exists
             if hash.dig("spec", "to").is_a?(Array)
               hash["spec"]["to"].each do |to_item|
                 if to_item.dig("targetRef", "kind") == "MeshService"
                   target_ref = to_item["targetRef"]
-                  if hash["apiVersion"]
+                  if hash.key?("apiVersion")
+                    port = target_ref['port'].to_s
+                    namespace = target_ref['namespace'].to_s
                     to_item["targetRef"] = {
                       "kind" => "MeshService",
-                      "name" => target_ref['name'] + "_" + target_ref['namespace'] + "_" + target_ref['section_name'].to_s,
+                      "name" => target_ref['name'] + "_" + namespace + "_" + port,
                     }
+                    to_item["targetRef"].delete("sectionName")
                     to_item["targetRef"].delete("section_name")
                   end
                   to_item["targetRef"].delete("namespace")
+                  to_item["targetRef"].delete("port")
+                end
+              end
+            end
+          end
+
+          def clean_up_meshservice_target_ref(hash)
+            # Transform each element in spec.to[].targetRef.kind if spec.to exists
+            if hash.dig("spec", "to").is_a?(Array)
+              hash["spec"]["to"].each do |to_item|
+                if to_item.dig("targetRef", "kind") == "MeshService"
+                  if !hash.key?("apiVersion")
+                    to_item["targetRef"].delete("namespace")
+                  end
+                  to_item["targetRef"].delete("port")
                 end
               end
             end
@@ -109,7 +126,8 @@ module Jekyll
             YAML.load_stream(content) do |yaml_data|
               uni_style1_data = Marshal.load(Marshal.dump(yaml_data))
               uni_style2_data = Marshal.load(Marshal.dump(yaml_data))
-              transform_target_ref(uni_style1_data) if use_meshservice
+              to_legacy_meshservice_target_ref(uni_style1_data) if use_meshservice
+              clean_up_meshservice_target_ref(uni_style2_data)
 
               kube_style1_data = {
                 "apiVersion" => @params["apiVersion"],
@@ -125,7 +143,8 @@ module Jekyll
                 "spec" => yaml_data["spec"]
               }
               kube_style2_data = Marshal.load(Marshal.dump(kube_style1_data))
-              transform_target_ref(kube_style1_data) if use_meshservice
+              to_legacy_meshservice_target_ref(kube_style1_data) if use_meshservice
+              clean_up_meshservice_target_ref(kube_style2_data)
 
               # Handle suffix removal for universal and kubernetes variations
               process_hash(kube_style1_data, "_uni", "_kube")

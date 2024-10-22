@@ -472,7 +472,8 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        section_name: 8080
+        sectionName: http
+        port: 8080
       default:
         connectionLimits:
           maxConnections: 2
