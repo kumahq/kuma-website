@@ -21,6 +21,31 @@ module Jekyll
             end
           end
 
+          # Function to transform targetRef based on MeshService name (if needed)
+          def transform_target_ref(hash)
+            # Transform each element in spec.to[].targetRef.kind if spec.to exists
+            if hash.dig("spec", "to").is_a?(Array)
+              hash["spec"]["to"].each do |to_item|
+                if to_item.dig("targetRef", "kind") == "MeshService"
+                  target_ref = to_item["targetRef"]
+                  if target_ref["name_kube"]
+                    transformed_name = target_ref["name_kube"].split('_')
+                    to_item["targetRef"] = {
+                      "kind" => "MeshService",
+                      "name" => transformed_name[0],
+                      "namespace" => transformed_name[1],
+                      "sectionName" => transformed_name[3]
+                    }
+                  elsif target_ref["name_uni"]
+                    to_item["targetRef"]["name"] = target_ref["name_uni"]
+                    to_item["targetRef"].delete("name_uni")
+                    to_item["targetRef"].delete("name_kube")
+                  end
+                end
+              end
+            end
+          end
+
           def to_legacy_meshservice_target_ref(hash)
             # Transform each element in spec.to[].targetRef.kind if spec.to exists
             if hash.dig("spec", "to").is_a?(Array)
@@ -127,7 +152,11 @@ module Jekyll
             YAML.load_stream(content) do |yaml_data|
               uni_style1_data = Marshal.load(Marshal.dump(yaml_data))
               uni_style2_data = Marshal.load(Marshal.dump(yaml_data))
-              to_legacy_meshservice_target_ref(uni_style1_data) if use_meshservice
+              if use_meshservice
+                to_legacy_meshservice_target_ref(uni_style1_data)
+              else
+                transform_target_ref(uni_style1_data)
+              end
               clean_up_meshservice_target_ref(uni_style2_data)
 
               kube_style1_data = {
@@ -144,7 +173,11 @@ module Jekyll
                 "spec" => yaml_data["spec"]
               }
               kube_style2_data = Marshal.load(Marshal.dump(kube_style1_data))
-              to_legacy_meshservice_target_ref(kube_style1_data) if use_meshservice
+              if use_meshservice
+                to_legacy_meshservice_target_ref(kube_style1_data)
+              else
+                transform_target_ref(kube_style1_data)
+              end
               clean_up_meshservice_target_ref(kube_style2_data)
 
               # Handle suffix removal for universal and kubernetes variations
