@@ -325,7 +325,7 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      app: frontend
+      kuma.io/service: frontend_kuma-demo_svc_8080
   to:
     - targetRef:
         kind: MeshService
@@ -438,7 +438,7 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      app: frontend
+      kuma.io/service: frontend_kuma-demo_svc_8080
   to:
     - targetRef:
         kind: MeshService
@@ -478,7 +478,7 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      app: frontend
+      kuma.io/service: frontend_kuma-demo_svc_8080
   to:
     - targetRef:
         kind: MeshService
