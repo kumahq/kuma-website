@@ -88,7 +88,12 @@ The following describes the default configuration settings of the `MeshTCPRoute`
     cluster is determined by its weight. Total weight is a sum of all weights
     in the `backendRefs` list.
 
-## Interactions with `MeshHTTPRoute`
+### Gateways
+
+In order to route TCP traffic for a MeshGateway, you need to target the
+MeshGateway in `spec.targetRef` and set `spec.to[].targetRef.kind: Mesh`.
+
+### Interactions with `MeshHTTPRoute`
 
 [`MeshHTTPRoute`](../meshhttproute) takes priority over `MeshTCPRoute` when both are defined for the same service, and the matching `MeshTCPRoute` is ignored.
 
