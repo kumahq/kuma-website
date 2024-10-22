@@ -116,6 +116,7 @@ spec:
   to:
     - targetRef:
         kind: MeshService
+        name: backend
         namespace: kuma-demo
         port: 3001
         sectionName: http
