@@ -15,6 +15,7 @@ Note that when using [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhtt
 
 ### `MeshHTTPRoute`
 
+{% if_version lte:2.8.x %}
 {% policy_yaml mesh-http-route-example %}
 ```yaml
 type: MeshHTTPRoute
@@ -42,6 +43,39 @@ spec:
                 name: demo-app_kuma-demo_svc_5000
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+{% policy_yaml mesh-http-route-example-29x %}
+```yaml
+type: MeshHTTPRoute
+name: edge-gateway-route
+mesh: default
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: edge-gateway
+    tags: # optional, for selecting specific listeners
+      port: http/8080
+  to:
+    - targetRef:
+        kind: Mesh
+      hostnames: # optional, limit rules to specific domains
+        - example.com
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: demo-app
+                namespace: kuma-demo
+                port: 5000
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 #### Listener hostname
 
@@ -72,6 +106,7 @@ conf:
 
 along with the following [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) rule, the only one present in the mesh:
 
+{% if_version lte:2.8.x %}
 {% policy_yaml mesh-http-route-example-2 %}
 ```yaml
 type: MeshHTTPRoute
@@ -97,6 +132,36 @@ spec:
                 name: example_app_svc_8080
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml mesh-http-route-example-2-29x %}
+```yaml
+type: MeshHTTPRoute
+name: http-route
+mesh: default
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: edge-gateway
+    tags:
+      hostname: wild
+  to:
+    - targetRef:
+        kind: Mesh
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: example
+                namespace: app
+                port: 8080
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 This route explicitly attaches to the second listener with `hostname: *.example.com`.
 
@@ -109,6 +174,7 @@ will return a 404 because there are no routes attached for that listener.
 [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) rules can themselves specify an additional list of hostnames to further
 limit the traffic handled by those rules. Consider the following example:
 
+{% if_version lte:2.8.x %}
 {% policy_yaml mesh-http-route-example-3 %}
 ```yaml
 type: MeshHTTPRoute
@@ -128,10 +194,8 @@ spec:
                 value: /
           default:
             backendRefs:
-              - kind: MeshServiceSubset
-                name: example_app_svc_8080
-                tags:
-                  version: v1
+              - kind: MeshService
+                name: example-v1_app_svc_8080
     - targetRef:
         kind: Mesh
       hostnames:
@@ -143,12 +207,53 @@ spec:
                 value: /
           default:
             backendRefs:
-              - kind: MeshServiceSubset
-                name: example_app_svc_8080
-                tags:
-                  version: v2
+              - kind: MeshService
+                name: example-v2_app_svc_8080
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml mesh-http-route-example-3-29x %}
+```yaml
+type: MeshHTTPRoute
+name: http-route
+mesh: default
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: edge-gateway
+  to:
+    - targetRef:
+        kind: Mesh
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: example-v1
+                namespace: app
+                port: 8080
+    - targetRef:
+        kind: Mesh
+      hostnames:
+        - dev.example.com
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: example-v2
+                namespace: app
+                port: 8080
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 This route would send all traffic to `dev.example.com` to the `v2` backend but
 other traffic to `v1`.
@@ -158,6 +263,7 @@ other traffic to `v1`.
 If your traffic isn't HTTP, you can use [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) to balance traffic
 between services.
 
+{% if_version lte:2.8.x %}
 {% policy_yaml mesh-tcp-route-example %}
 ```yaml
 type: MeshTCPRoute
@@ -174,15 +280,40 @@ spec:
         - default:
             backendRefs:
               - kind: MeshServiceSubset
-                name: example_app_svc_8080
-                tags:
-                  version: v1
+                name: example-v1_app_svc_8080
                 weight: 90
               - kind: MeshServiceSubset
-                name: example_app_svc_8080
-                tags:
-                  version: v2
+                name: example-v2_app_svc_8080
                 weight: 10
 ```
-
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml mesh-tcp-route-example-29x %}
+```yaml
+type: MeshTCPRoute
+name: tcp-route
+mesh: default
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: edge-gateway
+  to:
+    - targetRef:
+        kind: Mesh
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: example-v1
+                namespace: app
+                port: 8080
+                weight: 90
+              - kind: MeshService
+                name: example-v2
+                namespace: app
+                port: 8080
+                weight: 10
+```
+{% endpolicy_yaml %}
+{% endif_version %}

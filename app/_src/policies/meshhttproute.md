@@ -150,6 +150,8 @@ them in a `MeshHTTPRoute`!
 
 ## Examples
 
+{% if_version lte:2.8.x %}
+
 ### Traffic split
 
 We can use `MeshHTTPRoute` to split an HTTP traffic between services with different tags
@@ -302,6 +304,52 @@ spec:
 {% endtab %}
 {% endtabs %}
 
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+
+### Traffic split
+
+We can use `MeshHTTPRoute` to split an HTTP traffic between different MeshServices
+implementing A/B testing or canary deployments. 
+If we want to split traffic between `v1` and `v2` versions of the same service,
+first we have to create MeshServices `backend-v1` and `backend-v2` that select 
+backend application instances according to the version.
+
+{% policy_yaml traffic-split %}
+```yaml
+type: MeshHTTPRoute
+name: http-split
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: backend-v1
+                port: 3001
+                weight: 90
+              - kind: MeshServiceSubset
+                name: backend-v2
+                port: 3001
+                weight: 10
+```
+{% endpolicy_yaml %}
+
+{% endif_version %}
+
 ### Traffic modifications
 
 We can use `MeshHTTPRoute` to modify outgoing requests, by setting new path
@@ -373,62 +421,24 @@ spec:
 {% endtabs %}
 
 {% if_version gte:2.2.x %}
+
 ### Traffic mirror
 
 `MeshHTTPRoute` can mirror a fraction of requests to another service.
 This can be useful when testing a new version of the app with the production payload without
 interrupting real users.
 
-{% tabs mirror useUrlFragment=false %}
-{% tab mirror Kubernetes %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshHTTPRoute
-metadata:
-  name: http-route-1
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend_kuma-demo_svc_3001
-      rules:
-        - matches:
-            - headers:
-                - type: Exact
-                  name: mirror-this-request
-                  value: "true"
-          default:
-            filters:
-              - type: RequestMirror
-                requestMirror:
-                  percentage: 30
-                  backendRef:
-                    kind: MeshServiceSubset
-                    name: backend_kuma-demo_svc_3001
-                    tags:
-                      version: v1_experimental
-            backendRefs:
-              - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
-                tags:
-                  version: v0
-```
-{% endtab %}
-{% tab mirror Universal %}
+{% if_version lte:2.8.x %}
+{% policy_yaml traffic-mirror %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: frontend
   to:
     - targetRef:
         kind: MeshService
@@ -455,8 +465,48 @@ spec:
                 tags:
                   version: v0
 ```
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+{% policy_yaml traffic-mirror-29x %}
+```yaml
+type: MeshHTTPRoute
+name: http-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend_kuma-demo_svc_3001
+      rules:
+        - matches:
+            - headers:
+                - type: Exact
+                  name: mirror-this-request
+                  value: "true"
+          default:
+            filters:
+              - type: RequestMirror
+                requestMirror:
+                  percentage: 30
+                  backendRef:
+                    kind: MeshServiceSubset
+                    name: backend_kuma-demo_svc_3001
+                    tags:
+                      version: v1_experimental
+            backendRefs:
+              - kind: MeshService
+                name: backend
+                port: 3001
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
 {% endif_version %}
 
 ## Merging

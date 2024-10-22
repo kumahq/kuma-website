@@ -94,6 +94,7 @@ The following describes the default configuration settings of the `MeshTCPRoute`
 
 ## Examples
 
+{% if_version lte:2.8.x %}
 ### Traffic split
 
 You can use `MeshTCPRoute` to split TCP traffic between services with
@@ -102,45 +103,7 @@ different tags and implement A/B testing or canary deployments.
 Here's an example of a `MeshTCPRoute` that splits the traffic from 
 `frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions:
 
-{% tabs split useUrlFragment=false %}
-{% tab split Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTCPRoute
-metadata:
-  name: tcp-route-1
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend_kuma-demo_svc_3001
-      rules:
-        - default:
-            backendRefs:
-              - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
-                tags:
-                  version: "v0"
-                weight: 90
-              - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
-                tags:
-                  version: "v1"
-                weight: 10
-```
-
-You can apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab split Universal %}
-
+{% policy_yaml traffic-split %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -151,8 +114,9 @@ spec:
     name: frontend_kuma-demo_svc_8080
   to:
     - targetRef:
-        kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        kind: MeshSubset
+        tags:
+          app: backend
       rules:
         - default:
             backendRefs:
@@ -167,11 +131,45 @@ spec:
                   version: "v1"
                 weight: 10
 ```
+{% endpolicy_yaml %}
+{% endif_version %}
 
-You can apply the configuration with `kumactl apply -f [..]` or use
-the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% if_version gte:2.9.x %}
+### Traffic split
+We can use `MeshTCPRoute` to split an TCP traffic between different MeshServices
+implementing A/B testing or canary deployments.
+If we want to split traffic between `v1` and `v2` versions of the same service,
+first we have to create MeshServices `backend-v1` and `backend-v2` that select
+backend application instances according to the version.
+
+{% policy_yaml traffic-split-29x %}
+```yaml
+type: MeshTCPRoute
+name: tcp-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name: frontend_kuma-demo_svc_8080
+  to:
+    - targetRef:
+        kind: MeshSubset
+        tags:
+          app: backend
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: backend-v0
+                port: 3001
+                weight: 90
+              - kind: MeshService
+                name: backend-v1
+                port: 3001
+                weight: 10
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Traffic redirection
 
