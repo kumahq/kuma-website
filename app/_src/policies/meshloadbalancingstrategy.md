@@ -210,52 +210,23 @@ must be prime number limited to 5000011. If it is not specified, the default is 
 
 Load balance requests from `web` to `backend` based on the HTTP header `x-header`:
 
-{% tabs ring-hash useUrlFragment=false %}
-{% tab ring-hash Kubernetes %}
-
-```yaml
-kind: MeshLoadBalancingStrategy
-apiVersion: kuma.io/v1alpha1
-metadata:
-  name: ring-hash
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: mesh-1
-spec:
-  targetRef:
-    kind: MeshService
-    name: web
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        loadBalancer:
-          type: RingHash
-          ringHash:
-            hashPolicies:
-              - type: Header
-                header:
-                  name: x-header
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab ring-hash Universal %}
-
+{% policy_yaml ring-hash use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: ring-hash
 mesh: mesh-1
 spec:
   targetRef:
-    kind: MeshService
-    name: web
+    kind: MeshSubset
+    tags:
+      kuma.io/service: web
   to:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        port: 8080
+        sectionName: http
       default:
         loadBalancer:
           type: RingHash
@@ -265,44 +236,13 @@ spec:
                 header:
                   name: x-header
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 ### Disable locality-aware load balancing for backend
 
 Requests to `backend` will be spread evenly across all zones where `backend` is deployed.
 
-{% tabs disable-la-to-backend useUrlFragment=false %}
-{% tab disable-la-to-backend Kubernetes %}
-
-```yaml
-kind: MeshLoadBalancingStrategy
-apiVersion: kuma.io/v1alpha1
-metadata:
-  name: disable-la-to-backend
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: mesh-1
-spec:
-  targetRef:
-    kind: Mesh
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        localityAwareness:
-          disabled: true
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab disable-la-to-backend Universal %}
-
+{% policy_yaml disable-la-to-backend use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: disable-la-to-backend
@@ -314,22 +254,21 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        port: 8080
+        sectionName: http
       default:
         localityAwareness:
           disabled: true
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 {% if_version gte:2.5.x %}
 ### Disable cross zone traffic and prioritize traffic the dataplanes on the same node and availability zone
 
 In this example, whenever a user sends a request to the `backend` service, 90% of the requests will arrive at the instance with the same value of the `k8s.io/node` tag, 9% of the requests will go to the instance with the same value as the caller of the `k8s.io/az` tag, and 1% will go to the rest of the instances.
 
-{% policy_yaml local-zone-affinity-backend %}
+{% policy_yaml local-zone-affinity-backend use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -341,6 +280,9 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        sectionName: http
+        port: 8080
       default:
         localityAwareness:
           localZone:
@@ -354,7 +296,7 @@ spec:
 
 In this example, when a user sends a request to the backend service, the request is routed equally to all instances in the local zone. If there are no instances in the local zone, the request will fail because there is no cross zone traffic.
 
-{% policy_yaml local-zone-affinity-backend-2 %}
+{% policy_yaml local-zone-affinity-backend-2 use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -366,6 +308,9 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        sectionName: http
+        port: 8080
       default:
         localityAwareness:
           localZone:
@@ -375,7 +320,7 @@ spec:
 
 or 
 
-{% policy_yaml local-zone-affinity-backend-3 %}
+{% policy_yaml local-zone-affinity-backend-3 use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -387,6 +332,9 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        sectionName: http
+        port: 8080
       default:
         localityAwareness:
           localZone: {}
@@ -397,7 +345,7 @@ spec:
 
 Requests to the backend service will be evenly distributed among all endpoints within the local zone. If there are fewer than 25% healthy hosts in the local zone, traffic will be redirected to other zones. Initially, traffic will be sent to the `us-1` zone. In the event that the `us-1` zone becomes unavailable, traffic will then be directed to all zones, except for `us-2` and `us-3`. If these zones are also found to have unhealthy hosts, the traffic will be rerouted to `us-2` and `us-3`.
 
-{% policy_yaml cross-zone-backend %}
+{% policy_yaml cross-zone-backend use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: cross-zone-backend
@@ -409,6 +357,9 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        sectionName: http
+        port: 8080
       default:
         localityAwareness:
           crossZone:
@@ -444,6 +395,9 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        sectionName: http
+        port: 8080
       default:
         localityAwareness:
           localZone:
