@@ -83,7 +83,7 @@ First we can start `redis` dataplane. On universal we need to manually create Da
 run kuma-dp manually, to do this run:
 
 ```shell
-KUMA_READINESS_PORT=9901{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9902{% endif_version %} kuma-dp run \
+KUMA_READINESS_PORT=9901 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9902 \{% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-redis \
@@ -112,7 +112,7 @@ running on separate machines this is obsolete.
 Now we need to start data plane for our demo-app, we can do this by running:
 
 ```shell
-KUMA_READINESS_PORT=9904{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905{% endif_version %} kuma-dp run \
+KUMA_READINESS_PORT=9904 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905 \{% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-demo-app \
@@ -150,7 +150,7 @@ You should see message `OK` from `Redis` if this operation was successful.
 git clone https://github.com/kumahq/kuma-counter-demo.git && cd kuma-counter-demo
 ```
 
-3. No we need to run:
+3. Now we need to run:
 ```shell
 npm install --prefix=app/ && npm start --prefix=app/
 ```
