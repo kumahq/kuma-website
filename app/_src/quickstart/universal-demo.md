@@ -83,7 +83,7 @@ First we can start `redis` dataplane. On universal we need to manually create Da
 run kuma-dp manually, to do this run:
 
 ```shell
-KUMA_READINESS_PORT=9901 kuma-dp run \
+KUMA_READINESS_PORT=9901{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9902{% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-redis \
@@ -101,7 +101,7 @@ KUMA_READINESS_PORT=9901 kuma-dp run \
           kuma.io/service: redis
           kuma.io/protocol: tcp
     admin:
-      port: 9902"
+      port: 9903"
 ```
 
 You can notice that we manually specify readiness port with environment variable `KUMA_READINESS_PORT` when every data plane is 
@@ -112,7 +112,7 @@ running on separate machines this is obsolete.
 Now we need to start data plane for our demo-app, we can do this by running:
 
 ```shell
-KUMA_READINESS_PORT=9903 kuma-dp run \
+KUMA_READINESS_PORT=9904{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905{% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-demo-app \
@@ -134,7 +134,7 @@ KUMA_READINESS_PORT=9903 kuma-dp run \
           kuma.io/service: demo-app
           kuma.io/protocol: http
     admin:
-      port: 9904"
+      port: 9906"
 ```
 
 ### Run kuma-counter-demo app
