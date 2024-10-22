@@ -135,105 +135,41 @@ ResponseBandwidth defines a configuration to limit the speed of responding to re
 ## Examples
 ### Service backend returns 500 for 50% of requests from frontend service
 
-{% tabs meshfaultinjection-backend-to-frontend-simple useUrlFragment=false %}
-{% tab meshfaultinjection-backend-to-frontend-simple Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshFaultInjection
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
-spec:
-  targetRef:
-    kind: MeshService
-    name: backend
-  from:
-    - targetRef:
-        kind: MeshSubset
-        tags: 
-          kuma.io/service: frontend
-      default:
-        http:
-          - abort:
-              httpStatus: 500
-              percentage: 50
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab meshfaultinjection-backend-to-frontend-simple Universal %}
-
+{% policy_yaml meshfaultinjection-backend-to-frontend-simple %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
 name: default-fault-injection
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   from:
     - targetRef:
         kind: MeshSubset
         tags:
-          kuma.io/service: frontend
+          app: frontend
       default:
         http:
           - abort:
               httpStatus: 500
-              percentage: 50
+              percentage: 5
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 ### 50.5% of requests to service backend from any service is going to be delayed by 5 seconds
 
-{% tabs meshfaultinjection-from-all useUrlFragment=false %}
-{% tab meshfaultinjection-from-all Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshFaultInjection
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
-spec:
-  targetRef:
-    kind: MeshService
-    name: backend
-  from:
-    - targetRef:
-        kind: MeshSubset
-        tags:
-          kuma.io/service: frontend
-      default:
-        http:
-          - delay:
-              percentage: "50.5"
-              value: 5s
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab meshfaultinjection-from-all Universal %}
-
+{% policy_yaml meshfaultinjection-from-all useUrlFragment %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
 name: default-fault-injection
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   from:
     - targetRef:
         kind: Mesh
@@ -244,65 +180,25 @@ spec:
               percentage: "50.5"
               value: 5s
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 ### Backend service with a list of faults that are applied for frontend service
 
-{% tabs meshfaultinjection-list-of-faults useUrlFragment=false %}
-{% tab meshfaultinjection-list-of-faults Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshFaultInjection
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
-spec:
-  targetRef:
-    kind: MeshService
-    name: backend
-  from:
-    - targetRef:
-        kind: MeshSubset
-        tags:
-          kuma.io/service: frontend
-      default:
-        http:
-          - abort:
-              httpStatus: 500
-              percentage: "2.5"
-          - abort:
-              httpStatus: 500
-              percentage: 10
-          - delay:
-              value: 5s
-              percentage: 5
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab meshfaultinjection-list-of-faults Universal %}
-
+{% policy_yaml meshfaultinjection-list-of-faults useUrlFragment %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
 name: default-fault-injection
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   from:
     - targetRef:
         kind: MeshSubset
         tags:
-          kuma.io/service: frontend
+          app: frontend
       default:
         http:
           - abort:
@@ -315,11 +211,7 @@ spec:
               value: 5s
               percentage: 5
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 ## All policy options
 
