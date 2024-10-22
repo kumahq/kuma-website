@@ -28,19 +28,14 @@ module Jekyll
               hash["spec"]["to"].each do |to_item|
                 if to_item.dig("targetRef", "kind") == "MeshService"
                   target_ref = to_item["targetRef"]
-                  if target_ref["name_kube"]
-                    transformed_name = target_ref["name_kube"].split('_')
+                  if hash["apiVersion"]
                     to_item["targetRef"] = {
                       "kind" => "MeshService",
-                      "name" => transformed_name[0],
-                      "namespace" => transformed_name[1],
-                      "sectionName" => transformed_name[3]
+                      "name" => target_ref['name'] + "_" + target_ref['namespace'] + "_" + target_ref['section_name'].to_s,
                     }
-                  elsif target_ref["name_uni"]
-                    to_item["targetRef"]["name"] = target_ref["name_uni"]
-                    to_item["targetRef"].delete("name_uni")
-                    to_item["targetRef"].delete("name_kube")
+                    to_item["targetRef"].delete("section_name")
                   end
+                  to_item["targetRef"].delete("namespace")
                 end
               end
             end
@@ -112,14 +107,10 @@ module Jekyll
             use_meshservice = @params["use_meshservice"] == "true" && version_supported(version)
 
             YAML.load_stream(content) do |yaml_data|
-              # Universal Style 1 (without transformation)
               uni_style1_data = Marshal.load(Marshal.dump(yaml_data))
-
-              # Universal Style 2 (with transformation, if applicable)
               uni_style2_data = Marshal.load(Marshal.dump(yaml_data))
-              transform_target_ref(uni_style2_data) if use_meshservice
+              transform_target_ref(uni_style1_data) if use_meshservice
 
-              # Kubernetes Style 1 (without transformation)
               kube_style1_data = {
                 "apiVersion" => @params["apiVersion"],
                 "kind" => yaml_data["type"],
@@ -133,10 +124,8 @@ module Jekyll
                 },
                 "spec" => yaml_data["spec"]
               }
-
-              # Kubernetes Style 2 (with transformation, if applicable)
               kube_style2_data = Marshal.load(Marshal.dump(kube_style1_data))
-              transform_target_ref(kube_style2_data) if use_meshservice
+              transform_target_ref(kube_style1_data) if use_meshservice
 
               # Handle suffix removal for universal and kubernetes variations
               process_hash(kube_style1_data, "_uni", "_kube")
