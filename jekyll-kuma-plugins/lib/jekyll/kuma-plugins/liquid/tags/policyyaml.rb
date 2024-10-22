@@ -55,9 +55,13 @@ module Jekyll
                   if hash.key?("apiVersion")
                     port = target_ref['port'].to_s
                     namespace = target_ref['namespace'].to_s
+                    name = target_ref['name'] + "_" + namespace
+                    if port
+                      name += "_" + port
+                    end
                     to_item["targetRef"] = {
                       "kind" => "MeshService",
-                      "name" => target_ref['name'] + "_" + namespace + "_" + port,
+                      "name" => name,
                     }
                   else
                     to_item["targetRef"].delete("sectionName")

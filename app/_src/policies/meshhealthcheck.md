@@ -77,49 +77,22 @@ See [protocol fallback example](#protocol-fallback).
 
 #### Health check from web to backend service
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshHealthCheck
-metadata:
-  name: web-to-backend-check
-  namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshService
-    name: web
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        interval: 10s
-        timeout: 2s
-        unhealthyThreshold: 3
-        healthyThreshold: 1
-        http:
-          path: /health
-          expectedStatuses: [200, 201]
-```
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab usage Universal %}
-
+{% policy_yaml usage use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: web
+    kind: MeshSubset
+    tags:
+      kuma.io/service: web
   to:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        sectionName: http
       default:
         interval: 10s
         timeout: 2s
@@ -129,55 +102,26 @@ spec:
           path: /health
           expectedStatuses: [200, 201]
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Protocol fallback
 
-{% tabs protocol useUrlFragment=false %}
-{% tab protocol Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshHealthCheck
-metadata:
-  name: web-to-backend-check
-  namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshService
-    name: web
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        interval: 10s
-        timeout: 2s
-        unhealthyThreshold: 3
-        healthyThreshold: 1
-        tcp: {} # http has "disabled=true" so TCP (a more general protocol) is used as a fallback
-        http:
-          disabled: true
-```
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab protocol Universal %}
-
+{% policy_yaml protocol use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: web
+    kind: MeshSubset
+    tags:
+      kuma.io/service: web
   to:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        sectionName: http
       default:
         interval: 10s
         timeout: 2s
@@ -187,54 +131,26 @@ spec:
         http:
           disabled: true
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### gRPC health check from cart to payment service
 
-{% tabs grpc useUrlFragment=false %}
-{% tab grpc Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshHealthCheck
-metadata:
-  name: cart-to-payment-check
-  namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshService
-    name: cart
-  to:
-    - targetRef:
-        kind: MeshService
-        name: payment
-      default:
-        interval: 15s
-        timeout: 5s
-        unhealthyThreshold: 3
-        healthyThreshold: 2
-        grpc:
-          serviceName: "grpc.health.v1.CustomHealth"
-```
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab grpc Universal %}
-
+{% policy_yaml grpc use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
-name: cart-to-payment-check
+name: web-to-backend-check
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: cart
+    kind: MeshSubset
+    tags:
+      kuma.io/service: web
   to:
     - targetRef:
         kind: MeshService
-        name: payment
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
       default:
         interval: 15s
         timeout: 5s
@@ -243,9 +159,7 @@ spec:
         grpc:
           serviceName: "grpc.health.v1.CustomHealth"
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 ## Common configuration
 
