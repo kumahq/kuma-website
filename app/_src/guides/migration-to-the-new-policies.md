@@ -276,7 +276,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
 
     Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Check that the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission:
+4. Check that the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermissions:
 
     ```sh
    kubectl delete trafficpermissions --all
