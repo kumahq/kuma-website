@@ -21,7 +21,7 @@ demo-app --> redis
 
 ## Prerequisites
 
-* [Redis installed](https://redis.io/docs/getting-started/)
+* [Redis installed, not running](https://redis.io/docs/getting-started/)
 
 ## Install {{site.mesh_product_name}}
 
@@ -39,7 +39,7 @@ export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.ve
 
 ## Start control plane
 
-Now we need to start control plane in background by running command:
+Now we need to start [control plane](/docs/{{ page.version }}/introduction/concepts#control-plane) in background by running command:
 
 ```shell
 kuma-cp run > cp-logs.txt 2>&1 &
@@ -55,7 +55,7 @@ tail cp-logs.txt
 
 ### Generate tokens for data planes
 
-On Universal we need to manually create tokens for data planes. To do this need to run this commands (these tokens will be valid
+On Universal we need to manually create tokens for [data planes](/docs/{{ page.version }}/introduction/concepts#data-plane). To do this need to run this commands (these tokens will be valid
 for 30 days):
 
 ```sh
@@ -79,7 +79,7 @@ You'll see a warning like the following in the `kuma-dp` logs:
 This isn't related to mTLS between services.
 {% endwarning %}
 
-First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane objects for data planes, and 
+First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane [resources](/docs/{{ page.version }}/introduction/concepts#resource) for data planes, and 
 run kuma-dp manually, to do this run:
 
 ```shell
@@ -184,7 +184,7 @@ Before enabling [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTL
 `MeshTrafficPermission` policy that allows traffic between your applications.
 
 {% warning %}
-If you enable [mTLS](/docs/{{ page.version }}/policies/mutual-tls/) without a `MeshTrafficPermission` policy, all traffic between your applications will be blocked. 
+If you enable [mTLS](/docs/{{ page.version }}/policies/mutual-tls/) without a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission) [policy](/docs/{{ page.version }}/introduction/concepts#policy), all traffic between your applications will be blocked. 
 {% endwarning %}
 
 To create a `MeshTrafficPermission` policy, you can use the following command:
