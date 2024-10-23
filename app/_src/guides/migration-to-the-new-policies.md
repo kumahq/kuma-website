@@ -251,10 +251,11 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
            action: Allow' | kubectl apply -f -
     ```
 
-2. Check the list of changes for `redis_kuma-demo_svc_6379` pod in Envoy configuration using `kumactl`, `jq` and `jd`:
+2. Check the list of changes for the `redis_kuma-demo_svc_6379` `kuma.io/service` in Envoy configuration using `kumactl`, `jq` and `jd`:
 
     ```sh
-   kumactl inspect dataplane redis-8fcbfc795-twlst.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+   DATAPLANE_NAME=$(kumactl get dataplanes -ojson | jq '.items[] | select(.networking.inbound[0].tags["kuma.io/service"] == "redis_kuma-demo_svc_6379") | .name')
+   kumactl inspect dataplane ${DATAPLANE_NAME} --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
     Expected output:
     ```
@@ -331,10 +332,10 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
            streamIdleTimeout: 2h' | kubectl apply -f-
     ```
 
-2. Check the list of changes for `redis_kuma-demo_svc_6379` pod in Envoy configuration using `kumactl`, `jq` and `jd`:
+2. Check the list of changes for the `redis_kuma-demo_svc_6379` `kuma.io/service` in Envoy configuration using `kumactl`, `jq` and `jd`:
 
     ```sh
-   kumactl inspect dataplane redis-8fcbfc795-twlst.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+   kumactl inspect dataplane ${DATAPLANE_NAME} --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
     Expected output:
     ```
@@ -412,10 +413,10 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
                threshold: 36' | kubectl apply -f-
     ```
 
-2. Check the list of changes for `redis_kuma-demo_svc_6379` pod in Envoy configuration using `kumactl`, `jq` and `jd`:
+2. Check the list of changes for the `redis_kuma-demo_svc_6379` `kuma.io/service` in Envoy configuration using `kumactl`, `jq` and `jd`:
 
     ```sh
-   kumactl inspect dataplane demo-app-b4f98898-zxrqj.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+   kumactl inspect dataplane ${DATAPLANE_NAME} --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
 
     The expected output is empty. CircuitBreaker and MeshCircuitBreaker configures Envoy in the exact similar way.
