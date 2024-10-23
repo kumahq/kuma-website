@@ -53,9 +53,9 @@ tail cp-logs.txt
 
 ## Deploy demo application
 
-### Generate tokens for data planes
+### Generate tokens for data plane proxies
 
-On Universal we need to manually create tokens for [data planes](/docs/{{ page.version }}/introduction/concepts#data-plane). To do this need to run this commands (these tokens will be valid
+On Universal we need to manually create tokens for [data plane proxies](/docs/{{ page.version }}/introduction/concepts#data-plane). To do this need to run this commands (these tokens will be valid
 for 30 days):
 
 ```sh
@@ -79,7 +79,7 @@ You'll see a warning like the following in the `kuma-dp` logs:
 This isn't related to mTLS between services.
 {% endwarning %}
 
-First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane [resources](/docs/{{ page.version }}/introduction/concepts#resource) for data planes, and 
+First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane [resources](/docs/{{ page.version }}/introduction/concepts#resource) for data plane proxies, and 
 run kuma-dp manually, to do this run:
 
 ```shell
