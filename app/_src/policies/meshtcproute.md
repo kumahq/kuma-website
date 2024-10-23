@@ -116,7 +116,7 @@ spec:
     - targetRef:
         kind: MeshSubset
         tags:
-          app: backend
+          kuma.io/service: backend_kuma-demo_svc_3001
       rules:
         - default:
             backendRefs:
@@ -155,7 +155,7 @@ spec:
     - targetRef:
         kind: MeshSubset
         tags:
-          app: backend
+          kuma.io/service: backend_kuma-demo_svc_3001
       rules:
         - default:
             backendRefs:
