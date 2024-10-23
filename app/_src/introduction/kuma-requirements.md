@@ -10,7 +10,7 @@ This page exposes the different requirements to run {{site.mesh_product_name}}.
 
 ## Kubernetes
 
-{{site.mesh_product_name}} is validated against Kubernetes versions:
+{{site.mesh_product_name}} is validated against two Kubernetes versions:
 
 {% if page.version_data.release != "dev" %}
 <iframe frameborder="0" scrolling="no" style="width:100%; height:118px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2Frelease-{{page.version_data.release | truncate: 3, ""}}%2Fmk%2Fdev.mk%23L24-L25&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
