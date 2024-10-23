@@ -19,6 +19,8 @@ items:
             url: "/introduction/how-kuma-works/#kuma-vs-xyz"
       - text: Architecture
         url: /introduction/architecture/
+      - text: Concepts
+        url: /introduction/concepts/
       - text: Kuma requirements
         url: /introduction/kuma-requirements/
       - text: Release notes

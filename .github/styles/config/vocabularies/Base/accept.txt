@@ -129,7 +129,7 @@ Prometheus
 Protobuf
 proxied
 proxying
-redis
+[Rr]edis
 referenceable
 repo
 RFC
