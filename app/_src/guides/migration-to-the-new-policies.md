@@ -82,7 +82,7 @@ spec:
 
 3.  In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter.
 
-### Enable Mutual TLS and Traffic Permissions
+### Enable mTLS and deploy TrafficPermissions
 
 ```sh
 echo 'apiVersion: kuma.io/v1alpha1
@@ -271,29 +271,16 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
 3. Remove the `kuma.io/effect: shadow` label:
 
     ```sh
-   echo 'apiVersion: kuma.io/v1alpha1
-   kind: MeshTrafficPermission
-   metadata:
-     namespace: {{site.mesh_namespace}}
-     name: app-to-redis
-     labels:
-       kuma.io/mesh: default
-   spec:
-     targetRef:
-       kind: MeshService
-       name: redis_kuma-demo_svc_6379
-     from:
-       - targetRef:
-           kind: MeshSubset
-           tags:
-             kuma.io/service: demo-app_kuma-demo_svc_5000
-         default:
-           action: Allow' | kubectl apply -f -
+    kubectl label -n kuma-system meshtrafficpermission app-to-redis kuma.io/effect-
     ```
 
     Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission and conclude the migration.
+4. Check that the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission:
+
+    ```sh
+   kubectl delete trafficpermissions --all
+    ```
 
 ### Timeout -> MeshTimeout
 
@@ -362,9 +349,18 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
     These 3 facts perfectly explain the list of changes we're observing.
 
 3. Remove the `kuma.io/effect: shadow` label.
+
+   ```sh
+   kubectl label -n kuma-system meshtimeout timeout-global kuma.io/effect-
+   ```
+
    Even though the old Timeout and the new MeshTimeout are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove Timeout and conclude the migration.
+4. Check that the demo app behaves as expected. If everything goes well, we can safely remove Timeouts:
+
+   ```sh
+   kubectl delete timeouts --all
+   ```
 
 ### CircuitBreaker -> MeshCircuitBreaker
 
@@ -422,9 +418,18 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
     The expected output is empty. CircuitBreaker and MeshCircuitBreaker configures Envoy in the exact similar way.
 
 3. Remove the `kuma.io/effect: shadow` label.
+
+   ```sh
+   kubectl label -n kuma-system meshcircuitbreaker cb-global kuma.io/effect-
+   ```
+
    Even though the old CircuitBreaker and the new MeshCircuitBreaker are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove CircuitBreaker and conclude the migration.
+4. Check that the demo app behaves as expected. If everything goes well, we can safely remove CircuitBreakers:
+
+   ```sh
+   kubectl delete circuitbreakers --all
+   ```
 
 ### TrafficRoute -> MeshTCPRoute
 
