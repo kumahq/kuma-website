@@ -6,34 +6,34 @@ There are multiple ways to make an impact in Kuma
 
 ## Community
 
-You can join the slack channel or the community meetings as shown in the [community section](/community).
+You can join the Slack channel or the community meetings as shown in the [community section](/community).
 
 ## Documentation
 
-You can edit this documentation. To do so checkout [the getting started doc](https://github.com/kumahq/kuma-website/blob/master/CONTRIBUTING.md).
+You can edit this documentation. Checkout the [contributing](https://github.com/kumahq/kuma-website/blob/master/CONTRIBUTING.md)  documentation on how to get started.
 
 ## Core Code
 
-Most of Kuma is in Go. Checkout the [contributing](https://github.com/kumahq/kuma/blob/master/CONTRIBUTING.md) documentation on how to get started.
+Most of Kuma is in [Go](https://go.dev/). Checkout the [contributing](https://github.com/kumahq/kuma/blob/master/CONTRIBUTING.md) documentation on how to get started.
 
 ## GUI Code
 
-The UI is in Vuejs and Checkout the [repo](https://github.com/kumahq/kuma-gui/blob/master/DEVELOPER.md) to see how to contribute.
+The UI is in [Vue.js](https://vuejs.org/). Checkout the [contributing](https://github.com/kumahq/kuma-gui/blob/master/CONTRIBUTING.md) documentation on how to get started.
 
 ## Testing unreleased versions
 
 Kuma publishes new binaries for every commit.
-There's a small script to download the latest version:
+There's a small script to download the latest preview version:
 
 ```shell
-curl https://kuma.io/installer.sh | VERSION={{ page.latest_version }} sh -
+curl -L https://kuma.io/installer.sh | VERSION=preview sh -
 ```
 
 {% tip %}
-If you already know the version you can use the installer:
+If you already know the version you want to test you can run:
 
 ```shell
-curl https://kuma.io/installer.sh | VERSION=kuma-0.0.0-preview.4d3a9fd03 sh -
+curl -L https://kuma.io/installer.sh | VERSION=kuma-0.0.0-preview.4d3a9fd03 sh -
 ```
 
 {% endtip %}
