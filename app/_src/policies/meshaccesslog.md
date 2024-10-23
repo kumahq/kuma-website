@@ -19,18 +19,11 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 {% if_version gte:2.4.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
-{% if_version gte:2.9.x %}
-| `targetRef`             | Allowed kinds                                            |
-| ----------------------- | -------------------------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`             |
-| `from[].targetRef.kind` | `Mesh`                                                   |
-{% endif_version %}
 {% if_version gte:2.4.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`(since 2.9.x)|
 | `from[].targetRef.kind` | `Mesh`                                                   |
 {% endif_version %}
 {% endtab %}
@@ -53,17 +46,11 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 
 {% if_version gte:2.6.x %}
 {% tab targetRef Delegated Gateway %}
-{% if_version gte:2.9.x %}
-| `targetRef`             | Allowed kinds                                            |
-| ----------------------- | -------------------------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`             |
-{% endif_version %}
 {% if_version gte:2.6.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`(since 2.9.x)|
 {% endif_version %}
 {% endtab %}
 {% endif_version %}
