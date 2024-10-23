@@ -1,5 +1,4 @@
 Aiven
-Aiven
 Argo CD
 [Kk]ong
 [Kk]ubernetes
