@@ -108,8 +108,11 @@ You can notice that we are manually specifying the readiness port with environme
 running on separate machines this is not required. 
 
 {% warning %}
-We need separate terminal window, with {{site.mesh_product_name}} binaries directory: `{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin` 
-added to `PATH`, to start data plane proxy for `demo-app`
+We need a separate terminal window, with the same binaries directory as above added to `PATH`. So assuming the same initial directory:
+
+```shell
+export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin
+```
 {% endwarning %}
 
 Now we can start the data plane proxy for our demo-app, we can do this by running:
@@ -142,7 +145,7 @@ KUMA_READINESS_PORT=9904 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY
 
 ### Run kuma-counter-demo app
 
-We will start kuma-counter-demo in new terminal window:
+We will start the kuma-counter-demo in a new terminal window:
 
 1. With the data plane proxies running, we can start our apps, first we will start and configure `Redis`:
 ```shell
@@ -197,10 +200,10 @@ mtls:
 ```
 
 The traffic is now **encrypted and secure**. {{site.mesh_product_name}} does not define default traffic permissions, which 
-means that no traffic will flow with mTLS enabled until we define proper [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission) 
+means that no traffic will flow with mTLS enabled until we define a proper [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission) 
 [policy](/docs/{{ page.version }}/introduction/concepts#policy). 
 
-At this moment demo application should not work.
+For now, the demo application won't work.
 You can verify this by clicking the increment button again and seeing the error message in the browser.
 We can allow the traffic from the `demo-app` to `redis` by applying the following `MeshTrafficPermission`:
 
