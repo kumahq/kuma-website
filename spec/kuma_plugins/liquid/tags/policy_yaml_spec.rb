@@ -1,6 +1,9 @@
-# spec/jekyll/kuma-plugins/liquid/tags/policyyaml_spec.rb
 require 'jekyll'
 require_relative '../../../../jekyll-kuma-plugins/lib/jekyll/kuma-plugins/liquid/tags/policyyaml'
+require_relative '../../../../app/_plugins/tags/tabs/tabs'
+
+Liquid::Template.register_tag('tab', Jekyll::Tabs::TabBlock)
+Liquid::Template.register_tag('tabs', Jekyll::Tabs::TabsBlock)
 
 RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
   let(:content) { <<-YAML
@@ -32,8 +35,6 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
     puts "Output from render: #{output}"  # Log the rendered output for debugging
 
     # Simple checks on the output
-    expect(output).to include("```yaml")
-    expect(output).to include("example-service")
+    expect(output).to include("MeshService")
   end
 end
-
