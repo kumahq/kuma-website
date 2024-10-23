@@ -9,7 +9,7 @@ Liquid::Template.register_tag('tabs', Jekyll::Tabs::TabsBlock)
 
 RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
   let(:input_file) { 'spec/fixtures/input.yaml' }
-  let(:golden_file) { 'spec/fixtures/output.html.golden' }
+  let(:golden_file) { 'spec/fixtures/output.golden.html' }
 
   # Load input YAML content from the file
   let(:content) { GoldenFileManager.load_input(input_file) }
