@@ -93,6 +93,22 @@ module Jekyll
             current_version > TARGET_VERSION
           end
 
+          def remove_namespace_from_backendrefs(data)
+            if data.dig("spec", "to").is_a?(Array)
+              data["spec"]["to"].each do |to_item|
+                if to_item["rules"].is_a?(Array)
+                  to_item["rules"].each do |rule|
+                    if rule.dig("default", "backendRefs").is_a?(Array)
+                      rule["default"]["backendRefs"].each do |backend_ref|
+                        backend_ref.delete("namespace")
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+
           def render(context)
             content = super
             return "" if content == ""
@@ -114,9 +130,11 @@ module Jekyll
             YAML.load_stream(content) do |yaml_data|
               # Universal Style 1 (without transformation)
               uni_style1_data = Marshal.load(Marshal.dump(yaml_data))
+              remove_namespace_from_backendrefs(uni_style1_data)
 
               # Universal Style 2 (with transformation, if applicable)
               uni_style2_data = Marshal.load(Marshal.dump(yaml_data))
+              remove_namespace_from_backendrefs(uni_style2_data)
               transform_target_ref(uni_style2_data) if use_meshservice
 
               # Kubernetes Style 1 (without transformation)
