@@ -8,6 +8,8 @@ kramdown:
   syntax_highlighter_opts:
     css_class: "highlight"
     guess_lang: true
+    span:
+      disable: true
 incremental: true
 
 # Site settings
@@ -22,18 +24,16 @@ links:
 fb:
   app_id: 682375632267551
 twitter:
-  handle: '@KumaMesh'
+  handle: "@KumaMesh"
 
 defaults:
-  -
-    scope:
+  - scope:
       path: "_posts"
       type: "posts"
     values:
       layout: "post"
       permalink: "/blog/:year/:slug/"
-  -
-    scope:
+  - scope:
       path: "docs"
     values:
       layout: "page"
@@ -43,7 +43,7 @@ pagination:
   # Site-wide kill switch, disabled here it doesn't run at all
   enabled: true
   per_page: 5
-  title: 'Page :num | :title'
+  title: "Page :num | :title"
   sort_reverse: true
   trail:
     before: 1
@@ -51,30 +51,29 @@ pagination:
 
 # Pardot
 pardot:
-  communityCallFormEndpoint: 'https://go.pardot.com/l/392112/2020-07-09/bmmgqv'
-  communityCallInvite: 'https://calendar.google.com/calendar?cid=a29uZ2hxLmNvbV8xbWE5NnNzZGdnZmg5ZnJyY3M5N2VwdTM4b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t'
-  newsletterFormEndpoint: 'https://go.pardot.com/l/392112/2020-01-14/bkwzrx'
-  serviceMeshConFormEndpoint: 'https://go.konghq.com/l/392112/2020-11-16/bnlpqv'
+  communityCallFormEndpoint: "https://go.pardot.com/l/392112/2020-07-09/bmmgqv"
+  communityCallInvite: "https://calendar.google.com/calendar?cid=a29uZ2hxLmNvbV8xbWE5NnNzZGdnZmg5ZnJyY3M5N2VwdTM4b0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+  newsletterFormEndpoint: "https://go.pardot.com/l/392112/2020-01-14/bkwzrx"
+  serviceMeshConFormEndpoint: "https://go.konghq.com/l/392112/2020-11-16/bnlpqv"
 
 # Analytics
 gtag:
-  tracking_id: ''
+  tracking_id: ""
 
 jekyll-generator-single-source:
-  versions_file: '_data/versions.yml'
-  docs_nav_folder: '_data'
-  layout: 'page'
+  versions_file: "_data/versions.yml"
+  docs_nav_folder: "_data"
+  layout: "page"
   multiple_products: false
-  base_dest_path: 'docs'
+  base_dest_path: "docs"
 
 # Product name variables
-mesh_helm_repo_url: https://kumahq.github.io/charts
-mesh_helm_repo_name: kuma
 mesh_product_name: Kuma
 mesh_product_name_path: kuma
 mesh_namespace: kuma-system
 mesh_cp_name: kuma-control-plane
 mesh_cp_zone_sync_name_prefix: kuma-
+mesh_docker_org: kumahq
 mesh_base_url: https://kuma.io
 # Prefix for the values of "--set" flag for "kumactl install [...]" or
 # "helm install [...]" commands.
@@ -85,8 +84,13 @@ mesh_base_url: https://kuma.io
 set_flag_values_prefix: ""
 
 # Helm commands
+mesh_helm_repo_url: https://kumahq.github.io/charts
+mesh_helm_repo_name: kuma
 mesh_helm_repo: kuma/kuma
 mesh_helm_install_name: kuma
+
+# binary options
+mesh_install_archive_name: kuma
 
 mesh_raw_generated_paths:
   - app/assets
