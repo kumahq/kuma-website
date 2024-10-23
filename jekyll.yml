@@ -72,6 +72,7 @@ jekyll-generator-single-source:
 include:
   - installer.sh
   - robots.txt
+  -
 
 # Product name variables
 mesh_product_name: Kuma

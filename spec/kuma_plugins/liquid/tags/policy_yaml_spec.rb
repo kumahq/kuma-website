@@ -28,6 +28,6 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
     output = template.render(context)
 
     # Use GoldenFileManager to assert the output
-    GoldenFileManager.assert_output(output, golden_file)
+    GoldenFileManager.assert_output(output, golden_file, include_header: true)
   end
 end
