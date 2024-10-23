@@ -1,0 +1,18 @@
+type: MeshTimeout
+name: inbound-timeout
+mesh: default
+spec:
+  targetRef:
+    kind: MeshService
+    name_uni: frontend
+    name_kube: frontend_kuma-demo_svc_8080
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 60s
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 60s
