@@ -230,7 +230,84 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-### `TargetRef` support for different policy types
+### Targeting gateways
+
+Given a MeshGateway:
+
+{% policy_yaml meshgatewayex %}
+```yaml
+type: MeshGateway
+mesh: default
+name: edge
+selectors:
+- match:
+    kuma.io/service: edge-gateway
+conf:
+  listeners:
+  - port: 80
+    protocol: HTTP
+    tags:
+      port: http-80
+  - port: 443
+    protocol: HTTPS
+    tags:
+      port: https-443
+```
+{% endpolicy_yaml %}
+
+Policies can attach to all listeners:
+
+{% policy_yaml alllisteners %}
+```yaml
+type: MeshTimeout
+name: timeout-all
+mesh: default
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: edge
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 10s
+```
+{% endpolicy_yaml %}
+
+so that requests to either port 80 or 443 will have an idle timeout of 10 seconds,
+or just some listeners:
+
+{% policy_yaml somelisteners %}
+```yaml
+type: MeshTimeout
+name: timeout-8080
+mesh: default
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: edge
+    tags:
+      port: http-80
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 10s
+```
+{% endpolicy_yaml %}
+
+So that only requests to port 80 will have the idle timeout.
+
+Note that depending on the policy,
+there may be restrictions on whether or not specific listeners can be selected.
+
+#### Routes
+
+Read the [MeshHTTPRoute docs](/docs/{{ page.version }}/policies/meshhttproute/#gateways)
+and [MeshTCPRoute docs](/docs/{{ page.version }}/policies/meshtcproute/#gateways) for more
+on how to target gateways for routing traffic.
+
+### Target kind support for different policies
 
 Not every policy supports `to` and `from` levels. Additionally, not every resource can
 appear at every supported level. The specified top level resource can also affect which
