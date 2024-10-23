@@ -107,7 +107,10 @@ KUMA_READINESS_PORT=9901 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY
 You can notice that we are manually specifying the readiness port with environment variable `KUMA_READINESS_PORT`, when each data plane is 
 running on separate machines this is not required. 
 
-[//]: # (TODO should we tell users explicitely to open another terminal window or should we just run kuma-dp in background?)
+{% warning %}
+We need separate terminal window, with {{site.mesh_product_name}} binaries directory: `{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin` 
+added to `PATH`, to start data plane proxy for `demo-app`
+{% endwarning %}
 
 Now we can start the data plane proxy for our demo-app, we can do this by running:
 
@@ -138,6 +141,8 @@ KUMA_READINESS_PORT=9904 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY
 ```
 
 ### Run kuma-counter-demo app
+
+We will start kuma-counter-demo in new terminal window:
 
 1. With the data plane proxies running, we can start our apps, first we will start and configure `Redis`:
 ```shell
@@ -174,38 +179,10 @@ To learn more, read the [documentation about the user interface](/docs/{{ page.v
 
 ## Introduction to zero-trust security
 
-By default, the network is insecure and not encrypted. We can change this with {{site.mesh_product_name}} by enabling 
+By default, the network is **insecure and not encrypted**. We can change this with {{site.mesh_product_name}} by enabling 
 the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that 
 will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running 
 alongside the services).
-
-{% if_version gte:2.6.x %}
-Before enabling [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTLS) in your mesh, you need to create a
-`MeshTrafficPermission` policy that allows traffic between your applications.
-
-{% warning %}
-If you enable [mTLS](/docs/{{ page.version }}/policies/mutual-tls/) without a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission) [policy](/docs/{{ page.version }}/introduction/concepts#policy), all traffic between your applications will be blocked. 
-{% endwarning %}
-
-To create a `MeshTrafficPermission` policy, you can use the following command:
-
-```shell
-echo 'type: MeshTrafficPermission 
-name: mtp
-mesh: default 
-spec: 
-  targetRef: 
-    kind: Mesh 
-  from: 
-    - targetRef: 
-        kind: Mesh 
-      default: 
-        action: Allow' | kumactl apply -f -
-```
-
-This command will create a policy that allows all traffic between applications within your mesh. If you need to create 
-more specific rules, you can do so by editing the policy manifest.
-{% endif_version %}
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
@@ -219,25 +196,11 @@ mtls:
       type: builtin' | kumactl apply -f -
 ```
 
-The traffic is now encrypted with mTLS and each service can reach any other service.
+The traffic is now **encrypted and secure**. {{site.mesh_product_name}} does not define default traffic permissions, which 
+means that no traffic will flow with mTLS enabled until we define proper [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission) 
+[policy](/docs/{{ page.version }}/introduction/concepts#policy). 
 
-We can then restrict the traffic by default by executing:
-
-```shell
-echo 'type: MeshTrafficPermission 
-name: mtp
-mesh: default 
-spec: 
-  targetRef: 
-    kind: Mesh 
-  from: 
-    - targetRef: 
-        kind: Mesh 
-      default: 
-        action: Deny' | kumactl apply -f -
-```
-
-At this point, the demo application should not function, because we blocked the traffic.
+At this moment demo application should not work.
 You can verify this by clicking the increment button again and seeing the error message in the browser.
 We can allow the traffic from the `demo-app` to `redis` by applying the following `MeshTrafficPermission`:
 
