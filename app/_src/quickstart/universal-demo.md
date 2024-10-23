@@ -53,9 +53,9 @@ tail cp-logs.txt
 
 ## Deploy demo application
 
-### Generate token for data planes
+### Generate tokens for data planes
 
-On Universal we need to manually create token for data planes. To do this need to run this commands (these tokens will be valid
+On Universal we need to manually create tokens for data planes. To do this need to run this commands (these tokens will be valid
 for 30 days):
 
 ```sh
@@ -63,9 +63,9 @@ kumactl generate dataplane-token --tag kuma.io/service=redis --valid-for=720h > 
 kumactl generate dataplane-token --tag kuma.io/service=demo-app --valid-for=720h > /tmp/kuma-token-demo-app
 ```
 
-After generating tokens we can data planes that will be used for proxying traffic between `demo-app` and `redis`.
+After generating tokens we can start the data plane proxies that will be used for proxying traffic between `demo-app` and `redis`.
 
-### Start data planes
+### Start the data plane proxies
 
 {% warning %}
 Because this is a quickstart, we don't setup [certificates for communication
@@ -79,7 +79,7 @@ You'll see a warning like the following in the `kuma-dp` logs:
 This isn't related to mTLS between services.
 {% endwarning %}
 
-First we can start `redis` dataplane. On universal we need to manually create Dataplane object for our data plane, and 
+First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane objects for data planes, and 
 run kuma-dp manually, to do this run:
 
 ```shell
@@ -104,12 +104,12 @@ KUMA_READINESS_PORT=9901 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY
       port: 9903"
 ```
 
-You can notice that we manually specify readiness port with environment variable `KUMA_READINESS_PORT` when every data plane is 
-running on separate machines this is obsolete. 
+You can notice that we are manually specifying the readiness port with environment variable `KUMA_READINESS_PORT`, when each data plane is 
+running on separate machines this is not required. 
 
 [//]: # (TODO should we tell users explicitely to open another terminal window or should we just run kuma-dp in background?)
 
-Now we need to start data plane for our demo-app, we can do this by running:
+Now we can start the data plane proxy for our demo-app, we can do this by running:
 
 ```shell
 KUMA_READINESS_PORT=9904 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905 \{% endif_version %} kuma-dp run \
@@ -139,7 +139,7 @@ KUMA_READINESS_PORT=9904 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY
 
 ### Run kuma-counter-demo app
 
-1. With data planes running we can start our apps, first we will start and configure `Redis`:
+1. With the data plane proxies running, we can start our apps, first we will start and configure `Redis`:
 ```shell
 redis-server --port 26379 --daemonize yes && redis-cli -p 26379 set zone local
 ```
