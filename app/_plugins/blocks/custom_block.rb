@@ -1,10 +1,9 @@
 module Jekyll
-  class Warning < Liquid::Block
+  class CustomBlock < Liquid::Block
     alias_method :render_block, :render
 
     def initialize(tag_name, markup, options)
       super
-
       @markup = markup.strip
     end
 
@@ -13,13 +12,15 @@ module Jekyll
       converter = site.find_converter_instance(::Jekyll::Converters::Markdown)
       content = converter.convert(render_block(context))
 
-      <<~TIP
-        <div class="custom-block warning">
+      <<~HTML
+        <div class="custom-block #{tag_name}">
           <p>#{content}</p>
         </div>
-      TIP
+      HTML
     end
   end
 end
 
-Liquid::Template.register_tag('warning', Jekyll::Warning)
+Liquid::Template.register_tag('tip', Jekyll::CustomBlock)
+Liquid::Template.register_tag('warning', Jekyll::CustomBlock)
+Liquid::Template.register_tag('danger', Jekyll::CustomBlock)
