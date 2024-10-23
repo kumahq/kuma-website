@@ -1,0 +1,12 @@
+apiVersion: kuma.io/v1alpha1
+mesh: default
+kind: TrafficRoute
+metadata:
+  name: route-example
+  namespace: test
+spec:
+  to:
+    - targetRef:
+        kind: MeshService
+        name_uni: example-service
+        name_kube: example-service_test_8080
