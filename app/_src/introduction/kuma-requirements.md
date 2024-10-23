@@ -1,5 +1,5 @@
 ---
-title: Kuma Requirements
+title: Requirements
 ---
 
 This page exposes the different requirements to run {{site.mesh_product_name}}.
@@ -10,20 +10,37 @@ This page exposes the different requirements to run {{site.mesh_product_name}}.
 
 ## Kubernetes
 
-{{site.mesh_product_name}} is validated against Kubernetes `1.27.x`, `1.23.x`. For the specific Kubernetes version refer to the {{site.mesh_product_name}} [Makefile](https://github.com/kumahq/kuma/blob/master/mk/dev.mk#L24-L25).
+{{site.mesh_product_name}} is validated against Kubernetes versions:
+
+{% if page.version_data.release != "dev" %}
+<iframe frameborder="0" scrolling="no" style="width:100%; height:118px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2Frelease-{{page.version_data.release | truncate: 3, ""}}%2Fmk%2Fdev.mk%23L24-L25&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
+{% endif %}
+
+{% if page.version_data.release == "dev" %}
+<iframe frameborder="0" scrolling="no" style="width:100%; height:118px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2Fmaster%2Fmk%2Fdev.mk%23L24-L25&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
+{% endif %}
+
 
 ## Envoy
 
-{% if_version lte:2.1.x %}
-Versions of envoy supported are: `~1.22.0` which means `>=1.22.0` and `<1.23.0`.
+{{site.mesh_product_name}} {{page.version_data.release}} by default uses [Envoy](https://www.envoyproxy.io/) version:
+
+{% if_version lte:2.6.x %}
+<iframe frameborder="0" scrolling="no" style="width:100%; height:97px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2Frelease-{{page.version_data.release | truncate: 3, ""}}%2Ftools%2Freleases%2Fversion.sh%23L11&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
 {% endif_version %}
-{% if_version gte:2.2.x %}
-Versions of envoy supported are: `~1.25.0` which means `>=1.25.0` and `<1.26.0`.
-{% endif_version %}
+
 {% if_version gte:2.7.x %}
-The lowest Envoy version we support is the Envoy shipped in the minor - 2 of Kuma. For example, in Kuma `2.7.x`, we support Envoy shipped in the Kuma `2.5.0`, which is version `1.28.0`.
+{% if page.version_data.release != "dev" %}
+<iframe frameborder="0" scrolling="no" style="width:100%; height:97px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2Frelease-{{page.version_data.release | truncate: 3, ""}}%2Fmk%2Fdev.mk%23L10&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
+{% endif %}
 {% endif_version %}
-You can find the current version in the [version.sh](https://github.com/kumahq/kuma/blob/master/tools/releases/version.sh#L11) file.
+
+{% if page.version_data.release == "dev" %}
+<iframe frameborder="0" scrolling="no" style="width:100%; height:97px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2Fmaster%2Fmk%2Fdev.mk%23L10&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
+{% endif %}
+
+{{site.mesh_product_name}} support all patch version of this minor Envoy version. Also, {{site.mesh_product_name}} supports
+Envoy versions used in two previous minor version of {{site.mesh_product_name}}.
 
 ## Sizing your control-plane
 
@@ -46,7 +63,7 @@ You can also find tuning configuration in the {% if_version lte:2.1.x %}[fine-tu
 
 ## Sizing your sidecar container on Kubernetes
 
-When deploying Kuma on Kubernetes, the sidecar is deployed as a separate container, `kuma-sidecar`, in your `Pods`. By default it has the following resource requests and limits:
+When deploying {{site.mesh_product_name}} on Kubernetes, the sidecar is deployed as a separate container, `kuma-sidecar`, in your `Pods`. By default it has the following resource requests and limits:
 
 ```yaml
 resources:
