@@ -1,4 +1,5 @@
 Aiven
+Aiven
 Argo CD
 [Kk]ong
 [Kk]ubernetes
@@ -129,7 +130,7 @@ Prometheus
 Protobuf
 proxied
 proxying
-redis
+[Rr]edis
 referenceable
 repo
 RFC
