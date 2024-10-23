@@ -1,12 +1,22 @@
-apiVersion: kuma.io/v1alpha1
+type: MeshTimeout
+name: inbound-timeout
 mesh: default
-kind: TrafficRoute
-metadata:
-  name: route-example
-  namespace: test
 spec:
+  targetRef:
+    kind: MeshService
+    name_uni: frontend
+    name_kube: frontend_kuma-demo_svc_8080
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 60s
   to:
     - targetRef:
         kind: MeshService
-        name_uni: example-service
-        name_kube: example-service_test_8080
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        port: 8080
+      default:
+        idleTimeout: 60s

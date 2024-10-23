@@ -22,13 +22,10 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
 
   it 'renders universal and kubernetes versions correctly' do
     # Parse the Liquid template that uses the policy_yaml tag
-    template = Liquid::Template.parse("{% policy_yaml my-tabs %}#{content}{% endpolicy_yaml %}")
+    template = Liquid::Template.parse("{% policy_yaml my-tabs use_meshservice=true %}#{content}{% endpolicy_yaml %}")
 
     # Render the template with the given context
     output = template.render(context)
-
-    # Log the rendered output for debugging
-    puts "Output from render: #{output}"
 
     # Use GoldenFileManager to assert the output
     GoldenFileManager.assert_output(output, golden_file)
