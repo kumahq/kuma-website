@@ -206,8 +206,8 @@ When a `targetRef` is not present, it is semantically equivalent to `targetRef.k
 
 ### Applying to specific proxy types
 The top level `targetRef` field can select a specific subset of data plane proxies. The field named `proxyTypes` can restrict policies to specific types of data plane proxies:
-- `Sidecar`: Targets data plane proxies acting as sidecars to applications.
-- `Gateway`: Applies to data plane proxies operating in Gateway mode.
+- `Sidecar`: Targets data plane proxies acting as sidecars to applications (including [delegated gateways](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/delegated/)).
+- `Gateway`: Applies to data plane proxies operating in [built-in Gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin/) mode.
 - Empty list: Defaults to targeting all data plane proxies.
 
 #### Example
@@ -234,14 +234,13 @@ spec:
 
 Given a MeshGateway:
 
-{% policy_yaml meshgatewayex %}
 ```yaml
-type: MeshGateway
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
 mesh: default
-name: edge
-selectors:
-- match:
-    kuma.io/service: edge-gateway
+metadata:
+  name: edge
+  namespace: kuma-system
 conf:
   listeners:
   - port: 80
@@ -253,7 +252,6 @@ conf:
     tags:
       port: https-443
 ```
-{% endpolicy_yaml %}
 
 Policies can attach to all listeners:
 
