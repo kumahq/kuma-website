@@ -3,8 +3,8 @@ title: MeshTCPRoute
 ---
 
 {% warning %}
-This policy uses a new policy matching algorithm.
-Do **not** combine with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) except for the default `route-all` route, which should be kept.
+This policy uses new policy matching algorithm.
+It's recommended to migrate from [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route). See "Interactions with `TrafficRoute`" section for more information.
 {% endwarning %}
 
 The `MeshTCPRoute` policy allows you to alter and redirect TCP requests
@@ -96,6 +96,16 @@ MeshGateway in `spec.targetRef` and set `spec.to[].targetRef.kind: Mesh`.
 ### Interactions with `MeshHTTPRoute`
 
 [`MeshHTTPRoute`](../meshhttproute) takes priority over `MeshTCPRoute` when both are defined for the same service, and the matching `MeshTCPRoute` is ignored.
+
+### Interactions with `TrafficRoute`
+
+`MeshTCPRoute` takes priority over [`TrafficRoute`](../traffic-route) when a proxy is targeted by both policies.
+
+All legacy policies like `Retry`, `TrafficLog`, `Timeout` etc. only match on routes defined by `TrafficRoute`.
+All new recommended policies like `MeshRetry`, `MeshAccessLog`, `MeshTimeout` etc. match on routes defined by `MeshTCPRoute` and `TrafficRoute`.
+
+If you don't use legacy policies, it's recommended to remove any existing `TrafficRoute`.
+Otherwise, it's recommended to migrate to new policies and then removing `TrafficRoute`.
 
 ## Examples
 
