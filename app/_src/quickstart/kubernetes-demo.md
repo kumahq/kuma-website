@@ -93,39 +93,15 @@ To learn more, read the [documentation about the user interface](/docs/{{ page.v
 
 ## Introduce zero-trust security
 
-By default, the network is insecure and not encrypted. We can change this with {{site.mesh_product_name}} by enabling the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running alongside the services).
 
-{% if_version gte:2.6.x %}
-Before enabling [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTLS) in your mesh, you need to create a `MeshTrafficPermission` policy that allows traffic between your applications.
-
-{% warning %}
-If you enable [mTLS](/docs/{{ page.version }}/policies/mutual-tls/) without a `MeshTrafficPermission` policy, all traffic between your applications will be blocked. 
-{% endwarning %}
-
-To create a `MeshTrafficPermission` policy, you can use the following command:
-
-```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: {{site.mesh_namespace}}
-  name: mtp
-spec:
-  targetRef:
-    kind: Mesh
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        action: Allow" | kubectl apply -f -
-```
-
-This command will create a policy that allows all traffic between applications within your mesh. If you need to create more specific rules, you can do so by editing the policy manifest.
-{% endif_version %}
+By default, the network is **insecure and not encrypted**. We can change this with {{site.mesh_product_name}} by enabling
+the [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that
+will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running
+alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
-```sh
+```shell
 echo "apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
@@ -138,34 +114,16 @@ spec:
       type: builtin" | kubectl apply -f -
 ```
 
-The traffic is now encrypted with mTLS and each service can reach any other service.
+The traffic is now **encrypted and secure**. {{site.mesh_product_name}} does not define default traffic permissions, which
+means that no traffic will flow with mTLS enabled until we define a proper [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission)
+[policy](/docs/{{ page.version }}/introduction/concepts#policy).
 
-We can then restrict the traffic by default by executing:
-
-```sh
-echo "
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: {{site.mesh_namespace}}
-  name: mtp
-spec:
-  targetRef:
-    kind: Mesh
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        action: Deny" | kubectl apply -f -
-```
-
-At this point, the demo application should not function, because we blocked the traffic.
+For now, the demo application won't work.
 You can verify this by clicking the increment button again and seeing the error message in the browser.
-We can allow the traffic from the `demo-app` to `redis` by applying the following MeshTrafficPermission
+We can allow the traffic from the `demo-app` to `redis` by applying the following `MeshTrafficPermission`:
 
-```sh
-echo "
-apiVersion: kuma.io/v1alpha1
+```shell
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
   namespace: {{site.mesh_namespace}}
