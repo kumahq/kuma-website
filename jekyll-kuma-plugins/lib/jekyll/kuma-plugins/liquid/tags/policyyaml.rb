@@ -164,30 +164,48 @@ module Jekyll
             use_meshservice = @params["use_meshservice"] == "true" && version_supported(version)
 
             namespace = @params["namespace"] || site_data['mesh_namespace']
-            styles = [
-              { name: :uni_legacy, env: :universal, legacy_output: true },
-              { name: :uni, env: :universal, legacy_output: false },
-              { name: :kube_legacy, env: :kubernetes, legacy_output: true, namespace: namespace },
-              { name: :kube, env: :kubernetes, legacy_output: false, namespace: namespace }
-            ]
-
-            contents = styles.map { |style| [style[:name], ''] }.to_h
+            uni_style1_content = ""
+            uni_style2_content = ""
+            kube_style1_content = ""
+            kube_style2_content = ""
 
             YAML.load_stream(content) do |yaml_data|
-              styles.each do |style|
-                processed_data = process_node(deep_copy(yaml_data), style)
-                contents[style[:name]] += "\n---\n" unless contents[style[:name]].empty?
-                contents[style[:name]] += YAML.dump(processed_data).gsub(/^---\n/, '').chomp
-                contents[style[:name]] = "```yaml\n" + contents[style[:name]] + "\n```\n"
-                if has_raw != false
-                  contents[style[:name]] = "{% raw %}\n" + contents[style[:name]] + "{% endraw %}\n"
-                end
-              end
+              uni_style1_data = process_node(deep_copy(yaml_data), { env: :universal, legacy_output: true })
+              uni_style2_data = process_node(deep_copy(yaml_data), { env: :universal, legacy_output: false })
+              kube_style1_data = process_node(deep_copy(yaml_data), { env: :kubernetes, legacy_output: true, namespace: namespace })
+              kube_style2_data = process_node(deep_copy(yaml_data), { env: :kubernetes, legacy_output: false, namespace: namespace })
+
+              # Build the YAML content for all four styles
+              uni_style1_content += "\n---\n" unless uni_style1_content == ''
+              uni_style1_content += YAML.dump(uni_style1_data).gsub(/^---\n/, '').chomp
+
+              uni_style2_content += "\n---\n" unless uni_style2_content == ''
+              uni_style2_content += YAML.dump(uni_style2_data).gsub(/^---\n/, '').chomp
+
+              kube_style1_content += "\n---\n" unless kube_style1_content == ''
+              kube_style1_content += YAML.dump(kube_style1_data).gsub(/^---\n/, '').chomp
+
+              kube_style2_content += "\n---\n" unless kube_style2_content == ''
+              kube_style2_content += YAML.dump(kube_style2_data).gsub(/^---\n/, '').chomp
+            end
+
+            # Wrap YAML content in code blocks
+            uni_style1_content = "```yaml\n" + uni_style1_content + "\n```\n"
+            uni_style2_content = "```yaml\n" + uni_style2_content + "\n```\n"
+            kube_style1_content = "```yaml\n" + kube_style1_content + "\n```\n"
+            kube_style2_content = "```yaml\n" + kube_style2_content + "\n```\n"
+
+            if has_raw != false
+              uni_style1_content = "{% raw %}\n" + uni_style1_content + "{% endraw %}\n"
+              uni_style2_content = "{% raw %}\n" + uni_style2_content + "{% endraw %}\n"
+              kube_style1_content = "{% raw %}\n" + kube_style1_content + "{% endraw %}\n"
+              kube_style2_content = "{% raw %}\n" + kube_style2_content + "{% endraw %}\n"
             end
 
             # Conditionally render tabs based on use_meshservice
             htmlContent = "
 {% tabs #{@tabs_name} useUrlFragment=false %}"
+
 
             if use_meshservice
               htmlContent += "
@@ -195,23 +213,23 @@ module Jekyll
 <div class=\"meshservice\">
  <label> <input type=\"checkbox\"> I am using <a href=\"/docs/" + version + "/networking/meshservice/\">MeshService</a> </label>
 </div>
-#{contents[:kube_legacy]}
-#{contents[:kube]}
+#{kube_style1_content}
+#{kube_style2_content}
 {% endtab %}
 {% tab #{@tabs_name} Universal %}
 <div class=\"meshservice\">
  <label> <input type=\"checkbox\"> I am using <a href=\"/docs/" + version + "/networking/meshservice/\">MeshService</a> </label>
 </div>
-#{contents[:uni_legacy]}
-#{contents[:uni]}
+#{uni_style1_content}
+#{uni_style2_content}
 {% endtab %}"
             else
-              htmlContent += "
+            htmlContent += "
 {% tab #{@tabs_name} Kubernetes %}
-#{contents[:kube_legacy]}
+#{kube_style1_content}
 {% endtab %}
 {% tab #{@tabs_name} Universal %}
-#{contents[:uni_legacy]}
+#{uni_style1_content}
 {% endtab %}"
             end
 

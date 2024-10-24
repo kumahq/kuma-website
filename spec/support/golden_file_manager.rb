@@ -31,8 +31,8 @@ module GoldenFileManager
   end
 
   def self.copy_file_if_different(src, dest)
-    # Only copy the file if the source and destination are different
-    unless File.identical?(src, dest)
+    # Check if both src and dest are not nil before comparing
+    if src && dest && File.exist?(src) && !File.identical?(src, dest)
       FileUtils.cp(src, dest)
     end
   end
