@@ -128,7 +128,7 @@ module Jekyll
           def version_supported(version)
             return true if version == "dev"
 
-            current_version = Gem::Version.new(version)
+            current_version = Gem::Version.new(version.dup.sub "x", "0")
             current_version > TARGET_VERSION || current_version == TARGET_VERSION
           end
 
