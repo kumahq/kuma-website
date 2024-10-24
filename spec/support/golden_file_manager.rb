@@ -31,8 +31,8 @@ module GoldenFileManager
   end
 
   def self.copy_file_if_different(src, dest)
-    # Only copy the file if the source and destination are different
-    unless File.identical?(src, dest)
+    # Ensure the source exists before checking
+    if src && !File.identical?(src, dest)
       FileUtils.cp(src, dest)
     end
   end
@@ -43,10 +43,9 @@ module GoldenFileManager
     # Ensure the output directory exists
     FileUtils.mkdir_p(ASSETS_DIR)
 
-    # Copy the latest CSS and JS files to application.css and application.js in the dist/vite/assets directory
-    # Use the method to prevent copying the same file onto itself
-    copy_file_if_different(css_file, OUTPUT_CSS)
-    copy_file_if_different(js_file, OUTPUT_JS)
+    # Only copy files if they were found
+    copy_file_if_different(css_file, OUTPUT_CSS) if css_file
+    copy_file_if_different(js_file, OUTPUT_JS) if js_file
   end
 
   def self.build_header
