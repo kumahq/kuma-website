@@ -112,9 +112,8 @@ mesh: default
 spec:
   targetRef:
     kind: MeshSubset
-    name: frontend
-    namespace: kuma-demo
-    sectionName: http
+    tags:
+      app: frontend
   to:
     - targetRef:
         kind: MeshService
