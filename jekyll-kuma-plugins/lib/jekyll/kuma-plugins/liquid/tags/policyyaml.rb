@@ -58,7 +58,7 @@ module Jekyll
                   if context[:legacy_output]
                     {
                       "kind" => "MeshService",
-                      "name" => [target_ref['name'], target_ref['namespace'], "svc", target_ref['_port']].compact.join('_')
+                      "name" => [target_ref['name'], target_ref['namespace'], target_ref['_port']].compact.join('_')
                     }
                   else
                     {
@@ -129,7 +129,7 @@ module Jekyll
             return true if version == "dev"
 
             current_version = Gem::Version.new(version)
-            current_version >= TARGET_VERSION
+            current_version > TARGET_VERSION || current_version == TARGET_VERSION
           end
 
           def deep_copy(original)
