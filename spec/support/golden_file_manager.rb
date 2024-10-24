@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'diff/lcs'  # Add the `diff-lcs` gem to your Gemfile and install it
+require 'diff/lcs'
 
 module GoldenFileManager
   ASSETS_DIR = 'dist/vite/assets/'
@@ -31,7 +31,6 @@ module GoldenFileManager
   end
 
   def self.copy_file_if_different(src, dest)
-    # Ensure the source exists before checking
     if src && !File.identical?(src, dest)
       FileUtils.cp(src, dest)
     end
@@ -40,16 +39,12 @@ module GoldenFileManager
   def self.copy_latest_assets
     css_file, js_file = find_latest_assets
 
-    # Ensure the output directory exists
     FileUtils.mkdir_p(ASSETS_DIR)
-
-    # Only copy files if they were found
     copy_file_if_different(css_file, OUTPUT_CSS) if css_file
     copy_file_if_different(js_file, OUTPUT_JS) if js_file
   end
 
   def self.build_header
-    # After copying, use the fixed file names for the header
     <<~HTML
       <link rel="stylesheet" href="http://localhost:8000/#{OUTPUT_CSS}" />
       <script src="http://localhost:8000/#{OUTPUT_JS}" crossorigin="anonymous" type="module"></script>
@@ -57,12 +52,10 @@ module GoldenFileManager
   end
 
   def self.assert_output(output, golden_path, include_header: false)
-    # Clean up output to remove dynamic attributes
     cleaned_output = remove_dynamic_attributes(output).strip
 
-    # Add header if requested
     if include_header
-      copy_latest_assets  # Ensure the latest assets are copied to the fixed filenames
+      copy_latest_assets
       header = build_header
       cleaned_output = "#{header}\n\n#{cleaned_output}"
     end
@@ -85,17 +78,42 @@ module GoldenFileManager
     end
   end
 
-  def self.print_diff(expected, actual)
-    diffs = Diff::LCS.diff(expected.split("\n"), actual.split("\n"))
-    diffs.each do |diff|
-      diff.each do |change|
-        case change.action
-        when '-'
-          puts "- #{change.element}"  # Lines present in golden but not in output
-        when '+'
-          puts "+ #{change.element}"  # Lines present in output but not in golden
-        end
+  def self.print_diff(expected, actual, context_lines: 5)
+    expected_lines = expected.split("\n")
+    actual_lines = actual.split("\n")
+
+    diffs = Diff::LCS.sdiff(expected_lines, actual_lines)
+
+    # Collect all the indexes of differences
+    diff_indexes = diffs.each_index.select { |i| diffs[i].action != '=' }
+
+    # If there are no differences, return
+    return if diff_indexes.empty?
+
+    # Get the range of lines to display (5 lines before and after the first and last diffs)
+    first_diff = diff_indexes.first
+    last_diff = diff_indexes.last
+    start_line = [first_diff - context_lines, 0].max
+    end_line = [last_diff + context_lines, diffs.size - 1].min
+
+    puts "\nDiff (showing #{context_lines} lines before and after changes):\n\n"
+
+    (start_line..end_line).each do |i|
+      diff = diffs[i]
+
+      case diff.action
+      when '='
+        puts " #{i + 1}: #{diff.old_element}"  # Unchanged line
+      when '-'
+        puts "-#{i + 1}: #{diff.old_element}"  # Line in golden file but missing in actual output
+      when '+'
+        puts "+#{i + 1}: #{diff.new_element}"  # Line in actual output but missing in golden file
+      when '!'
+        puts "-#{i + 1}: #{diff.old_element}"  # Modified line in golden file
+        puts "+#{i + 1}: #{diff.new_element}"  # Modified line in actual output
       end
     end
+
+    puts "\n"
   end
 end
