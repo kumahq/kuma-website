@@ -20,3 +20,8 @@ group :development do
   gem 'byebug'
   gem 'foreman'
 end
+
+group :test do
+  gem 'rspec'
+  gem 'diff-lcs'
+end
