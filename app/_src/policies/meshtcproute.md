@@ -111,6 +111,7 @@ Otherwise, it's recommended to migrate to new policies and then removing `Traffi
 
 ## Examples
 
+{% if_version lte:2.8.x %}
 ### Traffic split
 
 You can use `MeshTCPRoute` to split TCP traffic between services with
@@ -151,6 +152,49 @@ spec:
                 weight: 10
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+### Traffic split
+We can use `MeshTCPRoute` to split an TCP traffic between different MeshServices
+implementing A/B testing or canary deployments.
+If we want to split traffic between `v1` and `v2` versions of the same service,
+first we have to create MeshServices `backend-v1` and `backend-v2` that select
+backend application instances according to the version.
+
+{% policy_yaml traffic-split-29x use_meshservice=true %}
+```yaml
+type: MeshTCPRoute
+name: tcp-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: backend-v0
+                namespace: kuma-demo
+                port: 3001
+                weight: 90
+              - kind: MeshService
+                name: backend-v1
+                namespace: kuma-demo
+                port: 3001
+                weight: 10
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Traffic redirection
 
@@ -168,8 +212,9 @@ name: tcp-route-1
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: frontend
   to:
     - targetRef:
         kind: MeshService
@@ -182,6 +227,8 @@ spec:
             backendRefs:
               - kind: MeshService
                 name: external-backend
+                namespace: kuma-demo
+                port: 8080
 ```
 {% endpolicy_yaml %}
 
@@ -197,8 +244,9 @@ In this example, both `MeshTCPRoute` and `MeshHTTPRoute` target the same destina
 ```yaml
 # [...]
 targetRef:
-  kind: MeshService
-  name: frontend
+  kind: MeshSubset
+  tags:
+    app: frontend
 to:
   - targetRef:
       kind: MeshService
@@ -217,8 +265,9 @@ to:
 ```yaml
 # [...]
 targetRef:
-  kind: MeshService
-  name: frontend
+  kind: MeshSubset
+  tags:
+    app: frontend
 to:
   - targetRef:
       kind: MeshService

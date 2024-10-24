@@ -612,14 +612,13 @@ and the other:
                 value: /
           default:
             backendRefs:
-              - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
-                tags:
-                  version: v0
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001
 ```
 
-traffic to `/` would have the `x-custom-header` added and be sent to the
-`version: v0` tagged instances of `backend_kuma-demo_svc_3001`.
+Traffic to `/` would have the `x-custom-header` added and be sent to the `backend`.
 
 ##### Filters
 
