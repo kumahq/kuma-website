@@ -225,7 +225,7 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        port: 8080
+        _port: 8080
         sectionName: http
       default:
         loadBalancer:
@@ -255,7 +255,7 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        port: 8080
+        _port: 8080
         sectionName: http
       default:
         localityAwareness:
@@ -282,7 +282,7 @@ spec:
         name: backend
         namespace: kuma-demo
         sectionName: http
-        port: 8080
+        _port: 8080
       default:
         localityAwareness:
           localZone:
@@ -310,7 +310,7 @@ spec:
         name: backend
         namespace: kuma-demo
         sectionName: http
-        port: 8080
+        _port: 8080
       default:
         localityAwareness:
           localZone:
@@ -334,7 +334,7 @@ spec:
         name: backend
         namespace: kuma-demo
         sectionName: http
-        port: 8080
+        _port: 8080
       default:
         localityAwareness:
           localZone: {}
@@ -359,7 +359,7 @@ spec:
         name: backend
         namespace: kuma-demo
         sectionName: http
-        port: 8080
+        _port: 8080
       default:
         localityAwareness:
           crossZone:
@@ -397,7 +397,7 @@ spec:
         name: backend
         namespace: kuma-demo
         sectionName: http
-        port: 8080
+        _port: 8080
       default:
         localityAwareness:
           localZone:

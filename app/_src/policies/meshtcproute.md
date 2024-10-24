@@ -62,6 +62,8 @@ Unlike other outbound policies, `MeshTCPRoute` doesn't contain `default`
 directly in the `to` array. The `default` section is nested inside `rules`,
 so the policy structure looks like the following:
 
+[//]: # (TODO: https://github.com/kumahq/kuma-website/issues/2020)
+
 ```yaml
 spec:
   targetRef: # top-level targetRef selects a group of proxies to configure
@@ -118,7 +120,7 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        port: 3001
+        _port: 3001
         sectionName: http
       rules:
         - default:
@@ -157,9 +159,9 @@ spec:
   to:
     - targetRef:
         kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        name: backend
         namespace: kuma-demo
-        port: 3001
+        _port: 3001
         sectionName: http
       rules:
         - default:
@@ -187,6 +189,9 @@ to:
   - targetRef:
       kind: MeshService
       name: backend
+      namespace: kuma-demo
+      _port: 3001
+      sectionName: http
     rules:
       - default:
           backendRefs:
@@ -204,6 +209,9 @@ to:
   - targetRef:
       kind: MeshService
       name: backend
+      namespace: kuma-demo
+      _port: 3001
+      sectionName: http
     rules:
       - matches:
           - path:

@@ -245,7 +245,7 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        port: 3001
+        _port: 3001
         sectionName: http
       default:
         idleTimeout: 60s
@@ -280,7 +280,10 @@ spec:
   to:
     - targetRef:
         kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
       rules:
         - matches:
             - path:
