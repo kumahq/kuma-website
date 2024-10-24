@@ -48,13 +48,14 @@
 <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshTimeout</span>
 <span class="na">metadata</span><span class="pi">:</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s">inbound-timeout</span>
-  <span class="na">namespace</span><span class="pi">:</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
   <span class="na">labels</span><span class="pi">:</span>
     <span class="na">kuma.io/mesh</span><span class="pi">:</span> <span class="s">default</span>
 <span class="na">spec</span><span class="pi">:</span>
   <span class="na">targetRef</span><span class="pi">:</span>
     <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
-    <span class="na">name</span><span class="pi">:</span> <span class="s">frontend_kuma-demo_svc_8080</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
   <span class="na">from</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
       <span class="na">kind</span><span class="pi">:</span> <span class="s">Mesh</span>
@@ -84,7 +85,8 @@
 <span class="na">spec</span><span class="pi">:</span>
   <span class="na">targetRef</span><span class="pi">:</span>
     <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
-    <span class="na">name</span><span class="pi">:</span> <span class="s">frontend</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
   <span class="na">from</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
       <span class="na">kind</span><span class="pi">:</span> <span class="s">Mesh</span>
