@@ -525,8 +525,8 @@ So in our example:
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
-        vhost: foo.example.com
+        kuma.io/service: demo-app-gateway_kuma-demo_svc
+        port: http-80
 ```
 
 becomes:
@@ -535,13 +535,14 @@ becomes:
 spec:
   targetRef:
     kind: MeshGateway
-    name: edge
+    name: demo-app
     tags:
-      vhost: foo.example.com
+      port: http-80
   to:
 ```
 
-because we're now using the _name_ of the `MeshGateway` instead of its `kuma.io/service`.
+because we're now using the _name_ of the `MeshGateway`
+instead of the `kuma.io/service` it matches.
 
 #### Spec
 
