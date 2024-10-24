@@ -464,9 +464,9 @@ name: web-to-backend-circuit-breaker
 mesh: default
 spec:
   targetRef:
-    kind: MeshServiceSubset
-    name_uni: web
-    name_kube: web_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      kuma.io/service: web
   to:
     - targetRef:
         kind: MeshService
