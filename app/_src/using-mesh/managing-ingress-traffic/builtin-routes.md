@@ -46,7 +46,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
-{% policy_yaml mesh-http-route-example-29x %}
+{% policy_yaml mesh-http-route-example-29x use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: edge-gateway-route
@@ -134,7 +134,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml mesh-http-route-example-2-29x %}
+{% policy_yaml mesh-http-route-example-2-29x use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route
@@ -213,7 +213,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml mesh-http-route-example-3-29x %}
+{% policy_yaml mesh-http-route-example-3-29x use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route
@@ -289,7 +289,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml mesh-tcp-route-example-29x %}
+{% policy_yaml mesh-tcp-route-example-29x use_meshservice=true %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route

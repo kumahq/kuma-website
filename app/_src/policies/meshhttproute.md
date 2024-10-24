@@ -265,7 +265,7 @@ If we want to split traffic between `v1` and `v2` versions of the same service,
 first we have to create MeshServices `backend-v1` and `backend-v2` that select 
 backend application instances according to the version.
 
-{% policy_yaml traffic-split %}
+{% policy_yaml traffic-split use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-split
@@ -274,7 +274,7 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      kuma.io/service: frontend_kuma-demo_svc_8080
+      app: frontend
   to:
     - targetRef:
         kind: MeshService
@@ -288,10 +288,12 @@ spec:
             backendRefs:
               - kind: MeshService
                 name: backend-v1
+                namespace: kuma-demo
                 port: 3001
                 weight: 90
               - kind: MeshServiceSubset
                 name: backend-v2
+                namespace: kuma-demo
                 port: 3001
                 weight: 10
 ```
@@ -387,7 +389,7 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      kuma.io/service: frontend_kuma-demo_svc_8080
+      app: frontend
   to:
     - targetRef:
         kind: MeshService
@@ -418,7 +420,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
-{% policy_yaml traffic-mirror-29x %}
+{% policy_yaml traffic-mirror-29x use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -427,7 +429,7 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      kuma.io/service: frontend_kuma-demo_svc_8080
+      app: frontend
   to:
     - targetRef:
         kind: MeshService
@@ -451,6 +453,7 @@ spec:
             backendRefs:
               - kind: MeshService
                 name: backend
+                namespace: kuma-demo
                 port: 3001
 ```
 {% endpolicy_yaml %}

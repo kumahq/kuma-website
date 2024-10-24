@@ -301,20 +301,23 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml example5-29x %}
+{% policy_yaml example5-29x use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: route-to-backend-v2
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name_uni: frontend
-    name_kube: frontend_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: frontend
   to:
     - targetRef:
         kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
       rules:
         - matches:
             - path:

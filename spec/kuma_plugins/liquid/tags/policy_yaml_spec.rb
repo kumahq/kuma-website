@@ -16,33 +16,40 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
   let(:registers) { { :page => page, :site => site } }
   let(:context) { Liquid::Context.new({}, {}, registers) }
 
-  it 'renders universal and kubernetes with use_meshservice correctly' do
-    input_file = 'spec/fixtures/mt-with-from-and-meshservice-in-to.yaml'
-    content = GoldenFileManager.load_input(input_file)
-    golden_file = 'spec/fixtures/mt-with-from-and-meshservice-in-to.golden.html'
-
-    # Parse the Liquid template that uses the policy_yaml tag
-    template = Liquid::Template.parse("{% policy_yaml my-tabs use_meshservice=true %}#{content}{% endpolicy_yaml %}")
-
-    # Render the template with the given context
-    output = template.render(context)
-
-    # Use GoldenFileManager to assert the output
-    GoldenFileManager.assert_output(output, golden_file, include_header: true)
+  shared_examples 'policy yaml rendering' do |input_file, golden_file, tag_options|
+    it "renders correctly for #{input_file}" do
+      content = GoldenFileManager.load_input(input_file)
+      tag_content = tag_options ? "{% policy_yaml my-tabs #{tag_options} %}" : "{% policy_yaml my-tabs %}"
+      template = Liquid::Template.parse("#{tag_content}#{content}{% endpolicy_yaml %}")
+      output = template.render(context)
+      GoldenFileManager.assert_output(output, golden_file, include_header: true)
+    end
   end
 
-  it 'renders universal and kubernetes correctly' do
-    input_file = 'spec/fixtures/mt-with-from-and-to.yaml'
-    content = GoldenFileManager.load_input(input_file)
-    golden_file = 'spec/fixtures/mt-with-from-and-to.golden.html'
+  describe 'rendering tests' do
+    test_cases = [
+      {
+        input_file: 'spec/fixtures/mt-with-from-and-meshservice-in-to.yaml',
+        golden_file: 'spec/fixtures/mt-with-from-and-meshservice-in-to.golden.html',
+        tag_options: 'use_meshservice=true'
+      },
+      {
+        input_file: 'spec/fixtures/mhr-and-mtr.yaml',
+        golden_file: 'spec/fixtures/mhr-and-mtr.golden.html',
+        tag_options: 'use_meshservice=true'
+      },
+      {
+        input_file: 'spec/fixtures/mt-with-from-and-to.yaml',
+        golden_file: 'spec/fixtures/mt-with-from-and-to.golden.html',
+        tag_options: nil
+      }
+    ]
 
-    # Parse the Liquid template that uses the policy_yaml tag
-    template = Liquid::Template.parse("{% policy_yaml my-tabs %}#{content}{% endpolicy_yaml %}")
-
-    # Render the template with the given context
-    output = template.render(context)
-
-    # Use GoldenFileManager to assert the output
-    GoldenFileManager.assert_output(output, golden_file, include_header: true)
+    test_cases.each do |test_case|
+      include_examples 'policy yaml rendering',
+                       test_case[:input_file],
+                       test_case[:golden_file],
+                       test_case[:tag_options]
+    end
   end
 end
