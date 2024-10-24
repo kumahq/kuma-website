@@ -453,6 +453,69 @@ Always refer to the spec to ensure your new resource is valid.
 
 Note that `MeshHTTPRoute` has precedence over `MeshGatewayRoute`.
 
+We're going to start with a gateway and simple legacy `MeshGatewayRoute`,
+look at how to migrate `MeshGatewayRoutes` in general
+and then finish with migrating our example `MeshGatewayRoute`.
+
+Let's start with the following `MeshGateway` and `MeshGatewayInstance`:
+
+```sh
+echo "---
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
+mesh: default
+metadata:
+  name: demo-app
+  labels:
+    kuma.io/origin: zone
+spec:
+  conf:
+    listeners:
+    - port: 80
+      protocol: HTTP
+      tags:
+        port: http-80
+  selectors:
+  - match:
+      kuma.io/service: demo-app-gateway_kuma-demo_svc
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayInstance
+metadata:
+  name: demo-app-gateway
+  namespace: kuma-demo
+spec:
+  replicas: 1
+  serviceType: LoadBalancer" | kubectl apply -f-
+```
+
+and the following initial `MeshGatewayRoute`:
+
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayRoute
+mesh: default
+metadata:
+  name: demo-app-gateway
+spec:
+  conf:
+   http:
+    hostnames:
+    - example.com
+    rules:
+    - matches:
+      - path:
+          match: PREFIX
+          value: /
+      backends:
+      - destination:
+          kuma.io/service: demo-app_kuma-demo_svc_5000
+        weight: 1
+  selectors:
+  - match:
+      kuma.io/service: demo-app-gateway_kuma-demo_svc" | kubectl apply -f-
+```
+
 #### Targeting
 
 The main consideration is specifying which gateways are affected by the route.
@@ -461,14 +524,14 @@ solely using tags to select `MeshGateway` listeners,
 new routes target `MeshGateways` by name and optionally with tags for specific
 listeners.
 
-For example:
+So in our example:
 
 ```yaml
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
-        vhost: foo.example.com
+        kuma.io/service: demo-app-gateway_kuma-demo_svc
+        port: http-80
 ```
 
 becomes:
@@ -477,11 +540,14 @@ becomes:
 spec:
   targetRef:
     kind: MeshGateway
-    name: edge-gateway # where this MeshGateway has `kuma.io/service: edge-gateway`
+    name: demo-app
     tags:
-      vhost: foo.example.com
+      port: http-80
   to:
 ```
+
+because we're now using the _name_ of the `MeshGateway`
+instead of the `kuma.io/service` it matches.
 
 #### Spec
 
@@ -496,13 +562,10 @@ Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
     http:
       hostnames:
         - example.com
-      rules:
-        - matches:
-            - path:
-                match: PREFIX
-                value: /
-          # ...
+      # ...
 ```
+
+becomes:
 
 ```yaml
   to:
@@ -510,13 +573,7 @@ Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
         kind: Mesh
       hostnames:
         - example.com
-      rules:
-        - matches:
-            - path:
-                match: PathPrefix
-                value: /
-          default:
-            # ...
+      # ...
 ```
 
 ##### Matching
@@ -524,12 +581,12 @@ Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
 Matching works the same as before. Remember that for `MeshHTTPRoute` that merging is done on a match
 basis. So it's possible for one route to define `filters` and another
 `backendRefs` for a given match, and the resulting rule would both apply the filters and route to the
-backends:
+backends.
+
+Given two routes, one with:
 
 ```yaml
   to:
-    - targetRef:
-        kind: Mesh
       rules:
         - matches:
             - path:
@@ -544,12 +601,10 @@ backends:
                       value: xyz
 ```
 
+and the other:
+
 ```yaml
   to:
-    - targetRef:
-        kind: Mesh
-      hostnames:
-        - example.com
       rules:
         - matches:
             - path:
@@ -563,8 +618,8 @@ backends:
                   version: v0
 ```
 
-Traffic to `/` would have the `x-custom-header` added and be sent to the `v0`
-versions of `backend_kuma-demo_svc_3001`.
+traffic to `/` would have the `x-custom-header` added and be sent to the
+`version: v0` tagged instances of `backend_kuma-demo_svc_3001`.
 
 ##### Filters
 
@@ -576,6 +631,50 @@ find out how each filter looks in `MeshHTTPRoute`.
 
 Backends are similar except that instead of targeting with tags, the `targetRef`
 structure with `kind: MeshService`/`kind: MeshServiceSubset` is used.
+
+##### Equivalent MeshHTTPRoute
+
+So all in all we have:
+
+1. Create the equivalent MeshHTTPRoute
+
+   ```sh
+   echo "apiVersion: kuma.io/v1alpha1
+   kind: MeshHTTPRoute
+   metadata:
+     name: demo-app
+     namespace: kuma-system
+     labels:
+       kuma.io/origin: zone
+       kuma.io/mesh: default
+   spec:
+     targetRef:
+       kind: MeshGateway
+       name: demo-app
+     to:
+     - targetRef:
+         kind: Mesh
+       hostnames:
+         - example.com
+       rules:
+       - default:
+           backendRefs:
+           - kind: MeshService
+             name: demo-app_kuma-demo_svc_5000
+         matches:
+         - path:
+             type: PathPrefix
+             value: /" | kubectl apply -f -
+   ```
+
+2. Check that traffic is still working.
+
+3. Delete the previous MeshGatewayRoute:
+
+   ```sh
+   kubectl delete meshgatewayroute --all
+   ```
+
 
 ## Next steps
 
