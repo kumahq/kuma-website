@@ -135,7 +135,7 @@ This might change in the future.
 
 Apply policy with `kuma.io/effect: shadow` label:
 
-{% policy_yaml example2 use_meshservice=true %}
+{% policy_yaml example2 %}
 ```yaml
 type: MeshTimeout
 name: frontend-timeouts
