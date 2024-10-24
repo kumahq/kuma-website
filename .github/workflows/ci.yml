@@ -16,6 +16,8 @@ jobs:
         run: bundle install
       - working-directory: jekyll-kuma-plugins
         run: bundle exec rspec
+      - working-directory: .
+        run: make test
 
   check-links:
     name: Check links
