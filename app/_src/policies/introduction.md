@@ -167,6 +167,9 @@ spec:
     - targetRef: # to level targetRef
         kind: MeshService
         name: web-backend
+        namespace: kuma-demo
+        sectionName: httpport
+        _port: 8080
       default:
         backends:
           - file:
@@ -755,6 +758,9 @@ spec:
    - targetRef:
        kind: MeshService
        name: backend
+       namespace: kuma-demo
+       sectionName: httpport
+       _port: 3001
      default:
        idleTimeout: 23s
 ```

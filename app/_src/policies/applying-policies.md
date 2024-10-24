@@ -150,6 +150,9 @@ spec:
    - targetRef:
        kind: MeshService
        name: backend
+       namespace: kuma-demo
+       sectionName: httport
+       _port: 3001
      default:
        idleTimeout: 23s
 ```

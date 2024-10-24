@@ -473,7 +473,7 @@ spec:
         name: backend
         namespace: kuma-demo
         sectionName: http
-        port: 8080
+        _port: 8080
       default:
         connectionLimits:
           maxConnections: 2

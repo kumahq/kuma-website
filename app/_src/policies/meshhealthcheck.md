@@ -93,6 +93,7 @@ spec:
         name: backend
         namespace: kuma-demo
         sectionName: http
+        _port: 3001
       default:
         interval: 10s
         timeout: 2s
@@ -122,6 +123,7 @@ spec:
         name: backend
         namespace: kuma-demo
         sectionName: http
+        _port: 3001
       default:
         interval: 10s
         timeout: 2s
@@ -151,6 +153,7 @@ spec:
         name: backend
         namespace: kuma-demo
         sectionName: http
+        _port: 3001
       default:
         interval: 15s
         timeout: 5s
