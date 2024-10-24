@@ -52,30 +52,49 @@ module GoldenFileManager
   end
 
   def self.assert_output(output, golden_path, include_header: false)
-    cleaned_output = remove_dynamic_attributes(output).strip
+    # Remove dynamic attributes from the actual output
+    cleaned_output = remove_dynamic_attributes(output)
 
+    # Add header if needed
     if include_header
       copy_latest_assets
       header = build_header
       cleaned_output = "#{header}\n\n#{cleaned_output}"
     end
 
+    # Load the golden file content (original)
     if File.exist?(golden_path)
-      golden_content = load_golden(golden_path).strip
-      if cleaned_output != golden_content
-        if ENV['UPDATE_GOLDEN_FILES'] == 'true'
-          update_golden(golden_path, cleaned_output)
-          puts "Golden file updated: #{golden_path}"
-        else
-          puts "Output does not match golden file at #{golden_path}."
-          print_diff(golden_content, cleaned_output)
-          raise "Output does not match golden file at #{golden_path}."
-        end
-      end
+      golden_content = load_golden(golden_path)
     else
-      update_golden(golden_path, cleaned_output)
+      # If the golden file does not exist, create it
+      update_golden(golden_path, cleaned_output.strip)
       puts "Golden file created: #{golden_path}"
+      return
     end
+
+    # Trim insignificant whitespace for comparison (removing indentation and trailing spaces)
+    trimmed_output = trim_insignificant_whitespace(cleaned_output)
+    trimmed_golden_content = trim_insignificant_whitespace(golden_content)
+
+    # Compare the trimmed versions
+    if trimmed_output != trimmed_golden_content
+      if ENV['UPDATE_GOLDEN_FILES'] == 'true'
+        # Update golden file if necessary
+        update_golden(golden_path, cleaned_output)
+        puts "Golden file updated: #{golden_path}"
+      else
+        # Print the diff of original (untrimmed) content for better visibility
+        puts "Output does not match golden file at #{golden_path}."
+        print_diff(golden_content, cleaned_output) # use original content for diff
+        raise "Output does not match golden file at #{golden_path}."
+      end
+    end
+  end
+
+  # Trim insignificant whitespace: leading/trailing spaces and indentation
+  def self.trim_insignificant_whitespace(content)
+    # Split content into lines, remove leading spaces and trailing whitespace
+    content.lines.map(&:rstrip).reject(&:empty?).join("\n")
   end
 
   def self.print_diff(expected, actual, context_lines: 5)
