@@ -23,4 +23,5 @@ end
 
 group :test do
   gem 'rspec'
+  gem 'diff-lcs'
 end
