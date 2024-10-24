@@ -32,7 +32,12 @@ The core maintainer of Kuma is **Kong**, the maker of the popular open-source Ko
 
 [Read about Kuma](/docs/{{ page.version }}/introduction/overview-of-kuma)
 
+{% if_version lte:2.8.x %}
 [Install Kuma](/install/latest/)
+{% endif_version %}
+{% if_version gte:2.9.x %}
+[Install Kuma](/docs/{{ page.version }}/introduction/install-kuma)
+{% endif_version %}
 
 {% if_version gte:2.6.x %}[Jump to quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[Jump to quickstart](/docs/{{ page.version }}/quickstart/kubernetes/){% endif_version %}
 

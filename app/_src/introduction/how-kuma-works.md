@@ -72,7 +72,12 @@ Out of the box, {{site.mesh_product_name}} ships with a bundled [Envoy](https://
 {{site.mesh_product_name}} ships with an executable `kuma-dp` that executes the bundled `envoy` executable to create the data plane proxy. For details, see the {%if_version lte:2.1.x %}[Overview](/docs/{{ page.version }}/introduction/what-is-kuma){%endif_version%}{%if_version gte:2.2.x %}[Overview](/docs/{{ page.version }}/introduction/overview-of-kuma){%endif_version%}.
 {% endtip %}
 
+{% if_version lte:2.8.x %}
 [Install {{site.mesh_product_name}}](/install/) and follow the instructions to get up and running in a few steps.
+{% endif_version %}
+{% if_version gte:2.9.x %}
+[Install {{site.mesh_product_name}}](/docs/{{ page.version }}/introduction/install-kuma/) and follow the instructions to get up and running in a few steps.
+{% endif_version %}
 
 ## VM and K8s support
 
@@ -88,7 +93,7 @@ In reality, we want Service Mesh to be available *before* we implement other tra
 
 Unlike other control planes, {{site.mesh_product_name}} natively runs across every platform - Kubernetes, VMs and Bare Metal - and it's not limited in scope (like many other control planes that only work on Kubernetes only). {{site.mesh_product_name}} can run on both existing brownfield applications (that are most likely running on VMs), as well as new and modern greenfield applications that may be running on containers and Kubernetes.
 
-Unlike other control planes, {{site.mesh_product_name}} is easy to use. Anybody - from any team - can implement {{site.mesh_product_name}} in [three simple steps](/install/) across both traditional monolithic applications and modern microservices.
+Unlike other control planes, {{site.mesh_product_name}} is easy to use. Anybody - from any team - can [set up {{site.mesh_product_name}}](/install/) across both traditional monolithic applications and modern microservices.
 
 Finally, by leveraging out-of-the-box policies and {{site.mesh_product_name}}'s powerful tagging selectors, we can implement a variety of behaviors in a variety of topologies, similar to multi-cloud and multi-region architectures.
 

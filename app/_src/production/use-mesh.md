@@ -4,13 +4,26 @@ title: Use Kuma
 
 After {{site.mesh_product_name}} is installed, you can access the control plane via the following methods:
 
+
+{% if_version lte:2.8.x %}
 | Access method | Mode | Permissions |
 | ---- | ---- | ----- |
 | [{{site.mesh_product_name}} GUI](/docs/{{ page.version }}/production/gui/) | Kubernetes and Universal | Read-only |
 | HTTP API | Kubernetes and Universal | Read-only |
-| [`kumactl`](/docs/{{ page.version }}/production/install-kumactl/) | Kubernetes | Read-only |
-| [`kumactl`](/docs/{{ page.version }}/production/install-kumactl/) | Universal | Read and write |
+| [kumactl](/docs/{{ page.version }}/production/install-kumactl/) | Kubernetes | Read-only |
+| [kumactl](/docs/{{ page.version }}/production/install-kumactl/) | Universal | Read and write |
 | `kubectl` | Kubernetes | Read and write |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| Access method | Mode | Permissions |
+| ---- | ---- | ----- |
+| [{{site.mesh_product_name}} GUI](/docs/{{ page.version }}/production/gui/) | Kubernetes and Universal | Read-only |
+| HTTP API | Kubernetes and Universal | Read-only |
+| [kumactl](/docs/{{ page.version }}/introduction/install-kuma/) | Kubernetes | Read-only |
+| [kumactl](/docs/{{ page.version }}/introduction/install-kuma/) | Universal | Read and write |
+| `kubectl` | Kubernetes | Read and write |
+{% endif_version %}
+
 
 By accessing the control plane using one of these methods, you can see the current {{site.mesh_product_name}} configuration or with some methods, you can edit the configuration.
 

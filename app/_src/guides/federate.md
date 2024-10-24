@@ -11,7 +11,12 @@ This way you can:
 
 ## Prerequisites
 - Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+{% if_version lte:2.8.x %}
 - Have [kumactl installed and in your path](/docs/{{ page.version }}/production/install-kumactl)
+{% endif_version %}
+{% if_version gte:2.9.x %}
+- Have [kumactl installed and in your path](/docs/{{ page.version }}/introduction/install-kuma/)
+{% endif_version %}
 
 ## Start a global control plane
 
