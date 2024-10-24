@@ -19,6 +19,8 @@ items:
             url: "/introduction/how-kuma-works/#kuma-vs-xyz"
       - text: Architecture
         url: /introduction/architecture/
+      - text: Install Kuma
+        url: /introduction/install-kuma/
       - text: Concepts
         url: /introduction/concepts/
       - text: Kuma requirements
@@ -63,8 +65,6 @@ items:
             url: /production/deployment/single-zone/
           - text: Multi-zone deployment
             url: /production/deployment/multi-zone/
-      - text: Install kumactl
-        url: /production/install-kumactl/
       - text: Use Kuma
         url: /production/use-mesh/
       - title: Control plane deployment
