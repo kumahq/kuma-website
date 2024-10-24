@@ -16,16 +16,6 @@ Like all [resources](/docs/{{ page.version }}/introduction/concepts#resource) in
 Metadata identifies the policies by its `name`, `type` and what `mesh` it's part of:
 
 {% tabs metadata %}
-{% tab metadata Universal %}
-
-```yaml
-type: ExamplePolicy
-name: my-policy-name
-mesh: default
-spec: ... # spec data specific to the policy kind
-```
-
-{% endtab %}
 {% tab metadata Kubernetes %}
 
 In Kubernetes all our policies are implemented as [custom resource definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) in the group `kuma.io/v1alpha1`.
@@ -52,6 +42,16 @@ metadata:
   namespace: {{ site.mesh_namespace }}
   labels:
     kuma.io/mesh: "my-mesh"
+spec: ... # spec data specific to the policy kind
+```
+
+{% endtab %}
+{% tab metadata Universal %}
+
+```yaml
+type: ExamplePolicy
+name: my-policy-name
+mesh: default
 spec: ... # spec data specific to the policy kind
 ```
 
@@ -147,13 +147,11 @@ Here's an explanation of each kinds and their scope:
 - MeshSubset: same as Mesh but filters only proxies who have matching `targetRef.tags`
 - MeshService: all proxies with a tag `kuma.io/service` equal to `targetRef.name`.{% if_version gte:2.9.x %} This can work differently when using [explicit services](#using-policies-with-meshservice-meshmultizoneservice-and-meshexternalservice){% endif_version %}.
 - MeshGateway: targets proxies matched by the named MeshGateway
-    - Note that it's very strongly recommended to target MeshGateway proxies using this
-      kind, as opposed to MeshService/MeshServiceSubset.
 - MeshServiceSubset: same as `MeshService` but further refine to proxies that have matching `targetRef.tags`. ⚠️This is deprecated from version 2.9.x ⚠️.
 
 Consider the two example policies below:
 
-{% policy_yaml accesslog_outbound_example %}
+{% policy_yaml accesslog_outbound_example use_meshservice=true %}
 ```yaml
 type: MeshAccessLog
 name: example-outbound
@@ -162,11 +160,14 @@ spec:
   targetRef: # top level targetRef
     kind: MeshSubset
     tags:
-        app: web-frontend
+      app: web-frontend
   to:
     - targetRef: # to level targetRef
         kind: MeshService
         name: web-backend
+        namespace: kuma-demo
+        sectionName: httpport
+        _port: 8080
       default:
         backends:
           - file:
@@ -208,8 +209,8 @@ When a `targetRef` is not present, it is semantically equivalent to `targetRef.k
 
 ### Applying to specific proxy types
 The top level `targetRef` field can select a specific subset of data plane proxies. The field named `proxyTypes` can restrict policies to specific types of data plane proxies:
-- `Sidecar`: Targets data plane proxies acting as sidecars to applications.
-- `Gateway`: Applies to data plane proxies operating in Gateway mode.
+- `Sidecar`: Targets data plane proxies acting as sidecars to applications (including [delegated gateways](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/delegated/)).
+- `Gateway`: Applies to data plane proxies operating in [built-in Gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin/) mode.
 - Empty list: Defaults to targeting all data plane proxies.
 
 #### Example
@@ -232,7 +233,82 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-### `TargetRef` support for different policy types
+### Targeting gateways
+
+Given a MeshGateway:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
+mesh: default
+metadata:
+  name: edge
+  namespace: kuma-system
+conf:
+  listeners:
+  - port: 80
+    protocol: HTTP
+    tags:
+      port: http-80
+  - port: 443
+    protocol: HTTPS
+    tags:
+      port: https-443
+```
+
+Policies can attach to all listeners:
+
+{% policy_yaml alllisteners %}
+```yaml
+type: MeshTimeout
+name: timeout-all
+mesh: default
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: edge
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 10s
+```
+{% endpolicy_yaml %}
+
+so that requests to either port 80 or 443 will have an idle timeout of 10 seconds,
+or just some listeners:
+
+{% policy_yaml somelisteners %}
+```yaml
+type: MeshTimeout
+name: timeout-8080
+mesh: default
+spec:
+  targetRef:
+    kind: MeshGateway
+    name: edge
+    tags:
+      port: http-80
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 10s
+```
+{% endpolicy_yaml %}
+
+So that only requests to port 80 will have the idle timeout.
+
+Note that depending on the policy,
+there may be restrictions on whether or not specific listeners can be selected.
+
+#### Routes
+
+Read the [MeshHTTPRoute docs](/docs/{{ page.version }}/policies/meshhttproute/#gateways)
+and [MeshTCPRoute docs](/docs/{{ page.version }}/policies/meshtcproute/#gateways) for more
+on how to target gateways for routing traffic.
+
+### Target kind support for different policies
 
 Not every policy supports `to` and `from` levels. Additionally, not every resource can
 appear at every supported level. The specified top level resource can also affect which
@@ -740,7 +816,7 @@ This might change in the future.
 
 Apply policy with `kuma.io/effect: shadow` label:
 
-{% policy_yaml example2 %}
+{% policy_yaml example2 use_meshservice=true %}
 ```yaml
 type: MeshTimeout
 name: frontend-timeouts
@@ -749,12 +825,16 @@ labels:
   kuma.io/effect: shadow
 spec:
    targetRef:
-     kind: MeshService
-     name: frontend
+     kind: MeshSubset
+     tags:
+       kuma.io/service: frontend
    to:
    - targetRef:
        kind: MeshService
        name: backend
+       namespace: kuma-demo
+       sectionName: httpport
+       _port: 3001
      default:
        idleTimeout: 23s
 ```

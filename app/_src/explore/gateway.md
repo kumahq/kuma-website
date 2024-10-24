@@ -315,7 +315,7 @@ spec:
         protocol: HTTP
         hostname: foo.example.com
         tags:
-          port: http/8080
+          port: http-8080
 " | kubectl apply -f -
 ```
 
@@ -335,7 +335,7 @@ conf:
       protocol: HTTP
       hostname: foo.example.com
       tags:
-        port: http/8080
+        port: http-8080
 ```
 
 {% endtab %}
@@ -367,7 +367,7 @@ spec:
   selectors:
     - match:
         kuma.io/service: edge-gateway
-        port: http/8080
+        port: http-8080
   conf:
     http:
       rules:
@@ -391,7 +391,7 @@ name: edge-gateway-route
 selectors:
   - match:
       kuma.io/service: edge-gateway
-      port: http/8080
+      port: http-8080
 conf:
   http:
     rules:

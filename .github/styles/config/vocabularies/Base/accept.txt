@@ -99,6 +99,7 @@ MADR
 md
 minikube
 Maglev
+MeshGateway
 matchers
 Mockbin
 Moesif
@@ -129,7 +130,7 @@ Prometheus
 Protobuf
 proxied
 proxying
-redis
+[Rr]edis
 referenceable
 repo
 RFC

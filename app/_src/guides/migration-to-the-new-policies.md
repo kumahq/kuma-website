@@ -82,7 +82,7 @@ spec:
 
 3.  In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter.
 
-### Enable Mutual TLS and Traffic Permissions
+### Enable mTLS and deploy TrafficPermissions
 
 ```sh
 echo 'apiVersion: kuma.io/v1alpha1
@@ -251,10 +251,11 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
            action: Allow' | kubectl apply -f -
     ```
 
-2. Check the list of changes for `redis_kuma-demo_svc_6379` pod in Envoy configuration using `kumactl`, `jq` and `jd`:
+2. Check the list of changes for the `redis_kuma-demo_svc_6379` `kuma.io/service` in Envoy configuration using `kumactl`, `jq` and `jd`:
 
     ```sh
-   kumactl inspect dataplane redis-8fcbfc795-twlst.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+   DATAPLANE_NAME=$(kumactl get dataplanes -ojson | jq '.items[] | select(.networking.inbound[0].tags["kuma.io/service"] == "redis_kuma-demo_svc_6379") | .name')
+   kumactl inspect dataplane ${DATAPLANE_NAME} --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
     Expected output:
     ```
@@ -270,29 +271,16 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
 3. Remove the `kuma.io/effect: shadow` label:
 
     ```sh
-   echo 'apiVersion: kuma.io/v1alpha1
-   kind: MeshTrafficPermission
-   metadata:
-     namespace: {{site.mesh_namespace}}
-     name: app-to-redis
-     labels:
-       kuma.io/mesh: default
-   spec:
-     targetRef:
-       kind: MeshService
-       name: redis_kuma-demo_svc_6379
-     from:
-       - targetRef:
-           kind: MeshSubset
-           tags:
-             kuma.io/service: demo-app_kuma-demo_svc_5000
-         default:
-           action: Allow' | kubectl apply -f -
+    kubectl label -n kuma-system meshtrafficpermission app-to-redis kuma.io/effect-
     ```
 
     Even though the old TrafficPermission and the new MeshTrafficPermission are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermission and conclude the migration.
+4. Check that the demo app behaves as expected. If everything goes well, we can safely remove TrafficPermissions:
+
+    ```sh
+   kubectl delete trafficpermissions --all
+    ```
 
 ### Timeout -> MeshTimeout
 
@@ -331,10 +319,10 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
            streamIdleTimeout: 2h' | kubectl apply -f-
     ```
 
-2. Check the list of changes for `redis_kuma-demo_svc_6379` pod in Envoy configuration using `kumactl`, `jq` and `jd`:
+2. Check the list of changes for the `redis_kuma-demo_svc_6379` `kuma.io/service` in Envoy configuration using `kumactl`, `jq` and `jd`:
 
     ```sh
-   kumactl inspect dataplane redis-8fcbfc795-twlst.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+   kumactl inspect dataplane ${DATAPLANE_NAME} --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
     Expected output:
     ```
@@ -361,9 +349,18 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
     These 3 facts perfectly explain the list of changes we're observing.
 
 3. Remove the `kuma.io/effect: shadow` label.
+
+   ```sh
+   kubectl label -n kuma-system meshtimeout timeout-global kuma.io/effect-
+   ```
+
    Even though the old Timeout and the new MeshTimeout are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove Timeout and conclude the migration.
+4. Check that the demo app behaves as expected. If everything goes well, we can safely remove Timeouts:
+
+   ```sh
+   kubectl delete timeouts --all
+   ```
 
 ### CircuitBreaker -> MeshCircuitBreaker
 
@@ -412,18 +409,27 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
                threshold: 36' | kubectl apply -f-
     ```
 
-2. Check the list of changes for `redis_kuma-demo_svc_6379` pod in Envoy configuration using `kumactl`, `jq` and `jd`:
+2. Check the list of changes for the `redis_kuma-demo_svc_6379` `kuma.io/service` in Envoy configuration using `kumactl`, `jq` and `jd`:
 
     ```sh
-   kumactl inspect dataplane demo-app-b4f98898-zxrqj.kuma-demo --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
+   kumactl inspect dataplane ${DATAPLANE_NAME} --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
 
     The expected output is empty. CircuitBreaker and MeshCircuitBreaker configures Envoy in the exact similar way.
 
 3. Remove the `kuma.io/effect: shadow` label.
+
+   ```sh
+   kubectl label -n kuma-system meshcircuitbreaker cb-global kuma.io/effect-
+   ```
+
    Even though the old CircuitBreaker and the new MeshCircuitBreaker are both in use, the new policy takes precedence, making the old one ineffective.
 
-4. Observe the demo app behaves as expected. If everything goes well, we can safely remove CircuitBreaker and conclude the migration.
+4. Check that the demo app behaves as expected. If everything goes well, we can safely remove CircuitBreakers:
+
+   ```sh
+   kubectl delete circuitbreakers --all
+   ```
 
 ### TrafficRoute -> MeshTCPRoute
 
@@ -447,6 +453,69 @@ Always refer to the spec to ensure your new resource is valid.
 
 Note that `MeshHTTPRoute` has precedence over `MeshGatewayRoute`.
 
+We're going to start with a gateway and simple legacy `MeshGatewayRoute`,
+look at how to migrate `MeshGatewayRoutes` in general
+and then finish with migrating our example `MeshGatewayRoute`.
+
+Let's start with the following `MeshGateway` and `MeshGatewayInstance`:
+
+```sh
+echo "---
+apiVersion: kuma.io/v1alpha1
+kind: MeshGateway
+mesh: default
+metadata:
+  name: demo-app
+  labels:
+    kuma.io/origin: zone
+spec:
+  conf:
+    listeners:
+    - port: 80
+      protocol: HTTP
+      tags:
+        port: http-80
+  selectors:
+  - match:
+      kuma.io/service: demo-app-gateway_kuma-demo_svc
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayInstance
+metadata:
+  name: demo-app-gateway
+  namespace: kuma-demo
+spec:
+  replicas: 1
+  serviceType: LoadBalancer" | kubectl apply -f-
+```
+
+and the following initial `MeshGatewayRoute`:
+
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshGatewayRoute
+mesh: default
+metadata:
+  name: demo-app-gateway
+spec:
+  conf:
+   http:
+    hostnames:
+    - example.com
+    rules:
+    - matches:
+      - path:
+          match: PREFIX
+          value: /
+      backends:
+      - destination:
+          kuma.io/service: demo-app_kuma-demo_svc_5000
+        weight: 1
+  selectors:
+  - match:
+      kuma.io/service: demo-app-gateway_kuma-demo_svc" | kubectl apply -f-
+```
+
 #### Targeting
 
 The main consideration is specifying which gateways are affected by the route.
@@ -455,14 +524,14 @@ solely using tags to select `MeshGateway` listeners,
 new routes target `MeshGateways` by name and optionally with tags for specific
 listeners.
 
-For example:
+So in our example:
 
 ```yaml
 spec:
   selectors:
     - match:
-        kuma.io/service: edge-gateway
-        vhost: foo.example.com
+        kuma.io/service: demo-app-gateway_kuma-demo_svc
+        port: http-80
 ```
 
 becomes:
@@ -471,11 +540,14 @@ becomes:
 spec:
   targetRef:
     kind: MeshGateway
-    name: edge-gateway # where this MeshGateway has `kuma.io/service: edge-gateway`
+    name: demo-app
     tags:
-      vhost: foo.example.com
+      port: http-80
   to:
 ```
+
+because we're now using the _name_ of the `MeshGateway`
+instead of the `kuma.io/service` it matches.
 
 #### Spec
 
@@ -490,13 +562,10 @@ Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
     http:
       hostnames:
         - example.com
-      rules:
-        - matches:
-            - path:
-                match: PREFIX
-                value: /
-          # ...
+      # ...
 ```
+
+becomes:
 
 ```yaml
   to:
@@ -504,13 +573,7 @@ Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
         kind: Mesh
       hostnames:
         - example.com
-      rules:
-        - matches:
-            - path:
-                match: PathPrefix
-                value: /
-          default:
-            # ...
+      # ...
 ```
 
 ##### Matching
@@ -518,12 +581,12 @@ Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
 Matching works the same as before. Remember that for `MeshHTTPRoute` that merging is done on a match
 basis. So it's possible for one route to define `filters` and another
 `backendRefs` for a given match, and the resulting rule would both apply the filters and route to the
-backends:
+backends.
+
+Given two routes, one with:
 
 ```yaml
   to:
-    - targetRef:
-        kind: Mesh
       rules:
         - matches:
             - path:
@@ -538,12 +601,10 @@ backends:
                       value: xyz
 ```
 
+and the other:
+
 ```yaml
   to:
-    - targetRef:
-        kind: Mesh
-      hostnames:
-        - example.com
       rules:
         - matches:
             - path:
@@ -551,11 +612,14 @@ backends:
                 value: /
           default:
             backendRefs:
-              - kind: MeshService
-                name: backend
+              - kind: MeshServiceSubset
+                name: backend_kuma-demo_svc_3001
+                tags:
+                  version: v0
 ```
 
-Traffic to `/` would have the `x-custom-header` added and be sent to the `backend`.
+traffic to `/` would have the `x-custom-header` added and be sent to the
+`version: v0` tagged instances of `backend_kuma-demo_svc_3001`.
 
 ##### Filters
 
@@ -567,6 +631,50 @@ find out how each filter looks in `MeshHTTPRoute`.
 
 Backends are similar except that instead of targeting with tags, the `targetRef`
 structure with `kind: MeshService`/`kind: MeshServiceSubset` is used.
+
+##### Equivalent MeshHTTPRoute
+
+So all in all we have:
+
+1. Create the equivalent MeshHTTPRoute
+
+   ```sh
+   echo "apiVersion: kuma.io/v1alpha1
+   kind: MeshHTTPRoute
+   metadata:
+     name: demo-app
+     namespace: kuma-system
+     labels:
+       kuma.io/origin: zone
+       kuma.io/mesh: default
+   spec:
+     targetRef:
+       kind: MeshGateway
+       name: demo-app
+     to:
+     - targetRef:
+         kind: Mesh
+       hostnames:
+         - example.com
+       rules:
+       - default:
+           backendRefs:
+           - kind: MeshService
+             name: demo-app_kuma-demo_svc_5000
+         matches:
+         - path:
+             type: PathPrefix
+             value: /" | kubectl apply -f -
+   ```
+
+2. Check that traffic is still working.
+
+3. Delete the previous MeshGatewayRoute:
+
+   ```sh
+   kubectl delete meshgatewayroute --all
+   ```
+
 
 ## Next steps
 

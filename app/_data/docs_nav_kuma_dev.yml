@@ -280,6 +280,21 @@ items:
     items:
       - text: Introduction
         url: /policies/introduction/
+        items:
+          - text: What is a policy?
+            url: "/policies/introduction/#what-is-a-policy"
+          - text: What do policies look like?
+            url: "/policies/introduction/#what-do-policies-look-like"
+          - text: Writing a targetRef
+            url: "/policies/introduction/#writing-a-targetref"
+          - text: Merging configuration
+            url: "/policies/introduction/#merging-configuration"
+          - text: Using policies with MeshService
+            url: "/policies/introduction/#using-policies-with-meshservice-meshmultizoneservice-and-meshexternalservice"
+          - text: Examples
+            url: "/policies/introduction/#examples"
+          - text: Applying policies in shadow mode
+            url: "/policies/introduction/#applying-policies-in-shadow-mode"
       - text: MeshAccessLog
         url: /policies/meshaccesslog/
         items:
@@ -429,11 +444,11 @@ items:
         url: /policies/meshtls/
         items:
           - text: TargetRef support matrix
-            url: "/policies/meshpassthrough/#targetref-support-matrix"
+            url: "/policies/meshtls/#targetref-support-matrix"
           - text: Configuration
-            url: "/policies/meshpassthrough/#configuration"
+            url: "/policies/meshtls/#configuration"
           - text: Examples
-            url: "/policies/meshpassthrough/#examples"
+            url: "/policies/meshtls/#examples"
       - title: Previous Policies
         group: true
         items:

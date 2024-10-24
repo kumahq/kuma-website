@@ -79,7 +79,7 @@ spec:
       - port: 8080
         protocol: HTTP
         tags:
-          port: http/8080
+          port: http-8080
 " | kubectl apply -f -
 ```
 
@@ -291,7 +291,7 @@ spec:
           certificates:
             - secret: my-gateway-certificate
         tags:
-          port: http/8080
+          port: http-8080
 " | kubectl apply -f -
 ```
 

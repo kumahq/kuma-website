@@ -22,6 +22,9 @@ install: ruby-version-check
 run: ruby-version-check
 	bundle exec foreman start
 
+test:
+	bundle exec rspec
+
 build: ruby-version-check
 	bundle exec jekyll build --config jekyll.yml --profile
 

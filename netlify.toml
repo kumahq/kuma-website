@@ -18,3 +18,13 @@ from = "/vite-dev/*"
 to = "http://localhost:3036/vite-dev/:splat"
 force = true
 status = 301
+
+[[redirects]]
+  from = "/fixtures/*"
+  to = "/spec/fixtures/:splat"
+  status = 200
+
+[[headers]]
+  for = "/fixtures/*"
+  [headers.values]
+    Cache-Control = "no-cache"

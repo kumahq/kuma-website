@@ -4,7 +4,7 @@ title: Mesh HTTP Route
 
 {% warning %}
 This policy uses new policy matching algorithm.
-Do **not** combine with [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) except for the default `route-all` route, which should be kept..
+It's recommended to migrate from [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route). See "Interactions with `TrafficRoute`" section for more information.
 {% endwarning %}
 
 The `MeshHTTPRoute` policy allows altering and redirecting HTTP requests
@@ -64,12 +64,8 @@ The `default` section is nested inside `rules`, so the policy structure looks li
 
 ```yaml
 spec:
-  targetRef: # top-level targetRef selects a group of proxies to configure
-    kind: Mesh|MeshSubset|MeshService|MeshServiceSubset
   to:
-    - targetRef: # targetRef selects a destination (outbound listener)
-        kind: MeshService
-        name: backend
+    - targetRef: {...}
       rules:
         - matches: [...] # various ways to match an HTTP request (path, method, query)
           default: # configuration applied for the matched HTTP request
@@ -82,71 +78,24 @@ Remember to tag your `Service` ports with `appProtocol: http` to use
 them in a `MeshHTTPRoute`!
 {% endtip %}
 
-### Matches
+### Gateways
 
-- **`path`** - (optional) - HTTP path to match the request on
-  - **`type`** - one of `Exact`, {% if_version gte:2.3.x %}`PathPrefix`{% endif_version %}{% if_version lte:2.2.x %}`Prefix`{% endif_version %}, `RegularExpression`
-  - **`value`** - actual value that's going to be matched depending on the `type`
-- **`method`** - (optional) - HTTP2 method, available values are
-  `CONNECT`, `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`, `TRACE`
-- **`queryParams`** - (optional) - list of HTTP URL query parameters. Multiple matches are combined together
-  such that all listed matches must succeed
-  - **`type`** - one of `Exact` or `RegularExpression`
-  - **`name`** - name of the query parameter
-  - **`value`** - actual value that's going to be matched depending on the `type`
+In order to route HTTP traffic for a MeshGateway, you need to target the
+MeshGateway in `spec.targetRef` and set `spec.to[].targetRef.kind: Mesh`.
 
-### Default conf
+### Interactions with `MeshTCPRoute`
 
-- **`filters`** - (optional) - a list of modifications applied to the matched request
-  - **`type`** - available values are `RequestHeaderModifier`, `ResponseHeaderModifier`,
-    `RequestRedirect`, `URLRewrite`.
-  - **`requestHeaderModifier`** - [HeaderModifier](#headermodifier), must be set if the `type` is `RequestHeaderModifier`.
-  - **`responseHeaderModifier`** - [HeaderModifier](#headermodifier), must be set if the `type` is `ResponseHeaderModifier`.
-  - **`requestRedirect`** - must be set if the `type` is `RequestRedirect`
-    - **`scheme`** - one of `http` or `http2`
-    - **`hostname`** - is the fully qualified domain name of a network host. This
-      matches the RFC 1123 definition of a hostname with 1 notable exception that
-      numeric IP addresses are not allowed.
-    - **`port`** - is the port to be used in the value of the `Location` header in
-      the response. When empty, port (if specified) of the request is used.
-    - **`statusCode`** - is the HTTP status code to be used in response. Available values are
-      `301`, `302`, `303`, `307`, `308`.
-  - **`urlRewrite`** - must be set if the `type` is `URLRewrite`
-    - **`hostname`** - (optional) - is the fully qualified domain name of a network host. This
-      matches the RFC 1123 definition of a hostname with 1 notable exception that
-      numeric IP addresses are not allowed.
-    - **`path`** - (optional)
-      - **`type`** - one of `ReplaceFullPath`, `ReplacePrefixMatch`
-      - **`replaceFullPath`** - must be set if the `type` is `ReplaceFullPath`
-      - **`replacePrefixMatch`** - must be set if the `type` is `ReplacePrefixMatch`
-{% if_version gte:2.2.x %}
-  - **`requestMirror`** - must be set if the `type` is `RequestMirror`
-    - **`percentage`** - percentage of requests to mirror. If not specified, all requests to the target cluster will be mirrored.
-    - **`backendRef`** - [BackendRef](#backendref), destination to mirror request to
-{% endif_version %}
-- **`backendRefs`** - [BackendRef](#backendref) (optional), list of destinations to redirect requests to
+`MeshHTTPRoute` takes priority over [`MeshTCPRoute`](../meshtcproute) when a proxy is targeted by both and the matching `MeshTCPRoute` is ignored.
 
-### HeaderModifier
+### Interactions with `TrafficRoute`
 
-- **`set`** - (optional) - list of headers to set. Overrides value if the header exists.
-  - **`name`** - header's name
-  - **`value`** - header's value
-- **`add`** - (optional) - list of headers to add. Appends value if the header exists.
-  - **`name`** - header's name
-  - **`value`** - header's value
-- **`remove`** - (optional) - list of headers' names to remove
+`MeshHTTPRoute` takes priority over [`TrafficRoute`](../traffic-route) when a proxy is targeted by both policies.
 
-### BackendRef
+All legacy policies like `Retry`, `TrafficLog`, `Timeout` etc. only match on routes defined by `TrafficRoute`.
+All new recommended policies like `MeshRetry`, `MeshAccessLog`, `MeshTimeout` etc. match on routes defined by `MeshHTTPRoute` and `TrafficRoute`.
 
-- **`kind`** - one of `MeshService`, `MeshServiceSubset`{% if_version gte:2.9.x %}, `MeshExtenalService`{% endif_version %}
-- **`name`** - service name
-- **`tags`** - service tags, must be specified if the `kind` is `MeshServiceSubset`
-- **`weight`** - when a request matches the route, the choice of an upstream cluster
-  is determined by its weight. Total weight is a sum of all weights in `backendRefs` list.
-
-## Interactions with `MeshTCPRoute`
-
-`MeshHTTPRoute` takes priority over [`MeshTCPRoute`](../meshtcproute) when both are defined for the same service, and the matching `MeshTCPRoute` is ignored.
+If you don't use legacy policies, it's recommended to remove any existing `TrafficRoute`.
+Otherwise, it's recommended to migrate to new policies and then removing `TrafficRoute`.  
 
 ## Examples
 
@@ -569,5 +518,68 @@ rules:
 ```
 
 ## All policy options
+
+### Matches
+
+- **`path`** - (optional) - HTTP path to match the request on
+  - **`type`** - one of `Exact`, {% if_version gte:2.3.x %}`PathPrefix`{% endif_version %}{% if_version lte:2.2.x %}`Prefix`{% endif_version %}, `RegularExpression`
+  - **`value`** - actual value that's going to be matched depending on the `type`
+- **`method`** - (optional) - HTTP2 method, available values are
+  `CONNECT`, `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST`, `PUT`, `TRACE`
+- **`queryParams`** - (optional) - list of HTTP URL query parameters. Multiple matches are combined together
+  such that all listed matches must succeed
+  - **`type`** - one of `Exact` or `RegularExpression`
+  - **`name`** - name of the query parameter
+  - **`value`** - actual value that's going to be matched depending on the `type`
+
+### Default conf
+
+- **`filters`** - (optional) - a list of modifications applied to the matched request
+  - **`type`** - available values are `RequestHeaderModifier`, `ResponseHeaderModifier`,
+    `RequestRedirect`, `URLRewrite`.
+  - **`requestHeaderModifier`** - [HeaderModifier](#header-modification), must be set if the `type` is `RequestHeaderModifier`.
+  - **`responseHeaderModifier`** - [HeaderModifier](#header-modification), must be set if the `type` is `ResponseHeaderModifier`.
+  - **`requestRedirect`** - must be set if the `type` is `RequestRedirect`
+    - **`scheme`** - one of `http` or `http2`
+    - **`hostname`** - is the fully qualified domain name of a network host. This
+      matches the RFC 1123 definition of a hostname with 1 notable exception that
+      numeric IP addresses are not allowed.
+    - **`port`** - is the port to be used in the value of the `Location` header in
+      the response. When empty, port (if specified) of the request is used.
+    - **`statusCode`** - is the HTTP status code to be used in response. Available values are
+      `301`, `302`, `303`, `307`, `308`.
+  - **`urlRewrite`** - must be set if the `type` is `URLRewrite`
+    - **`hostname`** - (optional) - is the fully qualified domain name of a network host. This
+      matches the RFC 1123 definition of a hostname with 1 notable exception that
+      numeric IP addresses are not allowed.
+    - **`path`** - (optional)
+      - **`type`** - one of `ReplaceFullPath`, `ReplacePrefixMatch`
+      - **`replaceFullPath`** - must be set if the `type` is `ReplaceFullPath`
+      - **`replacePrefixMatch`** - must be set if the `type` is `ReplacePrefixMatch`
+{% if_version gte:2.2.x %}
+  - **`requestMirror`** - must be set if the `type` is `RequestMirror`
+    - **`percentage`** - percentage of requests to mirror. If not specified, all requests to the target cluster will be mirrored.
+    - **`backendRef`** - [BackendRef](#backends), destination to mirror request to
+{% endif_version %}
+- **`backendRefs`** - [BackendRef](#backends) (optional), list of destinations to redirect requests to
+
+### Header modification
+
+- **`set`** - (optional) - list of headers to set. Overrides value if the header exists.
+  - **`name`** - header's name
+  - **`value`** - header's value
+- **`add`** - (optional) - list of headers to add. Appends value if the header exists.
+  - **`name`** - header's name
+  - **`value`** - header's value
+- **`remove`** - (optional) - list of headers' names to remove
+
+### Backends
+
+- **`kind`** - one of `MeshService`, `MeshServiceSubset`{% if_version gte:2.9.x %}, `MeshExtenalService`{% endif_version %}
+- **`name`** - service name
+- **`tags`** - service tags, must be specified if the `kind` is `MeshServiceSubset`
+- **`weight`** - when a request matches the route, the choice of an upstream cluster
+  is determined by its weight. Total weight is a sum of all weights in `backendRefs` list.
+
 
 {% json_schema MeshHttpRoutes %}
