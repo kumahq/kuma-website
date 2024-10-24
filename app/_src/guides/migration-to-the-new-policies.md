@@ -453,7 +453,11 @@ Always refer to the spec to ensure your new resource is valid.
 
 Note that `MeshHTTPRoute` has precedence over `MeshGatewayRoute`.
 
-Let's deploy the following `MeshGateway` and `MeshGatewayInstance`:
+We're going to start with a gateway and simple legacy `MeshGatewayRoute`,
+look at how to migrate `MeshGatewayRoutes` in general
+and then finish with migrating our example `MeshGatewayRoute`.
+
+Let's start with the following `MeshGateway` and `MeshGatewayInstance`:
 
 ```sh
 echo "---
