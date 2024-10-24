@@ -1,5 +1,5 @@
-# spec/support/golden_file_manager.rb
 require 'fileutils'
+require 'diff/lcs'  # Add the `diff-lcs` gem to your Gemfile and install it
 
 module GoldenFileManager
   ASSETS_DIR = 'dist/vite/assets/'
@@ -74,12 +74,28 @@ module GoldenFileManager
           update_golden(golden_path, cleaned_output)
           puts "Golden file updated: #{golden_path}"
         else
-          raise "Output does not match golden file #{golden_path}."
+          puts "Output does not match golden file at #{golden_path}."
+          print_diff(golden_content, cleaned_output)
+          raise "Output does not match golden file at #{golden_path}."
         end
       end
     else
       update_golden(golden_path, cleaned_output)
       puts "Golden file created: #{golden_path}"
+    end
+  end
+
+  def self.print_diff(expected, actual)
+    diffs = Diff::LCS.diff(expected.split("\n"), actual.split("\n"))
+    diffs.each do |diff|
+      diff.each do |change|
+        case change.action
+        when '-'
+          puts "- #{change.element}"  # Lines present in golden but not in output
+        when '+'
+          puts "+ #{change.element}"  # Lines present in output but not in golden
+        end
+      end
     end
   end
 end

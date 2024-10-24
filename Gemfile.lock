@@ -120,6 +120,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  diff-lcs
   foreman
   jekyll (~> 4.2)
   jekyll-contentblocks
