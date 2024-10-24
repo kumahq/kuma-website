@@ -154,7 +154,7 @@ spec:
         http:
           - abort:
               httpStatus: 500
-              percentage: 5
+              percentage: 50
 ```
 {% endpolicy_yaml %}
 

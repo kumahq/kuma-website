@@ -129,7 +129,7 @@ module Jekyll
             return true if version == "dev"
 
             current_version = Gem::Version.new(version)
-            current_version > TARGET_VERSION
+            current_version >= TARGET_VERSION
           end
 
           def deep_copy(original)
