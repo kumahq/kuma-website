@@ -58,7 +58,7 @@ module Jekyll
                   if context[:legacy_output]
                     {
                       "kind" => "MeshService",
-                      "name" => [target_ref['name'], target_ref['namespace'], target_ref['_port']].compact.join('_')
+                      "name" => [target_ref['name'], target_ref['namespace'], "svc", target_ref['_port']].compact.join('_')
                     }
                   else
                     {
