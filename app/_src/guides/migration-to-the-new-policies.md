@@ -500,6 +500,8 @@ metadata:
 spec:
   conf:
    http:
+    hostnames:
+    - example.com
     rules:
     - matches:
       - path:
@@ -560,13 +562,10 @@ Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
     http:
       hostnames:
         - example.com
-      rules:
-        - matches:
-            - path:
-                match: PREFIX
-                value: /
-          # ...
+      # ...
 ```
+
+becomes:
 
 ```yaml
   to:
@@ -574,13 +573,7 @@ Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
         kind: Mesh
       hostnames:
         - example.com
-      rules:
-        - matches:
-            - path:
-                match: PathPrefix
-                value: /
-          default:
-            # ...
+      # ...
 ```
 
 ##### Matching
@@ -588,12 +581,12 @@ Note that for `MeshHTTPRoute` the `hostnames` are directly under the `to` entry:
 Matching works the same as before. Remember that for `MeshHTTPRoute` that merging is done on a match
 basis. So it's possible for one route to define `filters` and another
 `backendRefs` for a given match, and the resulting rule would both apply the filters and route to the
-backends:
+backends.
+
+Given two routes, one with:
 
 ```yaml
   to:
-    - targetRef:
-        kind: Mesh
       rules:
         - matches:
             - path:
@@ -608,14 +601,10 @@ backends:
                       value: xyz
 ```
 
-becomes
+and the other:
 
 ```yaml
   to:
-    - targetRef:
-        kind: Mesh
-      hostnames:
-        - example.com
       rules:
         - matches:
             - path:
@@ -629,8 +618,8 @@ becomes
                   version: v0
 ```
 
-Traffic to `/` would have the `x-custom-header` added and be sent to the `v0`
-versions of `backend_kuma-demo_svc_3001`.
+traffic to `/` would have the `x-custom-header` added and be sent to the
+`version: v0` tagged instances of `backend_kuma-demo_svc_3001`.
 
 ##### Filters
 
@@ -665,6 +654,8 @@ So all in all we have:
      to:
      - targetRef:
          kind: Mesh
+       hostnames:
+         - example.com
        rules:
        - default:
            backendRefs:
