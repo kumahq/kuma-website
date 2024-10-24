@@ -226,9 +226,9 @@ name: inbound-timeout
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name_uni: frontend
-    name_kube: frontend_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: frontend
   from:
     - targetRef:
         kind: Mesh
@@ -274,9 +274,9 @@ name: route-to-backend-v2
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name_uni: frontend
-    name_kube: frontend_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: frontend
   to:
     - targetRef:
         kind: MeshService

@@ -466,7 +466,7 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      kuma.io/service: web
+      app: web
   to:
     - targetRef:
         kind: MeshService
@@ -492,9 +492,9 @@ name: backend-inbound-outlier-detection
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name_uni: web
-    name_kube: web_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: web
   from:
     - targetRef:
         kind: Mesh

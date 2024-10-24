@@ -11,7 +11,7 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
 
 
   # Set up the Jekyll site and context for testing
-  let(:site) { Jekyll::Site.new(Jekyll.configuration) }
+  let(:site) { Jekyll::Site.new(Jekyll.configuration({mesh_namespace: "kuma-demo"})) }
   let(:page) { { 'version' => '2.9.1' } }  # This sets the version key for testing
   let(:registers) { { :page => page, :site => site } }
   let(:context) { Liquid::Context.new({}, {}, registers) }
