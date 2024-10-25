@@ -481,6 +481,7 @@ body:
 
 ### Log outgoing traffic from specific frontend version to a backend service
 
+{% if_version lte:2.8.x %}
 {% tabs meshaccesslog-outgoing-from-frontend-to-backend useUrlFragment=false %}
 {% tab meshaccesslog-outgoing-from-frontend-to-backend Kubernetes %}
 
@@ -589,6 +590,35 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+{% policy_yaml usage use_meshservice=true %}
+```yaml
+type: MeshAccessLog
+name: frontend-to-backend
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+      version: canary
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
+      default:
+        backends:
+          - type: File
+            file:
+              path: /dev/stdout
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Logging to multiple backends
 
@@ -600,6 +630,7 @@ This configuration logs to two backends: TCP and file.
 This configuration logs to three backends: TCP, file and OpenTelemetry.
 {% endif_version %}
 
+{% if_version lte:2.8.x %}
 {% tabs meshaccesslog-multiple-backends useUrlFragment=false %}
 {% tab meshaccesslog-multiple-backends Kubernetes %}
 
@@ -832,9 +863,54 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
+
+
+{% if_version gte:2.9.x %}
+{% policy_yaml multiple-backends %}
+```yaml
+type: MeshAccessLog
+name: multiple-backends
+mesh: default
+spec:
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: Tcp
+            tcp:
+              address: 127.0.0.1:5000
+              format:
+                type: Json
+                json:
+                  - key: "start_time"
+                    value: "%START_TIME%"
+          - type: File
+            file:
+              path: /dev/stdout
+              format:
+                type: Plain
+                plain: '[%START_TIME%]'
+          - type: OpenTelemetry
+            openTelemetry:
+              endpoint: otel-collector:4317
+              body:
+                kvlistValue:
+                values:
+                  - key: "mesh"
+                    value:
+                      stringValue: "%KUMA_MESH%"
+              attributes:
+                - key: "start_time"
+                  value: "%START_TIME%"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Log all incoming and outgoing traffic
 
+{% if_version lte:2.8.x %}
 {% tabs meshaccesslog-all useUrlFragment=false %}
 {% tab meshaccesslog-all Kubernetes %}
 
@@ -957,6 +1033,44 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+For this use case we recommend creating two separate policies. One for incoming traffic: 
+{% policy_yaml all-incoming-traffic %}
+```yaml
+type: MeshAccessLog
+name: all-incoming-traffic
+mesh: default
+spec:
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: File
+            file:
+              path: /dev/stdout
+```
+{% endpolicy_yaml %}
+And one for outgoing traffic:
+{% policy_yaml all-outgoing-traffic %}
+```yaml
+type: MeshAccessLog
+name: all-outgoing-traffic
+mesh: default
+spec:
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: File
+            file:
+              path: /dev/stdout
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ## Logging traffic going outside the Mesh
 
