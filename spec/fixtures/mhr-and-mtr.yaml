@@ -59,4 +59,3 @@ spec:
                 namespace: kuma-demo
                 port: 3001
                 weight: 10
----
