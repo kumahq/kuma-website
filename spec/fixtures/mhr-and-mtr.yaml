@@ -59,3 +59,22 @@ spec:
                 namespace: kuma-demo
                 port: 3001
                 weight: 10
+---
+type: MeshTCPRoute
+name: tcp-route-empty-weight
+mesh: default
+spec:
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: backend-v0
+                namespace: kuma-demo
+                port: 3001

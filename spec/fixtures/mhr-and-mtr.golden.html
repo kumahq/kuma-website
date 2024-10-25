@@ -103,6 +103,24 @@
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
           <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1_kuma-demo_svc</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-empty-weight</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">kuma.io/mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend_kuma-demo_svc_3001</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0_kuma-demo_svc</span>
 </code></pre></div></div>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
@@ -172,6 +190,28 @@
           <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
           <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-empty-weight</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">kuma.io/mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+      <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+      <span class="na">sectionName</span><span class="pi">:</span> <span class="s">http</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0</span>
+          <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
 </code></pre></div></div>
 
 
@@ -236,6 +276,20 @@
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
           <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-empty-weight</span>
+<span class="na">mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0</span>
 </code></pre></div></div>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">type</span><span class="pi">:</span> <span class="s">MeshHTTPRoute</span>
@@ -291,6 +345,22 @@
           <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1</span>
           <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-empty-weight</span>
+<span class="na">mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+      <span class="na">sectionName</span><span class="pi">:</span> <span class="s">http</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
 </code></pre></div></div>
 
 

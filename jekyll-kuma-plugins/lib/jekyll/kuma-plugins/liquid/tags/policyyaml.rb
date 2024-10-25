@@ -93,31 +93,27 @@ module Jekyll
                     {
                       "kind" => "MeshService",
                       "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['_port']].compact.join('_'),
-                      "weight" => backend_ref['weight']
-                    }
+                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
                   else
                     {
                       "kind" => "MeshService",
                       "name" => backend_ref['name'],
                       "namespace" => backend_ref['namespace'],
                       "port" => backend_ref['port'],
-                      "weight" => backend_ref['weight']
-                    }
+                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
                   end
                 when :universal
                   if context[:legacy_output]
                     {
                       "kind" => "MeshService",
                       "name" => backend_ref['name'],
-                      "weight" => backend_ref['weight']
-                    }
+                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
                   else
                     {
                       "kind" => "MeshService",
                       "name" => backend_ref['name'],
                       "port" => backend_ref['port'],
-                      "weight" => backend_ref['weight']
-                    }
+                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
                   end
                 end
               end)
