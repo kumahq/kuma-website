@@ -21,10 +21,18 @@ depending on where the request coming from and where it's going to.
 {% if_version gte:2.6.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
+{% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `MeshService`                                            |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
+| `to[].targetRef.kind` | `MeshService`                                            |
+{% endif_version %}
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
@@ -35,10 +43,18 @@ depending on where the request coming from and where it's going to.
 {% endtab %}
 
 {% tab targetRef Delegated Gateway %}
+{% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `MeshService`                                            |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
+| `to[].targetRef.kind` | `MeshService`                                            |
+{% endif_version %}
 {% endtab %}
 
 {% endtabs %}
