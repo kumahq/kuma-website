@@ -712,10 +712,10 @@ spec:
               endpoint: otel-collector:4317
               body:
                 kvlistValue:
-                values:
-                  - key: "mesh"
-                    value:
-                      stringValue: "%KUMA_MESH%"
+                  values:
+                    - key: "mesh"
+                      value:
+                        stringValue: "%KUMA_MESH%"
               attributes:
                 - key: "start_time"
                   value: "%START_TIME%"
@@ -757,10 +757,10 @@ spec:
               endpoint: otel-collector:4317
               body:
                 kvlistValue:
-                values:
-                  - key: "mesh"
-                    value:
-                      stringValue: "%KUMA_MESH%"
+                  values:
+                    - key: "mesh"
+                      value:
+                        stringValue: "%KUMA_MESH%"
               attributes:
                 - key: "start_time"
                   value: "%START_TIME%"
