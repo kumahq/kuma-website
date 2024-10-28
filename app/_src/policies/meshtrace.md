@@ -36,9 +36,16 @@ For HTTP you can also manually forward the following headers:
 {% if_version gte:2.6.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
+{% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
+{% endif_version %}
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
@@ -48,9 +55,16 @@ For HTTP you can also manually forward the following headers:
 {% endtab %}
 
 {% tab targetRef Delegated Gateway %}
+{% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
+{% endif_version %}
 {% endtab %}
 
 {% endtabs %}
