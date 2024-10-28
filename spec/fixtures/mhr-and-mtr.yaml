@@ -1,0 +1,80 @@
+type: MeshHTTPRoute
+name: http-split
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: httpport
+        _port: 3001
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: backend-v1
+                namespace: kuma-demo
+                port: 3001
+                weight: 90
+              - kind: MeshService
+                name: backend-v2
+                namespace: kuma-demo
+                port: 3001
+                weight: 10
+---
+type: MeshTCPRoute
+name: tcp-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: backend-v0
+                namespace: kuma-demo
+                port: 3001
+                weight: 90
+              - kind: MeshService
+                name: backend-v1
+                namespace: kuma-demo
+                port: 3001
+                weight: 10
+---
+type: MeshTCPRoute
+name: tcp-route-empty-weight
+mesh: default
+spec:
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: backend-v0
+                namespace: kuma-demo
+                port: 3001

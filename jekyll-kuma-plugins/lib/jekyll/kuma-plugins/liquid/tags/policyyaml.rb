@@ -85,6 +85,40 @@ module Jekyll
               end)
 
             register_callback(
+              _and(has_path(%w[spec to rules default backendRefs]), kind_is("MeshService")),
+              lambda do |backend_ref, context|
+                case context[:env]
+                when :kubernetes
+                  if context[:legacy_output]
+                    {
+                      "kind" => "MeshService",
+                      "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['_port']].compact.join('_'),
+                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                  else
+                    {
+                      "kind" => "MeshService",
+                      "name" => backend_ref['name'],
+                      "namespace" => backend_ref['namespace'],
+                      "port" => backend_ref['port'],
+                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                  end
+                when :universal
+                  if context[:legacy_output]
+                    {
+                      "kind" => "MeshService",
+                      "name" => backend_ref['name'],
+                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                  else
+                    {
+                      "kind" => "MeshService",
+                      "name" => backend_ref['name'],
+                      "port" => backend_ref['port'],
+                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                  end
+                end
+              end)
+
+            register_callback(
               _or(has_field("name_uni"), has_field("name_kube")),
               lambda do |node, context|
                 node_copy = deep_copy(node)

@@ -267,6 +267,7 @@ If a `MeshHTTPRoute` creates routes on the outbound listener of the service then
 In the following example the `MeshHTTPRoute` policy `route-to-backend-v2` redirects all requests to `/v2*` to `backend` instances with `version: v2` tag.
 `MeshTimeout` `backend-v2` configures timeouts only for requests that are going through `route-to-backend-v2` route. 
 
+{% if_version lte:2.8.x %}
 {% policy_yaml example5 %}
 ```yaml
 type: MeshHTTPRoute
@@ -298,6 +299,40 @@ spec:
                   version: v2
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml example5-29x use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: route-to-backend-v2
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /v2
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: backend-v2
+                namespace: kuma-demo
+                port: 3001
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
 You can see in the following route that the top level `targetRef` matches the previously defined `MeshHTTPRoute`.
 {% policy_yaml example6 %}
 ```yaml
