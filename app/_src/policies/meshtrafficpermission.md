@@ -12,10 +12,18 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.version }}/policies/tr
 {% if_version gte:2.7.x %}
 {% tabs targetRef27x useUrlFragment=false %}
 {% tab targetRef27x Sidecar %}
+{% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset` |
+| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
+| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
+{% endif_version %}
 {% endtab %}
 {% tab targetRef27x Builtin Gateway %}
 `MeshTrafficPermission` isn't supported on builtin gateways. If applied via
