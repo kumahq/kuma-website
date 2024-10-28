@@ -17,7 +17,7 @@ curl -L {{site.links.web}}{% if page.edition %}/{{page.edition}}{% endif %}/inst
 ```
 2. To finish installation, add {{site.mesh_product_name}} binaries to path:
 ```shell
-export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin
+export PATH=$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin:$PATH
 ```
 This directory contains binaries for `kuma-dp`, `kuma-cp`, `kumactl`, `envoy` and `coredns`
 
@@ -27,9 +27,4 @@ If you only need `kumactl` on macOS you can install it via `brew install kumactl
 
 
 ## Next steps
-{% if_version gte:2.6.x %}
 * [Complete quickstart](/docs/{{ page.version }}/quickstart/universal-demo/) to set up a zone control plane with demo application
-{% endif_version %}
-{% if_version lte:2.5.x %}
-After you've installed `kumactl`, you can deploy {{site.mesh_product_name}} in standalone or multi-zone mode in either Kubernetes or Universal.
-{% endif_version %}
