@@ -151,7 +151,7 @@ Here's an explanation of each kinds and their scope:
 
 Consider the two example policies below:
 
-{% policy_yaml accesslog_outbound_example %}
+{% policy_yaml accesslog_outbound_example use_meshservice=true %}
 ```yaml
 type: MeshAccessLog
 name: example-outbound
@@ -160,11 +160,14 @@ spec:
   targetRef: # top level targetRef
     kind: MeshSubset
     tags:
-        app: web-frontend
+      app: web-frontend
   to:
     - targetRef: # to level targetRef
         kind: MeshService
         name: web-backend
+        namespace: kuma-demo
+        sectionName: httpport
+        _port: 8080
       default:
         backends:
           - file:
@@ -813,7 +816,7 @@ This might change in the future.
 
 Apply policy with `kuma.io/effect: shadow` label:
 
-{% policy_yaml example2 %}
+{% policy_yaml example2 use_meshservice=true %}
 ```yaml
 type: MeshTimeout
 name: frontend-timeouts
@@ -822,12 +825,16 @@ labels:
   kuma.io/effect: shadow
 spec:
    targetRef:
-     kind: MeshService
-     name: frontend
+     kind: MeshSubset
+     tags:
+       kuma.io/service: frontend
    to:
    - targetRef:
        kind: MeshService
        name: backend
+       namespace: kuma-demo
+       sectionName: httpport
+       _port: 3001
      default:
        idleTimeout: 23s
 ```

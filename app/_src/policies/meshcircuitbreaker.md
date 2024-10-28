@@ -457,21 +457,23 @@ spec:
 
 #### Basic circuit breaker for outbound traffic from web, to backend service
 
-{% policy_yaml usage %}
+{% policy_yaml usage use_meshservice=true %}
 ```yaml
 type: MeshCircuitBreaker
 name: web-to-backend-circuit-breaker
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name_uni: web
-    name_kube: web_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: web
   to:
     - targetRef:
         kind: MeshService
-        name_uni: backend
-        name_kube: backend_kuma-demo_svc_8080
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
       default:
         connectionLimits:
           maxConnections: 2
@@ -490,9 +492,9 @@ name: backend-inbound-outlier-detection
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name_uni: web
-    name_kube: web_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: web
   from:
     - targetRef:
         kind: Mesh

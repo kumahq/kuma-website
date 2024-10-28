@@ -62,6 +62,8 @@ Unlike other outbound policies, `MeshTCPRoute` doesn't contain `default`
 directly in the `to` array. The `default` section is nested inside `rules`,
 so the policy structure looks like the following:
 
+[//]: # (TODO: https://github.com/kumahq/kuma-website/issues/2020)
+
 ```yaml
 spec:
   targetRef: # top-level targetRef selects a group of proxies to configure
@@ -109,6 +111,7 @@ Otherwise, it's recommended to migrate to new policies and then removing `Traffi
 
 ## Examples
 
+{% if_version lte:2.8.x %}
 ### Traffic split
 
 You can use `MeshTCPRoute` to split TCP traffic between services with
@@ -117,57 +120,23 @@ different tags and implement A/B testing or canary deployments.
 Here's an example of a `MeshTCPRoute` that splits the traffic from 
 `frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions:
 
-{% tabs split useUrlFragment=false %}
-{% tab split Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTCPRoute
-metadata:
-  name: tcp-route-1
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend_kuma-demo_svc_3001
-      rules:
-        - default:
-            backendRefs:
-              - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
-                tags:
-                  version: "v0"
-                weight: 90
-              - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
-                tags:
-                  version: "v1"
-                weight: 10
-```
-
-You can apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab split Universal %}
-
+{% policy_yaml split use_meshservice=true %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: frontend
   to:
     - targetRef:
         kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
       rules:
         - default:
             backendRefs:
@@ -182,11 +151,50 @@ spec:
                   version: "v1"
                 weight: 10
 ```
+{% endpolicy_yaml %}
+{% endif_version %}
 
-You can apply the configuration with `kumactl apply -f [..]` or use
-the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% if_version gte:2.9.x %}
+### Traffic split
+We can use `MeshTCPRoute` to split an TCP traffic between different MeshServices
+implementing A/B testing or canary deployments.
+If we want to split traffic between `v1` and `v2` versions of the same service,
+first we have to create MeshServices `backend-v1` and `backend-v2` that select
+backend application instances according to the version.
+
+{% policy_yaml traffic-split-29x use_meshservice=true %}
+```yaml
+type: MeshTCPRoute
+name: tcp-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: backend-v0
+                namespace: kuma-demo
+                port: 3001
+                weight: 90
+              - kind: MeshService
+                name: backend-v1
+                namespace: kuma-demo
+                port: 3001
+                weight: 10
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Traffic redirection
 
@@ -197,59 +205,32 @@ Here's an example of a `MeshTCPRoute` that redirects outgoing traffic
 originating at `frontend_kuma-demo_svc_8080` from `backend_kuma-demo_svc_3001`
 to `external-backend`:
 
-{% tabs modifications useUrlFragment=false %}
-{% tab modifications Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTCPRoute
-metadata:
-  name: tcp-route-1
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend_kuma-demo_svc_3001
-      rules:
-        - default:
-            backendRefs:
-              - kind: MeshService
-                name: external-backend
-```
-You can apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab modifications Universal %}
-
+{% policy_yaml modifications use_meshservice=true %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: frontend
   to:
     - targetRef:
         kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
       rules:
         - default:
             backendRefs:
               - kind: MeshService
                 name: external-backend
+                namespace: kuma-demo
+                port: 8080
 ```
-
-You can apply the configuration with `kumactl apply -f [..]` or use
-the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 ## Route policies with different types targeting the same destination
 
@@ -263,12 +244,16 @@ In this example, both `MeshTCPRoute` and `MeshHTTPRoute` target the same destina
 ```yaml
 # [...]
 targetRef:
-  kind: MeshService
-  name: frontend
+  kind: MeshSubset
+  tags:
+    app: frontend
 to:
   - targetRef:
       kind: MeshService
       name: backend
+      namespace: kuma-demo
+      _port: 3001
+      sectionName: http
     rules:
       - default:
           backendRefs:
@@ -280,12 +265,16 @@ to:
 ```yaml
 # [...]
 targetRef:
-  kind: MeshService
-  name: frontend
+  kind: MeshSubset
+  tags:
+    app: frontend
 to:
   - targetRef:
       kind: MeshService
       name: backend
+      namespace: kuma-demo
+      _port: 3001
+      sectionName: http
     rules:
       - matches:
           - path:

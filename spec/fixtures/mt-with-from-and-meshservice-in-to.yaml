@@ -1,0 +1,22 @@
+type: MeshTimeout
+name: inbound-timeout
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 60s
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
+      default:
+        idleTimeout: 60s

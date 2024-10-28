@@ -444,11 +444,11 @@ items:
         url: /policies/meshtls/
         items:
           - text: TargetRef support matrix
-            url: "/policies/meshpassthrough/#targetref-support-matrix"
+            url: "/policies/meshtls/#targetref-support-matrix"
           - text: Configuration
-            url: "/policies/meshpassthrough/#configuration"
+            url: "/policies/meshtls/#configuration"
           - text: Examples
-            url: "/policies/meshpassthrough/#examples"
+            url: "/policies/meshtls/#examples"
       - title: Previous Policies
         group: true
         items:

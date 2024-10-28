@@ -1,0 +1,370 @@
+<link rel="stylesheet" href="http://localhost:8000/dist/vite/assets/application.css" />
+<script src="http://localhost:8000/dist/vite/assets/application.js" crossorigin="anonymous" type="module"></script>
+
+
+
+<div class="tabs-component" data-tab-use-url-fragment="false">
+  <ul role="tablist" class="tabs-component-tabs">
+    
+      <li class="tabs-component-tab is-active" role="presentation">
+        <a
+          aria-controls="Kubernetes"
+          aria-selected="true"
+          href="#Kubernetes"
+          class="tabs-component-tab-a"
+          role="tab"
+          data-slug="Kubernetes"
+          >
+            Kubernetes 
+        </a>
+      </li>
+    
+      <li class="tabs-component-tab " role="presentation">
+        <a
+          aria-controls="Universal"
+          aria-selected="false"
+          href="#Universal"
+          class="tabs-component-tab-a"
+          role="tab"
+          data-slug="Universal"
+          >
+            Universal 
+        </a>
+      </li>
+    
+  </ul>
+
+  <div class="tabs-component-panels">
+    
+      <section
+        aria-hidden="false"
+        class="tabs-component-panel "
+        id="Kubernetes"
+        role="tabpanel"
+        data-panel="Kubernetes"
+      >
+        
+<div class="meshservice">
+ <label> <input type="checkbox" /> I am using <a href="/docs/2.9.1/networking/meshservice/">MeshService</a> </label>
+</div>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MeshHTTPRoute</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">http-split</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">kuma.io/mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">targetRef</span><span class="pi">:</span>
+    <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend_kuma-demo_svc_3001</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">matches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span>
+          <span class="na">type</span><span class="pi">:</span> <span class="s">PathPrefix</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/"</span>
+      <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1_kuma-demo_svc</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v2_kuma-demo_svc</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-1</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">kuma.io/mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">targetRef</span><span class="pi">:</span>
+    <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend_kuma-demo_svc_3001</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0_kuma-demo_svc</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1_kuma-demo_svc</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-empty-weight</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">kuma.io/mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend_kuma-demo_svc_3001</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0_kuma-demo_svc</span>
+</code></pre></div></div>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MeshHTTPRoute</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">http-split</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">kuma.io/mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">targetRef</span><span class="pi">:</span>
+    <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+      <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+      <span class="na">sectionName</span><span class="pi">:</span> <span class="s">httpport</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">matches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span>
+          <span class="na">type</span><span class="pi">:</span> <span class="s">PathPrefix</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/"</span>
+      <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1</span>
+          <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v2</span>
+          <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-1</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">kuma.io/mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">targetRef</span><span class="pi">:</span>
+    <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+      <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+      <span class="na">sectionName</span><span class="pi">:</span> <span class="s">http</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0</span>
+          <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1</span>
+          <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-empty-weight</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">kuma.io/mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+      <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+      <span class="na">sectionName</span><span class="pi">:</span> <span class="s">http</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0</span>
+          <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+</code></pre></div></div>
+
+
+      </section>
+    
+      <section
+        aria-hidden="true"
+        class="tabs-component-panel hidden"
+        id="Universal"
+        role="tabpanel"
+        data-panel="Universal"
+      >
+        
+<div class="meshservice">
+ <label> <input type="checkbox" /> I am using <a href="/docs/2.9.1/networking/meshservice/">MeshService</a> </label>
+</div>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">type</span><span class="pi">:</span> <span class="s">MeshHTTPRoute</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">http-split</span>
+<span class="na">mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">targetRef</span><span class="pi">:</span>
+    <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">matches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span>
+          <span class="na">type</span><span class="pi">:</span> <span class="s">PathPrefix</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/"</span>
+      <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v2</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-1</span>
+<span class="na">mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">targetRef</span><span class="pi">:</span>
+    <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-empty-weight</span>
+<span class="na">mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0</span>
+</code></pre></div></div>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">type</span><span class="pi">:</span> <span class="s">MeshHTTPRoute</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">http-split</span>
+<span class="na">mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">targetRef</span><span class="pi">:</span>
+    <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+      <span class="na">sectionName</span><span class="pi">:</span> <span class="s">httpport</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">matches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span>
+          <span class="na">type</span><span class="pi">:</span> <span class="s">PathPrefix</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/"</span>
+      <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v2</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-1</span>
+<span class="na">mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">targetRef</span><span class="pi">:</span>
+    <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+      <span class="na">sectionName</span><span class="pi">:</span> <span class="s">http</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+<span class="nn">---</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">tcp-route-empty-weight</span>
+<span class="na">mesh</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">to</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+      <span class="na">sectionName</span><span class="pi">:</span> <span class="s">http</span>
+    <span class="na">rules</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
+        <span class="na">backendRefs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+</code></pre></div></div>
+
+
+      </section>
+    
+  </div>
+</div>

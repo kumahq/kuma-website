@@ -63,32 +63,7 @@ If you don't understand this table you should read [matching docs](/docs/{{ page
 
 ### Service 'payments' allows requests from 'orders'
 
-{% tabs allow-orders useUrlFragment=false %}
-{% tab allow-orders Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: {{site.mesh_namespace}}
-  name: allow-orders
-spec:
-  targetRef: # 1
-    kind: MeshService
-    name: payments
-  from:
-    - targetRef: # 2
-        kind: MeshSubset
-        tags:
-           kuma.io/service: orders
-      default: # 3
-        action: Allow
-```
-
-
-{% endtab %}
-{% tab allow-orders Universal %}
-
+{% policy_yaml allow-orders %}
 ```yaml
 type: MeshTrafficPermission
 name: allow-orders
@@ -105,9 +80,7 @@ spec:
       default: # 3
         action: Allow
 ```
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Explanation
 
@@ -139,29 +112,7 @@ spec:
 
 ### Deny all
 
-{% tabs deny-all useUrlFragment=false %}
-{% tab deny-all Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: {{site.mesh_namespace}}
-  name: deny-all
-spec:
-  targetRef: # 1
-    kind: Mesh
-  from:
-    - targetRef: # 2
-        kind: Mesh
-      default: # 3
-        action: Deny
-```
-
-
-{% endtab %}
-{% tab deny-all Universal %}
-
+{% policy_yaml deny-all %}
 ```yaml
 type: MeshTrafficPermission
 name: deny-all
@@ -175,9 +126,7 @@ spec:
       default: # 3
         action: Deny
 ```
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Explanation
 
@@ -245,63 +194,29 @@ spec:
 
 ### Allow requests from zone 'us-east', deny requests from 'dev' environment
 
-{% tabs tags useUrlFragment=false %}
-{% tab tags Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: {{site.mesh_namespace}}
-  name: example-with-tags
-spec:
-  targetRef: # 1
-    kind: Mesh
-  from:
-    - targetRef: # 2
-        kind: MeshSubset
-        tags:
-          kuma.io/zone: us-east
-      default: # 3
-        action: Allow
-    - targetRef: # 4
-        kind: MeshSubset
-        tags:
-          env: dev
-      default: # 5
-        action: Deny
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab tags Universal %}
-
+{% policy_yaml tags %}
 ```yaml
 type: MeshTrafficPermission
 name: example-with-tags
 mesh: default
 spec:
-  targetRef: # 1
-    kind: Mesh
-  from:
-    - targetRef: # 2
-        kind: MeshSubset
-        tags:
-          kuma.io/zone: us-east
-      default: # 3
-        action: Allow
-    - targetRef: # 4
-        kind: MeshSubset
-        tags:
-          env: dev
-      default: # 5
-        action: Deny
+   targetRef: # 1
+      kind: Mesh
+   from:
+      - targetRef: # 2
+           kind: MeshSubset
+           tags:
+              kuma.io/zone: us-east
+        default: # 3
+           action: Allow
+      - targetRef: # 4
+           kind: MeshSubset
+           tags:
+              env: dev
+        default: # 5
+           action: Deny
 ```
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 
 #### Explanation
 
