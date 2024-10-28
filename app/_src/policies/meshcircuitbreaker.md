@@ -41,11 +41,20 @@ target proxies are healthy or not.
 {% if_version gte:2.6.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
+{% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
 | `from[].targetRef.kind` | `Mesh`                                                   |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
+| `from[].targetRef.kind` | `Mesh`                                                   |
+{% endif_version %}
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
@@ -56,10 +65,18 @@ target proxies are healthy or not.
 {% endtab %}
 
 {% tab targetRef Delegated Gateway %}
+{% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
+{% endif_version %}
 {% endtab %}
 {% endtabs %}
 
