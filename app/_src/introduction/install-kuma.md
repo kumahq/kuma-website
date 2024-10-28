@@ -8,7 +8,7 @@ This guide is mostly useful for Universal setup, as for Kubernetes we recommend 
 More in [Kubernetes quickstart guide](/docs/{{ page.version }}/quickstart/kubernetes-demo/).
 {% endtip %}
 
-This is simple guide on how to install {{site.mesh_product_name}} on your machine.
+This is a simple guide on how to install {{site.mesh_product_name}} on your machine.
 
 1. Go to the [{{site.mesh_product_name}} packages](https://cloudsmith.io/~kong/repos/{{site.mesh_product_name_path}}-binaries-release/packages/?q=version%3A{{ page.version_data.version }}) 
 page to download and extract the installation archive for your OS, or download and extract the latest release automatically (Linux or macOS):
