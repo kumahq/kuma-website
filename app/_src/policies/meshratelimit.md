@@ -98,48 +98,17 @@ TCP rate limiting allows the configuration of a number of connections in the spe
 
 ### HTTP Rate limit configured for service `backend` from all services in the Mesh
 
-{% tabs example-http-rate-limit useUrlFragment=false %}
-{% tab example-http-rate-limit Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshRateLimit
-metadata:
-  name: backend-rate-limit
-  namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshService
-    name: backend
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        local:
-          http:
-            requestRate:
-              num: 5
-              interval: 10s
-            onRateLimit:
-              status: 423
-              headers:
-                set:
-                  - name: "x-kuma-rate-limited"
-                    value: "true"
-```
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab example-http-rate-limit Universal %}
-
+{% if_version lte:2.8.x %}
+{% policy_yaml http-rate-limit %}
 ```yaml
 type: MeshRateLimit
 mesh: default
 name: backend-rate-limit
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   from:
     - targetRef:
         kind: Mesh
@@ -156,49 +125,52 @@ spec:
                   - name: "x-kuma-rate-limited"
                     value: "true"
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+{% policy_yaml http-rate-limit-namespaced namespace=kuma-demo %}
+```yaml
+type: MeshRateLimit
+mesh: default
+name: backend-rate-limit
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        local:
+          http:
+            requestRate:
+              num: 5
+              interval: 10s
+            onRateLimit:
+              status: 423
+              headers:
+                set:
+                  - name: "x-kuma-rate-limited"
+                    value: "true"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### TCP rate limit for service backend from all services in the Mesh
 
-{% tabs example-tcp-rate-limit useUrlFragment=false %}
-{% tab example-tcp-rate-limit Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshRateLimit
-metadata:
-  name: backend-rate-limit
-  namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshService
-    name: backend
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        local:
-          tcp:
-            connectionRate:
-              num: 5
-              interval: 10s
-```
-
-We will apply the configuration with `kubectl apply -f [..]`.
-{% endtab %}
-
-{% tab example-tcp-rate-limit Universal %}
-
+{% if_version lte:2.8.x %}
+{% policy_yaml from-backend %}
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   from:
     - targetRef:
         kind: Mesh
@@ -209,10 +181,32 @@ spec:
               num: 5
               interval: 10s
 ```
+{% endpolicy_yaml %}
+{% endif_version %}
 
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-{% endtab %}
-{% endtabs %}
+{% if_version gte:2.9.x %}
+{% policy_yaml from-backend-namespaced namespace=kuma-demo %}
+```yaml
+type: MeshRateLimit
+name: backend-rate-limit
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        local:
+          tcp:
+            connectionRate:
+              num: 5
+              interval: 10s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ## All policy options
 
