@@ -12,18 +12,20 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 {% if_version gte:2.6.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
-{% if_version gte:2.9.x %}
-| `targetRef`             | Allowed kinds                                                             |
-| ----------------------- | ------------------------------------------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset`, `MeshHTTPRoute` |
-| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`                              |
-| `from[].targetRef.kind` | `Mesh`                                                                    |
-{% endif_version %}
 {% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                                             |
 | ----------------------- | ------------------------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset`, `MeshHTTPRoute` |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                                     |
+| `from[].targetRef.kind` | `Mesh`                                                                    |
+{% endif_version %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`             | Allowed kinds                                                             |
+| ----------------------- | ------------------------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshHTTPRoute`                                     |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`                              |
 | `from[].targetRef.kind` | `Mesh`                                                                    |
 {% endif_version %}
 {% endtab %}
@@ -37,17 +39,19 @@ Do **not** combine with [Timeout policy](/docs/{{ page.version }}/policies/timeo
 {% endtab %}
 
 {% tab targetRef Delegated Gateway %}
-{% if_version gte:2.9.x %}
-| `targetRef`             | Allowed kinds                                                             |
-| ----------------------- | ------------------------------------------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset`, `MeshHTTPRoute` |
-| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`                              |
-{% endif_version %}
 {% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                                             |
 | ----------------------- | ------------------------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset`, `MeshHTTPRoute` |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                                     |
+{% endif_version %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`             | Allowed kinds                                                             |
+| ----------------------- | ------------------------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshHTTPRoute`                                     |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`                              |
 {% endif_version %}
 {% endtab %}
 {% endtabs %}
