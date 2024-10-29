@@ -1,0 +1,109 @@
+config:
+  redirect:
+    inbound:
+      excludePorts: &excludePortsInbound
+        path: runtime.kubernetes.injector.redirect.inbound.excludePorts
+        flag: --exclude-inbound-ports
+        env: KUMA_TRANSPARENT_PROXY_REDIRECT_INBOUND_EXCLUDE_PORTS
+        runtime:
+          path: sidecarTraffic.excludeInboundPorts
+          env: KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS
+      excludePortsForIPs: &excludePortsForIPsInbound
+        path: runtime.kubernetes.injector.redirect.inbound.excludePortsForIPs
+        flag: --exclude-inbound-ips
+        env: KUMA_TRANSPARENT_PROXY_REDIRECT_INBOUND_EXCLUDE_PORTS_FOR_IPS
+        runtime:
+          path: sidecarTraffic.excludeInboundIPs
+          env: KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_IPS
+    outbound:
+      excludePorts: &excludePortsOutbound
+        path: runtime.kubernetes.injector.redirect.outbound.excludePorts
+        flag: --exclude-outbound-ports
+        env: KUMA_TRANSPARENT_PROXY_REDIRECT_OUTBOUND_EXCLUDE_PORTS
+        runtime:
+          path: sidecarTraffic.excludeOutboundPorts
+          env: KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS
+      excludePortsForIPs: &excludePortsForIPsOutbound
+        path: runtime.kubernetes.injector.redirect.outbound.excludePortsForIPs
+        flag: --exclude-outbound-ips
+        env: KUMA_TRANSPARENT_PROXY_REDIRECT_OUTBOUND_EXCLUDE_PORTS_FOR_IPS
+        runtime:
+          path: sidecarTraffic.excludeOutboundIPs
+          env: KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_IPS
+
+defaults:
+  redirect:
+    inbound:
+      port: 15006
+    outbound:
+      port: 15001
+    dns:
+      port: 15053
+  kuma-dp:
+    username: kuma-dp
+    uid: 5678
+  resolv:
+    conf:
+      path: /etc/resolv.conf
+
+ids:
+  reference:
+    configs:
+      tproxy:
+        title: transparent-proxy-configuration
+        schema: schema
+        env: environment-variables
+        cli: cli-flags
+        default: default-values
+        full: full-reference
+      cp:
+        helm: helm-valuesyaml
+  guides:
+    customize-config:
+      k8s:
+        title: customizing-transparent-proxy-configuration-in-kubernetes-mode
+        methods:
+          runtime: method-control-plane-runtime-configuration
+          configmap: method-configuration-in-configmap
+          annotations: method-kubernetes-annotations
+      uni:
+        title: customizing-transparent-proxy-configuration-in-universal-mode
+        methods:
+          yaml-json: method-yaml-or-json-configuration
+          env: method-environment-variables
+          cli: method-cli-flags
+    integrate-tproxy:
+      title: integrating-transparent-proxy-into-your-service-environment
+      steps:
+        ensure-iptables: step-ensure-the-correct-version-of-iptables
+        create-user: step-create-a-dedicated-user-for-kuma-dp
+        prepare-dp: step-prepare-the-dataplane-resource
+        start-service: step-start-the-service
+        start-kuma-dp: step-start-kuma-dp
+        install-tproxy: step-install-the-transparent-proxy
+    upgrade-tproxy:
+      title: upgrading-transparent-proxy
+
+# Paths to documentation without docs and version prefixes
+paths:
+  guides:
+    customize-config:
+      k8s: /guides/customizing-transparent-proxy-configuration-in-kubernetes-mode/
+      uni: /guides/customizing-transparent-proxy-configuration-in-universal-mode/
+    exclude-traffic: /guides/excluding-traffic-from-transparent-proxy-redirection/
+    integrate-tproxy: /guides/integrating-transparent-proxy-into-your-service-environment/
+    upgrade-tproxy: /guides/upgrading-transparent-proxy/
+  reference:
+    configs:
+      tproxy: /reference/transparent-proxy-configuration/
+      cp: /reference/kuma-cp/
+
+data:
+  guides:
+    exclude-traffic:
+      excludePorts:
+        - *excludePortsInbound
+        - *excludePortsOutbound
+      excludeIPs:
+        - *excludePortsForIPsInbound
+        - *excludePortsForIPsOutbound

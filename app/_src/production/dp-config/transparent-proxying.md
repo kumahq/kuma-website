@@ -1,236 +1,119 @@
 ---
-title: Configure transparent proxying
+title: Transparent Proxy
 content_type: how-to
 ---
 
-In order to automatically intercept traffic from and to a service through a `kuma-dp` data plane proxy instance, {{site.mesh_product_name}} utilizes a transparent proxying using [`iptables`](https://linux.die.net/man/8/iptables).
+{% assign docs = "/docs/" | append: page.version %}
+{% assign Kuma = site.mesh_product_name %}
+{% assign tproxy = site.data.tproxy %}
 
-Transparent proxying helps with a smoother rollout of a Service Mesh to a current deployment by preserving existing service naming and as the result - avoid changes to the application code.
+{% capture tproxy-config-reference-info %}
+For a complete list of transparent proxy settings, including examples and allowed configuration methods for each field, see the [Transparent Proxy Configuration Reference]({{ docs }}{{ tproxy.paths.reference.configs.tproxy }}#transparent-proxy-configuration).
+{% endcapture %}
 
-## Kubernetes
+A transparent proxy is a server that intercepts network traffic going to and from a service without requiring any changes to the application code. In {{ Kuma }}, it captures this traffic and routes it to the [data plane proxy]({{ docs }}/production/dp-config/dpp/#data-plane-proxy), allowing [Mesh policies]({{ docs }}/policies/introduction/#policies) to be applied.
 
-On **Kubernetes** `kuma-dp` leverages transparent proxying automatically via `iptables` installed with `kuma-init` container or CNI.
-All incoming and outgoing traffic is automatically intercepted by `kuma-dp` without having to change the application code.
+{{ Kuma }} uses [iptables](https://linux.die.net/man/8/iptables){% if_version gte:2.0.x inline: true%} and also has experimental support for [`eBPF`](#transparent-proxy-with-ebpf-experimental){% endif_version %} to make this possible.
 
-{{site.mesh_product_name}} integrates with a service naming provided by Kubernetes DNS as well as providing its own [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns) for multi-zone service naming.
+{% tip %}
+For a closer look at how the transparent proxy works in {{ Kuma }}, visit the [Transparent Proxying]({{ docs }}/networking/transparent-proxying/#transparent-proxying) page in our Service Discovery & Networking documentation.
+{% endtip %}
 
-## Universal
+## Kubernetes Mode
 
-On **Universal** `kuma-dp` leverages the {% if_version lte:2.1.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/explore/dpp-on-universal/){% endif_version %}{%if_version gte:2.2.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration){% endif_version %} associated to it for receiving incoming requests on a pre-defined port.
+In [Kubernetes mode]({{ docs }}/introduction/architecture/#kubernetes-mode), the transparent proxy is automatically set up through the `kuma-init` container or [Kuma CNI]({{ docs }}/production/dp-config/cni/#configure-the-kuma-cni). By default, it intercepts all incoming and outgoing traffic and routes it through the `kuma-dp` sidecar container, so no changes to the application code are needed.
 
-In order to enable transparent-proxy the Zone Control Plane must exist on a seperate server.  Running the Zone Control Plane with Postgres does not function with transparent-proxy on the same machine.
+{{ Kuma }} works smoothly with [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) and provides its own [Kuma DNS]({{ docs }}/networking/dns/#dns), which is especially helpful in multi-zone setups for cross-zone service discovery.
 
-There are several advantages for using transparent proxying in universal mode:
+In this mode, {{ Kuma }} requires the transparent proxy to be enabled, so it **cannot be turned off**.
 
- * Simpler Dataplane resource, as the `outbound` section becomes obsolete and can be skipped.
- * Universal service naming with `.mesh` [DNS domain](/docs/{{ page.version }}/networking/dns) instead of explicit outbound like `https://localhost:10001`.
- * Support for hostnames of your choice using [VirtualOutbounds](/docs/{{ page.version }}/policies/virtual-outbound) that lets you preserve existing service naming.
- * Better service manageability (security, tracing).
+### Adjusting Transparent Proxy Settings in Kubernetes Mode
 
-### Setting up the service host
+If the default settings don’t meet your needs, see the [Customizing Transparent Proxy Configuration in Kubernetes Mode]({{ docs }}{{ tproxy.paths.guides.customize-config.k8s }}#customizing-transparent-proxy-configuration-in-kubernetes-mode) guide. This guide explains different ways to change settings and when to use each one.
 
-Prerequisites:
-
-- `kuma-dp`, `envoy`, and `coredns` must run on the worker node -- that is, the node that runs your service mesh workload.
-- `coredns` must be in the PATH so that `kuma-dp` can access it.
-  - You can also set the location with the `--dns-coredns-path` flag to `kuma-dp`.
-
-{{site.mesh_product_name}} comes with [`kumactl` executable](/docs/{{ page.version }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
-The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
-
-{% if_version lte:2.4.x %}
-1. Use proper version of iptables
-
-   {{site.mesh_product_name}} [isn't yet compatible](https://github.com/kumahq/kuma/issues/8293) with `nf_tables`. You can check the version of iptables with the following command
-
-   ```sh
-   iptables --version
-   # iptables v1.8.7 (nf_tables)
-   ```
-
-   On the recent versions of Ubuntu, you need to change default `iptables`.
-
-   ```sh
-   update-alternatives --set iptables /usr/sbin/iptables-legacy
-   update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-   iptables --version
-   # iptables v1.8.7 (legacy)
-   ```
+{% if_version gte:2.9.x %}
+{{ tproxy-config-reference-info }}
 {% endif_version %}
 
-2. Create a new dedicated user on the machine.
+## Universal Mode
 
-   ```sh
-   useradd -u 5678 -U kuma-dp
-   ```
+Using the transparent proxy in [Universal mode]({{ docs }}/introduction/architecture/#universal-mode) makes setup easier and enables features that wouldn’t be possible otherwise. Key benefits include:
 
-3. Redirect all the relevant inbound, outbound and DNS traffic to the {{site.mesh_product_name}} data plane proxy (if you're running any other services on that machine you need to adjust the comma separated lists of `--exclude-inbound-ports` and `--exclude-outbound-ports` accordingly).
+- **Simplified `Dataplane` resources**: You can skip the `networking.outbound` section, so you don’t have to list each service your application connects to manually. Here’s an example without outbound entries:
 
-   ```sh
-   kumactl install transparent-proxy \
-     --kuma-dp-user kuma-dp \
-     --redirect-dns \
-     --exclude-inbound-ports 22
-   ```
+  ```yaml
+  type: Dataplane
+  name: {% raw %}{{ name }}{% endraw %}
+  networking:
+    address: {% raw %}{{ address }}{% endraw %}
+    inbound:
+    - port: {% raw %}{{ port }}{% endraw %}
+      tags:
+        kuma.io/service: demo-client 
+    transparentProxying:
+      redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
+      redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
+  ```
 
-{% warning %}
-Please note that this command **will change** the host's `iptables` rules.
+- **Easier service naming**: Use the `.mesh` [DNS domain]({{ docs }}/networking/dns/#dns) to connect to services, like `https://service-1.mesh`, without needing `localhost` and ports from the `Dataplane` resource.
 
-The command excludes port `22`, so you can SSH to the machine without `kuma-dp` running.
-{% endwarning %}
+- **Flexible service naming with [VirtualOutbound]({{ docs }}/policies/virtual-outbound) policy**: It lets you:
 
-The changes won't persist over restarts. You need to either add this command to your start scripts or use firewalld.
+  - Keep existing DNS names when moving to the service mesh.
+  - Assign multiple DNS names to a service for renaming or convenience.
+  - Create specific routes, like targeting individual StatefulSet Pods or service versions.
+  - Expose multiple inbounds for a service on different ports.
 
-### Data plane proxy resource
+- **Simpler security, tracing, and observability**: Transparent proxy makes managing these features easier, with no extra setup required.
 
-In transparent proxying mode, the `Dataplane` resource should omit the `networking.outbound` section and use `networking.transparentProxying` section instead.
+### Installing Transparent Proxy in Universal Mode
 
-```yaml
-type: Dataplane
-mesh: default
-name: {% raw %}{{ name }}{% endraw %}
-networking:
-  address: {% raw %}{{ address }}{% endraw %}
-  inbound:
-  - port: {% raw %}{{ port }}{% endraw %}
-    tags:
-      kuma.io/service: demo-client
-  transparentProxying:
-    redirectPortInbound: 15006
-    redirectPortOutbound: 15001
-```
+To learn how to integrate the Transparent Proxy with your existing services or to set up a service environment from scratch, follow the [Integrating Transparent Proxy into Your Service Environment]({{ docs }}/guides/integrating-transparent-proxy-into-your-service-environment/#integrating-transparent-proxy-into-your-service-environment) guide. This guide provides step-by-step instructions for both scenarios.
 
-The ports illustrated above are the default ones that `kumactl install transparent-proxy` will set. These can be changed using the relevant flags to that command.
+{% if_version gte:2.9.x %}
+### Adjusting Transparent Proxy Settings In Universal Mode
 
-### Invoking the {{site.mesh_product_name}} data plane
+If the default settings don’t meet your needs, see the [Customizing Transparent Proxy Configuration in Universal Mode]({{ docs }}{{ tproxy.paths.guides.customize-config.uni }}#customizing-transparent-proxy-configuration-in-universal-mode) guide. This guide explains different ways to change settings and when to use each one.
 
-{% warning %}
-It is important that the `kuma-dp` process runs with the same system user that was passed to `kumactl install transparent-proxy --kuma-dp-user`.
-The service itself should run with any other user than `kuma-dp`. Otherwise, it won't be able to leverage transparent proxying.
-{% endwarning %}
+{{ tproxy-config-reference-info }}
+{% endif_version %}
 
-When systemd is used, this can be done with an entry `User=kuma-dp` in the `[Service]` section of the service file.
+## Reachable Services
 
-When starting `kuma-dp` with a script or some other automation instead, we can use `runuser` with the aforementioned yaml resource as follows:
+When the transparent proxy is enabled, {{ Kuma }} automatically configures each data plane proxy to connect with every other data plane proxy in the same mesh. This setup ensures broad service-to-service communication but can create issues in large service meshes:
 
-```sh
-runuser -u kuma-dp -- \
-  /usr/bin/kuma-dp run \
-    --cp-address=https://<IP or hostname of CP>:5678 \
-    --dataplane-token-file=/kuma/token-demo \
-    --dataplane-file=/kuma/dpyaml-demo \
-    --dataplane-var name=dp-demo \
-    --dataplane-var address=<IP of VM> \
-    --dataplane-var port=<Port of the service>  \
-    --binary-path /usr/local/bin/envoy
-```
+- **Increased Memory Usage**: The configuration for each data plane proxy can consume significant memory as the mesh grows.
+- **Slower Propagation**: Even small configuration changes for one service must be propagated to all data planes, which can be slow and resource-intensive.
+- **Excessive Traffic**: Frequent updates generate additional traffic between the control plane and data plane proxies, especially when services are added or changed often.
 
-You can now reach the service on the same IP and port as before installing transparent proxy, but now the traffic goes through Envoy.
-At the same time, you can now connect to services using [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns).
+In real-world scenarios, services usually need to communicate only with a few other services rather than all services in the mesh. To address these challenges, {{ Kuma }} offers the **Reachable Services** feature, allowing you to define only the services that each proxy should connect to. Specifying reachable services helps reduce memory usage, improves configuration propagation speed, and minimizes unnecessary traffic.
 
-### firewalld support
-
-If you run `firewalld` to manage firewalls and wrap iptables, add the `--store-firewalld` flag to `kumactl install transparent-proxy`. This persists the relevant rules across host restarts. The changes are stored in `/etc/firewalld/direct.xml`. There is no uninstall command for this feature.
-
-### Upgrades
-
-Before upgrading to the next version of {{site.mesh_product_name}}, it's best to clean existing `iptables` rules and only then replace the `kumactl` binary.
-
-You can clean the rules either by restarting the host or by running following commands
-
-{% warning %}
-Executing these commands will remove all `iptables` rules, including those created by {{site.mesh_product_name}} and any other applications or services.
-{% endwarning %}
-
-```sh
-iptables --table nat --flush
-iptables --table raw --flush
-ip6tables --table nat --flush
-ip6tables --table raw --flush
-iptables --table nat --delete-chain
-iptables --table raw --delete-chain
-ip6tables --table nat --delete-chain
-ip6tables --table raw --delete-chain
-```
-
-In the future release, `kumactl` [will ship](https://github.com/kumahq/kuma/issues/8071) with `uninstall` command.
-
-## Configuration
-
-### Intercepted traffic
-
-{% tabs intercepted-traffic useUrlFragment=false %}
-{% tab intercepted-traffic Kubernetes %}
-
-By default, all the traffic is intercepted by Envoy. You can exclude which ports are intercepted by Envoy with the following annotations placed on the Pod
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: example-app
-  namespace: kuma-example
-spec:
-  ...
-  template:
-    metadata:
-      ...
-      annotations:
-        # all incoming connections on ports 1234 won't be intercepted by Envoy
-        traffic.kuma.io/exclude-inbound-ports: "1234"
-        # all outgoing connections on ports 5678, 8900 won't be intercepted by Envoy
-        traffic.kuma.io/exclude-outbound-ports: "5678,8900"
-    spec:
-      containers:
-        ...
-```  
-
-You can also control this value on whole {{site.mesh_product_name}} deployment with the following {{site.mesh_product_name}} CP [configuration](/docs/{{ page.version }}/documentation/configuration)
-
-```sh
-KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
-KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
-```
-
-{% endtab %}
-
-{% tab intercepted-traffic Universal %}
-By default, all ports are intercepted by the transparent proxy. This may prevent remote access to the host via SSH (port `22`) or other management tools when `kuma-dp` is not running.
-
-If you need to access the host directly, even when `kuma-dp` is not running, use the `--exclude-inbound-ports` flag with `kumactl install transparent-proxy` to specify a comma-separated list of ports to exclude from redirection.
-
-Run `kumactl install transparent-proxy --help` for all available options.
-{% endtab %}
-{% endtabs %}
-
-### Reachable Services
-
-By default, every data plane proxy in the mesh follows every other data plane proxy.
-This may lead to performance problems in larger deployments of the mesh.
-It is highly recommended to define a list of services that your service connects to.
+Here’s how to configure reachable services:
 
 {% tabs reachable-services useUrlFragment=false %}
 {% tab reachable-services Kubernetes %}
+Specify the list of reachable services in the `kuma.io/transparent-proxying-reachable-services` annotation, separating each service with a comma. Your workload configuration could look like this:
+
 ```yaml
 apiVersion: apps/v1
-kind: Deployment
+kind: Pod
 metadata:
-  name: example-app
-  namespace: kuma-example
-spec:
-  ...
-  template:
-    metadata:
-      ...
-      annotations:
-        # a comma separated list of kuma.io/service values
-        kuma.io/transparent-proxying-reachable-services: "redis_kuma-demo_svc_6379,elastic_kuma-demo_svc_9200"
-    spec:
-      containers:
-        ...
+  name: demo-client
+  annotations:
+    kuma.io/transparent-proxying-reachable-services: "redis_kuma-demo_svc_6379,elastic_kuma-demo_svc_9200"
+...
+```
+
+You can update your workload manifests manually or use a command like:
+
+```sh
+kumactl annotate pods example-app \
+  "kuma.io/transparent-proxying-reachable-services=redis_kuma-demo_svc_6379,elastic_kuma-demo_svc_9200"
 ```
 {% endtab %}
 {% tab reachable-services Universal %}
+To specify reachable services in your `Dataplane` resource, add them under the `networking.transparentProxying.reachableServices` path. Here’s an example:
+
 ```yaml
 type: Dataplane
 mesh: default
@@ -238,12 +121,12 @@ name: {% raw %}{{ name }}{% endraw %}
 networking:
   address: {% raw %}{{ address }}{% endraw %}
   inbound:
-  - port: {% raw %}{{ port }}{% endraw %}
-    tags:
-      kuma.io/service: demo-client
+    - port: {% raw %}{{ port }}{% endraw %}
+      tags:
+        kuma.io/service: demo-client
   transparentProxying:
-    redirectPortInbound: 15006
-    redirectPortOutbound: 15001
+    redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
+    redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
     reachableServices:
       - redis_kuma-demo_svc_6379
       - elastic_kuma-demo_svc_9200 
@@ -251,73 +134,74 @@ networking:
 {% endtab %}
 {% endtabs %}
 
-{% if_version gte:2.9.x %}
+This configuration ensures that `example-app` only connects to `redis_kuma-demo_svc_6379` and `elastic_kuma-demo_svc_9200`, reducing the overhead associated with managing connections to all services in the mesh.
 
-### Reachable Backends
+{% if_version gte:2.9.x %}
+## Reachable Backends
 
 {% warning %}
-This works only when [MeshService](/docs/{{ page.version }}/networking/meshservice) is enabled.
+This feature works only when [MeshService]({{ docs }}/networking/meshservice) is enabled.
 {% endwarning %}
 
-Reachable Backends provides similar functionality to [reachable services](/docs/{{ page.version }}/production/dp-config/transparent-proxying#reachable-services), but it applies to [MeshService](/docs/{{ page.version }}/networking/meshservice), [MeshExternalService](/docs/{{ page.version }}/networking/meshexternalservice), and [MeshMultiZoneService](/docs/{{ page.version }}/networking/meshmultizoneservice).
+Reachable Backends provides similar functionality to [Reachable Services](#reachable-services), but it applies to resources such as [MeshService]({{ docs }}/networking/meshservice), [MeshExternalService]({{ docs }}/networking/meshexternalservice), and [MeshMultiZoneService]({{ docs }}/networking/meshmultizoneservice).
 
-By default, every data plane proxy in the mesh tracks every other data plane proxy. Configuring reachableBackends can improve performance and reduce resource utilization.
+By default, each data plane proxy tracks all other data planes in the mesh, which can impact performance and use more resources. Configuring `reachableBackends` allows you to specify only the services your application actually needs to communicate with, improving efficiency.
 
-Unlike reachable services, the model for providing data in Reachable Backends is more structured.
+Unlike Reachable Services, Reachable Backends uses a structured model to define the resources.
 
-#### Model
+### Model
 
-- **refs**: A list of all resources your application wants to track and communicate with.
-  - **kind**: The type of resource. Possible values include:
-    - [**MeshService**](/docs/{{ page.version }}/networking/meshservice)
-    - [**MeshExternalService**](/docs/{{ page.version }}/networking/meshexternalservice)
+- **refs**: Lists the resources your application needs to connect with, including:
+  - **kind**: Type of resource. Options include:
+    - **MeshService**
+    - **MeshExternalService**
     - **MeshMultiZoneService**
-  - **name**: The name of the resource.
-  - **namespace**: (Kubernetes only) The namespace where the resource is located. When this is defined, the name is required. Only on kubernetes.
-  - **labels**: A list of labels to match on the resources (either `labels` or `name` can be defined).
-  - **port**: (Optional) The port of the service you want to communicate with. Works with `MeshService` and `MeshMultiZoneService`
+  - **name**: Name of the resource.
+  - **namespace**: (Kubernetes only) Namespace where the resource is located. Required if using `namespace`.
+  - **labels**: A list of labels to match resources. You can define either `labels` or `name`.
+  - **port**: (Optional) Port for the service, used with `MeshService` and `MeshMultiZoneService`.
 
 {% tabs reachable-backends-model useUrlFragment=false %}
 {% tab reachable-backends-model Kubernetes %}
-
 ```yaml
 apiVersion: apps/v1
-kind: Deployment
+kind: Pod
 metadata:
+  name: demo-client
+  namespace: kuma-demo
+  annotations:
+    kuma.io/reachable-backends: |
+      refs:
+      - kind: MeshService
+        name: redis
+        namespace: kuma-demo
+        port: 8080
+      - kind: MeshMultiZoneService
+        labels:
+          kuma.io/display-name: test-server
+      - kind: MeshExternalService
+        name: mes-http
+        namespace: kuma-system
 ...
-spec:
-  ...
-  template:
-    metadata:
-        kuma.io/reachable-backends: |
-          refs:
-          - kind: MeshService
-            name: redis
-            namespace: kuma-demo
-            port: 8080
-          - kind: MeshMulitZoneService
-            labels:
-              kuma.io/display-name: test-server
-          - kind: MeshExternalService
-            name: mes-http
-            namespace: kuma-system
 ```
 {% endtab %}
 {% tab reachable-backends-model Universal %}
 ```yaml
-type: Dataplane
-mesh: default
 name: {% raw %}{{ name }}{% endraw %}
 networking:
-  ...
+  address: {% raw %}{{ address }}{% endraw %}
+  inbound:
+    - port: {% raw %}{{ port }}{% endraw %}
+      tags:
+        kuma.io/service: demo-client
   transparentProxying:
-    redirectPortInbound: 15006
-    redirectPortOutbound: 15001
+    redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
+    redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
     reachableBackends:
       refs:
       - kind: MeshService
         name: redis
-      - kind: MeshMulitZoneService
+      - kind: MeshMultiZoneService
         labels:
           kuma.io/display-name: test-server
       - kind: MeshExternalService
@@ -326,33 +210,26 @@ networking:
 {% endtab %}
 {% endtabs %}
 
-#### Examples
+### Examples
 
-##### `demo-app` communicates only with `redis` on port 6379
+#### `demo-client` communicates only with `redis` on port 6379
 
 {% tabs reachable-backends useUrlFragment=false %}
 {% tab reachable-backends Kubernetes %}
 ```yaml
 apiVersion: apps/v1
-kind: Deployment
+kind: Pod
 metadata:
-  name: demo-app
+  name: demo-client
   namespace: kuma-demo
-spec:
-  ...
-  template:
-    metadata:
-      ...
-      annotations:
-        kuma.io/reachable-backends: |
-          refs:
-          - kind: MeshService
-            name: redis
-            namespace: kuma-demo
-            port: 6379
-    spec:
-      containers:
-        ...
+  annotations:
+    kuma.io/reachable-backends: |
+      refs:
+      - kind: MeshService
+        name: redis
+        namespace: kuma-demo
+        port: 6379
+...
 ```
 {% endtab %}
 {% tab reachable-backends Universal %}
@@ -365,10 +242,10 @@ networking:
   inbound:
   - port: {% raw %}{{ port }}{% endraw %}
     tags:
-      kuma.io/service: demo-app
+      kuma.io/service: demo-client
   transparentProxying:
-    redirectPortInbound: 15006
-    redirectPortOutbound: 15001
+    redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
+    redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
     reachableBackends:
       refs:
       - kind: MeshService
@@ -378,26 +255,19 @@ networking:
 {% endtab %}
 {% endtabs %}
 
-##### `demo-app` doesn't need to communicate with any service
+#### `demo-client` doesn’t need to communicate with any service
 
 {% tabs reachable-backends-no-services useUrlFragment=false %}
 {% tab reachable-backends-no-services Kubernetes %}
 ```yaml
 apiVersion: apps/v1
-kind: Deployment
+kind: Pod
 metadata:
-  name: demo-app
+  name: demo-client
   namespace: kuma-demo
-spec:
-  ...
-  template:
-    metadata:
-      ...
-      annotations:
-        kuma.io/reachable-backends: ""
-    spec:
-      containers:
-        ...
+  annotations:
+    kuma.io/reachable-backends: ""
+...
 ```
 {% endtab %}
 {% tab reachable-backends-no-services Universal %}
@@ -408,18 +278,18 @@ name: {% raw %}{{ name }}{% endraw %}
 networking:
   address: {% raw %}{{ address }}{% endraw %}
   inbound:
-  - port: {% raw %}{{ port }}{% endraw %}
-    tags:
-      kuma.io/service: demo-app
+    - port: {% raw %}{{ port }}{% endraw %}
+      tags:
+        kuma.io/service: demo-client
   transparentProxying:
-    redirectPortInbound: 15006
-    redirectPortOutbound: 15001
+    redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
+    redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
     reachableBackends: {}
 ```
 {% endtab %}
 {% endtabs %}
 
-##### `demo-app` wants to communicate with all MeshServices in `kuma-demo` namespace
+#### `demo-app` communicates with all MeshServices in the `kuma-demo` namespace
 
 {% tabs reachable-backends-in-namespace useUrlFragment=false %}
 {% tab reachable-backends-in-namespace Kubernetes %}
@@ -429,60 +299,65 @@ kind: Deployment
 metadata:
   name: demo-app
   namespace: kuma-demo
-spec:
-  ...
-  template:
-    metadata:
-      ...
-      annotations:
-        kuma.io/reachable-backends: |
-          refs:
-          - kind: MeshService
-            labels:
-              k8s.kuma.io/namespace: kuma-demo
-    spec:
-      containers:
-        ...
+  annotations:
+    kuma.io/reachable-backends: |
+      refs:
+      - kind: MeshService
+        labels:
+          k8s.kuma.io/namespace: kuma-demo
+...
 ```
 {% endtab %}
 {% endtabs %}
-
 {% endif_version %}
-### Transparent Proxy with eBPF (experimental)
 
-Starting from {{site.mesh_product_name}} 2.0 you can set up transparent proxy to use eBPF instead of iptables.
+### firewalld Support
+
+{% tip %}
+In **Kubernetes** mode, transparent proxy is automatically set up using the `kuma-init` container or [Kuma CNI]({{ docs }}/production/dp-config/cni/#configure-the-kuma-cni). Since the proxy is reinstalled each time your workload restarts, there is no need to persist it. This feature is specifically designed for **Universal** environments.
+{% endtip %}
+
+The changes made by running `kumactl install transparent-proxy` **will not persist** after a reboot. To ensure persistence, you can either add this command to your system's start-up scripts or leverage `firewalld` for managing `iptables`.
+
+If you prefer using `firewalld`, you can include the `--store-firewalld` flag when installing the transparent proxy. This will store the `iptables` rules in `/etc/firewalld/direct.xml`, ensuring they persist across system reboots. Here's an example:
+
+```sh
+kumactl install transparent-proxy --redirect-dns --store-firewalld
+```
 
 {% warning %}
-To use Transparent Proxy with eBPF your environment has to use `Kernel >= 5.7`
-and have `cgroup2` available
+**Important:** Currently, there is no uninstall command for this feature. If needed, you will have to manually clean up the `firewalld` configuration.
+{% endwarning %}
+
+{% if_version gte:2.0.x %}
+### Transparent Proxy with eBPF (experimental)
+
+Starting from {{ Kuma }} 2.0 you can set up transparent proxy to use eBPF instead of iptables.
+
+{% warning %}
+To use the transparent proxy with eBPF your environment has to use `Kernel >= 5.7` and have `cgroup2` available
 {% endwarning %}
 
 {% tabs ebpf useUrlFragment=false %}
 {% tab ebpf Kubernetes %}
-
 ```sh
 kumactl install control-plane \
-  --set "{{site.set_flag_values_prefix}}experimental.ebpf.enabled=true" | kubectl apply -f-
+  --set "{{ site.set_flag_values_prefix }}experimental.ebpf.enabled=true" \
+  | kubectl apply -f-
 ```
-
 {% endtab %}
 
 {% tab ebpf Universal %}
-
 ```sh
 kumactl install transparent-proxy \
-  --experimental-transparent-proxy-engine \
   --ebpf-enabled \
   --ebpf-instance-ip <IP_ADDRESS> \
   --ebpf-programs-source-path <PATH>
 ```
 
 {% tip %}
-If your environment contains more than one non-loopback network interface, and
-you want to specify explicitly which one should be used for transparent proxying
-you should provide it using `--ebpf-tc-attach-iface <IFACE_NAME>` flag, during
-transparent proxy installation.
+If your environment contains more than one non-loopback network interface, and you want to specify explicitly which one should be used for transparent proxying you should provide it using `--ebpf-tc-attach-iface <IFACE_NAME>` flag, during transparent proxy installation.
 {% endtip %}
-
 {% endtab %}
 {% endtabs %}
+{% endif_version %}

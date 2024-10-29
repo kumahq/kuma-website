@@ -1,0 +1,50 @@
+<h3 class="no-anchor">Other Configuration Options</h3>
+
+{% if_version gte: 2.9.x %}
+<table>
+  <thead>
+  <tr>
+    <th colspan="2" style="text-align: left">
+      <a href="/docs/{{ page.version }}{{ site.data.tproxy.paths.guides.customize-config.k8s }}#{{ site.data.tproxy.ids.guides.customize-config.k8s.methods.configmap }}">
+        <strong>Configuration in ConfigMap</strong>
+      </a>
+    </th>
+  </tr>
+  <tr>
+    <th style="text-align: left">Field</th>
+    <th style="text-align: left">Environment Variable</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for field in include.data %}
+    <tr>
+      <td><code>{{ field.path }}</code></td>
+      <td><code>{{ field.env }}</code></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif_version %}
+<table>
+  <thead>
+  <tr>
+    <th colspan="3" style="text-align: left">
+      <a href="/docs/{{ page.version }}{{ site.data.tproxy.paths.guides.customize-config.k8s }}#{{ site.data.tproxy.ids.guides.customize-config.k8s.methods.runtime }}">
+        <strong>Control Plane Runtime Configuration</strong>
+      </a>
+    </th>
+  </tr>
+  <tr>
+    <th style="text-align: left">Field</th>
+    <th style="text-align: left">Environment Variable</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for field in include.data %}
+    <tr>
+      <td><code>{{ field.runtime.path }}</code></td>
+      <td><code>{{ field.runtime.env }}</code></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>

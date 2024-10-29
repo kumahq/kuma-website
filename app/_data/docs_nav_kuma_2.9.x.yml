@@ -102,7 +102,7 @@ items:
             url: /production/dp-config/dpp-on-universal/
           - text: Configure the Kuma CNI
             url: /production/dp-config/cni/
-          - text: Configure transparent proxying
+          - text: Transparent Proxy
             url: /production/dp-config/transparent-proxying/
           - text: IPv6 support
             url: /production/dp-config/ipv6/
@@ -501,6 +501,16 @@ items:
         url: /guides/progressively-rolling-in-strict-mtls/
       - text: Producer and consumer policies
         url: /guides/consumer-producer-policies
+      - text: Excluding Traffic From Transparent Proxy
+        url: /guides/excluding-traffic-from-transparent-proxy-redirection/
+      - text: Integrating Transparent Proxy into Your Service Environment
+        url: /guides/integrating-transparent-proxy-into-your-service-environment/
+      - text: Upgrading Transparent Proxy
+        url: /guides/upgrading-transparent-proxy/
+      - text: Customizing Transparent Proxy Configuration In Universal Mode
+        url: /guides/customizing-transparent-proxy-configuration-in-universal-mode/
+      - text: Customizing Transparent Proxy Configuration In Kubernetes Mode
+        url: /guides/customizing-transparent-proxy-configuration-in-kubernetes-mode/
   - title: Reference
     group: true
     items:
@@ -514,6 +524,8 @@ items:
         url: /reference/kuma-cp
       - text: Envoy proxy template
         url: /reference/proxy-template/
+      - text: Transparent Proxy Configuration
+        url: /reference/transparent-proxy-configuration/
   - title: Community
     group: true
     items:
