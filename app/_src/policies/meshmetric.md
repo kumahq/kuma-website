@@ -32,9 +32,16 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
+{% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
+{% endif_version %}
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
@@ -44,9 +51,16 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 {% endtab %}
 
 {% tab targetRef Delegated Gateway %}
+{% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
+{% endif_version %}
 {% endtab %}
 
 {% endtabs %}
