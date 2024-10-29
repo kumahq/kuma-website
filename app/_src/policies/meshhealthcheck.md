@@ -27,10 +27,18 @@ This mode generates extra traffic to other proxies and services as described in 
 {% if_version gte:2.6.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
+{% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+{% endif_version %}
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
@@ -41,10 +49,18 @@ This mode generates extra traffic to other proxies and services as described in 
 {% endtab %}
 
 {% tab targetRef Delegated Gateway %}
+{% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+{% endif_version %}
 {% endtab %}
 
 {% endtabs %}
