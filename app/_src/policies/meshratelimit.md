@@ -25,10 +25,18 @@ Rate limiting supports an [ExternalService](/docs/{{ page.version }}/policies/ex
 {% if_version gte:2.6.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
+{% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `from[].targetRef.kind` | `Mesh`                                                   |
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`             | Allowed kinds                                            |
+| ----------------------- | -------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
+| `from[].targetRef.kind` | `Mesh`                                                   |
+{% endif_version %}
 {% endtab %}
 
 {% tab targetRef Builtin Gateway %}
