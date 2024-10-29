@@ -171,7 +171,7 @@ This label indicates the policy role. Possible values of this label are:
 With namespace scoped policies we've introduced a producer/consumer model for policies. 
 
 A **producer** is someone who authors and operates a service. A producer can create policies that will be applied by default to any communication with their services.
-Producer policies will be created in the same zone as `MeshService` they target. Producer policies will be synced to other zones. 
+Producer policies will be created in the same namespace as `MeshService` they target. Producer policies will be synced to other zones. 
 
 A **consumer** is the client of a service. Consumer policies will be applied in the consumer
 namespace and may target MeshService from different namespaces. Consumer policies take effect only in the consumer namespace.
