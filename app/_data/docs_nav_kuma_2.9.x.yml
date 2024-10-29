@@ -342,6 +342,15 @@ items:
             url: "/policies/meshhttproute/#examples"
           - text: Merging
             url: "/policies/meshhttproute/#merging"
+      - text: MeshLoadBalancingStrategy
+        url: /policies/meshloadbalancingstrategy/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshloadbalancingstrategy/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshloadbalancingstrategy/#configuration"
+          - text: Examples
+            url: "/policies/meshloadbalancingstrategy/#examples"
       - text: MeshMetric
         url: /policies/meshmetric/
         items:
@@ -355,6 +364,15 @@ items:
             url: "/policies/meshmetric/#opentelemetry"
           - text: Examples
             url: "/policies/meshmetric/#examples"
+      - text: MeshPassthrough
+        url: /policies/meshpassthrough/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshpassthrough/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshpassthrough/#configuration"
+          - text: Examples
+            url: "/policies/meshpassthrough/#examples"
       - text: MeshProxyPatch
         url: /policies/meshproxypatch/
         items:
@@ -404,6 +422,15 @@ items:
             url: "/policies/meshtimeout/#configuration"
           - text: Examples
             url: "/policies/meshtimeout/#examples"
+      - text: MeshTLS
+        url: /policies/meshtls/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtls/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtls/#configuration"
+          - text: Examples
+            url: "/policies/meshtls/#examples"
       - text: MeshTrace
         url: /policies/meshtrace/
         items:
@@ -422,33 +449,6 @@ items:
             url: "/policies/meshtrafficpermission/#configuration"
           - text: Examples
             url: "/policies/meshtrafficpermission/#examples"
-      - text: MeshLoadBalancingStrategy
-        url: /policies/meshloadbalancingstrategy/
-        items:
-          - text: TargetRef support matrix
-            url: "/policies/meshloadbalancingstrategy/#targetref-support-matrix"
-          - text: Configuration
-            url: "/policies/meshloadbalancingstrategy/#configuration"
-          - text: Examples
-            url: "/policies/meshloadbalancingstrategy/#examples"
-      - text: MeshPassthrough
-        url: /policies/meshpassthrough/
-        items:
-          - text: TargetRef support matrix
-            url: "/policies/meshpassthrough/#targetref-support-matrix"
-          - text: Configuration
-            url: "/policies/meshpassthrough/#configuration"
-          - text: Examples
-            url: "/policies/meshpassthrough/#examples"
-      - text: MeshTLS
-        url: /policies/meshtls/
-        items:
-          - text: TargetRef support matrix
-            url: "/policies/meshtls/#targetref-support-matrix"
-          - text: Configuration
-            url: "/policies/meshtls/#configuration"
-          - text: Examples
-            url: "/policies/meshtls/#examples"
       - title: Previous Policies
         group: true
         items:
