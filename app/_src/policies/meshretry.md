@@ -14,17 +14,19 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 {% if_version gte:2.4.x %}
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
-{% if_version gte:2.9.x %}
-| `targetRef`           | Allowed kinds                                            |
-| --------------------- | -------------------------------------------------------- |
-| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`             |
-{% endif_version %}
 {% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+{% endif_version %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`             |
 {% endif_version %}
 {% if_version lte:2.5.x %}
 | `targetRef.kind`    | top level | to  | from |
@@ -55,17 +57,19 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 
 {% if_version gte:2.6.x %}
 {% tab targetRef Delegated Gateway %}
-{% if_version gte:2.9.x %}
-| `targetRef`           | Allowed kinds                                            |
-| --------------------- | -------------------------------------------------------- |
-| `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
-| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`             |
-{% endif_version %}
 {% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+{% endif_version %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `MeshSubset` |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`             |
 {% endif_version %}
 {% endtab %}
 {% endif_version %}
