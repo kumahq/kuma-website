@@ -1,5 +1,5 @@
 ---
-title: Install single zone on Universal
+title: Install single-zone on Universal
 content_type: how-to
 ---
 
@@ -19,6 +19,7 @@ This directory contains binaries for `kuma-dp`, `kuma-cp`, `kumactl`, `envoy` an
 ```shell
 kuma-cp run
 ```
+4. To verify installation open [GUI](/docs/{{ page.version }}/production/gui) in your browser by navigating to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui)
 
 {% tip %}
 If you only need `kumactl` on macOS you can install it via `brew install kumactl`.
@@ -27,3 +28,4 @@ If you only need `kumactl` on macOS you can install it via `brew install kumactl
 
 ## Next steps
 * [Complete quickstart](/docs/{{ page.version }}/quickstart/universal-demo/) to install demo application and secure traffic
+* Read more about [single-zone setup](/docs/{{ page.version }}/production/deployment/single-zone/)

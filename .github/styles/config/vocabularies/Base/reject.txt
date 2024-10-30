@@ -2,8 +2,8 @@ control-plane
 controlplane
 data-plane
 dataplane
-multi-zone
 multizone
-single-zone
+multi\s+zone
 singlezone
+single\s+zone
 tls

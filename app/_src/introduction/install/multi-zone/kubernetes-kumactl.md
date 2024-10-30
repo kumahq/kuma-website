@@ -1,5 +1,5 @@
 ---
-title: Install multi zone on Kubernetes with kumactl
+title: Install multi-zone on Kubernetes with kumactl
 content_type: how-to
 ---
 
@@ -37,4 +37,4 @@ kumactl install control-plane \
 ```
 
 ## Next steps
-* TODO
+* Read more about [multi-zone setup](/docs/{{ page.version }}/production/deployment/multi-zone/)
