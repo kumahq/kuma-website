@@ -153,6 +153,7 @@ Syslog
 target[Rr]ef
 tbl
 tcpdump
+TCP
 TLS
 transcoder
 ttl
