@@ -210,11 +210,11 @@ mesh: default
 spec:
   targetRef:
     kind: MeshService
-    name: frontend_kuma-demo_svc_8080
+    name: frontend
   to:
     - targetRef:
         kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        name: backend
       rules:
         - matches:
             - path:
@@ -223,12 +223,12 @@ spec:
           default:
             backendRefs:
               - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
+                name: backend
                 tags:
                   version: "v0"
                 weight: 90
               - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
+                name: backend
                 tags:
                   version: "v1"
                 weight: 10
@@ -242,11 +242,11 @@ mesh: default
 spec:
   targetRef:
     kind: MeshService
-    name: frontend_kuma-demo_svc_8080
+    name: frontend
   to:
     - targetRef:
         kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        name: backend
       rules:
         - matches:
             - path:
@@ -255,12 +255,12 @@ spec:
           default:
             backendRefs:
               - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
+                name: backend
                 tags:
                   version: "v0"
                 weight: 90
               - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
+                name: backend
                 tags:
                   version: "v1"
                 weight: 10
@@ -326,52 +326,23 @@ Here is an example of a `MeshHTTPRoute` that adds `x-custom-header` with value `
 when `frontend_kuma-demo_svc_8080` tries to consume `backend_kuma-demo_svc_3001`.
 
 {% if_version lte:2.8.x %}
-{% tabs modifications useUrlFragment=false %}
-{% tab modifications Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshHTTPRoute
-metadata:
-  name: http-route-1
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend_kuma-demo_svc_3001
-      rules:
-        - matches:
-            - path:
-                type: Exact
-                value: /
-          default:
-            filters:
-              - type: RequestHeaderModifier
-                requestHeaderModifier:
-                  set:
-                    - name: x-custom-header
-                      value: xyz
-```
-{% endtab %}
-{% tab modifications Universal %}
+{% policy_yaml traffic-modification-28x %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: frontend_kuma-demo_svc_8080
+    kind: MeshSubset
+    tags:
+      app: frontend
   to:
     - targetRef:
         kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
       rules:
         - matches:
             - path:
@@ -385,8 +356,7 @@ spec:
                     - name: x-custom-header
                       value: xyz
 ```
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
@@ -445,7 +415,10 @@ spec:
   to:
     - targetRef:
         kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
       rules:
         - matches:
             - headers:
@@ -458,14 +431,14 @@ spec:
                 requestMirror:
                   percentage: 30
                   backendRef:
-                    kind: MeshServiceSubset
-                    name: backend_kuma-demo_svc_3001
+                    kind: MeshSubset
                     tags:
+                      app: backend
                       version: v1_experimental
             backendRefs:
-              - kind: MeshServiceSubset
-                name: backend_kuma-demo_svc_3001
+              - kind: MeshSubset
                 tags:
+                  app: backend
                   version: v0
 ```
 {% endpolicy_yaml %}

@@ -246,8 +246,9 @@ name: inbound-timeout
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   from:
     - targetRef:
         kind: Mesh
