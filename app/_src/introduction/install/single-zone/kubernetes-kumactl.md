@@ -28,4 +28,4 @@ Open [GUI](/docs/{{ page.version }}/production/gui) in your browser by navigatin
 ## Next steps
 * [Complete quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to install demo application and secure traffic
 * Read more about [single-zone setup](/docs/{{ page.version }}/production/deployment/single-zone/)
-* [Federate](/docs/{{ page.version }}/guides/federate) zone into a multi zone deployment
+* [Federate](/docs/{{ page.version }}/guides/federate) zone into a multi-zone deployment

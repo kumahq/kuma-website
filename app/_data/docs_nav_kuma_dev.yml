@@ -24,7 +24,7 @@ items:
         items:
           - text: Overview
             url: "/introduction/install/overview"
-          - title: Single zone
+          - title: Single-zone
             group: true
             items:
               - text: Kubernetes with Helm
@@ -33,7 +33,7 @@ items:
                 url: "/introduction/install/single-zone/kubernetes-kumactl"
               - text: Universal
                 url: "/introduction/install/single-zone/universal"
-          - title: Multi zone
+          - title: Multi-zone
             group: true
             items:
               - text: Kubernetes with Helm
