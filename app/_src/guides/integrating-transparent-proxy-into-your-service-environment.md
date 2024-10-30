@@ -10,13 +10,13 @@ title: Integrating Transparent Proxy into Your Service Environment
 This guide is intended for **Universal** deployments, where {{ Kuma }} must be configured manually for each environment. In **Kubernetes** environments, the transparent proxy is automatically installed through the [`kuma-init` container]({{ docs }}/production/dp-config/dpp-on-kubernetes/) or the [Kuma CNI]({{ docs }}/production/dp-config/cni/#configure-the-kuma-cni), so the instructions below are not applicable.
 {% endtip %}
 
-This guide provides a step-by-step walkthrough on integrating a transparent proxy into your service environment using {{ Kuma }}. Transparent proxy simplifies service management and traffic routing within a mesh, ensuring that all traffic flows through the designated data plane proxy without requiring changes to your application code.
+This guide provides a step-by-step walk-through on integrating a transparent proxy into your service environment using {{ Kuma }}. Transparent proxy simplifies service management and traffic routing within a mesh, ensuring that all traffic flows through the designated data plane proxy without requiring changes to your application code.
 
 By the end of this guide, your service will be running under a transparent proxy, allowing you to leverage {{ Kuma }}'s advanced service management features, such as traffic control, observability, and security.
 
 Make sure to review the key assumptions and information outlined in the guide before proceeding with the installation. Adjust the parameters as needed to match your environment's specific details, such as IP addresses, custom ports, and DNS configurations.
 
-## Terminology Overview
+## Terminology overview
 
 - **Service**: In this guide, **service** refers to an application running in the environment where the transparent proxy is deployed. An exception is when we refer to [systemd](https://systemd.io/) services; in these cases, **service** specifically means a [systemd service unit](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html).
 
@@ -57,19 +57,19 @@ Omitting the `VERSION` variable will install the latest version.
 {% endtip %}
 {% endcapture -%}
 
-1. **Control Plane Deployment and Network Accessibility**: Ensure {{ Kuma }}'s Control Plane is already deployed and accessible from the service via an IP address or DNS name. Adapt the steps below to reflect the correct address for your setup.
+1. **Control plane deployment and network accessibility**: Ensure {{ Kuma }}'s Control Plane is already deployed and accessible from the service via an IP address or DNS name. Adapt the steps below to reflect the correct address for your setup.
 
    {{ control-plane-and-service-network-accessibility-warning | indent }}
 
    {{ control-plane-and-service-network-accessibility-tip | indent }}
 
-2. **Mesh Service Reachability**: Ensure the environment with the transparent proxy and service is reachable by other services in the mesh via IP or DNS. Adjust the setup steps to match the appropriate address where the service is accessible.
+2. **Service accessibility**: Ensure the environment with the transparent proxy and service is reachable by other services in the mesh via IP or DNS. Adjust the setup steps to match the appropriate address where the service is accessible.
 
-3. **Data Plane Proxy Token**: Place the data plane proxy token at **`/kuma/example-server-token`** (or adjust the steps if stored elsewhere).
+3. **Data plane proxy token**: Place the data plane proxy token at **`/kuma/example-server-token`** (or adjust the steps if stored elsewhere).
 
    {{ data-plane-proxy-token-tip | indent }}
 
-4. **Binary Availability**: Ensure `kuma-dp`, `envoy`, and `coredns` binaries are accessible in `/usr/local/bin/`, and `kumactl` is in the system’s `PATH`. Adjust any subsequent commands if the binaries are located elsewhere.
+4. **Binary availability**: Ensure `kuma-dp`, `envoy`, and `coredns` binaries are accessible in `/usr/local/bin/`, and `kumactl` is in the system’s `PATH`. Adjust any subsequent commands if the binaries are located elsewhere.
 
    {{ binary-availability-tip | indent }}
 
@@ -107,8 +107,10 @@ useradd -u {{ tproxy.defaults.kuma-dp.username }} -U {{ tproxy.defaults.kuma-dp.
 In some Linux distributions, the `useradd` command may not be available. In such cases, follow the specific guidelines for your system to manually create a user with a `UID` of `{{ tproxy.defaults.kuma-dp.uid }}` and the username `{{ tproxy.defaults.kuma-dp.username }}`.
 {% endwarning %}
 
-## Step {% inc step_number %}: Prepare the Dataplane Resource
+<!-- vale Google.Headings = NO -->
+## Step {% inc step_number %}: Prepare Dataplane resource
 {:#{{ tproxy.ids.guides.integrate-tproxy.steps.prepare-dp }}}
+<!-- vale Google.Headings = YES -->
 
 In transparent proxy mode, configure your `Dataplane` resource without the `networking.outbound` section. Instead, use `networking.transparentProxying` for handling traffic redirection. Here’s an example:
 
@@ -147,7 +149,7 @@ networking:
     redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
 ```
 
-### Redirect Ports
+### Redirect ports
 
 In this example, `{{ tproxy.defaults.redirect.inbound.port }}` and `{{ tproxy.defaults.redirect.outbound.port }}` are the default ports for inbound and outbound traffic redirection. {% if_version lte:2.8.x %}You can adjust these ports by specifying different values during installation via flags.{% endif_version %}{% if_version gte:2.9.x %}You can change these ports in the transparent proxy configuration during installation (`redirect.inbound.port` and `redirect.outbound.port`). For more details, see the [Transparent Proxy Configuration Reference]({{ docs }}{{ tproxy.paths.reference.configs.tproxy }}#transparent-proxy-configuration).{% endif_version %}
 
@@ -155,17 +157,17 @@ In this example, `{{ tproxy.defaults.redirect.inbound.port }}` and `{{ tproxy.de
 **Important:** If you use different ports, be sure to update all related configurations and steps to match the new values.
 {% endwarning %}
 
-### Using Variables in Your Configuration
+### Using variables in your configuration
 
 The placeholders `{% raw %}{{ name }}{% endraw %}`, `{% raw %}{{ address }}{% endraw %}`, and `{% raw %}{{ port }}{% endraw %}` are [Mustache templates](http://mustache.github.io/mustache.5.html), which will be dynamically filled using values passed via `--dataplane-var` CLI flags in a later step.
 
-In practice, if these values are static, you can simply hardcode them in your configuration. This feature is designed to allow more flexible and reusable resources, making it easier to dynamically adjust values when starting `kuma-dp`.
+In practice, if these values are static, you can simply hard-code them in your configuration. This feature is designed to allow more flexible and reusable resources, making it easier to dynamically adjust values when starting `kuma-dp`.
 
-### More Resources
+### More resources
 
 For additional information on setting up the `Dataplane` resource, refer to the [Data Plane on Universal]({{ docs }}/production/dp-config/dpp-on-universal/#data-plane-on-universal) documentation.
 
-## Step {% inc step_number %}: Start the Service
+## Step {% inc step_number %}: Start service
 {:#{{ tproxy.ids.guides.integrate-tproxy.steps.start-service }}}
 
 The service can be started in various ways depending on your environment and requirements. To keep this guide simple, we’ll use Python 3’s built-in HTTP server. This server will listen on port `8080`, with both [STDOUT](https://en.wikipedia.org/wiki/Standard_streams#Standard_output_(stdout)) and [STDERR](https://en.wikipedia.org/wiki/Standard_streams#Standard_error_(stderr)) redirected to a `service.log` file in the current directory, running in the background.
@@ -209,7 +211,7 @@ runuser -u {{ tproxy.defaults.kuma-dp.username }} -- \
 
 This command runs `kuma-dp` under the `{{ tproxy.defaults.kuma-dp.username }}` user, connects it to the control plane, and configures it with the necessary settings for the example server. Adjust the paths and values as needed for your specific setup.
 
-## Step {% inc step_number %}: Install the Transparent Proxy
+## Step {% inc step_number %}: Install transparent proxy
 {:#{{ tproxy.ids.guides.integrate-tproxy.steps.install-tproxy }}}
 
 Before proceeding with this step, please keep the following in mind:
@@ -301,7 +303,7 @@ This will result in the following:
 
   {% capture resolv-conf-tip %}
   {% tip %}
-  `{{ tproxy.defaults.resolv.conf.path }}` {% if_version lte:2.8.x %}is the static value and **cannot be changed** in {{ Kuma }} versions prior to 2.9. It {% endif_version %}is the file used by default to parse DNS servers for redirecting DNS traffic through the transparent proxy. This file is relevant only if you opt to redirect DNS traffic specifically to the DNS servers listed within it (e.g., by using the `--redirect-dns` flag during installation). If you're redirecting **all** DNS traffic (e.g., by using the `--redirect-all-dns-traffic` flag), this path becomes irrelevant.
+  `{{ tproxy.defaults.resolv.conf.path }}` {% if_version lte:2.8.x %}is the static value and **cannot be changed** in {{ Kuma }} versions prior to 2.9. It {% endif_version %}is the file used by default to parse DNS servers for redirecting DNS traffic through the transparent proxy. This file is relevant only if you opt to redirect DNS traffic specifically to the DNS servers listed within it (for example, by using the `--redirect-dns` flag during installation). If you're redirecting **all** DNS traffic (for example, by using the `--redirect-all-dns-traffic` flag), this path becomes irrelevant.
 
   {% if_version gte:2.9.x %}
   **We strongly recommend against** changing this path. However, if your environment uses a different file to specify DNS servers (which must follow the same format as `{{ tproxy.defaults.resolv.conf.path }}`), you can adjust it by modifying the `redirect.dns.resolvConfigPath` setting during installation. This can be done, for example, using the `KUMA_TRANSPARENT_PROXY_REDIRECT_DNS_RESOLV_CONFIG_PATH` environment variable.
@@ -310,16 +312,16 @@ This will result in the following:
   {% endcapture %}
   {{ resolv-conf-tip | indent }}
 
-## Additional Resources
+## Additional resources
 
-- **Excluding Traffic from Transparent Proxy Redirection**: If you need to prevent certain services or specific types of traffic from being routed through `kuma-dp`, you can fine-tune the transparent proxy configuration to exclude them. For more information, refer to the [Excluding Traffic From Transparent Proxy Redirection]({{ docs }}{{ tproxy.paths.guides.exclude-traffic }}#excluding-traffic-from-transparent-proxy) guide.
+- **Excluding traffic from transparent proxy redirection**: If you need to prevent certain services or specific types of traffic from being routed through `kuma-dp`, you can fine-tune the transparent proxy configuration to exclude them. For more information, refer to the [Excluding Traffic From Transparent Proxy Redirection]({{ docs }}{{ tproxy.paths.guides.exclude-traffic }}#excluding-traffic-from-transparent-proxy) guide.
 
 {% if_version gte:2.9.x %}
-- **Customizing Transparent Proxy Configuration**: For detailed instructions on customizing the transparent proxy configuration, see the [Configure Transparent Proxying]({{ docs }}/production/dp-config/transparent-proxying/#transparent-proxy) documentation.
+- **Customizing transparent proxy configuration**: For detailed instructions on customizing the transparent proxy configuration, see the [Configure transparent proxying]({{ docs }}/production/dp-config/transparent-proxying/#transparent-proxy) documentation.
 {% endif_version %}
 
-- **Upgrading Transparent Proxy**: If you need to upgrade your transparent proxy, refer to the [Upgrading Transparent Proxy]({{ docs }}/guides/upgrading-transparent-proxy/#upgrading-transparent-proxy) guide for the necessary steps and best practices.
+- **Upgrading transparent proxy**: If you need to upgrade your transparent proxy, refer to the [Upgrading Transparent Proxy]({{ docs }}/guides/upgrading-transparent-proxy/#upgrading-transparent-proxy) guide for the necessary steps and best practices.
 
 {% if_version gte:2.9.x %}
-- **Configuration Reference**: For detailed information on transparent proxy settings, check the [Transparent Proxy Configuration Reference]({{ docs }}{{ tproxy.paths.reference.configs.tproxy }}).
+- **Configuration reference**: For detailed information on transparent proxy settings, check the [Transparent Proxy Configuration Reference]({{ docs }}{{ tproxy.paths.reference.configs.tproxy }}).
 {% endif_version %}

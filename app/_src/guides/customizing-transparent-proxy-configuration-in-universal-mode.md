@@ -17,7 +17,7 @@ title: Customizing Transparent Proxy Configuration in Universal Mode
 
 The default transparent proxy configuration works well for most scenarios, but there are cases where adjustments are needed. This guide explains the various methods available for modifying the configuration, along with their limitations and recommendations on when to use each one.
 
-## Configuration Reference
+## Configuration reference
 
 {{ Kuma }} uses a unified configuration structure for transparent proxy across all components. For a detailed breakdown of this structure, including examples, expected formats, and variations between configuration methods, refer to the [Full Reference]({{ ref-section-full }}) section in the [Transparent Proxy Configuration Reference]({{ ref }}).
 
@@ -30,7 +30,7 @@ If you're only interested in specific parts of the reference, here are links to 
 | [**CLI&nbsp;Flags**]({{ ref-section-cli }})             | A configuration structure showing fields and their corresponding CLI flags.             |
 | [**Default&nbsp;Values**]({{ ref-section-default }})    | A structure displaying only the fields with their default values.                       |
 
-## Methods of Customizing the Configuration
+## Methods of customizing the configuration
 
 In Universal environments, {{ Kuma }} provides three ways to adjust the transparent proxy configuration. Each method can be used on its own or combined with others if needed.
 
@@ -40,8 +40,10 @@ It’s best to stick to one method whenever possible. Using more than one can ma
 
 Here are the methods, listed by precedence, from lowest to highest. 
 
-### Method 1: YAML or JSON Configuration
+<!-- vale Google.Headings = NO -->
+### Method 1: YAML or JSON configuration
 {:#{{ tproxy.ids.guides.customize-config.uni.methods.yaml-json }}}
+<!-- vale Google.Headings = YES -->
 
 You can provide the configuration in either `YAML` or `JSON` format by using the `--config` or `--config-file` flags.
 
@@ -97,7 +99,7 @@ Below are examples of using these flags in different ways:
    " | kumactl install transparent-proxy --config-file -
    ```
 
-### Method 2: Using Environment Variables
+### Method 2: Using environment variables
 {:#{{ tproxy.ids.guides.customize-config.uni.methods.env }}}
 
 You can customize configuration settings by using environment variables. For example:
@@ -110,7 +112,7 @@ KUMA_TRANSPARENT_PROXY_IP_FAMILY_MODE="ipv4" kumactl install transparent-proxy
 To see all available environment variables, visit the [Environment Variables]({{ ref-section-env }}) section in the [Transparent Proxy Configuration Reference]({{ ref }}).
 {% endtip %}
 
-### Method 3: CLI Flags
+### Method 3: CLI flags
 {:#{{ tproxy.ids.guides.customize-config.uni.methods.cli }}}
 
 Most configuration values can also be specified directly through CLI flags. For example:
@@ -136,7 +138,7 @@ The following settings cannot be modified directly via CLI flags (corresponding 
 To see all available CLI flags, visit the [CLI Flags]({{ ref-section-cli }}) section in the [Transparent Proxy Configuration Reference]({{ ref }}).
 {% endtip %}
 
-## Order of Precedence
+## Order of precedence
 
 1. **Default Values**
 2. **Values from** `--config` / `--config-file` **flags**

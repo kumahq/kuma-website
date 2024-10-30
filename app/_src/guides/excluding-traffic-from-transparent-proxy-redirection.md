@@ -21,12 +21,12 @@ title: Excluding Traffic from Transparent Proxy
 
 This guide will show you how to exclude specific types of traffic from being redirected by the transparent proxy. It includes instructions for both **Universal** and **Kubernetes** modes and covers different types of traffic you might want to exclude, such as:
 
-- [Exclude Traffic on Certain Ports (Incoming & Outgoing)](#exclude-traffic-on-certain-ports)
-- [Exclude Traffic to and from Specific IP Addresses](#exclude-traffic-to-and-from-specific-ip-addresses)
+- [Exclude traffic on certain ports (incoming & outgoing)](#exclude-traffic-on-certain-ports)
+- [Exclude traffic to and from specific IP addresses](#exclude-traffic-to-and-from-specific-ip-addresses)
 
 Use this guide to control which traffic the transparent proxy intercepts and which it allows through directly.
 
-## Key Information
+## Key information
 
 - This guide shows how to set up the transparent proxy to exclude certain types of traffic from redirection for selected workloads. We’ll cover some methods for both Kubernetes and Universal modes, but **not all possible scenarios are explained in detail**. For more information on options briefly mentioned here, check out:
 
@@ -40,7 +40,7 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 - Right now, the recommended way to adjust transparent proxy settings (and the one mostly shown in this guide) is with [Kubernetes Annotations]({{ path-method-k8s-annotations }}), since the [{{ configuration-in-configmap }}]({{ path-method-k8s-configmap }}) option is still experimental. Once it’s stable, it will become the suggested method.
 {%- endif_version %}
 
-## Terminology Overview
+## Terminology overview
 
 - **Workload**: In this guide, **workload** refers to an application running in a Kubernetes cluster, usually represented by a [**Pod**](https://kubernetes.io/docs/concepts/workloads/pods/). Kubernetes resources like [**Deployment**](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/), [**ReplicaSet**](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/), and [**StatefulSet**](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) are used to define and manage these workloads, resulting in one or more **Pods** where the application actually runs.
 
@@ -50,14 +50,16 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 
 ## Prerequisites
 
-1. **Understand Transparent Proxy Basics**: You should already be familiar with what a transparent proxy is, how to install it, and how to adjust its settings. This guide won’t cover those basics. The following resources can help:
+1. **Understand transparent proxy basics**: You should already be familiar with what a transparent proxy is, how to install it, and how to adjust its settings. This guide won’t cover those basics. The following resources can help:
 
    - For options to customize transparent proxy settings, check the resources listed in the [Key Information](#key-information) section.
+<!-- vale Vale.Terms = NO -->
    - For an in-depth look at how the transparent proxy works in {{ Kuma }} and its mechanisms, see the [Transparent Proxying]({{ docs }}/networking/transparent-proxying/) documentation.
+<!-- vale Vale.Terms = YES -->
    - To install the transparent proxy in Universal mode, refer to [Integrating Transparent Proxy into Your Service Environment]({{ path-integrating-tproxy-title }}).
    - For upgrade steps, see [Upgrading Transparent Proxy]({{ docs }}/guides/upgrading-transparent-proxy).
 
-2. **Set Up {{ Kuma }}**: Ensure {{ Kuma }} is installed and running.
+2. **Set up {{ Kuma }}**: Ensure {{ Kuma }} is installed and running.
 
    {% capture prerequisites-setup-kuma %}
    {% tabs prerequisites-setup-kuma %}
@@ -77,7 +79,7 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
     {% endcapture %}
     {{ prerequisites-setup-kuma | indent }}
 
-## Exclude Traffic on Certain Ports
+## Exclude traffic on certain ports
 
 This example shows how to exclude incoming traffic on port `1234` and outgoing traffic on ports `5678` and `8900`.
 
@@ -121,7 +123,7 @@ redirect:
 " | kumactl install transparent-proxy --config-file -
 ```
 
-### Other Configuration Options
+### Other configuration options
 {:.no-anchor#excluding-incoming-traffic-to-specific-ports-universal-other-options}
 
 [**Environment Variables**]({{ path-method-uni-env }})
@@ -153,7 +155,7 @@ kumactl install transparent-proxy \
 {% endtab %}
 {% endtabs %}
 
-## Exclude Traffic to and from Specific IP Addresses
+## Exclude traffic to and from specific IP addresses
 
 This example shows how to exclude incoming traffic coming from addresses in range `10.0.0.0/8` and outgoing traffic directed to address `192.168.10.1` or addresses in range `fd10::/16`.
 
@@ -196,7 +198,7 @@ redirect:
 " | kumactl install transparent-proxy --config-file -
 ```
 
-### Other Configuration Options
+### Other configuration options
 {:.no-anchor#exclude-traffic-to-and-from-specific-ip-addresses-universal-other-options}
 
 [**Environment Variables**]({{ path-method-uni-env }})

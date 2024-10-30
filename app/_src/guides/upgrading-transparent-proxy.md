@@ -11,7 +11,7 @@ In **Kubernetes** mode, transparent proxy automatically updates with the {{ Kuma
 
 The core `iptables` rules applied by {{ Kuma }}'s transparent proxy rarely change, but occasionally new features may require updates. To upgrade the transparent proxy on Universal environments, follow these steps:
 
-### Step 1: Cleanup Existing iptables Rules {% if_version gte:2.9.x inline:true %} (conditional){% endif_version %}
+### Step 1: Cleanup existing iptables rules {% if_version gte:2.9.x inline:true %} (conditional){% endif_version %}
 
 {% if_version gte:2.9.x %}
 {% warning %}
@@ -55,7 +55,7 @@ kumactl uninstall transparent-proxy
 {% endtip %}
 {% endif_version %}
 
-### Step 2: Install the New Transparent Proxy
+### Step 2: Install new transparent proxy
 
 After clearing the `iptables` rules{% if_version gte:2.9.x %} (if necessary){% endif_version %}, reinstall the transparent proxy by running:
 

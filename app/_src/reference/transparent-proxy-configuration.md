@@ -10,7 +10,7 @@ title: Transparent Proxy Configuration
 
 During transparent proxy installation {{ Kuma }} under the hood is using a common structure, which can be modified in multiple different ways. By modifying it you are able to for example exclude some ports or IPs from transparent proxy redirection, configure if it should handle both IPv4 and IPv6 or just IPv4 traffic and more.
 
-## Simplified Reference
+## Simplified reference
 
 This section provides a simplified version of the [Full Reference](#{{ tproxy.ids.reference.configs.tproxy.full }}). It's useful when you want to view the entire configuration in context without diving into the specifics of each individual setting.
 
@@ -126,9 +126,9 @@ verbose: bool
 **Custom Types**
 
 - `Port` - uint16 value greater than `0`
-- `Duration` - string representation of time duration, i.e. `"10s"`, `"20m"`, `"1h"` etc.
+- `Duration` - string representation of time duration, that is `"10s"`, `"20m"`, `"1h"` etc.
 
-### Environment Variables
+### Environment variables
 {:#{{ tproxy.ids.reference.configs.tproxy.env }}}
 
 The following structure lists the settings along with their corresponding environment variables for customization:
@@ -187,7 +187,7 @@ dryRun: KUMA_TRANSPARENT_PROXY_DRY_RUN
 verbose: KUMA_TRANSPARENT_PROXY_VERBOSE
 ```
 
-### CLI Flags
+### CLI flags
 {:#{{ tproxy.ids.reference.configs.tproxy.cli }}}
 
 This structure outlines the settings and their associated CLI flags for modification:
@@ -246,7 +246,7 @@ dryRun: --dry-run
 verbose: --verbose
 ```
 
-### Default Values
+### Default values
 {:#{{ tproxy.ids.reference.configs.tproxy.default }}}
 
 Here is a configuration that only shows the settings with their default values:
@@ -275,7 +275,7 @@ log:
 wait: 5
 ```
 
-## Full Reference
+## Full reference
 {:#{{ tproxy.ids.reference.configs.tproxy.full }}}
 
 - **`kumaDPUser`**
@@ -518,7 +518,7 @@ wait: 5
 
     Disables conntrack zone splitting, which can prevent potential DNS issues
 
-    **Details**: The conntrack zone splitting feature is used to avoid DNS resolution errors when applications make numerous DNS UDP requests. Normally, we separate conntrack zones to ensure proper handling of DNS traffic: Zone 2 handles DNS packets between the application and the local proxy, while Zone 1 manages packets between the proxy and upstream DNS resolvers. Disabling this feature should only be done if necessary, for example, in environments where custom iptables rules are already manipulating DNS traffic (e.g., inside Docker containers in custom networks when redirecting all DNS traffic \[`redirect.dns.captureAll` is enabled\])
+    **Details**: The conntrack zone splitting feature is used to avoid DNS resolution errors when applications make numerous DNS UDP requests. Normally, we separate conntrack zones to ensure proper handling of DNS traffic: Zone 2 handles DNS packets between the application and the local proxy, while Zone 1 manages packets between the proxy and upstream DNS resolvers. Disabling this feature should only be done if necessary, for example, in environments where custom iptables rules are already manipulating DNS traffic (for example, inside Docker containers in custom networks when redirecting all DNS traffic \[`redirect.dns.captureAll` is enabled\])
 
     {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--skip-dns-conntrack-zone-split" env="REDIRECT_DNS_SKIP_CONNTRACK_ZONE_SPLIT" %}
 
@@ -634,7 +634,7 @@ wait: 5
 
   {% capture warning %}
   {%- warning -%}
-  You must provide all three executables for each IP version you want to customize (IPv4 or IPv6), meaning if you configure one for IPv6 (e.g., `ip6tables`), you must also specify `ip6tables-save` and `ip6tables-restore`. Partial configurations for either IPv4 or IPv6 are not allowed.
+  You must provide all three executables for each IP version you want to customize (IPv4 or IPv6), meaning if you configure one for IPv6 (for example, `ip6tables`), you must also specify `ip6tables-save` and `ip6tables-restore`. Partial configurations for either IPv4 or IPv6 are not allowed.
   {%- endwarning -%}
   {% endcapture %}
   {{ warning | indent }}

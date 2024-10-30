@@ -16,10 +16,12 @@ A transparent proxy is a server that intercepts network traffic going to and fro
 {{ Kuma }} uses [iptables](https://linux.die.net/man/8/iptables){% if_version gte:2.0.x inline: true%} and also has experimental support for [`eBPF`](#transparent-proxy-with-ebpf-experimental){% endif_version %} to make this possible.
 
 {% tip %}
+<!-- vale Vale.Terms = NO -->
 For a closer look at how the transparent proxy works in {{ Kuma }}, visit the [Transparent Proxying]({{ docs }}/networking/transparent-proxying/#transparent-proxying) page in our Service Discovery & Networking documentation.
+<!-- vale Vale.Terms = YES -->
 {% endtip %}
 
-## Kubernetes Mode
+## Kubernetes mode
 
 In [Kubernetes mode]({{ docs }}/introduction/architecture/#kubernetes-mode), the transparent proxy is automatically set up through the `kuma-init` container or [Kuma CNI]({{ docs }}/production/dp-config/cni/#configure-the-kuma-cni). By default, it intercepts all incoming and outgoing traffic and routes it through the `kuma-dp` sidecar container, so no changes to the application code are needed.
 
@@ -27,7 +29,7 @@ In [Kubernetes mode]({{ docs }}/introduction/architecture/#kubernetes-mode), the
 
 In this mode, {{ Kuma }} requires the transparent proxy to be enabled, so it **cannot be turned off**.
 
-### Adjusting Transparent Proxy Settings in Kubernetes Mode
+### Adjusting transparent proxy settings in Kubernetes mode
 
 If the default settings don’t meet your needs, see the [Customizing Transparent Proxy Configuration in Kubernetes Mode]({{ docs }}{{ tproxy.paths.guides.customize-config.k8s }}#customizing-transparent-proxy-configuration-in-kubernetes-mode) guide. This guide explains different ways to change settings and when to use each one.
 
@@ -35,7 +37,7 @@ If the default settings don’t meet your needs, see the [Customizing Transparen
 {{ tproxy-config-reference-info }}
 {% endif_version %}
 
-## Universal Mode
+## Universal mode
 
 Using the transparent proxy in [Universal mode]({{ docs }}/introduction/architecture/#universal-mode) makes setup easier and enables features that wouldn’t be possible otherwise. Key benefits include:
 
@@ -66,19 +68,25 @@ Using the transparent proxy in [Universal mode]({{ docs }}/introduction/architec
 
 - **Simpler security, tracing, and observability**: Transparent proxy makes managing these features easier, with no extra setup required.
 
-### Installing Transparent Proxy in Universal Mode
+<!-- vale Google.Headings = NO -->
+### Installing transparent proxy in Universal mode
+<!-- vale Google.Headings = YES -->
 
 To learn how to integrate the Transparent Proxy with your existing services or to set up a service environment from scratch, follow the [Integrating Transparent Proxy into Your Service Environment]({{ docs }}/guides/integrating-transparent-proxy-into-your-service-environment/#integrating-transparent-proxy-into-your-service-environment) guide. This guide provides step-by-step instructions for both scenarios.
 
 {% if_version gte:2.9.x %}
-### Adjusting Transparent Proxy Settings In Universal Mode
+<!-- vale Google.Headings = NO -->
+### Adjusting transparent proxy settings in Universal mode
+<!-- vale Google.Headings = YES -->
 
 If the default settings don’t meet your needs, see the [Customizing Transparent Proxy Configuration in Universal Mode]({{ docs }}{{ tproxy.paths.guides.customize-config.uni }}#customizing-transparent-proxy-configuration-in-universal-mode) guide. This guide explains different ways to change settings and when to use each one.
 
 {{ tproxy-config-reference-info }}
 {% endif_version %}
 
+<!-- vale Google.Headings = NO -->
 ## Reachable Services
+<!-- vale Google.Headings = YES -->
 
 When the transparent proxy is enabled, {{ Kuma }} automatically configures each data plane proxy to connect with every other data plane proxy in the same mesh. This setup ensures broad service-to-service communication but can create issues in large service meshes:
 
@@ -137,7 +145,9 @@ networking:
 This configuration ensures that `example-app` only connects to `redis_kuma-demo_svc_6379` and `elastic_kuma-demo_svc_9200`, reducing the overhead associated with managing connections to all services in the mesh.
 
 {% if_version gte:2.9.x %}
+<!-- vale Google.Headings = NO -->
 ## Reachable Backends
+<!-- vale Google.Headings = YES -->
 
 {% warning %}
 This feature works only when [MeshService]({{ docs }}/networking/meshservice) is enabled.
@@ -212,7 +222,9 @@ networking:
 
 ### Examples
 
+<!-- vale Google.Headings = NO -->
 #### `demo-client` communicates only with `redis` on port 6379
+<!-- vale Google.Headings = YES -->
 
 {% tabs reachable-backends useUrlFragment=false %}
 {% tab reachable-backends Kubernetes %}
@@ -255,7 +267,9 @@ networking:
 {% endtab %}
 {% endtabs %}
 
+<!-- vale Google.Headings = NO -->
 #### `demo-client` doesn’t need to communicate with any service
+<!-- vale Google.Headings = YES -->
 
 {% tabs reachable-backends-no-services useUrlFragment=false %}
 {% tab reachable-backends-no-services Kubernetes %}
@@ -289,7 +303,9 @@ networking:
 {% endtab %}
 {% endtabs %}
 
+<!-- vale Google.Headings = NO -->
 #### `demo-app` communicates with all MeshServices in the `kuma-demo` namespace
+<!-- vale Google.Headings = YES -->
 
 {% tabs reachable-backends-in-namespace useUrlFragment=false %}
 {% tab reachable-backends-in-namespace Kubernetes %}
@@ -311,7 +327,7 @@ metadata:
 {% endtabs %}
 {% endif_version %}
 
-### firewalld Support
+### firewalld support
 
 {% tip %}
 In **Kubernetes** mode, transparent proxy is automatically set up using the `kuma-init` container or [Kuma CNI]({{ docs }}/production/dp-config/cni/#configure-the-kuma-cni). Since the proxy is reinstalled each time your workload restarts, there is no need to persist it. This feature is specifically designed for **Universal** environments.
@@ -330,7 +346,9 @@ kumactl install transparent-proxy --redirect-dns --store-firewalld
 {% endwarning %}
 
 {% if_version gte:2.0.x %}
-### Transparent Proxy with eBPF (experimental)
+<!-- vale Google.Headings = NO -->
+### Transparent proxy with eBPF (experimental)
+<!-- vale Google.Headings = YES -->
 
 Starting from {{ Kuma }} 2.0 you can set up transparent proxy to use eBPF instead of iptables.
 

@@ -5,7 +5,7 @@ title: Transparent Proxying
 {% assign docs = "/docs/" | append: page.version %}
 {% assign Kuma = site.mesh_product_name %}
 
-## What is Transparent Proxying?
+## What is transparent proxying?
 
 A transparent proxy is a type of server that can intercept network traffic to and from a service without changes to the client application code. In the case of {{ Kuma }} it is used to capture traffic and redirect it to `kuma-dp` so Mesh policies can be applied.
 
@@ -13,10 +13,11 @@ To accomplish this, {{ Kuma }} utilizes [`iptables`](https://linux.die.net/man/8
 
 Below is a high level visualization of how transparent proxying works
 
+<!-- vale Vale.Spelling = NO -->
 {% mermaid %}
  sequenceDiagram
  autonumber
-     participant Browser as Client<br>(e.g. mobile app)
+     participant Browser as Client<br>(for example, mobile app)
      participant Kernel as Kernel
      participant ServiceMeshIn as kuma sidecar(15006)
      participant Node as example.com:5000<br>(Front-end App)
@@ -35,8 +36,9 @@ Below is a high level visualization of how transparent proxying works
      ServiceMeshOut->>+Browser: Response to Client
      %% Note over Browser,ServiceMeshOut: Traffic Flow Sequence
 {% endmermaid %}
+<!-- vale Vale.Spelling = YES -->
 
-## A life without Transparent Proxying
+## A life without transparent proxying
 
 If you choose to not use transparent proxying, or you are running on a platform where transparent proxying is not available, there are some additional considerations.
 
@@ -66,7 +68,9 @@ Here we specify that we will listen on the address `10.119.249.39:15000` (line 7
 
 ## How it works
 
-### Inbound TCP Traffic
+<!-- vale Google.Headings = NO -->
+### Inbound TCP traffic
+<!-- vale Google.Headings = YES -->
 
 The inbound port, `15006`, is the default for capturing requests to the system. This rule allows us to capture and redirect ALL TCP traffic to port `15006`.
 
@@ -154,7 +158,9 @@ A further review of the envoy config will show our Node app listener where the I
 ...
 ```
 
-### Outbound TCP Traffic
+<!-- vale Google.Headings = NO -->
+### Outbound TCP traffic
+<!-- vale Google.Headings = YES -->
 
 The outbound port, `15001`, is the default for capturing outbound traffic from the system. That is, traffic leaving the mesh. This rule allow us to capture and redirect all TCP traffic to `15001`.
 

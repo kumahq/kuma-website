@@ -77,10 +77,10 @@ ids:
       steps:
         ensure-iptables: step-ensure-the-correct-version-of-iptables
         create-user: step-create-a-dedicated-user-for-kuma-dp
-        prepare-dp: step-prepare-the-dataplane-resource
-        start-service: step-start-the-service
+        prepare-dp: step-prepare-dataplane-resource
+        start-service: step-start-service
         start-kuma-dp: step-start-kuma-dp
-        install-tproxy: step-install-the-transparent-proxy
+        install-tproxy: step-install-transparent-proxy
     upgrade-tproxy:
       title: upgrading-transparent-proxy
 
