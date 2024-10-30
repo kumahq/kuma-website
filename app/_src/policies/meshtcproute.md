@@ -201,11 +201,13 @@ spec:
                 name: backend-v0
                 namespace: kuma-demo
                 port: 3001
+                _port: 3001
                 weight: 90
               - kind: MeshService
                 name: backend-v1
                 namespace: kuma-demo
                 port: 3001
+                _port: 3001
                 weight: 10
 ```
 {% endpolicy_yaml %}
@@ -244,6 +246,7 @@ spec:
                 name: external-backend
                 namespace: kuma-demo
                 port: 8080
+                _port: 8080
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
@@ -272,6 +275,7 @@ spec:
                 name: external-backend
                 namespace: kuma-demo
                 port: 8080
+                _port: 8080
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
@@ -284,6 +288,7 @@ specificity will be applied.
 
 In this example, both `MeshTCPRoute` and `MeshHTTPRoute` target the same destination:
 
+{% if_version lte:2.8.x %}
 **MeshTCPRoute**:
 ```yaml
 # [...]
@@ -294,10 +299,7 @@ targetRef:
 to:
   - targetRef:
       kind: MeshService
-      name: backend
-      namespace: kuma-demo
-      _port: 3001
-      sectionName: http
+      name: backend_kuma-demo_svc_3001
     rules:
       - default:
           backendRefs:
@@ -315,10 +317,7 @@ targetRef:
 to:
   - targetRef:
       kind: MeshService
-      name: backend
-      namespace: kuma-demo
-      _port: 3001
-      sectionName: http
+      name: backend_kuma-demo_svc_3001
     rules:
       - matches:
           - path:
@@ -327,8 +326,69 @@ to:
         default:
           backendRefs:
             - kind: MeshService
-              name: other-http-backend
+              name: other-http-backend_kuma-demo_svc_8080
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml collision-tcp-29x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: simple-http
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: other-tcp-backend
+                namespace: kuma-demo
+                port: 8080
+                _port: 8080
+```
+{% endpolicy_yaml %}
+{% policy_yaml collision-http-29x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: simple-http
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - matches:
+          path:
+              type: PathPrefix
+              value: "/"
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: other-http-backend
+                namespace: kuma-demo
+                port: 8080
+                _port: 8080
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 Depending on the `backend`'s protocol:
 - `MeshHTTPRoute` will be applied if `http`, `http2`, or `grpc` are specified

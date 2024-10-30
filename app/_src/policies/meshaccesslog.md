@@ -520,7 +520,7 @@ spec:
   to:
     - targetRef:
         kind: MeshService
-        name: backend
+        name: backend_kuma-demo_svc_8080
       default:
         backends:
           - file:
@@ -545,7 +545,7 @@ spec:
   to:
     - targetRef:
         kind: MeshService
-        name: backend
+        name: backend_kuma-demo_svc_8080
       default:
         backends:
           - type: File

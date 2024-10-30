@@ -219,40 +219,7 @@ then the amount of time to wait before issuing a request is determined by [back 
 ### HTTP frontend to backend on 5xx
 
 {% if_version lte:2.8.x %}
-{% tabs meshretry-http useUrlFragment=false %}
-{% tab meshretry-http Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshRetry
-metadata:
-  name: web-to-backend-retry-http
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
-spec:
-  targetRef:
-    kind: MeshService
-    name: web
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        http:
-          numRetries: 10
-          backOff:
-            baseInterval: 15s
-            maxInterval: 20m
-          retryOn:
-            - "5xx"
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab meshretry-http Universal %}
-
+{% policy_yaml meshretry-http-28x %}
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-http
@@ -265,6 +232,8 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        _port: 8080
       default:
         http:
           numRetries: 10
@@ -274,11 +243,7 @@ spec:
           retryOn:
             - "5xx"
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml meshretry-http-29x namespace=kuma-demo use_meshservice=true %}
@@ -313,40 +278,7 @@ spec:
 ### gRPC frontend to backend on DeadlineExceeded
 
 {% if_version lte:2.8.x %}
-{% tabs meshretry-grpc useUrlFragment=false %}
-{% tab meshretry-grpc Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshRetry
-metadata:
-  name: web-to-backend-retry-grpc
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
-spec:
-  targetRef:
-    kind: MeshService
-    name: web
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        grpc:
-          numRetries: 5
-          backOff:
-            baseInterval: 5s
-            maxInterval: 1m
-          retryOn:
-            - "DeadlineExceeded"
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab meshretry-grpc Universal %}
-
+{% policy_yaml meshretry-grpc-28x %}
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-grpc
@@ -359,6 +291,8 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        _port: 8080
       default:
         grpc:
           numRetries: 5
@@ -368,11 +302,7 @@ spec:
           retryOn:
             - "DeadlineExceeded"
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml meshretry-grpc-29x namespace=kuma-demo use_meshservice=true %}
@@ -407,35 +337,7 @@ spec:
 ### TCP frontend to backend
 
 {% if_version lte:2.8.x %}
-{% tabs meshretry-tcp useUrlFragment=false %}
-{% tab meshretry-tcp Kubernetes %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshRetry
-metadata:
-  name: web-to-backend-retry-tcp
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
-spec:
-  targetRef:
-    kind: MeshService
-    name: web
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-      default:
-        tcp:
-          maxConnectAttempt: 5
-```
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab meshretry-tcp Universal %}
-
+{% policy_yaml meshretry-tcp-28x %}
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-tcp
@@ -448,15 +350,13 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        _port: 8080
       default:
         tcp:
           maxConnectAttempt: 5
 ```
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+{% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml meshretry-tcp-29x namespace=kuma-demo use_meshservice=true %}

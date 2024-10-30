@@ -79,8 +79,9 @@ name: allow-orders
 mesh: default
 spec:
   targetRef: # 1
-    kind: MeshService
-    name: payments
+    kind: MeshSubset
+    tags:
+      app: payments
   from:
     - targetRef: # 2
         kind: MeshSubset
