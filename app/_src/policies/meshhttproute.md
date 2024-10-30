@@ -281,7 +281,7 @@ If we want to split traffic between `v1` and `v2` versions of the same service,
 first we have to create MeshServices `backend-v1` and `backend-v2` that select 
 backend application instances according to the version.
 
-{% policy_yaml traffic-split use_meshservice=true %}
+{% policy_yaml traffic-split namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-split
@@ -325,6 +325,7 @@ or changing request and response headers.
 Here is an example of a `MeshHTTPRoute` that adds `x-custom-header` with value `xyz`
 when `frontend_kuma-demo_svc_8080` tries to consume `backend_kuma-demo_svc_3001`.
 
+{% if_version lte:2.8.x %}
 {% tabs modifications useUrlFragment=false %}
 {% tab modifications Kubernetes %}
 
@@ -386,6 +387,41 @@ spec:
 ```
 {% endtab %}
 {% endtabs %}
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+{% policy_yaml traffic-modification-29x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: http-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
+      rules:
+        - matches:
+            - path:
+                type: Exact
+                value: /
+          default:
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  set:
+                    - name: x-custom-header
+                      value: xyz
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 {% if_version gte:2.2.x %}
 
@@ -436,7 +472,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
-{% policy_yaml traffic-mirror-29x use_meshservice=true %}
+{% policy_yaml traffic-mirror-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1

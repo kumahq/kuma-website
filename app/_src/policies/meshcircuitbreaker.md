@@ -474,7 +474,8 @@ spec:
 
 #### Basic circuit breaker for outbound traffic from web, to backend service
 
-{% policy_yaml usage use_meshservice=true %}
+{% if_version lte:2.8.x %}
+{% policy_yaml usage-28x use_meshservice=true %}
 ```yaml
 type: MeshCircuitBreaker
 name: web-to-backend-circuit-breaker
@@ -499,10 +500,39 @@ spec:
           maxRequests: 2
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml usage-29x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshCircuitBreaker
+name: web-to-backend-circuit-breaker
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: web
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
+      default:
+        connectionLimits:
+          maxConnections: 2
+          maxPendingRequests: 8
+          maxRetries: 2
+          maxRequests: 2
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 #### Outlier detection for inbound traffic to backend service
 
-{% policy_yaml protocol %}
+{% if_version lte:2.8.x %}
+{% policy_yaml protocol-28x %}
 ```yaml
 type: MeshCircuitBreaker
 name: backend-inbound-outlier-detection
@@ -538,6 +568,45 @@ spec:
               threshold: 85
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml protocol-29x namespace=kuma-demo %}
+```yaml
+type: MeshCircuitBreaker
+name: backend-inbound-outlier-detection
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: web
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        outlierDetection:
+          interval: 5s
+          baseEjectionTime: 30s
+          maxEjectionPercent: 20
+          splitExternalAndLocalErrors: true
+          detectors:
+            totalFailures:
+              consecutive: 10
+            gatewayFailures:
+              consecutive: 10
+            localOriginFailures:
+              consecutive: 10
+            successRate:
+              minimumHosts: 5
+              requestVolume: 10
+              standardDeviationFactor: 1.9
+            failurePercentage:
+              requestVolume: 10
+              minimumHosts: 5
+              threshold: 85
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ## All policy options
 
