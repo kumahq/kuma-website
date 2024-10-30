@@ -122,8 +122,7 @@ Otherwise, it's recommended to migrate to new policies and then removing `Traffi
 We can use `MeshHTTPRoute` to split an HTTP traffic between services with different tags
 implementing A/B testing or canary deployments.
 
-Here is an example of a `MeshHTTPRoute` that splits the traffic from
-`frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions,
+Here is an example of a `MeshHTTPRoute` that splits the traffic from `frontend` to `backend` between versions,
 but only on endpoints starting with `/api`. All other endpoints will go to version: `1.0`.
 
 {% tabs split useUrlFragment=false %}
@@ -295,6 +294,9 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
       rules:
         - matches:
             - path:
@@ -323,7 +325,7 @@ We can use `MeshHTTPRoute` to modify outgoing requests, by setting new path
 or changing request and response headers.
 
 Here is an example of a `MeshHTTPRoute` that adds `x-custom-header` with value `xyz`
-when `frontend_kuma-demo_svc_8080` tries to consume `backend_kuma-demo_svc_3001`.
+when `frontend` tries to consume `backend`.
 
 {% if_version lte:2.8.x %}
 {% policy_yaml traffic-modification-28x %}
@@ -458,7 +460,10 @@ spec:
   to:
     - targetRef:
         kind: MeshService
-        name: backend_kuma-demo_svc_3001
+        name: backend
+        namespace: kuma-demo
+        sectionName: http 
+        _port: 3001
       rules:
         - matches:
             - headers:
@@ -471,9 +476,9 @@ spec:
                 requestMirror:
                   percentage: 30
                   backendRef:
-                    kind: MeshServiceSubset
-                    name: backend_kuma-demo_svc_3001
+                    kind: MeshSubset
                     tags:
+                      app: backend
                       version: v1_experimental
             backendRefs:
               - kind: MeshService
