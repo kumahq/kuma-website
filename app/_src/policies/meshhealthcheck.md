@@ -94,7 +94,7 @@ See [protocol fallback example](#protocol-fallback).
 #### Health check from web to backend service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml usage use_meshservice=true %}
+{% policy_yaml usage %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -109,7 +109,6 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        sectionName: http
         _port: 3001
       default:
         interval: 10s
@@ -155,7 +154,7 @@ spec:
 #### Protocol fallback
 
 {% if_version lte:2.8.x %}
-{% policy_yaml protocol use_meshservice=true %}
+{% policy_yaml protocol %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -170,7 +169,6 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        sectionName: http
         _port: 3001
       default:
         interval: 10s
@@ -216,7 +214,7 @@ spec:
 #### gRPC health check from cart to payment service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml grpc use_meshservice=true %}
+{% policy_yaml grpc %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -231,7 +229,6 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        sectionName: http
         _port: 3001
       default:
         interval: 15s

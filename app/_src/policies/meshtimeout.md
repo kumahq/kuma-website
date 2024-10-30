@@ -284,7 +284,7 @@ This timeout configuration will be applied to all inbound connections to `fronte
 from `frontend` to `backend` service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example4 use_meshservice=true %}
+{% policy_yaml example4 %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -311,7 +311,6 @@ spec:
         name: backend
         namespace: kuma-demo
         _port: 3001
-        sectionName: http
       default:
         idleTimeout: 60s
         connectionTimeout: 1s

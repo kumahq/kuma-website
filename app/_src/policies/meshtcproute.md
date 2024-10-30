@@ -136,7 +136,7 @@ different tags and implement A/B testing or canary deployments.
 Here's an example of a `MeshTCPRoute` that splits the traffic from 
 `frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions:
 
-{% policy_yaml split use_meshservice=true %}
+{% policy_yaml split %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -152,7 +152,6 @@ spec:
         name: backend
         namespace: kuma-demo
         _port: 3001
-        sectionName: http
       rules:
         - default:
             backendRefs:
@@ -222,7 +221,7 @@ originating at `frontend_kuma-demo_svc_8080` from `backend_kuma-demo_svc_3001`
 to `external-backend`:
 
 {% if_version lte:2.8.x %}
-{% policy_yaml modifications use_meshservice=true %}
+{% policy_yaml modifications %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -238,7 +237,6 @@ spec:
         name: backend
         namespace: kuma-demo
         _port: 3001
-        sectionName: http
       rules:
         - default:
             backendRefs:

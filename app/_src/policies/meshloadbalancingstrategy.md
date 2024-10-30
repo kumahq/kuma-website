@@ -227,7 +227,7 @@ must be prime number limited to 5000011. If it is not specified, the default is 
 Load balance requests from `frontend` to `backend` based on the HTTP header `x-header`:
 
 {% if_version lte:2.8.x %}
-{% policy_yaml ring-hash use_meshservice=true %}
+{% policy_yaml ring-hash %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: ring-hash
@@ -243,7 +243,6 @@ spec:
         name: backend
         namespace: kuma-demo
         _port: 8080
-        sectionName: http
       default:
         loadBalancer:
           type: RingHash
@@ -290,7 +289,7 @@ spec:
 Requests to `backend` will be spread evenly across all zones where `backend` is deployed.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml disable-la-to-backend use_meshservice=true %}
+{% policy_yaml disable-la-to-backend %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: disable-la-to-backend
@@ -304,7 +303,6 @@ spec:
         name: backend
         namespace: kuma-demo
         _port: 8080
-        sectionName: http
       default:
         localityAwareness:
           disabled: true
@@ -338,7 +336,7 @@ spec:
 In this example, whenever a user sends a request to the `backend` service, 90% of the requests will arrive at the instance with the same value of the `k8s.io/node` tag, 9% of the requests will go to the instance with the same value as the caller of the `k8s.io/az` tag, and 1% will go to the rest of the instances.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml local-zone-affinity-backend use_meshservice=true %}
+{% policy_yaml local-zone-affinity-backend %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -351,7 +349,6 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        sectionName: http
         _port: 8080
       default:
         localityAwareness:
@@ -391,7 +388,7 @@ spec:
 In this example, when a user sends a request to the backend service, the request is routed equally to all instances in the local zone. If there are no instances in the local zone, the request will fail because there is no cross zone traffic.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml local-zone-affinity-backend-2 use_meshservice=true %}
+{% policy_yaml local-zone-affinity-backend-2 %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -404,7 +401,6 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        sectionName: http
         _port: 8080
       default:
         localityAwareness:
@@ -438,7 +434,7 @@ spec:
 or 
 
 {% if_version lte:2.8.x %}
-{% policy_yaml local-zone-affinity-backend-3 use_meshservice=true %}
+{% policy_yaml local-zone-affinity-backend-3 %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -451,7 +447,6 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        sectionName: http
         _port: 8080
       default:
         localityAwareness:
@@ -485,7 +480,7 @@ spec:
 Requests to the backend service will be evenly distributed among all endpoints within the local zone. If there are fewer than 25% healthy hosts in the local zone, traffic will be redirected to other zones. Initially, traffic will be sent to the `us-1` zone. In the event that the `us-1` zone becomes unavailable, traffic will then be directed to all zones, except for `us-2` and `us-3`. If these zones are also found to have unhealthy hosts, the traffic will be rerouted to `us-2` and `us-3`.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml cross-zone-backend use_meshservice=true %}
+{% policy_yaml cross-zone-backend %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: cross-zone-backend
@@ -498,7 +493,6 @@ spec:
         kind: MeshService
         name: backend
         namespace: kuma-demo
-        sectionName: http
         _port: 8080
       default:
         localityAwareness:
