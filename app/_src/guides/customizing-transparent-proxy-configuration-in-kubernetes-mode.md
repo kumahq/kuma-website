@@ -98,7 +98,7 @@ If you try to change these settings with methods described later in this guide, 
   Attempts to modify this setting using the `kuma.io/sidecar-uid` annotation or `kumaDPUser` in the ConfigMap will result in:
 
   - A warning in control plane logs if the [{{ configuration-in-configmap }}](#{{ tproxy.ids.guides.customize-config.k8s.methods.configmap }}) feature is **enabled**, and the values will be ignored.
-  - Silent ignoring of the change without warnings if the feature is **disabled**.
+  - Silently ignoring the change without warnings if the feature is **disabled**.
 
 - **`runtime.kubernetes.injector.builtinDNS.enabled` and `runtime.kubernetes.injector.builtinDNS.port`**
 
