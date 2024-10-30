@@ -478,10 +478,11 @@ spec:
                 requestMirror:
                   percentage: 30
                   backendRef:
-                    kind: MeshSubset
-                    tags:
-                      app: backend
-                      version: v1_experimental
+                    kind: MeshService
+                    name: backend_v1_experimental
+                    namespace: kuma-demo
+                    port: 3001
+                    _port: 3001
             backendRefs:
               - kind: MeshService
                 name: backend
