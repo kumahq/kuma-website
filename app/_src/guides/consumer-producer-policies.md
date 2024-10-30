@@ -171,7 +171,7 @@ This label indicates the policy role. Possible values of this label are:
 With namespace scoped policies we've introduced a producer/consumer model for policies. 
 
 A **producer** is someone who authors and operates a service. A producer can create policies that will be applied by default to any communication with their services.
-Producer policies will be created in the same zone as `MeshService` they target. Producer policies will be synced to other zones. 
+Producer policies will be created in the same namespace as `MeshService` they target. Producer policies will be synced to other zones. 
 
 A **consumer** is the client of a service. Consumer policies will be applied in the consumer
 namespace and may target MeshService from different namespaces. Consumer policies take effect only in the consumer namespace.
@@ -180,7 +180,7 @@ Consumer policies will override producer policies.
 ## Testing producer policy
 
 To test MeshTimeout that we've applied in previous steps we need to simulate delays on our requests. To do this we need
-add header `x-set-response-delay-ms` to our requests
+add header `x-set-response-delay-ms` to our requests.
 
 We can now make few requests to our demo-app, and we should see timeouts:
 
@@ -191,7 +191,7 @@ kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:500
 Example output:
 
 ```
-{"counter":"3","zone":"local","err":null}
+upstream request timeout
 ```
 
 We should see the same results when making requests from second-consumer namespace:
@@ -203,7 +203,7 @@ kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:50
 Output:
 
 ```
-{"counter":"4","zone":"local","err":null}
+upstream request timeout
 ```
 
 Producer policy will be applied on all traffic to `kuma-demo` as we can see on this diagram: 
