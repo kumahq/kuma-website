@@ -2,18 +2,20 @@
 title: Installation methods overview
 ---
 
-## Install Kuma on Kubernetes with helm
+## Kubernetes
 
-[helm](/docs/{{ page.version }}/introduction/install/helm/) - some description why would you want to install this way
+### Single zone
 
-## Install Kuma on Kubernetes with kumactl
+[Install {{site.mesh_product_name}} with helm instruction](/docs/{{ page.version }}/introduction/install/universal/) - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus laoreet est a urna placerat pharetra. Suspendisse placerat, magna nec imperdiet lacinia, nulla massa iaculis mi, ac elementum ligula enim non augue. Duis sagittis risus eget mauris eleifend pretium. Curabitur congue pretium dui. Nunc ac efficitur neque, eget feugiat ligula. Vestibulum lacus mi, mattis a mi at, varius consequat mi. Cras scelerisque mi at ante faucibus, at luctus urna feugiat. Nunc iaculis vestibulum magna, at ornare lectus maximus vitae.
 
-[helm](/docs/{{ page.version }}/introduction/install/kubernetes-kumactl/) - some description why would you want to install this way
+[Install {{site.mesh_product_name}} with kumactl instruction](/docs/{{ page.version }}/introduction/install/universal/) - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus laoreet est a urna placerat pharetra. Suspendisse placerat, magna nec imperdiet lacinia, nulla massa iaculis mi, ac elementum ligula enim non augue. Duis sagittis risus eget mauris eleifend pretium. Curabitur congue pretium dui. Nunc ac efficitur neque, eget feugiat ligula. Vestibulum lacus mi, mattis a mi at, varius consequat mi. Cras scelerisque mi at ante faucibus, at luctus urna feugiat. Nunc iaculis vestibulum magna, at ornare lectus maximus vitae.
 
-## Install universal
+### Multi zone
 
-[helm](/docs/{{ page.version }}/introduction/install/universal/) - some description why would you want to install this way
+[Install {{site.mesh_product_name}} with helm instruction](/docs/{{ page.version }}/introduction/install/universal/) - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus laoreet est a urna placerat pharetra. Suspendisse placerat, magna nec imperdiet lacinia, nulla massa iaculis mi, ac elementum ligula enim non augue. Duis sagittis risus eget mauris eleifend pretium. Curabitur congue pretium dui. Nunc ac efficitur neque, eget feugiat ligula. Vestibulum lacus mi, mattis a mi at, varius consequat mi. Cras scelerisque mi at ante faucibus, at luctus urna feugiat. Nunc iaculis vestibulum magna, at ornare lectus maximus vitae.
 
-## Install multi-zone on Kubernetes
+## Universal
 
-[helm](/docs/{{ page.version }}/introduction/install/universal/) - some description why would you want to install this way
+### Single Zone
+
+[Install single zone {{site.mesh_product_name}} instruction](/docs/{{ page.version }}/introduction/install/universal/) - some description why would you want to install this way

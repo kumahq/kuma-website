@@ -19,17 +19,8 @@ items:
             url: "/introduction/how-kuma-works/#kuma-vs-xyz"
       - text: Architecture
         url: /introduction/architecture/
-      - title: Install Kuma
-        group: true
-        items:
-          - text: Overview
-            url: "/introduction/install/overview"
-          - text: Kubernetes with Helm
-            url: "/introduction/install/helm"
-          - text: Kubernetes with kumactl
-            url: "/introduction/install/kubernetes-kumactl"
-          - text: Universal
-            url: "/introduction/install/universal"
+      - text: Install Kuma
+        url: /introduction/install-kuma/
       - text: Concepts
         url: /introduction/concepts/
       - text: Kuma requirements
