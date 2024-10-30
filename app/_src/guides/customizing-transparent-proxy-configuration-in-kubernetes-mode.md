@@ -392,8 +392,7 @@ The following {% if_version gte:2.9.x %}annotations differ{% endif_version %}{% 
 
 {% if_version gte:2.9.x %}
 - `traffic.kuma.io/transparent-proxy-config`
-
-  {% comment %}This comment is necessary because `if_version` interferes with list formatting, causing the new line before the first paragraph in the first list item to be ignored. Adding this comment ensures an empty line is rendered.{% endcomment %}
+  ^
   This annotation is automatically applied in environments using [Kuma CNI]({{ docs }}/production/dp-config/cni/#configure-the-kuma-cni) instead of init containers. It contains the final configuration for installing the transparent proxy. Manually modifying or setting this annotation has no effect, regardless of whether Kuma CNI is used. Its primary purpose is to efficiently pass the transparent proxy configuration between Kubernetes workloads and the Kuma CNI, which handles the actual installation of the transparent proxy for those workloads.
 
 - `traffic.kuma.io/transparent-proxy-configmap-name`
