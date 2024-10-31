@@ -71,11 +71,11 @@
           <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/"</span>
       <span class="na">default</span><span class="pi">:</span>
         <span class="na">backendRefs</span><span class="pi">:</span>
-        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshServiceSubset</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1_kuma-demo_svc</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1_kuma-demo_svc_3001</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
-        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshServiceSubset</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v2_kuma-demo_svc</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v2_kuma-demo_svc_3001</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
 <span class="nn">---</span>
 <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
@@ -97,11 +97,11 @@
     <span class="na">rules</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
         <span class="na">backendRefs</span><span class="pi">:</span>
-        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshServiceSubset</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0_kuma-demo_svc</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0_kuma-demo_svc_3001</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
-        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshServiceSubset</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1_kuma-demo_svc</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v1_kuma-demo_svc_3001</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
 <span class="nn">---</span>
 <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
@@ -119,8 +119,8 @@
     <span class="na">rules</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
         <span class="na">backendRefs</span><span class="pi">:</span>
-        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshServiceSubset</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0_kuma-demo_svc</span>
+        <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend-v0_kuma-demo_svc_3001</span>
 </code></pre></div></div>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>

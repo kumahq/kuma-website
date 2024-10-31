@@ -19,13 +19,11 @@ spec:
                 name: backend
                 _version: v1
                 namespace: kuma-demo
-                _port: 3001
                 port: 3001
                 weight: 90
               - kind: MeshService
                 name: backend
                 _version: v2
                 namespace: kuma-demo
-                _port: 3001
                 port: 3001
                 weight: 10

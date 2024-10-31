@@ -91,9 +91,10 @@ module Jekyll
                 when :kubernetes
                   if context[:legacy_output]
                     {
-                      "kind" => "MeshServiceSubset",
-                      "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['_port']].compact.join('_'),
+                      "kind" => "MeshService",
+                      "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['port']].compact.join('_'),
                     }.tap { |hash|
+                      hash["kind"] = "MeshServiceSubset" if backend_ref.key?('tags')
                       hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
                       hash["tags"] = {
                         "version" => backend_ref['_version']
