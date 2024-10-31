@@ -176,138 +176,58 @@ openTelemetry:
 
 ### Zipkin
 
-{% tabs meshtrace-zipkin useUrlFragment=false %}
-{% tab meshtrace-zipkin Kubernetes %}
-
+{% if_version eq:2.2.x %}
 Simple example:
-{% if_version lte:2.2.x %}
+{% policy_yaml simple-zipkin %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
+type: MeshTrace
+name: default
+mesh: default
 spec:
   targetRef:
     kind: Mesh
   default:
     backends:
       - zipkin:
-          url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
+          url: http://jaeger-collector:9411/api/v2/spans
 ```
-{% endif_version %}
-{% if_version gte:2.3.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
-spec:
-  targetRef:
-    kind: Mesh
-  default:
-    backends:
-      - type: Zipkin
-        zipkin:
-          url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
-```
-{% endif_version %}
+{% endpolicy_yaml %}
 
 Full example:
-{% if_version lte:2.2.x %}
+{% policy_yaml extended-zipkin %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
+type: MeshTrace
+name: default
+mesh: default
 spec:
   targetRef:
     kind: Mesh
+    tags:
+      - name: team
+        literal: core
+      - name: env
+        header:
+          name: x-env
+          default: prod
+      - name: version
+        header:
+          name: x-version
+    sampling:
+      overall: 80
+      random: 60
+      client: 40
   default:
     backends:
       - zipkin:
-          url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
+          url: http://jaeger-collector:9411/api/v2/spans
           apiVersion: httpJson
-    tags:
-      - name: team
-        literal: core
-      - name: env
-        header:
-          name: x-env
-          default: prod
-      - name: version
-        header:
-          name: x-version
-    sampling:
-      overall: 80
-      random: 60
-      client: 40
 ```
+{% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.3.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
-spec:
-  targetRef:
-    kind: Mesh
-  default:
-    backends:
-      - type: Zipkin
-        zipkin:
-          url: http://jaeger-collector.mesh-observability:9411/api/v2/spans
-          apiVersion: httpJson
-    tags:
-      - name: team
-        literal: core
-      - name: env
-        header:
-          name: x-env
-          default: prod
-      - name: version
-        header:
-          name: x-version
-    sampling:
-      overall: 80
-      random: 60
-      client: 40
-```
-{% endif_version %}
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab meshtrace-zipkin Universal %}
-
+{% if_version lte:2.8.x %}
 Simple example:
-{% if_version lte:2.2.x %}
-```yaml
-type: MeshTrace
-name: default
-mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-  default:
-    backends:
-      - zipkin:
-          url: http://jaeger-collector:9411/api/v2/spans
-```
-{% endif_version %}
-{% if_version gte:2.3.x %}
+{% policy_yaml simple-zipkin-23x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -321,10 +241,10 @@ spec:
         zipkin:
           url: http://jaeger-collector:9411/api/v2/spans
 ```
-{% endif_version %}
+{% endpolicy_yaml %}
 
 Full example:
-{% if_version lte:2.2.x %}
+{% policy_yaml extended-zipkin-23x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -333,10 +253,6 @@ spec:
   targetRef:
     kind: Mesh
   default:
-    backends:
-      - zipkin:
-          url: http://jaeger-collector:9411/api/v2/spans
-          apiVersion: httpJson
     tags:
       - name: team
         literal: core
@@ -351,22 +267,39 @@ spec:
       overall: 80
       random: 60
       client: 40
-```
-{% endif_version %}
-{% if_version gte:2.3.x %}
-```yaml
-type: MeshTrace
-name: default
-mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-  default:
     backends:
       - type: Zipkin
         zipkin:
           url: http://jaeger-collector:9411/api/v2/spans
           apiVersion: httpJson
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+Simple example:
+{% policy_yaml simple-zipkin-29x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://jaeger-collector:9411/api/v2/spans
+```
+{% endpolicy_yaml %}
+
+Full example:
+{% policy_yaml extended-zipkin-29x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  default:
     tags:
       - name: team
         literal: core
@@ -381,13 +314,14 @@ spec:
       overall: 80
       random: 60
       client: 40
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://jaeger-collector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
+{% endpolicy_yaml %}
 {% endif_version %}
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
 
 ### Datadog
 
@@ -395,128 +329,9 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](/docs/{{ page.version }}/explore/observability#configuring-datadog).
 {% endtip %}
 
-{% tabs meshtrace-datadog useUrlFragment=false %}
-{% tab meshtrace-datadog Kubernetes %}
-
-Simple Example:
-
-{% if_version lte:2.2.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
-spec:
-  targetRef:
-    kind: Mesh
-  default:
-    backends:
-      - datadog:
-          url: http://trace-svc.default.svc.cluster.local:8126
-```
-{% endif_version %}
-{% if_version gte:2.3.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
-spec:
-  targetRef:
-    kind: Mesh
-  default:
-    backends:
-      - type: Datadog
-        datadog:
-          url: http://trace-svc.default.svc.cluster.local:8126
-```
-{% endif_version %}
-
-Full Example:
-{% if_version lte:2.2.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
-spec:
-  targetRef:
-    kind: Mesh
-  default:
-    backends:
-      - datadog:
-          url: http://trace-svc.default.svc.cluster.local:8126
-          splitService: true
-    tags:
-      - name: team
-        literal: core
-      - name: env
-        header:
-          name: x-env
-          default: prod
-      - name: version
-        header:
-          name: x-version
-    sampling:
-      overall: 80
-      random: 60
-      client: 40
-```
-{% endif_version %}
-{% if_version gte:2.3.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
-spec:
-  targetRef:
-    kind: Mesh
-  default:
-    backends:
-      - type: Datadog
-        datadog:
-          url: http://trace-svc.default.svc.cluster.local:8126
-          splitService: true
-    tags:
-      - name: team
-        literal: core
-      - name: env
-        header:
-          name: x-env
-          default: prod
-      - name: version
-        header:
-          name: x-version
-    sampling:
-      overall: 80
-      random: 60
-      client: 40
-```
-{% endif_version %}
-
-where `trace-svc` is the name of the Kubernetes Service you specified when you configured the Datadog APM agent.
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab meshtrace-datadog Universal %}
-
+{% if_version eq:2.2.x %}
 Simple example:
-
-{% if_version lte:2.2.x %}
+{% policy_yaml simple-datadog %}
 ```yaml
 type: MeshTrace
 name: default
@@ -529,26 +344,10 @@ spec:
       - datadog:
           url: http://127.0.0.1:8126
 ```
-{% endif_version %}
-{% if_version gte:2.3.x %}
-```yaml
-type: MeshTrace
-name: default
-mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-  default:
-    backends:
-      - type: Datadog
-        datadog:
-          url: http://127.0.0.1:8126
-```
-{% endif_version %}
+{% endpolicy_yaml %}
 
 Full example:
-
-{% if_version lte:2.2.x %}
+{% policy_yaml extended-datadog %}
 ```yaml
 type: MeshTrace
 name: default
@@ -557,10 +356,6 @@ spec:
   targetRef:
     kind: Mesh
   default:
-    backends:
-      - datadog:
-          url: http://127.0.0.1:8126
-          splitService: true
     tags:
       - name: team
         literal: core
@@ -575,9 +370,17 @@ spec:
       overall: 80
       random: 60
       client: 40
+    backends:
+      - datadog:
+          url: http://127.0.0.1:8126
+          splitService: true
 ```
+{% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.3.x %}
+{% if_version lte:2.8.x %}
+Simple example:
+{% policy_yaml simple-datadog-23x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -590,7 +393,19 @@ spec:
       - type: Datadog
         datadog:
           url: http://127.0.0.1:8126
-          splitService: true
+```
+{% endpolicy_yaml %}
+
+Full example:
+{% policy_yaml extended-datadog-23x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
     tags:
       - name: team
         literal: core
@@ -605,13 +420,61 @@ spec:
       overall: 80
       random: 60
       client: 40
+    backends:
+      - type: Datadog
+        datadog:
+          url: http://127.0.0.1:8126
+          splitService: true
 ```
+{% endpolicy_yaml %}
 {% endif_version %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+Simple example:
+{% policy_yaml simple-datadog-29x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  default:
+    backends:
+      - type: Datadog
+        datadog:
+          url: http://127.0.0.1:8126
+```
+{% endpolicy_yaml %}
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
+Full example:
+{% policy_yaml extended-datadog-29x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  default:
+    tags:
+      - name: team
+        literal: core
+      - name: env
+        header:
+          name: x-env
+          default: prod
+      - name: version
+        header:
+          name: x-version
+    sampling:
+      overall: 80
+      random: 60
+      client: 40
+    backends:
+      - type: Datadog
+        datadog:
+          url: http://127.0.0.1:8126
+          splitService: true
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 {% if_version gte:2.2.x %}
 ### OpenTelemetry
@@ -621,51 +484,25 @@ This assumes a OpenTelemetry collector is configured and running.
 If you haven't already check the [OpenTelementry operator](https://github.com/open-telemetry/opentelemetry-operator).
 {% endtip %}
 
-{% tabs meshtrace-otel useUrlFragment=false %}
-{% tab meshtrace-otel Kubernetes %}
-
-Simple Example:
 {% if_version eq:2.2.x %}
+Simple example:
+{% policy_yaml simple-otel %}
 ```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
+type: MeshTrace
+name: default
+mesh: default
 spec:
   targetRef:
     kind: Mesh
   default:
     backends:
       - openTelemetry:
-          endpoint: otel-collector:4317
+          endpoint: otel-collector.com:4317
 ```
-{% endif_version %}
-{% if_version gte:2.3.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if unset
-spec:
-  targetRef:
-    kind: Mesh
-  default:
-    backends:
-      - type: OpenTelemetry
-        openTelemetry:
-          endpoint: otel-collector:4317
-```
-{% endif_version %}
+{% endpolicy_yaml %}
 
 Full example:
-
-{% if_version eq:2.2.x %}
+{% policy_yaml extended-otel %}
 ```yaml
 type: MeshTrace
 name: default
@@ -674,9 +511,6 @@ spec:
   targetRef:
     kind: Mesh
   default:
-    backends:
-      - openTelemetry:
-          endpoint: otel-collector:4317
     tags:
       - name: team
         literal: core
@@ -691,62 +525,16 @@ spec:
       overall: 80
       random: 60
       client: 40
-```
-{% endif_version %}
-{% if_version gte:2.3.x %}
-```yaml
-type: MeshTrace
-name: default
-mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-  default:
-    backends:
-      - type: OpenTelemetry
-        openTelemetry:
-          endpoint: otel-collector:4317
-    tags:
-      - name: team
-        literal: core
-      - name: env
-        header:
-          name: x-env
-          default: prod
-      - name: version
-        header:
-          name: x-version
-    sampling:
-      overall: 80
-      random: 60
-      client: 40
-```
-{% endif_version %}
-
-where `otel-collector` is the name of the Kubernetes Service for OTel exporter.
-
-Apply the configuration with `kubectl apply -f [..]`.
-
-{% endtab %}
-{% tab meshtrace-otel Universal %}
-
-Simple Example:
-
-{% if_version eq:2.2.x %}
-```yaml
-type: MeshTrace
-name: default
-mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-  default:
     backends:
       - openTelemetry:
-          endpoint: my-otel-collector.com:4317
+          endpoint: otel-collector.com:4317
 ```
+{% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.3.x %}
+{% if_version lte:2.8.x %}
+Simple example:
+{% policy_yaml simple-otel-23x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -758,13 +546,12 @@ spec:
     backends:
       - type: OpenTelemetry
         openTelemetry:
-          endpoint: my-otel-collector.com:4317
+          endpoint: otel-collector.com:4317
 ```
-{% endif_version %}
+{% endpolicy_yaml %}
 
 Full example:
-
-{% if_version eq:2.2.x %}
+{% policy_yaml extended-otel-23x %}
 ```yaml
 type: MeshTrace
 name: default
@@ -773,9 +560,6 @@ spec:
   targetRef:
     kind: Mesh
   default:
-    backends:
-      - openTelemetry:
-          endpoint: my-otel-collector.com:4317
     tags:
       - name: team
         literal: core
@@ -790,21 +574,38 @@ spec:
       overall: 80
       random: 60
       client: 40
+    backends:
+      - type: OpenTelemetry
+        openTelemetry:
+          endpoint: otel-collector.com:4317
 ```
+{% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.3.x %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+Simple example:
+{% policy_yaml simple-otel-29x %}
 ```yaml
 type: MeshTrace
 name: default
 mesh: default
 spec:
-  targetRef:
-    kind: Mesh
   default:
     backends:
       - type: OpenTelemetry
         openTelemetry:
-          endpoint: my-otel-collector.com:4317
+          endpoint: otel-collector.com:4317
+```
+{% endpolicy_yaml %}
+
+Full example:
+{% policy_yaml extended-otel-29x %}
+```yaml
+type: MeshTrace
+name: default
+mesh: default
+spec:
+  default:
     tags:
       - name: team
         literal: core
@@ -819,13 +620,13 @@ spec:
       overall: 80
       random: 60
       client: 40
+    backends:
+      - type: OpenTelemetry
+        openTelemetry:
+          endpoint: otel-collector.com:4317
 ```
+{% endpolicy_yaml %}
 {% endif_version %}
-
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
-
-{% endtab %}
-{% endtabs %}
 {% endif_version %}
 
 ### Targeting parts of the infrastructure
@@ -839,12 +640,10 @@ We want data plane proxies in each zone to only send traces to their local colle
 
 To do this, we use a `TargetRef` kind value of `MeshSubset` to filter which data plane proxy a policy applies to.
 
-{% tabs meshtrace-region useUrlFragment=false %}
-{% tab meshtrace-region Universal %}
-
+{% if_version lte:2.2.x %}
 West only policy:
 
-{% if_version lte:2.2.x %}
+{% policy_yaml west-only %}
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -853,14 +652,38 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      kuma.io/zome: west
+      kuma.io/zone: west
   default:
     backends:
       - zipkin:
           url: http://west.zipkincollector:9411/api/v2/spans
 ```
+{% endpolicy_yaml %}
+
+East only policy:
+
+{% policy_yaml east-only %}
+```yaml
+type: MeshTrace
+name: trace-east
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      kuma.io/zone: east
+  default:
+    backends:
+      - zipkin:
+          url: http://east.zipkincollector:9411/api/v2/spans
+```
+{% endpolicy_yaml %}
 {% endif_version %}
+
 {% if_version gte:2.3.x %}
+West only policy:
+
+{% policy_yaml west-only-23x %}
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -869,17 +692,18 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      kuma.io/zome: west
+      kuma.io/zone: west
   default:
     backends:
       - type: Zipkin
         zipkin:
           url: http://west.zipkincollector:9411/api/v2/spans
 ```
-{% endif_version %}
+{% endpolicy_yaml %}
 
 East only policy:
-{% if_version lte:2.2.x %}
+
+{% policy_yaml east-only-23x %}
 ```yaml
 type: MeshTrace
 name: trace-east
@@ -888,116 +712,14 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
-      kuma.io/zome: east
+      kuma.io/zone: east
   default:
     backends:
       - zipkin:
           url: http://east.zipkincollector:9411/api/v2/spans
 ```
+{% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.3.x %}
-```yaml
-type: MeshTrace
-name: trace-east
-mesh: default
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      kuma.io/zome: east
-  default:
-    backends:
-      - type: Zipkin
-        zipkin:
-          url: http://east.zipkincollector:9411/api/v2/spans
-```
-{% endif_version %}
-
-{% endtab %}
-{% tab meshtrace-region Kubernetes %}
-
-West only policy:
-
-{% if_version lte:2.2.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-    name: trace-west
-    namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      kuma.io/zome: west
-  default:
-    backends:
-      - zipkin:
-          url: http://west.zipkincollector:9411/api/v2/spans
-```
-{% endif_version %}
-{% if_version gte:2.3.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-    name: trace-west
-    namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      kuma.io/zome: west
-  default:
-    backends:
-      - type: Zipkin
-        zipkin:
-          url: http://west.zipkincollector:9411/api/v2/spans
-```
-{% endif_version %}
-
-East only policy:
-
-{% if_version lte:2.2.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: trace-east
-  namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      kuma.io/zome: east
-  default:
-    backends:
-      - zipkin:
-          url: http://east.zipkincollector:9411/api/v2/spans
-```
-{% endif_version %}
-{% if_version gte:2.3.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTrace
-metadata:
-  name: trace-east
-  namespace: {{site.mesh_namespace}}
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      kuma.io/zome: east
-  default:
-    backends:
-      - type: Zipkin
-        zipkin:
-          url: http://east.zipkincollector:9411/api/v2/spans
-```
-{% endif_version %}
-
-{% endtab %}
-{% endtabs %}
 
 ## All policy options
 

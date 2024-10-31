@@ -31,7 +31,7 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 {% if_version gte:2.9.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
+| `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`             |
 | `from[].targetRef.kind` | `Mesh`                                                   |
 {% endif_version %}
@@ -520,7 +520,7 @@ spec:
   to:
     - targetRef:
         kind: MeshService
-        name: backend
+        name: backend_kuma-demo_svc_8080
       default:
         backends:
           - file:
@@ -545,7 +545,7 @@ spec:
   to:
     - targetRef:
         kind: MeshService
-        name: backend
+        name: backend_kuma-demo_svc_8080
       default:
         backends:
           - type: File
@@ -610,7 +610,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
-{% policy_yaml usage use_meshservice=true %}
+{% policy_yaml usage-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshAccessLog
 name: frontend-to-backend
@@ -884,7 +884,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 
 {% if_version gte:2.9.x %}
-{% policy_yaml multiple-backends %}
+{% policy_yaml multiple-backends-29x namespace=kuma-demo %}
 ```yaml
 type: MeshAccessLog
 name: multiple-backends
@@ -1054,7 +1054,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 {% if_version gte:2.9.x %}
 For this use case we recommend creating two separate policies. One for incoming traffic: 
-{% policy_yaml all-incoming-traffic %}
+{% policy_yaml all-incoming-traffic-29x namespace=kuma-demo %}
 ```yaml
 type: MeshAccessLog
 name: all-incoming-traffic
@@ -1071,7 +1071,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 And one for outgoing traffic:
-{% policy_yaml all-outgoing-traffic %}
+{% policy_yaml all-outgoing-traffic-29x namespace=kuma-demo %}
 ```yaml
 type: MeshAccessLog
 name: all-outgoing-traffic
