@@ -1,0 +1,29 @@
+type: MeshTCPRoute
+name: tcp-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                _port: 3001
+                port: 3001
+                weight: 90
+              - kind: MeshService
+                name: backend_v1
+                namespace: kuma-demo
+                _port: 3001
+                port: 3001
+                weight: 10

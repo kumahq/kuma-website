@@ -42,7 +42,12 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
         input_file: 'spec/fixtures/mt-with-from-and-to.yaml',
         golden_file: 'spec/fixtures/mt-with-from-and-to.golden.html',
         tag_options: nil
-      }
+      },
+      {
+        input_file: 'spec/fixtures/mtr.yaml',
+        golden_file: 'spec/fixtures/mtr.golden.html',
+        tag_options: 'use_meshservice=true'
+      },
     ]
 
     test_cases.each do |test_case|
