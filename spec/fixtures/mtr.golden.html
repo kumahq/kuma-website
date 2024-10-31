@@ -69,14 +69,14 @@
         <span class="na">backendRefs</span><span class="pi">:</span>
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshServiceSubset</span>
           <span class="na">name</span><span class="pi">:</span> <span class="s">backend_kuma-demo_svc_3001</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
           <span class="na">tags</span><span class="pi">:</span>
             <span class="na">version</span><span class="pi">:</span> <span class="s">v1</span>
-          <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshServiceSubset</span>
           <span class="na">name</span><span class="pi">:</span> <span class="s">backend_kuma-demo_svc_3001</span>
+          <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
           <span class="na">tags</span><span class="pi">:</span>
             <span class="na">version</span><span class="pi">:</span> <span class="s">v2</span>
-          <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
 </code></pre></div></div>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
@@ -101,12 +101,12 @@
     <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
         <span class="na">backendRefs</span><span class="pi">:</span>
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend_v1</span>
           <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
           <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend_v2</span>
           <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
           <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
@@ -145,9 +145,13 @@
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
           <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
+          <span class="na">tags</span><span class="pi">:</span>
+            <span class="na">version</span><span class="pi">:</span> <span class="s">v1</span>
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
           <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
+          <span class="na">tags</span><span class="pi">:</span>
+            <span class="na">version</span><span class="pi">:</span> <span class="s">v2</span>
 </code></pre></div></div>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">type</span><span class="pi">:</span> <span class="s">MeshTCPRoute</span>
@@ -167,11 +171,11 @@
     <span class="pi">-</span> <span class="na">default</span><span class="pi">:</span>
         <span class="na">backendRefs</span><span class="pi">:</span>
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend_v1</span>
           <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">90</span>
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
-          <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">backend_v2</span>
           <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
           <span class="na">weight</span><span class="pi">:</span> <span class="m">10</span>
 </code></pre></div></div>
