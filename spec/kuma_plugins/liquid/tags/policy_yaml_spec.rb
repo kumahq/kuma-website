@@ -48,6 +48,11 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
         golden_file: 'spec/fixtures/mtr.golden.html',
         tag_options: 'use_meshservice=true'
       },
+      {
+        input_file: 'spec/fixtures/mhr-port.yaml',
+        golden_file: 'spec/fixtures/mhr-port.golden.html',
+        tag_options: 'use_meshservice=true'
+      },
     ]
 
     test_cases.each do |test_case|

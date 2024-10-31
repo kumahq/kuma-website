@@ -85,7 +85,7 @@ module Jekyll
               end)
 
             register_callback(
-              _and(has_path(%w[spec to rules default backendRefs]), kind_is("MeshService")),
+              _or(_and(has_path(%w[spec to rules default backendRefs]), kind_is("MeshService")), _and(has_path(%w[spec to rules default filters requestMirror backendRef]), kind_is("MeshService"))),
               lambda do |backend_ref, context|
                 case context[:env]
                 when :kubernetes
