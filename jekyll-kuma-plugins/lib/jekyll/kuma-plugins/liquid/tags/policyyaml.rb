@@ -90,10 +90,20 @@ module Jekyll
                 case context[:env]
                 when :kubernetes
                   if context[:legacy_output]
-                    {
-                      "kind" => "MeshService",
-                      "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['_port']].compact.join('_'),
-                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                    if backend_ref['_version']
+                      {
+                        "kind" => "MeshServiceSubset",
+                        "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['_port']].compact.join('_'),
+                        "tags" => {
+                          "version" => backend_ref['_version']
+                        }
+                      }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                    else
+                      {
+                        "kind" => "MeshService",
+                        "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['_port']].compact.join('_'),
+                      }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                    end
                   else
                     {
                       "kind" => "MeshService",
