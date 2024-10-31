@@ -1,15 +1,4 @@
-require 'jekyll'
-require_relative '../../../../jekyll-kuma-plugins/lib/jekyll/kuma-plugins/liquid/tags/policyyaml'
-require_relative '../../../../app/_plugins/tags/tabs/tabs'
-require_relative '../../../support/golden_file_manager'
-
-# Register the tab and tabs tags from the Jekyll tabs plugin
-Liquid::Template.register_tag('tab', Jekyll::Tabs::TabBlock)
-Liquid::Template.register_tag('tabs', Jekyll::Tabs::TabsBlock)
-
 RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
-
-
   # Set up the Jekyll site and context for testing
   let(:site) { Jekyll::Site.new(Jekyll.configuration({mesh_namespace: "kuma-demo"})) }
   let(:page) { { 'version' => '2.9.1' } }  # This sets the version key for testing
