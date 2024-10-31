@@ -1,3 +1,4 @@
+<!-- vale off -->
 # Writing documentation
 
 After starting the site locally, navigate to `http://localhost:8080/docs/`. This is where you can view your work 
@@ -57,7 +58,7 @@ You can use [https://mermaid.live/edit](https://mermaid.live/edit) to generate d
 
 **Note:** Currently, Mermaid isn't supported in navtabs.
 
-## Jekyll Plugins
+## Jekyll plugins
 
 You can use some custom plugins to make writing documentation easier, especially for things Jekyll doesn’t support by default:
 
@@ -77,7 +78,7 @@ Parameter order doesn’t matter, and values can be wrapped with either `''` or 
 - **Get current value**: `{% inc step_number get_current %}` returns the current value of `step_number` without incrementing.
 - **Get current value with initial value**: `{% inc step_number get_current init_value=7 %}` returns the current value of `step_number` without incrementing, starting at 7 if it hasn’t been set before.
 
-#### Available Parameters
+#### Available parameters
 
 - **if_version**: Only increments if the Kuma version matches (works like `{% if_version ... %}`).
 - **init_value**: Sets a starting value for the variable.
