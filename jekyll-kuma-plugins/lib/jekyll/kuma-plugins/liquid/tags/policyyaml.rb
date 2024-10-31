@@ -94,7 +94,7 @@ module Jekyll
                       "kind" => "MeshService",
                       "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['port']].compact.join('_'),
                     }.tap { |hash|
-                      hash["kind"] = "MeshServiceSubset" if backend_ref.key?('tags')
+                      hash["kind"] = "MeshServiceSubset" if backend_ref.key?('_version')
                       hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
                       hash["tags"] = {
                         "version" => backend_ref['_version']
@@ -108,7 +108,7 @@ module Jekyll
                       "port" => backend_ref['port'],
                     }.tap { |hash|
                       hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
-                      hash["name"] = backend_ref['name'] + "_" + backend_ref['_version'] if backend_ref.key?('_version')
+                      hash["name"] = backend_ref['name'] + "-" + backend_ref['_version'] if backend_ref.key?('_version')
                     }
                   end
                 when :universal
@@ -117,6 +117,7 @@ module Jekyll
                       "kind" => "MeshService",
                       "name" => backend_ref['name'],
                     }.tap { |hash|
+                      hash["kind"] = "MeshServiceSubset" if backend_ref.key?('_version')
                       hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
                       hash["tags"] = {
                         "version" => backend_ref['_version']
@@ -129,7 +130,7 @@ module Jekyll
                       "port" => backend_ref['port'],
                     }.tap { |hash|
                       hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
-                      hash["name"] = backend_ref['name'] + "_" + backend_ref['_version'] if backend_ref.key?('_version')
+                      hash["name"] = backend_ref['name'] + "-" + backend_ref['_version'] if backend_ref.key?('_version')
                     }
                   end
                 end
