@@ -1,0 +1,37 @@
+type: MeshHTTPRoute
+name: http-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
+      rules:
+        - matches:
+            - headers:
+                - type: Exact
+                  name: mirror-this-request
+                  value: "true"
+          default:
+            filters:
+              - type: RequestMirror
+                requestMirror:
+                  percentage: 30
+                  backendRef:
+                    kind: MeshService
+                    name: backend
+                    _version: experimental
+                    namespace: kuma-demo
+                    port: 3001
+            backendRefs:
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001

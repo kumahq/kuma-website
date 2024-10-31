@@ -85,35 +85,53 @@ module Jekyll
               end)
 
             register_callback(
-              _and(has_path(%w[spec to rules default backendRefs]), kind_is("MeshService")),
+              _or(_and(has_path(%w[spec to rules default backendRefs]), kind_is("MeshService")), _and(has_path(%w[spec to rules default filters requestMirror backendRef]), kind_is("MeshService"))),
               lambda do |backend_ref, context|
                 case context[:env]
                 when :kubernetes
                   if context[:legacy_output]
                     {
                       "kind" => "MeshService",
-                      "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['_port']].compact.join('_'),
-                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                      "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['port']].compact.join('_'),
+                    }.tap { |hash|
+                      hash["kind"] = "MeshServiceSubset" if backend_ref.key?('_version')
+                      hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
+                      hash["tags"] = {
+                        "version" => backend_ref['_version']
+                      } if backend_ref.key?('_version')
+                    }
                   else
                     {
                       "kind" => "MeshService",
                       "name" => backend_ref['name'],
                       "namespace" => backend_ref['namespace'],
                       "port" => backend_ref['port'],
-                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                    }.tap { |hash|
+                      hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
+                      hash["name"] = backend_ref['name'] + "-" + backend_ref['_version'] if backend_ref.key?('_version')
+                    }
                   end
                 when :universal
                   if context[:legacy_output]
                     {
                       "kind" => "MeshService",
                       "name" => backend_ref['name'],
-                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                    }.tap { |hash|
+                      hash["kind"] = "MeshServiceSubset" if backend_ref.key?('_version')
+                      hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
+                      hash["tags"] = {
+                        "version" => backend_ref['_version']
+                      } if backend_ref.key?('_version')
+                    }
                   else
                     {
                       "kind" => "MeshService",
                       "name" => backend_ref['name'],
                       "port" => backend_ref['port'],
-                    }.tap { |hash| hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight') }
+                    }.tap { |hash|
+                      hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
+                      hash["name"] = backend_ref['name'] + "-" + backend_ref['_version'] if backend_ref.key?('_version')
+                    }
                   end
                 end
               end)
