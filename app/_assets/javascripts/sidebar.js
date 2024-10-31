@@ -16,24 +16,28 @@ export default class Sidebar {
 
   addEventListener() {
     this.elem.addEventListener('click', (event) => {
-      if (event.target.classList.contains('sidebar-heading') ||
-        event.target.parentNode.classList.contains('sidebar-heading')
-      ) {
-        let group = event.target.closest('.sidebar-group');
-        let hidden = group.querySelector('.sidebar-group-items')
-          .classList.contains('hidden');
+      const target = event.target.classList.contains('sidebar-heading')
+        ? event.target
+        : event.target.closest('.sidebar-heading');
 
-        this.groups.forEach((group) => this.toggleGroup(group, true));
-        this.toggleGroup(group, !hidden);
+      if (target) {
+        const group = target.closest('.sidebar-group');
+        const isHidden = group.querySelector('.sidebar-group-items').classList.contains('hidden');
 
-        if (group.parentNode.closest('.sidebar-group') !== null){
-          this.toggleGroup(group.parentNode.closest('.sidebar-group'), false);
+        // Toggle clicked group and collapse others
+        this.toggleGroup(group, !isHidden);
+        this.groups.filter(g => g !== group).forEach(g => this.toggleGroup(g, true));
+
+        // Expand all parent groups to ensure the clicked group is visible
+        let parentGroup = group.parentNode.closest('.sidebar-group');
+        while (parentGroup) {
+          this.toggleGroup(parentGroup, false);
+          parentGroup = parentGroup.parentNode.closest('.sidebar-group');
         }
       } else if (event.target.classList.contains('sidebar-link')) {
+        // Manage active state for sidebar links
         const activeLink = this.elem.querySelector('.sidebar-sub-header .sidebar-link.active');
-        if (activeLink !== null) {
-          activeLink.classList.remove('active');
-        }
+        activeLink?.classList.remove('active');
         event.target.classList.add('active');
       }
     });
@@ -43,10 +47,8 @@ export default class Sidebar {
     let items = group.querySelector('.sidebar-group-items');
     let arrow = group.querySelector('.arrow');
 
-    arrow
-      .classList.toggle('down', !hide);
-    arrow
-      .classList.toggle('right', hide);
+    arrow.classList.toggle('down', !hide);
+    arrow.classList.toggle('right', hide);
 
     items.classList.toggle('hidden', hide);
   }

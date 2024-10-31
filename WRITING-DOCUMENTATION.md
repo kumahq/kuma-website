@@ -1,3 +1,4 @@
+<!-- vale off -->
 # Writing documentation
 
 After starting the site locally, navigate to `http://localhost:8080/docs/`. This is where you can view your work 
@@ -56,6 +57,44 @@ This flowchart would render like the following in the docs:
 You can use [https://mermaid.live/edit](https://mermaid.live/edit) to generate diagrams and see the rendered output before adding it to docs.
 
 **Note:** Currently, Mermaid isn't supported in navtabs.
+
+## Jekyll plugins
+
+You can use some custom plugins to make writing documentation easier, especially for things Jekyll doesn’t support by default:
+
+### `inc` tag
+
+The `inc` plugin increments a variable (like `step_number`) each time it's called, letting you keep step numbers or counts consistent across your documentation. You can also set conditions to control when it increments based on the Kuma version or set an initial value.
+
+The first parameter, such as `step_number`, is the variable name used to differentiate between counters. This parameter is required for each `inc` tag.
+
+Parameter order doesn’t matter, and values can be wrapped with either `''` or `""`. If you need to specify multiple version requirements for the `if_version` parameter, you must use quotes around the version string, for example: `{% inc step_number if_version="gte:2.4.x lte:2.8.x" %}`.
+
+#### How to use
+
+- **Basic increment**: `{% inc step_number %}` increments `step_number` by 1.
+- **Conditional increment**: `{% inc step_number if_version=lte:2.4.x %}` increments only if the Kuma version is `2.4.x` or lower.
+- **Set initial value**: `{% inc step_number init_value=5 %}` starts `step_number` at 5.
+- **Get current value**: `{% inc step_number get_current %}` returns the current value of `step_number` without incrementing.
+- **Get current value with initial value**: `{% inc step_number get_current init_value=7 %}` returns the current value of `step_number` without incrementing, starting at 7 if it hasn’t been set before.
+
+#### Available parameters
+
+- **if_version**: Only increments if the Kuma version matches (works like `{% if_version ... %}`).
+- **init_value**: Sets a starting value for the variable.
+- **get_current**: If `true`, returns the current value without incrementing.
+
+#### Real-life examples
+
+```liquid
+{% if_version lte:2.4.x %}
+## Step {% inc step_number if_version=lte:2.4.x %}: Ensure the correct version of iptables.
+{% endif_version %}
+```
+
+```liquid
+To prepare your service environment and start the data plane proxy, follow the [Integrating Transparent Proxy into Your Service Environment](...) guide up to [Step {% inc install_tproxy if_version="lte:2.4.x" init_value=5 %}: Install the Transparent Proxy](...).
+```
 
 ## Cutting a new release
 
