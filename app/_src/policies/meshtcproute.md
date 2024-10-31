@@ -198,16 +198,16 @@ spec:
         - default:
             backendRefs:
               - kind: MeshService
-                name: backend-v0
+                name: backend
                 namespace: kuma-demo
                 port: 3001
-                _port: 3001
+                _version: v0
                 weight: 90
               - kind: MeshService
-                name: backend-v1
+                name: backend
                 namespace: kuma-demo
                 port: 3001
-                _port: 3001
+                _version: v1
                 weight: 10
 ```
 {% endpolicy_yaml %}

@@ -305,16 +305,16 @@ spec:
           default:
             backendRefs:
               - kind: MeshService
-                name: backend-v1
+                name: backend
                 namespace: kuma-demo
                 port: 3001
-                _port: 3001
+                _version: v1
                 weight: 90
               - kind: MeshService
-                name: backend-v2
+                name: backend
                 namespace: kuma-demo
                 port: 3001
-                _port: 3001
+                _version: v2
                 weight: 10
 ```
 {% endpolicy_yaml %}
@@ -435,15 +435,16 @@ spec:
                 requestMirror:
                   percentage: 30
                   backendRef:
-                    kind: MeshSubset
-                    tags:
-                      app: backend
-                      version: v1_experimental
+                    kind: MeshService
+                    name: backend
+                    namespace: kuma-demo
+                    port: 3001
+                    _version: v1-experimental
             backendRefs:
-              - kind: MeshSubset
-                tags:
-                  app: backend
-                  version: v0
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
@@ -479,16 +480,15 @@ spec:
                   percentage: 30
                   backendRef:
                     kind: MeshService
-                    name: backend_v1_experimental
+                    name: backend
                     namespace: kuma-demo
                     port: 3001
-                    _port: 3001
+                    _version: v1-experimental
             backendRefs:
               - kind: MeshService
                 name: backend
                 namespace: kuma-demo
                 port: 3001
-                _port: 3001
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
