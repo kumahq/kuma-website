@@ -493,6 +493,8 @@ items:
         url: /guides/gateway-builtin/
       - text: Add Kong as a delegated Gateway
         url: /guides/gateway-delegated/
+      - text: Kubernetes Gateway API
+        url: /guides/gateway-api
       - text: Collect Metrics with OpenTelemetry
         url: /guides/otel-metrics/
       - text: Migration to the new policies

@@ -11,10 +11,8 @@ In production, you typically set up a gateway to receive traffic external to the
 In this guide you will add [a built-in gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
 We will deploy and configure Gateway using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
+Service graph of the demo app with a builtin gateway on front:
 {% mermaid %}
----
-title: service graph of the demo app with a builtin gateway on front
----
 flowchart LR
   subgraph edge-gateway
     gw0(/ :8080)
@@ -201,8 +199,7 @@ spec:
         tags: 
           kuma.io/service: kuma_kuma-demo_svc 
       default:
-        action: Allow
-" | kubectl apply -f -
+        action: Allow" | kubectl apply -f -
 ```
 
 Check it works with:
@@ -256,7 +253,7 @@ metadata:
 type: kubernetes.io/tls
 data:
   tls.crt: "$(cat tls.crt | base64)"
-  tls.key: "$(cat tls.crt | base64)"" | kubectl apply -f - 
+  tls.key: "$(cat tls.key | base64)"" | kubectl apply -f - 
 ```
 
 Now update the gateway to use this certificate:
@@ -272,7 +269,6 @@ spec:
   listeners:
     - name: proxy
       port: 8080
-      hostname: test.kuma.io
       protocol: HTTPS
       tls:
         certificateRefs:
@@ -334,3 +330,7 @@ Which should output a successful call and indicate TLS is being used:
 Note that we're using `--insecure` as we have used a self-signed certificate.
 
 ## Next steps
+
+* Further explore [Gateway API documentation](https://gateway-api.sigs.k8s.io/)
+* Learn more about how to customize [{{site.mesh_product_name}} Gateway with Gateway API](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/gateway-api/) 
+* Learn about setting up [observability](/docs/{{ page.version }}/explore/observability/) to get full end to end visibility of your mesh.
