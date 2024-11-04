@@ -231,7 +231,7 @@ Load balance requests from `frontend` to `backend` based on the HTTP header `x-h
 ```yaml
 type: MeshLoadBalancingStrategy
 name: ring-hash
-mesh: mesh-1
+mesh: default
 spec:
   targetRef:
     kind: MeshSubset
@@ -259,7 +259,7 @@ spec:
 ```yaml
 type: MeshLoadBalancingStrategy
 name: ring-hash
-mesh: mesh-1
+mesh: default
 spec:
   targetRef:
     kind: MeshSubset
@@ -293,7 +293,7 @@ Requests to `backend` will be spread evenly across all zones where `backend` is 
 ```yaml
 type: MeshLoadBalancingStrategy
 name: disable-la-to-backend
-mesh: mesh-1
+mesh: default
 spec:
   targetRef:
     kind: Mesh
@@ -314,7 +314,7 @@ spec:
 ```yaml
 type: MeshLoadBalancingStrategy
 name: disable-la-to-backend
-mesh: mesh-1
+mesh: default
 spec:
   to:
     - targetRef:
@@ -340,7 +340,7 @@ In this example, whenever a user sends a request to the `backend` service, 90% o
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
-mesh: mesh-1
+mesh: default
 spec:
   targetRef:
     kind: Mesh
@@ -364,7 +364,7 @@ spec:
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
-mesh: mesh-1
+mesh: default
 spec:
   to:
     - targetRef:
@@ -392,7 +392,7 @@ In this example, when a user sends a request to the backend service, the request
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
-mesh: mesh-1
+mesh: default
 spec:
   targetRef:
     kind: Mesh
@@ -414,7 +414,7 @@ spec:
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
-mesh: mesh-1
+mesh: default
 spec:
   to:
     - targetRef:
@@ -438,7 +438,7 @@ or
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
-mesh: mesh-1
+mesh: default
 spec:
   targetRef:
     kind: Mesh
@@ -459,7 +459,7 @@ spec:
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
-mesh: mesh-1
+mesh: default
 spec:
   to:
     - targetRef:
@@ -484,7 +484,7 @@ Requests to the backend service will be evenly distributed among all endpoints w
 ```yaml
 type: MeshLoadBalancingStrategy
 name: cross-zone-backend
-mesh: mesh-1
+mesh: default
 spec:
   targetRef:
     kind: Mesh
@@ -516,7 +516,7 @@ spec:
 ```yaml
 type: MeshLoadBalancingStrategy
 name: cross-zone-backend
-mesh: mesh-1
+mesh: default
 spec:
   to:
     - targetRef:
@@ -554,7 +554,7 @@ When no healthy backends are available within the local zone, traffic from data 
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-cross-backend
-mesh: mesh-1
+mesh: default
 spec:
   targetRef:
     kind: Mesh
@@ -596,7 +596,7 @@ spec:
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-cross-backend
-mesh: mesh-1
+mesh: default
 spec:
   to:
     - targetRef:
@@ -649,7 +649,7 @@ You can mitigate this problem by adjusting `max_requests_per_connection` setting
 ```yaml
 type: MeshProxyPatch
 name: max-requests-per-conn
-mesh: mesh-1
+mesh: default
 spec:
   targetRef:
     kind: Mesh
@@ -670,7 +670,7 @@ spec:
 ```yaml
 type: MeshProxyPatch
 name: max-requests-per-conn
-mesh: mesh-1
+mesh: default
 spec:
   default:
     appendModifications:
