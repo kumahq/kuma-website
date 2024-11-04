@@ -10,6 +10,8 @@
   JEKYLL_ENV = "preview"
 
 [dev]
+  # netlify automatically figures out and starts the framework, which in our case
+  # is vite
   autoLaunch = false
   targetPort = 4000
 
