@@ -2,6 +2,7 @@ control-plane
 controlplane
 data-plane
 dataplane
+tcp
 multizone
 multi\s+zone
 singlezone

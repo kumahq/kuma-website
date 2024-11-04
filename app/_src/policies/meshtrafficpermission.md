@@ -71,6 +71,7 @@ If you don't understand this table you should read [matching docs](/docs/{{ page
 
 ### Service 'payments' allows requests from 'orders'
 
+{% if_version lte:2.8.x %}
 {% policy_yaml allow-orders %}
 ```yaml
 type: MeshTrafficPermission
@@ -78,8 +79,9 @@ name: allow-orders
 mesh: default
 spec:
   targetRef: # 1
-    kind: MeshService
-    name: payments
+    kind: MeshSubset
+    tags:
+      app: payments
   from:
     - targetRef: # 2
         kind: MeshSubset
@@ -89,6 +91,28 @@ spec:
         action: Allow
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml allow-orders-29x namespace=kuma-demo %}
+```yaml
+type: MeshTrafficPermission
+name: allow-orders
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: payments
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags: 
+          kuma.io/service: orders
+      default:
+        action: Allow
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 #### Explanation
 
@@ -120,6 +144,7 @@ spec:
 
 ### Deny all
 
+{% if_version lte:2.8.x %}
 {% policy_yaml deny-all %}
 ```yaml
 type: MeshTrafficPermission
@@ -135,6 +160,22 @@ spec:
         action: Deny
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml deny-all-29x namespace=kuma-demo %}
+```yaml
+type: MeshTrafficPermission
+name: deny-all
+mesh: default
+spec:
+  from:
+    - targetRef: # 2
+        kind: Mesh
+      default: # 3
+        action: Deny
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 #### Explanation
 
@@ -161,6 +202,7 @@ spec:
 
 ### Allow all
 
+{% if_version lte:2.8.x %}
 {% policy_yaml allow-all %}
 ```yaml
 type: MeshTrafficPermission
@@ -176,6 +218,22 @@ spec:
         action: Allow
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml allow-all-29x namespace=kuma-demo %}
+```yaml
+type: MeshTrafficPermission
+name: allow-all
+mesh: default
+spec:
+  from:
+    - targetRef: # 2
+        kind: Mesh
+      default: # 3
+        action: Allow
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 #### Explanation
 
@@ -202,6 +260,7 @@ spec:
 
 ### Allow requests from zone 'us-east', deny requests from 'dev' environment
 
+{% if_version lte:2.8.x %}
 {% policy_yaml tags %}
 ```yaml
 type: MeshTrafficPermission
@@ -225,6 +284,30 @@ spec:
            action: Deny
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml tags-29x namespace=kuma-demo %}
+```yaml
+type: MeshTrafficPermission
+name: example-with-tags
+mesh: default
+spec:
+   from:
+      - targetRef: # 2
+           kind: MeshSubset
+           tags:
+              kuma.io/zone: us-east
+        default: # 3
+           action: Allow
+      - targetRef: # 4
+           kind: MeshSubset
+           tags:
+              env: dev
+        default: # 5
+           action: Deny
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 #### Explanation
 

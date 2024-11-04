@@ -158,6 +158,7 @@ The amount of time that proxy will wait for the request headers to be received. 
 
 This configuration will be applied to all data plane proxies inside of Mesh.
 
+{% if_version lte:2.8.x %}
 {% policy_yaml example1 %}
 ```yaml
 type: MeshTimeout
@@ -176,9 +177,29 @@ spec:
           requestTimeout: 2s
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml example1-29x namespace=kuma-demo %}
+```yaml
+type: MeshTimeout
+name: timeout-global
+mesh: default
+spec:
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 20s
+        connectionTimeout: 2s
+        http:
+          requestTimeout: 2s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 #### Simple TCP configuration
 
+{% if_version lte:2.8.x %}
 {% policy_yaml example2 %}
 ```yaml
 type: MeshTimeout
@@ -195,11 +216,29 @@ spec:
         connectionTimeout: 2s
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml example2-29x namespace=kuma-demo %}
+```yaml
+type: MeshTimeout
+name: tcp-timeout
+mesh: default
+spec:
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 20s
+        connectionTimeout: 2s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 #### Simple configuration for inbound applied to specific service
 
 This configuration will be applied to `backend` service inbound.
 
+{% if_version lte:2.8.x %}
 {% policy_yaml example3 %}
 ```yaml
 type: MeshTimeout
@@ -207,8 +246,9 @@ name: inbound-timeout
 mesh: default
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   from:
     - targetRef:
         kind: Mesh
@@ -217,13 +257,74 @@ spec:
         connectionTimeout: 2s
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml example3-29x namespace=kuma-demo %}
+```yaml
+type: MeshTimeout
+name: inbound-timeout
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 20s
+        connectionTimeout: 2s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 #### Full config applied to inbound and outbound of specific service
 
 This timeout configuration will be applied to all inbound connections to `frontend` and outbound connections
 from `frontend` to `backend` service
 
-{% policy_yaml example4 use_meshservice=true %}
+{% if_version lte:2.8.x %}
+{% policy_yaml example4 %}
+```yaml
+type: MeshTimeout
+name: inbound-timeout
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: frontend
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 60s
+        connectionTimeout: 2s
+        http:
+          requestTimeout: 10s
+          streamIdleTimeout: 1h
+          maxStreamDuration: 30m
+          maxConnectionDuration: 30m
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+      default:
+        idleTimeout: 60s
+        connectionTimeout: 1s
+        http:
+          requestTimeout: 5s
+          streamIdleTimeout: 1h
+          maxStreamDuration: 30m
+          maxConnectionDuration: 30m
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml example4-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -261,6 +362,7 @@ spec:
           maxConnectionDuration: 30m
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 
 {% if_version gte:2.3.x %}
 #### Target `MeshHTTPRoute`
@@ -305,7 +407,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml example5-29x use_meshservice=true %}
+{% policy_yaml example5-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: route-to-backend-v2
@@ -338,6 +440,7 @@ spec:
 {% endif_version %}
 
 You can see in the following route that the top level `targetRef` matches the previously defined `MeshHTTPRoute`.
+{% if_version lte:2.8.x %}
 {% policy_yaml example6 %}
 ```yaml
 type: MeshTimeout
@@ -356,6 +459,27 @@ spec:
           streamIdleTimeout: 1h
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml example6-29x namespace=kuma-demo %}
+```yaml
+type: MeshTimeout
+name: backend-v2
+mesh: default
+spec:
+  targetRef:
+    kind: MeshHTTPRoute
+    name: route-to-backend-v2
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        http:
+          requestTimeout: 5s
+          streamIdleTimeout: 1h
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 {% endif_version %}
 
 {% if_version gte:2.6.x %}

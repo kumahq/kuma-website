@@ -2,11 +2,6 @@
   "name": "kuma-website",
   "description": "The website and docs for Kuma.",
   "author": "Kong Inc.",
-  "scripts": {
-    "dev": "netlify dev",
-    "test": "jest",
-    "test-coverage": "jest --coverage"
-  },
   "dependencies": {
     "@kongponents/ktabs": "^0.1.2",
     "@kongponents/styles": "^0.2.0",

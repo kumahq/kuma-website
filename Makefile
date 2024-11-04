@@ -28,9 +28,6 @@ test:
 build: ruby-version-check
 	bundle exec jekyll build --config jekyll.yml --profile
 
-serve:
-	yarn run dev
-
 # Cleans up all temp files in the build.
 # Run `make clean` locally whenever you're updating dependencies, or to help
 # troubleshoot build issues.
@@ -41,5 +38,11 @@ clean:
 	-rm -rf .jekyll-cache/vite
 
 kill-ports:
+	@echo '[DEPRECATED]: This target is deprecated because the "run" target now correctly handles kill signals, closing these ports automatically.'
+	@printf "  Existing Jekyll Processes on Port 4000 : %s\n" "$$(lsof -ti:4000 | tr '\n' ' ' || echo 'None')"
+	@printf "  Existing Vite Processes on Port 3036   : %s\n" "$$(lsof -ti:3036 | tr '\n' ' ' || echo 'None')"
+	@echo 'If you still want to terminate these processes, use the "kill-ports-force" target. [WARNING]: If you are using Firefox, this action may unexpectedly kill your browser processes.'
+
+kill-ports-force:
 	@JEKYLL_PROCESS=$$(lsof -ti:4000) && kill -9 $$JEKYLL_PROCESS || true
 	@VITE_PROCESS=$$(lsof -ti:3036) && kill -9 $$VITE_PROCESS || true

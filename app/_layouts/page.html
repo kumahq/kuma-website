@@ -1,10 +1,18 @@
 ---
 layout: default
 ---
+
+{% capture classes -%}
+theme-default-content
+content__default
+{% if page.version and page.version != site.data.latest_version.release %} with-alert{% endif %}
+{% if page.doc %} doc{% endif -%}
+{%- endcapture %}
+
 <main class="page">
   {% include version_alert.html %}
 
-  <div class="theme-default-content content__default {% if page.doc %} doc {% endif %}">
+  <div class="{{ classes }}">
     {% if page.doc %}
       <h1 id="{{ page.title | downcase | replace: ' ', '-' }}">{{ page.title }}</h1>
     {% endif %}

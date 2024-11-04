@@ -30,9 +30,7 @@ export default class NavBar {
       }
     });
 
-    this.sidebarButton.addEventListener('click', (event) => {
-      this.toggleSidebar();
-    });
+    this.sidebarButton?.addEventListener('click', () => this.toggleSidebar());
   }
 
   toggleSidebar(toggle) {

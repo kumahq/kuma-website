@@ -3,7 +3,6 @@ export default class Sidebar {
     this.elem = document.querySelector('.theme-container:not(.no-sidebar) #sidebar');
 
     if (this.elem !== null) {
-
       this.groups = Array.from(
         this.elem.querySelectorAll('.sidebar-links li .sidebar-group')
       );
@@ -56,35 +55,26 @@ export default class Sidebar {
   expandActiveGroup() {
     const currentPath = window.location.pathname;
     const activeLink = this.elem.querySelector(`a[href^='${currentPath}']`);
+
     if (activeLink) {
-      const topLevelGroup = activeLink.closest(`.sidebar-group.depth-0`);
+      let currentGroup = activeLink.closest('.sidebar-group');
 
-      if (topLevelGroup !== null) {
-        this.toggleGroup(topLevelGroup);
-
-        const nestedGroup = activeLink.closest(`.sidebar-group.depth-1`);
-        if (nestedGroup !== null) {
-          this.toggleGroup(nestedGroup);
-          nestedGroup.scrollIntoView({ behavior: "smooth", block: "center" });
-        } else {
-          topLevelGroup.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
+      // Traverse up and expand each nested group until reaching the top level
+      while (currentGroup) {
+        this.toggleGroup(currentGroup, false);
+        currentGroup = currentGroup.parentNode.closest('.sidebar-group');
       }
+
+      this.elem.querySelector('.sidebar-links')?.scroll({ top: activeLink.offsetTop, behavior: 'smooth' });
     }
   }
 
   setActiveLink() {
-    let currentPath = window.location.pathname;
-    if (window.location.hash) {
-      currentPath += window.location.hash;
-    }
+    const currentPath = `${window.location.pathname}${window.location.hash || ''}`;
+    const activeLink = this.elem.querySelector(`a[href='${currentPath}']`);
 
-    let activeElement = this.elem
-      .querySelector(`a[href='${currentPath}']`);
-
-    if (activeElement !== null) {
-      activeElement.classList
-      .add('active');
+    if (activeLink) {
+      activeLink.classList.add('active');
     }
   }
 }

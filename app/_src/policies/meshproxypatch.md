@@ -167,8 +167,9 @@ metadata:
   namespace: {{site.mesh_namespace}}
 spec:
   targetRef:
-    kind: MeshService
-    name: backend_default_svc_80
+    kind: MeshSubset
+    tags:
+      app: backend
   default:
     appendModifications:
       - cluster:
@@ -247,8 +248,9 @@ mesh: default
 name: custom-template-1
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   default:
     appendModifications:
       - cluster:
@@ -352,8 +354,9 @@ metadata:
   namespace: {{site.mesh_namespace}}
 spec:
   targetRef:
-    kind: MeshService
-    name: backend_default_svc_80
+    kind: MeshSubset
+    tags:
+      app: backend
   default:
     appendModifications:
       - listener:
@@ -435,8 +438,9 @@ mesh: default
 name: custom-template-1
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   default:
     appendModifications:
       - listener:
@@ -601,8 +605,9 @@ metadata:
   namespace: {{site.mesh_namespace}}
 spec:
   targetRef:
-    kind: MeshService
-    name: backend_default_svc_80
+    kind: MeshSubset
+    tags:
+      app: backend
   default:
     appendModifications:
       - networkFilter:
@@ -799,8 +804,9 @@ mesh: default
 name: custom-template-1
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   default:
     appendModifications:
       - networkFilter:
@@ -1017,8 +1023,9 @@ metadata:
   namespace: {{site.mesh_namespace}}
 spec:
   targetRef:
-    kind: MeshService
-    name: backend_default_svc_80
+    kind: MeshSubset
+    tags:
+      app: backend
   default:
     appendModifications:
       - httpFilter:
@@ -1199,8 +1206,9 @@ mesh: default
 name: custom-template-1
 spec:
   targetRef:
-    kind: MeshService
-    name: backend_default_svc_80
+    kind: MeshSubset
+    tags:
+      app: backend
   default:
     appendModifications:
       - httpFilter:
@@ -1359,8 +1367,9 @@ metadata:
   namespace: {{site.mesh_namespace}}
 spec:
   targetRef:
-    kind: MeshService
-    name: backend_default_svc_80
+    kind: MeshSubset
+    tags:
+      app: backend
   default:
     appendModifications:
       - virtualHost:
@@ -1451,8 +1460,9 @@ mesh: default
 name: custom-template-1
 spec:
   targetRef:
-    kind: MeshService
-    name: backend
+    kind: MeshSubset
+    tags:
+      app: backend
   default:
     appendModifications:
       - virtualHost:

@@ -93,7 +93,36 @@ See [protocol fallback example](#protocol-fallback).
 
 #### Health check from web to backend service
 
-{% policy_yaml usage use_meshservice=true %}
+{% if_version lte:2.8.x %}
+{% policy_yaml usage %}
+```yaml
+type: MeshHealthCheck
+name: web-to-backend-check
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      kuma.io/service: web
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+      default:
+        interval: 10s
+        timeout: 2s
+        unhealthyThreshold: 3
+        healthyThreshold: 1
+        http:
+          path: /health
+          expectedStatuses: [200, 201]
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml usage-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -120,10 +149,40 @@ spec:
           expectedStatuses: [200, 201]
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 
 #### Protocol fallback
 
-{% policy_yaml protocol use_meshservice=true %}
+{% if_version lte:2.8.x %}
+{% policy_yaml protocol %}
+```yaml
+type: MeshHealthCheck
+name: web-to-backend-check
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      kuma.io/service: web
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+      default:
+        interval: 10s
+        timeout: 2s
+        unhealthyThreshold: 3
+        healthyThreshold: 1
+        tcp: {} # http has "disabled=true" so TCP (a more general protocol) is used as a fallback
+        http:
+          disabled: true
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml protocol-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -150,10 +209,39 @@ spec:
           disabled: true
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 
 #### gRPC health check from cart to payment service
 
-{% policy_yaml grpc use_meshservice=true %}
+{% if_version lte:2.8.x %}
+{% policy_yaml grpc %}
+```yaml
+type: MeshHealthCheck
+name: web-to-backend-check
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      kuma.io/service: web
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+      default:
+        interval: 15s
+        timeout: 5s
+        unhealthyThreshold: 3
+        healthyThreshold: 2
+        grpc:
+          serviceName: "grpc.health.v1.CustomHealth"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% if_version gte:2.9.x %}
+{% policy_yaml grpc-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -179,6 +267,7 @@ spec:
           serviceName: "grpc.health.v1.CustomHealth"
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 
 ## Common configuration
 

@@ -12,6 +12,17 @@ kramdown:
       disable: true
 incremental: true
 
+exclude:
+  - .netlify/
+  - .jekyll-cache/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  # Styles in _assets/styles/ are managed and hot-reloaded by Vite, so Jekyll
+  # doesn't need to process them. This prevents unnecessary browser refreshes
+  # triggered by Jekyll
+  - _assets/styles/
+
 # Site settings
 logo: "/assets/images/brand/kuma-logo-new.svg"
 repo: "https://github.com/kumahq/kuma"

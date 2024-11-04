@@ -4,9 +4,9 @@
 // This is the component that alerts the user if they are
 // viewing documentation for an older version, and provides
 // them with a link to the latest version.
-// 
+//
 
-$version-alert-max-width: 740px;
+$version-alert-max-width: $contentWidth;
 $version-alert-margin: $navbarHeight auto 0 auto;
 $version-alert-padding: 2rem 2.5rem 0 2rem;
 $version-alert-title-font-size: 1.5rem;
@@ -14,6 +14,7 @@ $version-alert-title-margin: 0;
 $version-alert-text-margin: 0;
 $version-alert-inner-padding: 1.5rem;
 $version-alert-inner-margin: 0;
+$version-alert-inner-margin-large: 0 0 0 0.5rem;
 $version-alert-link-color: $color-5;
 
 .version-alert {
@@ -24,6 +25,9 @@ $version-alert-link-color: $color-5;
   .custom-block {
     padding: $version-alert-inner-padding;
     margin: $version-alert-inner-margin;
+    @media (min-width: $MQMobile) {
+      margin: $version-alert-inner-margin-large;
+    }
 
     a {
       text-decoration: underline;
