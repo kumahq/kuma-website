@@ -19,8 +19,19 @@ export default defineConfig({
     }),
   ],
   css: {
+    devSourcemap: true,
     preprocessorOptions: {
-      scss: { additionalData: ["@import '@/styles/custom/config/variables', '@/styles/vuepress-core/config', '@/styles/custom/config/fonts', '@/styles/custom/config/mixins', '@/styles/custom/base/forms';"] },
+      scss: {
+        api: 'modern',
+        additionalData: [
+          '@import',
+          "'@/styles/custom/config/variables',",
+          "'@/styles/vuepress-core/config',",
+          "'@/styles/custom/config/fonts',",
+          "'@/styles/custom/config/mixins',",
+          "'@/styles/custom/base/forms';",
+        ].join(' ')
+      },
     },
   },
 })

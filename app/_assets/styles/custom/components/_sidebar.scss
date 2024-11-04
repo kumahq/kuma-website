@@ -44,6 +44,12 @@ $sidebar-button-left-spacing: 1.5rem;
   .nav-links {
     display: block;
   }
+
+  .sidebar-top-section {
+    padding-bottom: 1rem;
+    background: #fff;
+    mask-image: linear-gradient(to bottom, #fff 90%, transparent);
+  }
 }
 
 .sidebar-links {
@@ -91,9 +97,16 @@ a.sidebar-link {
   .sidebar {
     position: sticky;
     top: 0;
-    padding-top: $navbarHeight;
     bottom: 0;
-    height: calc(100vh - #{$navbarHeight});
+    height: 100vh;
+  }
+
+  .sidebar .sidebar-top-section {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding-top: $navbarHeight;
+    padding-bottom: 3rem;
   }
 
   .theme-container.no-sidebar .sidebar {

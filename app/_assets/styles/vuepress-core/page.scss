@@ -1,6 +1,10 @@
 .page {
   padding-bottom: 2rem;
   display: block;
+
+  .content__default.with-alert {
+    padding-top: 0;
+  }
 }
 
 .page-edit {
