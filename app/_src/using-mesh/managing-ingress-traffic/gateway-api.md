@@ -9,6 +9,11 @@ for configuring {% if_version gte:2.6.x inline:true %}[built-in gateway](/docs/{
 
 ## Installation
 
+{% if_version gte:2.9.x %}
+Checkout our dedicated installation [guide](/docs/{{ page.version }}/guides/gateway-api).
+{% endif_version %}
+
+{% if_version lte:2.8.x %}
 {% if_version lte:2.6.x %}
 {% warning %}
 {{ site.mesh_product_name }}'s [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) implementation is beta.
@@ -210,6 +215,7 @@ spec:
 Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mesh_namespace}}` namespace and converts it to {% if_version lte:2.1.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.version }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.version }}/production/secure-deployment/secrets/){% endif_version %}.
 It tracks all the changes to the secret and deletes it upon deletion of the original secret.
 
+{% endif_version %}
 ### Customization
 
 Gateway API provides the `parametersRef` field on `GatewayClass.spec`
