@@ -35,6 +35,12 @@ kumactl install control-plane \
   --set "controlPlane.tls.kdsZoneClient.skipVerify=true" \
   | kubectl apply -f -
 ```
+6. To verify installation on global Kubernetes cluster run:
+```shell
+kubectl -n {{site.mesh_namespace}} port-forward svc/{{ site.mesh_helm_install_name }}-control-plane 5681:5681
+```
+Open [GUI](/docs/{{ page.version }}/production/gui) in your browser by navigating to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui).
+You should see zone connected and healthy.
 
 ## Next steps
 * Read more about [multi-zone setup](/docs/{{ page.version }}/production/deployment/multi-zone/)
