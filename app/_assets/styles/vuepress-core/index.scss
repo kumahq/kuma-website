@@ -52,6 +52,14 @@ body {
   @include wrapper;
 
   > *:first-child {
+    margin-top: 2rem;
+
+    @media (min-width: $MQMobile) {
+      margin-top: 3rem;
+    }
+  }
+
+  &:not(.with-alert) > *:first-child {
     margin-top: $navbarHeight;
   }
 
@@ -122,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 1.25;
 
-  #{$contentClass}:not(.custom) > & {
+  #{$contentClass}:not(.custom):not(.with-alert) > & {
     margin-top: 0.5rem - $navbarHeight;
     padding-top: $navbarHeight + 1rem;
     margin-bottom: 0;
