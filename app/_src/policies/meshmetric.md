@@ -211,7 +211,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-##### Include all metrics apart from one manually excluded
+##### Exclude all metrics apart from one manually added
 
 {% policy_yaml exclude_only_manually_defined %}
 ```yaml
