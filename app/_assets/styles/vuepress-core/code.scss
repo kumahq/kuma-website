@@ -178,6 +178,10 @@ div[class~='language-php']:before {
   content: 'php';
 }
 
+pre[class*='language-'].line-numbers {
+  padding-left: 4.8em !important;
+}
+
 .line-numbers .line-numbers-rows {
   border: none !important;
   left: -4.8em !important;
