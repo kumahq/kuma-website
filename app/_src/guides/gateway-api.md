@@ -39,7 +39,7 @@ kind: GatewayClass
 metadata:
   name: kuma
 spec:
-  controllerName: gateways.kuma.io/controller" | kubectl install -f -
+  controllerName: gateways.kuma.io/controller" | kubectl apply -f -
 ```
 
 At this moment, when you install Gateway API CRDs after installing {{site.mesh_product_name}} control plane you need to restart
@@ -74,10 +74,10 @@ The Kubernetes cluster needs to support `LoadBalancer` for this to work.
 If you are running `minikube` you will want to open a [tunnel](https://minikube.sigs.k8s.io/docs/handbook/accessing/#loadbalancer-access) with `minikube tunnel -p mesh-zone`.
 
 You may not have support for `LoadBalancer` if you are running locally with `kind` or `k3d`.
-One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind) may be helpful.
+One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind).
 {% endwarning %}
 
-You can now check if gateway is running in demo app `kuma-demo` namespace:
+You can now check if the gateway is running in the demo app `kuma-demo` namespace:
 ```shell
 kubectl get pods -n kuma-demo
 ```
