@@ -31,7 +31,7 @@ For more details, see the [Control Plane Configuration Reference]({{ docs }}/ref
 
 Some transparent proxy settings can be adjusted here, and **for certain settings, this is the only place they can be modified**.
 
-Currently, it’s best to use the control plane runtime configuration as the main place to store transparent proxy settings that apply to all [workloads](https://kubernetes.io/docs/concepts/workloads/). In the future, once the [{{ configuration-in-configmap }}](#control-plane-runtime-configuration) feature is fully supported, we’ll recommend using ConfigMaps for these settings. However, a few restricted settings that are rarely customized will still need to be in the control plane’s runtime configuration.
+Currently, it’s best to use the control plane runtime configuration as the main place to store transparent proxy settings that apply to all [workloads](https://kubernetes.io/docs/concepts/workloads/). In the future, once the [{{ configuration-in-configmap }}](#configuration-in-configmap) feature is fully supported, we’ll recommend using ConfigMaps for these settings. However, a few restricted settings that are rarely customized will still need to be in the control plane’s runtime configuration.
 
 Below is a subset of the configuration focused on transparent proxy settings, with default values and corresponding environment variables for each field. For further details, see the [Modifying control plane runtime configuration](#modifying-control-plane-runtime-configuration) section.
 

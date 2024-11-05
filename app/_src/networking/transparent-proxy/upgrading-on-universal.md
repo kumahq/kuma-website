@@ -51,5 +51,5 @@ kumactl install transparent-proxy [...]
 This command will install the new version of the transparent proxy with the specified configuration. Adjust the flags as needed to suit your environment.
 
 {% tip %}
-For a comprehensive documentation of installing the transparent proxy in Universal mode, including details on preparing the environment, understanding any restrictions, and configuring `Dataplane` objects to work with the transparent proxy, refer to the [Installing Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/installing-on-universal/) guide.
+For a comprehensive documentation of installing the transparent proxy in Universal mode, including details on preparing the environment, understanding any restrictions, and configuring `Dataplane` objects to work with the transparent proxy, refer to the [Installing Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/installing-on-universal/) page.
 {% endtip %}
