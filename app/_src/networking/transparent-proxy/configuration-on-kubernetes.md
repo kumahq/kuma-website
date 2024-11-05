@@ -16,14 +16,8 @@ content_type: how-to
 The default transparent proxy configuration works well for most scenarios, but there are cases where adjustments are needed. This guide explains the various methods available for modifying the configuration, along with their limitations and recommendations on when to use each one. While these methods can be used individually, they can also be combined when necessary.
 
 {% warning %}
-It’s best to stick to one method whenever possible. Using more than one can make things more complicated and harder to troubleshoot, as it may not be clear where each setting comes from. If you need to combine methods, check the [**Order of Precedence**](#order-of-precedence) to see what the final configuration will look like based on the priority of each setting.
+It’s best to stick to one method whenever possible. Using more than one can make things more complicated and harder to troubleshoot, as it may not be clear where each setting comes from. If you need to combine methods, check the [**Order of Precedence** section](#order-of-precedence) to see what the final configuration will look like based on the priority of each setting.
 {% endwarning %}
-
-## Terminology overview
-
-- **Workload**: In this guide, **workload** refers to an application running in a Kubernetes cluster, usually represented by a [**Pod**](https://kubernetes.io/docs/concepts/workloads/pods/). Kubernetes resources like [**Deployment**](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/), [**ReplicaSet**](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/), and [**StatefulSet**](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) are used to define and manage these workloads, resulting in one or more **Pods** where the application actually runs.
-
-- **ConfigMap**: In this guide, **ConfigMap** refers to the Kubernetes [**ConfigMap**](https://kubernetes.io/docs/concepts/configuration/configmap/) resource. It’s used to store configuration data as key-value pairs that can be easily accessed by other resources in the cluster, such as Pods, Deployments, and StatefulSets.
 
 <!-- vale Google.Headings = NO -->
 ## Control Plane Runtime Configuration
@@ -37,7 +31,7 @@ For more details, see the [Control Plane Configuration Reference]({{ docs }}/ref
 
 Some transparent proxy settings can be adjusted here, and **for certain settings, this is the only place they can be modified**.
 
-Currently, it’s best to use the control plane runtime configuration as the main place to store transparent proxy settings that apply to all workloads. In the future, once the [{{ configuration-in-configmap }}](#control-plane-runtime-configuration) feature is fully supported, we’ll recommend using ConfigMaps for these settings. However, a few restricted settings that are rarely customized will still need to be in the control plane’s runtime configuration.
+Currently, it’s best to use the control plane runtime configuration as the main place to store transparent proxy settings that apply to all [workloads](https://kubernetes.io/docs/concepts/workloads/). In the future, once the [{{ configuration-in-configmap }}](#control-plane-runtime-configuration) feature is fully supported, we’ll recommend using ConfigMaps for these settings. However, a few restricted settings that are rarely customized will still need to be in the control plane’s runtime configuration.
 
 Below is a subset of the configuration focused on transparent proxy settings, with default values and corresponding environment variables for each field. For further details, see the [Modifying control plane runtime configuration](#modifying-control-plane-runtime-configuration) section.
 
@@ -414,7 +408,7 @@ These annotations ensure that the proper configuration is automatically applied 
 
 When using multiple configuration methods, it's important to understand the order in which they are applied to avoid conflicts and ensure the correct settings are used.
 
-1. Defaults (refer to [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/) for exact values)
+1. [Default values]({{ docs }}/reference/transparent-proxy-configuration/#default-values)
 
 2. [Control Plane Runtime Configuration](#control-plane-runtime-configuration)
 

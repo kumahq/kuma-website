@@ -298,8 +298,8 @@ items:
                   - text: Configuration
                     url: /networking/transparent-proxy/configuration-on-universal/
                     items:
-                      - text: YAML or JSON Configuration
-                        url: /networking/transparent-proxy/configuration-on-universal/#yaml-or-json-configuration
+                      - text: YAML / JSON
+                        url: /networking/transparent-proxy/configuration-on-universal/#yaml--json
                       - text: Environment Variables
                         url: /networking/transparent-proxy/configuration-on-universal/#environment-variables
                       - text: CLI Flags

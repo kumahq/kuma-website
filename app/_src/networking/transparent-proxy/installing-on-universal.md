@@ -7,19 +7,11 @@ content_type: how-to
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 
-{% tip %}
-These instructions apply to **Universal** mode, where {{ Kuma }} needs to be manually configured for each environment. In **Kubernetes** mode, the transparent proxy is set up automatically using the [`kuma-init` container]({{ docs }}/production/dp-config/dpp-on-kubernetes/) or [Kuma CNI]({{ docs }}/production/dp-config/cni/), so the steps below do not apply.
-{% endtip %}
-
 This page provides instructions for setting up a transparent proxy in your service environment. A transparent proxy helps streamline service management and traffic routing within a mesh, directing all traffic through the data plane proxy without requiring changes to your application code.
 
 Once completed, your service will run under a transparent proxy, allowing you to use {{ Kuma }}'s service management features, like traffic control, observability, and security.
 
 Before starting, review the prerequisites below and adjust settings to fit your environment, including IP addresses, custom ports, and DNS configurations.
-
-## Terminology overview
-
-- **Service**: In this instruction, **service** refers to an application running in the environment where the transparent proxy is deployed. An exception is when we refer to [systemd](https://systemd.io/) services; in these cases, **service** specifically means a [systemd service unit](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html).
 
 ## Prerequisites
 

@@ -40,7 +40,7 @@ It’s best to stick to one method whenever possible. Using more than one can ma
 Here are the methods, listed by precedence, from lowest to highest. 
 
 <!-- vale Google.Headings = NO -->
-### YAML or JSON Configuration
+### YAML / JSON
 <!-- vale Google.Headings = YES -->
 
 You can provide the configuration in either `YAML` or `JSON` format by using the `--config` or `--config-file` flags.
