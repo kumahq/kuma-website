@@ -56,12 +56,12 @@ Using the transparent proxy in [Universal mode]({{ docs }}/introduction/architec
 
 - **Simplified service connectivity**: Take advantage of [Kuma DNS]({{ docs }}/networking/dns/) to use `.mesh` domain names, like `https://service-1.mesh`, for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
 
-- **Flexible service naming with [VirtualOutbound]({{ docs }}/policies/virtual-outbound) policy**: It lets you:
+- **Flexible service naming**: With [MeshServices]({{ docs }}/networking/meshservice/) and [HostnameGenerators]({{ docs }}/networking/hostnamegenerator/), you can:
 
-  - Keep existing DNS names when moving to the service mesh.
-  - Assign multiple DNS names to a service for renaming or convenience.
-  - Create specific routes, like targeting individual StatefulSet Pods or service versions.
-  - Expose multiple inbounds for a service on different ports.
+  - Keep your existing DNS names when moving to the service mesh.
+  - Give a service multiple DNS names for easier access.
+  - Set up custom routes, like targeting specific StatefulSet Pods or service versions.
+  - Expose a service on multiple ports for different uses.
 
 - **Simpler security, tracing, and observability**: Transparent proxy makes managing these features easier, with no extra setup required.
 

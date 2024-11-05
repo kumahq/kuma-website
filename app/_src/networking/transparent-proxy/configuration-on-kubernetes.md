@@ -222,8 +222,10 @@ For example, if `runtime.kubernetes.injector.sidecarTraffic.excludeOutboundPorts
 
 See the [**Order of Precedence**](#order-of-precedence) section to understand how different methods affect the final configuration applied.
 
+<!-- vale Google.Headings = NO -->
 ## Configuration in ConfigMap (experimental)
 {:#configuration-in-configmap}
+<!-- vale Google.Headings = YES -->
 
 {% warning %}
 Because this feature impacts multiple underlying components, it is considered experimental. Use it with caution. {% if site.mesh_product_name == "Kuma" %} If you encounter any unexpected behavior or issues, please [**contact us**](/community) and [**submit an issue on GitHub**](https://github.com/kumahq/kuma/issues/new/choose). Your feedback is essential in helping us improve this feature. {% endif %}
