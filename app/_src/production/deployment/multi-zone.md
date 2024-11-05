@@ -49,7 +49,7 @@ You can also favor local service instances with {% if_version lte:2.5.x %}[local
 
 In the presence of a {% if_version lte:2.1.x %}[zone egress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}, the traffic is routed through the local zone egress before being sent to the remote zone ingress.
 
-When using [transparent proxy](/docs/{{ page.version }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}) (default in Kubernetes),
+When using [transparent proxy](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %}) (default in Kubernetes),
 {{site.mesh_product_name}} generates a VIP,
 a DNS entry with the format `<kuma.io/service>.mesh`, and will listen for traffic on port 80. The `<kuma.io/service>.mesh:80` format is just a convention.
 [`VirtualOutbounds`](/docs/{{ page.version }}/policies/virtual-outbound)s enable you to customize the listening port and how the DNS name for these services looks.

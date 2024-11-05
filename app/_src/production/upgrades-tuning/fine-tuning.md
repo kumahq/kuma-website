@@ -12,7 +12,7 @@ By default, with the transparent proxy enabled, each data plane proxy follows al
 * Smaller configurations reduce network bandwidth.
 * Envoy manages fewer clusters/listeners, reducing statistics and memory usage.
 ^
-See [transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x %}production/dp-config/transparent-proxying/#reachable-services{% endif_version %}) for configuration details.{% endif_version %}
+See [transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x inline:true %}production/dp-config/transparent-proxying/#reachable-services{% endif_version %}) for configuration details.{% endif_version %}
 
 {% if_version gte:2.9.x %}
 For more details, including how to configure reachable services, refer to the [Reachable Services](/docs/{{ page.version }}/networking/transparent-proxy/reachable-services/) documentation.

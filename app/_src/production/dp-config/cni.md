@@ -5,7 +5,7 @@ content_type: how-to
 
 In order for traffic to flow through the {{site.mesh_product_name}} data plane, all inbound and
 outbound traffic for a service needs to go through its data plane proxy.
-The recommended way of accomplishing this is via [transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}).
+The recommended way of accomplishing this is via [transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %}).
 
 On Kubernetes it's handled automatically by default with the
 `initContainer` `kuma-init`, but this container requires certain privileges.

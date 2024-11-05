@@ -4,7 +4,7 @@ title: DNS
 
 {{site.mesh_product_name}} ships with DNS resolver to provide service naming - a mapping of hostname to Virtual IPs (VIPs) of services registered in {{site.mesh_product_name}}.
 
-The usage of {{site.mesh_product_name}} DNS is only relevant when [transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}) is used.
+The usage of {{site.mesh_product_name}} DNS is only relevant when [transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %}) is used.
 
 ## How it works
 

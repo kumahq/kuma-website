@@ -95,7 +95,7 @@ produce the hostname: `v1.backend.mesh` with port: `1800`.
 
 Additional Requirements:
 
-- [Transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}) must be enabled.
+- [Transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %}) must be enabled.
 - Either:
   - [Data plane proxy DNS](/docs/{{ page.version }}/networking/dns) must be enabled.
   - Or, the value of `conf.host` must end with the value of `dns_server.domain`, which defaults to `.mesh`.

@@ -66,7 +66,7 @@ networking:
 
 Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
 
-{% capture tproxy-link %}/docs/{{ page.version }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version%}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version%}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version%}{% endcapture %}
+{% capture tproxy-link %}/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version%}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version%}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version%}{% endcapture %}
 
 Universal mode is best combined with [transparent proxy]({{ tproxy-link }}). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
 

@@ -70,7 +70,7 @@ The `TrafficPermission` policy can also be used to restrict traffic to [services
 
 ### Prerequisites
 
-* {{site.mesh_product_name}} deployed with [transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x %}networking/transparent-proxying{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %})
+* {{site.mesh_product_name}} deployed with [transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %})
 * `Mesh` configured to {% if_version lte:2.1.x %}[disable passthrough mode](/docs/{{ page.version }}/policies/mesh/#usage){% endif_version %}{% if_version gte:2.2.x %}[disable passthrough mode](/docs/{{ page.version }}/production/mesh/#usage){% endif_version %}
 
 These settings lock down traffic to and from the mesh, which means that requests to any unknown destination are not allowed. The mesh can't rely on mTLS, because there is no data plane proxy on the destination side.

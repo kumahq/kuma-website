@@ -449,7 +449,7 @@ outbound:
 
 From the data plane running you will now be able to reach the service using `localhost:20012`.
 
-Alternatively, if you configure [transparent proxy](/docs/{{ page.version }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
+Alternatively, if you configure [transparent proxy](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %}) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
 
 {% endtab %}
 {% endtabs %}
