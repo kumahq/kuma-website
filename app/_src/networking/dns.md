@@ -53,7 +53,7 @@ If you use [MeshService](/docs/{{ page.version }}/networking/meshservice), [Mesh
 {% endtab %}
 {% tab installation Universal %}
 
-Follow the instruction in {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %}{% if_version gte:2.9.x %}[Installing Transparent Proxy on Universal](/docs/{{ page.version }}/networking/transparent-proxy/installing-on-universal/){% endif_version %}.
+Follow the instruction in {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %}{% if_version gte:2.9.x %}[Installing Transparent Proxy on Universal](/docs/{{ page.version }}/networking/transparent-proxy/universal/#installation){% endif_version %}.
 
 {% endtab %}
 {% endtabs %}
