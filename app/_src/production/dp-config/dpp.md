@@ -50,7 +50,7 @@ A service is a group of all DPP inbounds that have the same `kuma.io/service` ta
 
 ### Outbounds
 An outbound allows the workload to consume a service in the mesh using a local port.
-This is only useful when not using {% if_version lte:2.1.x %}[transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}(/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %}. 
+This is only useful when not using [transparent proxy](/docs/{{ page.version }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}). 
 
 ## `Dataplane` entity
 
