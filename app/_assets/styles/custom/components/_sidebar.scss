@@ -44,12 +44,6 @@ $sidebar-button-left-spacing: 1.5rem;
   .nav-links {
     display: block;
   }
-
-  .sidebar-top-section {
-    padding-bottom: 1rem;
-    background: #fff;
-    mask-image: linear-gradient(to bottom, #fff 90%, transparent);
-  }
 }
 
 .sidebar-links {
@@ -106,7 +100,8 @@ a.sidebar-link {
     top: 0;
     z-index: 1;
     padding-top: $navbarHeight;
-    padding-bottom: 3rem;
+    width: 100%;
+    background-color: #fff;
   }
 
   .theme-container.no-sidebar .sidebar {
