@@ -54,7 +54,7 @@ Using the transparent proxy in [Universal mode]({{ docs }}/introduction/architec
       redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
   ```
 
-- **Easier service naming**: Use the `.mesh` [DNS domain]({{ docs }}/networking/dns/) to connect to services, like `https://service-1.mesh`, without needing `localhost` and ports from the `Dataplane` resource.
+- **Simplified service connectivity**: Take advantage of [Kuma DNS]({{ docs }}/networking/dns/) to use `.mesh` domain names, like `https://service-1.mesh`, for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
 
 - **Flexible service naming with [VirtualOutbound]({{ docs }}/policies/virtual-outbound) policy**: It lets you:
 
