@@ -2,7 +2,7 @@
 
 module Jekyll
   class InstallPages < Jekyll::Generator
-    priority :medium
+    priority :low
 
     def generate(site)
       latest_page = site.pages.detect { |p| p.relative_path == 'install/latest.md' }

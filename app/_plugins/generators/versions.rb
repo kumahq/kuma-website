@@ -2,7 +2,7 @@
 
 module Jekyll
   class Versions < Jekyll::Generator
-    priority :high
+    priority :normal
 
     def generate(site)
       latest_version = latest_version(site.data['versions'])
