@@ -281,14 +281,17 @@ items:
                 url: /networking/transparent-proxy/introduction/
               - text: Technical Overview
                 url: /networking/transparent-proxy/technical-overview/
-              - text: Installing on Universal
-                url: /networking/transparent-proxy/installing-on-universal/
+              - title: Universal
+                group: true
+                items:
+                  - text: Installation
+                    url: /networking/transparent-proxy/installing-on-universal/
+                  - text: Configuration
+                    url: /networking/transparent-proxy/configuration-on-universal/
+                  - text: Upgrading
+                    url: /networking/transparent-proxy/upgrading-on-universal/
               - text: Configuration on Kubernetes
                 url: /networking/transparent-proxy/configuration-on-kubernetes/
-              - text: Configuration on Universal
-                url: /networking/transparent-proxy/configuration-on-universal/
-              - text: Upgrading on Universal
-                url: /networking/transparent-proxy/upgrading-on-universal/
               - text: Reachable Services
                 url: /networking/transparent-proxy/reachable-services/
               - text: Reachable Backends
