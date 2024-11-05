@@ -102,10 +102,11 @@ items:
             url: /production/dp-config/dpp-on-universal/
           - text: Configure the Kuma CNI
             url: /production/dp-config/cni/
-          - text: Configure transparent proxying
-            url: /production/dp-config/transparent-proxying/
           - text: IPv6 support
             url: /production/dp-config/ipv6/
+          - text: Transparent Proxy
+            url: /networking/transparent-proxy/introduction
+            generate: false
       - title: Secure your deployment
         group: true
         items:
@@ -273,8 +274,25 @@ items:
                 url: "/networking/meshexternalservice/#configuration"
               - text: Examples
                 url: "/networking/meshexternalservice/#examples"
-          - text: Transparent Proxying
-            url: /networking/transparent-proxying/
+          - title: Transparent Proxy
+            group: true
+            items:
+              - text: Introduction
+                url: /networking/transparent-proxy/introduction/
+              - text: Technical Overview
+                url: /networking/transparent-proxy/technical-overview/
+              - text: Installing on Universal
+                url: /networking/transparent-proxy/installing-on-universal/
+              - text: Configuration on Kubernetes
+                url: /networking/transparent-proxy/configuration-on-kubernetes/
+              - text: Configuration on Universal
+                url: /networking/transparent-proxy/configuration-on-universal/
+              - text: Upgrading on Universal
+                url: /networking/transparent-proxy/upgrading-on-universal/
+              - text: Reachable Services
+                url: /networking/transparent-proxy/reachable-services/
+              - text: Reachable Backends
+                url: /networking/transparent-proxy/reachable-backends/
   - title: Policies
     group: true
     items:
@@ -499,10 +517,12 @@ items:
         url: /guides/otel-metrics/
       - text: Migration to the new policies
         url: /guides/migration-to-the-new-policies/
-      - text: Progressively rolling in strict MTLS
+      - text: Progressively rolling in strict mTLS
         url: /guides/progressively-rolling-in-strict-mtls/
       - text: Producer and consumer policies
         url: /guides/consumer-producer-policies
+      - text: Excluding Traffic From Transparent Proxy
+        url: /guides/excluding-traffic-from-transparent-proxy-redirection/
   - title: Reference
     group: true
     items:
@@ -516,6 +536,8 @@ items:
         url: /reference/kuma-cp
       - text: Envoy proxy template
         url: /reference/proxy-template/
+      - text: Transparent Proxy Configuration
+        url: /reference/transparent-proxy-configuration/
   - title: Community
     group: true
     items:
