@@ -13,7 +13,7 @@ For a full list of transparent proxy settings with examples and configuration op
 
 A transparent proxy is a server that intercepts network traffic going to and from a service without requiring any changes to the application code. In {{ Kuma }}, it captures this traffic and routes it to the [data plane proxy]({{ docs }}/production/dp-config/dpp/#data-plane-proxy), allowing [Mesh policies]({{ docs }}/policies/introduction/#policies) to be applied.
 
-{{ Kuma }} uses [iptables](https://linux.die.net/man/8/iptables) and also has experimental support for [`eBPF`](#transparent-proxy-with-ebpf-experimental) to make this possible.
+{{ Kuma }} uses [iptables](https://linux.die.net/man/8/iptables) and also has experimental support for [eBPF](#transparent-proxy-with-ebpf-experimental) to make this possible.
 
 {% tip %}
 For details on how the transparent proxy works in {{ Kuma }}, see the [Technical Overview]({{ docs }}/networking/transparent-proxy/technical-overview/).
@@ -28,7 +28,7 @@ In [Kubernetes mode]({{ docs }}/introduction/architecture/#kubernetes-mode), the
 In this mode, {{ Kuma }} requires the transparent proxy to be enabled, so it **cannot be turned off**.
 
 ### Configuration
-{:#kubernetes-installation}
+{:#kubernetes-configuration}
 
 If the default settings don’t fit your needs, see [Adjusting Transparent Proxy Configuration on Kubernetes]({{ docs }}/networking/transparent-proxy/configuration-on-kubernetes/) for ways to change settings and their recommended uses.
 
