@@ -270,6 +270,38 @@ log:
 wait: 5
 ```
 
+### Control plane runtime configuration
+
+Below is a subset of the [control plane configuration]({{ docs }}/documentation/configuration/) focused on transparent proxy settings, with default values and corresponding environment variables for each field.
+
+```yaml
+runtime:
+  kubernetes:
+    injector:
+      cniEnabled: false # KUMA_RUNTIME_KUBERNETES_INJECTOR_CNI_ENABLED
+      applicationProbeProxyPort: 9001 # KUMA_RUNTIME_KUBERNETES_APPLICATION_PROBE_PROXY_PORT
+      sidecarContainer:
+        uid: 5678 # KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_UID
+        ipFamilyMode: dualstack # KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_IP_FAMILY_MODE
+        redirectPortInbound: 15006 # KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_REDIRECT_PORT_INBOUND
+        redirectPortOutbound: 15001 # KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_REDIRECT_PORT_OUTBOUND
+      sidecarTraffic:
+        excludeInboundPorts: [] # KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS
+        excludeOutboundPorts: [] # KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS
+        excludeInboundIPs: [] # KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_IPS
+        excludeOutboundIPs: [] # KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_IPS
+      builtinDNS:
+        enabled: true # KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_ENABLED
+        port: 15053 # KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_PORT
+      ebpf:
+        enabled: false # KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_ENABLED
+        instanceIPEnvVarName: INSTANCE_IP # KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_INSTANCE_IP_ENV_VAR_NAME
+        bpffsPath: /sys/fs/bpf # KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_BPFFS_PATH
+        cgroupPath: /sys/fs/cgroup # KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_CGROUP_PATH
+        tcAttachIface: "" # KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_TC_ATTACH_IFACE
+        programsSourcePath: /tmp/kuma-ebpf # KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_PROGRAMS_SOURCE_PATH
+```
+
 ## Full reference
 
 - **`kumaDPUser`**

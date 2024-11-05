@@ -1,5 +1,5 @@
 ---
-title: Installing Transparent Proxy on Universal
+title: Transparent Proxy on Universal
 content_type: how-to
 ---
 
@@ -7,21 +7,39 @@ content_type: how-to
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 
-This page provides instructions for setting up a transparent proxy in your service environment. A transparent proxy helps streamline service management and traffic routing within a mesh, directing all traffic through the data plane proxy without requiring changes to your application code.
+{% assign ref = docs | append: "/reference/transparent-proxy-configuration/" %}
+{% assign ref-schema = ref | append: "#schema" %}
+{% assign ref-env = ref | append: "#environment-variables" %}
+{% assign ref-cli = ref | append: "#cli-flags" %}
+{% assign ref-default = ref | append: "#default-values" %}
+{% assign ref-full = ref | append: "#full-reference" %}
 
-Once completed, your service will run under a transparent proxy, allowing you to use {{ Kuma }}'s service management features, like traffic control, observability, and security.
+Using the transparent proxy in Universal mode makes setup easier and enables features that wouldn’t be possible otherwise. Key benefits include:
 
-Before starting, review the prerequisites below and adjust settings to fit your environment, including IP addresses, custom ports, and DNS configurations.
+- **Simplified `Dataplane` resources**: You can skip the `networking.outbound` section, so you don’t have to list each service your application connects to manually.
 
-## Prerequisites
+- **Simplified service connectivity**: Take advantage of [Kuma DNS]({{ docs }}/networking/dns/) to use `.mesh` domain names, like `https://service-1.mesh`, for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
+
+- **Flexible service naming**: With [MeshServices]({{ docs }}/networking/meshservice/) and [HostnameGenerators]({{ docs }}/networking/hostnamegenerator/), you can:
+
+  - Keep your existing DNS names when moving to the service mesh.
+  - Give a service multiple DNS names for easier access.
+  - Set up custom routes, like targeting specific StatefulSet Pods or service versions.
+  - Expose a service on multiple ports for different uses.
+
+- **Simpler security, tracing, and observability**: Transparent proxy makes managing these features easier, with no extra setup required.
+
+## Installation
+
+Here are the steps to set up a transparent proxy for your service. Once set up, your service will run with a transparent proxy, giving you access to {{ Kuma }}'s features like traffic control, observability, and security.
+
+Before you start, check the prerequisites below and adjust the settings for your environment, including IP addresses, custom ports, and DNS configurations.
+
+### Prerequisites
 
 {%- capture control-plane-and-service-network-accessibility-warning %}
 {% warning %}
-For this instruction, the control plane **should not** be deployed in the same environment as the transparent proxy. This is because the transparent proxy redirects **all** traffic (unless specifically excluded) to `kuma-dp`, including traffic meant for the control plane.
-
-While it is technically possible to manually exclude control plane traffic during setup, this is complex and easy to misconfigure, as it requires excluding **all** necessary ports and routes.
-
-In real deployments, you can work around it by running the control plane and other components in separate network namespaces using systemd, which keeps control plane traffic separate from `kuma-dp` and the service.
+In a basic setup, the control plane **should not** be deployed in the same environment as the transparent proxy. This is because the transparent proxy redirects **all** traffic to `kuma-dp` (unless excluded), including traffic meant for the control plane.
 {% endwarning %}
 {%- endcapture %}
 
@@ -39,14 +57,7 @@ For instructions on generating this token, refer to the [Data plane proxy token]
 
 {%- capture binary-availability-tip %}
 {% tip %}
-To easily download all necessary binaries, you can use the following script, which automatically detects your operating system and fetches the required binaries:
-
-```sh
-curl -L {{ site.links.web }}{% if page.edition %}/{{ page.edition }}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -
-```
-{:.no-line-numbers}
-
-Omitting the `VERSION` variable will install the latest version.
+To get the required binaries, see [Install Kuma]({{ docs }}/introduction/install-kuma/).
 {% endtip %}
 {% endcapture -%}
 
@@ -66,7 +77,7 @@ Omitting the `VERSION` variable will install the latest version.
 
    {{ binary-availability-tip | indent }}
 
-## Step 1: Create a dedicated user for kuma-dp
+### Step 1: Create a dedicated user for kuma-dp
 
 For proper functionality, the service must run under a different user than the one designated for running `kuma-dp`. If both the service and `kuma-dp` are run by the same user, the transparent proxy will not work correctly, causing service traffic (inbound and outbound) to fail. To create a dedicated user for `kuma-dp`, use the following command:
 
@@ -79,7 +90,7 @@ In some Linux distributions, the `useradd` command may not be available. In such
 {% endwarning %}
 
 <!-- vale Google.Headings = NO -->
-## Step 2: Prepare the Dataplane resource
+### Step 2: Prepare the Dataplane resource
 <!-- vale Google.Headings = YES -->
 
 In transparent proxy mode, configure your `Dataplane` resource without the `networking.outbound` section. Instead, use `networking.transparentProxying` for handling traffic redirection. Here’s an example:
@@ -119,7 +130,7 @@ networking:
     redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
 ```
 
-### Redirect ports
+#### Redirect ports
 
 In this example, `{{ tproxy.defaults.redirect.inbound.port }}` and `{{ tproxy.defaults.redirect.outbound.port }}` are the default ports for inbound and outbound traffic redirection. You can change these ports in the transparent proxy configuration during installation (`redirect.inbound.port` and `redirect.outbound.port`). For more details, see the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
 
@@ -127,17 +138,17 @@ In this example, `{{ tproxy.defaults.redirect.inbound.port }}` and `{{ tproxy.de
 **Important:** If you use different ports, be sure to update all related configurations and steps to match the new values.
 {% endwarning %}
 
-### Using variables in your configuration
+#### Using variables in your configuration
 
 The placeholders `{% raw %}{{ name }}{% endraw %}`, `{% raw %}{{ address }}{% endraw %}`, and `{% raw %}{{ port }}{% endraw %}` are [Mustache templates](http://mustache.github.io/mustache.5.html), which will be dynamically filled using values passed via `--dataplane-var` CLI flags in a later step.
 
 In practice, if these values are static, you can simply hard-code them in your configuration. This feature is designed to allow more flexible and reusable resources, making it easier to dynamically adjust values when starting `kuma-dp`.
 
-### More resources
+#### More resources
 
 For additional information on setting up the `Dataplane` resource, refer to the [Data Plane on Universal]({{ docs }}/production/dp-config/dpp-on-universal/#data-plane-on-universal) documentation.
 
-## Step 3: Start the service
+### Step 3: Start the service
 
 The service can be started in various ways depending on your environment and requirements. To keep this instruction simple, we’ll use Python 3’s built-in HTTP server. This server will listen on port `8080`, with both [STDOUT](https://en.wikipedia.org/wiki/Standard_streams#Standard_output_(stdout)) and [STDERR](https://en.wikipedia.org/wiki/Standard_streams#Standard_error_(stderr)) redirected to a `service.log` file in the current directory, running in the background.
 
@@ -151,7 +162,7 @@ To start the service:
 python3 -m http.server 8080 > service.log 2>&1 &
 ```
 
-## Step 4: Start the kuma-dp
+### Step 4: Start the kuma-dp
 
 If you are using `systemd` to manage processes, you can refer to the [Systemd documentation]({{ docs }}/production/cp-deployment/systemd/) for an example of a `systemd` resource that can be customized to run `kuma-dp` in your environment.
 
@@ -179,7 +190,7 @@ runuser -u {{ tproxy.defaults.kuma-dp.username }} -- \
 
 This command runs `kuma-dp` under the `{{ tproxy.defaults.kuma-dp.username }}` user, connects it to the control plane, and configures it with the necessary settings for the example server. Adjust the paths and values as needed for your specific setup.
 
-## Step 5: Install the transparent proxy
+### Step 5: Install the transparent proxy
 
 Before proceeding with this step, please keep the following in mind:
 
@@ -257,3 +268,208 @@ This will result in the following:
   {% endtip %}
   {% endcapture %}
   {{ resolv-conf-tip | indent }}
+
+## Upgrading
+
+The core `iptables` rules applied by {{ Kuma }}'s transparent proxy rarely change, but occasionally new features may require updates. To upgrade the transparent proxy on Universal environments, follow these steps:
+
+### Step 1: Cleanup existing iptables rules (conditional)
+
+{% warning %}
+If you're upgrading from {{ Kuma }} version 2.9 or later, and you have **not** manually disabled the automatic addition of comments by setting `comments.disabled` to `true` in the transparent proxy configuration, **this step is unnecessary**.
+
+Starting with {{ Kuma }} 2.9, all `iptables` rules are tagged with comments, allowing {{ Kuma }} to track rule ownership. This enables `kumactl` to automatically clean up any existing `iptables` rules or custom chains created by previous versions of the transparent proxy. This process runs automatically at the start of the installation, eliminating the need for any manual cleanup beforehand.
+{% endwarning %}
+
+To manually remove existing `iptables` rules, you can either restart the host (if the rules were not persisted using system start-up scripts or `firewalld`), or run the following commands:
+
+{% danger %}
+These commands will remove **all** `iptables` rules and **all** custom chains in the specified tables, including those created by {{ Kuma }} as well as any other applications or services.
+{% enddanger %}
+
+```sh
+iptables --table nat --flush         # Flush all rules in the nat table (IPv4)
+ip6tables --table nat --flush        # Flush all rules in the nat table (IPv6)
+iptables --table nat --delete-chain  # Delete all custom chains in the nat table (IPv4)
+ip6tables --table nat --delete-chain # Delete all custom chains in the nat table (IPv6)
+
+# The raw table contains rules for DNS traffic redirection
+iptables --table raw --flush         # Flush all rules in the raw table (IPv4)
+ip6tables --table raw --flush        # Flush all rules in the raw table (IPv6)
+
+# The mangle table contains rules to drop invalid packets
+iptables --table mangle --flush      # Flush all rules in the mangle table (IPv4)
+ip6tables --table mangle --flush     # Flush all rules in the mangle table (IPv6)
+```
+
+### Step 2: Install new transparent proxy
+
+After clearing the `iptables` rules (if necessary), reinstall the transparent proxy by running:
+
+```sh
+kumactl install transparent-proxy [...]
+```
+
+This command will install the new version of the transparent proxy with the specified configuration. Adjust the flags as needed to suit your environment.
+
+## Configuration
+
+The default configuration works well for most scenarios, but there are cases where adjustments are needed.
+
+{{ Kuma }} uses a unified configuration structure for transparent proxy across all components. For a detailed breakdown of this structure, including examples, expected formats, and variations between configuration methods, refer to the [Transparent Proxy Configuration Reference]({{ ref }}).
+
+In Universal mode, {{ Kuma }} there are three methods to adjust the configuration. Each can be used on its own or combined with others if needed.
+
+{% warning %}
+It’s best to stick to one method whenever possible. Using more than one can make things more complicated and harder to troubleshoot, as it may not be clear where each setting comes from. If you need to combine methods, check the [**Order of Precedence**](#order-of-precedence) section to see what the final configuration will look like based on the priority of each setting.
+{% endwarning %}
+
+<!-- vale Google.Headings = NO -->
+### YAML / JSON
+<!-- vale Google.Headings = YES -->
+
+You can provide the configuration in either `YAML` or `JSON` format by using the `--config` or `--config-file` flags.
+
+{% tip %}
+For the configuration schema in YAML format, refer to the [Schema]({{ ref-schema }}) section in the [Transparent Proxy Configuration Reference]({{ ref }}).
+{% endtip %}
+
+{% tip %}
+For simplicity, the following examples use YAML format, but you can easily convert them to JSON if preferred. Both formats work exactly the same, so feel free to choose the one that best suits your needs.
+{% endtip %}
+
+Below are examples of using these flags in different ways:
+
+1. **Providing configuration via the `--config-file` flag**
+
+   Assume you have a `config.yaml` file with the following content:
+
+   ```yaml
+   kumaDPUser: dataplane
+   verbose: true
+   ```
+
+   You can install the transparent proxy using:
+
+   ```sh
+   kumactl install transparent-proxy --config-file config.yaml
+   ```
+
+2. **Passing configuration directly via the `--config` flag**
+
+   To pass the configuration content directly:
+
+   ```sh
+   kumactl install transparent-proxy --config "kumaDPUser: dataplane\nverbose: true"
+   ```
+
+   Alternatively:
+
+   ```sh
+   kumactl install transparent-proxy --config "{ kumaDPUser: dataplane, verbose: true }"
+   ```
+
+   Both formats are valid YAML inputs.
+
+3. **Passing configuration via [STDIN](https://en.wikipedia.org/wiki/Standard_streams#Standard_input_(stdin))**
+
+   If you need to pass the configuration via STDIN, set `--config-file` to `-` as shown below:
+
+   ```sh
+   echo "
+   kumaDPUser: dataplane
+   verbose: true
+   " | kumactl install transparent-proxy --config-file -
+   ```
+
+<!-- vale Google.Headings = NO -->
+### Environment Variables
+<!-- vale Google.Headings = YES -->
+
+You can customize configuration settings by using environment variables. For example:
+
+```sh
+KUMA_TRANSPARENT_PROXY_IP_FAMILY_MODE="ipv4" kumactl install transparent-proxy
+```
+
+{% tip %}
+To see all available environment variables, visit the [Environment Variables]({{ ref-env }}) section in the [Transparent Proxy Configuration Reference]({{ ref }}).
+{% endtip %}
+
+<!-- vale Google.Headings = NO -->
+### CLI Flags
+<!-- vale Google.Headings = YES -->
+
+Most configuration values can also be specified directly through CLI flags. For example:
+
+```sh
+kumactl install transparent-proxy --kuma-dp-user dataplane --verbose
+```
+
+{% warning %}
+The following settings cannot be modified directly via CLI flags (corresponding flags are not available):
+
+- `redirect.dns.resolvConfigPath`
+- `redirect.inbound.includePorts`
+- `redirect.inbound.excludePortsForUIDs`
+- `redirect.outbound.enabled`
+- `redirect.outbound.includePorts`
+- `ebpf.instanceIPEnvVarName`
+- `log.level`
+- `cniMode`
+  {% endwarning %}
+
+{% tip %}
+To see all available CLI flags, visit the [CLI Flags]({{ ref-cli }}) section in the [Transparent Proxy Configuration Reference]({{ ref }}).
+{% endtip %}
+
+<!-- vale Google.Headings = NO -->
+### Order of Precedence
+<!-- vale Google.Headings = YES -->
+
+1. **Default Values**
+2. **Values from** `--config` / `--config-file` **flags**
+3. **Environment Variables**
+4. **CLI Flags**
+
+To understand how the order of precedence works, consider this scenario:
+
+1. You have a `config.yaml` file with the following content:
+
+   ```yaml
+   redirect:
+     dns:
+       port: 10001
+   ```
+
+2. You install the transparent proxy using this command:
+
+   ```sh
+   KUMA_TRANSPARENT_PROXY_REDIRECT_DNS_PORT="10002" \
+     kumactl install transparent-proxy \
+       --config-file config.yaml \
+       --redirect-dns-port 10003
+   ```
+
+3. In this situation, the possible values for `redirect.dns.port` are:
+
+   - **`{{ tproxy.defaults.redirect.dns.port }}`** (Default Value)
+   - **`10001`** (From Config File)
+   - **`10002`** (From Environment Variable)
+   - **`10003`** (From CLI Flag)
+
+4. Since CLI flags have the highest precedence, the final value for `redirect.dns.port` will be **`10003`**.
+
+## firewalld support
+
+The changes made by running `kumactl install transparent-proxy` **will not persist** after a reboot. To ensure persistence, you can either add this command to your system's start-up scripts or leverage `firewalld` for managing `iptables`.
+
+If you prefer using `firewalld`, you can include the `--store-firewalld` flag when installing the transparent proxy. This will store the `iptables` rules in `/etc/firewalld/direct.xml`, ensuring they persist across system reboots. Here's an example:
+
+```sh
+kumactl install transparent-proxy --redirect-dns --store-firewalld
+```
+
+{% warning %}
+**Important:** Currently, there is no uninstall command for this feature. If needed, you will have to manually clean up the `firewalld` configuration.
+{% endwarning %}

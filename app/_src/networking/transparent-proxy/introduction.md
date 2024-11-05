@@ -5,11 +5,6 @@ content_type: how-to
 
 {% assign docs = "/docs/" | append: page.version %}
 {% assign Kuma = site.mesh_product_name %}
-{% assign tproxy = site.data.tproxy %}
-
-{% capture tproxy-config-reference-info %}
-For a full list of transparent proxy settings with examples and configuration options, see the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
-{% endcapture %}
 
 A transparent proxy is a server that intercepts network traffic going to and from a service without requiring any changes to the application code. In {{ Kuma }}, it captures this traffic and routes it to the [data plane proxy]({{ docs }}/production/dp-config/dpp/#data-plane-proxy), allowing [Mesh policies]({{ docs }}/policies/introduction/#policies) to be applied.
 
@@ -27,32 +22,15 @@ In [Kubernetes mode]({{ docs }}/introduction/architecture/#kubernetes-mode), the
 
 In this mode, {{ Kuma }} requires the transparent proxy to be enabled, so it **cannot be turned off**.
 
-### Configuration
-{:#kubernetes-configuration}
-
-If the default settings don’t fit your needs, see [Adjusting Transparent Proxy Configuration on Kubernetes]({{ docs }}/networking/transparent-proxy/configuration-on-kubernetes/) for ways to change settings and their recommended uses.
-
-{{ tproxy-config-reference-info }}
+{% tip %}
+For more details on using the transparent proxy with Kubernetes, see [Transparent Proxy on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/).
+{% endtip %}
 
 ## Universal
 
-Using the transparent proxy in [Universal mode]({{ docs }}/introduction/architecture/#universal-mode) makes setup easier and enables features that wouldn’t be possible otherwise. Key benefits include:
+Using the transparent proxy in Universal mode makes setup easier and enables features that wouldn’t be possible otherwise. Key benefits include:
 
-- **Simplified `Dataplane` resources**: You can skip the `networking.outbound` section, so you don’t have to list each service your application connects to manually. Here’s an example without outbound entries:
-
-  ```yaml
-  type: Dataplane
-  name: {% raw %}{{ name }}{% endraw %}
-  networking:
-    address: {% raw %}{{ address }}{% endraw %}
-    inbound:
-    - port: {% raw %}{{ port }}{% endraw %}
-      tags:
-        kuma.io/service: demo-client 
-    transparentProxying:
-      redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
-      redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
-  ```
+- **Simplified `Dataplane` resources**: You can skip the `networking.outbound` section, so you don’t have to list each service your application connects to manually.
 
 - **Simplified service connectivity**: Take advantage of [Kuma DNS]({{ docs }}/networking/dns/) to use `.mesh` domain names, like `https://service-1.mesh`, for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
 
@@ -64,36 +42,11 @@ Using the transparent proxy in [Universal mode]({{ docs }}/introduction/architec
   - Expose a service on multiple ports for different uses.
 
 - **Simpler security, tracing, and observability**: Transparent proxy makes managing these features easier, with no extra setup required.
-
-### Installation
-{:#universal-installation}
-
-To learn how to integrate the transparent proxy with your existing services or set up a service environment from scratch, see [Installing Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/installing-on-universal/).
-
-### Configuration
-{:#universal-configuration}
-
-If the default settings don’t fit your needs, see [Adjusting Transparent Proxy Configuration on Universal]({{ docs }}/networking/transparent-proxy/configuration-on-universal/) for ways to modify settings and their recommended uses.
-
-{{ tproxy-config-reference-info }}
-
-### firewalld support
+  For more details related to transparent proxy on Universal refer to [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/)
 
 {% tip %}
-In **Kubernetes** mode, transparent proxy is automatically set up using the `kuma-init` container or [Kuma CNI]({{ docs }}/production/dp-config/cni/). Since the proxy is reinstalled each time your workload restarts, there is no need to persist it. This feature is specifically designed for **Universal** environments.
+For more details on using the transparent proxy with Universal, see [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/).
 {% endtip %}
-
-The changes made by running `kumactl install transparent-proxy` **will not persist** after a reboot. To ensure persistence, you can either add this command to your system's start-up scripts or leverage `firewalld` for managing `iptables`.
-
-If you prefer using `firewalld`, you can include the `--store-firewalld` flag when installing the transparent proxy. This will store the `iptables` rules in `/etc/firewalld/direct.xml`, ensuring they persist across system reboots. Here's an example:
-
-```sh
-kumactl install transparent-proxy --redirect-dns --store-firewalld
-```
-
-{% warning %}
-**Important:** Currently, there is no uninstall command for this feature. If needed, you will have to manually clean up the `firewalld` configuration.
-{% endwarning %}
 
 <!-- vale Google.Headings = NO -->
 ### Transparent proxy with eBPF (experimental)

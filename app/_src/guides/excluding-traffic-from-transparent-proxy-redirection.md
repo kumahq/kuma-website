@@ -6,8 +6,6 @@ title: Excluding Traffic from Transparent Proxy
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 
-{% assign configuration-in-configmap = "Configuration in ConfigMap <sup>(experimental)</sup>" %}
-
 This guide will show you how to exclude specific types of traffic from being redirected by the transparent proxy. It includes instructions for both **Universal** and a **Kubernetes** modes and covers different types of traffic you might want to exclude, such as:
 
 - [Exclude traffic on certain ports (incoming & outgoing)](#exclude-traffic-on-certain-ports)
@@ -19,11 +17,11 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 
 - This guide shows how to set up the transparent proxy to exclude certain types of traffic from redirection for selected workloads. We’ll cover some methods for both Kubernetes and Universal modes, but **not all possible scenarios are explained in detail**. For more information on options briefly mentioned here, check out:
 
-  - [Adjusting Transparent Proxy Configuration on Kubernetes]({{ docs }}/networking/transparent-proxy/configuration-on-kubernetes/)
-  - [Adjusting Transparent Proxy Configuration on Universal]({{ docs }}/networking/transparent-proxy/configuration-on-universal/)
+  - [Transparent Proxy Configuration on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration)
+  - [Transparent Proxy Configuration on Universal]({{ docs }}/networking/transparent-proxy/universal/#configuration)
   - [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/)
 
-- Right now, the recommended way to adjust transparent proxy settings (and the one mostly shown in this guide) is with [Kubernetes Annotations]({{ docs }}/networking/transparent-proxy/configuration-on-kubernetes/#annotations), since the [{{ configuration-in-configmap }}]({{ docs }}/networking/transparent-proxy/configuration-on-kubernetes/#configuration-in-configmap) option is still experimental. Once it’s stable, it will become the suggested method.
+- Right now, the recommended way to adjust transparent proxy settings (and the one mostly shown in this guide) is with [Kubernetes Annotations]({{ docs }}/networking/transparent-proxy/kubernetes/#annotations), since the [Configuration in ConfigMap]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration-in-configmap) option is still experimental. Once it’s stable, it will become the suggested method.
 
 ## Terminology overview
 
@@ -41,8 +39,8 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 <!-- vale Vale.Terms = NO -->
    - For an in-depth look at how the transparent proxy works in {{ Kuma }} and its mechanisms, see the [Technical Overview]({{ docs }}/networking/transparent-proxy/technical-overview/) page from its documentation.
 <!-- vale Vale.Terms = YES -->
-   - To install the transparent proxy on Universal, refer to [Installing Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/installing-on-universal/).
-   - For upgrade steps, see [Upgrading Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/upgrading-on-universal/).
+   - To install the transparent proxy on Universal, refer to [Installing Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/#installation).
+   - For upgrade steps, see [Upgrading Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/#upgrading).
 
 2. **Set up {{ Kuma }}**: Ensure {{ Kuma }} is installed and running.
 
@@ -54,11 +52,11 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
    {% tab prerequisites-setup-kuma Universal %}
    Confirm that all necessary components are up and running. The following resources may be useful:
 
-  - To set up a single-zone control plane, follow the [Single Zone Control Plane Deployment]({{ docs }}/production/cp-deployment/single-zone/) guide.
+   - To set up a single-zone control plane, follow the [Single Zone Control Plane Deployment]({{ docs }}/production/cp-deployment/single-zone/) guide.
 
-  - To generate a data plane proxy token (needed to authorize data plane proxies), refer to [Data Plane Proxy Token]({{ docs }}/production/secure-deployment/dp-auth/#data-plane-proxy-token) documentation.
+   - To generate a data plane proxy token (needed to authorize data plane proxies), refer to [Data Plane Proxy Token]({{ docs }}/production/secure-deployment/dp-auth/#data-plane-proxy-token) documentation.
 
-  - To prepare your service environment and start the data plane proxy, follow the [Installing Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/installing-on-universal/) guide up to [Step 5: Install the transparent proxy]({{ docs }}/networking/transparent-proxy/installing-on-universal/#step-5-install-the-transparent-proxy).
+   - To set up your service environment and start the data plane proxy, follow the steps in the [Installing]({{ docs }}/networking/transparent-proxy/universal/#installation) section of the [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/) documentation up to [Step 5: Install the Transparent Proxy]({{ docs }}/networking/transparent-proxy/universal/#step-5-install-the-transparent-proxy).
     {% endtab %}
     {% endtabs %}
     {% endcapture %}
@@ -110,7 +108,7 @@ redirect:
 ### Other configuration options
 {:.no-anchor#excluding-incoming-traffic-to-specific-ports-universal-other-options}
 
-[**Environment Variables**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#environment-variables)
+[**Environment Variables**]({{ docs }}/networking/transparent-proxy/universal/#environment-variables)
 
 ```sh
 KUMA_TRANSPARENT_PROXY_REDIRECT_INBOUND_EXCLUDE_PORTS="1234" \
@@ -118,7 +116,7 @@ KUMA_TRANSPARENT_PROXY_REDIRECT_OUTBOUND_EXCLUDE_PORTS="5678,8900" \
 kumactl install transparent-proxy
 ```
 
-[**CLI Flags**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#cli-flags)
+[**CLI Flags**]({{ docs }}/networking/transparent-proxy/universal/#cli-flags)
 
 ```sh
 kumactl install transparent-proxy \
@@ -173,7 +171,7 @@ redirect:
 ### Other configuration options
 {:.no-anchor#exclude-traffic-to-and-from-specific-ip-addresses-universal-other-options}
 
-[**Environment Variables**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#environment-variables)
+[**Environment Variables**]({{ docs }}/networking/transparent-proxy/universal/#environment-variables)
 
 ```sh
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS="10.0.0.0/8" \
@@ -181,7 +179,7 @@ KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS="192.168.10.1,fd1
 kumactl install transparent-proxy
 ```
 
-[**CLI Flags**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#cli-flags)
+[**CLI Flags**]({{ docs }}/networking/transparent-proxy/universal/#cli-flags)
 
 ```sh
 kumactl install transparent-proxy \

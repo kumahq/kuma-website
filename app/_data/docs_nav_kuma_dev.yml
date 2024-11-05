@@ -282,30 +282,27 @@ items:
               - text: Technical Overview
                 url: /networking/transparent-proxy/technical-overview/
               - text: Kubernetes
-                url: /networking/transparent-proxy/configuration-on-kubernetes/
+                url: /networking/transparent-proxy/kubernetes/
                 items:
+                  - text: Configuration
+                    url: /networking/transparent-proxy/kubernetes/#configuration
                   - text: Control Plane Runtime Configuration
-                    url: /networking/transparent-proxy/configuration-on-kubernetes/#control-plane-runtime-configuration
+                    url: /networking/transparent-proxy/kubernetes/#control-plane-runtime-configuration
                   - text: Configuration in ConfigMap
-                    url: /networking/transparent-proxy/configuration-on-kubernetes/#configuration-in-configmap
+                    url: /networking/transparent-proxy/kubernetes/#configuration-in-configmap
                   - text: Annotations
-                    url: /networking/transparent-proxy/configuration-on-kubernetes/#annotations
-              - title: Universal
-                group: true
+                    url: /networking/transparent-proxy/kubernetes/#annotations
+              - text: Universal
+                url: /networking/transparent-proxy/universal/
                 items:
                   - text: Installation
-                    url: /networking/transparent-proxy/installing-on-universal/
-                  - text: Configuration
-                    url: /networking/transparent-proxy/configuration-on-universal/
-                    items:
-                      - text: YAML / JSON
-                        url: /networking/transparent-proxy/configuration-on-universal/#yaml--json
-                      - text: Environment Variables
-                        url: /networking/transparent-proxy/configuration-on-universal/#environment-variables
-                      - text: CLI Flags
-                        url: /networking/transparent-proxy/configuration-on-universal/#cli-flags
+                    url: /networking/transparent-proxy/universal/#installation
                   - text: Upgrading
-                    url: /networking/transparent-proxy/upgrading-on-universal/
+                    url: /networking/transparent-proxy/universal/#upgrading
+                  - text: Configuration
+                    url: /networking/transparent-proxy/universal/#configuration
+                  - text: firewalld support
+                    url: /networking/transparent-proxy/universal/#firewalld-support
               - text: Reachable Services
                 url: /networking/transparent-proxy/reachable-services/
               - text: Reachable Backends
