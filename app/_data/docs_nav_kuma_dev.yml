@@ -289,7 +289,7 @@ items:
                   - text: Control Plane Runtime Configuration
                     url: /networking/transparent-proxy/kubernetes/#control-plane-runtime-configuration
                   - text: Configuration in ConfigMap
-                    url: /networking/transparent-proxy/kubernetes/#configuration-in-configmap
+                    url: /networking/transparent-proxy/kubernetes/#configuration-in-configmap-experimental
                   - text: Annotations
                     url: /networking/transparent-proxy/kubernetes/#annotations
               - text: Universal
