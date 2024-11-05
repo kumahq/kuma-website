@@ -22,8 +22,7 @@
     }
   }
   & > .sidebar-links {
-    padding: 1.5rem 0;
-    margin-top: -3rem;
+    padding: 1rem 0;
 
     & > li > a.sidebar-link {
       font-size: 1.1em;
@@ -43,10 +42,6 @@
       .dropdown-wrapper .nav-dropdown .dropdown-item a.router-link-active::after {
         top: calc(1rem - 2px);
       }
-    }
-    & > .sidebar-links {
-      padding: 1rem 0;
-      margin-top: -1rem;
     }
   }
 }
