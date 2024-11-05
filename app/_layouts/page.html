@@ -5,7 +5,7 @@ layout: default
 {% capture classes -%}
 theme-default-content
 content__default
-{% if page.version and page.version != site.data.latest_version.release %} with-alert{% endif %}
+{% if page.release and page.release.latest? != true %} with-alert{% endif %}
 {% if page.doc %} doc{% endif -%}
 {%- endcapture %}
 
