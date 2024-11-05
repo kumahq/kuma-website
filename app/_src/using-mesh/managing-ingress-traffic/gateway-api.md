@@ -10,7 +10,7 @@ for configuring {% if_version gte:2.6.x inline:true %}[built-in gateway](/docs/{
 ## Installation
 
 {% if_version gte:2.9.x %}
-Checkout our dedicated installation [guide](/docs/{{ page.version }}/guides/gateway-api).
+Checkout our dedicated installation [guide](/docs/{{ page.release }}/guides/gateway-api).
 {% endif_version %}
 
 {% if_version lte:2.8.x %}

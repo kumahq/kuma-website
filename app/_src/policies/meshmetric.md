@@ -468,7 +468,7 @@ backends:
 ```
 
 This configuration tells {{site.mesh_product_name}} Dataplane Proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
-Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.version }}/policies/meshmetric/#applications) in a Pod/VM
+Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.release }}/policies/meshmetric/#applications) in a Pod/VM
 and push them to configured OpenTelemetry collector, by default every **60 seconds** (use `refreshInterval` to change it).
 
 When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/).
@@ -477,8 +477,8 @@ When you configure application scraping make sure to specify `application.name` 
 
 Right now if you want to expose metrics from your application to OpenTelemetry collector you can access collector directly.
 
-If you have disabled [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic/#outgoing) in your Mesh you need to
-configure [ExternalService](/docs/{{ page.version }}/policies/external-services/#external-service) with you collector endpoint. Example ExternalService:
+If you have disabled [passthrough](/docs/{{ page.release }}/networking/non-mesh-traffic/#outgoing) in your Mesh you need to
+configure [ExternalService](/docs/{{ page.release }}/policies/external-services/#external-service) with you collector endpoint. Example ExternalService:
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}

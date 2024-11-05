@@ -20,7 +20,7 @@ Deploying {{site.mesh_product_name}} to a production environment involves the fo
 
 ### Deployment topologies
 
-There are two [deployment models](/docs/{{ page.version }}/production/deployment/) that can be adopted with {{site.mesh_product_name}}: {% if_version gte:2.6.x %}[single-zone](/docs/{{ page.version }}/production/deployment/single-zone/){% endif_version %}{% if_version lte:2.5.x %}standalone{% endif_version %} and [multi-zone](/docs/{{ page.version }}/production/deployment/multi-zone/). You can use these modes to address any service mesh use case, including:
+There are two [deployment models](/docs/{{ page.release }}/production/deployment/) that can be adopted with {{site.mesh_product_name}}: {% if_version gte:2.6.x %}[single-zone](/docs/{{ page.release }}/production/deployment/single-zone/){% endif_version %}{% if_version lte:2.5.x %}standalone{% endif_version %} and [multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/). You can use these modes to address any service mesh use case, including:
 * A simple model with the service mesh running in one zone
 * A more complex model where multiple Kubernetes or VM zones are involved
 * A hybrid universal model where {{site.mesh_product_name}} runs simultaneously on Kubernetes and VMs
@@ -29,10 +29,10 @@ The following table describes some common use cases and the deployment modes you
 
 | Use case | Recommended deployment mode                                                                                                  |
 | -------- |------------------------------------------------------------------------------------------------------------------------------|
-| You want to migrate from on-premise or virtual machines to the cloud in a brownfield project. | [Multi-zone](/docs/{{ page.version }}/production/deployment/multi-zone/) |
-| You only intend to deploy {{site.mesh_product_name}} in one zone, like one Kubernetes cluster or Amazon VPC. | {% if_version gte:2.6.x inline:true %}[Single-zone](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}{% if_version lte:2.5.x inline:true %}Standalone{% endif_version %} |
-| You want to run a mix of Kubernetes and Universal zones. | [Multi-zone](/docs/{{ page.version }}/production/deployment/multi-zone/) |
-| You want to run workloads in different regions, clouds, and/or data centers. | [Multi-zone](/docs/{{ page.version }}/production/deployment/multi-zone/) |
+| You want to migrate from on-premise or virtual machines to the cloud in a brownfield project. | [Multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) |
+| You only intend to deploy {{site.mesh_product_name}} in one zone, like one Kubernetes cluster or Amazon VPC. | {% if_version gte:2.6.x inline:true %}[Single-zone](/docs/{{ page.release }}/production/deployment/multi-zone/){% endif_version %}{% if_version lte:2.5.x inline:true %}Standalone{% endif_version %} |
+| You want to run a mix of Kubernetes and Universal zones. | [Multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) |
+| You want to run workloads in different regions, clouds, and/or data centers. | [Multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) |
 
 ### kumactl
 

@@ -7,7 +7,7 @@ This resource is experimental!
 {% endwarning %}
 
 This resource allows services running inside the mesh to consume services that are not part of the mesh.
-The `MeshExternalService` resource allows you to declare external resources instead of relying on [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough) or [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing). 
+The `MeshExternalService` resource allows you to declare external resources instead of relying on [MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough) or [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing). 
 
 {% tip %}
 What is the difference between `MeshPassthrough` and `MeshExternalService`?
@@ -16,7 +16,7 @@ The main difference is that `MeshExternalService` is assigned a custom domain an
 {% endtip %}
 
 {% warning %}
-Currently `MeshExternalService` resource only supports targeting by [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission) with [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress).
+Currently `MeshExternalService` resource only supports targeting by [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) with [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress).
 This limitation will be lifted in the next release.
 {% endwarning %}
 
@@ -53,7 +53,7 @@ endpoints:
 ### TLS
 
 This section describes the TLS and verification behaviour.
-TLS origination happens on the sidecar, so if your application is already using TLS you might want to use [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough).
+TLS origination happens on the sidecar, so if your application is already using TLS you might want to use [MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough).
 You can define TLS version requirements, option to allow renegotiation, verification of SNI, SAN, custom CA and client certificate and key for server verification.
 To disable parts of the verification you can set different `mode` - `SkipSAN`, `SkipCA`, `SkipAll`, `Secured` (default).
 
@@ -93,12 +93,12 @@ Once a `HostnameGenerator` and a `MeshExternalService` is in place the following
 - Envoy cluster is created which will use endpoints defined in `spec.endpoints` as the [cluster endpoints](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/endpoint/v3/endpoint_components.proto)
 
 {% warning %}
-Do **not** hijack original addresses like httpbin.com (the way it was done with [External Service](/docs/{{ page.version }}/policies/external-services)).
+Do **not** hijack original addresses like httpbin.com (the way it was done with [External Service](/docs/{{ page.release }}/policies/external-services)).
 Hijacking the original address is like performing a man-in-the-middle attack so there is a high chance of something breaking.
-If you need to transparently pass traffic through the Mesh without modifying it use [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough).
+If you need to transparently pass traffic through the Mesh without modifying it use [MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough).
 {% endwarning %}
 
-For accessing entire subdomains, take a look at [Wildcard DNS matching in MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough/#wildcard-dns-matching).
+For accessing entire subdomains, take a look at [Wildcard DNS matching in MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough/#wildcard-dns-matching).
 
 ### Universal mode without Transparent Proxy
 
@@ -149,7 +149,7 @@ HTTP examples use https://httpbin.org/ service which is a website for inspecting
 GRPC examples use https://grpcbin.test.k6.io/ service which is a gRPC Request & Response Service.
 You can use [grpcurl](https://github.com/fullstorydev/grpcurl) as a client, it is available in [netshoot](https://github.com/nicolaka/netshoot) debug image alongside other tools used in later sections.
 
-For the examples below we're using a [single-zone deployment](/docs/{{ page.version }}/production/deployment/single-zone) and the following `HostnameGenerator`:
+For the examples below we're using a [single-zone deployment](/docs/{{ page.release }}/production/deployment/single-zone) and the following `HostnameGenerator`:
 
 {% policy_yaml hostnamegen %}
 {% raw %}
@@ -167,7 +167,7 @@ spec:
 {% endraw %}
 {% endpolicy_yaml %}
 
-If you're in [multi-zone deployment](/docs/{{ page.version }}/production/deployment/multi-zone) and you're applying resources on the global control plane you'd need a second `HostnameGenerator` with `matchLabels: kuma.io/origin: global` for resources applied on the global Control Plane and to adjust the URLs accordingly to match the template.
+If you're in [multi-zone deployment](/docs/{{ page.release }}/production/deployment/multi-zone) and you're applying resources on the global control plane you'd need a second `HostnameGenerator` with `matchLabels: kuma.io/origin: global` for resources applied on the global Control Plane and to adjust the URLs accordingly to match the template.
 
 ### TCP
 

@@ -9,7 +9,7 @@ A policy is a set of configuration that will be used to generate the data plane 
 
 ## What do policies look like?
 
-Like all [resources](/docs/{{ page.version }}/introduction/concepts#resource) in {{ site.mesh_product_name }}, there are two parts to a policy: the metadata and the spec.
+Like all [resources](/docs/{{ page.release }}/introduction/concepts#resource) in {{ site.mesh_product_name }}, there are two parts to a policy: the metadata and the spec.
 
 ### Metadata
 
@@ -96,7 +96,7 @@ spec:
 While some policies can have both a `to` and a `from` section, it is strongly advised to create 2 different policies, one for `to` and one for `from`.
 {% endtip %}
 
-Some policies are not directional and will not have `to` and `from`. Some examples of such policies are [`MeshTrace`](/docs/{{ page.version }}/policies/meshtrace) or [`MeshProxyPatch`](/docs/{{ page.version }}/policies/meshproxypatch).
+Some policies are not directional and will not have `to` and `from`. Some examples of such policies are [`MeshTrace`](/docs/{{ page.release }}/policies/meshtrace) or [`MeshProxyPatch`](/docs/{{ page.release }}/policies/meshproxypatch).
 For example
 
 {% policy_yaml non-directional %}
@@ -209,8 +209,8 @@ When a `targetRef` is not present, it is semantically equivalent to `targetRef.k
 
 ### Applying to specific proxy types
 The top level `targetRef` field can select a specific subset of data plane proxies. The field named `proxyTypes` can restrict policies to specific types of data plane proxies:
-- `Sidecar`: Targets data plane proxies acting as sidecars to applications (including [delegated gateways](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/delegated/)).
-- `Gateway`: Applies to data plane proxies operating in [built-in Gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin/) mode.
+- `Sidecar`: Targets data plane proxies acting as sidecars to applications (including [delegated gateways](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/delegated/)).
+- `Gateway`: Applies to data plane proxies operating in [built-in Gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) mode.
 - Empty list: Defaults to targeting all data plane proxies.
 
 #### Example
@@ -304,8 +304,8 @@ there may be restrictions on whether or not specific listeners can be selected.
 
 #### Routes
 
-Read the [MeshHTTPRoute docs](/docs/{{ page.version }}/policies/meshhttproute/#gateways)
-and [MeshTCPRoute docs](/docs/{{ page.version }}/policies/meshtcproute/#gateways) for more
+Read the [MeshHTTPRoute docs](/docs/{{ page.release }}/policies/meshhttproute/#gateways)
+and [MeshTCPRoute docs](/docs/{{ page.release }}/policies/meshtcproute/#gateways) for more
 on how to target gateways for routing traffic.
 
 ### Target kind support for different policies
@@ -401,8 +401,8 @@ default:
 
 ## Using policies with `MeshService`, `MeshMultizoneService` and `MeshExternalService`.
 
-[`MeshService`](/docs/{{ page.version }}/networking/meshservice) is a feature to define services explicitly in {{ site.mesh_product_name }}.
-It can be selectively enabled and disable depending on the value of [meshServices.mode](/docs/{{ page.version }}/networking/meshservice/#migration) on your Mesh object.
+[`MeshService`](/docs/{{ page.release }}/networking/meshservice) is a feature to define services explicitly in {{ site.mesh_product_name }}.
+It can be selectively enabled and disable depending on the value of [meshServices.mode](/docs/{{ page.release }}/networking/meshservice/#migration) on your Mesh object.
 
 When using explicit services, `MeshServiceSubset` is no longer a valid kind and `MeshService` can only be used to select an actual `MeshService` resource (it can no longer select a `kuma.io/service`).
 

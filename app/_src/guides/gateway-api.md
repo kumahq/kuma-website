@@ -5,10 +5,10 @@ title: Kubernetes Gateway API
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use
 a builtin gateway.
 
-In the [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
+In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
 inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
-In this guide you will add [a built-in gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
+In this guide you will add [a built-in gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
 We will deploy and configure Gateway using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
 Service graph of the demo app with a builtin gateway on front:
@@ -25,7 +25,7 @@ flowchart LR
 
 ## Prerequisites
 
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 
 ## Install Gateway API CRDs
 
@@ -179,7 +179,7 @@ Notice the forbidden error.
 This is because the quickstart has very restrictive permissions as defaults.
 Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
-To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission):
+To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
 
 ```shell
 echo "
@@ -332,5 +332,5 @@ Note that we're using `--insecure` as we have used a self-signed certificate.
 ## Next steps
 
 * Further explore [Gateway API documentation](https://gateway-api.sigs.k8s.io/)
-* Learn more about how to customize [{{site.mesh_product_name}} Gateway with Gateway API](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/gateway-api/) 
-* Learn about setting up [observability](/docs/{{ page.version }}/explore/observability/) to get full end to end visibility of your mesh.
+* Learn more about how to customize [{{site.mesh_product_name}} Gateway with Gateway API](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/gateway-api/) 
+* Learn about setting up [observability](/docs/{{ page.release }}/explore/observability/) to get full end to end visibility of your mesh.

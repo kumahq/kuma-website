@@ -3,9 +3,9 @@ title: Migration to the new policies
 ---
 
 {{site.mesh_product_name}} provides two set of policies to configure proxies.
-The original [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policies,
+The original [source/destination](/docs/{{ page.release }}/policies/general-notes-about-kuma-policies/) policies,
 while provided a lot of features, haven't met users expectations in terms of flexibility and transparency.
-The new [targetRef](/docs/{{ page.version }}/policies/introduction) policies were designed to preserve what already worked well,
+The new [targetRef](/docs/{{ page.release }}/policies/introduction) policies were designed to preserve what already worked well,
 and enhance the matching functionality and overall UX.
 
 In this guide, we're going to setup a demo with old policies and then perform a migration to the new policies.
@@ -211,9 +211,9 @@ It's possible to migrate all policies at once, but small portions are preferable
 
 The generalized migration process roughly consists of 4 steps:
 
-1. Create a new [targetRef](/docs/{{ page.version }}/policies/introduction) policy as a replacement for existing [source/destination](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies/) policy (do not forget about default policies that might not be stored in your source control).
-The corresponding new policy type can be found in [the table](/docs/{{ page.version }}/policies/introduction).
-Deploy the policy in [shadow mode](/docs/{{ page.version }}/policies/introduction/#applying-policies-in-shadow-mode) to avoid any traffic disruptions.
+1. Create a new [targetRef](/docs/{{ page.release }}/policies/introduction) policy as a replacement for existing [source/destination](/docs/{{ page.release }}/policies/general-notes-about-kuma-policies/) policy (do not forget about default policies that might not be stored in your source control).
+The corresponding new policy type can be found in [the table](/docs/{{ page.release }}/policies/introduction).
+Deploy the policy in [shadow mode](/docs/{{ page.release }}/policies/introduction/#applying-policies-in-shadow-mode) to avoid any traffic disruptions.
 2. Using Inspect API review the list of changes that are going to be created by the new policy.
 3. Remove `kuma.io/effect: shadow` label so that policy is applied in a normal mode.
 4. Observe metrics, traces and logs. If something goes wrong change policy's mode back to shadow and return to the step 2.
@@ -447,8 +447,8 @@ of details to consider.
 Some enum values and some field structures were updated, largely to reflect Gateway API.
 
 Please first read the [`MeshGatewayRoute` docs](/docs/{{ page.version
-}}/policies/meshgatewayroute), the [`MeshHTTPRoute` docs](/docs/{{ page.version }}/policies/meshhttproute)
-and the [`MeshTCPRoute` docs](/docs/{{ page.version }}/policies/meshtcproute).
+}}/policies/meshgatewayroute), the [`MeshHTTPRoute` docs](/docs/{{ page.release }}/policies/meshhttproute)
+and the [`MeshTCPRoute` docs](/docs/{{ page.release }}/policies/meshtcproute).
 Always refer to the spec to ensure your new resource is valid.
 
 Note that `MeshHTTPRoute` has precedence over `MeshGatewayRoute`.
@@ -677,4 +677,4 @@ So all in all we have:
 
 ## Next steps
 
-* Further explore [new policies](/docs/{{ page.version }}/policies/introduction)
+* Further explore [new policies](/docs/{{ page.release }}/policies/introduction)

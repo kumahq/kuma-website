@@ -3,7 +3,7 @@ title: MeshTLS
 ---
 
 This policy enables {{site.mesh_product_name}} to configure TLS mode, ciphers and version. 
-Backends and default mode values are taken from [the Mesh object](/docs/{{ page.version }}/policies/mutual-tls/).
+Backends and default mode values are taken from [the Mesh object](/docs/{{ page.release }}/policies/mutual-tls/).
 
 ## TargetRef support matrix
 
@@ -22,7 +22,7 @@ Backends and default mode values are taken from [the Mesh object](/docs/{{ page.
 {% endtab %}
 {% endtabs %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 
@@ -34,7 +34,7 @@ The following describes the default configuration settings of the `MeshTLS` poli
 
 {% tip %}
 Setting the TLS version and ciphers on both the client and server makes it harder to misconfigure.
-If you want to try out a specific version/cipher combination, we recommend creating a [temporary mesh](/docs/{{ page.version }}/production/mesh/#usage), deploying two applications within it, and testing whether communication is working.
+If you want to try out a specific version/cipher combination, we recommend creating a [temporary mesh](/docs/{{ page.release }}/production/mesh/#usage), deploying two applications within it, and testing whether communication is working.
 If you have a use case for configuring a different set of allowed versions/ciphers on different workloads, we'd love to hear about it.
 In that case, please open an [issue](https://github.com/kumahq/kuma/issues).
 {% endtip %}

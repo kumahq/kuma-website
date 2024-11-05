@@ -37,10 +37,10 @@ The default TTL is 60 seconds, to ensure the client synchronizes with {{site.mes
 ### Naming
 
 By default, Kuma generates domain names of `<kuma.io/service tag>.mesh` accessible on port `80`.
-More advanced configuration including customizing the port is available using [Virtual Outbounds](/docs/{{ page.version }}/policies/virtual-outbound).
+More advanced configuration including customizing the port is available using [Virtual Outbounds](/docs/{{ page.release }}/policies/virtual-outbound).
 
 {% if_version gte:2.9.x %}
-If you use [MeshService](/docs/{{ page.version }}/networking/meshservice), [MeshExternalService](/docs/{{ page.version }}/networking/meshexternalservice), or MeshMultiZoneService the domains are generated using [HostnameGenerator](/docs/{{ page.version }}/networking/hostnamegenerator).
+If you use [MeshService](/docs/{{ page.release }}/networking/meshservice), [MeshExternalService](/docs/{{ page.release }}/networking/meshexternalservice), or MeshMultiZoneService the domains are generated using [HostnameGenerator](/docs/{{ page.release }}/networking/hostnamegenerator).
 {% endif_version %}
 
 ## Installation

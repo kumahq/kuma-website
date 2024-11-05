@@ -8,19 +8,19 @@ After {{site.mesh_product_name}} is installed, you can access the control plane 
 {% if_version lte:2.8.x %}
 | Access method | Mode | Permissions |
 | ---- | ---- | ----- |
-| [{{site.mesh_product_name}} GUI](/docs/{{ page.version }}/production/gui/) | Kubernetes and Universal | Read-only |
+| [{{site.mesh_product_name}} GUI](/docs/{{ page.release }}/production/gui/) | Kubernetes and Universal | Read-only |
 | HTTP API | Kubernetes and Universal | Read-only |
-| [kumactl](/docs/{{ page.version }}/production/install-kumactl/) | Kubernetes | Read-only |
-| [kumactl](/docs/{{ page.version }}/production/install-kumactl/) | Universal | Read and write |
+| [kumactl](/docs/{{ page.release }}/production/install-kumactl/) | Kubernetes | Read-only |
+| [kumactl](/docs/{{ page.release }}/production/install-kumactl/) | Universal | Read and write |
 | `kubectl` | Kubernetes | Read and write |
 {% endif_version %}
 {% if_version gte:2.9.x %}
 | Access method | Mode | Permissions |
 | ---- | ---- | ----- |
-| [{{site.mesh_product_name}} GUI](/docs/{{ page.version }}/production/gui/) | Kubernetes and Universal | Read-only |
+| [{{site.mesh_product_name}} GUI](/docs/{{ page.release }}/production/gui/) | Kubernetes and Universal | Read-only |
 | HTTP API | Kubernetes and Universal | Read-only |
-| [kumactl](/docs/{{ page.version }}/introduction/install-kuma/) | Kubernetes | Read-only |
-| [kumactl](/docs/{{ page.version }}/introduction/install-kuma/) | Universal | Read and write |
+| [kumactl](/docs/{{ page.release }}/introduction/install-kuma/) | Kubernetes | Read-only |
+| [kumactl](/docs/{{ page.release }}/introduction/install-kuma/) | Universal | Read and write |
 | `kubectl` | Kubernetes | Read and write |
 {% endif_version %}
 

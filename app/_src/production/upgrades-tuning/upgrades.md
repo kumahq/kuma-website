@@ -9,7 +9,7 @@ Since {{site.mesh_product_name}} 1.4.x upgrades can be performed up to two minor
 * To upgrade from `1.2.x` to `1.6.x`, first upgrade from `1.2.x` to `1.4.x`. Then from `1.4.x` to `1.6.x`.
 
 {% warning %}
-Some versions have specific upgrade instructions. Make sure to read the [version specific upgrade notes](/docs/{{ page.version }}/production/upgrades-tuning/upgrade-notes) for more information.
+Some versions have specific upgrade instructions. Make sure to read the [version specific upgrade notes](/docs/{{ page.release }}/production/upgrades-tuning/upgrade-notes) for more information.
 {% endwarning %}
 
 {% warning %}

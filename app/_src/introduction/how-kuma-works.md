@@ -76,7 +76,7 @@ Out of the box, {{site.mesh_product_name}} ships with a bundled [Envoy](https://
 [Install {{site.mesh_product_name}}](/install/) and follow the instructions to get up and running in a few steps.
 {% endif_version %}
 {% if_version gte:2.9.x %}
-[Install {{site.mesh_product_name}}](/docs/{{ page.version }}/introduction/install-kuma/) and follow the instructions to get up and running in a few steps.
+[Install {{site.mesh_product_name}}](/docs/{{ page.release }}/introduction/install-kuma/) and follow the instructions to get up and running in a few steps.
 {% endif_version %}
 
 ## VM and K8s support
