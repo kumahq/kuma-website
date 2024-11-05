@@ -446,7 +446,7 @@ Otherwise the high-level structure of the routes hasn't changed, though there ar
 of details to consider.
 Some enum values and some field structures were updated, largely to reflect Gateway API.
 
-Please first read the [`MeshGatewayRoute` docs](/docs/{{ page.version
+Please first read the [`MeshGatewayRoute` docs](/docs/{{ page.release
 }}/policies/meshgatewayroute), the [`MeshHTTPRoute` docs](/docs/{{ page.release }}/policies/meshhttproute)
 and the [`MeshTCPRoute` docs](/docs/{{ page.release }}/policies/meshtcproute).
 Always refer to the spec to ensure your new resource is valid.
