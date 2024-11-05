@@ -25,7 +25,9 @@ It’s best to stick to one method whenever possible. Using more than one can ma
 
 - **ConfigMap**: In this guide, **ConfigMap** refers to the Kubernetes [**ConfigMap**](https://kubernetes.io/docs/concepts/configuration/configmap/) resource. It’s used to store configuration data as key-value pairs that can be easily accessed by other resources in the cluster, such as Pods, Deployments, and StatefulSets.
 
-## Method 1: Control plane runtime configuration
+<!-- vale Google.Headings = NO -->
+## Control Plane Runtime Configuration
+<!-- vale Google.Headings = YES -->
 
 The control plane runtime configuration is a section of {{ Kuma }}'s configuration that contains important settings for how the control plane operates, including options for the transparent proxy and other key components.
 
@@ -35,7 +37,7 @@ For more details, see the [Control Plane Configuration Reference]({{ docs }}/ref
 
 Some transparent proxy settings can be adjusted here, and **for certain settings, this is the only place they can be modified**.
 
-Currently, it’s best to use the control plane runtime configuration as the main place to store transparent proxy settings that apply to all workloads. In the future, once the [{{ configuration-in-configmap }}](#method-1-control-plane-runtime-configuration) feature is fully supported, we’ll recommend using ConfigMaps for these settings. However, a few restricted settings that are rarely customized will still need to be in the control plane’s runtime configuration.
+Currently, it’s best to use the control plane runtime configuration as the main place to store transparent proxy settings that apply to all workloads. In the future, once the [{{ configuration-in-configmap }}](#control-plane-runtime-configuration) feature is fully supported, we’ll recommend using ConfigMaps for these settings. However, a few restricted settings that are rarely customized will still need to be in the control plane’s runtime configuration.
 
 Below is a subset of the configuration focused on transparent proxy settings, with default values and corresponding environment variables for each field. For further details, see the [Modifying control plane runtime configuration](#modifying-control-plane-runtime-configuration) section.
 
@@ -93,14 +95,14 @@ If you try to change these settings with methods described later in this guide, 
 
   Attempts to modify this setting using the `kuma.io/sidecar-uid` annotation or `kumaDPUser` in the ConfigMap will result in:
 
-  - A warning in control plane logs if the [{{ configuration-in-configmap }}](#method-2-configuration-in-configmap) feature is **enabled**, and the values will be ignored.
+  - A warning in control plane logs if the [{{ configuration-in-configmap }}](#configuration-in-configmap) feature is **enabled**, and the values will be ignored.
   - Silent ignoring of the change without warnings if the feature is **disabled**.
 
 - **`runtime.kubernetes.injector.builtinDNS.enabled` and `runtime.kubernetes.injector.builtinDNS.port`**
 
   Attempts to modify these settings using deprecated annotations `kuma.io/builtin-dns` and `kuma.io/builtin-dns-port`, or `redirect.dns.enabled` and `redirect.dns.port` in the ConfigMap, will have the following effects:
 
-  - If the [{{ configuration-in-configmap }}](#method-2-configuration-in-configmap) feature is **enabled**, warnings will appear in the control plane logs, and values will be ignored.
+  - If the [{{ configuration-in-configmap }}](#configuration-in-configmap) feature is **enabled**, warnings will appear in the control plane logs, and values will be ignored.
   - If the feature is **disabled**, changes through annotations **will still apply**, possibly leading to broken DNS redirection. This can result in `kuma-dp` not starting the DNS server or listening on the wrong port, which may create issues in the environment.
 
     {{ behavior-difference-danger | indent | indent }}
@@ -226,14 +228,14 @@ For example, if `runtime.kubernetes.injector.sidecarTraffic.excludeOutboundPorts
 
 See the [**Order of Precedence**](#order-of-precedence) section to understand how different methods affect the final configuration applied.
 
-## Method 2: Configuration in ConfigMap (experimental)
-{:#method-2-configuration-in-configmap}
+## Configuration in ConfigMap (experimental)
+{:#configuration-in-configmap}
 
 {% warning %}
 Because this feature impacts multiple underlying components, it is considered experimental. Use it with caution. {% if site.mesh_product_name == "Kuma" %} If you encounter any unexpected behavior or issues, please [**contact us**](/community) and [**submit an issue on GitHub**](https://github.com/kumahq/kuma/issues/new/choose). Your feedback is essential in helping us improve this feature. {% endif %}
 {% endwarning %}
 
-Until {{ Kuma }} 2.9, transparent proxy settings could only be modified through the [Control Plane Runtime Configuration](#method-1-control-plane-runtime-configuration) and [Kubernetes Annotations](#method-3-kubernetes-annotations), which had several limitations:
+Until {{ Kuma }} 2.9, transparent proxy settings could only be modified through the [Control Plane Runtime Configuration](#control-plane-runtime-configuration) and [Annotations](#annotations), which had several limitations:
 
 - Not all settings were available through both methods; some could only be adjusted with annotations, while others were limited to the runtime configuration.
 - Control plane runtime settings were applied globally to all workloads with injected data planes, making it hard to customize settings for specific groups of workloads.
@@ -305,12 +307,12 @@ kubectl annotate pods <pod_name> "traffic.kuma.io/transparent-proxy-configmap-na
 
 This allows flexibility, enabling different workloads to use distinct ConfigMap settings while maintaining a global default.
 
-## Method 3: Kubernetes annotations
+## Annotations
 
 Kubernetes annotations can be applied to individual workloads to modify the transparent proxy configuration. These annotations allow fine-tuning of specific behaviors for a single workload without affecting others.
 
 {% tip %}
-Before {{ Kuma }} 2.9, annotations were the only way to modify the transparent proxy configuration on a per-workload basis. In {{ Kuma }} 2.9, the [{{ configuration-in-configmap }}](#method-2-configuration-in-configmap) feature was introduced, offering a more efficient way to configure groups of workloads. When this feature is no longer experimental, it will become the recommended approach for managing transparent proxy settings across multiple workloads. Annotations will still be useful for fine-tuning specific configurations when you need an individual workload to behave differently from the others.
+Before {{ Kuma }} 2.9, annotations were the only way to modify the transparent proxy configuration on a per-workload basis. In {{ Kuma }} 2.9, the [{{ configuration-in-configmap }}](#configuration-in-configmap) feature was introduced, offering a more efficient way to configure groups of workloads. When this feature is no longer experimental, it will become the recommended approach for managing transparent proxy settings across multiple workloads. Annotations will still be useful for fine-tuning specific configurations when you need an individual workload to behave differently from the others.
 {% endtip %}
 
 Below you can find a list of annotations that can be used to configure specific transparent proxy settings. 
@@ -343,7 +345,7 @@ Below you can find a list of annotations that can be used to configure specific 
 
 - `kuma.io/transparent-proxying-ip-family-mode`
 
-The following annotations also affect the configuration, but their values are automatically managed by {{ Kuma }} and cannot be manually adjusted. Values of these annotations will always match those specified in the [Control Plane Runtime Configuration](#method-1-control-plane-runtime-configuration). For more details, refer to [Settings restricted to control plane runtime configuration](#settings-restricted-to-control-plane-runtime-configuration).
+The following annotations also affect the configuration, but their values are automatically managed by {{ Kuma }} and cannot be manually adjusted. Values of these annotations will always match those specified in the [Control Plane Runtime Configuration](#control-plane-runtime-configuration). For more details, refer to [Settings restricted to control plane runtime configuration](#settings-restricted-to-control-plane-runtime-configuration).
 
 - `kuma.io/sidecar-uid`
 
@@ -382,11 +384,11 @@ The following annotations differ from others mentioned earlier as they are relat
 
 - `traffic.kuma.io/transparent-proxy-configmap-name`
 
-  This annotation lets you specify a custom name for the ConfigMap that holds the transparent proxy configuration when the [{{ configuration-in-configmap }}](#method-2-configuration-in-configmap) feature is enabled. For more details, refer to the [Custom ConfigMap name](#custom-configmap-name) section.
+  This annotation lets you specify a custom name for the ConfigMap that holds the transparent proxy configuration when the [{{ configuration-in-configmap }}](#configuration-in-configmap) feature is enabled. For more details, refer to the [Custom ConfigMap name](#custom-configmap-name) section.
 
 ### Automatically applied annotations
 
-Certain annotations are automatically added to workloads with [injected sidecar containers]({{ docs }}/production/dp-config/dpp-on-kubernetes/#kubernetes-sidecar-containers), regardless of whether they are explicitly defined. These annotations reflect the final values used to configure the transparent proxy. For settings that can be manually specified, these annotations will still be applied, even if not explicitly provided, using values from the [Control Plane Runtime Configuration](#method-1-control-plane-runtime-configuration).
+Certain annotations are automatically added to workloads with [injected sidecar containers]({{ docs }}/production/dp-config/dpp-on-kubernetes/#kubernetes-sidecar-containers), regardless of whether they are explicitly defined. These annotations reflect the final values used to configure the transparent proxy. For settings that can be manually specified, these annotations will still be applied, even if not explicitly provided, using values from the [Control Plane Runtime Configuration](#control-plane-runtime-configuration).
 
 The automatically applied annotations include:
 
@@ -414,8 +416,8 @@ When using multiple configuration methods, it's important to understand the orde
 
 1. Defaults (refer to [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/) for exact values)
 
-2. [Control Plane Runtime Configuration](#method-1-control-plane-runtime-configuration)
+2. [Control Plane Runtime Configuration](#control-plane-runtime-configuration)
 
-3. [{{ configuration-in-configmap }}](#method-2-configuration-in-configmap)
+3. [{{ configuration-in-configmap }}](#configuration-in-configmap)
 
-4. [Kubernetes Annotations](#method-3-kubernetes-annotations)
+4. [Annotations](#annotations)

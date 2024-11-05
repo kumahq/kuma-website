@@ -74,6 +74,6 @@ To learn more about [policies checkout the in depth introduction](/docs/{{ page.
 
 ## Transparent proxy
 
-A transparent proxy is a server that intercepts network traffic going to and from a service without requiring any changes to the application code. In {{ site.mesh_product_name}}, it captures this traffic and routes it to the [data plane proxy](#data-plane-proxy--sidecar), allowing [policies](#policy) to be applied.
+A transparent proxy is a server that intercepts network traffic going to and from a service without requiring any changes to the application code. In {{ site.mesh_product_name}}, it captures this traffic and routes it to the data plane proxy, allowing policies to be applied.
 
 For more details, see the [Transparent Proxy](/docs/{{ page.version}}/{% if_version lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}/networking/transparent-proxy/introduction/{% endif_version %}) documentation.

@@ -40,7 +40,7 @@ It’s best to stick to one method whenever possible. Using more than one can ma
 Here are the methods, listed by precedence, from lowest to highest. 
 
 <!-- vale Google.Headings = NO -->
-### Method 1: YAML or JSON configuration
+### YAML or JSON Configuration
 <!-- vale Google.Headings = YES -->
 
 You can provide the configuration in either `YAML` or `JSON` format by using the `--config` or `--config-file` flags.
@@ -97,7 +97,9 @@ Below are examples of using these flags in different ways:
    " | kumactl install transparent-proxy --config-file -
    ```
 
-### Method 2: Using environment variables
+<!-- vale Google.Headings = NO -->
+### Environment Variables
+<!-- vale Google.Headings = YES -->
 
 You can customize configuration settings by using environment variables. For example:
 
@@ -109,7 +111,9 @@ KUMA_TRANSPARENT_PROXY_IP_FAMILY_MODE="ipv4" kumactl install transparent-proxy
 To see all available environment variables, visit the [Environment Variables]({{ ref-env }}) section in the [Transparent Proxy Configuration Reference]({{ ref }}).
 {% endtip %}
 
-### Method 3: CLI flags
+<!-- vale Google.Headings = NO -->
+### CLI Flags
+<!-- vale Google.Headings = YES -->
 
 Most configuration values can also be specified directly through CLI flags. For example:
 

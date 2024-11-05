@@ -23,7 +23,7 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
   - [Adjusting Transparent Proxy Configuration on Universal]({{ docs }}/networking/transparent-proxy/configuration-on-universal/)
   - [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/)
 
-- Right now, the recommended way to adjust transparent proxy settings (and the one mostly shown in this guide) is with [Kubernetes Annotations]({{ docs }}/networking/transparent-proxy/configuration-on-kubernetes/#method-3-kubernetes-annotations), since the [{{ configuration-in-configmap }}]({{ docs }}/networking/transparent-proxy/configuration-on-kubernetes/#method-2-configuration-in-configmap) option is still experimental. Once it’s stable, it will become the suggested method.
+- Right now, the recommended way to adjust transparent proxy settings (and the one mostly shown in this guide) is with [Kubernetes Annotations]({{ docs }}/networking/transparent-proxy/configuration-on-kubernetes/#annotations), since the [{{ configuration-in-configmap }}]({{ docs }}/networking/transparent-proxy/configuration-on-kubernetes/#configuration-in-configmap) option is still experimental. Once it’s stable, it will become the suggested method.
 
 ## Terminology overview
 
@@ -110,7 +110,7 @@ redirect:
 ### Other configuration options
 {:.no-anchor#excluding-incoming-traffic-to-specific-ports-universal-other-options}
 
-[**Environment Variables**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#method-2-using-environment-variables)
+[**Environment Variables**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#environment-variables)
 
 ```sh
 KUMA_TRANSPARENT_PROXY_REDIRECT_INBOUND_EXCLUDE_PORTS="1234" \
@@ -118,7 +118,7 @@ KUMA_TRANSPARENT_PROXY_REDIRECT_OUTBOUND_EXCLUDE_PORTS="5678,8900" \
 kumactl install transparent-proxy
 ```
 
-[**CLI Flags**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#method-3-cli-flags)
+[**CLI Flags**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#cli-flags)
 
 ```sh
 kumactl install transparent-proxy \
@@ -173,7 +173,7 @@ redirect:
 ### Other configuration options
 {:.no-anchor#exclude-traffic-to-and-from-specific-ip-addresses-universal-other-options}
 
-[**Environment Variables**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#method-2-using-environment-variables)
+[**Environment Variables**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#environment-variables)
 
 ```sh
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS="10.0.0.0/8" \
@@ -181,7 +181,7 @@ KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS="192.168.10.1,fd1
 kumactl install transparent-proxy
 ```
 
-[**CLI Flags**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#method-3-cli-flags)
+[**CLI Flags**]({{ docs }}/networking/transparent-proxy/configuration-on-universal/#cli-flags)
 
 ```sh
 kumactl install transparent-proxy \
