@@ -149,7 +149,7 @@ subcommand
 subgraph
 subproject
 sudo
-Syslog
+[sS]yslog
 target[Rr]ef
 tbl
 tcpdump
@@ -173,8 +173,13 @@ Vuejs
 websockets?
 wireframes?
 workspace
-yaml
+yaml|YAML
 yml
 [xX]DS|xds
 Zipkin
 zsh
+xtables
+netfilter
+UIDs?
+use_original_dst
+orin
