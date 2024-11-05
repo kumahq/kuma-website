@@ -72,7 +72,7 @@ They can enable traffic management, security, observability and traffic reliabil
 Policies always have a clear specific area of impact and goal.
 To learn more about [policies checkout the in depth introduction](/docs/{{ page.version }}/policies/introduction).
 
-## Transparent Proxy
+## Transparent proxy
 
 A transparent proxy is a server that intercepts network traffic going to and from a service without requiring any changes to the application code. In {{ site.mesh_product_name}}, it captures this traffic and routes it to the [data plane proxy](#data-plane-proxy--sidecar), allowing [policies](#policy) to be applied.
 
