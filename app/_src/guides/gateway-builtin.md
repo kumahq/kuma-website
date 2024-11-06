@@ -35,17 +35,15 @@ A [`MeshGatewayInstance`](/docs/{{ page.version }}/using-mesh/managing-ingress-t
 that will run the gateway.
 
 Create it by running:
-```shell
-echo "
-apiVersion: kuma.io/v1alpha1
+```sh
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshGatewayInstance
 metadata:
   name: edge-gateway
   namespace: kuma-demo
 spec:
   replicas: 1
-  serviceType: LoadBalancer
-" | kubectl apply -f -
+  serviceType: LoadBalancer" | kubectl apply -f -
 ```
 
 {% warning %}
@@ -63,9 +61,8 @@ One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.co
 
 Define a single HTTP listener on port 8080:
 
-```shell
-echo "
-apiVersion: kuma.io/v1alpha1
+```sh
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
 mesh: default
 metadata:
@@ -79,19 +76,18 @@ spec:
       - port: 8080
         protocol: HTTP
         tags:
-          port: http-8080
-" | kubectl apply -f -
+          port: http-8080" | kubectl apply -f -
 ```
 
 Notice how the selector selects the `kuma.io/service` tag of the previously defined `MeshGatewayInstance`.
 
 Now look at the pods running in the namespace by running: 
-```shell
+```sh
 kubectl get pods -n kuma-demo
 ```
 
 Observe the gateway pod:
-```shell
+```sh
 NAME                            READY   STATUS    RESTARTS   AGE
 redis-5fdb98848c-5tw62          2/2     Running   0          5m5s
 demo-app-c7cd6588b-rtwlj        2/2     Running   0          5m5s
@@ -99,21 +95,21 @@ edge-gateway-66c76fd477-ncsp5   1/1     Running   0          18s
 ```
 
 Retrieve the public URL for the gateway with:
-```shell
+```sh
 export PROXY_IP=$(kubectl get svc --namespace kuma-demo edge-gateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
 ```
 
 Check the gateway is running:
-```shell
+```sh
 curl -v ${PROXY_IP}:8080
 ```
 
 Which outputs:
-```shell
+```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
-> GET / HTTP/1.1
+> GET / HTTP/1.1ó
 > Host: 127.0.0.1:8080
 > User-Agent: curl/8.4.0
 > Accept: */*
@@ -134,9 +130,9 @@ Notice the gateway says that there are no routes configured.
 [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute/) defines HTTP routes inside your service mesh.
 Attach a route to an entire gateway or to a single listener by using `targetRef.kind: MeshGateway` 
 
-```shell
-echo "
-apiVersion: kuma.io/v1alpha1
+{% if_version lte:2.8.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshHTTPRoute
 metadata:
  name: edge-gateway-route
@@ -158,17 +154,46 @@ spec:
      default:
        backendRefs:
        - kind: MeshService
-         name: demo-app_kuma-demo_svc_5000
-" | kubectl apply -f -
+         name: demo-app_kuma-demo_svc_5000" | kubectl apply -f -
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshHTTPRoute
+metadata:
+ name: edge-gateway-route
+ namespace: {{site.mesh_namespace}} 
+ labels:
+   kuma.io/mesh: default
+spec:
+ targetRef:
+   kind: MeshGateway
+   name: my-gateway
+ to:
+ - targetRef:
+     kind: Mesh
+   rules:
+   - matches:
+     - path:
+         type: PathPrefix
+         value: "/"
+     default:
+       backendRefs:
+       - kind: MeshService
+         name: demo-app
+         namespace: kuma-demo
+         port: 5000" | kubectl apply -f -
+```
+{% endif_version %}
 
 Now try to reach our gateway again: 
-```shell
+```sh
 curl -v ${PROXY_IP}:8080
 ```
 
 which outputs:
-```shell
+```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
 > GET / HTTP/1.1
@@ -191,11 +216,11 @@ Notice the forbidden error.
 This is because the quickstart has very restrictive permissions as defaults.
 Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
-To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission):
+To fix this, add a [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission):
 
-```shell
-echo "
-apiVersion: kuma.io/v1alpha1
+{% if_version lte:2.8.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
   namespace: {{ site.mesh_namespace }} 
@@ -210,17 +235,38 @@ spec:
         tags: 
           kuma.io/service: edge-gateway_kuma-demo_svc 
       default:
-        action: Allow
-" | kubectl apply -f -
+        action: Allow" | kubectl apply -f -
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: kuma-demo 
+  name: demo-app
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: demo-app
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags: 
+          kuma.io/service: edge-gateway_kuma-demo_svc 
+      default:
+        action: Allow" | kubectl apply -f -
+```
+{% endif_version %}
 
 Check it works with:
-```shell
+```sh
 curl -XPOST -v ${PROXY_IP}:8080/increment
 ```
 
 Now returns a 200 OK response:
-```shell
+```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
 > POST /increment HTTP/1.1
@@ -250,14 +296,13 @@ We will now add TLS to our endpoint.
 
 Create a self-signed certificate:
 
-```shell
+```sh
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=${PROXY_IP}"
 ```
 
 
-```shell
-echo "
-apiVersion: v1
+```sh
+echo "apiVersion: v1
 kind: Secret
 metadata:
   name: my-gateway-certificate
@@ -266,14 +311,12 @@ metadata:
     kuma.io/mesh: default
 data:
   value: "$(cat tls.key tls.crt | base64)"
-type: system.kuma.io/secret
-" | kubectl apply -f - 
+type: system.kuma.io/secret" | kubectl apply -f - 
 ```
 
 Now update the gateway to use this certificate:
-```shell
-echo "
-apiVersion: kuma.io/v1alpha1
+```sh
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
 mesh: default
 metadata:
@@ -291,17 +334,16 @@ spec:
           certificates:
             - secret: my-gateway-certificate
         tags:
-          port: http-8080
-" | kubectl apply -f -
+          port: http-8080" | kubectl apply -f -
 ```
 
 Check the call to the gateway: 
-```shell
+```sh
 curl -X POST -v --insecure https://${PROXY_IP}:8080/increment
 ```
 
 Which should output a successful call and indicate TLS is being used:
-```shell
+```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
 * ALPN: curl offers h2,http/1.1

@@ -55,7 +55,7 @@ The [Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) resource repre
 traffic for a set of Gateway API routes. You can create gateway with a single listener on port 8080 by running:
 
 ```shell
-echo" apiVersion: gateway.networking.k8s.io/v1
+echo "apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: kuma
@@ -182,8 +182,7 @@ Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission):
 
 ```shell
-echo "
-apiVersion: kuma.io/v1alpha1
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
   namespace: kuma-demo 
