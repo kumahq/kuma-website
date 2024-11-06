@@ -1,5 +1,6 @@
 ---
 title: Transparent Proxy Configuration
+content_type: reference
 ---
 
 {% assign docs = "/docs/" | append: page.version %}

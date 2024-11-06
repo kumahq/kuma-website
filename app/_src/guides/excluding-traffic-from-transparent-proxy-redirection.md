@@ -1,5 +1,6 @@
 ---
 title: Excluding Traffic from Transparent Proxy
+content_type: tutorial
 ---
 
 {% assign docs = "/docs/" | append: page.version %}
@@ -36,9 +37,7 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 1. **Understand transparent proxy basics**: You should already be familiar with what a transparent proxy is, how to install it, and how to adjust its settings. This guide won’t cover those basics. The following resources can help:
 
    - For options to customize transparent proxy settings, check the resources listed in the [Key Information](#key-information) section.
-<!-- vale Vale.Terms = NO -->
    - For an in-depth look at how the transparent proxy works in {{ Kuma }} and its mechanisms, see the [Technical Overview]({{ docs }}/networking/transparent-proxy/technical-overview/) page from its documentation.
-<!-- vale Vale.Terms = YES -->
    - To install the transparent proxy on Universal, refer to [Installing Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/#installation).
    - For upgrade steps, see [Upgrading Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/#upgrading).
 

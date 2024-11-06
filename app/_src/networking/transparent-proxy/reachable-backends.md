@@ -1,5 +1,6 @@
 ---
 title: Reachable Backends
+content_type: how-to
 ---
 
 {% assign docs = "/docs/" | append: page.version %}

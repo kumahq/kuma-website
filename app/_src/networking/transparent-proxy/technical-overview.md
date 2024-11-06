@@ -1,5 +1,6 @@
 ---
 title: Technical Overview
+content_type: explanation
 ---
 
 {% assign docs = "/docs/" | append: page.version %}

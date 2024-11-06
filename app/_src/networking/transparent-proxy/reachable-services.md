@@ -1,5 +1,6 @@
 ---
 title: Reachable Services
+content_type: how-to
 ---
 
 {% assign Kuma = site.mesh_product_name %}

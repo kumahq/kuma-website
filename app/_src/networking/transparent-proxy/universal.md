@@ -7,13 +7,6 @@ content_type: how-to
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 
-{% assign ref = docs | append: "/reference/transparent-proxy-configuration/" %}
-{% assign ref-schema = ref | append: "#schema" %}
-{% assign ref-env = ref | append: "#environment-variables" %}
-{% assign ref-cli = ref | append: "#cli-flags" %}
-{% assign ref-default = ref | append: "#default-values" %}
-{% assign ref-full = ref | append: "#full-reference" %}
-
 Using the transparent proxy in Universal mode makes setup easier and enables features that wouldn’t be possible otherwise. Key benefits include:
 
 - **Simplified `Dataplane` resources**: You can skip the `networking.outbound` section, so you don’t have to list each service your application connects to manually.
@@ -316,7 +309,7 @@ This command will install the new version of the transparent proxy with the spec
 
 The default configuration works well for most scenarios, but there are cases where adjustments are needed.
 
-{{ Kuma }} uses a unified configuration structure for transparent proxy across all components. For a detailed breakdown of this structure, including examples, expected formats, and variations between configuration methods, refer to the [Transparent Proxy Configuration Reference]({{ ref }}).
+{{ Kuma }} uses a unified configuration structure for transparent proxy across all components. For a detailed breakdown of this structure, including examples, expected formats, and variations between configuration methods, refer to the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
 
 In Universal mode, {{ Kuma }} there are three methods to adjust the configuration. Each can be used on its own or combined with others if needed.
 
@@ -331,7 +324,7 @@ It’s best to stick to one method whenever possible. Using more than one can ma
 You can provide the configuration in either `YAML` or `JSON` format by using the `--config` or `--config-file` flags.
 
 {% tip %}
-For the configuration schema in YAML format, refer to the [Schema]({{ ref-schema }}) section in the [Transparent Proxy Configuration Reference]({{ ref }}).
+For the configuration schema in YAML format, refer to the [Schema]({{ docs }}/reference/transparent-proxy-configuration/#schema) section in the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
 {% endtip %}
 
 {% tip %}
@@ -393,7 +386,7 @@ KUMA_TRANSPARENT_PROXY_IP_FAMILY_MODE="ipv4" kumactl install transparent-proxy
 ```
 
 {% tip %}
-To see all available environment variables, visit the [Environment Variables]({{ ref-env }}) section in the [Transparent Proxy Configuration Reference]({{ ref }}).
+To see all available environment variables, visit the [Environment Variables]({{ docs }}/reference/transparent-proxy-configuration/#environment-variables) section in the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
 {% endtip %}
 
 <!-- vale Google.Headings = NO -->
@@ -420,7 +413,7 @@ The following settings cannot be modified directly via CLI flags (corresponding 
   {% endwarning %}
 
 {% tip %}
-To see all available CLI flags, visit the [CLI Flags]({{ ref-cli }}) section in the [Transparent Proxy Configuration Reference]({{ ref }}).
+To see all available CLI flags, visit the [CLI Flags]({{ docs }}/reference/transparent-proxy-configuration/#cli-flags) section in the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
 {% endtip %}
 
 <!-- vale Google.Headings = NO -->
