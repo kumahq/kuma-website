@@ -33,7 +33,7 @@ To install Gateway API please refer to [official installation instruction](https
 
 You also need to manually install {{site.mesh_product_name}} [GatewayClass](https://gateway-api.sigs.k8s.io/api-types/gatewayclass/):
 
-```shell
+```sh
 echo "apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
@@ -45,7 +45,7 @@ spec:
 At this moment, when you install Gateway API CRDs after installing {{site.mesh_product_name}} control plane you need to restart
 it to start Gateway API controller. To do this run: 
 
-```shell
+```sh
 kubectl rollout restart deployment {{site.mesh_product_name_path}}-control-plane -n {{ site.mesh_namespace }}
 ```
 
@@ -54,7 +54,7 @@ kubectl rollout restart deployment {{site.mesh_product_name_path}}-control-plane
 The [Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) resource represents the proxy instance that handles
 traffic for a set of Gateway API routes. You can create gateway with a single listener on port 8080 by running:
 
-```shell
+```sh
 echo "apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -78,11 +78,11 @@ One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.co
 {% endwarning %}
 
 You can now check if the gateway is running in the demo app `kuma-demo` namespace:
-```shell
+```sh
 kubectl get pods -n kuma-demo
 ```
 Observe the gateway pod:
-```shell
+```sh
 NAME                       READY   STATUS    RESTARTS   AGE
 demo-app-d8d8bdb97-vhgc8   2/2     Running   0          5m
 kuma-cfcccf8c7-hlqz5       1/1     Running   0          20s
@@ -90,18 +90,18 @@ redis-5484ddcc64-6gbbx     2/2     Running   0          5m
 ```
 
 Retrieve the public URL for the gateway with:
-```shell
+```sh
 export PROXY_IP=$(kubectl get svc --namespace kuma-demo kuma -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
 ```
 
 Check the gateway is running:
-```shell
+```sh
 curl -v ${PROXY_IP}:8080
 ```
 
 Which outputs:
-```shell
+```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 35.226.116.24 (35.226.116.24) port 8080
 > GET / HTTP/1.1
@@ -151,12 +151,12 @@ spec:
 ```
 
 Now try to reach our gateway again:
-```shell
+```sh
 curl -v ${PROXY_IP}:8080
 ```
 
 which outputs:
-```shell
+```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
 > GET / HTTP/1.1
@@ -181,7 +181,7 @@ Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
 To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission):
 
-```shell
+```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
@@ -202,12 +202,12 @@ spec:
 ```
 
 Check it works with:
-```shell
+```sh
 curl -XPOST -v ${PROXY_IP}:8080/increment
 ```
 
 Now it returns a 200 OK response:
-```shell
+```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
 > POST /increment HTTP/1.1
@@ -237,13 +237,13 @@ We will now add TLS to our endpoint.
 
 Create a self-signed certificate:
 
-```shell
+```sh
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=${PROXY_IP}"
 ```
 
 Create Kubernetes secret with generated certificate:
 
-```shell
+```sh
 echo "apiVersion: v1
 kind: Secret
 metadata:
@@ -257,7 +257,7 @@ data:
 
 Now update the gateway to use this certificate:
 
-```shell
+```sh
 echo "apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -275,12 +275,12 @@ spec:
 ```
 
 Check the call to the gateway:
-```shell
+```sh
 curl -X POST -v --insecure https://${PROXY_IP}:8080/increment
 ```
 
 Which should output a successful call and indicate TLS is being used:
-```shell
+```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
 * ALPN: curl offers h2,http/1.1
