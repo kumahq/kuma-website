@@ -301,7 +301,6 @@ It also depends on injecting the `kuma-sidecar` container as the first container
 
 {% endif_version %}
 
-
 ### Leaving the mesh
 
 To leave the mesh in a graceful shutdown, we need to remove the traffic destination from all the clients before shutting it down.
@@ -402,10 +401,10 @@ spec:
       }'
   initPatch:
     - op: add
-      path: /securityContext/runAsNonRoot
-      value: "true"
-    - op: remove
-      path: /securityContext/runAsUser
+      path: /securityContext/seccompProfile
+      value: '{
+        "type": "RuntimeDefault"
+      }'
 ```
 
 This will change the `securityContext` section of `kuma-sidecar` container from:
@@ -431,8 +430,8 @@ and similarly change the securityContext section of the init container from:
 securityContext:
   capabilities:
     add:
-    - NET_ADMIN
-    - NET_RAW
+      - NET_ADMIN
+      - NET_RAW
   runAsGroup: 0
   runAsUser: 0
 ```
@@ -443,8 +442,8 @@ to:
 securityContext:
   capabilities:
     add:
-    - NET_ADMIN
-    - NET_RAW
+      - NET_ADMIN
+      - NET_RAW
   runAsGroup: 0
   runAsNonRoot: true
 ```
@@ -452,14 +451,14 @@ securityContext:
 Resources `requests cpu` will be changed from: 
 
 ```yaml
-requests:                                                                                                       │
+requests:
   cpu: 50m
 ```
 
 to: 
 
 ```yaml
-requests:                                                                                                       │
+requests:
   cpu: 100m
 ```
 
