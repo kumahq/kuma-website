@@ -1,9 +1,8 @@
 RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Inc do
   let(:version) { '2.9.1' }
   # If we ever upgrade jekyll-generator-single-source we will have to change below to:
-  # let(:release) { Jekyll::GeneratorSingleSource::Product::Release.new({ 'release' => version }) }
-  # let(:page) { { 'release' => release.to_liquid } }
-  let(:page) { { 'version' => version } }
+  let(:release) { Jekyll::GeneratorSingleSource::Product::Release.new({ 'release' => version }) }
+  let(:page) { { 'release' => release.to_liquid } }
   let(:environment) { { 'page' => page } }
   let(:registers) { { page: page } }
   let(:liquid_context) { Liquid::Context.new(environment, {}, registers) }
