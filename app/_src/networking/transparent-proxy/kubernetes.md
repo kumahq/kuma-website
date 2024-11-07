@@ -53,9 +53,9 @@ Some transparent proxy settings **can only be changed through the control plane�
 ⚠️ IMPORTANT
 {:.custom-block-title}
 
-If you change these settings, but with values different from the runtime configuration, they will be ignored, and a warning will appear in the control plane logs (except for DNS-related settings).
+When the [**Configuration in ConfigMap**](#configuration-in-configmap-experimental) feature is enabled, any changes to these settings, whether through annotations or ConfigMap, will be ignored, and a warning will be logged in the control plane.
 
-If `builtinDNS.enabled` or `builtinDNS.port` is updated using deprecated annotations while [Configuration in ConfigMap](#configuration-in-configmap-experimental) is disabled, the changes may still apply, potentially causing DNS redirection issues. This could prevent `kuma-dp` from starting the DNS server or listening on the correct port, leading to environment disruptions.
+**However**, if this feature is disabled, and you update `builtinDNS.enabled` or `builtinDNS.port` using deprecated annotations, the changes may still apply, potentially causing DNS redirection issues. This could prevent `kuma-dp` from starting the DNS server or listening on the correct port, leading to environment disruptions.
 {% enddanger %}
 
 #### Modifying control plane runtime configuration
@@ -90,9 +90,11 @@ To enable this feature, set `{{ transparentProxy }}.configMap.enabled` during in
 {{ transparentProxy }}.configMap.enabled=true
 {% endcpinstall %}
 
+{% if_version lte:2.9.x %}
 {% warning %}
 If you set `{{ transparentProxy }}.configMap.config` to an empty value, it will override `{{ transparentProxy }}.configMap.enabled` and disable the feature, even if `{{ transparentProxy }}.configMap.enabled` is set to `true`.
 {% endwarning %}
+{% endif_version %}
 
 #### ConfigMap auto-creation and configuration
 
@@ -144,9 +146,11 @@ metadata:
 
 4. **If still not found**: Search the `{{ kuma-system }}` namespace for the ConfigMap with the default name.
 
+{% if_version lte:2.9.x %}
 {% warning %}
 The ConfigMap in the `{{ kuma-system }}` namespace is required for proper operation, so it must be present even if custom ones are used in all individual workload namespaces.
 {% endwarning %}
+{% endif_version %}
 
 ### Annotations
 
