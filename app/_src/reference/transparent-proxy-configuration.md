@@ -343,13 +343,20 @@ The following annotations also affect the configuration, but their values are au
 
 - `kuma.io/transparent-proxying-outbound-port`
 
-{% warning %}
-The following two annotations are deprecated and will be removed in future releases. They are provided here for reference only, and we **strongly advise against using them**.
+{% danger %}
+⚠️ IMPORTANT
+{:.custom-block-title}
+
+The following two annotations are deprecated and will be removed in future releases. They are provided here for reference only and **should not be used**:
 
 - `kuma.io/builtin-dns`
-
 - `kuma.io/builtin-dns-port`
-  {% endwarning %}
+
+If you use these annotations while the [**Configuration in ConfigMap**]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration-in-configmap-experimental) feature is enabled, they will be ignored, and a warning will be logged in the control plane.
+
+**However**, if this feature is disabled, changes from these annotations may still apply, potentially causing DNS redirection issues. This happens because the transparent proxy will be configured with the values specified in the annotations, while the rest of the system will use values from the [**control plane runtime configuration**]({{ docs }}/networking/transparent-proxy/kubernetes/#control-plane-runtime-configuration). This mismatch could prevent `kuma-dp` from starting the DNS server or listening on the correct port, potentially disrupting the environment.
+{% enddanger %}
+
 
 The following annotation indirectly adjusts the transparent proxy configuration by configuring other components, resulting in changes to the transparent proxy behavior. While its value is automatically set by {{ Kuma }}, you can override it by manually providing a value.
 
