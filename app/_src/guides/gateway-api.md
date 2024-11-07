@@ -276,7 +276,7 @@ spec:
 
 Check the call to the gateway:
 ```sh
-curl -X POST -v --insecure https://${PROXY_IP}:8080/increment
+curl -X POST -v --insecure "https://${PROXY_IP}:8080/increment"
 ```
 
 Which should output a successful call and indicate TLS is being used:
