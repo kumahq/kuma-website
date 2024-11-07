@@ -27,13 +27,13 @@ demo-app --> redis
 
 To download {{site.mesh_product_name}} we will use official installer, it will automatically detect the operating system (Amazon Linux, CentOS, RedHat, Debian, Ubuntu, and macOS) and download {{site.mesh_product_name}}:
 
-```shell
+```sh
 curl -L {{site.links.web}}{% if page.edition %}/{{page.edition}}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -
 ```
 
 To finish installation we need to add {{site.mesh_product_name}} binaries to path: 
 
-```shell
+```sh
 export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin
 ```
 
@@ -41,13 +41,13 @@ export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.ve
 
 Now we need to start [control plane](/docs/{{ page.version }}/introduction/concepts#control-plane) in background by running command:
 
-```shell
+```sh
 kuma-cp run > cp-logs.txt 2>&1 &
 ```
 
 To check if control plane started without issues you can check logs:
 
-```shell
+```sh
 tail cp-logs.txt
 ```
 
@@ -82,7 +82,7 @@ This isn't related to mTLS between services.
 First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane [resources](/docs/{{ page.version }}/introduction/concepts#resource) for data plane proxies, and 
 run kuma-dp manually, to do this run:
 
-```shell
+```sh
 KUMA_READINESS_PORT=9901 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9902 \{% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
@@ -110,14 +110,14 @@ running on separate machines this is not required.
 {% warning %}
 We need a separate terminal window, with the same binaries directory as above added to `PATH`. So assuming the same initial directory:
 
-```shell
+```sh
 export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin
 ```
 {% endwarning %}
 
 Now we can start the data plane proxy for our demo-app, we can do this by running:
 
-```shell
+```sh
 KUMA_READINESS_PORT=9904 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905 \{% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
@@ -148,18 +148,18 @@ KUMA_READINESS_PORT=9904 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY
 We will start the kuma-counter-demo in a new terminal window:
 
 1. With the data plane proxies running, we can start our apps, first we will start and configure `Redis`:
-```shell
+```sh
 redis-server --port 26379 --daemonize yes && redis-cli -p 26379 set zone local
 ```
 You should see message `OK` from `Redis` if this operation was successful.
 
 2. Now we can start our `demo-app`. To do this we need to download repository with its source code:
-```shell
+```sh
 git clone https://github.com/kumahq/kuma-counter-demo.git && cd kuma-counter-demo
 ```
 
 3. Now we need to run:
-```shell
+```sh
 npm install --prefix=app/ && npm start --prefix=app/
 ```
 If `demo-app` was started correctly you will see message:
@@ -189,7 +189,8 @@ alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
-```shell
+{% if_version lte:2.8.x %}
+```sh
 echo 'type: Mesh
 name: default
 mtls:
@@ -198,6 +199,20 @@ mtls:
     - name: ca-1
       type: builtin' | kumactl apply -f -
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```sh
+echo 'type: Mesh
+name: default
+meshServices:
+  mode: Exclusive
+mtls:
+  enabledBackend: ca-1
+  backends:
+    - name: ca-1
+      type: builtin' | kumactl apply -f -
+```
+{% endif_version %}
 
 The traffic is now **encrypted and secure**. {{site.mesh_product_name}} does not define default traffic permissions, which 
 means that no traffic will flow with mTLS enabled until we define a proper [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission) 
@@ -207,7 +222,7 @@ For now, the demo application won't work.
 You can verify this by clicking the increment button again and seeing the error message in the browser.
 We can allow the traffic from the `demo-app` to `redis` by applying the following `MeshTrafficPermission`:
 
-```shell
+```sh
 echo 'type: MeshTrafficPermission 
 name: allow-from-demo-app
 mesh: default 
