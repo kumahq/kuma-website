@@ -398,7 +398,7 @@ spec:
 ### `kuma.io/transparent-proxying-reachable-services`
 
 A comma separated list of `kuma.io/service` to indicate which services this communicates with.
-For more details see the [reachable services docs](/docs/{{ page.version }}/networking/transparent-proxying#reachable-services).
+For more details see the [reachable services docs](/docs/{{ page.release }}/networking/transparent-proxying#reachable-services).
 
 **Example**
 

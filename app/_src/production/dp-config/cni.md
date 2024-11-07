@@ -5,7 +5,7 @@ content_type: how-to
 
 In order for traffic to flow through the {{site.mesh_product_name}} data plane, all inbound and
 outbound traffic for a service needs to go through its data plane proxy.
-The recommended way of accomplishing this is via {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %}.
+The recommended way of accomplishing this is via {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/){% endif_version %}.
 
 On Kubernetes it's handled automatically by default with the
 `initContainer` `kuma-init`, but this container requires certain privileges.
@@ -19,9 +19,9 @@ writes executables to the host filesystem as `root`.
 {% endtip %}
 
 Install the CNI using either
-{% if_version lte:2.1.x %}[kumactl](/docs/{{ page.version }}/installation/kubernetes) or [Helm](/docs/{{ page.version }}/installation/helm){% endif_version %}
-{% if_version gte:2.2.x %}{% if_version lte:2.8.x %}[kumactl](/docs/{{ page.version }}/production/install-kumactl/) or [Helm]https://helm.sh/){% endif_version %}{% endif_version %}
-{% if_version gte:2.9.x %}[kumactl](/docs/{{ page.version }}/introduction/install-kuma/) or [Helm](https://helm.sh/){% endif_version %}.
+{% if_version lte:2.1.x %}[kumactl](/docs/{{ page.release }}/installation/kubernetes) or [Helm](/docs/{{ page.release }}/installation/helm){% endif_version %}
+{% if_version gte:2.2.x %}{% if_version lte:2.8.x %}[kumactl](/docs/{{ page.release }}/production/install-kumactl/) or [Helm]https://helm.sh/){% endif_version %}{% endif_version %}
+{% if_version gte:2.9.x %}[kumactl](/docs/{{ page.release }}/introduction/install-kuma/) or [Helm](https://helm.sh/){% endif_version %}.
 The default settings are tuned for OpenShift with Multus.
 To use it in other environments, set the relevant configuration parameters.
 
@@ -146,7 +146,7 @@ cni.confName=${CNI_CONF_NAME}
 
 {% tab installation OpenShift 3.11 %}
 
-1. Follow the instructions in [OpenShift 3.11 installation](/docs/{{ page.version }}/production/cp-deployment/{% if_version gte:2.6.x inline:true %}single-zone{% endif_version %}{% if_version lte:2.5.x inline:true %}stand-alone{% endif_version %})
+1. Follow the instructions in [OpenShift 3.11 installation](/docs/{{ page.release }}/production/cp-deployment/{% if_version gte:2.6.x inline:true %}single-zone{% endif_version %}{% if_version lte:2.5.x inline:true %}stand-alone{% endif_version %})
    to get the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` enabled (this is required for regular {{site.mesh_product_name}} installation).
 
 2. You need to grant privileged permission to kuma-cni service account:

@@ -11,8 +11,8 @@ When Kuma (`kuma-cp`) runs, it waits for the data plane proxies to connect and r
 ## Dataplane Entity
 
 A `Dataplane` entity must be passed to `kuma-dp` when instances attempt to connect to the control plane.
-On Kubernetes, this operation is [fully **automated**](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
-On Universal, it must be executed [**manually**](/docs/{{ page.version}}/explore/dpp-on-universal).
+On Kubernetes, this operation is [fully **automated**](/docs/{{ page.release }}/explore/dpp-on-kubernetes).
+On Universal, it must be executed [**manually**](/docs/{{ page.release }}/explore/dpp-on-universal).
 
 To understand why the `Dataplane` entity is required, we must take a step back. As we have explained already, Kuma follows a sidecar proxy model for the data plane proxies, where we have an instance of a data plane proxy for every instance of our services. Each Service and DP will communicate with each other on the same machine, therefore on `127.0.0.1`.
 
@@ -36,11 +36,11 @@ When we start a new data plane proxy in Kuma, it needs to communicate a few thin
 {% tip %}
 There exists special types of data planes proxies:
 
-- [ZoneIngress](/docs/{{ page.version}}/explore/zone-ingress) which will enable inbound cross-zone traffic.
-- [ZoneEgress](/docs/{{ page.version}}/explore/zoneegress) which allows isolating outgoing cross-zone
+- [ZoneIngress](/docs/{{ page.release }}/explore/zone-ingress) which will enable inbound cross-zone traffic.
+- [ZoneEgress](/docs/{{ page.release }}/explore/zoneegress) which allows isolating outgoing cross-zone
   traffic as well as any traffic going to external services available in local
   zone
-- [Gateway](/docs/{{ page.version }}/explore/gateway) which will traffic external to the mesh to enter it.
+- [Gateway](/docs/{{ page.release }}/explore/gateway) which will traffic external to the mesh to enter it.
 
 Because these dataplane types are specific and complex we will discuss them separately to "standard" dataplane proxies.
 {% endtip %}
@@ -48,17 +48,17 @@ Because these dataplane types are specific and complex we will discuss them sepa
 To do this, we have to create a file with a `Dataplane` definition and pass it to `kuma-dp run`. This way, data-plane will be registered in the Control Plane and Envoy will start accepting requests.
 
 {% tip %}
-**Remember**: this is [all automated](/docs/{{ page.version }}/explore/dpp-on-kubernetes) if you are running Kuma on Kubernetes!
+**Remember**: this is [all automated](/docs/{{ page.release }}/explore/dpp-on-kubernetes) if you are running Kuma on Kubernetes!
 {% endtip %}
 
-The registration of the `Dataplane` includes three main sections that are described below in the [Dataplane Specification](/docs/{{ page.version }}/generated/resources/proxy_dataplane):
+The registration of the `Dataplane` includes three main sections that are described below in the [Dataplane Specification](/docs/{{ page.release }}/generated/resources/proxy_dataplane):
 
 * `address` IP at which this dataplane will be accessible to other data plane proxies
 * `inbound` networking configuration, to configure on what port the data plane proxy will listen to accept external requests, specify on what port the service is listening on the same machine (for internal DP <> Service communication), and the [Tags](#tags) that belong to the service. 
 * `outbound` networking configuration, to enable the local service to consume other services.
 
 {% tip %}
-In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](/docs/{{ page.version }}/policies/mesh) in Kuma.
+In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](/docs/{{ page.release }}/policies/mesh) in Kuma.
 By default, the system generates a `default` Mesh when the control-plane is run for the first time.
 {% endtip %}
 
@@ -88,8 +88,8 @@ Each Kuma data plane proxy is associated with tags - or attributes - that can be
 A tag attributes a qualifier to the data plane proxy, and the tags that are reserved to Kuma are prefixed with `kuma.io` like:
 
 * `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
-* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/{{ page.version }}/deployments/multi-zone). This tag is automatically created and cannot be overwritten.
-* `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/{{ page.release }}/deployments/multi-zone). This tag is automatically created and cannot be overwritten.
+* `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 {% tip %}
 The `kuma.io/service` tag must always be present.

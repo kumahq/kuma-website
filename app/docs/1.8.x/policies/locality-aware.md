@@ -2,7 +2,7 @@
 title: Locality-aware Load Balancing
 ---
 
-In a [multi-zone deployment](/docs/{{ page.version }}/introduction/deployments/), locality-aware load balancing
+In a [multi-zone deployment](/docs/{{ page.release }}/introduction/deployments/), locality-aware load balancing
 instructs data plane proxies to try to keep requests within one zone. The amount
 of traffic that remains in one zone depends on the health of the service endpoints in that
 zone.
@@ -47,6 +47,6 @@ routing:
   localityAwareLoadBalancing: true
 ```
 
-The configuration can be applied with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+The configuration can be applied with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}

@@ -3,7 +3,7 @@ title: Traffic Route
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this, check the [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) or [`MeshTCPRoute` policy](/docs/{{ page.version }}/policies/meshtcproute) policies instead.
+New to Kuma? Don't use this, check the [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute) or [`MeshTCPRoute` policy](/docs/{{ page.release }}/policies/meshtcproute) policies instead.
 {% endwarning %}
 {% endif_version %}
 
@@ -18,9 +18,9 @@ Note the following:
 - The configuration must specify the data plane proxies for the routing rules.
 - The `spec.destinations` field supports only `kuma.io/service`.
 - All available tags are supported for `spec.conf`.
-- This is an outbound connection policy. Make sure that your data plane proxy configuration [includes the appropriate tags](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy). 
+- This is an outbound connection policy. Make sure that your data plane proxy configuration [includes the appropriate tags](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy). 
 
-{{site.mesh_product_name}} also supports [locality aware load balancing](/docs/{{ page.version }}/policies/locality-aware).
+{{site.mesh_product_name}} also supports [locality aware load balancing](/docs/{{ page.release }}/policies/locality-aware).
 
 ### Default TrafficRoute
 
@@ -413,7 +413,7 @@ conf:
 {% endtabs %}
 
 {% tip %}
-In order to use L7 Traffic Split, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+In order to use L7 Traffic Split, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 {% endtip %}
 
 ### L7 Traffic Modification
@@ -484,7 +484,7 @@ conf:
 {% endtabs %}
 
 {% tip %}
-In order to use L7 Traffic Modification, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+In order to use L7 Traffic Modification, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 {% endtip %}
 
 ### L7 Traffic Rerouting
@@ -544,7 +544,7 @@ conf:
 {% endtabs %}
 
 {% tip %}
-In order to use L7 Traffic Rerouting, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+In order to use L7 Traffic Rerouting, we need to [mark the destination service with `kuma.io/protocol: http`](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 {% endtip %}
 
 ### Load balancer types

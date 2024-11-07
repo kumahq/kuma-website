@@ -3,9 +3,9 @@ title: Zone Egress
 ---
 
 `ZoneEgress` proxy is used when it is required to isolate outgoing traffic (to services in other
-zones or [external services](/docs/{{ page.version }}/policies/external-services) in the local zone).
+zones or [external services](/docs/{{ page.release }}/policies/external-services) in the local zone).
 and you want to achieve isolation of outgoing traffic (to services in other 
-zones or [external services](/docs/{{ page.version }}/policies/external-services) in the local zone),
+zones or [external services](/docs/{{ page.release }}/policies/external-services) in the local zone),
 you can use `ZoneEgress` proxy.
 
 This proxy is not attached to any particular workload. In multi-zone the proxy is bound to a specific zone.
@@ -15,7 +15,7 @@ When Zone Egress is present:
 * In multi-zone, all requests that are sent from local data plane proxies to other
   zones will be directed through the local Zone Egress instance, which then will
   direct the traffic to the proper instance of the Zone Ingress.
-* All requests that are sent from local data plane proxies to [external services](/docs/{{ page.version }}/policies/external-services)
+* All requests that are sent from local data plane proxies to [external services](/docs/{{ page.release }}/policies/external-services)
   available within the Zone will be directed through the local Zone Egress
   instance.
 
@@ -39,7 +39,7 @@ The `ZoneEgress` entity includes a few sections:
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
 The recommended way to deploy a `ZoneEgress` proxy in Kubernetes is to use
-`kumactl`, or the Helm charts as specified in [multi-zone](/docs/{{ page.version }}/deployments/multi-zone).
+`kumactl`, or the Helm charts as specified in [multi-zone](/docs/{{ page.release }}/deployments/multi-zone).
 It works as a separate deployment of a single-container pod.
 
 **Standalone**:
@@ -94,7 +94,7 @@ kuma-dp run \
 
 **Multi-zone**
 
-Multi-zone deployment is similar and for deployment, you should follow [multi-zone deployment instruction](/docs/{{ page.version }}/deployments/multi-zone).
+Multi-zone deployment is similar and for deployment, you should follow [multi-zone deployment instruction](/docs/{{ page.release }}/deployments/multi-zone).
 
 {% endtab %}
 {% endtabs %}
@@ -104,7 +104,7 @@ A `ZoneEgress` deployment can be scaled horizontally.
 
 ## Configuration
 
-[mTLS](/docs/{{ page.version }}/policies/mutual-tls) is required to enable `ZoneEgress`. In addition, there's a configuration in the `Mesh` policy to route traffic through the `ZoneEgress`
+[mTLS](/docs/{{ page.release }}/policies/mutual-tls) is required to enable `ZoneEgress`. In addition, there's a configuration in the `Mesh` policy to route traffic through the `ZoneEgress`
 
 {% tabs configuration useUrlFragment=false %}
 {% tab configuration Kubernetes %}

@@ -1,9 +1,7 @@
 RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Inc do
   let(:version) { '2.9.1' }
-  # If we ever upgrade jekyll-generator-single-source we will have to change below to:
-  # let(:release) { Jekyll::GeneratorSingleSource::Product::Release.new({ 'release' => version }) }
-  # let(:page) { { 'release' => release.to_liquid } }
-  let(:page) { { 'version' => version } }
+  let(:release) { Jekyll::GeneratorSingleSource::Product::Release.new({ 'release' => version }) }
+  let(:page) { { 'release' => release.to_liquid } }
   let(:environment) { { 'page' => page } }
   let(:registers) { { page: page } }
   let(:liquid_context) { Liquid::Context.new(environment, {}, registers) }
@@ -13,7 +11,7 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Inc do
 
     it "renders correctly for: {% inc #{tag_params} %} in context" do
       template = <<~LIQUID
-        {% assign docs = "/docs/" | append: page.version %}
+        {% assign docs = "/docs/" | append: page.release %}
         {% assign link = docs | append: "/networking/transparent-proxying/" %}
 
         {% if_version #{if_version} %}

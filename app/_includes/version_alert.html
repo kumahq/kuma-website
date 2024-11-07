@@ -1,27 +1,26 @@
-{% assign current_version = page.version %}
-{% assign latest_version = site.data.latest_version.release %}
+{% assign current_release = page.release %}
+{% assign latest_release = site.data.latest_version.release %}
 {% assign page_path = page.url | split: '/' | shift: 3 | join: '/' %}
-{% assign latest_version_path = "docs/" | append: latest_version | append: '/' | append: page_path | append: '.md' %}
-{% assign latest_page = site.pages | find: 'path', latest_version_path %}
+{% assign latest_release_path = "/docs/" | append: latest_release | append: '/' | append: page_path %}
+{% assign latest_page = site.pages | find: 'url', latest_release_path %}
 
-{%- if current_version and current_version != site.data.latest_version.release -%}
-<div class="version-alert">
-  <div class="custom-block warning">
-    <p class="custom-block-title">Careful!</p>
-    {% if current_version == 'dev' %}
-      <p>You are browsing documentation for the next version of {{ site.title }}. Use this version at your own risk.</p>
-    {% else %}
-      <p>You are browsing documentation for a version of {{ site.title }} that is not the latest release.</p>
-    {% endif %}
+{% if current_release %}
+  {% unless current_release.latest? %}
+  <div class="version-alert">
+    <div class="custom-block warning">
+      <p class="custom-block-title">Careful!</p>
+      {% if current_release.label == 'dev' %}
+        <p>You are browsing documentation for the next version of {{ site.title }}. Use this version at your own risk.</p>
+      {% else %}
+        <p>You are browsing documentation for a version of {{ site.title }} that is not the latest release.</p>
+      {% endif %}
 
-    {% if latest_page != nil %}
-      <p>
-        <a href="/docs/latest/{{ page_path }}">Go here</a> to browse the documentation for the latest version.
-      </p>
-    {% endif %}
-    {% if current_version != 'dev' %}
-      <p>Looking for even older versions? <a href="{% post_url 2021-04-16-website-reorg %}">Learn more</a>.</p>
-    {% endif %}
+      {% if latest_page != nil %}
+        <p>
+          <a href="/docs/latest/{{ page_path }}">Go here</a> to browse the documentation for the latest version.
+        </p>
+      {% endif %}
+    </div>
   </div>
-</div>
+  {% endunless -%}
 {% endif -%}

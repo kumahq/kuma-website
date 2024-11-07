@@ -5,9 +5,9 @@
     {% for item in items %}
       <li>
         {% if item.group %}
-          {% include sidebar_group.html item=item depth=include.depth version=include.version %}
+          {% include sidebar_group.html item=item depth=include.depth release=include.release %}
         {% else %}
-          {% include sidebar_link.html item=item version=include.version %}
+          {% include sidebar_link.html item=item release=include.release %}
         {% endif %}
       </li>
     {% endfor %}

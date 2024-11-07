@@ -14,11 +14,11 @@ A Kuma mesh consists of two main components:
 - The **control plane** configures the data plane proxies for handling mesh traffic.
   However, the control plane runs independently of the data plane and does not
   interact with mesh traffic directly.
-  Kuma users create [policies](/docs/{{ page.version }}/policies/introduction)
+  Kuma users create [policies](/docs/{{ page.release }}/policies/introduction)
   that the Kuma control plane processes to generate configuration for the data plane proxies.
 
 {% tip %}
-**Multi-mesh**: one Kuma control plane deployment can control multiple, isolated data planes using the [`Mesh`](/docs/{{ page.version }}/policies/mesh) resource. As compared to one control plane per data plane, this option lowers the complexity and operational cost of supporting multiple meshes.
+**Multi-mesh**: one Kuma control plane deployment can control multiple, isolated data planes using the [`Mesh`](/docs/{{ page.release }}/policies/mesh) resource. As compared to one control plane per data plane, this option lowers the complexity and operational cost of supporting multiple meshes.
 {% endtip %}
 
 This is a high level visualization of a Kuma service mesh:
@@ -72,11 +72,11 @@ kuma.io/sidecar-injection: enabled
 ```
 
 {% tip %}
-**Injection**: learn more about sidecar injection in the section on [`Dataplanes`](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
+**Injection**: learn more about sidecar injection in the section on [`Dataplanes`](/docs/{{ page.release }}/explore/dpp-on-kubernetes).
 
-**Annotations**: see [the complete list of the Kubernetes annotations](/docs/{{ page.version }}/reference/kubernetes-annotations/).
+**Annotations**: see [the complete list of the Kubernetes annotations](/docs/{{ page.release }}/reference/kubernetes-annotations/).
 
-**Policies with Kubernetes**: when using Kuma in Kubernetes mode you create [policies](/docs/{{ page.version }}/policies/introduction) using `kubectl` and `kuma.io` CRDs.
+**Policies with Kubernetes**: when using Kuma in Kubernetes mode you create [policies](/docs/{{ page.release }}/policies/introduction) using `kubectl` and `kuma.io` CRDs.
 {% endtip %}
 
 ### `Services` and `Pods`
@@ -168,4 +168,4 @@ When running in **Universal** mode, Kuma requires a PostgreSQL database to store
 <img src="/assets/images/docs/0.5.0/diagram-09.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Read [the docs about the PostgreSQL backend](/docs/{{ page.version }}/documentation/configuration#postgres) for more details.
+Read [the docs about the PostgreSQL backend](/docs/{{ page.release }}/documentation/configuration#postgres) for more details.

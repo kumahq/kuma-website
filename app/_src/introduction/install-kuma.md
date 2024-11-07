@@ -4,8 +4,8 @@ content_type: how-to
 ---
 
 {% tip %}
-This guide is mostly useful for Universal setup, as for Kubernetes we recommend using `kubectl` for managing [resources](/docs/{{ page.version }}/introduction/concepts#resource).
-More in [Kubernetes quickstart guide](/docs/{{ page.version }}/quickstart/kubernetes-demo/).
+This guide is mostly useful for Universal setup, as for Kubernetes we recommend using `kubectl` for managing [resources](/docs/{{ page.release }}/introduction/concepts#resource).
+More in [Kubernetes quickstart guide](/docs/{{ page.release }}/quickstart/kubernetes-demo/).
 {% endtip %}
 
 This is a simple guide on how to install {{site.mesh_product_name}} on your machine.
@@ -27,4 +27,4 @@ If you only need `kumactl` on macOS you can install it via `brew install kumactl
 
 
 ## Next steps
-* [Complete quickstart](/docs/{{ page.version }}/quickstart/universal-demo/) to set up a zone control plane with demo application
+* [Complete quickstart](/docs/{{ page.release }}/quickstart/universal-demo/) to set up a zone control plane with demo application

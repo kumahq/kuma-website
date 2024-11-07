@@ -14,26 +14,26 @@ The result is that:
 * Smaller config is sent over a wire saving a lot of network bandwidth
 * Envoy only has to keep a couple of Clusters/Listeners which means much fewer statistics and lower memory usage.
 
-Follow the {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %} docs on how to configure it.
+Follow the {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/){% endif_version %} docs on how to configure it.
 
 {% if_version gte:2.5.x %}
 ## Config trimming by using MeshTrafficPermission
 
 {% warning %}
-1. This feature only works with [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission),
-   if you're using [TrafficPermission](/docs/{{ page.version }}/policies/traffic-permissions) you need to migrate to MeshTrafficPermission,
+1. This feature only works with [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission),
+   if you're using [TrafficPermission](/docs/{{ page.release }}/policies/traffic-permissions) you need to migrate to MeshTrafficPermission,
    otherwise enabling this feature could stop all traffic flow.
 {% if_version lte:2.5.x %}
-2. Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.version }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions, or upgrade {{site.mesh_product_name}} to 2.6.x or newer.
+2. Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.release }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions, or upgrade {{site.mesh_product_name}} to 2.6.x or newer.
 {% endif_version %}
    {% endwarning %}
 
 Starting with release 2.5 the problem stated in [reachable services](#reachable-services) section
-can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.version }}/policies/meshtrafficpermission) and [configuring](/docs/{{ page.version }}/documentation/configuration) a **zone** control plane with `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`.
+can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.release }}/policies/meshtrafficpermission) and [configuring](/docs/{{ page.release }}/documentation/configuration) a **zone** control plane with `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`.
 
 Switching on the flag will result in computing a graph of dependencies between the services
 and generating XDS configuration that enables communication **only** with services that are allowed to communicate with each other
-(their [effective](/docs/{{ page.version }}/policies/introduction) action is **not** `deny`).
+(their [effective](/docs/{{ page.release }}/policies/introduction) action is **not** `deny`).
 
 For example: if a service `b` can be called only by service `a`:
 
@@ -68,8 +68,8 @@ Sections below highlight the most important aspects of this feature, if you want
 
 The following kinds affect the graph generation and performance:
 - all levels of `MeshService`
-- [top](/docs/{{ page.version }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
-- [from](/docs/{{ page.version }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with all tags
+- [top](/docs/{{ page.release }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
+- [from](/docs/{{ page.release }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with all tags
 
 If you define a MeshTrafficPermission with other kind, like this one:
 
@@ -177,7 +177,7 @@ This process can be CPU intensive with high number of data planes therefore you 
 You can lower the interval scarifying the latency of the new config propagation to avoid overloading the control plane. For example,
 changing it to 5 seconds means that when you apply a policy (like `MeshTrafficPermission`) or the new data plane of the service is up or down, control plane will generate and send new config within 5 seconds.
 
-For systems with high traffic, keeping old endpoints for such a long time (5 seconds) may not be acceptable. To solve this, you can use passive or active [health checks](/docs/{{ page.version }}/policies/health-check) provided by {{site.mesh_product_name}}.
+For systems with high traffic, keeping old endpoints for such a long time (5 seconds) may not be acceptable. To solve this, you can use passive or active [health checks](/docs/{{ page.release }}/policies/health-check) provided by {{site.mesh_product_name}}.
 
 Additionally, to avoid overloading the underlying storage there is a cache that shares fetch results between concurrent reconciliation processes for multiple dataplanes.
 

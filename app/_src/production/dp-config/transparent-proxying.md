@@ -12,19 +12,19 @@ Transparent proxying helps with a smoother rollout of a Service Mesh to a curren
 On **Kubernetes** `kuma-dp` leverages transparent proxying automatically via `iptables` installed with `kuma-init` container or CNI.
 All incoming and outgoing traffic is automatically intercepted by `kuma-dp` without having to change the application code.
 
-{{site.mesh_product_name}} integrates with a service naming provided by Kubernetes DNS as well as providing its own [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns) for multi-zone service naming.
+{{site.mesh_product_name}} integrates with a service naming provided by Kubernetes DNS as well as providing its own [{{site.mesh_product_name}} DNS](/docs/{{ page.release }}/networking/dns) for multi-zone service naming.
 
 ## Universal
 
-On **Universal** `kuma-dp` leverages the {% if_version lte:2.1.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/explore/dpp-on-universal/){% endif_version %}{%if_version gte:2.2.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration){% endif_version %} associated to it for receiving incoming requests on a pre-defined port.
+On **Universal** `kuma-dp` leverages the {% if_version lte:2.1.x inline:true %}[data plane proxy specification](/docs/{{ page.release }}/explore/dpp-on-universal/){% endif_version %}{%if_version gte:2.2.x inline:true %}[data plane proxy specification](/docs/{{ page.release }}/production/dp-config/dpp-on-universal#dataplane-configuration){% endif_version %} associated to it for receiving incoming requests on a pre-defined port.
 
 In order to enable transparent-proxy the Zone Control Plane must exist on a seperate server.  Running the Zone Control Plane with Postgres does not function with transparent-proxy on the same machine.
 
 There are several advantages for using transparent proxying in universal mode:
 
  * Simpler Dataplane resource, as the `outbound` section becomes obsolete and can be skipped.
- * Universal service naming with `.mesh` [DNS domain](/docs/{{ page.version }}/networking/dns) instead of explicit outbound like `https://localhost:10001`.
- * Support for hostnames of your choice using [VirtualOutbounds](/docs/{{ page.version }}/policies/virtual-outbound) that lets you preserve existing service naming.
+ * Universal service naming with `.mesh` [DNS domain](/docs/{{ page.release }}/networking/dns) instead of explicit outbound like `https://localhost:10001`.
+ * Support for hostnames of your choice using [VirtualOutbounds](/docs/{{ page.release }}/policies/virtual-outbound) that lets you preserve existing service naming.
  * Better service manageability (security, tracing).
 
 ### Setting up the service host
@@ -35,7 +35,7 @@ Prerequisites:
 - `coredns` must be in the PATH so that `kuma-dp` can access it.
   - You can also set the location with the `--dns-coredns-path` flag to `kuma-dp`.
 
-{{site.mesh_product_name}} comes with [`kumactl` executable](/docs/{{ page.version }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
+{{site.mesh_product_name}} comes with [`kumactl` executable](/docs/{{ page.release }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
 The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
 
 {% if_version lte:2.4.x %}
@@ -126,7 +126,7 @@ runuser -u kuma-dp -- \
 ```
 
 You can now reach the service on the same IP and port as before installing transparent proxy, but now the traffic goes through Envoy.
-At the same time, you can now connect to services using [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns).
+At the same time, you can now connect to services using [{{site.mesh_product_name}} DNS](/docs/{{ page.release }}/networking/dns).
 
 ### firewalld support
 
@@ -185,7 +185,7 @@ spec:
         ...
 ```  
 
-You can also control this value on whole {{site.mesh_product_name}} deployment with the following {{site.mesh_product_name}} CP [configuration](/docs/{{ page.version }}/documentation/configuration)
+You can also control this value on whole {{site.mesh_product_name}} deployment with the following {{site.mesh_product_name}} CP [configuration](/docs/{{ page.release }}/documentation/configuration)
 
 ```sh
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
@@ -256,10 +256,10 @@ networking:
 ### Reachable Backends
 
 {% warning %}
-This works only when [MeshService](/docs/{{ page.version }}/networking/meshservice) is enabled.
+This works only when [MeshService](/docs/{{ page.release }}/networking/meshservice) is enabled.
 {% endwarning %}
 
-Reachable Backends provides similar functionality to [reachable services](/docs/{{ page.version }}/production/dp-config/transparent-proxying#reachable-services), but it applies to [MeshService](/docs/{{ page.version }}/networking/meshservice), [MeshExternalService](/docs/{{ page.version }}/networking/meshexternalservice), and [MeshMultiZoneService](/docs/{{ page.version }}/networking/meshmultizoneservice).
+Reachable Backends provides similar functionality to [reachable services](/docs/{{ page.release }}/production/dp-config/transparent-proxying#reachable-services), but it applies to [MeshService](/docs/{{ page.release }}/networking/meshservice), [MeshExternalService](/docs/{{ page.release }}/networking/meshexternalservice), and [MeshMultiZoneService](/docs/{{ page.release }}/networking/meshmultizoneservice).
 
 By default, every data plane proxy in the mesh tracks every other data plane proxy. Configuring reachableBackends can improve performance and reduce resource utilization.
 
@@ -269,8 +269,8 @@ Unlike reachable services, the model for providing data in Reachable Backends is
 
 - **refs**: A list of all resources your application wants to track and communicate with.
   - **kind**: The type of resource. Possible values include:
-    - [**MeshService**](/docs/{{ page.version }}/networking/meshservice)
-    - [**MeshExternalService**](/docs/{{ page.version }}/networking/meshexternalservice)
+    - [**MeshService**](/docs/{{ page.release }}/networking/meshservice)
+    - [**MeshExternalService**](/docs/{{ page.release }}/networking/meshexternalservice)
     - **MeshMultiZoneService**
   - **name**: The name of the resource.
   - **namespace**: (Kubernetes only) The namespace where the resource is located. When this is defined, the name is required. Only on kubernetes.

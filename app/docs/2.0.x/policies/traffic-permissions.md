@@ -6,9 +6,9 @@ title: Traffic Permissions
 Traffic Permissions is an inbound policy. Dataplanes whose configuration is modified are in the `destinations` matcher.
 {% endtip %}
 
-This policy provides access control rules to define the traffic that is allowed within the [Mesh](/docs/{{ page.version }}/policies/mesh). 
+This policy provides access control rules to define the traffic that is allowed within the [Mesh](/docs/{{ page.release }}/policies/mesh). 
 
-Traffic permissions requires [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) enabled on the [`Mesh`](/docs/{{ page.version }}/policies/mesh). Mutual TLS is required for {{site.mesh_product_name}} to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, {{site.mesh_product_name}} allows all service traffic. 
+Traffic permissions requires [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) enabled on the [`Mesh`](/docs/{{ page.release }}/policies/mesh). Mutual TLS is required for {{site.mesh_product_name}} to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, {{site.mesh_product_name}} allows all service traffic. 
 
 The default `TrafficPermission` policy that {{site.mesh_product_name}} creates when you install allows all communication between all services in the new `Mesh`. Make sure to configure your policies to allow appropriate access to each of the services in your mesh.
 
@@ -52,20 +52,20 @@ destinations:
   - match:
       kuma.io/service: '*'
 ```
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
-You can use any [Tag](/docs/{{ page.version }}/explore/dpp/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
+You can use any [Tag](/docs/{{ page.release }}/explore/dpp/#tags) with the `sources` and `destinations` selectors. This approach supports fine-grained access control that lets you define the right levels of security for your services.
 
 ## Access to External Services
 
-The `TrafficPermission` policy can also be used to restrict traffic to [services outside the mesh](/docs/{{ page.version }}/policies/external-services).
+The `TrafficPermission` policy can also be used to restrict traffic to [services outside the mesh](/docs/{{ page.release }}/policies/external-services).
 
 ### Prerequisites
 
-* {{site.mesh_product_name}} deployed with [transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying)
-* `Mesh` configured to [disable passthrough mode](/docs/{{ page.version }}/policies/mesh/#usage)
+* {{site.mesh_product_name}} deployed with [transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying)
+* `Mesh` configured to [disable passthrough mode](/docs/{{ page.release }}/policies/mesh/#usage)
 
 These settings lock down traffic to and from the mesh, which means that requests to any unknown destination are not allowed. The mesh can't rely on mTLS, because there is no data plane proxy on the destination side.
 
@@ -147,4 +147,4 @@ destinations:
 {% endtab %}
 {% endtabs %}
 
-Remember, the `ExternalService` follows [the same rules](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply) for matching policies as any other service in the mesh -- {{site.mesh_product_name}} selects the most specific `TrafficPermission` for every `ExternalService`.
+Remember, the `ExternalService` follows [the same rules](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply) for matching policies as any other service in the mesh -- {{site.mesh_product_name}} selects the most specific `TrafficPermission` for every `ExternalService`.

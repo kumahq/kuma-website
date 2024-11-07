@@ -9,7 +9,7 @@ To install and run Kuma on Docker execute the following steps:
 - [3. Use Kuma](#3-use-kuma)
 
 {% tip %}
-The official Docker images are used by default in the [Kubernetes](/docs/{{ page.version }}/installation/kubernetes/) and [OpenShift](/docs/{{ page.version }}/installation/openshift/) distributions.
+The official Docker images are used by default in the [Kubernetes](/docs/{{ page.release }}/installation/kubernetes/) and [OpenShift](/docs/{{ page.release }}/installation/openshift/) distributions.
 {% endtip %}
 
 ### 1. Download Kuma
@@ -38,7 +38,7 @@ docker run \
     docker.io/kumahq/kuma-cp:1.3.1 run
 ```
 
-To learn more, read about the [deployment modes available](/docs/{{ page.version }}/documentation/deployments).
+To learn more, read about the [deployment modes available](/docs/{{ page.release }}/documentation/deployments).
 
 {% endtab %}
 {% tab docker-run Multi-Zone %}
@@ -47,18 +47,18 @@ Multi-zone mode is perfect when running one deployment of Kuma that spans across
 
 This mode also supports hybrid Kubernetes + VMs deployments.
 
-To learn more, read the [multi-zone installation instructions](/docs/{{ page.version }}/documentation/deployments).
+To learn more, read the [multi-zone installation instructions](/docs/{{ page.release }}/documentation/deployments).
 
 {% endtab %}
 {% endtabs %}
 
 {% tip %}
-**Note**: By default this will run Kuma with a `memory` [backend](/docs/{{ page.version }}/documentation/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
+**Note**: By default this will run Kuma with a `memory` [backend](/docs/{{ page.release }}/documentation/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 {% endtip %}
 
 #### 2.1 Authentication (optional)
 
-Running administrative tasks (like generating a dataplane token) requires [authentication by token](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token) or a connection via localhost.
+Running administrative tasks (like generating a dataplane token) requires [authentication by token](/docs/{{ page.release }}/security/api-server-auth/#admin-user-token) or a connection via localhost.
 
 ##### 2.1.1 Localhost
 
@@ -160,10 +160,10 @@ You will then find the `kumactl` executable in the `kuma-1.3.1/bin` folder.
 {% endtab %}
 {% endtabs %}
 
-You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.release }}/policies/mesh) entity with name `default`.
 
 ### 4. Quickstart
 
 Congratulations! You have successfully installed Kuma on Docker 🚀.
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/{{ page.version }}/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/{{ page.version }}/quickstart/kubernetes/) as well.
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/{{ page.release }}/quickstart/universal/) deployments. If you are using Docker you may also be interested in checking out the [Kubernetes quickstart](/docs/{{ page.release }}/quickstart/kubernetes/) as well.

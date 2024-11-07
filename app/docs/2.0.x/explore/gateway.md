@@ -4,7 +4,7 @@ title: Gateway
 
 When services need to receive traffic from the outside, commonly called North/South, the {{site.mesh_product_name}} Gateway enables routing network traffic from outside a {{site.mesh_product_name}} mesh to services inside the mesh. The gateway is also responsible for security at the entrance of the Mesh.
 
-{{site.mesh_product_name}} Gateway deploys as a {{site.mesh_product_name}} [`Dataplane`](/docs/{{ page.version }}/explore/dpp), that's an instance of the `kuma-dp` process.
+{{site.mesh_product_name}} Gateway deploys as a {{site.mesh_product_name}} [`Dataplane`](/docs/{{ page.release }}/explore/dpp), that's an instance of the `kuma-dp` process.
 Like all {{site.mesh_product_name}} `Dataplanes`, the {{site.mesh_product_name}} Gateway `Dataplane` manages an Envoy proxy process that does the actual network traffic proxying.
 
 You can distinguish two types of gateways:
@@ -66,14 +66,14 @@ API Gateway receives Services from:
 * one specific zone
 * multi-zone
 
-Multi-zone requires exposing a dedicated Kubernetes `Service` object with type `ExternalName`. Control plane creates a DNS entry `externalName` with suffix `.mesh`, which {{site.mesh_product_name}} resolves in internal [service discovery](/docs/{{ page.version }}/networking/dns).
+Multi-zone requires exposing a dedicated Kubernetes `Service` object with type `ExternalName`. Control plane creates a DNS entry `externalName` with suffix `.mesh`, which {{site.mesh_product_name}} resolves in internal [service discovery](/docs/{{ page.release }}/networking/dns).
 
 #### Example setting up Kong Ingress Controller
 
 Follow instructions to setup an echo service reachable through Kong.
 These instructions are mostly taken from the [Kong docs](https://docs.konghq.com/kubernetes-ingress-controller/3.1.x/get-started/).
 
-1. [Install {{site.mesh_product_name}}](/docs/{{ page.version }}/installation/kubernetes) on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
+1. [Install {{site.mesh_product_name}}](/docs/{{ page.release }}/installation/kubernetes) on your cluster and have the `default` [namespace labelled with sidecar-injection](/docs/{{ page.release }}/explore/dpp-on-kubernetes).
 
 2. Install [Kong using helm](https://docs.konghq.com/kubernetes-ingress-controller/3.1.x/install/helm/).
 
@@ -215,8 +215,8 @@ A builtin gateway `Dataplane` does not have either inbound or outbound configura
 
 To configure your gateway {{site.mesh_product_name}} has these resources:
 
-- [MeshGateway](/docs/{{ page.version }}/policies/mesh-gateway) is used to configure listeners exposed by the gateway
-- [MeshGatewayRoute](/docs/{{ page.version }}/policies/mesh-gateway-route) is used to configure route to route traffic from listeners to other services.
+- [MeshGateway](/docs/{{ page.release }}/policies/mesh-gateway) is used to configure listeners exposed by the gateway
+- [MeshGatewayRoute](/docs/{{ page.release }}/policies/mesh-gateway-route) is used to configure route to route traffic from listeners to other services.
 
 {% tip %}
 {{site.mesh_product_name}} gateways are configured with the [Envoy best practices for edge proxies](https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge).
@@ -225,7 +225,7 @@ To configure your gateway {{site.mesh_product_name}} has these resources:
 ### Usage
 
 You can create and configure a gateway that listens for traffic from outside of your mesh
-and forwards it to the [demo app frontend](/docs/{{ page.version }}/quickstart/kubernetes/).
+and forwards it to the [demo app frontend](/docs/{{ page.release }}/quickstart/kubernetes/).
 
 {% tabs setup useUrlFragment=false %}
 {% tab setup Kubernetes %}
@@ -472,7 +472,7 @@ The {{site.mesh_product_name}} Gateway resource types, `MeshGateway` and `MeshGa
 If you have a multi-zone deployment, follow existing {{site.mesh_product_name}} practice and create any {{site.mesh_product_name}} Gateway resources in the global control plane.
 Once these resources exist, you can provision serving capacity in the zones where it is needed by deploying builtin gateway `Dataplanes` (in Universal zones) or `MeshGatewayInstances` (Kubernetes zones).
 
-See the [multi-zone docs](/docs/{{ page.version }}/deployments/multi-zone) for a
+See the [multi-zone docs](/docs/{{ page.release }}/deployments/multi-zone) for a
 refresher.
 
 ### Cross-mesh
@@ -561,17 +561,17 @@ This can result in situations where different policies (of the same type) are us
 
 | Policy                                                    | GatewaySupport |
 | --------------------------------------------------------- | -------------- |
-| [Circuit Breaker](/docs/{{ page.version }}/policies/circuit-breaker)         | Full           |
-| [External Services](/docs/{{ page.version }}/policies/external-services)     | Full           |
-| [Fault Injection](/docs/{{ page.version }}/policies/fault-injection)         | Full           |
-| [Health Check](/docs/{{ page.version }}/policies/health-check)               | Full           |
-| [Proxy Template](/docs/{{ page.version }}/policies/proxy-template)           | Full           |
-| [Rate Limits](/docs/{{ page.version }}/policies/rate-limit)                  | Full           |
-| [Retries](/docs/{{ page.version }}/policies/retry)                           | Full           |
-| [Traffic Permissions](/docs/{{ page.version }}/policies/traffic-permissions) | Full           |
-| [Traffic Routes](/docs/{{ page.version }}/policies/traffic-route)            | None           |
-| [Traffic Log](/docs/{{ page.version }}/policies/traffic-log)                 | Partial        |
-| [Timeouts](/docs/{{ page.version }}/policies/timeout)                        | Full           |
-| [VirtualOutbounds](/docs/{{ page.version }}/policies/virtual-outbound)       | None           |
+| [Circuit Breaker](/docs/{{ page.release }}/policies/circuit-breaker)         | Full           |
+| [External Services](/docs/{{ page.release }}/policies/external-services)     | Full           |
+| [Fault Injection](/docs/{{ page.release }}/policies/fault-injection)         | Full           |
+| [Health Check](/docs/{{ page.release }}/policies/health-check)               | Full           |
+| [Proxy Template](/docs/{{ page.release }}/policies/proxy-template)           | Full           |
+| [Rate Limits](/docs/{{ page.release }}/policies/rate-limit)                  | Full           |
+| [Retries](/docs/{{ page.release }}/policies/retry)                           | Full           |
+| [Traffic Permissions](/docs/{{ page.release }}/policies/traffic-permissions) | Full           |
+| [Traffic Routes](/docs/{{ page.release }}/policies/traffic-route)            | None           |
+| [Traffic Log](/docs/{{ page.release }}/policies/traffic-log)                 | Partial        |
+| [Timeouts](/docs/{{ page.release }}/policies/timeout)                        | Full           |
+| [VirtualOutbounds](/docs/{{ page.release }}/policies/virtual-outbound)       | None           |
 
 You can find in each policy's dedicated information with regard to builtin gateway support.

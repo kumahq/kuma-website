@@ -33,5 +33,5 @@ kumactl get meshtimeouts [flags]
 
 ### SEE ALSO
 
-* [kumactl get](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_get)	 - Show Kuma resources
+* [kumactl get](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_get)	 - Show Kuma resources
 

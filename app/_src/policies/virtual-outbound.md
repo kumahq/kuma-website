@@ -16,7 +16,7 @@ Limitations:
 {% if_version lte:2.3.x %}
 - A virtual outbound that contains any parameters other than `kuma.io/service` won’t work cross-zone.
 {% endif_version %}
-- When duplicate `(hostname, port)` combinations are detected, the virtual outbound with the highest priority takes over. For more information, see [the documentation on how {{site.mesh_product_name}} chooses the right policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply). All duplicate instances are logged.
+- When duplicate `(hostname, port)` combinations are detected, the virtual outbound with the highest priority takes over. For more information, see [the documentation on how {{site.mesh_product_name}} chooses the right policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply). All duplicate instances are logged.
 
 `conf.host` and `conf.port` are processed as [go text templates](https://pkg.go.dev/text/template) with a key-value pair derived from `conf.parameters`.
 
@@ -95,9 +95,9 @@ produce the hostname: `v1.backend.mesh` with port: `1800`.
 
 Additional Requirements:
 
-- {% if_version lte:2.1.x %}[Transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[Transparent proxying](/docs/{{ page.version }}/production/dp-config/transparent-proxying/){% endif_version %} must be enabled.
+- {% if_version lte:2.1.x %}[Transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[Transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/){% endif_version %} must be enabled.
 - Either:
-  - [Data plane proxy DNS](/docs/{{ page.version }}/networking/dns) must be enabled.
+  - [Data plane proxy DNS](/docs/{{ page.release }}/networking/dns) must be enabled.
   - Or, the value of `conf.host` must end with the value of `dns_server.domain`, which defaults to `.mesh`.
 - Parameter names must be alphanumeric. These names are used as Go template keys.
 - Parameter names must be unique. This ensures that each parameter can be referenced unambiguously.
