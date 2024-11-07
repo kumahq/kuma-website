@@ -6,7 +6,7 @@ content_type: how-to
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 
-When the transparent proxy is enabled, {{ Kuma }} automatically configures each data plane proxy to connect with every other data plane proxy in the same mesh. This setup ensures broad service-to-service communication but can create issues in large service meshes:
+When the transparent proxy is enabled, {{ Kuma }} automatically configures each data plane proxy to connect with **every other** data plane proxy in the same mesh. This setup ensures broad service-to-service communication but can create issues in large meshes:
 
 - **Increased Memory Usage**: The configuration for each data plane proxy can consume significant memory as the mesh grows.
 - **Slower Propagation**: Even small configuration changes for one service must be propagated to all data planes, which can be slow and resource-intensive.
@@ -33,7 +33,7 @@ metadata:
 You can update your workload manifests manually or use a command like:
 
 ```sh
-kumactl annotate pods example-app \
+kubectl annotate pods example-app \
   "kuma.io/transparent-proxying-reachable-services=redis_kuma-demo_svc_6379,elastic_kuma-demo_svc_9200"
 ```
 {% endtab %}

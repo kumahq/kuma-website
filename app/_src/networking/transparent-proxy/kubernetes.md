@@ -60,7 +60,7 @@ If `builtinDNS.enabled` or `builtinDNS.port` is updated using deprecated annotat
 
 #### Modifying control plane runtime configuration
 
-For instructions on modifying the control plane configuration, see the [Modifying the configuration section]({{ docs }}/documentation/configuration/#modifying-the-configuration) section in the control plane configuration documentation.
+For instructions on modifying the control plane configuration, see the [Modifying the configuration section]({{ docs }}/documentation/configuration/#modifying-the-configuration) in the control plane configuration documentation.
 
 #### Overriding list-based configuration settings
 

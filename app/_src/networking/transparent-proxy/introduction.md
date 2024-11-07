@@ -34,7 +34,7 @@ Using the transparent proxy in Universal mode makes setup easier and enables fea
 
 - **Simplified service connectivity**: Take advantage of [Kuma DNS]({{ docs }}/networking/dns/) to use `.mesh` domain names, like `https://service-1.mesh`, for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
 
-- **Flexible service naming**: With [MeshServices]({{ docs }}/networking/meshservice/) and [HostnameGenerators]({{ docs }}/networking/hostnamegenerator/), you can:
+- **Flexible service addressing**: With [MeshServices]({{ docs }}/networking/meshservice/) and [HostnameGenerators]({{ docs }}/networking/hostnamegenerator/), you can:
 
   - Keep your existing DNS names when moving to the service mesh.
   - Give a service multiple DNS names for easier access.

@@ -35,7 +35,7 @@ Unlike Reachable Services, Reachable Backends uses a structured model to define 
 apiVersion: apps/v1
 kind: Pod
 metadata:
-  name: demo-client
+  name: demo-app
   namespace: kuma-demo
   annotations:
     kuma.io/reachable-backends: |
@@ -61,7 +61,7 @@ networking:
   inbound:
     - port: {% raw %}{{ port }}{% endraw %}
       tags:
-        kuma.io/service: demo-client
+        kuma.io/service: demo-app
   transparentProxying:
     redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
     redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
@@ -81,7 +81,7 @@ networking:
 ### Examples
 
 <!-- vale Google.Headings = NO -->
-#### `demo-client` communicates only with `redis` on port 6379
+#### `demo-app` communicates only with `redis` on port 6379
 <!-- vale Google.Headings = YES -->
 
 {% tabs reachable-backends useUrlFragment=false %}
@@ -90,7 +90,7 @@ networking:
 apiVersion: apps/v1
 kind: Pod
 metadata:
-  name: demo-client
+  name: demo-app
   namespace: kuma-demo
   annotations:
     kuma.io/reachable-backends: |
@@ -112,7 +112,7 @@ networking:
   inbound:
   - port: {% raw %}{{ port }}{% endraw %}
     tags:
-      kuma.io/service: demo-client
+      kuma.io/service: demo-app
   transparentProxying:
     redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
     redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
@@ -126,7 +126,7 @@ networking:
 {% endtabs %}
 
 <!-- vale Google.Headings = NO -->
-#### `demo-client` doesn’t need to communicate with any service
+#### `demo-app` doesn’t need to communicate with any service
 <!-- vale Google.Headings = YES -->
 
 {% tabs reachable-backends-no-services useUrlFragment=false %}
@@ -135,7 +135,7 @@ networking:
 apiVersion: apps/v1
 kind: Pod
 metadata:
-  name: demo-client
+  name: demo-app
   namespace: kuma-demo
   annotations:
     kuma.io/reachable-backends: ""
@@ -152,7 +152,7 @@ networking:
   inbound:
     - port: {% raw %}{{ port }}{% endraw %}
       tags:
-        kuma.io/service: demo-client
+        kuma.io/service: demo-app
   transparentProxying:
     redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
     redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
