@@ -20,6 +20,45 @@ kumactl install observability | kubectl apply -f-
 
 We will use it to scrape metrics from OpenTelemetry collector and visualise them on {{site.mesh_product_name}} dashboards.
 
+Since quickstart guide have really restrictive MeshTrafficPermissions we need to allow traffic in `mesh-observability` namespace:
+
+{% if_version lte:2.8.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: {{site.mesh_namespace}}
+  name: allow-observability
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      k8s.kuma.io/namespace: mesh-observability
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags:
+          k8s.kuma.io/namespace: mesh-observability
+      default:
+        action: Allow" | kubectl apply -f -
+```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: mesh-observability
+  name: allow-observability
+spec:
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        action: Allow" | kubectl apply -f -
+```
+{% endif_version %}
+
 ## Install OpenTelemetry collector
 
 First we need an OpenTelemetry collector configuration. Save it by running:
@@ -47,8 +86,8 @@ config:
     pipelines:
       metrics:
         receivers: [otlp]
-        processors: [memory_limiter, batch]
         exporters: [prometheus]
+        processors: [batch]
 ports:
   otlp:
     enabled: true
@@ -81,7 +120,6 @@ Most important in this configuration is `pipelines` section:
 pipelines:
   metrics:
     receivers: [otlp]
-    processors: [memory_limiter, batch]
     exporters: [prometheus]
 ```
 
