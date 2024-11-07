@@ -34,10 +34,8 @@ config:
   extensions:
     health_check:
       endpoint: \${env:MY_POD_IP}:13133
-    memory_ballast: {}
   processors:
     batch: {}
-    memory_limiter: null
   receivers:
     otlp:
       protocols:
@@ -46,7 +44,6 @@ config:
   service:
     extensions:
       - health_check
-      - memory_ballast
     pipelines:
       metrics:
         receivers: [otlp]
@@ -67,6 +64,10 @@ ports:
     protocol: TCP
 image:
   repository: 'otel/opentelemetry-collector-contrib'
+resources:
+  limits:
+    cpu: 250m
+    memory: 512Mi
 " > values-otel.yaml
 ```
 
@@ -128,9 +129,9 @@ Now go to http://localhost:9090/targets. You should see new target `opentelemetr
 By now we have installed and configured all needed observability tools: OpenTelemetry collector, Prometheus and Grafana.
 We can now apply [MeshMetric policy](/docs/{{ page.version }}/policies/meshmetric):
 
+{% if_version lte:2.8.x %}
 ```shell
-echo '
-apiVersion: kuma.io/v1alpha1
+echo 'apiVersion: kuma.io/v1alpha1
 kind: MeshMetric
 metadata:
   name: otel-metrics
@@ -144,9 +145,26 @@ spec:
     backends:
       - type: OpenTelemetry
         openTelemetry:
-          endpoint: opentelemetry-collector.mesh-observability.svc:4317
-' | kubectl apply -f -
+          endpoint: opentelemetry-collector.mesh-observability.svc:4317' | kubectl apply -f -
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```shell
+echo 'apiVersion: kuma.io/v1alpha1
+kind: MeshMetric
+metadata:
+  name: otel-metrics
+  namespace: {{site.mesh_namespace}}
+  labels:
+    kuma.io/mesh: default
+spec:
+  default:
+    backends:
+      - type: OpenTelemetry
+        openTelemetry:
+          endpoint: opentelemetry-collector.mesh-observability.svc:4317' | kubectl apply -f -
+```
+{% endif_version %}
 
 This policy will configure all dataplane proxies in `default` Mesh to collect and push metrics to OpenTelemetry collector. 
 
