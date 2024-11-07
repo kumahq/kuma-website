@@ -101,7 +101,8 @@ alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
-```shell
+{% if_version lte:2.8.x %}
+```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
@@ -113,6 +114,23 @@ spec:
     - name: ca-1
       type: builtin" | kubectl apply -f -
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  meshServices:
+    mode: Exclusive
+  mtls:
+    enabledBackend: ca-1
+    backends:
+    - name: ca-1
+      type: builtin" | kubectl apply -f -
+```
+{% endif_version %}
 
 The traffic is now **encrypted and secure**. {{site.mesh_product_name}} does not define default traffic permissions, which
 means that no traffic will flow with mTLS enabled until we define a proper [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission)
@@ -122,7 +140,8 @@ For now, the demo application won't work.
 You can verify this by clicking the increment button again and seeing the error message in the browser.
 We can allow the traffic from the `demo-app` to `redis` by applying the following `MeshTrafficPermission`:
 
-```shell
+{% if_version lte:2.8.x %}
+```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
@@ -141,6 +160,28 @@ spec:
       default:
         action: Allow" | kubectl apply -f -
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: kuma-demo
+  name: redis
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: redis
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags:
+          kuma.io/service: demo-app_kuma-demo_svc_5000
+      default:
+        action: Allow" | kubectl apply -f -
+```
+{% endif_version %}
 
 You can click the increment button, the application should function once again.
 However, the traffic to `redis` from any other service than `demo-app` is not allowed.
