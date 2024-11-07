@@ -177,11 +177,6 @@ module Jekyll
             @callbacks << [condition, callback]
           end
 
-          def release_supported(release)
-            current_release = Gem::Version.new(release.dup.sub "x", "0")
-            current_release > TARGET_VERSION || current_release == TARGET_VERSION
-          end
-
           def deep_copy(original)
             Marshal.load(Marshal.dump(original))
           end
@@ -211,7 +206,7 @@ module Jekyll
             content = content.gsub(/`{3}yaml\n/, '').gsub(/`{3}/, '')
             site_data = context.registers[:site].config
 
-            use_meshservice = @params["use_meshservice"] == "true" && release_supported(release)
+            use_meshservice = @params["use_meshservice"] == "true" && Gem::Version.new(release.value.dup.sub "x", "0") >= TARGET_VERSION
 
             namespace = @params["namespace"] || site_data['mesh_namespace']
             styles = [
@@ -236,8 +231,11 @@ module Jekyll
               transformed = "{% raw %}\n#{transformed}{% endraw %}\n" if has_raw
               transformed
             end
-            docs_path = "/#{context.registers[:page]['edition']}/#{release}"
-            docs_path = "/docs/#{release}" if context.registers[:page]['edition'] == "kuma"
+            version_path = release.value
+            version_path = 'dev' if release.label == 'dev'
+            edition = context.registers[:page]['edition']
+            docs_path = "/#{edition}/#{version_path}"
+            docs_path = "/docs/#{version_path}" if edition == 'kuma'
 
             # Conditionally render tabs based on use_meshservice
             htmlContent = "

@@ -1,11 +1,11 @@
 RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
   # Set up the Jekyll site and context for testing
 
-  shared_examples 'policy yaml rendering' do |input_file, golden_file, tag_options, page|
+  shared_examples 'policy yaml rendering' do |input_file, golden_file, tag_options, release|
     it "renders correctly for #{input_file}" do
-      page = { 'release' => '2.9.x', 'edition' => "kuma" } unless page # This sets the version key for testing
       site = Jekyll::Site.new(Jekyll.configuration({mesh_namespace: "kuma-demo"}))
-      context = Liquid::Context.new({}, {}, { :page => page, :site => site})
+      release = {'release' => '2.9.x', 'edition' => 'kuma'} unless release # This sets the version key for testing
+      context = Liquid::Context.new({}, {}, { :page => {'edition' => release['edition'], 'release' => Jekyll::GeneratorSingleSource::Product::Release.new(release)}, :site => site})
       content = GoldenFileManager.load_input(input_file)
       tag_content = tag_options ? "{% policy_yaml my-tabs #{tag_options} %}" : "{% policy_yaml my-tabs %}"
       template = Liquid::Template.parse("#{tag_content}#{content}{% endpolicy_yaml %}")
@@ -46,6 +46,12 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
         golden_file: 'spec/fixtures/mhr-port_edition.golden.html',
         tag_options: 'use_meshservice=true',
         page: { 'release' => '2.10.x', 'edition' => 'mesh' }
+      },
+      {
+        input_file: 'spec/fixtures/mhr-port.yaml',
+        golden_file: 'spec/fixtures/mhr-port_dev.golden.html',
+        tag_options: 'use_meshservice=true',
+        page: { 'release' => '2.10.x', 'edition' => 'kuma', 'label' => 'dev' }
       },
     ]
 
