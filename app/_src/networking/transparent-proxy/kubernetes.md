@@ -62,14 +62,6 @@ When the [**Configuration in ConfigMap**](#configuration-in-configmap-experiment
 
 For instructions on modifying the control plane configuration, see the [Modifying the configuration section]({{ docs }}/documentation/configuration/#modifying-the-configuration) in the control plane configuration documentation.
 
-#### Overriding list-based configuration settings
-
-For list-based settings like `runtime.kubernetes.injector.sidecarTraffic.excludeOutboundPorts`, only the value from the highest-precedence method will be applied; values from other methods will not be combined.
-
-For example, if `excludeOutboundPorts` is set in the control plane runtime configuration but an annotation like `traffic.kuma.io/exclude-outbound-ports` is used on a workload, the annotation will override the control plane setting, so only the ports in the annotation will be excluded.
-
-See the [**Order of precedence** section](#order-of-precedence) for more details.
-
 ### Configuration in ConfigMap (experimental)
 
 {% warning %}
