@@ -57,6 +57,7 @@ jobs:
             --exclude https://linux.die.net \
             --exclude https://packages.konghq.com \
             --exclude https://twitter.com \
+            --exclude https://coredns.io \
             --max-connections-per-host=8 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
@@ -74,6 +75,7 @@ jobs:
             --exclude https://linux.die.net \
             --exclude https://packages.konghq.com \
             --exclude https://twitter.com \
+            --exclude https://coredns.io \
             --max-connections-per-host=8 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
