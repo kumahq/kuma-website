@@ -33,9 +33,9 @@ build: ruby-version-check
 # troubleshoot build issues.
 clean:
 	-rm -rf dist
-	-rm -rf app/.jekyll-cache
-	-rm -rf app/.jekyll-metadata
-	-rm -rf .jekyll-cache/vite
+	-rm -rf .netlify
+	-rm -rf .jekyll-cache
+	-rm -rf app/.jekyll-{cache,metadata}
 
 kill-ports:
 	@echo '[DEPRECATED]: This target is deprecated because the "run" target now correctly handles kill signals, closing these ports automatically.'
