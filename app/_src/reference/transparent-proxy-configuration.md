@@ -303,6 +303,74 @@ runtime:
         programsSourcePath: /tmp/kuma-ebpf # KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_PROGRAMS_SOURCE_PATH
 ```
 
+### Annotations
+
+Below you can find a list of Kubernetes annotations that can be used to configure specific transparent proxy settings.
+
+- `traffic.kuma.io/exclude-inbound-ips`
+
+- `traffic.kuma.io/exclude-inbound-ports`
+
+- `traffic.kuma.io/exclude-outbound-ips`
+
+- `traffic.kuma.io/exclude-outbound-ports`
+
+- `traffic.kuma.io/exclude-outbound-ports-for-uids`
+
+- `traffic.kuma.io/drop-invalid-packets`
+
+- `traffic.kuma.io/iptables-logs`
+
+- `kuma.io/transparent-proxying-ebpf`
+
+- `kuma.io/transparent-proxying-ebpf-bpf-fs-path`
+
+- `kuma.io/transparent-proxying-ebpf-cgroup-path`
+
+- `kuma.io/transparent-proxying-ebpf-tc-attach-iface`
+
+- `kuma.io/transparent-proxying-ebpf-instance-ip-env-var-name`
+
+- `kuma.io/transparent-proxying-ebpf-programs-source-path`
+
+- `kuma.io/transparent-proxying-ip-family-mode`
+
+The following annotations also affect the configuration, but their values are automatically managed by {{ Kuma }} and cannot be manually adjusted. Values of these annotations will always match those specified in the [control plane runtime configuration]({{ docs }}/networking/transparent-proxy/kubernetes/#control-plane-runtime-configuration). For more details, refer to [Settings restricted to control plane runtime configuration]({{ docs }}/networking/transparent-proxy/kubernetes/#settings-restricted-to-control-plane-runtime-configuration) section.
+
+- `kuma.io/sidecar-uid`
+
+- `kuma.io/transparent-proxying-inbound-port`
+
+- `kuma.io/transparent-proxying-outbound-port`
+
+{% warning %}
+The following two annotations are deprecated and will be removed in future releases. They are provided here for reference only, and we **strongly advise against using them**.
+
+- `kuma.io/builtin-dns`
+
+- `kuma.io/builtin-dns-port`
+  {% endwarning %}
+
+The following annotation indirectly adjusts the transparent proxy configuration by configuring other components, resulting in changes to the transparent proxy behavior. While its value is automatically set by {{ Kuma }}, you can override it by manually providing a value.
+
+- `kuma.io/application-probe-proxy-port`
+
+  This annotation defines the port (default: `9001`) to be excluded from incoming traffic redirection, similar to using the `traffic.kuma.io/exclude-inbound-ports` annotation or other configuration methods. For more information, refer to the [Kubernetes]({{ docs }}/policies/service-health-probes/#kubernetes) section in the [Service Health Probes]({{ docs }}/policies/service-health-probes/) documentation.
+
+The following annotations differ from others mentioned earlier as they are related to the transparent proxy, but do not directly or indirectly configure specific individual settings.
+
+- `kuma.io/transparent-proxying`
+
+  This annotation is automatically applied to workloads with [injected sidecar containers]({{ docs }}/production/dp-config/dpp-on-kubernetes/#kubernetes-sidecar-containers). In Kubernetes environments, the transparent proxy is mandatory meaning you cannot disable it. Any attempt to explicitly disable it using this annotation will trigger a warning and have no effect. Therefore, the value of this annotation will always be set to `true`.
+
+- `traffic.kuma.io/transparent-proxy-config`
+
+  This annotation is automatically applied in environments using [Kuma CNI]({{ docs }}/production/dp-config/cni/#configure-the-kuma-cni) instead of init containers. It contains the final configuration for installing the transparent proxy. Manually modifying or setting this annotation has no effect, regardless of whether Kuma CNI is used. Its primary purpose is to efficiently pass the transparent proxy configuration between Kubernetes workloads and the Kuma CNI, which handles the actual installation of the transparent proxy for those workloads.
+
+- `traffic.kuma.io/transparent-proxy-configmap-name`
+
+  This annotation lets you specify a custom name for the ConfigMap that holds the transparent proxy configuration when the [Configuration in ConfigMap]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration-in-configmap-experimental) feature is enabled. For more details, refer to the [Custom ConfigMap name]({{ docs }}/networking/transparent-proxy/kubernetes/#custom-configmap-name) section.
+
 ## Full reference
 
 - **`kumaDPUser`**

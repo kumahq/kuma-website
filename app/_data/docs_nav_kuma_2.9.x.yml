@@ -563,6 +563,8 @@ items:
             url: /reference/transparent-proxy-configuration/#default-values
           - text: Control Plane Runtime Configuration
             url: /reference/transparent-proxy-configuration/#control-plane-runtime-configuration
+          - text: Annotations
+            url: /reference/transparent-proxy-configuration/#annotations
           - text: Full Reference
             url: /reference/transparent-proxy-configuration/#full-reference
   - title: Community

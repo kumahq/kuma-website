@@ -309,7 +309,7 @@ This command will install the new version of the transparent proxy with the spec
 
 The default configuration works well for most scenarios, but there are cases where adjustments are needed.
 
-{{ Kuma }} uses a unified configuration structure for transparent proxy across all components. For a detailed breakdown of this structure, including examples, expected formats, and variations between configuration methods, refer to the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
+{{ Kuma }} uses a unified configuration structure for transparent proxy across all components. For a detailed breakdown of this structure, including examples, expected formats, and variations between configuration methods, refer to the [Transparent Proxy Configuration reference]({{ docs }}/reference/transparent-proxy-configuration/).
 
 In Universal mode, {{ Kuma }} there are three methods to adjust the configuration. Each can be used on its own or combined with others if needed.
 
