@@ -17,7 +17,13 @@ For example, you might need to override the default metrics port if it's already
 * Each proxy can expose its metrics in [Prometheus format](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format).
 * {{site.mesh_product_name}} exposes an API called the monitoring assignment service (MADS) which exposes proxies configured by `MeshMetric`.
 
+{% if_version gte:2.7.x %}
+Moreover, {{site.mesh_product_name}} provides integration with OpenTelemetry:
+{% endif_version %}
+
+{% if_version lte:2.6.x %}
 Moreover, {{site.mesh_product_name}} provides experimental integration with OpenTelemetry:
+{% endif_version %}
 
 * Each proxy can publish its metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/). 
 

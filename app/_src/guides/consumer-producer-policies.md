@@ -15,30 +15,13 @@ This guide will help you get comfortable with producer consumer model.
 ## Basic setup
 
 In order to be able to fully utilize namespace scoped policies you need to use [MeshService](/docs/{{ page.release }}/networking/meshservice). 
-To enable MeshService resource generation on Mesh level we need to run:
-
-```shell
-echo "apiVersion: kuma.io/v1alpha1
-kind: Mesh
-metadata:
-  name: default
-spec:
-  meshServices:
-    mode: Exclusive
-  mtls:
-    enabledBackend: ca-1
-    backends:
-    - name: ca-1
-      type: builtin" | kubectl apply -f -
-```
-
 To make sure that traffic works in our examples let's configure MeshTrafficPermission to allow all traffic:
 
 ```shell
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
-  namespace: kuma-system
+  namespace: kuma-demo
   name: mtp
 spec:
   targetRef:
