@@ -18,7 +18,7 @@ The custom definitions either complement or replace the resources that Kuma gene
 
 ## Usage
 
-Kuma uses the following default `ProxyTemplate` resource for every data plane proxy (`kuma-dp`) that is added to a [`Mesh`](/docs/{{ page.version }}/policies/mesh). This resource looks like:
+Kuma uses the following default `ProxyTemplate` resource for every data plane proxy (`kuma-dp`) that is added to a [`Mesh`](/docs/{{ page.release }}/policies/mesh). This resource looks like:
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
@@ -63,13 +63,13 @@ conf:
 
 In these examples, note:
 
-* The `selectors` object specifies the [data plane proxies](/docs/{{ page.version }}/documentation/dps-and-data-model/#dataplane-entity) that are targeted by the `ProxyTemplate` resource. Values are provided as Kuma tags.
+* The `selectors` object specifies the [data plane proxies](/docs/{{ page.release }}/documentation/dps-and-data-model/#dataplane-entity) that are targeted by the `ProxyTemplate` resource. Values are provided as Kuma tags.
 * The `imports` object specifies the reusable configuration that Kuma generates automatically. Kuma then extends the imports object with the custom configuration you specify. The value must be one or both of `default-proxy` -- the default configuration for non-ingress data planes -- or `ingress` -- the default configuration for zone-ingress proxy.
 
 
 ### Modifications
 
-To customize the configuration of [data plane proxies](/docs/{{ page.version }}/documentation/dps-and-data-model/#dataplane-entity), 
+To customize the configuration of [data plane proxies](/docs/{{ page.release }}/documentation/dps-and-data-model/#dataplane-entity), 
 you can combine modifications of any type in one ProxyTemplate. Each modification consists of the following sections:
 
 * `operation` - operation applied to the generated config (e.g. `add`, `remove`, `patch`).
@@ -452,7 +452,7 @@ conf:
 Modifications that are applied on [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/http/http) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resource.
 Modifications are applied on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#http-connection-manager-proto) in the Listener.
 
-HTTP Filter modifications can only be applied on services [configured as HTTP](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+HTTP Filter modifications can only be applied on services [configured as HTTP](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 
 Available operations:
 * `addFirst` - add a new filter as a first filter in HTTP Connection Manager.
@@ -624,7 +624,7 @@ conf:
 
 Modifications that are applied on [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-virtualhost) resources.
 
-VirtualHost modifications can only be applied on services [configured as HTTP](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+VirtualHost modifications can only be applied on services [configured as HTTP](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 
 Available operations:
 * `add` - add a new VirtualHost.
@@ -725,11 +725,11 @@ conf:
 
 ## How Kuma handles the proxy template
 
-At runtime, whenever `kuma-cp` generates the configuration for a given [data plane proxy](/docs/{{ page.version }}/documentation/dps-and-data-model/#dataplane-entity), it will proceed as follows:
+At runtime, whenever `kuma-cp` generates the configuration for a given [data plane proxy](/docs/{{ page.release }}/documentation/dps-and-data-model/#dataplane-entity), it will proceed as follows:
 
-1. Kuma searches for all the `ProxyTemplates` resources that have been defined in the specified [`Mesh`](/docs/{{ page.version }}/policies/mesh).
-2. It loads in memory the `ProxyTemplates` resources whose `selectors` [match](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any [data plane proxy](/docs/{{ page.version }}/documentation/dps-and-data-model/#dataplane-entity) accordingly to the Kuma Tags selected.
-3. Every matching `ProxyTemplate` is [ranked](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/). The `ProxyTemplate` resource with the highest ranking is used to generate the configuration for the specified data plane proxy (or proxies).
+1. Kuma searches for all the `ProxyTemplates` resources that have been defined in the specified [`Mesh`](/docs/{{ page.release }}/policies/mesh).
+2. It loads in memory the `ProxyTemplates` resources whose `selectors` [match](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any [data plane proxy](/docs/{{ page.release }}/documentation/dps-and-data-model/#dataplane-entity) accordingly to the Kuma Tags selected.
+3. Every matching `ProxyTemplate` is [ranked](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/). The `ProxyTemplate` resource with the highest ranking is used to generate the configuration for the specified data plane proxy (or proxies).
 4. If the `ProxyTemplate` resource specifies an `imports` object, these resources are generated first.
 5. If a `ProxyTemplate` defines a `modification` object, all modifications are applied, one by one in the order defined in `modification` section.
 
@@ -799,7 +799,7 @@ conf:
 
 ## Matching
 
-`ProxyTemplate` is a [Dataplane policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply#dataplane-policy). You can use all the tags in the `selectors` section.
+`ProxyTemplate` is a [Dataplane policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply#dataplane-policy). You can use all the tags in the `selectors` section.
 
 ## Builtin Gateway support
 

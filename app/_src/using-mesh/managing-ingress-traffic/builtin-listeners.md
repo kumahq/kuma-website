@@ -4,11 +4,11 @@ title: Configuring built-in listeners
 
 {% capture k8s_service_selector_suffix %}{% if_version gte:2.7.x inline:true %}_default_svc{% endif_version %}{% endcapture %}
 
-For configuring built-in gateway listeners, use the [`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners) resource.
+For configuring built-in gateway listeners, use the [`MeshGateway`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners) resource.
 
 {% tip %}
 These are {{site.mesh_product_name}} policies so if you are running on multi-zone they need to be created on the Global CP.
-See the [dedicated section](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin#multi-zone) for using builtin gateways on
+See the [dedicated section](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin#multi-zone) for using builtin gateways on
 multi-zone.
 {% endtip %}
 

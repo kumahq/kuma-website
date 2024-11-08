@@ -42,15 +42,15 @@ Tags are a set of key-value pairs (.e.g `version=v2`) that are defined for each 
 Tags prefixed with `kuma.io` are reserved:
 
 * `kuma.io/service` identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually. This tag must always be present.
-* `kuma.io/zone` identifies the zone name in a {% if_version lte:2.1.x %}[multi-zone deployment](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %}. This tag is automatically created and cannot be overwritten.
-* `kuma.io/protocol` identifies [the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) of the service exposed by this inbound. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
+* `kuma.io/zone` identifies the zone name in a {% if_version lte:2.1.x %}[multi-zone deployment](/docs/{{ page.release }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone deployment](/docs/{{ page.release }}/production/deployment/multi-zone/){% endif_version %}. This tag is automatically created and cannot be overwritten.
+* `kuma.io/protocol` identifies [the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) of the service exposed by this inbound. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 ### Service
 A service is a group of all DPP inbounds that have the same `kuma.io/service` tag.
 
 ### Outbounds
 An outbound allows the workload to consume a service in the mesh using a local port.
-This is only useful when not using [transparent proxy](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %}). 
+This is only useful when not using [transparent proxy](/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}). 
 
 ## `Dataplane` entity
 
@@ -62,8 +62,8 @@ The `Dataplane` entity consists of:
 
 A `Dataplane` entity must be present for each DPP. `Dataplane` entities are managed differently depending on the environment: 
 
-- Kubernetes: The control plane {% if_version lte:2.1.x %}[**automatically generates**](/docs/{{ page.version }}/explore/dpp-on-kubernetes){% endif_version %}{% if_version gte:2.2.x %}[**automatically generates**](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/){% endif_version %} the `Dataplane` entity. 
-- Universal: The {% if_version lte:2.1.x %}[**user defines**](/docs/{{ page.version}}/explore/dpp-on-universal){% endif_version %}{% if_version gte:2.2.x %}[**user defines**](/docs/{{ page.version}}/production/dp-config/dpp-on-universal/){% endif_version %} the `Dataplane` entity. 
+- Kubernetes: The control plane {% if_version lte:2.1.x %}[**automatically generates**](/docs/{{ page.release }}/explore/dpp-on-kubernetes){% endif_version %}{% if_version gte:2.2.x %}[**automatically generates**](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/){% endif_version %} the `Dataplane` entity. 
+- Universal: The {% if_version lte:2.1.x %}[**user defines**](/docs/{{ page.release }}/explore/dpp-on-universal){% endif_version %}{% if_version gte:2.2.x %}[**user defines**](/docs/{{ page.release }}/production/dp-config/dpp-on-universal/){% endif_version %} the `Dataplane` entity. 
  
 ## Dynamic configuration of the data plane proxy 
 

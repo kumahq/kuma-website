@@ -2,7 +2,7 @@
 
 module Jekyll
   class NavigationLinks < Jekyll::Generator
-    priority :medium
+    priority :low
 
     def generate(site)
       site.pages.each_with_index do |page, index|

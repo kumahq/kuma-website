@@ -1,4 +1,4 @@
-{% assign current_version = page.version %}
+{% assign current_release = page.release %}
 
 <select name="{{ include.name }}" class="version-selector" id="version-selector">
   {% for version in site.data.versions %}
@@ -6,10 +6,17 @@
     {% if version == site.data.latest_version %}
       {% assign option_value = 'latest' %}
     {% endif %}
-    <option value="{{ option_value }}" {% if version.release == current_version %} selected {% endif %}>
-      {{ version.release }}
-      {% if version == site.data.latest_version %}
-        (latest)
+    {% if version.label %}
+      {% assign option_value = version.label %}
+    {% endif %}
+    <option value="{{ option_value }}" {% if version.release == current_release.value %} selected {% endif %}>
+      {% if version.label %}
+        {{ version.label }}
+      {% else %}
+        {{ version.release }}
+        {% if version == site.data.latest_version %}
+          (latest)
+        {% endif %}
       {% endif %}
     </option>
   {% endfor %}

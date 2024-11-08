@@ -11,7 +11,7 @@ To install and run {{site.mesh_product_name}} execute the following steps:
 Finally, you can follow the [Quickstart](#quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
 
 {% tip %}
-{{site.mesh_product_name}} also provides [Helm charts](/docs/{{ page.version }}/installation/helm) that we can use instead of this distribution.
+{{site.mesh_product_name}} also provides [Helm charts](/docs/{{ page.release }}/installation/helm) that we can use instead of this distribution.
 {% endtip %}
 
 ### Download Kumactl
@@ -26,7 +26,7 @@ Finally, we can install and run {{site.mesh_product_name}}:
 kumactl install control-plane | kubectl apply -f -
 ```
 
-This example will run {{site.mesh_product_name}} in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/introduction/deployments) like "multi-zone".
+This example will run {{site.mesh_product_name}} in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.release }}/introduction/deployments) like "multi-zone".
 
 {% tip %}
 It may take a while for Kubernetes to start the {{site.mesh_product_name}} resources, you can check the status by executing:
@@ -44,4 +44,4 @@ kubectl get pod -n {{site.mesh_namespace}}
 
 Congratulations! You have successfully installed {{site.mesh_product_name}} on Kubernetes 🚀.
 
-In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/quickstart/kubernetes) deployments.
+In order to start using {{site.mesh_product_name}}, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.release }}/quickstart/kubernetes) deployments.

@@ -10,11 +10,11 @@ This guide will help you get comfortable with producer consumer model.
 
 ## Prerequisites
 
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 
 ## Basic setup
 
-In order to be able to fully utilize namespace scoped policies you need to use [MeshService](/docs/{{ page.version }}/networking/meshservice). 
+In order to be able to fully utilize namespace scoped policies you need to use [MeshService](/docs/{{ page.release }}/networking/meshservice). 
 To make sure that traffic works in our examples let's configure MeshTrafficPermission to allow all traffic:
 
 ```shell
@@ -101,7 +101,7 @@ second-consumer --> kuma-demo
 
 ## Namespace scoped policies
 
-Now that we have our setup we can start playing with policies. Let's create a simple [MeshTimeout](/docs/{{ page.version }}/policies/meshtimeout/) policy in `kuma-demo` namespace:
+Now that we have our setup we can start playing with policies. Let's create a simple [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout/) policy in `kuma-demo` namespace:
 
 ```shell
 echo "apiVersion: kuma.io/v1alpha1
@@ -289,5 +289,5 @@ second-consumer --producer-timeout--> kuma-demo
 
 ## Next steps
 
-- Read more about [producer/consumer policies](/docs/{{ page.version }}/policies/introduction)
-- Check out [Federate zone control plane](/docs/{{ page.version }}/guides/federate/) guide
+- Read more about [producer/consumer policies](/docs/{{ page.release }}/policies/introduction)
+- Check out [Federate zone control plane](/docs/{{ page.release }}/guides/federate/) guide

@@ -46,7 +46,7 @@ NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP 
 {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 ```
 
-By default, it's exposed on {% if_version lte:2.1.x inline:true %}[port 5685](/docs/{{ page.version }}/networking/networking){% endif_version %}{% if_version gte:2.2.x inline:true %}[port 5685](/docs/{{ page.version }}/production/use-mesh#control-plane-ports){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+By default, it's exposed on {% if_version lte:2.1.x inline:true %}[port 5685](/docs/{{ page.release }}/networking/networking){% endif_version %}{% if_version gte:2.2.x inline:true %}[port 5685](/docs/{{ page.release }}/production/use-mesh#control-plane-ports){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 
@@ -62,7 +62,7 @@ Please read [Kubernetes](https://kubernetes.io/docs/setup/production-environment
 
 {% endtip %}
 
-Before using {{site.mesh_product_name}} with helm, please follow [these steps](/docs/{{ page.version }}/production/cp-deployment/kubernetes/#helm) to configure your local helm repo and learn the reference helm configuration `values.yaml`.
+Before using {{site.mesh_product_name}} with helm, please follow [these steps](/docs/{{ page.release }}/production/cp-deployment/kubernetes/#helm) to configure your local helm repo and learn the reference helm configuration `values.yaml`.
 
 1. Define Kubernetes secrets with database sensitive information
 
@@ -215,11 +215,11 @@ controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685
 
 where `{{site.set_flag_values_prefix}}controlPlane.zone` is the same value for all zone control planes in the same zone.
 
-Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional {% if_version lte:2.1.x %}[Zone Egress](/docs/{{ page.version }}/explore/zoneegress/){% endif_version %}{% if_version gte:2.2.x %}[Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}.
+Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional {% if_version lte:2.1.x %}[Zone Egress](/docs/{{ page.release }}/explore/zoneegress/){% endif_version %}{% if_version gte:2.2.x %}[Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/){% endif_version %}.
 
 {% if_version gte:2.3.x %}
 Set `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` because the default global control plane's certificate is self-signed.
-For production use a certificate signed by a trusted CA. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
+For production use a certificate signed by a trusted CA. See [Secure access across services](/docs/{{ page.release }}/production/secure-deployment/certificates/) page for more information.
 {% endif_version %}
 
 {% endtab %}
@@ -267,7 +267,7 @@ Ensure that migrations have been run against the database prior to running the z
 
    {% if_version gte:2.3.x %}
    `KUMA_MULTIZONE_ZONE_KDS_TLS_SKIP_VERIFY` is required because the default global control plane's certificate is self-signed.
-   It's recommended to use a certificate signed by a trusted CA in production. See [Secure access across services](/docs/{{ page.version }}/production/secure-deployment/certificates/) page for more information.
+   It's recommended to use a certificate signed by a trusted CA in production. See [Secure access across services](/docs/{{ page.release }}/production/secure-deployment/certificates/) page for more information.
    {% endif_version %}
 
 2. Generate the zone proxy token:
@@ -278,7 +278,7 @@ Ensure that migrations have been run against the database prior to running the z
    kumactl generate zone-token --zone=<zone-name> --scope egress --scope ingress > /tmp/zone-token
    ```
 
-   You can also generate the token {% if_version lte:2.1.x %}[with the REST API](/docs/{{ page.version }}/security/zoneproxy-auth){% endif_version%}{% if_version gte:2.2.x %}[with the REST API](/docs/{{ page.version }}/production/cp-deployment/zoneproxy-auth/){% endif_version%}.
+   You can also generate the token {% if_version lte:2.1.x %}[with the REST API](/docs/{{ page.release }}/security/zoneproxy-auth){% endif_version%}{% if_version gte:2.2.x %}[with the REST API](/docs/{{ page.release }}/production/cp-deployment/zoneproxy-auth/){% endif_version%}.
    Alternatively, you could generate separate tokens for ingress and egress.
 
 3. Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication:
@@ -368,7 +368,7 @@ deployed with zone ingress.
 ### Ensure mTLS is enabled on the multi-zone meshes
 
 mTLS is mandatory to enable cross-zone service communication.
-mTLS can be configured in your mesh configuration as indicated in the [mTLS section](/docs/{{ page.version }}/policies/mutual-tls).
+mTLS can be configured in your mesh configuration as indicated in the [mTLS section](/docs/{{ page.release }}/policies/mutual-tls).
 This is required because {{site.mesh_product_name}} uses the [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) field, part of the TLS protocol, as a way to pass routing information cross zones.
 
 ### Cross-zone communication details
@@ -412,9 +412,9 @@ curl http://echo-server:1010
 ```
 
 Requests are distributed round-robin between zones.
-You can use {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %} to keep requests in the same zone.
+You can use {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/meshloadbalancingstrategy){% endif_version %} to keep requests in the same zone.
 
-To send a request to any zone, you can {% if_version lte:2.1.x %}[use the generated `kuma.io/service`](/docs/{{ page.version }}/explore/dpp-on-kubernetes#tag-generation){% endif_version %}{% if_version gte:2.2.x %}[use the generated `kuma.io/service`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#tag-generation){% endif_version %} and [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns):
+To send a request to any zone, you can {% if_version lte:2.1.x %}[use the generated `kuma.io/service`](/docs/{{ page.release }}/explore/dpp-on-kubernetes#tag-generation){% endif_version %}{% if_version gte:2.2.x %}[use the generated `kuma.io/service`](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#tag-generation){% endif_version %} and [{{site.mesh_product_name}} DNS](/docs/{{ page.release }}/networking/dns):
 
 ```sh
 curl http://echo-server_echo-example_svc_1010.mesh:80
@@ -438,7 +438,7 @@ SERVICE                                  STATUS               DATAPLANES
 echo-service_echo-example_svc_1010       Online               1/1
 ```
 
-To consume the service in a Universal deployment without transparent proxy add the following outbound to your {% if_version lte:2.1.x %}[dataplane configuration](/docs/{{ page.version }}/explore/dpp-on-universal){% endif_version %}{% if_version gte:2.2.x %}[dataplane configuration](/docs/{{ page.version }}/production/dp-config/dpp-on-universal/){% endif_version %}:
+To consume the service in a Universal deployment without transparent proxy add the following outbound to your {% if_version lte:2.1.x %}[dataplane configuration](/docs/{{ page.release }}/explore/dpp-on-universal){% endif_version %}{% if_version gte:2.2.x %}[dataplane configuration](/docs/{{ page.release }}/production/dp-config/dpp-on-universal/){% endif_version %}:
 
 ```yaml
 outbound:
@@ -449,7 +449,7 @@ outbound:
 
 From the data plane running you will now be able to reach the service using `localhost:20012`.
 
-Alternatively, if you configure [transparent proxy](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %}) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
+Alternatively, if you configure [transparent proxy](/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
 
 {% endtab %}
 {% endtabs %}
@@ -457,7 +457,7 @@ Alternatively, if you configure [transparent proxy](/docs/{{ page.version }}/{% 
 {% tip %}
 For security reasons it's not possible to customize the `kuma.io/service` in Kubernetes.
 
-If you want to have the same service running on both Universal and Kubernetes make sure to align the Universal's data plane inbound to have the same `kuma.io/service` as the one in Kubernetes or leverage {% if_version lte:2.5.x %}[TrafficRoute](/docs/{{ page.version }}/policies/traffic-route){% endif_version %}{% if_version gte:2.6.x %}[MeshHTTPRoute](/docs/{{ page.version }}/policies/meshhttproute) and [MeshTCPRoute](/docs/{{ page.version }}/policies/meshtcproute){% endif_version %}.
+If you want to have the same service running on both Universal and Kubernetes make sure to align the Universal's data plane inbound to have the same `kuma.io/service` as the one in Kubernetes or leverage {% if_version lte:2.5.x %}[TrafficRoute](/docs/{{ page.release }}/policies/traffic-route){% endif_version %}{% if_version gte:2.6.x %}[MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute) and [MeshTCPRoute](/docs/{{ page.release }}/policies/meshtcproute){% endif_version %}.
 {% endtip %}
 
 ## Delete a zone

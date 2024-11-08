@@ -3,7 +3,7 @@ title: Kubernetes
 content_type: how-to
 ---
 
-You can find instructions to install on kubernetes for {% if_version gte:2.6.x %}[single-zone](/docs/{{ page.version }}/production/cp-deployment/single-zone){% endif_version %}{% if_version lte:2.5.x %}[standalone](/docs/{{ page.version }}/production/cp-deployment/stand-alone){% endif_version %} or [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone).
+You can find instructions to install on kubernetes for {% if_version gte:2.6.x %}[single-zone](/docs/{{ page.release }}/production/cp-deployment/single-zone){% endif_version %}{% if_version lte:2.5.x %}[standalone](/docs/{{ page.release }}/production/cp-deployment/stand-alone){% endif_version %} or [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone).
 This page covers special steps for some Kubernetes distributions or version and some troubleshooting help.
 
 ## Helm
@@ -20,9 +20,9 @@ You can fetch all following updates by running `helm repo update`.
 
 ### Helm config
 
-You can find a full [reference of helm configuration](/docs/{{ page.version }}/reference/kuma-cp/#helm-valuesyaml).
+You can find a full [reference of helm configuration](/docs/{{ page.release }}/reference/kuma-cp/#helm-valuesyaml).
 
-You can also set any control-plane configuration by using the prefix: `{{ site.set_flag_values_prefix }}controlPlane.envVars.`. Find detailed explanations in the page: [control plane configuration](/docs/{{ page.version }}/documentation/configuration/#modifying-the-configuration).
+You can also set any control-plane configuration by using the prefix: `{{ site.set_flag_values_prefix }}controlPlane.envVars.`. Find detailed explanations in the page: [control plane configuration](/docs/{{ page.release }}/documentation/configuration/#modifying-the-configuration).
 
 ### Argo CD
 
@@ -32,9 +32,9 @@ You can also set any control-plane configuration by using the prefix: `{{ site.s
 Helm template doesn't work with chart logic to verify if the certificate is present.
 This results in replacing the certificate on each Argo redeployment.
 The solution to this problem is to explicitly set the certificates.
-See ["Data plane proxy to control plane communication"](/docs/{{ page.version }}/production/secure-deployment/certificates/) to learn how to preconfigure {{site.mesh_product_name}} with certificates.
+See ["Data plane proxy to control plane communication"](/docs/{{ page.release }}/production/secure-deployment/certificates/) to learn how to preconfigure {{site.mesh_product_name}} with certificates.
 
-If you use [Argo Rollouts](https://argoproj.github.io/rollouts/) for blue-green deployment [configure the control plane](/docs/{{ page.version }}/documentation/configuration) with `KUMA_RUNTIME_KUBERNETES_INJECTOR_IGNORED_SERVICE_SELECTOR_LABELS` set to `rollouts-pod-template-hash`.
+If you use [Argo Rollouts](https://argoproj.github.io/rollouts/) for blue-green deployment [configure the control plane](/docs/{{ page.release }}/documentation/configuration) with `KUMA_RUNTIME_KUBERNETES_INJECTOR_IGNORED_SERVICE_SELECTOR_LABELS` set to `rollouts-pod-template-hash`.
 It will enable traffic shifting between active and preview Service without traffic interruption.
 
 {% if_version gte:2.7.x %}
@@ -45,7 +45,7 @@ If you do this, deleting a mesh will not delete the resources that are attached 
 
 ## Sidecars
 
-Check [the notes on DP lifecycle for Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#kubernetes-sidecar-containers)
+Check [the notes on DP lifecycle for Kubernetes](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#kubernetes-sidecar-containers)
 for important considerations about sidecars with {{site.mesh_product_name}}.
 
 ### CNI
@@ -55,14 +55,14 @@ On Kubernetes there are two ways to redirect traffic to the sidecar:
 - Init containers which need to run with elevated privileges.
 - [CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) which requires a little extra setup.
 
-To use the CNI you can use the detailed [instructions to configure the {{site.mesh_product_name}} CNI](/docs/{{ page.version }}/production/dp-config/cni/). 
+To use the CNI you can use the detailed [instructions to configure the {{site.mesh_product_name}} CNI](/docs/{{ page.release }}/production/dp-config/cni/). 
 
 ## OpenShift
 
 ### Transparent proxy
 
 Starting from version 4.1 OpenShift uses `nftables` instead of `iptables`.
-So using init container for redirecting traffic to the proxy no longer works and you should use the [`kuma-cni`](/docs/{{ page.version }}/production/dp-config/cni/) instead.
+So using init container for redirecting traffic to the proxy no longer works and you should use the [`kuma-cni`](/docs/{{ page.release }}/production/dp-config/cni/) instead.
 
 ### Webhooks on OpenShift 3.11
 

@@ -2,9 +2,9 @@
 title: External Service
 ---
 
-This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
+This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
 
-When you enable this policy, you should also [disable passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) for the mesh and enable the [data plane proxy builtin DNS](/docs/{{ page.version }}/networking/dns) name resolution.
+When you enable this policy, you should also [disable passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing) for the mesh and enable the [data plane proxy builtin DNS](/docs/{{ page.release }}/networking/dns) name resolution.
 
 ## Usage
 
@@ -64,9 +64,9 @@ networking:
       secret: clientKey
 ```
 
-Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
-{% capture tproxy-link %}/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version%}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version%}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version%}{% endcapture %}
+{% capture tproxy-link %}/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version%}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version%}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version%}{% endcapture %}
 
 Universal mode is best combined with [transparent proxy]({{ tproxy-link }}). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
 
@@ -96,7 +96,7 @@ Then `httpbin.org` is accessible at `127.0.0.1:10000`.
 Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming [transparent proxy]({{ tproxy-link }})) can be done:
 
 * With the `.mesh` naming of the service `curl httpbin.mesh`. With this approach, specify port 80.
-* With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](/docs/{{ page.version }}/networking/dns) name resolution.
+* With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](/docs/{{ page.release }}/networking/dns) name resolution.
 
 It's possible to define TLS origination and validation at 2 different layers:
 *  Envoy is responsible for originating and verifying TLS.
@@ -130,7 +130,7 @@ As with other services, avoid duplicating service names under `kuma.io/service` 
 ### External Services and Locality Aware Load Balancing
 
 There are might be scenarios when a particular external service should be accessible only from the particular zone. 
-In order to make it work we should use `kuma.io/zone` tag for external service. When this tag is set and {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %} is enabled
+In order to make it work we should use `kuma.io/zone` tag for external service. When this tag is set and {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/meshloadbalancingstrategy){% endif_version %} is enabled
 then the traffic from the zone will be redirected only to external services associated with the zone using `kuma.io/zone` tag.
 
 Example:
@@ -157,7 +157,7 @@ networking:
   address: zone-2.httpbin.org:80
 ```
 
-In this example, when {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.version }}/policies/meshloadbalancingstrategy){% endif_version %} is enabled, if the service in the `zone-1` is trying to set connection with
+In this example, when {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/meshloadbalancingstrategy){% endif_version %} is enabled, if the service in the `zone-1` is trying to set connection with
 `httpbin.mesh` it will be redirected to `zone-1.httpbin.org:80`. Whereas the same request from the `zone-2` will be redirected to `zone-2.httpbin.org:80`.
 
 {% warning %}
@@ -166,10 +166,10 @@ If `ZoneEgress` is enabled, there is a limitation that prevents the behavior des
 
 ### External Services and ZoneEgress
 
-In scenarios when traffic to external services needs to be sent through a unique set of hosts you will {% if_version lte:2.1.x %}[configure ZoneEgress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[configure ZoneEgress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}.
+In scenarios when traffic to external services needs to be sent through a unique set of hosts you will {% if_version lte:2.1.x %}[configure ZoneEgress](/docs/{{ page.release }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[configure ZoneEgress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/){% endif_version %}.
 
 For example when there is:
-* [disabled passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing)
+* [disabled passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing)
 * `ZoneEgress` deployed
 * `ExternalService` configuration that allows communicating with `https://example.com`.
 ```yaml
@@ -186,7 +186,7 @@ networking:
 ```
 
 When application makes a request to `https://example.com`, it will be first routed to `ZoneEgress` and then to `https://example.com`.
-You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing).
+You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing).
 In this setup, applications will only be able to communicate with other applications in the mesh or external-services via the `ZoneEgress`.
 
 {% warning %}
@@ -221,7 +221,7 @@ The above configuration is incorrect and configuration generation will fail.
 ### External Services accessible from specific zone through ZoneEgress
 
 There are might be scenarios when a specific `ExternalService` might be accessible only through the specific zone. To make it work we should use the `kuma.io/zone` tag for external service. In order to make it work, we need a multi-zone setup with `ZoneIngress` and `ZoneEgress` deployed. Also,
-{% if_version lte:2.1.x %}[zone egress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress){% endif_version %} needs to be enabled.
+{% if_version lte:2.1.x %}[zone egress](/docs/{{ page.release }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress){% endif_version %} needs to be enabled.
  
 Example:
  

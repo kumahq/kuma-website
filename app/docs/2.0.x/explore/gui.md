@@ -5,7 +5,7 @@ title: GUI
 {{site.mesh_product_name}} now ships with a basic web-based GUI that will serve as a visual overview of your dataplanes, meshes, and various traffic policies.
 
 {% tip %}
-The GUI pairs with the HTTP API — Read more about the HTTP API [here](/docs/{{ page.version }}/reference/http-api)
+The GUI pairs with the HTTP API — Read more about the HTTP API [here](/docs/{{ page.release }}/reference/http-api)
 {% endtip %}
 
 When launching {{site.mesh_product_name}}, the GUI will start by default on the API port, and defaults to `:5681/gui`. You can access it in your web browser by going to `http://localhost:5681/gui`.

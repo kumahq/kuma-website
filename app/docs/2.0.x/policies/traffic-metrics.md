@@ -15,7 +15,7 @@ To collect metrics from {{site.mesh_product_name}}, you need to expose metrics f
 
 {% tip %}
 In the rest of this page we assume you have already configured your observability tools to work with {{site.mesh_product_name}}.
-If you haven't already read the [observability docs](/docs/{{ page.version }}/explore/observability).
+If you haven't already read the [observability docs](/docs/{{ page.release }}/explore/observability).
 {% endtip %}
 
 ## Expose metrics from data plane proxies
@@ -110,7 +110,7 @@ Here are reasons where you'd want to use this feature:
 
 - Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
 - Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
-- If you disable [passthrough](/docs/{{ page.version }}/policies/mesh#controlling-the-passthrough-mode) and your mesh uses mTLS but Prometheus is outside the mesh (`skipMTLS: true`) this will be the only way to retrieve these metrics as the application is completely hidden behind the sidecar. 
+- If you disable [passthrough](/docs/{{ page.release }}/policies/mesh#controlling-the-passthrough-mode) and your mesh uses mTLS but Prometheus is outside the mesh (`skipMTLS: true`) this will be the only way to retrieve these metrics as the application is completely hidden behind the sidecar. 
 
 {% warning %}
 Any configuration change requires redeployment of the data plane.
@@ -313,7 +313,7 @@ metrics:
 
 ## Secure data plane proxy metrics
 
-{{site.mesh_product_name}} lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment mode on Kubernetes when using [`kumactl install observability`](/docs/{{ page.version }}/explore/observability#demo-setup).
+{{site.mesh_product_name}} lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment mode on Kubernetes when using [`kumactl install observability`](/docs/{{ page.release }}/explore/observability#demo-setup).
 
 {% tabs secure-data-plane-proxy-metrics useUrlFragment=false %}
 {% tab secure-data-plane-proxy-metrics Kubernetes %}
@@ -342,7 +342,7 @@ spec:
           kuma.io/service: dataplane-metrics
 ```
 
-If you have strict [traffic permissions](/docs/{{ page.version }}/policies/traffic-permissions) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
+If you have strict [traffic permissions](/docs/{{ page.release }}/policies/traffic-permissions) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -396,7 +396,7 @@ spec:
           kuma.io/service: dataplane-metrics
 ```
 
-If you have strict [traffic permissions](/docs/{{ page.version }}/policies/traffic-permissions) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
+If you have strict [traffic permissions](/docs/{{ page.release }}/policies/traffic-permissions) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
 
 ```yaml
 type: TrafficPermission

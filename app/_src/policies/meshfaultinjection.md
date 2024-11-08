@@ -6,7 +6,7 @@ With the MeshFaultInjection policy you can easily test your microservices agains
 
 {% warning %}
 This policy uses a new policy matching algorithm.
-Do **not** combine with [FaultInjection](/docs/{{ page.version }}/policies/fault-injection).
+Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault-injection).
 {% endwarning %}
 
 ## `targetRef` support matrix
@@ -79,7 +79,7 @@ Do **not** combine with [FaultInjection](/docs/{{ page.version }}/policies/fault
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 

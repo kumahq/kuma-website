@@ -9,7 +9,7 @@ A policy is a set of configuration that will be used to generate the data plane 
 
 ## What do policies look like?
 
-Like all [resources](/docs/{{ page.version }}/introduction/concepts#resource) in {{ site.mesh_product_name }}, there are two parts to a policy: the metadata and the spec.
+Like all [resources](/docs/{{ page.release }}/introduction/concepts#resource) in {{ site.mesh_product_name }}, there are two parts to a policy: the metadata and the spec.
 
 ### Metadata
 
@@ -96,7 +96,7 @@ spec:
 While some policies can have both a `to` and a `from` section, it is strongly advised to create 2 different policies, one for `to` and one for `from`.
 {% endtip %}
 
-Some policies are not directional and will not have `to` and `from`. Some examples of such policies are [`MeshTrace`](/docs/{{ page.version }}/policies/meshtrace) or [`MeshProxyPatch`](/docs/{{ page.version }}/policies/meshproxypatch).
+Some policies are not directional and will not have `to` and `from`. Some examples of such policies are [`MeshTrace`](/docs/{{ page.release }}/policies/meshtrace) or [`MeshProxyPatch`](/docs/{{ page.release }}/policies/meshproxypatch).
 For example
 
 {% policy_yaml non-directional %}
@@ -209,8 +209,8 @@ When a `targetRef` is not present, it is semantically equivalent to `targetRef.k
 
 ### Applying to specific proxy types
 The top level `targetRef` field can select a specific subset of data plane proxies. The field named `proxyTypes` can restrict policies to specific types of data plane proxies:
-- `Sidecar`: Targets data plane proxies acting as sidecars to applications (including [delegated gateways](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/delegated/)).
-- `Gateway`: Applies to data plane proxies operating in [built-in Gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin/) mode.
+- `Sidecar`: Targets data plane proxies acting as sidecars to applications (including [delegated gateways](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/delegated/)).
+- `Gateway`: Applies to data plane proxies operating in [built-in Gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) mode.
 - Empty list: Defaults to targeting all data plane proxies.
 
 #### Example
@@ -304,8 +304,8 @@ there may be restrictions on whether or not specific listeners can be selected.
 
 #### Routes
 
-Read the [MeshHTTPRoute docs](/docs/{{ page.version }}/policies/meshhttproute/#gateways)
-and [MeshTCPRoute docs](/docs/{{ page.version }}/policies/meshtcproute/#gateways) for more
+Read the [MeshHTTPRoute docs](/docs/{{ page.release }}/policies/meshhttproute/#gateways)
+and [MeshTCPRoute docs](/docs/{{ page.release }}/policies/meshtcproute/#gateways) for more
 on how to target gateways for routing traffic.
 
 ### Target kind support for different policies
@@ -401,8 +401,8 @@ default:
 
 ## Using policies with `MeshService`, `MeshMultizoneService` and `MeshExternalService`.
 
-[`MeshService`](/docs/{{ page.version }}/networking/meshservice) is a feature to define services explicitly in {{ site.mesh_product_name }}.
-It can be selectively enabled and disable depending on the value of [meshServices.mode](/docs/{{ page.version }}/networking/meshservice/#migration) on your Mesh object.
+[`MeshService`](/docs/{{ page.release }}/networking/meshservice) is a feature to define services explicitly in {{ site.mesh_product_name }}.
+It can be selectively enabled and disable depending on the value of [meshServices.mode](/docs/{{ page.release }}/networking/meshservice/#migration) on your Mesh object.
 
 When using explicit services, `MeshServiceSubset` is no longer a valid kind and `MeshService` can only be used to select an actual `MeshService` resource (it can no longer select a `kuma.io/service`).
 
@@ -735,24 +735,24 @@ This can be very useful when timeout configurations for gateways need to differ 
 {% if_version lte:2.8.x %}
 Here you can find the list of Policies that {{site.mesh_product_name}} supports.
 
-Going forward from version 2.0, {{site.mesh_product_name}} is transitioning from [source/destination policies](/docs/{{ page.version }}/policies/general-notes-about-kuma-policies) to [`targetRef` policies](/docs/{{ page.version }}/policies/targetref).
+Going forward from version 2.0, {{site.mesh_product_name}} is transitioning from [source/destination policies](/docs/{{ page.release }}/policies/general-notes-about-kuma-policies) to [`targetRef` policies](/docs/{{ page.release }}/policies/targetref).
 
 The following table shows the equivalence between source/destination and `targetRef` policies:
 
 | source/destination policy                                                   | `targetRef` policy                                                                                                                                                                   |
 |-----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [CircuitBreaker](/docs/{{ page.version }}/policies/circuit-breaker)         | [MeshCircuitBreaker](/docs/{{ page.version }}/policies/meshcircuitbreaker)                                                                                                           |
-| [FaultInjection](/docs/{{ page.version }}/policies/fault-injection)         | [MeshFaultInjection](/docs/{{ page.version }}/policies/meshfaultinjection)                                                                                                           |
-| [HealthCheck](/docs/{{ page.version }}/policies/health-check)               | [MeshHealthCheck](/docs/{{ page.version }}/policies/meshhealthcheck)                                                                                                                 |
-| [RateLimit](/docs/{{ page.version }}/policies/rate-limit)                   | [MeshRateLimit](/docs/{{ page.version }}/policies/meshratelimit)                                                                                                                     |
-| [Retry](/docs/{{ page.version }}/policies/retry)                            | [MeshRetry](/docs/{{ page.version }}/policies/meshretry)                                                                                                                             |
-| [Timeout](/docs/{{ page.version }}/policies/timeout)                        | [MeshTimeout](/docs/{{ page.version }}/policies/meshtimeout)                                                                                                                         |
-| [TrafficLog](/docs/{{ page.version }}/policies/traffic-log)                 | [MeshAccessLog](/docs/{{ page.version }}/policies/meshaccesslog)                                                                                                                     |
-| [TrafficMetrics](/docs/{{ page.version }}/policies/traffic-metrics)         | {% if_version lte:2.5.x inline:true %} N/A {% endif_version %} {% if_version inline:true gte:2.6.x %} [MeshMetric](/docs/{{ page.version }}/policies/meshmetric) {% endif_version %} |
-| [TrafficPermissions](/docs/{{ page.version }}/policies/traffic-permissions) | [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission)                                                                                                     |
-| [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route)             | [MeshHTTPRoute](/docs/{{ page.version }}/policies/meshhttproute)                                                                                                                     |
-| [TrafficTrace](/docs/{{ page.version }}/policies/traffic-trace)             | [MeshTrace](/docs/{{ page.version }}/policies/meshtrace)                                                                                                                             |
-| [ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template)           | [MeshProxyPatch](/docs/{{ page.version }}/policies/meshproxypatch)                                                                                                                   |
+| [CircuitBreaker](/docs/{{ page.release }}/policies/circuit-breaker)         | [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker)                                                                                                           |
+| [FaultInjection](/docs/{{ page.release }}/policies/fault-injection)         | [MeshFaultInjection](/docs/{{ page.release }}/policies/meshfaultinjection)                                                                                                           |
+| [HealthCheck](/docs/{{ page.release }}/policies/health-check)               | [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck)                                                                                                                 |
+| [RateLimit](/docs/{{ page.release }}/policies/rate-limit)                   | [MeshRateLimit](/docs/{{ page.release }}/policies/meshratelimit)                                                                                                                     |
+| [Retry](/docs/{{ page.release }}/policies/retry)                            | [MeshRetry](/docs/{{ page.release }}/policies/meshretry)                                                                                                                             |
+| [Timeout](/docs/{{ page.release }}/policies/timeout)                        | [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout)                                                                                                                         |
+| [TrafficLog](/docs/{{ page.release }}/policies/traffic-log)                 | [MeshAccessLog](/docs/{{ page.release }}/policies/meshaccesslog)                                                                                                                     |
+| [TrafficMetrics](/docs/{{ page.release }}/policies/traffic-metrics)         | {% if_version lte:2.5.x inline:true %} N/A {% endif_version %} {% if_version inline:true gte:2.6.x %} [MeshMetric](/docs/{{ page.release }}/policies/meshmetric) {% endif_version %} |
+| [TrafficPermissions](/docs/{{ page.release }}/policies/traffic-permissions) | [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission)                                                                                                     |
+| [TrafficRoute](/docs/{{ page.release }}/policies/traffic-route)             | [MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute)                                                                                                                     |
+| [TrafficTrace](/docs/{{ page.release }}/policies/traffic-trace)             | [MeshTrace](/docs/{{ page.release }}/policies/meshtrace)                                                                                                                             |
+| [ProxyTemplate](/docs/{{ page.release }}/policies/proxy-template)           | [MeshProxyPatch](/docs/{{ page.release }}/policies/meshproxypatch)                                                                                                                   |
 
 {% warning %}
 {% if_version lte:2.5.x %}

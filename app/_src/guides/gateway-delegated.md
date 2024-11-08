@@ -5,10 +5,10 @@ title: Use Kong as a delegated Gateway
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use 
 a delegated gateway.
 
-In the [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
+In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
 inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
-In this guide you will add Kong as a [delegated gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/delegated/) in front of the demo-app service and expose it publicly.
+In this guide you will add Kong as a [delegated gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/delegated/) in front of the demo-app service and expose it publicly.
 
 {% mermaid %}
 ---
@@ -25,7 +25,7 @@ flowchart LR
 {% endmermaid %}
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 
 ## Install Kong ingress controller 
 
@@ -43,7 +43,7 @@ One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.co
 ## Enable sidecar injection on the `kong` namespace
 
 The Kong Ingress controller was installed outside the mesh.
-For it to work as a delegated gateway restart it with [sidecar injection enabled](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/):
+For it to work as a delegated gateway restart it with [sidecar injection enabled](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/):
 
 Add the label:
 ```sh
@@ -156,7 +156,8 @@ Notice the forbidden error.
 This is because the quickstart has very restrictive permissions as defaults.
 Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
-To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission):
+
+To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
 
 {% if_version lte:2.8.x %}
 ```sh
@@ -229,5 +230,5 @@ X-Kong-Request-Id: 886cc96df034ea37cfbbb0450a987049
 
 ## Next steps
 
-* Read more about the different types of gateways in the [managing ingress traffic docs](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/overview/).
-* Learn about setting up [observability](/docs/{{ page.version }}/explore/observability/) to get full end to end visibility of your mesh.
+* Read more about the different types of gateways in the [managing ingress traffic docs](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/overview/).
+* Learn about setting up [observability](/docs/{{ page.release }}/explore/observability/) to get full end to end visibility of your mesh.

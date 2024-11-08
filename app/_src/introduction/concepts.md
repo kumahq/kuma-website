@@ -70,7 +70,7 @@ Policies are a specific type of resources that controls the behaviour and commun
 They can enable traffic management, security, observability and traffic reliability.
 
 Policies always have a clear specific area of impact and goal.
-To learn more about [policies checkout the in depth introduction](/docs/{{ page.version }}/policies/introduction).
+To learn more about [policies checkout the in depth introduction](/docs/{{ page.release }}/policies/introduction).
 
 ## Transparent proxy
 

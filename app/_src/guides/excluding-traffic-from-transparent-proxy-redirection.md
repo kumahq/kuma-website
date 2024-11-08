@@ -3,7 +3,7 @@ title: Excluding Traffic from Transparent Proxy
 content_type: tutorial
 ---
 
-{% assign docs = "/docs/" | append: page.version %}
+{% assign docs = "/docs/" | append: page.release %}
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 

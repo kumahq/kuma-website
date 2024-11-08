@@ -6,10 +6,10 @@ title: Non-mesh traffic
 
 When mTLS is enabled, clients from outside the mesh can't reach the applications inside the mesh. 
 If you want to allow external clients to consume mesh services see 
-the [Permissive mTLS](/docs/{{ page.version }}/policies/mutual-tls/#permissive-mtls) mode.
+the [Permissive mTLS](/docs/{{ page.release }}/policies/mutual-tls/#permissive-mtls) mode.
 
 {% warning %}
-Without [transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %})
+Without [transparent proxying](/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %})
 TLS check on Envoy can be bypassed. You should take action to secure the application ports. 
 {% endwarning %}
 
@@ -49,7 +49,7 @@ When `networking.outbound.passthrough` is `false`, no traffic to any non-mesh re
 
 {% if_version gte:2.8.x %}
 {% tip %}
-Since version 2.8.x, you can take advantage of a new policy, [MeshPassthrough](/docs/{{ page.version }}/policies/meshpassthrough), which allows you to enable passthrough traffic for a specific group of sidecars and only for specific destinations.
+Since version 2.8.x, you can take advantage of a new policy, [MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough), which allows you to enable passthrough traffic for a specific group of sidecars and only for specific destinations.
 {% endtip %}
 {% endif_version %}
 
@@ -74,7 +74,7 @@ maxRequests: 1024
 maxRetries: 3
 ```
 
-{% if_version lte:2.5.x inline:true %}[ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch](/docs/{{ page.version }}/policies/meshproxypatch){% endif_version %} to change the defaults:
+{% if_version lte:2.5.x inline:true %}[ProxyTemplate](/docs/{{ page.release }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch](/docs/{{ page.release }}/policies/meshproxypatch){% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
 {% tabs passthrough-thresholds useUrlFragment=false %}

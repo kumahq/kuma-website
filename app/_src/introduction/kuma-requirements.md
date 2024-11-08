@@ -57,9 +57,9 @@ To see if you may need to increase your control-plane's spec, there are two main
 - propagation time (xds_delivery): this is the time it takes between a change in the mesh and the dataplane receiving its updated configuration. Think about it as the "reactivity of your mesh".
 - configuration generation time (xds_generation): this is the time it takes for the configuration to be generated.
 
-For any large mesh using transparent-proxy it's highly recommended to use [reachable services](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying#{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/#{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/{% endif_version %}reachable-services).
+For any large mesh using transparent-proxy it's highly recommended to use [reachable services](/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying#{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/#{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/{% endif_version %}reachable-services).
 
-You can also find tuning configuration in the {% if_version lte:2.1.x %}[fine-tuning](/docs/{{ page.version }}/documentation/fine-tuning){% endif_version %}{% if_version gte:2.2.x %}[fine-tuning](/docs/{{ page.version }}/production/upgrades-tuning/fine-tuning/){% endif_version %} section of the docs.
+You can also find tuning configuration in the {% if_version lte:2.1.x %}[fine-tuning](/docs/{{ page.release }}/documentation/fine-tuning){% endif_version %}{% if_version gte:2.2.x %}[fine-tuning](/docs/{{ page.release }}/production/upgrades-tuning/fine-tuning/){% endif_version %} section of the docs.
 
 ## Sizing your sidecar container on Kubernetes
 
@@ -75,7 +75,7 @@ resources:
         memory: 512Mi
 ```
 
-This configuration should be enough for most use cases. In some cases, like when you cannot scale horizontally or your service handles lots of concurrent traffic, you may need to change these values. You can do this using the {% if_version lte:2.1.x %}[`ContainerPatch` resource](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}{% if_version gte:2.2.x %}[`ContainerPatch` resource](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}. 
+This configuration should be enough for most use cases. In some cases, like when you cannot scale horizontally or your service handles lots of concurrent traffic, you may need to change these values. You can do this using the {% if_version lte:2.1.x %}[`ContainerPatch` resource](/docs/{{ page.release }}/explore/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}{% if_version gte:2.2.x %}[`ContainerPatch` resource](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}. 
 
 For example, you can modify individual parameters under `resources`:
 
@@ -110,7 +110,7 @@ spec:
       }'
 ```
 
-Check {% if_version lte:2.1.x %}[the `ContainerPatch` documentation](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#workload-matching){% endif_version %}{% if_version gte:2.2.x %}[the `ContainerPatch` documentation](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#workload-matching){% endif_version %} for how to apply these resources to specific `Pods`.
+Check {% if_version lte:2.1.x %}[the `ContainerPatch` documentation](/docs/{{ page.release }}/explore/dpp-on-kubernetes/#workload-matching){% endif_version %}{% if_version gte:2.2.x %}[the `ContainerPatch` documentation](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#workload-matching){% endif_version %} for how to apply these resources to specific `Pods`.
 
 {% tip %}
 **Note**: When changing these resources, remember that they must be described using [Kubernetes resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes)

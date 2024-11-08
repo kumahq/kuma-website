@@ -6,7 +6,7 @@ title: MeshService
 {% warning %}
 This resource is experimental.
 In Kubernetes, to take advantage of the automatic generation described below,
-you need to set both [control plane configuration variables](/docs/{{ page.version }}/reference/kuma-cp/) `KUMA_EXPERIMENTAL_SKIP_PERSISTED_VIPS`
+you need to set both [control plane configuration variables](/docs/{{ page.release }}/reference/kuma-cp/) `KUMA_EXPERIMENTAL_SKIP_PERSISTED_VIPS`
 and `KUMA_EXPERIMENTAL_GENERATE_MESH_SERVICES` to `"true"` on the zone control
 planes that use `MeshServices`.
 {% endwarning %}
@@ -139,7 +139,7 @@ for `test-server` from these two inbounds.
 Because of various shortcomings, the existing `VirtualOutbound` does not work
 with `MeshService` and is planned for phasing out. A [new `HostnameGenerator`
 resource was introduced to manage hostnames for
-`MeshServices`](/docs/{{ page.version }}/networking/hostnamegenerator/).
+`MeshServices`](/docs/{{ page.release }}/networking/hostnamegenerator/).
 
 ## Ports
 
@@ -163,13 +163,13 @@ The main difference at the data plane level between `kuma.io/service` and
 It may be the local zone or it may be a remote zone.
 
 With `kuma.io/service`, this behavior depends on
-[`localityAwareLoadBalancing`](/docs/{{page.version}}/policies/locality-aware).
+[`localityAwareLoadBalancing`](/docs/{{ page.release }}/policies/locality-aware).
 If this _is not_ enabled, traffic is load balanced equally between zones.
 If it _is_ enabled, destinations in the local zone are prioritized.
 
 So when moving to `MeshService`, the choice needs to be made between:
 
-* keeping this behavior, which means moving to [`MeshMultiZoneService`](/docs/{{page.version}}/networking/meshmultizoneservice/).
+* keeping this behavior, which means moving to [`MeshMultiZoneService`](/docs/{{ page.release }}/networking/meshmultizoneservice/).
 * using `MeshService` instead, either from the local zone or one synced from
   a remote zone.
 
@@ -297,7 +297,7 @@ described below.
 This enables automatic generation of the Kuma `MeshServices` resource but
 does not include the corresponding resources for every data plane proxy.
 The intention is for users to explicitly and gradually introduce
-relevant `MeshServices` via [`reachableBackends`](/docs/{{ page.version }}/networking/transparent-proxy/reachable-backends/).
+relevant `MeshServices` via [`reachableBackends`](/docs/{{ page.release }}/production/dp-config/transparent-proxying#reachable-backends).
 
 #### `Exclusive`
 

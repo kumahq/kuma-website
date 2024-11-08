@@ -7,7 +7,7 @@ This policy uses new policy matching algorithm.
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to configure traffic to external destinations that is allowed to pass outside the mesh.
-When using this policy, the [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic/#outgoing) flag is ignored.
+When using this policy, the [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic/#outgoing) flag is ignored.
 
 ## TargetRef support matrix
 
@@ -19,12 +19,12 @@ When using this policy, the [passthrough mode](/docs/{{ page.version }}/networki
 {% endtab %}
 {% endtabs %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 
 {% warning %}
-This policy doesn't work with sidecars without [transparent proxy](/docs/{{ page.version }}/{% if_version lte:2.8.x inline:true %}networking/transparent-proxying/#what-is-transparent-proxying{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %}).
+This policy doesn't work with sidecars without [transparent proxy](/docs/{{ page.release }}/{% if_version lte:2.8.x %}networking/transparent-proxying/#what-is-transparent-proxying{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}).
 {% endwarning %}
 
 The following describes the default configuration settings of the `MeshPassthrough` policy:
@@ -84,7 +84,7 @@ If you rely on tags in the top-level `targetRef` you might consider securing the
 ### Limitations
 
 * Due to the nature of some traffic, it is not possible to combine certain protocols on the same port. You can create a `MeshPassthrough` policy that handles `tcp`, `tls`, and one of `http`, `http2`, or `grpc` traffic on the same port. Layer 7 protocols cannot be distinguished, which could introduce unexpected behavior.
-* It is currently not possible to route passthrough traffic through the [zone egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/#zone-egress). However, this feature will be implemented in the future.
+* It is currently not possible to route passthrough traffic through the [zone egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/#zone-egress). However, this feature will be implemented in the future.
 * Gateways are currently not supported.
 
 ## Examples

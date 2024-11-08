@@ -305,7 +305,7 @@ Specifies the list of names of `ContainerPatch` resources to be applied on
 `kuma-init` and `kuma-sidecar` containers.
 
 More information about how to use `ContainerPatch` you can find at
-{% if_version lte:2.1.x %}[Custom Container Configuration](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}{% if_version gte:2.2.x %}[Custom Container Configuration](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}.
+{% if_version lte:2.1.x %}[Custom Container Configuration](/docs/{{ page.release }}/explore/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}{% if_version gte:2.2.x %}[Custom Container Configuration](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}.
 
 **Example**
 
@@ -547,7 +547,7 @@ spec:
 
 ### `kuma.io/transparent-proxying-reachable-services`
 
-{% capture reachable-services-docs-link %}/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying#{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/#{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/{% endif_version %}reachable-services{% endcapture %}
+{% capture reachable-services-docs-link %}/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying#{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/#{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/{% endif_version %}reachable-services{% endcapture %}
 
 A comma separated list of `kuma.io/service` to indicate which services this communicates with.
 For more details see the [reachable services docs]({{ reachable-services-docs-link }}).
@@ -577,9 +577,7 @@ spec:
 
 When transparent proxy is installed with eBPF mode, you can disable it for particular workloads if necessary.
 
-<!-- vale Vale.Terms = NO -->
-{% capture tproxy-ebpf-link %}/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x inline:true %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x inline:true %}networking/transparent-proxy/introduction/{% endif_version %}#transparent-proxy-with-ebpf-experimental{% endcapture %}
-<!-- vale Vale.Terms = YES -->
+{% capture tproxy-ebpf-link %}/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}#transparent-proxy-with-ebpf-experimental{% endcapture %}
 
 For more details see the [transparent proxying with eBPF docs]({{ tproxy-ebpf-link }}).
 
@@ -713,13 +711,13 @@ spec:
 ### `kuma.io/wait-for-dataplane-ready`
 
 Define if you want the kuma-sidecar container to wait for the dataplane to be ready before starting app container.
-Read relevant [Data plane on Kubernetes](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#waiting-for-the-dataplane-to-be-ready) section for more information.
+Read relevant [Data plane on Kubernetes](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#waiting-for-the-dataplane-to-be-ready) section for more information.
 
 {% endif_version %}
 
 ### `prometheus.metrics.kuma.io/aggregate-<name>-enabled`
 
-Define if `kuma-dp` should scrape metrics from the application that has been defined in the `Mesh` configuration. Default value: `true`. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)
+Define if `kuma-dp` should scrape metrics from the application that has been defined in the `Mesh` configuration. Default value: `true`. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
 
 ```yaml
 apiVersion: v1
@@ -733,7 +731,7 @@ spec: ...
 
 ### `prometheus.metrics.kuma.io/aggregate-<name>-path`
 
-Define path, which `kuma-dp` sidecar has to scrape for prometheus metrics. Default value: `/metrics`. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)
+Define path, which `kuma-dp` sidecar has to scrape for prometheus metrics. Default value: `/metrics`. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
 
 **Example**
 
@@ -749,7 +747,7 @@ spec: ...
 
 ### `prometheus.metrics.kuma.io/aggregate-<name>-port`
 
-Define port, which `kuma-dp` sidecar has to scrape for prometheus metrics. For more details see the [applications metrics docs](/docs/{{ page.version }}/policies/traffic-metrics#expose-metrics-from-applications)
+Define port, which `kuma-dp` sidecar has to scrape for prometheus metrics. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
 
 **Example**
 
@@ -765,7 +763,7 @@ spec: ...
 
 ### `kuma.io/transparent-proxying-inbound-v6-port`
 
-Define the port to use for {% if_version lte:2.1.x %}[IPv6](/docs/{{ page.version }}/networking/ipv6){% endif_version %}{% if_version gte:2.2.x %}[IPv6](/docs/{{ page.version }}/production/dp-config/ipv6/){% endif_version %} traffic. To turn off IPv6 set this to 0.
+Define the port to use for {% if_version lte:2.1.x %}[IPv6](/docs/{{ page.release }}/networking/ipv6){% endif_version %}{% if_version gte:2.2.x %}[IPv6](/docs/{{ page.release }}/production/dp-config/ipv6/){% endif_version %} traffic. To turn off IPv6 set this to 0.
 
 **Example**
 
@@ -782,7 +780,7 @@ spec: ...
 ### `kuma.io/sidecar-drain-time`
 
 Allows specifying drain time of {{site.mesh_product_name}} DP sidecar. The default value is 30s.
-The default could be changed using [the control-plane configuration](/docs/{{ page.version }}/reference/kuma-cp) or `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_DRAIN_TIME` env.
+The default could be changed using [the control-plane configuration](/docs/{{ page.release }}/reference/kuma-cp) or `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_DRAIN_TIME` env.
 
 **Example**
 

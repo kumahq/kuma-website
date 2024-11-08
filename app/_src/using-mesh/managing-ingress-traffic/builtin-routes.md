@@ -3,15 +3,15 @@ title: Configuring built-in routes
 ---
 
 For configuring how traffic is forwarded from a listener to your mesh services,
-use [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and
-[`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute).
+use [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute) and
+[`MeshTCPRoute`](/docs/{{ page.release }}/policies/meshtcproute).
 
 Using these route resources with a gateway requires [using `spec.targetRef` to target
-gateway data plane proxies](/docs/{{ page.version }}/policies/introduction).
-Otherwise, [filtering and routing traffic](/docs/{{ page.version }}/policies/meshhttproute) is
+gateway data plane proxies](/docs/{{ page.release }}/policies/introduction).
+Otherwise, [filtering and routing traffic](/docs/{{ page.release }}/policies/meshhttproute) is
 configured as outlined in the docs.
 
-Note that when using [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) with builtin gateways, `spec.to[].targetRef` is restricted to `kind: Mesh`.
+Note that when using [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.release }}/policies/meshtcproute) with builtin gateways, `spec.to[].targetRef` is restricted to `kind: Mesh`.
 
 ### `MeshHTTPRoute`
 
@@ -104,7 +104,7 @@ conf:
       hostname: wild
 ```
 
-along with the following [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) rule, the only one present in the mesh:
+along with the following [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute) rule, the only one present in the mesh:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml mesh-http-route-example-2 %}
@@ -171,7 +171,7 @@ will return a 404 because there are no routes attached for that listener.
 
 #### `MeshHTTPRoute` hostnames
 
-[`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) rules can themselves specify an additional list of hostnames to further
+[`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute) rules can themselves specify an additional list of hostnames to further
 limit the traffic handled by those rules. Consider the following example:
 
 {% if_version lte:2.8.x %}
@@ -260,7 +260,7 @@ other traffic to `v1`.
 
 ### `MeshTCPRoute`
 
-If your traffic isn't HTTP, you can use [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) to balance traffic
+If your traffic isn't HTTP, you can use [`MeshTCPRoute`](/docs/{{ page.release }}/policies/meshtcproute) to balance traffic
 between services.
 
 {% if_version lte:2.8.x %}

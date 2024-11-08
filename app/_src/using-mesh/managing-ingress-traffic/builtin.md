@@ -2,14 +2,14 @@
 title: Configure a built-in gateway
 ---
 
-The built-in gateway is configured using a combination of [`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners), [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute),
+The built-in gateway is configured using a combination of [`MeshGateway`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners), [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.release }}/policies/meshtcproute),
 and served by Envoy instances represented by `Dataplanes` configured as built-in
 gateways. {{ site.mesh_product_name }} policies are then used to configure
 built-in gateways.
 
 {% tip %}
 **New to {{site.mesh_product_name}}?**
-Checkout our [guide](/docs/{{ page.version }}/guides/gateway-builtin/) to get quickly started with builtin gateways!
+Checkout our [guide](/docs/{{ page.release }}/guides/gateway-builtin/) to get quickly started with builtin gateways!
 {% endtip %}
 
 ### Deploying gateways
@@ -21,7 +21,7 @@ you're running in Kubernetes or Universal mode.
 {% tab setup Kubernetes %}
 
 For managing gateway instances on Kubernetes, {{site.mesh_product_name}} provides a
-[`MeshGatewayInstance`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-k8s) CRD.
+[`MeshGatewayInstance`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-k8s) CRD.
 
 {% tip %}
 This resource launches `kuma-dp` in your cluster.
@@ -34,7 +34,7 @@ This resource manages a Kubernetes `Deployment` and `Service`
 suitable for providing service capacity for the `MeshGateway`{% if_version lte:2.6.x inline:true %} with the matching `kuma.io/service` tag{% endif_version %}.
 
 {% if_version lte:2.6.x %}
-The `kuma.io/service` value you select will be used in `MeshGateway` to [configure listeners](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners).
+The `kuma.io/service` value you select will be used in `MeshGateway` to [configure listeners](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners).
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -75,7 +75,7 @@ spec:
 ```
 {% endif_version %}
 
-See [the `MeshGatewayInstance` docs](/docs/{{ page.version }}//using-mesh/managing-ingress-traffic/builtin-k8s) for more options.
+See [the `MeshGatewayInstance` docs](/docs/{{ page.release }}//using-mesh/managing-ingress-traffic/builtin-k8s) for more options.
 {% endtab %}
 {% tab setup Universal %}
 
@@ -311,9 +311,9 @@ Make sure `containers[0].resources` is appropriate for your use case.
 
 ### Multi-zone
 
-The {{site.mesh_product_name}} Gateway resource types, `MeshGateway`, [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute), are synced across zones by the {{site.mesh_product_name}} control plane.
+The {{site.mesh_product_name}} Gateway resource types, `MeshGateway`, [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.release }}/policies/meshtcproute), are synced across zones by the {{site.mesh_product_name}} control plane.
 If you have a multi-zone deployment, follow existing {{site.mesh_product_name}} practice and create any {{site.mesh_product_name}} Gateway resources in the global control plane.
 Once these resources exist, you can provision serving capacity in the zones where it is needed by deploying built-in gateway `Dataplanes` (in Universal zones) or `MeshGatewayInstances` (Kubernetes zones).
 
-See the {% if_version lte:2.1.x %}[multi-zone docs](/docs/{{ page.version }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone docs](/docs/{{ page.version }}/production/deployment/multi-zone/){% endif_version %} for a
+See the {% if_version lte:2.1.x %}[multi-zone docs](/docs/{{ page.release }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone docs](/docs/{{ page.release }}/production/deployment/multi-zone/){% endif_version %} for a
 refresher.

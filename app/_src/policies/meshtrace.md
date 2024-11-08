@@ -4,13 +4,13 @@ title: MeshTrace
 
 {% warning %}
 This policy uses new policy matching algorithm.
-Do **not** combine with [TrafficTrace](/docs/{{ page.version }}/policies/traffic-trace).
+Do **not** combine with [TrafficTrace](/docs/{{ page.release }}/policies/traffic-trace).
 {% endwarning %}
 
 This policy enables publishing traces to a third party tracing solution.
 
 Tracing is supported over HTTP, HTTP2, and gRPC protocols.
-You must [explicitly specify the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) for each service and data plane proxy you want to enable tracing for.
+You must [explicitly specify the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) for each service and data plane proxy you want to enable tracing for.
 
 {{site.mesh_product_name}} currently supports the following trace exposition formats:
 
@@ -81,7 +81,7 @@ For HTTP you can also manually forward the following headers:
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 
@@ -326,7 +326,7 @@ spec:
 ### Datadog
 
 {% tip %}
-This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](/docs/{{ page.version }}/explore/observability#configuring-datadog).
+This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](/docs/{{ page.release }}/explore/observability#configuring-datadog).
 {% endtip %}
 
 {% if_version eq:2.2.x %}

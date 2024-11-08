@@ -177,13 +177,6 @@ module Jekyll
             @callbacks << [condition, callback]
           end
 
-          def version_supported(version)
-            return true if version == "dev"
-
-            current_version = Gem::Version.new(version.dup.sub "x", "0")
-            current_version > TARGET_VERSION || current_version == TARGET_VERSION
-          end
-
           def deep_copy(original)
             Marshal.load(Marshal.dump(original))
           end
@@ -208,12 +201,12 @@ module Jekyll
             return "" if content == ""
             has_raw = @body.nodelist.first { |x| x.has?("tag_name") and x.tag_name == "raw" }
 
-            version = context.registers[:page]['version']
+            release = context.registers[:page]['release']
             # remove ```yaml header and ``` footer and read each document one by one
             content = content.gsub(/`{3}yaml\n/, '').gsub(/`{3}/, '')
             site_data = context.registers[:site].config
 
-            use_meshservice = @params["use_meshservice"] == "true" && version_supported(version)
+            use_meshservice = @params["use_meshservice"] == "true" && Gem::Version.new(release.value.dup.sub "x", "0") >= TARGET_VERSION
 
             namespace = @params["namespace"] || site_data['mesh_namespace']
             styles = [
@@ -238,6 +231,11 @@ module Jekyll
               transformed = "{% raw %}\n#{transformed}{% endraw %}\n" if has_raw
               transformed
             end
+            version_path = release.value
+            version_path = 'dev' if release.label == 'dev'
+            edition = context.registers[:page]['edition']
+            docs_path = "/#{edition}/#{version_path}"
+            docs_path = "/docs/#{version_path}" if edition == 'kuma'
 
             # Conditionally render tabs based on use_meshservice
             htmlContent = "
@@ -247,14 +245,14 @@ module Jekyll
               htmlContent += "
 {% tab #{@tabs_name} Kubernetes %}
 <div class=\"meshservice\">
- <label> <input type=\"checkbox\"> I am using <a href=\"/docs/" + version + "/networking/meshservice/\">MeshService</a> </label>
+ <label> <input type=\"checkbox\"> I am using <a href=\"#{docs_path}/networking/meshservice/\">MeshService</a> </label>
 </div>
 #{contents[:kube_legacy]}
 #{contents[:kube]}
 {% endtab %}
 {% tab #{@tabs_name} Universal %}
 <div class=\"meshservice\">
- <label> <input type=\"checkbox\"> I am using <a href=\"/docs/" + version + "/networking/meshservice/\">MeshService</a> </label>
+ <label> <input type=\"checkbox\"> I am using <a href=\"#{docs_path}/networking/meshservice/\">MeshService</a> </label>
 </div>
 #{contents[:uni_legacy]}
 #{contents[:uni]}

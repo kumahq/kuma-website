@@ -30,5 +30,5 @@ kumactl version [flags]
 
 ### SEE ALSO
 
-* [kumactl](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl)	 - Management tool for Kuma
+* [kumactl](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl)	 - Management tool for Kuma
 

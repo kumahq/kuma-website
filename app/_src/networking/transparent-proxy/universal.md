@@ -3,7 +3,7 @@ title: Transparent Proxy on Universal
 content_type: how-to
 ---
 
-{% assign docs = "/docs/" | append: page.version %}
+{% assign docs = "/docs/" | append: page.release %}
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 

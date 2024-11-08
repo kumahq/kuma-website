@@ -3,7 +3,7 @@ title: Technical Overview
 content_type: explanation
 ---
 
-{% assign docs = "/docs/" | append: page.version %}
+{% assign docs = "/docs/" | append: page.release %}
 {% assign Kuma = site.mesh_product_name %}
 
 ## What is transparent proxying?

@@ -3,7 +3,7 @@ title: Transparent Proxy on Kubernetes
 content_type: how-to
 ---
 
-{% assign docs = "/docs/" | append: page.version %}
+{% assign docs = "/docs/" | append: page.release %}
 {% assign Kuma = site.mesh_product_name %}
 {% assign kuma-system = site.mesh_namespace %}
 {% assign controlPlane = site.set_flag_values_prefix | append: "controlPlane" %}

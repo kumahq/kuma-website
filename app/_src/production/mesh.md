@@ -9,8 +9,8 @@ Typically, we would want to create a `Mesh` per line of business, per team, per 
 
 `Mesh` is the parent resource of every other resource in {{site.mesh_product_name}}, including: 
 
-* {% if_version lte:2.1.x %}[Data plane proxies](/docs/{{ page.version }}/explore/dpp){% endif_version %}{% if_version gte:2.2.x %}[Data plane proxies](/docs/{{ page.version }}/production/dp-config/dpp/){% endif_version %}
-* [Policies](/docs/{{ page.version }}/policies)
+* {% if_version lte:2.1.x %}[Data plane proxies](/docs/{{ page.release }}/explore/dpp){% endif_version %}{% if_version gte:2.2.x %}[Data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/){% endif_version %}
+* [Policies](/docs/{{ page.release }}/policies)
 
 In order to use {{site.mesh_product_name}} at least one `Mesh` must exist, and there is no limit to the number of Meshes that can be created. When a data plane proxy connects to the control plane (`kuma-cp`) it specifies to what `Mesh` resource it belongs: a data plane proxy can only belong to one `Mesh` at a time.
 
@@ -20,22 +20,22 @@ When starting a new {{site.mesh_product_name}} cluster from scratch a `default` 
 
 Besides the ability of being able to create virtual service mesh, a `Mesh` resource will also be used for:
 
-* [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/), to secure and encrypt our service traffic and assign an identity to the data plane proxies within the Mesh.
+* [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/), to secure and encrypt our service traffic and assign an identity to the data plane proxies within the Mesh.
 {% if_version lte:2.5.x %}
-* [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics/)
-* [Traffic Trace](/docs/{{ page.version }}/policies/traffic-trace/)
+* [Traffic Metrics](/docs/{{ page.release }}/policies/traffic-metrics/)
+* [Traffic Trace](/docs/{{ page.release }}/policies/traffic-trace/)
 {% endif_version %}
-* {% if_version lte:2.1.x %}[Zone Egress](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %}, to setup if `ZoneEgress` should be used for cross zone and external service communication.
-* [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic), to setup if `passthrough` mode should be used for the non-mesh traffic.
+* {% if_version lte:2.1.x %}[Zone Egress](/docs/{{ page.release }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/){% endif_version %}, to setup if `ZoneEgress` should be used for cross zone and external service communication.
+* [Non-mesh traffic](/docs/{{ page.release }}/networking/non-mesh-traffic), to setup if `passthrough` mode should be used for the non-mesh traffic.
 
-To support cross-mesh communication an intermediate API Gateway must be used. {{site.mesh_product_name}} checkout {% if_version gte:2.6.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/overview){% endif_version %}{% if_version lte:2.5.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/explore/gateway){% endif_version %} to set this up.
+To support cross-mesh communication an intermediate API Gateway must be used. {{site.mesh_product_name}} checkout {% if_version gte:2.6.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/overview){% endif_version %}{% if_version lte:2.5.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/explore/gateway){% endif_version %} to set this up.
 
 {% if_version gte:2.6.x %}
 {% tip %}
 Previously, observability and locality awareness were configured within the `Mesh` object.
 
 However, for enhanced flexibility and granular control, these configurations have been extracted into separate policies: 
-[`MeshAccessLog`](/docs/{{ page.version }}/policies/meshaccesslog), [`MeshTrace`](/docs/{{ page.version }}/policies/meshtrace) and [`MeshMetric`](/docs/{{ page.version }}/policies/meshmetric) for observability, and [`MeshLoadBalancingStrategy`](/docs/{{ page.version }}/policies/meshloadbalancingstrategy) for locality awareness.
+[`MeshAccessLog`](/docs/{{ page.release }}/policies/meshaccesslog), [`MeshTrace`](/docs/{{ page.release }}/policies/meshtrace) and [`MeshMetric`](/docs/{{ page.release }}/policies/meshmetric) for observability, and [`MeshLoadBalancingStrategy`](/docs/{{ page.release }}/policies/meshloadbalancingstrategy) for locality awareness.
 
 This separation allows for more fine-grained adjustments of each aspect, ensuring that observability and locality awareness are tailored to specific requirements.
 {% endtip %}
@@ -60,7 +60,7 @@ We will apply the configuration with `kubectl apply -f [..]`.
 type: Mesh
 name: default
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -113,7 +113,7 @@ kuma-dp run \
 {% endtab %}
 {% endtabs %}
 
-You can control which data plane proxies are allowed to join the mesh using [mesh constraints]{% if_version gte:2.2.x inline:true %}(/docs/{{ page.version }}/production/secure-deployment/dp-membership/){% endif_version %}{% if_version lte:2.1.x inline:true %}(/docs/{{ page.version }}/security/dp-membership/){% endif_version %}.
+You can control which data plane proxies are allowed to join the mesh using [mesh constraints]{% if_version gte:2.2.x inline:true %}(/docs/{{ page.release }}/production/secure-deployment/dp-membership/){% endif_version %}{% if_version lte:2.1.x inline:true %}(/docs/{{ page.release }}/security/dp-membership/){% endif_version %}.
 
 ### Policies
 

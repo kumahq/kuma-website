@@ -16,19 +16,19 @@ Transparent proxying helps with a smoother rollout of a Service Mesh to a curren
 On **Kubernetes** `kuma-dp` leverages transparent proxying automatically via `iptables` installed with `kuma-init` container or CNI.
 All incoming and outgoing traffic is automatically intercepted by `kuma-dp` without having to change the application code.
 
-{{site.mesh_product_name}} integrates with a service naming provided by Kubernetes DNS as well as providing its own [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns) for multi-zone service naming.
+{{site.mesh_product_name}} integrates with a service naming provided by Kubernetes DNS as well as providing its own [{{site.mesh_product_name}} DNS](/docs/{{ page.release }}/networking/dns) for multi-zone service naming.
 
 ## Universal
 
-On **Universal** `kuma-dp` leverages the {% if_version lte:2.1.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/explore/dpp-on-universal/){% endif_version %}{%if_version gte:2.2.x inline:true %}[data plane proxy specification](/docs/{{ page.version }}/production/dp-config/dpp-on-universal#dataplane-configuration){% endif_version %} associated to it for receiving incoming requests on a pre-defined port.
+On **Universal** `kuma-dp` leverages the {% if_version lte:2.1.x inline:true %}[data plane proxy specification](/docs/{{ page.release }}/explore/dpp-on-universal/){% endif_version %}{%if_version gte:2.2.x inline:true %}[data plane proxy specification](/docs/{{ page.release }}/production/dp-config/dpp-on-universal#dataplane-configuration){% endif_version %} associated to it for receiving incoming requests on a pre-defined port.
 
 In order to enable transparent-proxy the Zone Control Plane must exist on a seperate server.  Running the Zone Control Plane with Postgres does not function with transparent-proxy on the same machine.
 
 There are several advantages for using transparent proxying in universal mode:
 
  * Simpler Dataplane resource, as the `outbound` section becomes obsolete and can be skipped.
- * Universal service naming with `.mesh` [DNS domain](/docs/{{ page.version }}/networking/dns) instead of explicit outbound like `https://localhost:10001`.
- * Support for hostnames of your choice using [VirtualOutbounds](/docs/{{ page.version }}/policies/virtual-outbound) that lets you preserve existing service naming.
+ * Universal service naming with `.mesh` [DNS domain](/docs/{{ page.release }}/networking/dns) instead of explicit outbound like `https://localhost:10001`.
+ * Support for hostnames of your choice using [VirtualOutbounds](/docs/{{ page.release }}/policies/virtual-outbound) that lets you preserve existing service naming.
  * Better service manageability (security, tracing).
 
 ### Setting up the service host
@@ -39,7 +39,7 @@ Prerequisites:
 - `coredns` must be in the PATH so that `kuma-dp` can access it.
   - You can also set the location with the `--dns-coredns-path` flag to `kuma-dp`.
 
-{{site.mesh_product_name}} comes with [`kumactl` executable](/docs/{{ page.version }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
+{{site.mesh_product_name}} comes with [`kumactl` executable](/docs/{{ page.release }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
 The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
 
 {% if_version lte:2.4.x %}
@@ -130,7 +130,7 @@ runuser -u kuma-dp -- \
 ```
 
 You can now reach the service on the same IP and port as before installing transparent proxy, but now the traffic goes through Envoy.
-At the same time, you can now connect to services using [{{site.mesh_product_name}} DNS](/docs/{{ page.version }}/networking/dns).
+At the same time, you can now connect to services using [{{site.mesh_product_name}} DNS](/docs/{{ page.release }}/networking/dns).
 
 ### firewalld support
 
@@ -189,7 +189,7 @@ spec:
         ...
 ```  
 
-You can also control this value on whole {{site.mesh_product_name}} deployment with the following {{site.mesh_product_name}} CP [configuration](/docs/{{ page.version }}/documentation/configuration)
+You can also control this value on whole {{site.mesh_product_name}} deployment with the following {{site.mesh_product_name}} CP [configuration](/docs/{{ page.release }}/documentation/configuration)
 
 ```sh
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
@@ -255,6 +255,203 @@ networking:
 {% endtab %}
 {% endtabs %}
 
+{% if_version gte:2.9.x %}
+
+### Reachable Backends
+
+{% warning %}
+This works only when [MeshService](/docs/{{ page.release }}/networking/meshservice) is enabled.
+{% endwarning %}
+
+Reachable Backends provides similar functionality to [reachable services](/docs/{{ page.release }}/production/dp-config/transparent-proxying#reachable-services), but it applies to [MeshService](/docs/{{ page.release }}/networking/meshservice), [MeshExternalService](/docs/{{ page.release }}/networking/meshexternalservice), and [MeshMultiZoneService](/docs/{{ page.release }}/networking/meshmultizoneservice).
+
+By default, every data plane proxy in the mesh tracks every other data plane proxy. Configuring reachableBackends can improve performance and reduce resource utilization.
+
+Unlike reachable services, the model for providing data in Reachable Backends is more structured.
+
+#### Model
+
+- **refs**: A list of all resources your application wants to track and communicate with.
+  - **kind**: The type of resource. Possible values include:
+    - [**MeshService**](/docs/{{ page.release }}/networking/meshservice)
+    - [**MeshExternalService**](/docs/{{ page.release }}/networking/meshexternalservice)
+    - **MeshMultiZoneService**
+  - **name**: The name of the resource.
+  - **namespace**: (Kubernetes only) The namespace where the resource is located. When this is defined, the name is required. Only on kubernetes.
+  - **labels**: A list of labels to match on the resources (either `labels` or `name` can be defined).
+  - **port**: (Optional) The port of the service you want to communicate with. Works with `MeshService` and `MeshMultiZoneService`
+
+{% tabs reachable-backends-model useUrlFragment=false %}
+{% tab reachable-backends-model Kubernetes %}
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+...
+spec:
+  ...
+  template:
+    metadata:
+        kuma.io/reachable-backends: |
+          refs:
+          - kind: MeshService
+            name: redis
+            namespace: kuma-demo
+            port: 8080
+          - kind: MeshMulitZoneService
+            labels:
+              kuma.io/display-name: test-server
+          - kind: MeshExternalService
+            name: mes-http
+            namespace: kuma-system
+```
+{% endtab %}
+{% tab reachable-backends-model Universal %}
+```yaml
+type: Dataplane
+mesh: default
+name: {% raw %}{{ name }}{% endraw %}
+networking:
+  ...
+  transparentProxying:
+    redirectPortInbound: 15006
+    redirectPortOutbound: 15001
+    reachableBackends:
+      refs:
+      - kind: MeshService
+        name: redis
+      - kind: MeshMulitZoneService
+        labels:
+          kuma.io/display-name: test-server
+      - kind: MeshExternalService
+        name: mes-http
+```
+{% endtab %}
+{% endtabs %}
+
+#### Examples
+
+##### `demo-app` communicates only with `redis` on port 6379
+
+{% tabs reachable-backends useUrlFragment=false %}
+{% tab reachable-backends Kubernetes %}
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: kuma-demo
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        kuma.io/reachable-backends: |
+          refs:
+          - kind: MeshService
+            name: redis
+            namespace: kuma-demo
+            port: 6379
+    spec:
+      containers:
+        ...
+```
+{% endtab %}
+{% tab reachable-backends Universal %}
+```yaml
+type: Dataplane
+mesh: default
+name: {% raw %}{{ name }}{% endraw %}
+networking:
+  address: {% raw %}{{ address }}{% endraw %}
+  inbound:
+  - port: {% raw %}{{ port }}{% endraw %}
+    tags:
+      kuma.io/service: demo-app
+  transparentProxying:
+    redirectPortInbound: 15006
+    redirectPortOutbound: 15001
+    reachableBackends:
+      refs:
+      - kind: MeshService
+        name: redis
+        port: 6379
+```
+{% endtab %}
+{% endtabs %}
+
+##### `demo-app` doesn't need to communicate with any service
+
+{% tabs reachable-backends-no-services useUrlFragment=false %}
+{% tab reachable-backends-no-services Kubernetes %}
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: kuma-demo
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        kuma.io/reachable-backends: ""
+    spec:
+      containers:
+        ...
+```
+{% endtab %}
+{% tab reachable-backends-no-services Universal %}
+```yaml
+type: Dataplane
+mesh: default
+name: {% raw %}{{ name }}{% endraw %}
+networking:
+  address: {% raw %}{{ address }}{% endraw %}
+  inbound:
+  - port: {% raw %}{{ port }}{% endraw %}
+    tags:
+      kuma.io/service: demo-app
+  transparentProxying:
+    redirectPortInbound: 15006
+    redirectPortOutbound: 15001
+    reachableBackends: {}
+```
+{% endtab %}
+{% endtabs %}
+
+##### `demo-app` wants to communicate with all MeshServices in `kuma-demo` namespace
+
+{% tabs reachable-backends-in-namespace useUrlFragment=false %}
+{% tab reachable-backends-in-namespace Kubernetes %}
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: kuma-demo
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        kuma.io/reachable-backends: |
+          refs:
+          - kind: MeshService
+            labels:
+              k8s.kuma.io/namespace: kuma-demo
+    spec:
+      containers:
+        ...
+```
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
 ### Transparent Proxy with eBPF (experimental)
 
 Starting from {{site.mesh_product_name}} 2.0 you can set up transparent proxy to use eBPF instead of iptables.

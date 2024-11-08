@@ -3,39 +3,37 @@ title: Performance fine-tuning
 content_type: reference
 ---
 
-<!-- vale Google.Headings = NO -->
-## Reachable Services
-<!-- vale Google.Headings = YES -->
+## Reachable services
 
 By default, with the transparent proxy enabled, each data plane proxy follows all other proxies in the mesh. In large meshes, a data plane proxy usually connects to only a few services. Defining this list of reachable services can significantly improve {{site.mesh_product_name}}'s performance. {% if_version lte:2.8.x %}Benefits include:
 * The control plane generates a much smaller XDS configuration (fewer clusters/listeners), saving CPU and memory.
 * Smaller configurations reduce network bandwidth.
 * Envoy manages fewer clusters/listeners, reducing statistics and memory usage.
 ^
-See [transparent proxying](/docs/{{ page.version }}/{% if_version lte:2.1.x inline:true %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x inline:true %}production/dp-config/transparent-proxying/#reachable-services{% endif_version %}) for configuration details.{% endif_version %}
+See [transparent proxying](/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x %}production/dp-config/transparent-proxying/#reachable-services{% endif_version %}) for configuration details.{% endif_version %}
 
 {% if_version gte:2.9.x %}
-For more details, including how to configure reachable services, refer to the [Reachable Services](/docs/{{ page.version }}/networking/transparent-proxy/reachable-services/) documentation.
+For more details, including how to configure reachable services, refer to the [Reachable Services](/docs/{{ page.release }}/networking/transparent-proxy/reachable-services/) documentation.
 {% endif_version %}
 
 {% if_version gte:2.5.x %}
 ## Config trimming by using MeshTrafficPermission
 
 {% warning %}
-1. This feature only works with [MeshTrafficPermission](/docs/{{ page.version }}/policies/meshtrafficpermission),
-   if you're using [TrafficPermission](/docs/{{ page.version }}/policies/traffic-permissions) you need to migrate to MeshTrafficPermission,
+1. This feature only works with [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission),
+   if you're using [TrafficPermission](/docs/{{ page.release }}/policies/traffic-permissions) you need to migrate to MeshTrafficPermission,
    otherwise enabling this feature could stop all traffic flow.
 {% if_version lte:2.5.x %}
-2. Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.version }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.version }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions, or upgrade {{site.mesh_product_name}} to 2.6.x or newer.
+2. Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.release }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions, or upgrade {{site.mesh_product_name}} to 2.6.x or newer.
 {% endif_version %}
    {% endwarning %}
 
 Starting with release 2.5 the problem stated in [reachable services](#reachable-services) section
-can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.version }}/policies/meshtrafficpermission) and [configuring](/docs/{{ page.version }}/documentation/configuration) a **zone** control plane with `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`.
+can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.release }}/policies/meshtrafficpermission) and [configuring](/docs/{{ page.release }}/documentation/configuration) a **zone** control plane with `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`.
 
 Switching on the flag will result in computing a graph of dependencies between the services
 and generating XDS configuration that enables communication **only** with services that are allowed to communicate with each other
-(their [effective](/docs/{{ page.version }}/policies/introduction) action is **not** `deny`).
+(their [effective](/docs/{{ page.release }}/policies/introduction) action is **not** `deny`).
 
 For example: if a service `b` can be called only by service `a`:
 
@@ -70,8 +68,8 @@ Sections below highlight the most important aspects of this feature, if you want
 
 The following kinds affect the graph generation and performance:
 - all levels of `MeshService`
-- [top](/docs/{{ page.version }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
-- [from](/docs/{{ page.version }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with all tags
+- [top](/docs/{{ page.release }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
+- [from](/docs/{{ page.release }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with all tags
 
 If you define a MeshTrafficPermission with other kind, like this one:
 
@@ -179,7 +177,7 @@ This process can be CPU intensive with high number of data planes therefore you 
 You can lower the interval scarifying the latency of the new config propagation to avoid overloading the control plane. For example,
 changing it to 5 seconds means that when you apply a policy (like `MeshTrafficPermission`) or the new data plane of the service is up or down, control plane will generate and send new config within 5 seconds.
 
-For systems with high traffic, keeping old endpoints for such a long time (5 seconds) may not be acceptable. To solve this, you can use passive or active [health checks](/docs/{{ page.version }}/policies/health-check) provided by {{site.mesh_product_name}}.
+For systems with high traffic, keeping old endpoints for such a long time (5 seconds) may not be acceptable. To solve this, you can use passive or active [health checks](/docs/{{ page.release }}/policies/health-check) provided by {{site.mesh_product_name}}.
 
 Additionally, to avoid overloading the underlying storage there is a cache that shares fetch results between concurrent reconciliation processes for multiple dataplanes.
 
