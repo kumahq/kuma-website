@@ -103,7 +103,6 @@
   endOfLifeDate: "2025-10-22"
   branch: release-2.9
 - edition: kuma
-  version: 2.10.0
-  release: 2.10.x
-  label: dev
+  version: preview
+  release: dev
   branch: master
