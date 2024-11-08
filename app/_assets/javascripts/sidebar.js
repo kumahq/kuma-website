@@ -52,29 +52,39 @@ export default class Sidebar {
     items.classList.toggle('hidden', hide);
   }
 
+  getActiveLink(includeHash = false) {
+    const pathname = window.location.pathname;
+    const path = includeHash ? `${pathname}${window.location.hash}` : pathname;
+
+    let activeLink = this.elem.querySelector(`a[href='${path}']`);
+
+    if (!activeLink && path.endsWith('/')) {
+      const pathWithoutSlash = path.slice(0, -1);
+      activeLink = this.elem.querySelector(`a[href='${pathWithoutSlash}']`);
+    }
+
+    return activeLink;
+  }
+
   expandActiveGroup() {
-    const currentPath = window.location.pathname;
-    const activeLink = this.elem.querySelector(`a[href^='${currentPath}']`);
+    const activeLink = this.getActiveLink();
 
     if (activeLink) {
-      let currentGroup = activeLink.closest('.sidebar-group');
+      let group = activeLink.closest('.sidebar-group');
 
-      // Traverse up and expand each nested group until reaching the top level
-      while (currentGroup) {
-        this.toggleGroup(currentGroup, false);
-        currentGroup = currentGroup.parentNode.closest('.sidebar-group');
+      while (group) {
+        this.toggleGroup(group, false);
+        group = group.parentElement.closest('.sidebar-group');
       }
 
-      this.elem.querySelector('.sidebar-links')?.scroll({ top: activeLink.offsetTop, behavior: 'smooth' });
+      this.elem.querySelector('.sidebar-links')?.scroll({
+        top: activeLink.offsetTop,
+        behavior: 'smooth'
+      });
     }
   }
 
   setActiveLink() {
-    const currentPath = `${window.location.pathname}${window.location.hash || ''}`;
-    const activeLink = this.elem.querySelector(`a[href='${currentPath}']`);
-
-    if (activeLink) {
-      activeLink.classList.add('active');
-    }
+    this.getActiveLink(true)?.classList.add('active')
   }
 }
