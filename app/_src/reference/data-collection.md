@@ -14,7 +14,7 @@ You can enable data collection when installing the control plane in Kubernetes, 
     KUMA_REPORTS_ENABLED=true
     ```
 
-1.  Specify the environment variable when you install the control plane. See the [configuration docs](/docs/{{ page.version }}/documentation/configuration/) for details.
+1.  Specify the environment variable when you install the control plane. See the [configuration docs](/docs/{{ page.release }}/documentation/configuration/) for details.
 
 Or you can set the `reports.enabled` field to `true` in the config YAML file.
 

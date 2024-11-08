@@ -14,7 +14,7 @@ controlPlane.mode=standalone
 
 **With zone egress**:
 
-It's possible to run {% if_version lte:2.1.x %}[`ZoneEgress`](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[`ZoneEgress`](/docs/{{ page.version }}/production/cp-deployment/zoneegress/){% endif_version %} for standalone deployment. In order to deploy {{site.mesh_product_name}} with `ZoneEgress` run the install command with an additional parameter.
+It's possible to run {% if_version lte:2.1.x %}[`ZoneEgress`](/docs/{{ page.release }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[`ZoneEgress`](/docs/{{ page.release }}/production/cp-deployment/zoneegress/){% endif_version %} for standalone deployment. In order to deploy {{site.mesh_product_name}} with `ZoneEgress` run the install command with an additional parameter.
 {% cpinstall cpstandalone-egress %}
 controlPlane.mode=standalone
 egress.enabled=true
@@ -41,12 +41,12 @@ kuma-cp run
 
 **With zone egress**:
 
-`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment {% if_version lte:2.1.x %}[follow the instruction](/docs/{{ page.version }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[follow the instruction](/docs/{{ page.version }}/production/cp-deployment/zoneegress){% endif_version %}.
+`ZoneEgress` works for Universal deployment as well. In order to deploy `ZoneEgress` for Universal deployment {% if_version lte:2.1.x %}[follow the instruction](/docs/{{ page.release }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[follow the instruction](/docs/{{ page.release }}/production/cp-deployment/zoneegress){% endif_version %}.
 
 {% endtab %}
 {% endtabs %}
 
-Once {{site.mesh_product_name}} is up and running, data plane proxies can now {% if_version lte:2.1.x %}[connect](/docs/{{ page.version }}/explore/dpp){% endif_version %}{% if_version gte:2.2.x %}[connect](/docs/{{ page.version }}/production/dp-config/dpp/){% endif_version %} directly to it.
+Once {{site.mesh_product_name}} is up and running, data plane proxies can now {% if_version lte:2.1.x %}[connect](/docs/{{ page.release }}/explore/dpp){% endif_version %}{% if_version gte:2.2.x %}[connect](/docs/{{ page.release }}/production/dp-config/dpp/){% endif_version %} directly to it.
 
 {% tip %}
 When the mode is not specified, {{site.mesh_product_name}} will always start in `standalone` mode by default.
@@ -54,7 +54,7 @@ When the mode is not specified, {{site.mesh_product_name}} will always start in 
 
 #### Optional: control plane authentication
 
-Running administrative tasks (like generating a dataplane token) requires {% if_version lte:2.1.x %}[authentication by token](/docs/{{ page.version }}/security/api-server-auth/#admin-user-token){% endif_version %}{% if_version gte:2.2.x %}[authentication by token](/docs/{{ page.version }}/production/secure-deployment/api-server-auth/#admin-user-token){% endif_version %} or a connection via localhost when interacting with the control plane.
+Running administrative tasks (like generating a dataplane token) requires {% if_version lte:2.1.x %}[authentication by token](/docs/{{ page.release }}/security/api-server-auth/#admin-user-token){% endif_version %}{% if_version gte:2.2.x %}[authentication by token](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/#admin-user-token){% endif_version %} or a connection via localhost when interacting with the control plane.
 
 ##### Localhost authentication
 

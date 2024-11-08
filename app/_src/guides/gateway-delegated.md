@@ -5,10 +5,10 @@ title: Use Kong as a delegated Gateway
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use 
 a delegated gateway.
 
-In the [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
+In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
 inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
-In this guide you will add Kong as a [delegated gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/delegated/) in front of the demo-app service and expose it publicly.
+In this guide you will add Kong as a [delegated gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/delegated/) in front of the demo-app service and expose it publicly.
 
 {% mermaid %}
 ---
@@ -25,7 +25,7 @@ flowchart LR
 {% endmermaid %}
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 
 ## Install Kong ingress controller 
 
@@ -43,43 +43,43 @@ One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.co
 ## Enable sidecar injection on the `kong` namespace
 
 The Kong Ingress controller was installed outside the mesh.
-For it to work as a delegated gateway restart it with [sidecar injection enabled](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/):
+For it to work as a delegated gateway restart it with [sidecar injection enabled](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/):
 
 Add the label:
-```shell
+```sh
 kubectl label namespace kong kuma.io/sidecar-injection=enabled
 ```
 
 Restart both the controller and the gateway to leverage sidecar injection:
-```shell
+```sh
 kubectl rollout restart -n kong deployment kong-gateway kong-controller
 ```
 
 Wait until pods are fully rolled out and look at them:
-```shell
+```sh
 kubectl get pods -n kong
 ```
 
 It is now visible that both pods have 2 containers, one for the application and one for the sidecar.
-```shell
+```sh
 NAME                              READY   STATUS    RESTARTS      AGE
 kong-controller-675d48d48-vqllj   2/2     Running   2 (69s ago)   72s
 kong-gateway-674c44c5c4-cvsr8     2/2     Running   0             72s
 ```
 
 Retrieve the public URL for the gateway with:
-```shell
+```sh
 export PROXY_IP=$(kubectl get svc --namespace kong kong-gateway-proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
 ```
 
 Verify the gateway still works:
-```shell
+```sh
 curl -i $PROXY_IP
 ```
 
 which outputs that there are no routes defined:
-```shell
+```sh
 HTTP/1.1 404 Not Found
 Date: Fri, 09 Feb 2024 15:25:45 GMT
 Content-Type: application/json; charset=utf-8
@@ -98,16 +98,15 @@ X-Kong-Request-Id: e7dfe659c9e46639a382f82c16d9582f
 ## Add a route to our `demo-app`
 
 Patch our gateway to allow routes in any namespace:
-```shell
+```sh
 kubectl patch --type=json gateways.gateway.networking.k8s.io kong -p='[{"op":"replace","path": "/spec/listeners/0/allowedRoutes/namespaces/from","value":"All"}]'
 ```
 This is required because in the Kong ingress controller tutorial the gateway is created in the `default` namespace.
 To do this the Gateway API spec requires to explicitly allow routes from different namespaces.
 
 Now add the gateway route in our `kuma-demo` namespace which binds to the gateway `kong` defined in the `default` namespace:
-```shell
-echo "
-apiVersion: gateway.networking.k8s.io/v1
+```sh
+echo "apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: demo-app
@@ -124,8 +123,7 @@ spec:
     backendRefs:
     - name: demo-app
       kind: Service
-      port: 5000 
-" | kubectl apply -f -
+      port: 5000 " | kubectl apply -f -
 ```
 
 {% warning %}
@@ -133,12 +131,12 @@ This route is managed by the Kong ingress controller and not by Kuma.
 {% endwarning %}
 
 Now call the gateway: 
-```shell
+```sh
 curl -i $PROXY_IP/
 ```
 
 Which outputs:
-```shell
+```sh
 HTTP/1.1 403 Forbidden
 Content-Type: text/plain; charset=UTF-8
 Content-Length: 19
@@ -158,11 +156,12 @@ Notice the forbidden error.
 This is because the quickstart has very restrictive permissions as defaults.
 Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
-To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.version }}/policies/meshtrafficpermission):
+
+To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
+
 {% if_version lte:2.8.x %}
-```shell
-echo "
-apiVersion: kuma.io/v1alpha1
+```sh
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
   namespace: {{ site.mesh_namespace }} 
@@ -178,17 +177,15 @@ spec:
           app.kubernetes.io/name: gateway
           k8s.kuma.io/namespace: kong
       default:
-        action: Allow
-" | kubectl apply -f -
+        action: Allow" | kubectl apply -f -
 ```
 {% endif_version %}
 {% if_version gte:2.9.x %}
-```shell
-echo "
-apiVersion: kuma.io/v1alpha1
+```sh
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
-  namespace: {{ site.mesh_namespace }} 
+  namespace: kuma-demo 
   name: demo-app
 spec:
   targetRef:
@@ -202,18 +199,17 @@ spec:
           app.kubernetes.io/name: gateway
           k8s.kuma.io/namespace: kong
       default:
-        action: Allow
-" | kubectl apply -f -
+        action: Allow" | kubectl apply -f -
 ```
 {% endif_version %}
 
 Call the gateway again:
-```shell
+```sh
 curl -i $PROXY_IP/increment -XPOST
 ```
 
 Notice that the call succeeds:
-```shell
+```sh
 
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
@@ -234,5 +230,5 @@ X-Kong-Request-Id: 886cc96df034ea37cfbbb0450a987049
 
 ## Next steps
 
-* Read more about the different types of gateways in the [managing ingress traffic docs](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/overview/).
-* Learn about setting up [observability](/docs/{{ page.version }}/explore/observability/) to get full end to end visibility of your mesh.
+* Read more about the different types of gateways in the [managing ingress traffic docs](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/overview/).
+* Learn about setting up [observability](/docs/{{ page.release }}/explore/observability/) to get full end to end visibility of your mesh.

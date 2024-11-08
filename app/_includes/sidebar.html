@@ -8,13 +8,11 @@
       {% include version_selector.html name="doc-version-selector" %}
     </form>
 
-    <div class="nav-item">
-      <form id="search-form" class="algolia-search-wrapper search-box" role="search">
-        <input id="algolia-search-input" class="search-query" placeholder="Search...">
-      </form>
-    </div>
+    <form id="search-form" class="algolia-search-wrapper search-box" role="search">
+      <input id="algolia-search-input" class="search-query" placeholder="Search...">
+    </form>
   </div>
   {%- endif %}
 
-  {% include sidebar_links.html nav_items=page.nav_items version=page.version depth=0 %}
+  {% include sidebar_links.html nav_items=page.nav_items release=page.release depth=0 %}
 </aside>

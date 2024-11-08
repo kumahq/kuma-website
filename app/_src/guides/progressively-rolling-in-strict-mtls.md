@@ -2,14 +2,14 @@
 title: Progressively rolling in strict mTLS
 ---
 
-The [MeshTLS](/docs/{{ page.version }}/policies/meshtls/) policy allows you to gradually migrate services to mutual TLS without dropping a packet.
+The [MeshTLS](/docs/{{ page.release }}/policies/meshtls/) policy allows you to gradually migrate services to mutual TLS without dropping a packet.
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application.
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application.
 
 ## Basic setup
 
-In order to be able to fully utilize MeshTLS policy you need to enable [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls/) (mTLS), and you can do it with `builtin` CA backend by executing:
+In order to be able to fully utilize MeshTLS policy you need to enable [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) (mTLS), and you can do it with `builtin` CA backend by executing:
 
 ```shell
 echo "apiVersion: kuma.io/v1alpha1
@@ -96,7 +96,7 @@ Open up both apps' GUI and turn on auto incrementing.
 
 ### Enable permissive mode on redis
 
-We begin with preparing redis to start in [permissive](/docs/{{ page.version }}/policies/meshtls/#configuration) mode when deployed inside the mesh.
+We begin with preparing redis to start in [permissive](/docs/{{ page.release }}/policies/meshtls/#configuration) mode when deployed inside the mesh.
 To enable permissive mode we define this `MeshTLS` policy:
 
 ```yaml
@@ -121,7 +121,7 @@ spec:
 
 ### Migrate redis to mesh
 
-Then we bring redis into the mesh by adding [kuma.io/sidecar-injection=true](/docs/{{ page.version }}/reference/kubernetes-annotations/#kumaiosidecar-injection) label:
+Then we bring redis into the mesh by adding [kuma.io/sidecar-injection=true](/docs/{{ page.release }}/reference/kubernetes-annotations/#kumaiosidecar-injection) label:
 
 ```bash
 kubectl patch deployment redis -n kuma-demo-migration \
@@ -233,4 +233,4 @@ kubectl delete meshtlses.kuma.io -n kuma-demo-migration redis
 
 With a couple of easy steps we were able to gradually bring a service into the mesh without dropping a packet and encrypting the traffic whenever it's possible.
 
-Read more about [MeshTLS](/docs/{{ page.version }}/policies/meshtls/) policy.
+Read more about [MeshTLS](/docs/{{ page.release }}/policies/meshtls/) policy.

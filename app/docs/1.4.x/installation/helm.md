@@ -11,7 +11,7 @@ To install and run Kuma on Kubernetes with Helm charts execute the following ste
 Finally you can follow the [Quickstart](#4-quickstart) to take it from here and continue your Kuma journey.
 
 {% tip %}
-Kuma also provides an alternative [Kubernetes distribution](/docs/{{ page.version }}/installation/kubernetes/) that we can use instead of Helm charts.
+Kuma also provides an alternative [Kubernetes distribution](/docs/{{ page.release }}/installation/kubernetes/) that we can use instead of Helm charts.
 {% endtip %}
 
 ### 1. Add the Kuma charts repository
@@ -32,7 +32,7 @@ At this point we can install and run Kuma using the following commands. We could
 helm install --version 0.8.1 --create-namespace --namespace {{site.mesh_namespace}} {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/documentation/deployments/) like "multi-zone".
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.release }}/documentation/deployments/) like "multi-zone".
 
 ### 3. Use Kuma
 
@@ -116,10 +116,10 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 {% endtab %}
 {% endtabs %}
 
-You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.release }}/policies/mesh) entity with name `default`.
 
 ### 4. Quickstart
 
 Congratulations! You have successfully installed Kuma on Kubernetes 🚀.
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/quickstart/kubernetes/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.release }}/quickstart/kubernetes/) deployments.

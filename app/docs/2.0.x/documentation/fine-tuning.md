@@ -13,7 +13,7 @@ The result is that:
 * Smaller config is sent over a wire saving a lot of network bandwidth
 * Envoy only has to keep a couple of Clusters/Listeners which means much fewer statistics and lower memory usage.
 
-Follow the [transparent proxying](/docs/{{ page.version }}/networking/transparent-proxying) docs on how to configure it.
+Follow the [transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying) docs on how to configure it.
 
 ## Postgres
 
@@ -53,7 +53,7 @@ This process can be CPU intensive with high number of dataplanes therefore you c
 You can lower the interval scarifying the latency of the new config propagation to avoid overloading the CP. For example,
 changing it to 5s means that when you apply a policy (like TrafficPermission) or the new dataplane of the service is up or down, CP will generate and send new config within 5 seconds.
 
-For systems with high traffic, keeping old endpoints for such a long time (5s) may not be acceptable. To solve this, you can use passive or active [health checks](/docs/{{ page.version }}/policies/health-check) provided by {{site.mesh_product_name}}.
+For systems with high traffic, keeping old endpoints for such a long time (5s) may not be acceptable. To solve this, you can use passive or active [health checks](/docs/{{ page.release }}/policies/health-check) provided by {{site.mesh_product_name}}.
 
 Additionally, to avoid overloading the underlying storage there is a cache that shares fetch results between concurrent reconciliation processes for multiple dataplanes.
 

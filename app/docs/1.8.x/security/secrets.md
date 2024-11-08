@@ -9,8 +9,8 @@ Sensitive information is anything a user considers non-public, e.g.:
 - tokens
 - passwords
 
-Secrets belong to a specific [`Mesh`](/docs/{{ page.version }}/policies/mesh) resource, and cannot be shared across different `Meshes`.
-[Policies](/docs/{{ page.version }}/policies/introduction) use secrets at runtime.
+Secrets belong to a specific [`Mesh`](/docs/{{ page.release }}/policies/mesh) resource, and cannot be shared across different `Meshes`.
+[Policies](/docs/{{ page.release }}/policies/introduction) use secrets at runtime.
 
 {% tip %}
 Kuma leverages `Secret` resources internally for certain operations,
@@ -105,7 +105,7 @@ echo "value" | base64
 ### Access to the Secret HTTP API
 
 Secret API requires authentication.
-Consult [Accessing Admin Server from a different machine](/docs/{{ page.version }}/security/certificates/#user-to-control-plane-communication) for how to configure remote access.
+Consult [Accessing Admin Server from a different machine](/docs/{{ page.release }}/security/certificates/#user-to-control-plane-communication) for how to configure remote access.
 
 ## Scope of the Secret
 
@@ -114,7 +114,7 @@ Kuma provides two types of Secrets.
 ### Mesh-scoped Secrets
 
 Mesh-scoped Secrets are bound to a given Mesh.
-Only this kind of Secrets can be used in Mesh Policies like [Provided CA](/docs/{{ page.version }}/policies/mutual-tls#usage-of-provided-ca) or TLS setting in [External Service](/docs/{{ page.version }}/policies/external-services).
+Only this kind of Secrets can be used in Mesh Policies like [Provided CA](/docs/{{ page.release }}/policies/mutual-tls#usage-of-provided-ca) or TLS setting in [External Service](/docs/{{ page.release }}/policies/external-services).
 
 {% tabs mesh-scoped useUrlFragment=false %}
 {% tab mesh-scoped Kubernetes %}
@@ -181,7 +181,7 @@ data: dGVzdAo=
 
 ## Usage
 
-Here is an example of how you can use a Kuma `Secret` with a `provided` [Mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) backend.
+Here is an example of how you can use a Kuma `Secret` with a `provided` [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) backend.
 
 The examples below assumes that the `Secret` object has already been created beforehand.
 

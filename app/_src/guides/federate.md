@@ -10,12 +10,12 @@ This way you can:
 - manage policies that are pushed to all zones
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 {% if_version lte:2.8.x %}
-- Have [kumactl installed and in your path](/docs/{{ page.version }}/production/install-kumactl)
+- Have [kumactl installed and in your path](/docs/{{ page.release }}/production/install-kumactl)
 {% endif_version %}
 {% if_version gte:2.9.x %}
-- Have [kumactl installed and in your path](/docs/{{ page.version }}/introduction/install-kuma/)
+- Have [kumactl installed and in your path](/docs/{{ page.release }}/introduction/install-kuma/)
 {% endif_version %}
 
 ## Start a global control plane
@@ -131,6 +131,7 @@ You should eventually see
 
 We can check policy synchronization from global control plane to zone control plane by applying a policy on global control plane:
 
+{% if_version lte:2.8.x %}
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshCircuitBreaker
@@ -154,6 +155,33 @@ spec:
         maxRetries: 2
         maxRequests: 2" | kubectl --context=mesh-global apply -f -
 ```
+{% endif_version %}
+{% if_version gte:2.9.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshCircuitBreaker
+metadata:
+  name: demo-app-to-redis
+  namespace: kuma-demo
+  labels:
+    kuma.io/mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: demo-app
+  to:
+  - targetRef:
+      kind: MeshService
+      name: redis
+    default:
+      connectionLimits:
+        maxConnections: 2
+        maxPendingRequests: 8
+        maxRetries: 2
+        maxRequests: 2" | kubectl --context=mesh-global apply -f -
+```
+{% endif_version %}
 
 If we execute the following command:
 ```sh
@@ -168,4 +196,4 @@ NAMESPACE     NAME                                                TARGETREF KIND
 
 ## Next steps
 
-* Read the [multi-zone](/docs/{{ page.version }}/production/cp-deployment/multi-zone) docs to learn more about this deployment model and cross-zone connectivity.
+* Read the [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone) docs to learn more about this deployment model and cross-zone connectivity.

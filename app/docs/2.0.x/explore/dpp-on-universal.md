@@ -4,7 +4,7 @@ title: Data plane on Universal
 
 As mentioned previously in universal you need to create a dataplane definition and pass it to the `kuma-dp run` command.
 
-When transparent proxying is not enabled, the outbound service dependencies have to be manually specified in the [`Dataplane`](/docs/{{ page.version }}/explore/dpp#dataplane-entity) entity.
+When transparent proxying is not enabled, the outbound service dependencies have to be manually specified in the [`Dataplane`](/docs/{{ page.release }}/explore/dpp#dataplane-entity) entity.
 This also means that with transparent proxying **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
 
 For example, this is how we start a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:
@@ -31,7 +31,7 @@ kuma-dp run \
 In the example above, any external client who wants to consume Redis will have to make a request to the DP on address `192.168.0.1` and port `9000`, which internally will be redirected to the Redis service listening on address `127.0.0.1` and port `6379`.
 
 {% tip %}
-Note that in Universal dataplanes need to start with a token for authentication. You can learn how to generate tokens in the [security section](/docs/{{ page.version }}/security/dp-auth#data-plane-proxy-token).
+Note that in Universal dataplanes need to start with a token for authentication. You can learn how to generate tokens in the [security section](/docs/{{ page.release }}/security/dp-auth#data-plane-proxy-token).
 {% endtip %}
 
 Now let's assume that we have another service called "Backend" that internally listens on port `80`, and that makes outgoing requests to the `redis` service:
@@ -110,7 +110,7 @@ kuma-dp run \
 When xDS connection between proxy and kuma-cp is established, `Dataplane` resource will be created automatically by kuma-cp.
 
 To join the mesh in a graceful way, we need to first make sure the application is ready to serve traffic before it can be considered a valid traffic destination.
-By default, a proxy will be considered healthy regardless of its state. Consider using [service probes](/docs/{{ page.version }}/policies/service-health-probes)
+By default, a proxy will be considered healthy regardless of its state. Consider using [service probes](/docs/{{ page.release }}/policies/service-health-probes)
 to mark the data plane proxy as healthy only after all health checks are passed.
 
 #### Leaving the mesh
@@ -127,7 +127,7 @@ During the draining process, Envoy can still accept connections however:
 If the application next to the `kuma-dp` process quits immediately after the SIGTERM signal, there is a high chance that clients will still try to send traffic to this destination.
 To mitigate this, we need to support graceful shutdown in the application. For example, the application should wait X seconds to exit after receiving the first SIGTERM signal.
 
-Consider using [service probes](/docs/{{ page.version }}/policies/service-health-probes) to mark data plane proxy as unhealthy when it is in draining state.
+Consider using [service probes](/docs/{{ page.release }}/policies/service-health-probes) to mark data plane proxy as unhealthy when it is in draining state.
 
 If data plane proxy is shutdown gracefully, the `Dataplane` resource is automatically deleted by kuma-cp.
 
@@ -148,7 +148,7 @@ lifecycle.
 
 #### Joining the mesh
 
-`Dataplane` resource is created using [HTTP API](/docs/{{ page.version }}/reference/http-api#dataplanes) or [kumactl](/docs/{{ page.version }}/explore/cli).
+`Dataplane` resource is created using [HTTP API](/docs/{{ page.release }}/reference/http-api#dataplanes) or [kumactl](/docs/{{ page.release }}/explore/cli).
 `Dataplane` resource is created before data plane proxy started. There is no support for templates, resource should be
 a valid `Dataplane` configuration.
 
@@ -195,4 +195,4 @@ networking:
 # ...
 ```
 
-If the `admin` section is empty or port is equal to zero then the default value for port will be taken from the [{{site.mesh_product_name}} Control Plane configuration](/docs/{{ page.version }}/generated/kuma-cp).
+If the `admin` section is empty or port is equal to zero then the default value for port will be taken from the [{{site.mesh_product_name}} Control Plane configuration](/docs/{{ page.release }}/generated/kuma-cp).

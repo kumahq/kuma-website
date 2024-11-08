@@ -4,7 +4,7 @@ title: General notes about Kuma policies
 
 {% tip %}
 This only applies to source/destination policies.
-If you are unfamiliar with these, checkout [introduction to policies](/docs/{{ page.version }}/policies/introduction).
+If you are unfamiliar with these, checkout [introduction to policies](/docs/{{ page.release }}/policies/introduction).
 {% endtip %}
 
 Policies applied to data plane proxies all follow the same basic structure:

@@ -10,9 +10,9 @@ So, as a user of Kuma, you're _highly encouraged_ to give it a hint whether your
 
 By doing this,
 
-* you will get richer metrics with [`Traffic Metrics`](/docs/{{ page.version }}/policies/traffic-metrics) policy
-* you will get richer logs with [`Traffic Log`](/docs/{{ page.version }}/policies/traffic-log) policy
-* you will be able to use [`Traffic Trace`](/docs/{{ page.version }}/policies/traffic-trace) policy
+* you will get richer metrics with [`Traffic Metrics`](/docs/{{ page.release }}/policies/traffic-metrics) policy
+* you will get richer logs with [`Traffic Log`](/docs/{{ page.release }}/policies/traffic-log) policy
+* you will be able to use [`Traffic Trace`](/docs/{{ page.release }}/policies/traffic-trace) policy
 
 {% tabs protocol-support useUrlFragment=false %}
 {% tab protocol-support Kubernetes %}
@@ -64,13 +64,13 @@ Kuma by default upgrades connection between Dataplanes to HTTP/2. If you want to
 
 ## TLS support
 
-Whenever a service already initiates a TLS request to another service - and [mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) is enabled - Kuma can enforce both TLS connections end-to-end as long as the service that is generating the TLS traffic is explicitly tagged with `tcp` [protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) (ie: `kuma.io/protocol: tcp`).
+Whenever a service already initiates a TLS request to another service - and [mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) is enabled - Kuma can enforce both TLS connections end-to-end as long as the service that is generating the TLS traffic is explicitly tagged with `tcp` [protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) (ie: `kuma.io/protocol: tcp`).
 
 {% tip %}
-Effectively `kuma-dp` will send the raw original TLS request as-is to the final destination, while in the meanwhile it will be enforcing its own TLS connection (if [mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) is enabled). Hence, the traffic must be marked as being `tcp`, so `kuma-dp` won't try to parse it.
+Effectively `kuma-dp` will send the raw original TLS request as-is to the final destination, while in the meanwhile it will be enforcing its own TLS connection (if [mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) is enabled). Hence, the traffic must be marked as being `tcp`, so `kuma-dp` won't try to parse it.
 {% endtip %}
 
-Note that in this case no advanced HTTP or GRPC statistics or logging are available. As a best practice - since Kuma will already secure the traffic across services via the [mutual TLS](/docs/{{ page.version }}/policies/mutual-tls) policy - we suggest disabling TLS in the original services in order to get L7 metrics and capabilities.
+Note that in this case no advanced HTTP or GRPC statistics or logging are available. As a best practice - since Kuma will already secure the traffic across services via the [mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) policy - we suggest disabling TLS in the original services in order to get L7 metrics and capabilities.
 
 ## Websocket support
 

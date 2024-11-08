@@ -4,7 +4,7 @@ content_type: reference
 ---
 
 {% tip %}
-Make sure to also check the general [upgrade notes](/docs/{{ page.version }}/production/upgrades-tuning/upgrades).
+Make sure to also check the general [upgrade notes](/docs/{{ page.release }}/production/upgrades-tuning/upgrades).
 {% endtip %}
 
 {% embed UPGRADE.md %}

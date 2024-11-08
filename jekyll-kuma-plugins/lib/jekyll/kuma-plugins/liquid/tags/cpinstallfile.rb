@@ -43,7 +43,7 @@ module Jekyll
               ```
               {% endtab %}
               {% tab #{tabs_name} Helm %}
-              Before using {{site.mesh_product_name}} with Helm, ensure that you’ve followed [these steps](/docs/{{page.version}}/production/cp-deployment/kubernetes/#helm) to configure your local Helm repository.
+              Before using {{site.mesh_product_name}} with Helm, ensure that you’ve followed [these steps](/docs/{{ page.release }}/production/cp-deployment/kubernetes/#helm) to configure your local Helm repository.
 
               ```sh
               helm install \\

@@ -2,7 +2,7 @@
 title: DPs and Data Model
 ---
 
-When Kuma (`kuma-cp`) runs, it waits for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](/docs/{{ page.version }}/policies/mesh) in Kuma. By default the system generates a `default` Mesh when the control-plane is run for the first time.
+When Kuma (`kuma-cp`) runs, it waits for the data plane proxies to connect and register themselves. In order for a data plane proxy to successfully run, there must exist at least one [`Mesh`](/docs/{{ page.release }}/policies/mesh) in Kuma. By default the system generates a `default` Mesh when the control-plane is run for the first time.
 
 <center>
 <img src="/assets/images/docs/0.4.0/diagram-10.jpg" alt="" style="width: 500px; padding-top: 20px; padding-bottom: 10px;"/>
@@ -127,8 +127,8 @@ Each Kuma data plane proxy is associated with tags - or attributes - that can be
 A tag attributes a qualifier to the data plane proxy, and the tags that are reserved to Kuma are prefixed with `kuma.io` like:
 
 * `kuma.io/service`: Identifies the service name. On Kubernetes this tag is automatically created, while on Universal it must be specified manually.
-* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/{{ page.version }}/deployments/multi-zone). This tag is automatically created and cannot be overwritten.
-* `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/{{ page.release }}/deployments/multi-zone). This tag is automatically created and cannot be overwritten.
+* `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) that is being exposed by the service and its data plane proxies. Accepted values are `tcp`, `http`, `http2`, `grpc` and `kafka`.
 
 {% tip %}
 The `kuma.io/service` tag must always exist.
@@ -141,8 +141,8 @@ Labels with keys that contains `kuma.io/` are not converted because they are res
 The following tags are added automatically and cannot be overridden using Pod labels. 
 
 * `kuma.io/service`: Identifies the service name based on a Service that selects a Pod. Example: `demo-app_kuma-demo_svc_80`.
-* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/{{ page.version }}/deployments/multi-zone).
-* `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) that was defined on the Service that selects a Pod.
+* `kuma.io/zone`: Identifies the zone name in a [multi-zone deployment](/docs/{{ page.release }}/deployments/multi-zone).
+* `kuma.io/protocol`: Identifies [the protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) that was defined on the Service that selects a Pod.
 * `k8s.kuma.io/namespace`: Identifies the Pod's namespace. Example: `kuma-demo`.
 * `k8s.kuma.io/service-name`: Identifies the name of Kubernetes Service that selects a Pod. Example: `demo-app`.
 * `k8s.kuma.io/service-port`: Identifies the port of Kubernetes Service that selects a Pod. Example: `80`.
@@ -204,7 +204,7 @@ The `Dataplane` entity includes a few sections:
   * `outbound`: every outgoing request made by the service must also go thorugh the DP. This object specifies ports that the DP will have to listen to when accepting outgoing requests by the service: 
     * `port`: the port that the service needs to consume locally to make a request to the external service
     * `address`: the IP at which outbound listener is exposed. By default it is `127.0.0.1` since it should only be consumed by the app deployed next to the dataplane.
-    * `tags`: traffic on `port:address` will be sent to each data-plane that matches those tags. You can put many tags here. However, it is recommended to keep the list short and then use [`TrafficRoute`](/docs/{{ page.version }}/policies/traffic-route) for dynamic management of the traffic.
+    * `tags`: traffic on `port:address` will be sent to each data-plane that matches those tags. You can put many tags here. However, it is recommended to keep the list short and then use [`TrafficRoute`](/docs/{{ page.release }}/policies/traffic-route) for dynamic management of the traffic.
 
 {% tip %}
 On Kubernetes this whole process is automated via transparent proxying and without changing your application's code. On Universal Kuma doesn't support transparent proxying yet, and the outbound service dependencies have to be manually specified in the [`Dataplane`](#dataplane-entity) entity. This also means that in Universal **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
@@ -316,7 +316,7 @@ spec:
 
 The optimal gateway in Kubernetes mode would be Kong. You can use [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime. Using [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller) with Kuma requires an annotation on every `Service` that you want to pass traffic to [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/3.1.x/reference/annotations/#ingresskubernetesioservice-upstream). This is automatically injected by Kuma for every Kubernetes service that is in a namespace part of the mesh i.e. has `kuma.io/sidecar-injection: enabled` label.
 
-Services can be exposed to an API Gateway in one specific zone, or in multi-zone. For the latter, we need to expose a dedicated Kubernetes `Service` object with type `ExternalName`, which sets the `externalName` to the `.mesh` DNS record for the particular service that we want to expose, that will be resolved by Kuma's internal [service discovery](/docs/{{ page.version }}/networking/dns).
+Services can be exposed to an API Gateway in one specific zone, or in multi-zone. For the latter, we need to expose a dedicated Kubernetes `Service` object with type `ExternalName`, which sets the `externalName` to the `.mesh` DNS record for the particular service that we want to expose, that will be resolved by Kuma's internal [service discovery](/docs/{{ page.release }}/networking/dns).
 
 #### Example Gateway in Multi-Zone
 
@@ -363,7 +363,7 @@ For an in-depth example on deploying Kuma with [Kong for Kubernetes](https://git
 
 ## Zone Ingress
 
-To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/{{ page.version }}/deployments/multi-zone) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
+To implement cross-zone communication when Kuma is deployed in a [multi-zone](/docs/{{ page.release }}/deployments/multi-zone) mode, there is a new proxy type `ZoneIngress`. These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
 All requests that are sent from one zone to another will be directed to the proper instance by the Zone Ingress.
 
 The `ZoneIngress` entity includes a few sections:
@@ -386,7 +386,7 @@ Zone Ingress without `advertisedAddress` and `advertisedPort` is not taken into 
 
 {% tabs zone-ingress useUrlFragment=false %}
 {% tab zone-ingress Kubernetes %}
-The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/{{ page.version }}/deployments/multi-zone). It works as a separate deployment of a single-container pod.
+The recommended way to deploy a `ZoneIngress` proxy in Kubernetes is to use `kumactl`, or the Helm charts as specified in [multi-zone](/docs/{{ page.release }}/deployments/multi-zone). It works as a separate deployment of a single-container pod.
 
 Kuma will try to resolve `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this Zone Ingress.
 

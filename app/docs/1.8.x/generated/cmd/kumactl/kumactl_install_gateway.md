@@ -25,7 +25,7 @@ Install ingress gateway on Kubernetes in its own namespace.
 
 ### SEE ALSO
 
-* [kumactl install](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_install)	 - Install various Kuma components.
-* [kumactl install gateway kong](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_install_gateway_kong)	 - Install Kong ingress gateway on Kubernetes
-* [kumactl install gateway kong-enterprise](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_install_gateway_kong-enterprise)	 - Install Kong ingress gateway on Kubernetes
+* [kumactl install](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_install)	 - Install various Kuma components.
+* [kumactl install gateway kong](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_install_gateway_kong)	 - Install Kong ingress gateway on Kubernetes
+* [kumactl install gateway kong-enterprise](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_install_gateway_kong-enterprise)	 - Install Kong ingress gateway on Kubernetes
 

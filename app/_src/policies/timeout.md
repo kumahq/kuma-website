@@ -3,7 +3,7 @@ title: Timeout
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this policy, check [`MeshTimeout`](/docs/{{ page.version }}/policies/meshtimeout) instead. If you want to use the `Retry` policy, remember that it requires the [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) policy to function properly.
+New to Kuma? Don't use this policy, check [`MeshTimeout`](/docs/{{ page.release }}/policies/meshtimeout) instead. If you want to use the `Retry` policy, remember that it requires the [TrafficRoute](/docs/{{ page.release }}/policies/traffic-route) policy to function properly.
 {% endwarning %}
 {% endif_version %}
 
@@ -18,7 +18,7 @@ This policy enables {{site.mesh_product_name}} to set timeouts on the outbound c
 Specify the proxy to configure with the `sources` selector, and the outbound connections from the proxy with the `destinations` selector.
 
 The policy lets you configure timeouts for `HTTP`, `GRPC`, and `TCP` protocols.
-More about [Protocol support in {{site.mesh_product_name}}](/docs/{{ page.version }}/policies/protocol-support-in-kuma). 
+More about [Protocol support in {{site.mesh_product_name}}](/docs/{{ page.release }}/policies/protocol-support-in-kuma). 
 
 ## Configuration
 
@@ -126,7 +126,7 @@ make sure to set `http.requestTimeout` to 0s.
 
 ## Matching
 
-`Timeout` is an [Outbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
+`Timeout` is an [Outbound Connection Policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
 The only supported value for `destinations.match` is `kuma.io/service`.
 
 ## Builtin Gateway support
@@ -153,7 +153,7 @@ http:
   maxStreamDuration: 0s
 ```
 
-If you still need to change inbound timeouts you can use a [ProxyTemplate](/docs/{{ page.version }}/policies/proxy-template):
+If you still need to change inbound timeouts you can use a [ProxyTemplate](/docs/{{ page.release }}/policies/proxy-template):
 
 {% tabs inbound-timeouts useUrlFragment=false %}
 {% tab inbound-timeouts Kubernetes %}
@@ -221,9 +221,9 @@ since it has a high likelihood of yielding connection leaks.
 
 ## Non-mesh traffic
 
-When [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) is activated 
+When [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing) is activated 
 any non-mesh traffic is passing Envoy without applying the Timeout policies. 
-Read more about [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#timeouts).
+Read more about [Non-mesh traffic](/docs/{{ page.release }}/networking/non-mesh-traffic#timeouts).
 
 ## All options
 

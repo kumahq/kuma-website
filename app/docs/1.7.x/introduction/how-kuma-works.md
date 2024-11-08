@@ -69,7 +69,7 @@ Kuma (`kuma-cp`) is one single executable written in GoLang that can be installe
 Out of the box, Kuma ships with a bundled [Envoy](https://www.envoyproxy.io/) data plane proxy ready to use for our services, so that you don't have to worry about putting all the pieces together.
 
 {% tip %}
-Kuma ships with an executable `kuma-dp` that executes the bundled `envoy` executable to create the data plane proxy. For details, see the [Overview](/docs/{{ page.version }}/introduction/what-is-kuma).
+Kuma ships with an executable `kuma-dp` that executes the bundled `envoy` executable to create the data plane proxy. For details, see the [Overview](/docs/{{ page.release }}/introduction/what-is-kuma).
 {% endtip %}
 
 [Install Kuma](/install/) and follow the instructions to get up and running in a few steps.
@@ -117,7 +117,7 @@ Kuma exists today to provide a pragmatic journey to implementing Service Mesh fo
 <img src="/assets/images/docs/0.6.0/distributed-deployment.jpg" alt="" style="width: 700px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-To learn more about the single and multi-zone deployments of Kuma you can ready the [deployments guide](/docs/{{ page.version }}/introduction/deployments).
+To learn more about the single and multi-zone deployments of Kuma you can ready the [deployments guide](/docs/{{ page.release }}/introduction/deployments).
 
 {% tip %}
 **Real-Time Support**: The Kuma community provides channels for real-time communication and support that you can explore in our [Community](/community) page. It also provides dedicated [Enterprise Support](/enterprise) delivered by [Kong](https://konghq.com).

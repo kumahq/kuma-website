@@ -27,19 +27,19 @@ The global control-plane will propagate the zone ingress resources and all polic
 In the remote zone, data plane proxies will either add new services or add endpoints to existing services which correspond to the remote zone-ingresses entries.
 Requests are then routed to either local instances of the service or to the remote zone ingress where instances of the service are running, which will proxy the request to the actual instance.
 
-In the presence of a [zone egress](/docs/{{ page.version }}/explore/zoneegress) the traffic is routed through the local zone egress before being sent to the remote zone ingress.
+In the presence of a [zone egress](/docs/{{ page.release }}/explore/zoneegress) the traffic is routed through the local zone egress before being sent to the remote zone ingress.
 
-When using [transparent-proxy](/docs/{{ page.version }}/networking/transparent-proxying) (enabled by default in Kubernetes), Kuma generates a VIP, a DNS entry with the format
+When using [transparent-proxy](/docs/{{ page.release }}/networking/transparent-proxying) (enabled by default in Kubernetes), Kuma generates a VIP, a DNS entry with the format
 `<kuma.io/service>.mesh`, and will listen for traffic on port 80.
 
 {% tip %}
-A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in Kuma [gateway mode](/docs/{{ page.version }}/explore/gateway) and can be deployed in addition to zone ingresses.
+A zone ingress is not an API gateway. It is only used for cross-zone communication within a mesh. API gateways are supported in Kuma [gateway mode](/docs/{{ page.release }}/explore/gateway) and can be deployed in addition to zone ingresses.
 
-For Kubernetes the `kuma.io/service` is automatically generated as explained in the [data-plane on Kubernetes documentation](/docs/{{ page.version }}/explore/dpp-on-kubernetes).
+For Kubernetes the `kuma.io/service` is automatically generated as explained in the [data-plane on Kubernetes documentation](/docs/{{ page.release }}/explore/dpp-on-kubernetes).
 
-For load-balancing the zone ingress endpoints are weighted with the number of instances running behind them (.i.e: a zone with 2 instances will receive twice more traffic than a zone with 1 instance), you can also favor local traffic with [localityAware load-balancing](/docs/{{ page.version }}/policies/locality-aware).
+For load-balancing the zone ingress endpoints are weighted with the number of instances running behind them (.i.e: a zone with 2 instances will receive twice more traffic than a zone with 1 instance), you can also favor local traffic with [localityAware load-balancing](/docs/{{ page.release }}/policies/locality-aware).
 
-The `<kuma.io/service>.mesh:80>` is a convention. [Virtual Outbound](/docs/{{ page.version }}/policies/virtual-outbound)s will enable you to expose hostname/port differently. 
+The `<kuma.io/service>.mesh:80>` is a convention. [Virtual Outbound](/docs/{{ page.release }}/policies/virtual-outbound)s will enable you to expose hostname/port differently. 
 {% endtip %}
 
 ### Components of a multi-zone deployment
@@ -133,7 +133,7 @@ The global control plane on Kubernetes must reside on its own Kubernetes cluster
     {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
     ```
 
-    By default, it's exposed on [port 5685](/docs/{{ page.version }}/networking/networking). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+    By default, it's exposed on [port 5685](/docs/{{ page.release }}/networking/networking). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 {% tab global-control-plane Universal %}
@@ -246,7 +246,7 @@ You need the following values to pass to each zone control plane setup:
     kumactl generate zone-ingress-token --zone=<zone-name> > /tmp/ingress-token
     ```
 
-   You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zone-ingress-auth).
+   You can also generate the token [with the REST API](/docs/{{ page.release }}/security/zone-ingress-auth).
 
 3. Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication:
 
@@ -294,7 +294,7 @@ You need the following values to pass to each zone control plane setup:
     kumactl generate zone-token --zone=<zone-name> --valid-for=24h --scope egress > /tmp/zoneegress-token
     ```
 
-   You can also generate the token [with the REST API](/docs/{{ page.version }}/security/zoneegress-auth).
+   You can also generate the token [with the REST API](/docs/{{ page.release }}/security/zoneegress-auth).
 
 6. Create a `ZoneEgress` data plane proxy configuration to allow `kuma-cp` services
    to be configured to proxy traffic to other zones or external services through
@@ -332,7 +332,7 @@ deployed with zone ingress.
 ### Ensure mTLS is enabled on the multi-zone meshes
 
 MTLS is mandatory to enable cross-zone service communication.
-mTLS can be configured in your mesh configuration as indicated in the [mTLS section](/docs/{{ page.version }}/policies/mutual-tls).
+mTLS can be configured in your mesh configuration as indicated in the [mTLS section](/docs/{{ page.release }}/policies/mutual-tls).
 This is required because Kuma uses the [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) field, part of the TLS protocol, as a way to pass routing information cross zones.
 
 ### Cross-zone communication details
@@ -389,7 +389,7 @@ echo-service_echo-example_svc_1010       Online               1/1
 
 ```
 
-To consume the service in a Universal deployment without transparent proxy add the following outbound to your [dataplane configuration](/docs/{{ page.version }}/explore/dpp-on-universal): 
+To consume the service in a Universal deployment without transparent proxy add the following outbound to your [dataplane configuration](/docs/{{ page.release }}/explore/dpp-on-universal): 
 
 ```yaml
   outbound:
@@ -400,7 +400,7 @@ To consume the service in a Universal deployment without transparent proxy add t
 
 From the data plane running you will now be able to reach the service using `localhost:20012`.
 
-Alternatively, if you configure [transparent proxy](/docs/{{ page.version }}/networking/transparent-proxying) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
+Alternatively, if you configure [transparent proxy](/docs/{{ page.release }}/networking/transparent-proxying) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
 
 {% endtab %}
 {% endtabs %}
@@ -408,7 +408,7 @@ Alternatively, if you configure [transparent proxy](/docs/{{ page.version }}/net
 {% tip %}
 For security reasons it's not possible to customize the `kuma.io/service` in Kubernetes.
 
-If you want to have the same service running on both Universal and Kubernetes make sure to align the Universal's data plane inbound to have the same `kuma.io/service` as the one in Kubernetes or leverage [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route).
+If you want to have the same service running on both Universal and Kubernetes make sure to align the Universal's data plane inbound to have the same `kuma.io/service` as the one in Kubernetes or leverage [TrafficRoute](/docs/{{ page.release }}/policies/traffic-route).
 {% endtip %}
 
 ## Failure modes
@@ -475,7 +475,7 @@ When it happens:
 * Communication across each zone will fail.
 
 {% tip %}
-With the right resiliency setup ([Retries](/docs/{{ page.version }}/policies/retry), [Probes](/docs/{{ page.version }}/policies/health-check), [Locality Aware LoadBalancing](/docs/{{ page.version }}/policies/locality-aware), [Circuit Breakers](/docs/{{ page.version }}/policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
+With the right resiliency setup ([Retries](/docs/{{ page.release }}/policies/retry), [Probes](/docs/{{ page.release }}/policies/health-check), [Locality Aware LoadBalancing](/docs/{{ page.release }}/policies/locality-aware), [Circuit Breakers](/docs/{{ page.release }}/policies/circuit-breaker)) the failing zone can be quickly severed and traffic re-routed to another zone.
 {% endtip %}
 
 ## Delete a zone

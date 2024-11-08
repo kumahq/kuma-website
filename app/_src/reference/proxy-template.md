@@ -18,7 +18,7 @@ The custom definitions either complement or replace the resources that {{site.me
 
 ## Usage
 
-{{site.mesh_product_name}} uses the following default `ProxyTemplate` resource for every data plane proxy (`kuma-dp`) that is added to a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %}. This resource looks like:
+{{site.mesh_product_name}} uses the following default `ProxyTemplate` resource for every data plane proxy (`kuma-dp`) that is added to a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %}. This resource looks like:
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
@@ -63,7 +63,7 @@ conf:
 
 In these examples, note:
 
-* The `selectors` object specifies the {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.version }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.version }}/production/dp-config/dpp/#dataplane-entity){% endif_version %} that are targeted by the `ProxyTemplate` resource. Values are provided as {{site.mesh_product_name}} tags.
+* The `selectors` object specifies the {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.release }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity){% endif_version %} that are targeted by the `ProxyTemplate` resource. Values are provided as {{site.mesh_product_name}} tags.
 * The `imports` object specifies the reusable configuration that {{site.mesh_product_name}} generates automatically. {{site.mesh_product_name}} then extends the imports object with the custom configuration you specify. Possible values:
 * `default-proxy` - the default configuration for non-ingress data planes.
 * `ingress-proxy` - the default configuration for zone-ingress proxy.
@@ -75,7 +75,7 @@ You can choose more than one import object.
 
 ### Modifications
 
-To customize the configuration of {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.version }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.version }}/production/dp-config/dpp/#dataplane-entity){% endif_version %}, 
+To customize the configuration of {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.release }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity){% endif_version %}, 
 you can combine modifications of any type in one ProxyTemplate. Each modification consists of the following sections:
 
 * `operation` - operation applied to the generated config (e.g. `add`, `remove`, `patch`).
@@ -517,7 +517,7 @@ spec:
 Modifications that are applied on [HTTP Filters](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/filter/http/http) that are part of [Listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#config-listener-v3-listener) resource.
 Modifications that {{site.mesh_product_name}} applies on all [HTTP Connection Managers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#http-connection-manager-proto) in the Listener.
 
-HTTP Filter modifications can only be applied on services [configured as HTTP](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+HTTP Filter modifications can only be applied on services [configured as HTTP](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 
 Available operations:
 * `addFirst` - add a new filter as a first filter in HTTP Connection Manager.
@@ -714,7 +714,7 @@ conf:
 
 Modifications that are applied on [VirtualHost](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-virtualhost) resources.
 
-VirtualHost modifications can only be applied on services [configured as HTTP](/docs/{{ page.version }}/policies/protocol-support-in-kuma).
+VirtualHost modifications can only be applied on services [configured as HTTP](/docs/{{ page.release }}/policies/protocol-support-in-kuma).
 
 Available operations:
 * `add` - add a new VirtualHost.
@@ -815,11 +815,11 @@ conf:
 
 ## How {{site.mesh_product_name}} handles the proxy template
 
-At runtime, whenever `kuma-cp` generates the configuration for a given {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.version }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.version }}/production/dp-config/dpp/#dataplane-entity){% endif_version %}, it will proceed as follows:
+At runtime, whenever `kuma-cp` generates the configuration for a given {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.release }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity){% endif_version %}, it will proceed as follows:
 
-1. {{site.mesh_product_name}} searches for all the `ProxyTemplates` resources that have been defined in the specified {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %}.
-2. It loads in memory the `ProxyTemplates` resources whose `selectors` [match](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.version }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.version }}/production/dp-config/dpp/#dataplane-entity){% endif_version %} accordingly to the {{site.mesh_product_name}} Tags selected.
-3. Every matching `ProxyTemplate` is [ranked](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/). The `ProxyTemplate` resource with the highest ranking is used to generate the configuration for the specified data plane proxy (or proxies).
+1. {{site.mesh_product_name}} searches for all the `ProxyTemplates` resources that have been defined in the specified {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %}.
+2. It loads in memory the `ProxyTemplates` resources whose `selectors` [match](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.release }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity){% endif_version %} accordingly to the {{site.mesh_product_name}} Tags selected.
+3. Every matching `ProxyTemplate` is [ranked](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/). The `ProxyTemplate` resource with the highest ranking is used to generate the configuration for the specified data plane proxy (or proxies).
 4. If the `ProxyTemplate` resource specifies an `imports` object, these resources are generated first.
 5. If a `ProxyTemplate` defines a `modification` object, all modifications are applied, one by one in the order defined in `modification` section.
 
@@ -893,7 +893,7 @@ conf:
 
 ## Matching
 
-`ProxyTemplate` is a [Dataplane policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply#dataplane-policy). You can use all the tags in the `selectors` section.
+`ProxyTemplate` is a [Dataplane policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply#dataplane-policy). You can use all the tags in the `selectors` section.
 
 ## Builtin Gateway support
 

@@ -13,7 +13,7 @@ Finally you can follow the [Quickstart](#quickstart) to take it from here and co
 Please note that at least version 3.8.0 of Helm is required to use the Kuma Helm charts. If you are using an older version of Helm, please upgrade to version 3.8.0 first.
 
 {% tip %}
-Kuma also provides an alternative [Kubernetes distribution](/docs/{{ page.version }}/installation/kubernetes/) that we can use instead of Helm charts.
+Kuma also provides an alternative [Kubernetes distribution](/docs/{{ page.release }}/installation/kubernetes/) that we can use instead of Helm charts.
 {% endtip %}
 
 ### Add the Kuma charts repository
@@ -34,7 +34,7 @@ At this point we can install and run Kuma using the following commands. We could
 helm install --create-namespace --namespace {{site.mesh_namespace}} {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
 ```
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.version }}/introduction/deployments) like "multi-zone".
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.release }}/introduction/deployments) like "multi-zone".
 
 ### Use Kuma
 
@@ -44,7 +44,7 @@ This example will run Kuma in `standalone` mode for a "flat" deployment, but the
 
 Congratulations! You have successfully installed Kuma on Kubernetes 🚀. 
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.version }}/quickstart/kubernetes/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Kubernetes](/docs/{{ page.release }}/quickstart/kubernetes/) deployments.
 
 ## Argo CD
 
@@ -54,4 +54,4 @@ Argo CD uses `helm template` to compare and apply Kubernetes YAMLs.
 Helm template doesn't work with chart logic to verify if the certificate is present.
 This results in replacing the certificate on each Argo redeployment.
 The solution to this problem is to explicitly set the certificates.
-See ["Data plane proxy to control plane communication"](/docs/{{ page.version }}/security/certificates#data-plane-proxy-to-control-plane-communication) to learn how to preconfigure Kuma with certificates.
+See ["Data plane proxy to control plane communication"](/docs/{{ page.release }}/security/certificates#data-plane-proxy-to-control-plane-communication) to learn how to preconfigure Kuma with certificates.

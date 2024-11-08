@@ -4,7 +4,7 @@ title: MeshTCPRoute
 
 {% warning %}
 This policy uses new policy matching algorithm.
-It's recommended to migrate from [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route). See "Interactions with `TrafficRoute`" section for more information.
+It's recommended to migrate from [TrafficRoute](/docs/{{ page.release }}/policies/traffic-route). See "Interactions with `TrafficRoute`" section for more information.
 {% endwarning %}
 
 The `MeshTCPRoute` policy allows you to alter and redirect TCP requests
@@ -70,7 +70,7 @@ depending on where the request is coming from and where it's going to.
 
 {% endif_version %}
 
-For more information, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
+For more information, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 
