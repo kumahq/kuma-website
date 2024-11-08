@@ -6,12 +6,12 @@ With the MeshAccessLog policy you can easily set up access logs on every data pl
 
 {% warning %}
 This policy uses a new policy matching algorithm.
-Do **not** combine with [TrafficLog](/docs/{{ page.version }}/policies/traffic-log).
+Do **not** combine with [TrafficLog](/docs/{{ page.release }}/policies/traffic-log).
 {% endwarning %}
 
 {% tip %}
 This guide assumes you have already configured your observability tools to work with Kuma.
-If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/observability).
+If you haven't, see the [observability docs](/docs/{{ page.release }}/explore/observability).
 {% endtip %}
 
 ## `targetRef` support matrix
@@ -86,7 +86,7 @@ If you haven't, see the [observability docs](/docs/{{ page.version }}/explore/ob
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 
@@ -116,7 +116,7 @@ All _command operators_ [defined by Envoy](https://www.envoyproxy.io/docs/envoy/
 
 All additional access log _command operators_ are valid to use with both `TCP` and `HTTP` traffic.
 
-Internally, Kuma [determines traffic protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
+Internally, Kuma [determines traffic protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma) based on the value of `kuma.io/protocol` tag on the `inbound` interface of a `destination` `Dataplane`.
 
 There are two types of `format`, `plain` and `json`.
 
@@ -603,7 +603,7 @@ spec:
 ```
 {% endif_version %}
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -876,7 +876,7 @@ spec:
 ```
 {% endif_version %}
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -1046,7 +1046,7 @@ spec:
 ```
 {% endif_version %}
 
-Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
 {% endtab %}
 {% endtabs %}
@@ -1091,10 +1091,10 @@ spec:
 
 ## Logging traffic going outside the Mesh
 
-To target [`ExternalServices`](/docs/{{ page.version }}/policies/external-services#usage), use `MeshService` as the `targetRef` kind with `name` set to  
+To target [`ExternalServices`](/docs/{{ page.release }}/policies/external-services#usage), use `MeshService` as the `targetRef` kind with `name` set to  
 the `kuma.io/service` value.
 
-To target other non-mesh traffic, for example [passthrough traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing), use `Mesh` as the `targetRef` kind. In this case, `%KUMA_DESTINATION_SERVICE%` is set to `external`.
+To target other non-mesh traffic, for example [passthrough traffic](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing), use `Mesh` as the `targetRef` kind. In this case, `%KUMA_DESTINATION_SERVICE%` is set to `external`.
 
 ## Select a built-in gateway
 

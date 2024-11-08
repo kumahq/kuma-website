@@ -3,7 +3,7 @@ title: Traffic Metrics
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? Don't use this, check the [`MeshMetric` policy](/docs/{{ page.version }}/policies/meshmetric) instead.
+New to Kuma? Don't use this, check the [`MeshMetric` policy](/docs/{{ page.release }}/policies/meshmetric) instead.
 {% endwarning %}
 {% endif_version %}
 
@@ -20,7 +20,7 @@ To collect metrics from {{site.mesh_product_name}}, you need to expose metrics f
 
 {% tip %}
 In the rest of this page we assume you have already configured your observability tools to work with {{site.mesh_product_name}}.
-If you haven't already read the [observability docs](/docs/{{ page.version }}/explore/observability).
+If you haven't already read the [observability docs](/docs/{{ page.release }}/explore/observability).
 {% endtip %}
 
 ## Expose metrics from data plane proxies
@@ -189,7 +189,7 @@ In addition to the `Mesh` configuration, `kuma-sidecar` requires a provided cert
 * KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH
 * KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH
 
-It's possible to use a [`ContainerPatch`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration) to add variables to `kuma-sidecar`:
+It's possible to use a [`ContainerPatch`](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration) to add variables to `kuma-sidecar`:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -251,7 +251,7 @@ Here are reasons where you'd want to use this feature:
 
 - Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
 - Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
-- If you disable [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS but Prometheus is outside the mesh {% if_version lte:2.3.x %}(`skipMTLS: true`){% endif_version %}{% if_version gte:2.4.x %}(`tls.mode: disabled`){% endif_version %} this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
+- If you disable [passthrough](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS but Prometheus is outside the mesh {% if_version lte:2.3.x %}(`skipMTLS: true`){% endif_version %}{% if_version gte:2.4.x %}(`tls.mode: disabled`){% endif_version %} this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
 
 {% warning %}
 Any configuration change requires redeployment of the data plane.
@@ -554,7 +554,7 @@ metrics:
 
 ## Secure data plane proxy metrics
 
-{{site.mesh_product_name}} lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment mode on Kubernetes when using [`kumactl install observability`](/docs/{{ page.version }}/explore/observability#demo-setup).
+{{site.mesh_product_name}} lets you expose proxy metrics in a secure way by leveraging mTLS. Prometheus needs to be a part of the mesh for this feature to work, which is the default deployment mode on Kubernetes when using [`kumactl install observability`](/docs/{{ page.release }}/explore/observability#demo-setup).
 
 {% tabs secure-data-plane-proxy-metrics useUrlFragment=false %}
 {% tab secure-data-plane-proxy-metrics Kubernetes %}
@@ -611,7 +611,7 @@ spec:
 ```
 {% endif_version %}
 
-If you have strict [traffic permissions](/docs/{{ page.version }}/policies/traffic-permissions) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
+If you have strict [traffic permissions](/docs/{{ page.release }}/policies/traffic-permissions) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -691,7 +691,7 @@ spec:
 ```
 {% endif_version %}
 
-If you have strict [traffic permissions](/docs/{{ page.version }}/policies/traffic-permissions) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
+If you have strict [traffic permissions](/docs/{{ page.release }}/policies/traffic-permissions) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
 
 ```yaml
 type: TrafficPermission

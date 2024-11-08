@@ -5,7 +5,7 @@ module Jekyll
     priority :low
 
     def generate(site)
-      active_versions = site.data['versions'].filter {|v| v['release'] != "dev"}
+      active_versions = site.data['versions'].filter { |v| !v.key?('label') || v['label'] != "dev" }
 
       # Generate redirects for the latest version
       latest_release = site.data['latest_version']['release']
@@ -15,6 +15,8 @@ module Jekyll
 
       # Generate redirects for specific versions
       version_specific_redirects = active_versions.each_with_object([]) do |v, redirects|
+        next unless Gem::Version.correct?(v['version'])
+
         vp = v['version'].split('.').map(&:to_i)
 
         # Generate redirects for x.y.0, x.y.1, x.y.2 etc

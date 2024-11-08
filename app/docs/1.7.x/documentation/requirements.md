@@ -31,9 +31,9 @@ To see if you may need to increase your control-plane's spec, there are two main
 - propagation time (xds_delivery): this is the time it takes between a change in the mesh and the dataplane receiving its updated configuration. Think about it as the "reactivity of your mesh".
 - configuration generation time (xds_generation): this is the time it takes for the configuration to be generated.
 
-For any large mesh using transparent-proxy it's highly recommended to use [reachable-services](/docs/{{ page.version }}/networking/transparent-proxying#reachable-services).
+For any large mesh using transparent-proxy it's highly recommended to use [reachable-services](/docs/{{ page.release }}/networking/transparent-proxying#reachable-services).
 
-You can also find tuning configuration in the [fine-tuning](/docs/{{ page.version }}/documentation/fine-tuning) section of the docs.
+You can also find tuning configuration in the [fine-tuning](/docs/{{ page.release }}/documentation/fine-tuning) section of the docs.
 
 ## Sizing your sidecar container on Kubernetes
 
@@ -49,7 +49,7 @@ resources:
         memory: 512Mi
 ```
 
-This resources configuration should be enough for most use cases. In some cases like when you cannot scale horizontally, or your service handle lots of concurrent traffic, you may need to change those values. You can do it using [ContainerPatch resource](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#custom-container-configuration). 
+This resources configuration should be enough for most use cases. In some cases like when you cannot scale horizontally, or your service handle lots of concurrent traffic, you may need to change those values. You can do it using [ContainerPatch resource](/docs/{{ page.release }}/explore/dpp-on-kubernetes/#custom-container-configuration). 
 
 To change thoes resources, you need `ContainerPatch` with `sidecarPatch`. You have multiple options. You can modify single parameter of resource section:
 
@@ -84,7 +84,7 @@ spec:
       }'
 ```
 
-Precise documentation on how to apply those `ContainerPatch` resources to specific Pod can be found [here](/docs/{{ page.version }}/explore/dpp-on-kubernetes/#workload-matching).
+Precise documentation on how to apply those `ContainerPatch` resources to specific Pod can be found [here](/docs/{{ page.release }}/explore/dpp-on-kubernetes/#workload-matching).
 
 {% tip %}
 **Note**: When changing those resources, remember that they must be described using [Kubernetes resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes)

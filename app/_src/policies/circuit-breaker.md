@@ -3,7 +3,7 @@ title: Circuit Breaker
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
-New to Kuma? You don't need this policy, check [`MeshCircuitBreaker`](/docs/{{ page.version }}/policies/meshcircuitbreaker) instead. If you want to use the `CircuitBreaker` policy, remember that it requires the [TrafficRoute](/docs/{{ page.version }}/policies/traffic-route) policy to function properly.
+New to Kuma? You don't need this policy, check [`MeshCircuitBreaker`](/docs/{{ page.release }}/policies/meshcircuitbreaker) instead. If you want to use the `CircuitBreaker` policy, remember that it requires the [TrafficRoute](/docs/{{ page.release }}/policies/traffic-route) policy to function properly.
 {% endwarning %}
 {% endif_version %}
 
@@ -13,7 +13,7 @@ Circuit Breaker is an outbound policy. Dataplanes whose configuration is modifie
 
 This policy will look for errors in the live traffic being exchanged between our data plane proxies and it will mark a data proxy as an unhealthy if certain conditions are met and - by doing so - making sure that no additional traffic can reach an unhealthy data plane proxy until it is healthy again.
 
-Circuit breakers - unlike active [Health Checks](/docs/{{ page.version }}/policies/health-check/) - do not send additional traffic to our data plane proxies but they rather inspect the existing service traffic. They are also commonly used to prevent cascading failures in our services.
+Circuit breakers - unlike active [Health Checks](/docs/{{ page.release }}/policies/health-check/) - do not send additional traffic to our data plane proxies but they rather inspect the existing service traffic. They are also commonly used to prevent cascading failures in our services.
 
 {% tip %}
 Like a real-world circuit breaker when the circuit is **closed** then traffic between a source and destination data plane proxy is allowed to freely flow through it, and when it is **open** then the traffic is interrupted.
@@ -116,7 +116,7 @@ conf:
       minimumHosts: 5
       threshold: 85
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -160,7 +160,7 @@ conf:
     totalErrors: {}
     standardDeviation: {}
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -241,7 +241,7 @@ Alongside the detectors, CircuitBreaker allows configuring thresholds:
 
 ## Matching
 
-`CircuitBreaker` is an [Outbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
+`CircuitBreaker` is an [Outbound Connection Policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
 The only supported value for `destinations.match` is `kuma.io/service`.
 
 ## Builtin Gateway support
@@ -250,9 +250,9 @@ Circuit Breaker policies are supported on the builtin gateway like any other dat
 
 ## Non-mesh traffic
 
-When [passthrough mode](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) is activated
+When [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing) is activated
 any non-mesh traffic is passing Envoy without applying the CircuitBreaker policies.
-Read more about [Non-mesh traffic](/docs/{{ page.version }}/networking/non-mesh-traffic#circuit-breaker).
+Read more about [Non-mesh traffic](/docs/{{ page.release }}/networking/non-mesh-traffic#circuit-breaker).
 
 ## All policy options
 

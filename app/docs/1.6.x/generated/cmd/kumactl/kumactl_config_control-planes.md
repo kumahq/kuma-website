@@ -25,9 +25,9 @@ Manage known Control Planes.
 
 ### SEE ALSO
 
-* [kumactl config](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_config)	 - Manage kumactl config
-* [kumactl config control-planes add](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_config_control-planes_add)	 - Add a Control Plane
-* [kumactl config control-planes list](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_config_control-planes_list)	 - List Control Planes
-* [kumactl config control-planes remove](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_config_control-planes_remove)	 - Remove a Control Plane
-* [kumactl config control-planes switch](/docs/{{ page.version }}/generated/cmd/kumactl/kumactl_config_control-planes_switch)	 - Switch active Control Plane
+* [kumactl config](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_config)	 - Manage kumactl config
+* [kumactl config control-planes add](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_config_control-planes_add)	 - Add a Control Plane
+* [kumactl config control-planes list](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_config_control-planes_list)	 - List Control Planes
+* [kumactl config control-planes remove](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_config_control-planes_remove)	 - Remove a Control Plane
+* [kumactl config control-planes switch](/docs/{{ page.release }}/generated/cmd/kumactl/kumactl_config_control-planes_switch)	 - Switch active Control Plane
 

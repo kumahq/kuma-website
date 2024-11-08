@@ -4,7 +4,7 @@ title: Mesh Health Check
 
 {% warning %}
 This policy uses new policy matching algorithm. 
-Do **not** combine with [HealthCheck](/docs/{{ page.version }}/policies/health-check).
+Do **not** combine with [HealthCheck](/docs/{{ page.release }}/policies/health-check).
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to keep track of the health of every data plane proxy,
@@ -18,7 +18,7 @@ When an unhealthy proxy returns to a healthy state,
 
 This policy provides **active** checks.
 If you want to configure **passive** checks,
-please utilize the [MeshCircuitBreaker](/docs/{{ page.version }}/policies/meshcircuitbreaker) policy.
+please utilize the [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) policy.
 Data plane proxies with **active** checks will explicitly send requests to other data plane proxies to determine if target proxies are healthy or not.
 This mode generates extra traffic to other proxies and services as described in the policy configuration.
 
@@ -77,7 +77,7 @@ This mode generates extra traffic to other proxies and services as described in 
 
 {% endif_version %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 
@@ -85,7 +85,7 @@ The `MeshHealthCheck` policy supports both L4/TCP and L7/HTTP/gRPC checks.
 
 ### Protocol selection
 
-The health check protocol is selected by picking the most [specific protocol](/docs/{{ page.version }}/policies/protocol-support-in-kuma)
+The health check protocol is selected by picking the most [specific protocol](/docs/{{ page.release }}/policies/protocol-support-in-kuma)
 and falls back to more general protocol when specified protocol has `disabled=true` in policy definition.
 See [protocol fallback example](#protocol-fallback).
 

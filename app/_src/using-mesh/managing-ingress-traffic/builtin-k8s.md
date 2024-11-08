@@ -2,9 +2,9 @@
 title: Running built-in gateway pods on Kubernetes
 ---
 
-`MeshGatewayInstance` is a Kubernetes-only resource for deploying [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin).
+`MeshGatewayInstance` is a Kubernetes-only resource for deploying [{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin).
 
-[`MeshGateway`](/docs/{{ page.version }}/using-mesh/managing-ingress-traffic/builtin-listeners) and [`MeshHTTPRoute`](/docs/{{ page.version }}/policies/meshhttproute)/[`MeshTCPRoute`](/docs/{{ page.version }}/policies/meshtcproute) allow specifying builtin gateway
+[`MeshGateway`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners) and [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute)/[`MeshTCPRoute`](/docs/{{ page.release }}/policies/meshtcproute) allow specifying builtin gateway
 listener and route configuration but don't handle deploying `kuma-dp`
 instances that listen and serve traffic.
 

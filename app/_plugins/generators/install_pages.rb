@@ -2,11 +2,11 @@
 
 module Jekyll
   class InstallPages < Jekyll::Generator
-    priority :medium
+    priority :low
 
     def generate(site)
       latest_page = site.pages.detect { |p| p.relative_path == 'install/latest.md' }
-      latest_page.data['version'] = site.data['latest_version']['release']
+      latest_page.data['release'] = site.data['latest_version']['release']
       latest_page.data['has_version'] = true
 
       site.data['versions'].each do |version|
@@ -30,7 +30,7 @@ module Jekyll
         @data = SafeYAML.load(Regexp.last_match(1))
       end
 
-      @data['version'] = version['release']
+      @data['release'] = version['release']
       @data['has_version'] = true
     end
   end

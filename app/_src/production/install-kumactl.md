@@ -33,14 +33,14 @@ You can omit the `VERSION` variable to install the latest version.
 
 Download the distribution manually. Download a distribution for the **client host** from where you will be executing kumactl:
 
-{% if page.version_data.release == "dev" %}
+{% if page.release.label %}
 In preview builds each version are of the format `{{ site.mesh_helm_install_name }}-0.0.0-preview-v<8charactersShortCommitHash>`.
 
 {% endif %}
-{% if page.version_data.release != "dev" %}
+{% unless page.release.label %}
 The latest version is: **{{ page.version_data.version }}**.
 
-{% endif %}
+{% endunless %}
 
 You can find all released versions for all targets on <a href="{{site.links.download}}/{{ site.mesh_helm_install_name }}-binaries-release/">the download page</a> and extract the archive with\
 `tar -xvzf {{ site.mesh_helm_install_name }}-{{ page.version_data.version }}.tar.gz`.
@@ -62,7 +62,7 @@ export PATH=$(pwd):$PATH
 
 ## Next steps
 {% if_version gte:2.6.x %}
-* [Complete quickstart](/docs/{{ page.version }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+* [Complete quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 {% endif_version %}
 {% if_version lte:2.5.x %}
 After you've installed `kumactl`, you can deploy {{site.mesh_product_name}} in standalone or multi-zone mode in either Kubernetes or Universal.

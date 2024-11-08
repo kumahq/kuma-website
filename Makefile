@@ -20,22 +20,22 @@ install: ruby-version-check
 	bundle install
 
 run: ruby-version-check
-	bundle exec foreman start
+	netlify dev
 
 test:
 	bundle exec rspec
 
 build: ruby-version-check
-	bundle exec jekyll build --config jekyll.yml --profile
+	exe/build
 
 # Cleans up all temp files in the build.
 # Run `make clean` locally whenever you're updating dependencies, or to help
 # troubleshoot build issues.
 clean:
 	-rm -rf dist
-	-rm -rf app/.jekyll-cache
-	-rm -rf app/.jekyll-metadata
-	-rm -rf .jekyll-cache/vite
+	-rm -rf .netlify
+	-rm -rf .jekyll-cache
+	-rm -rf app/.jekyll-{cache,metadata}
 
 kill-ports:
 	@echo '[DEPRECATED]: This target is deprecated because the "run" target now correctly handles kill signals, closing these ports automatically.'

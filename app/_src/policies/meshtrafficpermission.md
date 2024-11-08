@@ -4,7 +4,7 @@ title: MeshTrafficPermission
 
 {% warning %}
 This policy uses new policy matching algorithm.
-Do **not** combine with [TrafficPermission](/docs/{{ page.version }}/policies/traffic-permissions).
+Do **not** combine with [TrafficPermission](/docs/{{ page.release }}/policies/traffic-permissions).
 {% endwarning %}
 
 ## TargetRef support matrix
@@ -55,7 +55,7 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.version }}/policies/tr
 {% endtabs %}
 {% endif_version %}
 
-If you don't understand this table you should read [matching docs](/docs/{{ page.version }}/policies/introduction).
+If you don't understand this table you should read [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 

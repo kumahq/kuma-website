@@ -11,17 +11,17 @@ Transparent proxying helps with a smoother rollout of a Service Mesh to a curren
 On **Kubernetes** `kuma-dp` leverages transparent proxying automatically via `iptables` installed with `kuma-init` container or CNI.
 All incoming and outgoing traffic is automatically intercepted by `kuma-dp` without having to change the application code.
 
-Kuma integrates with a service naming provided by Kubernetes DNS as well as providing its own [Kuma DNS](/docs/{{ page.version }}/networking/dns) for multizone service naming.
+Kuma integrates with a service naming provided by Kubernetes DNS as well as providing its own [Kuma DNS](/docs/{{ page.release }}/networking/dns) for multizone service naming.
 
 ## Universal
 
-On **Universal** `kuma-dp` leverages the [data plane proxy specification](/docs/{{ page.version }}/generated/resources/proxy_dataplane) associated to it for receiving incoming requests on a pre-defined port.
+On **Universal** `kuma-dp` leverages the [data plane proxy specification](/docs/{{ page.release }}/generated/resources/proxy_dataplane) associated to it for receiving incoming requests on a pre-defined port.
 
 There are several advantages for using transparent proxying in universal mode:
 
- * Simpler [Dataplane resource](/docs/{{ page.version }}/generated/resources/proxy_dataplane), as the `outbound` section becomes obsolete and can be skipped.
- * Universal service naming with `.mesh` [DNS domain](/docs/{{ page.version }}/networking/dns) instead of explicit outbound like `https://localhost:10001`.
- * Support for hostnames of your choice using [VirtualOutbounds](/docs/{{ page.version }}/policies/virtual-outbound) that lets you preserve existing service naming.
+ * Simpler [Dataplane resource](/docs/{{ page.release }}/generated/resources/proxy_dataplane), as the `outbound` section becomes obsolete and can be skipped.
+ * Universal service naming with `.mesh` [DNS domain](/docs/{{ page.release }}/networking/dns) instead of explicit outbound like `https://localhost:10001`.
+ * Support for hostnames of your choice using [VirtualOutbounds](/docs/{{ page.release }}/policies/virtual-outbound) that lets you preserve existing service naming.
  * Better service manageability (security, tracing).
 
 ### Setting up the service host
@@ -32,7 +32,7 @@ Prerequisites:
 - `coredns` must be in the PATH so that `kuma-dp` can access it.
     - You can also set the location with the `--dns-coredns-path` flag to `kuma-dp`.
 
-Kuma comes with [`kumactl` executable](/docs/{{ page.version }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
+Kuma comes with [`kumactl` executable](/docs/{{ page.release }}/explore/cli) which can help us to prepare the host. Due to the wide variety of Linux setup options, these steps may vary and may need to be adjusted for the specifics of the particular deployment.
 The host that will run the `kuma-dp` process in transparent proxying mode needs to be prepared with the following steps executed as `root`:
 
 1. Create a new dedicated user on the machine.
@@ -99,7 +99,7 @@ runuser -u kuma-dp -- \
 ```
 
 You can now reach the service on the same IP and port as before installing transparent proxy, but now the traffic goes through Envoy.
-At the same time, you can now connect to services using [Kuma DNS](/docs/{{ page.version }}/networking/dns).
+At the same time, you can now connect to services using [Kuma DNS](/docs/{{ page.release }}/networking/dns).
 
 ### firewalld support
 
@@ -139,7 +139,7 @@ spec:
         ...
 ```  
 
-You can also control this value on whole Kuma deployment with the following Kuma CP [configuration](/docs/{{ page.version }}/documentation/configuration)
+You can also control this value on whole Kuma deployment with the following Kuma CP [configuration](/docs/{{ page.release }}/documentation/configuration)
 ```
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS=1234
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900

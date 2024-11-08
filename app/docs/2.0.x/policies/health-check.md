@@ -10,7 +10,7 @@ This policy enables {{site.mesh_product_name}} to keep track of the health of ev
 
 By creating an `HealthCheck` resource we can instruct a data plane proxy to keep track of the health status for any other data plane proxy. When health-checks are properly configured, a data plane proxy will never send a request to another data plane proxy that is considered unhealthy. When an unhealthy proxy returns to a healthy state, {{site.mesh_product_name}} will resume sending requests to it again.
 
-This policy provides **active** checks. If you want to configure **passive** checks, please utilize the [Circuit Breaker](/docs/{{ page.version }}/policies/circuit-breaker) policy. Data plane proxies with **active** checks will explicitly send requests to other data plane proxies to determine if target proxies are healthy or not. This mode generates extra traffic to other proxies and services as described in the policy configuration.
+This policy provides **active** checks. If you want to configure **passive** checks, please utilize the [Circuit Breaker](/docs/{{ page.release }}/policies/circuit-breaker) policy. Data plane proxies with **active** checks will explicitly send requests to other data plane proxies to determine if target proxies are healthy or not. This mode generates extra traffic to other proxies and services as described in the policy configuration.
 
 ## Usage
 
@@ -113,7 +113,7 @@ conf:
         value: application/json
     expectedStatuses: [200, 201]
 ```
-We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.version }}/reference/http-api).
+We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
 
@@ -150,5 +150,5 @@ HTTP health checks are executed using HTTP 2
 
 ## Matching
 
-`HealthCheck` is an [Outbound Connection Policy](/docs/{{ page.version }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
+`HealthCheck` is an [Outbound Connection Policy](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/#outbound-connection-policy).
 The only supported value for `destinations.match` is `kuma.io/service`.

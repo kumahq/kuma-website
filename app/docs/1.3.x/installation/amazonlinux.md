@@ -3,7 +3,7 @@ title: Amazon Linux
 ---
 
 {% tip %}
-If you wish to use Kuma on Amazon EKS please follow the [Kubernetes instructions](/docs/{{ page.version }}/installation/kubernetes/) instead.
+If you wish to use Kuma on Amazon EKS please follow the [Kubernetes instructions](/docs/{{ page.release }}/installation/kubernetes/) instead.
 {% endtip %}
 
 To install and run Kuma on Amazon Linux (**x86_64**) execute the following steps:
@@ -52,7 +52,7 @@ Standalone mode is perfect when running Kuma in a single cluster across one envi
 ./kuma-cp run
 ```
 
-To learn more, read about the [deployment modes available](/docs/{{ page.version }}/documentation/deployments).
+To learn more, read about the [deployment modes available](/docs/{{ page.release }}/documentation/deployments).
 
 {% endtab %}
 {% tab amazonlinux-run Multi-Zone %}
@@ -61,7 +61,7 @@ Multi-zone mode is perfect when running one deployment of Kuma that spans across
 
 This mode also supports hybrid Kubernetes + VMs deployments.
 
-To learn more, read the [multi-zone installation instructions](/docs/{{ page.version }}/documentation/deployments).
+To learn more, read the [multi-zone installation instructions](/docs/{{ page.release }}/documentation/deployments).
 
 {% endtab %}
 {% endtabs %}
@@ -73,7 +73,7 @@ ln -s $PWD/kumactl /usr/local/bin/kumactl
 ```
 
 {% tip %}
-**Note**: By default this will run Kuma with a `memory` [backend](/docs/{{ page.version }}/documentation/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
+**Note**: By default this will run Kuma with a `memory` [backend](/docs/{{ page.release }}/documentation/backends), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 {% endtip %}
 
 ### 3. Use Kuma
@@ -126,10 +126,10 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 {% endtab %}
 {% endtabs %}
 
-You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.version }}/policies/mesh) entity with name `default`.
+You will notice that Kuma automatically creates a [`Mesh`](/docs/{{ page.release }}/policies/mesh) entity with name `default`.
 
 ### 4. Quickstart
 
 Congratulations! You have successfully installed Kuma on Amazon Linux 🚀.
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/{{ page.version }}/quickstart/universal/) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/{{ page.release }}/quickstart/universal/) deployments.

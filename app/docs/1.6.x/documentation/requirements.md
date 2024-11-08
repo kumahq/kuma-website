@@ -27,6 +27,6 @@ To see if you may need to increase your control-plane's spec, there are two main
 - propagation time (xds_delivery): this is the time it takes between a change in the mesh and the dataplane receiving its updated configuration. Think about it as the "reactivity of your mesh".
 - configuration generation time (xds_generation): this is the time it takes for the configuration to be generated.
 
-For any large mesh using transparent-proxy it's highly recommended to use [reachable-services](/docs/{{ page.version }}/networking/transparent-proxying#reachable-services).
+For any large mesh using transparent-proxy it's highly recommended to use [reachable-services](/docs/{{ page.release }}/networking/transparent-proxying#reachable-services).
 
-You can also find tuning configuration in the [fine-tuning](/docs/{{ page.version }}/documentation/fine-tuning) section of the docs.
+You can also find tuning configuration in the [fine-tuning](/docs/{{ page.release }}/documentation/fine-tuning) section of the docs.

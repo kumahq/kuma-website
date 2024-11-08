@@ -35,7 +35,7 @@ kuma-cp run
 {% endtab %}
 {% endtabs %}
 
-Once Kuma is up and running, data plane proxies can now [connect](/docs/{{ page.version }}/documentation/dps-and-data-model) directly to it. 
+Once Kuma is up and running, data plane proxies can now [connect](/docs/{{ page.release }}/documentation/dps-and-data-model) directly to it. 
 
 {% tip %}
 When the mode is not specified, Kuma will always start in `standalone` mode by default.

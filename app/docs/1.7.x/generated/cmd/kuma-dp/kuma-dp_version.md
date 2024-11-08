@@ -31,5 +31,5 @@ kuma-dp version [flags]
 
 ### SEE ALSO
 
-* [kuma-dp](/docs/{{ page.version }}/generated/cmd/kuma-dp/kuma-dp)	 - Dataplane manager for Envoy-based Service Mesh
+* [kuma-dp](/docs/{{ page.release }}/generated/cmd/kuma-dp/kuma-dp)	 - Dataplane manager for Envoy-based Service Mesh
 

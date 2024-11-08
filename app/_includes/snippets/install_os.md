@@ -28,7 +28,7 @@ Once downloaded, you will find the contents of Kuma in the `kuma-{{ page.latest_
 
 You can start the control-plane with: `kuma-{{ page.latest_version }}/bin/kuma-cp run`
 
-This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced {% if_version lte:2.1.x %}[deployment modes](/docs/{{ page.version }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployment modes](/docs/{{ page.version }}/production/deployment/){% endif_version %} like "multi-zone".
+This example will run Kuma in `standalone` mode for a "flat" deployment, but there are more advanced {% if_version lte:2.1.x %}[deployment modes](/docs/{{ page.release }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployment modes](/docs/{{ page.release }}/production/deployment/){% endif_version %} like "multi-zone".
 
 We suggest adding the `kumactl` executable to your `PATH` so that it's always available in every working directory. Or - alternatively - you can also create link in `/usr/local/bin/` by executing:
 
@@ -37,7 +37,7 @@ ln -s kuma-{{ page.latest_version }}/bin/kumactl /usr/local/bin/kumactl
 ```
 
 {% tip %}
-**Note**: By default this will run Kuma with a `memory` [store](/docs/{{ page.version }}/documentation/configuration), but for production you have to use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
+**Note**: By default this will run Kuma with a `memory` [store](/docs/{{ page.release }}/documentation/configuration), but for production you have to use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
 {% endtip %}
 
 ### Use Kuma
@@ -89,10 +89,10 @@ kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:
 {% endtab %}
 {% endtabs %}
 
-You will notice that Kuma automatically creates a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.version }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.version }}/production/mesh/){% endif_version %} entity with name `default`.
+You will notice that Kuma automatically creates a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %} entity with name `default`.
 
 ### Quickstart
 
 Congratulations! You have successfully installed Kuma 🚀.
 
-In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/{{ page.version }}/quickstart/universal) deployments.
+In order to start using Kuma, it's time to check out the [quickstart guide for Universal](/docs/{{ page.release }}/quickstart/universal) deployments.

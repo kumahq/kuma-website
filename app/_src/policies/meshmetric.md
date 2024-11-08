@@ -4,7 +4,7 @@ title: MeshMetric
 
 {% warning %}
 This policy uses new policy matching algorithm.
-Do **not** combine with [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics).
+Do **not** combine with [Traffic Metrics](/docs/{{ page.release }}/policies/traffic-metrics).
 {% endwarning %}
 
 {{site.mesh_product_name}} facilitates consistent traffic metrics across all data plane proxies in your mesh.
@@ -17,7 +17,13 @@ For example, you might need to override the default metrics port if it's already
 * Each proxy can expose its metrics in [Prometheus format](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format).
 * {{site.mesh_product_name}} exposes an API called the monitoring assignment service (MADS) which exposes proxies configured by `MeshMetric`.
 
+{% if_version gte:2.7.x %}
+Moreover, {{site.mesh_product_name}} provides integration with OpenTelemetry:
+{% endif_version %}
+
+{% if_version lte:2.6.x %}
 Moreover, {{site.mesh_product_name}} provides experimental integration with OpenTelemetry:
+{% endif_version %}
 
 * Each proxy can publish its metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/). 
 
@@ -25,7 +31,7 @@ To collect metrics from {{site.mesh_product_name}}, you need to expose metrics f
 
 {% tip %}
 In the rest of this page we assume you have already configured your observability tools to work with {{site.mesh_product_name}}.
-If you haven't already read the [observability docs](/docs/{{ page.version }}/explore/observability).
+If you haven't already read the [observability docs](/docs/{{ page.release }}/explore/observability).
 {% endtip %}
 
 ## TargetRef support matrix
@@ -65,7 +71,7 @@ If you haven't already read the [observability docs](/docs/{{ page.version }}/ex
 
 {% endtabs %}
 
-To learn more about the information in this table, see the [matching docs](/docs/{{ page.version }}/policies/introduction).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
 
 ## Configuration
 
@@ -73,7 +79,7 @@ There are three main sections of the configuration: `sidecar`, `applications`, `
 The first two define how to scrape parts of the mesh (sidecar and underlying applications), the third one defines what to do with the data (in case of Prometheus instructs to scrape specific address, in case of OpenTelemetry defines where to push data).
 
 {% tip %}
-In contrast to [Traffic Metrics](/docs/{{ page.version }}/policies/traffic-metrics) all configuration is dynamic and no restarts of the Data Plane Proxies are needed.
+In contrast to [Traffic Metrics](/docs/{{ page.release }}/policies/traffic-metrics) all configuration is dynamic and no restarts of the Data Plane Proxies are needed.
 You can define configuration refresh interval by using `KUMA_DATAPLANE_RUNTIME_DYNAMIC_CONFIGURATION_REFRESH_INTERVAL` env var or `{{site.set_flag_values_prefix}}dataplaneRuntime.dynamicConfiguration.refreshInterval` Helm value.
 {% endtip %}
 
@@ -254,7 +260,7 @@ It is possible to configure it at the `Mesh` level, for all the applications in 
 Here are reasons where you'd want to use this feature:
 - Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
 - Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
-- If you disable [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS and Prometheus is outside the mesh this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
+- If you disable [passthrough](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS and Prometheus is outside the mesh this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
 
 Example section of the configuration:
 
@@ -308,7 +314,7 @@ When the certificate and key are available within the container, `kuma-sidecar` 
 * `KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH`
 * `KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH`
 
-It's possible to use a [`ContainerPatch`](/docs/{{ page.version }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration) to add variables to `kuma-sidecar`:
+It's possible to use a [`ContainerPatch`](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration) to add variables to `kuma-sidecar`:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -439,7 +445,7 @@ backends:
 ```
 
 This configuration tells {{site.mesh_product_name}} data plane proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
-Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.version }}/policies/meshmetric/#applications) in a Pod/VM.
+Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.release }}/policies/meshmetric/#applications) in a Pod/VM.
 and push them to configured OpenTelemetry collector.
 
 When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/) 
@@ -449,10 +455,10 @@ When you configure application scraping make sure to specify `application.name` 
 - You cannot configure scraping interval for OpenTelemetry. By default, it will publish metrics to collector every **30 seconds**. Ability to configure scraping interval in policy will be added in the future. 
 - Right now {{site.mesh_product_name}} supports configuring only one `OpenTelemetry` backend.
 {% if_version lte:2.6.x %}
-- OpenTelemetry integration does not take [sidecar](/docs/{{ page.version }}/policies/meshmetric/#sidecar) configuration into account.
+- OpenTelemetry integration does not take [sidecar](/docs/{{ page.release }}/policies/meshmetric/#sidecar) configuration into account.
   This support will be added in the next release.
 {% endif_version %}
-- [Application](/docs/{{ page.version }}/policies/meshmetric/#applications) must expose metrics in Prometheus format for this integration to work
+- [Application](/docs/{{ page.release }}/policies/meshmetric/#applications) must expose metrics in Prometheus format for this integration to work
 
 {% endif_version %}
 
@@ -468,7 +474,7 @@ backends:
 ```
 
 This configuration tells {{site.mesh_product_name}} Dataplane Proxy to push metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
-Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.version }}/policies/meshmetric/#applications) in a Pod/VM
+Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.release }}/policies/meshmetric/#applications) in a Pod/VM
 and push them to configured OpenTelemetry collector, by default every **60 seconds** (use `refreshInterval` to change it).
 
 When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/).
@@ -477,8 +483,8 @@ When you configure application scraping make sure to specify `application.name` 
 
 Right now if you want to expose metrics from your application to OpenTelemetry collector you can access collector directly.
 
-If you have disabled [passthrough](/docs/{{ page.version }}/networking/non-mesh-traffic/#outgoing) in your Mesh you need to
-configure [ExternalService](/docs/{{ page.version }}/policies/external-services/#external-service) with you collector endpoint. Example ExternalService:
+If you have disabled [passthrough](/docs/{{ page.release }}/networking/non-mesh-traffic/#outgoing) in your Mesh you need to
+configure [ExternalService](/docs/{{ page.release }}/policies/external-services/#external-service) with you collector endpoint. Example ExternalService:
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
