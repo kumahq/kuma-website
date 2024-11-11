@@ -218,3 +218,29 @@ When {{site.mesh_product_name}} is run as a distributed service mesh, the zone c
     * `5681`: the HTTP API server that is being used by `kumactl`. You can also use it to retrieve {{site.mesh_product_name}}'s policies and, when running in `universal`, you can manage Dataplane resources. {% if_version gte:2.6.x %}When not connected to global, it also exposes the {{site.mesh_product_name}} GUI at `/gui`{% endif_version %}
     * `5682`: HTTPS version of the services available under `5681`
     * `5683`: gRPC Intercommunication CP server used internally by {{site.mesh_product_name}} to communicate between CP instances.
+
+## Data plane ports
+
+The `kuma-dp` process and its child process offer a number of services, these services need to listen to a few ports to provide their functionalities. 
+
+The processes on data plane listen the following ports:
+
+{% if_version lte:2.8.x %}
+* TCP
+    * `9901`: the HTTP server that provides the Envoy Admin API. It's bound onto the loop-back interfaces, and can be customized using these methods:
+      * On Universal: data field `networking.admin.port` on the data plane object
+      * On Kubernetes: pod annotation `kuma.io/envoy-admin-port`
+    * `9000`: the HTTP server that provides the [Virtual Probes](/docs/{{ page.release }}/policies/service-health-probes/#virtual-probes) functionalities. It is automatically enabled on `Kubernetes`; on Universal, it needs to be enabled explicitly. 
+{% endif_version %}
+{% if_version gte:2.9.x %}
+* TCP
+    * `9901`: the HTTP server that provides the Envoy Admin API. It's bound onto the loop-back interfaces, and can be customized using these methods:
+      * On Universal: data field `networking.admin.port` on the data plane object
+      * On Kubernetes: pod annotation `kuma.io/envoy-admin-port`
+    * `9902`: an internal HTTP server that reports the readiness of current data plane proxy, this server is consumed by endpoint `/ready` of the Envoy Admin API. It can be customized using these methods:
+      * On Universal: environment variable on the data plane host `KUMA_READINESS_PORT`
+      * On Kubernetes: on the control plane, set `KUMA_READINESS_PORT` as part of the value of environment variable `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_ENV_VARS`
+    * `9001`: the HTTP server that provides the [Application Probe Proxy](/docs/{{ page.release }}/policies/service-health-probes/#application-probe-proxy) functionalities. It can be customized using these methods:
+      * On Universal: environment variable `KUMA_APPLICATION_PROBE_PROXY_PORT`. 
+      * On Kubernetes: pod annotation `kuma.io/application-probe-proxy-port`
+{% endif_version %}
