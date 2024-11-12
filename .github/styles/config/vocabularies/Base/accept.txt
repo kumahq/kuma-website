@@ -11,6 +11,7 @@ anonymized
 API|api
 auth[nz]
 autogenerate[ds]?
+autoscaler
 AWS|aws
 backport
 Bagdi
@@ -162,6 +163,7 @@ uncheck
 uncomment
 Unicode
 unix
+unsecure
 upstreams?
 uri
 urls?
