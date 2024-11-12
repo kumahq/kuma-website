@@ -7,7 +7,7 @@ In order to deploy {{site.mesh_product_name}} in a single-zone deployment, the `
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
-This is the standard installation method. 
+This is the standard installation method. Make sure to restart service pods that are already running after installation such that the data plane proxies can be connected.
 {% cpinstall cpsinglezone %}
 controlPlane.mode=zone
 {% endcpinstall %}
