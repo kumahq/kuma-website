@@ -536,8 +536,13 @@ items:
         url: /guides/progressively-rolling-in-strict-mtls/
       - text: Producer and consumer policies
         url: /guides/consumer-producer-policies
-      - text: Excluding Traffic From Transparent Proxy
-        url: /guides/excluding-traffic-from-transparent-proxy-redirection/
+      - title: Transparent Proxy
+        group: true
+        items:
+          - text: Installing
+            url: /guides/transparent-proxy/installing/
+          - text: Excluding Traffic from Redirection
+            url: /guides/transparent-proxy/excluding-traffic-from-redirection/
   - title: Reference
     group: true
     items:

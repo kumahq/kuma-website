@@ -1,5 +1,5 @@
 ---
-title: Excluding Traffic from Transparent Proxy
+title: Excluding Traffic from Transparent Proxy Redirection
 content_type: tutorial
 ---
 
