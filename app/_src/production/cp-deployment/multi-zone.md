@@ -185,7 +185,7 @@ Ensure that migrations have been run against the database prior to running the g
 
 ### Set up the zone control planes
 
-You need the following values to pass to each zone control plane setup:
+For every individual zone an own cluster is required. You need the following values to pass to each zone control plane setup:
 
 - `zone` -- the zone name. An arbitrary string. This value registers the zone control plane with the global control plane.
 - `kds-global-address` -- the external IP and port of the global control plane.
