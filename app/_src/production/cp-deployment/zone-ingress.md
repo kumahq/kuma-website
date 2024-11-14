@@ -9,7 +9,7 @@ Zone Ingress can proxy the traffic between all meshes, so we need only one deplo
 All requests that are sent from one zone to another will be directed to the proper instance by the Zone Ingress.
 
 {%tip%}
-Because `ZoneIngress` uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.release }}/policies/mutual-tls) is required to do cross zone communication.
+Because `ZoneIngress` uses [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.release }}/policies/mutual-tls) is required to do cross zone communication.
 {%endtip%}
 
 The `ZoneIngress` entity includes a few sections:
