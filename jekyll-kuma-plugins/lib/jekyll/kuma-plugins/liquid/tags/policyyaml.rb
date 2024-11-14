@@ -162,10 +162,10 @@ module Jekyll
                   "metadata" => {
                     "name" => node["name"],
                     "namespace" => context[:namespace],
-                    "labels" => {
+                    **(node["labels"] || node["mesh"] ? { "labels" => {
                       **(node["labels"] || {}),
-                      "kuma.io/mesh" => node["mesh"]
-                    }
+                      **(node["mesh"] ? { "kuma.io/mesh" => node["mesh"] } : {})
+                    }} : {})
                   },
                   "spec" => node["spec"]
                 }
