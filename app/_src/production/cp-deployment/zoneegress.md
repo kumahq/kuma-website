@@ -8,7 +8,7 @@ zones or [external services](/docs/{{ page.release }}/policies/external-services
 
 
 {%tip%}
-Because `ZoneEgress` uses [Service Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.release }}/policies/mutual-tls) is required.
+Because `ZoneEgress` uses [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) to route traffic, [mTLS](/docs/{{ page.release }}/policies/mutual-tls) is required.
 {%endtip%}
 
 This proxy is not attached to any particular workload. In multi-zone the proxy is bound to a specific zone.
