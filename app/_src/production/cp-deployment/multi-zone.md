@@ -185,7 +185,7 @@ Ensure that migrations have been run against the database prior to running the g
 
 ### Set up the zone control planes
 
-For every individual zone an own cluster is required. You need the following values to pass to each zone control plane setup:
+You need the following values to pass to each zone control plane setup:
 
 - `zone` -- the zone name. An arbitrary string. This value registers the zone control plane with the global control plane.
 - `kds-global-address` -- the external IP and port of the global control plane.
@@ -193,7 +193,7 @@ For every individual zone an own cluster is required. You need the following val
 {% tabs zone-control-planes useUrlFragment=false %}
 {% tab zone-control-planes Kubernetes %}
 
-On each zone control plane, run:
+For every individual zone create an own cluster and for each run:
 
 {% if_version gte:2.3.x %}
 {% cpinstall zcp %}
