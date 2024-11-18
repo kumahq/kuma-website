@@ -42,7 +42,12 @@ have the [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com
 With this annotation the ingress controller sends traffic to the `Service` IP instead of directly to the endpoints selected by the `Service`.
 {{site.mesh_product_name}} then routes this `Service` traffic to endpoints as configured by the mesh.
 {{site.mesh_product_name}} automatically injects this annotation for every
-`Service` that is part of the mesh.
+`Service` that is in namespaces labeled as `kuma.io/sidecar-injection=enabled`.
+
+For workloads (Deployment/StatefulSet, etc) enabled kuma sidecar injection by labeling the workload pod template rather than labeling on the namespace, `Service` objects are not annotated automatically in these namespaces. So users need to add these annotations manually to the `Service` objects:
+
+* `ingress.kubernetes.io/service-upstream`
+* `nginx.ingress.kubernetes.io/service-upstream`
 
 #### Delegated gateway `Dataplanes`
 
