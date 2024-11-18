@@ -8,7 +8,7 @@ It's recommended to migrate from [TrafficRoute](/docs/{{ page.release }}/policie
 {% endwarning %}
 
 The `MeshHTTPRoute` policy allows altering and redirecting HTTP requests
-depending on where the request coming from and where it's going to.
+depending on where the request is coming from and where it's going to.
 
 {% if_version lte:2.1.x %}
 {% warning %}
