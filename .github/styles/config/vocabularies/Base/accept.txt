@@ -25,6 +25,7 @@ CloudFormation
 CLI
 CNI|cni
 Cognito
+ConfigMap
 configs?
 conntrack
 cors
@@ -110,12 +111,14 @@ Multus
 NAD
 namespace[sd]?
 navtabs
+netfilter
 Netlify
 Nginx
 ngrok
 observability
 Okta
 opa
+orin
 [Oo]tel
 [Oo]utbounds?
 PascalCase
@@ -159,6 +162,7 @@ TLS
 transcoder
 ttl
 txt
+UIDs?
 uncheck
 uncomment
 Unicode
@@ -167,6 +171,7 @@ unsecure
 upstreams?
 uri
 urls?
+use_original_dst
 uuid
 Valero
 validators?
@@ -178,11 +183,6 @@ workspace
 yaml|YAML
 yml
 [xX]DS|xds
+xtables
 Zipkin
 zsh
-xtables
-netfilter
-UIDs?
-use_original_dst
-orin
-ConfigMap
