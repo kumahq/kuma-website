@@ -1,0 +1,11 @@
+type: HostnameGenerator
+name: synced-universal-mesh-service
+labels:
+  test: label
+spec:
+  selector:
+    meshService:
+      matchLabels:
+        kuma.io/origin: global
+        kuma.io/env: universal
+  template: "{% raw %}{{ .DisplayName }}.svc.{{ .Zone }}.mesh.local{% endraw %}"
