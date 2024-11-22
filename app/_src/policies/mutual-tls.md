@@ -325,7 +325,7 @@ spec:
     backends:
       - name: ca-1
         type: provided
-        config:
+        conf:
           cert:
             inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
           key:
@@ -346,7 +346,7 @@ mtls:
   backends:
     - name: ca-1
       type: provided
-      config:
+      conf:
         cert:
           inline: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3S... # cert in Base64
         key:
