@@ -1,5 +1,5 @@
 ---
-title: Install Kuma
+title: Install
 content_type: how-to
 ---
 

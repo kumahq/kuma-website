@@ -19,8 +19,8 @@ After {{site.mesh_product_name}} is installed, you can access the control plane 
 | ---- | ---- | ----- |
 | [{{site.mesh_product_name}} GUI](/docs/{{ page.release }}/production/gui/) | Kubernetes and Universal | Read-only |
 | HTTP API | Kubernetes and Universal | Read-only |
-| [kumactl](/docs/{{ page.release }}/introduction/install-kuma/) | Kubernetes | Read-only |
-| [kumactl](/docs/{{ page.release }}/introduction/install-kuma/) | Universal | Read and write |
+| [kumactl](/docs/{{ page.release }}/introduction/install/) | Kubernetes | Read-only |
+| [kumactl](/docs/{{ page.release }}/introduction/install/) | Universal | Read and write |
 | `kubectl` | Kubernetes | Read and write |
 {% endif_version %}
 
