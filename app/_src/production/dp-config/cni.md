@@ -21,7 +21,7 @@ writes executables to the host filesystem as `root`.
 Install the CNI using either
 {% if_version lte:2.1.x %}[kumactl](/docs/{{ page.release }}/installation/kubernetes) or [Helm](/docs/{{ page.release }}/installation/helm){% endif_version %}
 {% if_version gte:2.2.x %}{% if_version lte:2.8.x %}[kumactl](/docs/{{ page.release }}/production/install-kumactl/) or [Helm]https://helm.sh/){% endif_version %}{% endif_version %}
-{% if_version gte:2.9.x %}[kumactl](/docs/{{ page.release }}/introduction/install-kuma/) or [Helm](https://helm.sh/){% endif_version %}.
+{% if_version gte:2.9.x %}[kumactl](/docs/{{ page.release }}/introduction/install/) or [Helm](https://helm.sh/){% endif_version %}.
 The default settings are tuned for OpenShift with Multus.
 To use it in other environments, set the relevant configuration parameters.
 
