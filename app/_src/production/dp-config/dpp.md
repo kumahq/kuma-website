@@ -80,9 +80,27 @@ The control plane uses policies and `Dataplane` entities to generate the DPP con
 
 ### Data plane proxy ports
 
+The `kuma-dp` process and its child process offer a number of services, these services need to listen to a few ports to provide their functionalities. 
+
 When we start a data-plane via `kuma-dp` we expect all the inbound and outbound service traffic to go through it. The inbound and outbound ports are defined in the dataplane specification when running in universal mode, while on Kubernetes the service-to-service traffic always runs on port `15001`.
 
-In addition to the service traffic ports, the data-plane automatically also opens the `envoy` [administration interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) listener on the `127.0.0.1:9901`.
+In addition to the service traffic ports, the data plane proxy also opens the following ports:
+
+* TCP
+    * `9901`: the HTTP server that provides the `Envoy` [administration interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin), It's bound onto the loop-back interfaces, and can be customized using these methods:
+      * On Universal: data field `networking.admin.port` on the data plane object
+      * On Kubernetes: pod annotation `kuma.io/envoy-admin-port`
+{% if_version lte:2.8.x %}
+    * `9000`: the HTTP server that provides the [Virtual Probes](/docs/{{ page.release }}/policies/service-health-probes/#virtual-probes) functionalities. It is automatically enabled on `Kubernetes`; on Universal, it needs to be enabled explicitly. 
+{% endif_version %}
+{% if_version gte:2.9.x %}
+    * `9902`: an internal HTTP server that reports the readiness of current data plane proxy, this server is consumed by endpoint `/ready` of the Envoy Admin API. It can be customized using these methods:
+      * On Universal: environment variable on the data plane host `KUMA_READINESS_PORT`
+      * On Kubernetes: on the control plane, set `KUMA_READINESS_PORT` as part of the value of environment variable `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_ENV_VARS`
+    * `9001`: the HTTP server that provides the [Application Probe Proxy](/docs/{{ page.release }}/policies/service-health-probes/#application-probe-proxy) functionalities. It can be customized using these methods:
+      * On Universal: environment variable `KUMA_APPLICATION_PROBE_PROXY_PORT`. 
+      * On Kubernetes: pod annotation `kuma.io/application-probe-proxy-port`
+{% endif_version %}
 
 ## Schema
 
