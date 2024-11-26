@@ -23,9 +23,6 @@ title: Deploy Kuma on Docker
 {% assign url_installer = site.links.web | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
 {% assign url_installer_external = site.links.share | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
 
-
-{%- comment -%} local docs links {%- endcomment -%}
-
 {% capture MeshTrafficPermission %}[MeshTrafficPermission]({{ docs }}/policies/meshtrafficpermission/){% endcapture %}
 {% capture MeshGateway %}[MeshGateway]({{ docs }}//using-mesh/managing-ingress-traffic/builtin-listeners/){% endcapture %}
 {% capture MeshHTTPRoute %}[MeshHTTPRoute]({{ docs }}/policies/meshhttproute/){% endcapture %}
@@ -41,6 +38,16 @@ You'll set up and secure a simple demo application to explore how {{ Kuma }} wor
 
 - `demo-app`: A web application that lets you increment a numeric counter.
 - `redis`: A data store that keeps the counter's value.
+
+{% mermaid %}
+---
+title: service graph of the demo app
+---
+flowchart LR
+demo-app(demo-app :5000)
+redis(redis :6379)
+demo-app --> redis
+{% endmermaid %}
 
 ## Prerequisites
 
@@ -394,7 +401,7 @@ useradd --uid {{ tproxy.defaults.kuma-dp.uid }} --user-group {{ kuma-dp }}
       exit
       ```
 
-4. **Check if service is running**
+4. {% if page.edition and page.edition == "kuma" %}{:.margin-top-1-5-rem}{% endif %}**Check if service is running**
 
    To confirm the service is set up correctly and running, use the {{ kumactl }} to inspect the services:
    
@@ -494,6 +501,10 @@ The steps are the same as those explained earlier, with only the names changed. 
       ```sh
       exit
       ```
+
+4. {% if page.edition and page.edition == "kuma" %}{:.margin-top-1-5-rem}{% endif %}**Verify the application**
+
+   Open <http://localhost:25000> in your browser and use the demo application to increment the counter. The demo application is now fully set up and running.
 
 ## Introduction to zero-trust security
 
@@ -625,7 +636,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
 
    This sets up the gateway to listen on port `5000` using the HTTP protocol and adds a tag (`port: http-5000`) to identify this listener in routing policies.
 
-   You can test the gateway by visiting <http://localhost:25001/>. You should see a message saying no routes match this {{ MeshGateway }}. This means the gateway is running, but no routes are set up yet to handle traffic.
+   You can test the gateway by visiting <http://localhost:25001>. You should see a message saying no routes match this {{ MeshGateway }}. This means the gateway is running, but no routes are set up yet to handle traffic.
 
 5. **Create a route to connect the gateway to `demo-app`**
 
