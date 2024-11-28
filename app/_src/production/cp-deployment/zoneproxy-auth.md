@@ -309,7 +309,3 @@ You should not disable authentication between the control plane and
 the data plane proxies in production. Disabling means that any data plane proxy
 can impersonate any service.
 {% endwarning %}
-
-## Legacy Zone Ingress Token
-
-Authenticating Zone Ingress using [separate Zone Ingress Token](https://kuma.io/docs/1.8.x/security/zone-ingress-auth/) is still possible, but it is deprecated and will be removed in the future.
