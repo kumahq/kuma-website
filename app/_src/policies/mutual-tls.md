@@ -8,14 +8,15 @@ If you want to configure version, ciphers or per service permissive / strict mod
 {% endtip %}
 {% endif_version %}
 
-This policy enables automatic encrypted mTLS traffic for all the services in a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %}, as well as assigning an identity to every data plane proxy. {{site.mesh_product_name}} supports different types of CA backends as well as automatic certificate rotation.
+
+This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](/docs/{{ page.release }}/production/mesh/), as well as assigning an identity to every data plane proxy. {{site.mesh_product_name}} supports different types of CA backends as well as automatic certificate rotation.
 
 {{site.mesh_product_name}} ships with the following CA (Certificate Authority) supported backends:
 
-- [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a {% if_version lte:2.1.x %}[Secret](/docs/{{ page.release }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[Secret](/docs/{{ page.release }}/production/secure-deployment/secrets/){% endif_version %}.
-- [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a {% if_version lte:2.1.x %}[Secret](/docs/{{ page.release }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[Secret](/docs/{{ page.release }}/production/secure-deployment/secrets/){% endif_version %}.
+- [builtin](#usage-of-builtin-ca): it automatically auto-generates a CA root certificate and key, that are also being automatically stored as a [Secret](/docs/{{ page.release }}/production/secure-deployment/secrets/).
+- [provided](#usage-of-provided-ca): the CA root certificate and key are being provided by the user in the form of a [Secret](/docs/{{ page.release }}/production/secure-deployment/secrets/).
 
-Once a CA backend has been specified, {{site.mesh_product_name}} will then automatically generate a certificate for every data plane proxy in the {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %}. The certificates that {{site.mesh_product_name}} generates are SPIFFE compatible and are used for AuthN/Z use-cases in order to identify every workload in our system.
+Once a CA backend has been specified, {{site.mesh_product_name}} will then automatically generate a certificate for every data plane proxy in the [`Mesh`](/docs/{{ page.release }}/production/mesh/). The certificates that {{site.mesh_product_name}} generates are SPIFFE compatible and are used for AuthN/Z use-cases in order to identify every workload in our system.
 
 {% tip %}
 The certificates that {{site.mesh_product_name}} generates have a SAN set to `spiffe://<mesh name>/<service name>`. When {{site.mesh_product_name}} enforces policies that require an identity like {% if_version lte:2.5.x %}[`TrafficPermission`](/docs/{{ page.release }}/policies/traffic-permissions){% endif_version %}{% if_version gte:2.6.x %}[`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission){% endif_version %} it will extract the SAN from the client certificate and use it to match the service identity.
@@ -27,7 +28,7 @@ Remember that by default mTLS **is not** enabled and needs to be explicitly enab
 Always make sure that a {% if_version lte:2.5.x %}[`TrafficPermission`](/docs/{{ page.release }}/policies/traffic-permissions){% endif_version %}{% if_version gte:2.6.x %}[`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission){% endif_version %} resource is present before enabling mTLS in a Mesh in order to avoid unexpected traffic interruptions caused by a lack of authorization between proxies.
 {% endtip %}
 
-To enable mTLS we need to configure the `mtls` property in a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %} resource. We can have as many `backends` as we want, but only one at a time can be enabled via the `enabledBackend` property.
+To enable mTLS we need to configure the `mtls` property in a [`Mesh`](/docs/{{ page.release }}/production/mesh/) resource. We can have as many `backends` as we want, but only one at a time can be enabled via the `enabledBackend` property.
 
 If `enabledBackend` is missing or empty, then mTLS will be disabled for the entire Mesh.
 
@@ -103,7 +104,7 @@ A few considerations:
 
 ### Storage of Secrets
 
-When using a `builtin` backend {{site.mesh_product_name}} automatically generates a root CA certificate and key that are being stored as a {{site.mesh_product_name}} {% if_version lte:2.1.x %}[Secret resource](/docs/{{ page.release }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[Secret resource](/docs/{{ page.release }}/production/secure-deployment/secrets/){% endif_version %} with the following name:
+When using a `builtin` backend {{site.mesh_product_name}} automatically generates a root CA certificate and key that are being stored as a {{site.mesh_product_name}} [Secret resource](/docs/{{ page.release }}/production/secure-deployment/secrets/) with the following name:
 
 - `{mesh name}.ca-builtin-cert-{backend name}` for the certificate
 - `{mesh name}.ca-builtin-key-{backend name}` for the key
@@ -145,7 +146,7 @@ kubectl get secrets \
 
 If you choose to provide your own CA root certificate and key, you can use the `provided` backend. With this option, you must also manage the certificate lifecycle yourself.
 
-Unlike the `builtin` backend, with `provided` you first upload the certificate and key as {% if_version lte:2.1.x %}[Secret resource](/docs/{{ page.release }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[Secret resource](/docs/{{ page.release }}/production/secure-deployment/secrets/){% endif_version %}, and then reference the Secrets in the mTLS configuration.
+Unlike the `builtin` backend, with `provided` you first upload the certificate and key as [Secret resource](/docs/{{ page.release }}/production/secure-deployment/secrets/), and then reference the Secrets in the mTLS configuration.
 
 {{site.mesh_product_name}} then provisions data plane proxy certificates for every replica of every service from the CA root certificate and key.
 
@@ -294,7 +295,7 @@ openssl req -config <(echo "$SAMPLE_CA_CONFIG") -new -newkey rsa:2048 -nodes \
   -subj "/CN=Hello" -x509 -extensions ext -keyout key.pem -out crt.pem
 ```
 
-The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the {{site.mesh_product_name}} Secret resources by following the {% if_version lte:2.1.x %}[Secret resource](/docs/{{ page.release }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[Secret resource](/docs/{{ page.release }}/production/secure-deployment/secrets/){% endif_version %}.
+The command will generate a certificate at `crt.pem` and the key at `key.pem`. We can generate the {{site.mesh_product_name}} Secret resources by following the [Secret resource](/docs/{{ page.release }}/production/secure-deployment/secrets/).
 
 {% endtab %}
 {% endtabs %}

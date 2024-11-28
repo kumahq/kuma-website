@@ -315,5 +315,5 @@ The {{site.mesh_product_name}} Gateway resource types, `MeshGateway`, [`MeshHTTP
 If you have a multi-zone deployment, follow existing {{site.mesh_product_name}} practice and create any {{site.mesh_product_name}} Gateway resources in the global control plane.
 Once these resources exist, you can provision serving capacity in the zones where it is needed by deploying built-in gateway `Dataplanes` (in Universal zones) or `MeshGatewayInstances` (Kubernetes zones).
 
-See the {% if_version lte:2.1.x %}[multi-zone docs](/docs/{{ page.release }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone docs](/docs/{{ page.release }}/production/deployment/multi-zone/){% endif_version %} for a
+See the [multi-zone docs](/docs/{{ page.release }}/production/deployment/multi-zone/) for a
 refresher.

@@ -118,29 +118,6 @@ metadata:
 Annotating pods or deployments will take precedence on the namespace annotation.
 {% endif_version %}
 
-{% if_version lte:2.1.x %}
-### `kuma.io/sidecar-injection`
-
-Similar to the preferred [label](#kumaiosidecar-injection).
-
-**Example**
-
-```yaml
-apiVersion: v1
-kind: Namespace
-metadata:
- name: default
- annotations:
-   kuma.io/sidecar-injection: enabled
-[...]
-```
-
-{% warning %}
-While you can still use annotations to inject sidecar, we strongly recommend using labels.
-It's the only way to guarantee that application can only be started with sidecar.
-{% endwarning %}
-{% endif_version %}
-
 ### `kuma.io/gateway`
 
 Lets you specify the Pod should run in gateway mode. Inbound listeners are not generated.
@@ -305,7 +282,7 @@ Specifies the list of names of `ContainerPatch` resources to be applied on
 `kuma-init` and `kuma-sidecar` containers.
 
 More information about how to use `ContainerPatch` you can find at
-{% if_version lte:2.1.x %}[Custom Container Configuration](/docs/{{ page.release }}/explore/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}{% if_version gte:2.2.x %}[Custom Container Configuration](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}.
+[Custom Container Configuration](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration).
 
 **Example**
 
@@ -548,7 +525,7 @@ spec:
 ### `kuma.io/transparent-proxying-reachable-services`
 
 A comma separated list of `kuma.io/service` to indicate which services this communicates with.
-For more details see the {% if_version lte:2.1.x %}[reachable services docs](/docs/{{ page.release }}/networking/transparent-proxying#reachable-services){% endif_version %}{% if_version gte:2.2.x %}[reachable services docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying#reachable-services){% endif_version %}.
+For more details see the [reachable services docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying#reachable-services).
 
 **Example**
 
@@ -575,7 +552,7 @@ spec:
 
 When transparent proxy is installed with ebpf mode, you can disable it for particular workloads if necessary.
 
-For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental).
 
 **Example**
 
@@ -601,7 +578,7 @@ spec:
 
 Path to BPF FS if different than default (`/sys/fs/bpf`)
 
-For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental).
 
 **Example**
 
@@ -627,7 +604,7 @@ spec:
 
 cgroup2 path if different than default (`/sys/fs/cgroup`)
 
-For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental).
 
 **Example**
 
@@ -653,7 +630,7 @@ spec:
 
 Custom path for ebpf programs to be loaded when installing transparent proxy
 
-For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental).
 
 **Example**
 
@@ -681,7 +658,7 @@ Name of the network interface which should be used to attach to it TC-related
 eBPF programs. By default {{site.mesh_product_name}} will use first, non-loopback
 interface it'll find.
 
-For more details see the {% if_version lte:2.1.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/networking/transparent-proxying#transparent-proxy-with-ebpf-experimental){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental){% endif_version %}.
+For more details see the [transparent proxying with ebpf docs](/docs/{{ page.release }}/production/dp-config/transparent-proxying/#transparent-proxy-with-ebpf-experimental).
 
 **Example**
 
@@ -759,7 +736,7 @@ spec: ...
 
 ### `kuma.io/transparent-proxying-inbound-v6-port`
 
-Define the port to use for {% if_version lte:2.1.x %}[IPv6](/docs/{{ page.release }}/networking/ipv6){% endif_version %}{% if_version gte:2.2.x %}[IPv6](/docs/{{ page.release }}/production/dp-config/ipv6/){% endif_version %} traffic. To turn off IPv6 set this to 0.
+Define the port to use for [IPv6](/docs/{{ page.release }}/production/dp-config/ipv6/) traffic. To turn off IPv6 set this to 0.
 
 **Example**
 

@@ -212,7 +212,7 @@ spec:
       - name: secret-tls
 ```
 
-Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mesh_namespace}}` namespace and converts it to {% if_version lte:2.1.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.release }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.release }}/production/secure-deployment/secrets/){% endif_version %}.
+Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mesh_namespace}}` namespace and converts it to [{{site.mesh_product_name}} secret](/docs/{{ page.release }}/production/secure-deployment/secrets/).
 It tracks all the changes to the secret and deletes it upon deletion of the original secret.
 
 {% endif_version %}
@@ -502,4 +502,3 @@ This is why in the GUI, {{site.mesh_product_name}} `MeshGateways`/{% if_version 
 
 Kubernetes Gateway API resources serve as the source of truth for {{site.mesh_product_name}} gateways and routes.
 Any edits to the corresponding {{site.mesh_product_name}} resources are overwritten.
-

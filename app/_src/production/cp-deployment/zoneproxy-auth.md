@@ -201,7 +201,7 @@ the new signing key.
 {{ tabbed_content | indent }}
 
 
-{% if_version gte:2.2.x %}
+
 ### Offline token issuing
 
 In addition to the regular flow of generating signing keys, storing them in secret, and using them to sign tokens on the control plane, Kuma also offers offline signing of tokens.
@@ -294,7 +294,7 @@ Signing key rotation works similarly:
 * configure a control plane with old and new public keys
 * regenerate tokens for all existing zone proxies with the new private key
 * remove the old public key from the configuration
-{% endif_version %}
+
 
 ### Multi-zone
 

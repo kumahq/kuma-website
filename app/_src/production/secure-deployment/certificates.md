@@ -13,7 +13,7 @@ This page explains how secure access is provided across a {{site.mesh_product_na
 directory is `$HOME/.kuma`. You can change the working directory by setting the `KUMA_GENERAL_WORK_DIR` environment variable.
 
 {% tip %}
-This section is not to be confused with the [mTLS policy](/docs/{{ page.release }}/policies/mutual-tls/) that you can apply to a {% if_version lte:2.1.x %}[Mesh](/docs/{{ page.release }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[Mesh](/docs/{{ page.release }}/production/mesh/){% endif_version %} to secure service-to-service traffic.
+This section is not to be confused with the [mTLS policy](/docs/{{ page.release }}/policies/mutual-tls/) that you can apply to a [Mesh](/docs/{{ page.release }}/production/mesh/) to secure service-to-service traffic.
 {% endtip %}
 
 ## Data plane proxy to control plane communication
@@ -108,7 +108,7 @@ You can also provide the CA via environment variable `KUMA_CONTROL_PLANE_CA_CERT
 
 ### Authentication
 
-See {% if_version lte:2.1.x %}[Data plane proxy authentication](/docs/{{ page.release }}/security/dp-auth/){% endif_version %}{% if_version gte:2.2.x %}[Data plane proxy authentication](/docs/{{ page.release }}/production/secure-deployment/dp-auth/){% endif_version %} and {% if_version lte:2.1.x %}[Zone proxy authentication](/docs/{{ page.release }}/security/zoneproxy-auth){% endif_version %}{% if_version gte:2.2.x %}[Zone proxy authentication](/docs/{{ page.release }}/production/cp-deployment/zoneproxy-auth/){% endif_version %}.
+See [Data plane proxy authentication](/docs/{{ page.release }}/production/secure-deployment/dp-auth/) and [Zone proxy authentication](/docs/{{ page.release }}/production/cp-deployment/zoneproxy-auth/).
 
 ## Prometheus to control plane communication
 
@@ -224,7 +224,7 @@ KUMA_API_SERVER_HTTPS_TLS_CERT_FILE=/tmp/tls.crt \
 
 ### Authentication
 
-See {% if_version lte:2.1.x %}[API Server authentication](/docs/{{ page.release }}/security/api-server-auth/){% endif_version %}{% if_version gte:2.2.x %}[API Server authentication](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/){% endif_version %}.
+See [API Server authentication](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/).
 
 ## Control plane to control plane (Multizone)
 
