@@ -14,7 +14,7 @@ title: service graph of the demo app
 ---
 flowchart LR
 demo-app(demo-app :5050)
-kv(`kv` :5050)
+kv(kv :5050)
 demo-app --> kv
 {% endmermaid %}
 
@@ -50,7 +50,7 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh
 
 1.  Deploy the application
     ```sh
-    kubectl apply -f {% mdemo /k8s/001-with-kuma.yaml %}
+    kubectl apply -f kuma-demo://k8s/000-with-kuma.yaml
     kubectl wait -n kuma-demo --for=condition=ready pod --selector=app=demo-app --timeout=90s
     ```
 
@@ -122,18 +122,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.9.x %}
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: Mesh
-metadata:
-  name: default
-spec:
-  meshServices:
-    mode: Exclusive
-  mtls:
-    enabledBackend: ca-1
-    backends:
-    - name: ca-1
-      type: builtin" | kubectl apply -f -
+kubectl patch mesh default --type merge --patch "$(curl kuma-demo://kustomize/overlays/001-with-mtls/mesh.yaml)"
 ```
 {% endif_version %}
 
@@ -143,7 +132,7 @@ means that no traffic will flow with mTLS enabled until we define a proper [Mesh
 
 For now, the demo application won't work.
 You can verify this by clicking the increment button again and seeing the error message in the browser.
-We can allow the traffic from the `demo-app` to `redis` by applying the following `MeshTrafficPermission`:
+We can allow the traffic from the `demo-app` to `kv` by applying the following `MeshTrafficPermission`:
 
 {% if_version lte:2.8.x %}
 ```sh
@@ -168,24 +157,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.9.x %}
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: kuma-demo
-  name: kv
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      app: kv
-  from:
-    - targetRef:
-        kind: MeshSubset
-        tags:
-          app: demo-app
-          k8s.kuma.io/namespace: kuma-demo
-      default:
-        action: Allow" | kubectl apply -f -
+kubectl apply -f kuma-demo://kustomize/overlays/001-with-mtls/mesh-traffic-permission.yaml
 ```
 {% endif_version %}
 

@@ -28,7 +28,7 @@ flowchart LR
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 
 {% tip %}
-running `kubectl apply -f {% mdemo /k8s/001-with-mtls.yaml %}`
+running `kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml`
 will set up the equivalent of the quickstart with TLS enabled. 
 {% endtip %}
 
@@ -41,14 +41,7 @@ that will run the gateway.
 
 Create it by running:
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshGatewayInstance
-metadata:
-  name: edge-gateway
-  namespace: kuma-demo
-spec:
-  replicas: 1
-  serviceType: LoadBalancer" | kubectl apply -f -
+kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway-instance.yaml
 ```
 
 {% warning %}
@@ -67,21 +60,7 @@ One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.co
 Define a single HTTP listener on port 8080:
 
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshGateway
-mesh: default
-metadata:
-  name: edge-gateway
-spec:
-  selectors:
-    - match:
-        kuma.io/service: edge-gateway_kuma-demo_svc
-  conf:
-    listeners:
-      - port: 8080
-        protocol: HTTP
-        tags:
-          port: http-8080" | kubectl apply -f -
+kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway.yaml
 ```
 
 Notice how the selector selects the `kuma.io/service` tag of the previously defined `MeshGatewayInstance`.
@@ -163,33 +142,15 @@ spec:
 ```
 {% endif_version %}
 {% if_version gte:2.9.x %}
+{% if site.mesh_namespace != "kuma-system" %}
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshHTTPRoute
-metadata:
- name: edge-gateway-route
- namespace: {{site.mesh_namespace}} 
- labels:
-   kuma.io/mesh: default
-spec:
- targetRef:
-   kind: MeshGateway
-   name: edge-gateway
- to:
- - targetRef:
-     kind: Mesh
-   rules:
-   - matches:
-     - path:
-         type: PathPrefix
-         value: "/"
-     default:
-       backendRefs:
-       - kind: MeshService
-         name: demo-app
-         namespace: kuma-demo
-         port: 5050" | kubectl apply -f -
+curl -s kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway-instance.yaml | sed 's/kuma-system/{{ site.mesh_namespace }}/g' | kubectl apply -f -
 ```
+{% else %}
+```sh
+kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway-instance.yaml
+```
+{% endif %}
 {% endif_version %}
 
 Now try to reach our gateway again: 
@@ -245,23 +206,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.9.x %}
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: kuma-demo 
-  name: demo-app
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      app: demo-app
-  from:
-    - targetRef:
-        kind: MeshSubset
-        tags: 
-          kuma.io/service: edge-gateway_kuma-demo_svc 
-      default:
-        action: Allow" | kubectl apply -f -
+kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-traffic-permission.yaml
 ```
 {% endif_version %}
 

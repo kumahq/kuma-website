@@ -19,7 +19,7 @@ flowchart LR
     gw0(/ :80)
   end
   demo-app(demo-app :5050)
-  kv(`kv` :5050)
+  kv(kv :5050)
   gw0 --> demo-app 
   demo-app --> kv
 {% endmermaid %}
@@ -28,7 +28,7 @@ flowchart LR
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 
 {% tip %}
-running `kubectl apply -f {% mdemo /k8s/001-with-mtls.yaml %}`
+running `kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml`
 will set up the equivalent of the quickstart with TLS enabled.
 {% endtip %}
 
