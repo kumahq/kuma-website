@@ -4,8 +4,8 @@ title: Deploy Kuma on Kubernetes
 
 To start learning how {{site.mesh_product_name}} works, you run and secure a simple demo application that consists of two services:
 
-- `demo-app`: a web application that lets you increment a numeric counter. It listens on port 5000
-- `redis`: data store for the counter
+- `demo-app`: a web application that lets you increment a numeric counter. It listens on port 5050
+- `kv`: an in-memory http database that lets you increment a numeric counter. It listens on port 5050
 
 
 {% mermaid %}
@@ -13,9 +13,9 @@ To start learning how {{site.mesh_product_name}} works, you run and secure a sim
 title: service graph of the demo app
 ---
 flowchart LR
-demo-app(demo-app :5000)
-redis(redis :6379)
-demo-app --> redis
+demo-app(demo-app :5050)
+kv(kv :5050)
+demo-app --> kv
 {% endmermaid %}
 
 
@@ -50,17 +50,22 @@ helm install --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh
 
 1.  Deploy the application
     ```sh
-    kubectl apply -f https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.yaml
+    kubectl apply -f {% mdemo /k8s/001-with-kuma.yaml %}
     kubectl wait -n kuma-demo --for=condition=ready pod --selector=app=demo-app --timeout=90s
     ```
 
 2.  Port-forward the service to the namespace on port 5000:
 
     ```sh
-    kubectl port-forward svc/demo-app -n kuma-demo 5000:5000
+    kubectl port-forward svc/demo-app -n kuma-demo 5050:5050
     ```
 
-3.  In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter.
+3.  In a browser, go to [127.0.0.1:5050](http://127.0.0.1:5050) and increment the counter. 
+
+{% tip %}
+You can also use the command line `curl -XPOST localhost:5050/api/counter` or play with the demo [in Insomnia](https://insomnia.rest/run/?label=kuma-counter-demo&uri=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma-counter-demo%2Fblob%2F{{ site.mesh_demo_version }}%2Fopenapi.yaml).
+{% endtip %}
+
 
 The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace.
 
@@ -146,17 +151,17 @@ echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
   namespace: {{site.mesh_namespace}}
-  name: redis
+  name: kv
 spec:
   targetRef:
     kind: MeshSubset
     tags:
-      kuma.io/service: redis_kuma-demo_svc_6379
+      kuma.io/service: kv_kuma-demo_svc_5050
   from:
     - targetRef:
         kind: MeshSubset
         tags:
-          kuma.io/service: demo-app_kuma-demo_svc_5000
+          kuma.io/service: demo-app_kuma-demo_svc_5050
       default:
         action: Allow" | kubectl apply -f -
 ```
@@ -167,24 +172,25 @@ echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
   namespace: kuma-demo
-  name: redis
+  name: kv
 spec:
   targetRef:
     kind: MeshSubset
     tags:
-      app: redis
+      app: kv
   from:
     - targetRef:
         kind: MeshSubset
         tags:
-          kuma.io/service: demo-app_kuma-demo_svc_5000
+          app: demo-app
+          k8s.kuma.io/namespace: kuma-demo
       default:
         action: Allow" | kubectl apply -f -
 ```
 {% endif_version %}
 
 You can click the increment button, the application should function once again.
-However, the traffic to `redis` from any other service than `demo-app` is not allowed.
+However, the traffic to `kv` from any other service than `demo-app` is not allowed.
 
 ## Next steps
 

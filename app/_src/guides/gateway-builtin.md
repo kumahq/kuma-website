@@ -18,14 +18,19 @@ flowchart LR
   subgraph edge-gateway
     gw0(/ :8080)
   end
-  demo-app(demo-app :5000)
-  redis(redis :6379)
+  demo-app(demo-app :5050)
+  kv(kv :5050)
   gw0 --> demo-app 
-  demo-app --> redis
+  demo-app --> kv
 {% endmermaid %}
 
 ## Prerequisites
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+
+{% tip %}
+running `kubectl apply -f {% mdemo /k8s/001-with-mtls.yaml %}`
+will set up the equivalent of the quickstart with TLS enabled. 
+{% endtip %}
 
 ## Start a gateway 
 
@@ -66,7 +71,7 @@ echo "apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
 mesh: default
 metadata:
-  name: my-gateway
+  name: edge-gateway
 spec:
   selectors:
     - match:
@@ -142,7 +147,7 @@ metadata:
 spec:
  targetRef:
    kind: MeshGateway
-   name: my-gateway
+   name: edge-gateway
  to:
  - targetRef:
      kind: Mesh
@@ -169,7 +174,7 @@ metadata:
 spec:
  targetRef:
    kind: MeshGateway
-   name: my-gateway
+   name: edge-gateway
  to:
  - targetRef:
      kind: Mesh
@@ -183,7 +188,7 @@ spec:
        - kind: MeshService
          name: demo-app
          namespace: kuma-demo
-         port: 5000" | kubectl apply -f -
+         port: 5050" | kubectl apply -f -
 ```
 {% endif_version %}
 
@@ -262,7 +267,7 @@ spec:
 
 Check it works with:
 ```sh
-curl -XPOST -v ${PROXY_IP}:8080/increment
+curl -XPOST -v ${PROXY_IP}:8080/api/counter
 ```
 
 Now returns a 200 OK response:
@@ -320,7 +325,7 @@ echo "apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
 mesh: default
 metadata:
-  name: my-gateway
+  name: edge-gateway
 spec:
   selectors:
     - match:
@@ -339,7 +344,7 @@ spec:
 
 Check the call to the gateway: 
 ```sh
-curl -X POST -v --insecure "https://${PROXY_IP}:8080/increment"
+curl -X POST -v --insecure "https://${PROXY_IP}:8080/api/counter"
 ```
 
 Which should output a successful call and indicate TLS is being used:
