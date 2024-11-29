@@ -26,7 +26,7 @@ Finally, we can install and run {{site.mesh_product_name}}:
 kumactl install control-plane | kubectl apply -f -
 ```
 
-This example will run {{site.mesh_product_name}} in {% if_version lte:2.5.x %}`standalone`{% endif_version %}{% if_version gte:2.6.x %}`single-zone`{% endif_version %} mode for a "flat" deployment, but there are more advanced {% if_version lte:2.1.x %}[deployment modes](/docs/{{ page.release }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployment modes](/docs/{{ page.release }}/production/deployment/){% endif_version %} like "multi-zone".
+This example will run {{site.mesh_product_name}} in {% if_version lte:2.5.x %}`standalone`{% if_version gte:2.6.x %}`single-zone` mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.release }}/production/deployment/) like "multi-zone".
 
 {% tip %}
 It may take a while for Kubernetes to start the {{site.mesh_product_name}} resources, you can check the status by executing:

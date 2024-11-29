@@ -82,9 +82,6 @@ Validation of the origin label can be disabled by [configuring](/docs/{{ page.re
 
 {% endif_version %}
 
-{% if_version gte:1.3.x %}
-
-{% endif_version %}
 
 {% if_version gte:2.7.x %}
 

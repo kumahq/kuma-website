@@ -411,11 +411,6 @@ an outbound to your `Dataplane` objects if you want to access it:
 
 #### Limitations
 
-{% if_version lte:1.8.x %}
-Cross-mesh functionality isn't supported across zones at the
-moment but will be in a future release.
-
-{% endif_version %}
 The only `protocol` supported is `HTTP`.
 Like service to service traffic,
 all traffic to the gateway is protected with mTLS

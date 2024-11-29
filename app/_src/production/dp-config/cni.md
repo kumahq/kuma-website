@@ -5,7 +5,7 @@ content_type: how-to
 
 In order for traffic to flow through the {{site.mesh_product_name}} data plane, all inbound and
 outbound traffic for a service needs to go through its data plane proxy.
-The recommended way of accomplishing this is via {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/){% endif_version %}.
+The recommended way of accomplishing this is via [transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/).
 
 On Kubernetes it's handled automatically by default with the
 `initContainer` `kuma-init`, but this container requires certain privileges.
@@ -19,9 +19,9 @@ writes executables to the host filesystem as `root`.
 {% endtip %}
 
 Install the CNI using either
-{% if_version lte:2.1.x %}[kumactl](/docs/{{ page.release }}/installation/kubernetes) or [Helm](/docs/{{ page.release }}/installation/helm){% endif_version %}
-{% if_version gte:2.2.x %}{% if_version lte:2.8.x %}[kumactl](/docs/{{ page.release }}/production/install-kumactl/) or [Helm]https://helm.sh/){% endif_version %}{% endif_version %}
-{% if_version gte:2.9.x %}[kumactl](/docs/{{ page.release }}/introduction/install/) or [Helm](https://helm.sh/){% endif_version %}.
+
+{% if_version lte:2.8.x %}[kumactl](/docs/{{ page.release }}/production/install-kumactl/) or [Helm]https://helm.sh/){% endif_version %}
+{% if_version gte:2.9.x %}[kumactl](/docs/{{ page.release }}/introduction/install/) or [Helm](https://helm.sh/).{% endif_version %}
 The default settings are tuned for OpenShift with Multus.
 To use it in other environments, set the relevant configuration parameters.
 
@@ -170,23 +170,6 @@ cni.containerSecurityContext.privileged=true
 
 {% endtabs %}
 
-{% if_version lte:2.1.x %}
-
-## {{site.mesh_product_name}} CNI v2
-
-The CNI v2 is a rewritten and improved version of the previous transparent-proxy.
-
-To install v2 CNI append the following options to the command from [installation](#installation):
-
-```
---set ... \
---set "{{site.set_flag_values_prefix}}cni.enabled=true" \
---set "{{site.set_flag_values_prefix}}experimental.cni=true"
-```
-
-Until 2.2.x the v2 CNI was behind an `experimental` flag, but now it's the default.
-{% endif_version %}
-
 ### {{site.mesh_product_name}} CNI taint controller
 
 To prevent a race condition described in [this issue](https://github.com/kumahq/kuma/issues/4560) a new controller was implemented.
@@ -216,17 +199,8 @@ and have `cgroup2` available
 
 ## {{site.mesh_product_name}} CNI logs
 
-{% if_version lte:2.1.x %}
-Logs of the CNI plugin are available in `/tmp/kuma-cni.log` on the node and the logs of the installer are available via `kubectl logs`.
-
-If you are using the CNI v2 version logs are available via `kubectl logs` instead.
-{% endif_version %}
-
-{% if_version gte:2.2.x %}
 Logs of the are available via `kubectl logs`.
 
 {% warning %}
 eBPF CNI currently doesn't have support for exposing its logs.
 {% endwarning %}
-
-{% endif_version %}
