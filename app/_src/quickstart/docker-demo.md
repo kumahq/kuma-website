@@ -17,7 +17,9 @@ title: Deploy Kuma on Docker
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
 {% assign kuma-demo = kuma | append: "-demo" %}
 {% assign docker_org = site.mesh_docker_org | default: "kumahq" %}
-{% assign kuma-dp = kuma | append: "-data-plane-proxy" %}
+{% assign kuma-data-plane-proxy = kuma | append: "-data-plane-proxy" %}
+{% assign tmp = "/tmp/" | append: kuma-demo %}
+{% assign tmp-colima = "/tmp/colima/" | append: kuma-demo %}
 
 {% capture edition %}{% if page.edition and page.edition != "kuma" %}/{{ page.edition }}{% endif %}{% endcapture %}
 {% assign url_installer = site.links.web | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
@@ -37,16 +39,23 @@ This quick start guide demonstrates how to run {{ Kuma }} in Universal mode usin
 You'll set up and secure a simple demo application to explore how {{ Kuma }} works. The application consists of two services:
 
 - `demo-app`: A web application that lets you increment a numeric counter.
-- `redis`: A data store that keeps the counter's value.
+- `kv`: A data store that keeps the counter's value.
 
 {% mermaid %}
 ---
 title: service graph of the demo app
 ---
 flowchart LR
-demo-app(demo-app :5000)
-redis(redis :6379)
-demo-app --> redis
+browser(browser)
+
+subgraph mesh
+edge-gateway(edge-gateway)
+demo-app(demo-app :5050)
+kv(kv :5050)
+end
+edge-gateway --> demo-app
+demo-app --> kv
+browser --> edge-gateway
 {% endmermaid %}
 
 ## Prerequisites
@@ -66,7 +75,7 @@ demo-app --> redis
 
    {{ note-docker-engine | indent }}
 
-2. If you previously followed the [Deploy {{ Kuma }} on Universal quickstart]({{ docs }}/quickstart/universal-demo/) on the same machine, we recommend cleaning up your environment to ensure no control plane, Redis, demo-app, or their data plane proxies are still running.
+2. If you previously followed the [Deploy {{ Kuma }} on Universal quickstart]({{ docs }}/quickstart/universal-demo/) on the same machine, we recommend cleaning up your environment to ensure no control plane, application services, or their data plane proxies are still running.
 
    This isn’t mandatory, but it’s easy to accidentally mix up ports when typing commands manually, leading to unexpected results. If you copy the commands from this guide exactly or know what you’re doing and want to compare results between guides, you can skip this step.
 
@@ -118,23 +127,19 @@ demo-app --> redis
 
 3. **Prepare a temporary directory**
 
-   Set up a temporary directory to store resources like data plane tokens, {{ Dataplane }} templates, and logs. Export its path to the `{{ KUMA_DEMO_TMP }}` environment variable for use in later steps. Ensure the path does not end with a trailing `/`.
+   Set up a temporary directory to store resources like data plane tokens, {{ Dataplane }} templates, and logs. Ensure the path does not end with a trailing `/`.
 
    {% capture warning-colima-adjust-path %}
    {% warning %}
-   **Important:** If you are using **Colima**, you need to adjust the path. Colima only allows sharing paths from the `HOME` directory or `/tmp/colima/`. Instead of `/tmp/{{ kuma-demo }}`, you can use `/tmp/colima/{{ kuma-demo }}`.
+   **Important:** If you are using **Colima**, make sure to adjust the path in the steps of this guide. Colima only allows shared paths from the `HOME` directory or `/tmp/colima/`. Instead of `{{ tmp }}`, you can use `{{ tmp-colima }}`.
    {% endwarning %}
    {% endcapture %}
    {{ warning-colima-adjust-path | indent }}
 
-   ```sh
-   export {{ KUMA_DEMO_TMP }}="/tmp/{{ kuma-demo }}"
-   ```
-
    Check if the directory exists and is empty, and create it if necessary:
 
    ```sh
-   mkdir -p "${{ KUMA_DEMO_TMP }}"
+   mkdir -p {{ tmp }}
    ```
 
 4. **Prepare a Dataplane resource template**
@@ -151,10 +156,10 @@ demo-app --> redis
        - port: {% raw %}{{ port }}{% endraw %}
          tags:
            kuma.io/service: {% raw %}{{ name }}{% endraw %}
-           kuma.io/protocol: {% raw %}{{ protocol }}{% endraw %}
+           kuma.io/protocol: http
      transparentProxying:
        redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
-       redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}' > ${{ KUMA_DEMO_TMP }}/dataplane.yaml
+       redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}' > {{ tmp }}/dataplane.yaml 
    ```
    
    This template simplifies creating Dataplane configurations for different services by replacing dynamic values during deployment.
@@ -162,11 +167,11 @@ demo-app --> redis
 5. **Prepare a transparent proxy configuration file**
 
    ```sh
-   echo 'kumaDPUser: {{ kuma-dp }}
+   echo 'kumaDPUser: {{ kuma-data-plane-proxy }}
    redirect:
      dns:
        enabled: true
-   verbose: true' > ${{ KUMA_DEMO_TMP }}/config-transparent-proxy.yaml
+   verbose: true' > {{ tmp }}/config-transparent-proxy.yaml
    ```
 
 6. **Create a Docker network**
@@ -185,8 +190,8 @@ demo-app --> redis
 
 1. **Start the control plane**
 
-   Run the Kuma control plane in a Docker container:
-   
+   Use the official Docker image to run the {{ Kuma }} control plane. This image starts the control plane binary automatically, so no extra flags or configurations are needed for this guide. Simply use the `run` command:
+
    ```sh
    docker run \
      --detach \
@@ -195,11 +200,11 @@ demo-app --> redis
      --network {{ kuma-demo }} \
      --ip {{ ip_abc }}.1 \
      --publish 25681:5681 \
-     --volume ${{ KUMA_DEMO_TMP }}:/demo \
+     --volume {{ tmp }}:/demo \
      {{ docker_org }}/kuma-cp:{{ version_full }} run
-   ```
-   
-   You can now access the [{{ Kuma }} user interface (GUI)]({{ docs }}/production/gui/) at <http://localhost:25681/gui>
+   ```  
+
+   You can now access the [{{ Kuma }} user interface (GUI)]({{ docs }}/production/gui/) at <http://localhost:25681/gui>.
 
 2. **Configure kumactl**
 
@@ -255,23 +260,21 @@ demo-app --> redis
 
 ## Set up services
 
-{% capture code-block-install-required-tools %}
+{% capture code-block-install-tools-create-user %}
 ```sh
+# install necessary packages
 apt-get update && \
   apt-get install --yes curl iptables
-```
-{% endcapture %}
-{% capture code-block-install-kuma %}
-```sh
+
+# download and install {{ Kuma }}
 curl --location {{ url_installer_external }} {% if version == "preview" or page.edition and page.edition != "kuma" %}\
   {% endif %}| VERSION="{{ version_full }}" sh -
 
+# move {{ Kuma }} binaries to /usr/local/bin/ for global availability
 mv {{ kuma }}-{{ version_full }}/bin/* /usr/local/bin/
-```
-{% endcapture %}
-{% capture code-block-add-kuma-dp-user %}
-```sh
-useradd --uid {{ tproxy.defaults.kuma-dp.uid }} --user-group {{ kuma-dp }}
+
+# create a dedicated user for the data plane proxy
+useradd --uid {{ tproxy.defaults.kuma-dp.uid }} --user-group {{ kuma-data-plane-proxy }}
 ```
 {% endcapture %}
 {% capture warning-run-inside-container %}
@@ -292,39 +295,41 @@ useradd --uid {{ tproxy.defaults.kuma-dp.uid }} --user-group {{ kuma-dp }}
 {% endwarning %}
 {% endcapture %}
 
-### Redis
+### Key/Value Store
+
+This section explains how to start the `kv` service, which mimics key/value store database.
 
 1. **Generate a data plane token**
 
-   Generate a token that the Redis data plane proxy will use to authenticate with the control plane.
-   
+   Create a token for the `kv` data plane proxy to authenticate with the control plane:
+
    ```sh
    kumactl generate dataplane-token \
-     --tag "kuma.io/service=redis" \
+     --tag kuma.io/service=kv \
      --valid-for 720h \
-     > ${{ KUMA_DEMO_TMP }}/token-redis
+     > {{ tmp }}/token-kv
    ```
 
-2. **Start the Redis container**
+2. **Start the container**
 
    ```sh
    docker run \
      --detach \
-     --name {{ kuma-demo }}-redis \
-     --hostname redis \
+     --name {{ kuma-demo }}-kv \
+     --hostname kv \
      --network {{ kuma-demo }} \
      --ip {{ ip_abc }}.2 \
-     --volume ${{ KUMA_DEMO_TMP }}:/demo \
-     redis:7.4.1 redis-server --protected-mode no
+     --volume {{ tmp }}:/demo \
+     ghcr.io/kumahq/kuma-counter-demo:debian-slim
    ```
 
-3. **Prepare the Redis container**
+3. **Prepare the container**
 
    Enter the container to run further commands.
 
    {% if version != "preview" %}
    ```sh
-   docker exec --tty --interactive --privileged {{ kuma-demo }}-redis bash
+   docker exec --tty --interactive --privileged {{ kuma-demo }}-kv bash
    ```
    {% else %}
    ```sh
@@ -333,69 +338,60 @@ useradd --uid {{ tproxy.defaults.kuma-dp.uid }} --user-group {{ kuma-dp }}
      --interactive \
      --privileged \
      --env {{ KUMA_PREVIEW_VERSION }} \
-     {{ kuma-demo }}-redis bash
+     {{ kuma-demo }}-kv bash
    ```
    {% endif %}
 
    {{ warning-run-inside-container | indent }}
 
-   1. **Set a zone name**
+   1. **Install tools and create data plane proxy user**
 
-      Give the Redis instance a zone name. The demo application will use this name to show which Redis instance is being accessed.
-
-      ```sh
-      redis-cli set zone local-demo-zone
-      ```
-
-   2. **Install required tools**
-
-      Install the necessary tools for downloading {{ Kuma }} binaries and setting up the [transparent proxy]({{ docs }}/networking/transparent-proxy/introduction/):
+      Install the required tools for downloading {{ Kuma }} binaries, setting up the [transparent proxy]({{ docs }}/networking/transparent-proxy/introduction/), and create a dedicated user for the data plane proxy:
 
       - `curl`: Needed to download the {{ Kuma }} binaries.
       - `iptables`: Required to configure the transparent proxy.
 
-      Run the following command:
+      Run the following commands:
 
-      {{ code-block-install-required-tools | indent | indent }}
+      {{ code-block-install-tools-create-user | indent | indent }}
 
-   3. **Install {{ Kuma }}**
+   2. **Set the zone name**
 
-      Now, install {{ Kuma }} and move its binaries to `/usr/local/bin/` so they are accessible to all users:
-
-      {{ code-block-install-kuma | indent | indent }}
-
-   4. **Create a separate user for the data plane proxy**
-
-      {{ code-block-add-kuma-dp-user | indent | indent }}
-
-   5. **Start the data plane proxy**
+      Give the `kv` instance a name. The demo application will use this name to show which `kv` instance is being accessed.
 
       ```sh
-      runuser --user {{ kuma-dp }} -- \
-        /usr/local/bin/kuma-dp run \
-        --cp-address https://control-plane:5678 \
-        --dataplane-token-file /demo/token-redis \
-        --dataplane-file /demo/dataplane.yaml \
-        --dataplane-var "name=redis" \
-        --dataplane-var "address={{ ip_abc }}.2" \
-        --dataplane-var "port=6379" \
-        --dataplane-var "protocol=tcp" \
-        > /demo/logs-data-plane-proxy-redis.log 2>&1 &
+      curl localhost:5050/api/key-value/zone \
+        --header 'Content-Type: application/json' \
+        --data '{"value":"local-demo-zone"}'
       ```
 
-   6. **Install the transparent proxy**
+   3. **Start the data plane proxy**
+
+      ```sh
+      runuser --user {{ kuma-data-plane-proxy }} -- \
+        /usr/local/bin/kuma-dp run \
+        --cp-address https://control-plane:5678 \
+        --dataplane-token-file /demo/token-kv \
+        --dataplane-file /demo/dataplane.yaml \
+        --dataplane-var name=kv \
+        --dataplane-var address={{ ip_abc }}.2 \
+        --dataplane-var port=5050 \
+        > /demo/logs-data-plane-proxy-kv.log 2>&1 &
+      ```
+
+   4. **Install the transparent proxy**
 
       {{ warning-tproxy-command-run-inside-container | indent | indent }}
 
       ```sh
       kumactl install transparent-proxy \
         --config-file /demo/config-transparent-proxy.yaml \
-        > /demo/logs-transparent-proxy-install-redis.log 2>&1
+        > /demo/logs-transparent-proxy-install-kv.log 2>&1
       ```
 
-   7. **Exit the container**
+   5. **Exit the container**
 
-      Redis is now set up and running. You can safely exit the container as the configuration is complete:
+      Key/Value Store is now set up and running. You can safely exit the container as the configuration is complete:
 
       ```sh
       exit
@@ -409,21 +405,21 @@ useradd --uid {{ tproxy.defaults.kuma-dp.uid }} --user-group {{ kuma-dp }}
    kumactl inspect services
    ```
    
-   The output should show a single service, `redis`, with the status `Online`.
+   The output should show a single service, `kv`, with the status `Online`.
    
-   You can also open the [{{ Kuma }} GUI]({{ docs }}/production/gui/) at <http://localhost:25681/gui/meshes/default/services/mesh-services>. Look for the `redis` service, and verify that its state is `Available`.
+   You can also open the [{{ Kuma }} GUI]({{ docs }}/production/gui/) at <http://localhost:25681/gui/meshes/default/services/mesh-services>. Look for the `kv` service, and verify that its state is `Available`.
 
 ### Demo Application
 
-The steps are the same as those explained earlier, with only the names changed. We won’t repeat the explanations here, but you can refer to the [Redis service](#redis) instructions if needed.
+The steps are the same as those explained earlier, with only the names changed. We won’t repeat the explanations here, but you can refer to the [Key/Value Store service](#keyvalue-store) instructions if needed.
 
 1. **Generate a data plane token**
 
    ```sh
    kumactl generate dataplane-token \
-     --tag "kuma.io/service=demo-app" \
+     --tag kuma.io/service=demo-app \
      --valid-for 720h \
-     > ${{ KUMA_DEMO_TMP }}/token-demo-app
+     > {{ tmp }}/token-demo-app
    ```
 
 2. **Start the application container**
@@ -435,56 +431,53 @@ The steps are the same as those explained earlier, with only the names changed. 
      --hostname demo-app \
      --network {{ kuma-demo }} \
      --ip {{ ip_abc }}.3 \
-     --publish 25000:5000 \
-     --volume ${{ KUMA_DEMO_TMP }}:/demo \
-     --env "REDIS_HOST=redis.svc.mesh.local" \
-     kumahq/kuma-demo
+     --publish 25050:5050 \
+     --volume {{ tmp }}:/demo \
+     --env KV_URL=http://kv.svc.mesh.local:5050 \
+     --env APP_VERSION=v1 \
+      ghcr.io/kumahq/kuma-counter-demo:debian-slim
    ```
 
 3. **Prepare the application container**
 
    Enter the container to run further commands.
 
+   {% if version == "preview" %}
    ```sh
    docker exec \
      --tty \
      --interactive \
      --privileged \
-     --workdir /root \{% if version == "preview" %}
-     --env {{ KUMA_PREVIEW_VERSION }} \{% endif %}
+     --env {{ KUMA_PREVIEW_VERSION }} \
      {{ kuma-demo }}-app bash
    ```
+   {% else %}
+   ```sh
+   docker exec --tty --interactive --privileged {{ kuma-demo }}-app bash
+   ```
+   {% endif %}
 
    {{ warning-run-inside-container | indent }}
 
-   1. **Install required tools**
+   1. **Install tools and create data plane proxy user**
 
-      {{ code-block-install-required-tools | indent | indent }}
+      {{ code-block-install-tools-create-user | indent | indent }}
 
-   2. **Install {{ Kuma }}**
-
-      {{ code-block-install-kuma | indent | indent }}
-
-   3. **Create a separate user for the data plane proxy**
-
-      {{ code-block-add-kuma-dp-user | indent | indent }}
-
-   4. **Start the data plane proxy**
+   2. **Start the data plane proxy**
 
       ```sh
-      runuser --user {{ kuma-dp }} -- \
+      runuser --user {{ kuma-data-plane-proxy }} -- \
         /usr/local/bin/kuma-dp run \
         --cp-address https://control-plane:5678 \
         --dataplane-token-file /demo/token-demo-app \
         --dataplane-file /demo/dataplane.yaml \
-        --dataplane-var "name=demo-app" \
-        --dataplane-var "address={{ ip_abc }}.3" \
-        --dataplane-var "port=5000" \
-        --dataplane-var "protocol=http" \
+        --dataplane-var name=demo-app \
+        --dataplane-var address={{ ip_abc }}.3 \
+        --dataplane-var port=5050 \
         > /demo/logs-data-plane-proxy-demo-app.log 2>&1 &     
       ```
 
-   5. **Install the transparent proxy**
+   3. **Install the transparent proxy**
 
       {{ warning-tproxy-command-run-inside-container | indent | indent }}
 
@@ -494,7 +487,7 @@ The steps are the same as those explained earlier, with only the names changed. 
         > /demo/logs-transparent-proxy-install-demo-app.log 2>&1
       ```
 
-   6. **Exit the container**
+   4. **Exit the container**
 
       Demo application is now set up and running. You can safely exit the container as the configuration is complete:
 
@@ -504,7 +497,7 @@ The steps are the same as those explained earlier, with only the names changed. 
 
 4. {% if page.edition and page.edition == "kuma" %}{:.margin-top-1-5-rem}{% endif %}**Verify the application**
 
-   Open <http://localhost:25000> in your browser and use the demo application to increment the counter. The demo application is now fully set up and running.
+   Open <http://localhost:25050> in your browser and use the demo application to increment the counter. The demo application is now fully set up and running.
 
 ## Introduction to zero-trust security
 
@@ -524,9 +517,9 @@ mtls:
     type: builtin' | kumactl apply --file -
 ```
 
-After enabling mTLS, all traffic is **encrypted and secure**. However, you can no longer access the `demo-app` directly, meaning <http://localhost:25000> will no longer work. This happens for two reasons:
+After enabling mTLS, all traffic is **encrypted and secure**. However, you can no longer access the `demo-app` directly, meaning <http://localhost:25050> will no longer work. This happens for two reasons:
 
-1. When mTLS is enabled, {{ Kuma }} doesn’t create traffic permissions by default. This means no traffic will flow until you define a {{ MeshTrafficPermission }} policy to allow `demo-app` to communicate with `redis`.
+1. When mTLS is enabled, {{ Kuma }} doesn’t create traffic permissions by default. This means no traffic will flow until you define a {{ MeshTrafficPermission }} policy to allow `demo-app` to communicate with `kv`.
 
 2. When you try to call `demo-app` using a browser or other HTTP client, you are essentially acting as an external client without a valid TLS certificate. Since all services are now required to present a certificate signed by the `ca-1` Certificate Authority, the connection is rejected. Only services within the `default` mesh, which are assigned valid certificates, can communicate with each other.
 
@@ -534,13 +527,13 @@ To address the first issue, you need to apply an appropriate {{ MeshTrafficPermi
 
 ```sh
 echo 'type: MeshTrafficPermission 
-name: allow-redis-from-demo-app
+name: allow-kv-from-demo-app
 mesh: default 
 spec: 
   targetRef: 
     kind: MeshSubset
     tags:
-      kuma.io/service: redis
+      kuma.io/service: kv
   from: 
   - targetRef: 
       kind: MeshSubset 
@@ -569,13 +562,13 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    ```sh
    echo 'type: Dataplane
    mesh: default
-   name: gateway-instance-1
+   name: edge-gateway-instance-1
    networking:
-     address: {{ ip_abc }}.4
      gateway:
        type: BUILTIN
        tags:
-         kuma.io/service: gateway' > ${{ KUMA_DEMO_TMP }}/dataplane-gateway.yaml
+         kuma.io/service: edge-gateway
+     address: {{ ip_abc }}.4' > {{ tmp }}/dataplane-edge-gateway.yaml
    ```
    
    If you prefer to keep the flexibility of dynamic values, you can use the same template mechanisms for the gateway's {{ Dataplane }} configuration as you did for regular services.
@@ -586,9 +579,9 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    
    ```sh
    kumactl generate dataplane-token \
-     --tag "kuma.io/service=gateway" \
+     --tag kuma.io/service=edge-gateway \
      --valid-for 720h \
-     > ${{ KUMA_DEMO_TMP }}/token-gateway
+     > {{ tmp }}/token-edge-gateway
    ```
 
 3. **Start the gateway container**
@@ -598,17 +591,17 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    ```sh
    docker run \
      --detach \
-     --name {{ kuma-demo }}-gateway \
+     --name {{ kuma-demo }}-edge-gateway \
      --hostname gateway \
      --network {{ kuma-demo }} \
      --ip {{ ip_abc }}.4 \
-     --publish 25001:5000 \
-     --volume ${{ KUMA_DEMO_TMP }}:/demo \
+     --publish 28080:8080 \
+     --volume {{ tmp }}:/demo \
      {{ docker_org }}/kuma-dp:{{ version_full }} run \
        --cp-address https://control-plane:5678 \
-       --dataplane-token-file /demo/token-gateway \
-       --dataplane-file /demo/dataplane-gateway.yaml \
-       --dns-enabled="false"
+       --dataplane-token-file /demo/token-edge-gateway \
+       --dataplane-file /demo/dataplane-edge-gateway.yaml \
+       --dns-enabled=false
    ```
    
    This command starts the gateway proxy and registers it with the control plane. However, the gateway is not yet ready to route traffic.
@@ -622,21 +615,21 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    ```sh
    echo 'type: MeshGateway
    mesh: default
-   name: gateway
+   name: edge-gateway
    selectors:
    - match:
-       kuma.io/service: gateway
+       kuma.io/service: edge-gateway
    conf:
      listeners:
-     - port: 5000
+     - port: 8080
        protocol: HTTP
        tags:
-         port: http-5000' | kumactl apply --file -
+         port: http-8080' | kumactl apply --file -
    ```
 
-   This sets up the gateway to listen on port `5000` using the HTTP protocol and adds a tag (`port: http-5000`) to identify this listener in routing policies.
+   This sets up the gateway to listen on port `8080` using the HTTP protocol and adds a tag (`port: http-8080`) to identify this listener in routing policies.
 
-   You can test the gateway by visiting <http://localhost:25001>. You should see a message saying no routes match this {{ MeshGateway }}. This means the gateway is running, but no routes are set up yet to handle traffic.
+   You can test the gateway by visiting <http://localhost:28080>. You should see a message saying no routes match this {{ MeshGateway }}. This means the gateway is running, but no routes are set up yet to handle traffic.
 
 5. **Create a route to connect the gateway to `demo-app`**
 
@@ -644,14 +637,14 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    
    ```sh
    echo 'type: MeshHTTPRoute
-   name: gateway-demo-app-route
+   name: edge-gateway-demo-app-route
    mesh: default
    spec:
      targetRef:
        kind: MeshGateway
-       name: gateway
+       name: edge-gateway
        tags:
-         port: http-5000
+         port: http-8080
      to:
      - targetRef:
          kind: Mesh
@@ -666,9 +659,9 @@ The built-in gateway works like the data plane proxy for a regular service, but 
              name: demo-app' | kumactl apply --file -
    ```
 
-   This route connects the gateway and its listener (`port: http-5000`) to the `demo-app` service. It forwards any requests with the path prefix `/` to `demo-app`.
+   This route connects the gateway and its listener (`port: http-8080`) to the `demo-app` service. It forwards any requests with the path prefix `/` to `demo-app`.
 
-   After setting up this route, the gateway will try to send traffic to `demo-app`. However, if you test it by visiting <http://localhost:25001>, you’ll see:
+   After setting up this route, the gateway will try to send traffic to `demo-app`. However, if you test it by visiting <http://localhost:28080>, you’ll see:
 
    ```
    RBAC: access denied
@@ -683,7 +676,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    
    ```sh
    echo 'type: MeshTrafficPermission
-   name: allow-demo-app-from-gateway
+   name: allow-demo-app-from-edge-gateway
    mesh: default
    spec:
      targetRef:
@@ -694,12 +687,12 @@ The built-in gateway works like the data plane proxy for a regular service, but 
      - targetRef:
          kind: MeshSubset
          tags:
-           kuma.io/service: gateway
+           kuma.io/service: edge-gateway
        default:
          action: Allow' | kumactl apply --file -
    ```
    
-   This policy allows traffic from the gateway to `demo-app`. After applying it, you can access <http://localhost:25001>, and the traffic will reach the `demo-app` service successfully.
+   This policy allows traffic from the gateway to `demo-app`. After applying it, you can access <http://localhost:28080>, and the traffic will reach the `demo-app` service successfully.
 
 ## Cleanup
 
@@ -710,11 +703,11 @@ kumactl config control-planes remove --name {{ kuma-demo }}
 
 docker rm --force \
    {{ kuma-demo }}-control-plane \
-   {{ kuma-demo }}-redis \
+   {{ kuma-demo }}-kv \
    {{ kuma-demo }}-app \
-   {{ kuma-demo }}-gateway
+   {{ kuma-demo }}-edge-gateway
 
 docker network rm {{ kuma-demo }}
 
-rm -rf "${{ KUMA_DEMO_TMP }}"
+rm -rf {{ tmp }}
 ```
