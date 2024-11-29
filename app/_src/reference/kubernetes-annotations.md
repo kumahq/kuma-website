@@ -118,29 +118,6 @@ metadata:
 Annotating pods or deployments will take precedence on the namespace annotation.
 {% endif_version %}
 
-{% if_version lte:2.1.x %}
-### `kuma.io/sidecar-injection`
-
-Similar to the preferred [label](#kumaiosidecar-injection).
-
-**Example**
-
-```yaml
-apiVersion: v1
-kind: Namespace
-metadata:
- name: default
- annotations:
-   kuma.io/sidecar-injection: enabled
-[...]
-```
-
-{% warning %}
-While you can still use annotations to inject sidecar, we strongly recommend using labels.
-It's the only way to guarantee that application can only be started with sidecar.
-{% endwarning %}
-{% endif_version %}
-
 ### `kuma.io/gateway`
 
 Lets you specify the Pod should run in gateway mode. Inbound listeners are not generated.
@@ -305,7 +282,7 @@ Specifies the list of names of `ContainerPatch` resources to be applied on
 `kuma-init` and `kuma-sidecar` containers.
 
 More information about how to use `ContainerPatch` you can find at
-{% if_version lte:2.1.x %}[Custom Container Configuration](/docs/{{ page.release }}/explore/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}{% if_version gte:2.2.x %}[Custom Container Configuration](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration){% endif_version %}.
+[Custom Container Configuration](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#custom-container-configuration).
 
 **Example**
 
@@ -547,7 +524,7 @@ spec:
 
 ### `kuma.io/transparent-proxying-reachable-services`
 
-{% capture reachable-services-docs-link %}/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying#{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/#{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/{% endif_version %}reachable-services{% endcapture %}
+{% capture reachable-services-docs-link %}/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/#{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/{% endif_version %}reachable-services{% endcapture %}
 
 A comma separated list of `kuma.io/service` to indicate which services this communicates with.
 For more details see the [reachable services docs]({{ reachable-services-docs-link }}).
@@ -577,7 +554,7 @@ spec:
 
 When transparent proxy is installed with eBPF mode, you can disable it for particular workloads if necessary.
 
-{% capture tproxy-ebpf-link %}/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}#transparent-proxy-with-ebpf-experimental{% endcapture %}
+{% capture tproxy-ebpf-link %}/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}#transparent-proxy-with-ebpf-experimental{% endcapture %}
 
 For more details see the [transparent proxying with eBPF docs]({{ tproxy-ebpf-link }}).
 
@@ -763,7 +740,7 @@ spec: ...
 
 ### `kuma.io/transparent-proxying-inbound-v6-port`
 
-Define the port to use for {% if_version lte:2.1.x %}[IPv6](/docs/{{ page.release }}/networking/ipv6){% endif_version %}{% if_version gte:2.2.x %}[IPv6](/docs/{{ page.release }}/production/dp-config/ipv6/){% endif_version %} traffic. To turn off IPv6 set this to 0.
+Define the port to use for [IPv6](/docs/{{ page.release }}/production/dp-config/ipv6/) traffic. To turn off IPv6 set this to 0.
 
 **Example**
 

@@ -15,7 +15,7 @@ This way you can:
 - Have [kumactl installed and in your path](/docs/{{ page.release }}/production/install-kumactl)
 {% endif_version %}
 {% if_version gte:2.9.x %}
-- Have [kumactl installed and in your path](/docs/{{ page.release }}/introduction/install-kuma/)
+- Have [kumactl installed and in your path](/docs/{{ page.release }}/introduction/install/)
 {% endif_version %}
 
 ## Start a global control plane

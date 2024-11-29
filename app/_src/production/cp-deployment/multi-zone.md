@@ -15,13 +15,9 @@ To set up a multi-zone deployment we will need to:
 ## Usage
 ### Set up the global control plane
 
-{% if_version gte:2.2.x %}
-The global control plane must run on a dedicated cluster (unless using "Universal on Kubernetes" mode), and cannot be assigned to a zone.
-{% endif_version %}
 
-{% if_version lte:2.1.x %}
-The global control plane must run on a dedicated cluster, and cannot be assigned to a zone.
-{% endif_version %}
+The global control plane must run on a dedicated cluster (unless using "Universal on Kubernetes" mode), and cannot be assigned to a zone.
+
 
 {% tabs global-control-plane useUrlFragment=false %}
 {% tab global-control-plane Kubernetes %}
@@ -46,11 +42,11 @@ NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP 
 {{site.mesh_namespace}}   {{site.mesh_cp_name}}     ClusterIP      10.105.12.133   <none>           5681/TCP,443/TCP,5676/TCP,5677/TCP,5678/TCP,5679/TCP,5682/TCP,5653/UDP   90s
 ```
 
-By default, it's exposed on {% if_version lte:2.1.x inline:true %}[port 5685](/docs/{{ page.release }}/networking/networking){% endif_version %}{% if_version gte:2.2.x inline:true %}[port 5685](/docs/{{ page.release }}/production/use-mesh#control-plane-ports){% endif_version %}. In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
+By default, it's exposed on [port 5685](/docs/{{ page.release }}/production/use-mesh#control-plane-ports). In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
 
-{% if_version gte:2.2.x %}
+
 {% tab global-control-plane Universal on Kubernetes using Helm %}
 
 {% tip %}
@@ -157,8 +153,6 @@ Before using {{site.mesh_product_name}} with helm, please follow [these steps](/
     In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
-{% endif_version %}
-
 {% tab global-control-plane Universal %}
 
 {% tip %}
@@ -215,7 +209,7 @@ controlPlane.kdsGlobalAddress=grpcs://<global-kds-address>:5685
 
 where `{{site.set_flag_values_prefix}}controlPlane.zone` is the same value for all zone control planes in the same zone.
 
-Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional {% if_version lte:2.1.x %}[Zone Egress](/docs/{{ page.release }}/explore/zoneegress/){% endif_version %}{% if_version gte:2.2.x %}[Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/){% endif_version %}.
+Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of arguments if you want to deploy optional [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/).
 
 {% if_version gte:2.3.x %}
 Set `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` because the default global control plane's certificate is self-signed.
@@ -278,7 +272,7 @@ Ensure that migrations have been run against the database prior to running the z
    kumactl generate zone-token --zone=<zone-name> --scope egress --scope ingress > /tmp/zone-token
    ```
 
-   You can also generate the token {% if_version lte:2.1.x %}[with the REST API](/docs/{{ page.release }}/security/zoneproxy-auth){% endif_version%}{% if_version gte:2.2.x %}[with the REST API](/docs/{{ page.release }}/production/cp-deployment/zoneproxy-auth/){% endif_version%}.
+   You can also generate the token [with the REST API](/docs/{{ page.release }}/production/cp-deployment/zoneproxy-auth/).
    Alternatively, you could generate separate tokens for ingress and egress.
 
 3. Create an `ingress` data plane proxy configuration to allow `kuma-cp` services to be exposed for cross-zone communication:
@@ -414,7 +408,7 @@ curl http://echo-server:1010
 Requests are distributed round-robin between zones.
 You can use {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/meshloadbalancingstrategy){% endif_version %} to keep requests in the same zone.
 
-To send a request to any zone, you can {% if_version lte:2.1.x %}[use the generated `kuma.io/service`](/docs/{{ page.release }}/explore/dpp-on-kubernetes#tag-generation){% endif_version %}{% if_version gte:2.2.x %}[use the generated `kuma.io/service`](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#tag-generation){% endif_version %} and [{{site.mesh_product_name}} DNS](/docs/{{ page.release }}/networking/dns):
+To send a request to any zone, you can [use the generated `kuma.io/service`](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#tag-generation) and [{{site.mesh_product_name}} DNS](/docs/{{ page.release }}/networking/dns):
 
 ```sh
 curl http://echo-server_echo-example_svc_1010.mesh:80
@@ -438,7 +432,7 @@ SERVICE                                  STATUS               DATAPLANES
 echo-service_echo-example_svc_1010       Online               1/1
 ```
 
-To consume the service in a Universal deployment without transparent proxy add the following outbound to your {% if_version lte:2.1.x %}[dataplane configuration](/docs/{{ page.release }}/explore/dpp-on-universal){% endif_version %}{% if_version gte:2.2.x %}[dataplane configuration](/docs/{{ page.release }}/production/dp-config/dpp-on-universal/){% endif_version %}:
+To consume the service in a Universal deployment without transparent proxy add the following outbound to your [dataplane configuration](/docs/{{ page.release }}/production/dp-config/dpp-on-universal/):
 
 ```yaml
 outbound:
@@ -449,7 +443,7 @@ outbound:
 
 From the data plane running you will now be able to reach the service using `localhost:20012`.
 
-Alternatively, if you configure [transparent proxy](/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
+Alternatively, if you configure [transparent proxy](/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}) you can just call `echo-server_echo-example_svc_1010.mesh` without defining an `outbound` section.
 
 {% endtab %}
 {% endtabs %}

@@ -3,7 +3,7 @@ title: Authentication with the API server
 content_type: how-to
 ---
 
-{{site.mesh_product_name}} exposes API server on {% if_version lte:2.1.x %}[ports](/docs/{{ page.release }}/networking/networking){% endif_version %}{% if_version gte:2.2.x %}[ports](/docs/{{ page.release }}/production/use-mesh#control-plane-ports){% endif_version %} `5681` and `5682` (protected by TLS).
+{{site.mesh_product_name}} exposes API server on [ports](/docs/{{ page.release }}/production/use-mesh#control-plane-ports) `5681` and `5682` (protected by TLS).
 
 An authenticated user can be authorized to execute administrative actions such as
 * Managing administrative resources like {{site.mesh_product_name}} Secrets on Universal
@@ -26,7 +26,7 @@ A user can be a part of many groups. {{site.mesh_product_name}} adds two groups 
 
 {{site.mesh_product_name}} creates an admin user token on the first start of the control plane.
 The admin user token is a user token issued for user `mesh-system:admin` that belongs to `mesh-system:admin` group.
-This group is {% if_version lte:2.1.x %}[authorized by default](/docs/{{ page.release }}/security/api-access-control){% endif_version %}{% if_version gte:2.2.x %}[authorized by default](/docs/{{ page.release }}/production/secure-deployment/api-access-control/){% endif_version %} to execute all administrative operations.
+This group is [authorized by default](/docs/{{ page.release }}/production/secure-deployment/api-access-control/) to execute all administrative operations.
 
 {% tabs admin-user-token useUrlFragment=false %}
 {% tab admin-user-token Kubernetes %}
@@ -89,7 +89,7 @@ This group is {% if_version lte:2.1.x %}[authorized by default](/docs/{{ page.re
 
 ### Generate user tokens
 
-You can generate user tokens only when you provide the credentials of a user {% if_version lte:2.1.x %}[authorized to generate user tokens](/docs/{{ page.release }}/security/api-access-control#generate-user-token){% endif_version %}{% if_version gte:2.2.x %}[authorized to generate user tokens](/docs/{{ page.release }}/production/secure-deployment/api-access-control#generate-user-token){% endif_version %}.
+You can generate user tokens only when you provide the credentials of a user [authorized to generate user tokens](/docs/{{ page.release }}/production/secure-deployment/api-access-control#generate-user-token).
 `kumactl` configured with admin user token extracted in the preceding section is authorized to do it.
 
 ```sh
@@ -300,7 +300,7 @@ kumactl delete global-secret admin-user-token
    {% endtab %}
    {% endtabs %}
 
-{% if_version gte:2.2.x %}
+
 ### Offline token issuing
 
 In addition to the regular flow of generating signing keys, storing them in secret, and using them to sign tokens on the control plane, Kuma also offers offline signing of tokens.
@@ -392,7 +392,7 @@ Signing key rotation works similarly:
 * configure a control plane with old and new public keys
 * regenerate tokens for all existing users with the new private key
 * remove the old public key from the configuration
-{% endif_version %}
+
 
 ## Admin client certificates
 

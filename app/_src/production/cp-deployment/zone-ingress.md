@@ -3,7 +3,7 @@ title: Zone Ingress
 content_type: how-to
 ---
 
-To implement cross-zone communication when {{site.mesh_product_name}} is deployed in a {% if_version lte:2.1.x %}[multi-zone](/docs/{{ page.release }}/deployments/multi-zone){% endif_version %}{% if_version gte:2.2.x %}[multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/){% endif_version %} mode, there is a new proxy type `ZoneIngress`.
+To implement cross-zone communication when {{site.mesh_product_name}} is deployed in a [multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) mode, there is a new proxy type `ZoneIngress`.
 These proxies are not attached to any particular workload. Instead, they are bound to that particular zone.
 Zone Ingress can proxy the traffic between all meshes, so we need only one deployment in each zone.  
 All requests that are sent from one zone to another will be directed to the proper instance by the Zone Ingress.

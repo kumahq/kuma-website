@@ -66,7 +66,7 @@ networking:
 
 Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
-{% capture tproxy-link %}/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version%}{% if_version gte:2.2.x lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version%}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version%}{% endcapture %}
+{% capture tproxy-link %}/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version%}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version%}{% endcapture %}
 
 Universal mode is best combined with [transparent proxy]({{ tproxy-link }}). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
 
@@ -166,7 +166,7 @@ If `ZoneEgress` is enabled, there is a limitation that prevents the behavior des
 
 ### External Services and ZoneEgress
 
-In scenarios when traffic to external services needs to be sent through a unique set of hosts you will {% if_version lte:2.1.x %}[configure ZoneEgress](/docs/{{ page.release }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[configure ZoneEgress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/){% endif_version %}.
+In scenarios when traffic to external services needs to be sent through a unique set of hosts you will [configure ZoneEgress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/).
 
 For example when there is:
 * [disabled passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing)
@@ -221,7 +221,7 @@ The above configuration is incorrect and configuration generation will fail.
 ### External Services accessible from specific zone through ZoneEgress
 
 There are might be scenarios when a specific `ExternalService` might be accessible only through the specific zone. To make it work we should use the `kuma.io/zone` tag for external service. In order to make it work, we need a multi-zone setup with `ZoneIngress` and `ZoneEgress` deployed. Also,
-{% if_version lte:2.1.x %}[zone egress](/docs/{{ page.release }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress){% endif_version %} needs to be enabled.
+[zone egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress) needs to be enabled.
  
 Example:
  
