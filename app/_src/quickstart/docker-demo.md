@@ -204,7 +204,7 @@ browser --> edge-gateway
      {{ docker_org }}/kuma-cp:{{ version_full }} run
    ```  
 
-   You can now access the [{{ Kuma }} user interface (GUI)]({{ docs }}/production/gui/) at <http://localhost:25681/gui>.
+   You can now access the [{{ Kuma }} user interface (GUI)]({{ docs }}/production/gui/) at <http://127.0.0.1:25681/gui>.
 
 2. **Configure kumactl**
 
@@ -218,7 +218,7 @@ browser --> edge-gateway
       export {{ KUMA_DEMO_ADMIN_TOKEN }}="$( 
         docker exec --tty --interactive {{ kuma-demo }}-control-plane \
           wget --quiet --output-document - \
-          http://localhost:5681/global-secrets/admin-user-token \
+          http://127.0.0.1:5681/global-secrets/admin-user-token \
           | jq --raw-output .data \
           | base64 --decode
       )"
@@ -231,7 +231,7 @@ browser --> edge-gateway
       ```sh
       kumactl config control-planes add \
         --name {{ kuma-demo }} \
-        --address http://localhost:25681 \
+        --address http://127.0.0.1:25681 \
         --auth-type tokens \
         --auth-conf "token=${{ KUMA_DEMO_ADMIN_TOKEN }}" \
         --skip-verify
@@ -407,7 +407,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
    
    The output should show a single service, `kv`, with the status `Online`.
    
-   You can also open the [{{ Kuma }} GUI]({{ docs }}/production/gui/) at <http://localhost:25681/gui/meshes/default/services/mesh-services>. Look for the `kv` service, and verify that its state is `Available`.
+   You can also open the [{{ Kuma }} GUI]({{ docs }}/production/gui/) at <http://127.0.0.1:25681/gui/meshes/default/services/mesh-services>. Look for the `kv` service, and verify that its state is `Available`.
 
 ### Demo Application
 
@@ -497,7 +497,7 @@ The steps are the same as those explained earlier, with only the names changed. 
 
 4. {% if page.edition and page.edition == "kuma" %}{:.margin-top-1-5-rem}{% endif %}**Verify the application**
 
-   Open <http://localhost:25050> in your browser and use the demo application to increment the counter. The demo application is now fully set up and running.
+   Open <http://127.0.0.1:25050> in your browser and use the demo application to increment the counter. The demo application is now fully set up and running.
 
 ## Introduction to zero-trust security
 
@@ -517,7 +517,7 @@ mtls:
     type: builtin' | kumactl apply --file -
 ```
 
-After enabling mTLS, all traffic is **encrypted and secure**. However, you can no longer access the `demo-app` directly, meaning <http://localhost:25050> will no longer work. This happens for two reasons:
+After enabling mTLS, all traffic is **encrypted and secure**. However, you can no longer access the `demo-app` directly, meaning <http://127.0.0.1:25050> will no longer work. This happens for two reasons:
 
 1. When mTLS is enabled, {{ Kuma }} doesn’t create traffic permissions by default. This means no traffic will flow until you define a {{ MeshTrafficPermission }} policy to allow `demo-app` to communicate with `kv`.
 
@@ -629,7 +629,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
 
    This sets up the gateway to listen on port `8080` using the HTTP protocol and adds a tag (`port: http-8080`) to identify this listener in routing policies.
 
-   You can test the gateway by visiting <http://localhost:28080>. You should see a message saying no routes match this {{ MeshGateway }}. This means the gateway is running, but no routes are set up yet to handle traffic.
+   You can test the gateway by visiting <http://127.0.0.1:28080>. You should see a message saying no routes match this {{ MeshGateway }}. This means the gateway is running, but no routes are set up yet to handle traffic.
 
 5. **Create a route to connect the gateway to `demo-app`**
 
@@ -661,7 +661,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
 
    This route connects the gateway and its listener (`port: http-8080`) to the `demo-app` service. It forwards any requests with the path prefix `/` to `demo-app`.
 
-   After setting up this route, the gateway will try to send traffic to `demo-app`. However, if you test it by visiting <http://localhost:28080>, you’ll see:
+   After setting up this route, the gateway will try to send traffic to `demo-app`. However, if you test it by visiting <http://127.0.0.1:28080>, you’ll see:
 
    ```
    RBAC: access denied
@@ -692,7 +692,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
          action: Allow' | kumactl apply --file -
    ```
    
-   This policy allows traffic from the gateway to `demo-app`. After applying it, you can access <http://localhost:28080>, and the traffic will reach the `demo-app` service successfully.
+   This policy allows traffic from the gateway to `demo-app`. After applying it, you can access <http://127.0.0.1:28080>, and the traffic will reach the `demo-app` service successfully.
 
 ## Cleanup
 
