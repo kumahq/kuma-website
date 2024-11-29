@@ -19,7 +19,7 @@ flowchart LR
     gw0(/ :8080)
   end
   demo-app(demo-app :5050)
-  kv(kv :5050)
+  kv(`kv` :5050)
   gw0 --> demo-app 
   demo-app --> kv
 {% endmermaid %}

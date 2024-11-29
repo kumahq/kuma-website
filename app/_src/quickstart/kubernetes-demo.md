@@ -14,7 +14,7 @@ title: service graph of the demo app
 ---
 flowchart LR
 demo-app(demo-app :5050)
-kv(kv :5050)
+kv(`kv` :5050)
 demo-app --> kv
 {% endmermaid %}
 
