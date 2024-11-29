@@ -40,31 +40,6 @@ The `Service` is of type `LoadBalancer`, and its ports are automatically adjuste
 
 ## Customization
 
-{% if_version lte:2.1.x %}
-
-Additional customization of the generated `Service` is possible via `spec.serviceTemplate`. For example, you can add annotations to the generated `Service`, and specify the `loadBalancerIP`:
-
-```yaml
-spec:
-  replicas: 1
-  serviceType: LoadBalancer
-  tags:
-    kuma.io/service: edge-gateway
-  resources:
-    limits: ...
-    requests: ...
-  serviceTemplate:
-    metadata:
-      annotations:
-        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
-        ...
-    spec:
-      loadBalancerIP: ...
-```
-
-{% endif_version %}
-{% if_version gte:2.2.x %}
-
 Additional customization of the generated `Service` or `Pods` is possible via `spec.serviceTemplate` and `spec.podTemplate`.
 For example, you can add annotations and/or labels to the generated objects:
 
@@ -119,9 +94,6 @@ spec:
         securityContext:
           readOnlyRootFilesystem: true
 ```
-
-{% endif_version %}
-
 ## Schema
 
 {% json_schema kuma.io_meshgatewayinstances type=crd %}

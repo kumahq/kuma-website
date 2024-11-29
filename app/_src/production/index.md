@@ -36,7 +36,7 @@ The following table describes some common use cases and the deployment modes you
 
 ### kumactl
 
-The first step after you pick your deployment mode is to {% if_version lte:2.8.x %}[install `kumactl`](/docs/{{ page.release }}/production/install-kumactl/){% endif_version %}{% if_version gte:2.9.x %}[install `kumactl`](/docs/{{ page.release }}/introduction/install-kuma/){% endif_version %}. 
+The first step after you pick your deployment mode is to {% if_version lte:2.8.x %}[install `kumactl`](/docs/{{ page.release }}/production/install-kumactl/){% endif_version %}{% if_version gte:2.9.x %}[install `kumactl`](/docs/{{ page.release }}/introduction/install/){% endif_version %}. 
 `kumactl` is a CLI tool that you can use to access {{site.mesh_product_name}}. It can do the following:
 
 * Perform read-only operations on {{site.mesh_product_name}} resources on Kubernetes.

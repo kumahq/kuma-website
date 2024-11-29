@@ -5,7 +5,7 @@ content_type: how-to
 
 As mentioned previously in universal you need to create a dataplane definition and pass it to the `kuma-dp run` command.
 
-When transparent proxying is not enabled, the outbound service dependencies have to be manually specified in the {% if_version lte:2.1.x %}[`Dataplane`](/docs/{{ page.release }}/explore/dpp#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[`Dataplane`](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity){% endif_version %} entity.
+When transparent proxying is not enabled, the outbound service dependencies have to be manually specified in the [`Dataplane`](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity) entity.
 This also means that without transparent proxying **you must update** your codebases to consume those external services on `127.0.0.1` on the port specified in the `outbound` section.
 
 {% tip %}
@@ -50,7 +50,7 @@ networking:
 This configuration indicates that your service is listening on `192.168.1.10`, and incoming traffic will be redirected to that address.
 
 {% tip %}
-Note that in Universal dataplanes need to start with a token for authentication. You can learn how to generate tokens in the {% if_version lte:2.1.x %}[security section](/docs/{{ page.release }}/security/dp-auth#data-plane-proxy-token){% endif_version %}{% if_version gte:2.2.x %}[security section](/docs/{{ page.release }}/production/secure-deployment/dp-auth/#data-plane-proxy-token){% endif_version %}.
+Note that in Universal dataplanes need to start with a token for authentication. You can learn how to generate tokens in the [security section](/docs/{{ page.release }}/production/secure-deployment/dp-auth/#data-plane-proxy-token).
 {% endtip %}
 
 Now let's assume that we have another service called "Backend" that listens on port `80`, and that makes outgoing requests to the `redis` service:

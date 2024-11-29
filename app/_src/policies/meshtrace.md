@@ -160,7 +160,6 @@ zipkin:
   sharedSpanContext: false # Default to true. If true, the inbound and outbound traffic will share the same span. 
 ```
 
-{% if_version gte:2.2.x %}
 #### OpenTelemetry
 
 The only field you can set is `endpoint`.
@@ -170,7 +169,6 @@ Example:
 openTelemetry:
   endpoint: otel-collector:4317 # Required. Address of OpenTelemetry collector
 ```
-{% endif_version %}
 
 ## Examples
 
@@ -476,7 +474,6 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
-{% if_version gte:2.2.x %}
 ### OpenTelemetry
 
 {% tip %}
@@ -627,7 +624,6 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% endif_version %}
 
 ### Targeting parts of the infrastructure
 
@@ -640,7 +636,7 @@ We want data plane proxies in each zone to only send traces to their local colle
 
 To do this, we use a `TargetRef` kind value of `MeshSubset` to filter which data plane proxy a policy applies to.
 
-{% if_version lte:2.2.x %}
+{% if_version eq:2.2.x %}
 West only policy:
 
 {% policy_yaml west-only %}

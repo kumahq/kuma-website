@@ -91,7 +91,7 @@ Built for the enterprise, Kuma ships with the most scalable multi-zone connectiv
 
 {% contentfor tab-kubernetes %}
 
-[Install Kuma](/docs/latest/introduction/install-kuma) via an available distribution:
+[Install Kuma](/docs/latest/introduction/install) via an available distribution:
 
 ```sh
 kumactl install control-plane \
@@ -112,7 +112,7 @@ Navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the GUI.
 {% contentfor tab-openshift %}
 
 
-[Install Kuma](/docs/latest/introduction/install-kuma) via an available distribution:
+[Install Kuma](/docs/latest/introduction/install) via an available distribution:
 
 ```sh
 kumactl install control-plane \
@@ -132,7 +132,7 @@ Navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) to see the GUI.
 
 {% contentfor tab-universal %}
 
-[Install Kuma](/docs/latest/introduction/install-kuma) via an available distribution:
+[Install Kuma](/docs/latest/introduction/install) via an available distribution:
 
 ```sh
 kuma-cp run

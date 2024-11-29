@@ -407,14 +407,13 @@ backends:
 ```
 {% endif_version %}
 
-{% if_version gte:2.2.x %}
 #### OpenTelemetry
 
 An OpenTelemetry (OTel) backend sends data to an OpenTelemetry server.
 You can configure an OpenTelemetry backend with an endpoint, [attributes](https://opentelemetry.io/docs/specs/otel/logs/data-model/#field-attributes) (which contain additional information about the log) and [body](https://opentelemetry.io/docs/specs/otel/logs/data-model/#field-body) (can be a string message, including multi-line, or it can be a structured data).
 Attributes and endpoints can use placeholders described in the [format section](#format).
 
-{% if_version lte:2.2.x %}
+{% if_version eq:2.2.x %}
 ```yaml
 backends:
   - openTelemetry:
@@ -446,7 +445,6 @@ backends:
         - key: "start_time"
           value: "%START_TIME%"
 ```
-{% endif_version %}
 {% endif_version %}
 
 ### Body
@@ -639,47 +637,11 @@ spec:
 
 ### Logging to multiple backends
 
-{% if_version lte:2.1.x %}
-This configuration logs to two backends: TCP and file.
-{% endif_version %}
-
-{% if_version gte:2.2.x %}
 This configuration logs to three backends: TCP, file and OpenTelemetry.
-{% endif_version %}
 
 {% if_version lte:2.8.x %}
 {% tabs meshaccesslog-multiple-backends useUrlFragment=false %}
 {% tab meshaccesslog-multiple-backends Kubernetes %}
-
-{% if_version lte:2.1.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshAccessLog
-metadata:
-  name: default
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default # optional, defaults to `default` if it isn't configured
-spec:
-  targetRef:
-    kind: Mesh
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        backends:
-          - tcp:
-              address: 127.0.0.1:5000
-              format:
-                json:
-                  - key: "start_time"
-                    value: "%START_TIME%"
-          - file:
-              path: /dev/stdout
-              format:
-                plain: '[%START_TIME%]'
-```
-{% endif_version %}
 
 {% if_version eq:2.2.x %}
 ```yaml
@@ -771,32 +733,6 @@ Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
 {% tab meshaccesslog-multiple-backends Universal %}
-
-{% if_version lte:2.1.x %}
-```yaml
-type: MeshAccessLog
-name: default
-mesh: default
-spec:
-  targetRef:
-    kind: Mesh
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        backends:
-          - tcp:
-              address: 127.0.0.1:5000
-              format:
-                json:
-                  - key: "start_time"
-                    value: "%START_TIME%"
-          - file:
-              path: /dev/stdout
-              format:
-                plain: '[%START_TIME%]'
-```
-{% endif_version %}
 
 {% if_version eq:2.2.x %}
 ```yaml

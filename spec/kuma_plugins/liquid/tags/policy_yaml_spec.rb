@@ -53,6 +53,16 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
         tag_options: 'use_meshservice=true',
         page: { 'release' => '2.10.x', 'edition' => 'kuma', 'label' => 'dev' }
       },
+      {
+        input_file: 'spec/fixtures/hostnamegenerator.yaml',
+        golden_file: 'spec/fixtures/hostnamegenerator.golden.html',
+        tag_options: nil
+      },
+      {
+        input_file: 'spec/fixtures/hostnamegenerator-labels.yaml',
+        golden_file: 'spec/fixtures/hostnamegenerator-labels.golden.html',
+        tag_options: nil
+      },
     ]
 
     test_cases.each do |test_case|

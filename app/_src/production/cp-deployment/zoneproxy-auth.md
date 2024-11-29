@@ -201,7 +201,7 @@ the new signing key.
 {{ tabbed_content | indent }}
 
 
-{% if_version gte:2.2.x %}
+
 ### Offline token issuing
 
 In addition to the regular flow of generating signing keys, storing them in secret, and using them to sign tokens on the control plane, Kuma also offers offline signing of tokens.
@@ -294,7 +294,7 @@ Signing key rotation works similarly:
 * configure a control plane with old and new public keys
 * regenerate tokens for all existing zone proxies with the new private key
 * remove the old public key from the configuration
-{% endif_version %}
+
 
 ### Multi-zone
 
@@ -309,7 +309,3 @@ You should not disable authentication between the control plane and
 the data plane proxies in production. Disabling means that any data plane proxy
 can impersonate any service.
 {% endwarning %}
-
-## Legacy Zone Ingress Token
-
-Authenticating Zone Ingress using [separate Zone Ingress Token](https://kuma.io/docs/1.8.x/security/zone-ingress-auth/) is still possible, but it is deprecated and will be removed in the future.

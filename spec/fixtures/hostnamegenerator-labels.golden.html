@@ -1,0 +1,91 @@
+<link rel="stylesheet" href="http://localhost:8000/dist/vite/assets/application.css" />
+<script src="http://localhost:8000/dist/vite/assets/application.js" crossorigin="anonymous" type="module"></script>
+
+
+
+<div class="tabs-component" data-tab-use-url-fragment="false">
+  <ul role="tablist" class="tabs-component-tabs">
+    
+      <li class="tabs-component-tab is-active" role="presentation">
+        <a
+          aria-controls="Kubernetes"
+          aria-selected="true"
+          href="#Kubernetes"
+          class="tabs-component-tab-a"
+          role="tab"
+          data-slug="Kubernetes"
+          >
+            Kubernetes 
+        </a>
+      </li>
+    
+      <li class="tabs-component-tab " role="presentation">
+        <a
+          aria-controls="Universal"
+          aria-selected="false"
+          href="#Universal"
+          class="tabs-component-tab-a"
+          role="tab"
+          data-slug="Universal"
+          >
+            Universal 
+        </a>
+      </li>
+    
+  </ul>
+
+  <div class="tabs-component-panels">
+    
+      <section
+        aria-hidden="false"
+        class="tabs-component-panel "
+        id="Kubernetes"
+        role="tabpanel"
+        data-panel="Kubernetes"
+      >
+        
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kuma.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">HostnameGenerator</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">synced-universal-mesh-service</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-demo</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">test</span><span class="pi">:</span> <span class="s">label</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">meshService</span><span class="pi">:</span>
+      <span class="na">matchLabels</span><span class="pi">:</span>
+        <span class="na">kuma.io/origin</span><span class="pi">:</span> <span class="s">global</span>
+        <span class="na">kuma.io/env</span><span class="pi">:</span> <span class="s">universal</span>
+  <span class="na">template</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{{</span><span class="nv"> </span><span class="s">.DisplayName</span><span class="nv"> </span><span class="s">}}.svc.{{</span><span class="nv"> </span><span class="s">.Zone</span><span class="nv"> </span><span class="s">}}.mesh.local"</span>
+</code></pre></div></div>
+
+
+      </section>
+    
+      <section
+        aria-hidden="true"
+        class="tabs-component-panel hidden"
+        id="Universal"
+        role="tabpanel"
+        data-panel="Universal"
+      >
+        
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">type</span><span class="pi">:</span> <span class="s">HostnameGenerator</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">synced-universal-mesh-service</span>
+<span class="na">labels</span><span class="pi">:</span>
+  <span class="na">test</span><span class="pi">:</span> <span class="s">label</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">meshService</span><span class="pi">:</span>
+      <span class="na">matchLabels</span><span class="pi">:</span>
+        <span class="na">kuma.io/origin</span><span class="pi">:</span> <span class="s">global</span>
+        <span class="na">kuma.io/env</span><span class="pi">:</span> <span class="s">universal</span>
+  <span class="na">template</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{{</span><span class="nv"> </span><span class="s">.DisplayName</span><span class="nv"> </span><span class="s">}}.svc.{{</span><span class="nv"> </span><span class="s">.Zone</span><span class="nv"> </span><span class="s">}}.mesh.local"</span>
+</code></pre></div></div>
+
+
+      </section>
+    
+  </div>
+</div>

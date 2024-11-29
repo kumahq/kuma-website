@@ -46,7 +46,7 @@ Available commands on `kumactl` are:
 * `kumactl apply [..]`: used to change the state of {{site.mesh_product_name}}. Only available on Universal.
 * `kumactl get [..]`: used to retrieve the raw state of entities {{site.mesh_product_name}}.
 * `kumactl inspect [..]`: used to retrieve an augmented state of entities in {{site.mesh_product_name}}.
-* `kumactl generate dataplane-token`: used to generate {% if_version lte:2.1.x %}[Dataplane Token](/docs/{{ page.release }}/security/dp-auth/#data-plane-proxy-token){% endif_version %}{% if_version gte:2.2.x %}[Dataplane Token](/docs/{{ page.release }}/production/secure-deployment/dp-auth/#data-plane-proxy-token){% endif_version %}.
+* `kumactl generate dataplane-token`: used to generate [Dataplane Token](/docs/{{ page.release }}/production/secure-deployment/dp-auth/#data-plane-proxy-token).
 * `kumactl generate tls-certificate`: used to generate a TLS certificate for client or server.
 * `kumactl manage ca [..]`: used to manage certificate authorities.
 * `kumactl help [..]`: help dialog that explains the commands available.
