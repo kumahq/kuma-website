@@ -41,10 +41,8 @@ You'll set up and secure a simple demo application to explore how {{ Kuma }} wor
 - `demo-app`: A web application that lets you increment a numeric counter.
 - `kv`: A data store that keeps the counter's value.
 
+<!-- vale Vale.Spelling = NO -->
 {% mermaid %}
----
-title: service graph of the demo app
----
 flowchart LR
 browser(browser)
 
@@ -57,6 +55,7 @@ edge-gateway --> demo-app
 demo-app --> kv
 browser --> edge-gateway
 {% endmermaid %}
+<!-- vale Vale.Spelling = YES -->
 
 ## Prerequisites
 
@@ -295,7 +294,9 @@ useradd --uid {{ tproxy.defaults.kuma-dp.uid }} --user-group {{ kuma-data-plane-
 {% endwarning %}
 {% endcapture %}
 
+<!-- vale Google.Headings = NO -->
 ### Key/Value Store
+<!-- vale Google.Headings = YES -->
 
 This section explains how to start the `kv` service, which mimics key/value store database.
 

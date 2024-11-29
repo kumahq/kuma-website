@@ -64,7 +64,7 @@ GKE|gke
 Goroutine
 Grafana
 grpcs?
-hardcoded
+hardcod(?:ing|ed)
 hostnames?
 httpbin
 HTTPie
@@ -165,6 +165,7 @@ txt
 UIDs?
 uncheck
 uncomment
+unencrypted
 Unicode
 unix
 unsecure

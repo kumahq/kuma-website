@@ -554,7 +554,9 @@ spec:
 
 When transparent proxy is installed with eBPF mode, you can disable it for particular workloads if necessary.
 
+<!-- vale Vale.Terms = NO -->
 {% capture tproxy-ebpf-link %}/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}#transparent-proxy-with-ebpf-experimental{% endcapture %}
+<!-- vale Vale.Terms = YES -->
 
 For more details see the [transparent proxying with eBPF docs]({{ tproxy-ebpf-link }}).
 

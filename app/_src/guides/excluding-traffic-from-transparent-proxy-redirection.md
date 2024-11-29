@@ -55,7 +55,7 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 
    - To generate a data plane proxy token (needed to authorize data plane proxies), refer to [Data Plane Proxy Token]({{ docs }}/production/secure-deployment/dp-auth/#data-plane-proxy-token) documentation.
 
-   - To set up your service environment and start the data plane proxy, follow the steps in the [Installing]({{ docs }}/networking/transparent-proxy/universal/#installation) section of the [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/) documentation up to [Step 5: Install the Transparent Proxy]({{ docs }}/networking/transparent-proxy/universal/#step-5-install-the-transparent-proxy).
+   - To set up your service environment and start the data plane proxy, follow the steps in the quickstart guide.
     {% endtab %}
     {% endtabs %}
     {% endcapture %}
