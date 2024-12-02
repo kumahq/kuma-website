@@ -394,15 +394,17 @@ $home-feature-icon-bottom-spacing: 1rem;
       pre[class*='language-'] {
         color: #fff;
         border: 0;
+        text-shadow: none;
       }
 
-      .token.comment {
-        font-style: normal;
-        color: $color-12;
-      }
-
-      .token:not(.comment) {
+      .token {
+        background: none;
         color: #fff;
+        font-style: normal;
+
+        &.comment {
+          color: $color-12;
+        }
       }
     }
 
