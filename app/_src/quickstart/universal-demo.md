@@ -28,7 +28,7 @@ demo-app --> redis
 To download {{site.mesh_product_name}} we will use official installer, it will automatically detect the operating system (Amazon Linux, CentOS, RedHat, Debian, Ubuntu, and macOS) and download {{site.mesh_product_name}}:
 
 ```sh
-curl -L {{site.links.web}}{% if page.edition %}/{{page.edition}}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -
+curl -L {{site.links.web}}{% if page.edition != "kuma" %}/{{page.edition}}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -
 ```
 
 To finish installation we need to add {{site.mesh_product_name}} binaries to path: 
