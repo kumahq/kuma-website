@@ -15,14 +15,13 @@ layout: default
             <p><a href="/docs/changelog">Changelog</a> • <a href="/docs/{{ page.release }}/production/upgrades-tuning/upgrade-notes">Upgrade Path</a> • <a href="/community">Community</a></p>
           </div>
 
-          {% unless page.release.latest?  %}
+          {% unless page.release == site.data.latest_version.release  %}
             <div class="version-alert">
               <div class="warning custom-block">
                 <p class="custom-block-title">Careful!</p>
                 <p>You are viewing installation instructions for a version of {{ site.title }} that is not the latest release.</p>
                 <p><a href="/install/{{ site.data.latest_version.release }}/">Go here</a>
                 to view installation instructions for the latest version.</p>
-                <p>Looking for even older versions? <a href="{% post_url 2021-04-16-website-reorg %}">Learn more</a>.</p>
               </div>
             </div>
           {% endunless %}

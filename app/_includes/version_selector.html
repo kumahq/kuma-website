@@ -3,13 +3,7 @@
 <select name="{{ include.name }}" class="version-selector" id="version-selector">
   {% for version in site.data.versions %}
     {% assign option_value = version.release %}
-    {% if version == site.data.latest_version %}
-      {% assign option_value = 'latest' %}
-    {% endif %}
-    {% if version.label %}
-      {% assign option_value = version.label %}
-    {% endif %}
-    <option value="{{ option_value }}" {% if version.release == current_release.value %} selected {% endif %}>
+    <option value="{{ option_value }}" {% if version.release == current_release %} selected {% endif %}>
       {% if version.label %}
         {{ version.label }}
       {% else %}

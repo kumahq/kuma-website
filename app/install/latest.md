@@ -2,7 +2,6 @@
 layout: install
 title: Install Kuma
 themeContainerClasses: 'no-sidebar'
-foo: bar
 cta:
   - label: Get Started with Kubernetes
     logo: "/assets/images/platforms/logo-kubernetes.png"
