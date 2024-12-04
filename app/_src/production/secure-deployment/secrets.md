@@ -10,7 +10,7 @@ Sensitive information is anything a user considers non-public, e.g.:
 - tokens
 - passwords
 
-Secrets belong to a specific {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh/){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %} resource, and cannot be shared across different `Meshes`.
+Secrets belong to a specific [`Mesh`](/docs/{{ page.release }}/production/mesh/) resource, and cannot be shared across different `Meshes`.
 [Policies](/docs/{{ page.release }}/policies/introduction) use secrets at runtime.
 
 {% tip %}
@@ -105,7 +105,7 @@ echo "value" | base64
 ### Access to the Secret HTTP API
 
 Secret API requires authentication.
-Consult {% if_version lte:2.1.x %}[Accessing Admin Server from a different machine](/docs/{{ page.release }}/security/certificates/#user-to-control-plane-communication){% endif_version %}{% if_version gte:2.2.x %}[Accessing Admin Server from a different machine](/docs/{{ page.release }}/production/secure-deployment/certificates/#user-to-control-plane-communication){% endif_version %} for how to configure remote access.
+Consult [Accessing Admin Server from a different machine](/docs/{{ page.release }}/production/secure-deployment/certificates/#user-to-control-plane-communication) for how to configure remote access.
 
 ## Scope of the Secret
 

@@ -7,6 +7,9 @@
     "dev": "foreman start",
     "test-coverage": "yarn jest --coverage"
   },
+  "resolutions": {
+    "cookie": "^0.7.1"
+  },
   "dependencies": {
     "@kongponents/ktabs": "^0.1.2",
     "@kongponents/styles": "^0.2.0",

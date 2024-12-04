@@ -22,23 +22,11 @@ title: Overview of Kuma
 * **Enterprise-ready**: Supports mission critical enterprise use cases that require uptime and stability.
 {% endif_version %}
 
-{% if_version lte:2.5.x %}{% if_version gte:2.2.x %}
+{% if_version lte:2.5.x %}
 * **Universal and Kubernetes-native**: Platform-agnostic, can run and operate anywhere.
 * **Standalone and multi-zone**: Supports multiple clouds, regions, and Kubernetes clusters with native DNS service discovery and ingress capability.
   * [Read more about standalone deployments](/docs/{{ page.release }}/production/deployment/stand-alone/)
   * [Read more about multi-zone deployments](/docs/{{ page.release }}/production/deployment/multi-zone/)
-* **Multi-mesh**: Supports multiple individual meshes with one control plane, lowering the operational costs of supporting the entire organization.
-* **Attribute-based policies**: Let you apply fine grained service and traffic policies with any arbitrary tag selector for `sources` and `destinations`.
-* **Envoy-based**: Powered by Envoy sidecar proxies, without exposing the complexity of Envoy itself.
-* **Horizontally scalable**
-* **Enterprise-ready**: Supports mission critical enterprise use cases that require uptime and stability.
-{% endif_version %}{% endif_version %}
-
-{% if_version lte:2.1.x %}
-* **Universal and Kubernetes-native**: Platform-agnostic, can run and operate anywhere.
-* **Single-zone and multi-zone**: Supports multiple clouds, regions, and Kubernetes clusters with native DNS service discovery and ingress capability.
-  * [Read more about standalone deployments](/docs/{{ page.release }}/deployments/stand-alone)
-  * [Read more about multi-zone deployments](/docs/{{ page.release }}/deployments/multi-zone)
 * **Multi-mesh**: Supports multiple individual meshes with one control plane, lowering the operational costs of supporting the entire organization.
 * **Attribute-based policies**: Let you apply fine grained service and traffic policies with any arbitrary tag selector for `sources` and `destinations`.
 * **Envoy-based**: Powered by Envoy sidecar proxies, without exposing the complexity of Envoy itself.

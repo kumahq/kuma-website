@@ -8,13 +8,7 @@ It's recommended to migrate from [TrafficRoute](/docs/{{ page.release }}/policie
 {% endwarning %}
 
 The `MeshHTTPRoute` policy allows altering and redirecting HTTP requests
-depending on where the request coming from and where it's going to.
-
-{% if_version lte:2.1.x %}
-{% warning %}
-`MeshHTTPRoute` does not route cross-zone traffic yet.
-{% endwarning %}
-{% endif_version %}
+depending on where the request is coming from and where it's going to.
 
 ## TargetRef support matrix
 
@@ -397,7 +391,6 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
-{% if_version gte:2.2.x %}
 
 ### Traffic mirror
 
@@ -491,8 +484,6 @@ spec:
                 port: 3001
 ```
 {% endpolicy_yaml %}
-{% endif_version %}
-
 {% endif_version %}
 
 ## Merging
@@ -593,11 +584,9 @@ rules:
       - **`type`** - one of `ReplaceFullPath`, `ReplacePrefixMatch`
       - **`replaceFullPath`** - must be set if the `type` is `ReplaceFullPath`
       - **`replacePrefixMatch`** - must be set if the `type` is `ReplacePrefixMatch`
-{% if_version gte:2.2.x %}
   - **`requestMirror`** - must be set if the `type` is `RequestMirror`
     - **`percentage`** - percentage of requests to mirror. If not specified, all requests to the target cluster will be mirrored.
     - **`backendRef`** - [BackendRef](#backends), destination to mirror request to
-{% endif_version %}
 - **`backendRefs`** - [BackendRef](#backends) (optional), list of destinations to redirect requests to
 
 ### Header modification

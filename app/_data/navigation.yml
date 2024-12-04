@@ -14,5 +14,5 @@
   url: "/enterprise/"
   key: "enterprise"
 - text: "Install"
-  url: "/docs/latest//introduction/install-kuma/"
+  url: "/docs/latest/introduction/install/"
   key: "install"

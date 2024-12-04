@@ -15,7 +15,7 @@ This means that authentication scope is bound to a Namespace, so any Pod in the 
 To have a strict security bound to a Deployment, every Deployment should use unique Service Account Token.
 On top of that, users should not be able to modify `serviceAccountTokenName` in `Deployment`. This can be achieved for example with [OPA Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/docs/).
 
-Service Account Token is not bound to a mesh, see {% if_version lte:2.1.x %}[data plane proxy membership](/docs/{{ page.release }}/security/dp-membership){% endif_version %}{% if_version gte:2.2.x %}[data plane proxy membership](/docs/{{ page.release }}/production/secure-deployment/dp-membership/){% endif_version %} how to restrict which Pods can join a mesh.
+Service Account Token is not bound to a mesh, see [data plane proxy membership](/docs/{{ page.release }}/production/secure-deployment/dp-membership/) how to restrict which Pods can join a mesh.
 
 ## Data plane proxy token
 
@@ -214,7 +214,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
 
 If you need to generate a new token for a `Dataplane` or you are using service account token projection on Kubernetes, it's possible to configure dynamic token reloading. To enable this behaviour, set the `kuma-cp` configuration property `dpServer.auth.useTokenPath` to `true`. When you enable the property, `kuma-dp` detects changes to the token file, reloads the token and uses the new value when establishing a new connection to `kuma-cp`.
 
-{% if_version gte:2.2.x %}
+
 ### Offline token issuing
 
 In addition to the regular flow of generating signing keys, storing them in secret, and using them to sign tokens on the control plane, Kuma also offers offline signing of tokens.
@@ -310,7 +310,7 @@ Signing key rotation works similarly:
 * configure a control plane with old and new public keys
 * regenerate tokens for all existing data plane proxies with the new private key
 * remove the old public key from the configuration
-{% endif_version %}
+
 
 ### Multizone
 

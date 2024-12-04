@@ -14,7 +14,7 @@ The result is that:
 * Smaller config is sent over a wire saving a lot of network bandwidth
 * Envoy only has to keep a couple of Clusters/Listeners which means much fewer statistics and lower memory usage.
 
-Follow the {% if_version lte:2.1.x %}[transparent proxying](/docs/{{ page.release }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/){% endif_version %} docs on how to configure it.
+Follow the [transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/) docs on how to configure it.
 
 {% if_version gte:2.5.x %}
 ## Config trimming by using MeshTrafficPermission
@@ -216,19 +216,6 @@ Then, you can analyze the retrieved profiling data using an application like [Sp
 {% warning %}
 After a successful debugging session, please remember to turn off the debugging endpoints since anybody could execute heap dumps on them potentially exposing sensitive data.
 {% endwarning %}
-
-{% if_version lte:2.1.x %}
-
-## Kubernetes
-
-### Kubernetes outbounds in central place
-
-Configure `KUMA_EXPERIMENTAL_KUBE_OUTBOUNDS_AS_VIPS` to `true` to store the list of outbounds in ConfigMap that is used for VIPs of {{site.mesh_product_name}} DNS.
-This way we don't repeat this information across all `Dataplane` objects which may improve a performance with a large number of data plane proxies.
-
-You can enable this only after all instances of the control plane are updated to 1.6.0 or later.
-This option will be the default behaviour in the next versions of {{site.mesh_product_name}}.
-{% endif_version %}
 
 {% if_version gte:2.3.x %}
 

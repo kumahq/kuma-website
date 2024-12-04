@@ -28,7 +28,7 @@ We can run {{site.mesh_product_name}}:
 
 `docker run -p 5681:5681 docker.io/kumahq/kuma-cp:{{ page.latest_version }} run`
 
-This example will run {{site.mesh_product_name}} in {% if_version lte:2.5.x %}`standalone`{% endif_version %}{% if_version gte:2.6.x %}`single-zone`{% endif_version %} mode for a "flat" deployment, but there are more advanced {% if_version lte:2.1.x %}[deployment modes](/docs/{{ page.release }}/introduction/deployments){% endif_version %}{% if_version gte:2.2.x %}[deployment modes](/docs/{{ page.release }}/production/deployment/){% endif_version %} like "multi-zone".
+This example will run {{site.mesh_product_name}} in {% if_version lte:2.5.x %}`standalone`{% endif_version %}{% if_version gte:2.6.x %}`single-zone`{% endif_version %} mode for a "flat" deployment, but there are more advanced [deployment modes](/docs/{{ page.release }}/production/deployment/) like "multi-zone".
 
 {% tip %}
 **Note**: By default this will run {{site.mesh_product_name}} with a `memory` [store](/docs/{{ page.release }}/documentation/configuration#store), but you can use a persistent storage like PostgreSQL by updating the `conf/kuma-cp.conf` file.
@@ -36,7 +36,7 @@ This example will run {{site.mesh_product_name}} in {% if_version lte:2.5.x %}`s
 
 #### 2.1 Authentication (optional)
 
-Running administrative tasks (like generating a dataplane token) requires {% if_version lte:2.1.x %}[authentication by token](/docs/{{ page.release }}/security/api-server-auth/#admin-user-token){% endif_version %}{% if_version gte:2.2.x %}[authentication by token](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/#admin-user-token){% endif_version %} or a connection via localhost.
+Running administrative tasks (like generating a dataplane token) requires [authentication by token](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/#admin-user-token) or a connection via localhost.
 
 ##### 2.1.1 Localhost
 
@@ -136,7 +136,7 @@ You will then find the `kumactl` executable in the `kuma-{{ page.latest_version 
 {% endtab %}
 {% endtabs %}
 
-You will notice that {{site.mesh_product_name}} automatically creates a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %} entity with name `default`.
+You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`](/docs/{{ page.release }}/production/mesh/) entity with name `default`.
 
 ### 4. Quickstart
 

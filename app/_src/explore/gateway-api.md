@@ -25,12 +25,7 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
    - With `kumactl`, use the `--experimental-gatewayapi` flag.
    - With Helm, use the `{{site.set_flag_values_prefix}}experimental.gatewayAPI=true` value.
 
-{% if_version lte:2.2.x %}
-## Usage
-{% endif_version %}
-{% if_version gte:2.3.x %}
 ## Gateways
-{% endif_version %}
 
 1. Install the [counter demo](https://github.com/kumahq/kuma-counter-demo).
 
@@ -198,7 +193,7 @@ spec:
           - name: secret-tls
 ```
 
-Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mesh_namespace}}` namespace and converts it to {% if_version lte:2.1.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.release }}/security/secrets){% endif_version %}{% if_version gte:2.2.x %}[{{site.mesh_product_name}} secret](/docs/{{ page.release }}/production/secure-deployment/secrets/){% endif_version %}.
+Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mesh_namespace}}` namespace and converts it to [{{site.mesh_product_name}} secret](/docs/{{ page.release }}/production/secure-deployment/secrets/).
 It tracks all the changes to the secret and deletes it upon deletion of the original secret.
 
 ### Customization

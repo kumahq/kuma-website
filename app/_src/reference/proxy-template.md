@@ -18,7 +18,7 @@ The custom definitions either complement or replace the resources that {{site.me
 
 ## Usage
 
-{{site.mesh_product_name}} uses the following default `ProxyTemplate` resource for every data plane proxy (`kuma-dp`) that is added to a {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %}. This resource looks like:
+{{site.mesh_product_name}} uses the following default `ProxyTemplate` resource for every data plane proxy (`kuma-dp`) that is added to a [`Mesh`](/docs/{{ page.release }}/production/mesh/). This resource looks like:
 
 {% tabs usage useUrlFragment=false %}
 {% tab usage Kubernetes %}
@@ -63,7 +63,7 @@ conf:
 
 In these examples, note:
 
-* The `selectors` object specifies the {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.release }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity){% endif_version %} that are targeted by the `ProxyTemplate` resource. Values are provided as {{site.mesh_product_name}} tags.
+* The `selectors` object specifies the [data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity) that are targeted by the `ProxyTemplate` resource. Values are provided as {{site.mesh_product_name}} tags.
 * The `imports` object specifies the reusable configuration that {{site.mesh_product_name}} generates automatically. {{site.mesh_product_name}} then extends the imports object with the custom configuration you specify. Possible values:
 * `default-proxy` - the default configuration for non-ingress data planes.
 * `ingress-proxy` - the default configuration for zone-ingress proxy.
@@ -75,7 +75,7 @@ You can choose more than one import object.
 
 ### Modifications
 
-To customize the configuration of {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.release }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity){% endif_version %}, 
+To customize the configuration of [data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity), 
 you can combine modifications of any type in one ProxyTemplate. Each modification consists of the following sections:
 
 * `operation` - operation applied to the generated config (e.g. `add`, `remove`, `patch`).
@@ -815,10 +815,10 @@ conf:
 
 ## How {{site.mesh_product_name}} handles the proxy template
 
-At runtime, whenever `kuma-cp` generates the configuration for a given {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.release }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity){% endif_version %}, it will proceed as follows:
+At runtime, whenever `kuma-cp` generates the configuration for a given [data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity), it will proceed as follows:
 
-1. {{site.mesh_product_name}} searches for all the `ProxyTemplates` resources that have been defined in the specified {% if_version lte:2.1.x %}[`Mesh`](/docs/{{ page.release }}/policies/mesh){% endif_version %}{% if_version gte:2.2.x %}[`Mesh`](/docs/{{ page.release }}/production/mesh/){% endif_version %}.
-2. It loads in memory the `ProxyTemplates` resources whose `selectors` [match](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any {% if_version lte:2.1.x %}[data plane proxies](/docs/{{ page.release }}/explore/dpp/#dataplane-entity){% endif_version %}{% if_version gte:2.2.x %}[data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity){% endif_version %} accordingly to the {{site.mesh_product_name}} Tags selected.
+1. {{site.mesh_product_name}} searches for all the `ProxyTemplates` resources that have been defined in the specified [`Mesh`](/docs/{{ page.release }}/production/mesh/).
+2. It loads in memory the `ProxyTemplates` resources whose `selectors` [match](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/) either an `inbound` or a `gateway` definition of any [data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/#dataplane-entity) accordingly to the {{site.mesh_product_name}} Tags selected.
 3. Every matching `ProxyTemplate` is [ranked](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/). The `ProxyTemplate` resource with the highest ranking is used to generate the configuration for the specified data plane proxy (or proxies).
 4. If the `ProxyTemplate` resource specifies an `imports` object, these resources are generated first.
 5. If a `ProxyTemplate` defines a `modification` object, all modifications are applied, one by one in the order defined in `modification` section.

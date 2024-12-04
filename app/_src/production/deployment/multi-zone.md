@@ -16,9 +16,9 @@ Or without the optional zone egress:
 <img src="/assets/images/diagrams/gslides/kuma_multizone_without_egress.svg" alt="Kuma service mesh multi zone deployment with zone egress" style="padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-{% if_version gte:2.2.x %}
+
 To Install with this topology follow the [multi-zone deployment docs](/docs/{{ page.release }}/production/cp-deployment/multi-zone).
-{% endif_version %}
+
 
 ## How it works
 
@@ -47,9 +47,9 @@ Requests send to `zone-b` are routed to the zone ingress proxy of `zone-b`.
 For load-balancing, the zone ingress endpoints are weighted with the number of instances running behind them. So a zone with 2 instances will receive twice as much traffic than a zone with 1 instance.
 You can also favor local service instances with {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/meshloadbalancingstrategy){% endif_version %}.
 
-In the presence of a {% if_version lte:2.1.x %}[zone egress](/docs/{{ page.release }}/explore/zoneegress){% endif_version %}{% if_version gte:2.2.x %}[zone egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/){% endif_version %}, the traffic is routed through the local zone egress before being sent to the remote zone ingress.
+In the presence of a [zone egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/), the traffic is routed through the local zone egress before being sent to the remote zone ingress.
 
-When using {% if_version lte:2.1.x %}[transparent proxy](/docs/{{ page.release }}/networking/transparent-proxying){% endif_version %}{% if_version gte:2.2.x %}[transparent proxy](/docs/{{ page.release }}/production/dp-config/transparent-proxying/){% endif_version %} (default in Kubernetes),
+When using [transparent proxy](/docs/{{ page.release }}/production/dp-config/transparent-proxying/) (default in Kubernetes),
 {{site.mesh_product_name}} generates a VIP,
 a DNS entry with the format `<kuma.io/service>.mesh`, and will listen for traffic on port 80. The `<kuma.io/service>.mesh:80` format is just a convention.
 [`VirtualOutbounds`](/docs/{{ page.release }}/policies/virtual-outbound)s enable you to customize the listening port and how the DNS name for these services looks.
