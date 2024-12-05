@@ -144,11 +144,11 @@ spec:
 {% if_version gte:2.9.x %}
 {% if site.mesh_namespace != "kuma-system" %}
 ```sh
-curl -s kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway-instance.yaml | sed 's/kuma-system/{{ site.mesh_namespace }}/g' | kubectl apply -f -
+curl -s kuma-demo://kustomize/overlays/002-with-gateway/mesh-http-route.yaml | sed 's/kuma-system/{{ site.mesh_namespace }}/g' | kubectl apply -f -
 ```
 {% else %}
 ```sh
-kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway-instance.yaml
+kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-http-route.yaml
 ```
 {% endif %}
 {% endif_version %}
