@@ -2,11 +2,6 @@
   "name": "kuma-website",
   "description": "The website and docs for Kuma.",
   "author": "Kong Inc.",
-  "scripts": {
-    "test": "yarn jest",
-    "dev": "foreman start",
-    "test-coverage": "yarn jest --coverage"
-  },
   "resolutions": {
     "cookie": "^0.7.1"
   },

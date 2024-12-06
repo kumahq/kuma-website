@@ -11,6 +11,9 @@ content_type: how-to
 {% assign kuma-control-plane = site.mesh_cp_name %}
 {% assign kuma-control-plane-config = kuma-control-plane | append: "-config" %}
 
+{% capture Important %}{% if page.edition and page.edition != "kuma" %}**Important:** {% endif %}{% endcapture %}
+{% capture Note %}{% if page.edition and page.edition != "kuma" %}**Note:** {% endif %}{% endcapture %}
+
 In Kubernetes mode, transparent proxy is automatically set up through the `kuma-init` container or [Kuma CNI]({{ docs }}/production/dp-config/cni/). By default, it intercepts all incoming and outgoing traffic and routes it through the `kuma-dp` sidecar container, so no changes to the application code are needed.
 
 {{ Kuma }} works smoothly with [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) and provides its own [Kuma DNS]({{ docs }}/networking/dns/), which is especially helpful in multi-zone setups for cross-zone service discovery.
@@ -24,7 +27,7 @@ The default configuration works well for most scenarios, but there are cases whe
 In Kubernetes mode, {{ Kuma }} offers three methods to adjust the configuration. Each can be used on its own or combined with others if needed.
 
 {% warning %}
-It’s best to stick to one method whenever possible. Using more than one can make things more complicated and harder to troubleshoot, as it may not be clear where each setting comes from. If you need to combine methods, check the [**Order of precedence**  section](#order-of-precedence) to see what the final configuration will look like based on the priority of each setting.
+{{ Important }}It’s best to stick to one method whenever possible. Using more than one can make things more complicated and harder to troubleshoot, as it may not be clear where each setting comes from. If you need to combine methods, check the [**Order of precedence**  section](#order-of-precedence) to see what the final configuration will look like based on the priority of each setting.
 {% endwarning %}
 
 ### Control plane runtime configuration
@@ -36,7 +39,7 @@ Some transparent proxy settings can be adjusted here, and **for certain settings
 Currently, it’s best to use the control plane runtime configuration as the main place to store transparent proxy settings that apply to all [workloads](https://kubernetes.io/docs/concepts/workloads/).
 
 {% tip %}
-For more details, see the [control plane configuration reference]({{ docs }}/reference/kuma-cp/) under `runtime.kubernetes`. You can also find transparent proxy-specific settings in the [control plane runtime configuration section]({{ docs }}/reference/transparent-proxy-configuration/#control-plane-runtime-configuration) of the Transparent Proxy Configuration reference.
+{{ Note }}For more details, see the [control plane configuration reference]({{ docs }}/reference/kuma-cp/) under `runtime.kubernetes`. You can also find transparent proxy-specific settings in the [control plane runtime configuration section]({{ docs }}/reference/transparent-proxy-configuration/#control-plane-runtime-configuration) of the Transparent Proxy Configuration reference.
 {% endtip %}
 
 #### Settings restricted to control plane runtime configuration
@@ -50,11 +53,14 @@ Some transparent proxy settings **can only be changed through the control plane�
 - `runtime.kubernetes.injector.builtinDNS.port`
 
 {% danger %}
+{% if page.edition and page.edition != "kuma" %}
+**Warning**:
+{% else %}
 ⚠️ IMPORTANT
 {:.custom-block-title}
-
+{% endif -%}
 When the [**Configuration in ConfigMap**](#configuration-in-configmap-experimental) feature is enabled, any changes to these settings, whether through annotations or ConfigMap, will be ignored, and a warning will be logged in the control plane.
-
+{% if page.edition and page.edition != "kuma" %}<br /><br />{% endif %}
 **However**, if this feature is disabled, and you update `builtinDNS.enabled` or `builtinDNS.port` using deprecated annotations, the changes may still apply, potentially causing DNS redirection issues. This could prevent `kuma-dp` from starting the DNS server or listening on the correct port, leading to environment disruptions.
 {% enddanger %}
 
@@ -65,7 +71,7 @@ For instructions on modifying the control plane configuration, see the [Modifyin
 ### Configuration in ConfigMap (experimental)
 
 {% warning %}
-Because this feature impacts multiple underlying components, it is considered experimental. Use it with caution. {% if site.mesh_product_name == "Kuma" %} If you encounter any unexpected behavior or issues, please [**contact us**](/community) and [**submit an issue on GitHub**](https://github.com/kumahq/kuma/issues/new/choose). Your feedback is essential in helping us improve this feature. {% endif %}
+{{ Important }}Because this feature impacts multiple underlying components, it is considered experimental. Use it with caution. {% if site.mesh_product_name == "Kuma" %} If you encounter any unexpected behavior or issues, please [**contact us**](/community) and [**submit an issue on GitHub**](https://github.com/kumahq/kuma/issues/new/choose). Your feedback is essential in helping us improve this feature. {% endif %}
 {% endwarning %}
 
 Until {{ Kuma }} 2.9, transparent proxy settings could only be modified through the [control plane runtime configuration](#control-plane-runtime-configuration) and [annotations](#annotations), which had several limitations:
@@ -84,7 +90,7 @@ To enable this feature, set `{{ transparentProxy }}.configMap.enabled` during in
 
 {% if_version lte:2.9.x %}
 {% warning %}
-If you set `{{ transparentProxy }}.configMap.config` to an empty value, it will override `{{ transparentProxy }}.configMap.enabled` and disable the feature, even if `{{ transparentProxy }}.configMap.enabled` is set to `true`.
+{{ Important }}If you set `{{ transparentProxy }}.configMap.config` to an empty value, it will override `{{ transparentProxy }}.configMap.enabled` and disable the feature, even if `{{ transparentProxy }}.configMap.enabled` is set to `true`.
 {% endwarning %}
 {% endif_version %}
 
@@ -101,7 +107,7 @@ Here is an example of how to modify parts of this configuration during installat
 {% endcpinstall %}
 
 {% tip %}
-{{ Kuma }} uses a single configuration structure for transparent proxy settings across all components. For the full configuration schema, see the [Helm values.yaml reference]({{ docs }}/reference/kuma-cp/#helm-valuesyaml), particularly under the `{{ transparentProxy }}.configMap.config` path. More details on each setting are available in the [Transparent Proxy Configuration reference]({{ docs }}/reference/transparent-proxy-configuration/#full-reference).
+{{ Note }}{{ Kuma }} uses a single configuration structure for transparent proxy settings across all components. For the full configuration schema, see the [Helm values.yaml reference]({{ docs }}/reference/kuma-cp/#helm-valuesyaml), particularly under the `{{ transparentProxy }}.configMap.config` path. More details on each setting are available in the [Transparent Proxy Configuration reference]({{ docs }}/reference/transparent-proxy-configuration/#full-reference).
 {% endtip %}
 
 #### Custom ConfigMap name
@@ -140,7 +146,7 @@ metadata:
 
 {% if_version lte:2.9.x %}
 {% warning %}
-The ConfigMap in the `{{ kuma-system }}` namespace is required for proper operation, so it must be present even if custom ones are used in all individual workload namespaces.
+{{ Important }}The ConfigMap in the `{{ kuma-system }}` namespace is required for proper operation, so it must be present even if custom ones are used in all individual workload namespaces.
 {% endwarning %}
 {% endif_version %}
 

@@ -282,8 +282,6 @@ items:
             items:
               - text: Introduction
                 url: /networking/transparent-proxy/introduction/
-              - text: Technical Overview
-                url: /networking/transparent-proxy/technical-overview/
               - text: Kubernetes
                 url: /networking/transparent-proxy/kubernetes/
                 items:
@@ -310,6 +308,8 @@ items:
                 url: /networking/transparent-proxy/reachable-services/
               - text: Reachable Backends
                 url: /networking/transparent-proxy/reachable-backends/
+              - text: Technical Overview
+                url: /networking/transparent-proxy/technical-overview/
   - title: Policies
     group: true
     items:

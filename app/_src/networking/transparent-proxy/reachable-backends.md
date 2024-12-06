@@ -7,8 +7,10 @@ content_type: how-to
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 
+{% capture Important %}{% if page.edition and page.edition != "kuma" %}**Important:** {% endif %}{% endcapture %}
+
 {% warning %}
-This feature works only when [MeshService]({{ docs }}/networking/meshservice) is enabled.
+{{ Important }}This feature works only when [MeshService]({{ docs }}/networking/meshservice) is enabled.
 {% endwarning %}
 
 Reachable Backends provides similar functionality to [Reachable Services]({{ docs }}/networking/transparent-proxy/reachable-services/), but it applies to resources such as [MeshService]({{ docs }}/networking/meshservice), [MeshExternalService]({{ docs }}/networking/meshexternalservice), and [MeshMultiZoneService]({{ docs }}/networking/meshmultizoneservice).

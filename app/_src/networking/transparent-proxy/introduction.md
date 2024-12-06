@@ -1,17 +1,20 @@
 ---
-title: Transparent Proxy
+title: Transparent Proxy Introduction
 content_type: explanation
 ---
 
 {% assign docs = "/docs/" | append: page.release %}
 {% assign Kuma = site.mesh_product_name %}
 
+{% capture Important %}{% if page.edition and page.edition != "kuma" %}**Important:** {% endif %}{% endcapture %}
+{% capture Note %}{% if page.edition and page.edition != "kuma" %}**Note:** {% endif %}{% endcapture %}
+
 A transparent proxy is a server that intercepts network traffic going to and from a service without requiring any changes to the application code. In {{ Kuma }}, it captures this traffic and routes it to the [data plane proxy]({{ docs }}/production/dp-config/dpp/#data-plane-proxy), allowing [Mesh policies]({{ docs }}/policies/introduction/#policies) to be applied.
 
 {{ Kuma }} uses [iptables](https://linux.die.net/man/8/iptables) and also has experimental support for [eBPF](#transparent-proxy-with-ebpf-experimental) to make this possible.
 
 {% tip %}
-For details on how the transparent proxy works in {{ Kuma }}, see the [Technical Overview]({{ docs }}/networking/transparent-proxy/technical-overview/).
+{{ Note }}For details on how the transparent proxy works in {{ Kuma }}, see the [Technical Overview]({{ docs }}/networking/transparent-proxy/technical-overview/).
 {% endtip %}
 
 ## Kubernetes
@@ -23,7 +26,7 @@ In [Kubernetes mode]({{ docs }}/introduction/architecture/#kubernetes-mode), the
 In this mode, {{ Kuma }} requires the transparent proxy to be enabled, so it **cannot be turned off**.
 
 {% tip %}
-For more details on using the transparent proxy with Kubernetes, see [Transparent Proxy on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/).
+{{ Note }}For more details on using the transparent proxy with Kubernetes, see [Transparent Proxy on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/).
 {% endtip %}
 
 ## Universal
@@ -32,7 +35,7 @@ Using the transparent proxy in Universal mode makes setup easier and enables fea
 
 - **Simplified `Dataplane` resources**: You can skip the `networking.outbound` section, so you don’t have to list each service your application connects to manually.
 
-- **Simplified service connectivity**: Take advantage of [Kuma DNS]({{ docs }}/networking/dns/) to use `.mesh` domain names, like `https://service-1.mesh`, for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
+- **Simplified service connectivity**: Take advantage of [Kuma DNS]({{ docs }}/networking/dns/), for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
 
 - **Flexible service addressing**: With [MeshServices]({{ docs }}/networking/meshservice/) and [HostnameGenerators]({{ docs }}/networking/hostnamegenerator/), you can:
 
@@ -45,7 +48,7 @@ Using the transparent proxy in Universal mode makes setup easier and enables fea
   For more details related to transparent proxy on Universal refer to [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/)
 
 {% tip %}
-For more details on using the transparent proxy with Universal, see [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/).
+{{ Note }}For more details on using the transparent proxy with Universal, see [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/).
 {% endtip %}
 
 ### Transparent proxy with eBPF (experimental)
@@ -53,7 +56,7 @@ For more details on using the transparent proxy with Universal, see [Transparent
 Starting from {{ Kuma }} 2.0 you can set up transparent proxy to use eBPF instead of iptables.
 
 {% warning %}
-To use the transparent proxy with eBPF your environment has to use `Kernel >= 5.7` and have `cgroup2` available
+{{ Important }}To use the transparent proxy with eBPF your environment has to use `Kernel >= 5.7` and have `cgroup2` available
 {% endwarning %}
 
 {% tabs ebpf useUrlFragment=false %}
@@ -74,7 +77,7 @@ kumactl install transparent-proxy \
 ```
 
 {% tip %}
-If your environment contains more than one non-loopback network interface, and you want to specify explicitly which one should be used for transparent proxying you should provide it using `--ebpf-tc-attach-iface <IFACE_NAME>` flag, during transparent proxy installation.
+{{ Note }}If your environment contains more than one non-loopback network interface, and you want to specify explicitly which one should be used for transparent proxying you should provide it using `--ebpf-tc-attach-iface <IFACE_NAME>` flag, during transparent proxy installation.
 {% endtip %}
 {% endtab %}
 {% endtabs %}
