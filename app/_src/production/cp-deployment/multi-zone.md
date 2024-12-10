@@ -187,7 +187,7 @@ You need the following values to pass to each zone control plane setup:
 {% tabs zone-control-planes useUrlFragment=false %}
 {% tab zone-control-planes Kubernetes %}
 
-On each zone control plane, run:
+For every individual zone create an own cluster and for each run:
 
 {% if_version gte:2.3.x %}
 {% cpinstall zcp %}
