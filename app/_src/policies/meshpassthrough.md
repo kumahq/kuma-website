@@ -92,6 +92,7 @@ If you rely on tags in the top-level `targetRef` you might consider securing the
 
 * Due to the nature of some traffic, it is not possible to combine certain protocols on the same port. You can create a `MeshPassthrough` policy that handles `tcp`, `tls`, and one of `http`, `http2`, or `grpc` traffic on the same port. Layer 7 protocols cannot be distinguished, which could introduce unexpected behavior.
 * It is currently not possible to route passthrough traffic through the [zone egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/#zone-egress). However, this feature will be implemented in the future.
+* Wildcard domains with L7 protocol and all ports is not supported.
 * {% if_version gte:2.9.x %}Builtin gateway is not supported.{% endif_version %}{% if_version lte:2.8.x %}Gateways are currently not supported.{% endif_version %}
 
 ## Examples
