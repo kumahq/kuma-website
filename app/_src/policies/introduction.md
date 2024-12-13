@@ -94,6 +94,7 @@ spec:
 
 {% tip %}
 While some policies can have both a `to` and a `from` section, it is strongly advised to create 2 different policies, one for `to` and one for `from`.
+When creating policy on namespace different from {{site.mesh_namespace}} it is impossible to mix both `to` and `from` section.
 {% endtip %}
 
 Some policies are not directional and will not have `to` and `from`. Some examples of such policies are [`MeshTrace`](/docs/{{ page.release }}/policies/meshtrace) or [`MeshProxyPatch`](/docs/{{ page.release }}/policies/meshproxypatch).
@@ -243,7 +244,7 @@ kind: MeshGateway
 mesh: default
 metadata:
   name: edge
-  namespace: kuma-system
+  namespace: {{site.mesh_namespace}}
 conf:
   listeners:
   - port: 80
@@ -545,7 +546,7 @@ named the same way in different namespaces or zones with different configuration
 {{ site.mesh_product_name }} adds a label `kuma.io/policy-role` to identify the type of the policy. The values of the label are:
 
 - **system**: Policies defined on global or in the zone's system namespace
-- **workload-owner**: Policies defined in a non system namespaces that do not have `spec.to` entries, or have both `spec.from` and `spec.to` entries
+- **workload-owner**: Policies defined in a non system namespaces that do not have `spec.to` entries, or have only `spec.from`
 - **consumer**: Policies defined in a non system namespace that have `spec.to` which either do not use `name` or have a different `namespace`
 - **producer**: Policies defined in the same namespace as the services identified in the `spec.to[].targetRef`
 
