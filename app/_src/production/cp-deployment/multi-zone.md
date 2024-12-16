@@ -216,6 +216,8 @@ Set `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVer
 For production use a certificate signed by a trusted CA. See [Secure access across services](/docs/{{ page.release }}/production/secure-deployment/certificates/) page for more information.
 {% endif_version %}
 
+After installing a zone control plane, make sure to restart the application pods that are already running such that the data plane proxies can be connected.
+
 {% endtab %}
 {% tab zone-control-planes Universal %}
 
