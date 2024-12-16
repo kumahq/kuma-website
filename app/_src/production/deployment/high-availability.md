@@ -24,7 +24,8 @@ leader at a time. When the control planes are running in universal mode, this is
 handled by the leader maintaining a lock on the database. In Kubernetes mode, it's
 handled similarly but uses the built-in coordination API resources.
 
-An example of a leader task is that a zone control plane leader
-maintains a connection to the global control plane and both sends relevant
-changes in the zone to the global control plane and receives relevant updates
-about the global state.
+An example of a leader task is that every zone control plane leader
+maintains a connection to the global control plane in order to:
+
+- send relevant changes in the zone to the global control plane
+- receive and act on relevant updates about the global state
