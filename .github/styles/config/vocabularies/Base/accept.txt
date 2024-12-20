@@ -100,6 +100,7 @@ MADR
 md
 minikube
 Maglev
+MeshExternalService
 MeshGateway
 matchers
 Mockbin
@@ -180,4 +181,3 @@ yml
 [xX]DS|xds
 Zipkin
 zsh
-MeshExternalService
