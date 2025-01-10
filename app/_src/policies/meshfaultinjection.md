@@ -168,6 +168,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
 {% policy_yaml meshfaultinjection-backend-to-frontend-simple-26x %}
 ```yaml
 type: MeshFaultInjection
@@ -191,6 +192,7 @@ spec:
               percentage: 50
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml meshfaultinjection-backend-to-frontend-simple-29x namespace=kuma-demo %}
@@ -244,6 +246,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
 {% policy_yaml meshfaultinjection-from-all-26x useUrlFragment %}
 ```yaml
 type: MeshFaultInjection
@@ -266,6 +269,7 @@ spec:
               value: 5s
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml meshfaultinjection-from-all-29x namespace=kuma-demo useUrlFragment %}
@@ -324,6 +328,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
+{% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 {% policy_yaml meshfaultinjection-list-of-faults-26x useUrlFragment %}
 ```yaml
@@ -354,6 +359,7 @@ spec:
               percentage: 5
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml meshfaultinjection-list-of-faults-29x namespace=kuma-demo useUrlFragment %}

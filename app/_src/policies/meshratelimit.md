@@ -136,6 +136,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
 {% policy_yaml http-rate-limit-26x %}
 ```yaml
 type: MeshRateLimit
@@ -164,6 +165,7 @@ spec:
                     value: "true"
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml http-rate-limit-namespaced namespace=kuma-demo %}
@@ -222,6 +224,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
 {% policy_yaml from-backend-26x %}
 ```yaml
 type: MeshRateLimit
@@ -244,6 +247,7 @@ spec:
               interval: 10s
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml from-backend-namespaced namespace=kuma-demo %}
