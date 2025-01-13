@@ -5,8 +5,14 @@ title: MeshTrafficPermission
 {% warning %}
 This policy uses new policy matching algorithm.
 Do **not** combine with [TrafficPermission](/docs/{{ page.release }}/policies/traffic-permissions).
-Also remember [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) has to be enabled to make MeshTrafficPermission works.
 {% endwarning %}
+
+{% tip %}
+Remember [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) has to be enabled to make MeshTrafficPermission works.
+{% endtip %}
+
+The `MeshTrafficPermission` policy provides access control within the [Mesh](/docs/{{ page.release }}/production/mesh/).
+It allows you to define granular rules about which services can communicate with each other.
 
 ## TargetRef support matrix
 
