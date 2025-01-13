@@ -8,7 +8,7 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.release }}/policies/tr
 {% endwarning %}
 
 {% tip %}
-Remember [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) has to be enabled to make MeshTrafficPermission works.
+[Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) has to be enabled to make MeshTrafficPermission work.
 {% endtip %}
 
 The `MeshTrafficPermission` policy provides access control within the [Mesh](/docs/{{ page.release }}/production/mesh/).
