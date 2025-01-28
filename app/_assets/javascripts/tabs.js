@@ -1,3 +1,5 @@
+// !! RIGHT NOW WE DO NOT HAVE A SYNCING MECHANISM
+// REFLECT YOUR CHANGES IN https://github.com/Kong/docs.konghq.com/blob/main/app/_assets/javascripts/tabs.js !!
 const $$ = ($el, sel) => $el.querySelectorAll(sel)
 const $ = ($el, sel) => $el.querySelector(sel)
 
