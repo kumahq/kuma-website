@@ -24,7 +24,12 @@ Note the following:
 
 ### Default TrafficRoute
 
+{% if_version gte:2.6.x %}
+Since {{site.mesh_product_name}} version 2.6.x, the control plane no longer creates a default `TrafficRoute`. The default TrafficRoute previously enabled traffic between all services in the mesh, so you now need to create it manually.
+{% endif_version %}
+{% if_version lte:2.5.x %}
 The control plane creates a default `TrafficRoute` every time a new `Mesh` is created. The default `TrafficRoute` enables the traffic between all the services in the mesh. 
+{% endif_version %}
 
 {% tabs traffic-route useUrlFragment=false %}
 {% tab traffic-route Kubernetes %}
