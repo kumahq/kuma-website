@@ -24,6 +24,10 @@ More on this in [Controlling MeshExternalService access from Mesh](/docs/{{ page
 
 ## Configuration
 
+{% if_version gte:2.9.x %}
+In case you want to use a `MeshExternalService`, you need to enable [ZoneEgress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/) and [mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/).
+{% endif_version %}
+
 ### Match
 
 This section specifies the rules for matching traffic that will be routed to external resources defined in `endpoints` section.
