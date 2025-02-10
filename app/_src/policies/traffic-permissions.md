@@ -16,7 +16,12 @@ This policy provides access control rules to define the traffic that is allowed 
 
 Traffic permissions requires [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) enabled on the [Mesh](/docs/{{ page.release }}/production/mesh/). Mutual TLS is required for {{site.mesh_product_name}} to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, {{site.mesh_product_name}} allows all service traffic. 
 
+{% if_version gte:2.6.x %}
+Since {{site.mesh_product_name}} version 2.6.x, the control plane no longer creates a default `TrafficPermission`. The default `TrafficPermission` allows all communication between all services in the new `Mesh`. Make sure to configure your policies to allow appropriate access to each of the services in your mesh.
+{% endif_version %}
+{% if_version lte:2.5.x %}
 The default `TrafficPermission` policy that {{site.mesh_product_name}} creates when you install allows all communication between all services in the new `Mesh`. Make sure to configure your policies to allow appropriate access to each of the services in your mesh.
+{% endif_version %}
 
 As of version 1.2.0, traffic permissions support the `ExternalService` resource. This lets you configure access control for traffic to services outside the mesh.
 
