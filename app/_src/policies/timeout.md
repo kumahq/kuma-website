@@ -65,7 +65,12 @@ Envoy conf: [Cluster](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/
 
 ## Default general-purpose Timeout policy
 
+{% if_version gte:2.6.x %}
+Since {{site.mesh_product_name}} version 2.6.x, the control plane no longer creates a default `Timeout`. If you want to use the previous default behavior, create the following Timeout policy:
+{% endif_version %}
+{% if_version lte:2.5.x %}
 By default, {{site.mesh_product_name}} creates the following Timeout policy:
+{% endif_version %}
 
 {% tabs timeout-policy useUrlFragment=false %}
 {% tab timeout-policy Kubernetes %}
