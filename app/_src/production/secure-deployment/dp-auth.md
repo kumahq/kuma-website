@@ -92,7 +92,9 @@ The control plane will then verify the data plane proxy resources that are conne
 
 {{site.mesh_product_name}} does not keep the list of issued tokens. Whenever the single token is compromised, we can add it to revocation list so it's no longer valid.
 
+{% if_version gte:2.10.x %}
 Authentication between the control plane and dataplanes is only checked at connection start. This means that when revoking a token after the dataplane connects, the connection won't stop. The recommended action on token revocation is to either restart the control plane or the concerned dataplanes.
+{% endif_version %}
 
 Every token has its own ID which is available in payload under `jti` key. You can extract ID from token using jwt.io or [`jwt-cli`](https://www.npmjs.com/package/jwt-cli) tool. Here is example of `jti`
 
