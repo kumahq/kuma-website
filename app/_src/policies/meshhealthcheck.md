@@ -281,8 +281,14 @@ spec:
 - **`intervalJitterPercent`** - (optional) if specified, during every interval Envoy will add `intervalJitter` *
   `intervalJitterPercent` / 100 to the wait time. If `intervalJitter` and
   `intervalJitterPercent` are both set, both of them will be used to increase the wait time.
+{% if_version lte:2.10.x %}
+- **`healthyPanicThreshold`** - allows to configure panic threshold for Envoy cluster. If not specified,
+  the default is 50%. To disable panic mode, set to 0%.
+{% endif_version %}
+{% if_version gte:2.10.x %}
 - **`healthyPanicThreshold`** - allows to configure panic threshold for Envoy cluster. If not specified,
   the default is 50%. To disable panic mode, set to 0%. ⚠️This is deprecated from version 2.10.x and has moved to [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker).⚠️
+{% endif_version %}
 - **`failTrafficOnPanic`** - (optional) if set to true, Envoy will not consider any hosts when the cluster is in
   'panic mode'. Instead, the cluster will fail all requests as if all hosts are unhealthy.
   This can help avoid potentially overwhelming a failing service.
