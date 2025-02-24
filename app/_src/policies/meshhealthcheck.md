@@ -281,7 +281,7 @@ spec:
 - **`intervalJitterPercent`** - (optional) if specified, during every interval Envoy will add `intervalJitter` *
   `intervalJitterPercent` / 100 to the wait time. If `intervalJitter` and
   `intervalJitterPercent` are both set, both of them will be used to increase the wait time.
-{% if_version lte:2.10.x %}
+{% if_version lte:2.9.x %}
 - **`healthyPanicThreshold`** - (optional) allows to configure panic threshold for Envoy clusters. If not specified,
   the default is 50%. To disable panic mode, set to 0%.
 {% endif_version %}
