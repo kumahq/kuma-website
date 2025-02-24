@@ -42,10 +42,15 @@ Do **not** combine with [Proxy Template](/docs/{{ page.release }}/policies/proxy
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds       |
+| --------------------- | ------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane` |
 {% endif_version %}
 {% endtab %}
 
