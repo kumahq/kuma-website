@@ -504,6 +504,11 @@ items:
         url: /guides/progressively-rolling-in-strict-mtls/
       - text: Producer and consumer policies
         url: /guides/consumer-producer-policies
+      - title: Troubleshooting
+        group: true
+        items:
+          - text: Logging
+            url: /guides/logging
   - title: Reference
     group: true
     items:
