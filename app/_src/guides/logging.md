@@ -35,7 +35,7 @@ The below annotations can be used to adjust logging levels and components:
 
 `kuma.io/envoy-component-log-level`: Specifies the log level for Envoy system logs to enable by component. This allows targeting specific components, each with its own log level.
 
-**Note**: These annotations must be added to the pod or pod template of a deployment. Making this change will require a restart or rollout of the pod/deployment.
+**Note**: These annotations must be added to the pod or pod template of a deployment. Making this change will require a `restart` or `rollout` of the pod/deployment.
 
 All components:
 ```yaml
@@ -70,7 +70,7 @@ The Envoy interface can also be accessed directly. This can be achieved using Ku
 kubectl port-forward kuma-demo-app-76df4d8cf5-9q9j9 -n kuma-demo 9901:9901 2>&1 &
 ```
 
-Once port forwarding is set up, you can increase the log level by sending an HTTP POST request with one of the supported values. The debug-level logs will then be available via the standard logging facilities (e.g., stderr on Kubernetes):
+Once port forwarding is set up, you can increase the log level by sending an `HTTP POST` request with one of the supported values. The debug-level logs will then be available via the standard logging facilities (for example, stderr on Kubernetes):
 
 ```shell
 curl -X POST http://localhost:9901/logging?level=debug
@@ -101,7 +101,7 @@ kuma-dp run --envoy-component-log-level="upstream:debug,connection:trace"
 {% endtabs %}
 
 
-## Adjusting Logging Levels for kuma-cp
+## Adjusting logging levels for Kuma-CP
 The available logging levels for Control Planes are:
 
 * debug
@@ -143,7 +143,7 @@ kuma-cp run --log-level=debug
 {% endtab %}
 {% endtabs %}
 
-## Adjusting Logging Levels for CoreDNS
+## Adjusting logging levels for CoreDNS
 Logging for CoreDNS does not have specific levels; it is either on/true or off/false.
 
 
