@@ -4,7 +4,7 @@ title: Logging
 
 When encountering issues, it is often necessary to increase logging levels to gain further insight into the problem. Below, we will explore the options for changing the log levels of various components in both Kubernetes and Universal deployments.
 
-## Adjusting Logging Levels for Kuma-DP
+## Adjusting logging levels for Kuma-DP
 Logging levels can be adjusted on a per-kuma-dp-based component basis. These components include:
 
 * Data plane proxies
