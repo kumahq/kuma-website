@@ -27,11 +27,17 @@ depending on where the request is coming from and where it's going to.
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `MeshService`                                            |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind` | `MeshService`                                            |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds       |
+| --------------------- | ------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane` |
+| `to[].targetRef.kind` | `MeshService`       |
 {% endif_version %}
 {% endtab %}
 

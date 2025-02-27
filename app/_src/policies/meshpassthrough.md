@@ -13,9 +13,16 @@ When using this policy, the [passthrough mode](/docs/{{ page.release }}/networki
 
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
+{% if_version lte:2.9.x %}
 | `targetRef`           | Allowed kinds         |
 | --------------------- | --------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`  |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds        |
+| --------------------- | -------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`  |
+{% endif_version %}
 {% endtab %}
 {% if_version gte:2.9.x %}
 {% tab targetRef Delegated Gateway %}
