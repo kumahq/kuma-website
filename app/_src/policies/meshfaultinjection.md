@@ -20,11 +20,17 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`             | Allowed kinds                             |
+| ----------------------- | ----------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`                       |
+| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset` |
 {% endif_version %}
 {% endtab %}
 
