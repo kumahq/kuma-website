@@ -21,10 +21,11 @@ export PATH=$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.version 
 ```
 This directory contains binaries for `kuma-dp`, `kuma-cp`, `kumactl`, `envoy` and `coredns`
 
+{% if page.edition = "kuma" %}
 {% tip %}
 If you only need `kumactl` on macOS you can install it via `brew install kumactl`.
 {% endtip %}
-
+{% endif %}
 
 ## Next steps
 * [Complete quickstart](/docs/{{ page.release }}/quickstart/universal-demo/) to set up a zone control plane with demo application
