@@ -181,6 +181,7 @@ Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
 To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
 
+{% if_version lte:2.9.x %}
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
@@ -200,6 +201,29 @@ spec:
       default:
         action: Allow" | kubectl apply -f -
 ```
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: kuma-demo 
+  name: allow-gateway
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: demo-app
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags: 
+          kuma.io/service: kuma_kuma-demo_svc 
+      default:
+        action: Allow" | kubectl apply -f -
+```
+{% endif_version %}
 
 Check it works with:
 ```sh

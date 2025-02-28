@@ -168,7 +168,8 @@ spec:
 {% if_version gte:2.7.x %}
 ##### Include unused metrics of only Basic profile with manual exclude and include
 
-{% policy_yaml include_unused_and_exclude %}
+{% if_version lte:2.8.x %}
+{% policy_yaml include_unused_and_exclude-28x %}
 ```yaml
 type: MeshMetric
 mesh: default
@@ -195,10 +196,40 @@ spec:
           path: /metrics
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+{% policy_yaml include_unused_and_exclude-29x namespace=kuma-demo %}
+```yaml
+type: MeshMetric
+mesh: default
+name: metrics-default
+spec:
+  default:
+    sidecar:
+      includeUnused: true
+      profiles:
+        appendProfiles:
+          - name: Basic
+        exclude:
+          - type: Regex
+            match: "envoy_cluster_external_upstream_rq_.*"
+        include:
+          - type: Exact
+            match: "envoy_cluster_default_total_match_count"
+    backends:
+      - type: Prometheus
+        prometheus:
+          port: 5670
+          path: /metrics
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ##### Include only manually defined metrics
 
-{% policy_yaml include_only_manually_defined %}
+{% if_version lte:2.8.x %}
+{% policy_yaml include_only_manually_defined-28x %}
 ```yaml
 type: MeshMetric
 mesh: default
@@ -221,10 +252,36 @@ spec:
           path: /metrics
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+{% policy_yaml include_only_manually_defined-29x namespace=kuma-demo %}
+```yaml
+type: MeshMetric
+mesh: default
+name: metrics-default
+spec:
+  default:
+    sidecar:
+      profiles:
+        appendProfiles:
+          - name: None
+        include:
+          - type: Regex
+            match: "envoy_cluster_external_upstream_rq_.*"
+    backends:
+      - type: Prometheus
+        prometheus:
+          port: 5670
+          path: /metrics
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ##### Exclude all metrics apart from one manually added
 
-{% policy_yaml exclude_only_manually_defined %}
+{% if_version lte:2.8.x %}
+{% policy_yaml exclude_only_manually_defined-28x %}
 ```yaml
 type: MeshMetric
 mesh: default
@@ -247,6 +304,32 @@ spec:
           path: /metrics
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+{% policy_yaml exclude_only_manually_defined-29x namespace=kuma-demo %}
+```yaml
+type: MeshMetric
+mesh: default
+name: metrics-default
+spec:
+  default:
+    sidecar:
+      profiles:
+        appendProfiles:
+          - name: None
+        include:
+          - type: Regex
+            match: "envoy_cluster_external_upstream_rq_.*"
+    backends:
+      - type: Prometheus
+        prometheus:
+          port: 5670
+          path: /metrics
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
 {% endif_version %}
 
 ### Applications
@@ -398,7 +481,9 @@ scrape_configs:
 
 Now we can configure first `MeshMetric` policy to pick data plane proxies with tag `prometheus: main` for main Prometheus discovery.
 `clientId` in policy should be the same as `client_id` in Prometheus configuration.
-{% policy_yaml first %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml first-29x %}
 ```yaml
 type: MeshMetric
 name: prometheus-one
@@ -417,9 +502,34 @@ spec:
           path: /metrics
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 
-And policy for secondary Prometheus deployment that will pick data plane proxies with tag `prometheus: secondary`. 
-{% policy_yaml second %}
+{% if_version gte:2.10.x %}
+{% policy_yaml first-210x %}
+```yaml
+type: MeshMetric
+name: prometheus-one
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      prometheus: "main"
+  default:
+    backends:
+      - type: Prometheus
+        prometheus: 
+          clientId: "prometheus-main"  
+          port: 5670
+          path: /metrics
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+And policy for secondary Prometheus deployment that will pick data plane proxies with tag `prometheus: secondary`.
+
+{% if_version eq:2.9.x %}
+{% policy_yaml second-29x %}
 ```yaml
 type: MeshMetric
 name: prometheus-two
@@ -438,6 +548,29 @@ spec:
           path: /metrics
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml second-210x %}
+```yaml
+type: MeshMetric
+name: prometheus-two
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      prometheus: "secondary"
+  default:
+    backends:
+      - type: Prometheus
+        prometheus: 
+          clientId: "prometheus-secondary" # this clientId should be the same as client_id in Prometheus
+          port: 5670
+          path: /metrics
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 {% if_version lte:2.6.x %}
 #### OpenTelemetry (experimental)
@@ -531,7 +664,8 @@ The first policy defines a default `MeshMetric` policy for the `default` mesh.
 The second policy creates an override for workloads tagged with `framework: example-web-framework`.
 That web framework exposes metrics under `/metrics/prometheus` and port `8888`.
 
-{% policy_yaml customone %}
+{% if_version lte:2.8.x %}
+{% policy_yaml customone-28x %}
 ```yaml
 type: MeshMetric
 mesh: default
@@ -552,8 +686,32 @@ spec:
             mode: "ProvidedTLS"
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
 
-{% policy_yaml customtwo %}
+{% if_version gte:2.9.x %}
+{% policy_yaml customone-29x namespace=kuma-demo %}
+```yaml
+type: MeshMetric
+mesh: default
+name: metrics-default
+spec:
+  default:
+    sidecar:
+      includeUnused: false
+    backends:
+      - type: Prometheus
+        prometheus:
+          clientId: main-backend 
+          port: 5670
+          path: /metrics
+          tls:
+            mode: "ProvidedTLS"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml customtwo-29x %}
 ```yaml
 type: MeshMetric
 mesh: default
@@ -569,6 +727,26 @@ spec:
         port: 8888
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml customtwo-210x %}
+```yaml
+type: MeshMetric
+mesh: default
+name: metrics-for-mesh-service
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      framework: "example-web-framework"
+  default:
+    applications:
+      - path: "/metrics/prometheus"
+        port: 8888
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ## All policy options
 

@@ -104,8 +104,38 @@ spec:
         action: Allow
 ```
 {% endpolicy_yaml %}
+
+#### Explanation
+
+1. Top level `targetRef` selects data plane proxies that implement `payments` service.
+   MeshTrafficPermission `allow-orders` will be configured on these proxies.
+
+    ```yaml
+    targetRef: # 1
+      kind: MeshService
+      name: payments
+    ```
+
+2. `TargetRef` inside the `from` array selects proxies that implement `order` service.
+   These proxies will be subjected to the action from `default.action`.
+
+    ```yaml
+    - targetRef: # 2
+        kind: MeshSubset
+        tags: 
+          kuma.io/service: orders
+    ```
+
+3. The action is `Allow`. All requests from service `orders` will be allowed on service `payments`.
+
+    ```yaml
+    default: # 3
+      action: Allow
+    ```
+
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml allow-orders-29x namespace=kuma-demo %}
 ```yaml
 type: MeshTrafficPermission
@@ -125,21 +155,21 @@ spec:
         action: Allow
 ```
 {% endpolicy_yaml %}
-{% endif_version %}
 
 #### Explanation
 
-1. Top level `targetRef` selects data plane proxies that implement `payments` service.
-    MeshTrafficPermission `allow-orders` will be configured on these proxies.
+1. Top level `targetRef` selects data plane proxies that have `app: payments` tag.
+   MeshTrafficPermission `allow-orders` will be configured on these proxies.
 
     ```yaml
     targetRef: # 1
-      kind: MeshService
-      name: payments
+      kind: MeshSubset
+      tags:
+        app: payments
     ```
 
 2. `TargetRef` inside the `from` array selects proxies that implement `order` service.
-    These proxies will be subjected to the action from `default.action`.
+   These proxies will be subjected to the action from `default.action`.
 
     ```yaml
     - targetRef: # 2
@@ -154,6 +184,60 @@ spec:
     default: # 3
       action: Allow
     ```
+
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml allow-orders-210x namespace=kuma-demo %}
+```yaml
+type: MeshTrafficPermission
+name: allow-orders
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: payments
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags: 
+          kuma.io/service: orders
+      default:
+        action: Allow
+```
+{% endpolicy_yaml %}
+
+#### Explanation
+
+1. Top level `targetRef` selects data plane proxies that have `app: payments` label.
+   MeshTrafficPermission `allow-orders` will be configured on these proxies.
+
+    ```yaml
+    targetRef: # 1
+      kind: Dataplane
+      labels:
+        app: payments
+    ```
+
+2. `TargetRef` inside the `from` array selects proxies that implement `order` service.
+   These proxies will be subjected to the action from `default.action`.
+
+    ```yaml
+    - targetRef: # 2
+        kind: MeshSubset
+        tags: 
+          kuma.io/service: orders
+    ```
+
+3. The action is `Allow`. All requests from service `orders` will be allowed on service `payments`.
+
+    ```yaml
+    default: # 3
+      action: Allow
+    ```
+
+{% endif_version %}
 
 ### Deny all
 
@@ -173,22 +257,6 @@ spec:
         action: Deny
 ```
 {% endpolicy_yaml %}
-{% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml deny-all-29x namespace=kuma-demo %}
-```yaml
-type: MeshTrafficPermission
-name: deny-all
-mesh: default
-spec:
-  from:
-    - targetRef: # 2
-        kind: Mesh
-      default: # 3
-        action: Deny
-```
-{% endpolicy_yaml %}
-{% endif_version %}
 
 #### Explanation
 
@@ -213,6 +281,42 @@ spec:
       action: Deny
     ```
 
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+{% policy_yaml deny-all-29x namespace=kuma-demo %}
+```yaml
+type: MeshTrafficPermission
+name: deny-all
+mesh: default
+spec:
+  from:
+    - targetRef: # 2
+        kind: Mesh
+      default: # 3
+        action: Deny
+```
+{% endpolicy_yaml %}
+
+#### Explanation
+
+1. Since top level `targetRef` is empty it selects all proxies in the mesh.
+2. `TargetRef` inside the `from` array selects all clients.
+
+    ```yaml
+    - targetRef: # 2
+        kind: Mesh
+    ```
+
+3. The action is `Deny`. All requests from all services will be denied on all proxies in the `default` mesh.
+
+    ```yaml
+    default: # 3
+      action: Deny
+    ```
+
+{% endif_version %}
+
 ### Allow all
 
 {% if_version lte:2.8.x %}
@@ -231,22 +335,6 @@ spec:
         action: Allow
 ```
 {% endpolicy_yaml %}
-{% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml allow-all-29x namespace=kuma-demo %}
-```yaml
-type: MeshTrafficPermission
-name: allow-all
-mesh: default
-spec:
-  from:
-    - targetRef: # 2
-        kind: Mesh
-      default: # 3
-        action: Allow
-```
-{% endpolicy_yaml %}
-{% endif_version %}
 
 #### Explanation
 
@@ -270,6 +358,42 @@ spec:
     default: # 3
       action: Allow
     ```
+
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+{% policy_yaml allow-all-29x namespace=kuma-demo %}
+```yaml
+type: MeshTrafficPermission
+name: allow-all
+mesh: default
+spec:
+  from:
+    - targetRef: # 2
+        kind: Mesh
+      default: # 3
+        action: Allow
+```
+{% endpolicy_yaml %}
+
+#### Explanation
+
+1. Since top level `targetRef` is empty it selects all proxies in the mesh.
+2. `targetRef` inside the element of the `from` array selects all clients within the mesh.
+
+    ```yaml
+    - targetRef: # 2
+        kind: Mesh
+    ```
+
+3. The action is `Allow`. All requests from all services will be allow on all proxies in the `default` mesh.
+
+    ```yaml
+    default: # 3
+      action: Allow
+    ```
+
+{% endif_version %}
 
 ### Allow requests from zone 'us-east', deny requests from 'dev' environment
 
@@ -298,6 +422,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
+
 {% if_version gte:2.9.x %}
 {% policy_yaml tags-29x namespace=kuma-demo %}
 ```yaml
@@ -322,6 +447,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+{% if_version lte:2.8.x %}
 #### Explanation
 
 1. Top level `targetRef` selects all proxies in the mesh.
@@ -364,6 +490,46 @@ spec:
     default: # 5
       action: Deny
     ```
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
+#### Explanation
+
+1. Since top level `targetRef` is empty it selects all proxies in the mesh.
+2. `TargetRef` inside the `from` array selects proxies that have label `kuma.io/zone: us-east`.
+   These proxies will be subjected to the action from `default.action`.
+
+    ```yaml
+    - targetRef: # 2
+        kind: MeshSubset
+        tags:
+          kuma.io/zone: us-east
+    ```
+
+3. The action is `Allow`. All requests from the zone `us-east` will be allowed on all proxies.
+
+    ```yaml
+    default: # 3
+      action: Allow
+    ```
+
+4. `TargetRef` inside the `from` array selects proxies that have tags `kuma.io/zone: us-east`.
+   These proxies will be subjected to the action from `default.action`.
+
+    ```yaml
+    - targetRef: # 4
+        kind: MeshSubset
+        tags:
+          env: dev
+    ```
+
+5. The action is `Deny`. All requests from the env `dev` will be denied on all proxies.
+
+    ```yaml
+    default: # 5
+      action: Deny
+    ```
+{% endif_version %}
 
 {% tip %}
 Order of rules inside the `from` array matters. 

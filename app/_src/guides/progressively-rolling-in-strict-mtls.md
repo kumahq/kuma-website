@@ -99,6 +99,7 @@ Open up both apps' GUI and turn on auto incrementing.
 We begin with preparing redis to start in [permissive](/docs/{{ page.release }}/policies/meshtls/#configuration) mode when deployed inside the mesh.
 To enable permissive mode we define this `MeshTLS` policy:
 
+{% if_version lte:2.9.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTLS
@@ -118,6 +119,29 @@ spec:
     default:
       mode: Permissive
 ```
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTLS
+metadata:
+  name: redis
+  namespace: kuma-demo-migration
+  labels:
+    kuma.io/mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: redis
+  from:
+  - targetRef:
+      kind: Mesh
+    default:
+      mode: Permissive
+```
+{% endif_version %}
 
 ### Migrate redis to mesh
 

@@ -66,7 +66,8 @@ The following describes the default configuration settings of the `MeshPassthrou
 Currently, support for partial subdomain matching is not implemented. For example, a match for `*w.example.com` will be rejected.
 {% endwarning %}
 
-{% policy_yaml wildcard %}
+{% if_version eq:2.9.x %}
+{% policy_yaml wildcard-29x %}
 ```yaml
 type: MeshPassthrough
 name: wildcard-passthrough
@@ -84,6 +85,27 @@ spec:
       port: 443
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml wildcard-210x %}
+```yaml
+type: MeshPassthrough
+name: wildcard-passthrough
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+  default:
+    passthroughMode: Matched
+    appendMatch:
+    - type: Domain
+      value: '*.cluster-1.kafka.aws.us-east-2.com'
+      protocol: tls
+      port: 443
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Security
 
@@ -107,7 +129,8 @@ If you rely on tags in the top-level `targetRef` you might consider securing the
 
 ### Disable passthrough for all sidecars
 
-{% policy_yaml example1 %}
+{% if_version eq:2.9.x %}
+{% policy_yaml example1-29x %}
 ```yaml
 type: MeshPassthrough
 name: disable-passthrough
@@ -120,10 +143,27 @@ spec:
     passthroughMode: None
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml example1-210x %}
+```yaml
+type: MeshPassthrough
+name: disable-passthrough
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+  default:
+    passthroughMode: None
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Enable passthrough for a subset of sidecars
 
-{% policy_yaml example2 %}
+{% if_version eq:2.9.x %}
+{% policy_yaml example2-29x %}
 ```yaml
 type: MeshPassthrough
 name: enable-passthrough
@@ -138,10 +178,29 @@ spec:
     passthroughMode: All
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml example2-210x %}
+```yaml
+type: MeshPassthrough
+name: enable-passthrough
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: demo-app
+  default:
+    passthroughMode: All
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Allow a subset of services to communicate with specific external endpoints
 
-{% policy_yaml example3 %}
+{% if_version eq:2.9.x %}
+{% policy_yaml example3-29x %}
 ```yaml
 type: MeshPassthrough
 name: allow-some-passthrough
@@ -177,6 +236,45 @@ spec:
       port: 80
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml example3-210x %}
+```yaml
+type: MeshPassthrough
+name: allow-some-passthrough
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: demo-app
+  default:
+    passthroughMode: Matched
+    appendMatch:
+    - type: Domain
+      value: httpbin.org
+      protocol: tls
+      port: 443
+    - type: IP
+      value: 10.240.15.39
+      protocol: tcp
+      port: 8888
+    - type: CIDR
+      value: 10.250.0.0/16
+      protocol: tcp
+      port: 10000
+    - type: Domain
+      value: '*.wikipedia.org'
+      protocol: tls
+      port: 443
+    - type: Domain
+      value: httpbin.dev
+      protocol: http
+      port: 80
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ## All policy options
 
