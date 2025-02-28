@@ -22,11 +22,17 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
 {% endif_version %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`             |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds                                |
+| --------------------- | -------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`                          |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService` |
 {% endif_version %}
 {% if_version lte:2.5.x %}
 | `targetRef.kind`    | top level | to  | from |

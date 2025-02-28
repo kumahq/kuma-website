@@ -187,7 +187,7 @@ You need the following values to pass to each zone control plane setup:
 {% tabs zone-control-planes useUrlFragment=false %}
 {% tab zone-control-planes Kubernetes %}
 
-On each zone control plane, run:
+For every individual zone create an own cluster and for each run:
 
 {% if_version gte:2.3.x %}
 {% cpinstall zcp %}
@@ -215,6 +215,8 @@ Add `--set {{site.set_flag_values_prefix}}egress.enabled=true` to list of argume
 Set `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVerify=true` because the default global control plane's certificate is self-signed.
 For production use a certificate signed by a trusted CA. See [Secure access across services](/docs/{{ page.release }}/production/secure-deployment/certificates/) page for more information.
 {% endif_version %}
+
+After installing a zone control plane, make sure to restart the application pods that are already running such that the data plane proxies can be connected.
 
 {% endtab %}
 {% tab zone-control-planes Universal %}

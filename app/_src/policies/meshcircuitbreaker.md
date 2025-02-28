@@ -48,12 +48,19 @@ target proxies are healthy or not.
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
 | `from[].targetRef.kind` | `Mesh`                                                   |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
 | `from[].targetRef.kind` | `Mesh`                                                   |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`             | Allowed kinds         |
+| ----------------------- | --------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`   |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService` |
+| `from[].targetRef.kind` | `Mesh`                |
 {% endif_version %}
 {% endtab %}
 
@@ -130,6 +137,11 @@ For **gRPC** requests, the outlier detection will use the HTTP status mapped fro
   account: `detectors.localOriginFailures.consecutive`.
 - **`detectors`** - Contains configuration for supported outlier detectors. At least one detector needs to be configured
   when policy is configured for outlier detection.
+{% if_version gte:2.10.x %}
+- **`healthyPanicThreshold`** - (optional) Allows to configure panic threshold for Envoy cluster. If not specified,
+  the default is 50%. To disable panic mode, set to 0%.
+{% endif_version %}
+
 
 #### Detectors configuration
 

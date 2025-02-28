@@ -83,16 +83,8 @@ This isn't related to mTLS between services.
 First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane [resources](/docs/{{ page.release }}/introduction/concepts#resource) for data plane proxies, and 
 run kuma-dp manually, to do this run:
 
-{% capture env-vars-redis -%}
-KUMA_READINESS_PORT=9901
-{%- if_version gte:2.9.x %} \
-KUMA_APPLICATION_PROBE_PROXY_PORT=9902
-{%- endif_version -%}
-{% endcapture %}
-
 ```sh
-{{ env-vars-redis }} \
-kuma-dp run \
+KUMA_READINESS_PORT=9901 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9902 \{% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-redis \
@@ -126,16 +118,8 @@ export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.ve
 
 Now we can start the data plane proxy for our demo-app, we can do this by running:
 
-{% capture env-vars-demo-app -%}
-KUMA_READINESS_PORT=9904
-{%- if_version gte:2.9.x %} \
-KUMA_APPLICATION_PROBE_PROXY_PORT=9905
-{%- endif_version -%}
-{% endcapture %}
-
 ```sh
-{{ env-vars-demo-app }} \
-kuma-dp run \
+KUMA_READINESS_PORT=9904 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905 \{% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-demo-app \

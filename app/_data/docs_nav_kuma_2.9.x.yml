@@ -68,6 +68,8 @@ items:
             url: /production/deployment/single-zone/
           - text: Multi-zone deployment
             url: /production/deployment/multi-zone/
+          - text: High availability
+            url: /production/deployment/high-availability/
       - text: Use Kuma
         url: /production/use-mesh/
       - title: Control plane deployment

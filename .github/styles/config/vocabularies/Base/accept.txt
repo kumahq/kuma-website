@@ -101,6 +101,7 @@ MADR
 md
 minikube
 Maglev
+MeshExternalService
 MeshGateway
 matchers
 Mockbin

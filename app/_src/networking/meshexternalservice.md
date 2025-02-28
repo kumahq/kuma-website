@@ -12,15 +12,21 @@ The `MeshExternalService` resource allows you to declare external resources inst
 {% tip %}
 What is the difference between `MeshPassthrough` and `MeshExternalService`?
 
-The main difference is that `MeshExternalService` is assigned a custom domain and can be targeted by policies. `MeshPassthrough`, on the other hand, does not alter the address of the original host and cannot be targeted by policies.
+The main difference is that `MeshExternalService` assigns a custom domain and can be targeted by policies. 
+`MeshPassthrough` does not alter the address of the original host and cannot be targeted by policies.
 {% endtip %}
 
 {% warning %}
-Currently `MeshExternalService` resource only supports targeting by [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) with [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress).
-This limitation will be lifted in the next release.
+Currently you can not configure granular [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) for MeshExternalService.
+You can only enable or disable whole traffic to MeshExternalService from Mesh by [Mesh resource configuration](/docs/{{ page.release }}/production/mesh/).
+More on this in [Controlling MeshExternalService access from Mesh](/docs/{{ page.release }}/networking/meshexternalservice/#controlling-meshexternalservice-access-from-mesh) section.
 {% endwarning %}
 
 ## Configuration
+
+{% if_version gte:2.9.x %}
+In case you want to use a `MeshExternalService`, you need to enable [ZoneEgress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/) and [mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/).
+{% endif_version %}
 
 ### Match
 
@@ -141,6 +147,34 @@ networking:
   admin:
     port: 9901"
 ```
+
+### Controlling MeshExternalService access from Mesh 
+
+At this moment you cannot configure [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) for 
+MeshExternalService. But you can configure access to all external services on Mesh level. For example, you can disable 
+outgoing traffic to all MeshExternalServices:
+
+{% tabs usage useUrlFragment=false %}
+{% tab usage Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  routing:
+    defaultForbidMeshExternalServiceAccess: true
+```
+{% endtab %}
+{% tab usage Universal %}
+```yaml
+type: Mesh
+name: default
+routing:
+  defaultForbidMeshExternalServiceAccess: true
+```
+{% endtab %}
+{% endtabs %}
 
 ## Examples
 

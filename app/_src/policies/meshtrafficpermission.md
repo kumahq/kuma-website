@@ -7,6 +7,13 @@ This policy uses new policy matching algorithm.
 Do **not** combine with [TrafficPermission](/docs/{{ page.release }}/policies/traffic-permissions).
 {% endwarning %}
 
+{% tip %}
+[Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) has to be enabled to make MeshTrafficPermission work.
+{% endtip %}
+
+The `MeshTrafficPermission` policy provides access control within the [Mesh](/docs/{{ page.release }}/production/mesh/).
+It allows you to define granular rules about which services can communicate with each other.
+
 ## TargetRef support matrix
 
 {% if_version gte:2.7.x %}
@@ -18,11 +25,17 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.release }}/policies/tr
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`             | Allowed kinds                             |
+| ----------------------- | ----------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`                       |
+| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset` |
 {% endif_version %}
 {% endtab %}
 {% tab targetRef27x Builtin Gateway %}
