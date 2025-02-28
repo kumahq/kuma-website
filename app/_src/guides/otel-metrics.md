@@ -43,6 +43,7 @@ spec:
         action: Allow" | kubectl apply -f -
 ```
 {% endif_version %}
+
 {% if_version gte:2.9.x %}
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
