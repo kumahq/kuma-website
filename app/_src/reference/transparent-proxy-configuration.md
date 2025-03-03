@@ -3,7 +3,7 @@ title: Transparent Proxy Configuration
 content_type: reference
 ---
 
-{% assign docs = "/docs/" | append: page.release %}
+{% capture docs %}/docs/{{ page.release }}{% endcapture %}
 {% assign Kuma = site.mesh_product_name %}
 
 {% assign noflag = "# can't be modified via CLI flag" %}

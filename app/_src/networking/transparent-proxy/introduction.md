@@ -3,7 +3,7 @@ title: Transparent Proxy Introduction
 content_type: explanation
 ---
 
-{% assign docs = "/docs/" | append: page.release %}
+{% capture docs %}/docs/{{ page.release }}{% endcapture %}
 {% assign Kuma = site.mesh_product_name %}
 
 {% capture Important %}{% if page.edition and page.edition != "kuma" %}**Important:** {% endif %}{% endcapture %}
@@ -59,7 +59,7 @@ Starting from {{ Kuma }} 2.0 you can set up transparent proxy to use eBPF instea
 {{ Important }}To use the transparent proxy with eBPF your environment has to use `Kernel >= 5.7` and have `cgroup2` available
 {% endwarning %}
 
-{% tabs ebpf useUrlFragment=false %}
+{% tabs ebpf useUrlFragment=false additionalClasses="codeblock" %}
 {% tab ebpf Kubernetes %}
 ```sh
 kumactl install control-plane \

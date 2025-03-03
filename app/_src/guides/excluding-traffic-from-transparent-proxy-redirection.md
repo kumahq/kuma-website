@@ -3,7 +3,7 @@ title: Excluding Traffic from Transparent Proxy Redirection
 content_type: tutorial
 ---
 
-{% assign docs = "/docs/" | append: page.release %}
+{% capture docs %}/docs/{{ page.release }}{% endcapture %}
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 

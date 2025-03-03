@@ -30,7 +30,7 @@ metadata:
 ...
 ```
 
-You can update your workload manifests manually or use a command like:
+You can update your pods manually or with kubectl:
 
 ```sh
 kubectl annotate pods example-app \
@@ -47,17 +47,57 @@ name: {% raw %}{{ name }}{% endraw %}
 networking:
   address: {% raw %}{{ address }}{% endraw %}
   inbound:
-    - port: {% raw %}{{ port }}{% endraw %}
-      tags:
-        kuma.io/service: demo-client
+  - port: {% raw %}{{ port }}{% endraw %}
+    tags:
+      kuma.io/service: demo-client
   transparentProxying:
     redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
     redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
     reachableServices:
-      - redis_kuma-demo_svc_6379
-      - elastic_kuma-demo_svc_9200 
+    - redis_kuma-demo_svc_6379
+    - elastic_kuma-demo_svc_9200 
 ```
 {% endtab %}
 {% endtabs %}
 
 This configuration ensures that `example-app` only connects to `redis_kuma-demo_svc_6379` and `elastic_kuma-demo_svc_9200`, reducing the overhead associated with managing connections to all services in the mesh.
+
+## Marking a service as not reaching any other service
+
+If you want to indicate that a service should not reach any other service, do not set the annotation to an empty string. An empty value is treated as if no reachable services are configured, meaning the service can access all other services in the mesh.
+
+Instead, use a non-existing service name, such as `_noservice_`, in the annotation. For example:
+
+{% tabs reachable-services-placeholder useUrlFragment=false additionalClasses="codeblock" %}
+{% tab reachable-services-placeholder Kubernetes %}
+```yaml
+apiVersion: apps/v1
+kind: Pod
+metadata:
+  name: isolated-service
+  annotations:
+    kuma.io/transparent-proxying-reachable-services: "_noservice_"
+...
+```
+{% endtab %}
+{% tab reachable-services-placeholder Universal %}
+```yaml
+type: Dataplane
+mesh: default
+name: {% raw %}{{ name }}{% endraw %}
+networking:
+  address: {% raw %}{{ address }}{% endraw %}
+  inbound:
+  - port: {% raw %}{{ port }}{% endraw %}
+    tags:
+      kuma.io/service: isolated-service
+  transparentProxying:
+    redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
+    redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
+    reachableServices:
+    - _noservice_
+```
+{% endtab %}
+{% endtabs %}
+
+This ensures that the service does not have access to any other services in the mesh while avoiding unintended behavior caused by an empty annotation.

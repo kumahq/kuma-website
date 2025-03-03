@@ -3,7 +3,7 @@ title: Reachable Backends
 content_type: how-to
 ---
 
-{% assign docs = "/docs/" | append: page.release %}
+{% capture docs %}/docs/{{ page.release }}{% endcapture %}
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 
@@ -33,7 +33,7 @@ Unlike Reachable Services, Reachable Backends uses a structured model that allow
   - **port**: (Optional) Port for the service, used with `MeshService` and `MeshMultiZoneService`.
 <!-- vale Vale.Terms = YES -->
 
-{% tabs reachable-backends-model useUrlFragment=false %}
+{% tabs reachable-backends-model useUrlFragment=false additionalClasses="codeblock" %}
 {% tab reachable-backends-model Kubernetes %}
 ```yaml
 apiVersion: apps/v1
@@ -88,7 +88,7 @@ networking:
 #### `demo-app` communicates only with `redis` on port 6379
 <!-- vale Google.Headings = YES -->
 
-{% tabs reachable-backends useUrlFragment=false %}
+{% tabs reachable-backends useUrlFragment=false additionalClasses="codeblock" %}
 {% tab reachable-backends Kubernetes %}
 ```yaml
 apiVersion: apps/v1
@@ -133,7 +133,7 @@ networking:
 #### `demo-app` doesn’t need to communicate with any service
 <!-- vale Google.Headings = YES -->
 
-{% tabs reachable-backends-no-services useUrlFragment=false %}
+{% tabs reachable-backends-no-services useUrlFragment=false additionalClasses="codeblock" %}
 {% tab reachable-backends-no-services Kubernetes %}
 ```yaml
 apiVersion: apps/v1
@@ -171,7 +171,7 @@ networking:
 #### `demo-app` communicates with all MeshServices in the `kuma-demo` namespace
 <!-- vale Google.Headings = YES -->
 
-{% tabs reachable-backends-in-namespace useUrlFragment=false %}
+{% tabs reachable-backends-in-namespace useUrlFragment=false additionalClasses="codeblock" %}
 {% tab reachable-backends-in-namespace Kubernetes %}
 ```yaml
 apiVersion: apps/v1

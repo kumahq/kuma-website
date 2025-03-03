@@ -3,7 +3,7 @@ title: Transparent Proxy on Universal
 content_type: how-to
 ---
 
-{% assign docs = "/docs/" | append: page.release %}
+{% capture docs %}/docs/{{ page.release }}{% endcapture %}
 {% assign Kuma = site.mesh_product_name %}
 {% assign tproxy = site.data.tproxy %}
 
