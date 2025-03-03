@@ -21,9 +21,7 @@ Virtual IPs are stable (replicated) between instances of the control plane and d
 
 Once a new VIP is allocated or an old VIP is freed, the control plane configures the data plane proxy with this change.
 
-All name lookups are handled locally by the data plane proxy, not by the control plane.
-This approach allows for more robust handling of name resolution.
-For example, when the control plane is down, a data plane proxy can still resolve DNS.
+All name resolution is handled locally by the data plane proxy, not the control plane. This ensures more reliable handling, allowing the data plane proxy to resolve DNS even if the control plane is down.
 
 The data plane proxy DNS consists of:
 
@@ -90,9 +88,9 @@ bootstrapServer:
   corefileTemplatePath: "/path/to/mounted-corefile-template" # ENV: KUMA_BOOTSTRAP_SERVER_PARAMS_COREFILE_TEMPLATE_PATH
 ```
 
-You'll also need to mount the DNS configuration template file into the control plane by adding an extra configMap, here are the steps: 
+You'll also need to mount the DNS configuration template file into the control plane by adding an extra ConfigMap, here are the steps: 
 
-Create a configmap in the namespace in which the control plane is installed:
+Create a ConfigMap in the namespace in which the control plane is installed:
 
 ```sh
 # create the namespace if it does not exist
@@ -104,7 +102,7 @@ kubectl create configmap corefile-template \
   --from-file corefile-template=/path/to/corefile-template-on-disk 
 ```
 
-Point to this configmap when installing {{ Kuma }}:
+Point to this ConfigMap when installing {{ Kuma }}:
 
 {% tabs install-control-plane useUrlFragment=false additionalClasses="codeblock" %}
 {% tab install-control-plane Kubernetes (kumactl) %}
@@ -201,7 +199,7 @@ The `CIDR` field sets the IP range of virtual IPs. The default `240.0.0.0/4` is 
 
 The `domain` field specifies the default `.mesh` DNS zone that {{ Kuma }} DNS provides resolution for. It's only relevant when `serviceVipEnabled` is set to `true`.
 
-The `serviceVipEnabled` field defines if there should be a vip generated for each `kuma.io/service`. This can be disabled for performance reason and [virtual-outbound]({{ docs }}/policies/virtual-outbound) provides a more flexible way to do this.
+The `serviceVipEnabled` field defines if there should be a VIP generated for each `kuma.io/service`. This can be disabled for performance reason and [virtual-outbound]({{ docs }}/policies/virtual-outbound) provides a more flexible way to do this.
 
 ## Usage
 
@@ -219,7 +217,7 @@ You can also use a [DNS RFC1035 compliant name](https://www.ietf.org/rfc/rfc1035
 <kuma-enabled-pod>$ curl http://echo-server.echo-example.svc.1010.mesh
 ```
 
-The default listeners created on the VIP default to port `80`, so the port can be omitted with a standard HTTP client.
+The default listeners created on the VIP default to port `80`, so the port can be omitted with a standard http client.
 
 {{ Kuma }} DNS allocates a VIP for every service within a mesh. Then, it creates an outbound virtual listener for every VIP. If you inspect the result of `curl localhost:9901/config_dump`, you can see something similar to:
 

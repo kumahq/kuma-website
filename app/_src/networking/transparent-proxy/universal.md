@@ -86,17 +86,17 @@ In Universal mode, {{ Kuma }} there are three methods to adjust the configuratio
 {% endwarning %}
 
 <!-- vale Google.Headings = NO -->
-### YAML / JSON
+### yaml / json
 <!-- vale Google.Headings = YES -->
 
-You can provide the configuration in either `YAML` or `JSON` format by using the `--config` or `--config-file` flags.
+You can provide the configuration in either `yaml` or `json` format by using the `--config` or `--config-file` flags.
 
 {% tip %}
-{{ Note }}For the configuration schema in YAML format, refer to the [Schema]({{ docs }}/reference/transparent-proxy-configuration/#schema) section in the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
+{{ Note }}For the configuration schema in yaml format, refer to the [Schema]({{ docs }}/reference/transparent-proxy-configuration/#schema) section in the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
 {% endtip %}
 
 {% tip %}
-{{ Note }}For simplicity, the following examples use YAML format, but you can easily convert them to JSON if preferred. Both formats work exactly the same, so feel free to choose the one that best suits your needs.
+{{ Note }}For simplicity, the following examples use yaml format, but you can easily convert them to JSON if preferred. Both formats work exactly the same, so feel free to choose the one that best suits your needs.
 {% endtip %}
 
 Below are examples of using these flags in different ways:
@@ -130,7 +130,7 @@ Below are examples of using these flags in different ways:
    kumactl install transparent-proxy --config "{ kumaDPUser: dataplane, verbose: true }"
    ```
 
-   Both formats are valid YAML inputs.
+   Both formats are valid yaml inputs.
 
 3. **Passing configuration via [stdin](https://en.wikipedia.org/wiki/Standard_streams#Standard_input_(stdin))**
 

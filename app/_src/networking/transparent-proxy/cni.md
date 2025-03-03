@@ -167,7 +167,7 @@ cni.containerSecurityContext.privileged=true
 
 To prevent a race condition described in [this issue](https://github.com/kumahq/kuma/issues/4560) a new controller was implemented. The controller will taint a node with `NoSchedule` taint to prevent scheduling before the CNI DaemonSet is running and ready. Once the CNI DaemonSet is running and ready it will remove the taint and allow other pods to be scheduled into the node.
 
-To disable the taint controller use the following env variable:
+To disable the taint controller use the following environment variable:
 
 ```sh
 KUMA_RUNTIME_KUBERNETES_NODE_TAINT_CONTROLLER_ENABLED="false"
