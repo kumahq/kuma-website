@@ -15,7 +15,7 @@ content_type: how-to
 
 Reachable Backends provides similar functionality to [Reachable Services]({{ docs }}/networking/transparent-proxy/reachable-services/), but it applies to resources such as [MeshService]({{ docs }}/networking/meshservice), [MeshExternalService]({{ docs }}/networking/meshexternalservice), and [MeshMultiZoneService]({{ docs }}/networking/meshmultizoneservice).
 
-By default, each data plane proxy tracks all other data planes in the mesh, which can impact performance and use more resources. Configuring it allows you to specify only the services your application actually needs to communicate with, improving efficiency.
+By default, each data plane proxy can access all other services in the mesh, which affects performance and increases resource consumption. Defining a specific set of services your application communicates with allows {{ Kuma }} to reduce the configuration size and operate more efficiently.
 
 Unlike Reachable Services, Reachable Backends uses a structured model that allows dynamic selection based on multiple attributes, including labels, instead of relying on a predefined, static list. This makes it more flexible and scalable, especially in environments with frequently changing workloads.
 
@@ -142,7 +142,8 @@ metadata:
   name: demo-app
   namespace: kuma-demo
   annotations:
-    kuma.io/reachable-backends: ""
+    kuma.io/reachable-backends: |
+      refs: []
 ...
 ```
 {% endtab %}
@@ -160,7 +161,8 @@ networking:
   transparentProxying:
     redirectPortInbound: {{ tproxy.defaults.redirect.inbound.port }}
     redirectPortOutbound: {{ tproxy.defaults.redirect.outbound.port }}
-    reachableBackends: {}
+    reachableBackends:
+      refs: []
 ```
 {% endtab %}
 {% endtabs %}
