@@ -372,7 +372,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
 - `traffic.kuma.io/transparent-proxy-config`
 
-  This annotation is automatically applied in environments using [Kuma CNI]({{ docs }}/production/dp-config/cni/#configure-the-kuma-cni) instead of init containers. It contains the final configuration for installing the transparent proxy. Manually modifying or setting this annotation has no effect, regardless of whether Kuma CNI is used. Its primary purpose is to efficiently pass the transparent proxy configuration between Kubernetes workloads and the Kuma CNI, which handles the actual installation of the transparent proxy for those workloads.
+  This annotation is automatically applied in environments using [Kuma CNI]({{ docs }}/networking/transparent-proxy/cni/) instead of init containers. It contains the final configuration for installing the transparent proxy. Manually modifying or setting this annotation has no effect, regardless of whether Kuma CNI is used. Its primary purpose is to efficiently pass the transparent proxy configuration between Kubernetes workloads and the Kuma CNI, which handles the actual installation of the transparent proxy for those workloads.
 
 - `traffic.kuma.io/transparent-proxy-configmap-name`
 

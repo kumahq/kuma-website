@@ -44,7 +44,7 @@ With this annotation the ingress controller sends traffic to the `Service` IP in
 {{site.mesh_product_name}} automatically injects this annotation for every
 `Service` that is in a namespace with the label `kuma.io/sidecar-injection=enabled`.
 
-For workloads (Deployment/StatefulSet, etc) enabled kuma sidecar injection by labeling the workload pod template rather than labeling on the namespace, `Service` objects are not annotated automatically in these namespaces. So users need to add these annotations manually to the `Service` objects:
+For workloads (Deployment/StatefulSet, etc.) enabled kuma sidecar injection by labeling the workload pod template rather than labeling on the namespace, `Service` objects are not annotated automatically in these namespaces. So users need to add these annotations manually to the `Service` objects:
 
 * `ingress.kubernetes.io/service-upstream`
 * `nginx.ingress.kubernetes.io/service-upstream`
@@ -73,7 +73,7 @@ Now the gateway can send traffic to any services in the mesh including other
 zones.
 
 Note that in order to send multi-zone traffic you can either use the
-[`.mesh` address](/docs/{{ page.release }}/networking/dns) or create a `Service` of type `ExternalName` that points to that URL.
+[`.mesh` address](/docs/{{ page.release }}/networking{% if_version gte:2.9.x %}/transparent-proxy{% endif_version %}/dns/) or create a `Service` of type `ExternalName` that points to that URL.
 
 {% endtab %}
 {% tab usage Universal %}
@@ -85,7 +85,6 @@ type: Dataplane
 mesh: default
 name: kong-01
 networking:
-  ...
   gateway:
     type: DELEGATED
     tags:

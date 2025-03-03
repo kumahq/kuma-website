@@ -410,7 +410,7 @@ curl http://echo-server:1010
 Requests are distributed round-robin between zones.
 You can use {% if_version lte:2.5.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/locality-aware){% endif_version %}{% if_version gte:2.6.x %}[locality-aware load balancing](/docs/{{ page.release }}/policies/meshloadbalancingstrategy){% endif_version %} to keep requests in the same zone.
 
-To send a request to any zone, you can [use the generated `kuma.io/service`](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#tag-generation) and [{{site.mesh_product_name}} DNS](/docs/{{ page.release }}/networking/dns):
+To send a request to any zone, you can [use the generated `kuma.io/service`](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/#tag-generation) and [{{site.mesh_product_name}} DNS](/docs/{{ page.release }}/networking{% if_version gte:2.9.x %}/transparent-proxy{% endif_version %}/dns/):
 
 ```sh
 curl http://echo-server_echo-example_svc_1010.mesh:80
