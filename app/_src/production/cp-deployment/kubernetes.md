@@ -55,14 +55,14 @@ On Kubernetes there are two ways to redirect traffic to the sidecar:
 - Init containers which need to run with elevated privileges.
 - [CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) which requires a little extra setup.
 
-To use the CNI you can use the detailed [instructions to configure the {{site.mesh_product_name}} CNI](/docs/{{ page.release }}/production/dp-config/cni/). 
+To use the CNI you can use the detailed [instructions to configure the {{site.mesh_product_name}} CNI](/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/cni{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/cni{% endif_version %}/).
 
 ## OpenShift
 
 ### Transparent proxy
 
 Starting from version 4.1 OpenShift uses `nftables` instead of `iptables`.
-So using init container for redirecting traffic to the proxy no longer works and you should use the [`kuma-cni`](/docs/{{ page.release }}/production/dp-config/cni/) instead.
+So using init container for redirecting traffic to the proxy no longer works and you should use the [`kuma-cni`](/docs/{{ page.release }}{% if_version lte:2.8.x %}production/dp-config/cni{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/cni{% endif_version %}/) instead.
 
 ### Webhooks on OpenShift 3.11
 

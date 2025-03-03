@@ -65,7 +65,7 @@ Follow the instruction in {% if_version lte:2.8.x %}[transparent proxying]({{ do
 
 This mode implements advanced networking techniques, so take special care for the following cases:
 
-- The mode can safely be used with the [{{ Kuma }} CNI plugin]({{ docs }}/production/dp-config/cni/).
+- The mode can safely be used with the [{{ Kuma }} CNI plugin]({{ docs }}/networking/transparent-proxy/cni/).
 - In mixed IPv4 and IPv6 environments, it's recommended that you specify an [IPv6 virtual IP CIDR]({{ docs }}/production/dp-config/ipv6/).
 
 ### Overriding the CoreDNS configuration
