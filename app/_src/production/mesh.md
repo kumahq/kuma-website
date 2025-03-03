@@ -206,7 +206,7 @@ mesh: default
 name: mesh-gateways-timeout-all-default
 spec:
   targetRef:
-    kind: MeshSubset
+    kind: Mesh
     proxyTypes: [Gateway]
   to:
     - targetRef:

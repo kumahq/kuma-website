@@ -73,7 +73,8 @@ spec:
 
 ### Enable strict mode on specific subset
 
-{% policy_yaml example2 %}
+{% if_version eq:2.9.x %}
+{% policy_yaml example2-29x %}
 ```yaml
 type: MeshTLS
 name: strict-mode
@@ -90,6 +91,27 @@ spec:
         mode: Strict
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml example2-210x %}
+```yaml
+type: MeshTLS
+name: strict-mode
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: redis
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        mode: Strict
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ## All policy options
 

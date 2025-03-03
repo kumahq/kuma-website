@@ -83,8 +83,9 @@ This isn't related to mTLS between services.
 First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane [resources](/docs/{{ page.release }}/introduction/concepts#resource) for data plane proxies, and 
 run kuma-dp manually, to do this run:
 
+{% if_version lte:2.9.x %}
 ```sh
-KUMA_READINESS_PORT=9901 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9902 \{% endif_version %} kuma-dp run \
+KUMA_READINESS_PORT=9901 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9902 {% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-redis \
@@ -92,6 +93,8 @@ KUMA_READINESS_PORT=9901 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY
   type: Dataplane
   mesh: default
   name: redis
+  labels:
+    app: redis
   networking: 
     address: 127.0.0.1
     inbound: 
@@ -104,6 +107,33 @@ KUMA_READINESS_PORT=9901 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY
     admin:
       port: 9903"
 ```
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+```sh
+KUMA_READINESS_PORT=9901 KUMA_APPLICATION_PROBE_PROXY_PORT=9902 kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=/tmp/kuma-token-redis \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: redis
+  labels:
+    app: redis
+  networking: 
+    address: 127.0.0.1
+    inbound: 
+      - port: 16379
+        servicePort: 26379
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: redis
+          kuma.io/protocol: tcp
+    admin:
+      port: 9903"
+```
+{% endif_version %}
 
 You can notice that we are manually specifying the readiness port with environment variable `KUMA_READINESS_PORT`, when each data plane is 
 running on separate machines this is not required. 
@@ -118,8 +148,9 @@ export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.ve
 
 Now we can start the data plane proxy for our demo-app, we can do this by running:
 
+{% if_version lte:2.9.x %}
 ```sh
-KUMA_READINESS_PORT=9904 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905 \{% endif_version %} kuma-dp run \
+KUMA_READINESS_PORT=9904 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905 {% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-demo-app \
@@ -143,6 +174,37 @@ KUMA_READINESS_PORT=9904 \{% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY
     admin:
       port: 9906"
 ```
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+```sh
+KUMA_READINESS_PORT=9904 KUMA_APPLICATION_PROBE_PROXY_PORT=9905 kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=/tmp/kuma-token-demo-app \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: demo-app
+  labels:
+    app: demo-app
+  networking: 
+    address: 127.0.0.1
+    outbound:
+      - port: 6379
+        tags:
+          kuma.io/service: redis
+    inbound: 
+      - port: 15000
+        servicePort: 5000
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: demo-app
+          kuma.io/protocol: http
+    admin:
+      port: 9906"
+```
+{% endif_version %}
 
 ### Run kuma-counter-demo app
 
@@ -207,6 +269,7 @@ mtls:
       type: builtin' | kumactl apply -f -
 ```
 {% endif_version %}
+
 {% if_version gte:2.9.x %}
 ```sh
 echo 'type: Mesh
@@ -229,6 +292,7 @@ For now, the demo application won't work.
 You can verify this by clicking the increment button again and seeing the error message in the browser.
 We can allow the traffic from the `demo-app` to `redis` by applying the following `MeshTrafficPermission`:
 
+{% if_version eq:2.9.x %}
 ```sh
 echo 'type: MeshTrafficPermission 
 name: allow-from-demo-app
@@ -246,6 +310,27 @@ spec:
       default: 
         action: Allow' | kumactl apply -f -
 ```
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+```sh
+echo 'type: MeshTrafficPermission 
+name: allow-from-demo-app
+mesh: default 
+spec: 
+  targetRef: 
+    kind: Dataplane
+    labels:
+      kuma.io/service: redis
+  from: 
+    - targetRef: 
+        kind: MeshSubset 
+        tags:
+          kuma.io/service: demo-app
+      default: 
+        action: Allow' | kumactl apply -f -
+```
+{% endif_version %}
 
 You can click the increment button, the application should function once again.
 However, the traffic to `redis` from any other service than `demo-app` is not allowed.

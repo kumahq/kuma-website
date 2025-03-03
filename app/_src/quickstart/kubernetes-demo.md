@@ -161,7 +161,8 @@ spec:
         action: Allow" | kubectl apply -f -
 ```
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
@@ -172,6 +173,28 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: redis
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags:
+          kuma.io/service: demo-app_kuma-demo_svc_5000
+      default:
+        action: Allow" | kubectl apply -f -
+```
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: kuma-demo
+  name: redis
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: redis
   from:
     - targetRef:
