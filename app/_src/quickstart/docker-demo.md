@@ -520,9 +520,11 @@ mtls:
 
 After enabling mTLS, all traffic is **encrypted and secure**. However, you can no longer access the `demo-app` directly, meaning <http://127.0.0.1:25050> will no longer work. This happens for two reasons:
 
+<!-- vale Vale.Terms = NO -->
 1. When mTLS is enabled, {{ Kuma }} doesn’t create traffic permissions by default. This means no traffic will flow until you define a {{ MeshTrafficPermission }} policy to allow `demo-app` to communicate with `kv`.
 
 2. When you try to call `demo-app` using a browser or other HTTP client, you are essentially acting as an external client without a valid TLS certificate. Since all services are now required to present a certificate signed by the `ca-1` Certificate Authority, the connection is rejected. Only services within the `default` mesh, which are assigned valid certificates, can communicate with each other.
+<!-- vale Vale.Terms = YES -->
 
 To address the first issue, you need to apply an appropriate {{ MeshTrafficPermission }} policy:
 
@@ -628,7 +630,9 @@ The built-in gateway works like the data plane proxy for a regular service, but 
          port: http-8080' | kumactl apply --file -
    ```
 
+   <!-- vale Vale.Terms = NO -->
    This sets up the gateway to listen on port `8080` using the HTTP protocol and adds a tag (`port: http-8080`) to identify this listener in routing policies.
+   <!-- vale Vale.Terms = YES -->
 
    You can test the gateway by visiting <http://127.0.0.1:28080>. You should see a message saying no routes match this {{ MeshGateway }}. This means the gateway is running, but no routes are set up yet to handle traffic.
 

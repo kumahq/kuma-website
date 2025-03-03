@@ -6,9 +6,9 @@ content_type: reference
 ## Reachable services
 
 By default, with the transparent proxy enabled, each data plane proxy follows all other proxies in the mesh. In large meshes, a data plane proxy usually connects to only a few services. Defining this list of reachable services can significantly improve {{site.mesh_product_name}}'s performance. {% if_version lte:2.8.x %}Benefits include:
-* The control plane generates a much smaller XDS configuration (fewer clusters/listeners), saving CPU and memory.
-* Smaller configurations reduce network bandwidth.
-* Envoy manages fewer clusters/listeners, reducing statistics and memory usage.
+* Reducing CPU and memory usage on the control plane with smaller XDS configurations
+* Lowering network bandwidth as smaller configurations update less frequently
+* Reducing CPU and memory usage on data planes by managing fewer clusters/listeners
 ^
 See [transparent proxying](/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x %}production/dp-config/transparent-proxying/#reachable-services{% endif_version %}) for configuration details.{% endif_version %}
 
@@ -20,13 +20,13 @@ For more details, including how to configure reachable services, refer to the [R
 ## Config trimming by using MeshTrafficPermission
 
 {% warning %}
-1. This feature only works with [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission),
-   if you're using [TrafficPermission](/docs/{{ page.release }}/policies/traffic-permissions) you need to migrate to MeshTrafficPermission,
-   otherwise enabling this feature could stop all traffic flow.
+{% if page.edition and page.edition != "kuma" %}**Important**: {% endif %}This feature only works with [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission), if you're using [TrafficPermission](/docs/{{ page.release }}/policies/traffic-permissions) you need to migrate to MeshTrafficPermission, otherwise enabling this feature could stop all traffic flow.
+{% endwarning %}
 {% if_version lte:2.5.x %}
-2. Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.release }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions, or upgrade {{site.mesh_product_name}} to 2.6.x or newer.
+{% danger %}
+{% if page.edition and page.edition != "kuma" %}**Warning**: {% endif %}Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.release }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions, or upgrade {{site.mesh_product_name}} to 2.6.x or newer.
+{% enddanger %}
 {% endif_version %}
-   {% endwarning %}
 
 Starting with release 2.5 the problem stated in [reachable services](#reachable-services) section
 can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.release }}/policies/meshtrafficpermission) and [configuring](/docs/{{ page.release }}/documentation/configuration) a **zone** control plane with `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`.

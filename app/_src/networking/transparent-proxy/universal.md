@@ -132,9 +132,9 @@ Below are examples of using these flags in different ways:
 
    Both formats are valid YAML inputs.
 
-3. **Passing configuration via [STDIN](https://en.wikipedia.org/wiki/Standard_streams#Standard_input_(stdin))**
+3. **Passing configuration via [stdin](https://en.wikipedia.org/wiki/Standard_streams#Standard_input_(stdin))**
 
-   If you need to pass the configuration via STDIN, set `--config-file` to `-` as shown below:
+   If you need to pass the configuration via stdin, set `--config-file` to `-` as shown below:
 
    ```sh
    echo "
@@ -215,9 +215,9 @@ To understand how the order of precedence works, consider this scenario:
 3. In this situation, the possible values for `redirect.dns.port` are:
 
    - **`{{ tproxy.defaults.redirect.dns.port }}`** (Default Value)
-   - **`10001`** (From Config File)
-   - **`10002`** (From Environment Variable)
-   - **`10003`** (From CLI Flag)
+   - **`10001`** (from config file)
+   - **`10002`** (from environment variable)
+   - **`10003`** (from CLI flag)
 
 4. Since CLI flags have the highest precedence, the final value for `redirect.dns.port` will be **`10003`**.
 

@@ -668,7 +668,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
   - **`instanceIP`**
 
-    IP address of the instance (pod/vm) where transparent proxy will be installed
+    IP address of the instance (Pod/VM) where transparent proxy will be installed
 
     {% capture warning %}
     {%- warning -%}
@@ -681,7 +681,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
   - **`instanceIPEnvVarName`**
 
-    The name of the environment variable containing the IP address of the instance (pod/vm) where transparent proxy will be installed
+    The name of the environment variable containing the IP address of the instance (Pod/VM) where transparent proxy will be installed
 
     {% capture warning %}
     {%- warning -%}
@@ -743,7 +743,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
   {% capture warning %}
   {%- warning -%}
-  Provided paths are not extensively validated, so ensure you specify correct paths and that the executables are actual iptables binaries to avoid misconfigurations and unexpected behavior.
+  Provided paths are not extensively validated, so ensure they are correct and point to actual iptables binaries to prevent errors and unexpected behavior.
   {%- endwarning -%}
   {% endcapture %}
   {{ warning | indent }}

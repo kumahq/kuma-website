@@ -21,6 +21,7 @@ Unlike Reachable Services, Reachable Backends uses a structured model to define 
 
 ### Model
 
+<!-- vale Vale.Terms = NO -->
 - **refs**: Lists the resources your application needs to connect with, including:
   - **kind**: Type of resource. Options include:
     - **MeshService**
@@ -30,6 +31,7 @@ Unlike Reachable Services, Reachable Backends uses a structured model to define 
   - **namespace**: (Kubernetes only) Namespace where the resource is located. Required if using `namespace`.
   - **labels**: A list of labels to match resources. You can define either `labels` or `name`.
   - **port**: (Optional) Port for the service, used with `MeshService` and `MeshMultiZoneService`.
+<!-- vale Vale.Terms = YES -->
 
 {% tabs reachable-backends-model useUrlFragment=false %}
 {% tab reachable-backends-model Kubernetes %}
