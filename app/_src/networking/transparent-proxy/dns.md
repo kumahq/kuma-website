@@ -35,7 +35,7 @@ This in practice means that DNS name present in the mesh will "shadow" equivalen
 {{ Kuma }} DNS is not a service discovery mechanism, it does not return real IP address of service instances.
 Instead, it always returns a single VIP that is assigned to the relevant service in the mesh. This makes for a unified view of all services within a single zone or across multiple zones.
 
-The default TTL is 60 seconds, to ensure the client synchronizes with {{ Kuma }} DNS and to account for any intervening changes.
+The default ttl is 60 seconds, to ensure the client synchronizes with {{ Kuma }} DNS and to account for any intervening changes.
 
 ### Naming
 

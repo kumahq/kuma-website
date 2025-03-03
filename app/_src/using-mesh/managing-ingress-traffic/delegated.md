@@ -73,7 +73,7 @@ Now the gateway can send traffic to any services in the mesh including other
 zones.
 
 Note that in order to send multi-zone traffic you can either use the
-[`.mesh` address](/docs/{{ page.release }}/networking{% if_version gte:2.9.x %}/transparent-proxy{% endif_version %}/dns/) or create a `Service` of type `ExternalName` that points to that URL.
+[`.mesh` address](/docs/{{ page.release }}/networking{% if_version gte:2.9.x %}/transparent-proxy{% endif_version %}/dns/) or create a `Service` of type `ExternalName` that points to that url.
 
 {% endtab %}
 {% tab usage Universal %}

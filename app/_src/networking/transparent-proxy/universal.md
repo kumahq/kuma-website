@@ -85,9 +85,9 @@ In Universal mode, {{ Kuma }} there are three methods to adjust the configuratio
 {{ Important }}It’s best to stick to one method whenever possible. Using more than one can make things more complicated and harder to troubleshoot, as it may not be clear where each setting comes from. If you need to combine methods, check the [**Order of Precedence**](#order-of-precedence) section to see what the final configuration will look like based on the priority of each setting.
 {% endwarning %}
 
-<!-- vale Google.Headings = NO -->
+<!-- vale off -->
 ### yaml / json
-<!-- vale Google.Headings = YES -->
+<!-- vale on -->
 
 You can provide the configuration in either `yaml` or `json` format by using the `--config` or `--config-file` flags.
 
