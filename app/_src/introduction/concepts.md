@@ -51,6 +51,14 @@ Inbounds are usually grouped between different data planes and form a service.
 An outbound is the part of the data plane proxy which sends traffic for a specific service.
 Outbounds group multiple remote inbounds as endpoints.
 
+#### Transparent proxy
+
+A transparent proxy is a mechanism that intercepts and redirects network traffic without requiring any changes to the application. It allows traffic to be automatically routed through a proxy without the application being aware of it.
+
+In {{ site.mesh_product_name }}, data planes do not operate as transparent proxies by default. However, they can be configured to do so. When enabled, all inbound and outbound traffic is transparently routed through the data plane proxy. This allows users to benefit from {{ site.mesh_product_name }}'s features, such as traffic management, security policies, and observability, without modifying their applications.
+
+For more details, see the [Transparent Proxy](/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}/networking/transparent-proxy/introduction/{% endif_version %}) documentation.
+
 ## Resource
 
 A resource is an object or entity that can be created, managed, and interacted with in {{ site.mesh_product_name }}.
@@ -71,11 +79,3 @@ They can enable traffic management, security, observability and traffic reliabil
 
 Policies always have a clear specific area of impact and goal.
 To learn more about [policies checkout the in depth introduction](/docs/{{ page.release }}/policies/introduction).
-
-## Transparent proxy
-
-A transparent proxy is a mechanism that intercepts and redirects network traffic without requiring any changes to the application. It allows traffic to be automatically routed through a proxy without the application being aware of it.
-
-In {{ site.mesh_product_name }}, data planes do not operate as transparent proxies by default. However, they can be configured to do so. When enabled, all inbound and outbound traffic is transparently routed through the data plane proxy. This allows users to benefit from {{ site.mesh_product_name }}'s features, such as traffic management, security policies, and observability, without modifying their applications.
-
-For more details, see the [Transparent Proxy](/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}/networking/transparent-proxy/introduction/{% endif_version %}) documentation.

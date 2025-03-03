@@ -9,7 +9,9 @@ content_type: explanation
 {% capture Important %}{% if page.edition and page.edition != "kuma" %}**Important:** {% endif %}{% endcapture %}
 {% capture Note %}{% if page.edition and page.edition != "kuma" %}**Note:** {% endif %}{% endcapture %}
 
-A transparent proxy is a server that intercepts network traffic going to and from a service without requiring any changes to the application code. In {{ Kuma }}, it captures this traffic and routes it to the [data plane proxy]({{ docs }}/production/dp-config/dpp/#data-plane-proxy), allowing [Mesh policies]({{ docs }}/policies/introduction/#policies) to be applied.
+A transparent proxy is a mechanism that intercepts and redirects network traffic without requiring any changes to the application. It allows traffic to be automatically routed through a proxy without the application being aware of it.
+
+When enabled, all inbound and outbound traffic is transparently routed through the [data plane proxy]({{ docs }}/production/dp-config/dpp/#data-plane-proxy). This allows users to benefit from {{ Kuma }}'s features, such as traffic management, security policies, and observability, without modifying their applications.
 
 {{ Kuma }} uses [iptables](https://linux.die.net/man/8/iptables) and also has experimental support for [eBPF](#transparent-proxy-with-ebpf-experimental) to make this possible.
 
