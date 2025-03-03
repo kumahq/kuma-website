@@ -46,7 +46,6 @@ If you choose to not use transparent proxying, or you are running on a platform 
 - You will need to specify inbound and outbound ports to capture traffic on
 - `.mesh` addresses are unavailable
 - You may need to update your `application` code to use the new capture ports
-- No support for [VirtualOutbound]({{ docs }}/policies/virtual-outbound) policies
 
 Without manipulating iptables to redirect traffic you will need to explicitly tell `kuma-dp` where to listen to capture it. As noted, this can require changes to your application code as seen below:
 
@@ -98,7 +97,7 @@ An envoy listener is also created for this port which we can see in the admin in
        "traffic_direction": "INBOUND",
 ```
 
-Notice the setting [use_original_dst](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto) (line 13). This listener will send traffic to a special type of cluster, `ORIGINAL_DST`. This is important since we are redirecting traffic here based on the iptables rules, which means when this service was requested it was not likely it was requested over this port, `15006`, but rather whatever the target application is listening on (i.e. `demo-app` port `5000`).
+Notice the setting [`use_original_dst`](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto) (line 13). This listener will send traffic to a special type of cluster, `ORIGINAL_DST`. This is important since we are redirecting traffic here based on the iptables rules, which means when this service was requested it was not likely it was requested over this port, `15006`, but rather whatever the target application is listening on (i.e. `demo-app` port `5000`).
 
 ```json
      "name": "inbound:10.244.0.6:5000",

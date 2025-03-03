@@ -44,7 +44,7 @@ Currently, it’s best to use the control plane runtime configuration as the mai
 
 #### Settings restricted to control plane runtime configuration
 
-Some transparent proxy settings **can only be changed through the control plane’s runtime configuration** because they are shared with other {{ Kuma }} components. These settings handle essential tasks like creating [`Dataplane` resources]({{ docs }}/production/dp-config/dpp/) for workloads and setting up the [`kuma-dp` sidecar container]({{ docs }}/production/dp-config/dpp-on-kubernetes/) alongside them. For example, the DNS port used to redirect traffic is shared between the transparent proxy and the `kuma-dp run` command in the sidecar container. Keeping these settings consistent across workloads prevents misconfigurations. These settings are:
+Some transparent proxy settings **can only be changed through the control plane’s runtime configuration** because they are shared with other {{ Kuma }} components. These settings manage critical tasks like creating [`Dataplane` resources]({{ docs }}/production/dp-config/dpp/) for workloads and setting up the [`kuma-dp` sidecar container]({{ docs }}/production/dp-config/dpp-on-kubernetes/). For example, the DNS port used to redirect traffic is shared between the transparent proxy and the `kuma-dp run` command in the sidecar container. Keeping these settings consistent across workloads ensures proper functionality. These settings are:
 
 - `runtime.kubernetes.injector.sidecarContainer.redirectPortInbound`
 - `runtime.kubernetes.injector.sidecarContainer.redirectPortOutbound`

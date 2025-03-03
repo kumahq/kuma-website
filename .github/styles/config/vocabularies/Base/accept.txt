@@ -173,7 +173,6 @@ unsecure
 upstreams?
 uri
 urls?
-use_original_dst
 uuid
 Valero
 validators?
