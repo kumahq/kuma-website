@@ -105,8 +105,6 @@ items:
             url: /production/dp-config/dpp-on-kubernetes/
           - text: Configure the data plane on Universal
             url: /production/dp-config/dpp-on-universal/
-          - text: Configure the Kuma CNI
-            url: /production/dp-config/cni/
           - text: IPv6 support
             url: /production/dp-config/ipv6/
           - text: Transparent Proxy
@@ -125,7 +123,7 @@ items:
             url: /production/secure-deployment/dp-auth/
           - text: Configure data plane proxy membership
             url: /production/secure-deployment/dp-membership/
-          - text: Secure access accross services
+          - text: Secure access across services
             url: /production/secure-deployment/certificates/
       - text: Kuma user interface
         url: /production/gui/
@@ -254,17 +252,6 @@ items:
             url: "/networking/meshmultizoneservice/"
           - text: HostnameGenerator
             url: "/networking/hostnamegenerator/"
-          - text: DNS
-            url: /networking/dns/
-            items:
-              - text: How it works
-                url: "/networking/dns/#how-it-works"
-              - text: Installation
-                url: "/networking/dns/#installation"
-              - text: Configuration
-                url: "/networking/dns/#configuration"
-              - text: Usage
-                url: "/networking/dns/#usage"
           - text: Non-mesh traffic
             url: "/networking/non-mesh-traffic/"
             items:
@@ -306,6 +293,19 @@ items:
                     url: /networking/transparent-proxy/universal/#configuration
                   - text: firewalld support
                     url: /networking/transparent-proxy/universal/#firewalld-support
+              - text: CNI
+                url: /networking/transparent-proxy/cni/
+              - text: DNS
+                url: /networking/transparent-proxy/dns/
+                items:
+                  - text: How it works
+                    url: /networking/transparent-proxy/dns/#how-it-works
+                  - text: Installation
+                    url: /networking/transparent-proxy/dns/#installation
+                  - text: Configuration
+                    url: /networking/transparent-proxy/dns/#configuration
+                  - text: Usage
+                    url: /networking/transparent-proxy/dns/#usage
               - text: Reachable Services
                 url: /networking/transparent-proxy/reachable-services/
               - text: Reachable Backends

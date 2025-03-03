@@ -2,6 +2,10 @@
 title: DNS
 ---
 
+[//]: # ###################################################################################################### #
+[//]: # This page is deprecated and should not be updated. Make changes in `transparent-proxy/dns.md` instead. #
+[//]: # ###################################################################################################### #
+
 {{site.mesh_product_name}} ships with DNS resolver to provide service naming - a mapping of hostname to Virtual IPs (VIPs) of services registered in {{site.mesh_product_name}}.
 
 The usage of {{site.mesh_product_name}} DNS is only relevant when [transparent proxying](/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}) is used.
