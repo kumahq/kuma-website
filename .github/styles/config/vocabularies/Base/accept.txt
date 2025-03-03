@@ -181,7 +181,7 @@ Vuejs
 websockets?
 wireframes?
 workspace
-yaml|YAML
+yaml
 yml
 [xX]DS|xds
 xtables
