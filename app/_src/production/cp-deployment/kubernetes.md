@@ -62,7 +62,7 @@ To use the CNI you can use the detailed [instructions to configure the {{site.me
 ### Transparent proxy
 
 Starting from version 4.1 OpenShift uses `nftables` instead of `iptables`.
-So using init container for redirecting traffic to the proxy no longer works and you should use the [`kuma-cni`](/docs/{{ page.release }}{% if_version lte:2.8.x %}production/dp-config/cni{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/cni{% endif_version %}/) instead.
+So using init container for redirecting traffic to the proxy no longer works and you should use the [`kuma-cni`](/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/cni{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/cni{% endif_version %}/) instead.
 
 ### Webhooks on OpenShift 3.11
 
