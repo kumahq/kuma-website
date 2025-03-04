@@ -7,7 +7,7 @@ This policy uses new policy matching algorithm.
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to configure traffic to external destinations that is allowed to pass outside the mesh.
-When using this policy, the [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic/#outgoing) flag is ignored.
+When using this policy, the [passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic/#outgoing) flag is ignored.
 
 ## TargetRef support matrix
 
@@ -38,7 +38,7 @@ To learn more about the information in this table, see the [matching docs](/docs
 ## Configuration
 
 {% warning %}
-This policy doesn't work with sidecars without [transparent-proxy](/docs/{{ page.release }}/networking/transparent-proxying/#what-is-transparent-proxying).
+This policy doesn't work with sidecars without [transparent proxy](/docs/{{ page.release }}/{% if_version lte:2.8.x %}networking/transparent-proxying/#what-is-transparent-proxying{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}).
 {% endwarning %}
 
 The following describes the default configuration settings of the `MeshPassthrough` policy:

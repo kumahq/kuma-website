@@ -52,6 +52,8 @@ items:
             url: "/quickstart/kubernetes-demo/#next-steps"
       - text: Deploy Kuma on Universal
         url: /quickstart/universal-demo
+      - text: Deploy Kuma on Docker
+        url: /quickstart/docker-demo/
   - title: Kuma in Production
     group: true
     items:
@@ -103,12 +105,11 @@ items:
             url: /production/dp-config/dpp-on-kubernetes/
           - text: Configure the data plane on Universal
             url: /production/dp-config/dpp-on-universal/
-          - text: Configure the Kuma CNI
-            url: /production/dp-config/cni/
-          - text: Configure transparent proxying
-            url: /production/dp-config/transparent-proxying/
           - text: IPv6 support
             url: /production/dp-config/ipv6/
+          - text: Transparent Proxy
+            url: /networking/transparent-proxy/introduction
+            generate: false
       - title: Secure your deployment
         group: true
         items:
@@ -122,7 +123,7 @@ items:
             url: /production/secure-deployment/dp-auth/
           - text: Configure data plane proxy membership
             url: /production/secure-deployment/dp-membership/
-          - text: Secure access accross services
+          - text: Secure access across services
             url: /production/secure-deployment/certificates/
       - text: Kuma user interface
         url: /production/gui/
@@ -251,24 +252,6 @@ items:
             url: "/networking/meshmultizoneservice/"
           - text: HostnameGenerator
             url: "/networking/hostnamegenerator/"
-          - text: DNS
-            url: /networking/dns/
-            items:
-              - text: How it works
-                url: "/networking/dns/#how-it-works"
-              - text: Installation
-                url: "/networking/dns/#installation"
-              - text: Configuration
-                url: "/networking/dns/#configuration"
-              - text: Usage
-                url: "/networking/dns/#usage"
-          - text: Non-mesh traffic
-            url: "/networking/non-mesh-traffic/"
-            items:
-              - text: Incoming
-                url: "/networking/non-mesh-traffic/#incoming"
-              - text: Outgoing
-                url: "/networking/non-mesh-traffic/#outgoing"
           - text: MeshExternalService
             url: /networking/meshexternalservice/
             items:
@@ -276,8 +259,72 @@ items:
                 url: "/networking/meshexternalservice/#configuration"
               - text: Examples
                 url: "/networking/meshexternalservice/#examples"
-          - text: Transparent Proxying
-            url: /networking/transparent-proxying/
+          - title: Transparent Proxy
+            group: true
+            items:
+              - text: Introduction
+                url: /networking/transparent-proxy/introduction/
+              - text: Kubernetes
+                url: /networking/transparent-proxy/kubernetes/
+                items:
+                  - text: Configuration
+                    url: /networking/transparent-proxy/kubernetes/#configuration
+                  - text: Control Plane Runtime Configuration
+                    url: /networking/transparent-proxy/kubernetes/#control-plane-runtime-configuration
+                  - text: Configuration in ConfigMap
+                    url: /networking/transparent-proxy/kubernetes/#configuration-in-configmap-experimental
+                  - text: Annotations
+                    url: /networking/transparent-proxy/kubernetes/#annotations
+              - text: Universal
+                url: /networking/transparent-proxy/universal/
+                items:
+                  - text: Configuration
+                    url: /networking/transparent-proxy/universal/#configuration
+                  - text: firewalld support
+                    url: /networking/transparent-proxy/universal/#firewalld-support
+              - text: CNI
+                url: /networking/transparent-proxy/cni/
+              - text: DNS
+                url: /networking/transparent-proxy/dns/
+                items:
+                  - text: How it works
+                    url: /networking/transparent-proxy/dns/#how-it-works
+                  - text: Installation
+                    url: /networking/transparent-proxy/dns/#installation
+                  - text: Configuration
+                    url: /networking/transparent-proxy/dns/#configuration
+                  - text: Usage
+                    url: /networking/transparent-proxy/dns/#usage
+              - text: Non-mesh traffic
+                url: /networking/transparent-proxy/non-mesh-traffic/
+                items:
+                  - text: Incoming
+                    url: /networking/transparent-proxy/non-mesh-traffic/#incoming
+                  - text: Outgoing
+                    url: /networking/transparent-proxy/non-mesh-traffic/#outgoing
+              - text: Reachable Services
+                url: /networking/transparent-proxy/reachable-services/
+              - text: Reachable Backends
+                url: /networking/transparent-proxy/reachable-backends/
+              - text: Technical Overview
+                url: /networking/transparent-proxy/technical-overview/
+              - text: Configuration Reference
+                url: /networking/transparent-proxy/configuration-reference/
+                items:
+                  - text: Schema
+                    url: /networking/transparent-proxy/configuration-reference/#schema
+                  - text: Environment Variables
+                    url: /networking/transparent-proxy/configuration-reference/#environment-variables
+                  - text: CLI Flags
+                    url: /networking/transparent-proxy/configuration-reference/#cli-flags
+                  - text: Default Values
+                    url: /networking/transparent-proxy/configuration-reference/#default-values
+                  - text: Control Plane Runtime Configuration
+                    url: /networking/transparent-proxy/configuration-reference/#control-plane-runtime-configuration
+                  - text: Annotations
+                    url: /networking/transparent-proxy/configuration-reference/#annotations
+                  - text: Full Reference
+                    url: /networking/transparent-proxy/configuration-reference/#full-reference
   - title: Policies
     group: true
     items:
@@ -502,10 +549,14 @@ items:
         url: /guides/otel-metrics/
       - text: Migration to the new policies
         url: /guides/migration-to-the-new-policies/
-      - text: Progressively rolling in strict MTLS
+      - text: Progressively rolling in strict mTLS
         url: /guides/progressively-rolling-in-strict-mtls/
       - text: Producer and consumer policies
         url: /guides/consumer-producer-policies
+      - text: Excluding Traffic from Transparent Proxy Redirection
+        url: /guides/excluding-traffic-from-transparent-proxy-redirection/
+      - text: Upgrading Transparent Proxy
+        url: /guides/upgrading-transparent-proxy/
   - title: Reference
     group: true
     items:

@@ -3,9 +3,17 @@ title: Configure the Kuma CNI
 content_type: how-to
 ---
 
+[//]: # ########################################################################## #  
+[//]: #                                                                            #  
+[//]: #            This page is legacy and shown only for Kuma < 2.9.x             #  
+[//]: #                        Only fix obvious bugs here                          #  
+[//]: #     Make other changes in app/_src/networking/transparent-proxy/cni.md     #  
+[//]: #                                                                            #  
+[//]: # ########################################################################## #
+
 In order for traffic to flow through the {{site.mesh_product_name}} data plane, all inbound and
 outbound traffic for a service needs to go through its data plane proxy.
-The recommended way of accomplishing this is via [transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/).
+The recommended way of accomplishing this is via [transparent proxying](/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}).
 
 On Kubernetes it's handled automatically by default with the
 `initContainer` `kuma-init`, but this container requires certain privileges.

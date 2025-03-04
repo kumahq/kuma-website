@@ -11,7 +11,7 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Inc do
 
     it "renders correctly for: {% inc #{tag_params} %} in context" do
       template = <<~LIQUID
-        {% assign docs = "/docs/" | append: page.release %}
+        {% capture docs %}/docs/{{ page.release }}{% endcapture %}
         {% assign link = docs | append: "/networking/transparent-proxying/" %}
 
         {% if_version #{if_version} %}

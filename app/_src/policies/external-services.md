@@ -2,9 +2,11 @@
 title: External Service
 ---
 
-This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
+<!-- vale Vale.Terms = NO -->
+This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
+<!-- vale Vale.Terms = YES -->
 
-When you enable this policy, you should also [disable passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing) for the mesh and enable the [data plane proxy builtin DNS](/docs/{{ page.release }}/networking/dns) name resolution.
+When you enable this policy, you should also [disable passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing) for the mesh and enable the [data plane proxy builtin DNS](/docs/{{ page.release }}/networking{% if_version gte:2.9.x %}/transparent-proxy{% endif_version %}/dns/) name resolution.
 
 ## Usage
 
@@ -66,7 +68,9 @@ networking:
 
 Then apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 
-Universal mode is best combined with [transparent proxy](/docs/{{ page.release }}/production/dp-config/transparent-proxying/). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
+{% capture tproxy-link %}/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version%}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version%}{% endcapture %}
+
+Universal mode is best combined with [transparent proxy]({{ tproxy-link }}). For backward compatibility only, you can consume an external service from within the mesh by filling the proper `outbound` section of the relevant data plane resource:
 
 ```yaml
 type: Dataplane
@@ -91,10 +95,10 @@ Then `httpbin.org` is accessible at `127.0.0.1:10000`.
 
 ### Accessing the External Service
 
-Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming [transparent proxy](/docs/{{ page.release }}/production/dp-config/transparent-proxying/)) can be done:
+Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming [transparent proxy]({{ tproxy-link }})) can be done:
 
 * With the `.mesh` naming of the service `curl httpbin.mesh`. With this approach, specify port 80.
-* With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](/docs/{{ page.release }}/networking/dns) name resolution.
+* With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](/docs/{{ page.release }}/networking{% if_version gte:2.9.x %}/transparent-proxy{% endif_version %}/dns/) name resolution.
 
 It's possible to define TLS origination and validation at 2 different layers:
 *  Envoy is responsible for originating and verifying TLS.
@@ -167,7 +171,7 @@ If `ZoneEgress` is enabled, there is a limitation that prevents the behavior des
 In scenarios when traffic to external services needs to be sent through a unique set of hosts you will [configure ZoneEgress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/).
 
 For example when there is:
-* [disabled passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing)
+* [disabled passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing)
 * `ZoneEgress` deployed
 * `ExternalService` configuration that allows communicating with `https://example.com`.
 ```yaml
@@ -184,7 +188,7 @@ networking:
 ```
 
 When application makes a request to `https://example.com`, it will be first routed to `ZoneEgress` and then to `https://example.com`.
-You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing).
+You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing).
 In this setup, applications will only be able to communicate with other applications in the mesh or external-services via the `ZoneEgress`.
 
 {% warning %}

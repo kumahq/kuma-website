@@ -2,6 +2,14 @@
 title: Transparent Proxying
 ---
 
+[//]: # #################################################################### #  
+[//]: #                                                                      #  
+[//]: #         This page is legacy and shown only for Kuma < 2.9.x          #  
+[//]: #                     Only fix obvious bugs here                       #  
+[//]: #     Make other changes in app/_src/networking/transparent-proxy/     #  
+[//]: #                                                                      #  
+[//]: # #################################################################### #
+
 ## What is Transparent Proxying?
 A transparent proxy is a type of server that can intercept network traffic to and from a service without changes to the client application code. In the case of {{site.mesh_product_name}} it is used to capture traffic and redirect it to `kuma-dp` so Mesh policies can be applied.
 
@@ -90,7 +98,7 @@ An envoy listener is also created for this port which we can see in the admin in
        "traffic_direction": "INBOUND",
 ```
 
-Notice the setting [use_original_dst](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto) (line 13). This listener will send traffic to a special type of cluster, ORIGINAL_DST. This is important since we are redirecting traffic here based on the IPtables rules, which means when this service was requested it was not likely it was requested over this port, 15006, but rather whatever the target application is listening on (i.e. demo-app port 5000)
+Notice the setting [`use_original_dst`](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto) (line 13). This listener will send traffic to a special type of cluster, `ORIGINAL_DST`. This is important since we are redirecting traffic here based on the iptables rules, which means when this service was requested, it was not likely requested over this port, 15006, but rather whatever the target application is listening on, that is, demo-app port 5000.
 
 ```json
      "name": "inbound:10.244.0.6:5000",
