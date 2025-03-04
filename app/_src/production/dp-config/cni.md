@@ -3,9 +3,13 @@ title: Configure the Kuma CNI
 content_type: how-to
 ---
 
-[//]: # ################################################################################################################# #
-[//]: # This page is deprecated and should not be updated. Make changes in `networking/transparent-proxy/cni.md` instead. #
-[//]: # ################################################################################################################# #
+[//]: # ########################################################################## #  
+[//]: #                                                                            #  
+[//]: #            This page is legacy and shown only for Kuma < 2.9.x             #  
+[//]: #                        Only fix obvious bugs here                          #  
+[//]: #     Make other changes in app/_src/networking/transparent-proxy/cni.md     #  
+[//]: #                                                                            #  
+[//]: # ########################################################################## #
 
 In order for traffic to flow through the {{site.mesh_product_name}} data plane, all inbound and
 outbound traffic for a service needs to go through its data plane proxy.

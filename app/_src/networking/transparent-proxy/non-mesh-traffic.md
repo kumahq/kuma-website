@@ -2,34 +2,26 @@
 title: Non-mesh traffic
 ---
 
-[//]: # ####################################################################################### #  
-[//]: #                                                                                         #  
-[//]: #                   This page is legacy and shown only for Kuma < 2.9.x                   #  
-[//]: #                               Only fix obvious bugs here                                #  
-[//]: #     Make other changes in app/_src/networking/transparent-proxy/non-mesh-traffic.md     #  
-[//]: #                                                                                         #  
-[//]: # ####################################################################################### #
+{% capture docs %}/docs/{{ page.release }}{% endcapture %}
+{% assign Kuma = site.mesh_product_name %}
+
+{% capture Important %}{% if page.edition and page.edition != "kuma" %}**Important:** {% endif %}{% endcapture %}
 
 ## Incoming
 
-When mTLS is enabled, clients from outside the mesh can't reach the applications inside the mesh. 
-If you want to allow external clients to consume mesh services see 
-the [Permissive mTLS](/docs/{{ page.release }}/policies/mutual-tls/#permissive-mtls) mode.
+With mTLS enabled, external clients cannot access applications inside the mesh. To allow external clients to consume mesh services, consider using [Permissive mTLS]({{ docs }}/policies/mutual-tls/#permissive-mtls).
 
 {% warning %}
-Without [transparent proxying](/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %})
-TLS check on Envoy can be bypassed. You should take action to secure the application ports. 
+{{ Important }}Without [transparent proxy]({{ docs }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %}), application ports remain accessible even if mTLS is enabled. This allows traffic to bypass the data plane proxy, skipping TLS verification. If you choose not to use a transparent proxy, you must secure application ports manually to prevent unauthorized access.
 {% endwarning %}
 
 ## Outgoing
 
-In its default setup, {{site.mesh_product_name}} allows any non-mesh traffic to pass Envoy without applying any policy. 
-For instance if a service needs to send a request to `http://example.com`, 
-all requests won't be logged even if a traffic logging is enabled in the mesh where the service is deployed.
-The passthrough mode is enabled by default on all the dataplane proxies in transparent mode in a Mesh. 
-This behavior can be changed by setting the `networking.outbound.passthrough` in the Mesh resource. Example:
+By default, {{ Kuma }} allows non-mesh traffic to pass through the [data plane proxy]({{ docs }}/introduction/concepts/#data-plane-proxy--sidecar) without applying any policies. For example, if a service sends a request to `{{ site.links.web }}`, those requests won’t be logged, even if traffic logging is enabled in the mesh.
 
-{% tabs passthrough-mode useUrlFragment=false additionalClasses="codeblock" %}
+This passthrough mode is enabled by default on all data plane proxies running in transparent mode. To change this behavior, set `networking.outbound.passthrough` in the Mesh resource.
+
+{% tabs passthrough-mode useUrlFragment=false additionalClasses="codeblock" %}  
 {% tab passthrough-mode Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -41,7 +33,7 @@ spec:
     outbound:
       passthrough: false
 ```
-{% endtab %}
+{% endtab %}  
 {% tab passthrough-mode Universal %}
 ```yaml
 type: Mesh
@@ -50,20 +42,19 @@ networking:
   outbound:
     passthrough: false
 ```
-{% endtab %}
+{% endtab %}  
 {% endtabs %}
 
-When `networking.outbound.passthrough` is `false`, no traffic to any non-mesh resource can leave the Mesh.
+When `networking.outbound.passthrough` is set to `false`, non-mesh traffic is blocked, preventing any external requests from leaving the mesh.
 
-{% if_version gte:2.8.x %}
-{% tip %}
-Since version 2.8.x, you can take advantage of a new policy, [MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough), which allows you to enable passthrough traffic for a specific group of sidecars and only for specific destinations.
-{% endtip %}
+{% if_version gte:2.8.x %}  
+{% tip %}  
+Since version 2.8.x, the [MeshPassthrough]({{ docs }}/policies/meshpassthrough) policy allows passthrough traffic for specific sidecars and destinations.  
+{% endtip %}  
 {% endif_version %}
 
-{% tip %}
-Before setting `networking.outbound.passthrough` to `false`, double-check Envoy stats that no traffic is flowing through `pass_through` cluster. 
-Otherwise, you will block the traffic which may cause the instability of the system.
+{% tip %}  
+Before disabling passthrough mode (`networking.outbound.passthrough: false`), check the data plane proxy stats to ensure no traffic is flowing through the `pass_through` cluster. Otherwise, you may unintentionally block critical traffic, leading to system instability.  
 {% endtip %}
 
 ### Policies don't apply to non-mesh traffic
@@ -82,7 +73,7 @@ maxRequests: 1024
 maxRetries: 3
 ```
 
-{% if_version lte:2.5.x inline:true %}[ProxyTemplate](/docs/{{ page.release }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch](/docs/{{ page.release }}/policies/meshproxypatch){% endif_version %} to change the defaults:
+{% if_version lte:2.5.x inline:true %}[ProxyTemplate]({{ docs }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch]({{ docs }}/policies/meshproxypatch){% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
 {% tabs passthrough-thresholds useUrlFragment=false additionalClasses="codeblock" %}
@@ -124,8 +115,8 @@ type: ProxyTemplate
 mesh: default
 name: custom-template-1
 selectors:
-    - match:
-        kuma.io/service: "*"
+  - match:
+      kuma.io/service: "*"
 conf:
   imports:
     - default-proxy

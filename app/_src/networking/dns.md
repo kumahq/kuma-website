@@ -2,9 +2,13 @@
 title: DNS
 ---
 
-[//]: # ###################################################################################################### #
-[//]: # This page is deprecated and should not be updated. Make changes in `transparent-proxy/dns.md` instead. #
-[//]: # ###################################################################################################### #
+[//]: # ########################################################################## #  
+[//]: #                                                                            #  
+[//]: #            This page is legacy and shown only for Kuma < 2.9.x             #  
+[//]: #                        Only fix obvious bugs here                          #  
+[//]: #     Make other changes in app/_src/networking/transparent-proxy/dns.md     #  
+[//]: #                                                                            #  
+[//]: # ########################################################################## #
 
 {{site.mesh_product_name}} ships with DNS resolver to provide service naming - a mapping of hostname to Virtual IPs (VIPs) of services registered in {{site.mesh_product_name}}.
 
