@@ -14,9 +14,9 @@ content_type: how-to
 {% capture Important %}{% if page.edition and page.edition != "kuma" %}**Important:** {% endif %}{% endcapture %}
 {% capture Note %}{% if page.edition and page.edition != "kuma" %}**Note:** {% endif %}{% endcapture %}
 
-In Kubernetes mode, transparent proxy is automatically set up through the `kuma-init` container or [Kuma CNI]({{ docs }}/networking/transparent-proxy/cni/). By default, it intercepts all incoming and outgoing traffic and routes it through the `kuma-dp` sidecar container, so no changes to the application code are needed.
+In Kubernetes mode, transparent proxy is automatically set up through the `kuma-init` container or [{{ Kuma }} CNI]({{ docs }}/networking/transparent-proxy/cni/). By default, it intercepts all incoming and outgoing traffic and routes it through the `kuma-dp` sidecar container, so no changes to the application code are needed.
 
-{{ Kuma }} works smoothly with [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) and provides its own [Kuma DNS]({{ docs }}/networking/transparent-proxy/dns/), which is especially helpful in multi-zone setups for cross-zone service discovery.
+{{ Kuma }} works smoothly with [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) and provides its own [{{ Kuma }} DNS]({{ docs }}/networking/transparent-proxy/dns/), which is especially helpful in multi-zone setups for cross-zone service discovery.
 
 In this mode, {{ Kuma }} requires the transparent proxy to be enabled, so it **cannot be turned off**.
 
@@ -110,17 +110,9 @@ Here is an example of how to modify parts of this configuration during installat
 {{ Note }}{{ Kuma }} uses a single configuration structure for transparent proxy settings across all components. For the full configuration schema, see the [Helm values.yaml reference]({{ docs }}/reference/kuma-cp/#helm-valuesyaml), particularly under the `{{ transparentProxy }}.configMap.config` path. More details on each setting are available in the [configuration reference]({{ docs }}/networking/transparent-proxy/configuration-reference/#full-reference).
 {% endtip %}
 
-#### Custom ConfigMap name
+#### Custom ConfigMap for specific workloads
 
-The name of the ConfigMap is defined by the `{{ transparentProxy }}.configMap.name` setting. By default, this name is set to `kuma-transparent-proxy-config`.
-
-To apply a custom name for all workloads, you can modify the `{{ transparentProxy }}.configMap.name` setting during installation:
-
-{% cpinstall transparent-proxy-config-configmap-custom-name-globally %}
-{{ transparentProxy }}.configMap.name=custom-name
-{% endcpinstall %}
-
-To use a different resource for specific workloads, apply the `traffic.kuma.io/transparent-proxy-configmap-name` annotation to those workloads. For example:
+The name of the ConfigMap is defined by the `{{ transparentProxy }}.configMap.name` setting. By default, this name is set to `kuma-transparent-proxy-config`. To use a different ConfigMap for specific workloads, apply the `traffic.kuma.io/transparent-proxy-configmap-name` annotation to those workloads. For example:
 
 ```yaml
 apiVersion: v1
