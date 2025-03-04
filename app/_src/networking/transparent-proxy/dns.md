@@ -56,7 +56,7 @@ If you use [MeshService]({{ docs }}/networking/meshservice), [MeshExternalServic
 {% endtab %}
 {% tab installation Universal %}
 
-Follow the instruction in {% if_version lte:2.8.x %}[transparent proxying]({{ docs }}/production/dp-config/transparent-proxying/){% endif_version %}{% if_version gte:2.9.x %}[Installing Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/#installation){% endif_version %}.
+Follow the instruction in {% if_version lte:2.8.x %}[transparent proxying]({{ docs }}/production/dp-config/transparent-proxying/){% endif_version %}{% if_version gte:2.9.x %}[Deploy Kuma on Docker quick start guide]({{ docs }}/quickstart/docker-demo/){% endif_version %}.
 
 {% endtab %}
 {% endtabs %}

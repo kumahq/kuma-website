@@ -26,7 +26,7 @@ Besides the ability of being able to create virtual service mesh, a `Mesh` resou
 * [Traffic Trace](/docs/{{ page.release }}/policies/traffic-trace/)
 {% endif_version %}
 * [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/), to setup if `ZoneEgress` should be used for cross zone and external service communication.
-* [Non-mesh traffic](/docs/{{ page.release }}/networking/non-mesh-traffic), to setup if `passthrough` mode should be used for the non-mesh traffic.
+* [Non-mesh traffic](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxying/{% endif_version %}non-mesh-traffic), to setup if `passthrough` mode should be used for the non-mesh traffic.
 
 To support cross-mesh communication an intermediate API Gateway must be used. {{site.mesh_product_name}} checkout {% if_version gte:2.6.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/overview){% endif_version %}{% if_version lte:2.5.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/explore/gateway){% endif_version %} to set this up.
 

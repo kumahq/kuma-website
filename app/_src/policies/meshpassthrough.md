@@ -7,7 +7,7 @@ This policy uses new policy matching algorithm.
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to configure traffic to external destinations that is allowed to pass outside the mesh.
-When using this policy, the [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic/#outgoing) flag is ignored.
+When using this policy, the [passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxying/{% endif_version %}non-mesh-traffic/#outgoing) flag is ignored.
 
 ## TargetRef support matrix
 

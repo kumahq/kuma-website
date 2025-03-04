@@ -38,7 +38,7 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 
    - For options to customize transparent proxy settings, check the resources listed in the [Key Information](#key-information) section.
    - For an in-depth look at how the transparent proxy works in {{ Kuma }} and its mechanisms, see the [Technical Overview]({{ docs }}/networking/transparent-proxy/technical-overview/) page from its documentation.
-   - To install the transparent proxy on Universal, refer to [Installing Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/#installation).
+   - To install the transparent proxy on Universal, refer to [Deploy Kuma on Docker quick start guide]({{ docs }}/quickstart/docker-demo/).
    - For upgrade steps, see [Upgrading Transparent Proxy on Universal]({{ docs }}/guides/upgrading-transparent-proxy).
 
 2. **Set up {{ Kuma }}**: Ensure {{ Kuma }} is installed and running.
