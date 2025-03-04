@@ -17,16 +17,16 @@ The diagram below shows a high-level view of how transparent proxying works:
      participant Browser as Client<br>(for example, mobile app)
      participant Kernel as Kernel
      participant ServiceMeshIn as kuma sidecar(15006)
-     participant Node as example.com:5000<br>(Front-end App)
+     participant Node as localhost:5000<br>(App)
      participant ServiceMeshOut as kuma sidecar(15001)
-     Browser->>+Kernel: GET / HTTP1.1<br>Host: example.com:5000
+     Browser->>+Kernel: GET / HTTP1.1<br>Host: localhost:5000
  
      rect rgb(233,233,233)
-     Note over Kernel,ServiceMeshOut: EXAMPLE.COM
+     Note over Kernel,ServiceMeshOut: Application Instance
      Note over Node: (Optional)<br> Apply inbound policies
      Note over ServiceMeshOut: (Optional)<br> Apply outbound policies
      Kernel->>+ServiceMeshIn: Capture inbound TCP traffic<br>and Redirect to the sidecar<br> (listener port 15006)
-     ServiceMeshIn->>+Node: Redirect to the<br>original destination <br>(example.com:5000)
+     ServiceMeshIn->>+Node: Redirect to the<br>original destination <br>(localhost:5000)
          Node->>+Kernel: Send the <br>Front-end Response
      Kernel->>+ServiceMeshOut: Capture outbound TCP traffic<br>and Redirect to the sidecar<br> (listener port 15001)
      end
