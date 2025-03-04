@@ -43,7 +43,9 @@ Regular policies in {{ Kuma }} apply only to mesh traffic, meaning non-mesh traf
 
 If you need to change configuration for non-mesh traffic you can use a MeshProxyPatch.
 
+<!-- vale Google.Headings = NO -->
 #### Circuit Breaker
+<!-- vale Google.Headings = YES -->
 
 Default values:
 
