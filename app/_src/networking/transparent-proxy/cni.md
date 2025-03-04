@@ -89,27 +89,34 @@ cni.confName=10-kindnet.conflist
 {% endcpinstall %}
 {% endtab %}
 
-{% tab installation Azure %}
+{% tab installation AKS %}
+Choose the correct `CNI_CONF_NAME` value based on your networking solution:  
+
+{% tabs azure-networking additionalClasses="codeblock" %}
+{% tab azure-networking kubenet (default) %}
+```sh
+export CNI_CONF_NAME="10-azure.conflist"
+```
+{% endtab %}
+{% tab azure-networking Azure CNI Overlay %}
+```sh
+export CNI_CONF_NAME="15-azure-swift-overlay.conflist"
+```
+{% endtab %}
+{% endtabs %}
+
+Once set, apply the configuration:
+
 {% cpinstall azure %}
 cni.enabled=true
 cni.chained=true
 cni.netDir=/etc/cni/net.d
 cni.binDir=/opt/cni/bin
-cni.confName=10-azure.conflist
+cni.confName={% raw %}$CNI_CONF_NAME{% endraw %}
 {% endcpinstall %}
 {% endtab %}
 
-{% tab installation Azure Overlay %}
-{% cpinstall azure_overlay %}
-cni.enabled=true
-cni.chained=true
-cni.netDir=/etc/cni/net.d
-cni.binDir=/opt/cni/bin
-cni.confName=15-azure-swift-overlay.conflist
-{% endcpinstall %}
-{% endtab %}
-
-{% tab installation AWS EKS %}
+{% tab installation EKS %}
 {% cpinstall aws-eks %}
 cni.enabled=true
 cni.chained=true
@@ -124,7 +131,7 @@ Add `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_IP_FAMILY_MODE=ipv4` as 
 {% endtip %}
 {% endtab %}
 
-{% tab installation Google GKE %}
+{% tab installation GKE %}
 
 You need to [enable network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster (for existing clusters this redeploys the nodes).
 

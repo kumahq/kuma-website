@@ -96,7 +96,7 @@ Then `httpbin.org` is accessible at `127.0.0.1:10000`.
 Consuming the defined service from within the mesh for both Kubernetes and Universal deployments (assuming [transparent proxy]({{ tproxy-link }})) can be done:
 
 * With the `.mesh` naming of the service `curl httpbin.mesh`. With this approach, specify port 80.
-* With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](/docs/{{ page.release }/networking{% if_version gte:2.9.x %}/transparent-proxy{% endif_version %}/dns/) name resolution.
+* With the real name and port, in this case `curl httpbin.org:443`. This approach works only with [the data plane proxy builtin DNS](/docs/{{ page.release }}/networking{% if_version gte:2.9.x %}/transparent-proxy{% endif_version %}/dns/) name resolution.
 
 It's possible to define TLS origination and validation at 2 different layers:
 *  Envoy is responsible for originating and verifying TLS.
