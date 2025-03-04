@@ -114,14 +114,6 @@ KUMA_TRANSPARENT_PROXY_REDIRECT_INBOUND_EXCLUDE_PORTS="1234" \
 KUMA_TRANSPARENT_PROXY_REDIRECT_OUTBOUND_EXCLUDE_PORTS="5678,8900" \
 kumactl install transparent-proxy
 ```
-
-[**CLI Flags**]({{ docs }}/networking/transparent-proxy/universal/#cli-flags)
-
-```sh
-kumactl install transparent-proxy \
-  --exclude-inbound-ports "1234" \
-  --exclude-outbound-ports "5678,8900"
-````
 {% endtab %}
 {% endtabs %}
 
@@ -177,13 +169,5 @@ KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS="10.0.0.0/8" \
 KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS="192.168.10.1,fd10::/16" \
 kumactl install transparent-proxy
 ```
-
-[**CLI Flags**]({{ docs }}/networking/transparent-proxy/universal/#cli-flags)
-
-```sh
-kumactl install transparent-proxy \
-  --exclude-inbound-ips "10.0.0.0/8" \
-  --exclude-outbound-ips "192.168.10.1,fd10::/16"
-````
 {% endtab %}
 {% endtabs %}

@@ -376,7 +376,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
 - `traffic.kuma.io/transparent-proxy-configmap-name`
 
-  This annotation lets you specify a custom name for the ConfigMap that holds the transparent proxy configuration when the [Configuration in ConfigMap]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration-in-configmap-experimental) feature is enabled. For more details, refer to the [Custom ConfigMap name]({{ docs }}/networking/transparent-proxy/kubernetes/#custom-configmap-name) section.
+  This annotation lets you specify a custom name for the ConfigMap that holds the transparent proxy configuration when the [Configuration in ConfigMap]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration-in-configmap-experimental) feature is enabled. For more details, refer to the [Custom ConfigMap name]({{ docs }}/networking/transparent-proxy/kubernetes/#custom-configmap-for-specific-workloads) section.
 
 ## Full reference
 
