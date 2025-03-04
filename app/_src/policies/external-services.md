@@ -2,9 +2,11 @@
 title: External Service
 ---
 
-This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxying/{% endif_version %}non-mesh-traffic#outgoing). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
+<!-- vale Vale.Terms = NO -->
+This policy allows services running inside the mesh to consume services that are not part of the mesh. The `ExternalService` resource allows you to declare specific external resources by name within the mesh, instead of implementing the default [passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing). Passthrough mode allows access to any non-mesh host by specifying its domain name or IP address, without the ability to apply any traffic policies. The `ExternalService` resource enables the same observability, security, and traffic manipulation for external traffic as for services entirely inside the mesh
+<!-- vale Vale.Terms = YES -->
 
-When you enable this policy, you should also [disable passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxying/{% endif_version %}non-mesh-traffic#outgoing) for the mesh and enable the [data plane proxy builtin DNS](/docs/{{ page.release }}/networking{% if_version gte:2.9.x %}/transparent-proxy{% endif_version %}/dns/) name resolution.
+When you enable this policy, you should also [disable passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing) for the mesh and enable the [data plane proxy builtin DNS](/docs/{{ page.release }}/networking{% if_version gte:2.9.x %}/transparent-proxy{% endif_version %}/dns/) name resolution.
 
 ## Usage
 
@@ -169,7 +171,7 @@ If `ZoneEgress` is enabled, there is a limitation that prevents the behavior des
 In scenarios when traffic to external services needs to be sent through a unique set of hosts you will [configure ZoneEgress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/).
 
 For example when there is:
-* [disabled passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxying/{% endif_version %}non-mesh-traffic#outgoing)
+* [disabled passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing)
 * `ZoneEgress` deployed
 * `ExternalService` configuration that allows communicating with `https://example.com`.
 ```yaml
@@ -186,7 +188,7 @@ networking:
 ```
 
 When application makes a request to `https://example.com`, it will be first routed to `ZoneEgress` and then to `https://example.com`.
-You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxying/{% endif_version %}non-mesh-traffic#outgoing).
+You can completely block your instances to communicate to things outside the mesh by [disabling passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing).
 In this setup, applications will only be able to communicate with other applications in the mesh or external-services via the `ZoneEgress`.
 
 {% warning %}

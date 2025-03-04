@@ -226,9 +226,9 @@ since it has a high likelihood of yielding connection leaks.
 
 ## Non-mesh traffic
 
-When [passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxying/{% endif_version %}non-mesh-traffic#outgoing) is activated 
+When [passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing) is activated 
 any non-mesh traffic is passing Envoy without applying the Timeout policies. 
-Read more about [Non-mesh traffic](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxying/{% endif_version %}non-mesh-traffic#timeouts).
+Read more about [Non-mesh traffic](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#timeouts).
 
 ## All options
 

@@ -7,7 +7,7 @@ This resource is experimental!
 {% endwarning %}
 
 This resource allows services running inside the mesh to consume services that are not part of the mesh.
-The `MeshExternalService` resource allows you to declare external resources instead of relying on [MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough) or [passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxying/{% endif_version %}non-mesh-traffic#outgoing). 
+The `MeshExternalService` resource allows you to declare external resources instead of relying on [MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough) or [passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing). 
 
 {% tip %}
 What is the difference between `MeshPassthrough` and `MeshExternalService`?
