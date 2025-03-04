@@ -1,5 +1,5 @@
 ---
-title: Transparent Proxy Configuration
+title: Transparent Proxy Configuration Reference
 content_type: reference
 ---
 

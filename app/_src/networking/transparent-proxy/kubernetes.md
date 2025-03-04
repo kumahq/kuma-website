@@ -39,7 +39,7 @@ Some transparent proxy settings can be adjusted here, and **for certain settings
 Currently, it’s best to use the control plane runtime configuration as the main place to store transparent proxy settings that apply to all [workloads](https://kubernetes.io/docs/concepts/workloads/).
 
 {% tip %}
-{{ Note }}For more details, see the [control plane configuration reference]({{ docs }}/reference/kuma-cp/) under `runtime.kubernetes`. You can also find transparent proxy-specific settings in the [control plane runtime configuration section]({{ docs }}/reference/transparent-proxy-configuration/#control-plane-runtime-configuration) of the Transparent Proxy Configuration reference.
+{{ Note }}For more details, see the [control plane configuration reference]({{ docs }}/reference/kuma-cp/) under `runtime.kubernetes`. You can also find transparent proxy-specific settings in the [control plane runtime configuration section]({{ docs }}/networking/transparent-proxy/configuration-reference/#control-plane-runtime-configuration) of the configuration reference.
 {% endtip %}
 
 #### Settings restricted to control plane runtime configuration
@@ -107,7 +107,7 @@ Here is an example of how to modify parts of this configuration during installat
 {% endcpinstall %}
 
 {% tip %}
-{{ Note }}{{ Kuma }} uses a single configuration structure for transparent proxy settings across all components. For the full configuration schema, see the [Helm values.yaml reference]({{ docs }}/reference/kuma-cp/#helm-valuesyaml), particularly under the `{{ transparentProxy }}.configMap.config` path. More details on each setting are available in the [Transparent Proxy Configuration reference]({{ docs }}/reference/transparent-proxy-configuration/#full-reference).
+{{ Note }}{{ Kuma }} uses a single configuration structure for transparent proxy settings across all components. For the full configuration schema, see the [Helm values.yaml reference]({{ docs }}/reference/kuma-cp/#helm-valuesyaml), particularly under the `{{ transparentProxy }}.configMap.config` path. More details on each setting are available in the [configuration reference]({{ docs }}/networking/transparent-proxy/configuration-reference/#full-reference).
 {% endtip %}
 
 #### Custom ConfigMap name
@@ -154,7 +154,7 @@ metadata:
 
 Kubernetes annotations can be applied to individual workloads to modify the transparent proxy configuration. These annotations allow fine-tuning of specific behaviors for a single workload without affecting others.
 
-For the full list of annotations which affect the transparent proxy configuration refer to [Annotations section]({{ docs }}/reference/transparent-proxy-configuration/#annotations) in the transparent proxy configuration reference.
+For the full list of annotations which affect the transparent proxy configuration refer to [Annotations section]({{ docs }}/networking/transparent-proxy/configuration-reference/#annotations) in the transparent proxy configuration reference.
 
 #### Automatically applied annotations
 
@@ -184,7 +184,7 @@ These annotations ensure that the proper configuration is automatically applied 
 
 When using multiple configuration methods, it's important to understand the order in which they are applied to avoid conflicts and ensure the correct settings are used.
 
-1. [Default values]({{ docs }}/reference/transparent-proxy-configuration/#default-values)
+1. [Default values]({{ docs }}/networking/transparent-proxy/configuration-reference/#default-values)
 
 2. [Control plane runtime configuration](#control-plane-runtime-configuration)
 

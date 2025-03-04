@@ -20,7 +20,7 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 
   - [Transparent Proxy Configuration on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration)
   - [Transparent Proxy Configuration on Universal]({{ docs }}/networking/transparent-proxy/universal/#configuration)
-  - [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/)
+  - [Transparent Proxy Configuration Reference]({{ docs }}/networking/transparent-proxy/configuration-reference/)
 
 - Right now, the recommended way to adjust transparent proxy settings (and the one mostly shown in this guide) is with [Kubernetes Annotations]({{ docs }}/networking/transparent-proxy/kubernetes/#annotations), since the [Configuration in ConfigMap]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration-in-configmap-experimental) option is still experimental. Once it’s stable, it will become the suggested method.
 

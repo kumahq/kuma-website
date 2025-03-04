@@ -12,13 +12,13 @@ When the transparent proxy is enabled, {{ Kuma }} automatically configures each 
 - **Slower Propagation**: Even small configuration changes for one service must be propagated to all data planes, which can be slow and resource-intensive.
 - **Excessive Traffic**: Frequent updates generate additional traffic between the control plane and data plane proxies, especially when services are added or changed often.
 
-In real-world scenarios, services usually need to communicate only with a few other services rather than all services in the mesh. To address these challenges, {{ Kuma }} offers the **Reachable Services** feature, allowing you to define only the services that each proxy should connect to. Specifying reachable services helps reduce memory usage, improves configuration propagation speed, and minimizes unnecessary traffic.
+In real-world scenarios, services typically need access to only a few others, not all services in the mesh. To optimize this, {{ Kuma }} provides the **Reachable Services** feature, allowing you to define which services each proxy **can** connect to. This helps prevent the performance issues mentioned earlier.
 
 Here’s how to configure reachable services:
 
 {% tabs reachable-services useUrlFragment=false %}
 {% tab reachable-services Kubernetes %}
-Specify the list of reachable services in the `kuma.io/transparent-proxying-reachable-services` annotation, separating each service with a comma. Your workload configuration could look like this:
+Use the `kuma.io/transparent-proxying-reachable-services` annotation to list the services your Pod connects to, separated by commas. For example:
 
 ```yaml
 apiVersion: apps/v1

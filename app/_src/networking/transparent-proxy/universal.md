@@ -77,7 +77,7 @@ This command will install the new version of the transparent proxy with the spec
 
 The default configuration works well for most scenarios, but there are cases where adjustments are needed.
 
-{{ Kuma }} uses a unified configuration structure for transparent proxy across all components. For a detailed breakdown of this structure, including examples, expected formats, and variations between configuration methods, refer to the [Transparent Proxy Configuration reference]({{ docs }}/reference/transparent-proxy-configuration/).
+{{ Kuma }} uses a unified configuration structure for transparent proxy across all components. For a detailed breakdown of this structure, including examples, expected formats, and variations between configuration methods, refer to the [configuration reference]({{ docs }}/networking/transparent-proxy/configuration-reference/).
 
 In Universal mode, {{ Kuma }} there are three methods to adjust the configuration. Each can be used on its own or combined with others if needed.
 
@@ -92,11 +92,7 @@ In Universal mode, {{ Kuma }} there are three methods to adjust the configuratio
 You can provide the configuration in either `yaml` or `json` format by using the `--config` or `--config-file` flags.
 
 {% tip %}
-{{ Note }}For the configuration schema in yaml format, refer to the [Schema]({{ docs }}/reference/transparent-proxy-configuration/#schema) section in the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
-{% endtip %}
-
-{% tip %}
-{{ Note }}For simplicity, the following examples use yaml format, but you can easily convert them to JSON if preferred. Both formats work exactly the same, so feel free to choose the one that best suits your needs.
+{{ Note }}For the configuration schema in yaml format, refer to the [Schema]({{ docs }}/networking/transparent-proxy/configuration-reference/#schema) section in the [configuration reference]({{ docs }}/networking/transparent-proxy/configuration-reference/).
 {% endtip %}
 
 Below are examples of using these flags in different ways:
@@ -154,7 +150,7 @@ KUMA_TRANSPARENT_PROXY_IP_FAMILY_MODE="ipv4" kumactl install transparent-proxy
 ```
 
 {% tip %}
-{{ Note }}To see all available environment variables, visit the [Environment Variables]({{ docs }}/reference/transparent-proxy-configuration/#environment-variables) section in the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
+{{ Note }}To see all available environment variables, visit the [Environment Variables]({{ docs }}/networking/transparent-proxy/configuration-reference/#environment-variables) section in the [configuration reference]({{ docs }}/networking/transparent-proxy/configuration-reference/).
 {% endtip %}
 
 <!-- vale Google.Headings = NO -->
@@ -181,7 +177,7 @@ kumactl install transparent-proxy --kuma-dp-user dataplane --verbose
 {% endwarning %}
 
 {% tip %}
-{{ Note }}To see all available CLI flags, visit the [CLI Flags]({{ docs }}/reference/transparent-proxy-configuration/#cli-flags) section in the [Transparent Proxy Configuration Reference]({{ docs }}/reference/transparent-proxy-configuration/).
+{{ Note }}To see all available CLI flags, visit the [CLI Flags]({{ docs }}/networking/transparent-proxy/configuration-reference/#cli-flags) section in the [configuration reference]({{ docs }}/networking/transparent-proxy/configuration-reference/).
 {% endtip %}
 
 <!-- vale Google.Headings = NO -->
