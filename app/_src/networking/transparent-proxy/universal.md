@@ -99,40 +99,12 @@ KUMA_TRANSPARENT_PROXY_IP_FAMILY_MODE="ipv4" kumactl install transparent-proxy
 {% endtip %}
 
 <!-- vale Google.Headings = NO -->
-### CLI Flags
-<!-- vale Google.Headings = YES -->
-
-Most configuration values can also be specified directly through CLI flags. For example:
-
-```sh
-kumactl install transparent-proxy --kuma-dp-user dataplane --verbose
-```
-
-{% warning %}
-{{ Important }}The following settings cannot be modified directly via CLI flags (corresponding flags are not available):
-
-- `redirect.dns.resolvConfigPath`
-- `redirect.inbound.includePorts`
-- `redirect.inbound.excludePortsForUIDs`
-- `redirect.outbound.enabled`
-- `redirect.outbound.includePorts`
-- `ebpf.instanceIPEnvVarName`
-- `log.level`
-- `cniMode`
-{% endwarning %}
-
-{% tip %}
-{{ Note }}To see all available CLI flags, visit the [CLI Flags]({{ docs }}/networking/transparent-proxy/configuration-reference/#cli-flags) section in the [configuration reference]({{ docs }}/networking/transparent-proxy/configuration-reference/).
-{% endtip %}
-
-<!-- vale Google.Headings = NO -->
 ### Order of Precedence
 <!-- vale Google.Headings = YES -->
 
 1. **Default Values**
 2. **Values from** `--config` / `--config-file` **flags**
 3. **Environment Variables**
-4. **CLI Flags**
 
 To understand how the order of precedence works, consider this scenario:
 
@@ -148,9 +120,7 @@ To understand how the order of precedence works, consider this scenario:
 
    ```sh
    KUMA_TRANSPARENT_PROXY_REDIRECT_DNS_PORT="10002" \
-     kumactl install transparent-proxy \
-       --config-file config.yaml \
-       --redirect-dns-port 10003
+     kumactl install transparent-proxy --config-file config.yaml
    ```
 
 3. In this situation, the possible values for `redirect.dns.port` are:
@@ -158,9 +128,8 @@ To understand how the order of precedence works, consider this scenario:
    - **`{{ tproxy.defaults.redirect.dns.port }}`** (Default Value)
    - **`10001`** (from config file)
    - **`10002`** (from environment variable)
-   - **`10003`** (from CLI flag)
 
-4. Since CLI flags have the highest precedence, the final value for `redirect.dns.port` will be **`10003`**.
+4. Since environmental variable have the highest precedence, the final value for `redirect.dns.port` will be **`10002`**.
 
 ## firewalld support
 
