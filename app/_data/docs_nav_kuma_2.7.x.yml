@@ -456,6 +456,11 @@ items:
         url: /guides/otel-metrics/
       - text: Migration to the new policies
         url: /guides/migration-to-the-new-policies/
+      - title: Troubleshooting
+        group: true
+        items:
+          - text: Logging
+            url: /guides/logging
   - title: Reference
     group: true
     items:
