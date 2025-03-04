@@ -239,7 +239,7 @@ module Jekyll
 
             # Conditionally render tabs based on use_meshservice
             htmlContent = "
-{% tabs #{@tabs_name} useUrlFragment=false %}"
+{% tabs #{@tabs_name} useUrlFragment=false additionalClasses=\"codeblock\" %}"
 
             if use_meshservice
               htmlContent += "

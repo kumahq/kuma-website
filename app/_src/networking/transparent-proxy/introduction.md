@@ -19,9 +19,9 @@ When enabled, all inbound and outbound traffic is transparently routed through t
 
 ## Kubernetes
 
-In [Kubernetes mode]({{ docs }}/introduction/architecture/#kubernetes-mode), the transparent proxy is automatically set up through the `kuma-init` container or [Kuma CNI]({{ docs }}/networking/transparent-proxy/cni/). By default, it intercepts all incoming and outgoing traffic and routes it through the `kuma-dp` sidecar container, so no changes to the application code are needed.
+In [Kubernetes mode]({{ docs }}/introduction/architecture/#kubernetes-mode), the transparent proxy is automatically set up through the `kuma-init` container or [{{ Kuma }} CNI]({{ docs }}/networking/transparent-proxy/cni/). By default, it intercepts all incoming and outgoing traffic and routes it through the `kuma-dp` sidecar container, so no changes to the application code are needed.
 
-{{ Kuma }} works smoothly with [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) and provides its own [Kuma DNS]({{ docs }}/networking/transparent-proxy/dns/), which is especially helpful in multi-zone setups for cross-zone service discovery.
+{{ Kuma }} works smoothly with [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) and provides its own [{{ Kuma }} DNS]({{ docs }}/networking/transparent-proxy/dns/), which is especially helpful in multi-zone setups for cross-zone service discovery.
 
 In this mode, {{ Kuma }} requires the transparent proxy to be enabled, so it **cannot be turned off**.
 
@@ -35,7 +35,7 @@ Using the transparent proxy in Universal mode makes setup easier and enables fea
 
 - **Simplified `Dataplane` resources**: You can skip the `networking.outbound` section, so you don’t have to list each service your application connects to manually.
 
-- **Simplified service connectivity**: Take advantage of [Kuma DNS]({{ docs }}/networking/transparent-proxy/dns/), for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
+- **Simplified service connectivity**: Take advantage of [{{ Kuma }} DNS]({{ docs }}/networking/transparent-proxy/dns/), for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
 
 {% tip %}
 {{ Note }}For more details on using the transparent proxy with Universal, see [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/).

@@ -21,7 +21,7 @@ all requests won't be logged even if a traffic logging is enabled in the mesh wh
 The passthrough mode is enabled by default on all the dataplane proxies in transparent mode in a Mesh. 
 This behavior can be changed by setting the `networking.outbound.passthrough` in the Mesh resource. Example:
 
-{% tabs passthrough-mode useUrlFragment=false %}
+{% tabs passthrough-mode useUrlFragment=false additionalClasses="codeblock" %}
 {% tab passthrough-mode Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -77,7 +77,7 @@ maxRetries: 3
 {% if_version lte:2.5.x inline:true %}[ProxyTemplate](/docs/{{ page.release }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch](/docs/{{ page.release }}/policies/meshproxypatch){% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
-{% tabs passthrough-thresholds useUrlFragment=false %}
+{% tabs passthrough-thresholds useUrlFragment=false additionalClasses="codeblock" %}
 {% tab passthrough-thresholds Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -110,7 +110,6 @@ spec:
             }
 ```
 {% endtab %}
-
 {% tab passthrough-thresholds Universal %}
 ```yaml
 type: ProxyTemplate
@@ -185,7 +184,7 @@ tcp:
 {% if_version lte:2.5.x inline:true %}Proxy Template{% endif_version %}{% if_version inline:true gte:2.6.x %}MeshProxyPatch{% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
-{% tabs passthrough-timeouts useUrlFragment=false %}
+{% tabs passthrough-timeouts useUrlFragment=false additionalClasses="codeblock" %}
 {% tab passthrough-timeouts Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -219,7 +218,6 @@ spec:
               idleTimeout: "3h"
 ```
 {% endtab %}
-
 {% tab passthrough-timeouts Universal %}
 ```yaml
 type: ProxyTemplate
