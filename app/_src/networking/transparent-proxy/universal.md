@@ -16,62 +16,7 @@ Using the transparent proxy in Universal mode makes setup easier and enables fea
 
 - **Simplified `Dataplane` resources**: You can skip the `networking.outbound` section, so you don’t have to list each service your application connects to manually.
 
-- **Simplified service connectivity**: Take advantage of [Kuma DNS]({{ docs }}/networking/transparent-proxy/dns/) to use `.mesh` domain names, like `https://service-1.mesh`, for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
-
-- **Flexible service naming**: With [MeshServices]({{ docs }}/networking/meshservice/) and [HostnameGenerators]({{ docs }}/networking/hostnamegenerator/), you can:
-
-  - Keep your existing DNS names when moving to the service mesh.
-  - Give a service multiple DNS names for easier access.
-  - Set up custom routes, like targeting specific StatefulSet Pods or service versions.
-  - Expose a service on multiple ports for different uses.
-
-- **Simpler security, tracing, and observability**: Transparent proxy makes managing these features easier, with no extra setup required.
-
-## Installation
-
-
-## Upgrading
-
-The core `iptables` rules applied by {{ Kuma }}'s transparent proxy rarely change, but occasionally new features may require updates. To upgrade the transparent proxy on Universal environments, follow these steps:
-
-### Step 1: Cleanup existing iptables rules (conditional)
-
-{% warning %}
-{{ Important }}If you're upgrading from {{ Kuma }} version 2.9 or later, and you have **not** manually disabled the automatic addition of comments by setting `comments.disabled` to `true` in the transparent proxy configuration, **this step is unnecessary**.
-{{ brbr }}
-Starting with {{ Kuma }} 2.9, all `iptables` rules are tagged with comments, allowing {{ Kuma }} to track rule ownership. This enables `kumactl` to automatically clean up any existing `iptables` rules or custom chains created by previous versions of the transparent proxy. This process runs automatically at the start of the installation, eliminating the need for any manual cleanup beforehand.
-{% endwarning %}
-
-To manually remove existing `iptables` rules, you can either restart the host (if the rules were not persisted using system start-up scripts or `firewalld`), or run the following commands:
-
-{% danger %}
-{{ Warning }}These commands will remove **all** `iptables` rules and **all** custom chains in the specified tables, including those created by {{ Kuma }} as well as any other applications or services.
-{% enddanger %}
-
-```sh
-iptables --table nat --flush         # Flush all rules in the nat table (IPv4)
-ip6tables --table nat --flush        # Flush all rules in the nat table (IPv6)
-iptables --table nat --delete-chain  # Delete all custom chains in the nat table (IPv4)
-ip6tables --table nat --delete-chain # Delete all custom chains in the nat table (IPv6)
-
-# The raw table contains rules for DNS traffic redirection
-iptables --table raw --flush         # Flush all rules in the raw table (IPv4)
-ip6tables --table raw --flush        # Flush all rules in the raw table (IPv6)
-
-# The mangle table contains rules to drop invalid packets
-iptables --table mangle --flush      # Flush all rules in the mangle table (IPv4)
-ip6tables --table mangle --flush     # Flush all rules in the mangle table (IPv6)
-```
-
-### Step 2: Install new transparent proxy
-
-After clearing the `iptables` rules (if necessary), reinstall the transparent proxy by running:
-
-```sh
-kumactl install transparent-proxy [...]
-```
-
-This command will install the new version of the transparent proxy with the specified configuration. Adjust the flags as needed to suit your environment.
+- **Simplified service connectivity**: Take advantage of [{{ Kuma }} DNS]({{ docs }}/networking/transparent-proxy/dns/), for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
 
 ## Configuration
 

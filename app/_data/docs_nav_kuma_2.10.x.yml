@@ -250,13 +250,6 @@ items:
             url: "/networking/meshmultizoneservice/"
           - text: HostnameGenerator
             url: "/networking/hostnamegenerator/"
-          - text: Non-mesh traffic
-            url: "/networking/non-mesh-traffic/"
-            items:
-              - text: Incoming
-                url: "/networking/non-mesh-traffic/#incoming"
-              - text: Outgoing
-                url: "/networking/non-mesh-traffic/#outgoing"
           - text: MeshExternalService
             url: /networking/meshexternalservice/
             items:
@@ -283,10 +276,6 @@ items:
               - text: Universal
                 url: /networking/transparent-proxy/universal/
                 items:
-                  - text: Installation
-                    url: /networking/transparent-proxy/universal/#installation
-                  - text: Upgrading
-                    url: /networking/transparent-proxy/universal/#upgrading
                   - text: Configuration
                     url: /networking/transparent-proxy/universal/#configuration
                   - text: firewalld support
@@ -304,6 +293,13 @@ items:
                     url: /networking/transparent-proxy/dns/#configuration
                   - text: Usage
                     url: /networking/transparent-proxy/dns/#usage
+              - text: Non-mesh traffic
+                url: /networking/transparent-proxy/non-mesh-traffic/
+                items:
+                  - text: Incoming
+                    url: /networking/transparent-proxy/non-mesh-traffic/#incoming
+                  - text: Outgoing
+                    url: /networking/transparent-proxy/non-mesh-traffic/#outgoing
               - text: Reachable Services
                 url: /networking/transparent-proxy/reachable-services/
               - text: Reachable Backends
@@ -557,6 +553,8 @@ items:
         url: /guides/consumer-producer-policies
       - text: Excluding Traffic from Transparent Proxy Redirection
         url: /guides/excluding-traffic-from-transparent-proxy-redirection/
+      - text: Upgrading Transparent Proxy
+        url: /guides/upgrading-transparent-proxy/
   - title: Reference
     group: true
     items:

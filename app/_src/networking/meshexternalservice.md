@@ -154,7 +154,7 @@ At this moment you cannot configure [MeshTrafficPermission](/docs/{{ page.releas
 MeshExternalService. But you can configure access to all external services on Mesh level. For example, you can disable 
 outgoing traffic to all MeshExternalServices:
 
-{% tabs usage useUrlFragment=false %}
+{% tabs usage useUrlFragment=false additionalClasses="codeblock" %}
 {% tab usage Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
