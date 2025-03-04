@@ -6,13 +6,9 @@ content_type: explanation
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}
 {% assign Kuma = site.mesh_product_name %}
 
-## What is transparent proxying?
+A transparent proxy captures and redirects network traffic without needing changes to the application. {{ Kuma }} does this using [iptables](https://linux.die.net/man/8/iptables) and has experimental support for [eBPF](https://ebpf.io).
 
-A transparent proxy is a type of server that can intercept network traffic to and from a service without changes to the client application code. In the case of {{ Kuma }} it is used to capture traffic and redirect it to `kuma-dp` so Mesh policies can be applied.
-
-To accomplish this, {{ Kuma }} utilizes [`iptables`](https://linux.die.net/man/8/iptables) and offers additional, experimental support for [eBPF](https://ebpf.io/). The examples provided in this section will concentrate on iptables to clearly illustrate the point.
-
-Below is a high level visualization of how transparent proxying works
+The diagram below shows a high-level view of how transparent proxying works:
 
 <!-- vale Vale.Spelling = NO -->
 {% mermaid %}
@@ -52,18 +48,18 @@ Without manipulating iptables to redirect traffic you will need to explicitly te
 Here we specify that we will listen on the address `10.119.249.39:15000` (line 7). This in turn creates an envoy listener for the port. When consuming a service over this `15000` it will cause traffic to redirect to `127.0.0.1:5000` (line 8) where our app is running. 
 
 ```yaml
-  type: Dataplane
-  mesh: default
-  name: demo-app
-  networking: 
-    address: 10.119.249.39 
-    inbound: 
-      - port: 15000
-        servicePort: 5000
-        serviceAddress: 127.0.0.1
-        tags: 
-          kuma.io/service: app
-          kuma.io/protocol: http
+type: Dataplane
+mesh: default
+name: demo-app
+networking:
+  address: 10.119.249.39
+  inbound:
+  - port: 15000
+    servicePort: 5000
+    serviceAddress: 127.0.0.1
+    tags:
+      kuma.io/service: app
+      kuma.io/protocol: http
 ```
 
 ## How it works
@@ -75,7 +71,11 @@ Here we specify that we will listen on the address `10.119.249.39:15000` (line 7
 The inbound port, `15006`, is the default for capturing requests to the system. This rule allows us to capture and redirect ALL TCP traffic to port `15006`.
 
 ```sh
-iptables --table nat --append KUMA_MESH_INBOUND_REDIRECT --protocol tcp --jump REDIRECT --to-ports 15006
+iptables \
+  --table nat \
+  --append KUMA_MESH_INBOUND_REDIRECT \
+  --protocol tcp \
+  --jump REDIRECT --to-ports 15006
 ```
 
 An envoy listener is also created for this port which we can see in the admin interface (`:9901/config_dump`). In the below example you can see the listener created on all interfaces (line 8) and port `15006` (line 9).
@@ -121,7 +121,6 @@ Using the Kuma counter demo app as an example, when the client needs to talk to 
 So, when the request comes into the system, the iptables rule grabs the traffic and sends it to envoy port `15006`. Once here, we check where the request was originally intended to go, in this case `5000` and forward it.
 
 A further review of the envoy config will show our Node app listener where the IP address, `10.244.0.6`, is that of the `demo-app` pod. Now that envoy is in control of the traffic we can now (optionally) apply filters/Mesh policies.
-
 
 ```json
      "name": "inbound:10.244.0.6:5000",

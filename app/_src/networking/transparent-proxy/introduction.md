@@ -13,8 +13,6 @@ A transparent proxy is a mechanism that intercepts and redirects network traffic
 
 When enabled, all inbound and outbound traffic is transparently routed through the [data plane proxy]({{ docs }}/production/dp-config/dpp/#data-plane-proxy). This allows users to benefit from {{ Kuma }}'s features, such as traffic management, security policies, and observability, without modifying their applications.
 
-{{ Kuma }} uses [iptables](https://linux.die.net/man/8/iptables) and also has experimental support for [eBPF](#transparent-proxy-with-ebpf-experimental) to make this possible.
-
 {% tip %}
 {{ Note }}For details on how the transparent proxy works in {{ Kuma }}, see the [Technical Overview]({{ docs }}/networking/transparent-proxy/technical-overview/).
 {% endtip %}
@@ -38,16 +36,6 @@ Using the transparent proxy in Universal mode makes setup easier and enables fea
 - **Simplified `Dataplane` resources**: You can skip the `networking.outbound` section, so you don’t have to list each service your application connects to manually.
 
 - **Simplified service connectivity**: Take advantage of [Kuma DNS]({{ docs }}/networking/transparent-proxy/dns/), for easy service connections without needing `localhost` and ports in the `Dataplane` resource.
-
-- **Flexible service addressing**: With [MeshServices]({{ docs }}/networking/meshservice/) and [HostnameGenerators]({{ docs }}/networking/hostnamegenerator/), you can:
-
-  - Keep your existing DNS names when moving to the service mesh.
-  - Give a service multiple DNS names for easier access.
-  - Set up custom routes, like targeting specific StatefulSet Pods or service versions.
-  - Expose a service on multiple ports for different uses.
-
-- **Simpler security, tracing, and observability**: Transparent proxy makes managing these features easier, with no extra setup required.
-  For more details related to transparent proxy on Universal refer to [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/)
 
 {% tip %}
 {{ Note }}For more details on using the transparent proxy with Universal, see [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/).
