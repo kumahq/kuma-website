@@ -5,7 +5,7 @@ content_type: reference
 
 ## Reachable services
 
-By default, with the transparent proxy enabled, each data plane proxy follows all other proxies in the mesh. In large meshes, a data plane proxy usually connects to only a few services. Defining this list of reachable services can significantly improve {{site.mesh_product_name}}'s performance. {% if_version lte:2.8.x %}Benefits include:
+By default, with the [transparent proxy](/docs/{{ page.release }}/introduction/concepts/#transparent-proxy) enabled, each data plane proxy follows all other proxies in the mesh. In large meshes, a data plane proxy usually connects to only a few services. Defining this list of reachable services can significantly improve {{site.mesh_product_name}}'s performance. {% if_version lte:2.8.x %}Benefits include:
 * Reducing CPU and memory usage on the control plane with smaller XDS configurations
 * Lowering network bandwidth as smaller configurations update less frequently
 * Reducing CPU and memory usage on data planes by managing fewer clusters/listeners
