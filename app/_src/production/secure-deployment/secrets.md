@@ -109,22 +109,12 @@ Consult [Accessing Admin Server from a different machine](/docs/{{ page.release 
 
 ## Scope of the Secret
 
-{{site.mesh_product_name}} provides two types of Secrets, and all of them can be synced from global to zones.
+{{site.mesh_product_name}} provides two types of Secrets.
 
 ### Mesh-scoped Secrets
 
 Mesh-scoped Secrets are bound to a given Mesh.
 Only this kind of Secrets can be used in Mesh Policies like [Provided CA](/docs/{{ page.release }}/policies/mutual-tls#usage-of-provided-ca) or TLS setting in [External Service](/docs/{{ page.release }}/policies/external-services).
-
-{% warning %}
-{% if_version lte:2.9.x %}
-If you create a Mesh-scoped Secret on zone, it would be automatically deleted in multi-zone deployment.
-{% endif_version %}
-{% if_version gte:2.10.x %}
-You can create a Mesh-scoped Secret on zone, and it would not be deleted in multi-zone deployment.
-If there's a name conflict by the Secret which will be created on Global, then the syncing from global to zones would be ignored.
-{% endif_version %}
-{% endwarning %}
 
 {% tabs mesh-scoped useUrlFragment=false %}
 {% tab mesh-scoped Kubernetes %}
@@ -188,6 +178,16 @@ data: dGVzdAo=
 
 {% endtab %}
 {% endtabs %}
+
+## Behaviour in multi-zone deployment
+
+The Secrets can be synced from global to zones, not the other way around.
+{% if_version lte:2.9.x %}
+It's invalid to create Secrets on zone, they would be automatically deleted further.
+{% endif_version %}
+{% if_version gte:2.10.x %}
+You can also create Secrets on zone but if there's a name conflict by the Secret which will be created on Global, then the syncing from global to zones would be ignored.
+{% endif_version %}
 
 ## Usage
 
