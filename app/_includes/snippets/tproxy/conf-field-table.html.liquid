@@ -30,12 +30,6 @@
       <td><code>{{ include.format }}</code></td>
     </tr>
   {% endif %}
-  {% if include.flag %}
-    <tr>
-      <td><strong>CLI Flag</strong></td>
-      <td><code>{{ include.flag }}</code></td>
-    </tr>
-  {% endif %}
   {% if_version gte:2.9.x %}
     {% if include.env %}
       <tr>

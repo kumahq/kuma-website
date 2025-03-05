@@ -185,64 +185,6 @@ dryRun: KUMA_TRANSPARENT_PROXY_DRY_RUN
 verbose: KUMA_TRANSPARENT_PROXY_VERBOSE
 ```
 
-### CLI flags
-
-This structure outlines the settings and their associated CLI flags for modification:
-
-```yaml
-kumaDPUser: --kuma-dp-user
-ipFamilyMode: --ip-family-mode
-redirect:
-  dns:
-    enabled: --redirect-dns
-    port: --redirect-dns-port
-    captureAll: --redirect-all-dns-traffic
-    skipConntrackZoneSplit: --skip-dns-conntrack-zone-split
-    resolvConfigPath: {{ noflag }}
-  inbound:
-    enabled: --redirect-inbound
-    port: --redirect-inbound-port
-    includePorts: {{ noflag }}
-    excludePorts: --exclude-inbound-ports
-    excludePortsForIPs: --exclude-inbound-ips
-    excludePortsForUIDs: {{ noflag }}
-    insertRedirectInsteadOfAppend: --redirect-inbound-insert-instead-of-append
-  outbound:
-    enabled: {{ noflag }}
-    port: --redirect-outbound-port
-    includePorts: {{ noflag }}
-    excludePorts: --exclude-outbound-ports
-    excludePortsForIPs: --exclude-outbound-ips
-    excludePortsForUIDs: --exclude-outbound-ports-for-uids
-    insertRedirectInsteadOfAppend: --redirect-outbound-insert-instead-of-append
-  vnet:
-    networks: --vnet
-ebpf:
-  enabled: --ebpf-enabled
-  instanceIP: --ebpf-instance-ip
-  instanceIPEnvVarName: {{ noflag }}
-  bpffsPath: --ebpf-bpffs-path
-  cgroupPath: --ebpf-cgroup-path
-  programsSourcePath: --ebpf-programs-source-path
-  tcAttachIface: --ebpf-tc-attach-iface
-retry:
-  maxRetries: --max-retries
-  sleepBetweenRetries: --sleep-between-retries
-iptablesExecutables: --iptables-executables
-log:
-  enabled: --iptables-logs
-  level: {{ noflag }}
-comments:
-  disabled: --disable-comments
-wait: --wait
-waitInterval: --wait-interval
-dropInvalidPackets: --drop-invalid-packets
-storeFirewalld: --store-firewalld
-cniMode: {{ noflag }}
-dryRun: --dry-run
-verbose: --verbose
-```
-
 ### Default values
 
 Here is a configuration that only shows the settings with their default values:
@@ -391,13 +333,9 @@ The following annotations differ from others mentioned earlier as they are relat
   {% endcapture %}
   {{ tip | indent }}
   
-  {% include snippets/tproxy/conf-field-table.html.liquid type="string" flag="--kuma-dp-user" env="KUMA_DP_USER" runtime="sidecarContainer.uid" runtimeEnv="SIDECAR_CONTAINER_UID" %}
+  {% include snippets/tproxy/conf-field-table.html.liquid type="string" env="KUMA_DP_USER" runtime="sidecarContainer.uid" runtimeEnv="SIDECAR_CONTAINER_UID" %}
 
   **Examples**
-
-  ```sh
-  kumactl install transparent-proxy --kuma-dp-user bob
-  ```
 
   ```sh
   KUMA_TRANSPARENT_PROXY_KUMA_DP_USER="5679" kumactl install transparent-proxy
@@ -407,7 +345,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
   The IP family mode used for configuring traffic redirection in the transparent proxy
 
-  {% include snippets/tproxy/conf-field-table.html.liquid type="enum" default="dualstack" values="dualstack,ipv4" flag="--ip-family-mode" env="IP_FAMILY_MODE" annotation="kuma.io/transparent-proxying-ip-family-mode" runtime="sidecarContainer.ipFamilyMode" runtimeEnv="SIDECAR_CONTAINER_IP_FAMILY_MODE" %}
+  {% include snippets/tproxy/conf-field-table.html.liquid type="enum" default="dualstack" values="dualstack,ipv4" env="IP_FAMILY_MODE" annotation="kuma.io/transparent-proxying-ip-family-mode" runtime="sidecarContainer.ipFamilyMode" runtimeEnv="SIDECAR_CONTAINER_IP_FAMILY_MODE" %}
 
 - **`redirect`**
 
@@ -417,13 +355,13 @@ The following annotations differ from others mentioned earlier as they are relat
 
       Enables inbound traffic redirection
 
-      {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="true" flag="--redirect-inbound" env="REDIRECT_INBOUND_ENABLED" %}
+      {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="true" env="REDIRECT_INBOUND_ENABLED" %}
 
     - **`port`**
 
       Port used for redirecting inbound traffic
 
-      {% include snippets/tproxy/conf-field-table.html.liquid type="Port" default="15006" flag="--redirect-inbound-port" env="REDIRECT_INBOUND_PORT" runtime="sidecarContainer.redirectPortInbound" runtimeEnv="SIDECAR_CONTAINER_REDIRECT_PORT_INBOUND" %}
+      {% include snippets/tproxy/conf-field-table.html.liquid type="Port" default="15006" env="REDIRECT_INBOUND_PORT" runtime="sidecarContainer.redirectPortInbound" runtimeEnv="SIDECAR_CONTAINER_REDIRECT_PORT_INBOUND" %}
 
     - **`includePorts`**
 
@@ -449,21 +387,13 @@ The following annotations differ from others mentioned earlier as they are relat
       {% endcapture %}
       {{ warning | indent | indent }}
 
-      {% include snippets/tproxy/conf-field-table.html.liquid type="[]Port" flag="--exclude-inbound-ports" env="REDIRECT_INBOUND_EXCLUDE_PORTS" annotation="traffic.kuma.io/exclude-inbound-ports" runtime="sidecarTraffic.excludeInboundPorts" runtimeEnv="SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS" %}
+      {% include snippets/tproxy/conf-field-table.html.liquid type="[]Port" env="REDIRECT_INBOUND_EXCLUDE_PORTS" annotation="traffic.kuma.io/exclude-inbound-ports" runtime="sidecarTraffic.excludeInboundPorts" runtimeEnv="SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS" %}
 
     - **`excludePortsForIPs`**
 
       List of IP addresses to exclude from inbound traffic redirection for specific ports
 
-      {% include snippets/tproxy/conf-field-table.html.liquid type="[]string" flag="--exclude-inbound-ips" env="REDIRECT_INBOUND_EXCLUDE_PORTS_FOR_IPS" annotation="traffic.kuma.io/exclude-inbound-ips" runtime="sidecarTraffic.excludeInboundIPs" runtimeEnv="SIDECAR_TRAFFIC_EXCLUDE_INBOUND_IPS" format="ip[,...]" %}
- 
-      This CLI flag can be repeated. For example:
-    
-      ```sh
-      kumactl install transparent-proxy \
-        --exclude-outbound-ips "10.0.0.1,172.1.0.0/24" \
-        --exclude-outbound-ips "fe80::/10"
-      ```
+      {% include snippets/tproxy/conf-field-table.html.liquid type="[]string" env="REDIRECT_INBOUND_EXCLUDE_PORTS_FOR_IPS" annotation="traffic.kuma.io/exclude-inbound-ips" runtime="sidecarTraffic.excludeInboundIPs" runtimeEnv="SIDECAR_TRAFFIC_EXCLUDE_INBOUND_IPS" format="ip[,...]" %}
 
     - **`excludePortsForUIDs`**
 
@@ -484,7 +414,7 @@ The following annotations differ from others mentioned earlier as they are relat
       {% endcapture %}
       {{ tip | indent | indent }}
 
-      {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--redirect-inbound-insert-instead-of-append" env="REDIRECT_INBOUND_INSERT_REDIRECT_INSTEAD_OF_APPEND" %}
+      {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="REDIRECT_INBOUND_INSERT_REDIRECT_INSTEAD_OF_APPEND" %}
 
   - **`outbound`**
 
@@ -498,7 +428,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
       Port used for redirecting outbound traffic
 
-      {% include snippets/tproxy/conf-field-table.html.liquid type="Port" default="15001" flag="--redirect-outbound-port" env="REDIRECT_OUTBOUND_PORT" runtime="sidecarContainer.redirectPortOutbound" runtimeEnv="SIDECAR_CONTAINER_REDIRECT_PORT_OUTBOUND" %}
+      {% include snippets/tproxy/conf-field-table.html.liquid type="Port" default="15001" env="REDIRECT_OUTBOUND_PORT" runtime="sidecarContainer.redirectPortOutbound" runtimeEnv="SIDECAR_CONTAINER_REDIRECT_PORT_OUTBOUND" %}
 
     - **`includePorts`**
 
@@ -524,54 +454,48 @@ The following annotations differ from others mentioned earlier as they are relat
       {% endcapture %}
       {{ warning | indent | indent }}
 
-      {% include snippets/tproxy/conf-field-table.html.liquid type="[]Port" flag="--exclude-outbound-ports" env="REDIRECT_OUTBOUND_EXCLUDE_PORTS" annotation="traffic.kuma.io/exclude-outbound-ports" runtime="sidecarTraffic.excludeOutboundPorts" runtimeEnv="SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS" %}
+      {% include snippets/tproxy/conf-field-table.html.liquid type="[]Port" env="REDIRECT_OUTBOUND_EXCLUDE_PORTS" annotation="traffic.kuma.io/exclude-outbound-ports" runtime="sidecarTraffic.excludeOutboundPorts" runtimeEnv="SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS" %}
 
     - **`excludePortsForIPs`**
 
       List of IP addresses to exclude from outbound traffic redirection for specific ports.
 
-      {% include snippets/tproxy/conf-field-table.html.liquid type="[]string" flag="--exclude-outbound-ips" env="REDIRECT_OUTBOUND_EXCLUDE_PORTS_FOR_IPS" annotation="traffic.kuma.io/exclude-outbound-ips" format="ip[,...]" runtime="sidecarTraffic.excludeOutboundIPs" runtimeEnv="SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_IPS" %}
+      {% include snippets/tproxy/conf-field-table.html.liquid type="[]string" env="REDIRECT_OUTBOUND_EXCLUDE_PORTS_FOR_IPS" annotation="traffic.kuma.io/exclude-outbound-ips" format="ip[,...]" runtime="sidecarTraffic.excludeOutboundIPs" runtimeEnv="SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_IPS" %}
 
     - **`excludePortsForUIDs`**
 
       List of UIDs to exclude from outbound traffic redirection for specific ports
 
-      {% include snippets/tproxy/conf-field-table.html.liquid type="[]string" flag="--exclude-outbound-ports-for-uids" env="REDIRECT_OUTBOUND_EXCLUDE_PORTS_FOR_UIDS" annotation="traffic.kuma.io/exclude-outbound-ports-for-uids" format="[[protocol:][ports:]uids][;...]" %}
+      {% include snippets/tproxy/conf-field-table.html.liquid type="[]string" env="REDIRECT_OUTBOUND_EXCLUDE_PORTS_FOR_UIDS" annotation="traffic.kuma.io/exclude-outbound-ports-for-uids" format="[[protocol:][ports:]uids][;...]" %}
 
       **Examples**
 
       - Exclude outbound **TCP** and **UDP** traffic to all ports for processes owned by user with **UID** `1000`:
 
         ```sh
-        kumactl install transparent-proxy \
-          --exclude-outbound-ports-for-uids "1000"
+        KUMA_TRANSPARENT_PROXY_REDIRECT_OUTBOUND_EXCLUDE_PORTS_FOR_UIDS="1000" \
+          kumactl install transparent-proxy
         ```
 
       - Exclude outbound **UDP** traffic to all ports for processes owned by user with **UID** `1000`:
 
         ```sh
-        kumactl install transparent-proxy \
-          --exclude-outbound-ports-for-uids "udp:*:1000"
+        KUMA_TRANSPARENT_PROXY_REDIRECT_OUTBOUND_EXCLUDE_PORTS_FOR_UIDS="udp:*:1000" \
+          kumactl install transparent-proxy
         ```
 
-      - Exclude outbound **TCP** traffic to port `22` and ports `80–88` for processes owned by users with **UIDs** in the range `1000–1002`:
+      - Exclude outbound **TCP** traffic to port `22` and ports `80-88` for processes owned by users with **UIDs** in the range `1000-1002`:
 
         ```sh
-        kumactl install transparent-proxy \
-          --exclude-outbound-ports-for-uids "tcp:22,80-88:1000-1002"
+        KUMA_TRANSPARENT_PROXY_REDIRECT_OUTBOUND_EXCLUDE_PORTS_FOR_UIDS="tcp:22,80-88:1000-1002" \
+          kumactl install transparent-proxy
         ```
 
-      - Exclude outbound **TCP** and **UDP** traffic to all ports for processes owned by users with **UIDs** in the range `1000–1100`, and exclude outbound **UDP** traffic to all ports for processes owned by user with **UID** `2000`:
+      - Exclude outbound **TCP** and **UDP** traffic to all ports for processes owned by users with **UIDs** in the range `1000-1100`, and exclude outbound **UDP** traffic to all ports for processes owned by user with **UID** `2000`:
 
         ```sh
-        kumactl install transparent-proxy \
-          --exclude-outbound-ports-for-uids "1000-1100;udp:*:2000"
-        ```
-
-        ```sh
-        kumactl install transparent-proxy \
-          --exclude-outbound-ports-for-uids "1000-1100" \
-          --exclude-outbound-ports-for-uids "udp:*:2000"
+        KUMA_TRANSPARENT_PROXY_REDIRECT_OUTBOUND_EXCLUDE_PORTS_FOR_UIDS="1000-1100;udp:*:2000" \
+          kumactl install transparent-proxy
         ```
 
     - **`insertRedirectInsteadOfAppend`**
@@ -580,7 +504,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
       **Details**: For outbound traffic, by default, the last applied iptables rule in the `OUTPUT` chain of the `nat` table redirects traffic to our custom chain (`KUMA_MESH_OUTBOUND_REDIRECT`), where it is processed for transparent proxying. However, if there is an existing rule in this chain that already redirects traffic to another chain, our default behavior of appending the rule will cause our rule to be added after the existing one, effectively ignoring it. When this flag is specified, it changes the behavior from appending to inserting the rule at the beginning of the chain, ensuring that our iptables rule takes precedence
 
-      {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--redirect-outbound-insert-instead-of-append" env="REDIRECT_OUTBOUND_INSERT_REDIRECT_INSTEAD_OF_APPEND" %}
+      {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="REDIRECT_OUTBOUND_INSERT_REDIRECT_INSTEAD_OF_APPEND" %}
 
 - **`dns`**
 
@@ -601,7 +525,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
     The port where the DNS server managed by {{ Kuma }} is listening
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="Port" default="15053" flag="--redirect-dns-port" env="REDIRECT_DNS_PORT" runtime="builtinDNS.port" runtimeEnv="BUILTIN_DNS_PORT" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="Port" default="15053" env="REDIRECT_DNS_PORT" runtime="builtinDNS.port" runtimeEnv="BUILTIN_DNS_PORT" %}
 
   - **`captureAll`**
 
@@ -609,12 +533,12 @@ The following annotations differ from others mentioned earlier as they are relat
 
     {% capture warning %}
     {%- warning -%}
-    This setting requires `redirect.dns.enabled`, which is disabled by default. However, using the `--redirect-all-dns-traffic` flag automatically enables it. Note that combining `--redirect-all-dns-traffic` with `--redirect-dns` is incorrect and will result in an error. In all other cases, ensure `redirect.dns.enabled` is explicitly enabled via the appropriate environment variable or in the `JSON` / `YAML` configuration.
+    This setting requires `redirect.dns.enabled`, which is disabled by default. Make sure to explicitly enable it using the appropriate environment variable or in the json/yaml configuration.  
     {%- endwarning -%}
     {% endcapture %}
     {{ warning | indent | indent }}
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--redirect-all-dns-traffic" env="REDIRECT_DNS_CAPTURE_ALL" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="REDIRECT_DNS_CAPTURE_ALL" %}
 
   - **`skipConntrackZoneSplit`**
 
@@ -622,7 +546,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
     **Details**: The conntrack zone splitting feature is used to avoid DNS resolution errors when applications make numerous DNS UDP requests. Normally, we separate conntrack zones to ensure proper handling of DNS traffic: Zone 2 handles DNS packets between the application and the local proxy, while Zone 1 manages packets between the proxy and upstream DNS resolvers. Disabling this feature should only be done if necessary, for example, in environments where custom iptables rules are already manipulating DNS traffic (for example, inside Docker containers in custom networks when redirecting all DNS traffic \[`redirect.dns.captureAll` is enabled\])
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--skip-dns-conntrack-zone-split" env="REDIRECT_DNS_SKIP_CONNTRACK_ZONE_SPLIT" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="REDIRECT_DNS_SKIP_CONNTRACK_ZONE_SPLIT" %}
 
   - **`resolvConfigPath`**
 
@@ -649,7 +573,7 @@ The following annotations differ from others mentioned earlier as they are relat
     - `br+:172.18.0.0/16` (matches any interface with name starting with `br`)
     - `iface:::1/64` (for IPv6)
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="[]string" flag="--vnet" env="REDIRECT_VNET_NETWORKS" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="[]string" env="REDIRECT_VNET_NETWORKS" %}
 
 - **`ebpf`**
 
@@ -664,7 +588,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
     Enables eBPF support for handling traffic redirection in the transparent proxy
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--ebpf-enabled" env="EBPF_ENABLED" annotation="kuma.io/transparent-proxying-ebpf" runtime="ebpf.enabled" runtimeEnv="EBPF_ENABLED" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="EBPF_ENABLED" annotation="kuma.io/transparent-proxying-ebpf" runtime="ebpf.enabled" runtimeEnv="EBPF_ENABLED" %}
 
   - **`instanceIP`**
 
@@ -677,7 +601,7 @@ The following annotations differ from others mentioned earlier as they are relat
     {% endcapture %}
     {{ warning | indent | indent }}
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="string" flag="--ebpf-instance-ip" env="EBPF_INSTANCE_IP" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="string" env="EBPF_INSTANCE_IP" %}
 
   - **`instanceIPEnvVarName`**
 
@@ -696,25 +620,25 @@ The following annotations differ from others mentioned earlier as they are relat
 
     The path of the BPF filesystem
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="string" default="/run/kuma/bpf" flag="--ebpf-bpffs-path" env="EBPF_BPFFS_PATH" annotation="kuma.io/transparent-proxying-ebpf-bpf-fs-path" runtime="ebpf.bpffsPath" runtimeEnv="EBPF_BPFFS_PATH" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="string" default="/run/kuma/bpf" env="EBPF_BPFFS_PATH" annotation="kuma.io/transparent-proxying-ebpf-bpf-fs-path" runtime="ebpf.bpffsPath" runtimeEnv="EBPF_BPFFS_PATH" %}
 
   - **`cgroupPath`**
 
     The path of cgroup2
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="string" default="/sys/fs/cgroup" flag="--ebpf-cgroup-path" env="EBPF_CGROUP_PATH" annotation="kuma.io/transparent-proxying-ebpf-cgroup-path" runtime="ebpf.cgroupPath" runtimeEnv="EBPF_CGROUP_PATH" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="string" default="/sys/fs/cgroup" env="EBPF_CGROUP_PATH" annotation="kuma.io/transparent-proxying-ebpf-cgroup-path" runtime="ebpf.cgroupPath" runtimeEnv="EBPF_CGROUP_PATH" %}
 
   - **`programsSourcePath`**
 
     Path where compiled eBPF programs and other necessary files for eBPF mode can be found
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="string" default="/tmp/kuma-ebpf" flag="--ebpf-programs-source-path" env="EBPF_PROGRAMS_SOURCE_PATH" annotation="kuma.io/transparent-proxying-ebpf-programs-source-path" runtime="ebpf.programSourcePath" runtimeEnv="EBPF_PROGRAMS_SOURCE_PATH" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="string" default="/tmp/kuma-ebpf" env="EBPF_PROGRAMS_SOURCE_PATH" annotation="kuma.io/transparent-proxying-ebpf-programs-source-path" runtime="ebpf.programSourcePath" runtimeEnv="EBPF_PROGRAMS_SOURCE_PATH" %}
 
   - **`tcAttachIface`**
 
     The network interface for TC eBPF programs to bind to. If not provided, it will be automatically determined
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="string" flag="--ebpf-tc-attach-iface" env="EBPF_TC_ATTACH_IFACE" annotation="kuma.io/transparent-proxying-ebpf-tc-attach-iface" runtime="ebpf.tcAttachIface" runtimeEnv="EBPF_TC_ATTACH_IFACE" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="string" env="EBPF_TC_ATTACH_IFACE" annotation="kuma.io/transparent-proxying-ebpf-tc-attach-iface" runtime="ebpf.tcAttachIface" runtimeEnv="EBPF_TC_ATTACH_IFACE" %}
 
 - **`retry`**
 
@@ -722,13 +646,13 @@ The following annotations differ from others mentioned earlier as they are relat
 
     The maximum number of retry attempts for operations
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="uint" default="4" flag="--max-retries" env="RETRY_MAX_RETRIES" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="uint" default="4" env="RETRY_MAX_RETRIES" %}
 
   - **`sleepBetweenRetries`**
 
     The time duration to wait between retry attempts
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="Duration" default="2s" flag="--sleep-between-retries" env="RETRY_SLEEP_BETWEEN_RETRIES" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="Duration" default="2s" env="RETRY_SLEEP_BETWEEN_RETRIES" %}
 
 - **`iptablesExecutables`**
 
@@ -755,7 +679,7 @@ The following annotations differ from others mentioned earlier as they are relat
   {% endcapture %}
   {{ tip | indent }}
 
-  {% include snippets/tproxy/conf-field-table.html.liquid type="object" allowedKeys="iptables,iptables-save,iptables-restore,ip6tables,ip6tables-save,ip6tables-restore" flag="--iptables-executables" env="IPTABLES_EXECUTABLES" %}
+  {% include snippets/tproxy/conf-field-table.html.liquid type="object" allowedKeys="iptables,iptables-save,iptables-restore,ip6tables,ip6tables-save,ip6tables-restore" env="IPTABLES_EXECUTABLES" %}
 
 - **`log`**
 
@@ -763,7 +687,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
     Determines whether iptables rules logging is activated. When `true`, each packet matching an iptables rule will have its details logged, aiding in diagnostics and monitoring of packet flows
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--iptables-logs" env="LOG_ENABLED" annotation="traffic.kuma.io/iptables-logs" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="LOG_ENABLED" annotation="traffic.kuma.io/iptables-logs" %}
 
   - **`level`**
 
@@ -795,19 +719,19 @@ The following annotations differ from others mentioned earlier as they are relat
     {% endcapture %}
     {{ warning | indent | indent }}
 
-    {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--disable-comments" env="COMMENTS_DISABLED" %}
+    {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="COMMENTS_DISABLED" %}
 
 - **`wait`**
 
   Time in seconds to wait for acquiring the xtables lock before failing. Value `0` means wait indefinitely
 
-  {% include snippets/tproxy/conf-field-table.html.liquid type="uint" default="5" flag="--wait" env="WAIT" %}
+  {% include snippets/tproxy/conf-field-table.html.liquid type="uint" default="5" env="WAIT" %}
 
 - **`waitInterval`**
 
   Time interval between retries to acquire the xtables lock in seconds
 
-  {% include snippets/tproxy/conf-field-table.html.liquid type="uint" default="0" flag="--wait-interval" env="WAIT_INTERVAL" %}
+  {% include snippets/tproxy/conf-field-table.html.liquid type="uint" default="0" env="WAIT_INTERVAL" %}
 
 - **`dropInvalidPackets`**
 
@@ -822,13 +746,13 @@ The following annotations differ from others mentioned earlier as they are relat
   {% endcapture %}
   {{ warning | indent }}
 
-  {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--drop-invalid-packets" env="DROP_INVALID_PACKETS" annotation="traffic.kuma.io/drop-invalid-packets" %}
+  {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="DROP_INVALID_PACKETS" annotation="traffic.kuma.io/drop-invalid-packets" %}
 
 - **`storeFirewalld`**
 
   Enables firewalld support to store iptables rules
 
-  {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--store-firewalld" env="STORE_FIREWALLD" %}
+  {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="STORE_FIREWALLD" %}
 
 - **`cniMode`**
 
@@ -838,10 +762,10 @@ The following annotations differ from others mentioned earlier as they are relat
 
   Enables dry-run mode
 
-  {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--dry-run" env="DRY_RUN" %}
+  {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="DRY_RUN" %}
 
 - **`verbose`**
 
   Enables verbose mode with longer argument/flag names and additional comments
 
-  {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" flag="--verbose" env="VERBOSE" %}
+  {% include snippets/tproxy/conf-field-table.html.liquid type="bool" default="false" env="VERBOSE" %}
