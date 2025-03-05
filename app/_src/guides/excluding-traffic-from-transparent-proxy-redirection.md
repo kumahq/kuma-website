@@ -14,16 +14,6 @@ This guide will show you how to exclude specific types of traffic from being red
 
 Use this guide to control which traffic the transparent proxy intercepts and which it allows through directly.
 
-## Key information
-
-- This guide shows how to set up the transparent proxy to exclude certain types of traffic from redirection for selected workloads. We’ll cover some methods for both Kubernetes and Universal modes, but **not all possible scenarios are explained in detail**. For more information on options briefly mentioned here, check out:
-
-  - [Transparent Proxy Configuration on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration)
-  - [Transparent Proxy Configuration on Universal]({{ docs }}/networking/transparent-proxy/universal/#configuration)
-  - [Transparent Proxy Configuration Reference]({{ docs }}/networking/transparent-proxy/configuration-reference/)
-
-- Right now, the recommended way to adjust transparent proxy settings (and the one mostly shown in this guide) is with [Kubernetes Annotations]({{ docs }}/networking/transparent-proxy/kubernetes/#annotations), since the [Configuration in ConfigMap]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration-in-configmap-experimental) option is still experimental. Once it’s stable, it will become the suggested method.
-
 ## Terminology overview
 
 - **Workload**: In this guide, **workload** refers to an application running in a Kubernetes cluster, usually represented by a [**Pod**](https://kubernetes.io/docs/concepts/workloads/pods/). Kubernetes resources like [**Deployment**](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/), [**ReplicaSet**](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/), and [**StatefulSet**](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) are used to define and manage these workloads, resulting in one or more **Pods** where the application actually runs.
@@ -34,12 +24,12 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 
 ## Prerequisites
 
-1. **Understand transparent proxy basics**: You should already be familiar with what a transparent proxy is, how to install it, and how to adjust its settings. This guide won’t cover those basics. The following resources can help:
+1. **Familiarity with transparent proxy** – You should already understand what a transparent proxy is, how to install it, and how to configure its settings. Use the following resources if needed:
 
-   - For options to customize transparent proxy settings, check the resources listed in the [Key Information](#key-information) section.
-   - For an in-depth look at how the transparent proxy works in {{ Kuma }} and its mechanisms, see the [Technical Overview]({{ docs }}/networking/transparent-proxy/technical-overview/) page from its documentation.
-   - To install the transparent proxy on Universal, refer to [Deploy Kuma on Docker quick start guide]({{ docs }}/quickstart/docker-demo/).
-   - For upgrade steps, see [Upgrading Transparent Proxy on Universal]({{ docs }}/guides/upgrading-transparent-proxy).
+   - **Installation on Universal:** Follow the [Deploy Kuma on Docker quick start guide]({{ docs }}/quickstart/docker-demo/) for setup instructions.
+   - **Customizing settings:** See [Configuration on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration), [Configuration on Universal]({{ docs }}/networking/transparent-proxy/universal/#configuration), and the [Configuration Reference]({{ docs }}/networking/transparent-proxy/configuration-reference/).
+   - **How it works:** For a deep dive into {{ Kuma }}'s transparent proxy mechanisms, see the [Technical Overview]({{ docs }}/networking/transparent-proxy/technical-overview/).
+   - **Upgrades:** See the [Upgrading Transparent Proxy guide]({{ docs }}/guides/upgrading-transparent-proxy/) for upgrade steps.
 
 2. **Set up {{ Kuma }}**: Ensure {{ Kuma }} is installed and running.
 
