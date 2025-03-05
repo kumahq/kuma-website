@@ -27,11 +27,17 @@ depending on where the request is coming from and where it's going to.
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `MeshService`                                            |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind` | `MeshService`                                            |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds       |
+| --------------------- | ------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane` |
+| `to[].targetRef.kind` | `MeshService`       |
 {% endif_version %}
 {% endtab %}
 
@@ -80,6 +86,7 @@ so the policy structure looks like the following:
 
 [//]: # (TODO: https://github.com/kumahq/kuma-website/issues/2020)
 
+{% if_version lte:2.8.x %}
 ```yaml
 spec:
   targetRef: # top-level targetRef selects a group of proxies to configure
@@ -92,6 +99,37 @@ spec:
         - default: # configuration applied for the matched TCP traffic
             backendRefs: [...]
 ```
+{% endif_version %}
+
+{% if_version eq:2.9.x %}
+```yaml
+spec:
+  targetRef: # top-level targetRef selects a group of proxies to configure
+    kind: Mesh|MeshSubset 
+  to:
+    - targetRef: # targetRef selects a destination (outbound listener)
+        kind: MeshService
+        name: backend
+      rules:
+        - default: # configuration applied for the matched TCP traffic
+            backendRefs: [...]
+```
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+```yaml
+spec:
+  targetRef: # top-level targetRef selects a group of proxies to configure
+    kind: Mesh|Dataplane 
+  to:
+    - targetRef: # targetRef selects a destination (outbound listener)
+        kind: MeshService
+        name: backend
+      rules:
+        - default: # configuration applied for the matched TCP traffic
+            backendRefs: [...]
+```
+{% endif_version %}
 
 ### Default configuration
 
@@ -177,6 +215,7 @@ If we want to split traffic between `v1` and `v2` versions of the same service,
 first we have to create MeshServices `backend-v1` and `backend-v2` that select
 backend application instances according to the version.
 
+{% if_version eq:2.9.x %}
 {% policy_yaml traffic-split-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshTCPRoute
@@ -211,6 +250,45 @@ spec:
                 weight: 10
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml traffic-split-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshTCPRoute
+name: tcp-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001
+                _version: v0
+                weight: 90
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001
+                _version: v1
+                weight: 10
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
 {% endif_version %}
 
 ### Traffic redirection
@@ -250,7 +328,8 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml modifications-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshTCPRoute
@@ -260,6 +339,36 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: external-backend
+                namespace: kuma-demo
+                port: 8080
+                _port: 8080
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml modifications-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshTCPRoute
+name: tcp-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: frontend
   to:
     - targetRef:
@@ -329,7 +438,8 @@ to:
               name: other-http-backend_kuma-demo_svc_8080
 ```
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml collision-tcp-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
@@ -366,6 +476,67 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - matches:
+          path:
+              type: PathPrefix
+              value: "/"
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: other-http-backend
+                namespace: kuma-demo
+                port: 8080
+                _port: 8080
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml collision-tcp-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: simple-http
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - default:
+            backendRefs:
+              - kind: MeshService
+                name: other-tcp-backend
+                namespace: kuma-demo
+                port: 8080
+                _port: 8080
+```
+{% endpolicy_yaml %}
+{% policy_yaml collision-http-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: simple-http
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: frontend
   to:
     - targetRef:

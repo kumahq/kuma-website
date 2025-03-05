@@ -21,11 +21,17 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.release }
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds         |
+| --------------------- | --------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`   |
+| `to[].targetRef.kind` | `Mesh`, `MeshService` |
 {% endif_version %}
 {% endtab %}
 
@@ -255,7 +261,8 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml ring-hash-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
@@ -265,6 +272,36 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 8080
+        sectionName: http
+      default:
+        loadBalancer:
+          type: RingHash
+          ringHash:
+            hashPolicies:
+              - type: Header
+                header:
+                  name: x-header
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml ring-hash-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshLoadBalancingStrategy
+name: ring-hash
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: frontend
   to:
     - targetRef:
@@ -310,6 +347,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
+
 {% if_version gte:2.9.x %}
 {% policy_yaml disable-la-to-backend-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml

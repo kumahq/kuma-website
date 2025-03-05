@@ -21,11 +21,17 @@ depending on where the request is coming from and where it's going to.
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `MeshService`                                            |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind` | `MeshService`                                            |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds       |
+| --------------------- | ------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane` |
+| `to[].targetRef.kind` | `MeshService`       |
 {% endif_version %}
 {% endtab %}
 
@@ -274,6 +280,7 @@ If we want to split traffic between `v1` and `v2` versions of the same service,
 first we have to create MeshServices `backend-v1` and `backend-v2` that select 
 backend application instances according to the version.
 
+{% if_version eq:2.9.x %}
 {% policy_yaml traffic-split namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
@@ -312,6 +319,48 @@ spec:
                 weight: 10
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml traffic-split-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: http-split
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001
+                _version: v1
+                weight: 90
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001
+                _version: v2
+                weight: 10
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 {% endif_version %}
 
@@ -357,7 +406,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 {% policy_yaml traffic-modification-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
@@ -367,6 +416,40 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
+      rules:
+        - matches:
+            - path:
+                type: Exact
+                value: /
+          default:
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  set:
+                    - name: x-custom-header
+                      value: xyz
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml traffic-modification-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: http-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: frontend
   to:
     - targetRef:
@@ -442,7 +525,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 {% policy_yaml traffic-mirror-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
@@ -452,6 +535,50 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http 
+        _port: 3001
+      rules:
+        - matches:
+            - headers:
+                - type: Exact
+                  name: mirror-this-request
+                  value: "true"
+          default:
+            filters:
+              - type: RequestMirror
+                requestMirror:
+                  percentage: 30
+                  backendRef:
+                    kind: MeshService
+                    name: backend
+                    namespace: kuma-demo
+                    port: 3001
+                    _version: v1-experimental
+            backendRefs:
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml traffic-mirror-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: http-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: frontend
   to:
     - targetRef:

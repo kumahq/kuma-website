@@ -22,11 +22,17 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
 {% endif_version %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`             |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds                                |
+| --------------------- | -------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`                          |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService` |
 {% endif_version %}
 {% if_version lte:2.5.x %}
 | `targetRef.kind`    | top level | to  | from |
@@ -245,7 +251,8 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml meshretry-http-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
@@ -274,6 +281,37 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml meshretry-http-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshRetry
+name: frontend-to-backend-retry-http
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
+      default:
+        http:
+          numRetries: 10
+          backOff:
+            baseInterval: 15s
+            maxInterval: 20m
+          retryOn:
+            - "5xx"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
 
 ### gRPC frontend to backend on DeadlineExceeded
 
@@ -304,7 +342,8 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml meshretry-grpc-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
@@ -313,6 +352,36 @@ mesh: default
 spec:
   targetRef:
     kind: MeshSubset
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
+      default:
+        grpc:
+          numRetries: 5
+          backOff:
+            baseInterval: 5s
+            maxInterval: 1m
+          retryOn:
+            - "DeadlineExceeded"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml meshretry-grpc-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshRetry
+name: frontend-to-backend-retry-grpc
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
     tags:
       app: frontend
   to:
@@ -358,7 +427,8 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml meshretry-tcp-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
@@ -368,6 +438,31 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
+      default:
+        tcp:
+          maxConnectAttempt: 5
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml meshretry-tcp-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshRetry
+name: frontend-to-backend-retry-tcp
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: frontend
   to:
     - targetRef:

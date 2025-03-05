@@ -41,10 +41,15 @@ For HTTP you can also manually forward the following headers:
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds       |
+| --------------------- | ------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane` |
 {% endif_version %}
 {% endtab %}
 
@@ -677,6 +682,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.3.x %}
+{% if_version lte:2.9.x %}
 West only policy:
 
 {% policy_yaml west-only-23x %}
@@ -708,6 +714,48 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      kuma.io/zone: east
+  default:
+    backends:
+      - zipkin:
+          url: http://east.zipkincollector:9411/api/v2/spans
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+West only policy:
+
+{% policy_yaml west-only-210x %}
+```yaml
+type: MeshTrace
+name: trace-west
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      kuma.io/zone: west
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://west.zipkincollector:9411/api/v2/spans
+```
+{% endpolicy_yaml %}
+
+East only policy:
+
+{% policy_yaml east-only-210x %}
+```yaml
+type: MeshTrace
+name: trace-east
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       kuma.io/zone: east
   default:
     backends:

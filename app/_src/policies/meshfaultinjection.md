@@ -20,11 +20,17 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`             | Allowed kinds                             |
+| ----------------------- | ----------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`                       |
+| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset` |
 {% endif_version %}
 {% endtab %}
 
@@ -167,6 +173,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
+
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 {% policy_yaml meshfaultinjection-backend-to-frontend-simple-26x %}
@@ -194,7 +201,8 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml meshfaultinjection-backend-to-frontend-simple-29x namespace=kuma-demo %}
 ```yaml
 type: MeshFaultInjection
@@ -205,6 +213,31 @@ spec:
     kind: MeshSubset
     proxyTypes: ["Sidecar"]
     tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags:
+          kuma.io/service: frontend
+      default:
+        http:
+          - abort:
+              httpStatus: 500
+              percentage: 50
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml meshfaultinjection-backend-to-frontend-simple-210x namespace=kuma-demo %}
+```yaml
+type: MeshFaultInjection
+mesh: default
+name: default-fault-injection
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: backend
   from:
     - targetRef:
@@ -271,7 +304,8 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml meshfaultinjection-from-all-29x namespace=kuma-demo useUrlFragment %}
 ```yaml
 type: MeshFaultInjection
@@ -282,6 +316,30 @@ spec:
     kind: MeshSubset
     proxyTypes: ["Sidecar"]
     tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: Mesh
+        name: default
+      default:
+        http:
+          - delay:
+              percentage: "50.5"
+              value: 5s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml meshfaultinjection-from-all-210x namespace=kuma-demo useUrlFragment %}
+```yaml
+type: MeshFaultInjection
+mesh: default
+name: default-fault-injection
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: backend
   from:
     - targetRef:
@@ -361,7 +419,8 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml meshfaultinjection-list-of-faults-29x namespace=kuma-demo useUrlFragment %}
 ```yaml
 type: MeshFaultInjection
@@ -372,6 +431,37 @@ spec:
     kind: MeshSubset
     proxyTypes: ["Sidecar"]
     tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags:
+          kuma.io/service: frontend
+      default:
+        http:
+          - abort:
+              httpStatus: 500
+              percentage: "2.5"
+          - abort:
+              httpStatus: 500
+              percentage: 10
+          - delay:
+              value: 5s
+              percentage: 5
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml meshfaultinjection-list-of-faults-210x namespace=kuma-demo useUrlFragment %}
+```yaml
+type: MeshFaultInjection
+mesh: default
+name: default-fault-injection
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: backend
   from:
     - targetRef:

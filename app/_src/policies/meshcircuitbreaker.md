@@ -48,12 +48,19 @@ target proxies are healthy or not.
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
 | `from[].targetRef.kind` | `Mesh`                                                   |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
 | `from[].targetRef.kind` | `Mesh`                                                   |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`             | Allowed kinds         |
+| ----------------------- | --------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`   |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService` |
+| `from[].targetRef.kind` | `Mesh`                |
 {% endif_version %}
 {% endtab %}
 
@@ -130,6 +137,11 @@ For **gRPC** requests, the outlier detection will use the HTTP status mapped fro
   account: `detectors.localOriginFailures.consecutive`.
 - **`detectors`** - Contains configuration for supported outlier detectors. At least one detector needs to be configured
   when policy is configured for outlier detection.
+{% if_version gte:2.10.x %}
+- **`healthyPanicThreshold`** - (optional) Allows to configure panic threshold for Envoy cluster. If not specified,
+  the default is 50%. To disable panic mode, set to 0%.
+{% endif_version %}
+
 
 #### Detectors configuration
 
@@ -500,7 +512,8 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml usage-29x namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshCircuitBreaker
@@ -510,6 +523,34 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: web
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
+      default:
+        connectionLimits:
+          maxConnections: 2
+          maxPendingRequests: 8
+          maxRetries: 2
+          maxRequests: 2
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml usage-210x namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshCircuitBreaker
+name: web-to-backend-circuit-breaker
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: web
   to:
     - targetRef:
@@ -568,7 +609,8 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 {% policy_yaml protocol-29x namespace=kuma-demo %}
 ```yaml
 type: MeshCircuitBreaker
@@ -578,6 +620,46 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: web
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        outlierDetection:
+          interval: 5s
+          baseEjectionTime: 30s
+          maxEjectionPercent: 20
+          splitExternalAndLocalErrors: true
+          detectors:
+          detectors:
+            totalFailures:
+              consecutive: 10
+            gatewayFailures:
+              consecutive: 10
+            localOriginFailures:
+              consecutive: 10
+            successRate:
+              minimumHosts: 5
+              requestVolume: 10
+              standardDeviationFactor: 1.9
+            failurePercentage:
+              requestVolume: 10
+              minimumHosts: 5
+              threshold: 85
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml protocol-210x namespace=kuma-demo %}
+```yaml
+type: MeshCircuitBreaker
+name: backend-inbound-outlier-detection
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: web
   from:
     - targetRef:

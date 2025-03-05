@@ -156,7 +156,8 @@ spec:
         maxRequests: 2" | kubectl --context=mesh-global apply -f -
 ```
 {% endif_version %}
-{% if_version gte:2.9.x %}
+
+{% if_version eq:2.9.x %}
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshCircuitBreaker
@@ -169,6 +170,33 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: demo-app
+  to:
+  - targetRef:
+      kind: MeshService
+      name: redis
+    default:
+      connectionLimits:
+        maxConnections: 2
+        maxPendingRequests: 8
+        maxRetries: 2
+        maxRequests: 2" | kubectl --context=mesh-global apply -f -
+```
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+```sh
+echo "apiVersion: kuma.io/v1alpha1
+kind: MeshCircuitBreaker
+metadata:
+  name: demo-app-to-redis
+  namespace: kuma-demo
+  labels:
+    kuma.io/mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: demo-app
   to:
   - targetRef:
