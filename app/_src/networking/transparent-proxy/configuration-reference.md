@@ -533,7 +533,7 @@ The following annotations differ from others mentioned earlier as they are relat
 
     {% capture warning %}
     {%- warning -%}
-    This setting requires `redirect.dns.enabled`, which is disabled by default. Make sure to explicitly enable it using the appropriate environment variable or in the json/yaml configuration.  
+    This setting requires `redirect.dns.enabled`, which is disabled by default. Make sure to explicitly enable it using the appropriate environment variable or in the `json` / `yaml` configuration.  
     {%- endwarning -%}
     {% endcapture %}
     {{ warning | indent | indent }}

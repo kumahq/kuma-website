@@ -24,7 +24,7 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 
 ## Prerequisites
 
-1. **Familiarity with transparent proxy** – You should already understand what a transparent proxy is, how to install it, and how to configure its settings. Use the following resources if needed:
+1. **Familiarity with transparent proxy:** You should already understand what a transparent proxy is, how to install it, and how to configure its settings. Use the following resources if needed:
 
    - **Installation on Universal:** Follow the [Deploy Kuma on Docker quick start guide]({{ docs }}/quickstart/docker-demo/) for setup instructions.
    - **Customizing settings:** See [Configuration on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/#configuration), [Configuration on Universal]({{ docs }}/networking/transparent-proxy/universal/#configuration), and the [Configuration Reference]({{ docs }}/networking/transparent-proxy/configuration-reference/).

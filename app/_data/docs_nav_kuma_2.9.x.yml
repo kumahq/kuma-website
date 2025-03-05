@@ -315,8 +315,6 @@ items:
                     url: /networking/transparent-proxy/configuration-reference/#schema
                   - text: Environment Variables
                     url: /networking/transparent-proxy/configuration-reference/#environment-variables
-                  - text: CLI Flags
-                    url: /networking/transparent-proxy/configuration-reference/#cli-flags
                   - text: Default Values
                     url: /networking/transparent-proxy/configuration-reference/#default-values
                   - text: Control Plane Runtime Configuration
