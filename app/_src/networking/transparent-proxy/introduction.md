@@ -19,14 +19,18 @@ When enabled, all inbound and outbound traffic is transparently routed through t
 
 ## Kubernetes
 
-In [Kubernetes mode]({{ docs }}/introduction/architecture/#kubernetes-mode), the transparent proxy is automatically set up through the `kuma-init` container or [{{ Kuma }} CNI]({{ docs }}/networking/transparent-proxy/cni/). By default, it intercepts all incoming and outgoing traffic and routes it through the `kuma-dp` sidecar container, so no changes to the application code are needed.
+In [Kubernetes mode]({{ docs }}/introduction/architecture/#kubernetes-mode), the transparent proxy is automatically set up and required. By default, it intercepts all incoming and outgoing traffic and routes it through the `kuma-dp` sidecar container.
 
-{{ Kuma }} works smoothly with [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) and provides its own [{{ Kuma }} DNS]({{ docs }}/networking/transparent-proxy/dns/), which is especially helpful in multi-zone setups for cross-zone service discovery.
+Workload configuration depends on whether [{{ Kuma }} CNI]({{ docs }}/networking/transparent-proxy/cni/) is used:
 
-In this mode, {{ Kuma }} requires the transparent proxy to be enabled, so it **cannot be turned off**.
+- **By default, (without {{ Kuma }} CNI)**, the `kuma-init` init container is injected alongside the [data plane proxy]({{ docs }}/production/dp-config/dpp-on-kubernetes/) as part of the same process. It is responsible for setting up the transparent proxy.
 
-{% tip %}
-{{ Note }}For more details on using the transparent proxy with Kubernetes, see [Transparent Proxy on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/).
+- **If {{ Kuma }} CNI is enabled**, the transparent proxy is installed during the [CNI ADD](https://www.cni.dev/docs/spec/#add-add-container-to-network-or-apply-modifications) operation, removing the need for `kuma-init`.
+
+{{ Kuma }} integrates with [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) and provides its own [{{ Kuma }} DNS]({{ docs }}/networking/transparent-proxy/dns/), which is especially useful for cross-zone service discovery in multi-zone setups.
+
+{% tip %}  
+{{ Note }}For more details on using the transparent proxy with Kubernetes, see [Transparent Proxy on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/).  
 {% endtip %}
 
 ## Universal
