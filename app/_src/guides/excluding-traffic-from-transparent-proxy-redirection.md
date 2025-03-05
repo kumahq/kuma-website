@@ -80,15 +80,13 @@ metadata:
 ...
 ```
 
-You can add these annotations manually in your Kubernetes manifests or by using this command:
+You can add these annotations manually in your Kubernetes manifests or by using below command:
 
 ```sh
 kubectl annotate pods example-app \
   "traffic.kuma.io/exclude-inbound-ports=1234" \
   "traffic.kuma.io/exclude-outbound-ports=5678,8900"
 ```
-
-{% include snippets/tproxy/guide-excluding-traffic-other-options-k8s.html.liquid data=tproxy.data.guides.exclude-traffic.excludePorts %}
 {% endtab %}
 
 {% tab excluding-incoming-traffic-to-specific-ports Universal %}
@@ -102,17 +100,6 @@ redirect:
   outbound:
     excludePorts: [5678, 8900]
 " | kumactl install transparent-proxy --config-file -
-```
-
-### Other configuration options
-{:.no-anchor#excluding-incoming-traffic-to-specific-ports-universal-other-options}
-
-[**Environment Variables**]({{ docs }}/networking/transparent-proxy/universal/#environment-variables)
-
-```sh
-KUMA_TRANSPARENT_PROXY_REDIRECT_INBOUND_EXCLUDE_PORTS="1234" \
-KUMA_TRANSPARENT_PROXY_REDIRECT_OUTBOUND_EXCLUDE_PORTS="5678,8900" \
-kumactl install transparent-proxy
 ```
 {% endtab %}
 {% endtabs %}
@@ -136,15 +123,13 @@ metadata:
 ...
 ```
 
-You can add these annotations manually in your Kubernetes manifests or by using this command:
+You can add these annotations manually in your Kubernetes manifests or by using below command:
 
 ```sh
 kubectl annotate pods example-app \
   "traffic.kuma.io/exclude-inbound-ips=10.0.0.0/8" \
   "traffic.kuma.io/exclude-outbound-ips=192.168.10.1,fd10::/16"
 ```
-
-{% include snippets/tproxy/guide-excluding-traffic-other-options-k8s.html.liquid data=tproxy.data.guides.exclude-traffic.excludeIPs %}
 {% endtab %}
 {% tab exclude-traffic-to-and-from-specific-ip-addresses Universal %}
 To exclude these addresses in Universal mode, configure the transparent proxy with `redirect.inbound.excludePortsForIPs` and `redirect.outbound.excludePortsForIPs` settings. Here’s an example:
@@ -157,17 +142,6 @@ redirect:
   outbound:
     excludePortsForIPs: [192.168.10.1, fd10::/16]
 " | kumactl install transparent-proxy --config-file -
-```
-
-### Other configuration options
-{:.no-anchor#exclude-traffic-to-and-from-specific-ip-addresses-universal-other-options}
-
-[**Environment Variables**]({{ docs }}/networking/transparent-proxy/universal/#environment-variables)
-
-```sh
-KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_INBOUND_PORTS="10.0.0.0/8" \
-KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS="192.168.10.1,fd10::/16" \
-kumactl install transparent-proxy
 ```
 {% endtab %}
 {% endtabs %}
