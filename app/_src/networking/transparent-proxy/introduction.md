@@ -1,5 +1,5 @@
 ---
-title: Transparent Proxy Introduction
+title: Transparent Proxy
 content_type: explanation
 ---
 
@@ -30,7 +30,7 @@ Workload configuration depends on whether [{{ Kuma }} CNI]({{ docs }}/networking
 {{ Kuma }} integrates with [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) and provides its own [{{ Kuma }} DNS]({{ docs }}/networking/transparent-proxy/dns/), which is especially useful for cross-zone service discovery in multi-zone setups.
 
 {% tip %}  
-{{ Note }}For more details on using the transparent proxy with Kubernetes, see [Transparent Proxy on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/).  
+{{ Note }}For more details on using the transparent proxy with Kubernetes, see [Configure Transparent Proxy on Kubernetes]({{ docs }}/networking/transparent-proxy/kubernetes/).  
 {% endtip %}
 
 ## Universal
@@ -44,6 +44,21 @@ Using the transparent proxy in Universal mode makes setup easier and enables fea
 {% tip %}
 {{ Note }}For more details on using the transparent proxy with Universal, see [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/).
 {% endtip %}
+
+### firewalld support
+
+The changes made by running `kumactl install transparent-proxy` **will not persist** after a reboot. To ensure persistence, you can either add this command to your system's start-up scripts or leverage `firewalld` for managing `iptables`.
+
+If you prefer using `firewalld`, you can include the `--store-firewalld` flag when installing the transparent proxy. This will store the `iptables` rules in `/etc/firewalld/direct.xml`, ensuring they persist across system reboots. Here's an example:
+
+```sh
+kumactl install transparent-proxy --redirect-dns --store-firewalld
+```
+
+{% warning %}
+**Important:** Currently, there is no uninstall command for this feature. If needed, you will have to manually clean up the `firewalld` configuration.
+{% endwarning %}
+
 
 ## Transparent proxy with eBPF (experimental)
 

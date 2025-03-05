@@ -265,8 +265,6 @@ items:
               - text: Kubernetes
                 url: /networking/transparent-proxy/kubernetes/
                 items:
-                  - text: Configuration
-                    url: /networking/transparent-proxy/kubernetes/#configuration
                   - text: Control Plane Runtime Configuration
                     url: /networking/transparent-proxy/kubernetes/#control-plane-runtime-configuration
                   - text: Configuration in ConfigMap
@@ -275,11 +273,6 @@ items:
                     url: /networking/transparent-proxy/kubernetes/#annotations
               - text: Universal
                 url: /networking/transparent-proxy/universal/
-                items:
-                  - text: Configuration
-                    url: /networking/transparent-proxy/universal/#configuration
-                  - text: firewalld support
-                    url: /networking/transparent-proxy/universal/#firewalld-support
               - text: CNI
                 url: /networking/transparent-proxy/cni/
               - text: DNS
