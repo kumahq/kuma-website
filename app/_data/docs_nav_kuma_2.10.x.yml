@@ -299,7 +299,7 @@ items:
                 url: /networking/transparent-proxy/reachable-backends/
               - text: Technical Overview
                 url: /networking/transparent-proxy/technical-overview/
-              - text: Configuration Reference
+              - text: Reference
                 url: /networking/transparent-proxy/configuration-reference/
                 items:
                   - text: Schema
