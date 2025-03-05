@@ -45,7 +45,7 @@ Using the transparent proxy in Universal mode makes setup easier and enables fea
 {{ Note }}For more details on using the transparent proxy with Universal, see [Transparent Proxy on Universal]({{ docs }}/networking/transparent-proxy/universal/).
 {% endtip %}
 
-### Transparent proxy with eBPF (experimental)
+## Transparent proxy with eBPF (experimental)
 
 Starting from {{ Kuma }} 2.0 you can set up transparent proxy to use eBPF instead of iptables.
 
