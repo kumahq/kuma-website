@@ -52,13 +52,17 @@ The changes made by running `kumactl install transparent-proxy` **will not persi
 If you prefer using `firewalld`, you can include the `--store-firewalld` flag when installing the transparent proxy. This will store the `iptables` rules in `/etc/firewalld/direct.xml`, ensuring they persist across system reboots. Here's an example:
 
 ```sh
-kumactl install transparent-proxy --redirect-dns --store-firewalld
+echo "
+redirect:
+  dns:
+    enabled: true
+storeFirewalld: true
+" | kumactl install transparent-proxy --config-file -
 ```
 
 {% warning %}
 **Important:** Currently, there is no uninstall command for this feature. If needed, you will have to manually clean up the `firewalld` configuration.
 {% endwarning %}
-
 
 ## Transparent proxy with eBPF (experimental)
 
