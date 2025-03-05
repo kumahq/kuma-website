@@ -134,7 +134,7 @@ metadata:
 
 3. **If no annotation or previous steps failed**: Look for the ConfigMap with the default name in the workload's namespace.
 
-4. **If still not found**: Search the `{{ kuma-system }}` namespace for the ConfigMap with the default name.
+4. **If still not found**: {% if_version lte:2.9.x %}Search the `{{ kuma-system }}` namespace for the ConfigMap with the default name{% endif_version %}{% if_version gte:2.10.x %}Return an error indicating that the specified ConfigMap cannot be found{% endif_version %}.
 
 {% if_version lte:2.9.x %}
 {% warning %}
