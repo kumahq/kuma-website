@@ -71,16 +71,16 @@ For instructions on modifying the control plane configuration, see the [Modifyin
 ### Configuration in ConfigMap (experimental)
 
 {% warning %}
-{{ Important }}Because this feature impacts multiple underlying components, it is considered experimental. Use it with caution. {% if site.mesh_product_name == "Kuma" %} If you encounter any unexpected behavior or issues, please [**contact us**](/community) and [**submit an issue on GitHub**](https://github.com/kumahq/kuma/issues/new/choose). Your feedback is essential in helping us improve this feature. {% endif %}
+{{ Important }}This feature affects multiple underlying components and is considered experimental. Use it with caution.{% if site.mesh_product_name == "Kuma" %} If you encounter any unexpected behavior or issues, please [**contact us**](/community) and [**submit an issue on GitHub**](https://github.com/kumahq/kuma/issues/new/choose). Your feedback helps improve this feature.{% endif %}
 {% endwarning %}
 
-Until {{ Kuma }} 2.9, transparent proxy settings could only be modified through the [control plane runtime configuration](#control-plane-runtime-configuration) and [annotations](#annotations), which had several limitations:
+Starting in {{ Kuma }} 2.9, transparent proxy settings can be managed using dedicated **ConfigMaps**, providing a more flexible and scalable way to configure proxies. This method offers several advantages:
 
-- Not all settings were available through both methods; some could only be adjusted with annotations, while others were limited to the runtime configuration.
-- Control plane runtime settings were applied globally to all workloads with injected data planes, making it hard to customize settings for specific groups of workloads.
-- Annotation-based settings had to be added to each workload individually, making it difficult to manage the same configuration across multiple workloads.
+- **More control over settings** - All relevant transparent proxy settings can be configured in one place, reducing inconsistencies.
+- **Scoped configuration** - ConfigMaps can be applied at the namespace or workload level, making it easier to customize settings for different groups of workloads.
+- **Simplified management** - Instead of setting annotations on individual workloads or applying global control plane configurations, ConfigMaps provide a structured approach that improves maintainability.
 
-To address these issues, {{ Kuma }} now supports storing transparent proxy settings in dedicated ConfigMaps. These ConfigMaps can be applied at the namespace or individual workload level, offering greater flexibility and easier configuration.
+This new approach makes managing transparent proxy settings more efficient while reducing complexity.
 
 To enable this feature, set `{{ transparentProxy }}.configMap.enabled` during installation:
 
@@ -126,20 +126,36 @@ metadata:
 
 #### ConfigMap lookup order
 
-{{ Kuma }} looks for the ConfigMap as follows:
+{{ Kuma }} searches for the ConfigMap in the following order:
 
-1. **If annotation is set**: Search the workload's namespace for the ConfigMap specified by `traffic.kuma.io/transparent-proxy-configmap-name`.
+**Default behavior:**
 
-2. **If annotation is set but ConfigMap not found**: Search the `{{ kuma-system }}` namespace for the same ConfigMap.
+1. Look for a ConfigMap with the default name in the workload's namespace.
 
-3. **If no annotation or previous steps failed**: Look for the ConfigMap with the default name in the workload's namespace.
+2. **If not found:** Check the `{{ kuma-system }}` namespace for the default ConfigMap.
 
-4. **If still not found**: {% if_version lte:2.9.x %}Search the `{{ kuma-system }}` namespace for the ConfigMap with the default name{% endif_version %}{% if_version gte:2.10.x %}Return an error indicating that the specified ConfigMap cannot be found{% endif_version %}.
+3. **If still not found:** Use the default transparent proxy configuration.
+
+**When the `traffic.kuma.io/transparent-proxy-configmap-name` annotation is set on the workload:**
+
+1. Look for the ConfigMap specified in the annotation within the workload's namespace.
+
+2. **If not found:** Check the `{{ kuma-system }}` namespace for the same ConfigMap.
 
 {% if_version lte:2.9.x %}
-{% warning %}
-{{ Important }}The ConfigMap in the `{{ kuma-system }}` namespace is required for proper operation, so it must be present even if custom ones are used in all individual workload namespaces.
-{% endwarning %}
+3. **If still not found:** Fall back to the default ConfigMap in the workload's namespace.
+
+4. **If previous steps failed:** Search for the default ConfigMap in the `{{ kuma-system }}` namespace.  
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+3. **If still not found:** Return an error indicating that the specified ConfigMap cannot be found.  
+{% endif_version %}
+
+{% if_version lte:2.9.x %}
+{% warning %}  
+{{ Important }} The ConfigMap in the `{{ kuma-system }}` namespace is required for proper operation. It must be present even if custom ConfigMaps are used in individual workload namespaces.  
+{% endwarning %}  
 {% endif_version %}
 
 ### Annotations
