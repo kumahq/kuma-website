@@ -184,7 +184,7 @@ The automatically applied annotations include:
 - `kuma.io/transparent-proxying-ebpf-instance-ip-env-var-name`
 - `kuma.io/transparent-proxying-ebpf-programs-source-path`
 - `kuma.io/transparent-proxying-ip-family-mode`
-- `traffic.kuma.io/transparent-proxy-config` (only in environments using Kuma CNI)
+- `traffic.kuma.io/transparent-proxy-config` (only in environments using {{ Kuma }} CNI)
 
 These annotations ensure that the proper configuration is automatically applied to each workload, aligning with the global and per-workload settings.
 

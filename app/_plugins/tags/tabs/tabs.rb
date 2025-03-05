@@ -12,8 +12,19 @@ module Jekyll
         @name, options = config.split(' ', 2)
         @options = options.split.each_with_object({}) do |o, h|
           key, value = o.split('=')
-          h[key] = value
+          h[key] = value || ''
         end
+
+        # Ensure 'useUrlFragment':
+        # - Defaults to 'false' if not present
+        # - If present without a value, it's 'true'
+        # - If present with a value, it keeps that value
+        @options['useUrlFragment'] =
+          if @options.key?('useUrlFragment')
+            @options['useUrlFragment'].empty? ? 'true' : @options['useUrlFragment']
+          else
+            'false'
+          end
       end
 
       def render(context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
@@ -36,7 +47,11 @@ module Jekyll
 
       def self.template
         <<~ERB
-          <div class="tabs-component<%= additional_classes %>" data-tab="<%= SecureRandom.uuid %>" data-tab-use-url-fragment="<%= options['useUrlFragment'] %>">
+          <div
+            class="tabs-component<%= additional_classes %>"
+            data-tab="<%= SecureRandom.uuid %>"
+            data-tab-use-url-fragment="<%= @options['useUrlFragment'] %>"
+          >
             <ul role="tablist" class="tabs-component-tabs">
               <% environment['tabs'][file_path][@name].each_with_index do |(hash, value), index| %>
                 <li class="tabs-component-tab <%= index == 0 ? 'is-active' : '' %>" role="presentation">
