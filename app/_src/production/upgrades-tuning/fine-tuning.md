@@ -5,28 +5,28 @@ content_type: reference
 
 ## Reachable services
 
-By default, when transparent proxying is used, every data plane proxy follows every other data plane proxy in the mesh.
-With large meshes, usually, a data plane proxy connects to just a couple of services in the mesh.
-By defining the list of such services, we can dramatically improve the performance of {{site.mesh_product_name}}.
+By default, with the [transparent proxy](/docs/{{ page.release }}/introduction/concepts/#transparent-proxy) enabled, each data plane proxy follows all other proxies in the mesh. In large meshes, a data plane proxy usually connects to only a few services. Defining this list of reachable services can significantly improve {{site.mesh_product_name}}'s performance. {% if_version lte:2.8.x %}Benefits include:
+* Reducing CPU and memory usage on the control plane with smaller XDS configurations
+* Lowering network bandwidth as smaller configurations update less frequently
+* Reducing CPU and memory usage on data planes by managing fewer clusters/listeners
+^
+See [transparent proxying](/docs/{{ page.release }}/{% if_version lte:2.1.x %}networking/transparent-proxying/{% endif_version %}{% if_version gte:2.2.x %}production/dp-config/transparent-proxying/#reachable-services{% endif_version %}) for configuration details.{% endif_version %}
 
-The result is that:
-* The control plane has to generate a much smaller XDS configuration (just a couple of Clusters/Listeners etc.) saving CPU and memory
-* Smaller config is sent over a wire saving a lot of network bandwidth
-* Envoy only has to keep a couple of Clusters/Listeners which means much fewer statistics and lower memory usage.
-
-Follow the [transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/) docs on how to configure it.
+{% if_version gte:2.9.x %}
+For more details, including how to configure reachable services, refer to the [Reachable Services](/docs/{{ page.release }}/networking/transparent-proxy/reachable-services/) documentation.
+{% endif_version %}
 
 {% if_version gte:2.5.x %}
 ## Config trimming by using MeshTrafficPermission
 
 {% warning %}
-1. This feature only works with [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission),
-   if you're using [TrafficPermission](/docs/{{ page.release }}/policies/traffic-permissions) you need to migrate to MeshTrafficPermission,
-   otherwise enabling this feature could stop all traffic flow.
+{% if page.edition and page.edition != "kuma" %}**Important**: {% endif %}This feature only works with [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission), if you're using [TrafficPermission](/docs/{{ page.release }}/policies/traffic-permissions) you need to migrate to MeshTrafficPermission, otherwise enabling this feature could stop all traffic flow.
+{% endwarning %}
 {% if_version lte:2.5.x %}
-2. Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.release }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions, or upgrade {{site.mesh_product_name}} to 2.6.x or newer.
+{% danger %}
+{% if page.edition and page.edition != "kuma" %}**Warning**: {% endif %}Due to [a bug](https://github.com/kumahq/kuma/issues/6589) [ExternalServices](/docs/{{ page.release }}/policies/external-services) won't work without Traffic Permissions without [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress), if you're using External Services you need to keep associated TrafficPermissions, or upgrade {{site.mesh_product_name}} to 2.6.x or newer.
+{% enddanger %}
 {% endif_version %}
-   {% endwarning %}
 
 Starting with release 2.5 the problem stated in [reachable services](#reachable-services) section
 can be also mitigated by defining [MeshTrafficPermissions](/docs/{{ page.release }}/policies/meshtrafficpermission) and [configuring](/docs/{{ page.release }}/documentation/configuration) a **zone** control plane with `KUMA_EXPERIMENTAL_AUTO_REACHABLE_SERVICES=true`.

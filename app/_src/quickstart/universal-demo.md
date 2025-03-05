@@ -28,7 +28,7 @@ demo-app --> redis
 To download {{site.mesh_product_name}} we will use official installer, it will automatically detect the operating system (Amazon Linux, CentOS, RedHat, Debian, Ubuntu, and macOS) and download {{site.mesh_product_name}}:
 
 ```sh
-curl -L {{site.links.web}}{% if page.edition != "kuma" %}/{{page.edition}}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -
+curl -L {{site.links.web}}{% if page.edition and page.edition != "kuma" %}/{{page.edition}}{% endif %}/installer.sh | VERSION={% if page.version_data.label == "dev" %}preview{% else %}{{ page.version_data.version }}{% endif %} sh -
 ```
 
 To finish installation we need to add {{site.mesh_product_name}} binaries to path: 
@@ -59,8 +59,9 @@ On Universal we need to manually create tokens for [data plane proxies](/docs/{{
 for 30 days):
 
 ```sh
-kumactl generate dataplane-token --tag kuma.io/service=redis --valid-for=720h > /tmp/kuma-token-redis
-kumactl generate dataplane-token --tag kuma.io/service=demo-app --valid-for=720h > /tmp/kuma-token-demo-app
+mkdir /tmp/kuma
+kumactl generate dataplane-token --tag kuma.io/service=redis --valid-for=720h > /tmp/kuma/token-redis
+kumactl generate dataplane-token --tag kuma.io/service=demo-app --valid-for=720h > /tmp/kuma/token-demo-app
 ```
 
 After generating tokens we can start the data plane proxies that will be used for proxying traffic between `demo-app` and `redis`.
@@ -210,26 +211,32 @@ KUMA_READINESS_PORT=9904 KUMA_APPLICATION_PROBE_PROXY_PORT=9905 kuma-dp run \
 We will start the kuma-counter-demo in a new terminal window:
 
 1. With the data plane proxies running, we can start our apps, first we will start and configure `Redis`:
-```sh
-redis-server --port 26379 --daemonize yes && redis-cli -p 26379 set zone local
-```
-You should see message `OK` from `Redis` if this operation was successful.
+
+   ```sh
+   redis-server --port 26379 --daemonize yes && redis-cli -p 26379 set zone local
+   ```
+
+   You should see message `OK` from `Redis` if this operation was successful.
 
 2. Now we can start our `demo-app`. To do this we need to download repository with its source code:
-```sh
-git clone https://github.com/kumahq/kuma-counter-demo.git && cd kuma-counter-demo
-```
+
+   ```sh
+   git clone https://github.com/kumahq/kuma-counter-demo.git && cd kuma-counter-demo
+   ```
 
 3. Now we need to run:
-```sh
-npm install --prefix=app/ && npm start --prefix=app/
-```
-If `demo-app` was started correctly you will see message:
-```
-Server running on port 5000
-```
 
-In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter. `demo-app` GUI should work without issues now.
+   ```sh
+   npm install --prefix=app/ && npm start --prefix=app/
+   ```
+
+   If `demo-app` was started correctly you will see message:
+
+   ```
+   Server running on port 5000
+   ```
+
+   In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter. `demo-app` GUI should work without issues now.
 
 ## Explore {{site.mesh_product_name}} GUI
 

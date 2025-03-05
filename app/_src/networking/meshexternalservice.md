@@ -7,7 +7,7 @@ This resource is experimental!
 {% endwarning %}
 
 This resource allows services running inside the mesh to consume services that are not part of the mesh.
-The `MeshExternalService` resource allows you to declare external resources instead of relying on [MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough) or [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing). 
+The `MeshExternalService` resource allows you to declare external resources instead of relying on [MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough) or [passthrough mode](/docs/{{ page.release }}/networking/{% if_version gte:2.9.x %}transparent-proxy/{% endif_version %}non-mesh-traffic#outgoing). 
 
 {% tip %}
 What is the difference between `MeshPassthrough` and `MeshExternalService`?
@@ -154,7 +154,7 @@ At this moment you cannot configure [MeshTrafficPermission](/docs/{{ page.releas
 MeshExternalService. But you can configure access to all external services on Mesh level. For example, you can disable 
 outgoing traffic to all MeshExternalServices:
 
-{% tabs usage useUrlFragment=false %}
+{% tabs usage useUrlFragment=false additionalClasses="codeblock" %}
 {% tab usage Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
