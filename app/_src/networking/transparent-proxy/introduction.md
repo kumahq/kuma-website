@@ -47,17 +47,16 @@ Using the transparent proxy in Universal mode makes setup easier and enables fea
 
 ### firewalld support
 
-The changes made by running `kumactl install transparent-proxy` **will not persist** after a reboot. To ensure persistence, you can either add this command to your system's start-up scripts or leverage `firewalld` for managing `iptables`.
+The changes made by running `kumactl install transparent-proxy` **will not persist** after a reboot. To ensure persistence, you can either add this command to your system’s start-up scripts or use `firewalld` to manage `iptables`.
 
-If you prefer using `firewalld`, you can include the `--store-firewalld` flag when installing the transparent proxy. This will store the `iptables` rules in `/etc/firewalld/direct.xml`, ensuring they persist across system reboots. Here's an example:
+If you prefer using `firewalld`, set the `KUMA_TRANSPARENT_PROXY_STORE_FIREWALLD` environment variable to `true` when installing the transparent proxy. This stores the `iptables` rules in `/etc/firewalld/direct.xml`, ensuring they persist across system reboots.
+
+Here's an example:
 
 ```sh
-echo "
-redirect:
-  dns:
-    enabled: true
-storeFirewalld: true
-" | kumactl install transparent-proxy --config-file -
+KUMA_TRANSPARENT_PROXY_REDIRECT_DNS_ENABLED="true" \
+KUMA_TRANSPARENT_PROXY_STORE_FIREWALLD="true" \
+  kumactl install transparent-proxy
 ```
 
 {% warning %}
