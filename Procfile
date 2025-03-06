@@ -1,2 +1,2 @@
-netlify: npx netlify dev
-jekyll: bundle exec jekyll serve --port 3000 --livereload --livereload-port 25729 --config jekyll-dev.yml --profile
+vite: bin/vite dev
+jekyll: bin/jekyll-vite wait && bundle exec jekyll serve --livereload --config jekyll-dev.yml --profile

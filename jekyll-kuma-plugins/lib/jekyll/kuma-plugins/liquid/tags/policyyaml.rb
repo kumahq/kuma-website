@@ -236,11 +236,10 @@ module Jekyll
             edition = context.registers[:page]['edition']
             docs_path = "/#{edition}/#{version_path}"
             docs_path = "/docs/#{version_path}" if edition == 'kuma'
-            additional_classes = "codeblock" unless use_meshservice
 
             # Conditionally render tabs based on use_meshservice
             htmlContent = "
-{% tabs #{@tabs_name} useUrlFragment=false additionalClasses=\"#{additional_classes}\" %}"
+{% tabs #{@tabs_name} useUrlFragment=false %}"
 
             if use_meshservice
               htmlContent += "

@@ -20,7 +20,7 @@ install: ruby-version-check
 	bundle install
 
 run: ruby-version-check
-	bundle exec foreman start
+	npx netlify dev
 
 test:
 	bundle exec rspec

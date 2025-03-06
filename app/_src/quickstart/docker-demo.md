@@ -398,7 +398,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
       exit
       ```
 
-4. {% if page.edition and page.edition == "kuma" %}{:.margin-top-1-5-rem}{% endif %}**Check if service is running**
+4. **Check if service is running**
 
    To confirm the service is set up correctly and running, use the {{ kumactl }} to inspect the services:
    
@@ -496,7 +496,7 @@ The steps are the same as those explained earlier, with only the names changed. 
       exit
       ```
 
-4. {% if page.edition and page.edition == "kuma" %}{:.margin-top-1-5-rem}{% endif %}**Verify the application**
+4. **Verify the application**
 
    Open <http://127.0.0.1:25050> in your browser and use the demo application to increment the counter. The demo application is now fully set up and running.
 
