@@ -31,21 +31,26 @@ module Jekyll
             res = opts.join(" \\\n  ")
 
             htmlContent = "
-{% tabs #{@tabs_name} useUrlFragment=false %}
+{% tabs #{@tabs_name} useUrlFragment=false additionalClasses=\"codeblock\" %}
 {% tab #{@tabs_name} kumactl %}
 ```shell
 kumactl install control-plane \\
   #{res} \\
   | kubectl apply -f -
 ```
+{:.no-line-numbers}
 {% endtab %}
-{% tab #{@tabs_name} helm %}
-Before using {{site.mesh_product_name}} with helm, please follow [these steps](/#{product_url_segment(page)}/{{ page.release }}/production/cp-deployment/kubernetes/#helm) to configure your local helm repo.
+{% tab #{@tabs_name} Helm %}
 ```shell
-helm install --create-namespace --namespace {{site.mesh_namespace}} \\
+\# Before installing {{ site.mesh_product_name }} with Helm, configure your local Helm repository:
+\# {{ site.links.web }}/#{product_url_segment(page)}/{{ page.release }}/production/cp-deployment/kubernetes/#helm
+helm install \\
+  --create-namespace \\
+  --namespace {{ site.mesh_namespace }} \\
   #{res} \\
-  {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
+  {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
 ```
+{:.no-line-numbers}
 {% endtab %}
 {% endtabs %}"
             ::Liquid::Template.parse(htmlContent).render(context)
