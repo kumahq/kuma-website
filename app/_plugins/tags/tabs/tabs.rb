@@ -10,8 +10,23 @@ module Jekyll
         @name, options = config.split(' ', 2)
         @options = options.split(' ').each_with_object({}) do |o, h|
           key, value = o.split('=')
-          h[key] = value
+          h[key] = value || ''
         end
+
+        # Ensure 'useUrlFragment':
+        # - Defaults to 'true' if not present
+        # - If present without a value, it's 'true'
+        # - If present with a value, it keeps that value
+        @options['useUrlFragment'] =
+          if @options.key?('useUrlFragment')
+            @options['useUrlFragment'].empty? ? 'true' : @options['useUrlFragment']
+          else
+            'true'
+          end
+
+        # Normalize 'additionalClasses' by stripping quotes and ensuring proper spacing
+        additional_classes = @options.fetch('additionalClasses', '').gsub(/^"|"$/, '').strip
+        @options['additionalClasses'] = additional_classes.empty? ? '' : " #{additional_classes}"
       end
 
       def render(context)
@@ -28,10 +43,48 @@ module Jekyll
 
         super
 
-        options = @options
-        templateFile = File.read(File.expand_path('template.erb', __dir__))
-        template = ERB.new(templateFile)
-        template.result(binding)
+        ERB.new(self.class.template).result(binding)
+      end
+
+      def self.template
+        <<~ERB
+          <div
+            class="tabs-component<%= @options['additionalClasses'] %>"
+            data-tab="<%= SecureRandom.uuid %>"
+            data-tab-use-url-fragment="<%= @options['useUrlFragment'] %>"
+          >
+            <ul role="tablist" class="tabs-component-tabs">
+              <% environment['tabs'][file_path][@name].each_with_index do |(hash, value), index| %>
+                <li class="tabs-component-tab<%= index == 0 ? ' is-active' : '' %>" role="presentation">
+                  <a
+                    aria-controls="<%= hash.rstrip.gsub(' ', '-') %>"
+                    aria-selected="<%= index == 0 %>"
+                    href="#<%= hash.rstrip.gsub(' ', '-') %>"
+                    class="tabs-component-tab-a"
+                    role="tab"
+                    data-slug="<%= hash.rstrip.gsub(' ', '-') %>"
+                  >
+                    <%= hash %>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+
+            <div class="tabs-component-panels">
+              <% environment['tabs'][file_path][@name].each_with_index do |(key, value), index| %>
+                <section
+                  aria-hidden="<%= index != 0 %>"
+                  class="tabs-component-panel<%= index != 0 ? ' hidden' : '' %>"
+                  id="<%= key.rstrip.gsub(' ', '-') %>"
+                  role="tabpanel"
+                  data-panel="<%= key.rstrip.gsub(' ', '-') %>"
+                >
+                  <%= value %>
+                </section>
+              <% end %>
+            </div>
+          </div>
+        ERB
       end
     end
 
