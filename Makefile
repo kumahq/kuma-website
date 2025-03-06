@@ -11,22 +11,54 @@ RUBY_MATCH := $(shell [[ "$(shell ruby -v)" =~ "ruby $(shell cat .ruby-version)"
 .PHONY: ruby-version-check
 ruby-version-check:
 ifndef RUBY_MATCH
-	$(error ruby $(RUBY_VERSION_REQUIRED) is required. Found $(RUBY_VERSION). $(newline)Run `rbenv install $(RUBY_VERSION_REQUIRED)`)$(newline)
+	$(error ruby $(RUBY_VERSION_REQUIRED) is required. Found $(RUBY_VERSION). $(newline)Run `make install`)$(newline)
 endif
 
-# Installs npm packages and gems.
-install: ruby-version-check
+.PHONY: mise/check
+mise/check: mise/check/install mise/check/activation
+
+.PHONY: mise/check/install
+mise/check/install:
+	@command -v mise >/dev/null 2>&1 || { \
+		echo "Error: 'mise' is not installed. See installation instructions at:"; \
+	    echo "  https://mise.jdx.dev/installing-mise.html"; \
+		exit 1; \
+	}
+
+.PHONY: mise/check/activation
+mise/check/activation:
+	@mise dr --quiet >/dev/null 2>&1 || { \
+		echo "'mise' is installed but not activated. Follow the activation steps at:"; \
+		echo "  https://mise.jdx.dev/installing-mise.html"; \
+		exit 1; \
+	}
+
+# Installs yarn, npm packages and gems.
+.PHONY: install
+install: mise/check
+	mise install
 	yarn install
 	bundle install
 
+.PHONY: run
 run: ruby-version-check
-	npx netlify dev
+	bundle exec foreman start
+
+.PHONY: run/clean
+run/clean: clean run
 
 test:
 	bundle exec rspec
 
 build: ruby-version-check
 	exe/build
+
+.PHONY: serve/clean
+serve/clean: clean serve
+
+.PHONY: serve
+serve:
+	yarn netlify serve
 
 # Cleans up all temp files in the build.
 # Run `make clean` locally whenever you're updating dependencies, or to help

@@ -179,6 +179,16 @@ data: dGVzdAo=
 {% endtab %}
 {% endtabs %}
 
+## Behaviour in multi-zone deployment
+
+The Secrets are synced from global to zones, not the other way around as this would risk exposing sensitive information.
+{% if_version lte:2.9.x %}
+It's invalid to create Secrets on zone, if you do, the control plane deletes them when KDS sync runs.
+{% endif_version %}
+{% if_version gte:2.10.x %}
+If there's a name conflict between a secret on global and on zone, then the secret is not overwritten and a warning will appear in the logs.
+{% endif_version %}
+
 ## Usage
 
 Here is an example of how you can use a {{site.mesh_product_name}} `Secret` with a `provided` [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) backend.
