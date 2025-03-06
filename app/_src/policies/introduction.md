@@ -5,13 +5,11 @@ title: Policies
 ## What is a policy?
 
 A policy is a set of configuration that will be used to generate the data plane proxy configuration.
-{{ site.mesh_product_name }} combines policies with the `Dataplane` resource to generate the Envoy configuration of a
-data plane proxy.
+{{ site.mesh_product_name }} combines policies with the `Dataplane` resource to generate the Envoy configuration of a data plane proxy.
 
 ## What do policies look like?
 
-Like all [resources](/docs/{{ page.release }}/introduction/concepts#resource) in {{ site.mesh_product_name }}, there are
-two parts to a policy: the metadata and the spec.
+Like all [resources](/docs/{{ page.release }}/introduction/concepts#resource) in {{ site.mesh_product_name }}, there are two parts to a policy: the metadata and the spec.
 
 ### Metadata
 
@@ -20,9 +18,7 @@ Metadata identifies the policies by its `name`, `type` and what `mesh` it's part
 {% tabs metadata %}
 {% tab metadata Kubernetes %}
 
-In Kubernetes all our policies are implemented
-as [custom resource definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-in the group `kuma.io/v1alpha1`.
+In Kubernetes all our policies are implemented as [custom resource definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) in the group `kuma.io/v1alpha1`.
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -143,7 +139,6 @@ spec:
       default: # Configuration that applies to incoming traffic
         key: value
 ```
-
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -435,7 +430,7 @@ targetRef:
   name: "my-name" # For kinds MeshService, and MeshGateway a name has to be defined
   tags:
     key: value # For kinds MeshSubset and MeshGateway a list of matching tags can be used
-  proxyTypes: [ "Sidecar", "Gateway" ] # For kinds Mesh and MeshSubset a list of matching Dataplanes types can be used
+  proxyTypes: ["Sidecar", "Gateway"] # For kinds Mesh and MeshSubset a list of matching Dataplanes types can be used
   labels:
     key: value # In the case of policies that apply to labeled resources you can use these to apply the policy to each resource
   sectionName: ASection # This is used when trying to attach to a specific part of a resource (for example a port of a `MeshService`)
@@ -446,12 +441,9 @@ Here's an explanation of each kinds and their scope:
 
 - Mesh: applies to all proxies running in the mesh
 - MeshSubset: same as Mesh but filters only proxies who have matching `targetRef.tags`
-- MeshService: all proxies with a tag `kuma.io/service` equal to `targetRef.name`. This can
-  work differently when
-  using [explicit services](#using-policies-with-meshservice-meshmultizoneservice-and-meshexternalservice).
+- MeshService: all proxies with a tag `kuma.io/service` equal to `targetRef.name`.{% if_version gte:2.9.x %} This can work differently when using [explicit services](#using-policies-with-meshservice-meshmultizoneservice-and-meshexternalservice){% endif_version %}.
 - MeshGateway: targets proxies matched by the named MeshGateway
-- MeshServiceSubset: same as `MeshService` but further refine to proxies that have matching `targetRef.tags`. ⚠️This is
-  deprecated from version 2.9.x ⚠️.
+- MeshServiceSubset: same as `MeshService` but further refine to proxies that have matching `targetRef.tags`. ⚠️This is deprecated from version 2.9.x ⚠️.
 
 Consider the two example policies below:
 
@@ -503,26 +495,18 @@ spec:
 {% endpolicy_yaml %}
 
 Using `spec.targetRef`, this policy targets all proxies that have a tag `app:web-frontend`.
-It defines the scope of this policy as applying to traffic either from or to data plane proxies with the tag
-`app:web-frontend`.
+It defines the scope of this policy as applying to traffic either from or to data plane proxies with the tag `app:web-frontend`.
 
 The `spec.to[].targetRef` section enables logging for any traffic going to `web-backend`.
 The `spec.from[].targetRef` section enables logging for any traffic coming from _anywhere_ in the `Mesh`.
 
 ### Omitting `targetRef`
-
-When a `targetRef` is not present, it is semantically equivalent to `targetRef.kind: Mesh` and refers to everything
-inside the `Mesh`.
+When a `targetRef` is not present, it is semantically equivalent to `targetRef.kind: Mesh` and refers to everything inside the `Mesh`.
 
 ### Applying to specific proxy types
-
-The top level `targetRef` field can select a specific subset of data plane proxies. The field named `proxyTypes` can
-restrict policies to specific types of data plane proxies:
-
-- `Sidecar`: Targets data plane proxies acting as sidecars to applications (including [delegated gateways](/docs/{{
-  page.release }}/using-mesh/managing-ingress-traffic/delegated/)).
-- `Gateway`: Applies to data plane proxies operating in [built-in Gateway](/docs/{{ page.release
-  }}/using-mesh/managing-ingress-traffic/builtin/) mode.
+The top level `targetRef` field can select a specific subset of data plane proxies. The field named `proxyTypes` can restrict policies to specific types of data plane proxies:
+- `Sidecar`: Targets data plane proxies acting as sidecars to applications (including [delegated gateways](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/delegated/)).
+- `Gateway`: Applies to data plane proxies operating in [built-in Gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) mode.
 - Empty list: Defaults to targeting all data plane proxies.
 
 #### Example
@@ -536,7 +520,7 @@ mesh: default
 spec:
   targetRef:
     kind: Mesh
-    proxyTypes: [ "Gateway" ]
+    proxyTypes: ["Gateway"]
   to:
     - targetRef:
         kind: Mesh
@@ -558,14 +542,14 @@ metadata:
   namespace: {{site.mesh_namespace}}
 conf:
   listeners:
-    - port: 80
-      protocol: HTTP
-      tags:
-        port: http-80
-    - port: 443
-      protocol: HTTPS
-      tags:
-        port: https-443
+  - port: 80
+    protocol: HTTP
+    tags:
+      port: http-80
+  - port: 443
+    protocol: HTTPS
+    tags:
+      port: https-443
 ```
 
 Policies can attach to all listeners:
@@ -636,7 +620,7 @@ These are just examples, remember to check the docs specific to your policy.
 
 {% tabs targetRef useUrlFragment=false %}
 {% tab targetRef Sidecar %}
-| `targetRef`             | Allowed kinds |
+| `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
@@ -645,26 +629,22 @@ These are just examples, remember to check the docs specific to your policy.
 The table above show that we can select sidecar proxies via `Mesh`, `MeshSubset`
 
 We can use the policy as an _outbound_ policy with:
-
 * `to[].targetRef.kind: Mesh` which will apply to all traffic originating at the sidecar _to_ anywhere
 * `to[].tagerRef.kind: MeshService` which will apply to all traffic _to_ specific services
 
 We can also apply policy as an _inbound_ policy with:
-
 * `from[].targetRef.kind: Mesh` which will apply to all traffic received by the sidecar _from_ anywhere in the mesh
-  {% endtab %}
+{% endtab %}
 
 {% tab targetRef Builtin Gateway %}
-| `targetRef`           | Allowed kinds |
+| `targetRef`           | Allowed kinds                                    |
 | --------------------- | ------------------------------------------------ |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
 | `to[].targetRef.kind` | `Mesh`                                           |
 
-The table above indicates that we can select builtin gateway via `Mesh`, `MeshGateway` or even specific listeners with
-`MeshGateway` using tags.
+The table above indicates that we can select builtin gateway via `Mesh`, `MeshGateway` or even specific listeners with `MeshGateway` using tags. 
 
 We can use the policy only as an _outbound_ policy with:
-
 * `to[].targetRef.kind: Mesh` all traffic from the gateway _to_ anywhere.
 
 {% endtab %}
@@ -775,13 +755,10 @@ default:
 
 ## Using policies with `MeshService`, `MeshMultizoneService` and `MeshExternalService`.
 
-[`MeshService`](/docs/{{ page.release }}/networking/meshservice) is a feature to define services explicitly in {{
-site.mesh_product_name }}.
-It can be selectively enabled and disable depending on the value of [meshServices.mode](/docs/{{ page.release
-}}/networking/meshservice/#migration) on your Mesh object.
+[`MeshService`](/docs/{{ page.release }}/networking/meshservice) is a feature to define services explicitly in {{ site.mesh_product_name }}.
+It can be selectively enabled and disable depending on the value of [meshServices.mode](/docs/{{ page.release }}/networking/meshservice/#migration) on your Mesh object.
 
-When using explicit services, `MeshServiceSubset` is no longer a valid kind and `MeshService` can only be used to select
-an actual `MeshService` resource (it can no longer select a `kuma.io/service`).
+When using explicit services, `MeshServiceSubset` is no longer a valid kind and `MeshService` can only be used to select an actual `MeshService` resource (it can no longer select a `kuma.io/service`).
 
 In the following example we'll assume we have a `MeshService`:
 
@@ -790,25 +767,24 @@ In the following example we'll assume we have a `MeshService`:
 type: MeshService
 name: my-service
 labels:
-  k8s.kuma.io/namespace: kuma-demo
+  k8s.kuma.io/namespace: kuma-demo 
   kuma.io/zone: my-zone
-  app: redis
+  app: redis 
 spec:
   selector:
     dataplaneTags:
       app: redis
-      k8s.kuma.io/namespace: kuma-demo
+      k8s.kuma.io/namespace: kuma-demo 
   ports:
-    - port: 6739
-      targetPort: 6739
-      appProtocol: tcp
+  - port: 6739
+    targetPort: 6739
+    appProtocol: tcp
 ```
 {% endpolicy_yaml %}
 
 There are 2 ways to select a `MeshService`:
 
-If you are in the same namespace (or same zone in Universal) you can select one specific service by using its explicit
-name:
+If you are in the same namespace (or same zone in Universal) you can select one specific service by using its explicit name:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -818,11 +794,11 @@ metadata:
   namespace: kuma-demo
 spec:
   to:
-    - targetRef:
-        kind: MeshService
-        name: redis
-      default:
-        connectionTimeout: 10s
+  - targetRef:
+      kind: MeshService
+      name: redis
+    default:
+      connectionTimeout: 10s
 ```
 
 Selecting all matching `MeshServices` by labels:
@@ -831,20 +807,19 @@ Selecting all matching `MeshServices` by labels:
 apiVersion: kuma.io/v1alpha1
 kind: MeshTimeout
 metadata:
-  name: all-in-my-namespace
+  name: all-in-my-namespace 
   namespace: kuma-demo
 spec:
   to:
-    - targetRef:
-        kind: MeshService
-        labels:
-          k8s.kuma.io/namespace: kuma-demo
-      default:
-        connectionTimeout: 10s
+  - targetRef:
+      kind: MeshService
+      labels:
+        k8s.kuma.io/namespace: kuma-demo
+    default:
+      connectionTimeout: 10s
 ```
 
-In this case this is equivalent to writing a specific policy for each service that matches this label (in our example
-for each service in this namespace in each zones).
+In this case this is equivalent to writing a specific policy for each service that matches this label (in our example for each service in this namespace in each zones).
 
 {% tip %}
 When `MeshService` have multiple ports, you can use `sectionName` to restrict policy to a single port.
@@ -1038,8 +1013,8 @@ We're going to define a producer policy first:
 apiVersion: kuma.io/v1alpha1
 kind: MeshTimeout
 metadata:
-  name: producer-policy
-  namespace: ns2
+    name: producer-policy
+    namespace: ns2
 spec:
   to:
     - targetRef:
@@ -1049,8 +1024,7 @@ spec:
         idleTimeout: 20s
 ```
 
-We know it's a producer policy because it is defined in the same namespace as the `MeshService: server` and names this
-server in its `spec.to[].targetRef`.
+We know it's a producer policy because it is defined in the same namespace as the `MeshService: server` and names this server in its `spec.to[].targetRef`.
 So both client1 and client2 will receive the timeout of 20 seconds.
 
 We now create a consumer policy:
@@ -1071,8 +1045,7 @@ spec:
         idleTimeout: 30s
 ```
 
-Here the policy only impacts client1 as client2 doesn't run in ns1. As consumer policies have a higher priority over
-producer policies, client1 will have a `idleTimeout: 30s`.
+Here the policy only impacts client1 as client2 doesn't run in ns1. As consumer policies have a higher priority over producer policies, client1 will have a `idleTimeout: 30s`.
 
 We can define another policy to impact client2:
 
@@ -1117,8 +1090,7 @@ spec:
         key: value
 ```
 
-All traffic from any proxy (top level `targetRef`) going to any proxy (to `targetRef`) will have this policy applied
-with value `key=value`.
+All traffic from any proxy (top level `targetRef`) going to any proxy (to `targetRef`) will have this policy applied with value `key=value`.
 
 #### Recommending to users
 
@@ -1137,8 +1109,7 @@ spec:
         key: value
 ```
 
-All traffic from any proxy (top level `targetRef`) going to the service "my-service" (to `targetRef`) will have this
-policy applied with value `key=value`.
+All traffic from any proxy (top level `targetRef`) going to the service "my-service" (to `targetRef`) will have this policy applied with value `key=value`.
 
 This is useful when a service owner wants to suggest a set of configurations to its clients.
 
@@ -1238,7 +1209,7 @@ mesh: default
 spec:
   targetRef:
     kind: Mesh
-    proxyTypes: [ "Gateway" ]
+    proxyTypes: ["Gateway"]
   default:
     key: value
 ```
@@ -1250,9 +1221,7 @@ This can be very useful when timeout configurations for gateways need to differ 
 {% if_version lte:2.8.x %}
 Here you can find the list of Policies that {{site.mesh_product_name}} supports.
 
-Going forward from version 2.0, {{site.mesh_product_name}} is transitioning from [source/destination policies](/docs/{{
-page.release }}/policies/general-notes-about-kuma-policies) to [`targetRef` policies](/docs/{{ page.release
-}}/policies/targetref).
+Going forward from version 2.0, {{site.mesh_product_name}} is transitioning from [source/destination policies](/docs/{{ page.release }}/policies/general-notes-about-kuma-policies) to [`targetRef` policies](/docs/{{ page.release }}/policies/targetref).
 
 The following table shows the equivalence between source/destination and `targetRef` policies:
 
@@ -1278,10 +1247,8 @@ together.
 {% endif_version %}
 {% if_version gte:2.6.x %}
 If you are new to Kuma you should only need to use `targetRef` policies.
-If you already use source/destination policies you can keep using them. Future versions of Kuma will provide a migration
-path.
-You can mix targetRef and source/destination policies as long as they are of different types. For example: You can use
-`MeshTrafficPermission` with `FaultInjection` but you can't use `MeshTrafficPermission` with `TrafficPermission`.
+If you already use source/destination policies you can keep using them. Future versions of Kuma will provide a migration path.
+You can mix targetRef and source/destination policies as long as they are of different types. For example: You can use `MeshTrafficPermission` with `FaultInjection` but you can't use `MeshTrafficPermission` with `TrafficPermission`.
 {% endif_version %}
 {% endwarning %}
 {% endif_version %}
@@ -1301,8 +1268,7 @@ improving the overall system reliability without disrupting ongoing operations.
 
 ### Recommended setup
 
-It's not necessary but CLI tools like [jq](https://jqlang.github.io/jq/) and [jd](https://github.com/josephburnett/jd)
-can greatly improve working with {{ site.mesh_product_name }} resources.
+It's not necessary but CLI tools like [jq](https://jqlang.github.io/jq/) and [jd](https://github.com/josephburnett/jd) can greatly improve working with {{ site.mesh_product_name }} resources.
 
 ### How to use shadow mode
 
@@ -1370,7 +1336,6 @@ $ kumactl inspect dataplane frontend-dpp --type=config --include=diff --shadow |
 + "23s"
 ```
 
-The output not only identifies the exact location in Envoy where the change will occur, but also shows the current
-timeout value that we're planning to replace.
+The output not only identifies the exact location in Envoy where the change will occur, but also shows the current timeout value that we're planning to replace.
 
 {% endif_version %}
