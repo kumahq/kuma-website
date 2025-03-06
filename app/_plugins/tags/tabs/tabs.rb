@@ -51,7 +51,7 @@ module Jekyll
           <div
             class="tabs-component<%= @options['additionalClasses'] %>"
             data-tab="<%= SecureRandom.uuid %>"
-            data-tab-use-url-fragment="<%= @options['useUrlFragment'] %>"
+            data-use-url-fragment="<%= @options['useUrlFragment'] %>"
           >
             <ul role="tablist" class="tabs-component-tabs">
               <% environment['tabs'][file_path][@name].each_with_index do |(hash, value), index| %>
