@@ -1308,8 +1308,7 @@ can greatly improve working with {{ site.mesh_product_name }} resources.
 
 1. Before applying the policy, add a `kuma.io/effect: shadow` label.
 
-2. Check the proxy config with shadow policies taken into account through the {{site.mesh_product_name}} API. By using
-   HTTP API:
+2. Check the proxy config with shadow policies taken into account through the {{site.mesh_product_name}} API. By using HTTP API:
     ```shell
     curl http://localhost:5681/meshes/${mesh}/dataplane/${dataplane}/_config?shadow=true
     ```
@@ -1318,8 +1317,7 @@ can greatly improve working with {{ site.mesh_product_name }} resources.
     kumactl inspect dataplane ${name} --type=config --shadow
     ```
 
-3. Check the diff in [JSONPatch](https://jsonpatch.com/) format through the {{site.mesh_product_name}} API. By using
-   HTTP API:
+3. Check the diff in [JSONPatch](https://jsonpatch.com/) format through the {{site.mesh_product_name}} API. By using HTTP API:
     ```shell
     curl http://localhost:5681/meshes/${mesh}/dataplane/${dataplane}/_config?shadow=true&include=diff
     ```

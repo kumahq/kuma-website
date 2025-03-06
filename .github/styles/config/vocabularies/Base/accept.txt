@@ -67,7 +67,6 @@ hardcoded
 hostnames?
 httpbin
 HTTPie
-HTTP
 HTTPS?
 https?
 [iI]nbounds?
