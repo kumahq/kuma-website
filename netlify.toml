@@ -1,7 +1,11 @@
 [build]
   publish = "dist"
-  command = "exe/build"
-  environment = { JEKYLL_ENV = "development", BUNDLE_WITHOUT = "development", NODE_OPTIONS = "--max_old_space_size=8192" }
+  command = "bundle exec jekyll build --config jekyll.yml"
+
+[build.environment]
+  JEKYLL_ENV = "development"
+  BUNDLE_WITHOUT = "development"
+  NODE_OPTIONS = "--max_old_space_size=8192"
 
 [context.production.environment]
   JEKYLL_ENV = "production"
@@ -13,7 +17,8 @@
   # netlify automatically figures out and starts the framework, which in our case
   # is vite
   autoLaunch = false
-  targetPort = 4000
+  port = 7777
+  targetPort = 3000
 
 [[redirects]]
   from = "/fixtures/*"

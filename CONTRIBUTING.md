@@ -63,46 +63,70 @@ In most cases, you can add this signoff to your commit automatically with the `-
 
 #### Prerequisites
 
-1. Make sure you have the right ruby version installed (`cat .ruby-version`).
-2. Install [yarn](https://classic.yarnpkg.com/en/docs/install)
+1. Install [mise](https://mise.jdx.dev/installing-mise.html).
 
 #### Installation
 
 Clone the repository and run:
-```bash
-make install
-```
 
-On macOS you might face issues with clang when installing gems. In that case try the following:
-```bash
+```sh
+make install
+```  
+
+On macOS, you may encounter issues with Clang when installing gems. If so, try:
+
+```sh
 gem install <gem> -- --with-cflags="-Wno-incompatible-function-pointer-types"
 ```
 
 ### Development
 
-If you want to make changes to the docs or the assets and see them reflected on the browser, you need to run the site with:
-```bash
+To make changes to the docs or assets and see them reflected in the browser, start the site with:
+
+```sh
 make run
 ```
-This will run `jekyll serve` and `vite` in the background wich will re-build the corresponding pages whenever a doc or asset changes,
-while running `netlify dev` so that all the redirects work locally.
+
+This runs `jekyll serve` and `vite` in the background, automatically rebuilding pages when docs or assets change. It also runs `netlify dev` to ensure redirects work locally.
 
 ### Production build
 
-Jekyll is a static-site generator, so first we need to build the site and compile the assets:
-```bash
-make build
-```
+Before starting a production build, it’s recommended to clean previous builds to avoid issues.
 
-Note: If you face any issues, e.g. the asset don't look right, try cleaning the cache first and re-build the site:
-```bash
-make clean && make build
-```
+To clean old static files and start the production build:
 
-Next, run the production build locally
-```bash
+```sh
+make serve/clean
+```  
+
+Or, if you don’t need to clean previous files, simply run:
+
+```sh
 make serve
+```  
+
+This will:
+1. Use the `[build]` section from `netlify.toml` to generate the production version of static files using the configured build command.
+2. Start a local Netlify server, simulating the production environment with redirects, environment variables, and other settings.
+
+Once running, visit http://localhost:7777 to browse the documentation.
+
+### Developing kuma-website as a submodule in another Jekyll project
+
+If you are developing `kuma-website` as a Git submodule inside another Jekyll project, you can use [Mutagen](https://mutagen.io) to sync files between repositories. This allows you to work on `kuma-website` while ensuring changes are reflected in the parent project.
+
+To set up file syncing, run:
+
+```sh
+export SYNC_FROM="$HOME/projects/kumahq/kuma-website" # Path to your local kuma-website repository
+export SYNC_TO="$HOME/projects/other/.submodules/kuma-website" # Path to where kuma-website is located in the other project
+
+mutagen sync create \
+  --mode one-way-replica \
+  --name kuma-website \
+  --ignore ".idea,node_modules,dist,.netlify,.jekyll-cache,.jekyll-metadata,app/.jekyll-cache,app/.jekyll-metadata,.bundle" \
+  "$SYNC_FROM" "$SYNC_TO"
+mutagen sync monitor
 ```
-which will run `Netlify` locally in a local dev server, similar to production, making all the redirects, env variables, etc.
-available. You can visit http://localhost:8888/ and start reading the documentation.
-In case you are stuck in `⠼ Waiting for framework port 4000`, please retry.
+
+Since `kuma-website` does not use Jekyll’s default ports, you can run both projects simultaneously without conflicts.
