@@ -183,7 +183,7 @@ data: dGVzdAo=
 
 The Secrets are synced from global to zones, not the other way around as this would risk exposing sensitive information.
 {% if_version lte:2.9.x %}
-It's invalid to create Secrets on zone, if you do, the control-plane deletes them when KDS sync runs.
+It's invalid to create Secrets on zone, if you do, the control plane deletes them when KDS sync runs.
 {% endif_version %}
 {% if_version gte:2.10.x %}
 If there's a name conflict between a secret on global and on zone, then the secret is not overwritten and a warning will appear in the logs.
