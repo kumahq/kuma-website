@@ -181,12 +181,12 @@ data: dGVzdAo=
 
 ## Behaviour in multi-zone deployment
 
-The Secrets can be synced from global to zones, not the other way around.
+The Secrets are synced from global to zones, not the other way around as this would risk exposing sensitive information.
 {% if_version lte:2.9.x %}
-It's invalid to create Secrets on zone, they would be automatically deleted further.
+It's invalid to create Secrets on zone, if you do, the control-plane deletes them when KDS sync runs.
 {% endif_version %}
 {% if_version gte:2.10.x %}
-You can also create Secrets on zone but if there's a name conflict by the Secret which will be created on Global, then the syncing from global to zones would be ignored.
+If there's a name conflict between a secret on global and on zone, then the secret is not overwritten and a warning will appear in the logs.
 {% endif_version %}
 
 ## Usage
