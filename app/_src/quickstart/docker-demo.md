@@ -346,7 +346,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
    1. **Install tools and create data plane proxy user**
 
-      Install the required tools for downloading {{ Kuma }} binaries, setting up the [transparent proxy]({{ docs }}/networking/transparent-proxy/introduction/), and create a dedicated user for the data plane proxy:
+      Install the required tools for downloading {{ Kuma }} binaries, setting up the [transparent proxy]({{ docs }}/production/dp-config/transparent-proxying/), and create a dedicated user for the data plane proxy:
 
       - `curl`: Needed to download the {{ Kuma }} binaries.
       - `iptables`: Required to configure the transparent proxy.
