@@ -1,5 +1,5 @@
 ---
-title: Secure access accross services
+title: Secure access across services
 content_type: how-to
 ---
 
