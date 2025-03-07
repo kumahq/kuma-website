@@ -2,6 +2,14 @@
 title: Non-mesh traffic
 ---
 
+[//]: # ####################################################################################### #  
+[//]: #                                                                                         #  
+[//]: #                   This page is legacy and shown only for Kuma < 2.9.x                   #  
+[//]: #                               Only fix obvious bugs here                                #  
+[//]: #     Make other changes in app/_src/networking/transparent-proxy/non-mesh-traffic.md     #  
+[//]: #                                                                                         #  
+[//]: # ####################################################################################### #
+
 ## Incoming
 
 When mTLS is enabled, clients from outside the mesh can't reach the applications inside the mesh. 
@@ -9,7 +17,7 @@ If you want to allow external clients to consume mesh services see
 the [Permissive mTLS](/docs/{{ page.release }}/policies/mutual-tls/#permissive-mtls) mode.
 
 {% warning %}
-Without [Transparent Proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/)
+Without [transparent proxying](/docs/{{ page.release }}/{% if_version lte:2.8.x %}production/dp-config/transparent-proxying/{% endif_version %}{% if_version gte:2.9.x %}networking/transparent-proxy/introduction/{% endif_version %})
 TLS check on Envoy can be bypassed. You should take action to secure the application ports. 
 {% endwarning %}
 
@@ -21,7 +29,7 @@ all requests won't be logged even if a traffic logging is enabled in the mesh wh
 The passthrough mode is enabled by default on all the dataplane proxies in transparent mode in a Mesh. 
 This behavior can be changed by setting the `networking.outbound.passthrough` in the Mesh resource. Example:
 
-{% tabs passthrough-mode useUrlFragment=false %}
+{% tabs passthrough-mode useUrlFragment=false additionalClasses="codeblock" %}
 {% tab passthrough-mode Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -77,7 +85,7 @@ maxRetries: 3
 {% if_version lte:2.5.x inline:true %}[ProxyTemplate](/docs/{{ page.release }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch](/docs/{{ page.release }}/policies/meshproxypatch){% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
-{% tabs passthrough-thresholds useUrlFragment=false %}
+{% tabs passthrough-thresholds useUrlFragment=false additionalClasses="codeblock" %}
 {% tab passthrough-thresholds Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -110,7 +118,6 @@ spec:
             }
 ```
 {% endtab %}
-
 {% tab passthrough-thresholds Universal %}
 ```yaml
 type: ProxyTemplate
@@ -185,7 +192,7 @@ tcp:
 {% if_version lte:2.5.x inline:true %}Proxy Template{% endif_version %}{% if_version inline:true gte:2.6.x %}MeshProxyPatch{% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
-{% tabs passthrough-timeouts useUrlFragment=false %}
+{% tabs passthrough-timeouts useUrlFragment=false additionalClasses="codeblock" %}
 {% tab passthrough-timeouts Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -219,7 +226,6 @@ spec:
               idleTimeout: "3h"
 ```
 {% endtab %}
-
 {% tab passthrough-timeouts Universal %}
 ```yaml
 type: ProxyTemplate
