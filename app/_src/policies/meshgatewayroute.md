@@ -17,8 +17,8 @@ At the moment, it targets HTTP routing use cases.
 
 The following `MeshGatewayRoute` routes traffic to the `backend` service and attaches to any listeners tagged with `vhost=foo.example.com` that attach to builtin gateways with `kuma.io/service: edge-gateway`.
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Universal %}
+{% tabs %}
+{% tab Universal %}
 ```yaml
 type: MeshGatewayRoute
 mesh: default
@@ -39,7 +39,7 @@ conf:
               kuma.io/service: backend
 ```
 {% endtab %}
-{% tab usage Kubernetes %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGatewayRoute

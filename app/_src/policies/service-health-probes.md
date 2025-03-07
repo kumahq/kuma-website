@@ -119,7 +119,7 @@ readinessProbe:
 
 Where `9001` is a default port that Application Probe Proxy listens on. To prevent potential conflicts with applications, you may configure this port using one of these methods:
 
-{% tabs config-probe-proxy useUrlFragment=false %}
+{% tabs %}
 {% tab config-probe-proxy control plane config %}
 With the config yaml:
 ```yaml
@@ -186,7 +186,7 @@ livenessProbe:
 
 Where `9000` is a default virtual probe port, this is configurable:
 
-{% tabs usage useUrlFragment=false %}
+{% tabs %}
 {% tab usage control plane config %}
 With the config yaml:
 ```yaml
@@ -209,7 +209,7 @@ annotations:
 
 You can also disable {{site.mesh_product_name}}'s probe virtualization:
 
-{% tabs probe-visualization useUrlFragment=false %}
+{% tabs %}
 {% tab probe-visualization control plane config %}
 
 With the config yaml:

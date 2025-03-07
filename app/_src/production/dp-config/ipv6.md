@@ -16,15 +16,15 @@ For the most part any IPv6 setup will work out of the box, but there are some sp
 
 In some cases you might not want to use IPv6 at all.
 
-{% tabs disabling-2.7 useUrlFragment=false %}
-{% tab disabling-2.7 Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 To turn it off for all workloads set either:
 - config option `{{site.set_flag_values_prefix}}runtime.kubernetes.injector.sidecarContainer.ipFamilyMode=ipv4`
 - the environment variable `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_IP_FAMILY_MODE=ipv4`
 
 To turn it off for a specific Pod, add the annotation `kuma.io/transparent-proxying-ip-family-mode: ipv4`.
 {% endtab %}
-{% tab disabling-2.7 Universal %}
+{% tab Universal %}
 In your Dataplane resource, set `networking.transparentProxying.ipFamilyMode=IPv4`.
 {% endtab %}
 {% endtabs %}
@@ -56,15 +56,15 @@ networking:
 
 In some cases you might not want to use IPv6 at all.
 
-{% tabs disabling useUrlFragment=false %}
-{% tab disabling Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 To turn it off for all workloads set either:
 - `{{site.set_flag_values_prefix}}runtime.kubernetes.injector.sidecarContainer.redirectPortInboundV6` to 0
 - the environment variable: `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_REDIRECT_PORT_INBOUND_V6=0`
 
 To turn it off for a specific pod add the annotation `kuma.io/transparent-proxying-inbound-v6-port: "0"`.
 {% endtab %}
-{% tab disabling Universal %}
+{% tab Universal %}
 In your Dataplane resource don't set `networking.transparentProxying.redirectPortInboundV6`.
 {% endtab %}
 {% endtabs %}

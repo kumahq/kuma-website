@@ -27,9 +27,9 @@ After {{site.mesh_product_name}} is installed, you can access the control plane 
 
 By accessing the control plane using one of these methods, you can see the current {{site.mesh_product_name}} configuration or with some methods, you can edit the configuration.
 
-{% tabs use-kuma useUrlFragment=false %}
-{% tab use-kuma Kubernetes %}
-{% tabs use-kuma-kubernetes useUrlFragment=false %}
+{% tabs %}
+{% tab Kubernetes %}
+{% tabs %}
 {% tab use-kuma-kubernetes GUI (Read-Only) %}
 
 {{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default the GUI listens on the API port and defaults to `:5681/gui`.
@@ -117,7 +117,7 @@ You will notice that {{site.mesh_product_name}} automatically creates a [`Mesh`]
 
 {% endtab %}
 {% tab use-kuma Universal%}
-{% tabs use-kuma-universal useUrlFragment=false %}
+{% tabs %}
 {% tab use-kuma-universal GUI (read-only) %}
 
 {{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default the GUI listens on the API port and defaults to `:5681/gui`.

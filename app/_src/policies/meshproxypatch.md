@@ -35,8 +35,8 @@ Do **not** combine with [Proxy Template](/docs/{{ page.release }}/policies/proxy
 {% endif_version %}
 {% if_version gte:2.5.x %}
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
@@ -127,8 +127,8 @@ Available matchers:
 * `name` - name of the Cluster.
 * `origin` - origin of the Cluster.
 
-{% tabs cluster useUrlFragment=false %}
-{% tab cluster Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshProxyPatch
@@ -178,7 +178,7 @@ spec:
             origin: inbound # optional: if absent, all clusters regardless of its origin will be removed
 ```
 {% endtab %}
-{% tab cluster Universal %}
+{% tab Universal %}
 ```yaml
 type: MeshProxyPatch
 mesh: default
@@ -242,8 +242,8 @@ Available matchers:
 * `origin` - origin of the Listener.
 * `tags` - tags of inbound or outbound Listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 
-{% tabs listener useUrlFragment=false %}
-{% tab listener Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshProxyPatch
@@ -292,7 +292,7 @@ spec:
             origin: inbound # optional: if absent, all listeners regardless of its origin will be removed
 ```
 {% endtab %}
-{% tab listener Universal %}
+{% tab Universal %}
 ```yaml
 type: MeshProxyPatch
 mesh: default
@@ -360,8 +360,8 @@ Available matchers:
 * `listenerTags` - tags of inbound or outbound Listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 * `origin` - origin of the Listener.
 
-{% tabs network-filter useUrlFragment=false %}
-{% tab network-filter Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshProxyPatch
@@ -468,7 +468,7 @@ spec:
             origin: inbound # optional: if absent, all filters regardless of its origin will be removed
 ```
 {% endtab %}
-{% tab network-filter Universal %}
+{% tab Universal %}
 ```yaml
 type: MeshProxyPatch
 mesh: default
@@ -596,8 +596,8 @@ Available matchers:
 * `listenerTags` - tags of inbound or outbound Listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 * `origin` - origin of the Listener.
 
-{% tabs http-filter useUrlFragment=false %}
-{% tab http-filter Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshProxyPatch
@@ -696,7 +696,7 @@ spec:
             origin: inbound # optional: if absent, all filters regardless of its origin will be removed
 ```
 {% endtab %}
-{% tab http-filter Universal %}
+{% tab Universal %}
 ```yaml
 type: MeshProxyPatch
 mesh: default
@@ -811,8 +811,8 @@ Available matchers:
 * `origin` - origin of the VirtualHost.
 * `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration-proto).
 
-{% tabs virtual-host useUrlFragment=false %}
-{% tab virtual-host Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshProxyPatch
@@ -866,7 +866,7 @@ spec:
             origin: inbound # optional: if absent, all virtual hosts regardless of its origin will be removed
 ```
 {% endtab %}
-{% tab virtual-host Universal %}
+{% tab Universal %}
 ```yaml
 type: MeshProxyPatch
 mesh: default
@@ -937,8 +937,8 @@ If you use JSONPatch, remember to always use _camelCase_ instead of _snake_case_
 
 Example how to change `streamIdleTimeout` for `MeshGateway`:
 
-{% tabs timeout-meshgateway useUrlFragment=false %}
-{% tab timeout-meshgateway Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 {% if_version lte:2.4.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -988,7 +988,7 @@ spec:
 ``` 
 {% endif_version %}
 {% endtab %}
-{% tab timeout-meshgateway Universal %}
+{% tab Universal %}
 {% if_version lte:2.4.x %}
 ```yaml
 type: MeshProxyPatch
@@ -1040,8 +1040,8 @@ spec:
 
 Here is and example of lua filter that adds the new `x-header: test` header to all outgoing HTTP requests to service `offers`.
 
-{% tabs lua-filter useUrlFragment=false %}
-{% tab lua-filter Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshProxyPatch
@@ -1071,7 +1071,7 @@ spec:
                 end
 ```
 {% endtab %}
-{% tab lua-filter Universal %}
+{% tab Universal %}
 ```yaml
 type: MeshProxyPatch
 mesh: default

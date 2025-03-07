@@ -18,8 +18,8 @@ Environment variables usually match the yaml path by replacing `.` with `_`, cap
 For example the yaml path: `store.postgres.port` is the environment variable: `KUMA_STORE_POSTGRES_PORT`.
 {% endtip %}
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 On Kubernetes, you can override the configuration with the `envVars` field. For example, to configure the refresh interval for configuration with the data plane proxy, specify:
 {% cpinstall envars %}
 controlPlane.envVars.KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL=5s
@@ -47,7 +47,7 @@ helm install {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }} --set-f
 The value of the configmap `{{site.mesh_cp_name}}-config` is now the content of `cp-conf.yaml`.
 
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 First, specify your configuration in the appropriate config file, then run `kuma-cp`:
 
 For example create a `kuma-cp.conf.overrides.yml` file with:
