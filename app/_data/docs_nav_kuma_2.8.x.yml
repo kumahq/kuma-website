@@ -476,6 +476,8 @@ items:
         url: /guides/otel-metrics/
       - text: Migration to the new policies
         url: /guides/migration-to-the-new-policies/
+      - text: Upgrading Transparent Proxy
+        url: /guides/upgrading-transparent-proxy/
   - title: Reference
     group: true
     items:

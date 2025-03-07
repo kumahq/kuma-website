@@ -504,6 +504,8 @@ items:
         url: /guides/progressively-rolling-in-strict-mtls/
       - text: Producer and consumer policies
         url: /guides/consumer-producer-policies
+      - text: Upgrading Transparent Proxy
+        url: /guides/upgrading-transparent-proxy/
       - text: Excluding Traffic from Transparent Proxy Redirection
         url: /guides/excluding-traffic-from-transparent-proxy-redirection/
   - title: Reference
@@ -519,6 +521,8 @@ items:
         url: /reference/kuma-cp
       - text: Envoy proxy template
         url: /reference/proxy-template/
+      - text: Upgrading Transparent Proxy
+        url: /guides/upgrading-transparent-proxy/
   - title: Community
     group: true
     items:
