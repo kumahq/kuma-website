@@ -504,6 +504,8 @@ items:
         url: /guides/progressively-rolling-in-strict-mtls/
       - text: Producer and consumer policies
         url: /guides/consumer-producer-policies
+      - text: Excluding Traffic from Transparent Proxy Redirection
+        url: /guides/excluding-traffic-from-transparent-proxy-redirection/
   - title: Reference
     group: true
     items:
