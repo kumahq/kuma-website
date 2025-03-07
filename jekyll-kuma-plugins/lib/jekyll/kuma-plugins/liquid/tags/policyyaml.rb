@@ -41,9 +41,8 @@ module Jekyll
 
           def initialize(tag_name, markup, options)
             super
-            @tabs_name, *params_list = @markup.split(' ')
             @params = { "raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false" }
-            params_list.each do |item|
+            markup.strip.split(' ').each do |item|
               sp = item.split('=')
               @params[sp[0]] = sp[1] unless sp[1] == ''
             end
@@ -240,18 +239,18 @@ module Jekyll
 
             # Conditionally render tabs based on use_meshservice
             htmlContent = "
-{% tabs #{@tabs_name} useUrlFragment=false additionalClasses=\"#{additional_classes}\" %}"
+{% tabs #{additional_classes} %}"
 
             if use_meshservice
               htmlContent += "
-{% tab #{@tabs_name} Kubernetes %}
+{% tab Kubernetes %}
 <div class=\"meshservice\">
  <label> <input type=\"checkbox\"> I am using <a href=\"#{docs_path}/networking/meshservice/\">MeshService</a> </label>
 </div>
 #{contents[:kube_legacy]}
 #{contents[:kube]}
 {% endtab %}
-{% tab #{@tabs_name} Universal %}
+{% tab Universal %}
 <div class=\"meshservice\">
  <label> <input type=\"checkbox\"> I am using <a href=\"#{docs_path}/networking/meshservice/\">MeshService</a> </label>
 </div>
@@ -260,10 +259,10 @@ module Jekyll
 {% endtab %}"
             else
               htmlContent += "
-{% tab #{@tabs_name} Kubernetes %}
+{% tab Kubernetes %}
 #{contents[:kube_legacy]}
 {% endtab %}
-{% tab #{@tabs_name} Universal %}
+{% tab Universal %}
 #{contents[:uni_legacy]}
 {% endtab %}"
             end

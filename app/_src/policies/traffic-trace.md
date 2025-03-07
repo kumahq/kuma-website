@@ -44,8 +44,8 @@ This assumes you already have a zipkin compatible collector running.
 If you haven't, read the [observability docs](/docs/{{ page.release }}/explore/observability).
 {% endtip %}
 
-{% tabs zipkin useUrlFragment=false %}
-{% tab zipkin Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -65,7 +65,7 @@ spec:
 
 Apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
-{% tab zipkin Universal %}
+{% tab Universal %}
 ```yaml
 type: Mesh
 name: default
@@ -89,8 +89,8 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 This assumes a Datadog agent is configured and running. If you haven't already check the [Datadog observability page](/docs/{{ page.release }}/explore/observability#configuring-datadog). 
 {% endtip %}
 
-{% tabs datadog useUrlFragment=false %}
-{% tab datadog Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -114,7 +114,7 @@ where `trace-svc` is the name of the Kubernetes Service you specified when you c
 Apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
-{% tab datadog Universal %}
+{% tab Universal %}
 ```yaml
 type: Mesh
 name: default
@@ -139,8 +139,8 @@ The `defaultBackend` property specifies the tracing backend to use if it's not e
 
 Next, create `TrafficTrace` resources that specify how to collect traces, and which backend to send them to.
 
-{% tabs traffic-trace useUrlFragment=false %}
-{% tab traffic-trace Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficTrace
@@ -158,7 +158,7 @@ spec:
 Apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
-{% tab traffic-trace Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficTrace
 name: trace-all-traffic

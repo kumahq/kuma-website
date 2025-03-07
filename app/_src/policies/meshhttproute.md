@@ -13,8 +13,8 @@ depending on where the request is coming from and where it's going to.
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
@@ -125,8 +125,8 @@ implementing A/B testing or canary deployments.
 Here is an example of a `MeshHTTPRoute` that splits the traffic from `frontend` to `backend` between versions,
 but only on endpoints starting with `/api`. All other endpoints will go to version: `1.0`.
 
-{% tabs split useUrlFragment=false %}
-{% tab split Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 {% if_version gte:2.3.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -200,7 +200,7 @@ spec:
 ```
 {% endif_version %}
 {% endtab %}
-{% tab split Universal %}
+{% tab Universal %}
 {% if_version gte:2.3.x %}
 ```yaml
 type: MeshHTTPRoute
@@ -281,7 +281,7 @@ first we have to create MeshServices `backend-v1` and `backend-v2` that select
 backend application instances according to the version.
 
 {% if_version eq:2.9.x %}
-{% policy_yaml traffic-split namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-split
@@ -322,7 +322,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml traffic-split-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-split
@@ -373,7 +373,7 @@ Here is an example of a `MeshHTTPRoute` that adds `x-custom-header` with value `
 when `frontend` tries to consume `backend`.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml traffic-modification-28x %}
+{% policy_yaml %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -407,7 +407,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml traffic-modification-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -441,7 +441,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml traffic-modification-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -482,7 +482,7 @@ This can be useful when testing a new version of the app with the production pay
 interrupting real users.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml traffic-mirror %}
+{% policy_yaml %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -526,7 +526,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml traffic-mirror-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -570,7 +570,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml traffic-mirror-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1

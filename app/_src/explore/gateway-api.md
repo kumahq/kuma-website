@@ -43,7 +43,7 @@ Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) are
    [additional configuration](#customization).
 
 {% capture gateway %}
-{% tabs usage useUrlFragment=false %}
+{% tabs %}
 {% tab usage Standard install %}
 
 For Helm and `kumactl` installations, a `GatewayClass` named `kuma` is automatically installed
