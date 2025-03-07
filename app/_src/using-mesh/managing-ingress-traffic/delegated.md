@@ -28,8 +28,8 @@ Checkout our [guide](/docs/{{ page.release }}/guides/gateway-delegated/) to get 
 
 ### Usage
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 {{site.mesh_product_name}} supports most ingress controllers. However, the recommended gateway in Kubernetes is [Kong](https://docs.konghq.com/gateway). You can use [Kong Ingress Controller for Kubernetes](https://docs.konghq.com/kubernetes-ingress-controller/) to implement authentication, transformations, and other functionality across Kubernetes clusters with zero downtime.
 
@@ -76,7 +76,7 @@ Note that in order to send multi-zone traffic you can either use the
 [`.mesh` address](/docs/{{ page.release }}/networking/dns) or create a `Service` of type `ExternalName` that points to that URL.
 
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 
 On Universal, you should define the `Dataplane` entity like this:
 

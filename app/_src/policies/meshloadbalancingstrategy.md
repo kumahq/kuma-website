@@ -13,8 +13,8 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.release }
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
@@ -234,7 +234,7 @@ must be prime number limited to 5000011. If it is not specified, the default is 
 Load balance requests from `frontend` to `backend` based on the HTTP header `x-header`:
 
 {% if_version lte:2.8.x %}
-{% policy_yaml ring-hash %}
+{% policy_yaml %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: ring-hash
@@ -263,7 +263,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml ring-hash-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: ring-hash
@@ -293,7 +293,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml ring-hash-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: ring-hash
@@ -327,7 +327,7 @@ spec:
 Requests to `backend` will be spread evenly across all zones where `backend` is deployed.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml disable-la-to-backend %}
+{% policy_yaml %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: disable-la-to-backend
@@ -349,7 +349,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
-{% policy_yaml disable-la-to-backend-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: disable-la-to-backend
@@ -375,7 +375,7 @@ spec:
 In this example, whenever a user sends a request to the `backend` service, 90% of the requests will arrive at the instance with the same value of the `k8s.io/node` tag, 9% of the requests will go to the instance with the same value as the caller of the `k8s.io/az` tag, and 1% will go to the rest of the instances.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml local-zone-affinity-backend %}
+{% policy_yaml %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -399,7 +399,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml local-zone-affinity-backend-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -427,7 +427,7 @@ spec:
 In this example, when a user sends a request to the backend service, the request is routed equally to all instances in the local zone. If there are no instances in the local zone, the request will fail because there is no cross zone traffic.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml local-zone-affinity-backend-2 %}
+{% policy_yaml %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -449,7 +449,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml local-zone-affinity-backend-2-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -473,7 +473,7 @@ spec:
 or 
 
 {% if_version lte:2.8.x %}
-{% policy_yaml local-zone-affinity-backend-3 %}
+{% policy_yaml %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -494,7 +494,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml local-zone-affinity-backend-3-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -519,7 +519,7 @@ spec:
 Requests to the backend service will be evenly distributed among all endpoints within the local zone. If there are fewer than 25% healthy hosts in the local zone, traffic will be redirected to other zones. Initially, traffic will be sent to the `us-1` zone. In the event that the `us-1` zone becomes unavailable, traffic will then be directed to all zones, except for `us-2` and `us-3`. If these zones are also found to have unhealthy hosts, the traffic will be rerouted to `us-2` and `us-3`.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml cross-zone-backend %}
+{% policy_yaml %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: cross-zone-backend
@@ -551,7 +551,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml cross-zone-backend-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: cross-zone-backend
@@ -589,7 +589,7 @@ Requests to backend will be distributed based on weights, with 99.9% of requests
 When no healthy backends are available within the local zone, traffic from data planes in zones `us-1`, `us-2`, and `us-3` will only fall back to zones `us-1`, `us-2`, and `us-3`, while in zones `eu-1`, `eu-2`, and `eu-3` will only fall back to zones `eu-1`, `eu-2`, and `eu-3`. If there are no healthy instances in all zones `eu-[1-3]` or `us-[1-3]`, requests from any instance will then fall back to `us-4`. If there are no healthy instances in `us-4`, the request will fail, as the last rule, by default, has a type of `None`, meaning no fallback is allowed.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml local-zone-affinity-cross-backend %}
+{% policy_yaml %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-cross-backend
@@ -631,7 +631,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml local-zone-affinity-cross-backend-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-cross-backend
@@ -684,7 +684,7 @@ HTTP traffic between Envoys is upgraded to HTTP/2 automatically for performance 
 You can mitigate this problem by adjusting `max_requests_per_connection` setting on Envoy Cluster. For example
 
 {% if_version lte:2.8.x %}
-{% policy_yaml local-zone-affinity-backend-4 %}
+{% policy_yaml %}
 ```yaml
 type: MeshProxyPatch
 name: max-requests-per-conn
@@ -705,7 +705,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml local-zone-affinity-backend-4-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshProxyPatch
 name: max-requests-per-conn

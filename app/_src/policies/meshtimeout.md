@@ -10,8 +10,8 @@ Do **not** combine with [Timeout policy](/docs/{{ page.release }}/policies/timeo
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                                             |
@@ -166,7 +166,7 @@ The amount of time that proxy will wait for the request headers to be received. 
 This configuration will be applied to all data plane proxies inside of Mesh.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example1 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: timeout-global
@@ -186,7 +186,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml example1-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTimeout
 name: timeout-global
@@ -207,7 +207,7 @@ spec:
 #### Simple TCP configuration
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example2 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: tcp-timeout
@@ -225,7 +225,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml example2-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTimeout
 name: tcp-timeout
@@ -246,7 +246,7 @@ spec:
 This configuration will be applied to `backend` service inbound.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example3 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -267,7 +267,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml example3-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -288,7 +288,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml example3-210x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -314,7 +314,7 @@ This timeout configuration will be applied to all inbound connections to `fronte
 from `frontend` to `backend` service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example4 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -354,7 +354,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml example4-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -395,7 +395,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml example4-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -445,7 +445,7 @@ In the following example the `MeshHTTPRoute` policy `route-to-backend-v2` redire
 `MeshTimeout` `backend-v2` configures timeouts only for requests that are going through `route-to-backend-v2` route. 
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example5 %}
+{% policy_yaml %}
 ```yaml
 type: MeshHTTPRoute
 name: route-to-backend-v2
@@ -479,7 +479,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml example5-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: route-to-backend-v2
@@ -512,7 +512,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml example5-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: route-to-backend-v2
@@ -546,7 +546,7 @@ spec:
 
 You can see in the following route that the top level `targetRef` matches the previously defined `MeshHTTPRoute`.
 {% if_version lte:2.8.x %}
-{% policy_yaml example6 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: backend-v2
@@ -567,7 +567,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
-{% policy_yaml example6-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTimeout
 name: backend-v2
@@ -593,7 +593,7 @@ spec:
 
 This configuration will be applied on inbounds and outbounds of all gateways.
 
-{% policy_yaml example7 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: mesh-gateways-timeout-all-default

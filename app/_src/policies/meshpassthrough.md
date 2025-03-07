@@ -11,8 +11,8 @@ When using this policy, the [passthrough mode](/docs/{{ page.release }}/networki
 
 ## TargetRef support matrix
 
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.9.x %}
 | `targetRef`           | Allowed kinds         |
 | --------------------- | --------------------- |
@@ -67,7 +67,7 @@ Currently, support for partial subdomain matching is not implemented. For exampl
 {% endwarning %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml wildcard-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshPassthrough
 name: wildcard-passthrough
@@ -88,7 +88,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml wildcard-210x %}
+{% policy_yaml %}
 ```yaml
 type: MeshPassthrough
 name: wildcard-passthrough
@@ -130,7 +130,7 @@ If you rely on tags in the top-level `targetRef` you might consider securing the
 ### Disable passthrough for all sidecars
 
 {% if_version eq:2.9.x %}
-{% policy_yaml example1-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshPassthrough
 name: disable-passthrough
@@ -146,7 +146,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml example1-210x %}
+{% policy_yaml %}
 ```yaml
 type: MeshPassthrough
 name: disable-passthrough
@@ -163,7 +163,7 @@ spec:
 ### Enable passthrough for a subset of sidecars
 
 {% if_version eq:2.9.x %}
-{% policy_yaml example2-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshPassthrough
 name: enable-passthrough
@@ -181,7 +181,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml example2-210x %}
+{% policy_yaml %}
 ```yaml
 type: MeshPassthrough
 name: enable-passthrough
@@ -200,7 +200,7 @@ spec:
 ### Allow a subset of services to communicate with specific external endpoints
 
 {% if_version eq:2.9.x %}
-{% policy_yaml example3-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshPassthrough
 name: allow-some-passthrough
@@ -239,7 +239,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml example3-210x %}
+{% policy_yaml %}
 ```yaml
 type: MeshPassthrough
 name: allow-some-passthrough

@@ -12,8 +12,8 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 ## TargetRef support matrix
 
 {% if_version gte:2.4.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
@@ -225,7 +225,7 @@ then the amount of time to wait before issuing a request is determined by [back 
 ### HTTP frontend to backend on 5xx
 
 {% if_version lte:2.8.x %}
-{% policy_yaml meshretry-http-28x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-http
@@ -253,7 +253,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml meshretry-http-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-http
@@ -283,7 +283,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml meshretry-http-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-http
@@ -316,7 +316,7 @@ spec:
 ### gRPC frontend to backend on DeadlineExceeded
 
 {% if_version lte:2.8.x %}
-{% policy_yaml meshretry-grpc-28x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-grpc
@@ -344,7 +344,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml meshretry-grpc-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-grpc
@@ -374,7 +374,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml meshretry-grpc-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-grpc
@@ -406,7 +406,7 @@ spec:
 ### TCP frontend to backend
 
 {% if_version lte:2.8.x %}
-{% policy_yaml meshretry-tcp-28x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-tcp
@@ -429,7 +429,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml meshretry-tcp-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-tcp
@@ -454,7 +454,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml meshretry-tcp-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-tcp

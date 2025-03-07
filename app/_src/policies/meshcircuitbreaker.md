@@ -39,8 +39,8 @@ target proxies are healthy or not.
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
@@ -147,12 +147,12 @@ For **gRPC** requests, the outlier detection will use the HTTP status mapped fro
 
 Configuration for supported outlier detectors. At least one detector needs to be configured when policy is configured for outlier detection.
 
-{% tabs detectors useUrlFragment=false %}
+{% tabs %}
 {% tab detectors Total Failures %}
 
 Depending on mode the outlier detection can take into account all or externally originated (transaction) errors only. 
 
-{% tabs totalFailures_modes useUrlFragment=false %}
+{% tabs %}
 {% tab totalFailures_modes Default Mode %}
 
 {% tip %}
@@ -235,7 +235,7 @@ spec:
 
 Depending on mode the outlier detection can take into account gateway failures with locally originated failures (default mode) or gateway failures only (split mode).
 
-{% tabs gatewayFailures_modes useUrlFragment=false %}
+{% tabs %}
 {% tab gatewayFailures_modes Default Mode %}
 
 {% tip %}
@@ -321,7 +321,7 @@ This detection takes into account only locally originated errors (timeout, reset
 
 If Envoy repeatedly cannot connect to an upstream host or communication with the upstream host is repeatedly interrupted, it will be ejected. Various locally originated problems are detected: timeout, TCP reset, ICMP errors, etc.
 
-{% tabs localOriginFailures_modes useUrlFragment=false %}
+{% tabs %}
 {% tab localOriginFailures_modes Split Mode %}
 
 {% tip %}
@@ -369,7 +369,7 @@ value.
 
 Moreover, detection will not be performed for a cluster if the number of hosts with the minimum required request volume in an interval is less than the `successRate.minimumHosts` value.
 
-{% tabs successRate_modes useUrlFragment=false %}
+{% tabs %}
 {% tab successRate_modes Default Mode %}
 
 {% tip %}
@@ -427,7 +427,7 @@ The other configuration fields for failure percentage based detection are simila
 
 Detection also will not be performed for an Envoy Cluster if the number of hosts with the minimum required request volume in an interval is less than the `failurePercentage.minimumHosts` value.
 
-{% tabs failurePercentage_modes useUrlFragment=false %}
+{% tabs %}
 {% tab failurePercentage_modes Default Mode %}
 
 {% tip %}
@@ -487,7 +487,7 @@ spec:
 #### Basic circuit breaker for outbound traffic from web, to backend service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml usage-28x %}
+{% policy_yaml %}
 ```yaml
 type: MeshCircuitBreaker
 name: web-to-backend-circuit-breaker
@@ -514,7 +514,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml usage-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshCircuitBreaker
 name: web-to-backend-circuit-breaker
@@ -542,7 +542,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml usage-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshCircuitBreaker
 name: web-to-backend-circuit-breaker
@@ -572,7 +572,7 @@ spec:
 #### Outlier detection for inbound traffic to backend service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml protocol-28x %}
+{% policy_yaml %}
 ```yaml
 type: MeshCircuitBreaker
 name: backend-inbound-outlier-detection
@@ -611,7 +611,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml protocol-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshCircuitBreaker
 name: backend-inbound-outlier-detection
@@ -651,7 +651,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml protocol-210x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshCircuitBreaker
 name: backend-inbound-outlier-detection

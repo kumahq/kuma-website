@@ -45,13 +45,13 @@ If you use [MeshService](/docs/{{ page.release }}/networking/meshservice), [Mesh
 
 ## Installation
 
-{% tabs installation useUrlFragment=false %}
-{% tab installation Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 {{site.mesh_product_name}} DNS is enabled by default whenever kuma-dp sidecar proxy is injected.
 
 {% endtab %}
-{% tab installation Universal %}
+{% tab Universal %}
 
 Follow the instruction in [transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/).
 
@@ -73,8 +73,8 @@ In some cases it might be useful for you to configure the default CoreDNS config
 {{site.mesh_product_name}} supports overriding the CoreDNS configuration from control plane for both Kubernetes and Universal installations; for Universal installations, {{site.mesh_product_name}} also supports overriding from data planes. When overriding from control plane, all the data planes in the mesh will use the overridden DNS configuration.
 {% endif_version %}
 
-{% tabs override useUrlFragment=false %}
-{% tab override Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 {% if_version gte:2.6.x %}
 Only overriding from control plane is supported.
 
@@ -100,7 +100,7 @@ kubectl create --namespace {{site.mesh_namespace}} configmap corefile-template \
 
 Point to this configmap when installing {{site.mesh_product_name}}:
 
-{% tabs install-control-plane useUrlFragment=false %}
+{% tabs %}
 {% tab install-control-plane Kubernetes (kumactl) %}
 
 ```sh
@@ -129,7 +129,7 @@ helm install --namespace {{site.mesh_namespace}} \
 At this moment, there is no builtin option to override CoreDNS configuration.
 {% endif_version %}
 {% endtab %}
-{% tab override Universal %}
+{% tab Universal %}
 {% if_version lte:2.5.x %}
 {{site.mesh_product_name}} supports overriding DNS from data planes.
 {% endif_version %}

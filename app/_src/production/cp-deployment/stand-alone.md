@@ -5,8 +5,8 @@ content_type: how-to
 
 In order to deploy {{site.mesh_product_name}} in a standalone deployment, the `kuma-cp` control plane must be started in `standalone` mode:
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 This is the standard installation method. 
 {% cpinstall cpstandalone %}
 controlPlane.mode=standalone
@@ -21,7 +21,7 @@ egress.enabled=true
 {% endcpinstall %}
 
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 
 {% tip %}
 When running the standalone control plane in Universal mode, a database must be used to persist state for production deployments.

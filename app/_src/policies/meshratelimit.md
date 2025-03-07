@@ -23,8 +23,8 @@ Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/ex
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
@@ -113,7 +113,7 @@ TCP rate limiting allows the configuration of a number of connections in the spe
 ### HTTP Rate limit configured for service `backend` from all services in the Mesh
 
 {% if_version lte:2.5.x %}
-{% policy_yaml http-rate-limit %}
+{% policy_yaml %}
 ```yaml
 type: MeshRateLimit
 mesh: default
@@ -144,7 +144,7 @@ spec:
 
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
-{% policy_yaml http-rate-limit-26x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRateLimit
 mesh: default
@@ -176,7 +176,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml http-rate-limit-namespaced-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshRateLimit
 mesh: default
@@ -207,7 +207,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml http-rate-limit-namespaced-210x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshRateLimit
 mesh: default
@@ -239,7 +239,7 @@ spec:
 ### TCP rate limit for service backend from all services in the Mesh
 
 {% if_version lte:2.5.x %}
-{% policy_yaml from-backend %}
+{% policy_yaml %}
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
@@ -264,7 +264,7 @@ spec:
 
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
-{% policy_yaml from-backend-26x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
@@ -290,7 +290,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml from-backend-namespaced-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
@@ -315,7 +315,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml from-backend-namespaced-210x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
