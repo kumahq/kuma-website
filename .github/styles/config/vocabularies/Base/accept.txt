@@ -178,6 +178,7 @@ wireframes?
 workspace
 yaml
 yml
+Xcode
 [xX]DS|xds
 Zipkin
 zsh

@@ -517,6 +517,8 @@ items:
         url: /reference/kuma-cp
       - text: Envoy proxy template
         url: /reference/proxy-template/
+      - text: Upgrading Transparent Proxy
+        url: /guides/upgrading-transparent-proxy/
   - title: Community
     group: true
     items:
