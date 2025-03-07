@@ -17,8 +17,8 @@ Checkout our [guide](/docs/{{ page.release }}/guides/gateway-builtin/) to get qu
 The process for deploying built-in gateways is different depending on whether
 you're running in Kubernetes or Universal mode.
 
-{% tabs setup useUrlFragment=false %}
-{% tab setup Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 For managing gateway instances on Kubernetes, {{site.mesh_product_name}} provides a
 [`MeshGatewayInstance`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-k8s) CRD.
@@ -77,7 +77,7 @@ spec:
 
 See [the `MeshGatewayInstance` docs](/docs/{{ page.release }}//using-mesh/managing-ingress-traffic/builtin-k8s) for more options.
 {% endtab %}
-{% tab setup Universal %}
+{% tab Universal %}
 
 You'll need to create a `Dataplane` object for your gateway:
 

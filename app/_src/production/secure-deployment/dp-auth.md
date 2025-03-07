@@ -104,8 +104,8 @@ Every token has its own ID which is available in payload under `jti` key. You ca
 
 Specify list of revoked IDs separated by `,` and store it as `Secret` named `dataplane-token-revocations-{mesh}`
 
-{% tabs token-revocation useUrlFragment=false %}
-{% tab token-revocation Universal %}
+{% tabs %}
+{% tab Universal %}
 
 ```sh
 echo "
@@ -116,7 +116,7 @@ data: {{ revocations }}" | kumactl apply --var revocations=$(echo '0e120ec9-6b42
 ```
 
 {% endtab %}
-{% tab token-revocation Kubernetes %}
+{% tab Kubernetes %}
 
 ```sh
 REVOCATIONS=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) && echo "apiVersion: v1
@@ -142,8 +142,8 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    Make sure to generate the new signing key with a serial number greater than the serial number of the current signing key.
 
    {% capture tabs %}
-   {% tabs key-rotation useUrlFragment=false %}
-   {% tab key-rotation Universal %}
+   {% tabs %}
+   {% tab Universal %}
    Check what is the current highest serial number.
 
    ```sh
@@ -163,7 +163,7 @@ If the signing key is compromised, we must rotate it and all the tokens that was
    ```
 
    {% endtab %}
-   {% tab key-rotation Kubernetes %}
+   {% tab Kubernetes %}
    Check what is the current highest serial number.
 
    ```sh
@@ -198,13 +198,13 @@ If the signing key is compromised, we must rotate it and all the tokens that was
 
 3. Remove the old signing key
    {% capture tabs %}
-   {% tabs remove-key useUrlFragment=false %}
-   {% tab remove-key Universal %}
+   {% tabs %}
+   {% tab Universal %}
    ```sh
    kumactl delete secret dataplane-token-signing-key-default-1 --mesh=default
    ```
    {% endtab %}
-   {% tab remove-key Kubernetes %}
+   {% tab Kubernetes %}
    ```sh
    kubectl delete secret dataplane-token-signing-key-default-1 -n {{site.mesh_namespace}}
    ```

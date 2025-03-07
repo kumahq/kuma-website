@@ -19,8 +19,8 @@ depending on where the request is coming from and where it's going to.
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
@@ -174,7 +174,7 @@ different tags and implement A/B testing or canary deployments.
 Here's an example of a `MeshTCPRoute` that splits the traffic from 
 `frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions:
 
-{% policy_yaml split %}
+{% policy_yaml %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -216,7 +216,7 @@ first we have to create MeshServices `backend-v1` and `backend-v2` that select
 backend application instances according to the version.
 
 {% if_version eq:2.9.x %}
-{% policy_yaml traffic-split-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -253,7 +253,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml traffic-split-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -301,7 +301,7 @@ originating at `frontend_kuma-demo_svc_8080` from `backend_kuma-demo_svc_3001`
 to `external-backend`:
 
 {% if_version lte:2.8.x %}
-{% policy_yaml modifications %}
+{% policy_yaml %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -330,7 +330,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml modifications-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -360,7 +360,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml modifications-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -440,7 +440,7 @@ to:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml collision-tcp-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: simple-http
@@ -467,7 +467,7 @@ spec:
                 _port: 8080
 ```
 {% endpolicy_yaml %}
-{% policy_yaml collision-http-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: simple-http
@@ -501,7 +501,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml collision-tcp-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: simple-http
@@ -528,7 +528,7 @@ spec:
                 _port: 8080
 ```
 {% endpolicy_yaml %}
-{% policy_yaml collision-http-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: simple-http

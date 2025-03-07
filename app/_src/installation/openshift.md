@@ -18,7 +18,7 @@ Finally, you can follow the [Quickstart](#4-quickstart) to take it from here and
 
 We can install and run {{site.mesh_product_name}}:
 
-{% tabs openshift-run useUrlFragment=false %}
+{% tabs %}
 {% tab openshift-run OpenShift 4.x %}
 
 ```sh
@@ -72,7 +72,7 @@ oc get pod -n {{site.mesh_namespace}}
 
 {{site.mesh_product_name}} (`kuma-cp`) will be installed in the newly created `{{site.mesh_namespace}}` namespace! Now that {{site.mesh_product_name}} has been installed, you can access the control-plane via either the GUI, `oc`, the HTTP API, or the CLI:
 
-{% tabs openshift-use useUrlFragment=false %}
+{% tabs %}
 {% tab openshift-use GUI (Read-Only) %}
 
 {{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default the GUI listens on the API port and defaults to `:5681/gui`.

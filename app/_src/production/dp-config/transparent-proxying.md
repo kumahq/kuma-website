@@ -159,8 +159,8 @@ In the future release, `kumactl` [will ship](https://github.com/kumahq/kuma/issu
 
 ### Intercepted traffic
 
-{% tabs intercepted-traffic useUrlFragment=false %}
-{% tab intercepted-traffic Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 By default, all the traffic is intercepted by Envoy. You can exclude which ports are intercepted by Envoy with the following annotations placed on the Pod
 
@@ -194,7 +194,7 @@ KUMA_RUNTIME_KUBERNETES_SIDECAR_TRAFFIC_EXCLUDE_OUTBOUND_PORTS=5678,8900
 
 {% endtab %}
 
-{% tab intercepted-traffic Universal %}
+{% tab Universal %}
 By default, all ports are intercepted by the transparent proxy. This may prevent remote access to the host via SSH (port `22`) or other management tools when `kuma-dp` is not running.
 
 If you need to access the host directly, even when `kuma-dp` is not running, use the `--exclude-inbound-ports` flag with `kumactl install transparent-proxy` to specify a comma-separated list of ports to exclude from redirection.
@@ -209,8 +209,8 @@ By default, every data plane proxy in the mesh follows every other data plane pr
 This may lead to performance problems in larger deployments of the mesh.
 It is highly recommended to define a list of services that your service connects to.
 
-{% tabs reachable-services useUrlFragment=false %}
-{% tab reachable-services Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -230,7 +230,7 @@ spec:
         ...
 ```
 {% endtab %}
-{% tab reachable-services Universal %}
+{% tab Universal %}
 ```yaml
 type: Dataplane
 mesh: default
@@ -277,8 +277,8 @@ Unlike reachable services, the model for providing data in Reachable Backends is
   - **labels**: A list of labels to match on the resources (either `labels` or `name` can be defined).
   - **port**: (Optional) The port of the service you want to communicate with. Works with `MeshService` and `MeshMultiZoneService`
 
-{% tabs reachable-backends-model useUrlFragment=false %}
-{% tab reachable-backends-model Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: apps/v1
@@ -303,7 +303,7 @@ spec:
             namespace: kuma-system
 ```
 {% endtab %}
-{% tab reachable-backends-model Universal %}
+{% tab Universal %}
 ```yaml
 type: Dataplane
 mesh: default
@@ -330,8 +330,8 @@ networking:
 
 ##### `demo-app` communicates only with `redis` on port 6379
 
-{% tabs reachable-backends useUrlFragment=false %}
-{% tab reachable-backends Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -355,7 +355,7 @@ spec:
         ...
 ```
 {% endtab %}
-{% tab reachable-backends Universal %}
+{% tab Universal %}
 ```yaml
 type: Dataplane
 mesh: default
@@ -380,8 +380,8 @@ networking:
 
 ##### `demo-app` doesn't need to communicate with any service
 
-{% tabs reachable-backends-no-services useUrlFragment=false %}
-{% tab reachable-backends-no-services Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -400,7 +400,7 @@ spec:
         ...
 ```
 {% endtab %}
-{% tab reachable-backends-no-services Universal %}
+{% tab Universal %}
 ```yaml
 type: Dataplane
 mesh: default
@@ -421,8 +421,8 @@ networking:
 
 ##### `demo-app` wants to communicate with all MeshServices in `kuma-demo` namespace
 
-{% tabs reachable-backends-in-namespace useUrlFragment=false %}
-{% tab reachable-backends-in-namespace Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -457,8 +457,8 @@ To use Transparent Proxy with eBPF your environment has to use `Kernel >= 5.7`
 and have `cgroup2` available
 {% endwarning %}
 
-{% tabs ebpf useUrlFragment=false %}
-{% tab ebpf Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```sh
 kumactl install control-plane \
@@ -467,7 +467,7 @@ kumactl install control-plane \
 
 {% endtab %}
 
-{% tab ebpf Universal %}
+{% tab Universal %}
 
 ```sh
 kumactl install transparent-proxy \

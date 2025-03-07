@@ -29,8 +29,8 @@ A _logging backend_ is essentially a sink for access logs.
 
 Currently, it can be either a `file` or a `TCP log collector`, such as Logstash, Splunk or other.
 
-{% tabs logging-backend useUrlFragment=false %}
-{% tab logging-backend Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -61,7 +61,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab logging-backend Universal %}
+{% tab Universal %}
 ```yaml
 type: Mesh
 name: default
@@ -93,8 +93,8 @@ logging:
 
 You need to create a `TrafficLog` policy to select a subset of traffic and write its access logs into one of the backends configured for that mesh.
 
-{% tabs traffic-log useUrlFragment=false %}
-{% tab traffic-log Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficLog
@@ -130,7 +130,7 @@ spec:
     backend: logstash
 ```
 {% endtab %}
-{% tab traffic-log Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficLog
 name: all-traffic

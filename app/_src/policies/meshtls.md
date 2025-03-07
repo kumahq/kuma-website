@@ -7,7 +7,7 @@ Backends and default mode values are taken from [the Mesh object](/docs/{{ page.
 
 ## TargetRef support matrix
 
-{% tabs targetRef useUrlFragment=false %}
+{% tabs %}
 {% tab targetRef For mode %}
 {% if_version eq:2.9.x %}
 | `targetRef`             | Allowed kinds        |
@@ -51,7 +51,7 @@ In that case, please open an [issue](https://github.com/kumahq/kuma/issues).
 
 ### Set specific TLS version and ciphers
 
-{% policy_yaml example1 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTLS
 name: set-version-and-ciphers
@@ -74,7 +74,7 @@ spec:
 ### Enable strict mode on specific subset
 
 {% if_version eq:2.9.x %}
-{% policy_yaml example2-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTLS
 name: strict-mode
@@ -94,7 +94,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml example2-210x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTLS
 name: strict-mode

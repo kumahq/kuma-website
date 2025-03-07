@@ -31,8 +31,8 @@ module Jekyll
             res = opts.join(" \\\n  ")
 
             htmlContent = "
-{% tabs #{@tabs_name} useUrlFragment=false additionalClasses=\"codeblock\" %}
-{% tab #{@tabs_name} kumactl %}
+{% tabs codeblock %}
+{% tab kumactl %}
 ```shell
 kumactl install control-plane \\
   #{res} \\
@@ -40,7 +40,7 @@ kumactl install control-plane \\
 ```
 {:.no-line-numbers}
 {% endtab %}
-{% tab #{@tabs_name} Helm %}
+{% tab Helm %}
 ```shell
 \# Before installing {{ site.mesh_product_name }} with Helm, configure your local Helm repository:
 \# {{ site.links.web }}/#{product_url_segment(page)}/{{ page.release }}/production/cp-deployment/kubernetes/#helm
