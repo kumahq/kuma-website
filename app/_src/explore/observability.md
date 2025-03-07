@@ -296,7 +296,7 @@ The [Datadog agent docs](https://docs.datadoghq.com/agent/kubernetes/installatio
 {% endtab %}
 
 {% tab Universal %}
-Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent).
+Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_usage).
 {% endtab %}
 {% endtabs %}
 
@@ -349,7 +349,7 @@ if it did adjust accordingly.
 {% endtab %}
 
 {% tab Universal %}
-Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent)
+Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_usage)
 {% endtab %}
 {% endtabs %}
 
