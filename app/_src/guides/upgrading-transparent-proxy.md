@@ -43,12 +43,12 @@ iptables --table mangle --flush      # Flush all rules in the mangle table (IPv4
 ip6tables --table mangle --flush     # Flush all rules in the mangle table (IPv6)
 ```
 
-### Step 2: Install new transparent proxy
+### Step 2: Install the new transparent proxy
 
-After clearing the `iptables` rules (if necessary), reinstall the transparent proxy by running:
+After clearing the `iptables` rules (if necessary), reinstall the transparent proxy. For example:
 
 ```sh
-kumactl install transparent-proxy [...]
+kumactl install transparent-proxy --kuma-dp-user kuma-dp --redirect-dns --verbose
 ```
 
-This command will install the new version of the transparent proxy with the specified configuration. Adjust the flags as needed to suit your environment.
+This installs the latest version of the transparent proxy with the specified configuration. Adjust the flags as needed for your environment.
