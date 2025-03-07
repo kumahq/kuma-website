@@ -28,11 +28,11 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 2. **Set up {{ Kuma }}**: Ensure {{ Kuma }} is installed and running.
 
    {% capture prerequisites-setup-kuma %}
-   {% tabs prerequisites-setup-kuma %}
-   {% tab prerequisites-setup-kuma Kubernetes %}
+   {% tabs %}
+   {% tab Kubernetes %}
    Follow the [Kubernetes Quickstart]({{ docs }}/quickstart/kubernetes-demo/) guide to set up a zone control plane and demo application.
    {% endtab %}
-   {% tab prerequisites-setup-kuma Universal %}
+   {% tab Universal %}
    Confirm that all necessary components are up and running. The following resources may be useful:
 
    - To set up a single-zone control plane, follow the [Single Zone Control Plane Deployment]({{ docs }}/production/cp-deployment/single-zone/) guide.
@@ -49,8 +49,8 @@ Use this guide to control which traffic the transparent proxy intercepts and whi
 
 This example shows how to exclude incoming traffic on port `1234` and outgoing traffic on ports `5678` and `8900`.
 
-{% tabs excluding-incoming-traffic-to-specific-ports useUrlFragment=false %}
-{% tab excluding-incoming-traffic-to-specific-ports Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 To exclude these ports in Kubernetes mode, add the `traffic.kuma.io/exclude-inbound-ports` annotation for incoming traffic and `traffic.kuma.io/exclude-outbound-ports` for outgoing traffic. For example, your Pod configuration could look like this:
 
 ```yaml
@@ -73,7 +73,7 @@ kubectl annotate pods example-app \
 ```
 {% endtab %}
 
-{% tab excluding-incoming-traffic-to-specific-ports Universal %}
+{% tab Universal %}
 To exclude specific ports in Universal mode, configure the transparent proxy with `redirect.inbound.excludePorts` and `redirect.outbound.excludePorts` settings. Here’s an example:
 
 ```sh
@@ -92,8 +92,8 @@ redirect:
 
 This example shows how to exclude incoming traffic coming from addresses in range `10.0.0.0/8` and outgoing traffic directed to address `192.168.10.1` or addresses in range `fd10::/16`.
 
-{% tabs exclude-traffic-to-and-from-specific-ip-addresses useUrlFragment=false %}
-{% tab exclude-traffic-to-and-from-specific-ip-addresses Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 To exclude these addresses in Kubernetes mode, add the `traffic.kuma.io/exclude-inbound-ips` annotation for incoming traffic and `traffic.kuma.io/exclude-outbound-ips` for outgoing traffic. For example, your Pod configuration could look like this:
 
 ```yaml
@@ -115,7 +115,7 @@ kubectl annotate pods example-app \
   "traffic.kuma.io/exclude-outbound-ips=192.168.10.1,fd10::/16"
 ```
 {% endtab %}
-{% tab exclude-traffic-to-and-from-specific-ip-addresses Universal %}
+{% tab Universal %}
 To exclude these addresses in Universal mode, configure the transparent proxy with `redirect.inbound.excludePortsForIPs` and `redirect.outbound.excludePortsForIPs` settings. Here’s an example:
 
 ```sh
