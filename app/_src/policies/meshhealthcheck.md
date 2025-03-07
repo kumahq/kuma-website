@@ -25,8 +25,8 @@ This mode generates extra traffic to other proxies and services as described in 
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
@@ -100,7 +100,7 @@ See [protocol fallback example](#protocol-fallback).
 #### Health check from web to backend service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml usage %}
+{% policy_yaml %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -129,7 +129,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml usage-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -159,7 +159,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml usage-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -191,7 +191,7 @@ spec:
 #### Protocol fallback
 
 {% if_version lte:2.8.x %}
-{% policy_yaml protocol %}
+{% policy_yaml %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -220,7 +220,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml protocol-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -250,7 +250,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml protocol-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -283,7 +283,7 @@ spec:
 #### gRPC health check from cart to payment service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml grpc %}
+{% policy_yaml %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -311,7 +311,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml grpc-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -340,7 +340,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml grpc-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check

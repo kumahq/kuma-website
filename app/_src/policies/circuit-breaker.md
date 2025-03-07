@@ -36,8 +36,8 @@ As usual, we can apply `sources` and `destinations` selectors to determine how c
 
 For example:
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: CircuitBreaker
@@ -79,7 +79,7 @@ spec:
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 ```yaml
 type: CircuitBreaker
 mesh: default
@@ -122,8 +122,8 @@ We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP AP
 
 The example demonstrates a complete configuration. A `CircuitBreaker` can also be configured in a simpler way by leveraging the default values of Envoy for any property that is not explicitly defined, for instance:
 
-{% tabs complete-configuration useUrlFragment=false %}
-{% tab complete-configuration Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: CircuitBreaker
@@ -144,7 +144,7 @@ spec:
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
-{% tab complete-configuration Universal %}
+{% tab Universal %}
 ```yaml
 type: CircuitBreaker
 mesh: default

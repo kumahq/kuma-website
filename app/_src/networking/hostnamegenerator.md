@@ -41,7 +41,7 @@ The following policy is automatically created on a zone control plane.
 It creates a hostname for each `MeshExternalService` created in a zone.
 For example, `MeshExternalService` of name `aurora` would obtain `aurora.extsvc.mesh.local` hostname.
 
-{% policy_yaml local-mesh-external-service %}
+{% policy_yaml %}
 ```yaml
 type: HostnameGenerator
 name: local-mesh-external-service
@@ -61,7 +61,7 @@ The following policies are automatically created on a global control plane and s
 The first creates a hostname for each `MeshService` synced from another Kubernetes zone.
 For example, `MeshService` of name `redis` and namespace `redis-system` from zone `east` would obtain `redis.redis-system.svc.east.mesh.local`
 
-{% policy_yaml synced-kube-mesh-service %}
+{% policy_yaml %}
 ```yaml
 type: HostnameGenerator
 name: synced-kube-mesh-service
@@ -79,7 +79,7 @@ spec:
 The second creates a hostname for each `MeshService` synced from another Kubernetes zone that were created from a headless `Service`.
 For example, instance `redis-0` of `MeshService` of name `redis` and namespace `redis-system` from zone `east` would obtain `redis-0.redis.redis-system.svc.east.mesh.local`
 
-{% policy_yaml synced-headless-kube-mesh-service %}
+{% policy_yaml %}
 ```yaml
 type: HostnameGenerator
 name: synced-headless-kube-mesh-service
@@ -100,7 +100,7 @@ The following policy is automatically created on a global control plane and sync
 It creates a hostname for each `MeshService` synced from another Universal zone.
 For example, `MeshService` of name `redis` from zone `west` would obtain `redis.svc.west.mesh.local`
 
-{% policy_yaml synced-universal-mesh-service %}
+{% policy_yaml %}
 ```yaml
 type: HostnameGenerator
 name: synced-universal-mesh-service
@@ -120,7 +120,7 @@ The following policy is automatically created on a global control plane and sync
 It creates a hostname for each `MeshMultiZoneService` synced from a global control plane.
 For example, `MeshMultiZoneService` of name `redis` would obtain `redis.mzsvc.mesh.local`
 
-{% policy_yaml synced-mesh-multi-zone-service %}
+{% policy_yaml %}
 ```yaml
 type: HostnameGenerator
 name: synced-mesh-multi-zone-service
@@ -140,7 +140,7 @@ The following policy is automatically created on a global control plane and sync
 It creates a hostname for each `MeshExternalService` synced from a global control plane.
 For example, `MeshExternalService` of name `aurora` would obtain `aurora.extsvc.mesh.local`
 
-{% policy_yaml synced-mesh-external-service %}
+{% policy_yaml %}
 ```yaml
 type: HostnameGenerator
 name: synced-mesh-external-service

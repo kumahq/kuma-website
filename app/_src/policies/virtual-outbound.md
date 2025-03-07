@@ -41,8 +41,8 @@ inbound:
 
 and a virtual outbound with this definition:
 
-{% tabs default-test-virtualoutbound useUrlFragment=false %}
-{% tab default-test-virtualoutbound Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 {% raw %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -67,7 +67,7 @@ spec:
 ```
 {% endraw %}
 {% endtab %}
-{% tab default-test-virtualoutbound Universal %}
+{% tab Universal %}
 {% raw %}
 ```yaml
 type: VirtualOutbound
@@ -114,8 +114,8 @@ The following examples show how to use virtual outbounds for different use cases
 
 ### Same as the default DNS
 
-{% tabs default-dns useUrlFragment=false %}
-{% tab default-dns Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 {% raw %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -136,7 +136,7 @@ spec:
 ```
 {% endraw %}
 {% endtab %}
-{% tab default-dns Universal %}
+{% tab Universal %}
 {% raw %}
 ```yaml
 type: VirtualOutbound
@@ -158,8 +158,8 @@ conf:
 
 ### One hostname per version
 
-{% tabs one-hostname-per-version useUrlFragment=false %}
-{% tab one-hostname-per-version Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 {% raw %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -182,7 +182,7 @@ spec:
 ```
 {% endraw %}
 {% endtab %}
-{% tab one-hostname-per-version Universal %}
+{% tab Universal %}
 {% raw %}
 ```yaml
 type: VirtualOutbound
@@ -207,8 +207,8 @@ spec:
 
 ### Custom tag to define the hostname and port
 
-{% tabs custom-tag useUrlFragment=false %}
-{% tab custom-tag Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 {% raw %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -231,7 +231,7 @@ spec:
 ```
 {% endraw %}
 {% endtab %}
-{% tab custom-tag Universal %}
+{% tab Universal %}
 {% raw %}
 ```yaml
 type: VirtualOutbound
@@ -259,8 +259,8 @@ conf:
 Enables reaching specific data plane proxies for a service.
 Useful for running distributed databases such as Kafka or Zookeeper.
 
-{% tabs one-hostname-per-instance useUrlFragment=false %}
-{% tab one-hostname-per-instance Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 {% raw %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -284,7 +284,7 @@ spec:
 ```
 {% endraw %}
 {% endtab %}
-{% tab one-hostname-per-instance Universal %}
+{% tab Universal %}
 {% raw %}
 ```yaml
 type: VirtualOutbound

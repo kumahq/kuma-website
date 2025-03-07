@@ -48,8 +48,8 @@ Starting with {{site.mesh_product_name}} version 2.6.0, we no longer create a de
 {% endwarning %}
 {% endif_version %}
 
-{% tabs builtin-ca useUrlFragment=false %}
-{% tab builtin-ca Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -74,7 +74,7 @@ spec:
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
-{% tab builtin-ca Universal %}
+{% tab Universal %}
 
 ```yaml
 type: Mesh
@@ -113,8 +113,8 @@ On Kubernetes, {{site.mesh_product_name}} secrets are being stored in the `{{sit
 
 We can retrieve the secrets via `kumactl` on both Universal and Kubernetes, or via `kubectl` on Kubernetes only:
 
-{% tabs secrets-storage useUrlFragment=false %}
-{% tab secrets-storage kumactl %}
+{% tabs %}
+{% tab kumactl %}
 
 The following command can be executed on any {{site.mesh_product_name}} backend:
 
@@ -126,7 +126,7 @@ kumactl get secrets [-m MESH]
 ```
 
 {% endtab %}
-{% tab secrets-storage kubectl %}
+{% tab kubectl %}
 
 The following command can be executed only on Kubernetes:
 
@@ -152,8 +152,8 @@ Unlike the `builtin` backend, with `provided` you first upload the certificate a
 
 Sample configuration:
 
-{% tabs provided-ca useUrlFragment=false %}
-{% tab provided-ca Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -179,7 +179,7 @@ spec:
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
-{% tab provided-ca Universal %}
+{% tab Universal %}
 
 ```yaml
 type: Mesh
@@ -276,8 +276,8 @@ Do not use the following example in production, instead generate valid and compl
 
 Below we can find an example to generate a sample CA certificate + key:
 
-{% tabs ca-requirements useUrlFragment=false %}
-{% tab ca-requirements openssl %}
+{% tabs %}
+{% tab openssl %}
 
 The following command will generate a CA root certificate and key that can be uploaded to {{site.mesh_product_name}} as a Secret and then used in a `provided` mTLS backend:
 
@@ -310,8 +310,8 @@ Using the `inline` modes in production presents a security risk since it makes t
 
 {{site.mesh_product_name}} offers an alternative way to specify the CA root certificate and key:
 
-{% tabs dev-mode useUrlFragment=false %}
-{% tab dev-mode Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 Please note the `inline` properties that are being used instead of `secret`:
 
@@ -335,7 +335,7 @@ spec:
 
 {% endtab %}
 
-{% tab dev-mode Universal %}
+{% tab Universal %}
 
 Please note the `inline` properties that are being used instead of `secret`:
 
@@ -369,9 +369,9 @@ where the client and server already implement TLS.
 PERMISSIVE mode is not secure. It's intended as a temporary utility. Make sure to set to `STRICT` mode after migration is complete.
 {% endwarning %}
 
-{% tabs permissive-mtls useUrlFragment=false %}
+{% tabs %}
 
-{% tab permissive-mtls Kubernetes %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -389,7 +389,7 @@ spec:
 
 {% endtab %}
 
-{% tab permissive-mtls Universal %}
+{% tab Universal %}
 
 ```yaml
 type: Mesh
@@ -418,8 +418,8 @@ You can update the duration of the data plane proxy certificates by updating the
 
 You can inspect the certificate rotation statistics by executing the following command (supported on both Kubernetes and Universal):
 
-{% tabs certificate-rotation useUrlFragment=false %}
-{% tab certificate-rotation kumactl %}
+{% tabs %}
+{% tab kumactl %}
 
 We can use the {{site.mesh_product_name}} CLI:
 

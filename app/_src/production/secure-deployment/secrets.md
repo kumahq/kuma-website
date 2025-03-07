@@ -18,9 +18,9 @@ Secrets belong to a specific [`Mesh`](/docs/{{ page.release }}/production/mesh/)
 for example when storing auto-generated certificates and keys when Mutual TLS is enabled.
 {% endtip %}
 
-{% tabs secrets useUrlFragment=false %}
+{% tabs %}
 
-{% tab secrets Kubernetes %}
+{% tab Kubernetes %}
 
 On Kubernetes, {{site.mesh_product_name}} under the hood leverages the native [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/) resource to store sensitive information.
 
@@ -66,7 +66,7 @@ In order to reassign a `Secret` from one `Mesh` to another `Mesh` you need to de
 
 {% endtab %}
 
-{% tab secrets Universal %}
+{% tab Universal %}
 
 A `Secret` is a simple resource that stores specific `data`:
 
@@ -116,8 +116,8 @@ Consult [Accessing Admin Server from a different machine](/docs/{{ page.release 
 Mesh-scoped Secrets are bound to a given Mesh.
 Only this kind of Secrets can be used in Mesh Policies like [Provided CA](/docs/{{ page.release }}/policies/mutual-tls#usage-of-provided-ca) or TLS setting in [External Service](/docs/{{ page.release }}/policies/external-services).
 
-{% tabs mesh-scoped useUrlFragment=false %}
-{% tab mesh-scoped Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: v1
@@ -133,7 +133,7 @@ type: system.kuma.io/secret
 ```
 
 {% endtab %}
-{% tab mesh-scoped Universal %}
+{% tab Universal %}
 
 ```yaml
 type: Secret
@@ -151,8 +151,8 @@ Global-scoped Secrets are not bound to a given Mesh and cannot be used in Mesh P
 Global-scoped Secrets are used for internal purposes.
 You can manage them just like the regular secrets using `kumactl` or `kubectl`.
 
-{% tabs global-scoped useUrlFragment=false %}
-{% tab global-scoped Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 Notice that the `type` is different and `kuma.io/mesh` label is not present.
 
 ```yaml
@@ -167,7 +167,7 @@ type: system.kuma.io/global-secret
 ```
 
 {% endtab %}
-{% tab global-scoped Universal %}
+{% tab Universal %}
 Notice that the `type` is different and `mesh` field is not present.
 
 ```yaml
@@ -195,8 +195,8 @@ Here is an example of how you can use a {{site.mesh_product_name}} `Secret` with
 
 The examples below assumes that the `Secret` object has already been created beforehand.
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Universal %}
+{% tabs %}
+{% tab Universal %}
 
 ```yaml
 type: Mesh
@@ -213,7 +213,7 @@ mtls:
 ```
 
 {% endtab %}
-{% tab usage Kubernetes %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
