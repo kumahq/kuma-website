@@ -15,8 +15,8 @@ Like all [resources](/docs/{{ page.release }}/introduction/concepts#resource) in
 
 Metadata identifies the policies by its `name`, `type` and what `mesh` it's part of:
 
-{% tabs metadata %}
-{% tab metadata Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 In Kubernetes all our policies are implemented as [custom resource definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) in the group `kuma.io/v1alpha1`.
 
@@ -46,7 +46,7 @@ spec: ... # spec data specific to the policy kind
 ```
 
 {% endtab %}
-{% tab metadata Universal %}
+{% tab Universal %}
 
 ```yaml
 type: ExamplePolicy
@@ -86,7 +86,7 @@ The actual configuration is defined under the `default` field.
 For example:
 
 {% if_version gte:2.10.x %}
-{% policy_yaml base-example %}
+{% policy_yaml %}
 
 ```yaml
 type: ExampleOutboundPolicy
@@ -119,7 +119,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version eq:2.9.x %}
-{% policy_yaml base-example-290 %}
+{% policy_yaml %}
 
 ```yaml
 type: ExamplePolicy
@@ -146,7 +146,7 @@ Some policies are not directional and will not have `to` and `rules`. Some examp
 /docs/{{ page.release }}/policies/meshtrace) or [`MeshProxyPatch`](/docs/{{ page.release }}/policies/meshproxypatch).
 For example
 
-{% policy_yaml non-directional %}
+{% policy_yaml %}
 ```yaml
 type: NonDirectionalPolicy
 name: my-example
@@ -192,7 +192,7 @@ targetRef:
 
 Consider the two example policies below:
 
-{% policy_yaml accesslog_outbound_example use_meshservice=true %}
+{% policy_yaml use_meshservice=true %}
 
 ```yaml
 type: MeshAccessLog
@@ -219,7 +219,7 @@ spec:
 ```
 
 {% endpolicy_yaml %}
-{% policy_yaml accesslog_inbound_example %}
+{% policy_yaml %}
 
 ```yaml
 type: MeshAccessLog
@@ -267,7 +267,7 @@ restrict policies to specific types of data plane proxies:
 #### Example
 
 The following policy will only apply to gateway data-planes:
-{% policy_yaml proxytypes %}
+{% policy_yaml %}
 
 ```yaml
 type: MeshTimeout
@@ -311,7 +311,7 @@ conf:
 
 Policies can attach to all listeners:
 
-{% policy_yaml alllisteners %}
+{% policy_yaml %}
 
 ```yaml
 type: MeshTimeout
@@ -333,7 +333,7 @@ spec:
 so that requests to either port 80 or 443 will have an idle timeout of 10 seconds,
 or just some listeners:
 
-{% policy_yaml somelisteners %}
+{% policy_yaml %}
 
 ```yaml
 type: MeshTimeout
@@ -379,8 +379,8 @@ For each type of proxy, sidecar or builtin gateway, the table indicates for each
 
 These are just examples, remember to check the docs specific to your policy.
 
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 | `targetRef`             | Allowed kinds |
 | ----------------------- | -------------------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshGateway`                                   |
@@ -397,7 +397,7 @@ We can use the policy as an _outbound_ policy with:
 
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`           | Allowed kinds |
 | --------------------- | ------------------------------------------------ |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
@@ -447,7 +447,7 @@ Here's an explanation of each kinds and their scope:
 
 Consider the two example policies below:
 
-{% policy_yaml accesslog_outbound_example use_meshservice=true %}
+{% policy_yaml use_meshservice=true %}
 ```yaml
 type: MeshAccessLog
 name: example-outbound
@@ -472,7 +472,7 @@ spec:
               path: "/tmp/logs.txt"
 ```
 {% endpolicy_yaml %}
-{% policy_yaml accesslog_inbound_example %}
+{% policy_yaml %}
 ```yaml
 type: MeshAccessLog
 name: example-inbound
@@ -512,7 +512,7 @@ The top level `targetRef` field can select a specific subset of data plane proxi
 #### Example
 
 The following policy will only apply to gateway data-planes:
-{% policy_yaml proxytypes %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: gateway-only-timeout
@@ -554,7 +554,7 @@ conf:
 
 Policies can attach to all listeners:
 
-{% policy_yaml alllisteners %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: timeout-all
@@ -574,7 +574,7 @@ spec:
 so that requests to either port 80 or 443 will have an idle timeout of 10 seconds,
 or just some listeners:
 
-{% policy_yaml somelisteners %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: timeout-8080
@@ -618,8 +618,8 @@ For each type of proxy, sidecar or builtin gateway, the table indicates for each
 
 These are just examples, remember to check the docs specific to your policy.
 
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
@@ -762,7 +762,7 @@ When using explicit services, `MeshServiceSubset` is no longer a valid kind and 
 
 In the following example we'll assume we have a `MeshService`:
 
-{% policy_yaml ms-1 namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshService
 name: my-service
@@ -1302,7 +1302,7 @@ This might change in the future.
 
 Apply policy with `kuma.io/effect: shadow` label:
 
-{% policy_yaml example2 use_meshservice=true %}
+{% policy_yaml use_meshservice=true %}
 ```yaml
 type: MeshTimeout
 name: frontend-timeouts

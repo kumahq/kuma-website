@@ -17,8 +17,8 @@ It allows you to define granular rules about which services can communicate with
 ## TargetRef support matrix
 
 {% if_version gte:2.7.x %}
-{% tabs targetRef27x useUrlFragment=false %}
-{% tab targetRef27x Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
@@ -50,8 +50,8 @@ It allows you to define granular rules about which services can communicate with
 {% endif_version %}
 
 {% if_version lte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -85,7 +85,7 @@ If you don't understand this table you should read [matching docs](/docs/{{ page
 ### Service 'payments' allows requests from 'orders'
 
 {% if_version lte:2.8.x %}
-{% policy_yaml allow-orders %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrafficPermission
 name: allow-orders
@@ -136,7 +136,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml allow-orders-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTrafficPermission
 name: allow-orders
@@ -188,7 +188,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml allow-orders-210x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTrafficPermission
 name: allow-orders
@@ -242,7 +242,7 @@ spec:
 ### Deny all
 
 {% if_version lte:2.8.x %}
-{% policy_yaml deny-all %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrafficPermission
 name: deny-all
@@ -284,7 +284,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
-{% policy_yaml deny-all-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTrafficPermission
 name: deny-all
@@ -320,7 +320,7 @@ spec:
 ### Allow all
 
 {% if_version lte:2.8.x %}
-{% policy_yaml allow-all %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrafficPermission
 name: allow-all
@@ -362,7 +362,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
-{% policy_yaml allow-all-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTrafficPermission
 name: allow-all
@@ -398,7 +398,7 @@ spec:
 ### Allow requests from zone 'us-east', deny requests from 'dev' environment
 
 {% if_version lte:2.8.x %}
-{% policy_yaml tags %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrafficPermission
 name: example-with-tags
@@ -424,7 +424,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
-{% policy_yaml tags-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTrafficPermission
 name: example-with-tags

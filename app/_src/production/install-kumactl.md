@@ -18,8 +18,8 @@ Download {{site.mesh_product_name}}:
 Make sure you have tar and gzip installed.
 {% endtip %}
 
-{% tabs install-kumactl useUrlFragment=false %}
-{% tab install-kumactl Script %}
+{% tabs %}
+{% tab Script %}
 
 Run the following script to automatically detect the operating system and download Kuma:
 

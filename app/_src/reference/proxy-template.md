@@ -20,8 +20,8 @@ The custom definitions either complement or replace the resources that {{site.me
 
 {{site.mesh_product_name}} uses the following default `ProxyTemplate` resource for every data plane proxy (`kuma-dp`) that is added to a [`Mesh`](/docs/{{ page.release }}/production/mesh/). This resource looks like:
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
@@ -41,7 +41,7 @@ spec:
       - default-proxy
 ```
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 
 ```yaml
 type: ProxyTemplate
@@ -108,8 +108,8 @@ Available matchers:
 * `name` - name of the cluster.
 * `origin` - origin of the cluster.
 
-{% tabs cluster useUrlFragment=false %}
-{% tab cluster Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
@@ -144,7 +144,7 @@ spec:
             origin: inbound # optional: if absent, all clusters regardless of its origin will be removed
 ```
 {% endtab %}
-{% tab cluster Universal %}
+{% tab Universal %}
 
 ```yaml
 type: ProxyTemplate
@@ -193,8 +193,8 @@ Available matchers:
 * `origin` - origin of the listener.
 * `tags` - tags of inbound or outbound listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 
-{% tabs listener useUrlFragment=false %}
-{% tab listener Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
@@ -233,7 +233,7 @@ spec:
             origin: inbound # optional: if absent, all listeners regardless of its origin will be removed
 ```
 {% endtab %}
-{% tab listener Universal %}
+{% tab Universal %}
 
 ```yaml
 type: ProxyTemplate
@@ -291,8 +291,8 @@ Available matchers:
 * `listenerTags` - tags of inbound or outbound listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 * `origin` - origin of the listener.
 
-{% tabs network-filter useUrlFragment=false %}
-{% tab network-filter Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
@@ -388,7 +388,7 @@ spec:
             origin: inbound # optional: if absent, all filters regardless of its origin will be removed
 ```
 {% endtab %}
-{% tab network-filter Universal %}
+{% tab Universal %}
 
 ```yaml
 type: ProxyTemplate
@@ -533,8 +533,8 @@ Available matchers:
 * `listenerTags` - tags of inbound or outbound listeners. They match `Listener.metadata.filterMetadata[io.kuma.tags]` in XDS configuration.
 * `origin` - origin of the listener
 
-{% tabs http-filter useUrlFragment=false %}
-{% tab http-filter Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
@@ -622,7 +622,7 @@ spec:
             origin: inbound # optional: if absent, all filters regardless of its origin will be removed
 ```
 {% endtab %}
-{% tab http-filter Universal %}
+{% tab Universal %}
 
 ```yaml
 type: ProxyTemplate
@@ -726,8 +726,8 @@ Available matchers:
 * `origin` - origin of the VirtualHost.
 * `routeConfigurationName` - name of the [RouteConfiguration](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto.html#http-route-configuration-proto).
 
-{% tabs virtual-host useUrlFragment=false %}
-{% tab virtual-host Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
@@ -770,7 +770,7 @@ spec:
             origin: inbound # optional: if absent, all virtual hosts regardless of its origin will be removed
 ```
 {% endtab %}
-{% tab virtual-host Universal %}
+{% tab Universal %}
 
 ```yaml
 type: ProxyTemplate
@@ -827,8 +827,8 @@ At runtime, whenever `kuma-cp` generates the configuration for a given [data pla
 
 For a more complete example, explore this Lua filter that adds the new `x-header: test` header to all outgoing HTTP requests to service `offers`. 
 
-{% tabs lua-filter useUrlFragment=false %}
-{% tab lua-filter Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
@@ -860,7 +860,7 @@ spec:
                 end
 ```
 {% endtab %}
-{% tab lua-filter Universal %}
+{% tab Universal %}
 ```yaml
 type: ProxyTemplate
 mesh: default

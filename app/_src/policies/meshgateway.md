@@ -17,8 +17,8 @@ A `MeshGateway` can have any number of listeners, where each listener represents
 To configure a listener, you need to specify the port number, the network protocol, and (optionally) the hostname to accept.
 Each listener has its own set of {{site.mesh_product_name}} tags so that {{site.mesh_product_name}} policy configuration can be targeted to specific listeners.
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Universal %}
+{% tabs %}
+{% tab Universal %}
 ```yaml
 type: MeshGateway
 mesh: default
@@ -35,7 +35,7 @@ conf:
       port: http-8080 
 ```
 {% endtab %}
-{% tab usage Kubernetes %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
@@ -68,8 +68,8 @@ The Gateway resource supports this by merging listeners that have a common port.
 Whether merging listeners is allowed depends on the semantics of the protocol field.
 It is allowed for the most common protocols, HTTP and HTTPS.
 
-{% tabs selectors useUrlFragment=false %}
-{% tab selectors Universal %}
+{% tabs %}
+{% tab Universal %}
 ```yaml
 type: MeshGateway
 mesh: default
@@ -91,7 +91,7 @@ conf:
       vhost: bar.example.com
 ```
 {% endtab %}
-{% tab selectors Kubernetes %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
@@ -137,8 +137,8 @@ This set of listener tags is what {{site.mesh_product_name}} will match policies
 TLS sessions are terminated on a Gateway by specifying the "HTTPS" protocol, and providing a server certificate configuration.
 Below, the gateway listens on port 8443 and terminates TLS sessions.
 
-{% tabs tls-termination useUrlFragment=false %}
-{% tab tls-termination Universal %}
+{% tabs %}
+{% tab Universal %}
 ```yaml
 type: MeshGateway
 mesh: default
@@ -159,7 +159,7 @@ conf:
       name: foo.example.com
 ```
 {% endtab %}
-{% tab tls-termination Kubernetes %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
@@ -198,8 +198,8 @@ The CA certificate chain may also be present, but if it is, the server certifica
 To enable this support, generate two server certificate secrets and provide them both to the listener TLS configuration.
 The `kumactl` tool supports generating simple, self-signed TLS server certificates. The script below shows how to do this.
 
-{% tabs tls-secret useUrlFragment=false %}
-{% tab tls-secret Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```shell
 kubectl apply -f <(
 cat<<EOF
@@ -217,7 +217,7 @@ EOF
 )
 ```
 {% endtab %}
-{% tab tls-secret Universal %}
+{% tab Universal %}
 ```shell
 kumactl apply -f <(
 cat<<EOF

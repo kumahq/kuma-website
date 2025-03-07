@@ -29,8 +29,8 @@ for more details.
 Locality-aware load balancing is configured at the `Mesh` level.
 It can be enabled as follows:
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -45,7 +45,7 @@ spec:
 The configuration can be applied with `kubectl apply -f [..]`.
 {% endtab %}
 
-{% tab usage Universal %}
+{% tab Universal %}
 
 ```yaml
 type: Mesh

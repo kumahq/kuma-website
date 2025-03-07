@@ -34,8 +34,8 @@ To apply `NetworkAttachmentDefinitions` to applications not in a Mesh, add the l
 
 Below are the details of how to set up {{site.mesh_product_name}} CNI in different environments using both `kumactl` and `helm`.
 
-{% tabs installation useUrlFragment=false %}
-{% tab installation Cilium %}
+{% tabs %}
+{% tab Cilium %}
 {% cpinstall cilium %}
 cni.enabled=true
 cni.chained=true
@@ -61,7 +61,7 @@ for version starting from [Cilium 1.14](https://docs.cilium.io/en/v1.14/operatio
 {% endwarning %}
 {% endtab %}
 
-{% tab installation Calico %}
+{% tab Calico %}
 {% cpinstall calico %}
 cni.enabled=true
 cni.chained=true
@@ -85,7 +85,7 @@ cni.confName=10-flannel.conflist
 {% endcpinstall %}
 {% endtab %}
 
-{% tab installation Kind %}
+{% tab Kind %}
 {% cpinstall kind %}
 cni.enabled=true
 cni.chained=true
@@ -95,7 +95,7 @@ cni.confName=10-kindnet.conflist
 {% endcpinstall %}
 {% endtab %}
 
-{% tab installation Azure %}
+{% tab Azure %}
 {% cpinstall azure %}
 cni.enabled=true
 cni.chained=true

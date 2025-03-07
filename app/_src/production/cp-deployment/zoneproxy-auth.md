@@ -44,8 +44,8 @@ zone-token-signing-key-1   7s
 
 ### Usage
 
-{% tabs token-creation useUrlFragment=false %}
-{% tab token-creation kumactl %}
+{% tabs %}
+{% tab kumactl %}
 ```bash
 kumactl generate zone-token \
   --zone us-east \
@@ -53,7 +53,7 @@ kumactl generate zone-token \
   --valid-for 720h > /tmp/kuma-zone-proxy-token
 ```
 {% endtab %}
-{% tab token-creation REST %}
+{% tab REST %}
 Generate the token with the REST API:
 ```bash
 curl -XPOST \
@@ -92,8 +92,8 @@ Here is example of `jti`
 Specify list of revoked IDs separated by `,` and store it as `GlobalSecret`
 named `zone-token-revocations`
 
-{% tabs token-revocation useUrlFragment=false %}
-{% tab token-revocation Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```sh
 REVOCATIONS=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) && echo "apiVersion: v1
 kind: Secret
@@ -105,7 +105,7 @@ data:
 type: system.kuma.io/global-secret" | kubectl apply -f -
 ```
 {% endtab %}
-{% tab token-revocation Universal %}
+{% tab Universal %}
 ```sh
 echo "
 type: GlobalSecret
@@ -128,8 +128,8 @@ signed by it.
    the serial number of the current signing key.
 
 {% capture tabbed_content %}
-{% tabs key-rotation useUrlFragment=false %}
-{% tab key-rotation Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 Check what is the current highest serial number.
 
 ```sh
@@ -154,7 +154,7 @@ type: system.kuma.io/global-secret
 ```
 
 {% endtab %}
-{% tab key-rotation Universal %}
+{% tab Universal %}
 Check what is the current highest serial number.
 ```sh
 kumactl get global-secrets
@@ -183,13 +183,13 @@ data: {{ key }}" | kumactl apply --var key=$(kumactl generate signing-key) -f -
 
 3. Remove the old signing key
 {% capture tabbed_content %}
-{% tabs remove-key useUrlFragment=false %}
-{% tab remove-key Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```sh
 kubectl delete secret zone-token-signing-key-1 -n {{site.mesh_namespace}}
 ```
 {% endtab %}
-{% tab remove-key Universal %}
+{% tab Universal %}
 ```sh
 kumactl delete global-secret zone-token-signing-key-1
 ```
