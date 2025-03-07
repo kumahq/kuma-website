@@ -100,8 +100,8 @@ To fix this issue, reinstall Xcode and recompile Ruby:
 sudo rm -rf /Library/Developer/CommandLineTools
 xcode-select --install
 mise uninstall "ruby@$(cat .ruby-version)"
+mise install
 ruby -rrbconfig -e 'puts RbConfig::CONFIG["CXX"]' # should print "clang++"
-make install
 ```
 
 If you still encounter issues with Clang when installing gems, try:
