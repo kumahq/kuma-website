@@ -14,9 +14,6 @@ ifndef RUBY_MATCH
 	$(error ruby $(RUBY_VERSION_REQUIRED) is required. Found $(RUBY_VERSION). $(newline)Run `make install`)$(newline)
 endif
 
-.PHONY: mise/check
-mise/check: mise/check/install mise/check/activation
-
 .PHONY: mise/check/install
 mise/check/install:
 	@command -v mise >/dev/null 2>&1 || { \
@@ -25,17 +22,9 @@ mise/check/install:
 		exit 1; \
 	}
 
-.PHONY: mise/check/activation
-mise/check/activation:
-	@mise dr --quiet >/dev/null 2>&1 || { \
-		echo "'mise' is installed but not activated. Follow the activation steps at:"; \
-		echo "  https://mise.jdx.dev/installing-mise.html"; \
-		exit 1; \
-	}
-
 # Installs yarn, npm packages and gems.
 .PHONY: install
-install: mise/check
+install: mise/check/install
 	mise install
 	yarn install
 	bundle install
