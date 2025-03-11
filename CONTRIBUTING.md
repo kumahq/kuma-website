@@ -73,7 +73,38 @@ Clone the repository and run:
 make install
 ```  
 
-On macOS, you may encounter issues with Clang when installing gems. If so, try:
+#### macOS 15 installation issues
+
+After upgrading to macOS 15, some users have encountered issues where the installation fails during `make install` with errors similar to:
+
+```sh
+Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
+
+[...]
+
+compiling binder.cpp
+
+[...]
+
+In Gemfile:
+  jekyll-contentblocks was resolved to 1.2.0, which depends on
+    jekyll was resolved to 4.3.4, which depends on
+      em-websocket was resolved to 0.5.3, which depends on
+        eventmachine
+make: *** [install] Error 5
+```
+
+To fix this issue, reinstall Xcode and recompile Ruby:
+
+```sh
+sudo rm -rf /Library/Developer/CommandLineTools
+xcode-select --install
+mise uninstall "ruby@$(cat .ruby-version)"
+mise install
+ruby -rrbconfig -e 'puts RbConfig::CONFIG["CXX"]' # should print "clang++"
+```
+
+If you still encounter issues with Clang when installing gems, try:
 
 ```sh
 gem install <gem> -- --with-cflags="-Wno-incompatible-function-pointer-types"
@@ -118,15 +149,28 @@ If you are developing `kuma-website` as a Git submodule inside another Jekyll pr
 To set up file syncing, run:
 
 ```sh
-export SYNC_FROM="$HOME/projects/kumahq/kuma-website" # Path to your local kuma-website repository
-export SYNC_TO="$HOME/projects/other/.submodules/kuma-website" # Path to where kuma-website is located in the other project
+# Path to your local kuma-website repository
+export SYNC_FROM="$HOME/projects/kumahq/kuma-website"
+# Path to where kuma-website is located in the other project
+export SYNC_TO="$HOME/projects/other/app/_src/.repos/kuma"
 
 mutagen sync create \
   --mode one-way-replica \
   --name kuma-website \
   --ignore ".idea,node_modules,dist,.netlify,.jekyll-cache,.jekyll-metadata,app/.jekyll-cache,app/.jekyll-metadata,.bundle" \
   "$SYNC_FROM" "$SYNC_TO"
+```
+
+To observe the synchronization status, run:
+
+```sh
 mutagen sync monitor
+```
+
+If you need to stop synchronization, run:
+
+```sh
+mutagen sync terminate kuma-website
 ```
 
 Since `kuma-website` does not use Jekyll’s default ports, you can run both projects simultaneously without conflicts.
