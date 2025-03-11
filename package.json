@@ -15,7 +15,7 @@
     "jquery": "^3.5.1",
     "netlify-headers-parser": "^7.1.4",
     "netlify-redirect-parser": "^14.4.0",
-    "prismjs": "^1.29.0",
+    "prismjs": "^1.30.0",
     "regexp-tree": "^0.1.27",
     "slick-carousel": "^1.8.1"
   },
