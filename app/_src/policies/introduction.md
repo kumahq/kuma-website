@@ -424,7 +424,7 @@ The `targetRef.sectionName` field helps select specific sections within certain 
 To resolve `sectionName`, the following steps are applied:
 
 1. Look for a section where the name matches `sectionName`.
-2. If no match is found, try interpreting `sectionName` as a number and find a port with the same value — only if the port's name is unset.
+2. If no match is found, try interpreting `sectionName` as a number and find a port with the same value—only if the port's name is unset.
 
 #### Examples
 
