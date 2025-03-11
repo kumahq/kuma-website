@@ -33,7 +33,6 @@ Do **not** combine with [Timeout policy](/docs/{{ page.release }}/policies/timeo
 | ----------------------- | -------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshHTTPRoute`         |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService` |
-| `from[].targetRef.kind` | `Mesh`                                       |
 {% endif_version %}
 {% endtab %}
 
@@ -42,7 +41,6 @@ Do **not** combine with [Timeout policy](/docs/{{ page.release }}/policies/timeo
 | ----------------------- | --------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
 | `to[].targetRef.kind`   | `Mesh`                                                    |
-| `from[].targetRef.kind` | `Mesh`                                                    |
 {% endtab %}
 
 {% tab targetRef Delegated Gateway %}
@@ -298,16 +296,42 @@ spec:
     kind: Dataplane
     labels:
       app: backend
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 20s
+  rules:
+    - default:
+        idleTimeout: 60s
         connectionTimeout: 2s
+        http:
+          requestTimeout: 10s
+          streamIdleTimeout: 1h
+          maxStreamDuration: 30m
+          maxConnectionDuration: 30m
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
 
+{% if_version gte:2.10.x %}
+#### Configuration for a single inbound port named `tcp-port`
+
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshTimeout
+name: inbound-timeout
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: backend
+    sectionName: tcp-port
+  rules:
+    - default:
+        idleTimeout: 1h
+        connectionTimeout: 10s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version lte:2.9.x %}
 #### Full config applied to inbound and outbound of specific service
 
 This timeout configuration will be applied to all inbound connections to `frontend` and outbound connections
@@ -393,46 +417,6 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-
-{% if_version gte:2.10.x %}
-{% policy_yaml namespace=kuma-demo use_meshservice=true %}
-```yaml
-type: MeshTimeout
-name: inbound-timeout
-mesh: default
-spec:
-  targetRef:
-    kind: Dataplane
-    labels:
-      app: frontend
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 60s
-        connectionTimeout: 2s
-        http:
-          requestTimeout: 10s
-          streamIdleTimeout: 1h
-          maxStreamDuration: 30m
-          maxConnectionDuration: 30m
-  to:
-    - targetRef:
-        kind: MeshService
-        name: backend
-        namespace: kuma-demo
-        _port: 3001
-        sectionName: http
-      default:
-        idleTimeout: 60s
-        connectionTimeout: 1s
-        http:
-          requestTimeout: 5s
-          streamIdleTimeout: 1h
-          maxStreamDuration: 30m
-          maxConnectionDuration: 30m
-```
-{% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.3.x %}
@@ -623,15 +607,15 @@ spec:
 
 ### Defaults
 
-| Property                   | default |
-|----------------------------|---------|
-| `idleTimeout`                | `1h`      |
-| `connectionTimeout`          | `5s`      |
-| `http.requestTimeout`        | `15s`    |
-| `http.streamIdleTimeout`     | `30m`    |
-| `http.maxStreamDuration`     | `0s`     |
-| `http.maxConnectionDuration` | `0s`     |
-{% if_version inline:true gte:2.6.x %}| `http.requestHeadersTimeout` | `0s`      |{% endif_version %}
+| Property                               | default                      |
+|----------------------------------------|------------------------------|
+| `idleTimeout`                          | `1h`                         |
+| `connectionTimeout`                    | `5s`                         |
+| `http.requestTimeout`                  | `15s`                        |
+| `http.streamIdleTimeout`               | `30m`                        |
+| `http.maxStreamDuration`               | `0s`                         |
+| `http.maxConnectionDuration`           | `0s`                         |
+{% if_version inline:true gte:2.6.x %} | `http.requestHeadersTimeout` | `0s` |{% endif_version %}
 
 {% if_version eq:2.1.x %}
 If you don't specify a `from` or `to` section , the defaults from [`Timeout`](/docs/{{ page.release }}/policies/timeout) will be used. This
