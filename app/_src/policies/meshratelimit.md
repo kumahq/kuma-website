@@ -41,7 +41,6 @@ Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/ex
 | `targetRef`             | Allowed kinds       |
 | ----------------------- | ------------------- |
 | `targetRef.kind`        | `Mesh`, `Dataplane` |
-| `from[].targetRef.kind` | `Mesh`              |
 {% endif_version %}
 {% endtab %}
 
@@ -217,10 +216,8 @@ spec:
     kind: Dataplane
     labels:
       app: backend
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
+  rules:
+    - default:
         local:
           http:
             requestRate:
@@ -325,10 +322,8 @@ spec:
     kind: Dataplane
     labels:
       app: backend
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
+  rules:
+    - default:
         local:
           tcp:
             connectionRate:
