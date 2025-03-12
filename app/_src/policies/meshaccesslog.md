@@ -40,7 +40,6 @@ If you haven't, see the [observability docs](/docs/{{ page.release }}/explore/ob
 | ----------------------- | -------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `Dataplane`                          |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService` |
-| `from[].targetRef.kind` | `Mesh`                                       |
 {% endif_version %}
 {% endtab %}
 
@@ -854,7 +853,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endif_version %}
 
 
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshAccessLog
@@ -865,6 +864,47 @@ spec:
     - targetRef:
         kind: Mesh
       default:
+        backends:
+          - type: Tcp
+            tcp:
+              address: 127.0.0.1:5000
+              format:
+                type: Json
+                json:
+                  - key: "start_time"
+                    value: "%START_TIME%"
+          - type: File
+            file:
+              path: /dev/stdout
+              format:
+                type: Plain
+                plain: '[%START_TIME%]'
+          - type: OpenTelemetry
+            openTelemetry:
+              endpoint: otel-collector:4317
+              body:
+                kvlistValue:
+                values:
+                  - key: "mesh"
+                    value:
+                      stringValue: "%KUMA_MESH%"
+              attributes:
+                - key: "start_time"
+                  value: "%START_TIME%"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshAccessLog
+name: multiple-backends
+mesh: default
+spec:
+  rules:
+    - default:
         backends:
           - type: Tcp
             tcp:
@@ -1023,7 +1063,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endtabs %}
 {% endif_version %}
 
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 For this use case we recommend creating two separate policies. One for incoming traffic: 
 {% policy_yaml namespace=kuma-demo %}
 ```yaml
@@ -1035,6 +1075,41 @@ spec:
     - targetRef:
         kind: Mesh
       default:
+        backends:
+          - type: File
+            file:
+              path: /dev/stdout
+```
+{% endpolicy_yaml %}
+And one for outgoing traffic:
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshAccessLog
+name: all-outgoing-traffic
+mesh: default
+spec:
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: File
+            file:
+              path: /dev/stdout
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+For this use case we recommend creating two separate policies. One for incoming traffic:
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshAccessLog
+name: all-incoming-traffic
+mesh: default
+spec:
+  rules:
+    - default:
         backends:
           - type: File
             file:
