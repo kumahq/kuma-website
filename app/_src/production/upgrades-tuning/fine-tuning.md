@@ -66,6 +66,8 @@ Sections below highlight the most important aspects of this feature, if you want
 
 ### Supported targetRef kinds
 
+{% if_version lte:2.9.x %}
+
 The following kinds affect the graph generation and performance:
 - all levels of `MeshService`
 - [top](/docs/{{ page.release }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
@@ -92,6 +94,39 @@ spec:
 {% endpolicy_yaml %}
 
 it **won't** affect performance.
+
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+
+The following kinds affect the graph generation and performance:
+- all levels of `MeshService`
+- [top](/docs/{{ page.release }}/policies/introduction) level `Dataplane` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` labels
+- [from](/docs/{{ page.release }}/policies/introduction) level `MeshSubset` with all tags
+
+If you define a MeshTrafficPermission with other kind, like this one:
+
+{% policy_yaml meshtrafficpermission_other_kind %}
+```yaml
+type: MeshTrafficPermission
+mesh: default
+name: mtp-mesh-to-mesh
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      customLabel: true
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        action: Allow
+```
+{% endpolicy_yaml %}
+
+it **won't** affect performance.
+
+{% endif_version %}
 
 ### Changes to the communication between services
 
