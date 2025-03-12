@@ -1,5 +1,5 @@
 ---
-title: Configuring inbound traffic with Rules API
+title: Configuring inbound traffic with rules API
 ---
 
 Using `Rules API` combined with targetRef `Dataplane` kind in {{site.mesh_product_name}} you can easily apply configuration to workload
@@ -145,6 +145,6 @@ rules:
         requestTimeout: 1s
 ```
 
-In this scenario we have applied **1s request timeout** for incoming requests. At this point in time rules api is really simple.
+In this scenario we have applied **1 s request timeout** for incoming requests. At this point in time rules api is really simple.
 You cannot apply configuration to subset of incoming traffic. Because of this we don't support
 rules api for MeshTrafficPermission and MeshFaultInjection yet.
