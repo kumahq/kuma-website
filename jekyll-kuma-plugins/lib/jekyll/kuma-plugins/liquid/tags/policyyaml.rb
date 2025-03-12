@@ -10,6 +10,7 @@ module Jekyll
       module Tags
         class PolicyYaml < ::Liquid::Block
           TARGET_VERSION = Gem::Version.new("2.9.0")
+          TF_TARGET_VERSION = Gem::Version.new("2.10.0")
 
           def has_path(path)
             ->(node_path, _, _) { node_path == path }
@@ -243,6 +244,7 @@ module Jekyll
             site_data = context.registers[:site].config
 
             use_meshservice = @params["use_meshservice"] == "true" && Gem::Version.new(release.value.dup.sub "x", "0") >= TARGET_VERSION
+            show_tf = Gem::Version.new(release.value.dup.sub "x", "0") >= TARGET_VERSION
 
             namespace = @params["namespace"] || site_data['mesh_namespace']
             styles = [
@@ -312,7 +314,7 @@ module Jekyll
             htmlContent += "
 {% tab Terraform %}
 #{terraform_content}
-{% endtab %}" if edition != 'kuma'
+{% endtab %}" if edition != 'kuma' && show_tf
 
             htmlContent += "{% endtabs %}"
 
