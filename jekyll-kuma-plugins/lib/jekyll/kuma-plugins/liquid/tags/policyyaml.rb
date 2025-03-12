@@ -196,10 +196,14 @@ module Jekyll
           end
 
           def yaml_to_terraform(yaml_data)
-            terraform = ""
+            type = yaml_data['type']
+            name = yaml_data['name']
+            resource_name = "konnect_#{type.gsub(/([a-z])([A-Z])/, '\1_\2').downcase}"
+            terraform = "resource \"#{resource_name}\" \"#{name.gsub('-', '_')}\" {\n"
             yaml_data.each do |key, value|
-              terraform += convert_to_terraform(key, value, 0)
+              terraform += convert_to_terraform(key, value, 1)
             end
+            terraform += "}\n"
             terraform
           end
 
