@@ -25,8 +25,8 @@ The available Envoy logging levels are:
 See `ALL_LOGGER_IDS` in [logger.h from Envoy source](https://github.com/envoyproxy/envoy/blob/main/source/common/common/logger.h#L36) for a list of available components.
 
 
-{% tabs dp-usage useUrlFragment=false %}
-{% tab dp-usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 **Option 1: Annotations** 
 
 The below annotations can be used to adjust logging levels and components:
@@ -82,7 +82,7 @@ curl -X POST http://localhost:9901/logging?wasm=debug
 ```
 
 {% endtab %}
-{% tab dp-usage Universal %}
+{% tab Universal %}
 
 In Universal mode, logging can be enabled by passing the `--envoy-log-level` flag to the kuma-dp process.
 
@@ -109,8 +109,8 @@ The available logging levels for Control Planes are:
 * off
 
 
-{% tabs cp-usage useUrlFragment=false %}
-{% tab cp-usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 When using Helm to deploy on Kubernetes, the following can be used to change the Control Plane log level:
 
 ```yaml
@@ -132,7 +132,7 @@ containers:
 ```
 
 {% endtab %}
-{% tab cp-usage Universal %}
+{% tab Universal %}
 
 In Universal mode, logging can be enabled by passing the `--envoy-log-level` flag to the kuma-dp process.
 
@@ -147,8 +147,8 @@ kuma-cp run --log-level=debug
 Logging for CoreDNS does not have specific levels; it is either on/true or off/false.
 
 
-{% tabs dns-usage useUrlFragment=false %}
-{% tab dns-usage Kubernetes %}
+{% tabs %}
+{% tab  Kubernetes %}
 When using Helm to deploy on Kubernetes, the following can be used to change the DNS log level:
 
 ```yaml
@@ -169,17 +169,13 @@ Additionally, the environment variable `KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN
 ```
 
 {% endtab %}
-{% tab dns-usage Universal %}
+{% tab Universal %}
 
 In Universal mode, logging can be enabled by setting the environment variable `KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_LOGGING`.
 
 ```shell
 export KUMA_RUNTIME_KUBERNETES_INJECTOR_BUILTIN_DNS_LOGGING=true
 ``` 
-
-```yaml
-
-```
 
 {% endtab %}
 {% endtabs %}
