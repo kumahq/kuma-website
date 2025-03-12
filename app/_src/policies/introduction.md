@@ -418,7 +418,7 @@ We can use the policy only as an _outbound_ policy with:
 The `targetRef.sectionName` field helps select specific sections within certain resource kinds:
 
 * `Dataplane` – selects an inbound port
-* `MeshService` – selects a port
+* `MeshService` – selects a port of the matching services
 * `MeshMultiZoneService` – selects a port
 
 To resolve `sectionName`, the following steps are applied:
@@ -473,7 +473,7 @@ spec:
 
 {% endpolicy_yaml %}
 
-or just some inbound listeners
+or just some inbound listeners:
 
 {% policy_yaml %}
 
