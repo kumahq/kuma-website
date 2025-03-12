@@ -57,7 +57,7 @@ You should see something similar to:
 {"counter":"1","zone":"local","err":null}
 ```
 
-## Inbound policy Rules API 
+## Inbound policy rules api 
 
 Now that we have our setup we can start playing with new Rules API for inbound policies and Dataplane kind. 
 Let's create a simple inbound [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout/) policy in `kuma-demo` namespace:
