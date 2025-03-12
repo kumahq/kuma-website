@@ -293,10 +293,11 @@ module Jekyll
 </div>
 #{contents[:uni_legacy]}
 #{contents[:uni]}
-{% endtab %}
+{% endtab %}"
+              htmlContent += "
 {% tab Terraform %}
 #{terraform_content}
-{% endtab %}"
+{% endtab %}" if edition != 'kuma'
             else
               htmlContent += "
 {% tab Kubernetes %}
@@ -304,10 +305,11 @@ module Jekyll
 {% endtab %}
 {% tab Universal %}
 #{contents[:uni_legacy]}
-{% endtab %}
+{% endtab %}"
+              htmlContent += "
 {% tab Terraform %}
 #{terraform_content}
-{% endtab %}"
+{% endtab %}" if edition != 'kuma'
             end
 
             htmlContent += "{% endtabs %}"
