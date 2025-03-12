@@ -206,7 +206,7 @@ module Jekyll
           def convert_to_terraform(key, value, indent_level, is_in_array = false, is_last = false)
             indent = "  " * indent_level
             if value.is_a?(Hash)
-              result = "#{indent}#{key} = {\n"
+              result = is_in_array ? "#{indent}{\n" : "#{indent}#{key} = {\n"
               value.each_with_index do |(k, v), index|
                 result += convert_to_terraform(k, v, indent_level + 1, false, index == value.size - 1)
               end
