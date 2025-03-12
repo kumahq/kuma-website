@@ -39,12 +39,12 @@ The `ZoneEgress` entity includes a few sections:
       * `port`: the port that Envoy Admin API will listen to
 * `zone` **[auto-generated on {{site.mesh_product_name}} CP]** : zone where Zone Egress belongs to
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 To install `ZoneEgress` in Kubernetes when doing `kumactl install control-plane` use the `--egress-enabled`. If using helm add `{{site.set_flag_values_prefix}}egress.enabled: true` to your `values.yaml`.
 
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 
 In Universal mode, the token is required to authenticate `ZoneEgress` instance. Create the token by using `kumactl` binary:
 
@@ -80,8 +80,8 @@ A `ZoneEgress` deployment can be scaled horizontally.
 
 In addition to MTLS, there's a configuration in the `Mesh` policy to route traffic through the `ZoneEgress`
 
-{% tabs configuration useUrlFragment=false %}
-{% tab configuration Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```shell
 echo "apiVersion: kuma.io/v1alpha1
@@ -96,7 +96,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab configuration Universal %}
+{% tab Universal %}
 
 ```shell
 cat <<EOF | kumactl apply -f -

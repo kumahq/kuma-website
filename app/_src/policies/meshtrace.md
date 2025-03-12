@@ -34,8 +34,8 @@ For HTTP you can also manually forward the following headers:
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
@@ -181,7 +181,7 @@ openTelemetry:
 
 {% if_version eq:2.2.x %}
 Simple example:
-{% policy_yaml simple-zipkin %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -197,7 +197,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-zipkin %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -230,7 +230,7 @@ spec:
 {% if_version gte:2.3.x %}
 {% if_version lte:2.8.x %}
 Simple example:
-{% policy_yaml simple-zipkin-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -247,7 +247,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-zipkin-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -281,7 +281,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.9.x %}
 Simple example:
-{% policy_yaml simple-zipkin-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -296,7 +296,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-zipkin-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -334,7 +334,7 @@ This assumes a Datadog agent is configured and running. If you haven't already c
 
 {% if_version eq:2.2.x %}
 Simple example:
-{% policy_yaml simple-datadog %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -350,7 +350,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-datadog %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -383,7 +383,7 @@ spec:
 {% if_version gte:2.3.x %}
 {% if_version lte:2.8.x %}
 Simple example:
-{% policy_yaml simple-datadog-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -400,7 +400,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-datadog-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -434,7 +434,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.9.x %}
 Simple example:
-{% policy_yaml simple-datadog-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -449,7 +449,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-datadog-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -488,7 +488,7 @@ If you haven't already check the [OpenTelementry operator](https://github.com/op
 
 {% if_version eq:2.2.x %}
 Simple example:
-{% policy_yaml simple-otel %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -504,7 +504,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-otel %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -536,7 +536,7 @@ spec:
 {% if_version gte:2.3.x %}
 {% if_version lte:2.8.x %}
 Simple example:
-{% policy_yaml simple-otel-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -553,7 +553,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-otel-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -586,7 +586,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.9.x %}
 Simple example:
-{% policy_yaml simple-otel-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -601,7 +601,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-otel-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -644,7 +644,7 @@ To do this, we use a `TargetRef` kind value of `MeshSubset` to filter which data
 {% if_version eq:2.2.x %}
 West only policy:
 
-{% policy_yaml west-only %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -663,7 +663,7 @@ spec:
 
 East only policy:
 
-{% policy_yaml east-only %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: trace-east
@@ -685,7 +685,7 @@ spec:
 {% if_version lte:2.9.x %}
 West only policy:
 
-{% policy_yaml west-only-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -705,7 +705,7 @@ spec:
 
 East only policy:
 
-{% policy_yaml east-only-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: trace-east
@@ -727,7 +727,7 @@ spec:
 {% if_version gte:2.10.x %}
 West only policy:
 
-{% policy_yaml west-only-210x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -747,7 +747,7 @@ spec:
 
 East only policy:
 
-{% policy_yaml east-only-210x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: trace-east

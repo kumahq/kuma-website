@@ -12,8 +12,8 @@ Simple configuration of external service requires `name` of the resource, `kuma.
 
 Below is an example of simple HTTPS external service:
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ExternalService
@@ -42,7 +42,7 @@ Then apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
 
-{% tab usage Universal %}
+{% tab Universal %}
 ```yaml
 type: ExternalService
 mesh: default

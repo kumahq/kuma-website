@@ -45,8 +45,8 @@ This separation allows for more fine-grained adjustments of each aspect, ensurin
 
 The easiest way to create a `Mesh` is to specify its `name`. The name of a Mesh must be unique.
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -55,7 +55,7 @@ metadata:
 ```
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 ```yaml
 type: Mesh
 name: default
@@ -72,8 +72,8 @@ It is possible to determine to what `Mesh` other resources belong to in the foll
 
 Every time we start a data plane proxy, we need to specify to what `Mesh` it belongs, this can be done in the following way:
 
-{% tabs data-plane-proxies useUrlFragment=false %}
-{% tab data-plane-proxies Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 By using the `kuma.io/mesh` annotation in a `Deployment`, like:
 
 ```yaml
@@ -99,7 +99,7 @@ A `Mesh` may span multiple Kubernetes namespaces. Any {{site.mesh_product_name}}
 specifies a particular `Mesh` will be part of that `Mesh`.
 
 {% endtab %}
-{% tab data-plane-proxies Universal %}
+{% tab Universal %}
 
 By using the `-m` or `--mesh` argument when running `kuma-dp`, for example:
 
@@ -120,8 +120,8 @@ You can control which data plane proxies are allowed to join the mesh using [mes
 When creating new [Policies](/policies) we also must specify to what `Mesh` they belong. This can be done in the following way:
 
 {% if_version lte:2.5.x %}
-{% tabs policies useUrlFragment=false %}
-{% tab policies Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 By using the `mesh` property, like:
 
 ```yaml
@@ -153,7 +153,7 @@ spec:
 
 {{site.mesh_product_name}} consumes all [Policies](/policies) on the cluster and joins each to an individual `Mesh`, identified by this property.
 {% endtab %}
-{% tab policies Universal %}
+{% tab Universal %}
 By using the `mesh` property, like:
 ```yaml
 type: TrafficRoute
@@ -165,8 +165,8 @@ mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the
 {% endtabs %}
 {% endif_version %}
 {% if_version gte:2.6.x %}
-{% tabs policies26 useUrlFragment=false %}
-{% tab policies26 Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 By using the `kuma.io/mesh` label, like:
 
 ```yaml
@@ -183,7 +183,7 @@ spec:
 
 {{site.mesh_product_name}} consumes all [Policies](/policies) on the cluster and joins each to an individual `Mesh`, identified by this property.
 {% endtab %}
-{% tab policies26 Universal %}
+{% tab Universal %}
 By using the `mesh` property, like:
 ```yaml
 type: MeshHTTPRoute
@@ -199,7 +199,7 @@ mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the
 
 By default, to help users get started we create the following default policies:
 
-{% policy_yaml default-policies %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 mesh: default
@@ -296,8 +296,8 @@ spec:
 
 If you want to not have these policies be added on creation of the mesh set the configuration: `skipCreatingInitialPolicies`:
 
-{% tabs skip-creating useUrlFragment=false %}
-{% tab skip-creating Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -307,7 +307,7 @@ spec:
   skipCreatingInitialPolicies: ['*']
 ```
 {% endtab %}
-{% tab skip-creating Universal %}
+{% tab Universal %}
 ```yaml
 type: Mesh
 name: default

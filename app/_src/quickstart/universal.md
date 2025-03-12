@@ -117,7 +117,7 @@ Navigate to 127.0.0.1:5000 and increment the counter.
 
 You can view the sidecar proxies that are connected to the {{site.mesh_product_name}} control plane:
 
-{% tabs usage useUrlFragment=false %}
+{% tabs %}
 {% tab usage GUI (Read-Only) %}
 
 {{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default the GUI listens on the API port and defaults to `:5681/gui`.

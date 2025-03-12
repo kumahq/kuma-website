@@ -12,8 +12,8 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 ## `targetRef` support matrix
 
 {% if_version gte:2.7.x %}
-{% tabs targetRef27x useUrlFragment=false %}
-{% tab targetRef27x Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
@@ -51,8 +51,8 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 {% endif_version %}
 
 {% if_version eq:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -150,7 +150,7 @@ ResponseBandwidth defines a configuration to limit the speed of responding to re
 ### Service backend returns 500 for 50% of requests from frontend service
 
 {% if_version lte:2.5.x %}
-{% policy_yaml meshfaultinjection-backend-to-frontend-simple %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -176,7 +176,7 @@ spec:
 
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
-{% policy_yaml meshfaultinjection-backend-to-frontend-simple-26x %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -203,7 +203,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml meshfaultinjection-backend-to-frontend-simple-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -229,7 +229,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml meshfaultinjection-backend-to-frontend-simple-210x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -256,7 +256,7 @@ spec:
 ### 50.5% of requests to service backend from any service is going to be delayed by 5 seconds
 
 {% if_version lte:2.5.x %}
-{% policy_yaml meshfaultinjection-from-all useUrlFragment %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -280,7 +280,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
-{% policy_yaml meshfaultinjection-from-all-26x useUrlFragment %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -306,7 +306,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml meshfaultinjection-from-all-29x namespace=kuma-demo useUrlFragment %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -331,7 +331,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml meshfaultinjection-from-all-210x namespace=kuma-demo useUrlFragment %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -357,7 +357,7 @@ spec:
 ### Backend service with a list of faults that are applied for frontend service
 
 {% if_version lte:2.5.x %}
-{% policy_yaml meshfaultinjection-list-of-faults useUrlFragment %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -388,7 +388,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
-{% policy_yaml meshfaultinjection-list-of-faults-26x useUrlFragment %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -421,7 +421,7 @@ spec:
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml meshfaultinjection-list-of-faults-29x namespace=kuma-demo useUrlFragment %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -453,7 +453,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml meshfaultinjection-list-of-faults-210x namespace=kuma-demo useUrlFragment %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshFaultInjection
 mesh: default

@@ -1,6 +1,6 @@
 Kuma (`kuma-cp`) will be installed in the newly created `{{site.mesh_namespace}}` namespace! Now that Kuma has been installed, you can access the control-plane via either the GUI, `kubectl`, the HTTP API, or the CLI:
 
-{% tabs use-kuma-k8s useUrlFragment=false %}
+{% tabs %}
 {% tab use-kuma-k8s GUI (Read-Only) %}
 
 Kuma ships with a **read-only** GUI that you can use to retrieve Kuma resources. By default the GUI listens on the API port and defaults to `:5681/gui`.

@@ -17,8 +17,8 @@ If you haven't, see the [observability docs](/docs/{{ page.release }}/explore/ob
 ## `targetRef` support matrix
 
 {% if_version gte:2.4.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version gte:2.4.x %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
@@ -40,7 +40,6 @@ If you haven't, see the [observability docs](/docs/{{ page.release }}/explore/ob
 | ----------------------- | -------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `Dataplane`                          |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService` |
-| `from[].targetRef.kind` | `Mesh`                                       |
 {% endif_version %}
 {% endtab %}
 
@@ -504,8 +503,8 @@ body:
 ### Log outgoing traffic from specific frontend version to a backend service
 
 {% if_version lte:2.8.x %}
-{% tabs meshaccesslog-outgoing-from-frontend-to-backend useUrlFragment=false %}
-{% tab meshaccesslog-outgoing-from-frontend-to-backend Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 {% if_version lte:2.2.x %}
 ```yaml
@@ -562,7 +561,7 @@ spec:
 Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
-{% tab meshaccesslog-outgoing-from-frontend-to-backend Universal %}
+{% tab Universal %}
 
 {% if_version lte:2.2.x %}
 ```yaml
@@ -615,7 +614,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-{% policy_yaml usage-29x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshAccessLog
 name: frontend-to-backend
@@ -643,7 +642,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-{% policy_yaml usage-210x namespace=kuma-demo use_meshservice=true %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshAccessLog
 name: frontend-to-backend
@@ -675,8 +674,8 @@ spec:
 This configuration logs to three backends: TCP, file and OpenTelemetry.
 
 {% if_version lte:2.8.x %}
-{% tabs meshaccesslog-multiple-backends useUrlFragment=false %}
-{% tab meshaccesslog-multiple-backends Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 {% if_version eq:2.2.x %}
 ```yaml
@@ -767,7 +766,7 @@ spec:
 Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
-{% tab meshaccesslog-multiple-backends Universal %}
+{% tab Universal %}
 
 {% if_version eq:2.2.x %}
 ```yaml
@@ -854,8 +853,8 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endif_version %}
 
 
-{% if_version gte:2.9.x %}
-{% policy_yaml multiple-backends-29x namespace=kuma-demo %}
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshAccessLog
 name: multiple-backends
@@ -896,11 +895,52 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshAccessLog
+name: multiple-backends
+mesh: default
+spec:
+  rules:
+    - default:
+        backends:
+          - type: Tcp
+            tcp:
+              address: 127.0.0.1:5000
+              format:
+                type: Json
+                json:
+                  - key: "start_time"
+                    value: "%START_TIME%"
+          - type: File
+            file:
+              path: /dev/stdout
+              format:
+                type: Plain
+                plain: '[%START_TIME%]'
+          - type: OpenTelemetry
+            openTelemetry:
+              endpoint: otel-collector:4317
+              body:
+                kvlistValue:
+                values:
+                  - key: "mesh"
+                    value:
+                      stringValue: "%KUMA_MESH%"
+              attributes:
+                - key: "start_time"
+                  value: "%START_TIME%"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
 ### Log all incoming and outgoing traffic
 
 {% if_version lte:2.8.x %}
-{% tabs meshaccesslog-all useUrlFragment=false %}
-{% tab meshaccesslog-all Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 {% if_version lte:2.2.x %}
 ```yaml
@@ -964,7 +1004,7 @@ spec:
 Apply the configuration with `kubectl apply -f [..]`.
 
 {% endtab %}
-{% tab meshaccesslog-all Universal %}
+{% tab Universal %}
 
 {% if_version lte:2.2.x %}
 ```yaml
@@ -1023,9 +1063,9 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endtabs %}
 {% endif_version %}
 
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 For this use case we recommend creating two separate policies. One for incoming traffic: 
-{% policy_yaml all-incoming-traffic-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshAccessLog
 name: all-incoming-traffic
@@ -1042,7 +1082,42 @@ spec:
 ```
 {% endpolicy_yaml %}
 And one for outgoing traffic:
-{% policy_yaml all-outgoing-traffic-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshAccessLog
+name: all-outgoing-traffic
+mesh: default
+spec:
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        backends:
+          - type: File
+            file:
+              path: /dev/stdout
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+For this use case we recommend creating two separate policies. One for incoming traffic:
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshAccessLog
+name: all-incoming-traffic
+mesh: default
+spec:
+  rules:
+    - default:
+        backends:
+          - type: File
+            file:
+              path: /dev/stdout
+```
+{% endpolicy_yaml %}
+And one for outgoing traffic:
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshAccessLog
 name: all-outgoing-traffic

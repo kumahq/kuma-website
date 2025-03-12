@@ -32,17 +32,16 @@ module Jekyll
           private
 
           def content
-            tabs_name = @tabs_name.strip
             filename = @params["filename"]
 
             <<~MARKDOWN
-              {% tabs #{tabs_name} useUrlFragment=false %}
-              {% tab #{tabs_name} kumactl %}
+              {% tabs %}
+              {% tab kumactl %}
               ```sh
               kumactl install control-plane --values #{filename} | kubectl apply -f -
               ```
               {% endtab %}
-              {% tab #{tabs_name} Helm %}
+              {% tab Helm %}
               Before using {{site.mesh_product_name}} with Helm, ensure that you’ve followed [these steps](/docs/{{ page.release }}/production/cp-deployment/kubernetes/#helm) to configure your local Helm repository.
 
               ```sh

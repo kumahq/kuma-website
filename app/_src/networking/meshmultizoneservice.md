@@ -19,7 +19,7 @@ To group services, you need to select them by their labels. Each MeshService has
 
 A basic example follows to illustrate the structure:
 
-{% policy_yaml meshservice_example %}
+{% policy_yaml %}
 ```yaml
 type: MeshMultiZoneService
 name: redis

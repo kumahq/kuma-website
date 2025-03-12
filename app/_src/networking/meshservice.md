@@ -18,7 +18,7 @@ the analog of a Kubernetes `Service`.
 
 A basic example follows to illustrate the structure:
 
-{% policy_yaml meshservice_example namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshService
 name: redis

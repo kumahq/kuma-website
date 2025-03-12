@@ -39,8 +39,8 @@ The `gateway` mode lets you skip exposing inbound listeners so it won't be inter
 
 ### Usage
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 {{site.mesh_product_name}} supports most of the ingress controllers. However, the recommended gateway in Kubernetes is [Kong](https://docs.konghq.com/gateway). You can use [Kong ingress controller for Kubernetes](https://docs.konghq.com/kubernetes-ingress-controller/) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime.
 Most ingress controllers require an annotation [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/3.1.x/reference/annotations/#ingresskubernetesioservice-upstream) on every Kubernetes `Service` to work with {{site.mesh_product_name}}. {{site.mesh_product_name}} automatically injects the annotation for every `Service` in a namespace in a mesh that has `kuma.io/sidecar-injection: enabled` label.
@@ -167,7 +167,7 @@ If you want to expose a `Service` in one zone only, as opposed to multi-zone, yo
 For an in-depth example on deploying {{site.mesh_product_name}} with [Kong for Kubernetes](https://github.com/Kong/kubernetes-ingress-controller), please follow this [demo application guide](https://github.com/kumahq/kuma-demo/tree/master/kubernetes).
 
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 
 On Universal, you can define the `Dataplane` entity like this:
 
@@ -227,8 +227,8 @@ To configure your gateway {{site.mesh_product_name}} has these resources:
 You can create and configure a gateway that listens for traffic from outside of your mesh
 and forwards it to the {% if_version gte:2.6.x %}[demo app frontend](/docs/{{ page.release }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[demo app frontend](/docs/{{ page.release }}/quickstart/kubernetes/){% endif_version %}.
 
-{% tabs setup useUrlFragment=false %}
-{% tab setup Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 To ease starting gateways on Kubernetes, {{site.mesh_product_name}} comes with a builtin type `MeshGatewayInstance`.
 
@@ -257,7 +257,7 @@ spec:
 
 See [the `MeshGatewayInstance` docs](/docs/{{ page.release }}/policies/meshgatewayinstance) for more.
 {% endtab %}
-{% tab setup Universal %}
+{% tab Universal %}
 
 The first thing you'll need is to create a `Dataplane` object for your gateway:
 
@@ -290,8 +290,8 @@ kuma-dp run \
 
 Now let's create a `MeshGateway` to configure the listeners:
 
-{% tabs listener useUrlFragment=false %}
-{% tab listener Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```shell
 echo "
@@ -315,7 +315,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab listener Universal %}
+{% tab Universal %}
 
 ```yaml
 type: MeshGateway
@@ -348,8 +348,8 @@ multi-zone.
 Now, you can define a `MeshGatewayRoute` to forward your traffic based on the
 matched URL path.
 
-{% tabs routes useUrlFragment=false %}
-{% tab routes Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```shell
 echo "
@@ -377,7 +377,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab routes Universal %}
+{% tab Universal %}
 
 ```yaml
 type: MeshGatewayRoute
