@@ -255,8 +255,8 @@ module Jekyll
                 processed_data = process_node(deep_copy(yaml_data), style)
                 contents[style[:name]] += "\n---\n" unless contents[style[:name]] == ''
                 contents[style[:name]] += YAML.dump(processed_data).gsub(/^---\n/, '').chomp
+                terraform_content += yaml_to_terraform(processed_data) if style[:name] == :uni
               end
-              terraform_content += yaml_to_terraform(yaml_data)
             end
 
             contents = contents.transform_values do |c|
