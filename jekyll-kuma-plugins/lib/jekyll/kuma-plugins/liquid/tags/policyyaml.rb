@@ -203,22 +203,22 @@ module Jekyll
             terraform
           end
 
-          def convert_to_terraform(key, value, indent_level, is_in_array = false)
+          def convert_to_terraform(key, value, indent_level, is_in_array = false, is_last = false)
             indent = "  " * indent_level
             if value.is_a?(Hash)
               result = "#{indent}#{key} = {\n"
-              value.each do |k, v|
-                result += convert_to_terraform(k, v, indent_level + 1)
+              value.each_with_index do |(k, v), index|
+                result += convert_to_terraform(k, v, indent_level + 1, false, index == value.size - 1)
               end
-              result += "#{indent}}#{is_in_array ? ',' : ''}\n"
+              result += "#{indent}}#{is_in_array && !is_last ? ',' : ''}\n"
             elsif value.is_a?(Array)
               result = "#{indent}#{key} = [\n"
               value.each_with_index do |v, index|
-                result += convert_to_terraform("", v, indent_level + 1, true)
+                result += convert_to_terraform("", v, indent_level + 1, true, index == value.size - 1)
               end
-              result += "#{indent}]#{is_in_array ? ',' : ''}\n"
+              result += "#{indent}]#{is_in_array && !is_last ? ',' : ''}\n"
             else
-              result = "#{indent}#{key} = \"#{value}\"#{is_in_array ? ',' : ''}\n"
+              result = "#{indent}#{key} = \"#{value}\"#{is_in_array && !is_last ? ',' : ''}\n"
             end
             result
           end
