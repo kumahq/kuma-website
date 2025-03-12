@@ -1259,12 +1259,10 @@ You can mix targetRef and source/destination policies as long as they are of dif
 
 ### Overview
 
-The new shadow mode functionality allows users to mark policies with a specific label to simulate configuration changes
+Shadow mode allows users to mark policies with a specific label to simulate configuration changes
 without affecting the live environment.
-It enables the observation of potential impact on Envoy proxy configurations, providing a risk-free method to test,
+It enables the observation of potential impact on Envoy proxy configurations, with a risk-free method to test,
 validate, and fine-tune settings before actual deployment.
-Ideal for learning, debugging, and migrating, shadow mode ensures configurations are error-free,
-improving the overall system reliability without disrupting ongoing operations.
 
 ### Recommended setup
 
