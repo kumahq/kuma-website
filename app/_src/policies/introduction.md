@@ -201,7 +201,7 @@ mesh: default
 spec:
   targetRef: # top level targetRef
     kind: Dataplane
-    tags:
+    labels:
       app: web-frontend
   to:
     - targetRef: # to level targetRef
@@ -228,7 +228,7 @@ mesh: default
 spec:
   targetRef: # top level targetRef
     kind: Dataplane
-    tags:
+    labels:
       app: web-frontend
   rules:
     - default:
@@ -247,6 +247,91 @@ It defines the scope of this policy as applying to traffic either from or to dat
 
 The `spec.to[].targetRef` section enables logging for any traffic going to `web-backend`.
 The `spec.rules[]` section enables logging for any traffic coming on inbound listeners of the `web-frontend` proxies.
+
+### Using a `sectionName`
+
+The `targetRef.sectionName` field helps select specific sections within certain resource kinds:
+
+* `Dataplane` – selects an inbound port
+* `MeshService` – selects a port of the matching services
+* `MeshMultiZoneService` – selects a port
+
+To resolve `sectionName`, the following steps are applied:
+
+1. Look for a section where the name matches `sectionName`.
+2. If no match is found, try interpreting `sectionName` as a number and find a port with the same value—only if the port's name is unset.
+
+#### Examples
+
+Given a Dataplane resource with several inbound listeners:
+
+```yaml
+type: Dataplane
+mesh: default
+name: backend
+labels:
+  app: backend
+networking:
+  address: 192.168.0.2
+  inbound:
+    - name: backend-api
+      port: 8080
+      tags:
+        kuma.io/service: backend
+    - name: admin-api
+      port: 5000
+      tags:
+        kuma.io/service: backend-admin
+```
+
+Inbound policies can attach to all inbound listeners:
+
+{% policy_yaml %}
+
+```yaml
+type: MeshAccessLog
+name: all-inbounds
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: backend
+  rules:
+    - default:
+        backends:
+          - file:
+              format:
+                plain: '{"start_time": "%START_TIME%"}'
+              path: "/tmp/logs.txt"
+```
+
+{% endpolicy_yaml %}
+
+or just some inbound listeners:
+
+{% policy_yaml %}
+
+```yaml
+type: MeshAccessLog
+name: only-backend-api-inbound
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: backend
+    sectionName: backend-api
+  rules:
+    - default:
+        backends:
+          - file:
+              format:
+                plain: '{"start_time": "%START_TIME%"}'
+              path: "/tmp/logs.txt"
+```
+
+{% endpolicy_yaml %}
 
 ### Omitting `targetRef`
 
@@ -412,7 +497,6 @@ We can use the policy only as an _outbound_ policy with:
 
 {% endtab %}
 {% endtabs %}
-
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
