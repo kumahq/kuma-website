@@ -195,6 +195,34 @@ module Jekyll
             node
           end
 
+          def yaml_to_terraform(yaml_data)
+            terraform = ""
+            yaml_data.each do |key, value|
+              terraform += convert_to_terraform(key, value, 0)
+            end
+            terraform
+          end
+
+          def convert_to_terraform(key, value, indent_level)
+            indent = "  " * indent_level
+            if value.is_a?(Hash)
+              result = "#{indent}#{key} = {\n"
+              value.each do |k, v|
+                result += convert_to_terraform(k, v, indent_level + 1)
+              end
+              result += "#{indent}}\n"
+            elsif value.is_a?(Array)
+              result = "#{indent}#{key} = [\n"
+              value.each do |v|
+                result += convert_to_terraform("", v, indent_level + 1)
+              end
+              result += "#{indent}]\n"
+            else
+              result = "#{indent}#{key} = \"#{value}\"\n"
+            end
+            result
+          end
+
           def render(context)
             content = super
             return "" if content == ""
@@ -216,6 +244,7 @@ module Jekyll
             ]
 
             contents = styles.map { |style| [style[:name], ""] }.to_h
+            terraform_content = ""
 
             YAML.load_stream(content) do |yaml_data|
               styles.each do |style|
@@ -223,6 +252,7 @@ module Jekyll
                 contents[style[:name]] += "\n---\n" unless contents[style[:name]] == ''
                 contents[style[:name]] += YAML.dump(processed_data).gsub(/^---\n/, '').chomp
               end
+              terraform_content += yaml_to_terraform(yaml_data)
             end
 
             contents = contents.transform_values do |c|
@@ -230,6 +260,9 @@ module Jekyll
               transformed = "{% raw %}\n#{transformed}{% endraw %}\n" if has_raw
               transformed
             end
+            terraform_content = "```hcl\n#{terraform_content}\n```\n"
+            terraform_content = "{% raw %}\n#{terraform_content}{% endraw %}\n" if has_raw
+
             version_path = release.value
             version_path = 'dev' if release.label == 'dev'
             edition = context.registers[:page]['edition']
@@ -256,6 +289,9 @@ module Jekyll
 </div>
 #{contents[:uni_legacy]}
 #{contents[:uni]}
+{% endtab %}
+{% tab Terraform %}
+#{terraform_content}
 {% endtab %}"
             else
               htmlContent += "
@@ -264,6 +300,9 @@ module Jekyll
 {% endtab %}
 {% tab Universal %}
 #{contents[:uni_legacy]}
+{% endtab %}
+{% tab Terraform %}
+#{terraform_content}
 {% endtab %}"
             end
 
