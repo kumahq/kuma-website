@@ -195,6 +195,10 @@ module Jekyll
             node
           end
 
+          def snake_case(str)
+            str.gsub(/([a-z])([A-Z])/, '\1_\2').gsub(/([A-Z])([A-Z][a-z])/, '\1_\2').downcase
+          end
+
           def yaml_to_terraform(yaml_data)
             type = yaml_data['type']
             name = yaml_data['name']
@@ -208,6 +212,7 @@ module Jekyll
           end
 
           def convert_to_terraform(key, value, indent_level, is_in_array = false, is_last = false)
+            key = snake_case(key) unless key.empty?
             indent = "  " * indent_level
             if value.is_a?(Hash)
               result = is_in_array ? "#{indent}{\n" : "#{indent}#{key} = {\n"
