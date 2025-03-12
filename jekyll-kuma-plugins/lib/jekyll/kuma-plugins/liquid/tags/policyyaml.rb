@@ -244,7 +244,7 @@ module Jekyll
             site_data = context.registers[:site].config
 
             use_meshservice = @params["use_meshservice"] == "true" && Gem::Version.new(release.value.dup.sub "x", "0") >= TARGET_VERSION
-            show_tf = Gem::Version.new(release.value.dup.sub "x", "0") >= TARGET_VERSION
+            show_tf = Gem::Version.new(release.value.dup.sub "x", "0") >= TF_TARGET_VERSION
 
             namespace = @params["namespace"] || site_data['mesh_namespace']
             styles = [
