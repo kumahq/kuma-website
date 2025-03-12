@@ -508,6 +508,8 @@ items:
         url: /guides/consumer-producer-policies
       - text: Upgrading Transparent Proxy
         url: /guides/upgrading-transparent-proxy/
+      - text: Excluding Traffic from Transparent Proxy Redirection
+        url: /guides/excluding-traffic-from-transparent-proxy-redirection/
   - title: Reference
     group: true
     items:
