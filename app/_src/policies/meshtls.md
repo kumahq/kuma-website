@@ -19,7 +19,6 @@ Backends and default mode values are taken from [the Mesh object](/docs/{{ page.
 | `targetRef`             | Allowed kinds       |
 | ----------------------- | ------------------- |
 | `targetRef.kind`        | `Mesh`, `Dataplane` |
-| `from[].targetRef.kind` | `Mesh`              |
 {% endif_version %}
 {% endtab %}
 {% tab targetRef For tls ciphers/version %}
@@ -51,6 +50,7 @@ In that case, please open an [issue](https://github.com/kumahq/kuma/issues).
 
 ### Set specific TLS version and ciphers
 
+{% if_version eq:2.9.x %}
 {% policy_yaml %}
 ```yaml
 type: MeshTLS
@@ -70,6 +70,27 @@ spec:
           - ECDHE-ECDSA-AES256-GCM-SHA384
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml %}
+```yaml
+type: MeshTLS
+name: set-version-and-ciphers
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  rules:
+    - default:
+        tlsVersion:
+          min: TLS13
+          max: TLS13
+        tlsCiphers:
+          - ECDHE-ECDSA-AES256-GCM-SHA384
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Enable strict mode on specific subset
 
@@ -104,10 +125,8 @@ spec:
     kind: Dataplane
     labels:
       app: redis
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
+  rules:
+    - default:
         mode: Strict
 ```
 {% endpolicy_yaml %}
