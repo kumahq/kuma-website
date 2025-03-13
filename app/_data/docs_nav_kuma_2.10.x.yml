@@ -506,6 +506,8 @@ items:
         url: /guides/progressively-rolling-in-strict-mtls/
       - text: Producer and consumer policies
         url: /guides/consumer-producer-policies
+      - text: Configuring inbound traffic with Rules API
+        url: /guides/rules
   - title: Reference
     group: true
     items:
