@@ -52,3 +52,5 @@
 /docs/:version/production/cp-deployment/stand-alone/ /docs/:version/production/cp-deployment/single-zone/
 /docs/:version/production/deployment/stand-alone/ /docs/:version/production/deployment/single-zone/
 /docs/:version/explore/gateway/ /docs/:version/using-mesh/managing-ingress-traffic/overview/
+/docs/:version/quickstart/universal-docker-demo/ /docs/:version/quickstart/universal-demo/
+/docs/:version/quickstart/universal-demo/ /docs/:version/quickstart/universal-docker-demo/

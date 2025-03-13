@@ -60,7 +60,6 @@ target proxies are healthy or not.
 | ----------------------- | --------------------- |
 | `targetRef.kind`        | `Mesh`, `Dataplane`   |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService` |
-| `from[].targetRef.kind` | `Mesh`                |
 {% endif_version %}
 {% endtab %}
 
@@ -631,7 +630,6 @@ spec:
           maxEjectionPercent: 20
           splitExternalAndLocalErrors: true
           detectors:
-          detectors:
             totalFailures:
               consecutive: 10
             gatewayFailures:
@@ -661,10 +659,8 @@ spec:
     kind: Dataplane
     labels:
       app: web
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
+  rules:
+    - default:
         outlierDetection:
           interval: 5s
           baseEjectionTime: 30s

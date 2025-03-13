@@ -51,7 +51,7 @@ items:
           - text: Next steps
             url: "/quickstart/kubernetes-demo/#next-steps"
       - text: Deploy Kuma on Universal
-        url: /quickstart/universal-demo
+        url: /quickstart/universal-docker-demo/
   - title: Kuma in Production
     group: true
     items:
@@ -504,6 +504,8 @@ items:
         url: /guides/progressively-rolling-in-strict-mtls/
       - text: Producer and consumer policies
         url: /guides/consumer-producer-policies
+      - text: Configuring inbound traffic with Rules API
+        url: /guides/rules
       - title: Troubleshooting
         group: true
         items:
