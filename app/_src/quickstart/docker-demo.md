@@ -11,7 +11,7 @@ title: Deploy Kuma on Docker
 {% assign KUMA_DEMO_ADMIN_TOKEN = KUMA | append: "_DEMO_ADMIN_TOKEN" %}
 {% assign version = page.version %}
 {% capture version_full %}{% if version == "preview" %}${{ KUMA_PREVIEW_VERSION }}{% else %}{{ version }}{% endif %}{% endcapture %}
-{% assign ip_ab = "172.56" %}
+{% assign ip_ab = "172.57" %}
 {% assign ip_abc = ip_ab | append: ".78" %}
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
 {% assign kuma-demo = kuma | append: "-demo" %}
@@ -403,7 +403,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
    kumactl get meshservices
    ```
 
-   The output should show a single service, `kv`, with the status `Online`.
+   The output should show a single service, `kv`.
 
    You can also open the [{{ Kuma }} GUI]({{ docs }}/production/gui/) at <http://127.0.0.1:25681/gui/meshes/default/services/mesh-services>. Look for the `kv` service, and verify that its state is `Available`.
 
@@ -496,6 +496,14 @@ The steps are the same as those explained earlier, with only the names changed. 
 4. **Verify the application**
 
    Open <http://127.0.0.1:25050> in your browser and use the demo application to increment the counter. The demo application is now fully set up and running.
+   
+   You can also check if the services were registered successfully:
+   
+   ```sh
+   kumactl get meshservices
+   ```
+   
+   You should see the registered services, including the `demo-app`.
 
 ## Introduction to zero-trust security
 
@@ -530,10 +538,12 @@ echo 'type: MeshTrafficPermission
 name: allow-kv-from-demo-app
 mesh: default 
 spec: 
-  targetRef: 
-    kind: {% if_version lte:2.9.x %}MeshSubset{% endif_version %}{% if_version gte:2.10.x %}Dataplane{% endif_version %}
-    {% if_version lte:2.9.x %}tags{% endif_version %}{% if_version gte:2.10.x %}labels{% endif_version %}:
-      kuma.io/service: kv
+  targetRef:
+    kind: {% if_version lte:2.9.x %}MeshSubset
+    tags:
+      kuma.io/service{% endif_version %}{% if_version gte:2.10.x %}Dataplane
+    labels:
+      app{% endif_version %}: kv
   from: 
   - targetRef: 
       kind: MeshSubset 
@@ -682,9 +692,11 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    mesh: default
    spec:
      targetRef:
-       kind: MeshSubset
+       kind: {% if_version lte:2.9.x %}MeshSubset
        tags:
-         kuma.io/service: demo-app
+         kuma.io/service{% endif_version %}{% if_version gte:2.10.x %}Dataplane
+       labels:
+         app{% endif_version %}: demo-app
      from:
      - targetRef:
          kind: MeshSubset
