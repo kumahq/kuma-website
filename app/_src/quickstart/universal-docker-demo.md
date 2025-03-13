@@ -726,4 +726,4 @@ rm -rf {{ tmp }}
 - Try using the [{{ Kuma }} GUI]({{ docs }}/production/gui/) to easily visualize your mesh.
 - Read the [full documentation]({{ docs }}/) for more details.
 - Check deployment examples for [single-zone]({{ docs }}/production/cp-deployment/single-zone) or [multi-zone]({{ docs }}/production/cp-deployment/multi-zone) setups.
-  {% if site.mesh_product_name == "Kuma" %}- Visit the [community page](/community) if you have questions or feedback.{% endif %}
+{% if site.mesh_product_name == "Kuma" %}- Visit the [community page](/community) if you have questions or feedback.{% endif %}
