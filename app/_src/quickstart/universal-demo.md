@@ -2,509 +2,268 @@
 title: Deploy Kuma on Universal
 ---
 
-{% capture docs %}/docs/{{ page.release }}{% endcapture %}
-{% assign Kuma = site.mesh_product_name %}
+This demo shows how to run {{site.mesh_product_name}} in Universal mode on a single machine.
 
-{% assign KUMA = Kuma | upcase | replace: " ", "_" %}
-{% assign KUMA_PREVIEW_VERSION = KUMA | append: "_PREVIEW_VERSION" %}
-{% assign KUMA_DEMO_TMP = KUMA | append: "_DEMO_TMP" %}
-{% assign KUMA_DEMO_ADMIN_TOKEN = KUMA | append: "_DEMO_ADMIN_TOKEN" %}
-{% assign version = page.version %}
-{% capture version_full %}{% if version == "preview" %}${{ KUMA_PREVIEW_VERSION }}{% else %}{{ version }}{% endif %}{% endcapture %}
-{% assign ip_ab = "172.57" %}
-{% assign ip_abc = ip_ab | append: ".78" %}
-{% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
-{% assign kuma-demo = kuma | append: "-demo" %}
-{% assign docker_org = site.mesh_docker_org | default: "kumahq" %}
-{% assign kuma-data-plane-proxy = kuma | append: "-data-plane-proxy" %}
-{% assign tmp = "/tmp/" | append: kuma-demo %}
-{% assign tmp-colima = "/tmp/colima/" | append: kuma-demo %}
+To start learning how {{site.mesh_product_name}} works, you will run and secure a simple demo application that consists of two services:
 
-{% assign url_installer = site.links.web | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
-{% assign url_installer_external = site.links.share | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
+- `demo-app`: a web application that lets you increment a numeric counter. It listens on port 5000
+- `redis`: data store for the counter
 
-{% capture MeshTrafficPermission %}[MeshTrafficPermission]({{ docs }}/policies/meshtrafficpermission/){% endcapture %}
-{% capture MeshGateway %}[MeshGateway]({{ docs }}//using-mesh/managing-ingress-traffic/builtin-listeners/){% endcapture %}
-{% capture MeshHTTPRoute %}[MeshHTTPRoute]({{ docs }}/policies/meshhttproute/){% endcapture %}
-{% capture MeshTCPRoute %}[MeshTCPRoute]({{ docs }}/policies/meshtcproute/){% endcapture %}
-{% capture kumactl %}[kumactl]({{ docs }}/explore/cli/#kumactl){% endcapture %}
-{% capture Dataplane %}[Dataplane]({{ docs }}/production/dp-config/dpp/#dataplane-entity){% endcapture %}
-{% capture Dataplanes %}[Dataplanes]({{ docs }}/production/dp-config/dpp/#dataplane-entity){% endcapture %}
-{% capture MeshServices %}[MeshServices]({{ docs }}/networking/meshservice/){% endcapture %}
-
-This quick start guide demonstrates how to run {{ Kuma }} in Universal mode using Docker containers.
-
-You'll set up and secure a simple demo application to explore how {{ Kuma }} works. The application consists of two services:
-
-- `demo-app`: A web application that lets you increment a numeric counter.
-- `kv`: A data store that keeps the counter's value.
-
-<!-- vale Vale.Spelling = NO -->
 {% mermaid %}
+---
+title: service graph of the demo app
+---
 flowchart LR
-browser(browser)
-
-subgraph mesh
-edge-gateway(edge-gateway)
-demo-app(demo-app :5050)
-kv(kv :5050)
-end
-edge-gateway --> demo-app
-demo-app --> kv
-browser --> edge-gateway
+demo-app(demo-app :5000)
+redis(redis :6379)
+demo-app --> redis
 {% endmermaid %}
-<!-- vale Vale.Spelling = YES -->
 
 ## Prerequisites
 
-{% capture note-docker-engine %}
-{% tip %}
-**Note:** This guide has been tested with [Docker Engine](https://docs.docker.com/engine/), [Docker Desktop](https://docs.docker.com/desktop/), [OrbStack](https://orbstack.dev/), and [Colima](https://github.com/abiosoft/colima). A small adjustment is required for Colima, which we’ll explain later.
-{% endtip %}
-{% endcapture %}
+* [Redis installed, not running](https://redis.io/docs/getting-started/)
 
-1. Make sure you have the following tools installed: `docker`, `curl`, `jq`, and `base64`
+## Install {{site.mesh_product_name}}
 
-{{ note-docker-engine | indent }}
+To download {{site.mesh_product_name}} we will use official installer, it will automatically detect the operating system (Amazon Linux, CentOS, RedHat, Debian, Ubuntu, and macOS) and download {{site.mesh_product_name}}:
 
-## Prepare the environment
-
-{% if version == "preview" %}
-1. **Retrieve the latest preview version of {{ Kuma }}**
-
-   To use the latest preview version of {{ Kuma }}, retrieve it and export it as an environment variable for later steps:
-
-   ```sh
-   export {{ KUMA_PREVIEW_VERSION }}="$(
-     curl --silent --location {{ url_installer }} \
-       | VERSION="preview" sh -s - --print-version 2> /dev/null
-   )"
-   
-   echo "${{ KUMA_PREVIEW_VERSION }}"
-   ```
-
-   You should see output similar to this:
-
-   ```
-   0.0.0-preview.vabc123def
-   ```
-   {:.no-line-numbers}
-
-   {% capture warning-env-var %}
-   {% danger %}
-   **Warning:** If no output is shown, or it looks incorrect, set the `{{ KUMA_PREVIEW_VERSION }}` variable to the correct version manually. Do not continue without this value, as it is needed for later steps. Using the wrong version may cause errors or unexpected problems.  
-   {% enddanger %}
-   {% endcapture %}
-   {{ warning-env-var | indent }}
-   {% endif %}
-
-2. **Install {{ Kuma }}**
-
-   Run the installation command:
-
-   ```sh
-   curl -L {{ site.links.web }}/installer.sh | VERSION="{{ version_full }}" sh -
-   ```
-
-   Then add the binaries to your system's [PATH](https://en.wikipedia.org/wiki/PATH_(variable)):
-
-   ```sh
-   export PATH="$(pwd)/{{ kuma }}-{{ version_full }}/bin:$PATH"
-   ```
-
-3. **Prepare a temporary directory**
-
-   Set up a temporary directory to store resources like data plane tokens, {{ Dataplane }} templates, and logs. Ensure the path does not end with a trailing `/`.
-
-   {% capture warning-colima-adjust-path %}
-   {% warning %}
-   **Important:** If you are using **Colima**, make sure to adjust the path in the steps of this guide. Colima only allows shared paths from the `HOME` directory or `/tmp/colima/`. Instead of `{{ tmp }}`, you can use `{{ tmp-colima }}`.
-   {% endwarning %}
-   {% endcapture %}
-   {{ warning-colima-adjust-path | indent }}
-
-   Check if the directory exists and is empty, and create it if necessary:
-
-   ```sh
-   export {{ KUMA_DEMO_TMP }}="{{ tmp }}"
-   mkdir -p "${{ KUMA_DEMO_TMP }}"
-   ```
-
-4. **Prepare a Dataplane resource template**
-
-   Create a reusable {{ Dataplane }} resource template for services:
-
-   ```sh
-   echo 'type: Dataplane
-   mesh: default
-   name: {% raw %}{{ name }}{% endraw %}{% if_version gte:2.10.x %}
-   labels:
-     app: {% raw %}{{ name }}{% endraw %}{% endif_version %}
-   networking:
-     address: {% raw %}{{ address }}{% endraw %}
-     inbound:
-       - port: {% raw %}{{ port }}{% endraw %}
-         tags:
-           kuma.io/service: {% raw %}{{ name }}{% endraw %}
-           kuma.io/protocol: http
-     transparentProxying:
-       redirectPortInbound: 15006
-       redirectPortOutbound: 15001' > "${{ KUMA_DEMO_TMP }}/dataplane.yaml" 
-   ```
-
-   This template simplifies creating Dataplane configurations for different services by replacing dynamic values during deployment.
-
-5. **Prepare a transparent proxy configuration file**
-
-   ```sh
-   echo 'kumaDPUser: {{ kuma-data-plane-proxy }}
-   redirect:
-     dns:
-       enabled: true
-   verbose: true' > "${{ KUMA_DEMO_TMP }}/config-transparent-proxy.yaml"
-   ```
-
-6. **Create a Docker network**
-
-   Set up a separate Docker network for the containers. Use IP addresses in the `{{ ip_abc }}.0/24` range or customize as needed:
-
-   ```sh
-   docker network create \
-     --subnet {{ ip_ab }}.0.0/16 \
-     --ip-range {{ ip_abc }}.0/24 \
-     --gateway {{ ip_abc }}.254 \
-     {{ kuma-demo }}
-   ```
-
-## Set up the control plane
-
-1. **Start the control plane**
-
-   Use the official Docker image to run the {{ Kuma }} control plane. This image starts the control plane binary automatically, so no extra flags or configurations are needed for this guide. Simply use the `run` command:
-
-   ```sh
-   docker run \
-     --detach \
-     --name {{ kuma-demo }}-control-plane \
-     --hostname control-plane \
-     --network {{ kuma-demo }} \
-     --ip {{ ip_abc }}.1 \
-     --publish 25681:5681 \
-     --volume {{ tmp }}:/demo \
-     {{ docker_org }}/kuma-cp:{{ version_full }} run
-   ```  
-
-   You can now access the [{{ Kuma }} user interface (GUI)]({{ docs }}/production/gui/) at <http://127.0.0.1:25681/gui>.
-
-2. **Configure kumactl**
-
-   To use {{ kumactl }} with our {{ Kuma }} deployment, we need to connect it to the control plane we set up earlier.
-
-   1. **Retrieve the admin token**
-
-      Run the following command to get the admin token from the control plane:
-
-      ```sh
-      export {{ KUMA_DEMO_ADMIN_TOKEN }}="$( 
-        docker exec --tty --interactive {{ kuma-demo }}-control-plane \
-          wget --quiet --output-document - \
-          http://127.0.0.1:5681/global-secrets/admin-user-token \
-          | jq --raw-output .data \
-          | base64 --decode
-      )"
-      ```
-
-   2. **Connect to the control plane**
-
-      Use the retrieved token to link {{ kumactl }} to the control plane:
-
-      ```sh
-      kumactl config control-planes add \
-        --name {{ kuma-demo }} \
-        --address http://127.0.0.1:25681 \
-        --auth-type tokens \
-        --auth-conf "token=${{ KUMA_DEMO_ADMIN_TOKEN }}" \
-        --skip-verify
-      ```
-
-   3. **Verify the connection**
-
-      Run this command to check if the connection is working:
-
-      ```sh
-      kumactl get meshes
-      ```
-
-      You should see a list of meshes with one entry: `default`. This confirms the configuration is successful.
-
-3. **Configure the default mesh**
-
-   Set the default mesh to use {{ MeshServices }} in [exclusive mode]({{ docs }}/networking/meshservice/#options). MeshServices are explicit resources that represent destinations for traffic in the mesh. They define which {{ Dataplanes }} serve the traffic, as well as the available ports, IPs, and hostnames. This configuration ensures a clearer and more precise way to manage services and traffic routing in the mesh.
-
-   ```sh
-   echo 'type: Mesh
-   name: default
-   meshServices:
-     mode: Exclusive' | kumactl apply -f -
-   ```
-
-## Set up services
-
-{% capture code-block-install-tools-create-user %}
 ```sh
-# install necessary packages
-apt-get update && \
-  apt-get install --yes curl iptables
-
-# download and install {{ Kuma }}
-curl --location {{ url_installer_external }} {% if version == "preview" or page.edition and page.edition != "kuma" %}\
-  {% endif %}| VERSION="{{ version_full }}" sh -
-
-# move {{ Kuma }} binaries to /usr/local/bin/ for global availability
-mv {{ kuma }}-{{ version_full }}/bin/* /usr/local/bin/
-
-# create a dedicated user for the data plane proxy
-useradd --uid 5678 --user-group {{ kuma-data-plane-proxy }}
+curl -L {{site.links.web}}{% if page.edition != "kuma" %}/{{page.edition}}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -
 ```
-{% endcapture %}
-{% capture warning-run-inside-container %}
-{%- capture warning-run-inside-container-msg -%}
-**Important:** The following steps must be executed inside the container.
-{%- endcapture -%}
-{% if page.edition and page.edition != "kuma" %}
-{:.important.no-icon}
-> {{ warning-run-inside-container-msg }}
 
-{% else %}
-{% warning %}{{ warning-run-inside-container-msg }}{% endwarning %}
-{% endif %}
-{% endcapture %}
-{% capture warning-tproxy-command-run-inside-container %}
+To finish installation we need to add {{site.mesh_product_name}} binaries to path: 
+
+```sh
+export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin
+```
+
+## Start control plane
+
+Now we need to start [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane) in background by running command:
+
+```sh
+kuma-cp run > cp-logs.txt 2>&1 &
+```
+
+To check if control plane started without issues you can check logs:
+
+```sh
+tail cp-logs.txt
+```
+
+## Deploy demo application
+
+### Generate tokens for data plane proxies
+
+On Universal we need to manually create tokens for [data plane proxies](/docs/{{ page.release }}/introduction/concepts#data-plane). To do this need to run this commands (these tokens will be valid
+for 30 days):
+
+```sh
+kumactl generate dataplane-token --tag kuma.io/service=redis --valid-for=720h > /tmp/kuma-token-redis
+kumactl generate dataplane-token --tag kuma.io/service=demo-app --valid-for=720h > /tmp/kuma-token-demo-app
+```
+
+After generating tokens we can start the data plane proxies that will be used for proxying traffic between `demo-app` and `redis`.
+
+### Start the data plane proxies
+
 {% warning %}
-**Important:** Make sure this command is executed **inside the container**. It changes iptables rules to redirect all traffic to the data plane proxy. Running it on your computer or a virtual machine without the data plane proxy can disrupt network connectivity. On a virtual machine, this might lock you out until you restart it.
+Because this is a quickstart, we don't setup [certificates for communication
+between the data plane proxies and the control plane](/docs/{{ page.release }}/production/secure-deployment/certificates/#encrypted-communication).
+You'll see a warning like the following in the `kuma-dp` logs:
+
+```
+2024-07-25T20:06:36.082Z	INFO	dataplane	[WARNING] The data plane proxy cannot verify the identity of the control plane because you are not setting the "--ca-cert-file" argument or setting the KUMA_CONTROL_PLANE_CA_CERT environment variable.
+```
+
+This isn't related to mTLS between services.
 {% endwarning %}
-{% endcapture %}
 
-<!-- vale Google.Headings = NO -->
-### Key/Value Store
-<!-- vale Google.Headings = YES -->
+First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane [resources](/docs/{{ page.release }}/introduction/concepts#resource) for data plane proxies, and 
+run kuma-dp manually, to do this run:
 
-This section explains how to start the `kv` service, which mimics key/value store database.
+{% if_version lte:2.9.x %}
+```sh
+KUMA_READINESS_PORT=9901 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9902 {% endif_version %} kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=/tmp/kuma-token-redis \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: redis
+  labels:
+    app: redis
+  networking: 
+    address: 127.0.0.1
+    inbound: 
+      - port: 16379
+        servicePort: 26379
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: redis
+          kuma.io/protocol: tcp
+    admin:
+      port: 9903"
+```
+{% endif_version %}
 
-1. **Generate a data plane token**
+{% if_version gte:2.10.x %}
+```sh
+KUMA_READINESS_PORT=9901 KUMA_APPLICATION_PROBE_PROXY_PORT=9902 kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=/tmp/kuma-token-redis \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: redis
+  labels:
+    app: redis
+  networking: 
+    address: 127.0.0.1
+    inbound: 
+      - port: 16379
+        servicePort: 26379
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: redis
+          kuma.io/protocol: tcp
+    admin:
+      port: 9903"
+```
+{% endif_version %}
 
-   Create a token for the `kv` data plane proxy to authenticate with the control plane:
+You can notice that we are manually specifying the readiness port with environment variable `KUMA_READINESS_PORT`, when each data plane is 
+running on separate machines this is not required. 
 
-   ```sh
-   kumactl generate dataplane-token \
-     --tag kuma.io/service=kv \
-     --valid-for 720h \
-     > "${{ KUMA_DEMO_TMP }}/token-kv"
-   ```
+{% warning %}
+We need a separate terminal window, with the same binaries directory as above added to `PATH`. So assuming the same initial directory:
 
-2. **Start the container**
+```sh
+export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin
+```
+{% endwarning %}
 
-   ```sh
-   docker run \
-     --detach \
-     --name {{ kuma-demo }}-kv \
-     --hostname kv \
-     --network {{ kuma-demo }} \
-     --ip {{ ip_abc }}.2 \
-     --volume {{ tmp }}:/demo \
-     ghcr.io/kumahq/kuma-counter-demo:debian-slim
-   ```
+Now we can start the data plane proxy for our demo-app, we can do this by running:
 
-3. **Prepare the container**
+{% if_version lte:2.9.x %}
+```sh
+KUMA_READINESS_PORT=9904 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905 {% endif_version %} kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=/tmp/kuma-token-demo-app \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: demo-app
+  networking: 
+    address: 127.0.0.1
+    outbound:
+      - port: 6379
+        tags:
+          kuma.io/service: redis
+    inbound: 
+      - port: 15000
+        servicePort: 5000
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: demo-app
+          kuma.io/protocol: http
+    admin:
+      port: 9906"
+```
+{% endif_version %}
 
-   Enter the container to run further commands.
+{% if_version gte:2.10.x %}
+```sh
+KUMA_READINESS_PORT=9904 KUMA_APPLICATION_PROBE_PROXY_PORT=9905 kuma-dp run \
+  --cp-address=https://localhost:5678/ \
+  --dns-enabled=false \
+  --dataplane-token-file=/tmp/kuma-token-demo-app \
+  --dataplane="
+  type: Dataplane
+  mesh: default
+  name: demo-app
+  labels:
+    app: demo-app
+  networking: 
+    address: 127.0.0.1
+    outbound:
+      - port: 6379
+        tags:
+          kuma.io/service: redis
+    inbound: 
+      - port: 15000
+        servicePort: 5000
+        serviceAddress: 127.0.0.1
+        tags: 
+          kuma.io/service: demo-app
+          kuma.io/protocol: http
+    admin:
+      port: 9906"
+```
+{% endif_version %}
 
-   {% if version != "preview" %}
-   ```sh
-   docker exec --tty --interactive --privileged {{ kuma-demo }}-kv bash
-   ```
-   {% else %}
-   ```sh
-   docker exec \
-     --tty \
-     --interactive \
-     --privileged \
-     --env {{ KUMA_PREVIEW_VERSION }} \
-     {{ kuma-demo }}-kv bash
-   ```
-   {% endif %}
+### Run kuma-counter-demo app
 
-   {{ warning-run-inside-container | indent }}
+We will start the kuma-counter-demo in a new terminal window:
 
-   1. **Install tools and create data plane proxy user**
+1. With the data plane proxies running, we can start our apps, first we will start and configure `Redis`:
+```sh
+redis-server --port 26379 --daemonize yes && redis-cli -p 26379 set zone local
+```
+You should see message `OK` from `Redis` if this operation was successful.
 
-      Install the required tools for downloading {{ Kuma }} binaries, setting up the [transparent proxy]({{ docs }}/production/dp-config/transparent-proxying/), and create a dedicated user for the data plane proxy:
+2. Now we can start our `demo-app`. To do this we need to download repository with its source code:
+```sh
+git clone https://github.com/kumahq/kuma-counter-demo.git && cd kuma-counter-demo
+```
 
-      - `curl`: Needed to download the {{ Kuma }} binaries.
-      - `iptables`: Required to configure the transparent proxy.
+3. Now we need to run:
+```sh
+npm install --prefix=app/ && npm start --prefix=app/
+```
+If `demo-app` was started correctly you will see message:
+```
+Server running on port 5000
+```
 
-      Run the following commands:
+In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter. `demo-app` GUI should work without issues now.
 
-      {{ code-block-install-tools-create-user | indent | indent }}
+## Explore {{site.mesh_product_name}} GUI
 
-   2. **Set the zone name**
+You can view the sidecar proxies that are connected to the {{site.mesh_product_name}} control plane.
 
-      Give the `kv` instance a name. The demo application will use this name to show which `kv` instance is being accessed.
+{{site.mesh_product_name}} ships with a **read-only** [GUI](/docs/{{ page.release }}/production/gui) that you can use to retrieve {{site.mesh_product_name}} resources. 
+By default, the GUI listens on the API port which defaults to `5681`.
 
-      ```sh
-      curl localhost:5050/api/key-value/zone \
-        --header 'Content-Type: application/json' \
-        --data '{"value":"local-demo-zone"}'
-      ```
+To access {{site.mesh_product_name}} we need to navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) in your browser.
 
-   3. **Start the data plane proxy**
-
-      ```sh
-      runuser --user {{ kuma-data-plane-proxy }} -- \
-        /usr/local/bin/kuma-dp run \
-        --cp-address https://control-plane:5678 \
-        --dataplane-token-file /demo/token-kv \
-        --dataplane-file /demo/dataplane.yaml \
-        --dataplane-var name=kv \
-        --dataplane-var address={{ ip_abc }}.2 \
-        --dataplane-var port=5050 \
-        > /demo/logs-data-plane-proxy-kv.log 2>&1 &
-      ```
-
-   4. **Install the transparent proxy**
-
-      {{ warning-tproxy-command-run-inside-container | indent | indent }}
-
-      ```sh
-      kumactl install transparent-proxy \
-        --config-file /demo/config-transparent-proxy.yaml \
-        > /demo/logs-transparent-proxy-install-kv.log 2>&1
-      ```
-
-   5. **Exit the container**
-
-      Key/Value Store is now set up and running. You can safely exit the container as the configuration is complete:
-
-      ```sh
-      exit
-      ```
-
-4. **Check if service is running**
-
-   To confirm the service is set up correctly and running, use the {{ kumactl }} to inspect the MeshServices:
-
-   ```sh
-   kumactl get meshservices
-   ```
-
-   The output should show a single service, `kv`.
-
-   You can also open the [{{ Kuma }} GUI]({{ docs }}/production/gui/) at <http://127.0.0.1:25681/gui/meshes/default/services/mesh-services>. Look for the `kv` service, and verify that its state is `Available`.
-
-### Demo Application
-
-The steps are the same as those explained earlier, with only the names changed. We won’t repeat the explanations here, but you can refer to the [Key/Value Store service](#keyvalue-store) instructions if needed.
-
-1. **Generate a data plane token**
-
-   ```sh
-   kumactl generate dataplane-token \
-     --tag kuma.io/service=demo-app \
-     --valid-for 720h \
-     > "${{ KUMA_DEMO_TMP }}/token-demo-app"
-   ```
-
-2. **Start the application container**
-
-   ```sh
-   docker run \
-     --detach \
-     --name {{ kuma-demo }}-app \
-     --hostname demo-app \
-     --network {{ kuma-demo }} \
-     --ip {{ ip_abc }}.3 \
-     --publish 25050:5050 \
-     --volume {{ tmp }}:/demo \
-     --env KV_URL=http://kv.svc.mesh.local:5050 \
-     --env APP_VERSION=v1 \
-      ghcr.io/kumahq/kuma-counter-demo:debian-slim
-   ```
-
-3. **Prepare the application container**
-
-   Enter the container to run further commands.
-
-   {% if version == "preview" %}
-   ```sh
-   docker exec \
-     --tty \
-     --interactive \
-     --privileged \
-     --env {{ KUMA_PREVIEW_VERSION }} \
-     {{ kuma-demo }}-app bash
-   ```
-   {% else %}
-   ```sh
-   docker exec --tty --interactive --privileged {{ kuma-demo }}-app bash
-   ```
-   {% endif %}
-
-   {{ warning-run-inside-container | indent }}
-
-   1. **Install tools and create data plane proxy user**
-
-      {{ code-block-install-tools-create-user | indent | indent }}
-
-   2. **Start the data plane proxy**
-
-      ```sh
-      runuser --user {{ kuma-data-plane-proxy }} -- \
-        /usr/local/bin/kuma-dp run \
-        --cp-address https://control-plane:5678 \
-        --dataplane-token-file /demo/token-demo-app \
-        --dataplane-file /demo/dataplane.yaml \
-        --dataplane-var name=demo-app \
-        --dataplane-var address={{ ip_abc }}.3 \
-        --dataplane-var port=5050 \
-        > /demo/logs-data-plane-proxy-demo-app.log 2>&1 &     
-      ```
-
-   3. **Install the transparent proxy**
-
-      {{ warning-tproxy-command-run-inside-container | indent | indent }}
-
-      ```sh
-      kumactl install transparent-proxy \
-        --config-file /demo/config-transparent-proxy.yaml \
-        > /demo/logs-transparent-proxy-install-demo-app.log 2>&1
-      ```
-
-   4. **Exit the container**
-
-      Demo application is now set up and running. You can safely exit the container as the configuration is complete:
-
-      ```sh
-      exit
-      ```
-
-4. **Verify the application**
-
-   Open <http://127.0.0.1:25050> in your browser and use the demo application to increment the counter. The demo application is now fully set up and running.
-
-   You can also check if the services were registered successfully:
-
-   ```sh
-   kumactl get meshservices
-   ```
-
-   You should see the registered services, including the `demo-app`.
+To learn more, read the [documentation about the user interface](/docs/{{ page.release }}/production/gui).
 
 ## Introduction to zero-trust security
 
-By default, the network is **insecure and unencrypted**. With {{ Kuma }}, you can enable the [Mutual TLS (mTLS)]({{ docs }}/policies/mutual-tls/) policy to secure the network. This works by setting up a Certificate Authority (CA) that automatically provides TLS certificates to your services (specifically to the data plane proxies running next to each service).
+By default, the network is **insecure and not encrypted**. We can change this with {{site.mesh_product_name}} by enabling 
+the [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that 
+will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running 
+alongside the services).
 
-To enable Mutual TLS using a `builtin` CA backend, run the following command:
+We can enable Mutual TLS with a `builtin` CA backend by executing:
 
+{% if_version lte:2.8.x %}
+```sh
+echo 'type: Mesh
+name: default
+mtls:
+  enabledBackend: ca-1
+  backends:
+    - name: ca-1
+      type: builtin' | kumactl apply -f -
+```
+{% endif_version %}
+
+{% if_version gte:2.9.x %}
 ```sh
 echo 'type: Mesh
 name: default
@@ -513,217 +272,66 @@ meshServices:
 mtls:
   enabledBackend: ca-1
   backends:
-  - name: ca-1
-    type: builtin' | kumactl apply -f -
+    - name: ca-1
+      type: builtin' | kumactl apply -f -
 ```
+{% endif_version %}
 
-After enabling mTLS, all traffic is **encrypted and secure**. However, you can no longer access the `demo-app` directly, meaning <http://127.0.0.1:25050> will no longer work. This happens for two reasons:
+The traffic is now **encrypted and secure**. {{site.mesh_product_name}} does not define default traffic permissions, which 
+means that no traffic will flow with mTLS enabled until we define a proper [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) 
+[policy](/docs/{{ page.release }}/introduction/concepts#policy). 
 
-<!-- vale Vale.Terms = NO -->
-1. When mTLS is enabled, {{ Kuma }} doesn’t create traffic permissions by default. This means no traffic will flow until you define a {{ MeshTrafficPermission }} policy to allow `demo-app` to communicate with `kv`.
+For now, the demo application won't work.
+You can verify this by clicking the increment button again and seeing the error message in the browser.
+We can allow the traffic from the `demo-app` to `redis` by applying the following `MeshTrafficPermission`:
 
-2. When you try to call `demo-app` using a browser or other HTTP client, you are essentially acting as an external client without a valid TLS certificate. Since all services are now required to present a certificate signed by the `ca-1` Certificate Authority, the connection is rejected. Only services within the `default` mesh, which are assigned valid certificates, can communicate with each other.
-<!-- vale Vale.Terms = YES -->
-
-To address the first issue, you need to apply an appropriate {{ MeshTrafficPermission }} policy:
-
+{% if_version eq:2.9.x %}
 ```sh
 echo 'type: MeshTrafficPermission 
-name: allow-kv-from-demo-app
+name: allow-from-demo-app
 mesh: default 
 spec: 
-  targetRef:
-    kind: {% if_version lte:2.9.x %}MeshSubset
+  targetRef: 
+    kind: MeshSubset
     tags:
-      kuma.io/service{% endif_version %}{% if_version gte:2.10.x %}Dataplane
-    labels:
-      app{% endif_version %}: kv
+      kuma.io/service: redis
   from: 
-  - targetRef: 
-      kind: MeshSubset 
-      tags:
-        kuma.io/service: demo-app
-    default: 
-      action: Allow' | kumactl apply -f -
+    - targetRef: 
+        kind: MeshSubset 
+        tags:
+          kuma.io/service: demo-app
+      default: 
+        action: Allow' | kumactl apply -f -
 ```
+{% endif_version %}
 
-The second issue is a bit more challenging. You can’t just get the necessary certificate and set up your web browser to act as part of the mesh. To handle traffic from outside the mesh, you need a _gateway proxy_. You can use tools like [Kong](https://github.com/Kong/kong), or you can use the [Built-in Gateway]({{ docs }}/using-mesh/managing-ingress-traffic/builtin/) that {{ Kuma }} provides.
+{% if_version gte:2.10.x %}
+```sh
+echo 'type: MeshTrafficPermission 
+name: allow-from-demo-app
+mesh: default 
+spec: 
+  targetRef: 
+    kind: Dataplane
+    labels:
+      kuma.io/service: redis
+  from: 
+    - targetRef: 
+        kind: MeshSubset 
+        tags:
+          kuma.io/service: demo-app
+      default: 
+        action: Allow' | kumactl apply -f -
+```
+{% endif_version %}
 
-{% tip %}
-**Note:** For more information, see the [Managing incoming traffic with gateways]({{ docs }}/using-mesh/managing-ingress-traffic/overview/) section in the documentation.
-{% endtip %}
-
-In this guide, we’ll use the built-in gateway. It allows you to configure a data plane proxy to act as a gateway and manage external traffic securely.
-
-### Setting up the built-in gateway
-
-The built-in gateway works like the data plane proxy for a regular service, but it requires its own configuration. Here’s how to set it up step by step.
-
-1. **Create a Dataplane resource**
-
-   For regular services, we reused a single {{ Dataplane }} configuration file and provided dynamic values (like names and addresses) when starting the data plane proxy. This made it easier to scale or deploy multiple instances. However, since we’re deploying only one instance of the gateway, we can simplify things by hardcoding all the values directly into the file, as shown below:
-
-   ```sh
-   echo 'type: Dataplane
-   mesh: default
-   name: edge-gateway-instance-1
-   networking:
-     gateway:
-       type: BUILTIN
-       tags:
-         kuma.io/service: edge-gateway
-     address: {{ ip_abc }}.4' > "${{ KUMA_DEMO_TMP }}/dataplane-edge-gateway.yaml"
-   ```
-
-   If you prefer to keep the flexibility of dynamic values, you can use the same template mechanisms for the gateway's {{ Dataplane }} configuration as you did for regular services.
-
-2. **Generate a data plane token**
-
-   The gateway proxy requires a data plane token to securely register with the control plane. You can generate the token using the following command:
-
-   ```sh
-   kumactl generate dataplane-token \
-     --tag kuma.io/service=edge-gateway \
-     --valid-for 720h \
-     > "${{ KUMA_DEMO_TMP }}/token-edge-gateway"
-   ```
-
-3. **Start the gateway container**
-
-   With the configuration and token in place, you can start the gateway proxy as a container:
-
-   ```sh
-   docker run \
-     --detach \
-     --name {{ kuma-demo }}-edge-gateway \
-     --hostname gateway \
-     --network {{ kuma-demo }} \
-     --ip {{ ip_abc }}.4 \
-     --publish 28080:8080 \
-     --volume {{ tmp }}:/demo \
-     {{ docker_org }}/kuma-dp:{{ version_full }} run \
-       --cp-address https://control-plane:5678 \
-       --dataplane-token-file /demo/token-edge-gateway \
-       --dataplane-file /demo/dataplane-edge-gateway.yaml \
-       --dns-enabled=false
-   ```
-
-   This command starts the gateway proxy and registers it with the control plane. However, the gateway is not yet ready to route traffic.
-
-4. **Configure the gateway with {{ MeshGateway }}**
-
-   To enable the gateway to accept external traffic, configure it with a {{ MeshGateway }}. This setup defines listeners that specify the port, protocol, and tags for incoming traffic, allowing policies like {{ MeshHTTPRoute }} or {{ MeshTCPRoute }} to route traffic to services.
-
-   Apply the configuration:
-
-   ```sh
-   echo 'type: MeshGateway
-   mesh: default
-   name: edge-gateway
-   selectors:
-   - match:
-       kuma.io/service: edge-gateway
-   conf:
-     listeners:
-     - port: 8080
-       protocol: HTTP
-       tags:
-         port: http-8080' | kumactl apply -f -
-   ```
-
-   <!-- vale Vale.Terms = NO -->
-   This sets up the gateway to listen on port `8080` using the HTTP protocol and adds a tag (`port: http-8080`) to identify this listener in routing policies.
-   <!-- vale Vale.Terms = YES -->
-
-   You can test the gateway by visiting <http://127.0.0.1:28080>. You should see a message saying no routes match this {{ MeshGateway }}. This means the gateway is running, but no routes are set up yet to handle traffic.
-
-5. **Create a route to connect the gateway to `demo-app`**
-
-   To route traffic from the gateway to the service, create a {{ MeshHTTPRoute }} policy:
-
-   ```sh
-   echo 'type: MeshHTTPRoute
-   name: edge-gateway-demo-app-route
-   mesh: default
-   spec:
-     targetRef:
-       kind: MeshGateway
-       name: edge-gateway
-       tags:
-         port: http-8080
-     to:
-     - targetRef:
-         kind: Mesh
-       rules:
-       - matches:
-         - path:
-             type: PathPrefix
-             value: "/"
-         default:
-           backendRefs:
-           - kind: MeshService
-             name: demo-app' | kumactl apply -f -
-   ```
-
-   This route connects the gateway and its listener (`port: http-8080`) to the `demo-app` service. It forwards any requests with the path prefix `/` to `demo-app`.
-
-   After setting up this route, the gateway will try to send traffic to `demo-app`. However, if you test it by visiting <http://127.0.0.1:28080>, you’ll see:
-
-   ```
-   RBAC: access denied
-   ```
-   {:.no-line-numbers}
-
-   This happens because there is no {{ MeshTrafficPermission }} policy allowing traffic from the gateway to `demo-app`. You’ll need to create one in the next step.
-
-6. **Allow traffic from the gateway to `demo-app`**
-
-   To fix the `RBAC: access denied` error, create a {{ MeshTrafficPermission }} policy to allow the gateway to send traffic to `demo-app`:
-
-   ```sh
-   echo 'type: MeshTrafficPermission
-   name: allow-demo-app-from-edge-gateway
-   mesh: default
-   spec:
-     targetRef:
-       kind: {% if_version lte:2.9.x %}MeshSubset
-       tags:
-         kuma.io/service{% endif_version %}{% if_version gte:2.10.x %}Dataplane
-       labels:
-         app{% endif_version %}: demo-app
-     from:
-     - targetRef:
-         kind: MeshSubset
-         tags:
-           kuma.io/service: edge-gateway
-       default:
-         action: Allow' | kumactl apply -f -
-   ```
-
-   This policy allows traffic from the gateway to `demo-app`. After applying it, you can access <http://127.0.0.1:28080>, and the traffic will reach the `demo-app` service successfully.
+You can click the increment button, the application should function once again.
+However, the traffic to `redis` from any other service than `demo-app` is not allowed.
 
 ## Next steps
 
-- Explore all [features](/features) to better understand {{ Kuma }}'s capabilities.
-- Try using the [{{ Kuma }} GUI]({{ docs }}/gui/) to easily visualize your mesh.
-- Read the [full documentation]({{ docs }}/) for more details.
-- Check deployment examples for [single-zone]({{ docs }}/production/cp-deployment/single-zone) or [multi-zone]({{ docs }}/production/cp-deployment/multi-zone) setups.
-  {% if site.mesh_product_name == "Kuma" %}- Visit the [community page](/community) if you have questions or feedback.{% endif %}
-
-## Cleanup
-
-To clean up your environment, remove the Docker containers, network, temporary directory, and the control plane configuration from {{ kumactl }}. Run the following commands:
-
-```sh
-kumactl config control-planes remove --name {{ kuma-demo }}
-
-docker rm --force \
-   {{ kuma-demo }}-control-plane \
-   {{ kuma-demo }}-kv \
-   {{ kuma-demo }}-app \
-   {{ kuma-demo }}-edge-gateway
-
-docker network rm {{ kuma-demo }}
-
-rm -rf {{ tmp }}
-```
+* Explore the [Features](/features) available to govern and orchestrate your service traffic.
+* Learn more about what you can do with the [GUI](/docs/{{ page.release }}/production/gui).
+* Explore further installation strategies for [single-zone](/docs/{{ page.release }}/production/cp-deployment/single-zone) and [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone) environments.
+* Read the [full documentation](/docs/{{ page.release }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
+{% if site.mesh_product_name == "Kuma" %}* Chat with us at the official [Kuma Slack](/community) for questions or feedback.{% endif %}

@@ -51,7 +51,7 @@ items:
           - text: Next steps
             url: "/quickstart/kubernetes-demo/#next-steps"
       - text: Deploy Kuma on Universal
-        url: /quickstart/universal-demo/
+        url: /quickstart/universal-docker-demo/
   - title: Kuma in Production
     group: true
     items:
