@@ -2,8 +2,8 @@
 title: Configuring inbound traffic with rules API
 ---
 
-Using `Rules API` combined with targetRef `Dataplane` kind in {{site.mesh_product_name}} you can easily apply configuration to workload
-[inbounds](/docs/{{ page.release }}/introduction/concepts/#inbound). This guide will show you how to configure MeshTimeout policy on data plane inbound and explain how to utilize this API.
+Using `Rules API` combined with targetRef `Dataplane` kind in {{site.mesh_product_name}} you can easily apply configuration to [data plane](/docs/{{ page.release }}/introduction/concepts/#data-plane)
+[inbounds](/docs/{{ page.release }}/introduction/concepts/#inbound). This guide will show you how to configure [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) policy on data plane inbound and explain how to utilize this API.
 
 ## Prerequisites
 
