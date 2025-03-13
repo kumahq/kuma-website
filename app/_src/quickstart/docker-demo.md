@@ -1,5 +1,5 @@
 ---
-title: Deploy Kuma on Docker
+title: Deploy Kuma on Universal
 ---
 
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}
@@ -59,20 +59,13 @@ browser --> edge-gateway
 
 {% capture note-docker-engine %}
 {% tip %}
-**Note:** This guide has been tested with [Docker Engine](https://docs.docker.com/engine/), [Docker Desktop](https://docs.docker.com/desktop/), [OrbStack](https://orbstack.dev/), and [Colima](https://github.com/abiosoft/colima). For Colima, a small adjustment is required (explained later).
+**Note:** This guide has been tested with [Docker Engine](https://docs.docker.com/engine/), [Docker Desktop](https://docs.docker.com/desktop/), [OrbStack](https://orbstack.dev/), and [Colima](https://github.com/abiosoft/colima). A small adjustment is required for Colima, which we’ll explain later.
 {% endtip %}
 {% endcapture %}
 
-1. Make sure the following tools are installed and ready to use:
+1. Make sure you have the following tools installed: `docker`, `curl`, `jq`, and `base64`
 
-   - `docker`
-   - `curl`
-   - `jq`
-   - `base64`
-
-   {{ note-docker-engine | indent }}
-
-2. If you previously followed the [Universal quickstart]({{ docs }}/quickstart/universal-demo/) on this machine, we recommend cleaning up to avoid conflicts.
+  {{ note-docker-engine | indent }}
 
 ## Prepare the environment
 
@@ -133,7 +126,8 @@ browser --> edge-gateway
    Check if the directory exists and is empty, and create it if necessary:
 
    ```sh
-   mkdir -p {{ tmp }}
+   export {{ KUMA_DEMO_TMP }}="{{ tmp }}"
+   mkdir -p "${{ KUMA_DEMO_TMP }}"
    ```
 
 4. **Prepare a Dataplane resource template**
@@ -155,7 +149,7 @@ browser --> edge-gateway
            kuma.io/protocol: http
      transparentProxying:
        redirectPortInbound: 15006
-       redirectPortOutbound: 15001' > {{ tmp }}/dataplane.yaml 
+       redirectPortOutbound: 15001' > "${{ KUMA_DEMO_TMP }}/dataplane.yaml" 
    ```
 
    This template simplifies creating Dataplane configurations for different services by replacing dynamic values during deployment.
@@ -167,7 +161,7 @@ browser --> edge-gateway
    redirect:
      dns:
        enabled: true
-   verbose: true' > {{ tmp }}/config-transparent-proxy.yaml
+   verbose: true' > "${{ KUMA_DEMO_TMP }}/config-transparent-proxy.yaml"
    ```
 
 6. **Create a Docker network**
@@ -305,7 +299,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
    kumactl generate dataplane-token \
      --tag kuma.io/service=kv \
      --valid-for 720h \
-     > {{ tmp }}/token-kv
+     > "${{ KUMA_DEMO_TMP }}/token-kv"
    ```
 
 2. **Start the container**
@@ -417,7 +411,7 @@ The steps are the same as those explained earlier, with only the names changed. 
    kumactl generate dataplane-token \
      --tag kuma.io/service=demo-app \
      --valid-for 720h \
-     > {{ tmp }}/token-demo-app
+     > "${{ KUMA_DEMO_TMP }}/token-demo-app"
    ```
 
 2. **Start the application container**
@@ -578,7 +572,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
        type: BUILTIN
        tags:
          kuma.io/service: edge-gateway
-     address: {{ ip_abc }}.4' > {{ tmp }}/dataplane-edge-gateway.yaml
+     address: {{ ip_abc }}.4' > "${{ KUMA_DEMO_TMP }}/dataplane-edge-gateway.yaml"
    ```
 
    If you prefer to keep the flexibility of dynamic values, you can use the same template mechanisms for the gateway's {{ Dataplane }} configuration as you did for regular services.
@@ -591,7 +585,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    kumactl generate dataplane-token \
      --tag kuma.io/service=edge-gateway \
      --valid-for 720h \
-     > {{ tmp }}/token-edge-gateway
+     > "${{ KUMA_DEMO_TMP }}/token-edge-gateway"
    ```
 
 3. **Start the gateway container**
@@ -707,6 +701,14 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    ```
 
    This policy allows traffic from the gateway to `demo-app`. After applying it, you can access <http://127.0.0.1:28080>, and the traffic will reach the `demo-app` service successfully.
+
+## Next steps
+
+- Explore all [features](/features) to better understand {{ Kuma }}'s capabilities.
+- Try using the [{{ Kuma }} GUI]({{ docs }}/gui/) to easily visualize your mesh.
+- Read the [full documentation]({{ docs }}/) for more details.
+- Check deployment examples for [single-zone]({{ docs }}/production/cp-deployment/single-zone) or [multi-zone]({{ docs }}/production/cp-deployment/multi-zone) setups.
+{% if site.mesh_product_name == "Kuma" %}- Visit the [community page](/community) if you have questions or feedback.{% endif %}
 
 ## Cleanup
 
