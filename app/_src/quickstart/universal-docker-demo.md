@@ -702,14 +702,6 @@ The built-in gateway works like the data plane proxy for a regular service, but 
 
    This policy allows traffic from the gateway to `demo-app`. After applying it, you can access <http://127.0.0.1:28080>, and the traffic will reach the `demo-app` service successfully.
 
-## Next steps
-
-- Explore all [features](/features) to better understand {{ Kuma }}'s capabilities.
-- Try using the [{{ Kuma }} GUI]({{ docs }}/gui/) to easily visualize your mesh.
-- Read the [full documentation]({{ docs }}/) for more details.
-- Check deployment examples for [single-zone]({{ docs }}/production/cp-deployment/single-zone) or [multi-zone]({{ docs }}/production/cp-deployment/multi-zone) setups.
-  {% if site.mesh_product_name == "Kuma" %}- Visit the [community page](/community) if you have questions or feedback.{% endif %}
-
 ## Cleanup
 
 To clean up your environment, remove the Docker containers, network, temporary directory, and the control plane configuration from {{ kumactl }}. Run the following commands:
@@ -727,3 +719,11 @@ docker network rm {{ kuma-demo }}
 
 rm -rf {{ tmp }}
 ```
+
+## Next steps
+
+- Explore all [features](/features) to better understand {{ Kuma }}'s capabilities.
+- Try using the [{{ Kuma }} GUI]({{ docs }}/production/gui/) to easily visualize your mesh.
+- Read the [full documentation]({{ docs }}/) for more details.
+- Check deployment examples for [single-zone]({{ docs }}/production/cp-deployment/single-zone) or [multi-zone]({{ docs }}/production/cp-deployment/multi-zone) setups.
+  {% if site.mesh_product_name == "Kuma" %}- Visit the [community page](/community) if you have questions or feedback.{% endif %}
