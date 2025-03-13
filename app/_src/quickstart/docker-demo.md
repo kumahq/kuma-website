@@ -72,9 +72,7 @@ browser --> edge-gateway
 
    {{ note-docker-engine | indent }}
 
-2. If you previously followed the [Deploy {{ Kuma }} on Universal quickstart]({{ docs }}/quickstart/universal-demo/) on the same machine, we recommend cleaning up your environment to ensure no control plane, application services, or their data plane proxies are still running.
-
-   This isn’t mandatory, but it’s easy to accidentally mix up ports when typing commands manually, leading to unexpected results. If you copy the commands from this guide exactly or know what you’re doing and want to compare results between guides, you can skip this step.
+2. If you previously followed the [Universal quickstart]({{ docs }}/quickstart/universal-demo/) on this machine, we recommend cleaning up to avoid conflicts.
 
 ## Prepare the environment
 
@@ -101,7 +99,7 @@ browser --> edge-gateway
 
    {% capture warning-env-var %}
    {% danger %}
-   **Warning:** If no output is shown or it looks incorrect, set the `{{ KUMA_PREVIEW_VERSION }}` variable to the correct version manually. Do not continue without this value, as it is needed for later steps. Using the wrong version may cause errors or unexpected problems.  
+   **Warning:** If no output is shown, or it looks incorrect, set the `{{ KUMA_PREVIEW_VERSION }}` variable to the correct version manually. Do not continue without this value, as it is needed for later steps. Using the wrong version may cause errors or unexpected problems.  
    {% enddanger %}
    {% endcapture %}
    {{ warning-env-var | indent }}
@@ -109,15 +107,14 @@ browser --> edge-gateway
 
 2. **Install {{ Kuma }}**
 
-   You can download and install {{ Kuma }} using the official installer. The installer automatically detects your operating system (Amazon Linux, CentOS, RedHat, Debian, Ubuntu, macOS) and downloads the appropriate binaries:
-
+   Run the installation command:
+   
    ```sh
-   curl --location {{ url_installer }} {% if version == "preview" or page.edition and page.edition != "kuma" -%}\
-     {% endif %}| VERSION="{{ version_full }}" sh -
+   curl -L {{ site.links.web }}/installer.sh | VERSION="{{ version_full }}" sh -
    ```
-
-   To finalize the installation add the {{ Kuma }} binaries to your system’s [PATH](https://en.wikipedia.org/wiki/PATH_(variable)) so the commands are easily accessible:
-
+   
+   Then add the binaries to your system's [PATH](https://en.wikipedia.org/wiki/PATH_(variable)):
+   
    ```sh
    export PATH="$(pwd)/{{ kuma }}-{{ version_full }}/bin:$PATH"
    ```
@@ -146,7 +143,9 @@ browser --> edge-gateway
    ```sh
    echo 'type: Dataplane
    mesh: default
-   name: {% raw %}{{ name }}{% endraw %}
+   name: {% raw %}{{ name }}{% endraw %}{% if_version gte:2.10.x %}
+   labels:
+     app: {% raw %}{{ name }}{% endraw %}{% endif_version %}
    networking:
      address: {% raw %}{{ address }}{% endraw %}
      inbound:
@@ -252,7 +251,7 @@ browser --> edge-gateway
    echo 'type: Mesh
    name: default
    meshServices:
-     mode: Exclusive' | kumactl apply --file -
+     mode: Exclusive' | kumactl apply -f -
    ```
 
 ## Set up services
@@ -398,10 +397,10 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
 4. **Check if service is running**
 
-   To confirm the service is set up correctly and running, use the {{ kumactl }} to inspect the services:
+   To confirm the service is set up correctly and running, use the {{ kumactl }} to inspect the MeshServices:
 
    ```sh
-   kumactl inspect services
+   kumactl get meshservices
    ```
 
    The output should show a single service, `kv`, with the status `Online`.
@@ -513,7 +512,7 @@ mtls:
   enabledBackend: ca-1
   backends:
   - name: ca-1
-    type: builtin' | kumactl apply --file -
+    type: builtin' | kumactl apply -f -
 ```
 
 After enabling mTLS, all traffic is **encrypted and secure**. However, you can no longer access the `demo-app` directly, meaning <http://127.0.0.1:25050> will no longer work. This happens for two reasons:
@@ -532,8 +531,8 @@ name: allow-kv-from-demo-app
 mesh: default 
 spec: 
   targetRef: 
-    kind: MeshSubset
-    tags:
+    kind: {% if_version lte:2.9.x %}MeshSubset{% endif_version %}{% if_version gte:2.10.x %}Dataplane{% endif_version %}
+    {% if_version lte:2.9.x %}tags{% endif_version %}{% if_version gte:2.10.x %}labels{% endif_version %}:
       kuma.io/service: kv
   from: 
   - targetRef: 
@@ -541,7 +540,7 @@ spec:
       tags:
         kuma.io/service: demo-app
     default: 
-      action: Allow' | kumactl apply --file -
+      action: Allow' | kumactl apply -f -
 ```
 
 The second issue is a bit more challenging. You can’t just get the necessary certificate and set up your web browser to act as part of the mesh. To handle traffic from outside the mesh, you need a _gateway proxy_. You can use tools like [Kong](https://github.com/Kong/kong), or you can use the [Built-in Gateway]({{ docs }}/using-mesh/managing-ingress-traffic/builtin/) that {{ Kuma }} provides.
@@ -625,7 +624,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
      - port: 8080
        protocol: HTTP
        tags:
-         port: http-8080' | kumactl apply --file -
+         port: http-8080' | kumactl apply -f -
    ```
 
    <!-- vale Vale.Terms = NO -->
@@ -659,7 +658,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
          default:
            backendRefs:
            - kind: MeshService
-             name: demo-app' | kumactl apply --file -
+             name: demo-app' | kumactl apply -f -
    ```
 
    This route connects the gateway and its listener (`port: http-8080`) to the `demo-app` service. It forwards any requests with the path prefix `/` to `demo-app`.
@@ -692,7 +691,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
          tags:
            kuma.io/service: edge-gateway
        default:
-         action: Allow' | kumactl apply --file -
+         action: Allow' | kumactl apply -f -
    ```
 
    This policy allows traffic from the gateway to `demo-app`. After applying it, you can access <http://127.0.0.1:28080>, and the traffic will reach the `demo-app` service successfully.
