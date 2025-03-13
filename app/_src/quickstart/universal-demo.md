@@ -92,8 +92,6 @@ KUMA_READINESS_PORT=9901 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_
   type: Dataplane
   mesh: default
   name: redis
-  labels:
-    app: redis
   networking: 
     address: 127.0.0.1
     inbound: 
