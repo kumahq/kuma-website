@@ -25,13 +25,13 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.release }
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
-| `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshMultiZoneService`            |
 {% endif_version %}
 {% if_version gte:2.10.x %}
-| `targetRef`           | Allowed kinds         |
-| --------------------- | --------------------- |
-| `targetRef.kind`      | `Mesh`, `Dataplane`   |
-| `to[].targetRef.kind` | `Mesh`, `MeshService` |
+| `targetRef`           | Allowed kinds                                            |
+| --------------------- | -------------------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`                                      |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshMultiZoneService`            |
 {% endif_version %}
 {% endtab %}
 
@@ -357,7 +357,7 @@ mesh: default
 spec:
   to:
     - targetRef:
-        kind: MeshService
+        kind: MeshMultiZoneService    # use MeshMultiZoneService for traffic across zones when MeshService is enabled
         name: backend
         namespace: kuma-demo
         _port: 8080
@@ -559,7 +559,7 @@ mesh: default
 spec:
   to:
     - targetRef:
-        kind: MeshService
+        kind: MeshMultiZoneService    # use MeshMultiZoneService for traffic across zones when MeshService is enabled
         name: backend
         namespace: kuma-demo
         sectionName: http
@@ -639,7 +639,7 @@ mesh: default
 spec:
   to:
     - targetRef:
-        kind: MeshService
+        kind: MeshMultiZoneService    # use MeshMultiZoneService for traffic across zones when MeshService is enabled
         name: backend
         namespace: kuma-demo
         sectionName: http
