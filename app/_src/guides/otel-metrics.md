@@ -9,6 +9,7 @@ lots of possibilities of processing and exporting metrics to multiple ecosystems
 
 ## Prerequisites
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Enable auto increment in demo-app gui [http://localhost:5000](http://localhost:5000)
 
 ## Install {{site.mesh_product_name}} observability stack
 
@@ -157,7 +158,8 @@ you can go to Prometheus GUI:
 kubectl port-forward svc/prometheus-server -n mesh-observability 9090:80
 ```
 
-Now go to http://localhost:9090/targets. You should see new target `opentelemetry-collector`:
+Now go to [http://localhost:9090/targets](http://localhost:9090/targets). You should see new target `opentelemetry-collector` 
+(This might take a minute or two to propagate):
 
 <center>
 <img src="/assets/images/guides/otel-metrics/prometheus_otel_source.png" alt="Prometheus OpenTelemetry source"/>
@@ -213,7 +215,8 @@ To check results we need to log into Grafana. First enable port forward to Grafa
 kubectl port-forward svc/grafana -n mesh-observability 3000:80
 ```
 
-Then navigate to browser `http://localhost:3000` and check `Dataplane` dashboard. You should see something similar to:
+Then navigate to browser [http://localhost:3000](http://localhost:3000) and check `Dataplane` dashboard. 
+You should see something similar to (propagation of metrics might take some time):
 
 <center>
 <img src="/assets/images/guides/otel-metrics/grafana-dataplane-view.png" alt="Dataplane Grafana dashboard"/>
