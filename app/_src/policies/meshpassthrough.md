@@ -25,7 +25,7 @@ When using this policy, the [passthrough mode](/docs/{{ page.release }}/networki
 {% endif_version %}
 {% endtab %}
 {% if_version gte:2.9.x %}
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 | `targetRef`             | Allowed kinds        |
 | ----------------------- | -------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset` |

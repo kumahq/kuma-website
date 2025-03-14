@@ -54,13 +54,13 @@ Do **not** combine with [Proxy Template](/docs/{{ page.release }}/policies/proxy
 {% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`      | Allowed kinds         |
 | ---------------- | --------------------- |
 | `targetRef.kind` | `Mesh`, `MeshGateway` |
 {% endtab %}
 
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |

@@ -44,7 +44,7 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 {% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 {% if_version gte:2.6.x %}
 | `targetRef`           | Allowed kinds                                             |
 | --------------------- | --------------------------------------------------------- |
@@ -62,7 +62,7 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 {% endtab %}
 
 {% if_version gte:2.6.x %}
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |

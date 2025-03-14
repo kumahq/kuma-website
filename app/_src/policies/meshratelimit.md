@@ -44,14 +44,14 @@ Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/ex
 {% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`           | Allowed kinds                                             |
 | --------------------- | --------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
 | `to[].targetRef.kind` | `Mesh`                                                    |
 {% endtab %}
 
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 
 {% warning %}
 `MeshRateLimit` isn't supported on delegated gateways.
