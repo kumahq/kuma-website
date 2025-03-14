@@ -357,7 +357,7 @@ mesh: default
 spec:
   to:
     - targetRef:
-        kind: MeshMultiZoneService    # use MeshMultiZoneService for traffic across zones when MeshService is enabled
+        kind: MeshMultiZoneService
         name: backend
         namespace: kuma-demo
         _port: 8080
@@ -559,7 +559,7 @@ mesh: default
 spec:
   to:
     - targetRef:
-        kind: MeshMultiZoneService    # use MeshMultiZoneService for traffic across zones when MeshService is enabled
+        kind: MeshMultiZoneService
         name: backend
         namespace: kuma-demo
         sectionName: http
@@ -639,7 +639,7 @@ mesh: default
 spec:
   to:
     - targetRef:
-        kind: MeshMultiZoneService    # use MeshMultiZoneService for traffic across zones when MeshService is enabled
+        kind: MeshMultiZoneService
         name: backend
         namespace: kuma-demo
         sectionName: http
