@@ -34,14 +34,14 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 {% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
 | `to[].targetRef.kind`   | `Mesh`                                                   |
 {% endtab %}
 
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 
 `MeshFaultInjection` isn't supported on delegated gateways.
 

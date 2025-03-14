@@ -38,12 +38,12 @@ It allows you to define granular rules about which services can communicate with
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset` |
 {% endif_version %}
 {% endtab %}
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 `MeshTrafficPermission` isn't supported on builtin gateways. If applied via
 `spec.targetRef.kind: MeshService`, it has no effect.
 {% endtab %}
 
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 `MeshTrafficPermission` isn't supported on delegated gateways.
 {% endtab %}
 {% endtabs %}
