@@ -20,6 +20,7 @@ title: Deploy Kuma on Universal
 {% assign tmp = "/tmp/" | append: kuma-demo %}
 {% assign tmp-colima = "/tmp/colima/" | append: kuma-demo %}
 
+{% capture edition %}{% if page.edition and page.edition != "kuma" %}/{{ page.edition }}{% endif %}{% endcapture %}
 {% assign url_installer = site.links.web | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
 {% assign url_installer_external = site.links.share | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
 
@@ -103,7 +104,7 @@ browser --> edge-gateway
    Run the installation command:
 
    ```sh
-   curl -L {{ site.links.web }}/installer.sh | VERSION="{{ version_full }}" sh -
+   curl -L {{ url_installer }} | VERSION="{{ version_full }}" sh -
    ```
 
    Then add the binaries to your system's [PATH](https://en.wikipedia.org/wiki/PATH_(variable)):
@@ -257,7 +258,7 @@ apt-get update && \
   apt-get install --yes curl iptables
 
 # download and install {{ Kuma }}
-curl --location {{ url_installer_external }} {% if version == "preview" or page.edition and page.edition != "kuma" %}\
+curl --location {{ url_installer_external }} {% if version == "preview" %}\
   {% endif %}| VERSION="{{ version_full }}" sh -
 
 # move {{ Kuma }} binaries to /usr/local/bin/ for global availability
