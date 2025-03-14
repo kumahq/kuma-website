@@ -511,6 +511,9 @@ items:
         items:
           - text: Logging
             url: /guides/logging
+      - text: Upgrading Transparent Proxy
+        url: /guides/upgrading-transparent-proxy/
+
   - title: Reference
     group: true
     items:
@@ -524,8 +527,6 @@ items:
         url: /reference/kuma-cp
       - text: Envoy proxy template
         url: /reference/proxy-template/
-      - text: Upgrading Transparent Proxy
-        url: /guides/upgrading-transparent-proxy/
   - title: Community
     group: true
     items:

@@ -229,7 +229,7 @@ These are just examples, remember to check the docs specific to your policy!
 | `from[].targetRef.kind` | `Mesh`                                                   |
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`           | Allowed kinds                                    |
 | --------------------- | ------------------------------------------------ |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |

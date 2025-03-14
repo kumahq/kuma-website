@@ -43,7 +43,7 @@ If you haven't, see the [observability docs](/docs/{{ page.release }}/explore/ob
 {% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 {% if_version lte:2.5.x %}
 | `targetRef`           | Allowed kinds                       |
 | --------------------- | ----------------------------------- |
@@ -60,7 +60,7 @@ If you haven't, see the [observability docs](/docs/{{ page.release }}/explore/ob
 {% endtab %}
 
 {% if_version gte:2.6.x %}
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |

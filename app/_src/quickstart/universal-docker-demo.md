@@ -20,6 +20,7 @@ title: Deploy Kuma on Universal
 {% assign tmp = "/tmp/" | append: kuma-demo %}
 {% assign tmp-colima = "/tmp/colima/" | append: kuma-demo %}
 
+{% capture edition %}{% if page.edition and page.edition != "kuma" %}/{{ page.edition }}{% endif %}{% endcapture %}
 {% assign url_installer = site.links.web | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
 {% assign url_installer_external = site.links.share | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
 
@@ -103,13 +104,25 @@ browser --> edge-gateway
    Run the installation command:
 
    ```sh
-   curl -L {{ site.links.web }}/installer.sh | VERSION="{{ version_full }}" sh -
+   curl -L {{ url_installer }} | VERSION="{{ version_full }}" sh -
    ```
 
    Then add the binaries to your system's [PATH](https://en.wikipedia.org/wiki/PATH_(variable)):
 
    ```sh
    export PATH="$(pwd)/{{ kuma }}-{{ version_full }}/bin:$PATH"
+   ```
+
+   To confirm that {{ Kuma }} is installed correctly, run:
+
+   ```sh
+   kumactl version 2>/dev/null
+   ```
+
+   You should see output{% if version == "preview" %} like{% endif %}:
+
+   ```
+   Client: {{ Kuma }} {% if version == "preview" %}0.0.0-preview.vabc123def{% else %}{{ version }}{% endif %}
    ```
 
 3. **Prepare a temporary directory**
@@ -190,7 +203,7 @@ browser --> edge-gateway
      --network {{ kuma-demo }} \
      --ip {{ ip_abc }}.1 \
      --publish 25681:5681 \
-     --volume {{ tmp }}:/demo \
+     --volume "${{ KUMA_DEMO_TMP }}:/demo" \
      {{ docker_org }}/kuma-cp:{{ version_full }} run
    ```  
 
@@ -239,7 +252,7 @@ browser --> edge-gateway
 
 3. **Configure the default mesh**
 
-   Set the default mesh to use {{ MeshServices }} in [exclusive mode]({{ docs }}/networking/meshservice/#options). MeshServices are explicit resources that represent destinations for traffic in the mesh. They define which {{ Dataplanes }} serve the traffic, as well as the available ports, IPs, and hostnames. This configuration ensures a clearer and more precise way to manage services and traffic routing in the mesh.
+   Set the default mesh to use {{ MeshServices }} in [Exclusive mode]({{ docs }}/networking/meshservice/#exclusive). MeshServices are explicit resources that represent destinations for traffic in the mesh. They define which {{ Dataplanes }} serve the traffic, as well as the available ports, IPs, and hostnames. This configuration ensures a clearer and more precise way to manage services and traffic routing in the mesh.
 
    ```sh
    echo 'type: Mesh
@@ -257,7 +270,7 @@ apt-get update && \
   apt-get install --yes curl iptables
 
 # download and install {{ Kuma }}
-curl --location {{ url_installer_external }} {% if version == "preview" or page.edition and page.edition != "kuma" %}\
+curl --location {{ url_installer_external }} {% if version == "preview" %}\
   {% endif %}| VERSION="{{ version_full }}" sh -
 
 # move {{ Kuma }} binaries to /usr/local/bin/ for global availability
@@ -311,13 +324,27 @@ This section explains how to start the `kv` service, which mimics key/value stor
      --hostname kv \
      --network {{ kuma-demo }} \
      --ip {{ ip_abc }}.2 \
-     --volume {{ tmp }}:/demo \
+     --volume "${{ KUMA_DEMO_TMP }}:/demo" \
      ghcr.io/kumahq/kuma-counter-demo:debian-slim
    ```
+   
+   To confirm the container is running properly, check its logs:
+
+   ```sh
+   docker logs {{ kuma-demo }}-kv
+   ```
+
+   You should see a line like:
+
+   ```txt
+   time=2025-03-14T12:17:34.630Z level=INFO ... msg="server running" addr=:5050
+   ```
+
+   indicating that the key/value store is up and running.
 
 3. **Prepare the container**
 
-   Enter the container to run further commands.
+   Enter the container for the remaining steps. Inside it, you’ll configure the zone name in the key-value store, start the data plane proxy, and install the transparent proxy.
 
    {% if version != "preview" %}
    ```sh
@@ -349,7 +376,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
    2. **Set the zone name**
 
-      Give the `kv` instance a name. The demo application will use this name to show which `kv` instance is being accessed.
+      Give the `kv` instance a name. The demo application will use this name to identify which `kv` instance is accessed:
 
       ```sh
       curl localhost:5050/api/key-value/zone \
@@ -357,19 +384,45 @@ This section explains how to start the `kv` service, which mimics key/value stor
         --data '{"value":"local-demo-zone"}'
       ```
 
+      You should see a response:
+
+      ```json
+      {"value":"local-demo-zone"}
+      ```
+
+      indicating that the name was successfully set.
+
    3. **Start the data plane proxy**
 
       ```sh
       runuser --user {{ kuma-data-plane-proxy }} -- \
         /usr/local/bin/kuma-dp run \
-        --cp-address https://control-plane:5678 \
-        --dataplane-token-file /demo/token-kv \
-        --dataplane-file /demo/dataplane.yaml \
-        --dataplane-var name=kv \
-        --dataplane-var address={{ ip_abc }}.2 \
-        --dataplane-var port=5050 \
-        > /demo/logs-data-plane-proxy-kv.log 2>&1 &
+          --cp-address https://control-plane:5678 \
+          --dataplane-token-file /demo/token-kv \
+          --dataplane-file /demo/dataplane.yaml \
+          --dataplane-var name=kv \
+          --dataplane-var address={{ ip_abc }}.2 \
+          --dataplane-var port=5050 \
+          > /demo/logs-data-plane-proxy-kv.log 2>&1 &
       ```
+
+      To verify the data plane proxy is running, after few seconds check the logs:
+
+      ```sh
+      tail /demo/logs-data-plane-proxy-kv.log
+      ```
+
+      You should see entries like:
+      
+      ```
+      [2025-03-14 12:24:54.779][3088][info][config] [source/common/listener_manager/listener_manager_impl.cc:944] all dependencies initialized. starting workers
+      [2025-03-14 12:24:59.595][3088][info][upstream] [source/common/upstream/cds_api_helper.cc:32] cds: add 8 cluster(s), remove 2 cluster(s)
+      [2025-03-14 12:24:59.623][3088][info][upstream] [source/common/upstream/cds_api_helper.cc:71] cds: added/updated 1 cluster(s), skipped 7 unmodified cluster(s)
+      [2025-03-14 12:24:59.628][3088][info][upstream] [source/common/listener_manager/lds_api.cc:106] lds: add/update listener 'kuma:dns'
+      [2025-03-14 12:24:59.649][3088][info][upstream] [source/common/listener_manager/lds_api.cc:106] lds: add/update listener 'outbound:241.0.0.0:5050'
+      ```
+
+      indicating that the data plane proxy has started and is configured successfully.
 
    4. **Install the transparent proxy**
 
@@ -380,6 +433,20 @@ This section explains how to start the `kv` service, which mimics key/value stor
         --config-file /demo/config-transparent-proxy.yaml \
         > /demo/logs-transparent-proxy-install-kv.log 2>&1
       ```
+
+      To confirm the transparent proxy installed successfully, check the last log line:
+
+      ```sh
+      tail -n1 /demo/logs-transparent-proxy-install-kv.log
+      ```
+
+      You should see a message containing:
+
+      ```sh
+      # transparent proxy setup completed successfully
+      ```
+
+      indicating that the transparent proxy is now configured.
 
    5. **Exit the container**
 
@@ -405,6 +472,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
 The steps are the same as those explained earlier, with only the names changed. We won’t repeat the explanations here, but you can refer to the [Key/Value Store service](#keyvalue-store) instructions if needed.
 
+
 1. **Generate a data plane token**
 
    ```sh
@@ -424,22 +492,34 @@ The steps are the same as those explained earlier, with only the names changed. 
      --network {{ kuma-demo }} \
      --ip {{ ip_abc }}.3 \
      --publish 25050:5050 \
-     --volume {{ tmp }}:/demo \
+     --volume "${{ KUMA_DEMO_TMP }}:/demo" \
      --env KV_URL=http://kv.svc.mesh.local:5050 \
      --env APP_VERSION=v1 \
-      ghcr.io/kumahq/kuma-counter-demo:debian-slim
+     ghcr.io/kumahq/kuma-counter-demo:debian-slim
    ```
+
+   To confirm the container is running, check its logs:
+
+   ```sh
+   docker logs {{ kuma-demo }}-app
+   ```
+
+   Look for log entries like:
+
+   ```
+   time=2025-03-14T12:40:51.954Z level=INFO ... msg="starting handler with" kv-url=http://kv.svc.mesh.local:5050 version=v1
+   time=2025-03-14T12:40:51.961Z level=INFO ... msg="server running" addr=:5050
+   ```
+
+   which indicates the demo app is up and listening on port `5050`.
 
 3. **Prepare the application container**
 
-   Enter the container to run further commands.
+   Enter the container to install the data plane proxy and transparent proxy.
 
    {% if version == "preview" %}
    ```sh
-   docker exec \
-     --tty \
-     --interactive \
-     --privileged \
+   docker exec --tty --interactive --privileged \
      --env {{ KUMA_PREVIEW_VERSION }} \
      {{ kuma-demo }}-app bash
    ```
@@ -460,14 +540,32 @@ The steps are the same as those explained earlier, with only the names changed. 
       ```sh
       runuser --user {{ kuma-data-plane-proxy }} -- \
         /usr/local/bin/kuma-dp run \
-        --cp-address https://control-plane:5678 \
-        --dataplane-token-file /demo/token-demo-app \
-        --dataplane-file /demo/dataplane.yaml \
-        --dataplane-var name=demo-app \
-        --dataplane-var address={{ ip_abc }}.3 \
-        --dataplane-var port=5050 \
-        > /demo/logs-data-plane-proxy-demo-app.log 2>&1 &     
+          --cp-address https://control-plane:5678 \
+          --dataplane-token-file /demo/token-demo-app \
+          --dataplane-file /demo/dataplane.yaml \
+          --dataplane-var name=demo-app \
+          --dataplane-var address={{ ip_abc }}.3 \
+          --dataplane-var port=5050 \
+          > /demo/logs-data-plane-proxy-demo-app.log 2>&1 &
       ```
+
+      To verify the proxy is running, after few seconds check its logs:
+
+      ```sh
+      tail /demo/logs-data-plane-proxy-demo-app.log
+      ```
+
+      You should see logs similar to:
+
+      ```
+      [2025-03-14 12:42:45.797][3090][info][config] [source/common/listener_manager/listener_manager_impl.cc:944] all dependencies initialized. starting workers
+      [2025-03-14 12:42:48.159][3090][info][upstream] [source/common/upstream/cds_api_helper.cc:32] cds: add 9 cluster(s), remove 2 cluster(s)
+      [2025-03-14 12:42:48.210][3090][info][upstream] [source/common/upstream/cds_api_helper.cc:71] cds: added/updated 1 cluster(s), skipped 8 unmodified cluster(s)
+      [2025-03-14 12:42:48.218][3090][info][upstream] [source/common/listener_manager/lds_api.cc:106] lds: add/update listener 'kuma:dns'
+      [2025-03-14 12:42:48.245][3090][info][upstream] [source/common/listener_manager/lds_api.cc:106] lds: add/update listener 'outbound:241.0.0.1:5050'
+      ```
+
+      indicating that the data plane proxy has started and is configured successfully.
 
    3. **Install the transparent proxy**
 
@@ -477,6 +575,18 @@ The steps are the same as those explained earlier, with only the names changed. 
       kumactl install transparent-proxy \
         --config-file /demo/config-transparent-proxy.yaml \
         > /demo/logs-transparent-proxy-install-demo-app.log 2>&1
+      ```
+
+      To confirm success, check the last line of the log:
+
+      ```sh
+      tail -n1 /demo/logs-transparent-proxy-install-demo-app.log
+      ```
+      
+      You should see a message containing:
+      
+      ```sh
+      # transparent proxy setup completed successfully
       ```
 
    4. **Exit the container**
@@ -600,7 +710,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
      --network {{ kuma-demo }} \
      --ip {{ ip_abc }}.4 \
      --publish 28080:8080 \
-     --volume {{ tmp }}:/demo \
+     --volume "${{ KUMA_DEMO_TMP }}:/demo" \
      {{ docker_org }}/kuma-dp:{{ version_full }} run \
        --cp-address https://control-plane:5678 \
        --dataplane-token-file /demo/token-edge-gateway \
@@ -717,6 +827,7 @@ docker rm --force \
 
 docker network rm {{ kuma-demo }}
 
+# If you're using Colima, update this path as needed.
 rm -rf {{ tmp }}
 ```
 
