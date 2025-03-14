@@ -458,6 +458,11 @@ items:
         url: /guides/migration-to-the-new-policies/
       - text: Upgrading Transparent Proxy
         url: /guides/upgrading-transparent-proxy/
+      - title: Troubleshooting
+        group: true
+        items:
+          - text: Logging
+            url: /guides/logging
   - title: Reference
     group: true
     items:
