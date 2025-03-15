@@ -6,6 +6,8 @@ The [MeshTLS](/docs/{{ page.release }}/policies/meshtls/) policy allows you to g
 
 ## Prerequisites
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application.
+- [`jq`](https://jqlang.github.io/jq/) - a command-line JSON processor
+
 
 ## Basic setup
 
@@ -163,41 +165,13 @@ You can check the `stats` for redis data plane:
 
 ```bash
 export REDIS_DPP_NAME=$(curl -s http://localhost:5681/meshes/default/dataplanes/_overview\?name\=redis | jq -r '.items[0].name')
-curl -s http://localhost:5681/meshes/default/dataplanes/$REDIS_DPP_NAME/stats | grep cluster.localhost_6379.upstream_cx
+curl -s http://localhost:5681/meshes/default/dataplanes/$REDIS_DPP_NAME/stats | grep cluster.localhost_6379.upstream_cx_total
 ```
 
 You should see metrics increment after running this `curl` command multiple times. Metrics will look like:
 
 ```
-cluster.localhost_6379.upstream_cx_active: 0
-cluster.localhost_6379.upstream_cx_close_notify: 0
-cluster.localhost_6379.upstream_cx_connect_attempts_exceeded: 0
-cluster.localhost_6379.upstream_cx_connect_fail: 0
-cluster.localhost_6379.upstream_cx_connect_timeout: 0
-cluster.localhost_6379.upstream_cx_connect_with_0_rtt: 0
-cluster.localhost_6379.upstream_cx_destroy: 2547
-cluster.localhost_6379.upstream_cx_destroy_local: 2547
-cluster.localhost_6379.upstream_cx_destroy_local_with_active_rq: 2547
-cluster.localhost_6379.upstream_cx_destroy_remote: 0
-cluster.localhost_6379.upstream_cx_destroy_remote_with_active_rq: 0
-cluster.localhost_6379.upstream_cx_destroy_with_active_rq: 2547
-cluster.localhost_6379.upstream_cx_http1_total: 0
-cluster.localhost_6379.upstream_cx_http2_total: 0
-cluster.localhost_6379.upstream_cx_http3_total: 0
-cluster.localhost_6379.upstream_cx_idle_timeout: 0
-cluster.localhost_6379.upstream_cx_max_duration_reached: 0
-cluster.localhost_6379.upstream_cx_max_requests: 0
-cluster.localhost_6379.upstream_cx_none_healthy: 0
-cluster.localhost_6379.upstream_cx_overflow: 0
-cluster.localhost_6379.upstream_cx_pool_overflow: 0
-cluster.localhost_6379.upstream_cx_protocol_error: 0
-cluster.localhost_6379.upstream_cx_rx_bytes_buffered: 0
-cluster.localhost_6379.upstream_cx_rx_bytes_total: 14364324
-cluster.localhost_6379.upstream_cx_total: 2547
-cluster.localhost_6379.upstream_cx_tx_bytes_buffered: 0
-cluster.localhost_6379.upstream_cx_tx_bytes_total: 198665
-cluster.localhost_6379.upstream_cx_connect_ms: P0(0,0) P25(0,0) P50(0,0) P75(0,0) P90(0,0) P95(0,0) P99(0,0) P99.5(0,0) P99.9(8.052999999999997,1.0681749999999965) P100(8.1,8.1)
-cluster.localhost_6379.upstream_cx_length_ms: P0(1,1) P25(1.0311007957559681,1.0438948995363215) P50(1.0622015915119363,1.087789799072643) P75(1.0933023872679044,2.0551816958277254) P90(2.0536904761904764,3.006666666666667) P95(2.081607142857143,4.007457627118645) P99(3.0662000000000003,7.082000000000005) P99.5(5.0654999999999974,12.319999999999936) P99.9(19.531000000000006,21.728000000000065) P100(20,51)
+cluster.localhost_6379.upstream_cx_total: 9362
 ```
 
 The below diagram shows that the second redis was moved to be inside the mesh:
