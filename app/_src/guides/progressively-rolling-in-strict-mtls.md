@@ -6,6 +6,8 @@ The [MeshTLS](/docs/{{ page.release }}/policies/meshtls/) policy allows you to g
 
 ## Prerequisites
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application.
+- [`jq`](https://jqlang.github.io/jq/) - a command-line JSON processor
+
 
 ## Basic setup
 
@@ -89,6 +91,11 @@ flowchart LR
 
 ```bash
 kubectl port-forward svc/demo-app -n kuma-demo 5001:5000
+```
+
+And in separate terminal window
+
+```bash
 kubectl port-forward svc/demo-app -n kuma-demo-migration 5002:5000
 ```
 
@@ -100,8 +107,8 @@ We begin with preparing redis to start in [permissive](/docs/{{ page.release }}/
 To enable permissive mode we define this `MeshTLS` policy:
 
 {% if_version lte:2.9.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
+```bash
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTLS
 metadata:
   name: redis
@@ -117,13 +124,13 @@ spec:
   - targetRef:
       kind: Mesh
     default:
-      mode: Permissive
+      mode: Permissive" | kubectl apply -f -
 ```
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-```yaml
-apiVersion: kuma.io/v1alpha1
+```bash
+echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTLS
 metadata:
   name: redis
@@ -139,7 +146,7 @@ spec:
   - targetRef:
       kind: Mesh
     default:
-      mode: Permissive
+      mode: Permissive" | kubectl apply -f -
 ```
 {% endif_version %}
 
@@ -149,19 +156,22 @@ Then we bring redis into the mesh by adding [kuma.io/sidecar-injection=true](/do
 
 ```bash
 kubectl patch deployment redis -n kuma-demo-migration \
---type='json' \
--p='[{"op": "add", "path": "/spec/template/metadata/labels/kuma.io~1sidecar-injection", "value": "enabled"}]'
+  --type='json' \
+  -p='[{"op": "add", "path": "/spec/template/metadata/labels/kuma.io~1sidecar-injection", "value": "enabled"}]'
 ```
 
 After this redis will be receiving plaintext traffic from non-meshed client.
-You can go to the {{site.mesh_product_name}} GUI, check the `Stats` tab for the `redis` Dataplane in the `kuma-demo-migration` namespace, and you should see this metric increment :
+You can check the `stats` for redis data plane:
 
-<center>
-<img src="/assets/images/guides/meshtls/dp-stats-view1.png" alt="Data Plane Proxies Stats metric for cluster.localhost_6379.upstream_cx_total"/>
-</center>
+```bash
+export REDIS_DPP_NAME=$(curl -s http://localhost:5681/meshes/default/dataplanes/_overview\?name\=redis | jq -r '.items[0].name')
+curl -s http://localhost:5681/meshes/default/dataplanes/$REDIS_DPP_NAME/stats | grep cluster.localhost_6379.upstream_cx_total
+```
 
-```yaml
-cluster.localhost_6379.upstream_cx_total
+You should see metrics increment after running this `curl` command multiple times. Metrics will look like:
+
+```
+cluster.localhost_6379.upstream_cx_total: 9362
 ```
 
 The below diagram shows that the second redis was moved to be inside the mesh:
