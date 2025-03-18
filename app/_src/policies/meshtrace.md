@@ -154,7 +154,7 @@ you would get service names like `backend_INBOUND`, `backend_OUTBOUND_db1`, and 
 
 #### Zipkin
 
-In most cases the only field you'll want to set in `url`.
+In most cases the only field you'll want to set is `url`.
 
 Example:
 ```yaml
@@ -193,6 +193,7 @@ spec:
     backends:
       - zipkin:
           url: http://jaeger-collector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
@@ -243,6 +244,7 @@ spec:
       - type: Zipkin
         zipkin:
           url: http://jaeger-collector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
@@ -292,6 +294,7 @@ spec:
       - type: Zipkin
         zipkin:
           url: http://jaeger-collector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
@@ -658,6 +661,7 @@ spec:
     backends:
       - zipkin:
           url: http://west.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
@@ -677,6 +681,7 @@ spec:
     backends:
       - zipkin:
           url: http://east.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
@@ -700,6 +705,7 @@ spec:
       - type: Zipkin
         zipkin:
           url: http://west.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
@@ -719,6 +725,7 @@ spec:
     backends:
       - zipkin:
           url: http://east.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
@@ -742,6 +749,7 @@ spec:
       - type: Zipkin
         zipkin:
           url: http://west.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
@@ -761,6 +769,7 @@ spec:
     backends:
       - zipkin:
           url: http://east.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 {% endif_version %}

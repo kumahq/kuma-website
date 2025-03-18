@@ -6,6 +6,7 @@ spec:
     kind: MeshSubset
     tags:
       app: frontend
+      kuma.io/env: dev
   to:
     - targetRef:
         kind: MeshService

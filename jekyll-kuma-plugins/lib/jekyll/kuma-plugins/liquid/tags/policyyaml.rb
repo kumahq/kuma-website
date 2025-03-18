@@ -213,7 +213,9 @@ module Jekyll
           end
 
           def convert_to_terraform(key, value, indent_level, is_in_array = false, is_last = false)
+            characters_to_quote = ["/"]
             key = snake_case(key) unless key.empty?
+            key = "\"#{key}\"" if characters_to_quote.any? { |char| key.include?(char) }
             indent = "  " * indent_level
             if value.is_a?(Hash)
               result = is_in_array ? "#{indent}{\n" : "#{indent}#{key} = {\n"
