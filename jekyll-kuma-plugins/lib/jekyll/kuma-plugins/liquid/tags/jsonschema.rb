@@ -26,7 +26,7 @@ module Jekyll
                   <div id="markdown_html"></div>
 
                   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
-                  <script defer src="https://brianwendt.github.io/json-schema-md-doc/lib/JSONSchemaMarkdown.js"></script>
+                  <script defer src="https://brianwendt.github.io/json-schema-md-doc/json-schema-md-doc.min.js"></script>
                   <script type="text/javascript">
                   const data = #{JSON.dump(data)};
                   document.addEventListener("DOMContentLoaded", function() {
