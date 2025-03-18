@@ -43,18 +43,17 @@ module Jekyll
                     }
 
                     // create an instance of JSONSchemaMarkdown
-                    const Doccer = new JSONSchemaMarkdown();
+                    const Doccer = new JSONSchemaMarkdownDoc();
                     // don't include the path of the field in the output
                     Doccer.writePath = function() {};
                     // remove new lines in description
                     removeNewlinesFromDescriptions(data)
 
                     Doccer.load(data);
-                    Doccer.generate();
 
                     const converter = new showdown.Converter();
                     // use the converter to make html from the markdown
-                    document.getElementById("markdown_html").innerHTML = converter.makeHtml(Doccer.markdown);
+                    document.getElementById("markdown_html").innerHTML = converter.makeHtml(Doccer.generate());
                   });
                   </script>
                 TIP
