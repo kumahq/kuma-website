@@ -302,7 +302,6 @@ default:
 default:
   sub:
     array: []
-    other: null
     other-array: [5, 6]
     extra: 2
 ```
@@ -314,6 +313,7 @@ default:
   conf: 1
   sub:
     array: []
+    other: 50
     other-array: [5, 6]
     extra: 2
 ```
