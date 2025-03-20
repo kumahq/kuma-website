@@ -57,6 +57,7 @@ The following describes the default configuration settings of the `MeshPassthrou
     - **`http`**
     - **`http2`**
     - **`grpc`**
+    {% if_version gte:2.10.x %}- **`mysql`**{% endif_version %}
   
 ### Wildcard DNS matching
 
@@ -272,6 +273,34 @@ spec:
       value: httpbin.dev
       protocol: http
       port: 80
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+### Allow a service to communicate with MySQL
+
+{% warning %}
+The `mysql` protocol does not support `type: Domain` due to the nature of the [handshake](https://dev.mysql.com/doc/dev/mysql-server/8.4.3/page_protocol_connection_phase_packets.html) and an `Envoy` limitation that disrupts the connection to MySQL when using tls_inspector.
+{% endwarning %}
+
+{% policy_yaml %}
+```yaml
+type: MeshPassthrough
+name: allow-mysql-connection
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: demo-app
+  default:
+    passthroughMode: Matched
+    appendMatch:
+    - type: CIDR
+      value: 10.250.0.0/16
+      protocol: mysql
+      port: 3306
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
