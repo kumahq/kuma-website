@@ -236,16 +236,20 @@
         data-panel="Terraform"
       >
         
+<div style="margin-top: 4rem; padding: 0 1.3rem">
+Please adjust <b>konnect_mesh_control_plane.my_meshcontrolplane.id</b> and <b>konnect_mesh.my_mesh.name</b> according to your current configuration
+</div>
+
 <div class="language-hcl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">resource</span> <span class="s2">"konnect_mesh_http_route"</span> <span class="s2">"http_route_1"</span> <span class="p">{</span>
+  <span class="nx">provider</span> <span class="p">=</span> <span class="nx">konnect</span><span class="err">-</span><span class="nx">beta</span>
   <span class="nx">type</span> <span class="p">=</span> <span class="s2">"MeshHTTPRoute"</span>
   <span class="nx">name</span> <span class="p">=</span> <span class="s2">"http-route-1"</span>
-  <span class="nx">mesh</span> <span class="p">=</span> <span class="s2">"default"</span>
   <span class="nx">spec</span> <span class="p">=</span> <span class="p">{</span>
     <span class="nx">target_ref</span> <span class="p">=</span> <span class="p">{</span>
       <span class="nx">kind</span> <span class="p">=</span> <span class="s2">"MeshSubset"</span>
       <span class="nx">tags</span> <span class="p">=</span> <span class="p">{</span>
         <span class="nx">app</span> <span class="p">=</span> <span class="s2">"frontend"</span>
-        <span class="s2">"kuma.io/env"</span> <span class="p">=</span> <span class="s2">"dev"</span>
+        <span class="nx">kuma</span><span class="err">.</span><span class="nx">io</span><span class="err">/</span><span class="nx">env</span> <span class="p">=</span> <span class="s2">"dev"</span>
       <span class="p">}</span>
     <span class="p">}</span>
     <span class="nx">to</span> <span class="p">=</span> <span class="p">[</span>
@@ -295,6 +299,11 @@
       <span class="p">}</span>
     <span class="p">]</span>
   <span class="p">}</span>
+  <span class="nx">labels</span>   <span class="p">=</span> <span class="p">{</span>
+    <span class="s2">"kuma.io/mesh"</span> <span class="p">=</span> <span class="nx">konnect_mesh</span><span class="err">.</span><span class="nx">my_mesh</span><span class="err">.</span><span class="nx">name</span>
+  <span class="p">}</span>
+  <span class="nx">cp_id</span>    <span class="p">=</span> <span class="nx">konnect_mesh_control_plane</span><span class="err">.</span><span class="nx">my_meshcontrolplane</span><span class="err">.</span><span class="nx">id</span>
+  <span class="nx">mesh</span>     <span class="p">=</span> <span class="nx">konnect_mesh</span><span class="err">.</span><span class="nx">my_mesh</span><span class="err">.</span><span class="nx">name</span>
 <span class="p">}</span>
 
 </code></pre></div></div>
