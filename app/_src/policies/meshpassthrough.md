@@ -281,7 +281,9 @@ spec:
 ### Allow a service to communicate with MySQL
 
 {% warning %}
+<!-- vale Vale.Spelling = NO -->
 The `mysql` protocol does not support `type: Domain` due to the nature of the handshake and an `Envoy` limitation that disrupts the connection to MySQL when using [tls inspector](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/tls_inspector).
+<!-- vale Vale.Spelling = YES -->
 {% endwarning %}
 
 {% policy_yaml %}
