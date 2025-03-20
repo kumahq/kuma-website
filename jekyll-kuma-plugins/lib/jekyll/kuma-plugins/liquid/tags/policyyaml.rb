@@ -205,17 +205,34 @@ module Jekyll
             name = yaml_data['name']
             resource_name = "konnect_#{snake_case(type)}"
             terraform = "resource \"#{resource_name}\" \"#{name.gsub('-', '_')}\" {\n"
+            terraform += terraform_resource_prefix
             yaml_data.each do |key, value|
+              next if key == 'mesh' # We use a reference at the end of the provider
               terraform += convert_to_terraform(key, value, 1)
             end
+            terraform += terraform_resource_suffix
             terraform += "}\n"
             terraform
           end
 
+          def terraform_resource_prefix
+            <<-HEREDOC
+  provider = konnect-beta
+            HEREDOC
+          end
+
+          def terraform_resource_suffix
+            <<-HEREDOC
+  labels   = {
+    "kuma.io/mesh" = konnect_mesh.my_mesh.name
+  }
+  cp_id    = konnect_mesh_control_plane.my_meshcontrolplane.id
+  mesh     = konnect_mesh.my_mesh.name
+            HEREDOC
+          end
+
           def convert_to_terraform(key, value, indent_level, is_in_array = false, is_last = false)
-            characters_to_quote = ["/"]
             key = snake_case(key) unless key.empty?
-            key = "\"#{key}\"" if characters_to_quote.any? { |char| key.include?(char) }
             indent = "  " * indent_level
             if value.is_a?(Hash)
               result = is_in_array ? "#{indent}{\n" : "#{indent}#{key} = {\n"
@@ -315,6 +332,9 @@ module Jekyll
 
             htmlContent += "
 {% tab Terraform %}
+<div style=\"margin-top: 4rem; padding: 0 1.3rem\">
+Please adjust <b>konnect_mesh_control_plane.my_meshcontrolplane.id</b> and <b>konnect_mesh.my_mesh.name</b> according to your current configuration
+</div>
 #{terraform_content}
 {% endtab %}" if edition != 'kuma' && show_tf
 
