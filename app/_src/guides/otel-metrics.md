@@ -4,8 +4,8 @@ title: Collect metrics with OpenTelemetry
 
 {{site.mesh_product_name}} provides integration with [OpenTelemetry](https://opentelemetry.io/). You can collect and push 
 data plane proxy and application metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/). Which opens up
-lots of possibilities of processing and exporting metrics to multiple ecosystems like [Datadog](https://www.datadoghq.com/),
-[Grafana cloud](https://grafana.com/products/cloud/), [Honeycomb](https://www.honeycomb.io/) and more.
+lots of possibilities of processing and exporting metrics to multiple ecosystems like [Dash0](https://www.dash0.com/), 
+[Datadog](https://www.datadoghq.com/), [Grafana cloud](https://grafana.com/products/cloud/), [Honeycomb](https://www.honeycomb.io/) and more.
 
 ## Prerequisites
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
@@ -228,4 +228,4 @@ You should see something similar to (propagation of metrics might take some time
 * Further explore [MeshMetric policy](/docs/{{ page.release }}/policies/meshmetric)
 * Explore [MeshAccessLog](/docs/{{ page.release }}/policies/meshaccesslog/#opentelemetry) and [MeshTrace](/docs/{{ page.release }}/policies/meshtrace/#opentelemetry) policies that work with OpenTelemetry
 * Explore features of [OpenTelemetry collector](https://opentelemetry.io/docs/collector/) for metrics filtering/processing and exporting
-* Checkout tutorials on how to push metrics to SaaS solutions [Grafana cloud](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/collector/opentelemetry-collector/), [Datadog](https://www.datadoghq.com/blog/ingest-opentelemetry-traces-metrics-with-datadog-exporter/), [Honeycomb](https://docs.honeycomb.io/send-data/opentelemetry/collector/)
+* Checkout tutorials on how to push metrics to SaaS solutions [Grafana cloud](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/collector/opentelemetry-collector/), [Dash0](https://www.dash0.com/hub/integrations/int_opentelemetry-collector/overview), [Datadog](https://www.datadoghq.com/blog/ingest-opentelemetry-traces-metrics-with-datadog-exporter/), [Honeycomb](https://docs.honeycomb.io/send-data/opentelemetry/collector/)
