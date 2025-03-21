@@ -42,7 +42,7 @@ spec:
 
 Labeling pods or deployments will take precedence on the namespace annotation.
 
-{% if_version gt:2.8.x %}
+{% if_version gte:2.8.x %}
 ### `kuma.io/mesh`
 
 Associate Pods with a particular Mesh. Label value must be the name of a Mesh resource.
