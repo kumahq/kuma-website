@@ -23,7 +23,7 @@
     "netlify-cli": "^18.0.4",
     "sass": "^1.63.5",
     "stylus": "^0.59.0",
-    "vite": "^4.5.10",
+    "vite": "^4.5.11",
     "vite-plugin-ruby": "^3.2.2",
     "vite-plugin-windicss": "^1.9.0",
     "windicss": "^3.5.6"
