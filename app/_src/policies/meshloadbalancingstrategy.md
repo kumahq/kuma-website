@@ -30,7 +30,7 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.release }
 {% if_version gte:2.10.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
-| `targetRef.kind`      | `Mesh`, `Dataplane`                                      |
+| `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshSubset(deprecated)`            |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshMultiZoneService`            |
 {% endif_version %}
 {% endtab %}

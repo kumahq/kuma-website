@@ -40,10 +40,10 @@ This mode generates extra traffic to other proxies and services as described in 
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
 {% endif_version %}
 {% if_version gte:2.10.x %}
-| `targetRef`           | Allowed kinds         |
-| --------------------- | --------------------- |
-| `targetRef.kind`      | `Mesh`, `Dataplane`   |
-| `to[].targetRef.kind` | `Mesh`, `MeshService` |
+| `targetRef`           | Allowed kinds                                 |
+| --------------------- | --------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`                         |
 {% endif_version %}
 {% endtab %}
 

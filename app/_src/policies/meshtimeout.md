@@ -29,10 +29,10 @@ Do **not** combine with [Timeout policy](/docs/{{ page.release }}/policies/timeo
 | `from[].targetRef.kind` | `Mesh`                                                                    |
 {% endif_version %}
 {% if_version gte:2.10.x %}
-| `targetRef`             | Allowed kinds                                |
-| ----------------------- | -------------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshHTTPRoute`         |
-| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService` |
+| `targetRef`             | Allowed kinds                                                  |
+| ----------------------- | -------------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshHTTPRoute`, `MeshSubset(deprecated)` |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`                   |
 {% endif_version %}
 {% endtab %}
 
