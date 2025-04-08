@@ -19,9 +19,9 @@ When using this policy, the [passthrough mode](/docs/{{ page.release }}/networki
 | `targetRef.kind`      | `Mesh`, `MeshSubset`  |
 {% endif_version %}
 {% if_version gte:2.10.x %}
-| `targetRef`           | Allowed kinds        |
-| --------------------- | -------------------- |
-| `targetRef.kind`      | `Mesh`, `Dataplane`  |
+| `targetRef`           | Allowed kinds                                 |
+| --------------------- | --------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
 {% endif_version %}
 {% endtab %}
 {% if_version gte:2.9.x %}

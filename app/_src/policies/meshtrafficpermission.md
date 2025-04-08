@@ -32,10 +32,10 @@ It allows you to define granular rules about which services can communicate with
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
 {% endif_version %}
 {% if_version gte:2.10.x %}
-| `targetRef`             | Allowed kinds                             |
-| ----------------------- | ----------------------------------------- |
-| `targetRef.kind`        | `Mesh`, `Dataplane`                       |
-| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset` |
+| `targetRef`             | Allowed kinds                                 |
+| ----------------------- | --------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
+| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`     |
 {% endif_version %}
 {% endtab %}
 {% tab Builtin Gateway %}
