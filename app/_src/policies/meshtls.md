@@ -16,9 +16,9 @@ Backends and default mode values are taken from [the Mesh object](/docs/{{ page.
 | `from[].targetRef.kind` | `Mesh`               |
 {% endif_version %}
 {% if_version gte:2.10.x %}
-| `targetRef`             | Allowed kinds       |
-| ----------------------- | ------------------- |
-| `targetRef.kind`        | `Mesh`, `Dataplane` |
+| `targetRef`             | Allowed kinds                                 |
+| ----------------------- | --------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
 {% endif_version %}
 {% endtab %}
 {% tab targetRef For tls ciphers/version %}
