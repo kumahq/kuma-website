@@ -21,8 +21,8 @@ all requests won't be logged even if a traffic logging is enabled in the mesh wh
 The passthrough mode is enabled by default on all the dataplane proxies in transparent mode in a Mesh. 
 This behavior can be changed by setting the `networking.outbound.passthrough` in the Mesh resource. Example:
 
-{% tabs passthrough-mode useUrlFragment=false %}
-{% tab passthrough-mode Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -34,7 +34,7 @@ spec:
       passthrough: false
 ```
 {% endtab %}
-{% tab passthrough-mode Universal %}
+{% tab Universal %}
 ```yaml
 type: Mesh
 name: default
@@ -77,8 +77,8 @@ maxRetries: 3
 {% if_version lte:2.5.x inline:true %}[ProxyTemplate](/docs/{{ page.release }}/policies/proxy-template){% endif_version %}{% if_version inline:true gte:2.6.x %}[MeshProxyPatch](/docs/{{ page.release }}/policies/meshproxypatch){% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
-{% tabs passthrough-thresholds useUrlFragment=false %}
-{% tab passthrough-thresholds Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
@@ -111,7 +111,7 @@ spec:
 ```
 {% endtab %}
 
-{% tab passthrough-thresholds Universal %}
+{% tab Universal %}
 ```yaml
 type: ProxyTemplate
 mesh: default
@@ -143,7 +143,7 @@ conf:
 {% endtabs %}
 {% endif_version %}
 {% if_version gte:2.6.x %}
-{% policy_yaml passthrough-thresholds-mpp %}
+{% policy_yaml %}
 ```yaml
 type: MeshProxyPatch
 mesh: default
@@ -185,8 +185,8 @@ tcp:
 {% if_version lte:2.5.x inline:true %}Proxy Template{% endif_version %}{% if_version inline:true gte:2.6.x %}MeshProxyPatch{% endif_version %} to change the defaults:
 
 {% if_version lte:2.5.x %}
-{% tabs passthrough-timeouts useUrlFragment=false %}
-{% tab passthrough-timeouts Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ProxyTemplate
@@ -220,7 +220,7 @@ spec:
 ```
 {% endtab %}
 
-{% tab passthrough-timeouts Universal %}
+{% tab Universal %}
 ```yaml
 type: ProxyTemplate
 mesh: default
@@ -253,7 +253,7 @@ conf:
 {% endtabs %}
 {% endif_version %}
 {% if_version gte:2.6.x %}
-{% policy_yaml passthrough-timeouts-mpp %}
+{% policy_yaml %}
 ```yaml
 type: MeshProxyPatch
 mesh: default

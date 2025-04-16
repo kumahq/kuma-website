@@ -13,30 +13,36 @@ depending on where the request is coming from and where it's going to.
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `MeshService`                                            |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind` | `MeshService`                                            |
 {% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds                                 |
+| --------------------- | --------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
+| `to[].targetRef.kind` | `MeshService`                                 |
+{% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
 | `to[].targetRef.kind`   | `Mesh`                                                   |
 {% endtab %}
 
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
@@ -119,8 +125,8 @@ implementing A/B testing or canary deployments.
 Here is an example of a `MeshHTTPRoute` that splits the traffic from `frontend` to `backend` between versions,
 but only on endpoints starting with `/api`. All other endpoints will go to version: `1.0`.
 
-{% tabs split useUrlFragment=false %}
-{% tab split Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 {% if_version gte:2.3.x %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -194,7 +200,7 @@ spec:
 ```
 {% endif_version %}
 {% endtab %}
-{% tab split Universal %}
+{% tab Universal %}
 {% if_version gte:2.3.x %}
 ```yaml
 type: MeshHTTPRoute
@@ -274,7 +280,8 @@ If we want to split traffic between `v1` and `v2` versions of the same service,
 first we have to create MeshServices `backend-v1` and `backend-v2` that select 
 backend application instances according to the version.
 
-{% policy_yaml traffic-split namespace=kuma-demo use_meshservice=true %}
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-split
@@ -312,6 +319,48 @@ spec:
                 weight: 10
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: http-split
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001
+                _version: v1
+                weight: 90
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001
+                _version: v2
+                weight: 10
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 {% endif_version %}
 
@@ -324,7 +373,7 @@ Here is an example of a `MeshHTTPRoute` that adds `x-custom-header` with value `
 when `frontend` tries to consume `backend`.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml traffic-modification-28x %}
+{% policy_yaml %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -357,8 +406,8 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
-{% if_version gte:2.9.x %}
-{% policy_yaml traffic-modification-29x namespace=kuma-demo use_meshservice=true %}
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -367,6 +416,40 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
+      rules:
+        - matches:
+            - path:
+                type: Exact
+                value: /
+          default:
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  set:
+                    - name: x-custom-header
+                      value: xyz
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: http-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: frontend
   to:
     - targetRef:
@@ -399,7 +482,7 @@ This can be useful when testing a new version of the app with the production pay
 interrupting real users.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml traffic-mirror %}
+{% policy_yaml %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -442,8 +525,8 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
-{% if_version gte:2.9.x %}
-{% policy_yaml traffic-mirror-29x namespace=kuma-demo use_meshservice=true %}
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -452,6 +535,50 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http 
+        _port: 3001
+      rules:
+        - matches:
+            - headers:
+                - type: Exact
+                  name: mirror-this-request
+                  value: "true"
+          default:
+            filters:
+              - type: RequestMirror
+                requestMirror:
+                  percentage: 30
+                  backendRef:
+                    kind: MeshService
+                    name: backend
+                    namespace: kuma-demo
+                    port: 3001
+                    _version: v1-experimental
+            backendRefs:
+              - kind: MeshService
+                name: backend
+                namespace: kuma-demo
+                port: 3001
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: http-route-1
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: frontend
   to:
     - targetRef:

@@ -63,46 +63,114 @@ In most cases, you can add this signoff to your commit automatically with the `-
 
 #### Prerequisites
 
-1. Make sure you have the right ruby version installed (`cat .ruby-version`).
-2. Install [yarn](https://classic.yarnpkg.com/en/docs/install)
+1. Install [mise](https://mise.jdx.dev/installing-mise.html).
 
 #### Installation
 
 Clone the repository and run:
-```bash
+
+```sh
 make install
+```  
+
+#### macOS 15 installation issues
+
+After upgrading to macOS 15, some users have encountered issues where the installation fails during `make install` with errors similar to:
+
+```sh
+Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
+
+[...]
+
+compiling binder.cpp
+
+[...]
+
+In Gemfile:
+  jekyll-contentblocks was resolved to 1.2.0, which depends on
+    jekyll was resolved to 4.3.4, which depends on
+      em-websocket was resolved to 0.5.3, which depends on
+        eventmachine
+make: *** [install] Error 5
 ```
 
-On macOS you might face issues with clang when installing gems. In that case try the following:
-```bash
+To fix this issue, reinstall Xcode and recompile Ruby:
+
+```sh
+sudo rm -rf /Library/Developer/CommandLineTools
+xcode-select --install
+mise uninstall "ruby@$(cat .ruby-version)"
+mise install
+ruby -rrbconfig -e 'puts RbConfig::CONFIG["CXX"]' # should print "clang++"
+```
+
+If you still encounter issues with Clang when installing gems, try:
+
+```sh
 gem install <gem> -- --with-cflags="-Wno-incompatible-function-pointer-types"
 ```
 
 ### Development
 
-If you want to make changes to the docs or the assets and see them reflected on the browser, you need to run the site with:
-```bash
+To make changes to the docs or assets and see them reflected in the browser, start the site with:
+
+```sh
 make run
 ```
-This will run `jekyll serve` and `vite` in the background wich will re-build the corresponding pages whenever a doc or asset changes,
-while running `netlify dev` so that all the redirects work locally.
+
+This runs `jekyll serve` and `vite` in the background, automatically rebuilding pages when docs or assets change. It also runs `netlify dev` to ensure redirects work locally.
 
 ### Production build
 
-Jekyll is a static-site generator, so first we need to build the site and compile the assets:
-```bash
-make build
-```
+Before starting a production build, it’s recommended to clean previous builds to avoid issues.
 
-Note: If you face any issues, e.g. the asset don't look right, try cleaning the cache first and re-build the site:
-```bash
-make clean && make build
-```
+To clean old static files and start the production build:
 
-Next, run the production build locally
-```bash
+```sh
+make serve/clean
+```  
+
+Or, if you don’t need to clean previous files, simply run:
+
+```sh
 make serve
+```  
+
+This will:
+1. Use the `[build]` section from `netlify.toml` to generate the production version of static files using the configured build command.
+2. Start a local Netlify server, simulating the production environment with redirects, environment variables, and other settings.
+
+Once running, visit http://localhost:7777 to browse the documentation.
+
+### Developing kuma-website as a submodule in another Jekyll project
+
+If you are developing `kuma-website` as a Git submodule inside another Jekyll project, you can use [Mutagen](https://mutagen.io) to sync files between repositories. This allows you to work on `kuma-website` while ensuring changes are reflected in the parent project.
+
+To set up file syncing, run:
+
+```sh
+# Path to your local kuma-website repository
+export SYNC_FROM="$HOME/projects/kumahq/kuma-website"
+# Path to where kuma-website is located in the other project
+export SYNC_TO="$HOME/projects/other/app/_src/.repos/kuma"
+
+mutagen sync create \
+  --mode one-way-replica \
+  --name kuma-website \
+  --ignore ".idea,node_modules,dist,.netlify,.jekyll-cache,.jekyll-metadata,app/.jekyll-cache,app/.jekyll-metadata,.bundle" \
+  "$SYNC_FROM" "$SYNC_TO"
 ```
-which will run `Netlify` locally in a local dev server, similar to production, making all the redirects, env variables, etc.
-available. You can visit http://localhost:8888/ and start reading the documentation.
-In case you are stuck in `⠼ Waiting for framework port 4000`, please retry.
+
+To observe the synchronization status, run:
+
+```sh
+mutagen sync monitor
+```
+
+If you need to stop synchronization, run:
+
+```sh
+mutagen sync terminate kuma-website
+```
+
+Since `kuma-website` does not use Jekyll’s default ports, you can run both projects simultaneously without conflicts.

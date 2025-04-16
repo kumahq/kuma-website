@@ -28,8 +28,8 @@ We've automatically switched to generating the service name for you based on you
 
 {% endif_version %}
 
-{% tabs binding useUrlFragment=false %}
-{% tab binding Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -44,7 +44,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab binding Universal %}
+{% tab Universal %}
 
 ```yaml
 type: MeshGateway
@@ -64,8 +64,8 @@ Note that the `MeshGateway` doesn't specify which IP addresses are listened on; 
 To configure a listener, you need to specify at least the port number and network protocol.
 Each listener may also have its own set of {{site.mesh_product_name}} tags so that {{site.mesh_product_name}} policy configuration can be targeted to specific listeners.
 
-{% tabs listener useUrlFragment=false %}
-{% tab listener Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -86,7 +86,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab listener Universal %}
+{% tab Universal %}
 
 ```yaml
 type: MeshGateway
@@ -114,8 +114,8 @@ Note that listeners can share both `port` and `protocol` but differ on `hostname
 This way routes can be attached to requests to specific _hostnames_ but share
 the port/protocol with other routes attached to other hostnames.
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -137,7 +137,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 
 ```yaml
 type: MeshGateway
@@ -160,8 +160,8 @@ conf:
 
 In the above example, the gateway proxy listens for HTTP protocol connections on TCP port 8080 but restricts the `Host` header to `foo.example.com`.
 
-{% tabs selectors useUrlFragment=false %}
-{% tab selectors Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -188,7 +188,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab selectors Universal %}
+{% tab Universal %}
 
 ```yaml
 type: MeshGateway
@@ -233,8 +233,8 @@ Note that because each listener entry has its own {{site.mesh_product_name}} tag
 TLS sessions are terminated on a Gateway by specifying the "HTTPS" protocol, and providing a server certificate configuration.
 Below, the gateway listens on port 8443 and terminates TLS sessions.
 
-{% tabs tls-termination useUrlFragment=false %}
-{% tab tls-termination Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -260,7 +260,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab tls-termination Universal %}
+{% tab Universal %}
 
 ```yaml
 type: MeshGateway
@@ -298,8 +298,8 @@ The CA certificate chain may also be present, but if it is, the server certifica
 To enable this support, generate two server certificate secrets and provide them both to the listener TLS configuration.
 The `kumactl` tool supports generating simple, self-signed TLS server certificates. The script below shows how to do this.
 
-{% tabs tls-secret useUrlFragment=false %}
-{% tab tls-secret Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: v1
@@ -315,7 +315,7 @@ type: system.kuma.io/secret
 ```
 
 {% endtab %}
-{% tab tls-secret Universal %}
+{% tab Universal %}
 
 ```yaml
 type: Secret
@@ -341,8 +341,8 @@ All meshes involved in cross-mesh communication must have mTLS enabled.
 To enable cross-mesh functionality for a `MeshGateway` listener,
 set the `crossMesh` property.
 
-{% tabs cross-mesh useUrlFragment=false %}
-{% tab cross-mesh Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -365,7 +365,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab cross-mesh Universal %}
+{% tab Universal %}
 
 ```yaml
 type: MeshGateway

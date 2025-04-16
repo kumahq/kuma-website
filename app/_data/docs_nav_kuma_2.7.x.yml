@@ -120,7 +120,7 @@ items:
             url: /production/secure-deployment/dp-auth/
           - text: Configure data plane proxy membership
             url: /production/secure-deployment/dp-membership/
-          - text: Secure access accross services
+          - text: Secure access across services
             url: /production/secure-deployment/certificates/
       - text: Kuma user interface
         url: /production/gui/
@@ -456,6 +456,8 @@ items:
         url: /guides/otel-metrics/
       - text: Migration to the new policies
         url: /guides/migration-to-the-new-policies/
+      - text: Upgrading Transparent Proxy
+        url: /guides/upgrading-transparent-proxy/
   - title: Reference
     group: true
     items:

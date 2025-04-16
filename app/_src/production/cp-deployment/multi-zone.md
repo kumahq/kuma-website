@@ -19,8 +19,8 @@ To set up a multi-zone deployment we will need to:
 The global control plane must run on a dedicated cluster (unless using "Universal on Kubernetes" mode), and cannot be assigned to a zone.
 
 
-{% tabs global-control-plane useUrlFragment=false %}
-{% tab global-control-plane Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 The global control plane on Kubernetes must reside on its own Kubernetes cluster, to keep its resources separate from the resources the zone control planes create during synchronization.
 
@@ -153,7 +153,7 @@ Before using {{site.mesh_product_name}} with helm, please follow [these steps](/
     In this example the value is `35.226.196.103:5685`. You pass this as the value of `<global-kds-address>` when you set up the zone control planes.
 
 {% endtab %}
-{% tab global-control-plane Universal %}
+{% tab Universal %}
 
 {% tip %}
 When running the global control plane in Universal mode, a database must be used to persist state for production deployments.
@@ -184,10 +184,10 @@ You need the following values to pass to each zone control plane setup:
 - `zone` -- the zone name. An arbitrary string. This value registers the zone control plane with the global control plane.
 - `kds-global-address` -- the external IP and port of the global control plane.
 
-{% tabs zone-control-planes useUrlFragment=false %}
-{% tab zone-control-planes Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
-On each zone control plane, run:
+For every individual zone create an own cluster and for each run:
 
 {% if_version gte:2.3.x %}
 {% cpinstall zcp %}
@@ -216,8 +216,10 @@ Set `--set {{site.set_flag_values_prefix}}controlPlane.tls.kdsZoneClient.skipVer
 For production use a certificate signed by a trusted CA. See [Secure access across services](/docs/{{ page.release }}/production/secure-deployment/certificates/) page for more information.
 {% endif_version %}
 
+After installing a zone control plane, make sure to restart the application pods that are already running such that the data plane proxies can be connected.
+
 {% endtab %}
-{% tab zone-control-planes Universal %}
+{% tab Universal %}
 
 {% tip %}
 When running the zone control plane in Universal mode, a database must be used to persist state for production deployments.
@@ -370,8 +372,8 @@ This is required because {{site.mesh_product_name}} uses the [Server Name Indica
 For this example we will assume we have a service running in a Kubernetes zone exposing a `kuma.io/service` with value `echo-server_echo-example_svc_1010`.
 The following examples are running in the remote zone trying to access the previously mentioned service.
 
-{% tabs cross-zone-communication-details useUrlFragment=false %}
-{% tab cross-zone-communication-details Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 To view the list of service names available, run:
 
@@ -421,7 +423,7 @@ curl http://echo-server.echo-example.svc.1010.mesh:80
 ```
 
 {% endtab %}
-{% tab cross-zone-communication-details Universal %}
+{% tab Universal %}
 
 ```sh
 kumactl inspect services
@@ -464,15 +466,15 @@ zone: unable to delete Zone, Zone CP is still connected, please shut it down fir
 
 When the Zone CP is fully disconnected and shut down, then the `Zone` can be deleted. All corresponding resources (like `Dataplane` and `DataplaneInsight`) will be deleted automatically as well.
 
-{% tabs delete-zone useUrlFragment=false %}
-{% tab delete-zone Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```sh
 kubectl delete zone zone-1
 ```
 
 {% endtab %}
-{% tab delete-zone Universal %}
+{% tab Universal %}
 
 ```sh
 kumactl delete zone zone-1
@@ -485,8 +487,8 @@ kumactl delete zone zone-1
 
 Change the `enabled` property value to `false` in the global control plane:
 
-{% tabs disable-zone useUrlFragment=false %}
-{% tab disable-zone Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -498,7 +500,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab disable-zone Universal %}
+{% tab Universal %}
 
 ```yaml
 type: Zone

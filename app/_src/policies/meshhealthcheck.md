@@ -25,30 +25,36 @@ This mode generates extra traffic to other proxies and services as described in 
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
 {% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds                                 |
+| --------------------- | --------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`                         |
+{% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`                                    |
 {% endtab %}
 
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
@@ -94,7 +100,7 @@ See [protocol fallback example](#protocol-fallback).
 #### Health check from web to backend service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml usage %}
+{% policy_yaml %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -121,8 +127,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml usage-29x namespace=kuma-demo use_meshservice=true %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -132,6 +139,36 @@ spec:
     kind: MeshSubset
     tags:
       kuma.io/service: web
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
+      default:
+        interval: 10s
+        timeout: 2s
+        unhealthyThreshold: 3
+        healthyThreshold: 1
+        http:
+          path: /health
+          expectedStatuses: [200, 201]
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHealthCheck
+name: web-to-backend-check
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: web
   to:
     - targetRef:
         kind: MeshService
@@ -154,7 +191,7 @@ spec:
 #### Protocol fallback
 
 {% if_version lte:2.8.x %}
-{% policy_yaml protocol %}
+{% policy_yaml %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -181,8 +218,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml protocol-29x namespace=kuma-demo use_meshservice=true %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -211,10 +249,41 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHealthCheck
+name: web-to-backend-check
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: web
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
+      default:
+        interval: 10s
+        timeout: 2s
+        unhealthyThreshold: 3
+        healthyThreshold: 1
+        tcp: {} # http has "disabled=true" so TCP (a more general protocol) is used as a fallback
+        http:
+          disabled: true
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+
 #### gRPC health check from cart to payment service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml grpc %}
+{% policy_yaml %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -240,8 +309,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml grpc-29x namespace=kuma-demo use_meshservice=true %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -251,6 +321,35 @@ spec:
     kind: MeshSubset
     tags:
       kuma.io/service: web
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 3001
+      default:
+        interval: 15s
+        timeout: 5s
+        unhealthyThreshold: 3
+        healthyThreshold: 2
+        grpc:
+          serviceName: "grpc.health.v1.CustomHealth"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHealthCheck
+name: web-to-backend-check
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: web
   to:
     - targetRef:
         kind: MeshService
@@ -281,8 +380,14 @@ spec:
 - **`intervalJitterPercent`** - (optional) if specified, during every interval Envoy will add `intervalJitter` *
   `intervalJitterPercent` / 100 to the wait time. If `intervalJitter` and
   `intervalJitterPercent` are both set, both of them will be used to increase the wait time.
-- **`healthyPanicThreshold`** - allows to configure panic threshold for Envoy cluster. If not specified,
+{% if_version lte:2.9.x %}
+- **`healthyPanicThreshold`** - (optional) allows to configure panic threshold for Envoy clusters. If not specified,
   the default is 50%. To disable panic mode, set to 0%.
+{% endif_version %}
+{% if_version gte:2.10.x %}
+- **`healthyPanicThreshold`** - (optional) allows to configure panic threshold for Envoy clusters. If not specified,
+  the default is 50%. To disable panic mode, set to 0%. ⚠️This is deprecated from version 2.10.x and has been moved to [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker).⚠️
+{% endif_version %}
 - **`failTrafficOnPanic`** - (optional) if set to true, Envoy will not consider any hosts when the cluster is in
   'panic mode'. Instead, the cluster will fail all requests as if all hosts are unhealthy.
   This can help avoid potentially overwhelming a failing service.

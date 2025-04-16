@@ -7,12 +7,19 @@ Backends and default mode values are taken from [the Mesh object](/docs/{{ page.
 
 ## TargetRef support matrix
 
-{% tabs targetRef useUrlFragment=false %}
+{% tabs %}
 {% tab targetRef For mode %}
+{% if_version eq:2.9.x %}
 | `targetRef`             | Allowed kinds        |
 | ----------------------- | -------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset` |
 | `from[].targetRef.kind` | `Mesh`               |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`             | Allowed kinds                                 |
+| ----------------------- | --------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
+{% endif_version %}
 {% endtab %}
 {% tab targetRef For tls ciphers/version %}
 | `targetRef`             | Allowed kinds       |
@@ -43,7 +50,8 @@ In that case, please open an [issue](https://github.com/kumahq/kuma/issues).
 
 ### Set specific TLS version and ciphers
 
-{% policy_yaml example1 %}
+{% if_version eq:2.9.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTLS
 name: set-version-and-ciphers
@@ -62,10 +70,32 @@ spec:
           - ECDHE-ECDSA-AES256-GCM-SHA384
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml %}
+```yaml
+type: MeshTLS
+name: set-version-and-ciphers
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  rules:
+    - default:
+        tlsVersion:
+          min: TLS13
+          max: TLS13
+        tlsCiphers:
+          - ECDHE-ECDSA-AES256-GCM-SHA384
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ### Enable strict mode on specific subset
 
-{% policy_yaml example2 %}
+{% if_version eq:2.9.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTLS
 name: strict-mode
@@ -82,6 +112,25 @@ spec:
         mode: Strict
 ```
 {% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml %}
+```yaml
+type: MeshTLS
+name: strict-mode
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: redis
+  rules:
+    - default:
+        mode: Strict
+```
+{% endpolicy_yaml %}
+{% endif_version %}
 
 ## All policy options
 

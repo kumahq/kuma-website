@@ -34,27 +34,32 @@ For HTTP you can also manually forward the following headers:
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 {% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds                                 |
+| --------------------- | --------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
+{% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`      | Allowed kinds         |
 | ---------------- | --------------------- |
 | `targetRef.kind` | `Mesh`, `MeshGateway` |
 {% endtab %}
 
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
@@ -149,7 +154,7 @@ you would get service names like `backend_INBOUND`, `backend_OUTBOUND_db1`, and 
 
 #### Zipkin
 
-In most cases the only field you'll want to set in `url`.
+In most cases the only field you'll want to set is `url`.
 
 Example:
 ```yaml
@@ -176,7 +181,7 @@ openTelemetry:
 
 {% if_version eq:2.2.x %}
 Simple example:
-{% policy_yaml simple-zipkin %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -188,11 +193,12 @@ spec:
     backends:
       - zipkin:
           url: http://jaeger-collector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-zipkin %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -225,7 +231,7 @@ spec:
 {% if_version gte:2.3.x %}
 {% if_version lte:2.8.x %}
 Simple example:
-{% policy_yaml simple-zipkin-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -238,11 +244,12 @@ spec:
       - type: Zipkin
         zipkin:
           url: http://jaeger-collector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-zipkin-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -276,7 +283,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.9.x %}
 Simple example:
-{% policy_yaml simple-zipkin-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -287,11 +294,12 @@ spec:
       - type: Zipkin
         zipkin:
           url: http://jaeger-collector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-zipkin-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -329,7 +337,7 @@ This assumes a Datadog agent is configured and running. If you haven't already c
 
 {% if_version eq:2.2.x %}
 Simple example:
-{% policy_yaml simple-datadog %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -345,7 +353,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-datadog %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -378,7 +386,7 @@ spec:
 {% if_version gte:2.3.x %}
 {% if_version lte:2.8.x %}
 Simple example:
-{% policy_yaml simple-datadog-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -395,7 +403,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-datadog-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -429,7 +437,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.9.x %}
 Simple example:
-{% policy_yaml simple-datadog-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -444,7 +452,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-datadog-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -483,7 +491,7 @@ If you haven't already check the [OpenTelementry operator](https://github.com/op
 
 {% if_version eq:2.2.x %}
 Simple example:
-{% policy_yaml simple-otel %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -499,7 +507,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-otel %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -531,7 +539,7 @@ spec:
 {% if_version gte:2.3.x %}
 {% if_version lte:2.8.x %}
 Simple example:
-{% policy_yaml simple-otel-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -548,7 +556,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-otel-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -581,7 +589,7 @@ spec:
 {% endif_version %}
 {% if_version gte:2.9.x %}
 Simple example:
-{% policy_yaml simple-otel-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -596,7 +604,7 @@ spec:
 {% endpolicy_yaml %}
 
 Full example:
-{% policy_yaml extended-otel-29x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: default
@@ -639,7 +647,7 @@ To do this, we use a `TargetRef` kind value of `MeshSubset` to filter which data
 {% if_version eq:2.2.x %}
 West only policy:
 
-{% policy_yaml west-only %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -653,12 +661,13 @@ spec:
     backends:
       - zipkin:
           url: http://west.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
 East only policy:
 
-{% policy_yaml east-only %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: trace-east
@@ -672,14 +681,16 @@ spec:
     backends:
       - zipkin:
           url: http://east.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.3.x %}
+{% if_version lte:2.9.x %}
 West only policy:
 
-{% policy_yaml west-only-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -694,12 +705,13 @@ spec:
       - type: Zipkin
         zipkin:
           url: http://west.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 
 East only policy:
 
-{% policy_yaml east-only-23x %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrace
 name: trace-east
@@ -713,6 +725,51 @@ spec:
     backends:
       - zipkin:
           url: http://east.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+West only policy:
+
+{% policy_yaml %}
+```yaml
+type: MeshTrace
+name: trace-west
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      kuma.io/zone: west
+  default:
+    backends:
+      - type: Zipkin
+        zipkin:
+          url: http://west.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
+```
+{% endpolicy_yaml %}
+
+East only policy:
+
+{% policy_yaml %}
+```yaml
+type: MeshTrace
+name: trace-east
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      kuma.io/zone: east
+  default:
+    backends:
+      - zipkin:
+          url: http://east.zipkincollector:9411/api/v2/spans
+          apiVersion: httpJson
 ```
 {% endpolicy_yaml %}
 {% endif_version %}

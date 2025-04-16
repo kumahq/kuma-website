@@ -22,8 +22,8 @@ The policy is applied per service instance. This means that if a service `backen
 When rate limiting to an [ExternalService](/docs/{{ page.release }}/policies/external-services), the policy is applied per sending service instance.`
 ## Usage
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -53,7 +53,7 @@ spec:
 Apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 
-{% tab usage Universal %}
+{% tab Universal %}
 
 ```yaml
 type: RateLimit

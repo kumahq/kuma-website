@@ -7,7 +7,7 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
       release = {'release' => '2.9.x', 'edition' => 'kuma'} unless release # This sets the version key for testing
       context = Liquid::Context.new({}, {}, { :page => {'edition' => release['edition'], 'release' => Jekyll::GeneratorSingleSource::Product::Release.new(release)}, :site => site})
       content = GoldenFileManager.load_input(input_file)
-      tag_content = tag_options ? "{% policy_yaml my-tabs #{tag_options} %}" : "{% policy_yaml my-tabs %}"
+      tag_content = tag_options ? "{% policy_yaml #{tag_options} %}" : "{% policy_yaml %}"
       template = Liquid::Template.parse("#{tag_content}#{content}{% endpolicy_yaml %}")
       output = template.render(context)
       GoldenFileManager.assert_output(output, golden_file, include_header: true)

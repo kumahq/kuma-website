@@ -18,8 +18,8 @@ There are two parts to a policy:
 
 Metadata identifies the policies by its `name`, `type` and what `mesh` it's part of:
 
-{% tabs metadata %}
-{% tab metadata Universal %}
+{% tabs %}
+{% tab Universal %}
 
 ```yaml
 type: ExamplePolicy
@@ -29,7 +29,7 @@ spec: ... # spec data specific to the policy kind
 ```
 
 {% endtab %}
-{% tab metadata Kubernetes %}
+{% tab Kubernetes %}
 
 In Kubernetes all our policies are implemented as [custom resource definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) in the group `kuma.io/v1alpha1`.
 
@@ -220,8 +220,8 @@ For each type of proxy, sidecar or builtin gateway, the table indicates for each
 
 These are just examples, remember to check the docs specific to your policy!
 
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -229,7 +229,7 @@ These are just examples, remember to check the docs specific to your policy!
 | `from[].targetRef.kind` | `Mesh`                                                   |
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`           | Allowed kinds                                    |
 | --------------------- | ------------------------------------------------ |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
@@ -302,7 +302,6 @@ default:
 default:
   sub:
     array: []
-    other: null
     other-array: [5, 6]
     extra: 2
 ```
@@ -314,6 +313,7 @@ default:
   conf: 1
   sub:
     array: []
+    other: 50
     other-array: [5, 6]
     extra: 2
 ```

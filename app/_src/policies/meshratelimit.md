@@ -23,30 +23,36 @@ Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/ex
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `from[].targetRef.kind` | `Mesh`                                                   |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
 | `from[].targetRef.kind` | `Mesh`                                                   |
 {% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`             | Allowed kinds                                 |
+| ----------------------- | --------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
+| `from[].targetRef.kind` | `Mesh`                                        |
+{% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`           | Allowed kinds                                             |
 | --------------------- | --------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
 | `to[].targetRef.kind` | `Mesh`                                                    |
 {% endtab %}
 
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 
 {% warning %}
 `MeshRateLimit` isn't supported on delegated gateways.
@@ -106,8 +112,8 @@ TCP rate limiting allows the configuration of a number of connections in the spe
 
 ### HTTP Rate limit configured for service `backend` from all services in the Mesh
 
-{% if_version lte:2.8.x %}
-{% policy_yaml http-rate-limit %}
+{% if_version lte:2.5.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRateLimit
 mesh: default
@@ -136,8 +142,9 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
-{% if_version gte:2.9.x %}
-{% policy_yaml http-rate-limit-namespaced namespace=kuma-demo %}
+{% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRateLimit
 mesh: default
@@ -145,12 +152,73 @@ name: backend-rate-limit
 spec:
   targetRef:
     kind: MeshSubset
+    proxyTypes: ["Sidecar"]
     tags:
       app: backend
   from:
     - targetRef:
         kind: Mesh
       default:
+        local:
+          http:
+            requestRate:
+              num: 5
+              interval: 10s
+            onRateLimit:
+              status: 423
+              headers:
+                set:
+                  - name: "x-kuma-rate-limited"
+                    value: "true"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% endif_version %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshRateLimit
+mesh: default
+name: backend-rate-limit
+spec:
+  targetRef:
+    kind: MeshSubset
+    proxyTypes: ["Sidecar"]
+    tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        local:
+          http:
+            requestRate:
+              num: 5
+              interval: 10s
+            onRateLimit:
+              status: 423
+              headers:
+                set:
+                  - name: "x-kuma-rate-limited"
+                    value: "true"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshRateLimit
+mesh: default
+name: backend-rate-limit
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: backend
+  rules:
+    - default:
         local:
           http:
             requestRate:
@@ -168,8 +236,8 @@ spec:
 
 ### TCP rate limit for service backend from all services in the Mesh
 
-{% if_version lte:2.8.x %}
-{% policy_yaml from-backend %}
+{% if_version lte:2.5.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
@@ -192,8 +260,9 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
-{% if_version gte:2.9.x %}
-{% policy_yaml from-backend-namespaced namespace=kuma-demo %}
+{% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
@@ -201,12 +270,61 @@ mesh: default
 spec:
   targetRef:
     kind: MeshSubset
+    proxyTypes: ["Sidecar"]
     tags:
       app: backend
   from:
     - targetRef:
         kind: Mesh
       default:
+        local:
+          tcp:
+            connectionRate:
+              num: 5
+              interval: 10s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% endif_version %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshRateLimit
+name: backend-rate-limit
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    proxyTypes: ["Sidecar"]
+    tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        local:
+          tcp:
+            connectionRate:
+              num: 5
+              interval: 10s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshRateLimit
+name: backend-rate-limit
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: backend
+  rules:
+    - default:
         local:
           tcp:
             connectionRate:

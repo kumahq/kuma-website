@@ -12,30 +12,36 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 ## `targetRef` support matrix
 
 {% if_version gte:2.7.x %}
-{% tabs targetRef27x useUrlFragment=false %}
-{% tab targetRef27x Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`                |
 {% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`             | Allowed kinds                                 |
+| ----------------------- | --------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
+| `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshServiceSubset`     |
+{% endif_version %}
 {% endtab %}
 
-{% tab targetRef27x Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
 | `to[].targetRef.kind`   | `Mesh`                                                   |
 {% endtab %}
 
-{% tab targetRef27x Delegated Gateway %}
+{% tab Delegated Gateway %}
 
 `MeshFaultInjection` isn't supported on delegated gateways.
 
@@ -45,22 +51,22 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 {% endif_version %}
 
 {% if_version eq:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 | `from[].targetRef.kind` | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
 | `to[].targetRef.kind`   | `Mesh`                                                   |
 {% endtab %}
 
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 
 `MeshFaultInjection` isn't supported on delegated gateways.
 
@@ -143,8 +149,8 @@ ResponseBandwidth defines a configuration to limit the speed of responding to re
 ## Examples
 ### Service backend returns 500 for 50% of requests from frontend service
 
-{% if_version lte:2.8.x %}
-{% policy_yaml meshfaultinjection-backend-to-frontend-simple %}
+{% if_version lte:2.5.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -167,8 +173,10 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml meshfaultinjection-backend-to-frontend-simple-29x namespace=kuma-demo %}
+
+{% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -176,7 +184,60 @@ name: default-fault-injection
 spec:
   targetRef:
     kind: MeshSubset
+    proxyTypes: ["Sidecar"]
     tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags:
+          kuma.io/service: frontend
+      default:
+        http:
+          - abort:
+              httpStatus: 500
+              percentage: 50
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% endif_version %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshFaultInjection
+mesh: default
+name: default-fault-injection
+spec:
+  targetRef:
+    kind: MeshSubset
+    proxyTypes: ["Sidecar"]
+    tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags:
+          kuma.io/service: frontend
+      default:
+        http:
+          - abort:
+              httpStatus: 500
+              percentage: 50
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshFaultInjection
+mesh: default
+name: default-fault-injection
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: backend
   from:
     - targetRef:
@@ -194,8 +255,8 @@ spec:
 
 ### 50.5% of requests to service backend from any service is going to be delayed by 5 seconds
 
-{% if_version lte:2.8.x %}
-{% policy_yaml meshfaultinjection-from-all useUrlFragment %}
+{% if_version lte:2.5.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -217,8 +278,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml meshfaultinjection-from-all-29x namespace=kuma-demo useUrlFragment %}
+{% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -226,7 +288,58 @@ name: default-fault-injection
 spec:
   targetRef:
     kind: MeshSubset
+    proxyTypes: ["Sidecar"]
     tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: Mesh
+        name: default
+      default:
+        http:
+          - delay:
+              percentage: "50.5"
+              value: 5s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% endif_version %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshFaultInjection
+mesh: default
+name: default-fault-injection
+spec:
+  targetRef:
+    kind: MeshSubset
+    proxyTypes: ["Sidecar"]
+    tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: Mesh
+        name: default
+      default:
+        http:
+          - delay:
+              percentage: "50.5"
+              value: 5s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshFaultInjection
+mesh: default
+name: default-fault-injection
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: backend
   from:
     - targetRef:
@@ -243,8 +356,8 @@ spec:
 
 ### Backend service with a list of faults that are applied for frontend service
 
-{% if_version lte:2.8.x %}
-{% policy_yaml meshfaultinjection-list-of-faults useUrlFragment %}
+{% if_version lte:2.5.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -273,8 +386,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml meshfaultinjection-list-of-faults-29x namespace=kuma-demo useUrlFragment %}
+{% if_version gte:2.6.x %}
+{% if_version lte:2.8.x %}
+{% policy_yaml %}
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -282,7 +396,72 @@ name: default-fault-injection
 spec:
   targetRef:
     kind: MeshSubset
+    proxyTypes: ["Sidecar"]
     tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags:
+          kuma.io/service: frontend
+      default:
+        http:
+          - abort:
+              httpStatus: 500
+              percentage: "2.5"
+          - abort:
+              httpStatus: 500
+              percentage: 10
+          - delay:
+              value: 5s
+              percentage: 5
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+{% endif_version %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshFaultInjection
+mesh: default
+name: default-fault-injection
+spec:
+  targetRef:
+    kind: MeshSubset
+    proxyTypes: ["Sidecar"]
+    tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: MeshSubset
+        tags:
+          kuma.io/service: frontend
+      default:
+        http:
+          - abort:
+              httpStatus: 500
+              percentage: "2.5"
+          - abort:
+              httpStatus: 500
+              percentage: 10
+          - delay:
+              value: 5s
+              percentage: 5
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshFaultInjection
+mesh: default
+name: default-fault-injection
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: backend
   from:
     - targetRef:

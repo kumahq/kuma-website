@@ -12,15 +12,21 @@ The `MeshExternalService` resource allows you to declare external resources inst
 {% tip %}
 What is the difference between `MeshPassthrough` and `MeshExternalService`?
 
-The main difference is that `MeshExternalService` is assigned a custom domain and can be targeted by policies. `MeshPassthrough`, on the other hand, does not alter the address of the original host and cannot be targeted by policies.
+The main difference is that `MeshExternalService` assigns a custom domain and can be targeted by policies. 
+`MeshPassthrough` does not alter the address of the original host and cannot be targeted by policies.
 {% endtip %}
 
 {% warning %}
-Currently `MeshExternalService` resource only supports targeting by [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) with [Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress).
-This limitation will be lifted in the next release.
+Currently you can not configure granular [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) for MeshExternalService.
+You can only enable or disable whole traffic to MeshExternalService from Mesh by [Mesh resource configuration](/docs/{{ page.release }}/production/mesh/).
+More on this in [Controlling MeshExternalService access from Mesh](/docs/{{ page.release }}/networking/meshexternalservice/#controlling-meshexternalservice-access-from-mesh) section.
 {% endwarning %}
 
 ## Configuration
+
+{% if_version gte:2.9.x %}
+In case you want to use a `MeshExternalService`, you need to enable [ZoneEgress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/) and [mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/).
+{% endif_version %}
 
 ### Match
 
@@ -142,6 +148,34 @@ networking:
     port: 9901"
 ```
 
+### Controlling MeshExternalService access from Mesh 
+
+At this moment you cannot configure [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) for 
+MeshExternalService. But you can configure access to all external services on Mesh level. For example, you can disable 
+outgoing traffic to all MeshExternalServices:
+
+{% tabs %}
+{% tab Kubernetes %}
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+spec:
+  routing:
+    defaultForbidMeshExternalServiceAccess: true
+```
+{% endtab %}
+{% tab Universal %}
+```yaml
+type: Mesh
+name: default
+routing:
+  defaultForbidMeshExternalServiceAccess: true
+```
+{% endtab %}
+{% endtabs %}
+
 ## Examples
 
 TCP examples use https://tcpbin.com/ service which is a TCP echo service, check out the website for more details.
@@ -151,7 +185,7 @@ You can use [grpcurl](https://github.com/fullstorydev/grpcurl) as a client, it i
 
 For the examples below we're using a [single-zone deployment](/docs/{{ page.release }}/production/deployment/single-zone) and the following `HostnameGenerator`:
 
-{% policy_yaml hostnamegen %}
+{% policy_yaml %}
 {% raw %}
 ```yaml
 type: HostnameGenerator
@@ -173,7 +207,7 @@ If you're in [multi-zone deployment](/docs/{{ page.release }}/production/deploym
 
 This is a simple example of accessing `tcpbin.com` service without TLS that echos back bytes sent to it.
 
-{% policy_yaml tcp %}
+{% policy_yaml %}
 ```yaml
 type: MeshExternalService
 name: mes-tcp
@@ -200,7 +234,7 @@ echo 'echo this' | nc -q 3 mes-tcp.svc.meshext.local 4242
 This example builds up on the previous example adding TLS verification with default system CA.
 Notice that we're using a TLS port `4243`.
 
-{% policy_yaml tcp-tls %}
+{% policy_yaml %}
 ```yaml
 type: MeshExternalService
 name: mes-tcp-tls
@@ -236,7 +270,7 @@ In a real world scenario you should use `secret` and refer to it through it's na
 This example is purposefully simplified to make it easy to try out.
 {% endtip %}
 
-{% policy_yaml tcp-mtls %}
+{% policy_yaml %}
 ```yaml
 type: MeshExternalService
 name: mes-tcp-mtls
@@ -270,7 +304,7 @@ echo 'echo this' | nc -q 3 mes-tcp-mtls.svc.meshext.local 4244
 
 This is a simple example using plaintext HTTP.
 
-{% policy_yaml http %}
+{% policy_yaml %}
 ```yaml
 type: MeshExternalService
 name: mes-http
@@ -296,7 +330,7 @@ curl -s http://mes-http.svc.meshext.local
 
 This example builds up on the previous example adding TLS verification with default system CA.
 
-{% policy_yaml https %}
+{% policy_yaml %}
 ```yaml
 type: MeshExternalService
 name: mes-https
@@ -326,7 +360,7 @@ curl http://mes-https.svc.meshext.local
 
 This is a simple example using plaintext gRPC.
 
-{% policy_yaml grpc %}
+{% policy_yaml %}
 ```yaml
 type: MeshExternalService
 name: mes-grpc
@@ -353,7 +387,7 @@ grpcurl -plaintext -v mes-grpc.svc.meshext.local:9000 list
 This example builds up on the previous example adding TLS verification with default system CA.
 Notice that we're using a different port `9001`.
 
-{% policy_yaml grpcs %}
+{% policy_yaml %}
 ```yaml
 type: MeshExternalService
 name: mes-grpcs

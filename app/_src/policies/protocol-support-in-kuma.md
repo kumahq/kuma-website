@@ -21,8 +21,8 @@ By doing this,
 * you will be able to use [`MeshTrace`](/docs/{{ page.release }}/policies/meshtrace) policy
 {% endif_version %}
 
-{% tabs protocol-support useUrlFragment=false %}
-{% tab protocol-support Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 On `Kubernetes`, to give {{site.mesh_product_name}} a hint that your service supports `HTTP` protocol, you need to add an `appProtocol` to the `k8s` `Service` object.
 
 E.g.,
@@ -63,7 +63,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab protocol-support Universal %}
+{% tab Universal %}
 On `Universal`, to give {{site.mesh_product_name}} a hint that your service supports the `http` protocol, you need to add a `kuma.io/protocol` tag to the `inbound` interface of your `Dataplane`.
 
 E.g.,
@@ -105,8 +105,8 @@ Note that in this case no advanced HTTP or GRPC statistics or logging are availa
 
 As `Websockets` use pure `TCP` connections under the hood, your service have to be recognised by {{site.mesh_product_name}} as the `TCP` one. It's also the default behavior for {{site.mesh_product_name}} to assume the service's `inbound` interfaces are the TCP ones, so you don't have to do anything, but if you want to be explicit, you can configure your services exposing `Websocket` endpoints with `appProtocol` property. I.e.:
 
-{% tabs websocket-support useUrlFragment=false %}
-{% tab websocket-support Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: v1
 kind: Service
@@ -122,7 +122,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab websocket-support Universal %}
+{% tab Universal %}
 ```yaml
 type: Dataplane
 mesh: default

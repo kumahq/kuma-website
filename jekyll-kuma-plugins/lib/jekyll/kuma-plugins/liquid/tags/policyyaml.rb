@@ -10,6 +10,7 @@ module Jekyll
       module Tags
         class PolicyYaml < ::Liquid::Block
           TARGET_VERSION = Gem::Version.new("2.9.0")
+          TF_TARGET_VERSION = Gem::Version.new("2.10.0")
 
           def has_path(path)
             ->(node_path, _, _) { node_path == path }
@@ -41,9 +42,8 @@ module Jekyll
 
           def initialize(tag_name, markup, options)
             super
-            @tabs_name, *params_list = @markup.split(' ')
             @params = { "raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false" }
-            params_list.each do |item|
+            markup.strip.split(' ').each do |item|
               sp = item.split('=')
               @params[sp[0]] = sp[1] unless sp[1] == ''
             end
@@ -196,6 +196,62 @@ module Jekyll
             node
           end
 
+          def snake_case(str)
+            str.gsub(/([a-z])([A-Z])/, '\1_\2').gsub(/([A-Z])([A-Z][a-z])/, '\1_\2').downcase
+          end
+
+          def yaml_to_terraform(yaml_data)
+            type = yaml_data['type']
+            name = yaml_data['name']
+            resource_name = "konnect_#{snake_case(type)}"
+            terraform = "resource \"#{resource_name}\" \"#{name.gsub('-', '_')}\" {\n"
+            terraform += terraform_resource_prefix
+            yaml_data.each do |key, value|
+              next if key == 'mesh' # We use a reference at the end of the provider
+              terraform += convert_to_terraform(key, value, 1)
+            end
+            terraform += terraform_resource_suffix
+            terraform += "}\n"
+            terraform
+          end
+
+          def terraform_resource_prefix
+            <<-HEREDOC
+  provider = konnect-beta
+            HEREDOC
+          end
+
+          def terraform_resource_suffix
+            <<-HEREDOC
+  labels   = {
+    "kuma.io/mesh" = konnect_mesh.my_mesh.name
+  }
+  cp_id    = konnect_mesh_control_plane.my_meshcontrolplane.id
+  mesh     = konnect_mesh.my_mesh.name
+            HEREDOC
+          end
+
+          def convert_to_terraform(key, value, indent_level, is_in_array = false, is_last = false)
+            key = snake_case(key) unless key.empty?
+            indent = "  " * indent_level
+            if value.is_a?(Hash)
+              result = is_in_array ? "#{indent}{\n" : "#{indent}#{key} = {\n"
+              value.each_with_index do |(k, v), index|
+                result += convert_to_terraform(k, v, indent_level + 1, false, index == value.size - 1)
+              end
+              result += "#{indent}}#{is_in_array && !is_last ? ',' : ''}\n"
+            elsif value.is_a?(Array)
+              result = "#{indent}#{key} = [\n"
+              value.each_with_index do |v, index|
+                result += convert_to_terraform("", v, indent_level + 1, true, index == value.size - 1)
+              end
+              result += "#{indent}]#{is_in_array && !is_last ? ',' : ''}\n"
+            else
+              result = "#{indent}#{key} = \"#{value}\"#{is_in_array && !is_last ? ',' : ''}\n"
+            end
+            result
+          end
+
           def render(context)
             content = super
             return "" if content == ""
@@ -207,6 +263,7 @@ module Jekyll
             site_data = context.registers[:site].config
 
             use_meshservice = @params["use_meshservice"] == "true" && Gem::Version.new(release.value.dup.sub "x", "0") >= TARGET_VERSION
+            show_tf = Gem::Version.new(release.value.dup.sub "x", "0") >= TF_TARGET_VERSION
 
             namespace = @params["namespace"] || site_data['mesh_namespace']
             styles = [
@@ -217,12 +274,14 @@ module Jekyll
             ]
 
             contents = styles.map { |style| [style[:name], ""] }.to_h
+            terraform_content = ""
 
             YAML.load_stream(content) do |yaml_data|
               styles.each do |style|
                 processed_data = process_node(deep_copy(yaml_data), style)
                 contents[style[:name]] += "\n---\n" unless contents[style[:name]] == ''
                 contents[style[:name]] += YAML.dump(processed_data).gsub(/^---\n/, '').chomp
+                terraform_content += yaml_to_terraform(processed_data) if style[:name] == :uni
               end
             end
 
@@ -231,26 +290,30 @@ module Jekyll
               transformed = "{% raw %}\n#{transformed}{% endraw %}\n" if has_raw
               transformed
             end
+            terraform_content = "```hcl\n#{terraform_content}\n```\n"
+            terraform_content = "{% raw %}\n#{terraform_content}{% endraw %}\n" if has_raw
+
             version_path = release.value
             version_path = 'dev' if release.label == 'dev'
             edition = context.registers[:page]['edition']
             docs_path = "/#{edition}/#{version_path}"
             docs_path = "/docs/#{version_path}" if edition == 'kuma'
+            additional_classes = "codeblock" unless use_meshservice
 
             # Conditionally render tabs based on use_meshservice
             htmlContent = "
-{% tabs #{@tabs_name} useUrlFragment=false %}"
+{% tabs #{additional_classes} %}"
 
             if use_meshservice
               htmlContent += "
-{% tab #{@tabs_name} Kubernetes %}
+{% tab Kubernetes %}
 <div class=\"meshservice\">
  <label> <input type=\"checkbox\"> I am using <a href=\"#{docs_path}/networking/meshservice/\">MeshService</a> </label>
 </div>
 #{contents[:kube_legacy]}
 #{contents[:kube]}
 {% endtab %}
-{% tab #{@tabs_name} Universal %}
+{% tab Universal %}
 <div class=\"meshservice\">
  <label> <input type=\"checkbox\"> I am using <a href=\"#{docs_path}/networking/meshservice/\">MeshService</a> </label>
 </div>
@@ -259,13 +322,21 @@ module Jekyll
 {% endtab %}"
             else
               htmlContent += "
-{% tab #{@tabs_name} Kubernetes %}
+{% tab Kubernetes %}
 #{contents[:kube_legacy]}
 {% endtab %}
-{% tab #{@tabs_name} Universal %}
+{% tab Universal %}
 #{contents[:uni_legacy]}
 {% endtab %}"
             end
+
+            htmlContent += "
+{% tab Terraform %}
+<div style=\"margin-top: 4rem; padding: 0 1.3rem\">
+Please adjust <b>konnect_mesh_control_plane.my_meshcontrolplane.id</b> and <b>konnect_mesh.my_mesh.name</b> according to your current configuration
+</div>
+#{terraform_content}
+{% endtab %}" if edition != 'kuma' && show_tf
 
             htmlContent += "{% endtabs %}"
 

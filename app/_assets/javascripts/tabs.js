@@ -1,3 +1,5 @@
+// !! RIGHT NOW WE DO NOT HAVE A SYNCING MECHANISM
+// REFLECT YOUR CHANGES IN https://github.com/Kong/docs.konghq.com/blob/main/app/_assets/javascripts/tabs.js !!
 const $$ = ($el, sel) => $el.querySelectorAll(sel)
 const $ = ($el, sel) => $el.querySelector(sel)
 
@@ -71,13 +73,12 @@ class TabsComponent {
 
   selectTab(event) {
     event.stopPropagation();
-    if (!this.options['useUrlFragment']) {
-      event.preventDefault();
-    }
-    event.target.scrollIntoView({ behavior: "smooth", block: "start" });
-    const selectedTab = event.currentTarget;
-    this.setSelectedTab(selectedTab);
-    this.dispatchTabSelectedEvent(event.target.dataset.slug);
+    event.preventDefault();
+
+    const slug = event.target.dataset.slug || event.target.querySelector('[data-slug]')?.dataset?.slug;
+
+    this.setSelectedTab(event.currentTarget);
+    this.dispatchTabSelectedEvent(slug);
   }
 
   hideTabs(selectedTab) {
