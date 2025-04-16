@@ -11,7 +11,6 @@
     "anchor-js": "^4.3.1",
     "animejs": "^3.1.0",
     "braces": "3.0.3",
-    "express": "4.21.0",
     "jquery": "^3.5.1",
     "netlify-headers-parser": "^7.1.4",
     "netlify-redirect-parser": "^14.4.0",
