@@ -13,7 +13,7 @@ This page exposes the different requirements to run {{site.mesh_product_name}}.
 {{site.mesh_product_name}} is validated against two Kubernetes versions:
 
 {% if page.version_data.release != "dev" %}
-<iframe frameborder="0" scrolling="no" style="width:100%; height:118px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2Frelease-{{page.version_data.release | truncate: 3, ""}}%2Fmk%2Fdev.mk%23L24-L25&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
+<iframe frameborder="0" scrolling="no" style="width:100%; height:118px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2F{{page.version_data.branch}}%2Fmk%2Fdev.mk%23L24-L25&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
 {% endif %}
 
 {% if page.version_data.release == "dev" %}
@@ -26,12 +26,12 @@ This page exposes the different requirements to run {{site.mesh_product_name}}.
 {{site.mesh_product_name}} {{page.version_data.release}} by default uses [Envoy](https://www.envoyproxy.io/) version:
 
 {% if_version lte:2.6.x %}
-<iframe frameborder="0" scrolling="no" style="width:100%; height:97px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2Frelease-{{page.version_data.release | truncate: 3, ""}}%2Ftools%2Freleases%2Fversion.sh%23L11&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
+<iframe frameborder="0" scrolling="no" style="width:100%; height:97px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2F{{page.version_data.branch}}%2Ftools%2Freleases%2Fversion.sh%23L11&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
 {% endif_version %}
 
 {% if_version gte:2.7.x %}
 {% if page.version_data.release != "dev" %}
-<iframe frameborder="0" scrolling="no" style="width:100%; height:97px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2Frelease-{{page.version_data.release | truncate: 3, ""}}%2Fmk%2Fdev.mk%23L10&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
+<iframe frameborder="0" scrolling="no" style="width:100%; height:97px;" allow="clipboard-write" src="https://emgithub.com/iframe.html?target=https%3A%2F%2Fgithub.com%2Fkumahq%2Fkuma%2Fblob%2F{{page.version_data.branch}}%2Fmk%2Fdev.mk%23L10&style=default&type=code&showFileMeta=on&showFullPath=on"></iframe>
 {% endif %}
 {% endif_version %}
 
