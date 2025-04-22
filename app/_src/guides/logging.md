@@ -35,7 +35,7 @@ The below annotations can be used to adjust logging levels and components:
 
 `kuma.io/envoy-component-log-level`: Specifies the log level for Envoy system logs to enable by component. This allows targeting specific components, each with its own log level.
 
-**Note**: These annotations must be added to the pod or pod template of a deployment. Making this change will require a `restart` or `rollout` of the pod/deployment.
+**Note**: These annotations must be added to the pod or pod template of a workload. Making this change will trigger a `restart` or `rollout` of the workload.
 
 All components:
 ```yaml
