@@ -216,8 +216,7 @@ To check results we need to log into Grafana. First enable port forward to Grafa
 kubectl port-forward svc/grafana -n mesh-observability 3000:80
 ```
 
-Then navigate to browser [http://127.0.0.1:3000](http://127.0.0.1:3000) and check `Dataplane` dashboard. 
-You should see something similar to (propagation of metrics might take some time):
+Then navigate and browse [http://127.0.0.1:3000](http://127.0.0.1:3000), you will be presented with the default Grafana login page, use Grafana's default credential `admin/admin` to log in. By checking the `Dataplane` dashboard, you should see something similar to (propagation of metrics might take some time):
 
 <center>
 <img src="/assets/images/guides/otel-metrics/grafana-dataplane-view.png" alt="Dataplane Grafana dashboard"/>
