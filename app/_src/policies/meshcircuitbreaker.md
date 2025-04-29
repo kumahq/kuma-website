@@ -138,7 +138,10 @@ For **gRPC** requests, the outlier detection will use the HTTP status mapped fro
   when policy is configured for outlier detection.
 {% if_version gte:2.10.x %}
 - **`healthyPanicThreshold`** - (optional) Allows to configure panic threshold for Envoy cluster. If not specified,
-  the default is 50%. To disable panic mode, set to 0%.
+  the default is 50%. To disable panic mode, set to 0%. The panic threshold is a percentage that determines when Envoy enters panic mode
+  due to too few healthy hosts in an upstream cluster’s priority level. If the percentage of healthy hosts falls below the threshold (e.g., 50%),
+  Envoy ignores the unhealthy status and sends traffic to all hosts in that priority level (by default). If the threshold is set to 0,
+  panic mode is disabled for that priority, and if all hosts are unhealthy, Envoy fails to select a host, returning a '503 - no healthy upstream' error.
 {% endif_version %}
 
 
