@@ -51,7 +51,7 @@ jobs:
             --exclude 'https://github.com/(/)?kumahq/kuma/pull/.*' \
             --exclude 'https://github.com/.*/.*/blob/.*#.*' \
             --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' \
-            --exclude 'https://github.com/kumahq/kuma/blob/master/CHANGELOG.md' \
+            --exclude 'https://github.com/kumahq/kuma/blob/.*/CHANGELOG.md' \
             --exclude ${URL}/docs/1. \
             --exclude 127.0.0.1 \
             --exclude https://cloudsmith.io/~kong/repos \
@@ -75,7 +75,7 @@ jobs:
             --exclude 'https://github.com/(/)?kumahq/kuma/pull/.*' \
             --exclude 'https://github.com/.*/.*/blob/.*#.*' \
             --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' \
-            --exclude 'https://github.com/kumahq/kuma/blob/master/CHANGELOG.md' \
+            --exclude 'https://github.com/kumahq/kuma/blob/.*/CHANGELOG.md' \
             --exclude 127.0.0.1 \
             --exclude https://cloudsmith.io/~kong/repos \
             --exclude https://linux.die.net \
