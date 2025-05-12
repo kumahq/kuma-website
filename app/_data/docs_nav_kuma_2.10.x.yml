@@ -276,6 +276,11 @@ items:
                 url: "/networking/meshexternalservice/#examples"
           - text: Transparent Proxying
             url: /networking/transparent-proxying/
+  - title: Resources
+    group: true
+    items:
+      - text: Mesh
+        url: "/resources/mesh/"
   - title: Policies
     group: true
     items:
