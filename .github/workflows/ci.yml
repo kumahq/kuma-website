@@ -103,7 +103,7 @@ jobs:
             --header 'accept-language: en-US' \
             --max-connections-per-host=8 \
             --max-response-body-size 100000000 \
-            --rate-limit 1 \
+            --rate-limit 5 \
             --proxy localhost:8081 \
             --skip-tls-verification
             --timeout 60
@@ -128,7 +128,7 @@ jobs:
             --header 'accept-language: en-US' \
             --max-connections-per-host=8 \
             --max-response-body-size 100000000 \
-            --rate-limit 1 \
+            --rate-limit 5 \
             --proxy localhost:8081 \
             --skip-tls-verification
             --timeout 60
