@@ -43,7 +43,7 @@ jobs:
           }' > Caddyfile
       - name: Start Caddy
         run: |
-          nohup caddy run --config Caddyfile > caddy.log 2>&1 &
+          nohup caddy run --config Caddyfile --admin off > caddy.log 2>&1 &
       - name: Wait for Pages changed to be neutral
         uses: fountainhead/action-wait-for-check@5a908a24814494009c4bb27c242ea38c93c593be # v1.2.0
         id: waitForCheck
