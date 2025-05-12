@@ -105,6 +105,7 @@ jobs:
             --max-response-body-size 100000000 \
             --rate-limit 50 \
             --proxy localhost:8081 \
+            --skip-tls-verification
             --timeout 60
       - name: link checker dev docs
         run: |
@@ -129,6 +130,7 @@ jobs:
             --max-response-body-size 100000000 \
             --rate-limit 50 \
             --proxy localhost:8081 \
+            --skip-tls-verification
             --timeout 60
       - name: Stop Caddy
         run: |
