@@ -28,6 +28,22 @@ jobs:
       - uses: actions/setup-go@0aaccfd150d50ccaeb58ebd88d36e91967a5f35b # v5.4.0
       - run: |
           go install github.com/raviqqe/muffet/v2@12a50b6f00f87ae983bbce560a886ad31a1611d7 # v2.10.8
+      - name: Install Caddy
+        run: |
+          sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+          curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+          curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+          sudo apt update
+          sudo apt install caddy
+      - name: Create Caddyfile
+        run: |
+          echo ":8080 
+            reverse_proxy https://github.com {
+              header_up Authorization "Bearer {env.GITHUB_TOKEN}"
+          }" > Caddyfile
+      - name: Start Caddy
+        run: |
+          nohup caddy run --config Caddyfile > caddy.log 2>&1 &
       - name: Wait for Pages changed to be neutral
         uses: fountainhead/action-wait-for-check@5a908a24814494009c4bb27c242ea38c93c593be # v1.2.0
         id: waitForCheck
@@ -90,6 +106,9 @@ jobs:
             --max-response-body-size 100000000 \
             --rate-limit 50 \
             --timeout 60
+      - name: Stop Caddy
+        run: |
+          pkill caddy
 
   installer-sh:
     name: Test installer.sh
