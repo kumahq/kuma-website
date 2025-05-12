@@ -57,7 +57,7 @@ jobs:
         run: |
           echo "import os" > mitm_script.py
           echo "from mitmproxy import http" > mitm_script.py
-          echo "GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "default-token")" > mitm_script.py
+          echo "GITHUB_TOKEN = os.environ.get(\"GITHUB_TOKEN\", \"default-token\")" > mitm_script.py
           echo "def request(flow: http.HTTPFlow):" >> mitm_script.py
           echo "    if 'github.com' in flow.request.pretty_host:" >> mitm_script.py
           echo "        flow.request.headers['Authorization'] = f"Bearer {GITHUB_TOKEN}" >> mitm_script.py
