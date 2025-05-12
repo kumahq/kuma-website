@@ -59,8 +59,6 @@ jobs:
         with:
           site_name: "kuma"
           max_timeout: 1200
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
       - name: link checker
         run: |
           $(go env GOPATH)/bin/muffet \
@@ -84,6 +82,7 @@ jobs:
             --max-connections-per-host=8 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
+            --proxy localhost:8080 \
             --timeout 60
       - name: link checker dev docs
         run: |
@@ -107,6 +106,7 @@ jobs:
             --max-connections-per-host=8 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
+            --proxy localhost:8080 \
             --timeout 60
       - name: Stop Caddy
         run: |
