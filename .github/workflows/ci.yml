@@ -43,7 +43,7 @@ jobs:
           }
           :8080 {
               reverse_proxy https://github.com {
-                  header_up Authorization "Bearer {env.GITHUB_TOKEN}"
+                  header_up Authorization "Bearer ${GITHUB_TOKEN}"
               }
           }' > Caddyfile
       - name: Start Caddy
