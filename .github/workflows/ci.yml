@@ -37,10 +37,10 @@ jobs:
           sudo apt install caddy
       - name: Create Caddyfile
         run: |
-          echo ":8080 
-            reverse_proxy https://github.com {
+          echo ':8080
+          reverse_proxy https://github.com {
               header_up Authorization "Bearer {env.GITHUB_TOKEN}"
-          }" > Caddyfile
+          }' > Caddyfile
       - name: Start Caddy
         run: |
           nohup caddy run --config Caddyfile > caddy.log 2>&1 &
