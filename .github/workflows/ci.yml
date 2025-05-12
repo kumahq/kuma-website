@@ -49,6 +49,23 @@ jobs:
       - name: Start Caddy
         run: |
           nohup caddy run --config Caddyfile > caddy.log 2>&1 &
+      - name: Install mitmproxy
+        run: |
+          sudo apt update
+          sudo apt install -y mitmproxy
+      - name: Write mitmproxy script
+        run: |
+          echo "import os" > mitm_script.py
+          echo "from mitmproxy import http" > mitm_script.py
+          echo "GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "default-token")" > mitm_script.py
+          echo "def request(flow: http.HTTPFlow):" >> mitm_script.py
+          echo "    if 'github.com' in flow.request.pretty_host:" >> mitm_script.py
+          echo "        flow.request.headers['Authorization'] = f"Bearer {GITHUB_TOKEN}" >> mitm_script.py
+      - name: Start mitmdump in background
+        run: |
+          nohup mitmdump -s mitm_script.py --listen-port 8081 > mitm.log 2>&1 &
+          echo $! > mitm.pid
+          sleep 5
       - name: Wait for Pages changed to be neutral
         uses: fountainhead/action-wait-for-check@5a908a24814494009c4bb27c242ea38c93c593be # v1.2.0
         id: waitForCheck
