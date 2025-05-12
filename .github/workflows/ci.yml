@@ -59,6 +59,8 @@ jobs:
         with:
           site_name: "kuma"
           max_timeout: 1200
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       - name: link checker
         run: |
           $(go env GOPATH)/bin/muffet \
