@@ -60,7 +60,7 @@ jobs:
           echo "GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', 'default-token')" >> mitm_script.py
           echo "def request(flow: http.HTTPFlow):" >> mitm_script.py
           echo "    if 'github.com' in flow.request.pretty_host:" >> mitm_script.py
-          echo "        flow.request.headers['Authorization'] = f'Bearer {GITHUB_TOKEN}'" >> mitm_script.py
+          echo "        flow.request.headers['authorization'] = f'Bearer {GITHUB_TOKEN}'" >> mitm_script.py
       - name: Start mitmdump in background
         run: |
           nohup mitmdump -s mitm_script.py --listen-port 8081 > mitm.log 2>&1 &
