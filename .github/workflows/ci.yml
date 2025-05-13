@@ -81,6 +81,8 @@ jobs:
         with:
           site_name: "kuma"
           max_timeout: 1200
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       - name: link checker
         run: |
           $(go env GOPATH)/bin/muffet \
@@ -103,7 +105,7 @@ jobs:
             --header 'accept-language: en-US' \
             --max-connections-per-host=8 \
             --max-response-body-size 100000000 \
-            --rate-limit 5 \
+            --rate-limit 50 \
             --proxy localhost:8081 \
             --skip-tls-verification
             --timeout 60
@@ -128,7 +130,7 @@ jobs:
             --header 'accept-language: en-US' \
             --max-connections-per-host=8 \
             --max-response-body-size 100000000 \
-            --rate-limit 5 \
+            --rate-limit 50 \
             --proxy localhost:8081 \
             --skip-tls-verification
             --timeout 60
