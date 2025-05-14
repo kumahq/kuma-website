@@ -508,6 +508,8 @@ items:
         url: /guides/rules/
       - text: Upgrading Transparent Proxy
         url: /guides/upgrading-transparent-proxy/
+      - text: Manage and restrict control plane permissions on Kubernetes
+        url: /guides/manage-and-restrict-control-plane-permissions/
   - title: Reference
     group: true
     items:
