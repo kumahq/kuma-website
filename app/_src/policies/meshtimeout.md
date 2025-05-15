@@ -295,7 +295,7 @@ spec:
   targetRef:
     kind: Dataplane
     labels:
-      app: backend
+      app: demo-app
   rules:
     - default:
         idleTimeout: 60s
@@ -310,7 +310,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-#### Configuration for a single inbound port named `tcp-port`
+#### Configuration for a single inbound port named `http`
 
 {% policy_yaml namespace=kuma-demo %}
 ```yaml
@@ -321,8 +321,8 @@ spec:
   targetRef:
     kind: Dataplane
     labels:
-      app: backend
-    sectionName: tcp-port
+      app: demo-app
+    sectionName: http
   rules:
     - default:
         idleTimeout: 1h
