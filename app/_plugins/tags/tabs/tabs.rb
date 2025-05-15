@@ -4,55 +4,90 @@ require 'securerandom'
 module Jekyll
   module Tabs
     class TabsBlock < Liquid::Block
-      def initialize(tag_name, config, tokens)
+      def initialize(tag_name, markup, tokens)
         super
 
-        @name, options = config.split(' ', 2)
-        @options = options.split(' ').each_with_object({}) do |o, h|
-          key, value = o.split('=')
-          h[key] = value
-        end
+        @class = markup.strip.empty? ? '' : " #{markup.strip}"
       end
 
       def render(context)
+        tabs_id = SecureRandom.uuid
         environment = context.environments.first
-        environment['tabs'] ||= {}
-        file_path = context.registers[:page]['dir']
-        environment['tabs'][file_path] ||= {}
+        environment["tabs-#{tabs_id}"] = {}
+        environment['tabs-stack'] ||= []
 
-        if environment['tabs'][file_path].key? @name
-          raise SyntaxError.new("There's already a {% tabs %} block with the name '#{@name}'.")
-        end
-
-        environment['tabs'][file_path][@name] ||= {}
-
+        environment['tabs-stack'].push(tabs_id)
         super
+        environment['tabs-stack'].pop
 
-        options = @options
-        templateFile = File.read(File.expand_path('template.erb', __dir__))
-        template = ERB.new(templateFile)
-        template.result(binding)
+        ERB.new(self.class.template).result(binding)
+      end
+
+      def self.template
+        <<~ERB
+          <div class="tabs-component<%= @class %>">
+            <ul role="tablist" class="tabs-component-tabs">
+              <% environment['tabs-' + tabs_id].each_with_index do |(hash, _), index| %>
+                <li class="tabs-component-tab<%= index == 0 ? ' is-active' : '' %>" role="presentation">
+                  <a
+                    aria-controls="<%= hash.rstrip.gsub(' ', '-') %>"
+                    aria-selected="<%= index == 0 %>"
+                    href="#<%= hash.rstrip.gsub(' ', '-') %>"
+                    class="tabs-component-tab-a"
+                    role="tab"
+                    data-slug="<%= hash.rstrip.gsub(' ', '-') %>"
+                  >
+                    <%= hash %>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+
+            <div class="tabs-component-panels">
+              <% environment['tabs-' + tabs_id].each_with_index do |(key, value), index| %>
+                <section
+                  aria-hidden="<%= index != 0 %>"
+                  class="tabs-component-panel<%= index != 0 ? ' hidden' : '' %>"
+                  id="<%= key.rstrip.gsub(' ', '-') %>"
+                  role="tabpanel"
+                  data-panel="<%= key.rstrip.gsub(' ', '-') %>"
+                >
+                  <%= value %>
+                </section>
+              <% end %>
+            </div>
+          </div>
+        ERB
       end
     end
 
     class TabBlock < Liquid::Block
-      alias_method :render_block, :render
+      alias render_block render
 
       def initialize(tag_name, markup, tokens)
         super
+        raise SyntaxError, "No toggle name given in #{tag_name} tag" if markup == ''
 
-        @name, @tab = markup.split(' ', 2)
+        @title = markup.strip
       end
 
-      def render(context)
+      def render(context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+        # Add support for variable titles
+        path = @title.split('.')
+        # 0 is the page scope, 1 is the local scope
+        [0, 1].each do |k|
+          next unless context.scopes[k]
+
+          ref = context.scopes[k].dig(*path)
+          @title = ref if ref
+        end
+
         site = context.registers[:site]
         converter = site.find_converter_instance(::Jekyll::Converters::Markdown)
-        file_path = context.registers[:page]['dir']
-
         environment = context.environments.first
 
-        environment['tabs'][file_path][@name] ||= {}
-        environment['tabs'][file_path][@name][@tab] = converter.convert(render_block(context))
+        tabs_id = environment['tabs-stack'].last
+        environment["tabs-#{tabs_id}"][@title] = converter.convert(render_block(context))
       end
     end
   end

@@ -6,6 +6,187 @@ with `x.y.z` being the version you are planning to upgrade to.
 If such a section does not exist, the upgrade you want to perform
 does not have any particular instructions.
 
+## Upgrade to `2.11.x`
+
+### Introduce an option to skip RBAC creation
+
+By default, we create all RBAC resources required for the mesh to function properly. Since `2.11.x`, it's possible to skip the creation of `ClusterRole`, `ClusterRoleBinding`, `Role`, and `RoleBinding`. We introduced two flags:
+
+* `skipRBAC`: Disables the creation of all RBAC resources (CNI and control plane).
+* `controlPlane.skipClusterRoleCreation`: Disables the creation of `ClusterRole `and `ClusterRoleBinding` resources for the control plane only.
+
+> [!WARNING]
+> Before disabling automatic creation, ensure that the necessary RBAC resources are already in place, as the mesh components will not work correctly without them.
+
+### `kuma-sidecar` container has `allowPrivilegeEscalation` set to `false`
+
+In previous versions, Kuma did not explicitly set `allowPrivilegeEscalation`. Starting with this version, it is now explicitly set to `false`.
+
+Before upgrading, ensure that your configuration does not override this setting.
+
+### System namespace requires the `kuma.io/sidecar-injection: false` label
+
+To simplify the namespace selector logic in webhooks, we now require the `kuma.io/sidecar-injection: false` label to be set on the system namespace.
+
+Since Kubernetes v1.22, the API server automatically adds the `kubernetes.io/metadata.name` label to all namespaces. As a result, we’ve replaced the use of the custom `kuma.io/system-namespace` label in the secret webhook selector with this standard label.
+
+If you are running helm with `noHelmHooks` please set label on the system namespace:
+
+```bash
+kubectl label namespace SYSTEM_NAMESPACE kuma.io/sidecar-injection=disabled
+```
+
+### More Restricted `ClusterRole` for Control Plane and CNI
+
+We have split the `ClusterRole` for the control plane into two parts:
+
+* A cluster-scoped `ClusterRole` with read access to namespaced resources.
+* A `ClusterRole` with write permissions, now scoped more narrowly.
+
+By default, a `ClusterRoleBinding` is used to grant write permissions to the control plane, and no action is required from the user. However, if you want the control plane to have access only in specific namespaces, you can use the `namespaceAllowList` configuration to define where it should have write permissions.
+
+### Namespaces that are part of the Mesh requires `kuma.io/sidecar-injection` label to exist
+
+Since version 2.11.x, to improve performance and security, each namespace participating in the Mesh is required to have the `kuma.io/sidecar-injection` label set.
+
+Before upgrading, check whether any deployments are using the `kuma.io/sidecar-injection: true` or `enabled` label in namespaces that do not have the `kuma.io/sidecar-injection` label set. If so, add `kuma.io/sidecar-injection: false` to those namespaces.
+
+You can use this script to detect such namespaces:
+```bash
+for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}'); do
+  ns_label=$(kubectl get ns "$ns" -o jsonpath='{.metadata.labels.kuma\.io/sidecar-injection}' 2>/dev/null)
+  if [ -z "$ns_label" ]; then
+    kubectl get pods -n "$ns" --show-labels --no-headers 2>/dev/null | \
+      grep 'kuma.io/sidecar-injection' | \
+      awk -v ns="$ns" '{print ns "/" $1}'
+  fi
+done
+```
+
+You can later patch namespaces with the following command:
+
+```bash
+kubectl label namespace NAMESPACE_NAME kuma.io/sidecar-injection=disabled
+```
+
+## Upgrade to `2.10.x`
+
+### API Server behaviour changes
+
+The response of successful `DELETE` or `PUT` requests without warnings will now include "content-type: application/json" in the header and return an empty JSON object as the body.
+
+### Stricter validation rules for resource names
+
+In Kuma 2.7.x we deprecated usage of non [RFC 1123](https://www.rfc-editor.org/rfc/rfc1123.html) characters, and start from 2.10.x it's no longer possible to create or update non RFC compliant resource names. In order to be compatible with Kubernetes naming policy we updated the validation rules. 
+
+Old rule:
+
+> Valid characters are numbers, lowercase latin letters and '-', '_' symbols.
+
+New rule:
+
+> A lowercase RFC 1123 subdomain must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character
+
+Before the upgrade ensure that your resources don't use unsupported characters.
+
+#### Add RFC-1035-Label constraints for specific resources names
+
+Starting from version 2.10.x, we are deprecating the usage of non [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035.html) characters for names of `Mesh`, `Zone`, `MeshService`, `MeshExternalService`, `MeshMultizoneService` resources. These names will be rejected in the future.
+
+Old rule:
+
+> Valid characters are numbers, lowercase latin letters and '-', '_' symbols.
+
+New rule:
+
+> * Characters contain at most 63 characters.
+> * Characters contain only lowercase alphanumeric characters or '-'.
+> * Characters start with an alphabetic character.
+> * Characters end with an alphanumeric character.
+
+### On Universal, a MeshService is no longer generated for any dataplane that has an invalid `kuma.io/service` tag
+
+When using `MeshService`, we were automatically generating `MeshService` resources in Universal mode. However, due to stricter resource validation, we have decided not to generate the `MeshService` resource when a dataplane has a `kuma.io/service` that is not [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035.html) compliant.
+
+If you want the control plane on Universal to autogenerate `MeshService` resources, update the `kuma.io/service` tags to valid names. Otherwise, you must create them manually.
+
+Old rule:
+
+> Valid characters are numbers, lowercase latin letters and '-', '_' symbols.
+
+New rule:
+
+> A lowercase RFC 1035 Label Names must have at most 63 characters and consist of lower case alphanumeric characters or '-', and must start with an alphabetic character, end with an alphanumeric character.
+
+### New kind Dataplane for targetRef in policies
+
+This version introduced new `Dataplane` kind for top level `targetRef` in policies. Dataplane will replace `MeshSubset` kind.
+Making `MeshSubset` deprecated. Dataplane selects Dataplane resources by its labels and adds possibility to select single inbound
+by using `sectionName` field, as opposed to old MeshSubset which was selecting proxies by inbound tags. More detailed info in docs.
+
+### New Rules API
+
+This version adds new `rules` api that replaces `from` section in policies. Making `from` deprecated. Support was added for
+policies:
+- MeshAccessLog
+- MeshCircuitBreaker
+- MeshRateLimit
+- MeshTimeout
+- MeshTls
+
+You cannot combine inbound configuration with outbound traffic configuration in policies when using new Rules API.
+If you have old policies with both `from` and `to` you need to split them into separate policies before migrating to `rules`.
+
+### MeshHTTPRoute
+
+#### Unifying defaults for `statusCode`
+
+Due to misconfiguration, a default for `statusCode` for http route on Universal could have been missing.
+If you're using Universal mode, and you did not specify `default.filters[].requestRedirect.statusCode` value in your `MeshHTTPRoute` resource, you have to explicitly set it to 302.
+
+### MeshTrace
+
+#### Unifying defaults for `apiVersion`
+
+Due to misconfiguration, a default for `apiVersion` for traces on Universal could have been missing.
+If you're using Universal mode, and you did not specify `tracing.backends[].conf.apiVersion` value in your `MeshTrace` resource, you have to explicitly set it to "httpJson".
+
+#### Unifying defaults for `sharedSpanContext`
+
+Due to misconfiguration, a default `sharedSpanContext` for traces on Universal ("false") was different from on Kubernetes ("true").
+If you're using Universal mode, and you did not specify `tracing.backends[].conf.sharedSpanContext` value in your `MeshTrace` resource, you have to explicitly set it to "false" to continue using that value.
+
+### MeshMetric
+
+#### Unifying defaults for `path`
+
+Due to misconfiguration, a default `path` for metrics on Universal ("/metrics") was different from on Kubernetes ("/metrics/prometheus").
+If you're using Universal mode, and you did not specify `default.applications[].path` value in your `MeshMetric` resource, you have to explicitly set it to "/metrics" to continue using that value.
+
+### MeshPassthrough
+
+#### Unifying defaults for `passthroughMode`
+
+Due to misconfiguration, a default `passthroughMode` for `MeshPasstrhough` on Universal ("Matched") was different from on Kubernetes ("None").
+If you're using Kubernetes mode, and you did not specify `default.passthroughMode` value in your `MeshPasstrhough` resource, you have to explicitly set it to "None" to continue using that value.
+
+### MeshLoadBalancingStrategy
+
+#### Deprecation of `hashPolicies.type: SourceIP` and `maglev.type: SourceIP`
+
+The documentation did not mention the `SourceIP` type, but it was possible to create a policy using it instead of `Connection`. Since `SourceIP` 
+is not a correct value, we have decided to deprecate it. If you are using `SourceIP` in your policy, please update it to use `Connection` instead.
+
+### MeshHealthCheck
+
+#### Deprecation of `healthyPanicThreshold` for `MeshHealthCheck`
+
+The `healthyPanicThreshold` field in the `MeshHealthCheck` policy is deprecated and will be removed in a future release. It has been moved to the `MeshCircuitBreaker` policy.
+
+### Changes on revoking dataplane tokens
+
+Authentication between the control plane and dataplanes is now only checked at connection start. This means if a token expires or is revoked after the dataplane connects, the connection won't stop. The recommended action on token revocation is to restart either the control plane or the concerned dataplanes.
+
 ## Upgrade to `2.9.x`
 
 ### MeshAccessLog

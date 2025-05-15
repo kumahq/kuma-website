@@ -18,13 +18,13 @@ Download {{site.mesh_product_name}}:
 Make sure you have tar and gzip installed.
 {% endtip %}
 
-{% tabs install-kumactl useUrlFragment=false %}
-{% tab install-kumactl Script %}
+{% tabs %}
+{% tab Script %}
 
 Run the following script to automatically detect the operating system and download Kuma:
 
 <div class="language-sh">
-  <pre class="no-line-numbers"><code>curl -L {{site.links.web}}{% if page.edition %}/{{page.edition}}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -</code></pre>
+  <pre class="no-line-numbers"><code>curl -L {{site.links.web}}{% if page.edition != "kuma" %}/{{page.edition}}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -</code></pre>
 </div>
 
 You can omit the `VERSION` variable to install the latest version.

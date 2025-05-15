@@ -24,10 +24,15 @@ Note the following:
 
 ### Default TrafficRoute
 
+{% if_version gte:2.6.x %}
+Since {{site.mesh_product_name}} version 2.6.x, the control plane no longer creates a default `TrafficRoute`. The default TrafficRoute previously enabled traffic between all services in the mesh, so you now need to create it manually.
+{% endif_version %}
+{% if_version lte:2.5.x %}
 The control plane creates a default `TrafficRoute` every time a new `Mesh` is created. The default `TrafficRoute` enables the traffic between all the services in the mesh. 
+{% endif_version %}
 
-{% tabs traffic-route useUrlFragment=false %}
-{% tab traffic-route Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
@@ -49,7 +54,7 @@ spec:
 ```
 {% endtab %}
 
-{% tab traffic-route Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficRoute
 name: route-all-default
@@ -73,8 +78,8 @@ conf:
 
 Here is a full example of `TrafficRoute` policy
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
@@ -153,7 +158,7 @@ spec:
 ```
 {% endtab %}
 
-{% tab usage Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficRoute
 name: full-example
@@ -240,8 +245,8 @@ Here is an example of a `TrafficRoute` that splits the traffic over the two diff
 90% of the connections from `backend_default_svc_80` service will be initiated to `redis_default_svc_6379` with tag `version: 1.0`
 and 10% of the connections will be initiated to `version: 2.0`  
 
-{% tabs l4-traffic-split useUrlFragment=false %}
-{% tab l4-traffic-split Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
@@ -268,7 +273,7 @@ spec:
 ```
 {% endtab %}
 
-{% tab l4-traffic-split Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficRoute
 name: split-traffic
@@ -299,8 +304,8 @@ We can use `TrafficRoute` to fully reroute a TCP traffic to different version of
 
 Here is an example of a `TrafficRoute` that redirects the traffic to `another-redis_default_svc_6379` when `backend_default_svc_80` is trying to consume `redis_default_svc_6379`.  
 
-{% tabs l4-traffic-rerouting useUrlFragment=false %}
-{% tab l4-traffic-rerouting Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
@@ -320,7 +325,7 @@ spec:
 ```
 {% endtab %}
 
-{% tab l4-traffic-rerouting Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficRoute
 name: reroute-traffic
@@ -345,8 +350,8 @@ We can use `TrafficRoute` to split an HTTP traffic between services with differe
 Here is an example of a `TrafficRoute` that splits the traffic from `frontend_default_svc_80` to `backend_default_svc_80` between versions,
 but only on endpoints starting with `/api`. All other endpoints will go to `version: 1.0` 
 
-{% tabs l7-traffic-split useUrlFragment=false %}
-{% tab l7-traffic-split Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
@@ -380,7 +385,7 @@ spec:
 ```
 {% endtab %}
 
-{% tab l7-traffic-split Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficRoute
 name: api-split
@@ -422,8 +427,8 @@ We can use `TrafficRoute` to modify outgoing requests, by setting new path or ch
 
 Here is an example of a `TrafficRoute` that adds `x-custom-header` with value `xyz` when `frontend_default_svc_80` tries to consume `backend_default_svc_80`.
 
-{% tabs l7-traffic-modification useUrlFragment=false %}
-{% tab l7-traffic-modification Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
@@ -454,7 +459,7 @@ spec:
 ```
 {% endtab %}
 
-{% tab l7-traffic-modification Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficRoute
 name: add-header
@@ -492,8 +497,8 @@ In order to use L7 Traffic Modification, we need to [mark the destination servic
 We can use `TrafficRoute` to modify outgoing requests, by setting new path or changing request and response headers.
 
 Here is an example of a `TrafficRoute` that redirect traffic to `offers_default_svc_80` when `frontend_default_svc_80` is trying to consume `backend_default_svc_80` on `/offers` endpoint.
-{% tabs l7-traffic-rerouting useUrlFragment=false %}
-{% tab l7-traffic-rerouting Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficRoute
@@ -519,7 +524,7 @@ spec:
 ```
 {% endtab %}
 
-{% tab l7-traffic-rerouting Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficRoute
 name: http-reroute

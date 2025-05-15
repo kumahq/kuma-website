@@ -3,7 +3,7 @@
 
 
 
-<div class="tabs-component" data-tab-use-url-fragment="false">
+<div class="tabs-component">
   <ul role="tablist" class="tabs-component-tabs">
     
       <li class="tabs-component-tab is-active" role="presentation">
@@ -14,12 +14,12 @@
           class="tabs-component-tab-a"
           role="tab"
           data-slug="Kubernetes"
-          >
-            Kubernetes 
+        >
+          Kubernetes
         </a>
       </li>
     
-      <li class="tabs-component-tab " role="presentation">
+      <li class="tabs-component-tab" role="presentation">
         <a
           aria-controls="Universal"
           aria-selected="false"
@@ -27,8 +27,21 @@
           class="tabs-component-tab-a"
           role="tab"
           data-slug="Universal"
-          >
-            Universal 
+        >
+          Universal
+        </a>
+      </li>
+    
+      <li class="tabs-component-tab" role="presentation">
+        <a
+          aria-controls="Terraform"
+          aria-selected="false"
+          href="#Terraform"
+          class="tabs-component-tab-a"
+          role="tab"
+          data-slug="Terraform"
+        >
+          Terraform
         </a>
       </li>
     
@@ -38,7 +51,7 @@
     
       <section
         aria-hidden="false"
-        class="tabs-component-panel "
+        class="tabs-component-panel"
         id="Kubernetes"
         role="tabpanel"
         data-panel="Kubernetes"
@@ -60,6 +73,7 @@
     <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
     <span class="na">tags</span><span class="pi">:</span>
       <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+      <span class="na">kuma.io/env</span><span class="pi">:</span> <span class="s">dev</span>
   <span class="na">to</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
       <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
@@ -97,6 +111,7 @@
     <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
     <span class="na">tags</span><span class="pi">:</span>
       <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+      <span class="na">kuma.io/env</span><span class="pi">:</span> <span class="s">dev</span>
   <span class="na">to</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
       <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
@@ -149,6 +164,7 @@
     <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
     <span class="na">tags</span><span class="pi">:</span>
       <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+      <span class="na">kuma.io/env</span><span class="pi">:</span> <span class="s">dev</span>
   <span class="na">to</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
       <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
@@ -182,6 +198,7 @@
     <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshSubset</span>
     <span class="na">tags</span><span class="pi">:</span>
       <span class="na">app</span><span class="pi">:</span> <span class="s">frontend</span>
+      <span class="na">kuma.io/env</span><span class="pi">:</span> <span class="s">dev</span>
   <span class="na">to</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">targetRef</span><span class="pi">:</span>
       <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
@@ -206,6 +223,89 @@
         <span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">MeshService</span>
           <span class="na">name</span><span class="pi">:</span> <span class="s">backend</span>
           <span class="na">port</span><span class="pi">:</span> <span class="m">3001</span>
+</code></pre></div></div>
+
+
+      </section>
+    
+      <section
+        aria-hidden="true"
+        class="tabs-component-panel hidden"
+        id="Terraform"
+        role="tabpanel"
+        data-panel="Terraform"
+      >
+        
+<div style="margin-top: 4rem; padding: 0 1.3rem">
+Please adjust <b>konnect_mesh_control_plane.my_meshcontrolplane.id</b> and <b>konnect_mesh.my_mesh.name</b> according to your current configuration
+</div>
+
+<div class="language-hcl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">resource</span> <span class="s2">"konnect_mesh_http_route"</span> <span class="s2">"http_route_1"</span> <span class="p">{</span>
+  <span class="nx">provider</span> <span class="p">=</span> <span class="nx">konnect</span><span class="err">-</span><span class="nx">beta</span>
+  <span class="nx">type</span> <span class="p">=</span> <span class="s2">"MeshHTTPRoute"</span>
+  <span class="nx">name</span> <span class="p">=</span> <span class="s2">"http-route-1"</span>
+  <span class="nx">spec</span> <span class="p">=</span> <span class="p">{</span>
+    <span class="nx">target_ref</span> <span class="p">=</span> <span class="p">{</span>
+      <span class="nx">kind</span> <span class="p">=</span> <span class="s2">"MeshSubset"</span>
+      <span class="nx">tags</span> <span class="p">=</span> <span class="p">{</span>
+        <span class="nx">app</span> <span class="p">=</span> <span class="s2">"frontend"</span>
+        <span class="nx">kuma</span><span class="err">.</span><span class="nx">io</span><span class="err">/</span><span class="nx">env</span> <span class="p">=</span> <span class="s2">"dev"</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">to</span> <span class="p">=</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nx">target_ref</span> <span class="p">=</span> <span class="p">{</span>
+          <span class="nx">kind</span> <span class="p">=</span> <span class="s2">"MeshService"</span>
+          <span class="nx">name</span> <span class="p">=</span> <span class="s2">"backend"</span>
+          <span class="nx">section_name</span> <span class="p">=</span> <span class="s2">"http"</span>
+        <span class="p">}</span>
+        <span class="nx">rules</span> <span class="p">=</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nx">matches</span> <span class="p">=</span> <span class="p">[</span>
+              <span class="p">{</span>
+                <span class="nx">headers</span> <span class="p">=</span> <span class="p">[</span>
+                  <span class="p">{</span>
+                    <span class="nx">type</span> <span class="p">=</span> <span class="s2">"Exact"</span>
+                    <span class="nx">name</span> <span class="p">=</span> <span class="s2">"mirror-this-request"</span>
+                    <span class="nx">value</span> <span class="p">=</span> <span class="s2">"true"</span>
+                  <span class="p">}</span>
+                <span class="p">]</span>
+              <span class="p">}</span>
+            <span class="p">]</span>
+            <span class="nx">default</span> <span class="p">=</span> <span class="p">{</span>
+              <span class="nx">filters</span> <span class="p">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                  <span class="nx">type</span> <span class="p">=</span> <span class="s2">"RequestMirror"</span>
+                  <span class="nx">request_mirror</span> <span class="p">=</span> <span class="p">{</span>
+                    <span class="nx">percentage</span> <span class="p">=</span> <span class="s2">"30"</span>
+                    <span class="nx">backend_ref</span> <span class="p">=</span> <span class="p">{</span>
+                      <span class="nx">kind</span> <span class="p">=</span> <span class="s2">"MeshService"</span>
+                      <span class="nx">name</span> <span class="p">=</span> <span class="s2">"backend-experimental"</span>
+                      <span class="nx">port</span> <span class="p">=</span> <span class="s2">"3001"</span>
+                    <span class="p">}</span>
+                  <span class="p">}</span>
+                <span class="p">}</span>
+              <span class="p">]</span>
+              <span class="nx">backend_refs</span> <span class="p">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                  <span class="nx">kind</span> <span class="p">=</span> <span class="s2">"MeshService"</span>
+                  <span class="nx">name</span> <span class="p">=</span> <span class="s2">"backend"</span>
+                  <span class="nx">port</span> <span class="p">=</span> <span class="s2">"3001"</span>
+                <span class="p">}</span>
+              <span class="p">]</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+  <span class="nx">labels</span>   <span class="p">=</span> <span class="p">{</span>
+    <span class="s2">"kuma.io/mesh"</span> <span class="p">=</span> <span class="nx">konnect_mesh</span><span class="err">.</span><span class="nx">my_mesh</span><span class="err">.</span><span class="nx">name</span>
+  <span class="p">}</span>
+  <span class="nx">cp_id</span>    <span class="p">=</span> <span class="nx">konnect_mesh_control_plane</span><span class="err">.</span><span class="nx">my_meshcontrolplane</span><span class="err">.</span><span class="nx">id</span>
+  <span class="nx">mesh</span>     <span class="p">=</span> <span class="nx">konnect_mesh</span><span class="err">.</span><span class="nx">my_mesh</span><span class="err">.</span><span class="nx">name</span>
+<span class="p">}</span>
+
 </code></pre></div></div>
 
 

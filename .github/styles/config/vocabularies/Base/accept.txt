@@ -63,7 +63,7 @@ GKE|gke
 Goroutine
 Grafana
 grpcs?
-hardcoded
+hardcod(?:ing|ed)
 hostnames?
 httpbin
 HTTPie
@@ -101,6 +101,7 @@ MADR
 md
 minikube
 Maglev
+MeshExternalService
 MeshGateway
 matchers
 Mockbin
@@ -162,6 +163,7 @@ ttl
 txt
 uncheck
 uncomment
+unencrypted
 Unicode
 unix
 unsecure
@@ -178,6 +180,7 @@ wireframes?
 workspace
 yaml
 yml
+Xcode
 [xX]DS|xds
 Zipkin
 zsh

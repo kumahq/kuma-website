@@ -71,7 +71,7 @@ kumactl config control-planes add \
 
 {{site.mesh_product_name}} (`kuma-cp`) is now running! Now that {{site.mesh_product_name}} has been installed you can access the control-plane via either the GUI, the HTTP API, or the CLI:
 
-{% tabs docker-use useUrlFragment=false %}
+{% tabs %}
 {% tab docker-use GUI (Read-Only) %}
 
 {{site.mesh_product_name}} ships with a **read-only** GUI that you can use to retrieve {{site.mesh_product_name}} resources. By default the GUI listens on the API port and defaults to `:5681/gui`.

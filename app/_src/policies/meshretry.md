@@ -12,8 +12,8 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 ## TargetRef support matrix
 
 {% if_version gte:2.4.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
@@ -22,11 +22,17 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 | `to[].targetRef.kind` | `Mesh`, `MeshService`                                    |
 {% endif_version %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`             |
+{% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`           | Allowed kinds                                 |
+| --------------------- | --------------------------------------------- |
+| `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`  |
 {% endif_version %}
 {% if_version lte:2.5.x %}
 | `targetRef.kind`    | top level | to  | from |
@@ -38,7 +44,7 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 {% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 {% if_version gte:2.6.x %}
 | `targetRef`           | Allowed kinds                                             |
 | --------------------- | --------------------------------------------------------- |
@@ -56,7 +62,7 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 {% endtab %}
 
 {% if_version gte:2.6.x %}
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 | `targetRef`           | Allowed kinds                                            |
@@ -219,7 +225,7 @@ then the amount of time to wait before issuing a request is determined by [back 
 ### HTTP frontend to backend on 5xx
 
 {% if_version lte:2.8.x %}
-{% policy_yaml meshretry-http-28x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-http
@@ -245,8 +251,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml meshretry-http-29x namespace=kuma-demo use_meshservice=true %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-http
@@ -275,10 +282,41 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshRetry
+name: frontend-to-backend-retry-http
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
+      default:
+        http:
+          numRetries: 10
+          backOff:
+            baseInterval: 15s
+            maxInterval: 20m
+          retryOn:
+            - "5xx"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+
 ### gRPC frontend to backend on DeadlineExceeded
 
 {% if_version lte:2.8.x %}
-{% policy_yaml meshretry-grpc-28x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-grpc
@@ -304,8 +342,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml meshretry-grpc-29x namespace=kuma-demo use_meshservice=true %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-grpc
@@ -334,10 +373,40 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshRetry
+name: frontend-to-backend-retry-grpc
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
+      default:
+        grpc:
+          numRetries: 5
+          backOff:
+            baseInterval: 5s
+            maxInterval: 1m
+          retryOn:
+            - "DeadlineExceeded"
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
 ### TCP frontend to backend
 
 {% if_version lte:2.8.x %}
-{% policy_yaml meshretry-tcp-28x %}
+{% policy_yaml %}
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-tcp
@@ -358,8 +427,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml meshretry-tcp-29x namespace=kuma-demo use_meshservice=true %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-tcp
@@ -368,6 +438,31 @@ spec:
   targetRef:
     kind: MeshSubset
     tags:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        sectionName: http
+        _port: 8080
+      default:
+        tcp:
+          maxConnectAttempt: 5
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshRetry
+name: frontend-to-backend-retry-tcp
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
       app: frontend
   to:
     - targetRef:

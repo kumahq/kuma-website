@@ -58,7 +58,7 @@ Kubernetes doesn't include Gateway API CRDs, [install them from the standard cha
    [additional configuration](#customization).
 
 {% capture gateway %}
-{% tabs usage useUrlFragment=false %}
+{% tabs %}
 {% tab usage Standard install %}
 
 For Helm and `kumactl` installations, a `GatewayClass` named `kuma` is automatically installed

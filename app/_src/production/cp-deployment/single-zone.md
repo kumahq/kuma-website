@@ -5,9 +5,9 @@ content_type: how-to
 
 In order to deploy {{site.mesh_product_name}} in a single-zone deployment, the `kuma-cp` control plane must be started in `zone` mode:
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
-This is the standard installation method. 
+{% tabs %}
+{% tab Kubernetes %}
+This is the standard installation method. After the installation, make sure to restart application pods that are  running such that the data plane objects can be generated and the proxies can be connected.
 {% cpinstall cpsinglezone %}
 controlPlane.mode=zone
 {% endcpinstall %}
@@ -21,7 +21,7 @@ egress.enabled=true
 {% endcpinstall %}
 
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 
 {% tip %}
 When running a control plane in Universal mode, a database must be used to persist state for production deployments.
@@ -56,8 +56,8 @@ When the mode is not specified, {{site.mesh_product_name}} will always start in 
 
 Running administrative tasks (like generating auth tokens) requires [authentication by token](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/#admin-user-token) or a connection via localhost when interacting with the control plane.
 
-{% tabs auth useUrlFragment=false %}
-{% tab auth Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 You can authenticate by port-forwarding API service and extracting admin user token.
 
 ```sh

@@ -10,8 +10,8 @@ Regardless of what environment you use, you can always read the latest {{site.me
 We follow the best practices. You should always change your Kubernetes state with CRDs, that's why {{site.mesh_product_name}} disables `kumactl apply [..]` when running in K8s environments.
 {% endtip %}
 
-{% tabs policy-apply useUrlFragment=false %}
-{% tab policy-apply Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 ```sh
 echo "
@@ -22,7 +22,7 @@ echo "
 ```
 
 {% endtab %}
-{% tab policy-apply Universal %}
+{% tab Universal %}
 
 ```sh
 echo "
@@ -57,7 +57,7 @@ When policy is applied on Zone CP:
 
 Applying policy on Zone CP requires setting `kuma.io/origin` label to `zone` (`zone` is a keyword, not a name of the zone):
 
-{% policy_yaml example1 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: timeout-on-zone-cp
@@ -132,7 +132,7 @@ This might change in the future.
 
 Apply policy with `kuma.io/effect: shadow` label:
 
-{% policy_yaml example2 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: frontend-timeouts

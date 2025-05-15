@@ -32,8 +32,8 @@ The `ZoneIngress` entity includes a few sections:
 
 Zone Ingress without `advertisedAddress` and `advertisedPort` is not taken into account when generating Envoy configuration, because they cannot be accessed by data plane proxies from other zones.
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 To install `ZoneIngress` in Kubernetes when doing `kumactl install control-plane` use the `--ingress-enabled`. If using helm add `{{site.set_flag_values_prefix}}ingress.enabled: true` to your `values.yaml`.
 
 {{site.mesh_product_name}} will set `advertisedAddress` and `advertisedPort` automatically by checking the Service associated with this Zone Ingress.
@@ -46,7 +46,7 @@ You can provide your own public address and port using the following annotations
 * `kuma.io/ingress-public-port`
 
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 
 In Universal mode, the token is required to authenticate `ZoneIngress` instance. Create the token by using `kumactl` binary:
 

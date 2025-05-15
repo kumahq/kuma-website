@@ -160,8 +160,8 @@ To visualise your **containers' logs** and your **access logs** you need to have
 
 You can then add a {% if_version lte:2.5.x inline:true %}[TrafficLog policy](/docs/{{ page.release }}/policies/traffic-log){% endif_version %}{% if_version gte:2.6.x inline:true %}[MeshAccessLog policy](/docs/{{ page.release }}/policies/meshaccesslog){% endif_version %} to your mesh to start emitting access logs. Loki will pick up logs that are sent to `stdout`. To send logs to `stdout` you can configure the logging backend as shown below:
 
-{% tabs visualizing-logs useUrlFragment=false %}
-{% tab visualizing-logs Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -178,7 +178,7 @@ spec:
 ```
 
 {% endtab %}
-{% tab visualizing-logs Universal %}
+{% tab Universal %}
 ```yaml
 type: Mesh
 name: default
@@ -290,13 +290,13 @@ This dashboard lets you investigate aggregated statistics for each builtin gatew
 The recommended way to use Datadog is with its [agent](https://docs.datadoghq.com/agent).
 
 
-{% tabs datadog useUrlFragment=false %}
-{% tab datadog Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 The [Datadog agent docs](https://docs.datadoghq.com/agent/kubernetes/installation) have in-depth installation methods.
 {% endtab %}
 
-{% tab datadog Universal %}
-Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_usage).
+{% tab Universal %}
+Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent).
 {% endtab %}
 {% endtabs %}
 
@@ -307,12 +307,12 @@ Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_u
 
 You can add annotations to your pods to enable the Datadog agent to scrape metrics.
 
-{% tabs metrics useUrlFragment=false %}
-{% tab metrics Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 Please refer to the dedicated [documentation](https://docs.datadoghq.com/containers/kubernetes/prometheus/?tabs=helm#metric-collection-with-prometheus-annotations).
 {% endtab %}
 
-{% tab metrics Universal %}
+{% tab Universal %}
 You need to setup your agent with an [openmetrics.d/conf.yaml](https://docs.datadoghq.com/integrations/guide/prometheus-host-collection/#pagetitle).
 {% endtab %}
 {% endtabs %}
@@ -323,8 +323,8 @@ Checkout the
 1. Set up the [Datadog](https://docs.datadoghq.com/tracing/) agent.
 2. Set up [APM](https://docs.datadoghq.com/tracing/).
 
-{% tabs tracing useUrlFragment=false %}
-{% tab tracing Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 Configure the [Datadog agent for APM](https://docs.datadoghq.com/agent/kubernetes/apm/).
 
 If Datadog is not running on each node you can expose the APM agent port to {{site.mesh_product_name}} via Kubernetes service.
@@ -348,8 +348,8 @@ Check if the label of the datadog pod installed has not changed (`app.kubernetes
 if it did adjust accordingly.
 {% endtab %}
 
-{% tab tracing Universal %}
-Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent/basic_agent_usage)
+{% tab Universal %}
+Checkout the [Datadog agent docs](https://docs.datadoghq.com/agent)
 {% endtab %}
 {% endtabs %}
 

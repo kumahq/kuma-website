@@ -10,8 +10,8 @@ Do **not** combine with [Timeout policy](/docs/{{ page.release }}/policies/timeo
 ## TargetRef support matrix
 
 {% if_version gte:2.6.x %}
-{% tabs targetRef useUrlFragment=false %}
-{% tab targetRef Sidecar %}
+{% tabs %}
+{% tab Sidecar %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                                             |
@@ -21,24 +21,29 @@ Do **not** combine with [Timeout policy](/docs/{{ page.release }}/policies/timeo
 | `from[].targetRef.kind` | `Mesh`                                                                    |
 {% endif_version %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
+{% if_version eq:2.9.x %}
 | `targetRef`             | Allowed kinds                                                             |
 | ----------------------- | ------------------------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshHTTPRoute`                                     |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`                              |
 | `from[].targetRef.kind` | `Mesh`                                                                    |
 {% endif_version %}
+{% if_version gte:2.10.x %}
+| `targetRef`             | Allowed kinds                                                  |
+| ----------------------- | -------------------------------------------------------------- |
+| `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshHTTPRoute`, `MeshSubset(deprecated)` |
+| `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`                   |
+{% endif_version %}
 {% endtab %}
 
-{% tab targetRef Builtin Gateway %}
+{% tab Builtin Gateway %}
 | `targetRef`             | Allowed kinds                                             |
 | ----------------------- | --------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
 | `to[].targetRef.kind`   | `Mesh`                                                    |
-| `from[].targetRef.kind` | `Mesh`                                                    |
 {% endtab %}
 
-{% tab targetRef Delegated Gateway %}
+{% tab Delegated Gateway %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 | `targetRef`             | Allowed kinds                                                             |
@@ -159,7 +164,7 @@ The amount of time that proxy will wait for the request headers to be received. 
 This configuration will be applied to all data plane proxies inside of Mesh.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example1 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: timeout-global
@@ -179,7 +184,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml example1-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTimeout
 name: timeout-global
@@ -200,7 +205,7 @@ spec:
 #### Simple TCP configuration
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example2 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: tcp-timeout
@@ -218,7 +223,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml example2-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTimeout
 name: tcp-timeout
@@ -239,27 +244,7 @@ spec:
 This configuration will be applied to `backend` service inbound.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example3 %}
-```yaml
-type: MeshTimeout
-name: inbound-timeout
-mesh: default
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      app: backend
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        idleTimeout: 20s
-        connectionTimeout: 2s
-```
-{% endpolicy_yaml %}
-{% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml example3-29x namespace=kuma-demo %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -279,13 +264,81 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshTimeout
+name: inbound-timeout
+mesh: default
+spec:
+  targetRef:
+    kind: MeshSubset
+    tags:
+      app: backend
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        idleTimeout: 20s
+        connectionTimeout: 2s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshTimeout
+name: inbound-timeout
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: backend
+  rules:
+    - default:
+        idleTimeout: 60s
+        connectionTimeout: 2s
+        http:
+          requestTimeout: 10s
+          streamIdleTimeout: 1h
+          maxStreamDuration: 30m
+          maxConnectionDuration: 30m
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+#### Configuration for a single inbound port named `tcp-port`
+
+{% policy_yaml namespace=kuma-demo %}
+```yaml
+type: MeshTimeout
+name: inbound-timeout
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: backend
+    sectionName: tcp-port
+  rules:
+    - default:
+        idleTimeout: 1h
+        connectionTimeout: 10s
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
+{% if_version lte:2.9.x %}
 #### Full config applied to inbound and outbound of specific service
 
 This timeout configuration will be applied to all inbound connections to `frontend` and outbound connections
 from `frontend` to `backend` service
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example4 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -323,8 +376,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml example4-29x namespace=kuma-demo use_meshservice=true %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshTimeout
 name: inbound-timeout
@@ -363,6 +417,7 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
+{% endif_version %}
 
 {% if_version gte:2.3.x %}
 #### Target `MeshHTTPRoute`
@@ -374,7 +429,7 @@ In the following example the `MeshHTTPRoute` policy `route-to-backend-v2` redire
 `MeshTimeout` `backend-v2` configures timeouts only for requests that are going through `route-to-backend-v2` route. 
 
 {% if_version lte:2.8.x %}
-{% policy_yaml example5 %}
+{% policy_yaml %}
 ```yaml
 type: MeshHTTPRoute
 name: route-to-backend-v2
@@ -406,8 +461,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
-{% if_version gte:2.9.x %}
-{% policy_yaml example5-29x namespace=kuma-demo use_meshservice=true %}
+
+{% if_version eq:2.9.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: route-to-backend-v2
@@ -439,9 +495,42 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+{% if_version gte:2.10.x %}
+{% policy_yaml namespace=kuma-demo use_meshservice=true %}
+```yaml
+type: MeshHTTPRoute
+name: route-to-backend-v2
+mesh: default
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: frontend
+  to:
+    - targetRef:
+        kind: MeshService
+        name: backend
+        namespace: kuma-demo
+        _port: 3001
+        sectionName: http
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /v2
+          default:
+            backendRefs:
+              - kind: MeshService
+                name: backend-v2
+                namespace: kuma-demo
+                port: 3001
+```
+{% endpolicy_yaml %}
+{% endif_version %}
+
 You can see in the following route that the top level `targetRef` matches the previously defined `MeshHTTPRoute`.
 {% if_version lte:2.8.x %}
-{% policy_yaml example6 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: backend-v2
@@ -460,8 +549,9 @@ spec:
 ```
 {% endpolicy_yaml %}
 {% endif_version %}
+
 {% if_version gte:2.9.x %}
-{% policy_yaml example6-29x namespace=kuma-demo %}
+{% policy_yaml namespace=kuma-demo %}
 ```yaml
 type: MeshTimeout
 name: backend-v2
@@ -487,7 +577,7 @@ spec:
 
 This configuration will be applied on inbounds and outbounds of all gateways.
 
-{% policy_yaml example7 %}
+{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: mesh-gateways-timeout-all-default
@@ -517,15 +607,15 @@ spec:
 
 ### Defaults
 
-| Property                   | default |
-|----------------------------|---------|
-| `idleTimeout`                | `1h`      |
-| `connectionTimeout`          | `5s`      |
-| `http.requestTimeout`        | `15s`    |
-| `http.streamIdleTimeout`     | `30m`    |
-| `http.maxStreamDuration`     | `0s`     |
-| `http.maxConnectionDuration` | `0s`     |
-{% if_version inline:true gte:2.6.x %}| `http.requestHeadersTimeout` | `0s`      |{% endif_version %}
+| Property                               | default                      |
+|----------------------------------------|------------------------------|
+| `idleTimeout`                          | `1h`                         |
+| `connectionTimeout`                    | `5s`                         |
+| `http.requestTimeout`                  | `15s`                        |
+| `http.streamIdleTimeout`               | `30m`                        |
+| `http.maxStreamDuration`               | `0s`                         |
+| `http.maxConnectionDuration`           | `0s`                         |
+{% if_version inline:true gte:2.6.x %} | `http.requestHeadersTimeout` | `0s` |{% endif_version %}
 
 {% if_version eq:2.1.x %}
 If you don't specify a `from` or `to` section , the defaults from [`Timeout`](/docs/{{ page.release }}/policies/timeout) will be used. This

@@ -66,6 +66,8 @@ Sections below highlight the most important aspects of this feature, if you want
 
 ### Supported targetRef kinds
 
+{% if_version lte:2.9.x %}
+
 The following kinds affect the graph generation and performance:
 - all levels of `MeshService`
 - [top](/docs/{{ page.release }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
@@ -73,7 +75,7 @@ The following kinds affect the graph generation and performance:
 
 If you define a MeshTrafficPermission with other kind, like this one:
 
-{% policy_yaml meshtrafficpermission_other_kind %}
+{% policy_yaml %}
 ```yaml
 type: MeshTrafficPermission
 mesh: default
@@ -92,6 +94,39 @@ spec:
 {% endpolicy_yaml %}
 
 it **won't** affect performance.
+
+{% endif_version %}
+
+{% if_version gte:2.10.x %}
+
+The following kinds affect the graph generation and performance:
+- all levels of `MeshService`
+- [top](/docs/{{ page.release }}/policies/introduction) level `Dataplane` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` labels
+- [from](/docs/{{ page.release }}/policies/introduction) level `MeshSubset` with all tags
+
+If you define a MeshTrafficPermission with other kind, like this one:
+
+{% policy_yaml meshtrafficpermission_other_kind %}
+```yaml
+type: MeshTrafficPermission
+mesh: default
+name: mtp-mesh-to-mesh
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      customLabel: true
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        action: Allow
+```
+{% endpolicy_yaml %}
+
+it **won't** affect performance.
+
+{% endif_version %}
 
 ### Changes to the communication between services
 
@@ -191,8 +226,8 @@ You can also change the expiration time, but it should not exceed `KUMA_XDS_SERV
 
 To enable the debugging endpoints, you can set the `KUMA_DIAGNOSTICS_DEBUG_ENDPOINTS` environment variable to `true` before starting `kuma-cp` and use one of the following methods to retrieve the profiling information:
 
-{% tabs profiling useUrlFragment=false %}
-{% tab profiling pprof %}
+{% tabs %}
+{% tab pprof %}
 
 You can retrieve the profiling information with Golang's `pprof` tool, for example:
 
@@ -201,7 +236,7 @@ go tool pprof http://<IP of the CP>:5680/debug/pprof/profile?seconds=30
 ```
 
 {% endtab %}
-{% tab profiling curl %}
+{% tab curl %}
 
 You can retrieve the profiling information with `curl`, for example:
 
@@ -253,8 +288,8 @@ runtime:
 
 Envoy allows configuring the number of [worker threads ](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/intro/threading_model)used for processing requests. Sometimes it might be useful to change the default number of worker threads e.g.: high CPU machine with low traffic. Depending on the type of deployment, there are different mechanisms in `kuma-dp` to change Envoy’s concurrency level.
 
-{% tabs envoy useUrlFragment=false %}
-{% tab envoy Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 
 By default, Envoy runs with a concurrency level based on resource limit. For example, if you’ve started the `kuma-dp` container with CPU resource limit `7000m` then concurrency is going to be set to 7. It's also worth mentioning that concurrency for K8s is set from at least 2 to a maximum of 10 worker threads. In case when higher concurrency level is required it's possible to change the setting by using annotation `kuma.io/sidecar-proxy-concurrency` which allows to change the concurrency level without limits.
 
@@ -277,7 +312,7 @@ spec:
 ```
 {% endtab %}
 
-{% tab envoy Universal %}
+{% tab Universal %}
 
 Envoy on Linux, by default, starts with the flag `--cpuset-threads`. In this case, `cpuset` size is used to determine the number of worker threads on systems. When the value is not present then the number of worker threads is based on the number of hardware threads on the machine. `Kuma-dp` allows tuning that value by providing a `--concurrency` flag with the number of worker threads to create.
 

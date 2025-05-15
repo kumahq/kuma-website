@@ -16,7 +16,12 @@ This policy provides access control rules to define the traffic that is allowed 
 
 Traffic permissions requires [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) enabled on the [Mesh](/docs/{{ page.release }}/production/mesh/). Mutual TLS is required for {{site.mesh_product_name}} to validate the service identity with data plane proxy certificates. If Mutual TLS is disabled, {{site.mesh_product_name}} allows all service traffic. 
 
+{% if_version gte:2.6.x %}
+Since {{site.mesh_product_name}} version 2.6.x, the control plane no longer creates a default `TrafficPermission`. The default `TrafficPermission` allows all communication between all services in the new `Mesh`. Make sure to configure your policies to allow appropriate access to each of the services in your mesh.
+{% endif_version %}
+{% if_version lte:2.5.x %}
 The default `TrafficPermission` policy that {{site.mesh_product_name}} creates when you install allows all communication between all services in the new `Mesh`. Make sure to configure your policies to allow appropriate access to each of the services in your mesh.
+{% endif_version %}
 
 As of version 1.2.0, traffic permissions support the `ExternalService` resource. This lets you configure access control for traffic to services outside the mesh.
 
@@ -28,8 +33,8 @@ To specify which source services can consume which destination services, provide
 **Match all**: You can match any value of a tag by using `*` -- for example, like `version: '*'`.
 {% endtip %}
 
-{% tabs usage useUrlFragment=false %}
-{% tab usage Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
@@ -46,7 +51,7 @@ spec:
 ```
 Apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
-{% tab usage Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficPermission
 name: allow-all-traffic
@@ -79,8 +84,8 @@ These settings lock down traffic to and from the mesh, which means that requests
 
 First, define the `ExternalService` for a service that is not in the mesh.
 
-{% tabs external-service useUrlFragment=false %}
-{% tab external-service Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ExternalService
@@ -97,7 +102,7 @@ spec:
       enabled: true
 ```
 {% endtab %}
-{% tab external-service Universal %}
+{% tab Universal %}
 ```yaml
 type: ExternalService
 mesh: default
@@ -117,8 +122,8 @@ Then apply the `TrafficPermission` policy. In the destination section, specify a
 
 For example, to enable the traffic from the data plane proxies of service `web` or `backend` to the new `ExternalService`, apply:
 
-{% tabs traffic-permission useUrlFragment=false %}
-{% tab traffic-permission Kubernetes %}
+{% tabs %}
+{% tab Kubernetes %}
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
@@ -136,7 +141,7 @@ spec:
         kuma.io/service: httpbin
 ```
 {% endtab %}
-{% tab traffic-permission Universal %}
+{% tab Universal %}
 ```yaml
 type: TrafficPermission
 name: backend-to-httpbin

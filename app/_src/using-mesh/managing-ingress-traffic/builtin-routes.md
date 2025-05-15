@@ -16,7 +16,7 @@ Note that when using [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhtt
 ### `MeshHTTPRoute`
 
 {% if_version lte:2.8.x %}
-{% policy_yaml mesh-http-route-example %}
+{% policy_yaml %}
 ```yaml
 type: MeshHTTPRoute
 name: edge-gateway-route
@@ -46,7 +46,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
-{% policy_yaml mesh-http-route-example-29x use_meshservice=true %}
+{% policy_yaml use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: edge-gateway-route
@@ -107,7 +107,7 @@ conf:
 along with the following [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute) rule, the only one present in the mesh:
 
 {% if_version lte:2.8.x %}
-{% policy_yaml mesh-http-route-example-2 %}
+{% policy_yaml %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route
@@ -134,7 +134,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml mesh-http-route-example-2-29x use_meshservice=true %}
+{% policy_yaml use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route
@@ -175,7 +175,7 @@ will return a 404 because there are no routes attached for that listener.
 limit the traffic handled by those rules. Consider the following example:
 
 {% if_version lte:2.8.x %}
-{% policy_yaml mesh-http-route-example-3 %}
+{% policy_yaml %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route
@@ -213,7 +213,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml mesh-http-route-example-3-29x use_meshservice=true %}
+{% policy_yaml use_meshservice=true %}
 ```yaml
 type: MeshHTTPRoute
 name: http-route
@@ -264,7 +264,7 @@ If your traffic isn't HTTP, you can use [`MeshTCPRoute`](/docs/{{ page.release }
 between services.
 
 {% if_version lte:2.8.x %}
-{% policy_yaml mesh-tcp-route-example %}
+{% policy_yaml %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route
@@ -289,7 +289,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
-{% policy_yaml mesh-tcp-route-example-29x use_meshservice=true %}
+{% policy_yaml use_meshservice=true %}
 ```yaml
 type: MeshTCPRoute
 name: tcp-route
