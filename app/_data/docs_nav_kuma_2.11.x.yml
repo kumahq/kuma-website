@@ -122,6 +122,8 @@ items:
             url: /production/secure-deployment/dp-membership/
           - text: Secure access across services
             url: /production/secure-deployment/certificates/
+          - text: Manage control plane permissions on Kubernetes
+            url: /production/secure-deployment/manage-control-plane-permissions-on-kubernetes/
       - text: Kuma user interface
         url: /production/gui/
       - text: Inspect API
@@ -508,8 +510,8 @@ items:
         url: /guides/rules/
       - text: Upgrading Transparent Proxy
         url: /guides/upgrading-transparent-proxy/
-      - text: Manage and restrict control plane permissions on Kubernetes
-        url: /guides/manage-and-restrict-control-plane-permissions/
+      - text: Restrict permissions to selected namespaces on Kubernetes
+        url: /guides/restrict-permissions-to-selected-namespaces-on-kubernetes/
   - title: Reference
     group: true
     items:
