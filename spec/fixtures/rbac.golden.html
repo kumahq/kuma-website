@@ -1,0 +1,275 @@
+<link rel="stylesheet" href="http://localhost:8000/dist/vite/assets/application.css" />
+<script src="http://localhost:8000/dist/vite/assets/application.js" crossorigin="anonymous" type="module"></script>
+
+
+<div class="tabs-component">
+  <ul role="tablist" class="tabs-component-tabs">
+    
+      <li class="tabs-component-tab is-active" role="presentation">
+        <a
+          aria-controls="ClusterRole"
+          aria-selected="true"
+          href="#ClusterRole"
+          class="tabs-component-tab-a"
+          role="tab"
+          data-slug="ClusterRole"
+        >
+          ClusterRole
+        </a>
+      </li>
+    
+      <li class="tabs-component-tab" role="presentation">
+        <a
+          aria-controls="ClusterRoleBinding"
+          aria-selected="false"
+          href="#ClusterRoleBinding"
+          class="tabs-component-tab-a"
+          role="tab"
+          data-slug="ClusterRoleBinding"
+        >
+          ClusterRoleBinding
+        </a>
+      </li>
+    
+      <li class="tabs-component-tab" role="presentation">
+        <a
+          aria-controls="Role"
+          aria-selected="false"
+          href="#Role"
+          class="tabs-component-tab-a"
+          role="tab"
+          data-slug="Role"
+        >
+          Role
+        </a>
+      </li>
+    
+      <li class="tabs-component-tab" role="presentation">
+        <a
+          aria-controls="RoleBinding"
+          aria-selected="false"
+          href="#RoleBinding"
+          class="tabs-component-tab-a"
+          role="tab"
+          data-slug="RoleBinding"
+        >
+          RoleBinding
+        </a>
+      </li>
+    
+  </ul>
+
+  <div class="tabs-component-panels">
+    
+      <section
+        aria-hidden="false"
+        class="tabs-component-panel"
+        id="ClusterRole"
+        role="tabpanel"
+        data-panel="ClusterRole"
+      >
+        
+<div class="tabs-component codeblock">
+  <ul role="tablist" class="tabs-component-tabs">
+    
+      <li class="tabs-component-tab is-active" role="presentation">
+        <a aria-controls="kuma-control-plane" aria-selected="true" href="#kuma-control-plane" class="tabs-component-tab-a" role="tab" data-slug="kuma-control-plane">
+          kuma-control-plane
+        </a>
+      </li>
+    
+  </ul>
+
+  <div class="tabs-component-panels">
+    
+      <section aria-hidden="false" class="tabs-component-panel" id="kuma-control-plane" role="tabpanel" data-panel="kuma-control-plane">
+        
+<div class="language-yaml no-line-numbers highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">rbac.authorization.k8s.io/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterRole</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane</span>
+<span class="na">rules</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">apiGroups</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s1">'</span><span class="s">'</span>
+  <span class="na">resources</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">namespaces</span>
+  <span class="pi">-</span> <span class="s">pods</span>
+  <span class="pi">-</span> <span class="s">nodes</span>
+  <span class="pi">-</span> <span class="s">services</span>
+  <span class="na">verbs</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">get</span>
+  <span class="pi">-</span> <span class="s">list</span>
+  <span class="pi">-</span> <span class="s">watch</span>
+</code></pre></div></div>
+
+      </section>
+    
+  </div>
+</div>
+
+
+      </section>
+    
+      <section
+        aria-hidden="true"
+        class="tabs-component-panel hidden"
+        id="ClusterRoleBinding"
+        role="tabpanel"
+        data-panel="ClusterRoleBinding"
+      >
+        
+<div class="tabs-component codeblock">
+  <ul role="tablist" class="tabs-component-tabs">
+    
+      <li class="tabs-component-tab is-active" role="presentation">
+        <a aria-controls="kuma-control-plane" aria-selected="true" href="#kuma-control-plane" class="tabs-component-tab-a" role="tab" data-slug="kuma-control-plane">
+          kuma-control-plane
+        </a>
+      </li>
+    
+      <li class="tabs-component-tab" role="presentation">
+        <a aria-controls="kuma-control-plane-writer" aria-selected="false" href="#kuma-control-plane-writer" class="tabs-component-tab-a" role="tab" data-slug="kuma-control-plane-writer">
+          kuma-control-plane-writer
+        </a>
+      </li>
+    
+  </ul>
+
+  <div class="tabs-component-panels">
+    
+      <section aria-hidden="false" class="tabs-component-panel" id="kuma-control-plane" role="tabpanel" data-panel="kuma-control-plane">
+        
+<div class="language-yaml no-line-numbers highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">rbac.authorization.k8s.io/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterRoleBinding</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane</span>
+<span class="na">roleRef</span><span class="pi">:</span>
+  <span class="na">apiGroup</span><span class="pi">:</span> <span class="s">rbac.authorization.k8s.io</span>
+  <span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterRole</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane</span>
+<span class="na">subjects</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">ServiceAccount</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-system</span>
+</code></pre></div></div>
+
+      </section>
+    
+      <section aria-hidden="true" class="tabs-component-panel hidden" id="kuma-control-plane-writer" role="tabpanel" data-panel="kuma-control-plane-writer">
+        
+<div class="language-yaml no-line-numbers highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">rbac.authorization.k8s.io/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterRoleBinding</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane-writer</span>
+<span class="na">roleRef</span><span class="pi">:</span>
+  <span class="na">apiGroup</span><span class="pi">:</span> <span class="s">rbac.authorization.k8s.io</span>
+  <span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterRole</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane-writer</span>
+<span class="na">subjects</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">ServiceAccount</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-system</span>
+</code></pre></div></div>
+
+      </section>
+    
+  </div>
+</div>
+
+
+      </section>
+    
+      <section
+        aria-hidden="true"
+        class="tabs-component-panel hidden"
+        id="Role"
+        role="tabpanel"
+        data-panel="Role"
+      >
+        
+<div class="tabs-component codeblock">
+  <ul role="tablist" class="tabs-component-tabs">
+    
+      <li class="tabs-component-tab is-active" role="presentation">
+        <a aria-controls="kuma-control-plane" aria-selected="true" href="#kuma-control-plane" class="tabs-component-tab-a" role="tab" data-slug="kuma-control-plane">
+          kuma-control-plane
+        </a>
+      </li>
+    
+  </ul>
+
+  <div class="tabs-component-panels">
+    
+      <section aria-hidden="false" class="tabs-component-panel" id="kuma-control-plane" role="tabpanel" data-panel="kuma-control-plane">
+        
+<div class="language-yaml no-line-numbers highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">rbac.authorization.k8s.io/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Role</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-system</span>
+<span class="na">rules</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">apiGroups</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s1">'</span><span class="s">'</span>
+  <span class="na">resources</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">configmaps</span>
+  <span class="pi">-</span> <span class="s">secrets</span>
+  <span class="na">verbs</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">get</span>
+</code></pre></div></div>
+
+      </section>
+    
+  </div>
+</div>
+
+
+      </section>
+    
+      <section
+        aria-hidden="true"
+        class="tabs-component-panel hidden"
+        id="RoleBinding"
+        role="tabpanel"
+        data-panel="RoleBinding"
+      >
+        
+<div class="tabs-component codeblock">
+  <ul role="tablist" class="tabs-component-tabs">
+    
+      <li class="tabs-component-tab is-active" role="presentation">
+        <a aria-controls="kuma-control-plane" aria-selected="true" href="#kuma-control-plane" class="tabs-component-tab-a" role="tab" data-slug="kuma-control-plane">
+          kuma-control-plane
+        </a>
+      </li>
+    
+  </ul>
+
+  <div class="tabs-component-panels">
+    
+      <section aria-hidden="false" class="tabs-component-panel" id="kuma-control-plane" role="tabpanel" data-panel="kuma-control-plane">
+        
+<div class="language-yaml no-line-numbers highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">rbac.authorization.k8s.io/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">RoleBinding</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-system</span>
+<span class="na">roleRef</span><span class="pi">:</span>
+  <span class="na">apiGroup</span><span class="pi">:</span> <span class="s">rbac.authorization.k8s.io</span>
+  <span class="na">kind</span><span class="pi">:</span> <span class="s">Role</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane</span>
+<span class="na">subjects</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">kind</span><span class="pi">:</span> <span class="s">ServiceAccount</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">kuma-control-plane</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kuma-system</span>
+</code></pre></div></div>
+
+      </section>
+    
+  </div>
+</div>
+
+
+      </section>
+    
+  </div>
+</div>
