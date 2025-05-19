@@ -40,7 +40,11 @@ module Jekyll
 
             tab_output = grouped.map do |kind, docs|
               subtabs = docs.map do |doc|
-                name = doc.dig("metadata", "name") || "unnamed"
+                name = doc.dig("metadata", "name")
+                if name.nil? || name.strip.empty?
+                  raise ArgumentError, "RBAC resource of kind '#{kind}' is missing a non-empty metadata.name"
+                end
+
                 yaml = YAML.dump(doc).lines.reject { |line| line.strip == "---" }.join.strip
                 <<~SUBTAB
                   {% tab #{name} %}
