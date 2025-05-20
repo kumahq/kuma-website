@@ -41,7 +41,7 @@ Before installing {{ Kuma }}, you must manually create the following resources:
 
 You can find the complete set of required manifests here:
 
-{% rbacresources filename=app/_data/mesh_rbac_2.11.x.yaml %}
+{% rbacresources %}
 
 These manifests include the `{{ kuma }}-control-plane-writer` binding, granting the control plane write access to resources across all namespaces.
 

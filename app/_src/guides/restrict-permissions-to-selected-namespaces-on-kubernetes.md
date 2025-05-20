@@ -5,6 +5,9 @@ content_type: tutorial
 
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}
 {% assign Kuma = site.mesh_product_name %}
+{% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
+{% assign kuma-demo = kuma | append: "-demo" %}
+{% assign kuma-another-demo = kuma | append: "-another-demo" %}
 
 By default, {{ Kuma }} deployed on Kubernetes has permission to observe and react to events from resources across the entire cluster. While this behavior simplifies initial setup and testing, it might be too permissive for production environments. Limiting {{ Kuma }}'s access to only necessary namespaces helps enhance security and prevents potential impact on unrelated applications.
 
@@ -12,103 +15,139 @@ Starting from version 2.11, you can restrict the permissions granted to the {{ K
 
 ## Prerequisites
 
-Before you start, make sure you have a clean, running, and accessible Kubernetes cluster.
+Before you start, ensure you have:
 
-## Step 1: Install {{ Kuma }}
+* A clean, running, and accessible Kubernetes cluster
+* The `kubectl` command-line tool installed and configured
+* The `kumactl` command-line tool installed
 
-Install {{ Kuma }} with default options by running:
+## Restrict {{ Kuma }} to selected namespaces
 
+This section shows you how to restrict {{ Kuma }}'s permissions to selected namespaces, verify that restrictions are correctly applied, and update permissions if needed.
+
+Follow these steps:
+
+{% capture namespaceAllowList %}
+{% cpinstall namespaceAllowList %}
+namespaceAllowList={% raw %}{{% endraw %}{{ kuma-demo }}{% raw %}}{% endraw %}
+{% endcpinstall %}
+{% endcapture %}
+
+{% capture namespaceAllowListMore %}
+{% cpinstall namespaceAllowListMore %}
+namespaceAllowList={% raw %}{{% endraw %}{{ kuma-demo }},{{ kuma-another-demo }}{% raw %}}{% endraw %}
+{% endcpinstall %}
+{% endcapture %}
+
+{% capture cleanup %}
 {% tabs codeblock %}
 {% tab kumactl %}
 ```bash
-kumactl install control-plane | kubectl apply -f -
+kumactl install control-plane \
+  --set "{{ site.set_flag_values_prefix }}namespaceAllowList={% raw %}{{% endraw %}{{ kuma-demo }},{{ kuma-another-demo }}{% raw %}}{% endraw %}" \
+  | kubectl delete -f -
 ```
-{:.no-line-numbers}
 {% endtab %}
 {% tab Helm %}
 ```bash
-# Before installing {{ Kuma }} with Helm, configure your local Helm repository:
-# {{ site.links.web }}{{ docs }}/production/cp-deployment/kubernetes/#helm
-helm install \
-  --create-namespace \
-  -n {{ site.mesh_namespace }} \
-  {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
+helm uninstall {{ kuma }} -n {{ kuma }}-system
 ```
-{:.no-line-numbers}
 {% endtab %}
 {% endtabs %}
+{% endcapture %}
 
-## Step 2: Deploy demo applications
+1. **Install {{ Kuma }} restricted initially to just the `{{ kuma-demo }}` namespace**
 
-Next, deploy demo applications in two separate namespaces, `kuma-demo` and `kuma-demo-other`:
+   {{ namespaceAllowList | indent }}
 
-```bash
-kumactl install demo --without-gateway -n kuma-demo | kubectl apply -f -
-kumactl install demo --without-gateway -n kuma-demo-other | kubectl apply -f -
-```
-{:.no-line-numbers}
+2. **Deploy a demo application into the allowed namespace**
 
-## Step 3: Verify setup in the GUI
+   ```bash
+   kumactl install demo -n {{ kuma-demo }} | kubectl apply -f -
+   ```
 
-Port-forward the control plane GUI by running:
+3. **Verify the demo is working correctly in the allowed namespace**
 
-```bash
-kubectl port-forward svc/{{ site.mesh_cp_name }} -n {{ site.mesh_namespace }} 5681:5681
-```
-{:.no-line-numbers}
+   You should see `Dataplanes` created and pods with sidecar injection:
 
-Then, open your browser at [http://localhost:5681/gui](http://localhost:5681/gui):
+   ```bash
+   kubectl get dataplanes -n {{ kuma-demo }}
+   kubectl get pods -n {{ kuma-demo }}
+   ```
 
-* Click **Meshes** on the sidebar.
-* Select the **default** mesh.
-* Go to the **Services** tab.
+   Pods should show two containers each (`2/2`).
 
-You should see services from both `kuma-demo` and `kuma-demo-other` namespaces.
+4. **Deploy another demo application in a different namespace (`{{ kuma-another-demo }}`), which isn't yet allowed**
 
-Verify both namespaces have sidecar injection enabled:
+   ```bash
+   kumactl install demo -n {{ kuma-another-demo }} | kubectl apply -f -
+   ```
 
-```bash
-kubectl get namespace kuma-demo -o yaml
-kubectl get namespace kuma-demo-other -o yaml
-```
-{:.no-line-numbers}
+   Confirm sidecar injection is enabled:
 
-Both namespaces should have the label:
+   ```bash
+   kubectl get namespace {{ kuma-another-demo }} -o yaml
+   ```
 
-```yaml
-kuma.io/sidecar-injection: enabled
-```
-{:.no-line-numbers}
+   Namespace should have:
 
-## Step 4: Reinstall {{ Kuma }} with namespace restrictions
+   ```yaml
+   kuma.io/sidecar-injection: enabled
+   ```
 
-Now reinstall {{ Kuma }} to restrict permissions to only the `kuma-demo` namespace:
+5. **Verify that the second namespace is not yet working**
 
-{% cpinstall namespaceAllowList %}
-namespaceAllowList={kuma-demo}
-{% endcpinstall %}
+   `Dataplanes` won't appear, pods will have only one container, and no `RoleBindings` will exist.
 
-Restart pods in both demo namespaces:
+   ```bash
+   kubectl get dataplanes -n {{ kuma-another-demo }}
+   kubectl get pods -n {{ kuma-another-demo }}
+   kubectl get rolebindings -n {{ kuma-another-demo }}
+   ```
 
-```bash
-kubectl rollout restart deployment -n kuma-demo
-kubectl rollout restart deployment -n kuma-demo-other
-```
-{:.no-line-numbers}
+6. **Update the {{ Kuma }} installation to include the second namespace**
 
-## Step 5: Confirm restricted access
+   {{ namespaceAllowListMore | indent }}
 
-Open the GUI again at [http://localhost:5681/gui](http://localhost:5681/gui):
+7. **Restart workloads in the second namespace to apply the changes**
 
-* Go to **Meshes** → **default** → **Services**.
-* Now only services from the `kuma-demo` namespace should appear.
+   ```bash
+   kubectl rollout restart deployment -n {{ kuma-another-demo }}
+   ```
 
-Check `RoleBindings` in both namespaces:
+8. **Confirm the second namespace now works as expected**
 
-```bash
-kubectl get rolebindings -n kuma-demo
-kubectl get rolebindings -n kuma-demo-other
-```
-{:.no-line-numbers}
+   `Dataplanes` should appear, pods should have two containers, and `RoleBindings` should exist:
 
-You should see the `kuma-control-plane-writer` binding present only in `kuma-demo` namespace, but not in `kuma-demo-other`.
+   ```bash
+   kubectl get dataplanes -n {{ kuma-another-demo }}
+   kubectl get pods -n {{ kuma-another-demo }}
+   kubectl get rolebindings -n {{ kuma-another-demo }}
+   ```
+
+## Cleanup
+
+When you're finished, clean up your environment with these steps:
+
+1. **Remove demo applications and their namespaces**
+
+   ```bash
+   kumactl install demo -n {{ kuma-demo }} | kubectl delete -f -
+   kumactl install demo -n {{ kuma-another-demo }} | kubectl delete -f -
+   ```
+
+2. **Uninstall {{ Kuma }}**
+
+   {{ cleanup | indent }}
+
+## What you've learned
+
+In this guide, you've learned how to:
+
+* Restrict {{ Kuma }}'s control plane permissions to specific Kubernetes namespaces.
+* Verify namespace restrictions by checking dataplanes, sidecar injection, and RBAC resources.
+* Update your {{ Kuma }} configuration to manage additional namespaces.
+
+## Next steps
+
+To learn more about managing and restricting control plane permissions, see the [Manage control plane permissions on Kubernetes]({{ docs }}/production/secure-deployment/manage-control-plane-permissions-on-kubernetes/) documentation.
