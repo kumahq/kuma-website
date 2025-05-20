@@ -89,7 +89,7 @@ helm uninstall {{ kuma }} -n {{ kuma }}-system
    kubectl get namespace {{ kuma-another-demo }} -o yaml
    ```
 
-   Namespace should have:
+   Returned namespace should have an annotation:
 
    ```yaml
    kuma.io/sidecar-injection: enabled
@@ -145,7 +145,7 @@ When you're finished, clean up your environment with these steps:
 In this guide, you've learned how to:
 
 * Restrict {{ Kuma }}'s control plane permissions to specific Kubernetes namespaces.
-* Verify namespace restrictions by checking dataplanes, sidecar injection, and RBAC resources.
+* Verify namespace restrictions by checking `Dataplanes`, sidecar injection, and RBAC resources.
 * Update your {{ Kuma }} configuration to manage additional namespaces.
 
 ## Next steps
