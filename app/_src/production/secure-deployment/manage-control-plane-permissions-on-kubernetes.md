@@ -51,25 +51,17 @@ These manifests include the `{{ kuma-control-plane-workloads }}` binding, granti
 
 To disable automatic resource creation, use the following settings during installation:
 
-{% capture skipRBAC %}
+### Skip creation of **all** resources:
+
 {% cpinstall skipRBAC %}
 skipRBAC=true
 {% endcpinstall %}
-{% endcapture %}
 
-{% capture skipClusterRoleCreation %}
+### Skip only **cluster-scoped** resources:
+
 {% cpinstall skipClusterRoleCreation %}
 controlPlane.skipClusterRoleCreation=true
 {% endcpinstall %}
-{% endcapture %}
-
-* Skip creation of **all** resources:
-
-  {{ skipRBAC | indent }}
-
-* Skip only **cluster-scoped** resources:
-
-  {{ skipClusterRoleCreation | indent }}
 
 {% warning %}
 {{ Important }}If you choose to manage {{ Kuma }}'s RBAC resources yourself, make sure to keep them in sync during upgrades. When a new version of {{ Kuma }} is released, roles and role bindings may change, and it's your responsibility to update them accordingly.

@@ -36,7 +36,7 @@ If you already have a running Kubernetes cluster, either locally or in the cloud
 
 This section walks through configuring {{ Kuma }} to limit its access to specific namespaces. You’ll deploy test workloads, verify control plane behavior, and then expand access to additional namespaces.
 
-### First namespace
+### Install {{ Kuma }} which manages a single namespace
 
 #### Create and label the namespace
 
@@ -120,8 +120,7 @@ This confirms that:
 * The pod includes the `kuma-sidecar`
 * A `RoleBinding` named `{{ kuma-control-plane-workloads }}` grants elevated access to the control plane
 
-
-### Second namespace
+### Create a second namespace and check {{ Kuma }} doesn't run in it
 
 #### Create and label the second namespace
 
@@ -186,7 +185,9 @@ This confirms that:
 * The pod was started without sidecar injection
 * No `RoleBinding` was created to grant control plane access
 
-#### Update {{ Kuma }} to include the second namespace
+### Update {{ Kuma }} to also manage the second namespace
+
+#### Update {{ Kuma }} to include `second-namespace`
 
 ```bash
 helm upgrade \
