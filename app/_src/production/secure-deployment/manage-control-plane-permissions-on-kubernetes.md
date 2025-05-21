@@ -11,11 +11,9 @@ content_type: how-to
 
 By default, {{ Kuma }} deployed on Kubernetes reacts to events and observes all resources at the cluster scope. This approach benefits first-time users who want to explore its functionality and simplifies migration into the mesh. However, in production environments, restricting access to specific resources can enhance security and ensure that {{ Kuma }} does not impact running applications.
 
-Starting from version 2.11, {{ Kuma }} includes new features that let you limit the permissions it needs in Kubernetes.
-
 ## Restrict permissions to selected namespaces
 
-One of the new features allows you to define a list of namespaces that {{ Kuma }}'s control plane can access. When this list is set, {{ Kuma }} will only have permissions in those selected namespaces and in its own system namespace. It won't be able to access or manage resources in any other namespace.
+You can define a list of namespaces that {{ Kuma }}'s control plane can access. When this list is set, {{ Kuma }} will only have permissions in those selected namespaces and in its own system namespace. It won't be able to access or manage resources in any other namespace.
 
 ### Set allowed namespaces during installation
 
@@ -36,7 +34,7 @@ This will create a `RoleBinding` in each listed namespace, binding the `{{ kuma-
 If your environment restricts creating cluster-scoped resources (`ClusterRole` or `ClusterRoleBinding`), or if you prefer to manage permissions yourself, you can disable automatic creation during installation.
 
 {% warning %}
-{{ Important }}If you choose to manage {{ Kuma }}'s RBAC resources yourself, make sure to keep them in sync during upgrades. When new versions of {{ Kuma }} are released, roles and role bindings may change, and it's your responsibility to update them accordingly.
+{{ Important }}If you choose to manage {{ Kuma }}'s RBAC resources yourself, make sure to keep them in sync during upgrades. When new version of {{ Kuma }} is released, roles and role bindings may change, and it's your responsibility to update them accordingly.
 {% endwarning %}
 
 Before installing {{ Kuma }}, you must manually create the following resources:
