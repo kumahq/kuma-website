@@ -6,10 +6,9 @@ content_type: tutorial
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}
 {% assign Kuma = site.mesh_product_name %}
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
-{% assign kuma-demo = kuma | append: "-demo" %}
-{% assign kuma-another-demo = kuma | append: "-another-demo" %}
+{% assign kuma-control-plane-workload = kuma | append: "-control-plane-workload" %}
 
-By default, {{ Kuma }} deployed on Kubernetes has permission to observe and react to events from resources across the entire cluster. While this behavior simplifies initial setup and testing, it might be too permissive for production environments. Limiting {{ Kuma }}'s access to only necessary namespaces helps enhance security and prevents potential impact on unrelated applications.
+By default, {{ Kuma }} deployed on Kubernetes has permissions to observe and react to events from resources across the entire cluster. While this behavior simplifies initial setup and testing, it might be too permissive for production environments. Limiting {{ Kuma }}'s access to only necessary namespaces helps enhance security and prevents potential impact on unrelated applications.
 
 Starting from version 2.11, you can restrict the permissions granted to the {{ Kuma }} control plane. This guide explains how to limit {{ Kuma }} to specific namespaces, giving you greater control over security and resource management.
 
@@ -19,134 +18,131 @@ Before you start, ensure you have:
 
 * A clean, running, and accessible Kubernetes cluster
 * The `kubectl` command-line tool installed and configured
-* The `kumactl` command-line tool installed
 
 ## Restrict {{ Kuma }} to selected namespaces
 
 This section shows you how to restrict {{ Kuma }}'s permissions to selected namespaces, verify that restrictions are correctly applied, and update permissions if needed.
 
-Follow these steps:
+### Step 1: Create and label the initial namespace
 
-{% capture namespaceAllowList %}
+```bash
+kubectl create namespace first-namespace
+kubectl label namespace first-namespace kuma.io/sidecar-injection=enabled
+```
+
+### Step 2: Install {{ Kuma }} restricted to the first namespace
+
 {% cpinstall namespaceAllowList %}
-namespaceAllowList={% raw %}{{% endraw %}{{ kuma-demo }}{% raw %}}{% endraw %}
+namespaceAllowList={first-namespace}
 {% endcpinstall %}
-{% endcapture %}
 
-{% capture namespaceAllowListMore %}
+### Step 3: Deploy a test workload in the allowed namespace
+
+```bash
+kubectl run nginx --image=nginx --port=80 --namespace first-namespace
+```
+
+### Step 4: Verify the first namespace is working
+
+Check that the control plane is managing the workload in `first-namespace`:
+
+```bash
+kubectl get dataplanes --namespace first-namespace
+kubectl get pods --namespace first-namespace
+kubectl get rolebindings --namespace first-namespace
+```
+
+You should see:
+
+* A `Dataplane` resource listed
+* The pod showing two containers (`2/2`), one for `nginx` and one for the sidecar
+* A `RoleBinding` named `{{ kuma-control-plane-workload }}` that grants the control plane elevated access to manage resources within the namespace
+
+### Step 5: Create and label a second namespace
+
+```bash
+kubectl create namespace second-namespace
+kubectl label namespace second-namespace kuma.io/sidecar-injection=enabled
+```
+
+### Step 6: Deploy the same workload in the second namespace
+
+```bash
+kubectl run nginx --image=nginx --port=80 --namespace second-namespace
+```
+
+### Step 7: Verify the second namespace is not working
+
+```bash
+kubectl get dataplanes --namespace second-namespace
+kubectl get pods --namespace second-namespace
+```
+
+No `Dataplanes` should be present, and pods should show only one container (`1/1`).
+
+### Step 8: Update {{ Kuma }} to include the second namespace
+
 {% cpinstall namespaceAllowListMore %}
-namespaceAllowList={% raw %}{{% endraw %}{{ kuma-demo }},{{ kuma-another-demo }}{% raw %}}{% endraw %}
+namespaceAllowList={first-namespace,second-namespace}
 {% endcpinstall %}
-{% endcapture %}
 
-{% capture cleanup %}
-{% tabs codeblock %}
-{% tab kumactl %}
+### Step 9: Restart workloads in the second namespace
+
+Since the workload was created as a single pod (not part of a `Deployment`), delete the existing pod and run it again:
+
 ```bash
-kumactl install control-plane \
-  --set "{{ site.set_flag_values_prefix }}namespaceAllowList={% raw %}{{% endraw %}{{ kuma-demo }},{{ kuma-another-demo }}{% raw %}}{% endraw %}" \
-  | kubectl delete -f -
+kubectl delete pod --namespace second-namespace --all
+kubectl run nginx --image=nginx --port=80 --namespace second-namespace
 ```
-{% endtab %}
-{% tab Helm %}
+
+### Step 10: Verify the second namespace is now working
+
 ```bash
-helm uninstall {{ kuma }} -n {{ kuma }}-system
+kubectl get dataplanes --namespace second-namespace
+kubectl get pods --namespace second-namespace
+kubectl get rolebindings --namespace second-namespace
 ```
-{% endtab %}
-{% endtabs %}
-{% endcapture %}
 
-1. **Install {{ Kuma }} restricted initially to just the `{{ kuma-demo }}` namespace**
+Just like with the first namespace, you should see:
 
-   {{ namespaceAllowList | indent }}
-
-2. **Deploy a demo application into the allowed namespace**
-
-   ```bash
-   kumactl install demo -n {{ kuma-demo }} | kubectl apply -f -
-   ```
-
-3. **Verify the demo is working correctly in the allowed namespace**
-
-   You should see `Dataplanes` created and pods with sidecar injection:
-
-   ```bash
-   kubectl get dataplanes -n {{ kuma-demo }}
-   kubectl get pods -n {{ kuma-demo }}
-   ```
-
-   Pods should show two containers each (`2/2`).
-
-4. **Deploy another demo application in a different namespace (`{{ kuma-another-demo }}`), which isn't yet allowed**
-
-   ```bash
-   kumactl install demo -n {{ kuma-another-demo }} | kubectl apply -f -
-   ```
-
-   Confirm sidecar injection is enabled:
-
-   ```bash
-   kubectl get namespace {{ kuma-another-demo }} -o yaml
-   ```
-
-   Returned namespace should have an annotation:
-
-   ```yaml
-   kuma.io/sidecar-injection: enabled
-   ```
-
-5. **Verify that the second namespace is not yet working**
-
-   `Dataplanes` won't appear, pods will have only one container, and no `RoleBindings` will exist.
-
-   ```bash
-   kubectl get dataplanes -n {{ kuma-another-demo }}
-   kubectl get pods -n {{ kuma-another-demo }}
-   kubectl get rolebindings -n {{ kuma-another-demo }}
-   ```
-
-6. **Update the {{ Kuma }} installation to include the second namespace**
-
-   {{ namespaceAllowListMore | indent }}
-
-7. **Restart workloads in the second namespace to apply the changes**
-
-   ```bash
-   kubectl rollout restart deployment -n {{ kuma-another-demo }}
-   ```
-
-8. **Confirm the second namespace now works as expected**
-
-   `Dataplanes` should appear, pods should have two containers, and `RoleBindings` should exist:
-
-   ```bash
-   kubectl get dataplanes -n {{ kuma-another-demo }}
-   kubectl get pods -n {{ kuma-another-demo }}
-   kubectl get rolebindings -n {{ kuma-another-demo }}
-   ```
+* A `Dataplane` resource
+* The pod showing two containers (`2/2`)
+* A `RoleBinding` named `{{ kuma-control-plane-workload }}`
 
 ## Cleanup
 
 When you're finished, clean up your environment with these steps:
 
-1. **Remove demo applications and their namespaces**
+### Step 11: Delete test namespaces and workloads
 
-   ```bash
-   kumactl install demo -n {{ kuma-demo }} | kubectl delete -f -
-   kumactl install demo -n {{ kuma-another-demo }} | kubectl delete -f -
-   ```
+```bash
+kubectl delete namespace first-namespace second-namespace
+```
 
-2. **Uninstall {{ Kuma }}**
+### Step 12:  Uninstall {{ Kuma }}
 
-   {{ cleanup | indent }}
+{% tabs codeblock %}
+{% tab kumactl %}
+```bash
+kumactl install control-plane \
+  --set "{{ site.set_flag_values_prefix }}namespaceAllowList={first-namespace,second-namespace}" \
+  | kubectl delete -f -
+```
+{% endtab %}
+{% tab Helm %}
+```bash
+helm uninstall {{ kuma }} --namespace {{ kuma }}-system
+```
+{% endtab %}
+{% endtabs %}
 
 ## What you've learned
 
 In this guide, you've learned how to:
 
-* Restrict {{ Kuma }}'s control plane permissions to specific Kubernetes namespaces.
-* Verify namespace restrictions by checking `Dataplanes`, sidecar injection, and RBAC resources.
-* Update your {{ Kuma }} configuration to manage additional namespaces.
+* Restrict {{ Kuma }}'s control plane permissions to specific Kubernetes namespaces
+* Deploy test workloads and verify if the control plane manages them
+* Expand access to additional namespaces and verify updated behavior
 
 ## Next steps
 
