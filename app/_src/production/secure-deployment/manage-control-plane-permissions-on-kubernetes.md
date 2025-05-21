@@ -7,6 +7,7 @@ content_type: how-to
 {% assign Kuma = site.mesh_product_name %}
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
 {% assign kuma-control-plane-workload = kuma | append: "-control-plane-workload" %}
+{% capture Important %}{% if page.edition and page.edition != "kuma" %}**Important:** {% endif %}{% endcapture %}
 
 By default, {{ Kuma }} deployed on Kubernetes reacts to events and observes all resources at the cluster scope. This approach benefits first-time users who want to explore its functionality and simplifies migration into the mesh. However, in production environments, restricting access to specific resources can enhance security and ensure that {{ Kuma }} does not impact running applications.
 
@@ -33,6 +34,10 @@ This will create a `RoleBinding` in each listed namespace, binding the `{{ kuma-
 <!-- vale Google.Headings = YES -->
 
 If your environment restricts creating cluster-scoped resources (`ClusterRole` or `ClusterRoleBinding`), or if you prefer to manage permissions yourself, you can disable automatic creation during installation.
+
+{% warning %}
+{{ Important }}If you choose to manage {{ Kuma }}'s RBAC resources yourself, make sure to keep them in sync during upgrades. When new versions of {{ Kuma }} are released, roles and role bindings may change, and it's your responsibility to update them accordingly.
+{% endwarning %}
 
 Before installing {{ Kuma }}, you must manually create the following resources:
 
