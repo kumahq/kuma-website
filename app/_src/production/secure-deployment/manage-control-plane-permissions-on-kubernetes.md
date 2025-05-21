@@ -33,10 +33,6 @@ This will create a `RoleBinding` in each listed namespace, binding the `{{ kuma-
 
 If your environment restricts creating cluster-scoped resources (`ClusterRole` or `ClusterRoleBinding`), or if you prefer to manage permissions yourself, you can disable automatic creation during installation.
 
-{% warning %}
-{{ Important }}If you choose to manage {{ Kuma }}'s RBAC resources yourself, make sure to keep them in sync during upgrades. When new version of {{ Kuma }} is released, roles and role bindings may change, and it's your responsibility to update them accordingly.
-{% endwarning %}
-
 Before installing {{ Kuma }}, you must manually create the following resources:
 
 * `ClusterRole` and `ClusterRoleBinding` used by the control plane
@@ -50,7 +46,7 @@ You can find the complete set of required manifests here:
 These manifests include the `{{ kuma-control-plane-workloads }}` binding, granting the control plane write access to resources across all namespaces.
 
 {% warning %}
-**Important:** All required resources must be created **before** installing {{ Kuma }}.
+{{ Important }}All required resources must be created **before** installing {{ Kuma }}.
 {% endwarning %}
 
 To disable automatic resource creation, use the following settings during installation:
@@ -74,3 +70,7 @@ controlPlane.skipClusterRoleCreation=true
 * Skip only **cluster-scoped** resources:
 
   {{ skipClusterRoleCreation | indent }}
+
+{% warning %}
+{{ Important }}If you choose to manage {{ Kuma }}'s RBAC resources yourself, make sure to keep them in sync during upgrades. When a new version of {{ Kuma }} is released, roles and role bindings may change, and it's your responsibility to update them accordingly.
+{% endwarning %}
