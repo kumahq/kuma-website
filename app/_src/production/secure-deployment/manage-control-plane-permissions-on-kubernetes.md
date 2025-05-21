@@ -6,7 +6,7 @@ content_type: how-to
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}
 {% assign Kuma = site.mesh_product_name %}
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
-{% assign kuma-control-plane-workload = kuma | append: "-control-plane-workload" %}
+{% assign kuma-control-plane-workloads = kuma | append: "-control-plane-workloads" %}
 {% capture Important %}{% if page.edition and page.edition != "kuma" %}**Important:** {% endif %}{% endcapture %}
 
 By default, {{ Kuma }} deployed on Kubernetes reacts to events and observes all resources at the cluster scope. This approach benefits first-time users who want to explore its functionality and simplifies migration into the mesh. However, in production environments, restricting access to specific resources can enhance security and ensure that {{ Kuma }} does not impact running applications.
@@ -27,7 +27,7 @@ namespaceAllowList={kuma-demo}
 
 Replace `kuma-demo` with a comma-separated list of namespaces you want {{ Kuma }} to manage.
 
-This will create a `RoleBinding` in each listed namespace, binding the `{{ kuma-control-plane-workload }}` `ClusterRole` to that namespace. It will also configure {{ Kuma }}'s mutating and validating webhooks to only work within the specified namespaces.
+This will create a `RoleBinding` in each listed namespace, binding the `{{ kuma-control-plane-workloads }}` `ClusterRole` to that namespace. It will also configure {{ Kuma }}'s mutating and validating webhooks to only work within the specified namespaces.
 
 <!-- vale Google.Headings = NO -->
 ## Manually manage RBAC resources
@@ -49,7 +49,7 @@ You can find the complete set of required manifests here:
 
 {% rbacresources %}
 
-These manifests include the `{{ kuma-control-plane-workload }}` binding, granting the control plane write access to resources across all namespaces.
+These manifests include the `{{ kuma-control-plane-workloads }}` binding, granting the control plane write access to resources across all namespaces.
 
 {% warning %}
 **Important:** All required resources must be created **before** installing {{ Kuma }}.

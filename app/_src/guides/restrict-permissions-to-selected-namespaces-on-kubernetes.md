@@ -6,7 +6,7 @@ content_type: tutorial
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}
 {% assign Kuma = site.mesh_product_name %}
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
-{% assign kuma-control-plane-workload = kuma | append: "-control-plane-workload" %}
+{% assign kuma-control-plane-workloads = kuma | append: "-control-plane-workloads" %}
 
 By default, {{ Kuma }} deployed on Kubernetes has permissions to observe and react to events from resources across the entire cluster. While this behavior simplifies initial setup and testing, it might be too permissive for production environments. Limiting {{ Kuma }}'s access to only necessary namespaces helps enhance security and prevents potential impact on unrelated applications.
 
@@ -56,7 +56,7 @@ You should see:
 
 * A `Dataplane` resource listed
 * The pod showing two containers (`2/2`), one for `nginx` and one for the sidecar
-* A `RoleBinding` named `{{ kuma-control-plane-workload }}` that grants the control plane elevated access to manage resources within the namespace
+* A `RoleBinding` named `{{ kuma-control-plane-workloads }}` that grants the control plane elevated access to manage resources within the namespace
 
 ### Step 5: Create and label a second namespace
 
@@ -107,7 +107,7 @@ Just like with the first namespace, you should see:
 
 * A `Dataplane` resource
 * The pod showing two containers (`2/2`)
-* A `RoleBinding` named `{{ kuma-control-plane-workload }}`
+* A `RoleBinding` named `{{ kuma-control-plane-workloads }}`
 
 ## Cleanup
 
