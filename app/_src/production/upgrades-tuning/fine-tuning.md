@@ -292,6 +292,10 @@ kuma-dp run \
 {% if_version gte:2.11.x %}
 ### Incremental xDS
 
+{% warning %}
+This feature is experimental!
+{% endwarning %}
+
 Since version `2.11.x`, we have introduced a new way of exchanging configuration between the control plane and Envoy: [Incremental xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#incremental-xds).
 
 In this model, instead of sending the entire configuration on each update, the control plane sends only the changes (deltas). This can reduce CPU and memory usage on sidecars during updates but might slightly increases the load on the control plane, which must maintain state and compute the differences.
