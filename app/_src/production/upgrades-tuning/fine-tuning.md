@@ -293,7 +293,7 @@ kuma-dp run \
 ### Incremental xDS
 
 {% warning %}
-This feature is experimental!
+This feature is experimental
 {% endwarning %}
 
 Since version `2.11.x`, we have introduced a new way of exchanging configuration between the control plane and Envoy: [Incremental xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#incremental-xds).
