@@ -9,9 +9,11 @@ To start learning how {{site.mesh_product_name}} works, you run and secure a sim
 
 
 {% mermaid %}
+<!-- vale Google.Headings = NO -->
 ---
 title: Service graph of the demo app
 ---
+<!-- vale Google.Headings = YES -->
 flowchart LR
 demo-app(demo-app :5050)
 kv(kv :5050)
