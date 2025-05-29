@@ -11,9 +11,11 @@ In production, you typically set up a gateway to receive traffic external to the
 In this guide you will add Kong as a [delegated gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/delegated/) in front of the demo-app service and expose it publicly.
 
 {% mermaid %}
+<!-- vale Google.Headings = NO -->
 ---
 title: Service graph of the demo app with a Kong gateway on front
 ---
+<!-- vale Google.Headings = YES -->
 flowchart LR
   subgraph Kong Gateway 
     gw0(/ :80)

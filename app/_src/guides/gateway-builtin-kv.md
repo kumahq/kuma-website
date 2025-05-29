@@ -11,9 +11,11 @@ In production, you typically set up a gateway to receive traffic external to the
 In this guide you will add [a built-in gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
 
 {% mermaid %}
+<!-- vale Google.Headings = NO -->
 ---
-title: Service graph of the demo app with a builtin gateway on front
+title: service graph of the demo app with a builtin gateway on front
 ---
+<!-- vale Google.Headings = YES -->
 flowchart LR
   subgraph edge-gateway
     gw0(/ :8080)
