@@ -5,7 +5,7 @@ title: Add a builtin gateway
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use 
 a builtin gateway.
 
-In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
+In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
 inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
 In this guide you will add [a built-in gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
@@ -18,14 +18,30 @@ flowchart LR
   subgraph edge-gateway
     gw0(/ :8080)
   end
-  demo-app(demo-app :5000)
-  redis(redis :6379)
+  demo-app(demo-app :5050)
+  kv(`kv` :5050)
   gw0 --> demo-app 
-  demo-app --> redis
+  demo-app --> kv
 {% endmermaid %}
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
+
+{% tip %}
+If you are already familiar with quickstart you can set up required environment by running:
+
+{% if version == "preview" %}
+```sh
+helm install --create-namespace --namespace kuma-system kuma kuma/kuma --version {{ page.version }}
+kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
+```
+{% else %}
+```sh
+helm install --create-namespace --namespace kuma-system kuma kuma/kuma
+kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
+```
+{% endif %}
+{% endtip %}
 
 ## Start a gateway 
 
@@ -36,14 +52,7 @@ that will run the gateway.
 
 Create it by running:
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshGatewayInstance
-metadata:
-  name: edge-gateway
-  namespace: kuma-demo
-spec:
-  replicas: 1
-  serviceType: LoadBalancer" | kubectl apply -f -
+kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway-instance.yaml
 ```
 
 {% warning %}
@@ -62,21 +71,7 @@ One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.co
 Define a single HTTP listener on port 8080:
 
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshGateway
-mesh: default
-metadata:
-  name: my-gateway
-spec:
-  selectors:
-    - match:
-        kuma.io/service: edge-gateway_kuma-demo_svc
-  conf:
-    listeners:
-      - port: 8080
-        protocol: HTTP
-        tags:
-          port: http-8080" | kubectl apply -f -
+kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway.yaml
 ```
 
 Notice how the selector selects the `kuma.io/service` tag of the previously defined `MeshGatewayInstance`.
@@ -142,7 +137,7 @@ metadata:
 spec:
  targetRef:
    kind: MeshGateway
-   name: my-gateway
+   name: edge-gateway
  to:
  - targetRef:
      kind: Mesh
@@ -158,33 +153,15 @@ spec:
 ```
 {% endif_version %}
 {% if_version gte:2.9.x %}
+{% if site.mesh_namespace != "kuma-system" %}
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshHTTPRoute
-metadata:
- name: edge-gateway-route
- namespace: {{site.mesh_namespace}} 
- labels:
-   kuma.io/mesh: default
-spec:
- targetRef:
-   kind: MeshGateway
-   name: my-gateway
- to:
- - targetRef:
-     kind: Mesh
-   rules:
-   - matches:
-     - path:
-         type: PathPrefix
-         value: "/"
-     default:
-       backendRefs:
-       - kind: MeshService
-         name: demo-app
-         namespace: kuma-demo
-         port: 5000" | kubectl apply -f -
+curl -s kuma-demo://kustomize/overlays/002-with-gateway/mesh-http-route.yaml | sed 's/kuma-system/{{ site.mesh_namespace }}/g' | kubectl apply -f -
 ```
+{% else %}
+```sh
+kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-http-route.yaml
+```
+{% endif %}
 {% endif_version %}
 
 Now try to reach our gateway again: 
@@ -218,50 +195,12 @@ Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
 To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
 
-{% if_version lte:2.8.x %}
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: {{ site.mesh_namespace }} 
-  name: demo-app
-spec:
-  targetRef:
-    kind: MeshService
-    name: demo-app_kuma-demo_svc_5000
-  from:
-    - targetRef:
-        kind: MeshSubset
-        tags: 
-          kuma.io/service: edge-gateway_kuma-demo_svc 
-      default:
-        action: Allow" | kubectl apply -f -
+kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-traffic-permission.yaml
 ```
-{% endif_version %}
 
-{% if_version eq:2.9.x %}
-```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: kuma-demo 
-  name: demo-app
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      app: demo-app
-  from:
-    - targetRef:
-        kind: MeshSubset
-        tags: 
-          kuma.io/service: edge-gateway_kuma-demo_svc 
-      default:
-        action: Allow" | kubectl apply -f -
-```
-{% endif_version %}
+Which will create resource:
 
-{% if_version gte:2.10.x %}
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
@@ -281,33 +220,32 @@ spec:
       default:
         action: Allow" | kubectl apply -f -
 ```
-{% endif_version %}
 
 Check it works with:
 ```sh
-curl -XPOST -v ${PROXY_IP}:8080/increment
+curl -XPOST -v ${PROXY_IP}:8080/api/counter
 ```
 
 Now returns a 200 OK response:
 ```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
-> POST /increment HTTP/1.1
+> POST /api/counter HTTP/1.1
 > Host: 127.0.0.1:8080
-> User-Agent: curl/8.4.0
+> User-Agent: curl/8.7.1
 > Accept: */*
 >
+* Request completely sent off
 < HTTP/1.1 200 OK
-< x-powered-by: Express
 < content-type: application/json; charset=utf-8
-< content-length: 42
-< etag: W/"2a-gDIArbqhTz783Hls/ysnTwRRsmQ"
-< date: Fri, 09 Feb 2024 10:24:33 GMT
-< x-envoy-upstream-service-time: 6
+< x-demo-app-version: v1
+< date: Thu, 29 May 2025 10:14:06 GMT
+< content-length: 24
+< x-envoy-upstream-service-time: 91
 < server: Kuma Gateway
 <
+{"counter":1,"zone":""}
 * Connection #0 to host 127.0.0.1 left intact
-{"counter":3265,"zone":"local","err":null}
 ```
 
 ## Securing your public endpoint with a certificate
@@ -343,7 +281,7 @@ echo "apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
 mesh: default
 metadata:
-  name: my-gateway
+  name: edge-gateway
 spec:
   selectors:
     - match:
@@ -362,7 +300,7 @@ spec:
 
 Check the call to the gateway: 
 ```sh
-curl -X POST -v --insecure "https://${PROXY_IP}:8080/increment"
+curl -X POST -v --insecure "https://${PROXY_IP}:8080/api/counter"
 ```
 
 Which should output a successful call and indicate TLS is being used:
@@ -377,39 +315,39 @@ Which should output a successful call and indicate TLS is being used:
 * (304) (IN), TLS handshake, CERT verify (15):
 * (304) (IN), TLS handshake, Finished (20):
 * (304) (OUT), TLS handshake, Finished (20):
-* SSL connection using TLSv1.3 / AEAD-CHACHA20-POLY1305-SHA256
+* SSL connection using TLSv1.3 / AEAD-CHACHA20-POLY1305-SHA256 / [blank] / UNDEF
 * ALPN: server accepted h2
 * Server certificate:
 *  subject: CN=127.0.0.1
-*  start date: Feb  9 10:49:13 2024 GMT
-*  expire date: Feb  8 10:49:13 2025 GMT
+*  start date: May 29 10:15:05 2025 GMT
+*  expire date: May 29 10:15:05 2026 GMT
 *  issuer: CN=127.0.0.1
 *  SSL certificate verify result: self signed certificate (18), continuing anyway.
 * using HTTP/2
-* [HTTP/2] [1] OPENED stream for https://127.0.0.1:8080/increment
+* [HTTP/2] [1] OPENED stream for https://127.0.0.1:8080/api/counter
 * [HTTP/2] [1] [:method: POST]
 * [HTTP/2] [1] [:scheme: https]
 * [HTTP/2] [1] [:authority: 127.0.0.1:8080]
-* [HTTP/2] [1] [:path: /increment]
-* [HTTP/2] [1] [user-agent: curl/8.4.0]
+* [HTTP/2] [1] [:path: /api/counter]
+* [HTTP/2] [1] [user-agent: curl/8.7.1]
 * [HTTP/2] [1] [accept: */*]
-> POST /increment HTTP/2
+> POST /api/counter HTTP/2
 > Host: 127.0.0.1:8080
-> User-Agent: curl/8.4.0
+> User-Agent: curl/8.7.1
 > Accept: */*
 >
+* Request completely sent off
 < HTTP/2 200
-< x-powered-by: Express
 < content-type: application/json; charset=utf-8
-< content-length: 42
-< etag: W/"2a-BZZq4nXMINsG8HLM31MxUPDwPXk"
-< date: Fri, 09 Feb 2024 13:41:11 GMT
-< x-envoy-upstream-service-time: 19
+< x-demo-app-version: v1
+< date: Thu, 29 May 2025 10:15:40 GMT
+< content-length: 24
+< x-envoy-upstream-service-time: 56
 < server: Kuma Gateway
 < strict-transport-security: max-age=31536000; includeSubDomains
 <
+{"counter":3,"zone":""}
 * Connection #0 to host 127.0.0.1 left intact
-{"counter":3271,"zone":"local","err":null}%
 ```
 
 Note that we're using `--insecure` as we have used a self-signed certificate.

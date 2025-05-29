@@ -5,7 +5,7 @@ title: Use Kong as a delegated Gateway
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use 
 a delegated gateway.
 
-In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
+In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
 inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
 In this guide you will add Kong as a [delegated gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/delegated/) in front of the demo-app service and expose it publicly.
@@ -18,14 +18,30 @@ flowchart LR
   subgraph Kong Gateway 
     gw0(/ :80)
   end
-  demo-app(demo-app :5000)
-  redis(redis :6379)
+  demo-app(demo-app :5050)
+  kv(kv :5050)
   gw0 --> demo-app 
-  demo-app --> redis
+  demo-app --> kv
 {% endmermaid %}
 
 ## Prerequisites
-- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
+
+{% tip %}
+If you are already familiar with quickstart you can set up required environment by running:
+
+{% if version == "preview" %}
+```sh
+helm install --create-namespace --namespace kuma-system kuma kuma/kuma --version {{ page.version }}
+kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
+```
+{% else %}
+```sh
+helm install --create-namespace --namespace kuma-system kuma kuma/kuma
+kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
+```
+{% endif %}
+{% endtip %}
 
 ## Install Kong ingress controller 
 
@@ -122,8 +138,9 @@ spec:
         value: /
     backendRefs:
     - name: demo-app
+      namespace: kuma-demo
       kind: Service
-      port: 5000 " | kubectl apply -f -
+      port: 5050 " | kubectl apply -f -
 ```
 
 {% warning %}
@@ -159,52 +176,6 @@ Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
 To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
 
-{% if_version lte:2.8.x %}
-```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: {{ site.mesh_namespace }} 
-  name: demo-app
-spec:
-  targetRef:
-    kind: MeshService
-    name: demo-app_kuma-demo_svc_5000
-  from:
-    - targetRef:
-        kind: MeshSubset
-        tags:
-          app.kubernetes.io/name: gateway
-          k8s.kuma.io/namespace: kong
-      default:
-        action: Allow" | kubectl apply -f -
-```
-{% endif_version %}
-
-{% if_version eq:2.9.x %}
-```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshTrafficPermission
-metadata:
-  namespace: kuma-demo 
-  name: demo-app
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      app: demo-app
-  from:
-    - targetRef:
-        kind: MeshSubset
-        tags:
-          app.kubernetes.io/name: gateway
-          k8s.kuma.io/namespace: kong
-      default:
-        action: Allow" | kubectl apply -f -
-```
-{% endif_version %}
-
-{% if_version gte:2.10.x %}
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
@@ -225,31 +196,28 @@ spec:
       default:
         action: Allow" | kubectl apply -f -
 ```
-{% endif_version %}
 
 Call the gateway again:
 ```sh
-curl -i $PROXY_IP/increment -XPOST
+curl -i $PROXY_IP/api/counter -XPOST
 ```
 
 Notice that the call succeeds:
 ```sh
-
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
-Content-Length: 41
+Content-Length: 24
 Connection: keep-alive
-x-powered-by: Express
-etag: W/"29-iu9zuSv48n703xjnEeBnBQzQFgA"
-date: Fri, 09 Feb 2024 15:57:27 GMT
-x-envoy-upstream-service-time: 7
+x-demo-app-version: v1
+date: Thu, 29 May 2025 11:07:03 GMT
+x-envoy-upstream-service-time: 59
 server: envoy
-X-Kong-Upstream-Latency: 11
-X-Kong-Proxy-Latency: 0
-Via: kong/3.5.0
-X-Kong-Request-Id: 886cc96df034ea37cfbbb0450a987049
+X-Kong-Upstream-Latency: 81
+X-Kong-Proxy-Latency: 1
+Via: 1.1 kong/3.9.0
+X-Kong-Request-Id: c63c57656349780c6b63191f80c85541
 
-{"counter":149,"zone":"local","err":null}%
+{"counter":1,"zone":""}
 ```
 
 ## Next steps
