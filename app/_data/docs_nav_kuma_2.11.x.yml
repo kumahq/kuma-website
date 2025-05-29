@@ -34,22 +34,22 @@ items:
     group: true
     items:
       - text: Deploy Kuma on Kubernetes
-        url: /quickstart/kubernetes-demo
+        url: /quickstart/kubernetes-demo-kv/
         items:
           - text: Prerequisites
-            url: "/quickstart/kubernetes-demo/#prerequisites"
+            url: "/quickstart/kubernetes-demo-kv/#prerequisites"
           - text: Start Kubernetes cluster
-            url: "/quickstart/kubernetes-demo/#start-kubernetes-cluster"
+            url: "/quickstart/kubernetes-demo-kv/#start-kubernetes-cluster"
           - text: Install Kuma
-            url: "/quickstart/kubernetes-demo/#install-kuma"
+            url: "/quickstart/kubernetes-demo-kv/#install-kuma"
           - text: Deploy demo application
-            url: "/quickstart/kubernetes-demo/#deploy-demo-application"
+            url: "/quickstart/kubernetes-demo-kv/#deploy-demo-application"
           - text: Explore GUI
-            url: "/quickstart/kubernetes-demo/#explore-the-gui"
+            url: "/quickstart/kubernetes-demo-kv/#explore-the-gui"
           - text: Introduce zero-trust security
-            url: "/quickstart/kubernetes-demo/#introduce-zero-trust-security"
+            url: "/quickstart/kubernetes-demo-kv/#introduce-zero-trust-security"
           - text: Next steps
-            url: "/quickstart/kubernetes-demo/#next-steps"
+            url: "/quickstart/kubernetes-demo-kv/#next-steps"
       - text: Deploy Kuma on Universal
         url: /quickstart/universal-docker-demo/
   - title: Kuma in Production
@@ -493,9 +493,9 @@ items:
       - text: Federate zone control plane
         url: /guides/federate/
       - text: Add a builtin Gateway
-        url: /guides/gateway-builtin/
+        url: /guides/gateway-builtin-kv/
       - text: Add Kong as a delegated Gateway
-        url: /guides/gateway-delegated/
+        url: /guides/gateway-delegated-kv/
       - text: Kubernetes Gateway API
         url: /guides/gateway-api/
       - text: Collect Metrics with OpenTelemetry

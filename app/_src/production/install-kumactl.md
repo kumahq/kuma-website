@@ -62,7 +62,12 @@ export PATH=$(pwd):$PATH
 
 ## Next steps
 {% if_version gte:2.6.x %}
+{% if_version lte:2.10.x %}
 * [Complete quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+{% endif_version %}
+{% endif_version %}
+{% if_version gte:2.11.x %}
+* [Complete quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
 {% endif_version %}
 {% if_version lte:2.5.x %}
 After you've installed `kumactl`, you can deploy {{site.mesh_product_name}} in standalone or multi-zone mode in either Kubernetes or Universal.

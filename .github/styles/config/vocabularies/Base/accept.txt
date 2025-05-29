@@ -67,7 +67,9 @@ hardcod(?:ing|ed)
 hostnames?
 httpbin
 HTTPie
+HTTP
 HTTPS?
+http
 https?
 [iI]nbounds?
 ini
@@ -91,6 +93,7 @@ kubectl
 kumactl
 kustomization
 Kustomize
+kv
 linkStyle
 Loggly
 loopback
@@ -168,6 +171,7 @@ unix
 unsecure
 upstreams?
 uri
+url?
 urls?
 uuid
 Valero
