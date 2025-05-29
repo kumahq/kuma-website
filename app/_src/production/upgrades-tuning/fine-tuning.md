@@ -66,8 +66,6 @@ Sections below highlight the most important aspects of this feature, if you want
 
 ### Supported targetRef kinds
 
-{% if_version lte:2.9.x %}
-
 The following kinds affect the graph generation and performance:
 - all levels of `MeshService`
 - [top](/docs/{{ page.release }}/policies/introduction) level `MeshSubset` and `MeshServiceSubset` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` tags
@@ -94,39 +92,6 @@ spec:
 {% endpolicy_yaml %}
 
 it **won't** affect performance.
-
-{% endif_version %}
-
-{% if_version gte:2.10.x %}
-
-The following kinds affect the graph generation and performance:
-- all levels of `MeshService`
-- [top](/docs/{{ page.release }}/policies/introduction) level `Dataplane` with `k8s.kuma.io/namespace`, `k8s.kuma.io/service-name`, `k8s.kuma.io/service-port` labels
-- [from](/docs/{{ page.release }}/policies/introduction) level `MeshSubset` with all tags
-
-If you define a MeshTrafficPermission with other kind, like this one:
-
-{% policy_yaml meshtrafficpermission_other_kind %}
-```yaml
-type: MeshTrafficPermission
-mesh: default
-name: mtp-mesh-to-mesh
-spec:
-  targetRef:
-    kind: Dataplane
-    labels:
-      customLabel: true
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
-        action: Allow
-```
-{% endpolicy_yaml %}
-
-it **won't** affect performance.
-
-{% endif_version %}
 
 ### Changes to the communication between services
 
@@ -324,3 +289,49 @@ kuma-dp run \
 
 {% endtab %}
 {% endtabs %}
+{% if_version gte:2.11.x %}
+### Incremental xDS
+
+{% warning %}
+This feature is experimental
+{% endwarning %}
+
+Since version `2.11.x`, we have introduced a new way of exchanging configuration between the control plane and Envoy: [Incremental xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#incremental-xds).
+
+In this model, instead of sending the entire configuration on each update, the control plane sends only the changes (deltas). This can reduce CPU and memory usage on sidecars during updates but might slightly increases the load on the control plane, which must maintain state and compute the differences.
+
+This feature can be especially beneficial for sidecars that do not use `reachableBackends` or `reachableServices`.
+
+You can enable it for the entire deployment by setting `KUMA_EXPERIMENTAL_DELTA_XDS: true`, or enable it for an individual sidecar (including Ingress and Egress):
+
+{% tabs %}
+{% tab Kubernetes %}
+Add the following annotation to the pod template to enable Incremental xDS for a specific sidecar:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: kuma-demo
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      annotations:
+        kuma.io/xds-transport-protocol-variant: DELTA_GRPC
+```
+{% endtab %}
+
+{% tab Universal %}
+
+Start your sidecar with the following environment variable to enable Incremental xDS:
+```bash
+KUMA_DATAPLANE_RUNTIME_ENVOY_XDS_TRANSPORT_PROTOCOL_VARIANT=DELTA_GRPC
+```
+
+{% endtab %}
+{% endtabs %}
+
+{% endif_version %}
