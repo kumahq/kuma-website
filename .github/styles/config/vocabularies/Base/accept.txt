@@ -67,9 +67,9 @@ hardcod(?:ing|ed)
 hostnames?
 httpbin
 HTTPie
-HTTP
+HTTP?
 HTTPS?
-http
+http?
 https?
 [iI]nbounds?
 ini

@@ -85,7 +85,7 @@ kong-controller-675d48d48-vqllj   2/2     Running   2 (69s ago)   72s
 kong-gateway-674c44c5c4-cvsr8     2/2     Running   0             72s
 ```
 
-Retrieve the public URL for the gateway with:
+Retrieve the public url for the gateway with:
 ```sh
 export PROXY_IP=$(kubectl get svc --namespace kong kong-gateway-proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
