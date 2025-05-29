@@ -12,7 +12,7 @@ In this guide you will add Kong as a [delegated gateway](/docs/{{ page.release }
 
 {% mermaid %}
 ---
-title: service graph of the demo app with a Kong gateway on front
+title: Service graph of the demo app with a Kong gateway on front
 ---
 flowchart LR
   subgraph Kong Gateway 

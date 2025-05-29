@@ -67,7 +67,9 @@ hardcod(?:ing|ed)
 hostnames?
 httpbin
 HTTPie
+HTTP?
 HTTPS?
+http?
 https?
 [iI]nbounds?
 ini
@@ -169,6 +171,7 @@ unix
 unsecure
 upstreams?
 uri
+url?
 urls?
 uuid
 Valero

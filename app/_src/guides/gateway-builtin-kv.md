@@ -12,7 +12,7 @@ In this guide you will add [a built-in gateway](/docs/{{ page.release }}/using-m
 
 {% mermaid %}
 ---
-title: service graph of the demo app with a builtin gateway on front
+title: Service graph of the demo app with a builtin gateway on front
 ---
 flowchart LR
   subgraph edge-gateway
@@ -89,7 +89,7 @@ demo-app-c7cd6588b-rtwlj        2/2     Running   0          5m5s
 edge-gateway-66c76fd477-ncsp5   1/1     Running   0          18s
 ```
 
-Retrieve the public URL for the gateway with:
+Retrieve the public url for the gateway with:
 ```sh
 export PROXY_IP=$(kubectl get svc --namespace kuma-demo edge-gateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP

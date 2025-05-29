@@ -10,7 +10,7 @@ To start learning how {{site.mesh_product_name}} works, you run and secure a sim
 
 {% mermaid %}
 ---
-title: service graph of the demo app
+title: Service graph of the demo app
 ---
 flowchart LR
 demo-app(demo-app :5050)
