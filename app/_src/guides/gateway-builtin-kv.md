@@ -33,7 +33,12 @@ flowchart LR
 If you are already familiar with quickstart you can set up required environment by running:
 
 ```sh
-helm install --create-namespace --namespace kuma-system kuma kuma/kuma{% if version == "preview" %} --version {{ page.version }}{% endif %}
+helm upgrade \
+  --install \
+  --create-namespace \
+  --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
+  --version {{ page.version }} \{% endif %}
+  {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
 kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 {% endtip %}
 
