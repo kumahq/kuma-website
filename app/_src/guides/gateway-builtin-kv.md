@@ -55,7 +55,7 @@ The Kubernetes cluster needs to support `LoadBalancer` for this to work.
 If you are running `minikube` you will want to open a [tunnel](https://minikube.sigs.k8s.io/docs/handbook/accessing/#loadbalancer-access) with `minikube tunnel -p mesh-zone`.
 
 You may not have support for `LoadBalancer` if you are running locally with `kind` or `k3d`.
-One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind) may be helpful.
+When running `kind` cluster you can try [kubernetes-sigs/cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind).
 {% endwarning %}
 
 ### Define a listener using `MeshGateway`
@@ -119,34 +119,6 @@ Notice the gateway says that there are no routes configured.
 [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute/) defines HTTP routes inside your service mesh.
 Attach a route to an entire gateway or to a single listener by using `targetRef.kind: MeshGateway` 
 
-{% if_version lte:2.8.x %}
-```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshHTTPRoute
-metadata:
- name: edge-gateway-route
- namespace: {{site.mesh_namespace}} 
- labels:
-   kuma.io/mesh: default
-spec:
- targetRef:
-   kind: MeshGateway
-   name: edge-gateway
- to:
- - targetRef:
-     kind: Mesh
-   rules:
-   - matches:
-     - path:
-         type: PathPrefix
-         value: "/"
-     default:
-       backendRefs:
-       - kind: MeshService
-         name: demo-app_kuma-demo_svc_5000" | kubectl apply -f -
-```
-{% endif_version %}
-{% if_version gte:2.9.x %}
 {% if site.mesh_namespace != "kuma-system" %}
 ```sh
 curl -s kuma-demo://kustomize/overlays/002-with-gateway/mesh-http-route.yaml | sed 's/kuma-system/{{ site.mesh_namespace }}/g' | kubectl apply -f -
@@ -156,7 +128,6 @@ curl -s kuma-demo://kustomize/overlays/002-with-gateway/mesh-http-route.yaml | s
 kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-http-route.yaml
 ```
 {% endif %}
-{% endif_version %}
 
 Now try to reach our gateway again: 
 ```sh

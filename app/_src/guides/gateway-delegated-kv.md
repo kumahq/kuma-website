@@ -49,7 +49,7 @@ The Kubernetes cluster needs to support `LoadBalancer` for this to work.
 If you are running `minikube` you will want to open a [tunnel](https://minikube.sigs.k8s.io/docs/handbook/accessing/#loadbalancer-access) with `minikube tunnel -p mesh-zone`.
 
 You may not have support for `LoadBalancer` if you are running locally with `kind` or `k3d`.
-One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind) may be helpful.
+When running `kind` cluster you can try [kubernetes-sigs/cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind).
 {% endwarning %}
 
 ## Enable sidecar injection on the `kong` namespace
@@ -109,14 +109,14 @@ X-Kong-Request-Id: e7dfe659c9e46639a382f82c16d9582f
 
 ## Add a route to our `demo-app`
 
-Patch our gateway to allow routes in any namespace:
+Patch gateway to allow routes in any namespace:
 ```sh
 kubectl patch --type=json gateways.gateway.networking.k8s.io kong --patch='[{"op":"replace","path": "/spec/listeners/0/allowedRoutes/namespaces/from","value":"All"}]'
 ```
-This is required because in the Kong ingress controller tutorial the gateway is created in the `default` namespace.
+This is required because Kong ingress controller was created in the `default` namespace.
 To do this the Gateway API spec requires to explicitly allow routes from different namespaces.
 
-Now add the gateway route in our `kuma-demo` namespace which binds to the gateway `kong` defined in the `default` namespace:
+Now add the gateway route in `kuma-demo` namespace which binds to the gateway `kong` defined in the `default` namespace:
 ```sh
 echo "apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
