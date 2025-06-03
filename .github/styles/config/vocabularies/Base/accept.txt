@@ -67,8 +67,7 @@ hardcod(?:ing|ed)
 hostnames?
 httpbin
 HTTPie
-HTTPS?
-https?
+HTTPS?|https?
 [iI]nbounds?
 ini
 io
@@ -91,6 +90,7 @@ kubectl
 kumactl
 kustomization
 Kustomize
+kv
 linkStyle
 Loggly
 loopback

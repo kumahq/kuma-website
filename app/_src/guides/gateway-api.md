@@ -5,7 +5,7 @@ title: Kubernetes Gateway API
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use
 a builtin gateway.
 
-In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
+In the {% if_version lte:2.10.x %}[quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version gte:2.11.x %}[quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/){% endif_version %}, traffic was only able to get in the mesh by port-forwarding to an instance of an app
 inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
 In this guide you will add [a built-in gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
@@ -24,8 +24,13 @@ flowchart LR
 {% endmermaid %}
 
 ## Prerequisites
-
+{% if_version lte:2.10.x %}
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+{% endif_version %}
+
+{% if_version gte:2.11.x %}
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
+{% endif_version %}
 
 ## Install Gateway API CRDs
 

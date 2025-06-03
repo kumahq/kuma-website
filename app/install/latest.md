@@ -8,5 +8,5 @@ cta:
     slug: /quickstart/kubernetes-demo
   - label: Get Started on Universal
     logo: "/assets/images/platforms/logo-linux.png"
-    slug: /quickstart/universal-demo
+    slug: /quickstart/universal-docker-demo
 ---
