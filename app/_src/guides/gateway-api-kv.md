@@ -1,27 +1,25 @@
 ---
-title: Add a builtin gateway 
+title: Kubernetes Gateway API
 ---
 
-To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use 
+To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use
 a builtin gateway.
 
-In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/), traffic was only able to get in the mesh by port-forwarding to an instance of an app inside the mesh.
+In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
+inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
 In this guide you will add [a built-in gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
+We will deploy and configure Gateway using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 
+Service graph of the demo app with a builtin gateway on front:
 {% mermaid %}
-<!-- vale Google.Headings = NO -->
----
-title: service graph of the demo app with a builtin gateway on front
----
-<!-- vale Google.Headings = YES -->
 flowchart LR
   subgraph edge-gateway
     gw0(/ :8080)
   end
   demo-app(demo-app :5050)
-  kv(`kv` :5050)
-  gw0 --> demo-app 
+  kv(kv :5050)
+  gw0 --> demo-app
   demo-app --> kv
 {% endmermaid %}
 
@@ -43,16 +41,45 @@ kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 ```
 {% endtip %}
 
-## Start a gateway 
+## Install Gateway API CRDs
 
-### Create a `MeshGatewayInstance` 
+To install Gateway API please refer to [official installation instruction](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
 
-A [`MeshGatewayInstance`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-k8s/) configures the pods
-that will run the gateway.
+You also need to manually install {{site.mesh_product_name}} [GatewayClass](https://gateway-api.sigs.k8s.io/api-types/gatewayclass/):
 
-Create it by running:
 ```sh
-kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway-instance.yaml
+echo "apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: kuma
+spec:
+  controllerName: gateways.kuma.io/controller" | kubectl apply -f -
+```
+
+At this moment, when you install Gateway API CRDs after installing {{site.mesh_product_name}} control plane you need to restart
+it to start Gateway API controller. To do this run: 
+
+```sh
+kubectl rollout restart deployment {{site.mesh_product_name_path}}-control-plane -n {{ site.mesh_namespace }}
+```
+
+## Start a gateway
+
+The [Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) resource represents the proxy instance that handles
+traffic for a set of Gateway API routes. You can create gateway with a single listener on port 8080 by running:
+
+```sh
+echo "apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: kuma
+  namespace: kuma-demo
+spec:
+  gatewayClassName: kuma
+  listeners:
+   - name: proxy
+     port: 8080
+     protocol: HTTP" | kubectl apply -f -
 ```
 
 {% warning %}
@@ -64,34 +91,21 @@ You may not have support for `LoadBalancer` if you are running locally with `kin
 When running `kind` cluster you can try [kubernetes-sigs/cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind).
 {% endwarning %}
 
-### Define a listener using `MeshGateway`
-
-[`MeshGateway`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners/) defines listeners for the gateway.
-
-Define a single http listener on port 8080:
-
-```sh
-kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway.yaml
-```
-
-Notice how the selector selects the `kuma.io/service` tag of the previously defined `MeshGatewayInstance`.
-
-Now look at the pods running in the namespace by running: 
+You can now check if the gateway is running in the demo app `kuma-demo` namespace:
 ```sh
 kubectl get pods -n kuma-demo
 ```
-
 Observe the gateway pod:
 ```sh
-NAME                            READY   STATUS    RESTARTS   AGE
-redis-5fdb98848c-5tw62          2/2     Running   0          5m5s
-demo-app-c7cd6588b-rtwlj        2/2     Running   0          5m5s
-edge-gateway-66c76fd477-ncsp5   1/1     Running   0          18s
+NAME                       READY   STATUS    RESTARTS   AGE
+demo-app-d8d8bdb97-vhgc8   2/2     Running   0          5m
+kuma-cfcccf8c7-hlqz5       1/1     Running   0          20s
+redis-5484ddcc64-6gbbx     2/2     Running   0          5m
 ```
 
-Retrieve the public url for the gateway with:
+Retrieve the public URL for the gateway with:
 ```sh
-export PROXY_IP=$(kubectl get svc -n kuma-demo edge-gateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export PROXY_IP=$(kubectl get svc --namespace kuma-demo kuma -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
 ```
 
@@ -103,41 +117,56 @@ curl -v ${PROXY_IP}:8080
 Which outputs:
 ```sh
 *   Trying 127.0.0.1:8080...
-* Connected to 127.0.0.1 (127.0.0.1) port 8080
-> GET / HTTP/1.1ó
+* Connected to 35.226.116.24 (35.226.116.24) port 8080
+> GET / HTTP/1.1
 > Host: 127.0.0.1:8080
-> User-Agent: curl/8.4.0
+> User-Agent: curl/8.7.1
 > Accept: */*
 >
+* Request completely sent off
 < HTTP/1.1 404 Not Found
 < content-length: 62
 < content-type: text/plain
 < vary: Accept-Encoding
-< date: Fri, 09 Feb 2024 10:07:26 GMT
+< date: Mon, 04 Nov 2024 13:21:07 GMT
 < server: Kuma Gateway
 <
 This is a Kuma MeshGateway. No routes match this MeshGateway!
+* Connection #0 to host 35.226.116.24 left intact
 ```
 Notice the gateway says that there are no routes configured.
 
-## Define a route using `MeshHTTPRoute`
+## Define a route using `HTTPRoute`
 
-[`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute/) defines HTTP routes inside your service mesh.
-Attach a route to an entire gateway or to a single listener by using `targetRef.kind: MeshGateway` 
-
-{% if site.mesh_namespace != "kuma-system" %}
-```sh
-curl -s kuma-demo://kustomize/overlays/002-with-gateway/mesh-http-route.yaml | sed 's/kuma-system/{{ site.mesh_namespace }}/g' | kubectl apply -f -
+[HTTPRoute](https://gateway-api.sigs.k8s.io/api-types/httproute/) resources contain a set of matching criteria for HTTP 
+requests and upstream `Services` to route those requests to.
+```yaml
+echo "apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: echo
+  namespace: kuma-demo
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: kuma
+      namespace: kuma-demo
+  rules:
+    - backendRefs:
+      - kind: Service
+        name: demo-app
+        port: 5050
+        weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /" | kubectl apply -f -
 ```
-{% else %}
-```sh
-kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-http-route.yaml
-```
-{% endif %}
 
-Now try to reach our gateway again: 
+Now try to reach gateway again:
 ```sh
-curl -v ${PROXY_IP}:8080
+curl -XPOST -v ${PROXY_IP}:8080/api/counter
 ```
 
 which outputs:
@@ -160,23 +189,18 @@ which outputs:
 RBAC: access denied%
 ```
 
-Notice the "forbidden" error.
-The quickstart applies restrictive default permissions, so the gateway can't access the demo-app service.
+Notice the forbidden error.
+This is because the quickstart has very restrictive permissions as defaults.
+Therefore, the gateway doesn't have permissions to talk to the demo-app service.
 
 To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
-
-```sh
-kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-traffic-permission.yaml
-```
-
-Which will create resource:
 
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
   namespace: kuma-demo 
-  name: demo-app
+  name: allow-gateway
 spec:
   targetRef:
     kind: Dataplane
@@ -186,7 +210,7 @@ spec:
     - targetRef:
         kind: MeshSubset
         tags: 
-          kuma.io/service: edge-gateway_kuma-demo_svc 
+          kuma.io/service: kuma_kuma-demo_svc 
       default:
         action: Allow" | kubectl apply -f -
 ```
@@ -196,7 +220,7 @@ Check it works with:
 curl -XPOST -v ${PROXY_IP}:8080/api/counter
 ```
 
-Now returns a 200 OK response:
+Now it returns a 200 OK response:
 ```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
@@ -209,9 +233,9 @@ Now returns a 200 OK response:
 < HTTP/1.1 200 OK
 < content-type: application/json; charset=utf-8
 < x-demo-app-version: v1
-< date: Thu, 29 May 2025 10:14:06 GMT
+< date: Tue, 03 Jun 2025 13:59:23 GMT
 < content-length: 24
-< x-envoy-upstream-service-time: 91
+< x-envoy-upstream-service-time: 57
 < server: Kuma Gateway
 <
 {"counter":1,"zone":""}
@@ -231,45 +255,42 @@ Create a self-signed certificate:
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=${PROXY_IP}"
 ```
 
+Create Kubernetes secret with generated certificate:
+
 ```sh
 echo "apiVersion: v1
 kind: Secret
 metadata:
   name: my-gateway-certificate
-  namespace: {{ site.mesh_namespace }} 
-  labels:
-    kuma.io/mesh: default
+  namespace: kuma-demo
+type: kubernetes.io/tls
 data:
-  value: "$(cat tls.key tls.crt | base64)"
-type: system.kuma.io/secret" | kubectl apply -f - 
+  tls.crt: "$(cat tls.crt | base64)"
+  tls.key: "$(cat tls.key | base64)"" | kubectl apply -f - 
 ```
 
 Now update the gateway to use this certificate:
+
 ```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshGateway
-mesh: default
+echo "apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
 metadata:
-  name: edge-gateway
+  name: kuma
+  namespace: kuma-demo
 spec:
-  selectors:
-    - match:
-        kuma.io/service: edge-gateway_kuma-demo_svc
-  conf:
-    listeners:
-      - port: 8080
-        protocol: HTTPS
-        tls:
-          mode: TERMINATE
-          certificates:
-            - secret: my-gateway-certificate
-        tags:
-          port: http-8080" | kubectl apply -f -
+  gatewayClassName: kuma
+  listeners:
+    - name: proxy
+      port: 8080
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+          - name: my-gateway-certificate" | kubectl apply -f -
 ```
 
-Check the call to the gateway: 
+Check the call to the gateway:
 ```sh
-curl -X POST -v --insecure "https://${PROXY_IP}:8080/api/counter"
+curl -XPOST -v --insecure "https://${PROXY_IP}:8080/api/counter"
 ```
 
 Which should output a successful call and indicate TLS is being used:
@@ -288,8 +309,8 @@ Which should output a successful call and indicate TLS is being used:
 * ALPN: server accepted h2
 * Server certificate:
 *  subject: CN=127.0.0.1
-*  start date: May 29 10:15:05 2025 GMT
-*  expire date: May 29 10:15:05 2026 GMT
+*  start date: Jun  3 13:59:32 2025 GMT
+*  expire date: Jun  3 13:59:32 2026 GMT
 *  issuer: CN=127.0.0.1
 *  SSL certificate verify result: self signed certificate (18), continuing anyway.
 * using HTTP/2
@@ -309,9 +330,9 @@ Which should output a successful call and indicate TLS is being used:
 < HTTP/2 200
 < content-type: application/json; charset=utf-8
 < x-demo-app-version: v1
-< date: Thu, 29 May 2025 10:15:40 GMT
+< date: Tue, 03 Jun 2025 13:59:54 GMT
 < content-length: 24
-< x-envoy-upstream-service-time: 56
+< x-envoy-upstream-service-time: 29
 < server: Kuma Gateway
 < strict-transport-security: max-age=31536000; includeSubDomains
 <
@@ -323,5 +344,6 @@ Note that we're using `--insecure` as we have used a self-signed certificate.
 
 ## Next steps
 
-* Read more about the different types of gateways in the [managing ingress traffic docs](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/overview/).
+* Further explore [Gateway API documentation](https://gateway-api.sigs.k8s.io/)
+* Learn more about how to customize [{{site.mesh_product_name}} Gateway with Gateway API](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/gateway-api/) 
 * Learn about setting up [observability](/docs/{{ page.release }}/explore/observability/) to get full end to end visibility of your mesh.
