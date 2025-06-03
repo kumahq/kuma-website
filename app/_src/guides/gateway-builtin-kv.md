@@ -5,8 +5,7 @@ title: Add a builtin gateway
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use 
 a builtin gateway.
 
-In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
-inside the mesh.
+In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/), traffic was only able to get in the mesh by port-forwarding to an instance of an app inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
 In this guide you will add [a built-in gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
 
@@ -27,22 +26,15 @@ flowchart LR
 {% endmermaid %}
 
 ## Prerequisites
+
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
 
 {% tip %}
 If you are already familiar with quickstart you can set up required environment by running:
 
-{% if version == "preview" %}
 ```sh
-helm install --create-namespace --namespace kuma-system kuma kuma/kuma --version {{ page.version }}
+helm install --create-namespace --namespace kuma-system kuma kuma/kuma{% if version == "preview" %} --version {{ page.version }}{% endif %}
 kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
-```
-{% else %}
-```sh
-helm install --create-namespace --namespace kuma-system kuma kuma/kuma
-kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
-```
-{% endif %}
 {% endtip %}
 
 ## Start a gateway 
@@ -70,7 +62,7 @@ One option for `kind` is [kubernetes-sigs/cloud-provider-kind](https://github.co
 
 [`MeshGateway`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners/) defines listeners for the gateway.
 
-Define a single HTTP listener on port 8080:
+Define a single http listener on port 8080:
 
 ```sh
 kubectl apply -f kuma-demo://kustomize/overlays/002-with-gateway/mesh-gateway.yaml
@@ -93,7 +85,7 @@ edge-gateway-66c76fd477-ncsp5   1/1     Running   0          18s
 
 Retrieve the public url for the gateway with:
 ```sh
-export PROXY_IP=$(kubectl get svc --namespace kuma-demo edge-gateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export PROXY_IP=$(kubectl get svc -n kuma-demo edge-gateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
 ```
 
@@ -191,9 +183,8 @@ which outputs:
 RBAC: access denied%
 ```
 
-Notice the forbidden error.
-This is because the quickstart has very restrictive permissions as defaults.
-Therefore, the gateway doesn't have permissions to talk to the demo-app service.
+Notice the "forbidden" error.
+The quickstart applies restrictive default permissions, so the gateway can't access the demo-app service.
 
 To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
 
@@ -262,7 +253,6 @@ Create a self-signed certificate:
 ```sh
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=${PROXY_IP}"
 ```
-
 
 ```sh
 echo "apiVersion: v1

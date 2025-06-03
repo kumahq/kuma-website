@@ -7,7 +7,6 @@ To start learning how {{site.mesh_product_name}} works, you run and secure a sim
 - `demo-app`: a web application that lets you increment a numeric counter. It listens on port 5050
 - `kv`: an in-memory http database that lets you increment a numeric counter. It listens on port 5050
 
-
 {% mermaid %}
 <!-- vale Google.Headings = NO -->
 ---
@@ -20,8 +19,8 @@ kv(kv :5050)
 demo-app --> kv
 {% endmermaid %}
 
-
 ## Prerequisites
+
 - [Helm](https://helm.sh/) - a package manager for Kubernetes
 - [minikube](https://minikube.sigs.k8s.io/docs/) - a tool for running local Kubernetes clusters
 
@@ -100,7 +99,6 @@ To learn more, read the [documentation about the user interface](/docs/{{ page.r
 
 ## Introduce zero-trust security
 
-
 By default, the network is **insecure and not encrypted**. We can change this with {{site.mesh_product_name}} by enabling
 the [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that
 will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running
@@ -129,9 +127,7 @@ spec:
     enabledBackend: ca-1
 ```
 
-The traffic is now **encrypted and secure**. {{site.mesh_product_name}} does not define default traffic permissions, which
-means that no traffic will flow with mTLS enabled until we define a proper [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission)
-[policy](/docs/{{ page.release }}/introduction/concepts#policy).
+The traffic is now **encrypted and secure**. {{site.mesh_product_name}} does not define default traffic permissions, which means that no traffic will flow with mTLS enabled until we define a proper [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) [policy](/docs/{{ page.release }}/introduction/concepts#policy).
 
 For now, the demo application won't work.
 You can verify this by clicking the increment button again and seeing the error message in the browser.
@@ -170,8 +166,8 @@ However, the traffic to `kv` from any other service than `demo-app` is not allow
 ## Next steps
 
 * Explore the [Features](/features) available to govern and orchestrate your service traffic.
-* Add a gateway to access the demo from the outside by following the [builtin gateway guide](/docs/{{ page.release }}/guides/gateway-builtin/).
-* Add Kong as gateway to access the demo from the outside by following the [delegated gateway guide](/docs/{{ page.release }}/guides/gateway-delegated/).
+* Add a gateway to access the demo from the outside by following the [builtin gateway guide](/docs/{{ page.release }}/guides/gateway-builtin-kv/).
+* Add Kong as gateway to access the demo from the outside by following the [delegated gateway guide](/docs/{{ page.release }}/guides/gateway-delegated-kv/).
 * [Federate](/docs/{{ page.release }}/guides/federate) zone into a multizone deployment.
 * Learn more about what you can do with the [GUI](/docs/{{ page.release }}/production/gui).
 * Explore further installation strategies for [single-zone](/docs/{{ page.release }}/production/cp-deployment/single-zone) and [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone) environments.

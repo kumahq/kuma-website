@@ -27,22 +27,16 @@ flowchart LR
 {% endmermaid %}
 
 ## Prerequisites
+
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
 
 {% tip %}
 If you are already familiar with quickstart you can set up required environment by running:
 
-{% if version == "preview" %}
 ```sh
-helm install --create-namespace --namespace kuma-system kuma kuma/kuma --version {{ page.version }}
+helm install --create-namespace --namespace kuma-system kuma kuma/kuma{% if version == "preview" %} --version {{ page.version }}{% endif %}
 kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 ```
-{% else %}
-```sh
-helm install --create-namespace --namespace kuma-system kuma kuma/kuma
-kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
-```
-{% endif %}
 {% endtip %}
 
 ## Install Kong ingress controller 
@@ -87,7 +81,7 @@ kong-gateway-674c44c5c4-cvsr8     2/2     Running   0             72s
 
 Retrieve the public url for the gateway with:
 ```sh
-export PROXY_IP=$(kubectl get svc --namespace kong kong-gateway-proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export PROXY_IP=$(kubectl get svc -n kong kong-gateway-proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
 ```
 
@@ -117,7 +111,7 @@ X-Kong-Request-Id: e7dfe659c9e46639a382f82c16d9582f
 
 Patch our gateway to allow routes in any namespace:
 ```sh
-kubectl patch --type=json gateways.gateway.networking.k8s.io kong -p='[{"op":"replace","path": "/spec/listeners/0/allowedRoutes/namespaces/from","value":"All"}]'
+kubectl patch --type=json gateways.gateway.networking.k8s.io kong --patch='[{"op":"replace","path": "/spec/listeners/0/allowedRoutes/namespaces/from","value":"All"}]'
 ```
 This is required because in the Kong ingress controller tutorial the gateway is created in the `default` namespace.
 To do this the Gateway API spec requires to explicitly allow routes from different namespaces.
@@ -146,7 +140,7 @@ spec:
 ```
 
 {% warning %}
-This route is managed by the Kong ingress controller and not by Kuma.
+This route is managed by the Kong ingress controller and not by {{site.mesh_product_name}}.
 {% endwarning %}
 
 Now call the gateway: 
@@ -171,10 +165,8 @@ X-Kong-Request-Id: 3b9d7d0db8c4cf25759d95682d6e3573
 RBAC: access denied%
 ```
 
-Notice the forbidden error.
-This is because the quickstart has very restrictive permissions as defaults.
-Therefore, the gateway doesn't have permissions to talk to the demo-app service.
-
+Notice the "forbidden" error.
+The quickstart applies restrictive default permissions, so the gateway can't access the demo-app service.
 
 To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
 
@@ -199,7 +191,7 @@ spec:
         action: Allow" | kubectl apply -f -
 ```
 
-Call the gateway again:
+Now, call the gateway again:
 ```sh
 curl -i $PROXY_IP/api/counter -XPOST
 ```
