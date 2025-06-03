@@ -10,14 +10,14 @@ built-in gateways.
 {% if_version lte:2.10.x %}
 {% tip %}
 **New to {{site.mesh_product_name}}?**
-Checkout our [guide](/docs/{{ page.release }}/guides/gateway-builtin/) to get quickly started with builtin gateways!
+Checkout our [guide](/docs/{{ page.release }}/guides/gateway-builtin/) to get quickly started with builtin gateways.
 {% endtip %}
 {% endif_version %}
 
 {% if_version gte:2.11.x %}
 {% tip %}
 **New to {{site.mesh_product_name}}?**
-Checkout our [guide](/docs/{{ page.release }}/guides/gateway-builtin-kv/) to get quickly started with builtin gateways!
+Checkout our [guide](/docs/{{ page.release }}/guides/gateway-builtin-kv/) to get quickly started with builtin gateways.
 {% endtip %}
 {% endif_version %}
 
