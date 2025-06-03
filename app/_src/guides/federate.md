@@ -10,7 +10,12 @@ This way you can:
 - manage policies that are pushed to all zones
 
 ## Prerequisites
+{% if_version lte:2.10.x %}
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+{% endif_version %} 
+{% if_version gte:2.11.x %}
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
+{% endif_version %}
 {% if_version lte:2.8.x %}
 - Have [kumactl installed and in your path](/docs/{{ page.release }}/production/install-kumactl)
 {% endif_version %}

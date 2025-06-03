@@ -7,10 +7,19 @@ and served by Envoy instances represented by `Dataplanes` configured as built-in
 gateways. {{ site.mesh_product_name }} policies are then used to configure
 built-in gateways.
 
+{% if_version lte:2.10.x %}
 {% tip %}
 **New to {{site.mesh_product_name}}?**
 Checkout our [guide](/docs/{{ page.release }}/guides/gateway-builtin/) to get quickly started with builtin gateways!
 {% endtip %}
+{% endif_version %}
+
+{% if_version gte:2.11.x %}
+{% tip %}
+**New to {{site.mesh_product_name}}?**
+Checkout our [guide](/docs/{{ page.release }}/guides/gateway-builtin-kv/) to get quickly started with builtin gateways!
+{% endtip %}
+{% endif_version %}
 
 ### Deploying gateways
 

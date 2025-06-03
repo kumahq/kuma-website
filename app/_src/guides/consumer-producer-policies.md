@@ -9,8 +9,13 @@ To fully utilize power of namespace scoped policies we need to get familiar with
 This guide will help you get comfortable with producer consumer model.
 
 ## Prerequisites
-
+{% if_version lte:2.10.x %}
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+{% endif_version %}
+
+{% if_version gte:2.11.x %}
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
+{% endif_version %}
 
 ## Basic setup
 
