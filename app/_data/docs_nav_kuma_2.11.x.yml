@@ -491,7 +491,7 @@ items:
     group: true
     items:
       - text: Federate zone control plane
-        url: /guides/federate/
+        url: /guides/federate-kv/
       - text: Add a builtin Gateway
         url: /guides/gateway-builtin-kv/
       - text: Add Kong as a delegated Gateway
