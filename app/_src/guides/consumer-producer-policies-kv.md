@@ -118,7 +118,9 @@ first-consumer --> kuma-demo
 second-consumer --> kuma-demo
 {% endmermaid %}
 
+<!-- vale Vale.Terms = NO -->
 ## Namespace scoped policies
+<!-- vale Vale.Terms = YES -->
 
 Now that we have our setup we can start playing with policies. Let's create a simple [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout/) policy in `kuma-demo` namespace:
 
