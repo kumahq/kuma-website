@@ -7,7 +7,7 @@ content_type: tutorial
 {% assign Kuma = site.mesh_product_name %}
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
 {% assign kuma-system = site.mesh_namespace | default: "kuma-system" %}
-{% assign kuma-control-plane-workloads = kuma | append: "-control-plane-workloads" %}
+{% assign kuma-control-plane = kuma | append: "-control-plane" %}
 
 In this guide, you’ll learn how to target [`MeshHTTPRoutes`]({{ docs }}/policies/meshhttproute/) in supported policies like `MeshTimeout`, `MeshRetry`, and `MeshAccessLog`. This lets you apply fine-grained traffic control to specific HTTP methods and paths instead of entire services.
 
@@ -24,6 +24,7 @@ helm upgrade \
   --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
   --version {{ page.version }} \{% endif %}
   {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
+kubectl wait -n {{ kuma-system }} --for=condition=ready pod --selector=app={{ kuma-control-plane }} --timeout=90s
 kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 kubectl port-forward svc/demo-app -n kuma-demo 5050:5050
 ```
