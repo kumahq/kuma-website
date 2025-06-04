@@ -103,7 +103,7 @@ kuma-cfcccf8c7-hlqz5       1/1     Running   0          20s
 redis-5484ddcc64-6gbbx     2/2     Running   0          5m
 ```
 
-Retrieve the public URL for the gateway with:
+Retrieve the public url for the gateway with:
 ```sh
 export PROXY_IP=$(kubectl get svc --namespace kuma-demo kuma -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
