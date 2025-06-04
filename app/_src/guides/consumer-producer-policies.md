@@ -295,4 +295,9 @@ second-consumer --producer-timeout--> kuma-demo
 ## Next steps
 
 - Read more about [producer/consumer policies](/docs/{{ page.release }}/policies/introduction)
+{% if_version lte:2.10.x %}
 - Check out [Federate zone control plane](/docs/{{ page.release }}/guides/federate/) guide
+{% endif_version %}
+{% if_version gte:2.11.x %}
+- Check out [Federate zone control plane](/docs/{{ page.release }}/guides/federate-kv/) guide
+{% endif_version %}

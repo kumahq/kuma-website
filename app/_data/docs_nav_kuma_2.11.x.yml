@@ -491,13 +491,13 @@ items:
     group: true
     items:
       - text: Federate zone control plane
-        url: /guides/federate/
+        url: /guides/federate-kv/
       - text: Add a builtin Gateway
         url: /guides/gateway-builtin-kv/
       - text: Add Kong as a delegated Gateway
         url: /guides/gateway-delegated-kv/
       - text: Kubernetes Gateway API
-        url: /guides/gateway-api/
+        url: /guides/gateway-api-kv/
       - text: Collect Metrics with OpenTelemetry
         url: /guides/otel-metrics/
       - text: Migration to the new policies

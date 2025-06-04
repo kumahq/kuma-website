@@ -2,6 +2,9 @@
 title: Use Kong as a delegated Gateway 
 ---
 
+{% assign kuma-system = site.mesh_namespace | default: "kuma-system" %}
+{% assign kuma-control-plane = kuma | append: "-control-plane" %}
+
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use 
 a delegated gateway.
 
@@ -10,12 +13,11 @@ inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
 In this guide you will add Kong as a [delegated gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/delegated/) in front of the demo-app service and expose it publicly.
 
-{% mermaid %}
 <!-- vale Google.Headings = NO -->
+{% mermaid %}
 ---
 title: Service graph of the demo app with a Kong gateway on front
 ---
-<!-- vale Google.Headings = YES -->
 flowchart LR
   subgraph Kong Gateway 
     gw0(/ :80)
@@ -25,6 +27,7 @@ flowchart LR
   gw0 --> demo-app 
   demo-app --> kv
 {% endmermaid %}
+<!-- vale Google.Headings = YES -->
 
 ## Prerequisites
 
@@ -40,6 +43,7 @@ helm upgrade \
   --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
   --version {{ page.version }} \{% endif %}
   {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
+kubectl wait -n {{ kuma-system }} --for=condition=ready pod --selector=app={{ kuma-control-plane }} --timeout=90s
 kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 ```
 {% endtip %}

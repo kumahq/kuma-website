@@ -28,7 +28,7 @@ Cognito
 configs?
 conntrack
 cors
-CRD
+CRDs?
 cron
 Curity
 Datadog
