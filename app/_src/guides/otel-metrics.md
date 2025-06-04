@@ -27,7 +27,7 @@ If you are already familiar with quickstart you can set up required environment 
 helm upgrade \
   --install \
   --create-namespace \
-  --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
+  --namespace {{ kuma-system }} \{% if version == "preview" %}
   --version {{ page.version }} \{% endif %}
   {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
 kubectl wait -n {{ kuma-system }} --for=condition=ready pod --selector=app={{ kuma-control-plane }} --timeout=90s
