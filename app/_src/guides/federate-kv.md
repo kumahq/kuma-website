@@ -3,6 +3,9 @@ title: Federate zone control plane
 content_type: tutorial
 ---
 
+{% assign kuma-system = site.mesh_namespace | default: "kuma-system" %}
+{% assign kuma-control-plane = kuma | append: "-control-plane" %}
+
 With {{site.mesh_product_name}} you can first start with just one zone control plane and then federate it to a multi-zone deployment.
 This way you can:
 - see your mesh deployment in one centralized place
@@ -16,7 +19,6 @@ This way you can:
 
 {% tip %}
 If you are already familiar with quickstart you can set up required environment by running:
-TODO SLEEP
 ```sh
 helm upgrade \
   --install \
@@ -24,6 +26,7 @@ helm upgrade \
   --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
   --version {{ page.version }} \{% endif %}
   {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
+kubectl wait -n {{ kuma-system }} --for=condition=ready pod --selector=app={{ kuma-control-plane }} --timeout=90s
 kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 ```
 {% endtip %}
