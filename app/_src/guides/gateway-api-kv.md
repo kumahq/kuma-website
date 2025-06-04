@@ -3,6 +3,9 @@ title: Kubernetes Gateway API
 content_type: tutorial
 ---
 
+{% assign kuma-system = site.mesh_namespace | default: "kuma-system" %}
+{% assign kuma-control-plane = kuma | append: "-control-plane" %}
+
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use a builtin gateway.
 
 In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/), traffic was only able to get in the mesh by port-forwarding to an instance of an app inside the mesh.
@@ -36,6 +39,7 @@ helm upgrade \
   --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
   --version {{ page.version }} \{% endif %}
   {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
+kubectl wait -n {{ kuma-system }} --for=condition=ready pod --selector=app={{ kuma-control-plane }} --timeout=90s
 kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 ```
 {% endtip %}
