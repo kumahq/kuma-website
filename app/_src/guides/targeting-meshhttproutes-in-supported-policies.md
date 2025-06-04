@@ -46,7 +46,9 @@ kubectl port-forward svc/demo-app -n kuma-demo 5050:5050
    {"counter":1,"zone":""}
    ```
 
+<!-- vale Google.Headings = NO -->
 ## MeshTimeout
+<!-- vale Google.Headings = YES -->
 
 ### Limit request time from `demo-app` to `kv` to 1 second
 
@@ -210,7 +212,9 @@ you should get the expected response without any delay:
 {"counter":4,"zone":""}
 ```
 
+<!-- vale Google.Headings = NO -->
 ## MeshAccessLog
+<!-- vale Google.Headings = YES -->
 
 ### Log traffic using MeshAccessLog with MeshHTTPRoute as a target
 
@@ -258,7 +262,9 @@ Example log output:
 [2025-06-04T08:54:36.673Z] default "POST /api/key-value/counter HTTP/1.1" 200 - 28 15 2004 2004 "-" "Go-http-client/1.1" "-" "1f69806f-b476-4adc-b224-7450b3ca18fc" "kv.kuma-demo.svc.cluster.local:5050" "demo-app_kuma-demo_svc_5050" "kv" "10.42.0.7" "10.42.0.8:5050"
 ```
 
+<!-- vale Google.Headings = NO -->
 ## MeshRetry
+<!-- vale Google.Headings = YES -->
 
 ### Remove the default MeshRetry policy
 
