@@ -2,6 +2,9 @@
 title: Producer and Consumer policies
 ---
 
+{% assign kuma-system = site.mesh_namespace | default: "kuma-system" %}
+{% assign kuma-control-plane = kuma | append: "-control-plane" %}
+
 With namespace scoped policies in {{site.mesh_product_name}} you can have fine-grained control over policies and how they apply to 
 your workloads. Moreover, this empowers app owners to take advantage of Kubernetes RBAC for policy configuration.
 
@@ -10,7 +13,23 @@ This guide will help you get comfortable with producer consumer model.
 
 ## Prerequisites
 
-- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
+
+
+{% tip %}
+If you are already familiar with quickstart you can set up required environment by running:
+
+```sh
+helm upgrade \
+  --install \
+  --create-namespace \
+  --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
+  --version {{ page.version }} \{% endif %}
+  {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
+kubectl wait -n {{ kuma-system }} --for=condition=ready pod --selector=app={{ kuma-control-plane }} --timeout=90s
+kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
+```
+{% endtip %}
 
 ## Basic setup
 
@@ -67,13 +86,13 @@ kubectl run consumer --image nicolaka/netshoot -n second-consumer --command -- /
 You can make now make a couple of requests to our demo app to check if everything is working: 
 
 ```shell
-kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment
+kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5050/api/counter
 ```
 
 You should see something similar to:
 
 ```json
-{"counter":"1","zone":"local","err":null}
+{"counter":"1","zone":"local"}
 ```
 
 At this moment our setup looks like this:
@@ -91,10 +110,10 @@ end
 
 subgraph kuma-demo-ns
   kuma-demo
-  redis
+  kv
 end
 
-kuma-demo --> redis
+kuma-demo --> kv
 first-consumer --> kuma-demo
 second-consumer --> kuma-demo
 {% endmermaid %}
@@ -168,7 +187,7 @@ add header `x-set-response-delay-ms` to our requests.
 We can now make few requests to our demo-app, and we should see timeouts:
 
 ```shell
-kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment -H "x-set-response-delay-ms: 2000"
+kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5050/api/counter -H "x-set-response-delay-ms: 2000"
 ```
 
 Example output:
@@ -180,7 +199,7 @@ upstream request timeout
 We should see the same results when making requests from second-consumer namespace:
 
 ```shell
-kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment -H "x-set-response-delay-ms: 2000"
+kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5050/api/counter -H "x-set-response-delay-ms: 2000"
 ```
 
 Output:
@@ -204,10 +223,10 @@ end
 
 subgraph kuma-demo-ns
 kuma-demo
-redis
+kv
 end
 
-kuma-demo --> redis
+kuma-demo --> kv
 first-consumer --producer-timeout--> kuma-demo
 second-consumer --producer-timeout--> kuma-demo
 {% endmermaid %}
@@ -241,14 +260,14 @@ spec:
 When we now make requests from the first-consumer namespace all the requests should succeed, but they will take longer:
 
 ```shell
-kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment -H "x-set-response-delay-ms: 2000"
+kubectl exec -n first-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5050/api/counter -H "x-set-response-delay-ms: 2000"
 ```
 
 We have just applied a consumer policy. The timeout will only be applied in the `first-consumer` namespace.
 We can test this by making requests from our second-consumer namespace:
 
 ```shell
-kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5000/increment -H "x-set-response-delay-ms: 2000"
+kubectl exec -n second-consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5050/api/counter -H "x-set-response-delay-ms: 2000"
 ```
 
 We should still see timeouts:
@@ -272,10 +291,10 @@ end
 
 subgraph kuma-demo-ns
 kuma-demo
-redis
+kv
 end
 
-kuma-demo --> redis
+kuma-demo --> kv
 first-consumer --consumer-timeout--> kuma-demo
 second-consumer --producer-timeout--> kuma-demo
 {% endmermaid %}
@@ -289,5 +308,5 @@ second-consumer --producer-timeout--> kuma-demo
 
 ## Next steps
 
-- Read more about [producer/consumer policies](/docs/{{ page.release }}/policies/introduction)
-- Check out [Federate zone control plane](/docs/{{ page.release }}/guides/federate/) guide
+- Read more about [producer/consumer policies](/docs/{{ page.release }}/policies/introduction/)
+- Check out [Federate zone control plane](/docs/{{ page.release }}/guides/federate-kv/) guide
