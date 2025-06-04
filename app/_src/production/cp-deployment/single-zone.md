@@ -105,6 +105,7 @@ kumactl config control-planes add \
 {% endtabs %}
 
 ## Moving to a multi-zone deployment
+
 {% if_version lte:2.10.x %}
 You can transform a single-zone deployment into a multi-zone deployment by doing [federation](/docs/{{ page.release }}/guides/federate/).
 {% endif_version %}
