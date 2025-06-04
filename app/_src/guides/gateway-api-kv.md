@@ -1,12 +1,11 @@
 ---
 title: Kubernetes Gateway API
+content_type: tutorial
 ---
 
-To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use
-a builtin gateway.
+To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use a builtin gateway.
 
-In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
-inside the mesh.
+In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/), traffic was only able to get in the mesh by port-forwarding to an instance of an app inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
 In this guide you will add [a built-in gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) in front of the demo-app service and expose it publicly.
 We will deploy and configure Gateway using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
@@ -56,11 +55,10 @@ spec:
   controllerName: gateways.kuma.io/controller" | kubectl apply -f -
 ```
 
-At this moment, when you install Gateway API CRDs after installing {{site.mesh_product_name}} control plane you need to restart
-it to start Gateway API controller. To do this run: 
+At this moment, when you install Gateway API CRDs after installing {{site.mesh_product_name}} control plane you need to restart it to start Gateway API controller. To do this run: 
 
 ```sh
-kubectl rollout restart deployment {{site.mesh_product_name_path}}-control-plane -n {{ site.mesh_namespace }}
+kubectl rollout restart deployment {{site.mesh_cp_name}} -n {{ site.mesh_namespace }}
 ```
 
 ## Start a gateway
@@ -105,7 +103,7 @@ redis-5484ddcc64-6gbbx     2/2     Running   0          5m
 
 Retrieve the public url for the gateway with:
 ```sh
-export PROXY_IP=$(kubectl get svc --namespace kuma-demo kuma -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export PROXY_IP=$(kubectl get svc -n kuma-demo kuma -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
 ```
 
@@ -189,11 +187,10 @@ which outputs:
 RBAC: access denied%
 ```
 
-Notice the forbidden error.
-This is because the quickstart has very restrictive permissions as defaults.
-Therefore, the gateway doesn't have permissions to talk to the demo-app service.
+Notice the "forbidden" error.
+The quickstart applies restrictive default permissions, so the gateway can't access the demo-app service.
 
-To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission):
+To fix this, add a [`MeshTrafficPermission`](/docs/{{ page.release }}/policies/meshtrafficpermission/):
 
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
