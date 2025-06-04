@@ -10,15 +10,22 @@ This way you can:
 - manage policies that are pushed to all zones
 
 ## Prerequisites
-{% if_version lte:2.10.x %}
-- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
-{% endif_version %} 
-{% if_version lte:2.8.x %}
-- Have [kumactl installed and in your path](/docs/{{ page.release }}/production/install-kumactl)
-{% endif_version %}
-{% if_version gte:2.9.x %}
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
 - Have [kumactl installed and in your path](/docs/{{ page.release }}/introduction/install/)
-{% endif_version %}
+
+{% tip %}
+If you are already familiar with quickstart you can set up required environment by running:
+TODO SLEEP
+```sh
+helm upgrade \
+  --install \
+  --create-namespace \
+  --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
+  --version {{ page.version }} \{% endif %}
+  {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
+kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
+```
+{% endtip %}
 
 ## Start a global control plane
 
@@ -133,60 +140,6 @@ You should eventually see
 
 We can check policy synchronization from global control plane to zone control plane by applying a policy on global control plane:
 
-{% if_version lte:2.8.x %}
-```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshCircuitBreaker
-metadata:
-  name: demo-app-to-redis
-  namespace: {{site.mesh_namespace}}
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshService
-    name: demo-app_kuma-demo_svc_5000
-  to:
-  - targetRef:
-      kind: MeshService
-      name: redis_kuma-demo_svc_6379
-    default:
-      connectionLimits:
-        maxConnections: 2
-        maxPendingRequests: 8
-        maxRetries: 2
-        maxRequests: 2" | kubectl --context=mesh-global apply -f -
-```
-{% endif_version %}
-
-{% if_version eq:2.9.x %}
-```sh
-echo "apiVersion: kuma.io/v1alpha1
-kind: MeshCircuitBreaker
-metadata:
-  name: demo-app-to-redis
-  namespace: kuma-demo
-  labels:
-    kuma.io/mesh: default
-spec:
-  targetRef:
-    kind: MeshSubset
-    tags:
-      app: demo-app
-  to:
-  - targetRef:
-      kind: MeshService
-      name: redis
-    default:
-      connectionLimits:
-        maxConnections: 2
-        maxPendingRequests: 8
-        maxRetries: 2
-        maxRequests: 2" | kubectl --context=mesh-global apply -f -
-```
-{% endif_version %}
-
-{% if_version gte:2.10.x %}
 ```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshCircuitBreaker
@@ -211,7 +164,6 @@ spec:
         maxRetries: 2
         maxRequests: 2" | kubectl --context=mesh-global apply -f -
 ```
-{% endif_version %}
 
 If we execute the following command:
 ```sh
