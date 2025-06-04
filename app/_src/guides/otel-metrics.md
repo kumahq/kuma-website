@@ -2,6 +2,9 @@
 title: Collect metrics with OpenTelemetry  
 ---
 
+{% assign kuma-system = site.mesh_namespace | default: "kuma-system" %}
+{% assign kuma-control-plane = kuma | append: "-control-plane" %}
+
 {{site.mesh_product_name}} provides integration with [OpenTelemetry](https://opentelemetry.io/). You can collect and push 
 data plane proxy and application metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/). Which opens up
 lots of possibilities of processing and exporting metrics to multiple ecosystems like [Dash0](https://www.dash0.com/), 
@@ -16,6 +19,21 @@ lots of possibilities of processing and exporting metrics to multiple ecosystems
 {% if_version gte:2.11.x %}
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
 - Enable auto increment in demo-app GUI [http://127.0.0.1:5050](http://127.0.0.1:5000)
+
+{% tip %}
+If you are already familiar with quickstart you can set up required environment by running:
+
+```sh
+helm upgrade \
+  --install \
+  --create-namespace \
+  --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
+  --version {{ page.version }} \{% endif %}
+  {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
+kubectl wait -n {{ kuma-system }} --for=condition=ready pod --selector=app={{ kuma-control-plane }} --timeout=90s
+kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
+```
+{% endtip %}
 {% endif_version %}
 
 ## Install {{site.mesh_product_name}} observability stack
