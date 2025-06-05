@@ -28,11 +28,17 @@ Do **not** combine with [Timeout policy](/docs/{{ page.release }}/policies/timeo
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`                              |
 | `from[].targetRef.kind` | `Mesh`                                                                    |
 {% endif_version %}
-{% if_version gte:2.10.x %}
+{% if_version eq:2.10.x %}
 | `targetRef`             | Allowed kinds                                                  |
 | ----------------------- | -------------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshHTTPRoute`, `MeshSubset(deprecated)` |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`                   |
+{% endif_version %}
+{% if_version gte:2.11.x %}
+| `targetRef`           | Allowed kinds                                                  |
+|-----------------------|----------------------------------------------------------------|
+| `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshHTTPRoute`, `MeshSubset(deprecated)` |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`, `MeshHTTPRoute`  |
 {% endif_version %}
 {% endtab %}
 

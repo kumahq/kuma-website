@@ -35,11 +35,17 @@ If you haven't, see the [observability docs](/docs/{{ page.release }}/explore/ob
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`             |
 | `from[].targetRef.kind` | `Mesh`                                                   |
 {% endif_version %}
-{% if_version gte:2.10.x %}
+{% if_version eq:2.10.x %}
 | `targetRef`             | Allowed kinds                                 |
 | ----------------------- | --------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
 | `to[].targetRef.kind`   | `Mesh`, `MeshService`, `MeshExternalService`  |
+{% endif_version %}
+{% if_version gte:2.11.x %}
+| `targetRef`           | Allowed kinds                                                 |
+|-----------------------|---------------------------------------------------------------|
+| `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshSubset(deprecated)`                 |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`, `MeshHTTPRoute` |
 {% endif_version %}
 {% endtab %}
 

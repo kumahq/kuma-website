@@ -512,6 +512,8 @@ items:
         url: /guides/upgrading-transparent-proxy/
       - text: Restrict permissions to selected namespaces on Kubernetes
         url: /guides/restrict-permissions-to-selected-namespaces-on-kubernetes/
+      - text: Targeting MeshHTTPRoutes in supported policies
+        url: /guides/targeting-meshhttproutes-in-supported-policies/
   - title: Reference
     group: true
     items:
