@@ -505,7 +505,7 @@ items:
       - text: Progressively rolling in strict mTLS
         url: /guides/progressively-rolling-in-strict-mtls-kv/
       - text: Producer and consumer policies
-        url: /guides/consumer-producer-policies/
+        url: /guides/consumer-producer-policies-kv/
       - text: Configuring inbound traffic with Rules API
         url: /guides/rules/
       - text: Upgrading Transparent Proxy
