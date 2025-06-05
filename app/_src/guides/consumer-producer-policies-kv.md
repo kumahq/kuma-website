@@ -7,7 +7,7 @@ content_type: tutorial
 {% assign kuma-system = site.mesh_namespace | default: "kuma-system" %}
 {% assign kuma-control-plane = kuma | append: "-control-plane" %}
 
-With namespace scoped policies in {{site.mesh_product_name}} you can have fine-grained control over policies and how they apply to your workloads. Moreover, this empowers app owners to take advantage of Kubernetes RBAC for policy configuration.
+With namespace-scoped policies in {{site.mesh_product_name}} you can have fine-grained control over policies and how they apply to your workloads. Moreover, this empowers app owners to take advantage of Kubernetes RBAC for policy configuration.
 
 To fully utilize the power of namespace-scoped policies, it's important to understand the producer/consumer model.
 This guide will help you become familiar with the model and show how it applies to managing policies effectively.
@@ -33,7 +33,7 @@ kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 
 ## Basic setup
 
-In order to be able to fully utilize namespace scoped policies you need to use [MeshService](/docs/{{ page.release }}/networking/meshservice). 
+In order to be able to fully utilize namespace-scoped policies you need to use [MeshService](/docs/{{ page.release }}/networking/meshservice). 
 To make sure that traffic works in our examples let's configure MeshTrafficPermission to allow all traffic:
 
 ```shell
@@ -118,7 +118,7 @@ second-consumer --> kuma-demo
 {% endmermaid %}
 
 <!-- vale Vale.Terms = NO -->
-## Namespace scoped policies
+## Namespace-scoped policies
 <!-- vale Vale.Terms = YES -->
 
 Now that we have our setup we can start playing with policies. Let's create a simple [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout/) policy in `kuma-demo` namespace:
@@ -171,7 +171,7 @@ This label indicates the policy role. Possible values of this label are:
 
 ### Producer consumer model
 
-With namespace scoped policies we've introduced a producer/consumer model for policies. 
+With namespace-scoped policies we've introduced a producer/consumer model for policies. 
 
 A **producer** is someone who authors and operates a service. A producer can create policies that will be applied by default to any communication with their services.
 Producer policies will be created in the same namespace as `MeshService` they target. Producer policies will be synced to other zones. 
