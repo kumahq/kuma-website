@@ -63,6 +63,7 @@ kubectl apply -f kuma-demo://k8s/003-migration-demo.yaml
 Below diagram shows which applications are inside the mesh and which are not.
 Purple links indicate that the communication is encrypted, gray ones are plaintext.
 
+<!-- vale Google.Headings = NO -->
 {% mermaid %}
 ---
 title: service graph of the second demo app
@@ -87,6 +88,7 @@ flowchart LR
     linkStyle 0 stroke:#d25585, stroke-width:2px;
     linkStyle 1 stroke:#555a5d, stroke-width:2px;
 {% endmermaid %}
+<!-- vale Google.Headings = YES -->
 
 ### Enable port forwarding for both demo-apps
 
@@ -166,6 +168,7 @@ cluster.localhost_5050.upstream_cx_total: 9
 
 The below diagram shows that the second kv was moved to be inside the mesh:
 
+<!-- vale Google.Headings = NO -->
 {% mermaid %}
 ---
 title: service graph when kv is inside the mesh
@@ -194,6 +197,7 @@ flowchart LR
     linkStyle 0 stroke:#d25585, stroke-width:2px;
     linkStyle 1 stroke:#555a5d, stroke-width:2px;
 {% endmermaid %}
+<!-- vale Google.Headings = YES -->
 
 ### Migrate client to mesh
 
@@ -215,6 +219,7 @@ inbound_POD_IP_5050.rbac.allowed
 
 The below diagram shows that all services are now in the mesh:
 
+<!-- vale Google.Headings = NO -->
 {% mermaid %}
 ---
 title: service graph when both client and kv are inside the mesh
@@ -236,6 +241,7 @@ flowchart LR
     end
     linkStyle 0,1 stroke:#d25585, stroke-width:2px;
 {% endmermaid %}
+<!-- vale Google.Headings = YES -->
 
 ### Set strict mode on kv
 
