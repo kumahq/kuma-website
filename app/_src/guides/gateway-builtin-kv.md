@@ -2,6 +2,7 @@
 title: Add a builtin gateway 
 ---
 
+{% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
 {% assign kuma-system = site.mesh_namespace | default: "kuma-system" %}
 {% assign kuma-control-plane = kuma | append: "-control-plane" %}
 
