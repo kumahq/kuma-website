@@ -64,7 +64,7 @@ Now we can create deployment we will be using to communicate with our demo-app f
 kubectl run consumer --image nicolaka/netshoot --labels="app=consumer" -n consumer --command -- /bin/bash -c "ping -i 60 localhost"
 ```
 
-You can make now make a couple of requests to our demo app to check if everything is working:
+You can now make a couple of requests to our demo-app to check if everything is working:
 
 ```shell
 kubectl exec -n consumer consumer -- curl -s -XPOST demo-app.kuma-demo:5050/api/counter
@@ -165,5 +165,5 @@ rules:
 ```
 
 In this scenario we have applied a **request timeout of 1 second** for incoming requests. At this point in time rules api is really simple.
-You cannot apply configuration to subset of incoming traffic. Because of this we don't support
+You cannot apply configuration to subset of incoming traffic, because of this we don't support
 rules api for MeshTrafficPermission and MeshFaultInjection yet.
