@@ -20,7 +20,7 @@ If you are already familiar with quickstart you can set up required environment 
 helm upgrade \
   --install \
   --create-namespace \
-  --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
+  --namespace {{ kuma-system }} \{% if version == "preview" %}
   --version {{ page.version }} \{% endif %}
   {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
 kubectl wait -n {{ kuma-system }} --for=condition=ready pod --selector=app={{ kuma-control-plane }} --timeout=90s
@@ -28,12 +28,11 @@ kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 ```
 {% endtip %}
 
-
 ## Basic setup
 
 To make sure that traffic works in our examples let's configure MeshTrafficPermission to allow all traffic:
 
-```shell
+```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
@@ -129,7 +128,6 @@ spec:
       mode: Permissive" | kubectl apply -f -
 ```
 
-
 ### Migrate kv to mesh
 
 We need to start by labeling `kuma-demo-migration` namespace with `kuma.io/sidecar-injection=true` label:
@@ -155,7 +153,7 @@ curl -s http://localhost:5681/meshes/default/dataplanes/$KV_DPP_NAME/stats | gre
 {% warning %}
 Make sure you have port forwarding enabled for control plane for this to work:
 ```sh
-kubectl port-forward svc/{{site.mesh_cp_name}} -n {{site.mesh_namespace}} 5681:5681
+kubectl port-forward svc/{{ kuma-control-plane }} -n {{ kuma-system }} 5681:5681
 ```
 {% endwarning %}
 
@@ -213,7 +211,7 @@ After this is done, you'll have to re-enable the port-forward, and then you can 
 <img src="/assets/images/guides/meshtls/dp-stats-view3.png" alt="Data Plane Proxies Stats metric for inbound_POD_IP_6379.rbac.allowed"/>
 </center>
 
-```yaml
+```
 inbound_POD_IP_5050.rbac.allowed
 ```
 
@@ -254,11 +252,13 @@ If only encrypted traffic is sent to the destination, the difference between `cl
 {% endtip %}
 
 ```sh
-kubectl delete meshtlses.kuma.io -n kuma-demo-migration kv
+kubectl delete meshtlses -n kuma-demo-migration kv
 ```
 
-## Next steps
+## What you've learned
 
 With a couple of easy steps we were able to gradually bring a service into the mesh without dropping a packet and encrypting the traffic whenever it's possible.
+
+## Next steps
 
 Read more about [MeshTLS](/docs/{{ page.release }}/policies/meshtls/) policy.
