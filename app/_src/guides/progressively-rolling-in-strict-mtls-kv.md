@@ -157,7 +157,6 @@ kubectl port-forward svc/{{ kuma-control-plane }} -n {{ kuma-system }} 5681:5681
 ```
 {% endwarning %}
 
-
 You should see metrics increment after running this `curl` command multiple times. Metrics will look like:
 
 ```
