@@ -145,17 +145,17 @@ kubectl rollout restart deployment kv -n kuma-demo-migration
 After this kv will be receiving plaintext traffic from non-meshed client.
 You can check the `stats` for kv data plane:
 
-```sh
-export KV_DPP_NAME=$(curl -s http://localhost:5681/meshes/default/dataplanes/_overview\?name\=kv | jq -r '.items[0].name')
-curl -s http://localhost:5681/meshes/default/dataplanes/$KV_DPP_NAME/stats | grep cluster.localhost_5050.upstream_cx_total
-```
-
 {% warning %}
 Make sure you have port forwarding enabled for control plane for this to work:
 ```sh
 kubectl port-forward svc/{{ kuma-control-plane }} -n {{ kuma-system }} 5681:5681
 ```
 {% endwarning %}
+
+```sh
+export KV_DPP_NAME=$(curl -s http://localhost:5681/meshes/default/dataplanes/_overview\?name\=kv | jq -r '.items[0].name')
+curl -s http://localhost:5681/meshes/default/dataplanes/$KV_DPP_NAME/stats | grep cluster.localhost_5050.upstream_cx_total
+```
 
 You should see metrics increment after running this `curl` command multiple times. Metrics will look like:
 
