@@ -18,15 +18,20 @@ In this guide, you’ll learn how to target [`MeshHTTPRoutes`]({{ docs }}/polici
 If you're already familiar with the quickstart, you can set up the required environment by running:
 
 ```sh
-helm upgrade \
-  --install \
-  --create-namespace \
-  --namespace {{ site.mesh_namespace }} \{% if version == "preview" %}
-  --version {{ page.version }} \{% endif %}
-  {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
+# Install {{ Kuma }}
+helm upgrade --install --create-namespace --namespace {{ site.mesh_namespace }} {% if version == "preview" %}--version {{ page.version }} {% endif %}{{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }}
+
+# Wait for control plane to be ready
 kubectl wait -n {{ kuma-system }} --for=condition=ready pod --selector=app={{ kuma-control-plane }} --timeout=90s
+
+# Deploy demo application with mTLS enabled
 kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
-kubectl port-forward svc/demo-app -n kuma-demo 5050:5050
+
+# Wait for demo-app pod to be ready
+kubectl wait -n kuma-demo --for=condition=ready pod --selector=app=demo-app --timeout=90s
+
+# Forward port in the background to access the demo-app locally
+kubectl port-forward svc/demo-app -n kuma-demo 5050:5050 &
 ```
 {% endtip %}
 {% endcapture %}
@@ -402,3 +407,8 @@ To continue learning:
 * Explore more about [MeshHTTPRoute]({{ docs }}/policies/meshhttproute/) capabilities like header and query matching
 * Try combining `MeshFaultInjection` with `MeshRetry` and `MeshTimeout` to simulate real failure scenarios
 * Learn how other policies like `MeshCircuitBreaker` or `MeshRateLimit` can also be scoped to `MeshHTTPRoutes` (where supported) for granular control
+
+
+```bash
+echo '' | kubectl apply -f -
+```
