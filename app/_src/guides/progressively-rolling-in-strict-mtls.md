@@ -5,16 +5,9 @@ title: Progressively rolling in strict mTLS
 The [MeshTLS](/docs/{{ page.release }}/policies/meshtls/) policy allows you to gradually migrate services to mutual TLS without dropping a packet.
 
 ## Prerequisites
-{% if_version lte:2.10.x %}
+
 - Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application.
 - [`jq`](https://jqlang.github.io/jq/) - a command-line JSON processor
-{% endif_version %}
-{% if_version gte:2.11.x %}
-- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application.
-- [`jq`](https://jqlang.github.io/jq/) - a command-line JSON processor
-{% endif_version %}
-
-
 
 ## Basic setup
 
@@ -35,7 +28,7 @@ spec:
 
 To make sure that traffic works in our examples let's configure MeshTrafficPermission to allow all traffic:
 
-```shell
+```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
@@ -58,7 +51,7 @@ spec:
 First we start a new demo setup in another namespace called `kuma-demo-migration`.
 The below command installs the demo one more time in another namespace:
 
-```bash
+```sh
 curl -s https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.yaml | 
   sed "s#kuma.io/sidecar-injection: enabled#kuma.io/sidecar-injection: disabled#" |
   sed "s#name: kuma-demo#name: kuma-demo-migration#" |
@@ -96,13 +89,13 @@ flowchart LR
 
 ### Enable port forwarding for both demo-apps
 
-```bash
+```sh
 kubectl port-forward svc/demo-app -n kuma-demo 5001:5000
 ```
 
 And in separate terminal window
 
-```bash
+```sh
 kubectl port-forward svc/demo-app -n kuma-demo-migration 5002:5000
 ```
 
@@ -114,7 +107,7 @@ We begin with preparing redis to start in [permissive](/docs/{{ page.release }}/
 To enable permissive mode we define this `MeshTLS` policy:
 
 {% if_version lte:2.9.x %}
-```bash
+```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTLS
 metadata:
@@ -136,7 +129,7 @@ spec:
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-```bash
+```sh
 echo "apiVersion: kuma.io/v1alpha1
 kind: MeshTLS
 metadata:
@@ -161,7 +154,7 @@ spec:
 
 Then we bring redis into the mesh by adding [kuma.io/sidecar-injection=true](/docs/{{ page.release }}/reference/kubernetes-annotations/#kumaiosidecar-injection) label:
 
-```bash
+```sh
 kubectl patch deployment redis -n kuma-demo-migration \
   --type='json' \
   -p='[{"op": "add", "path": "/spec/template/metadata/labels/kuma.io~1sidecar-injection", "value": "enabled"}]'
@@ -170,7 +163,7 @@ kubectl patch deployment redis -n kuma-demo-migration \
 After this redis will be receiving plaintext traffic from non-meshed client.
 You can check the `stats` for redis data plane:
 
-```bash
+```sh
 export REDIS_DPP_NAME=$(curl -s http://localhost:5681/meshes/default/dataplanes/_overview\?name\=redis | jq -r '.items[0].name')
 curl -s http://localhost:5681/meshes/default/dataplanes/$REDIS_DPP_NAME/stats | grep cluster.localhost_6379.upstream_cx_total
 ```
@@ -216,7 +209,7 @@ flowchart LR
 
 Next we do the same to the client so the traffic is encrypted:
 
-```bash
+```sh
 kubectl patch deployment demo-app -n kuma-demo-migration \
 --type='json' \
 -p='[{"op": "add", "path": "/spec/template/metadata/labels/kuma.io~1sidecar-injection", "value": "enabled"}]'
@@ -266,7 +259,7 @@ Finally, to set strict mode you can either edit the policy or remove it (the def
 If only encrypted traffic is sent to the destination, the difference between `cluster.localhost_6379.upstream_cx_total` and `inbound_10_42_0_13_6379.rbac.allowed` will not change after setting the workload to `Strict` mode.
 {% endtip %}
 
-```bash
+```sh
 kubectl delete meshtlses.kuma.io -n kuma-demo-migration redis
 ```
 
