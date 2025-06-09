@@ -507,7 +507,7 @@ items:
       - text: Producer and consumer policies
         url: /guides/consumer-producer-policies-kv/
       - text: Configuring inbound traffic with Rules API
-        url: /guides/rules/
+        url: /guides/rules-kv/
       - text: Upgrading Transparent Proxy
         url: /guides/upgrading-transparent-proxy/
       - text: Restrict permissions to selected namespaces on Kubernetes
