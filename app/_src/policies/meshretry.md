@@ -28,11 +28,17 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 | `targetRef.kind`      | `Mesh`, `MeshSubset`                                     |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`             |
 {% endif_version %}
-{% if_version gte:2.10.x %}
+{% if_version eq:2.10.x %}
 | `targetRef`           | Allowed kinds                                 |
 | --------------------- | --------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshSubset(deprecated)` |
 | `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`  |
+{% endif_version %}
+{% if_version gte:2.11.x %}
+| `targetRef`           | Allowed kinds                                                 |
+|-----------------------|---------------------------------------------------------------|
+| `targetRef.kind`      | `Mesh`, `Dataplane`, `MeshSubset(deprecated)`                 |
+| `to[].targetRef.kind` | `Mesh`, `MeshService`, `MeshExternalService`, `MeshHTTPRoute` |
 {% endif_version %}
 {% if_version lte:2.5.x %}
 | `targetRef.kind`    | top level | to  | from |
