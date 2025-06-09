@@ -199,7 +199,8 @@ spec:
       kind: MeshService
       name: kv
     rules:
-    - matches:
+    - default: {}
+      matches:
       - path:
           type: Exact
           value: "/api/key-value/counter"
