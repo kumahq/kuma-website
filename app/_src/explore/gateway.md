@@ -225,7 +225,7 @@ To configure your gateway {{site.mesh_product_name}} has these resources:
 ### Usage
 
 You can create and configure a gateway that listens for traffic from outside of your mesh
-and forwards it to the {% if_version gte:2.11.x %}[demo app frontend](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/){% endif_version %}{% if_version gte:2.6.x %}{% if_version lte:2.10.x %}[demo app frontend](/docs/{{ page.release }}/quickstart/kubernetes-demo/){% endif_version %}{% endif_version %}{% if_version lte:2.5.x %}[demo app frontend](/docs/{{ page.release }}/quickstart/kubernetes/){% endif_version %}.
+and forwards it to the {% if_version gte:2.6.x %}[demo app frontend](/docs/{{ page.release }}/quickstart/kubernetes-demo/){% endif_version %}{% if_version lte:2.5.x %}[demo app frontend](/docs/{{ page.release }}/quickstart/kubernetes/){% endif_version %}.
 
 {% tabs %}
 {% tab Kubernetes %}
