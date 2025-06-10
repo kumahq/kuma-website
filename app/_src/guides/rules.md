@@ -11,7 +11,7 @@ Using `Rules API` combined with targetRef `Dataplane` kind in {{site.mesh_produc
 {% endif_version %}
 
 {% if_version gte:2.11.x %}
-- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 {% endif_version %}
 
 ## Basic setup

@@ -10,7 +10,7 @@ The [MeshTLS](/docs/{{ page.release }}/policies/meshtls/) policy allows you to g
 
 ## Prerequisites
 
-- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application.
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application.
 - [`jq`](https://jqlang.github.io/jq/) - a command-line JSON processor
 
 {% tip %}
