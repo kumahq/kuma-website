@@ -18,9 +18,6 @@ lots of possibilities of processing and exporting metrics to multiple ecosystems
 {% endif_version %}
 
 {% if_version gte:2.11.x %}
-- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
-- Enable auto increment in demo-app GUI [http://127.0.0.1:5050](http://127.0.0.1:5000)
-
 {% tip %}
 If you are already familiar with quickstart you can set up required environment by running:
 

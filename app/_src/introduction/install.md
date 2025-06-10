@@ -9,7 +9,7 @@ This guide is mostly useful for Universal setup, as for Kubernetes we recommend 
 More in [Kubernetes quickstart guide](/docs/{{ page.release }}/quickstart/kubernetes-demo/).
 {% endif_version %}
 {% if_version gte:2.11.x %}
-More in [Kubernetes quickstart guide](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/).
+More in [Kubernetes quickstart guide](/docs/{{ page.release }}/quickstart/kubernetes-demo/).
 {% endif_version %}
 {% endcapture %}
 

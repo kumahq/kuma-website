@@ -34,22 +34,23 @@ items:
     group: true
     items:
       - text: Deploy Kuma on Kubernetes
-        url: /quickstart/kubernetes-demo-kv/
+        url: /quickstart/kubernetes-demo/
+        src: /quickstart/kubernetes-demo-kv/
         items:
           - text: Prerequisites
-            url: "/quickstart/kubernetes-demo-kv/#prerequisites"
+            url: "/quickstart/kubernetes-demo/#prerequisites"
           - text: Start Kubernetes cluster
-            url: "/quickstart/kubernetes-demo-kv/#start-kubernetes-cluster"
+            url: "/quickstart/kubernetes-demo/#start-kubernetes-cluster"
           - text: Install Kuma
-            url: "/quickstart/kubernetes-demo-kv/#install-kuma"
+            url: "/quickstart/kubernetes-demo/#install-kuma"
           - text: Deploy demo application
-            url: "/quickstart/kubernetes-demo-kv/#deploy-demo-application"
+            url: "/quickstart/kubernetes-demo/#deploy-demo-application"
           - text: Explore GUI
-            url: "/quickstart/kubernetes-demo-kv/#explore-the-gui"
+            url: "/quickstart/kubernetes-demo/#explore-the-gui"
           - text: Introduce zero-trust security
-            url: "/quickstart/kubernetes-demo-kv/#introduce-zero-trust-security"
+            url: "/quickstart/kubernetes-demo/#introduce-zero-trust-security"
           - text: Next steps
-            url: "/quickstart/kubernetes-demo-kv/#next-steps"
+            url: "/quickstart/kubernetes-demo/#next-steps"
       - text: Deploy Kuma on Universal
         url: /quickstart/universal-docker-demo/
   - title: Kuma in Production

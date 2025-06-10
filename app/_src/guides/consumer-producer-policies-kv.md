@@ -14,7 +14,7 @@ This guide will help you become familiar with the model and show how it applies 
 
 ## Prerequisites
 
-- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
+- Completed [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 
 {% tip %}
 If you are already familiar with quickstart you can set up required environment by running:
