@@ -23,7 +23,7 @@ gateway.
 {% tip %}
 **New to Kuma?**
 Checkout our [guide](/docs/{{ page.release }}/guides/gateway-delegated/) to get quickly started with delegated gateways.
-{% endtip %
+{% endtip %}
 
 ### Usage
 
