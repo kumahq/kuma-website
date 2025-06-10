@@ -5,12 +5,7 @@ content_type: how-to
 
 {% capture install-tip %}
 This guide is mostly useful for Universal setup, as for Kubernetes we recommend using `kubectl` for managing [resources](/docs/{{ page.release }}/introduction/concepts#resource).
-{% if_version lte:2.10.x %}
 More in [Kubernetes quickstart guide](/docs/{{ page.release }}/quickstart/kubernetes-demo/).
-{% endif_version %}
-{% if_version gte:2.11.x %}
-More in [Kubernetes quickstart guide](/docs/{{ page.release }}/quickstart/kubernetes-demo-kv/).
-{% endif_version %}
 {% endcapture %}
 
 {% tip %}

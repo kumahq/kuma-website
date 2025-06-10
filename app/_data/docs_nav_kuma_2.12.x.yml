@@ -34,22 +34,23 @@ items:
     group: true
     items:
       - text: Deploy Kuma on Kubernetes
-        url: /quickstart/kubernetes-demo-kv/
+        url: /quickstart/kubernetes-demo/
+        src: /quickstart/kubernetes-demo-kv/
         items:
           - text: Prerequisites
-            url: "/quickstart/kubernetes-demo-kv/#prerequisites"
+            url: "/quickstart/kubernetes-demo/#prerequisites"
           - text: Start Kubernetes cluster
-            url: "/quickstart/kubernetes-demo-kv/#start-kubernetes-cluster"
+            url: "/quickstart/kubernetes-demo/#start-kubernetes-cluster"
           - text: Install Kuma
-            url: "/quickstart/kubernetes-demo-kv/#install-kuma"
+            url: "/quickstart/kubernetes-demo/#install-kuma"
           - text: Deploy demo application
-            url: "/quickstart/kubernetes-demo-kv/#deploy-demo-application"
+            url: "/quickstart/kubernetes-demo/#deploy-demo-application"
           - text: Explore GUI
-            url: "/quickstart/kubernetes-demo-kv/#explore-the-gui"
+            url: "/quickstart/kubernetes-demo/#explore-the-gui"
           - text: Introduce zero-trust security
-            url: "/quickstart/kubernetes-demo-kv/#introduce-zero-trust-security"
+            url: "/quickstart/kubernetes-demo/#introduce-zero-trust-security"
           - text: Next steps
-            url: "/quickstart/kubernetes-demo-kv/#next-steps"
+            url: "/quickstart/kubernetes-demo/#next-steps"
       - text: Deploy Kuma on Universal
         url: /quickstart/universal-docker-demo/
   - title: Kuma in Production
@@ -180,22 +181,22 @@ items:
       - title: Resiliency & Failover
         group: true
         items:
-        - text: Dataplane Health
-          url: /documentation/health/
-          items:
-            - text: MeshCircuitBreaker Policy
-              url: "/documentation/health/#meshcircuitbreaker-policy"
-            - text: Kubernetes and Universal Service Probes
-              url: "/documentation/health/#kubernetes-and-universal-service-probes"
-            - text: MeshHealthCheck Policy
-              url: "/documentation/health/#meshhealthcheck-policy"
-        - text: Service Health Probes
-          url: /policies/service-health-probes/
-          items:
-            - text: Kubernetes
-              url: "/policies/service-health-probes/#kubernetes"
-            - text: Universal probes
-              url: "/policies/service-health-probes/#universal-probes"
+          - text: Dataplane Health
+            url: /documentation/health/
+            items:
+              - text: MeshCircuitBreaker Policy
+                url: "/documentation/health/#meshcircuitbreaker-policy"
+              - text: Kubernetes and Universal Service Probes
+                url: "/documentation/health/#kubernetes-and-universal-service-probes"
+              - text: MeshHealthCheck Policy
+                url: "/documentation/health/#meshhealthcheck-policy"
+          - text: Service Health Probes
+            url: /policies/service-health-probes/
+            items:
+              - text: Kubernetes
+                url: "/policies/service-health-probes/#kubernetes"
+              - text: Universal probes
+                url: "/policies/service-health-probes/#universal-probes"
       - title: Managing incoming traffic with gateways
         group: true
         items:
@@ -491,27 +492,36 @@ items:
     group: true
     items:
       - text: Federate zone control plane
-        url: /guides/federate-kv/
+        url: /guides/federate/
+        src: /guides/federate-kv/
       - text: Add a builtin Gateway
-        url: /guides/gateway-builtin-kv/
+        url: /guides/gateway-builtin/
+        src: /guides/gateway-builtin-kv/
       - text: Add Kong as a delegated Gateway
-        url: /guides/gateway-delegated-kv/
+        url: /guides/gateway-delegated/
+        src: /guides/gateway-delegated-kv/
       - text: Kubernetes Gateway API
-        url: /guides/gateway-api-kv/
+        url: /guides/gateway-api/
+        src: /guides/gateway-api-kv/
       - text: Collect Metrics with OpenTelemetry
         url: /guides/otel-metrics/
       - text: Migration to the new policies
         url: /guides/migration-to-the-new-policies/
       - text: Progressively rolling in strict mTLS
-        url: /guides/progressively-rolling-in-strict-mtls-kv/
+        url: /guides/progressively-rolling-in-strict-mtls/
+        src: /guides/progressively-rolling-in-strict-mtls-kv/
       - text: Producer and consumer policies
-        url: /guides/consumer-producer-policies-kv/
+        url: /guides/consumer-producer-policies/
+        src: /guides/consumer-producer-policies-kv/
       - text: Configuring inbound traffic with Rules API
         url: /guides/rules/
+        src: /guides/rules-kv/
       - text: Upgrading Transparent Proxy
         url: /guides/upgrading-transparent-proxy/
       - text: Restrict permissions to selected namespaces on Kubernetes
         url: /guides/restrict-permissions-to-selected-namespaces-on-kubernetes/
+      - text: Targeting MeshHTTPRoutes in supported policies
+        url: /guides/targeting-meshhttproutes-in-supported-policies/
   - title: Reference
     group: true
     items:

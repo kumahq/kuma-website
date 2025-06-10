@@ -36,7 +36,7 @@ kubectl port-forward svc/demo-app -n kuma-demo 5050:5050 &
 {% endtip %}
 {% endcapture %}
 
-1. Completed [quickstart]({{ docs }}/quickstart/kubernetes-demo-kv/) to set up a zone control plane with demo application
+1. Completed [quickstart]({{ docs }}/quickstart/kubernetes-demo/) to set up a zone control plane with demo application
 
    {{ familiarWithQuickstart | indent }}
 

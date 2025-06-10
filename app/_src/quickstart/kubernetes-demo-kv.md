@@ -166,9 +166,9 @@ However, the traffic to `kv` from any other service than `demo-app` is not allow
 ## Next steps
 
 * Explore the [Features](/features) available to govern and orchestrate your service traffic.
-* Add a gateway to access the demo from the outside by following the [builtin gateway guide](/docs/{{ page.release }}/guides/gateway-builtin-kv/).
-* Add Kong as gateway to access the demo from the outside by following the [delegated gateway guide](/docs/{{ page.release }}/guides/gateway-delegated-kv/).
-* [Federate](/docs/{{ page.release }}/guides/federate-kv/) zone into a multizone deployment.
+* Add a gateway to access the demo from the outside by following the [builtin gateway guide](/docs/{{ page.release }}/guides/gateway-builtin/).
+* Add Kong as gateway to access the demo from the outside by following the [delegated gateway guide](/docs/{{ page.release }}/guides/gateway-delegated/).
+* [Federate](/docs/{{ page.release }}/guides/federate/) zone into a multizone deployment.
 * Learn more about what you can do with the [GUI](/docs/{{ page.release }}/production/gui).
 * Explore further installation strategies for [single-zone](/docs/{{ page.release }}/production/cp-deployment/single-zone) and [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone) environments.
 * Read the [full documentation](/docs/{{ page.release }}/) to learn about all the capabilities of {{site.mesh_product_name}}.

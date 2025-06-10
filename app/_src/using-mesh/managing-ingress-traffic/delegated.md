@@ -20,20 +20,10 @@ gateway.
 </center>
 
 
-{% if_version lte:2.10.x %}
 {% tip %}
 **New to Kuma?**
 Checkout our [guide](/docs/{{ page.release }}/guides/gateway-delegated/) to get quickly started with delegated gateways.
 {% endtip %}
-{% endif_version %}
-
-{% if_version gte:2.11.x %}
-{% tip %}
-**New to Kuma?**
-Checkout our [guide](/docs/{{ page.release }}/guides/gateway-delegated-kv/) to get quickly started with delegated gateways.
-{% endtip %}
-{% endif_version %}
-
 
 ### Usage
 
