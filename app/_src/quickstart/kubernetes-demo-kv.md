@@ -7,17 +7,17 @@ To start learning how {{site.mesh_product_name}} works, you run and secure a sim
 - `demo-app`: a web application that lets you increment a numeric counter. It listens on port 5050
 - `kv`: an in-memory http database that lets you increment a numeric counter. It listens on port 5050
 
-{% mermaid %}
 <!-- vale Google.Headings = NO -->
+{% mermaid %}
 ---
 title: Service graph of the demo app
 ---
-<!-- vale Google.Headings = YES -->
 flowchart LR
 demo-app(demo-app :5050)
 kv(kv :5050)
 demo-app --> kv
 {% endmermaid %}
+<!-- vale Google.Headings = YES -->
 
 ## Prerequisites
 
