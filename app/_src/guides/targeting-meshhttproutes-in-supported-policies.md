@@ -408,8 +408,3 @@ To continue learning:
 * Explore more about [MeshHTTPRoute]({{ docs }}/policies/meshhttproute/) capabilities like header and query matching
 * Try combining `MeshFaultInjection` with `MeshRetry` and `MeshTimeout` to simulate real failure scenarios
 * Learn how other policies like `MeshCircuitBreaker` or `MeshRateLimit` can also be scoped to `MeshHTTPRoutes` (where supported) for granular control
-
-
-```bash
-echo '' | kubectl apply -f -
-```
