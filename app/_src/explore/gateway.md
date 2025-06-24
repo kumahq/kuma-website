@@ -43,7 +43,7 @@ The `gateway` mode lets you skip exposing inbound listeners so it won't be inter
 {% tab Kubernetes %}
 
 {{site.mesh_product_name}} supports most of the ingress controllers. However, the recommended gateway in Kubernetes is [Kong](https://docs.konghq.com/gateway). You can use [Kong ingress controller for Kubernetes](https://docs.konghq.com/kubernetes-ingress-controller/) to implement authentication, transformations, and other functionalities across Kubernetes clusters with zero downtime.
-Most ingress controllers require an annotation [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/3.1.x/reference/annotations/#ingresskubernetesioservice-upstream) on every Kubernetes `Service` to work with {{site.mesh_product_name}}. {{site.mesh_product_name}} automatically injects the annotation for every `Service` in a namespace in a mesh that has `kuma.io/sidecar-injection: enabled` label.
+Most ingress controllers require an annotation [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/3.1.x/reference/annotations/#ingress-kubernetes-io-service-upstream) on every Kubernetes `Service` to work with {{site.mesh_product_name}}. {{site.mesh_product_name}} automatically injects the annotation for every `Service` in a namespace in a mesh that has `kuma.io/sidecar-injection: enabled` label.
 
 To use the delegated gateway feature, mark your API Gateway's Pod with the `kuma.io/gateway: enabled` annotation. Control plane automatically generates `Dataplane` objects.
 
