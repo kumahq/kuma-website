@@ -289,6 +289,8 @@ spec:
   ...
   template:
     metadata:
+      ...
+      annotations:
         kuma.io/reachable-backends: |
           refs:
           - kind: MeshService
