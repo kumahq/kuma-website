@@ -51,7 +51,7 @@ kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 
 ## Install Kong ingress controller 
 
-Follow the steps on the [Kong docs website](https://docs.konghq.com/kubernetes-ingress-controller/latest/get-started/) to install the ingress controller.
+Follow the steps on the [Kong docs website](https://developer.konghq.com/kubernetes-ingress-controller/install/) to install the ingress controller.
 
 {% warning %}
 The Kubernetes cluster needs to support `LoadBalancer` for this to work.
