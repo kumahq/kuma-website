@@ -30,14 +30,14 @@ Checkout our [guide](/docs/{{ page.release }}/guides/gateway-delegated/) to get 
 {% tabs %}
 {% tab Kubernetes %}
 
-{{site.mesh_product_name}} supports most ingress controllers. However, the recommended gateway in Kubernetes is [Kong](https://docs.konghq.com/gateway). You can use [Kong Ingress Controller for Kubernetes](https://docs.konghq.com/kubernetes-ingress-controller/) to implement authentication, transformations, and other functionality across Kubernetes clusters with zero downtime.
+{{site.mesh_product_name}} supports most ingress controllers. However, the recommended gateway in Kubernetes is [Kong](https://developer.konghq.com/gateway/). You can use [Kong Ingress Controller for Kubernetes](https://developer.konghq.com/kubernetes-ingress-controller/) to implement authentication, transformations, and other functionality across Kubernetes clusters with zero downtime.
 
 #### Service upstream
 
 Remember that {{ site.mesh_product_name }} takes over from `kube-proxy` when it comes to managing endpoints for `Service` traffic.
 Ingress controllers generally do the same thing for upstream traffic.
 In order for these two functionalities not to conflict with each other, `Services` are required to
-have the [`ingress.kubernetes.io/service-upstream=true`](https://docs.konghq.com/kubernetes-ingress-controller/3.0.x/reference/annotations/#ingress-kubernetes-io-service-upstream) annotation.
+have the [`ingress.kubernetes.io/service-upstream=true`](https://developer.konghq.com/kubernetes-ingress-controller/reference/annotations/#ingress-kubernetes-io-service-upstream) annotation.
 With this annotation the ingress controller sends traffic to the `Service` IP instead of directly to the endpoints selected by the `Service`.
 {{site.mesh_product_name}} then routes this `Service` traffic to endpoints as configured by the mesh.
 {{site.mesh_product_name}} automatically injects this annotation for every
