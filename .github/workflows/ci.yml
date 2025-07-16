@@ -44,8 +44,8 @@ jobs:
         with:
           site_name: "kuma"
           max_timeout: 1200
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@v3
       - name: link checker
         run: |
           $(go env GOPATH)/bin/muffet \
@@ -66,9 +66,9 @@ jobs:
             --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
             --exclude 'https://jwt.io/' \
             --header 'accept-language: en-US' \
-            --max-connections-per-host=8 \
+            --max-connections-per-host=512 \
             --max-response-body-size 100000000 \
-            --rate-limit 50 \
+            --rate-limit 10 \
             --timeout 60
       - name: link checker dev docs
         run: |
