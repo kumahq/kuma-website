@@ -65,7 +65,7 @@ jobs:
             --header 'accept-language: en-US' \
             --max-connections=2 \
             --max-response-body-size 100000000 \
-            --rate-limit 10 \
+            --rate-limit 50 \
             --timeout 60
       - name: link checker dev docs
         run: |
@@ -86,7 +86,7 @@ jobs:
             --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
             --exclude 'https://jwt.io/' \
             --header 'accept-language: en-US' \
-            --max-connections-per-host=8 \
+            --max-connections=2 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
             --timeout 60
