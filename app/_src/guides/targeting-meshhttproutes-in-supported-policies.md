@@ -9,7 +9,12 @@ content_type: tutorial
 {% assign kuma-system = site.mesh_namespace | default: "kuma-system" %}
 {% assign kuma-control-plane = kuma | append: "-control-plane" %}
 
+{% if_version gte:2.12.x %}
+In this guide, you’ll learn how to target [`MeshHTTPRoutes`]({{ docs }}/policies/meshhttproute/) in supported policies like `MeshTimeout`, `MeshRetry`, `MeshAccessLog`, and `MeshLoadBalancingStrategy`. This lets you apply fine-grained traffic control to specific HTTP methods and paths instead of entire services.
+{% endif_version %}
+{% if_version lte:2.11.x %}
 In this guide, you’ll learn how to target [`MeshHTTPRoutes`]({{ docs }}/policies/meshhttproute/) in supported policies like `MeshTimeout`, `MeshRetry`, and `MeshAccessLog`. This lets you apply fine-grained traffic control to specific HTTP methods and paths instead of entire services.
+{% endif_version %}
 
 ## Prerequisites
 
@@ -45,9 +50,9 @@ kubectl port-forward svc/demo-app -n kuma-demo 5050:5050 &
    ```bash
    curl -XPOST localhost:5050/api/counter
    ```
-   
+
    Expected response:
-   
+
    ```json
    {"counter":1,"zone":""}
    ```
@@ -392,6 +397,140 @@ curl -XPOST localhost:5050/api/counter
 
 you shouldn't see any `500` errors either.
 
+{% if_version gte:2.12.x %}
+## MeshLoadBalancingStrategy
+
+In this section we'll demonstrate how hash policy can be applied on the HTTP route to achieve the "sticky sessions" effect.
+
+### Scale `kv`
+
+To demonstrate `MeshLoadBalancingStrategy` in action, we need multiple `kv` instances to observe how requests are routed.
+Scale `kv` deployment to 3 replicas:
+
+```bash
+kubectl scale deployment/kv -n kuma-demo --replicas=3
+```
+
+### Switch load balancer type to `RingHash`
+
+By default, the load balancer type is `RoundRobin`.
+The only 2 load balancer types that support hash policies are `RingHash` and `Maglev`.
+In this guide let's stick with `RingHash`:
+
+```bash
+echo 'apiVersion: kuma.io/v1alpha1
+kind: MeshLoadBalancingStrategy
+metadata:
+  name: kv
+  namespace: kuma-demo
+spec:
+  to:
+    - targetRef:
+        kind: MeshService
+        name: kv
+      default:
+        loadBalancer:
+          type: RingHash' | kubectl apply -f -
+```
+
+
+### Apply hash policy on the HTTP route
+
+First, we need to create `MeshHTTPRoute` that we can apply hash policy to:
+
+```bash
+echo 'apiVersion: kuma.io/v1alpha1
+kind: MeshHTTPRoute
+metadata:
+  name: kv-api-key-value
+  namespace: kuma-demo
+spec:
+  to:
+    - targetRef:
+        kind: MeshService
+        name: kv
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: "/api/key-value"' | kubectl apply -f -
+```
+
+After that we can apply `MeshLoadBalancingStrategy` referencing the `kv-api-key-value` route:
+
+```bash
+echo 'apiVersion: kuma.io/v1alpha1
+kind: MeshLoadBalancingStrategy
+metadata:
+  name: kv-api-hash-x-session-id
+  namespace: kuma-demo
+spec:
+  to:
+    - targetRef:
+        kind: MeshHTTPRoute
+        name: kv-api-key-value
+      default:
+        hashPolicies:
+          - type: Header
+            header:
+              name: x-session-id' | kubectl apply -f -
+```
+
+As a result, `x-session-id` header value is going to be hashed and used for `kv` endpoint selection.
+So 2 requests with the same `x-session-id` values are guaranteed to end up on the same `kv` instance.
+
+### Run debug container in `demo-app`
+
+App `demo-app` doesn't forward HTTP headers.
+That's why to have full control over the headers we send to `kv` we'll call `curl` from the debug container of `demo-app`:
+
+```bash
+kubectl debug $(kubectl get pod -n kuma-demo -l app=demo-app -o jsonpath='{.items[0].metadata.name}') -n kuma-demo -it --image=nicolaka/netshoot
+```
+
+### Write to the `kv` instance with `x-session-id` header
+
+In the `demo-app` debug container run:
+
+```bash
+curl -X POST -d '{"value":"orange"}' -H 'x-session-id: my-first-session' http://kv.kuma-demo.svc.cluster.local:5050/api/key-value/cat -H 'Content-Type: application/json'
+```
+
+You should see the value is successfully created:
+
+```json
+{"value":"orange"}
+```
+
+### Read from the `kv` instance with `x-session-id` header
+
+In the `demo-app` debug container run:
+
+```bash
+curl -X GET -H 'x-session-id: my-first-session' http://kv.kuma-demo.svc.cluster.local:5050/api/key-value/cat
+```
+
+You should see the result:
+
+```json
+{"value":"orange"}
+```
+
+### Read from the `kv` without `x-session-id` header
+
+In the `demo-app` debug container run the following command multiple times:
+
+```bash
+curl -X GET http://kv.kuma-demo.svc.cluster.local:5050/api/key-value/cat
+```
+
+Since the requests are now load balanced across all `kv` instances, in 2/3 times we're going to see:
+
+```json
+{"instance":"e3c9d41f4d4cbc7b53df7472f61c371e","status":404,"title":"no key \"cat\"","type":"https://github.com/kumahq/kuma-counter-demo/blob/main/ERRORS.md#KV-NOT-FOUND"}
+```
+{% endif_version %}
+
 ## What you've learned
 
 In this guide, you have:
@@ -399,6 +538,9 @@ In this guide, you have:
 * Applied `MeshTimeout` policies targeting `MeshHTTPRoute` to customize request timeouts for specific HTTP traffic
 * Used `MeshAccessLog` with a `MeshHTTPRoute` to log only matching requests
 * Created `MeshRetry` policies scoped to both `MeshHTTPRoute` and `MeshService` to improve resiliency under failure
+{% if_version gte:2.12.x %}
+* Used `MeshLoadBalancingStrategy` on `MeshHTTPRoute` to achieve "sticky sessions" effect
+{% endif_version %}
 * Learned how policy scoping works and how to compose policies together to achieve precise traffic control
 
 ## Next steps
