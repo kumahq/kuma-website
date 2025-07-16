@@ -65,7 +65,7 @@ jobs:
             --header 'accept-language: en-US' \
             --max-connections=2 \
             --max-response-body-size 100000000 \
-            --rate-limit 25 \
+            --rate-limit 10 \
             --timeout 60
       - name: link checker dev docs
         run: |
@@ -88,7 +88,7 @@ jobs:
             --header 'accept-language: en-US' \
             --max-connections=2 \
             --max-response-body-size 100000000 \
-            --rate-limit 25 \
+            --rate-limit 10 \
             --timeout 60
 
   installer-sh:
