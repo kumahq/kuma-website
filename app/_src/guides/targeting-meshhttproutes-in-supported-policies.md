@@ -398,7 +398,9 @@ curl -XPOST localhost:5050/api/counter
 you shouldn't see any `500` errors either.
 
 {% if_version gte:2.12.x %}
+<!-- vale Google.Headings = NO -->
 ## MeshLoadBalancingStrategy
+<!-- vale Google.Headings = YES -->
 
 In this section we'll demonstrate how hash policy can be applied on the HTTP route to achieve the "sticky sessions" effect.
 
