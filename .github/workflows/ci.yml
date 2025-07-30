@@ -43,8 +43,6 @@ jobs:
         with:
           site_name: "kuma"
           max_timeout: 1200
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
       - name: link checker
         run: |
           $(go env GOPATH)/bin/muffet \
@@ -68,7 +66,7 @@ jobs:
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
-            --timeout 200
+            --timeout 250
       - name: link checker dev docs
         run: |
           $(go env GOPATH)/bin/muffet \
@@ -91,7 +89,7 @@ jobs:
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
-            --timeout 60
+            --timeout 250
 
   installer-sh:
     name: Test installer.sh
