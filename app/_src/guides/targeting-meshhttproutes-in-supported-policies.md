@@ -415,8 +415,8 @@ kubectl scale deployment/kv -n kuma-demo --replicas=3
 
 ### Switch load balancer type to `RingHash`
 
-By default, the load balancer type is `RoundRobin`.
-The only 2 load balancer types that support hash policies are `RingHash` and `Maglev`.
+By default, the load balancer type is [RoundRobin]({{ docs }}/policies/meshloadbalancingstrategy/#roundrobin).
+The only 2 load balancer types that support hash policies are [RingHash]({{ docs }}/policies/meshloadbalancingstrategy/#ringhash) and [Maglev]({{ docs }}/policies/meshloadbalancingstrategy/#maglev).
 In this guide let's stick with `RingHash`:
 
 ```bash
