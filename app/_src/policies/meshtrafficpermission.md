@@ -70,6 +70,12 @@ It allows you to define granular rules about which services can communicate with
 
 If you don't understand this table you should read [matching docs](/docs/{{ page.release }}/policies/introduction).
 
+{% if_version gte:2.9.x %}
+{% warning %}
+`MeshTrafficPermission` is not currently supported for `MeshExternalService`.
+{% endwarning %}
+{% endif_version %}
+
 ## Configuration
 
 ### Action
