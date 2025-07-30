@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
       - run: |
-          go install github.com/raviqqe/muffet/v2@12a50b6f00f87ae983bbce560a886ad31a1611d7 # v2.10.8
+          go install github.com/raviqqe/muffet/v2@be9e8cfc3aa44f6bbd619bd0ec97c76e708bfd24 # v2.10.9
       - name: Wait for Pages changed to be neutral
         uses: fountainhead/action-wait-for-check@5a908a24814494009c4bb27c242ea38c93c593be # v1.2.0
         id: waitForCheck
@@ -63,10 +63,10 @@ jobs:
             --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
             --exclude 'https://jwt.io/' \
             --header 'accept-language: en-US' \
-            --max-connections-per-host=8 \
+            --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
-            --timeout 60
+            --timeout 300
       - name: link checker dev docs
         run: |
           $(go env GOPATH)/bin/muffet \
@@ -86,10 +86,10 @@ jobs:
             --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
             --exclude 'https://jwt.io/' \
             --header 'accept-language: en-US' \
-            --max-connections-per-host=8 \
+            --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
-            --timeout 60
+            --timeout 300
 
   installer-sh:
     name: Test installer.sh
