@@ -52,6 +52,7 @@ kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 ## Install Kong ingress controller 
 
 Follow the steps on the [Kong docs website](https://developer.konghq.com/kubernetes-ingress-controller/install/) to install the ingress controller.
+You only need to install the controller (`helm install kong kong/ingress -n kong --create-namespace`) and enable the Gateway API.
 
 {% warning %}
 The Kubernetes cluster needs to support `LoadBalancer` for this to work.
@@ -119,14 +120,7 @@ X-Kong-Request-Id: e7dfe659c9e46639a382f82c16d9582f
 
 ## Add a route to our `demo-app`
 
-Patch gateway to allow routes in any namespace:
-```sh
-kubectl patch --type=json gateways.gateway.networking.k8s.io kong --patch='[{"op":"replace","path": "/spec/listeners/0/allowedRoutes/namespaces/from","value":"All"}]'
-```
-This is required because Kong ingress controller was created in the `default` namespace.
-To do this the Gateway API spec requires to explicitly allow routes from different namespaces.
-
-Now add the gateway route in `kuma-demo` namespace which binds to the gateway `kong` defined in the `default` namespace:
+Now add the gateway route in `kuma-demo` namespace which binds to the gateway `kong` defined in the `kong` namespace:
 ```sh
 echo "apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -136,7 +130,7 @@ metadata:
 spec:
   parentRefs:
   - name: kong
-    namespace: default
+    namespace: kong
   rules:
   - matches:
     - path:
