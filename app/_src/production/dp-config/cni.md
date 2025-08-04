@@ -199,8 +199,39 @@ and have `cgroup2` available
 
 ## {{site.mesh_product_name}} CNI logs
 
-Logs of the are available via `kubectl logs`.
+Logs of the are available via `kubectl logs`. To enable debug level log, please set environment variable `CNI_LOG_LEVEL` to value `debug` on the CNI daemonset `{{site.mesh_product_name_path}}-cni`. Please note that editing the CNI DaemonSet will shutdown the current running CNI Pods hence all mesh enabled application pods are not able to start or shutdown during the restarting of these CNI pods. Don’t do it in a production environment unless you are approved to do so.
 
 {% warning %}
 eBPF CNI currently doesn't have support for exposing its logs.
 {% endwarning %}
+
+## {{site.mesh_product_name}} CNI architecture
+
+The CNI daemonset `{{site.mesh_product_name_path}}-cni` is formed by two components:
+
+1. a CNI installer
+2. a CNI binary
+
+Involved components collaborate like this:
+
+{% mermaid %}
+flowchart LR
+ subgraph s1["conflist"]
+        n2["existing-CNIs"]
+        n3["kuma-cni"]
+  end
+ subgraph s2["application pod"]
+        n4["kuma-sidecar"]
+        n5["app-container"]
+  end
+    A["installer"] -- copy binary and setup conf --> n3
+    n3 -- configure iptables rules --> n4
+
+    n2@{ shape: rounded}
+    n3@{ shape: rounded}
+    n5@{ shape: rect}
+{% endmermaid %}
+
+The CNI installer copies the CNI binary `kuma-cni` to the CNI directory on the host. In the chained mode, the installer also sets up the chaining for `kuma-cni`, and in the non-chained mode, the binary `kuma-cni` is invoked explicitly as per pod manifest defines. After corrected installed, the CNI binary `kuma-cni` will be invoked when a mesh-enabled application pod is being created so that iptables rules required by the `kuma-sidecar` container inside the pod are properly set up.
+
+In the chained mode, when the CNI conflist file is changed causing `kuma-cni` to be excluded, the installer immediately detects it and restarts itself so the chaining installation will be rerun and CNI functionalities heal automatically.
