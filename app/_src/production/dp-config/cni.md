@@ -199,7 +199,9 @@ and have `cgroup2` available
 
 ## {{site.mesh_product_name}} CNI logs
 
-Logs of the are available via `kubectl logs`. To enable debug level log, please set environment variable `CNI_LOG_LEVEL` to value `debug` on the CNI daemonset `{{site.mesh_product_name_path}}-cni`. Please note that editing the CNI DaemonSet will shutdown the current running CNI Pods hence all mesh enabled application pods are not able to start or shutdown during the restarting of these CNI pods. Don’t do it in a production environment unless you are approved to do so.
+Logs of the are available via `kubectl logs`. 
+
+To enable debug level log, please set value of environment variable `CNI_LOG_LEVEL` to `debug` on the CNI DaemonSet `{{site.mesh_product_name_path}}-cni`. Please note that editing the CNI DaemonSet will shutdown the current running CNI Pods hence all mesh enabled application pods are not able to start or shutdown during the restarting of the DaemonSet. Don’t do it in a production environment unless approved.
 
 {% warning %}
 eBPF CNI currently doesn't have support for exposing its logs.
@@ -225,13 +227,9 @@ flowchart LR
         n5["app-container"]
   end
     A["installer"] -- copy binary and setup conf --> n3
-    n3 -- configure iptables rules --> n4
-
-    n2@{ shape: rounded}
-    n3@{ shape: rounded}
-    n5@{ shape: rect}
+    n3 -- configure iptables --> n4
 {% endmermaid %}
 
-The CNI installer copies the CNI binary `kuma-cni` to the CNI directory on the host. In the chained mode, the installer also sets up the chaining for `kuma-cni`, and in the non-chained mode, the binary `kuma-cni` is invoked explicitly as per pod manifest defines. After corrected installed, the CNI binary `kuma-cni` will be invoked when a mesh-enabled application pod is being created so that iptables rules required by the `kuma-sidecar` container inside the pod are properly set up.
+The CNI installer copies CNI binary `kuma-cni` to the CNI directory on the host. When chained, the installer also sets up chaining for `kuma-cni` in CNI conflist file, and when chaining is disabled, the binary `kuma-cni` is invoked explicitly as per pod manifest. When correctly installed, the CNI binary `kuma-cni` will be invoked by Kubernetes when a mesh-enabled application pod is being created so iptables rules required by the `kuma-sidecar` container inside the pod are properly set up.
 
-In the chained mode, when the CNI conflist file is changed causing `kuma-cni` to be excluded, the installer immediately detects it and restarts itself so the chaining installation will be rerun and CNI functionalities heal automatically.
+When chained, if the CNI conflist file is unexpectedly changed causing `kuma-cni` to be excluded, the installer immediately detects it and restarts itself so the chaining installation re-runs and CNI functionalities heal automatically.
