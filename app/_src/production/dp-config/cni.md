@@ -209,7 +209,7 @@ eBPF CNI currently doesn't have support for exposing its logs.
 
 ## {{site.mesh_product_name}} CNI architecture
 
-The CNI daemonset `{{site.mesh_product_name_path}}-cni` is formed by two components:
+The CNI DaemonSet `{{site.mesh_product_name_path}}-cni` is formed by two components:
 
 1. a CNI installer
 2. a CNI binary
