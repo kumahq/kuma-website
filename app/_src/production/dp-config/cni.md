@@ -199,7 +199,7 @@ and have `cgroup2` available
 
 ## {{site.mesh_product_name}} CNI logs
 
-Logs of the are available via `kubectl logs`. 
+Logs of CNI components are available via `kubectl logs`. 
 
 To enable debug level log, please set value of environment variable `CNI_LOG_LEVEL` to `debug` on the CNI DaemonSet `{{site.mesh_product_name_path}}-cni`. Please note that editing the CNI DaemonSet will shutdown the current running CNI Pods hence all mesh enabled application pods are not able to start or shutdown during the restarting of the DaemonSet. Don’t do it in a production environment unless approved.
 
