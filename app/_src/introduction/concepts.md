@@ -71,3 +71,17 @@ They can enable traffic management, security, observability and traffic reliabil
 
 Policies always have a clear specific area of impact and goal.
 To learn more about [policies checkout the in depth introduction](/docs/{{ page.release }}/policies/introduction).
+
+### Targets (targetRef)
+
+A **Target** (referenced by `targetRef`) is a way to specify exactly which destination resource or workload a policy or routing rule should apply to. Rather than matching all services or inbounds by name or tag, `targetRef` allows fine-grained targeting of:
+
+- A specific **workload instance** (e.g., a single Dataplane proxy)  
+- A **subset** of inbounds/endpoints for a service
+
+#### Why use `targetRef`?
+
+- **Precision**: Apply policies only to a single pod, VM, or data-plane proxy.  
+- **Segmentation**: Differentiate settings for different versions or tiers of the same service.  
+- **Safety**: Roll out policies gradually by targeting one instance at a time.
+
