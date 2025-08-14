@@ -65,7 +65,7 @@ jobs:
             --header 'accept-language: en-US' \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
-            --timeout 100
+            --timeout 10
       - name: link checker dev docs
         run: |
           $(go env GOPATH)/bin/muffet \
