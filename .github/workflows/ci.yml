@@ -43,6 +43,10 @@ jobs:
         with:
           site_name: "kuma"
           max_timeout: 1200
+      - name: Check links with linkcheck
+        uses: filiph/linkcheck@3.0.0
+        with:
+          arguments: https://deploy-preview-${{github.event.number}}--kuma.netlify.app
       - name: link checker
         run: |
           $(go env GOPATH)/bin/muffet \
