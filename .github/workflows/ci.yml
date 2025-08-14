@@ -35,32 +35,17 @@ jobs:
       - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
       - run: |
           go install github.com/raviqqe/muffet/v2@be9e8cfc3aa44f6bbd619bd0ec97c76e708bfd24 # v2.10.9
-      - name: Wait for Pages changed to be neutral
-        uses: fountainhead/action-wait-for-check@5a908a24814494009c4bb27c242ea38c93c593be # v1.2.0
-        id: waitForCheck
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: "Pages changed - kuma"
-          timeoutSeconds: 1200
-      - name: Wait for Netlify site to be ready
-        if: steps.waitForCheck.outputs.conclusion == 'neutral'
-        uses: jakepartusch/wait-for-netlify-action@f1e137043864b9ab9034ae3a5adc1c108e3f1a48 # v1.4
-        id: waitForNetlify
-        with:
-          site_name: "kuma"
-          max_timeout: 1200
       - name: Start app (background) & wait until ready
         run: |
           set -euxo pipefail
           make install
           make run &
           # Wait until the dev server is reachable
-          npx --yes wait-on --timeout 180000 http://127.0.0.1:7777
+          npx --yes wait-on --timeout 180000 http://localhost:7777
       - name: link checker
         run: |
           $(go env GOPATH)/bin/muffet \
-            http://127.0.0.1:7777 \
+            http://localhost:7777 \
             --buffer-size 8192 \
             --exclude 'https://github.com/(/)?kumahq/kuma/pull/.*' \
             --exclude 'https://github.com/.*/.*/blob/.*#.*' \
@@ -68,6 +53,7 @@ jobs:
             --exclude 'https://github.com/kumahq/kuma/blob/master/CHANGELOG.md' \
             --exclude http://127.0.0.1:7777/docs/1. \
             --exclude 127.0.0.1 \
+            --exclude 'http://localhost:7777/vite-dev/*' \
             --exclude https://cloudsmith.io/~kong/repos \
             --exclude https://linux.die.net \
             --exclude https://packages.konghq.com \
@@ -76,10 +62,10 @@ jobs:
             --exclude 'https://argo-cd.readthedocs.io/en/stable/' \
             --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
             --exclude 'https://jwt.io/' \
-            --header 'Accept: */*' \
-            --header 'User-Agent: curl/8.7.1' \
+            --header 'accept-language: en-US' \
+            --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
-            --rate-limit 10 \
+            --rate-limit 50 \
             --timeout 10
       - name: link checker dev docs
         run: |
