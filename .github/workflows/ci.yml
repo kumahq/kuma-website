@@ -56,7 +56,7 @@ jobs:
           make install
           make run &
           # Wait until the dev server is reachable
-          npx --yes wait-on --timeout 180000 http://127.0.0.1:4000
+          npx --yes wait-on --timeout 180000 http://127.0.0.1:7777
       - name: Check for broken links
         uses: ruzickap/action-my-broken-link-checker@v2
         with:
