@@ -43,8 +43,6 @@ jobs:
         with:
           site_name: "kuma"
           max_timeout: 1200
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
       - name: link checker
         run: |
           $(go env GOPATH)/bin/muffet \
@@ -64,10 +62,10 @@ jobs:
             --exclude 'https://argo-cd.readthedocs.io/en/stable/' \
             --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
             --exclude 'https://jwt.io/' \
-            --header 'accept-language: en-US' \
+            --header 'Accept: */*' \
             --header 'User-Agent: curl/8.7.1' \
             --max-response-body-size 100000000 \
-            --rate-limit 50 \
+            --rate-limit 25 \
             --timeout 10
       - name: link checker dev docs
         run: |
