@@ -65,7 +65,7 @@ jobs:
             --header 'Accept: */*' \
             --header 'User-Agent: curl/8.7.1' \
             --max-response-body-size 100000000 \
-            --rate-limit 25 \
+            --rate-limit 10 \
             --timeout 10
       - name: link checker dev docs
         run: |
