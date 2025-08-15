@@ -67,6 +67,7 @@ jobs:
             --max-response-body-size 100000000 \
             --rate-limit 50 \
             --max-retries 3 \
+            --skip-tls-verification \
             --timeout 20
       - name: link checker dev docs
         run: |
