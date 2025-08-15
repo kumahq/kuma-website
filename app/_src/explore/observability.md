@@ -309,7 +309,7 @@ You can add annotations to your pods to enable the Datadog agent to scrape metri
 
 {% tabs %}
 {% tab Kubernetes %}
-Please refer to the dedicated [documentation](https://docs.datadoghq.com/containers/kubernetes/prometheus/?tabs=helm#metric-collection-with-prometheus-annotations-prometheus-check).
+Please refer to the dedicated [documentation](https://docs.datadoghq.com/containers/kubernetes/prometheus/?tab=helm#metric-collection-with-prometheus-annotations-prometheus-check).
 {% endtab %}
 
 {% tab Universal %}
