@@ -67,18 +67,19 @@ jobs:
             --max-response-body-size 100000000 \
             --rate-limit 50 \
             --max-retries 5 \
-            --skip-tls-verification \
             --timeout 20
       - name: link checker dev docs
         run: |
           $(go env GOPATH)/bin/muffet \
-            ${URL}/docs/dev \
+            http://localhost:7777/docs/dev \
             --buffer-size 8192 \
             --exclude 'https://github.com/(/)?kumahq/kuma/pull/.*' \
             --exclude 'https://github.com/.*/.*/blob/.*#.*' \
             --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' \
             --exclude 'https://github.com/kumahq/kuma/blob/master/CHANGELOG.md' \
+            --exclude http://127.0.0.1:7777/docs/1. \
             --exclude 127.0.0.1 \
+            --exclude 'http://localhost:7777/vite-dev/*' \
             --exclude https://cloudsmith.io/~kong/repos \
             --exclude https://linux.die.net \
             --exclude https://packages.konghq.com \
@@ -88,9 +89,11 @@ jobs:
             --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
             --exclude 'https://jwt.io/' \
             --header 'accept-language: en-US' \
+            --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
-            --timeout 10
+            --max-retries 5 \
+            --timeout 20
 
   installer-sh:
     name: Test installer.sh
