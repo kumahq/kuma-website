@@ -65,6 +65,7 @@ jobs:
             --header 'accept-language: en-US' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
+            --skip-tls-verification
             --rate-limit 50 \
             --max-retries 5 \
             --timeout 20
@@ -91,6 +92,7 @@ jobs:
             --header 'accept-language: en-US' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
+            --skip-tls-verification
             --rate-limit 50 \
             --max-retries 5 \
             --timeout 20
