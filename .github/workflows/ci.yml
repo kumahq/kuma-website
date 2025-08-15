@@ -34,7 +34,7 @@ jobs:
           bundler-cache: true
       - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
       - run: |
-          go install github.com/raviqqe/muffet/v2@be9e8cfc3aa44f6bbd619bd0ec97c76e708bfd24 # v2.10.9
+          go install github.com/raviqqe/muffet/v2@346d94aa4c6aa3bc2d07d92bd0179a8af18f608c # v2.11.0
       - name: Start app (background) & wait until ready
         run: |
           set -euxo pipefail
@@ -66,6 +66,7 @@ jobs:
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --rate-limit 50 \
+            --max-retries 3 \
             --timeout 20
       - name: link checker dev docs
         run: |
