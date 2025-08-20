@@ -106,3 +106,8 @@ gcloud beta container \
   --cluster-ipv4-cidr=/20 \
   --workload-policies=allow-net-admin
 ```
+
+## Cilium
+
+By default, Cilium replaces kube-proxy and changes the way ClusterIP routing works.
+In order to not break {{site.mesh_product_name}} routing please use `kubeProxyReplacement: false` in your Cilium configuration.

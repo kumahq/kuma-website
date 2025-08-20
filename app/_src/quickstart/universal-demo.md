@@ -21,7 +21,7 @@ demo-app --> redis
 
 ## Prerequisites
 
-* [Redis installed, not running](https://redis.io/docs/getting-started/)
+* [Redis installed, not running](https://redis.io/docs/latest/operate/oss_and_stack/install/)
 
 ## Install {{site.mesh_product_name}}
 
