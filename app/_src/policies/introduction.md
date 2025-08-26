@@ -1,5 +1,12 @@
 ---
 title: Policies
+tags:
+  - Mesh
+  - MeshSubset
+  - MeshService
+  - MeshServiceSubset
+  - MeshGateway
+  - Dataplane
 ---
 {% if_version gte:2.9.x %}
 ## What is a policy?
