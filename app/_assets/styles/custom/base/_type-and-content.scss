@@ -161,3 +161,7 @@ code {
     vertical-align: middle;
   }
 }
+
+.theme-default-content a code {
+  color: $color-5;
+}
