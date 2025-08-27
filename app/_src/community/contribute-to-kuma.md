@@ -33,7 +33,17 @@ curl -L https://kuma.io/installer.sh | VERSION=preview sh -
 If you already know the version you want to test you can run:
 
 ```shell
-curl -L https://kuma.io/installer.sh | VERSION=kuma-0.0.0-preview.4d3a9fd03 sh -
+curl -L https://kuma.io/installer.sh | VERSION=0.0.0-preview.v385ed4cc5 sh -
+```
+
+or you can use this helm command:
+
+```shell
+helm upgrade --install --create-namespace --namespace {{site.mesh_namespace}} {{ site.mesh_helm_install_name }} {{ site.mesh_helm_repo }} \
+  --set {{site.set_flag_values_prefix}}controlPlane.image.tag="0.0.0-preview.v385ed4cc5" \
+  --set {{site.set_flag_values_prefix}}dataPlane.image.tag="0.0.0-preview.v385ed4cc5" \
+  --set {{site.set_flag_values_prefix}}dataPlane.initImage.tag="0.0.0-preview.v385ed4cc5" \
+  --set {{site.set_flag_values_prefix}}kumactl.image.tag="0.0.0-preview.v385ed4cc5"
 ```
 
 {% endtip %}
