@@ -7,7 +7,7 @@ jobs:
   test-plugins:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: ruby/setup-ruby@2a7b30092b0caf9c046252510f9273b4875f3db9 # v1.254.0
         with:
           bundler-cache: true
@@ -25,7 +25,7 @@ jobs:
       URL: https://deploy-preview-${{github.event.number}}--kuma.netlify.app
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
       - uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac # v2.4.4
         env:
@@ -118,7 +118,7 @@ jobs:
           (apt-get update && apt-get install file curl jq -y) || true
           (yum install yum-utils -y && yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && yum install file tar gzip jq -y) || true
           pacman --noconfirm -Syu jq file curl || true
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Run installer.sh
         env:
           VERBOSE: ${{ runner.debug }}
@@ -162,7 +162,7 @@ jobs:
     runs-on: ubuntu-24.04
     name: Test installer.sh on arm64
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: uraimo/run-on-arch-action@d94c13912ea685de38fccc1109385b83fd79427d # v3.0.1
         name: Run commands
         id: runcmd
@@ -189,7 +189,7 @@ jobs:
       - name: Prepare OS
         run: |
           (apt-get update && apt-get install curl -y) || true
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Run installer.sh
         env:
           VERBOSE: ${{ runner.debug }}
@@ -220,7 +220,7 @@ jobs:
               .filter(d => !d.filename.includes("/generated/"))
               .filter(d => !d.filename.includes("/raw/"))
               .map(d => d.filename);
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: errata-ai/vale-action@d89dee975228ae261d22c15adcd03578634d429c # v2.1.1
         if: join(fromJSON(steps.changed-files.outputs.result)) != ''
         name: Run Vale
