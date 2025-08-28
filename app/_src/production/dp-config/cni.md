@@ -136,8 +136,8 @@ You need to [enable network-policy](https://cloud.google.com/kubernetes-engine/d
 
 Define the Variable `CNI_CONF_NAME` by your CNI, like:
 - `export CNI_CONF_NAME=05-cilium.conflist` for Cilium
-- `export CNI_CONF_NAME=10-calico.conflist` for Dataplane V1
-- `export CNI_CONF_NAME=10-gke-ptp.conflist` for Dataplane V2
+- `export CNI_CONF_NAME=10-calico.conflist` for GKE Dataplane V1
+- `export CNI_CONF_NAME=10-gke-ptp.conflist` for GKE Dataplane V2
 
   {% cpinstall google-gke %}
 cni.enabled=true
