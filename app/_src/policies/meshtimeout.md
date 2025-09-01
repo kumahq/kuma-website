@@ -613,6 +613,8 @@ spec:
 
 ### Defaults
 
+#### Sidecar
+
 | Property                               | default                      |
 |----------------------------------------|------------------------------|
 | `idleTimeout`                          | `1h`                         |
@@ -622,6 +624,14 @@ spec:
 | `http.maxStreamDuration`               | `0s`                         |
 | `http.maxConnectionDuration`           | `0s`                         |
 {% if_version inline:true gte:2.6.x %} | `http.requestHeadersTimeout` | `0s` |{% endif_version %}
+
+#### Builtin Gateway
+
+| Property                               | default                      |
+|----------------------------------------|------------------------------|
+| `idleTimeout`                          | `5m`                         |
+| `http.streamIdleTimeout`               | `5s`                         |
+ {% if_version inline:true gte:2.6.x %} | `http.requestHeadersTimeout` | `500ms` |{% endif_version %}
 
 {% if_version eq:2.1.x %}
 If you don't specify a `from` or `to` section , the defaults from [`Timeout`](/docs/{{ page.release }}/policies/timeout) will be used. This
