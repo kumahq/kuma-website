@@ -278,7 +278,7 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
-##### Exclude all metrics apart from one manually added
+##### Exclude manually defined metrics
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
@@ -293,8 +293,8 @@ spec:
     sidecar:
       profiles:
         appendProfiles:
-          - name: None
-        include:
+          - name: All
+        exclude:
           - type: Regex
             match: "envoy_cluster_external_upstream_rq_.*"
     backends:
@@ -317,8 +317,8 @@ spec:
     sidecar:
       profiles:
         appendProfiles:
-          - name: None
-        include:
+          - name: All
+        exclude:
           - type: Regex
             match: "envoy_cluster_external_upstream_rq_.*"
     backends:

@@ -135,6 +135,20 @@ tags:
 If a value is missing for `header`, `default` is used.
 If `default` isn't provided, then the tag won't be added.
 
+#### Delegated Gateway
+
+When configuring MeshTrace with a delegated gateway you have to add these tags to the policy to properly aggregate traces:
+
+```yaml
+tags:
+  - name: b3-traceid
+    header:
+      name: x-b3-traceid
+  - name: b3-parent-span-id
+    header:
+      name: x-b3-parent-span-id
+```
+
 ### Backends
 
 #### Datadog
@@ -216,6 +230,12 @@ spec:
       - name: version
         header:
           name: x-version
+      - name: b3-traceid
+        header:
+          name: x-b3-traceid
+      - name: b3-parent-span-id
+        header:
+          name: x-b3-parent-span-id
     sampling:
       overall: 80
       random: 60
@@ -268,6 +288,12 @@ spec:
       - name: version
         header:
           name: x-version
+      - name: b3-traceid
+        header:
+          name: x-b3-traceid
+      - name: b3-parent-span-id
+        header:
+          name: x-b3-parent-span-id
     sampling:
       overall: 80
       random: 60
@@ -316,6 +342,12 @@ spec:
       - name: version
         header:
           name: x-version
+      - name: b3-traceid
+        header:
+          name: x-b3-traceid
+      - name: b3-parent-span-id
+        header:
+          name: x-b3-parent-span-id
     sampling:
       overall: 80
       random: 60
@@ -372,6 +404,12 @@ spec:
       - name: version
         header:
           name: x-version
+      - name: b3-traceid
+        header:
+          name: x-b3-traceid
+      - name: b3-parent-span-id
+        header:
+          name: x-b3-parent-span-id
     sampling:
       overall: 80
       random: 60
@@ -422,6 +460,12 @@ spec:
       - name: version
         header:
           name: x-version
+      - name: b3-traceid
+        header:
+          name: x-b3-traceid
+      - name: b3-parent-span-id
+        header:
+          name: x-b3-parent-span-id
     sampling:
       overall: 80
       random: 60
@@ -469,6 +513,12 @@ spec:
       - name: version
         header:
           name: x-version
+      - name: b3-traceid
+        header:
+          name: x-b3-traceid
+      - name: b3-parent-span-id
+        header:
+          name: x-b3-parent-span-id
     sampling:
       overall: 80
       random: 60
@@ -526,6 +576,12 @@ spec:
       - name: version
         header:
           name: x-version
+      - name: b3-traceid
+        header:
+          name: x-b3-traceid
+      - name: b3-parent-span-id
+        header:
+          name: x-b3-parent-span-id
     sampling:
       overall: 80
       random: 60
@@ -575,6 +631,12 @@ spec:
       - name: version
         header:
           name: x-version
+      - name: b3-traceid
+        header:
+          name: x-b3-traceid
+      - name: b3-parent-span-id
+        header:
+          name: x-b3-parent-span-id
     sampling:
       overall: 80
       random: 60
@@ -621,6 +683,12 @@ spec:
       - name: version
         header:
           name: x-version
+      - name: b3-traceid
+        header:
+          name: x-b3-traceid
+      - name: b3-parent-span-id
+        header:
+          name: x-b3-parent-span-id
     sampling:
       overall: 80
       random: 60

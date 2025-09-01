@@ -586,6 +586,10 @@ kuma.io/direct-access-services: *
 Using `*` to directly access every service is a resource intensive operation, so we must use it carefully.
 {% endwarning %}
 
+{% warning %}
+Accessing services by using `kuma.io/direct-access-services` annotation means any policies applied to the service will **not** take effect.
+{% endwarning %}
+
 ### Schema
 
 {% json_schema kuma.io_containerpatches type=crd %}

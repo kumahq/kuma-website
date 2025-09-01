@@ -493,6 +493,8 @@ ingress:
     type: LoadBalancer
     # -- (string) Optionally specify IP to be used by cloud provider when configuring load balancer
     loadBalancerIP:
+    # -- A list of CIDRs or IPs for the cloud-provider load balancer to allow access from.
+    loadBalancerSourceRanges: []
     # -- Additional annotations to put on the Ingress service
     annotations: { }
     # -- Port on which Ingress is exposed
@@ -708,11 +710,11 @@ kumactl:
 kubectl:
   image:
     # -- The kubectl image registry
-    registry: docker.io
+    registry: registry.k8s.io
     # -- The kubectl image repository
-    repository: bitnami/kubectl
+    repository: kubectl
     # -- The kubectl image tag
-    tag: "1.32.2"
+    tag: v1.32.8@sha256:54e66c42a1d3a11a1ed4f866ce9fff7e1e48f32a1cb147e3b98a05168a429917
 hooks:
   # -- Node selector for the HELM hooks
   nodeSelector:
