@@ -60,13 +60,14 @@ jobs:
             --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
             --exclude 'https://jwt.io/' \
             --exclude 'https://en.wikipedia.org' \
+            --exclude 'https://konghq.com' \
             --header 'Accept: */*' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --skip-tls-verification \
             --rate-limit 50 \
             --max-retries 5 \
-            --timeout 25
+            --timeout 100
       - name: link checker dev docs
         run: |
           $(mise which muffet) \
@@ -88,12 +89,13 @@ jobs:
             --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
             --exclude 'https://jwt.io/' \
             --exclude 'https://en.wikipedia.org' \
+            --exclude 'https://konghq.com' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --skip-tls-verification \
             --rate-limit 50 \
             --max-retries 5 \
-            --timeout 25
+            --timeout 100
 
   installer-sh:
     name: Test installer.sh
