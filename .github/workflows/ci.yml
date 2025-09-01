@@ -66,7 +66,7 @@ jobs:
             --skip-tls-verification \
             --rate-limit 50 \
             --max-retries 5 \
-            --timeout 25
+            --timeout 100
       - name: link checker dev docs
         run: |
           $(mise which muffet) \
@@ -93,7 +93,7 @@ jobs:
             --skip-tls-verification \
             --rate-limit 50 \
             --max-retries 5 \
-            --timeout 25
+            --timeout 100
 
   installer-sh:
     name: Test installer.sh
