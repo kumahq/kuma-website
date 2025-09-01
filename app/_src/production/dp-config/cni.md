@@ -134,8 +134,12 @@ Add `KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_IP_FAMILY_MODE=ipv4` as 
 
 You need to [enable network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster (for existing clusters this redeploys the nodes).
 
-Define the Variable `CNI_CONF_NAME` by your CNI, like: `export CNI_CONF_NAME=05-cilium.conflist` or `export CNI_CONF_NAME=10-calico.conflist`
-{% cpinstall google-gke %}
+Define the Variable `CNI_CONF_NAME` by your CNI, like:
+- `export CNI_CONF_NAME=05-cilium.conflist` for Cilium
+- `export CNI_CONF_NAME=10-calico.conflist` for GKE Dataplane V1
+- `export CNI_CONF_NAME=10-gke-ptp.conflist` for GKE Dataplane V2
+
+  {% cpinstall google-gke %}
 cni.enabled=true
 cni.chained=true
 cni.netDir=/etc/cni/net.d
