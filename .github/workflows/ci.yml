@@ -61,6 +61,7 @@ jobs:
             --exclude 'https://jwt.io/' \
             --exclude 'https://en.wikipedia.org' \
             --exclude 'https://konghq.com' \
+            --exclude 'https://https://kuma.io' \
             --header 'Accept: */*' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
@@ -90,6 +91,7 @@ jobs:
             --exclude 'https://jwt.io/' \
             --exclude 'https://en.wikipedia.org' \
             --exclude 'https://konghq.com' \
+            --exclude 'https://https://kuma.io' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --skip-tls-verification \
