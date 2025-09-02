@@ -68,6 +68,74 @@ Evaluation rules are:
 
 ## Examples
 
+### Denying requests from a group of clients mesh-wide
+
+During the incident, if one of the namespaces is compromised, Mesh Operator can apply the following policy:
+
+{% policy_yaml %}
+```yaml
+type: MeshTrafficPermission
+name: deny-malicious-ns
+mesh: my-mesh
+spec:
+  rules:
+    - default:
+        deny:
+          - spiffeId:
+              type: Prefix
+              value: "spiffe://my-mesh.us-east-2.mesh.local/ns/malicious"
+```
+{% endpolicy_yaml %}
+
+Such policy when applied globally prevents any service in the mesh `my-mesh` to receive requests from any client in `malicious` namespace.
+There is no way for Service Owner to opt-out from this rule.
+
+### Allowing requests from a group of clients mesh-wide
+
+By default, when there are no `MeshTrafficPermission` policies, all requests are denied.
+Mesh Operator can apply the following policy mesh-wide:
+
+{% policy_yaml %}
+```yaml
+type: MeshTrafficPermission
+name: allow-observability-ns
+mesh: my-mesh
+spec:
+  rules:
+    - default:
+        allow:
+          - spiffeId:
+              type: Prefix
+              value: "spiffe://my-mesh.us-east-2.mesh.local/ns/observability"
+```
+{% endpolicy_yaml %}
+
+This policy allows any client in `observability` namespace to consume any service in `my-mesh`.
+Service Owner can opt-out and deny requests from `observability` if they need to:
+
+{% policy_yaml namespace=backend-ns %}
+```yaml
+type: MeshTrafficPermission
+name: deny-observability-ns
+mesh: my-mesh
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: backend
+    sectionName: backend-admin-api
+  rules:
+    - default:
+        deny:
+          - spiffeId:
+              type: Prefix
+              value: "spiffe://my-mesh.us-east-2.mesh.local/ns/observability"
+```
+{% endpolicy_yaml %}
+
+The following policy overrides the rules specified in `allow-observability-ns` 
+and denies requests from clients in `observability` namespace on `backend-admin-api` port of `backend` app.
+
 ## All policy options
 
 {% json_schema MeshTrafficPermissions %}
