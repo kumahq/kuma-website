@@ -55,16 +55,16 @@ as well as the specific `test/client` identity, while continuing to accept conne
 
 `MeshTrafficPermission` policy provides a way to specify 3 lists:
 
-* `deny` list – list of matches for clients that must always be denied.
-* `allow` list – list of matchers for clients that are explicitly allowed.
-* `allowWithShadowDeny` list – list of matchers that are allowed, but also logged as if they were denied.
+* `deny` list -- list of matches for clients that must always be denied.
+* `allow` list -- list of matchers for clients that are explicitly allowed.
+* `allowWithShadowDeny` list -- list of matchers that are allowed, but also logged as if they were denied.
 Useful for testing a policy to ensure no legitimate clients are denied.
 
 Evaluation rules are:
 
-1. If a request matches at least one `deny` matcher – `DENY`.
-2. Else, if it matches at least one `allow` or `allowWithShadowDeny` matcher – `ALLOW`.
-3. If no matchers apply – `DENY` (default).
+1. If a request matches at least one `deny` matcher -- `DENY`.
+2. Else, if it matches at least one `allow` or `allorWithShadowDeny` matcher -- `ALLOW`.
+3. If no matchers apply -- `DENY` (default).
 
 ## Examples
 
