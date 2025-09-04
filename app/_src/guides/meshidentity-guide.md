@@ -66,10 +66,10 @@ helm install --create-namespace --namespace {{ kuma-system }} {{ site.mesh_helm_
 
 In {{ Kuma }} we define two concepts around identity that need to be well understood:
 
-* **Identity** - (Who a workload is) — A workload's identity is the name encoded in its certificate, and this identity 
+* **Identity** - (Who a workload is) - A workload's identity is the name encoded in its certificate, and this identity 
   is considered valid only if the certificate is signed by a Trust.
 * **Trust** - (Who to believe) - Trust defines which identities you accept as valid, and is established through trusted 
-  certificate authorities (CAs) that issue those identities. Trust is attached to trust domain, and there can be multiple Trusts in the cluster.
+  certificate authorities (CA) that issue those identities. Trust is attached to trust domain, and there can be multiple Trusts in the cluster.
 
 ## Issuing Identity
 
@@ -111,7 +111,7 @@ Example SpiffeId will look like this `spiffe://default.default.mesh.local/ns/kum
 
 Last thing we see in this example is `provider` field. This field contains configuration specific to identity provider. 
 In this guide we will be working with `Bundled` provider, but you can also configure Spire provider. This configuration will
-enable MeshTrust generation, allow self-signed certificates, and will set cert expiry time to 24h.
+enable MeshTrust generation, allow self-signed certificates, and will set cert expiry time to 24 h.
 
 ### Inspecting trust configuration
 
