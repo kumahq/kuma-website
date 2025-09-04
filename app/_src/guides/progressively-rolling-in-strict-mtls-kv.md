@@ -121,10 +121,8 @@ spec:
     kind: Dataplane
     labels:
       app: kv
-  from:
-  - targetRef:
-      kind: Mesh
-    default:
+  rules:
+  - default:
       mode: Permissive" | kubectl apply -f -
 ```
 
@@ -154,13 +152,13 @@ kubectl port-forward svc/{{ kuma-control-plane }} -n {{ kuma-system }} 5681:5681
 
 ```sh
 export KV_DPP_NAME=$(curl -s http://localhost:5681/meshes/default/dataplanes/_overview\?name\=kv | jq -r '.items[0].name')
-curl -s http://localhost:5681/meshes/default/dataplanes/$KV_DPP_NAME/stats | grep cluster.localhost_5050.upstream_cx_total
+curl -s http://localhost:5681/meshes/default/dataplanes/$KV_DPP_NAME/stats | grep cluster.localhost_5050.upstream_rq_2xx
 ```
 
 You should see metrics increment after running this `curl` command multiple times. Metrics will look like:
 
 ```
-cluster.localhost_5050.upstream_cx_total: 9
+cluster.localhost_5050.upstream_rq_2xx: 9
 ```
 
 The below diagram shows that the second kv was moved to be inside the mesh:
@@ -247,7 +245,7 @@ Finally, to set strict mode you can either edit the policy or remove it (the def
 {% tip %}
 **Things to remember when migrating to strict TLS**
 
-If only encrypted traffic is sent to the destination, the difference between `cluster.localhost_5050.upstream_cx_total` and `inbound_POD_IP_5050.rbac.allowed` will not change after setting the workload to `Strict` mode.
+If only encrypted traffic is sent to the destination, the difference between `cluster.localhost_5050.upstream_rq_2xx` and `inbound_POD_IP_5050.rbac.allowed` will not change after setting the workload to `Strict` mode.
 {% endtip %}
 
 ```sh
