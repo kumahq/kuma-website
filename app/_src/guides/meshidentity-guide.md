@@ -106,8 +106,8 @@ Let's take a closer look at resource we've just applied. MeshIdentity uses `sele
 which identity should be issued. In our example, identity will be issued for all data planes in Mesh.
 
 Next is `spiffeId` field. This field contains templates for building spiffeId for our workloads. In this example we will build
-trust domain from Mesh name, zone name and `.mesh.local` suffix. Path for SpiffeId will be built from namespace and service account name.
-Example SpiffeId will look like this `spiffe://default.default.mesh.local/ns/kuma-demo/sa/default`. 
+trust domain from Mesh name, zone name and `.mesh.local` suffix. Path for spiffeId will be built from namespace and service account name.
+Example spiffeId will look like this `spiffe://default.default.mesh.local/ns/kuma-demo/sa/default`. 
 
 Last thing we see in this example is `provider` field. This field contains configuration specific to identity provider. 
 In this guide we will be working with `Bundled` provider, but you can also configure Spire provider. This configuration will
@@ -248,7 +248,7 @@ You should see something similar to:
 ## What you've learned
 
 We've learned how to issue identity with MeshIdentity. Also, we've seen how MeshTrust is generated based on MeshIdentity. 
-On top of that, we've seen how to allow traffic using MeshTrafficPermission with SpiffeId matchers.
+On top of that, we've seen how to allow traffic using MeshTrafficPermission with spiffeId matchers.
 
 ## Next steps
 
