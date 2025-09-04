@@ -64,6 +64,8 @@ jobs:
             --exclude 'https://kuma.io' \
             --exclude 'https://kubernetes.io' \
             --exclude 'https://opentelemetry.io' \
+            --exclude 'https://www.envoyproxy.io' \
+            --exclude 'https://developer.konghq.com' \
             --header 'Accept: */*' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
@@ -96,6 +98,8 @@ jobs:
             --exclude 'https://kuma.io' \
             --exclude 'https://kubernetes.io' \
             --exclude 'https://opentelemetry.io' \
+            --exclude 'https://www.envoyproxy.io' \
+            --exclude 'https://developer.konghq.com' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --skip-tls-verification \
