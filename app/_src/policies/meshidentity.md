@@ -4,14 +4,14 @@ title: MeshIdentity
 
 ## Overview
 
-`MeshIdentity` is a resource that defines how workloads in a mesh obtain their cryptographic identity. 
-It separates the responsibility of issuing identities from establishing trust, 
+`MeshIdentity` is a resource that defines how workloads in a mesh obtain their cryptographic identity.
+It separates the responsibility of issuing identities from establishing trust,
 enabling {{site.mesh_product_name}} to adopt [SPIFFE](https://spiffe.io/docs/latest/spiffe-about/overview/) compliant practices
 while remaining flexible and easy to use.
 
 With `MeshIdentity`, users can:
 
-* Enable secure mTLS between services, using trusted certificate authorities (CAs).
+* Enable secure mTLS between services, using trusted certificate authorities.
 * Switch identity providers without downtime, for example when migrating from built-in certificates to [Spire](https://spiffe.io/docs/latest/spire-about/).
 * Assign different identity providers to subsets of workloads, allowing more granular control.
 * Support multiple trust domains, so workloads in different domains can authenticate each other securely.
@@ -50,22 +50,22 @@ spec:
 It is composed of a few key fields that control how identities are issued and applied.
 In the following sections, each field is explained in detail with examples:
 
-* `Selector` – which DPPs this identity applies to.
+* `Selector` – which data plane proxies this identity applies to.
 * `SpiffeID` – how the SPIFFE ID is constructed (trust domain and path).
 * `Provider` – which system issues the certificates (`Bundled` or `Spire`).
 
 ### Selector
 
-The selector field controls which DPPs a `MeshIdentity` applies to. 
-It uses a Kubernetes-style label selector on DPP tags. 
+The selector field controls which data plane proxies a `MeshIdentity` applies to.
+It uses a Kubernetes-style label selector on data plane proxy tags.
 This makes it possible to scope an identity to all workloads, a subset of workloads, or none at all.
 
-When multiple `MeshIdentity` resources apply to the same DPP, 
+When multiple `MeshIdentity` resources apply to the same data plane proxy,
 the one with the most specific selector (the greatest number of matching labels) takes precedence.
 
 #### Examples
 
-##### Apply to all DPPs
+##### Apply to all data plane proxies
 
 ```yaml
 spec:
@@ -74,13 +74,13 @@ spec:
       matchLabels: {}
 ```
 
-##### Apply to a group of DPPs
+##### Apply to a group of data plane proxies
 
 ```yaml
 spec:
   selector:
     dataplane:
-      matchLabels: 
+      matchLabels:
         app: my-app
 ```
 
@@ -93,8 +93,8 @@ spec:
 
 ### SpiffeID
 
-The `spiffeID` field lets you override how SPIFFE IDs are constructed for the DPPs selected by this `MeshIdentity`.
-By default, {{site.mesh_product_name}} generates a SPIFFE ID based on the mesh and zone. 
+The `spiffeID` field lets you override how SPIFFE IDs are constructed for the data plane proxies selected by this `MeshIdentity`.
+By default, {{site.mesh_product_name}} generates a SPIFFE ID based on the mesh and zone.
 With `spiffeID`, you can customize the `trustDomain` and the `path` template.
 
 {% raw %}
@@ -146,7 +146,7 @@ mesh: default
 spec:
   selector:
     dataplane:
-      matchLabels: {} # apply to all DPPs in the mesh
+      matchLabels: {} # apply to all data plane proxies in the mesh
   provider:
     type: Bundled
     bundled:
@@ -170,7 +170,7 @@ spec:
   selector:
     dataplane:
       matchLabels:
-        app: my-app # apply to all DPPs with label `app: my-app`
+        app: my-app # apply to all data plane proxies with label `app: my-app`
   spiffeID:
     trustDomain: "{{ .Mesh }}.{{ .Zone }}.mesh.local"
     path: "/ns/{{ .Namespace }}/sa/{{ .ServiceAccount }}"
