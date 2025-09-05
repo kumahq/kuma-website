@@ -522,6 +522,8 @@ items:
         url: /guides/restrict-permissions-to-selected-namespaces-on-kubernetes/
       - text: Targeting MeshHTTPRoutes in supported policies
         url: /guides/targeting-meshhttproutes-in-supported-policies/
+      - text: Unified resource naming
+        url: /guides/unified-naming/
   - title: Reference
     group: true
     items:
