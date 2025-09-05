@@ -37,19 +37,19 @@ spec:
         deny:
           - spiffeId:
               type: Prefix
-              value: "spiffe://other-mesh.us-east-2.mesh.local/ns/legacy-ns"
+              value: "spiffe://my-mesh.us-east-2.mesh.local/ns/legacy-ns"
           - spiffeId:
               type: Exact
-              value: "spiffe://other-mesh.us-east-2.mesh.local/ns/test/sa/client"
+              value: "spiffe://my-mesh.us-east-2.mesh.local/ns/test/sa/client"
         allow:
           - spiffeId:
               type: Prefix
-              value: "spiffe://other-mesh.us-east-2.mesh.local"
+              value: "spiffe://my-mesh.us-east-2.mesh.local"
 ```
 {% endpolicy_yaml %}
 
 With this policy in place, workloads labeled `app: my-app` will reject connections from identities under the `legacy-ns` namespace
-as well as the specific `test/client` identity, while continuing to accept connections from all other identities within the `other-mesh.us-east-2.mesh.local` trust domain.
+as well as the specific `test/client` identity, while continuing to accept connections from all other identities within the `my-mesh.us-east-2.mesh.local` trust domain.
 
 ## Configuration
 
