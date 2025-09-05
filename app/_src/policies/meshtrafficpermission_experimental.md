@@ -35,14 +35,14 @@ spec:
   rules:
     - default:
         deny:
-          - spiffeId:
+          - spiffeID:
               type: Prefix
               value: "spiffe://my-mesh.us-east-2.mesh.local/ns/legacy-ns"
-          - spiffeId:
+          - spiffeID:
               type: Exact
               value: "spiffe://my-mesh.us-east-2.mesh.local/ns/test/sa/client"
         allow:
-          - spiffeId:
+          - spiffeID:
               type: Prefix
               value: "spiffe://my-mesh.us-east-2.mesh.local"
 ```
@@ -81,7 +81,7 @@ spec:
   rules:
     - default:
         deny:
-          - spiffeId:
+          - spiffeID:
               type: Prefix
               value: "spiffe://my-mesh.us-east-2.mesh.local/ns/malicious"
 ```
@@ -104,7 +104,7 @@ spec:
   rules:
     - default:
         allow:
-          - spiffeId:
+          - spiffeID:
               type: Prefix
               value: "spiffe://my-mesh.us-east-2.mesh.local/ns/observability"
 ```
@@ -127,7 +127,7 @@ spec:
   rules:
     - default:
         deny:
-          - spiffeId:
+          - spiffeID:
               type: Prefix
               value: "spiffe://my-mesh.us-east-2.mesh.local/ns/observability"
 ```
