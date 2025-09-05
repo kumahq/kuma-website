@@ -105,9 +105,9 @@ spec:
 Let's take a closer look at resource we've just applied. MeshIdentity uses `selector` field to select data planes for 
 which identity should be issued. In our example, identity will be issued for all data planes in Mesh.
 
-Next is `spiffeId` field. This field contains templates for building spiffeId for our workloads. In this example we will build
-trust domain from Mesh name, zone name and `.mesh.local` suffix. Path for spiffeId will be built from namespace and service account name.
-Example spiffeId will look like this `spiffe://default.default.mesh.local/ns/kuma-demo/sa/default`. 
+Next is `spiffeID` field. This field contains templates for building spiffeID for our workloads. In this example we will build
+trust domain from Mesh name, zone name and `.mesh.local` suffix. Path for spiffeID will be built from namespace and service account name.
+Example spiffeID will look like this `spiffe://default.default.mesh.local/ns/kuma-demo/sa/default`. 
 
 Last thing we see in this example is `provider` field. This field contains configuration specific to identity provider. 
 In this guide we will be working with `Bundled` provider, but you can also configure Spire provider. This configuration will
@@ -223,15 +223,15 @@ spec:
   rules:
     - default:
         allow:
-          - spiffeId:
+          - spiffeID:
               type: Prefix
               value: spiffe://default.default.mesh.local/ns/kuma-demo" | kubectl apply -f -
 ```
 
-This MeshTrafficPermission uses rules API with spiffeId matching. This policy will allow all traffic from workloads which spiffeId starts with:
-`spiffe://default.default.mesh.local/ns/kuma-demo`. This spiffeId is based on template from MeshIdentity we've created earlier, every workload in `default` Mesh.
-and in `kuma-demo` namespace will have spiffeId with this prefix. In the future if you want to be more specific you can 
-allow only workloads matching its `exact` spiffeId. 
+This MeshTrafficPermission uses rules API with spiffeID matching. This policy will allow all traffic from workloads which spiffeID starts with:
+`spiffe://default.default.mesh.local/ns/kuma-demo`. This spiffeID is based on template from MeshIdentity we've created earlier, every workload in `default` Mesh.
+and in `kuma-demo` namespace will have spiffeID with this prefix. In the future if you want to be more specific you can 
+allow only workloads matching its `exact` spiffeID. 
 
 We can now try if traffic works. Run: 
 
@@ -248,9 +248,9 @@ You should see something similar to:
 ## What you've learned
 
 We've learned how to issue identity with MeshIdentity. Also, we've seen how MeshTrust is generated based on MeshIdentity. 
-On top of that, we've seen how to allow traffic using MeshTrafficPermission with spiffeId matchers.
+On top of that, we've seen how to allow traffic using MeshTrafficPermission with spiffeID matchers.
 
 ## Next steps
 
 - Read more about [MeshIdentity](TODO) and [MeshTrust](TODO)
-- Explore [MeshTrafficPermission with spiffeId matchers](TODO)
+- Explore [MeshTrafficPermission with spiffeID matchers](TODO)

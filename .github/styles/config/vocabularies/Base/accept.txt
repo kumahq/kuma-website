@@ -146,7 +146,7 @@ snake_case
 snis
 Speedscope
 Spiffe
-spiffeId
+spiffeID
 Splunk
 ssl
 std(?:in|out|err)
