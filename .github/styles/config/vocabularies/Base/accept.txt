@@ -145,7 +145,7 @@ serverless
 snake_case
 snis
 Speedscope
-Spiffe
+SPIFFE
 spiffeID
 Splunk
 ssl

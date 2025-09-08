@@ -7,7 +7,7 @@ title: Issuing Identity with MeshIdentity
 {% assign Kuma = site.mesh_product_name %}
 {% assign kuma-control-plane = kuma | append: "-control-plane" %}
 
-The [MeshIdentity](TODO) allows you to issue identity for selected data planes. This approach is [Spiffe](https://spiffe.io/docs/latest/spiffe-about/overview/) compliant and can
+The [MeshIdentity](TODO) allows you to issue identity for selected data planes. This approach is [SPIFFE](https://spiffe.io/docs/latest/spiffe-about/overview/) compliant and can
 be used with Spire. In this guide we will take a look on how to issue identities using bundled provider.
 
 ## Prerequisites
