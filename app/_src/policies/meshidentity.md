@@ -2,6 +2,11 @@
 title: MeshIdentity
 ---
 
+{% warning %}
+This resource is experimental.
+It works only on Kubernetes and requires [MeshServices](/docs/{{ page.release }}/networking/meshservice/) to be enabled. 
+{% endwarning %}
+
 ## Overview
 
 `MeshIdentity` is a resource that defines how workloads in a mesh obtain their cryptographic identity.
@@ -14,7 +19,6 @@ With `MeshIdentity`, users can:
 * Enable secure mTLS between services, using trusted certificate authorities.
 * Switch identity providers without downtime, for example when migrating from built-in certificates to [Spire](https://spiffe.io/docs/latest/spire-about/).
 * Assign different identity providers to subsets of workloads, allowing more granular control.
-* Support multiple trust domains, so workloads in different domains can authenticate each other securely.
 
 A basic example follows to illustrate the structure:
 
@@ -62,6 +66,8 @@ This makes it possible to scope an identity to all workloads, a subset of worklo
 
 When multiple `MeshIdentity` resources apply to the same data plane proxy,
 the one with the most specific selector (the greatest number of matching labels) takes precedence.
+If two policies have selectors with the same number of labels, {{site.mesh_product_name}} compares their names lexicographically. 
+The policy whose name comes first in alphabetical order takes precedence (for example, `aaa` is chosen over `bbb`).
 
 #### Examples
 
@@ -180,19 +186,23 @@ spec:
       meshTrustCreation: Enabled # automatically create a MeshTrust from this identity
       insecureAllowSelfSigned: true # explicitly allow use of a self-signed CA
     ca:
-      certificate:
+      certificate: # SecureDataSource that'll be resolved by the Control Plane
         type: File
         file:
-          path: /ca.crt
-      privateKey:
+          path: /ca.crt # path should be reachable by the Control Plane
+      privateKey: # SecureDataSource that'll be resolved by the Control Plane
         type: File
         file:
-          path: /ca.key
+          path: /ca.key # path should be reachable by the Control Plane
 ```
 {% endraw %}
 {% endpolicy_yaml %}
 
 ### MeshIdentity with `Spire` provider
+
+To enable `Spire` socket injection, you can either:
+* turn it on globally by setting [`KUMA_RUNTIME_KUBERNETES_INJECTOR_SPIRE_ENABLED`](https://kuma.io/docs/dev/reference/kuma-cp/#kuma-cp-configuration) environment variable on the control plane, or
+* enable it per pod by adding the `k8s.kuma.io/spire-support` label.
 
 {% policy_yaml %}
 {% raw %}
