@@ -455,6 +455,15 @@ items:
             url: "/policies/meshtrafficpermission/#configuration"
           - text: Examples
             url: "/policies/meshtrafficpermission/#examples"
+      - text: MeshTrafficPermission (experimental)
+        url: /policies/meshtrafficpermission_experimental/
+        items:
+          - text: TargetRef support matrix
+            url: "/policies/meshtrafficpermission_experimental/#targetref-support-matrix"
+          - text: Configuration
+            url: "/policies/meshtrafficpermission_experimental/#configuration"
+          - text: Examples
+            url: "/policies/meshtrafficpermission_experimental/#examples"
       - title: Previous Policies
         group: true
         items:
