@@ -3,7 +3,7 @@ title: MeshTrafficPermission
 ---
 
 {% tip %}
-[Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) has to be enabled to make MeshTrafficPermission work.
+[MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) has to be enabled to make `MeshTrafficPermission` work.
 {% endtip %}
 
 ## Overview
@@ -49,7 +49,8 @@ spec:
 {% endpolicy_yaml %}
 
 With this policy in place, workloads labeled `app: my-app` will reject connections from identities under the `legacy-ns` namespace
-as well as the specific `test/client` identity, while continuing to accept connections from all other identities within the `my-mesh.us-east-2.mesh.local` trust domain.
+as well as the specific `test/client` identity, while continuing to accept connections from all other identities within the `my-mesh.us-east-2.mesh.local`
+[trust domain](/docs/{{ page.release }}/policies/meshtrust).
 
 ## Configuration
 
@@ -63,7 +64,7 @@ Useful for testing a policy to ensure no legitimate clients are denied.
 Evaluation rules are:
 
 1. If a request matches at least one `deny` matcher -- `DENY`.
-2. Else, if it matches at least one `allow` or `allorWithShadowDeny` matcher -- `ALLOW`.
+2. Else, if it matches at least one `allow` or `allowWithShadowDeny` matcher -- `ALLOW`.
 3. If no matchers apply -- `DENY` (default).
 
 ## Examples
