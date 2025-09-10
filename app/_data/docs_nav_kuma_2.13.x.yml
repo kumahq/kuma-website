@@ -1,6 +1,6 @@
 generate: true
 assume_generated: true
-release: 2.12.x
+release: 2.13.x
 items:
   - title: Introduction
     group: true
@@ -173,6 +173,8 @@ items:
                 url: "/policies/mutual-tls/#certificate-rotation"
           - text: MeshTrust
             url: /policies/meshtrust/
+          - text: MeshIdentity
+            url: /policies/meshidentity/
           - text: External Service
             url: /policies/external-services/
             items:

@@ -173,6 +173,8 @@ items:
                 url: "/policies/mutual-tls/#certificate-rotation"
           - text: MeshTrust
             url: /policies/meshtrust/
+          - text: MeshIdentity
+            url: /policies/meshidentity/
           - text: External Service
             url: /policies/external-services/
             items:
