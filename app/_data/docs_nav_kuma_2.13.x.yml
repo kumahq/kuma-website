@@ -171,6 +171,8 @@ items:
                 url: "/policies/mutual-tls/#permissive-mtls"
               - text: Certificate Rotation
                 url: "/policies/mutual-tls/#certificate-rotation"
+          - text: MeshIdentity
+            url: /policies/meshidentity/
           - text: External Service
             url: /policies/external-services/
             items:
