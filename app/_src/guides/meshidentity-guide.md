@@ -1,5 +1,5 @@
 ---
-title: Issuing Identity with MeshIdentity
+title: Issuing Identity with MeshIdentity bundled provider
 ---
 
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
@@ -7,7 +7,7 @@ title: Issuing Identity with MeshIdentity
 {% assign Kuma = site.mesh_product_name %}
 {% assign kuma-control-plane = kuma | append: "-control-plane" %}
 
-The [MeshIdentity](TODO) allows you to issue identity for selected data planes. This approach is [SPIFFE](https://spiffe.io/docs/latest/spiffe-about/overview/) compliant and can
+The [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) allows you to issue identity for selected data planes. This approach is [SPIFFE](https://spiffe.io/docs/latest/spiffe-about/overview/) compliant and can
 be used with Spire. In this guide we will take a look on how to issue identities using bundled provider.
 
 ## Prerequisites
@@ -257,5 +257,5 @@ On top of that, we've seen how to allow traffic using `MeshTrafficPermission` wi
 
 ## Next steps
 
-- Read more about [MeshIdentity](TODO) and [MeshTrust](TODO)
+- Read more about [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) and [MeshTrust](TODO)
 - Explore [MeshTrafficPermission with spiffeID matchers](TODO)

@@ -524,7 +524,7 @@ items:
         url: /guides/restrict-permissions-to-selected-namespaces-on-kubernetes/
       - text: Targeting MeshHTTPRoutes in supported policies
         url: /guides/targeting-meshhttproutes-in-supported-policies/
-      - text: Issuing Identity with MeshIdentity
+      - text: Issuing Identity with MeshIdentity bundled provider
         url: /guides/meshidentity-guide
   - title: Reference
     group: true
