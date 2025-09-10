@@ -4,7 +4,7 @@ content_type: how-to
 ---
 
 {% warning %}
-This resource is experimental!
+This resource is experimental.
 It works only on Kubernetes and requires [MeshServices](/docs/{{ page.release }}/networking/meshservice/) to be enabled.
 {% endwarning %}
 
