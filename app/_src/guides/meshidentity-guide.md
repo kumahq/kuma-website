@@ -7,6 +7,10 @@ title: Issuing Identity with MeshIdentity bundled provider
 {% assign Kuma = site.mesh_product_name %}
 {% assign kuma-control-plane = kuma | append: "-control-plane" %}
 
+{% warning %}
+This is a guide for experimental feature. 
+{% endwarning %}
+
 The [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) allows you to issue identity for selected data planes. This approach is [SPIFFE](https://spiffe.io/docs/latest/spiffe-about/overview/) compliant and can
 be used with Spire. In this guide we will take a look on how to issue identities using bundled provider.
 
