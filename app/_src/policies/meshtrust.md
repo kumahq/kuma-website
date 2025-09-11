@@ -74,5 +74,3 @@ spec:
   trustDomain: test.zone-2.mesh.local
 ```
 {% endpolicy_yaml %}
-
-{% json_schema MeshTrust %}
