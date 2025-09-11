@@ -48,7 +48,9 @@ helm install --create-namespace --namespace {{ kuma-system }} \
 
 We need to enable Kubernetes Spire injector on control plane for Spire support to work.
 
+<!-- vale Google.Headings = NO -->
 ### Install Spire
+<!-- vale Google.Headings = YES -->
 
 Install Spire CRDs:
 
