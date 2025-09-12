@@ -1,5 +1,5 @@
 ---
-title: Issuing Identity with MeshIdentity bundled provider
+title: Issuing Identity with MeshIdentity Spire provider
 ---
 
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
