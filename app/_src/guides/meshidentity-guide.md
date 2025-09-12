@@ -78,7 +78,7 @@ In {{ Kuma }} we define two concepts around identity that need to be well unders
 
 * **Identity** - Who a workload is - A workload's identity is the name encoded in its certificate, and this identity is considered valid only if the certificate is signed by a Trust.
 * **Trust** - Who to believe - Trust defines which identities you accept as valid, and is established through trusted 
- certificate authorities (CAs) that issue those identities. Trust is attached to trust domain, and there can be mutliple Trusts in the cluster.
+ certificate authorities (CA) that issue those identities. Trust is attached to trust domain, and there can be multiple Trusts in the cluster.
 
 ## Issuing Identity
 
