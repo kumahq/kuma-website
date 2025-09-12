@@ -2,6 +2,13 @@
 title: MeshTrafficPermission
 ---
 
+{% if_version gte:2.12.x %}
+{% tip %}
+A renewed version of `MeshTrafficPermission` is available with the SPIFFE-based matches.
+It is currently experimental and requires `MeshIdentity` to be enabled.
+See [MeshTrafficPermission (experimental)](/docs/{{ page.release }}/policies/meshtrafficpermission_experimental) for more details.
+{% endtip %}
+{% endif_version %}
 {% warning %}
 This policy uses new policy matching algorithm.
 Do **not** combine with [TrafficPermission](/docs/{{ page.release }}/policies/traffic-permissions).
