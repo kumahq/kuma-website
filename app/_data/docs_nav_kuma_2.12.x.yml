@@ -458,8 +458,8 @@ items:
       - text: MeshTrafficPermission (experimental)
         url: /policies/meshtrafficpermission_experimental/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshtrafficpermission_experimental/#targetref-support-matrix"
+          - text: Overview
+            url: "/policies/meshtrafficpermission_experimental/#overview"
           - text: Configuration
             url: "/policies/meshtrafficpermission_experimental/#configuration"
           - text: Examples
