@@ -12,7 +12,7 @@ This is a guide for experimental feature.
 {% endwarning %}
 
 The [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) allows you to issue identity for selected data planes. This approach is [SPIFFE](https://spiffe.io/docs/latest/spiffe-about/overview/) compliant and can
-be used with Spire. In this guide we will take a look on how to issue identities using bundled provider.
+be used with [Spire]((/docs/{{ page.release }}/guides/meshidentity-spire-guide)). In this guide we will take a look on how to issue identities using bundled provider.
 
 ## Prerequisites
 
@@ -261,5 +261,6 @@ On top of that, we've seen how to allow traffic using `MeshTrafficPermission` wi
 
 ## Next steps
 
+- Checkout [MeshIdentity guide with Spire provider](/docs/{{ page.release }}/guides/meshidentity-spire-guide)
 - Read more about [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) and [MeshTrust](/docs/{{ page.release }}/policies/meshtrust)
 - Explore [MeshTrafficPermission with spiffeID matchers](/docs/{{ page.release }}/policies/meshtrafficpermission_experimental)
