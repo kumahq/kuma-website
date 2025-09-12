@@ -123,9 +123,9 @@ in demo.
 
 In {{ Kuma }} we define two concepts around identity that need to be well understood:
 
-* **Identity** - (Who a workload is) - A workload's identity is expressed as a [SPIFFE ID](https://spiffe.io/docs/latest/spiffe-about/overview/) (the name encoded in its certificate’s Subject Alternative Name).
-* **Trust** - (Who to believe) - Trust defines which identities you accept as valid, and is established through trusted 
-  certificate authorities (CA) that issue those identities. Trust is attached to trust domain, and there can be multiple Trusts in the cluster.
+* **Identity** - Who a workload is - A workload's identity is the name encoded in its certificate, and this identity is considered valid only if the certificate is signed by a Trust.
+* **Trust** - Who to believe - Trust defines which identities you accept as valid, and is established through trusted
+  certificate authorities (CAs) that issue those identities. Trust is attached to trust domain, and there can be mutliple Trusts in the cluster.
 
 ## Issuing Identity
 
@@ -234,5 +234,5 @@ We've learned how to issue identity with Spire and `MeshIdentity`. Also, we've s
 
 ## Next steps
 
-- Read more about [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) and [MeshTrust](TODO)
-- Explore [MeshTrafficPermission with spiffeID matchers](TODO)
+- Read more about [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity)
+- Explore [MeshTrafficPermission with spiffeID matchers](/docs/{{ page.release }}/policies/meshtrafficpermission_experimental)
