@@ -22,7 +22,9 @@ Starting with 2.12, you can adopt a unified resource naming scheme that makes na
 
 You have completed the [Kubernetes Quickstart]({{ docs }}/quickstart/kubernetes-demo/) and have the demo environment running. This guide assumes you already have the `demo-app` service running from the quickstart.
 
-## Step 1: create a ContainerPatch
+<!-- vale Google.Headings = NO -->
+## Step 1: Create a ContainerPatch
+<!-- vale Google.Headings = YES -->
 
 Create and apply a `ContainerPatch` resource that enables unified naming on the sidecar:
 
@@ -49,7 +51,9 @@ kubectl apply -f containerpatch-unified-naming.yaml
 
 This patch configures every sidecar that references it to set an environment variable that turns on the unified naming feature.
 
-## Step 2: enable for a single workload
+<!-- vale Google.Headings = NO -->
+## Step 2: Enable for a single workload
+<!-- vale Google.Headings = YES -->
 
 Apply the patch to a workload by annotating its deployment. This lets you enable the feature progressively, service by service.
 
@@ -67,7 +71,9 @@ kubectl annotate deploy/demo-app kuma.io/container-patches='' --overwrite
 kubectl annotate deploy/demo-app kuma.io/container-patches-
 ```
 
-## Step 3: verify the new naming
+<!-- vale Google.Headings = NO -->
+## Step 3: Verify the new naming
+<!-- vale Google.Headings = YES -->
 
 Inspect the sidecar stats to confirm that unified naming is applied:
 
@@ -89,7 +95,9 @@ You can also look at cluster names for confirmation:
 kubectl exec -it deploy/demo-app -- curl -s localhost:9901/clusters | head -n 50
 ```
 
-## Step 4: progressively roll out
+<!-- vale Google.Headings = NO -->
+## Step 4: Progressively roll out
+<!-- vale Google.Headings = YES -->
 
 1. Start with one service such as `demo-app`.
 2. Validate dashboards and alerts and compare metrics before and after.
@@ -105,17 +113,23 @@ To enable the feature across all workloads in a namespace:
 kubectl annotate deploy --all kuma.io/container-patches=enable-feature-unified-resource-naming --overwrite
 ```
 
-This staged rollout allows you to evaluate the new names in your monitoring and alerting systems before switching everything over.
+This staged roll-out allows you to evaluate the new names in your monitoring and alerting systems before switching everything over.
 
-## Step 5: choose cluster-wide enablement mode
+<!-- vale off -->
+## Step 5: Choose cluster-wide enablement mode
+<!-- vale on -->
 
-### Option A: default ContainerPatch (keeps per-workload control)
+<!-- vale Google.Headings = NO -->
+### Option A: Default ContainerPatch (keeps per-workload control)
+<!-- vale Google.Headings = YES -->
 
 Set a default list of patches the injector applies when a workload does not specify its own list. This approach makes the feature opt-out: it will be applied everywhere unless you explicitly disable it.
 
+<!-- vale off -->
 {% cpinstall envVar %}
 controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_CONTAINER_PATCHES=enable-feature-unified-resource-naming
 {% endcpinstall %}
+<!-- vale on -->
 
 Per-workload overrides:
 
@@ -127,15 +141,19 @@ kubectl annotate deploy/demo-app kuma.io/container-patches='' --overwrite
 kubectl annotate deploy/demo-app kuma.io/container-patches=my-custom-patch-1,my-custom-patch-2 --overwrite
 ```
 
-### Option B: global feature flag (no per-workload override)
+<!-- vale Google.Headings = NO -->
+### Option B: Global feature flag (no per-workload override)
+<!-- vale Google.Headings = YES -->
 
 Enable unified naming for every injected workload. This makes the feature mandatory and removes the ability to disable it on a per-workload basis.
 
+<!-- vale off -->
 {% cpinstall dpFeatures %}
 dataPlane:
   features:
     unifiedResourceNaming: true
 {% endcpinstall %}
+<!-- vale on -->
 
 ## Benefits of unified naming
 
@@ -145,4 +163,4 @@ dataPlane:
 | Hard to correlate stats with owners | Direct mapping back to `MeshService` and related resources |
 | Complex, exclusion-heavy queries    | Simple, predictable queries and labels                     |
 
-Unified naming improves traceability and reduces the time required to understand what a stat refers to. With a progressive rollout, you can safely validate the new scheme in your environment, then move to a cluster-wide rollout when you are ready.
+Unified naming improves traceability and reduces the time required to understand what a stat refers to. With a progressive roll-out, you can safely validate the new scheme in your environment, then move to a cluster-wide roll-out when you are ready.
