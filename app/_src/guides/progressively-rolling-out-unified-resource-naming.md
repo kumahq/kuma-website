@@ -26,11 +26,10 @@ You have completed the [Kubernetes Quickstart]({{ docs }}/quickstart/kubernetes-
 ## Step 1: Create a ContainerPatch
 <!-- vale Google.Headings = YES -->
 
-Create and apply a `ContainerPatch` resource that enables unified naming on the sidecar:
+Apply a `ContainerPatch` resource that enables unified naming on the sidecar:
 
-```yaml
-# containerpatch-unified-naming.yaml
-apiVersion: kuma.io/v1alpha1
+```sh
+echo 'apiVersion: kuma.io/v1alpha1
 kind: ContainerPatch
 metadata:
   name: enable-feature-unified-resource-naming
@@ -39,14 +38,10 @@ spec:
   sidecarPatch:
   - op: add
     path: /env/-
-    value: '{
+    value: "{
       "name": "KUMA_DATAPLANE_RUNTIME_UNIFIED_RESOURCE_NAMING_ENABLED",
       "value": "true"
-    }'
-```
-
-```sh
-kubectl apply -f containerpatch-unified-naming.yaml
+    }"' | kubectl apply -f -
 ```
 
 This patch configures every sidecar that references it to set an environment variable that turns on the unified naming feature.
@@ -77,9 +72,18 @@ kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches-
 
 Inspect the sidecar stats to confirm that unified naming is applied:
 
-```sh
-kubectl exec -it -n kuma-demo deploy/demo-app -- curl -s localhost:9901/stats | grep -i kri
-```
+- In one terminal, port-forward to the demo-app pod:
+
+  ```sh
+  POD=$(kubectl get pod -n kuma-demo -l app=demo-app -o jsonpath='{.items[0].metadata.name}')
+  kubectl port-forward -n kuma-demo pod/$POD 9901:9901
+  ```
+
+- In another terminal, confirm that unified naming is applied by inspecting stats:
+
+  ```sh
+  curl -s localhost:9901/stats | grep -i kri
+  ```
 
 You should see entries that map directly to {{ Kuma }} resources, for example:
 
@@ -92,7 +96,7 @@ These names show the `MeshService` resource (`demo-app`) and section (`http`) cl
 You can also look at cluster names for confirmation:
 
 ```sh
-kubectl exec -it -n kuma-demo deploy/demo-app -- curl -s localhost:9901/clusters | head -n 50
+curl -s localhost:9901/clusters | head -n 50
 ```
 
 <!-- vale off -->
