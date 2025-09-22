@@ -66,6 +66,8 @@ jobs:
             --exclude 'https://opentelemetry.io' \
             --exclude 'https://www.envoyproxy.io' \
             --exclude 'https://developer.konghq.com' \
+            --exclude 'https://minikube.sigs.k8s.io/docs/handbook/host-access/' \
+            --exclude 'https://www.npmjs.com/package/jwt-cli' \
             --header 'Accept: */*' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
@@ -100,6 +102,8 @@ jobs:
             --exclude 'https://opentelemetry.io' \
             --exclude 'https://www.envoyproxy.io' \
             --exclude 'https://developer.konghq.com' \
+            --exclude 'https://minikube.sigs.k8s.io/docs/handbook/host-access/' \
+            --exclude 'https://www.npmjs.com/package/jwt-cli' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
             --skip-tls-verification \
