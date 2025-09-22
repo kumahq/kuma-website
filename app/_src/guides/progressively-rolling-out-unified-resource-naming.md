@@ -50,20 +50,23 @@ This patch configures every sidecar that references it to set an environment var
 ## Step 2: Enable for a single workload
 <!-- vale Google.Headings = YES -->
 
-Apply the patch to a workload by annotating its deployment. This lets you enable the feature progressively, service by service.
+Apply the patch to a workload by annotating its pods via the Deployment's pod template (not the Deployment object itself). This lets you enable the feature progressively, service by service.
 
 ```sh
-kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches=enable-feature-unified-resource-naming --overwrite
+# add/overwrite the annotation on the Deployment's pod template
+kubectl patch -n kuma-demo deployment demo-app -p '{"spec":{"template":{"metadata":{"annotations":{"kuma.io/container-patches":"enable-feature-unified-resource-naming"}}}}}'
 ```
 
 To disable later for that workload:
 
 ```sh
-# set to an empty list
-kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches='' --overwrite
+# set to an empty list on the pod template
+kubectl patch -n kuma-demo deployment demo-app \
+  -p '{"spec":{"template":{"metadata":{"annotations":{"kuma.io/container-patches":""}}}}}'
 
-# or remove the annotation entirely
-kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches-
+# or remove the annotation entirely from the pod template
+kubectl patch -n kuma-demo deployment demo-app --type=json \
+  -p='[{"op":"remove","path":"/spec/template/metadata/annotations/kuma.io~1container-patches"}]'
 ```
 
 <!-- vale Google.Headings = NO -->
@@ -118,11 +121,13 @@ controlPlane.envVars.KUMA_RUNTIME_KUBERNETES_INJECTOR_CONTAINER_PATCHES=enable-f
 Per-workload overrides:
 
 ```sh
-# disable for a workload
-kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches='' --overwrite
+# disable for a workload (set to an empty list on the pod template)
+kubectl patch -n kuma-demo deployment demo-app \
+  -p '{"spec":{"template":{"metadata":{"annotations":{"kuma.io/container-patches":""}}}}}'
 
-# provide a custom list for a workload
-kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches=my-custom-patch-1,my-custom-patch-2 --overwrite
+# provide a custom list for a workload (on the pod template)
+kubectl patch -n kuma-demo deployment demo-app \
+  -p '{"spec":{"template":{"metadata":{"annotations":{"kuma.io/container-patches":"my-custom-patch-1,my-custom-patch-2"}}}}}'
 ```
 
 <!-- vale Google.Headings = NO -->
