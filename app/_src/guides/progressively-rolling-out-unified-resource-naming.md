@@ -58,17 +58,17 @@ This patch configures every sidecar that references it to set an environment var
 Apply the patch to a workload by annotating its deployment. This lets you enable the feature progressively, service by service.
 
 ```sh
-kubectl annotate deploy/demo-app kuma.io/container-patches=enable-feature-unified-resource-naming --overwrite
+kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches=enable-feature-unified-resource-naming --overwrite
 ```
 
 To disable later for that workload:
 
 ```sh
 # set to an empty list
-kubectl annotate deploy/demo-app kuma.io/container-patches='' --overwrite
+kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches='' --overwrite
 
 # or remove the annotation entirely
-kubectl annotate deploy/demo-app kuma.io/container-patches-
+kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches-
 ```
 
 <!-- vale Google.Headings = NO -->
@@ -78,7 +78,7 @@ kubectl annotate deploy/demo-app kuma.io/container-patches-
 Inspect the sidecar stats to confirm that unified naming is applied:
 
 ```sh
-kubectl exec -it deploy/demo-app -- curl -s localhost:9901/stats | grep -i kri
+kubectl exec -it -n kuma-demo deploy/demo-app -- curl -s localhost:9901/stats | grep -i kri
 ```
 
 You should see entries that map directly to {{ Kuma }} resources, for example:
@@ -92,7 +92,7 @@ These names show the `MeshService` resource (`demo-app`) and section (`http`) cl
 You can also look at cluster names for confirmation:
 
 ```sh
-kubectl exec -it deploy/demo-app -- curl -s localhost:9901/clusters | head -n 50
+kubectl exec -it -n kuma-demo deploy/demo-app -- curl -s localhost:9901/clusters | head -n 50
 ```
 
 <!-- vale Google.Headings = NO -->
@@ -135,10 +135,10 @@ Per-workload overrides:
 
 ```sh
 # disable for a workload
-kubectl annotate deploy/demo-app kuma.io/container-patches='' --overwrite
+kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches='' --overwrite
 
 # provide a custom list for a workload
-kubectl annotate deploy/demo-app kuma.io/container-patches=my-custom-patch-1,my-custom-patch-2 --overwrite
+kubectl annotate -n kuma-demo deploy/demo-app kuma.io/container-patches=my-custom-patch-1,my-custom-patch-2 --overwrite
 ```
 
 <!-- vale Google.Headings = NO -->
