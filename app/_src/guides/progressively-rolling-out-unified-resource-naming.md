@@ -95,28 +95,8 @@ You can also look at cluster names for confirmation:
 kubectl exec -it -n kuma-demo deploy/demo-app -- curl -s localhost:9901/clusters | head -n 50
 ```
 
-<!-- vale Google.Headings = NO -->
-## Step 4: Progressively roll out
-<!-- vale Google.Headings = YES -->
-
-1. Start with one service such as `demo-app`.
-2. Validate dashboards and alerts and compare metrics before and after.
-3. Expand to more services or entire namespaces by annotating additional workloads:
-
-```sh
-kubectl annotate deploy/another-app kuma.io/container-patches=enable-feature-unified-resource-naming --overwrite
-```
-
-To enable the feature across all workloads in a namespace:
-
-```sh
-kubectl annotate deploy --all kuma.io/container-patches=enable-feature-unified-resource-naming --overwrite
-```
-
-This staged roll-out allows you to evaluate the new names in your monitoring and alerting systems before switching everything over.
-
 <!-- vale off -->
-## Step 5: Choose cluster-wide enablement mode
+## Step 4: Choose cluster-wide enablement mode
 <!-- vale on -->
 
 <!-- vale Google.Headings = NO -->
