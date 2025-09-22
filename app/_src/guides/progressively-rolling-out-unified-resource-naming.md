@@ -29,7 +29,7 @@ You have completed the [Kubernetes Quickstart]({{ docs }}/quickstart/kubernetes-
 Apply a `ContainerPatch` resource that enables unified naming on the sidecar:
 
 ```sh
-echo 'apiVersion: kuma.io/v1alpha1
+echo "apiVersion: kuma.io/v1alpha1
 kind: ContainerPatch
 metadata:
   name: enable-feature-unified-resource-naming
@@ -38,10 +38,10 @@ spec:
   sidecarPatch:
   - op: add
     path: /env/-
-    value: "{
-      "name": "KUMA_DATAPLANE_RUNTIME_UNIFIED_RESOURCE_NAMING_ENABLED",
-      "value": "true"
-    }"' | kubectl apply -f -
+    value: '{
+      \"name\": \"KUMA_DATAPLANE_RUNTIME_UNIFIED_RESOURCE_NAMING_ENABLED\",
+      \"value\": \"true\"
+    }'" | kubectl apply -f -
 ```
 
 This patch configures every sidecar that references it to set an environment variable that turns on the unified naming feature.
