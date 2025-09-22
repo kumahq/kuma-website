@@ -149,9 +149,7 @@ Enable unified naming for every injected workload. This makes the feature mandat
 
 <!-- vale off -->
 {% cpinstall dpFeatures %}
-dataPlane:
-  features:
-    unifiedResourceNaming: true
+dataPlane.features.unifiedResourceNaming: true
 {% endcpinstall %}
 <!-- vale on -->
 
