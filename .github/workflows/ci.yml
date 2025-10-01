@@ -47,7 +47,7 @@ jobs:
             --exclude http://127.0.0.1:7777/docs/1. \
             --exclude 127.0.0.1 \
             --exclude 'http://localhost:7777/vite-dev/*' \
-            --exclude 'https?://(?:\[[0-9A-Fa-f:]+\]|\d{1,3}(?:\.\d{1,3}){3}|[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)(?::\d+)?(?:/[^\s]*)?' \ 
+            --exclude 'https?://(?:\[[0-9A-Fa-f:]+\]|\d{1,3}(?:\.\d{1,3}){3}|[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)(?::\d+)?(?:/[^\s]*)?' \
             --include 'https?://localhost(?::\d+)?(?:/[^\s]*)?' \
             --header 'Accept: */*' \
             --max-connections-per-host 8 \
@@ -64,7 +64,7 @@ jobs:
             --exclude http://127.0.0.1:7777/docs/1. \
             --exclude 127.0.0.1 \
             --exclude 'http://localhost:7777/vite-dev/*' \
-            --exclude 'https?://(?:\[[0-9A-Fa-f:]+\]|\d{1,3}(?:\.\d{1,3}){3}|[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)(?::\d+)?(?:/[^\s]*)?' \ 
+            --exclude 'https?://(?:\[[0-9A-Fa-f:]+\]|\d{1,3}(?:\.\d{1,3}){3}|[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)(?::\d+)?(?:/[^\s]*)?' \
             --include 'https?://localhost(?::\d+)?(?:/[^\s]*)?' \
             --max-connections-per-host 8 \
             --max-response-body-size 100000000 \
