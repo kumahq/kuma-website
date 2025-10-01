@@ -539,6 +539,8 @@ items:
         url: /guides/meshidentity-guide
       - text: Issuing Identity with MeshIdentity Spire provider
         url: /guides/meshidentity-spire-guide
+      - text: Progressively rolling out unified resource naming
+        url: /guides/progressively-rolling-out-unified-resource-naming/
   - title: Reference
     group: true
     items:
