@@ -129,7 +129,7 @@ DEPENDENCIES
   jekyll-kuma-plugins!
   jekyll-last-modified-at
   jekyll-paginate-v2
-  jekyll-vite
+  jekyll-vite (= 3.0.4)
   liquid-c
   rouge (= 3.30.0)
   rspec

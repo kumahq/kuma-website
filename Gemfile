@@ -8,7 +8,7 @@ gem 'jekyll-generator-single-source'
 gem 'jekyll-paginate-v2'
 gem 'jekyll-last-modified-at'
 gem 'jekyll-contentblocks'
-gem 'jekyll-vite'
+gem 'jekyll-vite', '3.0.4'
 gem 'jekyll-kuma-plugins', path: './jekyll-kuma-plugins'
 
 group :development do

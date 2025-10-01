@@ -23,7 +23,7 @@
     "sass": "^1.63.5",
     "stylus": "^0.59.0",
     "vite": "^5.4.20",
-    "vite-plugin-ruby": "^3.2.2",
+    "vite-plugin-ruby": "^5.1.1",
     "vite-plugin-windicss": "^1.9.0",
     "windicss": "^3.5.6"
   }
