@@ -171,6 +171,8 @@ items:
                 url: "/policies/mutual-tls/#permissive-mtls"
               - text: Certificate Rotation
                 url: "/policies/mutual-tls/#certificate-rotation"
+          - text: MeshTrust
+            url: /policies/meshtrust/
           - text: MeshIdentity
             url: /policies/meshidentity/
           - text: External Service
@@ -455,6 +457,15 @@ items:
             url: "/policies/meshtrafficpermission/#configuration"
           - text: Examples
             url: "/policies/meshtrafficpermission/#examples"
+      - text: MeshTrafficPermission (experimental)
+        url: /policies/meshtrafficpermission_experimental/
+        items:
+          - text: Overview
+            url: "/policies/meshtrafficpermission_experimental/#overview"
+          - text: Configuration
+            url: "/policies/meshtrafficpermission_experimental/#configuration"
+          - text: Examples
+            url: "/policies/meshtrafficpermission_experimental/#examples"
       - title: Previous Policies
         group: true
         items:
@@ -524,6 +535,12 @@ items:
         url: /guides/restrict-permissions-to-selected-namespaces-on-kubernetes/
       - text: Targeting MeshHTTPRoutes in supported policies
         url: /guides/targeting-meshhttproutes-in-supported-policies/
+      - text: Issuing Identity with MeshIdentity bundled provider
+        url: /guides/meshidentity-guide
+      - text: Issuing Identity with MeshIdentity Spire provider
+        url: /guides/meshidentity-spire-guide
+      - text: Progressively rolling out unified resource naming
+        url: /guides/progressively-rolling-out-unified-resource-naming/
   - title: Reference
     group: true
     items:
