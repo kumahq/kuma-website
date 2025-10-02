@@ -68,7 +68,9 @@ Delay defines a configuration of delaying a response from a destination.
 - `value` - the duration during which the response will be delayed
 - `percentage` - a percentage of requests on which abort will be injected, has to be in [0.0 - 100.0] range. If the value is a double number, put it in quotes.
 
+<!-- vale Google.Headings = NO -->
 ### ResponseBandwidth limit
+<!-- vale Google.Headings = YES -->
 
 ResponseBandwidth defines a configuration to limit the speed of responding to requests.
 
