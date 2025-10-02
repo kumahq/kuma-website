@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
 gem 'jekyll', '~> 4.2'
-gem 'liquid-c'
+gem 'liquid-c', '4.0.1'
 gem 'rouge', '3.30.0'
-gem 'jekyll-generator-single-source'
+gem 'jekyll-generator-single-source', '0.0.15'
 
-gem 'jekyll-paginate-v2'
-gem 'jekyll-last-modified-at'
-gem 'jekyll-contentblocks'
+gem 'jekyll-paginate-v2', '3.0.0'
+gem 'jekyll-last-modified-at', '1.3.2'
+gem 'jekyll-contentblocks', '1.2.0'
 gem 'jekyll-vite', '3.0.4'
 gem 'vite_ruby', '3.9.2'
 gem 'jekyll-kuma-plugins', path: './jekyll-kuma-plugins'
