@@ -330,6 +330,15 @@ items:
             url: "/policies/meshfaultinjection/#configuration"
           - text: Examples
             url: "/policies/meshfaultinjection/#examples"
+      - text: MeshFaultInjection (experimental)
+        url: /policies/meshfaultinjection_experimental/
+        items:
+          - text: Overview
+            url: "/policies/meshfaultinjection_experimental/#overview"
+          - text: Configuration
+            url: "/policies/meshfaultinjection_experimental/#configuration"
+          - text: Examples
+            url: "/policies/meshfaultinjection_experimental/#examples"
       - text: MeshHealthCheck
         url: /policies/meshhealthcheck/
         items:
