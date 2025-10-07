@@ -40,38 +40,9 @@ jobs:
           # Wait until the dev server is reachable
           npx --yes wait-on --timeout 180000 http://localhost:7777
       - name: link checker without external links
-        run: |
-          $(mise which muffet) \
-            http://localhost:7777 \
-            --buffer-size 8192 \
-            --exclude http://127.0.0.1:7777/docs/1. \
-            --exclude 127.0.0.1 \
-            --exclude 'http://localhost:7777/vite-dev/*' \
-            --exclude 'https?://(?:\[[0-9A-Fa-f:]+\]|\d{1,3}(?:\.\d{1,3}){3}|[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)(?::\d+)?(?:/[^\s]*)?' \
-            --include 'https?://localhost(?::\d+)?(?:/[^\s]*)?' \
-            --header 'Accept: */*' \
-            --max-connections-per-host 8 \
-            --max-response-body-size 100000000 \
-            --skip-tls-verification \
-            --rate-limit 50 \
-            --max-retries 5 \
-            --timeout 100
+        run: make links/check EXCLUDE_EXTERNAL_LINKS=true
       - name: link checker dev without external links
-        run: |
-          $(mise which muffet) \
-            http://localhost:7777/docs/dev \
-            --buffer-size 8192 \
-            --exclude http://127.0.0.1:7777/docs/1. \
-            --exclude 127.0.0.1 \
-            --exclude 'http://localhost:7777/vite-dev/*' \
-            --exclude 'https?://(?:\[[0-9A-Fa-f:]+\]|\d{1,3}(?:\.\d{1,3}){3}|[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)(?::\d+)?(?:/[^\s]*)?' \
-            --include 'https?://localhost(?::\d+)?(?:/[^\s]*)?' \
-            --max-connections-per-host 8 \
-            --max-response-body-size 100000000 \
-            --skip-tls-verification \
-            --rate-limit 50 \
-            --max-retries 5 \
-            --timeout 100
+        run: make links/check EXCLUDE_EXTERNAL_LINKS=true LINK_CHECK_TARGET=http://localhost:7777/docs/dev
 
   installer-sh:
     name: Test installer.sh

@@ -8,6 +8,12 @@ RUBY_VERSION := "$(shell ruby -v)"
 RUBY_VERSION_REQUIRED := "$(shell cat .ruby-version)"
 RUBY_MATCH := $(shell [[ "$(shell ruby -v)" =~ "ruby $(shell cat .ruby-version)" ]] && echo matched)
 
+MISE := $(shell which mise)
+MUFFET=$(shell $(MISE) which muffet)
+
+LINK_CHECK_TARGET ?= http://localhost:7777
+EXCLUDE_EXTERNAL_LINKS ?= false
+
 .PHONY: ruby-version-check
 ruby-version-check:
 ifndef RUBY_MATCH
@@ -25,7 +31,7 @@ mise/check/install:
 # Installs yarn, npm packages and gems.
 .PHONY: install
 install: mise/check/install
-	mise install
+	$(MISE) install
 	yarn install
 	bundle install
 
@@ -67,3 +73,22 @@ kill-ports:
 kill-ports-force:
 	@JEKYLL_PROCESS=$$(lsof -ti:4000) && kill -9 $$JEKYLL_PROCESS || true
 	@VITE_PROCESS=$$(lsof -ti:3036) && kill -9 $$VITE_PROCESS || true
+
+
+.PHONY: links/check
+links/check:
+	$(MUFFET) \
+		$(LINK_CHECK_TARGET) \
+		--buffer-size 8192 \
+		--exclude http://127.0.0.1:7777/docs/1. \
+		--exclude 127.0.0.1 \
+		--exclude 'http://localhost:7777/vite-dev/*' \
+		$(if $(filter true,$(EXCLUDE_EXTERNAL_LINKS)),--exclude 'https?://(?:\[[0-9A-Fa-f:]+\]|\d{1,3}(?:\.\d{1,3}){3}|[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)(?::\d+)?(?:/[^\s]*)?') \
+		--include 'https?://localhost(?::\d+)?(?:/[^\s]*)?' \
+		--header 'Accept: */*' \
+		--max-connections-per-host 8 \
+		--max-response-body-size 100000000 \
+		--skip-tls-verification \
+		--rate-limit 50 \
+		--max-retries 5 \
+		--timeout 100
