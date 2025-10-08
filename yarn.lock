@@ -1928,10 +1928,10 @@ ajv@^8.0.0, ajv@^8.10.0, ajv@^8.11.0, ajv@^8.11.2:
     json-schema-traverse "^1.0.0"
     require-from-string "^2.0.2"
 
-anchor-js@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/anchor-js/-/anchor-js-4.3.1.tgz#643685df60fbefe7516edd07c11be98c05381cf8"
-  integrity sha512-TziERoibspey7KSm95oIdzTxiogXonJl7inQI07Y3cI25DKQaLkUftB7RhCuSb1GcwunHL6/PcIKM4dDUb9xYQ==
+anchor-js@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/anchor-js/-/anchor-js-5.0.0.tgz#e096bb1c6b76c31b41f8ff0966289af26fae87e7"
+  integrity sha512-2bOqCsBIXAYhjAN3iI4QevoAJtB2gRWAiY9P3P7CVW8lIjA3Dl6ldhDlWeeQvCHif+V5vIndfLOag/5I8tzTzA==
 
 animejs@^3.2.2:
   version "3.2.2"
