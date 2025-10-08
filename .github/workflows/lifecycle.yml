@@ -11,6 +11,6 @@ on:
 
 jobs:
   lifecycle:
-    uses: kumahq/.github/.github/workflows/wfc_lifecycle.yml@417fa247cd071cad8628a63bf54ca54fd8baf96d
+    uses: kumahq/.github/.github/workflows/wfc_lifecycle.yml@f8ff485df218b70d454c37c0a082cd1518fc8cc3
     with:
       filesToIgnore: CODEOWNERS,CONTRIBUTING.md
