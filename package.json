@@ -3,7 +3,7 @@
   "description": "The website and docs for Kuma.",
   "author": "Kong Inc.",
   "resolutions": {
-    "cookie": "^0.7.1"
+    "cookie": "^1.0.2"
   },
   "dependencies": {
     "@kongponents/ktabs": "^0.1.2",
