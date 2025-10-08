@@ -2,7 +2,7 @@
 experimental = true # To enable installation of Go tools from source with mise.
 
 [tools]
-ruby = "3.2.2"
+ruby = "3.4.6"
 node = "22.20.0"
 yarn = "1.22.22"
 "go:github.com/raviqqe/muffet/v2" = "v2.11.0"
