@@ -672,15 +672,22 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@kongponents/ktabs@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@kongponents/ktabs/-/ktabs-0.1.2.tgz#9d4a0b58b5964c9d8057336354619b38ab8eb230"
-  integrity sha512-q7A43cz64CmV8ladty82ZP+HrkeTb5tB0TwcX1/qLDueaH/vicFvH07OVIvo8+1R1yX8TRf1ks/f2Slw7DKo0w==
+"@kongponents/ktabs@^7.2.2":
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/@kongponents/ktabs/-/ktabs-7.2.2.tgz#837eb642bcafbe844fecfb494b4f013ea2ef7928"
+  integrity sha512-5dZn7Rpz7wYmzbO4XjropB0/5gC+UguuA5mWeGsoHU88x6Fla6PW9oS5wW1WTBjD/eKt825pDB54cUJKeMFjLQ==
+  dependencies:
+    "@kongponents/styles" "^7.2.2"
 
 "@kongponents/styles@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@kongponents/styles/-/styles-0.2.0.tgz#a3a1108e8551a05eb53a2b790395aa373fe149d6"
   integrity sha512-IVMp0Vljzrd5nxpS5p0oeeRSobZNQaOYTTtCckbx1H4ds/jP9FTtauc4zGRbYOxGtT4uhcJjR8VbKJ9c4/IJrw==
+
+"@kongponents/styles@^7.2.2":
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/@kongponents/styles/-/styles-7.2.2.tgz#33877ca4155fe43229ce40bb52f528685b0114d9"
+  integrity sha512-0x2DMmz8fx/cam7LlKNe/JNAl3Ttt71QuAH1C00zvEGWhxm/ECsCjdgQ+5SnVSHE9B+oS348E6WocJZY0JizwA==
 
 "@lukeed/ms@^2.0.1":
   version "2.0.2"
