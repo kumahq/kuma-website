@@ -6984,7 +6984,7 @@ vite-plugin-ruby@^5.1.1:
     debug "^4.3.4"
     fast-glob "^3.3.2"
 
-vite-plugin-windicss@^1.9.0:
+vite-plugin-windicss@^1.9.4:
   version "1.9.4"
   resolved "https://registry.yarnpkg.com/vite-plugin-windicss/-/vite-plugin-windicss-1.9.4.tgz#f88d088de2110a0b7b59965579e8ab44ad678d3d"
   integrity sha512-3t1AUVrs2XBXGc2BefRPRvy1CLy8qA/5A1J1Z73Ej1DIx+puXn39MQSWluxZ2FHEz8z9OEIvsoIIPc/s/P3OmQ==
