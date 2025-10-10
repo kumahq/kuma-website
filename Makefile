@@ -4,21 +4,14 @@ define newline
 
 
 endef
-RUBY_VERSION := "$(shell ruby -v)"
-RUBY_VERSION_REQUIRED := "$(shell cat .ruby-version)"
-RUBY_MATCH := $(shell [[ "$(shell ruby -v)" =~ "ruby $(shell cat .ruby-version)" ]] && echo matched)
 
 MISE := $(shell which mise)
+YARN=$(shell $(MISE) which yarn)
+BUNDLE=$(shell $(MISE) which bundle)
 MUFFET=$(shell $(MISE) which muffet)
 
 LINK_CHECK_TARGET ?= http://localhost:7777
 EXCLUDE_EXTERNAL_LINKS ?= false
-
-.PHONY: ruby-version-check
-ruby-version-check:
-ifndef RUBY_MATCH
-	$(error ruby $(RUBY_VERSION_REQUIRED) is required. Found $(RUBY_VERSION). $(newline)Run `make install`)$(newline)
-endif
 
 .PHONY: mise/check/install
 mise/check/install:
@@ -32,20 +25,20 @@ mise/check/install:
 .PHONY: install
 install: mise/check/install
 	$(MISE) install
-	yarn install
-	bundle install
+	$(YARN) install
+	$(BUNDLE) install
 
 .PHONY: run
-run: ruby-version-check
-	bundle exec foreman start
+run:
+	$(BUNDLE) exec foreman start
 
 .PHONY: run/clean
 run/clean: clean run
 
 test:
-	bundle exec rspec
+	$(BUNDLE) exec rspec
 
-build: ruby-version-check
+build:
 	exe/build
 
 .PHONY: serve/clean
@@ -53,7 +46,7 @@ serve/clean: clean serve
 
 .PHONY: serve
 serve:
-	yarn netlify serve
+	$(YARN) netlify serve
 
 # Cleans up all temp files in the build.
 # Run `make clean` locally whenever you're updating dependencies, or to help
