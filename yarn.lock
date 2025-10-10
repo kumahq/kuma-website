@@ -679,11 +679,6 @@
   dependencies:
     "@kongponents/styles" "^7.2.2"
 
-"@kongponents/styles@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@kongponents/styles/-/styles-0.2.0.tgz#a3a1108e8551a05eb53a2b790395aa373fe149d6"
-  integrity sha512-IVMp0Vljzrd5nxpS5p0oeeRSobZNQaOYTTtCckbx1H4ds/jP9FTtauc4zGRbYOxGtT4uhcJjR8VbKJ9c4/IJrw==
-
 "@kongponents/styles@^7.2.2":
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/@kongponents/styles/-/styles-7.2.2.tgz#33877ca4155fe43229ce40bb52f528685b0114d9"

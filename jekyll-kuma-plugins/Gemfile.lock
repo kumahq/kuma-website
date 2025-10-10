@@ -9,8 +9,11 @@ GEM
   specs:
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
+    base64 (0.3.0)
+    bigdecimal (3.3.1)
     colorator (1.1.0)
     concurrent-ruby (1.2.2)
+    csv (3.3.5)
     diff-lcs (1.6.2)
     em-websocket (0.5.3)
       eventmachine (>= 0.12.9)
@@ -85,12 +88,16 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
+  arm64-darwin-24
   x86_64-linux
 
 DEPENDENCIES
+  base64 (= 0.3.0)
+  bigdecimal (= 3.3.1)
+  csv (= 3.3.5)
   jekyll-kuma-plugins!
-  rake (~> 13.0)
-  rspec (~> 3.0)
+  rake (~> 13.3.0)
+  rspec (~> 3.13.1)
 
 BUNDLED WITH
    2.3.24
