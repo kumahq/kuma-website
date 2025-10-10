@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'jekyll', '~> 4.2'
+gem 'jekyll', '4.4.1'
 gem 'liquid-c', '4.0.1'
 gem 'rouge', '3.30.0'
 gem 'jekyll-generator-single-source', '0.0.15'
