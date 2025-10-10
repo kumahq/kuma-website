@@ -96,8 +96,8 @@ DEPENDENCIES
   bigdecimal (= 3.3.1)
   csv (= 3.3.5)
   jekyll-kuma-plugins!
-  rake (~> 13.3.0)
-  rspec (~> 3.13.1)
+  rake (= 13.3.0)
+  rspec (= 3.13.1)
 
 BUNDLED WITH
    2.3.24
