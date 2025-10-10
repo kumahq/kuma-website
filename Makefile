@@ -6,8 +6,8 @@ define newline
 endef
 
 MISE := $(shell which mise)
-YARN := $(shell $(MISE) which yarn)
-BUNDLE := $(shell $(MISE) which bundle)
+YARN=$(shell $(MISE) which yarn)
+BUNDLE=$(shell $(MISE) which bundle)
 MUFFET=$(shell $(MISE) which muffet)
 
 LINK_CHECK_TARGET ?= http://localhost:7777

@@ -11,6 +11,8 @@ jobs:
       - uses: jdx/mise-action@156251fcc627ac4e26cb0f93dd47d1d4979abf24 # v3.3.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - name: Install dependencies
+        run: make install
       - working-directory: jekyll-kuma-plugins
         run: bundle install
       - working-directory: jekyll-kuma-plugins
