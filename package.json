@@ -9,7 +9,7 @@
     "@kongponents/ktabs": "^7.2.2",
     "@kongponents/styles": "^7.2.2",
     "anchor-js": "^5.0.0",
-    "animejs": "^3.2.2",
+    "animejs": "^4.2.2",
     "braces": "3.0.3",
     "jquery": "^3.7.1",
     "netlify-headers-parser": "^7.1.4",
