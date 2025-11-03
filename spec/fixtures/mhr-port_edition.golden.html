@@ -241,56 +241,56 @@ Please adjust <b>konnect_mesh_control_plane.my_meshcontrolplane.id</b> and <b>ko
 </div>
 
 <div class="language-hcl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">resource</span> <span class="s2">"konnect_mesh_http_route"</span> <span class="s2">"http_route_1"</span> <span class="p">{</span>
-  <span class="nx">provider</span> <span class="p">=</span> <span class="nx">konnect</span><span class="err">-</span><span class="nx">beta</span>
-  <span class="nx">type</span> <span class="p">=</span> <span class="s2">"MeshHTTPRoute"</span>
-  <span class="nx">name</span> <span class="p">=</span> <span class="s2">"http-route-1"</span>
-  <span class="nx">spec</span> <span class="p">=</span> <span class="p">{</span>
-    <span class="nx">target_ref</span> <span class="p">=</span> <span class="p">{</span>
-      <span class="nx">kind</span> <span class="p">=</span> <span class="s2">"MeshSubset"</span>
-      <span class="nx">tags</span> <span class="p">=</span> <span class="p">{</span>
-        <span class="nx">app</span> <span class="p">=</span> <span class="s2">"frontend"</span>
-        <span class="nx">kuma</span><span class="err">.</span><span class="nx">io</span><span class="err">/</span><span class="nx">env</span> <span class="p">=</span> <span class="s2">"dev"</span>
+  <span class="nx">provider</span> <span class="o">=</span> <span class="nx">konnect-beta</span>
+  <span class="nx">type</span> <span class="o">=</span> <span class="s2">"MeshHTTPRoute"</span>
+  <span class="nx">name</span> <span class="o">=</span> <span class="s2">"http-route-1"</span>
+  <span class="nx">spec</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">target_ref</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">kind</span> <span class="o">=</span> <span class="s2">"MeshSubset"</span>
+      <span class="nx">tags</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">app</span> <span class="o">=</span> <span class="s2">"frontend"</span>
+        <span class="nx">kuma</span><span class="p">.</span><span class="nx">io</span><span class="o">/</span><span class="nx">env</span> <span class="o">=</span> <span class="s2">"dev"</span>
       <span class="p">}</span>
     <span class="p">}</span>
-    <span class="nx">to</span> <span class="p">=</span> <span class="p">[</span>
+    <span class="nx">to</span> <span class="o">=</span> <span class="p">[</span>
       <span class="p">{</span>
-        <span class="nx">target_ref</span> <span class="p">=</span> <span class="p">{</span>
-          <span class="nx">kind</span> <span class="p">=</span> <span class="s2">"MeshService"</span>
-          <span class="nx">name</span> <span class="p">=</span> <span class="s2">"backend"</span>
-          <span class="nx">section_name</span> <span class="p">=</span> <span class="s2">"http"</span>
+        <span class="nx">target_ref</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="nx">kind</span> <span class="o">=</span> <span class="s2">"MeshService"</span>
+          <span class="nx">name</span> <span class="o">=</span> <span class="s2">"backend"</span>
+          <span class="nx">section_name</span> <span class="o">=</span> <span class="s2">"http"</span>
         <span class="p">}</span>
-        <span class="nx">rules</span> <span class="p">=</span> <span class="p">[</span>
+        <span class="nx">rules</span> <span class="o">=</span> <span class="p">[</span>
           <span class="p">{</span>
-            <span class="nx">matches</span> <span class="p">=</span> <span class="p">[</span>
+            <span class="nx">matches</span> <span class="o">=</span> <span class="p">[</span>
               <span class="p">{</span>
-                <span class="nx">headers</span> <span class="p">=</span> <span class="p">[</span>
+                <span class="nx">headers</span> <span class="o">=</span> <span class="p">[</span>
                   <span class="p">{</span>
-                    <span class="nx">type</span> <span class="p">=</span> <span class="s2">"Exact"</span>
-                    <span class="nx">name</span> <span class="p">=</span> <span class="s2">"mirror-this-request"</span>
-                    <span class="nx">value</span> <span class="p">=</span> <span class="s2">"true"</span>
+                    <span class="nx">type</span> <span class="o">=</span> <span class="s2">"Exact"</span>
+                    <span class="nx">name</span> <span class="o">=</span> <span class="s2">"mirror-this-request"</span>
+                    <span class="nx">value</span> <span class="o">=</span> <span class="s2">"true"</span>
                   <span class="p">}</span>
                 <span class="p">]</span>
               <span class="p">}</span>
             <span class="p">]</span>
-            <span class="nx">default</span> <span class="p">=</span> <span class="p">{</span>
-              <span class="nx">filters</span> <span class="p">=</span> <span class="p">[</span>
+            <span class="nx">default</span> <span class="o">=</span> <span class="p">{</span>
+              <span class="nx">filters</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="p">{</span>
-                  <span class="nx">type</span> <span class="p">=</span> <span class="s2">"RequestMirror"</span>
-                  <span class="nx">request_mirror</span> <span class="p">=</span> <span class="p">{</span>
-                    <span class="nx">percentage</span> <span class="p">=</span> <span class="s2">"30"</span>
-                    <span class="nx">backend_ref</span> <span class="p">=</span> <span class="p">{</span>
-                      <span class="nx">kind</span> <span class="p">=</span> <span class="s2">"MeshService"</span>
-                      <span class="nx">name</span> <span class="p">=</span> <span class="s2">"backend-experimental"</span>
-                      <span class="nx">port</span> <span class="p">=</span> <span class="s2">"3001"</span>
+                  <span class="nx">type</span> <span class="o">=</span> <span class="s2">"RequestMirror"</span>
+                  <span class="nx">request_mirror</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="nx">percentage</span> <span class="o">=</span> <span class="s2">"30"</span>
+                    <span class="nx">backend_ref</span> <span class="o">=</span> <span class="p">{</span>
+                      <span class="nx">kind</span> <span class="o">=</span> <span class="s2">"MeshService"</span>
+                      <span class="nx">name</span> <span class="o">=</span> <span class="s2">"backend-experimental"</span>
+                      <span class="nx">port</span> <span class="o">=</span> <span class="s2">"3001"</span>
                     <span class="p">}</span>
                   <span class="p">}</span>
                 <span class="p">}</span>
               <span class="p">]</span>
-              <span class="nx">backend_refs</span> <span class="p">=</span> <span class="p">[</span>
+              <span class="nx">backend_refs</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="p">{</span>
-                  <span class="nx">kind</span> <span class="p">=</span> <span class="s2">"MeshService"</span>
-                  <span class="nx">name</span> <span class="p">=</span> <span class="s2">"backend"</span>
-                  <span class="nx">port</span> <span class="p">=</span> <span class="s2">"3001"</span>
+                  <span class="nx">kind</span> <span class="o">=</span> <span class="s2">"MeshService"</span>
+                  <span class="nx">name</span> <span class="o">=</span> <span class="s2">"backend"</span>
+                  <span class="nx">port</span> <span class="o">=</span> <span class="s2">"3001"</span>
                 <span class="p">}</span>
               <span class="p">]</span>
             <span class="p">}</span>
@@ -299,11 +299,11 @@ Please adjust <b>konnect_mesh_control_plane.my_meshcontrolplane.id</b> and <b>ko
       <span class="p">}</span>
     <span class="p">]</span>
   <span class="p">}</span>
-  <span class="nx">labels</span>   <span class="p">=</span> <span class="p">{</span>
-    <span class="s2">"kuma.io/mesh"</span> <span class="p">=</span> <span class="nx">konnect_mesh</span><span class="err">.</span><span class="nx">my_mesh</span><span class="err">.</span><span class="nx">name</span>
+  <span class="nx">labels</span>   <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"kuma.io/mesh"</span> <span class="p">=</span> <span class="nx">konnect_mesh</span><span class="p">.</span><span class="nx">my_mesh</span><span class="p">.</span><span class="nx">name</span>
   <span class="p">}</span>
-  <span class="nx">cp_id</span>    <span class="p">=</span> <span class="nx">konnect_mesh_control_plane</span><span class="err">.</span><span class="nx">my_meshcontrolplane</span><span class="err">.</span><span class="nx">id</span>
-  <span class="nx">mesh</span>     <span class="p">=</span> <span class="nx">konnect_mesh</span><span class="err">.</span><span class="nx">my_mesh</span><span class="err">.</span><span class="nx">name</span>
+  <span class="nx">cp_id</span>    <span class="o">=</span> <span class="nx">konnect_mesh_control_plane</span><span class="err">.</span><span class="nx">my_meshcontrolplane</span><span class="p">.</span><span class="nx">id</span>
+  <span class="nx">mesh</span>     <span class="o">=</span> <span class="nx">konnect_mesh</span><span class="p">.</span><span class="nx">my_mesh</span><span class="p">.</span><span class="nx">name</span>
 <span class="p">}</span>
 
 </code></pre></div></div>
