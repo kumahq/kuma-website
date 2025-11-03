@@ -19,10 +19,10 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
-    "netlify-cli": "^23.9.1",
+    "netlify-cli": "^23.9.2",
     "sass": "^1.93.2",
     "stylus": "^0.64.0",
-    "vite": "^7.1.8",
+    "vite": "^7.1.11",
     "vite-plugin-ruby": "^5.1.1",
     "vite-plugin-windicss": "^1.9.4",
     "windicss": "^3.5.6"
