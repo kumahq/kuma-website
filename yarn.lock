@@ -5060,10 +5060,10 @@ negotiator@0.6.3:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.3.tgz#58e323a72fedc0d6f9cd4d31fe49f51479590ccd"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
-netlify-cli@^23.9.5:
-  version "23.10.0"
-  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-23.10.0.tgz#e8c05c4a1c6cc5d44ecfe38ed8b92c37f96c018f"
-  integrity sha512-lX34H8r7eMYsqNCWAocOLAH5Zi1HchfzyoVw6qB8UWDnDZGJfog4iBUvmyywHPnN/HpPaQwlUp27F3Ls1k3xyA==
+netlify-cli@^23.10.0:
+  version "23.11.0"
+  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-23.11.0.tgz#0ceeecff881ef4734771aa8bef1cb72e9d253f7d"
+  integrity sha512-fzAYv6UZujtKJe7z13CGEMxasZX0FIJxCNm6ldZaznhl6HVJK/LsNXAHIAmqJsUlCt1iiO74fM5zR+EUy+D3yQ==
   dependencies:
     "@fastify/static" "7.0.4"
     "@netlify/ai" "0.3.0"
@@ -7106,7 +7106,7 @@ vite-plugin-windicss@^1.9.4:
     kolorist "^1.8.0"
     windicss "^3.5.6"
 
-vite@^7.1.12:
+vite@^7.2.0:
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/vite/-/vite-7.2.2.tgz#17dd62eac2d0ca0fa90131c5f56e4fefb8845362"
   integrity sha512-BxAKBWmIbrDgrokdGZH1IgkIk/5mMHDreLDmCJ0qpyJaAteP8NvMhkwr/ZCQNqNH97bw/dANTE9PDzqwJghfMQ==
