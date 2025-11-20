@@ -143,6 +143,12 @@ You should eventually see
 
 ### Apply policy on global control plane
 
+First we need to create a namespace on global control plane to match the namespace of demo application in zone control plane:
+
+```sh
+kubectl --context mesh-global create namespace kuma-demo
+```
+
 We can check policy synchronization from global control plane to zone control plane by applying a policy on global control plane:
 
 ```sh
