@@ -150,7 +150,7 @@ echo "apiVersion: kuma.io/v1alpha1
 kind: MeshCircuitBreaker
 metadata:
   name: demo-app-to-redis
-  namespace: kuma-demo
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default
 spec:
