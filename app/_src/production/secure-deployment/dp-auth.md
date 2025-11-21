@@ -102,10 +102,10 @@ If a data plane proxy connects with a workload token, it must have the `kuma.io/
 Additionally, if a [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity/) resource references the `kuma.io/workload` label in its SPIFFE ID path template (for example, `/workload/{{ label "kuma.io/workload" }}`), then:
 
 - The data plane proxy must have the `kuma.io/workload` label
-- The label can be provided either via the token or on the dataplane resource
+- The label can be provided either via the token or on the data plane proxy resource
 - Connection attempts from data plane proxies selected by that MeshIdentity will be denied if they lack the required label
 
-This validation is enforced at connection time (including reconnections).
+This validation is enforced at connection time.
 
 {% endif_version %}
 
@@ -390,9 +390,9 @@ Cause: A [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity/) resourc
 Solution: Add the `kuma.io/workload` label to your data plane proxy. You can do this by:
 
 - Generating a token with the `--workload` parameter (the label will be set automatically from the token)
-- Setting the label directly on the dataplane resource
+- Setting the label directly on the data plane proxy resource
 
-#### Workload mismatch between token and dataplane
+#### Workload mismatch between token and data plane proxy
 
 ```text
 dataplane workload 'frontend' is not allowed with this token. Allowed workload in token is 'backend'
@@ -400,11 +400,11 @@ dataplane workload 'frontend' is not allowed with this token. Allowed workload i
 
 Cause: The data plane proxy token specifies a workload value, but the data plane proxy is configured with a different `kuma.io/workload` label value.
 
-Solution: Ensure consistency between the token and dataplane configuration:
+Solution: Ensure consistency between the token and data plane proxy configuration:
 
-- Regenerate the token with the correct `--workload` value matching your dataplane
-- Update the dataplane resource to use the workload value that matches the token
-- If the dataplane resource explicitly sets a different workload label, remove it to use the token's value
+- Regenerate the token with the correct `--workload` value matching your data plane proxy
+- Update the data plane proxy resource to use the workload value that matches the token
+- If the data plane proxy resource explicitly sets a different workload label, remove it to use the token's value
 
 #### Missing workload label with workload token
 
@@ -412,13 +412,13 @@ Solution: Ensure consistency between the token and dataplane configuration:
 dataplane has no workload label required by the token
 ```
 
-Cause: The token was generated with a workload value, but the dataplane resource does not have the `kuma.io/workload` label.
+Cause: The token was generated with a workload value, but the data plane proxy resource does not have the `kuma.io/workload` label.
 
 Solution: The workload label should be automatically applied from the token. This error typically indicates a configuration issue. Verify:
 
 - The token was generated correctly with the `--workload` parameter
 - The token file is valid and not corrupted
-- The dataplane is using the correct token file
+- The data plane proxy is using the correct token file
 
 {% endif_version %}
 

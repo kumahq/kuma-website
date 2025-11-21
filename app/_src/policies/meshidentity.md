@@ -153,7 +153,7 @@ spec:
 ```
 {% endraw %}
 
-This validation applies to both Kubernetes and Universal deployments and is enforced at connection time.
+This validation applies to Kubernetes and Universal deployments and is enforced at connection time.
 
 {% endif_version %}
 
