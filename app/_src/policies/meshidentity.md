@@ -131,6 +131,32 @@ spec:
 ```
 {% endraw %}
 
+{% if_version gte:2.13.x %}
+
+#### Workload label requirement
+
+When using `{{ label "kuma.io/workload" }}` in the `path` template, data plane proxies selected by this `MeshIdentity` must have the `kuma.io/workload` label. This label can be provided either:
+
+* Via a [data plane proxy token](/docs/{{ page.release }}/production/secure-deployment/dp-auth/#workload-label-in-tokens) generated with the `--workload` parameter
+* Directly on the data plane proxy resource
+
+Connections from data plane proxies lacking the required label will be rejected.
+
+Example using workload label in path:
+
+{% raw %}
+```yaml
+spec:
+  spiffeID:
+    trustDomain: "{{ .Mesh }}.{{ .Zone }}.mesh.local"
+    path: "/workload/{{ label \"kuma.io/workload\" }}"
+```
+{% endraw %}
+
+This validation applies to both Kubernetes and Universal deployments and is enforced at connection time.
+
+{% endif_version %}
+
 ### Provider
 
 The `provider` field defines how identity certificates are issued.
