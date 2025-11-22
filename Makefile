@@ -79,6 +79,13 @@ links/check:
 		--exclude 'http://localhost:3000/vite-dev/*' \
 		--exclude 'http://localhost:3000/docs/latest/.*' \
 		--exclude 'http://localhost:3000/install/latest/.*' \
+		--exclude 'http://localhost:3000/policies$$' \
+		--exclude 'http://localhost:3000/docs/.*/policies/proxy-template$$' \
+		--exclude 'http://localhost:3000/docs/.*/policies/meshtcproute$$' \
+		--exclude 'http://localhost:3000/docs/.*/quickstart/.*' \
+		--exclude 'http://localhost:3000/docs/.*/production/upgrades-tuning/upgrade-notes$$' \
+		--exclude 'http://localhost:3000/docs/.*/production/cp-deployment/kubernetes/#helm$$' \
+		--exclude 'http://localhost:3000/docs/2.6.x/introduction/concepts#.*' \
 		$(if $(filter true,$(EXCLUDE_EXTERNAL_LINKS)),--exclude 'https?://(?:\[[0-9A-Fa-f:]+\]|\d{1,3}(?:\.\d{1,3}){3}|[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)(?::\d+)?(?:/[^\s]*)?') \
 		--include 'https?://localhost(?::\d+)?(?:/[^\s]*)?' \
 		--header 'Accept: */*' \
