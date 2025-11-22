@@ -12,13 +12,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Install dependencies
-        run: make install
+        run: mise run install
       - working-directory: jekyll-kuma-plugins
         run: bundle install
       - working-directory: jekyll-kuma-plugins
         run: bundle exec rspec
       - working-directory: .
-        run: make test
+        run: mise run test
 
   check-links:
     name: Check links
@@ -34,16 +34,16 @@ jobs:
       - name: Install dependencies
         run: |
           set -euxo pipefail
-          make install
+          mise run install
       - name: Start app (background) & wait until ready
         run: |
-          make run &
+          mise dev &
           # Wait until the dev server is reachable
           npx --yes wait-on --timeout 180000 http://localhost:7777
       - name: link checker without external links
-        run: make links/check EXCLUDE_EXTERNAL_LINKS=true
+        run: EXCLUDE_EXTERNAL_LINKS=true mise run links:check
       - name: link checker dev without external links
-        run: make links/check EXCLUDE_EXTERNAL_LINKS=true LINK_CHECK_TARGET=http://localhost:7777/docs/dev
+        run: LINK_CHECK_TARGET=http://localhost:7777/docs/dev EXCLUDE_EXTERNAL_LINKS=true mise run links:check
 
   installer-sh:
     name: Test installer.sh

@@ -109,28 +109,28 @@ Before start, make sure that installed Ruby version is the same as in the `.ruby
 1.  Install:
 
     ```bash
-    make install
+    mise run install
     ```
 
 1.  Build:
 
     ```bash
-    make build
+    mise run build
     ```
 
 1.  Serve:
 
     ```bash
-    make serve
+    mise run serve
     ```
 
-You will need to run `make build` after making any changes to the content. Automatic rebuilding will be added in November 2022.
+You will need to run `mise run build` after making any changes to the content. Automatic rebuilding will be added in November 2022.
 
 ## Set up local builds with Netlify
 
 If you get errors on the Netlify server, it can help to [set up a local Netlify environment](https://docs.netlify.com/cli/get-started/).
 
-It has happened, however, that `make build` and the local Netlify build succeed, and the build still fails upstream. At which point … sometimes the logs can help, but not always.
+It has happened, however, that `mise run build` and the local Netlify build succeed, and the build still fails upstream. At which point … sometimes the logs can help, but not always.
 
 WARNING: when you run a local Netlify build it modifies your local `netlify.toml`. Make sure to revert/discard the changes before you push your local.
 

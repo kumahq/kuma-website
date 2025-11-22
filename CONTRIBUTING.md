@@ -37,6 +37,7 @@ When contributing, please follow the guidelines provided in this document and [W
 
 Once you have read them, and you are ready to submit your Pull Request, be sure to verify a few things:
 
+- Run `mise check` to validate your changes (runs Vale linter and link checker)
 - We do trunk based development so the only valid branch to open a PR against is `master`.
 - Your commit history is clean: changes are atomic and the git message format was respected
 - Rebase your work on top of the base branch (seek help online on how to use `git rebase`; this is important to ensure your commit history is clean and linear)
@@ -70,12 +71,12 @@ In most cases, you can add this signoff to your commit automatically with the `-
 Clone the repository and run:
 
 ```sh
-make install
+mise run install
 ```  
 
 #### macOS 15 installation issues
 
-After upgrading to macOS 15, some users have encountered issues where the installation fails during `make install` with errors similar to:
+After upgrading to macOS 15, some users have encountered issues where the installation fails during `mise run install` with errors similar to:
 
 ```sh
 Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
@@ -115,7 +116,7 @@ gem install <gem> -- --with-cflags="-Wno-incompatible-function-pointer-types"
 To make changes to the docs or assets and see them reflected in the browser, start the site with:
 
 ```sh
-make run
+mise dev
 ```
 
 This runs `jekyll serve` and `vite` in the background, automatically rebuilding pages when docs or assets change. It also runs `netlify dev` to ensure redirects work locally.
@@ -127,13 +128,13 @@ Before starting a production build, it’s recommended to clean previous builds 
 To clean old static files and start the production build:
 
 ```sh
-make serve/clean
-```  
+mise run serve:clean
+```
 
-Or, if you don’t need to clean previous files, simply run:
+Or, if you don't need to clean previous files, simply run:
 
 ```sh
-make serve
+mise run serve
 ```  
 
 This will:
