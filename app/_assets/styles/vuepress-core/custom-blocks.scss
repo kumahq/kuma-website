@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .custom-block {
   .custom-block-title {
     font-weight: 600;
@@ -15,10 +17,10 @@
   }
   &.warning {
     background-color: rgba(255, 229, 100, 0.3);
-    border-color: darken(#ffe564, 35%);
-    color: darken(#ffe564, 70%);
+    border-color: color.scale(#ffe564, $lightness: -50.2816901408%);
+    color: color.scale(#ffe564, $lightness: -100%);
     .custom-block-title {
-      color: darken(#ffe564, 50%);
+      color: color.scale(#ffe564, $lightness: -71.8309859155%);
     }
     a {
       color: $textColor;
@@ -26,10 +28,10 @@
   }
   &.danger {
     background-color: #ffe6e6;
-    border-color: darken(red, 20%);
-    color: darken(red, 70%);
+    border-color: color.scale(red, $lightness: -28.5714285714%);
+    color: color.scale(red, $lightness: -100%);
     .custom-block-title {
-      color: darken(red, 40%);
+      color: color.scale(red, $lightness: -57.1428571429%);
     }
     a {
       color: $textColor;

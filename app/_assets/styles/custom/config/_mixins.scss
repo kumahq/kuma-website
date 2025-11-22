@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'sass:color';
 
 //
 // Mixins + Functions
@@ -87,7 +88,7 @@
   }
 
   &:hover {
-    background-color: lighten($green-base, 3.5);
+    background-color: color.scale($green-base, $lightness: 6.3523131673%);
   }
 }
 

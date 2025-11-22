@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'sass:color';
 
 //
 
@@ -25,7 +26,7 @@ $color-13: #290b53;
 
 $gray-1: #fdfdfd;
 $gray-2: #bfbfbf;
-$gray-3: lighten(#949494, 22);
+$gray-3: color.scale(#949494, $lightness: 52.4299065421%);
 $gray-4: #e1e1e1;
 $gray-5: #49494b;
 $gray-6: #f7f8f9;
@@ -34,7 +35,7 @@ $gray-8: #e5eaed;
 
 $navy: #062f4d;
 $navy-alt: #20242c;
-$navy-light: lighten($navy-alt, 74);
+$navy-light: color.scale($navy-alt, $lightness: 86.9585253456%);
 $sky: #e6edfa;
 $sky-light: #f1f5fc;
 

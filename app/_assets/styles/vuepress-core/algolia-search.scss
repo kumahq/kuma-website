@@ -100,9 +100,6 @@
           min-width: 515px !important;
         }
       }
-
-      border-color: $borderColor;
-      padding: 0;
       .algolia-docsearch-suggestion--category-header {
         padding: 5px 10px;
         margin-top: 0;
@@ -133,6 +130,8 @@
       .algolia-docsearch-suggestion--subcategory-column-text {
         color: #555;
       }
+      border-color: $borderColor;
+      padding: 0;
     }
     .algolia-docsearch-footer {
       border-color: $borderColor;
