@@ -5,4 +5,96 @@ experimental = true # To enable installation of Go tools from source with mise.
 ruby = "3.4.7"
 node = "24.11.0"
 yarn = "1.22.22"
+vale = "3.13.0"
 "go:github.com/raviqqe/muffet/v2" = "v2.11.0"
+
+[tasks.install]
+description = "Install yarn, npm packages and gems"
+run = """
+yarn install
+bundle install
+"""
+
+[tasks.dev]
+description = "Run local development server"
+run = "bundle exec foreman start"
+
+[tasks."dev:clean"]
+description = "Clean then run dev server"
+depends = ["clean", "dev"]
+
+[tasks.test]
+description = "Run tests"
+run = "bundle exec rspec"
+
+[tasks.build]
+description = "Build website"
+run = "exe/build"
+
+[tasks.serve]
+description = "Serve with netlify"
+run = "yarn netlify serve"
+
+[tasks."serve:clean"]
+description = "Clean then serve"
+depends = ["clean", "serve"]
+
+[tasks.clean]
+description = "Clean build artifacts"
+run = """
+rm -rf dist
+rm -rf .netlify
+rm -rf .jekyll-cache
+rm -rf app/.jekyll-{cache,metadata}
+"""
+
+[tasks.kill-ports]
+description = "[DEPRECATED] Show processes on ports 4000 and 3036"
+run = """
+echo '[DEPRECATED]: This target is deprecated because the "run" target now correctly handles kill signals, closing these ports automatically.'
+printf "  Existing Jekyll Processes on Port 4000 : %s\\n" "$(lsof -ti:4000 | tr '\\n' ' ' || echo 'None')"
+printf "  Existing Vite Processes on Port 3036   : %s\\n" "$(lsof -ti:3036 | tr '\\n' ' ' || echo 'None')"
+echo 'If you still want to terminate these processes, use the "kill-ports-force" target. [WARNING]: If you are using Firefox, this action may unexpectedly kill your browser processes.'
+"""
+
+[tasks.kill-ports-force]
+description = "Force kill processes on ports 4000 and 3036"
+run = """
+JEKYLL_PROCESS=$(lsof -ti:4000) && kill -9 $JEKYLL_PROCESS || true
+VITE_PROCESS=$(lsof -ti:3036) && kill -9 $VITE_PROCESS || true
+"""
+
+[tasks."links:check"]
+description = "Check links on built site"
+env = { LINK_CHECK_TARGET = "http://localhost:7777", EXCLUDE_EXTERNAL_LINKS = "false" }
+run = """
+muffet \
+  ${LINK_CHECK_TARGET} \
+  --buffer-size 8192 \
+  --exclude http://127.0.0.1:7777/docs/1. \
+  --exclude 127.0.0.1 \
+  --exclude 'http://localhost:7777/vite-dev/*' \
+  --include 'https?://localhost(?:\\d+)?(?:/[^\\s]*)?' \
+  --header 'Accept: */*' \
+  --max-connections-per-host 8 \
+  --max-response-body-size 100000000 \
+  --skip-tls-verification \
+  --rate-limit 50 \
+  --max-retries 5 \
+  --timeout 100
+"""
+
+[tasks."vale:branch"]
+description = "Run vale on changed files in current branch"
+run = """
+vale sync
+git diff --name-only --diff-filter=d origin/master...HEAD | \
+  grep -E '\\.(md|markdown)$' | \
+  grep -v '/generated/' | \
+  grep -v '/raw/' | \
+  xargs -r vale
+"""
+
+[tasks.check]
+description = "Run vale and link checker"
+depends = ["vale:branch", "links:check"]
