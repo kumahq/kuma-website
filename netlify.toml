@@ -14,9 +14,9 @@
   JEKYLL_ENV = "preview"
 
 [dev]
-  # proxy to jekyll (managed by foreman) - no framework auto-start
+  # proxy to jekyll (managed by foreman) - command must not exit
   framework = "#custom"
-  command = "echo 'Foreman manages Jekyll+Vite - see make run'"
+  command = "sleep infinity"
   targetPort = 3000
   port = 7777
   autoLaunch = false
