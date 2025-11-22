@@ -14,9 +14,9 @@
   JEKYLL_ENV = "preview"
 
 [dev]
-  # proxy to jekyll - disable auto framework launch (foreman manages it)
-  framework = "#auto"
-  autoLaunch = false
+  # proxy to jekyll without auto-starting anything
+  # command must be present but foreman already started both jekyll+vite
+  command = ":"  # no-op command
   targetPort = 3000
   port = 7777
 
