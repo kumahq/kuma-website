@@ -14,11 +14,11 @@
   JEKYLL_ENV = "preview"
 
 [dev]
-  # netlify proxies to jekyll which serves the site
-  # jekyll in turn loads vite assets from port 2036
-  autoLaunch = false
-  port = 7777
+  # disable framework detection - we manage jekyll+vite via foreman
+  framework = "#static"
+  command = "" # foreman is started by make run, not netlify
   targetPort = 3000
+  port = 7777
 
 [[redirects]]
   from = "/fixtures/*"
