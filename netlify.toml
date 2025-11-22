@@ -14,7 +14,9 @@
   JEKYLL_ENV = "preview"
 
 [dev]
-  # pure proxy to jekyll - no framework detection or management
+  # proxy to jekyll - disable auto framework launch (foreman manages it)
+  framework = "#auto"
+  autoLaunch = false
   targetPort = 3000
   port = 7777
 
