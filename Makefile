@@ -76,6 +76,9 @@ links/check:
 		--exclude http://127.0.0.1:7777/docs/1. \
 		--exclude 127.0.0.1 \
 		--exclude 'http://localhost:7777/vite-dev/*' \
+		--exclude 'http://localhost:3000/vite-dev/*' \
+		--exclude 'http://localhost:3000/docs/latest/.*' \
+		--exclude 'http://localhost:3000/install/latest/.*' \
 		$(if $(filter true,$(EXCLUDE_EXTERNAL_LINKS)),--exclude 'https?://(?:\[[0-9A-Fa-f:]+\]|\d{1,3}(?:\.\d{1,3}){3}|[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)(?::\d+)?(?:/[^\s]*)?') \
 		--include 'https?://localhost(?::\d+)?(?:/[^\s]*)?' \
 		--header 'Accept: */*' \
