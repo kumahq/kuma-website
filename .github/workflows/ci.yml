@@ -37,14 +37,13 @@ jobs:
           make install
       - name: Start app (background) & wait until ready
         run: |
-          # Run Jekyll directly on port 3000 (skip Netlify in CI)
-          bundle exec jekyll serve --port 3000 --config jekyll-dev.yml &
-          # Wait until Jekyll is reachable
-          npx --yes wait-on --timeout 180000 http://localhost:3000
+          make run &
+          # Wait until the dev server is reachable
+          npx --yes wait-on --timeout 180000 http://localhost:7777
       - name: link checker without external links
-        run: make links/check EXCLUDE_EXTERNAL_LINKS=true LINK_CHECK_TARGET=http://localhost:3000
+        run: make links/check EXCLUDE_EXTERNAL_LINKS=true
       - name: link checker dev without external links
-        run: make links/check EXCLUDE_EXTERNAL_LINKS=true LINK_CHECK_TARGET=http://localhost:3000/docs/dev
+        run: make links/check EXCLUDE_EXTERNAL_LINKS=true LINK_CHECK_TARGET=http://localhost:7777/docs/dev
 
   installer-sh:
     name: Test installer.sh
