@@ -14,11 +14,8 @@
   JEKYLL_ENV = "preview"
 
 [dev]
-  # netlify automatically figures out and starts the framework, which in our case
-  # is vite
-  autoLaunch = false
-  port = 7777
   targetPort = 3000
+  port = 7777
 
 [[redirects]]
   from = "/fixtures/*"

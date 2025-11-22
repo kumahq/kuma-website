@@ -37,13 +37,14 @@ jobs:
           make install
       - name: Start app (background) & wait until ready
         run: |
-          make run &
-          # Wait until the dev server is reachable
-          npx --yes wait-on --timeout 180000 http://localhost:7777
+          # Use CI-specific Procfile that only starts Jekyll (no Netlify)
+          bundle exec foreman start -f Procfile.ci &
+          # Wait until Jekyll is reachable
+          npx --yes wait-on --timeout 180000 http://localhost:3000
       - name: link checker without external links
-        run: make links/check EXCLUDE_EXTERNAL_LINKS=true
+        run: make links/check EXCLUDE_EXTERNAL_LINKS=true LINK_CHECK_TARGET=http://localhost:3000
       - name: link checker dev without external links
-        run: make links/check EXCLUDE_EXTERNAL_LINKS=true LINK_CHECK_TARGET=http://localhost:7777/docs/dev
+        run: make links/check EXCLUDE_EXTERNAL_LINKS=true LINK_CHECK_TARGET=http://localhost:3000/docs/dev
 
   installer-sh:
     name: Test installer.sh
