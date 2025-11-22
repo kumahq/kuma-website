@@ -14,12 +14,9 @@
   JEKYLL_ENV = "preview"
 
 [dev]
-  # proxy to jekyll (managed by foreman) - command must not exit
-  framework = "#custom"
-  command = "sleep infinity"
+  # pure proxy to jekyll - no framework detection or management
   targetPort = 3000
   port = 7777
-  autoLaunch = false
 
 [[redirects]]
   from = "/fixtures/*"
