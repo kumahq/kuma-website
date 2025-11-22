@@ -83,9 +83,6 @@
       color: #2c815b;
     }
     .algolia-docsearch-suggestion {
-      border-color: $borderColor;
-      padding: 0;
-
       @media(min-width: $MQMobile) {
         .algolia-docsearch-suggestion--subcategory-column {
           float: none;
@@ -133,6 +130,8 @@
       .algolia-docsearch-suggestion--subcategory-column-text {
         color: #555;
       }
+      border-color: $borderColor;
+      padding: 0;
     }
     .algolia-docsearch-footer {
       border-color: $borderColor;
