@@ -14,11 +14,12 @@
   JEKYLL_ENV = "preview"
 
 [dev]
-  # disable framework detection - we manage jekyll+vite via foreman
-  framework = "#static"
-  command = "" # foreman is started by make run, not netlify
+  # proxy to jekyll (managed by foreman) - no framework auto-start
+  framework = "#custom"
+  command = "echo 'Foreman manages Jekyll+Vite - see make run'"
   targetPort = 3000
   port = 7777
+  autoLaunch = false
 
 [[redirects]]
   from = "/fixtures/*"
