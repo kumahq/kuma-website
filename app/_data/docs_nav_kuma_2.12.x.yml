@@ -248,6 +248,8 @@ items:
       - title: Service Discovery & Networking
         group: true
         items:
+          - text: Overview
+            url: /networking/
           - text: Service Discovery
             url: /networking/service-discovery/
           - text: MeshService
@@ -286,6 +288,8 @@ items:
   - title: Policies
     group: true
     items:
+      - text: Overview
+        url: /policies/
       - text: Introduction
         url: /policies/introduction/
         items:
