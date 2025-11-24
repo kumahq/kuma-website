@@ -2,6 +2,8 @@
 // Newsletter form
 //
 
+@use '@/styles/config/index' as *;
+
 .newsletter-form-wrap {
   @include page-section;
 

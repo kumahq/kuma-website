@@ -1,10 +1,12 @@
-// 
+//
 // Structure
-// 
+//
 // The framework of the page containers
 // and everything outside of page-specific
 // styling and elemtns.
-// 
+//
+
+@use '@/styles/config/index' as *;
 
 *, *::before, *::after {
   box-sizing: border-box;

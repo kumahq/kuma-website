@@ -1,3 +1,6 @@
+@use '@/styles/config/index' as *;
+@use './wrapper' as *;
+
 html, body {
   padding: 0;
   margin: 0;
