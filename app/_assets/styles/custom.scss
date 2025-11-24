@@ -2,9 +2,7 @@
 // Custom styles
 //
 
-// setup
-@import '@/styles/custom/config/fonts',
-        '@/styles/custom/config/mixins';
+// Config (fonts, mixins, variables) now available via vite.config.ts additionalData
 
 // base
 @import '@/styles/custom/base/structure',
