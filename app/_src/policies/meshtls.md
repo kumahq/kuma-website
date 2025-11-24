@@ -134,9 +134,9 @@ spec:
 
 ## See also
 
-- [MeshTrafficPermission](meshtrafficpermission) - Control access using mTLS identities
-- [Mutual TLS](mutual-tls) - Configure mesh-wide mTLS settings
-- [Policies introduction](introduction) - Learn about policy fundamentals
+- [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) - Control access using mTLS identities
+- [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) - Configure mesh-wide mTLS settings
+- [Policies introduction](/docs/{{ page.release }}/policies/introduction) - Learn about policy fundamentals
 
 ## All policy options
 

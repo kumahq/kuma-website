@@ -750,9 +750,9 @@ spec:
 
 ## See also
 
-* [MeshAccessLog](meshaccesslog) - Configure access logs for requests
-* [MeshTrace](meshtrace) - Enable distributed tracing
-* [Observability](../explore/observability) - Configure observability backends
+* [MeshAccessLog](/docs/{{ page.release }}/policies/meshaccesslog) - Configure access logs for requests
+* [MeshTrace](/docs/{{ page.release }}/policies/meshtrace) - Enable distributed tracing
+* [Observability](/docs/{{ page.release }}/explore/observability) - Configure observability backends
 
 ## All policy options
 

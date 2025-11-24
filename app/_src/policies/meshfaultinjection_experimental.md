@@ -167,9 +167,9 @@ spec:
 
 ## See also
 
-* [MeshRetry](meshretry) - Configure retry behavior for failed requests
-* [MeshTimeout](meshtimeout) - Test timeout handling with delays
-* [MeshCircuitBreaker](meshcircuitbreaker) - Verify circuit breaker behavior
+* [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Configure retry behavior for failed requests
+* [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Test timeout handling with delays
+* [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Verify circuit breaker behavior
 
 ## All policy options
 

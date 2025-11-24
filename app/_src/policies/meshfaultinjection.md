@@ -485,9 +485,9 @@ spec:
 
 ## See also
 
-- [MeshRetry](meshretry) - Test retry behavior with fault injection
-- [MeshTimeout](meshtimeout) - Test timeout handling with delays
-- [MeshCircuitBreaker](meshcircuitbreaker) - Verify circuit breaker triggers
+- [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Test retry behavior with fault injection
+- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Test timeout handling with delays
+- [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Verify circuit breaker triggers
 
 ## All policy options
 

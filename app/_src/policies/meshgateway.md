@@ -233,9 +233,9 @@ EOF
 
 ## See also
 
-* [MeshHTTPRoute](meshhttproute) - Preferred routing approach for gateways
-* [MeshTCPRoute](meshtcproute) - TCP routing for gateways
-* [Managing ingress traffic](../using-mesh/managing-ingress-traffic/builtin) - Gateway deployment guide
+* [MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute) - Preferred routing approach for gateways
+* [MeshTCPRoute](/docs/{{ page.release }}/policies/meshtcproute) - TCP routing for gateways
+* [Managing ingress traffic](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin) - Gateway deployment guide
 
 ## All options
 

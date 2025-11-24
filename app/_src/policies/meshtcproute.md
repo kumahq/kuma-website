@@ -567,9 +567,9 @@ Depending on the `backend`'s protocol:
  
 ## See also
 
-- [MeshHTTPRoute](meshhttproute) - Route HTTP/gRPC traffic between services
-- [MeshTimeout](meshtimeout) - Configure TCP connection timeouts
-- [MeshHealthCheck](meshhealthcheck) - Health checking for TCP connections
+- [MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute) - Route HTTP/gRPC traffic between services
+- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure TCP connection timeouts
+- [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Health checking for TCP connections
 
 ## All policy configuration settings
 

@@ -77,6 +77,6 @@ spec:
 
 ## See also
 
-* [MeshIdentity](meshidentity) - Configure workload identities
-* [MeshTLS](meshtls) - Configure TLS modes and ciphers
-* [MeshTrafficPermission (experimental)](meshtrafficpermission_experimental) - Control traffic access with SPIFFE
+* [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) - Configure workload identities
+* [MeshTLS](/docs/{{ page.release }}/policies/meshtls) - Configure TLS modes and ciphers
+* [MeshTrafficPermission (experimental)](/docs/{{ page.release }}/policies/meshtrafficpermission_experimental) - Control traffic access with SPIFFE

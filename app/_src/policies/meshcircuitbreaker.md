@@ -690,9 +690,9 @@ spec:
 
 ## See also
 
-- [MeshHealthCheck](meshhealthcheck) - Active health checking for services
-- [MeshTimeout](meshtimeout) - Configure timeouts that trigger circuit breakers
-- [MeshRetry](meshretry) - Retry logic for failed requests
+- [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Active health checking for services
+- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure timeouts that trigger circuit breakers
+- [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Retry logic for failed requests
 
 ## All policy options
 

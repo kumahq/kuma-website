@@ -336,9 +336,9 @@ spec:
 
 ## See also
 
-- [MeshCircuitBreaker](meshcircuitbreaker) - Prevent cascading failures and overload
-- [MeshTimeout](meshtimeout) - Configure request timeouts
-- [MeshHealthCheck](meshhealthcheck) - Monitor service health
+- [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Prevent cascading failures and overload
+- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure request timeouts
+- [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Monitor service health
 
 ## All policy options
 

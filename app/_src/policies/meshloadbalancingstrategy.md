@@ -729,9 +729,9 @@ The downside is that we now have to establish and maintain more TCP connections.
 
 ## See also
 
-- [MeshHealthCheck](meshhealthcheck) - Health checks influence load balancing decisions
-- [MeshCircuitBreaker](meshcircuitbreaker) - Outlier detection for unhealthy endpoints
-- [MeshHTTPRoute](meshhttproute) - Configure HTTP routes with load balancing
+- [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Health checks influence load balancing decisions
+- [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Outlier detection for unhealthy endpoints
+- [MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute) - Configure HTTP routes with load balancing
 
 ## All policy options
 

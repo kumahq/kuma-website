@@ -640,9 +640,9 @@ is [a known bug](https://github.com/kumahq/kuma/issues/5850) and is fixed in the
 
 ## See also
 
-- [MeshRetry](meshretry) - Configure automatic retries for failed requests
-- [MeshCircuitBreaker](meshcircuitbreaker) - Prevent cascading failures with circuit breaking
-- [MeshHealthCheck](meshhealthcheck) - Actively monitor service health
+- [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Configure automatic retries for failed requests
+- [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Prevent cascading failures with circuit breaking
+- [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Actively monitor service health
 
 ## All policy options
 

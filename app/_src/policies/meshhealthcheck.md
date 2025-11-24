@@ -452,9 +452,9 @@ HTTP health checks are executed using HTTP2
 
 ## See also
 
-- [MeshCircuitBreaker](meshcircuitbreaker) - Passive health checking via outlier detection
-- [MeshTimeout](meshtimeout) - Configure health check timeouts
-- [MeshRetry](meshretry) - Retry logic for health check failures
+- [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Passive health checking via outlier detection
+- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure health check timeouts
+- [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Retry logic for health check failures
 
 ## All policy options
 

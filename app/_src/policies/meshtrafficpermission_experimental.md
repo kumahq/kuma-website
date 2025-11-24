@@ -139,9 +139,9 @@ and denies requests from clients in `observability` namespace on `backend-admin-
 
 ## See also
 
-* [MeshIdentity](meshidentity) - Configure workload identities (required)
-* [MeshTrust](meshtrust) - Configure trust between different domains
-* [MeshTLS](meshtls) - Configure TLS modes and ciphers
+* [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) - Configure workload identities (required)
+* [MeshTrust](/docs/{{ page.release }}/policies/meshtrust) - Configure trust between different domains
+* [MeshTLS](/docs/{{ page.release }}/policies/meshtls) - Configure TLS modes and ciphers
 
 ## All policy options
 
