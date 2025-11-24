@@ -44,8 +44,3 @@ https://traffic.kuma.io/exclude-outbound-ports /docs/LATEST_RELEASE/reference/ku
 
 /contribute/introduction/*  /docs/LATEST_RELEASE/community/contribute-to-kuma/:splat 302
 /reference/license/   /docs/LATEST_RELEASE/community/license/ 302
-
-# Renamed section anchors
-
-/docs/:version/introduction/how-kuma-works/#kuma-vs-xyz /docs/:version/introduction/how-kuma-works/#kuma-vs-other-service-meshes 301
-/docs/:version/introduction/how-kuma-works/#vm-and-k8s-support /docs/:version/introduction/how-kuma-works/#vm-and-kubernetes-support 301

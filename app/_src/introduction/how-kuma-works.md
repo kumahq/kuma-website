@@ -32,7 +32,7 @@ Usually, at this point, developers take one of the following actions to remedy t
 
 Since we are going to be having many instances for our services, we are also going to be having an equal number of sidecar proxies: that's a lot of proxies. Therefore the sidecar proxy model **requires** a [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane) that allows a team to configure the behavior of the proxies dynamically without having to manually configure them. The proxies initiate connections with the control plane to receive new configurations, while at runtime the control provides them with the most updated configuration.
 
-Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as {{site.mesh_product_name}}. [Compare {{site.mesh_product_name}} with other CPs](#kuma-vs-xyz).
+Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as {{site.mesh_product_name}}. [Compare {{site.mesh_product_name}} with other CPs](#kuma-vs-other-service-meshes).
 
 Unlike a data plane proxy (DP), the control plane (CP) is never on the execution path of the requests that the services exchange with each other, and it's being used as a source of truth to dynamically configure the underlying data plane proxies that in the meanwhile we have deployed alongside every instance of every service that is part of the Mesh:
 
