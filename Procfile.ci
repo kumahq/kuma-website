@@ -1,0 +1,1 @@
+jekyll: bundle exec jekyll serve --port 3000 --config jekyll-dev.yml
