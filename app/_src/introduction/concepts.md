@@ -4,21 +4,22 @@ title: Concepts
 
 In this page we will introduce concepts that are core to understanding {{ site.mesh_product_name }}.
 
-## Control Plane
+## Control plane
 
 The control plane is the central management layer of {{ site.mesh_product_name }}. It is responsible for configuring and managing the behavior of the data plane,
 which handles the actual traffic between services.
 
-## Data Plane
+## Data plane
 
 The data plane handles traffic between services.
 In practice these are the apps that you build and that you want to put inside you service-mesh.
 
-### Data Plane Proxy / Sidecar
+### Data plane proxy / sidecar
 
 The data plane proxy or sidecar is the instance of Envoy running alongside the application which will send and receive traffic from the rest of the service mesh.
 It connects to the control plane which computes a configuration specific to it.
 
+<!-- vale off -->
 {% mermaid %}
 
 flowchart LR
@@ -40,6 +41,7 @@ clients --> inbounds
 outbounds --> servers
 
 {% endmermaid %}
+<!-- vale on -->
 
 #### Inbound
 
@@ -74,8 +76,8 @@ To learn more about [policies checkout the in depth introduction](/docs/{{ page.
 
 ### Identity
 
-Who a workload is — A workload's identity is the name encoded in its certificate, and this identity is considered valid only if the certificate is signed by a Trust.
+Who a workload is—a workload's identity is the name encoded in its certificate, and this identity is considered valid only if the certificate is signed by a Trust.
 
 ### Trust
 
-Who to believe - Trust defines which identities you accept as valid, and is established through trusted certificate authorities (CAs) that issue those identities. Trust is attached to trust domain, and there can be multiple Trusts in the cluster.
+Who to believe - Trust defines which identities you accept as valid, and is established through trusted certificate authorities <!-- vale off -->(CAs)<!-- vale on --> that issue those identities. Trust is attached to trust domain, and there can be multiple Trusts in the cluster.

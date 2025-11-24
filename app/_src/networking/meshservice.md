@@ -134,7 +134,7 @@ since there's no way to create a coherent `MeshService`
 for `test-server` from these two inbounds.
 {% endif_version %}
 
-## Hostnames
+## hostnames
 
 Because of various shortcomings, the existing `VirtualOutbound` does not work
 with `MeshService` and is planned for phasing out. A [new `HostnameGenerator`

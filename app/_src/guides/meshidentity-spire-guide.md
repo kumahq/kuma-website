@@ -87,7 +87,7 @@ spec:
     - 'k8s:ns:kuma-demo'" | kubectl apply -f -
 ```
 
-We specify SpiffeID template that will use our configured trust domain, namespace and [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) name.
+We specify spiffeID template that will use our configured trust domain, namespace and [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) name.
 
 
 ### Deploy demo application

@@ -14,7 +14,7 @@ For example, think of any application that communicates with a database to store
 <img src="/assets/images/docs/0.4.0/diagram-02.jpg" alt="" style="width: 550px; padding-top: 20px; padding-bottom: 10px;"/>
 </center>
 
-Every time our services communicate over the network, we put the end-user experience at risk. As we all know the network between different services can be slow and unpredictable. It can be insecure, hard to trace, and pose many other problems (e.g., routing, versioning, canary deployments). In one sentence, our applications are one step away from being unreliable.
+Every time our services communicate over the network, we put the end-user experience at risk. As we all know the network between different services can be slow and unpredictable. It can be insecure, hard to trace, and pose many other problems (for example, routing, versioning, canary deployments). In one sentence, our applications are one step away from being unreliable.
 
 Usually, at this point, developers take one of the following actions to remedy the situation:
 
@@ -30,7 +30,7 @@ Usually, at this point, developers take one of the following actions to remedy t
 **Sidecar Proxy**: It's called _sidecar_ proxy because the proxy is another process running alongside our service process on the same underlying host. There is going to be one instance of a sidecar proxy for each running instance of our services, and because all the incoming and outgoing requests - and their data - always go through the sidecar proxy, it is also called a [data plane](/docs/{{ page.release }}/introduction/concepts#data-plane) (DP) since it sits on the data path.
 {% endtip %}
 
-Since we are going to be having many instances for our services, we are also going to be having an equal number of sidecar proxies: that's a lot of proxies! Therefore the sidecar proxy model **requires** a [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane) that allows a team to configure the behavior of the proxies dynamically without having to manually configure them. The proxies initiate connections with the control plane to receive new configurations, while at runtime the control provides them with the most updated configuration.
+Since we are going to be having many instances for our services, we are also going to be having an equal number of sidecar proxies: that's a lot of proxies. Therefore the sidecar proxy model **requires** a [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane) that allows a team to configure the behavior of the proxies dynamically without having to manually configure them. The proxies initiate connections with the control plane to receive new configurations, while at runtime the control provides them with the most updated configuration.
 
 Teams that adopt the sidecar proxy model will either build a control plane from scratch or use existing general-purpose control planes available on the market, such as {{site.mesh_product_name}}. [Compare {{site.mesh_product_name}} with other CPs](#kuma-vs-xyz).
 
@@ -41,10 +41,10 @@ Unlike a data plane proxy (DP), the control plane (CP) is never on the execution
 </center>
 
 {% tip %}
-**Service Mesh**: An architecture made of sidecar proxies deployed next to our services (the data-planes, or DPs), and a control plane (CP) controlling those DPs, is called Service Mesh. Usually, Service Mesh appears in the context of Kubernetes, but anybody can build Service Meshes on any platform (including VMs and Bare Metal).
+**Service Mesh**: An architecture made of sidecar proxies deployed next to our services (the data planes, or DPs), and a control plane (CP) controlling those DPs, is called Service Mesh. Usually, Service Mesh appears in the context of Kubernetes, but anybody can build Service Meshes on any platform (including VMs and Bare Metal).
 {% endtip %}
 
-With {{site.mesh_product_name}}, our main goal is to reduce the code that has to be written and maintained to build reliable architectures. Therefore, {{site.mesh_product_name}} embraces the sidecar proxy model by leveraging Envoy as its sidecar data-plane technology.
+With {{site.mesh_product_name}}, our main goal is to reduce the code that has to be written and maintained to build reliable architectures. Therefore, {{site.mesh_product_name}} embraces the sidecar proxy model by leveraging Envoy as its sidecar data plane technology.
 
 By outsourcing all the connectivity, security, and routing concerns to a sidecar proxy, we benefit from our enhanced ability to:
 
@@ -64,7 +64,7 @@ By reducing the code that our teams create and maintain, we can modernize our ap
 
 * Running on **Kubernetes**: No external dependencies required, since it leverages the underlying K8s API server to store its configuration. {{site.mesh_product_name}} automatically injects the sidecar data plane proxies.
 
-* Running on **Universal**: {{site.mesh_product_name}} requires a PostgreSQL database as a dependency in order to store its configuration. PostgreSQL is a very popular and easy database. You can run {{site.mesh_product_name}} with any managed PostgreSQL offering as well, like AWS RDS or Aurora. Out of sight, out of mind!
+* Running on **Universal**: {{site.mesh_product_name}} requires a PostgreSQL database as a dependency in order to store its configuration. PostgreSQL is a very popular and easy database. You can run {{site.mesh_product_name}} with any managed PostgreSQL offering as well, like AWS RDS or Aurora. Out of sight, out of mind.
 
 Out of the box, {{site.mesh_product_name}} ships with a bundled [Envoy](https://www.envoyproxy.io/) data plane proxy ready to use for our services, so that you don't have to worry about putting all the pieces together.
 
@@ -79,9 +79,9 @@ Out of the box, {{site.mesh_product_name}} ships with a bundled [Envoy](https://
 [Install {{site.mesh_product_name}}](/docs/{{ page.release }}/introduction/install/) and follow the instructions to get up and running in a few steps.
 {% endif_version %}
 
-## VM and K8s support
+## VM and Kubernetes support
 
-The platform agnosticity of {{site.mesh_product_name}} enables Service Mesh organization-wide - and not just Kubernetes - making it a more viable solution for the entire organization.
+The platform flexibility of {{site.mesh_product_name}} enables Service Mesh organization-wide - and not just Kubernetes - making it a more viable solution for the entire organization.
 
 Until now, Service Mesh has been considered to be the last step of architecture modernization after transitioning to containers and perhaps to Kubernetes. This approach is entirely backwards. It makes the adoption and the business value of Service Mesh available only after implementing other massive transformations that - in the meanwhile - can go wrong.
 
@@ -97,11 +97,13 @@ Unlike other control planes, {{site.mesh_product_name}} is easy to use. Anybody 
 
 Finally, by leveraging out-of-the-box policies and {{site.mesh_product_name}}'s powerful tagging selectors, we can implement a variety of behaviors in a variety of topologies, similar to multi-cloud and multi-region architectures.
 
-## {{site.mesh_product_name}} vs XYZ
+<!-- vale off -->
+## {{site.mesh_product_name}} vs. other service meshes
+<!-- vale on -->
 
 When Service Mesh first became mainstream around 2017, a few control planes were released by small and large organizations in order to support the first implementations of this new architectural pattern.
 
-These control planes captured a lot of enthusiasm in the early days, but they all lacked pragmatism in terms of creating a viable journey to Service Mesh adoption within existing organizations. These 1st generation solutions are:
+These control planes captured a lot of enthusiasm in the early days, but they all lacked pragmatism in terms of creating a viable journey to Service Mesh adoption within existing organizations. These first-generation solutions are:
 
 * **Greenfield-only**: Hyper-focused on new greenfield applications, without providing a journey to modernize existing workloads running on VM and Bare Metal platforms where the current business runs today, in addition to Kubernetes.
 * **Complicated to use**: Service Mesh doesn't have to be complicated, but early implementations were hard to use; they had poor documentation and no clear upgrade path to mitigate breaking changes.

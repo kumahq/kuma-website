@@ -79,9 +79,9 @@ kuma.io/sidecar-injection: enabled
 **Policies with Kubernetes**: when using {{site.mesh_product_name}} in Kubernetes mode you create [policies](/docs/{{ page.release }}/policies/introduction) using `kubectl` and `kuma.io` CRDs.
 {% endtip %}
 
-### `Services` and `Pods`
+### Services and pods
 
-#### `Pods` with a `Service`
+#### Pods with Service
 
 For all Pods associated with a Kubernetes `Service` resource, {{site.mesh_product_name}} control plane automatically generates an annotation `kuma.io/service: <name>_<namespace>_svc_<port>` where `<name>`, `<namespace>` and `<port>` come from the `Service`. For example, the following resources generates `kuma.io/service: echo-server_kuma-test_svc_80`:
 
@@ -127,7 +127,7 @@ spec:
             - containerPort: 80
 ```
 
-#### `Pods` without a `Service`
+#### Pods without Service
 
 In some cases `Pods` don't belong to a corresponding `Service`.
 This is typically because they don't expose any consumable services.
