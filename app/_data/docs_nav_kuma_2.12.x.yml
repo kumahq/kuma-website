@@ -157,6 +157,8 @@ items:
   - title: Using Kuma
     group: true
     items:
+      - text: Overview
+        url: /using-mesh/
       - title: Zero Trust & Application Security
         group: true
         items:
@@ -248,6 +250,8 @@ items:
       - title: Service Discovery & Networking
         group: true
         items:
+          - text: Overview
+            url: /networking/
           - text: Service Discovery
             url: /networking/service-discovery/
           - text: MeshService
@@ -286,6 +290,8 @@ items:
   - title: Policies
     group: true
     items:
+      - text: Overview
+        url: /policies/
       - text: Introduction
         url: /policies/introduction/
         items:
