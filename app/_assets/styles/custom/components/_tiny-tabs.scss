@@ -2,8 +2,8 @@
 // Tiny Tabs
 //
 
-@use '@/styles/config/index' as *;
 @use 'sass:color';
+@use '@/styles/config/index' as *;
 
 $tinytabs-close-padding: 0 0 0 5px;
 $tinytabs-selected-tab-bg: #f1f1f1;
