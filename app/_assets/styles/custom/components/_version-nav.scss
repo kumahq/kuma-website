@@ -1,6 +1,8 @@
-// 
+//
 // Version navigation
-// 
+//
+
+@use '@/styles/config/index' as *;
 
 $version-nav-padding: 1.5rem 1.5rem 0 1.5rem;
 $version-nav-select-color: $color-5;

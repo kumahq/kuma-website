@@ -224,3 +224,9 @@ spec:
 {% endraw %}
 {% endpolicy_yaml %}
 
+## See also
+
+* [MeshTrust](meshtrust) - Configure trust between different domains
+* [MeshTLS](meshtls) - Configure TLS modes and ciphers
+* [MeshTrafficPermission (experimental)](meshtrafficpermission_experimental) - Control traffic access with SPIFFE
+

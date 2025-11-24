@@ -3,6 +3,7 @@
 //
 
 @use 'sass:color';
+@use '@/styles/config/index' as *;
 
 $page-footer-border: 1px solid $color-7;
 $page-footer-desktop-height: 29.688rem;

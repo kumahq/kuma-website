@@ -1,6 +1,8 @@
-// 
+//
 // Tower
-// 
+//
+
+@use '@/styles/config/index' as *;
 
 $tower-shadow: $base-border-shadow;
 $tower-text-color: $gray-5;

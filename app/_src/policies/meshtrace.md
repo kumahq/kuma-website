@@ -842,6 +842,12 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+## See also
+
+- [MeshAccessLog](meshaccesslog) - Configure access logs for requests
+- [MeshMetric](meshmetric) - Collect metrics from services
+- [Observability](../explore/observability) - Configure observability backends
+
 ## All policy options
 
 {% json_schema MeshTraces %}

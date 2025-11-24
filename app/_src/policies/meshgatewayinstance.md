@@ -94,6 +94,13 @@ spec:
         securityContext:
           readOnlyRootFilesystem: true
 ```
+
+## See also
+
+* [MeshGateway](meshgateway) - Configure gateway listeners
+* [MeshHTTPRoute](meshhttproute) - Route HTTP traffic through gateways
+* [Managing ingress traffic](../using-mesh/managing-ingress-traffic/builtin) - Gateway deployment guide
+
 ## Schema
 
 {% json_schema kuma.io_meshgatewayinstances type=crd %}

@@ -2,6 +2,8 @@
 // Blog
 //
 
+@use '@/styles/config/index' as *;
+
 :root {
   --blog-width: 75rem;
   --blog-width-narrow: 800px;

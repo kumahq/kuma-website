@@ -334,6 +334,12 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+## See also
+
+- [MeshCircuitBreaker](meshcircuitbreaker) - Prevent cascading failures and overload
+- [MeshTimeout](meshtimeout) - Configure request timeouts
+- [MeshHealthCheck](meshhealthcheck) - Monitor service health
+
 ## All policy options
 
 {% json_schema MeshRateLimits %}

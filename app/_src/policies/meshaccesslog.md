@@ -1152,6 +1152,12 @@ To target other non-mesh traffic, for example [passthrough traffic](/docs/{{ pag
 
 You can select a built-in gateway using the `kuma.io/service` value. A current limitation is that traffic routed from a gateway to a service is logged by that gateway as having destination `"*"`.
 
+## See also
+
+- [MeshMetric](meshmetric) - Collect metrics from services and proxies
+- [MeshTrace](meshtrace) - Enable distributed tracing
+- [Observability](../explore/observability) - Configure observability backends
+
 ## All policy options
 
 {% json_schema MeshAccessLogs %}

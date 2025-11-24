@@ -305,6 +305,12 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+## See also
+
+- [MeshExternalService](../networking/meshexternalservice) - Define external services in the mesh
+- [MeshTrafficPermission](meshtrafficpermission) - Control access to external destinations
+- [Non-mesh traffic](../networking/non-mesh-traffic) - Understanding passthrough modes
+
 ## All policy options
 
 {% json_schema MeshPassthroughs %}

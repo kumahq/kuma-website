@@ -134,8 +134,14 @@ spec:
 ```
 {% endpolicy_yaml %}
 
-The following policy overrides the rules specified in `allow-observability-ns` 
+The following policy overrides the rules specified in `allow-observability-ns`
 and denies requests from clients in `observability` namespace on `backend-admin-api` port of `backend` app.
+
+## See also
+
+* [MeshIdentity](meshidentity) - Configure workload identities (required)
+* [MeshTrust](meshtrust) - Configure trust between different domains
+* [MeshTLS](meshtls) - Configure TLS modes and ciphers
 
 ## All policy options
 
