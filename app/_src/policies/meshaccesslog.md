@@ -1156,7 +1156,7 @@ You can select a built-in gateway using the `kuma.io/service` value. A current l
 
 - [MeshMetric](/docs/{{ page.release }}/policies/meshmetric) - Collect metrics from services and proxies
 - [MeshTrace](/docs/{{ page.release }}/policies/meshtrace) - Enable distributed tracing
-- [Observability](/docs/{{ page.release }}/explore/observability) - Configure observability backends
+- [observability](/docs/{{ page.release }}/explore/observability) - Configure observability backends
 
 ## All policy options
 

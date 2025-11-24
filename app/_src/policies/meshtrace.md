@@ -846,7 +846,7 @@ spec:
 
 - [MeshAccessLog](/docs/{{ page.release }}/policies/meshaccesslog) - Configure access logs for requests
 - [MeshMetric](/docs/{{ page.release }}/policies/meshmetric) - Collect metrics from services
-- [Observability](/docs/{{ page.release }}/explore/observability) - Configure observability backends
+- [observability](/docs/{{ page.release }}/explore/observability) - Configure observability backends
 
 ## All policy options
 
