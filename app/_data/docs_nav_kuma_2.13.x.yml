@@ -157,6 +157,8 @@ items:
   - title: Using Kuma
     group: true
     items:
+      - text: Overview
+        url: /using-mesh/
       - title: Zero Trust & Application Security
         group: true
         items:

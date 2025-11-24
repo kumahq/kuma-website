@@ -12,7 +12,6 @@ Choose the deployment model that fits your infrastructure:
 - **[Deployment overview](/docs/{{ page.release }}/production/deployment/)** - Understand deployment modes and when to use each
 - **[Single-zone deployment](/docs/{{ page.release }}/production/deployment/single-zone/)** - Deploy {{site.mesh_product_name}} in a single Kubernetes cluster or data center
 - **[Multi-zone deployment](/docs/{{ page.release }}/production/deployment/multi-zone/)** - Connect multiple zones across regions, clouds, or data centers
-- **[High availability](/docs/{{ page.release }}/production/deployment/high-availability/)** - Configure control plane redundancy for production reliability
 
 Common scenarios:
 
@@ -57,7 +56,8 @@ Protect your mesh with authentication, authorization, and encryption:
 - **[Data plane proxy authentication](/docs/{{ page.release }}/production/secure-deployment/dp-auth/)** - Require proxies to authenticate before receiving configuration
 - **[Data plane proxy membership](/docs/{{ page.release }}/production/secure-deployment/dp-membership/)** - Restrict which proxies can join specific meshes
 - **[Certificates](/docs/{{ page.release }}/production/secure-deployment/certificates/)** - Manage TLS certificates for control plane and data plane communication
-- **[Kubernetes RBAC](/docs/{{ page.release }}/production/secure-deployment/manage-control-plane-permissions-on-kubernetes/)** - Control plane permissions in Kubernetes environments
+{% if_version gte:2.11.x %}- **[Kubernetes RBAC](/docs/{{ page.release }}/production/secure-deployment/manage-control-plane-permissions-on-kubernetes/)** - Control plane permissions in Kubernetes environments
+{% endif_version %}
 
 ## Mesh configuration and multi-tenancy
 
