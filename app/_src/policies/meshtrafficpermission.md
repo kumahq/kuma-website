@@ -552,7 +552,12 @@ This is because the rule with `Deny` is later in the `from` array than any `Allo
 
 ## See also
 
+{% if_version gte:2.9.x %}
+
 - [MeshTLS](/docs/{{ page.release }}/policies/meshtls) - Configure TLS modes and ciphers (required for this policy)
+
+{% endif_version %}
+
 - [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) - Enable mTLS mesh-wide
 - [Policies introduction](/docs/{{ page.release }}/policies/introduction) - Learn about policy fundamentals
 
