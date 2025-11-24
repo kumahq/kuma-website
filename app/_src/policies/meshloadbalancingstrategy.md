@@ -727,6 +727,12 @@ spec:
 This way, we allow only one in-flight request on a TCP connection. Consequently, the client will open more TCP connections, leading to fairer load balancing.
 The downside is that we now have to establish and maintain more TCP connections. Keep this in mind as you adjust the value to suit your needs.
 
+## See also
+
+- [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Health checks influence load balancing decisions
+- [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Outlier detection for unhealthy endpoints
+- [MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute) - Configure HTTP routes with load balancing
+
 ## All policy options
 
 {% json_schema MeshLoadBalancingStrategies %}

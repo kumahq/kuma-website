@@ -565,6 +565,12 @@ Depending on the `backend`'s protocol:
 - `MeshHTTPRoute` will be applied if `http`, `http2`, or `grpc` are specified
 - `MeshTCPRoute` will be applied if `tcp` or `kafka` is specified, or when nothing is specified 
  
+## See also
+
+- [MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute) - Route HTTP/grpc traffic between services
+- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure TCP connection timeouts
+- [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Health checking for TCP connections
+
 ## All policy configuration settings
 
 {% json_schema MeshTCPRoutes %}

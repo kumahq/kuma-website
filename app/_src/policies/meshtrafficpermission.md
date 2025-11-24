@@ -550,6 +550,17 @@ Request from the proxy that has both `kuma.io/zone: east` and `env: dev` will be
 This is because the rule with `Deny` is later in the `from` array than any `Allow` rules.
 {% endtip %}
 
+## See also
+
+{% if_version gte:2.9.x %}
+
+- [MeshTLS](/docs/{{ page.release }}/policies/meshtls) - Configure TLS modes and ciphers (required for this policy)
+
+{% endif_version %}
+
+- [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) - Enable mTLS mesh-wide
+- [Policies introduction](/docs/{{ page.release }}/policies/introduction) - Learn about policy fundamentals
+
 ## All policy options
 
 {% json_schema MeshTrafficPermissions %}

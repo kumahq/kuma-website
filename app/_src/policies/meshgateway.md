@@ -231,6 +231,12 @@ EOF
 {% endtab %}
 {% endtabs %}
 
+## See also
+
+* [MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute) - Preferred routing approach for gateways
+* [MeshTCPRoute](/docs/{{ page.release }}/policies/meshtcproute) - TCP routing for gateways
+* [Managing ingress traffic](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin) - Gateway deployment guide
+
 ## All options
 
 {% json_schema MeshGateway type=proto %}

@@ -450,6 +450,12 @@ HTTP health checks are executed using HTTP2
 - **`authority`** - (optional) - value of the :authority header in the gRPC health check request,
   by default name of the cluster this health check is associated with
 
+## See also
+
+- [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Passive health checking via outlier detection
+- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure health check timeouts
+- [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Retry logic for health check failures
+
 ## All policy options
 
 {% json_schema MeshHealthChecks %}

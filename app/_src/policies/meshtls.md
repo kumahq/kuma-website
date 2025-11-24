@@ -132,6 +132,12 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+## See also
+
+- [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) - Control access using mTLS identities
+- [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) - Configure mesh-wide mTLS settings
+- [Policies introduction](/docs/{{ page.release }}/policies/introduction) - Learn about policy fundamentals
+
 ## All policy options
 
 {% json_schema MeshTLSes %}

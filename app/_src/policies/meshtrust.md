@@ -74,3 +74,9 @@ spec:
   trustDomain: test.zone-2.mesh.local
 ```
 {% endpolicy_yaml %}
+
+## See also
+
+* [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) - Configure workload identities
+* [MeshTLS](/docs/{{ page.release }}/policies/meshtls) - Configure TLS modes and ciphers
+* [MeshTrafficPermission (experimental)](/docs/{{ page.release }}/policies/meshtrafficpermission_experimental) - Control traffic access with SPIFFE

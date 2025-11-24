@@ -735,4 +735,10 @@ rules:
   is determined by its weight. Total weight is a sum of all weights in `backendRefs` list.
 
 
+## See also
+
+- [MeshTCPRoute](/docs/{{ page.release }}/policies/meshtcproute) - Route TCP traffic between services
+- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure HTTP route-specific timeouts
+- [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Configure HTTP route-specific retries
+
 {% json_schema MeshHttpRoutes %}

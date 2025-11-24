@@ -688,6 +688,12 @@ spec:
 {% endpolicy_yaml %}
 {% endif_version %}
 
+## See also
+
+- [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Active health checking for services
+- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure timeouts that trigger circuit breakers
+- [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Retry logic for failed requests
+
 ## All policy options
 
 {% json_schema MeshCircuitBreakers %}
