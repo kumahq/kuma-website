@@ -78,4 +78,4 @@ Who a workload is — A workload's identity is the name encoded in its certifica
 
 ### Trust
 
-Who to believe - Trust defines which identities you accept as valid, and is established through trusted certificate authorities (CAs) that issue those identities. Trust is attached to trust domain, and there can be mutliple Trusts in the cluster.
+Who to believe - Trust defines which identities you accept as valid, and is established through trusted certificate authorities (CAs) that issue those identities. Trust is attached to trust domain, and there can be multiple Trusts in the cluster.

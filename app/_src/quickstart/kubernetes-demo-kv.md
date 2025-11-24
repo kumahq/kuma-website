@@ -79,11 +79,11 @@ metadata:
     kuma.io/sidecar-injection: enabled
 ```
 
-This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) that it needs to automatically inject a sidecar proxy to every Kubernetes pod in the `kuma-demo` namespace.
+This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) that it needs to automatically inject a [sidecar proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) to every Kubernetes pod in the `kuma-demo` namespace.
 
 ## Explore the GUI
 
-You can view the sidecar proxies that are connected to the {{site.mesh_product_name}} control plane.
+You can view the sidecar proxies that are connected to the {{site.mesh_product_name}} [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane).
 
 {{site.mesh_product_name}} ships with a **read-only** [GUI](/docs/{{ page.release }}/production/gui) that you can use to retrieve {{site.mesh_product_name}} resources. By default, the GUI listens on the API port which defaults to `5681`.
 

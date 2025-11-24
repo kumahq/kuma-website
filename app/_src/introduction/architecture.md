@@ -7,14 +7,14 @@ It also covers how to start integrating your services into your mesh.
 
 A {{site.mesh_product_name}} mesh consists of two main components:
 
-- The **data plane** consists of the proxies that run alongside your services.
+- The **[data plane](/docs/{{ page.release }}/introduction/concepts#data-plane)** consists of the proxies that run alongside your services.
   All of your mesh traffic flows through these proxies
   on its way to its destination.
-  {{site.mesh_product_name}}'s uses [Envoy](https://www.envoyproxy.io/) for its data plane proxy.
-- The **control plane** configures the data plane proxies for handling mesh traffic.
+  {{site.mesh_product_name}}'s uses [Envoy](https://www.envoyproxy.io/) for its [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar).
+- The **[control plane](/docs/{{ page.release }}/introduction/concepts#control-plane)** configures the data plane proxies for handling mesh traffic.
   However, the control plane runs independently of the data plane and does not
   interact with mesh traffic directly.
-  {{site.mesh_product_name}} users create [policies](/docs/{{ page.release }}/policies/introduction)
+  {{site.mesh_product_name}} users create [policies](/docs/{{ page.release }}/introduction/concepts#policy)
   that the {{site.mesh_product_name}} control plane processes to generate configuration for the data plane proxies.
 
 {% tip %}

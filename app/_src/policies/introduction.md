@@ -4,7 +4,7 @@ title: Policies
 {% if_version gte:2.9.x %}
 ## What is a policy?
 
-A policy is a set of configuration that will be used to generate the data plane proxy configuration.
+A [policy](/docs/{{ page.release }}/introduction/concepts#policy) is a set of configuration that will be used to generate the [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) configuration.
 {{ site.mesh_product_name }} combines policies with the `Dataplane` resource to generate the Envoy configuration of a data plane proxy.
 
 ## What do policies look like?

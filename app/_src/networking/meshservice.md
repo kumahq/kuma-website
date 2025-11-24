@@ -12,7 +12,7 @@ planes that use `MeshServices`.
 {% endwarning %}
 {% endif_version %}
 
-MeshService is a new resource that represents what was previously expressed by
+MeshService is a new [resource](/docs/{{ page.release }}/introduction/concepts#resource) that represents what was previously expressed by
 the `Dataplane` tag `kuma.io/service`. Kubernetes users should think about it as
 the analog of a Kubernetes `Service`.
 

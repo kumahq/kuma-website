@@ -3,15 +3,15 @@ title: Using Kuma
 content_type: explanation
 ---
 
-{{site.mesh_product_name}} provides comprehensive features for securing, managing, and observing your service mesh. This section covers practical guides for implementing common patterns and configuring essential functionality.
+{{site.mesh_product_name}} provides comprehensive features for securing, managing, and observing your service mesh. This section covers practical guides for implementing common patterns and configuring essential [policies](/docs/{{ page.release }}/introduction/concepts#policy).
 
 ## Zero trust and application security
 
 Secure service-to-service communication and control access:
 
 - **[Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/)** - Enable automatic encryption and authentication between services
-- **[MeshTrust](/docs/{{ page.release }}/policies/meshtrust/)** - Configure certificate authorities and trust domains
-- **[MeshIdentity](/docs/{{ page.release }}/policies/meshidentity/)** - Manage workload identities and certificate issuance
+- **[MeshTrust](/docs/{{ page.release }}/policies/meshtrust/)** - Configure certificate authorities and [trust](/docs/{{ page.release }}/introduction/concepts#trust) domains
+- **[MeshIdentity](/docs/{{ page.release }}/policies/meshidentity/)** - Manage workload [identities](/docs/{{ page.release }}/introduction/concepts#identity) and certificate issuance
 - **[External services](/docs/{{ page.release }}/policies/external-services/)** - Integrate and secure connections to external dependencies
 
 Start with [mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) to establish zero-trust security across your mesh.

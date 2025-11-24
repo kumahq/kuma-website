@@ -47,7 +47,7 @@ Two different YAML files are available:
 
 ## Explore the mesh
 
-The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace. This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) that it needs to automatically inject a sidecar proxy to every Kubernetes deployment in the `default` [Mesh](/docs/{{ page.release }}/production/mesh/) resource:
+The demo app includes the `kuma.io/sidecar-injection` label enabled on the `kuma-demo` namespace. This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) that it needs to automatically inject a [sidecar proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) to every Kubernetes deployment in the `default` [Mesh](/docs/{{ page.release }}/production/mesh/) resource:
 
 ```yaml
 apiVersion: v1
@@ -58,7 +58,7 @@ metadata:
     kuma.io/sidecar-injection: enabled
 ```
 
-You can view the sidecar proxies that are connected to the {{site.mesh_product_name}} control plane:
+You can view the sidecar proxies that are connected to the {{site.mesh_product_name}} [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane):
 
 {% tabs %}
 {% tab usage GUI (Read-Only) %}

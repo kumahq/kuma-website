@@ -3,13 +3,13 @@ title: Data plane on Kubernetes
 content_type: how-to
 ---
 
-On Kubernetes the [`Dataplane`](/docs/{{ page.release }}/production/dp-config/dpp#dataplane-entity) entity is automatically created for you, and because transparent proxying is used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
+On Kubernetes the [`Dataplane`](/docs/{{ page.release }}/production/dp-config/dpp#dataplane-entity) entity is automatically created for you, and because transparent proxying is used to communicate between the service and the [sidecar proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar), no code changes are required in your applications.
 
 The {{ site.mesh_product_name }} control plane injects a `kuma-sidecar` container into your `Pod`'s container. If
 you're not using the CNI, it also injects a `kuma-init` into `initContainers` to
 setup [transparent proxying](../transparent-proxying).
 
-You can control whether {{site.mesh_product_name}} automatically injects the data plane proxy by **labeling** either the Namespace or the Pod with
+You can control whether {{site.mesh_product_name}} automatically injects the [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) by **labeling** either the Namespace or the Pod with
 `kuma.io/sidecar-injection=enabled`, e.g.
 
 ```yaml

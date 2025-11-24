@@ -3,7 +3,7 @@ title: Policies Overview
 content_type: explanation
 ---
 
-Policies in {{site.mesh_product_name}} define how data plane proxies behave and how traffic flows through your mesh. They provide a declarative way to configure security, routing, observability, and resilience features.
+[Policies](/docs/{{ page.release }}/introduction/concepts#policy) in {{site.mesh_product_name}} define how [data plane proxies](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) behave and how traffic flows through your mesh. They provide a declarative way to configure security, routing, observability, and resilience features.
 
 ## Policy fundamentals
 
