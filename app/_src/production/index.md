@@ -10,7 +10,7 @@ Production deployment of {{site.mesh_product_name}} involves choosing the right 
 Choose the deployment model that fits your infrastructure:
 
 - **[Deployment overview](/docs/{{ page.release }}/production/deployment/)** - Understand deployment modes and when to use each
-- **[Single-zone deployment](/docs/{{ page.release }}/production/deployment/single-zone/)** - Deploy {{site.mesh_product_name}} in a single Kubernetes cluster or datacenter
+- **[Single-zone deployment](/docs/{{ page.release }}/production/deployment/single-zone/)** - Deploy {{site.mesh_product_name}} in a single Kubernetes cluster or data center
 - **[Multi-zone deployment](/docs/{{ page.release }}/production/deployment/multi-zone/)** - Connect multiple zones across regions, clouds, or data centers
 - **[High availability](/docs/{{ page.release }}/production/deployment/high-availability/)** - Configure control plane redundancy for production reliability
 
@@ -33,7 +33,7 @@ Deploy and configure the {{site.mesh_product_name}} control plane:
 - **[Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/)** - Route external traffic through dedicated egress proxies
 - **[Zone proxy authentication](/docs/{{ page.release }}/production/cp-deployment/zoneproxy-auth/)** - Secure zone proxy connections to the global control plane
 - **[Kubernetes deployment](/docs/{{ page.release }}/production/cp-deployment/kubernetes/)** - Kubernetes-specific control plane configuration
-- **[Systemd deployment](/docs/{{ page.release }}/production/cp-deployment/systemd/)** - Run control plane as a systemd service on Universal
+- **[systemd deployment](/docs/{{ page.release }}/production/cp-deployment/systemd/)** - Run control plane as a system daemon on Universal
 - **[Control plane configuration reference](/docs/{{ page.release }}/reference/kuma-cp/)** - Complete configuration options for kuma-cp
 
 ## Data plane configuration

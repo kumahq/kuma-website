@@ -11,7 +11,7 @@ Before applying specific policies, understand how {{site.mesh_product_name}} pol
 
 - **[Introduction to policies](/docs/{{ page.release }}/policies/introduction/)** - Learn what policies are, how to write them, and how they're applied to your mesh
 - **[Applying policies](/docs/{{ page.release }}/policies/applying-policies/)** - Understand policy application patterns and targetRef usage
-- **[TargetRef specification](/docs/{{ page.release }}/policies/targetref/)** - Reference for targeting specific services, meshes, or data plane proxies
+- **[targetRef specification](/docs/{{ page.release }}/policies/targetref/)** - Reference for targeting specific services, meshes, or data plane proxies
 - **[Policy selection logic](/docs/{{ page.release }}/policies/how-kuma-chooses-the-right-policy-to-apply/)** - How {{site.mesh_product_name}} determines which policy applies when multiple policies match
 
 ## Security and identity
@@ -44,11 +44,11 @@ Improve service reliability with automatic failure handling:
 - **[MeshFaultInjection](/docs/{{ page.release }}/policies/meshfaultinjection/)** - Test resilience by injecting delays and failures
 - **[MeshRateLimit](/docs/{{ page.release }}/policies/meshratelimit/)** - Protect services from being overwhelmed by requests
 
-## Observability
+## Monitoring and observability
 
 Monitor and understand your mesh behavior:
 
-- **[MeshAccessLog](/docs/{{ page.release }}/policies/meshaccesslog/)** - Configure access logging to files, syslog, or external systems
+- **[MeshAccessLog](/docs/{{ page.release }}/policies/meshaccesslog/)** - Configure access logging to files, Syslog, or external systems
 - **[MeshMetric](/docs/{{ page.release }}/policies/meshmetric/)** - Collect metrics from proxies for Prometheus or OpenTelemetry
 - **[MeshTrace](/docs/{{ page.release }}/policies/meshtrace/)** - Enable distributed tracing with Zipkin, Jaeger, or OpenTelemetry
 
@@ -66,7 +66,7 @@ Fine-tune proxy behavior for specialized use cases:
 
 - **[MeshProxyPatch](/docs/{{ page.release }}/policies/meshproxypatch/)** - Directly modify Envoy proxy configuration
 - **[External services](/docs/{{ page.release }}/policies/external-services/)** - Integrate services outside the mesh
-- **[Protocol support](/docs/{{ page.release }}/policies/protocol-support-in-kuma/)** - Understand HTTP/2, gRPC, and WebSocket support
+- **[Protocol support](/docs/{{ page.release }}/policies/protocol-support-in-kuma/)** - Understand HTTP/2, grpc, and websocket support
 - **[Service health probes](/docs/{{ page.release }}/policies/service-health-probes/)** - Configure Kubernetes and Universal health probes
 - **[Locality-aware load balancing](/docs/{{ page.release }}/policies/locality-aware/)** - Prefer local endpoints to reduce latency and cross-zone traffic
 
