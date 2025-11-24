@@ -23,7 +23,6 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         api: 'modern',
-        additionalData: "@import '@/styles/config/index';"
       },
     },
   },

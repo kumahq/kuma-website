@@ -2,6 +2,7 @@
 // Footer
 //
 
+@use '@/styles/config/index' as *;
 @use 'sass:color';
 
 $page-footer-border: 1px solid $color-7;

@@ -1,4 +1,6 @@
+@use '@/styles/config/index' as *;
 @use 'sass:color';
+@use './wrapper' as *;
 
 .page {
   padding-bottom: 2rem;

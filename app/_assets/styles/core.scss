@@ -11,23 +11,23 @@
 // default VuePress theme.
 //
 
-@import '@/styles/vuepress-core/wrapper',
-        '@/styles/vuepress-core/index',
-        '@/styles/vuepress-core/arrow',
-        '@/styles/vuepress-core/code',
-        '@/styles/vuepress-core/custom-blocks',
-        '@/styles/vuepress-core/dropdown-link',
-        '@/styles/vuepress-core/nav-links',
-        '@/styles/vuepress-core/page',
-        '@/styles/vuepress-core/sidebar',
-        '@/styles/vuepress-core/sidebar-button',
-        '@/styles/vuepress-core/sidebar-group',
-        '@/styles/vuepress-core/sidebar-link',
-        '@/styles/vuepress-core/toc',
-        '@/styles/vuepress-core/mobile',
-        '@/styles/vuepress-core/algolia-search';
+@use '@/styles/vuepress-core/wrapper';
+@use '@/styles/vuepress-core/index';
+@use '@/styles/vuepress-core/arrow';
+@use '@/styles/vuepress-core/code';
+@use '@/styles/vuepress-core/custom-blocks';
+@use '@/styles/vuepress-core/dropdown-link';
+@use '@/styles/vuepress-core/nav-links';
+@use '@/styles/vuepress-core/page';
+@use '@/styles/vuepress-core/sidebar';
+@use '@/styles/vuepress-core/sidebar-button';
+@use '@/styles/vuepress-core/sidebar-group';
+@use '@/styles/vuepress-core/sidebar-link';
+@use '@/styles/vuepress-core/toc';
+@use '@/styles/vuepress-core/mobile';
+@use '@/styles/vuepress-core/algolia-search';
 
-@import '@kongponents/styles';
+@use '@kongponents/styles';
 
-@import 'slick-carousel/slick/slick.css';
-@import 'slick-carousel/slick/slick-theme.css';
+@use 'slick-carousel/slick/slick.css';
+@use 'slick-carousel/slick/slick-theme.css';

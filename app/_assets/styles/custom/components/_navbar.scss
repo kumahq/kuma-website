@@ -2,6 +2,8 @@
 // NavBar.vue
 //
 
+@use '@/styles/config/index' as *;
+
 $navbar-width: $container-width;
 $navbar-logo-height: 2.563rem;
 $navbar-vertical-padding: 1.5rem;

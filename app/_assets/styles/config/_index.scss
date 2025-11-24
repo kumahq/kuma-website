@@ -1,4 +1,4 @@
-@import '@/styles/custom/config/variables';
-@import '@/styles/vuepress-core/config';
-@import '@/styles/custom/config/fonts';
-@import '@/styles/custom/config/mixins';
+@forward '@/styles/custom/config/variables';
+@forward '@/styles/vuepress-core/config' hide $contentClass, $accentColor, $textColor, $borderColor, $codeBgColor;
+@forward '@/styles/custom/config/fonts';
+@forward '@/styles/custom/config/mixins';
