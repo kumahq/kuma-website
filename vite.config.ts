@@ -23,14 +23,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         api: 'modern',
-        additionalData: [
-          '@import',
-          "'@/styles/custom/config/variables',",
-          "'@/styles/vuepress-core/config',",
-          "'@/styles/custom/config/fonts',",
-          "'@/styles/custom/config/mixins',",
-          "'@/styles/custom/base/forms';",
-        ].join(' ')
+        additionalData: "@import '@/styles/config/index';"
       },
     },
   },
