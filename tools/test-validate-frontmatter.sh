@@ -28,14 +28,14 @@ validate_file() {
     ERRORS=$((ERRORS + 1))
   fi
 
-  if ! echo "$FRONTMATTER" | grep -qE '^description:'; then
+  if ! echo "$FRONTMATTER" | grep -qE '^description: *\S'; then
     ERRORS=$((ERRORS + 1))
   fi
 
   if ! echo "$FRONTMATTER" | grep -qE '^keywords:'; then
     ERRORS=$((ERRORS + 1))
   else
-    KEYWORDS_COUNT=$(echo "$FRONTMATTER" | awk '/^keywords:/{f=1;next} f && /^[a-z]/{exit} f && /^ *-/' | wc -l | tr -d ' ')
+    KEYWORDS_COUNT=$(echo "$FRONTMATTER" | awk '/^keywords:/{f=1;next} f && /^[a-zA-Z_-]+:/{exit} f && /^ *-/' | wc -l | tr -d ' ')
     if [ "$KEYWORDS_COUNT" -lt 1 ]; then
       ERRORS=$((ERRORS + 1))
     elif [ "$KEYWORDS_COUNT" -gt 3 ]; then
@@ -177,6 +177,20 @@ layout: page
 # Content
 EOF
 
+# Keywords followed by another field
+cat > "$FIXTURES_DIR/keywords-with-next-field.md" << 'EOF'
+---
+title: Test
+description: Test description
+keywords:
+  - one
+  - two
+author: Someone
+---
+
+# Content
+EOF
+
 echo ""
 echo "Running tests..."
 echo ""
@@ -192,6 +206,7 @@ test_case "too many keywords (4)" "1" "$FIXTURES_DIR/too-many-keywords.md"
 test_case "empty keywords array" "1" "$FIXTURES_DIR/empty-keywords.md"
 test_case "no frontmatter" "no-frontmatter" "$FIXTURES_DIR/no-frontmatter.md"
 test_case "all fields missing" "3" "$FIXTURES_DIR/all-missing.md"
+test_case "keywords followed by another field" "0" "$FIXTURES_DIR/keywords-with-next-field.md"
 
 echo ""
 echo "Results: $PASSED passed, $FAILED failed"

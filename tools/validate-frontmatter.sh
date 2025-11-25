@@ -9,7 +9,7 @@ BASE_BRANCH="${1:-${BASE_BRANCH:-origin/master}}"
 
 echo "Validating frontmatter in new docs files..."
 
-FILES_FOUND=0
+HAS_FILES=0
 ERRORS=0
 
 # Get only NEW (added) markdown files in app/_src/
@@ -17,7 +17,7 @@ while IFS= read -r file; do
   # Skip if no files
   [ -z "$file" ] && continue
 
-  FILES_FOUND=1
+  HAS_FILES=1
   FILE_ERRORS=0
 
   # Extract frontmatter (between first two ---)
@@ -35,9 +35,9 @@ while IFS= read -r file; do
     FILE_ERRORS=$((FILE_ERRORS + 1))
   fi
 
-  # Check for description
-  if ! echo "$FRONTMATTER" | grep -qE '^description:'; then
-    echo "ERROR: $file - missing 'description' field"
+  # Check for description (must have non-empty value)
+  if ! echo "$FRONTMATTER" | grep -qE '^description: *\S'; then
+    echo "ERROR: $file - missing or empty 'description' field"
     FILE_ERRORS=$((FILE_ERRORS + 1))
   fi
 
@@ -46,8 +46,8 @@ while IFS= read -r file; do
     echo "ERROR: $file - missing 'keywords' field"
     FILE_ERRORS=$((FILE_ERRORS + 1))
   else
-    # Count keywords (lines starting with "  - " after "keywords:")
-    KEYWORDS_SECTION=$(echo "$FRONTMATTER" | awk '/^keywords:/{f=1;next} f && /^[a-z]/{exit} f && /^ *-/' | wc -l | tr -d ' ')
+    # Count keywords (lines starting with spaces and '-' after 'keywords:')
+    KEYWORDS_SECTION=$(echo "$FRONTMATTER" | awk '/^keywords:/{f=1;next} f && /^[a-zA-Z_-]+:/{exit} f && /^ *-/' | wc -l | tr -d ' ')
 
     if [ "$KEYWORDS_SECTION" -lt 1 ]; then
       echo "ERROR: $file - keywords must have at least 1 item"
@@ -67,7 +67,7 @@ done < <(git diff --name-only --diff-filter=A "${BASE_BRANCH}...HEAD" 2>/dev/nul
   grep -v '/generated/' | \
   grep -v '/raw/' || true)
 
-if [ $FILES_FOUND -eq 0 ]; then
+if [ $HAS_FILES -eq 0 ]; then
   echo "No new docs files found"
   exit 0
 fi
