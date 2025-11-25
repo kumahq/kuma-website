@@ -1,6 +1,11 @@
 ---
 title: Restrict permissions to selected namespaces on Kubernetes
 content_type: tutorial
+description: Limit control plane access to specific Kubernetes namespaces for enhanced security.
+keywords:
+  - namespace restrictions
+  - Kubernetes security
+  - RBAC
 ---
 
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}

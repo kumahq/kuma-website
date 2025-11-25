@@ -1,5 +1,10 @@
 ---
 title: Progressively rolling in strict mTLS
+description: Use MeshTLS policy to gradually migrate services to mutual TLS without dropping traffic.
+keywords:
+  - MeshTLS
+  - mTLS
+  - permissive mode
 ---
 
 The [MeshTLS](/docs/{{ page.release }}/policies/meshtls/) policy allows you to gradually migrate services to mutual TLS without dropping a packet.

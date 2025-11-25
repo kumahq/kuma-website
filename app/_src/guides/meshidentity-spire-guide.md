@@ -1,5 +1,10 @@
 ---
 title: Issuing Identity with MeshIdentity Spire provider
+description: Configure MeshIdentity with Spire provider to issue SPIFFE identities and encrypt mesh traffic using mTLS.
+keywords:
+  - MeshIdentity
+  - Spire
+  - mTLS
 ---
 
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}

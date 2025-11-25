@@ -1,5 +1,10 @@
 ---
 title: Migration to the new policies
+description: Migrate from legacy source/destination policies to new targetRef-based policies using shadow mode.
+keywords:
+  - policy migration
+  - targetRef
+  - shadow mode
 ---
 
 {{site.mesh_product_name}} provides two set of policies to configure proxies.

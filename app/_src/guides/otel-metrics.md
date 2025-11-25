@@ -1,5 +1,10 @@
 ---
-title: Collect metrics with OpenTelemetry  
+title: Collect metrics with OpenTelemetry
+description: Push data plane proxy metrics to OpenTelemetry collector and visualize them in Grafana dashboards.
+keywords:
+  - OpenTelemetry
+  - metrics
+  - MeshMetric
 ---
 
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
