@@ -1,5 +1,9 @@
 ---
 title: HTTP API
+description: Reference documentation for the RESTful HTTP API to retrieve and manage mesh configuration, policies, data planes, and resources.
+keywords:
+  - HTTP API
+  - REST API
 ---
 
 {{site.mesh_product_name}} ships with a RESTful HTTP interface that you can use to retrieve the state of your configuration and policies on every environment, and when running on Universal mode it will also allow to make changes to the state. On Kubernetes, you will use native CRDs to change the state in order to be consistent with Kubernetes best practices.

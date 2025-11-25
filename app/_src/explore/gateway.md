@@ -1,5 +1,9 @@
 ---
 title: Gateway
+description: Route traffic from outside a mesh to services inside the mesh using delegated or builtin gateways with MeshGateway and MeshGatewayRoute resources.
+keywords:
+  - gateway
+  - ingress
 ---
 
 When services need to receive traffic from the outside, commonly called North/South, the {{site.mesh_product_name}} Gateway enables routing network traffic from outside a {{site.mesh_product_name}} mesh to services inside the mesh. The gateway is also responsible for security at the entrance of the Mesh.
