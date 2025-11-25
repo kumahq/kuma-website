@@ -1,5 +1,10 @@
 ---
 title: Kuma user interface (GUI)
+description: Use the web-based GUI to visualize meshes, data plane proxies, services, and traffic policies.
+keywords:
+  - GUI
+  - dashboard
+  - visualization
 content_type: explanation
 ---
 

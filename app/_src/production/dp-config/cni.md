@@ -1,5 +1,10 @@
 ---
 title: Configure the Kuma CNI
+description: Install and configure the CNI plugin to set up transparent proxying without requiring elevated privileges on application pods.
+keywords:
+  - CNI
+  - transparent proxying
+  - Kubernetes
 content_type: how-to
 ---
 

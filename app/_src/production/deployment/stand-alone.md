@@ -1,5 +1,10 @@
 ---
 title: Standalone deployment
+description: Deploy the service mesh in standalone mode where all data plane proxies connect directly to a single control plane.
+keywords:
+  - standalone
+  - deployment topology
+  - control plane
 content_type: explanation
 ---
 

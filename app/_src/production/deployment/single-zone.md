@@ -1,5 +1,10 @@
 ---
 title: Single-zone deployment
+description: Deploy the service mesh in a single Kubernetes cluster or data center with all proxies connecting to one control plane.
+keywords:
+  - single-zone
+  - deployment topology
+  - control plane
 content_type: explanation
 ---
 

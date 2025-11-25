@@ -1,5 +1,10 @@
 ---
 title: Configure transparent proxying
+description: Set up iptables-based transparent proxying to automatically intercept traffic without application code changes.
+keywords:
+  - transparent proxying
+  - iptables
+  - traffic interception
 content_type: how-to
 ---
 

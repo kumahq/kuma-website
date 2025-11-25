@@ -1,5 +1,10 @@
 ---
 title: Data plane on Kubernetes
+description: Configure data plane proxies on Kubernetes with automatic sidecar injection, tag generation, and custom container settings.
+keywords:
+  - sidecar injection
+  - Kubernetes
+  - data plane proxy
 content_type: how-to
 ---
 

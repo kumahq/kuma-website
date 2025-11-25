@@ -1,5 +1,10 @@
 ---
 title: IPv6 support
+description: Configure the service mesh to run in IPv6-only or dual-stack environments, including how to disable IPv6 when needed.
+keywords:
+  - IPv6
+  - networking
+  - dual-stack
 content_type: how-to
 ---
 
