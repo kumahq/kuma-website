@@ -1,5 +1,10 @@
 ---
 title: Manage control plane permissions on Kubernetes
+description: Restrict control plane access to specific namespaces and manually manage RBAC resources for enhanced security in production Kubernetes environments.
+keywords:
+  - Kubernetes RBAC
+  - namespace permissions
+  - control plane security
 content_type: how-to
 ---
 

@@ -1,5 +1,10 @@
 ---
 title: Upgrade Kuma
+description: Upgrade control planes and data plane proxies following the supported version compatibility rules for single-zone and multizone deployments.
+keywords:
+  - upgrade guide
+  - version compatibility
+  - control plane upgrade
 content_type: reference
 ---
 

@@ -1,5 +1,10 @@
 ---
 title: Authentication with the data plane proxy
+description: Authenticate data plane proxies with the control plane using service account tokens on Kubernetes or data plane proxy tokens on Universal deployments.
+keywords:
+  - data plane authentication
+  - proxy tokens
+  - service account
 content_type: reference
 ---
 

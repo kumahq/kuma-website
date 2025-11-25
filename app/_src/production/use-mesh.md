@@ -1,5 +1,10 @@
 ---
 title: Use Kuma
+description: Access and interact with the control plane using the GUI, HTTP API, kumactl CLI, or kubectl, and understand the ports exposed by each control plane mode.
+keywords:
+  - control plane access
+  - kumactl
+  - HTTP API
 ---
 
 After {{site.mesh_product_name}} is installed, you can access the control plane via the following methods:

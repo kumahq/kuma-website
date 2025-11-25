@@ -1,5 +1,10 @@
 ---
 title: Manage secrets
+description: Store and manage sensitive data like TLS keys, tokens, and passwords using mesh-scoped and global-scoped secrets in Kubernetes and Universal deployments.
+keywords:
+  - secrets management
+  - sensitive data
+  - TLS keys
 content_type: how-to
 ---
 

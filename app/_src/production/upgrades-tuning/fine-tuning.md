@@ -1,5 +1,10 @@
 ---
 title: Performance fine-tuning
+description: Optimize control plane and data plane proxy performance using reachable services, config trimming, Postgres tuning, Envoy concurrency, and profiling.
+keywords:
+  - performance tuning
+  - reachable services
+  - Envoy optimization
 content_type: reference
 ---
 
