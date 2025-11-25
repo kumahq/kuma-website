@@ -1,5 +1,10 @@
 ---
 title: Secure access across services
+description: Configure TLS encryption and authentication for communication between data plane proxies, users, and control planes in single-zone and multizone deployments.
+keywords:
+  - TLS certificates
+  - secure communication
+  - control plane security
 content_type: how-to
 ---
 
