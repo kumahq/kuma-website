@@ -3,7 +3,7 @@ title: Kuma in Production
 content_type: explanation
 ---
 
-Production deployment of {{site.mesh_product_name}} involves choosing the right topology, deploying [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane) and [data planes](/docs/{{ page.release }}/introduction/concepts#data-plane), and configuring security and operational features. This section guides you through all aspects of running {{site.mesh_product_name}} in production.
+Production deployment of {{site.mesh_product_name}} involves choosing the right topology, deploying [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane) and [data planes](/docs/{{ page.release }}/introduction/concepts#data-plane) within a [mesh](/docs/{{ page.release }}/introduction/concepts#mesh), and configuring security and operational features. This section guides you through all aspects of running {{site.mesh_product_name}} in production.
 
 ## Deployment topologies
 

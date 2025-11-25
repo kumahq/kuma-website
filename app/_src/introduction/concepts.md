@@ -9,6 +9,10 @@ keywords:
 
 In this page we will introduce concepts that are core to understanding {{ site.mesh_product_name }}.
 
+## Mesh
+
+A mesh is the top-level resource that represents an isolated service mesh deployment. It serves as the parent resource for all policies, services, and data planes, providing a separate domain of configuration and communication.
+
 ## Control plane
 
 The control plane is the central management layer of {{ site.mesh_product_name }}. It is responsible for configuring and managing the behavior of the data plane,
