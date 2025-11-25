@@ -1,5 +1,10 @@
 ---
 title: MeshTCPRoute
+description: Route and redirect TCP traffic between services with traffic splitting for A/B testing and canary deployments.
+keywords:
+  - TCP routing
+  - traffic splitting
+  - canary
 ---
 
 {% warning %}

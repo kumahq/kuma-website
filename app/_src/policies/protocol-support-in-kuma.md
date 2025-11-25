@@ -1,5 +1,10 @@
 ---
 title: Protocol support in Kuma
+description: Configure protocol hints (HTTP, gRPC, Kafka, TCP) to enable deep observability and protocol-specific features.
+keywords:
+  - protocol
+  - HTTP
+  - gRPC
 ---
 
 At its core, {{site.mesh_product_name}} distinguishes between the following major categories of traffic: `http`, `grpc`, `kafka` and opaque `tcp` traffic.

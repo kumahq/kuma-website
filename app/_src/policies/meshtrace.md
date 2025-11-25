@@ -1,5 +1,10 @@
 ---
 title: MeshTrace
+description: Enable distributed tracing with Zipkin, Datadog, or OpenTelemetry backends for HTTP, HTTP2, and gRPC traffic.
+keywords:
+  - tracing
+  - observability
+  - Zipkin
 ---
 
 {% warning %}

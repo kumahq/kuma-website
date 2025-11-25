@@ -1,5 +1,10 @@
 ---
 title: MeshTrafficPermission
+description: Control service-to-service access using SPIFFE identities with allow, deny, and shadow deny rules.
+keywords:
+  - authorization
+  - SPIFFE
+  - access control
 ---
 
 {% tip %}

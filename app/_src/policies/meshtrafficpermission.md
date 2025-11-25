@@ -1,5 +1,10 @@
 ---
 title: MeshTrafficPermission
+description: Define granular access control rules for service-to-service communication using mTLS identities.
+keywords:
+  - authorization
+  - traffic permission
+  - access control
 ---
 
 {% if_version gte:2.12.x %}
