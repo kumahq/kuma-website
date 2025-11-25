@@ -1,5 +1,10 @@
 ---
 title: MeshFaultInjection
+description: Test microservice resilience by injecting HTTP errors, response delays, and bandwidth limits into service traffic.
+keywords:
+  - fault injection
+  - chaos testing
+  - resilience testing
 ---
 
 With the MeshFaultInjection policy you can easily test your microservices against resiliency.

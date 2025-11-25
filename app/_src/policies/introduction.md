@@ -1,5 +1,10 @@
 ---
 title: Policies
+description: Learn how to write and configure targetRef policies, including metadata, spec structure, merging, and MeshService targeting.
+keywords:
+  - targetRef policies
+  - policy configuration
+  - policy merging
 ---
 {% if_version gte:2.9.x %}
 ## What is a policy?

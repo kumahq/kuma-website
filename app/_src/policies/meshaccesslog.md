@@ -1,5 +1,10 @@
 ---
 title: MeshAccessLog
+description: Configure access logging for your service mesh with support for TCP, file, and OpenTelemetry backends using customizable formats.
+keywords:
+  - access logs
+  - observability
+  - logging
 ---
 
 With the MeshAccessLog policy you can easily set up access logs on every data plane proxy in a mesh.

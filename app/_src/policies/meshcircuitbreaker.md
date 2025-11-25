@@ -1,5 +1,10 @@
 ---
 title: MeshCircuitBreaker
+description: Configure circuit breakers to prevent cascading failures with connection limits and outlier detection for unhealthy services.
+keywords:
+  - circuit breaker
+  - outlier detection
+  - resilience
 ---
 
 {% warning %}

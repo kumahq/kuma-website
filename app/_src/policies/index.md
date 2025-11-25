@@ -1,6 +1,11 @@
 ---
 title: Policies Overview
 content_type: explanation
+description: Overview of service mesh policies for security, routing, resilience, and observability configuration.
+keywords:
+  - policies overview
+  - service mesh policies
+  - traffic management
 ---
 
 [Policies](/docs/{{ page.release }}/introduction/concepts#policy) in {{site.mesh_product_name}} define how [data plane proxies](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) behave and how traffic flows through your [mesh](/docs/{{ page.release }}/introduction/concepts#mesh). They provide a declarative way to configure security, routing, observability, and resilience features.

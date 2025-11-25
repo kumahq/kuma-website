@@ -1,5 +1,10 @@
 ---
 title: How Kuma chooses the right policy to apply
+description: Learn how the service mesh selects the most specific policy when multiple policies match, including tag matching and priority rules.
+keywords:
+  - policy selection
+  - policy matching
+  - policy priority
 ---
 
 {% if_version gte:2.6.x %}
