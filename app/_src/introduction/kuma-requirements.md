@@ -1,5 +1,10 @@
 ---
 title: Requirements
+description: Review system requirements including supported architectures, Kubernetes versions, and control plane sizing.
+keywords:
+  - requirements
+  - Kubernetes
+  - sizing
 ---
 
 This page exposes the different requirements to run {{site.mesh_product_name}}.

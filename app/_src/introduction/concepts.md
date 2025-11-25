@@ -1,5 +1,10 @@
 ---
 title: Concepts
+description: Learn core service mesh concepts including control plane, data plane, policies, identity, and trust.
+keywords:
+  - concepts
+  - glossary
+  - terminology
 ---
 
 In this page we will introduce concepts that are core to understanding {{ site.mesh_product_name }}.
