@@ -1,5 +1,10 @@
 ---
 title: Architecture
+description: Understand service mesh architecture including control plane, data plane proxies, and how components work together.
+keywords:
+  - architecture
+  - control plane
+  - data plane
 ---
 
 This sections gives an overview of a {{site.mesh_product_name}} [service mesh](/docs/{{ page.release }}/introduction/concepts#mesh).

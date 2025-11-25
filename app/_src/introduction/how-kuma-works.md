@@ -1,5 +1,10 @@
 ---
 title: How Kuma works
+description: Learn how the sidecar proxy model handles service connectivity, security, and observability.
+keywords:
+  - sidecar proxy
+  - service mesh
+  - Envoy
 ---
 
 When building any modern digital application, we will inevitably introduce services that will communicate with each other by making requests on the network.

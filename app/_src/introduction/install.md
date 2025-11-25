@@ -1,6 +1,11 @@
 ---
 title: Install
 content_type: how-to
+description: Install the service mesh on your machine using the installation script or package downloads.
+keywords:
+  - install
+  - download
+  - setup
 ---
 
 {% capture install-tip %}
