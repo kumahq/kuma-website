@@ -1,5 +1,10 @@
 ---
 title: How ingress works
+description: Understand ingress options with delegated gateways for existing proxies or built-in gateways using Envoy.
+keywords:
+  - ingress
+  - gateway
+  - north-south traffic
 ---
 
 {{site.mesh_product_name}} provides two features to manage ingress traffic, also known as north/south traffic.

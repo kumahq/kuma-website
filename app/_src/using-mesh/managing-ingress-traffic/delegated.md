@@ -1,5 +1,10 @@
 ---
 title: Delegated gateways
+description: Integrate existing API gateways like Kong into your mesh using delegated gateway mode with Envoy sidecars.
+keywords:
+  - delegated gateway
+  - Kong
+  - API gateway
 ---
 
 Delegated gateways allow you to integrate existing API gateway solutions into your mesh.

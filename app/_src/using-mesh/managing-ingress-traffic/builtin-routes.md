@@ -1,5 +1,10 @@
 ---
 title: Configuring built-in routes
+description: Route traffic from gateway listeners to mesh services using MeshHTTPRoute and MeshTCPRoute policies.
+keywords:
+  - gateway routes
+  - MeshHTTPRoute
+  - MeshTCPRoute
 ---
 
 For configuring how traffic is forwarded from a listener to your mesh services,
