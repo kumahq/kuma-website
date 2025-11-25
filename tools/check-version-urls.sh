@@ -11,20 +11,13 @@ BASE_BRANCH="${1:-${BASE_BRANCH:-origin/master}}"
 echo "Checking for hardcoded version URLs..."
 
 # Get changed markdown files from current branch
-FILES=$(git diff --name-only --diff-filter=d "${BASE_BRANCH}...HEAD" | \
-  grep -E '\.(md|markdown)$' | \
-  grep -v '/generated/' | \
-  grep -v '/raw/' || true)
-
-if [ -z "$FILES" ]; then
-  echo "No markdown files changed"
-  exit 0
-fi
-
+FILES_FOUND=0
 ERRORS=0
-for file in $FILES; do
+
+while IFS= read -r file; do
+  FILES_FOUND=1
   # Check for /docs/X.Y.x/ pattern, excluding lines with no-version-lint comment
-  MATCHES=$(grep -nE '/docs/[0-9]+[.][0-9]+[.]x/' "$file" | grep -v 'no-version-lint' || true)
+  MATCHES=$(grep -nE '/docs/[0-9]+\.[0-9]+\.x/' "$file" | grep -v 'no-version-lint' || true)
   if [ -n "$MATCHES" ]; then
     echo "$MATCHES"
     echo "ERROR: $file contains hardcoded version URL (X.Y.x format)"
@@ -34,7 +27,7 @@ for file in $FILES; do
   fi
 
   # Check for /docs/X.Y.Z/ pattern, excluding lines with no-version-lint comment
-  MATCHES=$(grep -nE '/docs/[0-9]+[.][0-9]+[.][0-9]+/' "$file" | grep -v 'no-version-lint' || true)
+  MATCHES=$(grep -nE '/docs/[0-9]+\.[0-9]+\.[0-9]+/' "$file" | grep -v 'no-version-lint' || true)
   if [ -n "$MATCHES" ]; then
     echo "$MATCHES"
     echo "ERROR: $file contains hardcoded version URL (X.Y.Z format)"
@@ -42,7 +35,15 @@ for file in $FILES; do
     echo "  Add <!-- no-version-lint --> comment to suppress this warning"
     ERRORS=$((ERRORS + 1))
   fi
-done
+done < <(git diff --name-only --diff-filter=d "${BASE_BRANCH}...HEAD" | \
+  grep -E '\.(md|markdown)$' | \
+  grep -v '/generated/' | \
+  grep -v '/raw/' || true)
+
+if [ $FILES_FOUND -eq 0 ]; then
+  echo "No markdown files changed"
+  exit 0
+fi
 
 if [ $ERRORS -gt 0 ]; then
   echo ""

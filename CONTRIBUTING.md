@@ -57,8 +57,8 @@ This repository uses automated linting to ensure consistency:
 
 **Version url checker** - Detects hardcoded version urls:
 
-- `/docs/X.Y.x/` format (e.g., `/docs/2.9.x/`)
-- `/docs/X.Y.Z/` format (e.g., `/docs/2.9.0/`)
+- `/docs/X.Y.x/` format (e.g., `/docs/2.9.x/`) <!-- no-version-lint -->
+- `/docs/X.Y.Z/` format (e.g., `/docs/2.9.0/`) <!-- no-version-lint -->
 
 To suppress version url warnings for legitimate cases (legacy docs, migration guides), add a comment:
 
