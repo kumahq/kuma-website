@@ -2,7 +2,6 @@ Aiven
 Argo CD
 [Kk]ong
 [Kk]ubernetes
-[Kk]uma
 [Mm]erbridge
 [Mm]ultizone
 Alertmanager

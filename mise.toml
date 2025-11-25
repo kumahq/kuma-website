@@ -102,6 +102,10 @@ git diff --name-only --diff-filter=d origin/master...HEAD | \
   xargs -r vale
 """
 
+[tasks."vale:version-urls"]
+description = "Check for hardcoded version URLs in changed files"
+run = "tools/check-version-urls.sh"
+
 [tasks.check]
 description = "Run vale and link checker (requires dev server running at localhost:7777)"
-depends = ["vale:branch", "links:check"]
+depends = ["vale:branch", "vale:version-urls", "links:check"]
