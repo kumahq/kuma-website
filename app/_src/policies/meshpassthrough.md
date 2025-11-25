@@ -1,5 +1,10 @@
 ---
 title: MeshPassthrough
+description: Control traffic to external destinations with MeshPassthrough, allowing specific domains, IPs, or CIDRs to bypass mesh routing.
+keywords:
+  - passthrough
+  - external traffic
+  - non-mesh traffic
 ---
 
 {% warning %}

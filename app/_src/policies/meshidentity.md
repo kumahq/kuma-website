@@ -1,5 +1,10 @@
 ---
 title: MeshIdentity
+description: Define how workloads obtain cryptographic identity with MeshIdentity, supporting SPIFFE IDs and multiple certificate providers.
+keywords:
+  - workload identity
+  - SPIFFE
+  - certificate management
 ---
 
 {% warning %}

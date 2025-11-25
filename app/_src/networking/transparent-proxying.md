@@ -1,5 +1,10 @@
 ---
 title: Transparent Proxying
+description: Understand how transparent proxying intercepts and redirects traffic through the sidecar using iptables.
+keywords:
+  - transparent proxy
+  - iptables
+  - traffic interception
 ---
 
 ## What is Transparent Proxying?

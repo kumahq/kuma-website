@@ -1,9 +1,14 @@
 ---
 title: Using Kuma
 content_type: explanation
+description: Learn how to secure, manage, and observe your service mesh with policies for security, resilience, and traffic control.
+keywords:
+  - service mesh
+  - policies
+  - observability
 ---
 
-{{site.mesh_product_name}} provides comprehensive features for securing, managing, and observing your service [mesh](/docs/{{ page.release }}/introduction/concepts#mesh). This section covers practical guides for implementing common patterns and configuring essential [policies](/docs/{{ page.release }}/introduction/concepts#policy).
+{{site.mesh_product_name}} provides comprehensive features for securing, managing, and observing your service mesh. This section covers practical guides for implementing common patterns and configuring essential [policies](/docs/{{ page.release }}/introduction/concepts#policy).
 
 ## Zero trust and application security
 

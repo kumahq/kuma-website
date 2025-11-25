@@ -1,5 +1,9 @@
 ---
 title: Inspect API
+description: Debug policies and data plane proxies using the Inspect API to view matched policies, affected proxies, and Envoy configuration dumps.
+keywords:
+  - inspect
+  - debugging
 ---
 
 Starting with version 1.5.0, {{site.mesh_product_name}} offers the Inspect API to improve the policy debugging experience.

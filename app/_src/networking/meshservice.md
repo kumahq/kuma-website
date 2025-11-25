@@ -1,5 +1,10 @@
 ---
 title: MeshService
+description: Define service destinations with MeshService for traffic routing, hostname assignment, and policy targeting.
+keywords:
+  - MeshService
+  - service discovery
+  - traffic routing
 ---
 
 {% if_version lte:2.8.x %}

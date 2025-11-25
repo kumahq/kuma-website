@@ -1,5 +1,9 @@
 ---
 title: CLI
+description: Learn about the CLI executables bundled with the service mesh, including kuma-cp, kuma-dp, envoy, and kumactl for managing your mesh.
+keywords:
+  - kumactl
+  - CLI
 ---
 
 {{site.mesh_product_name}} ships in a bundle that includes a few executables:
