@@ -30,6 +30,7 @@ boolean
 camelCase
 CloudFormation
 CLI
+CIDRs?
 CNI|cni
 Cognito
 configs?
@@ -62,6 +63,7 @@ endunless
 endwarning
 enum
 etcd
+failover
 Fargate
 firewalld
 frontmatter
@@ -71,7 +73,7 @@ GitHub
 GKE|gke
 Goroutine
 Grafana
-grpcs?
+g[Rr][Pp][Cc]s?
 hardcod(?:ing|ed)
 hostnames?
 httpbin

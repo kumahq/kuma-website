@@ -1,5 +1,10 @@
 ---
 title: MeshLoadBalancingStrategy
+description: Configure load balancing between services with MeshLoadBalancingStrategy, including locality awareness and cross-zone failover.
+keywords:
+  - load balancing
+  - locality awareness
+  - traffic distribution
 ---
 
 {% warning %}

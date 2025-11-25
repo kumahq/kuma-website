@@ -1,5 +1,10 @@
 ---
 title: MeshRateLimit
+description: Configure per-instance rate limiting with MeshRateLimit, controlling HTTP request rates and TCP connection limits.
+keywords:
+  - rate limiting
+  - traffic control
+  - request throttling
 ---
 
 {% warning %}

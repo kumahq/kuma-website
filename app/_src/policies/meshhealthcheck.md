@@ -1,5 +1,10 @@
 ---
 title: Mesh Health Check
+description: Configure active health checks for data plane proxies using MeshHealthCheck, supporting HTTP, TCP, and gRPC protocols.
+keywords:
+  - health check
+  - active health check
+  - service health
 ---
 
 {% warning %}

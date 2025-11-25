@@ -1,5 +1,10 @@
 ---
 title: MeshMetric
+description: Configure metrics collection and exposure with MeshMetric, supporting Prometheus and OpenTelemetry backends with filtering options.
+keywords:
+  - metrics
+  - Prometheus
+  - OpenTelemetry
 ---
 
 {% warning %}
