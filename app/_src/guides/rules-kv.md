@@ -1,5 +1,10 @@
 ---
 title: Configuring inbound traffic with rules API
+description: Apply policies to data plane inbounds using the rules API with Dataplane targetRef kind.
+keywords:
+  - rules API
+  - inbound traffic
+  - Dataplane targetRef
 ---
 
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}

@@ -1,6 +1,11 @@
 ---
 title: Targeting MeshHTTPRoutes in supported policies
 content_type: tutorial
+description: Apply MeshTimeout, MeshRetry, and MeshAccessLog policies to specific MeshHTTPRoutes for fine-grained traffic control.
+keywords:
+  - MeshHTTPRoute
+  - policy targeting
+  - traffic control
 ---
 
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}
