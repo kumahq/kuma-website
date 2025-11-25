@@ -1,5 +1,10 @@
 ---
 title: MeshTLS
+description: Configure TLS versions, ciphers, and mTLS mode (Strict or Permissive) for mesh traffic encryption.
+keywords:
+  - TLS
+  - mTLS
+  - encryption
 ---
 
 This policy enables {{site.mesh_product_name}} to configure TLS mode, ciphers and version. 

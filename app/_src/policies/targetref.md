@@ -1,5 +1,10 @@
 ---
 title: Understanding TargetRef policies
+description: Learn how TargetRef policies select proxies and configure traffic using Mesh, MeshService, MeshSubset, and MeshGateway kinds.
+keywords:
+  - targetRef
+  - policy matching
+  - configuration
 ---
 
 ## What is a policy?

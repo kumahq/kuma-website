@@ -1,5 +1,10 @@
 ---
 title: Service Health Probes
+description: Track service health status using Kubernetes probes or Universal HDS for load balancing and service discovery.
+keywords:
+  - health check
+  - probes
+  - liveness
 ---
 
 {{site.mesh_product_name}} is able to track the status of the Envoy proxy and the underlying app.

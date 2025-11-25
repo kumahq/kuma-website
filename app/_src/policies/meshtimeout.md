@@ -1,5 +1,10 @@
 ---
 title: Mesh Timeout
+description: Configure connection, idle, and request timeouts for TCP and HTTP traffic on inbound and outbound connections.
+keywords:
+  - timeout
+  - connection
+  - HTTP
 ---
 
 {% warning %}

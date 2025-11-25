@@ -1,5 +1,10 @@
 ---
 title: MeshRetry
+description: Configure automatic retry behavior for failed HTTP, gRPC, and TCP requests with exponential back-off and rate limiting.
+keywords:
+  - retry
+  - resilience
+  - back-off
 ---
 
 {% warning %}
