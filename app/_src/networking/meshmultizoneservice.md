@@ -1,5 +1,10 @@
 ---
 title: MeshMultiZoneService
+description: Group MeshServices across zones with MeshMultiZoneService for cross-zone load balancing and high availability.
+keywords:
+  - MeshMultiZoneService
+  - cross-zone
+  - load balancing
 ---
 
 The MeshMultiZoneService resource represents a group of MeshServices in a multizone deployment.

@@ -1,5 +1,10 @@
 ---
 title: Configuring built-in listeners
+description: Configure gateway listeners with MeshGateway for ports, protocols, TLS termination, and cross-mesh communication.
+keywords:
+  - MeshGateway
+  - listeners
+  - TLS termination
 ---
 
 {% capture k8s_service_selector_suffix %}{% if_version gte:2.7.x inline:true %}_default_svc{% endif_version %}{% endcapture %}

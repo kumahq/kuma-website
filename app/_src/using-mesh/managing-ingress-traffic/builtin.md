@@ -1,5 +1,10 @@
 ---
 title: Configure a built-in gateway
+description: Deploy and configure built-in gateways using MeshGateway, MeshHTTPRoute, and MeshTCPRoute for ingress traffic.
+keywords:
+  - builtin gateway
+  - ingress
+  - MeshGateway
 ---
 
 The built-in gateway is configured using a combination of [`MeshGateway`](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners), [`MeshHTTPRoute`](/docs/{{ page.release }}/policies/meshhttproute) and [`MeshTCPRoute`](/docs/{{ page.release }}/policies/meshtcproute),

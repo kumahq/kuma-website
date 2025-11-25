@@ -1,5 +1,10 @@
 ---
 title: Kubernetes Gateway API
+description: Use Kubernetes Gateway API resources to configure built-in gateways and service-to-service routing with GAMMA.
+keywords:
+  - Gateway API
+  - Kubernetes
+  - GAMMA
 ---
 
 {{site.mesh_product_name}} supports [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/)
