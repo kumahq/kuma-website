@@ -1,5 +1,10 @@
 ---
 title: Dataplane Health
+description: Learn about health mechanisms in Kuma including circuit breakers, service probes, and health checks for managing traffic based on service health.
+keywords:
+  - health check
+  - circuit breaker
+  - service probes
 ---
 
 Health is an important aspect of a microservice architecture. {{site.mesh_product_name}} can use health status
