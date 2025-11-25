@@ -10,8 +10,8 @@ Production deployment of {{site.mesh_product_name}} involves choosing the right 
 Choose the deployment model that fits your infrastructure:
 
 - **[Deployment overview](/docs/{{ page.release }}/production/deployment/)** - Understand deployment modes and when to use each
-- **[Single-zone deployment](/docs/{{ page.release }}/production/deployment/single-zone/)** - Deploy {{site.mesh_product_name}} in a single Kubernetes cluster or data center
-- **[Multi-zone deployment](/docs/{{ page.release }}/production/deployment/multi-zone/)** - Connect multiple zones across regions, clouds, or data centers
+- **[Single-zone deployment](/docs/{{ page.release }}/production/deployment/single-zone/)** - Deploy {{site.mesh_product_name}} in a single Kubernetes cluster or data center ([zone](/docs/{{ page.release }}/introduction/concepts#zone))
+- **[Multi-zone deployment](/docs/{{ page.release }}/production/deployment/multi-zone/)** - Connect multiple [zones](/docs/{{ page.release }}/introduction/concepts#zone) across regions, clouds, or data centers
 
 Common scenarios:
 
