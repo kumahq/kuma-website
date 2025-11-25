@@ -1,5 +1,10 @@
 ---
 title: MeshGatewayRoute
+description: Configure HTTP routing for builtin gateways using MeshGatewayRoute, including path matching, filters, and traffic routing rules.
+keywords:
+  - gateway routing
+  - HTTP routing
+  - traffic management
 ---
 {% if_version gte:2.6.x %}
 {% warning %}

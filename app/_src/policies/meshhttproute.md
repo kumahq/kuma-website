@@ -1,5 +1,10 @@
 ---
 title: Mesh HTTP Route
+description: Route and modify HTTP traffic with MeshHTTPRoute, enabling traffic splitting, header modifications, mirroring, and redirects.
+keywords:
+  - HTTP routing
+  - traffic splitting
+  - request modification
 ---
 
 {% warning %}
