@@ -46,7 +46,7 @@ spec:
         action: Allow" | kubectl apply -f -
 ```
 
-To finish the setup we need to create additional namespace with sidecar injection for client we will be using to communicate
+To finish the setup we need to create additional namespace with [sidecar injection](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) for client we will be using to communicate
 with our demo-app:
 
 ```shell

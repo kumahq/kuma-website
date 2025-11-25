@@ -52,7 +52,7 @@ spec:
         action: Allow" | kubectl apply -f -
 ```
 
-To finish the setup we need to create two additional namespaces with sidecar injection for clients we will be using to communicate with our demo-app:
+To finish the setup we need to create two additional namespaces with [sidecar injection](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) for clients we will be using to communicate with our demo-app:
 
 ```shell
 echo "apiVersion: v1

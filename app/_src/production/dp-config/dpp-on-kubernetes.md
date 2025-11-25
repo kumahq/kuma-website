@@ -3,13 +3,13 @@ title: Data plane on Kubernetes
 content_type: how-to
 ---
 
-On Kubernetes the [`Dataplane`](/docs/{{ page.release }}/production/dp-config/dpp#dataplane-entity) entity is automatically created for you, and because transparent proxying is used to communicate between the service and the sidecar proxy, no code changes are required in your applications.
+On Kubernetes the [`Dataplane`](/docs/{{ page.release }}/production/dp-config/dpp#dataplane-entity) entity is automatically created for you, and because transparent proxying is used to communicate between the service and the [sidecar proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar), no code changes are required in your applications.
 
 The {{ site.mesh_product_name }} control plane injects a `kuma-sidecar` container into your `Pod`'s container. If
 you're not using the CNI, it also injects a `kuma-init` into `initContainers` to
 setup [transparent proxying](../transparent-proxying).
 
-You can control whether {{site.mesh_product_name}} automatically injects the data plane proxy by **labeling** either the Namespace or the Pod with
+You can control whether {{site.mesh_product_name}} automatically injects the [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) by **labeling** either the namespace or the Pod with
 `kuma.io/sidecar-injection=enabled`, e.g.
 
 ```yaml
@@ -23,7 +23,7 @@ metadata:
     kuma.io/sidecar-injection: enabled
 ```
 
-To opt out of data-plane injection into a particular `Pod`, you need to **label** it
+To opt out of data plane injection into a particular `Pod`, you need to **label** it
 with `kuma.io/sidecar-injection=disabled`, e.g.
 
 ```yaml
@@ -274,16 +274,16 @@ In this scenario, using the init container is simply impossible
 because `kuma-dp` is responsible for encrypting the traffic and only runs after all init containers have exited.
 
 {% if_version gte:2.4.x %}
-### Waiting for the dataplane to be ready
+### Waiting for the Dataplane to be ready
 
 By default, containers start in arbitrary order, so an app container can start even though the sidecar container might not be ready to receive traffic.
 
 Making initial requests, such as connecting to a database, can fail for a brief period after the pod starts. 
 
 To mitigate this problem try setting
-* `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true`, or 
-* [kuma.io/wait-for-dataplane-ready](/docs/{{ page.release }}/reference/kubernetes-annotations/#kumaiowait-for-dataplane-ready) annotation to `true`
-so that the app container waits for the dataplane container to be ready to serve traffic.
+* `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true`, or
+* <!-- vale off -->[kuma.io/wait-for-dataplane-ready](/docs/{{ page.release }}/reference/kubernetes-annotations/#kumaiowait-for-dataplane-ready)<!-- vale on --> annotation to `true`
+so that the app container waits for the Dataplane container to be ready to serve traffic.
 
 {% warning %}
 
@@ -315,9 +315,9 @@ You can read the [Kubernetes docs](https://kubernetes.io/docs/concepts/workloads
 Whenever a user or system deletes a `Pod`, Kubernetes does the following:
 1. It marks the `Pod` as terminated.
 1. For every container concurrently it:
-    1. Executes any pre stop hook if defined.
+    1. Executes any <!-- vale off -->pre<!-- vale on --> stop hook if defined.
     1. Sends a SIGTERM signal.
-    1. Waits until container is terminated for maximum of graceful termination time (by default 60s).
+    1. Waits until container is terminated for maximum of graceful termination time (by default 60&nbsp;s).
     1. Sends a SIGKILL to the container.
 1. It removes the `Pod` object from the system.
 
@@ -349,7 +349,7 @@ To mitigate this, we need to either
 When a `Pod` is deleted, its matching `Dataplane` resource is deleted as well. This is possible thanks to the
 [owner reference](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/) set on the `Dataplane` resource.
 
-## Custom Container Configuration
+## Custom container configuration
 
 If you want to modify the default container configuration you can use
 the `ContainerPatch` Kubernetes CRD. It allows configuration of both sidecar
@@ -417,7 +417,7 @@ securityContext:
   privileged: true
 ```
 
-and similarly change the securityContext section of the init container from:
+and similarly change the <!-- vale off -->securityContext<!-- vale on --> section of the init container from:
 
 ```yaml
 securityContext:
@@ -525,7 +525,7 @@ but your workload will be annotated with its own list of patches (i.e.
 `["pod-patch-1", "pod-patch-2]`) only the latter will be applied. 
 {% endtip %}
 
-To install a CP with env vars you can do:
+To install a CP with <!-- vale off -->env<!-- vale on --> vars you can do:
 
 ```shell
 kumactl install control-plane --env-var "KUMA_RUNTIME_KUBERNETES_INJECTOR_CONTAINER_PATCHES=patch1,patch2"
@@ -544,7 +544,7 @@ will explicitly fail and log the failure.
 
 By default, on Kubernetes data plane proxies communicate with each other by leveraging the `ClusterIP` address of the `Service` resources. Also by default, any request made to another service is automatically load balanced client-side by the data plane proxy that originates the request (they are load balanced by the local Envoy proxy sidecar proxy).
 
-There are situations where we may want to bypass the client-side load balancing and directly access services by using their IP address (ie: in the case of Prometheus wanting to scrape metrics from services by their individual IP address).
+There are situations where we may want to bypass the client-side load balancing and directly access services by using their IP address (for example, in the case of Prometheus wanting to scrape metrics from services by their individual IP address).
 
 When an originating service wants to directly consume other services by their IP address, the originating service's `Deployment` resource must include the following annotation:
 

@@ -124,6 +124,7 @@ PascalCase
 passthrough
 PayPal
 plaintext
+[Pp]ods?
 policy_schema
 PowerShell
 Postgres
@@ -141,6 +142,7 @@ routable
 runtimes?
 sandboxing
 serializer
+[Ss]ervices?
 serverless
 snake_case
 snis

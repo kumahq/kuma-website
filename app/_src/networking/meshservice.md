@@ -12,7 +12,7 @@ planes that use `MeshServices`.
 {% endwarning %}
 {% endif_version %}
 
-MeshService is a new resource that represents what was previously expressed by
+MeshService is a new [resource](/docs/{{ page.release }}/introduction/concepts#resource) that represents what was previously expressed by
 the `Dataplane` tag `kuma.io/service`. Kubernetes users should think about it as
 the analog of a Kubernetes `Service`.
 
@@ -134,7 +134,7 @@ since there's no way to create a coherent `MeshService`
 for `test-server` from these two inbounds.
 {% endif_version %}
 
-## Hostnames
+## hostnames
 
 Because of various shortcomings, the existing `VirtualOutbound` does not work
 with `MeshService` and is planned for phasing out. A [new `HostnameGenerator`

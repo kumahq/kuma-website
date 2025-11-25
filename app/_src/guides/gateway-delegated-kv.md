@@ -66,7 +66,7 @@ When running `kind` cluster you can try [kubernetes-sigs/cloud-provider-kind](ht
 ## Enable sidecar injection on the `kong` namespace
 
 The Kong Ingress controller was installed outside the mesh.
-For it to work as a delegated gateway restart it with [sidecar injection enabled](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/):
+For it to work as a delegated gateway restart it with [sidecar injection](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) [enabled](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/):
 
 Add the label:
 ```sh

@@ -3,7 +3,7 @@ title: Kuma in Production
 content_type: explanation
 ---
 
-Production deployment of {{site.mesh_product_name}} involves choosing the right topology, deploying control and data planes, and configuring security and operational features. This section guides you through all aspects of running {{site.mesh_product_name}} in production.
+Production deployment of {{site.mesh_product_name}} involves choosing the right topology, deploying [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane) and [data planes](/docs/{{ page.release }}/introduction/concepts#data-plane), and configuring security and operational features. This section guides you through all aspects of running {{site.mesh_product_name}} in production.
 
 ## Deployment topologies
 
@@ -37,7 +37,7 @@ Deploy and configure the {{site.mesh_product_name}} control plane:
 
 ## Data plane configuration
 
-Configure data plane proxies for Kubernetes and Universal:
+Configure [data plane proxies](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) for Kubernetes and Universal:
 
 - **[Data plane proxy overview](/docs/{{ page.release }}/production/dp-config/dpp/)** - Understand how data plane proxies work
 - **[Kubernetes data plane](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/)** - Configure proxies with sidecar injection on Kubernetes
