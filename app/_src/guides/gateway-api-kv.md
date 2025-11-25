@@ -1,5 +1,10 @@
 ---
 title: Kubernetes Gateway API
+description: Learn how to use Kubernetes Gateway API to configure a builtin gateway for north-south traffic and expose services with TLS.
+keywords:
+  - Gateway API
+  - ingress
+  - HTTPRoute
 content_type: tutorial
 ---
 

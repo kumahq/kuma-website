@@ -1,5 +1,10 @@
 ---
 title: Producer and Consumer policies
+description: Learn how to use namespace-scoped producer and consumer policies to control traffic and leverage Kubernetes RBAC for policy configuration.
+keywords:
+  - producer consumer
+  - namespace policies
+  - policy roles
 content_type: tutorial
 ---
 

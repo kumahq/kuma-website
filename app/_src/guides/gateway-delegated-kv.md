@@ -1,5 +1,10 @@
 ---
-title: Use Kong as a delegated Gateway 
+title: Use Kong as a delegated Gateway
+description: Learn how to configure Kong Ingress Controller as a delegated gateway with sidecar injection to handle north-south traffic.
+keywords:
+  - delegated gateway
+  - Kong
+  - ingress controller
 ---
 
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}

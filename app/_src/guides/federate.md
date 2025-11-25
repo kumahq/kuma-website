@@ -1,5 +1,10 @@
 ---
 title: Federate zone control plane
+description: Learn how to federate a zone control plane to a multi-zone deployment for centralized management, cross-zone connectivity, and global policy distribution.
+keywords:
+  - federation
+  - multi-zone
+  - global control plane
 ---
 
 With {{site.mesh_product_name}} you can first start with just one zone control plane

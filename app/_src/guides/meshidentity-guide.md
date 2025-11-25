@@ -1,5 +1,10 @@
 ---
 title: Issuing Identity with MeshIdentity bundled provider
+description: Learn how to issue SPIFFE-compliant identities using MeshIdentity with the bundled provider and configure MeshTrafficPermission with spiffeID matching.
+keywords:
+  - MeshIdentity
+  - SPIFFE
+  - identity management
 ---
 
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
