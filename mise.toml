@@ -106,6 +106,14 @@ git diff --name-only --diff-filter=d origin/master...HEAD | \
 description = "Check for hardcoded version URLs in changed files"
 run = "tools/check-version-urls.sh"
 
+[tasks."frontmatter:validate"]
+description = "Validate frontmatter in new docs files"
+run = "tools/validate-frontmatter.sh"
+
+[tasks."test:tools"]
+description = "Run all tool tests (tools/test-*.sh)"
+run = "for f in tools/test-*.sh; do [ -x \"$f\" ] && \"$f\"; done"
+
 [tasks.check]
-description = "Run vale and link checker (requires dev server running at localhost:7777)"
-depends = ["vale:branch", "vale:version-urls", "links:check"]
+description = "Run necessary checks"
+depends = ["vale:branch", "vale:version-urls", "frontmatter:validate"]
