@@ -1,5 +1,10 @@
 ---
 title: macOS
+description: Download and install Kuma service mesh on macOS using the official binary or Homebrew.
+keywords:
+  - macos
+  - installation
+  - homebrew
 os: darwin
 arch: amd64
 ---

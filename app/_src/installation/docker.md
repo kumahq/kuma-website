@@ -1,5 +1,10 @@
 ---
 title: Docker
+description: Install and run Kuma service mesh using official Docker images for control plane and data plane proxies.
+keywords:
+  - docker
+  - installation
+  - containers
 ---
 
 To install and run {{site.mesh_product_name}} on Docker execute the following steps:

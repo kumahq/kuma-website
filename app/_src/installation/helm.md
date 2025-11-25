@@ -1,5 +1,10 @@
 ---
 title: Helm
+description: Install Kuma service mesh on Kubernetes using Helm charts from the official repository.
+keywords:
+  - helm
+  - kubernetes
+  - installation
 ---
 
 To install and run {{site.mesh_product_name}} on Kubernetes with Helm charts execute the following steps:

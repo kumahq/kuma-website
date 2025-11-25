@@ -1,5 +1,10 @@
 ---
 title: Kubernetes
+description: Install Kuma service mesh on Kubernetes using kumactl and native yaml manifests.
+keywords:
+  - kubernetes
+  - installation
+  - kumactl
 ---
 
 To install and run {{site.mesh_product_name}} execute the following steps:
