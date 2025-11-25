@@ -1,5 +1,10 @@
 ---
 title: General notes about Kuma policies
+description: Understand the structure of source/destination policies including sources, destinations, and configuration matching with tags.
+keywords:
+  - legacy policies
+  - source destination
+  - policy structure
 ---
 {% if_version gte:2.6.x %}
 {% warning %}

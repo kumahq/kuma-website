@@ -1,5 +1,10 @@
 ---
 title: Applying Policies
+description: Learn how to apply policies in your service mesh using kumactl and kubectl, including multi-zone deployments and shadow mode testing.
+keywords:
+  - policy application
+  - kumactl
+  - shadow mode
 ---
 
 Once installed, {{site.mesh_product_name}} can be configured via its policies. 
