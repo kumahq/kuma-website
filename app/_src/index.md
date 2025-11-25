@@ -1,5 +1,10 @@
 ---
 title: Welcome to Kuma
+description: Official documentation for Kuma, a modern service mesh control plane with Envoy Proxy integration, maintained by Kong.
+keywords:
+  - service mesh
+  - Envoy
+  - control plane
 ---
 
 Welcome to the official documentation for Kuma, a modern distributed **Control Plane** with a bundled Envoy Proxy integration.
