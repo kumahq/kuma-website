@@ -1,5 +1,7 @@
 ---
 title: Deploy Kuma on Universal
+description: Run a demo application on Universal mode to learn how the service mesh works with data plane proxies and mTLS.
+keywords: universal, quickstart, demo
 ---
 
 This demo shows how to run {{site.mesh_product_name}} in Universal mode on a single machine.

@@ -1,5 +1,7 @@
 ---
 title: MeshExternalService
+description: Define external services for mesh workloads to consume, with support for TLS origination and custom endpoints.
+keywords: MeshExternalService, networking, tls
 ---
 
 {% warning %}
