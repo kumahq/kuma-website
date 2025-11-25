@@ -60,7 +60,7 @@ spec: ... # spec data specific to the policy kind
 
 ### Spec
 
-The `spec` field contains the actual configuration of the policy within a [mesh](/docs/{{ page.release }}/introduction/concepts#mesh).
+The `spec` field contains the actual configuration of the policy.
 
 Some policies apply to only a subset of the configuration of the proxy.
 
