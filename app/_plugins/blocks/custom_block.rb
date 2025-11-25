@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Jekyll
   class CustomBlock < Liquid::Block
-    alias_method :render_block, :render
+    alias render_block render
 
     def initialize(tag_name, markup, options)
       super

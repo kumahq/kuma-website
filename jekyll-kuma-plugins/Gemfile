@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 # Specify your gem's dependencies in jekyll-kuma-plugins.gemspec
 gemspec
 
-gem "rake", "13.3.1"
-gem "rspec", "3.13.2"
-gem "csv", "3.3.5"
-gem "base64", "0.3.0"
-gem "bigdecimal", "3.3.1"
+gem 'base64', '0.3.0'
+gem 'bigdecimal', '3.3.1'
+gem 'csv', '3.3.5'
+gem 'rake', '13.3.1'
+gem 'rspec', '3.13.2'
+gem 'rubocop', '1.75.1'

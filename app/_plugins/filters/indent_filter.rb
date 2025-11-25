@@ -3,9 +3,9 @@
 module IndentFilter
   def indent(input)
     input
-      .gsub("\n</code>", "</code>")
+      .gsub("\n</code>", '</code>')
       .split("\n")
-      .map { |l| l.prepend("   ") }
+      .map { |l| l.prepend('   ') }
       .join("\n")
   end
 end

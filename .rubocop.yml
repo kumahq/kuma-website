@@ -1,0 +1,55 @@
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  SuggestExtensions: false
+  Include:
+    - 'jekyll-kuma-plugins/**/*.rb'
+    - 'app/_plugins/**/*.rb'
+    - 'spec/**/*.rb'
+  Exclude:
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+# TODO: rename files to snake_case
+Naming/FileName:
+  Exclude:
+    - 'jekyll-kuma-plugins/lib/jekyll-kuma-plugins.rb'
+    - 'jekyll-kuma-plugins/lib/jekyll/kuma-plugins.rb'
+
+# TODO: refactor large lambda blocks
+Metrics/BlockLength:
+  Exclude:
+    - '**/*_spec.rb'
+    - 'jekyll-kuma-plugins/lib/jekyll/kuma-plugins/liquid/tags/policyyaml.rb'
+
+# TODO: refactor generator methods
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+# TODO: rename predicate methods
+Naming/PredicateName:
+  Enabled: false
+
+# TODO: call super in InstallPage#initialize
+Lint/MissingSuper:
+  Enabled: false
+
+# TODO: replace OpenStruct with Struct
+Style/OpenStructUse:
+  Enabled: false
+
+# Disable requirement for rubocop:enable after rubocop:disable
+Lint/MissingCopEnableDirective:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 180

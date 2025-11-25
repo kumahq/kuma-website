@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Inc do
   let(:version) { '2.9.1' }
   let(:release) { Jekyll::GeneratorSingleSource::Product::Release.new({ 'release' => version }) }
@@ -36,42 +38,42 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Inc do
     [
       {
         if_version: 'gte:2.9.x',
-        golden_file: 'spec/fixtures/inc-if-version.golden.html',
+        golden_file: 'spec/fixtures/inc-if-version.golden.html'
       },
       {
         if_version: 'lte:2.8.x',
-        golden_file: 'spec/fixtures/inc-if-version-not-met.golden.html',
+        golden_file: 'spec/fixtures/inc-if-version-not-met.golden.html'
       },
       {
         if_version: 'gte:2.9.x',
         params: ['init_value=5'],
-        golden_file: 'spec/fixtures/inc-if-version-init-value.golden.html',
+        golden_file: 'spec/fixtures/inc-if-version-init-value.golden.html'
       },
       {
         if_version: 'lte:2.8.x',
         params: ['init_value=5'],
-        golden_file: 'spec/fixtures/inc-if-version-not-met-init-value.golden.html',
+        golden_file: 'spec/fixtures/inc-if-version-not-met-init-value.golden.html'
       },
       {
         if_version: 'gte:2.9.x',
         params: ['get_current'],
-        golden_file: 'spec/fixtures/inc-if-version-get-current.golden.html',
+        golden_file: 'spec/fixtures/inc-if-version-get-current.golden.html'
       },
       {
         if_version: 'lte:2.8.x',
         params: ['get_current'],
-        golden_file: 'spec/fixtures/inc-if-version-not-met-get-current.golden.html',
+        golden_file: 'spec/fixtures/inc-if-version-not-met-get-current.golden.html'
       },
       {
         if_version: 'gte:2.9.x',
         params: %w[get_current init_value=5],
-        golden_file: 'spec/fixtures/inc-if-version-get-current-init-value.golden.html',
+        golden_file: 'spec/fixtures/inc-if-version-get-current-init-value.golden.html'
       },
       {
         if_version: 'lte:2.8.x',
         params: %w[get_current init_value=5],
-        golden_file: 'spec/fixtures/inc-if-version-not-met-get-current-init-value.golden.html',
-      },
+        golden_file: 'spec/fixtures/inc-if-version-not-met-get-current-init-value.golden.html'
+      }
     ].each do |test_case|
       include_examples 'renders inc tag', test_case[:if_version],
                        test_case[:params],

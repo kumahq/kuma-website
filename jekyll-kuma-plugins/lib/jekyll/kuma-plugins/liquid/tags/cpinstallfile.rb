@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This plugin simplifies installation documentation by generating tabs for `kumactl`
 # and Helm commands, using a set of customizable parameters. It reduces the need for
 # duplicate installation examples across Universal and Kubernetes environments.
@@ -12,12 +14,10 @@ module Jekyll
         class CpInstallFile < ::Liquid::Tag
           def initialize(tag_name, text, tokens)
             super
-            @tabs_name, *params_list = @markup.split(' ')
-            @params = { "filename" => "values.yaml" }
+            @tabs_name, *params_list = @markup.split
+            @params = { 'filename' => 'values.yaml' }
 
-            if @tabs_name.nil? || @tabs_name.strip.empty?
-              raise ArgumentError, "You must provide a valid tabs name for the cpinstallfile tag."
-            end
+            raise ArgumentError, 'You must provide a valid tabs name for the cpinstallfile tag.' if @tabs_name.nil? || @tabs_name.strip.empty?
 
             params_list.each do |item|
               key, value = item.split('=')
@@ -31,8 +31,9 @@ module Jekyll
 
           private
 
+          # TODO: refactor to reduce method length
           def content
-            filename = @params["filename"]
+            filename = @params['filename']
 
             <<~MARKDOWN
               {% tabs %}

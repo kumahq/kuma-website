@@ -1,13 +1,16 @@
+# frozen_string_literal: true
+
 RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
   # Set up the Jekyll site and context for testing
 
   shared_examples 'policy yaml rendering' do |input_file, golden_file, tag_options, release|
     it "renders correctly for #{input_file}" do
-      site = Jekyll::Site.new(Jekyll.configuration({mesh_namespace: "kuma-demo"}))
-      release = {'release' => '2.9.x', 'edition' => 'kuma'} unless release # This sets the version key for testing
-      context = Liquid::Context.new({}, {}, { :page => {'edition' => release['edition'], 'release' => Jekyll::GeneratorSingleSource::Product::Release.new(release)}, :site => site})
+      site = Jekyll::Site.new(Jekyll.configuration({ mesh_namespace: 'kuma-demo' }))
+      release ||= { 'release' => '2.9.x', 'edition' => 'kuma' } # This sets the version key for testing
+      context = Liquid::Context.new({}, {},
+                                    { page: { 'edition' => release['edition'], 'release' => Jekyll::GeneratorSingleSource::Product::Release.new(release) }, site: site })
       content = GoldenFileManager.load_input(input_file)
-      tag_content = tag_options ? "{% policy_yaml #{tag_options} %}" : "{% policy_yaml %}"
+      tag_content = tag_options ? "{% policy_yaml #{tag_options} %}" : '{% policy_yaml %}'
       template = Liquid::Template.parse("#{tag_content}#{content}{% endpolicy_yaml %}")
       output = template.render(context)
       GoldenFileManager.assert_output(output, golden_file, include_header: true)
@@ -62,7 +65,7 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::PolicyYaml do
         input_file: 'spec/fixtures/hostnamegenerator-labels.yaml',
         golden_file: 'spec/fixtures/hostnamegenerator-labels.golden.html',
         tag_options: nil
-      },
+      }
     ]
 
     test_cases.each do |test_case|

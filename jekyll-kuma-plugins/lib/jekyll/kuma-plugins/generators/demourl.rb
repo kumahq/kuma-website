@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   module KumaPlugins
     class Generator < Jekyll::Generator
@@ -6,7 +8,7 @@ module Jekyll
       def generate(site)
         demo_version = site.config.fetch('mesh_demo_version', 'main')
         site.pages.each do |page|
-          page.content = page.content.gsub("kuma-demo://", "https://raw.githubusercontent.com/kumahq/kuma-counter-demo/refs/heads/#{demo_version}/")
+          page.content = page.content.gsub('kuma-demo://', "https://raw.githubusercontent.com/kumahq/kuma-counter-demo/refs/heads/#{demo_version}/")
         end
       end
     end

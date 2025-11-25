@@ -5,7 +5,7 @@ module Jekyll
     priority :low
 
     def generate(site)
-      active_versions = site.data['versions'].filter { |v| !v.key?('label') || v['label'] != "dev" }
+      active_versions = site.data['versions'].filter { |v| !v.key?('label') || v['label'] != 'dev' }
 
       # Generate redirects for the latest version
       latest_release = site.data['latest_version']['release']
@@ -21,7 +21,7 @@ module Jekyll
 
         # Generate redirects for x.y.0, x.y.1, x.y.2 etc
         # Until we hit the actual version stored in versions.yml
-        for idx in 0..vp[2] do
+        (0..vp[2]).each do |idx|
           current = "#{vp[0]}.#{vp[1]}.#{idx}"
           redirects << "/docs/#{current}/*  /docs/#{v['release']}/:splat  301"
           redirects << "/install/#{current}/*  /install/#{v['release']}/:splat  301"
@@ -40,7 +40,7 @@ module Jekyll
         #{common_redirects}
       RDR
 
-      write_file(site, "_redirects", redirects)
+      write_file(site, '_redirects', redirects)
     end
 
     def write_file(site, path, content)

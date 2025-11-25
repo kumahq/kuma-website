@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../common/params'
 
 module Jekyll
@@ -37,7 +39,7 @@ module Jekyll
           private
 
           def should_increment?(context)
-            !@params[:if_version] || render_template(context) == "true"
+            !@params[:if_version] || render_template(context) == 'true'
           end
 
           def version_check_template
@@ -48,13 +50,15 @@ module Jekyll
             ::Liquid::Template.parse(version_check_template).render(context).strip
           rescue ::Liquid::SyntaxError
             log_version_check_error(context)
-            ""
+            ''
           end
 
           def log_version_check_error(context)
+            page_path = context.registers[:page]['path']
             Jekyll.logger.error(
-              "Increment Tag Warning:",
-              "The 'if_version' condition could not be evaluated in #{context.registers[:page]['path']}. Ensure the 'if_version' plugin is installed."
+              'Increment Tag Warning:',
+              "The 'if_version' condition could not be evaluated in #{page_path}. " \
+              "Ensure the 'if_version' plugin is installed."
             )
           end
         end
@@ -63,4 +67,4 @@ module Jekyll
   end
 end
 
-::Liquid::Template.register_tag('inc', Jekyll::KumaPlugins::Liquid::Tags::Inc)
+Liquid::Template.register_tag('inc', Jekyll::KumaPlugins::Liquid::Tags::Inc)
