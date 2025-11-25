@@ -26,8 +26,8 @@ while IFS= read -r file; do
     ERRORS=$((ERRORS + 1))
   fi
 
-  # Check for /docs/X.Y.Z/ pattern, excluding lines with no-version-lint comment
-  MATCHES=$(grep -nE '/docs/[0-9]+\.[0-9]+\.[0-9]+/' "$file" | grep -v 'no-version-lint' || true)
+  # Check for /docs/X.Y.Z/ pattern, excluding lines with no-version-lint comment or image paths
+  MATCHES=$(grep -nE '/docs/[0-9]+\.[0-9]+\.[0-9]+/' "$file" | grep -v 'no-version-lint' | grep -v '/assets/images/' || true)
   if [ -n "$MATCHES" ]; then
     echo "$MATCHES"
     echo "ERROR: $file contains hardcoded version URL (X.Y.Z format)"

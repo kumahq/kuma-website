@@ -6,10 +6,10 @@ title: Use Kong as a delegated Gateway
 {% assign kuma-system = site.mesh_namespace | default: "kuma-system" %}
 {% assign kuma-control-plane = kuma | append: "-control-plane" %}
 
-To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use 
+To get traffic from outside your [mesh](/docs/{{ page.release }}/introduction/concepts#mesh) inside it (North/South) with {{site.mesh_product_name}} you can use
 a delegated gateway.
 
-In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/), traffic was only able to get in the mesh by port-forwarding to an instance of an app
+In the [quickstart](/docs/{{ page.release }}/quickstart/kubernetes-demo/), traffic was only able to get in the [mesh](/docs/{{ page.release }}/introduction/concepts#mesh) by port-forwarding to an instance of an app
 inside the mesh.
 In production, you typically set up a gateway to receive traffic external to the mesh.
 In this guide you will add Kong as a [delegated gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/delegated/) in front of the demo-app service and expose it publicly.

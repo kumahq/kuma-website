@@ -2,10 +2,10 @@
 title: Architecture
 ---
 
-This sections gives an overview of a {{site.mesh_product_name}} service mesh.
-It also covers how to start integrating your services into your mesh.
+This sections gives an overview of a {{site.mesh_product_name}} [service mesh](/docs/{{ page.release }}/introduction/concepts#mesh).
+It also covers how to start integrating your services into your [mesh](/docs/{{ page.release }}/introduction/concepts#mesh).
 
-A {{site.mesh_product_name}} mesh consists of two main components:
+A {{site.mesh_product_name}} [mesh](/docs/{{ page.release }}/introduction/concepts#mesh) consists of two main components:
 
 - The **[data plane](/docs/{{ page.release }}/introduction/concepts#data-plane)** consists of the proxies that run alongside your services.
   All of your mesh traffic flows through these proxies
