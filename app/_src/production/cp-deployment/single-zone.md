@@ -1,6 +1,11 @@
 ---
 title: Deploy a single-zone control plane
 content_type: how-to
+description: Deploy a single-zone control plane for running your service mesh in a single cluster or environment.
+keywords:
+  - single-zone
+  - deployment
+  - control plane
 ---
 
 In order to deploy {{site.mesh_product_name}} in a single-zone deployment, the `kuma-cp` control plane must be started in `zone` mode:

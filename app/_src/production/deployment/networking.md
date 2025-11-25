@@ -1,6 +1,11 @@
 ---
 title: Default ports
 content_type: reference
+description: Reference of default ports used by control planes and data plane proxies for various deployment modes.
+keywords:
+  - ports
+  - networking
+  - reference
 ---
 
 {{site.mesh_product_name}} - being an application that wants to improve the underlying connectivity between your services by making the underlying network more reliable - also comes with some networking requirements itself.

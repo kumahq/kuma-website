@@ -1,6 +1,11 @@
 ---
 title: Deployment topologies overview
 content_type: explanation
+description: Overview of deployment topologies including single-zone and multi-zone deployments for various service mesh use cases.
+keywords:
+  - deployment
+  - topology
+  - architecture
 ---
 
 The deployment modes that {{site.mesh_product_name}} provides are quite unique in the Service Mesh landscape and have been developed thanks to the guidance of our enterprise users, especially when it comes to the distributed one.

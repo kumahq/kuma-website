@@ -1,6 +1,11 @@
 ---
 title: Systemd
 content_type: how-to
+description: Configure systemd unit files to manage the control plane and data plane proxy processes on VMs.
+keywords:
+  - systemd
+  - universal
+  - VMs
 ---
 
 It's recommended to use a process manager like systemd when using {{ site.mesh_product_name }} on VMs. 

@@ -1,6 +1,11 @@
 ---
 title: Zone Ingress
 content_type: how-to
+description: Configure ZoneIngress proxies to enable cross-zone communication in multi-zone deployments.
+keywords:
+  - ZoneIngress
+  - multi-zone
+  - cross-zone
 ---
 
 To implement cross-zone communication when {{site.mesh_product_name}} is deployed in a [multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) mode, there is a new proxy type `ZoneIngress`.
