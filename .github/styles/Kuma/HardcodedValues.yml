@@ -3,6 +3,7 @@ message: "Use '%s' instead of hardcoded '%s'"
 link: https://github.com/kumahq/kuma-website/blob/master/CONTRIBUTING.md#linting-and-style-checks
 level: error
 ignorecase: false
+scope: ~text.frontmatter
 swap:
   # Specific Kuma component names (most specific first)
   'kuma-control-plane': '{{site.mesh_cp_name}}'

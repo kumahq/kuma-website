@@ -1,5 +1,10 @@
 ---
 title: Overview of Kuma
+description: Discover Kuma, a platform-agnostic open-source control plane for service mesh supporting Kubernetes, VMs, and multi-zone deployments.
+keywords:
+  - overview
+  - service mesh
+  - multi-zone
 ---
 
 {{site.mesh_product_name}} is a platform agnostic open-source control plane for service mesh and microservices management, with support for Kubernetes, VM, and bare metal environments.

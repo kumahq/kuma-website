@@ -74,6 +74,26 @@ mise vale:branch        # Run Vale linter only
 mise vale:version-urls  # Run version URL checker only
 ```
 
+#### Page metadata
+
+All documentation pages should include frontmatter metadata for SEO and search:
+
+```yaml
+---
+title: Page Title
+description: Brief description of the page content (1-2 sentences).
+keywords:
+  - keyword1
+  - keyword2
+  - keyword3
+---
+```
+
+**Guidelines:**
+
+- `description`: Required. Concise summary for search results and social sharing.
+- `keywords`: Required. Maximum 3 keywords for optimal search indexing.
+
 If the above guidelines are respected, your Pull Request will be reviewed by a maintainer.
 
 If you are asked to update your patch by a reviewer, please do so! Remember: **you are responsible for pushing your patch forward**. If you contributed it, you are probably the one in need of it. You must be prepared to apply changes to it if necessary.

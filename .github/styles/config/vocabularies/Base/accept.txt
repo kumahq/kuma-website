@@ -1,7 +1,15 @@
 Aiven
+[Aa]mazonlinux
 Argo CD
+[Cc]entos
+[Dd]arwin
+[Dd]ebian
+[Hh]omebrew
 [Kk]ong
 [Kk]ubernetes
+[Kk]uma
+[Ll]inux
+[Mm]acos
 [Mm]erbridge
 [Mm]ultizone
 Alertmanager
@@ -56,6 +64,7 @@ enum
 etcd
 Fargate
 firewalld
+frontmatter
 GAMMA
 Gateway API
 GitHub
@@ -116,6 +125,7 @@ Nginx
 ngrok
 observability
 Okta
+[Oo]penshift
 opa
 [Oo]tel
 [Oo]utbounds?
@@ -135,6 +145,7 @@ proxied
 proxying
 [Rr]edis
 referenceable
+[Rr]hel
 repo
 RFC
 routable
@@ -164,6 +175,7 @@ TLS
 transcoder
 ttl
 txt
+[Uu]buntu
 uncheck
 uncomment
 unencrypted

@@ -1,5 +1,10 @@
 ---
 title: Enterprise
+description: Explore enterprise service mesh offerings for mission-critical deployments.
+keywords:
+  - enterprise
+  - commercial support
+  - Kong
 ---
 
 Kuma has been originally created at [Kong](https://konghq.com) from the experience and feedback of 150+ enterprise organizations implementing Service Mesh and Microservices within both new and existing architectures. Kong donated Kuma to CNCF as the first donated Envoy-based service mesh in the CNCF landscape.
