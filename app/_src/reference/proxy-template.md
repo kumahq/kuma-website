@@ -1,5 +1,9 @@
 ---
 title: Proxy Template
+description: Customize low-level Envoy configuration using ProxyTemplate to modify listeners, clusters, network filters, HTTP filters, and virtual hosts.
+keywords:
+  - ProxyTemplate
+  - Envoy
 ---
 
 The proxy template provides configuration options for [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v3/api) that {{site.mesh_product_name}} policies do not directly expose.

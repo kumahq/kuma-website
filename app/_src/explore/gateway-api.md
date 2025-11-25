@@ -1,5 +1,9 @@
 ---
 title: Kubernetes Gateway API
+description: Configure builtin gateways and service-to-service routing using Kubernetes Gateway API resources like Gateway, HTTPRoute, and GatewayClass.
+keywords:
+  - Gateway API
+  - HTTPRoute
 ---
 
 {{site.mesh_product_name}} supports [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/)
