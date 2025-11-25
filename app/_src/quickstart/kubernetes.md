@@ -1,5 +1,7 @@
 ---
 title: Explore Kuma with the Kubernetes demo app
+description: Explore service mesh features with the Kubernetes demo app, including traffic metrics, mTLS, and traffic permissions.
+keywords: kubernetes, demo, tutorial
 ---
 
 To start learning how {{site.mesh_product_name}} works, you can download and run a simple demo application that consists of two services:

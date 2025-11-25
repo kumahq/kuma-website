@@ -1,6 +1,8 @@
 ---
 title: Service Discovery & Networking
 content_type: explanation
+description: Overview of service discovery, DNS resolution, traffic routing, and connectivity between services in the mesh.
+keywords: networking, service discovery, dns
 ---
 
 {{site.mesh_product_name}} provides a comprehensive networking layer that handles service discovery, DNS resolution, traffic routing, and connectivity between services in your mesh. This section covers how services communicate with each other and with external systems.

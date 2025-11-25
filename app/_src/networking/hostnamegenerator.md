@@ -1,5 +1,7 @@
 ---
 title: HostnameGenerator
+description: Generate custom DNS hostnames for MeshServices, MeshMultiZoneServices, and MeshExternalServices using templates.
+keywords: hostname, DNS, networking
 ---
 
 {% if_version lte:2.8.x %}
