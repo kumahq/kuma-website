@@ -37,10 +37,42 @@ When contributing, please follow the guidelines provided in this document and [W
 
 Once you have read them, and you are ready to submit your Pull Request, be sure to verify a few things:
 
-- Run `mise check` to validate your changes (runs Vale linter and link checker)
+- Run `mise check` to validate your changes (runs Vale linter, version url checker, and link checker)
 - We do trunk based development so the only valid branch to open a PR against is `master`.
 - Your commit history is clean: changes are atomic and the git message format was respected
 - Rebase your work on top of the base branch (seek help online on how to use `git rebase`; this is important to ensure your commit history is clean and linear)
+
+#### Linting and style checks
+
+This repository uses automated linting to ensure consistency:
+
+**Vale Linter** - Detects hardcoded values that should use Jekyll variables:
+
+- Product names (`Kuma` → `{{site.mesh_product_name}}`)
+- namespace names (`kuma-system` → `{{site.mesh_namespace}}`)
+- Component names (`kuma-control-plane` → `{{site.mesh_cp_name}}`)
+- Docker organization (`kumahq` → `{{site.mesh_docker_org}}`)
+- Helm repository urls and names
+- Style guide violations
+
+**Version url checker** - Detects hardcoded version urls:
+
+- `/docs/X.Y.x/` format (e.g., `/docs/2.9.x/`) <!-- no-version-lint -->
+- `/docs/X.Y.Z/` format (e.g., `/docs/2.9.0/`) <!-- no-version-lint -->
+
+To suppress version url warnings for legitimate cases (legacy docs, migration guides), add a comment:
+
+```markdown
+See legacy docs at /docs/2.8.x/ <!-- no-version-lint -->
+```
+
+Run linting checks:
+
+```sh
+mise check              # Run all checks (Vale, version URLs, links)
+mise vale:branch        # Run Vale linter only
+mise vale:version-urls  # Run version URL checker only
+```
 
 If the above guidelines are respected, your Pull Request will be reviewed by a maintainer.
 
