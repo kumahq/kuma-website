@@ -1,6 +1,11 @@
 ---
 title: Zone Egress
 content_type: how-to
+description: Configure ZoneEgress proxies to isolate outgoing traffic to other zones or external services.
+keywords:
+  - ZoneEgress
+  - external services
+  - traffic
 ---
 
 `ZoneEgress` proxy is used when it is required to isolate outgoing traffic (to services in other

@@ -1,6 +1,11 @@
 ---
 title: Deploy a multi-zone global control plane
 content_type: how-to
+description: Set up a multi-zone deployment with global and zone control planes to run your service mesh across multiple clusters, regions, or environments.
+keywords:
+  - multi-zone
+  - global control plane
+  - zone
 ---
 
 ## Prerequisites

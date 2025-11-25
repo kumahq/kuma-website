@@ -1,6 +1,11 @@
 ---
 title: Deploy a standalone control plane
 content_type: how-to
+description: Deploy a standalone control plane for simple service mesh deployments in a single cluster or environment.
+keywords:
+  - standalone
+  - deployment
+  - control plane
 ---
 
 In order to deploy {{site.mesh_product_name}} in a standalone deployment, the `kuma-cp` control plane must be started in `standalone` mode:

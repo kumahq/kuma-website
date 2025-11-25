@@ -169,6 +169,7 @@ subgraph
 subproject
 sudo
 Syslog
+systemd
 target[Rr]ef
 tbl
 tcpdump
