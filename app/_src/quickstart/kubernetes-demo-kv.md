@@ -79,7 +79,7 @@ metadata:
     kuma.io/sidecar-injection: enabled
 ```
 
-This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) that it needs to automatically inject a [sidecar proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) to every Kubernetes pod in the `kuma-demo` namespace.
+This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) that it needs to automatically inject a [sidecar proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) to every Kubernetes pod in the `kuma-demo` namespace within the [mesh](/docs/{{ page.release }}/introduction/concepts#mesh).
 
 ## Explore the GUI
 

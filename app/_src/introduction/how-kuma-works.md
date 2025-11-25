@@ -41,7 +41,7 @@ Unlike a data plane proxy (DP), the control plane (CP) is never on the execution
 </center>
 
 {% tip %}
-**Service Mesh**: An architecture made of sidecar proxies deployed next to our services (the data planes, or DPs), and a control plane (CP) controlling those DPs, is called Service Mesh. Usually, Service Mesh appears in the context of Kubernetes, but anybody can build Service Meshes on any platform (including VMs and Bare Metal).
+**[Service Mesh](/docs/{{ page.release }}/introduction/concepts#mesh)**: An architecture made of sidecar proxies deployed next to our services (the data planes, or DPs), and a control plane (CP) controlling those DPs, is called Service Mesh. Usually, Service Mesh appears in the context of Kubernetes, but anybody can build Service Meshes on any platform (including VMs and Bare Metal).
 {% endtip %}
 
 With {{site.mesh_product_name}}, our main goal is to reduce the code that has to be written and maintained to build reliable architectures. Therefore, {{site.mesh_product_name}} embraces the sidecar proxy model by leveraging Envoy as its sidecar data plane technology.
