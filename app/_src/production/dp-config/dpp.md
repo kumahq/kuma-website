@@ -1,5 +1,10 @@
 ---
 title: Data plane proxy
+description: Understand data plane proxy components, Dataplane entities, inbounds, outbounds, tags, and how proxies receive configuration.
+keywords:
+  - data plane proxy
+  - sidecar
+  - Envoy
 content_type: explanation
 ---
 

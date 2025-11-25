@@ -1,5 +1,10 @@
 ---
 title: Configuring your Mesh and multi-tenancy
+description: Create and configure Mesh resources to isolate services, enable mTLS, and support multi-tenancy across teams.
+keywords:
+  - Mesh
+  - multi-tenancy
+  - isolation
 content_type: how-to
 ---
 

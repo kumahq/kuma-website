@@ -1,5 +1,10 @@
 ---
 title: Kuma in Production
+description: Deploy, configure, and operate the service mesh in production with guidance on topologies, security, and maintenance.
+keywords:
+  - production
+  - deployment
+  - operations
 content_type: explanation
 ---
 
