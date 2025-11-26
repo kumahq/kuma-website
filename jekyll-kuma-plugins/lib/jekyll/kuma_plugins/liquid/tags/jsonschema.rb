@@ -8,6 +8,9 @@ module Jekyll
     module Liquid
       module Tags
         class JsonSchema < ::Liquid::Tag
+          PATHS_CONFIG = 'mesh_raw_generated_paths'
+          DEFAULT_PATHS = ['app/assets'].freeze
+
           def initialize(tag_name, markup, options)
             super
             name, *params_list = @markup.split
@@ -19,7 +22,6 @@ module Jekyll
             @load = create_loader(params['type'], name)
           end
 
-          # TODO: refactor to reduce method length
           def render(context)
             release = context.registers[:page]['release']
             base_paths = context.registers[:site].config.fetch(PATHS_CONFIG, DEFAULT_PATHS)
@@ -65,42 +67,50 @@ module Jekyll
               nil
             end
           end
+
+          private
+
+          def read_file(paths, file_name)
+            paths.each do |path|
+              file_path = File.join(path, file_name)
+              return File.open(file_path) if File.readable? file_path
+            end
+            raise "couldn't read #{file_name} in none of these paths:#{paths}"
+          end
+
+          def create_loader(type, name)
+            case type
+            when 'proto' then proto_loader(name)
+            when 'crd' then crd_loader(name)
+            when 'policy' then policy_loader(name)
+            else
+              raise "Invalid type: #{type}"
+            end
+          end
+
+          def proto_loader(name)
+            lambda do |paths, release|
+              JSON.parse(read_file(paths, File.join(release.to_s, 'raw', 'protos', "#{name}.json")).read)
+            end
+          end
+
+          def crd_loader(name)
+            lambda do |paths, release|
+              d = YAML.safe_load(read_file(paths, File.join(release.to_s, 'raw', 'crds', "#{name}.yaml")).read)
+              d['spec']['versions'][0]['schema']['openAPIV3Schema']
+            end
+          end
+
+          def policy_loader(name)
+            lambda do |paths, release|
+              d = YAML.safe_load(read_file(paths, File.join(release.to_s, 'raw', 'crds', "kuma.io_#{name.downcase}.yaml")).read)
+              d['spec']['versions'][0]['schema']['openAPIV3Schema']['properties']['spec']
+            end
+          end
         end
       end
     end
   end
 end
 
-PATHS_CONFIG = 'mesh_raw_generated_paths'
-DEFAULT_PATHS = ['app/assets'].freeze
-def read_file(paths, file_name)
-  paths.each do |path|
-    file_path = File.join(path, file_name)
-    return File.open(file_path) if File.readable? file_path
-  end
-  raise "couldn't read #{file_name} in none of these paths:#{paths}"
-end
-
-# TODO: refactor to reduce complexity
-def create_loader(type, name)
-  case type
-  when 'proto'
-    l = lambda do |paths, release|
-      JSON.parse(read_file(paths, File.join(release.to_s, 'raw', 'protos', "#{name}.json")))
-    end
-  when 'crd'
-    l = lambda do |paths, release|
-      d = YAML.load(read_file(paths, File.join(release.to_s, 'raw', 'crds', "#{name}.yaml")))
-      d['spec']['versions'][0]['schema']['openAPIV3Schema']
-    end
-  when 'policy'
-    l = lambda do |paths, release|
-      d = YAML.load(read_file(paths, File.join(release.to_s, 'raw', 'crds', "kuma.io_#{name.downcase}.yaml")))
-      d['spec']['versions'][0]['schema']['openAPIV3Schema']['properties']['spec']
-    end
-  else
-    raise "Invalid type: #{type}"
-  end
-  l
-end
 Liquid::Template.register_tag('json_schema', Jekyll::KumaPlugins::Liquid::Tags::JsonSchema)
