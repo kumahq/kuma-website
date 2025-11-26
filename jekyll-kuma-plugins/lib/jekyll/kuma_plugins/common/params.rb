@@ -3,6 +3,9 @@
 module Jekyll
   module KumaPlugins
     module Common
+      # Regex to capture key-value pairs, standalone keys, and parameters with missing values
+      PARAM_REGEX = /(\w+)=((["'])(.*?)\3|\S+)?|(\w+)/
+
       def parse_name_and_params(markup, default = {})
         # Ensure default_params keys are symbols
         default = default.transform_keys(&:to_sym)
@@ -19,44 +22,44 @@ module Jekyll
         [name, params, extra_params]
       end
 
-      # TODO: refactor to reduce complexity
-      # rubocop:disable Metrics/PerceivedComplexity
       def parse_params(raw_params, default_params = {})
         return [default_params, {}] if raw_params.nil? || raw_params.empty?
 
-        # Regex to capture key-value pairs, standalone keys, and parameters with missing values
-        matches = raw_params.scan(/(\w+)=((["'])(.*?)\3|\S+)?|(\w+)/)
-
-        # Split parsed parameters into default_params and extra, enforcing types based on defaults
         params = default_params.dup
         extra_params = {}
 
-        matches.each do |match|
-          key, full_value, quote, inner_value, standalone_key = match
-          key = key&.to_sym || standalone_key&.to_sym
-          value = quote ? inner_value : full_value
-
-          # Handle standalone keys as booleans if specified in defaults
-          if standalone_key && boolean_key?(standalone_key.to_sym, default_params)
-            params[standalone_key.to_sym] = true
-          elsif standalone_key && default_params.key?(standalone_key.to_sym)
-            params[standalone_key.to_sym] = default_params.fetch(standalone_key.to_sym, true)
-          elsif key && value.nil?
-            # Raise an error if a key is provided with `=` but no value
-            raise ArgumentError, "Parameter '#{key}' is missing a value"
-          elsif key && default_params.key?(key)
-            # Enforce type based on default_params values
-            params[key] = enforce_type(key, value, default_params[key])
-          else
-            # Add unmatched keys to the extra_params hash
-            extra_params[key] = value
-          end
+        raw_params.scan(PARAM_REGEX).each do |match|
+          process_param_match(match, params, extra_params, default_params)
         end
 
         [params, extra_params]
       end
 
       private
+
+      def process_param_match(match, params, extra_params, default_params)
+        key, full_value, quote, inner_value, standalone_key = match
+        key = key&.to_sym || standalone_key&.to_sym
+        value = quote ? inner_value : full_value
+
+        return handle_standalone_key(standalone_key.to_sym, params, default_params) if standalone_key
+
+        handle_key_with_value(key, value, params, extra_params, default_params)
+      end
+
+      def handle_standalone_key(key, params, default_params)
+        return params[key] = true if boolean_key?(key, default_params)
+        return params[key] = default_params.fetch(key, true) if default_params.key?(key)
+
+        raise ArgumentError, "Parameter '#{key}' is missing a value"
+      end
+
+      def handle_key_with_value(key, value, params, extra_params, default_params)
+        raise ArgumentError, "Parameter '#{key}' is missing a value" if value.nil?
+        return extra_params[key] = value unless default_params.key?(key)
+
+        params[key] = enforce_type(key, value, default_params[key])
+      end
 
       def boolean_key?(key, default)
         [TrueClass, FalseClass].include?(default[key].class)
