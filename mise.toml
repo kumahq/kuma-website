@@ -21,10 +21,7 @@ run = "bundle exec foreman start"
 
 [tasks."dev:clean"]
 description = "Clean then run dev server"
-run = [
-  { task = "clean" },
-  { task = "dev" },
-]
+depends = ["clean", "dev"]
 
 [tasks.test]
 description = "Run tests"
@@ -40,10 +37,7 @@ run = "yarn netlify serve"
 
 [tasks."serve:clean"]
 description = "Clean then serve"
-run = [
-  { task = "clean" },
-  { task = "serve" },
-]
+depends = ["clean", "serve"]
 
 [tasks.clean]
 description = "Clean build artifacts"

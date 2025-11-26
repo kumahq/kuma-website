@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     transformItems(items) {
       return items.map((item) => ({
         ...item,
-        url: item.url.replace('https://kuma.io', '')
+        url: item.url.replace(/https?:\/\/kuma\.io/, '')
       }));
     }
   });
