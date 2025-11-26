@@ -8,18 +8,21 @@ on:
       - 'jekyll-kuma-plugins/**'
       - 'app/_plugins/**'
       - 'spec/**'
+      - '.rubocop.yml'
+      - '.github/workflows/test-plugins.yml'
+      - 'mise.toml'
 jobs:
   test-plugins:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Setup mise
-        uses: jdx/mise-action@be3be2260bc02bc3fbf94c5e2fed8b7964baf074 # v3.4.0
+        uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Rubocop
-        uses: reviewdog/action-rubocop@b6d5e953a5fc0bf3ab65254e77730ea2174d6d6d # v2.22.0
+        uses: reviewdog/action-rubocop@f34d02b30fd16eae123b79d614e820a8ea0a2c8d # v2.22.0
         with:
           reporter: github-pr-check
           fail_level: error

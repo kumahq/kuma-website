@@ -28,7 +28,7 @@ module Jekyll
               data
             rescue StandardError => e
               Jekyll.logger.warn('Failed reading raw file', e)
-              nil
+              return nil
             end
           end
         end
