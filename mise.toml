@@ -6,6 +6,7 @@ ruby = "3.4.7"
 node = "24.11.1"
 yarn = "1.22.22"
 vale = "3.13.0"
+shellcheck = "0.10.0"
 "go:github.com/raviqqe/muffet/v2" = "v2.11.0"
 
 [tasks.install]
@@ -113,6 +114,10 @@ run = "tools/validate-frontmatter.sh"
 [tasks."test:tools"]
 description = "Run all tool tests (tools/test-*.sh)"
 run = "for f in tools/test-*.sh; do [ -x \"$f\" ] && \"$f\"; done"
+
+[tasks.shellcheck]
+description = "Run shellcheck on tools/*.sh"
+run = "shellcheck tools/*.sh"
 
 [tasks.check]
 description = "Run necessary checks"

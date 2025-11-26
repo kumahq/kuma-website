@@ -1,4 +1,4 @@
-name: Test tools
+name: Lint and test tools
 on:
   push:
     branches: [master]
@@ -6,13 +6,15 @@ on:
   pull_request:
     paths: [tools/**]
 jobs:
-  test-tools:
-    name: Test tool scripts
+  lint-and-test-tools:
+    name: Lint and test tool scripts
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: jdx/mise-action@be3be2260bc02bc3fbf94c5e2fed8b7964baf074 # v3.4.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - name: Shellcheck
+        run: mise shellcheck
       - name: Run tool tests
         run: mise test:tools
