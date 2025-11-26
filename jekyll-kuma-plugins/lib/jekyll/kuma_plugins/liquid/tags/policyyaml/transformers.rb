@@ -209,7 +209,7 @@ module Jekyll
             end
 
             def build_labels(node)
-              labels = node['labels'] || {}
+              labels = (node['labels'] || {}).dup
               labels['kuma.io/mesh'] = node['mesh'] if node['mesh']
               labels
             end
