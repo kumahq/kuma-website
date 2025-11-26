@@ -10,7 +10,7 @@ gem 'jekyll-last-modified-at', '1.3.2'
 gem 'jekyll-contentblocks', '1.2.0'
 gem 'jekyll-vite', '3.0.4'
 gem 'vite_ruby', '3.9.2'
-gem 'jekyll-kuma-plugins', path: './jekyll-kuma-plugins'
+gem 'jekyll_kuma_plugins', path: './jekyll-kuma-plugins'
 
 group :development do
   gem 'byebug'

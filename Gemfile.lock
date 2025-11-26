@@ -1,7 +1,7 @@
 PATH
   remote: jekyll-kuma-plugins
   specs:
-    jekyll-kuma-plugins (0.1.0)
+    jekyll_kuma_plugins (0.1.0)
       jekyll (>= 4.2, < 5.0)
 
 GEM
@@ -136,10 +136,10 @@ DEPENDENCIES
   jekyll (= 4.4.1)
   jekyll-contentblocks (= 1.2.0)
   jekyll-generator-single-source (= 0.0.15)
-  jekyll-kuma-plugins!
   jekyll-last-modified-at (= 1.3.2)
   jekyll-paginate-v2 (= 3.0.0)
   jekyll-vite (= 3.0.4)
+  jekyll_kuma_plugins!
   liquid-c (= 4.0.1)
   rouge (= 4.6.1)
   rspec

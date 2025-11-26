@@ -13,17 +13,12 @@ AllCops:
 Style/Documentation:
   Enabled: false
 
-# TODO: rename files to snake_case
-Naming/FileName:
-  Exclude:
-    - 'jekyll-kuma-plugins/lib/jekyll-kuma-plugins.rb'
-    - 'jekyll-kuma-plugins/lib/jekyll/kuma-plugins.rb'
 
 # TODO: refactor large lambda blocks
 Metrics/BlockLength:
   Exclude:
     - '**/*_spec.rb'
-    - 'jekyll-kuma-plugins/lib/jekyll/kuma-plugins/liquid/tags/policyyaml.rb'
+    - 'jekyll-kuma-plugins/lib/jekyll/kuma_plugins/liquid/tags/policyyaml.rb'
 
 # TODO: refactor generator methods
 Metrics/AbcSize:

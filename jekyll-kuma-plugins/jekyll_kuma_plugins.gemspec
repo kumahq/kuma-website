@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'lib/jekyll/kuma-plugins/version'
+require_relative 'lib/jekyll/kuma_plugins/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'jekyll-kuma-plugins'
+  spec.name = 'jekyll_kuma_plugins'
   spec.version = Jekyll::KumaPlugins::VERSION
   spec.authors = ['Charly Molter']
   spec.email = ['charly.molter@konghq.com']

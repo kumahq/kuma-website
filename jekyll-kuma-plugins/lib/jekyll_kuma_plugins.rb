@@ -2,4 +2,4 @@
 
 require 'jekyll'
 
-require_relative 'jekyll/kuma-plugins'
+require_relative 'jekyll/kuma_plugins'

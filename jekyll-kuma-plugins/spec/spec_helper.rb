@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'jekyll-kuma-plugins'
+require 'jekyll_kuma_plugins'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
