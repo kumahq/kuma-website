@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ProcessedPage = Struct.new(:content)
+
 RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Inc do
   let(:version) { '2.9.1' }
   let(:release) { Jekyll::GeneratorSingleSource::Product::Release.new({ 'release' => version }) }
@@ -25,7 +27,7 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Inc do
         guide up to [Step {% inc #{tag_params} %}: Install the Transparent Proxy]({{ link }}).
       LIQUID
 
-      processed = OpenStruct.new(content: template)
+      processed = ProcessedPage.new(template)
       Jekyll::Hooks.trigger(:pages, :pre_render, processed)
 
       output = Liquid::Template.parse(processed.content).render(liquid_context)

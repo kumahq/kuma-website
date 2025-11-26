@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require 'ostruct'
 require 'jekyll-generator-single-source'
 
 require_relative 'support/golden_file_manager'
 
 require_relative '../app/_plugins/tags/tabs/tabs'
-require_relative '../jekyll-kuma-plugins/lib/jekyll-kuma-plugins'
+require_relative '../jekyll-kuma-plugins/lib/jekyll_kuma_plugins'
 
 # Register the tab and tabs tags from the Jekyll tabs plugin
 Liquid::Template.register_tag('tab', Jekyll::Tabs::TabBlock)

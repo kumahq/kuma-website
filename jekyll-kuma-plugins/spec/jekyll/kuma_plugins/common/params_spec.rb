@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rspec'
-require 'jekyll/kuma-plugins/common/params'
+require 'jekyll/kuma_plugins/common/params'
 
 # Assuming ParamsParser is mixed into a class for testing
 class TestParser

@@ -13,7 +13,7 @@ module Sitemap
       # Build a map of the latest available version of every URL
       site.pages.each do |page|
         # Skip if it's not the latest version of a page
-        next if is_versioned_url(page['url']) && !is_version(page['url'], latest)
+        next if versioned_url?(page['url']) && !version?(page['url'], latest)
 
         all_pages << page
       end
@@ -54,7 +54,7 @@ module Sitemap
       end
     end
 
-    def is_versioned_url(url)
+    def versioned_url?(url)
       versioned = [
         '/install/',
         '/docs/'
@@ -65,7 +65,7 @@ module Sitemap
       false
     end
 
-    def is_version(url, latest)
+    def version?(url, latest)
       url.include?(latest['release'])
     end
   end
