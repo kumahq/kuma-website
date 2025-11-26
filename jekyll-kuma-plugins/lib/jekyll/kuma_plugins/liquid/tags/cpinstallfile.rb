@@ -26,24 +26,35 @@ module Jekyll
           end
 
           def render(context)
-            ::Liquid::Template.parse(content).render(context)
+            ::Liquid::Template.parse(generate_install_tabs).render(context)
           end
 
           private
 
-          # TODO: refactor to reduce method length
-          def content
+          def generate_install_tabs
             filename = @params['filename']
-
-            <<~MARKDOWN
+            <<~LIQUID
               {% tabs %}
+              #{kumactl_tab(filename)}
+              #{helm_tab(filename)}
+              {% endtabs %}
+            LIQUID
+          end
+
+          def kumactl_tab(filename)
+            <<~LIQUID.chomp
               {% tab kumactl %}
               ```sh
               kumactl install control-plane --values #{filename} | kubectl apply -f -
               ```
               {% endtab %}
+            LIQUID
+          end
+
+          def helm_tab(filename)
+            <<~LIQUID.chomp
               {% tab Helm %}
-              Before using {{site.mesh_product_name}} with Helm, ensure that you’ve followed [these steps](/docs/{{ page.release }}/production/cp-deployment/kubernetes/#helm) to configure your local Helm repository.
+              Before using {{site.mesh_product_name}} with Helm, ensure that you've followed [these steps](/docs/{{ page.release }}/production/cp-deployment/kubernetes/#helm) to configure your local Helm repository.
 
               ```sh
               helm install \\
@@ -53,8 +64,7 @@ module Jekyll
                 {{site.mesh_helm_install_name}} {{site.mesh_helm_repo}}
               ```
               {% endtab %}
-              {% endtabs %}
-            MARKDOWN
+            LIQUID
           end
         end
       end
