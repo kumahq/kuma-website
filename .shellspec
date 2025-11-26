@@ -1,0 +1,4 @@
+--shell bash
+--format progress
+--default-path tools/spec
+--load-path tools/spec

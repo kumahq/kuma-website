@@ -8,6 +8,7 @@ yarn = "1.22.22"
 vale = "3.13.0"
 shellcheck = "0.10.0"
 "go:github.com/raviqqe/muffet/v2" = "v2.11.0"
+shellspec = "0.28.1"
 
 [tasks.install]
 description = "Install yarn, npm packages and gems"
@@ -112,8 +113,8 @@ description = "Validate frontmatter in new docs files"
 run = "tools/validate-frontmatter.sh"
 
 [tasks."test:tools"]
-description = "Run all tool tests (tools/test-*.sh)"
-run = "for f in tools/test-*.sh; do [ -x \"$f\" ] && \"$f\"; done"
+description = "Run tool tests with shellspec"
+run = "shellspec"
 
 [tasks.shellcheck]
 description = "Run shellcheck on tools/*.sh"
