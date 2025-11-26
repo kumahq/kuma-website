@@ -2,14 +2,14 @@
 
 require 'json'
 require 'yaml'
+require_relative '../../common/path_helpers'
 
 module Jekyll
   module KumaPlugins
     module Liquid
       module Tags
         class JsonSchema < ::Liquid::Tag
-          PATHS_CONFIG = 'mesh_raw_generated_paths'
-          DEFAULT_PATHS = ['app/assets'].freeze
+          include Jekyll::KumaPlugins::Common::PathHelpers
 
           def initialize(tag_name, markup, options)
             super
@@ -69,14 +69,6 @@ module Jekyll
           end
 
           private
-
-          def read_file(paths, file_name)
-            paths.each do |path|
-              file_path = File.join(path, file_name)
-              return File.open(file_path) if File.readable? file_path
-            end
-            raise "couldn't read #{file_name} in none of these paths:#{paths}"
-          end
 
           def create_loader(type, name)
             case type

@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
+require_relative '../../common/path_helpers'
+
 module Jekyll
   module KumaPlugins
     module Liquid
       module Tags
         class Embed < ::Liquid::Tag
+          include Jekyll::KumaPlugins::Common::PathHelpers
+
           def initialize(tag_name, markup, options)
             super
             params = {}
