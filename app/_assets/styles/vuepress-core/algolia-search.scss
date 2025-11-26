@@ -1,25 +1,24 @@
 @use '@/styles/config/index' as *;
 
-.search-box {
-  padding: 1.5rem 1.5rem 0 1.5rem;
-}
-
 .algolia-search-wrapper {
   width: 100%;
+  padding: 1.5rem;
 
-  // DocSearch v3 button styling
+  // DocSearch v4 button styling - match select element
   .DocSearch-Button {
     width: 100%;
     height: $input-height;
     margin: 0;
-    padding: 0.625rem;
+    padding: 0.625rem 1.8rem 0.625rem 0.625rem;
     border: 2px solid $color-7;
     border-radius: 3px;
     background: #fff;
     box-shadow: $base-soft-shadow;
+    box-sizing: border-box;
     color: $color-5;
     font-family: $monospace;
     font-size: $base-font-size;
+    letter-spacing: -1px;
 
     &:hover {
       box-shadow: none;
