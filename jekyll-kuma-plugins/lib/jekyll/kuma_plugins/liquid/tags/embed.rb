@@ -16,24 +16,38 @@ module Jekyll
             @versioned = params.key?('versioned')
           end
 
-          # TODO: refactor to reduce complexity
           def render(context)
-            base_paths = context.registers[:site].config.fetch(PATHS_CONFIG, DEFAULT_PATHS)
-            ignored_links = context.registers[:site].config.fetch('mesh_ignored_links_regex', [])
+            site_config = context.registers[:site].config
             release = context.registers[:page]['release']
-            begin
-              f = read_file(base_paths, File.join(@versioned ? release : '', 'raw', @file))
-              data = f.read
-              ignored_links.each { |re| data = data.gsub(Regexp.new(re), '') }
-              data
-            rescue StandardError => e
-              Jekyll.logger.warn('Failed reading raw file', e)
-              nil
-            end
+            read_and_filter_content(site_config, release)
+          rescue StandardError => e
+            Jekyll.logger.warn('Failed reading raw file', e)
+            nil
+          end
+
+          private
+
+          def read_and_filter_content(site_config, release)
+            file_path = resolve_embed_path(release)
+            base_paths = site_config.fetch(PATHS_CONFIG, DEFAULT_PATHS)
+            content = read_file(base_paths, file_path).read
+            apply_link_filter(content, site_config)
+          end
+
+          def resolve_embed_path(release)
+            version_prefix = @versioned ? release : ''
+            File.join(version_prefix, 'raw', @file)
+          end
+
+          def apply_link_filter(content, site_config)
+            ignored_links = site_config.fetch('mesh_ignored_links_regex', [])
+            ignored_links.each { |re| content = content.gsub(Regexp.new(re), '') }
+            content
           end
         end
       end
     end
   end
 end
+
 Liquid::Template.register_tag('embed', Jekyll::KumaPlugins::Liquid::Tags::Embed)
