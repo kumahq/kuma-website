@@ -1,15 +1,20 @@
-RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::InstallCp do
-  subject { described_class.parse('cpinstall', "", Liquid::Tokenizer.new(entry + '{%endcpinstall%}'), Liquid::ParseContext.new).render(Liquid::Context.new({
-    registers: {
-        :site => {
-            config: {}
-        }
-    }
-  }))}
+# frozen_string_literal: true
 
-  context "with nothing" do
-    let(:entry) {''}
-    it "is empty" do
+RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::InstallCp do
+  subject do
+    described_class.parse('cpinstall', '', Liquid::Tokenizer.new("#{entry}{%endcpinstall%}"),
+                          Liquid::ParseContext.new).render(Liquid::Context.new({
+                                                                                 registers: {
+                                                                                   site: {
+                                                                                     config: {}
+                                                                                   }
+                                                                                 }
+                                                                               }))
+  end
+
+  context 'with nothing' do
+    let(:entry) { '' }
+    it 'is empty' do
       expect(subject).to eq('')
     end
   end

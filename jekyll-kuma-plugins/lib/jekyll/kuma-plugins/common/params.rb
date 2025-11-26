@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   module KumaPlugins
     module Common
@@ -9,7 +11,7 @@ module Jekyll
         name, raw_params = markup.strip.split(' ', 2)
 
         # Set name to nil if it looks like a parameter or matches a default_params key
-        name = nil if name&.include?("=") || default.key?(name.to_sym)
+        name = nil if name&.include?('=') || default.key?(name.to_sym)
 
         # Parse parameters, treating entire markup as raw_params if name is nil
         params, extra_params = parse_params(name ? raw_params : markup.strip, default)
@@ -17,6 +19,8 @@ module Jekyll
         [name, params, extra_params]
       end
 
+      # TODO: refactor to reduce complexity
+      # rubocop:disable Metrics/PerceivedComplexity
       def parse_params(raw_params, default_params = {})
         return [default_params, {}] if raw_params.nil? || raw_params.empty?
 
@@ -60,18 +64,23 @@ module Jekyll
 
       def enforce_type(key, value, expected)
         return Integer(value) if expected.is_a?(Integer)
-        return value.to_s.empty? ? expected : convert_to_boolean(value) if [TrueClass, FalseClass].include?(expected.class)
+        return value.to_s.empty? ? expected : convert_to_boolean(value) if [TrueClass,
+                                                                            FalseClass].include?(expected.class)
 
         value
       rescue ArgumentError, TypeError
-        raise ArgumentError, "Expected #{key} to be a #{expected.class}, but got #{value.class}" if expected.is_a?(Integer)
+        if expected.is_a?(Integer)
+          raise ArgumentError,
+                "Expected #{key} to be a #{expected.class}, but got #{value.class}"
+        end
+
         raise
       end
 
       def convert_to_boolean(value)
         case value.to_s.downcase
-        when "true" then true
-        when "false" then false
+        when 'true' then true
+        when 'false' then false
         else
           raise ArgumentError, "Invalid boolean value: expected 'true', 'false', or no value, but got '#{value}'."
         end

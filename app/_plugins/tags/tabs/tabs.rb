@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'erb'
 require 'securerandom'
 
@@ -71,7 +73,7 @@ module Jekyll
         @title = markup.strip
       end
 
-      def render(context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      def render(context)
         # Add support for variable titles
         path = @title.split('.')
         # 0 is the page scope, 1 is the local scope

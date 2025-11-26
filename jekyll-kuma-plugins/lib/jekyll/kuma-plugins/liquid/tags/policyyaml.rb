@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This plugins lets us to write the policy YAML only once.
 # It removes duplication of examples for both universal and kubernetes environments.
 # The expected format is universal. It only works for policies V2 with a `spec` blocks.
@@ -8,16 +10,18 @@ module Jekyll
   module KumaPlugins
     module Liquid
       module Tags
+        # TODO: refactor to reduce class size
+        # rubocop:disable Metrics/ClassLength
         class PolicyYaml < ::Liquid::Block
-          TARGET_VERSION = Gem::Version.new("2.9.0")
-          TF_TARGET_VERSION = Gem::Version.new("2.10.0")
+          TARGET_VERSION = Gem::Version.new('2.9.0')
+          TF_TARGET_VERSION = Gem::Version.new('2.10.0')
 
-          def has_path(path)
+          def path?(path)
             ->(node_path, _, _) { node_path == path }
           end
 
           def root_path
-            has_path([])
+            path?([])
           end
 
           def kind_is(kind)
@@ -32,18 +36,20 @@ module Jekyll
             ->(node_path, node, context) { conditions.any? { |cond| cond.call(node_path, node, context) } }
           end
 
-          def has_field(field_name)
+          def field?(field_name)
             ->(_, node, _) { node.key?(field_name) }
           end
 
-          def is_kubernetes
+          def kubernetes?
             ->(_, _, context) { context[:env] == :kubernetes }
           end
 
+          # TODO: refactor to reduce complexity
+          # rubocop:disable Metrics/PerceivedComplexity
           def initialize(tag_name, markup, options)
             super
-            @params = { "raw" => false, "apiVersion" => "kuma.io/v1alpha1", "use_meshservice" => "false" }
-            markup.strip.split(' ').each do |item|
+            @params = { 'raw' => false, 'apiVersion' => 'kuma.io/v1alpha1', 'use_meshservice' => 'false' }
+            markup.strip.split.each do |item|
               sp = item.split('=')
               @params[sp[0]] = sp[1] unless sp[1] == ''
             end
@@ -51,125 +57,140 @@ module Jekyll
             @callbacks = []
 
             register_callback(
-              _and(has_path(%w[spec to targetRef]), kind_is("MeshService")),
+              _and(path?(%w[spec to targetRef]), kind_is('MeshService')),
               lambda do |target_ref, context|
                 case context[:env]
                 when :kubernetes
                   if context[:legacy_output]
                     {
-                      "kind" => "MeshService",
-                      "name" => [target_ref['name'], target_ref['namespace'], "svc", target_ref['_port']].compact.join('_')
+                      'kind' => 'MeshService',
+                      'name' => [target_ref['name'], target_ref['namespace'], 'svc',
+                                 target_ref['_port']].compact.join('_')
                     }
                   else
                     {
-                      "kind" => "MeshService",
-                      "name" => target_ref['name'],
-                      "namespace" => target_ref['namespace'],
-                      "sectionName" => target_ref['sectionName']
+                      'kind' => 'MeshService',
+                      'name' => target_ref['name'],
+                      'namespace' => target_ref['namespace'],
+                      'sectionName' => target_ref['sectionName']
                     }
                   end
                 when :universal
                   if context[:legacy_output]
                     {
-                      "kind" => "MeshService",
-                      "name" => target_ref['name']
+                      'kind' => 'MeshService',
+                      'name' => target_ref['name']
                     }
                   else
                     {
-                      "kind" => "MeshService",
-                      "name" => target_ref['name'],
-                      "sectionName" => target_ref['sectionName']
+                      'kind' => 'MeshService',
+                      'name' => target_ref['name'],
+                      'sectionName' => target_ref['sectionName']
                     }
                   end
                 end
-              end)
+              end
+            )
 
             register_callback(
-              _or(_and(has_path(%w[spec to rules default backendRefs]), kind_is("MeshService")), _and(has_path(%w[spec to rules default filters requestMirror backendRef]), kind_is("MeshService"))),
+              _or(_and(path?(%w[spec to rules default backendRefs]), kind_is('MeshService')),
+                  _and(path?(%w[spec to rules default filters requestMirror backendRef]), kind_is('MeshService'))),
               lambda do |backend_ref, context|
                 case context[:env]
                 when :kubernetes
                   if context[:legacy_output]
                     {
-                      "kind" => "MeshService",
-                      "name" => [backend_ref['name'], backend_ref['namespace'], "svc", backend_ref['port']].compact.join('_'),
-                    }.tap { |hash|
-                      hash["kind"] = "MeshServiceSubset" if backend_ref.key?('_version')
-                      hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
-                      hash["tags"] = {
-                        "version" => backend_ref['_version']
-                      } if backend_ref.key?('_version')
-                    }
+                      'kind' => 'MeshService',
+                      'name' => [backend_ref['name'], backend_ref['namespace'], 'svc',
+                                 backend_ref['port']].compact.join('_')
+                    }.tap do |hash|
+                      hash['kind'] = 'MeshServiceSubset' if backend_ref.key?('_version')
+                      hash['weight'] = backend_ref['weight'] if backend_ref.key?('weight')
+                      if backend_ref.key?('_version')
+                        hash['tags'] = {
+                          'version' => backend_ref['_version']
+                        }
+                      end
+                    end
                   else
                     {
-                      "kind" => "MeshService",
-                      "name" => backend_ref['name'],
-                      "namespace" => backend_ref['namespace'],
-                      "port" => backend_ref['port'],
-                    }.tap { |hash|
-                      hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
-                      hash["name"] = backend_ref['name'] + "-" + backend_ref['_version'] if backend_ref.key?('_version')
-                    }
+                      'kind' => 'MeshService',
+                      'name' => backend_ref['name'],
+                      'namespace' => backend_ref['namespace'],
+                      'port' => backend_ref['port']
+                    }.tap do |hash|
+                      hash['weight'] = backend_ref['weight'] if backend_ref.key?('weight')
+                      hash['name'] = "#{backend_ref['name']}-#{backend_ref['_version']}" if backend_ref.key?('_version')
+                    end
                   end
                 when :universal
                   if context[:legacy_output]
                     {
-                      "kind" => "MeshService",
-                      "name" => backend_ref['name'],
-                    }.tap { |hash|
-                      hash["kind"] = "MeshServiceSubset" if backend_ref.key?('_version')
-                      hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
-                      hash["tags"] = {
-                        "version" => backend_ref['_version']
-                      } if backend_ref.key?('_version')
-                    }
+                      'kind' => 'MeshService',
+                      'name' => backend_ref['name']
+                    }.tap do |hash|
+                      hash['kind'] = 'MeshServiceSubset' if backend_ref.key?('_version')
+                      hash['weight'] = backend_ref['weight'] if backend_ref.key?('weight')
+                      if backend_ref.key?('_version')
+                        hash['tags'] = {
+                          'version' => backend_ref['_version']
+                        }
+                      end
+                    end
                   else
                     {
-                      "kind" => "MeshService",
-                      "name" => backend_ref['name'],
-                      "port" => backend_ref['port'],
-                    }.tap { |hash|
-                      hash["weight"] = backend_ref['weight'] if backend_ref.key?('weight')
-                      hash["name"] = backend_ref['name'] + "-" + backend_ref['_version'] if backend_ref.key?('_version')
-                    }
+                      'kind' => 'MeshService',
+                      'name' => backend_ref['name'],
+                      'port' => backend_ref['port']
+                    }.tap do |hash|
+                      hash['weight'] = backend_ref['weight'] if backend_ref.key?('weight')
+                      hash['name'] = "#{backend_ref['name']}-#{backend_ref['_version']}" if backend_ref.key?('_version')
+                    end
                   end
                 end
-              end)
+              end
+            )
 
             register_callback(
-              _or(has_field("name_uni"), has_field("name_kube")),
+              _or(field?('name_uni'), field?('name_kube')),
               lambda do |node, context|
                 node_copy = deep_copy(node)
-                node_copy.delete("name_uni")
-                node_copy.delete("name_kube")
+                node_copy.delete('name_uni')
+                node_copy.delete('name_kube')
 
                 case context[:env]
                 when :kubernetes
-                  node_copy["name"] = node["name_kube"]
+                  node_copy['name'] = node['name_kube']
                 when :universal
-                  node_copy["name"] = node["name_uni"]
+                  node_copy['name'] = node['name_uni']
                 end
 
                 node_copy
-              end)
+              end
+            )
 
             register_callback(
-              _and(root_path, is_kubernetes),
+              _and(root_path, kubernetes?),
               lambda do |node, context|
                 {
-                  "apiVersion" => @params["apiVersion"],
-                  "kind" => node["type"],
-                  "metadata" => {
-                    "name" => node["name"],
-                    "namespace" => context[:namespace],
-                    **(node["labels"] || node["mesh"] ? { "labels" => {
-                      **(node["labels"] || {}),
-                      **(node["mesh"] ? { "kuma.io/mesh" => node["mesh"] } : {})
-                    }} : {})
+                  'apiVersion' => @params['apiVersion'],
+                  'kind' => node['type'],
+                  'metadata' => {
+                    'name' => node['name'],
+                    'namespace' => context[:namespace],
+                    **(if node['labels'] || node['mesh']
+                         { 'labels' => {
+                                             **(node['labels'] || {}),
+                                             **(node['mesh'] ? { 'kuma.io/mesh' => node['mesh'] } : {})
+                         } }
+                       else
+                         {}
+                       end)
                   },
-                  "spec" => node["spec"]
+                  'spec' => node['spec']
                 }
-              end)
+              end
+            )
           end
 
           # Register a callback to be executed when a node matches a condition
@@ -184,9 +205,7 @@ module Jekyll
           def process_node(node, context, path = [])
             if node.is_a?(Hash)
               @callbacks.each do |condition, callback|
-                if condition.call(path, node, context)
-                  node = callback.call(node, context)
-                end
+                node = callback.call(node, context) if condition.call(path, node, context)
               end
               node = node.transform_values.with_index { |v, k| process_node(v, context, path + [node.keys[k]]) }
             elsif node.is_a?(Array)
@@ -200,6 +219,7 @@ module Jekyll
             str.gsub(/([a-z])([A-Z])/, '\1_\2').gsub(/([A-Z])([A-Z][a-z])/, '\1_\2').downcase
           end
 
+          # TODO: refactor to reduce method length
           def yaml_to_terraform(yaml_data)
             type = yaml_data['type']
             name = yaml_data['name']
@@ -208,6 +228,7 @@ module Jekyll
             terraform += terraform_resource_prefix
             yaml_data.each do |key, value|
               next if key == 'mesh' # We use a reference at the end of the provider
+
               terraform += convert_to_terraform(key, value, 1)
             end
             terraform += terraform_resource_suffix
@@ -231,19 +252,21 @@ module Jekyll
             HEREDOC
           end
 
-          def convert_to_terraform(key, value, indent_level, is_in_array = false, is_last = false)
+          # TODO: refactor to reduce complexity
+          def convert_to_terraform(key, value, indent_level, is_in_array: false, is_last: false)
             key = snake_case(key) unless key.empty?
-            indent = "  " * indent_level
+            indent = '  ' * indent_level
             if value.is_a?(Hash)
               result = is_in_array ? "#{indent}{\n" : "#{indent}#{key} = {\n"
               value.each_with_index do |(k, v), index|
-                result += convert_to_terraform(k, v, indent_level + 1, false, index == value.size - 1)
+                result += convert_to_terraform(k, v, indent_level + 1, is_last: index == value.size - 1)
               end
               result += "#{indent}}#{is_in_array && !is_last ? ',' : ''}\n"
             elsif value.is_a?(Array)
               result = "#{indent}#{key} = [\n"
               value.each_with_index do |v, index|
-                result += convert_to_terraform("", v, indent_level + 1, true, index == value.size - 1)
+                is_last_item = index == value.size - 1
+                result += convert_to_terraform('', v, indent_level + 1, is_in_array: true, is_last: is_last_item)
               end
               result += "#{indent}]#{is_in_array && !is_last ? ',' : ''}\n"
             else
@@ -252,20 +275,23 @@ module Jekyll
             result
           end
 
+          # TODO: refactor to reduce complexity
           def render(context)
             content = super
-            return "" if content == ""
-            has_raw = @body.nodelist.first { |x| x.has?("tag_name") and x.tag_name == "raw" }
+            return '' if content == ''
+
+            has_raw = @body.nodelist.first { |x| x.has?('tag_name') and x.tag_name == 'raw' }
 
             release = context.registers[:page]['release']
             # remove ```yaml header and ``` footer and read each document one by one
             content = content.gsub(/`{3}yaml\n/, '').gsub(/`{3}/, '')
             site_data = context.registers[:site].config
 
-            use_meshservice = @params["use_meshservice"] == "true" && Gem::Version.new(release.value.dup.sub "x", "0") >= TARGET_VERSION
-            show_tf = Gem::Version.new(release.value.dup.sub "x", "0") >= TF_TARGET_VERSION
+            version = Gem::Version.new(release.value.dup.sub('x', '0'))
+            use_meshservice = @params['use_meshservice'] == 'true' && version >= TARGET_VERSION
+            show_tf = version >= TF_TARGET_VERSION
 
-            namespace = @params["namespace"] || site_data['mesh_namespace']
+            namespace = @params['namespace'] || site_data['mesh_namespace']
             styles = [
               { name: :uni_legacy, env: :universal, legacy_output: true },
               { name: :uni, env: :universal, legacy_output: false },
@@ -273,8 +299,8 @@ module Jekyll
               { name: :kube, env: :kubernetes, legacy_output: false, namespace: namespace }
             ]
 
-            contents = styles.map { |style| [style[:name], ""] }.to_h
-            terraform_content = ""
+            contents = styles.to_h { |style| [style[:name], ''] }
+            terraform_content = ''
 
             YAML.load_stream(content) do |yaml_data|
               styles.each do |style|
@@ -298,14 +324,14 @@ module Jekyll
             edition = context.registers[:page]['edition']
             docs_path = "/#{edition}/#{version_path}"
             docs_path = "/docs/#{version_path}" if edition == 'kuma'
-            additional_classes = "codeblock" unless use_meshservice
+            additional_classes = 'codeblock' unless use_meshservice
 
             # Conditionally render tabs based on use_meshservice
-            htmlContent = "
+            html_content = "
 {% tabs #{additional_classes} %}"
 
-            if use_meshservice
-              htmlContent += "
+            html_content += if use_meshservice
+                              "
 {% tab Kubernetes %}
 <div class=\"meshservice\">
  <label> <input type=\"checkbox\"> I am using <a href=\"#{docs_path}/networking/meshservice/\">MeshService</a> </label>
@@ -320,28 +346,31 @@ module Jekyll
 #{contents[:uni_legacy]}
 #{contents[:uni]}
 {% endtab %}"
-            else
-              htmlContent += "
+                            else
+                              "
 {% tab Kubernetes %}
 #{contents[:kube_legacy]}
 {% endtab %}
 {% tab Universal %}
 #{contents[:uni_legacy]}
 {% endtab %}"
-            end
+                            end
 
-            htmlContent += "
+            if edition != 'kuma' && show_tf
+              html_content += "
 {% tab Terraform %}
 <div style=\"margin-top: 4rem; padding: 0 1.3rem\">
-Please adjust <b>konnect_mesh_control_plane.my_meshcontrolplane.id</b> and <b>konnect_mesh.my_mesh.name</b> according to your current configuration
+Please adjust <b>konnect_mesh_control_plane.my_meshcontrolplane.id</b> and
+<b>konnect_mesh.my_mesh.name</b> according to your current configuration
 </div>
 #{terraform_content}
-{% endtab %}" if edition != 'kuma' && show_tf
+{% endtab %}"
+            end
 
-            htmlContent += "{% endtabs %}"
+            html_content += '{% endtabs %}'
 
             # Return the final HTML content
-            ::Liquid::Template.parse(htmlContent).render(context)
+            ::Liquid::Template.parse(html_content).render(context)
           end
         end
       end

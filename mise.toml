@@ -29,6 +29,11 @@ depends = ["clean", "dev"]
 description = "Run tests"
 run = "bundle exec rspec"
 
+[tasks."test:plugins"]
+description = "Install and run plugin tests"
+dir = "jekyll-kuma-plugins"
+run = "bundle install && bundle exec rspec"
+
 [tasks.build]
 description = "Build website"
 run = "exe/build"

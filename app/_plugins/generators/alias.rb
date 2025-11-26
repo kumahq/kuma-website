@@ -6,13 +6,13 @@ module Jekyll
 
     def generate(site)
       static_files = [
-        "app/_headers"
+        'app/_headers'
       ]
 
       static_files.each do |path|
         content = File.read(path)
 
-        page = PageWithoutAFile.new(site, __dir__, '', path.sub('app/',''))
+        page = PageWithoutAFile.new(site, __dir__, '', path.sub('app/', ''))
         page.content = content
         page.data['layout'] = nil
         site.pages << page
