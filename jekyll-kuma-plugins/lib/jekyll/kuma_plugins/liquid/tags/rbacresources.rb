@@ -41,42 +41,13 @@ module Jekyll
             end
           end
 
-          # TODO: refactor to reduce complexity
-          # rubocop:disable Metrics/PerceivedComplexity
+          RBAC_KINDS = %w[ClusterRole ClusterRoleBinding Role RoleBinding].freeze
+
           def render(context)
             filename = resolve_file_path(context)
-
             yaml_content = YAML.load_stream(File.read(filename))
-            rbac_kinds = %w[ClusterRole ClusterRoleBinding Role RoleBinding]
-            filtered = yaml_content.select do |doc|
-              doc.is_a?(Hash) && rbac_kinds.include?(doc['kind'])
-            end
-            grouped = filtered.group_by { |doc| doc['kind'] }
-
-            tab_output = grouped.map do |kind, docs|
-              subtabs = docs.map do |doc|
-                name = doc.dig('metadata', 'name')
-                raise ArgumentError, "RBAC resource of kind '#{kind}' is missing a non-empty metadata.name" if name.nil? || name.strip.empty?
-
-                yaml = YAML.dump(doc).lines.reject { |line| line.strip == '---' }.join.strip
-                <<~SUBTAB
-                  {% tab #{name} %}
-                  ```yaml
-                  #{yaml}
-                  ```
-                  {:.no-line-numbers}
-                  {% endtab %}
-                SUBTAB
-              end.join("\n")
-
-              <<~TAB
-                {% tab #{kind} %}
-                {% tabs codeblock %}
-                #{subtabs}
-                {% endtabs %}
-                {% endtab %}
-              TAB
-            end.join("\n")
+            grouped = filter_rbac_resources(yaml_content)
+            tab_output = grouped.map { |kind, docs| generate_kind_tab(kind, docs) }.join("\n")
 
             ::Liquid::Template.parse(<<~MARKDOWN).render(context)
               {% tabs %}
@@ -87,7 +58,38 @@ module Jekyll
 
           private
 
-          # TODO: refactor to reduce complexity
+          def filter_rbac_resources(yaml_content)
+            yaml_content
+              .select { |doc| doc.is_a?(Hash) && RBAC_KINDS.include?(doc['kind']) }
+              .group_by { |doc| doc['kind'] }
+          end
+
+          def generate_kind_tab(kind, docs)
+            subtabs = docs.map { |doc| generate_resource_subtab(kind, doc) }.join("\n")
+            <<~TAB
+              {% tab #{kind} %}
+              {% tabs codeblock %}
+              #{subtabs}
+              {% endtabs %}
+              {% endtab %}
+            TAB
+          end
+
+          def generate_resource_subtab(kind, doc)
+            name = doc.dig('metadata', 'name')
+            raise ArgumentError, "RBAC resource of kind '#{kind}' is missing a non-empty metadata.name" if name.nil? || name.strip.empty?
+
+            yaml = YAML.dump(doc).lines.reject { |line| line.strip == '---' }.join.strip
+            <<~SUBTAB
+              {% tab #{name} %}
+              ```yaml
+              #{yaml}
+              ```
+              {:.no-line-numbers}
+              {% endtab %}
+            SUBTAB
+          end
+
           def resolve_file_path(context)
             site_config = context.registers[:site].config
             page_data = context.registers[:page]
