@@ -49,9 +49,9 @@ module Jekyll
 
       def handle_standalone_key(key, params, default_params)
         return params[key] = true if boolean_key?(key, default_params)
-        return unless default_params.key?(key)
+        return params[key] = default_params.fetch(key, true) if default_params.key?(key)
 
-        params[key] = default_params.fetch(key, true)
+        raise ArgumentError, "Parameter '#{key}' is missing a value"
       end
 
       def handle_key_with_value(key, value, params, extra_params, default_params)

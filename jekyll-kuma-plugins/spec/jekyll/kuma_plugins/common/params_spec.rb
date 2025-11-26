@@ -118,5 +118,11 @@ RSpec.describe TestParser do
         parser.parse_params('get_current=', defaults)
       end.to raise_error(ArgumentError, "Parameter 'get_current' is missing a value")
     end
+
+    it 'raises an error for standalone keys not in defaults' do
+      expect do
+        parser.parse_params('unknown_key', defaults)
+      end.to raise_error(ArgumentError, "Parameter 'unknown_key' is missing a value")
+    end
   end
 end
