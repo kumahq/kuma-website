@@ -28,7 +28,7 @@
     {% if page.keywords %}<meta name="keywords" content="{{ page.keywords | join: ', ' }}">{% endif %}
 
     {% if page.doc %}
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"/>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@4"/>
       <meta name="docsearch:section" content="docs">
       <meta name="docsearch:docsversion" content="{{ page.release }}">
 
@@ -95,7 +95,7 @@
 
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     {% if page.doc %}
-      <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@4"></script>
     {% endif %}
   </body>
 </html>
