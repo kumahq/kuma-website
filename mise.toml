@@ -118,6 +118,9 @@ description = "Run markdownlint on changed files in current branch"
 run = """
 git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD | \
   grep -E '\\.(md|markdown)$' | \
+  grep -v '/generated/' | \
+  grep -v '/raw/' | \
+  grep -v '^templates/' | \
   xargs -r markdownlint-cli2
 """
 
