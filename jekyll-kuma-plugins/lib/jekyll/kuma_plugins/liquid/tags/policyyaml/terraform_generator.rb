@@ -46,7 +46,7 @@ module Jekyll
           end
 
           def convert_value(key, value, indent_level, is_in_array: false, is_last: false)
-            key = snake_case(key) unless key.empty?
+            key = snake_case(key) unless key.nil? || key.empty?
             indent = '  ' * indent_level
 
             case value
@@ -77,7 +77,17 @@ module Jekyll
           end
 
           def convert_scalar(key, value, indent, is_in_array, is_last)
-            "#{indent}#{key} = \"#{value}\"#{trailing_comma(is_in_array, is_last)}\n"
+            formatted_value = format_scalar_value(value)
+            "#{indent}#{key} = #{formatted_value}#{trailing_comma(is_in_array, is_last)}\n"
+          end
+
+          def format_scalar_value(value)
+            case value
+            when TrueClass, FalseClass, Integer, Float
+              value.to_s
+            else
+              "\"#{value}\""
+            end
           end
 
           def trailing_comma(is_in_array, is_last)

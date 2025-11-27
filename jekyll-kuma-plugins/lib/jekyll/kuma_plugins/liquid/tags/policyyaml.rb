@@ -200,7 +200,7 @@ module Jekyll
           end
 
           def generate_terraform_tab(terraform_content, render_context)
-            return '' unless render_context[:edition] != 'kuma' && render_context[:show_tf]
+            return '' if render_context[:edition] == 'kuma' || !render_context[:show_tf]
 
             <<~TAB
               {% tab Terraform %}
