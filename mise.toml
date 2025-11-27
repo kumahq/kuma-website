@@ -147,3 +147,20 @@ gomplate -f templates/resource.md -o "$OUTPUT"
 echo "Created $OUTPUT"
 echo "TODO: Update nav in latest app/_data/docs_nav_kuma_2.x.x.yml"
 '''
+
+[tasks."new:policy"]
+description = "Create new policy reference doc"
+run = '''
+POLICY_NAME={{arg(name="policy")}}
+LOWERCASE=$(echo "$POLICY_NAME" | tr '[:upper:]' '[:lower:]')
+OUTPUT="app/_src/policies/${LOWERCASE}.md"
+if [ -f "$OUTPUT" ]; then
+  echo "Error: $OUTPUT already exists" >&2
+  exit 1
+fi
+mkdir -p app/_src/policies
+export POLICY_NAME
+gomplate -f templates/policy.md -o "$OUTPUT"
+echo "Created $OUTPUT"
+echo "TODO: Update nav in latest app/_data/docs_nav_kuma_2.x.x.yml"
+'''
