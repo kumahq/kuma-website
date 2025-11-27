@@ -1,0 +1,21 @@
+{
+  "config": {
+    // Disable line length - conflicts with prose
+    "MD013": false,
+    // Allow inline HTML - needed for Jekyll/Liquid
+    "MD033": false,
+    // Allow first line to not be heading - frontmatter
+    "MD041": false,
+    // Allow duplicate headings in different sections
+    "MD024": { "siblings_only": true },
+    // Allow trailing punctuation in headings (for ? in FAQ style)
+    "MD026": { "punctuation": ".,;:!" }
+  },
+  "ignores": [
+    "**/generated/**",
+    "**/raw/**",
+    "templates/**",
+    "**/node_modules/**",
+    "dist/**"
+  ]
+}
