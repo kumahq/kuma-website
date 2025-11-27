@@ -5,6 +5,7 @@
 # The expected format is universal. It only works for policies V2 with a `spec` blocks.
 require 'yaml'
 require 'rubygems' # Required for Gem::Version
+require_relative 'policyyaml/transformers'
 
 module Jekyll
   module KumaPlugins
@@ -16,36 +17,6 @@ module Jekyll
           TARGET_VERSION = Gem::Version.new('2.9.0')
           TF_TARGET_VERSION = Gem::Version.new('2.10.0')
 
-          def path?(path)
-            ->(node_path, _, _) { node_path == path }
-          end
-
-          def root_path
-            path?([])
-          end
-
-          def kind_is(kind)
-            ->(_, node, _) { node['kind'] == kind }
-          end
-
-          def _and(*conditions)
-            ->(node_path, node, context) { conditions.all? { |cond| cond.call(node_path, node, context) } }
-          end
-
-          def _or(*conditions)
-            ->(node_path, node, context) { conditions.any? { |cond| cond.call(node_path, node, context) } }
-          end
-
-          def field?(field_name)
-            ->(_, node, _) { node.key?(field_name) }
-          end
-
-          def kubernetes?
-            ->(_, _, context) { context[:env] == :kubernetes }
-          end
-
-          # TODO: refactor to reduce complexity
-          # rubocop:disable Metrics/PerceivedComplexity
           def initialize(tag_name, markup, options)
             super
             @params = { 'raw' => false, 'apiVersion' => 'kuma.io/v1alpha1', 'use_meshservice' => 'false' }
@@ -54,148 +25,12 @@ module Jekyll
               @params[sp[0]] = sp[1] unless sp[1] == ''
             end
 
-            @callbacks = []
-
-            register_callback(
-              _and(path?(%w[spec to targetRef]), kind_is('MeshService')),
-              lambda do |target_ref, context|
-                case context[:env]
-                when :kubernetes
-                  if context[:legacy_output]
-                    {
-                      'kind' => 'MeshService',
-                      'name' => [target_ref['name'], target_ref['namespace'], 'svc',
-                                 target_ref['_port']].compact.join('_')
-                    }
-                  else
-                    {
-                      'kind' => 'MeshService',
-                      'name' => target_ref['name'],
-                      'namespace' => target_ref['namespace'],
-                      'sectionName' => target_ref['sectionName']
-                    }
-                  end
-                when :universal
-                  if context[:legacy_output]
-                    {
-                      'kind' => 'MeshService',
-                      'name' => target_ref['name']
-                    }
-                  else
-                    {
-                      'kind' => 'MeshService',
-                      'name' => target_ref['name'],
-                      'sectionName' => target_ref['sectionName']
-                    }
-                  end
-                end
-              end
-            )
-
-            register_callback(
-              _or(_and(path?(%w[spec to rules default backendRefs]), kind_is('MeshService')),
-                  _and(path?(%w[spec to rules default filters requestMirror backendRef]), kind_is('MeshService'))),
-              lambda do |backend_ref, context|
-                case context[:env]
-                when :kubernetes
-                  if context[:legacy_output]
-                    {
-                      'kind' => 'MeshService',
-                      'name' => [backend_ref['name'], backend_ref['namespace'], 'svc',
-                                 backend_ref['port']].compact.join('_')
-                    }.tap do |hash|
-                      hash['kind'] = 'MeshServiceSubset' if backend_ref.key?('_version')
-                      hash['weight'] = backend_ref['weight'] if backend_ref.key?('weight')
-                      if backend_ref.key?('_version')
-                        hash['tags'] = {
-                          'version' => backend_ref['_version']
-                        }
-                      end
-                    end
-                  else
-                    {
-                      'kind' => 'MeshService',
-                      'name' => backend_ref['name'],
-                      'namespace' => backend_ref['namespace'],
-                      'port' => backend_ref['port']
-                    }.tap do |hash|
-                      hash['weight'] = backend_ref['weight'] if backend_ref.key?('weight')
-                      hash['name'] = "#{backend_ref['name']}-#{backend_ref['_version']}" if backend_ref.key?('_version')
-                    end
-                  end
-                when :universal
-                  if context[:legacy_output]
-                    {
-                      'kind' => 'MeshService',
-                      'name' => backend_ref['name']
-                    }.tap do |hash|
-                      hash['kind'] = 'MeshServiceSubset' if backend_ref.key?('_version')
-                      hash['weight'] = backend_ref['weight'] if backend_ref.key?('weight')
-                      if backend_ref.key?('_version')
-                        hash['tags'] = {
-                          'version' => backend_ref['_version']
-                        }
-                      end
-                    end
-                  else
-                    {
-                      'kind' => 'MeshService',
-                      'name' => backend_ref['name'],
-                      'port' => backend_ref['port']
-                    }.tap do |hash|
-                      hash['weight'] = backend_ref['weight'] if backend_ref.key?('weight')
-                      hash['name'] = "#{backend_ref['name']}-#{backend_ref['_version']}" if backend_ref.key?('_version')
-                    end
-                  end
-                end
-              end
-            )
-
-            register_callback(
-              _or(field?('name_uni'), field?('name_kube')),
-              lambda do |node, context|
-                node_copy = deep_copy(node)
-                node_copy.delete('name_uni')
-                node_copy.delete('name_kube')
-
-                case context[:env]
-                when :kubernetes
-                  node_copy['name'] = node['name_kube']
-                when :universal
-                  node_copy['name'] = node['name_uni']
-                end
-
-                node_copy
-              end
-            )
-
-            register_callback(
-              _and(root_path, kubernetes?),
-              lambda do |node, context|
-                {
-                  'apiVersion' => @params['apiVersion'],
-                  'kind' => node['type'],
-                  'metadata' => {
-                    'name' => node['name'],
-                    'namespace' => context[:namespace],
-                    **(if node['labels'] || node['mesh']
-                         { 'labels' => {
-                                             **(node['labels'] || {}),
-                                             **(node['mesh'] ? { 'kuma.io/mesh' => node['mesh'] } : {})
-                         } }
-                       else
-                         {}
-                       end)
-                  },
-                  'spec' => node['spec']
-                }
-              end
-            )
-          end
-
-          # Register a callback to be executed when a node matches a condition
-          def register_callback(condition, callback)
-            @callbacks << [condition, callback]
+            @transformers = [
+              PolicyYamlTransformers::MeshServiceTargetRefTransformer.new,
+              PolicyYamlTransformers::MeshServiceBackendRefTransformer.new,
+              PolicyYamlTransformers::NameTransformer.new,
+              PolicyYamlTransformers::KubernetesRootTransformer.new(@params['apiVersion'])
+            ]
           end
 
           def deep_copy(original)
@@ -204,8 +39,8 @@ module Jekyll
 
           def process_node(node, context, path = [])
             if node.is_a?(Hash)
-              @callbacks.each do |condition, callback|
-                node = callback.call(node, context) if condition.call(path, node, context)
+              @transformers.each do |transformer|
+                node = transformer.transform(node, context) if transformer.matches?(path, node, context)
               end
               node = node.transform_values.with_index { |v, k| process_node(v, context, path + [node.keys[k]]) }
             elsif node.is_a?(Array)
