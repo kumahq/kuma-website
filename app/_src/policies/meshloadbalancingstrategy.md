@@ -201,7 +201,7 @@ there is already a hash generated, the hash is returned immediately, ignoring th
   - **`connection`**:
     - **`sourceIP`** - if true, then hashing is based on a source IP address.
   - **`queryParameter`**:
-    - **`name`** - the name of the URL query parameter that will be used to obtain the hash key. If the parameter is not
+    - **`name`** - the name of the url query parameter that will be used to obtain the hash key. If the parameter is not
     present, no hash will be produced. Query parameter names are case-sensitive.
   - **`filterState`**:
     - **`key`** the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is
@@ -237,7 +237,7 @@ must be prime number limited to 5000011. If it is not specified, the default is 
   - **`connection`**:
     - **`sourceIP`** - if true, then hashing is based on a source IP address.
   - **`queryParameter`**:
-    - **`name`** - the name of the URL query parameter that will be used to obtain the hash key. If the parameter is not
+    - **`name`** - the name of the url query parameter that will be used to obtain the hash key. If the parameter is not
       present, no hash will be produced. Query parameter names are case-sensitive.
   - **`filterState`**:
     - **`key`** the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is
