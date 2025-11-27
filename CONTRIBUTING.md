@@ -74,6 +74,16 @@ mise vale:branch        # Run Vale linter only
 mise vale:version-urls  # Run version URL checker only
 ```
 
+#### Creating new resource docs
+
+To create a new resource reference doc from template:
+
+```sh
+mise new:resource MeshService
+```
+
+This creates `app/_src/resources/meshservice.md` from the template. Update the nav file after creation.
+
 #### Page metadata
 
 All documentation pages should include frontmatter metadata for SEO and search:
