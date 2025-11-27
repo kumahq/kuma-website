@@ -6,6 +6,7 @@
   JEKYLL_ENV = "development"
   BUNDLE_WITHOUT = "development"
   NODE_OPTIONS = "--max_old_space_size=8192"
+  MISE_DISABLE_TOOLS = "python"  # Prevent mise from installing Python based on Netlify's PYTHON_VERSION
 
 [context.production.environment]
   JEKYLL_ENV = "production"
