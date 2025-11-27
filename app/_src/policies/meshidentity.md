@@ -5,11 +5,13 @@ keywords:
   - workload identity
   - SPIFFE
   - certificate management
+content_type: reference
+category: policy
 ---
 
 {% warning %}
 This resource is experimental.
-It works only on Kubernetes and requires [MeshServices](/docs/{{ page.release }}/networking/meshservice/) to be enabled. 
+It works only on Kubernetes and requires [MeshServices](/docs/{{ page.release }}/networking/meshservice/) to be enabled.
 {% endwarning %}
 
 ## Overview
@@ -29,6 +31,7 @@ A basic example follows to illustrate the structure:
 
 {% policy_yaml %}
 {% raw %}
+
 ```yaml
 type: MeshIdentity
 name: identity
@@ -50,6 +53,7 @@ spec:
       autogenerate:
         enabled: true
 ```
+
 {% endraw %}
 {% endpolicy_yaml %}
 
@@ -71,7 +75,7 @@ This makes it possible to scope an identity to all workloads, a subset of worklo
 
 When multiple `MeshIdentity` resources apply to the same data plane proxy,
 the one with the most specific selector (the greatest number of matching labels) takes precedence.
-If two policies have selectors with the same number of labels, {{site.mesh_product_name}} compares their names lexicographically. 
+If two policies have selectors with the same number of labels, {{site.mesh_product_name}} compares their names lexicographically.
 The policy whose name comes first in alphabetical order takes precedence (for example, `aaa` is chosen over `bbb`).
 
 #### Examples
@@ -109,31 +113,37 @@ By default, {{site.mesh_product_name}} generates a SPIFFE ID based on the mesh a
 With `spiffeID`, you can customize the `trustDomain` and the `path` template.
 
 {% raw %}
+
 ```yaml
 spec:
   spiffeID:
     trustDomain: "{{ .Mesh }}.{{ .Zone }}.mesh.local"
     path: "/ns/{{ .Namespace }}/sa/{{ .ServiceAccount }}"
 ```
+
 {% endraw %}
 
 Supported variables in `trustDomain` field are:
+
 * `.Mesh`
 * `.Zone`
 
 Supported variables in `path` field are:
+
 * `.Namespace`
 * `.ServiceAccount`
 
 Also, both in `trustDomain` and `path` it's possible to use resource's `labels`, i.e.:
 
 {% raw %}
+
 ```yaml
 spec:
   spiffeID:
     trustDomain: '{{ label "kuma.io/mesh" }}.{{ label "kuma.io/zone" }}.mesh.local'
     path: '/ns/{{ label "k8s.kuma.io/namespace" }}/sa/{{ label "k8s.kuma.io/service-account" }}'
 ```
+
 {% endraw %}
 
 {% if_version gte:2.13.x %}
@@ -150,12 +160,14 @@ Connections from data plane proxies lacking the required label will be rejected.
 Example using workload label in path:
 
 {% raw %}
+
 ```yaml
 spec:
   spiffeID:
     trustDomain: "{{ .Mesh }}.{{ .Zone }}.mesh.local"
     path: "/workload/{{ label \"kuma.io/workload\" }}"
 ```
+
 {% endraw %}
 
 This validation applies to Kubernetes and Universal deployments and is enforced at connection time.
@@ -176,6 +188,7 @@ This field is required and must specify one of the supported provider types:
 
 {% policy_yaml %}
 {% raw %}
+
 ```yaml
 type: MeshIdentity
 name: identity
@@ -192,6 +205,7 @@ spec:
       autogenerate:
         enabled: true # let the control plane autogenerate a CA and store it
 ```
+
 {% endraw %}
 {% endpolicy_yaml %}
 
@@ -199,6 +213,7 @@ spec:
 
 {% policy_yaml %}
 {% raw %}
+
 ```yaml
 type: MeshIdentity
 name: identity
@@ -226,17 +241,20 @@ spec:
         file:
           path: /ca.key # path should be reachable by the Control Plane
 ```
+
 {% endraw %}
 {% endpolicy_yaml %}
 
 ### MeshIdentity with `Spire` provider
 
 To enable `Spire` socket injection, you can either:
+
 * turn it on globally by setting [`KUMA_RUNTIME_KUBERNETES_INJECTOR_SPIRE_ENABLED`](https://kuma.io/docs/dev/reference/kuma-cp/#kuma-cp-configuration) environment variable on the control plane, or
 * enable it per pod by adding the `k8s.kuma.io/spire-support` label.
 
 {% policy_yaml %}
 {% raw %}
+
 ```yaml
 type: MeshIdentity
 name: identity-spire
@@ -252,6 +270,7 @@ spec:
     type: Spire
     spire: {}
 ```
+
 {% endraw %}
 {% endpolicy_yaml %}
 
@@ -260,4 +279,3 @@ spec:
 * [MeshTrust](/docs/{{ page.release }}/policies/meshtrust) - Configure trust between different domains
 * [MeshTLS](/docs/{{ page.release }}/policies/meshtls) - Configure TLS modes and ciphers
 * [MeshTrafficPermission (experimental)](/docs/{{ page.release }}/policies/meshtrafficpermission_experimental) - Control traffic access with SPIFFE
-

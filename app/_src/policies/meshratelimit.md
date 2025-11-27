@@ -5,6 +5,8 @@ keywords:
   - rate limiting
   - traffic control
   - request throttling
+content_type: reference
+category: policy
 ---
 
 {% warning %}
@@ -17,6 +19,7 @@ This policy enables per-instance service request limiting. Policy supports rate 
 The `MeshRateLimit` policy leverages Envoy's [local rate limiting](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter) for HTTP/HTTP2 and [local rate limit filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/local_rate_limit_filter) for TCP connections.
 
 You can configure:
+
 * how many HTTP requests are allowed in a specified time period
 * how the HTTP service responds when the limit is reached
 * how many TCP connections are allowed in a specified time period
@@ -31,6 +34,7 @@ Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/ex
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -51,6 +55,7 @@ Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/ex
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`           | Allowed kinds                                             |
 | --------------------- | --------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
@@ -87,31 +92,31 @@ The `MeshRateLimit` policy supports both L4/TCP and L7/HTTP limiting. Envoy impl
 
 ### HTTP Rate limiting
 
- - **`disabled`** - (optional) - should rate limiting policy be disabled
- - **`requestRate`** - configuration of the number of requests in the specific time window
-   - **`num`** - the number of requests to limit
-   - **`interval`** - the interval for which `requests` will be limited
- - **`onRateLimit`** (optional) - actions to take on RateLimit event
-     - **`status`**  (optional) - the status code to return, defaults to `429`
-     - **`headers`** - (optional) [headers](#headers) which should be added to every rate limited response
+* **`disabled`** - (optional) - should rate limiting policy be disabled
+* **`requestRate`** - configuration of the number of requests in the specific time window
+  * **`num`** - the number of requests to limit
+  * **`interval`** - the interval for which `requests` will be limited
+* **`onRateLimit`** (optional) - actions to take on RateLimit event
+  * **`status`**  (optional) - the status code to return, defaults to `429`
+  * **`headers`** - (optional) [headers](#headers) which should be added to every rate limited response
 
 #### Headers
 
-- **`set`** - (optional) - list of headers to set. Overrides value if the header exists.
-  - **`name`** - header's name
-  - **`value`** - header's value
-- **`add`** - (optional) - list of headers to add. Appends value if the header exists.
-  - **`name`** - header's name
-  - **`value`** - header's value
+* **`set`** - (optional) - list of headers to set. Overrides value if the header exists.
+  * **`name`** - header's name
+  * **`value`** - header's value
+* **`add`** - (optional) - list of headers to add. Appends value if the header exists.
+  * **`name`** - header's name
+  * **`value`** - header's value
 
 ### TCP Rate limiting
 
 TCP rate limiting allows the configuration of a number of connections in the specific time window
 
- - **`disabled`** - (optional) - should rate limiting policy be disabled
- - **`connectionRate`** - configuration of the number of connections in the specific time window
-   - **`num`** - the number of requests to limit
-   - **`interval`** - the interval for which `connections` will be limited
+* **`disabled`** - (optional) - should rate limiting policy be disabled
+* **`connectionRate`** - configuration of the number of connections in the specific time window
+  * **`num`** - the number of requests to limit
+  * **`interval`** - the interval for which `connections` will be limited
 
 ## Examples
 
@@ -119,6 +124,7 @@ TCP rate limiting allows the configuration of a number of connections in the spe
 
 {% if_version lte:2.5.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshRateLimit
 mesh: default
@@ -144,12 +150,14 @@ spec:
                   - name: "x-kuma-rate-limited"
                     value: "true"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshRateLimit
 mesh: default
@@ -176,12 +184,14 @@ spec:
                   - name: "x-kuma-rate-limited"
                     value: "true"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshRateLimit
 mesh: default
@@ -208,11 +218,13 @@ spec:
                   - name: "x-kuma-rate-limited"
                     value: "true"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshRateLimit
 mesh: default
@@ -236,6 +248,7 @@ spec:
                   - name: "x-kuma-rate-limited"
                     value: "true"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -243,6 +256,7 @@ spec:
 
 {% if_version lte:2.5.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
@@ -262,12 +276,14 @@ spec:
               num: 5
               interval: 10s
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
@@ -288,12 +304,14 @@ spec:
               num: 5
               interval: 10s
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
@@ -314,11 +332,13 @@ spec:
               num: 5
               interval: 10s
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshRateLimit
 name: backend-rate-limit
@@ -336,14 +356,15 @@ spec:
               num: 5
               interval: 10s
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 ## See also
 
-- [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Prevent cascading failures and overload
-- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure request timeouts
-- [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Monitor service health
+* [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Prevent cascading failures and overload
+* [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure request timeouts
+* [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Monitor service health
 
 ## All policy options
 

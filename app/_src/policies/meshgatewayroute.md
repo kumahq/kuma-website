@@ -24,6 +24,7 @@ The following `MeshGatewayRoute` routes traffic to the `backend` service and att
 
 {% tabs %}
 {% tab Universal %}
+
 ```yaml
 type: MeshGatewayRoute
 mesh: default
@@ -43,8 +44,10 @@ conf:
           - destination:
               kuma.io/service: backend
 ```
+
 {% endtab %}
 {% tab Kubernetes %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGatewayRoute
@@ -67,6 +70,7 @@ spec:
             - destination:
                 kuma.io/service: backend
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -94,7 +98,7 @@ modifying headers and mirroring, redirecting, or rewriting requests.
 
 For example, the following filters match `/prefix`, trim it from the path and set the `Host` header:
 
-```
+```yaml
 ...
         - matches:
           - path:

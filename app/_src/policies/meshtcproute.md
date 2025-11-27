@@ -5,7 +5,10 @@ keywords:
   - TCP routing
   - traffic splitting
   - canary
+content_type: reference
+category: policy
 ---
+<!-- markdownlint-disable-file MD024 -->
 
 {% warning %}
 This policy uses new policy matching algorithm.
@@ -27,6 +30,7 @@ depending on where the request is coming from and where it's going to.
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -47,6 +51,7 @@ depending on where the request is coming from and where it's going to.
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`             | Allowed kinds                                             |
 | ----------------------- | --------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
@@ -55,6 +60,7 @@ depending on where the request is coming from and where it's going to.
 
 {% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -92,6 +98,7 @@ so the policy structure looks like the following:
 [//]: # (TODO: https://github.com/kumahq/kuma-website/issues/2020)
 
 {% if_version lte:2.8.x %}
+
 ```yaml
 spec:
   targetRef: # top-level targetRef selects a group of proxies to configure
@@ -104,9 +111,11 @@ spec:
         - default: # configuration applied for the matched TCP traffic
             backendRefs: [...]
 ```
+
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
+
 ```yaml
 spec:
   targetRef: # top-level targetRef selects a group of proxies to configure
@@ -119,9 +128,11 @@ spec:
         - default: # configuration applied for the matched TCP traffic
             backendRefs: [...]
 ```
+
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
+
 ```yaml
 spec:
   targetRef: # top-level targetRef selects a group of proxies to configure
@@ -134,6 +145,7 @@ spec:
         - default: # configuration applied for the matched TCP traffic
             backendRefs: [...]
 ```
+
 {% endif_version %}
 
 ### Default configuration
@@ -143,7 +155,7 @@ The following describes the default configuration settings of the `MeshTCPRoute`
 - **`backendRefs`**: (Optional) List of destinations for the request to be redirected to
   - **`kind`**: One of `MeshService`, `MeshServiceSubset`{% if_version gte:2.9.x %}, `MeshExtenalService`{% endif_version %}
   - **`name`**: The service name
-  - **`tags`**: Service tags. These must be specified if the `kind` is 
+  - **`tags`**: Service tags. These must be specified if the `kind` is
     `MeshServiceSubset`.
   - **`weight`**: When a request matches the route, the choice of an upstream
     cluster is determined by its weight. Total weight is a sum of all weights
@@ -171,15 +183,17 @@ Otherwise, it's recommended to migrate to new policies and then removing `Traffi
 ## Examples
 
 {% if_version lte:2.8.x %}
+
 ### Traffic split
 
 You can use `MeshTCPRoute` to split TCP traffic between services with
 different tags and implement A/B testing or canary deployments.
 
-Here's an example of a `MeshTCPRoute` that splits the traffic from 
+Here's an example of a `MeshTCPRoute` that splits the traffic from
 `frontend_kuma-demo_svc_8080` to `backend_kuma-demo_svc_3001` between versions:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -209,11 +223,14 @@ spec:
                   version: "v1"
                 weight: 10
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
+
 ### Traffic split
+
 We can use `MeshTCPRoute` to split an TCP traffic between different MeshServices
 implementing A/B testing or canary deployments.
 If we want to split traffic between `v1` and `v2` versions of the same service,
@@ -222,6 +239,7 @@ backend application instances according to the version.
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -254,11 +272,13 @@ spec:
                 _version: v1
                 weight: 10
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -291,6 +311,7 @@ spec:
                 _version: v1
                 weight: 10
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -301,12 +322,13 @@ spec:
 You can use `MeshTCPRoute` to redirect outgoing traffic from one service to
 another.
 
-Here's an example of a `MeshTCPRoute` that redirects outgoing traffic 
+Here's an example of a `MeshTCPRoute` that redirects outgoing traffic
 originating at `frontend_kuma-demo_svc_8080` from `backend_kuma-demo_svc_3001`
 to `external-backend`:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -331,11 +353,13 @@ spec:
                 port: 8080
                 _port: 8080
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -361,11 +385,13 @@ spec:
                 port: 8080
                 _port: 8080
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshTCPRoute
 name: tcp-route-1
@@ -391,6 +417,7 @@ spec:
                 port: 8080
                 _port: 8080
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -404,6 +431,7 @@ In this example, both `MeshTCPRoute` and `MeshHTTPRoute` target the same destina
 
 {% if_version lte:2.8.x %}
 **MeshTCPRoute**:
+
 ```yaml
 # [...]
 targetRef:
@@ -422,6 +450,7 @@ to:
 ```
 
 **MeshHTTPRoute**:
+
 ```yaml
 # [...]
 targetRef:
@@ -442,10 +471,12 @@ to:
             - kind: MeshService
               name: other-http-backend_kuma-demo_svc_8080
 ```
+
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHTTPRoute
 name: simple-http
@@ -471,8 +502,10 @@ spec:
                 port: 8080
                 _port: 8080
 ```
+
 {% endpolicy_yaml %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHTTPRoute
 name: simple-http
@@ -502,11 +535,13 @@ spec:
                 port: 8080
                 _port: 8080
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHTTPRoute
 name: simple-http
@@ -532,8 +567,10 @@ spec:
                 port: 8080
                 _port: 8080
 ```
+
 {% endpolicy_yaml %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHTTPRoute
 name: simple-http
@@ -563,13 +600,15 @@ spec:
                 port: 8080
                 _port: 8080
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 Depending on the `backend`'s protocol:
+
 - `MeshHTTPRoute` will be applied if `http`, `http2`, or `grpc` are specified
-- `MeshTCPRoute` will be applied if `tcp` or `kafka` is specified, or when nothing is specified 
- 
+- `MeshTCPRoute` will be applied if `tcp` or `kafka` is specified, or when nothing is specified
+
 ## See also
 
 - [MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute) - Route HTTP/grpc traffic between services

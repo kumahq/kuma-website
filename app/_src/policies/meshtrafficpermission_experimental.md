@@ -5,6 +5,8 @@ keywords:
   - authorization
   - SPIFFE
   - access control
+content_type: reference
+category: policy
 ---
 
 {% tip %}
@@ -28,6 +30,7 @@ It enables:
 Here is a common example:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrafficPermission
 name: my-app-permissions
@@ -51,6 +54,7 @@ spec:
               type: Prefix
               value: "spiffe://my-mesh.us-east-2.mesh.local"
 ```
+
 {% endpolicy_yaml %}
 
 With this policy in place, workloads labeled `app: my-app` will reject connections from identities under the `legacy-ns` namespace
@@ -79,6 +83,7 @@ Evaluation rules are:
 During the incident, if one of the namespaces is compromised, Mesh Operator can apply the following policy:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrafficPermission
 name: deny-malicious-ns
@@ -91,6 +96,7 @@ spec:
               type: Prefix
               value: "spiffe://my-mesh.us-east-2.mesh.local/ns/malicious"
 ```
+
 {% endpolicy_yaml %}
 
 Such policy when applied globally prevents any service in the mesh `my-mesh` to receive requests from any client in `malicious` namespace.
@@ -102,6 +108,7 @@ By default, when there are no `MeshTrafficPermission` policies, all requests are
 Mesh Operator can apply the following policy mesh-wide:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrafficPermission
 name: allow-observability-ns
@@ -114,12 +121,14 @@ spec:
               type: Prefix
               value: "spiffe://my-mesh.us-east-2.mesh.local/ns/observability"
 ```
+
 {% endpolicy_yaml %}
 
 This policy allows any client in `observability` namespace to consume any service in `my-mesh`.
 Service Owner can opt-out and deny requests from `observability` if they need to:
 
 {% policy_yaml namespace=backend-ns %}
+
 ```yaml
 type: MeshTrafficPermission
 name: deny-observability-ns
@@ -137,6 +146,7 @@ spec:
               type: Prefix
               value: "spiffe://my-mesh.us-east-2.mesh.local/ns/observability"
 ```
+
 {% endpolicy_yaml %}
 
 The following policy overrides the rules specified in `allow-observability-ns`

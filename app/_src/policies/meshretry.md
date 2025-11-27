@@ -5,10 +5,12 @@ keywords:
   - retry
   - resilience
   - back-off
+content_type: reference
+category: policy
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm. 
+This policy uses new policy matching algorithm.
 Do **not** combine with [Retry](/docs/{{ page.release }}/policies/retry).
 {% endwarning %}
 
@@ -21,6 +23,7 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 {% tab Sidecar %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -57,6 +60,7 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 
 {% tab Builtin Gateway %}
 {% if_version gte:2.6.x %}
+
 | `targetRef`           | Allowed kinds                                             |
 | --------------------- | --------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
@@ -76,6 +80,7 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 {% tab Delegated Gateway %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -173,7 +178,7 @@ retryOn:
 
 This parameter is applicable to both `HTTP` and `GRPC`.
 
-It consists of `BaseInterval` (the amount of time between retries) and 
+It consists of `BaseInterval` (the amount of time between retries) and
 `MaxInterval` (the maximal amount of time taken between retries).
 
 We use an exponential back-off algorithm with jitter for retries.
@@ -182,7 +187,7 @@ the back-off for the retry is in the range **[0, (2<sup>N</sup> - 1) × B)**.
 
 For example, given a 25 ms interval, the first retry will be delayed randomly by 0-24 ms,
 the second by 0-74 ms,
-the third by 0-174 ms, 
+the third by 0-174 ms,
 and so on.
 
 The interval is capped at a `MaxInterval`, which defaults to 10 times the `BaseInterval`.
@@ -237,6 +242,7 @@ then the amount of time to wait before issuing a request is determined by [back 
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-http
@@ -260,11 +266,13 @@ spec:
           retryOn:
             - "5xx"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-http
@@ -290,11 +298,13 @@ spec:
           retryOn:
             - "5xx"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-http
@@ -320,14 +330,15 @@ spec:
           retryOn:
             - "5xx"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
-
 
 ### gRPC frontend to backend on DeadlineExceeded
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-grpc
@@ -351,11 +362,13 @@ spec:
           retryOn:
             - "DeadlineExceeded"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-grpc
@@ -381,11 +394,13 @@ spec:
           retryOn:
             - "DeadlineExceeded"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-grpc
@@ -411,6 +426,7 @@ spec:
           retryOn:
             - "DeadlineExceeded"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -418,6 +434,7 @@ spec:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshRetry
 name: web-to-backend-retry-tcp
@@ -436,11 +453,13 @@ spec:
         tcp:
           maxConnectAttempt: 5
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-tcp
@@ -461,11 +480,13 @@ spec:
         tcp:
           maxConnectAttempt: 5
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshRetry
 name: frontend-to-backend-retry-tcp
@@ -486,6 +507,7 @@ spec:
         tcp:
           maxConnectAttempt: 5
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
