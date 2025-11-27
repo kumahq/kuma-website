@@ -7,6 +7,7 @@ keywords:
   - resource
   - reference
 content_type: reference
+category: resource
 ---
 
 TODO: Add introduction
