@@ -84,6 +84,16 @@ mise new:resource MeshService
 
 This creates `app/_src/resources/meshservice.md` from the template. Update the nav file after creation.
 
+#### Creating new policy docs
+
+To create a new policy reference doc from template:
+
+```sh
+mise new:policy MeshExample
+```
+
+This creates `app/_src/policies/meshexample.md` from the template. Update the nav file after creation.
+
 #### Page metadata
 
 All documentation pages should include frontmatter metadata for SEO and search:
