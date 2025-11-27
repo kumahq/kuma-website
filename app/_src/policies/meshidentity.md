@@ -5,6 +5,8 @@ keywords:
   - workload identity
   - SPIFFE
   - certificate management
+content_type: reference
+category: policy
 ---
 
 {% warning %}

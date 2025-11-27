@@ -5,6 +5,8 @@ keywords:
   - authorization
   - SPIFFE
   - access control
+content_type: reference
+category: policy
 ---
 
 {% tip %}

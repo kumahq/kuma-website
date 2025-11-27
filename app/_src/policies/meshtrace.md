@@ -5,6 +5,8 @@ keywords:
   - tracing
   - observability
   - Zipkin
+content_type: reference
+category: policy
 ---
 
 {% warning %}

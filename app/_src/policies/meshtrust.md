@@ -1,11 +1,12 @@
 ---
 title: MeshTrust
-content_type: how-to
 description: Enable mesh applications to accept encrypted mTLS traffic from different trust domains using certificate bundles.
 keywords:
   - trust domain
   - mTLS
   - certificate
+content_type: reference
+category: policy
 ---
 
 {% warning %}

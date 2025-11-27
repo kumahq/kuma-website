@@ -5,6 +5,8 @@ keywords:
   - load balancing
   - locality awareness
   - traffic distribution
+content_type: reference
+category: policy
 ---
 
 {% warning %}

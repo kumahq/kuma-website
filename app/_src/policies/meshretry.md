@@ -5,6 +5,8 @@ keywords:
   - retry
   - resilience
   - back-off
+content_type: reference
+category: policy
 ---
 
 {% warning %}

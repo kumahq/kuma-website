@@ -5,6 +5,8 @@ keywords:
   - gateway
   - ingress
   - TLS termination
+content_type: reference
+category: policy
 ---
 
 `MeshGateway` is a policy used to configure {% if_version gte:2.6.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin){% endif_version %}{% if_version lte:2.5.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/explore/gateway#builtin){% endif_version %}.

@@ -5,6 +5,8 @@ keywords:
   - fault injection
   - chaos testing
   - resilience testing
+content_type: reference
+category: policy
 ---
 
 {% tip %}

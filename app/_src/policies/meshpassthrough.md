@@ -5,6 +5,8 @@ keywords:
   - passthrough
   - external traffic
   - non-mesh traffic
+content_type: reference
+category: policy
 ---
 
 {% warning %}

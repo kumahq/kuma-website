@@ -5,6 +5,8 @@ keywords:
   - TLS
   - mTLS
   - encryption
+content_type: reference
+category: policy
 ---
 
 This policy enables {{site.mesh_product_name}} to configure TLS mode, ciphers and version. 

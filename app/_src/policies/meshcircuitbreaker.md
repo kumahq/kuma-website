@@ -5,6 +5,8 @@ keywords:
   - circuit breaker
   - outlier detection
   - resilience
+content_type: reference
+category: policy
 ---
 
 {% warning %}

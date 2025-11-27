@@ -5,6 +5,8 @@ keywords:
   - authorization
   - traffic permission
   - access control
+content_type: reference
+category: policy
 ---
 
 {% if_version gte:2.12.x %}

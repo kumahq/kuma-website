@@ -5,6 +5,8 @@ keywords:
   - rate limiting
   - traffic control
   - request throttling
+content_type: reference
+category: policy
 ---
 
 {% warning %}

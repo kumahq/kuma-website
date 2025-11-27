@@ -5,6 +5,8 @@ keywords:
   - fault injection
   - chaos testing
   - resilience testing
+content_type: reference
+category: policy
 ---
 
 With the MeshFaultInjection policy you can easily test your microservices against resiliency.

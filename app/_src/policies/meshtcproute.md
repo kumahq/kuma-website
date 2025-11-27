@@ -5,6 +5,8 @@ keywords:
   - TCP routing
   - traffic splitting
   - canary
+content_type: reference
+category: policy
 ---
 
 {% warning %}

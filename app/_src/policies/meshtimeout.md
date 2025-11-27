@@ -5,6 +5,8 @@ keywords:
   - timeout
   - connection
   - HTTP
+content_type: reference
+category: policy
 ---
 
 {% warning %}

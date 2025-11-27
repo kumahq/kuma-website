@@ -5,6 +5,8 @@ keywords:
   - health check
   - active health check
   - service health
+content_type: reference
+category: policy
 ---
 
 {% warning %}

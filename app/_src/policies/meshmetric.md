@@ -5,6 +5,8 @@ keywords:
   - metrics
   - Prometheus
   - OpenTelemetry
+content_type: reference
+category: policy
 ---
 
 {% warning %}

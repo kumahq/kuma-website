@@ -5,6 +5,8 @@ keywords:
   - HTTP routing
   - traffic splitting
   - request modification
+content_type: reference
+category: policy
 ---
 
 {% warning %}
