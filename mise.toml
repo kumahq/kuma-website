@@ -10,6 +10,7 @@ shellcheck = "0.10.0"
 "go:github.com/raviqqe/muffet/v2" = "v2.11.0"
 "go:github.com/hairyhenderson/gomplate/v4/cmd/gomplate" = "v4.3.0"
 shellspec = "0.28.1"
+"npm:markdownlint-cli2" = "0.18.1"
 
 [tasks.install]
 description = "Install yarn, npm packages and gems"
@@ -111,6 +112,14 @@ git diff --name-only --diff-filter=d origin/master...HEAD | \
   xargs -r vale
 """
 
+[tasks."mdlint:branch"]
+description = "Run markdownlint on changed files in current branch"
+run = """
+git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD | \
+  grep -E '\\.(md|markdown)$' | \
+  xargs -r markdownlint-cli2
+"""
+
 [tasks."vale:version-urls"]
 description = "Check for hardcoded version URLs in changed files"
 run = "tools/check-version-urls.sh"
@@ -129,7 +138,7 @@ run = "shellcheck tools/*.sh"
 
 [tasks.check]
 description = "Run necessary checks"
-depends = ["vale:branch", "vale:version-urls", "frontmatter:validate"]
+depends = ["vale:branch", "vale:version-urls", "frontmatter:validate", "mdlint:branch"]
 
 [tasks."new:resource"]
 description = "Create new resource reference doc"
