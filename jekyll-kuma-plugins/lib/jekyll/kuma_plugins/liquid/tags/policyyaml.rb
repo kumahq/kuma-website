@@ -7,6 +7,7 @@ require 'yaml'
 require 'rubygems' # Required for Gem::Version
 require_relative 'policyyaml/transformers'
 require_relative 'policyyaml/terraform_generator'
+require_relative 'policyyaml/tab_generator'
 
 module Jekyll
   module KumaPlugins
@@ -50,7 +51,8 @@ module Jekyll
 
             render_context = build_render_context(context, content)
             contents, terraform_content = process_yaml_content(render_context)
-            build_html_output(render_context, contents, terraform_content, context)
+            html = TabGenerator.new.generate(render_context, contents, terraform_content)
+            ::Liquid::Template.parse(html).render(context)
           end
 
           private
@@ -121,96 +123,16 @@ module Jekyll
           end
 
           def wrap_yaml_contents(contents, has_raw)
-            contents.transform_values do |c|
-              transformed = "```yaml\n#{c}\n```\n"
-              transformed = "{% raw %}\n#{transformed}{% endraw %}\n" if has_raw
-              transformed
-            end
+            contents.transform_values { |c| wrap_content(c, 'yaml', has_raw) }
           end
 
-          def wrap_terraform_content(terraform_content, has_raw)
-            content = "```hcl\n#{terraform_content}\n```\n"
-            content = "{% raw %}\n#{content}{% endraw %}\n" if has_raw
-            content
+          def wrap_terraform_content(content, has_raw)
+            wrap_content(content, 'hcl', has_raw)
           end
 
-          def build_html_output(render_context, contents, terraform_content, context)
-            docs_path = build_docs_path(render_context)
-            additional_classes = 'codeblock' unless render_context[:use_meshservice]
-
-            html_content = "{% tabs #{additional_classes} %}"
-            html_content += generate_kubernetes_tab(contents, render_context, docs_path)
-            html_content += generate_universal_tab(contents, render_context, docs_path)
-            html_content += generate_terraform_tab(terraform_content, render_context)
-            html_content += '{% endtabs %}'
-
-            ::Liquid::Template.parse(html_content).render(context)
-          end
-
-          def build_docs_path(render_context)
-            version_path = render_context[:release].value
-            version_path = 'dev' if render_context[:release].label == 'dev'
-            edition = render_context[:edition]
-
-            docs_path = "/#{edition}/#{version_path}"
-            docs_path = "/docs/#{version_path}" if edition == 'kuma'
-            docs_path
-          end
-
-          def generate_kubernetes_tab(contents, render_context, docs_path)
-            if render_context[:use_meshservice]
-              <<~TAB
-
-                {% tab Kubernetes %}
-                <div class="meshservice">
-                 <label> <input type="checkbox"> I am using <a href="#{docs_path}/networking/meshservice/">MeshService</a> </label>
-                </div>
-                #{contents[:kube_legacy]}
-                #{contents[:kube]}
-                {% endtab %}
-              TAB
-            else
-              <<~TAB
-
-                {% tab Kubernetes %}
-                #{contents[:kube_legacy]}
-                {% endtab %}
-              TAB
-            end
-          end
-
-          def generate_universal_tab(contents, render_context, docs_path)
-            if render_context[:use_meshservice]
-              <<~TAB
-                {% tab Universal %}
-                <div class="meshservice">
-                 <label> <input type="checkbox"> I am using <a href="#{docs_path}/networking/meshservice/">MeshService</a> </label>
-                </div>
-                #{contents[:uni_legacy]}
-                #{contents[:uni]}
-                {% endtab %}
-              TAB
-            else
-              <<~TAB
-                {% tab Universal %}
-                #{contents[:uni_legacy]}
-                {% endtab %}
-              TAB
-            end
-          end
-
-          def generate_terraform_tab(terraform_content, render_context)
-            return '' if render_context[:edition] == 'kuma' || !render_context[:show_tf]
-
-            <<~TAB
-              {% tab Terraform %}
-              <div style="margin-top: 4rem; padding: 0 1.3rem">
-              Please adjust <b>konnect_mesh_control_plane.my_meshcontrolplane.id</b> and
-              <b>konnect_mesh.my_mesh.name</b> according to your current configuration
-              </div>
-              #{terraform_content}
-              {% endtab %}
-            TAB
+          def wrap_content(content, lang, has_raw)
+            wrapped = "```#{lang}\n#{content}\n```\n"
+            has_raw ? "{% raw %}\n#{wrapped}{% endraw %}\n" : wrapped
           end
         end
       end

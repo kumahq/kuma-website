@@ -47,19 +47,19 @@ module Jekyll
 
           def convert_value(key, value, indent_level, is_in_array: false, is_last: false)
             key = snake_case(key) unless key.nil? || key.empty?
-            indent = '  ' * indent_level
 
             case value
             when Hash
-              convert_hash(key, value, indent, indent_level, is_in_array, is_last)
+              convert_hash(key, value, indent_level, is_in_array, is_last)
             when Array
-              convert_array(key, value, indent, indent_level, is_in_array, is_last)
+              convert_array(key, value, indent_level, is_in_array, is_last)
             else
-              convert_scalar(key, value, indent, is_in_array, is_last)
+              convert_scalar(key, value, indent_level, is_in_array, is_last)
             end
           end
 
-          def convert_hash(key, value, indent, indent_level, is_in_array, is_last)
+          def convert_hash(key, value, indent_level, is_in_array, is_last)
+            indent = '  ' * indent_level
             result = is_in_array ? "#{indent}{\n" : "#{indent}#{key} = {\n"
             value.each_with_index do |(k, v), index|
               result += convert_value(k, v, indent_level + 1, is_last: index == value.size - 1)
@@ -67,7 +67,8 @@ module Jekyll
             result += "#{indent}}#{trailing_comma(is_in_array, is_last)}\n"
           end
 
-          def convert_array(key, value, indent, indent_level, is_in_array, is_last)
+          def convert_array(key, value, indent_level, is_in_array, is_last)
+            indent = '  ' * indent_level
             result = "#{indent}#{key} = [\n"
             value.each_with_index do |v, index|
               is_last_item = index == value.size - 1
@@ -76,7 +77,8 @@ module Jekyll
             result += "#{indent}]#{trailing_comma(is_in_array, is_last)}\n"
           end
 
-          def convert_scalar(key, value, indent, is_in_array, is_last)
+          def convert_scalar(key, value, indent_level, is_in_array, is_last)
+            indent = '  ' * indent_level
             formatted_value = format_scalar_value(value)
             "#{indent}#{key} = #{formatted_value}#{trailing_comma(is_in_array, is_last)}\n"
           end
