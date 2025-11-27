@@ -172,7 +172,7 @@ Default mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is not 
 
 This detection type takes into account all generated errors: **locally originated** and **externally originated** (transaction) errors.
 
-##### totalFailures
+##### Total failures
 
 - **`totalFailures.consecutive`** - The number of consecutive server-side error responses
   (for HTTP traffic, 5xx responses; for TCP traffic, connection failures; etc.) before a consecutive total failure ejection occurs.
@@ -212,7 +212,7 @@ If an upstream host is an HTTP-server, only 5xx types of error are taken into ac
 Properly formatted responses, even when they carry an operational error (like index not found, access denied) are not taken into account.
 {% endwarning %}
 
-##### totalFailures (split mode)
+##### Total failures (split mode)
 
 - **`totalFailures.consecutive`** - The number of consecutive server-side error responses (for HTTP traffic, 5xx responses) before a consecutive total failure ejection occurs.
 
@@ -251,7 +251,7 @@ Default mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is not 
 
 This detection type takes into account a subset of **5xx** errors, called "gateway errors" (**502**, **503** or **504** status code) and local origin failures, such as **timeout**, **TCP reset** etc.
 
-##### gatewayFailures
+##### Gateway failures
 
 - **`gatewayFailures.consecutive`** - The number of consecutive gateway failures (502, 503, 504 status codes) before a consecutive
   gateway failure ejection occurs.
@@ -287,7 +287,7 @@ This detection type takes into account a subset of **5xx** errors, called "gatew
 This detector is supported only for HTTP traffic.
 {% endwarning %}
 
-##### gatewayFailures (split mode)
+##### Gateway failures (split mode)
 
 - **`gatewayFailures.consecutive`** - The number of consecutive gateway failures (502, 503, 504 status codes) before a consecutive
   gateway failure ejection occurs.
@@ -331,7 +331,7 @@ If Envoy repeatedly cannot connect to an upstream host or communication with the
 Split Mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is equal `true`
 {% endtip %}
 
-##### localOriginFailures
+##### Local origin failures
 
 - **`localOriginFailures.consecutive`** - The number of consecutive locally originated failures before ejection occurs.
 
@@ -392,7 +392,7 @@ Locally originated errors and externally originated (transaction) errors are cou
 {% endtab %}
 {% endtabs %}
 
-##### successRate
+##### Success rate
 
 - **`successRate.minimumHosts`** - The number of hosts in an Envoy Cluster that must have enough request volume to detect success rate outliers. If the number of hosts is less than this setting, outlier detection via success rate statistics is not performed for any host in the Cluster.
 - **`successRate.requestVolume`** - The minimum number of total requests that must be collected in one interval (as defined by the interval duration configured in outlierDetection section) to include this host in success rate based outlier detection. If the volume is lower than this setting, outlier detection via success rate statistics is not performed for that host.
@@ -448,7 +448,7 @@ Locally originated errors and externally originated (transaction) errors are cou
 {% endtab %}
 {% endtabs %}
 
-##### failurePercentage
+##### Failure percentage
 
 - **`failurePercentage.requestVolume`** - The minimum number of hosts in an Envoy Cluster in order to perform failure percentage-based ejection. If the total number of hosts in the Cluster is less than this value, failure percentage-based ejection will not be performed.
 - **`failurePercentage.minimumHosts`** - The minimum number of total requests that must be collected in one interval (as defined by the interval duration above) to perform failure percentage-based ejection for this host. If the volume is lower than this setting, failure percentage-based ejection will not be performed for this host.
