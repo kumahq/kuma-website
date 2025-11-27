@@ -158,6 +158,7 @@ if [ -f "$OUTPUT" ]; then
   echo "Error: $OUTPUT already exists" >&2
   exit 1
 fi
+mkdir -p app/_src/policies
 export POLICY_NAME
 gomplate -f templates/policy.md -o "$OUTPUT"
 echo "Created $OUTPUT"
