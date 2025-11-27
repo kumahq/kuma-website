@@ -201,4 +201,6 @@ yml
 Xcode
 [xX]DS|xds
 Zipkin
+ZoneEgress
+ZoneIngress
 zsh
