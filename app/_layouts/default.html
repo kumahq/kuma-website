@@ -31,6 +31,8 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@4"/>
       <meta name="docsearch:section" content="docs">
       <meta name="docsearch:docsversion" content="{{ page.release }}">
+      {% if page.content_type %}<meta name="docsearch:content_type" content="{{ page.content_type }}">{% endif %}
+      {% if page.category %}<meta name="docsearch:category" content="{{ page.category }}">{% endif %}
 
       {% unless page.release.latest? %}
         <meta name="robots" content="noindex,follow">
