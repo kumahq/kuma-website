@@ -32,7 +32,7 @@ Moreover, {{site.mesh_product_name}} provides integration with OpenTelemetry:
 Moreover, {{site.mesh_product_name}} provides experimental integration with OpenTelemetry:
 {% endif_version %}
 
-* Each proxy can publish its metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/). 
+* Each proxy can publish its metrics to [OpenTelemetry collector](https://opentelemetry.io/docs/collector/).
 
 To collect metrics from {{site.mesh_product_name}}, you need to expose metrics from proxies and applications.
 
@@ -46,6 +46,7 @@ If you haven't already read the [observability docs](/docs/{{ page.release }}/ex
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -63,6 +64,7 @@ If you haven't already read the [observability docs](/docs/{{ page.release }}/ex
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`             | Allowed kinds                                             |
 | ----------------------- | --------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags` |
@@ -70,6 +72,7 @@ If you haven't already read the [observability docs](/docs/{{ page.release }}/ex
 
 {% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -112,6 +115,7 @@ In case you don't want to retrieve all Envoy's metrics, it's possible to filter 
 {% if_version gte:2.7.x %}
 Below are different methods of filtering.
 The order of the operations is as follows:
+
 1. Unused metrics
 2. Profiles
 3. Exclude
@@ -119,6 +123,7 @@ The order of the operations is as follows:
 {% endif_version %}
 
 {% if_version lte:2.6.x %}
+
 #### Regex
 
 You are able to specify [`regex`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats?filter=regex) which causes the metrics endpoint to return only matching metrics.
@@ -130,27 +135,31 @@ By default, metrics that were not updated won't be published.
 You can set the `includeUnused` flag that returns all metrics from Envoy.
 
 {% if_version gte:2.7.x %}
+
 #### Profiles
 
 Profiles are predefined sets of metrics with manual `include` and `exclude` functionality.
 There are 3 sections:
-- `appendProfiles` - allows to combine multiple predefined profiles of metrics.
+
+* `appendProfiles` - allows to combine multiple predefined profiles of metrics.
 Right now you can only define one profile but this might change it the future
 (for example there might be feature related profiles like "Fault injection profile" and "Circuit Breaker profile" so you can mix and match the ones that you need based on your features usage).
 Today only 3 profiles are available: `All`, `Basic` and `None`.
 `All` profile contains all metrics produced by Envoy.
 `Basic` profile contains all metrics needed by {{site.mesh_product_name}} dashboards and [golden 4 signals](https://sre.google/sre-book/monitoring-distributed-systems/) metrics.
 `None` profile removes all metrics
-- `exclude` - after profiles are applied you can manually exclude metrics on top of profile filtering.
-- `include` - after exclude is applied you can manually include metrics.
+* `exclude` - after profiles are applied you can manually exclude metrics on top of profile filtering.
+* `include` - after exclude is applied you can manually include metrics.
 {% endif_version %}
 
 #### Examples
 
 {% if_version lte:2.6.x %}
+
 ##### Include unused metrics and filter them by regex
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -168,15 +177,18 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 
 {% endif_version %}
 
 {% if_version gte:2.7.x %}
+
 ##### Include unused metrics of only Basic profile with manual exclude and include
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -202,11 +214,13 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -230,6 +244,7 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -237,6 +252,7 @@ spec:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -258,11 +274,13 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -282,6 +300,7 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -289,6 +308,7 @@ spec:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -310,11 +330,13 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -334,6 +356,7 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -353,9 +376,10 @@ Later those metrics are aggregated and exposed at the same `port/path` as data p
 It is possible to configure it at the `Mesh` level, for all the applications in the `Mesh`, or just for specific applications.
 
 Here are reasons where you'd want to use this feature:
-- Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
-- Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
-- If you disable [passthrough](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS and Prometheus is outside the mesh this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
+
+* Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
+* Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
+* If you disable [passthrough](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS and Prometheus is outside the mesh this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
 
 Example section of the configuration:
 
@@ -438,8 +462,8 @@ spec:
 
 Please upload the certificate and the key to the machine, and then define the following environment variables with the correct paths:
 
-	* `KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH`
-	* `KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH`
+* `KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH`
+* `KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH`
 
 {% endtab %}
 {% endtabs %}
@@ -459,12 +483,13 @@ Support for `clientId` was added in Prometheus version `2.50.0`.
 ###### Example Prometheus configuration
 
 Let's assume we have two prometheus deployments `main` and `secondary`. We would like to use each of them to monitor different sets
-of data plane proxies, with different tags. 
+of data plane proxies, with different tags.
 
 We can start with configuring each Prometheus deployments to use [Kuma SD](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kuma_sd_config).
 Prometheus's deployments will be differentiated by `client_id` parameter.
 
 Main Prometheus config:
+
 ```yaml
 scrape_configs:
   - job_name: 'kuma-dataplanes'
@@ -476,6 +501,7 @@ scrape_configs:
 ```
 
 Secondary Prometheus config:
+
 ```yaml
 scrape_configs:
   - job_name: 'kuma-dataplanes'
@@ -491,6 +517,7 @@ Now we can configure first `MeshMetric` policy to pick data plane proxies with t
 
 {% if_version eq:2.9.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 name: prometheus-one
@@ -508,11 +535,13 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 name: prometheus-one
@@ -530,6 +559,7 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -537,6 +567,7 @@ And policy for secondary Prometheus deployment that will pick data plane proxies
 
 {% if_version eq:2.9.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 name: prometheus-two
@@ -554,11 +585,13 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 name: prometheus-two
@@ -576,10 +609,12 @@ spec:
           port: 5670
           path: /metrics
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version lte:2.6.x %}
+
 #### OpenTelemetry (experimental)
 
 ```yaml
@@ -593,21 +628,22 @@ This configuration tells {{site.mesh_product_name}} data plane proxy to push met
 Dataplane Proxy will scrape metrics from Envoy and other [applications](/docs/{{ page.release }}/policies/meshmetric/#applications) in a Pod/VM.
 and push them to configured OpenTelemetry collector.
 
-When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/) 
+When you configure application scraping make sure to specify `application.name` to utilize [OpenTelemetry scoping](https://opentelemetry.io/docs/concepts/instrumentation-scope/)
 
 ##### Limitations
 
-- You cannot configure scraping interval for OpenTelemetry. By default, it will publish metrics to collector every **30 seconds**. Ability to configure scraping interval in policy will be added in the future. 
-- Right now {{site.mesh_product_name}} supports configuring only one `OpenTelemetry` backend.
+* You cannot configure scraping interval for OpenTelemetry. By default, it will publish metrics to collector every **30 seconds**. Ability to configure scraping interval in policy will be added in the future.
+* Right now {{site.mesh_product_name}} supports configuring only one `OpenTelemetry` backend.
 {% if_version lte:2.6.x %}
-- OpenTelemetry integration does not take [sidecar](/docs/{{ page.release }}/policies/meshmetric/#sidecar) configuration into account.
+* OpenTelemetry integration does not take [sidecar](/docs/{{ page.release }}/policies/meshmetric/#sidecar) configuration into account.
   This support will be added in the next release.
 {% endif_version %}
-- [Application](/docs/{{ page.release }}/policies/meshmetric/#applications) must expose metrics in Prometheus format for this integration to work
+* [Application](/docs/{{ page.release }}/policies/meshmetric/#applications) must expose metrics in Prometheus format for this integration to work
 
 {% endif_version %}
 
 {% if_version gte:2.7.x %}
+
 #### OpenTelemetry
 
 ```yaml
@@ -633,6 +669,7 @@ configure [ExternalService](/docs/{{ page.release }}/policies/external-services/
 
 {% tabs %}
 {% tab Kubernetes %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: ExternalService
@@ -646,8 +683,10 @@ spec:
   networking:
     address: otel-collector.observability.svc.cluster.local:4317
 ```
+
 {% endtab %}
 {% tab Universal %}
+
 ```yaml
 type: ExternalService
 mesh: default
@@ -658,6 +697,7 @@ tags:
 networking:
   address: otel-collector.observability.svc.cluster.local:4317
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -673,6 +713,7 @@ That web framework exposes metrics under `/metrics/prometheus` and port `8888`.
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -692,11 +733,13 @@ spec:
           tls:
             mode: "ProvidedTLS"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -714,11 +757,13 @@ spec:
           tls:
             mode: "ProvidedTLS"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -733,11 +778,13 @@ spec:
       - path: "/metrics/prometheus"
         port: 8888
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshMetric
 mesh: default
@@ -752,6 +799,7 @@ spec:
       - path: "/metrics/prometheus"
         port: 8888
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 

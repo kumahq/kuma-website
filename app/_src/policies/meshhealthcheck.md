@@ -10,7 +10,7 @@ category: policy
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm. 
+This policy uses new policy matching algorithm.
 Do **not** combine with [HealthCheck](/docs/{{ page.release }}/policies/health-check).
 {% endwarning %}
 
@@ -35,6 +35,7 @@ This mode generates extra traffic to other proxies and services as described in 
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -55,6 +56,7 @@ This mode generates extra traffic to other proxies and services as described in 
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
@@ -63,6 +65,7 @@ This mode generates extra traffic to other proxies and services as described in 
 
 {% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -108,6 +111,7 @@ See [protocol fallback example](#protocol-fallback).
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -132,11 +136,13 @@ spec:
           path: /health
           expectedStatuses: [200, 201]
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -162,11 +168,13 @@ spec:
           path: /health
           expectedStatuses: [200, 201]
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -192,6 +200,7 @@ spec:
           path: /health
           expectedStatuses: [200, 201]
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -199,6 +208,7 @@ spec:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -223,11 +233,13 @@ spec:
         http:
           disabled: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -253,11 +265,13 @@ spec:
         http:
           disabled: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -283,14 +297,15 @@ spec:
         http:
           disabled: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
-
 
 #### gRPC health check from cart to payment service
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -314,11 +329,13 @@ spec:
         grpc:
           serviceName: "grpc.health.v1.CustomHealth"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -343,11 +360,13 @@ spec:
         grpc:
           serviceName: "grpc.health.v1.CustomHealth"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -372,6 +391,7 @@ spec:
         grpc:
           serviceName: "grpc.health.v1.CustomHealth"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 

@@ -22,6 +22,7 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -42,6 +43,7 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
@@ -60,6 +62,7 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 {% if_version eq:2.6.x %}
 {% tabs %}
 {% tab Sidecar %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -67,6 +70,7 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
@@ -129,6 +133,7 @@ http:
       httpStatus: 503
       percentage: 50
 ```
+
 That means that for 70% of requests, it returns 500 and for 50% of the 30% that passed it returns 503.
 
 ### Abort
@@ -154,10 +159,12 @@ ResponseBandwidth defines a configuration to limit the speed of responding to re
 - `percentage` - a percentage of requests on which abort will be injected, has to be in [0.0 - 100.0] range. If the value is a double number, put it in quotes.
 
 ## Examples
+
 ### Service backend returns 500 for 50% of requests from frontend service
 
 {% if_version lte:2.5.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -178,12 +185,14 @@ spec:
               httpStatus: 500
               percentage: 50
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -205,12 +214,14 @@ spec:
               httpStatus: 500
               percentage: 50
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -232,11 +243,13 @@ spec:
               httpStatus: 500
               percentage: 50
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -257,6 +270,7 @@ spec:
               httpStatus: 500
               percentage: 50
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -264,6 +278,7 @@ spec:
 
 {% if_version lte:2.5.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -283,11 +298,13 @@ spec:
               percentage: "50.5"
               value: 5s
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -308,12 +325,14 @@ spec:
               percentage: "50.5"
               value: 5s
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -334,11 +353,13 @@ spec:
               percentage: "50.5"
               value: 5s
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -358,6 +379,7 @@ spec:
               percentage: "50.5"
               value: 5s
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -365,6 +387,7 @@ spec:
 
 {% if_version lte:2.5.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -391,11 +414,13 @@ spec:
               value: 5s
               percentage: 5
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -423,12 +448,14 @@ spec:
               value: 5s
               percentage: 5
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -456,11 +483,13 @@ spec:
               value: 5s
               percentage: 5
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshFaultInjection
 mesh: default
@@ -487,6 +516,7 @@ spec:
               value: 5s
               percentage: 5
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 

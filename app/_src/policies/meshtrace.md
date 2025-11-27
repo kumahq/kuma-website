@@ -44,6 +44,7 @@ For HTTP you can also manually forward the following headers:
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -61,6 +62,7 @@ For HTTP you can also manually forward the following headers:
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`      | Allowed kinds         |
 | ---------------- | --------------------- |
 | `targetRef.kind` | `Mesh`, `MeshGateway` |
@@ -68,6 +70,7 @@ For HTTP you can also manually forward the following headers:
 
 {% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -163,6 +166,7 @@ tags:
 You can configure a Datadog backend with a `url` and `splitService`.
 
 Example:
+
 ```yaml
 datadog:
   url: http://my-agent:8080 # Required. The url to reach a running datadog agent
@@ -178,6 +182,7 @@ you would get service names like `backend_INBOUND`, `backend_OUTBOUND_db1`, and 
 In most cases the only field you'll want to set is `url`.
 
 Example:
+
 ```yaml
 zipkin:
   url: http://jaeger-collector:9411/api/v2/spans # Required. The url to a zipkin collector to send traces to 
@@ -191,6 +196,7 @@ zipkin:
 The only field you can set is `endpoint`.
 
 Example:
+
 ```yaml
 openTelemetry:
   endpoint: otel-collector:4317 # Required. Address of OpenTelemetry collector
@@ -203,6 +209,7 @@ openTelemetry:
 {% if_version eq:2.2.x %}
 Simple example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -216,10 +223,12 @@ spec:
           url: http://jaeger-collector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 
 Full example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -253,12 +262,14 @@ spec:
           url: http://jaeger-collector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.3.x %}
 {% if_version lte:2.8.x %}
 Simple example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -273,10 +284,12 @@ spec:
           url: http://jaeger-collector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 
 Full example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -311,12 +324,14 @@ spec:
           url: http://jaeger-collector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 Simple example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -329,10 +344,12 @@ spec:
           url: http://jaeger-collector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 
 Full example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -365,6 +382,7 @@ spec:
           url: http://jaeger-collector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -377,6 +395,7 @@ This assumes a Datadog agent is configured and running. If you haven't already c
 {% if_version eq:2.2.x %}
 Simple example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -389,10 +408,12 @@ spec:
       - datadog:
           url: http://127.0.0.1:8126
 ```
+
 {% endpolicy_yaml %}
 
 Full example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -426,12 +447,14 @@ spec:
           url: http://127.0.0.1:8126
           splitService: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.3.x %}
 {% if_version lte:2.8.x %}
 Simple example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -445,10 +468,12 @@ spec:
         datadog:
           url: http://127.0.0.1:8126
 ```
+
 {% endpolicy_yaml %}
 
 Full example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -483,12 +508,14 @@ spec:
           url: http://127.0.0.1:8126
           splitService: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 Simple example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -500,10 +527,12 @@ spec:
         datadog:
           url: http://127.0.0.1:8126
 ```
+
 {% endpolicy_yaml %}
 
 Full example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -536,6 +565,7 @@ spec:
           url: http://127.0.0.1:8126
           splitService: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -549,6 +579,7 @@ If you haven't already check the [OpenTelementry operator](https://github.com/op
 {% if_version eq:2.2.x %}
 Simple example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -561,10 +592,12 @@ spec:
       - openTelemetry:
           endpoint: otel-collector.com:4317
 ```
+
 {% endpolicy_yaml %}
 
 Full example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -597,12 +630,14 @@ spec:
       - openTelemetry:
           endpoint: otel-collector.com:4317
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.3.x %}
 {% if_version lte:2.8.x %}
 Simple example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -616,10 +651,12 @@ spec:
         openTelemetry:
           endpoint: otel-collector.com:4317
 ```
+
 {% endpolicy_yaml %}
 
 Full example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -653,12 +690,14 @@ spec:
         openTelemetry:
           endpoint: otel-collector.com:4317
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 Simple example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -670,10 +709,12 @@ spec:
         openTelemetry:
           endpoint: otel-collector.com:4317
 ```
+
 {% endpolicy_yaml %}
 
 Full example:
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: default
@@ -705,6 +746,7 @@ spec:
         openTelemetry:
           endpoint: otel-collector.com:4317
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -723,6 +765,7 @@ To do this, we use a `TargetRef` kind value of `MeshSubset` to filter which data
 West only policy:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -738,11 +781,13 @@ spec:
           url: http://west.zipkincollector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 
 East only policy:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: trace-east
@@ -758,6 +803,7 @@ spec:
           url: http://east.zipkincollector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -766,6 +812,7 @@ spec:
 West only policy:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -782,11 +829,13 @@ spec:
           url: http://west.zipkincollector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 
 East only policy:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: trace-east
@@ -802,6 +851,7 @@ spec:
           url: http://east.zipkincollector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
@@ -810,6 +860,7 @@ spec:
 West only policy:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: trace-west
@@ -826,11 +877,13 @@ spec:
           url: http://west.zipkincollector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 
 East only policy:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrace
 name: trace-east
@@ -846,6 +899,7 @@ spec:
           url: http://east.zipkincollector:9411/api/v2/spans
           apiVersion: httpJson
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 

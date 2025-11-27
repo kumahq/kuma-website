@@ -26,6 +26,7 @@ Each listener has its own set of {{site.mesh_product_name}} tags so that {{site.
 
 {% tabs %}
 {% tab Universal %}
+
 ```yaml
 type: MeshGateway
 mesh: default
@@ -41,8 +42,10 @@ conf:
     tags:
       port: http-8080 
 ```
+
 {% endtab %}
 {% tab Kubernetes %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
@@ -61,6 +64,7 @@ spec:
       tags:
         port: http-8080 
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -77,6 +81,7 @@ It is allowed for the most common protocols, HTTP and HTTPS.
 
 {% tabs %}
 {% tab Universal %}
+
 ```yaml
 type: MeshGateway
 mesh: default
@@ -97,8 +102,10 @@ conf:
     tags:
       vhost: bar.example.com
 ```
+
 {% endtab %}
 {% tab Kubernetes %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
@@ -122,6 +129,7 @@ spec:
       tags:
         vhost: bar.example.com
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -131,7 +139,6 @@ In this example, the gateway proxy will be configured to listen on port 8080, an
 Note that because each listener entry has its own {{site.mesh_product_name}} tags, policy can still be targeted to a specific listener.
 {{site.mesh_product_name}} generates a set of tags for each listener by overlaying the tags from the listener onto the tags from the Dataplane to which the Gateway is matched.
 This set of listener tags is what {{site.mesh_product_name}} will match policies against.
-
 
 | `Dataplane` tags                            | Listener tags                                      | Final Tags                                          |
 | ----------------------------------------- | -------------------------------------------------- | --------------------------------------------------- |
@@ -146,6 +153,7 @@ Below, the gateway listens on port 8443 and terminates TLS sessions.
 
 {% tabs %}
 {% tab Universal %}
+
 ```yaml
 type: MeshGateway
 mesh: default
@@ -165,8 +173,10 @@ conf:
     tags:
       name: foo.example.com
 ```
+
 {% endtab %}
 {% tab Kubernetes %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGateway
@@ -189,6 +199,7 @@ spec:
       tags:
         name: foo.example.com
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -207,6 +218,7 @@ The `kumactl` tool supports generating simple, self-signed TLS server certificat
 
 {% tabs %}
 {% tab Kubernetes %}
+
 ```shell
 kubectl apply -f <(
 cat<<EOF
@@ -223,8 +235,10 @@ type: system.kuma.io/secret
 EOF
 )
 ```
+
 {% endtab %}
 {% tab Universal %}
+
 ```shell
 kumactl apply -f <(
 cat<<EOF
@@ -235,6 +249,7 @@ data: $(kumactl generate tls-certificate --type=server --hostname=foo.example.co
 EOF
 )
 ```
+
 {% endtab %}
 {% endtabs %}
 

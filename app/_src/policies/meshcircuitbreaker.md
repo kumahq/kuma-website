@@ -49,6 +49,7 @@ target proxies are healthy or not.
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -71,6 +72,7 @@ target proxies are healthy or not.
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
@@ -79,6 +81,7 @@ target proxies are healthy or not.
 
 {% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -151,7 +154,6 @@ For **gRPC** requests, the outlier detection will use the HTTP status mapped fro
   panic mode is disabled for that priority, and if all hosts are unhealthy, Envoy fails to select a host, returning a '503 - no healthy upstream' error.
 {% endif_version %}
 
-
 #### Detectors configuration
 
 Configuration for supported outlier detectors. At least one detector needs to be configured when policy is configured for outlier detection.
@@ -159,7 +161,7 @@ Configuration for supported outlier detectors. At least one detector needs to be
 {% tabs %}
 {% tab detectors Total Failures %}
 
-Depending on mode the outlier detection can take into account all or externally originated (transaction) errors only. 
+Depending on mode the outlier detection can take into account all or externally originated (transaction) errors only.
 
 {% tabs %}
 {% tab totalFailures_modes Default Mode %}
@@ -170,12 +172,10 @@ Default mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is not 
 
 This detection type takes into account all generated errors: **locally originated** and **externally originated** (transaction) errors.
 
-**Configuration**
+##### totalFailures
 
 - **`totalFailures.consecutive`** - The number of consecutive server-side error responses
   (for HTTP traffic, 5xx responses; for TCP traffic, connection failures; etc.) before a consecutive total failure ejection occurs.
-
-**Example**
 
 ```yaml
 type: MeshCircuitBreaker
@@ -212,11 +212,9 @@ If an upstream host is an HTTP-server, only 5xx types of error are taken into ac
 Properly formatted responses, even when they carry an operational error (like index not found, access denied) are not taken into account.
 {% endwarning %}
 
-**Configuration**
+##### totalFailures (split mode)
 
 - **`totalFailures.consecutive`** - The number of consecutive server-side error responses (for HTTP traffic, 5xx responses) before a consecutive total failure ejection occurs.
-
-**Example**
 
 ```yaml
 type: MeshCircuitBreaker
@@ -253,12 +251,10 @@ Default mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is not 
 
 This detection type takes into account a subset of **5xx** errors, called "gateway errors" (**502**, **503** or **504** status code) and local origin failures, such as **timeout**, **TCP reset** etc.
 
-**Configuration**
+##### gatewayFailures
 
 - **`gatewayFailures.consecutive`** - The number of consecutive gateway failures (502, 503, 504 status codes) before a consecutive
   gateway failure ejection occurs.
-
-**Example**
 
 ```yaml
 type: MeshCircuitBreaker
@@ -291,12 +287,10 @@ This detection type takes into account a subset of **5xx** errors, called "gatew
 This detector is supported only for HTTP traffic.
 {% endwarning %}
 
-**Configuration**
+##### gatewayFailures (split mode)
 
 - **`gatewayFailures.consecutive`** - The number of consecutive gateway failures (502, 503, 504 status codes) before a consecutive
   gateway failure ejection occurs.
-
-**Example**
 
 ```yaml
 type: MeshCircuitBreaker
@@ -337,11 +331,9 @@ If Envoy repeatedly cannot connect to an upstream host or communication with the
 Split Mode is when [`splitExternalAndLocalErrors`](#outlier-detection) is equal `true`
 {% endtip %}
 
-**Configuration**
+##### localOriginFailures
 
 - **`localOriginFailures.consecutive`** - The number of consecutive locally originated failures before ejection occurs.
-
-**Example**
 
 ```yaml
 type: MeshCircuitBreaker
@@ -360,6 +352,7 @@ spec:
           localOriginFailures:
             consecutive: 10
 ```
+
 {% endtab %}
 {% tab localOriginFailures_modes Default Mode %}
 
@@ -399,13 +392,11 @@ Locally originated errors and externally originated (transaction) errors are cou
 {% endtab %}
 {% endtabs %}
 
-**Configuration**
+##### successRate
 
 - **`successRate.minimumHosts`** - The number of hosts in an Envoy Cluster that must have enough request volume to detect success rate outliers. If the number of hosts is less than this setting, outlier detection via success rate statistics is not performed for any host in the Cluster.
 - **`successRate.requestVolume`** - The minimum number of total requests that must be collected in one interval (as defined by the interval duration configured in outlierDetection section) to include this host in success rate based outlier detection. If the volume is lower than this setting, outlier detection via success rate statistics is not performed for that host.
 - **`successRate.standardDeviationFactor`** - This factor is used to determine the ejection threshold for success rate outlier ejection. The ejection threshold is the difference between the mean success rate, and the product of this factor and the standard deviation of the mean success rate: mean - (standard_deviation *success_rate_standard_deviation_factor). Either int or decimal represented as string.
-
-**Example**
 
 ```yaml
 type: MeshCircuitBreaker
@@ -457,13 +448,11 @@ Locally originated errors and externally originated (transaction) errors are cou
 {% endtab %}
 {% endtabs %}
 
-**Configuration**
+##### failurePercentage
 
 - **`failurePercentage.requestVolume`** - The minimum number of hosts in an Envoy Cluster in order to perform failure percentage-based ejection. If the total number of hosts in the Cluster is less than this value, failure percentage-based ejection will not be performed.
 - **`failurePercentage.minimumHosts`** - The minimum number of total requests that must be collected in one interval (as defined by the interval duration above) to perform failure percentage-based ejection for this host. If the volume is lower than this setting, failure percentage-based ejection will not be performed for this host.
 - **`failurePercentage.threshold`** - The failure percentage to use when determining failure percentage-based outlier detection. If the failure percentage of a given host is greater than or equal to this value, it will be ejected.
-
-**Example**
 
 ```yaml
 type: MeshCircuitBreaker
@@ -497,6 +486,7 @@ spec:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshCircuitBreaker
 name: web-to-backend-circuit-breaker
@@ -519,11 +509,13 @@ spec:
           maxRetries: 2
           maxRequests: 2
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshCircuitBreaker
 name: web-to-backend-circuit-breaker
@@ -547,11 +539,13 @@ spec:
           maxRetries: 2
           maxRequests: 2
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshCircuitBreaker
 name: web-to-backend-circuit-breaker
@@ -575,6 +569,7 @@ spec:
           maxRetries: 2
           maxRequests: 2
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -582,6 +577,7 @@ spec:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshCircuitBreaker
 name: backend-inbound-outlier-detection
@@ -616,11 +612,13 @@ spec:
               minimumHosts: 5
               threshold: 85
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshCircuitBreaker
 name: backend-inbound-outlier-detection
@@ -655,11 +653,13 @@ spec:
               minimumHosts: 5
               threshold: 85
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshCircuitBreaker
 name: backend-inbound-outlier-detection
@@ -692,6 +692,7 @@ spec:
               minimumHosts: 5
               threshold: 85
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 

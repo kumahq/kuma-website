@@ -8,6 +8,7 @@ keywords:
 content_type: reference
 category: policy
 ---
+<!-- markdownlint-disable-file MD024 -->
 
 {% warning %}
 This policy uses new policy matching algorithm.
@@ -23,6 +24,7 @@ depending on where the request is coming from and where it's going to.
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -43,6 +45,7 @@ depending on where the request is coming from and where it's going to.
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
@@ -51,6 +54,7 @@ depending on where the request is coming from and where it's going to.
 
 {% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -135,6 +139,7 @@ but only on endpoints starting with `/api`. All other endpoints will go to versi
 {% tabs %}
 {% tab Kubernetes %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshHTTPRoute
@@ -169,8 +174,10 @@ spec:
                   version: "v1"
                 weight: 10
 ```
+
 {% endif_version %}
 {% if_version lte:2.2.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshHTTPRoute
@@ -205,10 +212,12 @@ spec:
                   version: "v1"
                 weight: 10
 ```
+
 {% endif_version %}
 {% endtab %}
 {% tab Universal %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -239,8 +248,10 @@ spec:
                   version: "v1"
                 weight: 10
 ```
+
 {% endif_version %}
 {% if_version lte:2.2.x %}
+
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -271,6 +282,7 @@ spec:
                   version: "v1"
                 weight: 10
 ```
+
 {% endif_version %}
 {% endtab %}
 {% endtabs %}
@@ -282,13 +294,14 @@ spec:
 ### Traffic split
 
 We can use `MeshHTTPRoute` to split an HTTP traffic between different MeshServices
-implementing A/B testing or canary deployments. 
+implementing A/B testing or canary deployments.
 If we want to split traffic between `v1` and `v2` versions of the same service,
-first we have to create MeshServices `backend-v1` and `backend-v2` that select 
+first we have to create MeshServices `backend-v1` and `backend-v2` that select
 backend application instances according to the version.
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHTTPRoute
 name: http-split
@@ -325,11 +338,13 @@ spec:
                 _version: v2
                 weight: 10
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHTTPRoute
 name: http-split
@@ -366,6 +381,7 @@ spec:
                 _version: v2
                 weight: 10
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -381,6 +397,7 @@ when `frontend` tries to consume `backend`.
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -410,11 +427,13 @@ spec:
                     - name: x-custom-header
                       value: xyz
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -444,11 +463,13 @@ spec:
                     - name: x-custom-header
                       value: xyz
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -478,9 +499,9 @@ spec:
                     - name: x-custom-header
                       value: xyz
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
-
 
 ### Traffic mirror
 
@@ -490,6 +511,7 @@ interrupting real users.
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -529,11 +551,13 @@ spec:
                 namespace: kuma-demo
                 port: 3001
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -573,11 +597,13 @@ spec:
                 namespace: kuma-demo
                 port: 3001
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHTTPRoute
 name: http-route-1
@@ -617,6 +643,7 @@ spec:
                 namespace: kuma-demo
                 port: 3001
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -740,7 +767,6 @@ rules:
 - **`tags`** - service tags, must be specified if the `kind` is `MeshServiceSubset`
 - **`weight`** - when a request matches the route, the choice of an upstream cluster
   is determined by its weight. Total weight is a sum of all weights in `backendRefs` list.
-
 
 ## See also
 
