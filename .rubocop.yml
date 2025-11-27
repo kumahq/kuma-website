@@ -13,38 +13,20 @@ AllCops:
 Style/Documentation:
   Enabled: false
 
-
-# TODO: refactor large lambda blocks
 Metrics/BlockLength:
   Exclude:
     - '**/*_spec.rb'
-    - 'jekyll-kuma-plugins/lib/jekyll/kuma_plugins/liquid/tags/policyyaml.rb'
 
-# TODO: refactor generator methods
 Metrics/AbcSize:
-  Enabled: false
+  Max: 50
+  Exclude:
+    - 'spec/**/*'
 
 Metrics/MethodLength:
-  Enabled: false
+  Max: 40
 
 Metrics/CyclomaticComplexity:
-  Enabled: false
-
-# TODO: rename predicate methods
-Naming/PredicateName:
-  Enabled: false
-
-# TODO: call super in InstallPage#initialize
-Lint/MissingSuper:
-  Enabled: false
-
-# TODO: replace OpenStruct with Struct
-Style/OpenStructUse:
-  Enabled: false
-
-# Disable requirement for rubocop:enable after rubocop:disable
-Lint/MissingCopEnableDirective:
-  Enabled: false
+  Max: 10
 
 Layout/LineLength:
   Max: 180

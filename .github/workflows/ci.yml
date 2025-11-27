@@ -153,6 +153,7 @@ jobs:
               .filter(d => d.status != "removed")
               .filter(d => !d.filename.includes("/generated/"))
               .filter(d => !d.filename.includes("/raw/"))
+              .filter(d => !d.filename.startsWith("templates/"))
               .map(d => d.filename);
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: errata-ai/vale-action@d89dee975228ae261d22c15adcd03578634d429c # v2.1.1

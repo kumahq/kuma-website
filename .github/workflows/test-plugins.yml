@@ -4,24 +4,32 @@ concurrency:
   cancel-in-progress: true
 on:
   pull_request:
-    paths:
-      - 'jekyll-kuma-plugins/**'
-      - 'app/_plugins/**'
-      - 'spec/**'
-      - '.rubocop.yml'
-      - '.github/workflows/test-plugins.yml'
-      - 'mise.toml'
 jobs:
   test-plugins:
     runs-on: ubuntu-24.04
     steps:
+      - name: Check relevant changes
+        id: changes
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        with:
+          filters: |
+            plugins:
+              - 'jekyll-kuma-plugins/**'
+              - 'app/_plugins/**'
+              - 'spec/**'
+              - '.rubocop.yml'
+              - '.github/workflows/test-plugins.yml'
+              - 'mise.toml'
       - name: Checkout
+        if: steps.changes.outputs.plugins == 'true'
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Setup mise
+        if: steps.changes.outputs.plugins == 'true'
         uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Rubocop
+        if: steps.changes.outputs.plugins == 'true'
         uses: reviewdog/action-rubocop@f34d02b30fd16eae123b79d614e820a8ea0a2c8d # v2.22.0
         with:
           reporter: github-pr-check
@@ -29,6 +37,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Test jekyll-kuma-plugins
+        if: steps.changes.outputs.plugins == 'true'
         run: mise run test:plugins
       - name: Test spec
+        if: steps.changes.outputs.plugins == 'true'
         run: mise run install && mise run test
