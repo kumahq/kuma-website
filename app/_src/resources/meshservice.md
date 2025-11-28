@@ -372,4 +372,4 @@ MeshService names must:
 
 ## All options
 
-{% schema_viewer MeshService type=proto %}
+{% schema_viewer kuma.io_meshservices type=crd %}
