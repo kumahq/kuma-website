@@ -185,7 +185,7 @@
   margin-left: 0.35rem;
   padding: 0.05rem 0.25rem;
   font-size: 0.75rem;
-  color: $accentColor;
+  color: $accentColor !important;
   background: none;
   border: none;
   cursor: pointer;
@@ -193,7 +193,7 @@
   font-weight: 500;
 
   &:hover {
-    color: darken($accentColor, 10%);
+    color: darken($accentColor, 10%) !important;
   }
 
   &:focus {
