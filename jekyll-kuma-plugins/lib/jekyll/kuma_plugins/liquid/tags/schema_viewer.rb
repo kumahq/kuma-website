@@ -19,10 +19,23 @@ module Jekyll
             super
             name, *params_list = @markup.split
             params = { 'type' => 'policy' }
+            @filters = {}
+
             params_list.each do |item|
               sp = item.split('=')
-              params[sp[0]] = sp[1] unless sp[1].to_s.empty?
+              key = sp[0]
+              value = sp[1]
+              next if value.to_s.empty?
+
+              # If key contains a dot, it's a filter path (e.g., targetRef.kind)
+              if key.include?('.')
+                # Split comma-separated values
+                @filters[key] = value.split(',').map(&:strip)
+              else
+                params[key] = value
+              end
             end
+
             @load = create_loader(params['type'], name)
           end
 
@@ -30,7 +43,7 @@ module Jekyll
             release = context.registers[:page]['release']
             base_paths = context.registers[:site].config.fetch(PATHS_CONFIG, DEFAULT_PATHS)
             data = @load.call(base_paths, release)
-            SchemaRenderer.new(data).render
+            SchemaRenderer.new(data, @filters).render
           rescue StandardError => e
             Jekyll.logger.warn('Failed reading schema_viewer', e)
             "<div class='schema-viewer-error'>Error loading schema: #{CGI.escapeHTML(e.message)}</div>"
@@ -73,15 +86,17 @@ module Jekyll
         class SchemaRenderer
           DESCRIPTION_TRUNCATE_LENGTH = 100
 
-          def initialize(schema)
+          def initialize(schema, filters = {})
             @definitions = schema['definitions'] || {}
             @root_schema = resolve_ref(schema)
+            @filters = filters
           end
 
           def render
+            filtered_schema = apply_filters(@root_schema, [])
             <<~HTML
               <div class="schema-viewer">
-                #{render_properties(@root_schema, 0)}
+                #{render_properties(filtered_schema, 0, [])}
               </div>
             HTML
           end
@@ -109,31 +124,36 @@ module Jekyll
             def_name.split('.').last
           end
 
-          def render_properties(schema, depth)
+          def render_properties(schema, depth, path)
             schema = resolve_ref(schema)
             return '' unless schema.is_a?(Hash) && schema['properties'].is_a?(Hash)
 
             required_fields = schema['required'] || []
             props = schema['properties'].map do |name, prop|
-              render_property(name, prop, required_fields.include?(name), depth)
+              render_property(name, prop, required_fields.include?(name), depth, path)
             end
             "<div class=\"schema-viewer__properties\">#{props.join}</div>"
           end
 
-          def render_property(name, prop, required, depth)
+          def render_property(name, prop, required, depth, path)
             ref_name = extract_ref_name(prop)
             resolved_prop = resolve_ref(prop)
             return '' unless resolved_prop.is_a?(Hash)
 
-            build_property_html(name, resolved_prop, required, depth, ref_name)
+            # Build new path for this property
+            current_path = path + [name]
+            # Apply filters to this property
+            filtered_prop = apply_filters(resolved_prop, current_path)
+
+            build_property_html(name, filtered_prop, required, depth, current_path, ref_name)
           end
 
-          def build_property_html(name, prop, required, depth, ref_name = nil)
+          def build_property_html(name, prop, required, depth, path, ref_name = nil)
             metadata = { required: required, ref_name: ref_name }
             has_children = nested_properties?(prop)
             html = [render_node_open(name, prop, metadata, depth, has_children)]
             html << render_content_section(prop)
-            html << render_children_section(prop, depth) if has_children
+            html << render_children_section(prop, depth, path) if has_children
             html << '</div>'
             html.join
           end
@@ -179,8 +199,8 @@ module Jekyll
             "<div class=\"schema-viewer__content\">#{content.join}</div>"
           end
 
-          def render_children_section(prop, depth)
-            "<div class=\"schema-viewer__children\">#{render_nested_content(prop, depth + 1)}</div>"
+          def render_children_section(prop, depth, path)
+            "<div class=\"schema-viewer__children\">#{render_nested_content(prop, depth + 1, path)}</div>"
           end
 
           def determine_type(prop)
@@ -205,10 +225,56 @@ module Jekyll
             prop['items'] && resolve_ref(prop['items'])['properties']
           end
 
-          def render_nested_content(prop, depth)
-            return render_properties(prop, depth) if prop['properties']
+          def render_nested_content(prop, depth, path)
+            return render_properties(prop, depth, path) if prop['properties']
 
-            render_properties(resolve_ref(prop['items']), depth) if prop['items']
+            render_properties(resolve_ref(prop['items']), depth, path) if prop['items']
+          end
+
+          def apply_filters(schema, path)
+            return schema if @filters.empty?
+            return schema unless schema.is_a?(Hash)
+
+            # Make a deep copy to avoid mutating original and preserve encoding
+            filtered = Marshal.load(Marshal.dump(schema))
+            filter_path = path.join('.')
+
+            # Check if we have a filter for this path
+            if @filters.key?(filter_path)
+              allowed_values = @filters[filter_path]
+
+              # Filter enum values
+              if filtered['enum'].is_a?(Array)
+                filtered['enum'] = filtered['enum'].select { |v| allowed_values.include?(v.to_s) }
+              end
+
+              # Filter oneOf alternatives
+              if filtered['oneOf'].is_a?(Array)
+                filtered['oneOf'] = filter_alternatives(filtered['oneOf'], allowed_values)
+              end
+
+              # Filter anyOf alternatives
+              if filtered['anyOf'].is_a?(Array)
+                filtered['anyOf'] = filter_alternatives(filtered['anyOf'], allowed_values)
+              end
+            end
+
+            filtered
+          end
+
+          def filter_alternatives(alternatives, allowed_values)
+            alternatives.select do |alt|
+              # Check if alternative has an enum with any allowed values
+              if alt['enum'].is_a?(Array)
+                (alt['enum'].map(&:to_s) & allowed_values).any?
+              # Check if alternative has a const matching allowed values
+              elsif alt['const']
+                allowed_values.include?(alt['const'].to_s)
+              else
+                # Keep alternatives without enum/const
+                true
+              end
+            end
           end
 
           def clean_description(desc)
