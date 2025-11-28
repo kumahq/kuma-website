@@ -1,4 +1,5 @@
 @use '@/styles/config/index' as *;
+@use 'sass:color';
 
 .schema-viewer {
   font-family: inherit;
@@ -174,32 +175,46 @@
   font-size: 0.85rem;
   margin-bottom: 0.25rem;
   line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
 }
 
 .schema-viewer__description-text {
-  display: inline;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .schema-viewer__show-more {
-  display: inline;
-  margin-left: 0.35rem;
-  padding: 0.05rem 0.25rem;
+  flex: 0 0 auto;
+  padding: 0.1rem 0.4rem;
   font-size: 0.75rem;
-  color: $accentColor;
-  background: none;
+  color: $accentColor !important;
+  background: rgba($accentColor, 0.04);
   border: none;
+  border-radius: 3px;
   cursor: pointer;
-  text-decoration: underline;
+  text-decoration: none;
   font-weight: 500;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
 
   &:hover {
-    color: darken($accentColor, 10%);
+    background: rgba($accentColor, 0.08);
+    color: $accentColor !important;
+  }
+
+  &:active {
+    color: $accentColor !important;
+    background: rgba($accentColor, 0.08);
   }
 
   &:focus {
     outline: 2px solid $accentColor;
     outline-offset: 2px;
-    border-radius: 2px;
+    color: $accentColor !important;
   }
 }
 
