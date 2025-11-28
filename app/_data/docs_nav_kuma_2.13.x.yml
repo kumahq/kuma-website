@@ -298,6 +298,8 @@ items:
         url: /resources/meshmultizoneservice/
       - text: MeshExternalService
         url: /resources/meshexternalservice/
+      - text: HostnameGenerator
+        url: /resources/hostnamegenerator/
   - title: Policies
     group: true
     items:
