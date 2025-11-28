@@ -52,10 +52,22 @@ module Jekyll
               return '' unless schema.is_a?(Hash) && schema['properties'].is_a?(Hash)
 
               required_fields = schema['required'] || []
-              props = schema['properties'].map do |name, prop|
+              sorted_properties = sort_properties(schema['properties'])
+              props = sorted_properties.map do |name, prop|
                 render_property(name, prop, required_fields.include?(name), depth, path)
               end
               "<div class=\"schema-viewer__properties\">#{props.join}</div>"
+            end
+
+            def sort_properties(properties)
+              # Define priority order for common fields
+              priority_order = %w[targetRef rules from to default]
+
+              properties.sort_by do |name, _|
+                priority_index = priority_order.index(name)
+                # If field is in priority list, use its index; otherwise use 1000 + alphabetical
+                priority_index || (1000 + name.downcase.chars.map(&:ord).sum)
+              end
             end
 
             def render_property(name, prop, required, depth, path)

@@ -10,14 +10,7 @@
     <span class="schema-viewer__type schema-viewer__type--object">object</span>
     <span class="schema-viewer__ref">→ Mtls</span>
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">mTLS settings of a Mesh.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">enabledBackend</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the enabled backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">mTLS settings of a Mesh.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">backends</span>
@@ -32,6 +25,20 @@
     
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">mode</span>
+    <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__enum">Values: <code>STRICT</code> | <code>PERMISSIVE</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">conf</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Configuration of the backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">type</span>
@@ -66,21 +73,7 @@
     <span class="schema-viewer__type schema-viewer__type--string">string</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Timeout on request to CA for DP certificate generation and retrieval</span></div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">conf</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Configuration of the backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">mode</span>
-    <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__enum">Values: <code>STRICT</code> | <code>PERMISSIVE</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="2">
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Timeout on request to CA for DP certificate generation and retrieval</span></div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="2">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">rootChain</span>
@@ -97,6 +90,13 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Timeout on request for to CA for root certificate chain. If not specified, defaults to 10s.</span></div></div></div></div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">enabledBackend</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the enabled backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">skipValidation</span>
     <span class="schema-viewer__type schema-viewer__type--boolean">boolean</span>
     
@@ -104,70 +104,11 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">If enabled, skips CA validation.</span></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
     <span class="schema-viewer__arrow"></span>
-    <span class="schema-viewer__name">tracing</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    <span class="schema-viewer__ref">→ Tracing</span>
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Tracing defines tracing configuration of the mesh.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">defaultBackend</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the default backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
-  <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
-    <span class="schema-viewer__arrow"></span>
-    <span class="schema-viewer__name">backends</span>
-    <span class="schema-viewer__type schema-viewer__type--array">array</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">List of available tracing backends</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">name</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the backend, can be then used in Mesh.tracing.defaultBackend or in TrafficTrace</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">sampling</span>
-    <span class="schema-viewer__type schema-viewer__type--number">number</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Percentage of traces that will be sent to the backend (range 0.0 - 100.0). Empty value defaults to 100.0%">
-  <span class="schema-viewer__description-text">Percentage of traces that will be sent to the backend (range 0.0 - 100.0). Empty value defaults to 1...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">type</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Type of the backend (Kuma ships with &#39;zipkin&#39;)</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">conf</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Configuration of the backend</span></div></div></div></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
-  <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
-    <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">logging</span>
     <span class="schema-viewer__type schema-viewer__type--object">object</span>
     <span class="schema-viewer__ref">→ Logging</span>
     
-  </div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">defaultBackend</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the default backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
+  </div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">backends</span>
@@ -184,14 +125,11 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the backend, can be then used in Mesh.logging.defaultBackend or in TrafficLogging</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">format</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    <span class="schema-viewer__name">conf</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Format of access logs. Placeholders available on https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log">
-  <span class="schema-viewer__description-text">Format of access logs. Placeholders available on https://www.envoyproxy.io/docs/envoy/latest/configu...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Configuration of the backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">type</span>
@@ -201,25 +139,80 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Type of the backend (Kuma ships with &#39;tcp&#39; and &#39;file&#39;)</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">format</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Format of access logs. Placeholders available on https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log">
+  <span class="schema-viewer__description-text">Format of access logs. Placeholders available on https://www.envoyproxy.io/docs/envoy/latest/configu...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">defaultBackend</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the default backend</span></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
+  <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
+    <span class="schema-viewer__arrow"></span>
+    <span class="schema-viewer__name">tracing</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    <span class="schema-viewer__ref">→ Tracing</span>
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Tracing defines tracing configuration of the mesh.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
+  <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
+    <span class="schema-viewer__arrow"></span>
+    <span class="schema-viewer__name">backends</span>
+    <span class="schema-viewer__type schema-viewer__type--array">array</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">List of available tracing backends</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">name</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the backend, can be then used in Mesh.tracing.defaultBackend or in TrafficTrace</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">conf</span>
     <span class="schema-viewer__type schema-viewer__type--object">object</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Configuration of the backend</span></div></div></div></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Configuration of the backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">type</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Type of the backend (Kuma ships with &#39;zipkin&#39;)</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">sampling</span>
+    <span class="schema-viewer__type schema-viewer__type--number">number</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Percentage of traces that will be sent to the backend (range 0.0 - 100.0). Empty value defaults to 100.0%">
+  <span class="schema-viewer__description-text">Percentage of traces that will be sent to the backend (range 0.0 - 100.0). Empty value defaults to 1...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">defaultBackend</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the default backend</span></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">metrics</span>
     <span class="schema-viewer__type schema-viewer__type--object">object</span>
     <span class="schema-viewer__ref">→ Metrics</span>
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Metrics defines configuration for metrics that should be collected and exposed by dataplanes.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">enabledBackend</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the enabled backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Metrics defines configuration for metrics that should be collected and exposed by dataplanes.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">backends</span>
@@ -236,18 +229,56 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the backend, can be then used in Mesh.metrics.enabledBackend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">type</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Type of the backend (Kuma ships with &#39;prometheus&#39;)</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">conf</span>
     <span class="schema-viewer__type schema-viewer__type--object">object</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Configuration of the backend</span></div></div></div></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Configuration of the backend</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">type</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Type of the backend (Kuma ships with &#39;prometheus&#39;)</span></div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">enabledBackend</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Name of the enabled backend</span></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
+  <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
+    <span class="schema-viewer__arrow"></span>
+    <span class="schema-viewer__name">routing</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    <span class="schema-viewer__ref">→ Routing</span>
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Routing defines configuration for the routing in the mesh</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">zoneEgress</span>
+    <span class="schema-viewer__type schema-viewer__type--boolean">boolean</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Enable routing traffic to services in other zone or external services through ZoneEgress. Default: false">
+  <span class="schema-viewer__description-text">Enable routing traffic to services in other zone or external services through ZoneEgress. Default: f...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">localityAwareLoadBalancing</span>
+    <span class="schema-viewer__type schema-viewer__type--boolean">boolean</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Enable the Locality Aware Load Balancing</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">defaultForbidMeshExternalServiceAccess</span>
+    <span class="schema-viewer__type schema-viewer__type--boolean">boolean</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">If true, blocks traffic to MeshExternalServices. Default: false</span></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">networking</span>
@@ -269,37 +300,6 @@
     
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Control the passthrough cluster</span></div></div></div></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
-  <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
-    <span class="schema-viewer__arrow"></span>
-    <span class="schema-viewer__name">routing</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    <span class="schema-viewer__ref">→ Routing</span>
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Routing defines configuration for the routing in the mesh</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">localityAwareLoadBalancing</span>
-    <span class="schema-viewer__type schema-viewer__type--boolean">boolean</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Enable the Locality Aware Load Balancing</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">zoneEgress</span>
-    <span class="schema-viewer__type schema-viewer__type--boolean">boolean</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Enable routing traffic to services in other zone or external services through ZoneEgress. Default: false">
-  <span class="schema-viewer__description-text">Enable routing traffic to services in other zone or external services through ZoneEgress. Default: f...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">defaultForbidMeshExternalServiceAccess</span>
-    <span class="schema-viewer__type schema-viewer__type--boolean">boolean</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">If true, blocks traffic to MeshExternalServices. Default: false</span></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">constraints</span>
@@ -347,17 +347,7 @@
     <span class="schema-viewer__type schema-viewer__type--object">object</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Tags defines set of required tags. You can specify &#39;*&#39; in value to require non empty value of tag</span></div></div></div></div></div></div></div></div></div></div></div></div><div class="schema-viewer__node  " data-depth="0">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">skipCreatingInitialPolicies</span>
-    <span class="schema-viewer__type schema-viewer__type--array">array</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="List of policies to skip creating by default when the mesh is created. e.g. TrafficPermission, MeshRetry, etc. An '*' can be used to skip all policies.">
-  <span class="schema-viewer__description-text">List of policies to skip creating by default when the mesh is created. e.g. TrafficPermission, MeshR...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Tags defines set of required tags. You can specify &#39;*&#39; in value to require non empty value of tag</span></div></div></div></div></div></div></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">meshServices</span>
@@ -371,5 +361,15 @@
     <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__enum">Values: <code>Disabled</code> | <code>Everywhere</code> | <code>ReachableBackends</code> | <code>Exclusive</code></div></div></div></div></div></div></div></div>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__enum">Values: <code>Disabled</code> | <code>Everywhere</code> | <code>ReachableBackends</code> | <code>Exclusive</code></div></div></div></div></div></div><div class="schema-viewer__node  " data-depth="0">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">skipCreatingInitialPolicies</span>
+    <span class="schema-viewer__type schema-viewer__type--array">array</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="List of policies to skip creating by default when the mesh is created. e.g. TrafficPermission, MeshRetry, etc. An '*' can be used to skip all policies.">
+  <span class="schema-viewer__description-text">List of policies to skip creating by default when the mesh is created. e.g. TrafficPermission, MeshR...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div></div></div>
 {:/nomarkdown}
