@@ -1,0 +1,35 @@
+{
+  "version": "5",
+  "remote": {
+    "https://edge.netlify.com/": "fd941d61d88673d5f28aab283fb86fcc50f08a3bc80ee5470498fcfa88c65cfb",
+    "https://edge.netlify.com/bootstrap/config.ts": "6a2ce0e544e15e8f8883a5c18da5948e37fd0f2619f68cb31f3af53c51817025",
+    "https://edge.netlify.com/bootstrap/context.ts": "72496497b40d9e808f419efc764ecb438952a32f61ed94cd54952fc59f17f69d",
+    "https://edge.netlify.com/bootstrap/cookie.ts": "8b0baae708989ca183c6f3b4ab3d029e6abcbc2e43f93edeb0ff447b3bbc3a05",
+    "https://edge.netlify.com/bootstrap/edge_function.ts": "b8253e86aa83c67341f5cfedeba5049d77fbf84dcab7eceff7566b7728ae9b39",
+    "https://edge.netlify.com/bootstrap/globals/types.ts": "eaa6148ded3121d8dee62dd91c86e7fe76601df0f3ca8d7962243a30f4c8935f"
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@kongponents/ktabs@^7.2.2",
+        "npm:@kongponents/styles@^7.2.2",
+        "npm:anchor-js@5",
+        "npm:animejs@^4.2.2",
+        "npm:braces@3.0.3",
+        "npm:jquery@^3.7.1",
+        "npm:netlify-cli@^23.10.0",
+        "npm:netlify-headers-parser@^7.1.4",
+        "npm:netlify-redirect-parser@^14.4.0",
+        "npm:prismjs@^1.30.0",
+        "npm:regexp-tree@~0.1.27",
+        "npm:sass@^1.93.3",
+        "npm:slick-carousel@^1.8.1",
+        "npm:stylus@0.64",
+        "npm:vite-plugin-ruby@^5.1.1",
+        "npm:vite-plugin-windicss@^1.9.4",
+        "npm:vite@^7.2.0",
+        "npm:windicss@^3.5.6"
+      ]
+    }
+  }
+}
