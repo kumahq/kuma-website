@@ -21,6 +21,7 @@ module Jekyll
             name, *params_list = @markup.split
             params = { 'type' => 'policy' }
             @filters = {}
+            @excluded_fields = []
 
             parse_parameters(params_list, params)
             @load = create_loader(params['type'], name)
@@ -30,7 +31,7 @@ module Jekyll
             release = context.registers[:page]['release']
             base_paths = context.registers[:site].config.fetch(PATHS_CONFIG, DEFAULT_PATHS)
             data = @load.call(base_paths, release)
-            SchemaViewerComponents::Renderer.new(data, @filters).render
+            SchemaViewerComponents::Renderer.new(data, @filters, @excluded_fields).render
           rescue StandardError => e
             Jekyll.logger.warn('Failed reading schema_viewer', e)
             "<div class='schema-viewer-error'>Error loading schema: #{CGI.escapeHTML(e.message)}</div>"
@@ -45,8 +46,11 @@ module Jekyll
               value = sp[1]
               next if value.to_s.empty?
 
+              # Handle exclude parameter
+              if key == 'exclude'
+                @excluded_fields = value.split(',').map(&:strip)
               # If key contains a dot, it's a filter path (e.g., targetRef.kind)
-              if key.include?('.')
+              elsif key.include?('.')
                 # Split comma-separated values
                 @filters[key] = value.split(',').map(&:strip)
               else

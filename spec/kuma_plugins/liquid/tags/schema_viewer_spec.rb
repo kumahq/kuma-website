@@ -101,6 +101,24 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::SchemaViewer do
         expect(value).not_to match(/^\s|\s$/)
       end
     end
+
+    it 'parses exclude parameter' do
+      tag = Liquid::Template.parse('{% schema_viewer TestSchema exclude=from %}').root.nodelist.first
+      excluded_fields = tag.instance_variable_get(:@excluded_fields)
+      expect(excluded_fields).to eq(['from'])
+    end
+
+    it 'parses exclude parameter with multiple fields' do
+      tag = Liquid::Template.parse('{% schema_viewer TestSchema exclude=from,rules %}').root.nodelist.first
+      excluded_fields = tag.instance_variable_get(:@excluded_fields)
+      expect(excluded_fields).to eq(%w[from rules])
+    end
+
+    it 'handles multiple excluded fields' do
+      tag = Liquid::Template.parse('{% schema_viewer TestSchema exclude=from,rules,to %}').root.nodelist.first
+      excluded_fields = tag.instance_variable_get(:@excluded_fields)
+      expect(excluded_fields).to eq(%w[from rules to])
+    end
   end
 
   describe Jekyll::KumaPlugins::Liquid::Tags::SchemaViewerComponents::Renderer do

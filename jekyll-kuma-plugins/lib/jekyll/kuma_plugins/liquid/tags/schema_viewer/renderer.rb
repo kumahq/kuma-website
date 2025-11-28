@@ -12,10 +12,11 @@ module Jekyll
           class Renderer
             DESCRIPTION_TRUNCATE_LENGTH = 100
 
-            def initialize(schema, filters = {})
+            def initialize(schema, filters = {}, excluded_fields = [])
               @definitions = schema['definitions'] || {}
               @root_schema = resolve_ref(schema)
               @filters = filters
+              @excluded_fields = excluded_fields
             end
 
             def render
@@ -53,6 +54,8 @@ module Jekyll
 
               required_fields = schema['required'] || []
               sorted_properties = sort_properties(schema['properties'])
+              # Filter out excluded fields (only at top level, depth 0)
+              sorted_properties = sorted_properties.reject { |name, _| depth.zero? && @excluded_fields.include?(name) }
               props = sorted_properties.map do |name, prop|
                 render_property(name, prop, required_fields.include?(name), depth, path)
               end
