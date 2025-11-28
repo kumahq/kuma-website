@@ -236,7 +236,8 @@ module Jekyll
                   </div>
                 HTML
               else
-                "<div class=\"schema-viewer__description\"><span class=\"schema-viewer__description-text\">#{CGI.escapeHTML(description)}</span></div>"
+                escaped = CGI.escapeHTML(description)
+                "<div class=\"schema-viewer__description\"><span class=\"schema-viewer__description-text\">#{escaped}</span></div>"
               end
             end
 
