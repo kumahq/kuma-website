@@ -148,13 +148,13 @@ module Jekyll
             # Apply filters to this property
             filtered_prop = apply_filters(resolved_prop, current_path)
 
-            build_property_html(name, filtered_prop, required, depth, current_path, ref_name)
+            metadata = { name: name, required: required, ref_name: ref_name }
+            build_property_html(filtered_prop, metadata, depth, current_path)
           end
 
-          def build_property_html(name, prop, required, depth, path, ref_name = nil)
-            metadata = { required: required, ref_name: ref_name }
+          def build_property_html(prop, metadata, depth, path)
             has_children = nested_properties?(prop)
-            html = [render_node_open(name, prop, metadata, depth, has_children)]
+            html = [render_node_open(metadata[:name], prop, metadata, depth, has_children)]
             html << render_content_section(prop)
             html << render_children_section(prop, depth, path) if has_children
             html << '</div>'
