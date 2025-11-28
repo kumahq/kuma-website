@@ -1,9 +1,13 @@
 export default class SchemaViewer {
   static TRUNCATE_LENGTH = 100;
+  static FILTER_DEBOUNCE_MS = 150;
 
   constructor() {
     this.viewers = Array.from(document.querySelectorAll('.schema-viewer'));
     if (this.viewers.length === 0) return;
+
+    this.collapsedStates = new WeakMap();
+    this.filterTimers = new WeakMap();
 
     this.viewers.forEach(viewer => this.initViewer(viewer));
   }
@@ -19,14 +23,21 @@ export default class SchemaViewer {
     const toolbar = document.createElement('div');
     toolbar.className = 'schema-viewer__toolbar';
     toolbar.innerHTML = `
-      <input type="text" class="schema-viewer__search" placeholder="Filter fields..." />
+      <input type="text" class="schema-viewer__search" placeholder="Filter fields..." aria-label="Filter schema fields" />
       <button type="button" class="schema-viewer__btn schema-viewer__btn--expand-all">Expand all</button>
       <button type="button" class="schema-viewer__btn schema-viewer__btn--collapse-all">Collapse all</button>
     `;
 
     const searchInput = toolbar.querySelector('.schema-viewer__search');
     searchInput.addEventListener('input', (e) => {
-      this.filterFields(viewer, e.target.value);
+      const timer = this.filterTimers.get(viewer);
+      if (timer) clearTimeout(timer);
+
+      const newTimer = setTimeout(() => {
+        this.filterFields(viewer, e.target.value);
+      }, SchemaViewer.FILTER_DEBOUNCE_MS);
+
+      this.filterTimers.set(viewer, newTimer);
     });
 
     toolbar.querySelector('.schema-viewer__btn--expand-all').addEventListener('click', () => {
@@ -120,17 +131,25 @@ export default class SchemaViewer {
     const nodes = Array.from(viewer.querySelectorAll('.schema-viewer__node'));
 
     if (!term) {
+      this.restoreCollapsedStates(viewer, nodes);
       nodes.forEach(node => node.classList.remove('schema-viewer__node--filtered'));
       return;
     }
 
+    this.saveCollapsedStates(viewer, nodes);
+
+    const matchResults = new Map();
     nodes.forEach(node => {
-      const matches = this.nodeMatches(node, term);
-      const hasMatchingDescendant = this.hasMatchingDescendant(node, term);
+      matchResults.set(node, this.nodeMatches(node, term));
+    });
+
+    nodes.forEach(node => {
+      const matches = matchResults.get(node);
+      const hasMatchingDescendant = this.hasMatchingDescendantCached(node, matchResults);
 
       if (matches || hasMatchingDescendant) {
         node.classList.remove('schema-viewer__node--filtered');
-        if (hasMatchingDescendant) {
+        if (hasMatchingDescendant && !matches) {
           node.classList.remove('schema-viewer__node--collapsed');
           const header = node.querySelector('.schema-viewer__header');
           if (header) header.setAttribute('aria-expanded', 'true');
@@ -141,6 +160,37 @@ export default class SchemaViewer {
     });
 
     this.ensureParentsVisible(viewer);
+  }
+
+  saveCollapsedStates(viewer, nodes) {
+    if (this.collapsedStates.has(viewer)) return;
+
+    const states = new Map();
+    nodes.forEach(node => {
+      states.set(node, node.classList.contains('schema-viewer__node--collapsed'));
+    });
+    this.collapsedStates.set(viewer, states);
+  }
+
+  restoreCollapsedStates(viewer, nodes) {
+    const states = this.collapsedStates.get(viewer);
+    if (!states) return;
+
+    nodes.forEach(node => {
+      const wasCollapsed = states.get(node);
+      if (wasCollapsed === undefined) return;
+
+      const header = node.querySelector('.schema-viewer__header');
+      if (wasCollapsed) {
+        node.classList.add('schema-viewer__node--collapsed');
+        if (header) header.setAttribute('aria-expanded', 'false');
+      } else {
+        node.classList.remove('schema-viewer__node--collapsed');
+        if (header) header.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    this.collapsedStates.delete(viewer);
   }
 
   nodeMatches(node, term) {
@@ -156,6 +206,11 @@ export default class SchemaViewer {
   hasMatchingDescendant(node, term) {
     const children = node.querySelectorAll('.schema-viewer__node');
     return Array.from(children).some(child => this.nodeMatches(child, term));
+  }
+
+  hasMatchingDescendantCached(node, matchResults) {
+    const children = node.querySelectorAll('.schema-viewer__node');
+    return Array.from(children).some(child => matchResults.get(child));
   }
 
   ensureParentsVisible(viewer) {
