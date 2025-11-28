@@ -617,4 +617,9 @@ Depending on the `backend`'s protocol:
 
 ## All policy configuration settings
 
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshTCPRoutes targetRef.kind=Mesh,Dataplane %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
 {% schema_viewer MeshTCPRoutes %}
+{% endif_version %}

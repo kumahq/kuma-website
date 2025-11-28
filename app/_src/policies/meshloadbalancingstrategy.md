@@ -786,4 +786,9 @@ The downside is that we now have to establish and maintain more TCP connections.
 
 ## All policy options
 
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshLoadBalancingStrategies targetRef.kind=Mesh,Dataplane %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
 {% schema_viewer MeshLoadBalancingStrategies %}
+{% endif_version %}

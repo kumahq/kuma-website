@@ -519,4 +519,9 @@ spec:
 
 ## All policy options
 
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshRetries targetRef.kind=Mesh,Dataplane %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
 {% schema_viewer MeshRetries %}
+{% endif_version %}
