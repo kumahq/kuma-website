@@ -1,4 +1,6 @@
 export default class SchemaViewer {
+  static TRUNCATE_LENGTH = 100;
+
   constructor() {
     this.viewers = Array.from(document.querySelectorAll('.schema-viewer'));
     if (this.viewers.length === 0) return;
@@ -96,12 +98,14 @@ export default class SchemaViewer {
 
     const isExpanded = button.textContent === 'show less';
     if (isExpanded) {
-      const truncated = fullText.substring(0, 100);
+      const truncated = fullText.substring(0, SchemaViewer.TRUNCATE_LENGTH);
       textSpan.textContent = truncated + '...';
       button.textContent = 'show more';
+      button.setAttribute('aria-expanded', 'false');
     } else {
       textSpan.textContent = fullText;
       button.textContent = 'show less';
+      button.setAttribute('aria-expanded', 'true');
     }
   }
 }

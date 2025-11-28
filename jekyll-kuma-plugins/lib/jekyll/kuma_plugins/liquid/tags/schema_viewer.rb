@@ -71,6 +71,8 @@ module Jekyll
 
         # Renders schema data to HTML
         class SchemaRenderer
+          DESCRIPTION_TRUNCATE_LENGTH = 100
+
           def initialize(schema)
             @definitions = schema['definitions'] || {}
             @root_schema = resolve_ref(schema)
@@ -206,15 +208,13 @@ module Jekyll
             return '' unless description
 
             description = description.to_s.force_encoding('UTF-8')
-            truncate_at = 100
-            if description.length > truncate_at
-              truncated = description[0...truncate_at]
-              full = CGI.escapeHTML(description)
+            if description.length > DESCRIPTION_TRUNCATE_LENGTH
+              truncated = description[0...DESCRIPTION_TRUNCATE_LENGTH]
               preview = CGI.escapeHTML(truncated)
               <<~HTML
-                <div class="schema-viewer__description" data-full-text="#{full}">
+                <div class="schema-viewer__description" data-full-text="#{description}">
                   <span class="schema-viewer__description-text">#{preview}...</span>
-                  <button type="button" class="schema-viewer__show-more">show more</button>
+                  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
                 </div>
               HTML
             else
@@ -231,7 +231,7 @@ module Jekyll
           def render_default_value(value)
             return '' if value.nil?
 
-            formatted_value = value.is_a?(String) ? "\"#{value}\"" : value.to_s
+            formatted_value = value.is_a?(String) ? "\"#{value}\"" : JSON.generate(value)
             "<div class=\"schema-viewer__default\">Default: <code>#{CGI.escapeHTML(formatted_value)}</code></div>"
           end
         end
