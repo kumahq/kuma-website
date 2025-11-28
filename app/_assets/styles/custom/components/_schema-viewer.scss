@@ -10,6 +10,35 @@
   margin: 1rem 0;
 }
 
+.schema-viewer__toolbar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid $borderColor;
+  background: #fff;
+}
+
+.schema-viewer__btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid $borderColor;
+  border-radius: 3px;
+  background: #fff;
+  color: $gray-5;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background: $gray-1;
+    border-color: $gray-4;
+  }
+
+  &:focus {
+    outline: 2px solid $accentColor;
+    outline-offset: 2px;
+  }
+}
+
 .schema-viewer__properties {
   padding: 0;
 }
@@ -35,6 +64,11 @@
 
     &:hover {
       background: $sky-light;
+    }
+
+    &:focus {
+      outline: 2px solid $accentColor;
+      outline-offset: -2px;
     }
   }
 }

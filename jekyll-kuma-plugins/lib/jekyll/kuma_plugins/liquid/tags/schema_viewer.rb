@@ -128,16 +128,23 @@ module Jekyll
             expandable = has_children ? 'schema-viewer__node--expandable' : nil
             arrow = has_children ? '<span class="schema-viewer__arrow"></span>' : '<span class="schema-viewer__arrow-placeholder"></span>'
             required_badge = required ? '<span class="schema-viewer__required">required</span>' : nil
+            header_attrs = build_header_attrs(has_children, depth)
 
             <<~HTML
               <div class="schema-viewer__node #{collapsed} #{expandable}" data-depth="#{depth}">
-                <div class="schema-viewer__header">
+                <div class="schema-viewer__header" #{header_attrs}>
                   #{arrow}
                   <span class="schema-viewer__name">#{CGI.escapeHTML(name)}</span>
                   #{render_type_badge(determine_type(prop))}
                   #{required_badge}
                 </div>
             HTML
+          end
+
+          def build_header_attrs(expandable, depth)
+            return unless expandable
+
+            %(tabindex="0" aria-expanded="#{depth.positive? ? 'false' : 'true'}")
           end
 
           def render_content_section(prop)
@@ -173,35 +180,30 @@ module Jekyll
 
           def nested_properties?(prop)
             return true if prop['properties']
-            return true if prop['items'] && resolve_ref(prop['items'])['properties']
 
-            false
+            prop['items'] && resolve_ref(prop['items'])['properties']
           end
 
           def render_nested_content(prop, depth)
             return render_properties(prop, depth) if prop['properties']
-            return render_properties(resolve_ref(prop['items']), depth) if prop['items']
 
-            ''
+            render_properties(resolve_ref(prop['items']), depth) if prop['items']
           end
 
           def clean_description(desc)
-            return nil unless desc
+            return unless desc
 
-            desc.gsub('+optional', '').gsub("\n", ' ').strip
+            desc.gsub('+optional', '').tr("\n", ' ').strip
           end
 
           def extract_enum_values(prop)
-            return nil unless prop['enum']
-
-            prop['enum'].select { |v| v.is_a?(String) }
+            prop['enum']&.select { |v| v.is_a?(String) }
           end
 
           def render_enum_values(values)
             return '' if values.empty?
 
-            formatted = values.map { |v| "<code>#{CGI.escapeHTML(v)}</code>" }.join(' | ')
-            "<div class=\"schema-viewer__enum\">Values: #{formatted}</div>"
+            "<div class=\"schema-viewer__enum\">Values: #{values.map { |v| "<code>#{CGI.escapeHTML(v)}</code>" }.join(' | ')}</div>"
           end
         end
       end
