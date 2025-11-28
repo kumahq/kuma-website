@@ -157,7 +157,7 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### MeshService with named targetPort
+### MeshService with named `targetPort`
 
 Reference inbound ports by name instead of number:
 
@@ -320,7 +320,7 @@ spec:
         sectionName: http   # port name
 ```
 
-### In route backendRefs
+### In route `backendRefs`
 
 Direct traffic to a MeshService:
 
