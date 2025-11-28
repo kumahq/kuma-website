@@ -528,4 +528,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshFaultInjections %}
+{% schema_viewer MeshFaultInjections %}

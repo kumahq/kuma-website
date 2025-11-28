@@ -309,4 +309,4 @@ conf:
 
 ## All options
 
-{% json_schema VirtualOutbound type=proto %}
+{% schema_viewer VirtualOutbound type=proto %}

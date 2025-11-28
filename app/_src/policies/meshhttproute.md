@@ -774,4 +774,4 @@ rules:
 - [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure HTTP route-specific timeouts
 - [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Configure HTTP route-specific retries
 
-{% json_schema MeshHttpRoutes %}
+{% schema_viewer MeshHttpRoutes %}

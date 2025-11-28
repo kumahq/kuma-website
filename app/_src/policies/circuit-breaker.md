@@ -256,4 +256,4 @@ Read more about [Non-mesh traffic](/docs/{{ page.release }}/networking/non-mesh-
 
 ## All policy options
 
-{% json_schema CircuitBreaker type=proto %}
+{% schema_viewer CircuitBreaker type=proto %}

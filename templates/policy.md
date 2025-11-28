@@ -84,4 +84,4 @@ spec:
 
 ## All policy options
 
-{% json_schema {{ .Env.POLICY_NAME }}s %}
+{% schema_viewer {{ .Env.POLICY_NAME }}s %}

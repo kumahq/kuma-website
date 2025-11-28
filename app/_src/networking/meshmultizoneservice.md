@@ -71,4 +71,4 @@ ports:
 If available, the local zone is always preferred when a client sends a request.
 Otherwise, the request is load balanced equally for each zone. You can customize this behavior with [MeshLoadBalancingStrategy](/docs/{{ page.release }}/policies/meshloadbalancingstrategy), by targeting MeshMultiZoneService in `to` section.
 
-{% json_schema MeshMultiZoneServices %}
+{% schema_viewer MeshMultiZoneServices %}

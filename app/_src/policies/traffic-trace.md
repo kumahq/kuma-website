@@ -187,4 +187,4 @@ This is especially useful when we want traces to never leave a world region, or 
 
 ## All options
 
-{% json_schema TrafficTrace type=proto %}
+{% schema_viewer TrafficTrace type=proto %}

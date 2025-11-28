@@ -368,4 +368,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshRateLimits %}
+{% schema_viewer MeshRateLimits %}

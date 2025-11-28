@@ -160,4 +160,4 @@ The only supported value for `destinations.match` is `kuma.io/service`.
 
 ## All options
 
-{% json_schema HealthCheck type=proto %}
+{% schema_viewer HealthCheck type=proto %}

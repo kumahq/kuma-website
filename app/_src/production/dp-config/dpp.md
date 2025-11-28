@@ -109,4 +109,4 @@ In addition to the service traffic ports, the data plane proxy also opens the fo
 
 ## Schema
 
-{% json_schema Dataplane type=proto %}
+{% schema_viewer Dataplane type=proto %}

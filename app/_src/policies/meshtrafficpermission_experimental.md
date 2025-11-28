@@ -160,4 +160,4 @@ and denies requests from clients in `observability` namespace on `backend-admin-
 
 ## All policy options
 
-{% json_schema MeshTrafficPermissions %}
+{% schema_viewer MeshTrafficPermissions %}

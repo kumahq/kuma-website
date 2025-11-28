@@ -1158,4 +1158,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshProxyPatches %}
+{% schema_viewer MeshProxyPatches %}

@@ -232,4 +232,4 @@ Read more about [Non-mesh traffic](/docs/{{ page.release }}/networking/non-mesh-
 
 ## All options
 
-{% json_schema Timeout type=proto %}
+{% schema_viewer Timeout type=proto %}

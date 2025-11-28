@@ -162,4 +162,4 @@ Remember, the `ExternalService` follows [the same rules](/docs/{{ page.release }
 
 ## All options
 
-{% json_schema TrafficPermission type=proto %}
+{% schema_viewer TrafficPermission type=proto %}

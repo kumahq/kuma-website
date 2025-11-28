@@ -250,4 +250,4 @@ Retries can be configured on each route by matching the `Retry` connection polic
 
 ## All options
 
-{% json_schema Retry type=proto %}
+{% schema_viewer Retry type=proto %}

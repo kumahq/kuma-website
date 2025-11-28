@@ -428,4 +428,4 @@ for a `MeshGateway` with `crossMesh: true`.
 
 ## All options
 
-{% json_schema MeshGateway type=proto %}
+{% schema_viewer MeshGateway type=proto %}

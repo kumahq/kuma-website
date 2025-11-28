@@ -597,4 +597,4 @@ Accessing services by using `kuma.io/direct-access-services` annotation means an
 
 ### Schema
 
-{% json_schema kuma.io_containerpatches type=crd %}
+{% schema_viewer kuma.io_containerpatches type=crd %}

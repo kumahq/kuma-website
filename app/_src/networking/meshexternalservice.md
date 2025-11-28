@@ -417,4 +417,4 @@ grpcurl -plaintext -v mes-grpcs.svc.meshext.local:9001 list # this is using plai
 
 ## All policy configuration settings
 
-{% json_schema MeshExternalServices %}
+{% schema_viewer MeshExternalServices %}

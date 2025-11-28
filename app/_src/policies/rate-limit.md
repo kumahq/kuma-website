@@ -175,4 +175,4 @@ Rate limits are configured on each Envoy route by selecting the best Rate Limit 
 
 ## All options
 
-{% json_schema RateLimit type=proto %}
+{% schema_viewer RateLimit type=proto %}

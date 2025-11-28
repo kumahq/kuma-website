@@ -704,4 +704,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshCircuitBreakers %}
+{% schema_viewer MeshCircuitBreakers %}

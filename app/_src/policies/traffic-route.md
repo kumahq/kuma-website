@@ -610,4 +610,4 @@ There are different load balancing algorithms that can be used to determine how 
 
 ## All options
 
-{% json_schema TrafficRoute type=proto %}
+{% schema_viewer TrafficRoute type=proto %}

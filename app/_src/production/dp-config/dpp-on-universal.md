@@ -222,4 +222,4 @@ If the `admin` section is empty or port is equal to zero then the default value 
 
 ## Dataplane configuration
 
-{% json_schema Dataplane type=proto %}
+{% schema_viewer Dataplane type=proto %}

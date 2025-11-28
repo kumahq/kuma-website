@@ -261,4 +261,4 @@ EOF
 
 ## All options
 
-{% json_schema MeshGateway type=proto %}
+{% schema_viewer MeshGateway type=proto %}

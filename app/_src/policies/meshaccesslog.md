@@ -1228,4 +1228,4 @@ You can select a built-in gateway using the `kuma.io/service` value. A current l
 
 ## All policy options
 
-{% json_schema MeshAccessLogs %}
+{% schema_viewer MeshAccessLogs %}

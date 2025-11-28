@@ -911,4 +911,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshTraces %}
+{% schema_viewer MeshTraces %}

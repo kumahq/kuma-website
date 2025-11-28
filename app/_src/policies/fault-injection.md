@@ -117,4 +117,4 @@ You can use all the tags in both `sources` and `destinations` sections.
 
 ## All options
 
-{% json_schema FaultInjection type=proto %}
+{% schema_viewer FaultInjection type=proto %}

@@ -247,4 +247,4 @@ Note that before gateway becomes generally available this behaviour will change 
 
 ## All options
 
-{% json_schema ExternalService type=proto %}
+{% schema_viewer ExternalService type=proto %}

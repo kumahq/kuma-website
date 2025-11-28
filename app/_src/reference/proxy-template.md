@@ -907,4 +907,4 @@ The origin name for matching template modifications is `gateway`.
 
 ## Schema
 
-{% json_schema ProxyTemplate type=proto %}
+{% schema_viewer ProxyTemplate type=proto %}
