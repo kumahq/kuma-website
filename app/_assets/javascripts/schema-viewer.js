@@ -43,6 +43,14 @@ export default class SchemaViewer {
 
     viewer.addEventListener('keydown', (event) => {
       if (event.key !== 'Enter' && event.key !== ' ') return;
+
+      const showMoreBtn = event.target.closest('.schema-viewer__show-more');
+      if (showMoreBtn) {
+        event.preventDefault();
+        this.handleShowMore(showMoreBtn);
+        return;
+      }
+
       const header = event.target.closest('.schema-viewer__header');
       if (!header) return;
       event.preventDefault();
