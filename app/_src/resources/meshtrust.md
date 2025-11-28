@@ -256,10 +256,10 @@ spec:
 
 ## See also
 
-- [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) - Configure workload identities
-- [MeshTrust policy](/docs/{{ page.release }}/policies/meshtrust) - Policy documentation with additional context
-- [MeshTLS](/docs/{{ page.release }}/policies/meshtls) - Configure TLS modes and ciphers
-- [Trust concept](/docs/{{ page.release }}/introduction/concepts#trust) - Understanding trust in {{site.mesh_product_name}}
+* [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) - Configure workload identities
+* [MeshTrust policy](/docs/{{ page.release }}/policies/meshtrust) - Policy documentation with additional context
+* [MeshTLS](/docs/{{ page.release }}/policies/meshtls) - Configure TLS modes and ciphers
+* [Trust concept](/docs/{{ page.release }}/introduction/concepts#trust) - Understanding trust in {{site.mesh_product_name}}
 
 ## All options
 
