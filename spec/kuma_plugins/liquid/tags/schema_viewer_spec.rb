@@ -35,6 +35,11 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::SchemaViewer do
                      'MeshTimeouts',
                      'policy',
                      'spec/fixtures/schema-viewer-meshtimeouts.golden.html'
+
+    include_examples 'schema viewer rendering',
+                     'MeshCircuitBreakers',
+                     'policy',
+                     'spec/fixtures/schema-viewer-meshcircuitbreakers.golden.html'
   end
 
   describe 'error handling' do

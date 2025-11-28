@@ -20,11 +20,8 @@ module Jekyll
 
             def render
               filtered_schema = apply_filters(@root_schema, [])
-              <<~HTML
-                <div class="schema-viewer">
-                  #{render_properties(filtered_schema, 0, [])}
-                </div>
-              HTML
+              properties_html = render_properties(filtered_schema, 0, [])
+              "{::nomarkdown}\n<div class=\"schema-viewer\">#{properties_html}</div>\n{:/nomarkdown}"
             end
 
             private
@@ -94,7 +91,7 @@ module Jekyll
               ref_badge = ref_name ? "<span class=\"schema-viewer__ref\">→ #{CGI.escapeHTML(ref_name)}</span>".force_encoding('UTF-8') : nil
               header_attrs = build_header_attrs(has_children, depth)
 
-              <<~HTML
+              <<~HTML.chomp
                 <div class="schema-viewer__node #{collapsed} #{expandable}" data-depth="#{depth}">
                   <div class="schema-viewer__header" #{header_attrs}>
                     #{arrow}
@@ -229,7 +226,7 @@ module Jekyll
               if description.length > DESCRIPTION_TRUNCATE_LENGTH
                 truncated = description[0...DESCRIPTION_TRUNCATE_LENGTH]
                 preview = CGI.escapeHTML(truncated)
-                <<~HTML
+                <<~HTML.chomp
                   <div class="schema-viewer__description" data-full-text="#{description}">
                     <span class="schema-viewer__description-text">#{preview}...</span>
                     <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
