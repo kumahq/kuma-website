@@ -126,7 +126,11 @@ vale sync
 [tasks."mdlint:branch"]
 description = "Run markdownlint on changed files in current branch"
 run = """
-git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD | \
+# Check both committed and uncommitted files
+(git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD; \
+ git diff --name-only --diff-filter=d; \
+ git diff --name-only --cached --diff-filter=d) | \
+  sort -u | \
   grep -E '\\.(md|markdown)$' | \
   grep -v '/generated/' | \
   grep -v '/raw/' | \
@@ -137,7 +141,11 @@ git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD | \
 [tasks."mdlint:branch:fix"]
 description = "Fix markdownlint issues in changed files"
 run = """
-git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD | \
+# Check both committed and uncommitted files
+(git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD; \
+ git diff --name-only --diff-filter=d; \
+ git diff --name-only --cached --diff-filter=d) | \
+  sort -u | \
   grep -E '\\.(md|markdown)$' | \
   grep -v '/generated/' | \
   grep -v '/raw/' | \
