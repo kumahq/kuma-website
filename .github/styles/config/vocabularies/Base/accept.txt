@@ -111,6 +111,7 @@ MADR
 md
 minikube
 Maglev
+HostnameGenerator
 MeshExternalService
 MeshGateway
 matchers
