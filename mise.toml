@@ -2,16 +2,27 @@
 experimental = true # To enable installation of Go tools from source with mise.
 
 [tools]
+# Web/Frontend
 ruby = "3.4.7"
 node = "24.11.1"
 yarn = "1.22.22"
+
+# Linting
 vale = "3.13.0"
 shellcheck = "0.10.0"
+"npm:markdownlint-cli2" = "0.18.1"
+
+# Go tools
 go = "1.23"
 "go:github.com/raviqqe/muffet/v2" = "v2.11.0"
 "go:github.com/hairyhenderson/gomplate/v4/cmd/gomplate" = "v4.3.0"
+
+# Testing
 shellspec = "0.28.1"
-"npm:markdownlint-cli2" = "0.18.1"
+
+#-------------------------------------------------
+# Development
+#-------------------------------------------------
 
 [tasks.install]
 description = "Install yarn, npm packages and gems"
@@ -30,19 +41,6 @@ run = """
 mise run clean
 mise run dev
 """
-
-[tasks.test]
-description = "Run tests"
-run = "bundle exec rspec"
-
-[tasks."test:plugins"]
-description = "Install and run plugin tests"
-dir = "jekyll-kuma-plugins"
-run = "bundle install && bundle exec rspec"
-
-[tasks.build]
-description = "Build website"
-run = "exe/build"
 
 [tasks.serve]
 description = "Serve with netlify"
@@ -80,6 +78,85 @@ JEKYLL_PROCESS=$(lsof -ti:4000) && kill -9 $JEKYLL_PROCESS || true
 VITE_PROCESS=$(lsof -ti:3036) && kill -9 $VITE_PROCESS || true
 """
 
+#-------------------------------------------------
+# Build
+#-------------------------------------------------
+
+[tasks.build]
+description = "Build website"
+run = "exe/build"
+
+#-------------------------------------------------
+# Testing
+#-------------------------------------------------
+
+[tasks.test]
+description = "Run tests"
+run = "bundle exec rspec"
+
+[tasks."test:plugins"]
+description = "Install and run plugin tests"
+dir = "jekyll-kuma-plugins"
+run = "bundle install && bundle exec rspec"
+
+[tasks."test:tools"]
+description = "Run tool tests with shellspec"
+run = "shellspec"
+
+#-------------------------------------------------
+# Linting & Quality
+#-------------------------------------------------
+
+[tasks."vale:branch"]
+description = "Run vale on changed files in current branch"
+run = """
+vale sync
+git diff --name-only --diff-filter=d origin/master...HEAD | \
+  grep -E '\\.(md|markdown)$' | \
+  grep -v '/generated/' | \
+  grep -v '/raw/' | \
+  grep -v '^templates/' | \
+  xargs -r vale
+"""
+
+[tasks."mdlint:branch"]
+description = "Run markdownlint on changed files in current branch"
+run = """
+git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD | \
+  grep -E '\\.(md|markdown)$' | \
+  grep -v '/generated/' | \
+  grep -v '/raw/' | \
+  grep -v '^templates/' | \
+  xargs -r markdownlint-cli2
+"""
+
+[tasks."mdlint:branch:fix"]
+description = "Fix markdownlint issues in changed files"
+run = """
+git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD | \
+  grep -E '\\.(md|markdown)$' | \
+  grep -v '/generated/' | \
+  grep -v '/raw/' | \
+  grep -v '^templates/' | \
+  xargs -r markdownlint-cli2 --fix
+"""
+
+[tasks."vale:version-urls"]
+description = "Check for hardcoded version URLs in changed files"
+run = "tools/check-version-urls.sh"
+
+[tasks."frontmatter:validate"]
+description = "Validate frontmatter in new docs files"
+run = "tools/validate-frontmatter.sh"
+
+[tasks.shellcheck]
+description = "Run shellcheck on tools/*.sh"
+run = "shellcheck tools/*.sh"
+
+[tasks.check]
+description = "Run necessary checks"
+depends = ["vale:branch", "vale:version-urls", "frontmatter:validate", "mdlint:branch", "shellcheck"]
+
 [tasks."links:check"]
 description = "Check links on built site"
 env = { LINK_CHECK_TARGET = "http://localhost:7777", EXCLUDE_EXTERNAL_LINKS = "false" }
@@ -107,48 +184,9 @@ muffet \
   --timeout 100
 '''
 
-[tasks."vale:branch"]
-description = "Run vale on changed files in current branch"
-run = """
-vale sync
-git diff --name-only --diff-filter=d origin/master...HEAD | \
-  grep -E '\\.(md|markdown)$' | \
-  grep -v '/generated/' | \
-  grep -v '/raw/' | \
-  grep -v '^templates/' | \
-  xargs -r vale
-"""
-
-[tasks."mdlint:branch"]
-description = "Run markdownlint on changed files in current branch"
-run = """
-git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD | \
-  grep -E '\\.(md|markdown)$' | \
-  grep -v '/generated/' | \
-  grep -v '/raw/' | \
-  grep -v '^templates/' | \
-  xargs -r markdownlint-cli2
-"""
-
-[tasks."vale:version-urls"]
-description = "Check for hardcoded version URLs in changed files"
-run = "tools/check-version-urls.sh"
-
-[tasks."frontmatter:validate"]
-description = "Validate frontmatter in new docs files"
-run = "tools/validate-frontmatter.sh"
-
-[tasks."test:tools"]
-description = "Run tool tests with shellspec"
-run = "shellspec"
-
-[tasks.shellcheck]
-description = "Run shellcheck on tools/*.sh"
-run = "shellcheck tools/*.sh"
-
-[tasks.check]
-description = "Run necessary checks"
-depends = ["vale:branch", "vale:version-urls", "frontmatter:validate", "mdlint:branch"]
+#-------------------------------------------------
+# Generation
+#-------------------------------------------------
 
 [tasks."new:resource"]
 description = "Create new resource reference doc"
