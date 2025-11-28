@@ -71,6 +71,8 @@ module Jekyll
 
         # Renders schema data to HTML
         class SchemaRenderer
+          DESCRIPTION_TRUNCATE_LENGTH = 100
+
           def initialize(schema)
             @definitions = schema['definitions'] || {}
             @root_schema = resolve_ref(schema)
@@ -150,11 +152,13 @@ module Jekyll
           def render_content_section(prop)
             description = clean_description(prop['description'])
             enum_values = extract_enum_values(prop)
-            return '' unless description || enum_values
+            default_value = prop['default']
+            return '' unless description || enum_values || default_value
 
             content = []
-            content << "<div class=\"schema-viewer__description\">#{CGI.escapeHTML(description)}</div>" if description
+            content << render_description(description) if description
             content << render_enum_values(enum_values) if enum_values
+            content << render_default_value(default_value) if default_value
             "<div class=\"schema-viewer__content\">#{content.join}</div>"
           end
 
@@ -200,10 +204,35 @@ module Jekyll
             prop['enum']&.select { |v| v.is_a?(String) }
           end
 
+          def render_description(description)
+            return '' unless description
+
+            description = description.to_s.force_encoding('UTF-8')
+            if description.length > DESCRIPTION_TRUNCATE_LENGTH
+              truncated = description[0...DESCRIPTION_TRUNCATE_LENGTH]
+              preview = CGI.escapeHTML(truncated)
+              <<~HTML
+                <div class="schema-viewer__description" data-full-text="#{description}">
+                  <span class="schema-viewer__description-text">#{preview}...</span>
+                  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+                </div>
+              HTML
+            else
+              "<div class=\"schema-viewer__description\"><span class=\"schema-viewer__description-text\">#{CGI.escapeHTML(description)}</span></div>"
+            end
+          end
+
           def render_enum_values(values)
             return '' if values.empty?
 
             "<div class=\"schema-viewer__enum\">Values: #{values.map { |v| "<code>#{CGI.escapeHTML(v)}</code>" }.join(' | ')}</div>"
+          end
+
+          def render_default_value(value)
+            return '' if value.nil?
+
+            formatted_value = value.is_a?(String) ? "\"#{value}\"" : JSON.generate(value)
+            "<div class=\"schema-viewer__default\">Default: <code>#{CGI.escapeHTML(formatted_value)}</code></div>"
           end
         end
       end
