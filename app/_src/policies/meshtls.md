@@ -156,4 +156,9 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshTLSes %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshTLSes exclude=from targetRef.kind=Mesh,Dataplane %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshTLSes %}
+{% endif_version %}

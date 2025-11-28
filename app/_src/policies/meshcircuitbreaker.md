@@ -704,4 +704,9 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshCircuitBreakers %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshCircuitBreakers exclude=from targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshCircuitBreakers %}
+{% endif_version %}

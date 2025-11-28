@@ -108,4 +108,4 @@ spec:
 
 ## Schema
 
-{% json_schema kuma.io_meshgatewayinstances type=crd %}
+{% schema_viewer kuma.io_meshgatewayinstances type=crd %}

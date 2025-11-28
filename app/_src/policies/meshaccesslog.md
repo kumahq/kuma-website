@@ -1228,4 +1228,9 @@ You can select a built-in gateway using the `kuma.io/service` value. A current l
 
 ## All policy options
 
-{% json_schema MeshAccessLogs %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshAccessLogs exclude=from targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshExternalService,MeshMultiZoneService,MeshHTTPRoute %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshAccessLogs %}
+{% endif_version %}

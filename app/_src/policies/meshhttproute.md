@@ -774,4 +774,9 @@ rules:
 - [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure HTTP route-specific timeouts
 - [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Configure HTTP route-specific retries
 
-{% json_schema MeshHttpRoutes %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshHttpRoutes targetRef.kind=Mesh,Dataplane to.targetRef.kind=MeshService,MeshMultiZoneService,MeshExternalService %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshHttpRoutes %}
+{% endif_version %}

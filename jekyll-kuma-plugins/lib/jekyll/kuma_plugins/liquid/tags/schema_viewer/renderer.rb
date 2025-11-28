@@ -12,19 +12,17 @@ module Jekyll
           class Renderer
             DESCRIPTION_TRUNCATE_LENGTH = 100
 
-            def initialize(schema, filters = {})
+            def initialize(schema, filters = {}, excluded_fields = [])
               @definitions = schema['definitions'] || {}
               @root_schema = resolve_ref(schema)
               @filters = filters
+              @excluded_fields = excluded_fields
             end
 
             def render
               filtered_schema = apply_filters(@root_schema, [])
-              <<~HTML
-                <div class="schema-viewer">
-                  #{render_properties(filtered_schema, 0, [])}
-                </div>
-              HTML
+              properties_html = render_properties(filtered_schema, 0, [])
+              "{::nomarkdown}\n<div class=\"schema-viewer\">#{properties_html}</div>\n{:/nomarkdown}"
             end
 
             private
@@ -55,10 +53,28 @@ module Jekyll
               return '' unless schema.is_a?(Hash) && schema['properties'].is_a?(Hash)
 
               required_fields = schema['required'] || []
-              props = schema['properties'].map do |name, prop|
+              sorted_properties = filter_excluded_properties(schema['properties'], depth)
+              props = sorted_properties.map do |name, prop|
                 render_property(name, prop, required_fields.include?(name), depth, path)
               end
               "<div class=\"schema-viewer__properties\">#{props.join}</div>"
+            end
+
+            def filter_excluded_properties(properties, depth)
+              # Filter out excluded fields (only at top level, depth 0)
+              filtered = depth.zero? ? properties.except(*@excluded_fields) : properties
+              sort_properties(filtered)
+            end
+
+            def sort_properties(properties)
+              # Define priority order for common fields
+              priority_order = %w[targetRef rules from to default]
+
+              properties.sort_by do |name, _|
+                priority_index = priority_order.index(name)
+                # If field is in priority list, use its index; otherwise use 1000 + alphabetical
+                priority_index || (1000 + name.downcase.chars.map(&:ord).sum)
+              end
             end
 
             def render_property(name, prop, required, depth, path)
@@ -94,7 +110,7 @@ module Jekyll
               ref_badge = ref_name ? "<span class=\"schema-viewer__ref\">→ #{CGI.escapeHTML(ref_name)}</span>".force_encoding('UTF-8') : nil
               header_attrs = build_header_attrs(has_children, depth)
 
-              <<~HTML
+              <<~HTML.chomp
                 <div class="schema-viewer__node #{collapsed} #{expandable}" data-depth="#{depth}">
                   <div class="schema-viewer__header" #{header_attrs}>
                     #{arrow}
@@ -229,7 +245,7 @@ module Jekyll
               if description.length > DESCRIPTION_TRUNCATE_LENGTH
                 truncated = description[0...DESCRIPTION_TRUNCATE_LENGTH]
                 preview = CGI.escapeHTML(truncated)
-                <<~HTML
+                <<~HTML.chomp
                   <div class="schema-viewer__description" data-full-text="#{description}">
                     <span class="schema-viewer__description-text">#{preview}...</span>
                     <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>

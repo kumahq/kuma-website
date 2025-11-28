@@ -811,4 +811,9 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshMetrics %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshMetrics targetRef.kind=Mesh,Dataplane %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshMetrics %}
+{% endif_version %}
