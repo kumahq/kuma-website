@@ -54,9 +54,9 @@ Supported variables:
 
 * `.Mesh` - The mesh name
 * `.Zone` - The zone name
-* `{{ label "label-name" }}` - Any label from the data plane proxy resource
+* {% raw %}`{{ label "label-name" }}`{% endraw %} - Any label from the data plane proxy resource
 
-**Type:** `string` | **Required:** No | **Default:** `"{{ .Mesh }}.{{ .Zone }}.mesh.local"`
+**Type:** `string` | **Required:** No | **Default:** {% raw %}`"{{ .Mesh }}.{{ .Zone }}.mesh.local"`{% endraw %}
 
 #### Path
 
@@ -67,7 +67,7 @@ Supported variables:
 * `.Namespace` - The Kubernetes namespace
 * `.ServiceAccount` - The Kubernetes service account
 * `.Workload` - The workload identifier
-* `{{ label "label-name" }}` - Any label from the data plane proxy resource
+* {% raw %}`{{ label "label-name" }}`{% endraw %} - Any label from the data plane proxy resource
 
 When using `.Workload` in the path template, data plane proxies selected by this `MeshIdentity` must have the workload identifier. This can be provided either:
 
@@ -76,7 +76,7 @@ When using `.Workload` in the path template, data plane proxies selected by this
 
 Connections from data plane proxies lacking the required workload identifier will be rejected.
 
-**Type:** `string` | **Required:** No | **Default:** `"/ns/{{ .Namespace }}/sa/{{ .ServiceAccount }}"`
+**Type:** `string` | **Required:** No | **Default:** {% raw %}`"/ns/{{ .Namespace }}/sa/{{ .ServiceAccount }}"`{% endraw %}
 
 ### Provider
 
