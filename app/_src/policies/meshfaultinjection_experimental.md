@@ -186,4 +186,9 @@ spec:
 
 ## All policy options
 
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshFaultInjections exclude=from %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
 {% schema_viewer MeshFaultInjections %}
+{% endif_version %}

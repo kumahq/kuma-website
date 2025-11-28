@@ -595,4 +595,9 @@ This is because the rule with `Deny` is later in the `from` array than any `Allo
 
 ## All policy options
 
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshTrafficPermissions exclude=from %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
 {% schema_viewer MeshTrafficPermissions %}
+{% endif_version %}
