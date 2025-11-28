@@ -52,15 +52,11 @@ Template for constructing the SPIFFE ID trust domain. The trust domain is the ro
 
 Supported variables:
 
-{% raw %}
-
 * `.Mesh` - The mesh name
 * `.Zone` - The zone name
 * {% raw %}`{{ label "label-name" }}`{% endraw %} - Any label from the data plane proxy resource
 
 **Type:** `string` | **Required:** No | **Default:** {% raw %}`"{{ .Mesh }}.{{ .Zone }}.mesh.local"`{% endraw %}
-
-{% endraw %}
 
 #### Path
 
@@ -68,14 +64,10 @@ Template for constructing the SPIFFE ID path component. The path provides additi
 
 Supported variables:
 
-{% raw %}
-
 * `.Namespace` - The Kubernetes namespace
 * `.ServiceAccount` - The Kubernetes service account
 * `.Workload` - The workload identifier
 * {% raw %}`{{ label "label-name" }}`{% endraw %} - Any label from the data plane proxy resource
-
-{% endraw %}
 
 When using `.Workload` in the path template, data plane proxies selected by this `MeshIdentity` must have the workload identifier. This can be provided either:
 
@@ -85,8 +77,6 @@ When using `.Workload` in the path template, data plane proxies selected by this
 Connections from data plane proxies lacking the required workload identifier will be rejected.
 
 **Type:** `string` | **Required:** No | **Default:** {% raw %}`"/ns/{{ .Namespace }}/sa/{{ .ServiceAccount }}"`{% endraw %}
-
-{% endraw %}
 
 ### Provider
 
