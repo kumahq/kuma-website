@@ -53,13 +53,17 @@ module Jekyll
               return '' unless schema.is_a?(Hash) && schema['properties'].is_a?(Hash)
 
               required_fields = schema['required'] || []
-              sorted_properties = sort_properties(schema['properties'])
-              # Filter out excluded fields (only at top level, depth 0)
-              sorted_properties = sorted_properties.reject { |name, _| depth.zero? && @excluded_fields.include?(name) }
+              sorted_properties = filter_excluded_properties(schema['properties'], depth)
               props = sorted_properties.map do |name, prop|
                 render_property(name, prop, required_fields.include?(name), depth, path)
               end
               "<div class=\"schema-viewer__properties\">#{props.join}</div>"
+            end
+
+            def filter_excluded_properties(properties, depth)
+              # Filter out excluded fields (only at top level, depth 0)
+              filtered = depth.zero? ? properties.except(*@excluded_fields) : properties
+              sort_properties(filtered)
             end
 
             def sort_properties(properties)
