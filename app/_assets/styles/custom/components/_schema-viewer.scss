@@ -1,0 +1,162 @@
+@use '@/styles/config/index' as *;
+
+.schema-viewer {
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border: 1px solid $borderColor;
+  border-radius: 4px;
+  background: $gray-1;
+  margin: 1rem 0;
+}
+
+.schema-viewer__properties {
+  padding: 0;
+}
+
+.schema-viewer__node {
+  border-bottom: 1px solid $borderColor;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.schema-viewer__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  cursor: default;
+  background: #fff;
+
+  .schema-viewer__node--expandable > & {
+    cursor: pointer;
+
+    &:hover {
+      background: $sky-light;
+    }
+  }
+}
+
+.schema-viewer__arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 0 4px 6px;
+  border-color: transparent transparent transparent $gray-5;
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+  margin-right: 0.35rem;
+
+  .schema-viewer__node:not(.schema-viewer__node--collapsed) > .schema-viewer__header > & {
+    transform: rotate(90deg);
+  }
+}
+
+.schema-viewer__arrow-placeholder {
+  display: inline-block;
+  width: 6px;
+  margin-right: 0.35rem;
+  flex-shrink: 0;
+}
+
+.schema-viewer__name {
+  font-weight: 600;
+  color: $textColor;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.schema-viewer__type {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-weight: 500;
+
+  &--string {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &--boolean {
+    background: #fff3e0;
+    color: #e65100;
+  }
+
+  &--integer,
+  &--number {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+
+  &--object {
+    background: #f3e5f5;
+    color: #7b1fa2;
+  }
+
+  &--array {
+    background: #e0f7fa;
+    color: #00838f;
+  }
+
+  &--enum {
+    background: #fce4ec;
+    color: #c2185b;
+  }
+
+  &--any {
+    background: $gray-4;
+    color: $gray-5;
+  }
+}
+
+.schema-viewer__required {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  background: #ffebee;
+  color: #c62828;
+  font-weight: 500;
+}
+
+.schema-viewer__content {
+  padding: 0 0.75rem 0.6rem 2rem;
+}
+
+.schema-viewer__description {
+  color: $gray-7;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.schema-viewer__enum {
+  font-size: 0.8rem;
+  color: $gray-5;
+
+  code {
+    background: #fce4ec;
+    color: #c2185b;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+  }
+}
+
+.schema-viewer__children {
+  padding-left: 1.25rem;
+  border-left: 2px solid $borderColor;
+  margin-left: 0.75rem;
+
+  .schema-viewer__node--collapsed > & {
+    display: none;
+  }
+}
+
+.schema-viewer-error {
+  padding: 1rem;
+  background: #ffebee;
+  color: #c62828;
+  border-radius: 4px;
+  margin: 1rem 0;
+}
