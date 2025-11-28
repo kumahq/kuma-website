@@ -52,7 +52,7 @@ Status is managed by {{site.mesh_product_name}} on service resources that have g
 
 ## Examples
 
-### Basic HostnameGenerator for MeshService
+### Basic hostname generator for MeshService
 
 {% tabs %}
 {% tab Kubernetes %}
@@ -88,7 +88,7 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### HostnameGenerator with namespace and zone
+### Hostname generator with namespace and zone
 
 {% tabs %}
 {% tab Kubernetes %}
@@ -128,7 +128,7 @@ spec:
 
 This generates hostnames like `redis.kuma-demo.svc.east.mesh.local` for a `MeshService` named `redis` in namespace `kuma-demo` from zone `east`.
 
-### HostnameGenerator with label function
+### Hostname generator with label function
 
 {% tabs %}
 {% tab Kubernetes %}
@@ -164,7 +164,7 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### HostnameGenerator for MeshExternalService
+### Hostname generator for MeshExternalService
 
 {% tabs %}
 {% tab Kubernetes %}
@@ -200,7 +200,7 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### HostnameGenerator for MeshMultiZoneService
+### Hostname generator for MeshMultiZoneService
 
 {% tabs %}
 {% tab Kubernetes %}
