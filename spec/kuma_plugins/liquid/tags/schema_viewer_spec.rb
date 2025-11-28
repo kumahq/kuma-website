@@ -98,7 +98,7 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::SchemaViewer do
     end
   end
 
-  describe Jekyll::KumaPlugins::Liquid::Tags::SchemaRenderer do
+  describe Jekyll::KumaPlugins::Liquid::Tags::SchemaViewerComponents::Renderer do
     describe '#apply_filters' do
       let(:schema) do
         {
