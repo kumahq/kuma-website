@@ -300,6 +300,8 @@ items:
         url: /resources/meshexternalservice/
       - text: HostnameGenerator
         url: /resources/hostnamegenerator/
+      - text: MeshIdentity
+        url: /resources/meshidentity/
   - title: Policies
     group: true
     items:
