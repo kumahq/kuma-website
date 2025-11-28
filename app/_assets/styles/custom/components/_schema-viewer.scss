@@ -20,6 +20,28 @@
   color: $textColor;
 }
 
+.schema-viewer__search {
+  flex: 1;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid $borderColor;
+  border-radius: 3px;
+  background: #fff;
+  color: $textColor;
+  font-family: inherit;
+  transition: border-color 0.15s ease;
+
+  &::placeholder {
+    color: $gray-4;
+  }
+
+  &:focus {
+    outline: 2px solid $accentColor;
+    outline-offset: 2px;
+    border-color: $accentColor;
+  }
+}
+
 .schema-viewer__btn {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
@@ -33,11 +55,19 @@
   &:hover {
     background: $gray-1;
     border-color: $gray-4;
+    color: $gray-5 !important;
+  }
+
+  &:active {
+    background: $gray-2;
+    border-color: $gray-5;
+    color: $gray-5 !important;
   }
 
   &:focus {
     outline: 2px solid $accentColor;
     outline-offset: 2px;
+    color: $gray-5 !important;
   }
 }
 
@@ -50,6 +80,10 @@
 
   &:last-child {
     border-bottom: none;
+  }
+
+  &--filtered {
+    display: none;
   }
 }
 
