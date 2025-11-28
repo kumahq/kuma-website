@@ -66,14 +66,15 @@ Supported variables:
 
 * `.Namespace` - The Kubernetes namespace
 * `.ServiceAccount` - The Kubernetes service account
+* `.Workload` - The workload identifier
 * `{{ label "label-name" }}` - Any label from the data plane proxy resource
 
-When using `{{ label "kuma.io/workload" }}` in the path template, data plane proxies selected by this `MeshIdentity` must have the `kuma.io/workload` label. This label can be provided either:
+When using `.Workload` in the path template, data plane proxies selected by this `MeshIdentity` must have the workload identifier. This can be provided either:
 
 * Via a [data plane proxy token](/docs/{{ page.release }}/production/secure-deployment/dp-auth/#workload-label-in-tokens) generated with the `--workload` parameter
-* Directly on the data plane proxy resource
+* Directly on the data plane proxy resource via the `kuma.io/workload` label
 
-Connections from data plane proxies lacking the required label will be rejected.
+Connections from data plane proxies lacking the required workload identifier will be rejected.
 
 **Type:** `string` | **Required:** No | **Default:** `"/ns/{{ .Namespace }}/sa/{{ .ServiceAccount }}"`
 
@@ -433,7 +434,7 @@ spec:
       matchLabels: {}
   spiffeID:
     trustDomain: "{{ .Mesh }}.{{ .Zone }}.mesh.local"
-    path: "/workload/{{ label \"kuma.io/workload\" }}"
+    path: "/workload/{{ .Workload }}"
   provider:
     type: Bundled
     bundled:
@@ -460,7 +461,7 @@ spec:
       matchLabels: {}
   spiffeID:
     trustDomain: "{{ .Mesh }}.{{ .Zone }}.mesh.local"
-    path: "/workload/{{ label \"kuma.io/workload\" }}"
+    path: "/workload/{{ .Workload }}"
   provider:
     type: Bundled
     bundled:
@@ -485,4 +486,4 @@ spec:
 
 ## All options
 
-{% schema_viewer kuma.io_meshidentitys type=crd %}
+{% schema_viewer kuma.io_meshidentities type=crd %}
