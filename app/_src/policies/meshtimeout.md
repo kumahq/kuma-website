@@ -693,4 +693,4 @@ is [a known bug](https://github.com/kumahq/kuma/issues/5850) and is fixed in the
 
 ## All policy options
 
-{% schema_viewer MeshTimeouts %}
+{% schema_viewer MeshTimeouts targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshExternalService,MeshMultiZoneService,MeshHTTPRoute %}
