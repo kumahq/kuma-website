@@ -1,7 +1,7 @@
 <!-- vale off -->
 # Writing documentation
 
-After starting the site locally, navigate to `http://localhost:8080/docs/`. This is where you can view your work 
+After starting the site locally, navigate to `http://localhost:8080/docs/`. This is where you can view your work
 as you write your documentation.
 
 ## Versions
@@ -10,7 +10,7 @@ The code uses trunk based development where `master` is the `trunk` branch.
 
 A single sourced folder in [app/_src](app/_src) is used for each version of Kuma. We use a Jekyll plugin to dynamically generate pages from a single source file.
 
-For the future non-patch versions of Kuma, changes can be made to the [docs_nav_kuma_dev.yml](app/_data/docs_nav_kuma_dev.yml) file. 
+For the future non-patch versions of Kuma, changes can be made to the [docs_nav_kuma_dev.yml](app/_data/docs_nav_kuma_dev.yml) file.
 
 ## Writing docs for a new feature
 
@@ -18,7 +18,7 @@ If you are writing docs for a new feature you'll want to add it in the [src](app
 
 Since content is single sourced, you must use [conditional rendering](https://docs.konghq.com/contributing/conditional-rendering/) to ensure that the new feature content only displays for that version. For example:
 
-```
+```liquid
 {% if_version eq:2.1.x %}
 This will only show for version 2.1.x
 {% endif_version %}
@@ -32,14 +32,16 @@ Ask a maintainer to get write access.
 
 ### Mermaid.js diagrams
 
-You can use Mermaid.js diagrams in our documentation. It can be used with the following syntax: 
-```
+You can use Mermaid.js diagrams in our documentation. It can be used with the following syntax:
+
+```liquid
 {% mermaid %}
 {% endmermaid %}
 ```
 
 For example, if you wanted to make a flowchart, you can use the following syntax:
-```
+
+```liquid
 {% mermaid %}
 flowchart TD
     A[Christmas] -->|Get money| B(Go shopping)
@@ -192,19 +194,19 @@ Update the `app/_data/versions.yml` file with metadata specific to this release,
 
 Before start, make sure that installed Ruby version is the same as in the `.ruby-version` file.
 
-1.  Install:
+1. Install:
 
     ```bash
     mise run install
     ```
 
-1.  Build:
+1. Build:
 
     ```bash
     mise run build
     ```
 
-1.  Serve:
+1. Serve:
 
     ```bash
     mise run serve
@@ -225,10 +227,11 @@ WARNING: when you run a local Netlify build it modifies your local `netlify.toml
 If you create a new policy resource for Kuma, you should rebuild the generated policy reference documentation.
 
 ## Markdown features
+
 For more information about the Markdown features and formatting that is supported, see the following:
 
-* [Markdown rules and formatting](https://docs.konghq.com/contributing/markdown-rules/)
-* [Reusable content](https://docs.konghq.com/contributing/includes/)
+- [Markdown rules and formatting](https://docs.konghq.com/contributing/markdown-rules/)
+- [Reusable content](https://docs.konghq.com/contributing/includes/)
 
 ## Vale
 
