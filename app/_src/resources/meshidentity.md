@@ -28,7 +28,7 @@ This resource is namespaced (system-namespace only) and controls how [data plane
 
 ### Selector
 
-The `selector` field controls which data plane proxies a `MeshIdentity` applies to. It uses a [Kubernetes-style label selector](/docs/{{ page.release }}/policies/introduction#kubernetes-based-selectors) on [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy) tags.
+The `selector` field controls which data plane proxies a `MeshIdentity` applies to. It uses Kubernetes-style label selectors on [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy) tags.
 
 When multiple `MeshIdentity` resources apply to the same data plane proxy, the one with the most specific selector (greatest number of matching labels) takes precedence. If two policies have selectors with the same number of labels, {{site.mesh_product_name}} compares their names lexicographically—the policy whose name comes first alphabetically takes precedence.
 
@@ -127,13 +127,13 @@ Configuration for user-provided certificate authority. Use this to specify a cus
 
 ###### Certificate
 
-[SecureDataSource](/docs/{{ page.release }}/policies/introduction#secureds) containing the CA certificate. The control plane resolves this data source at runtime.
+Data source containing the CA certificate. The control plane resolves this data source at runtime. Supported data source types include `File`, `Secret` (Kubernetes), and `Inline`.
 
 **Type:** `SecureDataSource` | **Required:** When `ca` is specified
 
 ###### Private key
 
-[SecureDataSource](/docs/{{ page.release }}/policies/introduction#secureds) containing the CA private key. The control plane resolves this data source at runtime.
+Data source containing the CA private key. The control plane resolves this data source at runtime. Supported data source types include `File`, `Secret` (Kubernetes), and `Inline`.
 
 **Type:** `SecureDataSource` | **Required:** When `ca` is specified
 
