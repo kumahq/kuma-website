@@ -62,7 +62,10 @@ while IFS= read -r file; do
     ERRORS=$((ERRORS + FILE_ERRORS))
   fi
 
-done < <(git diff --name-only --diff-filter=A "${BASE_BRANCH}...HEAD" 2>/dev/null | \
+done < <((git diff --name-only --diff-filter=A "${BASE_BRANCH}...HEAD" 2>/dev/null; \
+  git diff --name-only --cached --diff-filter=A 2>/dev/null; \
+  git ls-files --others --exclude-standard) | \
+  sort -u | \
   grep -E '^app/_src/.*\.(md|markdown)$' | \
   grep -v '/generated/' | \
   grep -v '/raw/' || true)

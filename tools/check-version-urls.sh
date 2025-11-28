@@ -35,7 +35,10 @@ while IFS= read -r file; do
     echo "  Add <!-- no-version-lint --> comment to suppress this warning"
     ERRORS=$((ERRORS + 1))
   fi
-done < <(git diff --name-only --diff-filter=d "${BASE_BRANCH}...HEAD" | \
+done < <((git diff --name-only --diff-filter=d "${BASE_BRANCH}...HEAD"; \
+  git diff --name-only --diff-filter=d; \
+  git diff --name-only --cached --diff-filter=d) | \
+  sort -u | \
   grep -E '\.(md|markdown)$' | \
   grep -v '/generated/' | \
   grep -v '/raw/' || true)
