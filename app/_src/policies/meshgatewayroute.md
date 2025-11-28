@@ -118,4 +118,4 @@ For example, the following filters match `/prefix`, trim it from the path and se
 
 ## Reference
 
-{% json_schema MeshGatewayRoute type=proto %}
+{% schema_viewer MeshGatewayRoute type=proto %}

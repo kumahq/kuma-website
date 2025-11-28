@@ -786,4 +786,4 @@ The downside is that we now have to establish and maintain more TCP connections.
 
 ## All policy options
 
-{% json_schema MeshLoadBalancingStrategies %}
+{% schema_viewer MeshLoadBalancingStrategies %}

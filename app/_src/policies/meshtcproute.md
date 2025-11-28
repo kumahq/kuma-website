@@ -617,4 +617,4 @@ Depending on the `backend`'s protocol:
 
 ## All policy configuration settings
 
-{% json_schema MeshTCPRoutes %}
+{% schema_viewer MeshTCPRoutes %}

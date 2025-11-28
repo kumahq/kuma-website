@@ -595,4 +595,4 @@ This is because the rule with `Deny` is later in the `from` array than any `Allo
 
 ## All policy options
 
-{% json_schema MeshTrafficPermissions %}
+{% schema_viewer MeshTrafficPermissions %}

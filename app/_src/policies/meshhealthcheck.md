@@ -485,4 +485,4 @@ HTTP health checks are executed using HTTP2
 
 ## All policy options
 
-{% json_schema MeshHealthChecks %}
+{% schema_viewer MeshHealthChecks %}

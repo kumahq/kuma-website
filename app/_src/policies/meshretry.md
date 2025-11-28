@@ -519,4 +519,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshRetries %}
+{% schema_viewer MeshRetries %}

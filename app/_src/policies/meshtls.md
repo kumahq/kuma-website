@@ -156,4 +156,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshTLSes %}
+{% schema_viewer MeshTLSes %}

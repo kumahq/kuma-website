@@ -693,4 +693,4 @@ is [a known bug](https://github.com/kumahq/kuma/issues/5850) and is fixed in the
 
 ## All policy options
 
-{% json_schema MeshTimeouts %}
+{% schema_viewer MeshTimeouts %}

@@ -811,4 +811,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshMetrics %}
+{% schema_viewer MeshMetrics %}

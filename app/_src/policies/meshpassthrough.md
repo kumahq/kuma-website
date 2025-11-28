@@ -340,4 +340,4 @@ spec:
 
 ## All policy options
 
-{% json_schema MeshPassthroughs %}
+{% schema_viewer MeshPassthroughs %}
