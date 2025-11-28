@@ -10,7 +10,7 @@ category: resource
 ---
 
 {% warning %}
-This resource is experimental!
+This resource is experimental.
 {% endwarning %}
 
 `MeshExternalService` enables services inside the mesh to consume services outside the mesh. Unlike [MeshPassthrough](/docs/{{ page.release }}/policies/meshpassthrough/) which allows transparent traffic to external services, `MeshExternalService` declares external destinations as first-class resources with custom hostnames, virtual IPs, and policy targeting support.
@@ -41,8 +41,8 @@ For usage patterns, configuration examples, and differences from MeshPassthrough
 | `match.port` | Port number for incoming requests (1-65535). Required. |
 | `match.protocol` | Protocol: `tcp` (default), `grpc`, `http`, `http2`. |
 | `endpoints` | Destination addresses for traffic. Optional if `extension` is configured. |
-| `endpoints[].address` | IP address, domain name, or Unix socket (`unix:///path/to/socket`). |
-| `endpoints[].port` | Destination port number (1-65535, not used for Unix sockets). |
+| `endpoints[].address` | IP address, domain name, or unix socket (`unix:///path/to/socket`). |
+| `endpoints[].port` | Destination port number (1-65535, not used for unix sockets). |
 | `tls` | TLS origination configuration. Optional. |
 | `tls.enabled` | Enable TLS origination at sidecar. Default: `false`. |
 | `tls.version` | TLS version constraints. |
@@ -55,9 +55,9 @@ For usage patterns, configuration examples, and differences from MeshPassthrough
 | `tls.verification.subjectAltNames` | List of SANs to verify in certificate. |
 | `tls.verification.subjectAltNames[].type` | Match type: `Exact` (default) or `Prefix`. |
 | `tls.verification.subjectAltNames[].value` | Value to match against SAN. |
-| `tls.verification.caCert` | CA certificate data source (inline, inlineString, or secret reference). |
-| `tls.verification.clientCert` | Client certificate for mTLS (inline, inlineString, or secret reference). |
-| `tls.verification.clientKey` | Client private key for mTLS (inline, inlineString, or secret reference). |
+| `tls.verification.caCert` | CA certificate data source (`inline`, `inlineString`, or `secret` reference). |
+| `tls.verification.clientCert` | Client certificate for mTLS (`inline`, `inlineString`, or `secret` reference). |
+| `tls.verification.clientKey` | Client private key for mTLS (`inline`, `inlineString`, or `secret` reference). |
 | `extension` | Plugin configuration for custom behavior. Optional. |
 | `extension.type` | Extension type identifier. |
 | `extension.config` | Freeform extension configuration. |
@@ -386,7 +386,7 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### Unix domain socket endpoint
+### unix domain socket
 
 {% tabs %}
 {% tab Kubernetes %}
@@ -427,7 +427,7 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### Custom CA certificate
+### TLS with custom certificate authority
 
 {% tabs %}
 {% tab Kubernetes %}
@@ -484,7 +484,7 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### SAN verification with prefix matching
+### Verifying SAN with prefix matching
 
 {% tabs %}
 {% tab Kubernetes %}
