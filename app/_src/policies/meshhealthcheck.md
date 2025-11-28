@@ -486,7 +486,7 @@ HTTP health checks are executed using HTTP2
 ## All policy options
 
 {% if_version gte:2.13.x %}
-{% schema_viewer MeshHealthChecks targetRef.kind=Mesh,Dataplane %}
+{% schema_viewer MeshHealthChecks targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService %}
 {% endif_version %}
 {% if_version lte:2.12.x %}
 {% schema_viewer MeshHealthChecks %}

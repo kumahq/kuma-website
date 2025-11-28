@@ -775,7 +775,7 @@ rules:
 - [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Configure HTTP route-specific retries
 
 {% if_version gte:2.13.x %}
-{% schema_viewer MeshHttpRoutes targetRef.kind=Mesh,Dataplane %}
+{% schema_viewer MeshHttpRoutes targetRef.kind=Mesh,Dataplane to.targetRef.kind=MeshService,MeshMultiZoneService,MeshExternalService %}
 {% endif_version %}
 {% if_version lte:2.12.x %}
 {% schema_viewer MeshHttpRoutes %}
