@@ -163,11 +163,40 @@
   color: $gray-7;
   font-size: 0.85rem;
   margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.schema-viewer__description-text {
+  display: inline;
+}
+
+.schema-viewer__show-more {
+  display: inline;
+  margin-left: 0.35rem;
+  padding: 0.05rem 0.25rem;
+  font-size: 0.75rem;
+  color: $accentColor;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 500;
+
+  &:hover {
+    color: darken($accentColor, 10%);
+  }
+
+  &:focus {
+    outline: 2px solid $accentColor;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 }
 
 .schema-viewer__enum {
   font-size: 0.8rem;
   color: $gray-5;
+  margin-bottom: 0.25rem;
 
   code {
     background: #fce4ec;
@@ -175,6 +204,21 @@
     padding: 0.1rem 0.3rem;
     border-radius: 3px;
     font-size: 0.75rem;
+  }
+}
+
+.schema-viewer__default {
+  font-size: 0.8rem;
+  color: $gray-5;
+  margin-top: 0.25rem;
+
+  code {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
 }
 
