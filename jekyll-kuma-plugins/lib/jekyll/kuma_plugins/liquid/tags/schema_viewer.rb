@@ -22,7 +22,7 @@ module Jekyll
             @filters = {}
 
             params_list.each do |item|
-              sp = item.split('=')
+              sp = item.split('=', 2)
               key = sp[0]
               value = sp[1]
               next if value.to_s.empty?
@@ -251,11 +251,13 @@ module Jekyll
               # Filter oneOf alternatives
               if filtered['oneOf'].is_a?(Array)
                 filtered['oneOf'] = filter_alternatives(filtered['oneOf'], allowed_values)
+                filtered.delete('oneOf') if filtered['oneOf'].empty?
               end
 
               # Filter anyOf alternatives
               if filtered['anyOf'].is_a?(Array)
                 filtered['anyOf'] = filter_alternatives(filtered['anyOf'], allowed_values)
+                filtered.delete('anyOf') if filtered['anyOf'].empty?
               end
             end
 
