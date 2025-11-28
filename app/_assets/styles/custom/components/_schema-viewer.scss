@@ -195,6 +195,9 @@
   font-weight: 500;
   transition: all 0.15s ease;
   vertical-align: baseline;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
 
   &:hover {
     background: rgba($accentColor, 0.08);
