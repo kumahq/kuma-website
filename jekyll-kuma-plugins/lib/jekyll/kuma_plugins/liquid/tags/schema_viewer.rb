@@ -122,22 +122,25 @@ module Jekyll
 
           def render_property(name, prop, required, depth)
             ref_name = extract_ref_name(prop)
-            prop = resolve_ref(prop)
-            return '' unless prop.is_a?(Hash)
+            resolved_prop = resolve_ref(prop)
+            return '' unless resolved_prop.is_a?(Hash)
 
-            build_property_html(name, prop, required, depth, ref_name)
+            build_property_html(name, resolved_prop, required, depth, ref_name)
           end
 
           def build_property_html(name, prop, required, depth, ref_name = nil)
+            metadata = { required: required, ref_name: ref_name }
             has_children = nested_properties?(prop)
-            html = [render_node_open(name, prop, required, depth, has_children, ref_name)]
+            html = [render_node_open(name, prop, metadata, depth, has_children)]
             html << render_content_section(prop)
             html << render_children_section(prop, depth) if has_children
             html << '</div>'
             html.join
           end
 
-          def render_node_open(name, prop, required, depth, has_children, ref_name = nil)
+          def render_node_open(name, prop, metadata, depth, has_children)
+            required = metadata[:required]
+            ref_name = metadata[:ref_name]
             collapsed = depth.positive? ? 'schema-viewer__node--collapsed' : nil
             expandable = has_children ? 'schema-viewer__node--expandable' : nil
             arrow = has_children ? '<span class="schema-viewer__arrow"></span>' : '<span class="schema-viewer__arrow-placeholder"></span>'
