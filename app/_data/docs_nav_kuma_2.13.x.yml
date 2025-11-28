@@ -292,6 +292,8 @@ items:
     items:
       - text: Mesh
         url: /resources/mesh/
+      - text: MeshService
+        url: /resources/meshservice/
   - title: Policies
     group: true
     items:
