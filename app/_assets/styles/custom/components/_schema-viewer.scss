@@ -182,35 +182,39 @@
 }
 
 .schema-viewer__description-text {
-  display: inline;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .schema-viewer__show-more {
-  display: inline-block;
+  flex: 0 0 auto;
   padding: 0.1rem 0.4rem;
   font-size: 0.75rem;
   color: $accentColor !important;
-  background: transparent;
-  border: 1px solid transparent;
+  background: rgba($accentColor, 0.04);
+  border: none;
   border-radius: 3px;
   cursor: pointer;
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.15s ease;
-  vertical-align: baseline;
   white-space: nowrap;
-  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 
   &:hover {
     background: rgba($accentColor, 0.08);
-    border-color: rgba($accentColor, 0.2);
-    color: color.adjust($accentColor, $lightness: -5%) !important;
+    color: $accentColor !important;
+  }
+
+  &:active {
+    color: $accentColor !important;
+    background: rgba($accentColor, 0.08);
   }
 
   &:focus {
     outline: 2px solid $accentColor;
     outline-offset: 2px;
-    border-radius: 3px;
+    color: $accentColor !important;
   }
 }
 
