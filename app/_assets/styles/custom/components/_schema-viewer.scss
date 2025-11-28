@@ -146,6 +146,16 @@
   }
 }
 
+.schema-viewer__ref {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  background: #e8eaf6;
+  color: #3f51b5;
+  font-weight: 500;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
 .schema-viewer__required {
   font-size: 0.7rem;
   padding: 0.1rem 0.35rem;

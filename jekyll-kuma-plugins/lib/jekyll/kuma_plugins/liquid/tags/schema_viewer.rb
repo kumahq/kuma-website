@@ -98,6 +98,17 @@ module Jekyll
             @definitions[def_name] || schema
           end
 
+          def extract_ref_name(schema)
+            return unless schema.is_a?(Hash) && schema['$ref']
+
+            ref_path = schema['$ref']
+            return unless ref_path.start_with?('#/definitions/')
+
+            def_name = ref_path.sub('#/definitions/', '')
+            # Simplify long definition names (e.g., "kuma.mesh.v1alpha1.Type" -> "Type")
+            def_name.split('.').last
+          end
+
           def render_properties(schema, depth)
             schema = resolve_ref(schema)
             return '' unless schema.is_a?(Hash) && schema['properties'].is_a?(Hash)
@@ -110,26 +121,28 @@ module Jekyll
           end
 
           def render_property(name, prop, required, depth)
+            ref_name = extract_ref_name(prop)
             prop = resolve_ref(prop)
             return '' unless prop.is_a?(Hash)
 
-            build_property_html(name, prop, required, depth)
+            build_property_html(name, prop, required, depth, ref_name)
           end
 
-          def build_property_html(name, prop, required, depth)
+          def build_property_html(name, prop, required, depth, ref_name = nil)
             has_children = nested_properties?(prop)
-            html = [render_node_open(name, prop, required, depth, has_children)]
+            html = [render_node_open(name, prop, required, depth, has_children, ref_name)]
             html << render_content_section(prop)
             html << render_children_section(prop, depth) if has_children
             html << '</div>'
             html.join
           end
 
-          def render_node_open(name, prop, required, depth, has_children)
+          def render_node_open(name, prop, required, depth, has_children, ref_name = nil)
             collapsed = depth.positive? ? 'schema-viewer__node--collapsed' : nil
             expandable = has_children ? 'schema-viewer__node--expandable' : nil
             arrow = has_children ? '<span class="schema-viewer__arrow"></span>' : '<span class="schema-viewer__arrow-placeholder"></span>'
             required_badge = required ? '<span class="schema-viewer__required">required</span>' : nil
+            ref_badge = ref_name ? "<span class=\"schema-viewer__ref\">→ #{CGI.escapeHTML(ref_name)}</span>".force_encoding('UTF-8') : nil
             header_attrs = build_header_attrs(has_children, depth)
 
             <<~HTML
@@ -138,6 +151,7 @@ module Jekyll
                   #{arrow}
                   <span class="schema-viewer__name">#{CGI.escapeHTML(name)}</span>
                   #{render_type_badge(determine_type(prop))}
+                  #{ref_badge}
                   #{required_badge}
                 </div>
             HTML
