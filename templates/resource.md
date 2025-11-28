@@ -55,4 +55,4 @@ name: example
 
 ## All options
 
-{% json_schema {{ .Env.RESOURCE_NAME }} type=proto %}
+{% schema_viewer kuma.io_{{ .Env.RESOURCE_NAME | strings.ToLower }}s type=crd %}

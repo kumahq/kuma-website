@@ -294,6 +294,8 @@ items:
         url: /resources/mesh/
       - text: MeshService
         url: /resources/meshservice/
+      - text: MeshMultiZoneService
+        url: /resources/meshmultizoneservice/
   - title: Policies
     group: true
     items:
