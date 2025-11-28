@@ -13,6 +13,10 @@ In this page we will introduce concepts that are core to understanding {{ site.m
 
 A mesh is the top-level resource that represents an isolated service mesh deployment. It serves as the parent resource for all policies, services, and data planes, providing a separate domain of configuration and communication.
 
+## Zone
+
+A zone is a deployment unit representing a distinct infrastructure environment—typically a Kubernetes cluster, VPC, or data center. All data plane proxies within a zone must be able to communicate with each other. {{ site.mesh_product_name }} supports [multi-zone deployments](/docs/{{ page.release }}/production/deployment/multi-zone) where zones can span different regions, clouds, or data centers while remaining part of the same mesh. This enables automatic service discovery and fail-over across zones.
+
 ## Control plane
 
 The control plane is the central management layer of {{ site.mesh_product_name }}. It is responsible for configuring and managing the behavior of the data plane,
