@@ -25,6 +25,7 @@ import '@/javascripts/carousels'
 import '@/javascripts/version_selector'
 import '@/javascripts/search'
 import '@/javascripts/prism'
+import SchemaViewer from '@/javascripts/schema-viewer'
 
 document.addEventListener('DOMContentLoaded', (event) => {
   new Sidebar();
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   new Form();
   new FormPopUp();
   new NavBar();
+  new SchemaViewer();
 
   const anchors = new AnchorJS({
     placement: 'left',
