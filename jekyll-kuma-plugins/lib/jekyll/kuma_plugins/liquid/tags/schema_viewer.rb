@@ -21,21 +21,7 @@ module Jekyll
             params = { 'type' => 'policy' }
             @filters = {}
 
-            params_list.each do |item|
-              sp = item.split('=', 2)
-              key = sp[0]
-              value = sp[1]
-              next if value.to_s.empty?
-
-              # If key contains a dot, it's a filter path (e.g., targetRef.kind)
-              if key.include?('.')
-                # Split comma-separated values
-                @filters[key] = value.split(',').map(&:strip)
-              else
-                params[key] = value
-              end
-            end
-
+            parse_parameters(params_list, params)
             @load = create_loader(params['type'], name)
           end
 
@@ -50,6 +36,23 @@ module Jekyll
           end
 
           private
+
+          def parse_parameters(params_list, params)
+            params_list.each do |item|
+              sp = item.split('=', 2)
+              key = sp[0]
+              value = sp[1]
+              next if value.to_s.empty?
+
+              # If key contains a dot, it's a filter path (e.g., targetRef.kind)
+              if key.include?('.')
+                # Split comma-separated values
+                @filters[key] = value.split(',').map(&:strip)
+              else
+                params[key] = value
+              end
+            end
+          end
 
           def create_loader(type, name)
             case type
@@ -239,36 +242,43 @@ module Jekyll
             filtered = Marshal.load(Marshal.dump(schema))
             filter_path = path.join('.')
 
-            # Check if we have a filter for this path
-            if @filters.key?(filter_path)
-              allowed_values = @filters[filter_path]
-
-              # Filter enum values
-              if filtered['enum'].is_a?(Array)
-                filtered['enum'] = filtered['enum'].select { |v| allowed_values.include?(v.to_s) }
-              end
-
-              # Filter oneOf alternatives
-              if filtered['oneOf'].is_a?(Array)
-                filtered['oneOf'] = filter_alternatives(filtered['oneOf'], allowed_values)
-                filtered.delete('oneOf') if filtered['oneOf'].empty?
-              end
-
-              # Filter anyOf alternatives
-              if filtered['anyOf'].is_a?(Array)
-                filtered['anyOf'] = filter_alternatives(filtered['anyOf'], allowed_values)
-                filtered.delete('anyOf') if filtered['anyOf'].empty?
-              end
-            end
-
+            apply_filter_to_schema(filtered, filter_path) if @filters.key?(filter_path)
             filtered
+          end
+
+          def apply_filter_to_schema(schema, filter_path)
+            allowed_values = @filters[filter_path]
+
+            filter_enum_values(schema, allowed_values)
+            filter_one_of_alternatives(schema, allowed_values)
+            filter_any_of_alternatives(schema, allowed_values)
+          end
+
+          def filter_enum_values(schema, allowed_values)
+            return unless schema['enum'].is_a?(Array)
+
+            schema['enum'] = schema['enum'].select { |v| allowed_values.include?(v.to_s) }
+          end
+
+          def filter_one_of_alternatives(schema, allowed_values)
+            return unless schema['oneOf'].is_a?(Array)
+
+            schema['oneOf'] = filter_alternatives(schema['oneOf'], allowed_values)
+            schema.delete('oneOf') if schema['oneOf'].empty?
+          end
+
+          def filter_any_of_alternatives(schema, allowed_values)
+            return unless schema['anyOf'].is_a?(Array)
+
+            schema['anyOf'] = filter_alternatives(schema['anyOf'], allowed_values)
+            schema.delete('anyOf') if schema['anyOf'].empty?
           end
 
           def filter_alternatives(alternatives, allowed_values)
             alternatives.select do |alt|
               # Check if alternative has an enum with any allowed values
               if alt['enum'].is_a?(Array)
-                (alt['enum'].map(&:to_s) & allowed_values).any?
+                alt['enum'].map(&:to_s).intersect?(allowed_values)
               # Check if alternative has a const matching allowed values
               elsif alt['const']
                 allowed_values.include?(alt['const'].to_s)
