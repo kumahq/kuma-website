@@ -31,7 +31,7 @@ For concepts, migration guidance, and usage patterns, see the [MeshService guide
 | `ports[].port` | Service port number (required). |
 | `ports[].targetPort` | Port on the data plane proxy. Can be a number or inbound name. Defaults to `port` value. |
 | `ports[].name` | Optional port name for referencing in policies via `sectionName`. |
-| `ports[].appProtocol` | Protocol hint: `tcp` (default), `http`, `http2`, `grpc`, `kafka`, `mongo`. |
+| `ports[].appProtocol` | Protocol hint: `tcp` (default), `http`, `http2`, `grpc`. |
 | `identities` | Service identities (auto-populated). Contains `ServiceTag` or `SpiffeID` entries. |
 | `state` | Service availability: `Available` (healthy endpoints exist) or `Unavailable`. |
 
