@@ -88,7 +88,7 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### Hostname generator with namespace and zone
+### hostname generator with namespace and zone
 
 {% tabs %}
 {% tab Kubernetes %}
@@ -128,7 +128,7 @@ spec:
 
 This generates hostnames like `redis.kuma-demo.svc.east.mesh.local` for a `MeshService` named `redis` in namespace `kuma-demo` from zone `east`.
 
-### Hostname generator with label function
+### hostname generator with label function
 
 {% tabs %}
 {% tab Kubernetes %}
@@ -164,7 +164,7 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### Hostname generator for MeshExternalService
+### hostname generator for MeshExternalService
 
 {% tabs %}
 {% tab Kubernetes %}
@@ -200,7 +200,7 @@ spec:
 {% endtab %}
 {% endtabs %}
 
-### Hostname generator for MeshMultiZoneService
+### hostname generator for MeshMultiZoneService
 
 {% tabs %}
 {% tab Kubernetes %}
