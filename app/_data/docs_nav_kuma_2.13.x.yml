@@ -296,6 +296,8 @@ items:
         url: /resources/meshservice/
       - text: MeshMultiZoneService
         url: /resources/meshmultizoneservice/
+      - text: MeshExternalService
+        url: /resources/meshexternalservice/
   - title: Policies
     group: true
     items:
