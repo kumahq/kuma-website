@@ -175,6 +175,10 @@
   font-size: 0.85rem;
   margin-bottom: 0.25rem;
   line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
 }
 
 .schema-viewer__description-text {
@@ -183,7 +187,6 @@
 
 .schema-viewer__show-more {
   display: inline-block;
-  margin-left: 0.35rem;
   padding: 0.1rem 0.4rem;
   font-size: 0.75rem;
   color: $accentColor !important;
@@ -196,8 +199,7 @@
   transition: all 0.15s ease;
   vertical-align: baseline;
   white-space: nowrap;
-  position: relative;
-  z-index: 1;
+  flex-shrink: 0;
 
   &:hover {
     background: rgba($accentColor, 0.08);
