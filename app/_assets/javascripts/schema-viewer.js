@@ -36,9 +36,6 @@ export default class SchemaViewer {
     viewer.addEventListener('click', (event) => {
       const header = event.target.closest('.schema-viewer__header');
       if (header) this.handleToggle(header);
-
-      const showMoreBtn = event.target.closest('.schema-viewer__show-more');
-      if (showMoreBtn) this.handleShowMore(showMoreBtn);
     });
 
     viewer.addEventListener('keydown', (event) => {
@@ -76,24 +73,5 @@ export default class SchemaViewer {
       const header = node.querySelector('.schema-viewer__header');
       if (header) header.setAttribute('aria-expanded', 'false');
     });
-  }
-
-  handleShowMore(button) {
-    const description = button.closest('.schema-viewer__description');
-    if (!description) return;
-
-    const textSpan = description.querySelector('.schema-viewer__description-text');
-    const fullText = description.dataset.fullText;
-    if (!textSpan || !fullText) return;
-
-    const isExpanded = button.textContent === 'show less';
-    if (isExpanded) {
-      const truncated = fullText.substring(0, 100);
-      textSpan.textContent = truncated + '...';
-      button.textContent = 'show more';
-    } else {
-      textSpan.textContent = fullText;
-      button.textContent = 'show less';
-    }
   }
 }

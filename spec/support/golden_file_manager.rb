@@ -96,7 +96,7 @@ module GoldenFileManager
   # Trim insignificant whitespace: leading/trailing spaces and indentation
   def self.trim_insignificant_whitespace(content)
     # Split content into lines, remove leading spaces and trailing whitespace
-    content.force_encoding('UTF-8').lines.map(&:rstrip).reject(&:empty?).join("\n")
+    content.lines.map(&:rstrip).reject(&:empty?).join("\n")
   end
 
   def self.print_diff(expected, actual, context_lines: 5)
