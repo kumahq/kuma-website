@@ -414,4 +414,4 @@ meshServices:
 
 ## All options
 
-{% json_schema Mesh type=proto %}
+{% schema_viewer Mesh type=proto %}
