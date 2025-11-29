@@ -12,11 +12,12 @@ module Jekyll
           class Renderer
             DESCRIPTION_TRUNCATE_LENGTH = 100
 
-            def initialize(schema, filters = {}, excluded_fields = [])
+            def initialize(schema, filters = {}, excluded_fields = [], path_exclusions = {})
               @definitions = schema['definitions'] || {}
               @root_schema = resolve_ref(schema)
               @filters = filters
               @excluded_fields = excluded_fields
+              @path_exclusions = path_exclusions
             end
 
             def render
@@ -53,27 +54,33 @@ module Jekyll
               return '' unless schema.is_a?(Hash) && schema['properties'].is_a?(Hash)
 
               required_fields = schema['required'] || []
-              sorted_properties = filter_excluded_properties(schema['properties'], depth)
+              sorted_properties = filter_excluded_properties(schema['properties'], depth, path)
               props = sorted_properties.map do |name, prop|
                 render_property(name, prop, required_fields.include?(name), depth, path)
               end
               "<div class=\"schema-viewer__properties\">#{props.join}</div>"
             end
 
-            def filter_excluded_properties(properties, depth)
+            def filter_excluded_properties(properties, depth, path)
               # Filter out excluded fields (only at top level, depth 0)
               filtered = depth.zero? ? properties.except(*@excluded_fields) : properties
-              sort_properties(filtered)
+
+              # Apply path-based exclusions
+              path_str = path.join('.')
+              excluded_at_path = @path_exclusions[path_str] || []
+              filtered = filtered.except(*excluded_at_path) if excluded_at_path.any?
+
+              sort_properties(filtered, path)
             end
 
-            def sort_properties(properties)
-              # Define priority order for common fields
+            def sort_properties(properties, path)
               priority_order = %w[targetRef rules from to default]
+              target_ref_order = %w[kind name namespace labels sectionName]
+              order = path.last == 'targetRef' ? target_ref_order : priority_order
 
               properties.sort_by do |name, _|
-                priority_index = priority_order.index(name)
-                # If field is in priority list, use its index; otherwise use 1000 + alphabetical
-                priority_index || (1000 + name.downcase.chars.map(&:ord).sum)
+                index = order.index(name)
+                index ? [0, index] : [1, name.downcase]
               end
             end
 

@@ -16,16 +16,6 @@
 </div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">name</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and `MeshGatewayRoute`">
-  <span class="schema-viewer__description-text">Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">kind</span>
     <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
     
@@ -33,29 +23,12 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Kind of the referenced resource</span></div><div class="schema-viewer__enum">Values: <code>Mesh</code> | <code>MeshSubset</code> | <code>MeshGateway</code> | <code>MeshService</code> | <code>MeshExternalService</code> | <code>MeshMultiZoneService</code> | <code>MeshServiceSubset</code> | <code>MeshHTTPRoute</code> | <code>Dataplane</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">mesh</span>
+    <span class="schema-viewer__name">name</span>
     <span class="schema-viewer__type schema-viewer__type--string">string</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Mesh is reserved for future use to identify cross mesh resources.</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">tags</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshServiceSubset`">
-  <span class="schema-viewer__description-text">Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshS...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">labels</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
-  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and `MeshGatewayRoute`">
+  <span class="schema-viewer__description-text">Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
   <div class="schema-viewer__header" >
@@ -70,12 +43,12 @@
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">proxyTypes</span>
-    <span class="schema-viewer__type schema-viewer__type--array">array</span>
+    <span class="schema-viewer__name">labels</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all data plane types are targeted by the policy.">
-  <span class="schema-viewer__description-text">ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all da...</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
+  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
   <div class="schema-viewer__header" >
@@ -86,6 +59,33 @@
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="SectionName is used to target specific section of resource. For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.">
   <span class="schema-viewer__description-text">SectionName is used to target specific section of resource. For example, you can target port from Me...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">mesh</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Mesh is reserved for future use to identify cross mesh resources.</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">proxyTypes</span>
+    <span class="schema-viewer__type schema-viewer__type--array">array</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all data plane types are targeted by the policy.">
+  <span class="schema-viewer__description-text">ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all da...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">tags</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshServiceSubset`">
+  <span class="schema-viewer__description-text">Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshS...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
@@ -104,7 +104,17 @@
     <span class="schema-viewer__type schema-viewer__type--object">object</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Default contains configuration of the inbound timeouts</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="2">
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Default contains configuration of the inbound timeouts</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">connectionTimeout</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be established. Default value is 5 seconds. Cannot be set to 0.">
+  <span class="schema-viewer__description-text">ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be establish...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="2">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">http</span>
@@ -112,6 +122,36 @@
     
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Http provides configuration for HTTP specific timeouts</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">maxConnectionDuration</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting from when it was first established. Setting this timeout to 0 will disable it. Disabled by default.">
+  <span class="schema-viewer__description-text">MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting f...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">maxStreamDuration</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 will disable it. Disabled by default.">
+  <span class="schema-viewer__description-text">MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 ...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">requestHeadersTimeout</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received. The timer is activated when the first byte of the headers is received, and is disarmed when the last byte of the headers has been received. If not specified or set to 0, this timeout is disabled. Disabled by default.">
+  <span class="schema-viewer__description-text">RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">requestTimeout</span>
@@ -131,36 +171,6 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="StreamIdleTimeout is the amount of time that proxy will allow a stream to exist with no activity. Setting this timeout to 0 will disable it. Default is 30m">
   <span class="schema-viewer__description-text">StreamIdleTimeout is the amount of time that proxy will allow a stream to exist with no activity. Se...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">maxStreamDuration</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 will disable it. Disabled by default.">
-  <span class="schema-viewer__description-text">MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 ...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">maxConnectionDuration</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting from when it was first established. Setting this timeout to 0 will disable it. Disabled by default.">
-  <span class="schema-viewer__description-text">MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting f...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">requestHeadersTimeout</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received. The timer is activated when the first byte of the headers is received, and is disarmed when the last byte of the headers has been received. If not specified or set to 0, this timeout is disabled. Disabled by default.">
-  <span class="schema-viewer__description-text">RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
@@ -170,16 +180,6 @@
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="IdleTimeout is defined as the period in which there are no bytes sent or received on connection Setting this timeout to 0 will disable it. Be cautious when disabling it because it can lead to connection leaking. Default value is 1h.">
   <span class="schema-viewer__description-text">IdleTimeout is defined as the period in which there are no bytes sent or received on connection Sett...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">connectionTimeout</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be established. Default value is 5 seconds. Cannot be set to 0.">
-  <span class="schema-viewer__description-text">ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be establish...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
@@ -198,16 +198,6 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">TargetRef is a reference to the resource that represents a group of clients.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">name</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and `MeshGatewayRoute`">
-  <span class="schema-viewer__description-text">Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">kind</span>
     <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
     
@@ -215,29 +205,12 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Kind of the referenced resource</span></div><div class="schema-viewer__enum">Values: <code>Mesh</code> | <code>MeshSubset</code> | <code>MeshGateway</code> | <code>MeshService</code> | <code>MeshExternalService</code> | <code>MeshMultiZoneService</code> | <code>MeshServiceSubset</code> | <code>MeshHTTPRoute</code> | <code>Dataplane</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">mesh</span>
+    <span class="schema-viewer__name">name</span>
     <span class="schema-viewer__type schema-viewer__type--string">string</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Mesh is reserved for future use to identify cross mesh resources.</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">tags</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshServiceSubset`">
-  <span class="schema-viewer__description-text">Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshS...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">labels</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
-  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and `MeshGatewayRoute`">
+  <span class="schema-viewer__description-text">Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
@@ -252,12 +225,12 @@
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">proxyTypes</span>
-    <span class="schema-viewer__type schema-viewer__type--array">array</span>
+    <span class="schema-viewer__name">labels</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all data plane types are targeted by the policy.">
-  <span class="schema-viewer__description-text">ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all da...</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
+  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
@@ -269,6 +242,33 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="SectionName is used to target specific section of resource. For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.">
   <span class="schema-viewer__description-text">SectionName is used to target specific section of resource. For example, you can target port from Me...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">mesh</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Mesh is reserved for future use to identify cross mesh resources.</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">proxyTypes</span>
+    <span class="schema-viewer__type schema-viewer__type--array">array</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all data plane types are targeted by the policy.">
+  <span class="schema-viewer__description-text">ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all da...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">tags</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshServiceSubset`">
+  <span class="schema-viewer__description-text">Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshS...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
     <span class="schema-viewer__arrow"></span>
@@ -276,7 +276,17 @@
     <span class="schema-viewer__type schema-viewer__type--object">object</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Default is a configuration specific to the group of clients referenced in &#39;targetRef&#39;</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="2">
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Default is a configuration specific to the group of clients referenced in &#39;targetRef&#39;</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">connectionTimeout</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be established. Default value is 5 seconds. Cannot be set to 0.">
+  <span class="schema-viewer__description-text">ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be establish...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="2">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">http</span>
@@ -284,6 +294,36 @@
     
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Http provides configuration for HTTP specific timeouts</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">maxConnectionDuration</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting from when it was first established. Setting this timeout to 0 will disable it. Disabled by default.">
+  <span class="schema-viewer__description-text">MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting f...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">maxStreamDuration</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 will disable it. Disabled by default.">
+  <span class="schema-viewer__description-text">MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 ...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">requestHeadersTimeout</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received. The timer is activated when the first byte of the headers is received, and is disarmed when the last byte of the headers has been received. If not specified or set to 0, this timeout is disabled. Disabled by default.">
+  <span class="schema-viewer__description-text">RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">requestTimeout</span>
@@ -303,36 +343,6 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="StreamIdleTimeout is the amount of time that proxy will allow a stream to exist with no activity. Setting this timeout to 0 will disable it. Default is 30m">
   <span class="schema-viewer__description-text">StreamIdleTimeout is the amount of time that proxy will allow a stream to exist with no activity. Se...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">maxStreamDuration</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 will disable it. Disabled by default.">
-  <span class="schema-viewer__description-text">MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 ...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">maxConnectionDuration</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting from when it was first established. Setting this timeout to 0 will disable it. Disabled by default.">
-  <span class="schema-viewer__description-text">MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting f...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">requestHeadersTimeout</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received. The timer is activated when the first byte of the headers is received, and is disarmed when the last byte of the headers has been received. If not specified or set to 0, this timeout is disabled. Disabled by default.">
-  <span class="schema-viewer__description-text">RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
@@ -342,16 +352,6 @@
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="IdleTimeout is defined as the period in which there are no bytes sent or received on connection Setting this timeout to 0 will disable it. Be cautious when disabling it because it can lead to connection leaking. Default value is 1h.">
   <span class="schema-viewer__description-text">IdleTimeout is defined as the period in which there are no bytes sent or received on connection Sett...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">connectionTimeout</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be established. Default value is 5 seconds. Cannot be set to 0.">
-  <span class="schema-viewer__description-text">ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be establish...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
@@ -370,16 +370,6 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">TargetRef is a reference to the resource that represents a group of destinations.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">name</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and `MeshGatewayRoute`">
-  <span class="schema-viewer__description-text">Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">kind</span>
     <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
     
@@ -387,29 +377,12 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Kind of the referenced resource</span></div><div class="schema-viewer__enum">Values: <code>Mesh</code> | <code>MeshSubset</code> | <code>MeshGateway</code> | <code>MeshService</code> | <code>MeshExternalService</code> | <code>MeshMultiZoneService</code> | <code>MeshServiceSubset</code> | <code>MeshHTTPRoute</code> | <code>Dataplane</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">mesh</span>
+    <span class="schema-viewer__name">name</span>
     <span class="schema-viewer__type schema-viewer__type--string">string</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Mesh is reserved for future use to identify cross mesh resources.</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">tags</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshServiceSubset`">
-  <span class="schema-viewer__description-text">Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshS...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">labels</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
-  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and `MeshGatewayRoute`">
+  <span class="schema-viewer__description-text">Name of the referenced resource. Can only be used with kinds: `MeshService`, `MeshServiceSubset` and...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
@@ -424,12 +397,12 @@
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">proxyTypes</span>
-    <span class="schema-viewer__type schema-viewer__type--array">array</span>
+    <span class="schema-viewer__name">labels</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all data plane types are targeted by the policy.">
-  <span class="schema-viewer__description-text">ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all da...</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
+  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
@@ -441,6 +414,33 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="SectionName is used to target specific section of resource. For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.">
   <span class="schema-viewer__description-text">SectionName is used to target specific section of resource. For example, you can target port from Me...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">mesh</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Mesh is reserved for future use to identify cross mesh resources.</span></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">proxyTypes</span>
+    <span class="schema-viewer__type schema-viewer__type--array">array</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all data plane types are targeted by the policy.">
+  <span class="schema-viewer__description-text">ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all da...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">tags</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshServiceSubset`">
+  <span class="schema-viewer__description-text">Tags used to select a subset of proxies by tags. Can only be used with kinds `MeshSubset` and `MeshS...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
     <span class="schema-viewer__arrow"></span>
@@ -448,7 +448,17 @@
     <span class="schema-viewer__type schema-viewer__type--object">object</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Default is a configuration specific to the group of destinations referenced in &#39;targetRef&#39;</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="2">
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Default is a configuration specific to the group of destinations referenced in &#39;targetRef&#39;</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">connectionTimeout</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be established. Default value is 5 seconds. Cannot be set to 0.">
+  <span class="schema-viewer__description-text">ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be establish...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="2">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">http</span>
@@ -456,6 +466,36 @@
     
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Http provides configuration for HTTP specific timeouts</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">maxConnectionDuration</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting from when it was first established. Setting this timeout to 0 will disable it. Disabled by default.">
+  <span class="schema-viewer__description-text">MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting f...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">maxStreamDuration</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 will disable it. Disabled by default.">
+  <span class="schema-viewer__description-text">MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 ...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">requestHeadersTimeout</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received. The timer is activated when the first byte of the headers is received, and is disarmed when the last byte of the headers has been received. If not specified or set to 0, this timeout is disabled. Disabled by default.">
+  <span class="schema-viewer__description-text">RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">requestTimeout</span>
@@ -475,36 +515,6 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="StreamIdleTimeout is the amount of time that proxy will allow a stream to exist with no activity. Setting this timeout to 0 will disable it. Default is 30m">
   <span class="schema-viewer__description-text">StreamIdleTimeout is the amount of time that proxy will allow a stream to exist with no activity. Se...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">maxStreamDuration</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 will disable it. Disabled by default.">
-  <span class="schema-viewer__description-text">MaxStreamDuration is the maximum time that a stream’s lifetime will span. Setting this timeout to 0 ...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">maxConnectionDuration</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting from when it was first established. Setting this timeout to 0 will disable it. Disabled by default.">
-  <span class="schema-viewer__description-text">MaxConnectionDuration is the time after which a connection will be drained and/or closed, starting f...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">requestHeadersTimeout</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received. The timer is activated when the first byte of the headers is received, and is disarmed when the last byte of the headers has been received. If not specified or set to 0, this timeout is disabled. Disabled by default.">
-  <span class="schema-viewer__description-text">RequestHeadersTimeout The amount of time that proxy will wait for the request headers to be received...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
@@ -514,16 +524,6 @@
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="IdleTimeout is defined as the period in which there are no bytes sent or received on connection Setting this timeout to 0 will disable it. Be cautious when disabling it because it can lead to connection leaking. Default value is 1h.">
   <span class="schema-viewer__description-text">IdleTimeout is defined as the period in which there are no bytes sent or received on connection Sett...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">connectionTimeout</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be established. Default value is 5 seconds. Cannot be set to 0.">
-  <span class="schema-viewer__description-text">ConnectionTimeout specifies the amount of time proxy will wait for an TCP connection to be establish...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div></div></div></div></div></div>
 {:/nomarkdown}

@@ -161,7 +161,7 @@ and denies requests from clients in `observability` namespace on `backend-admin-
 ## All policy options
 
 {% if_version gte:2.13.x %}
-{% schema_viewer MeshTrafficPermissions exclude=from targetRef.kind=Mesh,Dataplane %}
+{% schema_viewer MeshTrafficPermissions exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane %}
 {% endif_version %}
 {% if_version lte:2.12.x %}
 {% schema_viewer MeshTrafficPermissions %}
