@@ -341,7 +341,7 @@ spec:
 ## All policy options
 
 {% if_version gte:2.13.x %}
-{% schema_viewer MeshPassthroughs targetRef.kind=Mesh,Dataplane %}
+{% schema_viewer MeshPassthroughs exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane %}
 {% endif_version %}
 {% if_version lte:2.12.x %}
 {% schema_viewer MeshPassthroughs %}

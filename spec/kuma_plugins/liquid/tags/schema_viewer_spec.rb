@@ -119,6 +119,22 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::SchemaViewer do
       excluded_fields = tag.instance_variable_get(:@excluded_fields)
       expect(excluded_fields).to eq(%w[from rules to])
     end
+
+    it 'parses path-based exclusion parameters' do
+      tag = Liquid::Template.parse('{% schema_viewer TestSchema exclude.targetRef=tags,mesh %}').root.nodelist.first
+      path_exclusions = tag.instance_variable_get(:@path_exclusions)
+      expect(path_exclusions).to have_key('targetRef')
+      expect(path_exclusions['targetRef']).to eq(%w[tags mesh])
+    end
+
+    it 'handles multiple path-based exclusions' do
+      tag = Liquid::Template.parse('{% schema_viewer TestSchema exclude.targetRef=tags exclude.to.targetRef=mesh %}').root.nodelist.first
+      path_exclusions = tag.instance_variable_get(:@path_exclusions)
+      expect(path_exclusions).to have_key('targetRef')
+      expect(path_exclusions).to have_key('to.targetRef')
+      expect(path_exclusions['targetRef']).to eq(['tags'])
+      expect(path_exclusions['to.targetRef']).to eq(['mesh'])
+    end
   end
 
   describe Jekyll::KumaPlugins::Liquid::Tags::SchemaViewerComponents::Renderer do

@@ -369,7 +369,7 @@ spec:
 ## All policy options
 
 {% if_version gte:2.13.x %}
-{% schema_viewer MeshRateLimits exclude=from targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh %}
+{% schema_viewer MeshRateLimits exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh %}
 {% endif_version %}
 {% if_version lte:2.12.x %}
 {% schema_viewer MeshRateLimits %}

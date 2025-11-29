@@ -85,6 +85,7 @@ VITE_PROCESS=$(lsof -ti:3036) && kill -9 $VITE_PROCESS || true
 
 [tasks.build]
 description = "Build website"
+env = { LANG = "en_US.UTF-8", LC_ALL = "en_US.UTF-8" }
 run = "exe/build"
 
 #-------------------------------------------------
@@ -93,10 +94,12 @@ run = "exe/build"
 
 [tasks.test]
 description = "Run tests"
+env = { LANG = "en_US.UTF-8", LC_ALL = "en_US.UTF-8" }
 run = "bundle exec rspec"
 
 [tasks."test:plugins"]
 description = "Install and run plugin tests"
+env = { LANG = "en_US.UTF-8", LC_ALL = "en_US.UTF-8" }
 dir = "jekyll-kuma-plugins"
 run = "bundle install && bundle exec rspec"
 

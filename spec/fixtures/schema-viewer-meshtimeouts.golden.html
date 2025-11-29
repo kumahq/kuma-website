@@ -16,6 +16,13 @@
 </div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">kind</span>
+    <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
+    
+    <span class="schema-viewer__required">required</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Kind of the referenced resource</span></div><div class="schema-viewer__enum">Values: <code>Mesh</code> | <code>MeshSubset</code> | <code>MeshGateway</code> | <code>MeshService</code> | <code>MeshExternalService</code> | <code>MeshMultiZoneService</code> | <code>MeshServiceSubset</code> | <code>MeshHTTPRoute</code> | <code>Dataplane</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">name</span>
     <span class="schema-viewer__type schema-viewer__type--string">string</span>
     
@@ -26,11 +33,34 @@
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">kind</span>
-    <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
+    <span class="schema-viewer__name">namespace</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
     
-    <span class="schema-viewer__required">required</span>
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Kind of the referenced resource</span></div><div class="schema-viewer__enum">Values: <code>Mesh</code> | <code>MeshSubset</code> | <code>MeshGateway</code> | <code>MeshService</code> | <code>MeshExternalService</code> | <code>MeshMultiZoneService</code> | <code>MeshServiceSubset</code> | <code>MeshHTTPRoute</code> | <code>Dataplane</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Namespace specifies the namespace of target resource. If empty only resources in policy namespace will be targeted.">
+  <span class="schema-viewer__description-text">Namespace specifies the namespace of target resource. If empty only resources in policy namespace wi...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">labels</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
+  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">sectionName</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="SectionName is used to target specific section of resource. For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.">
+  <span class="schema-viewer__description-text">SectionName is used to target specific section of resource. For example, you can target port from Me...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">mesh</span>
@@ -50,42 +80,12 @@
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">labels</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
-  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">namespace</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Namespace specifies the namespace of target resource. If empty only resources in policy namespace will be targeted.">
-  <span class="schema-viewer__description-text">Namespace specifies the namespace of target resource. If empty only resources in policy namespace wi...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">proxyTypes</span>
     <span class="schema-viewer__type schema-viewer__type--array">array</span>
     
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all data plane types are targeted by the policy.">
   <span class="schema-viewer__description-text">ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all da...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="1">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">sectionName</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="SectionName is used to target specific section of resource. For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.">
-  <span class="schema-viewer__description-text">SectionName is used to target specific section of resource. For example, you can target port from Me...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
@@ -198,6 +198,13 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">TargetRef is a reference to the resource that represents a group of clients.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">kind</span>
+    <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
+    
+    <span class="schema-viewer__required">required</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Kind of the referenced resource</span></div><div class="schema-viewer__enum">Values: <code>Mesh</code> | <code>MeshSubset</code> | <code>MeshGateway</code> | <code>MeshService</code> | <code>MeshExternalService</code> | <code>MeshMultiZoneService</code> | <code>MeshServiceSubset</code> | <code>MeshHTTPRoute</code> | <code>Dataplane</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">name</span>
     <span class="schema-viewer__type schema-viewer__type--string">string</span>
     
@@ -208,11 +215,34 @@
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">kind</span>
-    <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
+    <span class="schema-viewer__name">namespace</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
     
-    <span class="schema-viewer__required">required</span>
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Kind of the referenced resource</span></div><div class="schema-viewer__enum">Values: <code>Mesh</code> | <code>MeshSubset</code> | <code>MeshGateway</code> | <code>MeshService</code> | <code>MeshExternalService</code> | <code>MeshMultiZoneService</code> | <code>MeshServiceSubset</code> | <code>MeshHTTPRoute</code> | <code>Dataplane</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Namespace specifies the namespace of target resource. If empty only resources in policy namespace will be targeted.">
+  <span class="schema-viewer__description-text">Namespace specifies the namespace of target resource. If empty only resources in policy namespace wi...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">labels</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
+  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">sectionName</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="SectionName is used to target specific section of resource. For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.">
+  <span class="schema-viewer__description-text">SectionName is used to target specific section of resource. For example, you can target port from Me...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">mesh</span>
@@ -232,42 +262,12 @@
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">labels</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
-  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">namespace</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Namespace specifies the namespace of target resource. If empty only resources in policy namespace will be targeted.">
-  <span class="schema-viewer__description-text">Namespace specifies the namespace of target resource. If empty only resources in policy namespace wi...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">proxyTypes</span>
     <span class="schema-viewer__type schema-viewer__type--array">array</span>
     
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all data plane types are targeted by the policy.">
   <span class="schema-viewer__description-text">ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all da...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">sectionName</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="SectionName is used to target specific section of resource. For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.">
-  <span class="schema-viewer__description-text">SectionName is used to target specific section of resource. For example, you can target port from Me...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
@@ -370,6 +370,13 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">TargetRef is a reference to the resource that represents a group of destinations.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">kind</span>
+    <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
+    
+    <span class="schema-viewer__required">required</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Kind of the referenced resource</span></div><div class="schema-viewer__enum">Values: <code>Mesh</code> | <code>MeshSubset</code> | <code>MeshGateway</code> | <code>MeshService</code> | <code>MeshExternalService</code> | <code>MeshMultiZoneService</code> | <code>MeshServiceSubset</code> | <code>MeshHTTPRoute</code> | <code>Dataplane</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">name</span>
     <span class="schema-viewer__type schema-viewer__type--string">string</span>
     
@@ -380,11 +387,34 @@
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">kind</span>
-    <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
+    <span class="schema-viewer__name">namespace</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
     
-    <span class="schema-viewer__required">required</span>
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Kind of the referenced resource</span></div><div class="schema-viewer__enum">Values: <code>Mesh</code> | <code>MeshSubset</code> | <code>MeshGateway</code> | <code>MeshService</code> | <code>MeshExternalService</code> | <code>MeshMultiZoneService</code> | <code>MeshServiceSubset</code> | <code>MeshHTTPRoute</code> | <code>Dataplane</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Namespace specifies the namespace of target resource. If empty only resources in policy namespace will be targeted.">
+  <span class="schema-viewer__description-text">Namespace specifies the namespace of target resource. If empty only resources in policy namespace wi...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">labels</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
+  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">sectionName</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="SectionName is used to target specific section of resource. For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.">
+  <span class="schema-viewer__description-text">SectionName is used to target specific section of resource. For example, you can target port from Me...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">mesh</span>
@@ -404,42 +434,12 @@
 </div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
   <div class="schema-viewer__header" >
     <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">labels</span>
-    <span class="schema-viewer__type schema-viewer__type--object">object</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespace can be used.">
-  <span class="schema-viewer__description-text">Labels are used to select group of MeshServices that match labels. Either Labels or Name and Namespa...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">namespace</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Namespace specifies the namespace of target resource. If empty only resources in policy namespace will be targeted.">
-  <span class="schema-viewer__description-text">Namespace specifies the namespace of target resource. If empty only resources in policy namespace wi...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
     <span class="schema-viewer__name">proxyTypes</span>
     <span class="schema-viewer__type schema-viewer__type--array">array</span>
     
     
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all data plane types are targeted by the policy.">
   <span class="schema-viewer__description-text">ProxyTypes specifies the data plane types that are subject to the policy. When not specified, all da...</span>
-  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="2">
-  <div class="schema-viewer__header" >
-    <span class="schema-viewer__arrow-placeholder"></span>
-    <span class="schema-viewer__name">sectionName</span>
-    <span class="schema-viewer__type schema-viewer__type--string">string</span>
-    
-    
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="SectionName is used to target specific section of resource. For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.">
-  <span class="schema-viewer__description-text">SectionName is used to target specific section of resource. For example, you can target port from Me...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">

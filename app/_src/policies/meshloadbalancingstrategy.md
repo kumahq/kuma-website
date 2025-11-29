@@ -787,7 +787,7 @@ The downside is that we now have to establish and maintain more TCP connections.
 ## All policy options
 
 {% if_version gte:2.13.x %}
-{% schema_viewer MeshLoadBalancingStrategies targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService,MeshHTTPRoute %}
+{% schema_viewer MeshLoadBalancingStrategies exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService,MeshHTTPRoute %}
 {% endif_version %}
 {% if_version lte:2.12.x %}
 {% schema_viewer MeshLoadBalancingStrategies %}

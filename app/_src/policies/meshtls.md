@@ -157,7 +157,7 @@ spec:
 ## All policy options
 
 {% if_version gte:2.13.x %}
-{% schema_viewer MeshTLSes exclude=from targetRef.kind=Mesh,Dataplane %}
+{% schema_viewer MeshTLSes exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane %}
 {% endif_version %}
 {% if_version lte:2.12.x %}
 {% schema_viewer MeshTLSes %}
