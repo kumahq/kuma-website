@@ -68,30 +68,19 @@ module Jekyll
               # Apply path-based exclusions
               path_str = path.join('.')
               excluded_at_path = @path_exclusions[path_str] || []
-              filtered = filtered.except(*excluded_at_path) unless excluded_at_path.empty?
+              filtered = filtered.except(*excluded_at_path) if excluded_at_path.any?
 
               sort_properties(filtered, path)
             end
 
             def sort_properties(properties, path)
-              # Define priority order for common fields
               priority_order = %w[targetRef rules from to default]
-
-              # Check if we're sorting properties inside targetRef
-              # Path is an array like ["targetRef"] or ["to", "targetRef"]
-              inside_target_ref = path.is_a?(Array) && path.last == 'targetRef'
               target_ref_order = %w[kind name namespace labels sectionName]
+              order = path.last == 'targetRef' ? target_ref_order : priority_order
 
               properties.sort_by do |name, _|
-                # If inside targetRef, use targetRef-specific order
-                if inside_target_ref
-                  target_ref_index = target_ref_order.index(name)
-                  target_ref_index || (1000 + name.downcase.chars.map(&:ord).sum)
-                else
-                  priority_index = priority_order.index(name)
-                  # If field is in priority list, use its index; otherwise use 1000 + alphabetical
-                  priority_index || (1000 + name.downcase.chars.map(&:ord).sum)
-                end
+                index = order.index(name)
+                index ? [0, index] : [1, name.downcase]
               end
             end
 

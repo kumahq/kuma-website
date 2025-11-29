@@ -42,25 +42,24 @@ module Jekyll
 
           def parse_parameters(params_list, params)
             params_list.each do |item|
-              sp = item.split('=', 2)
-              key = sp[0]
-              value = sp[1]
+              key, value = item.split('=', 2)
               next if value.to_s.empty?
 
-              # Handle exclude parameter (top-level only)
-              if key == 'exclude'
-                @excluded_fields = value.split(',').map(&:strip)
-              # Handle path-based exclusions (e.g., exclude.targetRef=tags,proxyTypes)
-              elsif key.start_with?('exclude.')
-                path = key.sub('exclude.', '')
-                @path_exclusions[path] = value.split(',').map(&:strip)
-              # If key contains a dot, it's a filter path (e.g., targetRef.kind)
-              elsif key.include?('.')
-                # Split comma-separated values
-                @filters[key] = value.split(',').map(&:strip)
-              else
-                params[key] = value
-              end
+              handle_parameter(key, value, params)
+            end
+          end
+
+          def handle_parameter(key, value, params)
+            values = value.split(',').map(&:strip)
+
+            if key == 'exclude'
+              @excluded_fields = values
+            elsif key.start_with?('exclude.')
+              @path_exclusions[key.sub('exclude.', '')] = values
+            elsif key.include?('.')
+              @filters[key] = values
+            else
+              params[key] = value
             end
           end
 

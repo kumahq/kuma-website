@@ -79,7 +79,7 @@ Basic usage:
 With filters:
 
 ```liquid
-{% schema_viewer PolicyName exclude=from targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService %}
+{% schema_viewer PolicyName exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService %}
 ```
 
 #### Available parameters
@@ -87,7 +87,8 @@ With filters:
 All parameters are optional and can be combined:
 
 - **`PolicyName`** (required): Name of the policy resource (e.g., `MeshAccessLogs`, `MeshRetries`, `MeshHealthChecks`)
-- **`exclude`**: Comma-separated list of sections to hide (e.g., `exclude=from` to hide the `from` section, `exclude=to` to hide the `to` section)
+- **`exclude`**: Comma-separated list of top-level sections to hide (e.g., `exclude=from` to hide the `from` section, `exclude=to` to hide the `to` section)
+- **`exclude.<path>`**: Path-based field exclusions (e.g., `exclude.targetRef=tags,mesh,proxyTypes` to hide specific fields within `targetRef`, `exclude.to.targetRef=tags,mesh` to hide fields in `to[].targetRef`)
 - **`targetRef.kind`**: Comma-separated list of allowed kinds for the top-level `targetRef` selector
 - **`to.targetRef.kind`**: Comma-separated list of allowed kinds for the `to[].targetRef` selector
 - **`from.targetRef.kind`**: Comma-separated list of allowed kinds for the `from[].targetRef` selector
@@ -97,31 +98,31 @@ All parameters are optional and can be combined:
 **Outbound-only policies (exclude from):**
 
 ```liquid
-{% schema_viewer MeshAccessLogs exclude=from targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshExternalService %}
+{% schema_viewer MeshAccessLogs exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshExternalService %}
 ```
 
 **Inbound-only policies (exclude to):**
 
 ```liquid
-{% schema_viewer MeshRateLimits exclude=to targetRef.kind=Mesh,Dataplane %}
+{% schema_viewer MeshRateLimits exclude=to exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane %}
 ```
 
 **Policies with HTTP route support:**
 
 ```liquid
-{% schema_viewer MeshRetries targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshExternalService,MeshMultiZoneService,MeshHTTPRoute %}
+{% schema_viewer MeshRetries exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshExternalService,MeshMultiZoneService,MeshHTTPRoute %}
 ```
 
 **Route policies:**
 
 ```liquid
-{% schema_viewer MeshHttpRoutes targetRef.kind=Mesh,Dataplane to.targetRef.kind=MeshService,MeshMultiZoneService,MeshExternalService %}
+{% schema_viewer MeshHttpRoutes exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=MeshService,MeshMultiZoneService,MeshExternalService %}
 ```
 
 **Load balancing policies:**
 
 ```liquid
-{% schema_viewer MeshLoadBalancingStrategies targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService,MeshHTTPRoute %}
+{% schema_viewer MeshLoadBalancingStrategies exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService,MeshHTTPRoute %}
 ```
 
 #### Real-world examples
@@ -129,25 +130,25 @@ All parameters are optional and can be combined:
 Outbound policy with multiple target types:
 
 ```liquid
-{% schema_viewer MeshAccessLogs exclude=from targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshExternalService,MeshMultiZoneService,MeshHTTPRoute %}
+{% schema_viewer MeshAccessLogs exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshExternalService,MeshMultiZoneService,MeshHTTPRoute %}
 ```
 
 Health check policy:
 
 ```liquid
-{% schema_viewer MeshHealthChecks targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService %}
+{% schema_viewer MeshHealthChecks exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService %}
 ```
 
 Rate limiting (inbound only):
 
 ```liquid
-{% schema_viewer MeshRateLimits exclude=from targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh %}
+{% schema_viewer MeshRateLimits exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh %}
 ```
 
 Circuit breaker (outbound only):
 
 ```liquid
-{% schema_viewer MeshCircuitBreakers exclude=from targetRef.kind=Mesh,Dataplane to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService %}
+{% schema_viewer MeshCircuitBreakers exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService %}
 ```
 
 ### `inc` tag
