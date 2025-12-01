@@ -15,20 +15,6 @@ On Kubernetes, {{site.mesh_product_name}} automatically generates `Dataplane` re
 
 Each `Dataplane` belongs to exactly one [mesh](/docs/{{ page.release }}/resources/mesh/).
 
-## Spec fields
-
-| Field | Description |
-|-------|-------------|
-| `networking.address` | IP/hostname where proxy is accessible to control plane and other proxies. |
-| `networking.advertisedAddress` | routable address for proxies in private networks. Envoy binds to `address`, not this. |
-| `networking.inbound` | List of inbound interfaces. Each has `port`, `tags` (must include `kuma.io/service`), optional `servicePort`, `serviceAddress`, `health`, `serviceProbe`, `state`, `name`. See [Configure the data plane](/docs/{{ page.release }}/production/dp-config/dpp/). |
-| `networking.outbound` | List of consumed services with `port` and `tags` or `backendRef`. Only needed without [transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/). |
-| `networking.gateway` | Gateway configuration with `tags` and `type` (`DELEGATED` or `BUILTIN`). See [Built-in gateways](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/). |
-| `networking.transparentProxying` | Automatic traffic interception config: `redirectPortInbound`, `redirectPortOutbound`, `directAccessServices`, `reachableServices`, `ipFamilyMode`, `reachableBackends`. See [Transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/). |
-| `networking.admin` | Envoy [admin interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin) configuration. |
-| `metrics` | Metrics collection config. Overrides [Mesh](/docs/{{ page.release }}/resources/mesh/)-level defaults. |
-| `probes` | Expose endpoints without mTLS for health checks. Deprecated on Kubernetes. |
-
 ## Examples
 
 ### Basic Dataplane with single inbound (Universal)
@@ -237,7 +223,7 @@ networking:
 
 - [Data plane proxy](/docs/{{ page.release }}/production/dp-config/dpp/) - Conceptual overview
 - [Configure the data plane on Kubernetes](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) - Kubernetes-specific configuration
-- [Configure the data plane on Universal](/docs/{{ page.release }}/production/dp-config/dpp-on-universal/) - Universal deployment configuration
+- [Configure the data plane on Universal](/docs/{{ page.release }}/production/dp-config/dpp-on-universal/) - Universal-specific configuration
 - [Transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/) - Traffic interception without application changes
 - [Service health probes](/docs/{{ page.release }}/policies/service-health-probes/) - Health checking configuration
 - [Built-in gateways](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) - Gateway configuration
