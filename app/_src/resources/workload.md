@@ -125,7 +125,7 @@ Workload resources are only available on Kubernetes.
 {% endtab %}
 {% endtabs %}
 
-### Checking Workload status
+### Checking workload status
 
 Monitor workload health using kubectl:
 
