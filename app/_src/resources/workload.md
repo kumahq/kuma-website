@@ -9,7 +9,7 @@ content_type: reference
 category: resource
 ---
 
-The `Workload` resource represents a logical grouping of [data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/) that share the same workload identifier. {{site.mesh_product_name}} automatically creates and manages this resource on Kubernetes when data plane proxies reference a workload via the `kuma.io/workload` annotation.
+The `Workload` resource represents a logical grouping of [data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/) that share the same workload identifier. {{site.mesh_product_name}} automatically creates and manages this resource on Kubernetes when Pods are deployed with a `kuma.io/workload` annotation, which sets the workload label on their data plane proxies.
 
 Use Workload resources to:
 
@@ -18,7 +18,7 @@ Use Workload resources to:
 - Integrate with [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity/) for workload-based identity assignment
 
 {% warning %}
-Workload resources are automatically managed by {{site.mesh_product_name}}. Manual creation is not supported on Kubernetes. The resource is automatically created when data plane proxies with a `kuma.io/workload` annotation are deployed, and deleted when no data plane proxies reference it.
+Workload resources are automatically managed by {{site.mesh_product_name}}. Manual creation is not supported on Kubernetes. The resource is automatically created when Pods with a `kuma.io/workload` annotation are deployed, and deleted when no data plane proxies reference it.
 {% endwarning %}
 
 ## Status fields
@@ -102,15 +102,20 @@ metadata:
   labels:
     kuma.io/mesh: default
 spec:
-  type: spiffe
-  identityRef:
-    type: workload
-    tags:
-      kuma.io/workload: demo-workload
-  config:
+  selector:
+    dataplane:
+      matchLabels:
+        kuma.io/workload: demo-workload
+  spiffeID:
     trustDomain: example.com
-    path:
-      template: /workload/{{ .Workload }}
+    path: "/workload/{{ .Workload }}"
+  provider:
+    type: Bundled
+    bundled:
+      meshTrustCreation: Enabled
+      insecureAllowSelfSigned: true
+      autogenerate:
+        enabled: true
 ```
 
 {% endraw %}
@@ -136,7 +141,7 @@ Monitor workload health using kubectl:
 kubectl get workloads -n default
 ```
 
-```
+```text
 NAME            MESH      AGE
 demo-workload   default   5m
 ```
@@ -164,7 +169,7 @@ The `kuma.io/workload` label is automatically managed by {{site.mesh_product_nam
 - **Protection:** Cannot be manually set as a label on pods; {{site.mesh_product_name}} will reject pod creation/updates with this label
 
 {% warning %}
-The `kuma.io/workload` annotation on data plane proxies must match exactly with the Workload resource name. All data plane proxies referencing a Workload must be in the same namespace and mesh.
+The `kuma.io/workload` label on data plane proxies must match exactly with the Workload resource name. All data plane proxies referencing a Workload must be in the same namespace and mesh.
 {% endwarning %}
 
 ## Limitations
