@@ -12,18 +12,6 @@ category: resource
 
 TODO: Add introduction
 
-## Spec fields
-
-<!-- Document each spec field with:
-### fieldName
-
-Description of field purpose and behavior.
-
-**Type:** `type` | **Required:** Yes/No | **Default:** `value`
-
-#### nestedField (if applicable)
--->
-
 ## Examples
 
 ### Basic {{ .Env.RESOURCE_NAME }}
