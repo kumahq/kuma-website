@@ -245,4 +245,4 @@ networking:
 
 ## All options
 
-{% schema_viewer Dataplane type=proto %}
+{% schema_viewer kuma.io_dataplanes type=crd %}
