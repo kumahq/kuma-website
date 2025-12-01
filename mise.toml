@@ -15,7 +15,7 @@ shellcheck = "0.10.0"
 # Go tools
 go = "1.23"
 "go:github.com/raviqqe/muffet/v2" = "v2.11.0"
-"go:github.com/hairyhenderson/gomplate/v4/cmd/gomplate" = "v4.3.0"
+"go:github.com/hairyhenderson/gomplate/v4/cmd/gomplate" = "v4.3.3"
 
 # Testing
 shellspec = "0.28.1"
