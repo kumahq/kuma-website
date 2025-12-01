@@ -35,20 +35,6 @@ For concepts, migration guidance, and usage patterns, see the [MeshService guide
 | `identities` | Service identities (auto-populated). Contains `ServiceTag` or `SpiffeID` entries. |
 | `state` | Service availability: `Available` (healthy endpoints exist) or `Unavailable`. |
 
-## Status fields
-
-The status is managed by {{site.mesh_product_name}} and provides runtime information:
-
-| Field | Description |
-|-------|-------------|
-| `addresses` | Generated hostnames from [HostnameGenerators](/docs/{{ page.release }}/networking/hostnamegenerator/). |
-| `vips` | Virtual IP addresses assigned to the service (Kubernetes ClusterIP or Kuma VIP). |
-| `tls.status` | mTLS readiness: `Ready` or `NotReady`. |
-| `dataplaneProxies.total` | Total proxies matching this service. |
-| `dataplaneProxies.connected` | Proxies connected to control plane. |
-| `dataplaneProxies.healthy` | Proxies with all inbound ports healthy. |
-| `hostnameGenerators` | Status of hostname generation from each generator. |
-
 ## Examples
 
 ### Basic MeshService

@@ -40,16 +40,6 @@ The template has access to:
 - `.Mesh` - Mesh name
 - `label "key"` - Function to retrieve resource labels
 
-## Status fields
-
-Status is managed by {{site.mesh_product_name}} on service resources that have generated hostnames:
-
-| Field | Description |
-|-------|-------------|
-| `addresses[].hostname` | Generated hostname. |
-| `addresses[].origin` | Set to `HostnameGenerator`. |
-| `addresses[].hostnameGeneratorRef.coreName` | Name of the `HostnameGenerator` that created this hostname. |
-
 ## Examples
 
 ### Basic HostnameGenerator for MeshService

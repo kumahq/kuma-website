@@ -21,16 +21,6 @@ Use Workload resources to:
 Workload resources are automatically managed by {{site.mesh_product_name}}. Manual creation is not supported. The resource is automatically created when data plane proxies with a `kuma.io/workload` label are deployed, and deleted when no data plane proxies reference it.
 {% endwarning %}
 
-## Status fields
-
-The Workload status provides statistics about associated data plane proxies:
-
-| Field | Description |
-|-------|-------------|
-| `status.dataplaneProxies.connected` | Number of connected data plane proxies for this workload. |
-| `status.dataplaneProxies.healthy` | Number of healthy data plane proxies for this workload. |
-| `status.dataplaneProxies.total` | Total number of data plane proxies for this workload. |
-
 {% tip %}
 All data plane proxies referencing a Workload must belong to the same mesh. If data plane proxies in multiple meshes reference the same workload name, {{site.mesh_product_name}} will emit a warning event and skip Workload generation.
 {% endtip %}

@@ -62,16 +62,6 @@ For usage patterns, configuration examples, and differences from MeshPassthrough
 | `extension.type` | Extension type identifier. |
 | `extension.config` | Freeform extension configuration. |
 
-## Status fields
-
-Status is managed by {{site.mesh_product_name}}:
-
-| Field | Description |
-|-------|-------------|
-| `addresses` | Generated hostnames from [HostnameGenerators](/docs/{{ page.release }}/networking/hostnamegenerator/). |
-| `vip.ip` | Virtual IP address allocated from mesh external service CIDR (default `242.0.0.0/8`, configurable via `KUMA_IPAM_MESH_EXTERNAL_SERVICE_CIDR`). |
-| `hostnameGenerators` | Status of hostname generation from each HostnameGenerator. |
-
 ## TLS verification modes
 
 - **`Secured`**: Full verification (CA + SAN). Default and recommended.
