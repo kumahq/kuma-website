@@ -292,6 +292,8 @@ items:
     items:
       - text: Mesh
         url: /resources/mesh/
+      - text: Workload
+        url: /resources/workload/
       - text: MeshService
         url: /resources/meshservice/
       - text: MeshMultiZoneService
