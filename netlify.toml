@@ -20,7 +20,7 @@
   # is vite
   autoLaunch = false
   port = 7777
-  targetPort = 3000
+  targetPort = 4000
 
 [[redirects]]
   from = "/fixtures/*"
