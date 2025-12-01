@@ -124,6 +124,7 @@ TCP health checker that attempts to establish a TCP connection.
 ##### State
 
 Current state of the inbound listener:
+
 - `Ready`: Inbound is ready to serve traffic
 - `NotReady`: Inbound is not ready to serve traffic
 - `Ignored`: Inbound is not created and cannot be targeted by policies, but the data plane proxy receives a certificate with this inbound's identity
@@ -205,6 +206,7 @@ Tags associated with this gateway (for example, `kuma.io/service=gateway`). The 
 ##### Type
 
 Type of gateway:
+
 - `DELEGATED`: An independently deployed proxy (like Kong or Contour) that receives traffic from outside the mesh and forwards it through the data plane proxy
 - `BUILTIN`: The data plane proxy itself acts as the gateway
 
@@ -243,6 +245,7 @@ List of services (by `kuma.io/service` value) reachable via transparent proxying
 ##### IP family mode
 
 IP family mode for transparent proxying:
+
 - `DualStack`: Enables IPv4 and IPv6 (default)
 - `IPv4`: IPv4 only
 - `IPv6`: IPv6 only (future support)
@@ -479,7 +482,7 @@ networking:
 {% endtab %}
 {% endtabs %}
 
-### Delegated Gateway Dataplane
+### Delegated gateway Dataplane
 
 {% tabs %}
 {% tab Universal %}
@@ -499,7 +502,7 @@ networking:
 {% endtab %}
 {% endtabs %}
 
-### Builtin Gateway Dataplane
+### Builtin gateway Dataplane
 
 {% tabs %}
 {% tab Universal %}
