@@ -3,7 +3,7 @@
   "description": "The website and docs for Kuma.",
   "author": "Kong Inc.",
   "resolutions": {
-    "cookie": "^1.0.2"
+    "cookie": "^1.1.1"
   },
   "dependencies": {
     "@kongponents/ktabs": "^7.2.2",
@@ -19,10 +19,10 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
-    "netlify-cli": "^23.10.0",
-    "sass": "^1.93.3",
+    "netlify-cli": "^23.12.1",
+    "sass": "^1.94.2",
     "stylus": "^0.64.0",
-    "vite": "^7.2.0",
+    "vite": "^7.2.4",
     "vite-plugin-ruby": "^5.1.1",
     "vite-plugin-windicss": "^1.9.4",
     "windicss": "^3.5.6"
