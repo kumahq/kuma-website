@@ -21,6 +21,7 @@
   autoLaunch = false
   port = 7777
   targetPort = 4000
+  framework = "#custom"
 
 [[redirects]]
   from = "/fixtures/*"
