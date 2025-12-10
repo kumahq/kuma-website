@@ -42,14 +42,12 @@ and how its schema is structured, {{site.mesh_product_name}} assigns it a **poli
 A policy’s role determines how it is synchronized in multizone deployments and how it is prioritized when multiple policies overlap.
 
 The table below introduces the policy roles and how to recognize them.
-```
 | Policy Role    | Controls                                                                                              | Type by Schema                                                                                                       | Multizone Sync                                                                                 |
 |----------------|-------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
 | Producer       | Outbound behaviour of callers to my service (my clients’ egress toward me).                           | Has `spec.to`. Every `to[].targetRef.namespace`, if set, must equal `metadata.namespace`.                            | Defined in the app’s namespace on a Zone CP. Synced to Global, then propagated to other zones. |
 | Consumer       | Outbound behaviour of my service when calling others (my egress).                                     | Has `spec.to`. At least one `to[].targetRef.namespace` is different from `metadata.namespace`.                       | Defined in the app’s namespace on a Zone CP. Synced to Global.                                 |
 | Workload Owner | Configuration of my own proxy — inbound traffic handling and sidecar features (e.g. metrics, traces). | Either has `spec.rules`, or has neither `spec.rules` nor `spec.to` (only `spec.targetRef` + proxy/sidecar settings). | Defined in the app’s namespace on a Zone CP. Synced to Global.                                 |
 | System         | Mesh-wide behaviour — can govern both inbound and outbound across services (operator-managed).        | Resource is created in the system namespace (e.g. `kuma-system`).                                                    | Created in the system namespace, either on a Zone CP or on the Global CP.                      |
-```
 
 ### Producer Policies
 
