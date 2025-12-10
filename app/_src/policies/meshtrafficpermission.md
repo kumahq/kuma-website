@@ -1,6 +1,14 @@
 ---
 title: MeshTrafficPermission
+description: Define granular access control rules for service-to-service communication using mTLS identities.
+keywords:
+  - authorization
+  - traffic permission
+  - access control
+content_type: reference
+category: policy
 ---
+<!-- markdownlint-disable-file MD024 -->
 
 {% if_version gte:2.12.x %}
 {% tip %}
@@ -27,6 +35,7 @@ It allows you to define granular rules about which services can communicate with
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -59,6 +68,7 @@ It allows you to define granular rules about which services can communicate with
 {% if_version lte:2.6.x %}
 {% tabs %}
 {% tab Sidecar %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -99,6 +109,7 @@ If you don't understand this table you should read [matching docs](/docs/{{ page
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrafficPermission
 name: allow-orders
@@ -116,6 +127,7 @@ spec:
       default: # 3
         action: Allow
 ```
+
 {% endpolicy_yaml %}
 
 #### Explanation
@@ -150,6 +162,7 @@ spec:
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshTrafficPermission
 name: allow-orders
@@ -167,6 +180,7 @@ spec:
       default:
         action: Allow
 ```
+
 {% endpolicy_yaml %}
 
 #### Explanation
@@ -202,6 +216,7 @@ spec:
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshTrafficPermission
 name: allow-orders
@@ -219,6 +234,7 @@ spec:
       default:
         action: Allow
 ```
+
 {% endpolicy_yaml %}
 
 #### Explanation
@@ -256,6 +272,7 @@ spec:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrafficPermission
 name: deny-all
@@ -269,6 +286,7 @@ spec:
       default: # 3
         action: Deny
 ```
+
 {% endpolicy_yaml %}
 
 #### Explanation
@@ -298,6 +316,7 @@ spec:
 
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshTrafficPermission
 name: deny-all
@@ -309,6 +328,7 @@ spec:
       default: # 3
         action: Deny
 ```
+
 {% endpolicy_yaml %}
 
 #### Explanation
@@ -334,6 +354,7 @@ spec:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrafficPermission
 name: allow-all
@@ -347,6 +368,7 @@ spec:
       default: # 3
         action: Allow
 ```
+
 {% endpolicy_yaml %}
 
 #### Explanation
@@ -376,6 +398,7 @@ spec:
 
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshTrafficPermission
 name: allow-all
@@ -387,6 +410,7 @@ spec:
       default: # 3
         action: Allow
 ```
+
 {% endpolicy_yaml %}
 
 #### Explanation
@@ -412,6 +436,7 @@ spec:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshTrafficPermission
 name: example-with-tags
@@ -433,11 +458,13 @@ spec:
         default: # 5
            action: Deny
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshTrafficPermission
 name: example-with-tags
@@ -457,10 +484,12 @@ spec:
         default: # 5
            action: Deny
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version lte:2.8.x %}
+
 #### Explanation
 
 1. Top level `targetRef` selects all proxies in the mesh.
@@ -503,9 +532,11 @@ spec:
     default: # 5
       action: Deny
     ```
+
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
+
 #### Explanation
 
 1. Since top level `targetRef` is empty it selects all proxies in the mesh.
@@ -542,14 +573,31 @@ spec:
     default: # 5
       action: Deny
     ```
+
 {% endif_version %}
 
 {% tip %}
-Order of rules inside the `from` array matters. 
-Request from the proxy that has both `kuma.io/zone: east` and `env: dev` will be denied. 
+Order of rules inside the `from` array matters.
+Request from the proxy that has both `kuma.io/zone: east` and `env: dev` will be denied.
 This is because the rule with `Deny` is later in the `from` array than any `Allow` rules.
 {% endtip %}
 
+## See also
+
+{% if_version gte:2.9.x %}
+
+* [MeshTLS](/docs/{{ page.release }}/policies/meshtls) - Configure TLS modes and ciphers (required for this policy)
+
+{% endif_version %}
+
+* [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) - Enable mTLS mesh-wide
+* [Policies introduction](/docs/{{ page.release }}/policies/introduction) - Learn about policy fundamentals
+
 ## All policy options
 
-{% json_schema MeshTrafficPermissions %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshTrafficPermissions exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshTrafficPermissions %}
+{% endif_version %}

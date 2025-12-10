@@ -1,3 +1,7 @@
+@use 'sass:color';
+@use '@/styles/config/index' as *;
+@use './wrapper' as *;
+
 .page {
   padding-bottom: 2rem;
   display: block;
@@ -9,14 +13,13 @@
 
 .page-edit {
   @include wrapper;
-
   padding-top: 1rem;
   padding-bottom: 1rem;
   overflow: auto;
   .edit-link {
     display: inline-block;
     a {
-      color: lighten($textColor, 25%);
+      color: color.scale($textColor, $lightness: 33.03109058%);
       margin-right: 0.25rem;
     }
   }
@@ -25,7 +28,7 @@
     font-size: 0.9em;
     .prefix {
       font-weight: 500;
-      color: lighten($textColor, 25%);
+      color: color.scale($textColor, $lightness: 33.03109058%);
     }
     .time {
       font-weight: 400;
@@ -36,7 +39,6 @@
 
 .page-nav {
   @include wrapper;
-
   padding-top: 1rem;
   padding-bottom: 0;
   .inner {

@@ -1,6 +1,11 @@
 ---
 title: Configure zone proxy authentication
 content_type: how-to
+description: Configure authentication for zone proxies using service account tokens or zone tokens for secure control plane communication.
+keywords:
+  - authentication
+  - zone token
+  - security
 ---
 
 To obtain a configuration from the control plane, a zone proxy (zone ingress / zone egress) must

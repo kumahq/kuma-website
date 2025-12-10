@@ -1,5 +1,10 @@
 ---
 title: MeshService
+description: Define service destinations with MeshService for traffic routing, hostname assignment, and policy targeting.
+keywords:
+  - MeshService
+  - service discovery
+  - traffic routing
 ---
 
 {% if_version lte:2.8.x %}
@@ -12,8 +17,8 @@ planes that use `MeshServices`.
 {% endwarning %}
 {% endif_version %}
 
-MeshService is a new resource that represents what was previously expressed by
-the `Dataplane` tag `kuma.io/service`. Kubernetes users should think about it as
+MeshService is a new [resource](/docs/{{ page.release }}/introduction/concepts#resource) that represents what was previously expressed by
+the `Dataplane` tag `kuma.io/service` within a [mesh](/docs/{{ page.release }}/introduction/concepts#mesh). Kubernetes users should think about it as
 the analog of a Kubernetes `Service`.
 
 A basic example follows to illustrate the structure:
@@ -134,7 +139,7 @@ since there's no way to create a coherent `MeshService`
 for `test-server` from these two inbounds.
 {% endif_version %}
 
-## Hostnames
+## hostnames
 
 Because of various shortcomings, the existing `VirtualOutbound` does not work
 with `MeshService` and is planned for phasing out. A [new `HostnameGenerator`

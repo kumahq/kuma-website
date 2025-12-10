@@ -1,6 +1,11 @@
 ---
 title: Upgrading Transparent Proxy
 content_type: tutorial
+description: Clean up existing iptables rules and reinstall the transparent proxy on Universal environments.
+keywords:
+  - transparent proxy
+  - iptables
+  - upgrade
 ---
 
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}

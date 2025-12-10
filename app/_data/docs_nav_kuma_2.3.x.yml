@@ -14,9 +14,9 @@ items:
           - text: Dependencies
             url: "/introduction/how-kuma-works/#dependencies"
           - text: VM and K8s support
-            url: "/introduction/how-kuma-works/#vm-and-k8s-support"
+            url: "/introduction/how-kuma-works/#vm-and-kubernetes-support"
           - text: Kuma vs XYZ
-            url: "/introduction/how-kuma-works/#kuma-vs-xyz"
+            url: "/introduction/how-kuma-works/#kuma-vs-other-service-meshes"
       - text: Architecture
         url: /introduction/architecture/
       - text: Kuma requirements

@@ -1,5 +1,12 @@
 ---
 title: MeshPassthrough
+description: Control traffic to external destinations with MeshPassthrough, allowing specific domains, IPs, or CIDRs to bypass mesh routing.
+keywords:
+  - passthrough
+  - external traffic
+  - non-mesh traffic
+content_type: reference
+category: policy
 ---
 
 {% warning %}
@@ -14,6 +21,7 @@ When using this policy, the [passthrough mode](/docs/{{ page.release }}/networki
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.9.x %}
+
 | `targetRef`           | Allowed kinds         |
 | --------------------- | --------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`  |
@@ -69,6 +77,7 @@ Currently, support for partial subdomain matching is not implemented. For exampl
 
 {% if_version eq:2.9.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshPassthrough
 name: wildcard-passthrough
@@ -85,11 +94,13 @@ spec:
       protocol: tls
       port: 443
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshPassthrough
 name: wildcard-passthrough
@@ -105,6 +116,7 @@ spec:
       protocol: tls
       port: 443
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -115,16 +127,16 @@ This policy can introduce traffic outside of the mesh or even the cluster, and t
 If you want to restrict access to `MeshPassthrough` to specific services, you must choose them manually.
 If you rely on tags in the top-level `targetRef` you might consider securing them by using one of the following techniques:
 
-* Make sure that service owners can't freely modify them (using something like [`kyverno`](https://kyverno.io/), [`OPA`](https://www.openpolicyagent.org/) or similar)
-* Accept the risk of being able to "impersonate" a passthrough label and rely on auditing to figure out any violations.
+- Make sure that service owners can't freely modify them (using something like [`kyverno`](https://kyverno.io/), [`OPA`](https://www.openpolicyagent.org/) or similar)
+- Accept the risk of being able to "impersonate" a passthrough label and rely on auditing to figure out any violations.
 
 ### Limitations
 
-* Due to the nature of some traffic, it is not possible to combine certain protocols on the same port. You can create a `MeshPassthrough` policy that handles `tcp`, `tls`, and one of `http`, `http2`, or `grpc` traffic on the same port. Layer 7 protocols cannot be distinguished, which could introduce unexpected behavior.
-* It isn't possible to route passthrough traffic through the [zone egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/#zone-egress).
-* Wildcard domains with L7 protocol and all ports is not supported.
-* {% if_version gte:2.9.x %}Builtin gateway is not supported.{% endif_version %}{% if_version lte:2.8.x %}Gateways are currently not supported.{% endif_version %}
-* Envoy prioritizes matches in the following order: [first by Port, second by Address IP, and third by SNI](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener_components.proto#envoy-v3-api-msg-config-listener-v3-filterchainmatch). For example, if you have an HTTP domain match configured for a specific port (e.g., 80) and a CIDR match also configured for port 80, a request to this domain may match the CIDR configuration if the domain's address falls within the CIDR range. However, if the domain's address does not match the CIDR, the request might fail to match entirely due to the absence of an appropriate matcher for that IP. This behavior is a limitation and could potentially be addressed in the future with the adoption of the [Matcher API](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/matching/matching_api).
+- Due to the nature of some traffic, it is not possible to combine certain protocols on the same port. You can create a `MeshPassthrough` policy that handles `tcp`, `tls`, and one of `http`, `http2`, or `grpc` traffic on the same port. Layer 7 protocols cannot be distinguished, which could introduce unexpected behavior.
+- It isn't possible to route passthrough traffic through the [zone egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/#zone-egress).
+- Wildcard domains with L7 protocol and all ports is not supported.
+- {% if_version gte:2.9.x %}Builtin gateway is not supported.{% endif_version %}{% if_version lte:2.8.x %}Gateways are currently not supported.{% endif_version %}
+- Envoy prioritizes matches in the following order: [first by Port, second by Address IP, and third by SNI](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener_components.proto#envoy-v3-api-msg-config-listener-v3-filterchainmatch). For example, if you have an HTTP domain match configured for a specific port (e.g., 80) and a CIDR match also configured for port 80, a request to this domain may match the CIDR configuration if the domain's address falls within the CIDR range. However, if the domain's address does not match the CIDR, the request might fail to match entirely due to the absence of an appropriate matcher for that IP. This behavior is a limitation and could potentially be addressed in the future with the adoption of the [Matcher API](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/matching/matching_api).
 
 ## Examples
 
@@ -132,6 +144,7 @@ If you rely on tags in the top-level `targetRef` you might consider securing the
 
 {% if_version eq:2.9.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshPassthrough
 name: disable-passthrough
@@ -143,11 +156,13 @@ spec:
   default:
     passthroughMode: None
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshPassthrough
 name: disable-passthrough
@@ -158,6 +173,7 @@ spec:
   default:
     passthroughMode: None
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -165,6 +181,7 @@ spec:
 
 {% if_version eq:2.9.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshPassthrough
 name: enable-passthrough
@@ -178,11 +195,13 @@ spec:
   default:
     passthroughMode: All
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshPassthrough
 name: enable-passthrough
@@ -195,6 +214,7 @@ spec:
   default:
     passthroughMode: All
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -202,6 +222,7 @@ spec:
 
 {% if_version eq:2.9.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshPassthrough
 name: allow-some-passthrough
@@ -236,11 +257,13 @@ spec:
       protocol: http
       port: 80
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshPassthrough
 name: allow-some-passthrough
@@ -274,10 +297,12 @@ spec:
       protocol: http
       port: 80
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
+
 ### Allow a service to communicate with MySQL
 
 {% warning %}
@@ -285,6 +310,7 @@ The `mysql` protocol does not support `type: Domain` due to the nature of the ha
 {% endwarning %}
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshPassthrough
 name: allow-mysql-connection
@@ -302,9 +328,21 @@ spec:
       protocol: mysql
       port: 3306
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
+## See also
+
+- [MeshExternalService](/docs/{{ page.release }}/networking/meshexternalservice) - Define external services in the mesh
+- [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) - Control access to external destinations
+- [Non-mesh traffic](/docs/{{ page.release }}/networking/non-mesh-traffic) - Understanding passthrough modes
+
 ## All policy options
 
-{% json_schema MeshPassthroughs %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshPassthroughs exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshPassthroughs %}
+{% endif_version %}

@@ -1,5 +1,10 @@
 ---
 title: Configuring inbound traffic with rules API
+description: Apply policies to data plane inbounds using the rules API with Dataplane targetRef kind.
+keywords:
+  - rules API
+  - inbound traffic
+  - Dataplane targetRef
 ---
 
 Using `Rules API` combined with targetRef `Dataplane` kind in {{site.mesh_product_name}} you can easily apply configuration to [data plane](/docs/{{ page.release }}/introduction/concepts/#data-plane)

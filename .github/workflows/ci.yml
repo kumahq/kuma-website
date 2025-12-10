@@ -4,20 +4,6 @@ concurrency:
   cancel-in-progress: true
 on: pull_request
 jobs:
-  test-plugins:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - uses: ruby/setup-ruby@44511735964dcb71245e7e55f72539531f7bc0eb # v1.257.0
-        with:
-          bundler-cache: true
-      - working-directory: jekyll-kuma-plugins
-        run: bundle install
-      - working-directory: jekyll-kuma-plugins
-        run: bundle exec rspec
-      - working-directory: .
-        run: make test
-
   check-links:
     name: Check links
     runs-on: ubuntu-24.04
@@ -25,91 +11,23 @@ jobs:
       URL: https://deploy-preview-${{github.event.number}}--kuma.netlify.app
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
-      - uses: jdx/mise-action@5ac50f778e26fac95da98d50503682459e86d566 # v3.2.0
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Install dependencies
         run: |
           set -euxo pipefail
-          make install
+          mise run install
       - name: Start app (background) & wait until ready
         run: |
-          make run &
+          mise dev &
           # Wait until the dev server is reachable
           npx --yes wait-on --timeout 180000 http://localhost:7777
-      - name: link checker
-        run: |
-          $(mise which muffet) \
-            http://localhost:7777 \
-            --buffer-size 8192 \
-            --exclude 'https://github.com/(/)?kumahq/kuma/pull/.*' \
-            --exclude 'https://github.com/.*/.*/blob/.*#.*' \
-            --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' \
-            --exclude 'https://github.com/kumahq/kuma/blob/master/CHANGELOG.md' \
-            --exclude http://127.0.0.1:7777/docs/1. \
-            --exclude 127.0.0.1 \
-            --exclude 'http://localhost:7777/vite-dev/*' \
-            --exclude https://cloudsmith.io/~kong/repos \
-            --exclude https://linux.die.net \
-            --exclude https://packages.konghq.com \
-            --exclude https://twitter.com \
-            --exclude https://coredns.io \
-            --exclude 'https://argo-cd.readthedocs.io/en/stable/' \
-            --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
-            --exclude 'https://jwt.io/' \
-            --exclude 'https://en.wikipedia.org' \
-            --exclude 'https://konghq.com' \
-            --exclude 'https://kuma.io' \
-            --exclude 'https://kubernetes.io' \
-            --exclude 'https://opentelemetry.io' \
-            --exclude 'https://www.envoyproxy.io' \
-            --exclude 'https://developer.konghq.com' \
-            --exclude 'https://minikube.sigs.k8s.io/docs/handbook/host-access/' \
-            --exclude 'https://www.npmjs.com/package/jwt-cli' \
-            --header 'Accept: */*' \
-            --max-connections-per-host 8 \
-            --max-response-body-size 100000000 \
-            --skip-tls-verification \
-            --rate-limit 50 \
-            --max-retries 5 \
-            --timeout 100
-      - name: link checker dev docs
-        run: |
-          $(mise which muffet) \
-            http://localhost:7777/docs/dev \
-            --buffer-size 8192 \
-            --exclude 'https://github.com/(/)?kumahq/kuma/pull/.*' \
-            --exclude 'https://github.com/.*/.*/blob/.*#.*' \
-            --exclude 'https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md.*' \
-            --exclude 'https://github.com/kumahq/kuma/blob/master/CHANGELOG.md' \
-            --exclude http://127.0.0.1:7777/docs/1. \
-            --exclude 127.0.0.1 \
-            --exclude 'http://localhost:7777/vite-dev/*' \
-            --exclude https://cloudsmith.io/~kong/repos \
-            --exclude https://linux.die.net \
-            --exclude https://packages.konghq.com \
-            --exclude https://twitter.com \
-            --exclude https://coredns.io \
-            --exclude 'https://argo-cd.readthedocs.io/en/stable/' \
-            --exclude 'https://docs.cilium.io/en/v1.14/operations/upgrade/' \
-            --exclude 'https://jwt.io/' \
-            --exclude 'https://en.wikipedia.org' \
-            --exclude 'https://konghq.com' \
-            --exclude 'https://kuma.io' \
-            --exclude 'https://kubernetes.io' \
-            --exclude 'https://opentelemetry.io' \
-            --exclude 'https://www.envoyproxy.io' \
-            --exclude 'https://developer.konghq.com' \
-            --exclude 'https://minikube.sigs.k8s.io/docs/handbook/host-access/' \
-            --exclude 'https://www.npmjs.com/package/jwt-cli' \
-            --max-connections-per-host 8 \
-            --max-response-body-size 100000000 \
-            --skip-tls-verification \
-            --rate-limit 50 \
-            --max-retries 5 \
-            --timeout 100
+      - name: link checker without external links
+        run: EXCLUDE_EXTERNAL_LINKS=true mise run links:check
+      - name: link checker dev without external links
+        run: LINK_CHECK_TARGET=http://localhost:7777/docs/dev EXCLUDE_EXTERNAL_LINKS=true mise run links:check
 
   installer-sh:
     name: Test installer.sh
@@ -134,7 +52,7 @@ jobs:
           (apt-get update && apt-get install file curl jq -y) || true
           (yum install yum-utils -y && yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && yum install file tar gzip jq -y) || true
           pacman --noconfirm -Syu jq file curl || true
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Run installer.sh
         env:
           VERBOSE: ${{ runner.debug }}
@@ -178,7 +96,7 @@ jobs:
     runs-on: ubuntu-24.04
     name: Test installer.sh on arm64
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - uses: uraimo/run-on-arch-action@d94c13912ea685de38fccc1109385b83fd79427d # v3.0.1
         name: Run commands
         id: runcmd
@@ -205,7 +123,7 @@ jobs:
       - name: Prepare OS
         run: |
           (apt-get update && apt-get install curl -y) || true
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Run installer.sh
         env:
           VERBOSE: ${{ runner.debug }}
@@ -235,8 +153,9 @@ jobs:
               .filter(d => d.status != "removed")
               .filter(d => !d.filename.includes("/generated/"))
               .filter(d => !d.filename.includes("/raw/"))
+              .filter(d => !d.filename.startsWith("templates/"))
               .map(d => d.filename);
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - uses: errata-ai/vale-action@d89dee975228ae261d22c15adcd03578634d429c # v2.1.1
         if: join(fromJSON(steps.changed-files.outputs.result)) != ''
         name: Run Vale
@@ -247,3 +166,54 @@ jobs:
           fail_on_error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  version-urls:
+    name: Check version URLs
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          fetch-depth: 0
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Fetch base branch
+        run: git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+      - name: Check for hardcoded version URLs
+        env:
+          BASE_BRANCH: origin/${{ github.base_ref }}
+        run: mise vale:version-urls
+
+  frontmatter:
+    name: Validate frontmatter
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          fetch-depth: 0
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Fetch base branch
+        run: git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+      - name: Validate frontmatter in new docs
+        env:
+          BASE_BRANCH: origin/${{ github.base_ref }}
+        run: mise frontmatter:validate
+
+  markdownlint:
+    name: Lint markdown
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          fetch-depth: 0
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Fetch base branch
+        run: git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+      - name: Lint markdown files
+        env:
+          BASE_BRANCH: origin/${{ github.base_ref }}
+        run: mise mdlint:branch

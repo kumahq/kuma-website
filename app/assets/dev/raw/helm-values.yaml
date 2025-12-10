@@ -239,6 +239,14 @@ controlPlane:
       caSecretName: ""
       # -- Base64 encoded CA certificate (the same as in controlPlane.tls.general.secret#ca.crt)
       caBundle: ""
+      # Configuration for cert-manager integration
+      certManager:
+        # -- Enable cert-manager integration for webhook certificates.
+        # When enabled, cert-manager will manage the webhook certificates and inject
+        # the CA bundle into webhook configurations automatically.
+        # This requires cert-manager to be installed in the cluster.
+        # Note: When enabled, secretName and caBundle should be empty.
+        enabled: false
     apiServer:
       # -- Secret that contains tls.crt, tls.key for protecting Kuma API on HTTPS
       secretName: ""
@@ -343,6 +351,8 @@ controlPlane:
   # -- Security context at the pod level for control plane.
   podSecurityContext:
     runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
 
   # -- Security context at the container level for control plane.
   containerSecurityContext:
@@ -754,7 +764,7 @@ kubectl:
     # -- The kubectl image repository
     repository: kubectl
     # -- The kubectl image tag
-    tag: v1.34.1@sha256:59bafa07ff3a6d4b417e7633ddb9d79a9606ca98bf64bac080b3e65748669250
+    tag: v1.34.2@sha256:86316dd78d4887f9dce1e35ce22f3fce12dc6927e45d896656d9b93a1bb2638b
 hooks:
   # -- Node selector for the HELM hooks
   nodeSelector:
@@ -945,6 +955,7 @@ plugins:
     meshmultizoneservices: true
     meshservices: true
     meshtrusts: true
+    workloads: true
   policies:
     meshaccesslogs: true
     meshcircuitbreakers: true

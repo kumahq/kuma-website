@@ -1,0 +1,20 @@
+extends: substitution
+message: "Use '%s' instead of hardcoded '%s'"
+link: https://github.com/kumahq/kuma-website/blob/master/CONTRIBUTING.md#linting-and-style-checks
+level: error
+ignorecase: false
+scope: ~text.frontmatter
+swap:
+  # Specific Kuma component names (most specific first)
+  'kuma-control-plane': '{{site.mesh_cp_name}}'
+  'kuma-system': '{{site.mesh_namespace}}'
+
+  # Docker organization
+  'kumahq': '{{site.mesh_docker_org}}'
+
+  # Helm repository and configuration
+  'https://kumahq.github.io/charts': '{{site.mesh_helm_repo_url}}'
+  'kuma/kuma': '{{site.mesh_helm_repo}}'
+
+  # Product name (capitalized)
+  'Kuma': '{{site.mesh_product_name}}'

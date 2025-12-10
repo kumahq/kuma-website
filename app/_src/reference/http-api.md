@@ -1,5 +1,9 @@
 ---
 title: HTTP API
+description: Reference documentation for the RESTful HTTP API to retrieve and manage mesh configuration, policies, data planes, and resources.
+keywords:
+  - HTTP API
+  - REST API
 ---
 
 {{site.mesh_product_name}} ships with a RESTful HTTP interface that you can use to retrieve the state of your configuration and policies on every environment, and when running on Universal mode it will also allow to make changes to the state. On Kubernetes, you will use native CRDs to change the state in order to be consistent with Kubernetes best practices.
@@ -11,7 +15,6 @@ title: HTTP API
 By default the API Server is listening on port `5681` (HTTP) and on `5682` (HTTPS). The endpoints available are:
 
 * `/config`
-* `/versions`
 * `/meshes`
 * `/mesh-insights`
 * `/mesh-insights/{name}`
@@ -218,50 +221,6 @@ curl http://localhost:5681/config
 ```
 
 ## Supported Envoy versions
-
-### List supported Envoy versions
-
-Request: `GET /versions`
-
-Response: `200 OK` with versions of Envoy supported by {{site.mesh_product_name}} DPs
-
-Example:
-```bash
-curl http://localhost:5681/versions
-```
-```json
-{
-  "kumaDp": {
-    "1.0.0": {
-      "envoy": "1.16.0"
-    },
-    "1.0.1": {
-      "envoy": "1.16.0"
-    },
-    "1.0.2": {
-      "envoy": "1.16.1"
-    },
-    "1.0.3": {
-      "envoy": "1.16.1"
-    },
-    "1.0.4": {
-      "envoy": "1.16.1"
-    },
-    "1.0.5": {
-      "envoy": "1.16.2"
-    },
-    "1.0.6": {
-      "envoy": "1.16.2"
-    },
-    "1.0.7": {
-      "envoy": "1.16.2"
-    },
-    "1.0.8": {
-      "envoy": "1.16.2"
-    }
-  }
-}
-```
 
 ## Meshes
 

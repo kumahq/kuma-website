@@ -1,5 +1,10 @@
 ---
 title: Install kumactl
+description: Download and install the kumactl CLI tool to manage resources and interact with the control plane HTTP API.
+keywords:
+  - kumactl
+  - CLI
+  - installation
 content_type: how-to
 ---
 

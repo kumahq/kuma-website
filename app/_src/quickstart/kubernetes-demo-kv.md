@@ -1,5 +1,7 @@
 ---
 title: Deploy Kuma on Kubernetes
+description: Deploy a demo application with a web app and kv store on Kubernetes to learn how the service mesh works.
+keywords: kubernetes, quickstart, demo
 ---
 
 To start learning how {{site.mesh_product_name}} works, you run and secure a simple demo application that consists of two services:
@@ -79,11 +81,11 @@ metadata:
     kuma.io/sidecar-injection: enabled
 ```
 
-This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) that it needs to automatically inject a sidecar proxy to every Kubernetes pod in the `kuma-demo` namespace.
+This means that {{site.mesh_product_name}} [already knows](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) that it needs to automatically inject a [sidecar proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) to every Kubernetes pod in the `kuma-demo` namespace within the [mesh](/docs/{{ page.release }}/introduction/concepts#mesh).
 
 ## Explore the GUI
 
-You can view the sidecar proxies that are connected to the {{site.mesh_product_name}} control plane.
+You can view the sidecar proxies that are connected to the {{site.mesh_product_name}} [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane).
 
 {{site.mesh_product_name}} ships with a **read-only** [GUI](/docs/{{ page.release }}/production/gui) that you can use to retrieve {{site.mesh_product_name}} resources. By default, the GUI listens on the API port which defaults to `5681`.
 

@@ -1,3 +1,5 @@
+@use '@/styles/config/index' as *;
+
 $smc-gradient: linear-gradient(90deg, #ee751e 0%, #990066 100%);
 
 // put page overrides here
@@ -97,7 +99,7 @@ $smc-gradient: linear-gradient(90deg, #ee751e 0%, #990066 100%);
 
   .content-block-4 {
     a {
-      @extend .btn;
+      @extend .btn !optional;
       font-size: 2rem;
       height: auto;
       border-radius: 55px;

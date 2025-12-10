@@ -1,8 +1,11 @@
+@use 'sass:color';
+@use '@/styles/config/index' as *;
+
 #{$contentClass},
 #{$blogIndexContentClass},
 #{$blogDetailContentClass} {
   code {
-    color: lighten($textColor, 20%);
+    color: color.scale($textColor, $lightness: 26.4248704663%);
     padding: 0.25rem 0.5rem;
     margin: 0;
     font-size: 0.85em;

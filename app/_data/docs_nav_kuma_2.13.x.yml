@@ -15,9 +15,9 @@ items:
           - text: Dependencies
             url: "/introduction/how-kuma-works/#dependencies"
           - text: VM and K8s support
-            url: "/introduction/how-kuma-works/#vm-and-k8s-support"
+            url: "/introduction/how-kuma-works/#vm-and-kubernetes-support"
           - text: Kuma vs XYZ
-            url: "/introduction/how-kuma-works/#kuma-vs-xyz"
+            url: "/introduction/how-kuma-works/#kuma-vs-other-service-meshes"
       - text: Architecture
         url: /introduction/architecture/
       - text: Install
@@ -157,6 +157,8 @@ items:
   - title: Using Kuma
     group: true
     items:
+      - text: Overview
+        url: /using-mesh/
       - title: Zero Trust & Application Security
         group: true
         items:
@@ -248,6 +250,8 @@ items:
       - title: Service Discovery & Networking
         group: true
         items:
+          - text: Overview
+            url: /networking/
           - text: Service Discovery
             url: /networking/service-discovery/
           - text: MeshService
@@ -283,9 +287,32 @@ items:
                 url: "/networking/meshexternalservice/#examples"
           - text: Transparent Proxying
             url: /networking/transparent-proxying/
+  - title: Core Resources
+    group: true
+    items:
+      - text: Mesh
+        url: /resources/mesh/
+      - text: Dataplane
+        url: /resources/dataplane/
+      - text: Workload
+        url: /resources/workload/
+      - text: MeshService
+        url: /resources/meshservice/
+      - text: MeshMultiZoneService
+        url: /resources/meshmultizoneservice/
+      - text: MeshExternalService
+        url: /resources/meshexternalservice/
+      - text: HostnameGenerator
+        url: /resources/hostnamegenerator/
+      - text: MeshTrust
+        url: /resources/meshtrust/
+      - text: MeshIdentity
+        url: /resources/meshidentity/
   - title: Policies
     group: true
     items:
+      - text: Overview
+        url: /policies/
       - text: Introduction
         url: /policies/introduction/
         items:
@@ -330,6 +357,15 @@ items:
             url: "/policies/meshfaultinjection/#configuration"
           - text: Examples
             url: "/policies/meshfaultinjection/#examples"
+      - text: MeshFaultInjection (experimental)
+        url: /policies/meshfaultinjection_experimental/
+        items:
+          - text: Overview
+            url: "/policies/meshfaultinjection_experimental/#overview"
+          - text: Configuration
+            url: "/policies/meshfaultinjection_experimental/#configuration"
+          - text: Examples
+            url: "/policies/meshfaultinjection_experimental/#examples"
       - text: MeshHealthCheck
         url: /policies/meshhealthcheck/
         items:

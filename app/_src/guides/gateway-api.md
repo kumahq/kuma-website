@@ -1,5 +1,10 @@
 ---
 title: Kubernetes Gateway API
+description: Learn how to use Kubernetes Gateway API to configure a builtin gateway for north-south traffic and expose services with TLS.
+keywords:
+  - Gateway API
+  - ingress
+  - HTTPRoute
 ---
 
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use

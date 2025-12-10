@@ -1,5 +1,10 @@
 ---
 title: Kuma API access control
+description: Configure access control for administrative actions on the API server, including managing secrets, generating tokens, and viewing Envoy configuration.
+keywords:
+  - API access control
+  - token generation
+  - admin resources
 content_type: reference
 ---
 

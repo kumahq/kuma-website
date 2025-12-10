@@ -1,5 +1,10 @@
 ---
-title: Add a builtin gateway 
+title: Add a builtin gateway
+description: Learn how to configure a builtin gateway using MeshGateway and MeshHTTPRoute to expose services externally with TLS support.
+keywords:
+  - builtin gateway
+  - MeshGateway
+  - ingress
 ---
 
 To get traffic from outside your mesh inside it (North/South) with {{site.mesh_product_name}} you can use 

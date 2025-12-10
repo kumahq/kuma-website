@@ -1,8 +1,15 @@
 ---
 title: MeshTLS
+description: Configure TLS versions, ciphers, and mTLS mode (Strict or Permissive) for mesh traffic encryption.
+keywords:
+  - TLS
+  - mTLS
+  - encryption
+content_type: reference
+category: policy
 ---
 
-This policy enables {{site.mesh_product_name}} to configure TLS mode, ciphers and version. 
+This policy enables {{site.mesh_product_name}} to configure TLS mode, ciphers and version.
 Backends and default mode values are taken from [the Mesh object](/docs/{{ page.release }}/policies/mutual-tls/).
 
 ## TargetRef support matrix
@@ -10,6 +17,7 @@ Backends and default mode values are taken from [the Mesh object](/docs/{{ page.
 {% tabs %}
 {% tab targetRef For mode %}
 {% if_version eq:2.9.x %}
+
 | `targetRef`             | Allowed kinds        |
 | ----------------------- | -------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset` |
@@ -52,6 +60,7 @@ In that case, please open an [issue](https://github.com/kumahq/kuma/issues).
 
 {% if_version eq:2.9.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshTLS
 name: set-version-and-ciphers
@@ -69,11 +78,13 @@ spec:
         tlsCiphers:
           - ECDHE-ECDSA-AES256-GCM-SHA384
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshTLS
 name: set-version-and-ciphers
@@ -89,6 +100,7 @@ spec:
         tlsCiphers:
           - ECDHE-ECDSA-AES256-GCM-SHA384
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -96,6 +108,7 @@ spec:
 
 {% if_version eq:2.9.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshTLS
 name: strict-mode
@@ -111,11 +124,13 @@ spec:
       default:
         mode: Strict
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshTLS
 name: strict-mode
@@ -129,9 +144,21 @@ spec:
     - default:
         mode: Strict
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
+## See also
+
+- [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) - Control access using mTLS identities
+- [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) - Configure mesh-wide mTLS settings
+- [Policies introduction](/docs/{{ page.release }}/policies/introduction) - Learn about policy fundamentals
+
 ## All policy options
 
-{% json_schema MeshTLSes %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshTLSes exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshTLSes %}
+{% endif_version %}

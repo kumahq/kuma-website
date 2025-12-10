@@ -1,5 +1,7 @@
 ---
 title: Deploy Kuma on Universal
+description: Run the service mesh in Universal mode using Docker containers with a demo application, data plane proxies, and built-in gateway.
+keywords: universal, docker, quickstart
 ---
 
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}

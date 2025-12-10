@@ -1,6 +1,11 @@
 ---
 title: Progressively rolling out unified resource naming
 content_type: tutorial
+description: Enable unified resource naming for predictable Envoy stats that map directly to mesh resources.
+keywords:
+  - unified naming
+  - observability
+  - Envoy stats
 ---
 
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}

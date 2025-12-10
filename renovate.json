@@ -1,0 +1,35 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "Kong/public-shared-renovate",
+    "Kong/public-shared-renovate//overrides/security-labels(area/security)",
+    "Kong/public-shared-renovate//overrides/security-reviewers(team:kuma-security-managers)",
+    ":automergeRequireAllStatusChecks",
+    ":automergeMinor",
+    ":automergePatch",
+    ":combinePatchMinorReleases",
+    ":disableRateLimiting",
+    ":semanticCommitTypeAll(chore)",
+    "docker:pinDigests",
+    "schedule:earlyMondays"
+  ],
+  "automergeStrategy": "squash",
+  "internalChecksFilter": "strict",
+  "keepUpdatedLabel": "renovate/keep-updated",
+  "rebaseWhen": "conflicted",
+  "prTitleStrict": true,
+  "vulnerabilityAlerts": {"commitMessageSuffix": ""},
+  "packageRules": [
+    {
+      "description": [
+        " Catch-all rule that applies the standard commit message format for all dependencies",
+        "",
+        " This rule extends the shared baseline preset to ensure consistent commit message",
+        " action/topic/extra rendering across all updates. It must be the last packageRule",
+        " in renovate.json, so it takes precedence after any more specific rules."
+      ],
+      "matchDepNames": "*",
+      "extends": ["Kong/public-shared-renovate//scoped/kuma/commit-message-baseline"]
+    }
+  ]
+}

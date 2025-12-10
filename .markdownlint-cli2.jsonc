@@ -1,0 +1,27 @@
+{
+  "config": {
+    // Disable line length - conflicts with prose
+    "MD013": false,
+    // Allow inline HTML - needed for Jekyll/Liquid
+    "MD033": false,
+    // Allow first line to not be heading - frontmatter
+    "MD041": false,
+    // Allow duplicate headings in different sections
+    "MD024": { "siblings_only": true },
+    // Allow trailing punctuation in headings (for ? in FAQ style)
+    "MD026": { "punctuation": ".,;:!" },
+    // Disable table pipe style - conflicts with Jekyll {% if_version %} blocks containing partial tables
+    "MD055": false,
+    // Disable table column count - conflicts with Jekyll {% if_version %} blocks containing partial tables
+    "MD056": false,
+    // Disable table column style alignment - conflicts with Jekyll {% if_version %} blocks containing partial tables
+    "MD060": false
+  },
+  "ignores": [
+    "**/generated/**",
+    "**/raw/**",
+    "templates/**",
+    "**/node_modules/**",
+    "dist/**"
+  ]
+}

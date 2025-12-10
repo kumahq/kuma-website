@@ -1,11 +1,16 @@
 ---
 title: Policies
+description: Learn how to write and configure targetRef policies, including metadata, spec structure, merging, and MeshService targeting.
+keywords:
+  - targetRef policies
+  - policy configuration
+  - policy merging
 ---
 {% if_version gte:2.9.x %}
 ## What is a policy?
 
-A policy is a set of configuration that will be used to generate the data plane proxy configuration.
-{{ site.mesh_product_name }} combines policies with the `Dataplane` resource to generate the Envoy configuration of a data plane proxy.
+A [policy](/docs/{{ page.release }}/introduction/concepts#policy) is a set of configuration that will be used to generate the [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) configuration.
+{{ site.mesh_product_name }} combines policies with the `Dataplane` resource to generate the Envoy configuration of a data plane proxy within a [mesh](/docs/{{ page.release }}/introduction/concepts#mesh).
 
 ## What do policies look like?
 
@@ -29,8 +34,8 @@ metadata:
 spec: ... # spec data specific to the policy kind
 ```
 
-By default the policy is created in the `default` mesh.
-You can specify the mesh by using the `kuma.io/mesh` label.
+By default the policy is created in the `default` [mesh](/docs/{{ page.release }}/introduction/concepts#mesh).
+You can specify the [mesh](/docs/{{ page.release }}/introduction/concepts#mesh) by using the `kuma.io/mesh` label.
 
 For example:
 

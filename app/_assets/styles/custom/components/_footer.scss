@@ -1,6 +1,9 @@
-// 
+//
 // Footer
-// 
+//
+
+@use 'sass:color';
+@use '@/styles/config/index' as *;
 
 $page-footer-border: 1px solid $color-7;
 $page-footer-desktop-height: 29.688rem;
@@ -53,7 +56,7 @@ $page-footer-desktop-height: 29.688rem;
     left: 115%;
     top: -5px;
     display: inline-block;
-    background-color: lighten($color-2, 45);
+    background-color: color.scale($color-2, $lightness: 81.818182%);
     color: $color-2;
     border-radius: 3px;
     text-transform: uppercase;
@@ -81,7 +84,7 @@ $page-footer-desktop-height: 29.688rem;
   }
 
   .copyright {
-    color: lighten(#000, 45);
+    color: color.scale(#000, $lightness: 22.5%);
   }
 
   .social-links {

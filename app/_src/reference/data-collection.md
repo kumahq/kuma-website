@@ -1,5 +1,9 @@
 ---
 title: Kuma data collection
+description: Enable anonymous data collection to help improve the product. Learn what data is collected including version, deployment mode, and mesh statistics.
+keywords:
+  - telemetry
+  - data collection
 ---
 
 {{site.mesh_product_name}} can collect information about your deployment to continuously improve the product and gather anonymous feedback. The collected data is sent to Kong servers securely for storage and aggregation.

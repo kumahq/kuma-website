@@ -1,6 +1,12 @@
 ---
 title: MeshTrust
-content_type: how-to
+description: Enable mesh applications to accept encrypted mTLS traffic from different trust domains using certificate bundles.
+keywords:
+  - trust domain
+  - mTLS
+  - certificate
+content_type: reference
+category: policy
 ---
 
 {% warning %}
@@ -11,6 +17,7 @@ It works only on Kubernetes and requires [MeshServices](/docs/{{ page.release }}
 The `MeshTrust` resource enables mesh applications to accept encrypted traffic from different [trust](/docs/{{ page.release }}/introduction/concepts#trust) domains. It allows users to provide a certificate that will be used to validate incoming traffic.
 
 Use cases:
+
 * Deploying a gateway without requiring a sidecar
 * Accepting mTLS traffic from applications running outside of the mesh
 
@@ -38,6 +45,7 @@ By design, each zone has a different trust domain to increase security (unless e
 ### Allow encrypted traffic from different trust domain to the Mesh
 
 {% policy_yaml namespace=kuma-system %}
+
 ```yaml
 type: MeshTrust
 name: zone-2-trust
@@ -73,4 +81,11 @@ spec:
           -----END CERTIFICATE-----
   trustDomain: test.zone-2.mesh.local
 ```
+
 {% endpolicy_yaml %}
+
+## See also
+
+* [MeshIdentity](/docs/{{ page.release }}/policies/meshidentity) - Configure workload identities
+* [MeshTLS](/docs/{{ page.release }}/policies/meshtls) - Configure TLS modes and ciphers
+* [MeshTrafficPermission (experimental)](/docs/{{ page.release }}/policies/meshtrafficpermission_experimental) - Control traffic access with SPIFFE

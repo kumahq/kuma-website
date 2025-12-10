@@ -2,7 +2,238 @@
 experimental = true # To enable installation of Go tools from source with mise.
 
 [tools]
-ruby = "3.2.2"
-node = "22.18.0"
+# Web/Frontend
+ruby = "3.4.7"
+node = "24.11.1"
 yarn = "1.22.22"
-"go:github.com/raviqqe/muffet/v2" = "v2.11.0"
+
+# Linting
+vale = "3.13.0"
+shellcheck = "0.11.0"
+"npm:markdownlint-cli2" = "0.19.1"
+
+# Go tools
+go = "1.25.4"
+"go:github.com/raviqqe/muffet/v2" = "v2.11.1"
+"go:github.com/hairyhenderson/gomplate/v4/cmd/gomplate" = "v4.3.3"
+
+# Testing
+shellspec = "0.28.1"
+
+#-------------------------------------------------
+# Development
+#-------------------------------------------------
+
+[tasks.install]
+description = "Install yarn, npm packages and gems"
+run = """
+yarn install
+bundle install
+"""
+
+[tasks.dev]
+description = "Run local development server"
+env = { LANG = "en_US.UTF-8", LC_ALL = "en_US.UTF-8" }
+run = "bundle exec foreman start"
+
+[tasks."dev:clean"]
+description = "Clean then run dev server"
+run = """
+mise run clean
+mise run dev
+"""
+
+[tasks.serve]
+description = "Serve with netlify"
+run = "yarn netlify serve"
+
+[tasks."serve:clean"]
+description = "Clean then serve"
+run = """
+mise run clean
+mise run serve
+"""
+
+[tasks.clean]
+description = "Clean build artifacts"
+run = """
+rm -rf dist
+rm -rf .netlify
+rm -rf .jekyll-cache
+rm -rf app/.jekyll-{cache,metadata}
+"""
+
+[tasks.kill-ports]
+description = "[DEPRECATED] Show processes on ports 4000 and 3036"
+run = """
+echo '[DEPRECATED]: This target is deprecated because the "dev" target now correctly handles kill signals, closing these ports automatically.'
+printf "  Existing Jekyll Processes on Port 4000 : %s\\n" "$(lsof -ti:4000 | tr '\\n' ' ' || echo 'None')"
+printf "  Existing Vite Processes on Port 3036   : %s\\n" "$(lsof -ti:3036 | tr '\\n' ' ' || echo 'None')"
+echo 'If you still want to terminate these processes, use the "kill-ports-force" target. [WARNING]: If you are using Firefox, this action may unexpectedly kill your browser processes.'
+"""
+
+[tasks.kill-ports-force]
+description = "Force kill processes on ports 4000 and 3036"
+run = """
+JEKYLL_PROCESS=$(lsof -ti:4000) && kill -9 $JEKYLL_PROCESS || true
+VITE_PROCESS=$(lsof -ti:3036) && kill -9 $VITE_PROCESS || true
+"""
+
+#-------------------------------------------------
+# Build
+#-------------------------------------------------
+
+[tasks.build]
+description = "Build website"
+env = { LANG = "en_US.UTF-8", LC_ALL = "en_US.UTF-8" }
+run = "exe/build"
+
+#-------------------------------------------------
+# Testing
+#-------------------------------------------------
+
+[tasks.test]
+description = "Run tests"
+env = { LANG = "en_US.UTF-8", LC_ALL = "en_US.UTF-8" }
+run = "bundle exec rspec"
+
+[tasks."test:plugins"]
+description = "Install and run plugin tests"
+env = { LANG = "en_US.UTF-8", LC_ALL = "en_US.UTF-8" }
+dir = "jekyll-kuma-plugins"
+run = "bundle install && bundle exec rspec"
+
+[tasks."test:tools"]
+description = "Run tool tests with shellspec"
+run = "shellspec"
+
+#-------------------------------------------------
+# Linting & Quality
+#-------------------------------------------------
+
+[tasks."vale:branch"]
+description = "Run vale on changed files in current branch"
+run = """
+vale sync
+# Check both committed and uncommitted files
+(git diff --name-only --diff-filter=d origin/master...HEAD; \
+ git diff --name-only --diff-filter=d; \
+ git diff --name-only --cached --diff-filter=d) | \
+  sort -u | \
+  grep -E '\\.(md|markdown)$' | \
+  grep -v '/generated/' | \
+  grep -v '/raw/' | \
+  grep -v '^templates/' | \
+  xargs -r vale
+"""
+
+[tasks."mdlint:branch"]
+description = "Run markdownlint on changed files in current branch"
+run = """
+# Check both committed and uncommitted files
+(git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD; \
+ git diff --name-only --diff-filter=d; \
+ git diff --name-only --cached --diff-filter=d) | \
+  sort -u | \
+  grep -E '\\.(md|markdown)$' | \
+  grep -v '/generated/' | \
+  grep -v '/raw/' | \
+  grep -v '^templates/' | \
+  xargs -r markdownlint-cli2
+"""
+
+[tasks."mdlint:branch:fix"]
+description = "Fix markdownlint issues in changed files"
+run = """
+# Check both committed and uncommitted files
+(git diff --name-only --diff-filter=d ${BASE_BRANCH:-origin/master}...HEAD; \
+ git diff --name-only --diff-filter=d; \
+ git diff --name-only --cached --diff-filter=d) | \
+  sort -u | \
+  grep -E '\\.(md|markdown)$' | \
+  grep -v '/generated/' | \
+  grep -v '/raw/' | \
+  grep -v '^templates/' | \
+  xargs -r markdownlint-cli2 --fix
+"""
+
+[tasks."vale:version-urls"]
+description = "Check for hardcoded version URLs in changed files"
+run = "tools/check-version-urls.sh"
+
+[tasks."frontmatter:validate"]
+description = "Validate frontmatter in new docs files"
+run = "tools/validate-frontmatter.sh"
+
+[tasks.shellcheck]
+description = "Run shellcheck on tools/*.sh"
+run = "shellcheck tools/*.sh"
+
+[tasks.check]
+description = "Run necessary checks"
+depends = ["vale:branch", "vale:version-urls", "frontmatter:validate", "mdlint:branch", "shellcheck"]
+
+[tasks."links:check"]
+description = "Check links on built site"
+env = { LINK_CHECK_TARGET = "http://localhost:7777", EXCLUDE_EXTERNAL_LINKS = "false" }
+run = '''
+if [ "${EXCLUDE_EXTERNAL_LINKS}" = "true" ]; then
+  EXCLUDE_EXTERNAL='--exclude '"'"'https?://(?:\[[0-9A-Fa-f:]+\]|\d{1,3}(?:\.\d{1,3}){3}|[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)(:\d+)?(?:/[^\s]*)?'"'"''
+else
+  EXCLUDE_EXTERNAL=''
+fi
+
+muffet \
+  ${LINK_CHECK_TARGET} \
+  --buffer-size 8192 \
+  --exclude http://127.0.0.1:7777/docs/1. \
+  --exclude 127.0.0.1 \
+  --exclude 'http://localhost:7777/vite-dev/*' \
+  ${EXCLUDE_EXTERNAL} \
+  --include 'https?://localhost(:\d+)?(?:/[^\s]*)?' \
+  --header 'Accept: */*' \
+  --max-connections-per-host 8 \
+  --max-response-body-size 100000000 \
+  --skip-tls-verification \
+  --rate-limit 50 \
+  --max-retries 5 \
+  --timeout 100
+'''
+
+#-------------------------------------------------
+# Generation
+#-------------------------------------------------
+
+[tasks."new:resource"]
+description = "Create new resource reference doc"
+run = '''
+RESOURCE_NAME={{arg(name="resource")}}
+LOWERCASE=$(echo "$RESOURCE_NAME" | tr '[:upper:]' '[:lower:]')
+OUTPUT="app/_src/resources/${LOWERCASE}.md"
+if [ -f "$OUTPUT" ]; then
+  echo "Error: $OUTPUT already exists" >&2
+  exit 1
+fi
+mkdir -p app/_src/resources
+export RESOURCE_NAME
+gomplate -f templates/resource.md -o "$OUTPUT"
+echo "Created $OUTPUT"
+echo "TODO: Update nav in latest app/_data/docs_nav_kuma_2.x.x.yml"
+'''
+
+[tasks."new:policy"]
+description = "Create new policy reference doc"
+run = '''
+POLICY_NAME={{arg(name="policy")}}
+LOWERCASE=$(echo "$POLICY_NAME" | tr '[:upper:]' '[:lower:]')
+OUTPUT="app/_src/policies/${LOWERCASE}.md"
+if [ -f "$OUTPUT" ]; then
+  echo "Error: $OUTPUT already exists" >&2
+  exit 1
+fi
+mkdir -p app/_src/policies
+export POLICY_NAME
+gomplate -f templates/policy.md -o "$OUTPUT"
+echo "Created $OUTPUT"
+echo "TODO: Update nav in latest app/_data/docs_nav_kuma_2.x.x.yml"
+'''

@@ -1,5 +1,7 @@
 ---
 title: DNS
+description: Configure DNS resolution and virtual IPs for service-to-service communication within the mesh.
+keywords: DNS, networking, service discovery
 ---
 
 {{site.mesh_product_name}} ships with DNS resolver to provide service naming - a mapping of hostname to Virtual IPs (VIPs) of services registered in {{site.mesh_product_name}}.

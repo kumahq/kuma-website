@@ -1,5 +1,10 @@
 ---
 title: MeshGatewayInstance
+description: Deploy and manage builtin gateway instances on Kubernetes with MeshGatewayInstance, including service and pod customization.
+keywords:
+  - gateway deployment
+  - builtin gateway
+  - Kubernetes gateway
 ---
 
 `MeshGatewayInstance` is a Kubernetes-only resource for deploying {% if_version gte:2.6.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin){% endif_version %}{% if_version lte:2.5.x %}[{{site.mesh_product_name}}'s builtin gateway](/docs/{{ page.release }}/explore/gateway#builtin){% endif_version %}.
@@ -94,6 +99,13 @@ spec:
         securityContext:
           readOnlyRootFilesystem: true
 ```
+
+## See also
+
+* [MeshGateway](/docs/{{ page.release }}/policies/meshgateway) - Configure gateway listeners
+* [MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute) - Route HTTP traffic through gateways
+* [Managing ingress traffic](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin) - Gateway deployment guide
+
 ## Schema
 
-{% json_schema kuma.io_meshgatewayinstances type=crd %}
+{% schema_viewer kuma.io_meshgatewayinstances type=crd %}

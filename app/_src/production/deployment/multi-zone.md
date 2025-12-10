@@ -1,6 +1,11 @@
 ---
 title: Multi-zone deployment
 content_type: explanation
+description: Understand multi-zone deployment architecture, components, and failure modes for distributed service mesh environments.
+keywords:
+  - multi-zone
+  - architecture
+  - zones
 ---
 
 ## About

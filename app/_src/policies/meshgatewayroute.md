@@ -1,5 +1,10 @@
 ---
 title: MeshGatewayRoute
+description: Configure HTTP routing for builtin gateways using MeshGatewayRoute, including path matching, filters, and traffic routing rules.
+keywords:
+  - gateway routing
+  - HTTP routing
+  - traffic management
 ---
 {% if_version gte:2.6.x %}
 {% warning %}
@@ -19,6 +24,7 @@ The following `MeshGatewayRoute` routes traffic to the `backend` service and att
 
 {% tabs %}
 {% tab Universal %}
+
 ```yaml
 type: MeshGatewayRoute
 mesh: default
@@ -38,8 +44,10 @@ conf:
           - destination:
               kuma.io/service: backend
 ```
+
 {% endtab %}
 {% tab Kubernetes %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshGatewayRoute
@@ -62,6 +70,7 @@ spec:
             - destination:
                 kuma.io/service: backend
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -89,7 +98,7 @@ modifying headers and mirroring, redirecting, or rewriting requests.
 
 For example, the following filters match `/prefix`, trim it from the path and set the `Host` header:
 
-```
+```yaml
 ...
         - matches:
           - path:
@@ -109,4 +118,4 @@ For example, the following filters match `/prefix`, trim it from the path and se
 
 ## Reference
 
-{% json_schema MeshGatewayRoute type=proto %}
+{% schema_viewer MeshGatewayRoute type=proto %}

@@ -1,5 +1,10 @@
 ---
 title: Configuring inbound traffic with rules API
+description: Apply policies to data plane inbounds using the rules API with Dataplane targetRef kind.
+keywords:
+  - rules API
+  - inbound traffic
+  - Dataplane targetRef
 ---
 
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
@@ -46,7 +51,7 @@ spec:
         action: Allow" | kubectl apply -f -
 ```
 
-To finish the setup we need to create additional namespace with sidecar injection for client we will be using to communicate
+To finish the setup we need to create additional namespace with [sidecar injection](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) for client we will be using to communicate
 with our demo-app:
 
 ```shell

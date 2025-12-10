@@ -2,6 +2,8 @@
 // Request A Demo page
 //
 
+@use '@/styles/config/index' as *;
+
 @media (min-width: $MQMobileMid) {
   // sticky form
   .demo-request-form {

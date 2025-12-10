@@ -1,8 +1,15 @@
 Aiven
+[Aa]mazonlinux
 Argo CD
+[Cc]entos
+[Dd]arwin
+[Dd]ebian
+[Hh]omebrew
 [Kk]ong
 [Kk]ubernetes
 [Kk]uma
+[Ll]inux
+[Mm]acos
 [Mm]erbridge
 [Mm]ultizone
 Alertmanager
@@ -23,6 +30,7 @@ boolean
 camelCase
 CloudFormation
 CLI
+CIDRs?
 CNI|cni
 Cognito
 configs?
@@ -55,15 +63,17 @@ endunless
 endwarning
 enum
 etcd
+failover
 Fargate
 firewalld
+frontmatter
 GAMMA
 Gateway API
 GitHub
 GKE|gke
 Goroutine
 Grafana
-grpcs?
+g[Rr][Pp][Cc]s?
 hardcod(?:ing|ed)
 hostnames?
 httpbin
@@ -101,8 +111,10 @@ MADR
 md
 minikube
 Maglev
+HostnameGenerator
 MeshExternalService
 MeshGateway
+[Ww]orkloads?
 matchers
 Mockbin
 Moesif
@@ -117,6 +129,7 @@ Nginx
 ngrok
 observability
 Okta
+[Oo]penshift
 opa
 [Oo]tel
 [Oo]utbounds?
@@ -124,6 +137,7 @@ PascalCase
 passthrough
 PayPal
 plaintext
+[Pp]ods?
 policy_schema
 PowerShell
 Postgres
@@ -135,12 +149,14 @@ proxied
 proxying
 [Rr]edis
 referenceable
+[Rr]hel
 repo
 RFC
 routable
 runtimes?
 sandboxing
 serializer
+[Ss]ervices?
 serverless
 snake_case
 snis
@@ -155,6 +171,7 @@ subgraph
 subproject
 sudo
 Syslog
+systemd
 target[Rr]ef
 tbl
 tcpdump
@@ -163,6 +180,7 @@ TLS
 transcoder
 ttl
 txt
+[Uu]buntu
 uncheck
 uncomment
 unencrypted
@@ -185,4 +203,6 @@ yml
 Xcode
 [xX]DS|xds
 Zipkin
+ZoneEgress
+ZoneIngress
 zsh

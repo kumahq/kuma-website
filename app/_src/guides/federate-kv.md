@@ -1,5 +1,10 @@
 ---
 title: Federate zone control plane
+description: Learn how to federate a zone control plane to a multi-zone deployment for centralized management, cross-zone connectivity, and global policy distribution.
+keywords:
+  - federation
+  - multi-zone
+  - global control plane
 content_type: tutorial
 ---
 
@@ -150,7 +155,7 @@ echo "apiVersion: kuma.io/v1alpha1
 kind: MeshCircuitBreaker
 metadata:
   name: demo-app-to-redis
-  namespace: kuma-demo
+  namespace: {{site.mesh_namespace}}
   labels:
     kuma.io/mesh: default
 spec:

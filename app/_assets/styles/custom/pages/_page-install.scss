@@ -2,6 +2,8 @@
 // Installation page
 //
 
+@use '@/styles/config/index' as *;
+
 $install-masthead-bg-image: url('#{$image-path}bg-lines.svg');
 $install-masthead-bg-position: 50% 0, 0 0;
 

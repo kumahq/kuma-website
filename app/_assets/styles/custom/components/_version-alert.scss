@@ -1,10 +1,12 @@
-// 
+//
 // Version Alert
-// 
+//
 // This is the component that alerts the user if they are
 // viewing documentation for an older version, and provides
 // them with a link to the latest version.
 //
+
+@use '@/styles/config/index' as *;
 
 $version-alert-max-width: $contentWidth;
 $version-alert-margin: $navbarHeight auto 0 auto;

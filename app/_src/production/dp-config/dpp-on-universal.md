@@ -1,5 +1,10 @@
 ---
 title: Data plane on Universal
+description: Configure data plane proxies on VMs or bare metal with manual Dataplane resource definitions and lifecycle management.
+keywords:
+  - Universal
+  - data plane proxy
+  - VM
 content_type: how-to
 ---
 

@@ -24,12 +24,15 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,500,700&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
-    <meta name="description" content="{{ site.description }}">
+    <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    {% if page.keywords %}<meta name="keywords" content="{{ page.keywords | join: ', ' }}">{% endif %}
 
     {% if page.doc %}
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"/>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@4"/>
       <meta name="docsearch:section" content="docs">
       <meta name="docsearch:docsversion" content="{{ page.release }}">
+      {% if page.content_type %}<meta name="docsearch:content_type" content="{{ page.content_type }}">{% endif %}
+      {% if page.category %}<meta name="docsearch:category" content="{{ page.category }}">{% endif %}
 
       {% unless page.release.latest? %}
         <meta name="robots" content="noindex,follow">
@@ -47,9 +50,9 @@
       <meta name="twitter:label1" content="Written by">
       <meta name="twitter:image" content="{{ site.links.web }}/assets/images/social/og-image-1200-630.jpg?cb={{ cache_buster }}">
       <meta name="twitter:image:alt" content="{{ site.description }}">
-      <meta name="twitter:description" content="{{ site.description }}">
+      <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
       <meta name="twitter:creator" content="{{ site.twitter.handle }}">
-      <meta property="og:description" content="{{ site.description }}">
+      <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
       <meta property="og:image" content="{{ site.links.web }}/assets/images/social/og-image-1200-630.jpg?cb={{ cache_buster }}">
       <meta property="og:image:width" content="1200">
       <meta property="og:image:height" content="630">
@@ -94,7 +97,7 @@
 
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     {% if page.doc %}
-      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@4"></script>
     {% endif %}
   </body>
 </html>

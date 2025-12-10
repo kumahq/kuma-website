@@ -1,5 +1,7 @@
 ---
 title: Deploy Kuma on Kubernetes
+description: Deploy a demo application with a web app and Redis on Kubernetes to learn how the service mesh works.
+keywords: kubernetes, quickstart, demo
 ---
 
 To start learning how {{site.mesh_product_name}} works, you run and secure a simple demo application that consists of two services:

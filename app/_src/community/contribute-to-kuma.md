@@ -1,5 +1,10 @@
 ---
 title: Contribute to Kuma
+description: Contribute to Kuma through community engagement, documentation improvements, core Go code, or Vue.js GUI development.
+keywords:
+  - contributing
+  - open source
+  - development
 ---
 
 There are multiple ways to make an impact in Kuma

@@ -1,5 +1,9 @@
 ---
 title: OpenShift
+description: Install and configure Kuma service mesh on Red Hat OpenShift with CNI support.
+keywords:
+  - openshift
+  - installation
 ---
 
 To install and run {{site.mesh_product_name}} on OpenShift execute the following steps:
@@ -7,6 +11,7 @@ To install and run {{site.mesh_product_name}} on OpenShift execute the following
 - [1. Download {{site.mesh_product_name}}](#1-download-kuma)
 - [2. Run {{site.mesh_product_name}}](#2-run-kuma)
 - [3. Use {{site.mesh_product_name}}](#3-use-kuma)
+- [4. Quickstart](#4-quickstart)
 
 Finally, you can follow the [Quickstart](#4-quickstart) to take it from here and continue your {{site.mesh_product_name}} journey.
 

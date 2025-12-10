@@ -1,6 +1,10 @@
 ---
 title: Kubernetes annotations and labels
 content-type: reference
+description: Complete reference for Kubernetes annotations and labels to configure sidecar injection, mesh assignment, transparent proxying, and metrics.
+keywords:
+  - annotations
+  - labels
 ---
 
 This page provides a complete list of all the annotations you can specify when you run {{site.mesh_product_name}} in Kubernetes mode.

@@ -2,6 +2,8 @@
 // Sidebarm, sidebar button
 //
 
+@use '@/styles/config/index' as *;
+
 $sidebar-width: $sidebarWidth; // comes from VuePress core styles
 $sidebar-top-spacing: $navbar-height-large;
 $sidebar-link-active: $color-5;

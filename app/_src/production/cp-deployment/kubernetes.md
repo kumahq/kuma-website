@@ -1,6 +1,11 @@
 ---
 title: Kubernetes
 content_type: how-to
+description: Learn about Kubernetes-specific deployment configurations for the control plane, including Helm charts, Argo CD integration, and platform-specific notes.
+keywords:
+  - kubernetes
+  - helm
+  - argo
 ---
 
 You can find instructions to install on kubernetes for {% if_version gte:2.6.x %}[single-zone](/docs/{{ page.release }}/production/cp-deployment/single-zone){% endif_version %}{% if_version lte:2.5.x %}[standalone](/docs/{{ page.release }}/production/cp-deployment/stand-alone){% endif_version %} or [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone).

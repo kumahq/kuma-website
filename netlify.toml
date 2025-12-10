@@ -6,6 +6,8 @@
   JEKYLL_ENV = "development"
   BUNDLE_WITHOUT = "development"
   NODE_OPTIONS = "--max_old_space_size=8192"
+  # Disable dev/CI tools not needed for build (only need ruby, node, yarn)
+  MISE_DISABLE_TOOLS = "python,go,vale,shellcheck,shellspec,npm:markdownlint-cli2"
 
 [context.production.environment]
   JEKYLL_ENV = "production"

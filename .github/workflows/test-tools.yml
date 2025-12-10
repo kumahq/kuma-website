@@ -1,0 +1,20 @@
+name: Lint and test tools
+on:
+  push:
+    branches: [master]
+    paths: [tools/**]
+  pull_request:
+    paths: [tools/**]
+jobs:
+  lint-and-test-tools:
+    name: Lint and test tool scripts
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Shellcheck
+        run: mise shellcheck
+      - name: Run tool tests
+        run: mise test:tools

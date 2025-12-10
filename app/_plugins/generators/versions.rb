@@ -28,7 +28,7 @@ module Jekyll
         page.data['latest_version'] = edition(site).latest_release.to_h
 
         # This will be removed once jekyll-single-site-generator stops discarding very new versions when use `{%version  lte:unreleasedVersion %}`
-        page.data['nav_items'] = site.data["docs_nav_kuma_#{release.value.gsub(/\./, '')}"]
+        page.data['nav_items'] = site.data["docs_nav_kuma_#{release.value.gsub('.', '')}"]
 
         # Clean up nav_items for generated pages as there's an
         # additional level of nesting
@@ -39,16 +39,15 @@ module Jekyll
     private
 
     def latest_version(versions)
-        latest_versions = versions.select {|v| v['latest']}
-        if latest_versions.size != 1
-          raise "Exactly one entry in app/_data/versions.yml must be marked as 'latest: true' (#{latest_versions.size} found)"
-        end
-        return latest_versions.first
+      latest_versions = versions.select { |v| v['latest'] }
+      raise "Exactly one entry in app/_data/versions.yml must be marked as 'latest: true' (#{latest_versions.size} found)" if latest_versions.size != 1
+
+      latest_versions.first
     end
 
     def edition(site)
       @edition ||= Jekyll::GeneratorSingleSource::Product::Edition
-        .new(edition: 'kuma', site: site)
+                   .new(edition: 'kuma', site: site)
     end
 
     def release_for(page)

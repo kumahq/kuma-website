@@ -1,5 +1,10 @@
 ---
 title: Authentication with the API server
+description: Authenticate users and automation tools to the control plane API server using user tokens, including token generation, rotation, and revocation.
+keywords:
+  - API authentication
+  - user tokens
+  - signing keys
 content_type: how-to
 ---
 

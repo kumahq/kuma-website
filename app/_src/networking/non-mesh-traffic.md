@@ -1,5 +1,10 @@
 ---
 title: Non-mesh traffic
+description: Configure how traffic flows to and from services outside the mesh, including passthrough mode and external access.
+keywords:
+  - passthrough
+  - external traffic
+  - non-mesh
 ---
 
 ## Incoming

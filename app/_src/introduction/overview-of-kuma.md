@@ -1,5 +1,10 @@
 ---
 title: Overview of Kuma
+description: Discover Kuma, a platform-agnostic open-source control plane for service mesh supporting Kubernetes, VMs, and multi-zone deployments.
+keywords:
+  - overview
+  - service mesh
+  - multi-zone
 ---
 
 {{site.mesh_product_name}} is a platform agnostic open-source control plane for service mesh and microservices management, with support for Kubernetes, VM, and bare metal environments.
@@ -12,7 +17,7 @@ title: Overview of Kuma
 
 {% if_version gte:2.6.x %}
 * **Universal and Kubernetes-native**: Platform-agnostic, can run and operate anywhere.
-* **Single-zone and multi-zone**: Supports multiple clouds, regions, and Kubernetes clusters with native DNS service discovery and ingress capability.
+* **Single-zone and multi-zone**: Supports multiple clouds, regions, and Kubernetes clusters with native DNS service discovery and ingress capability. A [zone](/docs/{{ page.release }}/introduction/concepts#zone) is a deployment unit like a Kubernetes cluster, VPC, or data center.
   * [Read more about single-zone deployments](/docs/{{ page.release }}/production/deployment/single-zone/)
   * [Read more about multi-zone deployments](/docs/{{ page.release }}/production/deployment/multi-zone/)
 * **Multi-mesh**: Supports multiple individual meshes with one control plane, lowering the operational costs of supporting the entire organization.
@@ -24,7 +29,7 @@ title: Overview of Kuma
 
 {% if_version lte:2.5.x %}
 * **Universal and Kubernetes-native**: Platform-agnostic, can run and operate anywhere.
-* **Standalone and multi-zone**: Supports multiple clouds, regions, and Kubernetes clusters with native DNS service discovery and ingress capability.
+* **Standalone and multi-zone**: Supports multiple clouds, regions, and Kubernetes clusters with native DNS service discovery and ingress capability. A [zone](/docs/{{ page.release }}/introduction/concepts#zone) is a deployment unit like a Kubernetes cluster, VPC, or data center.
   * [Read more about standalone deployments](/docs/{{ page.release }}/production/deployment/stand-alone/)
   * [Read more about multi-zone deployments](/docs/{{ page.release }}/production/deployment/multi-zone/)
 * **Multi-mesh**: Supports multiple individual meshes with one control plane, lowering the operational costs of supporting the entire organization.

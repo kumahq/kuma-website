@@ -2,7 +2,8 @@
 // Forms
 //
 
-$input-height: 44px;
+@use 'sass:color';
+@use '@/styles/config/index' as *;
 
 // text inputs
 
@@ -80,8 +81,6 @@ select option {
 
 button,
 .btn {
-  @include button-base;
-
   display: inline-block;
   padding: 0.35rem 2.25rem;
   border: 0;
@@ -89,6 +88,8 @@ button,
   font-size: inherit;
   text-decoration: none;
   text-shadow: none;
+
+  @include button-base;
 
   &:disabled {
     opacity: 0.5;
@@ -112,7 +113,7 @@ button,
 .btn--hollow {
   $border-color: rgba($navy, 0.1);
   $border-color-dark: rgba($navy, 0.3);
-  $hover-color: lighten($color-5, 10);
+  $hover-color: color.scale($color-5, $lightness: 17.5862068966%);
 
   box-shadow: $base-soft-shadow, inset 0 0 0 1.5px $border-color;
 
@@ -147,7 +148,7 @@ button,
 
   &:hover,
   &:active {
-    background-color: lighten($color-13, 10);
+    background-color: color.scale($color-13, $lightness: 17.5862068966%);
   }
 
   @include button-state-overrides;

@@ -1,5 +1,10 @@
 ---
 title: Configure data plane proxy membership
+description: Define requirements and restrictions for data plane proxies joining a mesh using membership constraints based on tags, namespaces, or zones.
+keywords:
+  - mesh membership
+  - proxy constraints
+  - access control
 content_type: how-to
 ---
 

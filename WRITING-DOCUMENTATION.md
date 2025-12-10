@@ -1,7 +1,7 @@
 <!-- vale off -->
 # Writing documentation
 
-After starting the site locally, navigate to `http://localhost:8080/docs/`. This is where you can view your work 
+After starting the site locally, navigate to `http://localhost:8080/docs/`. This is where you can view your work
 as you write your documentation.
 
 ## Versions
@@ -10,7 +10,7 @@ The code uses trunk based development where `master` is the `trunk` branch.
 
 A single sourced folder in [app/_src](app/_src) is used for each version of Kuma. We use a Jekyll plugin to dynamically generate pages from a single source file.
 
-For the future non-patch versions of Kuma, changes can be made to the [docs_nav_kuma_dev.yml](app/_data/docs_nav_kuma_dev.yml) file. 
+For the future non-patch versions of Kuma, changes can be made to the [docs_nav_kuma_dev.yml](app/_data/docs_nav_kuma_dev.yml) file.
 
 ## Writing docs for a new feature
 
@@ -18,7 +18,7 @@ If you are writing docs for a new feature you'll want to add it in the [src](app
 
 Since content is single sourced, you must use [conditional rendering](https://docs.konghq.com/contributing/conditional-rendering/) to ensure that the new feature content only displays for that version. For example:
 
-```
+```liquid
 {% if_version eq:2.1.x %}
 This will only show for version 2.1.x
 {% endif_version %}
@@ -32,14 +32,16 @@ Ask a maintainer to get write access.
 
 ### Mermaid.js diagrams
 
-You can use Mermaid.js diagrams in our documentation. It can be used with the following syntax: 
-```
+You can use Mermaid.js diagrams in our documentation. It can be used with the following syntax:
+
+```liquid
 {% mermaid %}
 {% endmermaid %}
 ```
 
 For example, if you wanted to make a flowchart, you can use the following syntax:
-```
+
+```liquid
 {% mermaid %}
 flowchart TD
     A[Christmas] -->|Get money| B(Go shopping)
@@ -60,7 +62,94 @@ You can use [https://mermaid.live/edit](https://mermaid.live/edit) to generate d
 
 ## Jekyll plugins
 
-You can use some custom plugins to make writing documentation easier, especially for things Jekyll doesn’t support by default:
+You can use some custom plugins to make writing documentation easier, especially for things Jekyll doesn't support by default:
+
+### `schema_viewer` tag
+
+The `schema_viewer` plugin renders interactive policy schema documentation from protobuf definitions. It automatically displays the complete structure of a policy with type information, allowed values, and filtering capabilities.
+
+#### How to use
+
+Basic usage:
+
+```liquid
+{% schema_viewer PolicyName %}
+```
+
+With filters:
+
+```liquid
+{% schema_viewer PolicyName exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService %}
+```
+
+#### Available parameters
+
+All parameters are optional and can be combined:
+
+- **`PolicyName`** (required): Name of the policy resource (e.g., `MeshAccessLogs`, `MeshRetries`, `MeshHealthChecks`)
+- **`exclude`**: Comma-separated list of top-level sections to hide (e.g., `exclude=from` to hide the `from` section, `exclude=to` to hide the `to` section)
+- **`exclude.<path>`**: Path-based field exclusions (e.g., `exclude.targetRef=tags,mesh,proxyTypes` to hide specific fields within `targetRef`, `exclude.to.targetRef=tags,mesh` to hide fields in `to[].targetRef`)
+- **`targetRef.kind`**: Comma-separated list of allowed kinds for the top-level `targetRef` selector
+- **`to.targetRef.kind`**: Comma-separated list of allowed kinds for the `to[].targetRef` selector
+- **`from.targetRef.kind`**: Comma-separated list of allowed kinds for the `from[].targetRef` selector
+
+#### Common patterns
+
+**Outbound-only policies (exclude from):**
+
+```liquid
+{% schema_viewer MeshAccessLogs exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshExternalService %}
+```
+
+**Inbound-only policies (exclude to):**
+
+```liquid
+{% schema_viewer MeshRateLimits exclude=to exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane %}
+```
+
+**Policies with HTTP route support:**
+
+```liquid
+{% schema_viewer MeshRetries exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshExternalService,MeshMultiZoneService,MeshHTTPRoute %}
+```
+
+**Route policies:**
+
+```liquid
+{% schema_viewer MeshHttpRoutes exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=MeshService,MeshMultiZoneService,MeshExternalService %}
+```
+
+**Load balancing policies:**
+
+```liquid
+{% schema_viewer MeshLoadBalancingStrategies exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService,MeshHTTPRoute %}
+```
+
+#### Real-world examples
+
+Outbound policy with multiple target types:
+
+```liquid
+{% schema_viewer MeshAccessLogs exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshExternalService,MeshMultiZoneService,MeshHTTPRoute %}
+```
+
+Health check policy:
+
+```liquid
+{% schema_viewer MeshHealthChecks exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService %}
+```
+
+Rate limiting (inbound only):
+
+```liquid
+{% schema_viewer MeshRateLimits exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh %}
+```
+
+Circuit breaker (outbound only):
+
+```liquid
+{% schema_viewer MeshCircuitBreakers exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService %}
+```
 
 ### `inc` tag
 
@@ -106,31 +195,31 @@ Update the `app/_data/versions.yml` file with metadata specific to this release,
 
 Before start, make sure that installed Ruby version is the same as in the `.ruby-version` file.
 
-1.  Install:
+1. Install:
 
     ```bash
-    make install
+    mise run install
     ```
 
-1.  Build:
+1. Build:
 
     ```bash
-    make build
+    mise run build
     ```
 
-1.  Serve:
+1. Serve:
 
     ```bash
-    make serve
+    mise run serve
     ```
 
-You will need to run `make build` after making any changes to the content. Automatic rebuilding will be added in November 2022.
+You will need to run `mise run build` after making any changes to the content. Automatic rebuilding will be added in November 2022.
 
 ## Set up local builds with Netlify
 
 If you get errors on the Netlify server, it can help to [set up a local Netlify environment](https://docs.netlify.com/cli/get-started/).
 
-It has happened, however, that `make build` and the local Netlify build succeed, and the build still fails upstream. At which point … sometimes the logs can help, but not always.
+It has happened, however, that `mise run build` and the local Netlify build succeed, and the build still fails upstream. At which point … sometimes the logs can help, but not always.
 
 WARNING: when you run a local Netlify build it modifies your local `netlify.toml`. Make sure to revert/discard the changes before you push your local.
 
@@ -139,10 +228,11 @@ WARNING: when you run a local Netlify build it modifies your local `netlify.toml
 If you create a new policy resource for Kuma, you should rebuild the generated policy reference documentation.
 
 ## Markdown features
+
 For more information about the Markdown features and formatting that is supported, see the following:
 
-* [Markdown rules and formatting](https://docs.konghq.com/contributing/markdown-rules/)
-* [Reusable content](https://docs.konghq.com/contributing/includes/)
+- [Markdown rules and formatting](https://docs.konghq.com/contributing/markdown-rules/)
+- [Reusable content](https://docs.konghq.com/contributing/includes/)
 
 ## Vale
 

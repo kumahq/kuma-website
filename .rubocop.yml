@@ -1,0 +1,32 @@
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  SuggestExtensions: false
+  Include:
+    - 'jekyll-kuma-plugins/**/*.rb'
+    - 'app/_plugins/**/*.rb'
+    - 'spec/**/*.rb'
+  Exclude:
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - '**/*_spec.rb'
+
+Metrics/AbcSize:
+  Max: 50
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/MethodLength:
+  Max: 40
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Layout/LineLength:
+  Max: 180

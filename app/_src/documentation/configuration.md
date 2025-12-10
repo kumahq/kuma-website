@@ -1,5 +1,10 @@
 ---
 title: Control Plane Configuration
+description: Configure the control plane using environment variables or yaml files, and set up storage backends like Postgres or Kubernetes.
+keywords:
+  - configuration
+  - control plane
+  - Postgres
 ---
 
 ## Modifying the configuration

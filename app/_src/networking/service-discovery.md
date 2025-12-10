@@ -1,5 +1,10 @@
 ---
 title: Service Discovery
+description: Learn how data plane proxies connect to the control plane and discover service endpoints for traffic routing.
+keywords:
+  - service discovery
+  - control plane
+  - data plane
 ---
 
 This page explains how communication between the components of {{site.mesh_product_name}} handles service traffic. Communication is handled between the data plane proxy (`kuma-dp`) and the control plane (`kuma-cp`), and between multiple instances of the data plane proxy.

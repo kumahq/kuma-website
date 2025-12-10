@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'diff/lcs'
 
@@ -31,9 +33,9 @@ module GoldenFileManager
   end
 
   def self.copy_file_if_different(src, dest)
-    if src && !File.identical?(src, dest)
-      FileUtils.cp(src, dest)
-    end
+    return unless src && !File.identical?(src, dest)
+
+    FileUtils.cp(src, dest)
   end
 
   def self.copy_latest_assets
@@ -77,24 +79,24 @@ module GoldenFileManager
     trimmed_golden_content = trim_insignificant_whitespace(golden_content)
 
     # Compare the trimmed versions
-    if trimmed_output != trimmed_golden_content
-      if ENV['UPDATE_GOLDEN_FILES'] == 'true'
-        # Update golden file if necessary
-        update_golden(golden_path, cleaned_output)
-        puts "Golden file updated: #{golden_path}"
-      else
-        # Print the diff of original (untrimmed) content for better visibility
-        puts "Output does not match golden file at #{golden_path}."
-        print_diff(golden_content, cleaned_output) # use original content for diff
-        raise "Output does not match golden file at #{golden_path}."
-      end
+    return unless trimmed_output != trimmed_golden_content
+
+    if ENV['UPDATE_GOLDEN_FILES'] == 'true'
+      # Update golden file if necessary
+      update_golden(golden_path, cleaned_output)
+      puts "Golden file updated: #{golden_path}"
+    else
+      # Print the diff of original (untrimmed) content for better visibility
+      puts "Output does not match golden file at #{golden_path}."
+      print_diff(golden_content, cleaned_output) # use original content for diff
+      raise "Output does not match golden file at #{golden_path}."
     end
   end
 
   # Trim insignificant whitespace: leading/trailing spaces and indentation
   def self.trim_insignificant_whitespace(content)
     # Split content into lines, remove leading spaces and trailing whitespace
-    content.lines.map(&:rstrip).reject(&:empty?).join("\n")
+    content.force_encoding('UTF-8').lines.map(&:rstrip).reject(&:empty?).join("\n")
   end
 
   def self.print_diff(expected, actual, context_lines: 5)
@@ -104,7 +106,7 @@ module GoldenFileManager
     diffs = Diff::LCS.sdiff(expected_lines, actual_lines)
 
     # Collect all the indexes of differences
-    diff_indexes = diffs.each_index.select { |i| diffs[i].action != '=' }
+    diff_indexes = diffs.each_index.reject { |i| diffs[i].action == '=' }
 
     # If there are no differences, return
     return if diff_indexes.empty?

@@ -1,5 +1,10 @@
 ---
-title: Add a builtin gateway 
+title: Add a builtin gateway
+description: Learn how to configure a builtin gateway using MeshGateway and MeshHTTPRoute to expose services externally with TLS support.
+keywords:
+  - builtin gateway
+  - MeshGateway
+  - ingress
 ---
 
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}

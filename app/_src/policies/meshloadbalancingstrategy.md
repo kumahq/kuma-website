@@ -1,11 +1,18 @@
 ---
 title: MeshLoadBalancingStrategy
+description: Configure load balancing between services with MeshLoadBalancingStrategy, including locality awareness and cross-zone failover.
+keywords:
+  - load balancing
+  - locality awareness
+  - traffic distribution
+content_type: reference
+category: policy
 ---
+<!-- markdownlint-disable-file MD024 -->
 
 {% warning %}
 This policy uses new policy matching algorithm.
 {% endwarning %}
-
 
 This policy enables {{site.mesh_product_name}} to configure the load balancing strategy for traffic between services in the mesh.
 When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.release }}/policies/locality-aware) flag is ignored.
@@ -16,6 +23,7 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.release }
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -36,6 +44,7 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.release }
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
@@ -44,6 +53,7 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.release }
 
 {% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -76,22 +86,27 @@ To learn more about the information in this table, see the [matching docs](/docs
 ## Configuration
 
 {% if_version lte:2.4.x %}
+
 ### LocalityAwareness
 
 Locality-aware load balancing is enabled by default unlike its predecessor [localityAwareLoadBalancing](/docs/{{ page.release }}/policies/locality-aware).
 
-- **`disabled`** – (optional) allows to disable locality-aware load balancing. When disabled requests are distributed 
+- **`disabled`** – (optional) allows to disable locality-aware load balancing. When disabled requests are distributed
 across all endpoints regardless of locality.
 
 {% endif_version %}
 {% if_version gte:2.5.x %}
+
 ### LocalityAwareness
+
 Locality-aware load balancing provides robust and straightforward method for balancing traffic within and across zones. This not only allows you to route traffic across zones when the local zone service is unhealthy but also enables you to define traffic prioritization within the local zone and set cross-zone fallback priorities.
 
 #### Default behaviour
+
 Locality-aware load balancing is enabled by default, unlike its predecessor [localityAwareLoadBalancing](/docs/{{ page.release }}/policies/locality-aware). Requests are distributed across all endpoints within the local zone first unless there are not enough healthy endpoints.
 
 #### Disabling locality aware routing
+
 If you do so, all endpoints regardless of their zone will be treated equally. To do this do:
 
 ```yaml
@@ -100,6 +115,7 @@ localityAwareness:
 ```
 
 #### Configuring LocalityAware Load Balancing for traffic within the same zone
+
 {% warning %}
 If `crossZone` and/or `localZone` is defined, they take precedence over `disabled` and apply more specific configuration.
 {% endwarning %}
@@ -112,6 +128,7 @@ Local zone routing allows you to define traffic routing rules within a local zon
     - **`weight`** - (optional) weight of the tag used for load balancing. The bigger the weight the higher number of requests is routed to dataplanes with specific tag. By default we will adjust them so that 90% traffic goes to first tag, 9% to next, and 1% to third and so on.
 
 #### Configuring LocalityAware Load Balancing for traffic across zones
+
 {% warning %}
 Remember that cross-zone traffic requires [mTLS to be enabled](/docs/{{ page.release }}/policies/mutual-tls).
 {% endwarning %}
@@ -132,12 +149,11 @@ Advanced locality-aware load balancing provides a powerful means of defining how
 
 #### Zone Egress support
 
-Using Zone Egress Proxy in multizone deployment poses certain limitations for this feature. When configuring `MeshLoadbalancingStrategy` with Zone Egress you can only use `Mesh` as a top level targetRef. This is because we don't differentiate requests that come to Zone Egress from different clients, yet. 
+Using Zone Egress Proxy in multizone deployment poses certain limitations for this feature. When configuring `MeshLoadbalancingStrategy` with Zone Egress you can only use `Mesh` as a top level targetRef. This is because we don't differentiate requests that come to Zone Egress from different clients, yet.
 
 Moreover, Zone Egress is a simple proxy that uses long-lived L4 connection with each Zone Ingresses. Consequently, when a new `MeshLoadbalancingStrategy` with locality awareness is configured, connections won’t be refreshed, and locality awareness will apply only to new connections.
 
 Another thing you need to be aware of is how outbound traffic behaves when you use the `MeshCircuitBreaker`'s outlier detection to keep track of healthy endpoints. Normally, you would use `MeshCircuitBreaker` to act on failures and trigger traffic redirect to the next priority level if the number of healthy endpoints fall below `crossZone.failoverThreshold`. When you have a single instance of Zone Egress, all remote zones will be behind a single endpoint. Since `MeshCircuitBreaker` is configured on Data Plane Proxy, when one of the zones start responding with errors it will mark the whole Zone Egress as not healthy and won’t send traffic there even though there could be multiple zones with live endpoints. This will be changed in the future with overall improvements to the Zone Egress proxy.
-
 
 {% endif_version %}
 
@@ -151,32 +167,32 @@ RoundRobin is a load balancing algorithm that distributes requests across availa
 
 #### LeastRequest
 
-`LeastRequest` selects N random available hosts as specified in `choiceCount` (2 by default) and picks the host which has 
+`LeastRequest` selects N random available hosts as specified in `choiceCount` (2 by default) and picks the host which has
 the fewest active requests.
 
-- **`choiceCount`** - (optional) is the number of random healthy hosts from which the host with the fewest active requests will 
+- **`choiceCount`** - (optional) is the number of random healthy hosts from which the host with the fewest active requests will
 be chosen. Defaults to 2 so that Envoy performs two-choice selection if the field is not set.
 
 #### RingHash
 
-RingHash  implements consistent hashing to upstream hosts. Each host is mapped onto a circle (the “ring”) by hashing its 
-address; each request is then routed to a host by hashing some property of the request, and finding the nearest 
+RingHash  implements consistent hashing to upstream hosts. Each host is mapped onto a circle (the “ring”) by hashing its
+address; each request is then routed to a host by hashing some property of the request, and finding the nearest
 corresponding host clockwise around the ring.
 
 - **`hashFunction`** - (optional) available values are `XX_HASH`, `MURMUR_HASH_2`. Default is `XX_HASH`.
-- **`minRingSize`** - (optional) minimum hash ring size. The larger the ring is (that is, the more hashes there are for 
-each provided host) the better the request distribution will reflect the desired weights. Defaults to 1024 entries, and 
+- **`minRingSize`** - (optional) minimum hash ring size. The larger the ring is (that is, the more hashes there are for
+each provided host) the better the request distribution will reflect the desired weights. Defaults to 1024 entries, and
 limited to 8M entries.
-- **`maxRingSize`** - (optional) maximum hash ring size. Defaults to 8M entries, and limited to 8M entries, but can be 
+- **`maxRingSize`** - (optional) maximum hash ring size. Defaults to 8M entries, and limited to 8M entries, but can be
 lowered to further constrain resource use.
 - **`hashPolicies`** - (optional) specify a list of request/connection properties that are used to calculate a hash.
-These hash policies are executed in the specified order. If a hash policy has the “terminal” attribute set to true, and 
+These hash policies are executed in the specified order. If a hash policy has the “terminal” attribute set to true, and
 there is already a hash generated, the hash is returned immediately, ignoring the rest of the hash policy list.
   - **`type`** - available values are `Header`, `Cookie`, `Connection`, `QueryParameter`, `FilterState`
-  - **`terminal`** - is a flag that short-circuits the hash computing. This field provides a ‘fallback’ style of 
-  configuration: “if a terminal policy doesn’t work, fallback to rest of the policy list”, it saves time when the 
+  - **`terminal`** - is a flag that short-circuits the hash computing. This field provides a ‘fallback’ style of
+  configuration: “if a terminal policy doesn’t work, fallback to rest of the policy list”, it saves time when the
   terminal policy works. If true, and there is already a hash computed, ignore rest of the list of hash polices.
-  - **`header`**: 
+  - **`header`**:
     - **`name`** - the name of the request header that will be used to obtain the hash key.
   - **`cookie`**:
     - **`name`** - the name of the cookie that will be used to obtain the hash key.
@@ -185,25 +201,25 @@ there is already a hash generated, the hash is returned immediately, ignoring th
   - **`connection`**:
     - **`sourceIP`** - if true, then hashing is based on a source IP address.
   - **`queryParameter`**:
-    - **`name`** - the name of the URL query parameter that will be used to obtain the hash key. If the parameter is not 
+    - **`name`** - the name of the url query parameter that will be used to obtain the hash key. If the parameter is not
     present, no hash will be produced. Query parameter names are case-sensitive.
   - **`filterState`**:
-    - **`key`** the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is 
+    - **`key`** the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is
     no data associated with the key, or the stored object is not `Envoy::Hashable`, no hash will be produced.
 
 #### Random
 
-Random selects a random available host. The random load balancer generally performs better than round-robin if no health 
+Random selects a random available host. The random load balancer generally performs better than round-robin if no health
 checking policy is configured. Random selection avoids bias towards the host in the set that comes after a failed host.
 
 #### Maglev
 
-Maglev implements consistent hashing to upstream hosts. Maglev can be used as a drop in replacement for the ring hash 
+Maglev implements consistent hashing to upstream hosts. Maglev can be used as a drop in replacement for the ring hash
 load balancer any place in which consistent hashing is desired.
 
-- **`tableSize`** - (optional) the table size for Maglev hashing. Maglev aims for “minimal disruption” rather than an 
-absolute guarantee. Minimal disruption means that when the set of upstream hosts change, a connection will likely be 
-sent to the same upstream as it was before. Increasing the table size reduces the amount of disruption. The table size 
+- **`tableSize`** - (optional) the table size for Maglev hashing. Maglev aims for “minimal disruption” rather than an
+absolute guarantee. Minimal disruption means that when the set of upstream hosts change, a connection will likely be
+sent to the same upstream as it was before. Increasing the table size reduces the amount of disruption. The table size
 must be prime number limited to 5000011. If it is not specified, the default is 65537.
 - **`hashPolicies`** - (optional) specify a list of request/connection properties that are used to calculate a hash.
   These hash policies are executed in the specified order. If a hash policy has the “terminal” attribute set to true, and
@@ -221,7 +237,7 @@ must be prime number limited to 5000011. If it is not specified, the default is 
   - **`connection`**:
     - **`sourceIP`** - if true, then hashing is based on a source IP address.
   - **`queryParameter`**:
-    - **`name`** - the name of the URL query parameter that will be used to obtain the hash key. If the parameter is not
+    - **`name`** - the name of the url query parameter that will be used to obtain the hash key. If the parameter is not
       present, no hash will be produced. Query parameter names are case-sensitive.
   - **`filterState`**:
     - **`key`** the name of the Object in the per-request `filterState`, which is an `Envoy::Hashable` object. If there is
@@ -235,6 +251,7 @@ Load balance requests from `frontend` to `backend` based on the HTTP header `x-h
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: ring-hash
@@ -259,11 +276,13 @@ spec:
                 header:
                   name: x-header
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: ring-hash
@@ -289,11 +308,13 @@ spec:
                 header:
                   name: x-header
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: ring-hash
@@ -319,6 +340,7 @@ spec:
                 header:
                   name: x-header
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -328,6 +350,7 @@ Requests to `backend` will be spread evenly across all zones where `backend` is 
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: disable-la-to-backend
@@ -345,11 +368,13 @@ spec:
         localityAwareness:
           disabled: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: disable-la-to-backend
@@ -366,16 +391,19 @@ spec:
         localityAwareness:
           disabled: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.5.x %}
+
 ### Disable cross zone traffic and prioritize traffic the dataplanes on the same node and availability zone
 
 In this example, whenever a user sends a request to the `backend` service, 90% of the requests will arrive at the instance with the same value of the `k8s.io/node` tag, 9% of the requests will go to the instance with the same value as the caller of the `k8s.io/az` tag, and 1% will go to the rest of the instances.
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -396,10 +424,12 @@ spec:
               - key: k8s.io/node
               - key: k8s.io/az
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -419,6 +449,7 @@ spec:
               - key: k8s.io/node
               - key: k8s.io/az
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -428,6 +459,7 @@ In this example, when a user sends a request to the backend service, the request
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -446,10 +478,12 @@ spec:
           localZone:
             affinityTags: []
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -467,13 +501,15 @@ spec:
           localZone:
             affinityTags: []
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
-or 
+or
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -491,10 +527,12 @@ spec:
         localityAwareness:
           localZone: {}
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-backend
@@ -511,6 +549,7 @@ spec:
         localityAwareness:
           localZone: {}
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -520,6 +559,7 @@ Requests to the backend service will be evenly distributed among all endpoints w
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: cross-zone-backend
@@ -548,10 +588,12 @@ spec:
             failoverThreshold:
               percentage: 25
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: cross-zone-backend
@@ -579,6 +621,7 @@ spec:
             failoverThreshold:
               percentage: 25
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -590,6 +633,7 @@ When no healthy backends are available within the local zone, traffic from data 
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-cross-backend
@@ -628,10 +672,12 @@ spec:
                   type: Only
                   zones: ["us-4"]
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshLoadBalancingStrategy
 name: local-zone-affinity-cross-backend
@@ -668,6 +714,7 @@ spec:
                   type: Only
                   zones: ["us-4"]
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% endif_version %}
@@ -685,6 +732,7 @@ You can mitigate this problem by adjusting `max_requests_per_connection` setting
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshProxyPatch
 name: max-requests-per-conn
@@ -702,10 +750,12 @@ spec:
           value: |
             max_requests_per_connection: 1
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 {% if_version gte:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshProxyPatch
 name: max-requests-per-conn
@@ -721,12 +771,24 @@ spec:
           value: |
             max_requests_per_connection: 1
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 This way, we allow only one in-flight request on a TCP connection. Consequently, the client will open more TCP connections, leading to fairer load balancing.
 The downside is that we now have to establish and maintain more TCP connections. Keep this in mind as you adjust the value to suit your needs.
 
+## See also
+
+- [MeshHealthCheck](/docs/{{ page.release }}/policies/meshhealthcheck) - Health checks influence load balancing decisions
+- [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Outlier detection for unhealthy endpoints
+- [MeshHTTPRoute](/docs/{{ page.release }}/policies/meshhttproute) - Configure HTTP routes with load balancing
+
 ## All policy options
 
-{% json_schema MeshLoadBalancingStrategies %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshLoadBalancingStrategies exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService,MeshHTTPRoute %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshLoadBalancingStrategies %}
+{% endif_version %}

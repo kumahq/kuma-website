@@ -1,4 +1,4 @@
-@import './config';
+@use '@/styles/config/index' as *;
 
 .arrow {
   display: inline-block;

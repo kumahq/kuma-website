@@ -1,21 +1,22 @@
-document.addEventListener('DOMContentLoaded', (event) => {
-  if (document.getElementById('algolia-search-input') !== null) {
-    const docsVersion = window.location.pathname.split('/')[2];
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('docsearch');
+  if (!container) return;
 
-    docsearch({
-      appId: 'RSEEOBCB49',
-      indexName: 'kuma',
-      apiKey: '4224b11bee5bf294f73032a4988a00ea',
-      inputSelector: '#algolia-search-input',
-      algoliaOptions: {
-        hitsPerPage: 10,
-        facetFilters: ['section:docs', `docsversion:${docsVersion}`]
-      },
-      // Override selected event to allow for local environment navigation
-      handleSelected: (input, event, suggestion) => {
-        input.setVal('');
-        window.location.href = window.location.protocol + '//' + window.location.host + suggestion.url.split('kuma.io')[1];
-      }
-    });
-  }
+  const docsVersion = window.location.pathname.split('/')[2];
+
+  docsearch({
+    container: '#docsearch',
+    appId: 'RSEEOBCB49',
+    indexName: 'kuma',
+    apiKey: '4224b11bee5bf294f73032a4988a00ea',
+    searchParameters: {
+      facetFilters: ['section:docs', `docsversion:${docsVersion}`]
+    },
+    transformItems(items) {
+      return items.map((item) => ({
+        ...item,
+        url: item.url.replace(/https?:\/\/kuma\.io/, '')
+      }));
+    }
+  });
 });

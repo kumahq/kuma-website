@@ -2,6 +2,8 @@
 // Homepage
 //
 
+@use '@/styles/config/index' as *;
+
 $home-feature-icon-bottom-spacing: 1rem;
 
 .page-container--home {

@@ -1,6 +1,11 @@
 ---
 title: High availability
 content_type: explanation
+description: Deploy multiple control plane replicas to ensure high availability and fault tolerance for your service mesh.
+keywords:
+  - high availability
+  - replicas
+  - leader
 ---
 
 In order to ensure high availability (HA) of a control plane, both global and zone,

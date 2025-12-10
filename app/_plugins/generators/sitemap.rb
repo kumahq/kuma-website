@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 module Sitemap
-  class Generator < Jekyll::Generator # rubocop:disable Metrics/ClassLength
+  class Generator < Jekyll::Generator
     priority :lowest
 
     def generate(site)
@@ -11,22 +13,23 @@ module Sitemap
       # Build a map of the latest available version of every URL
       site.pages.each do |page|
         # Skip if it's not the latest version of a page
-        next if is_versioned_url(page['url']) and !is_version(page['url'], latest)
+        next if versioned_url?(page['url']) && !version?(page['url'], latest)
+
         all_pages << page
       end
 
       # Build a map of the latest available version of every URL
       site.posts.docs.each do |post|
-       all_pages << {
-        'url' => post.url
-       }
+        all_pages << {
+          'url' => post.url
+        }
       end
 
       # Save the data to generate a sitemap later
       site.data['sitemap_pages'] = build_sitemap(all_pages)
     end
 
-    def build_sitemap(pages) # rubocop:disable Metrics/MethodLength
+    def build_sitemap(pages)
       # These files should NOT be in the sitemap
       blocked_from_sitemap = [
         '/_headers',
@@ -37,6 +40,7 @@ module Sitemap
       # Remove any pages that should not be in the sitemap
       pages = pages.filter do |p|
         next false if blocked_from_sitemap.any? { |blocked| p['url'] == blocked }
+
         true
       end
 
@@ -50,10 +54,10 @@ module Sitemap
       end
     end
 
-    def is_versioned_url(url)
+    def versioned_url?(url)
       versioned = [
-        "/install/",
-        "/docs/",
+        '/install/',
+        '/docs/'
       ]
       versioned.each do |v|
         return true if url.include?(v)
@@ -61,7 +65,7 @@ module Sitemap
       false
     end
 
-    def is_version(url, latest)
+    def version?(url, latest)
       url.include?(latest['release'])
     end
   end

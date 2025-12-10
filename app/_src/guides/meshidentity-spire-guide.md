@@ -1,5 +1,10 @@
 ---
 title: Issuing Identity with MeshIdentity Spire provider
+description: Configure MeshIdentity with Spire provider to issue SPIFFE identities and encrypt mesh traffic using mTLS.
+keywords:
+  - MeshIdentity
+  - Spire
+  - mTLS
 ---
 
 {% assign kuma = site.mesh_install_archive_name | default: "kuma" %}
@@ -87,7 +92,7 @@ spec:
     - 'k8s:ns:kuma-demo'" | kubectl apply -f -
 ```
 
-We specify SpiffeID template that will use our configured trust domain, namespace and [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) name.
+We specify spiffeID template that will use our configured trust domain, namespace and [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) name.
 
 
 ### Deploy demo application
@@ -123,9 +128,9 @@ in demo.
 
 In {{ Kuma }} we define two concepts around identity that need to be well understood:
 
-* **Identity** - Who a workload is - A workload's identity is the name encoded in its certificate, and this identity is considered valid only if the certificate is signed by a Trust.
-* **Trust** - Who to believe - Trust defines which identities you accept as valid, and is established through trusted
-  certificate authorities (CA) that issue those identities. Trust is attached to trust domain, and there can be multiple Trusts in the cluster.
+* **[Identity](/docs/{{ page.release }}/introduction/concepts#identity)** - Who a workload is - A workload's identity is the name encoded in its certificate, and this identity is considered valid only if the certificate is signed by a Trust.
+* **[Trust](/docs/{{ page.release }}/introduction/concepts#trust)** - Who to believe - Trust defines which identities you accept as valid, and is established through trusted
+  certificate authorities (CA) that issue those identities. Trust is attached to trust domain, and there can be multiple Trusts in the [mesh](/docs/{{ page.release }}/introduction/concepts#mesh).
 
 ## Issuing Identity
 

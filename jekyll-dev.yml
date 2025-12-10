@@ -115,4 +115,4 @@ plugins:
   - jekyll-last-modified-at
   - jekyll-contentblocks
   - jekyll/vite
-  - jekyll-kuma-plugins
+  - jekyll_kuma_plugins

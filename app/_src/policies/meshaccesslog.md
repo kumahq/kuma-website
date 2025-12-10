@@ -1,5 +1,12 @@
 ---
 title: MeshAccessLog
+description: Configure access logging for your service mesh with support for TCP, file, and OpenTelemetry backends using customizable formats.
+keywords:
+  - access logs
+  - observability
+  - logging
+content_type: reference
+category: policy
 ---
 
 With the MeshAccessLog policy you can easily set up access logs on every data plane proxy in a mesh.
@@ -21,6 +28,7 @@ If you haven't, see the [observability docs](/docs/{{ page.release }}/explore/ob
 {% tab Sidecar %}
 {% if_version gte:2.4.x %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -51,6 +59,7 @@ If you haven't, see the [observability docs](/docs/{{ page.release }}/explore/ob
 
 {% tab Builtin Gateway %}
 {% if_version lte:2.5.x %}
+
 | `targetRef`           | Allowed kinds                       |
 | --------------------- | ----------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService` |
@@ -69,6 +78,7 @@ If you haven't, see the [observability docs](/docs/{{ page.release }}/explore/ob
 {% tab Delegated Gateway %}
 {% if_version gte:2.6.x %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -110,7 +120,7 @@ The shape of a single log record is defined by a template string that uses [comm
 
 For example:
 
-```
+```text
 %START_TIME% %KUMA_SOURCE_SERVICE% => %KUMA_DESTINATION_SERVICE% %DURATION%
 ```
 
@@ -147,30 +157,34 @@ omit them entirely for `json`.
 
 The default format string for `TCP` traffic is:
 
-```
+```text
 [%START_TIME%] %RESPONSE_FLAGS% %KUMA_MESH% %KUMA_SOURCE_ADDRESS_WITHOUT_PORT%(%KUMA_SOURCE_SERVICE%)->%UPSTREAM_HOST%(%KUMA_DESTINATION_SERVICE%) took %DURATION%ms, sent %BYTES_SENT% bytes, received: %BYTES_RECEIVED% bytes
 ```
 
 The default format string for `HTTP` traffic is:
 
-```
+```text
 [%START_TIME%] %KUMA_MESH% "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%KUMA_SOURCE_SERVICE%" "%KUMA_DESTINATION_SERVICE%" "%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%" "%UPSTREAM_HOST%"
 ```
 
 Example configuration:
 
 {% if_version lte:2.2.x %}
+
 ```yaml
 format:
   plain: '[%START_TIME%] %BYTES_RECEIVED%'
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 format:
   type: Plain
   plain: '[%START_TIME%] %BYTES_RECEIVED%'
 ```
+
 {% endif_version %}
 
 Example output:
@@ -184,6 +198,7 @@ Example output:
 Example configuration:
 
 {% if_version lte:2.2.x %}
+
 ```yaml
 format:
   json:
@@ -192,8 +207,10 @@ format:
     - key: "bytes_received"
       value: "%BYTES_RECEIVED%"
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 format:
   type: Json
@@ -203,6 +220,7 @@ format:
     - key: "bytes_received"
       value: "%BYTES_RECEIVED%"
 ```
+
 {% endif_version %}
 
 Example output:
@@ -372,7 +390,6 @@ format:
 
 </details>
 
-
 ### Backends
 
 A backend determines where the logs end up.
@@ -383,19 +400,23 @@ A TCP backend streams logs to a server via TCP protocol.
 You can configure a TCP backend with an address:
 
 {% if_version lte:2.2.x %}
+
 ```yaml
 backends:
   - tcp:
       address: 127.0.0.1:5000
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 backends:
   - type: Tcp
     tcp:
       address: 127.0.0.1:5000
 ```
+
 {% endif_version %}
 
 #### File
@@ -404,19 +425,23 @@ A file backend streams logs to a text file.
 You can configure a file backend with a path:
 
 {% if_version lte:2.2.x %}
+
 ```yaml
 backends:
   - file:
       path: /dev/stdout
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 backends:
   - type: File
     file:
       path: /dev/stdout
 ```
+
 {% endif_version %}
 
 #### OpenTelemetry
@@ -426,6 +451,7 @@ You can configure an OpenTelemetry backend with an endpoint, [attributes](https:
 Attributes and endpoints can use placeholders described in the [format section](#format).
 
 {% if_version eq:2.2.x %}
+
 ```yaml
 backends:
   - openTelemetry:
@@ -440,8 +466,10 @@ backends:
         - key: "start_time"
           value: "%START_TIME%"
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 backends:
   - type: OpenTelemetry
@@ -457,10 +485,12 @@ backends:
         - key: "start_time"
           value: "%START_TIME%"
 ```
+
 {% endif_version %}
 
 ### Body
-Body is of type [any](https://opentelemetry.io/docs/specs/otel/logs/data-model/#type-any) (defined [here](https://github.com/open-telemetry/opentelemetry-proto/blob/342e1d4c3a1fe43312823ffb53bd38327f263059/opentelemetry/proto/common/v1/common.proto#L28-L40))
+
+Body is of type [any](https://opentelemetry.io/docs/specs/otel/logs/data-model/#type-any) (defined [in the OpenTelemetry proto](https://github.com/open-telemetry/opentelemetry-proto/blob/342e1d4c3a1fe43312823ffb53bd38327f263059/opentelemetry/proto/common/v1/common.proto#L28-L40))
 and can be one of the following forms:
 
 ```yaml
@@ -513,6 +543,7 @@ body:
 {% tab Kubernetes %}
 
 {% if_version lte:2.2.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -536,8 +567,10 @@ spec:
           - file:
               path: /dev/stdout
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -562,6 +595,7 @@ spec:
             file:
               path: /dev/stdout
 ```
+
 {% endif_version %}
 
 Apply the configuration with `kubectl apply -f [..]`.
@@ -570,6 +604,7 @@ Apply the configuration with `kubectl apply -f [..]`.
 {% tab Universal %}
 
 {% if_version lte:2.2.x %}
+
 ```yaml
 type: MeshAccessLog
 name: default
@@ -589,8 +624,10 @@ spec:
           - file:
               path: /dev/stdout
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 type: MeshAccessLog
 name: default
@@ -611,6 +648,7 @@ spec:
             file:
               path: /dev/stdout
 ```
+
 {% endif_version %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
@@ -621,6 +659,7 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshAccessLog
 name: frontend-to-backend
@@ -644,11 +683,13 @@ spec:
             file:
               path: /dev/stdout
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshAccessLog
 name: frontend-to-backend
@@ -672,6 +713,7 @@ spec:
             file:
               path: /dev/stdout
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -684,6 +726,7 @@ This configuration logs to three backends: TCP, file and OpenTelemetry.
 {% tab Kubernetes %}
 
 {% if_version eq:2.2.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -722,8 +765,10 @@ spec:
                 - key: "start_time"
                   value: "%START_TIME%"
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -767,6 +812,7 @@ spec:
                 - key: "start_time"
                   value: "%START_TIME%"
 ```
+
 {% endif_version %}
 
 Apply the configuration with `kubectl apply -f [..]`.
@@ -775,6 +821,7 @@ Apply the configuration with `kubectl apply -f [..]`.
 {% tab Universal %}
 
 {% if_version eq:2.2.x %}
+
 ```yaml
 type: MeshAccessLog
 name: default
@@ -809,8 +856,10 @@ spec:
                 - key: "start_time"
                   value: "%START_TIME%"
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 type: MeshAccessLog
 name: default
@@ -850,6 +899,7 @@ spec:
                 - key: "start_time"
                   value: "%START_TIME%"
 ```
+
 {% endif_version %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
@@ -858,9 +908,9 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endtabs %}
 {% endif_version %}
 
-
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshAccessLog
 name: multiple-backends
@@ -898,12 +948,13 @@ spec:
                 - key: "start_time"
                   value: "%START_TIME%"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
-
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshAccessLog
 name: multiple-backends
@@ -939,6 +990,7 @@ spec:
                 - key: "start_time"
                   value: "%START_TIME%"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -949,6 +1001,7 @@ spec:
 {% tab Kubernetes %}
 
 {% if_version lte:2.2.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -975,8 +1028,10 @@ spec:
           - file:
               path: /dev/stdout
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshAccessLog
@@ -1005,6 +1060,7 @@ spec:
             file:
               path: /dev/stdout
 ```
+
 {% endif_version %}
 
 Apply the configuration with `kubectl apply -f [..]`.
@@ -1013,6 +1069,7 @@ Apply the configuration with `kubectl apply -f [..]`.
 {% tab Universal %}
 
 {% if_version lte:2.2.x %}
+
 ```yaml
 type: MeshAccessLog
 name: default
@@ -1035,8 +1092,10 @@ spec:
           - file:
               path: /dev/stdout
 ```
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ```yaml
 type: MeshAccessLog
 name: default
@@ -1061,6 +1120,7 @@ spec:
             file:
               path: /dev/stdout
 ```
+
 {% endif_version %}
 
 Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/docs/{{ page.release }}/reference/http-api).
@@ -1070,8 +1130,9 @@ Apply the configuration with `kumactl apply -f [..]` or with the [HTTP API](/doc
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-For this use case we recommend creating two separate policies. One for incoming traffic: 
+For this use case we recommend creating two separate policies. One for incoming traffic:
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshAccessLog
 name: all-incoming-traffic
@@ -1086,9 +1147,11 @@ spec:
             file:
               path: /dev/stdout
 ```
+
 {% endpolicy_yaml %}
 And one for outgoing traffic:
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshAccessLog
 name: all-outgoing-traffic
@@ -1103,12 +1166,14 @@ spec:
             file:
               path: /dev/stdout
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 For this use case we recommend creating two separate policies. One for incoming traffic:
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshAccessLog
 name: all-incoming-traffic
@@ -1121,9 +1186,11 @@ spec:
             file:
               path: /dev/stdout
 ```
+
 {% endpolicy_yaml %}
 And one for outgoing traffic:
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshAccessLog
 name: all-outgoing-traffic
@@ -1138,6 +1205,7 @@ spec:
             file:
               path: /dev/stdout
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -1152,6 +1220,17 @@ To target other non-mesh traffic, for example [passthrough traffic](/docs/{{ pag
 
 You can select a built-in gateway using the `kuma.io/service` value. A current limitation is that traffic routed from a gateway to a service is logged by that gateway as having destination `"*"`.
 
+## See also
+
+- [MeshMetric](/docs/{{ page.release }}/policies/meshmetric) - Collect metrics from services and proxies
+- [MeshTrace](/docs/{{ page.release }}/policies/meshtrace) - Enable distributed tracing
+- [observability](/docs/{{ page.release }}/explore/observability) - Configure observability backends
+
 ## All policy options
 
-{% json_schema MeshAccessLogs %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshAccessLogs exclude=from exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshExternalService,MeshMultiZoneService,MeshHTTPRoute %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshAccessLogs %}
+{% endif_version %}

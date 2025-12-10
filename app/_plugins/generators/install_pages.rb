@@ -17,18 +17,11 @@ module Jekyll
 
   class InstallPage < Jekyll::Page
     def initialize(site, version)
-      @site = site
-      @dir  = 'install'
+      super(site, site.source, 'install', 'latest.md')
 
-      process("#{version['release']}.md")
-
-      content = File.read('app/install/latest.md')
-
-      # Load content + frontmatter from the file
-      if content =~ Jekyll::Document::YAML_FRONT_MATTER_REGEXP
-        @content = Regexp.last_match.post_match
-        @data = SafeYAML.load(Regexp.last_match(1))
-      end
+      # Override name to be version-specific while keeping content from latest.md
+      @name = "#{version['release']}.md"
+      @basename = version['release']
 
       @data['release'] = version['release']
       @data['has_version'] = true

@@ -1,5 +1,10 @@
 ---
 title: Observability
+description: Configure observability tools like Prometheus, Grafana, Jaeger, Loki, and Datadog to collect metrics, traces, and logs from your mesh.
+keywords:
+  - observability
+  - metrics
+  - tracing
 ---
 
 This page will describe how to configure different observability tools to work with {{site.mesh_product_name}}.

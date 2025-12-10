@@ -1,64 +1,97 @@
 ---
-title: About Kuma in Production
+title: Kuma in Production
+description: Deploy, configure, and operate the service mesh in production with guidance on topologies, security, and maintenance.
+keywords:
+  - production
+  - deployment
+  - operations
 content_type: explanation
-subtitle: Deploying Kuma in a production environment.
 ---
 
-After you've completed your initial test and assessment of {{site.mesh_product_name}}, it's time to deploy {{site.mesh_product_name}} in your production environment.
-Before doing so, it's important to understand the overall steps in the process as well as the different options you have.
-This guide walks you through the big picture steps and options so you can make the right decisions when it comes to deployment time.
+Production deployment of {{site.mesh_product_name}} involves choosing the right topology, deploying [control plane](/docs/{{ page.release }}/introduction/concepts#control-plane) and [data planes](/docs/{{ page.release }}/introduction/concepts#data-plane) within a [mesh](/docs/{{ page.release }}/introduction/concepts#mesh), and configuring security and operational features. This section guides you through all aspects of running {{site.mesh_product_name}} in production.
 
-## Overview of deployment steps
+## Deployment topologies
 
-Deploying {{site.mesh_product_name}} to a production environment involves the following steps:
+Choose the deployment model that fits your infrastructure:
 
-1. [Decide which deployment topology you plan to use](#deployment-topologies).
-1. [Install `kumactl`](#kumactl).
-1. [Deploy the control plane](#control-plane-and-data-plane-architecture).
-1. [Configure the data plane](#control-plane-and-data-plane-architecture).
-1. [Configure security features for {{site.mesh_product_name}}](#security).
+- **[Deployment overview](/docs/{{ page.release }}/production/deployment/)** - Understand deployment modes and when to use each
+- **[Single-zone deployment](/docs/{{ page.release }}/production/deployment/single-zone/)** - Deploy {{site.mesh_product_name}} in a single Kubernetes cluster or data center ([zone](/docs/{{ page.release }}/introduction/concepts#zone))
+- **[Multi-zone deployment](/docs/{{ page.release }}/production/deployment/multi-zone/)** - Connect multiple [zones](/docs/{{ page.release }}/introduction/concepts#zone) across regions, clouds, or data centers
 
-### Deployment topologies
+Common scenarios:
 
-There are two [deployment models](/docs/{{ page.release }}/production/deployment/) that can be adopted with {{site.mesh_product_name}}: {% if_version gte:2.6.x %}[single-zone](/docs/{{ page.release }}/production/deployment/single-zone/){% endif_version %}{% if_version lte:2.5.x %}standalone{% endif_version %} and [multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/). You can use these modes to address any service mesh use case, including:
-* A simple model with the service mesh running in one zone
-* A more complex model where multiple Kubernetes or VM zones are involved
-* A hybrid universal model where {{site.mesh_product_name}} runs simultaneously on Kubernetes and VMs
+| Scenario | Recommended topology |
+| -------- | -------------------- |
+| Single Kubernetes cluster or VPC | {% if_version gte:2.6.x inline:true %}[Single-zone](/docs/{{ page.release }}/production/deployment/single-zone/){% endif_version %}{% if_version lte:2.5.x inline:true %}Standalone{% endif_version %} |
+| Multiple regions, clouds, or data centers | [Multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) |
+| Hybrid Kubernetes and VMs | [Multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) |
+| Cloud migration (on-premise to cloud) | [Multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) |
 
-The following table describes some common use cases and the deployment modes you can use for them:
+## Control plane deployment
 
-| Use case | Recommended deployment mode                                                                                                  |
-| -------- |------------------------------------------------------------------------------------------------------------------------------|
-| You want to migrate from on-premise or virtual machines to the cloud in a brownfield project. | [Multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) |
-| You only intend to deploy {{site.mesh_product_name}} in one zone, like one Kubernetes cluster or Amazon VPC. | {% if_version gte:2.6.x inline:true %}[Single-zone](/docs/{{ page.release }}/production/deployment/multi-zone/){% endif_version %}{% if_version lte:2.5.x inline:true %}Standalone{% endif_version %} |
-| You want to run a mix of Kubernetes and Universal zones. | [Multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) |
-| You want to run workloads in different regions, clouds, and/or data centers. | [Multi-zone](/docs/{{ page.release }}/production/deployment/multi-zone/) |
+Deploy and configure the {{site.mesh_product_name}} control plane:
 
-### kumactl
+- **[Single-zone control plane](/docs/{{ page.release }}/production/cp-deployment/single-zone/)** - Deploy control plane for a single zone
+- **[Multi-zone global control plane](/docs/{{ page.release }}/production/cp-deployment/multi-zone/)** - Deploy global and zone control planes for multi-zone setup
+- **[Zone Ingress](/docs/{{ page.release }}/production/cp-deployment/zone-ingress/)** - Configure cross-zone service communication
+- **[Zone Egress](/docs/{{ page.release }}/production/cp-deployment/zoneegress/)** - Route external traffic through dedicated egress proxies
+- **[Zone proxy authentication](/docs/{{ page.release }}/production/cp-deployment/zoneproxy-auth/)** - Secure zone proxy connections to the global control plane
+- **[Kubernetes deployment](/docs/{{ page.release }}/production/cp-deployment/kubernetes/)** - Kubernetes-specific control plane configuration
+- **[systemd deployment](/docs/{{ page.release }}/production/cp-deployment/systemd/)** - Run control plane as a system daemon on Universal
+- **[Control plane configuration reference](/docs/{{ page.release }}/reference/kuma-cp/)** - Complete configuration options for kuma-cp
 
-The first step after you pick your deployment mode is to {% if_version lte:2.8.x %}[install `kumactl`](/docs/{{ page.release }}/production/install-kumactl/){% endif_version %}{% if_version gte:2.9.x %}[install `kumactl`](/docs/{{ page.release }}/introduction/install/){% endif_version %}. 
-`kumactl` is a CLI tool that you can use to access {{site.mesh_product_name}}. It can do the following:
+## Data plane configuration
 
-* Perform read-only operations on {{site.mesh_product_name}} resources on Kubernetes.
-* Read and create resources in {{site.mesh_product_name}} in Universal mode.
+Configure [data plane proxies](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) for Kubernetes and Universal:
 
-The `kumactl` binary is a client to the {{site.mesh_product_name}} HTTP API.
+- **[Data plane proxy overview](/docs/{{ page.release }}/production/dp-config/dpp/)** - Understand how data plane proxies work
+- **[Kubernetes data plane](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/)** - Configure proxies with sidecar injection on Kubernetes
+- **[Universal data plane](/docs/{{ page.release }}/production/dp-config/dpp-on-universal/)** - Configure proxies on VMs or bare metal
+- **[Transparent proxying](/docs/{{ page.release }}/production/dp-config/transparent-proxying/)** - Enable automatic traffic interception without code changes
+- **[Kuma CNI](/docs/{{ page.release }}/production/dp-config/cni/)** - Use CNI plugin for network configuration on Kubernetes
+- **[IPv6 support](/docs/{{ page.release }}/production/dp-config/ipv6/)** - Configure IPv6 networking
 
-### Control plane and data plane architecture
+## Secure your deployment
 
-Once `kumactl` is installed, you can use it to configure the control plane and deploy the data plane. The control plane (CP) is never on the execution path of the requests that the services exchange with each other. It’s used as a source of truth to dynamically configure the underlying data plane proxies that are deployed alongside every instance of every service that is part of the service mesh.
+Protect your mesh with authentication, authorization, and encryption:
 
-You can either configure a [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone/) or {% if_version gte:2.6.x %}[single-zone](/docs/{{ page.release }}/production/cp-deployment/single-zone/){% endif_version %}{% if_version lte:2.5.x %}[standalone](/docs/{{ page.release }}/production/cp-deployment/stand-alone/){% endif_version %} control plane, depending on your organization's needs. You can deploy either a [Kubernetes](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) or [Universal](/docs/{{ page.release }}/production/dp-config/dpp-on-universal/) data plane.
+- **[Secrets management](/docs/{{ page.release }}/production/secure-deployment/secrets/)** - Store and manage sensitive data like certificates and keys
+- **[API access control](/docs/{{ page.release }}/production/secure-deployment/api-access-control/)** - Control administrative access to the {{site.mesh_product_name}} API
+- **[API server authentication](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/)** - Configure authentication for the control plane API
+- **[Data plane proxy authentication](/docs/{{ page.release }}/production/secure-deployment/dp-auth/)** - Require proxies to authenticate before receiving configuration
+- **[Data plane proxy membership](/docs/{{ page.release }}/production/secure-deployment/dp-membership/)** - Restrict which proxies can join specific meshes
+- **[Certificates](/docs/{{ page.release }}/production/secure-deployment/certificates/)** - Manage TLS certificates for control plane and data plane communication
+{% if_version gte:2.11.x %}- **[Kubernetes RBAC](/docs/{{ page.release }}/production/secure-deployment/manage-control-plane-permissions-on-kubernetes/)** - Control plane permissions in Kubernetes environments
+{% endif_version %}
 
-### Security
+## Mesh configuration and multi-tenancy
 
-{{site.mesh_product_name}} offers many security features that you can use to ensure your service mesh is safe.
+Organize services and manage multiple teams:
 
-Here are a few of the main features:
+- **[Mesh resource configuration](/docs/{{ page.release }}/production/mesh/)** - Configure mesh resources and multi-tenancy
+- **[Using your mesh](/docs/{{ page.release }}/production/use-mesh/)** - Best practices for mesh usage in production
 
-* [Secure the access to your {{site.mesh_product_name}} deployment](/docs/{{ page.release }}/production/secure-deployment/certificates/)
-* [Store sensitive data with secrets](/docs/{{ page.release }}/production/secure-deployment/secrets/)
-* [Manage access control to administrative actions executed on the {{site.mesh_product_name}} API Server](/docs/{{ page.release }}/production/secure-deployment/api-access-control/)
-* [Require data plane proxy authentication to obtain a configuration from the control plane](/docs/{{ page.release }}/production/secure-deployment/dp-auth/)
-* [Require zone proxy authentication to obtain a configuration from the control plane](/docs/{{ page.release }}/production/cp-deployment/zoneproxy-auth/)
-* [Configure data plane proxy membership constraints when joining a mesh](/docs/{{ page.release }}/production/secure-deployment/dp-membership/)
+## Operations and maintenance
+
+Manage, monitor, and upgrade your deployment:
+
+- **[Upgrade {{site.mesh_product_name}}](/docs/{{ page.release }}/production/upgrades-tuning/upgrades/)** - Safely upgrade control and data planes
+- **[Version-specific upgrade notes](/docs/{{ page.release }}/production/upgrades-tuning/upgrade-notes/)** - Important changes and breaking updates per version
+- **[Performance fine-tuning](/docs/{{ page.release }}/production/upgrades-tuning/fine-tuning/)** - Optimize control plane and proxy performance
+- **[Kuma GUI](/docs/{{ page.release }}/production/gui/)** - Web interface for managing and observing your mesh
+- **[Inspect API](/docs/{{ page.release }}/explore/inspect-api/)** - Debug proxy configuration and policy application
+- **[Control plane configuration](/docs/{{ page.release }}/documentation/configuration/)** - Modify and inspect control plane settings
+
+## Tools and utilities
+
+Essential command-line tools:
+
+- **[kumactl CLI](/docs/{{ page.release }}/explore/cli/)** - Command-line interface for managing {{site.mesh_product_name}}
+- **[HTTP API reference](/docs/{{ page.release }}/reference/http-api/)** - Complete HTTP API for programmatic access
+
+## Next steps
+
+1. **Choose your topology**: Start with [deployment topologies](/docs/{{ page.release }}/production/deployment/) to decide between single-zone and multi-zone
+2. **Deploy control plane**: Follow [single-zone](/docs/{{ page.release }}/production/cp-deployment/single-zone/) or [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone/) guides
+3. **Configure data plane**: Set up proxies for [Kubernetes](/docs/{{ page.release }}/production/dp-config/dpp-on-kubernetes/) or [Universal](/docs/{{ page.release }}/production/dp-config/dpp-on-universal/)
+4. **Secure your mesh**: Enable [authentication](/docs/{{ page.release }}/production/secure-deployment/dp-auth/) and [access control](/docs/{{ page.release }}/production/secure-deployment/api-access-control/)

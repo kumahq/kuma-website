@@ -1,9 +1,16 @@
 ---
 title: Mesh Health Check
+description: Configure active health checks for data plane proxies using MeshHealthCheck, supporting HTTP, TCP, and gRPC protocols.
+keywords:
+  - health check
+  - active health check
+  - service health
+content_type: reference
+category: policy
 ---
 
 {% warning %}
-This policy uses new policy matching algorithm. 
+This policy uses new policy matching algorithm.
 Do **not** combine with [HealthCheck](/docs/{{ page.release }}/policies/health-check).
 {% endwarning %}
 
@@ -28,6 +35,7 @@ This mode generates extra traffic to other proxies and services as described in 
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -48,6 +56,7 @@ This mode generates extra traffic to other proxies and services as described in 
 {% endtab %}
 
 {% tab Builtin Gateway %}
+
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshGateway`, `MeshGateway` with listener `tags`|
@@ -56,6 +65,7 @@ This mode generates extra traffic to other proxies and services as described in 
 
 {% tab Delegated Gateway %}
 {% if_version lte:2.8.x %}
+
 | `targetRef`           | Allowed kinds                                            |
 | --------------------- | -------------------------------------------------------- |
 | `targetRef.kind`      | `Mesh`, `MeshSubset`, `MeshService`, `MeshServiceSubset` |
@@ -101,6 +111,7 @@ See [protocol fallback example](#protocol-fallback).
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -125,11 +136,13 @@ spec:
           path: /health
           expectedStatuses: [200, 201]
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -155,11 +168,13 @@ spec:
           path: /health
           expectedStatuses: [200, 201]
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -185,6 +200,7 @@ spec:
           path: /health
           expectedStatuses: [200, 201]
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -192,6 +208,7 @@ spec:
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -216,11 +233,13 @@ spec:
         http:
           disabled: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -246,11 +265,13 @@ spec:
         http:
           disabled: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -276,14 +297,15 @@ spec:
         http:
           disabled: true
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
-
 
 #### gRPC health check from cart to payment service
 
 {% if_version lte:2.8.x %}
 {% policy_yaml %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -307,11 +329,13 @@ spec:
         grpc:
           serviceName: "grpc.health.v1.CustomHealth"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -336,11 +360,13 @@ spec:
         grpc:
           serviceName: "grpc.health.v1.CustomHealth"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
 {% policy_yaml namespace=kuma-demo use_meshservice=true %}
+
 ```yaml
 type: MeshHealthCheck
 name: web-to-backend-check
@@ -365,6 +391,7 @@ spec:
         grpc:
           serviceName: "grpc.health.v1.CustomHealth"
 ```
+
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -450,6 +477,17 @@ HTTP health checks are executed using HTTP2
 - **`authority`** - (optional) - value of the :authority header in the gRPC health check request,
   by default name of the cluster this health check is associated with
 
+## See also
+
+- [MeshCircuitBreaker](/docs/{{ page.release }}/policies/meshcircuitbreaker) - Passive health checking via outlier detection
+- [MeshTimeout](/docs/{{ page.release }}/policies/meshtimeout) - Configure health check timeouts
+- [MeshRetry](/docs/{{ page.release }}/policies/meshretry) - Retry logic for health check failures
+
 ## All policy options
 
-{% json_schema MeshHealthChecks %}
+{% if_version gte:2.13.x %}
+{% schema_viewer MeshHealthChecks exclude.targetRef=tags,proxyTypes,mesh targetRef.kind=Mesh,Dataplane exclude.to.targetRef=tags,proxyTypes,mesh to.targetRef.kind=Mesh,MeshService,MeshMultiZoneService %}
+{% endif_version %}
+{% if_version lte:2.12.x %}
+{% schema_viewer MeshHealthChecks %}
+{% endif_version %}
