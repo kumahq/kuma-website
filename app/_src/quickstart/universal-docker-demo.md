@@ -23,8 +23,8 @@ keywords: universal, docker, quickstart
 {% assign tmp-colima = "/tmp/colima/" | append: kuma-demo %}
 
 {% capture edition %}{% if page.edition and page.edition != "kuma" %}/{{ page.edition }}{% endif %}{% endcapture %}
-{% assign url_installer = site.links.web | default: "<https://kuma.io>" | append: edition | append: "/installer.sh" %}
-{% assign url_installer_external = site.links.share | default: "<https://kuma.io>" | append: edition | append: "/installer.sh" %}
+{% assign url_installer = site.links.web | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
+{% assign url_installer_external = site.links.share | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
 
 {% capture MeshTrafficPermission %}[MeshTrafficPermission]({{ docs }}/policies/meshtrafficpermission/){% endcapture %}
 {% capture MeshGateway %}[MeshGateway]({{ docs }}//using-mesh/managing-ingress-traffic/builtin-listeners/){% endcapture %}
@@ -73,7 +73,6 @@ browser --> edge-gateway
 ## Prepare the environment
 
 {% if version == "preview" %}
-
 1. **Retrieve the latest preview version of {{ Kuma }}**
 
    To use the latest preview version of {{ Kuma }}, retrieve it and export it as an environment variable for later steps:
@@ -89,10 +88,9 @@ browser --> edge-gateway
 
    You should see output similar to this:
 
-   ```text
+   ```
    0.0.0-preview.vabc123def
    ```
-
    {:.no-line-numbers}
 
    {% capture warning-env-var %}
@@ -125,7 +123,7 @@ browser --> edge-gateway
 
    You should see output{% if version == "preview" %} like{% endif %}:
 
-   ```text
+   ```
    Client: {{ Kuma }} {% if version == "preview" %}0.0.0-preview.vabc123def{% else %}{{ version }}{% endif %}
    ```
 
@@ -156,8 +154,7 @@ browser --> edge-gateway
    mesh: default
    name: {% raw %}{{ name }}{% endraw %}{% if_version gte:2.10.x %}
    labels:
-     app: {% raw %}{{ name }}{% endraw %}
-     kuma.io/workload: {% raw %}{{ name }}{% endraw %}{% endif_version %}
+     app: {% raw %}{{ name }}{% endraw %}{% endif_version %}
    networking:
      address: {% raw %}{{ address }}{% endraw %}
      inbound:
@@ -167,7 +164,7 @@ browser --> edge-gateway
            kuma.io/protocol: http
      transparentProxying:
        redirectPortInbound: 15006
-       redirectPortOutbound: 15001' > "${{ KUMA_DEMO_TMP }}/dataplane.yaml"
+       redirectPortOutbound: 15001' > "${{ KUMA_DEMO_TMP }}/dataplane.yaml" 
    ```
 
    This template simplifies creating Dataplane configurations for different services by replacing dynamic values during deployment.
@@ -269,7 +266,6 @@ browser --> edge-gateway
 ## Set up services
 
 {% capture code-block-install-tools-create-user %}
-
 ```sh
 # install necessary packages
 apt-get update && \
@@ -285,7 +281,6 @@ mv {{ kuma }}-{{ version_full }}/bin/* /usr/local/bin/
 # create a dedicated user for the data plane proxy
 useradd --uid 5678 --user-group {{ kuma-data-plane-proxy }}
 ```
-
 {% endcapture %}
 {% capture warning-run-inside-container %}
 {%- capture warning-run-inside-container-msg -%}
@@ -317,7 +312,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
    ```sh
    kumactl generate dataplane-token \
-     --workload kv \
+     --tag kuma.io/service=kv \
      --valid-for 720h \
      > "${{ KUMA_DEMO_TMP }}/token-kv"
    ```
@@ -334,7 +329,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
      --volume "${{ KUMA_DEMO_TMP }}:/demo" \
      ghcr.io/kumahq/kuma-counter-demo:debian-slim
    ```
-
+   
    To confirm the container is running properly, check its logs:
 
    ```sh
@@ -354,13 +349,10 @@ This section explains how to start the `kv` service, which mimics key/value stor
    Enter the container for the remaining steps. Inside it, you’ll configure the zone name in the key-value store, start the data plane proxy, and install the transparent proxy.
 
    {% if version != "preview" %}
-
    ```sh
    docker exec --tty --interactive --privileged {{ kuma-demo }}-kv bash
    ```
-
    {% else %}
-
    ```sh
    docker exec \
      --tty \
@@ -369,7 +361,6 @@ This section explains how to start the `kv` service, which mimics key/value stor
      --env {{ KUMA_PREVIEW_VERSION }} \
      {{ kuma-demo }}-kv bash
    ```
-
    {% endif %}
 
    {{ warning-run-inside-container | indent }}
@@ -424,8 +415,8 @@ This section explains how to start the `kv` service, which mimics key/value stor
       ```
 
       You should see entries like:
-
-      ```text
+      
+      ```
       [2025-03-14 12:24:54.779][3088][info][config] [source/common/listener_manager/listener_manager_impl.cc:944] all dependencies initialized. starting workers
       [2025-03-14 12:24:59.595][3088][info][upstream] [source/common/upstream/cds_api_helper.cc:32] cds: add 8 cluster(s), remove 2 cluster(s)
       [2025-03-14 12:24:59.623][3088][info][upstream] [source/common/upstream/cds_api_helper.cc:71] cds: added/updated 1 cluster(s), skipped 7 unmodified cluster(s)
@@ -483,11 +474,12 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
 The steps are the same as those explained earlier, with only the names changed. We won’t repeat the explanations here, but you can refer to the [Key/Value Store service](#keyvalue-store) instructions if needed.
 
+
 1. **Generate a data plane token**
 
    ```sh
    kumactl generate dataplane-token \
-     --workload demo-app \
+     --tag kuma.io/service=demo-app \
      --valid-for 720h \
      > "${{ KUMA_DEMO_TMP }}/token-demo-app"
    ```
@@ -516,7 +508,7 @@ The steps are the same as those explained earlier, with only the names changed. 
 
    Look for log entries like:
 
-   ```text
+   ```
    time=2025-03-14T12:40:51.954Z level=INFO ... msg="starting handler with" kv-url=http://kv.svc.mesh.local:5050 version=v1
    time=2025-03-14T12:40:51.961Z level=INFO ... msg="server running" addr=:5050
    ```
@@ -528,19 +520,15 @@ The steps are the same as those explained earlier, with only the names changed. 
    Enter the container to install the data plane proxy and transparent proxy.
 
    {% if version == "preview" %}
-
    ```sh
    docker exec --tty --interactive --privileged \
      --env {{ KUMA_PREVIEW_VERSION }} \
      {{ kuma-demo }}-app bash
    ```
-
    {% else %}
-
    ```sh
    docker exec --tty --interactive --privileged {{ kuma-demo }}-app bash
    ```
-
    {% endif %}
 
    {{ warning-run-inside-container | indent }}
@@ -571,7 +559,7 @@ The steps are the same as those explained earlier, with only the names changed. 
 
       You should see logs similar to:
 
-      ```text
+      ```
       [2025-03-14 12:42:45.797][3090][info][config] [source/common/listener_manager/listener_manager_impl.cc:944] all dependencies initialized. starting workers
       [2025-03-14 12:42:48.159][3090][info][upstream] [source/common/upstream/cds_api_helper.cc:32] cds: add 9 cluster(s), remove 2 cluster(s)
       [2025-03-14 12:42:48.210][3090][info][upstream] [source/common/upstream/cds_api_helper.cc:71] cds: added/updated 1 cluster(s), skipped 8 unmodified cluster(s)
@@ -596,9 +584,9 @@ The steps are the same as those explained earlier, with only the names changed. 
       ```sh
       tail -n1 /demo/logs-transparent-proxy-install-demo-app.log
       ```
-
+      
       You should see a message containing:
-
+      
       ```sh
       # transparent proxy setup completed successfully
       ```
@@ -791,12 +779,11 @@ The built-in gateway works like the data plane proxy for a regular service, but 
 
    This route connects the gateway and its listener (`port: http-8080`) to the `demo-app` service. It forwards any requests with the path prefix `/` to `demo-app`.
 
-   After setting up this route, the gateway will try to send traffic to `demo-app`. However, if you test it by visiting <http://127.0.0.1:28080>, you'll see:
+   After setting up this route, the gateway will try to send traffic to `demo-app`. However, if you test it by visiting <http://127.0.0.1:28080>, you’ll see:
 
-   ```text
+   ```
    RBAC: access denied
    ```
-
    {:.no-line-numbers}
 
    This happens because there is no {{ MeshTrafficPermission }} policy allowing traffic from the gateway to `demo-app`. You’ll need to create one in the next step.
