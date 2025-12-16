@@ -751,6 +751,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
        type: BUILTIN
        tags:
          kuma.io/service: edge-gateway
+         kuma.io/workload: edge-gateway
      address: {{ ip_abc }}.4' > "${{ KUMA_DEMO_TMP }}/dataplane-edge-gateway.yaml"
    ```
 
@@ -816,6 +817,14 @@ The built-in gateway works like the data plane proxy for a regular service, but 
 
    You can test the gateway by visiting <http://127.0.0.1:28080>. You should see a message saying no routes match this {{ MeshGateway }}. This means the gateway is running, but no routes are set up yet to handle traffic.
 
+   Verify the `edge-gateway` {{ Workload }} was created:
+
+   ```sh
+   kumactl get workload edge-gateway -o yaml
+   ```
+
+   The status should show `1` connected, healthy, and total proxy for the gateway workload.
+
 5. **Create a route to connect the gateway to `demo-app`**
 
    To route traffic from the gateway to the service, create a {{ MeshHTTPRoute }} policy:
@@ -867,13 +876,12 @@ The built-in gateway works like the data plane proxy for a regular service, but 
        kind: Dataplane
        labels:
          app: demo-app
-     from:
-     - targetRef:
-         kind: MeshSubset
-         tags:
-           kuma.io/service: edge-gateway
-       default:
-         action: Allow' | kumactl apply -f -
+     rules:
+       - default:
+           allow:
+             - spiffeID:
+                 type: Exact
+                 value: "spiffe://default.mesh.local/workload/edge-gateway"' | kumactl apply -f -
    ```
 
    This policy allows traffic from the gateway to `demo-app`. After applying it, you can access <http://127.0.0.1:28080>, and the traffic will reach the `demo-app` service successfully.
