@@ -674,8 +674,8 @@ spec:
     dataplane:
       matchLabels: {}
   spiffeID:
-    trustDomain: "{{ .Mesh }}.mesh.local"
-    path: "/workload/{{ .Workload }}"
+    trustDomain: "{% raw %}{{ .Mesh }}{% endraw %}.mesh.local"
+    path: "/workload/{% raw %}{{ .Workload }}{% endraw %}"
   provider:
     type: Bundled
     bundled:
@@ -760,7 +760,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
 
    ```sh
    kumactl generate dataplane-token \
-     --tag kuma.io/workload=edge-gateway \
+     --tag kuma.io/service=edge-gateway \
      --valid-for 720h \
      > "${{ KUMA_DEMO_TMP }}/token-edge-gateway"
    ```
