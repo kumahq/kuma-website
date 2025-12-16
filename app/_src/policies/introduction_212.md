@@ -42,6 +42,7 @@ and how its schema is structured, {{site.mesh_product_name}} assigns it a **poli
 A policy’s role determines how it is synchronized in multizone deployments and how it is prioritized when multiple policies overlap.
 
 The table below introduces the policy roles and how to recognize them.
+
 | Policy Role    | Controls                                                                                              | Type by Schema                                                                                                       | Multizone Sync                                                                                 |
 |----------------|-------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
 | Producer       | Outbound behaviour of callers to my service (my clients’ egress toward me).                           | Has `spec.to`. Every `to[].targetRef.namespace`, if set, must equal `metadata.namespace`.                            | Defined in the app’s namespace on a Zone CP. Synced to Global, then propagated to other zones. |
@@ -61,8 +62,8 @@ The following policy tells {{site.mesh_product_name}} to apply **3 retries** wit
 on **5xx errors** to any client calling backend:
 
 ```yaml
-kind: MeshRetry
 apiVersion: kuma.io/v1alpha1
+kind: MeshRetry
 metadata:
   namespace: backend-ns # created in the backend's namespace
   name: backend-producer-timeouts
@@ -90,8 +91,8 @@ They are created in the client’s namespace and applied to that client’s outb
 This way, the service owner can fine-tune retries, timeouts, or other settings for the calls their workloads make.
 
 ```yaml
-kind: MeshRetry
 apiVersion: kuma.io/v1alpha1
+kind: MeshRetry
 metadata:
   namespace: frontend-ns # created in the namespace of a client
   name: backend-consumer-timeouts
@@ -110,7 +111,58 @@ spec:
 
 ### Workload-Owner Policies
 
+Workload-owner policies let **service owner configure their own workload's proxies**.
+They are created in the workload’s namespace and control how proxies handle inbound traffic,
+while also enabling various proxy-level features such as `MeshMetric`, `MeshProxyPatch`, and others.
+
+Schematically, workload-owner policies either have `spec.rules` (inbound rules):
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  namespace: backend-ns # created in the namespace of a server
+  name: backend-permissions
+spec:
+  targetRef:
+    kind: Dataplane
+    labels:
+      app: backend
+  rules:
+    - default:
+        deny:
+          - spiffeID:
+              type: Exact
+              value: spiffe://trust-domain.mesh/ns/default/sa/legacy
+        allow:
+          - spiffeID:
+              type: Prefix
+              value: spiffe://trust-domain.mesh/
+```
+
+or, `spec.default`:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+metadata:
+  name: otel-metrics-delegated
+  namespace: backend-ns
+spec:
+  default:
+    sidecar:
+      profiles:
+        appendProfiles:
+          - name: All
+    backends:
+      - type: OpenTelemetry
+        openTelemetry: 
+          endpoint: opentelemetry-collector.mesh-observability.svc:4317
+          refreshInterval: 30s
+```
+
 ### System Policies
+
+
 
 ## How Policies Are Combined
 
