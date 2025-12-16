@@ -505,9 +505,9 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
    For the `kv` service, you should see `1` for all three values, indicating a single healthy proxy is running.
 
-   {% tip %}
-   **Note:** Workload resources are fully managed by the control plane. They are automatically created when Dataplanes with `kuma.io/workload` labels connect and deleted when no matching Dataplanes exist. For more information, see the {{ Workload }} documentation.
-   {% endtip %}
+{% tip %}
+**Note:** Workload resources are fully managed by the control plane. They are automatically created when Dataplanes with `kuma.io/workload` labels connect and deleted when no matching Dataplanes exist. For more information, see the {{ Workload }} documentation.
+{% endtip %}
 
 ### Demo Application
 
