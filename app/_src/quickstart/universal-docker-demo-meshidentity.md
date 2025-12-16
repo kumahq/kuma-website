@@ -61,7 +61,7 @@ edge-gateway --> demo-app
 demo-app --> kv
 browser --> edge-gateway
 {% endmermaid %}
-<!-- vale Vale.Spelling = YES %}
+<!-- vale Vale.Spelling = YES -->
 
 ## Prerequisites
 
