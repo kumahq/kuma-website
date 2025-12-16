@@ -1,10 +1,10 @@
 ---
-title: Deploy Kuma on Universal with workload-based identity
-description: Run the service mesh in Universal mode using Docker containers with workload-based identity via MeshIdentity and Workload resources.
+title: Deploy Kuma on Universal
+description: Run the service mesh in Universal mode using Docker containers with a demo application, data plane proxies, and built-in gateway.
 keywords:
   - universal
-  - MeshIdentity
-  - Workload
+  - docker
+  - quickstart
 ---
 
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}
@@ -40,9 +40,9 @@ keywords:
 {% capture MeshIdentity %}[MeshIdentity]({{ docs }}/policies/meshidentity/){% endcapture %}
 {% capture Workload %}[Workload]({{ docs }}/resources/workload/){% endcapture %}
 
-This quick start guide demonstrates how to run {{ Kuma }} in Universal mode using Docker containers with workload-based identity management.
+This quick start guide demonstrates how to run {{ Kuma }} in Universal mode using Docker containers.
 
-You'll set up and secure a simple demo application using {{ MeshIdentity }} for SPIFFE-compliant workload identities and {{ Workload }} resources for health tracking. The application consists of two services:
+You'll set up and secure a simple demo application to explore how {{ Kuma }} works. The application consists of two services:
 
 - `demo-app`: A web application that lets you increment a numeric counter.
 - `kv`: A data store that keeps the counter's value.
@@ -657,13 +657,13 @@ The steps are the same as those explained earlier, with only the names changed. 
 
    The status should show `1` connected, healthy, and total proxy.
 
-## Introduction to workload-based identity with MeshIdentity
+## Introduction to zero-trust security
 
 By default, the network is **insecure and unencrypted**. With {{ Kuma }}, you can use {{ MeshIdentity }} to establish workload-based cryptographic identities using SPIFFE-compliant practices. {{ MeshIdentity }} separates identity issuance from trust establishment, providing secure mTLS between services while enabling flexible identity management.
 
-Unlike the simple mTLS approach, {{ MeshIdentity }} assigns SPIFFE IDs to workloads based on their `kuma.io/workload` label. This workload-based identity approach provides better security isolation and enables zero-downtime migration between identity providers.
+{{ MeshIdentity }} assigns SPIFFE IDs to workloads based on their `kuma.io/workload` label. This workload-based identity approach provides better security isolation and enables zero-downtime migration between identity providers.
 
-Configure {{ MeshIdentity }} with auto-generated certificates:
+To enable {{ MeshIdentity }} with auto-generated certificates, run the following command:
 
 ```sh
 echo 'type: MeshIdentity
@@ -695,15 +695,15 @@ This configuration:
 - Creates a {{ MeshTrust }} resource to establish trust relationships
 - Issues certificates valid for 24 hours
 
-After enabling {{ MeshIdentity }}, all traffic is **encrypted and secure** with workload-based identities. However, you can no longer access `demo-app` directly at <http://127.0.0.1:25050>. This happens for two reasons:
+After enabling {{ MeshIdentity }}, all traffic is **encrypted and secure**. However, you can no longer access the `demo-app` directly, meaning <http://127.0.0.1:25050> will no longer work. This happens for two reasons:
 
 <!-- vale Vale.Terms = NO -->
-1. {{ Kuma }} doesn't create traffic permissions by default. No traffic flows until you define {{ MeshTrafficPermission }} policies allowing communication between workloads.
+1. When {{ MeshIdentity }} is enabled, {{ Kuma }} doesn't create traffic permissions by default. This means no traffic will flow until you define a {{ MeshTrafficPermission }} policy to allow `demo-app` to communicate with `kv`.
 
-2. External clients (browsers, HTTP clients) lack valid TLS certificates signed by the {{ MeshIdentity }} Certificate Authority. Only services within the mesh with assigned SPIFFE identities can communicate.
+2. When you try to call `demo-app` using a browser or other HTTP client, you are essentially acting as an external client without a valid TLS certificate. Since all services are now required to present a certificate signed by the {{ MeshIdentity }} Certificate Authority, the connection is rejected. Only services within the `default` mesh, which are assigned valid certificates, can communicate with each other.
 <!-- vale Vale.Terms = YES -->
 
-Apply a {{ MeshTrafficPermission }} to allow `demo-app` to communicate with `kv`:
+To address the first issue, you need to apply an appropriate {{ MeshTrafficPermission }} policy:
 
 ```sh
 echo 'type: MeshTrafficPermission
@@ -722,13 +722,13 @@ spec:
               value: "spiffe://default.mesh.local/workload/demo-app"' | kumactl apply -f -
 ```
 
-To handle external traffic, you need a gateway proxy. You can use [Kong](https://github.com/Kong/kong) or the [Built-in Gateway]({{ docs }}/using-mesh/managing-ingress-traffic/builtin/) that {{ Kuma }} provides.
+The second issue is a bit more challenging. You can't just get the necessary certificate and set up your web browser to act as part of the mesh. To handle traffic from outside the mesh, you need a _gateway proxy_. You can use tools like [Kong](https://github.com/Kong/kong), or you can use the [Built-in Gateway]({{ docs }}/using-mesh/managing-ingress-traffic/builtin/) that {{ Kuma }} provides.
 
 {% tip %}
 **Note:** For more information, see the [Managing incoming traffic with gateways]({{ docs }}/using-mesh/managing-ingress-traffic/overview/) section in the documentation.
 {% endtip %}
 
-In this guide, we'll use the built-in gateway to manage external traffic securely while maintaining workload-based identities within the mesh.
+In this guide, we'll use the built-in gateway. It allows you to configure a data plane proxy to act as a gateway and manage external traffic securely.
 
 ## Setting up the built-in gateway
 
