@@ -162,11 +162,128 @@ spec:
 
 ### System Policies
 
+System policies provide **mesh-wide defaults and managed by platform operators**.
+Any policy can be a system policy as long as it's created either in the system namespace on the Zone Control Plane or on the Global Control Plane.
 
+## Referencing Dataplanes, Services and Routes Inside Policies
+
+{{site.mesh_product_name}} provides an API for cross-referencing policies and other resources called TargetRef, i.e.:
+
+```yaml
+targetRef:
+  kind: Dataplane
+  labels:
+    app: my-app
+```
+
+TargetRef appears in all policy definitions wherever policy configuration can be associated with resources such as `MeshService`, `MeshExternalService`, `Dataplane`, and others.
+
+TargetRef API follows the same principles regardless of the policy type or the referenced resource:
+
+1. `targetRef.kind` must always refer to a resource that exists in the cluster.
+2. A resource can be referenced either by `name` and `namespace` or by `labels`.
+3. Using `name` and `namespace` creates an unambiguous reference to a single resource, while using `labels` can match multiple resources.
+4. `targetRef.namespace` is optional and defaults to the namespace of the policy.
+5. System policies must always use `targetRef.labels`.
+6. When supported by the target resource, `sectionName` may reference a specific section rather than the entire resource (i.e `MeshService`, `MeshMultiZoneService`, `Dataplane`).
+7. `sectionName` is resolved by first matching a section name, and if no match is found, by interpreting it as a numeric port value, provided the port name is unset.
 
 ## How Policies Are Combined
 
-## Referencing Services and Routes Inside Policies
+A proxy can be targeted by multiple policies.
+To define how they are merged, the following strategy is used:
+
+We define a total order of policy priority. The table below defines the sorting order for resources in the cluster. 
+Sorting is applied sequentially by attribute, with ties broken using the next attribute in the list.
+
+|   | Attribute                                       | Order                                                                                                                                                                                                                            |
+|---|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | `spec.targetRef`                                | * `Mesh` (less priority)<br>* `MeshGateway`<br>* `Dataplane`<br>* `Dataplane` with `labels`<br>* `Dataplane` with `labels/sectionName`<br>* `Dataplane` with `name/namespace`<br>* `Dataplane` with `name/namespace/sectionName` |
+| 2 | Origin<br>Label `kuma.io/origin`                | * `global` (less priority)<br>* `zone`                                                                                                                                                                                           |
+| 3 | Policy Role<br>Label `kuma.io/policy-role`      | * `system` (less priority)<br>* `producer`<br>* `consumer`<br>* `workload-owner`                                                                                                                                                 |
+| 4 | Display Name<br>Label `kuma.io/display-name`    | Inverted lexicographical order, i.e;<br>* `zzzzz` (less priority)<br>* `aaaaa1`<br>* `aaaaa`<br>* `aaa`                                                                                                                          |
+
+For `to` and `rules` policies we concatenate the array for each matching policies.
+For `to` policies we sort concatenated arrays again based on the `spec.to[].targetRef` field:
+
+|   | Attribute             | Order                                                                                                                                   |
+|---|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | `spec.to[].targetRef` | * `Mesh` (less priority)<br>* `MeshService`<br>* `MeshService` with `sectionName`<br>* `MeshExternalService`<br>* `MeshMultiZoneService` |
+
+We then build configuration by merging each level using [JSON patch merge](https://www.rfc-editor.org/rfc/rfc7386).
+
+For example if I have 2 `default` ordered this way:
+
+```yaml
+default:
+  conf: 1
+  sub:
+    array: [ 1, 2, 3 ]
+    other: 50
+    other-array: [ 3, 4, 5 ]
+---
+default:
+  sub:
+    array: [ ]
+    other-array: [ 5, 6 ]
+    extra: 2
+```
+
+The merge result is:
+
+```yaml
+default:
+  conf: 1
+  sub:
+    array: [ ]
+    other: 50
+    other-array: [ 5, 6 ]
+    extra: 2
+```
 
 ## Metadata
 
+Metadata identifies the policies by its `name`, `type` and what `mesh` it's part of:
+
+{% tabs %}
+{% tab Kubernetes %}
+
+In Kubernetes all our policies are implemented as [custom resource definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) in the group `kuma.io/v1alpha1`.
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ExamplePolicy
+metadata:
+  name: my-policy-name
+  namespace: {{ site.mesh_namespace }}
+spec: ... # spec data specific to the policy kind
+```
+
+By default the policy is created in the `default` [mesh](/docs/{{ page.release }}/introduction/concepts#mesh).
+You can specify the [mesh](/docs/{{ page.release }}/introduction/concepts#mesh) by using the `kuma.io/mesh` label.
+
+For example:
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ExamplePolicy
+metadata:
+  name: my-policy-name
+  namespace: {{ site.mesh_namespace }}
+  labels:
+    kuma.io/mesh: "my-mesh"
+spec: ... # spec data specific to the policy kind
+```
+
+{% endtab %}
+{% tab Universal %}
+
+```yaml
+type: ExamplePolicy
+name: my-policy-name
+mesh: default
+spec: ... # spec data specific to the policy kind
+```
+
+{% endtab %}
+{% endtabs %}
