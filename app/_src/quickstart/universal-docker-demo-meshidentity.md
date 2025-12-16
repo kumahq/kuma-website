@@ -714,13 +714,12 @@ spec:
     kind: Dataplane
     labels:
       app: kv
-  from:
-  - targetRef:
-      kind: MeshSubset
-      tags:
-        kuma.io/service: demo-app
-    default:
-      action: Allow' | kumactl apply -f -
+  rules:
+    - default:
+        allow:
+          - spiffeID:
+              type: Exact
+              value: "spiffe://default.mesh.local/workload/demo-app"' | kumactl apply -f -
 ```
 
 To handle external traffic, you need a gateway proxy. You can use [Kong](https://github.com/Kong/kong) or the [Built-in Gateway]({{ docs }}/using-mesh/managing-ingress-traffic/builtin/) that {{ Kuma }} provides.
@@ -873,13 +872,12 @@ The built-in gateway works like the data plane proxy for a regular service, but 
        kind: Dataplane
        labels:
          app: demo-app
-     from:
-     - targetRef:
-         kind: MeshSubset
-         tags:
-           kuma.io/service: edge-gateway
-       default:
-         action: Allow' | kumactl apply -f -
+     rules:
+       - default:
+           allow:
+             - spiffeID:
+                 type: Exact
+                 value: "spiffe://default.mesh.local/workload/edge-gateway"' | kumactl apply -f -
    ```
 
    This policy allows traffic from the gateway to `demo-app`. After applying it, you can access <http://127.0.0.1:28080>, and the traffic will reach the `demo-app` service successfully.
