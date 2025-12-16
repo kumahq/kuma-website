@@ -78,6 +78,7 @@ browser --> edge-gateway
 ## Prepare the environment
 
 {% if version == "preview" %}
+
 1. **Retrieve the latest preview version of {{ Kuma }}**
 
    To use the latest preview version of {{ Kuma }}, retrieve it and export it as an environment variable for later steps:
@@ -93,9 +94,10 @@ browser --> edge-gateway
 
    You should see output similar to this:
 
-   ```
+   ```text
    0.0.0-preview.vabc123def
    ```
+
    {:.no-line-numbers}
 
    {% capture warning-env-var %}
@@ -128,7 +130,7 @@ browser --> edge-gateway
 
    You should see output{% if version == "preview" %} like{% endif %}:
 
-   ```
+   ```text
    Client: {{ Kuma }} {% if version == "preview" %}0.0.0-preview.vabc123def{% else %}{{ version }}{% endif %}
    ```
 
@@ -272,6 +274,7 @@ browser --> edge-gateway
 ## Set up services
 
 {% capture code-block-install-tools-create-user %}
+
 ```sh
 # install necessary packages
 apt-get update && \
@@ -287,6 +290,7 @@ mv {{ kuma }}-{{ version_full }}/bin/* /usr/local/bin/
 # create a dedicated user for the data plane proxy
 useradd --uid 5678 --user-group {{ kuma-data-plane-proxy }}
 ```
+
 {% endcapture %}
 {% capture warning-run-inside-container %}
 {%- capture warning-run-inside-container-msg -%}
