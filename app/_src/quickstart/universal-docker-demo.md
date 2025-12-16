@@ -317,7 +317,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
    ```sh
    kumactl generate dataplane-token \
-     --tag kuma.io/workload=kv \
+     --workload kv \
      --valid-for 720h \
      > "${{ KUMA_DEMO_TMP }}/token-kv"
    ```
@@ -487,7 +487,7 @@ The steps are the same as those explained earlier, with only the names changed. 
 
    ```sh
    kumactl generate dataplane-token \
-     --tag kuma.io/workload=demo-app \
+     --workload demo-app \
      --valid-for 720h \
      > "${{ KUMA_DEMO_TMP }}/token-demo-app"
    ```
