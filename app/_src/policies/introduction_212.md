@@ -14,7 +14,6 @@ Every policy follows the same pattern:
 
 For example, policy that configures timeouts:
 
-{% policy_yaml %}
 ```yaml
 type: MeshTimeout
 name: my-app-timeout
@@ -29,11 +28,12 @@ spec:
         kind: MeshService
         name: database
         namespace: database-ns
+        sectionName: "443"
+        _port: 443
       default: # Behaviour. Policy sets connection and idle timeouts
         connectionTimeout: 10s
         idleTimeout: 30m
 ```
-{% endpolicy_yaml %}
 
 ## Policy Roles
 
@@ -45,21 +45,23 @@ The table below introduces the policy roles and how to recognize them.
 
 | Policy Role    | Controls                                                                                              | Type by Schema                                                                                                       | Multizone Sync                                                                                 |
 |----------------|-------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| Producer       | Outbound behaviour of callers to my service (my clients’ egress toward me).                           | Has `spec.to`. Every `to[].targetRef.namespace`, if set, must equal `metadata.namespace`.                            | Defined in the app’s namespace on a Zone CP. Synced to Global, then propagated to other zones. |
-| Consumer       | Outbound behaviour of my service when calling others (my egress).                                     | Has `spec.to`. At least one `to[].targetRef.namespace` is different from `metadata.namespace`.                       | Defined in the app’s namespace on a Zone CP. Synced to Global.                                 |
-| Workload Owner | Configuration of my own proxy — inbound traffic handling and sidecar features (e.g. metrics, traces). | Either has `spec.rules`, or has neither `spec.rules` nor `spec.to` (only `spec.targetRef` + proxy/sidecar settings). | Defined in the app’s namespace on a Zone CP. Synced to Global.                                 |
+| Producer       | Outbound behaviour of callers to my service (my clients' egress toward me).                           | Has `spec.to`. Every `to[].targetRef.namespace`, if set, must equal `metadata.namespace`.                            | Defined in the app's namespace on a Zone CP. Synced to Global, then propagated to other zones. |
+| Consumer       | Outbound behaviour of my service when calling others (my egress).                                     | Has `spec.to`. At least one `to[].targetRef.namespace` is different from `metadata.namespace`.                       | Defined in the app's namespace on a Zone CP. Synced to Global.                                 |
+| Workload Owner | Configuration of my own proxy — inbound traffic handling and sidecar features (e.g. metrics, traces). | Either has `spec.rules`, or has neither `spec.rules` nor `spec.to` (only `spec.targetRef` + proxy/sidecar settings). | Defined in the app's namespace on a Zone CP. Synced to Global.                                 |
 | System         | Mesh-wide behaviour — can govern both inbound and outbound across services (operator-managed).        | Resource is created in the system namespace (e.g. `kuma-system`).                                                    | Created in the system namespace, either on a Zone CP or on the Global CP.                      |
+
+In summary: **Producer** policies let you configure how clients call you. **Consumer** policies let you configure how you call others. **Workload-owner** policies let you configure your own proxy's inbound and sidecar features. **System** policies let operators set mesh-wide defaults.
 
 ### Producer Policies
 
 Producer policies **allow service owners to define recommended client-side behavior for calls to their service**,
-by creating the policy in their service’s own namespace.
+by creating the policy in their service's own namespace.
 {{site.mesh_product_name}} then applies it automatically to the outbounds of client workloads.
 This lets backend owners publish sensible defaults (timeouts, retries, limits) for consumers,
-while individual clients can still refine those settings with their own [consumer](#consumer-policy) policies.
+while individual clients can still refine those settings with their own [consumer](#consumer-policies) policies.
 
 The following policy tells {{site.mesh_product_name}} to apply **3 retries** with a backoff of **15s–1m**
-on **5xx errors** to any client calling backend:
+on **5xx errors** to any client calling `backend`:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -105,17 +107,17 @@ spec:
         name: backend
         namespace: backend-ns # different namespace from the policy (consumer rule)
       default:
-        numRetries: 0 #
+        numRetries: 0
 ```
 
 
 ### Workload-Owner Policies
 
-Workload-owner policies let **service owner configure their own workload's proxies**.
+Workload-owner policies let **service owners configure their own workload's proxies**.
 They are created in the workload’s namespace and control how proxies handle inbound traffic,
 while also enabling various proxy-level features such as `MeshMetric`, `MeshProxyPatch`, and others.
 
-Schematically, workload-owner policies either have `spec.rules` (inbound rules):
+Workload-owner policies either have `spec.rules` for inbound traffic configuration:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -140,10 +142,11 @@ spec:
               value: spiffe://trust-domain.mesh/
 ```
 
-or, `spec.default`:
+Or only `spec.default` for proxy-level features like metrics and tracing:
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
+kind: MeshMetric
 metadata:
   name: otel-metrics-delegated
   namespace: backend-ns
@@ -155,19 +158,19 @@ spec:
           - name: All
     backends:
       - type: OpenTelemetry
-        openTelemetry: 
+        openTelemetry:
           endpoint: opentelemetry-collector.mesh-observability.svc:4317
           refreshInterval: 30s
 ```
 
 ### System Policies
 
-System policies provide **mesh-wide defaults and managed by platform operators**.
-Any policy can be a system policy as long as it's created either in the system namespace on the Zone Control Plane or on the Global Control Plane.
+System policies provide **mesh-wide defaults managed by platform operators**.
+Any policy can be a system policy as long as it's created in the system namespace ({{site.mesh_namespace}} by default) on either a Zone Control Plane or the Global Control Plane.
 
 ## Referencing Dataplanes, Services and Routes Inside Policies
-
-{{site.mesh_product_name}} provides an API for cross-referencing policies and other resources called TargetRef, i.e.:
+ 
+{{site.mesh_product_name}} provides an API for cross-referencing policies and other resources called `targetRef`:
 
 ```yaml
 targetRef:
@@ -176,25 +179,23 @@ targetRef:
     app: my-app
 ```
 
-TargetRef appears in all policy definitions wherever policy configuration can be associated with resources such as `MeshService`, `MeshExternalService`, `Dataplane`, and others.
+`targetRef` appears in all policy definitions wherever configuration needs to be associated with resources such as `MeshService`, `MeshExternalService`, `Dataplane`, and others.
 
-TargetRef API follows the same principles regardless of the policy type or the referenced resource:
+The `targetRef` API follows the same principles regardless of policy type:
 
-1. `targetRef.kind` must always refer to a resource that exists in the cluster.
-2. A resource can be referenced either by `name` and `namespace` or by `labels`.
-3. Using `name` and `namespace` creates an unambiguous reference to a single resource, while using `labels` can match multiple resources.
-4. `targetRef.namespace` is optional and defaults to the namespace of the policy.
-5. System policies must always use `targetRef.labels`.
-6. When supported by the target resource, `sectionName` may reference a specific section rather than the entire resource (i.e `MeshService`, `MeshMultiZoneService`, `Dataplane`).
-7. `sectionName` is resolved by first matching a section name, and if no match is found, by interpreting it as a numeric port value, provided the port name is unset.
+1. `targetRef.kind` must always refer to a resource that exists in the cluster
+2. A resource can be referenced either by `name` and `namespace` or by `labels`
+3. Using `name` and `namespace` creates an unambiguous reference to a single resource, while using `labels` can match multiple resources
+4. `targetRef.namespace` is optional and defaults to the namespace of the policy
+5. System policies must always use `targetRef.labels`
+6. When supported by the target resource, `sectionName` may reference a specific section rather than the entire resource (e.g., `MeshService`, `MeshMultiZoneService`, `Dataplane`)
+7. `sectionName` is resolved by first matching a section name, and if no match is found, by interpreting it as a numeric port value (provided the port name is unset)
 
 ## How Policies Are Combined
 
-A proxy can be targeted by multiple policies.
-To define how they are merged, the following strategy is used:
+When multiple policies target the same proxy, {{site.mesh_product_name}} merges them using a priority-based strategy.
 
-We define a total order of policy priority. The table below defines the sorting order for resources in the cluster. 
-Sorting is applied sequentially by attribute, with ties broken using the next attribute in the list.
+Policy priority is determined by a total ordering of attributes. The table below defines the sorting order, applied sequentially with ties broken by the next attribute in the list.
 
 |   | Attribute                                       | Order                                                                                                                                                                                                                            |
 |---|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -203,16 +204,16 @@ Sorting is applied sequentially by attribute, with ties broken using the next at
 | 3 | Policy Role<br>Label `kuma.io/policy-role`      | * `system` (less priority)<br>* `producer`<br>* `consumer`<br>* `workload-owner`                                                                                                                                                 |
 | 4 | Display Name<br>Label `kuma.io/display-name`    | Inverted lexicographical order, i.e;<br>* `zzzzz` (less priority)<br>* `aaaaa1`<br>* `aaaaa`<br>* `aaa`                                                                                                                          |
 
-For `to` and `rules` policies we concatenate the array for each matching policies.
-For `to` policies we sort concatenated arrays again based on the `spec.to[].targetRef` field:
+For policies with `to` or `rules`, matching policy arrays are concatenated.
+For `to` policies, the concatenated arrays are sorted again based on the `spec.to[].targetRef` field:
 
 |   | Attribute             | Order                                                                                                                                   |
 |---|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
 | 1 | `spec.to[].targetRef` | * `Mesh` (less priority)<br>* `MeshService`<br>* `MeshService` with `sectionName`<br>* `MeshExternalService`<br>* `MeshMultiZoneService` |
 
-We then build configuration by merging each level using [JSON patch merge](https://www.rfc-editor.org/rfc/rfc7386).
+Configuration is then built by merging each level using [JSON patch merge](https://www.rfc-editor.org/rfc/rfc7386).
 
-For example if I have 2 `default` ordered this way:
+For example, if you have 2 `default` configurations ordered this way:
 
 ```yaml
 default:
@@ -243,7 +244,7 @@ default:
 
 ## Metadata
 
-Metadata identifies the policies by its `name`, `type` and what `mesh` it's part of:
+Metadata identifies a policy by its `name`, `type`, and the `mesh` it belongs to:
 
 {% tabs %}
 {% tab Kubernetes %}
