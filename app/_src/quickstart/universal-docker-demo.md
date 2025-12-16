@@ -156,7 +156,8 @@ browser --> edge-gateway
    mesh: default
    name: {% raw %}{{ name }}{% endraw %}{% if_version gte:2.10.x %}
    labels:
-     app: {% raw %}{{ name }}{% endraw %}{% endif_version %}
+     app: {% raw %}{{ name }}{% endraw %}
+     kuma.io/workload: {% raw %}{{ name }}{% endraw %}{% endif_version %}
    networking:
      address: {% raw %}{{ address }}{% endraw %}
      inbound:
@@ -166,7 +167,7 @@ browser --> edge-gateway
            kuma.io/protocol: http
      transparentProxying:
        redirectPortInbound: 15006
-       redirectPortOutbound: 15001' > "${{ KUMA_DEMO_TMP }}/dataplane.yaml" 
+       redirectPortOutbound: 15001' > "${{ KUMA_DEMO_TMP }}/dataplane.yaml"
    ```
 
    This template simplifies creating Dataplane configurations for different services by replacing dynamic values during deployment.
