@@ -162,6 +162,7 @@ browser --> edge-gateway
    name: {% raw %}{{ name }}{% endraw %}
    labels:
      app: {% raw %}{{ name }}{% endraw %}
+     kuma.io/workload: {% raw %}{{ name }}{% endraw %}
    networking:
      address: {% raw %}{{ address }}{% endraw %}
      inbound:
@@ -169,7 +170,6 @@ browser --> edge-gateway
          tags:
            kuma.io/service: {% raw %}{{ name }}{% endraw %}
            kuma.io/protocol: http
-           kuma.io/workload: {% raw %}{{ name }}{% endraw %}
      transparentProxying:
        redirectPortInbound: 15006
        redirectPortOutbound: 15001' > "${{ KUMA_DEMO_TMP }}/dataplane.yaml"
@@ -320,7 +320,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
    ```sh
    kumactl generate dataplane-token \
-     --tag kuma.io/workload=kv \
+     --workload kuma.io/workload=kv \
      --valid-for 720h \
      > "${{ KUMA_DEMO_TMP }}/token-kv"
    ```
@@ -506,7 +506,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
    For the `kv` service, you should see `1` for all three values, indicating a single healthy proxy is running.
 
    {% tip %}
-   **Note:** {{ Workload }} resources are fully managed by the control plane. They are automatically created when Dataplanes with `kuma.io/workload` labels connect and deleted when no matching Dataplanes exist. For more information, see the {{ Workload }} documentation.
+   **Note:** Workload resources are fully managed by the control plane. They are automatically created when Dataplanes with `kuma.io/workload` labels connect and deleted when no matching Dataplanes exist. For more information, see the {{ Workload }} documentation.
    {% endtip %}
 
 ### Demo Application
@@ -517,7 +517,7 @@ The steps are the same as those explained earlier, with only the names changed. 
 
    ```sh
    kumactl generate dataplane-token \
-     --tag kuma.io/workload=demo-app \
+     --workload demo-app \
      --valid-for 720h \
      > "${{ KUMA_DEMO_TMP }}/token-demo-app"
    ```
@@ -746,12 +746,13 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    echo 'type: Dataplane
    mesh: default
    name: edge-gateway-instance-1
+   labels:
+     kuma.io/workload: edge-gateway
    networking:
      gateway:
        type: BUILTIN
        tags:
          kuma.io/service: edge-gateway
-         kuma.io/workload: edge-gateway
      address: {{ ip_abc }}.4' > "${{ KUMA_DEMO_TMP }}/dataplane-edge-gateway.yaml"
    ```
 
@@ -764,6 +765,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
    ```sh
    kumactl generate dataplane-token \
      --tag kuma.io/service=edge-gateway \
+     --workload edge-gateway \
      --valid-for 720h \
      > "${{ KUMA_DEMO_TMP }}/token-edge-gateway"
    ```
@@ -850,7 +852,8 @@ The built-in gateway works like the data plane proxy for a regular service, but 
          default:
            backendRefs:
            - kind: MeshService
-             name: demo-app' | kumactl apply -f -
+             name: demo-app
+             port: 5050' | kumactl apply -f -
    ```
 
    This route connects the gateway and its listener (`port: http-8080`) to the `demo-app` service. It forwards any requests with the path prefix `/` to `demo-app`.
