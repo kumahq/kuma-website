@@ -1,7 +1,10 @@
 ---
 title: Deploy Kuma on Universal with workload-based identity
 description: Run the service mesh in Universal mode using Docker containers with workload-based identity via MeshIdentity and Workload resources.
-keywords: universal, docker, quickstart, MeshIdentity, Workload, SPIFFE
+keywords:
+  - universal
+  - MeshIdentity
+  - Workload
 ---
 
 {% capture docs %}/docs/{{ page.release }}{% endcapture %}
@@ -23,8 +26,8 @@ keywords: universal, docker, quickstart, MeshIdentity, Workload, SPIFFE
 {% assign tmp-colima = "/tmp/colima/" | append: kuma-demo %}
 
 {% capture edition %}{% if page.edition and page.edition != "kuma" %}/{{ page.edition }}{% endif %}{% endcapture %}
-{% assign url_installer = site.links.web | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
-{% assign url_installer_external = site.links.share | default: "https://kuma.io" | append: edition | append: "/installer.sh" %}
+{% assign url_installer = site.links.web | default: "<https://kuma.io>" | append: edition | append: "/installer.sh" %}
+{% assign url_installer_external = site.links.share | default: "<https://kuma.io>" | append: edition | append: "/installer.sh" %}
 
 {% capture MeshTrafficPermission %}[MeshTrafficPermission]({{ docs }}/policies/meshtrafficpermission/){% endcapture %}
 {% capture MeshGateway %}[MeshGateway]({{ docs }}//using-mesh/managing-ingress-traffic/builtin-listeners/){% endcapture %}
@@ -303,9 +306,7 @@ useradd --uid 5678 --user-group {{ kuma-data-plane-proxy }}
 {% endwarning %}
 {% endcapture %}
 
-<!-- vale Google.Headings = NO -->
-### Key/Value Store
-<!-- vale Google.Headings = YES -->
+### Key/value store
 
 This section explains how to start the `kv` service, which mimics key/value store database.
 
@@ -352,10 +353,13 @@ This section explains how to start the `kv` service, which mimics key/value stor
    Enter the container for the remaining steps. Inside it, you'll configure the zone name in the key-value store, start the data plane proxy, and install the transparent proxy.
 
    {% if version != "preview" %}
+
    ```sh
    docker exec --tty --interactive --privileged {{ kuma-demo }}-kv bash
    ```
+
    {% else %}
+
    ```sh
    docker exec \
      --tty \
@@ -364,6 +368,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
      --env {{ KUMA_PREVIEW_VERSION }} \
      {{ kuma-demo }}-kv bash
    ```
+
    {% endif %}
 
    {{ warning-run-inside-container | indent }}
@@ -419,7 +424,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
       You should see entries like:
 
-      ```
+      ```txt
       [2025-03-14 12:24:54.779][3088][info][config] [source/common/listener_manager/listener_manager_impl.cc:944] all dependencies initialized. starting workers
       [2025-03-14 12:24:59.595][3088][info][upstream] [source/common/upstream/cds_api_helper.cc:32] cds: add 8 cluster(s), remove 2 cluster(s)
       [2025-03-14 12:24:59.623][3088][info][upstream] [source/common/upstream/cds_api_helper.cc:71] cds: added/updated 1 cluster(s), skipped 7 unmodified cluster(s)
@@ -497,13 +502,12 @@ This section explains how to start the `kv` service, which mimics key/value stor
    For the `kv` service, you should see `1` for all three values, indicating a single healthy proxy is running.
 
    {% tip %}
-   **Note:** {{ Workload }} resources are fully managed by the control plane. They are automatically created when dataplanes with `kuma.io/workload` labels connect and deleted when no matching dataplanes exist. For more information, see the {{ Workload }} documentation.
+   **Note:** {{ Workload }} resources are fully managed by the control plane. They are automatically created when Dataplanes with `kuma.io/workload` labels connect and deleted when no matching Dataplanes exist. For more information, see the {{ Workload }} documentation.
    {% endtip %}
 
 ### Demo Application
 
-The steps are the same as those explained earlier, with only the names changed. We won't repeat the explanations here, but you can refer to the [Key/Value Store service](#keyvalue-store) instructions if needed.
-
+The steps are the same as those explained earlier, with only the names changed. We won't repeat the explanations here, but you can refer to the [Key/value store service](#keyvalue-store) instructions if needed.
 
 1. **Generate a data plane token**
 
@@ -538,7 +542,7 @@ The steps are the same as those explained earlier, with only the names changed. 
 
    Look for log entries like:
 
-   ```
+   ```txt
    time=2025-03-14T12:40:51.954Z level=INFO ... msg="starting handler with" kv-url=http://kv.svc.mesh.local:5050 version=v1
    time=2025-03-14T12:40:51.961Z level=INFO ... msg="server running" addr=:5050
    ```
@@ -550,15 +554,19 @@ The steps are the same as those explained earlier, with only the names changed. 
    Enter the container to install the data plane proxy and transparent proxy.
 
    {% if version == "preview" %}
+
    ```sh
    docker exec --tty --interactive --privileged \
      --env {{ KUMA_PREVIEW_VERSION }} \
      {{ kuma-demo }}-app bash
    ```
+
    {% else %}
+
    ```sh
    docker exec --tty --interactive --privileged {{ kuma-demo }}-app bash
    ```
+
    {% endif %}
 
    {{ warning-run-inside-container | indent }}
@@ -589,7 +597,7 @@ The steps are the same as those explained earlier, with only the names changed. 
 
       You should see logs similar to:
 
-      ```
+      ```txt
       [2025-03-14 12:42:45.797][3090][info][config] [source/common/listener_manager/listener_manager_impl.cc:944] all dependencies initialized. starting workers
       [2025-03-14 12:42:48.159][3090][info][upstream] [source/common/upstream/cds_api_helper.cc:32] cds: add 9 cluster(s), remove 2 cluster(s)
       [2025-03-14 12:42:48.210][3090][info][upstream] [source/common/upstream/cds_api_helper.cc:71] cds: added/updated 1 cluster(s), skipped 8 unmodified cluster(s)
@@ -680,8 +688,9 @@ spec:
 ```
 
 This configuration:
-- Applies to all dataplanes (`matchLabels: {}`)
-- Generates SPIFFE IDs using the workload identifier (e.g., `spiffe://default.mesh.local/workload/kv`)
+
+- Applies to all Dataplanes (`matchLabels: {}`)
+- Generates SPIFFE IDs using the workload identifier (for example, `spiffe://default.mesh.local/workload/kv`)
 - Auto-generates a Certificate Authority for certificate issuance
 - Creates a {{ MeshTrust }} resource to establish trust relationships
 - Issues certificates valid for 24 hours
@@ -722,7 +731,7 @@ To handle external traffic, you need a gateway proxy. You can use [Kong](https:/
 
 In this guide, we'll use the built-in gateway to manage external traffic securely while maintaining workload-based identities within the mesh.
 
-### Setting up the built-in gateway
+## Setting up the built-in gateway
 
 The built-in gateway works like the data plane proxy for a regular service, but it requires its own configuration. Here's how to set it up step by step.
 
@@ -845,10 +854,9 @@ The built-in gateway works like the data plane proxy for a regular service, but 
 
    After setting up this route, the gateway will try to send traffic to `demo-app`. However, if you test it by visiting <http://127.0.0.1:28080>, you'll see:
 
-   ```
+   ```txt
    RBAC: access denied
    ```
-   {:.no-line-numbers}
 
    This happens because there is no {{ MeshTrafficPermission }} policy allowing traffic from the gateway to `demo-app`. You'll need to create one in the next step.
 
