@@ -71,9 +71,19 @@ The following tags are added automatically and cannot be overridden using Pod la
 * `k8s.kuma.io/service-port`: Identifies the port of Kubernetes Service that selects the Pod. Example: `80`.
 
 {% tip %}
-- If a Kubernetes service exposes more than 1 port, multiple inbounds will be generated all with different `kuma.io/service`.
-- If a pod is attached to more than one Kubernetes service, multiple inbounds will also be generated. 
+
+* If a Kubernetes service exposes more than 1 port, multiple inbounds will be generated all with different `kuma.io/service`.
+* If a pod is attached to more than one Kubernetes service, multiple inbounds will also be generated.
+
 {% endtip %}
+
+{% if_version gte:2.13.x %}
+{% warning %}
+**namespace-mesh constraint:** All pods in a Kubernetes namespace should belong to the same mesh to ensure proper [Workload](/docs/{{ page.release }}/resources/workload) resource generation. A single namespace cannot contain pods in multiple meshes because Workload resources are mesh-scoped and use the `app.kubernetes.io/name` label, which can cause resource collisions.
+
+If {{site.mesh_product_name}} detects pods in multiple meshes within the same namespace, it skips Workload generation and emits a warning event. For more details, see the [namespace-mesh constraint documentation](/docs/{{ page.release }}/production/mesh#data-plane-proxies).
+{% endwarning %}
+{% endif_version %}
 
 ### Example
 
@@ -230,6 +240,7 @@ spec:
             exec:
               command: ["/bin/sleep", "15"]
 ```
+
 {% endif_version %}
 
 ### Joining the mesh
@@ -279,15 +290,18 @@ In this scenario, using the init container is simply impossible
 because `kuma-dp` is responsible for encrypting the traffic and only runs after all init containers have exited.
 
 {% if_version gte:2.4.x %}
+
 ### Waiting for the Dataplane to be ready
 
 By default, containers start in arbitrary order, so an app container can start even though the sidecar container might not be ready to receive traffic.
 
-Making initial requests, such as connecting to a database, can fail for a brief period after the pod starts. 
+Making initial requests, such as connecting to a database, can fail for a brief period after the pod starts.
 
 To mitigate this problem try setting
+
 * `runtime.kubernetes.injector.sidecarContainer.waitForDataplaneReady` to `true`, or
 * <!-- vale off -->[kuma.io/wait-for-dataplane-ready](/docs/{{ page.release }}/reference/kubernetes-annotations/#kumaiowait-for-dataplane-ready)<!-- vale on --> annotation to `true`
+
 so that the app container waits for the Dataplane container to be ready to serve traffic.
 
 {% warning %}
@@ -318,6 +332,7 @@ While draining, Envoy can still accept connections, however:
 You can read the [Kubernetes docs](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination) to learn how Kubernetes handles the `Pod` lifecycle. Here is the summary including the parts relevant for {{site.mesh_product_name}}.
 
 Whenever a user or system deletes a `Pod`, Kubernetes does the following:
+
 1. It marks the `Pod` as terminated.
 1. For every container concurrently it:
     1. Executes any <!-- vale off -->pre<!-- vale on --> stop hook if defined.
@@ -332,8 +347,10 @@ This can take a couple of seconds depending on the size of the mesh, resources a
 If the application served by the {{site.mesh_product_name}} sidecar quits immediately after the SIGTERM signal, there is a high chance that clients will still try to send traffic to this destination.
 
 To mitigate this, we need to either
+
 * Support graceful shutdown in the application. For example, the application should wait X seconds to exit after receiving the first SIGTERM signal.
 * Add a pre-stop hook to postpone stopping the application container. Example:
+
   ```yaml
   apiVersion: apps/v1
   kind: Deployment
@@ -446,21 +463,21 @@ securityContext:
   runAsNonRoot: true
 ```
 
-Resources `requests cpu` will be changed from: 
+Resources `requests cpu` will be changed from:
 
 ```yaml
 requests:
   cpu: 50m
 ```
 
-to: 
+to:
 
 ```yaml
 requests:
   cpu: 100m
 ```
 
-Resources `limits` will be changed from: 
+Resources `limits` will be changed from:
 
 ```yaml
 limits:
@@ -468,7 +485,7 @@ limits:
   memory: 512Mi
 ```
 
-to: 
+to:
 
 ```yaml
 limits:
@@ -509,7 +526,7 @@ spec:
     spec: [...]
 ```
 
-### Default patches 
+### Default patches
 
 You can configure `kuma-cp` to apply the list of default patches for workloads
 which don't specify their own patches by modifying the `containerPatches` value
@@ -527,7 +544,7 @@ runtime:
 {% tip %}
 If you specify the list of default patches (i.e. `["default-patch-1", "default-patch-2]`)
 but your workload will be annotated with its own list of patches (i.e.
-`["pod-patch-1", "pod-patch-2]`) only the latter will be applied. 
+`["pod-patch-1", "pod-patch-2]`) only the latter will be applied.
 {% endtip %}
 
 To install a CP with <!-- vale off -->env<!-- vale on --> vars you can do:

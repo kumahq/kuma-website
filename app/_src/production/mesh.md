@@ -12,7 +12,7 @@ This resource describes a very important concept in {{site.mesh_product_name}}, 
 
 Typically, we would want to create a `Mesh` per line of business, per team, per application or per environment or for any other reason. Typically multiple meshes are being created so that a service mesh can be adopted by an organization with a gradual roll-out that doesn't require all the teams and their applications to coordinate with each other, or as an extra layer of security and segmentation for our services so that - for example - policies applied to one `Mesh` do not affect another `Mesh`.
 
-`Mesh` is the parent resource of every other resource in {{site.mesh_product_name}}, including: 
+`Mesh` is the parent resource of every other resource in {{site.mesh_product_name}}, including:
 
 * [Data plane proxies](/docs/{{ page.release }}/production/dp-config/dpp/)
 * [Policies](/docs/{{ page.release }}/policies)
@@ -39,7 +39,7 @@ To support cross-mesh communication an intermediate API Gateway must be used. {{
 {% tip %}
 Previously, observability and locality awareness were configured within the `Mesh` object.
 
-However, for enhanced flexibility and granular control, these configurations have been extracted into separate policies: 
+However, for enhanced flexibility and granular control, these configurations have been extracted into separate policies:
 [`MeshAccessLog`](/docs/{{ page.release }}/policies/meshaccesslog), [`MeshTrace`](/docs/{{ page.release }}/policies/meshtrace) and [`MeshMetric`](/docs/{{ page.release }}/policies/meshmetric) for observability, and [`MeshLoadBalancingStrategy`](/docs/{{ page.release }}/policies/meshloadbalancingstrategy) for locality awareness.
 
 This separation allows for more fine-grained adjustments of each aspect, ensuring that observability and locality awareness are tailored to specific requirements.
@@ -52,19 +52,23 @@ The easiest way to create a `Mesh` is to specify its `name`. The name of a Mesh 
 
 {% tabs %}
 {% tab Kubernetes %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata:
   name: default
 ```
+
 We will apply the configuration with `kubectl apply -f [..]`.
 {% endtab %}
 {% tab Universal %}
+
 ```yaml
 type: Mesh
 name: default
 ```
+
 We will apply the configuration with `kumactl apply -f [..]` or via the [HTTP API](/docs/{{ page.release }}/reference/http-api).
 {% endtab %}
 {% endtabs %}
@@ -103,6 +107,22 @@ spec:
 A `Mesh` may span multiple Kubernetes namespaces. Any {{site.mesh_product_name}} resource in the cluster which
 specifies a particular `Mesh` will be part of that `Mesh`.
 
+{% if_version gte:2.13.x %}
+{% warning %}
+**namespace-mesh constraint:** A single Kubernetes namespace cannot contain pods in multiple meshes. This limitation exists because [Workload](/docs/{{ page.release }}/resources/workload) resources are mesh-scoped and generated from the `app.kubernetes.io/name` label, which can cause resource collisions when the same workload name is used across different meshes in the same namespace.
+
+When {{site.mesh_product_name}} detects multiple meshes in a single namespace, it:
+
+* Emits a Kubernetes warning event on the namespace
+* Skips Workload resource generation for affected workloads
+* Logs an error message
+
+To prevent this configuration issue proactively, you can enable the runtime flag [`runtime.kubernetes.disallowMultipleMeshesPerNamespace`](/docs/{{ page.release }}/reference/kuma-cp) (disabled by default). When enabled, the admission webhook rejects pod creation or updates if the namespace already contains Dataplanes in a different mesh.
+
+**Best practice:** Keep all pods in a single namespace within the same mesh.
+{% endwarning %}
+{% endif_version %}
+
 {% endtab %}
 {% tab Universal %}
 
@@ -115,6 +135,7 @@ kuma-dp run \
   --cp-address=https://127.0.0.1:5678 \
   --dataplane-token-file=/tmp/kuma-dp-backend-1-token
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -160,12 +181,14 @@ spec:
 {% endtab %}
 {% tab Universal %}
 By using the `mesh` property, like:
+
 ```yaml
 type: TrafficRoute
 name: route-1
 mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the resource belongs to
 ...
 ```
+
 {% endtab %}
 {% endtabs %}
 {% endif_version %}
@@ -190,12 +213,14 @@ spec:
 {% endtab %}
 {% tab Universal %}
 By using the `mesh` property, like:
+
 ```yaml
 type: MeshHTTPRoute
 name: route-1
 mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the resource belongs to
 ...
 ```
+
 {% endtab %}
 {% endtabs %}
 {% endif_version %}
@@ -205,6 +230,7 @@ mesh: default # indicate to {{site.mesh_product_name}} what is the Mesh that the
 By default, to help users get started we create the following default policies:
 
 {% policy_yaml %}
+
 ```yaml
 type: MeshTimeout
 mesh: default
@@ -297,12 +323,14 @@ spec:
           maxRetries: 3
           maxRequests: 1024
 ```
+
 {% endpolicy_yaml %}
 
 If you want to not have these policies be added on creation of the mesh set the configuration: `skipCreatingInitialPolicies`:
 
 {% tabs %}
 {% tab Kubernetes %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -311,13 +339,16 @@ metadata:
 spec:
   skipCreatingInitialPolicies: ['*']
 ```
+
 {% endtab %}
 {% tab Universal %}
+
 ```yaml
 type: Mesh
 name: default
 skipCreatingInitialPolicies: ['*']
 ```
+
 {% endtab %}
 {% endtabs %}
 
