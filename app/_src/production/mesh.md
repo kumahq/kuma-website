@@ -352,7 +352,7 @@ skipCreatingInitialPolicies: ['*']
 {% endtab %}
 {% endtabs %}
 
-You can also skip creating the default mesh by setting the control-plane configuration: `KUMA_DEFAULTS_SKIP_MESH_CREATION=true`.
+You can also skip creating the default mesh by setting the control plane configuration: `KUMA_DEFAULTS_SKIP_MESH_CREATION=true`.
 
 ## All options
 

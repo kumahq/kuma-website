@@ -242,7 +242,7 @@ The `kuma.io/workload` label on data plane proxies must match exactly with the W
 
 - **Single mesh:** All data plane proxies referencing a workload must belong to the same mesh. On Kubernetes, this is enforced at the namespace level—a single namespace cannot contain pods in multiple meshes. When this constraint is violated, {{site.mesh_product_name}} skips Workload generation and emits a warning event.
 - **Automatic lifecycle:** Cannot be manually created or modified. The resource is fully managed by the control plane.
-- **Runtime enforcement:** To proactively prevent multi-mesh namespaces, enable the [`runtime.kubernetes.disallowMultipleMeshesPerNamespace`](/docs/{{ page.release }}/reference/kuma-cp) flag. When enabled, the admission webhook rejects pod creation or updates if the namespace already contains Dataplanes in a different mesh.
+- **runtime enforcement:** To proactively prevent multi-mesh namespaces, enable the [`runtime.kubernetes.disallowMultipleMeshesPerNamespace`](/docs/{{ page.release }}/reference/kuma-cp) flag. When enabled, the admission webhook rejects pod creation or updates if the namespace already contains Dataplanes in a different mesh.
 
 ## Troubleshooting
 
