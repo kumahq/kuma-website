@@ -30,7 +30,7 @@ keywords:
 {% assign url_installer_external = site.links.share | default: "<https://kuma.io>" | append: edition | append: "/installer.sh" %}
 
 {% capture MeshTrafficPermission %}[MeshTrafficPermission]({{ docs }}/policies/meshtrafficpermission/){% endcapture %}
-{% capture MeshGateway %}[MeshGateway]({{ docs }}//using-mesh/managing-ingress-traffic/builtin-listeners/){% endcapture %}
+{% capture MeshGateway %}[MeshGateway]({{ docs }}/using-mesh/managing-ingress-traffic/builtin-listeners/){% endcapture %}
 {% capture MeshHTTPRoute %}[MeshHTTPRoute]({{ docs }}/policies/meshhttproute/){% endcapture %}
 {% capture MeshTCPRoute %}[MeshTCPRoute]({{ docs }}/policies/meshtcproute/){% endcapture %}
 {% capture kumactl %}[kumactl]({{ docs }}/explore/cli/#kumactl){% endcapture %}
@@ -312,7 +312,7 @@ useradd --uid 5678 --user-group {{ kuma-data-plane-proxy }}
 
 ### Key/value store
 
-This section explains how to start the `kv` service, which mimics key/value store database.
+This section explains how to start the `kv` service, which mimics a key/value store database.
 
 1. **Generate a data plane token**
 
@@ -320,7 +320,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
 
    ```sh
    kumactl generate dataplane-token \
-     --workload kuma.io/workload=kv \
+     --workload kv \
      --valid-for 720h \
      > "${{ KUMA_DEMO_TMP }}/token-kv"
    ```
@@ -420,7 +420,7 @@ This section explains how to start the `kv` service, which mimics key/value stor
           > /demo/logs-data-plane-proxy-kv.log 2>&1 &
       ```
 
-      To verify the data plane proxy is running, after few seconds check the logs:
+      To verify the data plane proxy is running, after a few seconds check the logs:
 
       ```sh
       tail /demo/logs-data-plane-proxy-kv.log
@@ -595,7 +595,7 @@ The steps are the same as those explained earlier, with only the names changed. 
           > /demo/logs-data-plane-proxy-demo-app.log 2>&1 &
       ```
 
-      To verify the proxy is running, after few seconds check its logs:
+      To verify the proxy is running, after a few seconds check its logs:
 
       ```sh
       tail /demo/logs-data-plane-proxy-demo-app.log
