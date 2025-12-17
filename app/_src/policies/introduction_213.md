@@ -13,9 +13,9 @@ They're the main way to enable features like mTLS, traffic permissions, retries,
 
 Every policy follows the same pattern:
 
-* **Target** – which workloads the policy applies to (`targetRef`)
-* **Direction** – whether it controls outbounds (`to`) or inbounds (`rules`)
-* **Behaviour** – the actual configuration (`default`) applied to the traffic
+* **Target**–which workloads the policy applies to (`targetRef`)
+* **Direction**–whether it controls outbounds (`to`) or inbounds (`rules`)
+* **Behaviour**–the actual configuration (`default`) applied to the traffic
 
 For example, policy that configures timeouts:
 
@@ -40,7 +40,7 @@ spec:
         idleTimeout: 30m
 ```
 
-## Policy Roles
+## Policy roles
 
 Depending on where a policy is created (in an application namespace, the system namespace, or on the global control plane)
 and how its schema is structured, {{site.mesh_product_name}} assigns it a **policy role**.
@@ -52,12 +52,12 @@ The table below introduces the policy roles and how to recognize them.
 |----------------|-------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
 | Producer       | Outbound behaviour of callers to my service (my clients' egress toward me).                           | Has `spec.to`. Every `to[].targetRef.namespace`, if set, must equal `metadata.namespace`.                            | Defined in the app's namespace on a Zone CP. Synced to Global, then propagated to other zones. |
 | Consumer       | Outbound behaviour of my service when calling others (my egress).                                     | Has `spec.to`. At least one `to[].targetRef.namespace` is different from `metadata.namespace`.                       | Defined in the app's namespace on a Zone CP. Synced to Global.                                 |
-| Workload Owner | Configuration of my own proxy — inbound traffic handling and sidecar features (e.g. metrics, traces). | Either has `spec.rules`, or has neither `spec.rules` nor `spec.to` (only `spec.targetRef` + proxy/sidecar settings). | Defined in the app's namespace on a Zone CP. Synced to Global.                                 |
-| System         | Mesh-wide behaviour — can govern both inbound and outbound across services (operator-managed).        | Resource is created in the system namespace (e.g. `kuma-system`).                                                    | Created in the system namespace, either on a Zone CP or on the Global CP.                      |
+| Workload Owner | Configuration of my own proxy—inbound traffic handling and sidecar features (for example metrics, traces). | Either has `spec.rules`, or has neither `spec.rules` nor `spec.to` (only `spec.targetRef` + proxy/sidecar settings). | Defined in the app's namespace on a Zone CP. Synced to Global.                                 |
+| System         | Mesh-wide behaviour—can govern both inbound and outbound across services (operator-managed).        | Resource is created in the system namespace (e.g. `kuma-system`).                                                    | Created in the system namespace, either on a Zone CP or on the Global CP.                      |
 
 In summary: **Producer** policies let you configure how clients call you. **Consumer** policies let you configure how you call others. **Workload-owner** policies let you configure your own proxy's inbound and sidecar features. **System** policies let operators set mesh-wide defaults.
 
-### Producer Policies
+### Producer policies
 
 Producer policies **allow service owners to define recommended client-side behavior for calls to their service**,
 by creating the policy in their service's own namespace.
@@ -65,7 +65,7 @@ by creating the policy in their service's own namespace.
 This lets backend owners publish sensible defaults (timeouts, retries, limits) for consumers,
 while individual clients can still refine those settings with their own [consumer](#consumer-policies) policies.
 
-The following policy tells {{site.mesh_product_name}} to apply **3 retries** with a backoff of **15s–1m**
+The following policy tells {{site.mesh_product_name}} to apply **3 retries** with a back off of **15s to 1m**
 on **5xx errors** to any client calling `backend`:
 
 ```yaml
@@ -91,7 +91,7 @@ spec:
           - 5xx
 ```
 
-### Consumer Policies
+### Consumer policies
 
 Consumer policies let **service owners adjust how their workloads call other services**.
 They are created in the client’s namespace and applied to that client’s outbounds.
@@ -116,7 +116,7 @@ spec:
 ```
 
 
-### Workload-Owner Policies
+### Workload-owner policies
 
 Workload-owner policies let **service owners configure their own workload's proxies**.
 They are created in the workload’s namespace and control how proxies handle inbound traffic,
@@ -168,12 +168,12 @@ spec:
           refreshInterval: 30s
 ```
 
-### System Policies
+### System policies
 
 System policies provide **mesh-wide defaults managed by platform operators**.
 Any policy can be a system policy as long as it's created in the system namespace ({{site.mesh_namespace}} by default) on either a Zone Control Plane or the Global Control Plane.
 
-## Referencing Dataplanes, Services and Routes Inside Policies
+## Referencing dataplanes, services and routes inside policies
  
 {{site.mesh_product_name}} provides an API for cross-referencing policies and other resources called `targetRef`:
 
@@ -193,7 +193,7 @@ The `targetRef` API follows the same principles regardless of policy type:
 3. Using `name` and `namespace` creates an unambiguous reference to a single resource, while using `labels` can match multiple resources
 4. `targetRef.namespace` is optional and defaults to the namespace of the policy
 5. System policies must always use `targetRef.labels`
-6. When supported by the target resource, `sectionName` may reference a specific section rather than the entire resource (e.g., `MeshService`, `MeshMultiZoneService`, `Dataplane`)
+6. When supported by the target resource, `sectionName` may reference a specific section rather than the entire resource (for example, `MeshService`, `MeshMultiZoneService`, `Dataplane`)
 7. `sectionName` is resolved by first matching a section name, and if no match is found, by interpreting it as a numeric port value (provided the port name is unset)
 
 The set of valid `targetRef.kind` values is the same across all policies and is summarized in the table below:
@@ -203,7 +203,7 @@ The set of valid `targetRef.kind` values is the same across all policies and is 
 | `spec.targetRef`      | * `Mesh`<br>* `Dataplane`                                                                                                            |
 | `spec.to[].targetRef` | * `MeshService`<br>* `MeshMultiZoneService`<br>* `MeshExternalService`<br>* `MeshHTTPRoute` (if policy supports per-route configuration) |
 
-## How Policies Are Combined
+## How policies are combined
 
 When multiple policies target the same proxy, {{site.mesh_product_name}} merges them using a priority-based strategy.
 
