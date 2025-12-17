@@ -766,7 +766,6 @@ The built-in gateway works like the data plane proxy for a regular service, but 
 
    ```sh
    kumactl generate dataplane-token \
-     --tag kuma.io/service=edge-gateway \
      --workload edge-gateway \
      --valid-for 720h \
      > "${{ KUMA_DEMO_TMP }}/token-edge-gateway"
