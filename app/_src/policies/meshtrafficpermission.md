@@ -30,7 +30,9 @@ The `MeshTrafficPermission` policy provides access control within the [Mesh](/do
 It allows you to define granular rules about which services can communicate with each other.
 
 {% if_version lte:2.12.x %}
+
 ## TargetRef support matrix
+
 {% if_version gte:2.7.x %}
 {% tabs %}
 {% tab Sidecar %}

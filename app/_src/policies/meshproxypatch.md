@@ -29,7 +29,9 @@ Do **not** combine with [Proxy Template](/docs/{{ page.release }}/policies/proxy
 {% endwarning %}
 
 {% if_version lte:2.12.x %}
+
 ## TargetRef support matrix
+
 {% if_version lte:2.4.x %}
 
 | `targetRef.kind`    | top level |

@@ -17,7 +17,9 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 {% endwarning %}
 
 {% if_version lte:2.12.x %}
+
 ## TargetRef support matrix
+
 {% if_version gte:2.7.x %}
 {% tabs %}
 {% tab Sidecar %}

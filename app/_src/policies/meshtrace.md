@@ -39,7 +39,9 @@ For HTTP you can also manually forward the following headers:
 {% endwarning %}
 
 {% if_version lte:2.12.x %}
+
 ## TargetRef support matrix
+
 {% if_version gte:2.6.x %}
 {% tabs %}
 {% tab Sidecar %}

@@ -42,7 +42,9 @@ If you haven't already read the [observability docs](/docs/{{ page.release }}/ex
 {% endtip %}
 
 {% if_version lte:2.12.x %}
+
 ## TargetRef support matrix
+
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}

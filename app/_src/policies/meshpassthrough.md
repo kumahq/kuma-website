@@ -17,7 +17,9 @@ This policy enables {{site.mesh_product_name}} to configure traffic to external 
 When using this policy, the [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic/#outgoing) flag is ignored.
 
 {% if_version lte:2.12.x %}
+
 ## TargetRef support matrix
+
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.9.x %}
