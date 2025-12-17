@@ -9,6 +9,8 @@ content_type: reference
 category: policy
 ---
 
+<!-- vale off -->
+
 {% warning %}
 This policy uses new policy matching algorithm.
 Do **not** combine with [TrafficTrace](/docs/{{ page.release }}/policies/traffic-trace).

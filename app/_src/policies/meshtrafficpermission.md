@@ -8,6 +8,8 @@ keywords:
 content_type: reference
 category: policy
 ---
+
+<!-- vale off -->
 <!-- markdownlint-disable-file MD024 -->
 
 {% if_version gte:2.12.x %}

@@ -9,6 +9,8 @@ content_type: reference
 category: policy
 ---
 
+<!-- vale off -->
+
 This policy enables {{site.mesh_product_name}} to configure TLS mode, ciphers and version.
 Backends and default mode values are taken from [the Mesh object](/docs/{{ page.release }}/policies/mutual-tls/).
 

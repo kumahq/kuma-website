@@ -9,6 +9,8 @@ content_type: reference
 category: policy
 ---
 
+<!-- vale off -->
+
 With the MeshFaultInjection policy you can easily test your microservices against resiliency.
 
 {% warning %}
