@@ -7,7 +7,7 @@ keywords:
   - policy merging
 ---
 
-Policies in {{site.mesh_product_name}} let you **declare how traffic and workload should behave**,
+Policies in {{site.mesh_product_name}} let you **declare how traffic and workloads should behave**,
 instead of configuring each data plane proxy by hand.
 They're the main way to enable features like mTLS, traffic permissions, retries, rate limits, access logging, and more.
 
@@ -17,7 +17,7 @@ Every policy follows the same pattern:
 * **Direction**–whether it controls outbounds (`to`) or inbounds (`rules`)
 * **Behaviour**–the actual configuration (`default`) applied to the traffic
 
-For example, policy that configures timeouts:
+For example, a policy that configures timeouts:
 
 ```yaml
 type: MeshTimeout
@@ -81,7 +81,7 @@ spec:
     - targetRef:
         kind: MeshService
         name: backend
-        namespace: backend-ns # same namespaces as the policy (producer rule)
+        namespace: backend-ns # same namespace as the policy (producer rule)
       default:
         numRetries: 3
         backOff:
@@ -105,7 +105,7 @@ metadata:
   name: backend-consumer-timeouts
 spec:
   targetRef:
-    kind: Mesh # any caller but only in the 'frontend-ns' since consumer policies always scoped to the namespace of origin
+    kind: Mesh # any caller but only in the 'frontend-ns' since consumer policies are always scoped to the namespace of origin
   to:
     - targetRef:
         kind: MeshService
@@ -219,7 +219,7 @@ Policy priority is determined by a total ordering of attributes. The table below
 | 1 | `spec.targetRef`                                | * `Mesh` (less priority)<br>* `MeshGateway`<br>* `Dataplane`<br>* `Dataplane` with `labels`<br>* `Dataplane` with `labels/sectionName`<br>* `Dataplane` with `name/namespace`<br>* `Dataplane` with `name/namespace/sectionName` |
 | 2 | Origin<br>Label `kuma.io/origin`                | * `global` (less priority)<br>* `zone`                                                                                                                                                                                           |
 | 3 | Policy Role<br>Label `kuma.io/policy-role`      | * `system` (less priority)<br>* `producer`<br>* `consumer`<br>* `workload-owner`                                                                                                                                                 |
-| 4 | Display Name<br>Label `kuma.io/display-name`    | Inverted lexicographical order, i.e;<br>* `zzzzz` (less priority)<br>* `aaaaa1`<br>* `aaaaa`<br>* `aaa`                                                                                                                          |
+| 4 | Display Name<br>Label `kuma.io/display-name`    | Inverted lexicographical order, i.e.,<br>* `zzzzz` (less priority)<br>* `aaaaa1`<br>* `aaaaa`<br>* `aaa`                                                                                                                          |
 
 <!-- markdownlint-enable MD037 -->
 
