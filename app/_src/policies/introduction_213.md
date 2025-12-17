@@ -1,5 +1,10 @@
 ---
 title: Policies
+description: Learn how to write and configure targetRef policies, including metadata, spec structure, merging, and MeshService targeting.
+keywords:
+  - targetRef policies
+  - policy configuration
+  - policy merging
 ---
 
 Policies in {{site.mesh_product_name}} let you **declare how traffic and workload should behave**,

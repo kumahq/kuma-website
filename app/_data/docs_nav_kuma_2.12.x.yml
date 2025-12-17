@@ -309,8 +309,6 @@ items:
             url: "/policies/introduction/#examples"
           - text: Applying policies in shadow mode
             url: "/policies/introduction/#applying-policies-in-shadow-mode"
-      - text: Introduction v2
-        url: /policies/introduction_212/
       - text: MeshAccessLog
         url: /policies/meshaccesslog/
         items:
