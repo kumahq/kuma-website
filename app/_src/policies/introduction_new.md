@@ -198,10 +198,12 @@ The `targetRef` API follows the same principles regardless of policy type:
 The set of valid `targetRef.kind` values is the same across all policies and is summarized in the table below:
 
 <!-- markdownlint-disable MD037 -->
+
 | Field               | Available Kinds                                                                                                                  |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | `spec.targetRef`      | * `Mesh`<br>* `Dataplane`                                                                                                            |
 | `spec.to[].targetRef` | * `MeshService`<br>* `MeshMultiZoneService`<br>* `MeshExternalService`<br>* `MeshHTTPRoute` (if policy supports per-route configuration) |
+
 <!-- markdownlint-enable MD037 -->
 
 ## How policies are combined
@@ -211,21 +213,25 @@ When multiple policies target the same proxy, {{site.mesh_product_name}} merges 
 Policy priority is determined by a total ordering of attributes. The table below defines the sorting order, applied sequentially with ties broken by the next attribute in the list.
 
 <!-- markdownlint-disable MD037 -->
+
 |   | Attribute                                       | Order                                                                                                                                                                                                                            |
 |---|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1 | `spec.targetRef`                                | * `Mesh` (less priority)<br>* `MeshGateway`<br>* `Dataplane`<br>* `Dataplane` with `labels`<br>* `Dataplane` with `labels/sectionName`<br>* `Dataplane` with `name/namespace`<br>* `Dataplane` with `name/namespace/sectionName` |
 | 2 | Origin<br>Label `kuma.io/origin`                | * `global` (less priority)<br>* `zone`                                                                                                                                                                                           |
 | 3 | Policy Role<br>Label `kuma.io/policy-role`      | * `system` (less priority)<br>* `producer`<br>* `consumer`<br>* `workload-owner`                                                                                                                                                 |
 | 4 | Display Name<br>Label `kuma.io/display-name`    | Inverted lexicographical order, i.e;<br>* `zzzzz` (less priority)<br>* `aaaaa1`<br>* `aaaaa`<br>* `aaa`                                                                                                                          |
+
 <!-- markdownlint-enable MD037 -->
 
 For policies with `to` or `rules`, matching policy arrays are concatenated.
 For `to` policies, the concatenated arrays are sorted again based on the `spec.to[].targetRef` field:
 
 <!-- markdownlint-disable MD037 -->
+
 |   | Attribute             | Order                                                                                                                                   |
 |---|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
 | 1 | `spec.to[].targetRef` | * `Mesh` (less priority)<br>* `MeshService`<br>* `MeshService` with `sectionName`<br>* `MeshExternalService`<br>* `MeshMultiZoneService` |
+
 <!-- markdownlint-enable MD037 -->
 
 Configuration is then built by merging each level using [JSON patch merge](https://www.rfc-editor.org/rfc/rfc7386).

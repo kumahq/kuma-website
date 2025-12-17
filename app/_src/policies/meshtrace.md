@@ -38,8 +38,8 @@ For HTTP you can also manually forward the following headers:
 - `x-b3-flags`
 {% endwarning %}
 
+{% if_version lte:2.12.x %}
 ## TargetRef support matrix
-
 {% if_version gte:2.6.x %}
 {% tabs %}
 {% tab Sidecar %}
@@ -97,6 +97,7 @@ For HTTP you can also manually forward the following headers:
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 

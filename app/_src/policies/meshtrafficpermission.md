@@ -29,8 +29,8 @@ Do **not** combine with [TrafficPermission](/docs/{{ page.release }}/policies/tr
 The `MeshTrafficPermission` policy provides access control within the [Mesh](/docs/{{ page.release }}/production/mesh/).
 It allows you to define granular rules about which services can communicate with each other.
 
+{% if_version lte:2.12.x %}
 ## TargetRef support matrix
-
 {% if_version gte:2.7.x %}
 {% tabs %}
 {% tab Sidecar %}
@@ -85,7 +85,8 @@ It allows you to define granular rules about which services can communicate with
 {% endtabs %}
 {% endif_version %}
 
-If you don't understand this table you should read [matching docs](/docs/{{ page.release }}/policies/introduction).
+To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 {% if_version gte:2.9.x %}
 {% warning %}

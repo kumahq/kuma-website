@@ -12,8 +12,8 @@ category: policy
 This policy enables {{site.mesh_product_name}} to configure TLS mode, ciphers and version.
 Backends and default mode values are taken from [the Mesh object](/docs/{{ page.release }}/policies/mutual-tls/).
 
+{% if_version lte:2.12.x %}
 ## TargetRef support matrix
-
 {% tabs %}
 {% tab targetRef For mode %}
 {% if_version eq:2.9.x %}
@@ -38,6 +38,7 @@ Backends and default mode values are taken from [the Mesh object](/docs/{{ page.
 {% endtabs %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 

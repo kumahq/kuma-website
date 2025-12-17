@@ -28,8 +28,8 @@ The policy is applied per service instance. This means that if a service `backen
 
 Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/external-services) only when `ZoneEgress` is enabled.
 
+{% if_version lte:2.12.x %}
 ## TargetRef support matrix
-
 {% if_version gte:2.6.x %}
 {% tabs %}
 {% tab Sidecar %}
@@ -85,6 +85,7 @@ Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/ex
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 

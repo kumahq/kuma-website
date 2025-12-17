@@ -18,6 +18,12 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 
 ## TargetRef support matrix
 
+{% if_version gte:2.13.x %}
+
+See the [Referencing Dataplanes, Services, and Routes inside policies](/docs/{{ page.release }}/policies/introduction_new#referencing-dataplanes-services-and-routes-inside-policies) section of the introduction to learn about all the available `targetRef` kinds.
+
+{% endif_version %}
+{% if_version lte:2.12.x %}
 {% if_version gte:2.4.x %}
 {% tabs %}
 {% tab Sidecar %}
@@ -111,6 +117,7 @@ This policy enables {{site.mesh_product_name}} to know how to behave if there ar
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 

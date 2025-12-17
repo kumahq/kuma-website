@@ -41,8 +41,8 @@ In the rest of this page we assume you have already configured your observabilit
 If you haven't already read the [observability docs](/docs/{{ page.release }}/explore/observability).
 {% endtip %}
 
+{% if_version lte:2.12.x %}
 ## TargetRef support matrix
-
 {% tabs %}
 {% tab Sidecar %}
 {% if_version lte:2.8.x %}
@@ -87,6 +87,7 @@ If you haven't already read the [observability docs](/docs/{{ page.release }}/ex
 {% endtabs %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 

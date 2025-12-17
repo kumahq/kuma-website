@@ -28,8 +28,8 @@ This policy uses a new policy matching algorithm.
 Do **not** combine with [Proxy Template](/docs/{{ page.release }}/policies/proxy-template).
 {% endwarning %}
 
-## `targetRef` support matrix
-
+{% if_version lte:2.12.x %}
+## TargetRef support matrix
 {% if_version lte:2.4.x %}
 
 | `targetRef.kind`    | top level |
@@ -93,6 +93,7 @@ Do **not** combine with [Proxy Template](/docs/{{ page.release }}/policies/proxy
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 
