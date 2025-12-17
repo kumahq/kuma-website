@@ -65,7 +65,7 @@ by creating the policy in their service's own namespace.
 This lets backend owners publish sensible defaults (timeouts, retries, limits) for consumers,
 while individual clients can still refine those settings with their own [consumer](#consumer-policies) policies.
 
-The following policy tells {{site.mesh_product_name}} to apply **3 retries** with a back off of **15s to 1m**
+The following policy tells {{site.mesh_product_name}} to apply **3 retries** with a back off of `15s` to `1m`
 on **5xx errors** to any client calling `backend`:
 
 ```yaml
@@ -173,7 +173,7 @@ spec:
 System policies provide **mesh-wide defaults managed by platform operators**.
 Any policy can be a system policy as long as it's created in the system namespace ({{site.mesh_namespace}} by default) on either a Zone Control Plane or the Global Control Plane.
 
-## Referencing dataplanes, services and routes inside policies
+## Referencing Dataplanes, Services and Routes inside policies
  
 {{site.mesh_product_name}} provides an API for cross-referencing policies and other resources called `targetRef`:
 
