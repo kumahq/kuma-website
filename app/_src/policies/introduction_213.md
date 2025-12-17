@@ -115,7 +115,6 @@ spec:
         numRetries: 0
 ```
 
-
 ### Workload-owner policies
 
 Workload-owner policies let **service owners configure their own workload's proxies**.
@@ -174,7 +173,7 @@ System policies provide **mesh-wide defaults managed by platform operators**.
 Any policy can be a system policy as long as it's created in the system namespace ({{site.mesh_namespace}} by default) on either a Zone Control Plane or the Global Control Plane.
 
 ## Referencing Dataplanes, Services and Routes inside policies
- 
+
 {{site.mesh_product_name}} provides an API for cross-referencing policies and other resources called `targetRef`:
 
 ```yaml
