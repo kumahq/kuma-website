@@ -191,6 +191,13 @@ The `targetRef` API follows the same principles regardless of policy type:
 6. When supported by the target resource, `sectionName` may reference a specific section rather than the entire resource (e.g., `MeshService`, `MeshMultiZoneService`, `Dataplane`)
 7. `sectionName` is resolved by first matching a section name, and if no match is found, by interpreting it as a numeric port value (provided the port name is unset)
 
+The set of valid `targetRef.kind` values is the same across all policies and is summarized in the table below:
+
+| Field               | Available Kinds                                                                                                                  |
+|---------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| `spec.targetRef`      | * `Mesh`<br>* `Dataplane`                                                                                                            |
+| `spec.to[].targetRef` | * `MeshService`<br>* `MeshMultiZoneService`<br>* `MeshExternalService`<br>* `MeshHTTPRoute` (if policy supports per-route configuration) |
+
 ## How Policies Are Combined
 
 When multiple policies target the same proxy, {{site.mesh_product_name}} merges them using a priority-based strategy.
