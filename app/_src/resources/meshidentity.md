@@ -22,13 +22,13 @@ With `MeshIdentity`, you can:
 * Switch identity providers without downtime, for example when migrating from built-in certificates to [SPIRE](https://spiffe.io/docs/latest/spire-about/)
 * Assign different identity providers to subsets of workloads, allowing more granular control
 
-This resource is namespaced (system-namespace only) and controls how [data plane proxies](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy) receive identity certificates.
+This resource is namespaced (system-namespace only) and controls how [data plane proxies](/docs/{{ page.release }}/introduction/concepts#data-plane) receive identity certificates.
 
 ## Spec fields
 
 ### Selector
 
-The `selector` field controls which data plane proxies a `MeshIdentity` applies to. It uses Kubernetes-style label selectors on [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy) tags.
+The `selector` field controls which data plane proxies a `MeshIdentity` applies to. It uses Kubernetes-style label selectors on [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane) tags.
 
 When multiple `MeshIdentity` resources apply to the same data plane proxy, the one with the most specific selector (greatest number of matching labels) takes precedence. If two policies have selectors with the same number of labels, {{site.mesh_product_name}} compares their names lexicographically—the policy whose name comes first alphabetically takes precedence.
 
