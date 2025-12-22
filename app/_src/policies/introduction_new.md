@@ -34,7 +34,6 @@ spec:
         name: database
         namespace: database-ns
         sectionName: "443"
-        _port: 443
       default: # Behaviour. Policy sets connection and idle timeouts
         connectionTimeout: 10s
         idleTimeout: 30m
