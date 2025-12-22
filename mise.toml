@@ -10,10 +10,10 @@ yarn = "1.22.22"
 # Linting
 vale = "3.13.0"
 shellcheck = "0.11.0"
-"npm:markdownlint-cli2" = "0.19.1"
+"npm:markdownlint-cli2" = "0.20.0"
 
 # Go tools
-go = "1.25.4"
+go = "1.25.5"
 "go:github.com/raviqqe/muffet/v2" = "v2.11.1"
 "go:github.com/hairyhenderson/gomplate/v4/cmd/gomplate" = "v4.3.3"
 
