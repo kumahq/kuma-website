@@ -21,9 +21,13 @@ Use Workload resources to:
 Workload resources are automatically managed by {{site.mesh_product_name}}. Manual creation is not supported. The resource is automatically created when data plane proxies with a `kuma.io/workload` label are deployed, and deleted when no data plane proxies reference it.
 {% endwarning %}
 
-{% tip %}
-All data plane proxies referencing a Workload must belong to the same mesh. If data plane proxies in multiple meshes reference the same workload name, {{site.mesh_product_name}} will emit a warning event and skip Workload generation.
-{% endtip %}
+{% warning %}
+**namespace-mesh constraint on Kubernetes:** All data plane proxies referencing a Workload must belong to the same mesh. On Kubernetes, this is enforced at the namespace level—a single namespace cannot contain pods in multiple meshes.
+
+If {{site.mesh_product_name}} detects pods in multiple meshes within the same namespace, it emits a Kubernetes warning event on the namespace and skips Workload resource generation for the affected workload. The existing Workload resource (if any) is left orphaned but not deleted.
+
+For details on preventing this configuration issue, see the [namespace-mesh constraint documentation](/docs/{{ page.release }}/production/mesh#data-plane-proxies).
+{% endwarning %}
 
 ## Examples
 
@@ -236,8 +240,37 @@ The `kuma.io/workload` label on data plane proxies must match exactly with the W
 
 ## Limitations
 
-- **Single mesh:** All data plane proxies referencing a workload must belong to the same mesh.
+- **Single mesh:** All data plane proxies referencing a workload must belong to the same mesh. On Kubernetes, this is enforced at the namespace level—a single namespace cannot contain pods in multiple meshes. When this constraint is violated, {{site.mesh_product_name}} skips Workload generation and emits a warning event.
 - **Automatic lifecycle:** Cannot be manually created or modified. The resource is fully managed by the control plane.
+- **runtime enforcement:** To proactively prevent multi-mesh namespaces, enable the [`runtime.kubernetes.disallowMultipleMeshesPerNamespace`](/docs/{{ page.release }}/reference/kuma-cp) flag. When enabled, the admission webhook rejects pod creation or updates if the namespace already contains Dataplanes in a different mesh.
+
+## Troubleshooting
+
+### Detecting multi-mesh namespace issues
+
+If Workload resources are not being created as expected, check for multi-mesh namespace warnings:
+
+**Check namespace events:**
+
+```sh
+kubectl get events -n <namespace> --field-selector type=Warning
+```
+
+Look for events with the message: "Skipping Workload generation: namespace has pods in multiple meshes for workload. This configuration is not supported."
+
+**Identify pods and their meshes:**
+
+```sh
+kubectl get pods -n <namespace> -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.metadata.annotations.kuma\.io/mesh}{"\n"}{end}'
+```
+
+### Resolving multi-mesh namespace issues
+
+To resolve this configuration issue:
+
+1. **Identify affected pods:** Use the command above to list all pods and their mesh assignments in the namespace.
+2. **Reorganize workloads:** Move pods belonging to different meshes into separate namespaces.
+3. **Optional: Enable proactive prevention:** Set `runtime.kubernetes.disallowMultipleMeshesPerNamespace=true` in your control plane configuration to prevent this issue in the future.
 
 ## See also
 

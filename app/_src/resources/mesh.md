@@ -15,6 +15,10 @@ Create multiple meshes to isolate services by team, environment, or security req
 
 {{site.mesh_product_name}} creates a `default` mesh automatically on startup. Disable this by setting `KUMA_DEFAULTS_SKIP_MESH_CREATION=true`.
 
+{% warning %}
+**Kubernetes namespace constraint:** On Kubernetes, a single namespace cannot contain pods in multiple meshes. This limitation exists because [Workload](/docs/{{ page.release }}/resources/workload) resources are mesh-scoped and generated from workload labels. When multiple meshes are detected in a namespace, {{site.mesh_product_name}} emits a warning event and skips Workload generation. Enable [`runtime.kubernetes.disallowMultipleMeshesPerNamespace`](/docs/{{ page.release }}/reference/kuma-cp) to proactively prevent this. See [namespace-mesh constraint](/docs/{{ page.release }}/production/mesh#data-plane-proxies) for details.
+{% endwarning %}
+
 ## Spec fields
 
 | Field | Description |
