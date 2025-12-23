@@ -9,6 +9,8 @@ content_type: reference
 category: policy
 ---
 
+<!-- vale off -->
+
 {% warning %}
 This policy uses new policy matching algorithm.
 Do **not** combine with [Rate Limit](/docs/{{ page.release }}/policies/rate-limit).
@@ -27,6 +29,8 @@ You can configure:
 The policy is applied per service instance. This means that if a service `backend` has 3 instances rate limited to 100 requests per second, the overall service rate limit is 300 requests per second.
 
 Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/external-services) only when `ZoneEgress` is enabled.
+
+{% if_version lte:2.12.x %}
 
 ## TargetRef support matrix
 
@@ -85,6 +89,7 @@ Rate limiting supports an [ExternalService](/docs/{{ page.release }}/policies/ex
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 

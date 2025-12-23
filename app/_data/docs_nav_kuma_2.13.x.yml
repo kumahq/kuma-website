@@ -316,21 +316,24 @@ items:
         url: /policies/
       - text: Introduction
         url: /policies/introduction/
+        src: /policies/introduction_new/
         items:
-          - text: What is a policy?
-            url: "/policies/introduction/#what-is-a-policy"
-          - text: What do policies look like?
-            url: "/policies/introduction/#what-do-policies-look-like"
-          - text: Writing a targetRef
-            url: "/policies/introduction/#writing-a-targetref"
-          - text: Merging configuration
-            url: "/policies/introduction/#merging-configuration"
-          - text: Using policies with MeshService
-            url: "/policies/introduction/#using-policies-with-meshservice-meshmultizoneservice-and-meshexternalservice"
-          - text: Examples
-            url: "/policies/introduction/#examples"
-          - text: Applying policies in shadow mode
-            url: "/policies/introduction/#applying-policies-in-shadow-mode"
+          - text: Policy roles
+            url: "/policies/introduction/#policy-roles"
+          - text: Producer policies
+            url: "/policies/introduction/#producer-policies"
+          - text: Consumer policies
+            url: "/policies/introduction/#consumer-policies"
+          - text: Workload-owner policies
+            url: "/policies/introduction/#workload-owner-policies"
+          - text: System policies
+            url: "/policies/introduction/#system-policies"
+          - text: Referencing Dataplanes, Services and Routes inside policies
+            url: "/policies/introduction/#referencing-dataplanes-services-and-routes-inside-policies"
+          - text: How policies are combined
+            url: "/policies/introduction/#how-policies-are-combined"
+          - text: Metadata
+            url: "/policies/introduction/#metadata"
       - text: MeshAccessLog
         url: /policies/meshaccesslog/
         items:

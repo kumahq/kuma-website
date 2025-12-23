@@ -9,12 +9,16 @@ content_type: reference
 category: policy
 ---
 
+<!-- vale off -->
+
 {% warning %}
 This policy uses new policy matching algorithm.
 {% endwarning %}
 
 This policy enables {{site.mesh_product_name}} to configure traffic to external destinations that is allowed to pass outside the mesh.
 When using this policy, the [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic/#outgoing) flag is ignored.
+
+{% if_version lte:2.12.x %}
 
 ## TargetRef support matrix
 
@@ -42,6 +46,7 @@ When using this policy, the [passthrough mode](/docs/{{ page.release }}/networki
 {% endtabs %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 
