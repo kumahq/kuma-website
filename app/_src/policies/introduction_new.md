@@ -8,7 +8,7 @@ keywords:
 ---
 
 Policies in {{site.mesh_product_name}} let you **declare how traffic and workloads should behave**,
-instead of configuring each data plane proxy by hand.
+instead of configuring each [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane) by hand.
 They're the main way to enable features like mTLS, traffic permissions, retries, rate limits, access logging, and more.
 
 Every policy follows the same pattern:
