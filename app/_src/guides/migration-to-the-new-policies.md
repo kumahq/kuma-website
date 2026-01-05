@@ -53,7 +53,7 @@ kubectl get meshes
 
 Expected output:
 
-```
+```text
 No resources found
 ```
 
@@ -269,7 +269,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
 
     Expected output:
 
-    ```
+    ```text
    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","inbound:10.42.0.13:6379","filterChains","0","filters","0","typedConfig","rules","policies","allow-all-default"]
    - {"permissions":[{"any":true}],"principals":[{"authenticated":{"principalName":{"exact":"spiffe://default/demo-app_kuma-demo_svc_5000"}}}]}
    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","inbound:10.42.0.13:6379","filterChains","0","filters","0","typedConfig","rules","policies","MeshTrafficPermission"]
@@ -338,7 +338,7 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
 
     Expected output:
 
-    ```
+    ```text
    @ ["type.googleapis.com/envoy.config.cluster.v3.Cluster","demo-app_kuma-demo_svc_5000","typedExtensionProtocolOptions","envoy.extensions.upstreams.http.v3.HttpProtocolOptions","commonHttpProtocolOptions","maxConnectionDuration"]
    + "0s"
    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","commonHttpProtocolOptions","idleTimeout"]
