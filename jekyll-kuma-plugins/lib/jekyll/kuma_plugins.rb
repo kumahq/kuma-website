@@ -11,3 +11,7 @@ require_relative 'kuma_plugins/liquid/tags/inc'
 require_relative 'kuma_plugins/liquid/tags/rbacresources'
 require_relative 'kuma_plugins/liquid/blocks/helmvalues'
 require_relative 'kuma_plugins/generators/demourl'
+
+# Load custom blocks from app/_plugins
+require_relative '../../../app/_plugins/blocks/custom_block'
+require_relative '../../../app/_plugins/blocks/mermaid'
