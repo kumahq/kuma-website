@@ -54,7 +54,12 @@ The table below introduces the policy roles and how to recognize them.
 | Workload Owner | Configuration of my own proxy—inbound traffic handling and sidecar features (for example metrics, traces). | Either has `spec.rules`, or has neither `spec.rules` nor `spec.to` (only `spec.targetRef` + proxy/sidecar settings). | Defined in the app's namespace on a Zone CP. Synced to Global.                                 |
 | System         | Mesh-wide behaviour—can govern both inbound and outbound across services (operator-managed).        | Resource is created in the system namespace (e.g. `{{site.mesh_namespace}}`).                                                    | Created in the system namespace, either on a Zone CP or on the Global CP.                      |
 
-In summary: **Producer** policies let you configure how clients call you. **Consumer** policies let you configure how you call others. **Workload-owner** policies let you configure your own proxy's inbound and sidecar features. **System** policies let operators set mesh-wide defaults.
+In summary:
+
+* **Producer** policies let you configure how clients call you
+* **Consumer** policies let you configure how you call others
+* **Workload-owner** policies let you configure your own proxy’s inbound and sidecar features
+* **System policies** let operators set mesh-wide defaults
 
 ### Producer policies
 
