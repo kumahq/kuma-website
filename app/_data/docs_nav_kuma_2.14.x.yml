@@ -337,8 +337,6 @@ items:
       - text: MeshAccessLog
         url: /policies/meshaccesslog/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshaccesslog/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshaccesslog/#configuration"
           - text: Examples
@@ -346,8 +344,6 @@ items:
       - text: MeshCircuitBreaker
         url: /policies/meshcircuitbreaker/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshcircuitbreaker/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshcircuitbreaker/#configuration"
           - text: Examples
@@ -355,8 +351,6 @@ items:
       - text: MeshFaultInjection
         url: /policies/meshfaultinjection/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshfaultinjection/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshfaultinjection/#configuration"
           - text: Examples
@@ -373,8 +367,6 @@ items:
       - text: MeshHealthCheck
         url: /policies/meshhealthcheck/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshhealthcheck/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshhealthcheck/#configuration"
           - text: Examples
@@ -382,8 +374,6 @@ items:
       - text: MeshHTTPRoute
         url: /policies/meshhttproute/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshhttproute/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshhttproute/#configuration"
           - text: Examples
@@ -393,8 +383,6 @@ items:
       - text: MeshLoadBalancingStrategy
         url: /policies/meshloadbalancingstrategy/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshloadbalancingstrategy/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshloadbalancingstrategy/#configuration"
           - text: Examples
@@ -402,8 +390,6 @@ items:
       - text: MeshMetric
         url: /policies/meshmetric/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshmetric/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshmetric/#configuration"
           - text: Prometheus
@@ -415,8 +401,6 @@ items:
       - text: MeshPassthrough
         url: /policies/meshpassthrough/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshpassthrough/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshpassthrough/#configuration"
           - text: Examples
@@ -424,8 +408,6 @@ items:
       - text: MeshProxyPatch
         url: /policies/meshproxypatch/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshproxypatch/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshproxypatch/#configuration"
           - text: Examples
@@ -435,8 +417,6 @@ items:
       - text: MeshRateLimit
         url: /policies/meshratelimit/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshratelimit/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshratelimit/#configuration"
           - text: Examples
@@ -444,8 +424,6 @@ items:
       - text: MeshRetry
         url: /policies/meshretry/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshretry/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshretry/#configuration"
           - text: Examples
@@ -453,8 +431,6 @@ items:
       - text: MeshTCPRoute
         url: /policies/meshtcproute/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshtcproute/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshtcproute/#configuration"
           - text: Examples
@@ -464,8 +440,6 @@ items:
       - text: MeshTimeout
         url: /policies/meshtimeout/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshtimeout/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshtimeout/#configuration"
           - text: Examples
@@ -473,8 +447,6 @@ items:
       - text: MeshTLS
         url: /policies/meshtls/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshtls/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshtls/#configuration"
           - text: Examples
@@ -482,8 +454,6 @@ items:
       - text: MeshTrace
         url: /policies/meshtrace/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshtrace/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshtrace/#configuration"
           - text: Examples
@@ -491,8 +461,6 @@ items:
       - text: MeshTrafficPermission
         url: /policies/meshtrafficpermission/
         items:
-          - text: TargetRef support matrix
-            url: "/policies/meshtrafficpermission/#targetref-support-matrix"
           - text: Configuration
             url: "/policies/meshtrafficpermission/#configuration"
           - text: Examples

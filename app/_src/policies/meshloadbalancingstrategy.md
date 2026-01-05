@@ -23,7 +23,7 @@ When using this policy, the [localityAwareLoadBalancing](/docs/{{ page.release }
 
 {% if_version gte:2.13.x %}
 
-See the [Referencing Dataplanes, Services, and Routes inside policies](/docs/{{ page.release }}/policies/introduction_new#referencing-dataplanes-services-and-routes-inside-policies) section of the introduction to learn about all the available `targetRef` kinds.
+See the [Referencing Dataplanes, Services, and Routes inside policies](/docs/{{ page.release }}/policies/introduction/#referencing-dataplanes-services-and-routes-inside-policies) section of the introduction to learn about all the available `targetRef` kinds.
 
 {% endif_version %}
 {% if_version lte:2.12.x %}

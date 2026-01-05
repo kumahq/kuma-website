@@ -218,7 +218,7 @@ The generalized migration process roughly consists of 4 steps:
 
 1. Create a new [targetRef](/docs/{{ page.release }}/policies/introduction) policy as a replacement for existing [source/destination](/docs/{{ page.release }}/policies/general-notes-about-kuma-policies/) policy (do not forget about default policies that might not be stored in your source control).
 The corresponding new policy type can be found in [the table](/docs/{{ page.release }}/policies/introduction).
-Deploy the policy in [shadow mode](/docs/{{ page.release }}/policies/introduction/#applying-policies-in-shadow-mode) to avoid any traffic disruptions.
+Deploy the policy in {% if_version lte:2.12.x %}[shadow mode](/docs/{{ page.release }}/policies/introduction/#applying-policies-in-shadow-mode){% endif_version %}{% if_version gte:2.13.x %}shadow mode (apply with `kuma.io/effect: shadow` label){% endif_version %} to avoid any traffic disruptions.
 2. Using Inspect API review the list of changes that are going to be created by the new policy.
 3. Remove `kuma.io/effect: shadow` label so that policy is applied in a normal mode.
 4. Observe metrics, traces and logs. If something goes wrong change policy's mode back to shadow and return to the step 2.
