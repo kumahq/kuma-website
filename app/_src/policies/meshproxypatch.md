@@ -9,6 +9,8 @@ content_type: reference
 category: policy
 ---
 
+<!-- vale off -->
+
 The `MeshProxyPatch` provides configuration options for [low-level Envoy resources](https://www.envoyproxy.io/docs/envoy/latest/api-v3/api) that {{site.mesh_product_name}} policies do not directly expose.
 
 {% tip %}
@@ -28,7 +30,9 @@ This policy uses a new policy matching algorithm.
 Do **not** combine with [Proxy Template](/docs/{{ page.release }}/policies/proxy-template).
 {% endwarning %}
 
-## `targetRef` support matrix
+{% if_version lte:2.12.x %}
+
+## TargetRef support matrix
 
 {% if_version lte:2.4.x %}
 
@@ -93,6 +97,7 @@ Do **not** combine with [Proxy Template](/docs/{{ page.release }}/policies/proxy
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 

@@ -9,6 +9,8 @@ content_type: reference
 category: policy
 ---
 
+<!-- vale off -->
+
 {% warning %}
 This policy uses new policy matching algorithm.
 Do **not** combine with [HealthCheck](/docs/{{ page.release }}/policies/health-check).
@@ -31,6 +33,12 @@ This mode generates extra traffic to other proxies and services as described in 
 
 ## TargetRef support matrix
 
+{% if_version gte:2.13.x %}
+
+See the [Referencing Dataplanes, Services, and Routes inside policies](/docs/{{ page.release }}/policies/introduction/#referencing-dataplanes-services-and-routes-inside-policies) section of the introduction to learn about all the available `targetRef` kinds.
+
+{% endif_version %}
+{% if_version lte:2.12.x %}
 {% if_version gte:2.6.x %}
 {% tabs %}
 {% tab Sidecar %}
@@ -94,6 +102,7 @@ This mode generates extra traffic to other proxies and services as described in 
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 

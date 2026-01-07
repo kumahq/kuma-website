@@ -9,6 +9,8 @@ content_type: reference
 category: policy
 ---
 
+<!-- vale off -->
+
 With the MeshFaultInjection policy you can easily test your microservices against resiliency.
 
 {% warning %}
@@ -16,7 +18,9 @@ This policy uses a new policy matching algorithm.
 Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault-injection).
 {% endwarning %}
 
-## `targetRef` support matrix
+{% if_version lte:2.12.x %}
+
+## TargetRef support matrix
 
 {% if_version gte:2.7.x %}
 {% tabs %}
@@ -97,6 +101,7 @@ Do **not** combine with [FaultInjection](/docs/{{ page.release }}/policies/fault
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 

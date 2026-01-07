@@ -9,6 +9,8 @@ content_type: reference
 category: policy
 ---
 
+<!-- vale off -->
+
 {% warning %}
 This policy uses new policy matching algorithm.
 Do **not** combine with [Traffic Metrics](/docs/{{ page.release }}/policies/traffic-metrics).
@@ -40,6 +42,8 @@ To collect metrics from {{site.mesh_product_name}}, you need to expose metrics f
 In the rest of this page we assume you have already configured your observability tools to work with {{site.mesh_product_name}}.
 If you haven't already read the [observability docs](/docs/{{ page.release }}/explore/observability).
 {% endtip %}
+
+{% if_version lte:2.12.x %}
 
 ## TargetRef support matrix
 
@@ -87,6 +91,7 @@ If you haven't already read the [observability docs](/docs/{{ page.release }}/ex
 {% endtabs %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 

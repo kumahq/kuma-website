@@ -16,6 +16,7 @@ and enhance the matching functionality and overall UX.
 In this guide, we're going to setup a demo with old policies and then perform a migration to the new policies.
 
 ## Prerequisites
+
 - [`helm`](https://helm.sh/) - a package manager for Kubernetes
 - [`kind`](https://kind.sigs.k8s.io/) - a tool for running local Kubernetes clusters
 - [`jq`](https://jqlang.github.io/jq/) - a command-line JSON processor
@@ -49,8 +50,10 @@ Make sure the list of meshes is empty:
 ```sh
 kubectl get meshes
 ```
+
 Expected output:
-```
+
+```text
 No resources found
 ```
 
@@ -73,19 +76,20 @@ spec:
 
 ### Deploy demo application
 
-1.  Deploy the application
+1. Deploy the application
+
     ```sh
     kubectl apply -f https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.yaml
     kubectl wait -n kuma-demo --for=condition=ready pod --selector=app=demo-app --timeout=90s
     ```
 
-2.  Port-forward the service to the namespace on port 5000:
+2. Port-forward the service to the namespace on port 5000:
 
     ```sh
     kubectl port-forward svc/demo-app -n kuma-demo 5000:5000
     ```
 
-3.  In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter.
+3. In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the counter.
 
 ### Enable mTLS and deploy TrafficPermissions
 
@@ -218,7 +222,7 @@ The generalized migration process roughly consists of 4 steps:
 
 1. Create a new [targetRef](/docs/{{ page.release }}/policies/introduction) policy as a replacement for existing [source/destination](/docs/{{ page.release }}/policies/general-notes-about-kuma-policies/) policy (do not forget about default policies that might not be stored in your source control).
 The corresponding new policy type can be found in [the table](/docs/{{ page.release }}/policies/introduction).
-Deploy the policy in [shadow mode](/docs/{{ page.release }}/policies/introduction/#applying-policies-in-shadow-mode) to avoid any traffic disruptions.
+Deploy the policy in {% if_version lte:2.12.x %}[shadow mode](/docs/{{ page.release }}/policies/introduction/#applying-policies-in-shadow-mode){% endif_version %}{% if_version gte:2.13.x %}shadow mode (apply with `kuma.io/effect: shadow` label){% endif_version %} to avoid any traffic disruptions.
 2. Using Inspect API review the list of changes that are going to be created by the new policy.
 3. Remove `kuma.io/effect: shadow` label so that policy is applied in a normal mode.
 4. Observe metrics, traces and logs. If something goes wrong change policy's mode back to shadow and return to the step 2.
@@ -262,8 +266,10 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
    DATAPLANE_NAME=$(kumactl get dataplanes -ojson | jq '.items[] | select(.networking.inbound[0].tags["kuma.io/service"] == "redis_kuma-demo_svc_6379") | .name')
    kumactl inspect dataplane ${DATAPLANE_NAME} --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
+
     Expected output:
-    ```
+
+    ```text
    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","inbound:10.42.0.13:6379","filterChains","0","filters","0","typedConfig","rules","policies","allow-all-default"]
    - {"permissions":[{"any":true}],"principals":[{"authenticated":{"principalName":{"exact":"spiffe://default/demo-app_kuma-demo_svc_5000"}}}]}
    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","inbound:10.42.0.13:6379","filterChains","0","filters","0","typedConfig","rules","policies","MeshTrafficPermission"]
@@ -329,8 +335,10 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
     ```sh
    kumactl inspect dataplane ${DATAPLANE_NAME} --type=config --shadow --include=diff | jq '.diff' | jd -t patch2jd
     ```
+
     Expected output:
-    ```
+
+    ```text
    @ ["type.googleapis.com/envoy.config.cluster.v3.Cluster","demo-app_kuma-demo_svc_5000","typedExtensionProtocolOptions","envoy.extensions.upstreams.http.v3.HttpProtocolOptions","commonHttpProtocolOptions","maxConnectionDuration"]
    + "0s"
    @ ["type.googleapis.com/envoy.config.listener.v3.Listener","outbound:10.43.146.6:5000","filterChains","0","filters","0","typedConfig","commonHttpProtocolOptions","idleTimeout"]
@@ -346,10 +354,10 @@ This is because many old policies, like Timeout and CircuitBreaker, depend on Tr
     Review the list and ensure the new MeshTimeout policy won't change the important settings.
     The key differences between old and new timeout policies:
 
-    * Previously, there was no way to specify `requestHeadersTimeout`, `maxConnectionDuration` and `maxStreamDuration` (on inbound).
+    - Previously, there was no way to specify `requestHeadersTimeout`, `maxConnectionDuration` and `maxStreamDuration` (on inbound).
     These timeouts were unset. With the new MeshTimeout policy we explicitly set them to `0s` by default.
-    * `idleTimeout` was configured both on the cluster and listener. MeshTimeout configures it only on the cluster.
-    * `route/idleTimeout` is duplicated value of `streamIdleTimeout` but per-route. Previously we've set it only per-listener.
+    - `idleTimeout` was configured both on the cluster and listener. MeshTimeout configures it only on the cluster.
+    - `route/idleTimeout` is duplicated value of `streamIdleTimeout` but per-route. Previously we've set it only per-listener.
 
     These 3 facts perfectly explain the list of changes we're observing.
 
@@ -679,7 +687,6 @@ So all in all we have:
    kubectl delete meshgatewayroute --all
    ```
 
-
 ## Next steps
 
-* Further explore [new policies](/docs/{{ page.release }}/policies/introduction)
+- Further explore [new policies](/docs/{{ page.release }}/policies/introduction)

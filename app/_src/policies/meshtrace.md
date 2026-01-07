@@ -9,6 +9,8 @@ content_type: reference
 category: policy
 ---
 
+<!-- vale off -->
+
 {% warning %}
 This policy uses new policy matching algorithm.
 Do **not** combine with [TrafficTrace](/docs/{{ page.release }}/policies/traffic-trace).
@@ -37,6 +39,8 @@ For HTTP you can also manually forward the following headers:
 - `x-b3-sampled`
 - `x-b3-flags`
 {% endwarning %}
+
+{% if_version lte:2.12.x %}
 
 ## TargetRef support matrix
 
@@ -97,6 +101,7 @@ For HTTP you can also manually forward the following headers:
 {% endif_version %}
 
 To learn more about the information in this table, see the [matching docs](/docs/{{ page.release }}/policies/introduction).
+{% endif_version %}
 
 ## Configuration
 
