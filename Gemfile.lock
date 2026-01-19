@@ -95,7 +95,7 @@ GEM
     rb-inotify (0.11.1)
       ffi (~> 1.0)
     rexml (3.4.4)
-    rouge (4.6.1)
+    rouge (4.7.0)
     rspec (3.13.2)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -141,7 +141,7 @@ DEPENDENCIES
   jekyll-vite (= 3.0.4)
   jekyll_kuma_plugins!
   liquid-c (= 4.0.1)
-  rouge (= 4.6.1)
+  rouge (= 4.7.0)
   rspec
   vite_ruby (= 3.9.2)
 
