@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'jekyll', '4.4.1'
 gem 'liquid-c', '4.0.1'
-gem 'rouge', '4.6.1'
+gem 'rouge', '4.7.0'
 gem 'jekyll-generator-single-source', '0.0.15'
 
 gem 'jekyll-paginate-v2', '3.0.0'
