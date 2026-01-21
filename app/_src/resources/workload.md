@@ -229,7 +229,7 @@ The `kuma.io/workload` label determines which Workload resource a data plane pro
 {{site.mesh_product_name}} automatically generates the `kuma.io/workload` label for each pod using this logic:
 
 1. **Automatic from pod labels:** If `runtime.kubernetes.workloadLabels` is configured in the control plane, {{site.mesh_product_name}} checks each pod label in the configured priority order and uses the first non-empty value
-2. **Fallback to ServiceAccount:** If no configured labels exist or all are empty, uses the pod's ServiceAccount name
+2. **Fallback to ServiceAccount:** If no configured labels exist or all are empty, {{site.mesh_product_name}} uses the pod's ServiceAccount name
 3. **Default behavior:** By default, `workloadLabels` is empty, so ServiceAccount name is used
 
 **Protection:** Cannot be manually set as a label on pods; {{site.mesh_product_name}} will reject pod creation/updates with this label
