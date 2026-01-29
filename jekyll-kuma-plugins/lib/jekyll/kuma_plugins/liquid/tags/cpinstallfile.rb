@@ -34,6 +34,7 @@ module Jekyll
           def generate_install_tabs
             filename = @params['filename']
             <<~LIQUID
+
               {% tabs %}
               #{kumactl_tab(filename)}
               #{helm_tab(filename)}

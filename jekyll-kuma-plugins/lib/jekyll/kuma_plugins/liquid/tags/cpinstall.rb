@@ -43,6 +43,7 @@ module Jekyll
 
           def generate_install_tabs(helm_flags, page)
             <<~LIQUID
+
               {% tabs codeblock %}
               {% tab kumactl %}
               ```shell
