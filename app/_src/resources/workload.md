@@ -33,23 +33,23 @@ For details on preventing this configuration issue, see the [namespace-mesh cons
 
 ### Workload created automatically
 
-When you deploy a data plane proxy with the `kuma.io/workload` label, {{site.mesh_product_name}} automatically creates a Workload resource:
+When you deploy a data plane proxy, {{site.mesh_product_name}} automatically generates the `kuma.io/workload` label and creates a Workload resource:
 
 {% tabs %}
 {% tab Kubernetes %}
 
-**Pod annotation:**
+**Example pod with ServiceAccount:**
 
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
   name: demo-app
-  annotations:
-    kuma.io/workload: demo-workload
+spec:
+  serviceAccountName: demo-workload  # {{site.mesh_product_name}} uses this as workload identifier (default behavior)
 ```
 
-**Automatically created Workload:**
+**{{site.mesh_product_name}} automatically creates Workload:**
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -226,9 +226,13 @@ The `kuma.io/workload` label determines which Workload resource a data plane pro
 
 **On Kubernetes:**
 
-- **Automatic assignment:** The workload label is automatically derived from pod labels (configurable via `runtime.kubernetes.workloadLabels` in the control plane configuration)
-- **Manual assignment:** Set via the `kuma.io/workload` annotation on pods
-- **Protection:** Cannot be manually set as a label on pods; {{site.mesh_product_name}} will reject pod creation/updates with this label
+{{site.mesh_product_name}} automatically generates the `kuma.io/workload` label for each pod using this logic:
+
+1. **Automatic from pod labels:** If `runtime.kubernetes.workloadLabels` is configured in the control plane, {{site.mesh_product_name}} checks each pod label in the configured priority order and uses the first non-empty value
+2. **Fallback to ServiceAccount:** If no configured labels exist or all are empty, {{site.mesh_product_name}} uses the pod's ServiceAccount name
+3. **Default behavior:** By default, `workloadLabels` is empty, so ServiceAccount name is used
+
+**Protection:** Cannot be manually set as a label on pods; {{site.mesh_product_name}} will reject pod creation/updates with this label
 
 **On Universal:**
 
