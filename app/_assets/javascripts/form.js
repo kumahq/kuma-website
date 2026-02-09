@@ -1,4 +1,4 @@
-import { ajax } from 'jquery'
+import $, { ajax } from 'jquery'
 
 export default class Form {
   constructor(form) {
