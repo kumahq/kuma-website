@@ -1,4 +1,4 @@
-import $, { ajax } from 'jquery'
+import $ from 'jquery'
 
 export default class Form {
   constructor(form) {
@@ -19,7 +19,7 @@ export default class Form {
       const formData = new FormData(this.elem);
       event.preventDefault();
 
-      ajax({
+      $.ajax({
         url: formData.get('pardot-link'),
         type: this.elem.method || 'GET',
         dataType: 'jsonp',
