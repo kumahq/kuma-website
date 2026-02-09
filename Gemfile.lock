@@ -80,9 +80,10 @@ GEM
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    logger (1.7.0)
+    logger (1.6.4)
     mercenary (0.4.0)
     mutex_m (0.3.0)
+    ostruct (0.6.1)
     pathutil (0.16.2)
       forwardable-extended (~> 2.6)
     public_suffix (6.0.2)
@@ -145,6 +146,8 @@ DEPENDENCIES
   jekyll-vite (= 3.0.4)
   jekyll_kuma_plugins!
   liquid-c (= 4.0.1)
+  logger (= 1.6.4)
+  ostruct (= 0.6.1)
   rouge (= 4.7.0)
   rspec
   vite_ruby (= 3.9.2)
