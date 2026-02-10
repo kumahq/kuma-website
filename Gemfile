@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gem 'jekyll', '4.4.1'
 gem 'liquid-c', '4.0.1'
+gem 'logger', '1.6.4'
+gem 'ostruct', '0.6.1'
 gem 'rouge', '4.7.0'
 gem 'jekyll-generator-single-source', '0.0.15'
 
