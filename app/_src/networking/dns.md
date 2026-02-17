@@ -160,7 +160,7 @@ Once supported, you'll need to prepare a DNS configuration file to be used for o
 Editing should base on [the existing and default configuration](https://github.com/kumahq/kuma/blob/master/app/kuma-dp/pkg/dataplane/dnsserver/Corefile). For example, you may use the following configuration to make the DNS server not respond errors to IPv6 queries when your cluster has IPv6 disabled:
 
 {% raw %}
-
+{% if_version lte:2.7.x %}
 ```
 .:{{ .CoreDNSPort }} {
     # add a plugin to return NOERROR for IPv6 queries
@@ -184,7 +184,26 @@ Editing should base on [the existing and default configuration](https://github.c
     }
 }
 ```
+{% endif_version %}
+{% if_version gt:2.7.x %}
+```
+.:{{ .CoreDNSPort }} {
+    # add a plugin to return NOERROR for IPv6 queries
+    template IN AAAA . {
+       rcode NOERROR
+       fallthrough
+    }
 
+    forward . 127.0.0.1:{{ .EnvoyDNSPort }}
+    # We want all requests to be sent to the Envoy DNS Filter, unsuccessful responses should be forwarded to the original DNS server.
+    # For example: requests other than A, AAAA and SRV will return NOTIMP when hitting the envoy filter and should be sent to the original DNS server.
+    # Codes from: https://github.com/miekg/dns/blob/master/msg.go#L138
+    alternate NOTIMP,FORMERR,NXDOMAIN,SERVFAIL,REFUSED . /etc/resolv.conf
+    prometheus localhost:{{ .PrometheusPort }}
+    errors
+}
+```
+{% endif_version %}
 {% endraw %}
 
 ## Configuration
