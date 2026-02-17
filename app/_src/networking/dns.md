@@ -188,7 +188,8 @@ Editing should base on [the existing and default configuration](https://github.c
 
 {% endraw %}
 {% endif_version %}
-{% if_version gt:2.7.x %}
+
+{% if_version gte:2.8.x %}
 {% raw %}
 
 ```
