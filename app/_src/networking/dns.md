@@ -159,8 +159,8 @@ Once supported, you'll need to prepare a DNS configuration file to be used for o
 
 Editing should base on [the existing and default configuration](https://github.com/kumahq/kuma/blob/master/app/kuma-dp/pkg/dataplane/dnsserver/Corefile). For example, you may use the following configuration to make the DNS server not respond errors to IPv6 queries when your cluster has IPv6 disabled:
 
-{% raw %}
 {% if_version lte:2.7.x %}
+{% raw %}
 ```
 .:{{ .CoreDNSPort }} {
     # add a plugin to return NOERROR for IPv6 queries
@@ -184,8 +184,10 @@ Editing should base on [the existing and default configuration](https://github.c
     }
 }
 ```
+{% endraw %}
 {% endif_version %}
 {% if_version gt:2.7.x %}
+{% raw %}
 ```
 .:{{ .CoreDNSPort }} {
     # add a plugin to return NOERROR for IPv6 queries
@@ -203,8 +205,8 @@ Editing should base on [the existing and default configuration](https://github.c
     errors
 }
 ```
-{% endif_version %}
 {% endraw %}
+{% endif_version %}
 
 ## Configuration
 
