@@ -87,7 +87,7 @@ bootstrapServer:
   corefileTemplatePath: "/path/to/mounted-corefile-template" # ENV: KUMA_BOOTSTRAP_SERVER_PARAMS_COREFILE_TEMPLATE_PATH
 ```
 
-You'll also need to mount the DNS configuration template file into the control plane by adding an extra configMap, here are the steps: 
+You'll also need to mount the DNS configuration template file into the control plane by adding an extra configMap, here are the steps:
 
 Create a configmap in the namespace in which the control plane is installed:
 
@@ -112,6 +112,7 @@ kumactl install control-plane \
   --set "{{site.set_flag_values_prefix}}controlPlane.extraConfigMaps[0].mountPath=/path/to/mounted-corefile-template/corefile-template" \
   | kubectl apply -f -
 ```
+
 {% endtab %}
 {% tab install-control-plane Kubernetes (HELM) %}
 
@@ -238,7 +239,6 @@ Consuming a service handled by {{site.mesh_product_name}} DNS, whether from {{si
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
 ```
-
 
 You can also use a [DNS RFC1035 compliant name](https://www.ietf.org/rfc/rfc1035.txt) by replacing the underscores in the service name with dots. For example:
 
