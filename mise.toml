@@ -3,8 +3,8 @@ experimental = true # To enable installation of Go tools from source with mise.
 
 [tools]
 # Web/Frontend
-ruby = "3.4.7"
-node = "24.12.0"
+ruby = "3.4.8"
+node = "24.13.0"
 yarn = "1.22.22"
 
 # Linting
@@ -13,9 +13,9 @@ shellcheck = "0.11.0"
 "npm:markdownlint-cli2" = "0.20.0"
 
 # Go tools
-go = "1.25.5"
+go = "1.25.6"
 "go:github.com/raviqqe/muffet/v2" = "v2.11.1"
-"go:github.com/hairyhenderson/gomplate/v4/cmd/gomplate" = "v4.3.3"
+"go:github.com/hairyhenderson/gomplate/v5/cmd/gomplate" = "v5.0.0"
 
 # Testing
 shellspec = "0.28.1"

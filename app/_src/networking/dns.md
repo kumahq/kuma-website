@@ -87,7 +87,7 @@ bootstrapServer:
   corefileTemplatePath: "/path/to/mounted-corefile-template" # ENV: KUMA_BOOTSTRAP_SERVER_PARAMS_COREFILE_TEMPLATE_PATH
 ```
 
-You'll also need to mount the DNS configuration template file into the control plane by adding an extra configMap, here are the steps: 
+You'll also need to mount the DNS configuration template file into the control plane by adding an extra configMap, here are the steps:
 
 Create a configmap in the namespace in which the control plane is installed:
 
@@ -112,6 +112,7 @@ kumactl install control-plane \
   --set "{{site.set_flag_values_prefix}}controlPlane.extraConfigMaps[0].mountPath=/path/to/mounted-corefile-template/corefile-template" \
   | kubectl apply -f -
 ```
+
 {% endtab %}
 {% tab install-control-plane Kubernetes (HELM) %}
 
@@ -159,6 +160,7 @@ Once supported, you'll need to prepare a DNS configuration file to be used for o
 
 Editing should base on [the existing and default configuration](https://github.com/kumahq/kuma/blob/master/app/kuma-dp/pkg/dataplane/dnsserver/Corefile). For example, you may use the following configuration to make the DNS server not respond errors to IPv6 queries when your cluster has IPv6 disabled:
 
+{% if_version lte:2.7.x %}
 {% raw %}
 
 ```
@@ -186,6 +188,31 @@ Editing should base on [the existing and default configuration](https://github.c
 ```
 
 {% endraw %}
+{% endif_version %}
+
+{% if_version gte:2.8.x %}
+{% raw %}
+
+```
+.:{{ .CoreDNSPort }} {
+    # add a plugin to return NOERROR for IPv6 queries
+    template IN AAAA . {
+       rcode NOERROR
+       fallthrough
+    }
+
+    forward . 127.0.0.1:{{ .EnvoyDNSPort }}
+    # We want all requests to be sent to the Envoy DNS Filter, unsuccessful responses should be forwarded to the original DNS server.
+    # For example: requests other than A, AAAA and SRV will return NOTIMP when hitting the envoy filter and should be sent to the original DNS server.
+    # Codes from: https://github.com/miekg/dns/blob/master/msg.go#L138
+    alternate NOTIMP,FORMERR,NXDOMAIN,SERVFAIL,REFUSED . /etc/resolv.conf
+    prometheus localhost:{{ .PrometheusPort }}
+    errors
+}
+```
+
+{% endraw %}
+{% endif_version %}
 
 ## Configuration
 
@@ -212,7 +239,6 @@ Consuming a service handled by {{site.mesh_product_name}} DNS, whether from {{si
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh:80
 <kuma-enabled-pod>$ curl http://echo-server_echo-example_svc_1010.mesh
 ```
-
 
 You can also use a [DNS RFC1035 compliant name](https://www.ietf.org/rfc/rfc1035.txt) by replacing the underscores in the service name with dots. For example:
 
