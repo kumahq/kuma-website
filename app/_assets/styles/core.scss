@@ -27,7 +27,7 @@
 @use '@/styles/vuepress-core/mobile';
 @use '@/styles/vuepress-core/algolia-search';
 
-@use '@kongponents/styles';
+@use '@kongponents/styles/styles.css';
 
 @use 'slick-carousel/slick/slick.css';
 @use 'slick-carousel/slick/slick-theme.css';
