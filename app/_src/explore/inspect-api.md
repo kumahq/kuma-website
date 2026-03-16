@@ -22,6 +22,7 @@ kumactl inspect dataplane backend-1 --mesh=default
 ```
 
 {% if_version lte:2.5.x %}
+
 ```text
 DATAPLANE:
   ProxyTemplate
@@ -47,8 +48,10 @@ SERVICE gateway:
   Retry
     retry-all-default
 ```
+
 {% endif_version %}
 {% if_version gte:2.6.x %}
+
 ```text
 DATAPLANE:
   MeshProxyPatch
@@ -72,6 +75,7 @@ SERVICE gateway:
   MeshRetry
     retry-all-default
 ```
+
 {% endif_version %}
 
 Each data plane proxy has 4 policy attachment points:
