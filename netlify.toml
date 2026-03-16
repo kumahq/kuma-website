@@ -21,7 +21,6 @@
   autoLaunch = false
   port = 7777
   targetPort = 3000
-  timeout = 120
 
 [[redirects]]
   from = "/fixtures/*"
