@@ -103,9 +103,7 @@ This is the recommended way to operate with `Dataplane` resources on Universal.
 
 #### Joining the mesh
 
-Pass `Dataplane` resource directly to `kuma-dp run` command. `Dataplane` resource could be a [Mustache template](http://mustache.github.io/mustache.5.html) in this case:
-
-_backend-dp-tmpl.yaml_
+Pass `Dataplane` resource directly to `kuma-dp run` command. `Dataplane` resource could be a [Mustache template](http://mustache.github.io/mustache.5.html) in this case (`backend-dp-tmpl.yaml`):
 
 ```yaml
 type: Dataplane
@@ -171,7 +169,7 @@ lifecycle.
 
 #### Joining the mesh
 
-`Dataplane` resource is created using [HTTP API](/docs/{{ page.release }}/reference/http-api#dataplanes) or [kumactl](/docs/{{ page.release }}/explore/cli).
+`Dataplane` resource is created using [HTTP API](/docs/{{ page.release }}/reference/http-api/) or [kumactl](/docs/{{ page.release }}/explore/cli).
 `Dataplane` resource is created before data plane proxy started. There is no support for templates, resource should be
 a valid `Dataplane` configuration.
 

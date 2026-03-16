@@ -8,7 +8,6 @@ If you want to configure version, ciphers or per service permissive / strict mod
 {% endtip %}
 {% endif_version %}
 
-
 This policy enables automatic encrypted mTLS traffic for all the services in a [`Mesh`](/docs/{{ page.release }}/production/mesh/), as well as assigning an identity to every data plane proxy. {{site.mesh_product_name}} supports different types of CA backends as well as automatic certificate rotation.
 
 {{site.mesh_product_name}} ships with the following CA (Certificate Authority) supported backends:
@@ -216,7 +215,7 @@ You can chain certificates from multiple intermediate CAs the same way. Place th
 
 Sample certificate file for a single intermediate CA:
 
-```
+```text
 -----BEGIN CERTIFICATE-----
 MIIDdjCCAl6gAwIBAgICEAEwDQYJKoZIhvcNAQELBQAwRDELMAkGA1UEBhMCR0Ix
 EDAOBgNVBAgMB0VuZ2xhbmQxEjAQBgNVBAoMCUFsaWNlIEx0ZDEPMA0GA1UEAwwG
@@ -434,7 +433,7 @@ Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` 
 {% endtab %}
 {% tab certificate-rotation HTTP API %}
 
-We can use the {{site.mesh_product_name}} HTTP API by retrieving the [Dataplane Insight](/docs/{{ page.release }}/reference/http-api#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
+We can use the {{site.mesh_product_name}} HTTP API by retrieving the Dataplane Insight resource and inspecting the `dataplaneInsight` object.
 
 ```json
 ...
