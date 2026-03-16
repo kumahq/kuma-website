@@ -84,6 +84,7 @@ GEM
     logger (1.7.0)
     mercenary (0.4.0)
     mutex_m (0.3.0)
+    ostruct (0.6.3)
     pathutil (0.16.2)
       forwardable-extended (~> 2.6)
     public_suffix (7.0.5)
@@ -146,6 +147,7 @@ DEPENDENCIES
   jekyll-vite (= 3.0.4)
   jekyll_kuma_plugins!
   liquid-c (= 4.0.1)
+  ostruct (= 0.6.3)
   rouge (= 4.7.0)
   rspec
   vite_ruby (= 3.9.3)
