@@ -12,5 +12,4 @@ keywords:
 **CI/CD**: The HTTP API can be used for infrastructure automation to either retrieve data, or to make changes when running in Universal mode. The [`kumactl`](/docs/{{ page.release }}/explore/cli) CLI is built on top of the HTTP API, which you can also access with any other HTTP client like `curl`.
 {% endtip %}
 
-
-Get the full openAPI spec [in the Kuma repo](https://github.com/kumahq/kuma/blob/master/docs/generated/openapi.yaml)
+Get the full openAPI spec [in the Kuma repo](https://github.com/kumahq/kuma/blob/master/docs/generated/openapi.yaml).

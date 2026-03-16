@@ -434,7 +434,7 @@ Please note the `CERT REGENERATED AGO`, `CERT EXPIRATION`, `CERT REGENERATIONS` 
 {% endtab %}
 {% tab certificate-rotation HTTP API %}
 
-We can use the {{site.mesh_product_name}} HTTP API by retrieving the [Dataplane Insight](/docs/{{ page.release }}/reference/http-api#dataplane-overviews) resource and inspecting the `dataplaneInsight` object.
+We can use the {{site.mesh_product_name}} HTTP API by retrieving the Dataplane Insight resource and inspecting the `dataplaneInsight` object.
 
 ```json
 ...

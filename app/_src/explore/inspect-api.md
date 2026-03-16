@@ -8,7 +8,7 @@ keywords:
 
 Starting with version 1.5.0, {{site.mesh_product_name}} offers the Inspect API to improve the policy debugging experience.
 It's made up of several HTTP endpoints and is fully supported by `kumactl`,
-but can be used directly, using the [HTTP API](/docs/{{ page.release }}/reference/http-api/#inspect-api).
+but can be used directly, using the [HTTP API](/docs/{{ page.release }}/reference/http-api/).
 
 ## Matched policies
 

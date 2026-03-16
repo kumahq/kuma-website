@@ -171,7 +171,7 @@ lifecycle.
 
 #### Joining the mesh
 
-`Dataplane` resource is created using [HTTP API](/docs/{{ page.release }}/reference/http-api#dataplanes) or [kumactl](/docs/{{ page.release }}/explore/cli).
+`Dataplane` resource is created using [HTTP API](/docs/{{ page.release }}/reference/http-api/) or [kumactl](/docs/{{ page.release }}/explore/cli).
 `Dataplane` resource is created before data plane proxy started. There is no support for templates, resource should be
 a valid `Dataplane` configuration.
 
