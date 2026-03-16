@@ -23,6 +23,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         api: 'modern',
+        loadPaths: ['node_modules'],
       },
     },
   },
