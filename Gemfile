@@ -4,6 +4,7 @@ gem 'jekyll', '4.4.1'
 gem 'liquid-c', '4.0.1'
 gem 'rouge', '4.7.0'
 gem 'jekyll-generator-single-source', '0.0.15'
+gem 'ostruct', '0.6.3'
 
 gem 'jekyll-paginate-v2', '3.0.0'
 gem 'jekyll-last-modified-at', '1.3.2'
