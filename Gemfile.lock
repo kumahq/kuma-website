@@ -26,7 +26,7 @@ GEM
     foreman (0.90.0)
       thor (~> 1.4)
     forwardable-extended (2.6.0)
-    google-protobuf (4.34.0)
+    google-protobuf (4.34.1)
       bigdecimal
       rake (~> 13.3)
     http_parser.rb (0.8.1)
@@ -69,7 +69,7 @@ GEM
       vite_ruby (~> 3.2)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
-    json (2.19.1)
+    json (2.19.3)
     kramdown (2.5.2)
       rexml (>= 3.4.4)
     kramdown-parser-gfm (1.1.0)
