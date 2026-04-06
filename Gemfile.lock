@@ -7,10 +7,10 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.8.9)
+    addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
     base64 (0.3.0)
-    bigdecimal (4.1.0)
+    bigdecimal (4.1.1)
     byebug (13.0.0)
       reline (>= 0.6.0)
     colorator (1.1.0)
@@ -116,7 +116,7 @@ GEM
       rspec-support (~> 3.13.0)
     rspec-support (3.13.7)
     safe_yaml (1.0.5)
-    sass-embedded (1.98.0)
+    sass-embedded (1.99.0)
       google-protobuf (~> 4.31)
       rake (>= 13)
     terminal-table (3.0.2)
