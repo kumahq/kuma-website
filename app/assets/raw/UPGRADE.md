@@ -8,6 +8,56 @@ does not have any particular instructions.
 
 ## Upgrade to `2.14.x`
 
+### Envoy admin API now uses Unix domain socket by default
+
+The Envoy admin API (`localhost:9901`) now binds to a Unix domain socket instead of TCP by default. This eliminates the shared-network-namespace attack vector where a compromised app container could reach the admin API to kill the sidecar, dump config, or modify runtime behavior.
+
+**What changed:**
+- `KUMA_BOOTSTRAP_SERVER_PARAMS_ENVOY_ADMIN_UNIX_SOCKET` defaults to `true`
+- Helm value: `experimental.envoyAdminUnixSocket` (default `true`)
+- A readiness reporter on TCP port 9902 handles K8s probes and lifecycle hooks
+- Port 9902 must not conflict with application ports in sidecar-injected pods
+
+**Action required:**
+
+If you have tooling that directly accesses the Envoy admin API on `localhost:9901` (e.g., scripts calling `/config_dump`, `/stats`, `/clusters`), you need to either:
+- Use the readiness reporter proxy on port 9902 instead, OR
+- Use `curl --unix-socket /tmp/kuma-dp-*/kuma-envoy-admin.sock http://localhost/...`
+
+**How to disable (revert to TCP admin):**
+
+**Kubernetes (Helm)**
+```yaml
+experimental:
+  envoyAdminUnixSocket: false
+```
+
+**Universal**
+```sh
+KUMA_BOOTSTRAP_SERVER_PARAMS_ENVOY_ADMIN_UNIX_SOCKET=false kuma-cp run
+```
+
+### Observability: CP metrics OTLP push enabled by default
+
+When `OTEL_EXPORTER_OTLP_ENDPOINT` is set, the control plane now automatically pushes all CP Prometheus metrics to the configured OTLP collector. This is enabled by default.
+
+**What changed:**
+- A new config field `metrics.openTelemetry.enabled` (default `true`) gates CP metrics OTLP push.
+- If you already set `OTEL_EXPORTER_OTLP_ENDPOINT` for tracing, metrics will now also be pushed to that endpoint.
+
+**Action required:**
+
+If you use `OTEL_EXPORTER_OTLP_ENDPOINT` for tracing only and do not want CP metrics pushed via OTLP, disable it:
+
+```yaml
+# kuma-cp config
+metrics:
+  openTelemetry:
+    enabled: false
+```
+
+Or via environment variable: `KUMA_METRICS_OPENTELEMETRY_ENABLED=false`
+
 ### Observability: Prometheus metrics migration from Summary to Histogram
 
 Internal Kuma Prometheus metrics changed from `Summary` to `Histogram` types to fix stale values that accumulated over long windows.
