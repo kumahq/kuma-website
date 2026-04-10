@@ -41,7 +41,9 @@ done < <((git diff --name-only --diff-filter=d "${BASE_BRANCH}...HEAD"; \
   sort -u | \
   grep -E '\.(md|markdown)$' | \
   grep -v '/generated/' | \
-  grep -v '/raw/' || true)
+  grep -v '/raw/' | \
+  grep -v '^\.claude/' | \
+  grep -v '^CLAUDE\.md$' || true)
 
 if [ $FILES_FOUND -eq 0 ]; then
   echo "No markdown files changed"
