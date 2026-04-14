@@ -12,22 +12,22 @@
 #    in the site's `_config.yml`. If not set, it defaults to: ['app/assets'].
 # 3. For each base path, it checks if the file exists at:
 #       {{ base_path }}/{{ release }}/raw/{{ filename }}
-# 4. If not found, it falls back to checking if the provided filename is an absolute or relative path.
-# 5. If still not found, the plugin raises an error.
+# 4. If still not found, the plugin raises an error.
 #
 # Usage examples:
 #   {% rbacresources %}                            # uses default filename `rbac.yaml`
 #   {% rbacresources filename=custom-rbac.yaml %}  # uses a custom filename
 
 require 'yaml'
+require_relative '../../common/path_helpers'
 
 module Jekyll
   module KumaPlugins
     module Liquid
       module Tags
         class RbacResources < ::Liquid::Tag
-          PATHS_CONFIG = 'mesh_raw_generated_paths'
-          DEFAULT_PATHS = ['app/assets'].freeze
+          include Jekyll::KumaPlugins::Common::PathHelpers
+
           DEFAULT_FILENAME = 'rbac.yaml'
 
           def initialize(tag_name, text, tokens)
@@ -44,8 +44,7 @@ module Jekyll
           RBAC_KINDS = %w[ClusterRole ClusterRoleBinding Role RoleBinding].freeze
 
           def render(context)
-            filename = resolve_file_path(context)
-            yaml_content = YAML.load_stream(File.read(filename))
+            yaml_content = YAML.load_stream(read_rbac_file(context))
             grouped = filter_rbac_resources(yaml_content)
             tab_output = grouped.map { |kind, docs| generate_kind_tab(kind, docs) }.join("\n")
 
@@ -90,22 +89,17 @@ module Jekyll
             SUBTAB
           end
 
-          def resolve_file_path(context)
+          def read_rbac_file(context)
             site_config = context.registers[:site].config
             page_data = context.registers[:page]
-            release = page_data['release'].to_s.strip
+            release = optional_path_segment(page_data['release'])
             base_paths = site_config.fetch(PATHS_CONFIG, DEFAULT_PATHS)
 
-            base_paths.each do |base_path|
-              candidate = File.join(base_path, release, 'raw', @params['filename'])
-              return candidate if File.exist?(candidate)
-            end
+            read_file_content(base_paths, build_relative_path(release, 'raw', @params['filename']))
+          rescue RuntimeError => e
+            raise unless e.message.start_with?("couldn't read ")
 
-            fallback = @params['filename']
-            return fallback if File.exist?(fallback)
-
-            raise ArgumentError,
-                  "File not found: #{@params['filename']} (searched in configured paths and as absolute path)"
+            raise ArgumentError, "File not found: #{@params['filename']} (searched in configured paths: #{base_paths})"
           end
         end
       end
