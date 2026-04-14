@@ -34,13 +34,12 @@ module Jekyll
           def read_and_filter_content(site_config, release)
             file_path = resolve_embed_path(release)
             base_paths = site_config.fetch(PATHS_CONFIG, DEFAULT_PATHS)
-            content = read_file(base_paths, file_path).read
+            content = read_file_content(base_paths, file_path)
             apply_link_filter(content, site_config)
           end
 
           def resolve_embed_path(release)
-            version_prefix = @versioned ? release : ''
-            File.join(version_prefix, 'raw', @file)
+            build_relative_path(@versioned ? optional_path_segment(release) : nil, 'raw', @file)
           end
 
           def apply_link_filter(content, site_config)
