@@ -31,8 +31,7 @@ module Jekyll
             file_path = safe_join(root, relative_path)
             next unless File.file?(file_path) && File.readable?(file_path)
 
-            validate_realpath!(file_path, root, relative_path)
-            return file_path
+            return validate_realpath!(file_path, root, relative_path)
           rescue Errno::ENOENT
             next
           end
@@ -76,6 +75,8 @@ module Jekyll
         def validate_realpath!(path, root, relative_path)
           resolved_candidate = File.realpath(path)
           raise ArgumentError, "path traversal is not allowed: #{relative_path}" unless path_within_root?(resolved_candidate, root)
+
+          resolved_candidate
         end
 
         def open_validated_file(paths, file_name)
@@ -87,8 +88,8 @@ module Jekyll
             file_path = safe_join(root, relative_path)
             next unless File.file?(file_path) && File.readable?(file_path)
 
-            file = File.new(file_path)
-            validate_realpath!(file.path, root, relative_path)
+            resolved_file_path = validate_realpath!(file_path, root, relative_path)
+            file = File.new(resolved_file_path)
             return file
           rescue Errno::ENOENT
             file&.close

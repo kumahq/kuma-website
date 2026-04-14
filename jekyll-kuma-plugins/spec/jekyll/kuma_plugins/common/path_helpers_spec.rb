@@ -51,11 +51,14 @@ RSpec.describe Jekyll::KumaPlugins::Common::PathHelpers do
     end
 
     it 'rejects symlink escapes inside the configured root' do
-      File.symlink(secret_path, File.join(raw_path, 'linked.txt'))
+      linked_path = File.join(raw_path, 'linked.txt')
+      File.symlink(secret_path, linked_path)
+      allow(File).to receive(:new).and_call_original
 
       expect do
         helper.read_file([assets_path], helper.build_relative_path('1.0', 'raw', 'linked.txt'))
       end.to raise_error(ArgumentError, /path traversal/)
+      expect(File).not_to have_received(:new).with(linked_path)
     end
 
     it 'memoizes canonical paths for configured roots' do
