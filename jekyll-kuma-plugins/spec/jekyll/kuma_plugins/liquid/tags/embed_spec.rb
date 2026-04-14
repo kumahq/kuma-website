@@ -15,15 +15,18 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Embed do
   end
 
   let(:assets_path) { File.join(@tmpdir, 'app/assets') }
-  let(:release) { '1.0' }
+  let(:versioned_release) { '1.0' }
+  let(:release) { versioned_release }
   let(:site) { Struct.new(:config).new({ 'mesh_raw_generated_paths' => [assets_path] }) }
   let(:context) { Liquid::Context.new({}, {}, { site: site, page: { 'release' => release } }) }
+  let(:versioned_content) { 'kind: Deployment # versioned' }
+  let(:unversioned_content) { 'kind: Deployment # unversioned' }
 
   before do
-    FileUtils.mkdir_p(File.join(assets_path, release, 'raw'))
+    FileUtils.mkdir_p(File.join(assets_path, versioned_release, 'raw'))
     FileUtils.mkdir_p(File.join(assets_path, 'raw'))
-    File.write(File.join(assets_path, release, 'raw', 'kuma-cp.yaml'), 'kind: Deployment')
-    File.write(File.join(assets_path, 'raw', 'kuma-cp.yaml'), 'kind: Deployment')
+    File.write(File.join(assets_path, versioned_release, 'raw', 'kuma-cp.yaml'), versioned_content)
+    File.write(File.join(assets_path, 'raw', 'kuma-cp.yaml'), unversioned_content)
     File.write(File.join(@tmpdir, 'secret.txt'), 'secret')
   end
 
@@ -31,7 +34,7 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Embed do
     let(:markup) { 'kuma-cp.yaml versioned' }
 
     it 'reads the file from the release raw directory' do
-      expect(tag.render(context)).to eq('kind: Deployment')
+      expect(tag.render(context)).to eq(versioned_content)
     end
   end
 
@@ -48,7 +51,7 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::Embed do
     let(:markup) { 'kuma-cp.yaml versioned' }
 
     it 'falls back to the unversioned raw directory' do
-      expect(tag.render(context)).to eq('kind: Deployment')
+      expect(tag.render(context)).to eq(unversioned_content)
     end
   end
 end

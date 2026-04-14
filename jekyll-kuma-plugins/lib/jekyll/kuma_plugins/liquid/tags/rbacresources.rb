@@ -12,7 +12,10 @@
 #    in the site's `_config.yml`. If not set, it defaults to: ['app/assets'].
 # 3. For each base path, it checks if the file exists at:
 #       {{ base_path }}/{{ release }}/raw/{{ filename }}
-# 4. If still not found, the plugin raises an error.
+#    When `page.release` is blank, it falls back to:
+#       {{ base_path }}/raw/{{ filename }}
+# 4. If still not found in the configured paths, the plugin raises an error.
+#    It does not fall back to arbitrary absolute or relative filesystem paths.
 #
 # Usage examples:
 #   {% rbacresources %}                            # uses default filename `rbac.yaml`
@@ -25,10 +28,15 @@ module Jekyll
   module KumaPlugins
     module Liquid
       module Tags
+        # Renders RBAC resources from a YAML file rooted in the configured raw asset paths.
         class RbacResources < ::Liquid::Tag
           include Jekyll::KumaPlugins::Common::PathHelpers
 
           DEFAULT_FILENAME = 'rbac.yaml'
+          SAFE_YAML_OPTIONS = {
+            permitted_classes: [],
+            aliases: false
+          }.freeze
 
           def initialize(tag_name, text, tokens)
             super
@@ -44,7 +52,7 @@ module Jekyll
           RBAC_KINDS = %w[ClusterRole ClusterRoleBinding Role RoleBinding].freeze
 
           def render(context)
-            yaml_content = YAML.load_stream(read_rbac_file(context))
+            yaml_content = YAML.safe_load_stream(read_rbac_file(context), **SAFE_YAML_OPTIONS)
             grouped = filter_rbac_resources(yaml_content)
             tab_output = grouped.map { |kind, docs| generate_kind_tab(kind, docs) }.join("\n")
 

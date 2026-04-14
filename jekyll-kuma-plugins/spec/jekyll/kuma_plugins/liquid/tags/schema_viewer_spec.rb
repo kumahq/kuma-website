@@ -16,34 +16,41 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::SchemaViewer do
   end
 
   let(:assets_path) { File.join(@tmpdir, 'app/assets') }
-  let(:release) { '1.0' }
+  let(:versioned_release) { '1.0' }
+  let(:release) { versioned_release }
   let(:site) { Struct.new(:config).new({ 'mesh_raw_generated_paths' => [assets_path] }) }
   let(:context) { Liquid::Context.new({}, {}, { site: site, page: { 'release' => release } }) }
+  let(:versioned_schema) do
+    {
+      'properties' => {
+        'versioned' => {
+          'type' => 'string',
+          'description' => 'Versioned schema'
+        }
+      }
+    }
+  end
+  let(:unversioned_schema) do
+    {
+      'properties' => {
+        'fallback' => {
+          'type' => 'string',
+          'description' => 'Fallback schema'
+        }
+      }
+    }
+  end
 
   before do
-    FileUtils.mkdir_p(File.join(assets_path, release, 'raw', 'protos'))
+    FileUtils.mkdir_p(File.join(assets_path, versioned_release, 'raw', 'protos'))
     FileUtils.mkdir_p(File.join(assets_path, 'raw', 'protos'))
     File.write(
-      File.join(assets_path, release, 'raw', 'protos', 'Mesh.json'),
-      JSON.dump({
-                  'properties' => {
-                    'mesh' => {
-                      'type' => 'string',
-                      'description' => 'Mesh name'
-                    }
-                  }
-                })
+      File.join(assets_path, versioned_release, 'raw', 'protos', 'Mesh.json'),
+      JSON.dump(versioned_schema)
     )
     File.write(
       File.join(assets_path, 'raw', 'protos', 'Mesh.json'),
-      JSON.dump({
-                  'properties' => {
-                    'mesh' => {
-                      'type' => 'string',
-                      'description' => 'Mesh name'
-                    }
-                  }
-                })
+      JSON.dump(unversioned_schema)
     )
     File.write(
       File.join(@tmpdir, 'secret.json'),
@@ -61,7 +68,10 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::SchemaViewer do
     let(:markup) { 'Mesh type=proto' }
 
     it 'renders schema properties from the release raw directory' do
-      expect(tag.render(context)).to include('schema-viewer__name">mesh<')
+      output = tag.render(context)
+
+      expect(output).to include('schema-viewer__name">versioned<')
+      expect(output).not_to include('schema-viewer__name">fallback<')
     end
   end
 
@@ -82,7 +92,10 @@ RSpec.describe Jekyll::KumaPlugins::Liquid::Tags::SchemaViewer do
     let(:markup) { 'Mesh type=proto' }
 
     it 'loads the schema from the unversioned raw directory' do
-      expect(tag.render(context)).to include('schema-viewer__name">mesh<')
+      output = tag.render(context)
+
+      expect(output).to include('schema-viewer__name">fallback<')
+      expect(output).not_to include('schema-viewer__name">versioned<')
     end
   end
 end
