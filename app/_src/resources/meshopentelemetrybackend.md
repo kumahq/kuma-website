@@ -287,7 +287,7 @@ Per signal (one block each for `traces`, `metrics`, `logs`):
 
 | Field | Description |
 |-------|-------------|
-| `enabled` | whether the signal is configured to export at all |
+| `enabled` | whether a policy targets this signal on this backend - `false` means no policy asked for it, distinct from `state: missing` (asked for but unresolved) |
 | `state` | `ready`, `blocked`, `missing`, or `ambiguous` |
 | `envAllowed` | whether `env.mode` permits environment input for this backend |
 | `envInputPresent` | whether `kuma-dp` reported any matching environment-variable keys at bootstrap |
@@ -295,7 +295,7 @@ Per signal (one block each for `traces`, `metrics`, `logs`):
 | `missingFields` | fields the merge could not produce, such as `endpoint`, `protocol`, `headers`, `client_key` |
 | `blockedReasons` | one or more of `EnvDisabledByPolicy`, `RequiredEnvMissing`, `SignalOverridesDisallowed`, `MultipleBackendsForSignal` |
 
-A signal is `ready` when the merge produces an `endpoint`. Other fields fall back to OpenTelemetry SDK defaults.
+A signal is `ready` when the merge produces an `endpoint`. Other fields fall back to OpenTelemetry SDK defaults. A signal can be `ready` and still carry `blockedReasons` - those are soft blocks (`EnvDisabledByPolicy`, `SignalOverridesDisallowed`) that tell you environment input was ignored, not that export failed. Hard blocks (`RequiredEnvMissing`, `MultipleBackendsForSignal`) move the state out of `ready`.
 
 ### Signal `missing`: no endpoint resolved
 
@@ -341,6 +341,7 @@ openTelemetry:
       enabled: true
       state: ambiguous
       envAllowed: true
+      envInputPresent: true
       blockedReasons:
       - MultipleBackendsForSignal
   - name: backend-b
@@ -348,6 +349,7 @@ openTelemetry:
       enabled: true
       state: ambiguous
       envAllowed: true
+      envInputPresent: true
       blockedReasons:
       - MultipleBackendsForSignal
 ```
@@ -362,11 +364,11 @@ Two backends resolve to the same data plane and both allow environment input. Se
 MeshOpenTelemetryBackend not found, skipping backend  name=main-collector  labels=null
 ```
 
-In multi-zone, the most common cause is a zone-authored policy referencing a Global-synced backend by `name:` instead of `labels:`. Switch to `labels: {kuma.io/display-name: <name>}`.
+In multi-zone, the most common cause is a zone-authored policy referencing a Global-synced backend by `name:` instead of `labels:`. Switch to `labels: {kuma.io/display-name: <name>}`. A backend just applied on the Global control plane can also take a few seconds to reach Zone control planes through KDS - expect short-lived `NotReferenced` and "not found" log lines while sync catches up.
 
 ### Mixed-version data planes during upgrade
 
-`backendRef` requires the data plane to advertise the `feature-otel-via-kuma-dp` feature. All 2.14 data planes do. During an upgrade where some proxies are still on 2.13, the control plane silently skips the OTel pipe route for those proxies. The signal does not export through the backend, and there is no log entry. Look at `DataplaneInsight.openTelemetry` on the affected proxies - the section will be empty for backends that depend on `backendRef`.
+`backendRef` requires the data plane to advertise the `feature-otel-via-kuma-dp` feature. All 2.14 data planes do by default. During an upgrade where some proxies are still on 2.13, the control plane silently skips the OTel pipe route for those proxies - **no log entry is emitted**. The signal does not export through the backend. Confirm by reading `DataplaneInsight.openTelemetry` on the affected proxies: no signal status entries are written for `backendRef`-based backends until the proxy advertises the feature.
 
 Inline `endpoint` configurations stay on the direct Envoy export path and keep working through the upgrade.
 
