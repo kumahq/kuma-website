@@ -131,7 +131,7 @@ observability
 Okta
 [Oo]penshift
 opa
-[Oo]tel
+OTel|[Oo]tel
 [Oo]utbounds?
 PascalCase
 passthrough

@@ -309,6 +309,8 @@ items:
         url: /resources/meshtrust/
       - text: MeshIdentity
         url: /resources/meshidentity/
+      - text: MeshOpenTelemetryBackend
+        url: /resources/meshopentelemetrybackend/
   - title: Policies
     group: true
     items:
