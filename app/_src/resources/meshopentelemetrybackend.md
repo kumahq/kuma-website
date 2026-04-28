@@ -11,8 +11,6 @@ category: resource
 
 {% if_version gte:2.14.x %}
 
-<!-- vale off -->
-
 `MeshOpenTelemetryBackend` defines an OpenTelemetry collector endpoint that observability policies reference through a `backendRef`. Without it, every MeshMetric, MeshTrace, and MeshAccessLog policy carries its own copy of the collector address. With it, the address lives in one place and the policies point at it by name.
 
 Inline `endpoint` fields on those three policies still work in 2.14 but are deprecated and will be removed in 3.0. New deployments should use `backendRef`.
@@ -24,6 +22,8 @@ Inline `endpoint` fields on those three policies still work in 2.14 but are depr
 3. Signal-specific fields (`refreshInterval`, `attributes`, `body`, `sampling`) stay on the policy.
 
 To move the collector later, edit the backend - the policies stay untouched.
+
+`MeshOpenTelemetryBackend` must be created in the system namespace (`kuma-system` on Kubernetes). On Universal, it lives in the Global CP store with no namespace concept.
 
 ## Single collector for all three signals
 
@@ -180,7 +180,7 @@ When environment input must be ignored (regulated backends), set `mode: Disabled
 | `env` | OpenTelemetry environment-variable policy. Optional. Defaults to `mode: Optional`, `precedence: EnvFirst`, `allowSignalOverrides: true`. |
 | `env.mode` | `Disabled`, `Optional`, or `Required`. Default: `Optional`. |
 | `env.precedence` | `EnvFirst` (environment variables win, explicit config fills gaps) or `ExplicitFirst` (explicit config wins, environment variables fill gaps). Default: `EnvFirst`. |
-| `env.allowSignalOverrides` | Boolean. When `true`, per-signal variables may override shared variables per signal. When `false`, per-signal variables are ignored. Default: `true`. |
+| `env.allowSignalOverrides` | boolean. When `true`, per-signal variables may override shared variables per signal. When `false`, per-signal variables are ignored. Default: `true`. |
 
 ## Referencing a backend from a policy
 
@@ -205,7 +205,7 @@ backendRef:
 
 ### Per-zone collectors in multi-zone
 
-When zones run separate collectors, create a backend per zone and target each policy at the matching zone. Create both the backend and the policy on the Global CP - the Global CP resolves `backendRef.name` before KDS sync, so the hashed name on the zone never matters.
+When zones run separate collectors, create one backend per zone on the Global CP and scope each policy to the matching zone. Because both the backend and the policy live on Global, the CP resolves `backendRef.name` before KDS sync - the hashed name that appears on zones never matters.
 
 If the policy is created on a zone CP and references a backend synced from Global, use `backendRef.labels` instead - the synced backend's `metadata.name` carries a hash suffix that does not match a plain `name:`.
 
@@ -248,7 +248,7 @@ When all zones can share the same collector service name, one backend on the Glo
 
 ## Environment-variable resolution
 
-`kuma-dp` reads `OTEL_EXPORTER_OTLP_*` environment variables locally at startup and merges them with the backend config. Secret-bearing values (headers, client keys, certificates) stay local to `kuma-dp`. Bootstrap reports the present key names only, never the values.
+`kuma-dp` reads `OTEL_EXPORTER_OTLP_*` environment variables locally at startup and merges them with the backend config. Secret-bearing values (headers, client keys, certificates) stay local to `kuma-dp`. During startup, `kuma-dp` reports only which environment variable keys are present to the control plane, never the values.
 
 Recognized variable families:
 
@@ -262,11 +262,11 @@ For each field, `kuma-dp` resolves the first available source. With default `pre
 3. explicit field on the backend
 4. built-in default
 
-With `precedence: ExplicitFirst`, the explicit backend layer moves to position 1.
+With `precedence: ExplicitFirst`, the explicit backend field moves from position 3 to 1.
 
-When `mode: Disabled`, environment layers are skipped entirely.
+When `mode: Disabled`, environment variables are skipped entirely (points 1 and 2).
 
-When `mode: Required`, missing or invalid input blocks the signal even if explicit config or defaults could otherwise fill the gap. Use `Required` when missing input should fail loud - the signal blocks, `RequiredEnvMissing` shows up in `DataplaneInsight`, and alerts fire on the silence.
+When `mode: Required`, missing or invalid input blocks the signal even if explicit config or defaults could otherwise fill the gap. Use `Required` when missing input should fail loud - the signal blocks, `RequiredEnvMissing` shows up in `DataplaneInsight`, and you can alert on the absence of exported data.
 
 Environment-variable values change only when `kuma-dp` restarts and re-bootstraps. Status updates pick them up at the same time.
 
@@ -297,7 +297,7 @@ Per signal (one block each for `traces`, `metrics`, `logs`):
 
 A signal is `ready` when the merge produces an `endpoint`. Other fields fall back to OpenTelemetry SDK defaults. A signal can be `ready` and still carry `blockedReasons` - those are soft blocks (`EnvDisabledByPolicy`, `SignalOverridesDisallowed`) that tell you environment input was ignored, not that export failed. Hard blocks (`RequiredEnvMissing`, `MultipleBackendsForSignal`) move the state out of `ready`.
 
-### Signal `missing`: no endpoint resolved
+### Signal missing: no endpoint resolved
 
 ```yaml
 openTelemetry:
@@ -314,7 +314,7 @@ openTelemetry:
 
 The backend has no explicit address and no environment input was found. Either set `endpoint.address` on the backend or check the sidecar environment for `OTEL_EXPORTER_OTLP_ENDPOINT` or `OTEL_EXPORTER_OTLP_METRICS_ENDPOINT`.
 
-### Signal `blocked`: required input missing
+### Signal blocked: required input missing
 
 ```yaml
 openTelemetry:
@@ -331,7 +331,7 @@ openTelemetry:
 
 The backend has `mode: Required` but `kuma-dp` did not report the expected environment keys. Inject them on the sidecar and restart the data plane so the keys reach the control plane through bootstrap.
 
-### Signal `ambiguous`: more than one backend competing for input
+### Signal ambiguous: more than one backend competing for input
 
 ```yaml
 openTelemetry:
