@@ -111,9 +111,16 @@ MADR
 md
 minikube
 Maglev
+ason
+blockedReasons
+envAllowed
+envInputPresent
 HostnameGenerator
 MeshExternalService
 MeshGateway
+MeshOpenTelemetryBackend
+missingFields
+overrideKinds
 [Ww]orkloads?
 matchers
 Mockbin
@@ -131,7 +138,7 @@ observability
 Okta
 [Oo]penshift
 opa
-[Oo]tel
+OTel|[Oo]tel
 [Oo]utbounds?
 PascalCase
 passthrough
