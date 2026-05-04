@@ -100,7 +100,6 @@ The first two define how to scrape parts of the mesh (sidecar and underlying app
 
 {% tip %}
 In contrast to [Traffic Metrics](/docs/{{ page.release }}/policies/traffic-metrics) all configuration is dynamic and no restarts of the Data Plane Proxies are needed.
-You can define configuration refresh interval by using `KUMA_DATAPLANE_RUNTIME_DYNAMIC_CONFIGURATION_REFRESH_INTERVAL` env var or `{{site.set_flag_values_prefix}}dataplaneRuntime.dynamicConfiguration.refreshInterval` Helm value.
 {% endtip %}
 
 ### Sidecar
