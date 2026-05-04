@@ -615,3 +615,23 @@ Accessing services by using `kuma.io/direct-access-services` annotation means an
 ### Schema
 
 {% json_schema kuma.io_containerpatches type=crd %}
+
+## Dynamic configuration refresh interval
+
+The data plane proxy periodically polls the control plane for dynamic configuration updates (for example, [MeshMetric](/docs/{{ page.release }}/policies/meshmetric) policies).
+By default this happens every 10 seconds. To change this interval, set the `KUMA_DATAPLANE_RUNTIME_DYNAMIC_CONFIGURATION_REFRESH_INTERVAL` environment variable on the sidecar container.
+
+You can do this using a [`ContainerPatch`](#custom-container-configuration):
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: ContainerPatch
+metadata:
+  name: dynamic-config-refresh
+  namespace: {{site.mesh_namespace}}
+spec:
+  sidecarPatch:
+    - op: add
+      path: /env/-
+      value: '{"name":"KUMA_DATAPLANE_RUNTIME_DYNAMIC_CONFIGURATION_REFRESH_INTERVAL","value":"30s"}'
+```
