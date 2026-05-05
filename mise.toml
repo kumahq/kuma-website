@@ -3,7 +3,7 @@ experimental = true # To enable installation of Go tools from source with mise.
 
 [tools]
 # Web/Frontend
-ruby = "4.0.2"
+ruby = "4.0.3"
 node = "24.15.0"
 yarn = "1.22.22"
 
