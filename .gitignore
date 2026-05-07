@@ -3,6 +3,7 @@ node_modules
 .idea
 docs/.vuepress/dist
 yarn-error.log
+.yarn/install-state.gz
 
 # Created with `vale sync`
 .github/styles/Google
