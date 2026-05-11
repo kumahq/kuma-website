@@ -82,20 +82,23 @@ module Jekyll
 
           def proto_loader(name)
             lambda do |paths, release|
-              JSON.parse(read_file(paths, File.join(release.to_s, 'raw', 'protos', "#{name}.json")).read)
+              JSON.parse(read_file_content(paths, build_relative_path(optional_path_segment(release), 'raw', 'protos', "#{name}.json")))
             end
           end
 
           def crd_loader(name)
             lambda do |paths, release|
-              d = YAML.safe_load(read_file(paths, File.join(release.to_s, 'raw', 'crds', "#{name}.yaml")).read)
+              d = YAML.safe_load(read_file_content(paths, build_relative_path(optional_path_segment(release), 'raw', 'crds', "#{name}.yaml")))
               d['spec']['versions'][0]['schema']['openAPIV3Schema']
             end
           end
 
           def policy_loader(name)
             lambda do |paths, release|
-              d = YAML.safe_load(read_file(paths, File.join(release.to_s, 'raw', 'crds', "kuma.io_#{name.downcase}.yaml")).read)
+              d = YAML.safe_load(
+                read_file_content(paths, build_relative_path(optional_path_segment(release), 'raw', 'crds',
+                                                             "kuma.io_#{name.downcase}.yaml"))
+              )
               d['spec']['versions'][0]['schema']['openAPIV3Schema']['properties']['spec']
             end
           end
