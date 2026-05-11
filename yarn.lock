@@ -2764,7 +2764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"animejs@npm:^4.3.6":
+"animejs@npm:^4.4.0":
   version: 4.4.1
   resolution: "animejs@npm:4.4.1"
   checksum: 10c0/fed82adea748494d261378564eaeebfbe95987366671ddd4f06522174358bbf2c09d06facaa5ac9b3e7b004410b1ea69d5abf7a292be7bb448f4df03b0a0fae8
@@ -6552,7 +6552,7 @@ __metadata:
     "@kongponents/ktabs": "npm:^7.2.2"
     "@kongponents/styles": "npm:^7.2.2"
     anchor-js: "npm:^5.0.0"
-    animejs: "npm:^4.3.6"
+    animejs: "npm:^4.4.0"
     braces: "npm:3.0.3"
     jquery: "npm:^4.0.0"
     netlify-cli: "npm:^26.0.0"
