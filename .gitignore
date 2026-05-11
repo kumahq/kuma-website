@@ -3,6 +3,7 @@ node_modules
 .idea
 docs/.vuepress/dist
 yarn-error.log
+.yarn/install-state.gz
 
 # Yarn Berry (v4)
 .pnp.*
