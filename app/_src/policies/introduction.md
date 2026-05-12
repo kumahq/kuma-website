@@ -1250,9 +1250,33 @@ spec:
 ```
 
 {% endtab %}
+{% tab Updated consumer policy %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTimeout
+metadata:
+  name: consumer-specific
+  namespace: kuma-demo
+spec:
+  to:
+    - targetRef:
+        kind: MeshService
+        name: checkout
+      default:
+        connectionTimeout: 5s
+    - targetRef:
+        kind: MeshService
+        name: payments
+      default:
+        connectionTimeout: 5s
+```
+
+{% endtab %}
 {% endtabs %}
 
 In this case, `consumer-default` overrides `producer-policy`.
+To keep `producer-policy` effective, replace the mesh-wide consumer default with service-specific entries like `consumer-specific`, or split them into separate consumer policies and leave `redis` out.
 
 ## Examples
 
