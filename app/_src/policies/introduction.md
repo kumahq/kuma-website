@@ -757,6 +757,8 @@ Sorting is applied sequentially by attribute, with ties broken using the next at
 | 4 | Display Name<br>Label `kuma.io/display-name`    | Inverted lexicographical order, i.e;<br>* `zzzzz` (less priority)<br>* `aaaaa1`<br>* `aaaaa`<br>* `aaa`                                                                                                                          |
 
 
+Producer/consumer precedence has a same-namespace exception.<sup>[note](#same-namespace-exception)</sup>
+
 For `to` and `rules` policies we concatenate the array for each matching policies.
 For `to` policies we sort concatenated arrays again based on the `spec.to[].targetRef` field:
 
@@ -1077,7 +1079,7 @@ named the same way in different namespaces or zones with different configuration
 - **consumer**: Policies defined in a non system namespace that have `spec.to` which either do not use `name` or have a different `namespace`
 - **producer**: Policies defined in the same namespace as the services identified in the `spec.to[].targetRef`
 
-The merging order of the different policy scopes is: **workload-owner > consumer > producer > zonal > global**.
+The merging order of the different policy scopes is: **workload-owner > consumer > producer > zonal > global**.<sup>[note](#same-namespace-exception)</sup>
 {% endif_version %}
 
 ### Example
@@ -1134,7 +1136,8 @@ spec:
         idleTimeout: 30s
 ```
 
-Here the policy only impacts client1 as client2 doesn't run in ns1. As consumer policies have a higher priority over producer policies, client1 will have a `idleTimeout: 30s`.
+Here the policy only impacts client1 as client2 doesn't run in ns1.
+As consumer policies have a higher priority over producer policies<sup>[note](#same-namespace-exception)</sup>, client1 will have a `idleTimeout: 30s`.
 
 We can define another policy to impact client2:
 
@@ -1160,6 +1163,51 @@ Note that the only different here is the namespace, we now define a consumer pol
 Use labels for consumer policies and name for producer policies.
 It will be easier to differentiate between producer and consumer policies.
 {% endtip %}
+
+#### Same-namespace exception
+
+On Kubernetes, a consumer default in the same namespace can still override a producer policy for a specific service.
+This happens because policy role is evaluated before `spec.to[].targetRef` specificity.
+
+{% tabs %}
+{% tab Producer %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTimeout
+metadata:
+  name: producer-policy
+  namespace: kuma-demo
+spec:
+  to:
+    - targetRef:
+        kind: MeshService
+        name: redis
+      default:
+        connectionTimeout: 10s
+```
+
+{% endtab %}
+{% tab Consumer default %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTimeout
+metadata:
+  name: consumer-default
+  namespace: kuma-demo
+spec:
+  to:
+    - targetRef:
+        kind: Mesh
+      default:
+        connectionTimeout: 5s
+```
+
+{% endtab %}
+{% endtabs %}
+
+In this case, `consumer-default` overrides `producer-policy`.
 
 ## Examples
 
