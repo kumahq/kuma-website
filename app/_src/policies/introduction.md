@@ -7,7 +7,6 @@ keywords:
   - policy merging
 ---
 {% if_version gte:2.9.x %}
-
 ## What is a policy?
 
 A [policy](/docs/{{ page.release }}/introduction/concepts#policy) is a set of configuration that will be used to generate the [data plane proxy](/docs/{{ page.release }}/introduction/concepts#data-plane-proxy--sidecar) configuration.
@@ -145,7 +144,6 @@ spec:
       default: # Configuration that applies to incoming traffic
         key: value
 ```
-
 {% endpolicy_yaml %}
 {% endif_version %}
 
@@ -154,7 +152,6 @@ Some policies are not directional and will not have `to` and `rules`. Some examp
 For example
 
 {% policy_yaml %}
-
 ```yaml
 type: NonDirectionalPolicy
 name: my-example
@@ -165,7 +162,6 @@ spec:
   default:
     key: value
 ```
-
 {% endpolicy_yaml %}
 
 All specs have a **top level `targetRef`** which identifies which proxies this policy applies to.
@@ -261,9 +257,9 @@ The `spec.rules[]` section enables logging for any traffic coming on inbound lis
 
 The `targetRef.sectionName` field helps select specific sections within certain resource kinds:
 
-- `Dataplane` – selects an inbound port
-- `MeshService` – selects a port of the matching services
-- `MeshMultiZoneService` – selects a port
+* `Dataplane` – selects an inbound port
+* `MeshService` – selects a port of the matching services
+* `MeshMultiZoneService` – selects a port
 
 To resolve `sectionName`, the following steps are applied:
 
@@ -475,7 +471,6 @@ These are just examples, remember to check the docs specific to your policy.
 
 {% tabs %}
 {% tab Sidecar %}
-
 | `targetRef`             | Allowed kinds |
 | ----------------------- | -------------------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `Dataplane`, `MeshGateway`                                   |
@@ -485,15 +480,14 @@ The table above show that we can select sidecar proxies via `Mesh`, `Dataplane`,
 
 We can use the policy as an _outbound_ policy with:
 
-- `to[].targetRef.kind: Mesh` which will apply to all traffic originating at the sidecar _to_ anywhere
-- `to[].tagerRef.kind: MeshService` which will apply to all traffic _to_ specific services
-- `to[].tagerRef.kind: MeshExternalService` which will apply to all traffic _to_ specific external services
-- `to[].tagerRef.kind: MeshMultiZoneService` which will apply to all traffic _to_ specific multi-zone services
+* `to[].targetRef.kind: Mesh` which will apply to all traffic originating at the sidecar _to_ anywhere
+* `to[].tagerRef.kind: MeshService` which will apply to all traffic _to_ specific services
+* `to[].tagerRef.kind: MeshExternalService` which will apply to all traffic _to_ specific external services
+* `to[].tagerRef.kind: MeshMultiZoneService` which will apply to all traffic _to_ specific multi-zone services
 
 {% endtab %}
 
 {% tab Builtin Gateway %}
-
 | `targetRef`           | Allowed kinds |
 | --------------------- | ------------------------------------------------ |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
@@ -504,7 +498,7 @@ The table above indicates that we can select builtin gateway via `Mesh`, `MeshGa
 
 We can use the policy only as an _outbound_ policy with:
 
-- `to[].targetRef.kind: Mesh` all traffic from the gateway _to_ anywhere.
+* `to[].targetRef.kind: Mesh` all traffic from the gateway _to_ anywhere.
 
 {% endtab %}
 {% endtabs %}
@@ -512,9 +506,7 @@ We can use the policy only as an _outbound_ policy with:
 
 {% if_version eq:2.9.x %}
 
-<!-- markdownlint-disable MD024 -->
 ## Writing a `targetRef`
-<!-- markdownlint-enable MD024 -->
 
 `targetRef` is a concept borrowed from [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/).
 Its goal is to select subsets of proxies with maximum flexibility.
@@ -545,7 +537,6 @@ Here's an explanation of each kinds and their scope:
 Consider the two example policies below:
 
 {% policy_yaml use_meshservice=true %}
-
 ```yaml
 type: MeshAccessLog
 name: example-outbound
@@ -569,10 +560,8 @@ spec:
                 plain: '{"start_time": "%START_TIME%"}'
               path: "/tmp/logs.txt"
 ```
-
 {% endpolicy_yaml %}
 {% policy_yaml %}
-
 ```yaml
 type: MeshAccessLog
 name: example-inbound
@@ -592,7 +581,6 @@ spec:
                 plain: '{"start_time": "%START_TIME%"}'
               path: "/tmp/logs.txt"
 ```
-
 {% endpolicy_yaml %}
 
 Using `spec.targetRef`, this policy targets all proxies that have a tag `app:web-frontend`.
@@ -602,13 +590,10 @@ The `spec.to[].targetRef` section enables logging for any traffic going to `web-
 The `spec.from[].targetRef` section enables logging for any traffic coming from _anywhere_ in the `Mesh`.
 
 ### Omitting `targetRef`
-
 When a `targetRef` is not present, it is semantically equivalent to `targetRef.kind: Mesh` and refers to everything inside the `Mesh`.
 
 ### Applying to specific proxy types
-
 The top level `targetRef` field can select a specific subset of data plane proxies. The field named `proxyTypes` can restrict policies to specific types of data plane proxies:
-
 - `Sidecar`: Targets data plane proxies acting as sidecars to applications (including [delegated gateways](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/delegated/)).
 - `Gateway`: Applies to data plane proxies operating in [built-in Gateway](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin/) mode.
 - Empty list: Defaults to targeting all data plane proxies.
@@ -617,7 +602,6 @@ The top level `targetRef` field can select a specific subset of data plane proxi
 
 The following policy will only apply to gateway data-planes:
 {% policy_yaml %}
-
 ```yaml
 type: MeshTimeout
 name: gateway-only-timeout
@@ -632,7 +616,6 @@ spec:
       default:
         idleTimeout: 10s
 ```
-
 {% endpolicy_yaml %}
 
 ### Targeting gateways
@@ -661,7 +644,6 @@ conf:
 Policies can attach to all listeners:
 
 {% policy_yaml %}
-
 ```yaml
 type: MeshTimeout
 name: timeout-all
@@ -676,14 +658,12 @@ spec:
       default:
         idleTimeout: 10s
 ```
-
 {% endpolicy_yaml %}
 
 so that requests to either port 80 or 443 will have an idle timeout of 10 seconds,
 or just some listeners:
 
 {% policy_yaml %}
-
 ```yaml
 type: MeshTimeout
 name: timeout-8080
@@ -700,7 +680,6 @@ spec:
       default:
         idleTimeout: 10s
 ```
-
 {% endpolicy_yaml %}
 
 So that only requests to port 80 will have the idle timeout.
@@ -730,7 +709,6 @@ These are just examples, remember to check the docs specific to your policy.
 
 {% tabs %}
 {% tab Sidecar %}
-
 | `targetRef`             | Allowed kinds                                            |
 | ----------------------- | -------------------------------------------------------- |
 | `targetRef.kind`        | `Mesh`, `MeshSubset`                                     |
@@ -740,57 +718,51 @@ These are just examples, remember to check the docs specific to your policy.
 The table above show that we can select sidecar proxies via `Mesh`, `MeshSubset`
 
 We can use the policy as an _outbound_ policy with:
-
-- `to[].targetRef.kind: Mesh` which will apply to all traffic originating at the sidecar _to_ anywhere
-- `to[].tagerRef.kind: MeshService` which will apply to all traffic _to_ specific services
+* `to[].targetRef.kind: Mesh` which will apply to all traffic originating at the sidecar _to_ anywhere
+* `to[].tagerRef.kind: MeshService` which will apply to all traffic _to_ specific services
 
 We can also apply policy as an _inbound_ policy with:
-
-- `from[].targetRef.kind: Mesh` which will apply to all traffic received by the sidecar _from_ anywhere in the mesh
+* `from[].targetRef.kind: Mesh` which will apply to all traffic received by the sidecar _from_ anywhere in the mesh
 {% endtab %}
 
 {% tab Builtin Gateway %}
-
 | `targetRef`           | Allowed kinds                                    |
 | --------------------- | ------------------------------------------------ |
 | `targetRef.kind`      | `Mesh`, `MeshGateway`, `MeshGateway` with `tags` |
 | `to[].targetRef.kind` | `Mesh`                                           |
 
-The table above indicates that we can select builtin gateway via `Mesh`, `MeshGateway` or even specific listeners with `MeshGateway` using tags.
+The table above indicates that we can select builtin gateway via `Mesh`, `MeshGateway` or even specific listeners with `MeshGateway` using tags. 
 
 We can use the policy only as an _outbound_ policy with:
-
-- `to[].targetRef.kind: Mesh` all traffic from the gateway _to_ anywhere.
+* `to[].targetRef.kind: Mesh` all traffic from the gateway _to_ anywhere.
 
 {% endtab %}
 {% endtabs %}
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-
 ## Merging configuration
 
 A proxy can be targeted by multiple `targetRef`'s, to define how policies are merged together the following strategy is
 used:
 
-We define a total order of policy priority. The table below defines the sorting order for resources in the cluster.
+We define a total order of policy priority. The table below defines the sorting order for resources in the cluster. 
 Sorting is applied sequentially by attribute, with ties broken using the next attribute in the list.
 
 |   | Attribute                                       | Order                                                                                                                                                                                                                            |
 |---|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1 | `spec.targetRef`                                | - `Mesh` (less priority)<br>- `MeshGateway`<br>- `Dataplane`<br>- `Dataplane` with `labels`<br>- `Dataplane` with `labels/sectionName`<br>- `Dataplane` with `name/namespace`<br>- `Dataplane` with `name/namespace/sectionName` |
-| 2 | Origin<br>Label `kuma.io/origin`                | - `global` (less priority)<br>- `zone`                                                                                                                                                                                           |
-| 3 | Policy Role<br>Label `kuma.io/policy-role`      | - `system` (less priority)<br>- `producer`<br>- `consumer`<br>- `workload-owner`                                                                                                                                                 |
-| 4 | Display Name<br>Label `kuma.io/display-name`    | Inverted lexicographical order, i.e;<br>- `zzzzz` (less priority)<br>- `aaaaa1`<br>- `aaaaa`<br>- `aaa`                                                                                                                          |
+| 1 | `spec.targetRef`                                | * `Mesh` (less priority)<br>* `MeshGateway`<br>* `Dataplane`<br>* `Dataplane` with `labels`<br>* `Dataplane` with `labels/sectionName`<br>* `Dataplane` with `name/namespace`<br>* `Dataplane` with `name/namespace/sectionName` |
+| 2 | Origin<br>Label `kuma.io/origin`                | * `global` (less priority)<br>* `zone`                                                                                                                                                                                           |
+| 3 | Policy Role<br>Label `kuma.io/policy-role`      | * `system` (less priority)<br>* `producer`<br>* `consumer`<br>* `workload-owner`                                                                                                                                                 |
+| 4 | Display Name<br>Label `kuma.io/display-name`    | Inverted lexicographical order, i.e;<br>* `zzzzz` (less priority)<br>* `aaaaa1`<br>* `aaaaa`<br>* `aaa`                                                                                                                          |
 
-Producer/consumer precedence has a same-namespace exception.<sup><a href="#same-namespace-exception">note</a></sup>
 
 For `to` and `rules` policies we concatenate the array for each matching policies.
 For `to` policies we sort concatenated arrays again based on the `spec.to[].targetRef` field:
 
 |   | Attribute             | Order                                                                                                                                   |
 |---|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| 1 | `spec.to[].targetRef` | - `Mesh` (less priority)<br>- `MeshService`<br>- `MeshService` with `sectionName`<br>- `MeshExternalService`<br>- `MeshMultiZoneService` |
+| 1 | `spec.to[].targetRef` | * `Mesh` (less priority)<br>* `MeshService`<br>* `MeshService` with `sectionName`<br>* `MeshExternalService`<br>* `MeshMultiZoneService` |
 
 We then build configuration by merging each level using [JSON patch merge](https://www.rfc-editor.org/rfc/rfc7386).
 
@@ -822,13 +794,9 @@ default:
     other-array: [ 5, 6 ]
     extra: 2
 ```
-
 {% endif_version %}
 {% if_version eq:2.9.x %}
-
-<!-- markdownlint-disable MD024 -->
 ## Merging configuration
-<!-- markdownlint-enable MD024 -->
 
 A proxy can be targeted by multiple `targetRef`'s, to define how policies are merged together the following strategy is used:
 
@@ -872,10 +840,9 @@ default:
     other-array: [5, 6]
     extra: 2
 ```
-
 {% endif_version %}
 
-## Using policies with `MeshService`, `MeshMultizoneService` and `MeshExternalService`
+## Using policies with `MeshService`, `MeshMultizoneService` and `MeshExternalService`.
 
 [`MeshService`](/docs/{{ page.release }}/networking/meshservice) is a feature to define services explicitly in {{ site.mesh_product_name }}.
 It can be selectively enabled and disable depending on the value of [meshServices.mode](/docs/{{ page.release }}/networking/meshservice/#migration) on your Mesh object.
@@ -885,7 +852,6 @@ When using explicit services, `MeshServiceSubset` is no longer a valid kind and 
 In the following example we'll assume we have a `MeshService`:
 
 {% policy_yaml namespace=kuma-demo %}
-
 ```yaml
 type: MeshService
 name: my-service
@@ -903,7 +869,6 @@ spec:
     targetPort: 6739
     appProtocol: tcp
 ```
-
 {% endpolicy_yaml %}
 
 There are 2 ways to select a `MeshService`:
@@ -950,7 +915,6 @@ When `MeshService` have multiple ports, you can use `sectionName` to restrict po
 {% endtip %}
 
 {% if_version gte:2.10.x %}
-
 ### Global, zonal, producer and consumer policies
 
 Policies can be applied to a zone or to a namespace when using Kubernetes.
@@ -959,7 +923,6 @@ In other words:
 
 1. a policy applied to the global control plane will apply to all proxies in all zones.
 2. a policy applied to a zone will only apply to proxies inside this zone. It is equivalent to having:
-
    ```yaml
    spec:
      targetRef: 
@@ -967,9 +930,7 @@ In other words:
        labels:
          kuma.io/zone: "my-zone"
    ```
-
 3. a policy applied to a namespace will only apply to proxies inside this namespace. It is equivalent to having:
-
    ```yaml
    spec:
      targetRef: 
@@ -1036,13 +997,9 @@ label are:
 - **consumer**: Policies defined in a non system namespace that have `spec.to` which either do not use `name` or have a
   different `namespace`
 - **producer**: Policies defined in the same namespace as the services identified in the `spec.to[].targetRef`
-
 {% endif_version %}
 {% if_version eq:2.9.x %}
-
-<!-- markdownlint-disable MD024 -->
 ### Global, zonal, producer and consumer policies
-<!-- markdownlint-enable MD024 -->
 
 Policies can be applied to a zone or to a namespace when using Kubernetes.
 Policies will always impact at most the scope at which they are defined.
@@ -1050,7 +1007,6 @@ In other words:
 
 1. a policy applied to the global control plane will apply to all proxies in all zones.
 2. a policy applied to a zone will only apply to proxies inside this zone. It is equivalent to having:
-
    ```yaml
    spec:
      targetRef: 
@@ -1058,9 +1014,7 @@ In other words:
        tags:
          kuma.io/zone: "my-zone"
    ```
-
 3. a policy applied to a namespace will only apply to proxies inside this namespace. It is equivalent to having:
-
    ```yaml
    spec:
      targetRef: 
@@ -1123,7 +1077,7 @@ named the same way in different namespaces or zones with different configuration
 - **consumer**: Policies defined in a non system namespace that have `spec.to` which either do not use `name` or have a different `namespace`
 - **producer**: Policies defined in the same namespace as the services identified in the `spec.to[].targetRef`
 
-The merging order of the different policy scopes is: **workload-owner > consumer > producer > zonal > global**.<sup><a href="#same-namespace-exception">note</a></sup>
+The merging order of the different policy scopes is: **workload-owner > consumer > producer > zonal > global**.
 {% endif_version %}
 
 ### Example
@@ -1144,7 +1098,6 @@ client2 --> server
 {% endmermaid %}
 
 We're going to define a producer policy first:
-
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: MeshTimeout
@@ -1181,8 +1134,7 @@ spec:
         idleTimeout: 30s
 ```
 
-Here the policy only impacts client1 as client2 doesn't run in ns1.
-As consumer policies have a higher priority over producer policies<sup><a href="#same-namespace-exception">note</a></sup>, client1 will have a `idleTimeout: 30s`.
+Here the policy only impacts client1 as client2 doesn't run in ns1. As consumer policies have a higher priority over producer policies, client1 will have a `idleTimeout: 30s`.
 
 We can define another policy to impact client2:
 
@@ -1209,78 +1161,9 @@ Use labels for consumer policies and name for producer policies.
 It will be easier to differentiate between producer and consumer policies.
 {% endtip %}
 
-#### Same-namespace exception
-
-On Kubernetes, a consumer default in the same namespace can still override a producer policy for a specific service.
-This happens because policy role is evaluated before `spec.to[].targetRef` specificity.
-
-{% tabs %}
-{% tab Producer %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: producer-policy
-  namespace: kuma-demo
-spec:
-  to:
-    - targetRef:
-        kind: MeshService
-        name: redis
-      default:
-        connectionTimeout: 10s
-```
-
-{% endtab %}
-{% tab Consumer default %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: consumer-default
-  namespace: kuma-demo
-spec:
-  to:
-    - targetRef:
-        kind: Mesh
-      default:
-        connectionTimeout: 5s
-```
-
-{% endtab %}
-{% tab Updated consumer policy %}
-
-```yaml
-apiVersion: kuma.io/v1alpha1
-kind: MeshTimeout
-metadata:
-  name: consumer-specific
-  namespace: kuma-demo
-spec:
-  to:
-    - targetRef:
-        kind: MeshService
-        name: checkout
-      default:
-        connectionTimeout: 5s
-    - targetRef:
-        kind: MeshService
-        name: payments
-      default:
-        connectionTimeout: 5s
-```
-
-{% endtab %}
-{% endtabs %}
-
-In this case, `consumer-default` overrides `producer-policy`.
-To keep `producer-policy` effective, replace the mesh-wide consumer default with service-specific entries like `consumer-specific`, or split them into separate consumer policies and leave `redis` out.
-
 ## Examples
 
-### Applying a global default
+#### Applying a global default
 
 ```yaml
 type: ExamplePolicy
@@ -1320,7 +1203,6 @@ All traffic from any proxy (top level `targetRef`) going to the service "my-serv
 This is useful when a service owner wants to suggest a set of configurations to its clients.
 
 {% if_version gte:2.10.x %}
-
 #### Configuring all proxies of a team
 
 ```yaml
@@ -1343,10 +1225,7 @@ This is a useful way to define coarse-grained rules for example.
 {% endif_version %}
 
 {% if_version eq:2.9.x %}
-
-<!-- markdownlint-disable MD024 -->
 #### Configuring all proxies of a team
-<!-- markdownlint-enable MD024 -->
 
 ```yaml
 type: ExamplePolicy
@@ -1370,7 +1249,6 @@ This is a useful way to define coarse-grained rules for example.
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
-
 #### Configuring all proxies in a zone
 
 ```yaml
@@ -1391,10 +1269,7 @@ All proxies in zone `east` (top level `targetRef`) will have this policy configu
 This can be very useful when observability stores are different for each zone for example.
 {% endif_version %}
 {% if_version eq:2.9.x %}
-
-<!-- markdownlint-disable MD024 -->
 #### Configuring all proxies in a zone
-<!-- markdownlint-enable MD024 -->
 
 ```yaml
 type: ExamplePolicy
@@ -1487,25 +1362,19 @@ It's not necessary but CLI tools like [jq](https://jqlang.github.io/jq/) and [jd
 1. Before applying the policy, add a `kuma.io/effect: shadow` label.
 
 2. Check the proxy config with shadow policies taken into account through the {{site.mesh_product_name}} API. By using HTTP API:
-
     ```shell
     curl http://localhost:5681/meshes/${mesh}/dataplane/${dataplane}/_config?shadow=true
     ```
-
    or by using `kumactl`:
-
     ```shell
     kumactl inspect dataplane ${name} --type=config --shadow
     ```
 
 3. Check the diff in [JSONPatch](https://jsonpatch.com/) format through the {{site.mesh_product_name}} API. By using HTTP API:
-
     ```shell
     curl http://localhost:5681/meshes/${mesh}/dataplane/${dataplane}/_config?shadow=true&include=diff
     ```
-
    or by using `kumactl`:
-
     ```shell
     kumactl inspect dataplane ${name} --type=config --shadow --include=diff
     ```
@@ -1521,7 +1390,6 @@ This might change in the future.
 Apply policy with `kuma.io/effect: shadow` label:
 
 {% policy_yaml use_meshservice=true %}
-
 ```yaml
 type: MeshTimeout
 name: frontend-timeouts
@@ -1543,7 +1411,6 @@ spec:
      default:
        idleTimeout: 23s
 ```
-
 {% endpolicy_yaml %}
 
 Check the diff using `kumactl`:
