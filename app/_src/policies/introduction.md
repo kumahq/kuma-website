@@ -757,7 +757,7 @@ Sorting is applied sequentially by attribute, with ties broken using the next at
 | 4 | Display Name<br>Label `kuma.io/display-name`    | Inverted lexicographical order, i.e;<br>* `zzzzz` (less priority)<br>* `aaaaa1`<br>* `aaaaa`<br>* `aaa`                                                                                                                          |
 
 
-Producer/consumer precedence has a same-namespace exception.<sup>[note](#same-namespace-exception)</sup>
+Producer/consumer precedence has a same-namespace exception.<sup><a href="#same-namespace-exception">note</a></sup>
 
 For `to` and `rules` policies we concatenate the array for each matching policies.
 For `to` policies we sort concatenated arrays again based on the `spec.to[].targetRef` field:
@@ -1079,7 +1079,7 @@ named the same way in different namespaces or zones with different configuration
 - **consumer**: Policies defined in a non system namespace that have `spec.to` which either do not use `name` or have a different `namespace`
 - **producer**: Policies defined in the same namespace as the services identified in the `spec.to[].targetRef`
 
-The merging order of the different policy scopes is: **workload-owner > consumer > producer > zonal > global**.<sup>[note](#same-namespace-exception)</sup>
+The merging order of the different policy scopes is: **workload-owner > consumer > producer > zonal > global**.<sup><a href="#same-namespace-exception">note</a></sup>
 {% endif_version %}
 
 ### Example
@@ -1137,7 +1137,7 @@ spec:
 ```
 
 Here the policy only impacts client1 as client2 doesn't run in ns1.
-As consumer policies have a higher priority over producer policies<sup>[note](#same-namespace-exception)</sup>, client1 will have a `idleTimeout: 30s`.
+As consumer policies have a higher priority over producer policies<sup><a href="#same-namespace-exception">note</a></sup>, client1 will have a `idleTimeout: 30s`.
 
 We can define another policy to impact client2:
 
