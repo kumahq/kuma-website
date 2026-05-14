@@ -67,7 +67,7 @@ Producer policies **allow service owners to define recommended client-side behav
 by creating the policy in their service's own namespace.
 {{site.mesh_product_name}} then applies it automatically to the outbounds of client workloads.
 This lets backend owners publish sensible defaults (timeouts, retries, limits) for consumers,
-while individual clients can still refine those settings with their own [consumer](#consumer-policies) policies.
+while individual clients can still refine those settings with their own [consumer](#consumer-policies) policies.<sup><a href="#same-namespace-exception">note</a></sup>
 
 The following policy tells {{site.mesh_product_name}} to apply **3 retries** with a back off of `15s` to `1m`
 on **5xx errors** to any client calling `backend`:
@@ -237,6 +237,82 @@ For `to` policies, the concatenated arrays are sorted again based on the `spec.t
 | 1 | `spec.to[].targetRef` | * `Mesh` (less priority)<br>* `MeshService`<br>* `MeshService` with `sectionName`<br>* `MeshExternalService`<br>* `MeshMultiZoneService` |
 
 <!-- markdownlint-enable MD037 -->
+
+### Same-namespace exception
+
+On Kubernetes, a consumer default in the same namespace can still override a producer policy for a specific service.
+This happens because policy role is evaluated before `spec.to[].targetRef` specificity.
+
+{% tabs %}
+{% tab Producer %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTimeout
+metadata:
+  name: producer-policy
+  namespace: kuma-demo
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: redis
+        namespace: kuma-demo
+      default:
+        connectionTimeout: 10s
+```
+
+{% endtab %}
+{% tab Consumer default %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTimeout
+metadata:
+  name: consumer-default
+  namespace: kuma-demo
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+      default:
+        connectionTimeout: 5s
+```
+
+{% endtab %}
+{% tab Updated consumer policy %}
+
+```yaml
+apiVersion: kuma.io/v1alpha1
+kind: MeshTimeout
+metadata:
+  name: consumer-specific
+  namespace: kuma-demo
+spec:
+  targetRef:
+    kind: Mesh
+  to:
+    - targetRef:
+        kind: MeshService
+        name: checkout
+      default:
+        connectionTimeout: 5s
+    - targetRef:
+        kind: MeshService
+        name: payments
+      default:
+        connectionTimeout: 5s
+```
+
+{% endtab %}
+{% endtabs %}
+
+In this case, `consumer-default` overrides `producer-policy`.
+To keep `producer-policy` effective, replace the mesh-wide consumer default with service-specific entries like `consumer-specific`, or split them into separate consumer policies and leave `redis` out.
 
 Configuration is then built by merging each level using [JSON patch merge](https://www.rfc-editor.org/rfc/rfc7386).
 
