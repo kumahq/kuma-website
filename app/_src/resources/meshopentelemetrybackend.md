@@ -9,8 +9,6 @@ content_type: reference
 category: resource
 ---
 
-{% if_version gte:2.14.x %}
-
 `MeshOpenTelemetryBackend` defines an OpenTelemetry collector endpoint that observability policies reference through a `backendRef`. Without it, every MeshMetric, MeshTrace, and MeshAccessLog policy carries its own copy of the collector address. With it, the address lives in one place and the policies point at it by name.
 
 Inline `endpoint` fields on those three policies still work in 2.14 but are deprecated and will be removed in 3.0. New deployments should use `backendRef`.
@@ -116,6 +114,51 @@ spec:
     address: otel-collector.observability
     port: 4317
   protocol: grpc
+---
+type: MeshMetric
+name: all-metrics
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: OpenTelemetry
+        openTelemetry:
+          backendRef:
+            kind: MeshOpenTelemetryBackend
+            name: main-collector
+          refreshInterval: 30s
+---
+type: MeshTrace
+name: all-traces
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: OpenTelemetry
+        openTelemetry:
+          backendRef:
+            kind: MeshOpenTelemetryBackend
+            name: main-collector
+    sampling:
+      overall: 80
+---
+type: MeshAccessLog
+name: all-access-logs
+mesh: default
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    backends:
+      - type: OpenTelemetry
+        openTelemetry:
+          backendRef:
+            kind: MeshOpenTelemetryBackend
+            name: main-collector
 ```
 
 {% endtab %}
@@ -372,5 +415,3 @@ Inline `endpoint` configurations stay on the direct Envoy export path and keep w
 ## All options
 
 {% schema_viewer kuma.io_meshopentelemetrybackends type=crd %}
-
-{% endif_version %}
