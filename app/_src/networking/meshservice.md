@@ -142,12 +142,14 @@ for `test-server` from these two inbounds.
 {% if_version gte:2.14.x %}
 #### Label propagation
 
-Non-reserved `Dataplane` inbound tags and `Dataplane` resource labels are
-propagated into the generated `MeshService`'s `metadata.labels`. This lets you
-select generated `MeshServices` (for example with
+In Universal zones, non-reserved `Dataplane` inbound tags and `Dataplane`
+resource labels are propagated into the generated `MeshService`'s
+`metadata.labels`. This lets you select generated `MeshServices` (for example
+with
 [`MeshMultiZoneService`](/docs/{{ page.release }}/networking/meshmultizoneservice/))
 by custom labels such as `team` or `version` without patching each
-`MeshService` manually.
+`MeshService` manually. It does not apply to Kubernetes zones, where
+`MeshServices` are generated from `Services`.
 
 This is opt-in. Enable it via the control plane configuration:
 
@@ -155,7 +157,8 @@ This is opt-in. Enable it via the control plane configuration:
 experimental:
   meshServiceLabelPropagation:
     enabled: true
-    # optional allow-list; when set, only these keys are propagated
+    # optional allow-list of label keys; when set, only these keys are
+    # propagated. When empty, all non-reserved keys are propagated.
     allowedLabelKeys: []
 ```
 
@@ -174,7 +177,7 @@ Rules:
 When the `Dataplanes` backing one `MeshService` disagree on the value of a
 non-reserved key:
 
-- **Within a single `Dataplane`** (inbounds disagree on a tag): the key is
+- **Within a single `Dataplane`** (inbounds disagree on a label): the key is
   dropped, a warning is logged, and a metric is bumped. Inbounds of the same
   `Dataplane` disagreeing is a configuration error.
 - **Across different `Dataplanes`**: per-key **majority wins**. The value
