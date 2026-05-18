@@ -164,7 +164,7 @@ Rules:
 
 When the `Dataplanes` backing one `MeshService` disagree on the value of a non-reserved key:
 
-- **Within a single `Dataplane`** (inbounds disagree on a label): the key is dropped, a warning is logged, and a metric is bumped. Inbounds of the same `Dataplane` disagreeing is a configuration error.
+- **Within a single `Dataplane`** (inbounds disagree on a tag): the key is dropped, a warning is logged, and a metric is bumped. Inbounds of the same `Dataplane` disagreeing is a configuration error.
 - **Across different `Dataplanes`**: per-key **majority wins**. The value carried by the most `Dataplanes` is used.
 - **Ties** (for example exactly two `Dataplanes` with different values, one vote each): the **newest `Dataplane` wins**, compared by creation time. If creation times are identical, the value is chosen by lexicographic sort.
 
