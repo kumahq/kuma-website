@@ -24,6 +24,7 @@ the analog of a Kubernetes `Service`.
 A basic example follows to illustrate the structure:
 
 {% policy_yaml namespace=kuma-demo %}
+
 ```yaml
 type: MeshService
 name: redis
@@ -52,6 +53,7 @@ status:
   vips:
   - ip: 10.0.1.1 # kuma VIP or Kubernetes cluster IP
 ```
+
 {% endpolicy_yaml %}
 
 The MeshService represents a destination for traffic from elsewhere in the mesh.
@@ -102,7 +104,7 @@ generated from the `port` value.
 The only restriction in this case is that
 the port numbers match. For example an inbound:
 
-```
+```yaml
       inbound:
       - name: main
         port: 80
@@ -112,7 +114,7 @@ the port numbers match. For example an inbound:
 
 would result in a `MeshService`:
 
-```
+```yaml
 type: MeshService
 name: test-server
 spec:
@@ -127,7 +129,7 @@ spec:
 
 but you can't also have on a different `Dataplane`:
 
-```
+```yaml
       inbound:
       - name: main
         port: 8080
@@ -140,6 +142,7 @@ for `test-server` from these two inbounds.
 {% endif_version %}
 
 {% if_version gte:2.14.x %}
+
 #### Label propagation
 
 In Universal zones, non-reserved `Dataplane` inbound tags and `Dataplane` resource labels are propagated into the generated `MeshService`'s `metadata.labels`. This lets you select generated `MeshServices` (for example with [`MeshMultiZoneService`](/docs/{{ page.release }}/networking/meshmultizoneservice/)) by custom labels such as `team` or `version` without patching each `MeshService` manually. It does not apply to Kubernetes zones, where `MeshServices` are generated from `Services`.
@@ -186,7 +189,7 @@ The `ports` field lists the ports exposed by the `Dataplanes` that
 the `MeshService` matches. `targetPort` can refer to a port directly or by the
 name of the `Dataplane` port.
 
-```
+```yaml
   ports:
   - name: redis-non-tls
     port: 16739
@@ -195,6 +198,7 @@ name of the `Dataplane` port.
 ```
 
 {% if_version gte:2.9.x %}
+
 ## Multizone
 
 The main difference at the data plane level between `kuma.io/service` and
@@ -208,8 +212,8 @@ If it _is_ enabled, destinations in the local zone are prioritized.
 
 So when moving to `MeshService`, the choice needs to be made between:
 
-* keeping this behavior, which means moving to [`MeshMultiZoneService`](/docs/{{ page.release }}/networking/meshmultizoneservice/).
-* using `MeshService` instead, either from the local zone or one synced from
+- keeping this behavior, which means moving to [`MeshMultiZoneService`](/docs/{{ page.release }}/networking/meshmultizoneservice/).
+- using `MeshService` instead, either from the local zone or one synced from
   a remote zone.
 
 This is noted in the [migration outline](#migration).
@@ -221,7 +225,7 @@ This is noted in the [migration outline](#migration).
 A `MeshService` resource can be used as the destination target of a policy by
 putting it in a `to[].targetRef` entry. For example:
 
-```
+```yaml
 spec:
   to:
   - targetRef:
@@ -242,7 +246,7 @@ In order to direct traffic to a given `MeshService`, it must be used as a
 `backendRefs` entry.
 In `backendRefs`, ports are optionally referred to by their number:
 
-```
+```yaml
 spec:
   targetRef:
     kind: Mesh
@@ -274,7 +278,7 @@ Note that with `backendRefs` only one resource is allowed to be selected.
 
 If this field is set, resources are selected via their `labels`.
 
-```
+```yaml
 - kind: MeshService
   labels:
     kuma.io/display-name: test-server-v2
@@ -289,7 +293,7 @@ Only one resource will be selected.
 But if we leave out the namespace, _any_ resource named `test-server-v2` in the
 `east` zone is selected, regardless of its namespace.
 
-```
+```yaml
 - kind: MeshService
   labels:
     kuma.io/display-name: test-server-v2
@@ -301,7 +305,7 @@ But if we leave out the namespace, _any_ resource named `test-server-v2` in the
 MeshService is opt-in and involves a migration process. Every `Mesh` must enable
 `MeshServices` in some form:
 
-```
+```yaml
 spec:
   meshServices:
     mode: Disabled # or Everywhere, ReachableBackends, Exclusive
@@ -349,17 +353,22 @@ solely with `MeshService` resources and no longer via `kuma.io/service` tags and
 1. Decide whether you want to set `mode: Everywhere` or whether you
    enable `MeshService` consumer by consumer with `mode: ReachableBackends`.
 1. For every usage of a `kuma.io/service`, decide how it should be consumed:
+
 - as `MeshService`: only ever from one single zone
   - these are created automatically
 - as `MeshMultiZoneService`: combined with all "same" services in other zones
   - these have to be created manually
+
 1. Update your MeshHTTPRoutes/MeshTCPRoutes to refer to
    `MeshService`/`MeshMultiZoneService` directly.
-  - this is required
+
+- this is required
+
 1. Set `mode: Exclusive` to stop receiving configuration based on
    `kuma.io/service`.
 1. Update `targetRef.kind: MeshService` references to use the real name of the
    `MeshService` as opposed to the `kuma.io/service`.
-  - this is not strictly required
+
+- this is not strictly required
 
 {% endif_version %}
