@@ -142,14 +142,7 @@ for `test-server` from these two inbounds.
 {% if_version gte:2.14.x %}
 #### Label propagation
 
-In Universal zones, non-reserved `Dataplane` inbound tags and `Dataplane`
-resource labels are propagated into the generated `MeshService`'s
-`metadata.labels`. This lets you select generated `MeshServices` (for example
-with
-[`MeshMultiZoneService`](/docs/{{ page.release }}/networking/meshmultizoneservice/))
-by custom labels such as `team` or `version` without patching each
-`MeshService` manually. It does not apply to Kubernetes zones, where
-`MeshServices` are generated from `Services`.
+In Universal zones, non-reserved `Dataplane` inbound tags and `Dataplane` resource labels are propagated into the generated `MeshService`'s `metadata.labels`. This lets you select generated `MeshServices` (for example with [`MeshMultiZoneService`](/docs/{{ page.release }}/networking/meshmultizoneservice/)) by custom labels such as `team` or `version` without patching each `MeshService` manually. It does not apply to Kubernetes zones, where `MeshServices` are generated from `Services`.
 
 This is opt-in. Enable it via the control plane configuration:
 
@@ -157,43 +150,26 @@ This is opt-in. Enable it via the control plane configuration:
 experimental:
   meshServiceLabelPropagation:
     enabled: true
-    # optional allow-list of label keys; when set, only these keys are
-    # propagated. When empty, all non-reserved keys are propagated.
+    # optional allow-list of label keys; when set, only these keys are propagated; when empty, all non-reserved keys are propagated
     allowedLabelKeys: []
 ```
 
 Rules:
 
-- `kuma.io/*` and `k8s.kuma.io/*` keys are never propagated. System labels
-  (`kuma.io/mesh`, `kuma.io/display-name`, `kuma.io/managed-by`, `kuma.io/env`,
-  `kuma.io/zone`, `kuma.io/origin`) are always set by the generator and win.
-- Invalid label keys or values are skipped and logged. They do not fail
-  `Dataplane` validation.
-- Label removal propagates: removing a tag or label from the backing
-  `Dataplanes` removes it from the generated `MeshService`.
+- `kuma.io/*` and `k8s.kuma.io/*` keys are never propagated. System labels (`kuma.io/mesh`, `kuma.io/display-name`, `kuma.io/managed-by`, `kuma.io/env`, `kuma.io/zone`, `kuma.io/origin`) are always set by the generator and win.
+- Invalid label keys or values are skipped and logged. They do not fail `Dataplane` validation.
+- Label removal propagates: removing a tag or label from the backing `Dataplanes` removes it from the generated `MeshService`.
 
 ##### Conflict resolution
 
-When the `Dataplanes` backing one `MeshService` disagree on the value of a
-non-reserved key:
+When the `Dataplanes` backing one `MeshService` disagree on the value of a non-reserved key:
 
-- **Within a single `Dataplane`** (inbounds disagree on a label): the key is
-  dropped, a warning is logged, and a metric is bumped. Inbounds of the same
-  `Dataplane` disagreeing is a configuration error.
-- **Across different `Dataplanes`**: per-key **majority wins**. The value
-  carried by the most `Dataplanes` is used.
-- **Ties** (for example exactly two `Dataplanes` with different values, one
-  vote each): the **newest `Dataplane` wins**, compared by creation time. If
-  creation times are identical, the value is chosen by lexicographic sort.
+- **Within a single `Dataplane`** (inbounds disagree on a label): the key is dropped, a warning is logged, and a metric is bumped. Inbounds of the same `Dataplane` disagreeing is a configuration error.
+- **Across different `Dataplanes`**: per-key **majority wins**. The value carried by the most `Dataplanes` is used.
+- **Ties** (for example exactly two `Dataplanes` with different values, one vote each): the **newest `Dataplane` wins**, compared by creation time. If creation times are identical, the value is chosen by lexicographic sort.
 
 {% warning %}
-With only two backing `Dataplanes`, every key conflict is a tie, so the
-propagated value tracks whichever `Dataplane` was created most recently and can
-flip when a `Dataplane` is replaced. During a rolling deploy the value switches
-at the ~50% crossover point. If you use these labels as `MeshMultiZoneService`
-selectors, update the selectors in lockstep, or give workloads that must be
-routed separately distinct `kuma.io/service` values so they generate separate
-`MeshServices`.
+With only two backing `Dataplanes`, every key conflict is a tie, so the propagated value tracks whichever `Dataplane` was created most recently and can flip when a `Dataplane` is replaced. During a rolling deploy the value switches at the ~50% crossover point. If you use these labels as `MeshMultiZoneService` selectors, update the selectors in lockstep, or give workloads that must be routed separately distinct `kuma.io/service` values so they generate separate `MeshServices`.
 {% endwarning %}
 {% endif_version %}
 
