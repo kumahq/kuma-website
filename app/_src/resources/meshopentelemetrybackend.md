@@ -168,19 +168,7 @@ metadata:
 
 When environment input must be ignored (regulated backends), set `mode: Disabled`. When the backend is meaningless without environment input (per-tenant headers, mTLS client keys), set `mode: Required` - the signal stays `missing` until the keys are present.
 
-## Spec fields
-
-| Field | Description |
-|-------|-------------|
-| `endpoint` | Collector address. Optional - omitting `endpoint` is equivalent to omitting all of its sub-fields. When omitted, `kuma-dp` resolves a node-local default at runtime. |
-| `endpoint.address` | DNS name or IP address. Optional. Defaults to `HOST_IP` on Kubernetes (Downward API) and `127.0.0.1` elsewhere. |
-| `endpoint.port` | Collector port. Optional. Default: `4317`. |
-| `endpoint.path` | Base path prefix for OTLP/HTTP. Optional. Rejected when `protocol: grpc`. The control plane appends `/v1/traces`, `/v1/metrics`, `/v1/logs` per signal. |
-| `protocol` | `grpc` or `http`. Optional. Default: `grpc`. `http` means OTLP/HTTP with Protobuf encoding. |
-| `env` | OpenTelemetry environment-variable policy. Optional. Defaults to `mode: Optional`, `precedence: EnvFirst`, `allowSignalOverrides: true`. |
-| `env.mode` | `Disabled`, `Optional`, or `Required`. Default: `Optional`. |
-| `env.precedence` | `EnvFirst` (environment variables win, explicit config fills gaps) or `ExplicitFirst` (explicit config wins, environment variables fill gaps). Default: `EnvFirst`. |
-| `env.allowSignalOverrides` | boolean. When `true`, per-signal variables may override shared variables per signal. When `false`, per-signal variables are ignored. Default: `true`. |
+Field-level reference (types, validation, defaults) lives in [All options](#all-options) at the bottom of this page.
 
 ## Referencing a backend from a policy
 
@@ -192,7 +180,7 @@ Every observability policy that supports OpenTelemetry has a `backendRef` field 
 | `backendRef.name` | `metadata.name` of the backend, for same-cluster references. |
 | `backendRef.labels` | Label selector. Required for cross-zone references because [KDS](/docs/{{ page.release }}/production/deployment/multi-zone/) appends a hash suffix to `metadata.name` on synced resources. |
 
-Exactly one of `name` or `labels` must be set. When `labels` matches more than one backend, the oldest by creation time wins.
+Exactly one of `name` or `labels` must be set. When `labels` matches more than one backend, the oldest by creation time wins - no warning is emitted, so check creation timestamps if a policy resolves to an unexpected backend. When `name` does not resolve at all, the policy carries a `BackendRefsResolved: False` status condition with reason `UnresolvedBackendRefs`.
 
 For cross-zone references, match on `kuma.io/display-name` so the resource resolves regardless of the hashed name added during sync:
 
@@ -295,7 +283,9 @@ Per signal (one block each for `traces`, `metrics`, `logs`):
 | `missingFields` | fields the merge could not produce, such as `endpoint`, `protocol`, `headers`, `client_key` |
 | `blockedReasons` | one or more of `EnvDisabledByPolicy`, `RequiredEnvMissing`, `SignalOverridesDisallowed`, `MultipleBackendsForSignal` |
 
-A signal is `ready` when the merge produces an `endpoint`. Other fields fall back to OpenTelemetry SDK defaults. A signal can be `ready` and still carry `blockedReasons` - those are soft blocks (`EnvDisabledByPolicy`, `SignalOverridesDisallowed`) that tell you environment input was ignored, not that export failed. Hard blocks (`RequiredEnvMissing`, `MultipleBackendsForSignal`) move the state out of `ready`.
+A signal is `ready` when the merge produces an `endpoint`. Other fields fall back to OpenTelemetry SDK defaults.
+
+**Soft blocks** (`EnvDisabledByPolicy`, `SignalOverridesDisallowed`) mean environment input was ignored but export still works. **Hard blocks** (`RequiredEnvMissing`, `MultipleBackendsForSignal`) prevent export entirely and move the state out of `ready`.
 
 ### Signal missing: no endpoint resolved
 
