@@ -526,6 +526,8 @@ items:
         src: /guides/gateway-api-kv/
       - text: Collect Metrics with OpenTelemetry
         url: /guides/otel-metrics/
+      - text: Deploy an OpenTelemetry collector
+        url: /guides/otel-collector/
       - text: Migration to the new policies
         url: /guides/migration-to-the-new-policies/
       - text: Progressively rolling in strict mTLS
