@@ -92,13 +92,13 @@ data:
     exporters:
       debug:
         verbosity: basic
-      otlp/tempo:
+      otlp_grpc/tempo:
         endpoint: tempo.observability:4317
         tls:
           insecure: true
       prometheus:
         endpoint: 0.0.0.0:8889
-      otlphttp/loki:
+      otlp_http/loki:
         endpoint: http://loki.observability:3100/otlp
 
     service:
@@ -106,7 +106,7 @@ data:
         traces:
           receivers: [otlp]
           processors: [memory_limiter, batch]
-          exporters: [otlp/tempo, debug]
+          exporters: [otlp_grpc/tempo, debug]
         metrics:
           receivers: [otlp]
           processors: [memory_limiter, batch]
@@ -114,7 +114,7 @@ data:
         logs:
           receivers: [otlp]
           processors: [memory_limiter, batch]
-          exporters: [otlphttp/loki, debug]
+          exporters: [otlp_http/loki, debug]
 ```
 
 A few things worth flagging:
@@ -122,7 +122,7 @@ A few things worth flagging:
 - `memory_limiter` runs first. The OpenTelemetry project recommends this so the collector can shed load before later processors allocate. If batching ran first, a burst could OOM the pod before the limiter ever saw it.
 - `batch` reduces export overhead. `send_batch_size: 4096` is a reasonable starting point. Tune up if your backend complains about request rate, down if it complains about batch size.
 - The `debug` exporter is sitting in every pipeline at `verbosity: basic`. It logs one line per batch. Bump to `detailed` and reload the config when you need to see individual records.
-- Swap `otlp/tempo`, `prometheus`, and `otlphttp/loki` for whatever your backends are. A single OTLP-compatible backend can replace all three.
+- Swap `otlp_grpc/tempo`, `prometheus`, and `otlp_http/loki` for whatever your backends are. A single OTLP-compatible backend can replace all three.
 
 ### Deployment manifest
 
@@ -314,11 +314,12 @@ metadata:
 spec:
   targetRef:
     kind: Mesh
-  default:
-    backends:
-      - type: OpenTelemetry
-        openTelemetry:
-          endpoint: otel-collector.observability:4317
+  rules:
+    - default:
+        backends:
+          - type: OpenTelemetry
+            openTelemetry:
+              endpoint: otel-collector.observability:4317
 ' | kubectl apply -f -
 ```
 
@@ -328,7 +329,9 @@ Sampling for traces is set to 100% here so you see something during testing. Dro
 
 By default, sidecars can reach addresses outside the mesh through [passthrough mode](/docs/{{ page.release }}/networking/non-mesh-traffic). The collector lives outside the mesh, so passthrough is what gets sidecar telemetry to it.
 
-If you disable passthrough at the `Mesh` level, sidecars can't reach the collector anymore and telemetry stops. To restore that path, declare the collector explicitly with a [MeshExternalService](/docs/{{ page.release }}/networking/meshexternalservice):
+If you disable passthrough at the `Mesh` level, sidecars can't reach the collector anymore and telemetry stops. To restore that path, declare the collector with a [MeshExternalService](/docs/{{ page.release }}/networking/meshexternalservice).
+
+`MeshExternalService` requires [ZoneEgress](/docs/{{ page.release }}/production/cp-deployment/zoneegress) and [mutual TLS](/docs/{{ page.release }}/policies/mutual-tls) on the mesh. If you already disabled passthrough, you likely have mTLS on already.
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -348,7 +351,7 @@ spec:
       port: 4317
 ```
 
-Update the three policies to point at the `MeshExternalService` hostname instead of the raw service DNS. The hostname generator publishes a `.mesh` name you can target.
+The hostname generator publishes the service under `otel-collector.extsvc.mesh.local`. Update the three policies to point at that hostname on port 4317 instead of `otel-collector.observability:4317`.
 
 ## Verify
 
