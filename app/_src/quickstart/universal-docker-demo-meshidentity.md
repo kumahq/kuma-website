@@ -408,10 +408,15 @@ This section explains how to start the `kv` service, which mimics a key/value st
 
    3. **Start the data plane proxy**
 
+      {% warning %}
+      The `--skip-verify` flag turns off TLS verification of the control plane certificate and is only appropriate for this quickstart, where the control plane uses a self-signed certificate. As of the latest patch releases, `kuma-dp` verifies the control plane certificate by default instead of silently skipping verification. In production, pass the control plane CA with `--ca-cert-file=/path/to/ca.pem` (or set the `KUMA_CONTROL_PLANE_CA_CERT_FILE` environment variable) instead of skipping verification.
+      {% endwarning %}
+
       ```sh
       runuser --user {{ kuma-data-plane-proxy }} -- \
         /usr/local/bin/kuma-dp run \
           --cp-address https://control-plane:5678 \
+          --skip-verify \
           --dataplane-token-file /demo/token-kv \
           --dataplane-file /demo/dataplane.yaml \
           --dataplane-var name=kv \
@@ -587,6 +592,7 @@ The steps are the same as those explained earlier, with only the names changed. 
       runuser --user {{ kuma-data-plane-proxy }} -- \
         /usr/local/bin/kuma-dp run \
           --cp-address https://control-plane:5678 \
+          --skip-verify \
           --dataplane-token-file /demo/token-demo-app \
           --dataplane-file /demo/dataplane.yaml \
           --dataplane-var name=demo-app \
@@ -786,6 +792,7 @@ The built-in gateway works like the data plane proxy for a regular service, but 
      --volume "${{ KUMA_DEMO_TMP }}:/demo" \
      {{ docker_org }}/kuma-dp:{{ version_full }} run \
        --cp-address https://control-plane:5678 \
+       --skip-verify \
        --dataplane-token-file /demo/token-edge-gateway \
        --dataplane-file /demo/dataplane-edge-gateway.yaml \
        --dns-enabled=false

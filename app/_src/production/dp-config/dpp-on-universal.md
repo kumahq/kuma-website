@@ -19,6 +19,10 @@ To avoid users bypassing the sidecar, have the service listen only on the intern
 
 For example, this is how we start a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:
 
+{% warning %}
+The `--skip-verify` flag turns off TLS verification of the control plane certificate and is only appropriate for this quickstart, where the control plane uses a self-signed certificate. As of the latest patch releases, `kuma-dp` verifies the control plane certificate by default instead of silently skipping verification. In production, pass the control plane CA with `--ca-cert-file=/path/to/ca.pem` (or set the `KUMA_CONTROL_PLANE_CA_CERT_FILE` environment variable) instead of skipping verification.
+{% endwarning %}
+
 ```sh
 cat dp.yaml
 type: Dataplane
@@ -34,6 +38,7 @@ networking:
 
 kuma-dp run \
   --cp-address=https://127.0.0.1:5678 \
+  --skip-verify \
   --dataplane-file=dp.yaml
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
@@ -80,6 +85,7 @@ networking:
 
 kuma-dp run \
   --cp-address=https://127.0.0.1:5678 \
+  --skip-verify \
   --dataplane-file=dp.yaml \
   --dataplane-var name=`hostname -s` \
   --dataplane-var address=192.168.0.2 \
