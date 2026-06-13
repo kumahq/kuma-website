@@ -72,11 +72,7 @@ After generating tokens we can start the data plane proxies that will be used fo
 {% warning %}
 Because this is a quickstart, we don't setup [certificates for communication
 between the data plane proxies and the control plane](/docs/{{ page.release }}/production/secure-deployment/certificates/#encrypted-communication).
-You'll see a warning like the following in the `kuma-dp` logs:
-
-```
-2024-07-25T20:06:36.082Z	INFO	dataplane	[WARNING] The data plane proxy cannot verify the identity of the control plane because you are not setting the "--ca-cert-file" argument or setting the KUMA_CONTROL_PLANE_CA_CERT environment variable.
-```
+The `--skip-verify` flag turns off TLS verification of the control plane certificate and is only appropriate for this quickstart, where the control plane uses a self-signed certificate. `kuma-dp` verifies the control plane certificate by default. In production, pass the control plane CA with `--ca-cert-file=/path/to/ca.pem` (or set the `KUMA_CONTROL_PLANE_CA_CERT_FILE` environment variable) instead of skipping verification.
 
 This isn't related to mTLS between services.
 {% endwarning %}
@@ -88,6 +84,7 @@ run kuma-dp manually, to do this run:
 ```sh
 KUMA_READINESS_PORT=9901 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9902 {% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
+  --skip-verify \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-redis \
   --dataplane="
@@ -112,6 +109,7 @@ KUMA_READINESS_PORT=9901 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_
 ```sh
 KUMA_READINESS_PORT=9901 KUMA_APPLICATION_PROBE_PROXY_PORT=9902 kuma-dp run \
   --cp-address=https://localhost:5678/ \
+  --skip-verify \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-redis \
   --dataplane="
@@ -151,6 +149,7 @@ Now we can start the data plane proxy for our demo-app, we can do this by runnin
 ```sh
 KUMA_READINESS_PORT=9904 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905 {% endif_version %} kuma-dp run \
   --cp-address=https://localhost:5678/ \
+  --skip-verify \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-demo-app \
   --dataplane="
@@ -179,6 +178,7 @@ KUMA_READINESS_PORT=9904 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_
 ```sh
 KUMA_READINESS_PORT=9904 KUMA_APPLICATION_PROBE_PROXY_PORT=9905 kuma-dp run \
   --cp-address=https://localhost:5678/ \
+  --skip-verify \
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-demo-app \
   --dataplane="
