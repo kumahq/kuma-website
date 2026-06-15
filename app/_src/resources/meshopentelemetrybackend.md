@@ -226,7 +226,7 @@ Every observability policy that supports OpenTelemetry has a `backendRef` field 
 | Field | Description |
 |-------|-------------|
 | `backendRef.kind` | Must be `MeshOpenTelemetryBackend`. |
-| `backendRef.labels` | Label selector used to resolve the backend. Match on `kuma.io/display-name` so the reference is stable across zones — [KDS](/docs/{{ page.release }}/production/deployment/multi-zone/) appends a hash suffix to `metadata.name` on synced resources. |
+| `backendRef.labels` | Label selector used to resolve the backend. Match on `kuma.io/display-name` so the reference is stable across zones—[KDS](/docs/{{ page.release }}/production/deployment/multi-zone/) appends a hash suffix to `metadata.name` on synced resources. |
 
 When `labels` matches more than one backend, the oldest by creation time wins - no warning is emitted, so check creation timestamps if a policy resolves to an unexpected backend.
 
