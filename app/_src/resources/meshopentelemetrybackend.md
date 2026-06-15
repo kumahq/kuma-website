@@ -9,14 +9,14 @@ content_type: reference
 category: resource
 ---
 
-`MeshOpenTelemetryBackend` defines an OpenTelemetry collector endpoint that observability policies reference through a `backendRef`. Without it, every MeshMetric, MeshTrace, and MeshAccessLog policy carries its own copy of the collector address. With it, the address lives in one place and the policies point at it by name.
+`MeshOpenTelemetryBackend` defines an OpenTelemetry collector endpoint that observability policies reference through a `backendRef`. Without it, every MeshMetric, MeshTrace, and MeshAccessLog policy carries its own copy of the collector address. With it, the address lives in one place and the policies point at it by label.
 
 Inline `endpoint` fields on those three policies still work in 2.14 but are deprecated and will be removed in 3.0. New deployments should use `backendRef`.
 
 ## Migrate from inline `endpoint`
 
 1. Create one `MeshOpenTelemetryBackend` carrying the address that was inline on the policy.
-2. On each policy, replace the inline `endpoint` with `backendRef: {kind: MeshOpenTelemetryBackend, name: <backend>}`.
+2. On each policy, replace the inline `endpoint` with `backendRef: {kind: MeshOpenTelemetryBackend, labels: {kuma.io/display-name: <backend>}}`.
 3. Signal-specific fields (`refreshInterval`, `attributes`, `body`, `sampling`) stay on the policy.
 
 To move the collector later, edit the backend - the policies stay untouched.
@@ -60,7 +60,8 @@ spec:
         openTelemetry:
           backendRef:
             kind: MeshOpenTelemetryBackend
-            name: main-collector
+            labels:
+              kuma.io/display-name: main-collector
           refreshInterval: 30s
 ---
 apiVersion: kuma.io/v1alpha1
@@ -79,7 +80,8 @@ spec:
         openTelemetry:
           backendRef:
             kind: MeshOpenTelemetryBackend
-            name: main-collector
+            labels:
+              kuma.io/display-name: main-collector
     sampling:
       overall: 80
 ---
@@ -99,7 +101,8 @@ spec:
         openTelemetry:
           backendRef:
             kind: MeshOpenTelemetryBackend
-            name: main-collector
+            labels:
+              kuma.io/display-name: main-collector
 ```
 
 {% endtab %}
@@ -127,7 +130,8 @@ spec:
         openTelemetry:
           backendRef:
             kind: MeshOpenTelemetryBackend
-            name: main-collector
+            labels:
+              kuma.io/display-name: main-collector
           refreshInterval: 30s
 ---
 type: MeshTrace
@@ -142,7 +146,8 @@ spec:
         openTelemetry:
           backendRef:
             kind: MeshOpenTelemetryBackend
-            name: main-collector
+            labels:
+              kuma.io/display-name: main-collector
     sampling:
       overall: 80
 ---
@@ -158,7 +163,8 @@ spec:
         openTelemetry:
           backendRef:
             kind: MeshOpenTelemetryBackend
-            name: main-collector
+            labels:
+              kuma.io/display-name: main-collector
 ```
 
 {% endtab %}
@@ -215,15 +221,14 @@ Field-level reference (types, validation, defaults) lives in [All options](#all-
 
 ## Referencing a backend from a policy
 
-Every observability policy that supports OpenTelemetry has a `backendRef` field on its OTel backend block. The reference works the same way as `BackendRef` on MeshHTTPRoute: use `name` to reference a resource in the same cluster, use `labels` to reference a resource synced from another cluster.
+Every observability policy that supports OpenTelemetry has a `backendRef` field on its OTel backend block. Use `labels` to select the backend by label — `name`-based selection is not supported.
 
 | Field | Description |
 |-------|-------------|
 | `backendRef.kind` | Must be `MeshOpenTelemetryBackend`. |
-| `backendRef.name` | `metadata.name` of the backend, for same-cluster references. |
-| `backendRef.labels` | Label selector. Required for cross-zone references because [KDS](/docs/{{ page.release }}/production/deployment/multi-zone/) appends a hash suffix to `metadata.name` on synced resources. |
+| `backendRef.labels` | Label selector used to resolve the backend. Match on `kuma.io/display-name` so the reference is stable across zones — [KDS](/docs/{{ page.release }}/production/deployment/multi-zone/) appends a hash suffix to `metadata.name` on synced resources. |
 
-Exactly one of `name` or `labels` must be set. When `labels` matches more than one backend, the oldest by creation time wins - no warning is emitted, so check creation timestamps if a policy resolves to an unexpected backend. When `name` does not resolve at all, the policy carries a `BackendRefsResolved: False` status condition with reason `UnresolvedBackendRefs`.
+When `labels` matches more than one backend, the oldest by creation time wins - no warning is emitted, so check creation timestamps if a policy resolves to an unexpected backend.
 
 For cross-zone references, match on `kuma.io/display-name` so the resource resolves regardless of the hashed name added during sync:
 
@@ -235,10 +240,6 @@ backendRef:
 ```
 
 ### Per-zone collectors in multi-zone
-
-When zones run separate collectors, create one backend per zone on the Global CP and scope each policy to the matching zone. Because both the backend and the policy live on Global, the CP resolves `backendRef.name` before KDS sync - the hashed name that appears on zones never matters.
-
-If the policy is created on a zone CP and references a backend synced from Global, use `backendRef.labels` instead - the synced backend's `metadata.name` carries a hash suffix that does not match a plain `name:`.
 
 ```yaml
 apiVersion: kuma.io/v1alpha1
@@ -271,7 +272,8 @@ spec:
         openTelemetry:
           backendRef:
             kind: MeshOpenTelemetryBackend
-            name: collector-us-east
+            labels:
+              kuma.io/display-name: collector-us-east
           refreshInterval: 30s
 ```
 
@@ -388,16 +390,6 @@ openTelemetry:
 ```
 
 Two backends resolve to the same data plane and both allow environment input. Set `mode: Disabled` on every backend that should not receive environment input, or scope policies so only one backend reaches each data plane.
-
-### Backend reference does not resolve
-
-`MeshOpenTelemetryBackend` carries a `ReferencedByPolicies` condition with reason `Referenced` while at least one policy points at it, otherwise reason `NotReferenced`. When a policy points at a backend that does not exist, the control plane logs through the `otel-backend-resolution` logger and skips the OTel export for that signal:
-
-```text
-MeshOpenTelemetryBackend not found, skipping backend  name=main-collector  labels=null
-```
-
-In multi-zone, the most common cause is a zone-authored policy referencing a Global-synced backend by `name:` instead of `labels:`. Switch to `labels: {kuma.io/display-name: <name>}`. A backend just applied on the Global control plane can also take a few seconds to reach Zone control planes through KDS - expect short-lived `NotReferenced` and "not found" log lines while sync catches up.
 
 ### Mixed-version data planes during upgrade
 
