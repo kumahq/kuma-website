@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'jekyll', '4.4.1'
 gem 'liquid-c', '4.0.1'
-gem 'rouge', '4.7.0'
+gem 'rouge', '5.0.0'
 gem 'jekyll-generator-single-source', '0.0.15'
 gem 'ostruct', '0.6.3'
 
