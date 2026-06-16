@@ -94,8 +94,8 @@
     <span class="schema-viewer__type schema-viewer__type--array">array</span>
     
     
-  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Rules defines inbound timeout configurations. Currently limited to exactly one rule containing default timeouts that apply to all inbound traffic, as L7 matching is not yet implemented.">
-  <span class="schema-viewer__description-text">Rules defines inbound timeout configurations. Currently limited to exactly one rule containing defau...</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Rules defines inbound timeout configurations. When matches are present, the rule is applied only to traffic selected by the given source and destination matchers.">
+  <span class="schema-viewer__description-text">Rules defines inbound timeout configurations. When matches are present, the rule is applied only to ...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
 </div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
@@ -181,7 +181,59 @@
   </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="IdleTimeout is defined as the period in which there are no bytes sent or received on connection Setting this timeout to 0 will disable it. Be cautious when disabling it because it can lead to connection leaking. Default value is 1h.">
   <span class="schema-viewer__description-text">IdleTimeout is defined as the period in which there are no bytes sent or received on connection Sett...</span>
   <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
-</div></div></div></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
+</div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="1">
+  <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
+    <span class="schema-viewer__arrow"></span>
+    <span class="schema-viewer__name">matches</span>
+    <span class="schema-viewer__type schema-viewer__type--array">array</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Matches define predicates for selecting traffic this configuration applies to.</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="2">
+  <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
+    <span class="schema-viewer__arrow"></span>
+    <span class="schema-viewer__name">sni</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">SNI defines a matcher configuration for matching by SNI value carried on the TLS connection</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">type</span>
+    <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
+    
+    <span class="schema-viewer__required">required</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Type defines how to match traffic by SNI. Only `Exact` is supported.</span></div><div class="schema-viewer__enum">Values: <code>Exact</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">value</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    <span class="schema-viewer__required">required</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description" data-full-text="Value is the SNI carried on the TLS connection that needs to match for the configuration to be applied">
+  <span class="schema-viewer__description-text">Value is the SNI carried on the TLS connection that needs to match for the configuration to be appli...</span>
+  <button type="button" class="schema-viewer__show-more" aria-expanded="false">show more</button>
+</div></div></div></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed schema-viewer__node--expandable" data-depth="2">
+  <div class="schema-viewer__header" tabindex="0" aria-expanded="false">
+    <span class="schema-viewer__arrow"></span>
+    <span class="schema-viewer__name">spiffeID</span>
+    <span class="schema-viewer__type schema-viewer__type--object">object</span>
+    
+    
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">SpiffeID defines a matcher configuration for SpiffeID matching</span></div></div><div class="schema-viewer__children"><div class="schema-viewer__properties"><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">type</span>
+    <span class="schema-viewer__type schema-viewer__type--enum">enum</span>
+    
+    <span class="schema-viewer__required">required</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Type defines how to match incoming traffic by SpiffeID. `Exact` or `Prefix` are allowed.</span></div><div class="schema-viewer__enum">Values: <code>Exact</code> | <code>Prefix</code></div></div></div><div class="schema-viewer__node schema-viewer__node--collapsed " data-depth="3">
+  <div class="schema-viewer__header" >
+    <span class="schema-viewer__arrow-placeholder"></span>
+    <span class="schema-viewer__name">value</span>
+    <span class="schema-viewer__type schema-viewer__type--string">string</span>
+    
+    <span class="schema-viewer__required">required</span>
+  </div><div class="schema-viewer__content"><div class="schema-viewer__description"><span class="schema-viewer__description-text">Value is SpiffeID of a client that needs to match for the configuration to be applied</span></div></div></div></div></div></div></div></div></div></div></div></div><div class="schema-viewer__node  schema-viewer__node--expandable" data-depth="0">
   <div class="schema-viewer__header" tabindex="0" aria-expanded="true">
     <span class="schema-viewer__arrow"></span>
     <span class="schema-viewer__name">from</span>
