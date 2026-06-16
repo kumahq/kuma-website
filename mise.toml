@@ -8,7 +8,7 @@ node = "24.16.0"
 yarn = "4.16.0"
 
 # Linting
-vale = "3.14.1"
+vale = "3.14.2"
 shellcheck = "0.11.0"
 "npm:markdownlint-cli2" = "0.22.1"
 
