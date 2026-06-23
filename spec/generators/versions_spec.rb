@@ -34,10 +34,13 @@ RSpec.describe Jekyll::Versions do
   context 'when a non-dev version has no nav file of its own' do
     let(:versions) { [{ 'edition' => 'kuma', 'release' => '2.13.x' }, dev] }
 
-    it 'exposes the dev nav under the missing version so the sidebar renders' do
+    it 'exposes the dev nav, retargeted at the version, so the sidebar renders' do
       run!
 
-      expect(data['docs_nav_kuma_213x']).to be(dev_nav)
+      fallback = data['docs_nav_kuma_213x']
+      expect(fallback['items']).to eq(dev_nav['items'])
+      expect(fallback['release']).to eq('2.13.x')
+      expect(fallback).not_to be(dev_nav) # not the shared dev hash
     end
 
     it 'generates the version pages from the dev nav retargeted at the version' do
