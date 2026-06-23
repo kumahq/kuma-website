@@ -26,8 +26,8 @@ keywords:
 {% assign tmp-colima = "/tmp/colima/" | append: kuma-demo %}
 
 {% capture edition %}{% if page.edition and page.edition != "kuma" %}/{{ page.edition }}{% endif %}{% endcapture %}
-{% assign url_installer = site.links.web | default: "<https://kuma.io>" | append: edition | append: "/installer.sh" %}
-{% assign url_installer_external = site.links.share | default: "<https://kuma.io>" | append: edition | append: "/installer.sh" %}
+{% assign url_installer = site.links.web | append: edition | append: "/installer.sh" %}
+{% assign url_installer_external = site.links.share | default: site.links.web | append: edition | append: "/installer.sh" %}
 
 {% capture MeshTrafficPermission %}[MeshTrafficPermission]({{ docs }}/policies/meshtrafficpermission/){% endcapture %}
 {% capture MeshGateway %}[MeshGateway]({{ docs }}/using-mesh/managing-ingress-traffic/builtin-listeners/){% endcapture %}
