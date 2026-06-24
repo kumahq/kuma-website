@@ -19,6 +19,10 @@ To avoid users bypassing the sidecar, have the service listen only on the intern
 
 For example, this is how we start a `Dataplane` for a hypothetical Redis service and then start the `kuma-dp` process:
 
+{% warning %}
+`kuma-dp` verifies the control plane certificate by default. The examples below pass the control plane CA to `kuma-dp` with `--ca-cert-file=/path/to/ca.pem` (you can also set the `KUMA_CONTROL_PLANE_CA_CERT_FILE` environment variable) so the proxy can verify the control plane identity.{% if_version gte:2.11.x %} For a quick test against a control plane with a self-signed certificate you can pass `--skip-verify` to turn verification off instead, but never do this in production.{% endif_version %}
+{% endwarning %}
+
 ```sh
 cat dp.yaml
 type: Dataplane
@@ -34,7 +38,8 @@ networking:
 
 kuma-dp run \
   --cp-address=https://127.0.0.1:5678 \
-  --dataplane-file=dp.yaml
+  --ca-cert-file=/path/to/ca.pem \
+  --dataplane-file=dp.yaml \
   --dataplane-token-file=/tmp/kuma-dp-redis-1-token
 ```
 
@@ -80,6 +85,7 @@ networking:
 
 kuma-dp run \
   --cp-address=https://127.0.0.1:5678 \
+  --ca-cert-file=/path/to/ca.pem \
   --dataplane-file=dp.yaml \
   --dataplane-var name=`hostname -s` \
   --dataplane-var address=192.168.0.2 \

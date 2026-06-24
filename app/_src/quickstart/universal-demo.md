@@ -12,9 +12,6 @@ To start learning how {{site.mesh_product_name}} works, you will run and secure 
 - `redis`: data store for the counter
 
 {% mermaid %}
----
-title: service graph of the demo app
----
 flowchart LR
 demo-app(demo-app :5000)
 redis(redis :6379)
@@ -23,7 +20,7 @@ demo-app --> redis
 
 ## Prerequisites
 
-* [Redis installed, not running](https://redis.io/docs/latest/operate/oss_and_stack/install/)
+- [Redis installed, not running](https://redis.io/docs/latest/operate/oss_and_stack/install/)
 
 ## Install {{site.mesh_product_name}}
 
@@ -33,7 +30,7 @@ To download {{site.mesh_product_name}} we will use official installer, it will a
 curl -L {{site.links.web}}{% if page.edition != "kuma" %}/{{page.edition}}{% endif %}/installer.sh | VERSION={{ page.version_data.version }} sh -
 ```
 
-To finish installation we need to add {{site.mesh_product_name}} binaries to path: 
+To finish installation we need to add {{site.mesh_product_name}} binaries to path:
 
 ```sh
 export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin
@@ -72,22 +69,22 @@ After generating tokens we can start the data plane proxies that will be used fo
 {% warning %}
 Because this is a quickstart, we don't setup [certificates for communication
 between the data plane proxies and the control plane](/docs/{{ page.release }}/production/secure-deployment/certificates/#encrypted-communication).
-You'll see a warning like the following in the `kuma-dp` logs:
-
-```
-2024-07-25T20:06:36.082Z	INFO	dataplane	[WARNING] The data plane proxy cannot verify the identity of the control plane because you are not setting the "--ca-cert-file" argument or setting the KUMA_CONTROL_PLANE_CA_CERT environment variable.
-```
+{% if_version eq:2.7.x %}
+The `--skip-verify` flag turns off TLS verification of the control plane certificate and is only appropriate for this quickstart, where the control plane uses a self-signed certificate. `kuma-dp` verifies the control plane certificate by default. In production, pass the control plane CA with `--ca-cert-file=/path/to/ca.pem` (or set the `KUMA_CONTROL_PLANE_CA_CERT_FILE` environment variable) instead of skipping verification.
+{% endif_version %}
 
 This isn't related to mTLS between services.
 {% endwarning %}
 
-First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane [resources](/docs/{{ page.release }}/introduction/concepts#resource) for data plane proxies, and 
+First we can start the data plane proxy for `redis`. On Universal we need to manually create Dataplane [resources](/docs/{{ page.release }}/introduction/concepts#resource) for data plane proxies, and
 run kuma-dp manually, to do this run:
 
 {% if_version lte:2.9.x %}
+
 ```sh
 KUMA_READINESS_PORT=9901 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9902 {% endif_version %} kuma-dp run \
-  --cp-address=https://localhost:5678/ \
+  --cp-address=https://localhost:5678/ \{% if_version eq:2.7.x %}
+  --skip-verify \{% endif_version %}
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-redis \
   --dataplane="
@@ -106,13 +103,16 @@ KUMA_READINESS_PORT=9901 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_
     admin:
       port: 9903"
 ```
+
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
+
 ```sh
 KUMA_READINESS_PORT=9901 KUMA_APPLICATION_PROBE_PROXY_PORT=9902 kuma-dp run \
   --cp-address=https://localhost:5678/ \
-  --dns-enabled=false \
+{% if_version gte:2.11.x %}  --skip-verify \
+{% endif_version %}  --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-redis \
   --dataplane="
   type: Dataplane
@@ -132,10 +132,11 @@ KUMA_READINESS_PORT=9901 KUMA_APPLICATION_PROBE_PROXY_PORT=9902 kuma-dp run \
     admin:
       port: 9903"
 ```
+
 {% endif_version %}
 
-You can notice that we are manually specifying the readiness port with environment variable `KUMA_READINESS_PORT`, when each data plane is 
-running on separate machines this is not required. 
+You can notice that we are manually specifying the readiness port with environment variable `KUMA_READINESS_PORT`, when each data plane is
+running on separate machines this is not required.
 
 {% warning %}
 We need a separate terminal window, with the same binaries directory as above added to `PATH`. So assuming the same initial directory:
@@ -143,14 +144,17 @@ We need a separate terminal window, with the same binaries directory as above ad
 ```sh
 export PATH=$PATH:$(pwd)/{{site.mesh_product_name_path}}-{{ page.version_data.version }}/bin
 ```
+
 {% endwarning %}
 
 Now we can start the data plane proxy for our demo-app, we can do this by running:
 
 {% if_version lte:2.9.x %}
+
 ```sh
 KUMA_READINESS_PORT=9904 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_PORT=9905 {% endif_version %} kuma-dp run \
-  --cp-address=https://localhost:5678/ \
+  --cp-address=https://localhost:5678/ \{% if_version eq:2.7.x %}
+  --skip-verify \{% endif_version %}
   --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-demo-app \
   --dataplane="
@@ -173,13 +177,16 @@ KUMA_READINESS_PORT=9904 {% if_version gte:2.9.x %}KUMA_APPLICATION_PROBE_PROXY_
     admin:
       port: 9906"
 ```
+
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
+
 ```sh
 KUMA_READINESS_PORT=9904 KUMA_APPLICATION_PROBE_PROXY_PORT=9905 kuma-dp run \
   --cp-address=https://localhost:5678/ \
-  --dns-enabled=false \
+{% if_version gte:2.11.x %}  --skip-verify \
+{% endif_version %}  --dns-enabled=false \
   --dataplane-token-file=/tmp/kuma-token-demo-app \
   --dataplane="
   type: Dataplane
@@ -203,6 +210,7 @@ KUMA_READINESS_PORT=9904 KUMA_APPLICATION_PROBE_PROXY_PORT=9905 kuma-dp run \
     admin:
       port: 9906"
 ```
+
 {% endif_version %}
 
 ### Run kuma-counter-demo app
@@ -210,22 +218,28 @@ KUMA_READINESS_PORT=9904 KUMA_APPLICATION_PROBE_PROXY_PORT=9905 kuma-dp run \
 We will start the kuma-counter-demo in a new terminal window:
 
 1. With the data plane proxies running, we can start our apps, first we will start and configure `Redis`:
+
 ```sh
 redis-server --port 26379 --daemonize yes && redis-cli -p 26379 set zone local
 ```
+
 You should see message `OK` from `Redis` if this operation was successful.
 
-2. Now we can start our `demo-app`. To do this we need to download repository with its source code:
+1. Now we can start our `demo-app`. To do this we need to download repository with its source code:
+
 ```sh
 git clone https://github.com/kumahq/kuma-counter-demo.git && cd kuma-counter-demo
 ```
 
-3. Now we need to run:
+1. Now we need to run:
+
 ```sh
 npm install --prefix=app/ && npm start --prefix=app/
 ```
+
 If `demo-app` was started correctly you will see message:
-```
+
+```text
 Server running on port 5000
 ```
 
@@ -235,7 +249,7 @@ In a browser, go to [127.0.0.1:5000](http://127.0.0.1:5000) and increment the co
 
 You can view the sidecar proxies that are connected to the {{site.mesh_product_name}} control plane.
 
-{{site.mesh_product_name}} ships with a **read-only** [GUI](/docs/{{ page.release }}/production/gui) that you can use to retrieve {{site.mesh_product_name}} resources. 
+{{site.mesh_product_name}} ships with a **read-only** [GUI](/docs/{{ page.release }}/production/gui) that you can use to retrieve {{site.mesh_product_name}} resources.
 By default, the GUI listens on the API port which defaults to `5681`.
 
 To access {{site.mesh_product_name}} we need to navigate to [127.0.0.1:5681/gui](http://127.0.0.1:5681/gui) in your browser.
@@ -244,14 +258,15 @@ To learn more, read the [documentation about the user interface](/docs/{{ page.r
 
 ## Introduction to zero-trust security
 
-By default, the network is **insecure and not encrypted**. We can change this with {{site.mesh_product_name}} by enabling 
-the [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that 
-will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running 
+By default, the network is **insecure and not encrypted**. We can change this with {{site.mesh_product_name}} by enabling
+the [Mutual TLS](/docs/{{ page.release }}/policies/mutual-tls/) policy to provision a Certificate Authority (CA) that
+will automatically assign TLS certificates to our services (more specifically to the injected data plane proxies running
 alongside the services).
 
 We can enable Mutual TLS with a `builtin` CA backend by executing:
 
 {% if_version lte:2.8.x %}
+
 ```sh
 echo 'type: Mesh
 name: default
@@ -261,9 +276,11 @@ mtls:
     - name: ca-1
       type: builtin' | kumactl apply -f -
 ```
+
 {% endif_version %}
 
 {% if_version gte:2.9.x %}
+
 ```sh
 echo 'type: Mesh
 name: default
@@ -275,17 +292,19 @@ mtls:
     - name: ca-1
       type: builtin' | kumactl apply -f -
 ```
+
 {% endif_version %}
 
-The traffic is now **encrypted and secure**. {{site.mesh_product_name}} does not define default traffic permissions, which 
-means that no traffic will flow with mTLS enabled until we define a proper [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission) 
-[policy](/docs/{{ page.release }}/introduction/concepts#policy). 
+The traffic is now **encrypted and secure**. {{site.mesh_product_name}} does not define default traffic permissions, which
+means that no traffic will flow with mTLS enabled until we define a proper [MeshTrafficPermission](/docs/{{ page.release }}/policies/meshtrafficpermission)
+[policy](/docs/{{ page.release }}/introduction/concepts#policy).
 
 For now, the demo application won't work.
 You can verify this by clicking the increment button again and seeing the error message in the browser.
 We can allow the traffic from the `demo-app` to `redis` by applying the following `MeshTrafficPermission`:
 
 {% if_version eq:2.9.x %}
+
 ```sh
 echo 'type: MeshTrafficPermission 
 name: allow-from-demo-app
@@ -303,9 +322,11 @@ spec:
       default: 
         action: Allow' | kumactl apply -f -
 ```
+
 {% endif_version %}
 
 {% if_version gte:2.10.x %}
+
 ```sh
 echo 'type: MeshTrafficPermission 
 name: allow-from-demo-app
@@ -323,6 +344,7 @@ spec:
       default: 
         action: Allow' | kumactl apply -f -
 ```
+
 {% endif_version %}
 
 You can click the increment button, the application should function once again.
@@ -330,8 +352,8 @@ However, the traffic to `redis` from any other service than `demo-app` is not al
 
 ## Next steps
 
-* Explore the [Features](/features) available to govern and orchestrate your service traffic.
-* Learn more about what you can do with the [GUI](/docs/{{ page.release }}/production/gui).
-* Explore further installation strategies for [single-zone](/docs/{{ page.release }}/production/cp-deployment/single-zone) and [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone) environments.
-* Read the [full documentation](/docs/{{ page.release }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
+- Explore the [Features](/features) available to govern and orchestrate your service traffic.
+- Learn more about what you can do with the [GUI](/docs/{{ page.release }}/production/gui).
+- Explore further installation strategies for [single-zone](/docs/{{ page.release }}/production/cp-deployment/single-zone) and [multi-zone](/docs/{{ page.release }}/production/cp-deployment/multi-zone) environments.
+- Read the [full documentation](/docs/{{ page.release }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
 {% if site.mesh_product_name == "Kuma" %}* Chat with us at the official [Kuma Slack](/community) for questions or feedback.{% endif %}
