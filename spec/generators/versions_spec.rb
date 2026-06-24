@@ -23,16 +23,23 @@ RSpec.describe Jekyll::Versions do
   before do
     allow(Jekyll::GeneratorSingleSource::GeneratorConfig).to receive(:new).with(site).and_return(generator_config)
     allow(generator_config).to receive(:build_docs_nav).and_return(nav_config)
-    # By default every release has its raw assets present.
-    allow(Dir).to receive(:exist?).and_return(true)
+    # Leave Dir.exist? untouched for incidental callers; each context stubs only
+    # the specific asset path it cares about.
+    allow(Dir).to receive(:exist?).and_call_original
   end
 
   def run!
     generator.send(:generate_missing_version_navs, site)
   end
 
+  def stub_assets(release, present)
+    allow(Dir).to receive(:exist?).with(File.join('app/assets', release, 'raw')).and_return(present)
+  end
+
   context 'when a non-dev version has no nav file of its own' do
     let(:versions) { [{ 'edition' => 'kuma', 'release' => '2.13.x' }, dev] }
+
+    before { stub_assets('2.13.x', true) }
 
     it 'exposes the dev nav, retargeted at the version, so the sidebar renders' do
       run!
@@ -55,13 +62,42 @@ RSpec.describe Jekyll::Versions do
   context 'when the missing version has no synced raw assets' do
     let(:versions) { [{ 'edition' => 'kuma', 'release' => '2.99.x' }, dev] }
 
-    before { allow(Dir).to receive(:exist?).with(File.join('app/assets', '2.99.x', 'raw')).and_return(false) }
+    before { stub_assets('2.99.x', false) }
 
     it 'does not generate pages (keeps the old behaviour instead of breaking the build)' do
       run!
 
       expect(data).not_to have_key('docs_nav_kuma_299x')
       expect(nav_config).not_to have_received(:generate_pages)
+    end
+  end
+
+  context 'with several versions missing their nav in one run' do
+    let(:versions) do
+      [{ 'edition' => 'kuma', 'release' => '2.12.x' }, { 'edition' => 'kuma', 'release' => '2.13.x' }, dev]
+    end
+    # release each DocNavConfig carried when generate_pages was called
+    let(:generated_releases) { [] }
+
+    before do
+      stub_assets('2.12.x', true)
+      stub_assets('2.13.x', true)
+      # Fresh DocNavConfig per call (as the gem does), capturing the retargeted
+      # release at generate_pages time to prove versions don't clobber each other.
+      allow(generator_config).to receive(:build_docs_nav) do
+        cfg = {}
+        instance_double(Jekyll::GeneratorSingleSource::DocNavConfig, config: cfg).tap do |dbl|
+          allow(dbl).to receive(:generate_pages) { generated_releases << cfg['release'] }
+        end
+      end
+    end
+
+    it 'retargets each version independently' do
+      run!
+
+      expect(data['docs_nav_kuma_212x']['release']).to eq('2.12.x')
+      expect(data['docs_nav_kuma_213x']['release']).to eq('2.13.x')
+      expect(generated_releases).to contain_exactly('2.12.x', '2.13.x')
     end
   end
 
