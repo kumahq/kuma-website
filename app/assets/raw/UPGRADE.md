@@ -6,6 +6,54 @@ with `x.y.z` being the version you are planning to upgrade to.
 If such a section does not exist, the upgrade you want to perform
 does not have any particular instructions.
 
+## Upgrade to `2.13.7`, `2.12.11`, `2.11.14`, `2.9.16`, `2.7.26`
+
+Patch releases normally do not require upgrade instructions. The entry below is included because the underlying change is a security fix that alters TLS verification behavior in a way some deployments may notice.
+
+### Insecure TLS fallback removed when no CA cert is provided
+
+Previously, when no CA certificate was configured:
+
+- `kuma-dp` connecting to `kuma-cp` over HTTPS silently set `InsecureSkipVerify=true` and only printed a warning.
+- `kumactl` connecting to the API server silently set `InsecureSkipVerify=true`.
+
+These clients now use the host system's trust store (Go's default) and verify the server certificate. Skipping verification is opt-in.
+
+**Impact**
+
+Connections to a control plane whose certificate cannot be verified against the system trust store (typically self-signed or signed by a private CA that is not installed on the host) will now fail instead of silently succeeding without verification. The inter-CP `grpcs` client returns an error if called without a TLS config.
+
+Deployments that already provide a CA via `--ca-cert-file` / `KUMA_CONTROL_PLANE_CA_CERT` / `KUMA_CONTROL_PLANE_CA_CERT_FILE`, or that use a publicly trusted certificate, or that run the default Helm-installed setup, are not affected.
+
+**Action required**
+
+If your control plane uses a self-signed certificate or a private CA, provide that CA explicitly.
+
+For `kuma-dp`:
+
+```sh
+kuma-dp run --ca-cert-file=/path/to/ca.pem ...
+# or
+KUMA_CONTROL_PLANE_CA_CERT_FILE=/path/to/ca.pem kuma-dp run ...
+# or pass the PEM directly
+KUMA_CONTROL_PLANE_CA_CERT="$(cat /path/to/ca.pem)" kuma-dp run ...
+```
+
+For `kumactl`:
+
+```sh
+kumactl config control-planes add --ca-cert-file=/path/to/ca.pem ...
+```
+
+**Opt-out (insecure, development/testing only)**
+
+A new explicit flag preserves the previous insecure behavior:
+
+- `kuma-dp run --skip-verify` (env var `KUMA_CONTROL_PLANE_TLS_SKIP_VERIFY=true`)
+- `kumactl config control-planes add --skip-verify`
+
+Do not use this in production.
+
 ## Upgrade to `2.14.x`
 
 ### Inbound listeners now use SO_REUSEPORT by default
@@ -16,7 +64,13 @@ The data plane now advertises the `feature-reuse-port` capability to the control
 
 **Action required:**
 
-None for most users. If your environment has known issues with `SO_REUSEPORT` (e.g. certain Linux kernel versions or network configurations), disable the feature before upgrading using the instructions below.
+If your environment has known issues with `SO_REUSEPORT` (e.g. certain Linux kernel versions or network configurations), disable the feature before upgrading using the instructions below.
+
+In a rolling CP upgrade, **disable reuse port for ZoneIngress/ZoneEgress before upgrading**.
+
+During the upgrade, a ZoneIngress/ZoneEgress can first receive `enable_reuse_port: false` from an old CP,
+then `enable_reuse_port: true` from a new CP.
+Envoy cannot change this setting on a live listener, so it NACKs the update and keeps serving the stale listener.
 
 **Kubernetes — injected sidecars**
 
