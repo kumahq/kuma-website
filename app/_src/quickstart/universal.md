@@ -29,14 +29,14 @@ To explore traffic metrics with the demo app, you also need to [set up Prometheu
 
 ## Set up
 
-1.  Run `redis` as a daemon on port 26379 and set a default zone name:
+1. Run `redis` as a daemon on port 26379 and set a default zone name:
 
     ```sh
     redis-server --port 26379 --daemonize yes
     redis-cli -p 26379 set zone local
     ```
 
-1.  Install and start `demo-app` on the default port 5000:
+1. Install and start `demo-app` on the default port 5000:
 
     ```sh
     npm install --prefix=app/
@@ -137,9 +137,9 @@ You can navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.
 {% endtab %}
 {% tab usage HTTP API (Read/Write) %}
 
-{{site.mesh_product_name}} ships with a **read-only** HTTP API that you can use to retrieve {{site.mesh_product_name}} resources. 
+{{site.mesh_product_name}} ships with a **read-only** HTTP API that you can use to retrieve {{site.mesh_product_name}} resources.
 
-By default the HTTP API listens on port `5681`. 
+By default the HTTP API listens on port `5681`.
 
 Navigate to [`127.0.0.1:5681/meshes/default/dataplanes`](http://127.0.0.1:5681/meshes/default/dataplanes) to see the connected dataplanes.
 
@@ -162,6 +162,7 @@ You can configure `kumactl` to point to any zone `kuma-cp` instance by running:
 ```sh
 kumactl config control-planes add --name=XYZ --address=http://{address-to-kuma}:5681
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -195,6 +196,7 @@ kumactl delete traffic-permission allow-all-default
 You can try to make requests to the demo application at [`127.0.0.1:5000/`](http://127.0.0.1:5000/) and you will notice that they will **not** work.
 
 Now let's add back the default traffic permission:
+
 ```sh
 cat <<EOF | kumactl apply -f -
 type: TrafficPermission
@@ -222,6 +224,7 @@ One of the most important [policies](/policies) that {{site.mesh_product_name}} 
 With Traffic Metrics we can leverage Prometheus and Grafana to provide powerful dashboards that visualize the overall traffic activity of our application and the status of the service mesh.
 
 {% if_version lte:2.3.x %}
+
 ```sh
 cat <<EOF | kumactl apply -f -
 type: Mesh
@@ -240,8 +243,10 @@ metrics:
       skipMTLS: true
 EOF
 ```
+
 {% endif_version %}
 {% if_version gte:2.4.x %}
+
 ```sh
 cat <<EOF | kumactl apply -f -
 type: Mesh
@@ -261,6 +266,7 @@ metrics:
         mode: disabled
 EOF
 ```
+
 {% endif_version %}
 
 This will enable the `prometheus` metrics backend on the `default` [Mesh](/docs/{{ page.release }}/production/mesh/) and automatically collect metrics for all of our traffic.
@@ -269,14 +275,14 @@ Increment the counter to generate traffic, and access the dashboard at [127.0.0.
 
 {{site.mesh_product_name}} automatically installs three dashboard that are ready to use:
 
-* `{{site.mesh_product_name}} Mesh`: to visualize the status of the overall Mesh.
-* `{{site.mesh_product_name}} Dataplane`: to visualize metrics for a single individual dataplane.
-* `{{site.mesh_product_name}} Service to Service`: to visualize traffic metrics for our services.
+- `{{site.mesh_product_name}} Mesh`: to visualize the status of the overall Mesh.
+- `{{site.mesh_product_name}} Dataplane`: to visualize metrics for a single individual data plane proxy.
+- `{{site.mesh_product_name}} Service to Service`: to visualize traffic metrics for our services.
 
 You can now explore the dashboards and see the metrics being populated over time.
 
 ## Next steps
 
-* Explore the [Policies](/policies) available to govern and orchestrate your service traffic.
-* Read the [full documentation](/docs/{{ page.release }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
-* Chat with us at the official [Kuma Slack](/community) for questions or feedback.
+- Explore the [Policies](/policies) available to govern and orchestrate your service traffic.
+- Read the [full documentation](/docs/{{ page.release }}/) to learn about all the capabilities of {{site.mesh_product_name}}.
+- Chat with us at the official [Kuma Slack](/community) for questions or feedback.
