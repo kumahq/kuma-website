@@ -61,15 +61,17 @@ If `kuma-cp` is running inside docker container please see [docker authenticatio
 
 For Redis:
 
+{% if_version gte:2.11.x %}
 {% warning %}
 The `--skip-verify` flag turns off TLS verification of the control plane certificate and is only appropriate for this quickstart, where the control plane uses a self-signed certificate. `kuma-dp` verifies the control plane certificate by default. In production, pass the control plane CA with `--ca-cert-file=/path/to/ca.pem` (or set the `KUMA_CONTROL_PLANE_CA_CERT_FILE` environment variable) instead of skipping verification.
 {% endwarning %}
+{% endif_version %}
 
 ```sh
 kuma-dp run \
   --cp-address=https://localhost:5678/ \
-  --skip-verify \
-  --dns-enabled=false \
+{% if_version gte:2.11.x %}  --skip-verify \
+{% endif_version %}  --dns-enabled=false \
   --dataplane-token-file=kuma-token-redis \
   --dataplane="
   type: Dataplane
@@ -93,8 +95,8 @@ And for the demo app:
 ```sh
 kuma-dp run \
   --cp-address=https://localhost:5678/ \
-  --skip-verify \
-  --dns-enabled=false \
+{% if_version gte:2.11.x %}  --skip-verify \
+{% endif_version %}  --dns-enabled=false \
   --dataplane-token-file=kuma-token-app \
   --dataplane="
   type: Dataplane
