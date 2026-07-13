@@ -6448,7 +6448,7 @@ __metadata:
     sass: "npm:^1.101.0"
     slick-carousel: "npm:^1.8.1"
     stylus: "npm:^0.64.0"
-    vite: "npm:^8.1.0"
+    vite: "npm:^8.1.2"
     vite-plugin-ruby: "npm:^5.2.2"
     vite-plugin-windicss: "npm:^1.9.4"
     windicss: "npm:^3.5.6"
@@ -10336,7 +10336,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^8.1.0":
+"vite@npm:^8.1.2":
   version: 8.1.4
   resolution: "vite@npm:8.1.4"
   dependencies:
