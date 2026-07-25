@@ -1,0 +1,27 @@
+# complete code
+---
+health_probes:
+  liveness_probe:
+    failure_threshold: 3
+    initial_delay_seconds: 30
+    period_seconds: 20
+    success_threshold: 1
+    tcp_socket:
+      port: 8080
+    timeout_seconds: 5
+  readiness_probe:
+    failure_threshold: 2
+    http_get:
+      path: /ready
+      port: 8080
+    initial_delay_seconds: 15
+    period_seconds: 10
+    success_threshold: 3
+    timeout_seconds: 5
+  startup_probe:
+    failure_threshold: 5
+    http_get:
+      path: /health/startup
+      port: 8080
+    period_seconds: 15
+    timeout_seconds: 5
