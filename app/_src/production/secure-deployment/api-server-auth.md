@@ -14,6 +14,42 @@ An authenticated user can be authorized to execute administrative actions such a
 * Managing administrative resources like {{site.mesh_product_name}} Secrets on Universal
 * Generating user token, data plane proxy token, zone ingress token, zone token
 
+## Protecting the API server
+
+{{site.mesh_product_name}} has no RBAC.
+Authentication tells the control plane *who* is calling, but there is no per-resource or per-field authorization: any caller allowed to write a resource can write all of its fields.
+In particular, any caller that can `PUT` a `Mesh` can change the mesh mTLS CA and compromise the mesh.
+Enabling tokens alone does not prevent this, because a `Mesh` write is not an admin-only operation.
+
+By default the API server listens on `0.0.0.0:5681` (plain HTTP) with no authentication.
+You must restrict access at the deployment level.
+
+### Restrict network access
+
+Never expose API ports on an untrusted network.
+
+* **Kubernetes**: keep the control plane API reachable only inside the cluster and add a `NetworkPolicy` that allows trusted clients.
+  Do not put the API server behind a public `LoadBalancer` or `Ingress` without authentication in front of it.
+* **Universal**: bind the HTTP API to loopback or a management-only interface and use a firewall.
+
+### Prefer read-only mode where you can
+
+If you don't manage resources through the API server (e.g. kubernetes via CRDs), run it read-only:
+
+```sh
+KUMA_API_SERVER_READ_ONLY=true
+```
+
+### Localhost access
+
+Requests from `localhost` are authenticated as `mesh-system:admin`.
+A reverse proxy on the same host or loopback therefore acts as an admin for everything it forwards.
+Disable this:
+
+```sh
+KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN=false
+```
+
 ## User token
 
 A user token is a signed JWT token that contains
@@ -482,4 +518,4 @@ All users that provide client certificate are authenticated as a user with the n
 In a multizone setup, users execute a majority of actions on the global control plane.
 However, some actions like generating dataplane tokens are available on the zone control plane.
 The global control plane doesn't propagate authentication credentials to the zone control plane.
-You can set up consistent user tokens across the whole setup by manually copying signing key from global to zone control planes. 
+You can set up consistent user tokens across the whole setup by manually copying signing key from global to zone control planes.
