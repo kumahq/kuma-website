@@ -11,6 +11,7 @@ content_type: how-to
 {{site.mesh_product_name}} exposes API server on [ports](/docs/{{ page.release }}/production/use-mesh#control-plane-ports) `5681` and `5682` (protected by TLS).
 
 An authenticated user can be authorized to execute administrative actions such as
+
 * Managing administrative resources like {{site.mesh_product_name}} Secrets on Universal
 * Generating user token, data plane proxy token, zone ingress token, zone token
 
@@ -26,7 +27,7 @@ You must restrict access at the deployment level.
 
 ### Restrict network access
 
-Never expose API ports on an untrusted network.
+Never expose API ports on a network you don't control.
 
 * **Kubernetes**: keep the control plane API reachable only inside the cluster and add a `NetworkPolicy` that allows trusted clients.
   Do not put the API server behind a public `LoadBalancer` or `Ingress` without authentication in front of it.
@@ -34,7 +35,7 @@ Never expose API ports on an untrusted network.
 
 ### Prefer read-only mode where you can
 
-If you don't manage resources through the API server (e.g. kubernetes via CRDs), run it read-only:
+If you don't manage resources through the API server (for example, on Kubernetes where resources come from CRDs), run it read-only:
 
 ```sh
 KUMA_API_SERVER_READ_ONLY=true
@@ -53,6 +54,7 @@ KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN=false
 ## User token
 
 A user token is a signed JWT token that contains
+
 * The name of the user
 * The list of groups that a user belongs to
 * Expiration date of the token
@@ -60,6 +62,7 @@ A user token is a signed JWT token that contains
 ### Groups
 
 A user can be a part of many groups. {{site.mesh_product_name}} adds two groups to a user automatically:
+
 * authenticated users are a part of `mesh-system:authenticated`.
 * unauthenticated users are part of `mesh-system:unauthenticated`.
 
@@ -71,6 +74,7 @@ This group is [authorized by default](/docs/{{ page.release }}/production/secure
 
 {% tabs %}
 {% tab Kubernetes %}
+
 1. Access admin user token
 
    Use `kubectl` to extract the admin token
@@ -87,6 +91,7 @@ This group is [authorized by default](/docs/{{ page.release }}/production/secure
    * Expose port 5681 of `{{site.mesh_cp_name}}` via `Ingress` (for example Kong Ingress Controller) and protect it with TLS
 
 3. Configure `kumactl` with admin user token
+
    ```sh
    kumactl config control-planes add \
      --name my-control-plane \
@@ -95,20 +100,24 @@ This group is [authorized by default](/docs/{{ page.release }}/production/secure
      --auth-conf token=<GENERATED_TOKEN> \
      --ca-cert-file=/path/to/ca.crt
    ```
+
    If you are using `5681` port, change the schema to `http://`.
 
    If you want to skip CP verification, use `--skip-verify` instead of `--ca-cert-file`.
 
 {% endtab %}
 {% tab Universal %}
+
 1. Access admin user token
 
    Execute the following command on the machine where you deployed the control plane.
+
    ```sh
    curl http://localhost:5681/global-secrets/admin-user-token | jq -r .data | base64 -d
    ```
 
 2. Configure `kumactl` with admin user token
+
    ```sh
    kumactl config control-planes add \
      --name my-control-plane \
@@ -117,6 +126,7 @@ This group is [authorized by default](/docs/{{ page.release }}/production/secure
      --auth-conf token=<GENERATED_TOKEN> \
      --ca-cert-file=/path/to/ca.crt
    ```
+
    If you are using `5681` port, change the schema to `http://`.
 
    If you want to skip CP verification, use `--skip-verify` instead of `--ca-cert-file`.
@@ -164,7 +174,7 @@ kumactl generate user-token \
 
 which returns:
 
-```
+```text
 eyJhbGciOiJSUzI1NiIsImtpZCI6IjEiLCJ0eXAiOiJKV1QifQ.eyJOYW1lIjoiam9obiIsIkdyb3VwcyI6WyJ0ZWFtLWEiXSwiZXhwIjoxNjM2ODExNjc0LCJuYmYiOjE2MzY3MjQ5NzQsImlhdCI6MTYzNjcyNTI3NCwianRpIjoiYmYzZDBiMmUtZDg0MC00Y2I2LWJmN2MtYjkwZjU0MzkxNDY4In0.XsaPcQ5wVzRLs4o1FWywf6kw4r2ceyLGxYO8EbyA0fAxU6BPPRsW71ueD8ZlS4JlD4UrVtQQ7LG-z_nIxlDRAYhx4mmHnSjtqWZIsVS13QRrm41zccZ0SKHYxGvWMW4IkGwUbA0UZOJGno8vbpI6jTGfY9bmof5FpJJAj_sf99jCaI1H_n3n5UxtwKVN7dXXD82r6axj700jgQD-2O8gnejzlTjZkBpPF_lGnlBbd39S34VNwT0UlvRJLmCRdfh5EL24dFt0tyzQqDG2gE1RuGvTV9LOT77ZsjfMP9CITICivF6Z7uqvlOYal10jd5gN0A6w6KSI8CCaDLmVgUHvAw
 ```
 
@@ -210,6 +220,7 @@ To revoke tokens, specify list of revoked IDs separated by `,` and store it as `
 
 {% tabs %}
 {% tab Kubernetes %}
+
 ```sh
 REVOCATIONS=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) && echo "apiVersion: v1
 kind: Secret
@@ -220,14 +231,17 @@ data:
   value: $REVOCATIONS
 type: system.kuma.io/global-secret" | kubectl apply -f -
 ```
+
 {% endtab %}
 {% tab Universal %}
+
 ```sh
 echo "
 type: GlobalSecret
 name: user-token-revocations
 data: {{ revocations }}" | kumactl apply --var revocations=$(echo '0e120ec9-6b42-495d-9758-07b59fe86fb9' | base64) -f -
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -256,6 +270,7 @@ If the signing key is compromised, you must rotate it including all the tokens t
    ```
 
    In this case, the highest serial number is `1`. Generate a new signing key with a serial number of `2`
+
    ```sh
    TOKEN="$(kumactl generate signing-key)" && echo "
    apiVersion: v1
@@ -272,6 +287,7 @@ If the signing key is compromised, you must rotate it including all the tokens t
    {% endtab %}
    {% tab Universal %}
    Check what's the current highest serial number.
+
    ```sh
    kumactl get global-secrets
    NAME                             AGE
@@ -279,12 +295,14 @@ If the signing key is compromised, you must rotate it including all the tokens t
    ```
 
    In this case, the highest serial number is `1`. Generate a new signing key with a serial number of `2`
+
    ```sh
    echo "
    type: GlobalSecret
    name: user-token-signing-key-2
    data: {{ key }}" | kumactl apply --var key=$(kumactl generate signing-key) -f -
    ```
+
    {% endtab %}
    {% endtabs %}
    {% endcapture %}
@@ -299,14 +317,18 @@ If the signing key is compromised, you must rotate it including all the tokens t
    {% capture tabs %}
    {% tabs %}
    {% tab Kubernetes %}
+
    ```sh
    kubectl delete secret user-token-signing-key-1 -n {{site.mesh_namespace}}
    ```
+
    {% endtab %}
    {% tab Universal %}
+
    ```sh
    kumactl delete global-secret user-token-signing-key-1
    ```
+
    {% endtab %}
    {% endtabs %}
    {% endcapture %}
@@ -322,25 +344,27 @@ A malicious actor that acquires the signing key, can generate an admin token.
 
 {% tabs %}
 {% tab Kubernetes %}
+
 1. Delete `admin-user-token` Secret
+
 ```sh
 kubectl delete secret admin-user-token -n kuma-namespace
 ```
 
-2. Disable bootstrap of the token
+1. Disable bootstrap of the token
    [Configure a control plane](/docs/{{ page.release }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_TOKENS_BOOTSTRAP_ADMIN_TOKEN` set to `false`.
    {% endtab %}
    {% tab Universal %}
 1. Delete `admin-user-token` Global Secret
+
 ```sh
 kumactl delete global-secret admin-user-token
 ```
 
-2. Disable bootstrap of the token
+1. Disable bootstrap of the token
    [Configure a control plane](/docs/{{ page.release }}/documentation/configuration) with `KUMA_API_SERVER_AUTHN_TOKENS_BOOTSTRAP_ADMIN_TOKEN` set to `false`.
    {% endtab %}
    {% endtabs %}
-
 
 ### Offline token issuing
 
@@ -349,6 +373,7 @@ In this flow, you can generate a pair of public and private keys and configure t
 You can generate all the tokens without running the control plane.
 
 The advantages of this mode are:
+
 * easier, more reproducible deployments of the control plane, and more in line with GitOps.
 * potentially more secure setup, because the control plane does not have access to the private keys.
 
@@ -365,6 +390,7 @@ Here's how to use offline issuing
    ```
 
    The result should be similar to this output
+
    ```sh
    cat /tmp/key-private.pem /tmp/key-public.pem 
    -----BEGIN RSA PRIVATE KEY-----
@@ -382,6 +408,7 @@ Here's how to use offline issuing
 2. Configure the control plane with public key
 
    [Configure a control plane](/docs/{{ page.release }}/documentation/configuration) with the following settings
+
    ```yaml
    apiServer:
      authn:
@@ -399,7 +426,7 @@ Here's how to use offline issuing
                se7sx2Pt/NPbWFFTMGVFm3A1ueTUoorW+wIDAQAB
                -----END RSA PUBLIC KEY-----
    ```
-   
+
 3. Use the private key to issue tokens offline
 
    The command is the same as with online signing, but with two additional arguments:
@@ -414,11 +441,11 @@ Here's how to use offline issuing
      --signing-key-path /tmp/key-private.pem \
      --kid key-1
    ```
-   
+
    You can also use any external system that can issue JWT tokens using `RS256` signing method with the following claims:
    * `Name` (string) - the name of the user
    * `Groups` ([]string) - list of user groups
-   
+
 #### Migration
 
 You can use both offline and online issuing by keeping `apiServer.authn.tokens.enableIssuer` to true.
@@ -429,11 +456,11 @@ You can use both secrets and public key static config validators by keeping `api
 Token revocation works the same when using both online and offline issuing.
 
 Signing key rotation works similarly:
+
 * generate another pair of signing keys
 * configure a control plane with old and new public keys
 * regenerate tokens for all existing users with the new private key
 * remove the old public key from the configuration
-
 
 ## Admin client certificates
 
@@ -450,6 +477,7 @@ All users that provide client certificate are authenticated as a user with the n
 ### Usage
 
 1. Generate client certificates by using kumactl
+
    ```sh
    kumactl generate tls-certificate --type=client \
      --cert-file=/tmp/tls.crt \
@@ -461,47 +489,58 @@ All users that provide client certificate are authenticated as a user with the n
    {% tabs %}
    {% tab usage Kubernetes (kumactl) %}
    Create a secret in the namespace in which control plane is installed
+
    ```sh
    kubectl create secret generic api-server-client-certs -n {{site.mesh_namespace}} \
      --from-file=client1.pem=/tmp/tls.crt \
    ```
+
    You can provide as many client certificates as you want. Remember to only provide certificates without keys.
 
    Point to this secret when installing {{site.mesh_product_name}}
+
    ```sh
    kumactl install control-plane \
      --tls-api-server-client-certs-secret=api-server-client-certs
    ```
+
    {% endtab %}
    {% tab usage Kubernetes (HELM) %}
    Create a secret in the namespace in which control plane is installed
+
    ```sh
    kubectl create secret generic api-server-client-certs -n {{site.mesh_namespace}} \
      --from-file=client1.pem=/tmp/tls.crt \
    ```
+
    You can provide as many client certificates as you want. Remember to only provide certificates without keys.
 
    Set `{{site.set_flag_values_prefix}}controlPlane.tls.apiServer.clientCertsSecretName` to `api-server-client-certs` via HELM
    {% endtab %}
    {% tab Universal %}
    Put all the certificates in one directory
+
    ```sh
    mkdir /opt/client-certs
    cp /tmp/tls.crt /opt/client-certs/client1.pem 
    ```
+
    All client certificates must end with `.pem` extension. Remember to only provide certificates without keys.
 
    Configure control plane by pointing to this directory
+
    ```sh
    KUMA_API_SERVER_AUTH_CLIENT_CERTS_DIR=/opt/client-certs \
      kuma-cp run
    ```
+
    {% endtab %}
    {% endtabs %}
    {% endcapture %}
    {{ tabs | indent }}
 
 3. Configure `kumactl` with valid client certificate
+
    ```sh
    kumactl config control-planes add \
      --name=<NAME>
