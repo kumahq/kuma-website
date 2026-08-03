@@ -20,7 +20,7 @@ An authenticated user can be authorized to execute administrative actions such a
 {{site.mesh_product_name}} has no RBAC.
 Authentication tells the control plane *who* is calling, but there is no per-resource or per-field authorization: any caller allowed to write a resource can write all of its fields.
 In particular, any caller that can `PUT` a `Mesh` can change the mesh mTLS CA and compromise the mesh.
-Enabling tokens alone does not prevent this, because a `Mesh` write is not an admin-only operation.
+[Enabling tokens](#user-token) alone does not prevent this, because a `Mesh` write is not an admin-only operation.
 
 By default the API server listens on `0.0.0.0:5681` (plain HTTP) with no authentication.
 You must restrict access at the deployment level.
@@ -43,13 +43,8 @@ KUMA_API_SERVER_READ_ONLY=true
 
 ### Localhost access
 
-Requests from `localhost` are authenticated as `mesh-system:admin`.
-A reverse proxy on the same host or loopback therefore acts as an admin for everything it forwards.
-Disable this:
-
-```sh
-KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN=false
-```
+Requests from `localhost` are authenticated as `mesh-system:admin`, so a reverse proxy on the same host or loopback acts as an admin for everything it forwards.
+You can [disable this](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/#admin-user-token) by setting `KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN` to `false`.
 
 ## User token
 
