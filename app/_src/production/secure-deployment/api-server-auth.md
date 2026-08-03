@@ -43,7 +43,7 @@ KUMA_API_SERVER_READ_ONLY=true
 
 ### Localhost access
 
-Requests from `localhost` are authenticated as `mesh-system:admin`, so a reverse proxy on the same host or loopback acts as an admin for everything it forwards.
+By default requests from `localhost` are authenticated as `mesh-system:admin`, so a reverse proxy on the same host or loopback acts as an admin for everything it forwards.
 You can [disable this](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/#admin-user-token) by setting `KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN` to `false`.
 
 ## User token
