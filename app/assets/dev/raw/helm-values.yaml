@@ -32,7 +32,7 @@ skipRBAC: false
 restartOnSecretChange: true
 
 controlPlane:
-  # -- Environment that control plane is run in, useful when running universal global control plane on k8s
+  # -- Environment that control plane is run in
   environment: "kubernetes"
 
   # -- Labels to add to resources in addition to default labels
@@ -44,7 +44,7 @@ controlPlane:
   # -- Kuma CP log output path: Defaults to /dev/stdout
   logOutputPath: ""
 
-  # -- Kuma CP modes: one of zone,global
+  # -- Kuma CP modes: one of zone,standalone. Deploying a Global Control Plane on Kubernetes is not supported by this Helm chart
   mode: "zone"
 
   # -- (string) Kuma CP zone, if running multizone
@@ -188,26 +188,6 @@ controlPlane:
     # -- Map of serviceMonitor annotations.
     annotations: {}
 
-  globalZoneSyncService:
-    # -- Whether to create a k8s service for the global zone sync
-    # service. It will only be created when enabled and deploying the global
-    # control plane.
-    enabled: true
-    # -- Service type of the Global-zone sync
-    type: LoadBalancer
-    # -- (string) Optionally specify IP to be used by cloud provider when configuring load balancer
-    loadBalancerIP:
-    # -- Optionally specify allowed source ranges that can access the load balancer
-    loadBalancerSourceRanges: []
-    # -- Additional annotations to put on the Global Zone Sync Service
-    annotations: { }
-    # -- Port on which Global Zone Sync Service is exposed on Node for service of type NodePort
-    nodePort: 30685
-    # -- Port on which Global Zone Sync Service is exposed
-    port: 5685
-    # -- Protocol of the Global Zone Sync service port
-    protocol: grpc
-
   defaults:
     # -- Whether to skip creating the default Mesh
     skipMeshCreation: false
@@ -279,21 +259,6 @@ controlPlane:
       secretName: ""
       # -- Secret that contains list of .pem certificates that can access admin endpoints of Kuma API on HTTPS
       clientCertsSecretName: ""
-    # - if not creating the global control plane, then do nothing
-    # - if secretName is empty and create is false, then do nothing
-    # - if secretName is non-empty and create is false, then use the secret made outside of helm with the name secretName
-    # - if secretName is empty and create is true, then create a secret with a default name and use it
-    # - if secretName is non-empty and create is true, then create the secret using the provided name
-    kdsGlobalServer:
-      # -- Name of the K8s TLS Secret resource. If you set this and don't set
-      # create=true, you have to create the secret manually.
-      secretName: ""
-      # -- Whether to create the TLS secret in helm.
-      create: false
-      # -- The TLS certificate to offer.
-      cert: ""
-      # -- The TLS key to use.
-      key: ""
     # - if not creating the zonal control plane, then do nothing
     # - if secretName is empty and create is false, then do nothing
     # - if secretName is non-empty and create is false, then use the secret made outside of helm with the name secretName
@@ -461,8 +426,6 @@ cni:
     runAsGroup: 0
 
 dataPlane:
-  # -- If true, then turn on CoreDNS query logging
-  dnsLogging: false
   image:
     # -- The Kuma DP image repository
     repository: "kuma-dp"
@@ -521,7 +484,7 @@ dataPlane:
     # This option only automates setting the required flags and does not enable or disable the feature itself.
     # You can still opt in manually by setting KUMA_DATAPLANE_RUNTIME_UNIFIED_RESOURCE_NAMING_ENABLED=true
     # in ZoneIngress or ZoneEgress deployments, or in regular data plane proxies using a ContainerPatch
-    unifiedResourceNaming: false
+    unifiedResourceNaming: true
 
 ingress:
   # -- If true, it deploys Ingress for cross cluster communication
@@ -1003,7 +966,7 @@ kubectl:
     # -- The kubectl image repository
     repository: kubectl
     # -- The kubectl image tag
-    tag: v1.36.2@sha256:b0d792e0d8dfb9bb1b922b78b23137e2a34bb6f9667640353a9d2aadd1fd7761
+    tag: v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
 hooks:
   # -- Node selector for the HELM hooks
   nodeSelector:
@@ -1126,11 +1089,6 @@ transparentProxy:
       verbose: false
 
 experimental:
-  # -- If true, enable native Kubernetes sidecars. This requires at least
-  # Kubernetes v1.29
-  sidecarContainers: true
-  # -- If true, inbound tags are not generated for dataplanes. Used with label-based MeshService matching.
-  inboundTagsDisabled: false
   # -- If true, Envoy admin API binds to a Unix domain socket instead of TCP.
   envoyAdminUnixSocket: true
 
