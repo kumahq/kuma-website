@@ -10,6 +10,19 @@ content_type: reference
 
 {{site.mesh_product_name}} provide a simple access control to administrative actions executed on {{site.mesh_product_name}} API Server (port 5681 by default).
 
+{% warning %}
+{{site.mesh_product_name}} does **not** provide role-based access control (RBAC).
+The settings on this page are coarse allow-lists for a few administrative operations - they are not a general authorization layer.
+Most resources, including `Mesh`, are writable by any caller that can reach the API server.
+
+By default the API server listens on `0.0.0.0:5681` with no authentication, so any client that can reach that port can create, update, or delete resources.
+A `Mesh` resource includes the mesh mTLS CA (`mtls.backends[].conf`), so a caller that can `PUT` a `Mesh` can replace the CA and take over the mesh.
+Enabling [token authentication](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/) does not prevent this on its own, because a `Mesh` write is not an admin-only operation - any valid token can perform it.
+
+You are responsible for restricting access to the API server yourself.
+See [Protecting the API server](/docs/{{ page.release }}/production/secure-deployment/api-server-auth/#protecting-the-api-server).
+{% endwarning %}
+
 ## Manage admin resources
 
 Admin resources are `Secret` and `GlobalSecret`.
