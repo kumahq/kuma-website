@@ -20,7 +20,7 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
-    "netlify-cli": "^26.1.0",
+    "netlify-cli": "^27.1.2",
     "sass": "^1.101.0",
     "stylus": "^0.64.0",
     "vite": "^8.1.2",
