@@ -302,7 +302,7 @@ spec:
             name: redis
             namespace: kuma-demo
             port: 8080
-          - kind: MeshMulitZoneService
+          - kind: MeshMultiZoneService
             labels:
               kuma.io/display-name: test-server
           - kind: MeshExternalService
