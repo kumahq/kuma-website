@@ -1,0 +1,17 @@
+# complete code
+---
+kuma_sidecar_config:
+  health:
+    ready: true
+  probes:
+    endpoints:
+      - inbound_path: /health?plugins
+        inbound_port: 8282
+        path: /8282/health?plugins
+      - inbound_path: /ready
+        inbound_port: 8080
+        path: /8080/ready
+      - inbound_path: /health/startup
+        inbound_port: 8080
+        path: /8080/health/startup
+  port: 9000
