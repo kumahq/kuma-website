@@ -60,12 +60,6 @@ spec:
                     description: Kind of the referenced resource
                     enum:
                     - Mesh
-                    - MeshSubset
-                    - MeshService
-                    - MeshExternalService
-                    - MeshMultiZoneService
-                    - MeshServiceSubset
-                    - MeshHTTPRoute
                     - Dataplane
                     type: string
                   labels:
@@ -81,13 +75,6 @@ spec:
                       SectionName is used to target specific section of resource.
                       For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.
                     type: string
-                  tags:
-                    additionalProperties:
-                      type: string
-                    description: |-
-                      Tags used to select a subset of proxies by tags. Can only be used with kinds
-                      `MeshSubset` and `MeshServiceSubset`
-                    type: object
                 required:
                 - kind
                 type: object
@@ -137,18 +124,6 @@ spec:
                                 to gRPC service
                               type: string
                           type: object
-                        healthyPanicThreshold:
-                          anyOf:
-                          - type: integer
-                          - type: string
-                          description: |-
-                            Allows to configure panic threshold for Envoy cluster. If not specified,
-                            the default is 50%. To disable panic mode, set to 0%.
-                            Either int or decimal represented as string.
-
-                            Deprecated: the setting has been moved to MeshCircuitBreaker policy,
-                            please use MeshCircuitBreaker policy instead.
-                          x-kubernetes-int-or-string: true
                         healthyThreshold:
                           description: |-
                             Number of consecutive healthy checks before considering a host healthy.
@@ -304,13 +279,10 @@ spec:
                           description: Kind of the referenced resource
                           enum:
                           - Mesh
-                          - MeshSubset
                           - MeshService
                           - MeshExternalService
                           - MeshMultiZoneService
-                          - MeshServiceSubset
                           - MeshHTTPRoute
-                          - Dataplane
                           type: string
                         labels:
                           additionalProperties:
@@ -325,13 +297,6 @@ spec:
                             SectionName is used to target specific section of resource.
                             For example, you can target port from MeshService.ports[] by its name. Only traffic to this port will be affected.
                           type: string
-                        tags:
-                          additionalProperties:
-                            type: string
-                          description: |-
-                            Tags used to select a subset of proxies by tags. Can only be used with kinds
-                            `MeshSubset` and `MeshServiceSubset`
-                          type: object
                       required:
                       - kind
                       type: object
