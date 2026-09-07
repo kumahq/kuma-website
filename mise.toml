@@ -10,7 +10,7 @@ yarn = "4.17.0"
 # Linting
 vale = "3.15.1"
 shellcheck = "0.11.0"
-"npm:markdownlint-cli2" = "0.22.1"
+"npm:markdownlint-cli2" = "0.23.2"
 
 # Go tools
 go = "1.26.5"
