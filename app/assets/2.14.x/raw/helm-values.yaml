@@ -384,6 +384,10 @@ controlPlane:
   # -- Security context at the container level for control plane.
   containerSecurityContext:
     readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
   # -- If true, then control plane can support TLS secrets for builtin gateway outside of mesh system namespace.
   # The downside is that control plane requires permission to read Secrets in all namespaces.
@@ -694,6 +698,10 @@ ingress:
   # -- Security context at the container level for ingress
   containerSecurityContext:
     readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
   # -- Annotations to add for Control Plane's Service Account
   serviceAccountAnnotations: { }
@@ -853,6 +861,10 @@ egress:
   # -- Security context at the container level for egress
   containerSecurityContext:
     readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
   # -- Annotations to add for Control Plane's Service Account
   serviceAccountAnnotations: { }
@@ -1037,6 +1049,10 @@ hooks:
   # -- Security context at the container level for crd/webhook/ns
   containerSecurityContext:
     readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
   # -- ebpf-cleanup hook needs write access to the root filesystem to clean ebpf programs
   # Changing below values will potentially break ebpf cleanup completely,
@@ -1188,6 +1204,14 @@ experimental:
   envoyAdminUnixSocket: true
   # -- If true, uses Delta xDS (incremental) protocol to deliver changes to sidecars instead of State of the World (SOTW).
   deltaXds: false
+  # -- If true, the Envoy admin listener on zone proxies also serves /stats/prometheus
+  # without mTLS, so Prometheus can scrape Envoy stats off the proxy IP. Only that path is
+  # added; the rest of the Admin API still requires mTLS. Useful for scraping
+  # ZoneIngress/ZoneEgress, which MeshMetric does not apply to. Note the stats dump lists
+  # every upstream cluster name, so effectively every service in the mesh, and Envoy
+  # renders it on the main dispatcher thread, so unauthenticated request loops cost CPU on
+  # a busy zone ingress. Restrict the admin port with a NetworkPolicy scoped to Prometheus.
+  exposeZoneProxyMetrics: false
 
 # Postgres' settings for universal control plane on k8s
 postgres:
