@@ -1,8 +1,30 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$ref": "#/definitions/MeshInsight",
+    "$ref": "#/definitions/MeshOverview",
     "definitions": {
-        "MeshInsight": {
+        "MeshOverview": {
+            "properties": {
+                "mesh": {
+                    "$ref": "#/definitions/kuma.mesh.v1alpha1.Mesh",
+                    "additionalProperties": true
+                },
+                "mesh_insight": {
+                    "$ref": "#/definitions/kuma.mesh.v1alpha1.MeshInsight",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Mesh Overview",
+            "description": "MeshOverview defines the projected state of a Mesh."
+        },
+        "kuma.mesh.v1alpha1.Mesh": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Mesh",
+            "description": "Mesh defines configuration of a single mesh."
+        },
+        "kuma.mesh.v1alpha1.MeshInsight": {
             "properties": {
                 "dataplanes": {
                     "$ref": "#/definitions/kuma.mesh.v1alpha1.MeshInsight.DataplaneStat",
