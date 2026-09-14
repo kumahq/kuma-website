@@ -42,7 +42,9 @@ rules:
   - apiGroups:
       - gateway.networking.k8s.io
     resources:
+      - grpcroutes
       - httproutes
+      - referencegrants
     verbs:
       - get
       - list
@@ -63,25 +65,8 @@ rules:
       - meshes
       - zones
       - zoneinsights
-      - zoneingresses
-      - zoneingressinsights
-      - zoneegresses
-      - zoneegressinsights
       - meshinsights
-      - serviceinsights
-      - proxytemplates
-      - ratelimits
-      - trafficpermissions
-      - trafficroutes
-      - timeouts
-      - retries
-      - circuitbreakers
-      - virtualoutbounds
       - containerpatches
-      - faultinjections
-      - healthchecks
-      - trafficlogs
-      - traffictraces
       - meshaccesslogs
       - meshcircuitbreakers
       - meshfaultinjections
@@ -147,15 +132,10 @@ rules:
   - apiGroups:
       - "apps"
     resources:
-      - deployments
       - replicasets
     verbs:
-      - create
-      - delete
       - get
       - list
-      - patch
-      - update
       - watch
   - apiGroups:
       - "batch"
@@ -171,10 +151,8 @@ rules:
       - services
     verbs:
       - get
-      - delete
       - list
       - watch
-      - create
       - update
       - patch
   - apiGroups:
@@ -188,6 +166,7 @@ rules:
   - apiGroups:
       - gateway.networking.k8s.io
     resources:
+      - grpcroutes
       - httproutes
     verbs:
       - create
@@ -197,6 +176,14 @@ rules:
       - patch
       - update
       - watch
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - grpcroutes/status
+    verbs:
+      - get
+      - patch
+      - update
   - apiGroups:
       - gateway.networking.k8s.io
     resources:
@@ -280,6 +267,7 @@ rules:
   - apiGroups:
       - gateway.networking.k8s.io
     resources:
+      - grpcroutes
       - httproutes
     verbs:
       - create
@@ -289,6 +277,14 @@ rules:
       - patch
       - update
       - watch
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - grpcroutes/status
+    verbs:
+      - get
+      - patch
+      - update
   - apiGroups:
       - gateway.networking.k8s.io
     resources:
