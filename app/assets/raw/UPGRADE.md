@@ -8,6 +8,46 @@ does not have any particular instructions.
 
 ## Upgrade to `3.0.0`
 
+### Reserved label prefixes
+
+From now on, `kuma.io/` and `k8s.kuma.io/` are reserved label prefixes.
+Every unknown label under these prefixes will be rejected on create and update.
+
+<<<<<<< HEAD
+### Zone Token issuance moved to the KDS auth configuration
+
+A Zone Token now has one job, authenticating a Zone CP to a Global CP over KDS, so the setting that gates its issuance sits with the rest of the KDS authentication configuration. `dpServer.authn.zoneProxy` is removed, it configured the authentication of zone proxies, which are ordinary data plane proxies authenticating with a dataplane token since 3.0.0.
+
+| Removed | Use instead |
+|---|---|
+| `dpServer.authn.zoneProxy.zoneToken.enableIssuer` | `multizone.global.kds.auth.zoneToken.enableIssuer` |
+| `KUMA_DP_SERVER_AUTHN_ZONE_PROXY_ZONE_TOKEN_ENABLE_ISSUER` | `KUMA_MULTIZONE_GLOBAL_KDS_AUTH_ZONE_TOKEN_ENABLE_ISSUER` |
+| `dpServer.authn.zoneProxy.zoneToken.validator` | `multizone.global.kds.auth.zoneToken.validator` |
+| `dpServer.authn.zoneProxy.zoneToken.validator.useSecrets` | `multizone.global.kds.auth.zoneToken.validator.useSecrets` |
+| `KUMA_DP_SERVER_AUTHN_ZONE_PROXY_ZONE_TOKEN_VALIDATOR_USE_SECRETS` | `KUMA_MULTIZONE_GLOBAL_KDS_AUTH_ZONE_TOKEN_VALIDATOR_USE_SECRETS` |
+| `dpServer.authn.zoneProxy.zoneToken.validator.publicKeys` | `multizone.global.kds.auth.zoneToken.validator.publicKeys` |
+| `dpServer.authn.zoneProxy.type` | none, it was read by nothing |
+| `KUMA_DP_SERVER_AUTHN_ZONE_PROXY_TYPE` | none, it was read by nothing |
+
+**Action required**
+
+Only if you set `enableIssuer` to `false` to mint Zone Tokens offline. Move it to `multizone.global.kds.auth.zoneToken.enableIssuer` on the Global CP, the removed setting is ignored and the issuer is enabled again. The other removed settings had no effect, `dpServer.authn.zoneProxy.zoneToken.validator` was read by nothing and `dpServer.authn.zoneProxy.type` was autoconfigured and never consumed.
+### Resources with fields that are not in the schema are rejected
+
+Applying a policy or resource with a field that does not exist in its schema now fails with `400` listing every unknown field, for example `spec.from: unknown field`. Previously such fields were silently dropped, so a policy written for an older version, such as a `MeshTrafficPermission` with `spec.from` instead of `spec.rules`, was stored without it and looked applied while doing nothing. The check covers policies and resources with a generated schema; legacy resources without one, such as `Mesh`, still drop unknown fields silently. It applies to the Kuma API server and `kumactl apply`. On Kubernetes, `kubectl apply` behavior is unchanged: the API server prunes unknown fields and prints a warning.
+
+**Action required**
+
+Fix manifests that stop applying: remove the reported field or use its current equivalent, for example `spec.rules` instead of `spec.from` on inbound policies.
+
+### Zone token secrets are no longer synced to zones
+
+A zone token is validated on Global CP only, so Global CP stops sending `zone-token-revocations` over KDS and stops deriving `zone-token-signing-public-key-*` from `zone-token-signing-key-*` for the zones. The copies zones already have are deleted on the first KDS sync after the upgrade.
+
+**Action required**
+
+None. A zone older than `3.0.0` reads these secrets only to authenticate a standalone `ZoneIngress` or `ZoneEgress` on Universal, and those have to be replaced with zone proxy `Dataplane` resources before upgrading (see [`ZoneIngress` and `ZoneEgress` resources removed](#zoneingress-and-zoneegress-resources-removed)). Zone proxy `Dataplane` resources authenticate with a dataplane token.
+
 ### DPP configuration refresh interval default raised to 10s
 
 `xdsServer.dataplaneConfigurationRefreshInterval` (`KUMA_XDS_SERVER_DATAPLANE_CONFIGURATION_REFRESH_INTERVAL`) now defaults to `10s` instead of `1s`. The control plane regenerates the xDS configuration of every connected proxy on this interval, so a 1s default kept the control plane busy and scaled poorly with the number of data plane proxies.
@@ -213,6 +253,14 @@ and a global control plane serves whatever a zone sent it, so a client that
 reads from a global control plane federated with zones on an older version
 should still fall back to `127.0.0.1`.
 
+### Outbounds that pick a `MeshService` port by number use the port name
+
+A `Dataplane` outbound with `backendRef: {kind: MeshService, name: backend, port: 80}`, where port `80` is named `http`, used to get the port number as its section name. Following the resource identifier design, where the section name is the port name, it now gets `http`. The Envoy listener, cluster and stat prefix of such an outbound change from `..._backend_80` to `..._backend_http`. Transparent proxy outbounds already used the port name and are unchanged.
+
+**Action required**
+
+Policies that target the port with `sectionName: http` now apply to these outbounds. Before, they were skipped and the service-level or `Mesh` rule applied instead. Check such policies before upgrading. Update dashboards and alerts that match on the old `_80` stat prefix.
+
 ### KDS full resync is periodic again, not every second
 
 Removing the polling KDS watchdog carried the poll loop's `refreshInterval` of
@@ -335,6 +383,14 @@ The `readOnly` field returned by `GET /_resources` now reports whether generic `
 **Action required**
 
 Dynamic clients should use `readOnly` as the capability of the current control plane, not as an intrinsic property of the resource type. No action is needed for Kubernetes installations using the default read-only API configuration.
+
+### `policy.hasFromTargetRef`, `policy.isFromAsRules` and `policy.isTargetRef` are removed from `GET /_resources`
+
+`hasFromTargetRef` and `isFromAsRules` in the `policy` object returned by `GET /_resources` have been hardcoded to `false` since the `from`-style targetRef was dropped, and `isTargetRef` has been `true` for every policy, so none of them described anything. They are removed from the response.
+
+**Action required**
+
+Treat every entry with a `policy` object as a targetRef policy. To tell whether a policy applies to inbound traffic, read `policy.hasRulesTargetRef` instead of `policy.hasFromTargetRef`.
 
 ### The legacy per-policy inspect paths `{policy}/{name}/dataplanes` are removed
 
@@ -755,6 +811,49 @@ Policies that select real resources through `spec.targetRef` or `spec.to[].targe
 **Action required**
 
 Migrate any policy that still selects those resources by `name` and/or `namespace` to use `labels` instead before upgrading. `sectionName` remains supported for `Dataplane` inbound selection and `MeshService` port selection.
+
+### `reachableBackends` refs select backends by `labels` only
+
+`name` and `namespace` have been removed from `Dataplane.networking.transparentProxying.reachableBackends.refs[]` and from the `kuma.io/reachable-backends` annotation. Every ref now requires `kind` and `labels`, and `port` stays optional to narrow the ref to a single port.
+
+Refs still using `name` or `namespace` resolve to nothing. Validation runs only on writes, so an existing `Dataplane` is not re-validated, and the control plane drops the unknown fields when it reads the stored spec. The proxy then receives no outbound clusters, even with `KUMA_DEFAULTS_ALLOW_ALL_OUTBOUND=true`, until every ref is rewritten. New writes fail validation with `labels: must not be empty`, and on Kubernetes the pod converter rejects an annotation that still sets `name` or `namespace`.
+
+**Action required:** rewrite every ref before upgrading. `name` becomes the `kuma.io/display-name` label and `namespace` becomes the `k8s.kuma.io/namespace` label.
+
+Before:
+
+```yaml
+kuma.io/reachable-backends: |
+  refs:
+  - kind: MeshService
+    name: redis
+    namespace: redis-system
+    port: 6379
+```
+
+After:
+
+```yaml
+kuma.io/reachable-backends: |
+  refs:
+  - kind: MeshService
+    labels:
+      kuma.io/display-name: redis
+      k8s.kuma.io/namespace: redis-system
+    port: 6379
+```
+
+### Data plane proxies without `reachableBackends` get no outbounds
+
+A data plane proxy without `reachableBackends` now gets no generated outbounds, so it cannot reach any service through the transparent proxy. This includes pods injected by a 2.14 control plane, whose `Dataplane` keeps the redirect ports in the spec.
+
+**Action required:** define `reachableBackends` on every data plane proxy before upgrading, or set `defaults.allowAllOutbound` (`KUMA_DEFAULTS_ALLOW_ALL_OUTBOUND`) to `true` to restore the previous allow-all behavior.
+
+### Outbound passthrough defaults to `None`
+
+A transparent proxy data plane proxy that no `MeshPassthrough` policy selects now drops traffic to destinations outside the mesh instead of forwarding it to the original destination. This behaves as if a `MeshPassthrough` with `passthroughMode: None` targets it. Proxies without a transparent proxy or with bound outbounds are not affected, and a policy with `passthroughMode: All` keeps passthrough on.
+
+**Action required:** before upgrading, allow the external destinations your workloads use with `MeshExternalService` or a `MeshPassthrough` policy (`passthroughMode: Matched` with `appendMatch`, or `passthroughMode: All`), or set `defaults.allowAllOutbound` (`KUMA_DEFAULTS_ALLOW_ALL_OUTBOUND`) to `true` to restore the previous behavior.
 
 ### A `MeshHTTPRoute` rule whose backendRefs all fail to resolve answers 500
 
