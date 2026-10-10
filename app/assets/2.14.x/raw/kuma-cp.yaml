@@ -423,6 +423,8 @@ runtime:
         programsSourcePath: /tmp/kuma-ebpf # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_EBPF_PROGRAMS_SOURCE_PATH
       # IgnoredServiceSelectorLabels defines a list ignored labels in Service selector.
       # If Pod matches a Service with ignored labels, but does not match it fully, it gets Ignored inbound.
+      # With MeshService mode Exclusive and inbound tags disabled it gets a ready inbound instead, and the
+      # MeshService selector, which still matches the full set of labels, decides which Pods get traffic.
       # It is useful when you change Service selector and expect traffic to be sent immediately.
       # An example of this is ArgoCD's BlueGreen deployment and "rollouts-pod-template-hash" selector.
       ignoredServiceSelectorLabels: [] # ENV: KUMA_RUNTIME_KUBERNETES_INJECTOR_IGNORED_SERVICE_SELECTOR_LABELS
@@ -509,6 +511,11 @@ defaults:
   createMeshRoutingResources: false # ENV: KUMA_DEFAULTS_CREATE_MESH_ROUTING_RESOURCES
   # If true, it skips creating default hostname generators
   skipHostnameGenerators: false # ENV: KUMA_DEFAULTS_SKIP_HOSTNAME_GENERATORS
+  # If true, a data plane proxy without reachableBackends reaches no destination in the mesh,
+  # and one without MeshPassthrough gets no outbound passthrough, which lowers control plane and
+  # proxy CPU and memory usage in large meshes. A matched MeshPassthrough always wins over this setting.
+  # Unset means false.
+  restrictOutbound: null # ENV: KUMA_DEFAULTS_RESTRICT_OUTBOUND
 # Metrics configuration
 metrics:
   dataplane:

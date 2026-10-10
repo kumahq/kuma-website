@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.21.0
+    controller-gen.kubebuilder.io/version: v0.22.0
   name: meshexternalservices.kuma.io
 spec:
   group: kuma.io
@@ -148,33 +148,28 @@ spec:
                       caCert:
                         description: CaCert defines a certificate of CA.
                         properties:
-                          inline:
-                            description: 'Inline is the legacy, base64-encoded form
-                              of `type: InsecureInline` with `insecureInline.value`,
-                              not read by 3.0.'
-                            format: byte
-                            type: string
-                          inlineString:
-                            description: 'InlineString is the legacy form of `type:
-                              InsecureInline` with `insecureInline.value`, not read
-                              by 3.0.'
-                            type: string
+                          envVar:
+                            properties:
+                              name:
+                                type: string
+                            required:
+                            - name
+                            type: object
+                          file:
+                            properties:
+                              path:
+                                type: string
+                            required:
+                            - path
+                            type: object
                           insecureInline:
-                            description: 'InsecureInline is the data source value
-                              as plain text, used with `type: InsecureInline`.'
                             properties:
                               value:
                                 type: string
                             required:
                             - value
                             type: object
-                          secret:
-                            description: 'Secret is the legacy form of `type: Secret`
-                              with `secretRef`, not read by 3.0.'
-                            type: string
                           secretRef:
-                            description: 'SecretRef references a Secret, used with
-                              `type: Secret`.'
                             properties:
                               kind:
                                 enum:
@@ -187,45 +182,40 @@ spec:
                             - name
                             type: object
                           type:
-                            description: Type of the data source, one of `Secret`
-                              or `InsecureInline`.
                             enum:
                             - File
                             - Secret
                             - EnvVar
                             - InsecureInline
                             type: string
+                        required:
+                        - type
                         type: object
                       clientCert:
                         description: ClientCert defines a certificate of a client.
                         properties:
-                          inline:
-                            description: 'Inline is the legacy, base64-encoded form
-                              of `type: InsecureInline` with `insecureInline.value`,
-                              not read by 3.0.'
-                            format: byte
-                            type: string
-                          inlineString:
-                            description: 'InlineString is the legacy form of `type:
-                              InsecureInline` with `insecureInline.value`, not read
-                              by 3.0.'
-                            type: string
+                          envVar:
+                            properties:
+                              name:
+                                type: string
+                            required:
+                            - name
+                            type: object
+                          file:
+                            properties:
+                              path:
+                                type: string
+                            required:
+                            - path
+                            type: object
                           insecureInline:
-                            description: 'InsecureInline is the data source value
-                              as plain text, used with `type: InsecureInline`.'
                             properties:
                               value:
                                 type: string
                             required:
                             - value
                             type: object
-                          secret:
-                            description: 'Secret is the legacy form of `type: Secret`
-                              with `secretRef`, not read by 3.0.'
-                            type: string
                           secretRef:
-                            description: 'SecretRef references a Secret, used with
-                              `type: Secret`.'
                             properties:
                               kind:
                                 enum:
@@ -238,45 +228,40 @@ spec:
                             - name
                             type: object
                           type:
-                            description: Type of the data source, one of `Secret`
-                              or `InsecureInline`.
                             enum:
                             - File
                             - Secret
                             - EnvVar
                             - InsecureInline
                             type: string
+                        required:
+                        - type
                         type: object
                       clientKey:
                         description: ClientKey defines a client private key.
                         properties:
-                          inline:
-                            description: 'Inline is the legacy, base64-encoded form
-                              of `type: InsecureInline` with `insecureInline.value`,
-                              not read by 3.0.'
-                            format: byte
-                            type: string
-                          inlineString:
-                            description: 'InlineString is the legacy form of `type:
-                              InsecureInline` with `insecureInline.value`, not read
-                              by 3.0.'
-                            type: string
+                          envVar:
+                            properties:
+                              name:
+                                type: string
+                            required:
+                            - name
+                            type: object
+                          file:
+                            properties:
+                              path:
+                                type: string
+                            required:
+                            - path
+                            type: object
                           insecureInline:
-                            description: 'InsecureInline is the data source value
-                              as plain text, used with `type: InsecureInline`.'
                             properties:
                               value:
                                 type: string
                             required:
                             - value
                             type: object
-                          secret:
-                            description: 'Secret is the legacy form of `type: Secret`
-                              with `secretRef`, not read by 3.0.'
-                            type: string
                           secretRef:
-                            description: 'SecretRef references a Secret, used with
-                              `type: Secret`.'
                             properties:
                               kind:
                                 enum:
@@ -289,14 +274,14 @@ spec:
                             - name
                             type: object
                           type:
-                            description: Type of the data source, one of `Secret`
-                              or `InsecureInline`.
                             enum:
                             - File
                             - Secret
                             - EnvVar
                             - InsecureInline
                             type: string
+                        required:
+                        - type
                         type: object
                       mode:
                         default: Secured
