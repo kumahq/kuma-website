@@ -4,13 +4,13 @@ experimental = true # To enable installation of Go tools from source with mise.
 [tools]
 # Web/Frontend
 ruby = "4.0.5"
-node = "24.18.0"
+node = "24.21.0"
 yarn = "4.17.0"
 
 # Linting
-vale = "3.15.1"
+vale = "3.24.0"
 shellcheck = "0.11.0"
-"npm:markdownlint-cli2" = "0.22.1"
+"npm:markdownlint-cli2" = "0.23.3"
 
 # Go tools
 go = "1.26.5"
