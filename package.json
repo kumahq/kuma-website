@@ -4,7 +4,7 @@
   "author": "Kong Inc.",
   "packageManager": "yarn@4.17.0",
   "resolutions": {
-    "cookie": "^1.1.1"
+    "cookie": "^2.0.1"
   },
   "dependencies": {
     "@kongponents/ktabs": "^7.2.2",
