@@ -17,7 +17,7 @@
     "netlify-redirect-parser": "^14.4.0",
     "prismjs": "^1.30.0",
     "regexp-tree": "^0.1.27",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^2.0.0"
   },
   "devDependencies": {
     "netlify-cli": "^27.1.2",
