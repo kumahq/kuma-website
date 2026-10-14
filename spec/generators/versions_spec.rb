@@ -125,4 +125,104 @@ RSpec.describe Jekyll::Versions do
       expect(generator_config).not_to have_received(:build_docs_nav)
     end
   end
+
+  context 'when the dev release has its own nav' do
+    let(:versions) { [dev] }
+
+    it 'leaves it alone' do
+      run!
+
+      expect(data['docs_nav_kuma_215x']).to be(dev_nav)
+      expect(generator_config).not_to have_received(:build_docs_nav)
+    end
+  end
+
+  context 'when the dev release has no nav of its own' do
+    let(:dev) { { 'edition' => 'kuma', 'release' => '3.0.x', 'label' => 'dev' } }
+    let(:released) { { 'edition' => 'kuma', 'release' => '2.14.x', 'version' => '2.14.6' } }
+    let(:released_nav) { { 'release' => '2.14.x', 'items' => [{ 'text' => 'Intro', 'url' => '/intro/' }] } }
+    let(:versions) { [released, dev] }
+    let(:data) { { 'versions' => versions, 'docs_nav_kuma_214x' => released_nav } }
+
+    it 'generates the dev pages and sidebar from the newest released nav' do
+      run!
+
+      expect(generator_config).to have_received(:build_docs_nav).with(edition: 'kuma', release: '2.14.x')
+      expect(nav_config.config['release']).to eq('3.0.x')
+      expect(nav_config).to have_received(:generate_pages)
+    end
+
+    it 'exposes the borrowed nav under the dev release, retargeted at it' do
+      run!
+
+      borrowed = data['docs_nav_kuma_30x']
+      expect(borrowed['release']).to eq('3.0.x')
+      expect(borrowed['items']).to eq(released_nav['items'])
+      expect(borrowed).not_to be(released_nav)
+    end
+
+    it 'borrows for versions that have no nav of their own either' do
+      stub_assets('2.13.x', true)
+      versions.unshift({ 'edition' => 'kuma', 'release' => '2.13.x', 'version' => '2.13.11' })
+
+      run!
+
+      expect(data['docs_nav_kuma_213x']['release']).to eq('2.13.x')
+      expect(data['docs_nav_kuma_213x']['items']).to eq(released_nav['items'])
+    end
+  end
+
+  context 'when the dev release has no nav and no released nav to borrow' do
+    let(:dev) { { 'edition' => 'kuma', 'release' => '3.0.x', 'label' => 'dev' } }
+    let(:versions) { [dev] }
+    let(:data) { { 'versions' => versions } }
+
+    it 'generates nothing for it' do
+      run!
+
+      expect(generator_config).not_to have_received(:build_docs_nav)
+      expect(data).not_to have_key('docs_nav_kuma_30x')
+    end
+  end
+
+  describe '#generate' do
+    let(:release) do
+      instance_double(Jekyll::GeneratorSingleSource::Product::Release,
+                      value: '3.0.x', default_version: 'preview', to_liquid: 'dev', to_h: {})
+    end
+    let(:edition_double) do
+      instance_double(Jekyll::GeneratorSingleSource::Product::Edition,
+                      releases: [release], latest_release: release)
+    end
+    let(:page) { Struct.new(:url, :data).new('/docs/3.0.x/introduction/overview/', {}) }
+    let(:versions) { [{ 'edition' => 'kuma', 'release' => '2.14.x', 'version' => '2.14.6', 'latest' => true }, dev] }
+    let(:data) do
+      {
+        'versions' => versions,
+        'docs_nav_kuma_214x' => { 'release' => '2.14.x', 'items' => [] },
+        'docs_nav_kuma_215x' => dev_nav
+      }
+    end
+
+    before do
+      allow(generator).to receive(:edition).and_return(edition_double)
+      allow(generator).to receive(:release_for).and_return(release)
+      allow(site).to receive(:pages).and_return([page])
+    end
+
+    it 'keeps the empty nav_items default when the release has no nav data' do
+      generator.generate(site)
+
+      expect(page.data['nav_items']).to eq({})
+      expect(generator_config).not_to have_received(:build_docs_nav)
+    end
+
+    it 'uses the release sidebar entries when it has nav data' do
+      data['docs_nav_kuma_30x'] = dev_nav.merge('release' => '3.0.x')
+
+      generator.generate(site)
+
+      expect(page.data['nav_items']).to eq(dev_nav['items'])
+    end
+  end
 end
