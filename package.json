@@ -2,9 +2,9 @@
   "name": "kuma-website",
   "description": "The website and docs for Kuma.",
   "author": "Kong Inc.",
-  "packageManager": "yarn@4.17.0",
+  "packageManager": "yarn@4.18.1",
   "resolutions": {
-    "cookie": "^1.1.1"
+    "cookie": "^2.0.1"
   },
   "dependencies": {
     "@kongponents/ktabs": "^7.2.2",
@@ -17,14 +17,14 @@
     "netlify-redirect-parser": "^14.4.0",
     "prismjs": "^1.30.0",
     "regexp-tree": "^0.1.27",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^2.0.0"
   },
   "devDependencies": {
-    "netlify-cli": "^27.1.2",
-    "sass": "^1.101.0",
+    "netlify-cli": "^27.10.2",
+    "sass": "^1.105.1",
     "stylus": "^0.64.0",
-    "vite": "^8.1.2",
-    "vite-plugin-ruby": "^5.2.2",
+    "vite": "^8.3.2",
+    "vite-plugin-ruby": "^5.2.5",
     "vite-plugin-windicss": "^1.9.4",
     "windicss": "^3.5.6"
   }
