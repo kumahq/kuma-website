@@ -36,7 +36,7 @@ flowchart LR
 
 To install Gateway API please refer to [official installation instruction](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel).
 
-You also need to manually install {{site.mesh_product_name}} [GatewayClass](https://gateway-api.sigs.k8s.io/api-types/gatewayclass/):
+You also need to manually install {{site.mesh_product_name}} [GatewayClass](https://gateway-api.sigs.k8s.io/reference/api-types/gatewayclass/):
 
 ```sh
 echo "apiVersion: gateway.networking.k8s.io/v1
@@ -56,7 +56,7 @@ kubectl rollout restart deployment {{site.mesh_product_name_path}}-control-plane
 
 ## Start a gateway
 
-The [Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) resource represents the proxy instance that handles
+The [Gateway](https://gateway-api.sigs.k8s.io/reference/api-types/gateway/) resource represents the proxy instance that handles
 traffic for a set of Gateway API routes. You can create gateway with a single listener on port 8080 by running:
 
 ```sh
@@ -129,7 +129,7 @@ Notice the gateway says that there are no routes configured.
 
 ## Define a route using `HTTPRoute`
 
-[HTTPRoute](https://gateway-api.sigs.k8s.io/api-types/httproute/) resources contain a set of matching criteria for HTTP 
+[HTTPRoute](https://gateway-api.sigs.k8s.io/reference/api-types/httproute/) resources contain a set of matching criteria for HTTP 
 requests and upstream `Services` to route those requests to.
 ```yaml
 echo "apiVersion: gateway.networking.k8s.io/v1

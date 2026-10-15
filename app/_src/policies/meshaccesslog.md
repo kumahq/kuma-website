@@ -499,7 +499,7 @@ backends:
 
 ### Body
 
-Body is of type [any](https://opentelemetry.io/docs/specs/otel/logs/data-model/#type-any) (defined [in the OpenTelemetry proto](https://github.com/open-telemetry/opentelemetry-proto/blob/342e1d4c3a1fe43312823ffb53bd38327f263059/opentelemetry/proto/common/v1/common.proto#L28-L40))
+Body is of type [any](https://opentelemetry.io/docs/specs/otel/common/#anyvalue) (defined [in the OpenTelemetry proto](https://github.com/open-telemetry/opentelemetry-proto/blob/342e1d4c3a1fe43312823ffb53bd38327f263059/opentelemetry/proto/common/v1/common.proto#L28-L40))
 and can be one of the following forms:
 
 ```yaml

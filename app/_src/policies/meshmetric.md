@@ -23,7 +23,7 @@ For example, you might need to override the default metrics port if it's already
 
 {{site.mesh_product_name}} provides full integration with Prometheus:
 
-* Each proxy can expose its metrics in [Prometheus format](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format).
+* Each proxy can expose its metrics in [Prometheus format](https://prometheus.io/docs/instrumenting/exposition_formats/#prometheus-text-format).
 * {{site.mesh_product_name}} exposes an API called the monitoring assignment service (MADS) which exposes proxies configured by `MeshMetric`.
 
 {% if_version gte:2.7.x %}
