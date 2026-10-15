@@ -43,7 +43,7 @@ jobs:
       matrix:
         # NOTE: for each new OS, the check must be explicitly set as required in Github
         os:
-          - amazonlinux:2022
+          - amazonlinux:2023
           - archlinux:latest
           - debian:bookworm
           - fedora:latest
