@@ -89,7 +89,7 @@ spec:
 
 When a user applies a `Gateway` resource, {{site.mesh_product_name}} automatically creates a `Deployment` of built-in gateways with a corresponding `Service`.
 
-```
+```text
 kubectl get pods -n kuma-demo
 NAME                          READY   STATUS    RESTARTS   AGE
 redis-59c9d56fc-6gcbc         2/2     Running   0          2m8s
@@ -108,7 +108,7 @@ kuma-pfh4s   LoadBalancer   10.43.122.93    172.20.0.3    8080:30627/TCP   87s
 {{ gateway | indent }}
 The `Gateway` is now accessible using the external address `172.20.0.3:8080`.
 
-3. Add an [`HTTPRoute`](https://gateway-api.sigs.k8s.io/reference/api-types/httproute/).
+1. Add an [`HTTPRoute`](https://gateway-api.sigs.k8s.io/reference/api-types/httproute/).
 
    `HTTPRoute` resources contain a set of matching criteria for HTTP requests and upstream `Services` to route those requests to.
 
@@ -143,7 +143,7 @@ The `Gateway` is now accessible using the external address `172.20.0.3:8080`.
    curl 172.20.0.3:8080/ -i
    ```
 
-   ```
+   ```text
    HTTP/1.1 200 OK
    x-powered-by: Express
    accept-ranges: bytes

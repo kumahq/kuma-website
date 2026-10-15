@@ -48,6 +48,7 @@ helm upgrade \
 kubectl wait -n {{ kuma-system }} --for=condition=ready pod --selector=app={{ kuma-control-plane }} --timeout=90s
 kubectl apply -f kuma-demo://k8s/001-with-mtls.yaml
 ```
+
 {% endtip %}
 
 ## Install Gateway API CRDs
@@ -65,7 +66,7 @@ spec:
   controllerName: gateways.kuma.io/controller" | kubectl apply -f -
 ```
 
-At this moment, when you install Gateway API CRDs after installing {{site.mesh_product_name}} control plane you need to restart it to start Gateway API controller. To do this run: 
+At this moment, when you install Gateway API CRDs after installing {{site.mesh_product_name}} control plane you need to restart it to start Gateway API controller. To do this run:
 
 ```sh
 kubectl rollout restart deployment {{site.mesh_cp_name}} -n {{ site.mesh_namespace }}
@@ -100,10 +101,13 @@ When running `kind` cluster you can try [kubernetes-sigs/cloud-provider-kind](ht
 {% endwarning %}
 
 You can now check if the gateway is running in the demo app `kuma-demo` namespace:
+
 ```sh
 kubectl get pods -n kuma-demo
 ```
+
 Observe the gateway pod:
+
 ```sh
 NAME                       READY   STATUS    RESTARTS   AGE
 demo-app-d8d8bdb97-vhgc8   2/2     Running   0          5m
@@ -112,17 +116,20 @@ redis-5484ddcc64-6gbbx     2/2     Running   0          5m
 ```
 
 Retrieve the public url for the gateway with:
+
 ```sh
 export PROXY_IP=$(kubectl get svc -n kuma-demo kuma -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $PROXY_IP
 ```
 
 Check the gateway is running:
+
 ```sh
 curl -v ${PROXY_IP}:8080
 ```
 
 Which outputs:
+
 ```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 35.226.116.24 (35.226.116.24) port 8080
@@ -142,12 +149,14 @@ Which outputs:
 This is a Kuma MeshGateway. No routes match this MeshGateway!
 * Connection #0 to host 35.226.116.24 left intact
 ```
+
 Notice the gateway says that there are no routes configured.
 
 ## Define a route using `HTTPRoute`
 
-[HTTPRoute](https://gateway-api.sigs.k8s.io/reference/api-types/httproute/) resources contain a set of matching criteria for HTTP 
+[HTTPRoute](https://gateway-api.sigs.k8s.io/reference/api-types/httproute/) resources contain a set of matching criteria for HTTP
 requests and upstream `Services` to route those requests to.
+
 ```yaml
 echo "apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -173,11 +182,13 @@ spec:
 ```
 
 Now try to reach gateway again:
+
 ```sh
 curl -XPOST -v ${PROXY_IP}:8080/api/counter
 ```
 
 which outputs:
+
 ```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
@@ -223,11 +234,13 @@ spec:
 ```
 
 Check it works with:
+
 ```sh
 curl -XPOST -v ${PROXY_IP}:8080/api/counter
 ```
 
 Now it returns a 200 OK response:
+
 ```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
@@ -296,11 +309,13 @@ spec:
 ```
 
 Check the call to the gateway:
+
 ```sh
 curl -XPOST -v --insecure "https://${PROXY_IP}:8080/api/counter"
 ```
 
 Which should output a successful call and indicate TLS is being used:
+
 ```sh
 *   Trying 127.0.0.1:8080...
 * Connected to 127.0.0.1 (127.0.0.1) port 8080
@@ -351,6 +366,6 @@ Note that we're using `--insecure` as we have used a self-signed certificate.
 
 ## Next steps
 
-* Further explore [Gateway API documentation](https://gateway-api.sigs.k8s.io/)
-* Learn more about how to customize [{{site.mesh_product_name}} Gateway with Gateway API](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/gateway-api/) 
-* Learn about setting up [observability](/docs/{{ page.release }}/explore/observability/) to get full end to end visibility of your mesh.
+- Further explore [Gateway API documentation](https://gateway-api.sigs.k8s.io/)
+- Learn more about how to customize [{{site.mesh_product_name}} Gateway with Gateway API](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/gateway-api/)
+- Learn about setting up [observability](/docs/{{ page.release }}/explore/observability/) to get full end to end visibility of your mesh.
